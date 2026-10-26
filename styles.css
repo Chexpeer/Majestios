@@ -297,6 +297,15 @@ h1 span { color: var(--purple); }
 .double-dossier-visual p { margin: 8px 0 0; color: #7d8291; font-size: 12px; }
 .double-dossier-divider { color: #8e88aa; font-size: 24px; text-align: center; }
 .contact-panel { display: grid; grid-template-columns: .8fr 1.2fr; align-items: start; gap: 54px; padding-bottom: 70px; }
+.home-paths { padding-top: 64px; padding-bottom: 68px; }
+.home-paths .deep-heading { margin-bottom: 24px; }
+.home-principle { padding: 42px 0; background: #262443; color: #fff; }
+.home-principle-inner { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 50px; }
+.home-principle .eyebrow { color: #c8c2ea; }
+.home-principle h2 { margin: 0; font: 700 clamp(22px, 3.2vw, 34px)/1.3 Manrope, sans-serif; letter-spacing: -.8px; }
+.home-principle-inner > p { margin: 0; color: #dedbea; font-size: 14px; line-height: 1.8; }
+.home-principle + .deep-cta { margin-top: 55px; }
+.service-catalog { padding-bottom: 20px; }
 .contact-context { padding-top: 8px; }
 .contact-promise { display: flex; gap: 10px; padding: 13px; margin: 22px 0; border: 1px solid #e6e1fa; border-radius: 8px; color: #6a5cc0; background: #fbfaff; }
 .contact-promise > span { font-size: 18px; }
@@ -640,6 +649,11 @@ h1 span { color: var(--purple); }
   .double-dossier-visual { grid-template-columns: 1fr; gap: 9px; }
   .double-dossier-divider { transform: rotate(90deg); }
   .contact-panel { padding-bottom: 48px; }
+  .home-paths { padding-top: 48px; padding-bottom: 50px; }
+  .home-principle { padding: 32px 0; }
+  .home-principle-inner { grid-template-columns: 1fr; gap: 12px; }
+  .home-principle-inner > p { font-size: 12px; }
+  .home-principle + .deep-cta { margin-top: 38px; }
   .contact-panel .lead-form-wrap { padding: 18px 14px; }
   .announcement-panel { padding: 20px 16px; }
   .announcement-facts { grid-template-columns: 1fr; margin-top: 20px; }

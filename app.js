@@ -165,11 +165,14 @@ function setupTenderFeed() {
   const fetchPage = async (reset = false) => {
     if (isLoading || (!hasMore && !reset)) return;
     isLoading = true;
+    const previousOffset = offset;
+    const previousHasMore = hasMore;
     if (reset) {
-      records.clear();
       offset = 0;
       hasMore = true;
-      feedStream.replaceChildren(makeElement("p", "feed-loading", "Chargement des avis BOAMP en cours…"));
+      if (records.size === 0) {
+        feedStream.replaceChildren(makeElement("p", "feed-loading", "Chargement des avis BOAMP en cours…"));
+      }
     }
     if (loadMoreButton) loadMoreButton.disabled = true;
     if (refreshButton) refreshButton.disabled = true;
@@ -193,6 +196,7 @@ function setupTenderFeed() {
       const payload = await response.json();
       if (!Array.isArray(payload.results)) throw new Error("La réponse BOAMP n’a pas le format attendu.");
 
+      if (reset) records.clear();
       payload.results.forEach((record) => {
         if (record.idweb) records.set(record.idweb, record);
       });
@@ -202,14 +206,23 @@ function setupTenderFeed() {
       renderRecords();
       setStatus(`Source BOAMP · actualisée à ${new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit" }).format(lastUpdated)}`, "live");
     } catch (error) {
-      if (reset || records.size === 0) {
+      if (records.size === 0) {
         feedStream.replaceChildren(makeElement(
           "p",
           "feed-error",
           `${error.message} Le flux en direct n’est pas disponible pour le moment. Réessayez dans quelques instants ou consultez le site BOAMP.`
         ));
+      } else if (reset) {
+        offset = previousOffset;
+        hasMore = previousHasMore;
+        renderRecords();
       }
-      setStatus("Connexion à la source BOAMP impossible", "error");
+      setStatus(
+        records.size
+          ? "Actualisation impossible · avis précédemment chargés conservés"
+          : "Connexion à la source BOAMP impossible",
+        "error"
+      );
     } finally {
       isLoading = false;
       if (loadMoreButton) loadMoreButton.disabled = false;
