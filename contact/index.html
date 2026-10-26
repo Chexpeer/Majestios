@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Présentez votre projet ou votre besoin à MajestiOS.">
+    <title>Parler de votre projet — MajestiOS</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+        <a href="../index.html">Accueil</a><a href="../opportunites/">Flux BOAMP</a><a href="../services/developpement-commercial/">Développement commercial</a><a href="../services/partenaires/">Partenaires</a><a href="../services/coach/">Coach & Double Dossier</a><a class="nav-cta" href="../espace-client/">Espace client <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main>
+      <section class="deep-hero section-wrap">
+        <a class="back-link" href="../index.html">← Accueil MajestiOS</a>
+        <p class="eyebrow">VISITEUR · PROSPECT · CLIENT</p>
+        <h1>Parlons de votre<br><span>prochaine étape.</span></h1>
+        <p class="deep-lede">Dites-nous qui vous êtes et ce que vous souhaitez faire avancer. Ce formulaire est une démonstration : les informations saisies restent dans votre navigateur et ne sont ni envoyées ni enregistrées.</p>
+      </section>
+      <section class="contact-panel section-wrap">
+        <div class="contact-context">
+          <p class="eyebrow">POUR PRÉPARER L’ÉCHANGE</p>
+          <h2>Un besoin précis<br><span>est un bon point de départ.</span></h2>
+          <p>Vous pouvez évoquer un appel d’offres, un besoin de développement, une idée de partenariat, un sujet d’organisation ou une question en tant que client.</p>
+          <div class="contact-promise"><span aria-hidden="true">◎</span><p><strong>Aucun envoi réel dans ce prototype</strong><small>Le bouton affiche une prévisualisation locale, sans service de messagerie connecté.</small></p></div>
+          <a class="service-link" href="../opportunites/">Vous partez d’un avis BOAMP ? Consultez le flux <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="lead-form-wrap">
+          <form id="lead-form">
+            <div class="form-grid">
+              <label class="form-field full-width">Votre parcours <span>*</span>
+                <select id="contact-profile" name="profile" required>
+                  <option value="visitor">Je découvre MajestiOS</option>
+                  <option value="prospect">Je souhaite parler d’un projet</option>
+                  <option value="client">Je suis déjà client</option>
+                </select>
+              </label>
+              <label class="form-field">Nom et prénom <span>*</span><input name="name" required autocomplete="name" placeholder="Votre nom"></label>
+              <label class="form-field">Organisation<input name="organization" autocomplete="organization" placeholder="Votre entreprise"></label>
+              <label class="form-field full-width">Adresse e-mail <span>*</span><input name="email" type="email" required autocomplete="email" placeholder="vous@entreprise.fr"></label>
+              <label class="form-field full-width">Votre sujet <span>*</span><textarea name="message" rows="5" required placeholder="Décrivez votre besoin ou votre question."></textarea></label>
+            </div>
+            <p class="form-privacy"><strong>Prototype sans transmission :</strong> ne saisissez pas d’informations confidentielles.</p>
+            <button class="button button-primary form-submit" id="preview-request" type="button">Prévisualiser mon message <span aria-hidden="true">→</span></button>
+            <div class="form-feedback" id="form-feedback" role="status" aria-live="polite" hidden></div>
+          </form>
+        </div>
+      </section>
+      <section class="deep-cta section-wrap"><div><p class="eyebrow">VOUS ÊTES CLIENT</p><h2>Découvrez le parcours client.</h2><p>Cette version ne comporte pas encore de compte ni d’accès sécurisé.</p></div><a class="button button-quiet" href="../espace-client/">Espace client <span aria-hidden="true">→</span></a></section>
+    </main>
+    <footer class="site-footer"><a class="brand footer-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><p>Repérer les pistes. Garder le discernement.</p><a class="footer-legal" href="../index.html">Retour à l’accueil</a></footer>
+  </body>
+</html>

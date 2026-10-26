@@ -1,443 +1,407 @@
-const menuToggle = document.querySelector(".menu-toggle");
-const navigation = document.querySelector("#site-nav");
-const leadForm = document.querySelector("#lead-form");
-const formFeedback = document.querySelector("#form-feedback");
-const feedStream = document.querySelector("#feed-stream");
-const startScrollButton = document.querySelector("#start-scroll");
-const scrollControls = document.querySelector("#scroll-controls");
-const scrollStatus = document.querySelector("#scroll-status");
-const pauseScrollButton = document.querySelector("#pause-scroll");
-const stopScrollButton = document.querySelector("#stop-scroll");
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-const demoTenders = [
-  {
-    id: "feed-01",
-    title: "Évolution d’un portail de démarches",
-    buyer: "Acheteur public fictif · services",
-    sector: "services",
-    sectorLabel: "Services numériques",
-    region: "nord",
-    regionLabel: "Nord · exemple",
-    description: "Exemple de consultation dans le secteur des services numériques."
-  },
-  {
-    id: "feed-02",
-    title: "Réaménagement d’un équipement de proximité",
-    buyer: "Acheteur public fictif · aménagement",
-    sector: "travaux",
-    sectorLabel: "Travaux & aménagement",
-    region: "ouest",
-    regionLabel: "Ouest · exemple",
-    description: "Exemple de projet de travaux pour un équipement de proximité."
-  },
-  {
-    id: "feed-03",
-    title: "Étude de stratégie de transition",
-    buyer: "Acheteur public fictif · conseil",
-    sector: "conseil",
-    sectorLabel: "Conseil & études",
-    region: "sud",
-    regionLabel: "Sud · exemple",
-    description: "Exemple de mission d’étude autour de la transition."
-  },
-  {
-    id: "feed-04",
-    title: "Maintenance d’un système d’information",
-    buyer: "Acheteur public fictif · numérique",
-    sector: "services",
-    sectorLabel: "Services numériques",
-    region: "ouest",
-    regionLabel: "Ouest · exemple",
-    description: "Exemple de besoin de maintenance informatique."
-  },
-  {
-    id: "feed-05",
-    title: "Diagnostic de rénovation énergétique",
-    buyer: "Acheteur public fictif · études",
-    sector: "conseil",
-    sectorLabel: "Conseil & études",
-    region: "nord",
-    regionLabel: "Nord · exemple",
-    description: "Exemple de projet de rénovation énergétique."
-  }
-];
+const menuToggle = $(".menu-toggle");
+const navigation = $("#site-nav");
 
-const demoScenarios = {
-  lost: {
-    category: "MARCHÉ PUBLIC · AVIS DE RÉSULTAT",
-    title: "Candidature non retenue",
-    organization: "Entreprise fictive · Exemple illustratif",
-    source: "Avis de résultat fictif",
-    fact: "Dans ce scénario, une entreprise fictive n’a pas remporté un appel d’offres.",
-    hypothesis: "Le résultat pourrait motiver une revue du positionnement, une recherche de partenariat ou la préparation d’une nouvelle réponse. Aucune de ces pistes n’est confirmée.",
-    actors: ["Entreprise candidate fictive", "Acheteur public fictif", "Partenaire éventuel à identifier"],
-    action: "Vérifier les documents officiels, consigner le retour disponible et décider en équipe si un suivi est pertinent."
-  },
-  won: {
-    category: "MARCHÉ PUBLIC · ATTRIBUTION",
-    title: "Un marché vient d’être attribué",
-    organization: "Titulaire fictif · Exemple illustratif",
-    source: "Avis d’attribution fictif",
-    fact: "Dans ce scénario, un marché est attribué à une organisation fictive.",
-    hypothesis: "L’exécution du marché pourrait entraîner des besoins de sous-traitance, de ressources, de matériel ou de logistique. L’avis seul ne permet pas de l’affirmer.",
-    actors: ["Titulaire du marché fictif", "Acheteur public fictif", "Fournisseur ou sous-traitant potentiel"],
-    action: "Qualifier les exigences et le calendrier, identifier les acteurs concernés, puis obtenir une autorisation avant tout échange."
-  },
-  hiring: {
-    category: "SIGNAL RH · EXEMPLE",
-    title: "Recrutements dans un même métier",
-    organization: "Organisation fictive · Exemple illustratif",
-    source: "Annonces d’emploi fictives",
-    fact: "Ce scénario réunit plusieurs offres d’emploi fictives publiées pour des profils techniques.",
-    hypothesis: "Une activité de recrutement convergente peut indiquer une évolution des besoins en compétences. Le contexte, les sources et la période doivent être vérifiés.",
-    actors: ["Employeur fictif", "Équipes concernées", "Relais RH ou formation éventuels"],
-    action: "Vérifier les annonces, leur fraîcheur et leur contexte avant de décider si une piste mérite une qualification."
-  }
-};
+if (menuToggle && navigation) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.setAttribute("aria-expanded", String(!isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Ouvrir le menu" : "Fermer le menu");
+    navigation.classList.toggle("open", !isOpen);
+  });
 
-let activeDemoView = "signal";
-const demoDecisions = {};
-let scrollFrame = 0;
-let scrollLastTime = 0;
-let scrollPaused = false;
-let previousScrollBehavior = "";
-const demoDecisionLabels = {
-  validate: "Piste validée · simulation",
-  reject: "Hypothèse rejetée · simulation",
-  defer: "Décision reportée · simulation",
-  verify: "Vérification demandée · simulation"
-};
-
-function stopGuidedScroll(message = "") {
-  if (!scrollFrame && scrollControls.hidden) return;
-  cancelAnimationFrame(scrollFrame);
-  scrollFrame = 0;
-  scrollLastTime = 0;
-  scrollPaused = false;
-  document.documentElement.style.scrollBehavior = previousScrollBehavior;
-  scrollControls.hidden = true;
-  pauseScrollButton.setAttribute("aria-pressed", "false");
-  pauseScrollButton.textContent = "Pause";
-  if (message) scrollStatus.textContent = message;
-}
-
-function advanceGuidedScroll(timestamp) {
-  if (!scrollFrame || scrollPaused) return;
-  if (!scrollLastTime) scrollLastTime = timestamp;
-  const elapsed = Math.min(timestamp - scrollLastTime, 100);
-  scrollLastTime = timestamp;
-  window.scrollBy(0, elapsed * 0.03);
-
-  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1) {
-    stopGuidedScroll("Fin de la visite guidée");
-    return;
-  }
-  scrollFrame = requestAnimationFrame(advanceGuidedScroll);
-}
-
-function startGuidedScroll() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    scrollStatus.textContent = "Le défilement automatique est désactivé selon vos préférences d’accessibilité.";
-    scrollControls.hidden = false;
-    pauseScrollButton.hidden = true;
-    stopScrollButton.textContent = "Fermer";
-    return;
-  }
-
-  if (scrollFrame) return;
-  previousScrollBehavior = document.documentElement.style.scrollBehavior;
-  document.documentElement.style.scrollBehavior = "auto";
-  scrollPaused = false;
-  scrollControls.hidden = false;
-  pauseScrollButton.hidden = false;
-  stopScrollButton.textContent = "Arrêter";
-  scrollStatus.textContent = "Visite guidée en cours";
-  pauseScrollButton.setAttribute("aria-pressed", "false");
-  pauseScrollButton.textContent = "Pause";
-  scrollFrame = requestAnimationFrame(advanceGuidedScroll);
-}
-
-startScrollButton.addEventListener("click", startGuidedScroll);
-pauseScrollButton.addEventListener("click", () => {
-  if (!scrollFrame) return;
-  scrollPaused = !scrollPaused;
-  pauseScrollButton.setAttribute("aria-pressed", String(scrollPaused));
-  pauseScrollButton.textContent = scrollPaused ? "Reprendre" : "Pause";
-  scrollStatus.textContent = scrollPaused ? "Visite guidée en pause" : "Visite guidée en cours";
-  scrollLastTime = 0;
-  if (!scrollPaused) scrollFrame = requestAnimationFrame(advanceGuidedScroll);
-});
-stopScrollButton.addEventListener("click", () => stopGuidedScroll());
-
-document.addEventListener("wheel", () => stopGuidedScroll(), { passive: true });
-document.addEventListener("touchstart", () => stopGuidedScroll(), { passive: true });
-document.addEventListener("pointerdown", (event) => {
-  if (!scrollControls.contains(event.target) && !startScrollButton.contains(event.target)) {
-    stopGuidedScroll();
-  }
-});
-document.addEventListener("keydown", (event) => {
-  if (scrollControls.contains(event.target) && event.key !== "Escape") return;
-  if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
-    stopGuidedScroll();
-  }
-  if (event.key === "Escape") stopGuidedScroll();
-});
-
-if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
-  const revealObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("scroll-revealed");
-      observer.unobserve(entry.target);
+  $$("a", navigation).forEach((link) => {
+    link.addEventListener("click", () => {
+      navigation.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.setAttribute("aria-label", "Ouvrir le menu");
     });
-  }, { threshold: 0.08, rootMargin: "0px 0px -8% 0px" });
-
-  document.querySelectorAll("main > section:not(.hero)").forEach((section) => {
-    section.classList.add("scroll-reveal");
-    revealObserver.observe(section);
   });
 }
 
-function renderDemoDetail() {
-  const scenarioId = document.querySelector(".case-tab.active")?.dataset.case ?? "lost";
-  const scenario = demoScenarios[scenarioId];
-  const target = document.querySelector("#demo-detail");
-  target.replaceChildren();
-  const status = document.querySelector("#demo-status");
-  const statusIcon = document.createElement("i");
-  status.replaceChildren(statusIcon, document.createTextNode(demoDecisionLabels[demoDecisions[scenarioId]] ?? "À qualifier"));
+const tenderEndpoint = "https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records";
+const tenderFields = [
+  "idweb", "objet", "nomacheteur", "nature", "nature_libelle", "dateparution",
+  "datelimitereponse", "code_departement_prestation", "code_departement",
+  "type_marche", "descripteur_libelle", "famille_libelle", "url_avis"
+].join(",");
 
-  const addBlock = (label, text, kind = "") => {
-    const section = document.createElement("section");
-    section.className = `demo-info-block ${kind}`.trim();
-    const heading = document.createElement("h4");
-    heading.textContent = label;
-    const paragraph = document.createElement("p");
-    paragraph.textContent = text;
-    section.append(heading, paragraph);
-    target.append(section);
+function formatDate(value, options = { dateStyle: "medium" }) {
+  if (!value) return "Non précisée";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Non précisée";
+  return new Intl.DateTimeFormat("fr-FR", options).format(date);
+}
+
+function formatTenderType(types) {
+  const values = Array.isArray(types) ? types : types ? [types] : [];
+  if (values.length === 0) return "Nature non précisée";
+  return values
+    .map((type) => ({ TRAVAUX: "Travaux", SERVICES: "Services", FOURNITURES: "Fournitures" }[type] ?? type))
+    .join(" · ");
+}
+
+function tenderDepartment(record) {
+  const departments = Array.isArray(record.code_departement) ? record.code_departement : [record.code_departement];
+  const department = record.code_departement_prestation || departments.find(Boolean) || "";
+  return department ? `Département ${department}` : "Zone non précisée dans l’avis";
+}
+
+function makeElement(tag, className, text) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== undefined) element.textContent = text;
+  return element;
+}
+
+function tenderDetailUrl(id) {
+  const currentPath = window.location.pathname.replace(/index\.html$/, "");
+  const detailPath = /\/opportunites\/?$/.test(currentPath) ? "avis/" : "opportunites/avis/";
+  const url = new URL(detailPath, window.location.href);
+  url.searchParams.set("id", id || "");
+  return url;
+}
+
+function buildTenderCard(record, onSelect) {
+  const card = makeElement("article", "feed-card");
+  const icon = makeElement("span", "feed-card-icon", "▤");
+  icon.setAttribute("aria-hidden", "true");
+
+  const content = makeElement("div", "feed-card-content");
+  const heading = makeElement("div", "feed-card-heading");
+  heading.append(makeElement("h3", "", record.objet || "Objet non précisé"));
+  heading.append(makeElement("span", "feed-live-tag", "BOAMP"));
+  content.append(heading);
+  content.append(makeElement("p", "feed-buyer", record.nomacheteur || "Acheteur non précisé"));
+  content.append(makeElement("p", "feed-description", record.famille_libelle || "Avis publié au Bulletin officiel des annonces des marchés publics."));
+  content.append(makeElement(
+    "div",
+    "feed-card-metadata",
+    `${formatTenderType(record.type_marche)} · ${tenderDepartment(record)} · Publié le ${formatDate(record.dateparution)} · Réponse avant ${formatDate(record.datelimitereponse, { dateStyle: "short", timeStyle: "short" })}`
+  ));
+
+  const actions = makeElement("div", "feed-card-actions");
+  const details = makeElement("a", "feed-interest", "Voir la fiche");
+  details.href = tenderDetailUrl(record.idweb).href;
+  details.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onSelect(record);
+  });
+  const source = makeElement("a", "feed-source-link", "Avis officiel ↗");
+  source.href = record.url_avis || `https://www.boamp.fr/pages/avis/?q=idweb:${encodeURIComponent(record.idweb || "")}`;
+  source.target = "_blank";
+  source.rel = "noopener noreferrer";
+  source.addEventListener("click", (event) => event.stopPropagation());
+  actions.append(details, source);
+  card.append(icon, content, actions);
+  card.addEventListener("click", () => onSelect(record));
+  return card;
+}
+
+function setupTenderFeed() {
+  const feedStream = $("#feed-stream");
+  if (!feedStream) return;
+
+  const searchInput = $("#feed-search");
+  const typeFilter = $("#feed-sector");
+  const departmentFilter = $("#feed-region");
+  const count = $("#feed-result-count");
+  const status = $("#feed-status");
+  const liveDot = $("#feed-live-dot");
+  const refreshButton = $("#feed-refresh");
+  const loadMoreButton = $("#feed-load-more");
+  const records = new Map();
+  const pageSize = 24;
+  let offset = 0;
+  let isLoading = false;
+  let hasMore = true;
+  let lastUpdated = null;
+
+  const setStatus = (message, state = "loading") => {
+    if (status) status.textContent = message;
+    if (liveDot) {
+      liveDot.dataset.state = state;
+      liveDot.setAttribute("aria-label", state === "live" ? "Flux à jour" : "État du flux");
+    }
   };
 
-  if (activeDemoView === "signal") {
-    addBlock("Fait présenté dans le scénario", scenario.fact, "fact-block");
-    addBlock("Provenance illustrative", `${scenario.source}. Il ne s’agit pas d’une source consultée ou vérifiée.`);
-  } else if (activeDemoView === "analysis") {
-    addBlock("Hypothèse à confirmer", scenario.hypothesis, "hypothesis-block");
-    addBlock("Limite de lecture", "Le scénario ne prouve ni l’existence d’un besoin commercial ni une intention d’être contacté.");
-  } else if (activeDemoView === "network") {
-    const section = document.createElement("section");
-    section.className = "demo-info-block network-block";
-    const heading = document.createElement("h4");
-    heading.textContent = "Écosystème illustratif à qualifier";
-    const list = document.createElement("ul");
-    scenario.actors.forEach((actor) => {
-      const item = document.createElement("li");
-      item.textContent = actor;
-      list.append(item);
+  const renderRecords = () => {
+    const query = (searchInput?.value || "").trim().toLocaleLowerCase("fr");
+    const selectedType = typeFilter?.value || "all";
+    const selectedDepartment = (departmentFilter?.value || "").trim().toLocaleLowerCase("fr");
+    const matches = [...records.values()].filter((record) => {
+      const searchable = [
+        record.objet,
+        record.nomacheteur,
+        record.nature_libelle,
+        record.famille_libelle,
+        ...(Array.isArray(record.type_marche) ? record.type_marche : record.type_marche ? [record.type_marche] : []),
+        ...(record.descripteur_libelle || [])
+      ].filter(Boolean).join(" ").toLocaleLowerCase("fr");
+      const department = tenderDepartment(record).toLocaleLowerCase("fr");
+      const marketTypes = Array.isArray(record.type_marche)
+        ? record.type_marche
+        : record.type_marche ? [record.type_marche] : [];
+      return searchable.includes(query)
+        && (selectedType === "all" || marketTypes.includes(selectedType))
+        && (!selectedDepartment || department.includes(selectedDepartment));
     });
-    section.append(heading, list);
-    target.append(section);
-    addBlock("À garder en tête", "Les relations et interlocuteurs ne sont pas vérifiés ; aucune coordonnée n’est affichée.");
-  } else {
-    addBlock("Prochaine étape suggérée", scenario.action, "hypothesis-block");
-    addBlock("Arbitrage humain", "Une personne habilitée décide si l’information est qualifiée et si une action peut être préparée ou engagée.", "decision-block");
 
-    const actions = document.createElement("div");
-    actions.className = "demo-decision-actions";
-    const actionsTitle = document.createElement("h4");
-    actionsTitle.textContent = "Simuler un arbitrage humain";
-    const actionsList = document.createElement("div");
-    actionsList.className = "demo-decision-buttons";
-    [
-      ["validate", "Valider la piste"],
-      ["reject", "Rejeter l’hypothèse"],
-      ["defer", "Reporter"],
-      ["verify", "Demander une vérification"]
-    ].forEach(([decision, label]) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "demo-decision-button";
-      button.textContent = label;
-      button.addEventListener("click", () => {
-        demoDecisions[scenarioId] = decision;
-        const status = document.querySelector("#demo-status");
-        const statusIcon = document.createElement("i");
-        status.replaceChildren(statusIcon, document.createTextNode(demoDecisionLabels[decision]));
-        let feedback = target.querySelector(".demo-decision-feedback");
-        if (!feedback) {
-          feedback = document.createElement("p");
-          feedback.className = "demo-decision-feedback";
-          feedback.setAttribute("role", "status");
-          actions.append(feedback);
-        }
-        feedback.textContent = `${demoDecisionLabels[decision]}. Aucun état n’a été enregistré et aucune action externe n’a été lancée.`;
+    if (count) count.textContent = `${matches.length} avis affiché${matches.length === 1 ? "" : "s"}`;
+    feedStream.replaceChildren();
+    if (!matches.length) {
+      feedStream.append(makeElement("p", "feed-empty", "Aucun avis ne correspond à ces filtres. Élargissez la recherche ou chargez d’autres avis."));
+    } else {
+      const fragment = document.createDocumentFragment();
+      matches.forEach((record) => fragment.append(buildTenderCard(record, showTenderDetail)));
+      feedStream.append(fragment);
+    }
+    if (loadMoreButton) loadMoreButton.hidden = !hasMore;
+  };
+
+  const fetchPage = async (reset = false) => {
+    if (isLoading || (!hasMore && !reset)) return;
+    isLoading = true;
+    if (reset) {
+      records.clear();
+      offset = 0;
+      hasMore = true;
+      feedStream.replaceChildren(makeElement("p", "feed-loading", "Chargement des avis BOAMP en cours…"));
+    }
+    if (loadMoreButton) loadMoreButton.disabled = true;
+    if (refreshButton) refreshButton.disabled = true;
+    setStatus(reset ? "Actualisation de la source BOAMP…" : "Chargement d’autres avis BOAMP…");
+
+    const now = new Date().toISOString();
+    const parameters = new URLSearchParams({
+      limit: String(pageSize),
+      offset: String(offset),
+      order_by: "dateparution desc",
+      select: tenderFields,
+      where: `nature="APPEL_OFFRE" AND datelimitereponse >= "${now}"`
+    });
+
+    try {
+      const response = await fetch(`${tenderEndpoint}?${parameters}`, {
+        headers: { Accept: "application/json" },
+        signal: AbortSignal.timeout(15000)
       });
-      actionsList.append(button);
-    });
-    actions.append(actionsTitle, actionsList);
-    target.append(actions);
-  }
+      if (!response.ok) throw new Error(`Source BOAMP indisponible (HTTP ${response.status}).`);
+      const payload = await response.json();
+      if (!Array.isArray(payload.results)) throw new Error("La réponse BOAMP n’a pas le format attendu.");
+
+      payload.results.forEach((record) => {
+        if (record.idweb) records.set(record.idweb, record);
+      });
+      offset += payload.results.length;
+      hasMore = payload.results.length === pageSize && offset < payload.total_count;
+      lastUpdated = new Date();
+      renderRecords();
+      setStatus(`Source BOAMP · actualisée à ${new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit" }).format(lastUpdated)}`, "live");
+    } catch (error) {
+      if (reset || records.size === 0) {
+        feedStream.replaceChildren(makeElement(
+          "p",
+          "feed-error",
+          `${error.message} Le flux en direct n’est pas disponible pour le moment. Réessayez dans quelques instants ou consultez le site BOAMP.`
+        ));
+      }
+      setStatus("Connexion à la source BOAMP impossible", "error");
+    } finally {
+      isLoading = false;
+      if (loadMoreButton) loadMoreButton.disabled = false;
+      if (refreshButton) refreshButton.disabled = false;
+    }
+  };
+
+  const showTenderDetail = (record) => {
+    window.location.href = tenderDetailUrl(record.idweb).href;
+  };
+
+  searchInput?.addEventListener("input", renderRecords);
+  typeFilter?.addEventListener("change", renderRecords);
+  departmentFilter?.addEventListener("input", renderRecords);
+  refreshButton?.addEventListener("click", () => fetchPage(true));
+  loadMoreButton?.addEventListener("click", () => fetchPage());
+  fetchPage(true);
+  window.setInterval(() => fetchPage(true), 5 * 60 * 1000);
 }
 
-function selectDemoCase(button) {
-  document.querySelectorAll(".case-tab").forEach((tab) => {
-    const selected = tab === button;
-    tab.classList.toggle("active", selected);
-    tab.setAttribute("aria-selected", String(selected));
-  });
-  const scenario = demoScenarios[button.dataset.case];
-  document.querySelector("#demo-category").textContent = scenario.category;
-  document.querySelector("#demo-title").textContent = scenario.title;
-  document.querySelector("#demo-org").textContent = scenario.organization;
-  document.querySelector("#demo-source").textContent = scenario.source;
-  renderDemoDetail();
-}
-
-document.querySelectorAll(".case-tab").forEach((button) => {
-  button.addEventListener("click", () => selectDemoCase(button));
-});
-
-document.querySelectorAll(".demo-tab").forEach((button) => {
-  button.addEventListener("click", () => {
-    activeDemoView = button.dataset.view;
-    document.querySelectorAll(".demo-tab").forEach((tab) => {
-      const selected = tab === button;
-      tab.classList.toggle("active", selected);
-      tab.setAttribute("aria-selected", String(selected));
-    });
-    renderDemoDetail();
-  });
-});
-
-function setIntent(intent) {
-  const radio = leadForm.querySelector(`input[name="intent"][value="${intent}"]`);
-  if (!radio) return;
-  radio.checked = true;
-  leadForm.querySelectorAll(".intent-fields").forEach((section) => {
-    const visible = section.dataset.for === intent;
-    section.hidden = !visible;
-    section.querySelectorAll("input, textarea").forEach((field) => {
-      field.required = visible && ["tender", "sector", "area", "message"].includes(field.name);
-    });
-  });
-  const tenderNote = leadForm.querySelector("#selected-tender-note");
-  if (tenderNote) tenderNote.hidden = intent !== "respond" || !tenderNote.textContent;
-  formFeedback.hidden = true;
-}
-
-function renderTenderFeed() {
-  const query = document.querySelector("#feed-search").value.trim().toLocaleLowerCase("fr");
-  const sector = document.querySelector("#feed-sector").value;
-  const region = document.querySelector("#feed-region").value;
-  const matches = demoTenders.filter((tender) => {
-    const searchable = `${tender.title} ${tender.buyer} ${tender.sectorLabel} ${tender.regionLabel}`.toLocaleLowerCase("fr");
-    return (sector === "all" || tender.sector === sector)
-      && (region === "all" || tender.region === region)
-      && searchable.includes(query);
-  });
-
-  document.querySelector("#feed-result-count").textContent = `${matches.length} exemple${matches.length === 1 ? "" : "s"}`;
-  feedStream.replaceChildren();
-
-  if (matches.length === 0) {
-    const empty = document.createElement("p");
-    empty.className = "feed-empty";
-    empty.textContent = "Aucun exemple ne correspond à ces critères. Modifiez votre recherche ou vos filtres.";
-    feedStream.append(empty);
+function setupTenderDetail() {
+  const target = $("#announcement-detail");
+  if (!target) return;
+  const id = new URLSearchParams(window.location.search).get("id");
+  if (!id || !/^[a-zA-Z0-9_-]+$/.test(id)) {
+    target.append(makeElement("p", "feed-error", "Référence d’avis absente ou invalide."));
     return;
   }
 
-  for (const tender of matches) {
-    const card = document.createElement("article");
-    card.className = "feed-card";
+  const parameters = new URLSearchParams({
+    limit: "1",
+    select: tenderFields,
+    where: `idweb="${id}"`
+  });
+  target.append(makeElement("p", "feed-loading", "Chargement de l’avis officiel…"));
 
-    const icon = document.createElement("span");
-    icon.className = "feed-card-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "▤";
+  fetch(`${tenderEndpoint}?${parameters}`, {
+    headers: { Accept: "application/json" },
+    signal: AbortSignal.timeout(15000)
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error(`La source BOAMP répond avec le statut ${response.status}.`);
+      return response.json();
+    })
+    .then((payload) => {
+      target.replaceChildren();
+      const record = payload.results?.[0];
+      if (!record) {
+        target.append(makeElement("p", "feed-error", "Avis introuvable dans le flux BOAMP."));
+        return;
+      }
+      target.append(makeElement("p", "eyebrow", `AVIS BOAMP · ${record.idweb}`));
+      target.append(makeElement("h1", "announcement-title", record.objet || "Objet non précisé"));
+      target.append(makeElement("p", "announcement-buyer", record.nomacheteur || "Acheteur non précisé"));
 
-    const content = document.createElement("div");
-    content.className = "feed-card-content";
-    const heading = document.createElement("div");
-    heading.className = "feed-card-heading";
-    const title = document.createElement("h3");
-    title.textContent = tender.title;
-    const demoTag = document.createElement("span");
-    demoTag.className = "feed-fictive-tag";
-    demoTag.textContent = "FICTIF";
-    heading.append(title, demoTag);
+      const facts = makeElement("dl", "announcement-facts");
+      [
+        ["Nature de l’avis", record.nature_libelle || "Non précisée"],
+        ["Type de marché", formatTenderType(record.type_marche)],
+        ["Publié le", formatDate(record.dateparution)],
+        ["Date limite de réponse", formatDate(record.datelimitereponse, { dateStyle: "full", timeStyle: "short" })],
+        ["Zone de prestation", tenderDepartment(record)],
+        ["Catégorie BOAMP", record.famille_libelle || "Non précisée"]
+      ].forEach(([label, value]) => {
+        const item = makeElement("div", "announcement-fact");
+        item.append(makeElement("dt", "", label), makeElement("dd", "", value));
+        facts.append(item);
+      });
+      target.append(facts);
 
-    const buyer = document.createElement("p");
-    buyer.className = "feed-buyer";
-    buyer.textContent = tender.buyer;
-    const description = document.createElement("p");
-    description.className = "feed-description";
-    description.textContent = tender.description;
-    const metadata = document.createElement("div");
-    metadata.className = "feed-card-metadata";
-    metadata.textContent = `${tender.sectorLabel} · ${tender.regionLabel} · Échéance non renseignée`;
-    content.append(heading, buyer, description, metadata);
+      const terms = Array.isArray(record.descripteur_libelle) ? record.descripteur_libelle : [];
+      const tags = makeElement("div", "announcement-tags");
+      terms.slice(0, 10).forEach((term) => tags.append(makeElement("span", "announcement-tag", term)));
+      if (terms.length) target.append(tags);
 
-    const action = document.createElement("a");
-    action.href = "#contact";
-    action.className = "feed-interest";
-    action.textContent = "Demander un accompagnement pour cet AO";
-    action.addEventListener("click", () => {
-      setIntent("respond");
-      const tenderInput = leadForm.querySelector('[name="tender"]');
-      const tenderNote = leadForm.querySelector("#selected-tender-note");
-      tenderInput.value = `Exemple fictif : ${tender.title}`;
-      tenderNote.textContent = `Vous avez choisi un appel d’offres fictif : « ${tender.title} ». Remplacez cette valeur par la référence ou le lien d’un AO réel si vous préparez une demande.`;
-      tenderNote.hidden = false;
-      tenderInput.focus({ preventScroll: true });
+      target.append(makeElement(
+        "p",
+        "announcement-caveat",
+        "Fait : cet avis est publié dans le jeu de données BOAMP. Il ne prouve pas qu’une entreprise donnée est éligible ou souhaite répondre ; vérifiez l’avis officiel, les pièces et les échéances avant toute décision."
+      ));
+      const officialLink = makeElement("a", "button button-primary", "Ouvrir l’avis officiel BOAMP ↗");
+      officialLink.href = record.url_avis || `https://www.boamp.fr/pages/avis/?q=idweb:${encodeURIComponent(record.idweb)}`;
+      officialLink.target = "_blank";
+      officialLink.rel = "noopener noreferrer";
+      target.append(officialLink);
+    })
+    .catch((error) => {
+      target.replaceChildren(makeElement("p", "feed-error", `${error.message} Consultez directement le site officiel BOAMP.`));
     });
-
-    card.append(icon, content, action);
-    feedStream.append(card);
-  }
 }
 
-document.querySelector("#feed-search").addEventListener("input", renderTenderFeed);
-document.querySelector("#feed-sector").addEventListener("change", renderTenderFeed);
-document.querySelector("#feed-region").addEventListener("change", renderTenderFeed);
-renderTenderFeed();
-renderDemoDetail();
+function setupDemo() {
+  const caseTabs = $$(".case-tab");
+  const detail = $("#demo-detail");
+  if (!caseTabs.length || !detail) return;
 
-leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
-  radio.addEventListener("change", () => setIntent(radio.value));
-});
-setIntent(leadForm.querySelector('input[name="intent"]:checked').value);
-
-document.querySelectorAll("[data-intent-link]").forEach((link) => {
-  link.addEventListener("click", () => setIntent(link.dataset.intentLink));
-});
-
-document.querySelector("#preview-request").addEventListener("click", () => {
-  if (!leadForm.reportValidity()) return;
-
-  const intent = leadForm.querySelector('input[name="intent"]:checked').value;
-  const intentLabels = {
-    respond: "demande d’accompagnement pour répondre à un AO",
-    receive: "demande de réception d’AO liés à votre activité",
-    contact: "prise de contact au sujet de votre projet"
+  const scenarios = {
+    lost: {
+      title: "Candidature non retenue",
+      fact: "Dans ce scénario fictif, une entreprise n’a pas remporté un appel d’offres.",
+      hypothesis: "La perte pourrait justifier une revue du positionnement ou un partenariat. Aucune piste n’est confirmée.",
+      action: "Vérifier les documents officiels, puis décider si un suivi est pertinent."
+    },
+    won: {
+      title: "Un marché vient d’être attribué",
+      fact: "Dans ce scénario fictif, un marché a été attribué à une organisation.",
+      hypothesis: "L’exécution pourrait créer des besoins en sous-traitance, ressources ou logistique. L’avis seul ne le prouve pas.",
+      action: "Qualifier les exigences et le calendrier avant tout échange."
+    },
+    hiring: {
+      title: "Recrutements dans un même métier",
+      fact: "Ce scénario fictif réunit plusieurs offres d’emploi dans des profils techniques.",
+      hypothesis: "Une convergence peut signaler une évolution des compétences recherchées ; les sources et la période doivent être vérifiées.",
+      action: "Vérifier les annonces, leur fraîcheur et leur contexte."
+    }
   };
-  const intentLabel = intentLabels[intent];
-  formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
-  formFeedback.hidden = false;
-});
+  let activeView = "signal";
 
-menuToggle.addEventListener("click", () => {
-  const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
-  menuToggle.setAttribute("aria-expanded", String(!isOpen));
-  menuToggle.setAttribute("aria-label", isOpen ? "Ouvrir le menu" : "Fermer le menu");
-  navigation.classList.toggle("open", !isOpen);
-});
+  const render = () => {
+    const caseId = $(".case-tab.active")?.dataset.case || "lost";
+    const scenario = scenarios[caseId];
+    const view = activeView;
+    detail.replaceChildren();
+    $("#demo-title").textContent = scenario.title;
+    const addBlock = (label, text, className = "") => {
+      const block = makeElement("section", `demo-info-block ${className}`.trim());
+      block.append(makeElement("h4", "", label), makeElement("p", "", text));
+      detail.append(block);
+    };
 
-navigation.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navigation.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.setAttribute("aria-label", "Ouvrir le menu");
+    if (view === "signal") addBlock("Fait du scénario", scenario.fact, "fact-block");
+    else if (view === "analysis") addBlock("Hypothèse à confirmer", scenario.hypothesis, "hypothesis-block");
+    else if (view === "network") addBlock("Acteurs", "Les organisations et interlocuteurs sont fictifs et ne sont pas vérifiés.");
+    else {
+      addBlock("Étape suggérée", scenario.action, "hypothesis-block");
+      addBlock("Human Gate", "Une personne habilitée décide de la suite. Cette démonstration n’enregistre rien et ne contacte personne.", "decision-block");
+    }
+  };
+
+  caseTabs.forEach((button) => button.addEventListener("click", () => {
+    caseTabs.forEach((tab) => {
+      tab.classList.toggle("active", tab === button);
+      tab.setAttribute("aria-selected", String(tab === button));
+    });
+    render();
+  }));
+  $$(".demo-tab").forEach((button) => button.addEventListener("click", () => {
+    activeView = button.dataset.view;
+    $$(".demo-tab").forEach((tab) => {
+      tab.classList.toggle("active", tab === button);
+      tab.setAttribute("aria-selected", String(tab === button));
+    });
+    render();
+  }));
+  render();
+}
+
+function setupLeadForm() {
+  const leadForm = $("#lead-form");
+  const feedback = $("#form-feedback");
+  if (!leadForm || !feedback) return;
+
+  const setIntent = (intent) => {
+    leadForm.querySelectorAll(".intent-fields").forEach((section) => {
+      const visible = section.dataset.for === intent;
+      section.hidden = !visible;
+      section.querySelectorAll("input, textarea").forEach((field) => {
+        field.required = visible && ["tender", "sector", "area", "message"].includes(field.name);
+      });
+    });
+    feedback.hidden = true;
+  };
+
+  const profile = $("#contact-profile");
+  const requestedProfile = new URLSearchParams(window.location.search).get("profil");
+  if (profile && ["visitor", "prospect", "client"].includes(requestedProfile)) {
+    profile.value = requestedProfile;
+  }
+
+  leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
+    radio.addEventListener("change", () => setIntent(radio.value));
   });
-});
+  setIntent(leadForm.querySelector('input[name="intent"]:checked')?.value || "contact");
+
+  $("#preview-request")?.addEventListener("click", () => {
+    if (!leadForm.reportValidity()) return;
+    feedback.textContent = "Cette demande de démonstration n’a pas été transmise : aucun service de contact n’est configuré.";
+    feedback.hidden = false;
+  });
+}
+
+setupTenderFeed();
+setupTenderDetail();
+setupDemo();
+setupLeadForm();

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Parcourez les avis de marchés publics publiés au BOAMP et consultez leurs sources officielles.">
+    <title>Flux BOAMP — MajestiOS</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+        <a href="../index.html">Accueil</a>
+        <a href="./">Flux BOAMP</a>
+        <a href="../services/developpement-commercial/">Développement commercial</a>
+        <a href="../services/partenaires/">Partenaires</a>
+        <a href="../services/coach/">Coach & Double Dossier</a>
+        <a class="nav-cta" href="../espace-client/">Espace client <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main>
+      <section class="deep-hero section-wrap">
+        <p class="eyebrow">VEILLE DES MARCHÉS PUBLICS · SOURCE BOAMP</p>
+        <h1>Les avis en cours.<br><span>Pas des exemples fictifs.</span></h1>
+        <p class="deep-lede">Un flux actualisé depuis le jeu de données public du BOAMP. Recherchez un objet, un acheteur, un type de marché ou un département, puis ouvrez l’avis officiel pour vérifier les pièces et les échéances.</p>
+        <div class="deep-meta"><span>Source : DILA / BOAMP via Opendatasoft</span><span>Rafraîchissement automatique toutes les 5 minutes</span></div>
+      </section>
+      <section class="tender-feed-section tender-feed-page">
+        <div class="feed-wrap">
+          <div class="feed-demo">
+            <div class="feed-topbar">
+              <div class="feed-title"><span class="feed-live-dot" id="feed-live-dot"></span><div><strong>Appels d’offres ouverts à la réponse</strong><small id="feed-status" role="status">Connexion à la source BOAMP…</small></div></div>
+              <button class="feed-refresh-label" id="feed-refresh" type="button"><span aria-hidden="true">↻</span> Actualiser</button>
+            </div>
+            <div class="feed-toolbar">
+              <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher dans les avis BOAMP</span><input id="feed-search" type="search" placeholder="Objet, acheteur, mot-clé..." autocomplete="off"></label>
+              <label class="feed-filter-label"><span class="sr-only">Filtrer par type de marché</span>
+                <select id="feed-sector"><option value="all">Tous les types</option><option value="SERVICES">Services</option><option value="TRAVAUX">Travaux</option><option value="FOURNITURES">Fournitures</option></select>
+              </label>
+              <label class="feed-filter-label"><span class="sr-only">Filtrer par département</span><input id="feed-region" type="search" inputmode="numeric" maxlength="3" placeholder="Département"></label>
+              <span class="feed-result-count" id="feed-result-count" aria-live="polite"></span>
+            </div>
+            <div class="feed-stream" id="feed-stream" aria-live="polite"></div>
+            <div class="feed-source-note"><span aria-hidden="true">i</span> Les informations affichées sont celles du jeu de données source ; leur date de mise à jour dépend du BOAMP. Vérifiez toujours l’avis officiel avant de prendre une décision.</div>
+            <div class="feed-pagination"><button class="button button-quiet" id="feed-load-more" type="button">Charger plus d’avis</button></div>
+          </div>
+        </div>
+      </section>
+      <section class="section-wrap feed-explanation">
+        <p class="eyebrow">LIRE UN AVIS AVEC DISCERNEMENT</p>
+        <h2>Une publication est un fait.<br><span>Une opportunité reste à qualifier.</span></h2>
+        <div class="deep-grid">
+          <article><span class="deep-step">01</span><h3>Vérifier la source</h3><p>Ouvrez la publication BOAMP, les pièces du dossier et les éventuels avis modificatifs. Le flux MajestiOS ne remplace pas le dossier officiel.</p></article>
+          <article><span class="deep-step">02</span><h3>Évaluer votre capacité</h3><p>Examinez les critères, le calendrier, les lots, les contraintes et l’adéquation avec votre activité avant d’envisager une réponse.</p></article>
+          <article><span class="deep-step">03</span><h3>Choisir la suite</h3><p>Vous décidez si une piste mérite votre attention. Aucun contact ni engagement n’est déclenché depuis ce flux.</p></article>
+        </div>
+      </section>
+      <section class="deep-cta section-wrap">
+        <div><p class="eyebrow">BESOIN D’UN ÉCHANGE ?</p><h2>Un marché vous intéresse ?</h2><p>Présentez l’avis et votre besoin ; l’équipe pourra en discuter avec vous. Cette page ne transmet pas automatiquement une candidature.</p></div>
+        <a class="button button-primary" href="../contact/">Parler de mon besoin <span aria-hidden="true">→</span></a>
+      </section>
+    </main>
+    <footer class="site-footer"><a class="brand footer-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><p>Repérer les pistes. Garder le discernement.</p><a class="footer-legal" href="../index.html">Retour à l’accueil</a></footer>
+  </body>
+</html>
