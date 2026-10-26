@@ -36,7 +36,7 @@
           <h1>Le marché révèle.<br><span>Vous décidez.</span></h1>
           <p class="hero-lede">MajestiOS vous aide à repérer les occasions qui comptent et à choisir où concentrer votre énergie commerciale.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#flux-ao">Voir les opportunités <span aria-hidden="true">→</span></a>
+            <button class="button button-primary" id="start-scroll" type="button">Découvrir le site <span aria-hidden="true">↓</span></button>
             <a class="button button-quiet" href="#prospection-inverse">Découvrir MajestiOS <span aria-hidden="true">↓</span></a>
           </div>
           <div class="hero-note"><span class="check-mark" aria-hidden="true">✓</span> Vous gardez le choix de la suite à donner.</div>
@@ -444,6 +444,12 @@
       <p>Repérer les pistes. Garder le discernement.</p>
       <span class="footer-legal">MajestiOS · Une nouvelle perspective sur votre marché</span>
     </footer>
+
+    <aside class="scroll-controls" id="scroll-controls" aria-label="Commandes de défilement" hidden>
+      <span class="scroll-status" id="scroll-status" role="status" aria-live="polite">Visite guidée en cours</span>
+      <button class="scroll-control-button" id="pause-scroll" type="button" aria-pressed="false">Pause</button>
+      <button class="scroll-control-button scroll-stop" id="stop-scroll" type="button">Arrêter</button>
+    </aside>
 
   </body>
 </html>

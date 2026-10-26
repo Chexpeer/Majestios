@@ -3,6 +3,11 @@ const navigation = document.querySelector("#site-nav");
 const leadForm = document.querySelector("#lead-form");
 const formFeedback = document.querySelector("#form-feedback");
 const feedStream = document.querySelector("#feed-stream");
+const startScrollButton = document.querySelector("#start-scroll");
+const scrollControls = document.querySelector("#scroll-controls");
+const scrollStatus = document.querySelector("#scroll-status");
+const pauseScrollButton = document.querySelector("#pause-scroll");
+const stopScrollButton = document.querySelector("#stop-scroll");
 
 const demoTenders = [
   {
@@ -92,12 +97,107 @@ const demoScenarios = {
 
 let activeDemoView = "signal";
 const demoDecisions = {};
+let scrollFrame = 0;
+let scrollLastTime = 0;
+let scrollPaused = false;
+let previousScrollBehavior = "";
 const demoDecisionLabels = {
   validate: "Piste validée · simulation",
   reject: "Hypothèse rejetée · simulation",
   defer: "Décision reportée · simulation",
   verify: "Vérification demandée · simulation"
 };
+
+function stopGuidedScroll(message = "") {
+  if (!scrollFrame && scrollControls.hidden) return;
+  cancelAnimationFrame(scrollFrame);
+  scrollFrame = 0;
+  scrollLastTime = 0;
+  scrollPaused = false;
+  document.documentElement.style.scrollBehavior = previousScrollBehavior;
+  scrollControls.hidden = true;
+  pauseScrollButton.setAttribute("aria-pressed", "false");
+  pauseScrollButton.textContent = "Pause";
+  if (message) scrollStatus.textContent = message;
+}
+
+function advanceGuidedScroll(timestamp) {
+  if (!scrollFrame || scrollPaused) return;
+  if (!scrollLastTime) scrollLastTime = timestamp;
+  const elapsed = Math.min(timestamp - scrollLastTime, 100);
+  scrollLastTime = timestamp;
+  window.scrollBy(0, elapsed * 0.03);
+
+  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1) {
+    stopGuidedScroll("Fin de la visite guidée");
+    return;
+  }
+  scrollFrame = requestAnimationFrame(advanceGuidedScroll);
+}
+
+function startGuidedScroll() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    scrollStatus.textContent = "Le défilement automatique est désactivé selon vos préférences d’accessibilité.";
+    scrollControls.hidden = false;
+    pauseScrollButton.hidden = true;
+    stopScrollButton.textContent = "Fermer";
+    return;
+  }
+
+  if (scrollFrame) return;
+  previousScrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = "auto";
+  scrollPaused = false;
+  scrollControls.hidden = false;
+  pauseScrollButton.hidden = false;
+  stopScrollButton.textContent = "Arrêter";
+  scrollStatus.textContent = "Visite guidée en cours";
+  pauseScrollButton.setAttribute("aria-pressed", "false");
+  pauseScrollButton.textContent = "Pause";
+  scrollFrame = requestAnimationFrame(advanceGuidedScroll);
+}
+
+startScrollButton.addEventListener("click", startGuidedScroll);
+pauseScrollButton.addEventListener("click", () => {
+  if (!scrollFrame) return;
+  scrollPaused = !scrollPaused;
+  pauseScrollButton.setAttribute("aria-pressed", String(scrollPaused));
+  pauseScrollButton.textContent = scrollPaused ? "Reprendre" : "Pause";
+  scrollStatus.textContent = scrollPaused ? "Visite guidée en pause" : "Visite guidée en cours";
+  scrollLastTime = 0;
+  if (!scrollPaused) scrollFrame = requestAnimationFrame(advanceGuidedScroll);
+});
+stopScrollButton.addEventListener("click", () => stopGuidedScroll());
+
+document.addEventListener("wheel", () => stopGuidedScroll(), { passive: true });
+document.addEventListener("touchstart", () => stopGuidedScroll(), { passive: true });
+document.addEventListener("pointerdown", (event) => {
+  if (!scrollControls.contains(event.target) && !startScrollButton.contains(event.target)) {
+    stopGuidedScroll();
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (scrollControls.contains(event.target) && event.key !== "Escape") return;
+  if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
+    stopGuidedScroll();
+  }
+  if (event.key === "Escape") stopGuidedScroll();
+});
+
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("scroll-revealed");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px -8% 0px" });
+
+  document.querySelectorAll("main > section:not(.hero)").forEach((section) => {
+    section.classList.add("scroll-reveal");
+    revealObserver.observe(section);
+  });
+}
 
 function renderDemoDetail() {
   const scenarioId = document.querySelector(".case-tab.active")?.dataset.case ?? "lost";

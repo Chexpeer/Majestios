@@ -9,6 +9,7 @@ Site vitrine statique en français pour présenter MajestiOS aux visiteurs, pros
 - Le fil d’appels d’offres et la démonstration interactive utilisent uniquement des exemples fictifs. La démonstration détaillée est facultative et repliée par défaut.
 - Les visiteurs peuvent découvrir MajestiOS, les prospects présenter un projet ou un besoin, et les clients contacter leur interlocuteur via le parcours général.
 - Le formulaire permet de prévisualiser trois intentions : accompagnement pour répondre à un AO, réception d’AO selon son activité, ou demande générale. Aucune demande n’est envoyée ou enregistrée.
+- Le bouton « Découvrir le site » lance un défilement guidé lent, avec commandes Pause et Arrêter. Une interaction de défilement manuelle reprend la main ; les visiteurs ayant activé la préférence de réduction des animations gardent le défilement manuel.
 
 Le cahier des charges et les documents stratégiques servent de référence interne à la conception. Ils ne sont pas reproduits dans le contenu public : la vitrine explique l’intérêt pour le client, sans lui demander de connaître le fonctionnement détaillé du produit.
 
