@@ -315,7 +315,7 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
 .search-reset:hover { border-color:#8bbab5; color:var(--public-teal); }
 .search-field input:focus,.search-field select:focus { outline:2px solid #d6eeeb; outline-offset:4px; border-radius:3px; }
 .access-form input:invalid:not(:placeholder-shown) { border-color:#c86e62; }
-.access-form textarea { width:100%; min-height:86px; padding:10px 12px; border:1px solid #d6e0e5; border-radius:7px; background:#fff; color:#233d4e; font:400 12px/1.6 inherit; resize:vertical; }
+.access-form textarea { width:100%; min-height:86px; padding:10px 12px; border:1px solid #d6e0e5; border-radius:7px; background:#fff; color:#233d4e; font-family:inherit; font-size:12px; line-height:1.6; resize:vertical; }
 .access-form textarea:focus { border-color:#6eaaa5; outline:2px solid #d6eeeb; }
 .access-form input:not([type=checkbox]):focus-visible,.access-form textarea:focus-visible,.search-reset:focus-visible,.search-submit:focus-visible,.private-teaser:focus-visible,.modal-close:focus-visible { outline:2px solid #0d7770; outline-offset:3px; }
 @media (max-width:1050px) { .search-reset { grid-column:1 / -1; } }
