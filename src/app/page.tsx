@@ -29,6 +29,9 @@ const privateTeasers: Opportunity[] = [
 
 export default function HomePage() {
   const [keyword, setKeyword] = useState("");
+  const [appliedKeyword, setAppliedKeyword] = useState("");
+  const [appliedLocation, setAppliedLocation] = useState("");
+  const [appliedType, setAppliedType] = useState("all");
   const [publicExamples, setPublicExamples] = useState<Opportunity[]>([]);
   const [loadingExamples, setLoadingExamples] = useState(true);
   const [examplesError, setExamplesError] = useState("");
@@ -40,7 +43,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const controller = new AbortController();
-    const params = new URLSearchParams({ q: keyword, location, type });
+    const params = new URLSearchParams({ q: appliedKeyword, location: appliedLocation, type: appliedType });
 
     async function loadExamples() {
       setLoadingExamples(true);
@@ -64,7 +67,7 @@ export default function HomePage() {
 
     void loadExamples();
     return () => controller.abort();
-  }, [keyword, location, type, retryCount]);
+  }, [appliedKeyword, appliedLocation, appliedType, retryCount]);
 
   const filteredExamples = publicExamples;
 
@@ -96,12 +99,12 @@ export default function HomePage() {
           <span className="public-eyebrow"><span /> VEILLE ET OPPORTUNITÉS PROFESSIONNELLES</span>
           <h1>Trouvez votre prochain<br /><em>appel d’offres.</em></h1>
           <p className="public-intro">Recherchez des appels d’offres publics et découvrez des opportunités privées adaptées à votre activité, votre métier et votre zone géographique.</p>
-          <form className="tender-search" onSubmit={(event) => { event.preventDefault(); document.getElementById("resultats")?.scrollIntoView({ behavior: "smooth" }); }}>
+          <form className="tender-search" onSubmit={(event) => { event.preventDefault(); setAppliedKeyword(keyword.trim()); setAppliedLocation(location.trim()); setAppliedType(type); document.getElementById("resultats")?.scrollIntoView({ behavior: "smooth" }); }}>
             <label className="search-field search-keyword" htmlFor="search-keyword"><span>Que recherchez-vous ?</span><input id="search-keyword" name="keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Ex. : nettoyage, travaux, informatique…" autoComplete="off" /></label>
             <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Code département (ex. : 68)" autoComplete="off" /></label>
             <label className="search-field search-type" htmlFor="search-type"><span>Type d’appel d’offres</span><select id="search-type" name="type" value={type} onChange={(event) => setType(event.target.value)}><option value="all">Tous les types</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>
             <button className="search-submit" type="submit"><span aria-hidden="true">⌕</span> Rechercher</button>
-            {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); }} aria-label="Effacer tous les filtres">Effacer</button>}
+            {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); setAppliedKeyword(""); setAppliedLocation(""); setAppliedType("all"); }} aria-label="Effacer tous les filtres">Effacer</button>}
           </form>
           <p className="search-note">Recherche publique BOAMP · Filtre géographique par code département · Vérifiez chaque avis sur la source officielle</p>
         </div>
