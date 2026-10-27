@@ -9,7 +9,9 @@ const ALLOWED_TYPES = ["Travaux", "Services", "Fournitures"] as const;
 type BoampRecord = { id?: string; fields?: Record<string, unknown>; record?: { id?: string; fields?: Record<string, unknown> } };
 
 function value(input: unknown): string {
-  return typeof input === "string" || typeof input === "number" ? String(input).trim() : "";
+  if (typeof input === "string" || typeof input === "number") return String(input).trim();
+  if (Array.isArray(input)) return input.map(value).filter(Boolean).join(", ");
+  return "";
 }
 
 function category(input: string): string {
@@ -21,12 +23,12 @@ function category(input: string): string {
 }
 
 function formatDate(input: string): string {
-  if (!input) return "Échéance non renseignée — vérifier la source";
+  if (!input) return "Date non renseignée — vérifier la source";
   const date = new Date(input);
   if (Number.isNaN(date.getTime())) return input;
   return new Intl.DateTimeFormat("fr-FR", {
     dateStyle: "medium",
-    ...(input.includes("T") ? { timeStyle: "short" as const } : {}),
+    ...(input.includes("T") || /\\d{1,2}:\\d{2}/.test(input) ? { timeStyle: "short" as const } : {}),
     timeZone: "Europe/Paris",
   }).format(date);
 }
@@ -42,7 +44,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Une localisation invalide ne doit jamais déclencher silencieusement une recherche nationale.
-  const normalizedDept = location.toUpperCase().replace(/\s+/g, "");
+  const normalizedDept = location.toUpperCase().replace(/\\s+/g, "");
   const validDepartments = /^(?:0[1-9]|[1-8][0-9]|9[0-5]|2A|2B|97[1-6]|978|984|986|987|988)$/;
   if (location && !validDepartments.test(normalizedDept)) {
     return NextResponse.json({
@@ -59,7 +61,8 @@ export async function GET(request: NextRequest) {
   if (query) apiParams.set("search", query);
   const filters: string[] = [];
   if (location) {
-    filters.push('code_departement="' + normalizedDept + '" OR code_departement_prestation="' + normalizedDept + '"');
+    // BOAMP exposes department codes as multivalued fields: ODSQL 'in' tests array membership.
+    filters.push('code_departement in ("' + normalizedDept + '") OR code_departement_prestation in ("' + normalizedDept + '")');
   }
   if (type !== "all") {
     filters.push('type_marche="' + type.toLocaleUpperCase("fr") + '"');
@@ -79,7 +82,8 @@ export async function GET(request: NextRequest) {
     const payload = (await response.json()) as { results?: BoampRecord[]; total_count?: number };
     const now = Date.now();
     const items = (payload.results ?? []).map((record, index) => {
-      const fields = record.record?.fields ?? record.fields ?? {};
+      // Explore API v2.1 normally returns fields directly on each result; tolerate legacy wrappers too.
+      const fields = record.record?.fields ?? record.fields ?? record as Record<string, unknown>;
       const officialId = value(fields.idweb) || value(record.record?.id) || value(record.id) || `boamp-${index}`;
       const deadlineRaw = value(fields.datelimitereponse);
       const deadlineDate = deadlineRaw ? new Date(deadlineRaw).getTime() : NaN;
