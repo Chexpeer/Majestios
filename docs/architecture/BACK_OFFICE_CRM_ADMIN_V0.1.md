@@ -156,3 +156,82 @@ Ne pas créer les tables, exécuter des migrations ou connecter les comptes Goog
 
 ---
 **Fin du pré-cadrage — document de travail non validé.**
+
+
+## 10. Espace public « Nous rejoindre » et annonces dynamiques
+
+**Statut :** extension fonctionnelle demandée le 27 octobre 2026 ; cadrage à valider avec les tomes de référence avant implémentation. Cette section complète le document sans remplacer les principes précédents.
+
+### 10.1 Objectifs
+
+Créer un onglet public **« Nous rejoindre »** pour présenter en priorité :
+- des missions freelance spécialisées dans les appels d'offres (veille, détection, analyse et qualification) ;
+- des missions de développement commercial (prospection B2B, qualification de prospects, recherche de clients et appui commercial) ;
+- d'autres profils ou collaborations, si le besoin est confirmé.
+
+L'espace doit également pouvoir évoluer vers des annonces de missions et d'emploi publiées par les membres ou découvertes auprès de sources externes autorisées. Il ne s'agit donc pas uniquement d'une page statique de recrutement interne.
+
+### 10.2 Deux origines à distinguer
+
+1. **Annonces publiées par MajestiOS ou un membre autorisé** : MajestiOS peut en gérer le contenu, le statut et le parcours de candidature selon les permissions.
+2. **Annonces externes découvertes par un connecteur** : conserver la source d'origine, l'URL, la date de collecte et les informations de fraîcheur. Respecter les conditions d'accès et de réutilisation de chaque source ; privilégier le renvoi vers la publication originale lorsque la republication n'est pas autorisée.
+
+Une annonce externe ne doit jamais être présentée comme une offre créée ou validée par MajestiOS si ce n'est pas le cas.
+
+### 10.3 Cycle de vie minimal d'une annonce
+
+Prévoir des statuts distincts, par exemple : brouillon, en validation, publiée, suspendue, expirée, archivée. Les transitions doivent être contrôlées et les annonces expirées ne doivent pas continuer à être présentées comme actives.
+
+Champs fonctionnels candidats, à valider avant tout modèle physique :
+- titre, description et catégorie ;
+- nature : emploi salarié, mission freelance, collaboration commerciale ou autre ;
+- compétences et critères recherchés ;
+- localisation, zone d'intervention et modalités à distance ;
+- type de collaboration et rémunération, uniquement si ces éléments sont connus ;
+- organisation émettrice et contact autorisé ;
+- source d'origine, URL source, dates de publication/collecte/expiration ;
+- statut, date de dernière vérification et éventuel identifiant anti-doublon.
+
+Ne pas assimiler automatiquement une offre d'emploi à une mission freelance ni une annonce de recrutement à une opportunité commerciale vendable.
+
+### 10.4 Parcours candidat et gestion interne
+
+Pour la première version, prévoir une consultation mobile lisible et un lien de candidature explicite. Le formulaire peut être minimal, mais la collecte et la conservation des candidatures devront être réellement implémentées et protégées avant d'être présentées comme opérationnelles. Une maquette seule ne doit pas prétendre envoyer ou enregistrer une candidature.
+
+Le back-office pourra ensuite proposer :
+- création, édition, validation et expiration des annonces ;
+- consultation et suivi des candidatures selon les droits ;
+- suivi des compétences et profils avec accès restreint ;
+- contrôle des annonces signalées et journal d'audit des actions sensibles.
+
+Les données des candidats sont des données personnelles : minimiser les champs, restreindre les accès et définir une durée de conservation avant la mise en production.
+
+### 10.5 LinkedIn et acquisition
+
+LinkedIn est envisagé comme canal de diffusion et de visibilité. Le parcours souhaité est :
+
+**Publication LinkedIn → page de l'annonce sur MajestiOS → consultation de l'offre → candidature ou redirection vers la source originale.**
+
+Chaque annonce publiée sur MajestiOS peut disposer d'une URL stable, partageable et adaptée aux aperçus sociaux. Au MVP, la publication LinkedIn peut rester manuelle avec un lien vers MajestiOS. Toute automatisation future dépendra des API, autorisations, limites et conditions LinkedIn ; ne pas présumer qu'une publication automatisée est disponible.
+
+Les contenus de diffusion doivent distinguer clairement l'annonce d'origine, le rôle de MajestiOS et les liens promotionnels. Ne pas publier de doublons en masse ni altérer le contenu de l'annonce source.
+
+### 10.6 Intégration au moteur central d'opportunités
+
+Les annonces de recrutement et de missions doivent alimenter le même moteur logique de collecte, normalisation, dédoublonnage, qualification et suivi que les autres sources d'opportunités, notamment les appels d'offres. Il faut étendre le moteur existant, pas créer un système indépendant.
+
+Chaque élément doit porter un type d'opportunité explicite, sa provenance, son niveau de vérification et son statut. Les recommandations aux membres doivent tenir compte de leur profil, de leurs compétences et de la nature réelle de l'annonce.
+
+L'architecture peut prévoir les connecteurs dès maintenant, mais les collectes externes ne sont pas réputées opérationnelles tant qu'elles n'ont pas été développées, autorisées et testées.
+
+### 10.7 Livraison progressive
+
+1. Cadrer les catégories et parcours avec les tomes de référence.
+2. Concevoir la page publique et les pages d'annonce avec des exemples clairement identifiés.
+3. Définir le workflow de gestion et le parcours de candidature.
+4. Valider le modèle métier et les règles d'accès avant toute persistance ou migration.
+5. Ajouter les annonces de MajestiOS en premier, puis les annonces des membres si le périmètre est validé.
+6. Ajouter les connecteurs externes autorisés, un par un, avec provenance, fraîcheur, dédoublonnage et tests.
+7. Commencer par un partage LinkedIn manuel et n'automatiser qu'après vérification des possibilités officielles.
+
+Aucun code, schéma de base, connecteur, publication LinkedIn ni déploiement de production n'est déclaré réalisé par ce cadrage.
