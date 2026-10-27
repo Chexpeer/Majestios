@@ -1,6 +1,8 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import type { FormEvent } from "react";
+import Link from "next/link";
 
 type Opportunity = {
   id: number;
@@ -47,10 +49,10 @@ export default function HomePage() {
   return (
     <main className="public-site">
       <header className="public-header">
-        <a className="public-brand" href="/" aria-label="MajestiOS, accueil">
+        <Link className="public-brand" href="/" aria-label="MajestiOS, accueil">
           <span className="public-brand-mark">M</span>
           <span><strong>MajestiOS</strong><small>LES OPPORTUNITÉS PROFESSIONNELLES</small></span>
-        </a>
+        </Link>
         <nav className="public-nav" aria-label="Navigation principale">
           <a href="#recherche">Appels d’offres</a>
           <a href="#prive">Opportunités privées</a>
@@ -111,7 +113,7 @@ export default function HomePage() {
 
       <section className="signup-strip" id="demande-acces"><div><h2>Ne manquez pas une opportunité.</h2><p>La création de compte et les alertes personnalisées seront proposées dans la version connectée.</p></div><a href="mailto:contact@majestios.com?subject=Acc%C3%A8s%20MajestiOS">Être informé du lancement <span>→</span></a></section>
 
-      <footer className="public-footer"><a className="footer-brand" href="/">MajestiOS</a><span>La recherche d’opportunités professionnelles, enrichie par l’intelligence commerciale.</span><small>© MajestiOS · Site en construction</small></footer>
+      <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><span>La recherche d’opportunités professionnelles, enrichie par l’intelligence commerciale.</span><small>© MajestiOS · Site en construction</small></footer>
 
       {selectedPrivate && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelectedPrivate(null); }}>
         <section className="private-modal" role="dialog" aria-modal="true" aria-labelledby="private-modal-title">
