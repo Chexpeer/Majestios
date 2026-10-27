@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 type Item = { id:string|number; title:string; type:string; location:string; buyer?:string; deadline?:string; publishedAt?:string; sourceUrl?:string; officialStatus?:string; isOpen?:boolean };
-export const dynamic = "force-dynamic";
 export default function PublicTendersPage() {
  const [items,setItems]=useState<Item[]>([]),[q,setQ]=useState(""),[location,setLocation]=useState(""),[type,setType]=useState("all"),[loading,setLoading]=useState(false),[error,setError]=useState("");
  async function search(e?:React.FormEvent){e?.preventDefault();setLoading(true);setError("");try{const p=new URLSearchParams({q,location,type});const r=await fetch("/api/opportunities?"+p.toString(),{cache:"no-store"});const d=await r.json();if(!r.ok)throw new Error(d.error||"La source est indisponible.");setItems(d.items||[])}catch(e){setError(e instanceof Error?e.message:"Erreur de chargement.");setItems([])}finally{setLoading(false)}}
