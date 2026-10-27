@@ -2,9 +2,9 @@ name: Application checks
 
 on:
   push:
-    branches: [architecture-v0-1]
+    branches: [architecture-v0-1, site-profondeur-v0-1]
   pull_request:
-    branches: [main]
+    branches: [main, architecture-v0-1]
 
 jobs:
   verify:
@@ -16,9 +16,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Run lint
         run: npm run lint
+      - name: Type-check
+        run: npx tsc --noEmit
       - name: Build application
         run: npm run build
