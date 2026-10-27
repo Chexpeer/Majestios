@@ -52,6 +52,28 @@ export default function HomePage() {
               <div className="relationship-item"><span className="relation-icon">◎</span><strong>Décideur</strong><small>Rôle à qualifier</small></div>
             </div>
           </section>
+          <section className="section-block" id="contacts">
+            <div className="section-heading"><div><span className="section-kicker">RELATIONS COMMERCIALES</span><h2>Interlocuteurs et décideurs</h2></div><span className="phase-badge">Module à connecter</span></div>
+            <div className="module-panel">
+              <div className="module-copy"><span className="module-icon">♙</span><div><h3>Qualifier les personnes, pas seulement les entreprises</h3><p>Préparer un contact commercial implique de distinguer l’interlocuteur, sa fonction, son influence et son rôle dans une décision. Les informations devront être sourcées et leur niveau de fiabilité explicite.</p></div></div>
+              <div className="module-points"><span>Fonction et rôle à confirmer</span><span>Source et date de vérification</span><span>Historique des interactions</span></div>
+            </div>
+          </section>
+          <section className="section-block" id="activities">
+            <div className="section-heading"><div><span className="section-kicker">EXÉCUTION ET SUIVI</span><h2>Activités commerciales</h2></div><span className="phase-badge">Module à connecter</span></div>
+            <div className="activity-grid">
+              <article className="activity-card"><span className="activity-label">01 · PRÉPARER</span><h3>Prochaine action</h3><p>Définir une action de suivi liée à une opportunité ou à un interlocuteur.</p><small>Agenda et tâches non connectés</small></article>
+              <article className="activity-card"><span className="activity-label">02 · TRACER</span><h3>Historique d’activité</h3><p>Conserver les appels, rendez-vous, notes et décisions dans une chronologie lisible.</p><small>Aucune activité réelle enregistrée</small></article>
+              <article className="activity-card"><span className="activity-label">03 · APPRENDRE</span><h3>Retour terrain</h3><p>Capitaliser les résultats, objections et signaux utiles pour améliorer les prochaines actions.</p><small>Workflow de clôture à construire</small></article>
+            </div>
+          </section>
+          <section className="section-block" id="knowledge">
+            <div className="section-heading"><div><span className="section-kicker">MÉMOIRE D’ENTREPRISE</span><h2>Connaissance commerciale capitalisée</h2></div><span className="phase-badge">Fondation prévue</span></div>
+            <div className="knowledge-panel">
+              <div><span className="knowledge-mark">◈</span><h3>Une mémoire exploitable et traçable</h3><p>Les informations utiles devront être organisées, datées et reliées à leur contexte : ce qui est connu, ce qui reste incertain et ce qui doit être vérifié.</p></div>
+              <div className="knowledge-status"><strong>Règle de conception</strong><p>Une hypothèse produite par l’IA ne devient pas automatiquement une opportunité commerciale validée. Une décision humaine doit pouvoir être tracée.</p></div>
+            </div>
+          </section>
           <footer className="footer"><span>MajestiOS · Architecture applicative V0.1</span><span>Une base de travail — pas encore un service connecté</span></footer>
         </div>
       </section>
