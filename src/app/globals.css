@@ -517,3 +517,52 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
  .signup-strip { padding:28px 18px; }
 }
 @media(prefers-reduced-motion:reduce) { .result-card:hover,.feature-sections article:hover { transform:none; } }
+
+
+/* Navigation canonique et profondeur fonctionnelle MajestiOS */
+.public-header { gap:clamp(12px,2vw,26px); }
+.public-nav { gap:clamp(9px,1.25vw,19px); }
+.public-nav > a { white-space:nowrap; }
+.nav-dropdown { position:relative; flex:0 0 auto; }
+.nav-dropdown summary { display:flex; align-items:center; gap:6px; list-style:none; cursor:pointer; color:#496171; font-size:11px; font-weight:750; white-space:nowrap; }
+.nav-dropdown summary::-webkit-details-marker { display:none; }
+.nav-dropdown summary span { color:#147d78; font-size:14px; }
+.nav-dropdown[open] summary, .nav-dropdown summary:hover { color:#13736d; }
+.nav-dropdown-menu { position:absolute; z-index:20; top:calc(100% + 14px); left:-16px; display:grid; gap:0; min-width:270px; padding:8px; border:1px solid #dfe8eb; border-radius:12px; background:#fff; box-shadow:0 18px 45px rgb(20 44 66 / 14%); }
+.nav-dropdown-menu a { display:block; padding:11px 12px; border-radius:7px; color:#496171; font-size:11px; line-height:1.5; white-space:normal; }
+.nav-dropdown-menu a:hover { background:#edf6f4; color:#0c625e; }
+.service-hub { padding:clamp(40px,5vw,70px) clamp(22px,8vw,124px); background:#f6f9fa; }
+.service-hub-heading { max-width:760px; margin-bottom:25px; }
+.service-hub-heading h2, .network-section h2 { margin:10px 0; color:#142f43; font:800 clamp(27px,3.5vw,39px)/1.15 Manrope,sans-serif; letter-spacing:-1.1px; }
+.service-hub-heading p, .network-section p { max-width:760px; color:#5c7180; font-size:13px; line-height:1.85; }
+.service-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.service-card { display:flex; flex-direction:column; align-items:flex-start; min-width:0; padding:23px; border:1px solid #e0e8eb; border-radius:13px; background:#fff; transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease; }
+.service-card:hover { transform:translateY(-3px); border-color:#bdd8d5; box-shadow:0 10px 25px rgb(20 44 66 / 5%); }
+.service-card-featured { background:linear-gradient(145deg,#fff,#f0f8f6); }
+.service-index { color:#147d78; font-size:9px; font-weight:900; letter-spacing:1px; }
+.service-card h3 { margin:15px 0 8px; color:#142f43; font:800 17px/1.35 Manrope,sans-serif; }
+.service-card p { margin:0 0 16px; color:#607585; font-size:12px; line-height:1.8; }
+.service-card a { margin-top:auto; color:#126a66; font-size:11px; font-weight:800; line-height:1.6; }
+.service-card a:hover { text-decoration:underline; }
+.service-card small { display:block; margin-top:12px; padding-top:10px; border-top:1px solid #edf1f3; color:#83939d; font-size:9px; line-height:1.6; }
+.network-section { display:flex; align-items:center; justify-content:space-between; gap:28px; padding:clamp(35px,4.5vw,58px) clamp(22px,8vw,124px); border-top:1px solid #e0e8eb; background:#fff; }
+.network-section > div { max-width:800px; }
+.network-cta { flex:0 0 auto; padding:13px 17px; border-radius:8px; background:#176c69; color:#fff; font-size:11px; font-weight:800; }
+.network-cta:hover { background:#105654; }
+.public-footer .footer-links { grid-template-columns:repeat(4,minmax(0,1fr)); }
+@media(max-width:1100px) {
+ .public-header { flex-wrap:wrap; }
+ .public-nav { order:3; width:100%; justify-content:flex-start; }
+ .service-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .nav-dropdown-menu { left:0; }
+}
+@media(max-width:700px) {
+ .public-nav { align-items:flex-start; gap:12px 16px; overflow:visible; }
+ .public-nav > a, .nav-dropdown summary { font-size:10px; }
+ .nav-dropdown-menu { position:static; min-width:0; margin-top:8px; box-shadow:none; }
+ .nav-dropdown[open] { flex-basis:100%; }
+ .service-hub { padding:35px 18px; }
+ .service-grid { grid-template-columns:1fr; }
+ .network-section { align-items:flex-start; flex-direction:column; padding:34px 18px; }
+ .network-cta { white-space:normal; }
+}
