@@ -20,7 +20,7 @@ Ces noms concordent avec les champs sélectionnés dans `src/app/api/opportuniti
 
 Un exemple visible dans l’aperçu de la source affiche une publication au 27 octobre 2026 et une date limite sous forme de date-heure avec fuseau. Le champ peut donc fournir une échéance précise.
 
-La route actuelle utilise `new Date(dat elimitereponse)` (sans espace dans le nom réel du champ : `datelimitereponse`) puis compare l’horodatage à l’heure courante. Cette logique doit être testée avec :
+La route actuelle utilise `new Date(datelimitereponse)` puis compare l’horodatage à l’heure courante. Cette logique doit être testée avec :
 - une date-heure avec fuseau ;
 - une date seule, sans heure ;
 - une valeur absente ou invalide ;
