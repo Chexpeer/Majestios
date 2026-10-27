@@ -1,41 +1,63 @@
-# MajestiOS — vitrine publique et application professionnelle en construction
+# MajestiOS — prototype de veille et d’intelligence commerciale
 
 **Branche de travail :** `architecture-v0-1`  
-**Statut :** prototype d’interface ; le SaaS métier n’est pas encore opérationnel.
+**Statut :** prototype en construction. Le connecteur BOAMP est implémenté dans le code, mais son fonctionnement réel doit encore être confirmé par un test de bout en bout.
 
-## 1. État du dépôt
+## 1. Périmètre actuel
 
-Le dépôt contient actuellement deux ensembles de fichiers :
+L’application Next.js se trouve sous `src/app`. Des fichiers historiques de site statique coexistent à la racine, notamment `index.html`, `app.js`, `build.js` et `styles.css`.
 
-- **Application Next.js** sous `src/app`, en TypeScript/React.
-- **Fichiers du site statique historique** à la racine, notamment `index.html`, `app.js`, `build.js` et `styles.css`.
+Ne pas supprimer ou déplacer ces fichiers avant d’avoir confirmé quels projets ou scripts les utilisent.
 
-La coexistence de ces deux ensembles ne signifie pas qu’ils sont tous deux utilisés par le même déploiement. Ne supprimer ni déplacer les fichiers historiques avant d’avoir confirmé leur usage et la stratégie de déploiement de chaque projet Vercel.
+La page d’accueil propose :
+- une recherche d’appels d’offres publics ;
+- un bandeau illustratif d’opportunités privées ;
+- des cartes illustratives de missions et de collaborations ;
+- une demande d’accès/démonstration qui reste à vérifier côté enregistrement et traitement.
 
-## 2. Fonctions présentes et limites connues
+## 2. Connecteur BOAMP : état et limites
 
-La page d’accueil Next.js présente une recherche d’exemples d’appels d’offres, un bandeau d’opportunités privées et un formulaire de demande de démonstration.
+La route `GET /api/opportunities` interroge le jeu de données BOAMP exposé par OpenDataSoft et transforme les enregistrements en résultats affichables.
 
-- Les résultats visibles sont des **données d’exemple** ; aucune source d’opportunités n’est encore raccordée.
-- Les filtres agissent sur les exemples de l’interface, pas sur une base de données ou sur des sources externes.
-- Le formulaire de demande est une démonstration : il ne prouve ni envoi ni enregistrement de la demande.
-- Aucun parcours complet de compte client, CRM persistant, connecteur métier ou facturation n’est attesté par ces écrans.
-- La route `/api/health` est un contrôle de prototype ; elle indique `databaseConnected: false`.
+Paramètres pris en charge :
+- `q` : recherche textuelle ;
+- `location` : actuellement, le filtrage géographique ne fonctionne que si la valeur contient un code de département numérique ;
+- `type` : `all`, `Travaux`, `Services` ou `Fournitures`.
 
-Ne présenter aucune de ces fonctions comme opérationnelle tant qu’un test fonctionnel de bout en bout ne l’a pas démontré.
+Le code gère les erreurs de la source externe et ne remplace pas silencieusement une erreur par des résultats fictifs.
 
-## 3. Développement local
+**À vérifier avant de considérer la fonction comme opérationnelle :**
+1. que l’API BOAMP accepte les champs, le tri et les filtres utilisés ;
+2. que les noms de champs retournés correspondent au schéma réel du jeu de données ;
+3. que les URLs officielles des avis ouvrent bien les avis concernés ;
+4. que le statut et la date limite permettent de qualifier correctement les avis encore ouverts ;
+5. que la recherche, les filtres et les erreurs ont été testés sur le déploiement cible.
 
-Prérequis : Node.js 20 ou version compatible avec les dépendances.
+La présence du connecteur dans le code ne constitue pas, à elle seule, une preuve de fonctionnement en production.
+
+## 3. Fonctions non encore attestées
+
+À ce stade, ne pas présenter comme opérationnels :
+- les opportunités privées réelles : le bandeau contient des exemples de présentation ;
+- l’espace de candidature ou de recrutement ;
+- l’enregistrement durable des demandes d’accès ;
+- l’authentification et les comptes clients ;
+- un CRM persistant, une base métier connectée ou la facturation.
+
+La route `/api/health` est un contrôle technique de prototype ; elle ne prouve pas que les fonctions métier sont prêtes.
+
+## 4. Développement et contrôles
+
+Prérequis : version de Node.js compatible avec les dépendances du projet.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Ouvrir ensuite `http://localhost:3000`.
+Puis ouvrir `http://localhost:3000`.
 
-Commandes de contrôle :
+Contrôles disponibles :
 
 ```bash
 npm run lint
@@ -43,41 +65,38 @@ npm run build
 npm run start
 ```
 
-Le workflow GitHub Actions exécute ESLint et `next build`. Le dernier contrôle inspecté pour cette branche a réussi, mais cela ne remplace pas des tests fonctionnels, de sécurité ou de connexion aux données.
+Le workflow GitHub Actions exécute ESLint et `next build`. Un contrôle réussi vérifie la qualité statique et la compilation, mais ne remplace pas les tests fonctionnels du connecteur BOAMP ni les tests de sécurité.
 
-**Point à corriger :** aucun fichier de verrouillage npm (`package-lock.json`) n’est présent dans la branche inspectée. L’installation n’est donc pas figée et le workflow utilise `npm install`, pas `npm ci`. Ne pas annoncer la chaîne de dépendances comme reproductible avant d’avoir ajouté un verrouillage cohérent et vérifié les builds.
+**Dépendances :** aucun `package-lock.json` n’a été constaté dans la branche lors de la dernière inspection. L’installation n’est donc pas encore verrouillée de façon reproductible. Ajouter et valider le fichier de verrouillage avant de passer à `npm ci`.
 
-## 4. Déploiement Vercel — décision encore ouverte
+## 5. Architecture et spécifications métier
 
-Le fichier `vercel.json` actuel déclare `"framework": "nextjs"`. Un aperçu Vercel lié à la branche `architecture-v0-1` a été indiqué comme prêt et sa page d’accueil a répondu en HTTP 200 lors du contrôle. Cela ne valide pas tous les projets Vercel liés au dépôt, ni la production, ni les fonctions métier.
+Les fichiers sous `docs/architecture` sont des documents de travail ; ils ne remplacent pas les tomes de référence du cahier des charges.
 
-Plusieurs projets Vercel existent dans l’espace du compte et certains déploiements récents sont en erreur. Il faut identifier quel projet correspond à la vitrine publique et lequel doit héberger l’application avant toute modification de configuration.
+Avant de figer le modèle métier, retrouver et confronter les documents faisant autorité, notamment pour les objets Entreprise, Interlocuteur, Décideur, Activité et Mémoire d’entreprise. La vitrine et le connecteur BOAMP ne constituent qu’un premier sous-ensemble de MajestiOS.
 
-**Garde-fou :** ne pas modifier les domaines, les projets Vercel historiques ou la production sans stratégie explicitement validée et plan de retour arrière.
+Ne pas créer de migration de base de données ni présenter une architecture comme validée tant que les exigences correspondantes n’ont pas été vérifiées.
 
-## 5. Documentation et autorité des spécifications
+## 6. Vercel et environnements
 
-Les fichiers sous `docs/architecture` sont des documents de travail. Ils ne remplacent pas les tomes de référence et ne permettent pas, seuls, d’arbitrer le modèle métier.
+Plusieurs projets Vercel ont été créés au fil des essais. Un déploiement indiqué comme `Ready` ne prouve ni que tous les projets utilisent la bonne configuration, ni que les fonctions métier sont validées.
 
-- `ARCHITECTURE_CIBLE_V0.1.md` — proposition d’architecture.
-- `BACK_OFFICE_CRM_ADMIN_V0.1.md` — cadrage du back-office, du CRM et des intégrations.
-- `FEUILLE_DE_ROUTE_MVP_V0.1.md` — jalons proposés.
-- `MATRICE_CORRESPONDANCE_MODELE_V0.1.md` — correspondance préliminaire.
-- `REGISTRE_ECARTS_ET_DECISIONS_V0.1.md` — écarts et décisions ouvertes.
-- `docs/veille-appels-offres.md` — cadrage documentaire des sources à étudier, pas preuve de raccordement technique.
+Avant tout changement, identifier précisément :
+- le projet d’aperçu ;
+- le projet de production ;
+- les domaines affectés à chacun ;
+- la commande de build et le répertoire de sortie.
 
-Les tomes de référence n’ont pas été identifiés dans l’arborescence inspectée de cette branche. Avant de créer des migrations ou de figer les objets métier, retrouver et confronter les versions faisant autorité.
+**Garde-fou :** ne pas modifier les projets, domaines, déploiements, variables ou paramètres de production sans vérification préalable et autorisation explicite.
 
-## 6. Ordre de travail et sécurité
+## 7. Ordre de travail recommandé
 
-1. Confirmer les tomes de référence et les parcours MVP.
-2. Identifier le projet Vercel d’aperçu et celui de production, sans les modifier.
-3. Ajouter un fichier de verrouillage des dépendances et examiner l’audit de sécurité.
-4. Valider le modèle métier et sa correspondance avec les exigences.
-5. Confirmer l’environnement Supabase DEV et son identité avant toute action sur la base.
-6. Concevoir puis tester les règles d’accès, notamment les refus d’accès inter-tenant.
-7. Ne créer aucune migration définitive et ne déployer aucune modification de production avant validation explicite.
+1. Vérifier le connecteur BOAMP sur une réponse réelle et documenter les résultats.
+2. Ajouter un verrouillage des dépendances et confirmer que le build reste reproductible.
+3. Retrouver les tomes de référence et valider les parcours du MVP professionnel.
+4. Faire correspondre les exigences aux écrans, routes et données existants.
+5. Confirmer l’identité d’un environnement Supabase DEV avant toute action sur une base.
+6. Concevoir et tester les permissions, notamment l’isolation entre organisations.
+7. Ajouter progressivement les fonctions métier après validation du modèle, sans prétendre qu’une maquette est une fonctionnalité livrée.
 
-Principes permanents : pas de secret dans le navigateur ou le dépôt ; distinguer les faits, les exemples et les inférences IA ; privilégier les intégrations officiellement autorisées ; auditer les actions d’administration.
-
----
+Principes permanents : aucun secret dans le dépôt ou le navigateur ; distinction explicite entre données officielles, exemples et inférences IA ; respect des droits d’utilisation des sources ; traçabilité des actions d’administration.
