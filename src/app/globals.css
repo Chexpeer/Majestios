@@ -566,3 +566,9 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
  .network-section { align-items:flex-start; flex-direction:column; padding:34px 18px; }
  .network-cta { white-space:normal; }
 }
+
+/* FAQ : lecture claire et liens d’aide accessibles */
+.faq-item { padding:18px 0; border-bottom:1px solid #dce6e5; }
+.faq-item h3 { margin:0 0 8px; font-size:18px; line-height:1.4; color:#183b3a; }
+.faq-item p { max-width:850px; margin:0; line-height:1.75; color:#465b5a; }
+#decouvrir, #appels-offres, #prospection, #etudes-de-marche, #accompagnement-appels-offres, #reseaux, #compte { scroll-margin-top:24px; }
