@@ -179,7 +179,7 @@ export default function HomePage() {
         <Link className="footer-brand" href="/">MajestiOS</Link>
         <div className="footer-links">
           <div><strong>Découvrir</strong><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/#recherche">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link></div>
-          <div><strong>Nos expertises</strong><a href="#intelligence">Intelligence commerciale</a><a href="#etudes">Études de marché</a><a href="#ereputation">E-réputation</a></div>
+          <div><strong>Nos expertises</strong><Link href="/#intelligence">Intelligence commerciale</Link><Link href="/#etudes">Études de marché</Link><Link href="/#ereputation">E-réputation</Link></div>
           <div><strong>Rejoindre</strong><Link href="/nous-rejoindre">Les deux missions de recrutement</Link></div>
           <div><strong>Informations</strong><Link href="/mentions-legales">Mentions légales</Link></div>
         </div>
