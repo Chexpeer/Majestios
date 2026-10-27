@@ -1,5 +1,6 @@
 "use client";
 import PublicHeader from "@/components/public-header";
+import Link from "next/link";
 
 import { FormEvent, useState } from "react";
 
