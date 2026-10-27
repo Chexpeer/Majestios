@@ -309,3 +309,14 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
 @media (prefers-reduced-motion:reduce) { .ticker-track { animation:none; } *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; } }
 @media (max-width:1050px) { .hero-aside { display:none; }.tender-search { grid-template-columns:1fr 1fr; gap:7px; }.search-field { min-height:65px; border:1px solid #e6ecef; border-radius:7px; }.search-submit { min-height:48px; }.how-section { grid-template-columns:1fr; gap:20px; } }
 @media (max-width:700px) { .public-header { flex-wrap:wrap; gap:13px; padding:14px 18px; }.public-brand { margin-right:auto; }.public-nav { order:3; justify-content:flex-start; width:100%; gap:17px; }.public-nav a { font-size:10px; }.header-login { padding:9px 10px; font-size:10px; }.public-hero { padding:42px 18px 36px; }.public-hero h1 { font-size:38px; letter-spacing:-1.4px; }.public-intro { font-size:12px; }.tender-search { grid-template-columns:1fr; padding:7px; }.search-field { min-height:58px; }.private-section,.results-section { padding:33px 18px; }.private-heading,.results-heading { align-items:flex-start; }.private-live { font-size:8px; }.result-card { align-items:flex-start; flex-wrap:wrap; padding:14px; gap:12px; }.result-main { width:calc(100% - 58px); flex:auto; }.result-action { margin-left:55px; }.how-section { padding:37px 18px; }.how-flow { gap:6px; padding:14px; }.how-flow strong { font-size:10px; }.how-flow small { font-size:8px; }.signup-strip { align-items:flex-start; flex-direction:column; padding:27px 18px; }.public-footer { align-items:flex-start; flex-direction:column; gap:8px; padding:20px 18px; }.private-modal { padding:25px 20px; }.modal-summary { align-items:flex-start; flex-direction:column; gap:6px; } }
+
+/* Formulaires : lisibilité, saisie et remise à zéro */
+.search-reset { min-height:42px; padding:0 12px; border:1px solid #d6e0e5; border-radius:8px; background:#fff; color:#526b79; cursor:pointer; font-size:11px; font-weight:700; }
+.search-reset:hover { border-color:#8bbab5; color:var(--public-teal); }
+.search-field input:focus,.search-field select:focus { outline:2px solid #d6eeeb; outline-offset:4px; border-radius:3px; }
+.access-form input:invalid:not(:placeholder-shown) { border-color:#c86e62; }
+.access-form textarea { width:100%; min-height:86px; padding:10px 12px; border:1px solid #d6e0e5; border-radius:7px; background:#fff; color:#233d4e; font:400 12px/1.6 inherit; resize:vertical; }
+.access-form textarea:focus { border-color:#6eaaa5; outline:2px solid #d6eeeb; }
+.access-form input:not([type=checkbox]):focus-visible,.access-form textarea:focus-visible,.search-reset:focus-visible,.search-submit:focus-visible,.private-teaser:focus-visible,.modal-close:focus-visible { outline:2px solid #0d7770; outline-offset:3px; }
+@media (max-width:1050px) { .search-reset { grid-column:1 / -1; } }
+@media (max-width:700px) { .search-reset { width:100%; } }
