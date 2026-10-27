@@ -95,12 +95,12 @@ export default function HomePage() {
           <p className="public-intro">Recherchez des appels d’offres publics et découvrez des opportunités privées adaptées à votre activité, votre métier et votre zone géographique.</p>
           <form className="tender-search" onSubmit={(event) => { event.preventDefault(); document.getElementById("resultats")?.scrollIntoView({ behavior: "smooth" }); }}>
             <label className="search-field search-keyword" htmlFor="search-keyword"><span>Que recherchez-vous ?</span><input id="search-keyword" name="keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Ex. : nettoyage, travaux, informatique…" autoComplete="off" /></label>
-            <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Ville, département, région…" autoComplete="off" /></label>
+            <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Code département (ex. : 68)" autoComplete="off" /></label>
             <label className="search-field search-type" htmlFor="search-type"><span>Type d’appel d’offres</span><select id="search-type" name="type" value={type} onChange={(event) => setType(event.target.value)}><option value="all">Tous les types</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>
             <button className="search-submit" type="submit"><span aria-hidden="true">⌕</span> Rechercher</button>
             {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); }} aria-label="Effacer tous les filtres">Effacer</button>}
           </form>
-          <p className="search-note">Recherche publique · Sources et dates à vérifier sur chaque annonce</p>
+          <p className="search-note">Recherche publique BOAMP · Filtre géographique par code département · Vérifiez chaque avis sur la source officielle</p>
         </div>
         <div className="hero-aside" aria-label="Les étapes MajestiOS">
           <div className="aside-orbit"><span className="orbit-dot dot-a" /><span className="orbit-dot dot-b" /><span className="orbit-dot dot-c" /><div className="orbit-center">M</div></div>
