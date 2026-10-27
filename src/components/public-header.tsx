@@ -25,6 +25,7 @@ export default function PublicHeader() {
           </div>
         </details>
         <Link href="/reseaux">Réseaux</Link>
+        <Link href="/faq">FAQ</Link>
         <Link href="/nous-rejoindre">Nous rejoindre</Link>
       </nav>
       <Link className="header-login" href="/espace-professionnel">Espace professionnel</Link>
