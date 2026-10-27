@@ -112,3 +112,10 @@ La lecture des six projets associés au dépôt `Chexpeer/Majestios` dans l'équ
 
 **À retenir :** les noms et les domaines ne suffisent pas à attribuer avec certitude la vitrine et l'application. Avant toute action, confirmer le domaine que l'utilisateur veut conserver, vérifier les paramètres de build et les journaux des déploiements en erreur, puis choisir un seul projet de préproduction. Aucun projet, domaine ou paramètre n'a été modifié pendant cet audit.
 
+
+
+## 10. Veille des dépendances
+
+Le fichier `.github/dependabot.yml` a été ajouté sur la branche `architecture-v0-1` au commit `72eccb75c4b9968978bc81477967936cc2957bfb`. Il configure une vérification hebdomadaire des dépendances npm et GitHub Actions, avec des propositions de mise à jour sous forme de pull requests. Cela n'installe pas automatiquement les mises à jour et ne remplace pas l'audit de sécurité ni les contrôles CI.
+
+Le dépôt ne comporte toujours pas de fichier de verrouillage npm dans l'arborescence vérifiée. La prochaine étape technique reste de produire un `package-lock.json` cohérent avec `package.json`, puis de valider l'installation reproductible et l'audit avant de remplacer `npm install` par `npm ci` dans le workflow principal. Cette étape doit se faire sur la branche de travail et être vérifiée par CI.
