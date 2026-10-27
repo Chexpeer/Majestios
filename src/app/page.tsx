@@ -32,6 +32,7 @@ export default function HomePage() {
   const [publicExamples, setPublicExamples] = useState<Opportunity[]>([]);
   const [loadingExamples, setLoadingExamples] = useState(true);
   const [examplesError, setExamplesError] = useState("");
+  const [retryCount, setRetryCount] = useState(0);
   const [location, setLocation] = useState("");
   const [type, setType] = useState("all");
   const [selectedPrivate, setSelectedPrivate] = useState<Opportunity | null>(null);
@@ -63,7 +64,7 @@ export default function HomePage() {
 
     void loadExamples();
     return () => controller.abort();
-  }, [keyword, location, type]);
+  }, [keyword, location, type, retryCount]);
 
   const filteredExamples = publicExamples;
 
@@ -155,13 +156,13 @@ export default function HomePage() {
       </section>
 
       <section className="results-section" id="resultats">
-        <div className="results-heading"><div><span className="section-label">EXPLORER LES CONSULTATIONS</span><h2>Appels d’offres publics</h2><p>Affinez votre recherche et consultez les informations de chaque source.</p></div><span className="results-count">{loadingExamples ? "Chargement…" : `${filteredExamples.length} résultats BOAMP`}</span></div>
+        <div className="results-heading"><div><span className="section-label">EXPLORER LES CONSULTATIONS</span><h2>Appels d’offres publics</h2><p>Affinez votre recherche et consultez les informations de chaque source.</p></div><span className="results-count">{loadingExamples ? "Recherche en cours…" : examplesError ? "Source indisponible" : `${filteredExamples.length} résultat${filteredExamples.length > 1 ? "s" : ""} BOAMP`}</span></div>
         <div className="results-list">
-          {loadingExamples ? <div className="empty-results" role="status">Chargement des avis BOAMP…</div> : examplesError ? <div className="empty-results" role="alert">{examplesError}</div> : filteredExamples.length ? filteredExamples.map((item) => (
+          {loadingExamples ? <div className="empty-results" role="status">Chargement des avis BOAMP…</div> : examplesError ? <div className="empty-results" role="alert"><p>{examplesError}</p><button className="search-submit" type="button" onClick={() => setRetryCount((count) => count + 1)}>Réessayer</button></div> : filteredExamples.length ? filteredExamples.map((item) => (
             <article className="result-card" key={item.id}>
               <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category">{item.type} <i>·</i> BOAMP / DILA</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.buyer ? `Acheteur : ${item.buyer} · ` : ""}Publication : {item.publishedAt ?? "date non renseignée"} · {item.deadline}</small><small>Statut source : {item.officialStatus ?? "à vérifier"}{item.isOpen ? " · Échéance future détectée" : " · Ouverture à vérifier"}</small></div><a className="result-action" href={item.sourceUrl ?? "https://www.boamp.fr/"} target="_blank" rel="noreferrer">Voir l’annonce officielle ↗</a>
             </article>
-          )) : <div className="empty-results">Aucun exemple ne correspond à ces filtres. Essayez d’élargir votre recherche.</div>}
+          )) : <div className="empty-results" role="status">Aucun avis BOAMP ne correspond aux filtres actuels. Essayez un autre mot-clé ou élargissez la recherche.</div>}
         </div>
         <p className="data-warning" id="sources"><strong>Source officielle : BOAMP / DILA.</strong> MajestiOS affiche les données retournées par l’API publique. Vérifiez toujours l’annonce officielle, notamment son statut et sa date limite. La recherche actuelle ne couvre pas toutes les sources de marchés publics.</p>
       </section>
