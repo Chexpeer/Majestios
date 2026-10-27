@@ -1,38 +1,41 @@
 # MajestiOS — vitrine publique et application professionnelle en construction
 
 **Branche de travail :** `architecture-v0-1`  
-**Statut :** prototype public statique + application Next.js en développement. Le SaaS n'est pas encore opérationnel.
+**Statut :** prototype d’interface ; le SaaS métier n’est pas encore opérationnel.
 
-## 1. Deux composants coexistent dans ce dépôt
+## 1. État du dépôt
 
-### Site public statique historique
-Fichiers principaux à la racine : `index.html`, `app.js`, `build.js` et ressources associées.
+Le dépôt contient actuellement deux ensembles de fichiers :
 
-- Présente la proposition de valeur MajestiOS.
-- Utilise des exemples fictifs pour le fil d'opportunités et la démonstration.
-- Le formulaire est une prévisualisation : aucune demande n'est envoyée ni enregistrée.
-- Aucun backend métier, compte client, connecteur, service de facturation ou stockage de demandes n'est implémenté dans ce prototype.
+- **Application Next.js** sous `src/app`, en TypeScript/React.
+- **Fichiers du site statique historique** à la racine, notamment `index.html`, `app.js`, `build.js` et `styles.css`.
 
-### Application professionnelle Next.js
-Application en construction sous `src/app`, avec TypeScript et React.
+La coexistence de ces deux ensembles ne signifie pas qu’ils sont tous deux utilisés par le même déploiement. Ne supprimer ni déplacer les fichiers historiques avant d’avoir confirmé leur usage et la stratégie de déploiement de chaque projet Vercel.
 
-- Les contrôles automatisés exécutent ESLint et `next build`.
-- Les écrans actuels ne prouvent pas à eux seuls qu'une fonction métier est reliée à une base ou opérationnelle.
-- La route `/api/health` est un indicateur de prototype ; elle renvoie explicitement `databaseConnected: false`.
-- L'architecture cible et le modèle restent à valider avec les tomes de référence avant la création des migrations SQL.
+## 2. Fonctions présentes et limites connues
 
-## 2. Démarrer l'application Next.js localement
+La page d’accueil Next.js présente une recherche d’exemples d’appels d’offres, un bandeau d’opportunités privées et un formulaire de demande de démonstration.
 
-Prérequis : Node.js 20 ou version compatible avec les dépendances du projet.
+- Les résultats visibles sont des **données d’exemple** ; aucune source d’opportunités n’est encore raccordée.
+- Les filtres agissent sur les exemples de l’interface, pas sur une base de données ou sur des sources externes.
+- Le formulaire de demande est une démonstration : il ne prouve ni envoi ni enregistrement de la demande.
+- Aucun parcours complet de compte client, CRM persistant, connecteur métier ou facturation n’est attesté par ces écrans.
+- La route `/api/health` est un contrôle de prototype ; elle indique `databaseConnected: false`.
+
+Ne présenter aucune de ces fonctions comme opérationnelle tant qu’un test fonctionnel de bout en bout ne l’a pas démontré.
+
+## 3. Développement local
+
+Prérequis : Node.js 20 ou version compatible avec les dépendances.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Puis ouvrir `http://localhost:3000`.
+Ouvrir ensuite `http://localhost:3000`.
 
-Commandes disponibles :
+Commandes de contrôle :
 
 ```bash
 npm run lint
@@ -40,34 +43,41 @@ npm run build
 npm run start
 ```
 
-Le fichier de verrouillage npm n'est pas encore versionné dans cette branche ; l'installation n'est donc pas encore figée à l'aide de `npm ci`. L'audit de dépendances doit être exécuté et ses résultats examinés avant de considérer la chaîne d'approvisionnement logicielle comme validée.
+Le workflow GitHub Actions exécute ESLint et `next build`. Le dernier contrôle inspecté pour cette branche a réussi, mais cela ne remplace pas des tests fonctionnels, de sécurité ou de connexion aux données.
 
-## 3. Déploiement : décision en attente
+**Point à corriger :** aucun fichier de verrouillage npm (`package-lock.json`) n’est présent dans la branche inspectée. L’installation n’est donc pas figée et le workflow utilise `npm install`, pas `npm ci`. Ne pas annoncer la chaîne de dépendances comme reproductible avant d’avoir ajouté un verrouillage cohérent et vérifié les builds.
 
-Le fichier `vercel.json` configure actuellement le build historique avec `node build.js` et le répertoire publié `dist`. Il ne correspond pas encore au build Next.js défini dans `package.json`.
+## 4. Déploiement Vercel — décision encore ouverte
 
-Ne pas modifier la configuration de production avant d'avoir choisi et testé une stratégie :
-1. conserver la vitrine dans son projet de déploiement actuel et créer un projet distinct pour l'application ; ou
-2. effectuer une migration planifiée, testée et réversible.
+Le fichier `vercel.json` actuel déclare `"framework": "nextjs"`. Un aperçu Vercel lié à la branche `architecture-v0-1` a été indiqué comme prêt et sa page d’accueil a répondu en HTTP 200 lors du contrôle. Cela ne valide pas tous les projets Vercel liés au dépôt, ni la production, ni les fonctions métier.
 
-Aucune des deux stratégies n'est déclarée validée par ce README. Les contrôles CI de Next.js ne prouvent pas que Vercel publie l'application Next.js.
+Plusieurs projets Vercel existent dans l’espace du compte et certains déploiements récents sont en erreur. Il faut identifier quel projet correspond à la vitrine publique et lequel doit héberger l’application avant toute modification de configuration.
 
-## 4. Documentation de travail
+**Garde-fou :** ne pas modifier les domaines, les projets Vercel historiques ou la production sans stratégie explicitement validée et plan de retour arrière.
 
-Les documents d'architecture sous `docs/architecture` sont des brouillons de travail. Ils ne remplacent pas les tomes ni leurs arbitrages. Les fichiers suivants recensent les premiers constats :
+## 5. Documentation et autorité des spécifications
 
-- `ARCHITECTURE_CIBLE_V0.1.md` — architecture cible proposée, non validée.
-- `FEUILLE_DE_ROUTE_MVP_V0.1.md` — phases et jalons de travail.
+Les fichiers sous `docs/architecture` sont des documents de travail. Ils ne remplacent pas les tomes de référence et ne permettent pas, seuls, d’arbitrer le modèle métier.
+
+- `ARCHITECTURE_CIBLE_V0.1.md` — proposition d’architecture.
+- `BACK_OFFICE_CRM_ADMIN_V0.1.md` — cadrage du back-office, du CRM et des intégrations.
+- `FEUILLE_DE_ROUTE_MVP_V0.1.md` — jalons proposés.
+- `MATRICE_CORRESPONDANCE_MODELE_V0.1.md` — correspondance préliminaire.
 - `REGISTRE_ECARTS_ET_DECISIONS_V0.1.md` — écarts et décisions ouvertes.
-- `MATRICE_CORRESPONDANCE_MODELE_V0.1.md` — correspondance préliminaire entre le modèle métier et l'architecture.
+- `docs/veille-appels-offres.md` — cadrage documentaire des sources à étudier, pas preuve de raccordement technique.
 
-## 5. Garde-fous de développement
+Les tomes de référence n’ont pas été identifiés dans l’arborescence inspectée de cette branche. Avant de créer des migrations ou de figer les objets métier, retrouver et confronter les versions faisant autorité.
 
-- Ne pas confondre le prototype d'interface avec un SaaS fonctionnel.
-- Ne pas créer de migrations définitives avant validation du modèle de données et des règles d'accès.
-- Lorsqu'un projet Supabase DEV sera approuvé, vérifier l'identité, le tenant, les permissions et le contexte métier côté serveur et en base.
-- Ne jamais exposer de secrets dans le navigateur, dans les journaux ou dans le dépôt.
-- Tester les refus d'accès inter-tenant, pas seulement les parcours autorisés.
-- Ne pas déployer en production sans stratégie validée et approbation explicite.
+## 6. Ordre de travail et sécurité
+
+1. Confirmer les tomes de référence et les parcours MVP.
+2. Identifier le projet Vercel d’aperçu et celui de production, sans les modifier.
+3. Ajouter un fichier de verrouillage des dépendances et examiner l’audit de sécurité.
+4. Valider le modèle métier et sa correspondance avec les exigences.
+5. Confirmer l’environnement Supabase DEV et son identité avant toute action sur la base.
+6. Concevoir puis tester les règles d’accès, notamment les refus d’accès inter-tenant.
+7. Ne créer aucune migration définitive et ne déployer aucune modification de production avant validation explicite.
+
+Principes permanents : pas de secret dans le navigateur ou le dépôt ; distinguer les faits, les exemples et les inférences IA ; privilégier les intégrations officiellement autorisées ; auditer les actions d’administration.
 
 ---
