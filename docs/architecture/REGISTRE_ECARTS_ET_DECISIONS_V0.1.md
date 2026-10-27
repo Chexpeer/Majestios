@@ -95,3 +95,20 @@ Décisions toujours ouvertes :
 - services Google réellement requis pour le MVP ;
 - correspondance du CRM avec les objets canoniques du Tome 5 (Tenant, User, Membership, Organization, Contact, OpportunityCase, CaseActor, Mission).
 
+
+
+## 9. Cartographie Vercel — relevé du 27 octobre 2026
+
+La lecture des six projets associés au dépôt `Chexpeer/Majestios` dans l'équipe Vercel `Majestic` donne le relevé suivant. Les projets indiqués avec `live: false` ne sont pas identifiés comme projets actuellement « live » par cette réponse API ; cela ne suffit pas, à lui seul, à déterminer quel domaine l'utilisateur considère comme production.
+
+| Projet | Framework détecté | Dernier déploiement consulté | État | Domaines déclarés | Conclusion prudente |
+|---|---|---|---|---|---|
+| `majestios-7vbs` | Next.js | `dpl_A82yE34H1dnxWbgEQgcir9QaeL83` | READY | `majestios-7vbs.vercel.app`, `majestios-7vbs-majistr.vercel.app`, alias de branche main | Candidat technique Next.js ; rôle métier à confirmer |
+| `majestios-jc8g` | Non défini dans les métadonnées projet | `dpl_5ctrWUHXb5wjmPEEkrYnmEihKec3` | READY | `majestios-jc8g.vercel.app`, `majestios-jc8g-majistr.vercel.app`, alias de branche main | Aperçu consulté, page HTTP 200 ; framework projet à clarifier |
+| `majestios-gvuv` | Non défini | `dpl_7BybfNw9h8Fup9pMjtj7xcrjy2Nt` | ERROR | domaine projet et alias architecture-v0-1 | Échec à diagnostiquer avant réutilisation |
+| `majestiosabc` | Non défini | `dpl_Da1eb2qDc9irL2bSnYZ3R3Xi3FAK` | ERROR | domaine projet et alias architecture-v0-1 | Échec à diagnostiquer avant réutilisation |
+| `majestios-3xsq` | Non défini | `dpl_AHnWrYLynrG5Tf5rbkDgcWCS8Ehh` | ERROR | domaine projet et alias architecture-v0-1 | Échec à diagnostiquer avant réutilisation |
+| `majestios` | Non défini | `dpl_FcJinpiAecPEpmfD8ncLe9dDbcap` | ERROR | `majestios.vercel.app` | Domaine connu, état de déploiement à diagnostiquer ; ne pas modifier |
+
+**À retenir :** les noms et les domaines ne suffisent pas à attribuer avec certitude la vitrine et l'application. Avant toute action, confirmer le domaine que l'utilisateur veut conserver, vérifier les paramètres de build et les journaux des déploiements en erreur, puis choisir un seul projet de préproduction. Aucun projet, domaine ou paramètre n'a été modifié pendant cet audit.
+
