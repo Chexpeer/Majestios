@@ -5,13 +5,19 @@ import type { FormEvent } from "react";
 import Link from "next/link";
 
 type Opportunity = {
-  id: number;
+  id: number | string;
   type: string;
   location: string;
   source: "public" | "private";
   title: string;
   deadline?: string;
   isDemo?: boolean;
+  sourceName?: string;
+  sourceUrl?: string;
+  buyer?: string;
+  publishedAt?: string;
+  officialStatus?: string;
+  isOpen?: boolean;
 };
 
 const privateTeasers: Opportunity[] = [
@@ -25,7 +31,7 @@ export default function HomePage() {
   const [keyword, setKeyword] = useState("");
   const [publicExamples, setPublicExamples] = useState<Opportunity[]>([]);
   const [loadingExamples, setLoadingExamples] = useState(true);
-  const [examplesError, setExamplesError] = useState(false);
+  const [examplesError, setExamplesError] = useState("");
   const [location, setLocation] = useState("");
   const [type, setType] = useState("all");
   const [selectedPrivate, setSelectedPrivate] = useState<Opportunity | null>(null);
@@ -37,18 +43,18 @@ export default function HomePage() {
 
     async function loadExamples() {
       setLoadingExamples(true);
-      setExamplesError(false);
+      setExamplesError("");
       try {
         const response = await fetch(`/api/opportunities?${params.toString()}`, {
           signal: controller.signal,
           cache: "no-store",
         });
-        if (!response.ok) throw new Error("Impossible de charger les exemples.");
-        const payload: { items: Opportunity[] } = await response.json();
-        setPublicExamples(payload.items);
+        const payload: { items?: Opportunity[]; error?: string } = await response.json();
+        if (!response.ok) throw new Error(payload.error || "La source officielle est indisponible.");
+        setPublicExamples(payload.items ?? []);
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") return;
-        setExamplesError(true);
+        setExamplesError(error instanceof Error ? error.message : "Erreur de chargement de la source officielle.");
         setPublicExamples([]);
       } finally {
         if (!controller.signal.aborted) setLoadingExamples(false);
@@ -149,15 +155,15 @@ export default function HomePage() {
       </section>
 
       <section className="results-section" id="resultats">
-        <div className="results-heading"><div><span className="section-label">EXPLORER LES CONSULTATIONS</span><h2>Appels d’offres publics</h2><p>Affinez votre recherche et consultez les informations de chaque source.</p></div><span className="results-count">{loadingExamples ? "Chargement…" : `${filteredExamples.length} exemples`}</span></div>
+        <div className="results-heading"><div><span className="section-label">EXPLORER LES CONSULTATIONS</span><h2>Appels d’offres publics</h2><p>Affinez votre recherche et consultez les informations de chaque source.</p></div><span className="results-count">{loadingExamples ? "Chargement…" : `${filteredExamples.length} résultats BOAMP`}</span></div>
         <div className="results-list">
           {filteredExamples.length ? filteredExamples.map((item) => (
             <article className="result-card" key={item.id}>
-              <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category">{item.type} <i>·</i> PUBLIC</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.deadline}</small></div><span className="result-action result-action-disabled" aria-label="Source officielle non disponible pour cet exemple">Source officielle à raccorder</span>
+              <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category">{item.type} <i>·</i> BOAMP / DILA</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.buyer ? `Acheteur : ${item.buyer} · ` : ""}Publication : {item.publishedAt ?? "date non renseignée"} · {item.deadline}</small><small>Statut source : {item.officialStatus ?? "à vérifier"}{item.isOpen ? " · Échéance future détectée" : " · Ouverture à vérifier"}</small></div><a className="result-action" href={item.sourceUrl ?? "https://www.boamp.fr/"} target="_blank" rel="noreferrer">Voir l’annonce officielle ↗</a>
             </article>
           )) : <div className="empty-results">Aucun exemple ne correspond à ces filtres. Essayez d’élargir votre recherche.</div>}
         </div>
-        <p className="data-warning" id="sources"><strong>Prototype en cours de raccordement.</strong> Ces lignes sont des exemples d’interface, pas des appels d’offres réels. Les résultats vérifiés apparaîtront lorsque les sources de données seront intégrées.</p>
+        <p className="data-warning" id="sources"><strong>Source officielle : BOAMP / DILA.</strong> MajestiOS affiche les données retournées par l’API publique. Vérifiez toujours l’annonce officielle, notamment son statut et sa date limite. La recherche actuelle ne couvre pas toutes les sources de marchés publics.</p>
       </section>
 
       <section className="how-section" id="fonctionnement">
