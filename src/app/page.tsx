@@ -81,10 +81,12 @@ export default function HomePage() {
           <span><strong>MajestiOS</strong><small>LES OPPORTUNITÉS PROFESSIONNELLES</small></span>
         </Link>
         <nav className="public-nav" aria-label="Navigation principale">
-          <a href="#recherche">Appels d’offres</a>
-          <a href="#prive">Opportunités privées</a>
-          <a href="#nous-rejoindre">Nous rejoindre</a>
-          <a href="#fonctionnement">Comment ça marche</a>
+          <a href="#recherche">Appels d’offres publics</a>
+          <Link href="/appels-offres-prives">Appels d’offres privés</Link>
+          <a href="#intelligence">Intelligence commerciale</a>
+          <a href="#etudes">Études de marché</a>
+          <a href="#ereputation">E-réputation</a>
+          <Link href="/nous-rejoindre">Nous rejoindre</Link>
         </nav>
         <a className="header-login" href="#demande-acces">Connexion / Inscription</a>
       </header>
@@ -126,33 +128,32 @@ export default function HomePage() {
 
       <section className="join-section" id="nous-rejoindre">
         <div className="join-heading">
-          <div><span className="section-label">REJOIGNEZ LE RÉSEAU MAJESTIOS</span><h2>Développons les opportunités ensemble.</h2><p>Des missions pour les professionnels qui savent détecter les marchés, créer des relations et développer l’activité commerciale.</p></div>
-          <span className="join-badge">MISSIONS & COLLABORATIONS</span>
+          <div><span className="section-label">REJOIGNEZ MAJESTIOS</span><h2>Deux besoins prioritaires pour commencer.</h2><p>Nous recherchons des profils indépendants pour le suivi des appels d’offres et le développement commercial.</p></div>
+          <Link className="join-badge" href="/nous-rejoindre">Voir les annonces ↗</Link>
         </div>
         <div className="join-grid">
           <article className="join-card">
-            <div className="join-card-top"><span className="join-icon" aria-hidden="true">↗</span><span className="join-kind">MISSION FREELANCE</span></div>
-            <h3>Veille et appels d’offres</h3>
-            <p>Repérer les marchés pertinents, analyser les critères et aider les professionnels à qualifier les opportunités.</p>
-            <div className="join-tags"><span>Veille</span><span>Analyse</span><span>Qualification</span></div>
-            <span className="join-card-status">Profil recherché — exemple</span>
+            <div className="join-card-top"><span className="join-icon" aria-hidden="true">↗</span><span className="join-kind">ASSISTANCE INDÉPENDANTE</span></div>
+            <h3>Assistante indépendante — suivi des appels d’offres</h3>
+            <p>Veille, suivi des échéances et organisation des dossiers pour aider à repérer et suivre les opportunités pertinentes.</p>
+            <div className="join-tags"><span>Organisation</span><span>Veille</span><span>Suivi</span></div>
+            <Link className="join-card-status" href="/nous-rejoindre">Consulter la fiche de mission ↗</Link>
           </article>
           <article className="join-card">
-            <div className="join-card-top"><span className="join-icon" aria-hidden="true">◎</span><span className="join-kind">MISSION FREELANCE</span></div>
-            <h3>Développement commercial</h3>
-            <p>Contribuer à la prospection B2B, qualifier des prospects et identifier de nouvelles opportunités de collaboration.</p>
-            <div className="join-tags"><span>Prospection B2B</span><span>Relation client</span></div>
-            <span className="join-card-status">Profil recherché — exemple</span>
-          </article>
-          <article className="join-card join-card-network">
-            <div className="join-card-top"><span className="join-icon" aria-hidden="true">＋</span><span className="join-kind">RÉSEAU PROFESSIONNEL</span></div>
-            <h3>Proposer votre expertise</h3>
-            <p>Vous avez une compétence utile aux entreprises ? Le réseau pourra accueillir d’autres spécialités au fil de son développement.</p>
-            <div className="join-tags"><span>Expertise métier</span><span>Collaboration</span></div>
-            <span className="join-card-status">Candidatures en ligne à activer</span>
+            <div className="join-card-top"><span className="join-icon" aria-hidden="true">◎</span><span className="join-kind">DÉVELOPPEMENT COMMERCIAL</span></div>
+            <h3>Business Developer — rejoignez notre équipe</h3>
+            <p>Contribuer au développement de MajestiOS, identifier des opportunités et participer à l’acquisition de clients.</p>
+            <div className="join-tags"><span>Développement B2B</span><span>Relation client</span></div>
+            <Link className="join-card-status" href="/nous-rejoindre">Consulter la fiche de mission ↗</Link>
           </article>
         </div>
-        <p className="join-disclaimer"><strong>Prototype :</strong> ces cartes illustrent le futur espace. Les missions ne constituent pas des offres ouvertes confirmées et aucun formulaire de candidature n’est encore connecté. Les annonces publiées seront distinguées des annonces externes, avec leur source et leur statut.</p>
+        <p className="join-disclaimer"><strong>À préciser avant ouverture :</strong> conditions de collaboration, statut et rémunération. Les candidatures ne sont pas encore collectées par un formulaire connecté.</p>
+      </section>
+
+      <section className="feature-sections" aria-label="Fonctionnalités MajestiOS">
+        <article id="intelligence"><span className="section-label">01 · QUALIFIER</span><h2>Intelligence commerciale</h2><p>Rechercher et qualifier des opportunités, comprendre les entreprises et préparer les prochaines actions commerciales.</p><span className="feature-status">Fonctionnalités en développement</span></article>
+        <article id="etudes"><span className="section-label">02 · ANALYSER</span><h2>Études de marché</h2><p>Structurer une analyse par secteur, zone géographique et besoin métier, avec une attention portée aux sources et aux limites.</p><span className="feature-status">Fonctionnalités en développement</span></article>
+        <article id="ereputation"><span className="section-label">03 · SURVEILLER</span><h2>E-réputation</h2><p>Préparer un espace dédié à la veille et à l’analyse de la présence en ligne à partir de sources identifiées.</p><span className="feature-status">Fonctionnalités en développement</span></article>
       </section>
 
       <section className="results-section" id="resultats">
@@ -174,7 +175,16 @@ export default function HomePage() {
 
       <section className="signup-strip" id="demande-acces"><div><h2>Ne manquez pas une opportunité.</h2><p>La création de compte et les alertes personnalisées seront proposées dans la version connectée.</p></div><span className="signup-coming-soon">Les alertes personnalisées seront activées après le raccordement des sources.</span></section>
 
-      <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><span>La recherche d’opportunités professionnelles, enrichie par l’intelligence commerciale.</span><small>© MajestiOS · Site en construction</small></footer>
+      <footer className="public-footer">
+        <Link className="footer-brand" href="/">MajestiOS</Link>
+        <div className="footer-links">
+          <div><strong>Découvrir</strong><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/#recherche">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link></div>
+          <div><strong>Nos expertises</strong><a href="#intelligence">Intelligence commerciale</a><a href="#etudes">Études de marché</a><a href="#ereputation">E-réputation</a></div>
+          <div><strong>Rejoindre</strong><Link href="/nous-rejoindre">Les deux missions de recrutement</Link></div>
+          <div><strong>Informations</strong><Link href="/mentions-legales">Mentions légales</Link></div>
+        </div>
+        <small>© MajestiOS · Site en construction</small>
+      </footer>
 
       {selectedPrivate && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelectedPrivate(null); }}>
         <section className="private-modal" role="dialog" aria-modal="true" aria-labelledby="private-modal-title">
