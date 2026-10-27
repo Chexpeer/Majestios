@@ -232,7 +232,7 @@ export default function HomePage() {
           <div><strong>Découvrir</strong><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/appels-offres-publics">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link></div>
           <div><strong>Nos expertises</strong><Link href="/developpement-commercial">Développement commercial</Link><Link href="/developpement-commercial/prospection">Prospection commerciale</Link><Link href="/developpement-commercial/etudes-de-marche">Études de marché</Link><Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link><Link href="/developpement-commercial/e-reputation">E-réputation</Link></div>
           <div><strong>Rejoindre</strong><Link href="/reseaux">Réseaux professionnels</Link><Link href="/nous-rejoindre">Les deux missions de recrutement</Link></div>
-          <div><strong>Informations</strong><Link href="/mentions-legales">Mentions légales</Link></div>
+          <div><strong>Informations</strong><Link href="/faq">Questions fréquentes (FAQ)</Link><Link href="/mentions-legales">Mentions légales</Link></div>
         </div>
         <small>© MajestiOS · Site en construction</small>
       </footer>
