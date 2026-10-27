@@ -56,6 +56,7 @@ export default function HomePage() {
         <nav className="public-nav" aria-label="Navigation principale">
           <a href="#recherche">Appels d’offres</a>
           <a href="#prive">Opportunités privées</a>
+          <a href="#nous-rejoindre">Nous rejoindre</a>
           <a href="#fonctionnement">Comment ça marche</a>
         </nav>
         <a className="header-login" href="#demande-acces">Connexion / Inscription</a>
@@ -93,6 +94,38 @@ export default function HomePage() {
           </div>
         </div>
         <p className="ticker-disclaimer">Les éléments présentés ici illustrent le format du bandeau. Les annonces privées réelles seront affichées après raccordement des sources et validation des droits de diffusion.</p>
+      </section>
+
+
+      <section className="join-section" id="nous-rejoindre">
+        <div className="join-heading">
+          <div><span className="section-label">REJOIGNEZ LE RÉSEAU MAJESTIOS</span><h2>Développons les opportunités ensemble.</h2><p>Des missions pour les professionnels qui savent détecter les marchés, créer des relations et développer l’activité commerciale.</p></div>
+          <span className="join-badge">MISSIONS & COLLABORATIONS</span>
+        </div>
+        <div className="join-grid">
+          <article className="join-card">
+            <div className="join-card-top"><span className="join-icon" aria-hidden="true">↗</span><span className="join-kind">MISSION FREELANCE</span></div>
+            <h3>Veille et appels d’offres</h3>
+            <p>Repérer les marchés pertinents, analyser les critères et aider les professionnels à qualifier les opportunités.</p>
+            <div className="join-tags"><span>Veille</span><span>Analyse</span><span>Qualification</span></div>
+            <span className="join-card-status">Profil recherché — exemple</span>
+          </article>
+          <article className="join-card">
+            <div className="join-card-top"><span className="join-icon" aria-hidden="true">◎</span><span className="join-kind">MISSION FREELANCE</span></div>
+            <h3>Développement commercial</h3>
+            <p>Contribuer à la prospection B2B, qualifier des prospects et identifier de nouvelles opportunités de collaboration.</p>
+            <div className="join-tags"><span>Prospection B2B</span><span>Relation client</span></div>
+            <span className="join-card-status">Profil recherché — exemple</span>
+          </article>
+          <article className="join-card join-card-network">
+            <div className="join-card-top"><span className="join-icon" aria-hidden="true">＋</span><span className="join-kind">RÉSEAU PROFESSIONNEL</span></div>
+            <h3>Proposer votre expertise</h3>
+            <p>Vous avez une compétence utile aux entreprises ? Le réseau pourra accueillir d’autres spécialités au fil de son développement.</p>
+            <div className="join-tags"><span>Expertise métier</span><span>Collaboration</span></div>
+            <span className="join-card-status">Candidatures en ligne à activer</span>
+          </article>
+        </div>
+        <p className="join-disclaimer"><strong>Prototype :</strong> ces cartes illustrent le futur espace. Les missions ne constituent pas des offres ouvertes confirmées et aucun formulaire de candidature n’est encore connecté. Les annonces publiées seront distinguées des annonces externes, avec leur source et leur statut.</p>
       </section>
 
       <section className="results-section" id="resultats">
