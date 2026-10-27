@@ -21,17 +21,18 @@ La route `GET /api/opportunities` interroge le jeu de données BOAMP exposé par
 
 Paramètres pris en charge :
 - `q` : recherche textuelle ;
-- `location` : actuellement, le filtrage géographique ne fonctionne que si la valeur contient un code de département numérique ;
-- `type` : `all`, `Travaux`, `Services` ou `Fournitures`.
+- `location` : code département validé (métropole, Corse et principaux codes ultramarins pris en charge) ; une valeur invalide renvoie une erreur explicite ;
+- `type` : `all`, `Travaux`, `Services` ou `Fournitures` ; les filtres de catégorie et de département sont transmis à la requête BOAMP.
 
 Le code gère les erreurs de la source externe et ne remplace pas silencieusement une erreur par des résultats fictifs.
 
 **À vérifier avant de considérer la fonction comme opérationnelle :**
-1. que l’API BOAMP accepte les champs, le tri et les filtres utilisés ;
-2. que les noms de champs retournés correspondent au schéma réel du jeu de données ;
-3. que les URLs officielles des avis ouvrent bien les avis concernés ;
-4. que le statut et la date limite permettent de qualifier correctement les avis encore ouverts ;
-5. que la recherche, les filtres et les erreurs ont été testés sur le déploiement cible.
+1. tester en direct l’API BOAMP avec plusieurs mots-clés, catégories et départements, notamment `68`, `2A` et un code invalide ;
+2. vérifier que la syntaxe combinée des filtres `where` retourne les résultats attendus ;
+3. que les noms de champs retournés correspondent au schéma réel du jeu de données ;
+4. que les URLs officielles des avis ouvrent bien les avis concernés ;
+5. que le statut et la date limite permettent de qualifier correctement les avis encore ouverts ;
+6. que la recherche, les filtres et les erreurs ont été testés sur le déploiement cible.
 
 La présence du connecteur dans le code ne constitue pas, à elle seule, une preuve de fonctionnement en production.
 
