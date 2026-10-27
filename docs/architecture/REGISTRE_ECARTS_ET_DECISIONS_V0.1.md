@@ -15,17 +15,17 @@ Les constats ci-dessous proviennent d'une inspection des fichiers présents dans
 - Le dépôt contient une application Next.js dans `src/app`.
 - `package.json` définit les commandes `next dev`, `next build`, `next start` et `eslint src eslint.config.mjs`.
 - Le workflow GitHub Actions installe les dépendances, exécute ESLint et lance `next build`.
-- Le contrôle GitHub Actions du run `40465202020` est terminé avec succès.
-- `vercel.json` demande encore `node build.js`, publie `dist` et définit `framework: null`. Cette configuration correspond à l'ancien parcours statique et n'est pas alignée avec le processus de build Next.js.
-- Le README décrit toujours l'ancien site statique : ouverture de `index.html`, génération de `dist` par `build.js`, et absence de backend. Il ne décrit donc pas fidèlement la branche applicative actuelle.
+- Le contrôle GitHub Actions le plus récent inspecté, run `40484579182` sur le commit `a3b6e517d8c8cff2f6a113f41cbbd009dfb26fe3`, est terminé avec succès (ESLint et `next build`). Cela ne prouve pas le fonctionnement des parcours métier.
+- `vercel.json` déclare actuellement `framework: "nextjs"`. Un aperçu Vercel lié à la branche, commit `60374f30d0dd5376c1d439561fd2928ec53c2622`, est marqué `READY` et sa page répond HTTP 200 lors du contrôle. Plusieurs autres projets Vercel liés au dépôt présentent néanmoins des déploiements en erreur ; leurs rôles respectifs restent à confirmer.
+- Le README a été actualisé au commit `307f492c7530b97182f416292eb2fbfa24334db1` pour refléter ces constats et les limites fonctionnelles. Aucun fichier `package-lock.json` n'est présent dans l'arborescence inspectée : les dépendances ne sont donc pas verrouillées et le workflow utilise `npm install`.
 - L'arborescence présente encore des fichiers racine liés au site statique, dont `app.js` et `build.js`. Leur suppression ou leur déplacement ne doit intervenir qu'après clarification de la stratégie de coexistence/migration.
 
 ## 3. Écarts et risques à traiter
 
 | ID | Sujet | Constat | Risque | Traitement requis |
 |---|---|---|---|---|
-| EC-01 | Build Vercel | Configuration Vercel orientée vers `build.js` et `dist`, alors que la branche contient Next.js | Déploiement incorrect ou maintien involontaire de l'ancien site | Décider explicitement entre projet Vercel séparé et migration contrôlée ; tester en préproduction avant toute bascule |
-| EC-02 | README | Instructions de démarrage statique incompatibles avec le `package.json` actuel | Confusion lors de l'installation et des opérations | Mettre à jour après décision de stratégie de déploiement |
+| EC-01 | Cartographie Vercel | `vercel.json` déclare Next.js et un aperçu est accessible, mais plusieurs projets liés au dépôt ont des déploiements en erreur | Risque de modifier le mauvais projet ou de perturber la vitrine | Identifier les projets, domaines, environnements et commits associés ; ne rien basculer avant validation explicite |
+| EC-02 | README | Documentation actualisée au commit `307f492c7530b97182f416292eb2fbfa24334db1` ; coexistence des fichiers historiques encore à clarifier | Confusion possible sur les fichiers réellement déployés | Conserver les fichiers historiques jusqu'à cartographie complète des projets et de leurs usages |
 | EC-03 | Dépendances | Un signalement antérieur d'installation annonçait 3 vulnérabilités (2 élevées, 1 critique) | Risque de sécurité non caractérisé | Récupérer un audit reproductible, identifier les paquets et versions affectés, appliquer des corrections ciblées, relancer tests |
 | EC-04 | Modèle métier | Le document d'architecture V0.1 utilise des noms candidats comme `organizations`, `companies`, `opportunities` | Divergence potentielle avec le modèle métier canonique des tomes | Produire une matrice de correspondance avant toute migration SQL |
 | EC-05 | Frontière de sécurité | Aucun backend métier ni politique RLS validée n'est attesté par ce contrôle de compilation | Aucune preuve d'isolation réelle des données à ce stade | Valider le modèle, puis créer un environnement DEV et des tests négatifs d'isolation |
@@ -59,13 +59,12 @@ Les piliers ACT, KNB, PIP et DMH sont à conserver comme repères logiques méti
 
 ## 6. Ordre de travail recommandé
 
-1. Vérifier l'état de la branche et le dernier résultat CI.
-2. Reproduire l'audit des dépendances et examiner les alertes.
-3. Clarifier le déploiement sans toucher à la production.
-4. Mettre à jour le README pour refléter la stratégie choisie.
-5. Confronter les tomes et annexes à l'architecture V0.1 ; consigner les conflits sans les résoudre arbitrairement.
-6. Valider le modèle et les critères d'acceptation.
-7. Seulement ensuite, concevoir les migrations et les tests RLS en DEV.
+1. Confirmer les tomes de référence : ils ne sont pas identifiés dans l'arborescence inspectée de cette branche.
+2. Ajouter un verrouillage des dépendances, exécuter l'audit et traiter les alertes vérifiées.
+3. Cartographier les projets Vercel et leurs domaines sans toucher à la production.
+4. Confronter les tomes et annexes à l'architecture V0.1 ; consigner les conflits sans les résoudre arbitrairement.
+5. Valider les parcours MVP, le modèle et les critères d'acceptation.
+6. Seulement ensuite, concevoir les migrations et les tests RLS en DEV.
 
 ## 7. Critères de clôture de cet audit initial
 
