@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
   const filters: string[] = [];
   if (location) {
     // BOAMP exposes department codes as multivalued fields: ODSQL 'in' tests array membership.
-    filters.push('code_departement in ("' + normalizedDept + '") OR code_departement_prestation in ("' + normalizedDept + '")');
+    filters.push('"' + normalizedDept + '" IN code_departement OR "' + normalizedDept + '" IN code_departement_prestation');
   }
   if (type !== "all") {
     filters.push('type_marche="' + type.toLocaleUpperCase("fr") + '"');
