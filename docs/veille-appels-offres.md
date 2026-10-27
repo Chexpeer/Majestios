@@ -70,3 +70,46 @@ Construire une mémoire métier fiable et traçable qui aide MajestiOS à décou
 La veille ne sera considérée comme active qu'après : un collecteur serveur réel ; un calendrier de mise à jour explicite ; un stockage durable ; des tests sur des réponses réelles ; la gestion des limites, erreurs, doublons et changements ; un tableau de suivi de la fraîcheur des données ; des tests de liens sortants et de filtres ; une indication visible de la dernière mise à jour.
 
 Tant que ces éléments ne sont pas implémentés et vérifiés, l'interface doit afficher que le raccordement est en préparation.
+## 8. LinkedIn — veille professionnelle et signaux commerciaux
+
+LinkedIn doit faire partie de la connaissance interne de MajestiOS, mais comme une source complémentaire de signaux professionnels, pas comme un substitut aux avis officiels de marchés publics.
+
+### Usages métier envisagés
+- Repérer les actualités publiques d'organisations : nouveaux projets, implantations, investissements, recrutements, partenariats et changements de direction.
+- Comprendre les secteurs, fonctions et intitulés de postes utilisés par les acheteurs et décideurs.
+- Détecter des signaux pouvant justifier une recherche complémentaire : croissance d'une entreprise, lancement d'activité, besoin de sous-traitance ou projet annoncé.
+- Préparer des hypothèses de prospection à vérifier à partir d'une source publique ou d'une prise de contact légitime.
+- Enrichir la cartographie Entreprise → Interlocuteur → Décideur uniquement avec des données pertinentes, sourcées et obtenues de manière autorisée.
+
+### Règles impératives
+1. Un signal LinkedIn n'est pas une preuve qu'un marché est ouvert. Il doit être qualifié comme « signal commercial » et relié à une preuve distincte si une opportunité est confirmée.
+2. Prioriser les intégrations officielles et les fonctionnalités autorisées par LinkedIn. Vérifier les conditions d'accès, les autorisations et les usages permis avant toute automatisation.
+3. Ne pas contourner les protections de la plateforme ni aspirer massivement des profils, des pages ou des données personnelles.
+4. Ne pas collecter de données sensibles. Limiter les données personnelles à ce qui est nécessaire à un usage professionnel légitime, avec une provenance, une date de vérification et une durée de conservation adaptées.
+5. Séparer les informations publiques publiées par une organisation, les déclarations d'une personne et les inférences produites par l'IA.
+6. Toute inférence (par exemple « pourrait être décideur ») doit être explicitement marquée comme hypothèse, accompagnée de ses indices et vérifiée avant d'être utilisée pour une décision importante.
+7. Conserver l'URL du contenu d'origine quand son accès et sa conservation sont autorisés. Si le contenu n'est plus accessible, marquer la référence comme non vérifiable plutôt que de reproduire une information non confirmée.
+8. Ne pas utiliser d'envoi automatisé massif de messages. Toute prospection doit respecter les règles de la plateforme, le droit applicable et les préférences des personnes contactées.
+
+### Champs de connaissance pour un signal professionnel
+- signal_id, source_id, source_url, organization_id
+- signal_type (actualité, recrutement, projet annoncé, partenariat, changement organisationnel, autre)
+- published_at, collected_at, last_verified_at
+- summary, evidence_excerpt, confidence, review_status
+- related_opportunity_id (facultatif)
+- personal_data_minimized (indicateur de minimisation)
+- retention_until (si nécessaire selon la politique de conservation)
+
+### Place de LinkedIn dans le pipeline
+1. Suivre les contenus publics ou les données accessibles par des moyens officiellement autorisés.
+2. Détecter les signaux potentiellement pertinents, sans conclure automatiquement qu'ils correspondent à un besoin d'achat.
+3. Relier le signal à l'organisation concernée avec un niveau de confiance explicite.
+4. Chercher une confirmation dans une source officielle, un site d'entreprise, un avis public ou une autre source autorisée.
+5. Proposer à l'utilisateur une piste argumentée, avec les preuves et les incertitudes, plutôt qu'une certitude artificielle.
+
+### Références de conformité à examiner avant intégration
+- LinkedIn — conditions d'utilisation : https://www.linkedin.com/legal/user-agreement
+- LinkedIn — politique de confidentialité : https://www.linkedin.com/legal/privacy-policy
+- LinkedIn — portail développeurs : https://developer.linkedin.com/
+
+L'intégration technique de LinkedIn reste à étudier : l'existence d'un portail développeur ne signifie pas qu'une API donnée autorise la recherche générale de contenus ou l'accès aux profils souhaités.
