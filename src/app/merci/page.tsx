@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "Merci pour votre demande — MajestiOS",
@@ -7,10 +8,7 @@ export const metadata = {
 
 export default function MerciPage() {
   return <main className="public-site concept-page">
-    <header className="public-header">
-      <Link className="public-brand" href="/"><span className="public-brand-mark">M</span><span><strong>MajestiOS</strong><small>MERCI POUR VOTRE DEMANDE</small></span></Link>
-      <nav className="public-nav"><Link href="/">Accueil</Link><Link href="/developpement-commercial">Développement commercial</Link><Link href="/partenaires">Partenaires</Link></nav>
-    </header>
+    <PublicHeader />
     <section className="how-section concept-hero">
       <div>
         <span className="section-label">DEMANDE TRANSMISE</span>
