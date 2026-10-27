@@ -18,7 +18,7 @@ export default function PublicHeader() {
           <div className="nav-dropdown-menu">
             <Link href="/developpement-commercial">Vue d’ensemble</Link>
             <Link href="/developpement-commercial/prospection">Prospection commerciale</Link>
-            <Link href="/etudes-de-marche">Études de marché</Link>
+            <Link href="/developpement-commercial/etudes-de-marche">Études de marché</Link>
             <Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link>
             <Link href="/developpement-commercial/e-reputation">E-réputation</Link>
             <Link href="/business">Diagnostic Business</Link>
