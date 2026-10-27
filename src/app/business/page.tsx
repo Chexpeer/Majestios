@@ -1,4 +1,5 @@
 "use client";
+import PublicHeader from "@/components/public-header";
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
@@ -26,7 +27,7 @@ export default function BusinessPage() {
   }
 
   return <main className="public-site concept-page">
-    <header className="public-header"><Link className="public-brand" href="/"><span className="public-brand-mark">M</span><span><strong>MajestiOS</strong><small>BUSINESS</small></span></Link><nav className="public-nav"><Link href="/">Accueil</Link><Link href="/developpement-commercial">Développement commercial</Link><Link href="/partenaires">Partenaires</Link></nav></header>
+    <PublicHeader />
     <section className="how-section concept-hero"><div><span className="section-label">ESPACE BUSINESS</span><h1>Évaluer mon <em>entreprise.</em></h1><p>Préparez un premier cadrage de votre besoin commercial. L’évaluation complète devra s’appuyer sur des sources vérifiables, des critères explicites et une validation humaine.</p></div></section>
     <section className="business-form-wrap"><div className="business-form-intro"><h2>Votre entreprise et vos objectifs</h2><p>Votre demande sera transmise à l’équipe MajestiOS via Formspree.</p><ul><li>Comprendre le positionnement et le secteur</li><li>Identifier les marchés et opportunités à explorer</li><li>Faire ressortir les informations manquantes</li><li>Préparer des prochaines actions commerciales</li></ul></div>
       <form className="business-form" onSubmit={handleSubmit}>
