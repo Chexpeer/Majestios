@@ -1,4 +1,40 @@
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
-export const metadata={title:"E-réputation — Développement commercial — MajestiOS",description:"Organiser une veille e-réputation sourcée, vérifiable et soumise à validation humaine."};
-export default function Page(){return <main className="public-site concept-page"><PublicHeader /><section className="how-section concept-hero"><div><span className="section-label">SOUS-RUBRIQUE · DÉVELOPPEMENT COMMERCIAL</span><h1>Comprendre les signaux en ligne, <em>sans perdre leur contexte.</em></h1><p>Organiser la veille de mentions et d’avis publics pertinents, en conservant les liens sources, les dates, les limites et la décision humaine qui suit l’analyse.</p></div></section><section className="concept-grid"><article><span>01 · SOURCES</span><h2>Définir le périmètre</h2><p>Documenter les sources, leur couverture, leurs conditions d’utilisation et leur dernière vérification avant de lancer une collecte.</p></article><article><span>02 · SURVEILLANCE</span><h2>Repérer les changements</h2><p>Définir les entités, expressions et périodes de veille, puis prévoir la déduplication et la gestion des homonymes.</p></article><article><span>03 · VÉRIFICATION</span><h2>Qualifier les mentions</h2><p>Conserver une URL consultable, la date et le contexte. Une analyse IA demeure une hypothèse tant qu’elle n’est pas vérifiée.</p></article><article><span>04 · ACTION</span><h2>Préparer une réponse</h2><p>Proposer une réponse ou une escalade, laisser l’utilisateur arbitrer et tracer la décision retenue.</p></article></section><section className="concept-principles"><h2>Garde-fous de fiabilité</h2><ul><li>Pas de mention sans provenance consultable.</li><li>Pas de confusion entre fait observé et interprétation.</li><li>Respect des conditions d’utilisation des sources et de la confidentialité.</li><li>Validation humaine avant toute action sensible.</li></ul><p><strong>État actuel :</strong> espace de conception ; aucune collecte continue n’est activée ici.</p><Link className="search-submit concept-cta" href="/developpement-commercial">Retour au développement commercial ↗</Link></section> <Link className="search-submit concept-cta" href="/faq#decouvrir">Questions fréquentes ↗</Link></main>}
+
+export const metadata = {
+  title: "E-réputation — MajestiOS",
+  description: "Comprendre les avis et les mentions en ligne qui concernent une entreprise.",
+};
+
+export default function Page() {
+  return (
+    <main className="public-site concept-page">
+      <PublicHeader />
+      <section className="how-section concept-hero">
+        <div>
+          <span className="section-label">DÉVELOPPEMENT COMMERCIAL</span>
+          <h1>Comprenez ce qui se dit<br /><em>sur votre entreprise.</em></h1>
+          <p>L’e-réputation correspond à l’image d’une entreprise sur Internet. MajestiOS prévoit d’aider à repérer les avis et les mentions utiles, à retrouver leur source et à préparer une réponse si nécessaire.</p>
+        </div>
+      </section>
+      <section className="concept-grid">
+        <article><span>01 · CHOISIR</span><h2>Définir ce que l’on surveille</h2><p>Préciser le nom de l’entreprise, les sujets importants et les sites que l’on souhaite suivre.</p></article>
+        <article><span>02 · REPÉRER</span><h2>Voir les nouvelles mentions</h2><p>Identifier les nouveaux avis ou messages, dans la limite des sources réellement accessibles.</p></article>
+        <article><span>03 · VÉRIFIER</span><h2>Lire le contexte</h2><p>Retrouver le lien d’origine, la date et le contenu avant de tirer une conclusion.</p></article>
+        <article><span>04 · RÉPONDRE</span><h2>Préparer une action</h2><p>Préparer une réponse ou une alerte, puis laisser une personne décider de la suite.</p></article>
+      </section>
+      <section className="concept-principles">
+        <h2>Une information doit pouvoir être vérifiée</h2>
+        <ul>
+          <li>Conserver le lien vers la publication d’origine.</li>
+          <li>Ne pas confondre une information et son interprétation.</li>
+          <li>Respecter les règles d’accès et d’utilisation des sites consultés.</li>
+          <li>Faire valider les réponses avant leur publication.</li>
+        </ul>
+        <p><strong>État actuel :</strong> cette page présente le service envisagé. La surveillance automatique continue n’est pas encore annoncée comme active.</p>
+        <Link className="search-submit concept-cta" href="/developpement-commercial">Voir les services commerciaux ↗</Link>
+        <Link className="search-submit concept-cta" href="/faq#ia-fiabilite">Questions fréquentes sur les sources et l’IA ↗</Link>
+      </section>
+    </main>
+  );
+}
