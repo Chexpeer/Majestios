@@ -42,5 +42,6 @@ export default function BusinessPage() {
         <small>Les informations saisies sont transmises à Formspree pour recevoir votre demande. N’envoyez pas de données confidentielles ou sensibles.</small>
       </form>
     </section>
+ <section className="concept-principles"><h2>Besoin d’une explication ?</h2><p>Consultez les réponses aux questions les plus fréquentes sur MajestiOS et ses services.</p><Link className="search-submit concept-cta" href="/faq#decouvrir">Consulter la FAQ ↗</Link></section>
   </main>;
 }
