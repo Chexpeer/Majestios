@@ -119,3 +119,19 @@ Avant tout changement, identifier précisément :
 7. Ajouter progressivement les fonctions métier après validation du modèle, sans prétendre qu’une maquette est une fonctionnalité livrée.
 
 Principes permanents : aucun secret dans le dépôt ou le navigateur ; distinction explicite entre données officielles, exemples et inférences IA ; respect des droits d’utilisation des sources ; traçabilité des actions d’administration.
+
+
+## 8. Parcours de navigation et assistant MajestiOS
+
+La branche `site-profondeur-v0-1` ajoute les parcours de présentation suivants :
+- `/developpement-commercial` : détection, qualification, relation aux entreprises et préparation des actions ;
+- `/developpement-commercial/e-reputation` : sous-rubrique de développement commercial ;
+- `/business` : formulaire de cadrage « Évaluer mon entreprise » ;
+- `/partenaires` : catégories de collaborations et écosystème ;
+- assistant conversationnel transversal, accessible depuis le site.
+
+**Limite importante du chatbot :** sa première version est un prototype guidé par des règles et des extraits du référentiel. Elle n’interroge pas encore automatiquement les fichiers Brainios et n’est pas raccordée à un modèle d’IA. Ses réponses doivent donc être présentées comme une aide d’orientation, pas comme une recherche exhaustive dans les documents ni comme une action exécutée.
+
+Avant une connexion réelle à Brainios, définir le corpus autorisé, les droits d’accès, l’indexation, les références de citation, la mise à jour documentaire et les règles de séparation entre faits, inférences et hypothèses. Toute recommandation sensible doit rester soumise à validation humaine.
+
+Les formulaires Business et de demande de contact sont des démonstrations d’interface tant qu’un traitement serveur sécurisé, une politique de confidentialité et une persistance autorisée ne sont pas implémentés. Ne pas présenter les pages de conception comme des services opérationnels.
