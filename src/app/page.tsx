@@ -67,10 +67,11 @@ export default function HomePage() {
           <h1>Trouvez votre prochain<br /><em>appel d’offres.</em></h1>
           <p className="public-intro">Recherchez des appels d’offres publics et découvrez des opportunités privées adaptées à votre activité, votre métier et votre zone géographique.</p>
           <form className="tender-search" onSubmit={(event) => { event.preventDefault(); document.getElementById("resultats")?.scrollIntoView({ behavior: "smooth" }); }}>
-            <label className="search-field search-keyword"><span>Que recherchez-vous ?</span><input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Ex. : nettoyage, travaux, informatique…" /></label>
-            <label className="search-field"><span>Localisation</span><input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Ville, département, région…" /></label>
-            <label className="search-field search-type"><span>Type d’appel d’offres</span><select value={type} onChange={(event) => setType(event.target.value)}><option value="all">Tous les types</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>
+            <label className="search-field search-keyword" htmlFor="search-keyword"><span>Que recherchez-vous ?</span><input id="search-keyword" name="keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Ex. : nettoyage, travaux, informatique…" autoComplete="off" /></label>
+            <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Ville, département, région…" autoComplete="off" /></label>
+            <label className="search-field search-type" htmlFor="search-type"><span>Type d’appel d’offres</span><select id="search-type" name="type" value={type} onChange={(event) => setType(event.target.value)}><option value="all">Tous les types</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>
             <button className="search-submit" type="submit"><span aria-hidden="true">⌕</span> Rechercher</button>
+            {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); }} aria-label="Effacer tous les filtres">Effacer</button>}
           </form>
           <p className="search-note">Recherche publique · Sources et dates à vérifier sur chaque annonce</p>
         </div>
@@ -123,12 +124,14 @@ export default function HomePage() {
             <p>Indiquez vos coordonnées pour manifester votre intérêt. Le formulaire est ici une démonstration : aucun envoi ni enregistrement n’est encore activé.</p>
             <div className="modal-summary"><strong>{selectedPrivate.type}</strong><span>{selectedPrivate.location}</span><span>PRIVÉ</span></div>
             <form className="access-form" onSubmit={handleRequest}>
-              <label>Nom et prénom<input required name="name" autoComplete="name" placeholder="Votre nom" /></label>
-              <label>Entreprise<input required name="company" autoComplete="organization" placeholder="Nom de votre entreprise" /></label>
-              <label>Adresse e-mail professionnelle<input required type="email" name="email" autoComplete="email" placeholder="vous@entreprise.fr" /></label>
-              <label>Téléphone (facultatif)<input type="tel" name="phone" autoComplete="tel" placeholder="Votre numéro" /></label>
-              <label className="consent-check"><input required type="checkbox" /> <span>J’accepte d’être recontacté au sujet de cette opportunité.</span></label>
-              <button className="search-submit modal-submit" type="submit">Envoyer ma demande</button>
+              <label htmlFor="request-name">Nom et prénom<input id="request-name" required name="name" autoComplete="name" minLength={2} maxLength={100} placeholder="Votre nom" /></label>
+              <label htmlFor="request-company">Entreprise<input id="request-company" required name="company" autoComplete="organization" minLength={2} maxLength={150} placeholder="Nom de votre entreprise" /></label>
+              <label htmlFor="request-email">Adresse e-mail professionnelle<input id="request-email" required type="email" name="email" autoComplete="email" maxLength={254} placeholder="vous@entreprise.fr" /></label>
+              <label htmlFor="request-phone">Téléphone (facultatif)<input id="request-phone" type="tel" name="phone" autoComplete="tel" inputMode="tel" maxLength={30} placeholder="+33 6 12 34 56 78" /></label>
+              <label htmlFor="request-role">Votre fonction (facultatif)<input id="request-role" name="role" autoComplete="organization-title" maxLength={100} placeholder="Ex. : dirigeant, acheteur, responsable…" /></label>
+              <label htmlFor="request-message">Précisions (facultatif)<textarea id="request-message" name="message" rows={3} maxLength={1000} placeholder="Décrivez brièvement votre intérêt pour cette opportunité." /></label>
+              <label className="consent-check"><input required name="contactConsent" type="checkbox" /> <span>J’accepte d’être recontacté au sujet de cette opportunité. Ce formulaire de démonstration ne transmet pas encore mes informations.</span></label>
+              <button className="search-submit modal-submit" type="submit">Envoyer ma demande de démonstration</button>
             </form>
           </> : <div className="request-confirmation"><span className="confirmation-mark">✓</span><h2 id="private-modal-title">Demande de démonstration</h2><p>Le formulaire fonctionne visuellement, mais la demande n’a pas été transmise. Le traitement réel sera activé avec le serveur et la politique de confidentialité.</p><button className="search-submit" onClick={() => setSelectedPrivate(null)}>Fermer</button></div>}
         </section>
