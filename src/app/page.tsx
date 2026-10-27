@@ -92,7 +92,7 @@ export default function HomePage() {
             <div className="nav-dropdown-menu">
               <Link href="/developpement-commercial">Vue d’ensemble</Link>
               <Link href="/developpement-commercial/prospection">Prospection commerciale</Link>
-              <Link href="/etudes-de-marche">Études de marché</Link>
+              <Link href="/developpement-commercial/etudes-de-marche">Études de marché</Link>
               <Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link>
               <Link href="/developpement-commercial/e-reputation">E-réputation</Link>
               <Link href="/business">Diagnostic Business</Link>
@@ -179,7 +179,7 @@ export default function HomePage() {
           <article className="service-card" id="etudes">
             <span className="service-index">02 · ANALYSER</span><h3>Études de marché</h3>
             <p>Structurer une analyse par secteur et territoire, comparer les segments et documenter les sources, limites et hypothèses.</p>
-            <Link href="/etudes-de-marche">Explorer les études de marché ↗</Link>
+            <Link href="/developpement-commercial/etudes-de-marche">Explorer les études de marché ↗</Link>
             <small>Page de cadrage — moteur d’étude non activé</small>
           </article>
           <article className="service-card" id="accompagnement-appels-offres">
@@ -230,7 +230,7 @@ export default function HomePage() {
         <Link className="footer-brand" href="/">MajestiOS</Link>
         <div className="footer-links">
           <div><strong>Découvrir</strong><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/appels-offres-publics">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link></div>
-          <div><strong>Nos expertises</strong><Link href="/developpement-commercial">Développement commercial</Link><Link href="/developpement-commercial/prospection">Prospection commerciale</Link><Link href="/etudes-de-marche">Études de marché</Link><Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link><Link href="/developpement-commercial/e-reputation">E-réputation</Link></div>
+          <div><strong>Nos expertises</strong><Link href="/developpement-commercial">Développement commercial</Link><Link href="/developpement-commercial/prospection">Prospection commerciale</Link><Link href="/developpement-commercial/etudes-de-marche">Études de marché</Link><Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link><Link href="/developpement-commercial/e-reputation">E-réputation</Link></div>
           <div><strong>Rejoindre</strong><Link href="/reseaux">Réseaux professionnels</Link><Link href="/nous-rejoindre">Les deux missions de recrutement</Link></div>
           <div><strong>Informations</strong><Link href="/mentions-legales">Mentions légales</Link></div>
         </div>
