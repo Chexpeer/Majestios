@@ -119,3 +119,18 @@ La lecture des six projets associés au dépôt `Chexpeer/Majestios` dans l'équ
 Le fichier `.github/dependabot.yml` a été ajouté sur la branche `architecture-v0-1` au commit `72eccb75c4b9968978bc81477967936cc2957bfb`. Il configure une vérification hebdomadaire des dépendances npm et GitHub Actions, avec des propositions de mise à jour sous forme de pull requests. Cela n'installe pas automatiquement les mises à jour et ne remplace pas l'audit de sécurité ni les contrôles CI.
 
 Le dépôt ne comporte toujours pas de fichier de verrouillage npm dans l'arborescence vérifiée. La prochaine étape technique reste de produire un `package-lock.json` cohérent avec `package.json`, puis de valider l'installation reproductible et l'audit avant de remplacer `npm install` par `npm ci` dans le workflow principal. Cette étape doit se faire sur la branche de travail et être vérifiée par CI.
+
+
+## 11. Extension fonctionnelle — « Nous rejoindre » et annonces dynamiques
+
+À la demande du porteur de projet (27 octobre 2026), le cadrage du back-office a été complété au commit `e84bbea1c1b0c4086f705d9b7d5a8cf903edeb2f` par une section dédiée à un espace public « Nous rejoindre » et aux annonces de missions freelance/emploi.
+
+Principes retenus :
+- priorité aux freelances spécialisés en appels d'offres et en développement commercial ;
+- annonces MajestiOS et annonces externes clairement différenciées ;
+- liens partageables vers les annonces MajestiOS et diffusion LinkedIn envisagée, manuelle au départ ;
+- intégration des offres de missions et de recrutement au moteur central d'opportunités, avec catégorisation, provenance, fraîcheur et dédoublonnage ;
+- distinction stricte entre emploi salarié, mission freelance et collaboration commerciale ;
+- pas de promesse de collecte externe, de candidature persistante ou de publication automatisée tant que ces fonctions ne sont pas développées et testées.
+
+**Portée de la modification :** documentation uniquement. Aucun fichier applicatif, schéma SQL, projet Supabase, configuration Vercel, domaine ou production n'a été modifié. La prochaine étape est de confronter ce cadrage aux tomes de référence, puis de définir les critères d'acceptation avant de toucher au code.
