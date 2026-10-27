@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
 
@@ -11,13 +11,8 @@ type Opportunity = {
   source: "public" | "private";
   title: string;
   deadline?: string;
+  isDemo?: boolean;
 };
-
-const publicExamples: Opportunity[] = [
-  { id: 1, type: "Travaux", location: "Grand Est", source: "public", title: "Exemple de résultat — travaux et rénovation", deadline: "Date à récupérer depuis la source" },
-  { id: 2, type: "Services", location: "France entière", source: "public", title: "Exemple de résultat — prestations de services", deadline: "Date à récupérer depuis la source" },
-  { id: 3, type: "Fournitures", location: "Bourgogne-Franche-Comté", source: "public", title: "Exemple de résultat — fournitures professionnelles", deadline: "Date à récupérer depuis la source" },
-];
 
 const privateTeasers: Opportunity[] = [
   { id: 101, type: "Prestations de services", location: "Grand Est", source: "private", title: "Opportunité privée — exemple de présentation" },
@@ -28,18 +23,43 @@ const privateTeasers: Opportunity[] = [
 
 export default function HomePage() {
   const [keyword, setKeyword] = useState("");
+  const [publicExamples, setPublicExamples] = useState<Opportunity[]>([]);
+  const [loadingExamples, setLoadingExamples] = useState(true);
+  const [examplesError, setExamplesError] = useState(false);
   const [location, setLocation] = useState("");
   const [type, setType] = useState("all");
   const [selectedPrivate, setSelectedPrivate] = useState<Opportunity | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
-  const filteredExamples = useMemo(() => publicExamples.filter((item) => {
-    const query = keyword.trim().toLocaleLowerCase("fr");
-    const matchesQuery = !query || `${item.title} ${item.type} ${item.location}`.toLocaleLowerCase("fr").includes(query);
-    const matchesLocation = !location.trim() || item.location.toLocaleLowerCase("fr").includes(location.trim().toLocaleLowerCase("fr")) || item.location === "France entière";
-    const matchesType = type === "all" || item.type === type;
-    return matchesQuery && matchesLocation && matchesType;
-  }), [keyword, location, type]);
+  useEffect(() => {
+    const controller = new AbortController();
+    const params = new URLSearchParams({ q: keyword, location, type });
+
+    async function loadExamples() {
+      setLoadingExamples(true);
+      setExamplesError(false);
+      try {
+        const response = await fetch(`/api/opportunities?${params.toString()}`, {
+          signal: controller.signal,
+          cache: "no-store",
+        });
+        if (!response.ok) throw new Error("Impossible de charger les exemples.");
+        const payload: { items: Opportunity[] } = await response.json();
+        setPublicExamples(payload.items);
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") return;
+        setExamplesError(true);
+        setPublicExamples([]);
+      } finally {
+        if (!controller.signal.aborted) setLoadingExamples(false);
+      }
+    }
+
+    void loadExamples();
+    return () => controller.abort();
+  }, [keyword, location, type]);
+
+  const filteredExamples = publicExamples;
 
   function handleRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -129,7 +149,7 @@ export default function HomePage() {
       </section>
 
       <section className="results-section" id="resultats">
-        <div className="results-heading"><div><span className="section-label">EXPLORER LES CONSULTATIONS</span><h2>Appels d’offres publics</h2><p>Affinez votre recherche et consultez les informations de chaque source.</p></div><span className="results-count">{filteredExamples.length} exemples</span></div>
+        <div className="results-heading"><div><span className="section-label">EXPLORER LES CONSULTATIONS</span><h2>Appels d’offres publics</h2><p>Affinez votre recherche et consultez les informations de chaque source.</p></div><span className="results-count">{loadingExamples ? "Chargement…" : `${filteredExamples.length} exemples`}</span></div>
         <div className="results-list">
           {filteredExamples.length ? filteredExamples.map((item) => (
             <article className="result-card" key={item.id}>
