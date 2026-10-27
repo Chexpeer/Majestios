@@ -113,3 +113,36 @@ LinkedIn doit faire partie de la connaissance interne de MajestiOS, mais comme u
 - LinkedIn — portail développeurs : https://developer.linkedin.com/
 
 L'intégration technique de LinkedIn reste à étudier : l'existence d'un portail développeur ne signifie pas qu'une API donnée autorise la recherche générale de contenus ou l'accès aux profils souhaités.
+
+## 9. Sources emploi : Apec, Cadremploi et Avec
+
+La base de connaissances MajestiOS doit également surveiller les sources d'emploi pertinentes, notamment Apec, Cadremploi et Avec, sous réserve de vérifier l'identité exacte du service « Avec », ses conditions d'accès et ses droits de réutilisation avant tout raccordement technique.
+
+### Finalité commerciale
+
+Les offres d'emploi sont des signaux professionnels pouvant aider à comprendre les priorités et les évolutions d'une organisation. Elles ne constituent pas, à elles seules, la preuve d'un besoin d'achat ni une opportunité commerciale confirmée.
+
+Exemples d'analyses possibles :
+- recrutements répétés ou ouverture de plusieurs postes similaires ;
+- création ou renforcement d'une fonction, d'une équipe ou d'une implantation ;
+- compétences ou technologies recherchées ;
+- indices d'expansion, de transformation ou de montée en charge ;
+- rapprochement avec une entreprise, un secteur ou une opportunité déjà connus dans la base.
+
+### Traitement et traçabilité
+
+Pour chaque offre ou signal emploi, conserver uniquement les données nécessaires et autorisées : source, URL d'origine, intitulé, organisation, lieu, dates de publication et de collecte, date limite si elle existe, résumé factuel, date de dernière vérification, statut, éléments de preuve et niveau de confiance. Dédupliquer les offres reprises sur plusieurs sites et distinguer l'offre originale de ses éventuelles copies.
+
+Chaque analyse générée par l'IA doit séparer :
+1. les faits directement établis par la source ;
+2. les interprétations ou hypothèses commerciales ;
+3. les informations à vérifier avant toute action.
+
+### Accès autorisé et mise en service
+
+Ne pas supposer qu'une source propose une API publique ou autorise la collecte automatisée. Avant intégration, vérifier les API ou flux officiellement documentés, les conditions d'utilisation, les licences et les restrictions applicables. Ne pas contourner les protections techniques ni aspirer des données en violation des conditions de la source. Si aucun accès autorisé et fiable n'est disponible, enregistrer la source comme « à raccorder » et prévoir un import manuel ou un flux autorisé plutôt que de prétendre qu'une veille automatique fonctionne.
+
+### Règle de qualification
+
+Une offre d'emploi est un **signal de besoin potentiel**, pas une preuve d'achat. Le score de pertinence doit tenir compte du contexte, de la fraîcheur, de la fiabilité de la source et d'éventuels recoupements. Toute recommandation commerciale doit exposer ses raisons et son degré d'incertitude.
+
