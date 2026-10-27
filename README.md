@@ -1,25 +1,73 @@
-# MajestiOS — site public (prototype)
+# MajestiOS — vitrine publique et application professionnelle en construction
 
-Site vitrine statique en français pour présenter MajestiOS aux visiteurs, prospects et clients. Le parcours public met en avant la prospection inversée et les opportunités commerciales, sans exposer le détail des documents de conception ni la feuille de route du produit.
+**Branche de travail :** `architecture-v0-1`  
+**Statut :** prototype public statique + application Next.js en développement. Le SaaS n'est pas encore opérationnel.
 
-## Parcours du site
+## 1. Deux composants coexistent dans ce dépôt
 
-- La page d’accueil présente la promesse et les bénéfices pour l’entreprise.
-- Les rubriques Partenaires, Développement commercial, Devis et facturation, Prospection et secrétariat, et Business ouvrent un parcours de contact général.
-- Le fil d’appels d’offres et la démonstration interactive utilisent uniquement des exemples fictifs. La démonstration détaillée est facultative et repliée par défaut.
-- Les visiteurs peuvent découvrir MajestiOS, les prospects présenter un projet ou un besoin, et les clients contacter leur interlocuteur via le parcours général.
-- Le formulaire permet de prévisualiser trois intentions : accompagnement pour répondre à un AO, réception d’AO selon son activité, ou demande générale. Aucune demande n’est envoyée ou enregistrée.
+### Site public statique historique
+Fichiers principaux à la racine : `index.html`, `app.js`, `build.js` et ressources associées.
 
-Le cahier des charges et les documents stratégiques servent de référence interne à la conception. Ils ne sont pas reproduits dans le contenu public : la vitrine explique l’intérêt pour le client, sans lui demander de connaître le fonctionnement détaillé du produit.
+- Présente la proposition de valeur MajestiOS.
+- Utilise des exemples fictifs pour le fil d'opportunités et la démonstration.
+- Le formulaire est une prévisualisation : aucune demande n'est envoyée ni enregistrée.
+- Aucun backend métier, compte client, connecteur, service de facturation ou stockage de demandes n'est implémenté dans ce prototype.
 
-## Démarrer
+### Application professionnelle Next.js
+Application en construction sous `src/app`, avec TypeScript et React.
 
-Aucune installation ni aucun backend ne sont requis. Ouvrez `index.html` dans un navigateur. Pour servir les fichiers localement, exécutez `python -m http.server 8000` dans ce dossier puis ouvrez `http://localhost:8000`.
+- Les contrôles automatisés exécutent ESLint et `next build`.
+- Les écrans actuels ne prouvent pas à eux seuls qu'une fonction métier est reliée à une base ou opérationnelle.
+- La route `/api/health` est un indicateur de prototype ; elle renvoie explicitement `databaseConnected: false`.
+- L'architecture cible et le modèle restent à valider avec les tomes de référence avant la création des migrations SQL.
 
-## Déploiement Vercel
+## 2. Démarrer l'application Next.js localement
 
-Vercel exécute `node build.js`, qui place les trois fichiers du site dans `dist`, le répertoire publié. Le projet est configuré sans framework ni dépendance applicative.
+Prérequis : Node.js 20 ou version compatible avec les dépendances du projet.
 
-## Limites du prototype
+```bash
+npm install
+npm run dev
+```
 
-Le fil et les scénarios de démonstration sont fictifs. Le formulaire ne transmet rien. Aucun backend, compte ou portail client, connecteur de données, envoi externe ou service de facturation n’est implémenté. Les documents de spécification guident le positionnement, mais leur mention d’un module ou d’un parcours ne signifie pas que celui-ci est déjà opérationnel.
+Puis ouvrir `http://localhost:3000`.
+
+Commandes disponibles :
+
+```bash
+npm run lint
+npm run build
+npm run start
+```
+
+Le fichier de verrouillage npm n'est pas encore versionné dans cette branche ; l'installation n'est donc pas encore figée à l'aide de `npm ci`. L'audit de dépendances doit être exécuté et ses résultats examinés avant de considérer la chaîne d'approvisionnement logicielle comme validée.
+
+## 3. Déploiement : décision en attente
+
+Le fichier `vercel.json` configure actuellement le build historique avec `node build.js` et le répertoire publié `dist`. Il ne correspond pas encore au build Next.js défini dans `package.json`.
+
+Ne pas modifier la configuration de production avant d'avoir choisi et testé une stratégie :
+1. conserver la vitrine dans son projet de déploiement actuel et créer un projet distinct pour l'application ; ou
+2. effectuer une migration planifiée, testée et réversible.
+
+Aucune des deux stratégies n'est déclarée validée par ce README. Les contrôles CI de Next.js ne prouvent pas que Vercel publie l'application Next.js.
+
+## 4. Documentation de travail
+
+Les documents d'architecture sous `docs/architecture` sont des brouillons de travail. Ils ne remplacent pas les tomes ni leurs arbitrages. Les fichiers suivants recensent les premiers constats :
+
+- `ARCHITECTURE_CIBLE_V0.1.md` — architecture cible proposée, non validée.
+- `FEUILLE_DE_ROUTE_MVP_V0.1.md` — phases et jalons de travail.
+- `REGISTRE_ECARTS_ET_DECISIONS_V0.1.md` — écarts et décisions ouvertes.
+- `MATRICE_CORRESPONDANCE_MODELE_V0.1.md` — correspondance préliminaire entre le modèle métier et l'architecture.
+
+## 5. Garde-fous de développement
+
+- Ne pas confondre le prototype d'interface avec un SaaS fonctionnel.
+- Ne pas créer de migrations définitives avant validation du modèle de données et des règles d'accès.
+- Lorsqu'un projet Supabase DEV sera approuvé, vérifier l'identité, le tenant, les permissions et le contexte métier côté serveur et en base.
+- Ne jamais exposer de secrets dans le navigateur, dans les journaux ou dans le dépôt.
+- Tester les refus d'accès inter-tenant, pas seulement les parcours autorisés.
+- Ne pas déployer en production sans stratégie validée et approbation explicite.
+
+---
