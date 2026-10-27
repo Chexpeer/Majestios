@@ -28,7 +28,7 @@ function formatDate(input: string): string {
   if (Number.isNaN(date.getTime())) return input;
   return new Intl.DateTimeFormat("fr-FR", {
     dateStyle: "medium",
-    ...(input.includes("T") || /\\d{1,2}:\\d{2}/.test(input) ? { timeStyle: "short" as const } : {}),
+    ...(input.includes("T") || /\d{1,2}:\d{2}/.test(input) ? { timeStyle: "short" as const } : {}),
     timeZone: "Europe/Paris",
   }).format(date);
 }
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Une localisation invalide ne doit jamais déclencher silencieusement une recherche nationale.
-  const normalizedDept = location.toUpperCase().replace(/\\s+/g, "");
+  const normalizedDept = location.toUpperCase().replace(/\s+/g, "");
   const validDepartments = /^(?:0[1-9]|[1-8][0-9]|9[0-5]|2A|2B|97[1-6]|978|984|986|987|988)$/;
   if (location && !validDepartments.test(normalizedDept)) {
     return NextResponse.json({
