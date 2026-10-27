@@ -41,16 +41,30 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Type d'opportunité non pris en charge." }, { status: 400 });
   }
 
+  // Une localisation invalide ne doit jamais déclencher silencieusement une recherche nationale.
+  const normalizedDept = location.toUpperCase().replace(/\\s+/g, "");
+  const validDepartments = /^(?:0[1-9]|[1-8][0-9]|9[0-5]|2A|2B|97[1-6]|978|984|986|987|988)$/;
+  if (location && !validDepartments.test(normalizedDept)) {
+    return NextResponse.json({
+      error: "Indiquez un code département valide (ex. : 68, 2A, 2B ou 971).",
+      items: [],
+    }, { status: 400 });
+  }
+
   const apiParams = new URLSearchParams({
     limit: "50",
     order_by: "dateparution desc",
     select: "idweb,objet,nomacheteur,code_departement,code_departement_prestation,famille_libelle,dateparution,datelimitereponse,etat,type_procedure,nature_libelle,type_marche,url_avis",
   });
   if (query) apiParams.set("search", query);
+  const filters: string[] = [];
   if (location) {
-    const dept = location.replace(/[^0-9]/g, "");
-    if (dept) apiParams.set("where", `code_departement="${dept}" OR code_departement_prestation="${dept}"`);
+    filters.push('code_departement="' + normalizedDept + '" OR code_departement_prestation="' + normalizedDept + '"');
   }
+  if (type !== "all") {
+    filters.push('type_marche="' + type.toLocaleUpperCase("fr") + '"');
+  }
+  if (filters.length) apiParams.set("where", filters.map((filter) => "(" + filter + ")").join(" AND "));
 
   try {
     const response = await fetch(`${API_BASE}?${apiParams.toString()}`, {
