@@ -6,7 +6,7 @@ export const revalidate = 0;
 const API_BASE = "https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records";
 const ALLOWED_TYPES = ["Travaux", "Services", "Fournitures"] as const;
 
-type BoampRecord = { id?: string; fields?: Record<string, unknown> };
+type BoampRecord = { id?: string; fields?: Record<string, unknown>; record?: { id?: string; fields?: Record<string, unknown> } };
 
 function value(input: unknown): string {
   return typeof input === "string" || typeof input === "number" ? String(input).trim() : "";
@@ -65,8 +65,8 @@ export async function GET(request: NextRequest) {
     const payload = (await response.json()) as { results?: BoampRecord[]; total_count?: number };
     const now = Date.now();
     const items = (payload.results ?? []).map((record, index) => {
-      const fields = record.fields ?? {};
-      const officialId = value(fields.idweb) || value(record.id) || `boamp-${index}`;
+      const fields = record.record?.fields ?? record.fields ?? {};
+      const officialId = value(fields.idweb) || value(record.record?.id) || value(record.id) || `boamp-${index}`;
       const deadlineRaw = value(fields.datelimitereponse);
       const deadlineDate = deadlineRaw ? new Date(deadlineRaw).getTime() : NaN;
       const status = value(fields.etat).toLocaleUpperCase("fr");
