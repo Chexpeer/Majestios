@@ -99,7 +99,7 @@ export default function HomePage() {
         <div className="results-list">
           {filteredExamples.length ? filteredExamples.map((item) => (
             <article className="result-card" key={item.id}>
-              <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category">{item.type} <i>·</i> PUBLIC</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.deadline}</small></div><a className="result-action" href="#sources">Détails de l’annonce <span aria-hidden="true">→</span></a>
+              <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category">{item.type} <i>·</i> PUBLIC</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.deadline}</small></div><span className="result-action result-action-disabled" aria-label="Source officielle non disponible pour cet exemple">Source officielle à raccorder</span>
             </article>
           )) : <div className="empty-results">Aucun exemple ne correspond à ces filtres. Essayez d’élargir votre recherche.</div>}
         </div>
@@ -111,7 +111,7 @@ export default function HomePage() {
         <div className="how-flow"><div><span>01</span><strong>Entreprise</strong><small>Comprendre le contexte</small></div><i>→</i><div><span>02</span><strong>Interlocuteur</strong><small>Identifier le bon contact</small></div><i>→</i><div><span>03</span><strong>Décideur</strong><small>Préparer l’action</small></div></div>
       </section>
 
-      <section className="signup-strip" id="demande-acces"><div><h2>Ne manquez pas une opportunité.</h2><p>La création de compte et les alertes personnalisées seront proposées dans la version connectée.</p></div><a href="mailto:contact@majestios.com?subject=Acc%C3%A8s%20MajestiOS">Être informé du lancement <span>→</span></a></section>
+      <section className="signup-strip" id="demande-acces"><div><h2>Ne manquez pas une opportunité.</h2><p>La création de compte et les alertes personnalisées seront proposées dans la version connectée.</p></div><span className="signup-coming-soon">Les alertes personnalisées seront activées après le raccordement des sources.</span></section>
 
       <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><span>La recherche d’opportunités professionnelles, enrichie par l’intelligence commerciale.</span><small>© MajestiOS · Site en construction</small></footer>
 
