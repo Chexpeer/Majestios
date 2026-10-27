@@ -35,6 +35,24 @@ Le code gère les erreurs de la source externe et ne remplace pas silencieusemen
 
 La présence du connecteur dans le code ne constitue pas, à elle seule, une preuve de fonctionnement en production.
 
+## 3. Orientation produit cible : copilote IA de développement commercial
+
+MajestiOS doit évoluer vers une plateforme d'intelligence commerciale assistée par IA. L'assistant conversationnel est envisagé comme une interface de travail qui aide l'utilisateur à mobiliser les fonctions de la plateforme, et non comme un chatbot généraliste isolé.
+
+Capacités cibles, à concevoir et livrer progressivement :
+- rechercher des opportunités dans les sources autorisées et expliciter leur provenance ;
+- rechercher et qualifier des entreprises ;
+- aider à identifier les interlocuteurs et décideurs à partir d'informations accessibles et vérifiables ;
+- préparer des analyses de marché, des argumentaires et des scripts de prospection ;
+- organiser les prochaines actions commerciales ;
+- exploiter une mémoire d'entreprise structurée, isolée par organisation et soumise aux droits d'accès.
+
+Principe d'architecture : commencer par un assistant unique doté de compétences métier, connecté à des outils serveur explicitement autorisés. Séparer les capacités et les permissions par rôle plutôt que multiplier d'emblée les agents ou les clés API. Les clés doivent rester côté serveur ; les quotas, la consommation, la traçabilité et l'isolation des données devront être conçus avant l'ouverture aux utilisateurs.
+
+Garde-fou : ces capacités décrivent une orientation produit, pas des fonctions déjà disponibles. Une action ne doit être présentée comme exécutée que si l'outil correspondant l'a réellement effectuée. Les réponses doivent distinguer les faits sourcés, les inférences et les informations à vérifier. Toute automatisation externe sensible doit rester soumise aux permissions appropriées et, lorsque nécessaire, à une confirmation humaine.
+
+Ordre recommandé : stabiliser et tester le connecteur BOAMP ; valider les parcours et les objets métier à partir des tomes de référence ; définir les contrats des outils de l'assistant ; puis intégrer progressivement le chat à des fonctions métier réellement opérationnelles.
+
 ## 3. Fonctions non encore attestées
 
 À ce stade, ne pas présenter comme opérationnels :
