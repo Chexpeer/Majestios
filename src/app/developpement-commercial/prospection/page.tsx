@@ -1,4 +1,35 @@
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
-export const metadata={title:"Prospection commerciale — MajestiOS",description:"Structurer une prospection B2B fondée sur des cibles, des entreprises et des interlocuteurs vérifiables."};
-export default function Page(){return <main className="public-site concept-page"><PublicHeader/><section className="how-section concept-hero"><div><span className="section-label">SOUS-RUBRIQUE · DÉVELOPPEMENT COMMERCIAL</span><h1>Une prospection mieux ciblée, <em>mieux préparée.</em></h1><p>Le module de prospection vise à relier la définition d’une cible, la recherche d’entreprises, la qualification des interlocuteurs et la préparation des actions commerciales. Les données doivent rester sourcées et les informations incertaines clairement signalées.</p></div></section><section className="concept-grid"><article><span>01 · CIBLER</span><h2>Définir le marché visé</h2><p>Préciser le secteur, la zone, la taille d’entreprise, le besoin potentiel et les critères d’exclusion.</p></article><article><span>02 · IDENTIFIER</span><h2>Repérer les entreprises</h2><p>Constituer une liste à partir de sources autorisées, avec dates de collecte, provenance et gestion des doublons.</p></article><article><span>03 · QUALIFIER</span><h2>Comprendre les interlocuteurs</h2><p>Relier entreprise, interlocuteur et décideur sans inventer de coordonnées ni présenter une hypothèse comme un fait.</p></article><article><span>04 · PRÉPARER</span><h2>Organiser la prochaine action</h2><p>Préparer un angle de contact, une question utile et une prochaine étape à consigner dans l’historique commercial.</p></article></section><section className="concept-principles"><h2>Un parcours à construire par étapes</h2><p><strong>État actuel :</strong> cette page décrit le périmètre cible. La collecte automatisée, la qualification enrichie et le suivi complet ne sont pas déclarés opérationnels ici.</p><Link className="search-submit concept-cta" href="/developpement-commercial">Retour au pôle Développement commercial ↗</Link></section> <Link className="search-submit concept-cta" href="/faq#prospection">Questions fréquentes sur la prospection ↗</Link></main>}
+
+export const metadata = {
+  title: "Prospection commerciale — MajestiOS",
+  description: "Préparer sa recherche de clients et organiser les prochaines actions commerciales.",
+};
+
+export default function Page() {
+  return (
+    <main className="public-site concept-page">
+      <PublicHeader />
+      <section className="how-section concept-hero">
+        <div>
+          <span className="section-label">DÉVELOPPEMENT COMMERCIAL</span>
+          <h1>Recherchez les bons clients.<br /><em>Préparez le bon contact.</em></h1>
+          <p>La prospection consiste à trouver les entreprises qui pourraient avoir besoin de vos services, puis à préparer une prise de contact utile. MajestiOS prévoit de vous aider à organiser ce travail, étape par étape.</p>
+        </div>
+      </section>
+      <section className="concept-grid">
+        <article><span>01 · DÉFINIR</span><h2>Choisir sa cible</h2><p>Précisez votre activité, les entreprises recherchées, leur secteur, leur taille et la zone géographique visée.</p></article>
+        <article><span>02 · RECHERCHER</span><h2>Trouver des entreprises</h2><p>Rechercher des entreprises à partir de sources accessibles et garder un lien pour vérifier les informations.</p></article>
+        <article><span>03 · COMPRENDRE</span><h2>Identifier le bon contact</h2><p>Repérer, lorsque l’information est disponible, la personne ou le service à contacter. Les noms et coordonnées doivent être vérifiés.</p></article>
+        <article><span>04 · AGIR</span><h2>Préparer la prise de contact</h2><p>Définir pourquoi vous contactez l’entreprise, ce que vous souhaitez lui demander et quelle sera la prochaine étape.</p></article>
+      </section>
+      <section className="concept-principles">
+        <h2>Ce qui est prévu, et ce qui reste à faire</h2>
+        <p>À terme, MajestiOS doit aider à rechercher des entreprises, à mieux comprendre leurs besoins possibles et à organiser les relances.</p>
+        <p><strong>État actuel :</strong> cette page présente le service envisagé. La recherche automatique de prospects, la vérification enrichie des contacts et le suivi complet ne sont pas encore annoncés comme opérationnels.</p>
+        <Link className="search-submit concept-cta" href="/developpement-commercial">Retour aux services commerciaux ↗</Link>
+        <Link className="search-submit concept-cta" href="/faq#prospection">Questions fréquentes sur la prospection ↗</Link>
+      </section>
+    </main>
+  );
+}
