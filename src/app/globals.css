@@ -572,3 +572,24 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
 .faq-item h3 { margin:0 0 8px; font-size:18px; line-height:1.4; color:#183b3a; }
 .faq-item p { max-width:850px; margin:0; line-height:1.75; color:#465b5a; }
 #decouvrir, #appels-offres, #prospection, #etudes-de-marche, #accompagnement-appels-offres, #reseaux, #compte, #ia-fiabilite { scroll-margin-top:24px; }
+
+/* Accessibilité clavier : repères de focus visibles dans la navigation et les actions. */
+.public-header a:focus-visible,
+.public-header summary:focus-visible,
+.public-footer a:focus-visible,
+.public-site a:focus-visible,
+.public-site button:focus-visible,
+.public-site input:focus-visible,
+.public-site select:focus-visible,
+.public-site textarea:focus-visible {
+  outline:3px solid #c79b4b;
+  outline-offset:3px;
+}
+.nav-dropdown summary { border-radius:4px; }
+@media(max-width:700px) {
+  .public-header { align-items:flex-start; }
+  .public-brand { max-width:calc(100% - 150px); }
+  .public-brand small { max-width:100%; line-height:1.4; }
+  .header-login { margin-left:auto; }
+  .public-nav { width:100%; }
+}
