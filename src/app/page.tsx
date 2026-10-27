@@ -84,12 +84,22 @@ export default function HomePage() {
           <span><strong>MajestiOS</strong><small>LES OPPORTUNITÉS PROFESSIONNELLES</small></span>
         </Link>
         <nav className="public-nav" aria-label="Navigation principale">
+          <Link href="/" aria-current="page">Accueil</Link>
           <Link href="/appels-offres-publics">Appels d’offres publics</Link>
           <Link href="/appels-offres-prives">Appels d’offres privés</Link>
-          <Link href="/developpement-commercial">Développement commercial</Link>
-          <Link href="/etudes-de-marche">Études de marché</Link>
-          <Link href="/developpement-commercial/e-reputation">E-réputation</Link>
-          <Link href="/business">Business</Link><Link href="/partenaires">Partenaires</Link>
+          <details className="nav-dropdown">
+            <summary>Développement commercial <span aria-hidden="true">⌄</span></summary>
+            <div className="nav-dropdown-menu">
+              <Link href="/developpement-commercial">Vue d’ensemble</Link>
+              <Link href="/developpement-commercial/prospection">Prospection commerciale</Link>
+              <Link href="/etudes-de-marche">Études de marché</Link>
+              <Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link>
+              <Link href="/developpement-commercial/e-reputation">E-réputation</Link>
+              <Link href="/business">Diagnostic Business</Link>
+            </div>
+          </details>
+          <Link href="/reseaux">Réseaux</Link>
+          <Link href="/nous-rejoindre">Nous rejoindre</Link>
         </nav>
         <Link className="header-login" href="/espace-professionnel">Espace professionnel</Link>
       </header>
@@ -97,8 +107,8 @@ export default function HomePage() {
       <section className="public-hero" id="recherche">
         <div className="hero-content">
           <span className="public-eyebrow"><span /> VEILLE ET OPPORTUNITÉS PROFESSIONNELLES</span>
-          <h1>Trouvez votre prochain<br /><em>appel d’offres.</em></h1>
-          <p className="public-intro">Recherchez des appels d’offres publics et découvrez des opportunités privées adaptées à votre activité, votre métier et votre zone géographique.</p>
+          <h1>Transformez les signaux<br />en <em>opportunités.</em></h1>
+          <p className="public-intro">MajestiOS relie veille, appels d’offres, analyse de marché et développement commercial pour aider les professionnels à repérer les opportunités, comprendre les acteurs concernés et préparer leurs prochaines actions.</p>
           <form className="tender-search" onSubmit={(event) => { event.preventDefault(); setAppliedKeyword(keyword.trim()); setAppliedLocation(location.trim()); setAppliedType(type); document.getElementById("resultats")?.scrollIntoView({ behavior: "smooth" }); }}>
             <label className="search-field search-keyword" htmlFor="search-keyword"><span>Que recherchez-vous ?</span><input id="search-keyword" name="keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Ex. : nettoyage, travaux, informatique…" autoComplete="off" /></label>
             <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Code département (ex. : 68)" autoComplete="off" /></label>
@@ -153,10 +163,44 @@ export default function HomePage() {
         <p className="join-disclaimer"><strong>À préciser avant ouverture :</strong> conditions de collaboration, statut et rémunération. Les candidatures ne sont pas encore collectées par un formulaire connecté.</p>
       </section>
 
-      <section className="feature-sections" aria-label="Fonctionnalités MajestiOS">
-        <article id="intelligence"><span className="section-label">01 · QUALIFIER</span><h2>Développement commercial</h2><p>Rechercher et qualifier des opportunités, comprendre les entreprises et préparer les prochaines actions commerciales.</p><span className="feature-status">Fonctionnalités en développement</span></article>
-        <article id="etudes"><span className="section-label">02 · ANALYSER</span><h2>Études de marché</h2><p>Structurer une analyse par secteur, zone géographique et besoin métier, avec une attention portée aux sources et aux limites.</p><span className="feature-status">Fonctionnalités en développement</span></article>
-        <article id="ereputation"><span className="section-label">03 · SURVEILLER</span><h2>E-réputation</h2><p>Sous-rubrique du développement commercial : surveiller les mentions, qualifier les signaux et préparer les actions avec des sources identifiées.</p><span className="feature-status">Fonctionnalités en développement</span></article>
+      <section className="service-hub" id="developpement-commercial" aria-labelledby="service-hub-title">
+        <div className="service-hub-heading">
+          <span className="section-label">LE PÔLE MÉTIER CENTRAL</span>
+          <h2 id="service-hub-title">Développement commercial</h2>
+          <p>Un ensemble de services complémentaires, organisés autour d’un objectif : passer de l’information à une décision commerciale mieux préparée.</p>
+        </div>
+        <div className="service-grid">
+          <article className="service-card service-card-featured" id="prospection">
+            <span className="service-index">01 · DÉTECTER</span><h3>Prospection commerciale</h3>
+            <p>Définir une cible, repérer les entreprises pertinentes, qualifier les interlocuteurs et préparer une prise de contact.</p>
+            <Link href="/developpement-commercial/prospection">Explorer la prospection ↗</Link>
+            <small>Parcours cible — fonctionnalités en développement</small>
+          </article>
+          <article className="service-card" id="etudes">
+            <span className="service-index">02 · ANALYSER</span><h3>Études de marché</h3>
+            <p>Structurer une analyse par secteur et territoire, comparer les segments et documenter les sources, limites et hypothèses.</p>
+            <Link href="/etudes-de-marche">Explorer les études de marché ↗</Link>
+            <small>Page de cadrage — moteur d’étude non activé</small>
+          </article>
+          <article className="service-card" id="accompagnement-appels-offres">
+            <span className="service-index">03 · ACCOMPAGNER</span><h3>Accompagnement aux appels d’offres</h3>
+            <p>Examiner les critères, les pièces demandées et les échéances, puis organiser les étapes de préparation d’une réponse.</p>
+            <Link href="/developpement-commercial/accompagnement-appels-offres">Découvrir l’accompagnement ↗</Link>
+            <small>Ne remplace pas les instructions de l’acheteur</small>
+          </article>
+          <article className="service-card" id="ereputation">
+            <span className="service-index">04 · SURVEILLER</span><h3>E-réputation</h3>
+            <p>Organiser une veille sourcée, comprendre le contexte des mentions et préparer des actions soumises à validation humaine.</p>
+            <Link href="/developpement-commercial/e-reputation">Explorer l’e-réputation ↗</Link>
+            <small>Sous-rubrique du développement commercial</small>
+          </article>
+          <article className="service-card" id="diagnostic-business">
+            <span className="service-index">05 · ORIENTER</span><h3>Diagnostic Business</h3>
+            <p>Poser le cadre de l’entreprise, ses objectifs et ses priorités pour préparer les prochaines pistes de développement.</p>
+            <Link href="/business">Évaluer mon entreprise ↗</Link>
+            <small>Formulaire de demande disponible</small>
+          </article>
+        </div>
       </section>
 
       <section className="results-section" id="resultats">
@@ -178,12 +222,16 @@ export default function HomePage() {
 
       <section className="signup-strip" id="demande-acces"><div><h2>Ne manquez pas une opportunité.</h2><p>La création de compte et les alertes personnalisées seront proposées dans la version connectée.</p></div><span className="signup-coming-soon">Les alertes personnalisées seront activées après le raccordement des sources.</span></section>
 
-      <section className="feature-sections"><article><span className="section-label">04 · BUSINESS</span><h2>Évaluer mon entreprise</h2><p>Structurer un premier diagnostic de positionnement et d’objectifs commerciaux.</p><Link href="/business">Accéder à l’espace Business ↗</Link></article><article><span className="section-label">05 · PARTENAIRES</span><h2>Développer l’écosystème</h2><p>Explorer les catégories de collaboration et les besoins de mise en relation.</p><Link href="/partenaires">Découvrir les partenariats ↗</Link></article></section><footer className="public-footer">
+      <section className="network-section" id="reseaux">
+        <div><span className="section-label">ÉCOSYSTÈME PROFESSIONNEL</span><h2>Les opportunités se développent aussi par les réseaux.</h2><p>Explorez les catégories de collaboration envisagées entre entreprises, experts, opérateurs et partenaires technologiques. Les mises en relation proposées devront être vérifiées et consenties.</p></div>
+        <Link className="network-cta" href="/reseaux">Découvrir les réseaux professionnels ↗</Link>
+      </section>
+      <footer className="public-footer">
         <Link className="footer-brand" href="/">MajestiOS</Link>
         <div className="footer-links">
           <div><strong>Découvrir</strong><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/appels-offres-publics">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link></div>
-          <div><strong>Nos expertises</strong><Link href="/developpement-commercial">Développement commercial</Link><Link href="/etudes-de-marche">Études de marché</Link><Link href="/developpement-commercial/e-reputation">E-réputation</Link></div>
-          <div><strong>Rejoindre</strong><Link href="/nous-rejoindre">Les deux missions de recrutement</Link></div>
+          <div><strong>Nos expertises</strong><Link href="/developpement-commercial">Développement commercial</Link><Link href="/developpement-commercial/prospection">Prospection commerciale</Link><Link href="/etudes-de-marche">Études de marché</Link><Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link><Link href="/developpement-commercial/e-reputation">E-réputation</Link></div>
+          <div><strong>Rejoindre</strong><Link href="/reseaux">Réseaux professionnels</Link><Link href="/nous-rejoindre">Les deux missions de recrutement</Link></div>
           <div><strong>Informations</strong><Link href="/mentions-legales">Mentions légales</Link></div>
         </div>
         <small>© MajestiOS · Site en construction</small>
