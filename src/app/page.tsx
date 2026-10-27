@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
+import PublicHeader from "@/components/public-header";
 
 type Opportunity = {
   id: number | string;
@@ -78,37 +79,13 @@ export default function HomePage() {
 
   return (
     <main className="public-site">
-      <header className="public-header">
-        <Link className="public-brand" href="/" aria-label="MajestiOS, accueil">
-          <span className="public-brand-mark">M</span>
-          <span><strong>MajestiOS</strong><small>LES OPPORTUNITÉS PROFESSIONNELLES</small></span>
-        </Link>
-        <nav className="public-nav" aria-label="Navigation principale">
-          <Link href="/" aria-current="page">Accueil</Link>
-          <Link href="/appels-offres-publics">Appels d’offres publics</Link>
-          <Link href="/appels-offres-prives">Appels d’offres privés</Link>
-          <details className="nav-dropdown">
-            <summary>Développement commercial <span aria-hidden="true">⌄</span></summary>
-            <div className="nav-dropdown-menu">
-              <Link href="/developpement-commercial">Vue d’ensemble</Link>
-              <Link href="/developpement-commercial/prospection">Prospection commerciale</Link>
-              <Link href="/developpement-commercial/etudes-de-marche">Études de marché</Link>
-              <Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link>
-              <Link href="/developpement-commercial/e-reputation">E-réputation</Link>
-              <Link href="/business">Diagnostic Business</Link>
-            </div>
-          </details>
-          <Link href="/reseaux">Réseaux</Link>
-          <Link href="/nous-rejoindre">Nous rejoindre</Link>
-        </nav>
-        <Link className="header-login" href="/espace-professionnel">Espace professionnel</Link>
-      </header>
+      <PublicHeader />
 
       <section className="public-hero" id="recherche">
         <div className="hero-content">
           <span className="public-eyebrow"><span /> VEILLE ET OPPORTUNITÉS PROFESSIONNELLES</span>
           <h1>Transformez les signaux<br />en <em>opportunités.</em></h1>
-          <p className="public-intro">MajestiOS relie veille, appels d’offres, analyse de marché et développement commercial pour aider les professionnels à repérer les opportunités, comprendre les acteurs concernés et préparer leurs prochaines actions.</p>
+          <p className="public-intro">MajestiOS aide les professionnels à repérer des occasions de développer leur activité, trouver les bons contacts et préparer leurs prochaines actions commerciales.</p>
           <form className="tender-search" onSubmit={(event) => { event.preventDefault(); setAppliedKeyword(keyword.trim()); setAppliedLocation(location.trim()); setAppliedType(type); document.getElementById("resultats")?.scrollIntoView({ behavior: "smooth" }); }}>
             <label className="search-field search-keyword" htmlFor="search-keyword"><span>Que recherchez-vous ?</span><input id="search-keyword" name="keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Ex. : nettoyage, travaux, informatique…" autoComplete="off" /></label>
             <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Code département (ex. : 68)" autoComplete="off" /></label>
@@ -125,7 +102,7 @@ export default function HomePage() {
       </section>
 
       <section className="private-section" id="prive">
-        <div className="private-heading"><div><span className="section-label">À DÉCOUVRIR</span><h2>Les opportunités privées</h2><p>Un aperçu des opportunités réservées ou diffusées par des acteurs privés.</p></div><span className="private-live"><i /> FIL D’OPPORTUNITÉS</span></div>
+        <div className="private-heading"><div><span className="section-label">À DÉCOUVRIR</span><h2>Les opportunités privées</h2><p>Des exemples pour montrer comment les opportunités privées pourront être présentées.</p></div><span className="private-live"><i /> FIL D’OPPORTUNITÉS</span></div>
         <div className="ticker-window">
           <div className="ticker-track">
             {[...privateTeasers, ...privateTeasers].map((item, index) => (
@@ -167,7 +144,7 @@ export default function HomePage() {
         <div className="service-hub-heading">
           <span className="section-label">LE PÔLE MÉTIER CENTRAL</span>
           <h2 id="service-hub-title">Développement commercial</h2>
-          <p>Un ensemble de services complémentaires, organisés autour d’un objectif : passer de l’information à une décision commerciale mieux préparée.</p>
+          <p>Des services complémentaires pour vous aider à trouver des clients, comprendre un marché et choisir vos prochaines actions.</p>
         </div>
         <div className="service-grid">
           <article className="service-card service-card-featured" id="prospection">
@@ -204,7 +181,7 @@ export default function HomePage() {
       </section>
 
       <section className="results-section" id="resultats">
-        <div className="results-heading"><div><span className="section-label">EXPLORER LES CONSULTATIONS</span><h2>Appels d’offres publics</h2><p>Affinez votre recherche et consultez les informations de chaque source.</p></div><span className="results-count">{loadingExamples ? "Recherche en cours…" : examplesError ? "Source indisponible" : `${filteredExamples.length} résultat${filteredExamples.length > 1 ? "s" : ""} BOAMP`}</span></div>
+        <div className="results-heading"><div><span className="section-label">EXPLORER LES CONSULTATIONS</span><h2>Appels d’offres publics</h2><p>Recherchez par mot-clé, zone géographique ou type de marché. Vérifiez ensuite chaque avis sur le site officiel.</p></div><span className="results-count">{loadingExamples ? "Recherche en cours…" : examplesError ? "Source indisponible" : `${filteredExamples.length} résultat${filteredExamples.length > 1 ? "s" : ""} BOAMP`}</span></div>
         <div className="results-list">
           {loadingExamples ? <div className="empty-results" role="status">Chargement des avis BOAMP…</div> : examplesError ? <div className="empty-results" role="alert"><p>{examplesError}</p><button className="search-submit" type="button" onClick={() => setRetryCount((count) => count + 1)}>Réessayer</button></div> : filteredExamples.length ? filteredExamples.map((item) => (
             <article className="result-card" key={item.id}>
@@ -216,14 +193,14 @@ export default function HomePage() {
       </section>
 
       <section className="how-section" id="fonctionnement">
-        <div><span className="section-label">AU-DELÀ DE LA RECHERCHE</span><h2>Une opportunité ne s’arrête pas à une annonce.</h2><p>MajestiOS a vocation à aider les professionnels à qualifier les besoins, comprendre les entreprises concernées, repérer les interlocuteurs pertinents et organiser les prochaines actions commerciales.</p></div>
+        <div><span className="section-label">AU-DELÀ DE LA RECHERCHE</span><h2>Une opportunité ne s’arrête pas à une annonce.</h2><p>MajestiOS veut vous aider à comprendre une occasion, trouver la bonne personne à contacter et décider de la suite.</p></div>
         <div className="how-flow"><div><span>01</span><strong>Entreprise</strong><small>Comprendre le contexte</small></div><i>→</i><div><span>02</span><strong>Interlocuteur</strong><small>Identifier le bon contact</small></div><i>→</i><div><span>03</span><strong>Décideur</strong><small>Préparer l’action</small></div></div>
       </section>
 
       <section className="signup-strip" id="demande-acces"><div><h2>Ne manquez pas une opportunité.</h2><p>La création de compte et les alertes personnalisées seront proposées dans la version connectée.</p></div><span className="signup-coming-soon">Les alertes personnalisées seront activées après le raccordement des sources.</span></section>
 
       <section className="network-section" id="reseaux">
-        <div><span className="section-label">ÉCOSYSTÈME PROFESSIONNEL</span><h2>Les opportunités se développent aussi par les réseaux.</h2><p>Explorez les catégories de collaboration envisagées entre entreprises, experts, opérateurs et partenaires technologiques. Les mises en relation proposées devront être vérifiées et consenties.</p></div>
+        <div><span className="section-label">ÉCOSYSTÈME PROFESSIONNEL</span><h2>Les opportunités se développent aussi par les réseaux.</h2><p>Découvrez les types de partenaires qui pourraient aider votre entreprise. Toute mise en relation devra être vérifiée et acceptée par les personnes concernées.</p></div>
         <Link className="network-cta" href="/reseaux">Découvrir les réseaux professionnels ↗</Link>
       </section>
       <footer className="public-footer">
