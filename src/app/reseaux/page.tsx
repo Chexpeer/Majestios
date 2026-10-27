@@ -1,4 +1,34 @@
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
-export const metadata={title:"Réseaux professionnels — MajestiOS",description:"Explorer les catégories de coopération et de mise en relation dans un écosystème professionnel B2B."};
-export default function NetworksPage(){return <main className="public-site concept-page"><PublicHeader/><section className="how-section concept-hero"><div><span className="section-label">ÉCOSYSTÈME PROFESSIONNEL B2B</span><h1>Les bonnes relations créent de nouvelles <em>opportunités.</em></h1><p>MajestiOS vise à relier les besoins des organisations aux compétences, ressources et partenaires pertinents. Les rapprochements proposés restent des pistes à vérifier, jamais des faits ou engagements automatiques.</p></div></section><section className="concept-grid"><article><span>01 · EXPERTISE</span><h2>Conseil et expertise</h2><p>Cabinets de conseil, experts sectoriels et professionnels pouvant contribuer à l’analyse ou à l’accompagnement des entreprises.</p></article><article><span>02 · TECHNOLOGIE</span><h2>Réseaux technologiques</h2><p>Acteurs logiciels, intégrateurs et fournisseurs de services compatibles avec les exigences d’interopérabilité, de sécurité et de traçabilité.</p></article><article><span>03 · OPÉRATIONS</span><h2>Réseau d’opérateurs</h2><p>Professionnels susceptibles d’intervenir sur des missions commerciales, après cadrage, vérification des compétences et accord des parties.</p></article><article><span>04 · DÉVELOPPEMENT</span><h2>Alliances professionnelles</h2><p>Relations de filière, coopération entre entreprises et autres formes de collaboration à explorer selon le besoin et le stade du projet.</p></article></section><section className="concept-principles"><h2>Une mise en relation qui doit rester fiable</h2><p>Le parcours de contact sera activé une fois le traitement des demandes, les règles de confidentialité et le suivi des échanges raccordés. Cette page présente les catégories de collaboration recherchées ; elle ne constitue pas un annuaire de partenaires déjà validés.</p><Link className="search-submit concept-cta" href="/business">Décrire un besoin Business ↗</Link></section> <Link className="search-submit concept-cta" href="/faq#reseaux">Questions fréquentes sur les réseaux ↗</Link></main>}
+
+export const metadata = {
+  title: "Réseaux professionnels — MajestiOS",
+  description: "Découvrir les types de partenaires qui peuvent aider au développement d’une activité professionnelle.",
+};
+
+export default function NetworksPage() {
+  return (
+    <main className="public-site concept-page">
+      <PublicHeader />
+      <section className="how-section concept-hero">
+        <div>
+          <span className="section-label">RÉSEAUX PROFESSIONNELS</span>
+          <h1>Les bonnes compétences.<br /><em>Les bonnes collaborations.</em></h1>
+          <p>MajestiOS veut faciliter la recherche de partenaires utiles au développement d’une entreprise. Une collaboration proposée doit toujours être vérifiée et acceptée par les personnes concernées.</p>
+        </div>
+      </section>
+      <section className="concept-grid">
+        <article><span>01 · CONSEIL</span><h2>Experts et consultants</h2><p>Des spécialistes qui peuvent aider à comprendre un marché, résoudre un problème ou préparer un projet.</p></article>
+        <article><span>02 · OUTILS</span><h2>Partenaires technologiques</h2><p>Des entreprises qui proposent des logiciels, des services numériques ou des outils complémentaires.</p></article>
+        <article><span>03 · MISSIONS</span><h2>Professionnels de terrain</h2><p>Des personnes ou entreprises pouvant intervenir sur une mission, après vérification du besoin et des compétences.</p></article>
+        <article><span>04 · ALLIANCES</span><h2>Entreprises partenaires</h2><p>Des entreprises qui souhaitent travailler ensemble, partager des compétences ou répondre à un besoin commun.</p></article>
+      </section>
+      <section className="concept-principles">
+        <h2>La confiance avant tout</h2>
+        <p>Avant une mise en relation, il faudra pouvoir vérifier les informations utiles, préciser le besoin et obtenir l’accord des personnes concernées. Cette page présente les collaborations recherchées : elle ne constitue pas encore un annuaire de partenaires déjà validés.</p>
+        <Link className="search-submit concept-cta" href="/business">Présenter mon besoin professionnel ↗</Link>
+        <Link className="search-submit concept-cta" href="/faq#reseaux">Questions fréquentes sur les réseaux ↗</Link>
+      </section>
+    </main>
+  );
+}
