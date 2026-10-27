@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
       - name: Generate a temporary lockfile without changing dependency declarations
         run: npm install --package-lock-only --ignore-scripts
       - name: Run npm audit and save the full report
