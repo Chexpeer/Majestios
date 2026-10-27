@@ -320,3 +320,25 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
 .access-form input:not([type=checkbox]):focus-visible,.access-form textarea:focus-visible,.search-reset:focus-visible,.search-submit:focus-visible,.private-teaser:focus-visible,.modal-close:focus-visible { outline:2px solid #0d7770; outline-offset:3px; }
 @media (max-width:1050px) { .search-reset { grid-column:1 / -1; } }
 @media (max-width:700px) { .search-reset { width:100%; } }
+
+
+/* Espace « Nous rejoindre » — annonces de démonstration, sans candidature active */
+.join-section { padding:46px clamp(20px,7vw,104px); background:#f5f8f8; border-top:1px solid var(--public-line); border-bottom:1px solid var(--public-line); }
+.join-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:24px; }
+.join-heading h2 { margin:7px 0 8px; color:var(--public-navy); font:800 clamp(23px,3vw,32px) Manrope,sans-serif; letter-spacing:-.7px; }
+.join-heading p { max-width:650px; margin:0; color:#6b7f8c; font-size:12px; line-height:1.8; }
+.join-badge { flex-shrink:0; padding:9px 11px; border:1px solid #d1e4e1; border-radius:7px; background:#eaf4f2; color:var(--public-teal); font-size:8px; font-weight:900; letter-spacing:.7px; }
+.join-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.join-card { display:flex; flex-direction:column; align-items:flex-start; min-width:0; padding:21px; border:1px solid #e0e8eb; border-radius:11px; background:#fff; box-shadow:0 4px 16px rgb(24 52 67 / 3%); }
+.join-card-top { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; }
+.join-icon { display:grid; place-items:center; width:38px; height:38px; border-radius:10px; background:#e9f4f2; color:var(--public-teal); font-size:19px; }
+.join-kind { color:var(--public-teal); font-size:8px; font-weight:900; letter-spacing:.8px; text-align:right; }
+.join-card h3 { margin:18px 0 8px; color:var(--public-navy); font:800 16px Manrope,sans-serif; }
+.join-card p { min-height:66px; margin:0; color:#6b7f8c; font-size:11px; line-height:1.8; }
+.join-tags { display:flex; flex-wrap:wrap; gap:6px; margin:15px 0 18px; }
+.join-tags span { padding:5px 8px; border:1px solid #e0e9ec; border-radius:5px; background:#f8fafb; color:#627886; font-size:9px; }
+.join-card-status { margin-top:auto; padding-top:11px; border-top:1px solid #edf1f3; width:100%; color:#8a7651; font-size:9px; font-weight:700; line-height:1.5; }
+.join-disclaimer { margin:17px 0 0; padding:12px 14px; border:1px solid #e8dfca; border-radius:8px; background:#fbf7ef; color:#786a4e; font-size:10px; line-height:1.7; }
+.join-disclaimer strong { color:#5e4b2d; }
+@media (max-width:900px) { .join-grid { grid-template-columns:1fr 1fr; }.join-card:last-child { grid-column:1 / -1; } }
+@media (max-width:700px) { .public-nav { flex-wrap:wrap; }.join-section { padding:34px 18px; }.join-heading { flex-direction:column; gap:12px; }.join-grid { grid-template-columns:1fr; }.join-card:last-child { grid-column:auto; }.join-card p { min-height:0; }.join-badge { white-space:normal; } }
