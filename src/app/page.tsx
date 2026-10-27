@@ -84,14 +84,14 @@ export default function HomePage() {
           <span><strong>MajestiOS</strong><small>LES OPPORTUNITÉS PROFESSIONNELLES</small></span>
         </Link>
         <nav className="public-nav" aria-label="Navigation principale">
-          <a href="#recherche">Appels d’offres publics</a>
+          <Link href="/appels-offres-publics">Appels d’offres publics</Link>
           <Link href="/appels-offres-prives">Appels d’offres privés</Link>
-          <a href="#intelligence">Intelligence commerciale</a>
-          <a href="#etudes">Études de marché</a>
-          <a href="#ereputation">E-réputation</a>
+          <Link href="/intelligence-commerciale">Intelligence commerciale</Link>
+          <Link href="/etudes-de-marche">Études de marché</Link>
+          <Link href="/e-reputation">E-réputation</Link>
           <Link href="/nous-rejoindre">Nous rejoindre</Link>
         </nav>
-        <a className="header-login" href="#demande-acces">Connexion / Inscription</a>
+        <Link className="header-login" href="/espace-professionnel">Espace professionnel</Link>
       </header>
 
       <section className="public-hero" id="recherche">
@@ -164,7 +164,7 @@ export default function HomePage() {
         <div className="results-list">
           {loadingExamples ? <div className="empty-results" role="status">Chargement des avis BOAMP…</div> : examplesError ? <div className="empty-results" role="alert"><p>{examplesError}</p><button className="search-submit" type="button" onClick={() => setRetryCount((count) => count + 1)}>Réessayer</button></div> : filteredExamples.length ? filteredExamples.map((item) => (
             <article className="result-card" key={item.id}>
-              <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category">{item.type} <i>·</i> BOAMP / DILA</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.buyer ? `Acheteur : ${item.buyer} · ` : ""}Publication : {item.publishedAt ?? "date non renseignée"} · {item.deadline}</small><small>Statut source : {item.officialStatus ?? "à vérifier"}{item.isOpen ? " · Échéance future détectée" : " · Ouverture à vérifier"}</small></div><a className="result-action" href={item.sourceUrl ?? "https://www.boamp.fr/"} target="_blank" rel="noreferrer">Voir l’annonce officielle ↗</a>
+              <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category">{item.type} <i>·</i> BOAMP / DILA</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.buyer ? `Acheteur : ${item.buyer} · ` : ""}Publication : {item.publishedAt ?? "date non renseignée"} · {item.deadline}</small><small>Statut source : {item.officialStatus ?? "à vérifier"}{item.isOpen ? " · Échéance future détectée" : " · Ouverture à vérifier"}</small></div><div className="result-actions"><Link className="result-action" href={`/appels-offres-publics/${encodeURIComponent(String(item.id))}`}>Détail MajestiOS ↗</Link><a className="result-action" href={item.sourceUrl ?? "https://www.boamp.fr/"} target="_blank" rel="noreferrer">Avis officiel ↗</a></div>
             </article>
           )) : <div className="empty-results" role="status">Aucun avis BOAMP ne correspond aux filtres actuels. Essayez un autre mot-clé ou élargissez la recherche.</div>}
         </div>
@@ -181,8 +181,8 @@ export default function HomePage() {
       <footer className="public-footer">
         <Link className="footer-brand" href="/">MajestiOS</Link>
         <div className="footer-links">
-          <div><strong>Découvrir</strong><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/#recherche">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link></div>
-          <div><strong>Nos expertises</strong><Link href="/#intelligence">Intelligence commerciale</Link><Link href="/#etudes">Études de marché</Link><Link href="/#ereputation">E-réputation</Link></div>
+          <div><strong>Découvrir</strong><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/appels-offres-publics">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link></div>
+          <div><strong>Nos expertises</strong><Link href="/intelligence-commerciale">Intelligence commerciale</Link><Link href="/etudes-de-marche">Études de marché</Link><Link href="/e-reputation">E-réputation</Link></div>
           <div><strong>Rejoindre</strong><Link href="/nous-rejoindre">Les deux missions de recrutement</Link></div>
           <div><strong>Informations</strong><Link href="/mentions-legales">Mentions légales</Link></div>
         </div>
