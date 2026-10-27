@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const metrics = [
   { label: "Opportunités suivies", value: "—", note: "Données à connecter" },
   { label: "Entreprises ciblées", value: "—", note: "Votre portefeuille" },
@@ -13,9 +15,9 @@ export default function HomePage() {
   return (
     <main className="shell">
       <aside className="sidebar" aria-label="Navigation principale">
-        <a className="brand" href="/" aria-label="MajestiOS, accueil">
+        <Link className="brand" href="/" aria-label="MajestiOS, accueil">
           <span className="brand-mark">M</span><span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small></span>
-        </a>
+        </Link>
         <div className="nav-caption">ESPACE PROFESSIONNEL</div>
         <nav className="navigation">
           <a className="nav-item active" href="#overview"><span>◫</span> Vue d’ensemble</a>
