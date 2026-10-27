@@ -79,3 +79,20 @@ Cet audit ne sera considéré comme clôturé que lorsque :
 
 ---
 **Fin du registre — V0.1**
+
+## 8. Back-office, CRM et intégrations — cadrage ajouté
+
+Le document `docs/architecture/BACK_OFFICE_CRM_ADMIN_V0.1.md` propose une séparation logique entre :
+- l'espace professionnel/CRM de l'organisation cliente ;
+- l'administration de l'organisation cliente ;
+- l'administration interne de la plateforme MajestiOS.
+
+Il prévoit une architecture extensible pour les intégrations externes, dont Google Drive, Sheets, Calendar, Maps et Google Business Profile, sans présumer que ces intégrations sont déjà autorisées ou opérationnelles. Le document reste une proposition à confronter aux tomes et ne justifie aucune création de table ou migration avant validation.
+
+Décisions toujours ouvertes :
+- parcours et indicateurs exacts du tableau de bord ;
+- rôles, permissions et frontière entre administration cliente et administration plateforme ;
+- périmètre CRM minimal ;
+- services Google réellement requis pour le MVP ;
+- correspondance du CRM avec les objets canoniques du Tome 5 (Tenant, User, Membership, Organization, Contact, OpportunityCase, CaseActor, Mission).
+
