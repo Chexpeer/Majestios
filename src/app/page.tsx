@@ -88,6 +88,25 @@ export default function HomePage() {
     <main className="public-site home-hub">
       <PublicHeader />
 
+      <section className="home-opportunity-flow" aria-label="Flux transversal d’opportunités">
+        <div className="home-flow-label">
+          <span className="ticker-live-dot" aria-hidden="true" />
+          <div><strong>Flux d’opportunités</strong><small>Les annonces défilent ici, sans encombrer l’accueil.</small></div>
+          <Link href="/opportunites">Tout explorer ↗</Link>
+        </div>
+        <div className="home-flow-window">
+          <div className="home-flow-track">
+            {tickerItems.length > 0 ? [...tickerItems, ...tickerItems].map((item, index) => (
+              <Link className="home-flow-item" key={`${item.source}-${item.id}-${index}`} href={item.source === "public" ? `/appels-offres-publics/${encodeURIComponent(String(item.id))}` : "/appels-offres-prives"}>
+                <span className={item.source === "public" ? "public-label" : "private-label"}>{item.source === "public" ? "PUBLIC" : "PRIVÉ · EXEMPLE"}</span>
+                <strong title={item.title}>{item.title}</strong><small>{item.location}</small><span className="home-flow-arrow" aria-hidden="true">↗</span>
+              </Link>
+            )) : <p className="home-flow-empty">{loadingExamples ? "Chargement du flux d’opportunités…" : "Les opportunités apparaîtront ici lorsque les sources seront disponibles."}</p>}
+          </div>
+        </div>
+        <p className="home-flow-note">Les éléments privés affichés comme exemples sont illustratifs, pas des annonces publiées par des membres.</p>
+      </section>
+
       <section className="public-hero home-hero-compact" id="recherche">
         <div className="hero-content">
           <span className="public-eyebrow"><span /> VEILLE ET OPPORTUNITÉS PROFESSIONNELLES</span>
@@ -129,24 +148,6 @@ export default function HomePage() {
         <MajestiOSOpportunityMap />
       </section>
 
-      <section className="home-opportunity-flow" aria-label="Flux transversal d’opportunités">
-        <div className="home-flow-label">
-          <span className="ticker-live-dot" aria-hidden="true" />
-          <div><strong>Flux d’opportunités</strong><small>Les annonces défilent ici, sans encombrer l’accueil.</small></div>
-          <Link href="/opportunites">Tout explorer ↗</Link>
-        </div>
-        <div className="home-flow-window">
-          <div className="home-flow-track">
-            {tickerItems.length > 0 ? [...tickerItems, ...tickerItems].map((item, index) => (
-              <Link className="home-flow-item" key={`${item.source}-${item.id}-${index}`} href={item.source === "public" ? `/appels-offres-publics/${encodeURIComponent(String(item.id))}` : "/appels-offres-prives"}>
-                <span className={item.source === "public" ? "public-label" : "private-label"}>{item.source === "public" ? "PUBLIC" : "PRIVÉ · EXEMPLE"}</span>
-                <strong title={item.title}>{item.title}</strong><small>{item.location}</small><span className="home-flow-arrow" aria-hidden="true">↗</span>
-              </Link>
-            )) : <p className="home-flow-empty">{loadingExamples ? "Chargement du flux d’opportunités…" : "Les opportunités apparaîtront ici lorsque les sources seront disponibles."}</p>}
-          </div>
-        </div>
-        <p className="home-flow-note">Les éléments privés affichés comme exemples sont illustratifs, pas des annonces publiées par des membres.</p>
-      </section>
 
       <footer className="home-minimal-footer">
         <span>© MajestiOS · Plateforme en construction progressive</span>
