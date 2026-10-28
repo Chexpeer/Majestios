@@ -23,7 +23,7 @@ export default function PrivateTendersSearch() {
       <div className="private-heading"><div><span className="section-label">RECHERCHE MULTICRITÈRE</span><h2>Rechercher une opportunité privée</h2><p>Indiquez votre besoin pour préparer une recherche. Le catalogue réel n’est pas encore connecté : aucun résultat fictif ne sera affiché.</p></div><span className="private-label">PRIVÉ</span></div>
       <form className="private-search-form" action="/opportunites/marches-prives" method="get">
         <label htmlFor="private-search-term">Mot-clé ou type de besoin</label>
-        <div className="private-search-controls"><input id="private-search-term" name="q" type="search" maxLength={120} defaultValue={searchTerm} placeholder="Ex. maintenance, fournitures, sous-traitance" /><button className="search-submit" type="submit">Rechercher ↗</button></div>
+        <div className="private-search-controls"><input id="private-search-term" name="q" type="search" maxLength={120} value={searchTerm} onChange={(event) => setSearchTerm(event.target.value.slice(0, 120))} placeholder="Ex. maintenance, fournitures, sous-traitance" /><button className="search-submit" type="submit">Rechercher ↗</button></div>
         <p className="ticker-disclaimer">Les critères de secteur et de localisation seront ajoutés avec la connexion du catalogue autorisé.</p>
       </form>
     </section>
