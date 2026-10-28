@@ -1,0 +1,3 @@
+import SiteHub from "@/components/site-hub";
+export const metadata = { title: "Marchés privés — MajestiOS", description: "Explorer les consultations privées publiées avec autorisation." };
+export default function Page() { return <SiteHub pathname="/opportunites/marches-prives" intro="Les opportunités privées seront diffusées uniquement lorsque leur origine et l’autorisation de publication auront été vérifiées." checklist={["Vérifier l’identité du diffuseur et le droit de publier l’annonce.", "Préciser le besoin, la zone géographique et les conditions de prise de contact.", "Soumettre les nouvelles annonces à modération avant publication."]} />; }

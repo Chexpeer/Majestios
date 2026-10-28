@@ -1,0 +1,3 @@
+import SiteHub from "@/components/site-hub";
+export const metadata = { title: "Comprendre MajestiOS", description: "Découvrir le concept, la FAQ et le vocabulaire de MajestiOS." };
+export default function Page() { return <SiteHub pathname="/comprendre" intro="MajestiOS est conçu comme une plateforme d’intelligence commerciale proactive : détecter, qualifier, identifier, contacter, transformer et capitaliser." checklist={["Une source doit être identifiable.", "Une piste reste à qualifier avant toute décision.", "L’IA assiste l’analyse ; la décision et l’action restent maîtrisées par le professionnel."]} />; }

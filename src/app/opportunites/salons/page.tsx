@@ -1,0 +1,3 @@
+import SiteHub from "@/components/site-hub";
+export const metadata = { title: "Salons professionnels — MajestiOS", description: "Préparer les salons professionnels et relier les événements aux opportunités commerciales." };
+export default function Page() { return <SiteHub pathname="/opportunites/salons" intro="Un salon doit devenir un parcours utile : comprendre le programme, préparer sa visite et identifier les opportunités à explorer. Les événements seront publiés après vérification auprès de leur organisateur officiel." checklist={["Consulter le site officiel de l’organisateur pour les dates, le lieu et le programme.", "Définir les entreprises, exposants ou interlocuteurs à rencontrer.", "Préparer les questions et les suites commerciales avant la visite."]} />; }
