@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteHeader from "@/components/navigation/site-header";
+import SiteFooter from "@/components/navigation/site-footer";
 
 export const metadata = {
   title: "Réseaux professionnels — MajestiOS",
@@ -26,6 +27,6 @@ export default function NetworksPage() {
       {pillars.map(item => <article key={item.number}><span>{item.number}</span><h2>{item.title}</h2><p>{item.text}</p></article>)}
     </section>
     <section className="concept-principles"><h2>Un domaine en construction</h2><p>Cette page présente la cible fonctionnelle. Elle ne constitue pas encore un annuaire opérationnel ni un service de mise en relation. Les recherches, profils, relations et permissions devront être développés et testés avant d'être annoncés comme disponibles.</p><Link className="search-submit concept-cta" href="/comment-et-pourquoi">Découvrir le fonctionnement</Link></section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/aide/faq">FAQ</Link><Link href="/nous-rejoindre">Nous rejoindre</Link><Link href="/espace-membre">Espace membre</Link><Link href="/mentions-legales">Mentions légales</Link></nav><small>© MajestiOS · Plateforme en développement</small></footer>
+    <SiteFooter />
   </main>;
 }
