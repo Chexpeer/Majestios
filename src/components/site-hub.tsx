@@ -99,6 +99,78 @@ const editorialPages: Record<string, EditorialPage> = {
       { title: "Capitaliser après le résultat", body: "Conserver les dates, les éléments déposés et les retours obtenus. Une réponse perdue peut produire des enseignements utiles pour les consultations suivantes." }
     ]
   },
+  "/developpement-commercial/accompagnement-appels-offres/preparer": {
+    lead: "Avant de rédiger une réponse, il faut décider si l’entreprise peut et souhaite réellement exécuter le marché. Cette étape évite de mobiliser des ressources sur une consultation mal comprise ou inadaptée.",
+    sections: [
+      { title: "Lire les pièces dans le bon ordre", body: "Commencer par l’avis, le règlement de consultation et les dates clés, puis examiner le cahier des charges, les pièces financières et les annexes. Les intitulés varient : le dossier officiel fait foi." },
+      { title: "Construire une matrice de conformité", body: "Pour chaque exigence, noter la pièce concernée, la preuve à fournir, le responsable et l’échéance interne. Repérer immédiatement les critères éliminatoires, les certifications et les contraintes de visite." },
+      { title: "Prendre une décision documentée", body: "Comparer les compétences, les moyens, la disponibilité, les risques, la rentabilité prévisionnelle et les éventuels besoins de partenaires. Toute incertitude majeure doit être clarifiée avant de s’engager." }
+    ]
+  },
+  "/developpement-commercial/accompagnement-appels-offres/rediger": {
+    lead: "Une réponse solide doit être conforme, lisible, étayée et adaptée au besoin du donneur d’ordre. Elle ne doit pas simplement recopier le cahier des charges.",
+    sections: [
+      { title: "Répondre à chaque exigence", body: "Organiser la réponse selon les critères et sous-critères annoncés. Relier chaque engagement à une méthode, une ressource, une preuve ou un livrable concret." },
+      { title: "Rendre la proposition crédible", body: "Illustrer les capacités avec des références vérifiables, des moyens réalistes, un calendrier cohérent et des responsabilités clairement réparties. Ne jamais inventer de références ou de certifications." },
+      { title: "Contrôler avant le dépôt", body: "Vérifier les formats, signatures, pièces obligatoires, cohérence des montants, versions des fichiers et modalités de transmission. Prévoir une marge avant l’heure limite indiquée dans le dossier." }
+    ]
+  },
+  "/developpement-commercial/accompagnement-appels-offres/apres-un-resultat": {
+    lead: "La réponse à un appel d’offres produit des enseignements, que le marché soit gagné, perdu, déclaré infructueux ou que la candidature soit écartée.",
+    sections: [
+      { title: "Conserver une trace fiable", body: "Archiver la version déposée, la date et la preuve de transmission, les échanges et la décision reçue, selon les règles de conservation de l’entreprise." },
+      { title: "Analyser sans supposer", body: "Comparer le résultat aux critères publiés et exploiter les retours officiellement communiqués. Ne pas inventer les raisons d’un échec ni tirer de conclusion à partir d’informations absentes." },
+      { title: "Capitaliser pour la prochaine consultation", body: "Actualiser les modèles, les références, le calendrier de préparation et les critères de sélection interne. Un refus sur un marché n’implique pas que tous les marchés futurs soient inadaptés." }
+    ]
+  },
+  "/developpement-commercial/prospection/ciblage": {
+    lead: "Le ciblage sert à prioriser les entreprises pour lesquelles une démarche commerciale a une raison concrète d’exister.",
+    sections: [
+      { title: "Définir des critères utiles", body: "Croiser activité, territoire, taille, besoins probables, capacités et signaux économiques récents. Les critères doivent correspondre à l’offre réelle de l’entreprise et rester révisables." },
+      { title: "Séparer faits et hypothèses", body: "Enregistrer la source, la date et le fait observé, puis formuler séparément l’hypothèse commerciale. Une création, un marché remporté ou un changement d’adresse ne prouve pas à lui seul un besoin." },
+      { title: "Prioriser plutôt que sur-solliciter", body: "Attribuer une priorité explicable, tenir compte de la pertinence et des contacts antérieurs, puis respecter les oppositions et règles applicables à la prospection." }
+    ]
+  },
+  "/developpement-commercial/prospection/argumentaires": {
+    lead: "Un argumentaire pertinent relie un fait vérifiable à un problème que l’entreprise peut réellement aider à résoudre.",
+    sections: [
+      { title: "Partir d’un contexte réel", body: "S’appuyer sur une information publique et pertinente, en mentionnant sa source lorsque c’est utile. Éviter de prétendre connaître les besoins internes d’une entreprise sans confirmation." },
+      { title: "Exprimer une valeur précise", body: "Présenter le service, le résultat visé et la prochaine étape proposée en termes simples. Adapter le message au rôle de l’interlocuteur et au contexte du contact." },
+      { title: "Préparer plusieurs suites", body: "Prévoir une réponse aux questions courantes, une demande de précision, un refus et une absence de réponse. Respecter les préférences de contact et ne pas multiplier les relances de façon intrusive." }
+    ]
+  },
+  "/developpement-commercial/prospection/suivi": {
+    lead: "Le suivi commercial permet de savoir ce qui a été tenté, ce qui a reçu une réponse et quelle action est justifiée ensuite.",
+    sections: [
+      { title: "Consigner l’essentiel", body: "Noter la date, le canal, le motif du contact, le résultat factuel et la prochaine action convenue. Limiter les données aux informations nécessaires à la relation commerciale." },
+      { title: "Interpréter correctement les signaux", body: "Une ouverture d’email ou une visite ne prouve ni un intérêt ni une intention d’achat. Ces indicateurs peuvent orienter une analyse, mais ne remplacent pas une réponse explicite." },
+      { title: "Améliorer la démarche", body: "Analyser les réponses et les suites concrètes par segment, offre et période. Distinguer les volumes d’activité des résultats commerciaux effectivement constatés." }
+    ]
+  },
+  "/developpement-commercial/etudes-de-marche/methodologie": {
+    lead: "Une étude de marché utile commence par une question précise et une méthode proportionnée à la décision à prendre.",
+    sections: [
+      { title: "Définir la question", body: "Préciser le produit ou service étudié, la zone, les clients visés, l’horizon temporel et la décision que l’étude doit éclairer." },
+      { title: "Croiser les sources", body: "Associer, lorsque c’est pertinent, statistiques publiques, publications sectorielles, informations d’entreprise et retours de terrain. Documenter les dates, définitions et limites de chaque source." },
+      { title: "Présenter les limites", body: "Séparer les observations, les estimations et les hypothèses. Signaler les données manquantes et éviter de présenter une extrapolation comme un fait établi." }
+    ]
+  },
+  "/developpement-commercial/etudes-de-marche/sources": {
+    lead: "La valeur d’une étude dépend autant de la qualité de ses sources que de la pertinence de son analyse.",
+    sections: [
+      { title: "Privilégier les sources primaires", body: "Lorsque c’est possible, remonter aux publications des organismes publics, des acheteurs, des organisateurs ou des entreprises concernées plutôt que de s’appuyer uniquement sur une reprise secondaire." },
+      { title: "Tracer chaque information", body: "Conserver le titre de la source, son URL, la date de consultation, la période couverte et les éventuelles restrictions de réutilisation." },
+      { title: "Contrôler l’actualité", body: "Une donnée ancienne peut éclairer une tendance, mais ne doit pas être utilisée comme si elle décrivait la situation actuelle. Vérifier les dates et les définitions avant comparaison." }
+    ]
+  },
+  "/business/radar-bodacc": {
+    lead: "Le BODACC publie des annonces relatives à la vie des entreprises. Ces publications peuvent révéler un événement à examiner, mais elles ne constituent pas automatiquement une intention d’achat ou un besoin commercial.",
+    sections: [
+      { title: "Repérer le fait publié", body: "Identifier la nature de l’annonce, la date, l’entreprise concernée et la publication originale. Distinguer les informations administratives des interprétations commerciales." },
+      { title: "Chercher une pertinence réelle", body: "Un événement peut justifier une recherche complémentaire sur l’activité, le territoire ou les besoins possibles. Toute hypothèse doit être confirmée avant d’être utilisée dans une prise de contact." },
+      { title: "Prospecter de manière responsable", body: "Respecter les règles de protection des données, les conditions de réutilisation de la source et les règles applicables au canal de prospection choisi." }
+    ]
+  },
   "/reseaux": {
     lead: "Le réseau MajestiOS doit servir à créer des connexions professionnelles utiles, fondées sur la complémentarité des compétences, des besoins et des opportunités détectées.",
     sections: [
