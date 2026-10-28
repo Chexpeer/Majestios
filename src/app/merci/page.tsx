@@ -13,7 +13,7 @@ export default function MerciPage() {
       <div>
         <span className="section-label">DEMANDE TRANSMISE</span>
         <h1>Merci pour votre <em>confiance.</em></h1>
-        <p>Votre formulaire a été transmis. L’équipe MajestiOS pourra prendre connaissance des informations envoyées et revenir vers vous si un suivi est possible.</p>
+        <p>Le service de formulaire a accepté l’envoi de votre demande. La réception et le traitement par l’équipe MajestiOS dépendent de la configuration du service et des coordonnées de destination.</p>
         <p>Cette confirmation ne signifie pas qu’une analyse automatique de votre entreprise a déjà été réalisée.</p>
         <Link className="search-submit concept-cta" href="/">Retour à l’accueil ↗</Link>
         <p><Link href="/business">Envoyer une autre demande</Link></p>
