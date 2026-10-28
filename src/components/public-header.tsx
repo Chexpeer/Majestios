@@ -2,12 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { siteTree } from "@/data/site-tree";
 
 export default function PublicHeader() {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+  useEffect(() => {
+    setOpenMenu(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenMenu(null);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, []);
+
   const mainItems = siteTree.filter((item) => item.href !== "/" && item.href !== "/espace-professionnel");
   return <header className="site-header">
     <Link href="/" className="brand-lockup" aria-label="MajestiOS, accueil">
