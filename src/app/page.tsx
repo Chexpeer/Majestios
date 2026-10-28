@@ -38,7 +38,7 @@ export default function HomePage() {
     const controller = new AbortController();
     async function loadTicker() {
       try {
-        const response = await fetch("/api/opportunities?q=&location=&type=all&limit=8", {
+        const response = await fetch("/api/opportunities?q=&location=&type=all&limit=8&openOnly=true", {
           signal: controller.signal,
           cache: "no-store",
         });
