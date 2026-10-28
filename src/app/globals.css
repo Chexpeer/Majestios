@@ -439,3 +439,40 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
 .network-intro p { max-width:850px; color:#d7e3ea; font-size:13px; line-height:1.9; }
 .network-intro .section-label { color:#a9dcd6; }
 @media (max-width:760px) { .faq-content { padding:18px; }.faq-group { padding:20px; }.network-intro { margin:18px; padding:22px; }.public-nav { gap:10px; } }
+
+
+/* Module d'opportunités contextuelles — prototype */
+.contextual-event-card {
+  margin: 1rem 0;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--teal);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.contextual-event-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+.contextual-event-kicker,
+.contextual-event-sponsored {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+.contextual-event-kicker { color: var(--teal-dark); }
+.contextual-event-sponsored {
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  letter-spacing: 0;
+}
+.contextual-event-card h3 { margin: .65rem 0 .4rem; color: var(--ink); }
+.contextual-event-card p { margin: .4rem 0; color: var(--muted); line-height: 1.55; }
+.contextual-event-meta { display: flex; gap: .5rem 1rem; flex-wrap: wrap; margin-top: .8rem; font-size: .85rem; color: var(--muted); }
+.contextual-event-card .contextual-event-disclaimer { margin-top: .85rem; font-size: .8rem; }
