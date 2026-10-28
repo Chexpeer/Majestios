@@ -30,6 +30,9 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 ## Contrôle complémentaire — 28 octobre 2026
 - Normalisation des recherches entrantes `q` sur les rubriques Opportunités privées et Emploi : espaces périphériques supprimés et longueur limitée à 120 caractères, comme sur les autres parcours de recherche.
 
+## Contrôle complémentaire — formulaires
+- Page `/merci` : le message confirme désormais l’acceptation de l’envoi par le service de formulaire, sans garantir à tort que l’équipe a reçu ou traité la demande. Vérifier dans le compte Formspree le destinataire et la configuration avant toute mise en production.
+
 ## Points bloquants avant ouverture réelle
 1. Authentification et formulaire de création de compte avec prénom, nom, e-mail et téléphone.
 2. Persistance serveur de l'opportunité sélectionnée pendant et après l'inscription. Les paramètres d'URL ne constituent pas un enregistrement.
