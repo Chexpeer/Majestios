@@ -50,12 +50,12 @@ export async function GET(request: NextRequest) {
     const items = (payload.results ?? []).map((record, index) => {
       const fields = record.record?.fields ?? record.fields ?? record;
       const id = pick(fields, ["id", "idannonce", "numeroannonce", "numero_annonce", "idweb"]) || record.record?.id || record.id || `bodacc-${index}`;
-      const company = pick(fields, ["denomination", "denomination_sociale", "raison_sociale", "nomentreprise", "nom_entreprise", "commercant", "personne"]);
-      const kind = pick(fields, ["familleavis_libelle", "familleavis", "typeavis", "type_annonce", "nature", "categorie"]);
+      const company = pick(fields, ["commercant", "denomination", "denomination_sociale", "raison_sociale", "nomentreprise", "nom_entreprise", "personne"]);
+      const kind = pick(fields, ["familleavis_lib", "familleavis_libelle", "typeavis_lib", "familleavis", "typeavis", "type_annonce", "nature", "categorie"]);
       const summary = pick(fields, ["annonce", "objet", "description", "texte", "contenu", "activite", "activite_principale"]);
       const date = pick(fields, ["dateparution", "date_parution", "datepublication", "date_publication"]);
-      const siren = pick(fields, ["siren", "numero_siren"]);
-      const location = pick(fields, ["ville", "commune", "localite", "adresse", "departement"]);
+      const siren = pick(fields, ["siren", "numero_siren", "registre"]);
+      const location = pick(fields, ["ville", "commune", "localite", "adresse", "departement_nom_officiel", "departement", "numerodepartement"]);
       const directUrl = pick(fields, ["url_complete", "url", "lien", "url_annonce", "url_detail"]);
       return {
         id: String(id),
