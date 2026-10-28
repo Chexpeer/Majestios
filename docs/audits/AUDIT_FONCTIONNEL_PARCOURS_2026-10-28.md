@@ -70,3 +70,11 @@ Ces correctifs évitent de laisser croire qu’une recherche a été effectuée 
 - Ajout de deux cas à `src/lib/bodacc/search-query.test.ts` : suppression des caractères non pris en charge et conservation des caractères accentués dans les critères métier.
 - Ces tests complètent les cas déjà présents sur les requêtes génériques, les villes, les cessions et les noms d’entreprises.
 - État de validation : les tests ont été ajoutés au dépôt, mais leur exécution locale/CI n’a pas pu être confirmée depuis cette session. Ne pas considérer cela comme une validation réussie.
+
+
+### Parcours d’accompagnement lié à un avis
+
+- La fiche transmet maintenant le titre, l’acheteur et l’échéance au formulaire d’accompagnement.
+- Le formulaire affiche ces éléments lorsqu’ils sont disponibles et les inclut dans le récapitulatif copiable.
+- Le formulaire reste non transactionnel : aucune demande n’est envoyée ou enregistrée, et aucun dépôt de candidature n’est effectué.
+- Les données transmises dans l’URL doivent toujours être vérifiées sur la source officielle.
