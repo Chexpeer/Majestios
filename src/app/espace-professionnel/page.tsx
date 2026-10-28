@@ -30,7 +30,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     if (value) backParams.set(key, value);
   }
   const backHref = params.source === "boamp" ? (backParams.size ? "/opportunites/marches-publics?" + backParams.toString() : "/opportunites/marches-publics") : "/opportunites/marches-prives";
-  const detailHref = params.source === "boamp" && id ? "/appels-offres-publics/" + encodeURIComponent(id) : null;
+  const detailHref = params.source === "boamp" && id ? "/opportunites/marches-publics/" + encodeURIComponent(id) : null;
 
   return <main className="public-site concept-page">
     <PublicHeader />
