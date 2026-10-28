@@ -480,3 +480,29 @@ Avant d'écrire du code :
 - Le radar des nouvelles entreprises et le domaine Business achat/vente/cession sont des usages cibles importants.
 - Les informations d'une source sont des signaux à qualifier, pas automatiquement des opportunités vérifiées.
 - Les branches de développement et les prévisualisations servent à valider ; la production reste protégée par une autorisation explicite.
+
+
+## 16. Journal d'implémentation — lot navigation et profondeur v0.2 (28 octobre 2026)
+
+### Changements enregistrés sur `architecture-v0-1`
+
+- Création de `src/components/navigation/site-header.tsx` : navigation publique partagée avec entrées Accueil, Marchés publics, Opportunités privées, Intelligence commerciale, Réseaux, Nous rejoindre, FAQ et Espace membre.
+- Création de `src/components/navigation/site-footer.tsx` : pied de page commun, organisé par Explorer, Comprendre, Participer et Informations. Les liens vers des routes non créées ont été retirés afin d'éviter les destinations mortes.
+- Remplacement de l'en-tête existant sur la page d'accueil, « Nous rejoindre », « Comment et pourquoi » et « Appels d'offres privés » par le composant partagé.
+- Remplacement du pied de page sur ces pages ainsi que sur FAQ, Réseaux et Espace membre par le composant partagé.
+- Création de `src/app/aide/faq/page.tsx` : FAQ regroupée par thèmes (concept, sources, compte et données, participation). Les réponses rappellent explicitement les limites et l'état non confirmé des fonctionnalités.
+- Création de `src/app/reseaux/page.tsx` : page pédagogique présentant Entreprise → Interlocuteur → Décideur et précisant que le réseau n'est pas encore un annuaire opérationnel.
+- Création de `src/app/espace-membre/page.tsx` : point d'entrée dédié et explicite sur les fonctions prévues, sans faux formulaire de connexion ni collecte de mot de passe.
+- Ajout de styles FAQ/réseaux dans `src/app/globals.css`.
+
+### Validation et limites
+
+- Ces changements sont enregistrés sur la branche de développement `architecture-v0-1`; aucun merge ni déploiement de production n'a été demandé ou réalisé.
+- Le workflow GitHub Actions associé au commit `727f40a0deeda7e825dc4b09d385c1e3f0d6a062` était encore en cours lors de la mise à jour de cette note. Résultat final à vérifier avant de déclarer le lot validé.
+- Il reste à vérifier le rendu réel de toutes les pages, la navigation mobile et l'absence de liens morts dans la prévisualisation Vercel.
+- Les pages Business achat/vente/cession, le radar des nouvelles entreprises et les connecteurs BODACC/SIRENE restent des cibles fonctionnelles non déclarées opérationnelles par ce lot.
+- Les liens « Espace membre » mènent à une page informative ; l'authentification et les données personnelles ne sont pas implémentées par cette page.
+
+### Prochaine tâche recommandée
+
+Après le résultat CI, vérifier la prévisualisation de la branche. Corriger les éventuels défauts de navigation/rendu, puis approfondir les textes de la page d'accueil et de « Nous rejoindre ». Ensuite, développer une page de présentation Business achat/vente/cession et le radar des nouvelles entreprises comme pages pédagogiques clairement étiquetées « en préparation », avant de démarrer l'intégration BODACC/SIRENE.
