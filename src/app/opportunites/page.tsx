@@ -7,7 +7,7 @@ const categories = [
   { number: "01", title: "Marchés publics", text: "Repérer les avis publiés, examiner les critères et vérifier les échéances auprès de la source officielle.", href: "/appels-offres-publics", status: "Recherche publique disponible" },
   { number: "02", title: "Opportunités privées", text: "Découvrir le cadre prévu pour les consultations privées, missions et partenariats diffusés avec autorisation.", href: "/appels-offres-prives", status: "Catalogue en préparation" },
   { number: "03", title: "Radar entreprises", text: "Comprendre comment les signaux de création, développement, reprise et cession pourront aider à détecter des besoins commerciaux.", href: "/opportunites/radar-entreprises", status: "Sources à raccorder" },
-  { number: "04", title: "Business : achat et transmission", text: "Explorer le parcours cible pour les projets de cession, reprise ou transmission d’entreprise.", href: "/business", status: "Parcours de cadrage" },
+  { number: "04", title: "Business : achat et transmission", text: "Explorer le parcours cible pour les projets de cession, reprise ou transmission d’entreprise.", href: "/opportunites/business", status: "Parcours de cadrage" },
   { number: "05", title: "Emploi et missions", text: "Consulter le cadre de publication prévu pour les offres d’emploi, missions indépendantes et collaborations.", href: "/offres-emploi", status: "Rubrique en préparation" },
 ];
 
