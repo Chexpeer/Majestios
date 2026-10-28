@@ -189,7 +189,7 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
   const siblings = found?.ancestors.at(-1)?.children?.filter((item) => item.href !== pathname) ?? [];
   const related = siblings.length ? siblings.slice(0, 4) : flattenSiteTree().filter((item) => item.href !== pathname && item.href !== "/" && !item.children?.length).slice(0, 4);
   const pageIntro = editorial?.lead ?? intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS.";
-  const tickerFlow = pathname === "/opportunites/marches-publics" ? "public" : pathname === "/opportunites/marches-prives" ? "private" : pathname === "/opportunites/salons" ? "salons" : pathname === "/opportunites/emploi" ? "emploi" : null;
+  const tickerFlow = pathname.startsWith("/opportunites/marches-publics") ? "public" : pathname.startsWith("/opportunites/marches-prives") ? "private" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/opportunites/emploi") ? "emploi" : null;
   return <main className="site-page">
     <PublicHeader />
     {tickerFlow ? <AnnouncementTicker flow={tickerFlow} /> : null}
