@@ -1000,7 +1000,7 @@ body { background: var(--paper); color: var(--ink); }
 .nav-top-link span { color:var(--muted); font-size:14px; }
 .nav-group:hover > .nav-top-link,.nav-group:focus-within > .nav-top-link,.nav-group.is-active > .nav-top-link { background:#e9eee4; }
 .nav-dropdown { display:none; position:absolute; top:100%; left:0; width:330px; padding:10px; background:var(--surface); border:1px solid var(--line); border-radius:15px; box-shadow:var(--shadow); }
-.nav-group:hover .nav-dropdown,.nav-group:focus-within .nav-dropdown { display:block; }
+.nav-group.is-open > .nav-dropdown { display:block; }
 .nav-dropdown-group { padding:4px; }
 .nav-dropdown-link { display:block; padding:10px; border-radius:9px; }
 .nav-dropdown-link:hover,.nav-dropdown-nested a:hover { background:var(--teal-pale); }
@@ -1362,7 +1362,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .maj-map-node.red .maj-map-node-icon { background:#f5e9e4; color:#8a5545; }
 
 
-/* Un menu fermé par son bouton doit réellement rester fermé, même si le bouton garde le focus */
-.nav-group:focus-within:not(.is-open) > .nav-dropdown { display:none; }
-.nav-group.is-open:focus-within > .nav-dropdown { display:block; }
+/* Les sous-menus sont pilotés par le bouton, pour un comportement identique au clic et au clavier. */
+.nav-group.is-open > .nav-dropdown { display:block; }
 .nav-top-toggle:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
