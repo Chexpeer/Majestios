@@ -43,7 +43,7 @@ export default function HomePage() {
         });
         if (!response.ok) throw new Error("Source indisponible");
         const payload: { items?: Opportunity[] } = await response.json();
-        setPublicExamples((payload.items ?? []).map((item) => ({ ...item, source: "public" })).slice(0, 8));
+        setPublicExamples((payload.items ?? []).map((item) => ({ ...item, source: "public" as const })).slice(0, 8));
       } catch {
         if (!controller.signal.aborted) setPublicExamples([]);
       } finally {
