@@ -63,3 +63,10 @@ Ces correctifs évitent de laisser croire qu’une recherche a été effectuée 
 - La fiche dédiée affiche ces informations lorsqu’elles ont été transmises, avec un avertissement explicite : ce résumé est contextuel et doit être vérifié sur l’avis officiel.
 - Les filtres de recherche initiaux restent conservés pour le retour à la liste.
 - Limite restante : ces champs sont transmis dans l’URL depuis le résultat ; ils ne constituent pas une nouvelle interrogation indépendante de BOAMP et ne doivent pas être considérés comme une vérification en temps réel. Les accès directs à la fiche peuvent ne pas avoir le résumé.
+
+
+### Recherche BODACC : couverture de tests renforcée
+
+- Ajout de deux cas à `src/lib/bodacc/search-query.test.ts` : suppression des caractères non pris en charge et conservation des caractères accentués dans les critères métier.
+- Ces tests complètent les cas déjà présents sur les requêtes génériques, les villes, les cessions et les noms d’entreprises.
+- État de validation : les tests ont été ajoutés au dépôt, mais leur exécution locale/CI n’a pas pu être confirmée depuis cette session. Ne pas considérer cela comme une validation réussie.
