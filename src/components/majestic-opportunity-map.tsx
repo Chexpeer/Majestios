@@ -30,7 +30,7 @@ export default function MajestiOSOpportunityMap() {
         <svg className="maj-map-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           {poles.map((pole) => <line key={pole.id} x1="50" y1="50" x2={Number.parseFloat(pole.x)} y2={Number.parseFloat(pole.y)} />)}
         </svg>
-        <Link className="maj-map-core" href="/intelligence-commerciale" aria-label="Découvrir l'intelligence commerciale MajestiOS">
+        <Link className="maj-map-core" href="/intelligence-commerciale" aria-label="Découvrir l’intelligence commerciale MajestiOS">
           <span className="maj-map-core-mark">M</span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small>
         </Link>
         {poles.map((pole) => (
