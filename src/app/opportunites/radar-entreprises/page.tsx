@@ -3,9 +3,15 @@ import PublicHeader from "@/components/public-header";
 
 export const metadata = { title: "Radar entreprises — MajestiOS", description: "Comprendre le futur radar de signaux d’entreprises pour le développement commercial." };
 
-export default function CompanyRadarPage() {
+type Props = { searchParams: Promise<{ q?: string }> };
+
+export default async function CompanyRadarPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const query = (params.q ?? "").trim().slice(0, 160);
+
   return <main className="public-site concept-page"><PublicHeader />
     <section className="how-section concept-hero"><div><span className="section-label">OPPORTUNITÉS ENTREPRISES · RADAR</span><h1>Détecter les signaux d’entreprise pour <em>agir au bon moment.</em></h1><p>Le radar entreprises a vocation à aider les professionnels à repérer des événements pouvant signaler un besoin, un changement de fournisseur, un projet de développement ou une occasion de partenariat.</p></div></section>
+    {query && <section className="concept-principles" role="status"><span className="section-label">VOTRE RECHERCHE</span><h2>Mot-clé demandé : « {query} »</h2><p>Le radar entreprises n’est pas encore connecté à un flux opérationnel de données. Ce mot-clé a été conservé, mais aucune recherche en temps réel n’a été exécutée et aucun résultat ne doit être déduit de cette page.</p><Link className="search-submit concept-cta" href={`/business?q=${encodeURIComponent(query)}`}>Rechercher ce terme dans les annonces BODACC ↗</Link></section>}
     <section className="employment-principles">
       <article><span>01 · DÉTECTER</span><h2>Repérer un signal</h2><p>Création, changement d’activité, évolution publiée, reprise ou cession peuvent constituer des indices à examiner. Un signal n’est pas une preuve de besoin commercial.</p></article>
       <article><span>02 · VÉRIFIER</span><h2>Revenir à la source</h2><p>Les sources publiques pertinentes, dont les données d’entreprise et publications officielles, devront être raccordées et contrôlées avant de présenter des résultats comme actuels.</p></article>
