@@ -37,6 +37,9 @@ export default function Page() {
     }
   } else if (["private", "recherche-privee", "opportunites-privees"].includes(opportunitySource) && opportunityTitle) {
     returnParams.set("q", opportunityTitle);
+  } else if (["emploi", "jobs"].includes(opportunitySource)) {
+    const value = new URLSearchParams(typeof window === "undefined" ? "" : window.location.search).get("q");
+    if (value) returnParams.set("q", value.slice(0, 120));
   }
   const returnHref = returnParams.size ? `${returnPath}?${returnParams.toString()}` : returnPath;
 
@@ -51,7 +54,7 @@ export default function Page() {
       {opportunityId && <p><strong>Référence de l’opportunité :</strong> {opportunityId}</p>}
       {opportunitySource && <p><strong>Source :</strong> {opportunitySource.toUpperCase()}</p>}
       <p>{intentMessage}</p>
-      {intention === "cv" || intention === "collaboration" ? <Link href="/offres-emploi">Retour à Emploi & missions ↗</Link> : <Link href={returnHref}>Retour à la recherche ↗</Link>}
+      {intention === "cv" || intention === "collaboration" ? <Link href={returnHref}>Retour à Emploi & missions ↗</Link> : <Link href={returnHref}>Retour à la recherche ↗</Link>}
     </section>}
     <section className="concept-grid">
       <article><h2>Veille personnalisée</h2><p>À terme : choisir les mots-clés, les régions et les catégories à suivre.</p></article>
