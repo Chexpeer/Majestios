@@ -18,7 +18,7 @@ Les constats ci-dessous proviennent d'une inspection des fichiers présents dans
 - Le contrôle GitHub Actions le plus récent inspecté, run `40484579182` sur le commit `a3b6e517d8c8cff2f6a113f41cbbd009dfb26fe3`, est terminé avec succès (ESLint et `next build`). Cela ne prouve pas le fonctionnement des parcours métier.
 - `vercel.json` déclare actuellement `framework: "nextjs"`. Un aperçu Vercel lié à la branche, commit `60374f30d0dd5376c1d439561fd2928ec53c2622`, est marqué `READY` et sa page répond HTTP 200 lors du contrôle. Plusieurs autres projets Vercel liés au dépôt présentent néanmoins des déploiements en erreur ; leurs rôles respectifs restent à confirmer.
 - Le README a été actualisé au commit `307f492c7530b97182f416292eb2fbfa24334db1` pour refléter ces constats et les limites fonctionnelles. Aucun fichier `package-lock.json` n'est présent dans l'arborescence inspectée : les dépendances ne sont donc pas verrouillées et le workflow utilise `npm install`.
-- L'arborescence présente encore des fichiers racine liés au site statique, dont `app.js` et `build.js`. Leur suppression ou leur déplacement ne doit intervenir qu'après clarification de la stratégie de coexistence/migration.
+- **Résolution dans l’assainissement du 28 octobre 2026 :** l’ancienne application statique (`index.html`, `app.js`, `styles.css`, `build.js`) a été retirée. L’application Next.js sous `src/app` est la seule application de référence. Les rapports d’audit antérieurs restent conservés comme historique et ne décrivent pas nécessairement l’état courant.
 
 ## 3. Écarts et risques à traiter
 

@@ -5,9 +5,7 @@
 
 ## 1. Périmètre actuel
 
-L’application Next.js se trouve sous `src/app`. Des fichiers historiques de site statique coexistent à la racine, notamment `index.html`, `app.js`, `build.js` et `styles.css`.
-
-Ne pas supprimer ou déplacer ces fichiers avant d’avoir confirmé quels projets ou scripts les utilisent.
+L’application de référence est l’application Next.js située sous `src/app`. Les anciens fichiers de site statique à la racine (`index.html`, `app.js`, `build.js` et `styles.css`) ont été retirés lors de l’assainissement de cette branche : les commandes `dev`, `build` et `start` de `package.json` utilisent Next.js. Les anciens rapports d’audit peuvent mentionner ces fichiers parce qu’ils décrivent l’état historique du dépôt au moment de leur rédaction.
 
 La page d’accueil propose :
 - une recherche d’appels d’offres publics ;

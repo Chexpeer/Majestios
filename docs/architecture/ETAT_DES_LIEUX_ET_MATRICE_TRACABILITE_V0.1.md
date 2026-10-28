@@ -17,7 +17,7 @@ Aucune modification du code applicatif n'a été effectuée pour établir cet in
 | Élément | Constat dans le dépôt | Statut initial | Suite nécessaire |
 |---|---|---|---|
 | Application Next.js | Pages et API présentes sous `src/app` | Présence constatée | Exécuter lint/build et parcours navigateur |
-| Fichiers statiques historiques | `index.html`, `app.js`, `build.js`, `styles.css` à la racine | Présence constatée, usage exact à confirmer | Identifier les scripts, usages et éventuels consommateurs avant tout déplacement |
+| Ancienne application statique | `index.html`, `app.js`, `build.js`, `styles.css` à la racine | Retirée de la branche assainie ; les commandes npm actives ciblent Next.js | Réexaminer uniquement si une dépendance explicite et documentée est découverte |
 | Dépendances | Next.js, React, TypeScript, ESLint déclarés dans `package.json` | Présence constatée | Vérifier installation reproductible et compatibilité de l'environnement |
 | Verrouillage npm | Aucun `package-lock.json` visible dans l'arborescence examinée | Écart constaté | Préparer un verrouillage reproductible dans une étape dédiée |
 | CI GitHub Actions | Workflow qui installe, exécute lint et build | Présence constatée | Vérifier les exécutions réelles et compléter les tests fonctionnels |

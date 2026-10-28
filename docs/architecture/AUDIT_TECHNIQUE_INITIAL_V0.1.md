@@ -56,3 +56,8 @@ Le dépôt contient une vitrine Next.js exploitable pour poursuivre le MVP, mais
 ## 5. Limites de cet audit
 
 Cet audit est basé sur les fichiers lus dans la branche indiquée et sur les résultats de CI précédemment observés. Il ne constitue pas un test fonctionnel complet, un audit de sécurité exhaustif, une validation des projets Vercel ni une validation des tomes maîtres. Tout élément non directement vérifié reste signalé comme tel.
+
+
+## Mise à jour — assainissement du 28 octobre 2026
+
+L’avertissement ci-dessus décrit l’état initial observé lors de cet audit. Dans l’assainissement de la branche, les quatre fichiers de l’ancienne application statique (`index.html`, `app.js`, `styles.css`, `build.js`) ont été retirés. Les scripts actifs de `package.json` utilisent Next.js. Les mentions précédentes sont conservées comme historique de l’audit initial.
