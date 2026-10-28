@@ -29,8 +29,9 @@ export default function Page() {
 
   const returnPath = ({ boamp: "/appels-offres-publics", bodacc: "/business", private: "/appels-offres-prives", "recherche-privee": "/appels-offres-prives", "opportunites-privees": "/appels-offres-prives", emploi: "/offres-emploi", jobs: "/offres-emploi", entreprises: "/opportunites/radar-entreprises", companies: "/opportunites/radar-entreprises", reseaux: "/reseaux", network: "/reseaux" } as Record<string, string>)[opportunitySource] || "/appels-offres-publics";
   const returnParams = new URLSearchParams();
-  if (opportunitySource === "boamp") {
-    for (const key of ["q", "location", "type"]) {
+  if (opportunitySource === "boamp" || opportunitySource === "bodacc") {
+    const keys = opportunitySource === "boamp" ? ["q", "location", "type"] : ["q"];
+    for (const key of keys) {
       const value = new URLSearchParams(typeof window === "undefined" ? "" : window.location.search).get(key);
       if (value) returnParams.set(key, value);
     }
