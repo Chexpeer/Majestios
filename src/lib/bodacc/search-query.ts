@@ -7,6 +7,8 @@ export function extractBodaccSearchTerm(value: string): string {
     .replace(/[’‘]/g, "'")
     .replace(/\bd['’]\s*/giu, " ")
     .replace(GENERIC_TERMS, " ")
+    // JavaScript \b is ASCII-oriented: remove the standalone French preposition explicitly.
+    .replace(/(^|\\s)à(?=\\s)/giu, "$1 ")
     .replace(/[^\p{L}\p{N} .,'-]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
