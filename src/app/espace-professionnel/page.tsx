@@ -47,7 +47,7 @@ export default function Page() {
     <section className="concept-principles">
       <h2>Découvrir le prototype</h2><p>En attendant l’ouverture de l’espace connecté, vous pouvez essayer la recherche publique et consulter les pages de présentation.</p>
       <Link className="search-submit concept-cta" href="/appels-offres-publics">Consulter les appels d’offres ↗</Link>
-      <Link className="search-submit concept-cta" href="/offres-emploi?intention=cv">Déposer mon CV — parcours en préparation ↗</Link>
+      <Link className="search-submit concept-cta" href="/offres-emploi">Consulter Emploi & missions ↗</Link>
       <Link className="search-submit concept-cta" href="/faq#compte">Questions sur le compte et la confidentialité ↗</Link>
       <p><Link href="/developpement-commercial">Découvrir les services commerciaux ↗</Link></p>
     </section>
