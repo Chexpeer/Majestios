@@ -2,6 +2,13 @@ import { describe, expect, it } from "vitest";
 import { buildBoampApiParams } from "./query";
 
 describe("buildBoampApiParams", () => {
+  it("limits and clamps the number of results requested", () => {
+    expect(buildBoampApiParams({ query: "", department: "", type: "all", limit: 8 }).get("limit")).toBe("8");
+    expect(buildBoampApiParams({ query: "", department: "", type: "all", limit: 500 }).get("limit")).toBe("50");
+    expect(buildBoampApiParams({ query: "", department: "", type: "all", limit: 0 }).get("limit")).toBe("1");
+    expect(buildBoampApiParams({ query: "", department: "", type: "all", limit: 1.5 }).get("limit")).toBe("50");
+  });
+
   it("puts full-text search in the ODSQL where clause", () => {
     const params = buildBoampApiParams({
       query: "nettoyage écoles",
