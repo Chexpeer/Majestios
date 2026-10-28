@@ -70,7 +70,7 @@ export default function HomePage() {
     const params = new URLSearchParams();
 
     // Ne transmettre que les filtres réellement pris en charge par la rubrique cible.
-    if (keyword.trim() && ["public", "business", "private", "jobs"].includes(searchDomain)) {
+    if (keyword.trim() && ["public", "business", "companies", "private", "jobs"].includes(searchDomain)) {
       params.set("q", keyword.trim().slice(0, 160));
     }
     if (searchDomain === "public") {
