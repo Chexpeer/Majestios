@@ -1411,3 +1411,44 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .tender-search:has(.open-only-filter) { grid-template-columns: 1fr; }
   .open-only-filter .open-only-control { min-height: 24px; }
 }
+
+
+/* Accueil recentré sur la recherche et le carrefour interactif : aucun visuel décoratif en doublon. */
+.home-hero-redesign {
+  grid-template-columns: minmax(0, 1fr);
+}
+.home-hero-redesign:after {
+  right: -260px;
+  bottom: -410px;
+  opacity: .65;
+}
+.home-hero-redesign .hero-copy {
+  width: min(100%, 1040px);
+  max-width: 1040px;
+}
+.home-hero-redesign .hero-copy > p {
+  max-width: 820px;
+}
+.home-hero-redesign .central-opportunity-search {
+  width: min(100%, 900px);
+  margin-top: 24px;
+}
+@media (max-width: 760px) {
+  .home-hero-redesign {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 38px 16px 26px;
+  }
+  .home-hero-redesign .central-opportunity-search {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    margin-top: 18px;
+  }
+  .home-hero-redesign .central-opportunity-search .search-field {
+    border-right: 0;
+    border-bottom: 1px solid #e6ecef;
+  }
+  .home-hero-redesign .central-opportunity-search .search-submit {
+    width: 100%;
+    margin: 0;
+  }
+}
