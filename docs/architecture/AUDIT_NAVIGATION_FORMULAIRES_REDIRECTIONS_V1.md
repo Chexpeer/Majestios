@@ -21,7 +21,7 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 - La page de demande liée à un avis public n’effectue plus de double décodage de l’identifiant de route ; suppression d’une fonction auxiliaire inutilisée.
 - La navigation expose maintenant `aria-current="page"` sur la rubrique active, y compris lorsque l’utilisateur se trouve dans une sous-page.
 - Le texte d’aide sous la recherche centrale varie maintenant selon la rubrique sélectionnée ; il ne présente plus le BOAMP comme source active lorsque l’utilisateur choisit BODACC, emploi, entreprises, opportunités privées, réseaux ou veille.
-- Le lien de retour de l’espace professionnel choisit maintenant une rubrique de recherche cohérente avec la source indiquée dans l’URL (BODACC, privé, emploi, entreprises ou réseaux) ; les autres sources reviennent aux marchés publics par défaut.
+- Le lien de retour de l’espace professionnel choisit maintenant une rubrique de recherche cohérente avec la source indiquée dans l’URL. Les alias `recherche-privee` et `opportunites-privees` reviennent eux aussi aux opportunités privées ; `boamp` revient explicitement aux marchés publics. Les autres sources reviennent aux marchés publics par défaut.
 
 ## Points bloquants avant ouverture réelle
 1. Authentification et formulaire de création de compte avec prénom, nom, e-mail et téléphone.
@@ -32,7 +32,7 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 6. Filtres réellement connectés par domaine. Pour le moment, la recherche active concerne surtout les marchés publics et BODACC.
 7. Vérification automatisée complète des liens internes et des ancres, puis test manuel sur une preview déployée. Le contrôle effectué jusqu'ici vérifie seulement l'existence de plusieurs routes principales, pas chaque lien du site.
 8. Tests responsive, clavier, focus, libellés et messages d'erreur.
-9. Lint, TypeScript, build et tests navigateur à confirmer sur les derniers commits. Les contrôles Vercel précédents signalaient une limite de déploiement ; aucun rendu récent n'est certifié.
+9. Lint, TypeScript, build et tests navigateur à confirmer sur les derniers commits ; aucun rendu récent n’est certifié.
 
 ## Règles de cohérence
 - Réutiliser le socle de recherche avec des filtres configurés par rubrique.
