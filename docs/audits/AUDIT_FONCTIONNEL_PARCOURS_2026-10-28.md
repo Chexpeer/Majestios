@@ -85,3 +85,13 @@ Ces correctifs évitent de laisser croire qu’une recherche a été effectuée 
 - Une page distincte `/opportunites/business` a été préservée pour expliquer le parcours cible achat, vente, cession et reprise.
 - La page distingue explicitement la vision fonctionnelle des services qui ne sont pas encore opérationnels et renvoie vers `/business` pour la recherche BODACC.
 - La page d’exploration `/opportunites` pointe désormais vers cette page de présentation plutôt que vers la recherche BODACC, ce qui sépare mieux l’explication du service et l’outil de recherche.
+
+
+### Préservation sélective des éléments de la branche historique `architecture-v0-1`
+
+- La page de présentation Business a été réintégrée sous `/opportunites/business`, avec les composants et liens de la version actuelle. Elle est distincte de `/business`, qui reste la recherche BODACC.
+- La page `/opportunites` pointe maintenant vers cette page dédiée.
+- La FAQ de la branche historique n’a pas été copiée : la FAQ actuelle de `/faq` est plus complète et couvre davantage de parcours.
+- La page historique `/espace-membre` n’a pas été dupliquée : le dépôt actuel possède déjà `/espace-professionnel`, qui explique l’état des comptes et des démarches.
+- Le catalogue contextuel de l’ancienne branche contient un seul événement fictif de démonstration ; il n’a pas été réintégré comme source d’opportunités réelles.
+- Les anciens composants de navigation n’ont pas été copiés car ils appartiennent à l’ancienne structure et ne sont pas nécessaires à la navigation actuelle.
