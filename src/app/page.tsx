@@ -6,6 +6,9 @@ import SiteFooter from "@/components/navigation/site-footer";
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
+import ContextualEventCard from "@/components/opportunities/contextual-event-card";
+import { contextualEventCatalog } from "@/lib/contextual-opportunities/catalog";
+import { selectContextualEvents } from "@/lib/contextual-opportunities/rules";
 
 type Opportunity = {
   id: number | string;
@@ -73,6 +76,10 @@ export default function HomePage() {
   }, [appliedKeyword, appliedLocation, appliedType, retryCount]);
 
   const filteredExamples = publicExamples;
+  const contextualEvents = selectContextualEvents(
+    { keyword: appliedKeyword, location: appliedLocation, type: appliedType },
+    contextualEventCatalog,
+  );
 
   function handleRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -157,6 +164,7 @@ export default function HomePage() {
             </article>
           )) : <div className="empty-results" role="status">Aucun avis BOAMP ne correspond aux filtres actuels. Essayez un autre mot-clé ou élargissez la recherche.</div>}
         </div>
+        {contextualEvents.map((event) => <ContextualEventCard key={event.id} event={event} />)}
         <p className="data-warning" id="sources"><strong>Source officielle : BOAMP / DILA.</strong> MajestiOS affiche les données retournées par l’API publique. Vérifiez toujours l’annonce officielle, notamment son statut et sa date limite. La recherche actuelle ne couvre pas toutes les sources de marchés publics.</p>
       </section>
 
