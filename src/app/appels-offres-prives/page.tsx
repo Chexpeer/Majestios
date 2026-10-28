@@ -17,7 +17,7 @@ export default function PrivateTendersPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSearchTerm(params.get("q")?.trim() ?? "");
+    setSearchTerm((params.get("q")?.trim() ?? "").slice(0, 120));
   }, []);
 
   return <main className="public-site concept-page">
