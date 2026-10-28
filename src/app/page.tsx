@@ -39,9 +39,42 @@ export default function HomePage() {
             business developers pour qualifier les besoins, identifier les bons
             interlocuteurs et faciliter les connexions commerciales.
           </p>
+
+          <form
+            className="tender-search central-opportunity-search"
+            action="/opportunites/marches-publics"
+            method="get"
+            aria-label="Rechercher un appel d'offres public"
+          >
+            <label className="search-field search-keyword">
+              <span>Mots-clés</span>
+              <input
+                type="search"
+                name="q"
+                maxLength={160}
+                placeholder="Ex. : bâtiment, nettoyage, informatique"
+              />
+            </label>
+            <label className="search-field search-domain">
+              <span>Département</span>
+              <input
+                type="text"
+                name="location"
+                maxLength={3}
+                inputMode="numeric"
+                placeholder="Ex. : 68"
+                aria-label="Code du département"
+              />
+            </label>
+            <input type="hidden" name="type" value="all" />
+            <button className="search-submit" type="submit">
+              Rechercher <span aria-hidden="true">↗</span>
+            </button>
+          </form>
+
           <div className="hero-actions">
             <Link className="button-primary" href="/opportunites">
-              Explorer les opportunités <span aria-hidden="true">↗</span>
+              Explorer toutes les opportunités <span aria-hidden="true">↗</span>
             </Link>
             <Link className="button-secondary" href="/comprendre/concept">
               Comprendre la démarche
