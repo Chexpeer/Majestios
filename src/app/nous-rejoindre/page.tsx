@@ -1,4 +1,5 @@
 import SiteHeader from "@/components/navigation/site-header";
+import SiteFooter from "@/components/navigation/site-footer";
 import Link from "next/link";
 
 export const metadata = { title: "Nous rejoindre — MajestiOS", description: "Les premières collaborations envisagées pour le développement de MajestiOS." };
@@ -12,6 +13,6 @@ export default function JoinPage() {
       <article><span>MISSION 02</span><h2>Business Developer — rejoindre l’équipe</h2><p>Participer au développement commercial de MajestiOS, identifier des opportunités de partenariat et contribuer à l’acquisition de clients.</p><p><strong>Profil recherché :</strong> sens commercial, autonomie, aisance relationnelle et esprit d’initiative.</p><span className="join-card-status">Modalités à préciser avant publication</span></article>
     </section>
     <section className="concept-principles"><h2>Manifester votre intérêt</h2><p>Le parcours de candidature n’est pas encore connecté à un système sécurisé. Les conditions de collaboration, le statut et la rémunération devront être définis avant l’ouverture des candidatures. Aucun formulaire fictif ne prétend enregistrer une candidature à ce stade.</p><Link className="search-submit concept-cta" href="/">Retour à MajestiOS</Link></section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link><Link href="/mentions-legales">Mentions légales</Link></nav><small>© MajestiOS · Site en construction</small></footer>
+    <SiteFooter />
   </main>;
 }
