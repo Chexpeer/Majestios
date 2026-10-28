@@ -119,3 +119,10 @@ Avant tout changement, identifier précisément :
 7. Ajouter progressivement les fonctions métier après validation du modèle, sans prétendre qu’une maquette est une fonctionnalité livrée.
 
 Principes permanents : aucun secret dans le dépôt ou le navigateur ; distinction explicite entre données officielles, exemples et inférences IA ; respect des droits d’utilisation des sources ; traçabilité des actions d’administration.
+
+
+## 8. Référentiel de continuité produit et reprise par une IA
+
+Le document **[Référentiel de continuité IA, vision produit et architecture pyramidale](docs/architecture/REFERENTIEL_CONTINUITE_IA_ET_VISION_PRODUIT_V0.1.md)** formalise la vision cible de MajestiOS, l'arborescence fonctionnelle, la refonte de navigation, les exigences de pédagogie, l'espace membre, « Nous rejoindre », les réseaux professionnels, les sources BOAMP/BODACC/SIRENE, les garde-fous de sécurité et de déploiement ainsi que les consignes de reprise pour tout intervenant.
+
+Ce référentiel complète les tomes maîtres et les autres documents d'architecture ; il ne les remplace pas. Il distingue explicitement l'état constaté des fonctionnalités prévues. Lire ce document avant toute reprise ou évolution structurelle.
