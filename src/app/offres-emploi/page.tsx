@@ -4,11 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import PublicHeader from "@/components/public-header";
 
-export const metadata = {
-  title: "Emploi et missions professionnelles — MajestiOS",
-  description: "Un espace dédié aux missions, collaborations et opportunités professionnelles.",
-};
-
 const examples = [
   { title: "Business Developer B2B", type: "Collaboration envisagée", area: "Développement commercial", note: "Modalités à définir avant ouverture" },
   { title: "Assistance indépendante — veille", type: "Mission envisagée", area: "Suivi des appels d’offres", note: "Modalités à définir avant ouverture" },
