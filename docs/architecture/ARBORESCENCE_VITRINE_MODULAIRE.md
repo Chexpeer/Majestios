@@ -139,3 +139,27 @@ Les pages juridiques peuvent être créées comme emplacements clairement signal
 ## 13. Limites de ce document
 
 Ce document définit une cible d'architecture et de navigation, pas une déclaration d'achèvement. Toute évolution du code doit se faire en préservant l'existant et en évitant les suppressions non nécessaires. Les modifications restent limitées à la branche de travail autorisée jusqu'à validation explicite de l'utilisateur.
+
+
+## 14. Lot de refonte — navigation pyramidale et carrefour interactif (28 octobre 2026)
+
+### Décisions UX
+- La navigation publique est organisée dans une barre latérale verticale à gauche, regroupée en familles hiérarchiques : Découvrir, Opportunités, Développement et Écosystème.
+- La FAQ reste accessible dans la zone basse de la barre latérale, de façon plus discrète que les pôles métiers, et les pages doivent conserver des liens d'aide contextuels.
+- Le carrefour circulaire MajestiOS est un composant interactif : les pôles sélectionnables représentent les entreprises, marchés publics, opportunités privées, sources et veille, réseaux professionnels, Business et emploi/missions. La sélection affiche une explication et un lien explicite vers la rubrique. Des liens de secours accessibles sont fournis sous le schéma.
+- Le carrefour est une navigation et une explication du modèle, pas une image décorative. Les relations visuelles ne doivent pas laisser entendre qu'une intégration de données non réalisée est déjà opérationnelle.
+- La page d'accueil conserve la recherche BOAMP existante. Le bandeau d'appels d'offres publics est compact et défile de droite à gauche comme accroche vers la rubrique complète.
+- La page Appels d'offres privés utilise un bandeau compact de droite à gauche ; la page Emploi et missions utilise un bandeau de gauche à droite. Les cartes d'exemple sont explicitement identifiées comme exemples et ne sont pas présentées comme des offres réelles.
+- Les bandeaux s'arrêtent au survol / focus et respectent la préférence système de réduction des animations.
+
+### Routes approfondies
+- `/offres-emploi` : présentation des catégories emploi, missions et collaborations ; aucun parcours de candidature n'est prétendu opérationnel.
+- Les pôles du carrefour renvoient vers les routes existantes ou les pages de cadrage correspondantes.
+- La barre latérale est fixe sur grand écran et se transforme en navigation mobile défilante sur petits écrans. L'accessibilité clavier et la FAQ restent des exigences de validation.
+
+### Contrôles à effectuer
+- Exécuter lint et build sur la branche de travail.
+- Vérifier que les sept pôles sont sélectionnables, que chaque lien est valide et que la navigation reste utilisable au clavier.
+- Vérifier la lisibilité du schéma sur ordinateur et mobile, les deux sens de défilement, la pause au survol/focus et la préférence de réduction des animations.
+- Tester que la recherche BOAMP, les filtres, les fiches de détail et le parcours d'accompagnement existants ne sont pas régressés.
+- Aucune fusion ni mise en production n'est autorisée par ce lot sans validation explicite de l'utilisateur.
