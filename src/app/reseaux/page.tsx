@@ -20,13 +20,13 @@ export default function NetworksPage() {
     <section className="how-section concept-hero"><div>
       <span className="section-label">RÉSEAUX PROFESSIONNELS</span>
       <h1>Comprendre les relations pour <em>mieux agir.</em></h1>
-      <p>MajestiOS vise à relier la connaissance des entreprises à celle des interlocuteurs, des décideurs et des partenaires. L'objectif n'est pas de multiplier les contacts, mais de mieux comprendre le contexte d'une relation commerciale.</p>
+      <p>MajestiOS vise à relier la connaissance des entreprises à celle des interlocuteurs, des décideurs et des partenaires. L&apos;objectif n&apos;est pas de multiplier les contacts, mais de mieux comprendre le contexte d'une relation commerciale.</p>
     </div></section>
-    <section className="network-intro"><span className="section-label">LE MODÈLE MAJESTIOS</span><h2>Entreprise <span>→</span> Interlocuteur <span>→</span> Décideur</h2><p>Ce modèle doit permettre de passer d'une information sur une organisation à une démarche commerciale mieux préparée. Chaque relation devra être justifiée par des données accessibles, contextualisées et suffisamment fiables.</p></section>
+    <section className="network-intro"><span className="section-label">LE MODÈLE MAJESTIOS</span><h2>Entreprise <span>→</span> Interlocuteur <span>→</span> Décideur</h2><p>Ce modèle doit permettre de passer d&apos;une information sur une organisation à une démarche commerciale mieux préparée. Chaque relation devra être justifiée par des données accessibles, contextualisées et suffisamment fiables.</p></section>
     <section className="concept-grid" aria-label="Piliers des réseaux professionnels">
       {pillars.map(item => <article key={item.number}><span>{item.number}</span><h2>{item.title}</h2><p>{item.text}</p></article>)}
     </section>
-    <section className="concept-principles"><h2>Un domaine en construction</h2><p>Cette page présente la cible fonctionnelle. Elle ne constitue pas encore un annuaire opérationnel ni un service de mise en relation. Les recherches, profils, relations et permissions devront être développés et testés avant d'être annoncés comme disponibles.</p><Link className="search-submit concept-cta" href="/comment-et-pourquoi">Découvrir le fonctionnement</Link></section>
+    <section className="concept-principles"><h2>Un domaine en construction</h2><p>Cette page présente la cible fonctionnelle. Elle ne constitue pas encore un annuaire opérationnel ni un service de mise en relation. Les recherches, profils, relations et permissions devront être développés et testés avant d&apos;être annoncés comme disponibles.</p><Link className="search-submit concept-cta" href="/comment-et-pourquoi">Découvrir le fonctionnement</Link></section>
     <SiteFooter />
   </main>;
 }
