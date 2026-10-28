@@ -26,7 +26,7 @@ export default function Page() {
     : intention === "collaboration"
       ? "Vous souhaitez étudier une collaboration avec MajestiOS. Le parcours de candidature n’est pas encore activé."
       : intention === "opportunite"
-        ? "Vous souhaitez vous positionner sur une opportunité. La création de compte et l’enregistrement sécurisé de cette démarche ne sont pas encore activés. Votre sélection est conservée dans cette adresse pour cette visite, mais elle n’a pas été enregistrée dans un compte."
+        ? "Vous souhaitez étudier une annonce ou une opportunité. La création de compte et l’enregistrement sécurisé de cette démarche ne sont pas encore activés. Votre sélection est conservée dans cette adresse pour cette visite, mais elle n’a pas été enregistrée dans un compte."
         : "";
 
   return <main className="public-site concept-page">
