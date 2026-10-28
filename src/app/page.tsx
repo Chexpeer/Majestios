@@ -69,7 +69,7 @@ export default function HomePage() {
       private: "/appels-offres-prives",
       jobs: "/offres-emploi",
       network: "/reseaux",
-      sources: "/intelligence-commerciale",
+      sources: "/developpement-commercial",
     };
     const destination = destinations[searchDomain] ?? "/opportunites";
     const query = params.toString();
@@ -101,7 +101,7 @@ export default function HomePage() {
                 <option value="private">Opportunités privées</option>
                 <option value="jobs">Emploi & missions</option>
                 <option value="network">Réseaux professionnels</option>
-                <option value="sources">Sources & veille</option>
+                <option value="sources">Développement commercial</option>
               </select>
             </label>
             <button className="search-submit" type="submit"><span aria-hidden="true">⌕</span> Rechercher</button>
