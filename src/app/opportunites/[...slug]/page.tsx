@@ -24,12 +24,44 @@ function dynamicOpportunityTitle(slug: string[]): string | null {
   return publicId ? "Fiche marché public" : publicReply ? "Se positionner sur un marché public" : publicDepartment ? "Marchés publics par département" : privateId ? "Fiche opportunité privée" : privateReply ? "Prendre contact pour une opportunité privée" : privateSector ? "Opportunités privées par secteur" : salonSector ? "Salons professionnels par secteur" : salonRegion ? "Salons professionnels par région" : salonDetail ? "Fiche salon professionnel" : salonSubpage ? ({ programme: "Programme du salon", "preparer-sa-visite": "Préparer sa visite", "opportunites-liees": "Opportunités liées au salon", accompagnement: "Accompagnement autour du salon" } as Record<string,string>)[slug[2]] : jobId ? "Fiche offre d’emploi" : jobApply ? "Candidater à une offre" : "Métiers et emploi";
 }
 
+function dynamicOpportunityDescription(slug: string[]): string | null {
+  const safe = (value?: string) => !!value && /^[A-Za-z0-9_-]{1,100}$/.test(value);
+  const publicId = slug[0] === "marches-publics" && slug.length === 2 && safe(slug[1]);
+  const publicReply = slug[0] === "marches-publics" && slug.length === 3 && safe(slug[1]) && slug[2] === "repondre";
+  const publicDepartment = slug[0] === "marches-publics" && slug[1] === "departement" && slug.length === 3 && safe(slug[2]);
+  const privateId = slug[0] === "marches-prives" && slug.length === 2 && safe(slug[1]);
+  const privateReply = slug[0] === "marches-prives" && slug.length === 3 && safe(slug[1]) && slug[2] === "repondre";
+  const privateSector = slug[0] === "marches-prives" && slug[1] === "secteur" && slug.length === 3 && safe(slug[2]);
+  const salonSector = slug[0] === "salons" && slug[1] === "secteur" && slug.length === 3 && safe(slug[2]);
+  const salonRegion = slug[0] === "salons" && slug[1] === "region" && slug.length === 3 && safe(slug[2]);
+  const salonDetail = slug[0] === "salons" && slug.length === 2 && !["calendrier", "secteur", "region"].includes(slug[1]) && safe(slug[1]);
+  const salonSubpage = slug[0] === "salons" && slug.length === 3 && safe(slug[1]) && ["programme", "preparer-sa-visite", "opportunites-liees", "accompagnement"].includes(slug[2]);
+  const jobId = slug[0] === "emploi" && slug[1] === "offres" && slug.length === 3 && safe(slug[2]);
+  const jobApply = slug[0] === "emploi" && slug[1] === "offres" && slug.length === 4 && safe(slug[2]) && slug[3] === "candidater";
+  const jobTrade = slug[0] === "emploi" && slug[1] === "metiers" && slug.length === 3 && safe(slug[2]);
+  if (!(publicId || publicReply || publicDepartment || privateId || privateReply || privateSector || salonSector || salonRegion || salonDetail || salonSubpage || jobId || jobApply || jobTrade)) return null;
+
+  return publicId ? "Une fiche ne peut être affichée qu’après récupération et vérification de l’avis original."
+    : publicReply ? "Le parcours de réponse sera activé lorsque le dossier officiel et les fonctionnalités de compte seront disponibles."
+    : publicDepartment ? "Le filtre départemental sera alimenté uniquement avec des données de localisation vérifiées."
+    : privateId ? "Les informations d’une opportunité privée ne seront affichées qu’après vérification de la source et de l’autorisation de diffusion."
+    : privateReply ? "Les coordonnées et le formulaire de contact ne seront proposés qu’après contrôle de l’annonce et sécurisation du parcours."
+    : privateSector ? "Les opportunités seront classées par secteur lorsque les annonces privées auront été validées pour publication."
+    : salonSector ? "Les événements seront classés par secteur après validation auprès des organisateurs officiels."
+    : salonRegion ? "Les événements seront classés par région à partir des lieux confirmés par les organisateurs."
+    : salonDetail ? "La fiche événement sera publiée après validation du nom, des dates et de la source officielle."
+    : salonSubpage ? "Cette rubrique sera alimentée après validation des informations de l’organisateur. Aucun programme ou service n’est inventé."
+    : jobId ? "Les détails d’une offre seront affichés uniquement à partir d’une source vérifiable."
+    : jobApply ? "Le parcours de candidature est en préparation. Aucun CV n’est collecté à ce stade."
+    : "Les contenus métiers seront documentés à partir de sources vérifiables.";
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const pathname = "/opportunites/" + slug.join("/");
   const found = findSiteNode(pathname);
   const title = found?.node.label ?? dynamicOpportunityTitle(slug) ?? "Rubrique";
-  const description = found?.node.description ?? "Explorez les ressources et parcours MajestiOS.";
+  const description = found?.node.description ?? dynamicOpportunityDescription(slug) ?? "Explorez les ressources et parcours MajestiOS.";
   return { title: `${title} — MajestiOS`, description };
 }
 
@@ -69,6 +101,6 @@ export default async function OpportunityDepthPage({ params }: Props) {
   if (!(publicId || publicReply || publicDepartment || privateId || privateReply || privateSector || salonSector || salonRegion || salonDetail || salonSubpage || jobId || jobApply || jobTrade)) notFound();
 
   const title = dynamicOpportunityTitle(slug) ?? "Fiche opportunité";
-  const description = publicId ? "Une fiche ne peut être affichée qu’après récupération et vérification de l’avis original." : publicReply ? "Le parcours de réponse sera activé lorsque le dossier officiel et les fonctionnalités de compte seront disponibles." : publicDepartment ? "Le filtre départemental sera alimenté uniquement avec des données de localisation vérifiées." : privateId ? "Les informations d’une opportunité privée ne seront affichées qu’après vérification de la source et de l’autorisation de diffusion." : privateReply ? "Les coordonnées et le formulaire de contact ne seront proposés qu’après contrôle de l’annonce et sécurisation du parcours." : privateSector ? "Les opportunités seront classées par secteur lorsque les annonces privées auront été validées pour publication." : salonSector ? "Les événements seront classés par secteur après validation auprès des organisateurs officiels." : salonRegion ? "Les événements seront classés par région à partir des lieux confirmés par les organisateurs." : salonDetail ? "La fiche événement sera publiée après validation du nom, des dates et de la source officielle." : salonSubpage ? "Cette rubrique sera alimentée après validation des informations de l’organisateur. Aucun programme ou service n’est inventé." : jobId ? "Les détails d’une offre seront affichés uniquement à partir d’une source vérifiable." : jobApply ? "Le parcours de candidature est en préparation. Aucun CV n’est collecté à ce stade." : "Les contenus métiers seront documentés à partir de sources vérifiables.";
+  const description = dynamicOpportunityDescription(slug) ?? "Explorez les ressources et parcours MajestiOS.";
   return <SiteHub pathname={pathname} title={title} eyebrow={title.toUpperCase()} intro={description} checklist={["Aucune donnée fictive n’est affichée comme une annonce réelle.", "La source et l’actualité doivent être vérifiées avant toute décision.", "Les filtres, fiches et formulaires ne seront activés qu’avec des données et des contrôles adaptés."]} />;
 }
