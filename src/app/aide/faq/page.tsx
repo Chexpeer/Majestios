@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteHeader from "@/components/navigation/site-header";
+import SiteFooter from "@/components/navigation/site-footer";
 
 export const metadata = {
   title: "FAQ — Comprendre MajestiOS",
@@ -47,6 +48,6 @@ export default function FaqPage() {
       </section>)}
     </section>
     <section className="concept-principles"><h2>Vous découvrez MajestiOS ?</h2><p>Commencez par la présentation du concept, puis explorez les opportunités publiques ou privées. Les fonctions en préparation sont indiquées comme telles.</p><div className="faq-actions"><Link className="search-submit concept-cta" href="/comment-et-pourquoi">Comprendre le concept</Link><Link className="faq-secondary" href="/nous-rejoindre">Nous rejoindre</Link></div></section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/comment-et-pourquoi">Le concept</Link><Link href="/reseaux">Réseaux</Link><Link href="/espace-membre">Espace membre</Link><Link href="/nous-rejoindre">Nous rejoindre</Link><Link href="/mentions-legales">Mentions légales</Link></nav><small>© MajestiOS · Plateforme en développement</small></footer>
+    <SiteFooter />
   </main>;
 }
