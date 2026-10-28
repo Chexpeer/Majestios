@@ -1,6 +1,7 @@
 "use client";
 
 import SiteHeader from "@/components/navigation/site-header";
+import SiteFooter from "@/components/navigation/site-footer";
 
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
@@ -166,16 +167,7 @@ export default function HomePage() {
 
       <section className="signup-strip" id="demande-acces"><div><h2>Ne manquez pas une opportunité.</h2><p>La création de compte et les alertes personnalisées seront proposées dans la version connectée.</p></div><span className="signup-coming-soon">Les alertes personnalisées seront activées après le raccordement des sources.</span></section>
 
-      <footer className="public-footer">
-        <Link className="footer-brand" href="/">MajestiOS</Link>
-        <div className="footer-links">
-          <div><strong>Découvrir</strong><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><Link href="/#recherche">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link></div>
-          <div><strong>Nos expertises</strong><Link href="/#intelligence">Intelligence commerciale</Link><Link href="/#etudes">Études de marché</Link><Link href="/#ereputation">E-réputation</Link></div>
-          <div><strong>Rejoindre</strong><Link href="/nous-rejoindre">Les deux missions de recrutement</Link></div>
-          <div><strong>Informations</strong><Link href="/mentions-legales">Mentions légales</Link></div>
-        </div>
-        <small>© MajestiOS · Site en construction</small>
-      </footer>
+      <SiteFooter />
 
       {selectedPrivate && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelectedPrivate(null); }}>
         <section className="private-modal" role="dialog" aria-modal="true" aria-labelledby="private-modal-title">
