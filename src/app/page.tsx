@@ -96,8 +96,10 @@ export default function HomePage() {
           </form>
           <p className="search-note">Recherche publique BOAMP · Filtre géographique par code département · Vérifiez chaque avis sur la source officielle</p>
         </div>
-        <div className="hero-aside hero-map-preview"><MajestiOSOpportunityMap /></div>
+        <div className="hero-aside"><div className="aside-orbit"><span className="orbit-dot dot-a" /><span className="orbit-dot dot-b" /><span className="orbit-dot dot-c" /><div className="orbit-center">M</div></div><p><strong>Repérez.</strong> Qualifiez. Passez à l’action.</p></div>
       </section>
+
+      <section className="maj-map-home-section" aria-label="Carte interactive des rubriques MajestiOS"><MajestiOSOpportunityMap /></section>
 
       <section className="public-opportunity-ticker" aria-label="Aperçu des appels d’offres publics">
         <div className="public-ticker-label"><span className="ticker-live-dot" /><strong>Appels d’offres publics</strong><Link href="/appels-offres-publics">Tout explorer ↗</Link></div>
