@@ -1352,3 +1352,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .main-navigation { order:3; flex:1 1 100%; max-width:100%; overflow-x:auto; padding:2px 0 5px; scrollbar-width:thin; }
   .header-member-link { margin-left:auto; }
 }
+
+
+/* Les couleurs fonctionnelles restent distinctes : public en bleu, privé en vert */
+.maj-map-node.violet .maj-map-node-icon { background:#e9eff8; color:#355b8c; }
+.maj-map-node.orange .maj-map-node-icon { background:#e6f1e8; color:#356b49; }
+.maj-map-node.blue .maj-map-node-icon { background:#e9eff8; color:#355b8c; }
+.maj-map-node.green .maj-map-node-icon,.maj-map-node.mint .maj-map-node-icon { background:#e6f1e8; color:#356b49; }
+.maj-map-node.red .maj-map-node-icon { background:#f5e9e4; color:#8a5545; }
