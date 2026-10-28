@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;
 :root {
   color-scheme: light;
   --ink: #1b2638;
@@ -16,7 +17,7 @@
 }
 
 /* Palette MajestiOS centralisée : ivoire, bleu nuit et or. */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 * { box-sizing: border-box; }
 html {
