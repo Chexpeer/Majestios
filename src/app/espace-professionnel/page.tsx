@@ -15,7 +15,6 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIntention(params.get("intention") || "");
     setOpportunityTitle((params.get("titre") || "").slice(0, 180));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpportunitySource(params.get("source") || "");
     setOpportunityId((params.get("opportunite") || "").slice(0, 180));
   }, []);
