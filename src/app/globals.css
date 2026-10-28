@@ -967,4 +967,6 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
 }
 @media (prefers-reduced-motion: reduce) {
   .home-flow-track { animation: none; }
+  /* Les cartes dupliquées servent à la boucle animée : les masquer sans mouvement. */
+  .home-flow-item:nth-child(n + 13) { display: none; }
 }
