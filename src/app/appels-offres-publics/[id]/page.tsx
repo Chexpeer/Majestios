@@ -3,10 +3,10 @@ import PublicHeader from "@/components/public-header";
 export const dynamic = "force-dynamic";
 type Props={params:Promise<{id:string}>};
 export async function generateMetadata({ params }: Props) {
-  await params;
+  const { id } = await params;
   return {
-    title: "Fiche d’appel d’offres — MajestiOS",
-    description: "Fiche de consultation et parcours d’accompagnement MajestiOS.",
+    title: `Avis ${id} — MajestiOS`,
+    description: `Fiche de consultation pour l’avis ${id}. Vérifiez les données et échéances sur la source officielle.`,
   };
 }
 export default async function TenderDetailPage({params}:Props){const {id}=await params;const officialUrl="https://www.boamp.fr/pages/avis/?q=idweb:"+encodeURIComponent(id);return <main className="public-site concept-page"><PublicHeader /><section className="how-section concept-hero"><div><span className="section-label">AVIS PUBLIC · IDENTIFIANT SOURCE</span><h1>Fiche de consultation <em>{id}</em></h1><p>Cette page est dédiée à l’avis sélectionné. La référence a été reprise depuis le résultat de recherche ; les données complètes de l’avis doivent être vérifiées sur le site officiel avant toute décision.</p><a className="search-submit concept-cta" href={officialUrl} target="_blank" rel="noreferrer">Consulter l’avis officiel ↗</a></div></section><section className="concept-grid"><article><span>01 · VÉRIFIER</span><h2>Objet et périmètre</h2><p>Consultez l’avis officiel pour confirmer l’objet, l’acheteur, les pièces du dossier, les conditions de participation et les éventuelles mises à jour.</p></article><article><span>02 · CONTRÔLER</span><h2>Échéance et procédure</h2><p>Vérifiez la date et l’heure limites, les modalités de dépôt, les critères de sélection et les questions-réponses publiées par l’acheteur.</p></article><article><span>03 · PRÉPARER</span><h2>Évaluer votre capacité à répondre</h2><p>Listez les compétences, références, moyens et documents nécessaires. N’engagez pas une réponse sur la seule base d’un résumé.</p></article></section><section className="concept-principles"><h2>Vous souhaitez être accompagné ?</h2><p>Le formulaire ci-dessous permet de préparer une demande d’accompagnement liée à cette référence. Il ne constitue pas un dépôt de candidature auprès de l’acheteur.</p><Link className="search-submit concept-cta" href={"/appels-offres-publics/"+encodeURIComponent(id)+"/repondre"}>Ouvrir le formulaire lié à cet avis ↗</Link><p><Link href="/appels-offres-publics">← Retour à la liste des appels d’offres</Link></p></section><footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><Link href="/mentions-legales">Mentions légales</Link><small>Les informations officielles font foi.</small></footer></main>}
