@@ -2,7 +2,7 @@
 import PublicHeader from "@/components/public-header";
 import Link from "next/link";
 import {useEffect, useState} from "react";
-export default function TenderRequestPage({params}:{params:Promise<{id:string}>}) {
+export default function TenderRequestPage({params,searchParams}:{params:Promise<{id:string}>;searchParams:Promise<{title?:string;buyer?:string;deadline?:string}>}) {
  const [id,setId]=useState("");const [name,setName]=useState("");const [company,setCompany]=useState("");const [email,setEmail]=useState("");const [need,setNeed]=useState("accompagnement");const [message,setMessage]=useState("");const [prepared,setPrepared]=useState(false);
  useEffect(()=>{let active=true;params.then(v=>{if(active)setId(v.id)}).catch(()=>{});return ()=>{active=false}},[params]);
  function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();setPrepared(true)}
