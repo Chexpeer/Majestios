@@ -21,8 +21,8 @@ export default function HomePage() {
     <section className="home-hero-redesign">
       <div className="hero-copy">
         <span className="eyebrow"><i /> INTELLIGENCE COMMERCIALE PROACTIVE</span>
-        <h1>Les opportunités ne se trouvent pas toutes au même endroit<span>.</span></h1>
-        <p>MajestiOS organise la veille, la qualification et la prospection dans un parcours lisible. Explorez les marchés, les entreprises, les salons et les missions depuis des rubriques indépendantes.</p>
+        <h1>Le réseautage intelligent au service de votre développement commercial<span>.</span></h1>
+        <p>Nous ne nous contentons pas de signaler des opportunités. MajestiOS associe l’IA et l’expertise de business developers pour qualifier les besoins, identifier les interlocuteurs pertinents et faciliter les connexions commerciales qui peuvent devenir des affaires.</p>
         <div className="hero-actions"><Link className="button-primary" href="/opportunites">Explorer les opportunités <span>↗</span></Link><Link className="button-secondary" href="/comprendre/concept">Comprendre la démarche</Link></div>
         <div className="hero-trust"><span className="trust-mark">✓</span><span><strong>La source avant l’affirmation.</strong><small>Pas d’annonce fictive présentée comme réelle.</small></span></div>
       </div>
@@ -30,7 +30,7 @@ export default function HomePage() {
     </section>
     <section className="mission-strip"><span className="eyebrow">LE PARCOURS</span><div>{["Détecter","Qualifier","Identifier","Contacter","Transformer","Capitaliser"].map((step,index)=><span key={step}><b>{String(index+1).padStart(2,"0")}</b>{step}{index<5?<i>→</i>:null}</span>)}</div></section>
     <section className="home-map-section"><div className="section-heading"><span className="eyebrow">EXPLORER PAR BESOIN</span><h2>Un point d’entrée. <em>Plusieurs chemins.</em></h2><p>Chaque pôle ouvre sa propre rubrique, puis ses sous-rubriques et ses pages de détail.</p></div><MajestiOSOpportunityMap /></section>
-    <section className="pillars-section"><div className="section-heading"><span className="eyebrow">UNE MÉTHODE STRUCTURÉE</span><h2>De l’information à <em>l’action.</em></h2></div><div className="pillars-grid">{pillars.map((pillar)=><article className="pillar-card" key={pillar.number}><span>{pillar.number}</span><h3>{pillar.title}</h3><p>{pillar.text}</p></article>)}</div></section>
+    <section className="pillars-section"><div className="section-heading"><span className="eyebrow">LE RÉSEAUTAGE INTELLIGENT</span><h2>De l’information à <em>la relation d’affaires.</em></h2></div><div className="pillars-grid">{pillars.map((pillar)=><article className="pillar-card" key={pillar.number}><span>{pillar.number}</span><h3>{pillar.title}</h3><p>{pillar.text}</p></article>)}</div></section>
     <footer className="redesign-footer"><Link href="/" className="footer-brand">MajestiOS</Link><span>© MajestiOS · Version de refonte indépendante</span><nav><Link href="/comprendre/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav></footer>
   </main>;
 }
