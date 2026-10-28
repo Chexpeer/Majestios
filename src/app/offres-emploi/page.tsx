@@ -32,7 +32,7 @@ export default function EmploymentPage() {
         <button className="search-submit" type="button" disabled>Recherche externe en préparation</button>
       </form>
       <p role="status">Les connecteurs d’offres externes ne sont pas encore activés. Cette recherche prépare votre critère, mais ne prétend pas fournir des offres en direct.</p>
-      <Link className="search-submit concept-cta" href="/espace-professionnel?intention=cv">Créer mon espace personnel / déposer mon CV ↗</Link>
+      <Link className="search-submit concept-cta" href={`/espace-professionnel?${new URLSearchParams({intention:"cv",source:"emploi",q:query}).toString()}`}>Créer mon espace personnel / déposer mon CV ↗</Link>
     </section>
     <section className="employment-ticker-section">
       <div className="employment-ticker-heading"><div><span className="section-label">LE FIL DES OPPORTUNITÉS</span><h2>Les missions et collaborations</h2><p>Défilement de gauche à droite : un aperçu des formats que la rubrique accueillera.</p></div><span className="prelaunch-badge">RUBRIQUE EN PRÉPARATION</span></div>
