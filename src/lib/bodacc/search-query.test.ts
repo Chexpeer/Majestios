@@ -20,4 +20,10 @@ describe("extractBodaccSearchTerm", () => {
   it("returns empty for generic terms only", () => {
     expect(extractBodaccSearchTerm("BODACC cession entreprise")).toBe("");
   });
+  it("normalizes whitespace and removes unsupported query characters", () => {
+    expect(extractBodaccSearchTerm('  Mulhouse   OR * "test"  ')).toBe("Mulhouse OR test");
+  });
+  it("preserves accented company and activity names", () => {
+    expect(extractBodaccSearchTerm("Électricité Générale d’Alsace")).toBe("Électricité Générale Alsace");
+  });
 });
