@@ -1,10 +1,11 @@
+import SiteHeader from "@/components/navigation/site-header";
 import Link from "next/link";
 
 export const metadata = { title: "Nous rejoindre — MajestiOS", description: "Les premières collaborations envisagées pour le développement de MajestiOS." };
 
 export default function JoinPage() {
   return <main className="public-site concept-page">
-    <header className="public-header"><Link className="public-brand" href="/"><span className="public-brand-mark">M</span><span><strong>MajestiOS</strong><small>LES OPPORTUNITÉS PROFESSIONNELLES</small></span></Link><nav className="public-nav" aria-label="Navigation principale"><Link href="/">Accueil</Link><Link href="/#recherche">Appels d’offres publics</Link><Link href="/appels-offres-prives">Appels d’offres privés</Link><Link href="/comment-et-pourquoi">Le concept</Link></nav><Link className="header-login" href="/">Retour à l’accueil</Link></header>
+    <SiteHeader />
     <section className="how-section concept-hero"><div><span className="section-label">NOUS REJOINDRE</span><h1>Contribuez au développement de <em>MajestiOS.</em></h1><p>Deux besoins prioritaires sont identifiés pour accompagner le suivi des appels d’offres et le développement commercial de la plateforme.</p></div></section>
     <section className="concept-grid">
       <article><span>MISSION 01</span><h2>Assistante indépendante — suivi des appels d’offres</h2><p>Contribuer à la veille, au suivi des échéances, à l’organisation des dossiers et à la préparation des informations nécessaires au suivi des opportunités.</p><p><strong>Profil recherché :</strong> organisation, rigueur, autonomie et aisance avec les outils numériques.</p><span className="join-card-status">Modalités à préciser avant publication</span></article>
