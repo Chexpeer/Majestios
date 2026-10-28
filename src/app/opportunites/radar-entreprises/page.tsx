@@ -1,7 +1,7 @@
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
 
-export const metadata = { title: "Radar entreprises — MajestiOS", description: "Comprendre le futur radar de signaux d’entreprises pour l’intelligence commerciale." };
+export const metadata = { title: "Radar entreprises — MajestiOS", description: "Comprendre le futur radar de signaux d’entreprises pour le développement commercial." };
 
 export default function CompanyRadarPage() {
   return <main className="public-site concept-page"><PublicHeader />
@@ -12,6 +12,6 @@ export default function CompanyRadarPage() {
       <article><span>03 · QUALIFIER</span><h2>Préparer une action</h2><p>Le professionnel devra pouvoir comprendre le contexte, identifier les interlocuteurs légitimes et décider lui-même de la suite à donner.</p></article>
     </section>
     <section className="concept-principles"><h2>État actuel et limites</h2><p>Le radar n’est pas encore connecté à un flux opérationnel de données SIRENE ou BODACC. Cette page décrit la cible fonctionnelle ; elle ne présente aucune entreprise réelle ni aucune alerte en temps réel. Les règles d’usage, de fraîcheur, de traçabilité et de protection des données devront être validées avant l’activation.</p><Link className="search-submit concept-cta" href="/opportunites">Retour à toutes les opportunités ↗</Link><Link className="search-submit concept-cta" href="/faq">Comprendre les sources et les limites ↗</Link></section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/intelligence-commerciale">Intelligence commerciale</Link><Link href="/business">Business</Link><Link href="/faq">FAQ</Link></nav><small>© MajestiOS · Site en construction</small></footer>
+    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/developpement-commercial">Développement commercial</Link><Link href="/business">Business</Link><Link href="/faq">FAQ</Link></nav><small>© MajestiOS · Site en construction</small></footer>
   </main>;
 }
