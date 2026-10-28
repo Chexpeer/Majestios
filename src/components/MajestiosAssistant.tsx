@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { extractBodaccSearchTerm } from "@/lib/bodacc/search-query";
 
 type Answer = { title: string; text: string; sources: string[]; next?: { label: string; href: string }[] };
 type BodaccResult = { id: string; company: string; kind: string; summary: string; date: string; siren: string; location: string; source: string; sourceUrl: string; isDemo: false };
@@ -33,11 +34,14 @@ export default function MajestiosAssistant() {
   async function ask(value:string){
     const q=value.trim(); if(!q)return;
     setHistory(old=>[...old,q]); setAnswer(answerFor(q)); setQuestion(""); setBodaccResults([]); setBodaccError("");
-    const lower=q.toLocaleLowerCase("fr");
+    const lower=q.toLocaleLowerCase("fr").replace(/[’‘]/g,"'");
     const asksBusiness=/bodacc|cession|reprise|fonds de commerce|vente d'entreprise|vente entreprise|entreprise à vendre/.test(lower);
     if(asksBusiness){
-      const cleaned=q.replace(/bodacc/ig,"").replace(/cession|reprise d'entreprise|reprise entreprise|fonds de commerce|vente d'entreprise|vente entreprise|entreprise à vendre/ig,"").trim();
-      const searchTerm=cleaned.length>=2?cleaned:q;
+      const searchTerm=extractBodaccSearchTerm(q);
+      if(searchTerm.length < 2){
+        setBodaccError("Pour lancer une recherche BODACC, indiquez un nom d’entreprise, une activité ou une ville.");
+        return;
+      }
       setBodaccLoading(true);
       try{
         const response=await fetch(`/api/bodacc?q=${encodeURIComponent(searchTerm)}&limit=5`,{cache:"no-store"});
