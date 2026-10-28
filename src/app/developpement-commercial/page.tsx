@@ -6,7 +6,11 @@ export const metadata = {
   description: "Des outils pour trouver des clients, comprendre un marché et préparer les prochaines actions commerciales.",
 };
 
-export default function Page() {
+type Props = { searchParams: Promise<{ q?: string }> };
+
+export default async function Page({ searchParams }: Props) {
+  const params = await searchParams;
+  const query = (params.q ?? "").trim().slice(0, 160);
   return (
     <main className="public-site concept-page">
       <PublicHeader />
@@ -17,6 +21,7 @@ export default function Page() {
           <p>MajestiOS veut aider les professionnels à repérer des occasions de développer leur activité, trouver les bons interlocuteurs et préparer leurs prochaines actions. Les services sont organisés en plusieurs rubriques complémentaires.</p>
         </div>
       </section>
+      {query && <section className="concept-principles" role="status"><span className="section-label">VOTRE RECHERCHE</span><h2>Mot-clé demandé : « {query} »</h2><p>Cette rubrique présente les services de développement commercial ; elle ne lance pas encore de recherche transversale dans ces services. Votre mot-clé a été conservé, mais aucune recherche automatisée n’a été exécutée.</p><Link className="search-submit concept-cta" href={`/business?q=${encodeURIComponent(query)}`}>Rechercher ce terme dans les annonces BODACC ↗</Link><Link className="search-submit concept-cta" href={`/appels-offres-publics?q=${encodeURIComponent(query)}`}>Rechercher ce terme dans les marchés publics ↗</Link></section>}
       <section className="concept-grid">
         <article id="prospection">
           <span>01 · TROUVER</span>
