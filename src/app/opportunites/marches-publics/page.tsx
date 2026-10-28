@@ -1,3 +1,10 @@
-import SiteHub from "@/components/site-hub";
-export const metadata = { title: "Marchés publics — MajestiOS", description: "Explorer les marchés publics et préparer une qualification structurée." };
-export default function Page() { return <SiteHub pathname="/opportunites/marches-publics" intro="Repérez les consultations publiques, explorez les catégories et préparez une première qualification. Les informations réglementaires doivent être vérifiées sur la source officielle." checklist={["Vérifier l’avis et son actualité sur le profil officiel de l’acheteur ou sur BOAMP.", "Contrôler les critères, les pièces demandées et les modalités de remise dans le dossier original.", "Évaluer l’adéquation entre le besoin, les capacités et les ressources disponibles."]} />; }
+import PublicTendersSearch from "@/components/public-tenders-search";
+
+export const metadata = {
+  title: "Marchés publics — MajestiOS",
+  description: "Rechercher les avis de marchés publics issus du BOAMP, filtrer par mots-clés, département, catégorie et disponibilité.",
+};
+
+export default function PublicTendersPage() {
+  return <PublicTendersSearch />;
+}
