@@ -1,3 +1,4 @@
+import SiteHeader from "@/components/navigation/site-header";
 import Link from "next/link";
 
 export const metadata = {
@@ -8,19 +9,7 @@ export const metadata = {
 export default function ConceptPage() {
   return (
     <main className="public-site concept-page">
-      <header className="public-header">
-        <Link className="public-brand" href="/" aria-label="MajestiOS, accueil">
-          <span className="public-brand-mark">M</span>
-          <span><strong>MajestiOS</strong><small>LES OPPORTUNITÉS PROFESSIONNELLES</small></span>
-        </Link>
-        <nav className="public-nav" aria-label="Navigation principale">
-          <Link href="/">Accueil</Link>
-          <Link href="/#recherche">Appels d’offres publics</Link>
-          <Link href="/appels-offres-prives">Appels d’offres privés</Link>
-          <Link href="/nous-rejoindre">Nous rejoindre</Link>
-        </nav>
-        <Link className="header-login" href="/#demande-acces">Espace professionnel</Link>
-      </header>
+      <SiteHeader />
 
       <section className="how-section concept-hero">
         <div>
