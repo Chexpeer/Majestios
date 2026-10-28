@@ -9,11 +9,13 @@ export default function Page() {
   const [opportunityTitle, setOpportunityTitle] = useState("");
   const [opportunitySource, setOpportunitySource] = useState("");
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIntention(params.get("intention") || "");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpportunityTitle((params.get("titre") || "").slice(0, 180));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpportunitySource(params.get("source") || "");
   }, []);
 
