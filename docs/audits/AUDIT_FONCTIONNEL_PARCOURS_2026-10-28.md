@@ -42,3 +42,16 @@ Contrôle statique des fichiers de la branche `developpement` via l’API GitHub
 ## Statut
 
 Audit statique réalisé ; aucun test navigateur, build, déploiement ou envoi de formulaire n’a été effectué dans le cadre de ce document.
+
+
+## Correctifs de parcours appliqués après le premier audit
+
+À la suite de l’audit statique, un défaut de parcours a été identifié : le formulaire de recherche d’accueil permettait de choisir « Entreprises », « Réseaux professionnels » ou « Développement commercial », mais le mot-clé n’était pas transmis à toutes ces rubriques, ou n’était pas clairement signalé comme non traité.
+
+Correctifs commités dans `developpement` :
+- La recherche d’accueil transmet maintenant le mot-clé aux destinations Entreprises, Réseaux et Développement commercial.
+- Le Radar entreprises conserve le mot-clé dans l’URL et indique explicitement que la recherche de signaux n’est pas encore connectée ; un raccourci vers la recherche BODACC est proposé.
+- La rubrique Réseaux affiche le mot-clé reçu et précise qu’aucune recherche de partenaires ni mise en relation n’a été effectuée.
+- La rubrique Développement commercial affiche le mot-clé reçu et précise qu’aucune recherche transversale automatisée n’a été exécutée, avec raccourcis vers BODACC et les marchés publics.
+
+Ces correctifs évitent de laisser croire qu’une recherche a été effectuée lorsqu’elle ne l’a pas été. Ils ont été enregistrés sur la branche `developpement`, mais n’ont pas encore été validés par un build ou un test navigateur.
