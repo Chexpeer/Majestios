@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { extractBoampFields } from "@/lib/boamp/records";
-import { isOpenBoampNotice } from "@/lib/boamp/status";
-import { buildBoampApiParams } from "@/lib/boamp/query";
+import { extractBoampFields } from "../../../lib/boamp/records";
+import { isOpenBoampNotice } from "../../../lib/boamp/status";
+import { buildBoampApiParams } from "../../../lib/boamp/query";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
