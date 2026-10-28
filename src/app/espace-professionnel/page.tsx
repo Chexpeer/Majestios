@@ -35,6 +35,8 @@ export default function Page() {
       const value = new URLSearchParams(typeof window === "undefined" ? "" : window.location.search).get(key);
       if (value) returnParams.set(key, value);
     }
+  } else if (["private", "recherche-privee", "opportunites-privees"].includes(opportunitySource) && opportunityTitle) {
+    returnParams.set("q", opportunityTitle);
   }
   const returnHref = returnParams.size ? `${returnPath}?${returnParams.toString()}` : returnPath;
 
