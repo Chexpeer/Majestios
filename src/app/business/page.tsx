@@ -15,6 +15,7 @@ export default function BusinessPage() {
   const [items, setItems] = useState<BodaccItem[]>([]);
   const [searched, setSearched] = useState(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     const incomingQuery = new URLSearchParams(window.location.search).get("q");
     if (incomingQuery) setQuery(incomingQuery.slice(0, 120));
