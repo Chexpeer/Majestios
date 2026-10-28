@@ -20,7 +20,7 @@ export default function NetworksPage() {
     <section className="how-section concept-hero"><div>
       <span className="section-label">RÉSEAUX PROFESSIONNELS</span>
       <h1>Comprendre les relations pour <em>mieux agir.</em></h1>
-      <p>MajestiOS vise à relier la connaissance des entreprises à celle des interlocuteurs, des décideurs et des partenaires. L&apos;objectif n&apos;est pas de multiplier les contacts, mais de mieux comprendre le contexte d'une relation commerciale.</p>
+      <p>MajestiOS vise à relier la connaissance des entreprises à celle des interlocuteurs, des décideurs et des partenaires. L&apos;objectif n&apos;est pas de multiplier les contacts, mais de mieux comprendre le contexte d&apos;une relation commerciale.</p>
     </div></section>
     <section className="network-intro"><span className="section-label">LE MODÈLE MAJESTIOS</span><h2>Entreprise <span>→</span> Interlocuteur <span>→</span> Décideur</h2><p>Ce modèle doit permettre de passer d&apos;une information sur une organisation à une démarche commerciale mieux préparée. Chaque relation devra être justifiée par des données accessibles, contextualisées et suffisamment fiables.</p></section>
     <section className="concept-grid" aria-label="Piliers des réseaux professionnels">
