@@ -57,11 +57,6 @@ export default function HomePage() {
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const params = new URLSearchParams();
-    if (keyword.trim()) params.set("q", keyword.trim());
-    if (location.trim()) params.set("location", location.trim());
-    if (type !== "all") params.set("type", type);
-
     const destinations: Record<string, string> = {
       public: "/appels-offres-publics",
       business: "/business",
@@ -72,6 +67,17 @@ export default function HomePage() {
       sources: "/developpement-commercial",
     };
     const destination = destinations[searchDomain] ?? "/opportunites";
+    const params = new URLSearchParams();
+
+    // Ne transmettre que les filtres réellement pris en charge par la rubrique cible.
+    if (keyword.trim() && ["public", "business", "private", "jobs"].includes(searchDomain)) {
+      params.set("q", keyword.trim().slice(0, 160));
+    }
+    if (searchDomain === "public") {
+      if (location.trim()) params.set("location", location.trim().slice(0, 80));
+      if (type !== "all") params.set("type", type);
+    }
+
     const query = params.toString();
     router.push(query ? `${destination}?${query}` : destination);
   }
