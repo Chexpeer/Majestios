@@ -1365,3 +1365,26 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* Les sous-menus sont pilotés par le bouton, pour un comportement identique au clic et au clavier. */
 .nav-group.is-open > .nav-dropdown { display:block; }
 .nav-top-toggle:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+
+
+
+/* Accessibilité : réduire les animations lorsque le système le demande. */
+@media (prefers-reduced-motion: reduce) {
+  .public-ticker-track,
+  .ticker-track,
+  .home-flow-track,
+  .announcement-flow-track,
+  .private-ticker .ticker-track,
+  .jobs-ticker-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  html:focus-within { scroll-behavior: auto; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
