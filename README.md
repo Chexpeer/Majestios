@@ -1,6 +1,6 @@
 # MajestiOS — plateforme de développement commercial assisté par IA
 
-**Branche de travail :** `architecture-v0-1`  
+**Branche de travail actuelle :** `fix/navigation-depth`  
 **Statut :** prototype en construction. Le connecteur BOAMP est implémenté dans le code, mais son fonctionnement réel doit encore être confirmé par un test de bout en bout.
 
 ## 1. Périmètre actuel
