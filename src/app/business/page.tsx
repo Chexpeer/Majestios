@@ -16,19 +16,23 @@ export default function BusinessPage() {
   const [searched, setSearched] = useState(false);
 
   useEffect(() => {
-    const incomingQuery = new URLSearchParams(window.location.search).get("q");
+    const incomingQuery = new URLSearchParams(window.location.search).get("q")?.trim();
     if (incomingQuery) {
+      const cleanQuery = incomingQuery.slice(0, 120);
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setQuery(incomingQuery.slice(0, 120));
+      setQuery(cleanQuery);
+      void searchBodacc(undefined, cleanQuery);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function searchBodacc(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (query.trim().length < 2) { setSearchError("Saisissez au moins deux caractères."); return; }
+  async function searchBodacc(event?: FormEvent<HTMLFormElement>, queryOverride?: string) {
+    event?.preventDefault();
+    const effectiveQuery = (queryOverride ?? query).trim();
+    if (effectiveQuery.length < 2) { setSearchError("Saisissez au moins deux caractères."); return; }
     setSearching(true); setSearchError(""); setSearched(true); setItems([]);
     try {
-      const response = await fetch(`/api/bodacc?q=${encodeURIComponent(query.trim())}`, { cache: "no-store" });
+      const response = await fetch(`/api/bodacc?q=${encodeURIComponent(effectiveQuery)}`, { cache: "no-store" });
       const payload = await response.json() as { items?: BodaccItem[]; error?: string };
       if (!response.ok) throw new Error(payload.error || "La recherche BODACC a échoué.");
       setItems(payload.items ?? []);
