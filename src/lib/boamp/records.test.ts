@@ -110,6 +110,23 @@ describe("GET /api/opportunities", () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it("accepts department 977 and applies it to the BOAMP query", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ total_count: 0, results: [] }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await GET(
+      new NextRequest("http://localhost/api/opportunities?location=977"),
+    );
+    expect(response.status).toBe(200);
+    const calledUrl = new URL(fetchMock.mock.calls[0][0] as string);
+    expect(calledUrl.searchParams.get("where")).toContain('code_departement in ("977")');
+  });
+
   it("does not display demonstration data when the upstream API fails", async () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network failure")));
 
