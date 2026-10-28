@@ -78,3 +78,10 @@ Ces correctifs évitent de laisser croire qu’une recherche a été effectuée 
 - Le formulaire affiche ces éléments lorsqu’ils sont disponibles et les inclut dans le récapitulatif copiable.
 - Le formulaire reste non transactionnel : aucune demande n’est envoyée ou enregistrée, et aucun dépôt de candidature n’est effectué.
 - Les données transmises dans l’URL doivent toujours être vérifiées sur la source officielle.
+
+
+### Page Business dédiée
+
+- Une page distincte `/opportunites/business` a été préservée pour expliquer le parcours cible achat, vente, cession et reprise.
+- La page distingue explicitement la vision fonctionnelle des services qui ne sont pas encore opérationnels et renvoie vers `/business` pour la recherche BODACC.
+- La page d’exploration `/opportunites` pointe désormais vers cette page de présentation plutôt que vers la recherche BODACC, ce qui sépare mieux l’explication du service et l’outil de recherche.
