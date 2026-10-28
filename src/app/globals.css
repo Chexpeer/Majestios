@@ -1345,3 +1345,35 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Finition navigation et lecture des pages éditoriales */
+.nav-top-row { min-width:0; border-radius:9px; }
+.nav-top-row:focus-within { outline:2px solid #c4a15b; outline-offset:2px; }
+.nav-top-row .nav-top-link { min-width:0; }
+.nav-group:hover > .nav-top-row,
+.nav-group:focus-within > .nav-top-row,
+.nav-group.is-active > .nav-top-row { background:#eee7d8; }
+.nav-group:hover > .nav-top-row .nav-top-link,
+.nav-group:focus-within > .nav-top-row .nav-top-link,
+.nav-group.is-active > .nav-top-row .nav-top-link { background:transparent; }
+.nav-dropdown { z-index:40; }
+.nav-dropdown-link:focus-visible,
+.nav-dropdown-nested a:focus-visible,
+.related-links a:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+.site-page .page-hero { max-width:920px; }
+.site-page .page-hero h1 { max-width:900px; line-height:1.08; text-wrap:balance; }
+.site-page .page-hero > p { font-size:15px; line-height:1.85; }
+.site-page .content-panel { margin:20px 0; }
+.site-page .content-panel h2 { line-height:1.3; text-wrap:balance; }
+.site-page .content-panel p,
+.site-page .content-panel li { line-height:1.9; }
+.site-page .editorial-panel { border-left:3px solid #d5c08f; }
+.site-page .hub-grid { gap:14px; }
+.site-page .hub-card { min-height:190px; }
+.site-page .related-links a { min-height:44px; }
+@media(max-width:760px) {
+  .site-page .page-hero { padding-top:36px; }
+  .site-page .page-hero > p { font-size:14px; }
+  .site-page .content-panel { margin:14px 0; padding:22px 18px; }
+  .site-page .editorial-panel { border-left-width:2px; }
+}
