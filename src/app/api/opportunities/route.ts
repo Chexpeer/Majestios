@@ -39,6 +39,8 @@ export async function GET(request: NextRequest) {
   const query = (params.get("q") ?? "").trim().slice(0, 160);
   const location = (params.get("location") ?? "").trim().slice(0, 100);
   const type = (params.get("type") ?? "all").trim();
+  const requestedLimit = Number(params.get("limit") ?? "50");
+  const limit = Number.isInteger(requestedLimit) ? Math.min(50, Math.max(1, requestedLimit)) : 50;
 
   if (type !== "all" && !ALLOWED_TYPES.includes(type as (typeof ALLOWED_TYPES)[number])) {
     return NextResponse.json({ error: "Type d'opportunité non pris en charge." }, { status: 400 });
@@ -58,6 +60,7 @@ export async function GET(request: NextRequest) {
     query,
     department: normalizedDept,
     type: type as "all" | "Travaux" | "Services" | "Fournitures",
+    limit,
   });
 
   try {
