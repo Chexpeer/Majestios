@@ -3,7 +3,7 @@ name: Application checks
 on:
   push:
   pull_request:
-    branches: [main, architecture-v0-1, site-profondeur-v0-1, feat/homepage-depth-navigation]
+    branches: [main, developpement, architecture-v0-1, site-profondeur-v0-1, feat/homepage-depth-navigation]
 
 jobs:
   verify:
