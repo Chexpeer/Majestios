@@ -9,6 +9,7 @@ export default function Page() {
   const [opportunityTitle, setOpportunityTitle] = useState("");
   const [opportunitySource, setOpportunitySource] = useState("");
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setIntention(params.get("intention") || "");
