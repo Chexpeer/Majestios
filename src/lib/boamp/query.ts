@@ -4,6 +4,7 @@ export type BoampQueryOptions = {
   query: string;
   department: string;
   type: BoampSearchType;
+  limit?: number;
 };
 
 /**
@@ -15,9 +16,11 @@ export function buildBoampApiParams({
   query,
   department,
   type,
+  limit = 50,
 }: BoampQueryOptions): URLSearchParams {
+  const safeLimit = Number.isInteger(limit) ? Math.min(50, Math.max(1, limit)) : 50;
   const params = new URLSearchParams({
-    limit: "50",
+    limit: String(safeLimit),
     order_by: "dateparution desc",
     select:
       "idweb,objet,nomacheteur,code_departement,code_departement_prestation,famille_libelle,dateparution,datelimitereponse,etat,type_procedure,nature_libelle,nature_categorise_libelle,type_marche,url_avis",
