@@ -24,6 +24,9 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 - Le texte d’aide sous la recherche centrale varie maintenant selon la rubrique sélectionnée ; il ne présente plus le BOAMP comme source active lorsque l’utilisateur choisit BODACC, emploi, entreprises, opportunités privées, réseaux ou veille.
 - Le lien de retour de l’espace professionnel choisit maintenant une rubrique de recherche cohérente avec la source indiquée dans l’URL. Les alias `recherche-privee` et `opportunites-privees` reviennent eux aussi aux opportunités privées ; `boamp` revient explicitement aux marchés publics. Les autres sources reviennent aux marchés publics par défaut.
 
+## Contrôle complémentaire — 28 octobre 2026
+- Correction du lien depuis l’espace professionnel : le bouton qui ouvrait `/offres-emploi?intention=cv` affichait une intention CV que la page Emploi ne lisait pas. Il mène maintenant simplement à `/offres-emploi` avec un libellé correspondant à sa destination ; le parcours CV dédié reste accessible depuis cette rubrique.
+
 ## Points bloquants avant ouverture réelle
 1. Authentification et formulaire de création de compte avec prénom, nom, e-mail et téléphone.
 2. Persistance serveur de l'opportunité sélectionnée pendant et après l'inscription. Les paramètres d'URL ne constituent pas un enregistrement.
