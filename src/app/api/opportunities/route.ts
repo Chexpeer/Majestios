@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
   const apiParams = new URLSearchParams({
     limit: "50",
     order_by: "dateparution desc",
-    select: "idweb,objet,nomacheteur,code_departement,code_departement_prestation,famille_libelle,dateparution,datelimitereponse,etat,type_procedure,nature_libelle,type_marche,url_avis",
+    select: "idweb,objet,nomacheteur,code_departement,code_departement_prestation,famille_libelle,dateparution,datelimitereponse,etat,type_procedure,nature_libelle,nature_categorise_libelle,type_marche,url_avis",
   });
   if (query) apiParams.set("search", query);
   const filters: string[] = [];
@@ -84,10 +84,16 @@ export async function GET(request: NextRequest) {
       const deadlineRaw = value(fields.datelimitereponse);
       const deadlineDate = deadlineRaw ? new Date(deadlineRaw).getTime() : NaN;
       const status = value(fields.etat).toLocaleUpperCase("fr");
-      const procedure = value(fields.type_procedure).toLocaleUpperCase("fr");
+      const noticeNature = (value(fields.nature_categorise_libelle) || value(fields.nature_libelle)).toLocaleUpperCase("fr");
       const marketType = category(value(fields.type_marche) || value(fields.nature_libelle));
       const dept = value(fields.code_departement_prestation) || value(fields.code_departement);
-      const isOpen = !Number.isNaN(deadlineDate) && deadlineDate >= now && status !== "ANNULATION" && procedure !== "ATTRIBUTION";
+
+      // Une échéance future ne suffit pas : les résultats, annulations et autres avis
+      // ne doivent pas être présentés comme des consultations encore ouvertes.
+      const isMarketNotice = noticeNature.includes("AVIS DE MARCHÉ");
+      const isCancelled = noticeNature.includes("ANNULATION") || status === "ANNULATION";
+      const isOpen = isMarketNotice && !Number.isNaN(deadlineDate) && deadlineDate >= now && !isCancelled;
+
       return {
         id: officialId,
         type: marketType,
