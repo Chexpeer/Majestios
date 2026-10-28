@@ -2,7 +2,7 @@
   "name": "majestios",
   "version": "0.1.0",
   "private": true,
-  "description": "MajestiOS — plateforme professionnelle d'intelligence commerciale",
+  "description": "MajestiOS — plateforme professionnelle de développement commercial",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
