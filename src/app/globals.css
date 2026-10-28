@@ -892,3 +892,35 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
     border: 1px solid #e2eaee;
   }
 }
+
+
+/* Statuts d'opportunité : public en bleu, privé en vert, toujours avec un libellé texte. */
+.public-label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 7px;
+  border: 1px solid #c9def8;
+  border-radius: 5px;
+  background: #eaf3ff;
+  color: #185aa6;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .55px;
+  line-height: 1.2;
+}
+.private-label {
+  border-color: #bfe8d5;
+  background: #e7f8ef;
+  color: #14764d;
+}
+.no-results-opportunity { text-align: left; }
+.no-results-kicker { color: #2369b5; font-size: 9px; font-weight: 900; letter-spacing: .9px; }
+.no-results-opportunity h3 { margin: 9px 0 7px; color: #17374c; font-size: clamp(17px, 2vw, 22px); }
+.no-results-opportunity p { max-width: 720px; margin: 0 0 15px; color: #5c7180; line-height: 1.65; }
+.no-results-actions { display: flex; flex-wrap: wrap; gap: 9px; margin: 12px 0; }
+.no-results-action { display: inline-flex; align-items: center; gap: 7px; padding: 10px 13px; border: 1px solid #d9e5eb; border-radius: 8px; background: #fff; color: #23475e; font-size: 10px; font-weight: 800; text-decoration: none; }
+.no-results-action-private { border-color: #bfe8d5; background: #e7f8ef; color: #14764d; }
+.no-results-action-create { border-color: #b9d9d7; background: #edf8f6; color: #126a66; }
+.no-results-opportunity > small { display: block; max-width: 760px; color: #7b8d98; font-size: 9px; line-height: 1.6; }
+@media (max-width: 600px) { .no-results-actions { align-items: stretch; flex-direction: column; } .no-results-action { justify-content: center; } }
