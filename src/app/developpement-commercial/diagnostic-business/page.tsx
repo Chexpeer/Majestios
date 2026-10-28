@@ -68,7 +68,7 @@ export default function DiagnosticBusinessPage() {
         <div className="route-actions">
           <Link className="search-submit concept-cta" href="/developpement-commercial/prospection">Préparer la prospection ↗</Link>
           <Link className="search-submit concept-cta" href="/developpement-commercial/etudes-de-marche">Étudier votre marché ↗</Link>
-          <Link className="search-submit concept-cta" href="/developpement-commercial">Retour à l’intelligence commerciale ↗</Link>
+          <Link className="search-submit concept-cta" href="/developpement-commercial">Retour au développement commercial ↗</Link>
         </div>
       </section>
     </main>
