@@ -1,5 +1,7 @@
 "use client";
 
+import SiteHeader from "@/components/navigation/site-header";
+
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
@@ -78,21 +80,7 @@ export default function HomePage() {
 
   return (
     <main className="public-site">
-      <header className="public-header">
-        <Link className="public-brand" href="/" aria-label="MajestiOS, accueil">
-          <span className="public-brand-mark">M</span>
-          <span><strong>MajestiOS</strong><small>LES OPPORTUNITÉS PROFESSIONNELLES</small></span>
-        </Link>
-        <nav className="public-nav" aria-label="Navigation principale">
-          <a href="#recherche">Appels d’offres publics</a>
-          <Link href="/appels-offres-prives">Appels d’offres privés</Link>
-          <a href="#intelligence">Intelligence commerciale</a>
-          <a href="#etudes">Études de marché</a>
-          <a href="#ereputation">E-réputation</a>
-          <Link href="/nous-rejoindre">Nous rejoindre</Link>
-        </nav>
-        <a className="header-login" href="#demande-acces">Connexion / Inscription</a>
-      </header>
+      <SiteHeader />
 
       <section className="public-hero" id="recherche">
         <div className="hero-content">
