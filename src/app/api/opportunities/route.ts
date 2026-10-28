@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { extractBoampFields } from "@/lib/boamp/records";
+import { isOpenBoampNotice } from "@/lib/boamp/status";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -84,17 +85,19 @@ export async function GET(request: NextRequest) {
       const fields = extractBoampFields(record);
       const officialId = value(fields.idweb) || value(record.record?.id) || value(record.id) || `boamp-${index}`;
       const deadlineRaw = value(fields.datelimitereponse);
-      const deadlineDate = deadlineRaw ? new Date(deadlineRaw).getTime() : NaN;
       const status = value(fields.etat).toLocaleUpperCase("fr");
-      const noticeNature = (value(fields.nature_categorise_libelle) || value(fields.nature_libelle)).toLocaleUpperCase("fr");
+      const noticeNature = value(fields.nature_categorise_libelle) || value(fields.nature_libelle);
       const marketType = category(value(fields.type_marche) || value(fields.nature_libelle));
       const dept = value(fields.code_departement_prestation) || value(fields.code_departement);
 
-      // Une échéance future ne suffit pas : les résultats, annulations et autres avis
-      // ne doivent pas être présentés comme des consultations encore ouvertes.
-      const isMarketNotice = noticeNature.includes("AVIS DE MARCHÉ");
-      const isCancelled = noticeNature.includes("ANNULATION") || status === "ANNULATION";
-      const isOpen = isMarketNotice && !Number.isNaN(deadlineDate) && deadlineDate >= now && !isCancelled;
+      // Une échéance future ne suffit pas : seuls les avis de marché non annulés
+      // avec une date limite valide et future sont signalés comme ouverts.
+      const isOpen = isOpenBoampNotice({
+        nature: noticeNature,
+        status,
+        deadline: deadlineRaw,
+        now,
+      });
 
       return {
         id: officialId,
