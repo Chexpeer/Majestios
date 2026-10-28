@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { extractBoampFields } from "@/lib/boamp/records";
 import { isOpenBoampNotice } from "@/lib/boamp/status";
+import { buildBoampApiParams } from "@/lib/boamp/query";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -53,21 +54,11 @@ export async function GET(request: NextRequest) {
     }, { status: 400 });
   }
 
-  const apiParams = new URLSearchParams({
-    limit: "50",
-    order_by: "dateparution desc",
-    select: "idweb,objet,nomacheteur,code_departement,code_departement_prestation,famille_libelle,dateparution,datelimitereponse,etat,type_procedure,nature_libelle,nature_categorise_libelle,type_marche,url_avis",
+  const apiParams = buildBoampApiParams({
+    query,
+    department: normalizedDept,
+    type: type as "all" | "Travaux" | "Services" | "Fournitures",
   });
-  if (query) apiParams.set("search", query);
-  const filters: string[] = [];
-  if (location) {
-    // Ces champs BOAMP sont multivalués : utiliser l'opérateur ODSQL "in".
-    filters.push('code_departement in ("' + normalizedDept + '") OR code_departement_prestation in ("' + normalizedDept + '")');
-  }
-  if (type !== "all") {
-    filters.push('type_marche="' + type.toLocaleUpperCase("fr") + '"');
-  }
-  if (filters.length) apiParams.set("where", filters.map((filter) => "(" + filter + ")").join(" AND "));
 
   try {
     const response = await fetch(`${API_BASE}?${apiParams.toString()}`, {
