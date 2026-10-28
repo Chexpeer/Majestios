@@ -1015,7 +1015,7 @@ body { background: var(--paper); color: var(--ink); }
 .band-eyebrow,.eyebrow { font-size:10px; letter-spacing:1.8px; font-weight:800; }
 .band-eyebrow { color:var(--teal); }
 .band-note { color:#b7c5c4; font-size:10px; }
-.announcement-flows { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.announcement-flows { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; }
 .announcement-flow { min-width:0; overflow:hidden; border:1px solid rgb(255 255 255 / 17%); border-radius:11px; background:rgb(255 255 255 / 4%); }
 .announcement-flow-label { display:flex; align-items:center; gap:8px; padding:9px 11px 7px; font-size:11px; }
 .announcement-flow-label > span:first-child { color:var(--teal); font-size:9px; font-weight:900; letter-spacing:1px; }
