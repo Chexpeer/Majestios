@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PublicHeader from "@/components/public-header";
 import MajestiOSOpportunityMap from "@/components/majestic-opportunity-map";
 
@@ -30,7 +31,10 @@ const privateTeasers: Opportunity[] = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
   const [keyword, setKeyword] = useState("");
+  const [searchDomain, setSearchDomain] = useState("public");
+  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
   const [appliedKeyword, setAppliedKeyword] = useState("");
   const [appliedLocation, setAppliedLocation] = useState("");
   const [appliedType, setAppliedType] = useState("all");
@@ -87,12 +91,38 @@ export default function HomePage() {
           <span className="public-eyebrow"><span /> VEILLE ET OPPORTUNITÉS PROFESSIONNELLES</span>
           <h1>Transformez les signaux<br />en <em>opportunités.</em></h1>
           <p className="public-intro">MajestiOS aide les professionnels à repérer des occasions de développer leur activité, trouver les bons contacts et préparer leurs prochaines actions commerciales.</p>
-          <form className="tender-search" onSubmit={(event) => { event.preventDefault(); setAppliedKeyword(keyword.trim()); setAppliedLocation(location.trim()); setAppliedType(type); document.getElementById("resultats")?.scrollIntoView({ behavior: "smooth" }); }}>
-            <label className="search-field search-keyword" htmlFor="search-keyword"><span>Que recherchez-vous ?</span><input id="search-keyword" name="keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Ex. : nettoyage, travaux, informatique…" autoComplete="off" /></label>
-            <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Code département (ex. : 68)" autoComplete="off" /></label>
-            <label className="search-field search-type" htmlFor="search-type"><span>Type d’appel d’offres</span><select id="search-type" name="type" value={type} onChange={(event) => setType(event.target.value)}><option value="all">Tous les types</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>
+          <form className="tender-search central-opportunity-search" onSubmit={(event) => {
+            event.preventDefault();
+            const query = keyword.trim();
+            const destinations: Record<string, string> = {
+              business: "/business",
+              companies: "/opportunites/radar-entreprises",
+              private: "/appels-offres-prives",
+              jobs: "/offres-emploi",
+              network: "/reseaux",
+              sources: "/intelligence-commerciale",
+            };
+            if (searchDomain !== "public") {
+              const destination = destinations[searchDomain] ?? "/opportunites";
+              router.push(query ? `${destination}?q=${encodeURIComponent(query)}` : destination);
+              return;
+            }
+            setAppliedKeyword(query);
+            setAppliedLocation(location.trim());
+            setAppliedType(type);
+            document.getElementById("resultats")?.scrollIntoView({ behavior: "smooth" });
+          }}>
+            <label className="search-field search-keyword" htmlFor="search-keyword"><span>Que recherchez-vous ?</span><input id="search-keyword" name="keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Une entreprise, une opportunité, un marché…" autoComplete="off" /></label>
+            <label className="search-field search-domain" htmlFor="search-domain"><span>Rubrique</span><select id="search-domain" name="domain" value={searchDomain} onChange={(event) => setSearchDomain(event.target.value)}>
+              <option value="public">Marchés publics</option><option value="business">Business · BODACC</option><option value="companies">Entreprises</option><option value="private">Opportunités privées</option><option value="jobs">Emploi & missions</option><option value="network">Réseaux professionnels</option><option value="sources">Sources & veille</option>
+            </select></label>
             <button className="search-submit" type="submit"><span aria-hidden="true">⌕</span> Rechercher</button>
-            {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); setAppliedKeyword(""); setAppliedLocation(""); setAppliedType("all"); }} aria-label="Effacer tous les filtres">Effacer</button>}
+            <button className="advanced-search-toggle" type="button" aria-expanded={advancedSearchOpen} aria-controls="advanced-search-filters" onClick={() => setAdvancedSearchOpen((open) => !open)}>{advancedSearchOpen ? "Masquer les filtres avancés" : "Filtres avancés"} <span aria-hidden="true">{advancedSearchOpen ? "−" : "+"}</span></button>
+            {advancedSearchOpen && <div className="advanced-search-panel" id="advanced-search-filters">
+              <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Ville ou département" autoComplete="off" /></label>
+              {searchDomain === "public" && <label className="search-field search-type" htmlFor="search-type"><span>Type de marché public</span><select id="search-type" name="type" value={type} onChange={(event) => setType(event.target.value)}><option value="all">Tous les types</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>}
+              {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); setAppliedKeyword(""); setAppliedLocation(""); setAppliedType("all"); }} aria-label="Effacer tous les filtres">Effacer les filtres</button>}
+            </div>}
           </form>
           <p className="search-note">Recherche publique BOAMP · Filtre géographique par code département · Vérifiez chaque avis sur la source officielle</p>
         </div>
