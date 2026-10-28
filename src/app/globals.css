@@ -1,20 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
 :root {
   color-scheme: light;
-  --ink: #172b3a;
-  --muted: #607181;
-  --paper: #f3f6f8;
-  --surface: #ffffff;
-  --line: #dce4eb;
-  --navy: #142c42;
-  --navy-soft: #203d55;
-  --teal: #147d78;
-  --teal-dark: #0c625e;
-  --teal-pale: #e5f4f2;
-  --gold: #c79b4b;
-  --shadow: 0 12px 34px rgb(23 43 58 / 5%);
+  --ink: #1b2638;
+  --muted: #687386;
+  --paper: #f7f5ef;
+  --surface: #fffefa;
+  --line: #e3dfd5;
+  --navy: #17243a;
+  --navy-soft: #263a56;
+  --teal: #c4a15b;
+  --teal-dark: #84662f;
+  --teal-pale: #f4eddd;
+  --gold: #c4a15b;
+  --brand-blue: #355b8c;
+  --shadow: 0 18px 48px rgb(23 36 58 / 8%);
 }
+
+/* Palette MajestiOS centralisée : ivoire, bleu nuit et or. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 * { box-sizing: border-box; }
 html {
@@ -973,20 +975,6 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
 
 
 /* ===== MAJESTIOS REDESIGN / PROFONDEUR + FLUX ===== */
-:root {
-  --ink: #142a35;
-  --muted: #63737a;
-  --paper: #f7f5ef;
-  --surface: #fffefa;
-  --line: #dce2dc;
-  --navy: #142a35;
-  --navy-soft: #203d48;
-  --teal: #c2ef75;
-  --teal-dark: #284b3c;
-  --teal-pale: #edf5df;
-  --gold: #e47754;
-  --shadow: 0 18px 48px rgb(20 42 53 / 8%);
-}
 body { background: var(--paper); color: var(--ink); }
 .site-header { position: relative; z-index: 20; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:18px clamp(18px,4vw,64px); background:var(--paper); border-bottom:1px solid var(--line); }
 .brand-lockup { display:flex; align-items:center; gap:11px; flex-shrink:0; }
@@ -1112,21 +1100,6 @@ body { background: var(--paper); color: var(--ink); }
    Direction : intelligence commerciale premium, lisible, précise.
    Palette : encre profonde, ivoire, or discret, bleu de confiance.
    ───────────────────────────────────────────────────────────── */
-:root {
-  --ink: #172437;
-  --muted: #667386;
-  --paper: #f7f6f2;
-  --surface: #ffffff;
-  --line: #e2e4e6;
-  --navy: #15243a;
-  --navy-soft: #22364f;
-  --teal: #b38a45;
-  --teal-dark: #87652e;
-  --teal-pale: #f4ecdd;
-  --gold: #c5a15b;
-  --shadow: 0 18px 50px rgb(21 36 58 / 8%);
-  --brand-blue: #2e5d83;
-}
 html { scroll-behavior: smooth; }
 body { background: var(--paper); color: var(--ink); font-family: "DM Sans", Arial, sans-serif; }
 ::selection { background:#e8d7b5; color:var(--navy); }
@@ -1325,20 +1298,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 
 /* Palette finale V2 — ivoire, bleu nuit et or (sans accent fluo/corail) */
-:root {
-  --ink:#1b2638;
-  --muted:#687386;
-  --paper:#f7f5ef;
-  --surface:#fffefa;
-  --line:#e3dfd5;
-  --navy:#17243a;
-  --navy-soft:#263a56;
-  --teal:#c4a15b;
-  --teal-dark:#84662f;
-  --teal-pale:#f4eddd;
-  --gold:#c4a15b;
-  --shadow:0 18px 48px rgb(23 36 58 / 8%);
-}
 .brand-mark { color:#e3c985; }
 .brand-mark span { color:#e3c985; }
 .nav-group:hover > .nav-top-link,.nav-group:focus-within > .nav-top-link,.nav-group.is-active > .nav-top-link { background:#eee7d8; }
@@ -1362,9 +1321,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .maj-map-node.red .maj-map-node-icon { background:#f5e9e4; color:#8a5545; }
 
 
-/* Les sous-menus sont pilotés par le bouton, pour un comportement identique au clic et au clavier. */
-.nav-group.is-open > .nav-dropdown { display:block; }
-.nav-top-toggle:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
 
 
 
