@@ -8,6 +8,7 @@ export default function Page() {
   const [intention, setIntention] = useState("");
   const [opportunityTitle, setOpportunityTitle] = useState("");
   const [opportunitySource, setOpportunitySource] = useState("");
+  const [opportunityId, setOpportunityId] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -17,6 +18,7 @@ export default function Page() {
     setOpportunityTitle((params.get("titre") || "").slice(0, 180));
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpportunitySource(params.get("source") || "");
+    setOpportunityId((params.get("opportunite") || "").slice(0, 180));
   }, []);
 
   const intentMessage = intention === "cv"
@@ -35,6 +37,7 @@ export default function Page() {
     {intentMessage && <section className="concept-principles" role="status">
       <h2>Votre démarche</h2>
       {opportunityTitle && <p><strong>Élément sélectionné :</strong> {opportunityTitle}</p>}
+      {opportunityId && <p><strong>Référence de l’opportunité :</strong> {opportunityId}</p>}
       {opportunitySource && <p><strong>Source :</strong> {opportunitySource.toUpperCase()}</p>}
       <p>{intentMessage}</p>
       {intention === "cv" || intention === "collaboration" ? <Link href="/offres-emploi">Retour à Emploi & missions ↗</Link> : <Link href={({ boamp: "/appels-offres-publics", bodacc: "/business", private: "/appels-offres-prives", "recherche-privee": "/appels-offres-prives", "opportunites-privees": "/appels-offres-prives", emploi: "/offres-emploi", jobs: "/offres-emploi", entreprises: "/opportunites/radar-entreprises", companies: "/opportunites/radar-entreprises", reseaux: "/reseaux", network: "/reseaux" } as Record<string, string>)[opportunitySource] || "/appels-offres-publics"}>Retour à la recherche ↗</Link>}
