@@ -2,7 +2,7 @@
 
 import PublicHeader from "@/components/public-header";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 type BodaccItem = { id: string; company: string; kind: string; summary: string; date: string; siren: string; location: string; source: string; sourceUrl: string; isDemo: false };
 
@@ -14,6 +14,11 @@ export default function BusinessPage() {
   const [searchError, setSearchError] = useState("");
   const [items, setItems] = useState<BodaccItem[]>([]);
   const [searched, setSearched] = useState(false);
+
+  useEffect(() => {
+    const incomingQuery = new URLSearchParams(window.location.search).get("q");
+    if (incomingQuery) setQuery(incomingQuery.slice(0, 120));
+  }, []);
 
   async function searchBodacc(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
