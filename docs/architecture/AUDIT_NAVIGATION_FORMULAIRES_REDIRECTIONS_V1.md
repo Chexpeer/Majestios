@@ -6,7 +6,7 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 ## Corrections réalisées
 - Harmonisation du logo et du symbole central : M doré et couronne.
 - Moteur d'accueil compact avec filtres avancés repliables ; recherche des marchés publics toujours reliée à l'API BOAMP existante.
-- Transmission du terme de recherche vers les rubriques spécialisées. Les pages Business et Marchés publics préremplissent le champ via le paramètre `q`.
+- Transmission du terme de recherche vers les rubriques spécialisées. Les pages Business et Marchés publics préremplissent le champ via `q` ; la page Marchés publics lance maintenant aussi la recherche à l’arrivée lorsqu’un terme est transmis.
 - Ajout d'une action « Me positionner / créer mon espace » aux résultats BODACC et BOAMP, en conservant la source officielle comme lien secondaire.
 - L'espace professionnel restitue le contexte de l'arrivée (CV, collaboration ou opportunité) et précise que le compte et l'enregistrement ne sont pas encore activés.
 - La rubrique Emploi propose un point d'entrée de recherche et un accès au parcours CV, tout en indiquant que les connecteurs d'offres externes ne sont pas encore actifs.
@@ -14,6 +14,12 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 - Ajout de repères visuels explicites : bleu + libellé « PUBLIC » pour les avis publics ; vert + libellé « PRIVÉ » pour les opportunités privées.
 - Ajout sur la page Opportunités privées d'un accès à la préparation d'une publication gratuite, avec mention visible de la fonctionnalité encore inactive.
 - Vérification statique de l'existence des routes principales utilisées par la recherche transversale (public, privé, emploi, espace professionnel, Business/BODACC, entreprises, réseaux et veille).
+
+## Corrections complémentaires — 28 octobre 2026
+- Le paramètre `q` entrant dans la page Marchés publics déclenche désormais une recherche, au lieu de seulement préremplir le champ.
+- Les métadonnées SEO de la rubrique Emploi ont été déplacées dans un layout serveur, afin de ne pas les exporter depuis un composant client.
+- La page de demande liée à un avis public n’effectue plus de double décodage de l’identifiant de route ; suppression d’une fonction auxiliaire inutilisée.
+- La navigation expose maintenant `aria-current="page"` sur la rubrique active, y compris lorsque l’utilisateur se trouve dans une sous-page.
 
 ## Points bloquants avant ouverture réelle
 1. Authentification et formulaire de création de compte avec prénom, nom, e-mail et téléphone.
