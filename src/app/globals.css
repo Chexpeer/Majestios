@@ -745,3 +745,15 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
 @media(prefers-reduced-motion:reduce) {
  .private-page-ticker .ticker-track,.employment-ticker-track { animation:none; }
 }
+
+.maj-map-home-section { padding:clamp(24px,3vw,42px) clamp(16px,4vw,56px); background:#fff; }
+.maj-map-home-section .maj-map { max-width:1120px; margin:0 auto; padding:clamp(18px,3vw,32px); }
+.maj-map-home-section .maj-map-canvas { width:min(100%,760px); aspect-ratio:1.2 / 1; }
+.maj-map-home-section .maj-map-node { width:22%; }
+.maj-map-home-section .maj-map-core { width:25%; }
+@media(max-width:700px) {
+ .maj-map-home-section { padding:18px 10px; }
+ .maj-map-home-section .maj-map { padding:12px 8px; }
+ .maj-map-home-section .maj-map-canvas { aspect-ratio:1 / .95; }
+ .maj-map-home-section .maj-map-node { width:28%; }
+}
