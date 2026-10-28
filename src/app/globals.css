@@ -593,3 +593,116 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
   .header-login { margin-left:auto; }
   .public-nav { width:100%; }
 }
+
+
+/* Refonte MajestiOS : navigation latérale pyramidale et carrefour interactif */
+.public-sidebar {
+  position: fixed; inset: 0 auto 0 0; z-index: 50; display: flex; flex-direction: column;
+  width: 254px; padding: 22px 15px 16px; overflow-y: auto; border-right: 1px solid #dfe8eb;
+  background: rgba(255,255,255,.98); box-shadow: 5px 0 24px rgb(20 44 66 / 3%);
+}
+.public-sidebar .public-brand { display:flex; align-items:center; gap:10px; padding:4px 7px 23px; border-bottom:1px solid #e7edef; }
+.public-sidebar .public-brand-mark { flex:0 0 39px; display:grid; place-items:center; width:39px; height:39px; border-radius:12px; background:#142f43; color:#fff; font:800 22px Manrope,sans-serif; }
+.public-sidebar .public-brand strong { display:block; color:#142f43; font:800 20px Manrope,sans-serif; letter-spacing:-.6px; }
+.public-sidebar .public-brand small { display:block; margin-top:4px; color:#7c909b; font-size:7px; font-weight:800; letter-spacing:.75px; }
+.public-side-nav { display:grid; gap:17px; padding-top:21px; }
+.public-side-group { display:grid; gap:4px; }
+.public-side-caption { padding:0 10px 6px; color:#8b9aa4; font-size:8px; font-weight:900; letter-spacing:1.15px; }
+.public-side-link { display:flex; align-items:center; gap:10px; min-height:35px; padding:8px 10px; border:1px solid transparent; border-radius:8px; color:#526979; font-size:10px; font-weight:650; line-height:1.35; transition:background .16s ease,color .16s ease; }
+.public-side-icon { display:grid; flex:0 0 20px; place-items:center; width:20px; color:#718a98; font-size:15px; }
+.public-side-link:hover,.public-side-link.is-current { background:#eaf5f3; color:#0c625e; }
+.public-side-link.is-current { border-color:#d2e8e4; font-weight:850; }
+.public-side-link.is-current .public-side-icon { color:#0c625e; }
+.public-side-bottom { display:grid; gap:12px; margin-top:auto; padding-top:18px; }
+.public-side-faq { display:flex; align-items:center; gap:10px; padding:10px; border:1px solid #e2e9ec; border-radius:9px; background:#fafcfc; }
+.public-side-faq > span:first-child { display:grid; flex:0 0 25px; place-items:center; width:25px; height:25px; border-radius:50%; background:#edf2f5; color:#506979; font-weight:900; }
+.public-side-faq strong,.public-side-faq small { display:block; }
+.public-side-faq strong { color:#314e5f; font-size:10px; }
+.public-side-faq small { margin-top:3px; color:#82929c; font-size:8px; }
+.public-sidebar .header-login { display:block; padding:11px 12px; border-radius:8px; background:#176c69; color:#fff; text-align:center; font-size:10px; font-weight:800; }
+.public-side-status { color:#95a3ab; font-size:8px; line-height:1.5; text-align:center; }
+.public-site { padding-left:254px; }
+.public-site > .public-header { display:none; }
+
+/* Carte circulaire : liens réels + état sélectionné explicite */
+.maj-map { width:100%; min-width:0; padding:22px; border:1px solid #e0e9ec; border-radius:18px; background:radial-gradient(circle at 50% 45%,#fff 0,#f6fbfb 72%); }
+.maj-map-heading { max-width:680px; margin:0 auto 4px; text-align:center; }
+.maj-map-heading h2 { margin:8px 0; color:#142f43; font:800 clamp(19px,2vw,27px)/1.2 Manrope,sans-serif; letter-spacing:-.6px; }
+.maj-map-heading p { margin:0; color:#71838f; font-size:10px; line-height:1.6; }
+.maj-map-canvas { position:relative; width:min(100%,610px); aspect-ratio:1 / .83; margin:4px auto 0; }
+.maj-map-orbit { position:absolute; top:50%; left:50%; border:1px solid #d6e8e8; border-radius:50%; transform:translate(-50%,-50%); pointer-events:none; }
+.maj-map-orbit-outer { width:82%; height:92%; }
+.maj-map-orbit-inner { width:60%; height:68%; border-style:dashed; border-color:#e3eded; }
+.maj-map-links { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.maj-map-links line { stroke:#b8d9d8; stroke-width:.45; stroke-dasharray:1.5 1.7; }
+.maj-map-core { position:absolute; z-index:2; top:50%; left:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; width:29%; aspect-ratio:1; border:5px solid #d8e9ed; border-radius:50%; background:linear-gradient(145deg,#173e59,#102b43); color:#fff; box-shadow:0 8px 24px rgb(20 44 66 / 18%); transform:translate(-50%,-50%); text-align:center; }
+.maj-map-core-mark { color:#6ad3cf; font:800 clamp(23px,3vw,39px)/1 Manrope,sans-serif; }
+.maj-map-core strong { margin-top:3px; font:800 clamp(11px,1.45vw,17px)/1.2 Manrope,sans-serif; }
+.maj-map-core small { max-width:90%; margin-top:5px; color:#c4d9e2; font-size:6px; font-weight:800; letter-spacing:.7px; }
+.maj-map-node { position:absolute; z-index:3; display:flex; flex-direction:column; align-items:center; gap:4px; width:25%; min-height:54px; padding:7px 4px; border:1px solid #dfe9eb; border-radius:12px; background:rgba(255,255,255,.96); color:#2a485a; box-shadow:0 4px 13px rgb(20 44 66 / 5%); cursor:pointer; transform:translate(-50%,-50%); transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease; }
+.maj-map-node:hover,.maj-map-node.is-active { z-index:4; transform:translate(-50%,-50%) scale(1.04); border-color:#72bdb7; box-shadow:0 8px 22px rgb(20 44 66 / 10%); }
+.maj-map-node-icon { display:grid; place-items:center; width:26px; height:26px; border-radius:9px; background:#e9f5f3; color:#0c625e; font-size:17px; font-weight:900; }
+.maj-map-node strong { font-size:clamp(8px,.9vw,11px); line-height:1.25; text-align:center; }
+.maj-map-node.violet .maj-map-node-icon { background:#f0eaff; color:#7153bf; }
+.maj-map-node.orange .maj-map-node-icon { background:#fff0df; color:#bc6b13; }
+.maj-map-node.blue .maj-map-node-icon { background:#e8f2ff; color:#2469b5; }
+.maj-map-node.green .maj-map-node-icon,.maj-map-node.mint .maj-map-node-icon { background:#e2f6ef; color:#168566; }
+.maj-map-node.red .maj-map-node-icon { background:#ffeded; color:#bf4d55; }
+.maj-map-selection { display:flex; align-items:center; justify-content:space-between; gap:15px; padding:13px 15px; border:1px solid #dfe9eb; border-radius:11px; background:#fff; }
+.maj-map-selection-kicker { display:block; color:#82949e; font-size:7px; font-weight:900; letter-spacing:1px; }
+.maj-map-selection strong { display:block; margin-top:4px; color:#18394d; font-size:12px; }
+.maj-map-selection p { margin:4px 0 0; color:#6c808d; font-size:9px; }
+.maj-map-selection-link { flex:0 0 auto; padding:9px 11px; border-radius:7px; background:#176c69; color:white; font-size:9px; font-weight:800; }
+.maj-map-quicklinks { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin-top:12px; }
+.maj-map-quicklinks a { padding:6px 8px; border:1px solid #e2e9ec; border-radius:20px; color:#647a88; font-size:8px; }
+.maj-map-quicklinks a:hover { border-color:#a8d2ce; background:#f0f8f6; color:#0c625e; }
+
+/* Les annonces attirent l'oeil sans prendre la place du concept */
+.public-opportunity-ticker { display:flex; align-items:center; gap:18px; padding:12px clamp(16px,3vw,42px); overflow:hidden; border-top:1px solid #e3eaed; border-bottom:1px solid #dce7ea; background:#122f49; color:#fff; }
+.public-ticker-label { display:flex; flex:0 0 195px; align-items:center; gap:8px; }
+.public-ticker-label strong { font-size:10px; line-height:1.4; }
+.public-ticker-label a { margin-left:auto; color:#9dded9; font-size:8px; font-weight:800; white-space:nowrap; }
+.ticker-live-dot { width:7px; height:7px; flex:0 0 7px; border-radius:50%; background:#68d4b4; box-shadow:0 0 0 4px rgb(104 212 180 / 15%); }
+.public-ticker-window { min-width:0; flex:1; overflow:hidden; mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent); }
+.public-ticker-track { display:flex; width:max-content; align-items:center; gap:10px; animation:majTickerRTL 48s linear infinite; }
+.public-ticker-window:hover .public-ticker-track,.public-ticker-window:focus-within .public-ticker-track { animation-play-state:paused; }
+.public-ticker-item { display:flex; align-items:center; gap:9px; max-width:370px; padding:8px 12px; border:1px solid rgb(255 255 255 / 15%); border-radius:8px; background:rgb(255 255 255 / 6%); }
+.public-ticker-item > span { color:#7fdbd2; font-size:7px; font-weight:900; letter-spacing:.8px; }
+.public-ticker-item strong { max-width:245px; overflow:hidden; color:#fff; font-size:9px; text-overflow:ellipsis; white-space:nowrap; }
+.public-ticker-item small { color:#bed0da; font-size:8px; white-space:nowrap; }
+.public-ticker-empty { padding:10px; color:#c8d8e0; font-size:9px; }
+@keyframes majTickerRTL { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+@media(max-width:1000px) {
+  .public-sidebar { width:220px; padding:18px 11px 12px; }
+  .public-site { padding-left:220px; }
+  .public-side-link { font-size:9px; }
+  .maj-map { padding:15px; }
+  .public-ticker-label { flex-basis:155px; }
+}
+@media(max-width:700px) {
+  .public-sidebar { position:relative; inset:auto; width:100%; max-height:none; padding:12px 14px; border-right:0; border-bottom:1px solid #dfe8eb; box-shadow:none; }
+  .public-sidebar .public-brand { padding:0 3px 10px; }
+  .public-side-nav { display:flex; align-items:flex-start; gap:12px; padding:11px 0 5px; overflow-x:auto; }
+  .public-side-group { flex:0 0 auto; min-width:max-content; gap:3px; }
+  .public-side-caption { padding:0 7px 4px; font-size:7px; }
+  .public-side-link { min-height:29px; padding:6px 7px; font-size:9px; }
+  .public-side-bottom { grid-template-columns:1fr auto; align-items:center; gap:8px; padding-top:10px; }
+  .public-side-faq { padding:6px; }
+  .public-sidebar .header-login { padding:10px; }
+  .public-side-status { grid-column:1 / -1; text-align:left; }
+  .public-site { padding-left:0; }
+  .public-site > .public-header { display:none; }
+  .maj-map { padding:15px 10px; }
+  .maj-map-canvas { width:100%; aspect-ratio:1 / .95; }
+  .maj-map-node { width:28%; padding:5px 2px; }
+  .maj-map-node strong { font-size:7px; }
+  .maj-map-core { width:30%; }
+  .maj-map-selection { align-items:flex-start; flex-direction:column; }
+  .public-opportunity-ticker { align-items:flex-start; flex-direction:column; gap:8px; padding:12px 15px; }
+  .public-ticker-label { flex-basis:auto; width:100%; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .public-ticker-track { animation:none; }
+  .maj-map-node { transition:none; }
+}
