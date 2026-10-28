@@ -2,19 +2,29 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { siteTree } from "@/data/site-tree";
 
 export default function PublicHeader() {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const navigationRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpenMenu(null);
     };
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (event.target instanceof Node && !navigationRef.current?.contains(event.target)) {
+        setOpenMenu(null);
+      }
+    };
     window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    return () => {
+      window.removeEventListener("keydown", closeOnEscape);
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+    };
   }, []);
 
   const mainItems = siteTree.filter((item) => item.href !== "/" && item.href !== "/espace-professionnel");
@@ -23,7 +33,7 @@ export default function PublicHeader() {
       <span className="brand-mark" aria-hidden="true">M<span>✦</span></span>
       <span className="brand-wordmark">MajestiOS<small>INTELLIGENCE COMMERCIALE</small></span>
     </Link>
-    <nav className="main-navigation" aria-label="Navigation principale">
+    <nav ref={navigationRef} className="main-navigation" aria-label="Navigation principale">
       {mainItems.map((item) => <div className={`nav-group ${pathname === item.href || pathname.startsWith(item.href + "/") ? "is-active" : ""} ${openMenu === item.href ? "is-open" : ""}`} key={item.href}>
         <div className="nav-top-row"><Link href={item.href} className="nav-top-link" aria-current={pathname === item.href ? "page" : undefined} onClick={() => setOpenMenu(null)}>{item.label}</Link>{item.children?.length ? <button type="button" className="nav-top-toggle" aria-label={`${openMenu === item.href ? "Fermer" : "Ouvrir"} le sous-menu ${item.label}`} aria-expanded={openMenu === item.href} onClick={() => setOpenMenu(openMenu === item.href ? null : item.href)}><span aria-hidden="true">{openMenu === item.href ? "⌃" : "⌄"}</span></button> : null}</div>
         {item.children?.length ? <div className="nav-dropdown">
