@@ -149,6 +149,7 @@ export default function HomePage() {
           <Link href="/mentions-legales">Informations légales</Link>
           <Link href="/espace-professionnel">Espace professionnel ↗</Link>
         </nav>
+      </footer>
     </main>
   );
 }
