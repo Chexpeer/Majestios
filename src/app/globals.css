@@ -1377,3 +1377,37 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .site-page .content-panel { margin:14px 0; padding:22px 18px; }
   .site-page .editorial-panel { border-left-width:2px; }
 }
+
+
+/* Filtre de disponibilité des avis publics */
+.tender-search:has(.open-only-filter) {
+  grid-template-columns: minmax(170px, 1.35fr) minmax(130px, .8fr) minmax(140px, .85fr) minmax(175px, 1.1fr) auto;
+}
+.open-only-filter .open-only-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.open-only-filter input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  margin: 0;
+  accent-color: var(--gold);
+}
+.open-only-filter:focus-within {
+  outline: 2px solid var(--gold);
+  outline-offset: -3px;
+}
+@media (max-width: 1050px) {
+  .tender-search:has(.open-only-filter) { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .tender-search:has(.open-only-filter) { grid-template-columns: 1fr; }
+  .open-only-filter .open-only-control { min-height: 24px; }
+}
