@@ -12,6 +12,7 @@ export default function Page() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIntention(params.get("intention") || "");
     setOpportunityTitle((params.get("titre") || "").slice(0, 180));
     // eslint-disable-next-line react-hooks/set-state-in-effect
