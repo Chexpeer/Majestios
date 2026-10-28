@@ -61,8 +61,7 @@ export default function HomePage() {
                 type="text"
                 name="location"
                 maxLength={3}
-                inputMode="numeric"
-                placeholder="Ex. : 68"
+                placeholder="Ex. : 68, 2A, 971"
                 aria-label="Code du département"
               />
             </label>
