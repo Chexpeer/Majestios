@@ -21,7 +21,7 @@ export default function PublicHeader() {
       <nav className="public-side-nav" aria-label="Navigation principale">
         {groups.map((group) => <div className="public-side-group" key={group.title}>
           <span className="public-side-caption">{group.title}</span>
-          {group.links.map((item) => <Link key={item.href} className={`public-side-link ${pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href + "/")) ? "is-current" : ""}`} href={item.href} aria-current={pathname === item.href ? "page" : undefined}>
+          {group.links.map((item) => <Link key={item.href} className={`public-side-link ${pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href + "/")) ? "is-current" : ""}`} href={item.href} aria-current={pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href + "/")) ? "page" : undefined}>
             <span className="public-side-icon" aria-hidden="true">{item.icon}</span>{item.label}
           </Link>)}
         </div>)}
