@@ -31,7 +31,7 @@ export default function EmploymentPage() {
       <h2>Rechercher un emploi, une mission ou une collaboration</h2>
       <form className="tender-search" onSubmit={(event) => event.preventDefault()}>
         <label className="search-field" htmlFor="employment-query"><span>Métier ou compétence</span><input id="employment-query" value={query} onChange={(event) => setQuery(event.target.value)} maxLength={120} placeholder="Ex. : comptable, assistante administrative, business developer…" /></label>
-        <button className="search-submit" type="submit">Préparer ma recherche</button>
+        <button className="search-submit" type="button" disabled>Recherche externe en préparation</button>
       </form>
       <p role="status">Les connecteurs d’offres externes ne sont pas encore activés. Cette recherche prépare votre critère, mais ne prétend pas fournir des offres en direct.</p>
       <Link className="search-submit concept-cta" href="/espace-professionnel?intention=cv">Créer mon espace personnel / déposer mon CV ↗</Link>
