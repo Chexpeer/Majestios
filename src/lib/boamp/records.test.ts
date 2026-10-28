@@ -95,6 +95,57 @@ describe("GET /api/opportunities", () => {
     expect(where).toContain('type_marche="TRAVAUX"');
   });
 
+  it("filters out expired and cancelled notices when openOnly is enabled", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          total_count: 3,
+          results: [
+            {
+              idweb: "26-OPEN",
+              objet: "Entretien des bâtiments",
+              datelimitereponse: "2099-12-31T12:00:00+01:00",
+              etat: "INITIAL",
+              nature_libelle: "Avis de marché",
+              nature_categorise_libelle: "Avis de marché/",
+              type_marche: "SERVICES",
+            },
+            {
+              idweb: "26-EXPIRED",
+              objet: "Ancien marché de nettoyage",
+              datelimitereponse: "2020-01-01",
+              etat: "INITIAL",
+              nature_libelle: "Avis de marché",
+              nature_categorise_libelle: "Avis de marché/",
+              type_marche: "SERVICES",
+            },
+            {
+              idweb: "26-CANCELLED",
+              objet: "Marché annulé",
+              datelimitereponse: "2099-12-31T12:00:00+01:00",
+              etat: "ANNULE",
+              nature_libelle: "Avis de marché",
+              nature_categorise_libelle: "Avis de marché/",
+              type_marche: "SERVICES",
+            },
+          ],
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await GET(
+      new NextRequest("http://localhost/api/opportunities?openOnly=true"),
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(payload.items.map((item: { id: string }) => item.id)).toEqual(["26-OPEN"]);
+    expect(payload.items[0].isOpen).toBe(true);
+    expect(payload.meta.totalAvailable).toBe(3);
+  });
+
   it("rejects an invalid department without calling the upstream API", async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
