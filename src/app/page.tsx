@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
+import MajestiOSOpportunityMap from "@/components/majestic-opportunity-map";
 
 type Opportunity = {
   id: number | string;
@@ -95,10 +96,15 @@ export default function HomePage() {
           </form>
           <p className="search-note">Recherche publique BOAMP · Filtre géographique par code département · Vérifiez chaque avis sur la source officielle</p>
         </div>
-        <div className="hero-aside" aria-label="Les étapes MajestiOS">
-          <div className="aside-orbit"><span className="orbit-dot dot-a" /><span className="orbit-dot dot-b" /><span className="orbit-dot dot-c" /><div className="orbit-center">M</div></div>
-          <p><strong>Repérez.</strong> Qualifiez. Passez à l’action.</p>
-        </div>
+        <div className="hero-aside hero-map-preview"><MajestiOSOpportunityMap /></div>
+      </section>
+
+      <section className="public-opportunity-ticker" aria-label="Aperçu des appels d’offres publics">
+        <div className="public-ticker-label"><span className="ticker-live-dot" /><strong>Appels d’offres publics</strong><Link href="/appels-offres-publics">Tout explorer ↗</Link></div>
+        <div className="public-ticker-window"><div className="public-ticker-track">
+          {([...publicExamples.slice(0, 8), ...publicExamples.slice(0, 8)]).map((item, index) => <Link className="public-ticker-item" key={`public-ticker-${item.id}-${index}`} href={`/appels-offres-publics/${encodeURIComponent(String(item.id))}`}><span>PUBLIC</span><strong>{item.title}</strong><small>{item.location}</small></Link>)}
+          {!publicExamples.length && <span className="public-ticker-empty">{loadingExamples ? "Chargement des derniers avis officiels…" : "Les avis disponibles apparaîtront ici dès que la source répond."}</span>}
+        </div></div>
       </section>
 
       <section className="private-section" id="prive">
