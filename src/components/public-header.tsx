@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const groups = [
-  { title: "DÉCOUVRIR", links: [{ label: "Accueil", href: "/", icon: "⌂" }, { label: "Le concept", href: "/comment-et-pourquoi", icon: "◈" }] },
+  { title: "DÉCOUVRIR", links: [{ label: "Accueil", href: "/", icon: "⌂" }, { label: "Le concept", href: "/comment-et-pourquoi", icon: "◈" }, { label: "Toutes les opportunités", href: "/opportunites", icon: "✳" }] },
   { title: "OPPORTUNITÉS", links: [{ label: "Marchés publics", href: "/appels-offres-publics", icon: "⌑" }, { label: "Opportunités privées", href: "/appels-offres-prives", icon: "↗" }, { label: "Emploi & missions", href: "/offres-emploi", icon: "◎" }, { label: "Radar entreprises", href: "/opportunites/radar-entreprises", icon: "⌕" }, { label: "Business", href: "/business", icon: "⇄" }] },
   { title: "DÉVELOPPEMENT", links: [{ label: "Intelligence commerciale", href: "/intelligence-commerciale", icon: "✳" }, { label: "Prospection", href: "/developpement-commercial/prospection", icon: "➚" }, { label: "Études de marché", href: "/developpement-commercial/etudes-de-marche", icon: "▥" }, { label: "E-réputation", href: "/developpement-commercial/e-reputation", icon: "◉" }] },
   { title: "ÉCOSYSTÈME", links: [{ label: "Réseaux professionnels", href: "/reseaux", icon: "♧" }, { label: "Nous rejoindre", href: "/nous-rejoindre", icon: "＋" }] },
