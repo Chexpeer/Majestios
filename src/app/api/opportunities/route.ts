@@ -59,7 +59,8 @@ export async function GET(request: NextRequest) {
   if (query) apiParams.set("search", query);
   const filters: string[] = [];
   if (location) {
-    filters.push('code_departement="' + normalizedDept + '" OR code_departement_prestation="' + normalizedDept + '"');
+    // Ces champs BOAMP sont multivalués : utiliser l'opérateur ODSQL "in".
+    filters.push('code_departement in ("' + normalizedDept + '") OR code_departement_prestation in ("' + normalizedDept + '")');
   }
   if (type !== "all") {
     filters.push('type_marche="' + type.toLocaleUpperCase("fr") + '"');
