@@ -506,3 +506,12 @@ Avant d'écrire du code :
 ### Prochaine tâche recommandée
 
 Après le résultat CI, vérifier la prévisualisation de la branche. Corriger les éventuels défauts de navigation/rendu, puis approfondir les textes de la page d'accueil et de « Nous rejoindre ». Ensuite, développer une page de présentation Business achat/vente/cession et le radar des nouvelles entreprises comme pages pédagogiques clairement étiquetées « en préparation », avant de démarrer l'intégration BODACC/SIRENE.
+
+
+### Complément au lot v0.2 — hub Opportunités et pages de profondeur
+
+- Création de `src/app/opportunites/page.tsx` comme point d'entrée pour distinguer marchés publics, opportunités privées, radar des entreprises et Business.
+- Création de `src/app/opportunites/radar-entreprises/page.tsx` pour expliquer pédagogiquement le parcours cible : cibler, détecter, vérifier, qualifier. Le texte indique que BODACC/SIRENE restent des sources envisagées à intégrer et tester.
+- Création de `src/app/opportunites/business/page.tsx` pour présenter les parcours achat/reprise, vente/cession, repérage d'annonces et préparation d'une mise en relation, sans prétendre qu'un catalogue est opérationnel.
+- Le menu principal regroupe maintenant les familles sous une entrée « Opportunités » pointant vers le hub. Le pied de page propose des liens vers le hub et ses pages de profondeur créées.
+- Les contrôles CI des premiers commits ont révélé des erreurs ESLint `react/no-unescaped-entities` dans le texte JSX des pages Réseaux et Espace membre. Des corrections d'échappement ont été enregistrées ; le résultat CI du dernier commit doit encore être vérifié.
