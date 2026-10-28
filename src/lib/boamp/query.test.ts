@@ -9,7 +9,7 @@ describe("buildBoampApiParams", () => {
       type: "all",
     });
 
-    expect(params.get("where")).toBe('((search(*, "nettoyage écoles")))');
+    expect(params.get("where")).toBe('(search(*, "nettoyage écoles"))');
     expect(params.has("search")).toBe(false);
     expect(params.has("q")).toBe(false);
   });
