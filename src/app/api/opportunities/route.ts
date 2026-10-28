@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { extractBoampFields } from "../../../lib/boamp/records";
+import { isOpenBoampNotice } from "../../../lib/boamp/status";
+import { buildBoampApiParams } from "../../../lib/boamp/query";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -9,9 +12,7 @@ const ALLOWED_TYPES = ["Travaux", "Services", "Fournitures"] as const;
 type BoampRecord = { id?: string; fields?: Record<string, unknown>; record?: { id?: string; fields?: Record<string, unknown> } };
 
 function value(input: unknown): string {
-  if (typeof input === "string" || typeof input === "number") return String(input).trim();
-  if (Array.isArray(input)) return input.map(value).filter(Boolean).join(", ");
-  return "";
+  return typeof input === "string" || typeof input === "number" ? String(input).trim() : "";
 }
 
 function category(input: string): string {
@@ -23,12 +24,12 @@ function category(input: string): string {
 }
 
 function formatDate(input: string): string {
-  if (!input) return "Date non renseignée — vérifier la source";
+  if (!input) return "Échéance non renseignée — vérifier la source";
   const date = new Date(input);
   if (Number.isNaN(date.getTime())) return input;
   return new Intl.DateTimeFormat("fr-FR", {
     dateStyle: "medium",
-    ...(input.includes("T") || /\d{1,2}:\d{2}/.test(input) ? { timeStyle: "short" as const } : {}),
+    ...(input.includes("T") ? { timeStyle: "short" as const } : {}),
     timeZone: "Europe/Paris",
   }).format(date);
 }
@@ -45,7 +46,7 @@ export async function GET(request: NextRequest) {
 
   // Une localisation invalide ne doit jamais déclencher silencieusement une recherche nationale.
   const normalizedDept = location.toUpperCase().replace(/\s+/g, "");
-  const validDepartments = /^(?:0[1-9]|[1-8][0-9]|9[0-5]|2A|2B|97[1-6]|978|984|986|987|988)$/;
+  const validDepartments = /^(?:0[1-9]|[1-8][0-9]|9[0-5]|2A|2B|97[1-8]|984|986|987|988)$/;
   if (location && !validDepartments.test(normalizedDept)) {
     return NextResponse.json({
       error: "Indiquez un code département valide (ex. : 68, 2A, 2B ou 971).",
@@ -53,21 +54,11 @@ export async function GET(request: NextRequest) {
     }, { status: 400 });
   }
 
-  const apiParams = new URLSearchParams({
-    limit: "50",
-    order_by: "dateparution desc",
-    select: "idweb,objet,nomacheteur,code_departement,code_departement_prestation,famille_libelle,dateparution,datelimitereponse,etat,type_procedure,nature_libelle,type_marche,url_avis",
+  const apiParams = buildBoampApiParams({
+    query,
+    department: normalizedDept,
+    type: type as "all" | "Travaux" | "Services" | "Fournitures",
   });
-  if (query) apiParams.set("search", query);
-  const filters: string[] = [];
-  if (location) {
-    // BOAMP exposes department codes as multivalued fields: ODSQL 'in' tests array membership.
-    filters.push('"' + normalizedDept + '" IN code_departement OR "' + normalizedDept + '" IN code_departement_prestation');
-  }
-  if (type !== "all") {
-    filters.push('type_marche="' + type.toLocaleUpperCase("fr") + '"');
-  }
-  if (filters.length) apiParams.set("where", filters.map((filter) => "(" + filter + ")").join(" AND "));
 
   try {
     const response = await fetch(`${API_BASE}?${apiParams.toString()}`, {
@@ -82,16 +73,23 @@ export async function GET(request: NextRequest) {
     const payload = (await response.json()) as { results?: BoampRecord[]; total_count?: number };
     const now = Date.now();
     const items = (payload.results ?? []).map((record, index) => {
-      // Explore API v2.1 normally returns fields directly on each result; tolerate legacy wrappers too.
-      const fields = record.record?.fields ?? record.fields ?? record as Record<string, unknown>;
+      const fields = extractBoampFields(record);
       const officialId = value(fields.idweb) || value(record.record?.id) || value(record.id) || `boamp-${index}`;
       const deadlineRaw = value(fields.datelimitereponse);
-      const deadlineDate = deadlineRaw ? new Date(deadlineRaw).getTime() : NaN;
       const status = value(fields.etat).toLocaleUpperCase("fr");
-      const procedure = value(fields.type_procedure).toLocaleUpperCase("fr");
+      const noticeNature = value(fields.nature_categorise_libelle) || value(fields.nature_libelle);
       const marketType = category(value(fields.type_marche) || value(fields.nature_libelle));
       const dept = value(fields.code_departement_prestation) || value(fields.code_departement);
-      const isOpen = !Number.isNaN(deadlineDate) && deadlineDate >= now && status !== "ANNULATION" && procedure !== "ATTRIBUTION";
+
+      // Une échéance future ne suffit pas : seuls les avis de marché non annulés
+      // avec une date limite valide et future sont signalés comme ouverts.
+      const isOpen = isOpenBoampNotice({
+        nature: noticeNature,
+        status,
+        deadline: deadlineRaw,
+        now,
+      });
+
       return {
         id: officialId,
         type: marketType,
