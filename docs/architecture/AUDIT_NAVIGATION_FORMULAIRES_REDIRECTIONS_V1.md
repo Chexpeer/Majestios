@@ -17,6 +17,7 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 
 ## Corrections complémentaires — 28 octobre 2026
 - Le paramètre `q` entrant dans la page Marchés publics déclenche désormais une recherche, au lieu de seulement préremplir le champ.
+- Le paramètre `q` entrant dans la page Business/BODACC déclenche désormais lui aussi la recherche automatiquement ; le parcours depuis la recherche centrale est ainsi cohérent avec celui des marchés publics.
 - Les métadonnées SEO de la rubrique Emploi ont été déplacées dans un layout serveur, afin de ne pas les exporter depuis un composant client.
 - La page de demande liée à un avis public n’effectue plus de double décodage de l’identifiant de route ; suppression d’une fonction auxiliaire inutilisée.
 - La navigation expose maintenant `aria-current="page"` sur la rubrique active, y compris lorsque l’utilisateur se trouve dans une sous-page.
