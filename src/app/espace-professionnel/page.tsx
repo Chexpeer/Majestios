@@ -42,7 +42,7 @@ export default function Page() {
     <section className="concept-grid">
       <article><h2>Veille personnalisée</h2><p>À terme : choisir les mots-clés, les régions et les catégories à suivre.</p></article>
       <article><h2>Suivi des opportunités</h2><p>À terme : retrouver les dossiers suivis, les dates importantes et les actions à mener.</p></article>
-      <article><h2>Intelligence commerciale</h2><p>À terme : organiser les informations sur les entreprises et préparer les prochaines actions.</p></article>
+      <article><h2>Développement commercial</h2><p>À terme : organiser les informations sur les entreprises et préparer les prochaines actions commerciales.</p></article>
     </section>
     <section className="concept-principles">
       <h2>Découvrir le prototype</h2><p>En attendant l’ouverture de l’espace connecté, vous pouvez essayer la recherche publique et consulter les pages de présentation.</p>
