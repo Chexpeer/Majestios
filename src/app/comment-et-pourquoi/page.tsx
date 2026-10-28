@@ -1,4 +1,5 @@
 import SiteHeader from "@/components/navigation/site-header";
+import SiteFooter from "@/components/navigation/site-footer";
 import Link from "next/link";
 
 export const metadata = {
@@ -34,15 +35,7 @@ export default function ConceptPage() {
         <Link className="search-submit concept-cta" href="/">Découvrir la recherche d’appels d’offres</Link>
       </section>
 
-      <footer className="public-footer">
-        <Link className="footer-brand" href="/">MajestiOS</Link>
-        <nav aria-label="Liens de pied de page">
-          <Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link>
-          <Link href="/nous-rejoindre">Nous rejoindre</Link>
-          <Link href="/mentions-legales">Mentions légales</Link>
-        </nav>
-        <small>© MajestiOS · Site en construction</small>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
