@@ -55,3 +55,11 @@ Correctifs commités dans `developpement` :
 - La rubrique Développement commercial affiche le mot-clé reçu et précise qu’aucune recherche transversale automatisée n’a été exécutée, avec raccourcis vers BODACC et les marchés publics.
 
 Ces correctifs évitent de laisser croire qu’une recherche a été effectuée lorsqu’elle ne l’a pas été. Ils ont été enregistrés sur la branche `developpement`, mais n’ont pas encore été validés par un build ou un test navigateur.
+
+
+### Fiche d’avis BOAMP : amélioration du contexte affiché
+
+- Le lien « Fiche détaillée » transmet désormais le titre, l’acheteur, la catégorie, la localisation, la date de publication, l’échéance et le statut présents dans le résultat de recherche.
+- La fiche dédiée affiche ces informations lorsqu’elles ont été transmises, avec un avertissement explicite : ce résumé est contextuel et doit être vérifié sur l’avis officiel.
+- Les filtres de recherche initiaux restent conservés pour le retour à la liste.
+- Limite restante : ces champs sont transmis dans l’URL depuis le résultat ; ils ne constituent pas une nouvelle interrogation indépendante de BOAMP et ne doivent pas être considérés comme une vérification en temps réel. Les accès directs à la fiche peuvent ne pas avoir le résumé.
