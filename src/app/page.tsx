@@ -124,7 +124,7 @@ export default function HomePage() {
               {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); setAppliedKeyword(""); setAppliedLocation(""); setAppliedType("all"); }} aria-label="Effacer tous les filtres">Effacer les filtres</button>}
             </div>}
           </form>
-          <p className="search-note">Recherche publique BOAMP · Filtre géographique par code département · Vérifiez chaque avis sur la source officielle</p>
+          <p className="search-note">{searchDomain === "public" ? "Recherche publique BOAMP · Filtre géographique par code département · Vérifiez chaque avis sur la source officielle" : searchDomain === "business" ? "Recherche BODACC · Consultez la source officielle pour vérifier les informations" : searchDomain === "jobs" ? "Emploi & missions · Recherche externe en préparation" : searchDomain === "private" ? "Opportunités privées · Les annonces de démonstration ne sont pas des offres réelles" : searchDomain === "companies" ? "Radar entreprises · Vérifiez les informations auprès de sources fiables" : searchDomain === "network" ? "Réseaux professionnels · Les mises en relation ne sont pas encore automatisées" : "Sources & veille · La couverture des sources est en cours de construction"}</p>
         </div>
         <div className="hero-aside"><div className="aside-orbit"><span className="orbit-dot dot-a" /><span className="orbit-dot dot-b" /><span className="orbit-dot dot-c" /><div className="orbit-center">M</div></div><p><strong>Repérez.</strong> Qualifiez. Passez à l’action.</p></div>
       </section>
