@@ -37,7 +37,7 @@ export default function Page() {
       {opportunityTitle && <p><strong>Élément sélectionné :</strong> {opportunityTitle}</p>}
       {opportunitySource && <p><strong>Source :</strong> {opportunitySource.toUpperCase()}</p>}
       <p>{intentMessage}</p>
-      {intention === "cv" || intention === "collaboration" ? <Link href="/offres-emploi">Retour à Emploi & missions ↗</Link> : <Link href={({ bodacc: "/business", private: "/appels-offres-prives", emploi: "/offres-emploi", jobs: "/offres-emploi", entreprises: "/opportunites/radar-entreprises", companies: "/opportunites/radar-entreprises", reseaux: "/reseaux", network: "/reseaux" } as Record<string, string>)[opportunitySource] || "/appels-offres-publics"}>Retour à la recherche ↗</Link>}
+      {intention === "cv" || intention === "collaboration" ? <Link href="/offres-emploi">Retour à Emploi & missions ↗</Link> : <Link href={({ boamp: "/appels-offres-publics", bodacc: "/business", private: "/appels-offres-prives", "recherche-privee": "/appels-offres-prives", "opportunites-privees": "/appels-offres-prives", emploi: "/offres-emploi", jobs: "/offres-emploi", entreprises: "/opportunites/radar-entreprises", companies: "/opportunites/radar-entreprises", reseaux: "/reseaux", network: "/reseaux" } as Record<string, string>)[opportunitySource] || "/appels-offres-publics"}>Retour à la recherche ↗</Link>}
     </section>}
     <section className="concept-grid">
       <article><h2>Veille personnalisée</h2><p>À terme : choisir les mots-clés, les régions et les catégories à suivre.</p></article>
