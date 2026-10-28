@@ -6,7 +6,11 @@ export const metadata = {
   description: "Découvrir les types de partenaires qui peuvent aider au développement d’une activité professionnelle.",
 };
 
-export default function NetworksPage() {
+type Props = { searchParams: Promise<{ q?: string }> };
+
+export default async function NetworksPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const query = (params.q ?? "").trim().slice(0, 160);
   return (
     <main className="public-site concept-page">
       <PublicHeader />
@@ -17,6 +21,7 @@ export default function NetworksPage() {
           <p>MajestiOS veut faciliter la recherche de partenaires utiles au développement d’une entreprise. Une collaboration proposée doit toujours être vérifiée et acceptée par les personnes concernées.</p>
         </div>
       </section>
+      {query && <section className="concept-principles" role="status"><span className="section-label">VOTRE RECHERCHE</span><h2>Mot-clé demandé : « {query} »</h2><p>L’annuaire de partenaires n’est pas encore opérationnel. Le mot-clé a été conservé, mais aucune recherche de partenaires ni mise en relation n’a été effectuée.</p><Link className="search-submit concept-cta" href={`/business?q=${encodeURIComponent(query)}`}>Rechercher ce terme dans les annonces BODACC ↗</Link></section>}
       <section className="concept-grid">
         <article><span>01 · CONSEIL</span><h2>Experts et consultants</h2><p>Des spécialistes qui peuvent aider à comprendre un marché, résoudre un problème ou préparer un projet.</p></article>
         <article><span>02 · OUTILS</span><h2>Partenaires technologiques</h2><p>Des entreprises qui proposent des logiciels, des services numériques ou des outils complémentaires.</p></article>
