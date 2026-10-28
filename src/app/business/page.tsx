@@ -3,10 +3,12 @@
 import PublicHeader from "@/components/public-header";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type BodaccItem = { id: string; company: string; kind: string; summary: string; date: string; siren: string; location: string; source: string; sourceUrl: string; isDemo: false };
 
 export default function BusinessPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
@@ -49,7 +51,7 @@ export default function BusinessPage() {
     try {
       const response = await fetch("https://formspree.io/f/xykkyadq", { method: "POST", body: new FormData(event.currentTarget), headers: { Accept: "application/json" } });
       if (!response.ok) throw new Error("L’envoi a échoué. Vérifiez les champs et réessayez.");
-      window.location.assign("/merci");
+      router.push("/merci");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Impossible d’envoyer le formulaire."); setLoading(false);
     }
