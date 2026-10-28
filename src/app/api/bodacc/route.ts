@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { extractBodaccSearchTerm } from "@/lib/bodacc/search-query";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -18,6 +19,43 @@ function pick(fields: Record<string, unknown>, keys: string[]): string {
   }
   return "";
 }
+function parseStructured(value: unknown): unknown {
+  if (typeof value !== "string") return value;
+  const trimmed = value.trim();
+  if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) return value;
+  try { return JSON.parse(trimmed) as unknown; } catch { return value; }
+}
+function firstStructuredText(value: unknown, keys: string[]): string {
+  const parsed = parseStructured(value);
+  if (!parsed || typeof parsed !== "object") return "";
+  const object = parsed as Record<string, unknown>;
+  for (const key of keys) {
+    const found = text(object[key]);
+    if (found) return found;
+  }
+  for (const nested of Object.values(object)) {
+    if (nested && typeof nested === "object") {
+      const found = firstStructuredText(nested, keys);
+      if (found) return found;
+    }
+  }
+  return "";
+}
+function announcementSummary(fields: Record<string, unknown>): string {
+  const direct = pick(fields, ["annonce", "objet", "description", "texte", "contenu", "activite", "activite_principale"]);
+  if (direct) return direct;
+  const details: string[] = [];
+  for (const key of ["jugement", "acte", "depot", "modificationsgenerales", "radiationaurcs", "divers"]) {
+    const parsed = parseStructured(fields[key]);
+    const nature = firstStructuredText(parsed, ["nature", "type", "famille"]);
+    const description = firstStructuredText(parsed, ["descriptif", "complementJugement", "description", "objet", "motif"]);
+    const date = firstStructuredText(parsed, ["date", "dateEffet", "dateCloture"]);
+    const label = [nature, description, date].filter(Boolean).join(" — ");
+    if (label && !details.includes(label)) details.push(label);
+  }
+  return details.slice(0, 3).join(" | ") || "Consultez l’avis officiel pour lire le détail de l’annonce.";
+}
+
 function dateLabel(raw: string): string {
   if (!raw) return "Date non renseignée";
   const parsed = new Date(raw);
@@ -26,7 +64,10 @@ function dateLabel(raw: string): string {
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
-  const query = (params.get("q") ?? "").trim().slice(0, 120);
+  const rawQuery = (params.get("q") ?? "").trim().slice(0, 120);
+  const cleanedQuery = extractBodaccSearchTerm(rawQuery);
+  // Keep the original when cleaning would erase a short but meaningful query.
+  const query = (cleanedQuery.length >= 2 ? cleanedQuery : rawQuery).slice(0, 120);
   const limit = Math.min(30, Math.max(1, Number(params.get("limit") ?? "15") || 15));
   if (query.length < 2) {
     return NextResponse.json({ items: [], meta: { source: "BODACC · DILA", stage: "live", message: "Saisissez au moins deux caractères pour lancer une recherche." } });
@@ -50,12 +91,12 @@ export async function GET(request: NextRequest) {
     const items = (payload.results ?? []).map((record, index) => {
       const fields = record.record?.fields ?? record.fields ?? record;
       const id = pick(fields, ["id", "idannonce", "numeroannonce", "numero_annonce", "idweb"]) || record.record?.id || record.id || `bodacc-${index}`;
-      const company = pick(fields, ["denomination", "denomination_sociale", "raison_sociale", "nomentreprise", "nom_entreprise", "commercant", "personne"]);
-      const kind = pick(fields, ["familleavis_libelle", "familleavis", "typeavis", "type_annonce", "nature", "categorie"]);
-      const summary = pick(fields, ["annonce", "objet", "description", "texte", "contenu", "activite", "activite_principale"]);
+      const company = pick(fields, ["commercant", "denomination", "denomination_sociale", "raison_sociale", "nomentreprise", "nom_entreprise"]) || firstStructuredText(fields.listepersonnes, ["denomination", "nom", "raisonSociale"]);
+      const kind = pick(fields, ["familleavis_lib", "familleavis_libelle", "typeavis_lib", "familleavis", "typeavis", "type_annonce", "nature", "categorie"]);
+      const summary = announcementSummary(fields);
       const date = pick(fields, ["dateparution", "date_parution", "datepublication", "date_publication"]);
-      const siren = pick(fields, ["siren", "numero_siren"]);
-      const location = pick(fields, ["ville", "commune", "localite", "adresse", "departement"]);
+      const siren = pick(fields, ["siren", "numero_siren", "registre"]);
+      const location = pick(fields, ["ville", "commune", "localite", "adresse", "departement_nom_officiel", "departement", "numerodepartement"]);
       const directUrl = pick(fields, ["url_complete", "url", "lien", "url_annonce", "url_detail"]);
       return {
         id: String(id),

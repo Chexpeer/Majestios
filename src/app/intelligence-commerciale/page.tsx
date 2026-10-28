@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
-// Compatibilité avec les anciennes URL : la navigation canonique est désormais centralisée.
-export default function LegacyRouteRedirect() {
+// Ancienne URL conservée pour éviter les liens cassés.
+// Le nom public de la rubrique est « Développement commercial ».
+export default function IntelligenceCommercialeLegacyRoute() {
   redirect("/developpement-commercial");
 }

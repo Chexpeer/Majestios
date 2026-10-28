@@ -8,15 +8,15 @@ export default function Page() {
   const [intention, setIntention] = useState("");
   const [opportunityTitle, setOpportunityTitle] = useState("");
   const [opportunitySource, setOpportunitySource] = useState("");
+  const [opportunityId, setOpportunityId] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIntention(params.get("intention") || "");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpportunityTitle((params.get("titre") || "").slice(0, 180));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpportunitySource(params.get("source") || "");
+    setOpportunityId((params.get("opportunite") || "").slice(0, 180));
   }, []);
 
   const intentMessage = intention === "cv"
@@ -24,8 +24,24 @@ export default function Page() {
     : intention === "collaboration"
       ? "Vous souhaitez étudier une collaboration avec MajestiOS. Le parcours de candidature n’est pas encore activé."
       : intention === "opportunite"
-        ? "Vous souhaitez vous positionner sur une opportunité. La création de compte et l’enregistrement sécurisé de cette démarche ne sont pas encore activés. Votre sélection est conservée dans cette adresse pour cette visite, mais elle n’a pas été enregistrée dans un compte."
+        ? "Vous souhaitez étudier une annonce ou une opportunité. La création de compte et l’enregistrement sécurisé de cette démarche ne sont pas encore activés. Votre sélection est conservée dans cette adresse pour cette visite, mais elle n’a pas été enregistrée dans un compte."
         : "";
+
+  const returnPath = ({ boamp: "/appels-offres-publics", bodacc: "/business", private: "/appels-offres-prives", "recherche-privee": "/appels-offres-prives", "opportunites-privees": "/appels-offres-prives", emploi: "/offres-emploi", jobs: "/offres-emploi", entreprises: "/opportunites/radar-entreprises", companies: "/opportunites/radar-entreprises", reseaux: "/reseaux", network: "/reseaux" } as Record<string, string>)[opportunitySource] || "/appels-offres-publics";
+  const returnParams = new URLSearchParams();
+  if (opportunitySource === "boamp" || opportunitySource === "bodacc") {
+    const keys = opportunitySource === "boamp" ? ["q", "location", "type"] : ["q"];
+    for (const key of keys) {
+      const value = new URLSearchParams(typeof window === "undefined" ? "" : window.location.search).get(key);
+      if (value) returnParams.set(key, value);
+    }
+  } else if (["private", "recherche-privee", "opportunites-privees"].includes(opportunitySource) && opportunityTitle) {
+    returnParams.set("q", opportunityTitle);
+  } else if (["emploi", "jobs"].includes(opportunitySource)) {
+    const value = new URLSearchParams(typeof window === "undefined" ? "" : window.location.search).get("q");
+    if (value) returnParams.set("q", value.slice(0, 120));
+  }
+  const returnHref = returnParams.size ? `${returnPath}?${returnParams.toString()}` : returnPath;
 
   return <main className="public-site concept-page">
     <PublicHeader />
@@ -35,14 +51,15 @@ export default function Page() {
     {intentMessage && <section className="concept-principles" role="status">
       <h2>Votre démarche</h2>
       {opportunityTitle && <p><strong>Élément sélectionné :</strong> {opportunityTitle}</p>}
+      {opportunityId && <p><strong>Référence de l’opportunité :</strong> {opportunityId}</p>}
       {opportunitySource && <p><strong>Source :</strong> {opportunitySource.toUpperCase()}</p>}
       <p>{intentMessage}</p>
-      {intention === "cv" || intention === "collaboration" ? <Link href="/offres-emploi">Retour à Emploi & missions ↗</Link> : <Link href={({ boamp: "/appels-offres-publics", bodacc: "/business", private: "/appels-offres-prives", "recherche-privee": "/appels-offres-prives", "opportunites-privees": "/appels-offres-prives", emploi: "/offres-emploi", jobs: "/offres-emploi", entreprises: "/opportunites/radar-entreprises", companies: "/opportunites/radar-entreprises", reseaux: "/reseaux", network: "/reseaux" } as Record<string, string>)[opportunitySource] || "/appels-offres-publics"}>Retour à la recherche ↗</Link>}
+      {intention === "cv" || intention === "collaboration" ? <Link href={returnHref}>Retour à Emploi & missions ↗</Link> : <Link href={returnHref}>Retour à la recherche ↗</Link>}
     </section>}
     <section className="concept-grid">
       <article><h2>Veille personnalisée</h2><p>À terme : choisir les mots-clés, les régions et les catégories à suivre.</p></article>
       <article><h2>Suivi des opportunités</h2><p>À terme : retrouver les dossiers suivis, les dates importantes et les actions à mener.</p></article>
-      <article><h2>Intelligence commerciale</h2><p>À terme : organiser les informations sur les entreprises et préparer les prochaines actions.</p></article>
+      <article><h2>Développement commercial</h2><p>À terme : organiser les informations sur les entreprises et préparer les prochaines actions commerciales.</p></article>
     </section>
     <section className="concept-principles">
       <h2>Découvrir le prototype</h2><p>En attendant l’ouverture de l’espace connecté, vous pouvez essayer la recherche publique et consulter les pages de présentation.</p>

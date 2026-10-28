@@ -29,7 +29,7 @@ export default function ConceptPage() {
       <section className="concept-principles">
         <span className="section-label">NOTRE APPROCHE</span>
         <h2>De l’information à l’action commerciale</h2>
-        <p>MajestiOS est conçu comme une plateforme professionnelle d’intelligence commerciale assistée par IA. Son ambition est de rapprocher la veille, la qualification, les études de marché et le suivi commercial dans un parcours cohérent.</p>
+        <p>MajestiOS est conçu comme une plateforme professionnelle de développement commercial assisté par IA. Son ambition est de rapprocher la recherche d’opportunités, leur qualification, les études de marché et le suivi commercial dans un parcours cohérent.</p>
         <p>Le copilote IA doit aider l’utilisateur à rechercher, analyser et préparer son travail, tout en distinguant les données sourcées des hypothèses et des informations à vérifier. Les fonctionnalités sont mises en service progressivement : cette page présente le concept cible, pas une promesse que tous les modules sont déjà opérationnels.</p>
         <Link className="search-submit concept-cta" href="/">Découvrir la recherche d’appels d’offres</Link>
       </section>

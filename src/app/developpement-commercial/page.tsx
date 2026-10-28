@@ -46,7 +46,7 @@ export default function Page() {
           <span>05 · FAIRE LE POINT</span>
           <h2>Diagnostic Business</h2>
           <p>Présenter votre activité, préciser vos objectifs et identifier les sujets à travailler en priorité.</p>
-          <Link href="/business">Évaluer mon entreprise ↗</Link>
+          <Link href="/developpement-commercial/diagnostic-business">Découvrir le diagnostic business ↗</Link>
         </article>
       </section>
       <section className="concept-principles">

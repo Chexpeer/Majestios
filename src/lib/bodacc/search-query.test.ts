@@ -11,6 +11,9 @@ describe("extractBodaccSearchTerm", () => {
   it("handles French typographic apostrophes and keeps the city", () => {
     expect(extractBodaccSearchTerm("Cession d’entreprise à Paris")).toBe("Paris");
   });
+  it("removes accented French prepositions without damaging the place name", () => {
+    expect(extractBodaccSearchTerm("Rechercher une reprise au Havre")).toBe("Havre");
+  });
   it("keeps a company name after removing action wording", () => {
     expect(extractBodaccSearchTerm("Rechercher reprise Dupont Industries")).toBe("Dupont Industries");
   });

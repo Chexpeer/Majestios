@@ -7,7 +7,7 @@ const poles = [
   { id: "entreprises", label: "Entreprises", detail: "Création · développement · reprise", href: "/opportunites/radar-entreprises", x: "50%", y: "8%", color: "mint", icon: "▥" },
   { id: "public", label: "Marchés publics", detail: "Avis · consultations · marchés", href: "/appels-offres-publics", x: "17%", y: "29%", color: "violet", icon: "⌂" },
   { id: "prive", label: "Opportunités privées", detail: "Consultations · missions · partenariats", href: "/appels-offres-prives", x: "83%", y: "29%", color: "orange", icon: "↗" },
-  { id: "sources", label: "Sources & veille", detail: "Données officielles · signaux marché", href: "/intelligence-commerciale", x: "13%", y: "67%", color: "blue", icon: "⌕" },
+  { id: "sources", label: "Sources & veille", detail: "Données officielles · signaux marché", href: "/developpement-commercial", x: "13%", y: "67%", color: "blue", icon: "⌕" },
   { id: "reseaux", label: "Réseaux professionnels", detail: "Interlocuteurs · décideurs", href: "/reseaux", x: "87%", y: "67%", color: "green", icon: "♧" },
   { id: "business", label: "Business", detail: "Achat · vente · transmission", href: "/business", x: "34%", y: "91%", color: "violet", icon: "↗" },
   { id: "emploi", label: "Emploi & missions", detail: "Collaborations · recrutement", href: "/offres-emploi", x: "66%", y: "91%", color: "red", icon: "◎" },
@@ -30,8 +30,8 @@ export default function MajestiOSOpportunityMap() {
         <svg className="maj-map-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           {poles.map((pole) => <line key={pole.id} x1="50" y1="50" x2={Number.parseFloat(pole.x)} y2={Number.parseFloat(pole.y)} />)}
         </svg>
-        <Link className="maj-map-core" href="/intelligence-commerciale" aria-label="Découvrir l’intelligence commerciale MajestiOS">
-          <span className="maj-map-core-mark" aria-hidden="true"><svg className="majesti-crown" viewBox="0 0 32 22" focusable="false"><path d="M3 18 1 5l8 5 7-9 7 9 8-5-2 13Z" fill="currentColor"/><path d="M4 20h24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg><span>M</span></span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small>
+        <Link className="maj-map-core" href="/developpement-commercial" aria-label="Découvrir le développement commercial MajestiOS">
+          <span className="maj-map-core-mark" aria-hidden="true"><svg className="majesti-crown" viewBox="0 0 32 22" focusable="false"><path d="M3 18 1 5l8 5 7-9 7 9 8-5-2 13Z" fill="currentColor"/><path d="M4 20h24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg><span>M</span></span><strong>MajestiOS</strong><small>DÉVELOPPEMENT COMMERCIAL</small>
         </Link>
         {poles.map((pole) => (
           <Link key={pole.id} className={`maj-map-node ${pole.color} ${active === pole.id ? "is-active" : ""}`} style={{ left: pole.x, top: pole.y }} href={pole.href} onMouseEnter={() => setActive(pole.id)} onFocus={() => setActive(pole.id)} aria-label={`Explorer : ${pole.label}`}>

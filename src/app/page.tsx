@@ -57,11 +57,6 @@ export default function HomePage() {
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const params = new URLSearchParams();
-    if (keyword.trim()) params.set("q", keyword.trim());
-    if (location.trim()) params.set("location", location.trim());
-    if (type !== "all") params.set("type", type);
-
     const destinations: Record<string, string> = {
       public: "/appels-offres-publics",
       business: "/business",
@@ -69,9 +64,20 @@ export default function HomePage() {
       private: "/appels-offres-prives",
       jobs: "/offres-emploi",
       network: "/reseaux",
-      sources: "/intelligence-commerciale",
+      sources: "/developpement-commercial",
     };
     const destination = destinations[searchDomain] ?? "/opportunites";
+    const params = new URLSearchParams();
+
+    // Ne transmettre que les filtres réellement pris en charge par la rubrique cible.
+    if (keyword.trim() && ["public", "business", "private", "jobs"].includes(searchDomain)) {
+      params.set("q", keyword.trim().slice(0, 160));
+    }
+    if (searchDomain === "public") {
+      if (location.trim()) params.set("location", location.trim().slice(0, 80));
+      if (type !== "all") params.set("type", type);
+    }
+
     const query = params.toString();
     router.push(query ? `${destination}?${query}` : destination);
   }
@@ -101,7 +107,7 @@ export default function HomePage() {
                 <option value="private">Opportunités privées</option>
                 <option value="jobs">Emploi & missions</option>
                 <option value="network">Réseaux professionnels</option>
-                <option value="sources">Sources & veille</option>
+                <option value="sources">Développement commercial</option>
               </select>
             </label>
             <button className="search-submit" type="submit"><span aria-hidden="true">⌕</span> Rechercher</button>
@@ -109,7 +115,7 @@ export default function HomePage() {
               {advancedSearchOpen ? "Masquer les filtres avancés" : "Filtres avancés"} <span aria-hidden="true">{advancedSearchOpen ? "−" : "+"}</span>
             </button>
             {advancedSearchOpen && <div className="advanced-search-panel" id="advanced-search-filters">
-              <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder={searchDomain === "public" ? "Code département (ex. : 68)" : "Ville, région ou département"} autoComplete="off" /></label>
+              {searchDomain === "public" && <label className="search-field" htmlFor="search-location"><span>Département</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Code département (ex. : 68)" autoComplete="off" /></label>}
               {searchDomain === "public" && <label className="search-field search-type" htmlFor="search-type"><span>Type de marché public</span><select id="search-type" name="type" value={type} onChange={(event) => setType(event.target.value)}><option value="all">Tous les types</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>}
               {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); }}>Effacer les filtres</button>}
             </div>}
