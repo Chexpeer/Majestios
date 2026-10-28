@@ -27,6 +27,9 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 ## Contrôle complémentaire — 28 octobre 2026
 - Correction du lien depuis l’espace professionnel : le bouton qui ouvrait `/offres-emploi?intention=cv` affichait une intention CV que la page Emploi ne lisait pas. Il mène maintenant simplement à `/offres-emploi` avec un libellé correspondant à sa destination ; le parcours CV dédié reste accessible depuis cette rubrique.
 
+## Contrôle complémentaire — 28 octobre 2026
+- Normalisation des recherches entrantes `q` sur les rubriques Opportunités privées et Emploi : espaces périphériques supprimés et longueur limitée à 120 caractères, comme sur les autres parcours de recherche.
+
 ## Points bloquants avant ouverture réelle
 1. Authentification et formulaire de création de compte avec prénom, nom, e-mail et téléphone.
 2. Persistance serveur de l'opportunité sélectionnée pendant et après l'inscription. Les paramètres d'URL ne constituent pas un enregistrement.
