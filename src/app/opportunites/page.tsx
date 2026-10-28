@@ -17,11 +17,11 @@ const categories = [
 export default function OpportunitiesPage() {
   return <main className="public-site concept-page">
     <SiteHeader />
-    <section className="how-section concept-hero"><div><span className="section-label">EXPLORER</span><h1>Les opportunités, <em>au même endroit.</em></h1><p>MajestiOS vise à rapprocher plusieurs familles d'informations professionnelles. Chaque rubrique indique son périmètre et son niveau de disponibilité : un avis public, un signal d'entreprise et une annonce privée ne sont pas la même chose.</p></div></section>
+    <section className="how-section concept-hero"><div><span className="section-label">EXPLORER</span><h1>Les opportunités, <em>au même endroit.</em></h1><p>MajestiOS vise à rapprocher plusieurs familles d&apos;informations professionnelles. Chaque rubrique indique son périmètre et son niveau de disponibilité : un avis public, un signal d&apos;entreprise et une annonce privée ne sont pas la même chose.</p></div></section>
     <section className="feature-sections opportunity-hub" aria-label="Familles d'opportunités">
       {categories.map(item => <article key={item.title}><span className="feature-status">{item.status}</span><h2>{item.title}</h2><p>{item.text}</p><Link className="faq-secondary" href={item.href}>{item.action} →</Link></article>)}
     </section>
-    <section className="concept-principles"><h2>Comment exploiter une opportunité ?</h2><p>Une information n'est qu'un point de départ. Il faut vérifier sa source et sa date, comprendre le contexte, déterminer si elle correspond à son activité, puis décider d'une action adaptée. La cible de MajestiOS est de faciliter cette chaîne sans confondre une donnée publiée avec une opportunité garantie.</p><Link className="search-submit concept-cta" href="/comment-et-pourquoi">Comprendre la méthode MajestiOS</Link></section>
+    <section className="concept-principles"><h2>Comment exploiter une opportunité ?</h2><p>Une information n&apos;est qu&apos;un point de départ. Il faut vérifier sa source et sa date, comprendre le contexte, déterminer si elle correspond à son activité, puis décider d&apos;une action adaptée. La cible de MajestiOS est de faciliter cette chaîne sans confondre une donnée publiée avec une opportunité garantie.</p><Link className="search-submit concept-cta" href="/comment-et-pourquoi">Comprendre la méthode MajestiOS</Link></section>
     <SiteFooter />
   </main>;
 }
