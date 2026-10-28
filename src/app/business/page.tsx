@@ -83,6 +83,6 @@ export default function BusinessPage() {
         <small>Les informations saisies sont transmises à Formspree. N’envoyez pas de données confidentielles ou sensibles.</small>
       </form>
     </section>
-    <section className="concept-principles"><h2>De l’annonce à l’intelligence commerciale</h2><p>MajestiOS doit relier le signal BODACC à l’entreprise concernée, ses interlocuteurs, son contexte sectoriel et les prochaines actions possibles. Cette qualification assistée devra conserver la source, la date, les limites et une validation humaine.</p><Link className="search-submit concept-cta" href="/opportunites/radar-entreprises">Ouvrir le Radar entreprises ↗</Link><Link className="search-submit concept-cta" href="/faq">Consulter la FAQ ↗</Link></section>
+    <section className="concept-principles"><h2>De l’annonce au développement commercial</h2><p>MajestiOS doit relier le signal BODACC à l’entreprise concernée, ses interlocuteurs, son contexte sectoriel et les prochaines actions possibles. Cette qualification assistée devra conserver la source, la date, les limites et une validation humaine.</p><Link className="search-submit concept-cta" href="/opportunites/radar-entreprises">Ouvrir le Radar entreprises ↗</Link><Link className="search-submit concept-cta" href="/faq">Consulter la FAQ ↗</Link></section>
   </main>;
 }
