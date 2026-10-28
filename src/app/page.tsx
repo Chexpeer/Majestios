@@ -13,41 +13,41 @@ type Opportunity = {
   location: string;
   source: "public" | "private";
   title: string;
-  deadline?: string;
   sourceUrl?: string;
 };
 
-const privateTeasers = [
-  { id: "private-services", title: "Prestations de services", location: "Grand Est" },
-  { id: "private-works", title: "Travaux professionnels", location: "Île-de-France" },
-  { id: "private-supplies", title: "Fournitures professionnelles", location: "France entière" },
+const privateTeasers: Opportunity[] = [
+  { id: "private-1", type: "Prestations de services", location: "Grand Est", source: "private", title: "Opportunité privée — exemple" },
+  { id: "private-2", type: "Travaux professionnels", location: "Île-de-France", source: "private", title: "Opportunité privée — exemple" },
+  { id: "private-3", type: "Fournitures professionnelles", location: "Auvergne-Rhône-Alpes", source: "private", title: "Opportunité privée — exemple" },
+  { id: "private-4", type: "Maintenance et conseil", location: "France entière", source: "private", title: "Opportunité privée — exemple" },
 ];
 
 export default function HomePage() {
   const router = useRouter();
   const [keyword, setKeyword] = useState("");
   const [searchDomain, setSearchDomain] = useState("public");
-  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
   const [location, setLocation] = useState("");
   const [type, setType] = useState("all");
-  const [publicItems, setPublicItems] = useState<Opportunity[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
+  const [publicExamples, setPublicExamples] = useState<Opportunity[]>([]);
+  const [loadingExamples, setLoadingExamples] = useState(true);
 
   useEffect(() => {
     const controller = new AbortController();
     async function loadTicker() {
       try {
-        const response = await fetch("/api/opportunities?limit=8", {
+        const response = await fetch("/api/opportunities?q=&location=&type=all", {
           signal: controller.signal,
           cache: "no-store",
         });
-        if (!response.ok) return;
+        if (!response.ok) throw new Error("Source indisponible");
         const payload: { items?: Opportunity[] } = await response.json();
-        if (!controller.signal.aborted) setPublicItems(payload.items ?? []);
+        setPublicExamples((payload.items ?? []).map((item) => ({ ...item, source: "public" })).slice(0, 8));
       } catch {
-        // Le flux reste utilisable même si la source publique est momentanément indisponible.
+        if (!controller.signal.aborted) setPublicExamples([]);
       } finally {
-        if (!controller.signal.aborted) setLoading(false);
+        if (!controller.signal.aborted) setLoadingExamples(false);
       }
     }
     void loadTicker();
@@ -56,7 +56,11 @@ export default function HomePage() {
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const query = keyword.trim();
+    const params = new URLSearchParams();
+    if (keyword.trim()) params.set("q", keyword.trim());
+    if (location.trim()) params.set("location", location.trim());
+    if (type !== "all") params.set("type", type);
+
     const destinations: Record<string, string> = {
       public: "/appels-offres-publics",
       business: "/business",
@@ -67,55 +71,29 @@ export default function HomePage() {
       sources: "/intelligence-commerciale",
     };
     const destination = destinations[searchDomain] ?? "/opportunites";
-    const params = new URLSearchParams();
-    if (query) params.set("q", query);
-    if (searchDomain === "public") {
-      if (location.trim()) params.set("location", location.trim());
-      if (type !== "all") params.set("type", type);
-    }
-    router.push(params.size ? `${destination}?${params.toString()}` : destination);
+    const query = params.toString();
+    router.push(query ? `${destination}?${query}` : destination);
   }
 
-  const feedItems: Array<
-    | { kind: "public"; key: string; title: string; location: string; href: string }
-    | { kind: "private"; key: string; title: string; location: string; href: string }
-  > = [
-    ...publicItems.slice(0, 8).map((item) => ({
-      kind: "public" as const,
-      key: `public-${item.id}`,
-      title: item.title,
-      location: item.location,
-      href: `/appels-offres-publics/${encodeURIComponent(String(item.id))}`,
-    })),
-    ...privateTeasers.map((item) => ({
-      kind: "private" as const,
-      key: item.id,
-      title: item.title,
-      location: item.location,
-      href: "/appels-offres-prives",
-    })),
-  ];
-  const movingItems = feedItems.length ? [...feedItems, ...feedItems] : [];
+  const tickerItems = [...publicExamples, ...privateTeasers];
 
   return (
-    <main className="public-site home-hub">
+    <main className="public-site">
       <PublicHeader />
 
-      <section className="public-hero home-hero-compact" id="recherche">
+      <section className="public-hero" id="recherche">
         <div className="hero-content">
-          <span className="public-eyebrow"><span /> INTELLIGENCE COMMERCIALE B2B</span>
-          <h1>Les opportunités<br />au bon <em>endroit.</em></h1>
-          <p className="public-intro">
-            Repérez les signaux utiles, explorez les pôles MajestiOS et poursuivez chaque démarche dans son espace dédié.
-          </p>
+          <span className="public-eyebrow"><span /> VEILLE ET OPPORTUNITÉS PROFESSIONNELLES</span>
+          <h1>Transformez les signaux<br />en <em>opportunités.</em></h1>
+          <p className="public-intro">MajestiOS aide les professionnels à repérer des occasions de développer leur activité, trouver les bons contacts et préparer leurs prochaines actions commerciales.</p>
           <form className="tender-search central-opportunity-search" onSubmit={handleSearch}>
-            <label className="search-field search-keyword" htmlFor="home-search-keyword">
+            <label className="search-field search-keyword" htmlFor="search-keyword">
               <span>Que recherchez-vous ?</span>
-              <input id="home-search-keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Une entreprise, un marché, une mission…" autoComplete="off" />
+              <input id="search-keyword" name="keyword" value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="Une entreprise, une opportunité, un marché…" autoComplete="off" />
             </label>
-            <label className="search-field search-domain" htmlFor="home-search-domain">
+            <label className="search-field search-domain" htmlFor="search-domain">
               <span>Rubrique</span>
-              <select id="home-search-domain" value={searchDomain} onChange={(event) => setSearchDomain(event.target.value)}>
+              <select id="search-domain" name="domain" value={searchDomain} onChange={(event) => setSearchDomain(event.target.value)}>
                 <option value="public">Marchés publics</option>
                 <option value="business">Business · BODACC</option>
                 <option value="companies">Entreprises</option>
@@ -125,67 +103,47 @@ export default function HomePage() {
                 <option value="sources">Sources & veille</option>
               </select>
             </label>
-            <button className="search-submit" type="submit">Rechercher <span aria-hidden="true">↗</span></button>
-            <button className="advanced-search-toggle" type="button" aria-expanded={advancedSearchOpen} aria-controls="home-advanced-filters" onClick={() => setAdvancedSearchOpen((open) => !open)}>
-              {advancedSearchOpen ? "Masquer les filtres" : "Filtres avancés"} <span aria-hidden="true">{advancedSearchOpen ? "−" : "+"}</span>
+            <button className="search-submit" type="submit"><span aria-hidden="true">⌕</span> Rechercher</button>
+            <button className="advanced-search-toggle" type="button" aria-expanded={advancedSearchOpen} aria-controls="advanced-search-filters" onClick={() => setAdvancedSearchOpen((open) => !open)}>
+              {advancedSearchOpen ? "Masquer les filtres avancés" : "Filtres avancés"} <span aria-hidden="true">{advancedSearchOpen ? "−" : "+"}</span>
             </button>
-            {advancedSearchOpen && (
-              <div className="advanced-search-panel" id="home-advanced-filters">
-                <label className="search-field" htmlFor="home-search-location">
-                  <span>Ville ou département</span>
-                  <input id="home-search-location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Ex. : 68, Mulhouse…" />
-                </label>
-                {searchDomain === "public" && (
-                  <label className="search-field" htmlFor="home-search-type">
-                    <span>Type de marché public</span>
-                    <select id="home-search-type" value={type} onChange={(event) => setType(event.target.value)}>
-                      <option value="all">Tous les types</option>
-                      <option value="Travaux">Travaux</option>
-                      <option value="Services">Services</option>
-                      <option value="Fournitures">Fournitures</option>
-                    </select>
-                  </label>
-                )}
-                <button className="search-reset" type="button" onClick={() => { setLocation(""); setType("all"); }}>Réinitialiser</button>
-              </div>
-            )}
+            {advancedSearchOpen && <div className="advanced-search-panel" id="advanced-search-filters">
+              <label className="search-field" htmlFor="search-location"><span>Localisation</span><input id="search-location" name="location" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Ville ou département" autoComplete="off" /></label>
+              {searchDomain === "public" && <label className="search-field search-type" htmlFor="search-type"><span>Type de marché public</span><select id="search-type" name="type" value={type} onChange={(event) => setType(event.target.value)}><option value="all">Tous les types</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>}
+              {(keyword || location || type !== "all") && <button className="search-reset" type="button" onClick={() => { setKeyword(""); setLocation(""); setType("all"); }}>Effacer les filtres</button>}
+            </div>}
           </form>
-          <p className="search-note">La recherche ouvre la rubrique correspondante. Les annonces détaillées restent dans leur espace dédié.</p>
+          <p className="search-note">La recherche et les rubriques s’ouvrent dans leur espace dédié. Les annonces restent dans le flux et ne s’ajoutent pas à cette page.</p>
         </div>
+        <div className="hero-aside"><div className="aside-orbit"><span className="orbit-dot dot-a" /><span className="orbit-dot dot-b" /><span className="orbit-dot dot-c" /><div className="orbit-center">M</div></div><p><strong>Repérez.</strong> Qualifiez. Passez à l’action.</p></div>
       </section>
 
-      <section className="maj-map-home-section" aria-label="Carrefour interactif des rubriques MajestiOS">
+      <section className="maj-map-home-section" aria-label="Carte interactive des rubriques MajestiOS">
         <MajestiOSOpportunityMap />
       </section>
 
-      <section className="home-opportunity-flow" aria-label="Flux transversal d'opportunités">
-        <div className="home-flow-label">
-          <span className="ticker-live-dot" />
-          <div><strong>Le flux MajestiOS</strong><small>Un aperçu qui circule, sans envahir les espaces</small></div>
-          <Link href="/opportunites">Explorer <span aria-hidden="true">↗</span></Link>
+      <section className="public-opportunity-ticker" aria-label="Flux transversal d’opportunités">
+        <div className="public-ticker-label"><span className="ticker-live-dot" /><strong>Flux d’opportunités</strong><Link href="/opportunites">Explorer ↗</Link></div>
+        <div className="public-ticker-window">
+          <div className="public-ticker-track">
+            {tickerItems.length > 0 ? [...tickerItems, ...tickerItems].map((item, index) => (
+              <Link className="public-ticker-item" key={`${item.source}-${item.id}-${index}`} href={item.source === "public" ? `/appels-offres-publics/${encodeURIComponent(String(item.id))}` : "/appels-offres-prives"}>
+                <span className={item.source === "public" ? "public-label" : "private-label"}>{item.source === "public" ? "PUBLIC" : "PRIVÉ · EXEMPLE"}</span>
+                <strong>{item.title}</strong><small>{item.location}</small>
+              </Link>
+            )) : <span className="public-ticker-empty">{loadingExamples ? "Chargement du flux d’opportunités…" : "Les opportunités apparaîtront ici lorsque les sources seront disponibles."}</span>}
+          </div>
         </div>
-        <div className="home-flow-window">
-          {movingItems.length > 0 ? (
-            <div className="home-flow-track">
-              {movingItems.map((item, index) => (
-                <Link className="home-flow-item" key={`${item.key}-${index}`} href={item.href}>
-                  <span className={item.kind === "public" ? "public-label" : "private-label"}>{item.kind === "public" ? "PUBLIC" : "PRIVÉ · EXEMPLE"}</span>
-                  <strong>{item.title}</strong>
-                  <small>{item.location}</small>
-                  <span className="home-flow-arrow" aria-hidden="true">↗</span>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <p className="home-flow-empty">{loading ? "Chargement des opportunités disponibles…" : "Le flux sera enrichi au fur et à mesure du raccordement des sources."} Les exemples privés sont clairement identifiés et ne sont pas des annonces réelles.</p>
-          )}
-        </div>
-        <p className="home-flow-note">Les avis publics renvoient vers leur fiche MajestiOS. Les exemples privés sont uniquement illustratifs. Aucune annonce n’est créée ni enregistrée par ce bandeau.</p>
       </section>
 
-      <footer className="home-minimal-footer">
-        <span>© MajestiOS · Plateforme en construction progressive</span>
-        <nav aria-label="Liens utiles"><Link href="/comment-et-pourquoi">Le concept</Link><Link href="/faq">FAQ</Link><Link href="/mentions-legales">Mentions légales</Link></nav>
+      <footer className="public-footer">
+        <Link className="footer-brand" href="/">MajestiOS</Link>
+        <div className="footer-links">
+          <div><strong>Explorer</strong><Link href="/appels-offres-publics">Marchés publics</Link><Link href="/appels-offres-prives">Opportunités privées</Link><Link href="/offres-emploi">Emploi et missions</Link><Link href="/reseaux">Réseaux professionnels</Link></div>
+          <div><strong>Développement commercial</strong><Link href="/developpement-commercial/prospection">Prospection</Link><Link href="/developpement-commercial/etudes-de-marche">Études de marché</Link><Link href="/developpement-commercial/accompagnement-appels-offres">Accompagnement aux appels d’offres</Link><Link href="/developpement-commercial/e-reputation">E-réputation</Link></div>
+          <div><strong>MajestiOS</strong><Link href="/comment-et-pourquoi">Comment et pourquoi</Link><Link href="/faq">FAQ</Link><Link href="/mentions-legales">Informations légales</Link></div>
+        </div>
+        <small>© MajestiOS · Plateforme en construction</small>
       </footer>
     </main>
   );
