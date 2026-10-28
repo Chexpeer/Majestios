@@ -2,7 +2,8 @@
 import PublicHeader from "@/components/public-header";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-type Item = { id:string|number; title:string; type:string; location:string; buyer?:string; deadline?:string; publishedAt?:string; sourceUrl?:string; officialStatus?:string; isOpen?:boolean };\ntype SearchMeta = { total?: number; totalAvailable?: number | null };
+type Item = { id:string|number; title:string; type:string; location:string; buyer?:string; deadline?:string; publishedAt?:string; sourceUrl?:string; officialStatus?:string; isOpen?:boolean };
+type SearchMeta = { total?: number; totalAvailable?: number | null };
 export default function PublicTendersPage() {
  const [items,setItems]=useState<Item[]>([]),[meta,setMeta]=useState<SearchMeta>({}),[q,setQ]=useState(""),[location,setLocation]=useState(""),[type,setType]=useState("all"),[loading,setLoading]=useState(false),[error,setError]=useState("");
  async function search(e?:React.FormEvent, queryOverride?:string, locationOverride?:string, typeOverride?:string){e?.preventDefault();setLoading(true);setError("");try{const p=new URLSearchParams({q:queryOverride ?? q,location:locationOverride ?? location,type:typeOverride ?? type});const r=await fetch("/api/opportunities?"+p.toString(),{cache:"no-store"});const d=await r.json();if(!r.ok)throw new Error(d.error||"La source est indisponible.");setItems(d.items||[]);setMeta(d.meta||{})}catch(e){setError(e instanceof Error?e.message:"Erreur de chargement.");setItems([]);setMeta({})}finally{setLoading(false)}}
