@@ -5,7 +5,7 @@ export const metadata = { title: "Radar entreprises — MajestiOS", description:
 
 export default function CompanyRadarPage() {
   return <main className="public-site concept-page"><PublicHeader />
-    <section className="how-section concept-hero"><div><span className="section-label">OPPORTUNITY INTELLIGENCE · ENTREPRISES</span><h1>Détecter les signaux d’entreprise pour <em>agir au bon moment.</em></h1><p>Le radar entreprises a vocation à aider les professionnels à repérer des événements pouvant signaler un besoin, un changement de fournisseur, un projet de développement ou une occasion de partenariat.</p></div></section>
+    <section className="how-section concept-hero"><div><span className="section-label">OPPORTUNITÉS ENTREPRISES · RADAR</span><h1>Détecter les signaux d’entreprise pour <em>agir au bon moment.</em></h1><p>Le radar entreprises a vocation à aider les professionnels à repérer des événements pouvant signaler un besoin, un changement de fournisseur, un projet de développement ou une occasion de partenariat.</p></div></section>
     <section className="employment-principles">
       <article><span>01 · DÉTECTER</span><h2>Repérer un signal</h2><p>Création, changement d’activité, évolution publiée, reprise ou cession peuvent constituer des indices à examiner. Un signal n’est pas une preuve de besoin commercial.</p></article>
       <article><span>02 · VÉRIFIER</span><h2>Revenir à la source</h2><p>Les sources publiques pertinentes, dont les données d’entreprise et publications officielles, devront être raccordées et contrôlées avant de présenter des résultats comme actuels.</p></article>
