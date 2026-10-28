@@ -706,3 +706,42 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
   .public-ticker-track { animation:none; }
   .maj-map-node { transition:none; }
 }
+
+
+/* Bandeaux directionnels par rubrique : annonces secondaires, jamais dominantes */
+.private-page-ticker .ticker-track { animation:majTickerRTL 44s linear infinite; }
+.private-page-ticker:hover .ticker-track,.private-page-ticker:focus-within .ticker-track { animation-play-state:paused; }
+.private-page-teaser { display:flex; flex-direction:column; align-items:flex-start; gap:8px; min-width:275px; max-width:320px; }
+.private-page-teaser small { color:#81929d; font-size:8px; }
+.private-ticker-page { padding:clamp(28px,4vw,48px) clamp(20px,6vw,80px); border-top:1px solid #e4ecee; border-bottom:1px solid #e4ecee; background:#f6f9fa; }
+.private-ticker-page .private-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:18px; }
+.private-ticker-page .private-heading h2 { margin:8px 0; color:#142f43; font:800 clamp(22px,3vw,31px)/1.2 Manrope,sans-serif; }
+.private-ticker-page .private-heading p { margin:0; color:#697e8b; font-size:11px; line-height:1.7; }
+.ticker-disclaimer { max-width:950px; margin:12px 0 0; color:#84939c; font-size:9px; line-height:1.7; }
+.employment-ticker-section { padding:clamp(28px,4vw,48px) clamp(20px,6vw,80px); overflow:hidden; border-top:1px solid #e4ecee; border-bottom:1px solid #e4ecee; background:#f6f9fa; }
+.employment-ticker-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:18px; }
+.employment-ticker-heading h2 { margin:8px 0; color:#142f43; font:800 clamp(22px,3vw,31px)/1.2 Manrope,sans-serif; }
+.employment-ticker-heading p { margin:0; color:#697e8b; font-size:11px; line-height:1.7; }
+.prelaunch-badge { padding:7px 10px; border:1px solid #e7d7b9; border-radius:30px; background:#fff8e9; color:#8d6b30; font-size:8px; font-weight:900; letter-spacing:.4px; white-space:nowrap; }
+.employment-ticker-window { overflow:hidden; padding:4px 0 10px; mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent); }
+.employment-ticker-track { display:flex; width:max-content; gap:12px; animation:majTickerLTR 42s linear infinite; }
+.employment-ticker-window:hover .employment-ticker-track,.employment-ticker-window:focus-within .employment-ticker-track { animation-play-state:paused; }
+.employment-ticker-card { width:280px; padding:18px; border:1px solid #e0e9ec; border-radius:12px; background:#fff; box-shadow:0 5px 15px rgb(20 44 66 / 4%); }
+.employment-card-type { color:#147d78; font-size:8px; font-weight:900; letter-spacing:.6px; text-transform:uppercase; }
+.employment-ticker-card h3 { margin:12px 0 7px; color:#17374c; font:800 14px/1.4 Manrope,sans-serif; }
+.employment-ticker-card p { margin:0; color:#5c7180; font-size:10px; }
+.employment-ticker-card small { display:block; margin-top:14px; padding-top:10px; border-top:1px solid #edf1f3; color:#8b989f; font-size:8px; line-height:1.5; }
+@keyframes majTickerLTR { from { transform:translateX(-50%); } to { transform:translateX(0); } }
+.employment-principles { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; padding:clamp(28px,4vw,48px) clamp(20px,6vw,80px); }
+.employment-principles article { padding:22px; border:1px solid #e0e9ec; border-radius:12px; background:#fff; }
+.employment-principles article > span { color:#147d78; font-size:9px; font-weight:900; letter-spacing:1px; }
+.employment-principles h2 { margin:12px 0 8px; font-size:16px; line-height:1.4; }
+.employment-principles p { margin:0; color:#657a88; font-size:10px; line-height:1.8; }
+@media(max-width:700px) {
+ .private-ticker-page,.employment-ticker-section { padding:28px 16px; }
+ .employment-principles { grid-template-columns:1fr; padding:28px 16px; }
+ .employment-ticker-heading,.private-ticker-page .private-heading { flex-direction:column; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .private-page-ticker .ticker-track,.employment-ticker-track { animation:none; }
+}
