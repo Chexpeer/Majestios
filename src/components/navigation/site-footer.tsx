@@ -2,8 +2,11 @@ import Link from "next/link";
 
 const groups = [
   { title: "Explorer", links: [
+    { href: "/opportunites", label: "Toutes les opportunités" },
     { href: "/#recherche", label: "Marchés publics" },
     { href: "/appels-offres-prives", label: "Opportunités privées" },
+    { href: "/opportunites/radar-entreprises", label: "Radar des entreprises" },
+    { href: "/opportunites/business", label: "Business : achat et cession" },
     { href: "/reseaux", label: "Réseaux professionnels" },
   ]},
   { title: "Comprendre", links: [
