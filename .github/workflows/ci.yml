@@ -3,7 +3,8 @@ name: Application checks
 on:
   push:
   pull_request:
-    branches: [main, developpement, architecture-v0-1, site-profondeur-v0-1, feat/homepage-depth-navigation]
+    # Les PR de consolidation ne ciblent que les branches de référence.
+    branches: [main, developpement]
 
 jobs:
   verify:
