@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteHeader from "@/components/navigation/site-header";
+import SiteFooter from "@/components/navigation/site-footer";
 
 export const metadata = {
   title: "Espace membre — MajestiOS",
@@ -21,6 +22,6 @@ export default function MemberPage() {
       <article><span>04 · MÉMOIRE</span><h2>Ma mémoire d'entreprise</h2><p>À terme : retrouver les informations et comptes rendus autorisés liés à l'activité de votre organisation.</p><span className="feature-status">Prévu — non disponible</span></article>
     </section>
     <section className="concept-principles"><h2>Pourquoi l'accès n'est-il pas encore ouvert ?</h2><p>La création de compte, la connexion et la protection des données doivent être raccordées à un système d'authentification et à des règles d'accès testées. Cette page n'enregistre aucun compte et ne demande aucun mot de passe.</p><div className="faq-actions"><Link className="search-submit concept-cta" href="/aide/faq">Consulter la FAQ</Link><Link className="faq-secondary" href="/nous-rejoindre">Découvrir Nous rejoindre</Link></div></section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/aide/faq">FAQ</Link><Link href="/reseaux">Réseaux</Link><Link href="/nous-rejoindre">Nous rejoindre</Link><Link href="/mentions-legales">Mentions légales</Link></nav><small>© MajestiOS · Plateforme en développement</small></footer>
+    <SiteFooter />
   </main>;
 }
