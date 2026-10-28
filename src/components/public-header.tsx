@@ -15,7 +15,7 @@ export default function PublicHeader() {
   return (
     <aside className="public-sidebar">
       <Link className="public-brand" href="/" aria-label="MajestiOS, accueil">
-        <span className="public-brand-mark">M</span>
+        <span className="public-brand-mark" aria-hidden="true"><svg className="brand-crown" viewBox="0 0 32 22" focusable="false"><path d="M3 18 1 5l8 5 7-9 7 9 8-5-2 13Z" fill="currentColor"/><path d="M4 20h24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg><span>M</span></span>
         <span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE B2B</small></span>
       </Link>
       <nav className="public-side-nav" aria-label="Navigation principale">
