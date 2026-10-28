@@ -1452,3 +1452,89 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     margin: 0;
   }
 }
+
+
+/* Accueil MajestiOS : navigation latérale et carrefour visible dès la première visite */
+.home-with-sidebar {
+  display: grid;
+  grid-template-columns: 254px minmax(0, 1fr);
+  min-height: 100vh;
+  background: #f5f7f8;
+}
+.home-side-nav {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  width: 254px;
+  height: 100vh;
+  min-height: 620px;
+  padding: 22px 15px 16px;
+  overflow-y: auto;
+  border-right: 1px solid #dfe8eb;
+  background: rgba(255,255,255,.98);
+  box-shadow: 5px 0 24px rgb(20 44 66 / 3%);
+}
+.home-side-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 7px 22px;
+  border-bottom: 1px solid #e7edef;
+}
+.home-side-mark {
+  display: flex;
+  flex: 0 0 40px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 44px;
+  border-radius: 12px 12px 12px 4px;
+  background: #142f43;
+  color: #e5b957;
+  line-height: 1;
+}
+.home-side-mark svg { width: 18px; height: 13px; }
+.home-side-mark b { font: 900 24px/.9 Manrope,sans-serif; letter-spacing: -1.5px; }
+.home-side-brand strong { display:block; color:#142f43; font:800 20px Manrope,sans-serif; letter-spacing:-.6px; }
+.home-side-brand small { display:block; margin-top:4px; color:#7c909b; font-size:7px; font-weight:800; letter-spacing:.75px; }
+.home-side-caption { padding:22px 10px 8px; color:#8b9aa4; font-size:8px; font-weight:900; letter-spacing:1.15px; }
+.home-side-links { display:grid; gap:4px; }
+.home-side-links a { display:flex; align-items:center; gap:10px; min-height:37px; padding:8px 10px; border:1px solid transparent; border-radius:8px; color:#526979; font-size:10px; font-weight:650; line-height:1.35; transition:background .16s ease,color .16s ease; }
+.home-side-links a:hover,.home-side-links a.is-current { border-color:#d2e8e4; background:#eaf5f3; color:#0c625e; }
+.home-side-links a.is-current { font-weight:850; }
+.home-side-icon { display:grid; flex:0 0 20px; place-items:center; width:20px; color:#718a98; font-size:15px; }
+.home-side-bottom { display:grid; gap:12px; margin-top:auto; padding-top:18px; }
+.home-side-member { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:11px 12px; border-radius:8px; background:#176c69; color:#fff; font-size:10px; font-weight:800; }
+.home-side-bottom > a:not(.home-side-member) { padding:0 3px; color:#526979; font-size:10px; }
+.home-side-bottom > a:hover { color:#0c625e; }
+.home-side-bottom p { margin:3px 0 0; padding-top:12px; border-top:1px solid #e7edef; color:#95a3ab; font-size:8px; line-height:1.5; }
+.home-side-bottom p i { display:inline-block; width:6px; height:6px; margin-right:5px; border-radius:50%; background:#c79b4b; }
+.home-main-column { min-width:0; }
+.home-main-column > .announcement-band { border-top:0; }
+.home-main-column .home-hero-redesign { min-height:0; padding-top:clamp(30px,4vw,52px); padding-bottom:clamp(25px,3vw,38px); }
+.home-main-column .home-hero-redesign h1 { max-width:920px; font-size:clamp(34px,4vw,55px); }
+.home-main-column .home-map-section { padding-top:22px; padding-bottom:24px; }
+.home-main-column .home-map-section > .section-heading { display:none; }
+.home-main-column .home-map-section .maj-map { max-width:1050px; margin:0 auto; }
+.home-main-column .mission-strip { margin-top:0; }
+@media(max-width:1000px) {
+  .home-with-sidebar { grid-template-columns:220px minmax(0,1fr); }
+  .home-side-nav { width:220px; padding-right:11px; padding-left:11px; }
+  .home-side-brand strong { font-size:18px; }
+  .home-side-links a { font-size:9px; }
+}
+@media(max-width:700px) {
+  .home-with-sidebar { grid-template-columns:minmax(0,1fr); }
+  .home-side-nav { position:relative; width:100%; height:auto; min-height:0; max-height:none; padding:12px 14px 9px; border-right:0; border-bottom:1px solid #dfe8eb; box-shadow:none; }
+  .home-side-brand { padding:0 3px 10px; }
+  .home-side-caption,.home-side-bottom { display:none; }
+  .home-side-links { display:flex; gap:5px; overflow-x:auto; padding:10px 0 2px; }
+  .home-side-links a { flex:0 0 auto; min-height:33px; padding:7px 9px; white-space:nowrap; }
+  .home-side-icon { flex-basis:auto; width:auto; }
+  .home-main-column .home-hero-redesign { padding:34px 16px 24px; }
+  .home-main-column .home-hero-redesign h1 { font-size:clamp(32px,8vw,43px); }
+  .home-main-column .home-map-section { padding:16px 10px 20px; }
+}
