@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { extractBoampFields } from "@/lib/boamp/records";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -80,7 +81,7 @@ export async function GET(request: NextRequest) {
     const payload = (await response.json()) as { results?: BoampRecord[]; total_count?: number };
     const now = Date.now();
     const items = (payload.results ?? []).map((record, index) => {
-      const fields = record.record?.fields ?? record.fields ?? {};
+      const fields = extractBoampFields(record);
       const officialId = value(fields.idweb) || value(record.record?.id) || value(record.id) || `boamp-${index}`;
       const deadlineRaw = value(fields.datelimitereponse);
       const deadlineDate = deadlineRaw ? new Date(deadlineRaw).getTime() : NaN;
