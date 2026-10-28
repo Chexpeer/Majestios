@@ -5,12 +5,10 @@ const groups = [
     { href: "/#recherche", label: "Marchés publics" },
     { href: "/appels-offres-prives", label: "Opportunités privées" },
     { href: "/reseaux", label: "Réseaux professionnels" },
-    { href: "/business", label: "Business : achat et cession" },
   ]},
   { title: "Comprendre", links: [
     { href: "/comment-et-pourquoi", label: "Le concept MajestiOS" },
     { href: "/aide/faq", label: "FAQ" },
-    { href: "/aide/faq#sources", label: "Sources et données" },
   ]},
   { title: "Participer", links: [
     { href: "/nous-rejoindre", label: "Nous rejoindre" },
