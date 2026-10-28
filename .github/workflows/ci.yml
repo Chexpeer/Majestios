@@ -2,9 +2,9 @@ name: Application checks
 
 on:
   push:
-    branches: [architecture-v0-1, site-profondeur-v0-1]
+    branches: [architecture-v0-1, site-profondeur-v0-1, feat/homepage-depth-navigation]
   pull_request:
-    branches: [main, architecture-v0-1]
+    branches: [main, architecture-v0-1, site-profondeur-v0-1]
 
 jobs:
   verify:
