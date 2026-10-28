@@ -1,12 +1,4 @@
-import Link from "next/link";
 import PublicHeader from "@/components/public-header";
-
-export const metadata = { title: "Mentions légales — MajestiOS", description: "Page d’information juridique de MajestiOS en préparation." };
-
-export default function LegalPlaceholderPage() {
-  return <main className="public-site concept-page">
-    <PublicHeader />
-    <section className="concept-principles"><span className="section-label">INFORMATIONS</span><h1>Mentions légales</h1><p>Cette page est réservée aux informations légales de MajestiOS. Son contenu sera rédigé et vérifié avant publication. Les informations obligatoires ne doivent pas être inventées ni considérées comme complètes à ce stade.</p><Link className="search-submit concept-cta" href="/">Retour à l’accueil</Link></section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link><small>© MajestiOS · Contenu juridique en préparation</small></footer>
-  </main>;
-}
+import Link from "next/link";
+export const metadata = { title: "Mentions légales — MajestiOS", description: "Informations légales du site MajestiOS." };
+export default function Page() { return <main className="site-page"><PublicHeader /><div className="page-container"><nav className="breadcrumbs"><Link href="/">Accueil</Link><span><b>/</b><strong>Mentions légales</strong></span></nav><section className="page-hero"><span className="eyebrow">INFORMATIONS LÉGALES</span><h1>Mentions légales<span>.</span></h1><p>Cette page est en préparation. Les informations obligatoires relatives à l’éditeur, à l’hébergeur, au directeur de publication et aux moyens de contact devront être renseignées et vérifiées avant la mise en production.</p></section><section className="content-panel"><span className="eyebrow">AVANT PUBLICATION</span><h2>Informations à compléter</h2><ul><li>Identité juridique et coordonnées de l’éditeur.</li><li>Coordonnées de l’hébergeur effectif.</li><li>Directeur ou directrice de la publication.</li><li>Contact pour les demandes relatives au site.</li></ul><p>Aucune information légale ne sera inventée ou publiée comme validée avant confirmation.</p></section></div></main>; }
