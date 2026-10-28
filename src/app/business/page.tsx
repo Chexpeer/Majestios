@@ -13,6 +13,7 @@ export default function BusinessPage() {
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [items, setItems] = useState<BodaccItem[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [searched, setSearched] = useState(false);
 
   useEffect(() => {
@@ -33,9 +34,10 @@ export default function BusinessPage() {
     setSearching(true); setSearchError(""); setSearched(true); setItems([]);
     try {
       const response = await fetch(`/api/bodacc?q=${encodeURIComponent(effectiveQuery)}`, { cache: "no-store" });
-      const payload = await response.json() as { items?: BodaccItem[]; error?: string };
+      const payload = await response.json() as { items?: BodaccItem[]; error?: string; meta?: { total?: number } };
       if (!response.ok) throw new Error(payload.error || "La recherche BODACC a échoué.");
       setItems(payload.items ?? []);
+      setTotalCount(payload.meta?.total ?? (payload.items ?? []).length);
       if (!(payload.items ?? []).length) setSearchError("Aucun résultat renvoyé pour cette recherche. Essayez un nom d’entreprise, une ville ou une activité.");
     } catch (err) {
       setSearchError(err instanceof Error ? err.message : "La recherche BODACC est momentanément indisponible.");
@@ -64,7 +66,7 @@ export default function BusinessPage() {
           <div className="bodacc-search-row"><input id="bodacc-query" value={query} onChange={e=>setQuery(e.target.value)} maxLength={120} minLength={2} required placeholder="Ex. : boulangerie, cession, Mulhouse…" /><button className="search-submit" type="submit" disabled={searching}>{searching ? "Recherche…" : "Rechercher au BODACC ↗"}</button></div>
         </form>
         {searchError && <p role={searched ? "status" : "alert"}>{searchError}</p>}
-        {items.length > 0 && <section aria-live="polite" className="bodacc-results"><h3>{items.length} résultat(s) retourné(s)</h3>{items.map(item=><article className="bodacc-result" key={item.id}><span className="section-label">{item.kind}</span><h4>{item.company}</h4><p>{item.summary}</p><small>{item.date}{item.location ? ` · ${item.location}` : ""}{item.siren ? ` · SIREN ${item.siren}` : ""}</small><div className="result-actions"><Link className="result-action" href={`/espace-professionnel?intention=opportunite&source=bodacc&opportunite=${encodeURIComponent(item.id)}`}>Étudier cette annonce ↗</Link><a className="result-action" href={item.sourceUrl} target="_blank" rel="noreferrer">Vérifier l’avis officiel ↗</a></div></article>)}</section>}
+        {items.length > 0 && <section aria-live="polite" className="bodacc-results"><h3>{items.length} résultat(s) affiché(s){totalCount > items.length ? ` sur ${totalCount} annonces correspondantes` : ""}</h3>{items.map(item=><article className="bodacc-result" key={item.id}><span className="section-label">{item.kind}</span><h4>{item.company}</h4><p>{item.summary}</p><small>{item.date}{item.location ? ` · ${item.location}` : ""}{item.siren ? ` · SIREN ${item.siren}` : ""}</small><div className="result-actions"><Link className="result-action" href={`/espace-professionnel?intention=opportunite&source=bodacc&opportunite=${encodeURIComponent(item.id)}`}>Étudier cette annonce ↗</Link><a className="result-action" href={item.sourceUrl} target="_blank" rel="noreferrer">Vérifier l’avis officiel ↗</a></div></article>)}</section>}
         <small>Source : BODACC / DILA, API publique gratuite. Les données peuvent contenir des informations personnelles ; leur usage doit rester proportionné et conforme au cadre applicable.</small>
       </div>
     </section>
