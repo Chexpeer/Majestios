@@ -21,6 +21,7 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 - La page de demande liée à un avis public n’effectue plus de double décodage de l’identifiant de route ; suppression d’une fonction auxiliaire inutilisée.
 - La navigation expose maintenant `aria-current="page"` sur la rubrique active, y compris lorsque l’utilisateur se trouve dans une sous-page.
 - Le texte d’aide sous la recherche centrale varie maintenant selon la rubrique sélectionnée ; il ne présente plus le BOAMP comme source active lorsque l’utilisateur choisit BODACC, emploi, entreprises, opportunités privées, réseaux ou veille.
+- Le lien de retour de l’espace professionnel choisit maintenant une rubrique de recherche cohérente avec la source indiquée dans l’URL (BODACC, privé, emploi, entreprises ou réseaux) ; les autres sources reviennent aux marchés publics par défaut.
 
 ## Points bloquants avant ouverture réelle
 1. Authentification et formulaire de création de compte avec prénom, nom, e-mail et téléphone.
