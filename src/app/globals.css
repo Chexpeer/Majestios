@@ -1305,3 +1305,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media(prefers-reduced-motion:reduce) {
  .maj-map-node,.maj-map-quicklinks a { transition:none; }
 }
+
+
+/* Navigation : contrôles explicites, y compris sur écran tactile */
+.nav-top-row { display:flex; align-items:center; gap:2px; }
+.nav-top-row .nav-top-link { flex:1; }
+.nav-top-toggle { display:grid; place-items:center; width:30px; height:34px; flex:0 0 30px; border:0; border-radius:7px; background:transparent; color:#927744; cursor:pointer; font-size:15px; }
+.nav-top-toggle:hover,.nav-top-toggle[aria-expanded="true"] { background:#ece6d9; color:var(--navy); }
+.nav-group.is-open > .nav-dropdown { display:block; }
+@media(max-width:760px) {
+  .main-navigation { align-items:flex-start; }
+  .nav-group { flex:0 0 auto; }
+  .nav-top-row { gap:0; }
+  .nav-top-link { padding:9px 7px; }
+  .nav-top-toggle { width:24px; flex-basis:24px; height:32px; }
+  .nav-dropdown { position:fixed; top:132px; left:12px; right:12px; bottom:auto; width:auto; max-height:calc(100dvh - 150px); overflow-y:auto; padding:12px; border:1px solid #e2dfd7; border-radius:13px; background:#fff; box-shadow:0 22px 55px rgb(21 36 58 / 18%); }
+  .nav-dropdown-link { padding:12px; }
+}
