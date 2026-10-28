@@ -14,7 +14,7 @@ const examples = [
 export default function EmploymentPage() {
   const [query, setQuery] = useState("");
   useEffect(() => {
-    const incomingQuery = new URLSearchParams(window.location.search).get("q");
+    const incomingQuery = new URLSearchParams(window.location.search).get("q")?.trim();
     if (incomingQuery) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setQuery(incomingQuery.slice(0, 120));
