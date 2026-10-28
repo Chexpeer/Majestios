@@ -2,8 +2,7 @@ import Link from "next/link";
 
 const links = [
   { href: "/", label: "Accueil" },
-  { href: "/#recherche", label: "Marchés publics" },
-  { href: "/appels-offres-prives", label: "Opportunités privées" },
+  { href: "/opportunites", label: "Opportunités" },
   { href: "/comment-et-pourquoi", label: "Intelligence commerciale" },
   { href: "/reseaux", label: "Réseaux" },
   { href: "/nous-rejoindre", label: "Nous rejoindre" },
