@@ -757,3 +757,13 @@ h2 { margin: 7px 0 0; color: var(--navy); font: 700 21px Manrope, sans-serif; le
  .maj-map-home-section .maj-map-canvas { aspect-ratio:1 / .95; }
  .maj-map-home-section .maj-map-node { width:28%; }
 }
+
+.opportunity-hub-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; padding:clamp(28px,4vw,50px) clamp(20px,6vw,80px); background:#f6f9fa; }
+.opportunity-hub-grid article { position:relative; padding:25px; border:1px solid #e0e9ec; border-radius:13px; background:#fff; }
+.opportunity-hub-number { position:absolute; top:20px; right:22px; color:#d3e4e4; font:800 27px Manrope,sans-serif; }
+.opportunity-hub-grid article .section-label { display:block; max-width:75%; font-size:8px; line-height:1.6; }
+.opportunity-hub-grid article h2 { margin:12px 0 8px; font:800 18px/1.35 Manrope,sans-serif; }
+.opportunity-hub-grid article p { max-width:650px; color:#657a88; font-size:11px; line-height:1.8; }
+.opportunity-hub-grid article a { display:inline-block; margin-top:8px; color:#126a66; font-size:10px; font-weight:900; }
+.opportunity-hub-grid article a:hover { text-decoration:underline; }
+@media(max-width:700px) { .opportunity-hub-grid { grid-template-columns:1fr; padding:26px 16px; } }
