@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { extractBodaccSearchTerm } from "@/lib/bodacc/search-query";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -63,7 +64,10 @@ function dateLabel(raw: string): string {
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
-  const query = (params.get("q") ?? "").trim().slice(0, 120);
+  const rawQuery = (params.get("q") ?? "").trim().slice(0, 120);
+  const cleanedQuery = extractBodaccSearchTerm(rawQuery);
+  // Keep the original when cleaning would erase a short but meaningful query.
+  const query = (cleanedQuery.length >= 2 ? cleanedQuery : rawQuery).slice(0, 120);
   const limit = Math.min(30, Math.max(1, Number(params.get("limit") ?? "15") || 15));
   if (query.length < 2) {
     return NextResponse.json({ items: [], meta: { source: "BODACC · DILA", stage: "live", message: "Saisissez au moins deux caractères pour lancer une recherche." } });
