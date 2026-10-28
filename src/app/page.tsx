@@ -134,7 +134,7 @@ export default function HomePage() {
       <section className="public-opportunity-ticker" aria-label="Aperçu des appels d’offres publics">
         <div className="public-ticker-label"><span className="ticker-live-dot" /><strong>Appels d’offres publics</strong><Link href="/appels-offres-publics">Tout explorer ↗</Link></div>
         <div className="public-ticker-window"><div className="public-ticker-track">
-          {([...publicExamples.slice(0, 8), ...publicExamples.slice(0, 8)]).map((item, index) => <Link className="public-ticker-item" key={`public-ticker-${item.id}-${index}`} href={`/appels-offres-publics/${encodeURIComponent(String(item.id))}`}><span>PUBLIC</span><strong>{item.title}</strong><small>{item.location}</small></Link>)}
+          {([...publicExamples.slice(0, 8), ...publicExamples.slice(0, 8)]).map((item, index) => <Link className="public-ticker-item" key={`public-ticker-${item.id}-${index}`} href={`/appels-offres-publics/${encodeURIComponent(String(item.id))}`}><span className="public-label">PUBLIC</span><strong>{item.title}</strong><small>{item.location}</small></Link>)}
           {!publicExamples.length && <span className="public-ticker-empty">{loadingExamples ? "Chargement des derniers avis officiels…" : "Les avis disponibles apparaîtront ici dès que la source répond."}</span>}
         </div></div>
       </section>
@@ -223,9 +223,19 @@ export default function HomePage() {
         <div className="results-list">
           {loadingExamples ? <div className="empty-results" role="status">Chargement des avis BOAMP…</div> : examplesError ? <div className="empty-results" role="alert"><p>{examplesError}</p><button className="search-submit" type="button" onClick={() => setRetryCount((count) => count + 1)}>Réessayer</button></div> : filteredExamples.length ? filteredExamples.map((item) => (
             <article className="result-card" key={item.id}>
-              <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category">{item.type} <i>·</i> BOAMP / DILA</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.buyer ? `Acheteur : ${item.buyer} · ` : ""}Publication : {item.publishedAt ?? "date non renseignée"} · {item.deadline}</small><small>Statut source : {item.officialStatus ?? "à vérifier"}{item.isOpen ? " · Échéance future détectée" : " · Ouverture à vérifier"}</small></div><div className="result-actions"><Link className="result-action" href={`/appels-offres-publics/${encodeURIComponent(String(item.id))}`}>Détail MajestiOS ↗</Link><a className="result-action" href={item.sourceUrl ?? "https://www.boamp.fr/"} target="_blank" rel="noreferrer">Avis officiel ↗</a></div>
+              <div className="result-icon" aria-hidden="true">↗</div><div className="result-main"><span className="result-category"><span className="public-label">PUBLIC</span> {item.type} <i>·</i> BOAMP / DILA</span><h3>{item.title}</h3><p><span aria-hidden="true">⌖</span> {item.location}</p><small>{item.buyer ? `Acheteur : ${item.buyer} · ` : ""}Publication : {item.publishedAt ?? "date non renseignée"} · {item.deadline}</small><small>Statut source : {item.officialStatus ?? "à vérifier"}{item.isOpen ? " · Échéance future détectée" : " · Ouverture à vérifier"}</small></div><div className="result-actions"><Link className="result-action" href={`/appels-offres-publics/${encodeURIComponent(String(item.id))}`}>Détail MajestiOS ↗</Link><a className="result-action" href={item.sourceUrl ?? "https://www.boamp.fr/"} target="_blank" rel="noreferrer">Avis officiel ↗</a></div>
             </article>
-          )) : <div className="empty-results" role="status">Aucun avis BOAMP ne correspond aux filtres actuels. Essayez un autre mot-clé ou élargissez la recherche.</div>}
+          )) : <div className="empty-results no-results-opportunity" role="status">
+            <span className="no-results-kicker">AUCUN RÉSULTAT PUBLIC</span>
+            <h3>Vous ne trouvez pas ce que vous cherchez ?</h3>
+            <p>Élargissez la recherche ou explorez une autre voie. Une opportunité privée est distincte d’un appel d’offres public.</p>
+            <div className="no-results-actions">
+              <Link className="no-results-action no-results-action-private" href="/appels-offres-prives">Explorer les opportunités <strong>PRIVÉ</strong></Link>
+              <Link className="no-results-action" href="/offres-emploi">Voir les emplois et missions</Link>
+              <Link className="no-results-action no-results-action-create" href="/espace-professionnel?intention=opportunite&source=recherche-sans-resultat">Préparer une publication gratuite ↗</Link>
+            </div>
+            <small>La publication et la création de compte ne sont pas encore activées : cette étape prépare le parcours, sans enregistrer d’annonce.</small>
+          </div>}
         </div>
         <p className="data-warning" id="sources"><strong>Source officielle : BOAMP / DILA.</strong> MajestiOS affiche les données retournées par l’API publique. Vérifiez toujours l’annonce officielle, notamment son statut et sa date limite. La recherche actuelle ne couvre pas toutes les sources de marchés publics.</p>
       </section>
