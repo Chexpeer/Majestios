@@ -9,8 +9,8 @@ const poles = [
   { id: "prive", label: "Opportunités privées", detail: "Consultations · missions · partenariats", href: "/appels-offres-prives", x: "83%", y: "29%", color: "orange", icon: "↗" },
   { id: "sources", label: "Sources & veille", detail: "Données officielles · signaux marché", href: "/intelligence-commerciale", x: "13%", y: "67%", color: "blue", icon: "⌕" },
   { id: "reseaux", label: "Réseaux professionnels", detail: "Interlocuteurs · décideurs", href: "/reseaux", x: "87%", y: "67%", color: "green", icon: "♧" },
-  { id: "business", label: "Business", detail: "Achat · vente · transmission", href: "/business", x: "50%", y: "91%", color: "violet", icon: "↗" },
-  { id: "emploi", label: "Emploi & missions", detail: "Collaborations · recrutement", href: "/offres-emploi", x: "50%", y: "50%", color: "red", icon: "◎" },
+  { id: "business", label: "Business", detail: "Achat · vente · transmission", href: "/business", x: "34%", y: "91%", color: "violet", icon: "↗" },
+  { id: "emploi", label: "Emploi & missions", detail: "Collaborations · recrutement", href: "/offres-emploi", x: "66%", y: "91%", color: "red", icon: "◎" },
 ];
 
 export default function MajestiOSOpportunityMap() {
@@ -28,12 +28,12 @@ export default function MajestiOSOpportunityMap() {
         <div className="maj-map-orbit maj-map-orbit-outer" aria-hidden="true" />
         <div className="maj-map-orbit maj-map-orbit-inner" aria-hidden="true" />
         <svg className="maj-map-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          {poles.filter((pole) => pole.id !== "emploi").map((pole) => <line key={pole.id} x1="50" y1="50" x2={Number.parseFloat(pole.x)} y2={Number.parseFloat(pole.y)} />)}
+          {poles.map((pole) => <line key={pole.id} x1="50" y1="50" x2={Number.parseFloat(pole.x)} y2={Number.parseFloat(pole.y)} />)}
         </svg>
         <Link className="maj-map-core" href="/intelligence-commerciale" aria-label="Découvrir l'intelligence commerciale MajestiOS">
           <span className="maj-map-core-mark">M</span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small>
         </Link>
-        {poles.filter((pole) => pole.id !== "emploi").map((pole) => (
+        {poles.map((pole) => (
           <button key={pole.id} type="button" className={`maj-map-node ${pole.color} ${active === pole.id ? "is-active" : ""}`} style={{ left: pole.x, top: pole.y }} onClick={() => setActive(pole.id)} onDoubleClick={() => { window.location.href = pole.href; }} aria-pressed={active === pole.id} aria-label={`${pole.label} : afficher le lien`}>
             <span className="maj-map-node-icon" aria-hidden="true">{pole.icon}</span><strong>{pole.label}</strong>
           </button>
