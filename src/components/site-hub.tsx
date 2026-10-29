@@ -28,8 +28,9 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
   const parent = found?.ancestors.at(-1);
   const isPreparing = node?.status === "preparing";
   const pageNature = isPreparing ? "Fonctionnalité en préparation" : children.length ? "Dossier de navigation et de méthode" : "Guide méthodologique — outil non intégré à cette page";
-  const actionHref = pathname.startsWith("/opportunites/marches-publics") ? "/opportunites/marches-publics" : parent?.href ?? "/opportunites";
-  const actionLabel = pathname.startsWith("/opportunites/marches-publics") ? "Ouvrir la recherche de marchés publics" : parent ? `Revenir au dossier « ${parent.label} »` : "Explorer les opportunités";
+  const isPublicMarketsGuide = pathname.startsWith("/opportunites/marches-publics/");
+  const actionHref = isPublicMarketsGuide ? "/opportunites/marches-publics" : parent?.href ?? "/opportunites";
+  const actionLabel = isPublicMarketsGuide ? "Revenir à la recherche de marchés publics" : parent ? `Revenir au dossier « ${parent.label} »` : "Explorer les opportunités";
   const domainClass = pathname.startsWith("/opportunites") ? "domain-opportunites" : pathname.startsWith("/business") ? "domain-business" : pathname.startsWith("/developpement-commercial") ? "domain-commercial" : pathname.startsWith("/reseaux") ? "domain-reseaux" : pathname.startsWith("/comprendre") || pathname === "/faq" || pathname === "/comment-et-pourquoi" ? "domain-comprendre" : "domain-general";
   return <main className={`site-page site-page-with-sidebar ${domainClass}`}>
     <div className="page-container">
