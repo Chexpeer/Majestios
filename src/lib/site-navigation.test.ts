@@ -207,6 +207,15 @@ describe("architecture de navigation MajestiOS", () => {
     expect(broken, "Chaque rubrique doit être reliée à ses parents, à ses voisines et à des destinations existantes").toEqual([]);
   });
 
+  it("keeps common ticker announcements clickable while the ticker container stays visually unobtrusive", () => {
+    const css = readFileSync(join(appRoot, "globals.css"), "utf8");
+    const ticker = readFileSync(join(sourceRoot, "components", "announcement-ticker.tsx"), "utf8");
+    expect(css).toContain(".global-ticker-host .announcement-job-chip");
+    expect(css).toContain("pointer-events:auto");
+    expect(ticker).toContain('aria-label="Flux commun des annonces MajestiOS"');
+    expect(ticker).toContain('href={item.href}');
+  });
+
   it("mounts the shared navigation and ticker globally without duplicate page headers", () => {
     const layout = readFileSync(join(appRoot, "layout.tsx"), "utf8");
     const shell = readFileSync(join(sourceRoot, "components", "site-shell.tsx"), "utf8");
