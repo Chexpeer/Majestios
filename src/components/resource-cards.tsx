@@ -93,9 +93,9 @@ export default function ResourceCards({ scope = "general" }: { scope?: ResourceS
         <div>
           <span className="eyebrow">BIBLIOTHÈQUE MAJESTIOS · SÉLECTION THÉMATIQUE</span>
           <h2 id={`maj-resource-title-${scope}`}>{scopeTitles[scope]}</h2>
-          <p>Ces cartes indiquent les contenus prévus. Les articles seront rédigés, vérifiés et publiés progressivement.</p>
+          <p>Des guides, des repères pratiques et des outils pour avancer vers une prochaine action commerciale.</p>
         </div>
-        <span className="maj-resource-status">Articles en construction</span>
+        <span className="maj-resource-status">Guides · pratiques · outils</span>
       </div>
       <div className="maj-resource-grid">
         {cards.map((card, index) => (
@@ -103,11 +103,11 @@ export default function ResourceCards({ scope = "general" }: { scope?: ResourceS
             <div className="maj-resource-card-top"><span>{String(index + 1).padStart(2, "0")}</span><small>{card.kind}</small></div>
             <h3>{card.title}</h3>
             <p>{card.description}</p>
-            <Link href={"/article-en-construction?" + new URLSearchParams({ rubrique: scope, titre: card.title, retour: scope }).toString()}>Article en construction <span aria-hidden="true"> ↗</span></Link>
+            <Link href={card.href}>{card.action} <span aria-hidden="true"> ↗</span></Link>
           </article>
         ))}
       </div>
-      <p className="maj-resource-note">Le contenu de ces articles est à définir. Les pages sont conservées dans l’arborescence pour préparer les prochaines contributions.</p>
+      <p className="maj-resource-note">Chaque carte mène à la rubrique, au guide ou à l’outil correspondant. Les ressources externes spécialisées pourront être ajoutées avec leur source et leur type clairement indiqués.</p>
     </section>
   );
 }
