@@ -96,7 +96,7 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     purpose: "Un résultat doit être transformé en apprentissage commercial, que l’entreprise ait remporté le marché ou non.",
     checks: ["Résultat et motifs de décision disponibles", "Écarts entre l’offre, les critères et la concurrence si l’information est accessible", "Actions de suivi, de recours éventuel ou de capitalisation"],
     next: "Ne pas déduire de motifs non communiqués. Enregistrer les faits connus, les questions ouvertes et les améliorations à tester au prochain dossier."
-  }
+  },
   "/business/veille-bodacc": {
     title: "Exploiter les signaux du BODACC avec méthode",
     purpose: "Les annonces du BODACC peuvent signaler une création, une cession ou une évolution juridique. Elles servent à repérer un contexte à examiner, mais ne prouvent pas à elles seules l’existence d’un besoin commercial.",
