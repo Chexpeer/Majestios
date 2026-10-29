@@ -14,7 +14,7 @@ const preparationItems: FeedItem[] = [
   { key: "network", title: "Réseautage intelligent", detail: "Mise en relation en préparation", href: "/creer-espace?intention=espace&source=flux-reseau", intention: "espace", source: "flux-reseau" },
 ];
 
-export default function AnnouncementTicker() {
+export default function AnnouncementTicker(_props?: { flow?: string }) {
   const [notices, setNotices] = useState<Notice[]>([]);
   useEffect(() => {
     const controller = new AbortController();
