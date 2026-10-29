@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
       { source: "/appels-offres-prives", destination: "/opportunites/marches-prives", permanent: true },
       { source: "/offres-emploi", destination: "/opportunites/emploi/offres", permanent: true },
       { source: "/opportunites/business", destination: "/business", permanent: true },
+      { source: "/developpement-commercial/diagnostic-business", destination: "/business/diagnostic", permanent: true },
       { source: "/intelligence-commerciale", destination: "/developpement-commercial", permanent: true },
       { source: "/partenaires", destination: "/reseaux", permanent: true },
       { source: "/e-reputation", destination: "/developpement-commercial/e-reputation", permanent: true },
