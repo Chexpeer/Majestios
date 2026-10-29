@@ -66,6 +66,13 @@ describe("site navigation tree", () => {
     expect(legacyDestinations, `Navigation still points to legacy aliases: ${legacyDestinations.join(", ")}`).toEqual([]);
   });
 
+  it("marks sensitive and not-yet-published general routes as preparing", () => {
+    const preparingRoutes = new Set(["/espace-professionnel", "/confidentialite", "/mentions-legales"]);
+    const nodes = flattenSiteTree().filter((node) => preparingRoutes.has(node.href));
+    expect(nodes.map((node) => node.href).sort()).toEqual([...preparingRoutes].sort());
+    expect(nodes.every((node) => node.status === "preparing")).toBe(true);
+  });
+
   it("points every navigation item to an implemented Next.js page or dynamic route", () => {
     const pageRoutes = collectPageRoutes();
     const missing = flattenSiteTree()
