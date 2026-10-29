@@ -25,7 +25,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   const source = params.source === "boamp" ? "BOAMP" : params.source === "opportunites-privees" ? "opportunités privées" : "opportunité";
   const id = (params.opportunite ?? "").slice(0, 160);
   const backParams = new URLSearchParams();
-  for (const key of ["q", "location", "type"] as const) {
+  for (const key of ["q", "location", "type", "openOnly"] as const) {
     const value = params[key];
     if (value) backParams.set(key, value);
   }
