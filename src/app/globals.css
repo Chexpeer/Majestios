@@ -1697,3 +1697,10 @@ body { background: var(--paper); color: var(--ink); }
 }
 
 .maj-map-branch-status { display:inline-flex; flex:0 0 auto; padding:3px 5px; border:1px solid #7b6d4d; border-radius:4px; color:#f4dca7; font-size:8px; line-height:1.2; }
+
+
+/* Dossiers hiérarchiques : le contenu métier précède l'arborescence, sans réduire la page à une liste de liens. */
+.dossier-overview { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+.hub-grid-heading { grid-column: 1 / -1; margin-bottom: .25rem; }
+.hub-grid-heading h2 { margin: .35rem 0; }
+.hub-grid-heading p { max-width: 70ch; margin: 0; }
