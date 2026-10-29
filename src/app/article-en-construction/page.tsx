@@ -2,10 +2,10 @@ import Link from "next/link";
 import PublicHeader from "@/components/public-header";
 
 type PageProps = {
-  searchParams?: {
+  searchParams: Promise<{
     titre?: string;
     rubrique?: string;
-  };
+  }>;
 };
 
 export const metadata = {
@@ -13,9 +13,10 @@ export const metadata = {
   description: "Cette page est réservée à un contenu MajestiOS en cours de préparation.",
 };
 
-export default function ArticleEnConstructionPage({ searchParams }: PageProps) {
-  const title = typeof searchParams?.titre === "string" ? searchParams.titre.slice(0, 160) : "Contenu à définir";
-  const rubrique = typeof searchParams?.rubrique === "string" ? searchParams.rubrique.replace(/-/g, " ") : "MajestiOS";
+export default async function ArticleEnConstructionPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const title = typeof params.titre === "string" ? params.titre.slice(0, 160) : "Contenu à définir";
+  const rubrique = typeof params.rubrique === "string" ? params.rubrique.replace(/-/g, " ") : "MajestiOS";
   return (
     <main className="public-site concept-page">
       <PublicHeader />
