@@ -28,7 +28,10 @@ export default function Page() {
         <p>À terme, MajestiOS doit aider à rechercher des entreprises, à mieux comprendre leurs besoins possibles et à organiser les relances.</p>
         <p><strong>État actuel :</strong> cette page présente le service envisagé. La recherche automatique de prospects, la vérification enrichie des contacts et le suivi complet ne sont pas encore annoncés comme opérationnels.</p>
         <Link className="search-submit concept-cta" href="/developpement-commercial">Retour aux services commerciaux ↗</Link>
-        <Link className="search-submit concept-cta" href="/faq#prospection">Questions fréquentes sur la prospection ↗</Link>
+        <Link className="search-submit concept-cta" href="/comprendre/faq">Questions fréquentes ↗</Link>
+        <Link className="search-submit concept-cta" href="/opportunites/radar-entreprises">Explorer les signaux d’entreprise ↗</Link>
+        <Link className="search-submit concept-cta" href="/developpement-commercial/etudes-de-marche">Mieux comprendre son marché ↗</Link>
+        <Link className="search-submit concept-cta" href="/reseaux">Développer son réseau professionnel ↗</Link>
       </section>
     </main>
   );
