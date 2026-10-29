@@ -276,8 +276,8 @@ describe("site navigation tree", () => {
 
   it("mounts only one global MajestiOS assistant", () => {
     const layout = readFileSync(join(appDirectory, "layout.tsx"), "utf8");
-    const mounts = layout.match(/<MajestiosAssistant\\s*\\/>/g) ?? [];
-    expect(mounts).toHaveLength(1);
+    const mounts = layout.split("<MajestiosAssistant />").length - 1;
+    expect(mounts).toBe(1);
   });
 
   it("registers the three new service modules with canonical, implemented destinations", () => {
