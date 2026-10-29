@@ -10,7 +10,6 @@ export default function CreatePersonalSpacePage() {
   const [intention, setIntention] = useState("espace");
   const [title, setTitle] = useState("");
   const [source, setSource] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   const router = useRouter();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -27,7 +26,6 @@ export default function CreatePersonalSpacePage() {
     const data = new FormData(event.currentTarget);
     const choices = ["recevoir-offre-email", "creer-espace", "postuler"].filter((key) => data.get(key) === "on");
     const params = new URLSearchParams({ mode: "preparation", intention, source, titre: title, choix: choices.join(",") });
-    setSubmitted(true);
     router.push("/merci?" + params.toString());
   }
 
@@ -41,7 +39,7 @@ export default function CreatePersonalSpacePage() {
     <section className="create-space-layout">
       <div className="create-space-promise"><span className="section-label">MAJESTIOS VOUS ACCOMPAGNE</span><h2>Vous nous indiquez votre besoin. Nous préparons la suite avec vous.</h2><ol><li>Votre demande et l’opportunité sont identifiées.</li><li>Les éléments utiles sont préparés pour vérification.</li><li>Un accompagnement humain peut aider à clarifier les prochaines étapes.</li></ol><p>MajestiOS ne déposera jamais une candidature ni une réponse à un marché en votre nom sans votre validation explicite.</p></div>
       <div className="create-space-form-card">
-        {submitted ? <div className="form-preparation-notice" role="status"><h2>Formulaire prêt à être connecté</h2><p>Cette interface est en préparation : aucune donnée ni pièce jointe n’a été transmise ou enregistrée. Le traitement sera activé après la mise en place de l’authentification, du stockage sécurisé et des règles de confidentialité.</p><button type="button" className="search-submit" onClick={() => setSubmitted(false)}>Revenir au formulaire</button></div> : <form className="create-space-form" onSubmit={handleSubmit}>
+        <<form className="create-space-form" onSubmit={handleSubmit}>
           <span className="section-label">{isApplication ? "CANDIDATURE / CV" : isTender ? "ÉTUDE D’OPPORTUNITÉ" : "ESPACE PERSONNEL"}</span>
           <h2>{isApplication ? "Préparer ma candidature" : isTender ? "Étudier cette opportunité" : "Vos coordonnées"}</h2>
           {title && <p className="selected-opportunity"><strong>Élément sélectionné :</strong> {title}</p>}
@@ -63,7 +61,7 @@ export default function CreatePersonalSpacePage() {
           <label className="create-space-consent"><input type="checkbox" required /> Je confirme avoir pris connaissance de l’information suivante : ce formulaire de démonstration ne transmet et n’enregistre aucune donnée.</label>
           <button className="search-submit" type="submit">Continuer ↗</button>
           <p className="ticker-disclaimer">Version préparatoire : le formulaire ne transmet ni n’enregistre aucune donnée. Le service sera activé avec des garanties de sécurité et de confidentialité.</p>
-        </form>}
+        </form>
       </div>
     </section>
     <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/opportunites/marches-publics">Marchés publics</Link><Link href="/opportunites/emploi">Emploi et missions</Link><Link href="/comprendre/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav></footer>
