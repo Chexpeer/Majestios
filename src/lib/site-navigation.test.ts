@@ -75,7 +75,7 @@ describe("architecture de navigation MajestiOS", () => {
 
   it("keeps every configured redirect destination resolvable", () => {
     const config = readFileSync(join(projectRoot, "next.config.ts"), "utf8");
-    const destinations = [...config.matchAll(/destination:\\s*["'`]([^"'`]+)["'`]/g)].map((match) => match[1]);
+    const destinations = [...config.matchAll(/destination:\s*["'`]([^"'`]+)["'`]/g)].map((match) => match[1]);
     const unresolved = destinations.filter((destination) => !resolvesToRoute(destination));
     expect(unresolved, "Chaque redirection doit pointer vers une route existante").toEqual([]);
   });
