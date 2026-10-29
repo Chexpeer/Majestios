@@ -9,6 +9,29 @@ describe("dedicated route guides", () => {
     expect(unknownRoutes).toEqual([]);
   });
 
+  it("provides dedicated guides for the main dossier entry points", () => {
+    const requiredDossiers = [
+      "/opportunites",
+      "/opportunites/marches-publics",
+      "/opportunites/marches-prives",
+      "/opportunites/salons",
+      "/opportunites/emploi",
+      "/business",
+      "/business/achat-cession",
+      "/developpement-commercial",
+      "/developpement-commercial/prospection",
+      "/developpement-commercial/etudes-de-marche",
+      "/developpement-commercial/e-reputation",
+      "/developpement-commercial/accompagnement-appels-offres",
+      "/reseaux",
+      "/comprendre"
+    ];
+
+    for (const route of requiredDossiers) {
+      expect(dedicatedGuides[route], route).toBeDefined();
+    }
+  });
+
   it("gives every detailed route a distinct, actionable guide", () => {
     const guides = Object.entries(dedicatedGuides);
     const titles = guides.map(([, guide]) => guide.title);
