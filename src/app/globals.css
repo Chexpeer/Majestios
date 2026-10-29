@@ -1099,6 +1099,7 @@ body { background: var(--paper); color: var(--ink); }
 .hub-card { display:flex; flex-direction:column; min-height:225px; padding:20px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .18s,border-color .18s,box-shadow .18s; }
 .hub-card:hover { transform:translateY(-3px); border-color:#b5c5a8; box-shadow:var(--shadow); }
 .hub-card-index { color:var(--gold); font-size:11px; font-weight:900; letter-spacing:1px; }
+.hub-card-status { align-self:flex-start; margin-top:9px; padding:5px 7px; border-radius:99px; background:#fff2d8; color:#7b5414; font-size:8px; font-weight:900; letter-spacing:.7px; }
 .hub-card h2 { display:flex; justify-content:space-between; gap:10px; margin:20px 0 8px; font:800 19px Manrope,sans-serif; }
 .hub-card h2 span { color:var(--gold); }
 .hub-card p { margin:0; color:var(--muted); font-size:12px; line-height:1.7; }
