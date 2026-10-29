@@ -40,12 +40,13 @@ export default async function SalonEventPage({ params }: Props) {
       <dl className="salon-event-details">
         <div><dt>Date</dt><dd>{formatDate(event.startDate)}{event.endDate ? ` — ${formatDate(event.endDate)}` : ""}</dd></div>
         <div><dt>Lieu</dt><dd>{event.venue}, {event.city}</dd></div>
+        <div><dt>Région</dt><dd>{event.region}</dd></div>
+        <div><dt>Secteurs concernés</dt><dd>{event.sectors.join(" · ")}</dd></div>
       </dl>
       <p className="salon-event-verification">Informations vérifiées le {formatDate(event.verifiedAt)}. Les dates et conditions pouvant évoluer, consultez la source de l’organisateur avant de vous déplacer.</p>
       <div className="hero-actions">
-        {event.registrationUrl
-          ? <a className="button-primary" href={event.registrationUrl} target="_blank" rel="noreferrer">Accéder à l’inscription <span aria-hidden="true">↗</span></a>
-          : <a className="button-primary" href={event.officialUrl} target="_blank" rel="noreferrer">Voir le site officiel <span aria-hidden="true">↗</span></a>}
+        {event.registrationUrl && <a className="button-primary" href={event.registrationUrl} target="_blank" rel="noreferrer">Accéder à l’inscription <span aria-hidden="true">↗</span></a>}
+        <a className={event.registrationUrl ? "button-secondary" : "button-primary"} href={event.officialUrl} target="_blank" rel="noreferrer">Consulter le site officiel <span aria-hidden="true">↗</span></a>
         <Link className="button-secondary" href="/opportunites/salons/calendrier">Retour au calendrier</Link>
       </div>
     </article>
