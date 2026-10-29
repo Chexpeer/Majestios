@@ -57,8 +57,13 @@ describe("site navigation tree", () => {
 
     expect(poleHrefs).toHaveLength(6);
     expect(unresolved, `Interactive map poles without a canonical page: ${unresolved.join(", ")}`).toEqual([]);
-    expect(map).toContain('<Link key={pole.id} href={pole.href}');
-    expect(map).not.toContain('<button key={pole.id}');
+    expect(map).toContain('<Link key={stage.id} href={stage.href}');
+    expect(map).toContain('Appels d’offres publics et privés');
+    expect(map).toContain('Confirmation par croisement de sources');
+    expect(map).toContain('ressources humaines, les outils de communication');
+    expect(map).not.toContain('id: "prospection", href: "/developpement-commercial/prospection"');
+    expect(map).not.toContain('id: "development", href: "/developpement-commercial"');
+    expect(map).toContain('majestic-crown-triangle');
   });
 
   it("keeps the homepage tender search visually compact", () => {
@@ -213,6 +218,19 @@ describe("site navigation tree", () => {
 
     visit(siteTree);
     expect(invalidHierarchy, `Child routes outside their parent dossier: ${invalidHierarchy.join(", ")}`).toEqual([]);
+  });
+
+  it("limits the public dossier tree to three levels: dossier, sub-dossier, page", () => {
+    const tooDeep: string[] = [];
+    const visit = (nodes: typeof siteTree, depth = 1) => {
+      for (const node of nodes) {
+        if (node.href !== "/" && depth > 3) tooDeep.push(node.href);
+        visit(node.children ?? [], depth + 1);
+      }
+    };
+
+    visit(siteTree.filter((node) => node.href !== "/"));
+    expect(tooDeep, `Public navigation exceeds three levels: ${tooDeep.join(", ")}`).toEqual([]);
   });
 
   it("keeps every depth of nested dossier URLs beneath its parent", () => {
