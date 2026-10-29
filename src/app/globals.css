@@ -1918,3 +1918,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .form-choice-group input[type="checkbox"] { flex:0 0 auto; margin-top:3px; accent-color:#176c69; }
 .home-main-column .home-hero-redesign { grid-template-columns:minmax(0,1fr) !important; }
 .home-main-column .home-hero-redesign .hero-copy { max-width:1100px; }
+
+
+/* Coquille globale : toutes les routes héritent de la même navigation latérale. */
+.global-site-content { min-width:0; margin-left:var(--maj-sidebar-width); }
+.global-site-content > .home-with-sidebar,
+.global-site-content > .public-site,
+.global-site-content > .site-page { margin-left:0 !important; }
+@media(max-width:760px) {
+  .global-site-content { margin-left:0; }
+  .global-site-content > .home-with-sidebar,
+  .global-site-content > .public-site,
+  .global-site-content > .site-page { margin-left:0 !important; }
+}
