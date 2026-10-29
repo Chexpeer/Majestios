@@ -24,7 +24,7 @@ export default function AchatFichiersPage() {
     </section>
     <section className="concept-principles"><span className="section-label">FORMULAIRE DE CONTACT · PREMIÈRE ÉTAPE</span><h2>Préparer votre demande</h2>
       <p>Ce formulaire de cadrage illustre les informations à réunir. <strong>Il n’envoie pas encore de demande</strong> : le traitement de contact doit être raccordé avant sa mise en service.</p>
-      <form className="tender-search file-request-form" onSubmit={(event) => event.preventDefault()}>
+      <form className="tender-search file-request-form">
         <label className="search-field"><span>Nom et prénom</span><input name="name" autoComplete="name" placeholder="Votre nom" required /></label>
         <label className="search-field"><span>Entreprise</span><input name="company" autoComplete="organization" placeholder="Nom de l’entreprise" /></label>
         <label className="search-field"><span>Email professionnel</span><input name="email" type="email" autoComplete="email" placeholder="vous@entreprise.fr" required /></label>
