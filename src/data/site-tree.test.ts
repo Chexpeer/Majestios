@@ -255,6 +255,8 @@ describe("site navigation tree", () => {
     expect(commercialLanding).toContain('href="/developpement-commercial/achat-de-fichiers"');
     expect(commercialLanding).toContain('href="/developpement-commercial/accompagnement-appels-offres/preparation-express"');
     expect(assistant).toContain("chat-launcher-emblem");
+    expect(assistant).toContain("chat-emblem-crown");
+    expect(assistant).toContain("chat-emblem-head");
     expect(assistant).toContain("le module de rappel n’est pas encore relié");
     expect(nodes.some((node) => node.href === "/developpement-commercial/achat-de-fichiers")).toBe(true);
   });
