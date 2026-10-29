@@ -1,5 +1,2 @@
-import SiteHub from "@/components/site-hub";
-
-export default function Page() {
-  return <SiteHub pathname="/opportunites/marches-publics/services" eyebrow="MAJESTIOS · MARCHÉS PUBLICS DE SERVICES" intro="Marchés publics de services. Cette rubrique possède sa propre adresse et s’inscrit dans l’arborescence de MajestiOS." checklist={["Qualifier précisément la prestation recherchée.","Comparer les critères d’attribution et les livrables attendus.","Vérifier la date limite et les modalités de réponse sur l’avis original."]} />;
-}
+import TenderCategoryGuide from "@/components/tender-category-guide";
+export default function Page() { return <TenderCategoryGuide eyebrow="MAJESTIOS · MARCHÉS PUBLICS DE SERVICES" title="Services" emphasis="comprendre la prestation attendue." intro="Les marchés de services exigent une lecture précise des prestations, des niveaux de service, des livrables et des critères d’attribution." searchHref="/opportunites/marches-publics?type=Services" searchLabel="Rechercher les marchés de services" checks={[{"title":"Périmètre et livrables","text":"Identifier les prestations, volumes, résultats attendus et exclusions."},{"title":"Critères de sélection","text":"Repérer les critères d’attribution, leur pondération et les preuves demandées."},{"title":"Organisation opérationnelle","text":"Vérifier les délais, ressources nécessaires, continuité de service et modalités de suivi."}]} />; }
