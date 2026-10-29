@@ -145,4 +145,48 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     checks: ["Département et lieu réel d’exécution", "Éventuels lots ou interventions multi-départementales", "Capacité logistique et conditions de déplacement de l’entreprise"],
     next: "Vérifier le lieu d’exécution dans le dossier officiel. Le filtre géographique ne doit être considéré comme fiable que si les données de localisation sont correctement normalisées."
   }
+
+  "/comment-et-pourquoi": {
+    title: "Comprendre la logique de MajestiOS",
+    purpose: "MajestiOS organise une démarche d’intelligence commerciale proactive : repérer un signal, le qualifier, identifier les acteurs pertinents, préparer une prise de contact, puis capitaliser sur les résultats.",
+    checks: ["Distinguer une information, un signal et une opportunité qualifiée", "Comprendre le rôle de la vérification humaine dans les décisions", "Relier chaque action à un objectif commercial concret"],
+    next: "Partez d’un besoin précis et progressez étape par étape. Une information repérée par un outil ne constitue pas, à elle seule, une recommandation ni une preuve de besoin."
+  },
+  "/comprendre/glossaire": {
+    title: "Comprendre les termes de l’intelligence commerciale",
+    purpose: "Ce glossaire doit clarifier les notions utilisées dans la veille, les appels d’offres, la qualification d’entreprise et la prospection, avec des définitions liées à leur contexte métier.",
+    checks: ["Lire chaque terme dans le contexte où il est employé", "Distinguer les notions proches et leurs conséquences pratiques", "Vérifier auprès d’une source officielle les termes juridiques ou réglementaires"],
+    next: "Si un terme a plusieurs sens, privilégiez celui qui correspond au parcours concerné. Les définitions réglementaires doivent être vérifiées auprès de l’organisme compétent."
+  },
+  "/espace-professionnel": {
+    title: "Préparer son espace professionnel",
+    purpose: "L’espace professionnel a vocation à rassembler les informations nécessaires pour suivre les opportunités et les démarches de l’entreprise, sans demander de données inutiles avant qu’un service en ait besoin.",
+    checks: ["Identifier l’entreprise et le rôle de la personne qui la représente", "Préparer uniquement les documents requis pour le parcours choisi", "Vérifier les conditions d’accès, de confidentialité et de mise à jour"],
+    next: "Ne transmettez pas de pièce sensible par un canal non prévu à cet effet. Un parcours de compte ou de dépôt doit être considéré comme disponible uniquement lorsque son formulaire sécurisé est effectivement activé."
+  },
+  "/opportunites/emploi/conseils": {
+    title: "Préparer une candidature adaptée à une opportunité",
+    purpose: "Une candidature pertinente relie les exigences explicites de l’offre aux compétences et expériences réellement démontrables du candidat.",
+    checks: ["Vérifier l’employeur, la date et la validité de l’annonce", "Sélectionner les expériences et compétences directement liées au poste", "Préparer des éléments factuels et une prochaine étape claire"],
+    next: "Adapter le CV et le message sans exagérer les qualifications. Si l’offre renvoie vers un site tiers, vérifiez les conditions de dépôt et la politique de confidentialité de ce site."
+  },
+  "/opportunites/emploi/deposer-une-offre": {
+    title: "Préparer la publication d’une offre d’emploi",
+    purpose: "Une offre doit être suffisamment précise pour permettre aux candidats d’évaluer le poste, et suffisamment vérifiable pour protéger les candidats comme l’employeur.",
+    checks: ["Employeur ou recruteur identifiable et autorisé à publier", "Intitulé, missions, lieu, contrat et conditions présentés clairement", "Date de validité, canal de candidature et traitement des données des candidats"],
+    next: "Le dépôt ne doit être présenté comme actif que si le formulaire de publication est opérationnel. Avant diffusion, contrôler les informations et limiter la collecte de données personnelles au nécessaire."
+  },
+  "/opportunites/emploi/metiers": {
+    title: "Explorer les métiers à partir des compétences",
+    purpose: "Une exploration métier utile rapproche les activités réellement exercées, les compétences attendues et les conditions d’accès, plutôt que de s’arrêter à un intitulé de poste.",
+    checks: ["Missions et compétences centrales du métier", "Expérience, formation ou habilitations éventuellement nécessaires", "Secteurs, conditions de travail et évolutions possibles"],
+    next: "Comparer plusieurs offres réelles et récentes pour vérifier les attentes du marché. Les intitulés peuvent varier selon les employeurs et ne remplacent pas l’analyse des missions."
+  },
+  "/reseaux/rejoindre": {
+    title: "Rejoindre le réseau professionnel MajestiOS",
+    purpose: "Le réseau vise à faciliter des collaborations utiles entre compétences complémentaires, dans un cadre où les rôles, les attentes et les conditions de mise en relation sont explicites.",
+    checks: ["Présenter ses compétences et sa contribution possible avec précision", "Définir les secteurs, territoires et types de collaboration recherchés", "Préciser les informations qui peuvent être partagées et avec quel consentement"],
+    next: "Une candidature au réseau ne vaut ni admission automatique ni promesse de mission. Les mises en relation doivent rester pertinentes, consenties et vérifiables."
+  }
+
 };
