@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const links = [
   { label: "Accueil", href: "/", icon: "⌂" },
@@ -13,6 +14,7 @@ const links = [
 ];
 
 export default function HomeSideNav() {
+  const pathname = usePathname();
   return (
     <aside className="home-side-nav" aria-label="Navigation MajestiOS">
       <Link href="/" className="home-side-brand" aria-label="MajestiOS, accueil">
@@ -22,10 +24,10 @@ export default function HomeSideNav() {
         </span>
         <span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small></span>
       </Link>
-      <span className="home-side-caption">EXPLORER</span>
+      <span className="home-side-caption">NAVIGATION</span>
       <nav className="home-side-links">
         {links.map((link, index) => (
-          <Link key={link.href} href={link.href} className={index === 0 ? "is-current" : ""} aria-current={index === 0 ? "page" : undefined}>
+          <Link key={link.href} href={link.href} className={pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href + "/")) ? "is-current" : ""} aria-current={pathname === link.href ? "page" : undefined}>
             <span className="home-side-icon" aria-hidden="true">{link.icon}</span>{link.label}
           </Link>
         ))}
