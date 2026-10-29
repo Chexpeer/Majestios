@@ -7,6 +7,7 @@ import { siteTree } from "@/data/site-tree";
 export default function PublicHeader() {
   const pathname = usePathname();
   const mainSectionHrefs = ["/opportunites", "/business", "/developpement-commercial", "/reseaux", "/comprendre"];
+  const activeAliases: Record<string, string[]> = { "/comprendre": ["/faq", "/comment-et-pourquoi"] };
   const mainItems = siteTree.filter((item) => mainSectionHrefs.includes(item.href));
   return <header className="site-header">
     <Link href="/" className="brand-lockup" aria-label="MajestiOS, accueil">
@@ -14,7 +15,7 @@ export default function PublicHeader() {
       <span className="brand-wordmark">MajestiOS<small>INTELLIGENCE COMMERCIALE</small></span>
     </Link>
     <nav className="main-navigation" aria-label="Navigation principale">
-      {mainItems.map((item) => <div className={`nav-group ${pathname === item.href || pathname.startsWith(item.href + "/") ? "is-active" : ""}`} key={item.href}>
+      {mainItems.map((item) => <div className={`nav-group ${pathname === item.href || pathname.startsWith(item.href + "/") || (activeAliases[item.href] ?? []).includes(pathname) ? "is-active" : ""}`} key={item.href}>
         <Link href={item.href} className="nav-top-link" aria-current={pathname === item.href ? "page" : undefined}>{item.label}<span aria-hidden="true">⌄</span></Link>
         {item.children?.length ? <div className="nav-dropdown">
           {item.children.map((child) => <Link href={child.href} className={`nav-dropdown-link ${pathname === child.href ? "is-active" : ""}`} key={child.href} aria-current={pathname === child.href ? "page" : undefined}>
