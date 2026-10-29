@@ -4,7 +4,7 @@
 **Branche de base du chantier :** `refonte-profondeur-flux`  
 **Suivi :** PR de travail n° 13 ouverte ; aucune fusion ni aucun déploiement de production effectué.  
 **Statut produit :** prototype en construction. La navigation, les dossiers et les parcours continuent d’être audités ; les fonctions métier ne sont pas toutes opérationnelles.  
-**Dernière vérification CI enregistrée :** tests, lint, TypeScript et build Next.js réussis sur le commit `7747bd0fdb50354e5bbfab6eb5081a7b6d5527a0`.
+**Dernière vérification CI enregistrée :** tests unitaires/API, lint, TypeScript et build Next.js réussis sur le commit `f7f9a4fb228d8df29db7e28b7dfa0195cd6297f6` ([CI](https://github.com/Chexpeer/Majestios/actions/runs/40927533892)).
 
 ## 1. Cap produit
 
