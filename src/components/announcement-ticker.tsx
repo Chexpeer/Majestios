@@ -60,10 +60,6 @@ export default function AnnouncementTicker() {
   const [tenderFeedState, setTenderFeedState] = useState<"loading" | "ready" | "unavailable">("loading");
 
   useEffect(() => {
-    const getParisDate = () => {
-      const parts = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Europe/Paris" }).formatToParts(new Date());
-      return `${parts.find((part) => part.type === "year")?.value}-${parts.find((part) => part.type === "month")?.value}-${parts.find((part) => part.type === "day")?.value}`;
-    };
     let active = true;
     fetch("/api/opportunities?limit=8&openOnly=true", { cache: "no-store" })
       .then(async (response) => {
