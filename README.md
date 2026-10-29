@@ -1,7 +1,10 @@
 # MajestiOS — plateforme de développement commercial assisté par IA
 
-**Branche de référence pour cette refonte :** `refonte-profondeur-flux`  
-**Statut :** prototype en construction. Les pages Next.js et l’arborescence sont présentes, mais les parcours doivent encore être vérifiés route par route et les fonctions métier ne sont pas toutes opérationnelles.
+**Branche de travail active :** `chantier-recherche-navigation`  
+**Branche de base du chantier :** `refonte-profondeur-flux`  
+**Suivi :** PR de travail n° 13 ouverte ; aucune fusion ni aucun déploiement de production effectué.  
+**Statut produit :** prototype en construction. La navigation, les dossiers et les parcours continuent d’être audités ; les fonctions métier ne sont pas toutes opérationnelles.  
+**Dernière vérification CI enregistrée :** tests, lint, TypeScript et build Next.js réussis sur le commit `7747bd0fdb50354e5bbfab6eb5081a7b6d5527a0`.
 
 ## 1. Cap produit
 
@@ -19,7 +22,7 @@ Principes :
 
 ## 2. État de la structure
 
-L’application Next.js se trouve sous `src/app`. La page d’accueil actuelle (`src/app/page.tsx`) utilise `PublicHeader`, `AnnouncementTicker` et `MajestiOSOpportunityMap`. Les pôles du schéma renvoient vers des routes internes, et l’arborescence est centralisée dans `src/data/site-tree.ts`.
+L’application Next.js se trouve sous `src/app`. La page d’accueil actuelle (`src/app/page.tsx`) présente `AnnouncementTicker` et `MajestiOSOpportunityMap`, ainsi qu’une recherche rapide des appels d’offres publics. Le cadre global (`src/app/layout.tsx`) ajoute la navigation latérale `HomepageNavigation` et la recherche transversale `GlobalSearchBar` sur les pages qui n’ont pas déjà leur propre moteur. Les pôles du schéma renvoient vers des routes internes, et l’arborescence est centralisée dans `src/data/site-tree.ts`.
 
 Des fichiers historiques de site statique coexistent à la racine : `index.html`, `app.js`, `build.js` et `styles.css`. **Ne pas les supprimer ou les déplacer sans vérifier leur usage.** La configuration Vercel présente `framework: nextjs`, mais le projet et la branche réellement reliés au domaine de production doivent être confirmés avant toute opération de déploiement.
 
