@@ -79,6 +79,12 @@ describe("site navigation tree", () => {
     expect(new Set(destinations).size).toBe(destinations.length);
   });
 
+  it("uses the current navigation labels in the public-tender FAQ", () => {
+    const faqPage = readFileSync(join(appDirectory, "faq", "page.tsx"), "utf8");
+    expect(faqPage).toContain('« Opportunités », puis « Marchés publics »');
+    expect(faqPage).not.toContain('« Appels d’offres publics »');
+  });
+
   it("keeps the recruitment footer on the canonical private-opportunities route", () => {
     const joinPage = readFileSync(join(appDirectory, "nous-rejoindre", "page.tsx"), "utf8");
     expect(joinPage).toContain('href="/opportunites/marches-prives"');
