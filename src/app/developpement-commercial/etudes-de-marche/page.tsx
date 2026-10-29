@@ -35,7 +35,9 @@ export default function Page() {
         </ul>
         <p><strong>État actuel :</strong> cette page décrit le service envisagé. Le moteur complet d’étude de marché n’est pas encore annoncé comme opérationnel.</p>
         <Link className="search-submit concept-cta" href="/developpement-commercial">Voir les services commerciaux ↗</Link>
-        <Link className="search-submit concept-cta" href="/faq#etudes-de-marche">Questions fréquentes sur les études de marché ↗</Link>
+        <Link className="search-submit concept-cta" href="/comprendre/faq">Questions fréquentes ↗</Link>
+        <Link className="search-submit concept-cta" href="/opportunites/radar-entreprises">Relier l’étude aux signaux d’entreprise ↗</Link>
+        <Link className="search-submit concept-cta" href="/developpement-commercial/prospection">Préparer une démarche de prospection ↗</Link>
       </section>
     </main>
   );
