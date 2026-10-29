@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PublicHeader from "@/components/public-header";
 import { notFound } from "next/navigation";
 import { getSalonEvent, salonEvents } from "@/data/salon-events";
 
@@ -27,6 +28,7 @@ export default async function SalonEventPage({ params }: Props) {
   if (!event) notFound();
 
   return <main className="public-page salon-event-page">
+    <PublicHeader />
     <nav aria-label="Fil d’Ariane" className="salon-event-breadcrumb">
       <Link href="/">Accueil</Link><span aria-hidden="true">/</span>
       <Link href="/opportunites">Opportunités</Link><span aria-hidden="true">/</span>
