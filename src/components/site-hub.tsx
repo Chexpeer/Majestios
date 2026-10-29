@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
+import HomepageNavigation from "@/components/homepage-navigation";
 import { findSiteNode } from "@/data/site-tree";
 
 type DetailGuide = { title: string; purpose: string; checks: string[]; next: string };
@@ -149,8 +149,9 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
   const related = siblings.slice(0, 4);
   const guide = getDetailGuide(pathname, node?.label ?? "cette rubrique");
   const parent = found?.ancestors.at(-1);
-  return <main className="site-page">
-    <PublicHeader />
+  return <main className="site-page site-page-with-sidebar home-layout">
+    <HomepageNavigation />
+    <div className="site-main">
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link>{found?.ancestors.map((ancestor) => <span key={ancestor.href}><b>/</b><Link href={ancestor.href}>{ancestor.label}</Link></span>)}<span><b>/</b><strong>{node?.label ?? "Rubrique"}</strong></span></nav>
       <section className="page-hero">
@@ -168,6 +169,7 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
       {checklist.length > 0 && children.length > 0 ? <section className="content-panel"><span className="eyebrow">MÉTHODE</span><h2>Avant de passer à l’action</h2><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul></section> : null}
       {related.length > 0 ? <section className="related-section"><div><span className="eyebrow">POUR ALLER PLUS LOIN</span><h2>Rubriques associées</h2></div><div className="related-links">{related.map((item) => <Link href={item.href} key={item.href}>{item.label}<span>↗</span></Link>)}</div></section> : null}
       <footer className="page-footer"><span>MAJESTIOS · DÉTECTER → QUALIFIER → IDENTIFIER → CONTACTER → TRANSFORMER → CAPITALISER</span><Link href="/faq">Besoin d’aide ?</Link></footer>
+    </div>
     </div>
   </main>;
 }
