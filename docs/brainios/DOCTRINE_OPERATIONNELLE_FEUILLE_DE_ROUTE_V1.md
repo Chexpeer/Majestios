@@ -224,3 +224,70 @@ Ce document fixe une direction produit et des exigences de conception. Il ne pro
 ## 12. Règle d'interface et de navigation
 
 L'arborescence fonctionnelle reste nécessaire en interne pour organiser les modules et les pages, mais elle ne doit pas être exposée à l'utilisateur sous forme de menus en arbre ou de niveaux imbriqués. L'interface privilégie des menus déroulants plats, regroupés par grandes rubriques, avec des pages distinctes pour les fonctionnalités. La profondeur de l'information doit être portée par les pages et leurs liens contextuels, pas par une navigation visuellement complexe. Les menus doivent rester accessibles au clavier, indiquer la rubrique active et permettre un accès clair à la page de synthèse de chaque rubrique.
+
+## 13. Souveraineté documentaire et limitation des liens externes
+
+**Principe directeur : les sources externes alimentent MajestiOS ; elles ne doivent pas constituer l'expérience principale ni remplacer la connaissance propre de la plateforme.** La souveraineté recherchée est une capacité progressive à collecter légalement, structurer, contextualiser, expliquer et réutiliser l'information dans un environnement maîtrisé par MajestiOS. Elle ne signifie ni s'affranchir des droits des tiers ni prétendre être la source officielle d'une publication.
+
+### 13.1 Une ressource MajestiOS avant un renvoi externe
+
+Quand les conditions d'utilisation le permettent, MajestiOS privilégie une ressource documentaire interne qui apporte une valeur réelle :
+- un résumé original et fidèle des faits importants ;
+- une explication en langage clair du contexte et des termes métier ;
+- les dates, acteurs et éléments factuels vérifiables ;
+- les limites de l'information, les points qui restent à confirmer et les éventuelles ambiguïtés ;
+- les conséquences commerciales possibles, explicitement qualifiées comme hypothèses ;
+- les questions à vérifier et les prochaines actions envisageables ;
+- les liens vers d'autres ressources et signaux MajestiOS pertinents.
+
+Le lien externe reste disponible lorsqu'il est utile pour vérifier la publication, consulter le document officiel complet ou respecter une obligation de transparence. Il constitue un moyen de vérification, pas le parcours par défaut pour toute lecture.
+
+### 13.2 Réutilisation responsable des publications et articles
+
+Pour chaque source, distinguer clairement :
+- les faits et données pouvant être réutilisés ;
+- les métadonnées et références nécessaires à la traçabilité ;
+- les textes protégés, bases de données, images et documents soumis à des conditions spécifiques ;
+- les contenus que MajestiOS peut résumer, analyser, reproduire ou redistribuer, selon les droits et licences effectivement vérifiés.
+
+La disponibilité publique d'un contenu ne vaut pas autorisation générale de le recopier intégralement. La reproduction d'un article ou d'un document tiers n'est permise que lorsque les droits, la licence ou une base juridique applicable le permettent. À défaut, MajestiOS produit une synthèse originale, cite la source, conserve les éléments de traçabilité et limite les extraits à ce qui est autorisé. Les conditions de collecte et de réutilisation doivent être documentées source par source.
+
+### 13.3 Fiche documentaire souveraine
+
+Le modèle cible d'une fiche documentaire MajestiOS comprend, lorsque les informations existent :
+1. un identifiant interne stable ;
+2. le type d'événement ou de publication ;
+3. les entités et territoires concernés, avec le degré de certitude du rapprochement ;
+4. la date de publication, la date de collecte et la dernière vérification ;
+5. un résumé original et les faits clés, séparés des interprétations ;
+6. la source, la référence officielle et les conditions de réutilisation connues ;
+7. les hypothèses d'intérêt commercial, leur justification et leur niveau de confiance ;
+8. les pistes de qualification et actions possibles, sans présenter un besoin hypothétique comme confirmé ;
+9. l'historique des mises à jour, corrections et rapprochements ;
+10. les liens contextuels vers les autres contenus internes pertinents.
+
+### 13.4 Exemple : transformer une publication BODACC en connaissance exploitable
+
+Une publication BODACC devient le point de départ d'un dossier MajestiOS : résumé factuel de l'événement, informations d'entreprise rapprochées avec prudence, explication des implications possibles, autres signaux pertinents et pistes à confirmer par un professionnel. Selon l'événement, cela peut concerner la reprise ou la cession d'une entreprise, un changement d'établissement ou une éventuelle opportunité pour des fournisseurs, prestataires ou acteurs de l'immobilier d'entreprise.
+
+Ces pistes ne doivent jamais être présentées comme des besoins avérés sans élément de confirmation. Les erreurs de rapprochement, informations anciennes et données contradictoires doivent être signalées et pouvoir être corrigées.
+
+### 13.5 Politique de liens externes
+
+- Limiter les renvois externes aux cas où ils apportent une vraie utilité : vérification d'une source, accès à un document officiel, démarche réalisée auprès d'un tiers ou obligation légale.
+- Éviter les pages qui ne font que recopier un titre et renvoyer l'utilisateur ailleurs.
+- Ne pas masquer l'origine d'un fait ni laisser croire que MajestiOS est l'émetteur officiel de la publication.
+- Favoriser les liens internes contextuels entre fiches, entreprises, signaux, ressources et parcours métier.
+- Ne jamais contourner les contrôles d'accès, les conditions de réutilisation, les protections techniques ou les limitations d'une source.
+- Mesurer la valeur documentaire produite en interne : part des fiches contextualisées, provenance vérifiable, fraîcheur, taux de correction et utilité commerciale constatée.
+
+### 13.6 Mise en œuvre progressive
+
+1. Inventorier les sources et documenter leurs conditions d'accès, de stockage, d'analyse et de diffusion.
+2. Commencer par un périmètre pilote BODACC et une fiche documentaire interne en lecture seule.
+3. Séparer explicitement les faits sourcés, les résumés originaux, les analyses et les hypothèses commerciales.
+4. Tester la fraîcheur, la traçabilité, les doublons, les erreurs et le processus de correction.
+5. Étendre ensuite le modèle à d'autres sources, sans supposer que les mêmes droits ou formats s'appliquent partout.
+
+La souveraineté documentaire est donc une capacité construite par la maîtrise des données, de la provenance, de la qualité, des droits et de l'analyse — pas une simple accumulation de copies de pages externes.
+
