@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { siteTree } from "@/data/site-tree";
 
 const visibleItems = siteTree.filter((item) =>
@@ -20,8 +20,6 @@ const icons: Record<string, string> = {
 export default function HomepageNavigation() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => setMobileOpen(false), [pathname]);
 
   return (
     <>
