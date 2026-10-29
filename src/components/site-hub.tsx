@@ -1,6 +1,5 @@
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
-import AnnouncementTicker from "@/components/announcement-ticker";
 import ResourceCards from "@/components/resource-cards";
 import SectionInteractiveMap from "@/components/section-interactive-map";
 import { findSiteNode, flattenSiteTree, siteTree } from "@/data/site-tree";
@@ -528,12 +527,10 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
   const related = siblings.length ? siblings.slice(0, 4) : relatedByAncestor.length ? relatedByAncestor.slice(0, 4) : flattenSiteTree().filter((item) => item.href !== pathname && item.href !== "/" && !item.children?.length).slice(0, 4);
   const pageTitle = node?.label ?? title ?? "Explorer MajestiOS";
   const pageIntro = editorial?.lead ?? intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS.";
-  const tickerFlow = pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "public" : pathname.startsWith("/opportunites/marches-prives") ? "private" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.startsWith("/business") || pathname === "/opportunites/radar-entreprises" ? "business" : pathname.startsWith("/reseaux") ? "reseau" : "general";
   const mapItems = children.length > 0 ? children : related;
   const resourceScope = pathname === "/opportunites" ? "opportunites" : pathname.startsWith("/business") || pathname === "/opportunites/radar-entreprises" ? "business" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/reseaux") ? "reseaux" : pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "marches-publics" : pathname.startsWith("/opportunites/marches-prives") ? "marches-prives" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.startsWith("/developpement-commercial/etudes-de-marche") ? "sources" : pathname.startsWith("/developpement-commercial/prospection") ? "prospection" : "general";
   return <main className="site-page">
     <PublicHeader />
-    {tickerFlow ? <AnnouncementTicker flow={tickerFlow} /> : null}
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link>{found?.ancestors.map((ancestor) => <span key={ancestor.href}><b>/</b><Link href={ancestor.href}>{ancestor.label}</Link></span>)}{!found && pathname.startsWith("/opportunites/") ? <span><b>/</b><Link href="/opportunites">Opportunités</Link></span> : null}<span><b>/</b><strong>{pageTitle}</strong></span></nav>
       <section className="page-hero">
