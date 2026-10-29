@@ -45,3 +45,21 @@ Ce lot porte sur la cohérence des pages générées à partir de l’arborescen
 ## Suite de l’audit
 
 Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons, emploi, radar entreprises), Business et transmission, Développement commercial, Réseaux, Comprendre, puis parcours d’espace professionnel et pages légales. Pour chaque domaine : contenu spécifique, cohérence des liens entrants/sortants, états vides, libellés, accessibilité et affichage mobile.
+
+
+## Mise à jour UX — navigation, flocon, flux et formulaires (29/10/2026)
+
+### Modifications apportées sur la branche de travail
+- Navigation latérale commune réutilisée par le gabarit public et la page d’accueil ; état actif calculé depuis l’URL. La navigation présente un accueil identifiable et un contraste sombre/or avec relief visuel.
+- Flux commun déplacé dans le composant d’en-tête partagé : même sélection d’annonces sur les pages qui utilisent ce gabarit, défilement de droite à gauche, traitement visuel compact sans bandeau large.
+- Flux débarrassé des trois variantes distinctes affichées sur la page d’accueil ; les composants de recherche publique/privée et le gabarit SiteHub ne montent plus de flux concurrent.
+- Sur l’accueil, le flocon interactif est placé avant le moteur de recherche et bénéficie d’une surface visuelle plus grande. Le moteur de recherche est volontairement plus compact.
+- Les annonces du flux mènent au formulaire de parcours, avec choix « recevoir par e-mail », « créer mon espace personnel » et « postuler / me positionner ».
+- La page de remerciement propose un retour immédiat et une redirection automatique vers l’accueil après sept secondes.
+- Les cartes documentaires portent explicitement la mention « Article en construction » et pointent vers une page commune dont le contenu reste à définir.
+- Le parcours de formulaire reste une maquette : les données et pièces jointes ne sont pas envoyées ni stockées. La page de remerciement le précise pour éviter toute fausse confirmation de réception.
+
+### Validation
+- Les fichiers modifiés ont été relus via GitHub après écriture.
+- La suite Vitest, ESLint, TypeScript et le build Next.js n’ont pas été exécutés dans cet environnement sur le dernier état. Ne pas considérer le lot comme techniquement validé tant que ces contrôles n’ont pas réussi.
+- Aucun déploiement Vercel n’a été déclenché volontairement.
