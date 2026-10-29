@@ -1504,8 +1504,8 @@ body { background: var(--paper); color: var(--ink); }
 .announcement-stream-arrow { flex: 0 0 auto; color: #176c66; font-weight: 900; }
 .announcement-stream-card.category-marché-public { border-color: #c8dff4; }
 .announcement-stream-card.category-marché-public .announcement-stream-category { background: #e7f2fc; color: #235f91; }
-.announcement-stream-card.category-marché-privé { border-color: #f0d5b0; }
-.announcement-stream-card.category-marché-privé .announcement-stream-category { background: #fff1dc; color: #80521a; }
+.announcement-stream-card.category-marché-privé { border-color: #b9e2cb; }
+.announcement-stream-card.category-marché-privé .announcement-stream-category { background: #e5f6ec; color: #216b46; }
 .announcement-stream-card.category-salon .announcement-stream-category { background: #e1f7ef; color: #1c7255; }
 .announcement-stream-card.category-emploi .announcement-stream-category { background: #eee8ff; color: #59429a; }
 .announcement-stream-card.is-status { background: #fbfcfc; border-style: dashed; }
