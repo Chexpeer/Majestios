@@ -3,7 +3,7 @@ import PublicHeader from "@/components/public-header";
 import AnnouncementTicker from "@/components/announcement-ticker";
 import ResourceCards from "@/components/resource-cards";
 import SectionInteractiveMap from "@/components/section-interactive-map";
-import { findSiteNode, flattenSiteTree } from "@/data/site-tree";
+import { findSiteNode, flattenSiteTree, siteTree } from "@/data/site-tree";
 
 type EditorialSection = { title: string; body: string; bullets?: string[] };
 type EditorialPage = { lead: string; sections: EditorialSection[] };
@@ -188,7 +188,7 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
   const node = found?.node;
   const children = node?.children ?? [];
   const editorial = editorialPages[pathname];
-  const siblings = found?.ancestors.at(-1)?.children?.filter((item) => item.href !== pathname) ?? [];
+  const siblings = found ? (found.ancestors.length ? found.ancestors[found.ancestors.length - 1]?.children?.filter((item) => item.href !== pathname) ?? [] : siteTree.filter((item) => item.href !== pathname && item.href !== "/")) : [];
   const related = siblings.length ? siblings.slice(0, 4) : flattenSiteTree().filter((item) => item.href !== pathname && item.href !== "/" && !item.children?.length).slice(0, 4);
   const pageTitle = node?.label ?? title ?? "Explorer MajestiOS";
   const pageIntro = editorial?.lead ?? intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS.";
