@@ -66,6 +66,14 @@ describe("site navigation tree", () => {
     expect(businessLanding).not.toContain('href:"/business/evolutions-activite"');
   });
 
+
+  it("routes public-tender guide actions back to the live search instead of the current guide", () => {
+    const siteHub = readFileSync(join(process.cwd(), "src", "components", "site-hub.tsx"), "utf8");
+    expect(siteHub).toContain('const isPublicMarketsGuide = pathname.startsWith("/opportunites/marches-publics/")');
+    expect(siteHub).toContain('const actionHref = isPublicMarketsGuide ? "/opportunites/marches-publics"');
+    expect(siteHub).toContain('Revenir à la recherche de marchés publics');
+  });
+
   it("does not contain duplicate internal destinations", () => {
     const destinations = flattenSiteTree().map((node) => node.href);
     expect(new Set(destinations).size).toBe(destinations.length);
