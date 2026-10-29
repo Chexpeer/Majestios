@@ -413,6 +413,22 @@ const editorialPages: Record<string, EditorialPage> = {
       { title: "Contribuer à l’écosystème", body: "Les modalités d’accès à l’annuaire, aux événements et aux contributions seront précisées au fur et à mesure de l’ouverture effective des services." }
     ]
   }
+  "/espace-professionnel": {
+    lead: "L’espace professionnel doit réunir les opportunités suivies, les dossiers et les prochaines actions commerciales dans un environnement authentifié. Tant que l’authentification et les autorisations ne sont pas activées, aucun espace privé ne doit être présenté comme opérationnel.",
+    sections: [
+      { title: "Préparer un dossier", body: "Définir l’opportunité, les informations nécessaires, les pièces attendues et les prochaines décisions. Les données transmises devront être limitées à ce qui est utile au traitement." },
+      { title: "Protéger les accès", body: "Avant l’ouverture, configurer l’authentification, les rôles, les autorisations, l’isolation des dossiers et les journaux utiles. Les secrets et clés d’API doivent rester côté serveur." },
+      { title: "État du service", body: "Cette page décrit le parcours visé. Elle ne confirme pas encore l’existence d’un compte actif, d’un stockage sécurisé ou d’un dossier persistant." }
+    ]
+  },
+  "/confidentialite": {
+    lead: "La confidentialité doit être conçue avant l’activation des formulaires, de l’espace membre et des dépôts de pièces. Les personnes doivent savoir quelles données sont demandées, pourquoi, pour combien de temps et auprès de qui exercer leurs droits.",
+    sections: [
+      { title: "Limiter les données collectées", body: "Ne demander que les informations nécessaires à une finalité clairement expliquée. Les documents d’identité, CV, Kbis et autres pièces ne doivent pas être collectés avant que le traitement et le stockage soient sécurisés." },
+      { title: "Définir les règles de traitement", body: "Documenter les finalités, la base juridique, les destinataires, les durées de conservation, les droits des personnes et le moyen de contact. Le texte définitif doit être adapté au fonctionnement réel et validé avant la mise en production." },
+      { title: "État actuel", body: "Les formulaires préparatoires précisent qu’ils ne transmettent ni n’enregistrent les données. Cette mention ne remplace pas une politique de confidentialité complète, qui reste à finaliser avant l’ouverture des services." }
+    ]
+  },
 };
 
 function buildContextualEditorial(
