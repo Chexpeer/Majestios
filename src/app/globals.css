@@ -1599,3 +1599,9 @@ body { background: var(--paper); color: var(--ink); }
 @media (max-width: 760px) {
   .majestic-global-main .site-page-with-sidebar .page-hero { padding-top: 30px; }
 }
+
+/* Les pages d'accueil de chaque grand dossier reprennent le code couleur de leur univers. */
+.majestic-global-main .public-site.domain-opportunites { min-height: 100vh; background: linear-gradient(180deg, #edf5fc 0, #f7f9fb 360px, #fff 100%); }
+.majestic-global-main .public-site.domain-business { min-height: 100vh; background: linear-gradient(180deg, #f7f0e4 0, #faf8f3 360px, #fff 100%); }
+.majestic-global-main .public-site.domain-commercial { min-height: 100vh; background: linear-gradient(180deg, #eaf5f1 0, #f5faf7 360px, #fff 100%); }
+.majestic-global-main .public-site.domain-reseaux { min-height: 100vh; background: linear-gradient(180deg, #f0edfa 0, #f8f6fc 360px, #fff 100%); }
