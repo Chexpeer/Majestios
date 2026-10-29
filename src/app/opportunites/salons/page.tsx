@@ -26,6 +26,7 @@ export default function Page() {
           <Link className="button-primary" href="/opportunites/salons/calendrier">Consulter le calendrier <span aria-hidden="true">→</span></Link>
           <Link className="button-secondary" href="/opportunites/salons/region">Explorer par région</Link>
           <Link className="button-secondary" href="/opportunites/salons/secteur">Explorer par secteur</Link>
+          <Link className="button-secondary" href="/opportunites/salons/preparer">Préparer une visite</Link>
           <Link className="button-secondary" href="/developpement-commercial">Découvrir le développement commercial</Link>
         </div>
       </div>
