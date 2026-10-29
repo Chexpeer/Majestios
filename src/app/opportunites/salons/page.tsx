@@ -24,6 +24,8 @@ export default function Page() {
         <p>MajestiOS vous aide à repérer les rendez-vous professionnels pertinents, à préparer les rencontres et à relier les contacts aux objectifs de développement commercial. Les salons sont intégrés au flux d’annonces de l’accueil, sans pop-up intrusif.</p>
         <div className="hero-actions">
           <Link className="button-primary" href="/opportunites/salons/calendrier">Consulter le calendrier <span aria-hidden="true">→</span></Link>
+          <Link className="button-secondary" href="/opportunites/salons/region">Explorer par région</Link>
+          <Link className="button-secondary" href="/opportunites/salons/secteur">Explorer par secteur</Link>
           <Link className="button-secondary" href="/developpement-commercial">Découvrir le développement commercial</Link>
         </div>
       </div>
