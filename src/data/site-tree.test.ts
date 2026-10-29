@@ -79,6 +79,13 @@ describe("site navigation tree", () => {
     expect(new Set(destinations).size).toBe(destinations.length);
   });
 
+  it("does not imply that the department filter is preselected when it is empty", () => {
+    const departmentGuide = readFileSync(join(appDirectory, "opportunites", "marches-publics", "departement", "page.tsx"), "utf8");
+    expect(departmentGuide).toContain('searchHref="/opportunites/marches-publics"');
+    expect(departmentGuide).toContain('searchLabel="Ouvrir la recherche et saisir un département"');
+    expect(departmentGuide).not.toContain('searchHref="/opportunites/marches-publics?location="');
+  });
+
   it("connects BODACC creation signals to the canonical nested Business page", () => {
     const bodaccPage = readFileSync(join(appDirectory, "business", "veille-bodacc", "page.tsx"), "utf8");
     expect(bodaccPage).toContain('/business/intelligence-entreprises/creations-implantations');
