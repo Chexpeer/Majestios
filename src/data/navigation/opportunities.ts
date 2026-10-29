@@ -7,17 +7,17 @@ export const opportunitiesNode: SiteNode = { label: "Opportunités", href: "/opp
       { label: "Fournitures", href: "/opportunites/marches-publics/fournitures", description: "Achats et fournitures professionnelles." },
       { label: "Par département", href: "/opportunites/marches-publics/departement", description: "Explorer les consultations par territoire." }
     ]},
-    { label: "Marchés privés", href: "/opportunites/marches-prives", description: "Découvrir les consultations privées publiées avec autorisation.", children: [
+    { label: "Marchés privés", href: "/opportunites/marches-prives", description: "Repérer les consultations privées dont la diffusion et le besoin ont été vérifiés.", children: [
       { label: "Par secteur", href: "/opportunites/marches-prives/secteur", description: "Explorer les besoins par secteur d’activité." },
-      { label: "Déposer une annonce", href: "/opportunites/marches-prives/deposer", description: "Parcours de dépôt documenté ; le formulaire de publication n’est pas encore activé.", status: "preparing" }
+      { label: "Déposer une annonce", href: "/opportunites/marches-prives/deposer", description: "Le dépôt d’annonces est prévu ; le formulaire de publication n’est pas encore activé.", status: "preparing" }
     ]},
     { label: "Salons professionnels", href: "/opportunites/salons", description: "Préparer une visite et repérer les opportunités liées.", children: [
-      { label: "Calendrier", href: "/opportunites/salons/calendrier", description: "Consulter les rendez-vous professionnels validés." },
+      { label: "Calendrier", href: "/opportunites/salons/calendrier", description: "Repérer les rendez-vous professionnels et vérifier leurs informations auprès des organisateurs." },
       { label: "Préparer une visite", href: "/opportunites/salons/preparer", description: "Définir ses objectifs, qualifier les rencontres et organiser le suivi." },
       { label: "Par secteur", href: "/opportunites/salons/secteur", description: "Explorer les salons par domaine." },
       { label: "Par région", href: "/opportunites/salons/region", description: "Explorer les salons par territoire." }
     ]},
-    { label: "Emploi et missions", href: "/opportunites/emploi", description: "Consulter des offres et missions publiées.", children: [
+    { label: "Emploi et missions", href: "/opportunites/emploi", description: "Explorer les offres et missions ; confirmer chaque annonce auprès de sa source d’origine.", children: [
       { label: "Offres d’emploi", href: "/opportunites/emploi/offres", description: "Rechercher des offres par métier et région." },
       { label: "Missions", href: "/opportunites/emploi/missions", description: "Explorer les missions ponctuelles et freelance." },
       { label: "Métiers", href: "/opportunites/emploi/metiers", description: "Guides métiers fondés sur des informations vérifiables." },
