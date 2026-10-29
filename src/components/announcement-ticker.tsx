@@ -72,7 +72,7 @@ export default function AnnouncementTicker() {
       {flows.map((flow) => {
         const hasTenders = flow.short === "PUBLIC" && tenders.length > 0;
         const hasSalons = flow.short === "SALONS" && upcomingSalons.length > 0;
-        return <div className={`announcement-flow flow-${flow.short.toLowerCase()}`} key={flow.short}>
+        return <div className={`announcement-flow flow-${flow.short.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")}`} key={flow.short}>
           <Link className="announcement-flow-label" href={flow.href}><span>{flow.short}</span><strong>{flow.label}</strong><span aria-hidden="true">↗</span></Link>
           <div className="announcement-flow-track">
             {hasTenders ? <div className={`announcement-flow-marquee direction-${flow.direction}`} aria-label="Appels d’offres publics vérifiés">
