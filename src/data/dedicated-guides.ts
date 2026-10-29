@@ -219,28 +219,10 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     checks: ["Objectifs et indicateurs de départ", "Ressources, contraintes et points de blocage documentés", "Priorités, responsable, échéance et critère de réussite"],
     next: "Distinguer les faits des hypothèses et commencer par une action mesurable. Une recommandation ne doit pas être présentée comme un diagnostic complet si les données nécessaires n’ont pas été recueillies."
   },
-  "/opportunites/radar-entreprises": {
-    title: "Utiliser le radar d’entreprises comme outil de veille",
-    purpose: "Un radar commercial doit mettre en évidence des signaux datés et traçables susceptibles de justifier une qualification, sans présenter une hypothèse comme un besoin avéré.",
-    checks: ["Signal détecté, date et source consultable", "Entreprise, activité et territoire confirmés", "Raison explicite pour laquelle le signal correspond à l’offre proposée"],
-    next: "Le radar automatisé doit être considéré comme en préparation tant que les sources, le classement et les contrôles ne sont pas validés. Toute piste doit être recoupée avant prise de contact."
-  },
   "/espace-professionnel": {
     title: "Comprendre l’espace professionnel",
     purpose: "L’espace professionnel a vocation à réunir les démarches et informations utiles à un utilisateur identifié, avec des accès adaptés aux fonctions réellement disponibles.",
     checks: ["Fonctions activées et conditions d’accès", "Données nécessaires à chaque démarche", "Règles de confidentialité, de sécurité et de gestion des accès"],
     next: "Ne considérez pas la création de compte, le dépôt de documents ou le stockage sécurisé comme actifs tant que les formulaires, les contrôles d’accès et le traitement des données n’ont pas été testés."
   },
-  "/nous-rejoindre": {
-    title: "Contribuer au développement de MajestiOS",
-    purpose: "La rubrique présente les différentes formes de contribution possibles au projet et les compétences utiles à son développement professionnel.",
-    checks: ["Rôle ou contribution envisagée", "Expérience, compétences et disponibilité", "Canal de contact et informations à partager"],
-    next: "Le fait qu’un rôle soit présenté ne signifie pas qu’un recrutement est ouvert. Vérifier les modalités de contact et ne transmettre que les informations nécessaires."
-  },
-  "/partenaires": {
-    title: "Comprendre les partenariats envisagés",
-    purpose: "Un partenariat utile doit répondre à un objectif explicite et définir la complémentarité, les responsabilités et les conditions de coopération entre les parties.",
-    checks: ["Objectif et valeur apportée à chaque partie", "Périmètre, responsabilités et modalités de coopération", "Conditions de partage des données et autorisation d’usage des marques"],
-    next: "Une rubrique de présentation ne constitue pas une preuve de partenariat signé. Toute collaboration doit être confirmée par les parties concernées avant d’être annoncée comme effective."
-  }
 };
