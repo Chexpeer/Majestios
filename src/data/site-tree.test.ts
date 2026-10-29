@@ -83,7 +83,8 @@ describe("site navigation tree", () => {
     const visit = (nodes: typeof siteTree, parentHref?: string) => {
       for (const node of nodes) {
         // The home node is a landing page, not the parent of every domain.
-        if (parentHref && parentHref !== "/" && !node.href.startsWith(parentHref + "/")) {
+        const intentionalCanonicalCrossRoutes = new Set(["/comment-et-pourquoi", "/faq"]);
+        if (parentHref && parentHref !== "/" && !intentionalCanonicalCrossRoutes.has(node.href) && !node.href.startsWith(parentHref + "/")) {
           invalidHierarchy.push(`${parentHref} -> ${node.href}`);
         }
         visit(node.children ?? [], node.href);
