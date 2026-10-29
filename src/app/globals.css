@@ -1892,7 +1892,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .home-main-column .home-search-section { max-width:1000px; margin:0 auto 32px; padding:22px clamp(16px,3vw,34px); }
 .home-main-column .home-search-heading h2 { font-size:clamp(22px,2.5vw,30px); }
 .home-main-column .home-search-heading p,.home-main-column .home-search-note { font-size:11px; }
-.maj-resource-card::after { content:"ARTICLE EN CONSTRUCTION"; display:inline-flex; margin-top:10px; padding:5px 7px; border-radius:4px; background:#f3eee1; color:#80632f; font-size:8px; font-weight:900; letter-spacing:.4px; }
 @media(max-width:760px) {
   :root { --maj-sidebar-width:0px; }
   .home-side-nav { position:relative !important; inset:auto !important; width:100% !important; height:auto !important; min-height:0 !important; max-height:none !important; padding:12px 14px 9px !important; border-right:0 !important; border-bottom:1px solid #9f8b5f !important; box-shadow:0 5px 0 #c7a65f,0 9px 18px rgb(13 29 45 / 15%) !important; }
