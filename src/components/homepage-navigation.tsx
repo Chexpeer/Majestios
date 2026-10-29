@@ -79,7 +79,7 @@ export default function HomepageNavigation() {
                 </summary>
                 <div className="home-sidebar-dropdown-content">
                   <Link href={item.href} onClick={() => setMobileOpen(false)} className="home-sidebar-overview" aria-current={pathname === item.href ? "page" : undefined}>Vue d’ensemble</Link>
-                  {renderBranches(children)}}
+                  {renderBranches(children)}
                 </div>
               </details>
             </div>
