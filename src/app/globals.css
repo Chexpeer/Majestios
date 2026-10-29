@@ -1704,3 +1704,15 @@ body { background: var(--paper); color: var(--ink); }
 .hub-grid-heading { grid-column: 1 / -1; margin-bottom: .25rem; }
 .hub-grid-heading h2 { margin: .35rem 0; }
 .hub-grid-heading p { max-width: 70ch; margin: 0; }
+
+
+/* En-tête métier : la navigation principale est centralisée dans la barre latérale globale. */
+.site-context-header { min-height: 68px; }
+.site-context-note { margin-left: auto; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .2px; }
+.site-context-header .header-member-link { margin-left: 0; }
+@media (max-width: 760px) {
+  .site-context-header { gap: 12px; padding: 12px 16px; }
+  .site-context-note { display: none; }
+  .site-context-header .brand-wordmark { font-size: 17px; }
+  .site-context-header .header-member-link { padding: 10px 11px; font-size: 11px; }
+}
