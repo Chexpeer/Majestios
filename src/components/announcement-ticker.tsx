@@ -79,7 +79,7 @@ export default function AnnouncementTicker() {
         id: `public-${item.id}`,
         category: "Marché public" as const,
         title: item.title,
-        detail: [item.location, item.deadline ? `Échéance ${item.deadline}` : ""].filter(Boolean).join(" · "),
+        detail: [item.location, item.deadline].filter(Boolean).join(" · "),
         href: tenderHref(item)
       })),
       ...upcomingSalons.map((event) => ({
