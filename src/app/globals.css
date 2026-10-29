@@ -1572,7 +1572,7 @@ body { background: var(--paper); color: var(--ink); }
   align-items: start;
 }
 .majestic-global-main { min-width: 0; min-height: 100vh; }
-.majestic-global-main > .site-header { display: none !important; }
+.majestic-global-main .site-header { display: none !important; }
 .majestic-global-main .home-layout { display: block; min-height: 100vh; }
 .majestic-global-main .home-main { min-width: 0; }
 .majestic-global-main .site-page-with-sidebar { display: block; min-height: 100vh; }
