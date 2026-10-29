@@ -2,6 +2,7 @@ import Link from "next/link";
 import AnnouncementTicker from "@/components/announcement-ticker";
 import HomeSideNav from "@/components/home-side-nav";
 import MajestiOSOpportunityMap from "@/components/majestic-opportunity-map";
+import ResourceCards from "@/components/resource-cards";
 
 export const metadata = {
   title: "MajestiOS — Intelligence commerciale proactive",
@@ -132,6 +133,8 @@ export default function HomePage() {
           </div>
           <MajestiOSOpportunityMap />
         </section>
+
+        <ResourceCards scope="accueil" />
 
         <section className="mission-strip" aria-label="Les six étapes MajestiOS">
           <span className="eyebrow">LA MÉTHODE MAJESTIOS</span>
