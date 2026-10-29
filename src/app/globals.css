@@ -1871,6 +1871,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .global-ticker-host .announcement-job-marquee { height:34px; padding:0 !important; overflow:hidden; }
 .global-ticker-host .announcement-job-marquee-group { animation:maj-job-marquee-left 58s linear infinite !important; align-items:center; height:34px; }
 .global-ticker-host .announcement-job-chip {
+  pointer-events:auto;
   min-height:26px; margin:3px 7px; padding:5px 10px; border:1px solid rgb(167 132 61 / 25%);
   border-radius:18px; background:rgb(250 248 241 / 80%); color:#415264; font-size:10px;
   box-shadow:0 2px 5px rgb(21 36 58 / 5%); backdrop-filter:blur(5px);
