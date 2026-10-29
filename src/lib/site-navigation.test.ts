@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { flattenSiteTree } from "../data/site-tree";
+import { flattenSiteTree, siteTree } from "../data/site-tree";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const appRoot = join(projectRoot, "src", "app");
@@ -104,7 +104,7 @@ describe("architecture de navigation MajestiOS", () => {
       }
     };
 
-    visit((await import("../data/site-tree")).siteTree);
+    visit(siteTree);
     expect(brokenRelationships, "Chaque sous-rubrique doit rester reliée à son parent dans l’arborescence").toEqual([]);
     expect(nodes.every((node) => node.label.trim() && node.description.trim()), "Chaque rubrique doit avoir un libellé et une description").toBe(true);
   });
