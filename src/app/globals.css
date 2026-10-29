@@ -1715,3 +1715,42 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .private-support-cta .concept-cta { flex:0 0 auto; margin:0; }
 .home-main-column > .announcement-band-emploi .announcement-band-head { margin-bottom:6px; }
 @media(max-width:700px) { .private-support-cta { align-items:stretch; flex-direction:column; } .private-support-cta .concept-cta { width:100%; } }
+
+
+/* Cartes documentaires interactives : guides, bonnes pratiques et outils contextualisés. */
+.maj-resource-section {
+  margin: 28px clamp(18px, 4vw, 54px) 34px;
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid #dbe5e8;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffffff 0%, #f5f8f7 100%);
+  box-shadow: 0 12px 30px rgb(20 44 66 / 5%);
+}
+.site-page .maj-resource-section { margin: 28px 0 34px; }
+.maj-resource-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:18px; margin-bottom:19px; }
+.maj-resource-heading > div { min-width:0; }
+.maj-resource-heading .eyebrow { margin-bottom:7px; }
+.maj-resource-heading h2 { margin:0; color:#142f43; font:800 clamp(21px,2.4vw,29px)/1.22 Manrope,sans-serif; letter-spacing:-.7px; }
+.maj-resource-heading p { max-width:760px; margin:9px 0 0; color:#617786; font-size:11px; line-height:1.75; }
+.maj-resource-status { flex:0 0 auto; padding:7px 10px; border:1px solid #d7e7e1; border-radius:20px; background:#edf6f1; color:#386b52; font-size:9px; font-weight:800; }
+.maj-resource-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:13px; }
+.maj-resource-card { display:flex; flex-direction:column; align-items:flex-start; min-width:0; min-height:205px; padding:18px; border:1px solid #e0e8eb; border-radius:11px; background:#fff; transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease; }
+.maj-resource-card:hover { transform:translateY(-3px); border-color:#b8d8d2; box-shadow:0 12px 25px rgb(20 44 66 / 8%); }
+.maj-resource-card-top { display:flex; align-items:center; justify-content:space-between; width:100%; gap:8px; }
+.maj-resource-card-top > span { display:grid; place-items:center; width:29px; height:29px; border-radius:8px; background:#eef3f5; color:#355b8c; font:800 10px Manrope,sans-serif; }
+.maj-resource-card-top small { color:#718692; font-size:8px; font-weight:850; letter-spacing:.65px; text-align:right; }
+.maj-resource-card h3 { margin:16px 0 7px; color:#17364a; font:800 15px/1.35 Manrope,sans-serif; }
+.maj-resource-card p { margin:0 0 15px; color:#627886; font-size:10px; line-height:1.75; }
+.maj-resource-card > a { display:inline-flex; align-items:center; gap:5px; margin-top:auto; padding-top:10px; border-top:1px solid #e9eff1; color:#176c69; font-size:10px; font-weight:850; }
+.maj-resource-card > a:hover { color:#0c4e4b; }
+.maj-resource-note { margin:14px 0 0; color:#82919b; font-size:9px; line-height:1.65; }
+@media(max-width:900px) { .maj-resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .maj-resource-card:last-child:nth-child(odd) { grid-column:1 / -1; } }
+@media(max-width:600px) {
+  .maj-resource-section { margin:20px 14px 26px; padding:18px 13px; border-radius:12px; }
+  .site-page .maj-resource-section { margin:20px 0 26px; }
+  .maj-resource-heading { align-items:flex-start; flex-direction:column; gap:10px; }
+  .maj-resource-grid { grid-template-columns:minmax(0,1fr); }
+  .maj-resource-card:last-child:nth-child(odd) { grid-column:auto; }
+  .maj-resource-card { min-height:0; padding:17px; }
+}
+@media(prefers-reduced-motion:reduce) { .maj-resource-card { transition:none; } .maj-resource-card:hover { transform:none; } }
