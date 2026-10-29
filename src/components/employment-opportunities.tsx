@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
 import AnnouncementTicker from "@/components/announcement-ticker";
+import ResourceCards from "@/components/resource-cards";
 
 type Job = { id: string; title: string; contract: "Freelance" | "Indépendant" | "CDD" | "CDI"; region: string; remote: "Télétravail" | "Hybride" | "Sur site"; category: string; summary: string; source: string };
 
@@ -57,6 +58,7 @@ export default function EmploymentOpportunities() {
       </article>)}</div>
       <p className="ticker-disclaimer">Les annonces affichées sont des besoins préparatoires de MajestiOS, pas des postes externes vérifiés. Le dépôt de CV sera activé après mise en place du stockage sécurisé et du traitement des candidatures.</p>
     </section>
+    <ResourceCards scope="emploi" />
     <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav><Link href="/opportunites/marches-publics">Marchés publics</Link><Link href="/opportunites/marches-prives">Marchés privés</Link><Link href="/comprendre/faq">FAQ</Link></nav><small>© MajestiOS · Recrutement en préparation</small></footer>
   </main>;
 }
