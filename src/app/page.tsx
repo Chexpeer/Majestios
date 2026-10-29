@@ -36,7 +36,7 @@ export default function HomePage() {
             </h1>
             <p>
               MajestiOS ne se contente pas de signaler des opportunités. La
-              plateforme associe l'intelligence numérique et l'expertise de
+              plateforme associe l&apos;intelligence numérique et l&apos;expertise de
               business developers pour qualifier les besoins, identifier les bons
               interlocuteurs et faciliter les connexions commerciales.
             </p>
@@ -83,7 +83,7 @@ export default function HomePage() {
             <div className="hero-trust">
               <span className="trust-mark" aria-hidden="true">✓</span>
               <span>
-                <strong>La source avant l'affirmation.</strong>
+                <strong>La source avant l&apos;affirmation.</strong>
                 <small>
                   Les annonces et fonctions indisponibles ne sont pas présentées
                   comme opérationnelles.
