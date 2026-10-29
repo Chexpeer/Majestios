@@ -1777,9 +1777,10 @@ body { background: var(--paper); color: var(--ink); }
 .file-request-form .search-field { min-width: 0; }
 .file-request-form .search-submit { grid-column: 1 / -1; justify-self: start; }
 .file-request-form .search-submit:disabled { opacity: .62; cursor: not-allowed; }
-.chat-launcher-emblem { display: grid; position: relative; flex: 0 0 32px; place-items: center; width: 32px; height: 32px; border: 1px solid rgb(255 255 255 / 35%); border-radius: 9px; background: #fff; color: #142c42; }
-.chat-launcher-emblem svg { position: absolute; top: 2px; left: 5px; width: 22px; height: 17px; color: #c79b4b; }
-.chat-launcher-emblem b { margin-top: 7px; font: 800 16px/1 Manrope, sans-serif; }
+.chat-launcher-emblem { display: grid; flex: 0 0 32px; place-items: center; width: 32px; height: 32px; border: 1px solid rgb(255 255 255 / 35%); border-radius: 9px; background: #fff; color: #142c42; }
+.chat-launcher-emblem svg { display: block; width: 25px; height: 27px; overflow: visible; }
+.chat-launcher-emblem .chat-emblem-crown { color: #c79b4b; }
+.chat-launcher-emblem .chat-emblem-head { color: #142c42; }
 .chat-callback { display: grid; gap: 8px; margin: 12px 0; padding: 12px; border: 1px solid #e0e8eb; border-radius: 10px; background: #f7fafb; }
 .chat-callback label { color: #314c5e; font-size: 11px; line-height: 1.6; font-weight: 600; }
 .chat-callback input { width: 100%; min-width: 0; padding: 10px; border: 1px solid #dce5ea; border-radius: 8px; font-size: 12px; }
