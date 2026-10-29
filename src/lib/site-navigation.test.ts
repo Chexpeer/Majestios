@@ -207,6 +207,18 @@ describe("architecture de navigation MajestiOS", () => {
     expect(broken, "Chaque rubrique doit être reliée à ses parents, à ses voisines et à des destinations existantes").toEqual([]);
   });
 
+  it("mounts the shared navigation and ticker globally without duplicate page headers", () => {
+    const layout = readFileSync(join(appRoot, "layout.tsx"), "utf8");
+    const shell = readFileSync(join(sourceRoot, "components", "site-shell.tsx"), "utf8");
+    const header = readFileSync(join(sourceRoot, "components", "public-header.tsx"), "utf8");
+    const context = readFileSync(join(sourceRoot, "components", "public-layout-context.tsx"), "utf8");
+    expect(layout).toContain("<SiteShell>{children}</SiteShell>");
+    expect(shell).toContain("<HomeSideNav />");
+    expect(shell).toContain("<AnnouncementTicker />");
+    expect(header).toContain("if (isInsideGlobalShell) return null");
+    expect(context).toContain("createContext(false)");
+  });
+
   it("connects Business, BODACC, company radar and commercial development without stale FAQ paths", () => {
     const businessPage = readFileSync(join(appRoot, "opportunites", "business", "page.tsx"), "utf8");
     expect(businessPage).toContain('href="/business/radar-bodacc"');
