@@ -93,9 +93,9 @@ export default function ResourceCards({ scope = "general" }: { scope?: ResourceS
         <div>
           <span className="eyebrow">BIBLIOTHÈQUE MAJESTIOS · SÉLECTION THÉMATIQUE</span>
           <h2 id={`maj-resource-title-${scope}`}>{scopeTitles[scope]}</h2>
-          <p>Guides pratiques, méthodes et outils pédagogiques sélectionnés selon cette rubrique. Cette sélection est actuellement éditoriale et statique ; elle devra être révisée et enrichie au fil des évolutions de MajestiOS.</p>
+          <p>Ces cartes indiquent les contenus prévus. Les articles seront rédigés, vérifiés et publiés progressivement.</p>
         </div>
-        <span className="maj-resource-status">Sélection éditoriale</span>
+        <span className="maj-resource-status">Articles en construction</span>
       </div>
       <div className="maj-resource-grid">
         {cards.map((card, index) => (
@@ -103,11 +103,11 @@ export default function ResourceCards({ scope = "general" }: { scope?: ResourceS
             <div className="maj-resource-card-top"><span>{String(index + 1).padStart(2, "0")}</span><small>{card.kind}</small></div>
             <h3>{card.title}</h3>
             <p>{card.description}</p>
-            <Link href={card.href}>{card.action}<span aria-hidden="true"> ↗</span></Link>
+            <Link href={"/article-en-construction?" + new URLSearchParams({ rubrique: scope, titre: card.title, retour: typeof window === "undefined" ? "/" : window.location.pathname }).toString()}>Article en construction <span aria-hidden="true"> ↗</span></Link>
           </article>
         ))}
       </div>
-      <p className="maj-resource-note">Les ressources sont des repères pédagogiques. Les règles, échéances et conditions d’une opportunité doivent toujours être vérifiées auprès de la source compétente.</p>
+      <p className="maj-resource-note">Le contenu de ces articles est à définir. Les pages sont conservées dans l’arborescence pour préparer les prochaines contributions.</p>
     </section>
   );
 }
