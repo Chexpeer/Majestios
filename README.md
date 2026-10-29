@@ -9,6 +9,8 @@ L’application de référence est l’application Next.js située sous `src/app
 
 La feuille de route centrale à suivre est [docs/FEUILLE_DE_ROUTE_MAJESTIOS.md](docs/FEUILLE_DE_ROUTE_MAJESTIOS.md). Elle définit la doctrine produit, la structure de l’accueil, le gabarit des pages annexes et les priorités de validation.
 
+L’[index documentaire](docs/README.md) précise l’ordre de référence entre feuille de route, doctrine, audits et documents d’architecture afin d’éviter les contradictions entre documents rédigés à des dates différentes.
+
 L’architecture cible actuelle distingue :
 - **Accueil** : navigation latérale, présentation concise, recherche multicritère, flocon interactif central, flux compacts et ressources.
 - **Pages annexes** : barre de navigation commune, carte interactive spécialisée, flux contextualisé, ressources et liens vers des destinations distinctes.
