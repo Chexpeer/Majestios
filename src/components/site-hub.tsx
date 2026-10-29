@@ -9,6 +9,46 @@ type EditorialSection = { title: string; body: string; bullets?: string[] };
 type EditorialPage = { lead: string; sections: EditorialSection[] };
 
 const editorialPages: Record<string, EditorialPage> = {
+  "/opportunites": {
+    lead: "MajestiOS rassemble plusieurs portes d’entrée vers les opportunités commerciales : marchés publics et privés, salons professionnels, emploi et signaux d’entreprise. L’objectif est de passer du repérage à la qualification, puis à une action pertinente.",
+    sections: [
+      { title: "Choisir le bon type d’opportunité", body: "Un appel d’offres demande une lecture de dossier et de calendrier ; une annonce privée exige une autorisation de diffusion ; un salon demande une préparation de rencontres ; un signal d’entreprise exige une vérification avant toute interprétation." },
+      { title: "Qualifier avant d’agir", body: "Comparer l’opportunité aux capacités, au territoire, aux ressources et aux objectifs de l’entreprise. Distinguer les informations sourcées des hypothèses et vérifier les conditions auprès de l’émetteur." },
+      { title: "Suivre les prochaines étapes", body: "Relier chaque piste à une action concrète : consulter la source officielle, préparer une réponse, demander une précision ou organiser une mise en relation. Les flux qui ne sont pas encore connectés ne doivent pas être présentés comme des catalogues actifs." }
+    ]
+  },
+  "/reseaux/annuaire": {
+    lead: "Un annuaire professionnel n’a de valeur que si les profils sont pertinents, à jour et présentés avec une base légitime de partage. Le but est de faciliter des mises en relation justifiées, et non de diffuser des coordonnées sans contrôle.",
+    sections: [
+      { title: "Définir le profil recherché", body: "Préciser la compétence, le secteur, la zone, le type de collaboration et la raison de la mise en relation. Ces critères rendent la recherche plus utile qu’une liste générale de contacts." },
+      { title: "Vérifier la qualité du profil", body: "Contrôler la date de mise à jour, l’activité déclarée, les compétences et les modalités de contact. Séparer les informations confirmées des déclarations qui restent à vérifier." },
+      { title: "État de l’annuaire", body: "Cette rubrique expose les principes de qualification. Elle ne signifie pas qu’un annuaire complet de membres ou de coordonnées est déjà disponible en production." }
+    ]
+  },
+  "/reseaux/evenements": {
+    lead: "Les événements professionnels peuvent créer des occasions de veille, de rencontre et de coopération. Leur intérêt dépend des participants attendus, de l’objectif préparé et du suivi organisé après l’événement.",
+    sections: [
+      { title: "Choisir un événement pertinent", body: "Vérifier l’organisateur, le programme, la date, le lieu, les conditions d’accès et le profil des participants à partir d’informations officielles." },
+      { title: "Préparer les échanges", body: "Définir les acteurs à rencontrer, préparer une présentation courte et identifier la complémentarité recherchée. Ne pas présenter une inscription ou une présence comme un partenariat acquis." },
+      { title: "Organiser le suivi", body: "Noter les engagements pris, demander l’accord avant de partager des coordonnées et convenir d’une prochaine étape claire. Un agenda connecté et l’inscription via MajestiOS restent à distinguer des simples repères éditoriaux." }
+    ]
+  },
+  "/reseaux/rejoindre": {
+    lead: "Rejoindre le réseau MajestiOS doit permettre de contribuer à un écosystème professionnel fondé sur la compétence, la fiabilité et les mises en relation utiles.",
+    sections: [
+      { title: "Préciser sa contribution", body: "Décrire les compétences, secteurs, territoires et types de coopération possibles. Éviter les promesses générales et indiquer ce qui peut réellement être apporté." },
+      { title: "Clarifier les conditions", body: "Définir les modalités de participation, la visibilité du profil, l’usage des informations et les règles de mise en relation avant d’ouvrir un accès à un annuaire." },
+      { title: "État du parcours", body: "Cette page présente les principes de participation. Elle ne confirme pas encore l’existence d’un espace membre complet ou d’un annuaire public opérationnel." }
+    ]
+  },
+  "/comprendre/glossaire": {
+    lead: "Le glossaire MajestiOS clarifie les termes utilisés dans les parcours d’intelligence commerciale, afin de réduire les ambiguïtés entre une donnée, un signal, une hypothèse et une opportunité qualifiée.",
+    sections: [
+      { title: "Signal commercial", body: "Information datée provenant d’une source identifiable et susceptible de justifier une recherche complémentaire. Un signal n’est pas, à lui seul, la preuve d’un besoin ou d’une intention d’achat." },
+      { title: "Qualification et réseautage intelligent", body: "La qualification consiste à vérifier la pertinence, le contexte et les limites d’une piste. Le réseautage intelligent cherche ensuite à identifier des acteurs complémentaires et une raison explicite de les rapprocher." },
+      { title: "Capitalisation et intelligence apprenante", body: "La capitalisation conserve les résultats et les enseignements vérifiés. Une intelligence apprenante doit corriger ses erreurs, documenter les sources et distinguer les faits des estimations, avec une validation humaine adaptée." }
+    ]
+  },
   "/business/achat-cession": {
     lead: "Le parcours achat-cession aide à structurer une réflexion de reprise ou de transmission d’entreprise. Il ne remplace ni une expertise financière, ni une vérification juridique, fiscale ou sociale, ni une évaluation indépendante.",
     sections: [
