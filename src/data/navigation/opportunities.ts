@@ -2,6 +2,7 @@ import type { SiteNode } from "./types";
 
 export const opportunitiesNode: SiteNode = { label: "Opportunités", href: "/opportunites", description: "Explorer les marchés, les salons, l’emploi et les occasions de développement.", children: [
     { label: "Marchés publics", href: "/opportunites/marches-publics", description: "Repérer et qualifier les consultations publiques.", children: [
+      { label: "Préparation express du dossier", href: "/developpement-commercial/accompagnement-appels-offres/preparation-express", description: "Préparer un dossier de positionnement rapide avant de décider de postuler." },
       { label: "Travaux", href: "/opportunites/marches-publics/travaux", description: "Marchés et consultations de travaux." },
       { label: "Services", href: "/opportunites/marches-publics/services", description: "Prestations intellectuelles et services." },
       { label: "Fournitures", href: "/opportunites/marches-publics/fournitures", description: "Achats et fournitures professionnelles." },
