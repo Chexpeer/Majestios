@@ -37,6 +37,46 @@ function getDetailGuide(pathname: string, label: string): DetailGuide {
       next: "Recouper les informations avec des sources autorisées et récentes avant tout contact. Respecter les règles applicables à la prospection et ne pas déduire de besoins non établis."
     };
   }
+  if (pathname.includes("radar-entreprises")) {
+    return {
+      title: "Détecter les signaux d’évolution d’une entreprise",
+      purpose: "Le radar entreprises doit aider à repérer des événements vérifiables pouvant justifier une analyse commerciale : création, changement d’activité, évolution de structure ou implantation.",
+      checks: ["Nature du signal et date de publication", "Source d’origine et éléments permettant de confirmer l’information", "Compatibilité avec le secteur, le territoire et l’offre de l’entreprise"],
+      next: "Un signal ne prouve pas à lui seul l’existence d’un besoin. Il doit être recoupé, daté et qualifié avant d’être utilisé pour personnaliser une prise de contact."
+    };
+  }
+  if (pathname.includes("e-reputation") || pathname.includes("reputation")) {
+    return {
+      title: "Organiser une veille de réputation en ligne",
+      purpose: "Une démarche d’e-réputation consiste à observer les avis et mentions accessibles, à repérer les sujets récurrents et à préparer des réponses professionnelles sans manipuler les évaluations.",
+      checks: ["Plateforme, date et contexte de l’avis", "Faits vérifiables et éventuelles récurrences", "Réponse proportionnée, respectueuse et conforme aux règles de la plateforme"],
+      next: "Ne publiez pas de données personnelles ni d’accusations non vérifiées. Une réponse doit traiter le sujet avec mesure et ne jamais chercher à fabriquer de faux avis."
+    };
+  }
+  if (pathname.includes("accompagnement-appels-offres") || pathname.includes("appels-offres")) {
+    return {
+      title: "Préparer une réponse à un appel d’offres",
+      purpose: "L’accompagnement d’une réponse commence par une décision de positionnement réaliste, puis organise les pièces administratives, les éléments techniques et la démonstration de valeur.",
+      checks: ["Éligibilité, lots, délais et exigences du dossier de consultation", "Capacité à exécuter le marché et disponibilité des ressources", "Pièces demandées, critères d’attribution et calendrier interne"],
+      next: "Vérifier la version complète du dossier et les éventuelles modifications auprès de la source officielle. La préparation assistée ne garantit ni la recevabilité ni l’attribution du marché."
+    };
+  }
+  if (pathname.includes("diagnostic")) {
+    return {
+      title: "Établir un diagnostic avant de choisir les actions",
+      purpose: "Un diagnostic utile relie la situation actuelle, les objectifs, les contraintes et les ressources disponibles. Il sert à hiérarchiser les actions plutôt qu’à produire un constat général.",
+      checks: ["Objectifs et indicateurs de départ", "Ressources, contraintes et difficultés observées", "Priorités, responsables et critères de réussite"],
+      next: "Distinguer les faits documentés des hypothèses, puis fixer une prochaine action mesurable. Une recommandation doit rester proportionnée aux informations réellement disponibles."
+    };
+  }
+  if (pathname.includes("glossaire")) {
+    return {
+      title: "Comprendre le vocabulaire professionnel de MajestiOS",
+      purpose: "Le glossaire doit donner une définition claire des termes employés dans la veille commerciale, les appels d’offres, la qualification des entreprises et la mise en relation.",
+      checks: ["Définition du terme dans son contexte métier", "Différence entre notions proches", "Source ou référence lorsque la définition est réglementaire ou technique"],
+      next: "En cas de terme juridique, administratif ou réglementaire, vérifiez la définition auprès de la source officielle pertinente : les usages commerciaux et les définitions légales peuvent différer."
+    };
+  }
   if (pathname.includes("prospection") || pathname.includes("ciblage") || pathname.includes("argumentaires") || pathname.includes("suivi")) {
     return {
       title: "Structurer une action commerciale utile",
