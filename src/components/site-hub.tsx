@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
 import AnnouncementTicker from "@/components/announcement-ticker";
+import ResourceCards from "@/components/resource-cards";
 import { findSiteNode, flattenSiteTree } from "@/data/site-tree";
 
 type EditorialSection = { title: string; body: string; bullets?: string[] };
@@ -191,6 +192,7 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
   const pageTitle = node?.label ?? title ?? "Explorer MajestiOS";
   const pageIntro = editorial?.lead ?? intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS.";
   const tickerFlow = pathname.startsWith("/opportunites/marches-publics") ? "public" : pathname.startsWith("/opportunites/marches-prives") ? "private" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/opportunites/emploi") ? "emploi" : null;
+  const resourceScope = pathname.startsWith("/business") ? "business" : pathname.startsWith("/reseaux") ? "reseaux" : pathname.includes("/etudes-de-marche/sources") ? "sources" : pathname.startsWith("/developpement-commercial/prospection") ? "prospection" : "general";
   return <main className="site-page">
     <PublicHeader />
     {tickerFlow ? <AnnouncementTicker flow={tickerFlow} /> : null}
@@ -213,6 +215,7 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
       {children.length > 0 ? <section className="hub-grid" aria-label={`Sous-rubriques de ${node?.label}`}>{children.map((child, index) => <Link href={child.href} className="hub-card" key={child.href}><span className="hub-card-index">{String(index + 1).padStart(2, "0")}</span><div><h2>{child.label}<span aria-hidden="true">↗</span></h2><p>{child.description}</p></div><span className="hub-card-bottom">EXPLORER LA RUBRIQUE <b>→</b></span></Link>)}</section> : null}
       {checklist.length > 0 ? <section className="content-panel"><span className="eyebrow">POINTS DE CONTRÔLE</span><h2>Avant de passer à l’action</h2><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul></section> : null}
       {!editorial && children.length === 0 ? <section className="content-panel"><span className="eyebrow">INFORMATIONS DE SERVICE</span><h2>Une démarche documentée et vérifiable</h2><p>Les informations et fonctionnalités seront présentées selon leur disponibilité réelle. Les annonces doivent renvoyer à une source identifiable ; les fonctions en préparation ne doivent pas être confondues avec un service déjà ouvert.</p></section> : null}
+      <ResourceCards scope={resourceScope} />
       <section className="related-section"><div><span className="eyebrow">POUR ALLER PLUS LOIN</span><h2>Rubriques associées</h2></div><div className="related-links">{related.map((item) => <Link href={item.href} key={item.href}>{item.label}<span>↗</span></Link>)}</div></section>
       <footer className="page-footer"><span>MAJESTIOS · DÉTECTER → QUALIFIER → IDENTIFIER → CONTACTER → TRANSFORMER → CAPITALISER</span><Link href="/comprendre/faq">Besoin d’aide ?</Link></footer>
     </div>
