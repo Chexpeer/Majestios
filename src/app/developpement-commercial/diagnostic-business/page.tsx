@@ -43,7 +43,7 @@ export default function DiagnosticBusinessPage() {
             de lancer de nouvelles actions. Cette page vous propose un cadre de réflexion ;
             elle ne prétend pas réaliser automatiquement une analyse personnalisée.
           </p>
-          <Link className="search-submit concept-cta" href="/business">
+          <Link className="search-submit concept-cta" href="/business/veille-bodacc">
             Explorer les informations publiques sur les entreprises ↗
           </Link>
         </div>
