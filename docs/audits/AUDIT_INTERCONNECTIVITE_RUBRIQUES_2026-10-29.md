@@ -76,3 +76,5 @@ Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons,
 - Navigation étendue à la coquille racine Next.js : le menu latéral et le flux sont montés une seule fois au niveau global. Les anciens appels à `PublicHeader` dans les pages sont neutralisés par un contexte, pour éviter les doublons tout en couvrant les routes qui n’utilisaient pas encore l’en-tête partagé.
 - Le contenu global réserve la largeur de la navigation sur ordinateur et repasse à une disposition sans colonne latérale sur mobile.
 - Test statique ajouté pour vérifier le montage global et la neutralisation des en-têtes redondants.
+
+- Simplification éditoriale du parcours Business : le terme « signal » est expliqué comme un indice à vérifier et le sigle BODACC est développé lors de sa première présentation dans le parcours.
