@@ -16,7 +16,7 @@ type ResourceScope = "accueil" | "opportunites" | "marches-publics" | "marches-p
 const resources: Record<ResourceScope, ResourceCard[]> = {
   accueil: [
     { label: "GUIDE", title: "Lire un signal commercial", description: "Comprendre comment un avis, une évolution d’entreprise ou un événement peut révéler une piste commerciale à vérifier.", action: "Comprendre la méthode", href: "/comprendre/concept", kind: "GUIDE" },
-    { label: "BONNES PRATIQUES", title: "Qualifier avant de contacter", description: "Vérifier la source, la date, la pertinence et les limites d’une information avant d’engager une démarche.", action: "Voir les repères", href: "/comprendre/faq", kind: "BONNES PRATIQUES" },
+    { label: "BONNES PRATIQUES", title: "Qualifier avant de contacter", description: "Vérifier la source, la date et la pertinence d’une information avant de contacter une entreprise.", action: "Voir les repères", href: "/comprendre/faq", kind: "BONNES PRATIQUES" },
     { label: "OUTIL", title: "Trouver les sources utiles", description: "Retrouver les sources utiles et conserver l’origine des informations.", action: "Explorer les sources", href: "/developpement-commercial/etudes-de-marche/sources", kind: "OUTIL" },
   ],
   opportunites: [
@@ -27,7 +27,7 @@ const resources: Record<ResourceScope, ResourceCard[]> = {
   "marches-publics": [
     { label: "GUIDE", title: "Décrypter un avis de marché", description: "Repérer l’objet, l’acheteur, les critères, les pièces demandées et l’échéance à confirmer dans le dossier original.", action: "Consulter le guide", href: "/developpement-commercial/accompagnement-appels-offres/preparer", kind: "GUIDE" },
     { label: "BONNES PRATIQUES", title: "Vérifier avant de répondre", description: "Contrôler les conditions d’accès, les capacités exigées, les documents et la date limite auprès de la source officielle.", action: "Préparer une réponse conforme", href: "/developpement-commercial/accompagnement-appels-offres/preparer", kind: "BONNES PRATIQUES" },
-    { label: "OUTIL", title: "Recherche ciblée et veille", description: "Affiner les critères, documenter les sources et transformer un avis pertinent en prochaine action commerciale.", action: "Lancer la recherche", href: "/opportunites/marches-publics", kind: "OUTIL" },
+    { label: "OUTIL", title: "Recherche ciblée", description: "Affiner les critères, documenter les sources et transformer un avis pertinent en prochaine action commerciale.", action: "Lancer la recherche", href: "/opportunites/marches-publics", kind: "OUTIL" },
   ],
   "marches-prives": [
     { label: "GUIDE", title: "Comprendre une consultation privée", description: "Identifier l’émetteur, le besoin, les conditions de réponse et les informations effectivement autorisées à la diffusion.", action: "Comprendre la démarche", href: "/opportunites/marches-prives/secteur", kind: "GUIDE" },
@@ -37,7 +37,7 @@ const resources: Record<ResourceScope, ResourceCard[]> = {
   salons: [
     { label: "GUIDE", title: "Préparer un salon professionnel", description: "Définir les objectifs, les acteurs à rencontrer et les questions à poser avant l’événement.", action: "Consulter le calendrier", href: "/opportunites/salons/calendrier", kind: "GUIDE" },
     { label: "BONNES PRATIQUES", title: "Choisir les événements utiles", description: "Croiser le secteur, le territoire, le programme et le profil des participants attendus.", action: "Explorer par secteur", href: "/opportunites/salons/secteur", kind: "BONNES PRATIQUES" },
-    { label: "OUTIL", title: "Organiser sa veille événementielle", description: "Vérifier les informations officielles et préparer un suivi après les rencontres.", action: "Explorer par région", href: "/opportunites/salons/region", kind: "OUTIL" },
+    { label: "OUTIL", title: "Suivre les événements utiles", description: "Vérifier les informations officielles et préparer un suivi après les rencontres.", action: "Explorer par région", href: "/opportunites/salons/region", kind: "OUTIL" },
   ],
   emploi: [
     { label: "GUIDE", title: "Présenter ses compétences", description: "Structurer un profil autour des compétences, expériences, secteurs et résultats utiles à une mission.", action: "Explorer les métiers", href: "/opportunites/emploi/metiers", kind: "GUIDE" },
@@ -47,7 +47,7 @@ const resources: Record<ResourceScope, ResourceCard[]> = {
   business: [
     { label: "GUIDE", title: "Lire un signal d’entreprise", description: "Distinguer une publication administrative d’un besoin commercial qui reste à confirmer.", action: "Consulter la méthode", href: "/business/radar-bodacc", kind: "GUIDE" },
     { label: "BONNES PRATIQUES", title: "Vérifier avant de prospecter", description: "Revenir à la source, vérifier la date et éviter de déduire une intention d’achat sans élément suffisant.", action: "Préparer un ciblage vérifiable", href: "/developpement-commercial/prospection/ciblage", kind: "BONNES PRATIQUES" },
-    { label: "OUTIL", title: "Organiser sa veille", description: "Tracer les sources et relier les faits vérifiés à des hypothèses commerciales explicites.", action: "Explorer les sources", href: "/developpement-commercial/etudes-de-marche/sources", kind: "OUTIL" },
+    { label: "OUTIL", title: "Organiser ses sources", description: "Conserver les sources et distinguer les faits des pistes commerciales à vérifier.", action: "Explorer les sources", href: "/developpement-commercial/etudes-de-marche/sources", kind: "OUTIL" },
   ],
   reseaux: [
     { label: "GUIDE", title: "Préparer une mise en relation", description: "Formuler clairement la complémentarité recherchée et le bénéfice possible pour chaque partie.", action: "Comprendre le réseau", href: "/reseaux/annuaire", kind: "GUIDE" },
@@ -55,9 +55,9 @@ const resources: Record<ResourceScope, ResourceCard[]> = {
     { label: "OUTIL", title: "Identifier les bons relais", description: "Explorer les pôles du réseau pour trouver les compétences et ressources adaptées à une opportunité.", action: "Explorer les événements", href: "/reseaux/evenements", kind: "OUTIL" },
   ],
   sources: [
-    { label: "GUIDE", title: "Construire une veille fiable", description: "Définir une question, choisir des sources pertinentes et consigner la date et le périmètre de chaque donnée.", action: "Voir la méthodologie", href: "/developpement-commercial/etudes-de-marche/methodologie", kind: "GUIDE" },
-    { label: "BONNES PRATIQUES", title: "Tracer et recouper l’information", description: "Privilégier les sources primaires et distinguer faits, estimations et hypothèses.", action: "Lire les repères", href: "/comprendre/faq", kind: "BONNES PRATIQUES" },
-    { label: "OUTIL", title: "Répertoire de sources", description: "Revenir à la rubrique de veille pour organiser les sources documentaires utilisées dans une étude.", action: "Ouvrir les sources", href: "/developpement-commercial/etudes-de-marche/sources", kind: "OUTIL" },
+    { label: "GUIDE", title: "Construire une recherche fiable", description: "Définir une question, choisir des sources fiables et noter la date de chaque information.", action: "Voir la méthodologie", href: "/developpement-commercial/etudes-de-marche/methodologie", kind: "GUIDE" },
+    { label: "BONNES PRATIQUES", title: "Vérifier plusieurs sources", description: "Privilégier les sources primaires et distinguer faits, estimations et hypothèses.", action: "Lire les repères", href: "/comprendre/faq", kind: "BONNES PRATIQUES" },
+    { label: "OUTIL", title: "Répertoire de sources", description: "Retrouver les sources utilisées pour une étude de marché.", action: "Ouvrir les sources", href: "/developpement-commercial/etudes-de-marche/sources", kind: "OUTIL" },
   ],
   prospection: [
     { label: "GUIDE", title: "Construire un argumentaire pertinent", description: "Relier un fait vérifiable à une valeur concrète pour l’entreprise, sans supposer ses besoins internes.", action: "Préparer son argumentaire", href: "/developpement-commercial/prospection/argumentaires", kind: "GUIDE" },
