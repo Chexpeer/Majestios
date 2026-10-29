@@ -163,3 +163,8 @@ Une évolution est acceptable seulement si :
 - Ne pas lancer de déploiement Vercel tant que la priorité reste le travail sur le dépôt.
 - Ne pas déclarer un build, un test ou une vérification visuelle réussis sans résultat observable.
 - Après chaque lot, résumer les changements réellement commités, les validations effectuées et les points encore ouverts.
+
+
+## Règle éditoriale des cartes et ressources — 29 octobre 2026
+
+Une carte ne doit pas pointer par défaut vers une page générique « Article en construction ». Sa destination dépend de sa fonction : page interne dédiée, guide, tutoriel, vidéo, logiciel, documentation officielle, outil ou parcours de service. Le libellé de l’action doit décrire la destination réelle. Les liens externes devront être identifiés et accompagnés de leur source ; les ressources non vérifiées ou fonctionnalités non disponibles ne doivent pas être présentées comme actives. La page « Article en construction » reste une solution ponctuelle pour un contenu précisément identifié, jamais une destination systématique.
