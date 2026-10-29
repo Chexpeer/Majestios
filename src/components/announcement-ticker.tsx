@@ -17,6 +17,11 @@ type TenderItem = {
 
 type Flow = { label: string; short: string; href: string; state: string; direction: "left" | "right" };
 
+function formatEventDate(startDate: string, endDate?: string) {
+  const format = (value: string) => new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "short", timeZone: "Europe/Paris" }).format(new Date(value));
+  return endDate && endDate !== startDate ? `${format(startDate)} – ${format(endDate)}` : format(startDate);
+}
+
 const flows: Flow[] = [
   { label: "Marchés publics", short: "PUBLIC", href: "/opportunites/marches-publics", state: "Aucune annonce vérifiée disponible actuellement.", direction: "left" },
   { label: "Opportunités privées", short: "PRIVÉ", href: "/opportunites/marches-prives", state: "Aucune annonce privée publiée pour le moment.", direction: "left" },
@@ -76,7 +81,7 @@ export default function AnnouncementTicker() {
                 </div>
               </div>
               : hasSalons ? <div className={`announcement-flow-marquee direction-${flow.direction}`} aria-label="Salons professionnels vérifiés">
-                <div className="announcement-flow-marquee-group">{salonEvents.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span aria-hidden="true">↗</span></Link>)}</div>
+                <div className="announcement-flow-marquee-group">{salonEvents.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span>{formatEventDate(event.startDate, event.endDate)}</span><span aria-hidden="true">↗</span></Link>)}</div>
                 <div className="announcement-flow-marquee-group" aria-hidden="true">{salonEvents.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug} tabIndex={-1}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span aria-hidden="true">↗</span></Link>)}</div>
               </div>
               : <div className="announcement-flow-message"><span className="flow-status-dot" />{flow.short === "PUBLIC" ? tenderFeedState === "loading" ? "Chargement des avis publics…" : tenderFeedState === "unavailable" ? "Flux temporairement indisponible : ouvrez la recherche dédiée." : "Aucun avis ouvert disponible dans le flux. Ouvrez la recherche dédiée." : flow.state}</div>}
