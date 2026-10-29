@@ -7,11 +7,14 @@
 
 L’application de référence est l’application Next.js située sous `src/app`. Les anciens fichiers de site statique à la racine (`index.html`, `app.js`, `build.js` et `styles.css`) ont été retirés lors de l’assainissement de cette branche : les commandes `dev`, `build` et `start` de `package.json` utilisent Next.js. Les anciens rapports d’audit peuvent mentionner ces fichiers parce qu’ils décrivent l’état historique du dépôt au moment de leur rédaction.
 
-La page d’accueil propose :
-- une recherche d’appels d’offres publics ;
-- un bandeau illustratif d’opportunités privées ;
-- des cartes illustratives de missions et de collaborations ;
-- une demande d’accès/démonstration qui reste à vérifier côté enregistrement et traitement.
+La feuille de route centrale à suivre est [docs/FEUILLE_DE_ROUTE_MAJESTIOS.md](docs/FEUILLE_DE_ROUTE_MAJESTIOS.md). Elle définit la doctrine produit, la structure de l’accueil, le gabarit des pages annexes et les priorités de validation.
+
+L’architecture cible actuelle distingue :
+- **Accueil** : navigation latérale, présentation concise, recherche multicritère, flocon interactif central, flux compacts et ressources.
+- **Pages annexes** : barre de navigation commune, carte interactive spécialisée, flux contextualisé, ressources et liens vers des destinations distinctes.
+- **Espace personnel** : parcours commun pour poursuivre une démarche, avec un statut explicite tant que l’authentification, le stockage sécurisé et la persistance ne sont pas activés.
+
+Le schéma interactif, les cartes de ressources et les flux constituent des éléments de navigation et de présentation ; ils ne prouvent pas à eux seuls que les sources externes, les annonces ou les traitements de compte sont opérationnels.
 
 ## 2. Connecteur BOAMP : état et limites
 
