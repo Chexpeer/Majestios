@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
 import { findSiteNode, flattenSiteTree, siteTree } from "./site-tree";
 
@@ -55,6 +55,15 @@ describe("site navigation tree", () => {
 
     const unexpectedlyResolved = invalidExamples.filter((pathname) => findSiteNode(pathname) !== null);
     expect(unexpectedlyResolved).toEqual([]);
+  });
+
+
+  it("uses canonical nested Business routes in the Business landing-page cards", () => {
+    const businessLanding = readFileSync(join(appDirectory, "business", "page.tsx"), "utf8");
+    expect(businessLanding).toContain('/business/intelligence-entreprises/creations-implantations');
+    expect(businessLanding).toContain('/business/intelligence-entreprises/evolutions-activite');
+    expect(businessLanding).not.toContain('href:"/business/creations-implantations"');
+    expect(businessLanding).not.toContain('href:"/business/evolutions-activite"');
   });
 
   it("does not contain duplicate internal destinations", () => {
