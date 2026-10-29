@@ -144,8 +144,7 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     purpose: "Le département peut aider à réduire le volume de consultations, mais il faut distinguer le lieu d’exécution, le siège de l’acheteur et les zones couvertes par le marché.",
     checks: ["Département et lieu réel d’exécution", "Éventuels lots ou interventions multi-départementales", "Capacité logistique et conditions de déplacement de l’entreprise"],
     next: "Vérifier le lieu d’exécution dans le dossier officiel. Le filtre géographique ne doit être considéré comme fiable que si les données de localisation sont correctement normalisées."
-  }
-
+  },
   "/comment-et-pourquoi": {
     title: "Comprendre la logique de MajestiOS",
     purpose: "MajestiOS organise une démarche d’intelligence commerciale proactive : repérer un signal, le qualifier, identifier les acteurs pertinents, préparer une prise de contact, puis capitaliser sur les résultats.",
