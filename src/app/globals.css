@@ -1328,7 +1328,8 @@ body { background: var(--paper); color: var(--ink); }
 .announcement-flow-item > span:not(.flow-status-dot) { color: #b7c5c4; }
 .announcement-flow.flow-public .announcement-flow-item strong { color:#e4f2ff; }
 .announcement-flow.flow-prive .announcement-flow-item { border-right-color:rgb(255 189 105 / 28%); }
-.announcement-flow.flow-prive .announcement-flow-item { animation: maj-private-attention 1.8s ease-in-out infinite; }\n.announcement-flow.flow-prive .announcement-flow-item strong { color:#ffdfb3; }
+.announcement-flow.flow-prive .announcement-flow-item { animation: maj-private-attention 1.8s ease-in-out infinite; }
+.announcement-flow.flow-prive .announcement-flow-item strong { color:#ffdfb3; }
 .announcement-flow.flow-salons .announcement-flow-item strong { color:#c7f5e3; }
 .announcement-flow.flow-emploi .announcement-flow-item strong { color:#e2d9ff; }
 @keyframes maj-private-attention {
@@ -1342,6 +1343,7 @@ body { background: var(--paper); color: var(--ink); }
   to { transform: translateX(-50%); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .announcement-flow-marquee { animation: none; width: 100%; min-width: 0; overflow-x: auto; }\n  .announcement-flow.flow-prive .announcement-flow-item { animation:none; }
+  .announcement-flow-marquee { animation: none; width: 100%; min-width: 0; overflow-x: auto; }
+  .announcement-flow.flow-prive .announcement-flow-item { animation:none; }
   .announcement-flow-marquee-group[aria-hidden="true"] { display: none; }
 }
