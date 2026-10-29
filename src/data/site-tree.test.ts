@@ -79,6 +79,12 @@ describe("site navigation tree", () => {
     expect(new Set(destinations).size).toBe(destinations.length);
   });
 
+  it("keeps the recruitment footer on the canonical private-opportunities route", () => {
+    const joinPage = readFileSync(join(appDirectory, "nous-rejoindre", "page.tsx"), "utf8");
+    expect(joinPage).toContain('href="/opportunites/marches-prives"');
+    expect(joinPage).not.toContain('href="/appels-offres-prives"');
+  });
+
   it("keeps navigation on canonical routes instead of legacy redirect aliases", () => {
     const legacyAliases = new Set([
       "/appels-offres-publics",
