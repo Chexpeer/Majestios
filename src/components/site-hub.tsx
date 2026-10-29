@@ -2,6 +2,7 @@ import Link from "next/link";
 import PublicHeader from "@/components/public-header";
 import AnnouncementTicker from "@/components/announcement-ticker";
 import ResourceCards from "@/components/resource-cards";
+import SectionInteractiveMap from "@/components/section-interactive-map";
 import { findSiteNode, flattenSiteTree } from "@/data/site-tree";
 
 type EditorialSection = { title: string; body: string; bullets?: string[] };
@@ -191,7 +192,8 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
   const related = siblings.length ? siblings.slice(0, 4) : flattenSiteTree().filter((item) => item.href !== pathname && item.href !== "/" && !item.children?.length).slice(0, 4);
   const pageTitle = node?.label ?? title ?? "Explorer MajestiOS";
   const pageIntro = editorial?.lead ?? intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS.";
-  const tickerFlow = pathname.startsWith("/opportunites/marches-publics") ? "public" : pathname.startsWith("/opportunites/marches-prives") ? "private" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/opportunites/emploi") ? "emploi" : null;
+  const tickerFlow = pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "public" : pathname.startsWith("/opportunites/marches-prives") ? "private" : pathname.startsWith("/opportunites/salons") || pathname.startsWith("/reseaux") ? "salons" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.startsWith("/business") ? "business" : "reseau";
+  const mapItems = children.length > 0 ? children : related;
   const resourceScope = pathname.startsWith("/business") ? "business" : pathname.startsWith("/reseaux") || pathname.startsWith("/opportunites/salons") ? "reseaux" : pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "marches-publics" : pathname.startsWith("/opportunites/marches-prives") ? "marches-prives" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.includes("/etudes-de-marche/") ? "sources" : pathname.startsWith("/developpement-commercial/prospection") ? "prospection" : "general";
   return <main className="site-page">
     <PublicHeader />
@@ -212,7 +214,7 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
         <p>{section.body}</p>
         {section.bullets?.length ? <ul>{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul> : null}
       </section>)}
-      {children.length > 0 ? <section className="hub-grid" aria-label={`Sous-rubriques de ${node?.label}`}>{children.map((child, index) => <Link href={child.href} className="hub-card" key={child.href}><span className="hub-card-index">{String(index + 1).padStart(2, "0")}</span><div><h2>{child.label}<span aria-hidden="true">↗</span></h2><p>{child.description}</p></div><span className="hub-card-bottom">EXPLORER LA RUBRIQUE <b>→</b></span></Link>)}</section> : null}
+      <SectionInteractiveMap title={pageTitle} items={mapItems.map((item) => ({ label: item.label, href: item.href, description: item.description }))} />
       {checklist.length > 0 ? <section className="content-panel"><span className="eyebrow">POINTS DE CONTRÔLE</span><h2>Avant de passer à l’action</h2><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul></section> : null}
       {!editorial && children.length === 0 ? <section className="content-panel"><span className="eyebrow">INFORMATIONS DE SERVICE</span><h2>Une démarche documentée et vérifiable</h2><p>Les informations et fonctionnalités seront présentées selon leur disponibilité réelle. Les annonces doivent renvoyer à une source identifiable ; les fonctions en préparation ne doivent pas être confondues avec un service déjà ouvert.</p></section> : null}
       <ResourceCards scope={resourceScope} />
