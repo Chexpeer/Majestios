@@ -1135,7 +1135,8 @@ body { background: var(--paper); color: var(--ink); }
 .home-intro h1 { max-width:850px; margin:14px 0 12px; color:var(--navy); font:800 clamp(34px,4vw,53px)/1.08 Manrope,sans-serif; letter-spacing:-1.8px; }
 .home-intro h1 span { color:var(--teal); }
 .home-intro-copy > p:not(.home-trust-note) { max-width:760px; margin:0; color:var(--muted); font-size:13px; line-height:1.8; }
-.home-intro .hero-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+.home-tender-search { max-width:930px; margin-top:20px; }
+.home-intro .hero-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
 .home-intro .button-primary,.home-intro .button-secondary { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:40px; padding:10px 15px; border-radius:8px; font-size:11px; font-weight:800; }
 .home-intro .button-primary { background:var(--teal-dark); color:#fff; }
 .home-intro .button-primary:hover { background:var(--navy); }
