@@ -36,7 +36,8 @@ export default function HomepageNavigation() {
       <span className="home-sidebar-caption">EXPLORER</span>
       <nav className="home-sidebar-nav" aria-label="Navigation principale">
         {visibleItems.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(item.href + "/");
+          const aliases: Record<string, string[]> = { "/comprendre": ["/faq", "/comment-et-pourquoi"] };
+          const active = pathname === item.href || pathname.startsWith(item.href + "/") || (aliases[item.href] ?? []).includes(pathname);
           const children = item.children ?? [];
 
           return (
