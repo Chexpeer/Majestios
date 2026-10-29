@@ -1003,7 +1003,9 @@ body { background: var(--paper); color: var(--ink); }
 .nav-group:hover .nav-dropdown,.nav-group:focus-within .nav-dropdown { display:block; }
 .nav-dropdown-group { padding:4px; }
 .nav-dropdown-link { display:block; padding:10px; border-radius:9px; }
-.nav-dropdown-link:hover,.nav-dropdown-nested a:hover { background:var(--teal-pale); }
+.nav-dropdown-link:hover,.nav-dropdown-link:focus-visible,.nav-dropdown-link.is-active,.nav-dropdown-nested a:hover { background:var(--teal-pale); }
+.nav-dropdown-link:focus-visible { outline:2px solid var(--teal-dark); outline-offset:2px; }
+.nav-dropdown-link.is-active strong { color:var(--teal-dark); }
 .nav-dropdown-link strong { display:block; font-size:13px; }
 .nav-dropdown-link small { display:block; margin-top:4px; color:var(--muted); font-size:11px; line-height:1.5; }
 .nav-dropdown-nested { display:flex; flex-wrap:wrap; gap:4px; padding:0 8px 8px; }
