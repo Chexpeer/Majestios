@@ -207,6 +207,18 @@ describe("architecture de navigation MajestiOS", () => {
     expect(broken, "Chaque rubrique doit être reliée à ses parents, à ses voisines et à des destinations existantes").toEqual([]);
   });
 
+  it("connects Business, BODACC, company radar and commercial development without stale FAQ paths", () => {
+    const businessPage = readFileSync(join(appRoot, "opportunites", "business", "page.tsx"), "utf8");
+    expect(businessPage).toContain('href="/business/radar-bodacc"');
+    expect(businessPage).toContain('href="/business/achat-cession"');
+    expect(businessPage).toContain('href="/opportunites/radar-entreprises"');
+    expect(businessPage).toContain('href="/developpement-commercial/etudes-de-marche"');
+    expect(businessPage).toContain('href="/developpement-commercial/prospection"');
+    expect(businessPage).toContain('href="/reseaux"');
+    expect(businessPage).toContain('href="/comprendre/faq"');
+    expect(businessPage).not.toContain('href="/faq"');
+  });
+
   it("keeps each nested section connected to its parent and siblings", () => {
     const nodes = flattenSiteTree();
     const byHref = new Map(nodes.map((node) => [node.href, node]));
