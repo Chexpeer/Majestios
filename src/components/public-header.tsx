@@ -27,7 +27,7 @@ export default function PublicHeader() {
     };
   }, []);
 
-  const mainItems = siteTree.filter((item) => item.href !== "/" && item.href !== "/espace-professionnel");
+  const mainItems = siteTree.filter((item) => !["/", "/espace-professionnel", "/confidentialite", "/mentions-legales"].includes(item.href));
   return <header className="site-header">
     <Link href="/" className="brand-lockup" aria-label="MajestiOS, accueil">
       <span className="brand-mark" aria-hidden="true">M<span>✦</span></span>
