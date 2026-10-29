@@ -14,8 +14,8 @@ const nextConfig: NextConfig = {
       { source: "/partenaires", destination: "/reseaux", permanent: true },
       { source: "/e-reputation", destination: "/developpement-commercial/e-reputation", permanent: true },
       { source: "/etudes-de-marche", destination: "/developpement-commercial/etudes-de-marche", permanent: true },
-      { source: "/faq", destination: "/comprendre/faq", permanent: true },
-      { source: "/comment-et-pourquoi", destination: "/comprendre/concept", permanent: true }
+      { source: "/comprendre/faq", destination: "/faq", permanent: true },
+      { source: "/comprendre/concept", destination: "/comment-et-pourquoi", permanent: true }
     ];
   }
 };
