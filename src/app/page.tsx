@@ -35,10 +35,12 @@ export default function HomePage() {
               commercial<span>.</span>
             </h1>
             <p>
-              MajestiOS ne se contente pas de signaler des opportunités. La
-              plateforme associe l&apos;intelligence numérique et l&apos;expertise de
-              business developers pour qualifier les besoins, identifier les bons
-              interlocuteurs et faciliter les connexions commerciales.
+              MajestiOS agit comme une gare commerciale intelligente : il
+              détecte les signaux, qualifie les opportunités, oriente les
+              entreprises vers les bons interlocuteurs et coordonne les étapes
+              jusqu&apos;à la transformation commerciale. L&apos;intelligence numérique
+              et l&apos;expertise de business developers font circuler les bonnes
+              opportunités vers les bons acteurs, puis capitalisent les retours.
             </p>
 
             <form
