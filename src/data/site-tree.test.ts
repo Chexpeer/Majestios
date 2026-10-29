@@ -79,6 +79,12 @@ describe("site navigation tree", () => {
     expect(new Set(destinations).size).toBe(destinations.length);
   });
 
+  it("connects BODACC creation signals to the canonical nested Business page", () => {
+    const bodaccPage = readFileSync(join(appDirectory, "business", "veille-bodacc", "page.tsx"), "utf8");
+    expect(bodaccPage).toContain('/business/intelligence-entreprises/creations-implantations');
+    expect(bodaccPage).not.toContain('href: "/business/creations-implantations"');
+  });
+
   it("uses the current navigation labels in the public-tender FAQ", () => {
     const faqPage = readFileSync(join(appDirectory, "faq", "page.tsx"), "utf8");
     expect(faqPage).toContain('« Opportunités », puis « Marchés publics »');
