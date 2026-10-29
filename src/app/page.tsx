@@ -43,37 +43,6 @@ export default function HomePage() {
               opportunités vers les bons acteurs, puis capitalisent les retours.
             </p>
 
-            <form
-              className="tender-search central-opportunity-search"
-              action="/opportunites/marches-publics"
-              method="get"
-              aria-label="Rechercher un appel d'offres public"
-            >
-              <label className="search-field search-keyword">
-                <span>Mots-clés</span>
-                <input
-                  type="search"
-                  name="q"
-                  maxLength={160}
-                  placeholder="Ex. : bâtiment, nettoyage, informatique"
-                />
-              </label>
-              <label className="search-field search-domain">
-                <span>Département</span>
-                <input
-                  type="text"
-                  name="location"
-                  maxLength={3}
-                  placeholder="Ex. : 68, 2A, 971"
-                  aria-label="Code du département"
-                />
-              </label>
-              <input type="hidden" name="type" value="all" />
-              <button className="search-submit" type="submit">
-                Rechercher <span aria-hidden="true">↗</span>
-              </button>
-            </form>
-
             <div className="hero-actions">
               <Link className="button-primary" href="/opportunites">
                 Explorer toutes les opportunités <span aria-hidden="true">↗</span>
@@ -93,6 +62,60 @@ export default function HomePage() {
               </span>
             </div>
           </div>
+        </section>
+
+        <section className="home-search-section" aria-labelledby="home-search-title">
+          <div className="home-search-heading">
+            <span className="eyebrow">LE MOTEUR MAJESTIOS</span>
+            <h2 id="home-search-title">Une recherche. <em>Des opportunités à connecter.</em></h2>
+            <p>Combinez vos critères pour cibler les avis, puis explorez le flocon numérique pour activer les autres leviers de développement.</p>
+          </div>
+          <form
+            className="tender-search central-opportunity-search"
+            action="/opportunites/marches-publics"
+            method="get"
+            aria-label="Moteur de recherche multicritère MajestiOS"
+          >
+            <label className="search-field search-keyword">
+              <span>Mots-clés</span>
+              <input
+                type="search"
+                name="q"
+                maxLength={160}
+                placeholder="Ex. : bâtiment, nettoyage, informatique"
+              />
+            </label>
+            <label className="search-field search-domain">
+              <span>Département</span>
+              <input
+                type="text"
+                name="location"
+                maxLength={80}
+                placeholder="Ex. : 68, 2A, 971"
+                aria-label="Département ou zone géographique"
+              />
+            </label>
+            <label className="search-field">
+              <span>Catégorie</span>
+              <select name="type" defaultValue="all" aria-label="Catégorie de marché">
+                <option value="all">Toutes les catégories</option>
+                <option value="Travaux">Travaux</option>
+                <option value="Services">Services</option>
+                <option value="Fournitures">Fournitures</option>
+              </select>
+            </label>
+            <label className="search-field open-only-filter">
+              <span>Échéance</span>
+              <span className="open-only-control">
+                <input type="checkbox" name="openOnly" value="true" />
+                Avis encore ouverts
+              </span>
+            </label>
+            <button className="search-submit" type="submit">
+              Rechercher <span aria-hidden="true">↗</span>
+            </button>
+          </form>
+          <p className="home-search-note">La recherche d’avis publics est connectée à la source disponible. Les autres pôles du réseau sont accessibles depuis le flocon ci-dessous.</p>
         </section>
 
         <section className="home-map-section" aria-label="Explorer les rubriques MajestiOS">
