@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PublicHeader from "@/components/public-header";
 import MajestiOSOpportunityMap from "@/components/majestic-opportunity-map";
 import ResourceCards from "@/components/resource-cards";
 
@@ -20,6 +21,7 @@ const mission = [
 export default function HomePage() {
   return (
     <main className="home-redesign home-with-sidebar">
+      <PublicHeader />
       <div className="home-main-column">
 
         <section className="home-hero-redesign">
