@@ -17,8 +17,8 @@ function walk(directory: string): string[] {
 
 function routePatternFromFile(filePath: string): string | null {
   const normalized = relative(appRoot, filePath).split(sep).join("/");
-  if (!/(?:^|\\/)(?:page|route)\\.(?:tsx?|jsx?)$/.test(normalized)) return null;
-  const routePath = normalized.replace(/(?:^|\\/)(?:page|route)\\.(?:tsx?|jsx?)$/, "");
+  if (!/(?:^|\/)(?:page|route)\.(?:tsx?|jsx?)$/.test(normalized)) return null;
+  const routePath = normalized.replace(/(?:^|\/)(?:page|route)\.(?:tsx?|jsx?)$/, "");
   const segments = routePath.split("/").filter(Boolean).filter((segment) => !(segment.startsWith("(") && segment.endsWith(")")));
   return segments.length ? "/" + segments.join("/") : "/";
 }
