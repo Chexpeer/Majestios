@@ -9,6 +9,86 @@ type EditorialSection = { title: string; body: string; bullets?: string[] };
 type EditorialPage = { lead: string; sections: EditorialSection[] };
 
 const editorialPages: Record<string, EditorialPage> = {
+  "/business/achat-cession": {
+    lead: "Le parcours achat-cession aide à structurer une réflexion de reprise ou de transmission d’entreprise. Il ne remplace ni une expertise financière, ni une vérification juridique, fiscale ou sociale, ni une évaluation indépendante.",
+    sections: [
+      { title: "Définir la nature du projet", body: "Préciser s’il s’agit d’acheter, de vendre, de transmettre ou simplement d’évaluer une entreprise. Documenter le secteur, la zone, le calendrier, la taille recherchée et les contraintes essentielles." },
+      { title: "Rassembler les éléments utiles", body: "Préparer les informations disponibles sur l’activité, les actifs, les passifs, les contrats, les équipes et les perspectives. Les informations sensibles ne doivent être partagées que dans un cadre autorisé et sécurisé." },
+      { title: "Organiser les vérifications", body: "Lister les points à examiner avec les professionnels compétents et distinguer les données confirmées des déclarations à vérifier. La page fournit des repères de préparation, pas un service de transaction ou de valorisation automatisée." }
+    ]
+  },
+  "/business/achat-cession/acheter": {
+    lead: "Préparer une reprise consiste à définir une cible cohérente, vérifier la réalité de l’activité et organiser les diligences avant tout engagement.",
+    sections: [
+      { title: "Définir une cible réaliste", body: "Préciser le secteur, le territoire, la taille, le niveau d’implication attendu, les compétences nécessaires et les moyens financiers mobilisables." },
+      { title: "Examiner les risques et les preuves", body: "Demander des informations cohérentes sur les comptes, les contrats, les actifs, les dettes, les clients, les fournisseurs et les obligations en cours. Toute donnée doit être vérifiée par les personnes compétentes." },
+      { title: "Préparer les prochaines étapes", body: "Établir une liste de questions, un calendrier et les intervenants nécessaires. Ne pas interpréter une annonce de cession comme une opportunité vérifiée ou disponible sans confirmation." }
+    ]
+  },
+  "/business/achat-cession/vendre": {
+    lead: "Préparer une cession demande de rendre l’information lisible, de documenter l’activité et d’anticiper les questions d’un repreneur sans divulguer prématurément des données sensibles.",
+    sections: [
+      { title: "Préparer une présentation factuelle", body: "Décrire l’activité, les produits ou services, le modèle économique, les équipes, les actifs et les facteurs de différenciation à partir d’éléments justifiables." },
+      { title: "Identifier les éléments à vérifier", body: "Réunir les documents financiers et opérationnels utiles, repérer les incohérences et solliciter les conseils appropriés sur les aspects juridiques, fiscaux, sociaux et contractuels." },
+      { title: "Protéger les informations", body: "Définir ce qui peut être communiqué, à qui et à quel stade. Les pièces confidentielles ne doivent pas être déposées dans un formulaire qui ne garantit pas encore un stockage sécurisé." }
+    ]
+  },
+  "/business/achat-cession/evaluer-une-entreprise": {
+    lead: "L’évaluation d’une entreprise repose sur plusieurs méthodes et sur la qualité des données disponibles. Un indicateur isolé ou une estimation automatique ne constitue pas à lui seul une valorisation fiable.",
+    sections: [
+      { title: "Définir le périmètre de l’évaluation", body: "Préciser la date de référence, l’activité, le périmètre juridique, les actifs concernés, les dettes, les engagements et l’objectif de l’évaluation." },
+      { title: "Croiser plusieurs éléments", body: "Examiner les résultats et flux de trésorerie, les actifs, les dettes, les risques, la dépendance à certains clients ou dirigeants, les perspectives et les références comparables disponibles." },
+      { title: "Expliquer les limites", body: "Documenter les hypothèses, les données manquantes et la méthode choisie. Une évaluation engage des enjeux financiers importants et doit être validée par un professionnel compétent." }
+    ]
+  },
+  "/business/diagnostic": {
+    lead: "Un diagnostic commercial aide à clarifier la situation d’une entreprise, ses priorités et les prochaines actions réalistes. Il doit partir de faits et de réponses recueillies, pas d’une conclusion générée sans données suffisantes.",
+    sections: [
+      { title: "Décrire la situation actuelle", body: "Préciser l’offre, les clients visés, les canaux d’acquisition, les résultats observés, les ressources disponibles et les difficultés rencontrées." },
+      { title: "Hiérarchiser les enjeux", body: "Distinguer les symptômes des causes possibles, vérifier les indicateurs et retenir un nombre limité de priorités mesurables." },
+      { title: "Construire un plan d’action", body: "Définir les actions, les responsables, les échéances et les indicateurs de suivi. Le diagnostic doit signaler les données manquantes et les hypothèses à confirmer." }
+    ]
+  },
+  "/developpement-commercial/etudes-de-marche": {
+    lead: "Une étude de marché doit réduire une incertitude commerciale précise : demande, concurrence, territoire, clientèle ou potentiel d’une offre. Elle ne se résume pas à compiler des liens ou des chiffres sans méthode.",
+    sections: [
+      { title: "Formuler la question de décision", body: "Définir l’offre étudiée, le public cible, la zone géographique, la période et la décision qui devra être prise à partir des résultats." },
+      { title: "Croiser les données", body: "Associer des sources primaires, des statistiques publiques, des informations sectorielles et des retours de terrain lorsque cela est pertinent. Vérifier la date, la définition et le périmètre de chaque donnée." },
+      { title: "Restituer des conclusions proportionnées", body: "Séparer observations, estimations et hypothèses ; présenter les limites, les lacunes et les pistes à vérifier avant de transformer l’analyse en action commerciale." }
+    ]
+  },
+  "/developpement-commercial/e-reputation": {
+    lead: "L’e-réputation se travaille par une veille régulière, une lecture contextualisée des avis et des réponses cohérentes. Un avis isolé ou non vérifié ne suffit pas à caractériser l’ensemble de la relation client.",
+    sections: [
+      { title: "Définir les sources de veille", body: "Lister les plateformes pertinentes, les établissements ou marques concernés, la fréquence de consultation et les personnes chargées du suivi." },
+      { title: "Qualifier avant de répondre", body: "Vérifier le contexte, rechercher les faits disponibles et distinguer une réclamation vérifiable d’une opinion. Ne jamais publier de données personnelles ou d’informations confidentielles dans une réponse publique." },
+      { title: "Mesurer les tendances avec prudence", body: "Suivre les thèmes récurrents, les délais de réponse et l’évolution du volume d’avis. Ne pas présenter un indicateur de plateforme comme une mesure complète de la satisfaction." }
+    ]
+  },
+  "/developpement-commercial/e-reputation/surveiller": {
+    lead: "Une veille d’avis utile doit être régulière, ciblée et documentée, afin de détecter les thèmes récurrents sans surinterpréter les variations ponctuelles.",
+    sections: [
+      { title: "Définir le périmètre", body: "Identifier les plateformes, marques, établissements, mots-clés et périodes à surveiller. Ajuster la fréquence au volume et aux enjeux de l’activité." },
+      { title: "Qualifier les mentions", body: "Consigner la source, la date, le thème et le contexte accessible. Séparer les faits observables, les opinions exprimées et les interprétations internes." },
+      { title: "Escalader les cas sensibles", body: "Prévoir un processus pour les réclamations graves, les données personnelles ou les allégations nécessitant une vérification humaine. Une veille automatique ne remplace pas l’examen du contexte." }
+    ]
+  },
+  "/developpement-commercial/e-reputation/repondre-aux-avis": {
+    lead: "Une réponse publique doit rester professionnelle, factuelle et proportionnée. Elle montre que l’entreprise prend le retour au sérieux sans divulguer d’informations sur la personne ou la relation commerciale.",
+    sections: [
+      { title: "Vérifier les faits en interne", body: "Identifier le contexte et les éléments vérifiables avant de rédiger. En cas d’incertitude, reconnaître le retour et proposer un canal privé plutôt que contester sans preuve." },
+      { title: "Répondre avec mesure", body: "Rester courtois, éviter les accusations et les formules standardisées, puis proposer une suite concrète lorsque cela est approprié." },
+      { title: "Apprendre sans exposer les personnes", body: "Classer les motifs récurrents et les actions correctives, sans publier de données personnelles ou de détails confidentiels dans l’espace public." }
+    ]
+  },
+  "/comprendre": {
+    lead: "Cette rubrique explique ce que MajestiOS cherche à accomplir, comment les différents parcours s’articulent et quelles limites doivent être connues avant utilisation.",
+    sections: [
+      { title: "Comprendre la mission", body: "MajestiOS vise à relier la détection d’un signal, sa qualification, l’identification des acteurs pertinents, la prise de contact, la transformation commerciale et la capitalisation des retours." },
+      { title: "Distinguer l’ambition de l’état réel", body: "Une page, une maquette ou une carte interactive ne prouve pas qu’un service externe, un compte, une API ou un traitement de données est activé. Les fonctions disponibles doivent être annoncées sans ambiguïté." },
+      { title: "Apprendre et corriger", body: "La qualité du système dépend de sources datées, de retours vérifiables, de corrections traçables et de contrôles humains adaptés. Les hypothèses doivent rester distinctes des faits établis." }
+    ]
+  },
   "/opportunites/marches-publics/travaux": {
     lead: "Cette rubrique cible les consultations de travaux : construction, rénovation, entretien, aménagement et interventions techniques. La qualification doit porter autant sur le lot que sur la capacité réelle de l’entreprise à l’exécuter.",
     sections: [
