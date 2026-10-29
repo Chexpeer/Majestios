@@ -108,6 +108,20 @@ describe("architecture de navigation MajestiOS", () => {
     expect(missingLinks, "Les parcours de recherche et de demande doivent offrir un accès aux informations légales").toEqual([]);
   });
 
+  it("relie les pages de prospection et d’étude de marché sans utiliser les anciennes ancres FAQ", () => {
+    const marketStudy = readFileSync(join(appRoot, "developpement-commercial", "etudes-de-marche", "page.tsx"), "utf8");
+    const prospecting = readFileSync(join(appRoot, "developpement-commercial", "prospection", "page.tsx"), "utf8");
+
+    expect(marketStudy).toContain('href="/comprendre/faq"');
+    expect(marketStudy).toContain('href="/opportunites/radar-entreprises"');
+    expect(marketStudy).toContain('href="/developpement-commercial/prospection"');
+    expect(prospecting).toContain('href="/comprendre/faq"');
+    expect(prospecting).toContain('href="/opportunites/radar-entreprises"');
+    expect(prospecting).toContain('href="/developpement-commercial/etudes-de-marche"');
+    expect(marketStudy).not.toContain('href="/faq#');
+    expect(prospecting).not.toContain('href="/faq#');
+  });
+
   it("préserve les filtres lors du passage des résultats à la fiche d’un marché public", () => {
     const searchSource = readFileSync(join(sourceRoot, "components", "public-tenders-search.tsx"), "utf8");
     const detailSource = readFileSync(join(appRoot, "appels-offres-publics", "[id]", "page.tsx"), "utf8");
