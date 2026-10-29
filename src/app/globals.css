@@ -1608,3 +1608,34 @@ body { background: var(--paper); color: var(--ink); }
 .majestic-global-main .public-site.domain-business { min-height: 100vh; background: linear-gradient(180deg, #f7f0e4 0, #faf8f3 360px, #fff 100%); }
 .majestic-global-main .public-site.domain-commercial { min-height: 100vh; background: linear-gradient(180deg, #eaf5f1 0, #f5faf7 360px, #fff 100%); }
 .majestic-global-main .public-site.domain-reseaux { min-height: 100vh; background: linear-gradient(180deg, #f0edfa 0, #f8f6fc 360px, #fff 100%); }
+
+
+/* Navigation profonde : les pages de niveau 3 apparaissent dans leur dossier actif. */
+.home-sidebar-branch { min-width: 0; }
+.home-sidebar-leaves {
+  display: grid;
+  gap: 1px;
+  margin: 1px 0 5px 10px;
+  padding: 3px 0 3px 10px;
+  border-left: 1px solid #dce6e5;
+}
+.home-sidebar-leaf {
+  display: block;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 5px;
+  color: #829099;
+  font-size: 9px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.home-sidebar-leaf:hover,
+.home-sidebar-leaf.is-active {
+  background: #f2f6f6;
+  color: var(--navy);
+}
+.home-sidebar-leaf.is-active { font-weight: 800; }
+.home-sidebar-leaf:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+@media (max-width: 760px) {
+  .home-sidebar-leaves { display: none; }
+}
