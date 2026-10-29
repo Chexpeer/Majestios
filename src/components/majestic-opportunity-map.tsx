@@ -60,9 +60,9 @@ export default function MajestiOSOpportunityMap() {
           <strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small>
         </Link>
         {poles.map((pole) => (
-          <button key={pole.id} type="button" className={`maj-map-node ${pole.color} ${active === pole.href ? "is-active" : ""}`} style={{ left: pole.x, top: pole.y }} onClick={() => setActive(pole.href)} onMouseEnter={() => setActive(pole.href)} onFocus={() => setActive(pole.href)} aria-pressed={active === pole.href}>
+          <Link key={pole.id} href={pole.href} className={`maj-map-node ${pole.color} ${active === pole.href ? "is-active" : ""}`} style={{ left: pole.x, top: pole.y }} onMouseEnter={() => setActive(pole.href)} onFocus={() => setActive(pole.href)} aria-current={active === pole.href ? "location" : undefined} aria-label={`Ouvrir le dossier ${pole.label}`}>
             <span className="maj-map-node-icon" aria-hidden="true">{pole.icon}</span><strong>{pole.label}</strong>
-          </button>
+          </Link>
         ))}
       </div>
       <div className="maj-map-selection" aria-live="polite">
