@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 
 const links = [
   { label: "Accueil", href: "/", icon: "⌂" },
-  { label: "Opportunités", href: "/opportunites", icon: "↗" },
+  { label: "Offres & marchés", href: "/opportunites", icon: "↗" },
   { label: "Marchés publics", href: "/opportunites/marches-publics", icon: "▤" },
   { label: "Marchés privés", href: "/opportunites/marches-prives", icon: "◇" },
   { label: "Développement commercial", href: "/developpement-commercial", icon: "◎" },
