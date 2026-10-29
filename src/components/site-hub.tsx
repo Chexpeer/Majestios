@@ -192,7 +192,7 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
   const pageTitle = node?.label ?? title ?? "Explorer MajestiOS";
   const pageIntro = editorial?.lead ?? intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS.";
   const tickerFlow = pathname.startsWith("/opportunites/marches-publics") ? "public" : pathname.startsWith("/opportunites/marches-prives") ? "private" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/opportunites/emploi") ? "emploi" : null;
-  const resourceScope = pathname.startsWith("/business") ? "business" : pathname.startsWith("/reseaux") ? "reseaux" : pathname.includes("/etudes-de-marche/sources") ? "sources" : pathname.startsWith("/developpement-commercial/prospection") ? "prospection" : "general";
+  const resourceScope = pathname.startsWith("/business") ? "business" : pathname.startsWith("/reseaux") || pathname.startsWith("/opportunites/salons") ? "reseaux" : pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "marches-publics" : pathname.startsWith("/opportunites/marches-prives") ? "marches-prives" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.includes("/etudes-de-marche/") ? "sources" : pathname.startsWith("/developpement-commercial/prospection") ? "prospection" : "general";
   return <main className="site-page">
     <PublicHeader />
     {tickerFlow ? <AnnouncementTicker flow={tickerFlow} /> : null}
