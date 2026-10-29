@@ -1788,3 +1788,59 @@ body { background: var(--paper); color: var(--ink); }
 .chat-callback button:disabled { opacity: .5; cursor: not-allowed; }
 .chat-callback p { margin: 0; color: #8a5b24; font-size: 10px; line-height: 1.6; }
 @media(max-width:700px) { .file-request-form { grid-template-columns: 1fr; } .file-request-form .search-submit { grid-column: auto; } }
+
+
+/* Ajustements validés : menus compacts et symbole provisoire couronne + triangle. */
+.home-sidebar-dropdown-content {
+  gap: 1px;
+  padding: 3px 0 5px 24px;
+}
+.home-sidebar-overview,
+.home-sidebar-sub {
+  min-height: 28px;
+  padding: 5px 7px;
+  font-size: 10px;
+  line-height: 1.3;
+}
+.home-sidebar-overview { font-weight: 800; }
+.home-sidebar-status { font-size: 7px; }
+.home-sidebar-mark {
+  display: grid;
+  place-items: center;
+  border-radius: 0;
+  background: transparent;
+  color: var(--gold);
+}
+.home-sidebar-mark svg { display:block; width:36px; height:36px; }
+.maj-map-core { gap: 4px; }
+.maj-map-core-mark { display:none; }
+.majestic-crown-triangle { display:block; width:42px; height:40px; color:#e2b75c; }
+.maj-map-core strong { margin-top:0; }
+.maj-map-core small { font-size:7px; letter-spacing:.8px; }
+.maj-map-core-subtitle { max-width:82%; color:#d1dce4; font-size:7px; line-height:1.4; }
+.maj-map-node { min-height:76px; gap:3px; }
+.maj-map-node-number {
+  display:grid;
+  place-items:center;
+  width:21px;
+  height:21px;
+  margin-top:-15px;
+  border:2px solid #fff;
+  border-radius:50%;
+  background:#173b58;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+.maj-map-node.red .maj-map-node-icon { color:#ffd4d9; background:#6b2434; }
+.maj-map-node .maj-map-node-icon { width:23px; height:23px; }
+.maj-map-stage-points { display:flex; flex-wrap:wrap; gap:5px 18px; margin:8px 0 0; padding:0; list-style:none; }
+.maj-map-stage-points li { position:relative; padding-left:12px; color:#d3e0e7; font-size:10px; line-height:1.5; }
+.maj-map-stage-points li::before { position:absolute; left:0; content:"•"; color:#e2b75c; }
+.maj-snowflake .maj-map-selection strong { display:block; max-width:850px; line-height:1.45; }
+@media(max-width:700px) {
+  .maj-map-node { min-height:61px; }
+  .maj-map-node-number { width:18px; height:18px; font-size:9px; margin-top:-10px; }
+  .maj-map-core-subtitle { font-size:6px; }
+  .maj-map-stage-points { display:grid; grid-template-columns:1fr; gap:2px; }
+}
