@@ -1657,3 +1657,53 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .home-search-section .search-submit { grid-column: auto; }
   .home-search-note { text-align: left; }
 }
+
+
+/* Flux emploi : annonces de gauche à droite, avec candidature reliée à l’espace personnel. */
+.announcement-band-emploi .announcement-flow-track { padding: 0; }
+.announcement-band-emploi .announcement-job-marquee { overflow: hidden; padding: 10px 0; }
+.announcement-job-marquee-group { display: flex; width: max-content; animation: maj-job-marquee-right 48s linear infinite; }
+.announcement-job-marquee:hover .announcement-job-marquee-group,
+.announcement-job-marquee:focus-within .announcement-job-marquee-group { animation-play-state: paused; }
+.announcement-job-chip { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 8px; margin: 0 8px; padding: 10px 13px; border: 1px solid rgb(255 255 255 / 18%); border-radius: 8px; background: rgb(255 255 255 / 6%); color: #edf6f5; font-size: 10px; white-space: nowrap; }
+.announcement-job-chip > span:last-child { color: #d6bd7e; font-weight: 800; }
+.announcement-job-chip:hover { border-color: #d6bd7e; background: rgb(255 255 255 / 12%); }
+@keyframes maj-job-marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.employment-search { margin: 0 clamp(18px, 5vw, 76px) 45px; padding: clamp(20px, 3vw, 34px); border: 1px solid #dfe8eb; border-radius: 15px; background: #fff; }
+.employment-search-heading h2 { margin: 9px 0; color: #142f43; font: 800 clamp(25px, 3vw, 34px)/1.2 Manrope, sans-serif; letter-spacing: -.8px; }
+.employment-search-heading p { color: #607585; font-size: 12px; line-height: 1.7; }
+.employment-filter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; margin: 23px 0 30px; }
+.employment-filter-grid label, .create-space-form label { display: grid; gap: 7px; color: #3b596a; font-size: 11px; font-weight: 800; }
+.employment-filter-grid input, .employment-filter-grid select, .create-space-form input:not([type="checkbox"]):not([type="file"]), .create-space-form select, .create-space-form textarea { width: 100%; min-width: 0; padding: 12px; border: 1px solid #dce6e9; border-radius: 8px; background: #fff; color: #18384b; font-size: 12px; }
+.employment-results-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 15px; }
+.employment-results-heading h3 { margin: 0; color: #142f43; font: 800 19px Manrope, sans-serif; }
+.employment-results-heading > span { color: #637b88; font-size: 11px; }
+.employment-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.employment-card { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 21px; border: 1px solid #e0e8eb; border-radius: 12px; background: linear-gradient(145deg, #fff, #f8fbfb); }
+.employment-card-top { display: flex; flex-wrap: wrap; gap: 7px; }
+.employment-tag { padding: 6px 8px; border-radius: 5px; background: #eaf5f3; color: #176c69; font-size: 9px; font-weight: 850; }
+.employment-tag.employment-contract { background: #f4eddd; color: #84662f; }
+.employment-card h3 { margin: 15px 0 8px; color: #142f43; font: 800 17px/1.35 Manrope, sans-serif; }
+.employment-card p { color: #607585; font-size: 12px; line-height: 1.75; }
+.employment-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 3px 0 13px; }
+.employment-meta span { padding: 6px 8px; border: 1px solid #e1e9ec; border-radius: 6px; color: #506879; font-size: 10px; }
+.employment-card small { margin: 0 0 15px; color: #7a8c97; font-size: 9px; line-height: 1.65; }
+.employment-apply { display: inline-flex; align-items: center; justify-content: center; margin-top: auto; padding: 12px 14px; text-align: center; }
+.create-space-layout { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: start; gap: 22px; margin: 0 clamp(18px, 5vw, 76px) 48px; }
+.create-space-promise, .create-space-form-card { min-width: 0; padding: clamp(20px, 3vw, 32px); border: 1px solid #dfe8eb; border-radius: 14px; background: #fff; }
+.create-space-promise h2, .create-space-form h2, .form-preparation-notice h2 { margin: 10px 0 15px; color: #142f43; font: 800 clamp(23px, 2.6vw, 31px)/1.2 Manrope, sans-serif; letter-spacing: -.7px; }
+.create-space-promise ol { display: grid; gap: 14px; padding-left: 20px; color: #506879; font-size: 12px; line-height: 1.8; }
+.create-space-promise p, .form-preparation-notice p { color: #607585; font-size: 11px; line-height: 1.8; }
+.create-space-form { display: grid; gap: 15px; }
+.create-space-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.create-space-form input[type="file"] { display: block; width: 100%; max-width: 100%; padding: 9px; border: 1px solid #dce6e9; border-radius: 8px; background: #f8fbfb; font-size: 11px; }
+.create-space-form .document-upload { padding: 13px; border: 1px dashed #c9dadd; border-radius: 9px; background: #f8fbfb; }
+.create-space-form .document-upload small { color: #718692; font-size: 10px; font-weight: 500; line-height: 1.6; }
+.create-space-form .create-space-consent { display: flex; grid-template-columns: auto 1fr; align-items: flex-start; gap: 9px; color: #607585; font-size: 10px; font-weight: 500; line-height: 1.6; }
+.create-space-consent input { flex: 0 0 auto; margin-top: 2px; accent-color: #176c69; }
+.create-space-form .search-submit { margin: 0; }
+.selected-opportunity { margin: 0; padding: 10px 12px; border-radius: 7px; background: #f1f7f6; color: #496171; font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
+.form-preparation-notice { padding: 18px; border: 1px solid #d7e9e5; border-radius: 10px; background: #f1f8f6; }
+@media (max-width: 850px) { .employment-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .create-space-layout { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .employment-search { margin: 0 14px 30px; padding: 18px 14px; } .employment-filter-grid, .employment-results, .create-space-fields { grid-template-columns: 1fr; } .create-space-layout { margin: 0 14px 32px; } .employment-card { padding: 17px; } .announcement-job-chip { font-size: 9px; } }
+@media (prefers-reduced-motion: reduce) { .announcement-job-marquee-group { animation: none; } }
