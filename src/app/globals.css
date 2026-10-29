@@ -1740,3 +1740,19 @@ body { background: var(--paper); color: var(--ink); }
   margin-left: 8px;
   padding-left: 7px;
 }
+
+
+/* Statut explicite des pages : séparer les dossiers, les guides et les fonctionnalités non ouvertes. */
+.capability-notice {
+  margin: 1rem 0 0;
+  padding: .9rem 1rem;
+  border-left: 3px solid #b99348;
+  border-radius: 0 8px 8px 0;
+  background: rgba(185, 147, 72, .09);
+  color: var(--muted, #53656b);
+  font-size: .92rem;
+  line-height: 1.6;
+}
+.capability-notice strong { color: var(--foreground, #17343b); }
+.page-hero .route-actions { margin-top: 1rem; }
+.page-hero .concept-cta { display: inline-flex; align-items: center; gap: .5rem; text-decoration: none; }
