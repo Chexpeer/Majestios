@@ -46,7 +46,7 @@ export default function MarchesPrivesPage() {
         <span className="eyebrow">MAJESTIOS · PROSPECTION INVERSÉE</span>
         <h1>Les opportunités privées, <span>qualifiées avant d’être proposées.</span></h1>
         <p>MajestiOS ne doit pas seulement diffuser des annonces. Sa valeur est de rapprocher un besoin ou un signal vérifiable des entreprises qui ont réellement les compétences pour y répondre, puis d’organiser une prochaine étape commerciale pertinente.</p>
-        <div className="page-hero-meta"><span className="status-chip"><i />Qualification avant mise en relation</span><span>Source · actualité · adéquation · action</span></div>
+        <div className="page-hero-meta"><span className="status-chip"><i />Qualification avant mise en relation</span><span>Flux de consultations privées : en préparation</span><span>Source · actualité · adéquation · action</span></div>
       </section>
       <section className="content-panel">
         <span className="eyebrow">TROIS FAMILLES DE SIGNAUX</span>
