@@ -20,7 +20,7 @@ const knowledge: { terms: string[]; answer: Answer }[] = [
 function answerFor(value: string): Answer {
   const q=value.toLocaleLowerCase("fr");
   const match=knowledge.find(item=>item.terms.some(term=>q.includes(term)));
-  return match?.answer ?? {title:"Précisons votre besoin",text:"Je peux vous guider sur la détection d’opportunités, l’évaluation d’entreprise, le développement commercial, les études de marché, l’e-réputation et les partenariats. Décrivez votre objectif ou choisissez une rubrique. Je signalerai les fonctions encore en conception plutôt que de prétendre qu’une action a été exécutée.",sources:["Référentiel stratégique MajestiOS — vision et parcours métier"],next:[{label:"Radar Business / BODACC",href:"/business/veille-bodacc"},{label:"Développement commercial",href:"/developpement-commercial"},{label:"Réseaux professionnels",href:"/reseaux"}]};
+  return match?.answer ?? {title:"Je vous oriente vers la bonne ressource",text:"Je n’ai pas encore de réponse suffisamment fiable à cette question. Vous pouvez parcourir les rubriques proposées ci-dessous. Si votre demande nécessite une réponse personnalisée, indiquez un numéro de téléphone pour qu’un membre de l’équipe puisse vous rappeler. Attention : le module de rappel n’est pas encore relié à un service de transmission dans cette version.",sources:["Référentiel stratégique MajestiOS — version initiale de l’assistant"],next:[{label:"Opportunités",href:"/opportunites"},{label:"Développement commercial",href:"/developpement-commercial"},{label:"Réseaux professionnels",href:"/reseaux"}]};
 }
 
 export default function MajestiosAssistant() {
@@ -31,9 +31,14 @@ export default function MajestiosAssistant() {
   const [bodaccResults,setBodaccResults]=useState<BodaccResult[]>([]);
   const [bodaccLoading,setBodaccLoading]=useState(false);
   const [bodaccError,setBodaccError]=useState("");
+  const [needsCallback,setNeedsCallback]=useState(false);
+  const [callbackPhone,setCallbackPhone]=useState("");
+  const [callbackNotice,setCallbackNotice]=useState("");
   async function ask(value:string){
     const q=value.trim(); if(!q)return;
-    setHistory(old=>[...old,q]); setAnswer(answerFor(q)); setQuestion(""); setBodaccResults([]); setBodaccError("");
+    setHistory(old=>[...old,q]); setAnswer(answerFor(q)); setQuestion(""); setBodaccResults([]); setBodaccError(""); setCallbackPhone(""); setCallbackNotice("");
+    const normalizedQuestion=q.toLocaleLowerCase("fr");
+    setNeedsCallback(!knowledge.some(item=>item.terms.some(term=>normalizedQuestion.includes(term))));
     const lower=q.toLocaleLowerCase("fr").replace(/[’‘]/g,"'");
     const asksBusiness=/bodacc|cession|reprise|fonds de commerce|vente d'entreprise|vente entreprise|entreprise à vendre/.test(lower);
     if(asksBusiness){
@@ -60,6 +65,7 @@ export default function MajestiosAssistant() {
         <p className="chat-disclaimer">Je vous guide selon les références MajestiOS. Les analyses restent à vérifier et les décisions vous appartiennent.</p>
         {history.map((q,i)=><p className="chat-question" key={i}>{q}</p>)}
         {answer ? <article className="chat-answer"><strong>{answer.title}</strong><p>{answer.text}</p><small>Références mobilisées</small><ul>{answer.sources.map(s=><li key={s}>{s}</li>)}</ul><nav>{answer.next?.map(n=><a key={n.href} href={n.href}>{n.label} ↗</a>)}</nav></article> : <div className="chat-prompts"><span>Que souhaitez-vous faire ?</span>{["Trouver des opportunités","Rechercher une cession BODACC","Préparer ma prospection","Surveiller l’e-réputation","Comprendre Brainios"].map(p=><button key={p} type="button" onClick={()=>ask(p)}>{p} ↗</button>)}</div>}
+        {needsCallback && <form className="chat-callback" onSubmit={event=>{event.preventDefault();setCallbackNotice("Votre numéro n’a pas été transmis : le service de rappel doit encore être raccordé. Vous pouvez continuer à explorer les rubriques MajestiOS.");}}><label htmlFor="chat-callback-phone">Souhaitez-vous être rappelé ? Laissez votre numéro de téléphone.</label><input id="chat-callback-phone" type="tel" autoComplete="tel" value={callbackPhone} onChange={event=>setCallbackPhone(event.target.value)} placeholder="Votre numéro de téléphone" required/><button type="submit" disabled={!callbackPhone.trim()}>Préparer ma demande</button>{callbackNotice && <p role="status">{callbackNotice}</p>}</form>}
         {bodaccLoading && <p role="status">Recherche dans la source officielle BODACC…</p>}
         {bodaccError && <p role="status">{bodaccError}</p>}
         {bodaccResults.length>0 && <section aria-live="polite"><strong>Résultats BODACC ({bodaccResults.length})</strong>{bodaccResults.map(item=><article className="chat-answer" key={item.id}><strong>{item.company}</strong><p>{item.kind} · {item.date}</p><p>{item.summary}</p><a href={item.sourceUrl} target="_blank" rel="noreferrer">Vérifier sur le BODACC ↗</a></article>)}</section>}
@@ -67,6 +73,6 @@ export default function MajestiosAssistant() {
       <form className="chat-compose" onSubmit={e=>{e.preventDefault();void ask(question);}}><input value={question} onChange={e=>setQuestion(e.target.value)} placeholder="Ex. : cession boulangerie Mulhouse…" aria-label="Votre question" maxLength={1000}/><button type="submit" disabled={!question.trim()}>Envoyer</button></form>
       <p className="chat-status">Assistant guidé par le référentiel ; recherche BODACC réelle activée pour les demandes Business. Les autres fonctions restent des parcours de prototype.</p>
     </section>}
-    <button className="chat-launcher" type="button" onClick={()=>setOpen(v=>!v)} aria-expanded={open}><span aria-hidden="true">✦</span>{open?"Fermer l’assistant":"Parler à MajestiOS"}</button>
+    <button className="chat-launcher" type="button" onClick={()=>setOpen(v=>!v)} aria-expanded={open}><span className="chat-launcher-emblem" aria-hidden="true"><svg viewBox="0 0 32 24" focusable="false"><path d="M2 20 1 5l8 6 7-10 7 10 8-6-2 15Z" fill="currentColor"/><path d="M4 23h24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg><b>M</b></span>{open?"Fermer l’assistant":"Parler à MajestiOS"}</button>
   </div>;
 }
