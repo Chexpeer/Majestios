@@ -64,3 +64,11 @@ Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons,
 - Vérification de cohérence complémentaire : le composant de navigation latérale doit être explicitement client pour utiliser `usePathname`; le flux global n’a pas besoin de variantes par rubrique.
 - La suite Vitest, ESLint, TypeScript et le build Next.js n’ont pas été exécutés dans cet environnement sur le dernier état. Ne pas considérer le lot comme techniquement validé tant que ces contrôles n’ont pas réussi.
 - Aucun déploiement Vercel n’a été déclenché volontairement.
+
+
+### Lot Business et signaux d’entreprise
+- Clarification des textes : une publication BODACC est un signal à vérifier, pas une preuve qu’une entreprise est à vendre ni qu’elle a un besoin commercial.
+- Le lien présenté comme accès à la recherche BODACC pointe désormais vers la rubrique dédiée « Radar BODACC », sans prétendre qu’un moteur live est déjà connecté.
+- Ajout de liens croisés vers achat/cession, radar entreprises, étude de marché, prospection et réseaux.
+- Le lien FAQ utilise la route canonique `/comprendre/faq`; les liens de confidentialité et mentions légales sont accessibles depuis le pied de page.
+- Un test de régression vérifie les liens et l’absence de l’ancienne route FAQ dans ce parcours.
