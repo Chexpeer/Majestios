@@ -18,8 +18,10 @@ Ce lot porte sur la cohérence des pages générées à partir de l’arborescen
 - Le contenu rappelle la distinction entre faits vérifiés, hypothèses commerciales et fonctionnalités qui ne sont pas encore actives.
 - Les pages Confidentialité et Espace professionnel peuvent masquer la carte de navigation générale et les ressources sans rapport direct, afin de ne pas distraire l’utilisateur sur ces parcours sensibles.
 - Les pages légales et de service ont été reliées entre elles par des liens de pied de page, dont un retour explicite depuis les mentions légales vers la confidentialité et l’accueil.
+- Les liens FAQ des pages Études de marché et Prospection pointent maintenant vers la rubrique canonique `/comprendre/faq`, sans ancres non prises en charge par le gabarit. Ces pages se relient aussi au radar entreprises et entre elles.
+- Le ciblage des ressources a été corrigé : la page Opportunités reçoit sa sélection propre, les pages Salons leur sélection dédiée, et Réseaux n’est plus confondu avec les événements.
 - Le filtre « avis encore ouverts uniquement » est maintenant préservé entre la recherche publique, la fiche détaillée et le parcours de préparation d’une demande, afin que le retour ne perde pas ce critère.
-- Le test `src/lib/site-navigation.test.ts` vérifie les URL uniques, la résolution des routes de l’arborescence, les destinations de redirection, les liens internes littéraux, la couverture éditoriale, la cohérence parent-enfant, l’interconnectivité contextuelle dans les deux sens et la conservation des filtres dans le parcours de consultation d’un marché public, ainsi que l’accès aux liens légaux depuis les parcours de recherche et de demande.
+- Le test `src/lib/site-navigation.test.ts` vérifie les URL uniques, la résolution des routes de l’arborescence, les destinations de redirection, les liens internes littéraux, la couverture éditoriale, la cohérence parent-enfant, l’interconnectivité contextuelle dans les deux sens, le ciblage des ressources, les liens entre études de marché et prospection, et la conservation des filtres dans le parcours de consultation d’un marché public, ainsi que l’accès aux liens légaux depuis les parcours de recherche et de demande.
 
 ## Règles d’interconnexion retenues
 
