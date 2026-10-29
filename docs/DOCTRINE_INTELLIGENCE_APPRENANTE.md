@@ -95,3 +95,27 @@ Cette doctrine doit guider progressivement :
 **MajestiOS ne se contente pas de fournir de l’information : il aide à la comprendre, à l’évaluer, à l’utiliser et à en tirer des enseignements. Il transmet ses méthodes, apprend des résultats observés et améliore progressivement la qualité de son accompagnement.**
 
 Sa valeur tient à l’alliance de l’intelligence numérique, de la méthode professionnelle, du réseautage intelligent et de l’apprentissage continu — sans jamais confondre assistance, preuve et garantie absolue.
+
+## 8. La profondeur progressive comme principe d’architecture
+
+La puissance de MajestiOS doit se démontrer par la maîtrise progressive de la profondeur et de la complexité, et non par l’accumulation de fonctionnalités visibles.
+
+Le parcours doit permettre de commencer simplement, puis d’approfondir sans rupture :
+1. **Comprendre** : saisir immédiatement la proposition de valeur et l’action possible.
+2. **Explorer** : accéder à une rubrique dédiée, avec son contexte, ses repères et ses liens utiles.
+3. **Analyser** : examiner des critères, des sources, des filtres et des éléments de qualification adaptés au sujet.
+4. **Agir** : suivre un parcours opérationnel explicite, avec ses prérequis et ses limites annoncés.
+5. **Capitaliser** : retrouver les décisions, les résultats et les enseignements lorsque les fonctions de suivi correspondantes seront disponibles.
+
+Chaque niveau doit apporter une valeur supplémentaire identifiable. La complexité ne doit être ni masquée par des pages superficielles, ni déversée d’un seul coup sur l’utilisateur. La navigation doit rendre le prochain approfondissement évident, sans transformer le site en page interminable.
+
+Conséquences de conception :
+- les rubriques importantes disposent de pages dédiées et d’une hiérarchie lisible ;
+- les cartes et les nœuds du schéma conduisent à une destination pertinente, pas à une page générique de remplissage ;
+- les contenus distinguent explication, méthode, outil et action métier ;
+- les fonctions avancées sont introduites au moment où elles deviennent utiles ;
+- l’interconnexion permet d’approfondir ou de revenir à un niveau supérieur sans perdre le fil ;
+- toute profondeur affichée doit correspondre à un contenu ou à une capacité réelle, ou annoncer clairement son statut de préparation.
+
+Ce principe constitue un critère d’acceptation transversal pour l’UX, l’arborescence, les ressources, les parcours métier et les évolutions techniques de MajestiOS.
+
