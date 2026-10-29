@@ -412,7 +412,7 @@ const editorialPages: Record<string, EditorialPage> = {
       { title: "Des mises en relation qualifiées", body: "Chaque rapprochement doit s’appuyer sur une raison explicite, des informations vérifiables et le respect du consentement des personnes concernées." },
       { title: "Contribuer à l’écosystème", body: "Les modalités d’accès à l’annuaire, aux événements et aux contributions seront précisées au fur et à mesure de l’ouverture effective des services." }
     ]
-  }
+  },
   "/espace-professionnel": {
     lead: "L’espace professionnel doit réunir les opportunités suivies, les dossiers et les prochaines actions commerciales dans un environnement authentifié. Tant que l’authentification et les autorisations ne sont pas activées, aucun espace privé ne doit être présenté comme opérationnel.",
     sections: [
