@@ -80,3 +80,6 @@ Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons,
 - Simplification éditoriale du parcours Business : le terme « signal » est expliqué comme un indice à vérifier et le sigle BODACC est développé lors de sa première présentation dans le parcours.
 
 - Harmonisation des cartes documentaires : retrait du macaron CSS qui doublonnait le libellé déjà présent dans les cartes ; simplification de plusieurs textes contenant « veille » ou des formulations abstraites.
+
+- Contrôle du flux commun : les liens des annonces conservent explicitement leur capacité de clic malgré le conteneur visuel discret. Test statique ajouté pour éviter une régression d’interactivité.
+- Nettoyage du formulaire de préparation : suppression d’un état d’écran intermédiaire devenu inaccessible, puisque la soumission redirige directement vers la page de remerciement.
