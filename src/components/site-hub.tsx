@@ -150,8 +150,8 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
   const related = siblings.slice(0, 4);
   const guide = getDetailGuide(pathname, node?.label ?? "cette rubrique");
   const parent = found?.ancestors.at(-1);
-  return <main className="site-page site-page-with-sidebar">
-    <div className="site-main">
+  const domainClass = pathname.startsWith("/opportunites") ? "domain-opportunites" : pathname.startsWith("/business") ? "domain-business" : pathname.startsWith("/developpement-commercial") ? "domain-commercial" : pathname.startsWith("/reseaux") ? "domain-reseaux" : pathname.startsWith("/comprendre") || pathname === "/faq" || pathname === "/comment-et-pourquoi" ? "domain-comprendre" : "domain-general";
+  return <main className={`site-page site-page-with-sidebar ${domainClass}`}>
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link>{found?.ancestors.map((ancestor) => <span key={ancestor.href}><b>/</b><Link href={ancestor.href}>{ancestor.label}</Link></span>)}<span><b>/</b><strong>{node?.label ?? "Rubrique"}</strong></span></nav>
       <section className="page-hero">
