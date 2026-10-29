@@ -1756,3 +1756,17 @@ body { background: var(--paper); color: var(--ink); }
 .capability-notice strong { color: var(--foreground, #17343b); }
 .page-hero .route-actions { margin-top: 1rem; }
 .page-hero .concept-cta { display: inline-flex; align-items: center; gap: .5rem; text-decoration: none; }
+
+
+/* Accueil : recherche plus compacte, pour préserver la place du flocon interactif. */
+.home-intro { padding-bottom: 14px; }
+.home-tender-search { max-width: 820px; margin-top: 14px; padding: 5px; box-shadow: 0 8px 24px rgb(24 52 67 / 6%); }
+.home-tender-search .search-field { min-height: 46px; padding: 6px 11px; }
+.home-tender-search .search-field > span { margin-bottom: 3px; font-size: 9px; }
+.home-tender-search .search-field input,
+.home-tender-search .search-field select { font-size: 11px; }
+.home-tender-search .search-submit { min-height: 40px; padding: 0 14px; font-size: 11px; box-shadow: none; }
+@media (max-width: 1050px) {
+  .home-tender-search .search-field { min-height: 48px; }
+  .home-tender-search .search-submit { min-height: 40px; }
+}
