@@ -45,6 +45,29 @@ describe("site navigation tree", () => {
     expect(unresolved, `Navigation URLs that do not resolve to their own dossier: ${unresolved.join(", ")}`).toEqual([]);
   });
 
+  it("makes every interactive map pole a direct link to an implemented canonical dossier", () => {
+    const map = readFileSync(join(process.cwd(), "src", "components", "majestic-opportunity-map.tsx"), "utf8");
+    const poleHrefs = [...map.matchAll(/\{ id: "[^"]+", href: "([^"]+)"/g)].map((match) => match[1]);
+    const pageRoutes = collectPageRoutes();
+    const unresolved = poleHrefs.filter((href) => {
+      const node = findSiteNode(href);
+      const target = href === "/" ? [] : href.split("/").filter(Boolean);
+      return !node || !pageRoutes.some((pattern) => routeMatches(pattern, target));
+    });
+
+    expect(poleHrefs).toHaveLength(6);
+    expect(unresolved, `Interactive map poles without a canonical page: ${unresolved.join(", ")}`).toEqual([]);
+    expect(map).toContain('<Link key={pole.id} href={pole.href}');
+    expect(map).not.toContain('<button key={pole.id}');
+  });
+
+  it("keeps the homepage tender search visually compact", () => {
+    const styles = readFileSync(join(appDirectory, "globals.css"), "utf8");
+    expect(styles).toContain(".home-tender-search { max-width: 820px; margin-top: 14px;");
+    expect(styles).toContain(".home-tender-search .search-field { min-height: 46px;");
+    expect(styles).toContain(".home-tender-search .search-submit { min-height: 40px;");
+  });
+
   it("does not treat unknown catch-all URLs as valid dossiers", () => {
     const invalidExamples = [
       "/opportunites/marches-publics/annonce-inexistante",
