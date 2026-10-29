@@ -108,6 +108,13 @@ describe("architecture de navigation MajestiOS", () => {
     expect(missingLinks, "Les parcours de recherche et de demande doivent offrir un accès aux informations légales").toEqual([]);
   });
 
+  it("sélectionne des ressources propres aux opportunités et aux salons", () => {
+    const hubSource = readFileSync(join(sourceRoot, "components", "site-hub.tsx"), "utf8");
+    expect(hubSource).toContain('pathname === "/opportunites" ? "opportunites"');
+    expect(hubSource).toContain('pathname.startsWith("/opportunites/salons") ? "salons"');
+    expect(hubSource).toContain('pathname.startsWith("/reseaux") ? "reseaux"');
+  });
+
   it("relie les pages de prospection et d’étude de marché sans utiliser les anciennes ancres FAQ", () => {
     const marketStudy = readFileSync(join(appRoot, "developpement-commercial", "etudes-de-marche", "page.tsx"), "utf8");
     const prospecting = readFileSync(join(appRoot, "developpement-commercial", "prospection", "page.tsx"), "utf8");
