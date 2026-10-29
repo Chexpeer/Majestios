@@ -1,3 +1,10 @@
-import SiteHub from "@/components/site-hub";
-export const metadata = { title: "Radar entreprises — MajestiOS", description: "Repérer et qualifier des signaux d’entreprise pour la prospection." };
-export default function Page() { return <SiteHub pathname="/opportunites/radar-entreprises" intro="Le radar entreprises vise à faire émerger des signaux utiles à la prospection : création, évolution d’activité, changement d’adresse ou opérations de transmission. Un signal reste une piste à vérifier, pas une preuve de besoin commercial." checklist={["Retrouver la publication ou la source d’origine.", "Qualifier le secteur et l’activité avant toute prise de contact.", "Documenter ce qui est factuel et ce qui reste une hypothèse."]} />; }
+import { redirect } from "next/navigation";
+
+export const metadata = {
+  title: "Intelligence entreprises — MajestiOS",
+  description: "Relier les évolutions économiques vérifiées à des hypothèses de développement commercial."
+};
+
+export default function LegacyBusinessRadarPage() {
+  redirect("/business/intelligence-entreprises");
+}
