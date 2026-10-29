@@ -23,7 +23,16 @@ export default function Page() {
         <article><span>03 · PRÉPARER</span><h2>Rassembler les pièces</h2><p>Établir la liste des documents à fournir, des questions à poser et des dates à respecter.</p></article>
         <article><span>04 · SUIVRE</span><h2>Ne pas oublier une étape</h2><p>Noter les décisions prises, les pièces manquantes et les prochaines actions à effectuer.</p></article>
       </section>
-      <section className="concept-principles">
+            <section className="concept-principles">
+        <span className="section-label">PARCOURS APPROFONDI</span>
+        <h2>Chaque étape dispose de sa propre méthode.</h2>
+        <div className="results-list">
+          <article className="result-card"><div className="result-main"><h3>1. Évaluer avant de répondre</h3><p>Vérifier les exigences, la capacité d’exécution, les délais et les risques avant de décider.</p></div><div className="result-actions"><Link className="result-action" href="/developpement-commercial/accompagnement-appels-offres/preparer">Évaluer le marché →</Link></div></article>
+          <article className="result-card"><div className="result-main"><h3>2. Préparer le dossier</h3><p>Organiser les pièces, démontrer les capacités réelles et contrôler la cohérence de la candidature.</p></div><div className="result-actions"><Link className="result-action" href="/developpement-commercial/accompagnement-appels-offres/rediger">Préparer le dossier →</Link></div></article>
+          <article className="result-card"><div className="result-main"><h3>3. Analyser le résultat</h3><p>Adapter la suite au résultat publié et transformer l’expérience en enseignements vérifiables.</p></div><div className="result-actions"><Link className="result-action" href="/developpement-commercial/accompagnement-appels-offres/apres-un-resultat">Capitaliser →</Link></div></article>
+        </div>
+      </section>
+<section className="concept-principles">
         <h2>Où consulter les offres ?</h2>
         <p>Les appels d’offres publics affichés sur le site proviennent actuellement d’une source reliée au BOAMP. Les offres privées dépendent encore des sources qui pourront être reliées. Vérifiez toujours les informations sur le site officiel de l’acheteur.</p>
         <div className="route-actions">
