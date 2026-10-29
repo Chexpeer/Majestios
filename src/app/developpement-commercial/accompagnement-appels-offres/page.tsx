@@ -27,8 +27,8 @@ export default function Page() {
         <h2>Où consulter les offres ?</h2>
         <p>Les appels d’offres publics affichés sur le site proviennent actuellement d’une source reliée au BOAMP. Les offres privées dépendent encore des sources qui pourront être reliées. Vérifiez toujours les informations sur le site officiel de l’acheteur.</p>
         <div className="route-actions">
-          <Link className="search-submit concept-cta" href="/appels-offres-publics">Voir les appels d’offres publics ↗</Link>
-          <Link className="search-submit concept-cta" href="/appels-offres-prives">Voir les appels d’offres privés ↗</Link>
+          <Link className="search-submit concept-cta" href="/opportunites/marches-publics">Voir les appels d’offres publics ↗</Link>
+          <Link className="search-submit concept-cta" href="/opportunites/marches-prives">Voir les appels d’offres privés ↗</Link>
         </div>
         <p><strong>État actuel :</strong> cette page présente le parcours prévu. MajestiOS ne dépose pas de candidature à votre place et ne remplace pas la lecture du dossier officiel.</p>
         <Link className="search-submit concept-cta" href="/faq#accompagnement-appels-offres">Questions fréquentes sur les appels d’offres ↗</Link>
