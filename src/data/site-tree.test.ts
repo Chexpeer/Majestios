@@ -40,6 +40,27 @@ describe("site navigation tree", () => {
     expect(new Set(destinations).size).toBe(destinations.length);
   });
 
+  it("keeps navigation on canonical routes instead of legacy redirect aliases", () => {
+    const legacyAliases = new Set([
+      "/appels-offres-publics",
+      "/appels-offres-prives",
+      "/offres-emploi",
+      "/opportunites/business",
+      "/developpement-commercial/diagnostic-business",
+      "/intelligence-commerciale",
+      "/partenaires",
+      "/e-reputation",
+      "/etudes-de-marche",
+      "/comprendre/faq",
+      "/comprendre/concept"
+    ]);
+    const legacyDestinations = flattenSiteTree()
+      .map((node) => node.href)
+      .filter((href) => legacyAliases.has(href));
+
+    expect(legacyDestinations, `Navigation still points to legacy aliases: ${legacyDestinations.join(", ")}`).toEqual([]);
+  });
+
   it("points every navigation item to an implemented Next.js page or dynamic route", () => {
     const pageRoutes = collectPageRoutes();
     const missing = flattenSiteTree()
