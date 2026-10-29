@@ -72,6 +72,7 @@ export const siteTree: SiteNode[] = [
     { label: "FAQ", href: "/comprendre/faq", description: "Trouver les réponses aux questions courantes." },
     { label: "Glossaire", href: "/comprendre/glossaire", description: "Comprendre le vocabulaire métier." }
   ]},
+  { label: "Nous rejoindre", href: "/nous-rejoindre", description: "Découvrir les possibilités de contribution au développement de MajestiOS." },
   { label: "Espace professionnel", href: "/espace-professionnel", description: "Accéder aux parcours réservés aux professionnels." },
   { label: "Confidentialité", href: "/confidentialite", description: "Comprendre les données collectées et leur traitement." },
   { label: "Mentions légales", href: "/mentions-legales", description: "Consulter les informations légales du site." }
