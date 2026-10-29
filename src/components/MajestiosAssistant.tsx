@@ -20,7 +20,7 @@ const knowledge: { terms: string[]; answer: Answer }[] = [
 function answerFor(value: string): Answer {
   const q=value.toLocaleLowerCase("fr");
   const match=knowledge.find(item=>item.terms.some(term=>q.includes(term)));
-  return match?.answer ?? {title:"Précisons votre besoin",text:"Je peux vous guider sur la détection d’opportunités, l’évaluation d’entreprise, le développement commercial, les études de marché, l’e-réputation et les partenariats. Décrivez votre objectif ou choisissez une rubrique. Je signalerai les fonctions encore en conception plutôt que de prétendre qu’une action a été exécutée.",sources:["Référentiel stratégique MajestiOS — vision et parcours métier"],next:[{label:"Radar Business / BODACC",href:"/business/veille-bodacc"},{label:"Développement commercial",href:"/developpement-commercial"},{label:"Partenaires",href:"/partenaires"}]};
+  return match?.answer ?? {title:"Précisons votre besoin",text:"Je peux vous guider sur la détection d’opportunités, l’évaluation d’entreprise, le développement commercial, les études de marché, l’e-réputation et les partenariats. Décrivez votre objectif ou choisissez une rubrique. Je signalerai les fonctions encore en conception plutôt que de prétendre qu’une action a été exécutée.",sources:["Référentiel stratégique MajestiOS — vision et parcours métier"],next:[{label:"Radar Business / BODACC",href:"/business/veille-bodacc"},{label:"Développement commercial",href:"/developpement-commercial"},{label:"Réseaux professionnels",href:"/reseaux"}]};
 }
 
 export default function MajestiosAssistant() {
