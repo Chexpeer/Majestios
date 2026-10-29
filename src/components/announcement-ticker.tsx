@@ -39,17 +39,18 @@ function tenderHref(item: TenderItem) {
 
 export default function AnnouncementTicker() {
   const [tenders, setTenders] = useState<TenderItem[]>([]);
+  const [tenderFeedState, setTenderFeedState] = useState<"loading" | "ready" | "unavailable">("loading");
 
   useEffect(() => {
     let active = true;
     fetch("/api/opportunities?limit=8&openOnly=true", { cache: "no-store" })
       .then(async (response) => {
-        if (!response.ok) return [];
+        if (!response.ok) throw new Error("BOAMP indisponible");
         const payload = await response.json();
         return Array.isArray(payload.items) ? payload.items as TenderItem[] : [];
       })
-      .then((items) => { if (active) setTenders(items); })
-      .catch(() => { if (active) setTenders([]); });
+      .then((items) => { if (active) { setTenders(items); setTenderFeedState("ready"); } })
+      .catch(() => { if (active) { setTenders([]); setTenderFeedState("unavailable"); } });
     return () => { active = false; };
   }, []);
 
@@ -78,7 +79,7 @@ export default function AnnouncementTicker() {
                 <div className="announcement-flow-marquee-group">{salonEvents.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span aria-hidden="true">↗</span></Link>)}</div>
                 <div className="announcement-flow-marquee-group" aria-hidden="true">{salonEvents.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug} tabIndex={-1}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span aria-hidden="true">↗</span></Link>)}</div>
               </div>
-              : <div className="announcement-flow-message"><span className="flow-status-dot" />{flow.state}</div>}
+              : <div className="announcement-flow-message"><span className="flow-status-dot" />{flow.short === "PUBLIC" ? tenderFeedState === "loading" ? "Chargement des avis publics…" : tenderFeedState === "unavailable" ? "Flux temporairement indisponible : ouvrez la recherche dédiée." : "Aucun avis ouvert disponible dans le flux. Ouvrez la recherche dédiée." : flow.state}</div>}
           </div>
         </div>;
       })}
