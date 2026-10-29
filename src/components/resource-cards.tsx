@@ -15,9 +15,9 @@ type ResourceScope = "accueil" | "opportunites" | "marches-publics" | "marches-p
 
 const resources: Record<ResourceScope, ResourceCard[]> = {
   accueil: [
-    { label: "GUIDE", title: "Lire un signal commercial", description: "Comprendre comment un avis, une évolution d’entreprise ou un événement peut devenir une piste à qualifier.", action: "Comprendre la méthode", href: "/comprendre/concept", kind: "GUIDE" },
+    { label: "GUIDE", title: "Lire un signal commercial", description: "Comprendre comment un avis, une évolution d’entreprise ou un événement peut révéler une piste commerciale à vérifier.", action: "Comprendre la méthode", href: "/comprendre/concept", kind: "GUIDE" },
     { label: "BONNES PRATIQUES", title: "Qualifier avant de contacter", description: "Vérifier la source, la date, la pertinence et les limites d’une information avant d’engager une démarche.", action: "Voir les repères", href: "/comprendre/faq", kind: "BONNES PRATIQUES" },
-    { label: "OUTIL", title: "Explorer les sources utiles", description: "Accéder aux repères pour organiser une veille documentaire et garder une trace de l’origine des informations.", action: "Explorer les sources", href: "/developpement-commercial/etudes-de-marche/sources", kind: "OUTIL" },
+    { label: "OUTIL", title: "Trouver les sources utiles", description: "Retrouver les sources utiles et conserver l’origine des informations.", action: "Explorer les sources", href: "/developpement-commercial/etudes-de-marche/sources", kind: "OUTIL" },
   ],
   opportunites: [
     { label: "GUIDE", title: "Qualifier un appel d’offres", description: "Vérifier l’objet, les critères, le territoire et les échéances avant de décider de se positionner.", action: "Explorer les marchés publics", href: "/opportunites/marches-publics", kind: "GUIDE" },
@@ -27,7 +27,7 @@ const resources: Record<ResourceScope, ResourceCard[]> = {
   "marches-publics": [
     { label: "GUIDE", title: "Décrypter un avis de marché", description: "Repérer l’objet, l’acheteur, les critères, les pièces demandées et l’échéance à confirmer dans le dossier original.", action: "Consulter le guide", href: "/developpement-commercial/accompagnement-appels-offres/preparer", kind: "GUIDE" },
     { label: "BONNES PRATIQUES", title: "Vérifier avant de répondre", description: "Contrôler les conditions d’accès, les capacités exigées, les documents et la date limite auprès de la source officielle.", action: "Préparer une réponse conforme", href: "/developpement-commercial/accompagnement-appels-offres/preparer", kind: "BONNES PRATIQUES" },
-    { label: "OUTIL", title: "Recherche ciblée et veille", description: "Affiner les critères, documenter les sources et transformer un avis pertinent en prochaine action commerciale.", action: "Ouvrir la recherche", href: "/opportunites/marches-publics", kind: "OUTIL" },
+    { label: "OUTIL", title: "Recherche ciblée et veille", description: "Affiner les critères, documenter les sources et transformer un avis pertinent en prochaine action commerciale.", action: "Lancer la recherche", href: "/opportunites/marches-publics", kind: "OUTIL" },
   ],
   "marches-prives": [
     { label: "GUIDE", title: "Comprendre une consultation privée", description: "Identifier l’émetteur, le besoin, les conditions de réponse et les informations effectivement autorisées à la diffusion.", action: "Comprendre la démarche", href: "/opportunites/marches-prives/secteur", kind: "GUIDE" },
@@ -65,7 +65,7 @@ const resources: Record<ResourceScope, ResourceCard[]> = {
     { label: "OUTIL", title: "Étudier son marché", description: "Structurer une recherche à partir d’une question, d’un territoire, d’une cible et de sources croisées.", action: "Accéder à la méthodologie", href: "/developpement-commercial/etudes-de-marche/methodologie", kind: "OUTIL" },
   ],
   general: [
-    { label: "GUIDE", title: "Comprendre la démarche MajestiOS", description: "Découvrir comment la veille et l’intelligence commerciale relient signaux, entreprises et opportunités.", action: "Comprendre MajestiOS", href: "/comprendre/concept", kind: "GUIDE" },
+    { label: "GUIDE", title: "Comprendre la démarche MajestiOS", description: "Découvrir comment les informations, les entreprises et les contacts se relient pour développer son activité.", action: "Comprendre MajestiOS", href: "/comprendre/concept", kind: "GUIDE" },
     { label: "BONNES PRATIQUES", title: "Agir sur une information vérifiée", description: "Contrôler la source, la date et le contexte avant de prendre une décision ou de contacter un acteur.", action: "Consulter la FAQ", href: "/comprendre/faq", kind: "BONNES PRATIQUES" },
     { label: "OUTIL", title: "Explorer les rubriques", description: "Accéder aux espaces documentaires, aux opportunités et aux ressources de développement commercial.", action: "Voir les opportunités", href: "/opportunites", kind: "OUTIL" },
   ],
@@ -73,14 +73,14 @@ const resources: Record<ResourceScope, ResourceCard[]> = {
 
 const scopeTitles: Record<ResourceScope, string> = {
   accueil: "Des ressources utiles pour passer à l’action",
-  opportunites: "Des repères pour qualifier les opportunités",
+  opportunites: "Des repères pour examiner les offres",
   "marches-publics": "Mieux comprendre et qualifier les marchés publics",
   "marches-prives": "Les bons repères pour les opportunités privées",
-  salons: "Préparer une veille événementielle utile",
+  salons: "Préparer ses visites de salons professionnels",
   emploi: "Des ressources pour préparer votre prochaine mission",
-  business: "Des repères pour interpréter les signaux d’entreprise",
+  business: "Des repères pour comprendre les informations sur les entreprises",
   reseaux: "Les clés d’un réseautage professionnel utile",
-  sources: "Méthodes et outils pour une veille fiable",
+  sources: "Méthodes et outils pour vérifier les informations",
   prospection: "Des outils pour une prospection plus pertinente",
   general: "Ressources documentaires et bonnes pratiques",
 };
