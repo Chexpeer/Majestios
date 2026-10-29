@@ -1,6 +1,5 @@
 import Link from "next/link";
 import AnnouncementTicker from "@/components/announcement-ticker";
-import HomepageNavigation from "@/components/homepage-navigation";
 import MajestiOSOpportunityMap from "@/components/majestic-opportunity-map";
 
 export const metadata = {
@@ -10,7 +9,6 @@ export const metadata = {
 
 export default function HomePage() {
   return <main className="home-redesign home-layout">
-    <HomepageNavigation />
     <div className="home-main">
       <AnnouncementTicker />
       <section className="home-intro">
