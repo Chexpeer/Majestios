@@ -48,8 +48,10 @@ export default function AnnouncementTicker() {
   const [tenderFeedState, setTenderFeedState] = useState<"loading" | "ready" | "unavailable">("loading");
 
   useEffect(() => {
-    const parts = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Europe/Paris" }).formatToParts(new Date());
-    setToday(`${parts.find((part) => part.type === "year")?.value}-${parts.find((part) => part.type === "month")?.value}-${parts.find((part) => part.type === "day")?.value}`);
+    const getParisDate = () => {
+      const parts = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Europe/Paris" }).formatToParts(new Date());
+      return `${parts.find((part) => part.type === "year")?.value}-${parts.find((part) => part.type === "month")?.value}-${parts.find((part) => part.type === "day")?.value}`;
+    };
     let active = true;
     fetch("/api/opportunities?limit=8&openOnly=true", { cache: "no-store" })
       .then(async (response) => {
@@ -57,8 +59,8 @@ export default function AnnouncementTicker() {
         const payload = await response.json();
         return Array.isArray(payload.items) ? payload.items as TenderItem[] : [];
       })
-      .then((items) => { if (active) { setTenders(items); setTenderFeedState("ready"); } })
-      .catch(() => { if (active) { setTenders([]); setTenderFeedState("unavailable"); } });
+      .then((items) => { if (active) { setToday(getParisDate()); setTenders(items); setTenderFeedState("ready"); } })
+      .catch(() => { if (active) { setToday(getParisDate()); setTenders([]); setTenderFeedState("unavailable"); } });
     return () => { active = false; };
   }, []);
 
@@ -70,12 +72,12 @@ export default function AnnouncementTicker() {
       {flows.map((flow) => {
         const hasTenders = flow.short === "PUBLIC" && tenders.length > 0;
         const hasSalons = flow.short === "SALONS" && upcomingSalons.length > 0;
-        return <div className="announcement-flow" key={flow.short}>
+        return <div className={`announcement-flow flow-${flow.short.toLowerCase()}`} key={flow.short}>
           <Link className="announcement-flow-label" href={flow.href}><span>{flow.short}</span><strong>{flow.label}</strong><span aria-hidden="true">↗</span></Link>
           <div className="announcement-flow-track">
             {hasTenders ? <div className={`announcement-flow-marquee direction-${flow.direction}`} aria-label="Appels d’offres publics vérifiés">
                 <div className="announcement-flow-marquee-group">
-                  {tenders.map((item) => <Link className="announcement-flow-item" href={tenderHref(item)} key={String(item.id)} title={item.title}>
+                  {tenders.map((item) => <Link className="announcement-flow-item flow-item-public" href={tenderHref(item)} key={String(item.id)} title={item.title}>
                     <span className="flow-status-dot" /><strong>{item.title}</strong><span>{item.location || "Territoire à vérifier"}</span><span aria-hidden="true">↗</span>
                   </Link>)}
                 </div>
