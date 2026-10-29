@@ -1716,3 +1716,12 @@ body { background: var(--paper); color: var(--ink); }
   .site-context-header .brand-wordmark { font-size: 17px; }
   .site-context-header .header-member-link { padding: 10px 11px; font-size: 11px; }
 }
+
+
+/* Navigation progressive : ne dévoiler le niveau suivant que dans la branche active. */
+.home-sidebar-branch { min-width: 0; }
+.home-sidebar-descendants { display: grid; gap: 1px; margin: 0 0 4px 12px; padding: 2px 0 2px 8px; border-left: 1px solid #d8e5e5; }
+.home-sidebar-descendants .home-sidebar-sub { display: flex; align-items: baseline; gap: 4px; padding: 6px 8px; color: #5d7480; font-size: 10px; }
+.home-sidebar-descendants .home-sidebar-sub > span:first-child { color: #147d78; }
+.home-sidebar-descendants .home-sidebar-sub:hover,
+.home-sidebar-descendants .home-sidebar-sub.is-active { background: #e9f3f1; color: #0c625e; }
