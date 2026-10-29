@@ -518,7 +518,7 @@ function buildContextualEditorial(
   };
 }
 
-export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MAJESTIOS", checklist = [] }: { pathname: string; title?: string; intro?: string; eyebrow?: string; checklist?: string[] }) {
+export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MAJESTIOS", checklist = [], showMap = true, showResources = true }: { pathname: string; title?: string; intro?: string; eyebrow?: string; checklist?: string[]; showMap?: boolean; showResources?: boolean }) {
   const found = findSiteNode(pathname);
   const node = found?.node;
   const children = node?.children ?? [];
@@ -550,10 +550,10 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
         <p>{section.body}</p>
         {section.bullets?.length ? <ul>{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul> : null}
       </section>)}
-      <SectionInteractiveMap title={pageTitle} items={mapItems.map((item) => ({ label: item.label, href: item.href, description: item.description }))} />
+      {showMap ? <SectionInteractiveMap title={pageTitle} items={mapItems.map((item) => ({ label: item.label, href: item.href, description: item.description }))} /> : null}
       {checklist.length > 0 ? <section className="content-panel"><span className="eyebrow">POINTS DE CONTRÔLE</span><h2>Avant de passer à l’action</h2><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul></section> : null}
       {!editorial && children.length === 0 ? <section className="content-panel"><span className="eyebrow">INFORMATIONS DE SERVICE</span><h2>Une démarche documentée et vérifiable</h2><p>Les informations et fonctionnalités seront présentées selon leur disponibilité réelle. Les annonces doivent renvoyer à une source identifiable ; les fonctions en préparation ne doivent pas être confondues avec un service déjà ouvert.</p></section> : null}
-      <ResourceCards scope={resourceScope} />
+      {showResources ? <ResourceCards scope={resourceScope} /> : null}
       {children.length > 0 ? <section className="related-section"><div><span className="eyebrow">POUR ALLER PLUS LOIN</span><h2>Rubriques associées</h2></div><div className="related-links">{related.map((item) => <Link href={item.href} key={item.href}>{item.label}<span>↗</span></Link>)}</div></section> : null}
       <footer className="page-footer"><span>MAJESTIOS · DÉTECTER → QUALIFIER → IDENTIFIER → CONTACTER → TRANSFORMER → CAPITALISER</span><nav aria-label="Liens de pied de page"><Link href="/comprendre/faq">Besoin d’aide ?</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav></footer>
     </div>
