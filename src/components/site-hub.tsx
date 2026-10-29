@@ -45,14 +45,6 @@ function getDetailGuide(pathname: string, label: string): DetailGuide {
       next: "Recouper les informations avec des sources autorisées et récentes avant tout contact. Respecter les règles applicables à la prospection et ne pas déduire de besoins non établis."
     };
   }
-  if (pathname.includes("radar-entreprises")) {
-    return {
-      title: "Détecter les signaux d’évolution d’une entreprise",
-      purpose: "Le radar entreprises doit aider à repérer des événements vérifiables pouvant justifier une analyse commerciale : création, changement d’activité, évolution de structure ou implantation.",
-      checks: ["Nature du signal et date de publication", "Source d’origine et éléments permettant de confirmer l’information", "Compatibilité avec le secteur, le territoire et l’offre de l’entreprise"],
-      next: "Un signal ne prouve pas à lui seul l’existence d’un besoin. Il doit être recoupé, daté et qualifié avant d’être utilisé pour personnaliser une prise de contact."
-    };
-  }
   if (pathname.includes("e-reputation") || pathname.includes("reputation")) {
     return {
       title: "Organiser une veille de réputation en ligne",
@@ -128,7 +120,7 @@ function getDetailGuide(pathname: string, label: string): DetailGuide {
   if (pathname.includes("reseaux") || pathname.includes("annuaire") || pathname.includes("rejoindre")) {
     return {
       title: "Créer des mises en relation pertinentes",
-      purpose: "Le réseau MajestiOS vise à rapprocher des compétences et des besoins professionnels identifiés, plutôt qu’à juxtaposer des contacts sans contexte.",
+      purpose: "Le réseau MajestiOS vise à rapprocher des compétences, des événements et des besoins professionnels identifiés, plutôt qu’à juxtaposer des contacts sans contexte.",
       checks: ["Rôle et compétences déclarés par le profil", "Contexte et intérêt de la mise en relation", "Consentement et conditions de partage des coordonnées"],
       next: "Une mise en relation doit rester explicite, contextualisée et maîtrisée par les personnes concernées. L’existence d’une rubrique ne signifie pas qu’un annuaire public est déjà ouvert."
     };
