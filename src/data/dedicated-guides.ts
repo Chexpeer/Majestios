@@ -193,5 +193,135 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     purpose: "Cette rubrique explique comment MajestiOS relie la détection d’un signal, sa qualification, l’identification d’acteurs pertinents et la préparation d’une action commerciale. Elle doit aussi distinguer les parcours documentés des fonctionnalités qui restent en préparation.",
     checks: ["Comprendre les six étapes : détecter, qualifier, identifier, contacter, transformer et capitaliser", "Distinguer une source vérifiable, une interprétation et une hypothèse commerciale", "Repérer l’état réel de chaque parcours avant de transmettre des données ou d’attendre un service"],
     next: "Choisissez ensuite le sous-dossier correspondant à votre question : concept, FAQ ou glossaire. Pour toute fonctionnalité annoncée comme en préparation, ne considérez pas le parcours comme opérationnel tant qu’un accès fonctionnel n’est pas explicitement disponible."
+  },
+  "/opportunites": {
+    "title": "Explorer les opportunités professionnelles",
+    "purpose": "Ce dossier rassemble plusieurs portes d’entrée vers le développement commercial : consultations publiques et privées, événements professionnels, emploi et missions. Le bon parcours dépend du type d’opportunité recherché et du niveau de preuve disponible.",
+    "checks": [
+      "Choisir la famille d’opportunités adaptée à l’objectif : marché, événement ou recrutement",
+      "Vérifier la date, la source et les conditions propres à chaque annonce",
+      "Distinguer une annonce consultable d’un service de dépôt ou de mise en relation réellement activé"
+    ],
+    "next": "Commencez par le sous-dossier correspondant à votre besoin, puis affinez par secteur, territoire ou nature de prestation lorsque ces filtres existent. Avant toute décision, contrôlez les informations auprès de la source de référence."
+  },
+  "/opportunites/marches-publics": {
+    "title": "Qualifier une consultation publique avant de répondre",
+    "purpose": "Ce dossier aide à repérer des consultations publiques et à organiser une première qualification. Une annonce ne suffit pas à décider : il faut consulter le dossier officiel, vérifier les critères et évaluer la capacité réelle de l’entreprise à exécuter le marché.",
+    "checks": [
+      "Identifier l’acheteur, l’objet, les lots, le territoire et l’échéance",
+      "Vérifier les pièces, critères de sélection, exigences techniques et éventuels rectificatifs",
+      "Comparer les exigences avec les capacités, les références, le coût complet et les délais disponibles"
+    ],
+    "next": "Utilisez les catégories de marchés et les filtres territoriaux pour affiner la recherche, puis vérifiez le dossier complet sur la source officielle avant de décider de répondre. La présence d’une opportunité dans MajestiOS ne garantit ni l’éligibilité ni l’attribution."
+  },
+  "/opportunites/marches-prives": {
+    "title": "Détecter et qualifier des besoins du secteur privé",
+    "purpose": "Les marchés privés et signaux de besoins d’entreprises peuvent ouvrir des occasions de sous-traitance, de fourniture ou de prestation. La priorité est de distinguer une annonce autorisée et vérifiable d’un simple indice qui doit encore être confirmé.",
+    "checks": [
+      "Vérifier l’identité de l’annonceur, la source et l’autorisation de diffusion",
+      "Qualifier le besoin, le périmètre, la zone, le calendrier et les conditions de réponse",
+      "Ne pas révéler de coordonnées ou de détails confidentiels avant que le parcours le permette légitimement"
+    ],
+    "next": "Explorez les besoins par secteur et respectez les conditions de diffusion. Le dépôt d’une annonce ou l’accès à des coordonnées ne doit être présenté comme disponible que si le parcours correspondant est effectivement activé."
+  },
+  "/opportunites/salons": {
+    "title": "Transformer les salons en occasions de développement",
+    "purpose": "Les salons sont utiles lorsqu’ils sont choisis en fonction d’un objectif commercial, d’un secteur et de personnes à rencontrer. Le dossier doit permettre de passer du repérage d’un événement à une préparation concrète, sans confondre information publiée et inscription confirmée.",
+    "checks": [
+      "Confirmer les dates, le lieu et les conditions auprès de l’organisateur",
+      "Choisir les événements en fonction du secteur, du territoire et des profils recherchés",
+      "Préparer un objectif, les rencontres utiles et le suivi après l’événement"
+    ],
+    "next": "Parcourez le calendrier et les filtres disponibles, puis confirmez directement les informations auprès de l’organisateur. Une inscription ou une mise en relation via MajestiOS n’est acquise que si un parcours dédié est effectivement proposé."
+  },
+  "/opportunites/emploi": {
+    "title": "Explorer les offres, missions et parcours métiers",
+    "purpose": "Ce dossier réunit des entrées distinctes pour la recherche d’emploi, les missions ponctuelles, la compréhension des métiers et les démarches de recrutement. Chaque annonce doit être évaluée selon sa fraîcheur, ses conditions et l’identité de l’émetteur.",
+    "checks": [
+      "Choisir entre offre d’emploi, mission ou information métier selon son besoin",
+      "Contrôler la date de publication, l’employeur, le lieu, le contrat et les missions",
+      "Distinguer les contenus de conseil des fonctionnalités de candidature ou de dépôt réellement actives"
+    ],
+    "next": "Affinez la recherche à partir du métier et du territoire, puis vérifiez les conditions sur la source de l’annonce. Les parcours de dépôt signalés en préparation ne doivent pas être considérés comme ouverts."
+  },
+  "/business": {
+    "title": "Lire les signaux économiques des entreprises",
+    "purpose": "Le dossier Business vise à relier les informations sur les entreprises à des hypothèses de développement commercial : création, implantation, changement d’activité, transmission ou annonce légale. Ces signaux orientent l’analyse mais ne prouvent pas à eux seuls l’existence d’un besoin.",
+    "checks": [
+      "Identifier la nature et la date du signal ainsi que l’entreprise concernée",
+      "Recouper les informations avec des sources pertinentes et à jour",
+      "Formuler une hypothèse commerciale vérifiable avant de préparer une prise de contact"
+    ],
+    "next": "Choisissez le sous-dossier adapté au signal observé, conservez la provenance des informations et vérifiez leur pertinence actuelle. Une évolution juridique ou économique ne doit jamais être présentée comme un besoin confirmé sans éléments supplémentaires."
+  },
+  "/business/achat-cession": {
+    "title": "Structurer un projet d’achat ou de cession d’entreprise",
+    "purpose": "Un projet de reprise ou de transmission exige une progression méthodique : clarifier le projet, comprendre l’activité et les risques, examiner les informations disponibles puis préparer les étapes de négociation et d’accompagnement.",
+    "checks": [
+      "Définir le projet, les critères, le calendrier et les capacités financières",
+      "Examiner l’activité, les actifs, les engagements, les risques et la qualité des informations",
+      "Prévoir une évaluation argumentée et des vérifications adaptées avant tout engagement"
+    ],
+    "next": "Accédez au parcours Acheter, Vendre ou Évaluer selon votre situation. Les guides donnent une méthode de préparation et ne remplacent pas les contrôles juridiques, comptables, fiscaux ou financiers nécessaires."
+  },
+  "/developpement-commercial": {
+    "title": "Organiser une démarche de développement commercial",
+    "purpose": "Ce dossier relie plusieurs leviers complémentaires : prospection, études de marché, e-réputation et accompagnement aux appels d’offres. Ils doivent servir une même stratégie, fondée sur des informations qualifiées, des priorités explicites et l’apprentissage tiré des résultats.",
+    "checks": [
+      "Définir l’objectif commercial et le segment d’entreprise visé",
+      "Choisir le levier adapté : comprendre le marché, cibler, répondre à un besoin ou à une consultation",
+      "Conserver les sources, décisions, résultats et enseignements pour améliorer les actions suivantes"
+    ],
+    "next": "Choisissez le sous-dossier correspondant à l’étape où vous vous trouvez. Évitez de lancer une action sans motif documenté, proposition adaptée et prochaine étape mesurable."
+  },
+  "/developpement-commercial/prospection": {
+    "title": "Passer du ciblage à une prospection pertinente",
+    "purpose": "La prospection MajestiOS est conçue comme un enchaînement de qualification et de mise en relation, et non comme l’envoi indifférencié de coordonnées. Chaque contact doit être justifié par un contexte, une offre pertinente et des règles de sollicitation respectées.",
+    "checks": [
+      "Définir le profil de cible, le territoire et les critères de pertinence",
+      "Documenter le signal qui justifie le contact et la fiabilité de sa source",
+      "Préparer un argumentaire adapté, puis consigner réponses, préférences et refus"
+    ],
+    "next": "Approfondissez le ciblage, les argumentaires ou le suivi selon votre besoin. Une ouverture de message ne vaut pas preuve d’intérêt et un refus doit être respecté et contextualisé."
+  },
+  "/developpement-commercial/etudes-de-marche": {
+    "title": "Éclairer une décision avec une étude de marché",
+    "purpose": "Une étude de marché doit répondre à une décision concrète : identifier un segment, évaluer une zone, comparer des concurrents ou tester une hypothèse. Sa qualité dépend du périmètre, de la traçabilité des sources et de la séparation entre faits et interprétations.",
+    "checks": [
+      "Formuler la question, le territoire, la période et les segments étudiés",
+      "Sélectionner des sources adaptées et consigner leur date, leur couverture et leurs limites",
+      "Distinguer données observées, estimations, hypothèses et conclusions"
+    ],
+    "next": "Utilisez les sous-dossiers Méthodologie et Sources pour préparer l’analyse. Toute conclusion importante doit être proportionnée aux données réellement disponibles et vérifiable avant décision."
+  },
+  "/developpement-commercial/e-reputation": {
+    "title": "Suivre et améliorer l’e-réputation avec méthode",
+    "purpose": "L’e-réputation aide à comprendre la perception publique d’une entreprise à partir des avis et retours disponibles. L’enjeu est de repérer les tendances, répondre avec mesure et corriger les causes récurrentes, sans fabriquer d’avis ni exposer d’informations confidentielles.",
+    "checks": [
+      "Identifier les plateformes, la période et le contexte des avis",
+      "Distinguer un cas isolé d’une tendance récurrente corroborée",
+      "Définir une réponse factuelle et un processus de résolution respectueux de la confidentialité"
+    ],
+    "next": "Choisissez la veille ou la réponse aux avis selon le besoin. Respectez les règles des plateformes et ne tirez pas de conclusion sur la qualité globale d’une entreprise à partir d’un avis isolé."
+  },
+  "/developpement-commercial/accompagnement-appels-offres": {
+    "title": "Accompagner une réponse aux appels d’offres de bout en bout",
+    "purpose": "L’accompagnement vise à structurer la décision de répondre, préparer un dossier conforme, présenter des preuves adaptées aux critères et capitaliser sur le résultat. Il ne consiste pas à promettre l’attribution d’un marché.",
+    "checks": [
+      "Analyser l’éligibilité, les exigences, les délais et le coût de réponse",
+      "Relier chaque critère de jugement à des éléments de preuve réels",
+      "Contrôler la cohérence du dossier et enregistrer les enseignements après le résultat"
+    ],
+    "next": "Progressez entre Préparer, Rédiger et Après un résultat. Les exigences du dossier officiel prévalent toujours et la décision finale doit tenir compte des moyens réellement disponibles."
+  },
+  "/reseaux": {
+    "title": "Construire un réseau professionnel utile et consenti",
+    "purpose": "Le réseau MajestiOS vise à rapprocher des entreprises et des compétences complémentaires autour d’un besoin ou d’une contribution identifiable. Sa valeur repose sur le contexte des mises en relation, la fiabilité des profils et le respect du choix de partager des coordonnées.",
+    "checks": [
+      "Préciser les compétences, besoins, secteurs et territoires concernés",
+      "Établir le motif concret de la mise en relation et vérifier les informations déclarées",
+      "Respecter le consentement, la confidentialité et les préférences de contact"
+    ],
+    "next": "Consultez les informations pour rejoindre le réseau et vérifiez l’état du parcours. L’annuaire est signalé comme en préparation : ne supposez pas qu’un répertoire public ou un service d’introduction est déjà ouvert."
   }
 };
