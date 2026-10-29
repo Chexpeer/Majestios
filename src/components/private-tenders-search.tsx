@@ -5,6 +5,7 @@ import Link from "next/link";
 import PublicHeader from "@/components/public-header";
 import AnnouncementTicker from "@/components/announcement-ticker";
 import ResourceCards from "@/components/resource-cards";
+import SectionInteractiveMap from "@/components/section-interactive-map";
 
 export default function PrivateTendersSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,6 +20,7 @@ export default function PrivateTendersSearch() {
     <PublicHeader />
     <AnnouncementTicker flow="private" />
     <section className="how-section concept-hero"><div><span className="section-label">OPPORTUNITÉS PRIVÉES</span><h1>Des opportunités au-delà des <em>marchés publics.</em></h1><p>Cette rubrique est destinée à accueillir les consultations et opportunités privées diffusées avec autorisation. Elles seront séparées des avis publics et clairement identifiées.</p></div></section>
+    <SectionInteractiveMap title="Marchés privés" items={[{label:"Explorer par secteur",href:"/opportunites/marches-prives/secteur",description:"Organiser les opportunités par domaine d’activité."},{label:"Déposer une annonce",href:"/opportunites/marches-prives/deposer",description:"Préparer une annonce à soumettre à modération."},{label:"Préparer ma démarche",href:"/creer-espace?intention=opportunite&source=opportunites-privees",description:"Créer un point de départ pour être accompagné."}]} />
     <section className="private-ticker-page">
       {searchTerm && <div className="empty-results no-results-opportunity" role="status"><span className="no-results-kicker">VOTRE RECHERCHE</span><h3>Vous recherchez : « {searchTerm} »</h3><p>Le catalogue d’opportunités privées n’est pas encore connecté. Vous pouvez consulter les autres rubriques ou préparer la publication gratuite de votre propre besoin.</p><div className="no-results-actions"><Link className="no-results-action" href="/opportunites/marches-publics">Marchés publics</Link><Link className="no-results-action" href="/opportunites/emploi">Emploi & missions</Link><Link className="no-results-action no-results-action-create" href="/opportunites/marches-prives/deposer">Préparer une publication gratuite ↗</Link></div></div>}
       <div className="private-heading"><div><span className="section-label">RECHERCHE MULTICRITÈRE</span><h2>Rechercher une opportunité privée</h2><p>Indiquez votre besoin pour préparer une recherche. Le catalogue réel n’est pas encore connecté : aucun résultat fictif ne sera affiché.</p></div><span className="private-label">PRIVÉ</span></div>
