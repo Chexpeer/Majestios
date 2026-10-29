@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { flattenSiteTree } from "@/data/site-tree";
+import { flattenSiteTree } from "../data/site-tree";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const appRoot = join(projectRoot, "src", "app");
@@ -70,6 +70,14 @@ describe("architecture de navigation MajestiOS", () => {
 
     const unresolved = nodes.filter((node) => !resolvesToRoute(node.href)).map((node) => ({ label: node.label, href: node.href }));
     expect(unresolved, "Chaque entrée du menu doit avoir une page ou une route dynamique").toEqual([]);
+  });
+
+
+  it("keeps every configured redirect destination resolvable", () => {
+    const config = readFileSync(join(projectRoot, "next.config.ts"), "utf8");
+    const destinations = [...config.matchAll(/destination:\\s*["'`]([^"'`]+)["'`]/g)].map((match) => match[1]);
+    const unresolved = destinations.filter((destination) => !resolvesToRoute(destination));
+    expect(unresolved, "Chaque redirection doit pointer vers une route existante").toEqual([]);
   });
 
   it("keeps literal internal links resolvable", () => {
