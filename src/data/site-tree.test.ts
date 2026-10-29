@@ -56,7 +56,12 @@ describe("site navigation tree", () => {
     ]);
     const legacyDestinations = flattenSiteTree()
       .map((node) => node.href)
-      .filter((href) => legacyAliases.has(href));
+      .filter((href) =>
+        legacyAliases.has(href) ||
+        href.startsWith("/appels-offres-publics/") ||
+        href.startsWith("/appels-offres-prives/") ||
+        href.startsWith("/offres-emploi/")
+      );
 
     expect(legacyDestinations, `Navigation still points to legacy aliases: ${legacyDestinations.join(", ")}`).toEqual([]);
   });
