@@ -1433,7 +1433,25 @@ body { background: var(--paper); color: var(--ink); }
   background: transparent !important;
   color: var(--ink, #172b3a);
 }
-.announcement-stream-heading { display: none; }
+.announcement-stream-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 7px;
+  padding: 0 2px;
+}
+.announcement-stream-heading .band-eyebrow {
+  color: var(--gold, #d6b46a);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.15px;
+}
+.announcement-stream-heading .band-note {
+  color: var(--muted, #6b7e88);
+  font-size: 9px;
+  text-align: right;
+}
 .announcement-stream-window { width: 100%; overflow: hidden; }
 .announcement-stream-track {
   display: flex;
