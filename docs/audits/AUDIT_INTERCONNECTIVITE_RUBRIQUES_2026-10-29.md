@@ -12,10 +12,11 @@ Ce lot porte sur la cohérence des pages générées à partir de l’arborescen
 - Le gabarit `SiteHub` conserve le fil d’Ariane, la carte interactive contextuelle, les ressources, les liens associés et le pied de page.
 - Les sous-rubriques majeures des opportunités ont reçu un contenu métier distinct : catégories de marchés publics, territoire, annonces privées, salons, offres et missions, métiers, dépôt d’offre et radar entreprises.
 - Les parcours Business (achat, vente, évaluation, diagnostic), études de marché, e-réputation et Comprendre ont également reçu des contenus dédiés.
-- Les autres pages sans contenu éditorial spécifique reçoivent un contenu contextuel déterminé par leur domaine métier ; ce mécanisme reste une étape intermédiaire et ne remplace pas une rédaction propre à chaque fonction.
+- Les 52 rubriques de l’arborescence gérées par `SiteHub` disposent maintenant d’une entrée éditoriale dédiée ; les trois routes hors de ce périmètre sont des pages spécifiques (accueil, Nous rejoindre, Mentions légales).
+- Un test vérifie cette couverture éditoriale pour éviter qu’une nouvelle rubrique soit ajoutée sans contenu dédié.
 - La page `/opportunites` dispose d’une introduction propre au rôle de point d’entrée commun des opportunités.
 - Le contenu rappelle la distinction entre faits vérifiés, hypothèses commerciales et fonctionnalités qui ne sont pas encore actives.
-- Le test `src/lib/site-navigation.test.ts` vérifie les URL uniques, la résolution des routes de l’arborescence, les destinations de redirection, les liens internes littéraux, la cohérence parent-enfant et l’interconnectivité contextuelle dans les deux sens (accès aux rubriques voisines et retour par fil d’Ariane).
+- Le test `src/lib/site-navigation.test.ts` vérifie les URL uniques, la résolution des routes de l’arborescence, les destinations de redirection, les liens internes littéraux, la couverture éditoriale, la cohérence parent-enfant et l’interconnectivité contextuelle dans les deux sens (accès aux rubriques voisines et retour par fil d’Ariane).
 
 ## Règles d’interconnexion retenues
 
