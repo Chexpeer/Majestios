@@ -1,11 +1,11 @@
-import type { SiteNode } from "@/data/navigation/types";
-import { homeNode } from "@/data/navigation/home";
-import { opportunitiesNode } from "@/data/navigation/opportunities";
-import { businessNode } from "@/data/navigation/business";
-import { commercialDevelopmentNode } from "@/data/navigation/commercial-development";
-import { networksNode } from "@/data/navigation/networks";
-import { understandingNode } from "@/data/navigation/understanding";
-import { generalNodes } from "@/data/navigation/general";
+import type { SiteNode } from "./navigation/types";
+import { homeNode } from "./navigation/home";
+import { opportunitiesNode } from "./navigation/opportunities";
+import { businessNode } from "./navigation/business";
+import { commercialDevelopmentNode } from "./navigation/commercial-development";
+import { networksNode } from "./navigation/networks";
+import { understandingNode } from "./navigation/understanding";
+import { generalNodes } from "./navigation/general";
 
 export type { SiteNode } from "@/data/navigation/types";
 
