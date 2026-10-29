@@ -1,5 +1,2 @@
-import SiteHub from "@/components/site-hub";
-
-export default function Page() {
-  return <SiteHub pathname="/opportunites/marches-publics/departement" eyebrow="MAJESTIOS · MARCHÉS PUBLICS PAR DÉPARTEMENT" intro="Marchés publics par département. Cette rubrique possède sa propre adresse et s’inscrit dans l’arborescence de MajestiOS." checklist={["Choisir un territoire à partir d’un code département normalisé.","Vérifier le lieu d’exécution sur l’avis original.","Le filtre ne doit afficher que des données géographiques vérifiées."]} />;
-}
+import TenderCategoryGuide from "@/components/tender-category-guide";
+export default function Page() { return <TenderCategoryGuide eyebrow="MAJESTIOS · FILTRE TERRITORIAL" title="Marchés par département" emphasis="cibler un territoire précis." intro="Le territoire est un premier filtre de prospection. Il faut toutefois distinguer le département du donneur d’ordre, le lieu d’exécution et la zone réellement couverte par le marché." searchHref="/opportunites/marches-publics?location=" searchLabel="Choisir un département dans la recherche" checks={[{"title":"Lieu d’exécution","text":"Confirmer le territoire concerné dans l’avis, plutôt que de se fier uniquement à l’adresse de l’acheteur."},{"title":"Zone d’intervention","text":"Comparer le lieu du marché avec les moyens et la capacité réelle de déplacement."},{"title":"Lots et contraintes locales","text":"Vérifier les visites, conditions d’accès, allotissement et éventuelles exigences territoriales."}]} />; }
