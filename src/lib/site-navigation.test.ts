@@ -96,7 +96,7 @@ describe("architecture de navigation MajestiOS", () => {
           brokenRelationships.push({ href: node.href, problem: `parent missing: ${parentHref}` });
         }
         for (const child of node.children ?? []) {
-          if (!child.href.startsWith(node.href + "/")) {
+          if (node.href !== "/" && !child.href.startsWith(node.href + "/")) {
             brokenRelationships.push({ href: child.href, problem: `not nested under parent: ${node.href}` });
           }
         }
