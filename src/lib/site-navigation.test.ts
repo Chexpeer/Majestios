@@ -84,4 +84,29 @@ describe("architecture de navigation MajestiOS", () => {
     const broken = localHrefLiterals().filter(({ href }) => !resolvesToRoute(href));
     expect(broken, "Chaque lien interne littéral doit mener à une page ou une route API existante").toEqual([]);
   });
+
+  it("keeps each nested section connected to its parent and siblings", () => {
+    const nodes = flattenSiteTree();
+    const byHref = new Map(nodes.map((node) => [node.href, node]));
+    const brokenRelationships: Array<{ href: string; problem: string }> = [];
+
+    const visit = (parents: typeof nodes, parentHref?: string) => {
+      for (const node of parents) {
+        if (parentHref && !byHref.has(parentHref)) {
+          brokenRelationships.push({ href: node.href, problem: `parent missing: ${parentHref}` });
+        }
+        for (const child of node.children ?? []) {
+          if (!child.href.startsWith(node.href + "/")) {
+            brokenRelationships.push({ href: child.href, problem: `not nested under parent: ${node.href}` });
+          }
+        }
+        visit(node.children ?? [], node.href);
+      }
+    };
+
+    visit((await import("../data/site-tree")).siteTree);
+    expect(brokenRelationships, "Chaque sous-rubrique doit rester reliée à son parent dans l’arborescence").toEqual([]);
+    expect(nodes.every((node) => node.label.trim() && node.description.trim()), "Chaque rubrique doit avoir un libellé et une description").toBe(true);
+  });
+
 });
