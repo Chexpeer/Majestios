@@ -187,5 +187,11 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     checks: ["Présenter ses compétences et sa contribution possible avec précision", "Définir les secteurs, territoires et types de collaboration recherchés", "Préciser les informations qui peuvent être partagées et avec quel consentement"],
     next: "Une candidature au réseau ne vaut ni admission automatique ni promesse de mission. Les mises en relation doivent rester pertinentes, consenties et vérifiables."
   }
-
+,
+  "/comprendre": {
+    title: "Comprendre la logique et les limites de MajestiOS",
+    purpose: "Cette rubrique explique comment MajestiOS relie la détection d’un signal, sa qualification, l’identification d’acteurs pertinents et la préparation d’une action commerciale. Elle doit aussi distinguer les parcours documentés des fonctionnalités qui restent en préparation.",
+    checks: ["Comprendre les six étapes : détecter, qualifier, identifier, contacter, transformer et capitaliser", "Distinguer une source vérifiable, une interprétation et une hypothèse commerciale", "Repérer l’état réel de chaque parcours avant de transmettre des données ou d’attendre un service"],
+    next: "Choisissez ensuite le sous-dossier correspondant à votre question : concept, FAQ ou glossaire. Pour toute fonctionnalité annoncée comme en préparation, ne considérez pas le parcours comme opérationnel tant qu’un accès fonctionnel n’est pas explicitement disponible."
+  }
 };
