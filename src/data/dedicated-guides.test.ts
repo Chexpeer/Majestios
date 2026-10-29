@@ -58,4 +58,17 @@ describe("dedicated route guides", () => {
       expect(guide.next.length, route).toBeGreaterThan(45);
     }
   });
+
+  it("does not present unavailable product capabilities as already active", () => {
+    const copy = Object.values(dedicatedGuides).map((guide) => [guide.title, guide.purpose, ...guide.checks, guide.next].join(" ")).join(" ").toLowerCase();
+    expect(copy).not.toMatch(/est déjà activé|est actuellement activé|est opérationnel/);
+  });
+
+  it("uses explicit preparation status for navigation items that require a future workflow", () => {
+    const pendingRoutes = flattenSiteTree().filter((node) => node.status === "preparing");
+    expect(pendingRoutes.length).toBeGreaterThan(0);
+    for (const node of pendingRoutes) {
+      expect(node.description, node.href).toMatch(/prévu|préparation|pas encore activé|pas encore opérationnel|n’est pas encore activé/i);
+    }
+  });
 });
