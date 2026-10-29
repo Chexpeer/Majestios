@@ -94,8 +94,8 @@ describe("site navigation tree", () => {
 
   it("labels the public-tender result action as an accompaniment request, not a bid submission", () => {
     const publicSearch = readFileSync(join(appDirectory, "opportunites", "marches-publics", "page.tsx"), "utf8");
-    expect(publicSearch).toContain("Demander un accompagnement ↗");
-    expect(publicSearch).not.toContain(">Préparer une demande ↗</Link>");
+    expect(publicSearch).toContain("Préparer une demande d’accompagnement ↗");
+    expect(publicSearch).not.toContain("Demander un accompagnement ↗");
   });
 
   it("connects private-sector qualification to public tenders, BODACC signals and commercial targeting", () => {
