@@ -1,28 +1,19 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { siteTree } from "@/data/site-tree";
 
+/**
+ * En-tête de contexte des pages métier.
+ * La navigation principale est portée une seule fois par la barre latérale globale.
+ * Garder ici un second menu de rubriques créait deux navigations concurrentes.
+ */
 export default function PublicHeader() {
-  const pathname = usePathname();
-  const mainSectionHrefs = ["/opportunites", "/business", "/developpement-commercial", "/reseaux", "/comprendre"];
-  const mainItems = siteTree.filter((item) => mainSectionHrefs.includes(item.href));
-  return <header className="site-header">
-    <Link href="/" className="brand-lockup" aria-label="MajestiOS, accueil">
-      <span className="brand-mark" aria-hidden="true">M<span>✦</span></span>
-      <span className="brand-wordmark">MajestiOS<small>INTELLIGENCE COMMERCIALE</small></span>
-    </Link>
-    <nav className="main-navigation" aria-label="Navigation principale">
-      {mainItems.map((item) => <div className={`nav-group ${pathname === item.href || pathname.startsWith(item.href + "/") ? "is-active" : ""}`} key={item.href}>
-        <Link href={item.href} className="nav-top-link" aria-current={pathname === item.href ? "page" : undefined}>{item.label}<span aria-hidden="true">⌄</span></Link>
-        {item.children?.length ? <div className="nav-dropdown">
-          {item.children.map((child) => <Link href={child.href} className={`nav-dropdown-link ${pathname === child.href ? "is-active" : ""}`} key={child.href} aria-current={pathname === child.href ? "page" : undefined}>
-            <strong>{child.label}</strong><small>{child.description}</small>
-          </Link>)}
-        </div> : null}
-      </div>)}
-    </nav>
-    <Link className="header-member-link" href="/espace-professionnel">Espace pro <span aria-hidden="true">↗</span></Link>
-  </header>;
+  return (
+    <header className="site-header site-context-header">
+      <Link href="/" className="brand-lockup" aria-label="MajestiOS, accueil">
+        <span className="brand-mark" aria-hidden="true">M<span>✦</span></span>
+        <span className="brand-wordmark">MajestiOS<small>INTELLIGENCE COMMERCIALE</small></span>
+      </Link>
+      <span className="site-context-note">Intelligence commerciale proactive</span>
+      <Link className="header-member-link" href="/espace-professionnel">Espace pro <span aria-hidden="true">↗</span></Link>
+    </header>
+  );
 }
