@@ -100,9 +100,11 @@ describe("site navigation tree", () => {
     expect(publicSearch).toContain("if(nextType!==\"all\")urlParams.set(\"type\",nextType)");
   });
 
-  it("preserves search context between the tender detail and its preparation form", () => {
+  it("preserves search context from results, through the tender detail and preparation form", () => {
+    const publicSearch = readFileSync(join(appDirectory, "opportunites", "marches-publics", "page.tsx"), "utf8");
     const detailPage = readFileSync(join(appDirectory, "opportunites", "marches-publics", "[id]", "page.tsx"), "utf8");
     const preparationForm = readFileSync(join(appDirectory, "opportunites", "marches-publics", "[id]", "repondre", "page.tsx"), "utf8");
+    expect(publicSearch).toContain('new URLSearchParams({q,location,type,title:item.title,buyer:item.buyer||"",deadline:item.deadline||""})');
     expect(detailPage).toContain("q:filters.q||\"\",location:filters.location||\"\",type:filters.type||\"all\"");
     expect(preparationForm).toContain("setQ((v.q||\"\").slice(0,160));setLocation((v.location||\"\").slice(0,100));setType((v.type||\"all\").slice(0,40))");
     expect(preparationForm).toContain("new URLSearchParams({q,location,type,title,buyer,deadline})");
