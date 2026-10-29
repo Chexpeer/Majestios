@@ -49,16 +49,36 @@ export default function HomepageNavigation() {
                 </summary>
                 <div className="home-sidebar-dropdown-content">
                   <Link href={item.href} onClick={() => setMobileOpen(false)} className="home-sidebar-overview">Vue d’ensemble</Link>
-                  {children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      onClick={() => setMobileOpen(false)}
-                      className={pathname === child.href || pathname.startsWith(child.href + "/") ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
-                    >
-                      {child.label}{child.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
-                    </Link>
-                  ))}
+                  {children.map((child) => {
+                    const childActive = pathname === child.href || pathname.startsWith(child.href + "/");
+                    return (
+                      <div className="home-sidebar-branch" key={child.href}>
+                        <Link
+                          href={child.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={childActive ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
+                          aria-current={pathname === child.href ? "page" : undefined}
+                        >
+                          {child.label}{child.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
+                        </Link>
+                        {childActive && child.children?.length ? (
+                          <div className="home-sidebar-leaves" aria-label={`Sous-rubriques : ${child.label}`}>
+                            {child.children.map((leaf) => (
+                              <Link
+                                key={leaf.href}
+                                href={leaf.href}
+                                onClick={() => setMobileOpen(false)}
+                                className={pathname === leaf.href || pathname.startsWith(leaf.href + "/") ? "home-sidebar-leaf is-active" : "home-sidebar-leaf"}
+                                aria-current={pathname === leaf.href ? "page" : undefined}
+                              >
+                                {leaf.label}{leaf.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
+                              </Link>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  })}
                 </div>
               </details>
             </div>
