@@ -14,7 +14,12 @@ export const commercialDevelopmentNode: SiteNode = { label: "Développement comm
       { label: "Surveiller", href: "/developpement-commercial/e-reputation/surveiller", description: "Organiser une veille des avis." },
       { label: "Répondre aux avis", href: "/developpement-commercial/e-reputation/repondre-aux-avis", description: "Répondre avec méthode et cohérence." }
     ]},
+    { label: "Achat de fichiers", href: "/developpement-commercial/achat-de-fichiers", description: "Définir un besoin de contacts professionnels par secteur, zone et volume souhaité, puis demander une étude de faisabilité.", children: [
+      { label: "Définir mon besoin", href: "/developpement-commercial/achat-de-fichiers/besoin", description: "Préciser le secteur d’activité, le territoire et le nombre de contacts souhaité." },
+      { label: "Qualité et conformité", href: "/developpement-commercial/achat-de-fichiers/qualite-conformite", description: "Comprendre les critères de provenance, d’actualité et d’utilisation des données." }
+    ]},
     { label: "Accompagnement appels d’offres", href: "/developpement-commercial/accompagnement-appels-offres", description: "Évaluer l’opportunité, préparer une réponse conforme et capitaliser sur le résultat.", children: [
+      { label: "Préparation express du dossier", href: "/developpement-commercial/accompagnement-appels-offres/preparation-express", description: "Structurer rapidement un dossier de positionnement et repérer les pièces manquantes avant de postuler." },
       { label: "Préparer", href: "/developpement-commercial/accompagnement-appels-offres/preparer", description: "Analyser le dossier et décider de se positionner." },
       { label: "Rédiger", href: "/developpement-commercial/accompagnement-appels-offres/rediger", description: "Organiser les éléments de réponse." },
       { label: "Après un résultat", href: "/developpement-commercial/accompagnement-appels-offres/apres-un-resultat", description: "Capitaliser sur la décision et les retours." }
