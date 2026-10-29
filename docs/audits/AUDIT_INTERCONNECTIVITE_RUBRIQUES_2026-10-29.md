@@ -88,3 +88,12 @@ Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons,
 - Test statique ajouté pour préserver ce comportement pendant la consolidation éditoriale.
 
 - Décision éditoriale du 29 octobre : suppression de la destination générique obligatoire pour les cartes. Chaque carte utilise désormais son champ `href` et son action déclarée. Les ressources futures pourront viser une page interne, un logiciel, une vidéo, un tutoriel ou une documentation, avec identification claire du type et de la source. La page « Article en construction » reste disponible uniquement pour les contenus qui le nécessitent réellement.
+
+### Principe d’architecture confirmé — profondeur progressive (29/10/2026)
+
+La profondeur et la complexité maîtrisées sont désormais un critère d’architecture transversal : MajestiOS doit rester immédiatement compréhensible à l’entrée, tout en permettant d’approfondir progressivement l’exploration, la qualification, l’action et, à terme, la capitalisation.
+
+Les mentions antérieures de destinations communes « Article en construction » dans cet audit décrivent un état historique et ne constituent plus une consigne actuelle. La règle actuelle est qu’une carte doit mener à une destination pertinente et existante ; une page générique n’est jamais le substitut par défaut à une ressource ou à un parcours métier.
+
+Prochain contrôle associé : auditer les cartes non seulement sur la validité de leurs URL, mais aussi sur l’adéquation entre le titre, la promesse, le libellé d’action et le contenu réellement accessible. Des cartes différentes peuvent partager une destination si cela est justifié, mais pas par simple facilité technique.
+
