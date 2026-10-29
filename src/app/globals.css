@@ -1725,3 +1725,18 @@ body { background: var(--paper); color: var(--ink); }
 .home-sidebar-descendants .home-sidebar-sub > span:first-child { color: #147d78; }
 .home-sidebar-descendants .home-sidebar-sub:hover,
 .home-sidebar-descendants .home-sidebar-sub.is-active { background: #e9f3f1; color: #0c625e; }
+
+
+/* Navigation clavier : rendre le focus visible à chaque profondeur. */
+.home-sidebar-nav a:focus-visible,
+.home-sidebar-nav summary:focus-visible,
+.home-mobile-menu-button:focus-visible,
+.home-mobile-menu-backdrop:focus-visible {
+  outline: 2px solid #b99348;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.home-sidebar-descendants .home-sidebar-descendants {
+  margin-left: 8px;
+  padding-left: 7px;
+}
