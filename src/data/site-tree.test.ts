@@ -233,6 +233,21 @@ describe("site navigation tree", () => {
     expect(invalidNestedRoutes, `Nested dossier URLs must remain beneath their parent at every depth: ${invalidNestedRoutes.join(", ")}`).toEqual([]);
   });
 
+  it("keeps every assistant knowledge link on an implemented internal route", () => {
+    const assistant = readFileSync(join(process.cwd(), "src", "components", "MajestiosAssistant.tsx"), "utf8");
+    const pageRoutes = collectPageRoutes();
+    const internalHrefs = [...assistant.matchAll(/href:\s*"([^"]+)"/g)]
+      .map((match) => match[1])
+      .filter((href) => href.startsWith("/"));
+    const missing = [...new Set(internalHrefs)].filter((href) => {
+      const target = href === "/" ? [] : href.split("/").filter(Boolean);
+      return !pageRoutes.some((pattern) => routeMatches(pattern, target));
+    });
+
+    expect(missing, `Assistant links without an implemented page: ${missing.join(", ")}`).toEqual([]);
+    expect(assistant).not.toContain('href:"/developpement-commercial/diagnostic-business"');
+  });
+
   it("registers the three new service modules with canonical, implemented destinations", () => {
     const nodes = flattenSiteTree();
     const filePurchase = findSiteNode("/developpement-commercial/achat-de-fichiers");
