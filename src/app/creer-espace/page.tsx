@@ -27,6 +27,7 @@ export default function CreatePersonalSpacePage() {
     const data = new FormData(event.currentTarget);
     const choices = ["recevoir-offre-email", "creer-espace", "postuler"].filter((key) => data.get(key) === "on");
     const params = new URLSearchParams({ mode: "preparation", intention, source, titre: title, choix: choices.join(",") });
+    setSubmitted(true);
     router.push("/merci?" + params.toString());
   }
 
