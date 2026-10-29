@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { flattenSiteTree, siteTree } from "@/data/site-tree";
+import { flattenSiteTree } from "@/data/site-tree";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const appRoot = join(projectRoot, "src", "app");
