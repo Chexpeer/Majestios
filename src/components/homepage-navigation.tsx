@@ -27,7 +27,7 @@ export default function HomepageNavigation() {
     </nav>
     <div className="home-sidebar-bottom">
       <Link href="/espace-professionnel">Espace professionnel <span aria-hidden="true">↗</span></Link>
-      <Link href="/comprendre/faq">Aide & FAQ</Link>
+      <Link href="/faq">Aide & FAQ</Link>
       <small>Détecter · Qualifier · Transformer</small>
     </div>
   </aside>;
