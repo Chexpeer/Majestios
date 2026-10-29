@@ -16,6 +16,8 @@ Ce lot porte sur la cohérence des pages générées à partir de l’arborescen
 - Un test vérifie cette couverture éditoriale pour éviter qu’une nouvelle rubrique soit ajoutée sans contenu dédié.
 - La page `/opportunites` dispose d’une introduction propre au rôle de point d’entrée commun des opportunités.
 - Le contenu rappelle la distinction entre faits vérifiés, hypothèses commerciales et fonctionnalités qui ne sont pas encore actives.
+- Les pages Confidentialité et Espace professionnel peuvent masquer la carte de navigation générale et les ressources sans rapport direct, afin de ne pas distraire l’utilisateur sur ces parcours sensibles.
+- Les pages légales et de service ont été reliées entre elles par des liens de pied de page, dont un retour explicite depuis les mentions légales vers la confidentialité et l’accueil.
 - Le test `src/lib/site-navigation.test.ts` vérifie les URL uniques, la résolution des routes de l’arborescence, les destinations de redirection, les liens internes littéraux, la couverture éditoriale, la cohérence parent-enfant et l’interconnectivité contextuelle dans les deux sens (accès aux rubriques voisines et retour par fil d’Ariane).
 
 ## Règles d’interconnexion retenues
