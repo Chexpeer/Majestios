@@ -58,17 +58,30 @@ export default function HomepageNavigation() {
                 </summary>
                 <div className="home-sidebar-dropdown-content">
                   <Link href={item.href} onClick={() => setMobileOpen(false)} className="home-sidebar-overview" aria-current={pathname === item.href ? "page" : undefined}>Vue d’ensemble</Link>
-                  {children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      onClick={() => setMobileOpen(false)}
-                      className={pathname === child.href || pathname.startsWith(child.href + "/") ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
-                      aria-current={pathname === child.href ? "page" : undefined}
-                    >
-                      {child.label}{child.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
-                    </Link>
-                  ))}
+                  {children.map((child) => {
+                    const childActive = pathname === child.href || pathname.startsWith(child.href + "/");
+                    const descendants = child.children ?? [];
+                    const showDescendants = childActive && descendants.length > 0;
+                    return (
+                      <div className="home-sidebar-branch" key={child.href}>
+                        <Link
+                          href={child.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={childActive ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
+                          aria-current={pathname === child.href ? "page" : undefined}
+                        >
+                          {child.label}{child.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
+                        </Link>
+                        {showDescendants ? <div className="home-sidebar-descendants" aria-label={"Sous-dossiers de " + child.label}>
+                          {descendants.map((descendant) => (
+                            <Link key={descendant.href} href={descendant.href} onClick={() => setMobileOpen(false)} className={pathname === descendant.href ? "home-sidebar-sub is-active" : "home-sidebar-sub"} aria-current={pathname === descendant.href ? "page" : undefined}>
+                              <span aria-hidden="true">↳</span> {descendant.label}{descendant.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
+                            </Link>
+                          ))}
+                        </div> : null}
+                      </div>
+                    );
+                  })}
                 </div>
               </details>
             </div>
