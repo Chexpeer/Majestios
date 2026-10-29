@@ -187,5 +187,54 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     purpose: "Le glossaire doit stabiliser le vocabulaire utilisé dans les parcours afin que les notions de signal, d’opportunité, de qualification et de prospection soient comprises de la même manière.",
     checks: ["Définition dans son contexte métier", "Différence avec les notions proches", "Source de référence pour les termes techniques ou réglementaires"],
     next: "Une définition commerciale ne remplace pas une définition juridique officielle. Pour toute décision réglementaire, vérifier le texte ou la documentation de l’autorité compétente."
+  },
+
+  "/opportunites/marches-prives/deposer": {
+    title: "Préparer une annonce de marché privé",
+    purpose: "Une annonce privée doit être suffisamment précise pour permettre une première qualification, tout en respectant les obligations de confidentialité et les droits du donneur d’ordre.",
+    checks: ["Identité professionnelle de l’émetteur et autorisation de diffusion", "Objet, secteur, lieu, calendrier et conditions du besoin", "Informations confidentielles à retirer de la version publique"],
+    next: "Le dépôt en ligne reste en préparation. Avant toute publication future, l’annonce devra être contrôlée, modérée et validée par son émetteur ; cette page ne constitue pas un formulaire de dépôt actif."
+  },
+  "/opportunites/emploi/deposer-une-offre": {
+    title: "Préparer la publication d’une offre d’emploi",
+    purpose: "Une offre publiable doit décrire le poste de manière compréhensible et permettre au candidat de vérifier l’identité de l’employeur et les conditions principales.",
+    checks: ["Employeur identifiable et coordonnées professionnelles vérifiables", "Intitulé, missions, lieu, contrat et conditions annoncées", "Canal de candidature sécurisé et informations personnelles strictement nécessaires"],
+    next: "Le formulaire de dépôt n’est pas activé. Ne transmettez pas de CV ni de données personnelles par cette page tant qu’un parcours sécurisé n’a pas été mis en service."
+  },
+  "/business/veille-bodacc": {
+    title: "Exploiter la veille BODACC avec discernement",
+    purpose: "Les publications BODACC peuvent signaler des événements juridiques ou économiques concernant une entreprise. Leur interprétation dépend de la nature de l’acte, de sa date et du contexte.",
+    checks: ["Type de publication et date de l’événement", "Entreprise et établissement précisément identifiés", "Recoupement avec des sources officielles et actualisées"],
+    next: "Une publication n’établit pas à elle seule une intention d’achat ni un besoin commercial. Vérifier le contexte avant de qualifier un prospect et respecter les règles applicables à la prospection."
+  },
+  "/business/diagnostic": {
+    title: "Prioriser les actions à partir d’un diagnostic",
+    purpose: "Le diagnostic vise à relier les objectifs de l’entreprise, sa situation et ses moyens afin de déterminer les actions qui méritent réellement d’être engagées.",
+    checks: ["Objectifs et indicateurs de départ", "Ressources, contraintes et points de blocage documentés", "Priorités, responsable, échéance et critère de réussite"],
+    next: "Distinguer les faits des hypothèses et commencer par une action mesurable. Une recommandation ne doit pas être présentée comme un diagnostic complet si les données nécessaires n’ont pas été recueillies."
+  },
+  "/opportunites/radar-entreprises": {
+    title: "Utiliser le radar d’entreprises comme outil de veille",
+    purpose: "Un radar commercial doit mettre en évidence des signaux datés et traçables susceptibles de justifier une qualification, sans présenter une hypothèse comme un besoin avéré.",
+    checks: ["Signal détecté, date et source consultable", "Entreprise, activité et territoire confirmés", "Raison explicite pour laquelle le signal correspond à l’offre proposée"],
+    next: "Le radar automatisé doit être considéré comme en préparation tant que les sources, le classement et les contrôles ne sont pas validés. Toute piste doit être recoupée avant prise de contact."
+  },
+  "/espace-professionnel": {
+    title: "Comprendre l’espace professionnel",
+    purpose: "L’espace professionnel a vocation à réunir les démarches et informations utiles à un utilisateur identifié, avec des accès adaptés aux fonctions réellement disponibles.",
+    checks: ["Fonctions activées et conditions d’accès", "Données nécessaires à chaque démarche", "Règles de confidentialité, de sécurité et de gestion des accès"],
+    next: "Ne considérez pas la création de compte, le dépôt de documents ou le stockage sécurisé comme actifs tant que les formulaires, les contrôles d’accès et le traitement des données n’ont pas été testés."
+  },
+  "/nous-rejoindre": {
+    title: "Contribuer au développement de MajestiOS",
+    purpose: "La rubrique présente les différentes formes de contribution possibles au projet et les compétences utiles à son développement professionnel.",
+    checks: ["Rôle ou contribution envisagée", "Expérience, compétences et disponibilité", "Canal de contact et informations à partager"],
+    next: "Le fait qu’un rôle soit présenté ne signifie pas qu’un recrutement est ouvert. Vérifier les modalités de contact et ne transmettre que les informations nécessaires."
+  },
+  "/partenaires": {
+    title: "Comprendre les partenariats envisagés",
+    purpose: "Un partenariat utile doit répondre à un objectif explicite et définir la complémentarité, les responsabilités et les conditions de coopération entre les parties.",
+    checks: ["Objectif et valeur apportée à chaque partie", "Périmètre, responsabilités et modalités de coopération", "Conditions de partage des données et autorisation d’usage des marques"],
+    next: "Une rubrique de présentation ne constitue pas une preuve de partenariat signé. Toute collaboration doit être confirmée par les parties concernées avant d’être annoncée comme effective."
   }
 };
