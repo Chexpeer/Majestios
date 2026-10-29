@@ -219,3 +219,8 @@ BrainiOS progresse lorsque les résultats sont démontrables, pas seulement lors
 ## 11. Règle de gouvernance
 
 Ce document fixe une direction produit et des exigences de conception. Il ne prouve pas que ces fonctions sont déjà disponibles. Toute implémentation doit être liée à des tâches, des tests d'acceptation et une preuve de fonctionnement. Aucune action en production, modification de déploiement ou migration de données n'est autorisée par ce document seul.
+
+
+## 12. Règle d'interface et de navigation
+
+L'arborescence fonctionnelle reste nécessaire en interne pour organiser les modules et les pages, mais elle ne doit pas être exposée à l'utilisateur sous forme de menus en arbre ou de niveaux imbriqués. L'interface privilégie des menus déroulants plats, regroupés par grandes rubriques, avec des pages distinctes pour les fonctionnalités. La profondeur de l'information doit être portée par les pages et leurs liens contextuels, pas par une navigation visuellement complexe. Les menus doivent rester accessibles au clavier, indiquer la rubrique active et permettre un accès clair à la page de synthèse de chaque rubrique.
