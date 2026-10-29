@@ -207,6 +207,12 @@ describe("architecture de navigation MajestiOS", () => {
     expect(broken, "Chaque rubrique doit être reliée à ses parents, à ses voisines et à des destinations existantes").toEqual([]);
   });
 
+  it("routes all resource cards to the common construction page", () => {
+    const cards = readFileSync(join(sourceRoot, "components", "resource-cards.tsx"), "utf8");
+    expect(cards).toContain('href={"/article-en-construction?"');
+    expect(cards).toContain("Article en construction");
+  });
+
   it("keeps common ticker announcements clickable while the ticker container stays visually unobtrusive", () => {
     const css = readFileSync(join(appRoot, "globals.css"), "utf8");
     const ticker = readFileSync(join(sourceRoot, "components", "announcement-ticker.tsx"), "utf8");
