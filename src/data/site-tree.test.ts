@@ -74,7 +74,9 @@ describe("site navigation tree", () => {
       "/e-reputation",
       "/etudes-de-marche",
       "/comprendre/faq",
-      "/comprendre/concept"
+      "/comprendre/concept",
+      "/business/creations-implantations",
+      "/business/evolutions-activite"
     ]);
     const legacyDestinations = flattenSiteTree()
       .map((node) => node.href)
