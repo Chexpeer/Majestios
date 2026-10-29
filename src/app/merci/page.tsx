@@ -15,7 +15,7 @@ export default function MerciPage() {
       <div>
         <span className="section-label">PARCOURS TERMINÉ</span>
         <h1>Merci pour votre <em>intérêt.</em></h1>
-        <p>"Votre parcours a été préparé. Cette version de MajestiOS ne transmet ni n’enregistre encore les informations saisies : aucune demande réelle n’a été envoyée à l’équipe."</p>
+        <p>Votre parcours a été préparé. Cette version de MajestiOS ne transmet ni n’enregistre encore les informations saisies : aucune demande réelle n’a été envoyée à l’équipe.</p>
         <p>Vous allez être redirigé vers l’accueil dans quelques secondes.</p>
         <Link className="search-submit concept-cta" href="/">Retour immédiat à l’accueil ↗</Link>
         <p><Link href="/opportunites">Explorer les rubriques MajestiOS</Link></p>
