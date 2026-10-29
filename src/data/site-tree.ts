@@ -8,7 +8,7 @@ export type SiteNode = {
 
 export const siteTree: SiteNode[] = [
   { label: "Accueil", href: "/", description: "Point d’entrée de MajestiOS." },
-  { label: "Opportunités", href: "/opportunites", description: "Explorer les marchés, les salons, l’emploi et les entreprises.", children: [
+  { label: "Opportunités", href: "/opportunites", description: "Explorer les marchés, les salons, l’emploi et les occasions de développement.", children: [
     { label: "Marchés publics", href: "/opportunites/marches-publics", description: "Repérer et qualifier les consultations publiques.", children: [
       { label: "Travaux", href: "/opportunites/marches-publics/travaux", description: "Marchés et consultations de travaux." },
       { label: "Services", href: "/opportunites/marches-publics/services", description: "Prestations intellectuelles et services." },
@@ -30,11 +30,14 @@ export const siteTree: SiteNode[] = [
       { label: "Métiers", href: "/opportunites/emploi/metiers", description: "Guides métiers fondés sur des informations vérifiables." },
       { label: "Déposer une offre", href: "/opportunites/emploi/deposer-une-offre", description: "Soumettre une offre à modération." },
       { label: "Conseils", href: "/opportunites/emploi/conseils", description: "Préparer sa candidature ou son recrutement." }
-    ]},
-    { label: "Radar entreprises", href: "/opportunites/radar-entreprises", description: "Étudier les signaux d’entreprise utiles au développement commercial." }
+    ]}
   ]},
   { label: "Business", href: "/business", description: "Comprendre les signaux de création, d’évolution et de transmission.", children: [
-    { label: "Radar BODACC", href: "/business/radar-bodacc", description: "Explorer les publications BODACC et leurs limites." },
+    { label: "Intelligence entreprises", href: "/business/intelligence-entreprises", description: "Relier les informations économiques aux hypothèses de développement commercial.", children: [
+      { label: "Créations et implantations", href: "/business/creations-implantations", description: "Repérer les créations et nouvelles implantations vérifiées." },
+      { label: "Évolutions d’activité", href: "/business/evolutions-activite", description: "Étudier les changements susceptibles d’éclairer une action commerciale." }
+    ]},
+    { label: "Veille BODACC", href: "/business/radar-bodacc", description: "Explorer les publications BODACC et leurs limites." },
     { label: "Achat et cession", href: "/business/achat-cession", description: "Préparer un projet de reprise ou de transmission.", children: [
       { label: "Acheter", href: "/business/achat-cession/acheter", description: "Structurer un projet de reprise." },
       { label: "Vendre", href: "/business/achat-cession/vendre", description: "Préparer une cession." },
@@ -62,10 +65,13 @@ export const siteTree: SiteNode[] = [
       { label: "Après un résultat", href: "/developpement-commercial/accompagnement-appels-offres/apres-un-resultat", description: "Capitaliser sur la décision et les retours." }
     ]}
   ]},
-  { label: "Réseaux", href: "/reseaux", description: "Découvrir l’écosystème professionnel et ses modalités de participation.", children: [
-    { label: "Annuaire", href: "/reseaux/annuaire", description: "Consulter les profils disponibles lorsque l’annuaire sera ouvert." },
-    { label: "Événements", href: "/reseaux/evenements", description: "Repérer les événements professionnels validés." },
-    { label: "Rejoindre", href: "/reseaux/rejoindre", description: "Découvrir comment contribuer au réseau." }
+  { label: "Réseaux", href: "/reseaux", description: "Développer des relations professionnelles utiles autour des compétences, des événements et des opportunités.", children: [
+    { label: "Annuaire professionnel", href: "/reseaux/annuaire", description: "Consulter les profils disponibles lorsque l’annuaire sera ouvert." },
+    { label: "Événements professionnels", href: "/reseaux/evenements", description: "Relier les rendez-vous professionnels à des objectifs et des contacts pertinents." },
+    { label: "Événements d’entreprise", href: "/reseaux/evenements-entreprise", description: "Identifier les événements organisés par les entreprises et les occasions de prise de contact." },
+    { label: "Rencontres d’affaires", href: "/reseaux/rencontres-affaires", description: "Favoriser des échanges professionnels contextualisés plutôt qu’une accumulation de contacts." },
+    { label: "Proposer un événement", href: "/reseaux/proposer-evenement", description: "Soumettre un événement à vérification avant toute diffusion." },
+    { label: "Rejoindre le réseau", href: "/reseaux/rejoindre", description: "Découvrir comment contribuer au réseau." }
   ]},
   { label: "Comprendre", href: "/comprendre", description: "Comprendre le concept, les termes et les parcours MajestiOS.", children: [
     { label: "Le concept", href: "/comprendre/concept", description: "Découvrir la mission et le fonctionnement visé." },
