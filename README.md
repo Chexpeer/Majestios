@@ -24,7 +24,7 @@ Principes :
 
 L’application Next.js se trouve sous `src/app`. La page d’accueil actuelle (`src/app/page.tsx`) présente `AnnouncementTicker` et `MajestiOSOpportunityMap`, ainsi qu’une recherche rapide des appels d’offres publics. Le cadre global (`src/app/layout.tsx`) ajoute la navigation latérale `HomepageNavigation` et la recherche transversale `GlobalSearchBar` sur les pages qui n’ont pas déjà leur propre moteur. Les pôles du schéma renvoient vers des routes internes, et l’arborescence est centralisée dans `src/data/site-tree.ts`.
 
-Des fichiers historiques de site statique coexistent à la racine : `index.html`, `app.js`, `build.js` et `styles.css`. **Ne pas les supprimer ou les déplacer sans vérifier leur usage.** La configuration Vercel présente `framework: nextjs`, mais le projet et la branche réellement reliés au domaine de production doivent être confirmés avant toute opération de déploiement.
+Des fichiers historiques de site statique coexistent à la racine : `index.html`, `app.js`, `build.js` et `styles.css`. L’ancien `index.html` utilise des liens d’ancrage (`#...`) et ne représente pas l’architecture de navigation Next.js décrite dans ce chantier. **Ne pas le modifier comme s’il s’agissait de la page d’accueil actuelle, et ne pas le supprimer ou le déplacer sans vérifier son usage.** La configuration Vercel déclare `framework: nextjs`, mais le projet et la branche réellement reliés au domaine de production doivent être confirmés avant toute opération de déploiement.
 
 ## 3. Priorité fonctionnelle immédiate : profondeur et cohérence des liens
 
