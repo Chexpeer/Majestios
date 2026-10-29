@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-type FlowKey = "public" | "private" | "salons" | "emploi" | "business" | "reseau";
+type FlowKey = "public" | "private" | "salons" | "emploi" | "business" | "reseau" | "general";
 type Flow = { key: FlowKey; label: string; short: string; href: string; state: string; direction: "left" | "right" };
 
 const flows: Flow[] = [
@@ -11,7 +11,8 @@ const flows: Flow[] = [
   { key: "salons", label: "Salons professionnels", short: "SALONS", href: "/opportunites/salons", state: "Le calendrier sera alimenté après validation des sources officielles.", direction: "right" },
   { key: "emploi", label: "Emploi & missions", short: "EMPLOI", href: "/opportunites/emploi", state: "Découvrez les missions préparatoires du réseau MajestiOS.", direction: "right" },
   { key: "business", label: "Signaux d’entreprise", short: "BUSINESS", href: "/business", state: "Les signaux d’entreprise seront affichés après validation des sources.", direction: "left" },
-  { key: "reseau", label: "Réseau commercial", short: "RÉSEAU", href: "/opportunites", state: "Les signaux qualifiés du réseau seront affichés après validation des sources.", direction: "left" }
+  { key: "reseau", label: "Réseau commercial", short: "RÉSEAU", href: "/opportunites", state: "Les signaux qualifiés du réseau seront affichés après validation des sources.", direction: "left" },
+  { key: "general", label: "Veille commerciale", short: "VEILLE", href: "/opportunites", state: "Le flux général sera alimenté après validation des sources et des données.", direction: "left" }
 ];
 
 const starterJobs = [
