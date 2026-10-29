@@ -93,9 +93,9 @@ export default function ResourceCards({ scope = "general" }: { scope?: ResourceS
         <div>
           <span className="eyebrow">BIBLIOTHÈQUE MAJESTIOS · SÉLECTION THÉMATIQUE</span>
           <h2 id={`maj-resource-title-${scope}`}>{scopeTitles[scope]}</h2>
-          <p>Guides pratiques, méthodes et outils pédagogiques sélectionnés selon cette rubrique. Cette base est conçue pour s’enrichir et être révisée au fil des évolutions de MajestiOS.</p>
+          <p>Guides pratiques, méthodes et outils pédagogiques sélectionnés selon cette rubrique. Cette sélection est actuellement éditoriale et statique ; elle devra être révisée et enrichie au fil des évolutions de MajestiOS.</p>
         </div>
-        <span className="maj-resource-status">Base évolutive</span>
+        <span className="maj-resource-status">Sélection éditoriale</span>
       </div>
       <div className="maj-resource-grid">
         {cards.map((card, index) => (
