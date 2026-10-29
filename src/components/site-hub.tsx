@@ -41,6 +41,224 @@ const editorialPages: Record<string, EditorialPage> = {
       { title: "État du parcours", body: "Cette page présente les principes de participation. Elle ne confirme pas encore l’existence d’un espace membre complet ou d’un annuaire public opérationnel." }
     ]
   },
+  "/business/achat-cession": {
+    lead: "Le parcours achat-cession aide à structurer une réflexion de reprise ou de transmission d’entreprise. Il ne remplace ni une expertise financière, ni une vérification juridique, fiscale ou sociale, ni une évaluation indépendante.",
+    sections: [
+      { title: "Définir la nature du projet", body: "Préciser s’il s’agit d’acheter, de vendre, de transmettre ou simplement d’évaluer une entreprise. Documenter le secteur, la zone, le calendrier, la taille recherchée et les contraintes essentielles." },
+      { title: "Rassembler les éléments utiles", body: "Préparer les informations disponibles sur l’activité, les actifs, les passifs, les contrats, les équipes et les perspectives. Les informations sensibles ne doivent être partagées que dans un cadre autorisé et sécurisé." },
+      { title: "Organiser les vérifications", body: "Lister les points à examiner avec les professionnels compétents et distinguer les données confirmées des déclarations à vérifier. La page fournit des repères de préparation, pas un service de transaction ou de valorisation automatisée." }
+    ]
+  },
+  "/business/achat-cession/acheter": {
+    lead: "Préparer une reprise consiste à définir une cible cohérente, vérifier la réalité de l’activité et organiser les diligences avant tout engagement.",
+    sections: [
+      { title: "Définir une cible réaliste", body: "Préciser le secteur, le territoire, la taille, le niveau d’implication attendu, les compétences nécessaires et les moyens financiers mobilisables." },
+      { title: "Examiner les risques et les preuves", body: "Demander des informations cohérentes sur les comptes, les contrats, les actifs, les dettes, les clients, les fournisseurs et les obligations en cours. Toute donnée doit être vérifiée par les personnes compétentes." },
+      { title: "Préparer les prochaines étapes", body: "Établir une liste de questions, un calendrier et les intervenants nécessaires. Ne pas interpréter une annonce de cession comme une opportunité vérifiée ou disponible sans confirmation." }
+    ]
+  },
+  "/business/achat-cession/vendre": {
+    lead: "Préparer une cession demande de rendre l’information lisible, de documenter l’activité et d’anticiper les questions d’un repreneur sans divulguer prématurément des données sensibles.",
+    sections: [
+      { title: "Préparer une présentation factuelle", body: "Décrire l’activité, les produits ou services, le modèle économique, les équipes, les actifs et les facteurs de différenciation à partir d’éléments justifiables." },
+      { title: "Identifier les éléments à vérifier", body: "Réunir les documents financiers et opérationnels utiles, repérer les incohérences et solliciter les conseils appropriés sur les aspects juridiques, fiscaux, sociaux et contractuels." },
+      { title: "Protéger les informations", body: "Définir ce qui peut être communiqué, à qui et à quel stade. Les pièces confidentielles ne doivent pas être déposées dans un formulaire qui ne garantit pas encore un stockage sécurisé." }
+    ]
+  },
+  "/business/achat-cession/evaluer-une-entreprise": {
+    lead: "L’évaluation d’une entreprise repose sur plusieurs méthodes et sur la qualité des données disponibles. Un indicateur isolé ou une estimation automatique ne constitue pas à lui seul une valorisation fiable.",
+    sections: [
+      { title: "Définir le périmètre de l’évaluation", body: "Préciser la date de référence, l’activité, le périmètre juridique, les actifs concernés, les dettes, les engagements et l’objectif de l’évaluation." },
+      { title: "Croiser plusieurs éléments", body: "Examiner les résultats et flux de trésorerie, les actifs, les dettes, les risques, la dépendance à certains clients ou dirigeants, les perspectives et les références comparables disponibles." },
+      { title: "Expliquer les limites", body: "Documenter les hypothèses, les données manquantes et la méthode choisie. Une évaluation engage des enjeux financiers importants et doit être validée par un professionnel compétent." }
+    ]
+  },
+  "/business/diagnostic": {
+    lead: "Un diagnostic commercial aide à clarifier la situation d’une entreprise, ses priorités et les prochaines actions réalistes. Il doit partir de faits et de réponses recueillies, pas d’une conclusion générée sans données suffisantes.",
+    sections: [
+      { title: "Décrire la situation actuelle", body: "Préciser l’offre, les clients visés, les canaux d’acquisition, les résultats observés, les ressources disponibles et les difficultés rencontrées." },
+      { title: "Hiérarchiser les enjeux", body: "Distinguer les symptômes des causes possibles, vérifier les indicateurs et retenir un nombre limité de priorités mesurables." },
+      { title: "Construire un plan d’action", body: "Définir les actions, les responsables, les échéances et les indicateurs de suivi. Le diagnostic doit signaler les données manquantes et les hypothèses à confirmer." }
+    ]
+  },
+  "/developpement-commercial/etudes-de-marche": {
+    lead: "Une étude de marché doit réduire une incertitude commerciale précise : demande, concurrence, territoire, clientèle ou potentiel d’une offre. Elle ne se résume pas à compiler des liens ou des chiffres sans méthode.",
+    sections: [
+      { title: "Formuler la question de décision", body: "Définir l’offre étudiée, le public cible, la zone géographique, la période et la décision qui devra être prise à partir des résultats." },
+      { title: "Croiser les données", body: "Associer des sources primaires, des statistiques publiques, des informations sectorielles et des retours de terrain lorsque cela est pertinent. Vérifier la date, la définition et le périmètre de chaque donnée." },
+      { title: "Restituer des conclusions proportionnées", body: "Séparer observations, estimations et hypothèses ; présenter les limites, les lacunes et les pistes à vérifier avant de transformer l’analyse en action commerciale." }
+    ]
+  },
+  "/developpement-commercial/e-reputation": {
+    lead: "L’e-réputation se travaille par une veille régulière, une lecture contextualisée des avis et des réponses cohérentes. Un avis isolé ou non vérifié ne suffit pas à caractériser l’ensemble de la relation client.",
+    sections: [
+      { title: "Définir les sources de veille", body: "Lister les plateformes pertinentes, les établissements ou marques concernés, la fréquence de consultation et les personnes chargées du suivi." },
+      { title: "Qualifier avant de répondre", body: "Vérifier le contexte, rechercher les faits disponibles et distinguer une réclamation vérifiable d’une opinion. Ne jamais publier de données personnelles ou d’informations confidentielles dans une réponse publique." },
+      { title: "Mesurer les tendances avec prudence", body: "Suivre les thèmes récurrents, les délais de réponse et l’évolution du volume d’avis. Ne pas présenter un indicateur de plateforme comme une mesure complète de la satisfaction." }
+    ]
+  },
+  "/developpement-commercial/e-reputation/surveiller": {
+    lead: "Une veille d’avis utile doit être régulière, ciblée et documentée, afin de détecter les thèmes récurrents sans surinterpréter les variations ponctuelles.",
+    sections: [
+      { title: "Définir le périmètre", body: "Identifier les plateformes, marques, établissements, mots-clés et périodes à surveiller. Ajuster la fréquence au volume et aux enjeux de l’activité." },
+      { title: "Qualifier les mentions", body: "Consigner la source, la date, le thème et le contexte accessible. Séparer les faits observables, les opinions exprimées et les interprétations internes." },
+      { title: "Escalader les cas sensibles", body: "Prévoir un processus pour les réclamations graves, les données personnelles ou les allégations nécessitant une vérification humaine. Une veille automatique ne remplace pas l’examen du contexte." }
+    ]
+  },
+  "/developpement-commercial/e-reputation/repondre-aux-avis": {
+    lead: "Une réponse publique doit rester professionnelle, factuelle et proportionnée. Elle montre que l’entreprise prend le retour au sérieux sans divulguer d’informations sur la personne ou la relation commerciale.",
+    sections: [
+      { title: "Vérifier les faits en interne", body: "Identifier le contexte et les éléments vérifiables avant de rédiger. En cas d’incertitude, reconnaître le retour et proposer un canal privé plutôt que contester sans preuve." },
+      { title: "Répondre avec mesure", body: "Rester courtois, éviter les accusations et les formules standardisées, puis proposer une suite concrète lorsque cela est approprié." },
+      { title: "Apprendre sans exposer les personnes", body: "Classer les motifs récurrents et les actions correctives, sans publier de données personnelles ou de détails confidentiels dans l’espace public." }
+    ]
+  },
+  "/comprendre": {
+    lead: "Cette rubrique explique ce que MajestiOS cherche à accomplir, comment les différents parcours s’articulent et quelles limites doivent être connues avant utilisation.",
+    sections: [
+      { title: "Comprendre la mission", body: "MajestiOS vise à relier la détection d’un signal, sa qualification, l’identification des acteurs pertinents, la prise de contact, la transformation commerciale et la capitalisation des retours." },
+      { title: "Distinguer l’ambition de l’état réel", body: "Une page, une maquette ou une carte interactive ne prouve pas qu’un service externe, un compte, une API ou un traitement de données est activé. Les fonctions disponibles doivent être annoncées sans ambiguïté." },
+      { title: "Apprendre et corriger", body: "La qualité du système dépend de sources datées, de retours vérifiables, de corrections traçables et de contrôles humains adaptés. Les hypothèses doivent rester distinctes des faits établis." }
+    ]
+  },
+  "/opportunites/marches-publics/travaux": {
+    lead: "Cette rubrique cible les consultations de travaux : construction, rénovation, entretien, aménagement et interventions techniques. La qualification doit porter autant sur le lot que sur la capacité réelle de l’entreprise à l’exécuter.",
+    sections: [
+      { title: "Vérifier le périmètre des travaux", body: "Lire l’objet du marché, les lots, le lieu d’exécution, les contraintes de chantier, les certifications éventuelles et les visites obligatoires. Le titre seul ne suffit pas à établir l’adéquation." },
+      { title: "Évaluer les moyens nécessaires", body: "Comparer les compétences, les effectifs, les disponibilités, les équipements, les assurances et les références demandées. Repérer les exigences qui nécessiteraient un cotraitant ou un sous-traitant." },
+      { title: "Confirmer dans le dossier officiel", body: "Vérifier les pièces, critères, échéances et modalités de dépôt auprès de l’acheteur. Cette sous-rubrique est un point de repère ; elle ne garantit pas qu’un flux filtré par catégorie soit connecté." }
+    ]
+  },
+  "/opportunites/marches-publics/services": {
+    lead: "Cette rubrique concerne les prestations de services et missions intellectuelles. L’analyse doit rapprocher le besoin exprimé des compétences, de la méthode, des livrables et des délais que l’entreprise peut réellement proposer.",
+    sections: [
+      { title: "Identifier les livrables attendus", body: "Relever les objectifs, le périmètre de la mission, les résultats attendus, les indicateurs, les lieux d’intervention et les contraintes de calendrier." },
+      { title: "Vérifier les compétences et références", body: "Contrôler les profils requis, les qualifications, les références et les moyens mobilisables. Ne pas déclarer une compétence ou une certification qui ne peut pas être justifiée." },
+      { title: "Préparer une réponse conforme", body: "Construire une matrice reliant chaque exigence à une preuve, un responsable et une échéance. Le dossier de consultation fait foi pour toute décision de candidature." }
+    ]
+  },
+  "/opportunites/marches-publics/fournitures": {
+    lead: "Les marchés de fournitures portent sur des produits, équipements, consommables et approvisionnements. La pertinence d’une consultation dépend notamment des spécifications, volumes, délais, conditions logistiques et contraintes de maintenance.",
+    sections: [
+      { title: "Comparer les spécifications", body: "Repérer les caractéristiques obligatoires, normes, compatibilités, quantités, variantes autorisées et modalités d’échantillonnage. Ne pas assimiler une ressemblance commerciale à une conformité technique." },
+      { title: "Contrôler la capacité de livraison", body: "Évaluer les stocks, délais d’approvisionnement, transport, installation, service après-vente et continuité d’approvisionnement selon les exigences du marché." },
+      { title: "Chiffrer avec prudence", body: "Vérifier les unités, quantités, prix, options, durée, révision éventuelle et coûts logistiques. Les hypothèses de prix doivent être distinguées des engagements fermes." }
+    ]
+  },
+  "/opportunites/marches-publics/departement": {
+    lead: "Le filtre territorial aide à réduire le volume de consultations à examiner. Le lieu d’exécution ne doit toutefois pas être confondu avec l’adresse de l’acheteur ou avec une restriction géographique qui ne figure pas dans le dossier.",
+    sections: [
+      { title: "Choisir un territoire pertinent", body: "Partir des zones réellement couvertes par l’entreprise, de ses moyens de déplacement, de ses sites d’intervention et de ses capacités logistiques." },
+      { title: "Vérifier le lieu et les contraintes", body: "Lire les adresses de réalisation, les éventuelles visites, les délais d’intervention et les contraintes d’accès. Un siège d’acheteur situé dans un département ne signifie pas toujours que le marché s’y exécute." },
+      { title: "Confirmer la disponibilité du filtre", body: "La page présente la méthode de qualification territoriale. Tant qu’un filtre départemental dédié n’est pas raccordé au moteur de recherche, ne pas interpréter cette page comme un résultat géographique déjà filtré." }
+    ]
+  },
+  "/opportunites/marches-prives/secteur": {
+    lead: "Le classement sectoriel des opportunités privées peut faciliter la découverte de besoins publiés par des entreprises ou des donneurs d’ordre. La diffusion d’une annonce privée doit être autorisée et sa source identifiable.",
+    sections: [
+      { title: "Choisir un secteur utile", body: "Relier le secteur au savoir-faire, aux capacités et à la zone d’intervention de l’entreprise. Un secteur large peut servir au repérage, mais la qualification doit se faire au niveau du besoin précis." },
+      { title: "Contrôler l’origine de l’annonce", body: "Vérifier l’émetteur, la date, le périmètre de diffusion, les coordonnées et les conditions de réponse. Ne pas republier des informations confidentielles ou non autorisées." },
+      { title: "État actuel du catalogue", body: "Le classement par secteur constitue ici un parcours d’information. Le flux d’annonces privées et son filtrage ne doivent pas être considérés comme actifs tant que leur source et leur modération ne sont pas opérationnelles." }
+    ]
+  },
+  "/opportunites/marches-prives/deposer": {
+    lead: "Une annonce privée ne doit être diffusée qu’avec l’accord de son émetteur et après vérification des informations essentielles. Le dépôt, la modération et la publication sont des étapes distinctes.",
+    sections: [
+      { title: "Préparer les informations", body: "Décrire le besoin, le périmètre, le secteur, la zone, le calendrier, les critères de réponse et un moyen de contact autorisé. Limiter les données personnelles au strict nécessaire." },
+      { title: "Prouver l’autorisation de diffusion", body: "Confirmer que la personne qui soumet l’annonce peut en autoriser la publication et préciser les éventuelles restrictions de partage ou de confidentialité." },
+      { title: "Ne pas confondre formulaire et publication", body: "Le parcours de contact actuel ne garantit pas encore un dépôt enregistré, une modération ni une publication automatisée. Ces fonctions nécessitent un traitement sécurisé et une validation opérationnelle." }
+    ]
+  },
+  "/opportunites/salons/calendrier": {
+    lead: "Un calendrier de salons doit aider à préparer la veille, les rencontres et les actions de suivi. Une date ou un lieu doit être confirmé auprès de l’organisateur avant toute réservation ou planification.",
+    sections: [
+      { title: "Vérifier les informations pratiques", body: "Confirmer les dates, le lieu, les horaires, le public visé, les conditions d’accès et la date limite d’inscription sur la source officielle de l’organisateur." },
+      { title: "Définir l’objectif de visite", body: "Choisir les secteurs, exposants, acheteurs, fournisseurs ou experts à rencontrer. Préparer une proposition de valeur courte et des questions adaptées à chaque rendez-vous." },
+      { title: "État du calendrier", body: "Cette page définit les critères d’un calendrier fiable ; elle ne constitue pas à elle seule un agenda actualisé ou un service d’inscription aux événements." }
+    ]
+  },
+  "/opportunites/salons/secteur": {
+    lead: "Explorer les salons par secteur permet de rapprocher les événements des marchés ciblés, des innovations et des acteurs à rencontrer. Le classement doit rester lié à l’objectif professionnel recherché.",
+    sections: [
+      { title: "Définir le secteur et l’objectif", body: "Préciser si la priorité est la veille, la recherche de clients, les fournisseurs, les partenaires de réalisation, le recrutement ou la découverte d’un marché." },
+      { title: "Vérifier la pertinence de l’événement", body: "Examiner le programme, la liste des exposants, le profil des visiteurs, les conférences et les modalités de rendez-vous à partir des informations publiées par l’organisateur." },
+      { title: "Transformer la visite en réseau", body: "Préparer les contacts utiles, prendre des notes factuelles et convenir d’une suite claire. Ne pas assimiler une présence sur un salon à un accord commercial." }
+    ]
+  },
+  "/opportunites/salons/region": {
+    lead: "Le repérage régional des salons aide à organiser les déplacements et à concentrer la veille sur les territoires prioritaires. La région d’un événement ne suffit pas à démontrer sa pertinence commerciale.",
+    sections: [
+      { title: "Définir le périmètre géographique", body: "Tenir compte du temps de trajet, du coût, des possibilités de rendez-vous et des zones dans lesquelles l’entreprise cherche à développer son activité." },
+      { title: "Contrôler la localisation", body: "Confirmer l’adresse, les accès, les dates et les éventuels changements directement auprès de l’organisateur." },
+      { title: "État du filtre régional", body: "Cette page expose une méthode de sélection territoriale. Un annuaire de salons actualisé et filtrable doit être raccordé à des données vérifiées avant d’être présenté comme disponible." }
+    ]
+  },
+  "/opportunites/emploi/offres": {
+    lead: "La recherche d’offres d’emploi doit permettre de comparer le métier, les compétences, le contrat, le territoire et la date de publication. Une annonce doit être vérifiée avant de transmettre une candidature.",
+    sections: [
+      { title: "Préciser les critères", body: "Définir le métier, le niveau d’expérience, la zone, le type de contrat, le rythme de travail et les contraintes importantes pour réduire les résultats peu pertinents." },
+      { title: "Vérifier l’offre", body: "Contrôler l’employeur, la date, les missions, les conditions, le mode de candidature et la source d’origine. Se méfier des annonces sans émetteur identifiable." },
+      { title: "État des offres", body: "Les cartes de rôle présentes dans le prototype ne valent pas confirmation d’un recrutement ouvert. Un flux d’offres externes vérifiées doit être raccordé avant de présenter un catalogue actualisé." }
+    ]
+  },
+  "/opportunites/emploi/missions": {
+    lead: "Les missions ponctuelles et indépendantes doivent être qualifiées par leur périmètre, leurs livrables, leur durée, leur statut et leurs conditions de réalisation.",
+    sections: [
+      { title: "Clarifier le périmètre", body: "Identifier les résultats attendus, le temps estimé, les compétences requises, les outils, le lieu d’intervention et les interlocuteurs décisionnaires." },
+      { title: "Sécuriser les conditions", body: "Clarifier le statut contractuel, le budget ou le mode de rémunération, les délais de paiement, la propriété des livrables et les responsabilités." },
+      { title: "Confirmer l’existence de la mission", body: "Aucune mission ne doit être considérée comme disponible sur la seule base d’un exemple ou d’un descriptif générique. Vérifier l’émetteur et les conditions avant de s’engager." }
+    ]
+  },
+  "/opportunites/emploi/metiers": {
+    lead: "Les repères métiers aident à relier les compétences d’une personne aux besoins d’une entreprise ou à une mission. Les intitulés varient selon les secteurs et doivent être rapprochés des tâches réellement demandées.",
+    sections: [
+      { title: "Décrire les compétences démontrables", body: "Mettre en avant les activités réalisées, les outils maîtrisés, les certifications vérifiables et les résultats documentables plutôt qu’une liste générique de qualités." },
+      { title: "Relier le profil au besoin", body: "Comparer les compétences attendues, le niveau d’autonomie, les contraintes du poste et les possibilités de formation ou d’accompagnement." },
+      { title: "Maintenir les repères à jour", body: "Les fiches métiers doivent être révisées à partir de sources professionnelles ou institutionnelles datées. Cette page n’est pas un référentiel exhaustif des métiers." }
+    ]
+  },
+  "/opportunites/emploi/deposer-une-offre": {
+    lead: "Une offre d’emploi doit être claire, non trompeuse et suffisamment précise pour permettre aux candidats de comprendre le poste avant de transmettre leurs informations.",
+    sections: [
+      { title: "Rédiger une annonce complète", body: "Préciser les missions, compétences nécessaires, lieu, contrat, durée, date de prise de poste et modalités de candidature. Distinguer les exigences obligatoires des éléments souhaités." },
+      { title: "Protéger les candidats", body: "Ne demander que les données utiles au recrutement, expliquer leur usage et limiter leur accès aux personnes habilitées." },
+      { title: "État du dépôt", body: "Le parcours d’intake actuel ne confirme pas encore l’enregistrement, la modération ou la publication d’une offre. Ces étapes doivent être mises en place avant d’annoncer un service de dépôt actif." }
+    ]
+  },
+  "/opportunites/emploi/conseils": {
+    lead: "Une candidature ou un recrutement efficace repose sur des informations concrètes, des attentes explicites et un suivi respectueux des personnes.",
+    sections: [
+      { title: "Pour une candidature", body: "Adapter le CV et le message au poste, illustrer les compétences par des exemples réels et vérifier les coordonnées et pièces jointes avant l’envoi." },
+      { title: "Pour un recruteur", body: "Définir les critères utiles au poste, séparer les exigences du souhaitable, conduire une évaluation cohérente et communiquer clairement les étapes du processus." },
+      { title: "Garder une trace proportionnée", body: "Consigner les étapes nécessaires au suivi, limiter l’accès aux données des candidats et respecter les obligations applicables à leur conservation." }
+    ]
+  },
+  "/opportunites/radar-entreprises": {
+    lead: "Le radar entreprises vise à repérer des signaux publics susceptibles d’éclairer une démarche commerciale : création, changement d’activité, implantation, transmission ou annonce pertinente. Chaque signal doit être vérifié avant interprétation.",
+    sections: [
+      { title: "Distinguer signal et besoin", body: "Une création ou un changement d’adresse peut ouvrir une question de recherche, mais ne prouve pas qu’une entreprise recherche un fournisseur, un salarié ou un prestataire." },
+      { title: "Recouper avant de contacter", body: "Comparer la publication initiale à des sources complémentaires fiables, vérifier la date et l’identité de l’entreprise, puis documenter séparément le fait observé et l’hypothèse commerciale." },
+      { title: "Respecter les limites de la veille", body: "Appliquer les règles de réutilisation des sources et de prospection. Le radar ne doit pas être présenté comme un flux opérationnel tant que les sources et le traitement des signaux ne sont pas raccordés." }
+    ]
+  },
+  "/comprendre/concept": {
+    lead: "MajestiOS associe intelligence artificielle, veille économique et développement commercial. L’objectif n’est pas d’accumuler des données : c’est de repérer des opportunités, de comprendre leur contexte et de rapprocher les acteurs qui pourraient avoir intérêt à travailler ensemble.",
+    sections: [
+      { title: "Le réseautage intelligent", body: "Un appel d’offres, une création d’entreprise, un salon professionnel ou une évolution d’activité peuvent révéler un besoin commercial. MajestiOS vise à relier ces signaux aux entreprises, fournisseurs, sous-traitants et interlocuteurs pertinents.", bullets: ["Détecter les signaux et conserver leur source.", "Qualifier la pertinence avant de recommander une action.", "Identifier les acteurs susceptibles d’être complémentaires.", "Préparer la prise de contact et apprendre des retours."] },
+      { title: "Le parcours MajestiOS", body: "Détecter → Qualifier → Identifier → Contacter → Transformer → Capitaliser. Chaque étape doit permettre de passer de l’information à une décision commerciale mieux documentée." },
+      { title: "IA et expertise humaine", body: "L’IA peut assister la recherche, le classement et la préparation. La validation des informations, la relation commerciale et les prestations réellement proposées doivent rester explicites. Une piste identifiée n’est ni une mise en relation garantie ni une promesse de contrat." }
+    ]
+  },
+  "/comprendre/faq": {
+    lead: "Les réponses ci-dessous expliquent la logique de MajestiOS et distinguent l’ambition du produit des fonctions qui doivent encore être activées ou vérifiées.",
+    sections: [
+      { title: "MajestiOS est-il uniquement un moteur d’appels d’offres ?", body: "Non. Les appels d’offres constituent une porte d’entrée. La vision est plus large : intelligence commerciale proactive et réseautage intelligent, pour identifier des besoins, qualifier des opportunités et faciliter les relations d’affaires." },
+      { title: "Que signifie « réseautage intelligent » ?", body: "Relier des signaux économiques à des acteurs potentiellement complémentaires, puis préparer des rapprochements pertinents au lieu de simplement afficher un annuaire ou une liste de prospects." },
+      { title: "MajestiOS garantit-il l’obtention d’un marché ?", body: "Non. La décision appartient au donneur d’ordre et dépend notamment de la concurrence et de la qualité de la réponse. MajestiOS vise à améliorer la détection, la qualification et la préparation commerciale, sans garantir un résultat." },
+      { title: "Les annonces affichées sont-elles toutes vérifiées ?", body: "Une annonce ne doit être présentée comme réelle que si sa source est identifiable et son contenu contrôlé. Les données non disponibles ou les fonctions en préparation doivent être signalées comme telles." },
+      { title: "Les équipes commerciales interviennent-elles ?", body: "Le positionnement prévoit une complémentarité entre IA et business developers. Le périmètre exact d’un accompagnement doit être indiqué clairement pour chaque service effectivement ouvert." }
+    ]
+  },
   "/comprendre/glossaire": {
     lead: "Un vocabulaire commun aide à transformer les informations économiques en démarches commerciales concrètes.",
     sections: [
@@ -296,7 +514,7 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
   const pageIntro = editorial?.lead ?? intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS.";
   const tickerFlow = pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "public" : pathname.startsWith("/opportunites/marches-prives") ? "private" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.startsWith("/business") || pathname === "/opportunites/radar-entreprises" ? "business" : pathname.startsWith("/reseaux") ? "reseau" : "general";
   const mapItems = children.length > 0 ? children : related;
-  const resourceScope = pathname === "/opportunites" ? "opportunites" : pathname.startsWith("/business") || pathname.startsWith("/opportunites/radar-entreprises") ? "business" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/reseaux") ? "reseaux" : pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "marches-publics" : pathname.startsWith("/opportunites/marches-prives") ? "marches-prives" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.startsWith("/developpement-commercial/etudes-de-marche") ? "sources" : pathname.startsWith("/developpement-commercial/prospection") ? "prospection" : "general";
+  const resourceScope = pathname.startsWith("/business") || pathname === "/opportunites/radar-entreprises" ? "business" : pathname.startsWith("/reseaux") || pathname.startsWith("/opportunites/salons") ? "reseaux" : pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "marches-publics" : pathname.startsWith("/opportunites/marches-prives") ? "marches-prives" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.startsWith("/developpement-commercial/etudes-de-marche") ? "sources" : pathname.startsWith("/developpement-commercial/prospection") ? "prospection" : "general";
   return <main className="site-page">
     <PublicHeader />
     {tickerFlow ? <AnnouncementTicker flow={tickerFlow} /> : null}
