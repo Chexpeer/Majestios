@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
@@ -10,6 +11,7 @@ export default function CreatePersonalSpacePage() {
   const [title, setTitle] = useState("");
   const [source, setSource] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     // Le formulaire se synchronise une seule fois avec les paramètres du parcours entrant.
@@ -22,7 +24,10 @@ export default function CreatePersonalSpacePage() {
   const isTender = intention === "opportunite";
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    const data = new FormData(event.currentTarget);
+    const choices = ["recevoir-offre-email", "creer-espace", "postuler"].filter((key) => data.get(key) === "on");
+    const params = new URLSearchParams({ mode: "preparation", intention, source, titre: title, choix: choices.join(",") });
+    router.push("/merci?" + params.toString());
   }
 
   return <main className="public-site concept-page create-space-page">
@@ -49,8 +54,13 @@ export default function CreatePersonalSpacePage() {
           {isApplication ? <label className="document-upload">CV (PDF, DOC ou DOCX)<input type="file" name="cv" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" /><small>Le dépôt de fichier sera réellement activé après sécurisation du stockage. Ne sélectionnez pas de document confidentiel à ce stade.</small></label> : null}
           {isTender ? <label className="document-upload">Document de l’entreprise (Kbis, facultatif à cette étape)<input type="file" name="kbis" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" /><small>Le dépôt et la conservation de pièces seront activés dans un espace authentifié sécurisé.</small></label> : null}
           <label className="create-space-message">Précisions utiles (facultatif)<textarea name="message" rows={3} maxLength={1200} placeholder={isApplication ? "Compétences, expérience ou type de mission recherché…" : "Votre activité, votre besoin ou vos questions…"} /></label>
-          <label className="create-space-consent"><input type="checkbox" required /> J’accepte d’être recontacté au sujet de cette demande. Les données ne sont pas envoyées par cette version de démonstration.</label>
-          <button className="search-submit" type="submit">Préparer ma demande ↗</button>
+          <fieldset className="form-choice-group"><legend>Que souhaitez-vous faire ?</legend>
+            <label><input type="checkbox" name="recevoir-offre-email" /> Recevoir cette offre par e-mail (option à activer)</label>
+            <label><input type="checkbox" name="creer-espace" defaultChecked={isTender || !isApplication} /> Créer mon espace personnel (parcours en préparation)</label>
+            <label><input type="checkbox" name="postuler" defaultChecked={isApplication} /> Postuler / me positionner sur cette annonce</label>
+          </fieldset>
+          <label className="create-space-consent"><input type="checkbox" required /> Je confirme avoir pris connaissance de l’information suivante : ce formulaire de démonstration ne transmet et n’enregistre aucune donnée.</label>
+          <button className="search-submit" type="submit">Continuer ↗</button>
           <p className="ticker-disclaimer">Version préparatoire : le formulaire ne transmet ni n’enregistre aucune donnée. Le service sera activé avec des garanties de sécurité et de confidentialité.</p>
         </form>}
       </div>
