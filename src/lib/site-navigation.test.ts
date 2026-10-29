@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { flattenSiteTree, siteTree } from "../data/site-tree";
+import { findSiteNode, flattenSiteTree, siteTree } from "../data/site-tree";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const appRoot = join(projectRoot, "src", "app");
@@ -83,6 +83,46 @@ describe("architecture de navigation MajestiOS", () => {
   it("keeps literal internal links resolvable", () => {
     const broken = localHrefLiterals().filter(({ href }) => !resolvesToRoute(href));
     expect(broken, "Chaque lien interne littéral doit mener à une page ou une route API existante").toEqual([]);
+  });
+
+  it("vérifie les connexions dans les deux sens pour chaque rubrique", () => {
+    const nodes = flattenSiteTree();
+    const broken: Array<{ href: string; problem: string }> = [];
+
+    for (const node of nodes) {
+      const found = findSiteNode(node.href);
+      if (!found || found.node.href !== node.href) {
+        broken.push({ href: node.href, problem: "la rubrique n’est pas retrouvée par son URL" });
+        continue;
+      }
+
+      const parent = found.ancestors.at(-1);
+      if (parent && !parent.children?.some((child) => child.href === node.href)) {
+        broken.push({ href: node.href, problem: `le parent ${parent.href} ne référence pas cette rubrique` });
+      }
+
+      const visibleNodes = node.children?.length
+        ? node.children
+        : parent
+          ? parent.children?.filter((sibling) => sibling.href !== node.href) ?? []
+          : siteTree.filter((sibling) => sibling.href !== node.href && sibling.href !== "/");
+
+      if (!visibleNodes.length) {
+        broken.push({ href: node.href, problem: "aucun lien de navigation contextuel disponible" });
+      }
+      for (const visible of visibleNodes) {
+        if (!findSiteNode(visible.href)) {
+          broken.push({ href: node.href, problem: `destination contextuelle introuvable : ${visible.href}` });
+        }
+      }
+      for (const ancestor of found.ancestors) {
+        if (!findSiteNode(ancestor.href)) {
+          broken.push({ href: node.href, problem: `retour de fil d’Ariane introuvable : ${ancestor.href}` });
+        }
+      }
+    }
+
+    expect(broken, "Chaque rubrique doit être reliée à ses parents, à ses voisines et à des destinations existantes").toEqual([]);
   });
 
   it("keeps each nested section connected to its parent and siblings", () => {
