@@ -21,7 +21,7 @@ const resources: Record<ResourceScope, ResourceCard[]> = {
   ],
   "marches-publics": [
     { label: "GUIDE", title: "Décrypter un avis de marché", description: "Repérer l’objet, l’acheteur, les critères, les pièces demandées et l’échéance à confirmer dans le dossier original.", action: "Consulter le guide", href: "/developpement-commercial/accompagnement-appels-offres/preparer", kind: "GUIDE" },
-    { label: "BONNES PRATIQUES", title: "Vérifier avant de répondre", description: "Contrôler les conditions d’accès, les capacités exigées, les documents et la date limite auprès de la source officielle.", action: "Voir la FAQ", href: "/developpement-commercial/accompagnement-appels-offres/apres-un-resultat", kind: "BONNES PRATIQUES" },
+    { label: "BONNES PRATIQUES", title: "Vérifier avant de répondre", description: "Contrôler les conditions d’accès, les capacités exigées, les documents et la date limite auprès de la source officielle.", action: "Capitaliser après la décision", href: "/developpement-commercial/accompagnement-appels-offres/apres-un-resultat", kind: "BONNES PRATIQUES" },
     { label: "OUTIL", title: "Recherche ciblée et veille", description: "Affiner les critères, documenter les sources et transformer un avis pertinent en prochaine action commerciale.", action: "Ouvrir la recherche", href: "/opportunites/marches-publics", kind: "OUTIL" },
   ],
   "marches-prives": [
