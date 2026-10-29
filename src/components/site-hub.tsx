@@ -9,6 +9,126 @@ type EditorialSection = { title: string; body: string; bullets?: string[] };
 type EditorialPage = { lead: string; sections: EditorialSection[] };
 
 const editorialPages: Record<string, EditorialPage> = {
+  "/opportunites/marches-publics/travaux": {
+    lead: "Cette rubrique cible les consultations de travaux : construction, rénovation, entretien, aménagement et interventions techniques. La qualification doit porter autant sur le lot que sur la capacité réelle de l’entreprise à l’exécuter.",
+    sections: [
+      { title: "Vérifier le périmètre des travaux", body: "Lire l’objet du marché, les lots, le lieu d’exécution, les contraintes de chantier, les certifications éventuelles et les visites obligatoires. Le titre seul ne suffit pas à établir l’adéquation." },
+      { title: "Évaluer les moyens nécessaires", body: "Comparer les compétences, les effectifs, les disponibilités, les équipements, les assurances et les références demandées. Repérer les exigences qui nécessiteraient un cotraitant ou un sous-traitant." },
+      { title: "Confirmer dans le dossier officiel", body: "Vérifier les pièces, critères, échéances et modalités de dépôt auprès de l’acheteur. Cette sous-rubrique est un point de repère ; elle ne garantit pas qu’un flux filtré par catégorie soit connecté." }
+    ]
+  },
+  "/opportunites/marches-publics/services": {
+    lead: "Cette rubrique concerne les prestations de services et missions intellectuelles. L’analyse doit rapprocher le besoin exprimé des compétences, de la méthode, des livrables et des délais que l’entreprise peut réellement proposer.",
+    sections: [
+      { title: "Identifier les livrables attendus", body: "Relever les objectifs, le périmètre de la mission, les résultats attendus, les indicateurs, les lieux d’intervention et les contraintes de calendrier." },
+      { title: "Vérifier les compétences et références", body: "Contrôler les profils requis, les qualifications, les références et les moyens mobilisables. Ne pas déclarer une compétence ou une certification qui ne peut pas être justifiée." },
+      { title: "Préparer une réponse conforme", body: "Construire une matrice reliant chaque exigence à une preuve, un responsable et une échéance. Le dossier de consultation fait foi pour toute décision de candidature." }
+    ]
+  },
+  "/opportunites/marches-publics/fournitures": {
+    lead: "Les marchés de fournitures portent sur des produits, équipements, consommables et approvisionnements. La pertinence d’une consultation dépend notamment des spécifications, volumes, délais, conditions logistiques et contraintes de maintenance.",
+    sections: [
+      { title: "Comparer les spécifications", body: "Repérer les caractéristiques obligatoires, normes, compatibilités, quantités, variantes autorisées et modalités d’échantillonnage. Ne pas assimiler une ressemblance commerciale à une conformité technique." },
+      { title: "Contrôler la capacité de livraison", body: "Évaluer les stocks, délais d’approvisionnement, transport, installation, service après-vente et continuité d’approvisionnement selon les exigences du marché." },
+      { title: "Chiffrer avec prudence", body: "Vérifier les unités, quantités, prix, options, durée, révision éventuelle et coûts logistiques. Les hypothèses de prix doivent être distinguées des engagements fermes." }
+    ]
+  },
+  "/opportunites/marches-publics/departement": {
+    lead: "Le filtre territorial aide à réduire le volume de consultations à examiner. Le lieu d’exécution ne doit toutefois pas être confondu avec l’adresse de l’acheteur ou avec une restriction géographique qui ne figure pas dans le dossier.",
+    sections: [
+      { title: "Choisir un territoire pertinent", body: "Partir des zones réellement couvertes par l’entreprise, de ses moyens de déplacement, de ses sites d’intervention et de ses capacités logistiques." },
+      { title: "Vérifier le lieu et les contraintes", body: "Lire les adresses de réalisation, les éventuelles visites, les délais d’intervention et les contraintes d’accès. Un siège d’acheteur situé dans un département ne signifie pas toujours que le marché s’y exécute." },
+      { title: "Confirmer la disponibilité du filtre", body: "La page présente la méthode de qualification territoriale. Tant qu’un filtre départemental dédié n’est pas raccordé au moteur de recherche, ne pas interpréter cette page comme un résultat géographique déjà filtré." }
+    ]
+  },
+  "/opportunites/marches-prives/secteur": {
+    lead: "Le classement sectoriel des opportunités privées peut faciliter la découverte de besoins publiés par des entreprises ou des donneurs d’ordre. La diffusion d’une annonce privée doit être autorisée et sa source identifiable.",
+    sections: [
+      { title: "Choisir un secteur utile", body: "Relier le secteur au savoir-faire, aux capacités et à la zone d’intervention de l’entreprise. Un secteur large peut servir au repérage, mais la qualification doit se faire au niveau du besoin précis." },
+      { title: "Contrôler l’origine de l’annonce", body: "Vérifier l’émetteur, la date, le périmètre de diffusion, les coordonnées et les conditions de réponse. Ne pas republier des informations confidentielles ou non autorisées." },
+      { title: "État actuel du catalogue", body: "Le classement par secteur constitue ici un parcours d’information. Le flux d’annonces privées et son filtrage ne doivent pas être considérés comme actifs tant que leur source et leur modération ne sont pas opérationnelles." }
+    ]
+  },
+  "/opportunites/marches-prives/deposer": {
+    lead: "Une annonce privée ne doit être diffusée qu’avec l’accord de son émetteur et après vérification des informations essentielles. Le dépôt, la modération et la publication sont des étapes distinctes.",
+    sections: [
+      { title: "Préparer les informations", body: "Décrire le besoin, le périmètre, le secteur, la zone, le calendrier, les critères de réponse et un moyen de contact autorisé. Limiter les données personnelles au strict nécessaire." },
+      { title: "Prouver l’autorisation de diffusion", body: "Confirmer que la personne qui soumet l’annonce peut en autoriser la publication et préciser les éventuelles restrictions de partage ou de confidentialité." },
+      { title: "Ne pas confondre formulaire et publication", body: "Le parcours de contact actuel ne garantit pas encore un dépôt enregistré, une modération ni une publication automatisée. Ces fonctions nécessitent un traitement sécurisé et une validation opérationnelle." }
+    ]
+  },
+  "/opportunites/salons/calendrier": {
+    lead: "Un calendrier de salons doit aider à préparer la veille, les rencontres et les actions de suivi. Une date ou un lieu doit être confirmé auprès de l’organisateur avant toute réservation ou planification.",
+    sections: [
+      { title: "Vérifier les informations pratiques", body: "Confirmer les dates, le lieu, les horaires, le public visé, les conditions d’accès et la date limite d’inscription sur la source officielle de l’organisateur." },
+      { title: "Définir l’objectif de visite", body: "Choisir les secteurs, exposants, acheteurs, fournisseurs ou experts à rencontrer. Préparer une proposition de valeur courte et des questions adaptées à chaque rendez-vous." },
+      { title: "État du calendrier", body: "Cette page définit les critères d’un calendrier fiable ; elle ne constitue pas à elle seule un agenda actualisé ou un service d’inscription aux événements." }
+    ]
+  },
+  "/opportunites/salons/secteur": {
+    lead: "Explorer les salons par secteur permet de rapprocher les événements des marchés ciblés, des innovations et des acteurs à rencontrer. Le classement doit rester lié à l’objectif professionnel recherché.",
+    sections: [
+      { title: "Définir le secteur et l’objectif", body: "Préciser si la priorité est la veille, la recherche de clients, les fournisseurs, les partenaires de réalisation, le recrutement ou la découverte d’un marché." },
+      { title: "Vérifier la pertinence de l’événement", body: "Examiner le programme, la liste des exposants, le profil des visiteurs, les conférences et les modalités de rendez-vous à partir des informations publiées par l’organisateur." },
+      { title: "Transformer la visite en réseau", body: "Préparer les contacts utiles, prendre des notes factuelles et convenir d’une suite claire. Ne pas assimiler une présence sur un salon à un accord commercial." }
+    ]
+  },
+  "/opportunites/salons/region": {
+    lead: "Le repérage régional des salons aide à organiser les déplacements et à concentrer la veille sur les territoires prioritaires. La région d’un événement ne suffit pas à démontrer sa pertinence commerciale.",
+    sections: [
+      { title: "Définir le périmètre géographique", body: "Tenir compte du temps de trajet, du coût, des possibilités de rendez-vous et des zones dans lesquelles l’entreprise cherche à développer son activité." },
+      { title: "Contrôler la localisation", body: "Confirmer l’adresse, les accès, les dates et les éventuels changements directement auprès de l’organisateur." },
+      { title: "État du filtre régional", body: "Cette page expose une méthode de sélection territoriale. Un annuaire de salons actualisé et filtrable doit être raccordé à des données vérifiées avant d’être présenté comme disponible." }
+    ]
+  },
+  "/opportunites/emploi/offres": {
+    lead: "La recherche d’offres d’emploi doit permettre de comparer le métier, les compétences, le contrat, le territoire et la date de publication. Une annonce doit être vérifiée avant de transmettre une candidature.",
+    sections: [
+      { title: "Préciser les critères", body: "Définir le métier, le niveau d’expérience, la zone, le type de contrat, le rythme de travail et les contraintes importantes pour réduire les résultats peu pertinents." },
+      { title: "Vérifier l’offre", body: "Contrôler l’employeur, la date, les missions, les conditions, le mode de candidature et la source d’origine. Se méfier des annonces sans émetteur identifiable." },
+      { title: "État des offres", body: "Les cartes de rôle présentes dans le prototype ne valent pas confirmation d’un recrutement ouvert. Un flux d’offres externes vérifiées doit être raccordé avant de présenter un catalogue actualisé." }
+    ]
+  },
+  "/opportunites/emploi/missions": {
+    lead: "Les missions ponctuelles et indépendantes doivent être qualifiées par leur périmètre, leurs livrables, leur durée, leur statut et leurs conditions de réalisation.",
+    sections: [
+      { title: "Clarifier le périmètre", body: "Identifier les résultats attendus, le temps estimé, les compétences requises, les outils, le lieu d’intervention et les interlocuteurs décisionnaires." },
+      { title: "Sécuriser les conditions", body: "Clarifier le statut contractuel, le budget ou le mode de rémunération, les délais de paiement, la propriété des livrables et les responsabilités." },
+      { title: "Confirmer l’existence de la mission", body: "Aucune mission ne doit être considérée comme disponible sur la seule base d’un exemple ou d’un descriptif générique. Vérifier l’émetteur et les conditions avant de s’engager." }
+    ]
+  },
+  "/opportunites/emploi/metiers": {
+    lead: "Les repères métiers aident à relier les compétences d’une personne aux besoins d’une entreprise ou à une mission. Les intitulés varient selon les secteurs et doivent être rapprochés des tâches réellement demandées.",
+    sections: [
+      { title: "Décrire les compétences démontrables", body: "Mettre en avant les activités réalisées, les outils maîtrisés, les certifications vérifiables et les résultats documentables plutôt qu’une liste générique de qualités." },
+      { title: "Relier le profil au besoin", body: "Comparer les compétences attendues, le niveau d’autonomie, les contraintes du poste et les possibilités de formation ou d’accompagnement." },
+      { title: "Maintenir les repères à jour", body: "Les fiches métiers doivent être révisées à partir de sources professionnelles ou institutionnelles datées. Cette page n’est pas un référentiel exhaustif des métiers." }
+    ]
+  },
+  "/opportunites/emploi/deposer-une-offre": {
+    lead: "Une offre d’emploi doit être claire, non trompeuse et suffisamment précise pour permettre aux candidats de comprendre le poste avant de transmettre leurs informations.",
+    sections: [
+      { title: "Rédiger une annonce complète", body: "Préciser les missions, compétences nécessaires, lieu, contrat, durée, date de prise de poste et modalités de candidature. Distinguer les exigences obligatoires des éléments souhaités." },
+      { title: "Protéger les candidats", body: "Ne demander que les données utiles au recrutement, expliquer leur usage et limiter leur accès aux personnes habilitées." },
+      { title: "État du dépôt", body: "Le parcours d’intake actuel ne confirme pas encore l’enregistrement, la modération ou la publication d’une offre. Ces étapes doivent être mises en place avant d’annoncer un service de dépôt actif." }
+    ]
+  },
+  "/opportunites/emploi/conseils": {
+    lead: "Une candidature ou un recrutement efficace repose sur des informations concrètes, des attentes explicites et un suivi respectueux des personnes.",
+    sections: [
+      { title: "Pour une candidature", body: "Adapter le CV et le message au poste, illustrer les compétences par des exemples réels et vérifier les coordonnées et pièces jointes avant l’envoi." },
+      { title: "Pour un recruteur", body: "Définir les critères utiles au poste, séparer les exigences du souhaitable, conduire une évaluation cohérente et communiquer clairement les étapes du processus." },
+      { title: "Garder une trace proportionnée", body: "Consigner les étapes nécessaires au suivi, limiter l’accès aux données des candidats et respecter les obligations applicables à leur conservation." }
+    ]
+  },
+  "/opportunites/radar-entreprises": {
+    lead: "Le radar entreprises vise à repérer des signaux publics susceptibles d’éclairer une démarche commerciale : création, changement d’activité, implantation, transmission ou annonce pertinente. Chaque signal doit être vérifié avant interprétation.",
+    sections: [
+      { title: "Distinguer signal et besoin", body: "Une création ou un changement d’adresse peut ouvrir une question de recherche, mais ne prouve pas qu’une entreprise recherche un fournisseur, un salarié ou un prestataire." },
+      { title: "Recouper avant de contacter", body: "Comparer la publication initiale à des sources complémentaires fiables, vérifier la date et l’identité de l’entreprise, puis documenter séparément le fait observé et l’hypothèse commerciale." },
+      { title: "Respecter les limites de la veille", body: "Appliquer les règles de réutilisation des sources et de prospection. Le radar ne doit pas être présenté comme un flux opérationnel tant que les sources et le traitement des signaux ne sont pas raccordés." }
+    ]
+  },
   "/comprendre/concept": {
     lead: "MajestiOS associe intelligence artificielle, veille économique et développement commercial. L’objectif n’est pas d’accumuler des données : c’est de repérer des opportunités, de comprendre leur contexte et de rapprocher les acteurs qui pourraient avoir intérêt à travailler ensemble.",
     sections: [
