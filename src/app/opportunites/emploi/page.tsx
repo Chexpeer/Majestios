@@ -1,3 +1,3 @@
-import SiteHub from "@/components/site-hub";
-export const metadata = { title: "Emploi et missions — MajestiOS", description: "Explorer les offres d’emploi et missions publiées." };
-export default function Page() { return <SiteHub pathname="/opportunites/emploi" intro="Cette rubrique accueillera les offres et missions vérifiées. Le catalogue est vide par défaut : aucune annonce de démonstration ne sera présentée comme réelle." checklist={["Filtrer les annonces selon le métier, le contrat, la région et le télétravail lorsque ces données sont disponibles.", "Vérifier la source et la date de publication de chaque offre.", "Pour candidater, utiliser le parcours dédié sans dépôt de CV tant que le stockage sécurisé n’est pas défini."]} />; }
+import EmploymentOpportunities from "@/components/employment-opportunities";
+export const metadata = { title: "Emploi et missions — MajestiOS", description: "Rechercher des offres et missions selon le métier, le contrat, la zone géographique et l’organisation du travail." };
+export default function Page() { return <EmploymentOpportunities />; }
