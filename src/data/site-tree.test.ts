@@ -47,7 +47,7 @@ describe("site navigation tree", () => {
 
   it("makes every interactive map pole a direct link to an implemented canonical dossier", () => {
     const map = readFileSync(join(process.cwd(), "src", "components", "majestic-opportunity-map.tsx"), "utf8");
-    const poleHrefs = [...map.matchAll(/\{ id: "[^"]+", href: "([^"]+)"/g)].map((match) => match[1]);
+    const poleHrefs = [...map.matchAll(/\{ id: "[^"]+", label: "[^"]+", href: "([^"]+)"/g)].map((match) => match[1]);
     const pageRoutes = collectPageRoutes();
     const unresolved = poleHrefs.filter((href) => {
       const node = findSiteNode(href);
