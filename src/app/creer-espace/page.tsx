@@ -55,6 +55,6 @@ export default function CreatePersonalSpacePage() {
         </form>}
       </div>
     </section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav><Link href="/opportunites/marches-publics">Marchés publics</Link><Link href="/opportunites/emploi">Emploi et missions</Link><Link href="/comprendre/faq">FAQ</Link></nav></footer>
+    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/opportunites/marches-publics">Marchés publics</Link><Link href="/opportunites/emploi">Emploi et missions</Link><Link href="/comprendre/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav></footer>
   </main>;
 }
