@@ -18,12 +18,7 @@ export default function MajestiOSOpportunityMap() {
   const selected = poles.find((pole) => pole.id === active) ?? poles[0];
 
   return (
-    <section className="maj-map" aria-labelledby="maj-map-title">
-      <div className="maj-map-heading">
-        <span className="section-label">LE CARREFOUR MAJESTIOS</span>
-        <h2 id="maj-map-title">Un écosystème. Des opportunités connectées.</h2>
-        <p>Sélectionnez un pôle pour explorer la rubrique qui vous intéresse.</p>
-      </div>
+    <section className="maj-map" aria-label="Carte interactive des pôles MajestiOS">
       <div className="maj-map-canvas">
         <div className="maj-map-orbit maj-map-orbit-outer" aria-hidden="true" />
         <div className="maj-map-orbit maj-map-orbit-inner" aria-hidden="true" />
