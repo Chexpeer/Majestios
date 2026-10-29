@@ -9,8 +9,8 @@ export const metadata = {
 const services = [
  {number:"01",title:"Veille BODACC",text:"Comprendre les publications de créations, modifications, procédures et transmissions, puis vérifier ce que chaque signal permet réellement de conclure.",href:"/business/veille-bodacc",action:"Explorer les signaux BODACC"},
  {number:"02",title:"Intelligence entreprises",text:"Rassembler le contexte d’une entreprise, vérifier les faits, qualifier les informations manquantes et expliquer les pistes qui méritent une analyse complémentaire.",href:"/business/intelligence-entreprises",action:"Qualifier une entreprise"},
- {number:"03",title:"Créations et implantations",text:"Examiner les entreprises récemment créées ou implantées, leur activité déclarée, leur territoire et les informations qui peuvent confirmer leur pertinence.",href:"/business/creations-implantations",action:"Analyser une implantation"},
- {number:"04",title:"Évolutions d’activité",text:"Mettre en perspective les changements publiés et leur chronologie sans en déduire automatiquement une intention d’achat, un besoin ou une difficulté.",href:"/business/evolutions-activite",action:"Comprendre une évolution"},
+ {number:"03",title:"Créations et implantations",text:"Examiner les entreprises récemment créées ou implantées, leur activité déclarée, leur territoire et les informations qui peuvent confirmer leur pertinence.",href:"/business/intelligence-entreprises/creations-implantations",action:"Analyser une implantation"},
+ {number:"04",title:"Évolutions d’activité",text:"Mettre en perspective les changements publiés et leur chronologie sans en déduire automatiquement une intention d’achat, un besoin ou une difficulté.",href:"/business/intelligence-entreprises/evolutions-activite",action:"Comprendre une évolution"},
  {number:"05",title:"Achat, cession et transmission",text:"Préparer une reprise ou une cession, structurer les vérifications et comprendre les facteurs d’évaluation d’une entreprise.",href:"/business/achat-cession",action:"Préparer une transmission"}
 ];
 
