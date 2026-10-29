@@ -29,6 +29,14 @@ function getDetailGuide(pathname: string, label: string): DetailGuide {
       next: "Vérifier que l’offre est encore valable sur sa source d’origine et préparer une candidature adaptée. Les dépôts et mises en relation ne sont actifs que si le formulaire correspondant est disponible."
     };
   }
+  if (pathname.includes("business/intelligence-entreprises") || pathname.includes("business/creations-implantations") || pathname.includes("business/evolutions-activite")) {
+    return {
+      title: "Comprendre une entreprise pour repérer un potentiel commercial",
+      purpose: "L’intelligence entreprises consiste à rapprocher des informations économiques vérifiables, des évolutions d’activité et des signaux de marché pour formuler des hypothèses commerciales pertinentes. Elle ne consiste pas à attribuer automatiquement un besoin à une entreprise.",
+      checks: ["Événement ou évolution observée, date et source d’origine", "Concordance avec l’activité, le territoire et le profil de l’entreprise", "Lien plausible entre le signal et une offre ou une compétence que l’on peut réellement proposer"],
+      next: "Recouper les informations, distinguer les faits des hypothèses et documenter la raison d’une éventuelle prise de contact. Le signal doit améliorer la pertinence de la démarche, jamais remplacer la qualification."
+    };
+  }
   if (pathname.includes("bodacc") || pathname.includes("business") || pathname.includes("achat-cession")) {
     return {
       title: "Transformer un signal en piste à qualifier",
@@ -85,7 +93,31 @@ function getDetailGuide(pathname: string, label: string): DetailGuide {
       next: "Conserver la trace des résultats pour améliorer le ciblage. Un refus ponctuel doit être contextualisé et ne pas devenir une exclusion définitive sans raison."
     };
   }
-  if (pathname.includes("proposer-evenement")) {\n    return {\n      title: "Proposer un événement à l’écosystème MajestiOS",\n      purpose: "Cette porte d’entrée a vocation à recueillir des événements professionnels utiles aux entreprises : rencontres sectorielles, portes ouvertes, conférences, inaugurations, journées techniques ou rendez-vous de réseau.",\n      checks: ["Organisateur identifiable et coordonnées professionnelles vérifiables", "Intitulé, date, lieu, public visé et conditions de participation", "Autorisation de diffusion et éventuelles modalités d’inscription"],\n      next: "Une proposition doit être vérifiée avant publication. Le dépôt d’un événement ne vaut ni validation, ni partenariat, ni inscription automatique ; le formulaire sera annoncé comme disponible uniquement lorsqu’il sera réellement activé."\n    };\n  }\n  if (pathname.includes("evenements-entreprise")) {\n    return {\n      title: "Relier les événements d’entreprise aux opportunités commerciales",\n      purpose: "Les événements d’entreprise peuvent révéler des occasions de comprendre une activité, rencontrer un acteur ou créer une relation professionnelle : inauguration, ouverture de site, portes ouvertes, lancement, anniversaire, démonstration ou journée de recrutement.",\n      checks: ["Nature de l’événement, organisateur et date confirmés", "Public concerné et intérêt concret pour les entreprises membres", "Angle de contact pertinent, sans supposer un besoin qui n’a pas été exprimé"],\n      next: "MajestiOS doit faire de l’événement un point de départ pour une mise en relation contextualisée : comprendre qui organise, pourquoi l’événement compte et quelle contribution utile peut être proposée. La publication et l’inscription dépendent de sources et de parcours vérifiés."\n    };\n  }\n  if (pathname.includes("rencontres-affaires")) {\n    return {\n      title: "Organiser des rencontres d’affaires utiles",\n      purpose: "Une rencontre d’affaires est plus utile lorsqu’elle rapproche des acteurs complémentaires autour d’un objectif clair : recherche de fournisseur, sous-traitance, besoin de compétence, développement territorial ou échange sectoriel.",\n      checks: ["Objectif et format de la rencontre", "Profils attendus et complémentarité possible", "Accord des participants sur le partage de leurs coordonnées et la suite des échanges"],\n      next: "Privilégier des introductions motivées et explicites plutôt qu’un annuaire de contacts sans contexte. Les invitations, inscriptions et mises en relation ne doivent être présentées comme actives que si le parcours correspondant existe."\n    };\n  }\n  if (pathname.includes("salon") || pathname.includes("evenements")) {
+  if (pathname.includes("proposer-evenement")) {
+    return {
+      title: "Proposer un événement à l’écosystème MajestiOS",
+      purpose: "Cette porte d’entrée a vocation à recueillir des événements professionnels utiles aux entreprises : rencontres sectorielles, portes ouvertes, conférences, inaugurations, journées techniques ou rendez-vous de réseau.",
+      checks: ["Organisateur identifiable et coordonnées professionnelles vérifiables", "Intitulé, date, lieu, public visé et conditions de participation", "Autorisation de diffusion et éventuelles modalités d’inscription"],
+      next: "Une proposition doit être vérifiée avant publication. Le dépôt d’un événement ne vaut ni validation, ni partenariat, ni inscription automatique ; le formulaire sera annoncé comme disponible uniquement lorsqu’il sera réellement activé."
+    };
+  }
+  if (pathname.includes("evenements-entreprise")) {
+    return {
+      title: "Relier les événements d’entreprise aux opportunités commerciales",
+      purpose: "Les événements d’entreprise peuvent révéler des occasions de comprendre une activité, rencontrer un acteur ou créer une relation professionnelle : inauguration, ouverture de site, portes ouvertes, lancement, anniversaire, démonstration ou journée de recrutement.",
+      checks: ["Nature de l’événement, organisateur et date confirmés", "Public concerné et intérêt concret pour les entreprises membres", "Angle de contact pertinent, sans supposer un besoin qui n’a pas été exprimé"],
+      next: "MajestiOS doit faire de l’événement un point de départ pour une mise en relation contextualisée : comprendre qui organise, pourquoi l’événement compte et quelle contribution utile peut être proposée. La publication et l’inscription dépendent de sources et de parcours vérifiés."
+    };
+  }
+  if (pathname.includes("rencontres-affaires")) {
+    return {
+      title: "Organiser des rencontres d’affaires utiles",
+      purpose: "Une rencontre d’affaires est plus utile lorsqu’elle rapproche des acteurs complémentaires autour d’un objectif clair : recherche de fournisseur, sous-traitance, besoin de compétence, développement territorial ou échange sectoriel.",
+      checks: ["Objectif et format de la rencontre", "Profils attendus et complémentarité possible", "Accord des participants sur le partage de leurs coordonnées et la suite des échanges"],
+      next: "Privilégier des introductions motivées et explicites plutôt qu’un annuaire de contacts sans contexte. Les invitations, inscriptions et mises en relation ne doivent être présentées comme actives que si le parcours correspondant existe."
+    };
+  }
+  if (pathname.includes("salon") || pathname.includes("evenements")) {
     return {
       title: "Préparer une présence professionnelle",
       purpose: "Un salon ou un événement prend de la valeur lorsqu’il est relié à un objectif commercial précis et à une préparation en amont.",
