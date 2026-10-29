@@ -7,8 +7,9 @@ Ce dossier contient la doctrine produit, la feuille de route, les spécification
 1. **[Feuille de route centrale](FEUILLE_DE_ROUTE_MAJESTIOS.md)** — référence actuelle pour l’organisation du site, les priorités et les critères d’acceptation.
 2. **[Doctrine de l’intelligence apprenante](DOCTRINE_INTELLIGENCE_APPRENANTE.md)** — principes de confiance, de pédagogie, de traçabilité et d’apprentissage.
 3. **[Audit structure, navigation et liens — 29 octobre 2026](audits/AUDIT_STRUCTURE_NAVIGATION_2026-10-29.md)** — état des contrôles, corrections et limites de validation.
-4. **Documents d’architecture** — détails métier et propositions de conception ; ils doivent être relus à la lumière des deux références ci-dessus avant toute implémentation.
-5. **Audits et notes historiques** — traces d’un état ou d’une décision à une date donnée, pas une preuve que la fonction correspondante est encore active.
+4. **[Audit d’interconnectivité des rubriques — 29 octobre 2026](audits/AUDIT_INTERCONNECTIVITE_RUBRIQUES_2026-10-29.md)** — contrôles des relations parent-enfant, des cartes et des pages contextuelles.
+5. **Documents d’architecture** — détails métier et propositions de conception ; ils doivent être relus à la lumière des deux références ci-dessus avant toute implémentation.
+6. **Audits et notes historiques** — traces d’un état ou d’une décision à une date donnée, pas une preuve que la fonction correspondante est encore active.
 
 ## Documents d’architecture utiles
 
