@@ -47,7 +47,7 @@ export default function HomepageNavigation() {
                       href={child.href}
                       className={pathname === child.href || pathname.startsWith(child.href + "/") ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
                     >
-                      {child.label}
+                      {child.label}{child.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
                     </Link>
                   ))}
                 </div>
