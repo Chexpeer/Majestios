@@ -23,7 +23,7 @@ const sections = [
     id: "appels-offres",
     title: "2. Appels d’offres publics et privés",
     items: [
-      ["Où consulter les appels d’offres publics ?", "Ouvrez la rubrique « Appels d’offres publics ». Le site utilise actuellement une source reliée au BOAMP. Pour chaque annonce, vérifiez toujours l’avis officiel et ses éventuelles mises à jour."],
+      ["Où consulter les appels d’offres publics ?", "Ouvrez la rubrique « Opportunités », puis « Marchés publics ». La recherche utilise actuellement une source reliée au BOAMP. Pour chaque annonce, vérifiez toujours l’avis officiel et ses éventuelles mises à jour."],
       ["Les annonces publiques sont-elles toutes présentes ?", "Nous ne pouvons pas garantir une couverture complète. Les résultats dépendent de la source reliée et des informations qu’elle publie."],
       ["Les appels d’offres privés sont-ils tous recensés ?", "Non. La couverture des appels d’offres privés dépend des sources disponibles et des autorisations nécessaires. Les exemples de présentation ne doivent pas être pris pour de véritables offres."],
       ["Comment vérifier une annonce ?", "Consultez le lien vers la source d’origine, vérifiez la date limite, les documents demandés et les coordonnées de l’acheteur. En cas de différence, le document officiel fait foi."],

@@ -17,7 +17,7 @@ const signalTypes = [
     number: "02",
     title: "Création et évolution d’établissement",
     description: "Mettre en contexte les événements concernant une entreprise ou un établissement. Selon les éléments confirmés, ces changements peuvent justifier une vérification commerciale, logistique ou territoriale.",
-    links: [{ label: "Créations et implantations", href: "/business/creations-implantations" }, { label: "Intelligence entreprises", href: "/business/intelligence-entreprises" }]
+    links: [{ label: "Créations et implantations", href: "/business/intelligence-entreprises/creations-implantations" }, { label: "Intelligence entreprises", href: "/business/intelligence-entreprises" }]
   },
   {
     number: "03",

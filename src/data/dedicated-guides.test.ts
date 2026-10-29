@@ -9,6 +9,43 @@ describe("dedicated route guides", () => {
     expect(unknownRoutes).toEqual([]);
   });
 
+  it("provides dedicated guides for the main dossier entry points", () => {
+    const requiredDossiers = [
+      "/opportunites",
+      "/opportunites/marches-publics",
+      "/opportunites/marches-prives",
+      "/opportunites/salons",
+      "/opportunites/emploi",
+      "/business",
+      "/business/achat-cession",
+      "/developpement-commercial",
+      "/developpement-commercial/prospection",
+      "/developpement-commercial/etudes-de-marche",
+      "/developpement-commercial/e-reputation",
+      "/developpement-commercial/accompagnement-appels-offres",
+      "/reseaux",
+      "/comprendre"
+    ];
+
+    for (const route of requiredDossiers) {
+      expect(dedicatedGuides[route], route).toBeDefined();
+    }
+  });
+
+
+  it("gives each navigable dossier its own guide, except intentionally separate utility/legal pages", () => {
+    const intentionallySeparate = new Set([
+      "/",
+      "/faq",
+      "/confidentialite",
+      "/mentions-legales"
+    ]);
+    const missingGuides = flattenSiteTree()
+      .map((node) => node.href)
+      .filter((route) => !intentionallySeparate.has(route) && !dedicatedGuides[route]);
+    expect(missingGuides).toEqual([]);
+  });
+
   it("gives every detailed route a distinct, actionable guide", () => {
     const guides = Object.entries(dedicatedGuides);
     const titles = guides.map(([, guide]) => guide.title);
@@ -19,6 +56,19 @@ describe("dedicated route guides", () => {
       expect(guide.purpose.length, route).toBeGreaterThan(45);
       expect(guide.checks.length, route).toBeGreaterThanOrEqual(3);
       expect(guide.next.length, route).toBeGreaterThan(45);
+    }
+  });
+
+  it("does not present unavailable product capabilities as already active", () => {
+    const copy = Object.values(dedicatedGuides).map((guide) => [guide.title, guide.purpose, ...guide.checks, guide.next].join(" ")).join(" ").toLowerCase();
+    expect(copy).not.toMatch(/(?:maj[eé]stios|le formulaire|l’annuaire)\s+(?:est|sont)\s+(?:déjà\s+)?(?:activé|opérationnel)/);
+  });
+
+  it("uses explicit preparation status for navigation items that require a future workflow", () => {
+    const pendingRoutes = flattenSiteTree().filter((node) => node.status === "preparing");
+    expect(pendingRoutes.length).toBeGreaterThan(0);
+    for (const node of pendingRoutes) {
+      expect(node.description, node.href).toMatch(/prévu|préparation|pas encore activé|pas encore opérationnel|n’est pas encore activé|sera ouvert/i);
     }
   });
 });

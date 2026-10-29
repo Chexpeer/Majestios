@@ -11,7 +11,9 @@ const services = [
  {number:"02",title:"Études de marché",text:"Comprendre un secteur, une zone, les profils de clients, la concurrence et les limites des informations disponibles avant de décider.",href:"/developpement-commercial/etudes-de-marche",action:"Structurer une étude"},
  {number:"03",title:"Accompagnement aux appels d’offres",text:"Lire les exigences, évaluer la capacité à répondre, lister les pièces et les échéances. Le dépôt officiel reste réalisé selon les instructions de l’acheteur.",href:"/developpement-commercial/accompagnement-appels-offres",action:"Préparer une réponse"},
  {number:"04",title:"E-réputation",text:"Surveiller les retours accessibles, comprendre les signaux de réputation et répondre avec mesure, sans exposer de données personnelles.",href:"/developpement-commercial/e-reputation",action:"Explorer l’e-réputation"},
- {number:"05",title:"Réseautage intelligent",text:"Relier des acteurs autour d’une complémentarité et d’un motif professionnel clair, plutôt que d’accumuler des contacts non qualifiés.",href:"/reseaux",action:"Découvrir le réseau"}
+ {number:"05",title:"Achat de fichiers professionnels",text:"Définir un besoin de contacts par secteur d’activité, territoire et volume souhaité, avec une attention particulière à la provenance et à l’usage autorisé des données.",href:"/developpement-commercial/achat-de-fichiers",action:"Définir mon besoin"},
+ {number:"06",title:"Préparation express d’un dossier de positionnement",text:"Structurer rapidement les éléments nécessaires pour décider de postuler à un appel d’offres, repérer les pièces manquantes et préparer les prochaines étapes.",href:"/developpement-commercial/accompagnement-appels-offres/preparation-express",action:"Préparer mon dossier"},
+ {number:"07",title:"Réseautage intelligent",text:"Relier des acteurs autour d’une complémentarité et d’un motif professionnel clair, plutôt que d’accumuler des contacts non qualifiés.",href:"/reseaux",action:"Découvrir le réseau"}
 ];
 
 export default function DeveloppementCommercialPage() {

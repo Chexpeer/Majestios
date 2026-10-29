@@ -25,6 +25,7 @@ export default function Page() {
       </section>
             <section className="concept-principles">
         <span className="section-label">PARCOURS APPROFONDI</span>
+        <p><Link className="result-action" href="/developpement-commercial/accompagnement-appels-offres/preparation-express">Accéder à la préparation express du dossier ↗</Link></p>
         <h2>Chaque étape dispose de sa propre méthode.</h2>
         <div className="results-list">
           <article className="result-card"><div className="result-main"><h3>1. Évaluer avant de répondre</h3><p>Vérifier les exigences, la capacité d’exécution, les délais et les risques avant de décider.</p></div><div className="result-actions"><Link className="result-action" href="/developpement-commercial/accompagnement-appels-offres/preparer">Évaluer le marché →</Link></div></article>
