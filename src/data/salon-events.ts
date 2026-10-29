@@ -20,6 +20,30 @@ export type SalonEvent = {
 
 export const salonEvents: SalonEvent[] = [
   {
+    slug: "euro-industries-2026",
+    title: "Euro Industries 2026",
+    startDate: "2026-11-17",
+    endDate: "2026-11-18",
+    venue: "Parc Expo Mulhouse",
+    city: "Mulhouse",
+    summary: "Rendez-vous B2B des solutions industrielles : automatisation, IA, cybersécurité, équipements, performance et transition énergétique. L’organisateur annonce des rendez-vous d’affaires et une inscription visiteur gratuite.",
+    officialUrl: "https://www.euroindustries.eu/fr",
+    registrationUrl: "https://www.euroindustries.eu/registration/formulaire-d-inscription-new-",
+    verifiedAt: "2026-10-29"
+  },
+  {
+    slug: "salon-des-maires-2026",
+    title: "Salon des Maires et des Collectivités Locales 2026",
+    startDate: "2026-11-24",
+    endDate: "2026-11-26",
+    venue: "Paris Expo Porte de Versailles · Pavillon 7",
+    city: "Paris",
+    summary: "Rendez-vous des élus, décideurs publics et partenaires des collectivités. Une occasion de repérer les projets territoriaux et de rencontrer les acteurs de la commande publique.",
+    officialUrl: "https://www.salondesmaires.com/",
+    registrationUrl: "https://www.salondesmaires.com/visiter/infos-pratiques-visiteurs/",
+    verifiedAt: "2026-10-29"
+  },
+  {
     slug: "expoprotection-2026",
     title: "Expoprotection 2026",
     startDate: "2026-11-03",
