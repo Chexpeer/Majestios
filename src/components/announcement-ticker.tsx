@@ -53,7 +53,10 @@ function stableDailyOrder(items: StreamItem[], day: string) {
 
 export default function AnnouncementTicker() {
   const [tenders, setTenders] = useState<TenderItem[]>([]);
-  const [today, setToday] = useState("");
+  const [today] = useState(() => {
+    const parts = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Europe/Paris" }).formatToParts(new Date());
+    return `${parts.find((part) => part.type === "year")?.value}-${parts.find((part) => part.type === "month")?.value}-${parts.find((part) => part.type === "day")?.value}`;
+  });
   const [tenderFeedState, setTenderFeedState] = useState<"loading" | "ready" | "unavailable">("loading");
 
   useEffect(() => {
@@ -62,7 +65,6 @@ export default function AnnouncementTicker() {
       return `${parts.find((part) => part.type === "year")?.value}-${parts.find((part) => part.type === "month")?.value}-${parts.find((part) => part.type === "day")?.value}`;
     };
     let active = true;
-    setToday(getParisDate());
     fetch("/api/opportunities?limit=8&openOnly=true", { cache: "no-store" })
       .then(async (response) => {
         if (!response.ok) throw new Error("Flux public indisponible");
