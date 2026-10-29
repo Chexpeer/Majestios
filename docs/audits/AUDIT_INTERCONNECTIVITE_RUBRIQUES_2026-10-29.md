@@ -10,10 +10,12 @@ Ce lot porte sur la cohérence des pages générées à partir de l’arborescen
 
 - L’arborescence centrale `src/data/site-tree.ts` reste la source de référence des rubriques et sous-rubriques.
 - Le gabarit `SiteHub` conserve le fil d’Ariane, la carte interactive contextuelle, les ressources, les liens associés et le pied de page.
-- Les pages qui ne disposent pas encore d’un contenu éditorial spécifique reçoivent désormais un contenu contextuel déterminé par leur domaine métier : marchés publics, marchés privés, salons, emploi, radar entreprises, cession, business, études de marché, e-réputation, réseaux ou compréhension de MajestiOS.
+- Les sous-rubriques majeures des opportunités ont reçu un contenu métier distinct : catégories de marchés publics, territoire, annonces privées, salons, offres et missions, métiers, dépôt d’offre et radar entreprises.
+- Les parcours Business (achat, vente, évaluation, diagnostic), études de marché, e-réputation et Comprendre ont également reçu des contenus dédiés.
+- Les autres pages sans contenu éditorial spécifique reçoivent un contenu contextuel déterminé par leur domaine métier ; ce mécanisme reste une étape intermédiaire et ne remplace pas une rédaction propre à chaque fonction.
 - La page `/opportunites` dispose d’une introduction propre au rôle de point d’entrée commun des opportunités.
 - Le contenu rappelle la distinction entre faits vérifiés, hypothèses commerciales et fonctionnalités qui ne sont pas encore actives.
-- Le test `src/lib/site-navigation.test.ts` vérifie les URL uniques, la résolution des routes de l’arborescence, les destinations de redirection, les liens internes littéraux et la cohérence parent-enfant des rubriques.
+- Le test `src/lib/site-navigation.test.ts` vérifie les URL uniques, la résolution des routes de l’arborescence, les destinations de redirection, les liens internes littéraux, la cohérence parent-enfant et l’interconnectivité contextuelle dans les deux sens (accès aux rubriques voisines et retour par fil d’Ariane).
 
 ## Règles d’interconnexion retenues
 
@@ -31,7 +33,7 @@ Ce lot porte sur la cohérence des pages générées à partir de l’arborescen
 - Les parcours de compte, transmission sécurisée de pièces et stockage ne sont pas activés.
 - Les flux publics, privés, salons et entreprises ne sont pas tous raccordés à des sources en direct.
 - Aucun contrôle visuel desktop/mobile n’a été effectué dans ce lot. Le contrôle doit être fait séparément avant de considérer l’ergonomie comme validée.
-- Les contrôles CI disponibles doivent être relancés et vérifiés sur le dernier commit. Les échecs de vérification Vercel liés à la limite de builds ne constituent pas une preuve d’échec du build Next.js lui-même.
+- Les contrôles CI disponibles doivent être relancés et vérifiés sur le dernier commit. Pour ce lot, aucun résultat GitHub Actions n’a été retourné sur le dernier commit ; les seuls statuts observés sont des échecs Vercel explicitement liés à la limite de builds. Ils ne prouvent ni la réussite ni l’échec du build Next.js de ce lot.
 
 ## Suite de l’audit
 
