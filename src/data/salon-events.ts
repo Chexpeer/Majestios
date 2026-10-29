@@ -40,7 +40,6 @@ export const salonEvents: SalonEvent[] = [
     city: "Paris",
     summary: "Rendez-vous des élus, décideurs publics et partenaires des collectivités. Une occasion de repérer les projets territoriaux et de rencontrer les acteurs de la commande publique.",
     officialUrl: "https://www.salondesmaires.com/",
-    registrationUrl: "https://www.salondesmaires.com/visiter/infos-pratiques-visiteurs/",
     verifiedAt: "2026-10-29"
   },
   {
