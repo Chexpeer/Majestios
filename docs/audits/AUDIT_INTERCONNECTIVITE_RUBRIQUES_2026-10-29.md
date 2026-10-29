@@ -86,3 +86,5 @@ Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons,
 
 - Langage des cartes : remplacement de plusieurs occurrences de « veille » par des formulations directes (« recherche », « sources », « suivre les événements »). Le parcours des cartes reste centralisé vers la page commune « Article en construction ».
 - Test statique ajouté pour préserver ce comportement pendant la consolidation éditoriale.
+
+- Décision éditoriale du 29 octobre : suppression de la destination générique obligatoire pour les cartes. Chaque carte utilise désormais son champ `href` et son action déclarée. Les ressources futures pourront viser une page interne, un logiciel, une vidéo, un tutoriel ou une documentation, avec identification claire du type et de la source. La page « Article en construction » reste disponible uniquement pour les contenus qui le nécessitent réellement.
