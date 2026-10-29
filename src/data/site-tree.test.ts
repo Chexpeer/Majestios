@@ -95,17 +95,21 @@ describe("site navigation tree", () => {
     expect(invalidHierarchy, `Child routes outside their parent dossier: ${invalidHierarchy.join(", ")}`).toEqual([]);
   });
 
-  it("gives nested dossiers canonical URLs beneath their parent", () => {
-    const invalidNestedRoutes = flattenSiteTree().flatMap((node) =>
-      (node.children ?? []).flatMap((child) => {
-        if (!(child.children?.length)) return [];
-        return child.children
-          .filter((grandchild) => !grandchild.href.startsWith(child.href + "/"))
-          .map((grandchild) => `${child.href} -> ${grandchild.href}`);
-      })
-    );
+  it("keeps every depth of nested dossier URLs beneath its parent", () => {
+    const invalidNestedRoutes: string[] = [];
+    const visit = (nodes: typeof siteTree) => {
+      for (const node of nodes) {
+        for (const child of node.children ?? []) {
+          if (!child.href.startsWith(node.href + "/")) {
+            invalidNestedRoutes.push(`${node.href} -> ${child.href}`);
+          }
+        }
+        visit(node.children ?? []);
+      }
+    };
 
-    expect(invalidNestedRoutes, `Nested dossier URLs must remain beneath their parent: ${invalidNestedRoutes.join(", ")}`).toEqual([]);
+    visit(siteTree.filter((node) => node.href !== "/"));
+    expect(invalidNestedRoutes, `Nested dossier URLs must remain beneath their parent at every depth: ${invalidNestedRoutes.join(", ")}`).toEqual([]);
   });
 
 });
