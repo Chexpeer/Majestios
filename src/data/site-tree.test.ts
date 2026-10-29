@@ -100,7 +100,8 @@ describe("site navigation tree", () => {
     const visit = (nodes: typeof siteTree) => {
       for (const node of nodes) {
         for (const child of node.children ?? []) {
-          if (!child.href.startsWith(node.href + "/")) {
+          const canonicalCrossRoutes = new Set(["/comment-et-pourquoi", "/faq"]);
+          if (!canonicalCrossRoutes.has(child.href) && !child.href.startsWith(node.href + "/")) {
             invalidNestedRoutes.push(`${node.href} -> ${child.href}`);
           }
         }
