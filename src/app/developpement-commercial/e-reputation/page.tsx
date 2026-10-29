@@ -33,7 +33,7 @@ export default function Page() {
         </ul>
         <p><strong>État actuel :</strong> cette page présente le service envisagé. La surveillance automatique continue n’est pas encore annoncée comme active.</p>
         <Link className="search-submit concept-cta" href="/developpement-commercial">Voir les services commerciaux ↗</Link>
-        <Link className="search-submit concept-cta" href="/faq#ia-fiabilite">Questions fréquentes sur les sources et l’IA ↗</Link>
+        <Link className="search-submit concept-cta" href="/comprendre/faq">Questions fréquentes sur les sources et l’IA ↗</Link>
       </section>
     </main>
   );
