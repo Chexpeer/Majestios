@@ -29,7 +29,7 @@ export default function HomepageNavigation() {
       {mobileOpen ? <button type="button" className="home-mobile-menu-backdrop" aria-label="Fermer le menu" onClick={() => setMobileOpen(false)} /> : null}
     <aside id="majestic-primary-navigation" className={`home-sidebar${mobileOpen ? " is-mobile-open" : ""}`}>
       <Link href="/" onClick={() => setMobileOpen(false)} className="home-sidebar-brand" aria-label="MajestiOS — accueil">
-        <span className="home-sidebar-mark">M<span>✦</span></span>
+        <span className="home-sidebar-mark" aria-hidden="true"><svg className="brand-crown" viewBox="0 0 32 22" focusable="false"><path d="M3 18 1 5l8 5 7-9 7 9 8-5-2 13Z" fill="currentColor"/><path d="M4 20h24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg><svg className="brand-triangle" viewBox="0 0 36 30" focusable="false"><path d="M18 2.5 33.5 27H2.5Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round"/></svg></span>
         <span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small></span>
       </Link>
       <span className="home-sidebar-caption">EXPLORER</span>
