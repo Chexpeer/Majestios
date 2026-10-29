@@ -108,6 +108,18 @@ describe("architecture de navigation MajestiOS", () => {
     expect(missingLinks, "Les parcours de recherche et de demande doivent offrir un accès aux informations légales").toEqual([]);
   });
 
+  it("utilise les routes canoniques dans les parcours d’accompagnement et d’e-réputation", () => {
+    const tenderSupport = readFileSync(join(appRoot, "developpement-commercial", "accompagnement-appels-offres", "page.tsx"), "utf8");
+    const reputation = readFileSync(join(appRoot, "developpement-commercial", "e-reputation", "page.tsx"), "utf8");
+
+    expect(tenderSupport).toContain('href="/opportunites/marches-publics"');
+    expect(tenderSupport).toContain('href="/opportunites/marches-prives"');
+    expect(reputation).toContain('href="/comprendre/faq"');
+    expect(tenderSupport).toContain('href="/comprendre/faq"');
+    expect(tenderSupport).not.toContain('href="/faq#');
+    expect(reputation).not.toContain('href="/faq#');
+  });
+
   it("sélectionne des ressources propres aux opportunités et aux salons", () => {
     const hubSource = readFileSync(join(sourceRoot, "components", "site-hub.tsx"), "utf8");
     expect(hubSource).toContain('pathname === "/opportunites" ? "opportunites"');
