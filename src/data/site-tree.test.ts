@@ -233,4 +233,30 @@ describe("site navigation tree", () => {
     expect(invalidNestedRoutes, `Nested dossier URLs must remain beneath their parent at every depth: ${invalidNestedRoutes.join(", ")}`).toEqual([]);
   });
 
+  it("registers the three new service modules with canonical, implemented destinations", () => {
+    const nodes = flattenSiteTree();
+    const filePurchase = findSiteNode("/developpement-commercial/achat-de-fichiers");
+    const expressPreparation = findSiteNode("/developpement-commercial/accompagnement-appels-offres/preparation-express");
+    const assistant = readFileSync(join(process.cwd(), "src", "components", "MajestiosAssistant.tsx"), "utf8");
+    const commercialLanding = readFileSync(join(appDirectory, "developpement-commercial", "page.tsx"), "utf8");
+    const pageRoutes = collectPageRoutes();
+    const targets = [
+      "/developpement-commercial/achat-de-fichiers",
+      "/developpement-commercial/accompagnement-appels-offres/preparation-express"
+    ];
+    const missing = targets.filter((href) => {
+      const target = href.split("/").filter(Boolean);
+      return !pageRoutes.some((pattern) => routeMatches(pattern, target));
+    });
+
+    expect(filePurchase?.node.label).toBe("Achat de fichiers");
+    expect(expressPreparation?.node.label).toBe("Préparation express du dossier");
+    expect(missing).toEqual([]);
+    expect(commercialLanding).toContain('href="/developpement-commercial/achat-de-fichiers"');
+    expect(commercialLanding).toContain('href="/developpement-commercial/accompagnement-appels-offres/preparation-express"');
+    expect(assistant).toContain("chat-launcher-emblem");
+    expect(assistant).toContain("le module de rappel n’est pas encore relié");
+    expect(nodes.some((node) => node.href === "/developpement-commercial/achat-de-fichiers")).toBe(true);
+  });
+
 });
