@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readdirSync, statSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
-import { flattenSiteTree } from "./site-tree";
+import { flattenSiteTree, siteTree } from "./site-tree";
 
 const appDirectory = resolve(process.cwd(), "src/app");
 
@@ -78,29 +78,20 @@ describe("site navigation tree", () => {
     expect(missing, `Navigation destinations without a matching page: ${missing.join(", ")}`).toEqual([]);
   });
 
-  it("keeps dossier hierarchy meaningful: child routes must live under their parent route", () => {
-    const nodes = flattenSiteTree();
+  it("keeps child dossiers nested under their actual parent route", () => {
     const invalidHierarchy: string[] = [];
-    const visit = (items: typeof nodes, parentHref?: string) => {
-      for (const node of items) {
-        if (parentHref && !node.href.startsWith(parentHref + "/")) {
+    const visit = (nodes: typeof siteTree, parentHref?: string) => {
+      for (const node of nodes) {
+        // The home node is a landing page, not the parent of every domain.
+        if (parentHref && parentHref !== "/" && !node.href.startsWith(parentHref + "/")) {
           invalidHierarchy.push(`${parentHref} -> ${node.href}`);
         }
         visit(node.children ?? [], node.href);
       }
     };
-    // Root-level navigation domains are intentionally independent. Their own
-    // descendants, however, must remain nested under the dossier they describe.
-    const roots = nodes.filter((node) => ["/", "/opportunites", "/business", "/developpement-commercial", "/reseaux", "/comprendre", "/espace-professionnel", "/confidentialite", "/mentions-legales"].includes(node.href));
-    const rootSet = new Set(roots.map((node) => node.href));
-    const visitDomain = (items: typeof nodes) => {
-      for (const node of items) {
-        if (!rootSet.has(node.href)) visit(node.children ?? [], node.href);
-        else visitDomain(node.children ?? []);
-      }
-    };
-    visitDomain(roots);
-    expect(invalidHierarchy).toEqual([]);
+
+    visit(siteTree);
+    expect(invalidHierarchy, `Child routes outside their parent dossier: ${invalidHierarchy.join(", ")}`).toEqual([]);
   });
 
 });
