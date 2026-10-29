@@ -52,6 +52,9 @@ export default function HomePage() {
               <Link className="button-secondary" href="/comprendre/concept">
                 Comprendre la démarche
               </Link>
+              <Link className="button-secondary" href="/espace-professionnel">
+                Espace professionnel <span aria-hidden="true">↗</span>
+              </Link>
             </div>
             <div className="hero-trust">
               <span className="trust-mark" aria-hidden="true">✓</span>
