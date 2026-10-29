@@ -150,6 +150,9 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
   const related = siblings.slice(0, 4);
   const guide = getDetailGuide(pathname, node?.label ?? "cette rubrique");
   const parent = found?.ancestors.at(-1);
+  const hasPreparingDescendant = (items: typeof children): boolean => items.some((item) => item.status === "preparing" || hasPreparingDescendant(item.children ?? []));
+  const preparing = node?.status === "preparing";
+  const partiallyPreparing = !preparing && hasPreparingDescendant(children);
   const domainClass = pathname.startsWith("/opportunites") ? "domain-opportunites" : pathname.startsWith("/business") ? "domain-business" : pathname.startsWith("/developpement-commercial") ? "domain-commercial" : pathname.startsWith("/reseaux") ? "domain-reseaux" : pathname.startsWith("/comprendre") || pathname === "/faq" || pathname === "/comment-et-pourquoi" ? "domain-comprendre" : "domain-general";
   return <main className={`site-page site-page-with-sidebar ${domainClass}`}>
     <div className="page-container">
@@ -158,14 +161,15 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
         <span className="eyebrow">{eyebrow}</span>
         <h1>{node?.label ?? "Explorer MajestiOS"}<span>.</span></h1>
         <p>{intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS."}</p>
-        <div className="page-hero-meta"><span className={`status-chip ${node?.status === "preparing" ? "status-chip-preparing" : ""}`}><i />{node?.status === "preparing" ? "Parcours en préparation" : children.length ? "Rubriques disponibles" : "Guide pratique"}</span><span>Rubrique dédiée · {parent ? `Parcours : ${parent.label}` : "Navigation MajestiOS"}</span></div>
+        <div className="page-hero-meta"><span className={`status-chip ${preparing || partiallyPreparing ? "status-chip-preparing" : ""}`}><i />{preparing ? "Parcours en préparation" : partiallyPreparing ? "Certaines rubriques en préparation" : children.length ? "Rubriques disponibles" : "Guide pratique"}</span><span>Rubrique dédiée · {parent ? `Parcours : ${parent.label}` : "Navigation MajestiOS"}</span></div>
       </section>
-      {children.length > 0 ? <section className="hub-grid" aria-label={`Sous-rubriques de ${node?.label}`}>{children.map((child, index) => <Link href={child.href} className="hub-card" key={child.href}><span className="hub-card-index">{String(index + 1).padStart(2, "0")}</span>{child.status === "preparing" ? <span className="hub-card-status">EN PRÉPARATION</span> : null}<div><h2>{child.label}<span aria-hidden="true">↗</span></h2><p>{child.description}</p></div><span className="hub-card-bottom">EXPLORER LA RUBRIQUE <b>→</b></span></Link>)}</section> : <section className="content-panel">
-        <span className="eyebrow">MODE D’EMPLOI</span><h2>{guide.title}</h2><p>{guide.purpose}</p>
+      {children.length > 0 ? <section className="hub-grid" aria-label={`Sous-rubriques de ${node?.label}`}>{children.map((child, index) => <Link href={child.href} className="hub-card" key={child.href}><span className="hub-card-index">{String(index + 1).padStart(2, "0")}</span>{child.status === "preparing" ? <span className="hub-card-status">EN PRÉPARATION</span> : null}<div><h2>{child.label}<span aria-hidden="true">↗</span></h2><p>{child.description}</p></div><span className="hub-card-bottom">EXPLORER LA RUBRIQUE <b>→</b></span></Link>)}</section> : null}
+      <section className="content-panel">
+        <span className="eyebrow">{children.length > 0 ? "COMPRENDRE CETTE ÉTAPE" : "MODE D’EMPLOI"}</span><h2>{guide.title}</h2><p>{guide.purpose}</p>
         <h3>Les points à examiner</h3><ul>{guide.checks.map((item) => <li key={item}>{item}</li>)}</ul>
         <h3>Avant de passer à l’action</h3><p>{guide.next}</p>
-        {checklist.length ? <><h3>Repères complémentaires</h3><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul></> : null}
-      </section>}
+        {checklist.length && children.length === 0 ? <><h3>Repères complémentaires</h3><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul> : null}
+      </section>
       {checklist.length > 0 && children.length > 0 ? <section className="content-panel"><span className="eyebrow">MÉTHODE</span><h2>Avant de passer à l’action</h2><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul></section> : null}
       {related.length > 0 ? <section className="related-section"><div><span className="eyebrow">POUR ALLER PLUS LOIN</span><h2>Rubriques associées</h2></div><div className="related-links">{related.map((item) => <Link href={item.href} key={item.href}>{item.label}<span>↗</span></Link>)}</div></section> : null}
       <footer className="page-footer"><span>MAJESTIOS · DÉTECTER → QUALIFIER → IDENTIFIER → CONTACTER → TRANSFORMER → CAPITALISER</span><Link href="/faq">Besoin d’aide ?</Link></footer>
