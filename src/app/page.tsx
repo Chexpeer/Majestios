@@ -1,6 +1,4 @@
 import Link from "next/link";
-import AnnouncementTicker from "@/components/announcement-ticker";
-import HomeSideNav from "@/components/home-side-nav";
 import MajestiOSOpportunityMap from "@/components/majestic-opportunity-map";
 import ResourceCards from "@/components/resource-cards";
 
@@ -22,11 +20,7 @@ const mission = [
 export default function HomePage() {
   return (
     <main className="home-redesign home-with-sidebar">
-      <HomeSideNav />
       <div className="home-main-column">
-        <AnnouncementTicker flow="public" />
-        <AnnouncementTicker flow="private" />
-        <AnnouncementTicker flow="emploi" />
 
         <section className="home-hero-redesign">
           <div className="hero-copy">
@@ -68,6 +62,20 @@ export default function HomePage() {
               </span>
             </div>
           </div>
+        </section>
+
+        <section className="home-map-section" aria-label="Explorer les rubriques MajestiOS">
+          <div className="section-heading">
+            <span className="eyebrow">LE CARREFOUR MAJESTIOS</span>
+            <h2>
+              Un écosystème. <em>Des opportunités connectées.</em>
+            </h2>
+            <p>
+              Sélectionnez un pôle pour accéder à sa rubrique dédiée et poursuivre
+              votre parcours.
+            </p>
+          </div>
+          <MajestiOSOpportunityMap />
         </section>
 
         <section className="home-search-section" aria-labelledby="home-search-title">
@@ -122,20 +130,6 @@ export default function HomePage() {
             </button>
           </form>
           <p className="home-search-note">La recherche d’avis publics est connectée à la source disponible. Les autres pôles du réseau sont accessibles depuis le flocon ci-dessous.</p>
-        </section>
-
-        <section className="home-map-section" aria-label="Explorer les rubriques MajestiOS">
-          <div className="section-heading">
-            <span className="eyebrow">LE CARREFOUR MAJESTIOS</span>
-            <h2>
-              Un écosystème. <em>Des opportunités connectées.</em>
-            </h2>
-            <p>
-              Sélectionnez un pôle pour accéder à sa rubrique dédiée et poursuivre
-              votre parcours.
-            </p>
-          </div>
-          <MajestiOSOpportunityMap />
         </section>
 
         <ResourceCards scope="accueil" />
