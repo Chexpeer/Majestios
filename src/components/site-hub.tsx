@@ -276,7 +276,8 @@ export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MA
   const children = node?.children ?? [];
   const editorial = editorialPages[pathname] ?? (node ? buildContextualEditorial(pathname, node, found?.ancestors ?? []) : undefined);
   const siblings = found ? (found.ancestors.length ? found.ancestors[found.ancestors.length - 1]?.children?.filter((item) => item.href !== pathname) ?? [] : siteTree.filter((item) => item.href !== pathname && item.href !== "/")) : [];
-  const related = siblings.length ? siblings.slice(0, 4) : flattenSiteTree().filter((item) => item.href !== pathname && item.href !== "/" && !item.children?.length).slice(0, 4);
+  const relatedByAncestor = found ? [...found.ancestors].reverse().flatMap((ancestor) => ancestor.children?.filter((item) => item.href !== pathname) ?? []) : [];
+  const related = siblings.length ? siblings.slice(0, 4) : relatedByAncestor.length ? relatedByAncestor.slice(0, 4) : flattenSiteTree().filter((item) => item.href !== pathname && item.href !== "/" && !item.children?.length).slice(0, 4);
   const pageTitle = node?.label ?? title ?? "Explorer MajestiOS";
   const pageIntro = editorial?.lead ?? intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS.";
   const tickerFlow = pathname.startsWith("/opportunites/marches-publics") || pathname.startsWith("/developpement-commercial/accompagnement-appels-offres") ? "public" : pathname.startsWith("/opportunites/marches-prives") ? "private" : pathname.startsWith("/opportunites/salons") ? "salons" : pathname.startsWith("/opportunites/emploi") ? "emploi" : pathname.startsWith("/business") ? "business" : pathname.startsWith("/reseaux") ? "reseau" : "general";
