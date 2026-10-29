@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readdirSync, statSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
 import { flattenSiteTree } from "./site-tree";
+import { dedicatedGuides } from "./dedicated-guides";
 
 const appDirectory = resolve(process.cwd(), "src/app");
 
@@ -80,7 +81,6 @@ describe("site navigation tree", () => {
   });
 
   it("provides dedicated guides for key parent-level business journeys", () => {
-    const { dedicatedGuides } = require("./dedicated-guides") as typeof import("./dedicated-guides");
     const required = ["/business/intelligence-entreprises", "/business/achat-cession", "/developpement-commercial/prospection", "/developpement-commercial/etudes-de-marche", "/developpement-commercial/e-reputation", "/developpement-commercial/accompagnement-appels-offres"];
     expect(required.every((pathname) => Boolean(dedicatedGuides[pathname]))).toBe(true);
   });
