@@ -1563,23 +1563,6 @@ body { background: var(--paper); color: var(--ink); }
   .home-sidebar { transition: none !important; }
 }
 
-.site-page-with-sidebar {
-  display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
-  min-height: 100vh;
-  background: #f7f9f8;
-}
-.site-page-with-sidebar .site-main { min-width: 0; }
-.site-page-with-sidebar .page-container { width: min(100% - 56px, 1120px); margin-inline: auto; padding-bottom: 64px; }
-.site-page-with-sidebar .page-hero { padding-top: 48px; }
-@media (max-width: 1050px) {
-  .site-page-with-sidebar { grid-template-columns: 218px minmax(0, 1fr); }
-}
-@media (max-width: 760px) {
-  .site-page-with-sidebar { display: block; }
-  .site-page-with-sidebar .page-container { width: min(100% - 32px, 720px); }
-  .site-page-with-sidebar .page-hero { padding-top: 35px; }
-}
 
 /* Coquille globale : navigation latérale commune à toutes les routes publiques. */
 .majestic-global-shell {
@@ -1603,20 +1586,16 @@ body { background: var(--paper); color: var(--ink); }
   .majestic-global-main .site-page-with-sidebar .page-container { width: min(100% - 32px, 720px); }
 }
 
-.site-page-with-sidebar {
-  display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
-  min-height: 100vh;
-  background: #f7f9f8;
-}
-.site-page-with-sidebar .site-main { min-width: 0; }
-.site-page-with-sidebar .page-container { width: min(100% - 56px, 1120px); margin-inline: auto; padding-bottom: 64px; }
-.site-page-with-sidebar .page-hero { padding-top: 48px; }
-@media (max-width: 1050px) {
-  .site-page-with-sidebar { grid-template-columns: 218px minmax(0, 1fr); }
-}
+
+/* Identité visuelle douce par univers fonctionnel : les repères changent, la navigation reste stable. */
+.majestic-global-main .site-page-with-sidebar { min-height: 100vh; }
+.majestic-global-main .site-page-with-sidebar.domain-opportunites { background: linear-gradient(180deg, #edf5fc 0, #f7f9fb 320px, #f7f9f8 100%); }
+.majestic-global-main .site-page-with-sidebar.domain-business { background: linear-gradient(180deg, #f7f0e4 0, #faf8f3 320px, #f7f9f8 100%); }
+.majestic-global-main .site-page-with-sidebar.domain-commercial { background: linear-gradient(180deg, #eaf5f1 0, #f5faf7 320px, #f7f9f8 100%); }
+.majestic-global-main .site-page-with-sidebar.domain-reseaux { background: linear-gradient(180deg, #f0edfa 0, #f8f6fc 320px, #f7f9f8 100%); }
+.majestic-global-main .site-page-with-sidebar.domain-comprendre { background: linear-gradient(180deg, #edf1f4 0, #f7f8fa 320px, #f7f9f8 100%); }
+.majestic-global-main .site-page-with-sidebar .page-hero { padding-top: 42px; }
+.majestic-global-main .site-page-with-sidebar .page-container { min-height: 100vh; padding-bottom: 64px; }
 @media (max-width: 760px) {
-  .site-page-with-sidebar { display: block; }
-  .site-page-with-sidebar .page-container { width: min(100% - 32px, 720px); }
-  .site-page-with-sidebar .page-hero { padding-top: 35px; }
+  .majestic-global-main .site-page-with-sidebar .page-hero { padding-top: 30px; }
 }
