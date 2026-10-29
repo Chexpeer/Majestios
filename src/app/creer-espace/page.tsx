@@ -39,7 +39,7 @@ export default function CreatePersonalSpacePage() {
     <section className="create-space-layout">
       <div className="create-space-promise"><span className="section-label">MAJESTIOS VOUS ACCOMPAGNE</span><h2>Vous nous indiquez votre besoin. Nous préparons la suite avec vous.</h2><ol><li>Votre demande et l’opportunité sont identifiées.</li><li>Les éléments utiles sont préparés pour vérification.</li><li>Un accompagnement humain peut aider à clarifier les prochaines étapes.</li></ol><p>MajestiOS ne déposera jamais une candidature ni une réponse à un marché en votre nom sans votre validation explicite.</p></div>
       <div className="create-space-form-card">
-        <<form className="create-space-form" onSubmit={handleSubmit}>
+        <form className="create-space-form" onSubmit={handleSubmit}>
           <span className="section-label">{isApplication ? "CANDIDATURE / CV" : isTender ? "ÉTUDE D’OPPORTUNITÉ" : "ESPACE PERSONNEL"}</span>
           <h2>{isApplication ? "Préparer ma candidature" : isTender ? "Étudier cette opportunité" : "Vos coordonnées"}</h2>
           {title && <p className="selected-opportunity"><strong>Élément sélectionné :</strong> {title}</p>}
