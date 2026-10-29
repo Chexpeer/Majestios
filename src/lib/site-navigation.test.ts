@@ -85,6 +85,21 @@ describe("architecture de navigation MajestiOS", () => {
     expect(broken, "Chaque lien interne littéral doit mener à une page ou une route API existante").toEqual([]);
   });
 
+  it("donne un contenu éditorial dédié à chaque rubrique gérée par SiteHub", () => {
+    const hubSource = readFileSync(join(sourceRoot, "components", "site-hub.tsx"), "utf8");
+    const editorialHrefs = new Set(
+      [...hubSource.matchAll(/^\s*"([^"]+)": \{$/gm)]
+        .map((match) => match[1])
+        .filter((href) => href.startsWith("/"))
+    );
+    const bespokePages = new Set(["/", "/nous-rejoindre", "/mentions-legales"]);
+    const missing = flattenSiteTree()
+      .map((node) => node.href)
+      .filter((href) => !bespokePages.has(href) && !editorialHrefs.has(href));
+
+    expect(missing, "Chaque rubrique SiteHub doit disposer d’un contenu éditorial dédié").toEqual([]);
+  });
+
   it("vérifie les connexions dans les deux sens pour chaque rubrique", () => {
     const nodes = flattenSiteTree();
     const broken: Array<{ href: string; problem: string }> = [];
