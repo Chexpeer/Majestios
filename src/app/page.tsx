@@ -40,7 +40,7 @@ export default function HomePage() {
       <footer className="redesign-footer">
         <Link href="/" className="footer-brand">MajestiOS</Link>
         <span>Intelligence commerciale proactive</span>
-        <nav><Link href="/comprendre/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav>
+        <nav><Link href="/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav>
       </footer>
     </div>
   </main>;
