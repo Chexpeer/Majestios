@@ -17,7 +17,7 @@ export const siteTree: SiteNode[] = [
     ]},
     { label: "Marchés privés", href: "/opportunites/marches-prives", description: "Découvrir les consultations privées publiées avec autorisation.", children: [
       { label: "Par secteur", href: "/opportunites/marches-prives/secteur", description: "Explorer les besoins par secteur d’activité." },
-      { label: "Déposer une annonce", href: "/opportunites/marches-prives/deposer", description: "Soumettre une annonce à modération." }
+      { label: "Déposer une annonce", href: "/opportunites/marches-prives/deposer", description: "Parcours de dépôt documenté ; le formulaire de publication n’est pas encore activé.", status: "preparing" }
     ]},
     { label: "Salons professionnels", href: "/opportunites/salons", description: "Préparer une visite et repérer les opportunités liées.", children: [
       { label: "Calendrier", href: "/opportunites/salons/calendrier", description: "Consulter les rendez-vous professionnels validés." },
@@ -66,7 +66,7 @@ export const siteTree: SiteNode[] = [
     ]}
   ]},
   { label: "Réseaux", href: "/reseaux", description: "Développer des relations professionnelles utiles et des complémentarités entre acteurs.", children: [
-    { label: "Annuaire professionnel", href: "/reseaux/annuaire", description: "Consulter les profils disponibles lorsque l’annuaire sera ouvert." },
+    { label: "Annuaire professionnel", href: "/reseaux/annuaire", description: "Consulter les profils lorsque l’annuaire sera ouvert.", status: "preparing" },
     { label: "Rejoindre le réseau", href: "/reseaux/rejoindre", description: "Découvrir comment contribuer au réseau." }
   ]},
   { label: "Comprendre", href: "/comprendre", description: "Comprendre le concept, les termes et les parcours MajestiOS.", children: [
