@@ -28,7 +28,7 @@ export default function BusinessOpportunityPage() {
       <h2>Commencer par les annonces officielles</h2>
       <p>La recherche BODACC peut aider à repérer des événements juridiques et économiques. Elle ne confirme pas, à elle seule, qu’une entreprise est disponible à la vente ou qu’une transaction est toujours en cours.</p>
       <p>Le catalogue Business, les dépôts d’annonces et les fonctions de mise en relation ne sont pas encore opérationnels. Cette page présente le périmètre fonctionnel visé.</p>
-      <div className="faq-actions"><Link className="search-submit concept-cta" href="/business">Consulter la recherche BODACC ↗</Link><Link className="faq-secondary" href="/opportunites">Explorer les opportunités ↗</Link></div>
+      <div className="faq-actions"><Link className="search-submit concept-cta" href="/business/veille-bodacc">Consulter la veille BODACC ↗</Link><Link className="faq-secondary" href="/opportunites">Explorer les opportunités ↗</Link></div>
     </section>
     <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav><Link href="/faq">FAQ</Link><Link href="/mentions-legales">Mentions légales</Link></nav><small>© MajestiOS · Fonctionnalités de cession en préparation</small></footer>
   </main>;
