@@ -1,5 +1,4 @@
 import Link from "next/link";
-import HomepageNavigation from "@/components/homepage-navigation";
 import { findSiteNode } from "@/data/site-tree";
 
 type DetailGuide = { title: string; purpose: string; checks: string[]; next: string };
@@ -250,8 +249,7 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
   const related = siblings.slice(0, 4);
   const guide = getDetailGuide(pathname, node?.label ?? "cette rubrique");
   const parent = found?.ancestors.at(-1);
-  return <main className="site-page site-page-with-sidebar home-layout">
-    <HomepageNavigation />
+  return <main className="site-page site-page-with-sidebar">
     <div className="site-main">
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link>{found?.ancestors.map((ancestor) => <span key={ancestor.href}><b>/</b><Link href={ancestor.href}>{ancestor.label}</Link></span>)}<span><b>/</b><strong>{node?.label ?? "Rubrique"}</strong></span></nav>
