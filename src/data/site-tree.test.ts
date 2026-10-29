@@ -100,6 +100,14 @@ describe("site navigation tree", () => {
     expect(publicSearch).toContain("if(nextType!==\"all\")urlParams.set(\"type\",nextType)");
   });
 
+  it("preserves search context between the tender detail and its preparation form", () => {
+    const detailPage = readFileSync(join(appDirectory, "opportunites", "marches-publics", "[id]", "page.tsx"), "utf8");
+    const preparationForm = readFileSync(join(appDirectory, "opportunites", "marches-publics", "[id]", "repondre", "page.tsx"), "utf8");
+    expect(detailPage).toContain("q:filters.q||\"\",location:filters.location||\"\",type:filters.type||\"all\"");
+    expect(preparationForm).toContain("setQ((v.q||\"\").slice(0,160));setLocation((v.location||\"\").slice(0,100));setType((v.type||\"all\").slice(0,40))");
+    expect(preparationForm).toContain("new URLSearchParams({q,location,type,title,buyer,deadline})");
+  });
+
   it("labels the public-tender result action as an accompaniment request, not a bid submission", () => {
     const publicSearch = readFileSync(join(appDirectory, "opportunites", "marches-publics", "page.tsx"), "utf8");
     expect(publicSearch).toContain("Préparer une demande d’accompagnement ↗");
