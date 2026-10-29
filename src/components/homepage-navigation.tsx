@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { siteTree } from "@/data/site-tree";
 
 const visibleItems = siteTree.filter((item) =>
@@ -20,6 +20,15 @@ const icons: Record<string, string> = {
 export default function HomepageNavigation() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [mobileOpen]);
 
   return (
     <>
@@ -48,13 +57,14 @@ export default function HomepageNavigation() {
                   <span className="home-sidebar-chevron" aria-hidden="true">⌄</span>
                 </summary>
                 <div className="home-sidebar-dropdown-content">
-                  <Link href={item.href} onClick={() => setMobileOpen(false)} className="home-sidebar-overview">Vue d’ensemble</Link>
+                  <Link href={item.href} onClick={() => setMobileOpen(false)} className="home-sidebar-overview" aria-current={pathname === item.href ? "page" : undefined}>Vue d’ensemble</Link>
                   {children.map((child) => (
                     <Link
                       key={child.href}
                       href={child.href}
                       onClick={() => setMobileOpen(false)}
                       className={pathname === child.href || pathname.startsWith(child.href + "/") ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
+                      aria-current={pathname === child.href ? "page" : undefined}
                     >
                       {child.label}{child.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
                     </Link>
@@ -66,8 +76,8 @@ export default function HomepageNavigation() {
         })}
       </nav>
       <div className="home-sidebar-bottom">
-        <Link href="/espace-professionnel" onClick={() => setMobileOpen(false)}>Espace professionnel <span aria-hidden="true">↗</span></Link>
-        <Link href="/faq" onClick={() => setMobileOpen(false)}>Aide & FAQ</Link>
+        <Link href="/espace-professionnel" onClick={() => setMobileOpen(false)} aria-current={pathname === "/espace-professionnel" ? "page" : undefined}>Espace professionnel <span aria-hidden="true">↗</span></Link>
+        <Link href="/faq" onClick={() => setMobileOpen(false)} aria-current={pathname === "/faq" ? "page" : undefined}>Aide & FAQ</Link>
         <small>Détecter · Qualifier · Transformer</small>
       </div>
     </aside>
