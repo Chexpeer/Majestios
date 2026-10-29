@@ -266,6 +266,20 @@ describe("site navigation tree", () => {
     expect(assistant).not.toContain('href:"/developpement-commercial/diagnostic-business"');
   });
 
+  it("keeps global navigation menus flat and compact", () => {
+    const navigation = readFileSync(join(process.cwd(), "src", "components", "homepage-navigation.tsx"), "utf8");
+    expect(navigation).toContain("const renderSubfolders");
+    expect(navigation).not.toContain("renderBranches(descendants)");
+    expect(navigation).not.toContain("home-sidebar-descendants");
+    expect(navigation).toContain("setExpandedGroup");
+  });
+
+  it("mounts only one global MajestiOS assistant", () => {
+    const layout = readFileSync(join(appDirectory, "layout.tsx"), "utf8");
+    const mounts = layout.match(/<MajestiosAssistant\\s*\\/>/g) ?? [];
+    expect(mounts).toHaveLength(1);
+  });
+
   it("registers the three new service modules with canonical, implemented destinations", () => {
     const nodes = flattenSiteTree();
     const filePurchase = findSiteNode("/developpement-commercial/achat-de-fichiers");
