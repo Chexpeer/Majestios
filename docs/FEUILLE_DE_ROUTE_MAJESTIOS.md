@@ -168,3 +168,19 @@ Une évolution est acceptable seulement si :
 ## Règle éditoriale des cartes et ressources — 29 octobre 2026
 
 Une carte ne doit pas pointer par défaut vers une page générique « Article en construction ». Sa destination dépend de sa fonction : page interne dédiée, guide, tutoriel, vidéo, logiciel, documentation officielle, outil ou parcours de service. Le libellé de l’action doit décrire la destination réelle. Les liens externes devront être identifiés et accompagnés de leur source ; les ressources non vérifiées ou fonctionnalités non disponibles ne doivent pas être présentées comme actives. La page « Article en construction » reste une solution ponctuelle pour un contenu précisément identifié, jamais une destination systématique.
+
+## Principe directeur — profondeur et complexité progressives
+
+La puissance de MajestiOS doit apparaître dans sa capacité à faire passer l’utilisateur d’une entrée simple à des niveaux d’analyse et d’action de plus en plus riches, sans rupture de navigation ni surcharge initiale.
+
+Pour chaque rubrique et chaque nouvelle fonctionnalité, vérifier :
+- **Niveau 1 — Comprendre :** l’utilisateur saisit la finalité et sait par où commencer.
+- **Niveau 2 — Explorer :** il accède à une page dédiée, avec contexte, sous-rubriques et ressources pertinentes.
+- **Niveau 3 — Qualifier :** il peut approfondir les critères, les sources et les éléments de décision réellement disponibles.
+- **Niveau 4 — Agir :** il trouve un parcours concret, ses prérequis et les limites éventuelles du service.
+- **Niveau 5 — Capitaliser :** les fonctions de suivi et de retour d’expérience pourront relier les actions aux résultats, une fois réellement implémentées.
+
+Ce modèle est progressif, pas obligatoire à l’identique pour chaque page : la profondeur doit dépendre du besoin métier. Une fonctionnalité n’est pas considérée comme aboutie parce qu’elle possède une carte ou un écran ; elle doit s’inscrire dans un parcours cohérent et offrir une prochaine étape utile.
+
+La validation d’un lot doit donc examiner à la fois la présence des pages, la pertinence des destinations, la continuité des parcours, l’absence de fausses fonctionnalités et la possibilité d’ajouter des niveaux sans refonte générale.
+
