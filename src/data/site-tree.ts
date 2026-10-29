@@ -21,6 +21,7 @@ export const siteTree: SiteNode[] = [
     ]},
     { label: "Salons professionnels", href: "/opportunites/salons", description: "Préparer une visite et repérer les opportunités liées.", children: [
       { label: "Calendrier", href: "/opportunites/salons/calendrier", description: "Consulter les rendez-vous professionnels validés." },
+      { label: "Préparer une visite", href: "/opportunites/salons/preparer", description: "Définir ses objectifs, qualifier les rencontres et organiser le suivi." },
       { label: "Par secteur", href: "/opportunites/salons/secteur", description: "Explorer les salons par domaine." },
       { label: "Par région", href: "/opportunites/salons/region", description: "Explorer les salons par territoire." }
     ]},
