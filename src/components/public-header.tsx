@@ -12,7 +12,7 @@ export default function PublicHeader() {
     <>
       <HomeSideNav />
       <div className="global-ticker-host">
-        <AnnouncementTicker flow="general" />
+        <AnnouncementTicker />
       </div>
     </>
   );
