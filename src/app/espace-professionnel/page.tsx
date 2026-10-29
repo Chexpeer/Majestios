@@ -19,7 +19,7 @@ type SearchParams = Promise<{
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams;
   if (params.intention !== "opportunite") {
-    return <SiteHub pathname="/espace-professionnel" eyebrow="ESPACE PROFESSIONNEL" intro="L’espace professionnel réunira les dossiers, les opportunités suivies et les actions de développement commercial. L’authentification et les autorisations seront configurées avant l’ouverture des fonctions privées." checklist={["Aucun dossier privé ne doit être accessible sans authentification.", "Les rôles et les droits d’accès seront définis avant l’activation.", "Les clés API et secrets resteront exclusivement côté serveur."]} />;
+    return <SiteHub pathname="/espace-professionnel" showMap={false} showResources={false} eyebrow="ESPACE PROFESSIONNEL" intro="L’espace professionnel réunira les dossiers, les opportunités suivies et les actions de développement commercial. L’authentification et les autorisations seront configurées avant l’ouverture des fonctions privées." checklist={["Aucun dossier privé ne doit être accessible sans authentification.", "Les rôles et les droits d’accès seront définis avant l’activation.", "Les clés API et secrets resteront exclusivement côté serveur."]} />;
   }
 
   const source = params.source === "boamp" ? "BOAMP" : params.source === "opportunites-privees" ? "opportunités privées" : "opportunité";
