@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { siteTree } from "@/data/site-tree";
 
 const visibleItems = siteTree.filter((item) =>
@@ -18,9 +19,17 @@ const icons: Record<string, string> = {
 
 export default function HomepageNavigation() {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => setMobileOpen(false), [pathname]);
 
   return (
-    <aside className="home-sidebar">
+    <>
+      <button type="button" className="home-mobile-menu-button" aria-expanded={mobileOpen} aria-controls="majestic-primary-navigation" onClick={() => setMobileOpen((open) => !open)}>
+        <span aria-hidden="true">{mobileOpen ? "×" : "☰"}</span> Menu
+      </button>
+      {mobileOpen ? <button type="button" className="home-mobile-menu-backdrop" aria-label="Fermer le menu" onClick={() => setMobileOpen(false)} /> : null}
+    <aside id="majestic-primary-navigation" className={`home-sidebar${mobileOpen ? " is-mobile-open" : ""}`}>
       <Link href="/" className="home-sidebar-brand" aria-label="MajestiOS — accueil">
         <span className="home-sidebar-mark">M<span>✦</span></span>
         <span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small></span>
@@ -62,5 +71,6 @@ export default function HomepageNavigation() {
         <small>Détecter · Qualifier · Transformer</small>
       </div>
     </aside>
+    </>
   );
 }
