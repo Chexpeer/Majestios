@@ -5,6 +5,7 @@ import Link from "next/link";
 import PublicHeader from "@/components/public-header";
 import AnnouncementTicker from "@/components/announcement-ticker";
 import ResourceCards from "@/components/resource-cards";
+import SectionInteractiveMap from "@/components/section-interactive-map";
 
 type Job = { id: string; title: string; contract: "Freelance" | "Indépendant" | "CDD" | "CDI"; region: string; remote: "Télétravail" | "Hybride" | "Sur site"; category: string; summary: string; source: string };
 
@@ -39,6 +40,7 @@ export default function EmploymentOpportunities() {
       <h1>Les compétences qui font avancer <em>les opportunités.</em></h1>
       <p>Retrouvez les missions et profils recherchés pour construire le réseau MajestiOS. Les premières annonces décrivent des besoins de recrutement à formaliser ; les conditions définitives seront précisées avant toute candidature effective.</p>
     </div></section>
+    <SectionInteractiveMap title="Emploi et missions" items={[{label:"Offres d’emploi",href:"/opportunites/emploi/offres",description:"Explorer les offres par métier et région."},{label:"Missions",href:"/opportunites/emploi/missions",description:"Découvrir les missions ponctuelles et freelance."},{label:"Conseils",href:"/opportunites/emploi/conseils",description:"Préparer une candidature ou un recrutement."}]} />
     <section className="employment-search" aria-labelledby="employment-search-title">
       <div className="employment-search-heading"><span className="section-label">RECHERCHE MULTICRITÈRE</span><h2 id="employment-search-title">Trouvez une mission adaptée</h2><p>Combinez métier, contrat, localisation et organisation du travail.</p></div>
       <form className="employment-filter-grid" onSubmit={(event) => event.preventDefault()}>
