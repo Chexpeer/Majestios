@@ -59,7 +59,7 @@ describe("site navigation tree", () => {
     expect(unresolved, `Interactive map poles without a canonical page: ${unresolved.join(", ")}`).toEqual([]);
     expect(map).toContain('<Link key={stage.id} href={stage.href}');
     expect(map).toContain('Appels d’offres publics et privés');
-    expect(map).toContain('croisement de sources pour retrouver les entreprises');
+    expect(map).toContain('Confirmer les informations par croisement de sources');
     expect(map).toContain('ressources humaines, les outils de communication');
     expect(map).not.toContain('id: "prospection", href: "/developpement-commercial/prospection"');
     expect(map).not.toContain('id: "development", href: "/developpement-commercial"');
