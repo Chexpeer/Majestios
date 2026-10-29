@@ -23,7 +23,8 @@ export default function HomePage() {
     <main className="home-redesign home-with-sidebar">
       <HomeSideNav />
       <div className="home-main-column">
-        <AnnouncementTicker />
+        <AnnouncementTicker flow="private" />
+        <AnnouncementTicker flow="emploi" />
 
         <section className="home-hero-redesign">
           <div className="hero-copy">
