@@ -1383,3 +1383,35 @@ body { background: var(--paper); color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   .home-sidebar-chevron { transition:none; }
 }
+
+/* Veille BODACC : une ressource documentaire dédiée, distincte du hub générique */
+.bodacc-hero h1 span { color:var(--teal); }
+.bodacc-principle-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:24px; }
+.bodacc-principle-grid > div { display:grid; gap:8px; padding:17px; border:1px solid var(--line); border-radius:10px; background:#f7f9f8; }
+.bodacc-principle-grid strong { color:var(--navy); font:800 14px Manrope,sans-serif; }
+.bodacc-principle-grid span { color:var(--muted); font-size:12px; line-height:1.65; }
+.bodacc-section { margin:44px 0; }
+.bodacc-section .section-heading { margin-bottom:20px; }
+.bodacc-section .section-heading h2 { margin:10px 0; font:800 clamp(24px,3vw,34px)/1.2 Manrope,sans-serif; }
+.bodacc-section .section-heading p { max-width:720px; color:var(--muted); font-size:13px; line-height:1.75; }
+.bodacc-signal-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:13px; }
+.bodacc-signal-card { display:flex; flex-direction:column; min-height:300px; padding:23px; border:1px solid var(--line); border-radius:14px; background:#fff; }
+.bodacc-number { color:var(--gold); font:800 12px Manrope,sans-serif; letter-spacing:1px; }
+.bodacc-signal-card h3 { margin:23px 0 10px; color:var(--navy); font:800 19px/1.25 Manrope,sans-serif; }
+.bodacc-signal-card p { margin:0 0 20px; color:var(--muted); font-size:12px; line-height:1.8; }
+.bodacc-signal-card > div { display:grid; gap:7px; margin-top:auto; }
+.bodacc-signal-card > div a,.bodacc-next-links a { display:flex; justify-content:space-between; gap:10px; padding:11px 12px; border:1px solid var(--line); border-radius:8px; color:var(--teal-dark); font-size:11px; font-weight:800; }
+.bodacc-signal-card > div a:hover,.bodacc-next-links a:hover { border-color:#a8cbc5; background:#f0f8f6; }
+.bodacc-steps { display:grid; gap:0; margin:25px 0 0; padding:0; list-style:none; }
+.bodacc-steps li { display:grid; grid-template-columns:48px minmax(0,1fr); gap:15px; padding:18px 0; border-top:1px solid var(--line); }
+.bodacc-steps li > span { display:grid; place-items:center; width:38px; height:38px; border-radius:10px; background:#e9f3f1; color:var(--teal-dark); font:800 12px Manrope,sans-serif; }
+.bodacc-steps h3 { margin:1px 0 6px; color:var(--navy); font:800 16px Manrope,sans-serif; }
+.bodacc-steps p { margin:0; }
+.bodacc-integrity ul { padding-left:20px; }
+.bodacc-integrity li { margin:11px 0; }
+.bodacc-next-actions { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; margin-top:44px; padding:30px; border-radius:14px; background:#eaf1ed; }
+.bodacc-next-actions h2 { margin:10px 0; color:var(--navy); font:800 24px/1.2 Manrope,sans-serif; }
+.bodacc-next-actions p { color:var(--muted); font-size:12px; line-height:1.75; }
+.bodacc-next-links { display:grid; gap:8px; }
+@media(max-width:850px) { .bodacc-signal-grid { grid-template-columns:1fr; }.bodacc-signal-card { min-height:0; }.bodacc-principle-grid { grid-template-columns:1fr; }.bodacc-next-actions { grid-template-columns:1fr; padding:22px; } }
+
