@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
-import AnnouncementTicker from "@/components/announcement-ticker";
 import ResourceCards from "@/components/resource-cards";
 import SectionInteractiveMap from "@/components/section-interactive-map";
 
@@ -18,7 +17,6 @@ export default function PrivateTendersSearch() {
 
   return <main className="public-site concept-page">
     <PublicHeader />
-    <AnnouncementTicker flow="private" />
     <section className="how-section concept-hero"><div><span className="section-label">OPPORTUNITÉS PRIVÉES</span><h1>Des opportunités au-delà des <em>marchés publics.</em></h1><p>Cette rubrique est destinée à accueillir les consultations et opportunités privées diffusées avec autorisation. Elles seront séparées des avis publics et clairement identifiées.</p></div></section>
     <SectionInteractiveMap title="Marchés privés" items={[{label:"Explorer par secteur",href:"/opportunites/marches-prives/secteur",description:"Organiser les opportunités par domaine d’activité."},{label:"Déposer une annonce",href:"/opportunites/marches-prives/deposer",description:"Préparer une annonce à soumettre à modération."},{label:"Préparer ma démarche",href:"/creer-espace?intention=opportunite&source=opportunites-privees",description:"Créer un point de départ pour être accompagné."}]} />
     <section className="private-ticker-page">
