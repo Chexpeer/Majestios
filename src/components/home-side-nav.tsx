@@ -7,6 +7,7 @@ const links = [
   { label: "Marchés privés", href: "/opportunites/marches-prives", icon: "◇" },
   { label: "Développement commercial", href: "/developpement-commercial", icon: "◎" },
   { label: "Réseaux professionnels", href: "/reseaux", icon: "♧" },
+  { label: "Nous rejoindre", href: "/nous-rejoindre", icon: "＋" },
   { label: "Business", href: "/business", icon: "⌁" },
   { label: "Emploi & missions", href: "/opportunites/emploi", icon: "＋" },
 ];
