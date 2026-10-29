@@ -324,4 +324,25 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     ],
     "next": "Consultez les informations pour rejoindre le réseau et vérifiez l’état du parcours. L’annuaire est signalé comme en préparation : ne supposez pas qu’un répertoire public ou un service d’introduction est déjà ouvert."
   }
+
+  "/opportunites/salons/secteur": {
+    title: "Qualifier les salons par secteur professionnel",
+    purpose: "Le classement par secteur sert à repérer les événements susceptibles de réunir des clients, donneurs d’ordre ou partenaires pertinents. Il ne suffit pas à garantir la présence d’un public cible ni l’intérêt commercial d’une participation.",
+    checks: [
+      "Vérifier les thèmes, exposants et profils de visiteurs annoncés par l’organisateur",
+      "Comparer l’événement aux objectifs commerciaux, au territoire et au budget disponible",
+      "Contrôler les dates, les conditions d’accès et les possibilités de rendez-vous professionnels"
+    ],
+    next: "Sélectionnez les événements qui correspondent à un objectif mesurable, puis consultez les informations officielles de l’organisateur avant toute inscription ou dépense."
+  },
+  "/opportunites/salons/region": {
+    title: "Préparer une veille événementielle par région",
+    purpose: "Le filtre régional aide à organiser la veille événementielle selon les zones de prospection et les contraintes de déplacement. La localisation seule ne démontre ni la pertinence du salon ni la disponibilité de places.",
+    checks: [
+      "Confirmer le lieu et les dates auprès de l’organisateur officiel",
+      "Évaluer le temps de déplacement, les coûts et les rendez-vous envisageables",
+      "Relier chaque événement à un secteur, une cible et un objectif commercial concret"
+    ],
+    next: "Comparez les événements régionaux retenus, vérifiez les informations à jour et définissez à l’avance les contacts ou résultats qui justifieraient la participation."
+  },
 };
