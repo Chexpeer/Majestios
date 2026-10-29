@@ -92,6 +92,14 @@ describe("site navigation tree", () => {
     expect(bodaccPage).not.toContain('href: "/business/creations-implantations"');
   });
 
+  it("preserves public-tender search criteria in the URL for refresh and return navigation", () => {
+    const publicSearch = readFileSync(join(appDirectory, "opportunites", "marches-publics", "page.tsx"), "utf8");
+    expect(publicSearch).toContain("window.history.replaceState(null, \"\", window.location.pathname+(urlParams.size?`?${urlParams.toString()}`:\"\"))");
+    expect(publicSearch).toContain("if(nextQuery)urlParams.set(\"q\",nextQuery)");
+    expect(publicSearch).toContain("if(nextLocation)urlParams.set(\"location\",nextLocation)");
+    expect(publicSearch).toContain("if(nextType!==\"all\")urlParams.set(\"type\",nextType)");
+  });
+
   it("labels the public-tender result action as an accompaniment request, not a bid submission", () => {
     const publicSearch = readFileSync(join(appDirectory, "opportunites", "marches-publics", "page.tsx"), "utf8");
     expect(publicSearch).toContain("Préparer une demande d’accompagnement ↗");
