@@ -133,3 +133,12 @@ La branche `site-profondeur-v0-1` ajoute les parcours de présentation suivants 
 Avant une connexion réelle à Brainios, définir le corpus autorisé, les droits d’accès, l’indexation, les références de citation, la mise à jour documentaire et les règles de séparation entre faits, inférences et hypothèses. Toute recommandation sensible doit rester soumise à validation humaine.
 
 Les formulaires Business et de demande de contact sont des démonstrations d’interface tant qu’un traitement serveur sécurisé, une politique de confidentialité et une persistance autorisée ne sont pas implémentés. Ne pas présenter les pages de conception comme des services opérationnels.
+
+
+## 9. Doctrine produit : intelligence commerciale apprenante
+
+Référentiel à consulter avant toute évolution des parcours, de l’assistant, de la base de connaissances ou des ressources pédagogiques :
+
+- [Doctrine fondatrice — MajestiOS, intelligence commerciale apprenante](docs/DOCTRINE_INTELLIGENCE_APPRENANTE.md)
+
+MajestiOS doit agir comme conseiller, informateur, accompagnateur, formateur et garant de méthode. Il doit aider les utilisateurs à progresser tout en améliorant ses propres méthodes à partir de sources vérifiables et de retours qualifiés. Cette amélioration doit rester traçable : un retour n’est pas automatiquement une vérité, une suggestion IA n’est pas une validation, et l’assistance ne constitue pas une garantie absolue.
