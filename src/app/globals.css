@@ -1121,7 +1121,7 @@ body { background: var(--paper); color: var(--ink); }
 
 
 /* Homepage: vertical navigation and a focused, interactive opportunity hub */
-.home-layout { display:grid; grid-template-columns:250px minmax(0,1fr); min-height:100vh; background:#f5f7f7; }
+.home-layout { display:block; min-height:100vh; background:#f5f7f7; }
 .home-sidebar { position:sticky; top:0; display:flex; flex-direction:column; align-self:start; width:250px; height:100vh; overflow-y:auto; padding:24px 15px 18px; border-right:1px solid var(--line); background:#fff; }
 .home-sidebar-brand { display:flex; align-items:center; gap:11px; padding:0 7px 28px; }
 .home-sidebar-mark { position:relative; display:grid; flex:0 0 42px; place-items:center; width:42px; height:42px; border-radius:12px; background:var(--navy); color:#fff; font:800 24px Manrope,sans-serif; }
@@ -1174,7 +1174,7 @@ body { background: var(--paper); color: var(--ink); }
 .home-process-strip i { margin-left:5px; color:#9db4b4; font-style:normal; }
 .home-main .redesign-footer { padding:19px clamp(20px,4vw,58px); }
 @media (max-width:1050px) {
-  .home-layout { grid-template-columns:218px minmax(0,1fr); }
+  .home-layout { display:block; }
   .home-sidebar { width:218px; padding-right:11px; padding-left:11px; }
   .announcement-flows { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
