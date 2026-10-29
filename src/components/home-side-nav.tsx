@@ -26,7 +26,7 @@ export default function HomeSideNav() {
       </Link>
       <span className="home-side-caption">NAVIGATION</span>
       <nav className="home-side-links">
-        {links.map((link, index) => (
+        {links.map((link) => (
           <Link key={link.href} href={link.href} className={pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href + "/")) ? "is-current" : ""} aria-current={pathname === link.href ? "page" : undefined}>
             <span className="home-side-icon" aria-hidden="true">{link.icon}</span>{link.label}
           </Link>
