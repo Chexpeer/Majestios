@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import PublicHeader from "@/components/public-header";
 import AnnouncementTicker from "@/components/announcement-ticker";
+import ResourceCards from "@/components/resource-cards";
 
 export default function PrivateTendersSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +33,7 @@ export default function PrivateTendersSearch() {
       </div>
     </section>
     <section className="concept-principles"><h2>Un espace en préparation</h2><p>Les futures fiches pourront préciser le secteur, la localisation, les conditions d’accès et le lien ou formulaire de contact autorisé. Le détail des opportunités et les éventuelles informations réservées seront accessibles selon les règles de diffusion et les droits de l’utilisateur.</p><Link className="search-submit concept-cta" href="/opportunites/marches-prives/deposer">Préparer une publication privée gratuite ↗</Link><p className="ticker-disclaimer">La publication gratuite est prévue dans le parcours cible, mais le formulaire connecté et l’enregistrement des annonces ne sont pas encore activés.</p><Link className="search-submit concept-cta" href="/comprendre/faq">Questions fréquentes sur les appels d’offres ↗</Link><Link className="search-submit concept-cta" href="/opportunites/marches-publics">Explorer les appels d’offres publics ↗</Link></section>
+    <ResourceCards scope="marches-prives" />
     <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav aria-label="Liens de pied de page"><Link href="/opportunites/emploi">Emploi et missions</Link><Link href="/nous-rejoindre">Nous rejoindre</Link><Link href="/comprendre/faq">FAQ</Link><Link href="/mentions-legales">Mentions légales</Link></nav><small>© MajestiOS · Site en construction</small></footer>
   </main>;
 }
