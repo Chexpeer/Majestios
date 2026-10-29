@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readdirSync, statSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
-import { flattenSiteTree, siteTree } from "./site-tree";
+import { findSiteNode, flattenSiteTree, siteTree } from "./site-tree";
 
 const appDirectory = resolve(process.cwd(), "src/app");
 
@@ -35,6 +35,28 @@ function routeMatches(pattern: string[], target: string[]): boolean {
 }
 
 describe("site navigation tree", () => {
+  it("resolves every canonical navigation URL back to its own node", () => {
+    const nodes = flattenSiteTree();
+    const unresolved = nodes.filter((node) => {
+      const found = findSiteNode(node.href);
+      return !found || found.node.href !== node.href || found.node.label !== node.label;
+    }).map((node) => node.href);
+
+    expect(unresolved, `Navigation URLs that do not resolve to their own dossier: ${unresolved.join(", ")}`).toEqual([]);
+  });
+
+  it("does not treat unknown catch-all URLs as valid dossiers", () => {
+    const invalidExamples = [
+      "/opportunites/marches-publics/annonce-inexistante",
+      "/business/dossier-inexistant",
+      "/developpement-commercial/parcours-inexistant",
+      "/reseaux/profil-inexistant"
+    ];
+
+    const unexpectedlyResolved = invalidExamples.filter((pathname) => findSiteNode(pathname) !== null);
+    expect(unexpectedlyResolved).toEqual([]);
+  });
+
   it("does not contain duplicate internal destinations", () => {
     const destinations = flattenSiteTree().map((node) => node.href);
     expect(new Set(destinations).size).toBe(destinations.length);
