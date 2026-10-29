@@ -96,5 +96,96 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     purpose: "Un résultat doit être transformé en apprentissage commercial, que l’entreprise ait remporté le marché ou non.",
     checks: ["Résultat et motifs de décision disponibles", "Écarts entre l’offre, les critères et la concurrence si l’information est accessible", "Actions de suivi, de recours éventuel ou de capitalisation"],
     next: "Ne pas déduire de motifs non communiqués. Enregistrer les faits connus, les questions ouvertes et les améliorations à tester au prochain dossier."
+  },
+
+  "/opportunites/marches-publics/departement": {
+    title: "Filtrer les marchés par territoire",
+    purpose: "Le département est un critère de présélection, pas une preuve suffisante de proximité ni de faisabilité. Il faut distinguer le lieu d’exécution, l’adresse de l’acheteur et les zones couvertes par le marché.",
+    checks: ["Département et lieu exact d’exécution dans l’avis", "Lots et éventuelles interventions sur plusieurs territoires", "Délais de déplacement, moyens mobilisables et contraintes locales"],
+    next: "Confirmer la zone dans le dossier officiel. Le filtre géographique ne doit pas masquer les marchés multi-sites ni exclure une consultation pertinente sur la seule base d’une adresse administrative."
+  },
+  "/opportunites/emploi/offres": {
+    title: "Examiner une offre d’emploi",
+    purpose: "Évaluer la concordance entre le poste, les compétences, les conditions annoncées et la situation du candidat avant d’engager une démarche.",
+    checks: ["Employeur, source originale et date de publication", "Missions, compétences, contrat, rémunération et lieu", "Canal de candidature et pièces demandées"],
+    next: "Vérifier que l’offre est toujours active auprès de l’employeur ou de la source d’origine. Ne transmettre aucun document sensible via un parcours non sécurisé."
+  },
+  "/opportunites/emploi/missions": {
+    title: "Qualifier une mission professionnelle",
+    purpose: "Une mission doit être évaluée comme une prestation définie, avec un périmètre, des livrables, un calendrier et des conditions d’intervention compréhensibles.",
+    checks: ["Besoin exprimé, donneur d’ordre et contexte de la mission", "Livrables, durée, lieu, disponibilité et modalités financières", "Cadre contractuel, responsabilités et conditions de paiement"],
+    next: "Faire confirmer les conditions par l’émetteur avant tout engagement. Une description sommaire ne suffit pas à établir la faisabilité ni la rentabilité de la mission."
+  },
+  "/opportunites/emploi/metiers": {
+    title: "Explorer un métier par ses compétences",
+    purpose: "Une fiche métier doit aider à comprendre les activités réelles, les compétences attendues et les environnements d’exercice, sans réduire un métier à un intitulé.",
+    checks: ["Activités et responsabilités courantes", "Compétences techniques et transversales", "Qualifications, conditions d’exercice et évolutions possibles"],
+    next: "Croiser les informations avec des référentiels métiers et des offres récentes. Les exigences peuvent varier selon le secteur, l’employeur et la réglementation applicable."
+  },
+  "/opportunites/emploi/conseils": {
+    title: "Préparer une candidature ou un recrutement",
+    purpose: "La préparation consiste à relier le besoin du poste aux éléments concrets du parcours, ou à formaliser clairement les critères d’un recrutement.",
+    checks: ["Compétences et preuves correspondant au poste", "CV, présentation et pièces réellement demandées", "Questions à clarifier sur les missions et les conditions"],
+    next: "Adapter les éléments au poste visé et vérifier l’identité de l’interlocuteur. MajestiOS ne collecte pas de candidature tant qu’un formulaire sécurisé n’est pas explicitement activé."
+  },
+  "/opportunites/salons/secteur": {
+    title: "Choisir un salon selon son secteur",
+    purpose: "Le classement sectoriel aide à repérer les événements susceptibles de réunir les acteurs utiles, mais ne garantit ni la présence d’un décideur ni l’existence d’un besoin commercial.",
+    checks: ["Secteur principal et secteurs connexes couverts", "Profil des exposants, visiteurs et organisateurs", "Objectif de visite et coût total de participation"],
+    next: "Vérifier les informations sur le site officiel de l’organisateur et préparer une liste de sujets ou de rencontres pertinents avant de s’inscrire."
+  },
+  "/opportunites/salons/region": {
+    title: "Repérer les salons par région",
+    purpose: "La région permet de cadrer la recherche d’événements selon les déplacements possibles, la zone commerciale et les marchés que l’entreprise souhaite développer.",
+    checks: ["Région, ville et lieu exact de l’événement", "Dates confirmées et conditions d’accès", "Temps de déplacement, budget et public professionnel attendu"],
+    next: "Confirmer chaque événement auprès de son organisateur. Ne pas considérer une date indicative ou une ancienne édition comme une prochaine occurrence validée."
+  },
+  "/reseaux/rejoindre": {
+    title: "Rejoindre le réseau MajestiOS",
+    purpose: "La contribution au réseau commence par un profil professionnel clair et une proposition de valeur compréhensible : compétences, capacité, territoire et types de collaboration recherchés.",
+    checks: ["Identité et activité professionnelle présentées sans ambiguïté", "Compétences, secteurs et zone d’intervention", "Types de collaboration recherchés et informations partageables"],
+    next: "Ne communiquer que les données nécessaires et préciser les modalités de contact souhaitées. Le parcours d’inscription n’est actif que si un formulaire sécurisé et ses règles de gestion sont disponibles."
+  },
+  "/reseaux/annuaire": {
+    title: "Comprendre les conditions d’accès à l’annuaire",
+    purpose: "Un annuaire utile doit présenter des profils suffisamment qualifiés, expliquer l’origine des informations et maîtriser qui peut consulter ou transmettre des coordonnées.",
+    checks: ["Critères de validation des profils et actualisation des informations", "Règles d’accès, de visibilité et de retrait", "Motif professionnel de consultation et modalités de prise de contact"],
+    next: "L’annuaire est à considérer comme en préparation tant que les profils, les permissions et le parcours de gestion des données n’ont pas été validés. Aucune coordonnée ne doit être exposée par défaut."
+  },
+  "/business/creations-implantations": {
+    title: "Analyser une création ou une implantation",
+    purpose: "Une création ou une nouvelle implantation peut constituer un signal à examiner pour certains fournisseurs ou prestataires, mais ne prouve pas qu’un achat est prévu.",
+    checks: ["Date de création ou d’implantation et source vérifiable", "Activité déclarée, établissement concerné et zone d’intervention", "Adéquation entre le contexte observé et l’offre commerciale proposée"],
+    next: "Recouper les informations récentes et formuler une hypothèse prudente. Avant tout contact, identifier une raison professionnelle concrète et vérifier les règles applicables."
+  },
+  "/business/evolutions-activite": {
+    title: "Interpréter une évolution d’activité",
+    purpose: "Un changement publié peut avoir plusieurs explications. L’analyse doit reconstruire le contexte avant de conclure à une croissance, une difficulté ou un besoin d’achat.",
+    checks: ["Nature du changement, date d’effet et source d’origine", "Éléments antérieurs et informations concordantes", "Hypothèses alternatives et conséquences commerciales réellement plausibles"],
+    next: "Séparer clairement les faits et les interprétations. Ne pas qualifier une entreprise de fragile ni lui attribuer un besoin sans éléments pertinents, actuels et vérifiables."
+  },
+  "/business/achat-cession/acheter": {
+    title: "Préparer un projet de reprise",
+    purpose: "Un projet de reprise doit relier les objectifs de l’acquéreur, la capacité de financement, le périmètre recherché et les vérifications à mener avant une décision.",
+    checks: ["Secteur, zone, taille et critères de sélection", "Capacité financière, financement et calendrier", "Comptes, contrats, actifs, passifs, risques et accompagnement professionnel requis"],
+    next: "Toute décision nécessite une analyse documentaire et des conseils adaptés. Une annonce ou une donnée publique ne remplace ni l’audit de l’entreprise ni la validation juridique et financière."
+  },
+  "/business/achat-cession/vendre": {
+    title: "Préparer la cession d’une entreprise",
+    purpose: "La préparation d’une cession consiste à clarifier le périmètre transmis, réunir les informations fiables et organiser les étapes dans des conditions de confidentialité adaptées.",
+    checks: ["Périmètre de cession, actifs, contrats et responsabilités", "Informations comptables et opérationnelles à jour", "Niveau de confidentialité, calendrier et interlocuteurs professionnels"],
+    next: "Faire vérifier les documents et les modalités par des professionnels compétents. Ne diffuser aucune information sensible sans cadre approprié ni accord de confidentialité lorsque nécessaire."
+  },
+  "/business/achat-cession/evaluer-une-entreprise": {
+    title: "Préparer une évaluation d’entreprise",
+    purpose: "Une évaluation s’appuie sur plusieurs méthodes et sur la qualité des données disponibles. Un prix de cession ne peut pas être déduit d’un seul indicateur ou d’une publication isolée.",
+    checks: ["Comptes, trésorerie, dettes et éléments exceptionnels", "Actifs, contrats, dépendance clients et risques", "Méthodes retenues, hypothèses et date de valorisation"],
+    next: "Présenter les résultats comme une estimation dépendante de ses hypothèses et faire intervenir un professionnel lorsque l’enjeu le justifie. Cette page ne constitue pas une expertise financière."
+  },
+  "/comprendre/glossaire": {
+    title: "Utiliser le glossaire MajestiOS",
+    purpose: "Le glossaire doit stabiliser le vocabulaire utilisé dans les parcours afin que les notions de signal, d’opportunité, de qualification et de prospection soient comprises de la même manière.",
+    checks: ["Définition dans son contexte métier", "Différence avec les notions proches", "Source de référence pour les termes techniques ou réglementaires"],
+    next: "Une définition commerciale ne remplace pas une définition juridique officielle. Pour toute décision réglementaire, vérifier le texte ou la documentation de l’autorité compétente."
   }
 };
