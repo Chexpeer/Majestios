@@ -168,7 +168,7 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
         <span className="eyebrow">{children.length > 0 ? "COMPRENDRE CETTE ÉTAPE" : "MODE D’EMPLOI"}</span><h2>{guide.title}</h2><p>{guide.purpose}</p>
         <h3>Les points à examiner</h3><ul>{guide.checks.map((item) => <li key={item}>{item}</li>)}</ul>
         <h3>Avant de passer à l’action</h3><p>{guide.next}</p>
-        {checklist.length && children.length === 0 ? <><h3>Repères complémentaires</h3><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul> : null}
+        {checklist.length && children.length === 0 ? <><h3>Repères complémentaires</h3><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul></> : null}
       </section>
       {checklist.length > 0 && children.length > 0 ? <section className="content-panel"><span className="eyebrow">MÉTHODE</span><h2>Avant de passer à l’action</h2><ul>{checklist.map((item) => <li key={item}>{item}</li>)}</ul></section> : null}
       {related.length > 0 ? <section className="related-section"><div><span className="eyebrow">POUR ALLER PLUS LOIN</span><h2>Rubriques associées</h2></div><div className="related-links">{related.map((item) => <Link href={item.href} key={item.href}>{item.label}<span>↗</span></Link>)}</div></section> : null}
