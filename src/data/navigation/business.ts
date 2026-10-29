@@ -2,8 +2,8 @@ import type { SiteNode } from "./types";
 
 export const businessNode: SiteNode = { label: "Business", href: "/business", description: "Comprendre les signaux de création, d’évolution et de transmission.", children: [
     { label: "Intelligence entreprises", href: "/business/intelligence-entreprises", description: "Relier les informations économiques aux hypothèses de développement commercial.", children: [
-      { label: "Créations et implantations", href: "/business/creations-implantations", description: "Repérer les créations et nouvelles implantations vérifiées." },
-      { label: "Évolutions d’activité", href: "/business/evolutions-activite", description: "Étudier les changements susceptibles d’éclairer une action commerciale." }
+      { label: "Créations et implantations", href: "/business/intelligence-entreprises/creations-implantations", description: "Repérer les créations et nouvelles implantations vérifiées." },
+      { label: "Évolutions d’activité", href: "/business/intelligence-entreprises/evolutions-activite", description: "Étudier les changements susceptibles d’éclairer une action commerciale." }
     ]},
     { label: "Veille BODACC", href: "/business/veille-bodacc", description: "Explorer les publications BODACC et leurs limites." },
     { label: "Achat et cession", href: "/business/achat-cession", description: "Préparer un projet de reprise ou de transmission.", children: [
