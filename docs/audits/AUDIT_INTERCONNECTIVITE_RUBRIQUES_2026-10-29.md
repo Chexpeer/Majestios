@@ -83,3 +83,6 @@ Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons,
 
 - Contrôle du flux commun : les liens des annonces conservent explicitement leur capacité de clic malgré le conteneur visuel discret. Test statique ajouté pour éviter une régression d’interactivité.
 - Nettoyage du formulaire de préparation : suppression d’un état d’écran intermédiaire devenu inaccessible, puisque la soumission redirige directement vers la page de remerciement.
+
+- Langage des cartes : remplacement de plusieurs occurrences de « veille » par des formulations directes (« recherche », « sources », « suivre les événements »). Le parcours des cartes reste centralisé vers la page commune « Article en construction ».
+- Test statique ajouté pour préserver ce comportement pendant la consolidation éditoriale.
