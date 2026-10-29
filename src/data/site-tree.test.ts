@@ -92,6 +92,19 @@ describe("site navigation tree", () => {
     expect(bodaccPage).not.toContain('href: "/business/creations-implantations"');
   });
 
+  it("labels the public-tender result action as an accompaniment request, not a bid submission", () => {
+    const publicSearch = readFileSync(join(appDirectory, "opportunites", "marches-publics", "page.tsx"), "utf8");
+    expect(publicSearch).toContain("Demander un accompagnement ↗");
+    expect(publicSearch).not.toContain(">Préparer une demande ↗</Link>");
+  });
+
+  it("connects private-sector qualification to public tenders, BODACC signals and commercial targeting", () => {
+    const privateSectorGuide = readFileSync(join(appDirectory, "opportunites", "marches-prives", "secteur", "page.tsx"), "utf8");
+    expect(privateSectorGuide).toContain('href="/opportunites/marches-publics"');
+    expect(privateSectorGuide).toContain('href="/business/veille-bodacc"');
+    expect(privateSectorGuide).toContain('href="/developpement-commercial/prospection/ciblage"');
+  });
+
   it("uses the current navigation labels in the public-tender FAQ", () => {
     const faqPage = readFileSync(join(appDirectory, "faq", "page.tsx"), "utf8");
     expect(faqPage).toContain('« Opportunités », puis « Marchés publics »');
