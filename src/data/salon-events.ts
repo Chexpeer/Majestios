@@ -1,9 +1,6 @@
 /**
  * Annonces de salons diffusables dans le flux d'accueil.
- *
  * Chaque fiche doit être vérifiée auprès d'une source officielle.
- * La date de vérification est conservée pour inciter à contrôler les
- * informations avant déplacement ou inscription.
  */
 export type SalonEvent = {
   slug: string;
@@ -43,8 +40,6 @@ export const salonEvents: SalonEvent[] = [
     venue: "Paris Expo Porte de Versailles · Pavillon 7",
     city: "Paris",
     region: "Île-de-France",
-    sectors: ["Prévention", "Sécurité", "Risques professionnels", "Industrie"],
-    region: "Île-de-France",
     sectors: ["Collectivités", "Commande publique", "Territoires", "Services aux collectivités"],
     summary: "Rendez-vous des élus, décideurs publics et partenaires des collectivités. Une occasion de repérer les projets territoriaux et de rencontrer les acteurs de la commande publique.",
     officialUrl: "https://www.salondesmaires.com/",
@@ -57,6 +52,8 @@ export const salonEvents: SalonEvent[] = [
     endDate: "2026-11-05",
     venue: "Paris Expo Porte de Versailles · Pavillon 1",
     city: "Paris",
+    region: "Île-de-France",
+    sectors: ["Prévention", "Sécurité", "Risques professionnels", "Industrie"],
     summary: "Salon professionnel consacré à la prévention et à la maîtrise des risques professionnels et industriels.",
     officialUrl: "https://www.expoprotection.com/fr-fr/infos-pratiques/horaires-acces-et-hotels.html",
     verifiedAt: "2026-10-29"
