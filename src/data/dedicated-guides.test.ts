@@ -32,6 +32,20 @@ describe("dedicated route guides", () => {
     }
   });
 
+
+  it("gives each navigable dossier its own guide, except intentionally separate utility/legal pages", () => {
+    const intentionallySeparate = new Set([
+      "/",
+      "/faq",
+      "/confidentialite",
+      "/mentions-legales"
+    ]);
+    const missingGuides = flattenSiteTree()
+      .map((node) => node.href)
+      .filter((route) => !intentionallySeparate.has(route) && !dedicatedGuides[route]);
+    expect(missingGuides).toEqual([]);
+  });
+
   it("gives every detailed route a distinct, actionable guide", () => {
     const guides = Object.entries(dedicatedGuides);
     const titles = guides.map(([, guide]) => guide.title);
