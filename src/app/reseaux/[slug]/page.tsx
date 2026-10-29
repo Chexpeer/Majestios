@@ -7,5 +7,5 @@ export default async function NetworkSubpage({ params }: Props) {
   const pathname = "/reseaux/" + slug;
   const found = findSiteNode(pathname);
   if (!found) notFound();
-  return <SiteHub pathname={pathname} intro={found.node.description} checklist={["Préciser l’objectif de la mise en relation.", "Présenter les informations de manière vérifiable.", "Respecter le consentement et les préférences de contact."]} />;
+  return <SiteHub pathname={pathname} intro={found.node.description} />;
 }
