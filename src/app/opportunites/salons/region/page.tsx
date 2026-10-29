@@ -12,7 +12,10 @@ function formatDate(value: string) {
 }
 
 export default function Page() {
-  const regions = [...new Set(salonEvents.map((event) => event.region))].sort((a, b) => a.localeCompare(b, "fr"));
+  const todayParts = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Europe/Paris" }).formatToParts(new Date());
+  const today = `${todayParts.find((part) => part.type === "year")?.value}-${todayParts.find((part) => part.type === "month")?.value}-${todayParts.find((part) => part.type === "day")?.value}`;
+  const upcomingEvents = salonEvents.filter((event) => event.endDate ? event.endDate >= today : event.startDate >= today);
+  const regions = [...new Set(upcomingEvents.map((event) => event.region))].sort((a, b) => a.localeCompare(b, "fr"));
   return <main className="public-site concept-page">
     <PublicHeader />
     <section className="how-section concept-hero"><div>
@@ -23,7 +26,7 @@ export default function Page() {
     <section className="concept-principles">
       <span className="section-label">RÉGIONS RÉFÉRENCÉES</span><h2>Choisir un territoire</h2>
       <div className="results-list">{regions.map((region) => {
-        const events = salonEvents.filter((event) => event.region === region).sort((a, b) => a.startDate.localeCompare(b.startDate));
+        const events = upcomingEvents.filter((event) => event.region === region).sort((a, b) => a.startDate.localeCompare(b.startDate));
         return <article className="result-card" key={region}>
           <div className="result-main"><span className="result-category">{events.length} salon(s) référencé(s)</span><h3>{region}</h3>
             {events.map((event) => <p key={event.slug}><Link href={`/opportunites/salons/${event.slug}`}>{event.title}</Link> — {formatDate(event.startDate)} · {event.city}</p>)}
