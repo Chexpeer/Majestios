@@ -61,5 +61,6 @@ Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons,
 
 ### Validation
 - Les fichiers modifiés ont été relus via GitHub après écriture.
+- Vérification de cohérence complémentaire : le composant de navigation latérale doit être explicitement client pour utiliser `usePathname`; le flux global n’a pas besoin de variantes par rubrique.
 - La suite Vitest, ESLint, TypeScript et le build Next.js n’ont pas été exécutés dans cet environnement sur le dernier état. Ne pas considérer le lot comme techniquement validé tant que ces contrôles n’ont pas réussi.
 - Aucun déploiement Vercel n’a été déclenché volontairement.
