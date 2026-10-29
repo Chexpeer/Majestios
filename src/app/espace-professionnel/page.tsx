@@ -53,6 +53,6 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
       <p><Link className="search-submit concept-cta" href={backHref}>← Retour aux opportunités</Link></p>
       <p className="ticker-disclaimer">L’enregistrement dans un espace membre et le suivi de dossier ne sont pas encore activés. Aucune donnée n’a été sauvegardée par cette consultation.</p>
     </section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><Link href="/comprendre/faq">FAQ</Link><Link href="/mentions-legales">Mentions légales</Link></footer>
+    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><Link href="/comprendre/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></footer>
   </main>;
 }
