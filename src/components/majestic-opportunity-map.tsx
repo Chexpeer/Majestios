@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 const poles = [
-  { id: "entreprises", label: "Entreprises", detail: "Création · développement · reprise", href: "/opportunites/radar-entreprises", x: "50%", y: "8%", color: "mint", icon: "▥" },
+  { id: "entreprises", label: "Entreprises", detail: "Création · développement · reprise", href: "/business/intelligence-entreprises", x: "50%", y: "8%", color: "mint", icon: "▥" },
   { id: "public", label: "Marchés publics", detail: "Avis · consultations · marchés", href: "/opportunites/marches-publics", x: "17%", y: "29%", color: "violet", icon: "⌂" },
   { id: "prive", label: "Opportunités privées", detail: "Consultations · missions · partenariats", href: "/opportunites/marches-prives", x: "83%", y: "29%", color: "orange", icon: "↗" },
   { id: "sources", label: "Sources & veille", detail: "Données officielles · signaux marché", href: "/developpement-commercial", x: "13%", y: "67%", color: "blue", icon: "⌕" },
