@@ -65,12 +65,8 @@ export const siteTree: SiteNode[] = [
       { label: "Après un résultat", href: "/developpement-commercial/accompagnement-appels-offres/apres-un-resultat", description: "Capitaliser sur la décision et les retours." }
     ]}
   ]},
-  { label: "Réseaux", href: "/reseaux", description: "Développer des relations professionnelles utiles autour des compétences, des événements et des opportunités.", children: [
+  { label: "Réseaux", href: "/reseaux", description: "Développer des relations professionnelles utiles et des complémentarités entre acteurs.", children: [
     { label: "Annuaire professionnel", href: "/reseaux/annuaire", description: "Consulter les profils disponibles lorsque l’annuaire sera ouvert." },
-    { label: "Événements professionnels", href: "/reseaux/evenements", description: "Relier les rendez-vous professionnels à des objectifs et des contacts pertinents." },
-    { label: "Événements d’entreprise", href: "/reseaux/evenements-entreprise", description: "Identifier les événements organisés par les entreprises et les occasions de prise de contact." },
-    { label: "Rencontres d’affaires", href: "/reseaux/rencontres-affaires", description: "Favoriser des échanges professionnels contextualisés plutôt qu’une accumulation de contacts." },
-    { label: "Proposer un événement", href: "/reseaux/proposer-evenement", description: "Soumettre un événement à vérification avant toute diffusion." },
     { label: "Rejoindre le réseau", href: "/reseaux/rejoindre", description: "Découvrir comment contribuer au réseau." }
   ]},
   { label: "Comprendre", href: "/comprendre", description: "Comprendre le concept, les termes et les parcours MajestiOS.", children: [
