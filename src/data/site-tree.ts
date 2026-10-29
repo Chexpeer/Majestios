@@ -37,7 +37,7 @@ export const siteTree: SiteNode[] = [
       { label: "Créations et implantations", href: "/business/creations-implantations", description: "Repérer les créations et nouvelles implantations vérifiées." },
       { label: "Évolutions d’activité", href: "/business/evolutions-activite", description: "Étudier les changements susceptibles d’éclairer une action commerciale." }
     ]},
-    { label: "Veille BODACC", href: "/business/radar-bodacc", description: "Explorer les publications BODACC et leurs limites." },
+    { label: "Veille BODACC", href: "/business/veille-bodacc", description: "Explorer les publications BODACC et leurs limites." },
     { label: "Achat et cession", href: "/business/achat-cession", description: "Préparer un projet de reprise ou de transmission.", children: [
       { label: "Acheter", href: "/business/achat-cession/acheter", description: "Structurer un projet de reprise." },
       { label: "Vendre", href: "/business/achat-cession/vendre", description: "Préparer une cession." },
