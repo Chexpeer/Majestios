@@ -67,6 +67,7 @@ export const siteTree: SiteNode[] = [
   ]},
   { label: "Réseaux", href: "/reseaux", description: "Développer des relations professionnelles utiles et des complémentarités entre acteurs.", children: [
     { label: "Annuaire professionnel", href: "/reseaux/annuaire", description: "Consulter les profils lorsque l’annuaire sera ouvert.", status: "preparing" },
+    { label: "Nous rejoindre", href: "/nous-rejoindre", description: "Découvrir les possibilités de contribution à MajestiOS." },
     { label: "Rejoindre le réseau", href: "/reseaux/rejoindre", description: "Découvrir comment contribuer au réseau." }
   ]},
   { label: "Comprendre", href: "/comprendre", description: "Comprendre le concept, les termes et les parcours MajestiOS.", children: [
