@@ -97,4 +97,52 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     checks: ["Résultat et motifs de décision disponibles", "Écarts entre l’offre, les critères et la concurrence si l’information est accessible", "Actions de suivi, de recours éventuel ou de capitalisation"],
     next: "Ne pas déduire de motifs non communiqués. Enregistrer les faits connus, les questions ouvertes et les améliorations à tester au prochain dossier."
   }
+  "/business/veille-bodacc": {
+    title: "Exploiter les signaux du BODACC avec méthode",
+    purpose: "Les annonces du BODACC peuvent signaler une création, une cession ou une évolution juridique. Elles servent à repérer un contexte à examiner, mais ne prouvent pas à elles seules l’existence d’un besoin commercial.",
+    checks: ["Nature exacte de l’annonce et date de publication", "Entreprise concernée, établissement et activité réellement visés", "Recoupement avec des sources récentes et pertinentes pour l’offre proposée"],
+    next: "Documenter le signal et son origine, vérifier qu’il est toujours pertinent, puis décider si une prise de contact professionnelle est justifiée. Ne pas présenter une hypothèse comme un fait établi."
+  },
+  "/business/creations-implantations": {
+    title: "Repérer les créations et nouvelles implantations",
+    purpose: "Une création ou une implantation peut générer des besoins en équipements, services, travaux ou recrutement. Le besoin doit toutefois être qualifié selon l’activité, le calendrier et les informations réellement disponibles.",
+    checks: ["Date, localisation et nature de l’événement", "Activité de l’entreprise et stade probable du projet", "Adéquation entre le signal et une offre que l’entreprise peut effectivement fournir"],
+    next: "Croiser les informations, préciser le motif de contact et privilégier une approche utile au contexte de l’entreprise plutôt qu’une sollicitation générique."
+  },
+  "/business/evolutions-activite": {
+    title: "Qualifier une évolution d’activité",
+    purpose: "Une évolution d’activité, un changement d’adresse ou une extension peut constituer un signal commercial. Sa valeur dépend de la fraîcheur de l’information, de sa fiabilité et de son lien avec une proposition concrète.",
+    checks: ["Évolution observée, date et source", "Périmètre concerné : entreprise, établissement ou activité", "Hypothèse de besoin formulée et éléments qui la soutiennent"],
+    next: "Séparer les faits des interprétations et ne contacter l’entreprise que si le signal peut être relié à une proposition pertinente et vérifiable."
+  },
+  "/business/intelligence-entreprises": {
+    title: "Construire une lecture commerciale d’une entreprise",
+    purpose: "L’intelligence entreprises rapproche des données de contexte pour mieux choisir qui contacter, quand et pour quelle raison. Elle ne doit ni fabriquer des besoins ni remplacer la qualification humaine.",
+    checks: ["Identité et activité de l’entreprise", "Signaux datés, sources et niveau de confiance", "Lien explicite entre les informations collectées et la proposition commerciale"],
+    next: "Conserver la provenance de chaque signal important, réviser les hypothèses quand de nouvelles informations apparaissent et respecter les règles applicables à l’utilisation des données."
+  },
+  "/opportunites/emploi/offres": {
+    title: "Évaluer une offre d’emploi avant de candidater",
+    purpose: "Une offre doit être examinée à partir de son émetteur, de son contenu et de sa date. La présence d’une annonce dans une veille ne signifie pas que le poste est encore ouvert ni que MajestiOS transmet déjà des candidatures.",
+    checks: ["Employeur et source d’origine identifiables", "Missions, compétences, lieu et conditions annoncées", "Date de publication et moyen de candidature encore valide"],
+    next: "Confirmer l’offre auprès de sa source d’origine et préparer une candidature adaptée. Le dépôt de CV via MajestiOS ne doit être annoncé comme actif que lorsqu’un parcours sécurisé est opérationnel."
+  },
+  "/opportunites/emploi/missions": {
+    title: "Qualifier une mission professionnelle",
+    purpose: "Une mission se qualifie par son périmètre, ses livrables, son calendrier et les conditions de réalisation. Un intitulé seul ne permet pas de conclure à sa compatibilité avec un profil.",
+    checks: ["Résultat attendu, livrables et responsabilités", "Durée, lieu, disponibilité et modalités contractuelles", "Identité du donneur d’ordre et conditions de rémunération"],
+    next: "Clarifier les points manquants avant de s’engager et vérifier les conditions auprès de l’émetteur. Une mise en relation n’est effective que si elle est explicitement organisée."
+  },
+  "/opportunites/marches-prives/deposer": {
+    title: "Préparer le dépôt d’une opportunité privée",
+    purpose: "Une annonce privée n’est utile que si le besoin est réel, l’émetteur identifiable et la diffusion autorisée. La modération et la protection des informations confidentielles sont indispensables.",
+    checks: ["Identité et qualité du déposant", "Description du besoin, secteur, zone et échéance", "Autorisation de publication et niveau d’information pouvant être rendu public"],
+    next: "Préparer les éléments vérifiables sans publier de coordonnées ou de pièces confidentielles non nécessaires. Le dépôt ne vaut pas publication tant que le formulaire et la modération ne sont pas opérationnels."
+  },
+  "/opportunites/marches-publics/departement": {
+    title: "Filtrer les marchés par zone géographique",
+    purpose: "Le département peut aider à réduire le volume de consultations, mais il faut distinguer le lieu d’exécution, le siège de l’acheteur et les zones couvertes par le marché.",
+    checks: ["Département et lieu réel d’exécution", "Éventuels lots ou interventions multi-départementales", "Capacité logistique et conditions de déplacement de l’entreprise"],
+    next: "Vérifier le lieu d’exécution dans le dossier officiel. Le filtre géographique ne doit être considéré comme fiable que si les données de localisation sont correctement normalisées."
+  }
 };
