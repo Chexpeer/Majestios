@@ -12,6 +12,8 @@ export default function CreatePersonalSpacePage() {
   const [submitted, setSubmitted] = useState(false);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    // Le formulaire se synchronise une seule fois avec les paramètres du parcours entrant.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIntention(params.get("intention") || "espace");
     setTitle((params.get("titre") || "").slice(0, 180));
     setSource((params.get("source") || "").slice(0, 80));
