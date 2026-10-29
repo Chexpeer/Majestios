@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readdirSync, statSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
-import { flattenSiteTree, siteTree } from "./site-tree";
+import { flattenSiteTree } from "./site-tree";
 
 const appDirectory = resolve(process.cwd(), "src/app");
 
