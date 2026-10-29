@@ -344,4 +344,55 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     ],
     next: "Comparez les événements régionaux retenus, vérifiez les informations à jour et définissez à l’avance les contacts ou résultats qui justifieraient la participation."
   },
+
+  "/business/achat-cession/acheter": {
+    title: "Préparer la reprise d’une entreprise",
+    purpose: "Un projet de reprise exige d’évaluer la cohérence stratégique, la situation économique, les risques et les conditions de transmission avant tout engagement.",
+    checks: [
+      "Définir le périmètre recherché, le secteur, le territoire et les critères de taille",
+      "Examiner les informations financières, juridiques et opérationnelles disponibles avec les professionnels compétents",
+      "Identifier les conditions suspensives, besoins de financement et risques à approfondir"
+    ],
+    next: "Formalisez les critères de reprise puis organisez une analyse documentée avec les conseils adaptés. Une annonce ou un signal de cession ne constitue ni une validation de la valeur ni une garantie de viabilité."
+  },
+  "/business/achat-cession/vendre": {
+    title: "Préparer la cession d’une entreprise",
+    purpose: "La préparation d’une cession vise à clarifier le projet, fiabiliser les informations de l’entreprise et organiser un processus maîtrisé, dans le respect de la confidentialité.",
+    checks: [
+      "Préciser le périmètre de cession, les actifs concernés et les objectifs du dirigeant",
+      "Rassembler les données financières, contrats et éléments opérationnels à faire vérifier",
+      "Définir les règles de confidentialité et le niveau d’information à partager à chaque étape"
+    ],
+    next: "Préparez un dossier cohérent et faites évaluer les aspects financiers, juridiques et fiscaux par des professionnels qualifiés avant de solliciter des repreneurs."
+  },
+  "/business/achat-cession/evaluer-une-entreprise": {
+    title: "Structurer l’évaluation d’une entreprise",
+    purpose: "L’évaluation d’une entreprise repose sur plusieurs méthodes et sur la qualité des données disponibles. Un indicateur isolé ou une estimation automatique ne remplace pas une analyse contextualisée.",
+    checks: [
+      "Examiner les résultats, la trésorerie, l’endettement et les éléments exceptionnels",
+      "Comparer les méthodes adaptées à l’activité, aux perspectives et aux actifs",
+      "Documenter les hypothèses, la date des données et les limites de l’estimation"
+    ],
+    next: "Utilisez une première analyse pour préparer les questions à approfondir, puis faites confirmer toute valorisation importante par un professionnel compétent."
+  },
+  "/business/diagnostic": {
+    title: "Établir un diagnostic commercial et économique",
+    purpose: "Un diagnostic utile rapproche la situation documentée de l’entreprise, ses objectifs et ses contraintes afin de hiérarchiser des actions réalistes plutôt que d’accumuler des constats génériques.",
+    checks: [
+      "Rassembler les indicateurs de départ et préciser leur période et leur source",
+      "Identifier les forces, contraintes et points à confirmer auprès des responsables",
+      "Relier chaque priorité proposée à un objectif mesurable et à un responsable"
+    ],
+    next: "Transformez les constats vérifiés en plan d’action priorisé, puis fixez un calendrier de suivi et des critères permettant d’évaluer les résultats."
+  },
+  "/reseaux/annuaire": {
+    title: "Évaluer la fiabilité d’un annuaire professionnel",
+    purpose: "Un annuaire n’est utile que si les profils sont attribués, les compétences contextualisées et la visibilité choisie par les professionnels respectée. Le nombre de fiches ne suffit pas à mesurer sa qualité.",
+    checks: [
+      "Distinguer les informations déclarées des qualifications ou références vérifiées",
+      "Vérifier la date de mise à jour et la provenance des informations affichées",
+      "Respecter les choix de visibilité, les préférences de contact et les demandes de correction"
+    ],
+    next: "Tant que l’annuaire interactif n’est pas ouvert, utilisez cette page comme référentiel de qualité et ne supposez pas que des profils ou coordonnées sont consultables."
+  },
 };
