@@ -14,6 +14,7 @@ type SearchParams = Promise<{
   q?: string;
   location?: string;
   type?: string;
+  openOnly?: string;
 }>;
 
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
