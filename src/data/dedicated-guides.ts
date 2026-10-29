@@ -103,13 +103,13 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
     checks: ["Nature exacte de l’annonce et date de publication", "Entreprise concernée, établissement et activité réellement visés", "Recoupement avec des sources récentes et pertinentes pour l’offre proposée"],
     next: "Documenter le signal et son origine, vérifier qu’il est toujours pertinent, puis décider si une prise de contact professionnelle est justifiée. Ne pas présenter une hypothèse comme un fait établi."
   },
-  "/business/creations-implantations": {
+  "/business/intelligence-entreprises/creations-implantations": {
     title: "Repérer les créations et nouvelles implantations",
     purpose: "Une création ou une implantation peut générer des besoins en équipements, services, travaux ou recrutement. Le besoin doit toutefois être qualifié selon l’activité, le calendrier et les informations réellement disponibles.",
     checks: ["Date, localisation et nature de l’événement", "Activité de l’entreprise et stade probable du projet", "Adéquation entre le signal et une offre que l’entreprise peut effectivement fournir"],
     next: "Croiser les informations, préciser le motif de contact et privilégier une approche utile au contexte de l’entreprise plutôt qu’une sollicitation générique."
   },
-  "/business/evolutions-activite": {
+  "/business/intelligence-entreprises/evolutions-activite": {
     title: "Qualifier une évolution d’activité",
     purpose: "Une évolution d’activité, un changement d’adresse ou une extension peut constituer un signal commercial. Sa valeur dépend de la fraîcheur de l’information, de sa fiabilité et de son lien avec une proposition concrète.",
     checks: ["Évolution observée, date et source", "Périmètre concerné : entreprise, établissement ou activité", "Hypothèse de besoin formulée et éléments qui la soutiennent"],
