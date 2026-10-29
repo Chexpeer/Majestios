@@ -17,7 +17,13 @@ export default function HomePage() {
         <div className="home-intro-copy">
           <span className="eyebrow"><i /> INTELLIGENCE COMMERCIALE PROACTIVE</span>
           <h1>Les opportunités ne se trouvent pas toutes au même endroit<span>.</span></h1>
-          <p>MajestiOS organise la veille, la qualification et la prospection dans un parcours lisible. Choisissez un pôle, approfondissez votre recherche, puis préparez une action commerciale pertinente.</p>
+          <p>MajestiOS organise la veille, la qualification et la prospection dans un parcours lisible. Recherchez d’abord les appels d’offres publics, puis approfondissez les autres opportunités selon votre activité.</p>
+          <form className="tender-search home-tender-search" action="/opportunites/marches-publics" method="get" aria-label="Recherche rapide d’appels d’offres publics">
+            <label className="search-field"><span>Mots-clés</span><input name="q" placeholder="Nettoyage, travaux, informatique…" maxLength={160} /></label>
+            <label className="search-field"><span>Département</span><input name="location" placeholder="Ex. : 68" maxLength={3} inputMode="numeric" /></label>
+            <label className="search-field"><span>Catégorie</span><select name="type" defaultValue="all"><option value="all">Toutes</option><option value="Travaux">Travaux</option><option value="Services">Services</option><option value="Fournitures">Fournitures</option></select></label>
+            <button className="search-submit" type="submit">Rechercher <span aria-hidden="true">↗</span></button>
+          </form>
           <div className="hero-actions">
             <Link className="button-primary" href="/opportunites">Explorer les opportunités <span>↗</span></Link>
             <Link className="button-secondary" href="/comment-et-pourquoi">Comprendre la démarche</Link>
