@@ -183,11 +183,94 @@ const editorialPages: Record<string, EditorialPage> = {
   }
 };
 
+function buildContextualEditorial(
+  pathname: string,
+  node: { label: string; description: string; href: string },
+  ancestors: Array<{ label: string; href: string }>
+): EditorialPage {
+  const parent = ancestors.at(-1);
+  const parentLabel = parent?.label ?? "MajestiOS";
+  const root = ancestors[0]?.href ?? pathname;
+  const siblingHint = parent ? `Cette page s’inscrit dans « ${parentLabel} » et complète les autres parcours de cette rubrique.` : "Cette rubrique relie les principales fonctions de MajestiOS.";
+  const domain =
+    pathname.startsWith("/opportunites/marches-publics") ? "public" :
+    pathname.startsWith("/opportunites/marches-prives") ? "private" :
+    pathname.startsWith("/opportunites/salons") ? "salons" :
+    pathname.startsWith("/opportunites/emploi") ? "emploi" :
+    pathname.startsWith("/opportunites/radar-entreprises") ? "radar" :
+    pathname.startsWith("/business/achat-cession") ? "cession" :
+    pathname.startsWith("/business") ? "business" :
+    pathname.startsWith("/developpement-commercial/etudes-de-marche") ? "etude" :
+    pathname.startsWith("/developpement-commercial/e-reputation") ? "reputation" :
+    pathname.startsWith("/reseaux") ? "reseau" :
+    pathname.startsWith("/comprendre") ? "comprendre" : "general";
+
+  const guidance: Record<string, { lead: string; first: string; second: string; third: string }> = {
+    public: {
+      lead: `${node.description} Cette page aide à préciser la recherche avant d’examiner le dossier de consultation original.`,
+      first: "Affiner la recherche", second: "Contrôler les pièces officielles", third: "Relier le marché aux besoins connexes"
+    },
+    private: {
+      lead: `${node.description} Les informations publiées doivent être autorisées, actuelles et suffisamment documentées avant toute prise de contact.`,
+      first: "Définir le besoin recherché", second: "Vérifier l’émetteur et les conditions de diffusion", third: "Préparer une démarche de positionnement"
+    },
+    salons: {
+      lead: `${node.description} L’objectif est de transformer un rendez-vous professionnel en occasion de veille et de réseautage préparée.`,
+      first: "Vérifier les informations de l’organisateur", second: "Préparer les rencontres utiles", third: "Organiser le suivi après l’événement"
+    },
+    emploi: {
+      lead: `${node.description} Les offres et missions doivent être distinguées des pistes de recrutement encore en préparation.`,
+      first: "Préciser le métier et les conditions", second: "Vérifier l’origine et l’actualité de l’offre", third: "Préparer une candidature ou une mission"
+    },
+    radar: {
+      lead: `${node.description} Un signal d’entreprise est un point de départ à vérifier, pas une preuve automatique de besoin ou d’intention d’achat.`,
+      first: "Identifier le signal et sa source", second: "Recouper le contexte de l’entreprise", third: "Formuler une hypothèse commerciale vérifiable"
+    },
+    cession: {
+      lead: `${node.description} Une opération de reprise ou de transmission demande de clarifier le projet, les informations disponibles et les vérifications à effectuer.`,
+      first: "Définir le projet et son périmètre", second: "Réunir les informations à vérifier", third: "Préparer les prochaines étapes avec les bons interlocuteurs"
+    },
+    business: {
+      lead: `${node.description} Les informations administratives ou économiques doivent être datées, sourcées et séparées des interprétations commerciales.`,
+      first: "Décrire le fait observé", second: "Vérifier la source et la date", third: "Évaluer les suites pertinentes sans supposer un besoin"
+    },
+    etude: {
+      lead: `${node.description} Cette étape contribue à une étude exploitable en reliant une question de marché à des sources identifiables et à une méthode explicite.`,
+      first: "Définir le périmètre de l’étude", second: "Croiser les sources pertinentes", third: "Documenter les limites et les conclusions"
+    },
+    reputation: {
+      lead: `${node.description} Le suivi de l’e-réputation doit s’appuyer sur des avis accessibles, un contexte vérifié et des réponses proportionnées.`,
+      first: "Qualifier l’avis et son contexte", second: "Répondre de façon factuelle et professionnelle", third: "Suivre les tendances sans surinterpréter un avis isolé"
+    },
+    reseau: {
+      lead: `${node.description} Le réseautage intelligent vise des rapprochements utiles entre compétences, besoins et opportunités, dans le respect du choix des personnes.`,
+      first: "Préciser la complémentarité recherchée", second: "Vérifier les informations de profil ou d’événement", third: "Proposer une mise en relation claire et consentie"
+    },
+    comprendre: {
+      lead: `${node.description} Cette rubrique explique les principes, les termes et les limites de MajestiOS pour permettre une utilisation éclairée.`,
+      first: "Comprendre la méthode", second: "Distinguer vision, fonction active et fonction en préparation", third: "Revenir aux rubriques métier pour appliquer ces repères"
+    },
+    general: {
+      lead: `${node.description} Cette page est un point d’entrée dédié dans le parcours commercial MajestiOS.`,
+      first: "Clarifier l’objectif de la démarche", second: "Consulter les informations et sources disponibles", third: "Choisir la prochaine action adaptée"
+    }
+  };
+  const selected = guidance[domain];
+  return {
+    lead: selected.lead,
+    sections: [
+      { title: selected.first, body: `Commencez par préciser ce que vous cherchez dans « ${node.label} », le territoire ou le contexte concerné, ainsi que la décision à prendre. Ne retenez que les informations nécessaires à cette démarche.` },
+      { title: selected.second, body: `Avant d’agir, contrôlez la source, la date, le périmètre et les éventuelles conditions d’utilisation. Distinguez explicitement les faits constatés, les estimations et les hypothèses. Les fonctions non activées ne doivent pas être présentées comme des services disponibles.` },
+      { title: selected.third, body: `${siblingHint} Le parcours doit ensuite conduire vers une action concrète et traçable : approfondir une opportunité, consulter une ressource, préparer un contact ou rejoindre l’espace professionnel si cela est pertinent.` }
+    ]
+  };
+}
+
 export default function SiteHub({ pathname, title, intro, eyebrow = "EXPLORER MAJESTIOS", checklist = [] }: { pathname: string; title?: string; intro?: string; eyebrow?: string; checklist?: string[] }) {
   const found = findSiteNode(pathname);
   const node = found?.node;
   const children = node?.children ?? [];
-  const editorial = editorialPages[pathname];
+  const editorial = editorialPages[pathname] ?? (node ? buildContextualEditorial(pathname, node, found?.ancestors ?? []) : undefined);
   const siblings = found ? (found.ancestors.length ? found.ancestors[found.ancestors.length - 1]?.children?.filter((item) => item.href !== pathname) ?? [] : siteTree.filter((item) => item.href !== pathname && item.href !== "/")) : [];
   const related = siblings.length ? siblings.slice(0, 4) : flattenSiteTree().filter((item) => item.href !== pathname && item.href !== "/" && !item.children?.length).slice(0, 4);
   const pageTitle = node?.label ?? title ?? "Explorer MajestiOS";
