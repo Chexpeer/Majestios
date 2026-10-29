@@ -72,3 +72,7 @@ Poursuivre par domaines, dans cet ordre : Opportunités (public, privé, salons,
 - Ajout de liens croisés vers achat/cession, radar entreprises, étude de marché, prospection et réseaux.
 - Le lien FAQ utilise la route canonique `/comprendre/faq`; les liens de confidentialité et mentions légales sont accessibles depuis le pied de page.
 - Un test de régression vérifie les liens et l’absence de l’ancienne route FAQ dans ce parcours.
+
+- Navigation étendue à la coquille racine Next.js : le menu latéral et le flux sont montés une seule fois au niveau global. Les anciens appels à `PublicHeader` dans les pages sont neutralisés par un contexte, pour éviter les doublons tout en couvrant les routes qui n’utilisaient pas encore l’en-tête partagé.
+- Le contenu global réserve la largeur de la navigation sur ordinateur et repasse à une disposition sans colonne latérale sur mobile.
+- Test statique ajouté pour vérifier le montage global et la neutralisation des en-têtes redondants.
