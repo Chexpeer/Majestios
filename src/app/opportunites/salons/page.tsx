@@ -12,7 +12,8 @@ function formatDate(value: string) {
 }
 
 export default function Page() {
-  const today = "2026-10-29";
+  const todayParts = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Europe/Paris" }).formatToParts(new Date());
+  const today = `${todayParts.find((part) => part.type === "year")?.value}-${todayParts.find((part) => part.type === "month")?.value}-${todayParts.find((part) => part.type === "day")?.value}`;
   const nextEvents = [...salonEvents].filter((event) => event.endDate ? event.endDate >= today : event.startDate >= today).sort((a, b) => a.startDate.localeCompare(b.startDate)).slice(0, 3);
   return <main className="public-site concept-page">
     <PublicHeader />
