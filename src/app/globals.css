@@ -1093,6 +1093,8 @@ body { background: var(--paper); color: var(--ink); }
 .page-hero-meta { display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:24px; color:var(--muted); font-size:11px; }
 .status-chip { display:inline-flex; align-items:center; gap:7px; padding:7px 10px; border-radius:99px; background:#e9eee4; color:var(--teal-dark); font-weight:800; }
 .status-chip i { width:6px; height:6px; border-radius:50%; background:var(--gold); }
+.status-chip-preparing { background:#fff2d8; color:#7b5414; }
+.status-chip-preparing i { background:#c58b2a; }
 .hub-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
 .hub-card { display:flex; flex-direction:column; min-height:225px; padding:20px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .18s,border-color .18s,box-shadow .18s; }
 .hub-card:hover { transform:translateY(-3px); border-color:#b5c5a8; box-shadow:var(--shadow); }
