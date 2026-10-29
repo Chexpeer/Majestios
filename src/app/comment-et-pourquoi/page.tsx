@@ -15,15 +15,17 @@ export default function ConceptPage() {
         <div>
           <span className="section-label">LE CONCEPT MAJESTIOS</span>
           <h1>Comment et pourquoi <em>MajestiOS</em> ?</h1>
-          <p>Une opportunité ne se limite pas à une annonce. Il faut la repérer, comprendre l’entreprise concernée, identifier les bons interlocuteurs, décider de la suite et conserver les connaissances acquises.</p>
+          <p>Une opportunité ne se limite pas à une annonce. MajestiOS organise un parcours progressif : détecter le signal, qualifier sa pertinence, identifier les acteurs concernés, préparer le contact, transformer l’échange en action utile et capitaliser sur les enseignements.</p>
         </div>
       </section>
 
-      <section className="concept-grid" aria-label="Les étapes du concept MajestiOS">
-        <article><span>01</span><h2>Détecter</h2><p>Rassembler les opportunités pertinentes à partir de sources identifiées, publiques ou privées lorsque leur diffusion est autorisée.</p></article>
-        <article><span>02</span><h2>Comprendre</h2><p>Qualifier l’opportunité et son contexte, étudier le marché et identifier les entreprises susceptibles d’être concernées.</p></article>
-        <article><span>03</span><h2>Agir</h2><p>Préparer les démarches commerciales et organiser les prochaines actions avec méthode.</p></article>
-        <article><span>04</span><h2>Capitaliser</h2><p>Conserver les informations utiles et l’historique dans une mémoire d’entreprise structurée, avec des accès maîtrisés.</p></article>
+      <section className="concept-grid" aria-label="Les six étapes du parcours MajestiOS">
+        <article><span>01</span><h2>Détecter</h2><p>Repérer les appels d’offres, événements, signaux économiques et autres occasions issues de sources identifiées.</p></article>
+        <article><span>02</span><h2>Qualifier</h2><p>Vérifier la source, l’actualité, les conditions et l’adéquation de l’opportunité avec le profil de l’entreprise.</p></article>
+        <article><span>03</span><h2>Identifier</h2><p>Déterminer les entreprises, décideurs ou compétences pertinentes à partir d’informations recoupées.</p></article>
+        <article><span>04</span><h2>Contacter</h2><p>Préparer une prise de contact contextualisée, utile et respectueuse des règles applicables.</p></article>
+        <article><span>05</span><h2>Transformer</h2><p>Faire progresser l’opportunité vers un échange, une proposition, une candidature ou une coopération concrète.</p></article>
+        <article><span>06</span><h2>Capitaliser</h2><p>Conserver les résultats, les décisions et les enseignements afin d’améliorer les démarches suivantes.</p></article>
       </section>
 
       <section className="concept-principles">
