@@ -190,9 +190,9 @@ function buildContextualEditorial(
 ): EditorialPage {
   const parent = ancestors.at(-1);
   const parentLabel = parent?.label ?? "MajestiOS";
-  const root = ancestors[0]?.href ?? pathname;
   const siblingHint = parent ? `Cette page s’inscrit dans « ${parentLabel} » et complète les autres parcours de cette rubrique.` : "Cette rubrique relie les principales fonctions de MajestiOS.";
   const domain =
+    pathname === "/opportunites" ? "opportunites" :
     pathname.startsWith("/opportunites/marches-publics") ? "public" :
     pathname.startsWith("/opportunites/marches-prives") ? "private" :
     pathname.startsWith("/opportunites/salons") ? "salons" :
@@ -206,6 +206,10 @@ function buildContextualEditorial(
     pathname.startsWith("/comprendre") ? "comprendre" : "general";
 
   const guidance: Record<string, { lead: string; first: string; second: string; third: string }> = {
+    opportunites: {
+      lead: "Explorez les marchés publics et privés, les salons professionnels, les offres d’emploi et les signaux d’entreprise depuis un point d’entrée commun. Chaque piste doit être qualifiée avant de devenir une action commerciale.",
+      first: "Choisir le type d’opportunité", second: "Filtrer et vérifier les informations", third: "Relier l’opportunité aux autres rubriques MajestiOS"
+    },
     public: {
       lead: `${node.description} Cette page aide à préciser la recherche avant d’examiner le dossier de consultation original.`,
       first: "Affiner la recherche", second: "Contrôler les pièces officielles", third: "Relier le marché aux besoins connexes"
