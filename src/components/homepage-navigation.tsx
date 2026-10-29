@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { siteTree } from "@/data/site-tree";
 
 const visibleItems = siteTree.filter((item) =>
@@ -21,7 +21,6 @@ export default function HomepageNavigation() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => setMobileOpen(false), [pathname]);
 
   return (
     <>
@@ -30,7 +29,7 @@ export default function HomepageNavigation() {
       </button>
       {mobileOpen ? <button type="button" className="home-mobile-menu-backdrop" aria-label="Fermer le menu" onClick={() => setMobileOpen(false)} /> : null}
     <aside id="majestic-primary-navigation" className={`home-sidebar${mobileOpen ? " is-mobile-open" : ""}`}>
-      <Link href="/" className="home-sidebar-brand" aria-label="MajestiOS — accueil">
+      <Link href="/" onClick={() => setMobileOpen(false)} className="home-sidebar-brand" aria-label="MajestiOS — accueil">
         <span className="home-sidebar-mark">M<span>✦</span></span>
         <span><strong>MajestiOS</strong><small>INTELLIGENCE COMMERCIALE</small></span>
       </Link>
@@ -49,11 +48,12 @@ export default function HomepageNavigation() {
                   <span className="home-sidebar-chevron" aria-hidden="true">⌄</span>
                 </summary>
                 <div className="home-sidebar-dropdown-content">
-                  <Link href={item.href} className="home-sidebar-overview">Vue d’ensemble</Link>
+                  <Link href={item.href} onClick={() => setMobileOpen(false)} className="home-sidebar-overview">Vue d’ensemble</Link>
                   {children.map((child) => (
                     <Link
                       key={child.href}
                       href={child.href}
+                      onClick={() => setMobileOpen(false)}
                       className={pathname === child.href || pathname.startsWith(child.href + "/") ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
                     >
                       {child.label}{child.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
@@ -66,8 +66,8 @@ export default function HomepageNavigation() {
         })}
       </nav>
       <div className="home-sidebar-bottom">
-        <Link href="/espace-professionnel">Espace professionnel <span aria-hidden="true">↗</span></Link>
-        <Link href="/faq">Aide & FAQ</Link>
+        <Link href="/espace-professionnel" onClick={() => setMobileOpen(false)}>Espace professionnel <span aria-hidden="true">↗</span></Link>
+        <Link href="/faq" onClick={() => setMobileOpen(false)}>Aide & FAQ</Link>
         <small>Détecter · Qualifier · Transformer</small>
       </div>
     </aside>
