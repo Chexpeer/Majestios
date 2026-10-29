@@ -207,10 +207,11 @@ describe("architecture de navigation MajestiOS", () => {
     expect(broken, "Chaque rubrique doit être reliée à ses parents, à ses voisines et à des destinations existantes").toEqual([]);
   });
 
-  it("routes all resource cards to the common construction page", () => {
+  it("routes each resource card to its declared destination and uses its action label", () => {
     const cards = readFileSync(join(sourceRoot, "components", "resource-cards.tsx"), "utf8");
-    expect(cards).toContain('href={"/article-en-construction?"');
-    expect(cards).toContain("Article en construction");
+    expect(cards).toContain("href={card.href}");
+    expect(cards).toContain("{card.action}");
+    expect(cards).not.toContain('href={"/article-en-construction?"');
   });
 
   it("keeps common ticker announcements clickable while the ticker container stays visually unobtrusive", () => {
