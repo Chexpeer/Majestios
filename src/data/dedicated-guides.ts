@@ -323,8 +323,7 @@ export const dedicatedGuides: Record<string, DetailGuide> = {
       "Respecter le consentement, la confidentialité et les préférences de contact"
     ],
     "next": "Consultez les informations pour rejoindre le réseau et vérifiez l’état du parcours. L’annuaire est signalé comme en préparation : ne supposez pas qu’un répertoire public ou un service d’introduction est déjà ouvert."
-  }
-
+  },
   "/opportunites/salons/secteur": {
     title: "Qualifier les salons par secteur professionnel",
     purpose: "Le classement par secteur sert à repérer les événements susceptibles de réunir des clients, donneurs d’ordre ou partenaires pertinents. Il ne suffit pas à garantir la présence d’un public cible ni l’intérêt commercial d’une participation.",
