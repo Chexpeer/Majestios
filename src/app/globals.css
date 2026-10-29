@@ -1695,3 +1695,5 @@ body { background: var(--paper); color: var(--ink); }
 @media(prefers-reduced-motion:reduce) {
   .maj-snowflake .snowflake-arm,.maj-snowflake .snowflake-twig,.maj-snowflake .maj-map-node,.maj-map-branch-links a { transition:none; }
 }
+
+.maj-map-branch-status { display:inline-flex; flex:0 0 auto; padding:3px 5px; border:1px solid #7b6d4d; border-radius:4px; color:#f4dca7; font-size:8px; line-height:1.2; }
