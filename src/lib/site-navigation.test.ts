@@ -85,6 +85,29 @@ describe("architecture de navigation MajestiOS", () => {
     expect(broken, "Chaque lien interne littéral doit mener à une page ou une route API existante").toEqual([]);
   });
 
+  it("relie les parcours de recherche et de demande aux informations de confidentialité et aux mentions légales", () => {
+    const relevantFiles = [
+      join(sourceRoot, "components", "public-tenders-search.tsx"),
+      join(sourceRoot, "components", "private-tenders-search.tsx"),
+      join(sourceRoot, "components", "employment-opportunities.tsx"),
+      join(appRoot, "creer-espace", "page.tsx"),
+      join(appRoot, "appels-offres-publics", "[id]", "page.tsx"),
+      join(appRoot, "appels-offres-publics", "[id]", "repondre", "page.tsx"),
+      join(appRoot, "espace-professionnel", "page.tsx"),
+      join(appRoot, "nous-rejoindre", "page.tsx"),
+    ];
+
+    const missingLinks = relevantFiles.flatMap((filePath) => {
+      const source = readFileSync(filePath, "utf8");
+      return [
+        ...(!source.includes('href="/confidentialite"') ? [{ filePath, missing: "/confidentialite" }] : []),
+        ...(!source.includes('href="/mentions-legales"') ? [{ filePath, missing: "/mentions-legales" }] : []),
+      ];
+    });
+
+    expect(missingLinks, "Les parcours de recherche et de demande doivent offrir un accès aux informations légales").toEqual([]);
+  });
+
   it("préserve les filtres lors du passage des résultats à la fiche d’un marché public", () => {
     const searchSource = readFileSync(join(sourceRoot, "components", "public-tenders-search.tsx"), "utf8");
     const detailSource = readFileSync(join(appRoot, "appels-offres-publics", "[id]", "page.tsx"), "utf8");
