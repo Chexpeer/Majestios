@@ -29,12 +29,7 @@ export default function HomePage() {
           <p className="home-trust-note"><strong>La source avant l’affirmation.</strong> Les annonces et services non vérifiés ne sont pas présentés comme disponibles.</p>
         </div>
       </section>
-      <section className="home-map-section">
-        <div className="section-heading">
-          <span className="eyebrow">LE CARREFOUR MAJESTIOS</span>
-          <h2>Un point d’entrée. <em>Plusieurs chemins.</em></h2>
-          <p>Sélectionnez un pôle pour accéder à sa rubrique, puis progressez vers ses pages de détail.</p>
-        </div>
+      <section className="home-map-section" aria-label="Navigation interactive MajestiOS">
         <MajestiOSOpportunityMap />
       </section>
       <section className="home-process-strip" aria-label="Le parcours MajestiOS">
