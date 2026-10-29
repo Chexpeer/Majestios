@@ -103,7 +103,7 @@ export default function ResourceCards({ scope = "general" }: { scope?: ResourceS
             <div className="maj-resource-card-top"><span>{String(index + 1).padStart(2, "0")}</span><small>{card.kind}</small></div>
             <h3>{card.title}</h3>
             <p>{card.description}</p>
-            <Link href={"/article-en-construction?" + new URLSearchParams({ rubrique: scope, titre: card.title, retour: typeof window === "undefined" ? "/" : window.location.pathname }).toString()}>Article en construction <span aria-hidden="true"> ↗</span></Link>
+            <Link href={"/article-en-construction?" + new URLSearchParams({ rubrique: scope, titre: card.title, retour: scope }).toString()}>Article en construction <span aria-hidden="true"> ↗</span></Link>
           </article>
         ))}
       </div>
