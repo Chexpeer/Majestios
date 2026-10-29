@@ -100,3 +100,20 @@ La veille des appels d’offres publics constitue un candidat naturel, car un co
 - Les durées de conservation, les droits d’accès, les coûts et les conditions de réutilisation des sources devront être définis avant une exploitation réelle.
 - Aucune campagne commerciale ni action externe ne doit être déclenchée sur la seule base de cette spécification.
 - Le passage d’une règle à l’état « active » exige des tests et une preuve d’exécution documentée.
+
+
+## 10. Doctrine opérationnelle actualisée — 29 octobre 2026
+
+La doctrine de référence et la feuille de route consolidée sont désormais décrites dans [DOCTRINE_OPERATIONNELLE_FEUILLE_DE_ROUTE_V1.md](./DOCTRINE_OPERATIONNELLE_FEUILLE_DE_ROUTE_V1.md).
+
+Cette doctrine précise que BrainiOS est la mémoire économique, documentaire et opérationnelle transversale de MajestiOS. Elle doit relier les sources, les signaux économiques, les entreprises, les besoins, les métiers, les actions commerciales et les résultats.
+
+Points à intégrer dans toute évolution :
+- le BODACC est une source transversale pouvant servir plusieurs métiers, pas seulement la rubrique des opportunités privées ;
+- l'objectif des parcours appels d'offres est de donner aux entreprises des moyens concrets de renforcer leurs candidatures, pas seulement d'afficher des avis ;
+- les prises de contact, rendez-vous et mises en relation sont des résultats opérationnels à préparer et suivre, pas de simples promesses d'interface ;
+- les réussites et les échecs doivent pouvoir enrichir l'expérience, tout en distinguant faits, motifs connus, hypothèses et inconnues ;
+- l'autonomie se construit par étapes, avec permissions explicites, validation adaptée et journalisation ;
+- aucune fonction spécifiée ne doit être présentée comme déjà active sans preuve de fonctionnement.
+
+**Convention de nommage :** le nom produit à employer dans les textes est **BrainiOS**. Le répertoire technique reste `docs/brainios/` pour conserver une convention de chemin simple et stable.
