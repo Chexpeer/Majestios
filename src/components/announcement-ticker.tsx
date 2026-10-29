@@ -25,7 +25,7 @@ function formatEventDate(startDate: string, endDate?: string) {
 const flows: Flow[] = [
   { label: "Marchés publics", short: "PUBLIC", href: "/opportunites/marches-publics", state: "Aucune annonce vérifiée disponible actuellement.", direction: "left" },
   { label: "Opportunités privées", short: "PRIVÉ", href: "/opportunites/marches-prives", state: "Aucune annonce privée publiée pour le moment.", direction: "left" },
-  { label: "Salons professionnels", short: "SALONS", href: "/opportunites/salons", state: "Aucun prochain salon n’est encore publié. Le calendrier sera alimenté après vérification.", direction: "right" },
+  { label: "Salons professionnels", short: "SALONS", href: "/opportunites/salons", state: "Aucun salon à venir n’est actuellement référencé.", direction: "right" },
   { label: "Emploi & missions", short: "EMPLOI", href: "/opportunites/emploi", state: "Aucune offre publiée pour le moment.", direction: "right" }
 ];
 
@@ -44,9 +44,12 @@ function tenderHref(item: TenderItem) {
 
 export default function AnnouncementTicker() {
   const [tenders, setTenders] = useState<TenderItem[]>([]);
+  const [today, setToday] = useState("");
   const [tenderFeedState, setTenderFeedState] = useState<"loading" | "ready" | "unavailable">("loading");
 
   useEffect(() => {
+    const parts = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Europe/Paris" }).formatToParts(new Date());
+    setToday(`${parts.find((part) => part.type === "year")?.value}-${parts.find((part) => part.type === "month")?.value}-${parts.find((part) => part.type === "day")?.value}`);
     let active = true;
     fetch("/api/opportunities?limit=8&openOnly=true", { cache: "no-store" })
       .then(async (response) => {
@@ -59,12 +62,14 @@ export default function AnnouncementTicker() {
     return () => { active = false; };
   }, []);
 
+  const upcomingSalons = today ? salonEvents.filter((event) => event.endDate ? event.endDate >= today : event.startDate >= today) : salonEvents;
+
   return <section className="announcement-band" aria-label="Quatre flux d’opportunités">
     <div className="announcement-band-head"><span className="band-eyebrow">VEILLE EN MOUVEMENT</span><span className="band-note">Quatre portes d’entrée · annonces vérifiées uniquement</span></div>
     <div className="announcement-flows">
       {flows.map((flow) => {
         const hasTenders = flow.short === "PUBLIC" && tenders.length > 0;
-        const hasSalons = flow.short === "SALONS" && salonEvents.length > 0;
+        const hasSalons = flow.short === "SALONS" && upcomingSalons.length > 0;
         return <div className="announcement-flow" key={flow.short}>
           <Link className="announcement-flow-label" href={flow.href}><span>{flow.short}</span><strong>{flow.label}</strong><span aria-hidden="true">↗</span></Link>
           <div className="announcement-flow-track">
@@ -81,8 +86,8 @@ export default function AnnouncementTicker() {
                 </div>
               </div>
               : hasSalons ? <div className={`announcement-flow-marquee direction-${flow.direction}`} aria-label="Salons professionnels vérifiés">
-                <div className="announcement-flow-marquee-group">{salonEvents.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span>{formatEventDate(event.startDate, event.endDate)}</span><span aria-hidden="true">↗</span></Link>)}</div>
-                <div className="announcement-flow-marquee-group" aria-hidden="true">{salonEvents.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug} tabIndex={-1}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span>{formatEventDate(event.startDate, event.endDate)}</span><span aria-hidden="true">↗</span></Link>)}</div>
+                <div className="announcement-flow-marquee-group">{upcomingSalons.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span>{formatEventDate(event.startDate, event.endDate)}</span><span aria-hidden="true">↗</span></Link>)}</div>
+                <div className="announcement-flow-marquee-group" aria-hidden="true">{upcomingSalons.map((event) => <Link className="announcement-flow-item" href={`/opportunites/salons/${event.slug}`} key={event.slug} tabIndex={-1}><span className="flow-status-dot" /><strong>{event.title}</strong><span>{event.city}</span><span>{formatEventDate(event.startDate, event.endDate)}</span><span aria-hidden="true">↗</span></Link>)}</div>
               </div>
               : <div className="announcement-flow-message"><span className="flow-status-dot" />{flow.short === "PUBLIC" ? tenderFeedState === "loading" ? "Chargement des avis publics…" : tenderFeedState === "unavailable" ? "Flux temporairement indisponible : ouvrez la recherche dédiée." : "Aucun avis ouvert disponible dans le flux. Ouvrez la recherche dédiée." : flow.state}</div>}
           </div>
