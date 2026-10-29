@@ -1,19 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import PublicHeader from "@/components/public-header";
 
-export const metadata = {
-  title: "Merci — MajestiOS",
-  description: "Confirmation de préparation de votre parcours MajestiOS.",
-};
-
 export default function MerciPage() {
-  const params = useSearchParams();
-  const isPreparation = params.get("mode") === "preparation";
+  const [isPreparation, setIsPreparation] = useState(false);
   useEffect(() => {
+    setIsPreparation(new URLSearchParams(window.location.search).get("mode") === "preparation");
     const timer = window.setTimeout(() => { window.location.href = "/"; }, 7000);
     return () => window.clearTimeout(timer);
   }, []);
