@@ -12,6 +12,8 @@ export type SalonEvent = {
   endDate?: string;
   venue: string;
   city: string;
+  region: string;
+  sectors: string[];
   summary: string;
   officialUrl: string;
   registrationUrl?: string;
@@ -26,6 +28,8 @@ export const salonEvents: SalonEvent[] = [
     endDate: "2026-11-18",
     venue: "Parc Expo Mulhouse",
     city: "Mulhouse",
+    region: "Grand Est",
+    sectors: ["Industrie", "Innovation", "Technologies", "Performance industrielle"],
     summary: "Rendez-vous B2B des solutions industrielles : automatisation, IA, cybersécurité, équipements, performance et transition énergétique. L’organisateur annonce des rendez-vous d’affaires et une inscription visiteur gratuite.",
     officialUrl: "https://www.euroindustries.eu/fr",
     registrationUrl: "https://www.euroindustries.eu/registration/formulaire-d-inscription-new-",
@@ -38,6 +42,10 @@ export const salonEvents: SalonEvent[] = [
     endDate: "2026-11-26",
     venue: "Paris Expo Porte de Versailles · Pavillon 7",
     city: "Paris",
+    region: "Île-de-France",
+    sectors: ["Prévention", "Sécurité", "Risques professionnels", "Industrie"],
+    region: "Île-de-France",
+    sectors: ["Collectivités", "Commande publique", "Territoires", "Services aux collectivités"],
     summary: "Rendez-vous des élus, décideurs publics et partenaires des collectivités. Une occasion de repérer les projets territoriaux et de rencontrer les acteurs de la commande publique.",
     officialUrl: "https://www.salondesmaires.com/",
     verifiedAt: "2026-10-29"
@@ -60,6 +68,8 @@ export const salonEvents: SalonEvent[] = [
     endDate: "2027-01-14",
     venue: "Parc des Expositions de Metz",
     city: "Metz",
+    region: "Grand Est",
+    sectors: ["Collectivités", "Espace public", "Aménagement", "Services aux territoires"],
     summary: "Salon professionnel des décideurs de l’espace public du Grand Est, destiné notamment aux collectivités, entreprises et partenaires institutionnels.",
     officialUrl: "https://www.urbest.fr/",
     verifiedAt: "2026-10-29"
@@ -71,6 +81,8 @@ export const salonEvents: SalonEvent[] = [
     endDate: "2027-04-24",
     venue: "Parc des Expositions Paris-Nord Villepinte",
     city: "Villepinte",
+    region: "Île-de-France",
+    sectors: ["BTP", "Travaux publics", "Équipements", "Matériel de chantier"],
     summary: "Salon international des solutions et technologies pour la construction, les travaux publics, les équipements et les matériels de chantier.",
     officialUrl: "https://www.intermatconstruction.com/fr-FR/intermat/presentation-du-salon",
     verifiedAt: "2026-10-29"
