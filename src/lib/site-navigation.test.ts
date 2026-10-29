@@ -88,9 +88,12 @@ describe("architecture de navigation MajestiOS", () => {
   it("préserve les filtres lors du passage des résultats à la fiche d’un marché public", () => {
     const searchSource = readFileSync(join(sourceRoot, "components", "public-tenders-search.tsx"), "utf8");
     const detailSource = readFileSync(join(appRoot, "appels-offres-publics", "[id]", "page.tsx"), "utf8");
+    const requestSource = readFileSync(join(appRoot, "appels-offres-publics", "[id]", "repondre", "page.tsx"), "utf8");
 
     expect(searchSource).toContain("openOnly:String(openOnly)");
     expect(detailSource).toContain('"q","location","type","openOnly"');
+    expect(detailSource).toContain('openOnly:filters.openOnly??"false"');
+    expect(requestSource).toContain('["q","location","type","openOnly"]');
   });
 
   it("donne un contenu éditorial dédié à chaque rubrique gérée par SiteHub", () => {
