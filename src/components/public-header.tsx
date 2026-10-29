@@ -6,7 +6,8 @@ import { siteTree } from "@/data/site-tree";
 
 export default function PublicHeader() {
   const pathname = usePathname();
-  const mainItems = siteTree.filter((item) => item.href !== "/" && item.href !== "/espace-professionnel");
+  const mainSectionHrefs = ["/opportunites", "/business", "/developpement-commercial", "/reseaux", "/comprendre"];
+  const mainItems = siteTree.filter((item) => mainSectionHrefs.includes(item.href));
   return <header className="site-header">
     <Link href="/" className="brand-lockup" aria-label="MajestiOS, accueil">
       <span className="brand-mark" aria-hidden="true">M<span>✦</span></span>
