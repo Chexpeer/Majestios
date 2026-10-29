@@ -73,6 +73,18 @@ describe("site navigation tree", () => {
     expect(nodes.every((node) => node.status === "preparing")).toBe(true);
   });
 
+  it("keeps the employment feed clearly marked as preparing", () => {
+    const nodes = flattenSiteTree().filter((node) => ["/opportunites/emploi", "/opportunites/emploi/offres", "/opportunites/emploi/missions"].includes(node.href));
+    expect(nodes).toHaveLength(3);
+    expect(nodes.every((node) => node.status === "preparing")).toBe(true);
+  });
+
+  it("provides dedicated guides for key parent-level business journeys", () => {
+    const { dedicatedGuides } = require("./dedicated-guides") as typeof import("./dedicated-guides");
+    const required = ["/business/intelligence-entreprises", "/business/achat-cession", "/developpement-commercial/prospection", "/developpement-commercial/etudes-de-marche", "/developpement-commercial/e-reputation", "/developpement-commercial/accompagnement-appels-offres"];
+    expect(required.every((pathname) => Boolean(dedicatedGuides[pathname]))).toBe(true);
+  });
+
   it("points every navigation item to an implemented Next.js page or dynamic route", () => {
     const pageRoutes = collectPageRoutes();
     const missing = flattenSiteTree()
