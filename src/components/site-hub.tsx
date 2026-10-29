@@ -157,7 +157,7 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
         <span className="eyebrow">{eyebrow}</span>
         <h1>{node?.label ?? "Explorer MajestiOS"}<span>.</span></h1>
         <p>{intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS."}</p>
-        <div className="page-hero-meta"><span className="status-chip"><i />{children.length ? "Rubriques disponibles" : "Guide pratique"}</span><span>Rubrique dédiée · {parent ? `Parcours : ${parent.label}` : "Navigation MajestiOS"}</span></div>
+        <div className="page-hero-meta"><span className={`status-chip ${node?.status === "preparing" ? "status-chip-preparing" : ""}`}><i />{node?.status === "preparing" ? "Parcours en préparation" : children.length ? "Rubriques disponibles" : "Guide pratique"}</span><span>Rubrique dédiée · {parent ? `Parcours : ${parent.label}` : "Navigation MajestiOS"}</span></div>
       </section>
       {children.length > 0 ? <section className="hub-grid" aria-label={`Sous-rubriques de ${node?.label}`}>{children.map((child, index) => <Link href={child.href} className="hub-card" key={child.href}><span className="hub-card-index">{String(index + 1).padStart(2, "0")}</span><div><h2>{child.label}<span aria-hidden="true">↗</span></h2><p>{child.description}</p></div><span className="hub-card-bottom">EXPLORER LA RUBRIQUE <b>→</b></span></Link>)}</section> : <section className="content-panel">
         <span className="eyebrow">MODE D’EMPLOI</span><h2>{guide.title}</h2><p>{guide.purpose}</p>
