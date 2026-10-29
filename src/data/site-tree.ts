@@ -28,7 +28,7 @@ export const siteTree: SiteNode[] = [
       { label: "Offres d’emploi", href: "/opportunites/emploi/offres", description: "Rechercher des offres par métier et région." },
       { label: "Missions", href: "/opportunites/emploi/missions", description: "Explorer les missions ponctuelles et freelance." },
       { label: "Métiers", href: "/opportunites/emploi/metiers", description: "Guides métiers fondés sur des informations vérifiables." },
-      { label: "Déposer une offre", href: "/opportunites/emploi/deposer-une-offre", description: "Soumettre une offre à modération." },
+      { label: "Déposer une offre", href: "/opportunites/emploi/deposer-une-offre", description: "Parcours de dépôt prévu ; aucun formulaire de publication d’offre n’est encore activé.", status: "preparing" },
       { label: "Conseils", href: "/opportunites/emploi/conseils", description: "Préparer sa candidature ou son recrutement." }
     ]}
   ]},
