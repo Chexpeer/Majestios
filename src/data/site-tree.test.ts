@@ -95,4 +95,17 @@ describe("site navigation tree", () => {
     expect(invalidHierarchy, `Child routes outside their parent dossier: ${invalidHierarchy.join(", ")}`).toEqual([]);
   });
 
+  it("gives nested dossiers canonical URLs beneath their parent", () => {
+    const invalidNestedRoutes = flattenSiteTree().flatMap((node) =>
+      (node.children ?? []).flatMap((child) => {
+        if (!(child.children?.length)) return [];
+        return child.children
+          .filter((grandchild) => !grandchild.href.startsWith(child.href + "/"))
+          .map((grandchild) => `${child.href} -> ${grandchild.href}`);
+      })
+    );
+
+    expect(invalidNestedRoutes, `Nested dossier URLs must remain beneath their parent: ${invalidNestedRoutes.join(", ")}`).toEqual([]);
+  });
+
 });
