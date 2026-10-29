@@ -1,6 +1,6 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 import AnnouncementTicker from "@/components/announcement-ticker";
+import HomepageNavigation from "@/components/homepage-navigation";
 import MajestiOSOpportunityMap from "@/components/majestic-opportunity-map";
 
 export const metadata = {
@@ -8,29 +8,40 @@ export const metadata = {
   description: "Détecter, qualifier et transformer les opportunités commerciales grâce à une navigation structurée et des sources vérifiables."
 };
 
-const pillars = [
-  { number: "01", title: "Détecter", text: "Faire émerger des marchés, des entreprises et des signaux pertinents." },
-  { number: "02", title: "Qualifier", text: "Vérifier la source, le contexte et l’adéquation avec votre activité." },
-  { number: "03", title: "Transformer", text: "Préparer une prise de contact et capitaliser sur chaque retour." }
-];
-
 export default function HomePage() {
-  return <main className="home-redesign">
-    <PublicHeader />
-    <AnnouncementTicker />
-    <section className="home-hero-redesign">
-      <div className="hero-copy">
-        <span className="eyebrow"><i /> INTELLIGENCE COMMERCIALE PROACTIVE</span>
-        <h1>Les opportunités ne se trouvent pas toutes au même endroit<span>.</span></h1>
-        <p>MajestiOS organise la veille, la qualification et la prospection dans un parcours lisible. Explorez les marchés, les entreprises, les salons et les missions depuis des rubriques indépendantes.</p>
-        <div className="hero-actions"><Link className="button-primary" href="/opportunites">Explorer les opportunités <span>↗</span></Link><Link className="button-secondary" href="/comprendre/concept">Comprendre la démarche</Link></div>
-        <div className="hero-trust"><span className="trust-mark">✓</span><span><strong>La source avant l’affirmation.</strong><small>Pas d’annonce fictive présentée comme réelle.</small></span></div>
-      </div>
-      <div className="hero-visual" aria-label="Le parcours MajestiOS"><div className="visual-orbit orbit-one" /><div className="visual-orbit orbit-two" /><div className="visual-core"><span>✦</span><strong>M</strong><small>MAJESTIOS</small></div><div className="visual-node node-one">DÉTECTER</div><div className="visual-node node-two">QUALIFIER</div><div className="visual-node node-three">TRANSFORMER</div></div>
-    </section>
-    <section className="mission-strip"><span className="eyebrow">LE PARCOURS</span><div>{["Détecter","Qualifier","Identifier","Contacter","Transformer","Capitaliser"].map((step,index)=><span key={step}><b>{String(index+1).padStart(2,"0")}</b>{step}{index<5?<i>→</i>:null}</span>)}</div></section>
-    <section className="home-map-section"><div className="section-heading"><span className="eyebrow">EXPLORER PAR BESOIN</span><h2>Un point d’entrée. <em>Plusieurs chemins.</em></h2><p>Chaque pôle ouvre sa propre rubrique, puis ses sous-rubriques et ses pages de détail.</p></div><MajestiOSOpportunityMap /></section>
-    <section className="pillars-section"><div className="section-heading"><span className="eyebrow">UNE MÉTHODE STRUCTURÉE</span><h2>De l’information à <em>l’action.</em></h2></div><div className="pillars-grid">{pillars.map((pillar)=><article className="pillar-card" key={pillar.number}><span>{pillar.number}</span><h3>{pillar.title}</h3><p>{pillar.text}</p></article>)}</div></section>
-    <footer className="redesign-footer"><Link href="/" className="footer-brand">MajestiOS</Link><span>© MajestiOS · Version de refonte indépendante</span><nav><Link href="/comprendre/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav></footer>
+  return <main className="home-redesign home-layout">
+    <HomepageNavigation />
+    <div className="home-main">
+      <AnnouncementTicker />
+      <section className="home-intro">
+        <div className="home-intro-copy">
+          <span className="eyebrow"><i /> INTELLIGENCE COMMERCIALE PROACTIVE</span>
+          <h1>Les opportunités ne se trouvent pas toutes au même endroit<span>.</span></h1>
+          <p>MajestiOS organise la veille, la qualification et la prospection dans un parcours lisible. Choisissez un pôle, approfondissez votre recherche, puis préparez une action commerciale pertinente.</p>
+          <div className="hero-actions">
+            <Link className="button-primary" href="/opportunites">Explorer les opportunités <span>↗</span></Link>
+            <Link className="button-secondary" href="/comment-et-pourquoi">Comprendre la démarche</Link>
+          </div>
+          <p className="home-trust-note"><strong>La source avant l’affirmation.</strong> Les annonces et services non vérifiés ne sont pas présentés comme disponibles.</p>
+        </div>
+      </section>
+      <section className="home-map-section">
+        <div className="section-heading">
+          <span className="eyebrow">LE CARREFOUR MAJESTIOS</span>
+          <h2>Un point d’entrée. <em>Plusieurs chemins.</em></h2>
+          <p>Sélectionnez un pôle pour accéder à sa rubrique, puis progressez vers ses pages de détail.</p>
+        </div>
+        <MajestiOSOpportunityMap />
+      </section>
+      <section className="home-process-strip" aria-label="Le parcours MajestiOS">
+        <span className="eyebrow">LE PARCOURS</span>
+        <div>{["Détecter", "Qualifier", "Identifier", "Contacter", "Transformer", "Capitaliser"].map((step, index) => <span key={step}><b>{String(index + 1).padStart(2, "0")}</b>{step}{index < 5 ? <i aria-hidden="true">→</i> : null}</span>)}</div>
+      </section>
+      <footer className="redesign-footer">
+        <Link href="/" className="footer-brand">MajestiOS</Link>
+        <span>Intelligence commerciale proactive</span>
+        <nav><Link href="/comprendre/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav>
+      </footer>
+    </div>
   </main>;
 }
