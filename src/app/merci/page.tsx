@@ -1,24 +1,34 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import PublicHeader from "@/components/public-header";
 
 export const metadata = {
-  title: "Merci pour votre demande — MajestiOS",
-  description: "Confirmation de réception de votre demande par MajestiOS.",
+  title: "Merci — MajestiOS",
+  description: "Confirmation de préparation de votre parcours MajestiOS.",
 };
 
 export default function MerciPage() {
+  const params = useSearchParams();
+  const isPreparation = params.get("mode") === "preparation";
+  useEffect(() => {
+    const timer = window.setTimeout(() => { window.location.href = "/"; }, 7000);
+    return () => window.clearTimeout(timer);
+  }, []);
   return <main className="public-site concept-page">
     <PublicHeader />
     <section className="how-section concept-hero">
       <div>
-        <span className="section-label">DEMANDE TRANSMISE</span>
-        <h1>Merci pour votre <em>confiance.</em></h1>
-        <p>Le service de formulaire a accepté l’envoi de votre demande. La réception et le traitement par l’équipe MajestiOS dépendent de la configuration du service et des coordonnées de destination.</p>
-        <p>Cette confirmation ne signifie pas qu’une analyse automatique de votre entreprise a déjà été réalisée.</p>
-        <Link className="search-submit concept-cta" href="/">Retour à l’accueil ↗</Link>
-        <p><Link href="/business">Envoyer une autre demande</Link></p>
+        <span className="section-label">PARCOURS TERMINÉ</span>
+        <h1>Merci pour votre <em>intérêt.</em></h1>
+        <p>{isPreparation ? "Votre parcours a été préparé. Cette version de MajestiOS ne transmet ni n’enregistre encore les informations saisies : aucune demande réelle n’a été envoyée à l’équipe." : "Merci de votre visite. Les formulaires connectés seront activés lorsque le traitement sécurisé des demandes sera disponible."}</p>
+        <p>Vous allez être redirigé vers l’accueil dans quelques secondes.</p>
+        <Link className="search-submit concept-cta" href="/">Retour immédiat à l’accueil ↗</Link>
+        <p><Link href="/opportunites">Explorer les rubriques MajestiOS</Link></p>
       </div>
     </section>
-    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav><Link href="/developpement-commercial">Développement commercial</Link><Link href="/mentions-legales">Mentions légales</Link></nav><small>© MajestiOS · Prototype en développement</small></footer>
+    <footer className="public-footer"><Link className="footer-brand" href="/">MajestiOS</Link><nav><Link href="/comprendre/faq">FAQ</Link><Link href="/mentions-legales">Mentions légales</Link></nav><small>© MajestiOS · Site en construction</small></footer>
   </main>;
 }
