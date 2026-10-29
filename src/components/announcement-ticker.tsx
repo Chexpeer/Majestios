@@ -64,7 +64,7 @@ export default function AnnouncementTicker() {
     return () => { active = false; };
   }, []);
 
-  const upcomingSalons = today ? salonEvents.filter((event) => event.endDate ? event.endDate >= today : event.startDate >= today) : salonEvents;
+  const upcomingSalons = today ? salonEvents.filter((event) => event.endDate ? event.endDate >= today : event.startDate >= today) : [];
 
   return <section className="announcement-band" aria-label="Quatre flux d’opportunités">
     <div className="announcement-band-head"><span className="band-eyebrow">VEILLE EN MOUVEMENT</span><span className="band-note">Quatre portes d’entrée · annonces vérifiées uniquement</span></div>
