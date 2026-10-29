@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import MajestiosAssistant from "../components/MajestiosAssistant";
+import SiteShell from "@/components/site-shell";
 
 export const metadata: Metadata = {
   title: "MajestiOS — Développement commercial assisté par IA",
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="fr"><body>{children}<MajestiosAssistant /></body></html>;
+  return <html lang="fr"><body><SiteShell>{children}</SiteShell><MajestiosAssistant /></body></html>;
 }
