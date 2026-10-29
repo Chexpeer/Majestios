@@ -70,8 +70,8 @@ export const siteTree: SiteNode[] = [
     { label: "Rejoindre le réseau", href: "/reseaux/rejoindre", description: "Découvrir comment contribuer au réseau." }
   ]},
   { label: "Comprendre", href: "/comprendre", description: "Comprendre le concept, les termes et les parcours MajestiOS.", children: [
-    { label: "Le concept", href: "/comprendre/concept", description: "Découvrir la mission et le fonctionnement visé." },
-    { label: "FAQ", href: "/comprendre/faq", description: "Trouver les réponses aux questions courantes." },
+    { label: "Le concept", href: "/comment-et-pourquoi", description: "Découvrir la mission et le fonctionnement visé." },
+    { label: "FAQ", href: "/faq", description: "Trouver les réponses aux questions courantes." },
     { label: "Glossaire", href: "/comprendre/glossaire", description: "Comprendre le vocabulaire métier." }
   ]},
   { label: "Espace professionnel", href: "/espace-professionnel", description: "Accéder aux parcours réservés aux professionnels." },
