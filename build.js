@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const outputDirectory = path.join(__dirname, "dist");
-const siteFiles = ["index.html", "styles.css", "app.js"];
+const siteFiles = ["index.html", "styles.css", "app.js", "schema-majestios.svg"];
 
 fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(outputDirectory, { recursive: true });
