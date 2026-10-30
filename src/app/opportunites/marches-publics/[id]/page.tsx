@@ -133,8 +133,8 @@ export default async function TenderDetailPage({ params, searchParams }: Props) 
     if (filter) backParams.set(key, filter);
   }
   const backHref = backParams.size
-    ? "/opportunites/marches-publics?" + backParams.toString()
-    : "/opportunites/marches-publics";
+    ? "/opportunites/marches-publics/appels-offres?" + backParams.toString()
+    : "/opportunites/marches-publics/appels-offres";
 
   return (
     <main className="public-site concept-page">
