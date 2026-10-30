@@ -50,3 +50,13 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 - Une source officielle peut rester accessible pour vérification ; l'action principale d'une opportunité réelle est le positionnement dans MajestiOS.
 - Ne jamais afficher une confirmation d'inscription ou d'envoi si aucun traitement serveur n'a abouti.
 - Ne pas fusionner la PR ni déployer en production sans validation explicite du fondateur.
+
+
+## Mise à jour — 30 octobre 2026 — branche refonte-profondeur-flux
+
+- La page /espace-professionnel contient maintenant un formulaire de qualification des besoins entreprise : activité, territoire, contact, objectif commercial et précisions.
+- Le formulaire vérifie les champs obligatoires et le format de l’e-mail, puis permet de copier un récapitulatif local. Il ne transmet rien à un serveur ; aucune confirmation de réception n’est affichée.
+- L’accueil expose directement le parcours « Présenter mon entreprise ».
+- La page de filtre territorial des marchés publics renvoie vers la recherche active /opportunites/marches-publics/appels-offres?location=, et non vers le dossier général des marchés publics.
+- Les routes de détail emploi, marchés privés et salons existent dans l’arborescence du dépôt ; leur existence ne prouve pas qu’un flux d’annonces soit connecté.
+- Les contrôles restent statiques : compilation, lint, tests navigateur et test de transmission serveur non confirmés.
