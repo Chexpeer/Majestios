@@ -2410,3 +2410,40 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, .majestic-global-main::-webkit
   .maj-star-brand { font-size:19px; }
   .maj-star-tagline { font-size:8px; }
 }
+
+
+/* Correctif géométrique mobile et lisibilité des six dossiers */
+.maj-star-map .maj-star-canvas { width:min(100%, 760px); margin:0 auto; }
+.maj-star-map .maj-star-svg { display:block; width:100%; height:auto; overflow:visible; }
+.maj-star-crosslinks path { fill:none; stroke:#26323a; stroke-width:2.2; stroke-dasharray:7 7; opacity:.5; }
+.maj-star-branch-outline { fill:none; stroke:#182b35; stroke-width:3.2; stroke-linejoin:round; pointer-events:none; }
+.maj-star-surface polygon { stroke:#24333b; stroke-width:1.8; stroke-linejoin:round; fill-opacity:.86; transition:filter .15s ease,fill-opacity .15s ease; }
+.maj-star-surface:nth-child(2) polygon { fill-opacity:.97; }
+.maj-star-surface text { fill:#142936; font:750 13px "DM Sans",Arial,sans-serif; paint-order:stroke; stroke:rgba(255,255,255,.82); stroke-width:3px; stroke-linejoin:round; pointer-events:none; }
+.maj-star-surface:hover polygon,.maj-star-surface:focus polygon { fill-opacity:1; filter:brightness(1.06); stroke:#142936; stroke-width:3.5; }
+.maj-star-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:8px 10px; margin:10px auto 18px; padding:0 8px; }
+.maj-star-legend-button { display:inline-flex; align-items:center; gap:7px; border:1px solid #d9e0e2; border-radius:999px; padding:8px 11px; background:#fff; color:#405866; font:750 10px "DM Sans",Arial,sans-serif; cursor:pointer; }
+.maj-star-legend-button i { display:inline-block; width:10px; height:10px; border-radius:3px; flex:none; }
+.maj-star-legend-button.is-active { border-color:#193b4e; box-shadow:0 0 0 2px rgba(25,59,78,.1); color:#193b4e; }
+.maj-star-title { cursor:pointer; }
+.maj-star-center { fill:#18394d; stroke:#f4d36d; stroke-width:4; }
+.maj-star-center-label { pointer-events:none; }
+.maj-star-crown { fill:#f4d36d; font:700 25px Georgia,serif; }
+.maj-star-brand { fill:#fff; font:900 16px Manrope,Arial,sans-serif; letter-spacing:.8px; }
+.maj-star-tagline { fill:#d9e8ec; font:700 7px "DM Sans",Arial,sans-serif; letter-spacing:.8px; }
+@media(max-width:700px) {
+  .maj-star-map { padding:12px 5px; }
+  .maj-star-map .maj-map-heading { padding:0 10px; }
+  .maj-star-map .maj-map-heading h2 { font-size:19px; }
+  .maj-star-surface text { font-size:12px; stroke-width:3px; }
+  .maj-star-legend-button { padding:7px 9px; font-size:9px; }
+  .maj-star-brand { font-size:17px; }
+}
+@media(max-width:430px) {
+  .maj-star-map .maj-star-canvas { width:100%; }
+  .maj-star-surface text { font-size:11px; stroke-width:3px; }
+  .maj-star-legend-button { max-width:100%; font-size:8px; }
+  .maj-star-crown { font-size:27px; }
+  .maj-star-brand { font-size:18px; }
+  .maj-star-tagline { font-size:7px; }
+}
