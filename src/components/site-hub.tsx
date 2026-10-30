@@ -142,6 +142,48 @@ function getDetailGuide(pathname: string, label: string): DetailGuide {
   };
 }
 
+function getWatermarkSymbol(pathname: string, label: string): string {
+  const symbols: Array<[RegExp, string]> = [
+    [/\/marches-publics\/appels-offres\/travaux|\/travaux$/, "⌂"],
+    [/\/marches-publics\/appels-offres\/services|\/services$/, "⚙"],
+    [/\/marches-publics\/appels-offres\/fournitures|\/fournitures$/, "▤"],
+    [/\/marches-publics|appels-offres-publics/, "§"],
+    [/\/marches-prives\/secteur/, "◇"],
+    [/\/marches-prives\/deposer/, "＋"],
+    [/\/marches-prives|\/opportunites\/privees/, "↗"],
+    [/\/emploi\/offres|offres-emploi/, "◎"],
+    [/\/emploi\/missions|\/missions/, "⇄"],
+    [/\/emploi\/deposer-un-cv|\/cv/, "▣"],
+    [/\/emploi|recrutement/, "◉"],
+    [/\/radar-entreprises/, "⌕"],
+    [/\/signaux-entreprises|\/veille-bodacc|bodacc/, "↗"],
+    [/\/achat-cession\/acheter|\/acheter/, "↘"],
+    [/\/achat-cession\/vendre|\/vendre/, "↗"],
+    [/\/achat-cession|evaluer-une-entreprise/, "♜"],
+    [/\/reseaux\/annuaire|annuaire/, "⌘"],
+    [/\/reseaux\/rejoindre|\/rejoindre/, "＋"],
+    [/\/reseaux|partenaires/, "♧"],
+    [/\/salons\/calendrier|calendrier/, "▦"],
+    [/\/salons\/preparer|preparer/, "✓"],
+    [/\/salons|evenements|rencontres-affaires/, "✦"],
+    [/\/etudes-de-marche\/methodologie|methodologie/, "≋"],
+    [/\/etudes-de-marche\/sources|sources/, "⌕"],
+    [/\/etudes-de-marche/, "◉"],
+    [/\/prospection\/ciblage|ciblage/, "◎"],
+    [/\/prospection\/argumentaires|argumentaires/, "✎"],
+    [/\/prospection\/suivi|suivi/, "↻"],
+    [/\/prospection|developpement-commercial/, "➤"],
+    [/e-reputation|reputation/, "✧"],
+    [/glossaire/, "Aa"],
+    [/faq|comprendre|concept/, "?"],
+    [/diagnostic/, "⌁"],
+  ];
+  const match = symbols.find(([pattern]) => pattern.test(pathname));
+  if (match) return match[1];
+  const normalized = label.trim();
+  return normalized ? normalized.slice(0, 1).toLocaleUpperCase("fr") : "M";
+}
+
 export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS", checklist = [] }: { pathname: string; intro?: string; eyebrow?: string; checklist?: string[] }) {
   const found = findSiteNode(pathname);
   const node = found?.node;
@@ -149,6 +191,7 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
   const siblings = found?.ancestors.at(-1)?.children?.filter((item) => item.href !== pathname) ?? [];
   const related = siblings.slice(0, 4);
   const guide = getDetailGuide(pathname, node?.label ?? "cette rubrique");
+  const watermarkSymbol = getWatermarkSymbol(pathname, node?.label ?? "MajestiOS");
   const parent = found?.ancestors.at(-1);
   const hasPreparingDescendant = (items: typeof children): boolean => items.some((item) => item.status === "preparing" || hasPreparingDescendant(item.children ?? []));
   const preparing = node?.status === "preparing";
@@ -158,6 +201,7 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link>{found?.ancestors.map((ancestor) => <span key={ancestor.href}><b>/</b><Link href={ancestor.href}>{ancestor.label}</Link></span>)}<span><b>/</b><strong>{node?.label ?? "Rubrique"}</strong></span></nav>
       <section className="page-hero">
+        <span className="page-watermark" aria-hidden="true">{watermarkSymbol}</span>
         <span className="eyebrow">{eyebrow}</span>
         <h1>{node?.label ?? "Explorer MajestiOS"}<span>.</span></h1>
         <p>{intro ?? node?.description ?? "Explorez les rubriques et les parcours de MajestiOS."}</p>
