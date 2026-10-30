@@ -7,7 +7,7 @@ const poles = [
   { id: "public", label: "Marchés publics", detail: "Appels d’offres · travaux · services · fournitures", href: "/opportunites/publiques", x: "17%", y: "29%", color: "violet", icon: "⌂" },
   { id: "prive", label: "Opportunités privées", detail: "Marchés privés · besoins d’entreprises · sous-traitance", href: "/opportunites/privees", x: "83%", y: "29%", color: "orange", icon: "↗" },
   { id: "entreprises", label: "Entreprises", detail: "Identifier et qualifier les entreprises", href: "/business/intelligence-entreprises", x: "50%", y: "8%", color: "mint", icon: "▥" },
-  { id: "sources", label: "Veille économique", detail: "Sources officielles · signaux économiques", href: "/opportunites/signaux-entreprises", x: "13%", y: "67%", color: "blue", icon: "⌕" },
+  { id: "sources", label: "Veille économique", detail: "Sources officielles · signaux économiques", href: "/business/veille-bodacc", x: "13%", y: "67%", color: "blue", icon: "⌕" },
   { id: "reseaux", label: "Réseaux professionnels", detail: "Interlocuteurs · partenaires · décideurs", href: "/reseaux", x: "87%", y: "67%", color: "green", icon: "♧" },
   { id: "business", label: "Développement commercial", detail: "Prospection · qualification · accompagnement", href: "/developpement-commercial", x: "34%", y: "91%", color: "violet", icon: "↗" },
   { id: "emploi", label: "Emploi & recrutement", detail: "Offres d’emploi · missions · publier une offre", href: "/opportunites/emploi", x: "66%", y: "91%", color: "red", icon: "◎" },
