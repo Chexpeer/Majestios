@@ -43,7 +43,7 @@ export default function HomePage() {
         <div>{["Détecter", "Qualifier", "Identifier", "Contacter", "Transformer", "Capitaliser"].map((step, index) => <span key={step}><b>{String(index + 1).padStart(2, "0")}</b>{step}{index < 5 ? <i aria-hidden="true">→</i> : null}</span>)}</div>
       </section>
       <footer className="redesign-footer">
-        <Link href="/" className="footer-brand">MajestiOS</Link>
+        <span className="footer-brand" aria-current="page">MajestiOS</span>
         <span>Intelligence commerciale proactive</span>
         <nav><Link href="/faq">FAQ</Link><Link href="/confidentialite">Confidentialité</Link><Link href="/mentions-legales">Mentions légales</Link></nav>
       </footer>
