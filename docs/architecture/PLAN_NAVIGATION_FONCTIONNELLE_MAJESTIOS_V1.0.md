@@ -33,6 +33,12 @@ Le dossier EMPLOI est hors périmètre de cette phase.
 - **Triangle = dossier MajestiOS.**
 - **Côté = lien entre dossiers.**
 - **Croisement = sous-dossier ou page d'information/documentation.**
+- **Chaque triangle contient deux ou trois bandes colorées, et chaque bande représente un sous-dossier.** Les bandes font partie de la structure navigable : elles ne sont pas de simples ornements.
+- Les rubriques sont intégrées dans la bande la plus pertinente au lieu d'être automatiquement promues en dossiers principaux : téléprospection → Qualification & prospection ; accompagnement → dossier Accompagnement ; CRM, veille, prospective, logiciels et réseau → bandes appropriées du Développement commercial ; séminaires → Salons & événements professionnels.
+- Une rubrique transversale garde une destination de référence unique, mais peut être accessible depuis d'autres dossiers par des liens explicites. Éviter la duplication des contenus.
+- Les bandes doivent être accessibles au survol, au focus clavier et sur écran tactile. La sélection d'une bande présente son sous-dossier ; la sélection du triangle hors bande ouvre le dossier parent.
+- Le code couleur doit rester cohérent entre le schéma et les destinations, avec contraste suffisant. Le détail de la répartition figure dans la doctrine fondatrice des triangles et de l'arborescence.
+
 - Le centre névralgique est un point de convergence et de navigation, pas un septième dossier.
 - Le schéma explique l'écosystème ; le moteur de recherche sert à trouver et qualifier des opportunités.
 - Chaque dossier possède une destination distincte, une identité visuelle cohérente et une navigation interne.
