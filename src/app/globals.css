@@ -2327,3 +2327,35 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, .majestic-global-main::-webkit
  .maj-dossier-top,.maj-dossier-bottom { grid-column:auto; }
  .maj-architecture-core { grid-column:auto; }
 }
+
+
+/* Correctif visibilité + composition étoile du schéma d'accueil */
+.home-map-section { display:block !important; visibility:visible !important; position:relative; clear:both; width:100%; min-height:500px; }
+.home-map-section .maj-interactive-architecture { display:block !important; visibility:visible !important; opacity:1 !important; overflow:visible; }
+.maj-interactive-architecture .maj-architecture { display:grid; position:relative; width:100%; max-width:1000px; min-height:690px; grid-template-columns:1fr 1fr 1fr; grid-template-rows:1fr 1fr 1fr 1fr; gap:12px; padding:18px 8px; margin:20px auto; overflow:visible; }
+.maj-interactive-architecture .maj-architecture-links { z-index:0; inset:0; width:100%; height:100%; opacity:1; overflow:visible; }
+.maj-interactive-architecture .maj-architecture-links path { stroke:#c6a65e; stroke-width:2; stroke-opacity:.85; }
+.maj-interactive-architecture .maj-dossier { z-index:1; align-self:center; min-width:0; }
+.maj-interactive-architecture .maj-dossier-top { grid-column:2; grid-row:1; }
+.maj-interactive-architecture .maj-dossier-upper-left { grid-column:1; grid-row:2; }
+.maj-interactive-architecture .maj-dossier-upper-right { grid-column:3; grid-row:2; }
+.maj-interactive-architecture .maj-dossier-lower-left { grid-column:1; grid-row:3; }
+.maj-interactive-architecture .maj-dossier-lower-right { grid-column:3; grid-row:3; }
+.maj-interactive-architecture .maj-dossier-bottom { grid-column:2; grid-row:4; }
+.maj-interactive-architecture .maj-dossier-surfaces { min-height:185px; }
+.maj-interactive-architecture .maj-architecture-core { z-index:3; top:50%; left:50%; width:170px; }
+.maj-interactive-architecture .maj-map-heading { display:block; }
+.maj-interactive-architecture .maj-map-selection { display:flex; }
+@media(max-width:760px) {
+ .home-map-section { min-height:0; }
+ .maj-interactive-architecture .maj-architecture { min-height:0; grid-template-columns:1fr 1fr; grid-template-rows:auto; gap:12px; padding:8px 0; }
+ .maj-interactive-architecture .maj-architecture-links { display:none; }
+ .maj-interactive-architecture .maj-dossier-top { grid-column:1 / -1; grid-row:auto; }
+ .maj-interactive-architecture .maj-dossier-upper-left,.maj-interactive-architecture .maj-dossier-upper-right,.maj-interactive-architecture .maj-dossier-lower-left,.maj-interactive-architecture .maj-dossier-lower-right { grid-column:auto; grid-row:auto; }
+ .maj-interactive-architecture .maj-dossier-bottom { grid-column:1 / -1; grid-row:auto; }
+ .maj-interactive-architecture .maj-architecture-core { position:relative; top:auto; left:auto; grid-column:1 / -1; grid-row:auto; width:100%; border-radius:12px; transform:none; }
+}
+@media(max-width:420px) {
+ .maj-interactive-architecture .maj-architecture { grid-template-columns:1fr; }
+ .maj-interactive-architecture .maj-dossier-top,.maj-interactive-architecture .maj-dossier-bottom,.maj-interactive-architecture .maj-architecture-core { grid-column:1; }
+}
