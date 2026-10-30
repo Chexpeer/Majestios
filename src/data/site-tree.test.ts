@@ -117,7 +117,7 @@ describe("site navigation tree", () => {
 
   it("does not make the homepage brand link back to the homepage", () => {
     const homepage = readFileSync(join(appDirectory, "page.tsx"), "utf8");
-    const literalInternalLinks = [...homepage.matchAll(/<Link\\b[^>]*?href="(\\/[^"]*)"/g)].map((match) => match[1]);
+    const literalInternalLinks = [...homepage.matchAll(/<Link\b[^>]*?href="(\/[^"]*)"/g)].map((match) => match[1]);
     expect(literalInternalLinks.filter((href) => href.split("?")[0] === "/"), "Homepage must not contain a link back to itself").toEqual([]);
   });
 
