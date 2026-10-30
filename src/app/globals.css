@@ -2447,3 +2447,51 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, .majestic-global-main::-webkit
   .maj-star-brand { font-size:18px; }
   .maj-star-tagline { font-size:7px; }
 }
+
+/* Ajustements du schéma interactif selon les dernières consignes */
+.maj-star-map .maj-star-heading,
+.maj-star-map .maj-map-heading { margin-bottom: 8px; }
+.maj-star-map .maj-star-canvas { width: min(100%, 760px); }
+.maj-star-title text {
+  fill: #243d4b;
+  font: 800 10px "DM Sans", Arial, sans-serif;
+  letter-spacing: .35px;
+  paint-order: stroke;
+  stroke: rgba(248, 251, 251, .94);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.maj-star-title { cursor: pointer; }
+.maj-star-dossier.is-active .maj-star-branch-outline { stroke-width: 4.5; }
+.maj-star-dossier.is-active .maj-star-surface polygon { fill-opacity: .98; }
+.maj-star-surface:active polygon { filter: brightness(1.04); }
+.maj-star-legend-button { line-height: 1.35; }
+.maj-star-map .maj-map-selection {
+  max-width: 760px;
+  margin: 8px auto 0;
+  padding: 16px 18px;
+  border-radius: 12px;
+}
+.maj-star-map .maj-map-selection strong { font-size: clamp(12px, 1.2vw, 15px); line-height: 1.55; }
+.maj-star-map .maj-map-selection p { font-size: 10px; line-height: 1.6; }
+.maj-star-map .maj-star-note { max-width: 760px; }
+@media (max-width: 700px) {
+  .maj-star-map { padding: 12px 8px; }
+  .maj-star-map .maj-map-heading { padding: 0 7px; }
+  .maj-star-map .maj-map-heading h2 { font-size: 18px; line-height: 1.3; }
+  .maj-star-map .maj-map-heading p { font-size: 10px; line-height: 1.55; }
+  .maj-star-map .maj-star-canvas { width: 100%; }
+  .maj-star-map .maj-star-surface text { font-size: 11px; stroke-width: 3px; }
+  .maj-star-map .maj-star-title text { font-size: 8px; letter-spacing: 0; stroke-width: 2.5px; }
+  .maj-star-map .maj-star-legend { gap: 6px; margin: 7px auto 10px; }
+  .maj-star-map .maj-star-legend-button { padding: 7px 8px; font-size: 8px; }
+  .maj-star-map .maj-map-selection { gap: 12px; padding: 13px; }
+  .maj-star-map .maj-map-selection strong { font-size: 13px; }
+  .maj-star-map .maj-map-selection p { font-size: 10px; }
+  .maj-star-map .maj-map-selection-link { width: 100%; justify-content: center; padding: 11px; }
+  .maj-star-map .maj-star-note { padding: 0 8px; font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .maj-star-surface polygon, .maj-star-title rect { transition: none; }
+}
