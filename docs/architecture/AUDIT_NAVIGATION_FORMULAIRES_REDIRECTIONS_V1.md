@@ -70,6 +70,8 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 
 ## Vérification complémentaire — 30 octobre 2026
 
-- Les liens des pôles « Entreprises » et « Veille économique » du schéma d’accueil ont été réalignés sur les dossiers canoniques `/opportunites/radar-entreprises` et `/opportunites/signaux-entreprises` (commit `8c60de68b0d43510f1de2f96afac31464107aa29`).
+- Le contrôle des routes a révélé que `/opportunites/radar-entreprises` redirige vers `/business/intelligence-entreprises` et que `/opportunites/signaux-entreprises` n’a pas de page dédiée déclarée dans l’arborescence. Les liens du schéma d’accueil et du menu ont donc été réalignés sur les dossiers réellement implémentés : `/business/intelligence-entreprises` et `/business/veille-bodacc`.
 - Le workflow GitHub Actions `verify` du commit est terminé avec succès : tests unitaires/API, ESLint, TypeScript et build Next.js.
 - Limite : ce résultat valide les contrôles automatisés du dépôt, pas une inspection navigateur de tous les liens, un test responsive manuel, ni la réception réelle de formulaires par un serveur.
+
+- Correctif de routage : commits `d43859bc9275eb8663d032f0628ebd7b10800f30`, `2d6e43a2ad310266940a2decc9795a0b7416bd8b`, `ca5f6cfaf5c8ac14790a33884123cd5c0b3d3267` et `c08c91620d73f9d2e5f06bb0ab0bbaf7ea4eecb2`. Les vérifications CI correspondantes sont en cours au moment de cette note.
