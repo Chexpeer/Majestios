@@ -341,3 +341,41 @@ navigation.querySelectorAll("a").forEach((link) => {
     menuToggle.setAttribute("aria-label", "Ouvrir le menu");
   });
 });
+
+
+/* Interaction du schéma SVG : survol visuel et sélection accessible au clavier */
+const interactiveSvg = document.querySelector("#majestios-interactive-svg");
+if (interactiveSvg) {
+  const surfaceNames = {
+    bleue: "Surface bleue sélectionnée",
+    verte: "Surface verte sélectionnée",
+    violette: "Surface violette sélectionnée",
+    jaune: "Surface jaune sélectionnée",
+    rouge: "Surface rouge sélectionnée",
+    orange: "Surface orange sélectionnée"
+  };
+  interactiveSvg.addEventListener("load", () => {
+    const svgDocument = interactiveSvg.contentDocument;
+    if (!svgDocument) return;
+    const surfaces = [...svgDocument.querySelectorAll("[data-surface]")];
+    const title = document.querySelector("#interactive-map-selection");
+    const description = document.querySelector("#interactive-map-description");
+    const selectSurface = (surface) => {
+      surfaces.forEach((item) => {
+        item.classList.toggle("selected", item === surface);
+        item.setAttribute("aria-pressed", String(item === surface));
+      });
+      title.textContent = surfaceNames[surface.dataset.surface] || "Surface sélectionnée";
+      description.textContent = "Cette surface est sélectionnée. Son intitulé métier, ses sous-rubriques et sa destination seront définis ensemble avant l’activation des liens.";
+    };
+    surfaces.forEach((surface) => {
+      surface.addEventListener("click", () => selectSurface(surface));
+      surface.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectSurface(surface);
+        }
+      });
+    });
+  });
+}
