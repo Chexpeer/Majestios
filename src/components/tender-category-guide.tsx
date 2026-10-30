@@ -13,12 +13,12 @@ type Props = {
 export default function TenderCategoryGuide({ eyebrow, title, emphasis, intro, checks, searchHref, searchLabel }: Props) {
   return <main className="site-page">
     <div className="page-container">
-      <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link><span><b>/</b><Link href="/opportunites">Opportunités</Link></span><span><b>/</b><Link href="/opportunites/marches-publics">Marchés publics</Link></span><span><b>/</b><strong>{title}</strong></span></nav>
+      <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link><span><b>/</b><Link href="/opportunites">Opportunités</Link></span><span><b>/</b><Link href="/opportunites/marches-publics">Marchés publics</Link></span><span><b>/</b><Link href="/opportunites/marches-publics/appels-offres">Appels d’offres</Link></span><span><b>/</b><strong>{title}</strong></span></nav>
       <section className="page-hero bodacc-hero">
         <span className="eyebrow">{eyebrow}</span>
         <h1>{title} <span>{emphasis}</span></h1>
         <p>{intro}</p>
-        <div className="hero-actions"><Link className="button-primary" href={searchHref}>{searchLabel} <span aria-hidden="true">→</span></Link><Link className="button-secondary" href="/opportunites/marches-publics">Toutes les consultations publiques</Link></div>
+        <div className="hero-actions"><Link className="button-primary" href={searchHref}>{searchLabel} <span aria-hidden="true">→</span></Link><Link className="button-secondary" href="/opportunites/marches-publics/appels-offres">Toutes les consultations publiques</Link></div>
       </section>
       <section className="content-panel">
         <span className="eyebrow">AVANT DE VOUS POSITIONNER</span>
