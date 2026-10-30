@@ -33,6 +33,10 @@ Le dossier EMPLOI est hors périmètre de cette phase.
 - **Triangle = dossier MajestiOS.**
 - **Côté = lien entre dossiers.**
 - **Croisement = sous-dossier ou page d'information/documentation.**
+- **Les côtés et leurs croisements symbolisent la puissance fonctionnelle de MajestiOS** : ils rendent visibles et actionnables les synergies entre dossiers, sous-dossiers, informations et parcours.
+- Les liens peuvent être horizontaux ou transversaux. Ils doivent transporter un contexte utile, préserver la source des informations et conduire vers une action ou une destination pertinente, sans dupliquer inutilement les données.
+- Les croisements représentent des convergences contextualisées pouvant soutenir qualification, mise en relation, recommandation, action commerciale ou capitalisation de connaissances. Leur rôle exact doit être défini et testé ; ne pas simuler une automatisation inexistante.
+
 - **Chaque triangle contient deux ou trois bandes colorées, et chaque bande représente un sous-dossier.** Les bandes font partie de la structure navigable : elles ne sont pas de simples ornements.
 - Les rubriques sont intégrées dans la bande la plus pertinente au lieu d'être automatiquement promues en dossiers principaux : téléprospection → Qualification & prospection ; accompagnement → dossier Accompagnement ; CRM, veille, prospective, logiciels et réseau → bandes appropriées du Développement commercial ; séminaires → Salons & événements professionnels.
 - Une rubrique transversale garde une destination de référence unique, mais peut être accessible depuis d'autres dossiers par des liens explicites. Éviter la duplication des contenus.
