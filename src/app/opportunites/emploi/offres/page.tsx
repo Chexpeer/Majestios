@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "Offres d’emploi vérifiées — MajestiOS",
@@ -13,7 +12,7 @@ const checks = [
 ];
 
 export default function OffresEmploiPage() {
-  return <main className="site-page"><PublicHeader /><div className="page-container">
+  return <main className="site-page"><div className="page-container">
     <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link><span><b>/</b><Link href="/opportunites">Opportunités</Link></span><span><b>/</b><Link href="/opportunites/emploi">Emploi et missions</Link></span><span><b>/</b><strong>Offres d’emploi</strong></span></nav>
     <section className="page-hero bodacc-hero"><span className="eyebrow">MAJESTIOS · EMPLOI</span><h1>Des offres lisibles, <span>des candidatures mieux préparées.</span></h1><p>Une annonce doit permettre de comprendre le poste, son émetteur et les conditions avant de mobiliser du temps pour candidater. MajestiOS vise à organiser cette lecture et à distinguer les informations vérifiées des éléments encore à confirmer.</p><div className="page-hero-meta"><span className="status-chip status-chip-preparing"><i />Flux d’offres en préparation</span><span>Aucune annonce fictive n’est affichée comme réelle.</span></div></section>
     <section className="content-panel"><span className="eyebrow">LECTURE D’UNE OFFRE</span><h2>Trois contrôles avant de candidater.</h2><div className="bodacc-principle-grid">{checks.map((item)=><div key={item.title}><strong>{item.title}</strong><span>{item.text}</span></div>)}</div></section>
