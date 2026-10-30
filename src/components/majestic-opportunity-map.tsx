@@ -21,7 +21,7 @@ export default function MajestiOSOpportunityMap() {
       <div className="maj-map-heading">
         <span className="section-label">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</span>
         <h2 id="maj-map-title">Six axes. <em>Une stratégie en étoile.</em></h2>
-        <p>À l’origine de tout engagement : un besoin réel, un budget compatible et un climat de confiance. MajestiOS observe et organise les relations entre les axes : les triangles figurent les rubriques, leurs côtés les liaisons métier et leurs croisements les pages de convergence.</p>
+        <p>À l’origine de tout engagement : un besoin réel, un budget compatible et un climat de confiance. Dans la grammaire MajestiOS, chaque triangle représente une page, chaque côté une communication entre pages et chaque croisement une page d’information dédiée aux éléments qui s’y rencontrent.</p>
       </div>
       <div className="maj-star-legend" aria-label="Les deux dimensions de la stratégie">
         <span><i className="legend-strategy" /> Domaines stratégiques</span>
@@ -61,7 +61,7 @@ export default function MajestiOSOpportunityMap() {
         </div>
         <Link href={selected.href} className="maj-star-selection-link">Ouvrir la rubrique <span aria-hidden="true">↗</span></Link>
       </div>
-      <p className="maj-star-note">Le triangle est le langage visuel fondateur de MajestiOS : sa taille et son orientation varient selon la fonction. Les côtés matérialisent les liaisons métier ; les croisements représentent les pages de convergence. MajestiOS doit maintenir la cohérence de ces relations. La rubrique Emploi est organisée séparément.</p>
+      <p className="maj-star-note">Triangle = page MajestiOS. Côté = communication entre pages. Croisement = page d’information MajestiOS où les informations reliées se rencontrent. MajestiOS veille à la cohérence de ces communications et à la pertinence des informations qui en résultent. La rubrique Emploi est organisée séparément.</p>
     </section>
   );
 }
