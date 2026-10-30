@@ -49,17 +49,17 @@ La vocation de MajestiOS ne consiste pas seulement à afficher des rubriques cô
 
 Le mot « garant » désigne ici une responsabilité de conception et de pilotage : MajestiOS doit fournir les mécanismes, les repères et le suivi nécessaires pour maintenir la cohérence. Il ne signifie pas qu'un résultat commercial ou un contrat puisse être garanti indépendamment des décisions humaines, du budget, du besoin et du niveau de confiance réel.
 
-## 3 ter. Grammaire géométrique : triangles, côtés et croisements
+## 3 ter. Grammaire géométrique : pages, communications et pages d'information
 
-L'analyse géométrique doit porter autant sur les triangles que sur leurs côtés et leurs croisements. Pour que cette grammaire soit exploitable dans l'interface et dans l'arborescence, on retient les correspondances suivantes :
+La géométrie de MajestiOS définit une architecture de pages et de communications. La distinction doit rester stricte :
 
-- **Triangle :** une rubrique, un axe fonctionnel ou un ensemble cohérent de fonctions.
-- **Côté :** une relation, un parcours ou une liaison fonctionnelle entre des éléments de l'architecture.
-- **Croisement / point de rencontre :** une page ou un espace où plusieurs axes, relations ou parcours convergent.
+- **Triangle = page MajestiOS.** Chaque triangle représente une page distincte, avec une fonction, un contenu et une identité visuelle propres. Sa taille, son orientation et sa position peuvent varier selon son rôle dans l'architecture.
+- **Côté = communication MajestiOS.** Chaque côté représente une communication entre des pages : circulation d'information, transmission de contexte, orientation ou continuité d'un parcours. Il doit correspondre à une relation fonctionnelle explicite, et non à un simple trait décoratif.
+- **Croisement = page d'information MajestiOS.** Lorsqu'il y a croisement, il s'agit d'une page à part entière, consacrée aux informations qui se rencontrent à cet endroit. Elle met en relation les apports des pages connectées et les rend compréhensibles ou exploitables ensemble.
 
-Le nombre, la taille et l'orientation des triangles rendent visibles les rubriques et leur organisation. Les côtés indiquent les relations à surveiller. Les croisements désignent les espaces de convergence — notamment les pages — où une synergie peut se concrétiser. Une page de croisement peut donc être liée à plusieurs rubriques, sans être dupliquée artificiellement dans chacune d'elles.
+Le croisement n'est donc pas simplement un lien, ni une rubrique générique : c'est une destination informationnelle distincte. Les communications portées par les côtés relient les pages triangulaires et les pages d'information issues de leurs croisements. MajestiOS doit observer la qualité de ces communications, leur cohérence, les ruptures éventuelles et les possibilités de synergie.
 
-Cette représentation est un modèle conceptuel : chaque correspondance doit se traduire dans l'application par une destination, un lien ou une relation de données explicite. La géométrie seule ne prouve pas qu'une interconnexion est fonctionnelle ; celle-ci doit être implémentée et testée.
+Cette représentation doit se traduire dans l'application par de véritables routes, contenus et relations testables. La présence d'un triangle, d'un côté ou d'un croisement dans le schéma ne prouve pas, à elle seule, que la page ou la communication correspondante est déjà implémentée.
 
 ## 4. De l'étoile à l'arborescence
 
