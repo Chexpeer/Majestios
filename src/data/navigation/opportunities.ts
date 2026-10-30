@@ -17,9 +17,9 @@ export const opportunitiesNode: SiteNode = { label: "Opportunités", href: "/opp
       { label: "Par secteur", href: "/opportunites/salons/secteur", description: "Explorer les salons par domaine." },
       { label: "Par région", href: "/opportunites/salons/region", description: "Explorer les salons par territoire." }
     ]},
-    { label: "Emploi et missions", href: "/opportunites/emploi", description: "Explorer les parcours d’emploi et de missions ; le flux d’annonces reste à connecter.", status: "preparing", children: [
-      { label: "Offres d’emploi", href: "/opportunites/emploi/offres", description: "Guide de qualification des offres ; le flux de recherche reste à connecter.", status: "preparing" },
-      { label: "Missions", href: "/opportunites/emploi/missions", description: "Guide de qualification des missions ; le flux d’annonces reste à connecter.", status: "preparing" },
+    { label: "Emploi et missions", href: "/opportunites/emploi", description: "Explorer les parcours d’emploi et de missions ; le flux d’annonces attend la connexion de sources vérifiées.", status: "pending_data", children: [
+      { label: "Offres d’emploi", href: "/opportunites/emploi/offres", description: "Guide de qualification disponible ; le flux de recherche attend la connexion de sources vérifiées.", status: "pending_data" },
+      { label: "Missions", href: "/opportunites/emploi/missions", description: "Guide de qualification disponible ; le flux d’annonces attend la connexion de sources vérifiées.", status: "pending_data" },
       { label: "Métiers", href: "/opportunites/emploi/metiers", description: "Guides métiers fondés sur des informations vérifiables." },
       { label: "Déposer une offre", href: "/opportunites/emploi/deposer-une-offre", description: "Parcours de dépôt prévu ; aucun formulaire de publication d’offre n’est encore activé.", status: "preparing" },
       { label: "Conseils", href: "/opportunites/emploi/conseils", description: "Préparer sa candidature ou son recrutement." }
