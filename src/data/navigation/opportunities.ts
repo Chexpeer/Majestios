@@ -46,7 +46,7 @@ export const opportunitiesNode: SiteNode = {
           ]
         },
         { label: "Radar des entreprises", href: "/business/intelligence-entreprises", description: "Explorer les entreprises à qualifier comme pistes commerciales, sans supposer leurs besoins." },
-        { label: "Signaux économiques", href: "/opportunites/signaux-entreprises", description: "Comprendre les signaux économiques avant d’en faire une hypothèse commerciale." }
+        { label: "Signaux économiques", href: "/business/veille-bodacc", description: "Comprendre les signaux économiques avant d’en faire une hypothèse commerciale." }
       ]
     },
     {
