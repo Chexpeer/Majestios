@@ -123,3 +123,7 @@ Aucune migration de base de données ne doit être créée avant la validation d
 7. Livrer progressivement les fonctions métier, sans confondre prototype et service opérationnel.
 
 **Règle permanente :** aucun secret dans le dépôt ou le navigateur ; aucune donnée fictive présentée comme réelle ; provenance vérifiable ; respect des droits d’utilisation des sources ; traçabilité des actions d’administration.
+
+
+## Doctrine de navigation et d’identité des dossiers
+La règle de conception des dossiers, des filigranes et des liens internes est définie dans [`docs/architecture/DOCTRINE_IDENTITE_DOSSIERS_ET_NAVIGATION_V1.0.md`](docs/architecture/DOCTRINE_IDENTITE_DOSSIERS_ET_NAVIGATION_V1.0.md). Elle interdit notamment les liens internes qui ramènent à la page de départ et impose des destinations utiles, distinctes et vérifiables.
