@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 import { extractBoampFields } from "@/lib/boamp/records";
 
 export const dynamic = "force-dynamic";
@@ -139,7 +138,6 @@ export default async function TenderDetailPage({ params, searchParams }: Props) 
 
   return (
     <main className="public-site concept-page">
-      <PublicHeader />
       <section className="how-section concept-hero">
         <div>
           <span className="section-label">AVIS PUBLIC · IDENTIFIANT SOURCE</span>
