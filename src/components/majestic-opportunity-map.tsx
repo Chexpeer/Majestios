@@ -42,7 +42,6 @@ const CX = 450;
 const CY = 450;
 const RADII = [0, 180, 280, 390];
 const WIDTHS = [0, 108, 116, 0];
-const LABEL_RADII = [105, 230, 326];
 
 function point(angle: number, radius: number, offset = 0) {
   const a = (angle * Math.PI) / 180;
@@ -57,9 +56,39 @@ function polygonPoints(points: { x: number; y: number }[]) {
   return points.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
 }
 function surfacePolygon(angle: number, index: number) {
-  const a = crossSection(angle, RADII[index], WIDTHS[index]);
-  const b = crossSection(angle, RADII[index + 1], WIDTHS[index + 1]);
-  return polygonPoints([a[0], b[0], b[1], a[1]]);
+  // Chaque surface est un véritable losange, orienté dans l'axe de sa branche.
+  const centers = [115, 225, 335];
+  const radius = centers[index];
+  const halfLength = 61;
+  const halfWidth = 67;
+  return polygonPoints([
+    point(angle, radius - halfLength),
+    point(angle, radius, -halfWidth),
+    point(angle, radius + halfLength),
+    point(angle, radius, halfWidth),
+  ]);
+}
+function titlePosition(id: string) {
+  const positions: Record<string, { x: number; y: number; anchor: "start" | "middle" | "end" }> = {
+    public: { x: 205, y: 82, anchor: "middle" },
+    private: { x: 695, y: 82, anchor: "middle" },
+    commercial: { x: 820, y: 445, anchor: "middle" },
+    networks: { x: 650, y: 815, anchor: "middle" },
+    support: { x: 250, y: 815, anchor: "middle" },
+    prospection: { x: 82, y: 445, anchor: "middle" },
+  };
+  return positions[id];
+}
+function titleLines(id: string, title: string) {
+  const lines: Record<string, string[]> = {
+    commercial: ["DÉVELOPPEMENT", "COMMERCIAL"],
+    prospection: ["PROSPECTION &", "QUALIFICATION"],
+    networks: ["RÉSEAUX &", "ÉCOSYSTÈME"],
+    public: ["MARCHÉS PUBLICS"],
+    private: ["MARCHÉS PRIVÉS"],
+    support: ["ACCOMPAGNEMENT"],
+  };
+  return lines[id] ?? [title];
 }
 function labelPoint(angle: number, index: number) {
   return point(angle, LABEL_RADII[index]);
@@ -73,8 +102,8 @@ export default function MajestiOSOpportunityMap() {
     <section className="maj-map maj-star-map" aria-labelledby="maj-map-title">
       <header className="maj-map-heading">
         <span className="section-label">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</span>
-        <h2 id="maj-map-title">Six activités. <em>Des liens. Une intelligence croisée.</em></h2>
-        <p>Le schéma conserve ses six branches. L’emploi et le recrutement disposent de leur propre rubrique ; les réseaux, salons et séminaires contribuent aux synergies entre les activités.</p>
+        <h2 id="maj-map-title">Six activités. <em>Une exploration interactive.</em></h2>
+        <p>Pour découvrir notre univers, il suffit de caresser notre espace virtuel du bout de l’index.</p>
       </header>
 
       <div className="maj-star-canvas">
@@ -86,11 +115,9 @@ export default function MajestiOSOpportunityMap() {
           {dossiers.map((dossier) => (
             <g key={dossier.id} className={`maj-star-dossier ${active === dossier.id ? "is-active" : ""}`}>
               {dossier.surfaces.map((surface, index) => {
-                const p = labelPoint(dossier.angle, index);
                 return (
                   <a key={surface.title} href={surface.href} className="maj-star-surface" aria-label={`${surface.title}, sous-dossier de ${dossier.title}`} onMouseEnter={() => setActive(dossier.id)} onFocus={() => setActive(dossier.id)} onClick={(event) => { if (window.matchMedia("(hover: none)").matches && touchedSurface !== surface.title) { event.preventDefault(); setTouchedSurface(surface.title); setActive(dossier.id); } }}>
                     <polygon points={surfacePolygon(dossier.angle, index)} fill={dossier.color} />
-                    <text x={p.x} y={p.y + 4} textAnchor="middle">{surface.title}</text>
                     <title>{dossier.title} — {surface.title}</title>
                   </a>
                 );
@@ -105,10 +132,12 @@ export default function MajestiOSOpportunityMap() {
                 const right = crossSection(dossier.angle, RADII[0], WIDTHS[0])[1];
                 return `M${left.x},${left.y} L${leftMid.x},${leftMid.y} L${leftOuter.x},${leftOuter.y} L${tip.x},${tip.y} L${rightOuter.x},${rightOuter.y} L${rightMid.x},${rightMid.y} L${right.x},${right.y} Z`;
               })()} />
-              <g className={`maj-star-title maj-star-title-${dossier.id}`} role="button" tabIndex={0} aria-label={`Sélectionner le dossier ${dossier.title}`} onClick={() => setActive(dossier.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setActive(dossier.id); }}>
-                <text x={point(dossier.angle, 405).x} y={point(dossier.angle, 405).y + 4} textAnchor={dossier.angle === 0 ? "start" : dossier.angle === 180 ? "end" : "middle"}>{dossier.title}</text>
-                <title>Sélectionner {dossier.title}</title>
-              </g>
+              <a href={dossier.surfaces[0].href} className={`maj-star-title maj-star-title-${dossier.id}`} aria-label={`Ouvrir le dossier ${dossier.title}`} onMouseEnter={() => setActive(dossier.id)} onFocus={() => setActive(dossier.id)}>
+                <text x={titlePosition(dossier.id).x} y={titlePosition(dossier.id).y} textAnchor={titlePosition(dossier.id).anchor}>
+                  {titleLines(dossier.id, dossier.title).map((line, lineIndex) => <tspan key={line} x={titlePosition(dossier.id).x} dy={lineIndex === 0 ? 0 : 18}>{line}</tspan>)}
+                </text>
+                <title>Ouvrir le dossier {dossier.title}</title>
+              </a>
             </g>
           ))}
         </svg>
@@ -131,7 +160,7 @@ export default function MajestiOSOpportunityMap() {
         </div>
         <a className="maj-map-selection-link" href={selected.surfaces[0].href}>Ouvrir le dossier <span aria-hidden="true">↗</span></a>
       </div>
-      <p className="maj-star-note">Chaque surface permet d’explorer une activité. Les liens représentent des synergies transversales. Emploi et recrutement restent accessibles dans leur rubrique dédiée, hors du schéma.</p>
+      <p className="maj-star-note">Effleurez une surface pour en révéler la fonction. Sélectionnez le titre d’une rubrique pour ouvrir directement son dossier. Emploi et recrutement disposent d’une rubrique dédiée, hors du schéma.</p>
     </section>
   );
 }
