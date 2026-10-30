@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "Marchés privés et opportunités confidentielles — MajestiOS",
@@ -39,7 +38,7 @@ const steps = [
 
 export default function MarchesPrivesPage() {
   return <main className="site-page">
-    <PublicHeader />
+    
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link><span><b>/</b><Link href="/opportunites">Opportunités</Link></span><span><b>/</b><strong>Marchés privés</strong></span></nav>
       <section className="page-hero bodacc-hero">
