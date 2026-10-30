@@ -42,12 +42,15 @@ export default function TenderSearchResults() {
     setFilters(new URLSearchParams(window.location.search));
   }, []);
 
+  const filterString = filters?.toString() ?? null;
+
   useEffect(() => {
-    if (!filters) return;
+    if (filterString === null) return;
+    const currentFilters = new URLSearchParams(filterString);
     let cancelled = false;
     const query = new URLSearchParams({ limit: "20", openOnly: "true" });
     for (const key of ["q", "location", "type"] as const) {
-      const value = filters.get(key);
+      const value = currentFilters.get(key);
       if (value && value !== "all") query.set(key, value);
     }
 
@@ -72,7 +75,7 @@ export default function TenderSearchResults() {
       });
 
     return () => { cancelled = true; };
-  }, [filters?.toString()]);
+  }, [filterString]);
 
   const queryLabel = filters
     ? [filters.get("q"), filters.get("location") ? `département ${filters.get("location")}` : "", filters.get("type") && filters.get("type") !== "all" ? filters.get("type") : ""].filter(Boolean).join(" · ")

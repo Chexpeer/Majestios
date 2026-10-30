@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 const sections = [
-  { title: "Marchés publics", tag: "COMMANDE PUBLIQUE", text: "Accéder aux marchés publics, rechercher les appels d’offres et parcourir les catégories Travaux, Services et Fournitures.", href: "/opportunites/publiques", action: "Explorer les marchés publics", tone: "public" },
+  { title: "Marchés publics", tag: "COMMANDE PUBLIQUE", text: "Accéder aux marchés publics, rechercher les appels d’offres et parcourir les catégories Travaux, Services et Fournitures.", href: "/opportunites/marches-publics", action: "Explorer les marchés publics", tone: "public" },
   { title: "Opportunités privées", tag: "ENTREPRISES ET BESOINS PRIVÉS", text: "Explorer les consultations privées, les besoins d’entreprises et les pistes de sous-traitance, en distinguant les annonces confirmées des signaux à qualifier.", href: "/opportunites/privees", action: "Explorer les opportunités privées", tone: "private" },
   { title: "Emploi & recrutement", tag: "OFFRES, MISSIONS ET RECRUTEMENT", text: "Consulter les offres, rechercher des missions, recruter ou préparer la publication d’une annonce. Les fonctions en préparation sont indiquées comme telles.", href: "/opportunites/emploi", action: "Accéder à l’emploi", tone: "jobs" },
   { title: "Salons professionnels", tag: "RENCONTRES ET RÉSEAUTAGE", text: "Repérer les rendez-vous professionnels, préparer les rencontres et organiser le suivi commercial.", href: "/opportunites/salons", action: "Préparer un salon", tone: "events" }

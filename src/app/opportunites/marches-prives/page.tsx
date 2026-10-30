@@ -18,7 +18,7 @@ const families = [
     title: "Travaux induits et sous-traitance",
     text: "Un marché attribué peut générer des besoins de renfort, de location de matériel, de fournitures ou de sous-traitance. Ce sont des pistes à investiguer, jamais des besoins confirmés sans élément complémentaire.",
     action: "Consulter les marchés publics",
-    href: "/opportunites/publiques"
+    href: "/opportunites/marches-publics"
   },
   {
     number: "03",

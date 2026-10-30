@@ -6,15 +6,10 @@ export const opportunitiesNode: SiteNode = {
   description: "Choisir ce que l’on recherche : marchés publics, opportunités privées, emploi ou événements professionnels.",
   children: [
     {
-      label: "Opportunités publiques",
-      href: "/opportunites/publiques",
-      description: "Accéder aux consultations de la commande publique et aux appels d’offres.",
+      label: "Marchés publics",
+      href: "/opportunites/marches-publics",
+      description: "Explorer les consultations publiques par dossier et par besoin.",
       children: [
-        {
-          label: "Marchés publics",
-          href: "/opportunites/marches-publics",
-          description: "Explorer les consultations publiques par dossier et par besoin.",
-          children: [
             {
               label: "Appels d’offres",
               href: "/opportunites/marches-publics/appels-offres",
@@ -27,8 +22,6 @@ export const opportunitiesNode: SiteNode = {
             },
             { label: "Par département", href: "/opportunites/marches-publics/departement", description: "Explorer les consultations par territoire." }
           ]
-        }
-      ]
     },
     {
       label: "Opportunités privées",
