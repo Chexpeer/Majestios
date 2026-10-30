@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "Emploi et missions professionnelles — MajestiOS",
@@ -14,7 +13,7 @@ const pathways = [
 ];
 
 export default function EmploiMissionsPage() {
-  return <main className="public-site concept-page"><PublicHeader />
+  return <main className="public-site concept-page">
     <section className="how-section concept-hero"><div><span className="section-label">OPPORTUNITÉS · EMPLOI ET COMPÉTENCES</span><h1>Des parcours professionnels <em>mieux qualifiés.</em></h1><p>Une offre d’emploi et une mission ne se lisent pas de la même façon. MajestiOS distingue les deux parcours et met l’accent sur la fiabilité de la source, la clarté des conditions et l’adéquation entre besoin et compétences.</p><p>Le catalogue d’annonces ne doit être alimenté que par des données disponibles et vérifiables. Aucune offre fictive n’est présentée comme une opportunité réelle.</p><div className="page-hero-meta"><span className="status-chip status-chip-preparing"><i />Flux d’annonces en préparation</span><span>Les pages actuelles décrivent la méthode, pas un catalogue connecté.</span></div></div></section>
     <section className="concept-principles"><span className="section-label">CHOISIR SON PARCOURS</span><h2>Quatre entrées, des objectifs différents.</h2><div className="results-list">{pathways.map((item)=><article className="result-card" key={item.href}><div className="result-main"><span className="result-category">PARCOURS {item.number}</span><h3>{item.title}</h3><p>{item.text}</p></div><div className="result-actions"><Link className="result-action" href={item.href}>{item.action} →</Link></div></article>)}</div></section>
     <section className="concept-principles"><span className="section-label">GARDE-FOUS</span><h2>La confiance avant la candidature.</h2><div className="bodacc-principle-grid"><div><strong>Source attribuée</strong><span>Retrouver l’émetteur, la date de publication et le statut de l’annonce avant de s’engager.</span></div><div><strong>Conditions explicites</strong><span>Signaler les informations manquantes plutôt que supposer une rémunération, un contrat ou un besoin.</span></div><div><strong>Données personnelles protégées</strong><span>Ne pas demander de CV ni de coordonnées par un parcours provisoire non sécurisé.</span></div></div></section>
