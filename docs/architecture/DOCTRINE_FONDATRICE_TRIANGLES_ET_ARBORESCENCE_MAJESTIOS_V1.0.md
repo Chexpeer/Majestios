@@ -27,19 +27,21 @@ Ces variations doivent rester cohérentes et lisibles. La taille d'un triangle n
 
 ## 3. Schéma central : six axes complémentaires
 
-Le schéma central d'accueil est une étoile formée par deux triangles croisés, de dimensions visuellement proches, avec MajestiOS exactement au centre.
+Le schéma central d'accueil s'organise autour de deux triangles croisés qui forment une étoile. Les dossiers stratégiques principaux ont un positionnement précis :
 
-### Triangle des domaines stratégiques
-- **Sommet supérieur :** Développement commercial
-- **Sommet inférieur gauche :** Marchés publics
-- **Sommet inférieur droit :** Marchés privés
+### Grand triangle stratégique
+- **Triangle supérieur :** Dossier Développement commercial.
+- **Petit triangle inférieur gauche, inscrit dans le grand ensemble :** Dossier Marchés publics.
+- **Petit triangle inférieur droit, inscrit dans le grand ensemble :** Dossier Marchés privés.
 
-### Triangle des leviers opérationnels
-- **Sommet supérieur gauche :** Qualification & prospection
-- **Sommet supérieur droit :** Salons & événements professionnels
-- **Sommet inférieur :** Accompagnement
+La taille et la position expriment ici l'organisation visuelle voulue, pas une différence de valeur entre les dossiers. Le développement commercial occupe le triangle supérieur ; les marchés publics et privés se répartissent en bas à gauche et en bas à droite.
 
-Les deux triangles ont un poids visuel comparable. Aucun ne doit écraser l'autre. Leur intersection représente la synergie organisée par MajestiOS entre les domaines où une opportunité apparaît et les leviers qui permettent de la qualifier, de créer la relation et de la transformer.
+### Triangle croisé des leviers opérationnels
+- **Triangle supérieur gauche :** Dossier Qualification & prospection.
+- **Triangle supérieur droit :** Dossier Salons & événements professionnels.
+- **Triangle inférieur :** Dossier Accompagnement.
+
+Les deux triangles qui constituent l'étoile doivent rester visuellement équilibrés. Les côtés figurent les liens entre dossiers ; les croisements correspondent à des sous-dossiers ou à des pages d'information et de documentation. Ils matérialisent les endroits où les contenus de plusieurs dossiers peuvent être rapprochés et exploités ensemble.
 
 **Emploi est hors de l'étoile centrale** et dispose d'une organisation propre, reliée au reste de MajestiOS lorsque cela est utile.
 
