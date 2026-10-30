@@ -3,62 +3,65 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const pillars = [
-  { id:"commercial", label:"Développement commercial", subtitle:"LE SOMMET · L’IMPULSION", description:"Ciblage, prospection, qualification et transformation des opportunités en relations commerciales durables.", href:"/developpement-commercial", tone:"commercial", x:50, y:17 },
-  { id:"public", label:"Marchés publics", subtitle:"BASE GAUCHE", description:"Détecter et qualifier les appels d’offres publics, comprendre les exigences et préparer le positionnement.", href:"/opportunites/marches-publics", tone:"public", x:23, y:76 },
-  { id:"private", label:"Marchés privés", subtitle:"BASE DROITE", description:"Repérer les consultations privées, les besoins de sous-traitance et les opportunités commerciales moins visibles.", href:"/opportunites/marches-prives", tone:"private", x:77, y:76 },
-];
-
-const engines = [
-  { id:"prospection", label:"Prospection", detail:"Cibler · contacter · relancer", href:"/developpement-commercial/prospection", icon:"↗" },
-  { id:"ao", label:"Accompagnement appels d’offres", detail:"Préparer · rédiger · sécuriser", href:"/developpement-commercial/accompagnement-appels-offres", icon:"▤" },
-  { id:"emploi", label:"Emploi & recrutement", detail:"Compétences · missions · équipes", href:"/emploi", icon:"◎" },
-  { id:"salons", label:"Salons professionnels", detail:"Rencontres · réseau · détection", href:"/opportunites/salons", icon:"✦" },
+const axes = [
+  { id: "commercial", label: "Développement commercial", group: "DOMAINE STRATÉGIQUE", description: "Développer l’activité, identifier les marchés porteurs et transformer les opportunités en relations commerciales durables.", href: "/developpement-commercial", point: "top" },
+  { id: "public", label: "Marchés publics", group: "DOMAINE STRATÉGIQUE", description: "Détecter et qualifier les appels d’offres publics, comprendre les exigences et préparer le positionnement.", href: "/opportunites/marches-publics", point: "left" },
+  { id: "private", label: "Marchés privés", group: "DOMAINE STRATÉGIQUE", description: "Repérer les consultations privées, les besoins de sous-traitance et les opportunités moins visibles.", href: "/opportunites/marches-prives", point: "right" },
+  { id: "qualification", label: "Qualification & prospection", group: "LEVIER OPÉRATIONNEL", description: "Qualifier les opportunités et les entreprises, identifier les bons interlocuteurs, puis organiser une prospection ciblée.", href: "/developpement-commercial/prospection", point: "upper-left" },
+  { id: "events", label: "Salons & événements professionnels", group: "LEVIER OPÉRATIONNEL", description: "Repérer les rencontres utiles, développer le réseau professionnel et détecter de nouveaux besoins commerciaux.", href: "/opportunites/salons", point: "upper-right" },
+  { id: "support", label: "Accompagnement", group: "LEVIER OPÉRATIONNEL", description: "Structurer la démarche et accompagner l’entreprise dans la qualification, le positionnement et la réponse aux opportunités.", href: "/developpement-commercial/accompagnement-appels-offres", point: "bottom" },
 ];
 
 export default function MajestiOSOpportunityMap() {
-  const [active,setActive] = useState("commercial");
-  const selected = [...pillars, ...engines.map((e)=>({...e, subtitle:"MOTEUR DE SYNERGIE", description:e.detail, tone:"engine", x:50,y:50}))].find((item)=>item.id===active) ?? pillars[0];
+  const [active, setActive] = useState("commercial");
+  const selected = axes.find((axis) => axis.id === active) ?? axes[0];
+
   return (
-    <section className="maj-map maj-pyramid" aria-labelledby="maj-map-title">
+    <section className="maj-map maj-star-map" aria-labelledby="maj-map-title">
       <div className="maj-map-heading">
-        <span className="section-label">LE MODÈLE MAJESTIOS</span>
-        <h2 id="maj-map-title">Trois axes. Une seule dynamique commerciale.</h2>
-        <p>Le développement commercial relie les marchés publics et privés. Au cœur de la pyramide, les moteurs de MajestiOS font circuler l’information et transforment les opportunités en actions.</p>
+        <span className="section-label">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</span>
+        <h2 id="maj-map-title">Six axes. <em>Une stratégie en étoile.</em></h2>
+        <p>Deux triangles croisés de dimensions presque identiques relient les domaines stratégiques aux leviers opérationnels. MajestiOS se trouve au centre de leur synergie.</p>
       </div>
-      <div className="maj-pyramid-legend" aria-label="Les trois axes stratégiques">
-        <span className="legend-commercial"><i /> Développement commercial</span>
-        <span className="legend-public"><i /> Marchés publics</span>
-        <span className="legend-private"><i /> Marchés privés</span>
+      <div className="maj-star-legend" aria-label="Les deux dimensions de la stratégie">
+        <span><i className="legend-strategy" /> Domaines stratégiques</span>
+        <span><i className="legend-operational" /> Leviers opérationnels</span>
       </div>
-      <div className="maj-pyramid-stage">
-        <svg className="maj-pyramid-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <defs><linearGradient id="pyramidStroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#c99b45"/><stop offset="50%" stopColor="#8aa8b7"/><stop offset="100%" stopColor="#258c78"/></linearGradient></defs>
-          <path d="M50 7 L5 91 L95 91 Z" fill="rgba(232,241,245,.46)" stroke="url(#pyramidStroke)" strokeWidth=".7" vectorEffect="non-scaling-stroke"/>
-          <path d="M50 7 L50 91 M5 91 L50 49 L95 91 M23 59 L77 59" fill="none" stroke="#b8cbd4" strokeWidth=".28" strokeDasharray="1.2 1.4" vectorEffect="non-scaling-stroke"/>
+      <div className="maj-star-stage">
+        <svg className="maj-star-lines" viewBox="0 0 600 560" role="img" aria-label="Deux triangles de taille presque identique se croisent pour former une étoile à six branches">
+          <polygon className="maj-star-triangle maj-star-strategy" points="300,26 55,455 545,455" />
+          <polygon className="maj-star-triangle maj-star-operational" points="300,534 55,105 545,105" />
+          <circle className="maj-star-crossing" cx="300" cy="280" r="48" />
         </svg>
-        <div className="maj-pyramid-core" aria-label="Synergie MajestiOS">
-          <span className="maj-pyramid-core-kicker">AU CŒUR DE LA PYRAMIDE</span>
-          <strong>SYNERGIE</strong>
-          <span className="maj-pyramid-core-caption">Données · acteurs · opportunités</span>
-          <div className="maj-pyramid-engines">
-            {engines.map((engine)=><button key={engine.id} type="button" onClick={()=>setActive(engine.id)} onFocus={()=>setActive(engine.id)} className={`maj-pyramid-engine ${active===engine.id?"is-active":""}`} aria-pressed={active===engine.id}>
-              <span className="maj-pyramid-engine-icon" aria-hidden="true">{engine.icon}</span>
-              <span><strong>{engine.label}</strong><small>{engine.detail}</small></span>
-            </button>)}
-          </div>
+        {axes.map((axis) => (
+          <button
+            key={axis.id}
+            type="button"
+            className={`maj-star-axis maj-star-${axis.point} ${active === axis.id ? "is-active" : ""}`}
+            onClick={() => setActive(axis.id)}
+            onFocus={() => setActive(axis.id)}
+            aria-pressed={active === axis.id}
+          >
+            <span className="maj-star-axis-group">{axis.group}</span>
+            <strong>{axis.label}</strong>
+            <span className="maj-star-axis-open">Explorer ↗</span>
+          </button>
+        ))}
+        <div className="maj-star-core" aria-label="MajestiOS, centre de coordination de la stratégie">
+          <span className="maj-star-core-mark">M</span>
+          <strong>MajestiOS</strong>
+          <small>Intelligence commerciale proactive</small>
         </div>
-        {pillars.map((pillar)=><Link key={pillar.id} href={pillar.href} className={`maj-pyramid-pillar ${pillar.tone} ${active===pillar.id?"is-active":""}`} onMouseEnter={()=>setActive(pillar.id)} onFocus={()=>setActive(pillar.id)} onTouchStart={()=>setActive(pillar.id)} style={{left:`${pillar.x}%`,top:`${pillar.y}%`}} aria-label={`Ouvrir ${pillar.label}. ${pillar.description}`}>
-          <span className="maj-pyramid-pillar-subtitle">{pillar.subtitle}</span>
-          <strong>{pillar.label}</strong>
-          <span className="maj-pyramid-pillar-action">Explorer le dossier <b>↗</b></span>
-        </Link>)}
       </div>
-      <div className="maj-map-selection maj-pyramid-selection" aria-live="polite">
-        <div><span className="maj-map-selection-kicker">FOCUS · {selected.subtitle}</span><strong>{selected.label}</strong><p>{selected.description}</p></div>
-        {"href" in selected ? <Link href={selected.href} className="maj-map-selection-link">Ouvrir le dossier <span aria-hidden="true">↗</span></Link> : null}
+      <div className="maj-star-selection" aria-live="polite">
+        <div>
+          <span className="maj-star-selection-kicker">{selected.group}</span>
+          <h3>{selected.label}</h3>
+          <p>{selected.description}</p>
+        </div>
+        <Link href={selected.href} className="maj-star-selection-link">Ouvrir la rubrique <span aria-hidden="true">↗</span></Link>
       </div>
-      <p className="maj-pyramid-note">Les quatre moteurs ne sont pas des axes supplémentaires : ils alimentent la synergie entre le développement commercial et les marchés publics et privés.</p>
+      <p className="maj-star-note">Chaque axe possède sa destination. Les connexions entre rubriques traduisent les synergies métier ; la rubrique Emploi est organisée séparément.</p>
     </section>
   );
 }
