@@ -90,9 +90,6 @@ function titleLines(id: string, title: string) {
   };
   return lines[id] ?? [title];
 }
-function labelPoint(angle: number, index: number) {
-  return point(angle, LABEL_RADII[index]);
-}
 export default function MajestiOSOpportunityMap() {
   const [active, setActive] = useState("commercial");
   const [touchedSurface, setTouchedSurface] = useState<string | null>(null);
