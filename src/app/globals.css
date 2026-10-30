@@ -2495,3 +2495,39 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, .majestic-global-main::-webkit
 @media (prefers-reduced-motion: reduce) {
   .maj-star-surface polygon, .maj-star-title rect { transition: none; }
 }
+
+/* MajestiOS — surfaces en losanges, titres extérieurs lisibles et cliquables */
+.maj-star-map .maj-star-surface text { display: none !important; }
+.maj-star-map .maj-star-title { cursor: pointer; text-decoration: none; }
+.maj-star-map .maj-star-title text {
+  fill: #203b49;
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 850;
+  letter-spacing: .45px;
+  paint-order: stroke;
+  stroke: rgba(248, 251, 251, .98);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+  transition: fill .18s ease, font-size .18s ease;
+}
+.maj-star-map .maj-star-title:hover text,
+.maj-star-map .maj-star-title:focus text { fill: #a17b2f; }
+.maj-star-map .maj-star-surface polygon {
+  stroke: rgba(26, 51, 65, .72);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  transition: filter .22s ease, fill-opacity .22s ease, stroke-width .22s ease;
+}
+.maj-star-map .maj-star-surface:hover polygon,
+.maj-star-map .maj-star-surface:focus polygon {
+  filter: brightness(1.12) drop-shadow(0 3px 4px rgba(23, 49, 63, .2));
+  stroke: #17394a;
+  stroke-width: 4;
+}
+@media (max-width: 700px) {
+  .maj-star-map .maj-star-title text { font-size: 13px; letter-spacing: 0; stroke-width: 4px; }
+}
+@media (max-width: 420px) {
+  .maj-star-map .maj-star-title text { font-size: 11px; stroke-width: 3px; }
+}
