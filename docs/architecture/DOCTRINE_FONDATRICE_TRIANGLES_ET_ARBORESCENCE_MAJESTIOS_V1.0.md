@@ -51,17 +51,44 @@ La vocation de MajestiOS ne consiste pas seulement à afficher des rubriques cô
 
 Le mot « garant » désigne ici une responsabilité de conception et de pilotage : MajestiOS doit fournir les mécanismes, les repères et le suivi nécessaires pour maintenir la cohérence. Il ne signifie pas qu'un résultat commercial ou un contrat puisse être garanti indépendamment des décisions humaines, du budget, du besoin et du niveau de confiance réel.
 
-## 3 ter. Grammaire géométrique : pages, communications et pages d'information
+## 3 ter. Grammaire géométrique : dossiers, bandes, liens et croisements
 
-La géométrie de MajestiOS définit une architecture de pages et de communications. La distinction doit rester stricte :
+La géométrie de MajestiOS est une grammaire fonctionnelle, pas un décor.
 
-- **Triangle = page MajestiOS.** Chaque triangle représente une page distincte, avec une fonction, un contenu et une identité visuelle propres. Sa taille, son orientation et sa position peuvent varier selon son rôle dans l'architecture.
-- **Côté = communication MajestiOS.** Chaque côté représente une communication entre des pages : circulation d'information, transmission de contexte, orientation ou continuité d'un parcours. Il doit correspondre à une relation fonctionnelle explicite, et non à un simple trait décoratif.
-- **Croisement = page d'information MajestiOS.** Lorsqu'il y a croisement, il s'agit d'une page à part entière, consacrée aux informations qui se rencontrent à cet endroit. Elle met en relation les apports des pages connectées et les rend compréhensibles ou exploitables ensemble.
+- **Triangle = dossier MajestiOS.** Chaque triangle représente un dossier distinct, avec sa fonction, son contenu et son identité visuelle.
+- **Bandes colorées à l'intérieur du triangle = sous-dossiers.** Chaque triangle est composé de **deux ou trois bandes visuellement distinctes**, chacune correspondant à un sous-dossier fonctionnel. Les bandes doivent suivre la forme du triangle et rester lisibles, sans surcharger l'étoile.
+- **Côté = lien entre dossiers.** Chaque côté exprime une relation fonctionnelle : circulation d'information, transmission de contexte, orientation ou continuité d'un parcours.
+- **Croisement = destination de convergence.** Un croisement peut ouvrir un sous-dossier transversal ou une page d'information/documentation où des contenus de plusieurs dossiers se rencontrent. Il ne doit pas devenir une page générique imposée à tous les liens.
 
-Le croisement n'est donc pas simplement un lien, ni une rubrique générique : c'est une destination informationnelle distincte. Les communications portées par les côtés relient les pages triangulaires et les pages d'information issues de leurs croisements. MajestiOS doit observer la qualité de ces communications, leur cohérence, les ruptures éventuelles et les possibilités de synergie.
+Les couleurs doivent avoir un sens stable et être reprises dans les sous-dossiers correspondants. Elles servent à reconnaître les fonctions, les relations et les états ; elles ne sont pas choisies uniquement pour embellir le schéma. La lisibilité, le contraste, l'accessibilité et la sobriété priment sur le nombre d'effets graphiques.
 
-Cette représentation doit se traduire dans l'application par de véritables routes, contenus et relations testables. La présence d'un triangle, d'un côté ou d'un croisement dans le schéma ne prouve pas, à elle seule, que la page ou la communication correspondante est déjà implémentée.
+### Répartition fonctionnelle initiale des rubriques
+
+Les rubriques existantes ou envisagées doivent être intégrées dans la bande la plus pertinente, plutôt que transformées automatiquement en dossiers principaux indépendants. Cette répartition est un cadrage fonctionnel à valider au fil de l'architecture ; les liens transversaux sont explicites et une fonction ne doit pas être dupliquée artificiellement dans plusieurs dossiers.
+
+| Rubrique | Bande / sous-dossier de rattachement privilégié | Liens transversaux utiles |
+|---|---|---|
+| Téléprospection | **Qualification & prospection** — prospection directe et prise de contact | CRM, réseau, accompagnement |
+| Accompagnement | Dossier **Accompagnement** — préparation, conseil et appui au positionnement | Marchés publics, marchés privés, développement commercial |
+| CRM | **Développement commercial** — pilotage des relations et suivi commercial | Téléprospection, réseau, marchés publics/privés, accompagnement |
+| Veille | **Développement commercial** — veille économique et détection des signaux ; les résultats sont ensuite distribués vers les dossiers concernés | Marchés publics, marchés privés, qualification, prospective |
+| Prospective | **Développement commercial** — études, tendances et anticipation des besoins | Veille, CRM, marchés publics/privés |
+| Séminaires | **Salons & événements professionnels** — séminaires, salons et rencontres professionnelles | Réseau, développement commercial, accompagnement |
+| Logiciels | **Développement commercial** — outils et logiciels utiles à l'activité professionnelle | CRM, prospection, accompagnement |
+| Réseau | **Développement commercial** — développement et animation du réseau professionnel | Salons, téléprospection, CRM, opportunités publiques et privées |
+
+Cette répartition est le point de départ, pas une interdiction d'évolution. Si l'analyse des parcours montre qu'une rubrique doit être déplacée, le changement doit être documenté et justifié par l'usage. Une fonction transversale peut être accessible depuis plusieurs dossiers par des liens cohérents, tout en conservant **une destination de référence** afin d'éviter les doublons.
+
+### Conséquence sur l'interface
+
+- Les bandes doivent être visibles comme des couches structurées à l'intérieur des triangles, et non comme des traits décoratifs superposés.
+- Chaque bande possède un libellé court accessible au survol, au focus clavier et à la sélection tactile.
+- Un clic sur une bande ouvre le sous-dossier correspondant ; un clic sur la zone générale du triangle ouvre le dossier parent.
+- Sur mobile, les sous-dossiers restent accessibles sans dépendre du survol.
+- Le schéma reste une vue d'ensemble : les détails, listes et outils sont présentés dans les destinations dédiées, pas entassés dans l'étoile.
+- Le centre de l'étoile matérialise la convergence de l'information et des liens ; il n'est pas un septième dossier ni une page universelle.
+
+Cette représentation doit se traduire dans l'application par de véritables routes, contenus et relations testables. La présence d'une bande ou d'un lien dans le schéma ne prouve pas, à elle seule, que le sous-dossier ou la fonction correspondante est déjà implémenté.
 
 ## 4. De l'étoile à l'arborescence
 
