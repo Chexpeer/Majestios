@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "FAQ — Questions fréquentes | MajestiOS",
@@ -100,7 +99,7 @@ const sections = [
 export default function FAQPage() {
   return (
     <main className="public-site concept-page">
-      <PublicHeader />
+      
       <section className="how-section concept-hero">
         <div>
           <span className="section-label">AIDE ET INFORMATIONS</span>
