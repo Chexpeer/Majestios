@@ -8,7 +8,7 @@ import { generalNodes } from "@/data/navigation/general";
 import type { SiteNode } from "@/data/navigation/types";
 
 const primaryItems = siteTree.filter((item) =>
-  ["/opportunites", "/business", "/developpement-commercial", "/reseaux", "/comprendre"].includes(item.href)
+  ["/opportunites", "/emploi", "/business", "/developpement-commercial", "/reseaux", "/comprendre"].includes(item.href)
 );
 
 const statusLabels: Record<string, string> = {
@@ -26,6 +26,7 @@ const statusBadge = (status?: string) =>
 const icons: Record<string, string> = {
   "/": "⌂",
   "/opportunites": "⌕",
+  "/emploi": "◎",
   "/business": "↗",
   "/developpement-commercial": "◎",
   "/reseaux": "♧",
@@ -34,6 +35,7 @@ const icons: Record<string, string> = {
 
 const domainClasses: Record<string, string> = {
   "/opportunites": "domain-opportunities",
+  "/emploi": "domain-employment",
   "/business": "domain-business",
   "/developpement-commercial": "domain-commercial",
   "/reseaux": "domain-networks",
