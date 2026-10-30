@@ -10,7 +10,7 @@ const poles = [
   { id: "sources", label: "Veille économique", detail: "Sources officielles · signaux économiques", href: "/opportunites/signaux-entreprises", x: "13%", y: "67%", color: "blue", icon: "⌕" },
   { id: "reseaux", label: "Réseaux professionnels", detail: "Interlocuteurs · partenaires · décideurs", href: "/reseaux", x: "87%", y: "67%", color: "green", icon: "♧" },
   { id: "business", label: "Développement commercial", detail: "Prospection · qualification · accompagnement", href: "/developpement-commercial", x: "34%", y: "91%", color: "violet", icon: "↗" },
-  { id: "emploi", label: "Emploi & recrutement", detail: "Offres d’emploi · missions · publier une offre", href: "/opportunites/emploi", x: "66%", y: "91%", color: "red", icon: "◎" },
+  { id: "emploi", label: "Emploi & recrutement", detail: "Offres d’emploi · missions · publier une offre", href: "/emploi", x: "66%", y: "91%", color: "red", icon: "◎" },
 ];
 
 export default function MajestiOSOpportunityMap() {
