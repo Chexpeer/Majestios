@@ -341,3 +341,38 @@ navigation.querySelectorAll("a").forEach((link) => {
     menuToggle.setAttribute("aria-label", "Ouvrir le menu");
   });
 });
+
+
+// MajestiOS — navigation stratégique en étoile (architecture fonctionnelle).
+(() => {
+  if (document.querySelector("#majestios-star-navigation")) return;
+  const hero = document.querySelector("main .hero");
+  if (!hero) return;
+
+  const section = document.createElement("section");
+  section.id = "majestios-star-navigation";
+  section.className = "star-navigation section-wrap";
+  section.setAttribute("aria-labelledby", "star-navigation-title");
+  section.innerHTML = `
+    <div class="star-heading">
+      <p class="eyebrow">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</p>
+      <h2 id="star-navigation-title">Une stratégie en étoile.<br><span>Six axes, une synergie.</span></h2>
+      <p>Les domaines stratégiques et les leviers opérationnels se croisent. MajestiOS coordonne leurs complémentarités.</p>
+    </div>
+    <div class="star-map" aria-label="Schéma interactif MajestiOS à six axes">
+      <svg class="star-lines" viewBox="0 0 600 520" role="img" aria-label="Deux triangles de dimensions presque identiques, croisés pour former une étoile à six branches">
+        <polygon class="triangle triangle-strategy" points="300,28 60,438 540,438"></polygon>
+        <polygon class="triangle triangle-action" points="300,492 60,82 540,82"></polygon>
+      </svg>
+      <a class="star-node node-development" href="#developpement-commercial"><span class="node-kicker">DOMAINE STRATÉGIQUE</span><strong>Développement<br>commercial</strong></a>
+      <a class="star-node node-public" href="#appels-doffres"><span class="node-kicker">DOMAINE STRATÉGIQUE</span><strong>Marchés publics</strong></a>
+      <a class="star-node node-private" href="#flux-ao"><span class="node-kicker">DOMAINE STRATÉGIQUE</span><strong>Marchés privés</strong></a>
+      <a class="star-node node-qualification" href="#demonstration"><span class="node-kicker">LEVIER OPÉRATIONNEL</span><strong>Qualification &amp;<br>prospection</strong></a>
+      <a class="star-node node-events" href="#cas-usage"><span class="node-kicker">LEVIER OPÉRATIONNEL</span><strong>Salons &amp; événements<br>professionnels</strong></a>
+      <a class="star-node node-support" href="#contact"><span class="node-kicker">LEVIER OPÉRATIONNEL</span><strong>Accompagnement</strong></a>
+      <a class="star-core" href="#prospection-inverse" aria-label="MajestiOS, cœur de la stratégie"><span class="core-mark">M</span><strong>MajestiOS</strong><small>Intelligence commerciale proactive</small></a>
+    </div>
+    <p class="star-footnote">Chaque axe ouvre un parcours correspondant. Les liens actuels rejoignent les espaces disponibles dans cette version du site.</p>
+  `;
+  hero.insertAdjacentElement("afterend", section);
+})();
