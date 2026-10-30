@@ -1,0 +1,17 @@
+import TenderCategoryGuide from "@/components/tender-category-guide";
+
+export default function PublicWorksPage() {
+  return <TenderCategoryGuide
+    eyebrow="MAJESTIOS · APPELS D’OFFRES PUBLICS · TRAVAUX"
+    title="Travaux"
+    emphasis="qualifier les exigences du chantier."
+    intro="Repérez les consultations de travaux et vérifiez si votre entreprise dispose des capacités techniques, assurances, moyens et disponibilités attendus."
+    searchHref="/opportunites/marches-publics/appels-offres?type=Travaux"
+    searchLabel="Rechercher les appels d’offres de travaux"
+    checks={[
+      { title: "Nature des travaux", text: "Lire le périmètre, les lots, les contraintes du site et les livrables exigés." },
+      { title: "Capacités et assurances", text: "Vérifier les qualifications, assurances, références et moyens demandés." },
+      { title: "Planning et visite", text: "Contrôler les délais d’exécution, visites obligatoires et dates de remise." }
+    ]}
+  />;
+}
