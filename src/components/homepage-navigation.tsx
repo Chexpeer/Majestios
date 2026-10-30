@@ -79,41 +79,32 @@ export default function HomepageNavigation() {
     return (
       <div key={node.href} className={containerClass}>
         <div className="home-sidebar-top-row">
-          <Link
-            href={node.href}
-            onClick={(event) => {
-              // Premier toucher : dérouler le dossier. Un toucher sur son libellé
-              // lorsqu'il est déjà ouvert permet d'accéder à sa page.
-              if (children.length > 0 && !open) {
-                event.preventDefault();
-                toggleNode(node.href);
-                return;
-              }
-              closeMobile();
-            }}
-            className={linkClass}
-            aria-current={pathname === node.href ? "page" : undefined}
-            aria-haspopup={children.length > 0 ? "true" : undefined}
-            aria-expanded={children.length > 0 ? open : undefined}
-          >
-            {depth === 0 ? <span className="home-sidebar-icon" aria-hidden="true">{icons[node.href] ?? "◇"}</span> : null}
-            <span className={depth === 0 ? "home-sidebar-label" : undefined}>{node.label}</span>
-            {depth > 0 ? statusBadge(node.status) : null}
-          </Link>
           {children.length > 0 ? (
-            <button
-              type="button"
-              className="home-sidebar-expand"
-              aria-label={`${open ? "Masquer" : "Afficher"} les dossiers de ${node.label}`}
-              aria-expanded={open}
-              onClick={() => toggleNode(node.href)}
-            >
-              <span aria-hidden="true">{open ? "−" : "+"}</span>
-            </button>
-          ) : null}
+            <>
+              <button
+                type="button"
+                className={`${linkClass} home-sidebar-menu-toggle`}
+                aria-expanded={open}
+                aria-controls={`submenu-${node.href.replace(/[^a-zA-Z0-9_-]/g, "-")}`}
+                onClick={() => toggleNode(node.href)}
+              >
+                {depth === 0 ? <span className="home-sidebar-icon" aria-hidden="true">{icons[node.href] ?? "◇"}</span> : null}
+                <span className={depth === 0 ? "home-sidebar-label" : undefined}>{node.label}</span>
+                {depth > 0 ? statusBadge(node.status) : null}
+                <span className="home-sidebar-inline-chevron" aria-hidden="true">{open ? "−" : "+"}</span>
+              </button>
+              <Link href={node.href} onClick={closeMobile} className="home-sidebar-direct-link" aria-label={`Ouvrir le dossier ${node.label}`} aria-current={pathname === node.href ? "page" : undefined}>↗</Link>
+            </>
+          ) : (
+            <Link href={node.href} onClick={closeMobile} className={linkClass} aria-current={pathname === node.href ? "page" : undefined}>
+              {depth === 0 ? <span className="home-sidebar-icon" aria-hidden="true">{icons[node.href] ?? "◇"}</span> : null}
+              <span className={depth === 0 ? "home-sidebar-label" : undefined}>{node.label}</span>
+              {depth > 0 ? statusBadge(node.status) : null}
+            </Link>
+          )}
         </div>
         {open ? (
-          <div className={childrenClass} aria-label={`Sous-rubriques de ${node.label}`}>
+          <div id={`submenu-${node.href.replace(/[^a-zA-Z0-9_-]/g, "-")}`} className={childrenClass} aria-label={`Sous-rubriques de ${node.label}`}>
             {children.map((child) => renderNode(child, depth + 1))}
           </div>
         ) : null}
