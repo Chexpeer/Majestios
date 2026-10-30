@@ -1,5 +1,21 @@
 import type { SiteNode } from "./types";
 
+export const employmentNode: SiteNode = {
+  label: "Emploi et recrutement",
+  href: "/emploi",
+  description: "Consulter les offres, rechercher des missions, recruter ou proposer une offre.",
+  status: "preparing",
+  children: [
+    { label: "Offres d’emploi", href: "/emploi/offres", description: "Parcourir les offres et préciser sa recherche.", status: "preparing" },
+    { label: "Missions", href: "/emploi/missions", description: "Explorer les missions et besoins de compétences.", status: "preparing" },
+    { label: "Publier une offre", href: "/emploi/deposer-une-offre", description: "Parcours de publication prévu ; formulaire à activer.", status: "preparing" },
+    { label: "Déposer un CV", href: "/emploi/deposer-un-cv", description: "Préparer son profil et consulter les conditions du dépôt sécurisé ; collecte à activer.", status: "preparing" },
+    { label: "Métiers et conseils", href: "/emploi/metiers", description: "Explorer les métiers et préparer un recrutement ou une candidature." },
+    { label: "Conseils emploi", href: "/emploi/conseils", description: "Préparer une candidature ou un recrutement avec des repères pratiques.", status: "preparing" }
+  ]
+};
+
+
 export const opportunitiesNode: SiteNode = {
   label: "Opportunités",
   href: "/opportunites",
