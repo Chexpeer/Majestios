@@ -6,7 +6,7 @@ export const opportunitiesNode: SiteNode = {
   description: "Choisir ce que l’on recherche : marchés publics, opportunités privées, emploi ou événements professionnels.",
   children: [
     {
-      label: "Marchés publics",
+      label: "Opportunités publiques",
       href: "/opportunites/publiques",
       description: "Accéder aux consultations de la commande publique et aux appels d’offres.",
       children: [
