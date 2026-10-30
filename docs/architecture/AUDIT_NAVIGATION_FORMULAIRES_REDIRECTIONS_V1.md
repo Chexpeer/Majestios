@@ -67,3 +67,9 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 - Étapes réussies : tests unitaires et API, ESLint, vérification TypeScript et build Next.js.
 - Cela confirme que le code de cette révision passe les contrôles automatisés du workflow ; cela ne valide pas le parcours dans un navigateur, les formulaires avec transmission serveur, la sécurité d’un espace client ou un déploiement.
 - La priorité de vérification suivante reste le contrôle des liens et parcours réels, puis la conception du CRM persistant après confirmation des prérequis d’authentification, d’environnement DEV et d’isolation multi-organisation.
+
+## Vérification complémentaire — 30 octobre 2026
+
+- Les liens des pôles « Entreprises » et « Veille économique » du schéma d’accueil ont été réalignés sur les dossiers canoniques `/opportunites/radar-entreprises` et `/opportunites/signaux-entreprises` (commit `8c60de68b0d43510f1de2f96afac31464107aa29`).
+- Le workflow GitHub Actions `verify` du commit est terminé avec succès : tests unitaires/API, ESLint, TypeScript et build Next.js.
+- Limite : ce résultat valide les contrôles automatisés du dépôt, pas une inspection navigateur de tous les liens, un test responsive manuel, ni la réception réelle de formulaires par un serveur.
