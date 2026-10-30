@@ -81,9 +81,20 @@ export default function HomepageNavigation() {
         <div className="home-sidebar-top-row">
           <Link
             href={node.href}
-            onClick={closeMobile}
+            onClick={(event) => {
+              // Premier toucher : dérouler le dossier. Un toucher sur son libellé
+              // lorsqu'il est déjà ouvert permet d'accéder à sa page.
+              if (children.length > 0 && !open) {
+                event.preventDefault();
+                toggleNode(node.href);
+                return;
+              }
+              closeMobile();
+            }}
             className={linkClass}
             aria-current={pathname === node.href ? "page" : undefined}
+            aria-haspopup={children.length > 0 ? "true" : undefined}
+            aria-expanded={children.length > 0 ? open : undefined}
           >
             {depth === 0 ? <span className="home-sidebar-icon" aria-hidden="true">{icons[node.href] ?? "◇"}</span> : null}
             <span className={depth === 0 ? "home-sidebar-label" : undefined}>{node.label}</span>
