@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "Comment et pourquoi MajestiOS ? — MajestiOS",
@@ -9,7 +8,7 @@ export const metadata = {
 export default function ConceptPage() {
   return (
     <main className="public-site concept-page">
-      <PublicHeader />
+      
 
       <section className="how-section concept-hero">
         <div>
