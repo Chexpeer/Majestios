@@ -18,7 +18,7 @@ export default function SignauxEntreprisesPage() {
     <PublicHeader />
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link><span><b>/</b><Link href="/opportunites">Opportunités</Link></span><span><b>/</b><Link href="/opportunites/privees">Opportunités privées</Link></span><span><b>/</b><strong>Signaux économiques</strong></span></nav>
-      <section className="page-hero">
+      <section data-dossier-symbol="⌕" className="page-hero">
         <span className="eyebrow">OPPORTUNITY INTELLIGENCE · VEILLE</span>
         <h1>Un signal n’est pas encore <span>une opportunité.</span></h1>
         <p>MajestiOS vise à transformer des informations économiques traçables en pistes à qualifier. Cette rubrique explique comment examiner un événement, comprendre ses limites et décider s’il mérite un approfondissement commercial.</p>
