@@ -19,7 +19,7 @@ export const employmentNode: SiteNode = {
 export const opportunitiesNode: SiteNode = {
   label: "Opportunités",
   href: "/opportunites",
-  description: "Choisir ce que l’on recherche : marchés publics, opportunités privées, emploi ou événements professionnels.",
+  description: "Explorer les marchés publics, les opportunités privées et les événements professionnels.",
   children: [
     {
       label: "Marchés publics",
