@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "Glossaire métier — MajestiOS",
@@ -25,7 +24,6 @@ const terms = [
 
 export default function GlossairePage() {
   return <main className="public-site concept-page">
-    <PublicHeader />
     <section className="how-section concept-hero"><div>
       <span className="section-label">COMPRENDRE · RÉFÉRENCE MÉTIER</span>
       <h1>Le vocabulaire de MajestiOS, <em>clairement défini.</em></h1>
