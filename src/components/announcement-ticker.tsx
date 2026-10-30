@@ -17,12 +17,11 @@ type TenderItem = {
 
 type StreamItem = {
   id: string;
-  category: "Marché public" | "Marché privé" | "Salon" | "Emploi";
   title: string;
   detail: string;
   href: string;
-  state?: boolean;
   demo?: boolean;
+  state?: boolean;
 };
 
 function formatEventDate(startDate: string, endDate?: string) {
@@ -52,6 +51,25 @@ function stableDailyOrder(items: StreamItem[], day: string) {
   return [...items].sort((a, b) => score(a.id) - score(b.id));
 }
 
+function Flow({ title, eyebrow, items, direction, tone }: { title: string; eyebrow: string; items: StreamItem[]; direction: "left" | "right"; tone: "public" | "private" | "employment" | "salons" }) {
+  const duplicated = items.length > 1 ? [...items, ...items] : items;
+  return <section className={`announcement-flow flow-${tone}`} aria-label={title}>
+    <div className="announcement-flow-label"><span>{eyebrow}</span><strong>{title}</strong><span aria-hidden="true">●</span></div>
+    <div className="announcement-flow-track">
+      <div className={`announcement-flow-marquee ${direction === "right" ? "direction-right" : ""}`}>
+        {[0, 1].map((group) => <div className="announcement-flow-marquee-group" key={group} aria-hidden={group === 1 ? true : undefined}>
+          {duplicated.map((item, index) => <Link className="announcement-flow-item" key={`${item.id}-${group}-${index}`} href={item.href} tabIndex={group === 1 ? -1 : undefined} title={item.title}>
+            <span className="flow-status-dot" aria-hidden="true" />
+            <strong>{item.title}</strong>
+            <span>{item.detail}</span>
+            {item.demo ? <span>· DÉMO</span> : null}
+          </Link>)}
+        </div>)}
+      </div>
+    </div>
+  </section>;
+}
+
 export default function AnnouncementTicker() {
   const [tenders, setTenders] = useState<TenderItem[]>([]);
   const [today] = useState(() => {
@@ -73,92 +91,51 @@ export default function AnnouncementTicker() {
     return () => { active = false; };
   }, []);
 
-  const streamItems = useMemo(() => {
+  const flows = useMemo(() => {
     const upcomingSalons = today ? salonEvents.filter((event) => event.endDate ? event.endDate >= today : event.startDate >= today) : [];
-    const items: StreamItem[] = [
-      ...tenders.map((item) => ({
-        id: `public-${item.id}`,
-        category: "Marché public" as const,
-        title: item.title,
-        detail: [item.location, item.deadline].filter(Boolean).join(" · "),
-        href: tenderHref(item)
-      })),
-      ...upcomingSalons.map((event) => ({
-        id: `salon-${event.slug}`,
-        category: "Salon" as const,
-        title: event.title,
-        detail: `${event.city} · ${formatEventDate(event.startDate, event.endDate)}`,
-        href: `/opportunites/salons/${event.slug}`
-      })),
-      {
-        id: "private-demo-1",
-        category: "Marché privé",
-        title: "Exemple fictif : recherche d’un sous-traitant pour un chantier",
-        detail: "DÉMONSTRATION · annonce non réelle",
-        href: "/opportunites/privees",
-        demo: true
-      },
-      {
-        id: "private-demo-2",
-        category: "Marché privé",
-        title: "Exemple fictif : une entreprise recherche un prestataire de maintenance",
-        detail: "DÉMONSTRATION · annonce non réelle",
-        href: "/opportunites/privees",
-        demo: true
-      },
-      {
-        id: "jobs-demo-1",
-        category: "Emploi",
-        title: "Exemple fictif : offre d’emploi pour un technicien polyvalent",
-        detail: "DÉMONSTRATION · offre non réelle",
-        href: "/opportunites/emploi",
-        demo: true
-      },
-      {
-        id: "jobs-demo-2",
-        category: "Emploi",
-        title: "Exemple fictif : mission de renfort administratif",
-        detail: "DÉMONSTRATION · mission non réelle",
-        href: "/opportunites/emploi",
-        demo: true
-      }
+    const publicItems: StreamItem[] = tenders.map((item) => ({
+      id: `public-${item.id}`, title: item.title,
+      detail: [item.location, item.deadline].filter(Boolean).join(" · "),
+      href: tenderHref(item)
+    }));
+    if (!publicItems.length && tenderFeedState !== "loading") publicItems.push({
+      id: "public-state",
+      title: tenderFeedState === "unavailable" ? "Flux BOAMP momentanément indisponible" : "Aucun avis ouvert remonté actuellement",
+      detail: "Rechercher dans les marchés publics",
+      href: "/opportunites/marches-publics/appels-offres",
+      state: true
+    });
+
+    const privateItems: StreamItem[] = [
+      { id: "private-demo-1", title: "Recherche d’un sous-traitant pour un chantier", detail: "Exemple fictif · annonce non réelle", href: "/opportunites/marches-prives", demo: true },
+      { id: "private-demo-2", title: "Besoin d’un prestataire de maintenance", detail: "Exemple fictif · annonce non réelle", href: "/opportunites/marches-prives", demo: true }
     ];
-    if (tenderFeedState !== "loading" && tenders.length === 0) {
-      items.push({
-        id: "public-state",
-        category: "Marché public",
-        title: tenderFeedState === "unavailable" ? "Flux public momentanément indisponible" : "Aucun avis ouvert remonté dans le flux",
-        detail: "Consulter la recherche dédiée",
-        href: "/opportunites/publiques",
-        state: true
-      });
-    }
-    if (upcomingSalons.length === 0 && today) {
-      items.push({ id: "salon-state", category: "Salon", title: "Aucun salon à venir référencé", detail: "Consulter le calendrier", href: "/opportunites/salons", state: true });
-    }
-    return stableDailyOrder(items, today || "initial");
+    const employmentItems: StreamItem[] = [
+      { id: "jobs-demo-1", title: "Technicien polyvalent", detail: "Exemple fictif · offre non réelle", href: "/opportunites/emploi/offres", demo: true },
+      { id: "jobs-demo-2", title: "Renfort administratif", detail: "Exemple fictif · mission non réelle", href: "/opportunites/emploi/missions", demo: true }
+    ];
+    const salonItems: StreamItem[] = upcomingSalons.map((event) => ({
+      id: `salon-${event.slug}`, title: event.title,
+      detail: `${event.city} · ${formatEventDate(event.startDate, event.endDate)}`,
+      href: `/opportunites/salons/${event.slug}`
+    }));
+    if (!salonItems.length && today) salonItems.push({ id: "salon-state", title: "Aucun salon à venir référencé", detail: "Consulter le calendrier", href: "/opportunites/salons", state: true });
+
+    return {
+      public: stableDailyOrder(publicItems, today || "initial"),
+      private: stableDailyOrder(privateItems, today || "initial"),
+      employment: stableDailyOrder(employmentItems, today || "initial"),
+      salons: stableDailyOrder(salonItems, today || "initial")
+    };
   }, [today, tenders, tenderFeedState]);
 
-  const duplicatedItems = streamItems.length > 1 ? [...streamItems, ...streamItems] : streamItems;
-
-  return <section className="announcement-band" aria-label="Fil continu des opportunités">
-    <div className="announcement-stream-heading"><span className="band-eyebrow">VEILLE EN MOUVEMENT</span><span className="band-note">Public · privé · emploi — exemples fictifs signalés</span></div>
-    <div className="announcement-stream-window">
-      <div className="announcement-stream-track" aria-label="Annonces et événements">
-        {duplicatedItems.map((item, index) => <Link
-          className={`announcement-stream-card category-${item.category.toLowerCase().replace(" ", "-")}${item.state ? " is-status" : ""}${item.demo ? " is-demo" : ""}`}
-          href={item.href}
-          key={`${item.id}-${index}`}
-          aria-hidden={index >= streamItems.length ? true : undefined}
-          tabIndex={index >= streamItems.length ? -1 : undefined}
-          title={item.title}
-        >
-          <span className="announcement-stream-category">({item.category}{item.demo ? " · DÉMO" : ""})</span>
-          <strong>{item.title}</strong>
-          {item.detail ? <span className="announcement-stream-detail">{item.detail}</span> : null}
-          <span className="announcement-stream-arrow" aria-hidden="true">↗</span>
-        </Link>)}
-      </div>
+  return <section className="announcement-band" aria-label="Flux distincts d’opportunités">
+    <div className="announcement-band-head"><span className="band-eyebrow">VEILLE EN MOUVEMENT</span><span className="band-note">Public · privé · emploi · salons — les exemples fictifs sont signalés</span></div>
+    <div className="announcement-flows">
+      <Flow title="Marchés publics" eyebrow="PUBLIC" items={flows.public} direction="left" tone="public" />
+      <Flow title="Opportunités privées" eyebrow="PRIVÉ" items={flows.private} direction="left" tone="private" />
+      <Flow title="Emploi & recrutement" eyebrow="EMPLOI" items={flows.employment} direction="right" tone="employment" />
+      <Flow title="Salons professionnels" eyebrow="RÉSEAU" items={flows.salons} direction="left" tone="salons" />
     </div>
   </section>;
 }
