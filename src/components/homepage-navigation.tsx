@@ -9,6 +9,10 @@ const visibleItems = siteTree.filter((item) =>
   ["/opportunites", "/business", "/developpement-commercial", "/reseaux", "/comprendre"].includes(item.href)
 );
 
+const statusLabels: Record<string, string> = { pending_data: "En attente de données", preparing: "En préparation" };
+
+const statusBadge = (status?: string) => status && status !== "ready" ? <span className={`home-sidebar-status${status === "pending_data" ? " is-pending-data" : ""}`}>{statusLabels[status] ?? status}</span> : null;
+
 const icons: Record<string, string> = {
   "/opportunites": "⌕",
   "/business": "↗",
@@ -59,7 +63,7 @@ export default function HomepageNavigation() {
                           className={childActive ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
                           aria-current={pathname === child.href ? "page" : undefined}
                         >
-                          {child.label}{child.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
+                          {child.label}{statusBadge(child.status)}
                         </Link>
                         {childActive && child.children?.length ? (
                           <div className="home-sidebar-leaves" aria-label={`Sous-rubriques : ${child.label}`}>
@@ -71,7 +75,7 @@ export default function HomepageNavigation() {
                                 className={pathname === leaf.href || pathname.startsWith(leaf.href + "/") ? "home-sidebar-leaf is-active" : "home-sidebar-leaf"}
                                 aria-current={pathname === leaf.href ? "page" : undefined}
                               >
-                                {leaf.label}{leaf.status === "preparing" ? <span className="home-sidebar-status">En préparation</span> : null}
+                                {leaf.label}{statusBadge(leaf.status)}
                               </Link>
                             ))}
                           </div>
