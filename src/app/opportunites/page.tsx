@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "Opportunités professionnelles — MajestiOS",
@@ -14,7 +13,7 @@ const sections = [
 ];
 
 export default function OpportunitesPage() {
-  return <main className="public-site concept-page domain-opportunites"><PublicHeader />
+  return <main className="public-site concept-page domain-opportunites">
     <section className="how-section concept-hero"><div><span className="section-label">MAJESTIOS · DÉVELOPPEMENT COMMERCIAL</span><h1>Une opportunité n’a de valeur que <em>si elle est qualifiée.</em></h1><p>MajestiOS rassemble des parcours pour détecter des occasions de développement commercial : consultations publiques et privées, salons professionnels, emplois et missions. L’objectif n’est pas d’empiler des annonces, mais d’aider à comprendre la source, le contexte, la pertinence et la prochaine action.</p><p>Chaque famille possède ses propres critères. Une publication officielle, une information à confirmer et une hypothèse issue d’un signal économique ne doivent jamais être présentées comme équivalentes.</p></div></section>
     <section className="concept-principles"><span className="section-label">CHOISIR UN PARCOURS</span><h2>Quatre familles d’opportunités.</h2><div className="results-list">{sections.map((item)=><article className="result-card" key={item.href}><div className="result-main"><span className="result-category">{item.tag}</span><h3>{item.title}</h3><p>{item.text}</p></div><div className="result-actions"><Link className="result-action" href={item.href}>{item.action} →</Link></div></article>)}</div></section>
     <section className="concept-principles"><span className="section-label">MÉTHODE MAJESTIOS</span><h2>De la détection à l’action.</h2><div className="bodacc-principle-grid"><div><strong>01 · Détecter</strong><span>Repérer une publication, un rendez-vous ou un changement économique pertinent.</span></div><div><strong>02 · Qualifier</strong><span>Contrôler la source, la date, les critères, les conditions et les informations manquantes.</span></div><div><strong>03 · Identifier</strong><span>Déterminer les acteurs concernés et vérifier que le rapprochement est justifié.</span></div><div><strong>04 · Contacter</strong><span>Choisir une démarche proportionnée, professionnelle et respectueuse des règles applicables.</span></div><div><strong>05 · Transformer</strong><span>Passer de la piste à une action commerciale suivie, sans promettre un résultat.</span></div><div><strong>06 · Capitaliser</strong><span>Conserver les résultats utiles, documenter les erreurs et améliorer les qualifications futures.</span></div></div></section>
