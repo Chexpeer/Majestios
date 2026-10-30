@@ -60,3 +60,10 @@ Audit statique sur la branche de travail `feat/opportunity-search-conversion`. I
 - La page de filtre territorial des marchés publics renvoie vers la recherche active /opportunites/marches-publics/appels-offres?location=, et non vers le dossier général des marchés publics.
 - Les routes de détail emploi, marchés privés et salons existent dans l’arborescence du dépôt ; leur existence ne prouve pas qu’un flux d’annonces soit connecté.
 - Les contrôles restent statiques : compilation, lint, tests navigateur et test de transmission serveur non confirmés.
+
+## Mise à jour — contrôles CI du 30 octobre 2026
+
+- Le commit `0a8811b0a41d10b19eb51fb6cb0cb9c757c7bc09` a passé le workflow GitHub Actions `verify` (run `40993130990`).
+- Étapes réussies : tests unitaires et API, ESLint, vérification TypeScript et build Next.js.
+- Cela confirme que le code de cette révision passe les contrôles automatisés du workflow ; cela ne valide pas le parcours dans un navigateur, les formulaires avec transmission serveur, la sécurité d’un espace client ou un déploiement.
+- La priorité de vérification suivante reste le contrôle des liens et parcours réels, puis la conception du CRM persistant après confirmation des prérequis d’authentification, d’environnement DEV et d’isolation multi-organisation.
