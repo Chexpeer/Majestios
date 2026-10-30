@@ -139,7 +139,7 @@ describe("site navigation tree", () => {
         // expected in this TypeScript application, so skip unreadable variants.
         continue;
       }
-      const literalInternalLinks = [...source.matchAll(/<Link\\b[^>]*?href="(\\/[^"]*)"/g)]
+      const literalInternalLinks = [...source.matchAll(/<Link\b[^>]*?href="(\/[^"]*)"/g)]
         .map((match) => match[1].split(/[?#]/)[0]);
       if (literalInternalLinks.includes(pathname)) violations.push(`${pathname} -> ${pathname}`);
     }
