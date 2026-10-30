@@ -562,3 +562,35 @@ h1 span { color: var(--purple); }
   .majestic-help-cta, .majestic-help-cta__tooltip { transition: none; }
   .majestic-help-cta__symbol { animation: none; }
 }
+
+
+/* Fenêtre de demande d'espace personnel : prototype sans envoi ni stockage. */
+.personal-space-dialog {
+  width: min(480px, calc(100vw - 28px));
+  max-width: none;
+  max-height: min(90vh, 760px);
+  padding: 0;
+  border: 1px solid #e7e3f1;
+  border-radius: 18px;
+  color: var(--ink);
+  background: #fffdf8;
+  box-shadow: 0 24px 90px rgba(28, 24, 53, .26);
+}
+.personal-space-dialog::backdrop { background: rgba(28, 25, 47, .45); backdrop-filter: blur(3px); }
+.personal-space-form { position: relative; padding: 30px; }
+.personal-space-close {
+  position: absolute; top: 12px; right: 14px; width: 34px; height: 34px;
+  border: 1px solid #e9e5f0; border-radius: 50%; color: #696578; background: #fff;
+  font-size: 23px; line-height: 1;
+}
+.personal-space-form h2 { margin-bottom: 8px; font: 750 25px/1.2 Manrope, sans-serif; letter-spacing: -.8px; }
+.personal-space-intro { margin-bottom: 20px; color: #777688; font-size: 12px; line-height: 1.65; }
+.personal-space-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.personal-space-fields .form-field input { min-height: 40px; }
+.personal-space-notice { margin: 18px 0; padding: 10px 12px; border-radius: 8px; color: #716d7d; background: #f5f2fb; font-size: 10px; line-height: 1.55; }
+.personal-space-submit { width: 100%; }
+.personal-space-feedback { margin: 12px 0 0; color: #5a735f; font-size: 11px; line-height: 1.5; }
+@media (max-width: 480px) {
+  .personal-space-form { padding: 26px 20px 22px; }
+  .personal-space-fields { grid-template-columns: 1fr; }
+}
