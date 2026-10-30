@@ -1,5 +1,7 @@
 # Plan de navigation fonctionnelle MajestiOS — V1.0
 
+> **Signature : « MajestiOS — L’intelligence qui saute aux yeux ! »**
+
 **Date :** 30 octobre 2026  
 **Branche de référence :** `etoile-coeur-majestios`  
 **Statut :** proposition de navigation pour cadrer le MVP, à vérifier par tests fonctionnels avant mise en production.
