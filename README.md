@@ -71,7 +71,18 @@ L’assistant transversal ne doit être présenté comme une aide d’orientatio
 
 Les clés API restent côté serveur. Les quotas, la consommation, la traçabilité et l’isolation des données entre organisations doivent être conçus avant l’ouverture à des utilisateurs. Toute action externe sensible doit être soumise aux permissions requises et à une validation humaine lorsque nécessaire.
 
-## 7. Contrôles de développement
+## 7. CRM et gestion des appels d’offres : état réel
+
+Les décisions de conception et les limites constatées sont consignées dans :
+- `docs/architecture/MODELE_DONNEES_CRM_APPELS_OFFRES_V0.1.md` — modèle métier commun proposé ;
+- `docs/architecture/AUDIT_PREALABLE_CRM_APPELS_OFFRES_2026-10-30.md` — audit de ce qui est présent ou non démontré dans le dépôt ;
+- `docs/architecture/REGISTRE_ARBITRAGES_CRM_APPELS_OFFRES_V0.1.md` — décisions bloquantes, recommandations et conditions de passage au schéma SQL.
+
+À ce stade, la recherche BOAMP est un parcours public distinct d’un CRM persistant. Le formulaire de présentation d’entreprise prépare un récapitulatif local, sans envoi serveur. L’exemple de variables Supabase ne prouve pas qu’un projet DEV soit configuré ; aucune migration ni ouverture d’espace client ne doit être déduite de ces fichiers.
+
+Avant de développer les écrans CRM comme des fonctions opérationnelles, confirmer le référentiel maître, l’environnement de données et l’authentification, puis implémenter et tester l’isolation entre organisations.
+
+## 8. Contrôles de développement
 
 Prérequis : version de Node.js compatible avec les dépendances du projet.
 
@@ -93,7 +104,7 @@ Le workflow GitHub Actions exécute les tests, ESLint, TypeScript et le build. C
 
 Le verrouillage des dépendances doit être vérifié. S’il manque un fichier de lock, en générer un et le valider avant d’adopter `npm ci`.
 
-## 8. Déploiement et données de production
+## 9. Déploiement et données de production
 
 Plusieurs projets Vercel ont été créés pendant les essais. Un déploiement marqué `Ready` ne prouve ni que le bon projet est utilisé ni que les fonctions métier sont validées.
 
@@ -101,7 +112,7 @@ Avant tout changement, identifier le projet d’aperçu, le projet de production
 
 Aucune migration de base de données ne doit être créée avant la validation des tomes de référence, des objets métier et des règles d’accès. Confirmer l’identité de l’environnement Supabase DEV avant toute opération.
 
-## 9. Ordre de travail
+## 10. Ordre de travail
 
 1. Consolider la profondeur de navigation et auditer toutes les destinations.
 2. Harmoniser l’interface et les menus, puis tester les parcours responsive.
