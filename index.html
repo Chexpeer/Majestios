@@ -467,13 +467,31 @@
     </footer>
 
 
-    <a class="majestic-help-cta" href="#contact" data-intent-link="contact"
+    <button class="majestic-help-cta" id="open-personal-space" type="button" aria-haspopup="dialog" aria-controls="personal-space-dialog"
        aria-label="Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires"
        title="Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires !">
       <span class="majestic-help-cta__symbol" aria-hidden="true">!</span>
       <span class="majestic-help-cta__label">Besoin d’un coup de pouce ?</span>
       <span class="majestic-help-cta__tooltip">Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires !</span>
-    </a>
+    </button>
+
+    <dialog class="personal-space-dialog" id="personal-space-dialog" aria-labelledby="personal-space-title">
+      <form class="personal-space-form" id="personal-space-form">
+        <button class="personal-space-close" type="button" id="close-personal-space" aria-label="Fermer le formulaire">×</button>
+        <p class="eyebrow">UN COUP DE POUCE POUR COMMENCER</p>
+        <h2 id="personal-space-title">Créer mon espace personnel</h2>
+        <p class="personal-space-intro">Faites le premier pas avec MajestiOS. Renseignez vos coordonnées pour préparer votre demande.</p>
+        <div class="personal-space-fields">
+          <label class="form-field">Prénom <span>*</span><input name="firstName" autocomplete="given-name" required></label>
+          <label class="form-field">Nom <span>*</span><input name="lastName" autocomplete="family-name" required></label>
+          <label class="form-field">Adresse e-mail <span>*</span><input name="email" type="email" autocomplete="email" required></label>
+          <label class="form-field">Téléphone <span>*</span><input name="phone" type="tel" autocomplete="tel" required></label>
+        </div>
+        <p class="personal-space-notice"><strong>Prototype :</strong> ce formulaire ne crée pas encore de compte et n’envoie ni n’enregistre aucune donnée.</p>
+        <button class="button button-primary personal-space-submit" type="submit">Préparer ma demande <span aria-hidden="true">→</span></button>
+        <p class="personal-space-feedback" id="personal-space-feedback" role="status" aria-live="polite" hidden></p>
+      </form>
+    </dialog>
 
   </body>
 </html>
