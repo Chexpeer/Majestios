@@ -45,6 +45,19 @@ Les deux triangles qui constituent l'étoile doivent rester visuellement équili
 
 **Emploi est hors de l'étoile centrale** et dispose d'une organisation propre, reliée au reste de MajestiOS lorsque cela est utile.
 
+## 3 bis. La puissance de MajestiOS : côtés et croisements
+
+**Les côtés et leurs croisements symbolisent toute la puissance de MajestiOS.** Les triangles et leurs bandes structurent les dossiers et sous-dossiers ; les côtés et les croisements donnent à cette structure sa valeur dynamique, en faisant circuler, rapprochant et transformant l'information.
+
+- **Les côtés** matérialisent les liens actifs entre les dossiers et leurs sous-dossiers : circulation d'information, mise en relation de besoins et d'offres, continuité d'un parcours, transfert de contexte et déclenchement d'actions complémentaires.
+- **Les croisements** matérialisent les convergences entre plusieurs fonctions ou sources d'information. Ils peuvent faire émerger une qualification, une relation, une recommandation, une action commerciale ou une connaissance réutilisable.
+- **La combinaison des côtés et des croisements** permet de représenter des synergies horizontales et transversales, pas seulement une hiérarchie verticale. Une information détectée dans un dossier peut ainsi enrichir un autre dossier sans dupliquer la donnée ni perdre son origine.
+- **La valeur du système** réside dans la pertinence des relations, la qualité des informations, leur qualification et leur capacité à conduire à une action utile — pas dans le nombre de lignes dessinées.
+
+Le schéma devra donc montrer non seulement où se trouvent les dossiers, mais aussi comment MajestiOS les fait travailler ensemble. Les liens importants doivent être compréhensibles et, lorsqu'ils correspondent à une fonction disponible, actionnables. Les croisements doivent conduire vers des destinations contextualisées, jamais vers une page universelle sans rapport précis avec le lien suivi.
+
+Cette puissance est une ambition fonctionnelle à construire et à vérifier : aucune synergie, recommandation ou automatisation ne doit être présentée comme opérationnelle tant qu'elle n'a pas été implémentée et testée.
+
 ## 3 bis. MajestiOS, garant de la cohérence entre les axes
 
 La vocation de MajestiOS ne consiste pas seulement à afficher des rubriques côte à côte. La plateforme doit **organiser, observer et optimiser les synergies, les relations et les complémentarités entre les axes**. Elle doit aider à repérer les ruptures de parcours, les relations manquantes, les doublons et les possibilités de convergence, puis rendre ces liens lisibles et actionnables.
