@@ -477,3 +477,88 @@ h1 span { color: var(--purple); }
   .interactive-map-info { padding: 16px; }
   .interactive-map-info h3 { margin-top: 8px; }
 }
+
+
+/* CTA flottant MajestiOS — discret, accessible et indépendant du schéma interactif. */
+.majestic-help-cta {
+  position: fixed;
+  z-index: 20;
+  right: 22px;
+  bottom: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  max-width: min(330px, calc(100vw - 32px));
+  padding: 8px 15px 8px 9px;
+  border: 1px solid #e7dfc5;
+  border-radius: 999px;
+  color: #333044;
+  background: rgba(255, 253, 246, .97);
+  box-shadow: 0 8px 26px rgba(45, 37, 78, .16);
+  backdrop-filter: blur(10px);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.majestic-help-cta:hover,
+.majestic-help-cta:focus-visible {
+  transform: translateY(-2px);
+  border-color: #c8b56f;
+  box-shadow: 0 12px 30px rgba(45, 37, 78, .2);
+}
+.majestic-help-cta:focus-visible { outline: 3px solid #8a7ad5; outline-offset: 4px; }
+.majestic-help-cta__symbol {
+  position: relative;
+  display: grid;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 32px;
+  place-items: center;
+  clip-path: polygon(50% 0, 100% 91%, 0 91%);
+  color: #fff;
+  background: #c59d42;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  padding-top: 5px;
+  animation: majestic-help-pulse 2.8s ease-in-out infinite;
+}
+.majestic-help-cta__label { font-size: 11px; font-weight: 750; line-height: 1.25; }
+.majestic-help-cta__tooltip {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  width: min(340px, calc(100vw - 32px));
+  padding: 13px 15px;
+  border: 1px solid #e9e5d9;
+  border-radius: 12px;
+  color: #555267;
+  background: #fffdf7;
+  box-shadow: 0 10px 30px rgba(45, 37, 78, .13);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+  pointer-events: none;
+}
+.majestic-help-cta:hover .majestic-help-cta__tooltip,
+.majestic-help-cta:focus-visible .majestic-help-cta__tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+@keyframes majestic-help-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+@media (max-width: 560px) {
+  .majestic-help-cta { right: 12px; bottom: 12px; min-height: 48px; padding-right: 12px; }
+  .majestic-help-cta__label { font-size: 10px; }
+  .majestic-help-cta__symbol { flex-basis: 30px; width: 30px; height: 29px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .majestic-help-cta, .majestic-help-cta__tooltip { transition: none; }
+  .majestic-help-cta__symbol { animation: none; }
+}
