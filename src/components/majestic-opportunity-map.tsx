@@ -3,75 +3,100 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const poles = [
-  { id:"public", label:"Marchés publics", detail:"Appels d’offres · travaux · services · fournitures", href:"/opportunites/marches-publics", x:"18%", y:"20%", color:"blue", icon:"⌂", group:"OPPORTUNITÉS" },
-  { id:"prive", label:"Marchés privés", detail:"Consultations · sous-traitance · besoins publiés", href:"/opportunites/marches-prives", x:"82%", y:"20%", color:"green", icon:"↗", group:"OPPORTUNITÉS" },
-  { id:"entreprises", label:"Radar des entreprises", detail:"Ciblage · qualification · signaux d’activité", href:"/opportunites/radar-entreprises", x:"16%", y:"45%", color:"mint", icon:"▥", group:"INTELLIGENCE" },
-  { id:"signaux", label:"Veille économique", detail:"BODACC · créations · implantations · évolutions", href:"/business/veille-bodacc", x:"84%", y:"45%", color:"gold", icon:"⌕", group:"INTELLIGENCE" },
-  { id:"salons", label:"Salons professionnels", detail:"Calendrier · secteurs · régions · préparation", href:"/opportunites/salons", x:"18%", y:"72%", color:"orange", icon:"▦", group:"RÉSEAU" },
-  { id:"reseaux", label:"Réseaux professionnels", detail:"Annuaire · interlocuteurs · mise en relation", href:"/reseaux", x:"82%", y:"72%", color:"purple", icon:"♧", group:"RÉSEAU" },
-  { id:"prospection", label:"Prospection commerciale", detail:"Ciblage · argumentaires · suivi des contacts", href:"/developpement-commercial/prospection", x:"35%", y:"90%", color:"teal", icon:"↗", group:"ACTION" },
-  { id:"ao", label:"Accompagnement AO", detail:"Préparer · rédiger · analyser les résultats", href:"/developpement-commercial/accompagnement-appels-offres", x:"65%", y:"90%", color:"blue", icon:"▤", group:"ACTION" },
-  { id:"emploi", label:"Emploi & recrutement", detail:"Offres · missions · CV · recrutement", href:"/emploi", x:"50%", y:"10%", color:"red", icon:"◎", group:"RESSOURCES" },
+const axes = [
+  { id:"commercial", label:"Développement commercial", detail:"Le sommet stratégique : transformer les signaux et les opportunités en relations d’affaires.", href:"/developpement-commercial", tone:"commercial", icon:"↗", position:"apex" },
+  { id:"public", label:"Marchés publics", detail:"Détecter et qualifier les appels d’offres publics pour se positionner au bon moment.", href:"/opportunites/marches-publics", tone:"public", icon:"§", position:"base-left" },
+  { id:"private", label:"Marchés privés", detail:"Repérer les consultations, les besoins directs et les opportunités de sous-traitance.", href:"/opportunites/marches-prives", tone:"private", icon:"◇", position:"base-right" },
 ];
 
-const links = [
-  ["public","prive"],["public","entreprises"],["prive","signaux"],
-  ["entreprises","signaux"],["entreprises","salons"],["signaux","reseaux"],
-  ["salons","prospection"],["reseaux","prospection"],["public","ao"],
-  ["prive","ao"],["ao","prospection"],["emploi","reseaux"],
-  ["emploi","entreprises"],["public","prospection"]
+const engines = [
+  { label:"Prospection", detail:"Ciblage et prise de contact", href:"/developpement-commercial/prospection", icon:"➤" },
+  { label:"Emploi & recrutement", detail:"Compétences et ressources", href:"/emploi", icon:"◎" },
+  { label:"Accompagnement appels d’offres", detail:"Préparer, rédiger, progresser", href:"/developpement-commercial/accompagnement-appels-offres", icon:"▤" },
+  { label:"Salons professionnels", detail:"Rencontres et opportunités", href:"/opportunites/salons", icon:"▦" },
 ];
 
 export default function MajestiOSOpportunityMap() {
-  const [active,setActive] = useState("public");
-  const selected = poles.find((pole)=>pole.id===active) ?? poles[0];
-  const coords = (id:string) => {
-    const pole = poles.find((item)=>item.id===id)!;
-    return {x:Number.parseFloat(pole.x),y:Number.parseFloat(pole.y)};
-  };
+  const [active, setActive] = useState("commercial");
+  const selected = axes.find((axis) => axis.id === active) ?? axes[0];
+
   return (
-    <section className="maj-map" aria-labelledby="maj-map-title">
-      <div className="maj-map-heading">
-        <span className="section-label">L’ÉCOSYSTÈME MAJESTIOS</span>
-        <h2 id="maj-map-title">Une intelligence connectée, de l’opportunité à l’action.</h2>
-        <p>Explorez les dossiers et leurs connexions. Sélectionnez un pôle pour en voir le rôle, puis ouvrez sa rubrique.</p>
+    <section className="maj-map maj-pyramid" aria-labelledby="maj-map-title">
+      <header className="maj-map-heading">
+        <span className="section-label">L’ARCHITECTURE MAJESTIOS</span>
+        <h2 id="maj-map-title">Trois axes. Une même intelligence commerciale.</h2>
+        <p>Les marchés publics et privés alimentent la stratégie commerciale. Au centre, les moteurs et les acteurs relient les opportunités à l’action.</p>
+      </header>
+
+      <div className="maj-pyramid-legend" aria-label="Les trois axes stratégiques">
+        <span><i className="pyramid-legend-commercial" /> Stratégie commerciale</span>
+        <span><i className="pyramid-legend-public" /> Marchés publics</span>
+        <span><i className="pyramid-legend-private" /> Marchés privés</span>
       </div>
-      <div className="maj-map-legend" aria-label="Légende du schéma">
-        <span><i className="legend-opportunity" /> Opportunités</span>
-        <span><i className="legend-intelligence" /> Intelligence économique</span>
-        <span><i className="legend-action" /> Action commerciale</span>
-        <span><i className="legend-network" /> Réseau & ressources</span>
-      </div>
-      <div className="maj-map-canvas">
-        <div className="maj-map-orbit maj-map-orbit-outer" aria-hidden="true" />
-        <div className="maj-map-orbit maj-map-orbit-inner" aria-hidden="true" />
-        <svg className="maj-map-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          {links.map(([from,to],i)=>{ const a=coords(from), b=coords(to); return <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />; })}
+
+      <div className="maj-pyramid-stage">
+        <svg className="maj-pyramid-outline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="majPyramidFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#e6f3f2"/><stop offset="100%" stopColor="#f6f1e6"/></linearGradient></defs>
+          <polygon points="50,2 3,97 97,97" fill="url(#majPyramidFill)" fillOpacity=".72" stroke="#b6cbd3" strokeWidth=".6" />
+          <line x1="50" y1="2" x2="50" y2="97" stroke="#c7d8de" strokeWidth=".35" strokeDasharray="1.4 1.5"/>
+          <line x1="26.5" y1="49.5" x2="73.5" y2="49.5" stroke="#c7d8de" strokeWidth=".35" strokeDasharray="1.4 1.5"/>
         </svg>
-        <Link className="maj-map-core" href="/opportunites" aria-label="Explorer les opportunités MajestiOS">
-          <span className="maj-map-core-mark" aria-hidden="true">
-            <svg className="majesti-crown" viewBox="0 0 32 22" focusable="false"><path d="M3 18 1 5l8 5 7-9 7 9 8-5-2 13Z" fill="currentColor"/><path d="M4 20h24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-            <svg className="majesti-triangle" viewBox="0 0 36 30" focusable="false"><path d="M18 2.5 33.5 27H2.5Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round"/></svg>
+
+        <Link
+          href={axes[0].href}
+          className={`maj-pyramid-axis maj-pyramid-apex ${active === "commercial" ? "is-active" : ""}`}
+          onMouseEnter={() => setActive("commercial")} onFocus={() => setActive("commercial")} onTouchStart={() => setActive("commercial")}
+          aria-label="Ouvrir le dossier Développement commercial"
+        >
+          <span className="maj-pyramid-axis-kicker">SOMMET STRATÉGIQUE</span>
+          <span className="maj-pyramid-axis-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 26" focusable="false"><path d="M3 22 1 7l8 6 7-10 7 10 8-6-2 15Z" fill="currentColor"/><path d="M5 24h22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
           </span>
-          <strong>MajestiOS</strong><small>DÉTECTER · QUALIFIER · TRANSFORMER</small>
+          <strong>Développement commercial</strong>
+          <small>Détecter · qualifier · contacter · transformer</small>
+          <span className="maj-pyramid-axis-open">Explorer le dossier ↗</span>
         </Link>
-        {poles.map((pole)=>(
-          <Link key={pole.id} className={`maj-map-node ${pole.color} ${active===pole.id?"is-active":""}`} style={{left:pole.x,top:pole.y}} href={pole.href} onMouseEnter={()=>setActive(pole.id)} onFocus={()=>setActive(pole.id)} onTouchStart={()=>setActive(pole.id)} aria-label={`Explorer ${pole.label} : ${pole.detail}`}>
-            <span className="maj-map-node-group">{pole.group}</span>
-            <span className="maj-map-node-icon" aria-hidden="true">{pole.icon}</span>
-            <strong>{pole.label}</strong>
-            <span className="maj-map-node-detail">{pole.detail}</span>
-          </Link>
-        ))}
+
+        <div className="maj-pyramid-synergy" aria-label="Moteurs et acteurs de la synergie">
+          <span className="maj-pyramid-synergy-kicker">AU CŒUR DE LA PYRAMIDE</span>
+          <h3>La synergie MajestiOS</h3>
+          <p>Les moteurs qui font circuler l’intelligence entre les trois axes.</p>
+          <div className="maj-pyramid-engines">
+            {engines.map((engine) => (
+              <Link className="maj-pyramid-engine" href={engine.href} key={engine.label}>
+                <span aria-hidden="true">{engine.icon}</span>
+                <span><strong>{engine.label}</strong><small>{engine.detail}</small></span>
+                <b aria-hidden="true">↗</b>
+              </Link>
+            ))}
+          </div>
+          <div className="maj-pyramid-synergy-note"><span aria-hidden="true">⇄</span> Détecter les besoins · mobiliser les ressources · créer des relations d’affaires</div>
+        </div>
+
+        <Link
+          href={axes[1].href}
+          className={`maj-pyramid-axis maj-pyramid-public ${active === "public" ? "is-active" : ""}`}
+          onMouseEnter={() => setActive("public")} onFocus={() => setActive("public")} onTouchStart={() => setActive("public")}
+          aria-label="Ouvrir le dossier Marchés publics"
+        >
+          <span className="maj-pyramid-axis-kicker">BASE GAUCHE</span><span className="maj-pyramid-axis-icon" aria-hidden="true">§</span>
+          <strong>Marchés publics</strong><small>Appels d’offres · travaux · services · fournitures</small><span className="maj-pyramid-axis-open">Explorer le dossier ↗</span>
+        </Link>
+        <Link
+          href={axes[2].href}
+          className={`maj-pyramid-axis maj-pyramid-private ${active === "private" ? "is-active" : ""}`}
+          onMouseEnter={() => setActive("private")} onFocus={() => setActive("private")} onTouchStart={() => setActive("private")}
+          aria-label="Ouvrir le dossier Marchés privés"
+        >
+          <span className="maj-pyramid-axis-kicker">BASE DROITE</span><span className="maj-pyramid-axis-icon" aria-hidden="true">◇</span>
+          <strong>Marchés privés</strong><small>Consultations · besoins directs · sous-traitance</small><span className="maj-pyramid-axis-open">Explorer le dossier ↗</span>
+        </Link>
       </div>
-      <div className="maj-map-selection" aria-live="polite">
-        <div><span className="maj-map-selection-kicker">DOSSIER SÉLECTIONNÉ · {selected.group}</span><strong>{selected.label}</strong><p>{selected.detail}</p></div>
-        <Link href={selected.href} className="maj-map-selection-link">Ouvrir le dossier <span aria-hidden="true">↗</span></Link>
+
+      <div className="maj-pyramid-selection" aria-live="polite">
+        <div><span>AXE SÉLECTIONNÉ</span><strong>{selected.label}</strong><p>{selected.detail}</p></div>
+        <Link href={selected.href}>Ouvrir le dossier <b aria-hidden="true">↗</b></Link>
       </div>
-      <nav className="maj-map-quicklinks" aria-label="Accès directs aux pôles MajestiOS">
-        {poles.map((pole)=><Link key={pole.id} href={pole.href}>{pole.label}</Link>)}
-      </nav>
     </section>
   );
 }
