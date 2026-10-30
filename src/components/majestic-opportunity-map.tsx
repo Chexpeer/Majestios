@@ -1,170 +1,109 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 
-const dossiers = [
-  {
-    id: "commercial",
-    title: "Développement commercial",
-    position: "top",
-    color: "gold",
-    href: "/developpement-commercial",
-    description: "Anticiper les marchés, comprendre les secteurs et entretenir la mémoire des relations commerciales.",
-    rubrics: [
-      { title: "Veille & prospective", href: "/developpement-commercial", level: "main" },
-      { title: "CRM & relations", href: "/developpement-commercial/crm", level: "secondary" },
-      { title: "Études de marché", href: "/developpement-commercial/etudes-de-marche", level: "secondary" },
-    ],
-    links: ["qualification", "public", "private", "events", "support"],
-  },
-  {
-    id: "qualification",
-    title: "Qualification & prospection",
-    position: "upper-left",
-    color: "teal",
-    href: "/developpement-commercial/prospection",
-    description: "Transformer les signaux détectés en opportunités évaluées, entreprises identifiées et démarches ciblées.",
-    rubrics: [
-      { title: "Qualification des opportunités", href: "/developpement-commercial/prospection", level: "main" },
-      { title: "Identification des entreprises", href: "/developpement-commercial/prospection", level: "secondary" },
-      { title: "Prospection commerciale", href: "/developpement-commercial/prospection", level: "secondary" },
-    ],
-    links: ["commercial", "public", "private", "events", "support"],
-  },
-  {
-    id: "events",
-    title: "Salons & événements professionnels",
-    position: "upper-right",
-    color: "blue",
-    href: "/opportunites/salons",
-    description: "Préparer les rencontres professionnelles, identifier les interlocuteurs et exploiter les contacts recueillis.",
-    rubrics: [
-      { title: "Salons & événements", href: "/opportunites/salons", level: "main" },
-      { title: "Agenda professionnel", href: "/opportunites/salons", level: "secondary" },
-      { title: "Réseautage professionnel", href: "/opportunites/salons", level: "secondary" },
-    ],
-    links: ["commercial", "qualification", "public", "private", "support"],
-  },
-  {
-    id: "public",
-    title: "Marchés publics",
-    position: "lower-left",
-    color: "navy",
-    href: "/opportunites/marches-publics",
-    description: "Rechercher des appels d’offres publics, les qualifier et repérer les possibilités de sous-traitance.",
-    rubrics: [
-      { title: "Appels d’offres publics", href: "/opportunites/marches-publics", level: "main" },
-      { title: "Qualification des appels d’offres", href: "/opportunites/marches-publics", level: "secondary" },
-      { title: "Sous-traitance potentielle", href: "/opportunites/marches-publics", level: "secondary" },
-    ],
-    links: ["commercial", "qualification", "private", "events", "support"],
-  },
-  {
-    id: "private",
-    title: "Marchés privés",
-    position: "lower-right",
-    color: "green",
-    href: "/opportunites/marches-prives",
-    description: "Détecter les besoins des donneurs d’ordre privés et suivre les opportunités jusqu’à l’action commerciale.",
-    rubrics: [
-      { title: "Opportunités privées", href: "/opportunites/marches-prives", level: "main" },
-      { title: "Donneurs d’ordre", href: "/opportunites/marches-prives", level: "secondary" },
-      { title: "Suivi des opportunités", href: "/opportunites/marches-prives", level: "secondary" },
-    ],
-    links: ["commercial", "qualification", "public", "events", "support"],
-  },
-  {
-    id: "support",
-    title: "Accompagnement",
-    position: "bottom",
-    color: "violet",
-    href: "/developpement-commercial/accompagnement-appels-offres",
-    description: "Passer d’une opportunité retenue à une réponse préparée, structurée et contrôlée.",
-    rubrics: [
-      { title: "Accompagnement aux appels d’offres", href: "/developpement-commercial/accompagnement-appels-offres", level: "main" },
-      { title: "Préparation des réponses", href: "/developpement-commercial/accompagnement-appels-offres", level: "secondary" },
-      { title: "Conformité des dossiers", href: "/developpement-commercial/accompagnement-appels-offres", level: "secondary" },
-    ],
-    links: ["commercial", "qualification", "public", "private", "events"],
-  },
+type Surface = { title: string; href: string; points: string; labelX: number; labelY: number };
+type Dossier = { id: string; title: string; color: string; description: string; surfaces: Surface[] };
+
+const dossiers: Dossier[] = [
+  { id: "public", title: "MARCHÉS PUBLICS", color: "#4b98dc", description: "Détecter les appels d’offres publics, qualifier les besoins et repérer les possibilités de sous-traitance.", surfaces: [
+    { title: "Appels d’offres", href: "/opportunites/marches-publics", points: "250,165 350,222 250,280", labelX: 285, labelY: 224 },
+    { title: "Qualification", href: "/opportunites/marches-publics", points: "250,280 350,222 450,280 350,338", labelX: 350, labelY: 283 },
+    { title: "Sous-traitance", href: "/opportunites/marches-publics", points: "250,280 350,338 450,395 350,452 250,395", labelX: 322, labelY: 382 },
+  ]},
+  { id: "private", title: "MARCHÉS PRIVÉS", color: "#70b96d", description: "Identifier les besoins privés, leurs donneurs d’ordre et les occasions commerciales qui en découlent.", surfaces: [
+    { title: "Avis privés", href: "/opportunites/marches-prives", points: "650,165 550,222 650,280", labelX: 615, labelY: 224 },
+    { title: "Donneurs d’ordre", href: "/opportunites/marches-prives", points: "550,222 650,280 550,338 450,280", labelX: 550, labelY: 283 },
+    { title: "Suivi des besoins", href: "/opportunites/marches-prives", points: "650,280 650,395 550,452 450,395 550,338", labelX: 578, labelY: 382 },
+  ]},
+  { id: "commercial", title: "DÉVELOPPEMENT COMMERCIAL", color: "#f4cf3e", description: "Faire converger veille, stratégie, CRM et relations pour transformer les signaux en développement durable.", surfaces: [
+    { title: "Veille & stratégie", href: "/developpement-commercial", points: "650,395 750,450 850,500 750,555", labelX: 751, labelY: 477 },
+    { title: "CRM & relations", href: "/developpement-commercial/crm", points: "650,395 750,555 650,615 550,557", labelX: 690, labelY: 540 },
+    { title: "Études de marché", href: "/developpement-commercial/etudes-de-marche", points: "650,615 750,555 850,500 750,665 650,615", labelX: 750, labelY: 607 },
+  ]},
+  { id: "employment", title: "EMPLOI & RÉSEAUX", color: "#fa9a42", description: "Relier les besoins de compétences, les profils, les partenaires et les opportunités de collaboration.", surfaces: [
+    { title: "Offres d’emploi", href: "/emploi", points: "450,605 550,662 450,720", labelX: 485, labelY: 662 },
+    { title: "Profils & CV", href: "/emploi", points: "550,662 650,605 650,720 550,777 450,720", labelX: 555, labelY: 714 },
+    { title: "Réseaux", href: "/reseaux", points: "550,777 650,720 650,835 550,777", labelX: 600, labelY: 789 },
+  ]},
+  { id: "support", title: "ACCOMPAGNEMENT", color: "#ef5b4d", description: "Accompagner la préparation des réponses, la conformité des dossiers et la capitalisation des apprentissages.", surfaces: [
+    { title: "Conseil AO", href: "/developpement-commercial/accompagnement-appels-offres", points: "250,605 350,662 250,720", labelX: 285, labelY: 662 },
+    { title: "Préparation", href: "/developpement-commercial/accompagnement-appels-offres", points: "350,662 450,605 450,720 350,777 250,720", labelX: 350, labelY: 714 },
+    { title: "Conformité", href: "/developpement-commercial/accompagnement-appels-offres", points: "250,720 350,777 250,835", labelX: 286, labelY: 789 },
+  ]},
+  { id: "prospection", title: "PROSPECTION & QUALIFICATION", color: "#a365d5", description: "Qualifier les signaux, identifier les entreprises pertinentes, organiser les contacts et apprendre des retours.", surfaces: [
+    { title: "Qualification", href: "/developpement-commercial/prospection", points: "50,500 150,445 250,500 150,555", labelX: 150, labelY: 496 },
+    { title: "Identification", href: "/developpement-commercial/prospection", points: "150,445 250,395 350,452 250,500", labelX: 250, labelY: 450 },
+    { title: "Prospection", href: "/developpement-commercial/prospection", points: "150,555 250,500 350,557 250,615", labelX: 250, labelY: 565 },
+  ]},
 ];
 
-const relationshipLabels: Record<string, string> = {
-  commercial: "veille, études et mémoire CRM",
-  qualification: "qualification, ciblage et prospection",
-  events: "rencontres, agenda et réseautage",
-  public: "appels d’offres et sous-traitance",
-  private: "besoins privés et donneurs d’ordre",
-  support: "préparation, conformité et capitalisation",
-};
+const centerPoints = "450,395 550,452 550,557 450,615 350,557 350,452";
 
 export default function MajestiOSOpportunityMap() {
   const [active, setActive] = useState("commercial");
-  const selected = dossiers.find((dossier) => dossier.id === active) ?? dossiers[0];
+  const selected = dossiers.find((d) => d.id === active) ?? dossiers[0];
 
   return (
-    <section className="maj-map maj-interactive-architecture" aria-labelledby="maj-map-title">
-      <div className="maj-map-heading">
+    <section className="maj-map maj-star-map" aria-labelledby="maj-map-title">
+      <header className="maj-map-heading">
         <span className="section-label">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</span>
-        <h2 id="maj-map-title">Six dossiers. <em>Un écosystème connecté.</em></h2>
-        <p>Chaque losange est un dossier. Sa surface principale porte l’activité dominante ; ses deux surfaces secondaires ouvrent des rubriques complémentaires.</p>
-      </div>
+        <h2 id="maj-map-title">Six dossiers. <em>Des surfaces. Une intelligence croisée.</em></h2>
+        <p>Chaque losange ouvre un dossier ; chaque surface colorée donne accès à un sous-dossier. Les croisements matérialisent les synergies entre les domaines.</p>
+      </header>
 
-      <div className="maj-architecture" aria-label="Schéma interactif des six dossiers MajestiOS">
-        <svg className="maj-architecture-links" viewBox="0 0 1000 720" aria-hidden="true">
-          <g>
-            <path d="M500 110 L275 250 L165 470 L500 620 L835 470 L725 250 Z" />
-            <path d="M500 110 L725 250 L835 470 L500 620 L165 470 L275 250 Z" />
-            <path d="M275 250 L725 250 M165 470 L835 470 M275 250 L500 620 M725 250 L500 620" />
+      <div className="maj-star-canvas">
+        <svg className="maj-star-svg" viewBox="0 0 900 900" role="group" aria-label="Étoile interactive des six dossiers MajestiOS">
+          <circle className="maj-star-orbit" cx="450" cy="500" r="425" />
+          <g className="maj-star-links" aria-hidden="true">
+            <path d="M250 165 L450 280 L650 165 L650 395 L850 500 L650 615 L650 835 L450 720 L250 835 L250 615 L50 500 L250 395 Z" />
+            <path d="M250 395 L450 500 L650 395 M250 615 L450 500 L650 615 M450 280 L450 720 M250 395 L650 615 M650 395 L250 615" />
           </g>
-          {[[500,110],[275,250],[725,250],[165,470],[835,470],[500,620],[500,365]].map(([cx,cy],i)=><circle key={i} cx={cx} cy={cy} r={i===6?7:4} />)}
-        </svg>
-
-        {dossiers.map((dossier) => (
-          <article key={dossier.id} className={`maj-dossier maj-dossier-${dossier.position} tone-${dossier.color} ${active === dossier.id ? "is-active" : ""}`}>
-            <button className="maj-dossier-heading" type="button" onClick={() => setActive(dossier.id)} aria-pressed={active === dossier.id}>
-              <span className="maj-dossier-number">{String(dossiers.findIndex((d) => d.id === dossier.id) + 1).padStart(2,"0")}</span>
-              <strong>{dossier.title}</strong>
-            </button>
-            <div className="maj-dossier-surfaces">
-              {dossier.rubrics.map((rubric, index) => (
-                <Link
-                  key={rubric.title}
-                  href={rubric.href}
-                  className={`maj-dossier-surface ${rubric.level} surface-${index + 1}`}
-                  onFocus={() => setActive(dossier.id)}
-                  aria-label={`${rubric.title} — dossier ${dossier.title}`}
-                >
-                  <span>{rubric.title}</span>
-                  {index === 0 ? <small>PRINCIPALE · 60 %</small> : <small>SECONDAIRE · 20 %</small>}
-                </Link>
+          {dossiers.map((dossier) => (
+            <g key={dossier.id} className={`maj-star-dossier ${active === dossier.id ? "is-active" : ""}`}>
+              {dossier.surfaces.map((surface, index) => (
+                <a key={surface.title} href={surface.href} className="maj-star-surface" aria-label={`${surface.title}, sous-dossier de ${dossier.title}`} onMouseEnter={() => setActive(dossier.id)} onFocus={() => setActive(dossier.id)}>
+                  <polygon points={surface.points} fill={dossier.color} fillOpacity={index === 1 ? ".98" : ".72"} />
+                  <text x={surface.labelX} y={surface.labelY} textAnchor="middle">{surface.title}</text>
+                </a>
               ))}
-            </div>
-          </article>
-        ))}
-
-        <div className="maj-architecture-core">
-          <span>MAJESTIOS</span>
-          <strong>Intelligence opérationnelle</strong>
-          <small>Connecter · Qualifier · Agir · Capitaliser</small>
-        </div>
+            </g>
+          ))}
+          <polygon className="maj-star-center" points={centerPoints} />
+          <g className="maj-star-center-label">
+            <text x="450" y="489" textAnchor="middle" className="maj-star-crown">♛</text>
+            <text x="450" y="520" textAnchor="middle" className="maj-star-brand">MAJESTIOS</text>
+            <text x="450" y="540" textAnchor="middle" className="maj-star-tagline">INTELLIGENCE CROISÉE</text>
+          </g>
+          {dossiers.map((dossier, index) => {
+            const anchors = [
+              { x: 350, y: 315 }, { x: 550, y: 315 }, { x: 742, y: 500 },
+              { x: 550, y: 680 }, { x: 350, y: 680 }, { x: 158, y: 500 },
+            ];
+            const p = anchors[index];
+            return <g key={dossier.id + "-title"} className="maj-star-title" onClick={() => setActive(dossier.id)} role="button" tabIndex={0} aria-label={`Sélectionner le dossier ${dossier.title}`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setActive(dossier.id); }}>
+              <rect x={p.x - 75} y={p.y - 18} width="150" height="36" rx="7" fill={dossier.color} />
+              <text x={p.x} y={p.y + 4} textAnchor="middle">{dossier.title}</text>
+            </g>;
+          })}
+        </svg>
       </div>
 
-      <div className="maj-relationship-key">
-        <span className="maj-relationship-line" /> <span>Les liaisons symbolisent les échanges entre dossiers, pas une hiérarchie imposée.</span>
+      <div className="maj-star-legend" aria-label="Axes stratégiques">
+        <span><i style={{ background: "#4b98dc" }} /> Marchés publics</span>
+        <span><i style={{ background: "#70b96d" }} /> Marchés privés</span>
+        <span><i style={{ background: "#f4cf3e" }} /> Développement commercial</span>
       </div>
 
       <div className="maj-map-selection" aria-live="polite">
         <div>
-          <span className="maj-map-selection-kicker">DOSSIER SÉLECTIONNÉ · {selected.title.toLocaleUpperCase("fr-FR")}</span>
+          <span className="maj-map-selection-kicker">DOSSIER SÉLECTIONNÉ · {selected.title}</span>
           <strong>{selected.description}</strong>
-          <p><b>Connexions :</b> {selected.links.map((id) => dossiers.find((d) => d.id === id)?.title).filter(Boolean).join(" · ")}.</p>
-          <p><b>Contribution :</b> {relationshipLabels[selected.id]}.</p>
+          <p><b>Synergie :</b> ce dossier échange des signaux, des contacts et des apprentissages avec les cinq autres dossiers.</p>
         </div>
-        <Link href={selected.href} className="maj-map-selection-link">Ouvrir le dossier <span aria-hidden="true">↗</span></Link>
+        <a className="maj-map-selection-link" href={selected.surfaces[0].href}>Ouvrir le dossier <span aria-hidden="true">↗</span></a>
       </div>
-      <p className="maj-star-note">Les 18 surfaces constituent des entrées de navigation. Les liaisons représentent les échanges fonctionnels entre domaines ; les destinations restent limitées aux routes prévues et ne signifient pas que toutes les fonctionnalités sont déjà actives. La rubrique Emploi conserve une structure distincte.</p>
+      <p className="maj-star-note">Les surfaces sont des sous-dossiers navigables. Les connexions représentent des relations fonctionnelles transversales, non une simple hiérarchie. Les fonctions en préparation sont signalées dans leurs dossiers respectifs.</p>
     </section>
   );
 }
