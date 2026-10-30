@@ -66,6 +66,7 @@ function labelPoint(angle: number, index: number) {
 }
 export default function MajestiOSOpportunityMap() {
   const [active, setActive] = useState("commercial");
+  const [touchedSurface, setTouchedSurface] = useState<string | null>(null);
   const selected = dossiers.find((d) => d.id === active) ?? dossiers[0];
 
   return (
@@ -87,7 +88,7 @@ export default function MajestiOSOpportunityMap() {
               {dossier.surfaces.map((surface, index) => {
                 const p = labelPoint(dossier.angle, index);
                 return (
-                  <a key={surface.title} href={surface.href} className="maj-star-surface" aria-label={`${surface.title}, sous-dossier de ${dossier.title}`} onMouseEnter={() => setActive(dossier.id)} onFocus={() => setActive(dossier.id)}>
+                  <a key={surface.title} href={surface.href} className="maj-star-surface" aria-label={`${surface.title}, sous-dossier de ${dossier.title}`} onMouseEnter={() => setActive(dossier.id)} onFocus={() => setActive(dossier.id)} onClick={(event) => { if (window.matchMedia("(hover: none)").matches && touchedSurface !== surface.title) { event.preventDefault(); setTouchedSurface(surface.title); setActive(dossier.id); } }}>
                     <polygon points={surfacePolygon(dossier.angle, index)} fill={dossier.color} />
                     <text x={p.x} y={p.y + 4} textAnchor="middle">{surface.title}</text>
                     <title>{dossier.title} — {surface.title}</title>
