@@ -1,36 +1,69 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 981" width="940" height="981" role="img" aria-labelledby="title desc">
-<title id="title">Schéma MajestiOS — six losanges, trois surfaces égales par losange</title>
-<desc id="desc">Chaque losange comporte deux triangles aux extrémités de même couleur et une surface médiane d'une deuxième couleur. Les trois surfaces représentent chacune un tiers de l'aire du losange. Six couleurs sont utilisées dans l'ensemble.</desc>
+<title id="title">Schéma MajestiOS — six losanges, trois tiers égaux et six couleurs</title>
+<desc id="desc">La géométrie reprend le SVG de référence. Chaque losange contient exactement deux triangles d’extrémité de même couleur et une surface médiane d’une seconde couleur. Chaque partie représente un tiers de la surface du losange. Six couleurs unies sont utilisées au total.</desc>
 <defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#d8cdbb" stroke-width="1" opacity=".45"/></pattern></defs>
 <rect width="940" height="981" fill="#ebe2d3"/><rect width="940" height="981" fill="url(#g)"/>
-<circle cx="462" cy="562" r="440" fill="none" stroke="#b5ad9f" stroke-width="1.2"/><g id="losange-bleu" data-losange="bleu" tabindex="0" role="button" aria-label="Sélectionner le losange bleu">
-<polygon points="242.000,181.000 369.017,254.323 242.000,327.647" fill="#4b97de"/>
-<polygon points="369.017,254.323 462.000,308.000 462.000,415.353 334.983,488.677 242.000,435.000 242.000,327.647" fill="#70bb70"/>
-<polygon points="462.000,562.000 334.983,488.677 462.000,415.353" fill="#4b97de"/>
-<polygon points="242.000,181.000 462.000,308.000 462.000,562.000 242.000,435.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
-</g><g id="losange-vert" data-losange="vert" tabindex="0" role="button" aria-label="Sélectionner le losange vert">
-<polygon points="682.000,181.000 682.000,327.647 554.983,254.323" fill="#70bb70"/>
-<polygon points="682.000,327.647 682.000,435.000 589.017,488.677 462.000,415.353 462.000,308.000 554.983,254.323" fill="#f7d33f"/>
-<polygon points="462.000,562.000 462.000,415.353 589.017,488.677" fill="#70bb70"/>
-<polygon points="682.000,181.000 682.000,435.000 462.000,562.000 462.000,308.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
-</g><g id="losange-jaune" data-losange="jaune" tabindex="0" role="button" aria-label="Sélectionner le losange jaune">
-<polygon points="462.000,562.000 589.017,488.677 589.017,635.323" fill="#f7d33f"/>
-<polygon points="589.017,488.677 682.000,435.000 774.983,488.677 774.983,635.323 682.000,689.000 589.017,635.323" fill="#fb9b46"/>
-<polygon points="902.000,562.000 774.983,635.323 774.983,488.677" fill="#f7d33f"/>
-<polygon points="462.000,562.000 682.000,435.000 902.000,562.000 682.000,689.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
-</g><g id="losange-orange" data-losange="orange" tabindex="0" role="button" aria-label="Sélectionner le losange orange">
-<polygon points="462.000,562.000 589.017,635.323 462.000,708.647" fill="#fb9b46"/>
-<polygon points="589.017,635.323 682.000,689.000 682.000,796.353 554.983,869.677 462.000,816.000 462.000,708.647" fill="#ee5b49"/>
-<polygon points="682.000,943.000 554.983,869.677 682.000,796.353" fill="#fb9b46"/>
-<polygon points="462.000,562.000 682.000,689.000 682.000,943.000 462.000,816.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
-</g><g id="losange-rouge" data-losange="rouge" tabindex="0" role="button" aria-label="Sélectionner le losange rouge">
-<polygon points="462.000,562.000 334.983,635.323 462.000,708.647" fill="#ee5b49"/>
-<polygon points="334.983,635.323 242.000,689.000 242.000,796.353 369.017,869.677 462.000,816.000 462.000,708.647" fill="#a367d8"/>
-<polygon points="242.000,943.000 369.017,869.677 242.000,796.353" fill="#ee5b49"/>
-<polygon points="462.000,562.000 242.000,689.000 242.000,943.000 462.000,816.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
-</g><g id="losange-violet" data-losange="violet" tabindex="0" role="button" aria-label="Sélectionner le losange violet">
-<polygon points="22.000,562.000 149.017,488.677 149.017,635.323" fill="#a367d8"/>
-<polygon points="149.017,488.677 242.000,435.000 334.983,488.677 334.983,635.323 242.000,689.000 149.017,635.323" fill="#4b97de"/>
-<polygon points="462.000,562.000 334.983,635.323 334.983,488.677" fill="#a367d8"/>
-<polygon points="22.000,562.000 242.000,435.000 462.000,562.000 242.000,689.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
-</g></svg>
+<circle cx="462" cy="562" r="440" fill="none" stroke="#b5ad9f" stroke-width="1.2"/>
+<!-- Losange bleu : triangle bleu, médiane verte, triangle bleu -->
+<g id="losange-bleu" data-surface="bleu" tabindex="0" role="button" aria-label="Sélectionner le losange bleu">
+<polygon points="242.0,181.0 421.6,284.7 242.0,388.4" fill="#4b97de"/>
+<polygon points="421.6,284.7 462.0,308.0 462.0,354.6 282.4,458.3 242.0,435.0 242.0,388.4" fill="#70bb70"/>
+<polygon points="462.0,354.6 462.0,562.0 282.4,458.3" fill="#4b97de"/>
+<line x1="421.6" y1="284.7" x2="242.0" y2="388.4" class="seam"/>
+<line x1="462.0" y1="354.6" x2="282.4" y2="458.3" class="seam"/>
+<polygon points="462.0,562.0 462.0,308.0 242.0,181.0 242.0,435.0" class="outline"/>
+</g>
+<!-- Losange violet : triangle violet, médiane bleue, triangle violet -->
+<g id="losange-violet" data-surface="violet" tabindex="0" role="button" aria-label="Sélectionner le losange violet">
+<polygon points="22.1,562.0 201.7,458.3 201.7,665.7" fill="#a367d8"/>
+<polygon points="201.7,458.3 242.0,435.0 282.4,458.3 282.4,665.7 242.0,689.0 201.7,665.7" fill="#4b97de"/>
+<polygon points="282.4,458.3 462.0,562.0 282.4,665.7" fill="#a367d8"/>
+<line x1="201.7" y1="458.3" x2="201.7" y2="665.7" class="seam"/>
+<line x1="282.4" y1="458.3" x2="282.4" y2="665.7" class="seam"/>
+<polygon points="462.0,562.0 242.0,435.0 22.1,562.0 242.0,689.0" class="outline"/>
+</g>
+<!-- Losange rouge : triangle rouge, médiane violette, triangle rouge -->
+<g id="losange-rouge" data-surface="rouge" tabindex="0" role="button" aria-label="Sélectionner le losange rouge">
+<polygon points="242.0,943.0 242.0,735.6 421.6,839.3" fill="#ee5b49"/>
+<polygon points="242.0,735.6 242.0,689.0 282.4,665.7 462.0,769.4 462.0,816.0 421.6,839.3" fill="#a367d8"/>
+<polygon points="282.4,665.7 462.0,562.0 462.0,769.4" fill="#ee5b49"/>
+<line x1="242.0" y1="735.6" x2="421.6" y2="839.3" class="seam"/>
+<line x1="282.4" y1="665.7" x2="462.0" y2="769.4" class="seam"/>
+<polygon points="462.0,562.0 242.0,689.0 242.0,943.0 462.0,816.0" class="outline"/>
+</g>
+<!-- Losange orange : triangle orange, médiane rouge, triangle orange -->
+<g id="losange-orange" data-surface="orange" tabindex="0" role="button" aria-label="Sélectionner le losange orange">
+<polygon points="682.0,943.0 502.4,839.3 682.0,735.6" fill="#fb9b46"/>
+<polygon points="502.4,839.3 462.0,816.0 462.0,769.4 641.6,665.7 682.0,689.0 682.0,735.6" fill="#ee5b49"/>
+<polygon points="462.0,769.4 462.0,562.0 641.6,665.7" fill="#fb9b46"/>
+<line x1="502.4" y1="839.3" x2="682.0" y2="735.6" class="seam"/>
+<line x1="462.0" y1="769.4" x2="641.6" y2="665.7" class="seam"/>
+<polygon points="462.0,562.0 462.0,816.0 682.0,943.0 682.0,689.0" class="outline"/>
+</g>
+<!-- Losange jaune : triangle jaune, médiane orange, triangle jaune -->
+<g id="losange-jaune" data-surface="jaune" tabindex="0" role="button" aria-label="Sélectionner le losange jaune">
+<polygon points="901.9,562.0 722.3,665.7 722.3,458.3" fill="#f7d33f"/>
+<polygon points="722.3,665.7 682.0,689.0 641.6,665.7 641.6,458.3 682.0,435.0 722.3,458.3" fill="#fb9b46"/>
+<polygon points="641.6,665.7 462.0,562.0 641.6,458.3" fill="#f7d33f"/>
+<line x1="722.3" y1="665.7" x2="722.3" y2="458.3" class="seam"/>
+<line x1="641.6" y1="665.7" x2="641.6" y2="458.3" class="seam"/>
+<polygon points="462.0,562.0 682.0,689.0 901.9,562.0 682.0,435.0" class="outline"/>
+</g>
+<!-- Losange vert : triangle vert, médiane jaune, triangle vert -->
+<g id="losange-vert" data-surface="vert" tabindex="0" role="button" aria-label="Sélectionner le losange vert">
+<polygon points="682.0,181.0 682.0,388.4 502.4,284.7" fill="#70bb70"/>
+<polygon points="682.0,388.4 682.0,435.0 641.6,458.3 462.0,354.6 462.0,308.0 502.4,284.7" fill="#f7d33f"/>
+<polygon points="641.6,458.3 462.0,562.0 462.0,354.6" fill="#70bb70"/>
+<line x1="682.0" y1="388.4" x2="502.4" y2="284.7" class="seam"/>
+<line x1="641.6" y1="458.3" x2="462.0" y2="354.6" class="seam"/>
+<polygon points="462.0,562.0 462.0,308.0 682.0,181.0 682.0,435.0" class="outline"/>
+</g>
+<style>
+.outline{fill:none;stroke:#171717;stroke-width:4.2;stroke-linejoin:round;stroke-linecap:round}
+.seam{fill:none;stroke:#252525;stroke-width:1;stroke-dasharray:5 4;opacity:.48}
+g[data-surface]{cursor:pointer;transition:filter .15s ease}
+g[data-surface]:hover,g[data-surface]:focus,g[data-surface].selected{filter:brightness(1.04)}
+g[data-surface]:focus{outline:none}
+g[data-surface]:focus .outline,g[data-surface].selected .outline{stroke-width:6}
+</style>
+</svg>
