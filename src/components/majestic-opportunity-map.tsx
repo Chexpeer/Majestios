@@ -47,10 +47,10 @@ export default function MajestiOSOpportunityMap() {
             <span className="maj-star-axis-open">Explorer ↗</span>
           </button>
         ))}
-        <div className="maj-star-core" aria-label="MajestiOS, centre de coordination de la stratégie">
+        <div className="maj-star-core" aria-label="Page d’information MajestiOS, au croisement des communications">
           <span className="maj-star-core-mark">M</span>
-          <strong>MajestiOS</strong>
-          <small>Intelligence commerciale proactive</small>
+          <strong>Information</strong>
+          <small>Page de convergence · MajestiOS</small>
         </div>
       </div>
       <div className="maj-star-selection" aria-live="polite">
