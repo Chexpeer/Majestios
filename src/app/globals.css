@@ -2359,3 +2359,54 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, .majestic-global-main::-webkit
  .maj-interactive-architecture .maj-architecture { grid-template-columns:1fr; }
  .maj-interactive-architecture .maj-dossier-top,.maj-interactive-architecture .maj-dossier-bottom,.maj-interactive-architecture .maj-architecture-core { grid-column:1; }
 }
+
+
+/* Étoile MajestiOS : six dossiers géométriques et surfaces de sous-dossiers */
+.maj-star-map { padding:clamp(12px,2.5vw,28px); background:linear-gradient(145deg,#fbf8ef,#f5f1e7); border-color:#e5ddce; }
+.maj-star-map .maj-map-heading { max-width:800px; margin-bottom:8px; }
+.maj-star-map .maj-map-heading h2 { font-size:clamp(20px,2.5vw,30px); }
+.maj-star-map .maj-map-heading p { max-width:720px; margin:0 auto; font-size:clamp(10px,1.1vw,13px); line-height:1.7; }
+.maj-star-canvas { width:min(100%,820px); margin:0 auto; }
+.maj-star-svg { display:block; width:100%; height:auto; overflow:visible; }
+.maj-star-orbit { fill:none; stroke:#d7cebd; stroke-width:1.5; }
+.maj-star-links path { fill:none; stroke:#24313a; stroke-width:2.4; stroke-linejoin:round; opacity:.75; }
+.maj-star-surface { cursor:pointer; outline:none; }
+.maj-star-surface polygon { stroke:#26323a; stroke-width:2; stroke-linejoin:round; transition:fill-opacity .16s ease,filter .16s ease; }
+.maj-star-surface text { fill:#182b38; font:700 11px "DM Sans",Arial,sans-serif; pointer-events:none; paint-order:stroke; stroke:rgba(255,255,255,.78); stroke-width:2.6px; stroke-linejoin:round; }
+.maj-star-surface:hover polygon,.maj-star-surface:focus polygon { fill-opacity:1; filter:brightness(1.06) drop-shadow(0 2px 2px rgba(23,43,58,.18)); stroke-width:3.5; }
+.maj-star-surface:focus-visible polygon { stroke:#142f43; stroke-width:5; }
+.maj-star-title { cursor:pointer; outline:none; }
+.maj-star-title rect { stroke:#fff; stroke-width:2.5; filter:drop-shadow(0 2px 3px rgba(20,44,66,.16)); transition:filter .16s ease,stroke-width .16s ease; }
+.maj-star-title text { fill:#172b3a; font:900 10px "DM Sans",Arial,sans-serif; letter-spacing:.15px; pointer-events:none; }
+.maj-star-title:hover rect,.maj-star-title:focus rect,.maj-star-dossier.is-active ~ .maj-star-title rect { stroke:#fff; stroke-width:4; filter:drop-shadow(0 3px 5px rgba(20,44,66,.23)); }
+.maj-star-center { fill:#18394d; stroke:#f4d36d; stroke-width:4; }
+.maj-star-center-label { pointer-events:none; }
+.maj-star-crown { fill:#f4d36d; font:700 25px Georgia,serif; }
+.maj-star-brand { fill:#fff; font:900 16px Manrope,Arial,sans-serif; letter-spacing:.8px; }
+.maj-star-tagline { fill:#d9e8ec; font:700 7px "DM Sans",Arial,sans-serif; letter-spacing:1px; }
+.maj-star-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:9px 17px; margin:3px auto 16px; }
+.maj-star-legend span { display:inline-flex; align-items:center; gap:7px; color:#526675; font-size:10px; font-weight:750; }
+.maj-star-legend i { display:inline-block; width:10px; height:10px; border-radius:3px; }
+.maj-star-map .maj-map-selection { border-color:#e2d9c8; }
+.maj-star-map .maj-map-selection-link { background:#18394d; }
+.maj-star-note { max-width:850px; margin:12px auto 0; color:#7d817e; font-size:9px; line-height:1.7; text-align:center; }
+@media(max-width:700px) {
+  .maj-star-map { padding:12px 5px; border-radius:12px; }
+  .maj-star-map .maj-map-heading { padding:0 8px; }
+  .maj-star-map .maj-map-heading h2 { font-size:19px; }
+  .maj-star-canvas { width:100%; }
+  .maj-star-surface text { font-size:14px; stroke-width:3.5px; }
+  .maj-star-title text { font-size:10px; }
+  .maj-star-title rect { rx:6px; }
+  .maj-star-brand { font-size:17px; }
+  .maj-star-legend { gap:8px 12px; padding:0 8px; }
+  .maj-star-legend span { font-size:9px; }
+}
+@media(max-width:430px) {
+  .maj-star-surface text { font-size:17px; }
+  .maj-star-title text { font-size:11px; }
+  .maj-star-title rect { stroke-width:3; }
+  .maj-star-crown { font-size:28px; }
+  .maj-star-brand { font-size:19px; }
+  .maj-star-tagline { font-size:8px; }
+}
