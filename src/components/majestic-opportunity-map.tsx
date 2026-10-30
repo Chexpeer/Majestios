@@ -40,9 +40,9 @@ const dossiers: Dossier[] = [
 
 const CX = 450;
 const CY = 450;
-const RADII = [78, 180, 280, 390];
-const WIDTHS = [43, 108, 116, 0];
-const LABEL_RADII = [128, 230, 326];
+const RADII = [0, 180, 280, 390];
+const WIDTHS = [0, 108, 116, 0];
+const LABEL_RADII = [105, 230, 326];
 
 function point(angle: number, radius: number, offset = 0) {
   const a = (angle * Math.PI) / 180;
@@ -64,10 +64,6 @@ function surfacePolygon(angle: number, index: number) {
 function labelPoint(angle: number, index: number) {
   return point(angle, LABEL_RADII[index]);
 }
-function hexPoints() {
-  return polygonPoints(dossiers.map((d) => point(d.angle + 30, 86)));
-}
-
 export default function MajestiOSOpportunityMap() {
   const [active, setActive] = useState("commercial");
   const selected = dossiers.find((d) => d.id === active) ?? dossiers[0];
@@ -77,7 +73,7 @@ export default function MajestiOSOpportunityMap() {
       <header className="maj-map-heading">
         <span className="section-label">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</span>
         <h2 id="maj-map-title">Six dossiers. <em>Des surfaces. Une intelligence croisée.</em></h2>
-        <p>Chaque branche est un dossier ; chaque surface colorée est un sous-dossier. Les croisements représentent les synergies entre les domaines.</p>
+        <p>Chaque losange est un dossier ; chaque surface colorée est un sous-dossier. Les six dossiers se rejoignent au centre : leurs croisements représentent les synergies entre les domaines.</p>
       </header>
 
       <div className="maj-star-canvas">
@@ -113,12 +109,6 @@ export default function MajestiOSOpportunityMap() {
               </g>
             </g>
           ))}
-          <polygon className="maj-star-center" points={hexPoints()} />
-          <g className="maj-star-center-label">
-            <text x={CX} y="431" textAnchor="middle" className="maj-star-crown">♛</text>
-            <text x={CX} y="460" textAnchor="middle" className="maj-star-brand">MAJESTIOS</text>
-            <text x={CX} y="480" textAnchor="middle" className="maj-star-tagline">INTELLIGENCE CROISÉE</text>
-          </g>
         </svg>
       </div>
 
