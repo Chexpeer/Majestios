@@ -1875,3 +1875,30 @@ body { background: var(--paper); color: var(--ink); }
 .page-hero[data-dossier-symbol="▥"] { --dossier-symbol-color: #147d78; }
 .page-hero[data-dossier-symbol="↗"] { --dossier-symbol-color: #b17b2e; }
 @media (max-width: 640px) { .page-hero[data-dossier-symbol] { padding-right: 0; } .page-hero[data-dossier-symbol]::after { top: -.05em; right: -10px; font-size: 155px; opacity: .045; } }
+
+
+/* Navigation compacte : toucher le nom déroule le dossier, la flèche ouvre sa page. */
+.majestic-global-shell { grid-template-columns: 188px minmax(0, 1fr); }
+.majestic-global-shell > .home-sidebar { width: 188px; padding: 18px 8px 14px; }
+.home-sidebar-brand { gap: 7px; padding-left: 2px; padding-right: 2px; }
+.home-sidebar-mark { flex-basis: 34px; width: 34px; height: 34px; }
+.home-sidebar-brand strong { font-size: 16px; }
+.home-sidebar-brand small { font-size: 6px; letter-spacing: .35px; }
+.home-sidebar-top-row { gap: 3px; }
+.home-sidebar-menu-toggle { flex: 1 1 auto; width: 0; border: 0; text-align: left; cursor: pointer; font: inherit; background: transparent; }
+.home-sidebar-menu-toggle.home-sidebar-top-link { min-height: 35px; padding: 7px 6px; gap: 6px; font-size: 10px; }
+.home-sidebar-menu-toggle.home-sidebar-sub { min-height: 30px; padding: 6px; font-size: 9px; }
+.home-sidebar-inline-chevron { flex: 0 0 13px; margin-left: auto; color: var(--nav-accent, #e8c36f); text-align: center; font-size: 14px; font-weight: 800; }
+.home-sidebar-direct-link { display: grid; flex: 0 0 23px; width: 23px; min-height: 30px; place-items: center; align-self: center; border: 1px solid #3a5869; border-radius: 6px; color: #dbe7ed; font-size: 12px; }
+.home-sidebar-direct-link:hover { background: #284a5b; color: #fff; }
+.home-sidebar-menu-toggle:focus-visible, .home-sidebar-direct-link:focus-visible { outline: 2px solid var(--nav-accent, #e8c36f); outline-offset: 2px; }
+@media (max-width: 1050px) {
+  .majestic-global-shell { grid-template-columns: 176px minmax(0, 1fr); }
+  .majestic-global-shell > .home-sidebar { width: 176px; padding-right: 6px; padding-left: 6px; }
+  .home-sidebar-menu-toggle.home-sidebar-top-link { gap: 4px; font-size: 9px; }
+}
+@media (max-width: 760px) {
+  .majestic-global-shell > .home-sidebar { width: min(250px, 84vw) !important; max-width: 250px; }
+  .home-sidebar-menu-toggle.home-sidebar-top-link { min-height: 36px; font-size: 11px; }
+  .home-sidebar-menu-toggle.home-sidebar-sub { font-size: 10px; }
+}
