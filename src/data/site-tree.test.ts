@@ -110,7 +110,7 @@ describe("site navigation tree", () => {
     for (const dossier of dossiers) {
       const source = readFileSync(dossier.file, "utf8");
       expect(source).toContain(`data-dossier-symbol="${dossier.symbol}"`);
-      const literalInternalLinks = [...source.matchAll(/<Link\b[^>]*?href="(\/[^"]*)"/gs)].map((match) => match[1]);
+      const literalInternalLinks = [...source.matchAll(/<Link\b[^>]*?href="(\/[^"]*)"/g)].map((match) => match[1]);
       expect(literalInternalLinks.filter((href) => href === dossier.route), `Self-links found on ${dossier.route}`).toEqual([]);
     }
   });
