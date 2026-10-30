@@ -104,7 +104,8 @@ export default function MajestiOSOpportunityMap() {
                 const right = crossSection(dossier.angle, RADII[0], WIDTHS[0])[1];
                 return `M${left.x},${left.y} L${leftMid.x},${leftMid.y} L${leftOuter.x},${leftOuter.y} L${tip.x},${tip.y} L${rightOuter.x},${rightOuter.y} L${rightMid.x},${rightMid.y} L${right.x},${right.y} Z`;
               })()} />
-              <g className="maj-star-title" role="button" tabIndex={0} aria-label={`Sélectionner le dossier ${dossier.title}`} onClick={() => setActive(dossier.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setActive(dossier.id); }}>
+              <g className={`maj-star-title maj-star-title-${dossier.id}`} role="button" tabIndex={0} aria-label={`Sélectionner le dossier ${dossier.title}`} onClick={() => setActive(dossier.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setActive(dossier.id); }}>
+                <text x={point(dossier.angle, 405).x} y={point(dossier.angle, 405).y + 4} textAnchor={dossier.angle === 0 ? "start" : dossier.angle === 180 ? "end" : "middle"}>{dossier.title}</text>
                 <title>Sélectionner {dossier.title}</title>
               </g>
             </g>
