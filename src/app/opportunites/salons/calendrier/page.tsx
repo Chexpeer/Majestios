@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 import { salonEvents } from "@/data/salon-events";
 
 export const metadata = {
@@ -16,7 +15,7 @@ export default function Page() {
   const today = `${todayParts.find((part) => part.type === "year")?.value}-${todayParts.find((part) => part.type === "month")?.value}-${todayParts.find((part) => part.type === "day")?.value}`;
   const events = [...salonEvents].filter((event) => event.endDate ? event.endDate >= today : event.startDate >= today).sort((a, b) => a.startDate.localeCompare(b.startDate));
   return <main className="public-site concept-page">
-    <PublicHeader />
+    
     <section className="how-section concept-hero">
       <div>
         <span className="section-label">OPPORTUNITÉS · AGENDA PROFESSIONNEL</span>
