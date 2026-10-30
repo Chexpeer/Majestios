@@ -379,3 +379,24 @@ if (interactiveSvg) {
     });
   });
 }
+
+
+const personalSpaceDialog = document.querySelector("#personal-space-dialog");
+const openPersonalSpace = document.querySelector("#open-personal-space");
+const closePersonalSpace = document.querySelector("#close-personal-space");
+const personalSpaceForm = document.querySelector("#personal-space-form");
+const personalSpaceFeedback = document.querySelector("#personal-space-feedback");
+
+openPersonalSpace?.addEventListener("click", () => {
+  if (typeof personalSpaceDialog?.showModal === "function") personalSpaceDialog.showModal();
+});
+closePersonalSpace?.addEventListener("click", () => personalSpaceDialog?.close());
+personalSpaceDialog?.addEventListener("click", (event) => {
+  if (event.target === personalSpaceDialog) personalSpaceDialog.close();
+});
+personalSpaceForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!personalSpaceForm.reportValidity()) return;
+  personalSpaceFeedback.textContent = "Votre demande a été prévisualisée. Aucune donnée n’a été envoyée ni enregistrée : la création réelle de compte reste à connecter.";
+  personalSpaceFeedback.hidden = false;
+});
