@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
 import { flattenSiteTree } from "./site-tree";
 import { dedicatedGuides } from "./dedicated-guides";
@@ -83,6 +83,20 @@ describe("site navigation tree", () => {
   it("provides dedicated guides for key parent-level business journeys", () => {
     const required = ["/business/intelligence-entreprises", "/business/achat-cession", "/developpement-commercial/prospection", "/developpement-commercial/etudes-de-marche", "/developpement-commercial/e-reputation", "/developpement-commercial/accompagnement-appels-offres"];
     expect(required.every((pathname) => Boolean(dedicatedGuides[pathname]))).toBe(true);
+  });
+
+  it("keeps the company radar and economic signals as distinct dedicated dossiers", () => {
+    const radarPath = join(appDirectory, "opportunites", "radar-entreprises", "page.tsx");
+    const signalsPath = join(appDirectory, "opportunites", "signaux-entreprises", "page.tsx");
+    const radar = readFileSync(radarPath, "utf8");
+    const signals = readFileSync(signalsPath, "utf8");
+
+    expect(radar).toContain("Radar des entreprises");
+    expect(radar).toContain("Qualifier avant de contacter");
+    expect(signals).toContain("Signaux économiques");
+    expect(signals).toContain("Un signal n’est pas encore");
+
+    expect(radar).not.toEqual(signals);
   });
 
   it("points every navigation item to an implemented Next.js page or dynamic route", () => {
