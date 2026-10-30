@@ -51,7 +51,7 @@ function stableDailyOrder(items: StreamItem[], day: string) {
   return [...items].sort((a, b) => score(a.id) - score(b.id));
 }
 
-function Flow({ title, eyebrow, items, direction, tone }: { title: string; eyebrow: string; items: StreamItem[]; direction: "left" | "right"; tone: "public" | "private" | "employment" | "salons" }) {
+function Flow({ title, eyebrow, items, direction, tone }: { title: string; eyebrow: string; items: StreamItem[]; direction: "left" | "right"; tone: "public" | "prive" | "emploi" | "salons" }) {
   const duplicated = items.length > 1 ? [...items, ...items] : items;
   return <section className={`announcement-flow flow-${tone}`} aria-label={title}>
     <div className="announcement-flow-label"><span>{eyebrow}</span><strong>{title}</strong><span aria-hidden="true">●</span></div>
@@ -133,8 +133,8 @@ export default function AnnouncementTicker() {
     <div className="announcement-band-head"><span className="band-eyebrow">VEILLE EN MOUVEMENT</span><span className="band-note">Public · privé · emploi · salons — les exemples fictifs sont signalés</span></div>
     <div className="announcement-flows">
       <Flow title="Marchés publics" eyebrow="PUBLIC" items={flows.public} direction="left" tone="public" />
-      <Flow title="Opportunités privées" eyebrow="PRIVÉ" items={flows.private} direction="left" tone="private" />
-      <Flow title="Emploi & recrutement" eyebrow="EMPLOI" items={flows.employment} direction="right" tone="employment" />
+      <Flow title="Opportunités privées" eyebrow="PRIVÉ" items={flows.private} direction="left" tone="prive" />
+      <Flow title="Emploi & recrutement" eyebrow="EMPLOI" items={flows.employment} direction="right" tone="emploi" />
       <Flow title="Salons professionnels" eyebrow="RÉSEAU" items={flows.salons} direction="left" tone="salons" />
     </div>
   </section>;
