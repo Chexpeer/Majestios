@@ -1,6 +1,6 @@
 import type { SiteNode } from "./navigation/types";
 import { homeNode } from "./navigation/home";
-import { opportunitiesNode } from "./navigation/opportunities";
+import { opportunitiesNode, employmentNode } from "./navigation/opportunities";
 import { businessNode } from "./navigation/business";
 import { commercialDevelopmentNode } from "./navigation/commercial-development";
 import { networksNode } from "./navigation/networks";
@@ -16,6 +16,7 @@ export type { SiteNode } from "@/data/navigation/types";
 export const siteTree: SiteNode[] = [
   homeNode,
   opportunitiesNode,
+  employmentNode,
   businessNode,
   commercialDevelopmentNode,
   networksNode,
