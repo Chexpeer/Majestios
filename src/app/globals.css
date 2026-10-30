@@ -1957,3 +1957,51 @@ body { background: var(--paper); color: var(--ink); }
   .maj-map-legend { gap:7px 10px; font-size:8px; }
   .maj-map-selection { gap:10px; }
 }
+
+
+/* Défilement : jamais animé automatiquement, barre masquée mais geste utilisateur conservé. */
+html, body, * {
+  scroll-behavior: auto !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+/* Le contenu ne se déplace pas automatiquement vers une section : l’utilisateur pilote le scroll. */
+:target { scroll-margin-top: 1rem; }
+
+/* Identités plus affirmées par univers, tout en gardant la grammaire MajestiOS. */
+.majestic-global-main .site-page-with-sidebar.domain-opportunites .page-hero,
+.majestic-global-main .public-site.domain-opportunites .concept-hero {
+  border-bottom: 3px solid #4d91c5;
+}
+.majestic-global-main .site-page-with-sidebar.domain-opportunites .page-hero .eyebrow { color:#2e6f9f; }
+.majestic-global-main .site-page-with-sidebar.domain-opportunites .hub-card { border-top:4px solid #4d91c5; }
+.majestic-global-main .site-page-with-sidebar.domain-business .page-hero { border-bottom:3px solid #bd9140; }
+.majestic-global-main .site-page-with-sidebar.domain-business .page-hero .eyebrow { color:#90641e; }
+.majestic-global-main .site-page-with-sidebar.domain-business .hub-card { border-top:4px solid #bd9140; }
+.majestic-global-main .site-page-with-sidebar.domain-commercial .page-hero { border-bottom:3px solid #25977f; }
+.majestic-global-main .site-page-with-sidebar.domain-commercial .page-hero .eyebrow { color:#16705f; }
+.majestic-global-main .site-page-with-sidebar.domain-commercial .hub-card { border-top:4px solid #25977f; }
+.majestic-global-main .site-page-with-sidebar.domain-reseaux .page-hero { border-bottom:3px solid #8e72c5; }
+.majestic-global-main .site-page-with-sidebar.domain-reseaux .page-hero .eyebrow { color:#7052a9; }
+.majestic-global-main .site-page-with-sidebar.domain-reseaux .hub-card { border-top:4px solid #8e72c5; }
+.majestic-global-main .site-page-with-sidebar.domain-comprendre .page-hero { border-bottom:3px solid #6d8293; }
+.majestic-global-main .site-page-with-sidebar.domain-comprendre .page-hero .eyebrow { color:#4f6678; }
+.majestic-global-main .site-page-with-sidebar.domain-comprendre .hub-card { border-top:4px solid #6d8293; }
+.majestic-global-main .site-page-with-sidebar.domain-employment { background:linear-gradient(180deg,#f9edf0 0,#fcf7f8 320px,#fff 100%); }
+.majestic-global-main .site-page-with-sidebar.domain-employment .page-hero { border-bottom:3px solid #c45f73; }
+.majestic-global-main .site-page-with-sidebar.domain-employment .page-hero .eyebrow { color:#a64056; }
+.majestic-global-main .site-page-with-sidebar.domain-employment .hub-card { border-top:4px solid #c45f73; }
+.majestic-global-main .site-page-with-sidebar .page-hero { padding-bottom:clamp(28px,4vw,48px); }
+.majestic-global-main .site-page-with-sidebar .page-watermark { opacity:.085; transform:rotate(-7deg); }
+.majestic-global-main .site-page-with-sidebar .hub-card { border-radius:16px; box-shadow:0 10px 24px rgb(20 44 66 / 7%); }
+.majestic-global-main .site-page-with-sidebar .hub-card:hover { transform:translateY(-3px); box-shadow:0 16px 30px rgb(20 44 66 / 12%); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
