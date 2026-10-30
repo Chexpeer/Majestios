@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 type Props = {
   eyebrow: string;
@@ -13,7 +12,6 @@ type Props = {
 
 export default function TenderCategoryGuide({ eyebrow, title, emphasis, intro, checks, searchHref, searchLabel }: Props) {
   return <main className="site-page">
-    <PublicHeader />
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link><span><b>/</b><Link href="/opportunites">Opportunités</Link></span><span><b>/</b><Link href="/opportunites/marches-publics">Marchés publics</Link></span><span><b>/</b><strong>{title}</strong></span></nav>
       <section className="page-hero bodacc-hero">
