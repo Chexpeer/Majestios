@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { siteTree } from "@/data/site-tree";
+import { generalNodes } from "@/data/navigation/general";
+import type { SiteNode } from "@/data/navigation/types";
 
 const primaryItems = siteTree.filter((item) =>
   ["/opportunites", "/business", "/developpement-commercial", "/reseaux", "/comprendre"].includes(item.href)
@@ -38,12 +40,75 @@ const domainClasses: Record<string, string> = {
   "/comprendre": "domain-understanding",
 };
 
+const aliases: Record<string, string[]> = {
+  "/comprendre": ["/faq", "/comment-et-pourquoi"],
+};
+
 export default function HomepageNavigation() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({});
 
   const closeMobile = () => setMobileOpen(false);
+  const isActive = (href: string) =>
+    pathname === href ||
+    pathname.startsWith(href + "/") ||
+    (aliases[href] ?? []).includes(pathname);
+
+  const isExpanded = (node: SiteNode) =>
+    expandedNodes[node.href] ?? isActive(node.href);
+
+  const toggleNode = (href: string) =>
+    setExpandedNodes((current) => ({ ...current, [href]: !(current[href] ?? isActive(href)) }));
+
+  function renderNode(node: SiteNode, depth: number): ReactNode {
+    const active = isActive(node.href);
+    const children = node.children ?? [];
+    const open = children.length > 0 && isExpanded(node);
+    const linkClass =
+      depth === 0
+        ? `home-sidebar-top-link${active ? " is-active" : ""}`
+        : depth === 1
+          ? `home-sidebar-sub${active ? " is-active" : ""}`
+          : `home-sidebar-leaf${active ? " is-active" : ""}`;
+    const containerClass = depth === 0 ? `home-sidebar-group ${domainClasses[node.href] ?? ""}` : "home-sidebar-branch";
+    const childrenClass = depth === 0 ? "home-sidebar-dropdown-content" : "home-sidebar-leaves";
+
+    return (
+      <div key={node.href} className={containerClass}>
+        <div className="home-sidebar-top-row">
+          <Link
+            href={node.href}
+            onClick={closeMobile}
+            className={linkClass}
+            aria-current={pathname === node.href ? "page" : undefined}
+          >
+            {depth === 0 ? <span className="home-sidebar-icon" aria-hidden="true">{icons[node.href] ?? "◇"}</span> : null}
+            <span className={depth === 0 ? "home-sidebar-label" : undefined}>{node.label}</span>
+            {depth > 0 ? statusBadge(node.status) : null}
+          </Link>
+          {children.length > 0 ? (
+            <button
+              type="button"
+              className="home-sidebar-expand"
+              aria-label={`${open ? "Masquer" : "Afficher"} les dossiers de ${node.label}`}
+              aria-expanded={open}
+              onClick={() => toggleNode(node.href)}
+            >
+              <span aria-hidden="true">{open ? "−" : "+"}</span>
+            </button>
+          ) : null}
+        </div>
+        {open ? (
+          <div className={childrenClass} aria-label={`Sous-rubriques de ${node.label}`}>
+            {children.map((child) => renderNode(child, depth + 1))}
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+
+  const generalGroupOpen = expandedNodes["/entrees-generales"] ?? generalNodes.some((node) => isActive(node.href));
 
   return (
     <>
@@ -95,80 +160,33 @@ export default function HomepageNavigation() {
             <span>Accueil</span>
           </Link>
 
-          {primaryItems.map((item) => {
-            const aliases: Record<string, string[]> = {
-              "/comprendre": ["/faq", "/comment-et-pourquoi"],
-            };
-            const active =
-              pathname === item.href ||
-              pathname.startsWith(item.href + "/") ||
-              (aliases[item.href] ?? []).includes(pathname);
-            const children = item.children ?? [];
-            const isExpanded = expanded === item.href || (expanded === null && active && children.length > 0);
-            const domainClass = domainClasses[item.href] ?? "";
+          {primaryItems.map((item) => renderNode(item, 0))}
 
-            return (
-              <div key={item.href} className={`home-sidebar-group ${domainClass}`}>
-                <div className="home-sidebar-top-row">
-                  <Link
-                    href={item.href}
-                    onClick={closeMobile}
-                    className={`home-sidebar-top-link${active ? " is-active" : ""}`}
-                    aria-current={pathname === item.href ? "page" : undefined}
-                  >
-                    <span className="home-sidebar-icon" aria-hidden="true">{icons[item.href] ?? "◇"}</span>
-                    <span className="home-sidebar-label">{item.label}</span>
-                  </Link>
-                  {children.length > 0 ? (
-                    <button
-                      type="button"
-                      className="home-sidebar-expand"
-                      aria-label={`${isExpanded ? "Masquer" : "Afficher"} les dossiers de ${item.label}`}
-                      aria-expanded={isExpanded}
-                      onClick={() => setExpanded(isExpanded ? null : item.href)}
-                    >
-                      <span aria-hidden="true">{isExpanded ? "−" : "+"}</span>
-                    </button>
-                  ) : null}
-                </div>
-
-                {children.length > 0 && isExpanded ? (
-                  <div className="home-sidebar-dropdown-content">
-                    {children.map((child) => {
-                      const childActive = pathname === child.href || pathname.startsWith(child.href + "/");
-                      return (
-                        <div className="home-sidebar-branch" key={child.href}>
-                          <Link
-                            href={child.href}
-                            onClick={closeMobile}
-                            className={childActive ? "home-sidebar-sub is-active" : "home-sidebar-sub"}
-                            aria-current={pathname === child.href ? "page" : undefined}
-                          >
-                            <span>{child.label}</span>{statusBadge(child.status)}
-                          </Link>
-                          {childActive && child.children?.length ? (
-                            <div className="home-sidebar-leaves" aria-label={`Sous-rubriques : ${child.label}`}>
-                              {child.children.map((leaf) => (
-                                <Link
-                                  key={leaf.href}
-                                  href={leaf.href}
-                                  onClick={closeMobile}
-                                  className={pathname === leaf.href || pathname.startsWith(leaf.href + "/") ? "home-sidebar-leaf is-active" : "home-sidebar-leaf"}
-                                  aria-current={pathname === leaf.href ? "page" : undefined}
-                                >
-                                  <span>{leaf.label}</span>{statusBadge(leaf.status)}
-                                </Link>
-                              ))}
-                            </div>
-                          ) : null}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : null}
+          <div className="home-sidebar-group domain-general">
+            <div className="home-sidebar-top-row">
+              <div className="home-sidebar-top-link" aria-label="Entrées générales">
+                <span className="home-sidebar-icon" aria-hidden="true">⋯</span>
+                <span className="home-sidebar-label">Entrées générales</span>
               </div>
-            );
-          })}
+              <button
+                type="button"
+                className="home-sidebar-expand"
+                aria-label={`${generalGroupOpen ? "Masquer" : "Afficher"} les entrées générales`}
+                aria-expanded={generalGroupOpen}
+                onClick={() => setExpandedNodes((current) => ({
+                  ...current,
+                  "/entrees-generales": !(current["/entrees-generales"] ?? generalNodes.some((node) => isActive(node.href))),
+                }))}
+              >
+                <span aria-hidden="true">{generalGroupOpen ? "−" : "+"}</span>
+              </button>
+            </div>
+            {generalGroupOpen ? (
+              <div className="home-sidebar-dropdown-content" aria-label="Entrées générales">
+                {generalNodes.map((node) => renderNode(node, 1))}
+              </div>
+            ) : null}
+          </div>
         </nav>
 
         <div className="home-sidebar-bottom">
