@@ -1,14 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1216" height="1240" viewBox="0 0 1216 1240" role="img" aria-labelledby="title desc">
-<title id="title">Schéma interactif MajestiOS</title><desc id="desc">Six surfaces colorées sélectionnables, dans la géométrie du schéma de référence.</desc>
-<defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#cfc7b8" stroke-width=".7" opacity=".34"/></pattern><style>
-.zone{cursor:pointer;transition:filter .16s ease,stroke-width .16s ease;stroke:#050505;stroke-width:4.5;stroke-linejoin:round;stroke-linecap:round;outline:none}.zone:hover,.zone:focus,.zone.selected{filter:brightness(1.08);stroke-width:7}.zone:focus{stroke:#fff;paint-order:stroke fill;stroke-width:8}.seam{fill:none;stroke:#242424;stroke-width:1.7;stroke-dasharray:5 5;opacity:.62}
-</style></defs>
-<rect width="1216" height="1240" fill="#eee6d7"/><rect width="1216" height="1240" fill="url(#grid)"/><circle cx="598" cy="700" r="569" fill="none" stroke="#bcb5a8" stroke-width="2" opacity=".72"/>
-<g id="surface-bleue" class="zone" tabindex="0" role="button" aria-label="Sélectionner la surface bleue" data-surface="bleue"><polygon fill="#4b98dc" points="312,207 596,370 596,700 312,536"/><polygon fill="#acd5f4" points="312,207 481,304 312,402"/><polygon fill="#245c98" points="596,536 596,700 430,604"/><path class="seam" d="M312 402L481 304 M430 604L596 536"/></g>
-<g id="surface-verte" class="zone" tabindex="0" role="button" aria-label="Sélectionner la surface verte" data-surface="verte"><polygon fill="#70b96d" points="596,370 882,207 882,536 596,700"/><polygon fill="#bde4b9" points="718,304 882,207 882,402"/><polygon fill="#246c37" points="596,536 596,700 768,604"/><path class="seam" d="M718 304L882 402 M596 536L768 604"/></g>
-<g id="surface-violette" class="zone" tabindex="0" role="button" aria-label="Sélectionner la surface violette" data-surface="violette"><polygon fill="#a164d3" points="28,700 312,536 596,700 312,864"/><polygon fill="#dcbcf5" points="28,700 199,601 199,799"/><polygon fill="#5d3183" points="428,633 596,700 428,767"/><path class="seam" d="M199 601V799 M428 633V767"/></g>
-<g id="surface-jaune" class="zone" tabindex="0" role="button" aria-label="Sélectionner la surface jaune" data-surface="jaune"><polygon fill="#ffda3e" points="596,700 882,536 1167,700 882,864"/><polygon fill="#c9a20b" points="596,700 768,601 768,799"/><polygon fill="#ffea91" points="997,601 1167,700 997,799"/><path class="seam" d="M768 601V799 M997 601V799"/></g>
-<g id="surface-rouge" class="zone" tabindex="0" role="button" aria-label="Sélectionner la surface rouge" data-surface="rouge"><polygon fill="#f15849" points="312,864 596,700 596,1028 312,1193"/><polygon fill="#f8a8a7" points="312,997 481,1094 312,1193"/><polygon fill="#8e2924" points="430,800 596,700 596,894"/><path class="seam" d="M312 997L481 1094 M430 800L596 894"/></g>
-<g id="surface-orange" class="zone" tabindex="0" role="button" aria-label="Sélectionner la surface orange" data-surface="orange"><polygon fill="#ff9c43" points="596,700 882,864 882,1193 596,1028"/><polygon fill="#ffcca0" points="718,1094 882,997 882,1193"/><polygon fill="#b95a00" points="596,700 768,800 596,894"/><path class="seam" d="M718 1094L882 997 M596 894L768 800"/></g>
-<path d="M312 207L596 370L882 207L882 536L1167 700L882 864L882 1193L596 1028L312 1193L312 864L28 700L312 536Z M596 370V700L596 1028 M312 536L596 700L882 536" fill="none" stroke="#050505" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 981" width="940" height="981" role="img" aria-labelledby="title desc">
+<title id="title">Schéma MajestiOS — six losanges, trois surfaces égales par losange</title>
+<desc id="desc">Chaque losange comporte deux triangles aux extrémités de même couleur et une surface médiane d'une deuxième couleur. Les trois surfaces représentent chacune un tiers de l'aire du losange. Six couleurs sont utilisées dans l'ensemble.</desc>
+<defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#d8cdbb" stroke-width="1" opacity=".45"/></pattern></defs>
+<rect width="940" height="981" fill="#ebe2d3"/><rect width="940" height="981" fill="url(#g)"/>
+<circle cx="462" cy="562" r="440" fill="none" stroke="#b5ad9f" stroke-width="1.2"/><g id="losange-bleu" data-losange="bleu" tabindex="0" role="button" aria-label="Sélectionner le losange bleu">
+<polygon points="242.000,181.000 369.017,254.323 242.000,327.647" fill="#4b97de"/>
+<polygon points="369.017,254.323 462.000,308.000 462.000,415.353 334.983,488.677 242.000,435.000 242.000,327.647" fill="#70bb70"/>
+<polygon points="462.000,562.000 334.983,488.677 462.000,415.353" fill="#4b97de"/>
+<polygon points="242.000,181.000 462.000,308.000 462.000,562.000 242.000,435.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+</g><g id="losange-vert" data-losange="vert" tabindex="0" role="button" aria-label="Sélectionner le losange vert">
+<polygon points="682.000,181.000 682.000,327.647 554.983,254.323" fill="#70bb70"/>
+<polygon points="682.000,327.647 682.000,435.000 589.017,488.677 462.000,415.353 462.000,308.000 554.983,254.323" fill="#f7d33f"/>
+<polygon points="462.000,562.000 462.000,415.353 589.017,488.677" fill="#70bb70"/>
+<polygon points="682.000,181.000 682.000,435.000 462.000,562.000 462.000,308.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+</g><g id="losange-jaune" data-losange="jaune" tabindex="0" role="button" aria-label="Sélectionner le losange jaune">
+<polygon points="462.000,562.000 589.017,488.677 589.017,635.323" fill="#f7d33f"/>
+<polygon points="589.017,488.677 682.000,435.000 774.983,488.677 774.983,635.323 682.000,689.000 589.017,635.323" fill="#fb9b46"/>
+<polygon points="902.000,562.000 774.983,635.323 774.983,488.677" fill="#f7d33f"/>
+<polygon points="462.000,562.000 682.000,435.000 902.000,562.000 682.000,689.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+</g><g id="losange-orange" data-losange="orange" tabindex="0" role="button" aria-label="Sélectionner le losange orange">
+<polygon points="462.000,562.000 589.017,635.323 462.000,708.647" fill="#fb9b46"/>
+<polygon points="589.017,635.323 682.000,689.000 682.000,796.353 554.983,869.677 462.000,816.000 462.000,708.647" fill="#ee5b49"/>
+<polygon points="682.000,943.000 554.983,869.677 682.000,796.353" fill="#fb9b46"/>
+<polygon points="462.000,562.000 682.000,689.000 682.000,943.000 462.000,816.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+</g><g id="losange-rouge" data-losange="rouge" tabindex="0" role="button" aria-label="Sélectionner le losange rouge">
+<polygon points="462.000,562.000 334.983,635.323 462.000,708.647" fill="#ee5b49"/>
+<polygon points="334.983,635.323 242.000,689.000 242.000,796.353 369.017,869.677 462.000,816.000 462.000,708.647" fill="#a367d8"/>
+<polygon points="242.000,943.000 369.017,869.677 242.000,796.353" fill="#ee5b49"/>
+<polygon points="462.000,562.000 242.000,689.000 242.000,943.000 462.000,816.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+</g><g id="losange-violet" data-losange="violet" tabindex="0" role="button" aria-label="Sélectionner le losange violet">
+<polygon points="22.000,562.000 149.017,488.677 149.017,635.323" fill="#a367d8"/>
+<polygon points="149.017,488.677 242.000,435.000 334.983,488.677 334.983,635.323 242.000,689.000 149.017,635.323" fill="#4b97de"/>
+<polygon points="462.000,562.000 334.983,635.323 334.983,488.677" fill="#a367d8"/>
+<polygon points="22.000,562.000 242.000,435.000 462.000,562.000 242.000,689.000" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+</g></svg>
