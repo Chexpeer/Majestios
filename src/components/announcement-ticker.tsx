@@ -22,6 +22,7 @@ type StreamItem = {
   detail: string;
   href: string;
   state?: boolean;
+  demo?: boolean;
 };
 
 function formatEventDate(startDate: string, endDate?: string) {
@@ -88,43 +89,71 @@ export default function AnnouncementTicker() {
         title: event.title,
         detail: `${event.city} · ${formatEventDate(event.startDate, event.endDate)}`,
         href: `/opportunites/salons/${event.slug}`
-      }))
+      })),
+      {
+        id: "private-demo-1",
+        category: "Marché privé",
+        title: "Exemple fictif : recherche d’un sous-traitant pour un chantier",
+        detail: "DÉMONSTRATION · annonce non réelle",
+        href: "/opportunites/privees",
+        demo: true
+      },
+      {
+        id: "private-demo-2",
+        category: "Marché privé",
+        title: "Exemple fictif : une entreprise recherche un prestataire de maintenance",
+        detail: "DÉMONSTRATION · annonce non réelle",
+        href: "/opportunites/privees",
+        demo: true
+      },
+      {
+        id: "jobs-demo-1",
+        category: "Emploi",
+        title: "Exemple fictif : offre d’emploi pour un technicien polyvalent",
+        detail: "DÉMONSTRATION · offre non réelle",
+        href: "/opportunites/emploi",
+        demo: true
+      },
+      {
+        id: "jobs-demo-2",
+        category: "Emploi",
+        title: "Exemple fictif : mission de renfort administratif",
+        detail: "DÉMONSTRATION · mission non réelle",
+        href: "/opportunites/emploi",
+        demo: true
+      }
     ];
     if (tenderFeedState !== "loading" && tenders.length === 0) {
       items.push({
         id: "public-state",
         category: "Marché public",
-        title: tenderFeedState === "unavailable" ? "Flux momentanément indisponible" : "Aucun avis ouvert remonté dans le flux",
+        title: tenderFeedState === "unavailable" ? "Flux public momentanément indisponible" : "Aucun avis ouvert remonté dans le flux",
         detail: "Consulter la recherche dédiée",
-        href: "/opportunites/marches-publics",
+        href: "/opportunites/publiques",
         state: true
       });
     }
     if (upcomingSalons.length === 0 && today) {
       items.push({ id: "salon-state", category: "Salon", title: "Aucun salon à venir référencé", detail: "Consulter le calendrier", href: "/opportunites/salons", state: true });
     }
-    items.push(
-      { id: "private-state", category: "Marché privé", title: "Flux privé en préparation", detail: "Découvrir la démarche", href: "/opportunites/marches-prives", state: true },
-      { id: "jobs-state", category: "Emploi", title: "Offres et missions : espace en préparation", detail: "Explorer la rubrique", href: "/opportunites/emploi", state: true }
-    );
     return stableDailyOrder(items, today || "initial");
   }, [today, tenders, tenderFeedState]);
 
   const duplicatedItems = streamItems.length > 1 ? [...streamItems, ...streamItems] : streamItems;
 
   return <section className="announcement-band" aria-label="Fil continu des opportunités">
-    <div className="announcement-stream-heading"><span className="band-eyebrow">VEILLE EN MOUVEMENT</span><span className="band-note">Un fil unique · chaque annonce est catégorisée</span></div>
+    <div className="announcement-stream-heading"><span className="band-eyebrow">VEILLE EN MOUVEMENT</span><span className="band-note">Public · privé · emploi — exemples fictifs signalés</span></div>
     <div className="announcement-stream-window">
       <div className="announcement-stream-track" aria-label="Annonces et événements">
         {duplicatedItems.map((item, index) => <Link
-          className={`announcement-stream-card category-${item.category.toLowerCase().replace(" ", "-")}${item.state ? " is-status" : ""}`}
+          className={`announcement-stream-card category-${item.category.toLowerCase().replace(" ", "-")}${item.state ? " is-status" : ""}${item.demo ? " is-demo" : ""}`}
           href={item.href}
           key={`${item.id}-${index}`}
           aria-hidden={index >= streamItems.length ? true : undefined}
           tabIndex={index >= streamItems.length ? -1 : undefined}
           title={item.title}
         >
-          <span className="announcement-stream-category">({item.category})</span>
+          <span className="announcement-stream-category">({item.category}{item.demo ? " · DÉMO" : ""})</span>
           <strong>{item.title}</strong>
           {item.detail ? <span className="announcement-stream-detail">{item.detail}</span> : null}
           <span className="announcement-stream-arrow" aria-hidden="true">↗</span>
