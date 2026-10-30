@@ -99,6 +99,22 @@ describe("site navigation tree", () => {
     expect(radar).not.toEqual(signals);
   });
 
+
+  it("gives key dossiers distinct visual symbols and forbids links back to their own route", () => {
+    const dossiers = [
+      { route: "/opportunites/radar-entreprises", file: join(appDirectory, "opportunites", "radar-entreprises", "page.tsx"), symbol: "▥" },
+      { route: "/opportunites/signaux-entreprises", file: join(appDirectory, "opportunites", "signaux-entreprises", "page.tsx"), symbol: "⌕" },
+      { route: "/opportunites/marches-prives", file: join(appDirectory, "opportunites", "marches-prives", "page.tsx"), symbol: "↗" }
+    ];
+
+    for (const dossier of dossiers) {
+      const source = readFileSync(dossier.file, "utf8");
+      expect(source).toContain(`data-dossier-symbol="${dossier.symbol}"`);
+      const literalInternalLinks = [...source.matchAll(/<Link\\b[^>]*?href="(\\/[^"]*)"/gs)].map((match) => match[1]);
+      expect(literalInternalLinks.filter((href) => href === dossier.route), `Self-links found on ${dossier.route}`).toEqual([]);
+    }
+  });
+
   it("points every navigation item to an implemented Next.js page or dynamic route", () => {
     const pageRoutes = collectPageRoutes();
     const missing = flattenSiteTree()
