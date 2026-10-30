@@ -2,13 +2,12 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Choisir une opportunité — MajestiOS",
-  description: "Accéder séparément aux marchés publics, aux opportunités privées, à l’emploi et aux événements professionnels."
+  description: "Accéder aux marchés publics, aux opportunités privées et aux événements professionnels, avec des dossiers distincts."
 };
 
 const sections = [
   { title: "Marchés publics", tag: "COMMANDE PUBLIQUE", text: "Accéder aux marchés publics, rechercher les appels d’offres et parcourir les catégories Travaux, Services et Fournitures.", href: "/opportunites/marches-publics", action: "Explorer les marchés publics", tone: "public" },
   { title: "Opportunités privées", tag: "ENTREPRISES ET BESOINS PRIVÉS", text: "Explorer les consultations privées, les besoins d’entreprises et les pistes de sous-traitance, en distinguant les annonces confirmées des signaux à qualifier.", href: "/opportunites/privees", action: "Explorer les opportunités privées", tone: "private" },
-  { title: "Emploi & recrutement", tag: "OFFRES, MISSIONS ET RECRUTEMENT", text: "Consulter les offres, rechercher des missions, recruter ou préparer la publication d’une annonce. Les fonctions en préparation sont indiquées comme telles.", href: "/opportunites/emploi", action: "Accéder à l’emploi", tone: "jobs" },
   { title: "Salons professionnels", tag: "RENCONTRES ET RÉSEAUTAGE", text: "Repérer les rendez-vous professionnels, préparer les rencontres et organiser le suivi commercial.", href: "/opportunites/salons", action: "Préparer un salon", tone: "events" }
 ];
 
@@ -17,7 +16,7 @@ export default function OpportunitesPage() {
     <section className="how-section concept-hero"><div>
       <span className="section-label">MAJESTIOS · CHOISIR SON OBJECTIF</span>
       <h1>Qu’est-ce que vous recherchez <em>aujourd’hui ?</em></h1>
-      <p>Choisissez votre porte d’entrée. Les marchés publics, les opportunités privées et l’emploi suivent des parcours distincts. Vous pouvez aussi explorer les salons professionnels ou présenter votre entreprise à MajestiOS.</p>
+      <p>Choisissez votre porte d’entrée. Les marchés publics, les opportunités privées et les salons professionnels suivent des parcours distincts. L’emploi et le recrutement disposent de leur propre rubrique dans la navigation principale.</p>
       <div className="hero-actions">
         <Link className="button-primary" href="/espace-professionnel">Présenter mon entreprise <span aria-hidden="true">↗</span></Link>
         <Link className="button-secondary" href="/comprendre">Comprendre MajestiOS</Link>
