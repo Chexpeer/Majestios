@@ -18,7 +18,7 @@ const families = [
     title: "Travaux induits et sous-traitance",
     text: "Un marché attribué peut générer des besoins de renfort, de location de matériel, de fournitures ou de sous-traitance. Ce sont des pistes à investiguer, jamais des besoins confirmés sans élément complémentaire.",
     action: "Consulter les marchés publics",
-    href: "/opportunites/marches-publics"
+    href: "/opportunites/publiques"
   },
   {
     number: "03",
@@ -38,12 +38,16 @@ const steps = [
 
 export default function MarchesPrivesPage() {
   return <main className="site-page">
-    
     <div className="page-container">
-      <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link><span><b>/</b><Link href="/opportunites">Opportunités</Link></span><span><b>/</b><strong>Marchés privés</strong></span></nav>
+      <nav className="breadcrumbs" aria-label="Fil d’Ariane">
+        <Link href="/">Accueil</Link>
+        <span><b>/</b><Link href="/opportunites">Opportunités</Link></span>
+        <span><b>/</b><Link href="/opportunites/privees">Opportunités privées</Link></span>
+        <span><b>/</b><strong>Marchés privés</strong></span>
+      </nav>
       <section className="page-hero bodacc-hero">
-        <span className="eyebrow">MAJESTIOS · PROSPECTION INVERSÉE</span>
-        <h1>Les opportunités privées, <span>qualifiées avant d’être proposées.</span></h1>
+        <span className="eyebrow">MAJESTIOS · OPPORTUNITÉS PRIVÉES</span>
+        <h1>Les marchés privés, <span>qualifiés avant d’être proposés.</span></h1>
         <p>MajestiOS ne doit pas seulement diffuser des annonces. Sa valeur est de rapprocher un besoin ou un signal vérifiable des entreprises qui ont réellement les compétences pour y répondre, puis d’organiser une prochaine étape commerciale pertinente.</p>
         <div className="page-hero-meta"><span className="status-chip status-chip-preparing"><i />Flux privé en préparation</span><span>Flux de consultations privées : en préparation</span><span>Source · actualité · adéquation · action</span></div>
       </section>
