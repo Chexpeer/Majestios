@@ -45,7 +45,7 @@ export default function MarchesPrivesPage() {
         <span><b>/</b><Link href="/opportunites/privees">Opportunités privées</Link></span>
         <span><b>/</b><strong>Marchés privés</strong></span>
       </nav>
-      <section className="page-hero bodacc-hero">
+      <section data-dossier-symbol="↗" className="page-hero bodacc-hero">
         <span className="eyebrow">MAJESTIOS · OPPORTUNITÉS PRIVÉES</span>
         <h1>Les marchés privés, <span>qualifiés avant d’être proposés.</span></h1>
         <p>MajestiOS ne doit pas seulement diffuser des annonces. Sa valeur est de rapprocher un besoin ou un signal vérifiable des entreprises qui ont réellement les compétences pour y répondre, puis d’organiser une prochaine étape commerciale pertinente.</p>
