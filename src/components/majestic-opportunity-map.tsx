@@ -1,64 +1,163 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 
-const pillars = [
-  { id:"commercial", label:"Développement commercial", subtitle:"LE SOMMET · L’IMPULSION", description:"Ciblage, prospection, qualification et transformation des opportunités en relations commerciales durables.", href:"/developpement-commercial", tone:"commercial", x:50, y:17 },
-  { id:"public", label:"Marchés publics", subtitle:"BASE GAUCHE", description:"Détecter et qualifier les appels d’offres publics, comprendre les exigences et préparer le positionnement.", href:"/opportunites/marches-publics", tone:"public", x:23, y:76 },
-  { id:"private", label:"Marchés privés", subtitle:"BASE DROITE", description:"Repérer les consultations privées, les besoins de sous-traitance et les opportunités commerciales moins visibles.", href:"/opportunites/marches-prives", tone:"private", x:77, y:76 },
+type Surface = { title: string; href: string };
+type Dossier = { id: string; title: string; color: string; description: string; angle: number; surfaces: Surface[] };
+
+const dossiers: Dossier[] = [
+  { id: "public", title: "MARCHÉS PUBLICS", color: "#4b98dc", angle: -120, description: "Détecter les appels d’offres publics, qualifier les besoins et repérer les possibilités de sous-traitance.", surfaces: [
+    { title: "Appels d’offres", href: "/opportunites/marches-publics" },
+    { title: "Qualification", href: "/opportunites/marches-publics" },
+    { title: "Sous-traitance", href: "/opportunites/marches-publics" },
+  ]},
+  { id: "private", title: "MARCHÉS PRIVÉS", color: "#70b96d", angle: -60, description: "Identifier les besoins privés, leurs donneurs d’ordre et les occasions commerciales qui en découlent.", surfaces: [
+    { title: "Avis privés", href: "/opportunites/marches-prives" },
+    { title: "Donneurs d’ordre", href: "/opportunites/marches-prives" },
+    { title: "Suivi des besoins", href: "/opportunites/marches-prives" },
+  ]},
+  { id: "commercial", title: "DÉVELOPPEMENT COMMERCIAL", color: "#f4cf3e", angle: 0, description: "Faire converger veille, stratégie, CRM et relations pour transformer les signaux en développement durable.", surfaces: [
+    { title: "Veille & stratégie", href: "/developpement-commercial" },
+    { title: "CRM & relations", href: "/developpement-commercial/crm" },
+    { title: "Études de marché", href: "/developpement-commercial/etudes-de-marche" },
+  ]},
+  { id: "networks", title: "RÉSEAUX & ÉCOSYSTÈME", color: "#fa9a42", angle: 60, description: "Développer les relations utiles, prolonger les rencontres professionnelles et transformer salons et séminaires en opportunités concrètes.", surfaces: [
+    { title: "Réseaux", href: "/reseaux" },
+    { title: "Salons professionnels", href: "/reseaux" },
+    { title: "Séminaires", href: "/reseaux" },
+  ]},
+  { id: "support", title: "ACCOMPAGNEMENT", color: "#ef5b4d", angle: 120, description: "Accompagner la préparation des réponses, la conformité des dossiers et la capitalisation des apprentissages.", surfaces: [
+    { title: "Conseil AO", href: "/developpement-commercial/accompagnement-appels-offres" },
+    { title: "Préparation", href: "/developpement-commercial/accompagnement-appels-offres" },
+    { title: "Conformité", href: "/developpement-commercial/accompagnement-appels-offres" },
+  ]},
+  { id: "prospection", title: "PROSPECTION & QUALIFICATION", color: "#a365d5", angle: 180, description: "Qualifier les signaux, identifier les entreprises pertinentes, organiser les contacts et apprendre des retours.", surfaces: [
+    { title: "Qualification", href: "/developpement-commercial/prospection" },
+    { title: "Identification", href: "/developpement-commercial/prospection" },
+    { title: "Prospection", href: "/developpement-commercial/prospection" },
+  ]},
 ];
 
-const engines = [
-  { id:"prospection", label:"Prospection", detail:"Cibler · contacter · relancer", href:"/developpement-commercial/prospection", icon:"↗" },
-  { id:"ao", label:"Accompagnement appels d’offres", detail:"Préparer · rédiger · sécuriser", href:"/developpement-commercial/accompagnement-appels-offres", icon:"▤" },
-  { id:"emploi", label:"Emploi & recrutement", detail:"Compétences · missions · équipes", href:"/emploi", icon:"◎" },
-  { id:"salons", label:"Salons professionnels", detail:"Rencontres · réseau · détection", href:"/opportunites/salons", icon:"✦" },
-];
+const CX = 450;
+const CY = 450;
+const RADII = [0, 180, 280, 390];
+const WIDTHS = [0, 108, 116, 0];
 
+function point(angle: number, radius: number, offset = 0) {
+  const a = (angle * Math.PI) / 180;
+  const nx = -Math.sin(a);
+  const ny = Math.cos(a);
+  return { x: CX + Math.cos(a) * radius + nx * offset, y: CY + Math.sin(a) * radius + ny * offset };
+}
+function crossSection(angle: number, radius: number, halfWidth: number) {
+  return [point(angle, radius, -halfWidth), point(angle, radius, halfWidth)];
+}
+function polygonPoints(points: { x: number; y: number }[]) {
+  return points.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+}
+function surfacePolygon(angle: number, index: number) {
+  // Chaque surface est un véritable losange, orienté dans l'axe de sa branche.
+  const centers = [115, 225, 335];
+  const radius = centers[index];
+  const halfLength = 61;
+  const halfWidth = 67;
+  return polygonPoints([
+    point(angle, radius - halfLength),
+    point(angle, radius, -halfWidth),
+    point(angle, radius + halfLength),
+    point(angle, radius, halfWidth),
+  ]);
+}
+function titlePosition(id: string) {
+  const positions: Record<string, { x: number; y: number; anchor: "start" | "middle" | "end" }> = {
+    public: { x: 205, y: 82, anchor: "middle" },
+    private: { x: 695, y: 82, anchor: "middle" },
+    commercial: { x: 820, y: 445, anchor: "middle" },
+    networks: { x: 650, y: 815, anchor: "middle" },
+    support: { x: 250, y: 815, anchor: "middle" },
+    prospection: { x: 82, y: 445, anchor: "middle" },
+  };
+  return positions[id];
+}
+function titleLines(id: string, title: string) {
+  const lines: Record<string, string[]> = {
+    commercial: ["DÉVELOPPEMENT", "COMMERCIAL"],
+    prospection: ["PROSPECTION &", "QUALIFICATION"],
+    networks: ["RÉSEAUX &", "ÉCOSYSTÈME"],
+    public: ["MARCHÉS PUBLICS"],
+    private: ["MARCHÉS PRIVÉS"],
+    support: ["ACCOMPAGNEMENT"],
+  };
+  return lines[id] ?? [title];
+}
 export default function MajestiOSOpportunityMap() {
-  const [active,setActive] = useState("commercial");
-  const selected = [...pillars, ...engines.map((e)=>({...e, subtitle:"MOTEUR DE SYNERGIE", description:e.detail, tone:"engine", x:50,y:50}))].find((item)=>item.id===active) ?? pillars[0];
+  const [active, setActive] = useState("commercial");
+  const [touchedSurface, setTouchedSurface] = useState<string | null>(null);
+  const selected = dossiers.find((d) => d.id === active) ?? dossiers[0];
+
   return (
-    <section className="maj-map maj-pyramid" aria-labelledby="maj-map-title">
-      <div className="maj-map-heading">
-        <span className="section-label">LE MODÈLE MAJESTIOS</span>
-        <h2 id="maj-map-title">Trois axes. Une seule dynamique commerciale.</h2>
-        <p>Le développement commercial relie les marchés publics et privés. Au cœur de la pyramide, les moteurs de MajestiOS font circuler l’information et transforment les opportunités en actions.</p>
-      </div>
-      <div className="maj-pyramid-legend" aria-label="Les trois axes stratégiques">
-        <span className="legend-commercial"><i /> Développement commercial</span>
-        <span className="legend-public"><i /> Marchés publics</span>
-        <span className="legend-private"><i /> Marchés privés</span>
-      </div>
-      <div className="maj-pyramid-stage">
-        <svg className="maj-pyramid-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <defs><linearGradient id="pyramidStroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#c99b45"/><stop offset="50%" stopColor="#8aa8b7"/><stop offset="100%" stopColor="#258c78"/></linearGradient></defs>
-          <path d="M50 7 L5 91 L95 91 Z" fill="rgba(232,241,245,.46)" stroke="url(#pyramidStroke)" strokeWidth=".7" vectorEffect="non-scaling-stroke"/>
-          <path d="M50 7 L50 91 M5 91 L50 49 L95 91 M23 59 L77 59" fill="none" stroke="#b8cbd4" strokeWidth=".28" strokeDasharray="1.2 1.4" vectorEffect="non-scaling-stroke"/>
+    <section className="maj-map maj-star-map" aria-labelledby="maj-map-title">
+      <header className="maj-map-heading">
+        <span className="section-label">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</span>
+        <h2 id="maj-map-title">Six activités. <em>Une exploration interactive.</em></h2>
+        <p>Pour découvrir notre univers, il suffit de caresser notre espace virtuel du bout de l’index.</p>
+      </header>
+
+      <div className="maj-star-canvas">
+        <svg className="maj-star-svg" viewBox="0 0 900 900" role="group" aria-label="Schéma interactif des six dossiers et de leurs sous-dossiers">
+          <circle className="maj-star-orbit" cx={CX} cy={CY} r="410" />
+          <g className="maj-star-crosslinks" aria-label="Synergies transversales">
+            <path d="M450 100 L450 800 M100 450 L800 450 M205 245 L695 655 M695 245 L205 655" />
+          </g>
+          {dossiers.map((dossier) => (
+            <g key={dossier.id} className={`maj-star-dossier ${active === dossier.id ? "is-active" : ""}`}>
+              {dossier.surfaces.map((surface, index) => {
+                return (
+                  <a key={surface.title} href={surface.href} className="maj-star-surface" aria-label={`${surface.title}, sous-dossier de ${dossier.title}`} onMouseEnter={() => setActive(dossier.id)} onFocus={() => setActive(dossier.id)} onClick={(event) => { if (window.matchMedia("(hover: none)").matches && touchedSurface !== surface.title) { event.preventDefault(); setTouchedSurface(surface.title); setActive(dossier.id); } }}>
+                    <polygon points={surfacePolygon(dossier.angle, index)} fill={dossier.color} />
+                    <title>{dossier.title} — {surface.title}</title>
+                  </a>
+                );
+              })}
+              <path className="maj-star-branch-outline" d={(() => {
+                const left = crossSection(dossier.angle, RADII[0], WIDTHS[0])[0];
+                const leftMid = crossSection(dossier.angle, RADII[1], WIDTHS[1])[0];
+                const leftOuter = crossSection(dossier.angle, RADII[2], WIDTHS[2])[0];
+                const tip = point(dossier.angle, RADII[3]);
+                const rightOuter = crossSection(dossier.angle, RADII[2], WIDTHS[2])[1];
+                const rightMid = crossSection(dossier.angle, RADII[1], WIDTHS[1])[1];
+                const right = crossSection(dossier.angle, RADII[0], WIDTHS[0])[1];
+                return `M${left.x},${left.y} L${leftMid.x},${leftMid.y} L${leftOuter.x},${leftOuter.y} L${tip.x},${tip.y} L${rightOuter.x},${rightOuter.y} L${rightMid.x},${rightMid.y} L${right.x},${right.y} Z`;
+              })()} />
+              <a href={dossier.surfaces[0].href} className={`maj-star-title maj-star-title-${dossier.id}`} aria-label={`Ouvrir le dossier ${dossier.title}`} onMouseEnter={() => setActive(dossier.id)} onFocus={() => setActive(dossier.id)}>
+                <text x={titlePosition(dossier.id).x} y={titlePosition(dossier.id).y} textAnchor={titlePosition(dossier.id).anchor}>
+                  {titleLines(dossier.id, dossier.title).map((line, lineIndex) => <tspan key={line} x={titlePosition(dossier.id).x} dy={lineIndex === 0 ? 0 : 18}>{line}</tspan>)}
+                </text>
+                <title>Ouvrir le dossier {dossier.title}</title>
+              </a>
+            </g>
+          ))}
         </svg>
-        <div className="maj-pyramid-core" aria-label="Synergie MajestiOS">
-          <span className="maj-pyramid-core-kicker">AU CŒUR DE LA PYRAMIDE</span>
-          <strong>SYNERGIE</strong>
-          <span className="maj-pyramid-core-caption">Données · acteurs · opportunités</span>
-          <div className="maj-pyramid-engines">
-            {engines.map((engine)=><button key={engine.id} type="button" onClick={()=>setActive(engine.id)} onFocus={()=>setActive(engine.id)} className={`maj-pyramid-engine ${active===engine.id?"is-active":""}`} aria-pressed={active===engine.id}>
-              <span className="maj-pyramid-engine-icon" aria-hidden="true">{engine.icon}</span>
-              <span><strong>{engine.label}</strong><small>{engine.detail}</small></span>
-            </button>)}
-          </div>
+      </div>
+
+      <div className="maj-star-legend" aria-label="Choisir un dossier">
+        {dossiers.map((dossier) => (
+          <button key={dossier.id} type="button" className={`maj-star-legend-button ${active === dossier.id ? "is-active" : ""}`} onClick={() => setActive(dossier.id)} aria-pressed={active === dossier.id}>
+            <i style={{ background: dossier.color }} />{dossier.title}
+          </button>
+        ))}
+      </div>
+
+      <div className="maj-map-selection" aria-live="polite">
+        <div>
+          <span className="maj-map-selection-kicker">DOSSIER SÉLECTIONNÉ · {selected.title}</span>
+          <strong>{selected.description}</strong>
+          <p><b>Ses sous-dossiers :</b> {selected.surfaces.map((surface) => surface.title).join(" · ")}.</p>
+          <p><b>Synergie :</b> ce dossier échange des signaux, des contacts et des apprentissages avec les cinq autres dossiers.</p>
         </div>
-        {pillars.map((pillar)=><Link key={pillar.id} href={pillar.href} className={`maj-pyramid-pillar ${pillar.tone} ${active===pillar.id?"is-active":""}`} onMouseEnter={()=>setActive(pillar.id)} onFocus={()=>setActive(pillar.id)} onTouchStart={()=>setActive(pillar.id)} style={{left:`${pillar.x}%`,top:`${pillar.y}%`}} aria-label={`Ouvrir ${pillar.label}. ${pillar.description}`}>
-          <span className="maj-pyramid-pillar-subtitle">{pillar.subtitle}</span>
-          <strong>{pillar.label}</strong>
-          <span className="maj-pyramid-pillar-action">Explorer le dossier <b>↗</b></span>
-        </Link>)}
+        <a className="maj-map-selection-link" href={selected.surfaces[0].href}>Ouvrir le dossier <span aria-hidden="true">↗</span></a>
       </div>
-      <div className="maj-map-selection maj-pyramid-selection" aria-live="polite">
-        <div><span className="maj-map-selection-kicker">FOCUS · {selected.subtitle}</span><strong>{selected.label}</strong><p>{selected.description}</p></div>
-        {"href" in selected ? <Link href={selected.href} className="maj-map-selection-link">Ouvrir le dossier <span aria-hidden="true">↗</span></Link> : null}
-      </div>
-      <p className="maj-pyramid-note">Les quatre moteurs ne sont pas des axes supplémentaires : ils alimentent la synergie entre le développement commercial et les marchés publics et privés.</p>
+      <p className="maj-star-note">Effleurez une surface pour en révéler la fonction. Sélectionnez le titre d’une rubrique pour ouvrir directement son dossier. Emploi et recrutement disposent d’une rubrique dédiée, hors du schéma.</p>
     </section>
   );
 }

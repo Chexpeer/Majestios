@@ -1,6 +1,6 @@
 # MajestiOS — plateforme de développement commercial assisté par IA
 
-**Branche de référence pour cette refonte :** `refonte-profondeur-flux`  
+**Branche de travail pour le schéma en étoile :** `etoile-coeur-majestios`  
 **Statut :** prototype en construction. Les pages Next.js et l’arborescence sont présentes, mais les parcours doivent encore être vérifiés route par route et les fonctions métier ne sont pas toutes opérationnelles.
 
 ## 1. Cap produit
@@ -127,3 +127,8 @@ Aucune migration de base de données ne doit être créée avant la validation d
 
 ## Doctrine de navigation et d’identité des dossiers
 La règle de conception des dossiers, des filigranes et des liens internes est définie dans [`docs/architecture/DOCTRINE_IDENTITE_DOSSIERS_ET_NAVIGATION_V1.0.md`](docs/architecture/DOCTRINE_IDENTITE_DOSSIERS_ET_NAVIGATION_V1.0.md). Elle interdit notamment les liens internes qui ramènent à la page de départ et impose des destinations utiles, distinctes et vérifiables.
+
+
+## Doctrine fondatrice de l'architecture
+
+Le triangle symbolise la rencontre d'un besoin ou d'une demande, d'un budget compatible et d'un climat de confiance. La doctrine qui relie ce principe au schéma interactif, aux six axes et à l'arborescence fonctionnelle est formalisée dans [docs/architecture/DOCTRINE_FONDATRICE_TRIANGLES_ET_ARBORESCENCE_MAJESTIOS_V1.0.md](docs/architecture/DOCTRINE_FONDATRICE_TRIANGLES_ET_ARBORESCENCE_MAJESTIOS_V1.0.md). Ce document est la référence à consulter avant toute évolution de la géométrie, des rubriques ou de leurs interconnexions.
