@@ -1088,7 +1088,9 @@ body { background: var(--paper); color: var(--ink); }
 .page-container { max-width:1320px; margin:0 auto; padding:30px clamp(18px,5vw,72px) 50px; }
 .breadcrumbs { display:flex; flex-wrap:wrap; gap:9px; color:var(--muted); font-size:11px; }
 .breadcrumbs span { display:flex; gap:9px; }.breadcrumbs b { color:#a0aaa3; }.breadcrumbs strong { color:var(--ink); }
-.page-hero { padding:65px 0 36px; max-width:850px; }
+.page-hero { position:relative; isolation:isolate; padding:65px 0 36px; max-width:850px; }
+.page-watermark { position:absolute; z-index:0; top:0; right:0; display:block; color:var(--teal-dark); opacity:.055; font:800 clamp(130px,19vw,250px)/.9 Manrope,sans-serif; letter-spacing:-.08em; pointer-events:none; user-select:none; }
+.page-hero > :not(.page-watermark) { position:relative; z-index:1; }
 .page-hero .eyebrow,.content-panel .eyebrow { color:var(--teal-dark); }
 .page-hero h1 { margin:14px 0; font:800 clamp(38px,5vw,64px)/1.04 Manrope,sans-serif; letter-spacing:-2.5px; }
 .page-hero > p { max-width:760px; color:var(--muted); font-size:16px; line-height:1.8; }
