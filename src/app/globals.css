@@ -2028,9 +2028,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, .majestic-global-main::-webkit
   background:linear-gradient(125deg,var(--page-hero-start),var(--page-hero-end));
   box-shadow:0 16px 36px color-mix(in srgb,var(--page-accent) 9%,transparent);
 }
-.site-page .page-hero::after {
-  content:attr(data-dossier-symbol); position:absolute; z-index:-1; right:2%; top:-.22em;
-  color:var(--page-symbol); opacity:.09; font:800 clamp(190px,27vw,360px)/1 Manrope,sans-serif;
+.site-page .page-hero .page-watermark {
+  color:var(--page-symbol); opacity:.12; right:2%; top:0;
+  font-size:clamp(190px,27vw,360px); line-height:.95;
   pointer-events:none; user-select:none;
 }
 .site-page .page-hero .eyebrow { color:var(--page-accent); }
@@ -2055,6 +2055,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, .majestic-global-main::-webkit
 
 @media (max-width:760px) {
   .site-page .page-hero { padding:24px 18px; border-radius:17px; }
-  .site-page .page-hero::after { right:-6%; top:0; font-size:170px; opacity:.055; }
+  .site-page .page-hero .page-watermark { right:-6%; top:0; font-size:170px; opacity:.07; }
   .site-page .page-hero h1 { font-size:clamp(30px,8vw,42px); }
 }
