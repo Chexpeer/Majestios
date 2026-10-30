@@ -1,19 +1,19 @@
 export type DetailGuide = { title: string; purpose: string; checks: string[]; next: string };
 
 export const dedicatedGuides: Record<string, DetailGuide> = {
-  "/opportunites/marches-publics/travaux": {
+  "/opportunites/marches-publics/appels-offres/travaux": {
     title: "Qualifier un marché de travaux",
     purpose: "Vérifier la nature des travaux, le site d’exécution et les exigences techniques avant d’engager une réponse.",
     checks: ["Lots, quantités et périmètre exact des travaux", "Qualifications, assurances, références et moyens requis", "Visite éventuelle, calendrier, pénalités et contraintes du site"],
     next: "Ne retenir une consultation qu’après vérification du dossier complet, des éventuels rectificatifs et de la capacité réelle à exécuter le marché."
   },
-  "/opportunites/marches-publics/services": {
+  "/opportunites/marches-publics/appels-offres/services": {
     title: "Évaluer une consultation de services",
     purpose: "Mesurer l’adéquation entre la prestation attendue, les compétences mobilisables et les niveaux de service demandés.",
     checks: ["Périmètre, livrables et résultats attendus", "Compétences, continuité de service et délais", "Critères de jugement, prix et méthode de suivi"],
     next: "Construire la décision de répondre à partir des exigences vérifiables, du coût complet et des ressources disponibles."
   },
-  "/opportunites/marches-publics/fournitures": {
+  "/opportunites/marches-publics/appels-offres/fournitures": {
     title: "Vérifier un marché de fournitures",
     purpose: "Comparer précisément les caractéristiques des produits, les quantités et les contraintes de livraison.",
     checks: ["Spécifications et équivalences acceptées", "Volumes, fréquence et lieux de livraison", "Garanties, conformité, délais et coût logistique"],
