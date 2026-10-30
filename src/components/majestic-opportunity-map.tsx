@@ -21,10 +21,10 @@ const dossiers: Dossier[] = [
     { title: "CRM & relations", href: "/developpement-commercial/crm" },
     { title: "Études de marché", href: "/developpement-commercial/etudes-de-marche" },
   ]},
-  { id: "employment", title: "EMPLOI & RÉSEAUX", color: "#fa9a42", angle: 60, description: "Relier les besoins de compétences, les profils, les réseaux et les opportunités de collaboration.", surfaces: [
-    { title: "Offres d’emploi", href: "/emploi" },
-    { title: "Profils & CV", href: "/emploi" },
+  { id: "networks", title: "RÉSEAUX & ÉCOSYSTÈME", color: "#fa9a42", angle: 60, description: "Développer les relations utiles, prolonger les rencontres professionnelles et transformer salons et séminaires en opportunités concrètes.", surfaces: [
     { title: "Réseaux", href: "/reseaux" },
+    { title: "Salons professionnels", href: "/reseaux" },
+    { title: "Séminaires", href: "/reseaux" },
   ]},
   { id: "support", title: "ACCOMPAGNEMENT", color: "#ef5b4d", angle: 120, description: "Accompagner la préparation des réponses, la conformité des dossiers et la capitalisation des apprentissages.", surfaces: [
     { title: "Conseil AO", href: "/developpement-commercial/accompagnement-appels-offres" },
@@ -72,8 +72,8 @@ export default function MajestiOSOpportunityMap() {
     <section className="maj-map maj-star-map" aria-labelledby="maj-map-title">
       <header className="maj-map-heading">
         <span className="section-label">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</span>
-        <h2 id="maj-map-title">Six dossiers. <em>Des surfaces. Une intelligence croisée.</em></h2>
-        <p>Chaque losange est un dossier ; chaque surface colorée est un sous-dossier. Les six dossiers se rejoignent au centre : leurs croisements représentent les synergies entre les domaines.</p>
+        <h2 id="maj-map-title">Six activités. <em>Des liens. Une intelligence croisée.</em></h2>
+        <p>Le schéma conserve ses six branches. L’emploi et le recrutement disposent de leur propre rubrique ; les réseaux, salons et séminaires contribuent aux synergies entre les activités.</p>
       </header>
 
       <div className="maj-star-canvas">
@@ -129,7 +129,7 @@ export default function MajestiOSOpportunityMap() {
         </div>
         <a className="maj-map-selection-link" href={selected.surfaces[0].href}>Ouvrir le dossier <span aria-hidden="true">↗</span></a>
       </div>
-      <p className="maj-star-note">Les surfaces sont des sous-dossiers navigables. Les lignes représentent des relations fonctionnelles transversales, non une simple hiérarchie. Les fonctions en préparation sont signalées dans leurs dossiers respectifs.</p>
+      <p className="maj-star-note">Chaque surface permet d’explorer une activité. Les liens représentent des synergies transversales. Emploi et recrutement restent accessibles dans leur rubrique dédiée, hors du schéma.</p>
     </section>
   );
 }
