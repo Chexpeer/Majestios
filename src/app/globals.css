@@ -1864,3 +1864,12 @@ body { background: var(--paper); color: var(--ink); }
 .company-intake-preview pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; border: 1px solid var(--line, #d9d4ca); border-radius: .65rem; }
 .company-intake-note { margin-top: 1rem; font-size: .92rem; opacity: .85; }
 @media (max-width: 640px) { .company-intake-grid { grid-template-columns: minmax(0, 1fr); } .company-intake-wide { grid-column: auto; } }
+
+
+/* Identité propre aux dossiers : filigrane symbolique discret, distinct par rubrique. */
+.page-hero[data-dossier-symbol] { position: relative; isolation: isolate; max-width: none; overflow: hidden; padding-right: clamp(12px, 7vw, 100px); }
+.page-hero[data-dossier-symbol]::after { position: absolute; z-index: -1; top: -0.22em; right: clamp(8px, 4vw, 58px); color: var(--dossier-symbol-color, #147d78); content: attr(data-dossier-symbol); font: 800 clamp(150px, 24vw, 300px)/1 Manrope, sans-serif; opacity: .065; pointer-events: none; user-select: none; }
+.page-hero[data-dossier-symbol="⌕"] { --dossier-symbol-color: #426f9b; }
+.page-hero[data-dossier-symbol="▥"] { --dossier-symbol-color: #147d78; }
+.page-hero[data-dossier-symbol="↗"] { --dossier-symbol-color: #b17b2e; }
+@media (max-width: 640px) { .page-hero[data-dossier-symbol] { padding-right: 0; } .page-hero[data-dossier-symbol]::after { top: -.05em; right: -10px; font-size: 155px; opacity: .045; } }
