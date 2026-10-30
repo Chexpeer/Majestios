@@ -11,7 +11,7 @@ export default function RadarEntreprisesPage() {
     <PublicHeader />
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link><span><b>/</b><Link href="/opportunites">Opportunités</Link></span><span><b>/</b><Link href="/opportunites/privees">Opportunités privées</Link></span><span><b>/</b><strong>Radar des entreprises</strong></span></nav>
-      <section className="page-hero">
+      <section data-dossier-symbol="▥" className="page-hero">
         <span className="eyebrow">OPPORTUNITY INTELLIGENCE · ENTREPRISES</span>
         <h1>Repérer les entreprises pertinentes. <span>Qualifier avant de contacter.</span></h1>
         <p>Le radar des entreprises est conçu pour rapprocher votre activité, votre territoire et des informations vérifiables afin de faire émerger des pistes commerciales à examiner. Une entreprise repérée n’est pas nécessairement en recherche d’un fournisseur.</p>
