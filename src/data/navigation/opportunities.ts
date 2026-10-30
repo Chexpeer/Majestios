@@ -58,7 +58,7 @@ export const opportunitiesNode: SiteNode = {
         { label: "Offres d’emploi", href: "/opportunites/emploi/offres", description: "Parcourir les offres et préciser sa recherche.", status: "pending_data" },
         { label: "Missions", href: "/opportunites/emploi/missions", description: "Explorer les missions et besoins de compétences.", status: "pending_data" },
         { label: "Publier une offre", href: "/opportunites/emploi/deposer-une-offre", description: "Parcours de publication prévu ; formulaire à activer.", status: "preparing" },
-        { label: "Déposer un CV", href: "/opportunites/emploi", description: "Accéder au parcours emploi ; dépôt de CV à activer.", status: "preparing" },
+        { label: "Déposer un CV", href: "/opportunites/emploi/deposer-un-cv", description: "Préparer son profil et consulter les conditions du dépôt sécurisé ; collecte à activer.", status: "preparing" },
         { label: "Métiers et conseils", href: "/opportunites/emploi/metiers", description: "Explorer les métiers et préparer un recrutement ou une candidature." }
       ]
     },
