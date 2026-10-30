@@ -1,2 +1,4 @@
-import TenderCategoryGuide from "@/components/tender-category-guide";
-export default function Page() { return <TenderCategoryGuide eyebrow="MAJESTIOS · MARCHÉS PUBLICS DE TRAVAUX" title="Travaux" emphasis="qualifier les exigences du chantier." intro="Repérez les consultations de travaux et vérifiez si votre entreprise dispose des capacités techniques, assurances, moyens et disponibilités attendus." searchHref="/opportunites/marches-publics?type=Travaux" searchLabel="Rechercher les marchés de travaux" checks={[{"title":"Nature des travaux","text":"Lire le périmètre, les lots, les contraintes du site et les livrables exigés."},{"title":"Capacités et assurances","text":"Vérifier les qualifications, assurances, références et moyens demandés."},{"title":"Planning et visite","text":"Contrôler les délais d’exécution, visites obligatoires et dates de remise."}]} />; }
+import { redirect } from "next/navigation";
+export default function LegacyPublicWorksRoute() {
+  redirect("/opportunites/marches-publics/appels-offres/travaux");
+}

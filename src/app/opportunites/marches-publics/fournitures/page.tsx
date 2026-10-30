@@ -1,2 +1,4 @@
-import TenderCategoryGuide from "@/components/tender-category-guide";
-export default function Page() { return <TenderCategoryGuide eyebrow="MAJESTIOS · MARCHÉS PUBLICS DE FOURNITURES" title="Fournitures" emphasis="vérifier la conformité et la livraison." intro="Analysez les caractéristiques techniques, quantités, exigences de conformité et conditions logistiques avant de décider de répondre." searchHref="/opportunites/marches-publics?type=Fournitures" searchLabel="Rechercher les marchés de fournitures" checks={[{"title":"Spécifications techniques","text":"Comparer les caractéristiques demandées avec les produits réellement disponibles."},{"title":"Quantités et prix","text":"Examiner volumes, durée, éventuelles reconductions et structure de prix."},{"title":"Logistique et conformité","text":"Vérifier lieux, délais, garanties, certificats et contraintes de livraison."}]} />; }
+import { redirect } from "next/navigation";
+export default function LegacyPublicSuppliesRoute() {
+  redirect("/opportunites/marches-publics/appels-offres/fournitures");
+}
