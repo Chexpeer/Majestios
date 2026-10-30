@@ -196,7 +196,7 @@ export default function SiteHub({ pathname, intro, eyebrow = "EXPLORER MAJESTIOS
   const hasPreparingDescendant = (items: typeof children): boolean => items.some((item) => item.status === "preparing" || hasPreparingDescendant(item.children ?? []));
   const preparing = node?.status === "preparing";
   const partiallyPreparing = !preparing && hasPreparingDescendant(children);
-  const domainClass = pathname.startsWith("/opportunites") ? "domain-opportunites" : pathname.startsWith("/business") ? "domain-business" : pathname.startsWith("/developpement-commercial") ? "domain-commercial" : pathname.startsWith("/reseaux") ? "domain-reseaux" : pathname.startsWith("/comprendre") || pathname === "/faq" || pathname === "/comment-et-pourquoi" ? "domain-comprendre" : "domain-general";
+  const domainClass = pathname.startsWith("/opportunites") ? "domain-opportunites" : pathname.startsWith("/emploi") ? "domain-employment" : pathname.startsWith("/business") ? "domain-business" : pathname.startsWith("/developpement-commercial") ? "domain-commercial" : pathname.startsWith("/reseaux") ? "domain-reseaux" : pathname.startsWith("/comprendre") || pathname === "/faq" || pathname === "/comment-et-pourquoi" ? "domain-comprendre" : "domain-general";
   return <main className={`site-page site-page-with-sidebar ${domainClass}`}>
     <div className="page-container">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane"><Link href="/">Accueil</Link>{found?.ancestors.map((ancestor) => <span key={ancestor.href}><b>/</b><Link href={ancestor.href}>{ancestor.label}</Link></span>)}<span><b>/</b><strong>{node?.label ?? "Rubrique"}</strong></span></nav>
