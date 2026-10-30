@@ -36,17 +36,22 @@ export default function PublicTendersPage() {
   }
 
   // Le chargement initial reprend les critères envoyés depuis l’accueil ou une fiche catégorie.
-  // eslint-disable-next-line react-hooks/set-state-in-effect, react-hooks/exhaustive-deps
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const incomingQuery = (params.get("q") ?? "").slice(0, 160);
     const incomingLocation = (params.get("location") ?? "").slice(0, 80);
     const incomingType = params.get("type") ?? "all";
     const allowedType = ["all", "Travaux", "Services", "Fournitures"].includes(incomingType) ? incomingType : "all";
+    // Les critères sont copiés dans les champs au chargement initial depuis l’URL.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setQ(incomingQuery);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLocation(incomingLocation);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setType(allowedType);
     void search(undefined, incomingQuery, incomingLocation, allowedType);
+    // Cette initialisation ne doit s’exécuter qu’une fois, à partir de l’URL initiale.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <main className="public-site concept-page domain-opportunites">
