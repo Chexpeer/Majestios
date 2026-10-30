@@ -1847,3 +1847,20 @@ body { background: var(--paper); color: var(--ink); }
   .faq-page .faq-answer { padding: 0 16px 17px 44px; }
   .faq-page .faq-answer p { font-size: 13px; }
 }
+
+
+/* Formulaire de présentation d’entreprise — parcours de qualification */
+.company-intake { margin-top: 1.5rem; }
+.company-intake-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.company-intake-grid label { display: flex; flex-direction: column; gap: .45rem; font-weight: 650; }
+.company-intake-grid input, .company-intake-grid select, .company-intake-grid textarea { width: 100%; min-width: 0; padding: .8rem .9rem; border: 1px solid var(--line, #d9d4ca); border-radius: .65rem; background: var(--surface, #fff); color: inherit; font: inherit; }
+.company-intake-grid input:focus-visible, .company-intake-grid select:focus-visible, .company-intake-grid textarea:focus-visible { outline: 3px solid var(--gold, #c49a42); outline-offset: 2px; }
+.company-intake-wide { grid-column: 1 / -1; }
+.company-intake .search-submit { margin-top: 1.2rem; }
+.company-intake-error { color: #a32121; font-weight: 650; }
+.company-intake-success { padding: 1rem; border-radius: .65rem; background: #edf7ef; color: #205c31; }
+.company-intake-preview { margin-top: 1rem; }
+.company-intake-preview summary { cursor: pointer; font-weight: 650; }
+.company-intake-preview pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; border: 1px solid var(--line, #d9d4ca); border-radius: .65rem; }
+.company-intake-note { margin-top: 1rem; font-size: .92rem; opacity: .85; }
+@media (max-width: 640px) { .company-intake-grid { grid-template-columns: minmax(0, 1fr); } .company-intake-wide { grid-column: auto; } }
