@@ -45,7 +45,7 @@ export const opportunitiesNode: SiteNode = {
             { label: "Proposer une annonce", href: "/opportunites/marches-prives/deposer", description: "Présenter une opportunité à vérifier avant diffusion.", status: "preparing" }
           ]
         },
-        { label: "Radar des entreprises", href: "/opportunites/radar-entreprises", description: "Explorer les entreprises à qualifier comme pistes commerciales, sans supposer leurs besoins." },
+        { label: "Radar des entreprises", href: "/business/intelligence-entreprises", description: "Explorer les entreprises à qualifier comme pistes commerciales, sans supposer leurs besoins." },
         { label: "Signaux économiques", href: "/opportunites/signaux-entreprises", description: "Comprendre les signaux économiques avant d’en faire une hypothèse commerciale." }
       ]
     },
