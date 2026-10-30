@@ -21,7 +21,7 @@ export default function MajestiOSOpportunityMap() {
       <div className="maj-map-heading">
         <span className="section-label">LE CŒUR DU FONCTIONNEMENT MAJESTIOS</span>
         <h2 id="maj-map-title">Six axes. <em>Une stratégie en étoile.</em></h2>
-        <p>Deux triangles croisés de dimensions presque identiques relient les domaines stratégiques aux leviers opérationnels. MajestiOS se trouve au centre de leur synergie.</p>
+        <p>À l’origine de tout engagement : un besoin réel, un budget compatible et un climat de confiance. Les triangles croisés relient ici les domaines stratégiques aux leviers opérationnels ; MajestiOS organise leur synergie.</p>
       </div>
       <div className="maj-star-legend" aria-label="Les deux dimensions de la stratégie">
         <span><i className="legend-strategy" /> Domaines stratégiques</span>
@@ -61,7 +61,7 @@ export default function MajestiOSOpportunityMap() {
         </div>
         <Link href={selected.href} className="maj-star-selection-link">Ouvrir la rubrique <span aria-hidden="true">↗</span></Link>
       </div>
-      <p className="maj-star-note">Chaque axe possède sa destination. Les connexions entre rubriques traduisent les synergies métier ; la rubrique Emploi est organisée séparément.</p>
+      <p className="maj-star-note">Le triangle est le langage visuel fondateur de MajestiOS : sa taille, son orientation et ses intersections pourront varier selon la fonction représentée. Chaque axe doit ouvrir un espace distinct ; les connexions traduisent les synergies métier. La rubrique Emploi est organisée séparément.</p>
     </section>
   );
 }
