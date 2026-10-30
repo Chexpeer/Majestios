@@ -121,6 +121,32 @@ describe("site navigation tree", () => {
     expect(literalInternalLinks.filter((href) => href.split("?")[0] === "/"), "Homepage must not contain a link back to itself").toEqual([]);
   });
 
+
+  it("forbids literal internal self-links across all static pages", () => {
+    const pageRoutes = collectPageRoutes();
+    const violations: string[] = [];
+
+    for (const segments of pageRoutes) {
+      // A dynamic segment has no single canonical URL to compare at source level.
+      if (segments.some((segment) => /^\\[.+\\]$/.test(segment))) continue;
+      const pathname = segments.length ? `/${segments.join("/")}` : "/";
+      const file = join(appDirectory, ...segments, "page.tsx");
+      let source: string;
+      try {
+        source = readFileSync(file, "utf8");
+      } catch {
+        // The route collector also supports page.ts/js variants; those are not
+        // expected in this TypeScript application, so skip unreadable variants.
+        continue;
+      }
+      const literalInternalLinks = [...source.matchAll(/<Link\\b[^>]*?href="(\\/[^"]*)"/g)]
+        .map((match) => match[1].split(/[?#]/)[0]);
+      if (literalInternalLinks.includes(pathname)) violations.push(`${pathname} -> ${pathname}`);
+    }
+
+    expect(violations, `Internal self-links found: ${violations.join(", ")}`).toEqual([]);
+  });
+
   it("points every navigation item to an implemented Next.js page or dynamic route", () => {
     const pageRoutes = collectPageRoutes();
     const missing = flattenSiteTree()
