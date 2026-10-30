@@ -43,20 +43,6 @@ export const opportunitiesNode: SiteNode = {
       ]
     },
     {
-      label: "Emploi & recrutement",
-      href: "/opportunites/emploi",
-      description: "Consulter les offres, rechercher des missions, recruter ou proposer une offre.",
-      status: "preparing",
-      children: [
-        { label: "Offres d’emploi", href: "/opportunites/emploi/offres", description: "Parcourir les offres et préciser sa recherche.", status: "preparing" },
-        { label: "Missions", href: "/opportunites/emploi/missions", description: "Explorer les missions et besoins de compétences.", status: "preparing" },
-        { label: "Publier une offre", href: "/opportunites/emploi/deposer-une-offre", description: "Parcours de publication prévu ; formulaire à activer.", status: "preparing" },
-        { label: "Déposer un CV", href: "/opportunites/emploi/deposer-un-cv", description: "Préparer son profil et consulter les conditions du dépôt sécurisé ; collecte à activer.", status: "preparing" },
-        { label: "Métiers et conseils", href: "/opportunites/emploi/metiers", description: "Explorer les métiers et préparer un recrutement ou une candidature." },
-        { label: "Conseils emploi", href: "/opportunites/emploi/conseils", description: "Préparer une candidature ou un recrutement avec des repères pratiques.", status: "preparing" }
-      ]
-    },
-    {
       label: "Salons professionnels",
       href: "/opportunites/salons",
       description: "Repérer les rendez-vous professionnels et préparer des rencontres utiles.",
