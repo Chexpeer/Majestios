@@ -25,6 +25,7 @@ export default function HomePage() {
           <div className="hero-actions">
             <Link className="button-primary" href="/opportunites">Explorer les opportunités <span>↗</span></Link>
             <Link className="button-secondary" href="/comment-et-pourquoi">Comprendre la démarche</Link>
+            <Link className="button-secondary" href="/espace-professionnel">Présenter mon entreprise</Link>
           </div>
           <p className="home-trust-note"><strong>La source avant l’affirmation.</strong> Les annonces et services non vérifiés ne sont pas présentés comme disponibles.</p>
         </div>
