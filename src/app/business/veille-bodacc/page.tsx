@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicHeader from "@/components/public-header";
 
 export const metadata = {
   title: "Veille BODACC et signaux économiques — MajestiOS",
@@ -37,7 +36,6 @@ const dossierSteps = [
 
 export default function BodaccWatchPage() {
   return <main className="site-page">
-    <PublicHeader />
     <div className="page-container bodacc-page">
       <nav className="breadcrumbs" aria-label="Fil d’Ariane">
         <Link href="/">Accueil</Link><span><b>/</b><Link href="/business">Business</Link></span><span><b>/</b><strong>Veille BODACC</strong></span>
