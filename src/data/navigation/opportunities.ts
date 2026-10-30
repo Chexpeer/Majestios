@@ -17,10 +17,11 @@ export const opportunitiesNode: SiteNode = { label: "Opportunités", href: "/opp
       { label: "Par secteur", href: "/opportunites/salons/secteur", description: "Explorer les salons par domaine." },
       { label: "Par région", href: "/opportunites/salons/region", description: "Explorer les salons par territoire." }
     ]},
-    { label: "Emploi et missions", href: "/opportunites/emploi", description: "Explorer les parcours d’emploi et de missions ; le flux d’annonces attend la connexion de sources vérifiées.", status: "pending_data", children: [
+    { label: "Emploi et missions", href: "/opportunites/emploi", description: "Explorer les parcours d’emploi, de missions et de contribution à MajestiOS ; les flux d’annonces attendent la connexion de sources vérifiées.", status: "pending_data", children: [
       { label: "Offres d’emploi", href: "/opportunites/emploi/offres", description: "Guide de qualification disponible ; le flux de recherche attend la connexion de sources vérifiées.", status: "pending_data" },
       { label: "Missions", href: "/opportunites/emploi/missions", description: "Guide de qualification disponible ; le flux d’annonces attend la connexion de sources vérifiées.", status: "pending_data" },
       { label: "Métiers", href: "/opportunites/emploi/metiers", description: "Guides métiers fondés sur des informations vérifiables." },
+      { label: "Nous rejoindre", href: "/nous-rejoindre", description: "Découvrir les façons de contribuer au développement de MajestiOS." },
       { label: "Déposer une offre", href: "/opportunites/emploi/deposer-une-offre", description: "Parcours de dépôt prévu ; aucun formulaire de publication d’offre n’est encore activé.", status: "preparing" },
       { label: "Conseils", href: "/opportunites/emploi/conseils", description: "Préparer sa candidature ou son recrutement." }
     ]}
