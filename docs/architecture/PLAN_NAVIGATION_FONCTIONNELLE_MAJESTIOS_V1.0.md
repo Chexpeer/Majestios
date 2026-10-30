@@ -2,6 +2,15 @@
 
 > **Signature : « MajestiOS — L’intelligence qui saute aux yeux ! »**
 
+**Signature principale :** « MajestiOS — L’intelligence qui saute aux yeux ! »  
+**Signature secondaire :** « MajestiOS — L’IA qui vous en fait voir de toutes les couleurs ! »  
+
+**Règle d’usage des signatures :**
+- La signature principale exprime la promesse centrale : une intelligence commerciale qui rend visibles les opportunités, les relations et les actions pertinentes. Elle est prioritaire sur les supports institutionnels et l’accueil.
+- La signature secondaire apporte une tonalité plus vivante et créative. Elle peut accompagner les présentations de l’IA, les démonstrations et les supports de communication, sans remplacer la signature principale.
+- « Toutes les couleurs » doit également se traduire par un langage visuel fonctionnel : les couleurs différencient les dossiers, les catégories d’opportunités, les relations et les états utiles. Elles ne sont jamais un simple effet décoratif et doivent rester cohérentes et accessibles.
+- Les deux slogans sont des éléments de marque validés pour le cahier des charges ; leur présence dans chaque écran n’est pas obligatoire. L’interface doit privilégier la clarté et l’action plutôt que la répétition des slogans.
+
 **Date :** 30 octobre 2026  
 **Branche de référence :** `etoile-coeur-majestios`  
 **Statut :** proposition de navigation pour cadrer le MVP, à vérifier par tests fonctionnels avant mise en production.
