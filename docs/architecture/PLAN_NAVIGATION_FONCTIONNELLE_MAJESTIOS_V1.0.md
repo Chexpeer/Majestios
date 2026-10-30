@@ -16,6 +16,9 @@ Le dossier EMPLOI est hors périmètre de cette phase.
 
 ## 2. Règles d'architecture non négociables
 
+- **Principe d'efficacité :** la complexité doit être portée par le système, jamais imposée au client. L'interface doit montrer l'action utile, pas demander de lire de longues explications.
+- **Navigation principale limitée à quatre entrées :** Accueil, Partenaires, Nous rejoindre, Espace personnel. Ne pas ajouter une seconde barre de navigation qui ferait doublon avec le schéma.
+- **Le schéma est l'interface de navigation principale :** les six dossiers, leurs relations et leurs croisements sont découverts depuis lui. Les fonctions ne doivent pas être reléguées dans de longs menus ou dans une page d'accueil interminable.
 - **Triangle = dossier MajestiOS.**
 - **Côté = lien entre dossiers.**
 - **Croisement = sous-dossier ou page d'information/documentation.**
@@ -44,17 +47,19 @@ Le dossier EMPLOI est hors périmètre de cette phase.
 
 ## 4. Structure de la page d'accueil
 
-Ordre fonctionnel recommandé :
+La page d'accueil est un centre de commande visuel, pas un tableau de bord ni une page éditoriale longue.
 
-1. **Navigation principale** — accès direct aux destinations majeures.
-2. **Moteur de recherche** — recherche rapide visible immédiatement ; filtres avancés déployables sans masquer le schéma.
-3. **Schéma interactif** — les six dossiers, leur hiérarchie visuelle et les relations utiles.
-4. **Flux d'annonces discret** — public et privé, sans transformer l'accueil en catalogue.
-5. **Zone de texte contextuelle** — accroche courte du dossier survolé ou sélectionné.
+1. **Barre de navigation minimale :** Accueil · Partenaires · Nous rejoindre · Espace personnel.
+2. **Schéma interactif au premier plan :** les six dossiers sont les portes d'entrée de l'écosystème. Le schéma rend visibles les liens et les croisements utiles.
+3. **Recherche d'opportunités :** accessible immédiatement, intégrée à la composition sans concurrencer ni recouvrir le schéma. Les filtres avancés peuvent se déployer à la demande.
+4. **Flux d'annonces discret :** annonces publiques et privées, sans transformer l'accueil en catalogue.
+5. **Micro-explication contextuelle :** une seule accroche courte pour le dossier survolé ou sélectionné ; pas de blocs explicatifs permanents.
 
-Le moteur et le schéma doivent rester deux composants distincts. Aucun des deux ne doit recouvrir l'autre ni repousser l'accès principal sous une longue page.
+**Règle de sobriété :** aucun grand catalogue, aucune longue présentation sous le schéma et aucun menu parallèle. Les détails apparaissent dans le dossier concerné, au moment où ils deviennent utiles. Le schéma et la recherche restent distincts fonctionnellement, mais doivent former une composition visuelle cohérente.
 
 ## 5. Comportement du schéma interactif
+
+Le schéma doit faire comprendre l'essentiel sans mode d'emploi : « Parce qu'un schéma vaut mille explications. »
 
 ### Ordinateur
 - Au repos : schéma équilibré, six dossiers identifiables.
@@ -112,7 +117,15 @@ Ces croisements doivent d'abord être conçus comme des fonctions et des destina
 
 P0 = nécessaire au parcours initial ; P1 = amélioration importante ; P2 = évolution après stabilisation du noyau.
 
-## 8. Identité visuelle des dossiers
+## 8. Navigation globale et identité visuelle des dossiers
+
+- **Accueil :** retour au centre névralgique et au schéma.
+- **Partenaires :** accès au réseau et aux relations professionnelles de MajestiOS.
+- **Nous rejoindre :** contribution au projet, compétences et opportunités pour rejoindre les équipes.
+- **Espace personnel :** compte, démarches et dossiers de l'utilisateur.
+- Les six dossiers et leurs fonctions sont accessibles depuis le schéma ; ils ne doivent pas être dupliqués dans la barre principale.
+
+### Identité visuelle des dossiers
 
 - Conserver une charte globale commune MajestiOS, avec des variations discrètes par dossier.
 - Donner à chaque page un symbole ou filigrane propre, en arrière-plan, sans nuire à la lecture.
@@ -131,6 +144,9 @@ P0 = nécessaire au parcours initial ; P1 = amélioration importante ; P2 = évo
 - Les erreurs, résultats vides et données indisponibles sont explicitement traités.
 - Les liens transversaux ne créent pas de boucles, de pages mortes ou de destinations trompeuses.
 - Le schéma reste lisible sur mobile et ne chevauche pas le moteur de recherche.
+- La navigation principale contient exclusivement Accueil, Partenaires, Nous rejoindre et Espace personnel.
+- Aucun menu secondaire ne duplique la navigation fonctionnelle déjà portée par le schéma.
+- Les explications permanentes sont remplacées par des accroches courtes et des contenus contextuels.
 - Les flux d'annonces restent discrets et ne dominent pas la page d'accueil.
 
 ## 10. Ordre de réalisation
