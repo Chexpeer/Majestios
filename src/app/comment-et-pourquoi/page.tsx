@@ -38,7 +38,7 @@ export default function ConceptPage() {
       <footer className="public-footer">
         <Link className="footer-brand" href="/">MajestiOS</Link>
         <nav aria-label="Liens de pied de page">
-          <Link href="/comment-et-pourquoi">Comment et pourquoi MajestiOS ?</Link>
+          <span aria-current="page">Comment et pourquoi MajestiOS ?</span>
           <Link href="/nous-rejoindre">Nous rejoindre</Link>
           <Link href="/mentions-legales">Mentions légales</Link>
         </nav>
