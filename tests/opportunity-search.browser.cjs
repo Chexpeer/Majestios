@@ -26,6 +26,23 @@ async function main() {
     browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
     const page = await browser.newPage();
     let apiCalls = 0;
+    let bodaccCalls = 0;
+    await page.route("https://www.bodacc.fr/api/explore/v2.1/**", async (route) => {
+      bodaccCalls++;
+      const requestUrl = new URL(route.request().url());
+      assert.equal(requestUrl.pathname.endsWith("/catalog/datasets/annonces-commerciales/records"), true, "La recherche privée doit utiliser le jeu officiel BODACC.");
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ total_count: 1, results: [{
+          id: "A202610310001", dateparution: "2026-10-30", numeroannonce: "1001",
+          typeavis_lib: "Avis initial", familleavis: "vente", familleavis_lib: "Ventes et cessions",
+          departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC de test",
+          ville: "Niort", registre: "RCS test", acte: { nature: "Cession de fonds de commerce" },
+          url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?q.id=id:A202610310001"
+        }] })
+      });
+    });
     await page.route("https://boamp-datadila.opendatasoft.com/**", async (route) => {
       apiCalls++;
       const requestUrl = new URL(route.request().url());
@@ -54,8 +71,13 @@ async function main() {
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
 
     apiCalls = 0;
+    bodaccCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private", { waitUntil: "domcontentloaded" });
-    await page.getByText(/recherche de marchés privés n’est pas encore raccordée/i).waitFor({ timeout: 10000 });
+    await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".bodacc-result-card").count(), 1, "Une annonce BODACC doit devenir une carte de signal commercial.");
+    assert.match(await page.locator(".bodacc-result-card").innerText(), /Ventes et cessions/);
+    assert.match(await page.locator(".bodacc-result-card").innerText(), /Deux-Sèvres/);
+    assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
     await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public", { waitUntil: "domcontentloaded" });
