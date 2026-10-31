@@ -45,6 +45,17 @@ renderer.toneMapping=THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure=1.1;
 renderer.domElement.tabIndex=0;
 renderer.domElement.setAttribute("aria-label","Zone 3D. Faites glisser pour tourner et sélectionnez un bâtiment.");
+renderer.domElement.addEventListener("webglcontextlost", (event) => {
+ event.preventDefault();
+ if (typeof window.majestiosSceneFallback === "function") {
+  window.majestiosSceneFallback();
+ } else if (loading) {
+  loading.classList.remove("hidden");
+  loading.classList.add("scene-error");
+  loading.setAttribute("role", "alert");
+  loading.innerHTML = '<p>La vue 3D a été interrompue par le navigateur.</p><p><a href="index.html">Retour à l’accueil MajestiOS</a> · Rechargez la page pour réessayer.</p>';
+ }
+});
 root.appendChild(renderer.domElement);
 const controls=new OrbitControls(camera,renderer.domElement);
 controls.target.set(0,1.5,-6);
@@ -263,4 +274,4 @@ function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
 let previousFrame=performance.now();
 function animate(now=performance.now()){requestAnimationFrame(animate);const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;if(cameraDestination&&targetDestination){const speed=reducedMotion?1:.085;camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}walkThroughZone(delta);controls.update();renderer.render(scene,camera);}
-animate();loading.classList.add("hidden");
+animate();if(loading.dataset.fallbackShown!=="true")loading.classList.add("hidden");else renderer.domElement.style.display="none";
