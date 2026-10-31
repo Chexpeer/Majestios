@@ -227,7 +227,7 @@ if (fs.existsSync(homeHtmlPath)) {
       errors.push("Accueil : titre accessible de la zone industrielle absent");
     }
   }
-  const navMatch = homeHtml.match(/<nav class="site-nav"[^>]*>([\\s\\S]*?)<\\/nav>/i);
+  const navMatch = homeHtml.match(/<nav class="site-nav"[^>]*>([\s\S]*?)<\/nav>/i);
   const navHrefs = navMatch ? [...navMatch[1].matchAll(/href="([^"]+)"/g)].map((match) => match[1]) : [];
   const expectedNavHrefs = ["index.html", "developpement-commercial.html", "salons-seminaires.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"];
   if (navHrefs.length !== expectedNavHrefs.length || navHrefs.some((href, index) => href !== expectedNavHrefs[index])) {
