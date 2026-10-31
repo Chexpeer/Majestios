@@ -264,7 +264,7 @@ if (advancedSearchForm) {
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
   // Priorité de destination : une catégorie active mène à sa page de résultats dédiée.
-  // Sans catégorie active, un marché privé mène à sa rubrique ; le parcours par défaut mène aux marchés publics.
+  // Sans catégorie active, le type choisi mène à sa rubrique ; « Publics et privés » mène aux résultats généraux.
   // Les critères q, categorie, marche et zone sont conservés dans l’URL.
   const selectedCategory = majCatalog.searchCategories.find(
     (item) => item.value === category && item.href && !item.planned
@@ -273,7 +273,9 @@ if (advancedSearchForm) {
     ? selectedCategory.href
     : marketType === "private"
       ? "marches-prives.html"
-      : "marches-publics.html";
+      : marketType === "public"
+        ? "marches-publics.html"
+        : "resultats-recherche.html";
 
   window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
 });
