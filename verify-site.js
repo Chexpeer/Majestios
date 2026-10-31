@@ -90,6 +90,25 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   errors.push("index.html ou app.js absent : contrôle des fonctions commerciales essentielles impossible");
 }
 
+// Vérifier que chaque rubrique métier conserve sa couche immersive et la navigation commune.
+const immersivePages = [
+  "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
+  "prospection-inversee.html", "intelligence-economique.html", "reseaux-synergies.html",
+  "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
+  "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html",
+];
+for (const page of immersivePages) {
+  const pagePath = path.join(root, page);
+  if (!fs.existsSync(pagePath)) continue;
+  const pageHtml = fs.readFileSync(pagePath, "utf8");
+  for (const asset of ["rubriques-immersives.css", "rubriques-immersives.js"]) {
+    if (!pageHtml.includes(asset)) errors.push(`${page} : couche immersive manquante (${asset})`);
+  }
+  for (const href of ["index.html", "zone-artisanale.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"]) {
+    if (!pageHtml.includes(`href="${href}"`)) errors.push(`${page} : lien de navigation commun manquant (${href})`);
+  }
+}
+
 // Vérifier que les douze rubriques restent accessibles depuis l'univers virtuel.
 const zoneHtmlPath = path.join(root, "zone-artisanale.html");
 const zoneJsPath = path.join(root, "zone-artisanale.js");
