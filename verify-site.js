@@ -787,6 +787,32 @@ if (!homeAppJs.includes('homeHelpToggle?.addEventListener("click"') ||
 }
 
 
+// Lot 19 — contrôler les parcours secondaires des six premiers bâtiments.
+// Ces destinations font partie du parcours métier validé et ne doivent pas dériver silencieusement.
+const firstSixRouteContracts = [
+  ["B01", "accompagnement-appels-offres.html", "veille-marches.html"],
+  ["B02", "sous-traitance.html", "suivi-commercial.html"],
+  ["B03", "prospection-inversee.html", "suivi-commercial.html"],
+  ["B04", "intelligence-economique.html", "developpement-commercial.html"],
+  ["B05", "veille-marches.html", "bodacc-veille-entreprises.html"],
+  ["B06", "salons-seminaires.html", "sous-traitance.html"]
+];
+for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
+  const match = buildingDefinitions.find((item) => item[1] === id);
+  if (!match) continue;
+  const start = match.index;
+  const next = homeSceneJs.indexOf('{id:"', start + 5);
+  const block = homeSceneJs.slice(start, next < 0 ? homeSceneJs.indexOf('];', start) : next);
+  const first = block.match(/firstRoute:"([^\"]+)"/);
+  const second = block.match(/secondRoute:"([^\"]+)"/);
+  if (!first || first[1] !== expectedFirst) {
+    errors.push(`Zone industrielle ${id} : parcours de niveau 1 inattendu (attendu : ${expectedFirst})`);
+  }
+  if (!second || second[1] !== expectedSecond) {
+    errors.push(`Zone industrielle ${id} : parcours de niveau 2 inattendu (attendu : ${expectedSecond})`);
+  }
+}
+
 // Lot 18 — contrat de cohérence des douze bâtiments et de leurs trois niveaux.
 const expectedBuildingContracts = [
   ["B01", "Marchés publics", "marches-publics", "central"],
