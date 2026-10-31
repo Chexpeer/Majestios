@@ -495,6 +495,7 @@ if(loading.dataset.fallbackShown==="true"){
  loading.classList.remove("scene-error");
  loading.removeAttribute("role");
  loading.innerHTML="Préparation de la zone industrielle virtuelle…";
+ if(hoverCard)hoverCard.style.display="";
 }
 loading.classList.add("hidden");
 renderer.domElement.style.display="block";
