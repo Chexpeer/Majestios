@@ -100,7 +100,7 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   ]) {
     if (!appScript.includes(restorationCheck)) errors.push(`Recherche avancée : restauration d’un critère manquante : ${restorationCheck}`);
   }
-  for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="homepage-ticker"', 'class="site-footer"', 'class="directory"']) {
+  for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="site-footer"', 'class="directory"']) {
     if (home.includes(forbidden)) errors.push(`Accueil : bloc hors périmètre encore présent : ${forbidden}`);
   }
 } else {
@@ -479,5 +479,26 @@ if (fs.existsSync(homeHtmlPath)) {
   }
   if (!homeHtml.includes("L’assistant conversationnel sera connecté dans une prochaine étape")) {
     errors.push("Accueil : le guide doit préciser que l’assistant conversationnel n’est pas encore connecté");
+  }
+}
+
+
+// Le bandeau supérieur doit être discret, lent et explicitement présenté comme une démonstration.
+if (fs.existsSync(homeHtmlPath)) {
+  const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
+  if (!homeHtml.includes('class="homepage-ticker"') || !homeHtml.includes('aria-label="Flux de démonstration MajestiOS"')) {
+    errors.push("Accueil : bandeau supérieur de démonstration absent ou non identifié");
+  }
+  if (!/Aucune annonce réelle n’est diffusée pour le moment/.test(homeHtml)) {
+    errors.push("Accueil : le bandeau ne précise pas clairement l’absence d’annonces réelles");
+  }
+  if (homeHtml.indexOf('class="homepage-ticker"') > homeHtml.indexOf('<header class="site-header"')) {
+    errors.push("Accueil : le bandeau d’annonces doit rester au-dessus de la navigation");
+  }
+}
+if (fs.existsSync(path.join(root, "styles.css"))) {
+  const homeStyles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+  if (!/homepage-ticker-track[^}]*animation:[^;]*75s/.test(homeStyles) || !homeStyles.includes("@media(prefers-reduced-motion:reduce) { body.homepage .homepage-ticker-track")) {
+    errors.push("Accueil : vitesse lente ou préférence de réduction des animations non prise en compte pour le bandeau");
   }
 }

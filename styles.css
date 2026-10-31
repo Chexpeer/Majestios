@@ -1467,3 +1467,13 @@ body.homepage .home-help-panel>a:hover,body.homepage .home-help-panel>a:focus-vi
 body.homepage .home-help-panel>small { display:block; padding-top:10px; color:#9f9a8e; font-size:10px; line-height:1.5; }
 @media(max-width:540px) { body.homepage .home-help { right:12px; bottom:12px; } body.homepage .home-help-toggle { min-height:42px; font-size:11px; } }
 @media(prefers-reduced-motion:reduce) { body.homepage .home-help * { scroll-behavior:auto; transition:none!important; } }
+
+
+/* Bandeau supérieur très lent : état de démonstration explicite, sans annonces inventées. */
+body.homepage .homepage-ticker { position:relative; z-index:6; height:25px; overflow:hidden; display:flex; align-items:center; border-bottom:1px solid rgba(213,181,108,.18); color:#c9c1af; background:#080c12; font-size:9px; letter-spacing:.035em; }
+body.homepage .homepage-ticker-track { display:flex; width:max-content; min-width:200%; animation:majestios-ticker-scroll 75s linear infinite; }
+body.homepage .homepage-ticker-track span { display:block; flex:0 0 auto; padding-right:5rem; white-space:nowrap; }
+body.homepage .homepage-ticker strong { color:#d5b56c; font-weight:800; letter-spacing:.09em; }
+body.homepage .homepage-ticker:hover .homepage-ticker-track,body.homepage .homepage-ticker:focus-within .homepage-ticker-track { animation-play-state:paused; }
+@keyframes majestios-ticker-scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@media(prefers-reduced-motion:reduce) { body.homepage .homepage-ticker-track { animation:none; width:100%; min-width:0; } body.homepage .homepage-ticker-track span[aria-hidden="true"] { display:none; } body.homepage .homepage-ticker-track span:first-child { white-space:normal; padding:4px 10px; } body.homepage .homepage-ticker { height:auto; min-height:25px; } }
