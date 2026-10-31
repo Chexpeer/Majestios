@@ -201,7 +201,11 @@
       const response = await fetch(url.toString(), { headers: { Accept: "application/json" } });
       if (!response.ok) throw new Error("HTTP " + response.status);
       const payload = await response.json();
-      const records = Array.isArray(payload.results) ? payload.results : [];
+      const records = Array.isArray(payload.results)
+        ? payload.results
+        : Array.isArray(payload.records)
+          ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length)
+          : [];
       const filtered = records
         .filter((record) => !isExpired(record))
         .filter((record) => categoryMatches(record, category))
