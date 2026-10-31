@@ -1553,3 +1553,36 @@ body.homepage .footer-links a:hover,body.homepage .footer-links a:focus-visible 
 .opportunity-result-card p{margin:.25rem 0;overflow-wrap:anywhere}
 .opportunity-result-card .button-primary{margin-top:.6rem}
 .opportunity-source-note{margin:.8rem 0}
+
+/* Recherche BODACC intégrée aux rubriques Marchés privés et Veille des entreprises. */
+.private-signal-search form,
+.bodacc-search-panel form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: .7rem;
+  margin: 1.25rem 0;
+  max-width: 44rem;
+}
+.private-signal-search form label,
+.bodacc-search-panel form label {
+  color: var(--text, #eaf0f8);
+  font-size: .9rem;
+  font-weight: 650;
+}
+.private-signal-search form input[type="search"],
+.private-signal-search form select,
+.bodacc-search-panel form input[type="search"],
+.bodacc-search-panel form select {
+  width: 100%;
+  min-height: 2.9rem;
+  padding: .7rem .85rem;
+  color: var(--text, #eaf0f8);
+  background: rgba(7, 13, 23, .82);
+  border: 1px solid rgba(111, 156, 139, .55);
+  border-radius: .65rem;
+}
+.private-signal-search form button,
+.bodacc-search-panel form button {
+  justify-self: start;
+  margin-top: .35rem;
+}
