@@ -52,6 +52,16 @@ if (fs.existsSync(buildPath)) {
   for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js", "search-results.js"]) {
     if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
   }
+  // LOT 11 — le build doit refuser les doublons et vérifier l’intégrité réelle de dist/.
+  for (const buildGuard of [
+    "const duplicateFiles = siteFiles.filter",
+    "const invalidOutputFiles = siteFiles.filter",
+    "fs.readFileSync(sourcePath).equals(fs.readFileSync(outputPath))",
+    "process.exit(1)",
+    "fichiers copiés dans dist/ sans différence avec les sources"
+  ]) {
+    if (!build.includes(buildGuard)) errors.push(`build.js: garde-fou d’intégrité absent : ${buildGuard}`);
+  }
 } else {
   errors.push("build.js : fichier absent");
 }
