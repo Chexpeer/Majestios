@@ -31,4 +31,21 @@
     const returnParams = new URLSearchParams(params);
     returnLink.href = `index.html${returnParams.size ? `?${returnParams.toString()}` : ""}#recherche-avancee`;
   }
+
+  const panel = document.querySelector("#search-results-panel");
+  const loadSearch = () => {
+    if (window.MajestiosOpportunitySearch) {
+      window.MajestiosOpportunitySearch.render({ panel, params, category });
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "opportunity-search.js";
+    script.onload = () => window.MajestiosOpportunitySearch?.render({ panel, params, category });
+    script.onerror = () => {
+      const empty = panel?.querySelector(".category-results-empty");
+      if (empty) empty.textContent = "Le module de recherche n’a pas pu être chargé. Aucun résultat n’est inventé.";
+    };
+    document.head.append(script);
+  };
+  if (panel) loadSearch();
 })();
