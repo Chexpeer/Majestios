@@ -1,7 +1,7 @@
 # MajestiOS — arborescence et dépendances de référence
 
 Version : 2026-10-31  
-Branche de travail : `correction-accueil-zone-industrielle`  
+Branche de travail : `corrections-securite-scene-2026-10-31`  
 Objet : document de référence pour nettoyer le dépôt sans casser les pages, les interactions ni le build.
 
 ## 1. Structure obligatoire de la page d’accueil
