@@ -44,9 +44,9 @@
 
   const searchRegions = [
     { value: "all", label: "Toutes les zones", active: true },
-    { value: "nord", label: "Zone Nord · exemple", active: true },
-    { value: "ouest", label: "Zone Ouest · exemple", active: true },
-    { value: "sud", label: "Zone Sud · exemple", active: true },
+    { value: "nord", label: "Zone Nord · exemple · à venir", planned: true },
+    { value: "ouest", label: "Zone Ouest · exemple · à venir", planned: true },
+    { value: "sud", label: "Zone Sud · exemple · à venir", planned: true },
     { value: "nouvelle-aquitaine", label: "Nouvelle-Aquitaine", planned: true },
     { value: "ile-de-france", label: "Île-de-France", planned: true },
     { value: "auvergne-rhone-alpes", label: "Auvergne-Rhône-Alpes", planned: true },
