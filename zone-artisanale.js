@@ -367,6 +367,22 @@ document.querySelectorAll("[data-walk]").forEach(button=>{
 document.querySelector("#view-home").addEventListener("click",resetView);
 document.querySelector("#zoom-in").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;const offset=camera.position.clone().sub(controls.target);offset.multiplyScalar(.88);const distance=THREE.MathUtils.clamp(offset.length(),controls.minDistance,controls.maxDistance);offset.setLength(distance);camera.position.copy(controls.target).add(offset);controls.update();});
 document.querySelector("#zoom-out").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;const offset=camera.position.clone().sub(controls.target);const distance=THREE.MathUtils.clamp(offset.length()*1.12,controls.minDistance,controls.maxDistance);offset.setLength(distance);camera.position.copy(controls.target).add(offset);controls.update();});
+
+const fullscreenButton=document.querySelector("#scene-fullscreen");
+const sceneShell=document.querySelector(".scene-shell");
+function syncFullscreenButton(){
+ const active=Boolean(document.fullscreenElement&&document.fullscreenElement===sceneShell);
+ if(fullscreenButton){fullscreenButton.setAttribute("aria-pressed",String(active));fullscreenButton.textContent=active?"⤢ Quitter le plein écran":"⛶ Plein écran";fullscreenButton.setAttribute("aria-label",active?"Quitter le plein écran de la zone industrielle":"Afficher la zone industrielle en plein écran");}
+ requestAnimationFrame(resize);
+}
+fullscreenButton?.addEventListener("click",async()=>{
+ try{
+  if(!sceneShell||!document.fullscreenEnabled){if(fullscreenButton)fullscreenButton.title="Le plein écran n’est pas disponible dans ce navigateur";return;}
+  if(document.fullscreenElement)await document.exitFullscreen();else await sceneShell.requestFullscreen();
+ }catch(error){console.warn("[MajestiOS] Le plein écran n’a pas pu être activé.",error);}
+});
+document.addEventListener("fullscreenchange",syncFullscreenButton);
+
 function setSceneMode(mode){
  const buttons=document.querySelectorAll("[data-scene-mode]");
  buttons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.sceneMode===mode)));
