@@ -32,6 +32,8 @@ const floorList=document.querySelector("#floor-list");
 const openLink=document.querySelector("#open-building");
 openLink.addEventListener("click",event=>{if(openLink.getAttribute("aria-disabled")==="true")event.preventDefault();});
 const directory=document.querySelector("#building-directory");
+const mapRoot=document.querySelector("#zone-map");
+const mapBuildings=document.querySelector("#map-buildings");
 const hoverCard=document.querySelector("#hover-card");
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -236,6 +238,25 @@ function focusBuilding(data){
  cameraDestination=new THREE.Vector3(data.x+1.5,9.2,data.z+16.5);
 }
 function selectBuilding(data){selected=data;setSceneMode("fly");focusBuilding(data);title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";floorList.hidden=true;openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");openLink.removeAttribute("tabindex");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
+function renderZoneMap(){
+ if(!mapBuildings)return;
+ mapBuildings.innerHTML="";
+ const minX=-15,maxX=15,minZ=-18,maxZ=8;
+ buildings.forEach(data=>{
+  const button=document.createElement("button");
+  button.type="button";button.className="map-building";button.dataset.id=data.id;button.dataset.group=data.group;
+  button.style.setProperty("--building-color",data.color);
+  const left=THREE.MathUtils.clamp((data.x-minX)/(maxX-minX)*100,6,94);
+  const top=THREE.MathUtils.clamp((maxZ-data.z)/(maxZ-minZ)*100,5,95);
+  button.style.left=left+"%";button.style.top=top+"%";
+  const name=document.createElement("span");name.textContent=data.name;
+  const detail=document.createElement("small");detail.textContent=data.ground;
+  button.append(name,detail);button.setAttribute("aria-label",data.name+" — "+data.ground);
+  button.addEventListener("click",()=>{selectBuilding(data);updateHoverCard(data,null);});
+  mapBuildings.appendChild(button);
+ });
+}
+renderZoneMap();
 function getBuildingAt(event){const rect=renderer.domElement.getBoundingClientRect();pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(buildingMeshes,true);return hits.find(h=>h.object.userData.building)?.object.userData.building||null;}
 function updateHoverCard(data,event){
  if(!hoverCard)return;
@@ -335,6 +356,10 @@ function setSceneMode(mode){
  const buttons=document.querySelectorAll("[data-scene-mode]");
  buttons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.sceneMode===mode)));
  cameraDestination=null; targetDestination=null;
+ const mapMode=mode==="map";
+ if(mapRoot)mapRoot.hidden=!mapMode;
+ renderer.domElement.style.display=mapMode?"none":"block";
+ if(mapMode){if(root)root.dataset.viewMode="map";return;}
  if(mode==="top"){
   controls.minPolarAngle=0.02; controls.maxPolarAngle=0.08;
   controls.minDistance=18; controls.maxDistance=55;
