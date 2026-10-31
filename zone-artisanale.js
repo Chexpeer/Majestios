@@ -156,7 +156,8 @@ function selectBuilding(data){selected=data;focusBuilding(data);title.textConten
 function getBuildingAt(event){const rect=renderer.domElement.getBoundingClientRect();pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(buildingMeshes,true);return hits.find(h=>h.object.userData.building)?.object.userData.building||null;}
 function updateHoverCard(data,event){
  if(!hoverCard)return;
- if(!data){hoverCard.classList.remove("is-visible");return;}
+ if(!data){hoverCard.classList.remove("is-visible");hoverCard.setAttribute("aria-hidden","true");return;}
+ hoverCard.setAttribute("aria-hidden","false");
  const bounds=root.getBoundingClientRect();
  hoverCard.querySelector("[data-hover-name]").textContent=data.name;
  hoverCard.querySelector("[data-hover-detail]").textContent=data.ground;
