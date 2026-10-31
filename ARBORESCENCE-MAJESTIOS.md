@@ -68,6 +68,8 @@ Les fichiers HTML restent à la racine du dépôt pour préserver les liens rela
 - `vercel.json` — configuration de publication.
 - `README.md` — résumé opérationnel du prototype.
 - `ARBORESCENCE-MAJESTIOS.md` — inventaire et règles de dépendances.
+- `schemas/opportunite.schema.json` — contrat de données normalisé des annonces.
+- `MODELE-DONNEES-APPELS-OFFRES.md` — règles de provenance, catégories, filtrage et intégration des sources.
 
 ## 4. Règles de nettoyage du dépôt
 
