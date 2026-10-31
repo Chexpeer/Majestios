@@ -84,4 +84,17 @@
     link.href = `index.html?${returnParams.toString()}#recherche-avancee`;
     link.textContent = "Modifier les critères dans la recherche avancée →";
   }
+
+  const loadSearch = () => {
+    if (window.MajestiosOpportunitySearch) {
+      window.MajestiosOpportunitySearch.render({ panel, params, category: definition.value });
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "opportunity-search.js";
+    script.onload = () => window.MajestiosOpportunitySearch?.render({ panel, params, category: definition.value });
+    script.onerror = () => { if (empty) empty.textContent = "Le module de recherche n’a pas pu être chargé. Aucun résultat n’est inventé."; };
+    document.head.append(script);
+  };
+  loadSearch();
 })();
