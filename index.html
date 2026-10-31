@@ -32,7 +32,7 @@
         <div class="industrial-zone-intro">
           <p class="eyebrow">MAJESTIOS · UNIVERS INDUSTRIEL VIRTUEL</p>
           <h1 id="industrial-zone-title">Entrez dans la zone industrielle <span>interactive MajestiOS</span></h1>
-          <p>Explorez les bâtiments, choisissez une activité et accédez directement à son espace métier.</p>
+          
         </div>
         <div class="za-main homepage-industrial-layout">
           <section class="scene-shell" aria-label="Zone industrielle virtuelle 3D interactive">
@@ -52,10 +52,10 @@
           <aside class="building-panel" id="building-panel" aria-live="polite">
             <p class="panel-kicker">VOTRE PROCHAINE ÉTAPE</p>
             <h2 id="panel-title">Choisissez un bâtiment</h2>
-            <p id="panel-description">Les bâtiments de la zone représentent les activités complémentaires de MajestiOS. Sélectionnez directement un bâtiment dans la zone interactive.</p>
-            <div class="floor-list" id="floor-list"><div><span>RDC</span><p>Activité principale</p></div><div><span>1er</span><p>Services et actions</p></div><div><span>2e</span><p>Outils et intelligence</p></div></div>
+            <p id="panel-description">Sélectionnez un bâtiment pour accéder à sa rubrique métier.</p>
+            <div class="floor-list" id="floor-list" hidden></div>
             <a class="button-primary is-disabled" id="open-building" href="#" aria-disabled="true">Découvrir cette rubrique</a>
-            <p class="panel-note">Chaque bâtiment ouvre une rubrique dédiée. Choisissez un bâtiment pour ouvrir sa rubrique métier.</p>
+            
           </aside>
         </div>
       </section>
@@ -123,7 +123,9 @@
           <h2>Quelle est votre<br>prochaine étape ?</h2>
           <p>Choisissez le sujet qui vous amène et présentez-nous votre besoin.</p>
         </div>
-        <div class="lead-form-wrap">
+        <details class="lead-form-disclosure" id="contact-form-disclosure">
+          <summary>Décrire mon besoin</summary>
+          <div class="lead-form-wrap">
           <form id="lead-form">
             <fieldset class="intent-options">
               <legend>Je souhaite…</legend>
@@ -164,7 +166,8 @@
             <button class="button button-primary form-submit" id="preview-request" type="button">Prévisualiser ma demande <span aria-hidden="true">→</span></button>
             <div class="form-feedback" id="form-feedback" role="status" aria-live="polite" hidden></div>
           </form>
-        </div>
+          </div>
+        </details>
       </section>
     </main>
 
