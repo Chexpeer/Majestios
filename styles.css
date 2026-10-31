@@ -614,3 +614,17 @@ h1 span { color: var(--purple); }
 .faq-list summary { cursor: pointer; font-size: 17px; font-weight: 700; line-height: 1.5; }
 .faq-list details p { max-width: 780px; margin: 14px 0 0; color: #717688; font-size: 14px; line-height: 1.8; }
 @media (max-width: 760px) { .interior-page { padding-top: 38px; padding-bottom: 56px; } .interior-grid { grid-template-columns: 1fr; } .interior-lede { font-size: 14px; } }
+
+
+/* Accueil volontairement compact : les pages dédiées portent le détail */
+.homepage .trust-strip,
+.homepage .reverse-prospecting,
+.homepage .platform-section,
+.homepage .services-section,
+.homepage .demo-section,
+.homepage .use-cases,
+.homepage .ao-section,
+.homepage .audiences { display: none !important; }
+.homepage .interactive-map-section { padding-top: 28px; padding-bottom: 40px; }
+.homepage .hero { min-height: 430px; }
+@media (max-width: 760px) { .homepage .hero { min-height: auto; padding-top: 28px; padding-bottom: 28px; } }
