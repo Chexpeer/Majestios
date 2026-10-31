@@ -203,3 +203,6 @@ body.homepage .homepage-industrial-layout #floor-list { display: none !important
 .map-building[data-id="B01"]{border-top-color:#397ab5}.map-building[data-id="B02"]{border-top-color:#39865a}
 @media(max-width:760px){.scene-modes{left:8px;right:8px;top:48px;max-width:none;justify-content:center;flex-wrap:wrap}.scene-modes button{padding:7px 8px;font-size:10px}.map-header{left:8px;right:8px;top:8px;align-items:flex-start;font-size:10px}.map-header span{max-width:48%}.map-buildings{inset:58px 2px 42px}.map-building{width:clamp(95px,29%,140px);min-height:52px;padding:6px;font-size:10px}.map-building small{font-size:8px}.map-legend{left:5px;bottom:5px;gap:6px;font-size:8px;padding:6px}}
 @media(max-width:430px){.scene-modes button{font-size:9px;padding:6px 5px}.map-building{width:clamp(88px,31%,116px);font-size:9px}.map-header strong{max-width:48%}}
+
+/* En vue GPS sur grand écran, réserver une ligne sous les commandes pour le titre et la carte. */
+@media(min-width:761px){.scene[data-view-mode="map"] .map-header{top:62px}.scene[data-view-mode="map"] .map-compass{top:112px}.scene[data-view-mode="map"] .map-buildings{inset:112px 10px 12px}}
