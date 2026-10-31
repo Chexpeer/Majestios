@@ -180,17 +180,18 @@ renderer.domElement.addEventListener("click",e=>{const data=getBuildingAt(e);if(
 let touchCandidate=null;
 renderer.domElement.addEventListener("touchstart",e=>{
  if(e.touches.length!==1){touchCandidate=null;return;}
- const t=e.touches[0];touchCandidate={x:t.clientX,y:t.clientY};
+ const t=e.touches[0];touchCandidate={x:t.clientX,y:t.clientY,id:t.identifier};
 },{passive:true});
 renderer.domElement.addEventListener("touchend",e=>{
  if(!touchCandidate)return;
  const start=touchCandidate;touchCandidate=null;
- const t=e.changedTouches[0];
+ const t=Array.from(e.changedTouches).find(item=>item.identifier===start.id);
  if(!t||Math.hypot(t.clientX-start.x,t.clientY-start.y)>12)return;
  const data=getBuildingAt(t);
  if(data){hovered=data.id;selectBuilding(data);updateHoverCard(data,{pointerType:"touch"});}
 },{passive:true});
 renderer.domElement.addEventListener("touchcancel",()=>{touchCandidate=null;},{passive:true});
+renderer.domElement.addEventListener("pointercancel",()=>{touchCandidate=null;});
 const movementKeys=new Set(["w","a","s","d","z","q","arrowup","arrowdown","arrowleft","arrowright","shift"]);
 const pressedKeys=new Set();
 renderer.domElement.addEventListener("keydown",e=>{
