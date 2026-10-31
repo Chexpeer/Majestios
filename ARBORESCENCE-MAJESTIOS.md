@@ -133,3 +133,18 @@ Ce document est une référence d’arborescence et de contrôle, pas une décla
 - Les futures catégories (fournitures, lots BTP, maintenance, logistique, formation/recrutement, communication/événementiel) sont préparées mais désactivées. Elles ne seront activées qu'après ajout de données et de sources adaptées.
 - Le filtre « marchés privés » existe dans la structure mais ne renvoie aucune annonce dans le jeu de démonstration actuel, composé d'exemples publics fictifs. Ce n'est pas une recherche connectée aux marchés privés.
 - Le catalogue est copié dans `dist/` et vérifié par le contrôle anti-régression.
+
+
+## 8. Pages dédiées aux catégories d'appels d'offres — préparation
+
+Les catégories actives disposent désormais de pages de destination distinctes :
+- Services numériques — `categorie-services-numeriques.html`
+- Travaux et aménagement — `categorie-travaux-amenagement.html`
+- Conseil et études — `categorie-conseil-etudes.html`
+- Bâtiment et construction — `categorie-batiment.html`
+- Rénovation — `categorie-renovation.html`
+- Électricité — `categorie-electricite.html`
+- Plomberie et chauffage — `categorie-plomberie-chauffage.html`
+- Maintenance et exploitation — `categorie-maintenance.html`
+
+Chaque page présente le périmètre de sa spécialité et transmet le filtre au moteur d'accueil par le paramètre `?categorie=`. Les cartes du fil proposent également un accès à la page de leur catégorie. Les résultats affichés restent des exemples fictifs ; aucun connecteur réel de marchés publics ou privés n'est activé.
