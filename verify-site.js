@@ -192,12 +192,12 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
 // Vérifier que le panorama et la zone 3D consomment le même catalogue de routes.
 const svgPath = path.join(root, "schema-majestios.svg");
 const appPath = path.join(root, "app.js");
-const zoneJsPath = path.join(root, "zone-artisanale.js");
+const zoneScenePath = path.join(root, "zone-artisanale.js");
 const cataloguePath = path.join(root, "catalogue-majestios.js");
-if (fs.existsSync(svgPath) && fs.existsSync(appPath) && fs.existsSync(zoneJsPath) && fs.existsSync(cataloguePath)) {
+if (fs.existsSync(svgPath) && fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cataloguePath)) {
   const svg = fs.readFileSync(svgPath, "utf8");
   const app = fs.readFileSync(appPath, "utf8");
-  const zoneJs = fs.readFileSync(zoneJsPath, "utf8");
+  const zoneJs = fs.readFileSync(zoneScenePath, "utf8");
   const catalogue = fs.readFileSync(cataloguePath, "utf8");
   const surfaces = [...svg.matchAll(/data-surface=["']([^"']+)["']/g)].map((match) => match[1]);
   const rubrics = [...catalogue.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)"/g)]
