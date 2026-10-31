@@ -464,3 +464,24 @@ personalSpaceForm?.addEventListener("submit", (event) => {
   personalSpaceFeedback.textContent = "Votre demande a été prévisualisée. Aucune donnée n’a été envoyée ni enregistrée : la création réelle de compte reste à connecter.";
   personalSpaceFeedback.hidden = false;
 });
+
+
+// Fil d’Ariane partagé : garder un repère de retour sur toutes les pages de rubrique.
+const interiorPage = document.querySelector("main.interior-page");
+const interiorTitle = interiorPage?.querySelector("h1");
+if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-breadcrumb")) {
+  const breadcrumb = document.createElement("nav");
+  breadcrumb.className = "interior-breadcrumb";
+  breadcrumb.setAttribute("aria-label", "Fil d’Ariane");
+  const homeLink = document.createElement("a");
+  homeLink.href = "index.html";
+  homeLink.textContent = "Accueil";
+  const separator = document.createElement("span");
+  separator.setAttribute("aria-hidden", "true");
+  separator.textContent = " / ";
+  const currentPage = document.createElement("span");
+  currentPage.setAttribute("aria-current", "page");
+  currentPage.textContent = interiorTitle.textContent.replace(/\\s+/g, " ").trim();
+  breadcrumb.append(homeLink, separator, currentPage);
+  interiorPage.prepend(breadcrumb);
+}
