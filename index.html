@@ -14,6 +14,7 @@
     <script src="app.js" defer></script>
   </head>
   <body class="homepage">
+    <div class="homepage-ticker" role="status" aria-label="Bandeau de démonstration"><span>MAJESTIOS · VEILLE COMMERCIALE</span><span>Repérez les opportunités qui correspondent à votre activité</span><span>PUBLIC · PRIVÉ · BTP · RÉNOVATION</span><span class="ticker-demo">Bandeau illustratif — aucune annonce réelle</span></div>
     <header class="site-header">
       <a class="brand" href="index.html#accueil" aria-label="MajestiOS, accueil">
         <span class="brand-mark" aria-hidden="true">M</span>
@@ -51,33 +52,17 @@
           <aside class="building-panel" id="building-panel" aria-live="polite">
             <p class="panel-kicker">VOTRE PROCHAINE ÉTAPE</p>
             <h2 id="panel-title">Choisissez un bâtiment</h2>
-            <p id="panel-description">Les bâtiments de la zone représentent les activités complémentaires de MajestiOS. Sélectionnez-en un dans la scène ou dans la liste ci-dessous.</p>
+            <p id="panel-description">Les bâtiments de la zone représentent les activités complémentaires de MajestiOS. Sélectionnez directement un bâtiment dans la zone interactive.</p>
             <div class="floor-list" id="floor-list"><div><span>RDC</span><p>Activité principale</p></div><div><span>1er</span><p>Services et actions</p></div><div><span>2e</span><p>Outils et intelligence</p></div></div>
             <a class="button-primary is-disabled" id="open-building" href="#" aria-disabled="true">Découvrir cette rubrique</a>
-            <p class="panel-note">Chaque bâtiment ouvre une rubrique dédiée. Les opportunités et formulaires restent accessibles plus bas sur cette page.</p>
+            <p class="panel-note">Chaque bâtiment ouvre une rubrique dédiée. Choisissez un bâtiment pour ouvrir sa rubrique métier.</p>
           </aside>
-          <section class="za-business-shortcuts" aria-label="Accès rapides aux fonctions commerciales">
-            <a href="#flux-ao"><span aria-hidden="true">⌕</span><strong>Rechercher des opportunités</strong><small>Accéder au flux, aux mots-clés et aux filtres.</small></a>
-            <a href="#contact"><span aria-hidden="true">↗</span><strong>Présenter mon besoin</strong><small>Décrire votre projet ou demander un accompagnement.</small></a>
-            <a href="espace-membre.html"><span aria-hidden="true">◎</span><strong>Espace membre</strong><small>Accéder au parcours personnel MajestiOS.</small></a>
-          </section>
-          <section class="directory" aria-labelledby="directory-title">
-            <div class="directory-heading"><p class="eyebrow">LES 12 ESPACES</p><h2 id="directory-title">Choisir un bâtiment</h2><p>Vous pouvez aussi ouvrir directement un espace métier.</p></div>
-            <div id="building-directory" class="building-directory"></div>
-          </section>
         </div>
       </section>
 
       <section class="tender-feed-section" id="flux-ao">
         <div class="feed-wrap">
-          <div class="feed-heading">
-            <div class="feed-heading-copy">
-              <p class="eyebrow">EXEMPLES D’OPPORTUNITÉS</p>
-              <h2>Les appels d’offres,<br><span>dans votre fil.</span></h2>
-              <p>Parcourez les avis du fil et leurs informations, puis choisissez de demander un accompagnement pour un AO. Cet aperçu utilise uniquement des annonces fictives.</p>
-            </div>
-            <div class="feed-callout"><span aria-hidden="true">⌁</span><p><strong>Un fil, plusieurs perspectives</strong><small>Suivre les avis, repérer des acteurs et exprimer un intérêt.</small></p></div>
-          </div>
+          <div class="feed-heading feed-heading-compact"><div class="feed-heading-copy"><p class="eyebrow">RECHERCHE MULTICRITÈRE</p><h2>Rechercher des <span>opportunités</span></h2><p>Filtrez les exemples par mot-clé, catégorie, type de marché et localisation. Les annonces affichées restent fictives.</p></div></div>
           <div class="feed-demo">
             <div class="feed-topbar">
               <div class="feed-title"><span class="feed-live-dot"></span><div><strong>Flux des appels d’offres</strong><small>Aperçu produit · données fictives</small></div></div>
