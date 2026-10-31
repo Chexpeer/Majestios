@@ -347,12 +347,32 @@ navigation.querySelectorAll("a").forEach((link) => {
 const interactiveSvg = document.querySelector("#majestios-interactive-svg");
 if (interactiveSvg) {
   const surfaceNames = {
-    bleue: "Surface bleue",
-    verte: "Surface verte",
-    turquoise: "Surface turquoise",
-    pêche: "Surface pêche",
-    corail: "Surface corail",
-    ardoise: "Surface ardoise"
+    "central-bleu": "Marchés publics",
+    "central-bleu-clair": "Veille des marchés",
+    "central-vert": "Marchés privés",
+    "central-turquoise": "Prospection inversée",
+    "central-orange": "Développement commercial",
+    "central-corail": "Intelligence économique",
+    "peripherique-turquoise": "Réseaux et synergies",
+    "peripherique-vert": "Sous-traitance et débordement de marchés",
+    "peripherique-corail": "Accompagnement aux appels d’offres",
+    "peripherique-orange": "Veille des entreprises — BODACC",
+    "peripherique-violet": "Salons et séminaires",
+    "peripherique-violet-clair": "Suivi commercial et capitalisation"
+  };
+  const surfaceDestinations = {
+    "central-bleu": "marches-publics.html",
+    "central-bleu-clair": "veille-marches.html",
+    "central-vert": "marches-prives.html",
+    "central-turquoise": "prospection-inversee.html",
+    "central-orange": "developpement-commercial.html",
+    "central-corail": "intelligence-economique.html",
+    "peripherique-turquoise": "reseaux-synergies.html",
+    "peripherique-vert": "sous-traitance.html",
+    "peripherique-corail": "accompagnement-appels-offres.html",
+    "peripherique-orange": "bodacc-veille-entreprises.html",
+    "peripherique-violet": "salons-seminaires.html",
+    "peripherique-violet-clair": "suivi-commercial.html"
   };
   const initializeInteractiveSvg = () => {
     const svgDocument = interactiveSvg.contentDocument;
@@ -366,7 +386,7 @@ if (interactiveSvg) {
 
     const showDefault = () => {
       title.textContent = "Choisissez une surface";
-      description.textContent = "Survolez une couleur pour l’apercevoir, puis cliquez ou utilisez Entrée pour la sélectionner. Les destinations seront définies avec vous.";
+      description.textContent = "Survolez un losange pour le mettre en relief, puis cliquez ou utilisez Entrée pour ouvrir sa rubrique dédiée."
     };
 
     const previewSurface = (surface) => {
@@ -375,8 +395,8 @@ if (interactiveSvg) {
         ? `${name} sélectionnée`
         : `Découvrir — ${name.toLowerCase()}`;
       description.textContent = selectedSurface === surface
-        ? "Surface active. Le choix des rubriques, des sous-rubriques et des destinations sera défini ensemble avant d’activer la navigation."
-        : "Survolez ou sélectionnez cette surface pour l’explorer. Ses rubriques et ses destinations seront activées après validation de leur contenu.";
+        ? "Rubrique sélectionnée. Cliquez à nouveau ou utilisez Entrée pour ouvrir la page dédiée."
+        : "Cliquez sur ce losange pour accéder à sa page dédiée."
     };
 
     const selectSurface = (surface) => {
@@ -387,6 +407,8 @@ if (interactiveSvg) {
         item.setAttribute("aria-pressed", String(isSelected));
       });
       previewSurface(surface);
+      const destination = surfaceDestinations[surface.dataset.surface];
+      if (destination) window.location.href = destination;
     };
 
     surfaces.forEach((surface) => {
