@@ -149,36 +149,31 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
     }
   }
 
-  // Vérifier les routes réellement déclarées par les douze bâtiments 3D.
-  const buildingRoutes = [...zoneJs.matchAll(/route\s*:\s*["']([^"']+\.html)["']/g)]
-    .map((match) => match[1]);
+  // Vérifier les routes et positions depuis le catalogue commun utilisé par le panorama et la scène.
+  const sharedCatalogPath = path.join(root, "catalogue-majestios.js");
+  const sharedCatalogText = fs.existsSync(sharedCatalogPath) ? fs.readFileSync(sharedCatalogPath, "utf8") : "";
+  const sharedRubrics = [...sharedCatalogText.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)", group: "(central|peripherique)", x: ([^,]+), z: ([^ }]+) \}/g)]
+    .map((match) => ({ id: match[1], key: match[2], surface: match[3], route: match[5], group: match[6], position: `${match[7].trim()},${match[8].trim()}` }));
+  const buildingRoutes = sharedRubrics.map((rubric) => rubric.route);
   const uniqueBuildingRoutes = new Set(buildingRoutes);
   if (buildingRoutes.length !== 12) {
-    errors.push(`Univers virtuel : ${buildingRoutes.length} routes de bâtiments détectées, 12 attendues`);
+    errors.push(`Univers virtuel : ${buildingRoutes.length} routes de bâtiments dans le catalogue, 12 attendues`);
   }
   if (uniqueBuildingRoutes.size !== 12) {
     errors.push(`Univers virtuel : ${uniqueBuildingRoutes.size} destinations distinctes pour les bâtiments, 12 attendues`);
   }
   for (const route of uniqueBuildingRoutes) {
-    if (!virtualDestinations.includes(route)) {
-      errors.push(`Univers virtuel : route de bâtiment inattendue : ${route}`);
-    }
-    if (!fs.existsSync(path.join(root, route))) {
-      errors.push(`Univers virtuel : page de bâtiment absente : ${route}`);
-    }
+    if (!virtualDestinations.includes(route)) errors.push(`Univers virtuel : route de bâtiment inattendue : ${route}`);
+    if (!fs.existsSync(path.join(root, route))) errors.push(`Univers virtuel : page de bâtiment absente : ${route}`);
   }
 
-  // Protéger la composition de la zone : 12 bâtiments, six centraux et six périphériques.
-  const buildings = [...zoneJs.matchAll(/\{id:"(B\d+)",group:"(central|peripherique)"[\s\S]*?route:"([^"]+\.html)",x:([^,}]+),z:([^}]+)\}/g)]
-    .map((match) => ({ id: match[1], group: match[2], route: match[3], position: `${match[4].trim()},${match[5].trim()}` }));
-  const centralCount = buildings.filter((building) => building.group === "central").length;
-  const peripheralCount = buildings.filter((building) => building.group === "peripherique").length;
-  const uniquePositions = new Set(buildings.map((building) => building.position));
-  if (buildings.length !== 12) errors.push(`Univers virtuel : ${buildings.length} bâtiments reconnus, 12 attendus`);
+  const centralCount = sharedRubrics.filter((building) => building.group === "central").length;
+  const peripheralCount = sharedRubrics.filter((building) => building.group === "peripherique").length;
+  const uniquePositions = new Set(sharedRubrics.map((building) => building.position));
+  if (sharedRubrics.length !== 12) errors.push(`Univers virtuel : ${sharedRubrics.length} bâtiments reconnus dans le catalogue, 12 attendus`);
   if (centralCount !== 6 || peripheralCount !== 6) errors.push(`Univers virtuel : répartition détectée ${centralCount} centraux / ${peripheralCount} périphériques, 6 / 6 attendus`);
   if (uniquePositions.size !== 12) errors.push(`Univers virtuel : ${uniquePositions.size} positions distinctes, 12 attendues`);
-  if (new Set(buildings.map((building) => building.id)).size !== 12) errors.push("Univers virtuel : identifiants de bâtiments dupliqués");
-
+  if (new Set(sharedRubrics.map((building) => building.id)).size !== 12) errors.push("Univers virtuel : identifiants de bâtiments dupliqués");
   // Garder les accès commerciaux essentiels visibles depuis la zone immersive.
   for (const requiredHref of ["index.html#flux-ao", "index.html#contact", "espace-membre.html"]) {
     if (!zoneHtml.includes(`href="${requiredHref}"`)) {
