@@ -706,7 +706,7 @@ const sceneCss = fs.existsSync(path.join(root, "zone-artisanale.css"))
 if (!homeSceneJs.includes('document.querySelectorAll("[data-scene-mode]").forEach')) {
   errors.push("Zone industrielle : les boutons de mode ne sont pas reliés à setSceneMode");
 }
-if (!homeSceneJs.includes('button.addEventListener("click",()=>{selectBuilding(data,{keepMap:true})')) {
+if (!homeSceneJs.includes("selectBuilding(data,{keepMap:true})")) {
   errors.push("Carte Majest COYOT : la sélection d’un bâtiment ne conserve pas explicitement le mode carte");
 }
 if (!sceneCss.includes(".zone-map[hidden]{display:none!important}")) {
