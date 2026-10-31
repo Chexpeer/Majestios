@@ -134,3 +134,38 @@ body.homepage .homepage-industrial-layout .scene-hint { max-width:calc(100% - 30
   body.homepage .homepage-industrial-layout .building-directory { grid-template-columns:repeat(2,minmax(0,1fr)); }
   body.homepage .homepage-industrial-layout .scene-hint { max-width:calc(100% - 135px); right:8px; left:8px; font-size:9px; }
 }
+
+
+/* Accueil compact : bandeau d'information, panorama, recherche et formulaire. */
+.homepage-ticker {
+  display:flex; align-items:center; gap:clamp(18px,3vw,42px); overflow:hidden;
+  min-height:32px; padding:7px clamp(14px,3vw,42px);
+  color:#e9dfc8; background:#111722; border-bottom:1px solid rgba(217,184,108,.28);
+  font-size:10px; font-weight:750; letter-spacing:.08em; white-space:nowrap;
+}
+.homepage-ticker > span { flex:0 0 auto; }
+.homepage-ticker > span:first-child { color:#d9b86c; }
+.homepage-ticker .ticker-demo { margin-left:auto; color:#aab2bf; font-weight:500; letter-spacing:0; }
+body.homepage .site-header { width:100%; max-width:none; padding:0 clamp(14px,3vw,42px); border-bottom:1px solid rgba(217,184,108,.16); }
+body.homepage .site-nav a { color:#d8dce4; }
+body.homepage .site-nav a[aria-current="page"] { color:#d9b86c; }
+body.homepage .industrial-zone-intro { padding-bottom:10px; }
+body.homepage .industrial-zone-intro h1 { max-width:1000px; }
+body.homepage .homepage-industrial-layout { grid-template-columns:minmax(0,1fr) 270px; }
+body.homepage .homepage-industrial-layout .scene { height:clamp(420px,48vw,660px); min-height:420px; }
+body.homepage .homepage-industrial-layout .building-panel { align-self:stretch; }
+body.homepage .feed-heading-compact { max-width:1500px; margin:0 auto 14px; padding:0 clamp(14px,3vw,44px); }
+body.homepage .feed-heading-compact h2 { margin:0; color:#f6f0df; font-size:clamp(24px,3vw,36px); }
+body.homepage .feed-heading-compact h2 span { color:#d9b86c; }
+body.homepage .feed-heading-compact p:last-child { max-width:760px; color:#bdb5a4; font-size:13px; line-height:1.55; }
+@media(max-width:1050px) {
+ .homepage-ticker { gap:20px; }
+ .homepage-ticker .ticker-demo { display:none; }
+ body.homepage .homepage-industrial-layout { grid-template-columns:minmax(0,1fr); }
+}
+@media(max-width:650px) {
+ .homepage-ticker { min-height:30px; gap:18px; font-size:9px; }
+ .homepage-ticker > span:nth-child(3) { display:none; }
+ body.homepage .site-header { padding:0 14px; }
+ body.homepage .homepage-industrial-layout .scene { height:440px; min-height:440px; }
+}
