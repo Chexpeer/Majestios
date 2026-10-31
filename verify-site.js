@@ -307,6 +307,18 @@ if (fs.existsSync(appPath)) {
   }
 }
 
+// Vérifier que le retour depuis les résultats généraux réinjecte les critères dans l'URL d'accueil.
+const searchResultsScriptPath = path.join(root, "search-results.js");
+if (fs.existsSync(searchResultsScriptPath)) {
+  const searchResultsScript = fs.readFileSync(searchResultsScriptPath, "utf8");
+  if (!searchResultsScript.includes('new URLSearchParams(params)') ||
+      !searchResultsScript.includes('returnLink.href = `index.html${returnParams.size ? `?${returnParams.toString()}` : ""}#recherche-avancee`')) {
+    errors.push("Résultats de recherche : les critères ne sont pas préservés dans le lien de retour");
+  }
+} else {
+  errors.push("Résultats de recherche : search-results.js absent");
+}
+
 // Le schéma normalisé doit rester un JSON lisible et couvrir les huit catégories actives.
 const opportunitySchemaPath = path.join(root, "schemas", "opportunite.schema.json");
 if (!fs.existsSync(opportunitySchemaPath)) {
