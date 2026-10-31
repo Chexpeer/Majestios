@@ -14,8 +14,13 @@
       (function () {
         function showSceneFallback() {
           const loading = document.getElementById("scene-loading");
-          if (!loading || loading.classList.contains("hidden") || loading.dataset.fallbackShown === "true") return;
+          if (!loading || loading.dataset.fallbackShown === "true") return;
           loading.dataset.fallbackShown = "true";
+          const canvas = document.querySelector("#scene canvas");
+          if (canvas) canvas.style.display = "none";
+          const hoverCard = document.getElementById("hover-card");
+          if (hoverCard) hoverCard.style.display = "none";
+          loading.classList.remove("hidden");
           loading.classList.add("scene-error");
           loading.setAttribute("role", "alert");
           loading.innerHTML = `
