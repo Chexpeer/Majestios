@@ -93,9 +93,15 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
     if (!home.includes(`data-scene-mode="${mode}"`)) {
       errors.push(`Zone 3D : commande de visite absente pour le mode « ${mode} »`);
     }
-    if (!sceneScriptText.includes(`mode==="${mode}"`) && !sceneScriptText.includes(`mode === "${mode}"`)) {
-      errors.push(`Zone 3D : traitement JavaScript absent pour le mode « ${mode} »`);
-    }
+  }
+  if (!sceneScriptText.includes('mode==="drive"') && !sceneScriptText.includes('mode === "drive"')) {
+    errors.push("Zone 3D : traitement JavaScript absent pour le mode Tesla");
+  }
+  if (!sceneScriptText.includes('mode==="map"') && !sceneScriptText.includes('mode === "map"')) {
+    errors.push("Zone 3D : traitement JavaScript absent pour le mode GPS Majest COYOT");
+  }
+  if (!sceneScriptText.includes('setSceneMode("fly")')) {
+    errors.push("Zone 3D : retour au mode de survol Apache absent");
   }
   for (const id of ["zone-map", "map-buildings"]) {
     if (!home.includes(`id="${id}"`)) errors.push(`GPS Majest COYOT : élément HTML absent : #${id}`);
