@@ -715,3 +715,151 @@ h1 span { color: var(--purple); }
 .interior-breadcrumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .interior-breadcrumb [aria-current="page"] { color: #555b6e; }
 .interior-breadcrumb a:focus-visible { outline: 2px solid rgba(104,85,223,.55); outline-offset: 3px; border-radius: 2px; }
+
+
+/* ACCUEIL IMMERSIF MAJESTIOS — le panorama remplace l'ancienne page claire. */
+.homepage {
+  --ink: #f4f0e6;
+  --muted: #a6a8af;
+  --soft: #858994;
+  --purple: #cda85d;
+  --purple-deep: #f0d38b;
+  --paper: #070a0f;
+  --canvas: #0b1018;
+  --line: rgba(205,168,93,.22);
+  color: #f4f0e6;
+  background: #070a0f;
+}
+.homepage body, body.homepage { color: #f4f0e6; background: #070a0f; }
+.homepage .site-header {
+  width: min(1500px, calc(100% - 40px));
+  height: 72px;
+  color: #f4f0e6;
+  border-bottom: 1px solid rgba(205,168,93,.18);
+}
+.homepage .brand { color: #f4f0e6; }
+.homepage .brand-mark { color: #070a0f; background: linear-gradient(135deg,#fff0b0,#cda85d); }
+.homepage .brand-os { color: #d8b76e; }
+.homepage .site-nav { color: #c4c4c6; font-size: 12px; }
+.homepage .site-nav > a:hover { color: #f0d38b; }
+.homepage .menu-toggle span { background: #e7d5a6; }
+.homepage .interactive-map-section {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 24px clamp(12px,2.5vw,38px) 32px;
+  color: #f4f0e6;
+  background: #070a0f;
+}
+.homepage .interactive-map-heading {
+  width: min(1500px,100%);
+  margin: 0 auto 16px;
+  text-align: center;
+}
+.homepage .interactive-map-heading .eyebrow { color: #c6a867; }
+.homepage .interactive-map-heading h1 {
+  margin: 0 auto 10px;
+  color: #f4f0e6;
+  font: 700 clamp(25px,3.4vw,43px)/1.15 Georgia,serif;
+  letter-spacing: -.5px;
+}
+.homepage .interactive-map-heading h1 span { color: #cda85d; }
+.homepage .interactive-map-heading > p:last-child {
+  margin: 0 auto;
+  max-width: 760px;
+  color: #a8a8ae;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.homepage .interactive-map-layout {
+  width: min(1600px,100%);
+  margin: 0 auto;
+  display: block;
+  border: 1px solid rgba(205,168,93,.35);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #070a0f;
+  box-shadow: 0 18px 55px rgba(0,0,0,.35);
+}
+.homepage .interactive-map-frame { width: 100%; min-width: 0; background: #070a0f; }
+.homepage .interactive-map-frame object {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 10 / 7;
+  min-height: 280px;
+  border: 0;
+  background: #070a0f;
+}
+.homepage .interactive-map-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  padding: 12px 18px;
+  border-top: 1px solid rgba(205,168,93,.2);
+  color: #c9c6bf;
+  background: #0c1119;
+}
+.homepage .interactive-map-info h3 { min-height: 0; margin: 0; color: #f4f0e6; font-size: 14px; }
+.homepage .interactive-map-info p { margin: 0; color: #a8a8ae; font-size: 12px; }
+.homepage .interactive-map-status,.homepage .interactive-map-hint { color: #c6a867; font-size: 10px; letter-spacing: 1px; }
+.homepage .trust-strip,
+.homepage .reverse-prospecting,
+.homepage .platform-section,
+.homepage .services-section,
+.homepage .demo-section,
+.homepage .use-cases,
+.homepage .ao-section,
+.homepage .audiences,
+.homepage .closing { display: none !important; }
+.homepage .tender-feed-section {
+  margin: 0;
+  padding: 42px 0;
+  color: #f4f0e6;
+  background: #0b1018;
+  border-top: 1px solid rgba(205,168,93,.2);
+}
+.homepage .tender-feed-section .feed-wrap { color: #f4f0e6; }
+.homepage .tender-feed-section .feed-heading p,
+.homepage .tender-feed-section .feed-source-note { color: #a8a8ae; }
+.homepage .tender-feed-section .feed-demo,
+.homepage .tender-feed-section .feed-toolbar,
+.homepage .tender-feed-section .feed-card,
+.homepage .tender-feed-section .feed-callout {
+  color: #f4f0e6;
+  border-color: rgba(205,168,93,.22);
+  background: #111925;
+}
+.homepage .tender-feed-section input,
+.homepage .tender-feed-section select,
+.homepage .lead-section input,
+.homepage .lead-section textarea {
+  color: #f4f0e6;
+  border-color: rgba(205,168,93,.3);
+  background: #0a0f17;
+}
+.homepage .lead-section {
+  padding: 42px 0;
+  color: #f4f0e6;
+  background: #070a0f;
+  border-top: 1px solid rgba(205,168,93,.2);
+}
+.homepage .lead-section .lead-form-wrap,
+.homepage .lead-section .lead-form,
+.homepage .lead-section .lead-form-card { color: #f4f0e6; }
+.homepage .site-footer {
+  color: #aaa9a5;
+  background: #070a0f;
+  border-top: 1px solid rgba(205,168,93,.2);
+}
+.homepage .site-footer .footer-legal { color: #858994; }
+.homepage .majestic-help-cta { color: #080a0e; background: linear-gradient(135deg,#fff0b0,#cda85d); }
+.homepage .personal-space-dialog { color: #f4f0e6; background: #101722; border: 1px solid rgba(205,168,93,.35); }
+.homepage .personal-space-dialog .form-field { color: #d9d7d0; }
+@media (max-width: 760px) {
+  .homepage .site-header { width: calc(100% - 28px); }
+  .homepage .interactive-map-section { padding: 18px 8px 24px; }
+  .homepage .interactive-map-frame object { aspect-ratio: 1 / 1; min-height: 300px; }
+  .homepage .interactive-map-info { padding: 12px; }
+}
