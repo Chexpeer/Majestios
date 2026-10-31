@@ -256,3 +256,35 @@ body.homepage .homepage-industrial-layout .building-panel #panel-description { f
  .parking-bays{inset:19px 4px 4px}
 }
 
+
+
+/* Carte interactive : rangées régulières sur ordinateur, grille lisible sur mobile. */
+@media (min-width:761px) {
+  .scene[data-view-mode="map"] .map-buildings { inset:112px 10px 12px; }
+  .scene[data-view-mode="map"] .map-building { width:clamp(145px,20%,240px); min-height:82px; }
+}
+@media (max-width:760px) {
+  .scene[data-view-mode="map"] { height:800px; min-height:800px; }
+  .scene[data-view-mode="map"] .map-buildings {
+    inset:184px 8px 42px;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(6,minmax(0,1fr));
+    gap:7px;
+  }
+  .scene[data-view-mode="map"] .map-building {
+    position:static;
+    width:auto;
+    min-width:0;
+    min-height:0;
+    height:100%;
+    padding:8px 9px;
+    transform:none;
+    font-size:11px;
+    line-height:1.25;
+  }
+  .scene[data-view-mode="map"] .map-building small { margin-top:4px; font-size:9px; line-height:1.25; }
+  .scene[data-view-mode="map"] .map-building:hover,
+  .scene[data-view-mode="map"] .map-building:focus-visible { transform:none; }
+  .scene[data-view-mode="map"] .map-compass { top:148px; right:10px; }
+}
