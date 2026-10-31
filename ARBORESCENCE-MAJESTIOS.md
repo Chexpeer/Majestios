@@ -52,7 +52,7 @@ La page actuellement rattachée à la navigation « Salon virtuel » porte cette
 
 Chaque bâtiment doit pointer vers sa propre page métier. Les destinations sont centralisées dans `catalogue-majestios.js`.
 
-**État réel de la profondeur de navigation (audit du 31/10/2026).** Les bâtiments affichent sur leur façade deux bandes descriptives (`first` et `second`), mais ces textes ne sont pas des sous-rubriques navigables. La sélection d’un bâtiment masque actuellement `#floor-list` et propose un seul lien vers la page métier. Les blocs « Pour aller plus loin » présents sur certaines pages offrent des liens contextuels, mais ne constituent pas encore une arborescence uniforme à trois niveaux. Ne pas déclarer cette profondeur comme achevée avant d’avoir défini les sous-rubriques, leurs destinations réelles et leurs règles de retour.
+**État réel de la profondeur de navigation (mise à jour du 31/10/2026).** La sélection d’un bâtiment affiche désormais trois niveaux navigables : la rubrique principale, un premier parcours associé et un second parcours associé. Les douze bâtiments ont chacun deux destinations complémentaires vers des pages HTML existantes ; le panneau est visible aussi sur l’accueil, et les liens disposent d’un état de focus clavier. Ces parcours sont des liens contextuels vers des pages métier existantes : ils ne constituent pas encore douze arborescences indépendantes avec des pages enfant dédiées. Ne pas présenter la profondeur dossier/sous-dossier/page comme totalement achevée avant la création éventuelle de pages enfant spécifiques.
 
 ### Pages de catégories de recherche
 - `categorie-services-numeriques.html`
