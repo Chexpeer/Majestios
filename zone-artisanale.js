@@ -51,6 +51,8 @@ controls.enablePan=true;
 controls.panSpeed=.65;
 controls.rotateSpeed=.7;
 controls.zoomSpeed=.8;
+// Une manipulation manuelle doit reprendre la main sur le déplacement automatique.
+controls.addEventListener("start",()=>{cameraDestination=null;targetDestination=null;});
 controls.touches.ONE=THREE.TOUCH.ROTATE;
 controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;
 const hemi=new THREE.HemisphereLight(0xeaf5ff,0x66715d,2.1);scene.add(hemi);
@@ -201,6 +203,8 @@ renderer.domElement.addEventListener("keydown",e=>{
 });
 renderer.domElement.addEventListener("keyup",e=>pressedKeys.delete(e.key.toLowerCase()));
 renderer.domElement.addEventListener("blur",()=>pressedKeys.clear());
+window.addEventListener("blur",()=>pressedKeys.clear());
+document.addEventListener("visibilitychange",()=>{if(document.hidden){pressedKeys.clear();touchCandidate=null;}});
 window.addEventListener("keyup",e=>pressedKeys.delete(e.key.toLowerCase()));
 function walkThroughZone(delta){
  if(!pressedKeys.size)return;
