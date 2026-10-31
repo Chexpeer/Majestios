@@ -50,7 +50,7 @@
             const isSceneResource = target.tagName === "SCRIPT" &&
               (source.includes("zone-artisanale.js") || source.includes("three.module.js") || source.includes("orbitcontrols.js"));
             if (!isSceneResource) return;
-          } else if (event.filename && !/zone-artisanale\\.js|three\\.module\\.js|orbitcontrols\\.js/i.test(event.filename)) {
+          } else if (event.filename && !/zone-artisanale\.js|three\.module\.js|orbitcontrols\.js/i.test(event.filename)) {
             return;
           }
           showSceneFallback();
