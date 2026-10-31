@@ -83,6 +83,24 @@ async function main() {
       assert.ok(new URL(page.url()).pathname.endsWith(mainRoute), `${id} doit mener directement à ${mainRoute}, sans fenêtre intermédiaire.`);
     }
 
+    // Teste les vrais gestionnaires de clic du canvas 3D, en ciblant les enseignes de toit depuis la vue aérienne.
+    // Le point de projection n'est exposé que sur l'URL de test ?e2e=1.
+    for (const [id, expectedTitle, mainRoute] of routeContracts) {
+      await page.goto("http://127.0.0.1:4173/?e2e=1", { waitUntil: "domcontentloaded" });
+      await page.locator("canvas").waitFor({ state: "visible", timeout: 30000 });
+      await page.locator('[data-scene-mode="top"]').click();
+      await page.waitForFunction(() => Boolean(window.__MAJESTIOS_SCENE_E2E__), null, { timeout: 30000 });
+      await page.waitForTimeout(1800);
+      const point = await page.evaluate((buildingId) => window.__MAJESTIOS_SCENE_E2E__.buildingPoint(buildingId), id);
+      const canvasBox = await page.locator("#scene canvas").boundingBox();
+      assert.ok(canvasBox && point.x >= canvasBox.x && point.x <= canvasBox.x + canvasBox.width && point.y >= canvasBox.y && point.y <= canvasBox.y + canvasBox.height, `${id} doit être visible dans la zone 3D pour être testé.`);
+      await Promise.all([
+        page.waitForURL(url => new URL(url).pathname.endsWith(mainRoute), { timeout: 10000 }),
+        page.mouse.click(point.x, point.y)
+      ]);
+      assert.ok(new URL(page.url()).pathname.endsWith(mainRoute), `Le clic 3D sur ${id} (${expectedTitle}) doit ouvrir directement ${mainRoute}.`);
+    }
+
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
     await page.locator('[data-scene-mode="drive"]').click();
     assert.equal(await page.locator('[data-scene-mode="drive"]').getAttribute("aria-pressed"), "true", "Le mode Tesla doit être activé.");
