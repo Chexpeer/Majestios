@@ -103,7 +103,7 @@
             record.listepersonnes, record.listeetablissements, record.acte, record.jugement,
             record.modificationsgenerales, record.divers
           ].join(" "));
-          return normalize(query).split(/\\s+/).filter(Boolean).every((term) => haystack.includes(term));
+          return normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
         }).slice(0, 20);
         if (!filtered.length) {
           empty.textContent = records.length
@@ -121,7 +121,7 @@
               if (typeof value === "string") return value;
               return [value.nature, value.famille, value.complementJugement, value.date].filter(Boolean).join(" — ");
             }).filter(Boolean).join(" ");
-            const sourceUrl = typeof record.url_complete === "string" && /^https:\\/\\/(www\\.)?bodacc\\.fr\\//i.test(record.url_complete)
+            const sourceUrl = typeof record.url_complete === "string" && /^https:\/\/(www\.)?bodacc\.fr\//i.test(record.url_complete)
               ? record.url_complete
               : "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
             return '<article class="platform-card opportunity-result-card bodacc-result-card">' +
