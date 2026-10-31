@@ -268,11 +268,15 @@ if (fs.existsSync(homeHtmlPath)) {
   if (!homeHtml.includes('href="index.html#accueil"') && !homeHtml.includes('href="zone-artisanale.html"')) {
     errors.push("Accueil : accès à la zone industrielle absent de la navigation");
   }
-  if (!homeHtml.includes('href="index.html#flux-ao"')) {
-    errors.push("Accueil : raccourci de navigation vers les opportunités absent");
+  for (const controlId of ["feed-search", "feed-sector", "feed-market-type", "feed-region", "feed-stream"]) {
+    if (!homeHtml.includes(`id="${controlId}"`)) {
+      errors.push(`Accueil : contrôle de recherche avancée absent : ${controlId}`);
+    }
   }
-  if (!homeHtml.includes('href="index.html#contact"') && !homeHtml.includes('href="#contact"')) {
-    errors.push("Accueil : accès de navigation vers le formulaire de contact absent");
+  for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="homepage-ticker"', 'class="site-footer"']) {
+    if (homeHtml.includes(forbidden)) {
+      errors.push(`Accueil : bloc hors périmètre encore présent : ${forbidden}`);
+    }
   }
 }
 
