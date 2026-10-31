@@ -117,7 +117,15 @@ async function main() {
       await page.locator('[data-scene-mode="fly"]').click();
       await page.locator("canvas").waitFor({ state: "visible", timeout: 30000 });
       await page.waitForFunction(() => Boolean(window.__MAJESTIOS_SCENE_E2E__), null, { timeout: 30000 });
-      await page.waitForTimeout(1800);
+      // Attendre le recentrage caméra : une durée fixe est fragile sur CI.
+      await page.waitForFunction((buildingId) => {
+        const point = window.__MAJESTIOS_SCENE_E2E__.buildingPoint(buildingId);
+        const canvas = document.querySelector("#scene canvas");
+        const rect = canvas?.getBoundingClientRect();
+        return Boolean(rect && rect.width && rect.height &&
+          point.x >= rect.left && point.x <= rect.right &&
+          point.y >= rect.top && point.y <= rect.bottom);
+      }, id, { timeout: 10000 });
       const point = await page.evaluate((buildingId) => window.__MAJESTIOS_SCENE_E2E__.buildingPoint(buildingId), id);
       const canvasBox = await page.locator("#scene canvas").boundingBox();
       assert.ok(canvasBox && point.x >= canvasBox.x && point.x <= canvasBox.x + canvasBox.width && point.y >= canvasBox.y && point.y <= canvasBox.y + canvasBox.height, `${id} doit être visible dans la zone 3D pour être testé.`);
