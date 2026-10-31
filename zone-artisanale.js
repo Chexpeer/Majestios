@@ -28,7 +28,7 @@ const root=document.querySelector("#scene");
 const loading=document.querySelector("#scene-loading");
 const title=document.querySelector("#panel-title");
 const description=document.querySelector("#panel-description");
-const floorList=document.querySelector("#floor-list");
+const floorList=document.querySelector("#floor-list");if(floorList)floorList.hidden=true;
 const openLink=document.querySelector("#open-building");
 openLink.addEventListener("click",event=>{if(openLink.getAttribute("aria-disabled")==="true")event.preventDefault();});
 const directory=document.querySelector("#building-directory");
