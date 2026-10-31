@@ -310,6 +310,9 @@ if(new URLSearchParams(window.location.search).has("e2e")){
     const x=rect.left+(projected.x+1)*rect.width/2;
     const y=rect.top+(1-projected.y)*rect.height/2;
     if(x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)continue;
+    // Ne retenir qu’un point où le canvas reçoit réellement le clic : un panneau HTML superposé
+    // pourrait sinon intercepter la souris et ouvrir la rubrique déjà sélectionnée.
+    if(document.elementFromPoint(x,y)!==renderer.domElement)continue;
     if(getBuildingAt({clientX:x,clientY:y})?.id===id)return {x,y};
    }
    throw new Error(`Aucun point cliquable trouvé pour le bâtiment ${id}.`);
