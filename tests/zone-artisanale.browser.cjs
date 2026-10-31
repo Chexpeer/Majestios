@@ -84,7 +84,7 @@ async function main() {
     assert.match(page.url(), /categorie=renovation/, "La catégorie doit être conservée dans l'URL.");
     assert.match(page.url(), /marche=private/, "Le type de marché doit être conservé dans l'URL.");
     assert.match((await page.locator("#category-results-title").innerText()), /Rénovation/, "La page de résultats doit afficher la catégorie choisie.");
-    assert.match((await page.locator("#category-results-panel").innerText()), /Aucune annonce réelle n’est actuellement chargée/, "La page doit signaler explicitement l'absence de données réelles.");
+    assert.match((await page.locator(".floating-route-card").innerText()), /Aucune annonce réelle n’est actuellement chargée/, "La page doit signaler explicitement l'absence de données réelles.");
 
     // Sans catégorie spécifique, les critères doivent aller au récapitulatif général.
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
