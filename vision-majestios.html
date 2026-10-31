@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="La vision fondatrice de MajestiOS : intelligence commerciale proactive, prospection inversée et intelligence humaine.">
+<title>La vision MajestiOS — L’IA propose, l’humain dispose</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.vision-hero{padding:54px 0 34px;max-width:850px}.vision-hero h1{max-width:780px}.vision-hero .interior-lede{max-width:700px}.vision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:28px 0}.vision-card{padding:24px;border:1px solid var(--line);border-radius:14px;background:#fff}.vision-card h2{font:750 19px/1.3 Manrope,sans-serif;letter-spacing:-.4px}.vision-card p,.vision-card li{color:#656b7c;font-size:14px;line-height:1.8}.vision-card ul{padding-left:20px}.vision-doctrine{padding:30px;border-radius:16px;background:#171c2b;color:#fff}.vision-doctrine .eyebrow{color:#c9bdfb}.vision-doctrine blockquote{margin:8px 0 12px;font:800 clamp(28px,4vw,43px)/1.15 Manrope,sans-serif;letter-spacing:-1.5px}.vision-doctrine p{max-width:720px;color:#d7d9e3;line-height:1.8}.vision-cycle{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}.vision-cycle li{padding:9px 12px;border:1px solid #ffffff2a;border-radius:8px;color:#fff;font-size:12px;font-weight:700}.vision-links{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0}.vision-links a{padding:12px 16px;border-radius:8px;background:#6855df;color:#fff;font-weight:700;font-size:13px}.vision-links a.secondary{background:#f3f1ff;color:#5142bb}@media(max-width:680px){.vision-grid{grid-template-columns:1fr}.vision-hero{padding-top:32px}.vision-doctrine{padding:22px}}
+</style>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+<nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="salons-seminaires.html">Salon virtuel</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace membre</a><a href="faq.html">FAQ</a></nav>
+</header>
+<main class="section-wrap interior-page">
+<section class="vision-hero"><p class="eyebrow">POURQUOI MAJESTIOS EXISTE</p><h1>Donner une direction à <span>l’intelligence commerciale.</span></h1><p class="interior-lede">MajestiOS part d’une conviction simple : les opportunités ne viennent pas toujours à vous. Il faut savoir les détecter, comprendre ce qu’elles signifient, identifier les bonnes personnes et créer les conditions d’une rencontre professionnelle.</p></section>
+<section class="vision-doctrine" aria-labelledby="doctrine-title"><p class="eyebrow" id="doctrine-title">NOTRE DOCTRINE FONDATRICE</p><blockquote>L’IA propose, l’humain dispose.</blockquote><p>MajestiOS met l’analyse numérique au service du jugement humain. L’outil peut aider à repérer des pistes, rapprocher des informations et préparer une action. La décision, la relation, la négociation et la confiance restent humaines.</p><ol class="vision-cycle"><li>Détecter</li><li>Qualifier</li><li>Identifier</li><li>Contacter</li><li>Transformer</li><li>Capitaliser</li></ol></section>
+<div class="vision-grid">
+<article class="vision-card"><h2>La prospection inversée</h2><p>Au lieu de commencer uniquement par une liste de prospects, MajestiOS part des signaux du marché : consultations, projets, créations ou évolutions d’entreprises et besoins potentiels. Ces signaux deviennent des pistes à examiner, pas des certitudes.</p></article>
+<article class="vision-card"><h2>Le réseautage intelligent</h2><p>Une opportunité ne se résume pas à une annonce. Elle peut révéler un donneur d’ordre, un sous-traitant recherché, un besoin de renfort, une compétence complémentaire ou une coopération à construire.</p></article>
+<article class="vision-card"><h2>Ce que MajestiOS vise à apporter</h2><ul><li>Une lecture plus structurée des signaux commerciaux.</li><li>Des critères pour prioriser les pistes utiles.</li><li>Des chemins pour découvrir les interlocuteurs pertinents.</li><li>Une mémoire des échanges et des enseignements, à mesure que les fonctions seront développées.</li></ul></article>
+<article class="vision-card"><h2>Ce que MajestiOS ne promet pas</h2><p>MajestiOS ne garantit ni l’obtention d’un marché ni la conclusion d’un contrat. Une piste détectée doit être vérifiée, qualifiée et appréciée par l’entreprise. Les connexions aux sources et les fonctions opérationnelles sont activées progressivement et doivent être signalées comme telles.</p></article>
+</div>
+<nav class="vision-links" aria-label="Découvrir MajestiOS"><a href="index.html">Explorer la zone artisanale</a><a class="secondary" href="blog-100-blagues.html">Découvrir le blog des 100 blagues</a><a class="secondary" href="faq.html">Lire la FAQ</a></nav>
+</main>
+<footer class="site-footer"><div class="section-wrap">MajestiOS · Intelligence commerciale proactive · L’IA propose, l’humain dispose.</div></footer>
+<script>
+const menuToggle=document.querySelector(".menu-toggle");const navigation=document.querySelector("#site-nav");
+menuToggle?.addEventListener("click",()=>{const open=menuToggle.getAttribute("aria-expanded")==="true";menuToggle.setAttribute("aria-expanded",String(!open));menuToggle.setAttribute("aria-label",open?"Ouvrir le menu":"Fermer le menu");navigation?.classList.toggle("open",!open);});
+navigation?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{navigation.classList.remove("open");menuToggle?.setAttribute("aria-expanded","false");}));
+</script>
+</body>
+</html>
