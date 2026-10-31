@@ -132,9 +132,9 @@ for(const data of buildings){
  // A subtle roofline marker gives the building a distinct silhouette.
  box(baseW*.91,.18,depth*.89,material(color.clone().multiplyScalar(1.18)),0,5.28,-.04,group);
  // A flat rooftop sign makes the rubric readable from the aerial/top-down modes.
- const roofLabelTexture=labelTexture(data.name,data.color,{height:180,size:42,bg:"#10243a"});
- const roofLabel=new THREE.Mesh(new THREE.PlaneGeometry(4.65,1.05),new THREE.MeshBasicMaterial({map:roofLabelTexture,side:THREE.DoubleSide,transparent:false}));
- roofLabel.rotation.x=-Math.PI/2; roofLabel.position.set(0,5.405,-.04); roofLabel.renderOrder=2; roofLabel.userData.building=data; group.add(roofLabel);
+ const roofLabelTexture=labelTexture(data.name,data.color,{height:240,size:46,bg:"#071321",wrap:true});
+ const roofLabel=new THREE.Mesh(new THREE.PlaneGeometry(5.05,1.35),new THREE.MeshBasicMaterial({map:roofLabelTexture,side:THREE.DoubleSide,transparent:false}));
+ roofLabel.rotation.x=-Math.PI/2; roofLabel.position.set(0,5.92,-.04); roofLabel.renderOrder=2; roofLabel.userData.building=data; group.add(roofLabel);
  // Each activity building receives its own architectural signature.
  const index=buildings.indexOf(data);
  const accent=material(data.color,.52);
