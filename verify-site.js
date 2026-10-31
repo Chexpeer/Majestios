@@ -545,9 +545,9 @@ for (const page of pages) {
   const navMatch = html.match(/<nav\b[^>]*class=["'][^"']*site-nav[^"']*["'][^>]*>([\s\S]*?)<\/nav>/i);
   if (!navMatch) continue;
   const navHtml = navMatch[1];
-  const links = [...navHtml.matchAll(/<a\b([^>]*)href=["']([^"']+)["']([^>]*)>/gi)];
+  const links = [...navHtml.matchAll(/<a\b([^>]*)href=["']([^"']+)["']([^>]*)>([\s\S]*?)<\/a>/gi)];
   const destinations = links.map((match) => match[2]);
-  const labels = links.map((match) => match[0].replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim());
+  const labels = links.map((match) => match[4].replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim());
   if (labels.length !== expectedMainNavigationLabels.length ||
       labels.some((label, index) => label !== expectedMainNavigationLabels[index])) {
     errors.push(`${page} : libellés ou ordre de navigation principale incohérents`);
