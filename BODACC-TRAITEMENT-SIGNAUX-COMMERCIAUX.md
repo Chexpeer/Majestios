@@ -28,4 +28,4 @@ Le BODACC alimente la rubrique **Marchés privés / Signaux d’opportunités co
 - Toujours conserver la provenance et la date de vérification ; retirer des résultats actifs les annonces obsolètes ou dont le statut ne peut pas être confirmé.
 
 ## État technique
-Le lien officiel est identifié, mais la connexion automatisée au BODACC n’est pas déclarée opérationnelle à ce stade. Avant développement du connecteur, vérifier la disponibilité d’une API ou d’un flux réutilisable officiel, ses conditions et ses champs. Ne pas faire du scraping non validé ni supposer que la page de recherche constitue une API.
+Un premier connecteur navigateur est branché sur l’API officielle OpenDataSoft v2.1 du jeu `annonces-commerciales`. Il affiche les signaux et renvoie vers l’annonce officielle. Son fonctionnement en conditions réelles (disponibilité, CORS, champs retournés, filtres et conditions de réutilisation) reste à valider ; les tests automatisés avec réponses simulées ne suffisent pas à déclarer la connexion opérationnelle. Ne pas remplacer l’API par du scraping non validé.
