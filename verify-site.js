@@ -252,21 +252,21 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath) && fs.existsSync(zoneSceneP
 const homeHtmlPath = path.join(root, "index.html");
 if (fs.existsSync(homeHtmlPath)) {
   const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
-  const homeMapStart = homeHtml.indexOf('<section class="interactive-map-section" id="accueil"');
+  const homeMapStart = homeHtml.indexOf('<section class="industrial-zone-home" id="accueil"');
   const homeMapEnd = homeMapStart >= 0 ? homeHtml.indexOf("</section>", homeMapStart) : -1;
   const homeMapSection = homeMapStart >= 0 && homeMapEnd > homeMapStart ? homeHtml.slice(homeMapStart, homeMapEnd) : "";
   if (!homeMapSection) {
     errors.push("Accueil : section d'accueil avec panorama (#accueil) absente");
   } else {
-    if (!homeMapSection.includes('id="majestios-interactive-svg"') || !homeMapSection.includes('data="schema-majestios.svg"')) {
-      errors.push("Accueil : le schéma panoramique SVG n'est pas intégré à la section d'accueil");
+    if (!homeMapSection.includes('id="scene"') || !homeHtml.includes('src="zone-artisanale.js"')) {
+      errors.push("Accueil : la scène 3D interactive n'est pas intégrée ou son script est absent");
     }
-    if (!homeMapSection.includes('id="interactive-map-title"')) {
-      errors.push("Accueil : titre accessible du panorama absent");
+    if (!homeMapSection.includes('id="industrial-zone-title"')) {
+      errors.push("Accueil : titre accessible de la zone industrielle absent");
     }
   }
-  if (!homeHtml.includes('href="zone-artisanale.html"')) {
-    errors.push("Accueil : accès à l'univers virtuel absent de la navigation");
+  if (!homeHtml.includes('href="index.html#accueil"') && !homeHtml.includes('href="zone-artisanale.html"')) {
+    errors.push("Accueil : accès à la zone industrielle absent de la navigation");
   }
   if (!homeHtml.includes('href="index.html#flux-ao"')) {
     errors.push("Accueil : raccourci de navigation vers les opportunités absent");
@@ -305,8 +305,8 @@ if (fs.existsSync(distPath)) {
   const builtHome = path.join(distPath, "index.html");
   if (fs.existsSync(builtHome)) {
     const builtHtml = fs.readFileSync(builtHome, "utf8");
-    if (!builtHtml.includes('id="majestios-interactive-svg"') || !builtHtml.includes('data="schema-majestios.svg"')) {
-      errors.push("Build : le panorama n'est pas présent dans l'accueil compilé");
+    if (!builtHtml.includes('id="scene"') || !builtHtml.includes('src="zone-artisanale.js"')) {
+      errors.push("Build : la scène 3D interactive n'est pas présente dans l'accueil compilé");
     }
   }
 }
