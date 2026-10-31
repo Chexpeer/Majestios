@@ -261,6 +261,22 @@ function populateSearchFilters() {
       marketSelect.append(option);
     });
   }
+
+  const regionSelect = document.querySelector("#feed-region");
+  if (regionSelect && majCatalog.searchRegions?.length) {
+    regionSelect.replaceChildren();
+    const plannedRegions = document.createElement("optgroup");
+    plannedRegions.label = "Régions françaises · à connecter";
+    majCatalog.searchRegions.forEach((region) => {
+      const option = document.createElement("option");
+      option.value = region.value;
+      option.textContent = region.planned ? `${region.label} · à venir` : region.label;
+      option.disabled = Boolean(region.planned);
+      if (region.planned) plannedRegions.append(option);
+      else regionSelect.append(option);
+    });
+    if (plannedRegions.children.length) regionSelect.append(plannedRegions);
+  }
 }
 
 populateSearchFilters();
