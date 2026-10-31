@@ -82,43 +82,6 @@
       <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="salons-seminaires.html">Salon virtuel</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace membre</a><a href="faq.html">FAQ</a></nav>
     </header>
 
-    <main class="majestios-immersive-home">
-
-      <section class="industrial-zone-home" id="accueil" aria-labelledby="industrial-zone-title">
-        <div class="industrial-zone-intro">
-          <p class="eyebrow">MAJESTIOS · UNIVERS INDUSTRIEL VIRTUEL</p>
-          <h1 id="industrial-zone-title">Entrez dans la zone industrielle <span>interactive MajestiOS</span></h1>
-          <p class="industrial-zone-subtitle">Vous proposez, MajestiOS dispose. À vous de choisir comment visiter : en Apache, en Tesla ou avec Majest COYOT !</p>
-          
-        </div>
-        <div class="za-main homepage-industrial-layout">
-          <section class="scene-shell" aria-label="Zone industrielle virtuelle 3D interactive">
-            <div id="scene" class="scene" role="application" aria-label="Zone 3D : faites glisser pour tourner, utilisez la molette pour zoomer et sélectionnez un bâtiment.">
-              <div class="scene-loading" id="scene-loading">Préparation de la zone industrielle virtuelle…</div>
-        <div class="zone-map" id="zone-map" role="region" aria-label="Carte interactive des rubriques MajestiOS" hidden><div class="map-header"><strong>MAJEST COYOT — GPS DES RUBRIQUES</strong><span>Choisissez votre destination. COYOT vous guide&nbsp;!</span></div><div class="map-land"><div class="map-road map-road-main"></div><div class="map-road map-road-cross"></div><div class="map-road map-road-upper"></div><div class="map-road map-road-lower"></div><div class="map-compass" aria-hidden="true">N ↑</div><div class="map-legend"><span><i class="map-dot public"></i> Marchés publics</span><span><i class="map-dot private"></i> Marchés privés</span><span><i class="map-dot other"></i> Services MajestiOS</span></div><div class="map-buildings" id="map-buildings"></div></div></div>
-              <div class="hover-card" id="hover-card" aria-hidden="true"><span class="hover-card-kicker">ESPACE MAJESTIOS</span><strong data-hover-name></strong><small data-hover-detail></small><span class="hover-card-hint">Cliquez pour ouvrir la rubrique ↗</span></div>
-            </div>
-            <div class="scene-topline"><span class="live-dot"></span> ZONE INDUSTRIELLE · VUE 3D</div>
-            <div class="scene-modes" role="group" aria-label="Choisir votre visite MajestiOS"><button type="button" data-scene-mode="fly" aria-pressed="true" title="Survoler la zone artisanale">🚁 L’Apache</button><button type="button" data-scene-mode="drive" aria-pressed="false" title="Parcourir les allées">🚗 La Tesla</button><button type="button" data-scene-mode="map" aria-pressed="false" title="Choisir directement une rubrique sur la carte">📡 Majest COYOT</button></div>
-            <div class="scene-controls" aria-label="Commandes de la vue">
-              <button id="view-home" type="button" title="Revenir à la vue générale">Vue générale</button>
-              <button id="zoom-in" type="button" aria-label="Zoom avant">+</button>
-              <button id="zoom-out" type="button" aria-label="Zoom arrière">−</button>
-            </div>
-            <p class="scene-hint">Apache : prenez de la hauteur · Tesla : parcourez les allées · Majest COYOT : choisissez votre destination · Sélectionnez un bâtiment pour ouvrir sa rubrique</p>
-            <div class="walk-pad" aria-label="Commandes de déplacement tactile"><button type="button" data-walk="w" aria-label="Avancer">▲</button><div><button type="button" data-walk="a" aria-label="Aller à gauche">◀</button><button type="button" data-walk="s" aria-label="Reculer">▼</button><button type="button" data-walk="d" aria-label="Aller à droite">▶</button></div></div>
-          </section>
-          <aside class="building-panel" id="building-panel" aria-live="polite">
-            <p class="panel-kicker">VOTRE PROCHAINE ÉTAPE</p>
-            <h2 id="panel-title">Choisissez un bâtiment</h2>
-            <p id="panel-description">Sélectionnez un bâtiment pour accéder à sa rubrique métier.</p>
-            <div class="floor-list" id="floor-list" hidden></div>
-            <a class="button-primary is-disabled" id="open-building" href="index.html" aria-disabled="true" tabindex="-1">Découvrir cette rubrique</a>
-            
-          </aside>
-        </div>
-      </section>
-
       <section class="tender-feed-section" id="recherche-avancee" aria-label="Moteur de recherche avancé">
         <div class="feed-wrap">
           <div class="feed-demo">
@@ -164,6 +127,46 @@
           </div>
         </div>
       </section>
+
+
+    <main class="majestios-immersive-home">
+
+      <section class="industrial-zone-home" id="accueil" aria-labelledby="industrial-zone-title">
+        <div class="industrial-zone-intro">
+          <p class="eyebrow">MAJESTIOS · UNIVERS INDUSTRIEL VIRTUEL</p>
+          <h1 id="industrial-zone-title">Entrez dans la zone industrielle <span>interactive MajestiOS</span></h1>
+          <p class="industrial-zone-subtitle">Vous proposez, MajestiOS dispose. À vous de choisir comment visiter : en Apache, en Tesla ou avec Majest COYOT !</p>
+          
+        </div>
+        <div class="za-main homepage-industrial-layout">
+          <section class="scene-shell" aria-label="Zone industrielle virtuelle 3D interactive">
+            <div id="scene" class="scene" role="application" aria-label="Zone 3D : faites glisser pour tourner, utilisez la molette pour zoomer et sélectionnez un bâtiment.">
+              <div class="scene-loading" id="scene-loading">Préparation de la zone industrielle virtuelle…</div>
+        <div class="zone-map" id="zone-map" role="region" aria-label="Carte interactive des rubriques MajestiOS" hidden><div class="map-header"><strong>MAJEST COYOT — GPS DES RUBRIQUES</strong><span>Choisissez votre destination. COYOT vous guide&nbsp;!</span></div><div class="map-land"><div class="map-road map-road-main"></div><div class="map-road map-road-cross"></div><div class="map-road map-road-upper"></div><div class="map-road map-road-lower"></div><div class="map-compass" aria-hidden="true">N ↑</div><div class="map-legend"><span><i class="map-dot public"></i> Marchés publics</span><span><i class="map-dot private"></i> Marchés privés</span><span><i class="map-dot other"></i> Services MajestiOS</span></div><div class="map-buildings" id="map-buildings"></div></div></div>
+              <div class="hover-card" id="hover-card" aria-hidden="true"><span class="hover-card-kicker">ESPACE MAJESTIOS</span><strong data-hover-name></strong><small data-hover-detail></small><span class="hover-card-hint">Cliquez pour ouvrir la rubrique ↗</span></div>
+            </div>
+            <div class="scene-topline"><span class="live-dot"></span> ZONE INDUSTRIELLE · VUE 3D</div>
+            <div class="scene-modes" role="group" aria-label="Choisir votre visite MajestiOS"><button type="button" data-scene-mode="fly" aria-pressed="true" title="Survoler la zone artisanale">🚁 L’Apache</button><button type="button" data-scene-mode="drive" aria-pressed="false" title="Parcourir les allées">🚗 La Tesla</button><button type="button" data-scene-mode="map" aria-pressed="false" title="Choisir directement une rubrique sur la carte">📡 Majest COYOT</button></div>
+            <div class="scene-controls" aria-label="Commandes de la vue">
+              <button id="view-home" type="button" title="Revenir à la vue générale">Vue générale</button>
+              <button id="zoom-in" type="button" aria-label="Zoom avant">+</button>
+              <button id="zoom-out" type="button" aria-label="Zoom arrière">−</button>
+            </div>
+            <p class="scene-hint">Apache : prenez de la hauteur · Tesla : parcourez les allées · Majest COYOT : choisissez votre destination · Sélectionnez un bâtiment pour ouvrir sa rubrique</p>
+            <div class="walk-pad" aria-label="Commandes de déplacement tactile"><button type="button" data-walk="w" aria-label="Avancer">▲</button><div><button type="button" data-walk="a" aria-label="Aller à gauche">◀</button><button type="button" data-walk="s" aria-label="Reculer">▼</button><button type="button" data-walk="d" aria-label="Aller à droite">▶</button></div></div>
+          </section>
+          <aside class="building-panel" id="building-panel" aria-live="polite">
+            <p class="panel-kicker">VOTRE PROCHAINE ÉTAPE</p>
+            <h2 id="panel-title">Choisissez un bâtiment</h2>
+            <p id="panel-description">Sélectionnez un bâtiment pour accéder à sa rubrique métier.</p>
+            <div class="floor-list" id="floor-list" hidden></div>
+            <a class="button-primary is-disabled" id="open-building" href="index.html" aria-disabled="true" tabindex="-1">Découvrir cette rubrique</a>
+            
+          </aside>
+        </div>
+      </section>
+
+
     </main>
 
     <aside class="home-help" aria-label="Aide à la visite MajestiOS">
@@ -180,6 +183,20 @@
         <small>Ce guide vous oriente vers les bonnes rubriques. L’assistant conversationnel sera connecté dans une prochaine étape.</small>
       </section>
     </aside>
+
+    <footer class="site-footer homepage-footer" aria-label="Pied de page MajestiOS">
+      <a class="brand footer-brand" href="index.html#accueil" aria-label="MajestiOS, retour à l’accueil">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>majesti<span class="brand-os">OS</span></span>
+      </a>
+      <p>© <span id="footer-year">2026</span> MajestiOS · Développement commercial et prospection intelligente.</p>
+      <nav class="footer-links" aria-label="Liens utiles et informations légales">
+        <a href="nous-rejoindre.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="politique-confidentialite.html">Confidentialité</a>
+      </nav>
+    </footer>
 
   </body>
 </html>
