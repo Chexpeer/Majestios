@@ -164,7 +164,7 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
   if (uniquePositions.size !== 12) errors.push(`Univers virtuel : ${uniquePositions.size} positions distinctes, 12 attendues`);
   if (new Set(sharedRubrics.map((building) => building.id)).size !== 12) errors.push("Univers virtuel : identifiants de bâtiments dupliqués");
   // Garder les accès commerciaux essentiels visibles depuis la zone immersive.
-  for (const requiredHref of ["index.html#flux-ao", "index.html#contact", "espace-membre.html"]) {
+  for (const requiredHref of ["index.html#recherche-avancee", "espace-membre.html"]) {
     if (!zoneHtml.includes(`href="${requiredHref}"`)) {
       errors.push(`Univers virtuel : accès commercial manquant : ${requiredHref}`);
     }
