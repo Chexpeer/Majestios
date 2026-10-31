@@ -178,6 +178,31 @@ const padRing=new THREE.Mesh(new THREE.RingGeometry(1.85,2.05,48),new THREE.Mesh
 const padH=new THREE.Mesh(new THREE.PlaneGeometry(1.55,2.3),new THREE.MeshBasicMaterial({color:"#f4f0e6",side:THREE.DoubleSide})); padH.rotation.x=-Math.PI/2; padH.position.set(0,.135,0); helipad.add(padH);
 const padLabelTexture=labelTexture("HELIPORT MAJESTIOS","#f4f0e6",{height:100,size:34,bg:"#10243a"});
 const padLabel=new THREE.Mesh(new THREE.PlaneGeometry(4.6,.45),new THREE.MeshBasicMaterial({map:padLabelTexture,side:THREE.DoubleSide})); padLabel.rotation.x=-Math.PI/2; padLabel.position.set(0,.14,2.35); helipad.add(padLabel);
+// Petit véhicule stylisé : il accompagne la caméra en mode promenade.
+const visitorCar=new THREE.Group();
+const carBody=box(1.75,.48,3.05,material("#d9b86c",.42),0,.62,0,visitorCar);
+box(1.35,.48,1.35,material("#263b50",.35),0,1.08,-.25,visitorCar);
+box(1.25,.055,1.05,material("#a8cbd7",.25),0,1.12,-.25,visitorCar);
+for(const x of [-.88,.88]){
+ for(const z of [-.95,.95]){
+  const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.29,.29,.18,16),material("#20262b",.92));
+  wheel.rotation.z=Math.PI/2;wheel.position.set(x,.34,z);wheel.castShadow=true;visitorCar.add(wheel);
+ }
+ const lamp=box(.3,.13,.06,material("#f4e9b7",.3),x*.7,.68,-1.55,visitorCar);
+}
+scene.add(visitorCar);visitorCar.visible=false;
+function syncVisitorCar(){
+ const driving=root.dataset.viewMode==="drive";
+ visitorCar.visible=driving;
+ if(!driving)return;
+ const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();
+ visitorCar.position.set(
+  THREE.MathUtils.clamp(camera.position.x+forward.x*4,-20,20),
+  0,
+  THREE.MathUtils.clamp(camera.position.z+forward.z*4,-23,15)
+ );
+ visitorCar.rotation.y=Math.atan2(forward.x,forward.z)+Math.PI;
+}
 // A marked pedestrian crossing highlights the main entrance.
 for(let x=-2.1;x<=2.1;x+=.7)box(.42,.025,1.25,parkingPaint,x,.025,9.2);
 
@@ -297,8 +322,8 @@ function setSceneMode(mode){
  }else if(mode==="drive"){
   controls.minPolarAngle=0.45; controls.maxPolarAngle=1.48;
   controls.minDistance=7; controls.maxDistance=30;
-  targetDestination=new THREE.Vector3(0,1.6,-6);
-  cameraDestination=new THREE.Vector3(0,3.2,9);
+  targetDestination=new THREE.Vector3(0,1.6,-1);
+  cameraDestination=new THREE.Vector3(0,3.2,15);
   if(root)root.dataset.viewMode="drive";
  }else{
   controls.minPolarAngle=0.12; controls.maxPolarAngle=1.42;
@@ -313,7 +338,7 @@ function resetView(){setSceneMode("fly");}
 function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
 let previousFrame=performance.now();
-function animate(now=performance.now()){requestAnimationFrame(animate);const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;if(cameraDestination&&targetDestination){const speed=reducedMotion?1:.085;camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}walkThroughZone(delta);controls.update();renderer.render(scene,camera);}
+function animate(now=performance.now()){requestAnimationFrame(animate);const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;if(cameraDestination&&targetDestination){const speed=reducedMotion?1:.085;camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}walkThroughZone(delta);controls.update();syncVisitorCar();renderer.render(scene,camera);}
 animate();if(loading.dataset.fallbackShown!=="true")loading.classList.add("hidden");else renderer.domElement.style.display="none";
 
 } catch (error) {
