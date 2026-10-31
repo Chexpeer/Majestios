@@ -49,7 +49,7 @@ if (fs.existsSync(buildPath)) {
   for (const page of pages) {
     if (!build.includes(`"${page}"`)) errors.push(`build.js: page absente de la liste de publication : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js", "search-results.js"]) {
     if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
   }
 } else {
@@ -325,7 +325,7 @@ for (const page of expectedRubricPages) {
 // Vérifier le contenu réellement préparé dans dist/, pas seulement la liste de build.
 const distPath = path.join(root, "dist");
 if (fs.existsSync(distPath)) {
-  for (const page of ["index.html", "zone-artisanale.html", ...expectedRubricPages, ...expectedCategoryPages]) {
+  for (const page of ["index.html", "zone-artisanale.html", "resultats-recherche.html", ...expectedRubricPages, ...expectedCategoryPages]) {
     if (!fs.existsSync(path.join(distPath, page))) errors.push(`Build : page attendue absente de dist/ : ${page}`);
   }
   for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js"]) {
