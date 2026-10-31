@@ -294,13 +294,13 @@ if (fs.existsSync(path.join(root, "category-results.js"))) {
   }
 }
 
-// Vérifier que le code et la documentation expriment la même priorité de routage.
+// Vérifier que le routage donne la priorité à une catégorie active et conserve tous les critères.
 if (fs.existsSync(appPath)) {
   const app = fs.readFileSync(appPath, "utf8");
   const categoryRouteIndex = app.indexOf("const destination = selectedCategory");
-  const privateRouteIndex = app.indexOf('marketType === "private"', categoryRouteIndex);
-  if (categoryRouteIndex < 0 || privateRouteIndex < 0 || privateRouteIndex < categoryRouteIndex) {
-    errors.push("Recherche : priorité de destination incohérente ; une catégorie active doit primer sur le type de marché");
+  const generalResultsRouteIndex = app.indexOf('"resultats-recherche.html"', categoryRouteIndex);
+  if (categoryRouteIndex < 0 || generalResultsRouteIndex < categoryRouteIndex) {
+    errors.push("Recherche : une catégorie active doit primer ; sans catégorie, les critères doivent aller aux résultats généraux");
   }
   if (!app.includes('params.set("q", query)') || !app.includes('params.set("categorie", category)') || !app.includes('params.set("marche", marketType)') || !app.includes('params.set("zone", region)')) {
     errors.push("Recherche : un ou plusieurs critères ne sont plus transmis dans l’URL");
