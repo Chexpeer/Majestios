@@ -21,6 +21,7 @@ const title=document.querySelector("#panel-title");
 const description=document.querySelector("#panel-description");
 const floorList=document.querySelector("#floor-list");
 const openLink=document.querySelector("#open-building");
+openLink.addEventListener("click",event=>{if(openLink.getAttribute("aria-disabled")==="true")event.preventDefault();});
 const directory=document.querySelector("#building-directory");
 const hoverCard=document.querySelector("#hover-card");
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
