@@ -7,7 +7,7 @@ Objet : document de référence pour nettoyer le dépôt sans casser les pages, 
 ## 1. Structure obligatoire de la page d’accueil
 
 `index.html` contient uniquement :
-1. la barre de navigation principale, sans entrée « Zone industrielle » ;
+1. la barre de navigation principale composée exactement de : Accueil, Développement commercial, Salon virtuel, Nous rejoindre, Espace membre et FAQ ;
 2. la zone artisanale virtuelle interactive intégrée directement à la page ;
 3. le moteur de recherche avancé (mot-clé, catégorie, type de marché, localisation).
 
@@ -83,7 +83,7 @@ Le moteur de recherche de démonstration prévoit les filtres mot-clé, catégor
 ## 6. Critères de validation avant publication
 
 - L’accueil ne contient que navigation, zone artisanale interactive et moteur de recherche avancé.
-- Aucun lien « Zone industrielle » n’apparaît dans la barre de navigation.
+- La navigation principale contient uniquement : Accueil, Développement commercial, Salon virtuel, Nous rejoindre, Espace membre et FAQ. Aucun lien « Zone industrielle », « Panorama » ou « Opportunités » n’y apparaît.
 - Les douze bâtiments ont douze destinations métier distinctes.
 - Les filtres et pages de catégories restent accessibles.
 - Les ressources locales existent et les liens internes ne sont pas cassés.
