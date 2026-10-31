@@ -6,7 +6,7 @@ const siteFiles = ["index.html", "nous-rejoindre.html", "espace-membre.html", "f
 
 const missingFiles = siteFiles.filter((file) => !fs.existsSync(path.join(__dirname, file)));
 if (missingFiles.length) {
-  console.error(`Build interrompu : ${missingFiles.length} fichier(s) source manquant(s) :\\n- ${missingFiles.join("\\n- ")}`);
+  console.error(`Build interrompu : ${missingFiles.length} fichier(s) source manquant(s) :\n- ${missingFiles.join("\n- ")}`);
   process.exit(1);
 }
 
