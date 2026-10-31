@@ -21,12 +21,16 @@
 
   const searchCategories = [
     { value: "all", label: "Toutes les catégories", active: true },
-    { value: "services", label: "Services numériques", active: true },
-    { value: "travaux", label: "Travaux & aménagement", active: true },
-    { value: "conseil", label: "Conseil & études", active: true },
+    { value: "services", label: "Services numériques", active: true, href: "categorie-services-numeriques.html" },
+    { value: "travaux", label: "Travaux & aménagement", active: true, href: "categorie-travaux-amenagement.html" },
+    { value: "conseil", label: "Conseil & études", active: true, href: "categorie-conseil-etudes.html" },
+    { value: "batiment", label: "Bâtiment & construction", active: true, href: "categorie-batiment.html" },
+    { value: "renovation", label: "Rénovation énergétique et générale", active: true, href: "categorie-renovation.html" },
+    { value: "electricite", label: "Électricité", active: true, href: "categorie-electricite.html" },
+    { value: "plomberie", label: "Plomberie & chauffage", active: true, href: "categorie-plomberie-chauffage.html" },
+    { value: "maintenance", label: "Maintenance & exploitation", active: true, href: "categorie-maintenance.html" },
     { value: "fournitures", label: "Fournitures & équipements", planned: true },
     { value: "btp", label: "BTP : lots techniques et second œuvre", planned: true },
-    { value: "maintenance", label: "Maintenance & exploitation", planned: true },
     { value: "logistique", label: "Transport & logistique", planned: true },
     { value: "formation", label: "Formation & recrutement", planned: true },
     { value: "communication", label: "Communication & événementiel", planned: true }
