@@ -1328,3 +1328,26 @@ body.homepage .interactive-map-frame object {
   body.homepage .interactive-map-frame { overflow:hidden; }
   body.homepage .interactive-map-frame object { width:100%; min-width:0; height:clamp(520px,70vh,940px); }
 }
+
+
+/* Accueil final : panorama inline, sans carte descriptive autour du visuel. */
+body.homepage .interactive-map-section { padding: 10px 0 26px; min-height: 0; }
+body.homepage .interactive-map-heading { padding: 0 18px; margin: 0 auto 8px; }
+body.homepage .interactive-map-heading .eyebrow { margin: 0 0 4px; font-size: 10px; }
+body.homepage .interactive-map-heading h1 { margin: 0; font-size: clamp(17px, 1.8vw, 24px); line-height: 1.25; }
+body.homepage .interactive-map-heading h1 span { color: #d5b56c; }
+body.homepage .interactive-map-layout { width: 100%; max-width: none; margin: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none; background: #070a0f; overflow: visible; }
+body.homepage .interactive-map-frame { width: 100%; overflow-x: auto; overflow-y: hidden; border: 0; border-radius: 0; background: #070a0f; -webkit-overflow-scrolling: touch; }
+body.homepage .majestios-panorama { display: block; width: 100%; height: auto; min-width: 0; max-height: none; background: #070a0f; }
+body.homepage .majestios-panorama [data-surface] { cursor: pointer; }
+body.homepage .majestios-panorama [data-surface]:focus { outline: none; }
+body.homepage .majestios-panorama [data-surface]:focus .face,
+body.homepage .majestios-panorama [data-surface]:hover .face { stroke: #f5d98e; stroke-opacity: 1; stroke-width: 4; }
+@media (max-width: 760px) {
+  body.homepage .interactive-map-section { padding: 8px 0 20px; }
+  body.homepage .interactive-map-heading { padding: 0 12px; margin-bottom: 6px; }
+  body.homepage .interactive-map-heading h1 { font-size: 16px; }
+  body.homepage .interactive-map-heading h1 span { display: block; }
+  body.homepage .interactive-map-frame { overflow-x: auto; }
+  body.homepage .majestios-panorama { width: 900px; max-width: none; }
+}
