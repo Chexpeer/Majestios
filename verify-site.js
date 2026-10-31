@@ -239,6 +239,49 @@ for (const page of expectedCategoryPages) {
   if (!html.includes("category-page") || !html.includes('<section class="virtual-space"')) errors.push(`${page} : structure de page de catégorie absente`);
 }
 if (!fs.existsSync(path.join(root, "category-results.js"))) errors.push("Catégories d’opportunités : category-results.js absent");
+if (fs.existsSync(path.join(root, "category-results.js"))) {
+  const resultsScript = fs.readFileSync(path.join(root, "category-results.js"), "utf8");
+  const expectedWorlds = ["services", "travaux", "conseil", "batiment", "renovation", "electricite", "plomberie", "maintenance"];
+  for (const world of expectedWorlds) {
+    if (!resultsScript.includes(`${world}:`)) errors.push(`Résultats de catégorie : correspondance manquante pour ${world}`);
+  }
+}
+
+// Vérifier que le code et la documentation expriment la même priorité de routage.
+if (fs.existsSync(appPath)) {
+  const app = fs.readFileSync(appPath, "utf8");
+  const categoryRouteIndex = app.indexOf("const destination = selectedCategory");
+  const privateRouteIndex = app.indexOf('marketType === "private"', categoryRouteIndex);
+  if (categoryRouteIndex < 0 || privateRouteIndex < 0 || privateRouteIndex < categoryRouteIndex) {
+    errors.push("Recherche : priorité de destination incohérente ; une catégorie active doit primer sur le type de marché");
+  }
+  if (!app.includes('params.set("q", query)') || !app.includes('params.set("categorie", category)') || !app.includes('params.set("marche", marketType)') || !app.includes('params.set("zone", region)')) {
+    errors.push("Recherche : un ou plusieurs critères ne sont plus transmis dans l’URL");
+  }
+}
+
+// Le schéma normalisé doit rester un JSON lisible et couvrir les huit catégories actives.
+const opportunitySchemaPath = path.join(root, "schemas", "opportunite.schema.json");
+if (!fs.existsSync(opportunitySchemaPath)) {
+  errors.push("Modèle de données : schemas/opportunite.schema.json absent");
+} else {
+  try {
+    const opportunitySchema = JSON.parse(fs.readFileSync(opportunitySchemaPath, "utf8"));
+    const categoryProperty = opportunitySchema.properties?.category;
+    const expectedCategories = ["services", "travaux", "conseil", "batiment", "renovation", "electricite", "plomberie", "maintenance"];
+    if (!categoryProperty || expectedCategories.some((category) => !categoryProperty.enum?.includes(category))) {
+      errors.push("Modèle de données : le schéma ne couvre pas les huit catégories actives");
+    }
+    for (const requiredField of ["id", "title", "category", "marketType", "source", "sourceUrl", "publishedAt", "status"]) {
+      if (!opportunitySchema.required?.includes(requiredField)) {
+        errors.push(`Modèle de données : champ obligatoire absent du schéma : ${requiredField}`);
+      }
+    }
+  } catch {
+    errors.push("Modèle de données : schemas/opportunite.schema.json n’est pas un JSON valide");
+  }
+}
+
 
 const expectedRubricPages = [
   "marches-publics.html", "veille-marches.html", "marches-prives.html",
