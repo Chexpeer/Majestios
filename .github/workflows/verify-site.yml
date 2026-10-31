@@ -20,6 +20,7 @@ jobs:
           node --check catalogue-majestios.js
           node --check category-results.js
           node --check search-results.js
+          node --check opportunity-search.js
           node --input-type=module --check < zone-artisanale.js
           node --check rubriques-immersives.js
       - name: Construire le site statique
@@ -30,5 +31,7 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright
           npx playwright install --with-deps chromium
+      - name: Tester le moteur de recherche dans un vrai navigateur
+        run: node tests/opportunity-search.browser.cjs
       - name: Tester la zone industrielle dans un vrai navigateur
         run: node tests/zone-artisanale.browser.cjs
