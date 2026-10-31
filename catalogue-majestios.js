@@ -38,10 +38,32 @@
     { value: "private", label: "Marchés privés" }
   ];
 
+  const searchRegions = [
+    { value: "all", label: "Toutes les zones", active: true },
+    { value: "nord", label: "Zone Nord · exemple", active: true },
+    { value: "ouest", label: "Zone Ouest · exemple", active: true },
+    { value: "sud", label: "Zone Sud · exemple", active: true },
+    { value: "nouvelle-aquitaine", label: "Nouvelle-Aquitaine", planned: true },
+    { value: "ile-de-france", label: "Île-de-France", planned: true },
+    { value: "auvergne-rhone-alpes", label: "Auvergne-Rhône-Alpes", planned: true },
+    { value: "occitanie", label: "Occitanie", planned: true },
+    { value: "pays-de-la-loire", label: "Pays de la Loire", planned: true },
+    { value: "bretagne", label: "Bretagne", planned: true },
+    { value: "normandie", label: "Normandie", planned: true },
+    { value: "hauts-de-france", label: "Hauts-de-France", planned: true },
+    { value: "grand-est", label: "Grand Est", planned: true },
+    { value: "bourgogne-franche-comte", label: "Bourgogne-Franche-Comté", planned: true },
+    { value: "centre-val-de-loire", label: "Centre-Val de Loire", planned: true },
+    { value: "provence-alpes-cote-d-azur", label: "Provence-Alpes-Côte d’Azur", planned: true },
+    { value: "corse", label: "Corse", planned: true },
+    { value: "outre-mer", label: "Outre-mer", planned: true }
+  ];
+
   root.MAJESTIOS_CATALOG = Object.freeze({
     version: "1.0.0",
     rubrics: Object.freeze(rubrics.map((item) => Object.freeze(item))),
     searchCategories: Object.freeze(searchCategories.map((item) => Object.freeze(item))),
-    marketTypes: Object.freeze(marketTypes.map((item) => Object.freeze(item)))
+    marketTypes: Object.freeze(marketTypes.map((item) => Object.freeze(item))),
+    searchRegions: Object.freeze(searchRegions.map((item) => Object.freeze(item)))
   });
 })(window);
