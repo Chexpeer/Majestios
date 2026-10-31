@@ -49,7 +49,7 @@ if (fs.existsSync(buildPath)) {
   for (const page of pages) {
     if (!build.includes(`"${page}"`)) errors.push(`build.js: page absente de la liste de publication : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js"]) {
     if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
   }
 } else {
@@ -230,8 +230,16 @@ if (fs.existsSync(homeHtmlPath)) {
 // Les douze rubriques sont la source de vérité commune du panorama et de l'univers 3D.
 const expectedCategoryPages = ["categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html"];
 for (const page of expectedCategoryPages) {
-  if (!fs.existsSync(path.join(root, page))) errors.push(`Catégories d’opportunités : page référencée mais absente : ${page}`);
+  if (!fs.existsSync(path.join(root, page))) {
+    errors.push(`Catégories d’opportunités : page référencée mais absente : ${page}`);
+    continue;
+  }
+  const html = fs.readFileSync(path.join(root, page), "utf8");
+  if (!html.includes('src="category-results.js"')) errors.push(`${page} : script des résultats par catégorie absent`);
+  if (!html.includes('class="category-page"') || !html.includes('class="virtual-space"')) errors.push(`${page} : structure de page de catégorie absente`);
 }
+if (!fs.existsSync(path.join(root, "category-results.js"))) errors.push("Catégories d’opportunités : category-results.js absent");
+
 const expectedRubricPages = [
   "marches-publics.html", "veille-marches.html", "marches-prives.html",
   "prospection-inversee.html", "developpement-commercial.html", "intelligence-economique.html",
@@ -250,7 +258,7 @@ if (fs.existsSync(distPath)) {
   for (const page of ["index.html", "zone-artisanale.html", ...expectedRubricPages, ...expectedCategoryPages]) {
     if (!fs.existsSync(path.join(distPath, page))) errors.push(`Build : page attendue absente de dist/ : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js"]) {
     if (!fs.existsSync(path.join(distPath, asset))) errors.push(`Build : ressource attendue absente de dist/ : ${asset}`);
   }
   const builtHome = path.join(distPath, "index.html");
