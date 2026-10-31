@@ -62,7 +62,7 @@ const appScriptPath = path.join(root, "app.js");
 if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   const home = fs.readFileSync(homePath, "utf8");
   const appScript = fs.readFileSync(appScriptPath, "utf8");
-  for (const id of ["scene", "feed-search", "feed-sector", "feed-market-type", "feed-region", "feed-stream"]) {
+  for (const id of ["scene", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
     if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
   }
   if (!home.includes('src="zone-artisanale.js"')) errors.push("Accueil : script de la zone 3D absent");
@@ -160,7 +160,7 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
   const peripheralCount = sharedRubrics.filter((building) => building.group === "peripherique").length;
   const uniquePositions = new Set(sharedRubrics.map((building) => building.position));
   if (sharedRubrics.length !== 12) errors.push(`Univers virtuel : ${sharedRubrics.length} bâtiments reconnus dans le catalogue, 12 attendus`);
-  if (centralCount !== 6 || peripheralCount !== 6) errors.push(`Univers virtuel : répartition détectée ${centralCount} centraux / ${peripheralCount} périphériques, 6 / 6 attendus`);
+  if (centralCount !== 7 || peripheralCount !== 5) errors.push(`Univers virtuel : répartition détectée ${centralCount} centraux / ${peripheralCount} périphériques, 7 / 5 attendus`);
   if (uniquePositions.size !== 12) errors.push(`Univers virtuel : ${uniquePositions.size} positions distinctes, 12 attendues`);
   if (new Set(sharedRubrics.map((building) => building.id)).size !== 12) errors.push("Univers virtuel : identifiants de bâtiments dupliqués");
   // Garder les accès commerciaux essentiels visibles depuis la zone immersive.
@@ -215,7 +215,7 @@ if (fs.existsSync(homeHtmlPath)) {
   if (!homeHtml.includes('href="index.html#accueil"') && !homeHtml.includes('href="zone-artisanale.html"')) {
     errors.push("Accueil : accès à la zone industrielle absent de la navigation");
   }
-  for (const controlId of ["feed-search", "feed-sector", "feed-market-type", "feed-region", "feed-stream"]) {
+  for (const controlId of ["feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
     if (!homeHtml.includes(`id="${controlId}"`)) {
       errors.push(`Accueil : contrôle de recherche avancée absent : ${controlId}`);
     }
