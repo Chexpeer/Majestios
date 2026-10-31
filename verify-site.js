@@ -59,15 +59,16 @@ if (fs.existsSync(buildPath)) {
 // Vérifier que les douze rubriques restent accessibles depuis l'univers virtuel.
 const zoneHtmlPath = path.join(root, "zone-artisanale.html");
 const zoneJsPath = path.join(root, "zone-artisanale.js");
-if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath) && fs.existsSync(appPath)) {
-  const zoneHtml = fs.readFileSync(zoneHtmlPath, "utf8").replaceAll('\\\\\"', '"');
+const virtualDestinations = [
+  "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
+  "prospection-inversee.html", "intelligence-economique.html", "reseaux-synergies.html",
+  "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
+  "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html",
+];
+if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
+  const zoneHtml = fs.readFileSync(zoneHtmlPath, "utf8");
   const zoneJs = fs.readFileSync(zoneJsPath, "utf8");
-  const app = fs.readFileSync(appPath, "utf8");
-  const destinationsBlock = app.match(/const surfaceDestinations\s*=\\s*\\{([\\s\\S]*?)\\n\\s*\\};/);
-  const destinations = destinationsBlock
-    ? [...destinationsBlock[1].matchAll(/["']([^"']+)["']\s*:\s*["']([^"']+\.html)["']/g)]
-    : [];
-  for (const [, , destination] of destinations) {
+  for (const destination of virtualDestinations) {
     if (!zoneHtml.includes(destination) && !zoneJs.includes(destination)) {
       errors.push(`Univers virtuel : rubrique inaccessible depuis la zone artisanale : ${destination}`);
     }
