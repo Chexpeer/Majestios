@@ -62,16 +62,29 @@ const appScriptPath = path.join(root, "app.js");
 if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   const home = fs.readFileSync(homePath, "utf8");
   const appScript = fs.readFileSync(appScriptPath, "utf8");
-  for (const id of ["flux-ao", "feed-search", "feed-sector", "feed-region", "feed-stream", "lead-form", "form-feedback"]) {
+  for (const id of ["flux-ao", "feed-search", "feed-sector", "feed-region", "feed-result-count", "feed-stream", "lead-form", "form-feedback", "preview-request", "contact"]) {
     if (!home.includes(`id="${id}"`)) {
       errors.push(`Accueil : fonction commerciale essentielle absente ou identifiant modifié : #${id}`);
     }
   }
-  if (!appScript.includes("demoTenders")) {
-    errors.push("Accueil : moteur de recherche des opportunités de démonstration introuvable dans app.js");
+  if (!appScript.includes("demoTenders") || !appScript.includes("function renderTenderFeed")) {
+    errors.push("Accueil : moteur de recherche des opportunités de démonstration introuvable ou incomplet dans app.js");
   }
   if (!appScript.includes("Cette demande de démonstration n’a pas été transmise.")) {
     errors.push("Accueil : le formulaire doit indiquer clairement qu'une demande de démonstration n'est pas transmise");
+  }
+  if (!appScript.includes('document.querySelector("#preview-request").addEventListener("click"')) {
+    errors.push("Accueil : bouton de prévisualisation du formulaire non relié dans app.js");
+  }
+
+  // Vérifier que les raccourcis de formulaire pointent vers une intention réellement disponible.
+  const intentValues = new Set([...home.matchAll(/name="intent"[^>]*value="([^"]+)"/g)].map((match) => match[1]));
+  const intentLinks = [...home.matchAll(/data-intent-link="([^"]+)"/g)].map((match) => match[1]);
+  for (const intent of intentLinks) {
+    if (!intentValues.has(intent)) errors.push(`Accueil : raccourci de formulaire sans intention correspondante : ${intent}`);
+  }
+  if (!appScript.includes('event.key === "Enter" || event.key === " "')) {
+    errors.push("Schéma interactif : activation clavier par Entrée et Espace non détectée dans app.js");
   }
 } else {
   errors.push("index.html ou app.js absent : contrôle des fonctions commerciales essentielles impossible");
