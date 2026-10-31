@@ -17,6 +17,18 @@ La zone interactive doit rester visible dès l’accueil. Le retrait de son entr
 
 ## 2. Pages du site
 
+### Showroom virtuel — pilier commercial
+Le showroom virtuel est une offre transversale de présentation et de mise en relation, distincte de la veille des marchés. La zone artisanale sert de porte d’entrée collective ; chaque entreprise pourra disposer d’un showroom présentant ses savoir-faire, réalisations, capacités, références, certifications et possibilités de coopération. Le parcours cible est : Découverte → Visite → Compréhension → Confiance → Contact → Relation commerciale.
+
+- **Showroom Essentiel** : fiche enrichie, activité, photos, coordonnées et liens utiles (offre à définir).
+- **Showroom Immersif** : visite des locaux, vidéos, démonstrations, projets commentés et visite guidée (évolution à concevoir).
+- **Modes de découverte** : parcours au sol de type « Tesla », survol stratégique de type hélicoptère et guidage « Majest COYOT » ; ce sont des concepts d’expérience, pas des services annoncés comme opérationnels.
+- **Showroom augmenté par l’IA** : présentation, réponses aux questions et suggestions de partenaires à envisager ultérieurement ; les décisions restent humaines.
+
+La page actuellement rattachée à la navigation « Salon virtuel » porte cette orientation showroom tout en conservant la dimension d’espace collectif d’exposition. Aucune tarification ni disponibilité n’est promise avant validation.
+
+
+
 ### Pages communes
 - `index.html` — accueil de référence.
 - `nous-rejoindre.html` — contributions et coopérations.
