@@ -280,9 +280,10 @@ if(new URLSearchParams(window.location.search).has("e2e")){
   buildingPoint(id){
    const data=buildings.find(item=>item.id===id);
    if(!data)throw new Error(`Bâtiment inconnu : ${id}`);
-   // Cadrer le bâtiment comme le fait l'interaction de sélection avant de calculer le clic.
-   // Cette aide n'existe que sur l'URL ?e2e=1 et n'affecte pas les visiteurs.
-   cameraDestination=null;targetDestination=null;
+   // Geler l'animation uniquement pour le test : sinon la boucle de vol peut
+   // déplacer la caméra entre le calcul du point et le clic Playwright.
+   // Ce code n'existe que sur l'URL ?e2e=1 et n'affecte pas les visiteurs.
+   cameraDestination=null;targetDestination=null;pauseScene();
    camera.position.set(data.x+1.5,9.2,data.z+16.5);
    controls.target.set(data.x,2.7,data.z);
    // Synchroniser l'orientation de la caméra avec la cible avant de calculer
