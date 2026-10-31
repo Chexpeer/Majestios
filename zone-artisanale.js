@@ -127,6 +127,10 @@ for(const data of buildings){
  band(group,data.second,data.color,4.52,4.75);
  // A subtle roofline marker gives the building a distinct silhouette.
  box(baseW*.91,.18,depth*.89,material(color.clone().multiplyScalar(1.18)),0,5.28,-.04,group);
+ // A flat rooftop sign makes the rubric readable from the aerial/top-down modes.
+ const roofLabelTexture=labelTexture(data.name,data.color,{height:180,size:42,bg:"#10243a"});
+ const roofLabel=new THREE.Mesh(new THREE.PlaneGeometry(4.65,1.05),new THREE.MeshBasicMaterial({map:roofLabelTexture,side:THREE.DoubleSide,transparent:false}));
+ roofLabel.rotation.x=-Math.PI/2; roofLabel.position.set(0,5.405,-.04); roofLabel.renderOrder=2; roofLabel.userData.building=data; group.add(roofLabel);
  // Each activity building receives its own architectural signature.
  const index=buildings.indexOf(data);
  const accent=material(data.color,.52);
@@ -166,6 +170,14 @@ for(const side of [-1,1]){
   glow.position.set(side*4.2,3.55,z);scene.add(glow);
  }
 }
+// Helicopter landing pad: clearly marked, but kept outside the vehicle circulation lanes.
+const helipad=new THREE.Group(); helipad.position.set(16.8,.08,11.2); scene.add(helipad);
+box(5.8,.16,5.8,material("#394957"),0,0,0,helipad);
+const padSurface=box(5.35,.035,5.35,material("#263744"),0,.1,0,helipad);
+const padRing=new THREE.Mesh(new THREE.RingGeometry(1.85,2.05,48),new THREE.MeshBasicMaterial({color:"#e8d6a1",side:THREE.DoubleSide})); padRing.rotation.x=-Math.PI/2; padRing.position.y=.13; helipad.add(padRing);
+const padH=new THREE.Mesh(new THREE.PlaneGeometry(1.55,2.3),new THREE.MeshBasicMaterial({color:"#f4f0e6",side:THREE.DoubleSide})); padH.rotation.x=-Math.PI/2; padH.position.set(0,.135,0); helipad.add(padH);
+const padLabelTexture=labelTexture("HELIPORT MAJESTIOS","#f4f0e6",{height:100,size:34,bg:"#10243a"});
+const padLabel=new THREE.Mesh(new THREE.PlaneGeometry(4.6,.45),new THREE.MeshBasicMaterial({map:padLabelTexture,side:THREE.DoubleSide})); padLabel.rotation.x=-Math.PI/2; padLabel.position.set(0,.14,2.35); helipad.add(padLabel);
 // A marked pedestrian crossing highlights the main entrance.
 for(let x=-2.1;x<=2.1;x+=.7)box(.42,.025,1.25,parkingPaint,x,.025,9.2);
 
@@ -272,7 +284,32 @@ document.querySelectorAll("[data-walk]").forEach(button=>{
 document.querySelector("#view-home").addEventListener("click",resetView);
 document.querySelector("#zoom-in").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;const offset=camera.position.clone().sub(controls.target);offset.multiplyScalar(.88);const distance=THREE.MathUtils.clamp(offset.length(),controls.minDistance,controls.maxDistance);offset.setLength(distance);camera.position.copy(controls.target).add(offset);controls.update();});
 document.querySelector("#zoom-out").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;const offset=camera.position.clone().sub(controls.target);const distance=THREE.MathUtils.clamp(offset.length()*1.12,controls.minDistance,controls.maxDistance);offset.setLength(distance);camera.position.copy(controls.target).add(offset);controls.update();});
-function resetView(){cameraDestination=new THREE.Vector3(0,17,35);targetDestination=new THREE.Vector3(0,1.5,-6);}
+function setSceneMode(mode){
+ const buttons=document.querySelectorAll("[data-scene-mode]");
+ buttons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.sceneMode===mode)));
+ cameraDestination=null; targetDestination=null;
+ if(mode==="top"){
+  controls.minPolarAngle=0.02; controls.maxPolarAngle=0.08;
+  controls.minDistance=18; controls.maxDistance=55;
+  targetDestination=new THREE.Vector3(0,0,-6);
+  cameraDestination=new THREE.Vector3(0,44,-6);
+  if(root)root.dataset.viewMode="top";
+ }else if(mode==="drive"){
+  controls.minPolarAngle=0.45; controls.maxPolarAngle=1.48;
+  controls.minDistance=7; controls.maxDistance=30;
+  targetDestination=new THREE.Vector3(0,1.6,-6);
+  cameraDestination=new THREE.Vector3(0,3.2,9);
+  if(root)root.dataset.viewMode="drive";
+ }else{
+  controls.minPolarAngle=0.12; controls.maxPolarAngle=1.42;
+  controls.minDistance=18; controls.maxDistance=55;
+  targetDestination=new THREE.Vector3(0,1.5,-6);
+  cameraDestination=new THREE.Vector3(0,23,30);
+  if(root)root.dataset.viewMode="fly";
+ }
+}
+document.querySelectorAll("[data-scene-mode]").forEach(button=>button.addEventListener("click",()=>setSceneMode(button.dataset.sceneMode)));
+function resetView(){setSceneMode("fly");}
 function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
 let previousFrame=performance.now();
