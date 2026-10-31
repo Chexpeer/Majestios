@@ -142,11 +142,20 @@ renderer.domElement.addEventListener("pointermove",e=>{
 });
 renderer.domElement.addEventListener("pointerleave",()=>{hovered=null;updateHoverCard(null);});
 renderer.domElement.addEventListener("click",e=>{const data=getBuildingAt(e);if(data){selectBuilding(data);updateHoverCard(data,e);}});
+let touchCandidate=null;
 renderer.domElement.addEventListener("touchstart",e=>{
- if(e.touches.length!==1)return;
- const t=e.touches[0];const data=getBuildingAt(t);
+ if(e.touches.length!==1){touchCandidate=null;return;}
+ const t=e.touches[0];touchCandidate={x:t.clientX,y:t.clientY};
+},{passive:true});
+renderer.domElement.addEventListener("touchend",e=>{
+ if(!touchCandidate)return;
+ const start=touchCandidate;touchCandidate=null;
+ const t=e.changedTouches[0];
+ if(!t||Math.hypot(t.clientX-start.x,t.clientY-start.y)>12)return;
+ const data=getBuildingAt(t);
  if(data){hovered=data.id;selectBuilding(data);updateHoverCard(data,{pointerType:"touch"});}
 },{passive:true});
+renderer.domElement.addEventListener("touchcancel",()=>{touchCandidate=null;},{passive:true});
 const movementKeys=new Set(["w","a","s","d","z","q","arrowup","arrowdown","arrowleft","arrowright","shift"]);
 const pressedKeys=new Set();
 renderer.domElement.addEventListener("keydown",e=>{
@@ -188,8 +197,8 @@ document.querySelectorAll("[data-walk]").forEach(button=>{
  button.addEventListener("contextmenu",e=>e.preventDefault());
 });
 document.querySelector("#view-home").addEventListener("click",resetView);
-document.querySelector("#zoom-in").addEventListener("click",()=>{camera.position.multiplyScalar(.88);controls.update();});
-document.querySelector("#zoom-out").addEventListener("click",()=>{camera.position.multiplyScalar(1.12);controls.update();});
+document.querySelector("#zoom-in").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;camera.position.lerp(controls.target,.12);camera.position.multiplyScalar(.88);controls.update();});
+document.querySelector("#zoom-out").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;camera.position.multiplyScalar(1.12);controls.update();});
 function resetView(){cameraDestination=new THREE.Vector3(0,17,35);targetDestination=new THREE.Vector3(0,1.5,-6);}
 function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
