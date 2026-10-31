@@ -57,6 +57,11 @@ async function main() {
     assert.equal((await page.locator("#panel-title").innerText()).trim(), "Marchés publics", "Le choix sur la carte doit sélectionner la bonne rubrique.");
     assert.match(await page.locator("#open-building").getAttribute("href"), /marches-publics\.html$/, "Le bouton de destination doit mener à la page de la rubrique.");
 
+    // Le deuxième niveau des marchés privés doit conduire au suivi des affaires.
+    await page.locator('#map-buildings .map-building[data-id="B02"]').click();
+    assert.equal((await page.locator("#panel-title").innerText()).trim(), "Marchés privés", "La sélection B02 doit afficher Marchés privés.");
+    assert.match(await page.locator("#floor-list .floor-link").nth(2).getAttribute("href"), /suivi-commercial\.html$/, "Le parcours « Suivi des affaires · Relances » doit ouvrir le suivi commercial.");
+
     await page.locator('[data-scene-mode="drive"]').click();
     assert.equal(await page.locator('[data-scene-mode="drive"]').getAttribute("aria-pressed"), "true", "Le mode Tesla doit être activé.");
     assert.equal(await page.locator("#scene").getAttribute("data-view-mode"), "drive", "La scène doit passer en mode conduite.");
