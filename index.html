@@ -14,7 +14,6 @@
     <script src="app.js" defer></script>
   </head>
   <body class="homepage">
-    <div class="homepage-ticker" aria-label="Bandeau de démonstration"><div class="homepage-ticker-track"><span>MAJESTIOS · VEILLE COMMERCIALE</span><span>Repérez les opportunités qui correspondent à votre activité</span><span>PUBLIC · PRIVÉ · BTP · RÉNOVATION</span><span class="ticker-demo">Bandeau illustratif — aucune annonce réelle</span><span aria-hidden="true">MAJESTIOS · VEILLE COMMERCIALE</span><span aria-hidden="true">Repérez les opportunités qui correspondent à votre activité</span><span aria-hidden="true">PUBLIC · PRIVÉ · BTP · RÉNOVATION</span><span class="ticker-demo" aria-hidden="true">Bandeau illustratif — aucune annonce réelle</span></div></div>
     <header class="site-header">
       <a class="brand" href="index.html#accueil" aria-label="MajestiOS, accueil">
         <span class="brand-mark" aria-hidden="true">M</span>
@@ -103,95 +102,11 @@
               <span class="feed-result-count" id="feed-result-count" aria-live="polite"></span>
             </div>
             <div class="feed-stream" id="feed-stream" aria-live="polite"></div>
-            <div class="feed-source-note"><span aria-hidden="true">i</span> Exemples fictifs : aucune annonce réelle n’est affichée dans ce fil.</div>
-            <p class="feed-contact-link"><a href="#contact">Décrire mon besoin <span aria-hidden="true">→</span></a></p>
+<p class="feed-contact-link"><a href="#contact">Décrire mon besoin <span aria-hidden="true">→</span></a></p>
           </div>
           </div>
-      </section>
-
-      <section class="lead-section section-wrap" id="contact">
-        <details class="lead-form-disclosure" id="contact-form-disclosure">
-          <summary>Décrire mon besoin</summary>
-          <div class="lead-form-wrap">
-          <form id="lead-form">
-            <fieldset class="intent-options">
-              <legend>Je souhaite…</legend>
-              <label class="intent-option">
-                <input type="radio" name="intent" value="respond" checked>
-                <span class="intent-radio"></span>
-                <span><strong>Être accompagné pour répondre à un AO</strong><small>Décrivez l’appel et l’appui recherché.</small></span>
-              </label>
-              <label class="intent-option">
-                <input type="radio" name="intent" value="receive">
-                <span class="intent-radio"></span>
-                <span><strong>Recevoir des AO correspondant à mon activité</strong><small>Indiquez votre secteur et votre zone.</small></span>
-              </label>
-              <label class="intent-option">
-                <input type="radio" name="intent" value="contact">
-                <span class="intent-radio"></span>
-                <span><strong>Parler d’un autre projet ou besoin</strong><small>Décrivez le sujet de votre demande.</small></span>
-              </label>
-            </fieldset>
-            <div class="form-grid">
-              <label class="form-field">Nom et prénom <span>*</span><input name="name" required autocomplete="name" placeholder="Votre nom"></label>
-              <label class="form-field">Organisation <span>*</span><input name="organization" required autocomplete="organization" placeholder="Votre entreprise"></label>
-              <label class="form-field full-width">Adresse e-mail <span>*</span><input name="email" type="email" required autocomplete="email" placeholder="vous@entreprise.fr"></label>
-              <div class="intent-fields full-width" data-for="respond">
-                <p class="selected-tender-note" id="selected-tender-note" role="note" hidden></p>
-                <label class="form-field">Référence, intitulé ou lien de l’AO <span>*</span><input name="tender" placeholder="Référence, URL ou intitulé"></label>
-                <label class="form-field">Votre besoin<textarea name="responseNeed" rows="3" placeholder="Quel appui recherchez-vous pour votre réponse ?"></textarea></label>
-              </div>
-              <div class="intent-fields full-width" data-for="receive" hidden>
-                <label class="form-field">Votre activité ou secteur <span>*</span><input name="sector" placeholder="Ex. : ingénierie, travaux, services"></label>
-                <label class="form-field">Zone géographique souhaitée <span>*</span><input name="area" placeholder="Région, département ou pays"></label>
-              </div>
-              <div class="intent-fields full-width" data-for="contact" hidden>
-                <label class="form-field">Votre projet ou besoin <span>*</span><textarea name="message" rows="3" placeholder="Expliquez-nous ce que vous souhaitez faire avancer."></textarea></label>
-              </div>
-            </div>
-            <p class="form-privacy"><strong>Formulaire de démonstration :</strong> rien n’est envoyé.</p>
-            <button class="button button-primary form-submit" id="preview-request" type="button">Prévisualiser ma demande <span aria-hidden="true">→</span></button>
-            <div class="form-feedback" id="form-feedback" role="status" aria-live="polite" hidden></div>
-          </form>
-          </div>
-        </details>
       </section>
     </main>
-
-    <footer class="site-footer">
-      <a class="brand footer-brand" href="#accueil" aria-label="MajestiOS, retour en haut">
-        <span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span>
-      </a>
-      <p>Repérer les pistes. Garder le discernement.</p>
-      <span class="footer-legal">MajestiOS · Une nouvelle perspective sur votre marché</span>
-    </footer>
-
-
-    <button class="majestic-help-cta" id="open-personal-space" type="button" aria-haspopup="dialog" aria-controls="personal-space-dialog"
-       aria-label="Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires"
-       title="Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires !">
-      <span class="majestic-help-cta__symbol" aria-hidden="true">!</span>
-      <span class="majestic-help-cta__label">Besoin d’un coup de pouce ?</span>
-      <span class="majestic-help-cta__tooltip">Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires !</span>
-    </button>
-
-    <dialog class="personal-space-dialog" id="personal-space-dialog" aria-labelledby="personal-space-title">
-      <form class="personal-space-form" id="personal-space-form">
-        <button class="personal-space-close" type="button" id="close-personal-space" aria-label="Fermer le formulaire">×</button>
-        <p class="eyebrow">UN COUP DE POUCE POUR COMMENCER</p>
-        <h2 id="personal-space-title">Créer mon espace personnel</h2>
-        <p class="personal-space-intro">Faites le premier pas avec MajestiOS. Renseignez vos coordonnées pour préparer votre demande.</p>
-        <div class="personal-space-fields">
-          <label class="form-field">Prénom <span>*</span><input name="firstName" autocomplete="given-name" required></label>
-          <label class="form-field">Nom <span>*</span><input name="lastName" autocomplete="family-name" required></label>
-          <label class="form-field">Adresse e-mail <span>*</span><input name="email" type="email" autocomplete="email" required></label>
-          <label class="form-field">Téléphone <span>*</span><input name="phone" type="tel" autocomplete="tel" required></label>
-        </div>
-        <p class="personal-space-notice"><strong>Prototype :</strong> ce formulaire ne crée pas encore de compte et n’envoie ni n’enregistre aucune donnée.</p>
-        <button class="button button-primary personal-space-submit" type="submit">Préparer ma demande <span aria-hidden="true">→</span></button>
-        <p class="personal-space-feedback" id="personal-space-feedback" role="status" aria-live="polite" hidden></p>
-      </form>
-    </dialog>
 
   </body>
 </html>
