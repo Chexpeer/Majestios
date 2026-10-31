@@ -43,7 +43,7 @@ Navigation commune des pages éditoriales :
 
 La zone artisanale conserve une navigation adaptée à son interface, avec accès visibles à la recherche, au formulaire de contact et à l’accueil. Les douze bâtiments doivent pointer vers les pages métier correspondantes.
 
-Les liens internes doivent être vérifiés après chaque modification. Un lien « # » peut être utilisé temporairement par un contrôle désactivé avant sélection, mais ne doit jamais être présenté comme une destination active. Sur la zone artisanale, le bouton « Découvrir » est volontairement désactivé tant qu’aucun bâtiment n’est sélectionné.
+Les catégories de recherche sont définies dans `catalogue-majestios.js`. Toute catégorie active doit posséder une page HTML existante et tout résultat catégorisé doit renvoyer vers cette page. Les catégories prévues restent désactivées jusqu’à ce que le moteur dispose de données adaptées.\n\nLes liens internes doivent être vérifiés après chaque modification. Un lien « # » peut être utilisé temporairement par un contrôle désactivé avant sélection, mais ne doit jamais être présenté comme une destination active. Sur la zone artisanale, le bouton « Découvrir » est volontairement désactivé tant qu’aucun bâtiment n’est sélectionné.
 
 ## 3. Fichiers et responsabilités
 
