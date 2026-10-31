@@ -24,4 +24,11 @@
     description.textContent = value;
     list.append(term, description);
   }
+
+  // Préserver les critères au retour vers le formulaire de recherche.
+  const returnLink = document.querySelector('a.button-primary[href^="index.html"]');
+  if (returnLink) {
+    const returnParams = new URLSearchParams(params);
+    returnLink.href = `index.html${returnParams.size ? `?${returnParams.toString()}` : ""}#recherche-avancee`;
+  }
 })();
