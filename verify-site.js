@@ -435,6 +435,14 @@ const expectedMainNavigation = [
   "espace-membre.html",
   "faq.html",
 ];
+const expectedMainNavigationLabels = [
+  "Accueil",
+  "Développement commercial",
+  "Salon virtuel",
+  "Nous rejoindre",
+  "Espace membre",
+  "FAQ",
+];
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
   const navMatch = html.match(/<nav\b[^>]*class=["'][^"']*site-nav[^"']*["'][^>]*>([\s\S]*?)<\/nav>/i);
@@ -442,6 +450,11 @@ for (const page of pages) {
   const navHtml = navMatch[1];
   const links = [...navHtml.matchAll(/<a\b([^>]*)href=["']([^"']+)["']([^>]*)>/gi)];
   const destinations = links.map((match) => match[2]);
+  const labels = links.map((match) => match[0].replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim());
+  if (labels.length !== expectedMainNavigationLabels.length ||
+      labels.some((label, index) => label !== expectedMainNavigationLabels[index])) {
+    errors.push(`${page} : libellés ou ordre de navigation principale incohérents`);
+  }
   for (const destination of expectedMainNavigation) {
     if (!destinations.includes(destination)) {
       errors.push(`${page} : navigation principale incomplète (${destination})`);
