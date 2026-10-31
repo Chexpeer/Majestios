@@ -56,6 +56,26 @@ if (fs.existsSync(buildPath)) {
   errors.push("build.js : fichier absent");
 }
 
+// Vérifier que les douze rubriques restent accessibles depuis l'univers virtuel.
+const zoneHtmlPath = path.join(root, "zone-artisanale.html");
+const zoneJsPath = path.join(root, "zone-artisanale.js");
+if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath) && fs.existsSync(appPath)) {
+  const zoneHtml = fs.readFileSync(zoneHtmlPath, "utf8").replaceAll('\\\\\"', '"');
+  const zoneJs = fs.readFileSync(zoneJsPath, "utf8");
+  const app = fs.readFileSync(appPath, "utf8");
+  const destinationsBlock = app.match(/const surfaceDestinations\\s*=\\s*\\{([\\s\\S]*?)\\n\\s*\\};/);
+  const destinations = destinationsBlock
+    ? [...destinationsBlock[1].matchAll(/["']([^"']+)["']\\s*:\\s*["']([^"']+\\.html)["']/g)]
+    : [];
+  for (const [, , destination] of destinations) {
+    if (!zoneHtml.includes(destination) && !zoneJs.includes(destination)) {
+      errors.push(`Univers virtuel : rubrique inaccessible depuis la zone artisanale : ${destination}`);
+    }
+  }
+} else {
+  errors.push("zone-artisanale.html ou zone-artisanale.js : fichier absent, contrôle de l'univers virtuel impossible");
+}
+
 // Vérifier la correspondance structurelle des douze losanges et destinations.
 const svgPath = path.join(root, "schema-majestios.svg");
 const appPath = path.join(root, "app.js");
