@@ -273,6 +273,18 @@ function renderZoneMap(){
 }
 renderZoneMap();
 function getBuildingAt(event){const rect=renderer.domElement.getBoundingClientRect();if(!rect.width||!rect.height)return null;pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(buildingMeshes,true);for(const hit of hits){let object=hit.object;while(object){if(object.userData?.building)return object.userData.building;object=object.parent;}}return null;}
+// Interface de test temporaire, disponible uniquement avec ?e2e=1 ; elle ne change pas le parcours utilisateur normal.
+if(new URLSearchParams(window.location.search).has("e2e")){
+ window.__MAJESTIOS_SCENE_E2E__={
+  buildingPoint(id){
+   const data=buildings.find(item=>item.id===id);
+   if(!data)throw new Error(`Bâtiment inconnu : ${id}`);
+   const point=new THREE.Vector3(data.x,5.92,data.z-.04).project(camera);
+   const rect=renderer.domElement.getBoundingClientRect();
+   return {x:rect.left+(point.x+1)*rect.width/2,y:rect.top+(1-point.y)*rect.height/2};
+  }
+ };
+}
 function updateHoverCard(data,event){
  if(!hoverCard)return;
  if(!data){hoverCard.classList.remove("is-visible");hoverCard.setAttribute("aria-hidden","true");return;}
