@@ -69,7 +69,7 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!home.includes('href="nous-rejoindre.html"') || !home.includes('href="espace-membre.html"') || !home.includes('href="faq.html"')) {
     errors.push("Accueil : navigation principale incomplète");
   }
-  if (!appScript.includes("function renderTenderFeed") || !appScript.includes("populateSearchFilters();")) {
+  if (!appScript.includes("advancedSearchForm.addEventListener(\"submit\"") || !appScript.includes("populateSearchFilters();")) {
     errors.push("Recherche avancée : initialisation ou rendu des résultats absent");
   }
   for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="homepage-ticker"', 'class="site-footer"', 'class="directory"']) {
@@ -160,7 +160,7 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
   const peripheralCount = sharedRubrics.filter((building) => building.group === "peripherique").length;
   const uniquePositions = new Set(sharedRubrics.map((building) => building.position));
   if (sharedRubrics.length !== 12) errors.push(`Univers virtuel : ${sharedRubrics.length} bâtiments reconnus dans le catalogue, 12 attendus`);
-  if (centralCount !== 7 || peripheralCount !== 5) errors.push(`Univers virtuel : répartition détectée ${centralCount} centraux / ${peripheralCount} périphériques, 7 / 5 attendus`);
+  if (centralCount !== 6 || peripheralCount !== 6) errors.push(`Univers virtuel : répartition détectée ${centralCount} centraux / ${peripheralCount} périphériques, 6 / 6 attendus`);
   if (uniquePositions.size !== 12) errors.push(`Univers virtuel : ${uniquePositions.size} positions distinctes, 12 attendues`);
   if (new Set(sharedRubrics.map((building) => building.id)).size !== 12) errors.push("Univers virtuel : identifiants de bâtiments dupliqués");
   // Garder les accès commerciaux essentiels visibles depuis la zone immersive.
