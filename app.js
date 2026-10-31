@@ -3,6 +3,7 @@ const navigation = document.querySelector("#site-nav");
 const leadForm = document.querySelector("#lead-form");
 const formFeedback = document.querySelector("#form-feedback");
 const feedStream = document.querySelector("#feed-stream");
+const majCatalog = window.MAJESTIOS_CATALOG || { rubrics: [], searchCategories: [], marketTypes: [] };
 
 const demoTenders = [
   {
@@ -11,6 +12,7 @@ const demoTenders = [
     buyer: "Acheteur public fictif · services",
     sector: "services",
     sectorLabel: "Services numériques",
+    marketType: "public",
     region: "nord",
     regionLabel: "Nord · exemple",
     description: "Exemple de consultation dans le secteur des services numériques."
@@ -21,6 +23,7 @@ const demoTenders = [
     buyer: "Acheteur public fictif · aménagement",
     sector: "travaux",
     sectorLabel: "Travaux & aménagement",
+    marketType: "public",
     region: "ouest",
     regionLabel: "Ouest · exemple",
     description: "Exemple de projet de travaux pour un équipement de proximité."
@@ -31,6 +34,7 @@ const demoTenders = [
     buyer: "Acheteur public fictif · conseil",
     sector: "conseil",
     sectorLabel: "Conseil & études",
+    marketType: "public",
     region: "sud",
     regionLabel: "Sud · exemple",
     description: "Exemple de mission d’étude autour de la transition."
@@ -231,10 +235,12 @@ function setIntent(intent) {
 function renderTenderFeed() {
   const query = document.querySelector("#feed-search").value.trim().toLocaleLowerCase("fr");
   const sector = document.querySelector("#feed-sector").value;
+  const marketType = document.querySelector("#feed-market-type")?.value || "all";
   const region = document.querySelector("#feed-region").value;
   const matches = demoTenders.filter((tender) => {
     const searchable = `${tender.title} ${tender.buyer} ${tender.sectorLabel} ${tender.regionLabel}`.toLocaleLowerCase("fr");
     return (sector === "all" || tender.sector === sector)
+      && (marketType === "all" || tender.marketType === marketType)
       && (region === "all" || tender.region === region)
       && searchable.includes(query);
   });
@@ -302,6 +308,7 @@ function renderTenderFeed() {
 
 document.querySelector("#feed-search").addEventListener("input", renderTenderFeed);
 document.querySelector("#feed-sector").addEventListener("change", renderTenderFeed);
+document.querySelector("#feed-market-type")?.addEventListener("change", renderTenderFeed);
 document.querySelector("#feed-region").addEventListener("change", renderTenderFeed);
 renderTenderFeed();
 
@@ -357,34 +364,8 @@ navigation.querySelectorAll("a").forEach((link) => {
 /* Interaction du schéma SVG : survol visuel et sélection accessible au clavier */
 const interactiveSvg = document.querySelector("#majestios-interactive-svg");
 if (interactiveSvg) {
-  const surfaceNames = {
-    "central-bleu": "Marchés publics",
-    "central-bleu-clair": "Veille des marchés",
-    "central-vert": "Marchés privés",
-    "central-turquoise": "Prospection inversée",
-    "central-orange": "Développement commercial",
-    "central-corail": "Intelligence économique",
-    "peripherique-turquoise": "Réseaux et synergies",
-    "peripherique-vert": "Sous-traitance et débordement de marchés",
-    "peripherique-corail": "Accompagnement aux appels d’offres",
-    "peripherique-orange": "Veille des entreprises — BODACC",
-    "peripherique-violet": "Salons et séminaires",
-    "peripherique-violet-clair": "Suivi commercial et capitalisation"
-  };
-  const surfaceDestinations = {
-    "central-bleu": "marches-publics.html",
-    "central-bleu-clair": "veille-marches.html",
-    "central-vert": "marches-prives.html",
-    "central-turquoise": "prospection-inversee.html",
-    "central-orange": "developpement-commercial.html",
-    "central-corail": "intelligence-economique.html",
-    "peripherique-turquoise": "reseaux-synergies.html",
-    "peripherique-vert": "sous-traitance.html",
-    "peripherique-corail": "accompagnement-appels-offres.html",
-    "peripherique-orange": "bodacc-veille-entreprises.html",
-    "peripherique-violet": "salons-seminaires.html",
-    "peripherique-violet-clair": "suivi-commercial.html"
-  };
+  const surfaceNames = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.label]));
+  const surfaceDestinations = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.href]));
   const initializeInteractiveSvg = () => {
     const svgDocument = interactiveSvg.contentDocument;
     if (!svgDocument || interactiveSvg.dataset.interactionsReady === "true") return;
