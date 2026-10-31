@@ -896,6 +896,28 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
 
 
 
+
+ // Lot 20 — garantir l'ordre de l'accueil, le pied de page et les optimisations 3D.
+ const searchPosition = homeSceneHtml.indexOf('class="tender-feed-section"');
+ const industrialPosition = homeSceneHtml.indexOf('class="industrial-zone-home"');
+ const navigationEndPosition = homeSceneHtml.indexOf("</header>");
+ if (searchPosition < 0 || industrialPosition < 0 || searchPosition < navigationEndPosition || searchPosition > industrialPosition) {
+   errors.push("Accueil : le moteur de recherche doit apparaître sous la navigation et avant la zone industrielle");
+ }
+ for (const route of ["nous-rejoindre.html", "faq.html", "mentions-legales.html", "politique-confidentialite.html"]) {
+   if (!homeSceneHtml.includes(`href="${route}"`)) errors.push(`Pied de page : lien manquant vers ${route}`);
+   if (!fs.existsSync(path.join(root, route))) errors.push(`Pied de page : page cible absente ${route}`);
+   if (buildScriptPath && fs.existsSync(buildScriptPath) && !fs.readFileSync(buildScriptPath, "utf8").includes(`"${route}"`)) {
+     errors.push(`Build : page de pied de page non publiée ${route}`);
+   }
+ }
+ if (!homeSceneJs.includes("pixelRatioCap") || !homeSceneJs.includes("renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,pixelRatioCap))")) {
+   errors.push("Zone 3D : plafond de résolution adaptatif absent");
+ }
+ if (!homeSceneJs.includes("function pauseScene()") || !homeSceneJs.includes("new IntersectionObserver") || !homeSceneJs.includes("document.hidden")) {
+   errors.push("Zone 3D : pause du rendu hors écran ou onglet masqué absente");
+ }
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
