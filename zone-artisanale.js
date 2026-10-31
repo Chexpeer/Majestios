@@ -256,14 +256,15 @@ function selectBuilding(data,{keepMap=false}={}){selected=data;if(!keepMap){setS
 function renderZoneMap(){
  if(!mapBuildings)return;
  mapBuildings.innerHTML="";
- const minX=-15,maxX=15,minZ=-18,maxZ=8;
- buildings.forEach(data=>{
+ // Disposition régulière pour éviter que les 12 cartes se chevauchent.
+ // Sur écran large : 4 colonnes × 3 rangées, en gardant la chaussée centrale libre.
+ const columns=[12,37,63,88],rows=[18,58,85];
+ buildings.forEach((data,index)=>{
   const button=document.createElement("button");
   button.type="button";button.className="map-building";button.dataset.id=data.id;button.dataset.group=data.group;
   button.style.setProperty("--building-color",data.color);
-  const left=THREE.MathUtils.clamp((data.x-minX)/(maxX-minX)*100,6,94);
-  const top=THREE.MathUtils.clamp((maxZ-data.z)/(maxZ-minZ)*100,5,95);
-  button.style.left=left+"%";button.style.top=top+"%";
+  button.style.left=columns[index%4]+"%";
+  button.style.top=rows[Math.floor(index/4)]+"%";
   const name=document.createElement("span");name.textContent=data.name;
   const detail=document.createElement("small");detail.textContent=data.ground;
   button.append(name,detail);button.setAttribute("aria-label",data.name+" — "+data.ground);
