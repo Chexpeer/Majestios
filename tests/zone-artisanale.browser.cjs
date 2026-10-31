@@ -112,8 +112,9 @@ async function main() {
     for (const [id, expectedTitle, mainRoute] of routeContracts) {
       console.log(`[3D] Vérification ${id} — ${expectedTitle}`);
       await page.goto("http://127.0.0.1:4173/?e2e=1", { waitUntil: "domcontentloaded", timeout: 15000 });
-      // Le mode Carte interactive peut être conservé entre les navigations :
-      // réactiver la navigation aérienne avant d'attendre le canvas 3D.
+      // Faire entrer la scène dans le viewport : l'animation est volontairement suspendue hors écran.
+      await page.locator("#scene").scrollIntoViewIfNeeded();
+      // Réactiver la navigation aérienne avant d'attendre le canvas 3D.
       await page.locator('[data-scene-mode="fly"]').click();
       await page.locator("canvas").waitFor({ state: "visible", timeout: 30000 });
       await page.waitForFunction(() => Boolean(window.__MAJESTIOS_SCENE_E2E__), null, { timeout: 30000 });
