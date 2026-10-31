@@ -1,0 +1,20 @@
+name: Vérification du site MajestiOS
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify-static-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Construire le site statique
+        run: node build.js
+      - name: Vérifier les pages, liens et parcours
+        run: node verify-site.js
