@@ -218,7 +218,7 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath) && fs.existsSync(zoneSceneP
   const zoneHtmlPath = path.join(root, "zone-artisanale.html");
   const zoneHtml = fs.existsSync(zoneHtmlPath) ? fs.readFileSync(zoneHtmlPath, "utf8") : "";
   if (!zoneHtml.includes('catalogue-majestios.js')) errors.push("Zone 3D : catalogue partagé non chargé avant le module de scène");
-  const categoryValues = new Set([...catalogue.matchAll(/\{ value: "([^"]+)", label: "[^"]+", active: true \}/g)].map((match) => match[1]));
+  const categoryValues = new Set([...catalogue.matchAll(/\{ value: "([^"]+)", label: "[^"]+", active: true(?:, href: "[^"]+")? \}/g)].map((match) => match[1]));
   const activeTenderCategories = new Set([...app.matchAll(/sector: "([^"]+)"/g)].map((match) => match[1]));
   for (const category of activeTenderCategories) if (!categoryValues.has(category)) errors.push(`Moteur de recherche : catégorie des exemples absente du catalogue : ${category}`);
 } else {
@@ -254,6 +254,10 @@ if (fs.existsSync(homeHtmlPath)) {
 }
 
 // Les douze rubriques sont la source de vérité commune du panorama et de l'univers 3D.
+const expectedCategoryPages = ["categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html"];
+for (const page of expectedCategoryPages) {
+  if (!fs.existsSync(path.join(root, page))) errors.push(`Catégories d’opportunités : page référencée mais absente : ${page}`);
+}
 const expectedRubricPages = [
   "marches-publics.html", "veille-marches.html", "marches-prives.html",
   "prospection-inversee.html", "developpement-commercial.html", "intelligence-economique.html",
@@ -269,7 +273,7 @@ for (const page of expectedRubricPages) {
 // Vérifier le contenu réellement préparé dans dist/, pas seulement la liste de build.
 const distPath = path.join(root, "dist");
 if (fs.existsSync(distPath)) {
-  for (const page of ["index.html", "zone-artisanale.html", ...expectedRubricPages]) {
+  for (const page of ["index.html", "zone-artisanale.html", ...expectedRubricPages, ...expectedCategoryPages]) {
     if (!fs.existsSync(path.join(distPath, page))) errors.push(`Build : page attendue absente de dist/ : ${page}`);
   }
   for (const asset of ["styles.css", "app.js", "schema-majestios.svg", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js"]) {
