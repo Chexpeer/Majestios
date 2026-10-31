@@ -60,6 +60,61 @@ const demoTenders = [
     region: "nord",
     regionLabel: "Nord · exemple",
     description: "Exemple de projet de rénovation énergétique."
+  },
+  {
+    id: "feed-06",
+    title: "Réfection fictive de façades et parties communes",
+    buyer: "Acheteur public fictif · bâtiment",
+    sector: "batiment",
+    sectorLabel: "Bâtiment & construction",
+    marketType: "public",
+    region: "ouest",
+    regionLabel: "Ouest · exemple",
+    description: "Exemple fictif de consultation de travaux sur un bâtiment."
+  },
+  {
+    id: "feed-07",
+    title: "Rénovation thermique d’un bâtiment communal",
+    buyer: "Acheteur public fictif · rénovation",
+    sector: "renovation",
+    sectorLabel: "Rénovation énergétique et générale",
+    marketType: "public",
+    region: "nord",
+    regionLabel: "Nord · exemple",
+    description: "Exemple fictif de rénovation énergétique ; aucune consultation réelle n’est associée."
+  },
+  {
+    id: "feed-08",
+    title: "Mise en conformité électrique d’un équipement",
+    buyer: "Acheteur public fictif · électricité",
+    sector: "electricite",
+    sectorLabel: "Électricité",
+    marketType: "public",
+    region: "sud",
+    regionLabel: "Sud · exemple",
+    description: "Exemple fictif de travaux électriques à qualifier."
+  },
+  {
+    id: "feed-09",
+    title: "Remplacement fictif d’équipements de plomberie",
+    buyer: "Acheteur public fictif · plomberie",
+    sector: "plomberie",
+    sectorLabel: "Plomberie & chauffage",
+    marketType: "public",
+    region: "ouest",
+    regionLabel: "Ouest · exemple",
+    description: "Exemple fictif de travaux de plomberie et chauffage."
+  },
+  {
+    id: "feed-10",
+    title: "Maintenance préventive d’un bâtiment",
+    buyer: "Acheteur public fictif · maintenance",
+    sector: "maintenance",
+    sectorLabel: "Maintenance & exploitation",
+    marketType: "public",
+    region: "nord",
+    regionLabel: "Nord · exemple",
+    description: "Exemple fictif de prestations de maintenance multi-technique."
   }
 ];
 
@@ -281,6 +336,18 @@ function populateSearchFilters() {
 
 populateSearchFilters();
 
+const initialSearchParams = new URLSearchParams(window.location.search);
+const initialCategory = initialSearchParams.get("categorie");
+if (initialCategory && majCatalog.searchCategories.some((item) => item.value === initialCategory && !item.planned)) {
+  const categoryControl = document.querySelector("#feed-sector");
+  if (categoryControl) categoryControl.value = initialCategory;
+}
+const initialKeyword = initialSearchParams.get("q");
+if (initialKeyword) {
+  const keywordControl = document.querySelector("#feed-search");
+  if (keywordControl) keywordControl.value = initialKeyword;
+}
+
 function renderTenderFeed() {
   const query = document.querySelector("#feed-search").value.trim().toLocaleLowerCase("fr");
   const sector = document.querySelector("#feed-sector").value;
@@ -335,6 +402,15 @@ function renderTenderFeed() {
     metadata.className = "feed-card-metadata";
     metadata.textContent = `${tender.sectorLabel} · ${tender.regionLabel} · Échéance non renseignée`;
     content.append(heading, buyer, description, metadata);
+
+    const category = majCatalog.searchCategories.find((item) => item.value === tender.sector);
+    if (category && category.href) {
+      const categoryLink = document.createElement("a");
+      categoryLink.href = category.href;
+      categoryLink.className = "feed-category-link";
+      categoryLink.textContent = `Explorer la rubrique : ${category.label} →`;
+      content.append(categoryLink);
+    }
 
     const action = document.createElement("a");
     action.href = "#contact";
