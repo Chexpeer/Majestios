@@ -304,7 +304,12 @@ document.querySelector("#feed-search").addEventListener("input", renderTenderFee
 document.querySelector("#feed-sector").addEventListener("change", renderTenderFeed);
 document.querySelector("#feed-region").addEventListener("change", renderTenderFeed);
 renderTenderFeed();
-renderDemoDetail();
+
+// Les anciennes cartes de démonstration ont été retirées de l’accueil compact :
+// n’initialiser leur rendu que si leurs conteneurs existent encore sur une page.
+if (document.querySelector('#demo-detail') && document.querySelector('#demo-status')) {
+  renderDemoDetail();
+}
 
 leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
   radio.addEventListener("change", () => setIntent(radio.value));
