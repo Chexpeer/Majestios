@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Le blog humoristique de MajestiOS : jeux de mots sur l’intelligence artificielle, la prospection et les doigts.">
+<title>MajestiOS — Le blog des 100 blagues</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.blog-hero{padding:48px 0 26px;max-width:820px}.blog-hero h1{max-width:760px}.blog-intro{max-width:720px;color:#666c7d;font-size:15px;line-height:1.8}.joke-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}.joke-card{position:relative;min-height:180px;padding:24px;border:1px solid #e9eaf0;border-radius:14px;background:linear-gradient(145deg,#fff,#faf9ff)}.joke-card:before{content:"“";display:block;color:#6855df;font:800 48px/1 Georgia,serif}.joke-card blockquote{margin:0 0 12px;font:750 20px/1.45 Manrope,sans-serif;letter-spacing:-.4px}.joke-card p{margin:0;color:#85899a;font-size:11px;line-height:1.6}.blog-note{padding:18px 20px;border-left:4px solid #c8bdf9;border-radius:0 9px 9px 0;background:#f7f5ff;color:#5f5a7e;font-size:13px;line-height:1.8}.blog-actions{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0}.blog-actions a{padding:12px 16px;border-radius:8px;background:#6855df;color:white;font-size:13px;font-weight:700}.blog-actions a.secondary{background:#f3f1ff;color:#5142bb}@media(max-width:680px){.joke-grid{grid-template-columns:1fr}.blog-hero{padding-top:30px}}
+</style>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+<nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="salons-seminaires.html">Salon virtuel</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace membre</a><a href="faq.html">FAQ</a></nav>
+</header>
+<main class="section-wrap interior-page">
+<section class="blog-hero"><p class="eyebrow">HUMOUR MAJESTIOS · PREMIÈRE SÉLECTION</p><h1>Le blog des <span>100 blagues.</span></h1><p class="blog-intro">Parce qu’on peut prendre le développement commercial au sérieux sans se prendre toujours au sérieux. Voici les premiers jeux de mots de l’univers MajestiOS. La collection est appelée à grandir : nous n’affichons pas 100 blagues tant qu’elles ne sont pas réellement réunies.</p></section>
+<div class="joke-grid">
+<article class="joke-card"><blockquote>MajestiOS, la magie au bout des doigts, l’intelligence à portée de main !</blockquote><p>La promesse tient… au bout des doigts.</p></article>
+<article class="joke-card"><blockquote>Vous proposez, MajestiOS dispose !</blockquote><p>Le jeu de mots est volontaire : l’IA propose, l’utilisateur garde la main.</p></article>
+<article class="joke-card"><blockquote>Monsieur Jourdain faisait de la prose sans le savoir et MajestiOS l'IA qui propose son savoir !!</blockquote><p>Un clin d’œil à Molière et à l’intelligence artificielle.</p></article>
+<article class="joke-card"><blockquote>Il y a ceux qui en ont marre… et ceux qui se marrent. MajestiOS a choisi son camp !</blockquote><p>Une prospection qui ne manque pas d’humour.</p></article>
+<article class="joke-card"><blockquote>L'auriculaire a pris le large !!</blockquote><p>Quand même le petit doigt décide de prendre ses distances.</p></article>
+<article class="joke-card"><blockquote>A deux doigts de la crise de fou rire</blockquote><p>Attention : risque de rire à portée de main.</p></article>
+<article class="joke-card"><blockquote>Bon revenons à nos moutons...heureusement plutôt a nos doigts 😂</blockquote><p>Une réunion de travail qui retrouve vite son sujet.</p></article>
+<article class="joke-card"><blockquote>Gagner les doigts dans le nez grâce MajestiOS mais ne les perdez surtout pas 😂</blockquote><p>La performance commerciale, oui. La prudence anatomique, aussi.</p></article>
+<article class="joke-card"><blockquote>L'IA qui vous en met plein les yeux et qui vous en fais voir de toute les couleurs...</blockquote><p>Une intelligence artificielle qui ne passe pas inaperçue.</p></article>
+</div>
+<aside class="blog-note"><strong>La règle de la maison :</strong> l’humour fait partie de l’identité de MajestiOS, mais il ne remplace jamais la clarté. Les fonctions du produit sont décrites honnêtement, et les blagues restent des blagues.</aside>
+<nav class="blog-actions" aria-label="Explorer MajestiOS"><a href="index.html">Revenir à la zone artisanale</a><a class="secondary" href="vision-majestios.html">Comprendre la vision MajestiOS</a><a class="secondary" href="faq.html">Consulter la FAQ</a></nav>
+</main>
+<footer class="site-footer"><div class="section-wrap">MajestiOS · L’intelligence à portée de main, le sourire en prime.</div></footer>
+<script>
+const menuToggle=document.querySelector(".menu-toggle");const navigation=document.querySelector("#site-nav");
+menuToggle?.addEventListener("click",()=>{const open=menuToggle.getAttribute("aria-expanded")==="true";menuToggle.setAttribute("aria-expanded",String(!open));menuToggle.setAttribute("aria-label",open?"Ouvrir le menu":"Fermer le menu");navigation?.classList.toggle("open",!open);});
+navigation?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{navigation.classList.remove("open");menuToggle?.setAttribute("aria-expanded","false");}));
+</script>
+</body>
+</html>
