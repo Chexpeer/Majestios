@@ -131,6 +131,15 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!sceneScriptText.includes('addEventListener("touchstart"') || !sceneScriptText.includes('addEventListener("touchend"') || !sceneScriptText.includes("ResizeObserver")) {
     errors.push("Zone 3D : sélection tactile ou adaptation de taille non vérifiable dans le script");
   }
+  if (!sceneScriptText.includes("while(object){if(object.userData?.building)return object.userData.building;object=object.parent;}")) {
+    errors.push("Zone 3D : sélection directe des bâtiments doit remonter les objets touchés jusqu’au bâtiment parent");
+  }
+  if (!sceneScriptText.includes("if(data){window.location.assign(data.route);}") || !sceneScriptText.includes("function getBuildingAt(event)")) {
+    errors.push("Zone 3D : clic sur un bâtiment doit ouvrir directement sa rubrique métier");
+  }
+  if (!sceneScriptText.includes("wrap:true") || !sceneScriptText.includes("height:210,size:48")) {
+    errors.push("Zone 3D : enseignes des bâtiments doivent gérer les intitulés longs et rester lisibles");
+  }
   if (!home.includes('href="nous-rejoindre.html"') || !home.includes('href="espace-membre.html"') || !home.includes('href="faq.html"')) {
     errors.push("Accueil : navigation principale incomplète");
   }
