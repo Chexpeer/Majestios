@@ -219,7 +219,7 @@ for(const x of [-.62,.62]){
 scene.add(visitorHelicopter);visitorHelicopter.visible=false;
 function syncVisitorCar(){
  const driving=root.dataset.viewMode==="drive";
- visitorCar.visible=driving;
+ visitorCar.visible=false; // Street View : aucun véhicule ne masque la vue ni les rubriques.
  if(!driving)return;
  const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();
  visitorCar.position.set(
