@@ -73,6 +73,25 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
       errors.push(`Univers virtuel : rubrique inaccessible depuis la zone artisanale : ${destination}`);
     }
   }
+
+  // Vérifier les routes réellement déclarées par les douze bâtiments 3D.
+  const buildingRoutes = [...zoneJs.matchAll(/route\s*:\s*["']([^"']+\.html)["']/g)]
+    .map((match) => match[1]);
+  const uniqueBuildingRoutes = new Set(buildingRoutes);
+  if (buildingRoutes.length !== 12) {
+    errors.push(`Univers virtuel : ${buildingRoutes.length} routes de bâtiments détectées, 12 attendues`);
+  }
+  if (uniqueBuildingRoutes.size !== 12) {
+    errors.push(`Univers virtuel : ${uniqueBuildingRoutes.size} destinations distinctes pour les bâtiments, 12 attendues`);
+  }
+  for (const route of uniqueBuildingRoutes) {
+    if (!virtualDestinations.includes(route)) {
+      errors.push(`Univers virtuel : route de bâtiment inattendue : ${route}`);
+    }
+    if (!fs.existsSync(path.join(root, route))) {
+      errors.push(`Univers virtuel : page de bâtiment absente : ${route}`);
+    }
+  }
 } else {
   errors.push("zone-artisanale.html ou zone-artisanale.js : fichier absent, contrôle de l'univers virtuel impossible");
 }
