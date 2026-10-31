@@ -69,7 +69,8 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!home.includes("window.majestiosSceneFallback") || !home.includes("loading.dataset.fallbackShown")) {
     errors.push("Accueil : mécanisme de secours de la scène 3D absent ou incomplet");
   }
-  const sceneScriptText = fs.existsSync(path.join(root, "zone-artisanale.js")) ? fs.readFileSync(path.join(root, "zone-artisanale.js"), "utf8") : "";\n  if (!sceneScriptText.includes("webglcontextlost") || !sceneScriptText.includes('loading.dataset.fallbackShown!=="true"')) {
+  const sceneScriptText = fs.existsSync(path.join(root, "zone-artisanale.js")) ? fs.readFileSync(path.join(root, "zone-artisanale.js"), "utf8") : "";
+  if (!sceneScriptText.includes("webglcontextlost") || !sceneScriptText.includes('loading.dataset.fallbackShown!=="true"')) {
     errors.push("Zone 3D : gestion de la perte WebGL ou protection contre le masquage du secours absente");
   }
   if (!home.includes('href="nous-rejoindre.html"') || !home.includes('href="espace-membre.html"') || !home.includes('href="faq.html"')) {
