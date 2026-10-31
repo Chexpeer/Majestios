@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2a">
+  <meta name="description" content="Prototype interactif de la zone artisanale numérique MajestiOS.">
+  <title>Zone artisanale interactive — MajestiOS</title>
+  <link rel="stylesheet" href="zone-artisanale.css">
+  <script type="module" src="zone-artisanale.js"></script>
+</head>
+<body>
+  <header class="za-header">
+    <a class="za-brand" href="index.html" aria-label="Retour à l'accueil MajestiOS"><span class="za-mark">M</span><span>majesti<strong>OS</strong></span></a>
+    <div class="za-heading"><p class="eyebrow">ESPACE INTERACTIF · PROTOTYPE</p><h1>La zone artisanale MajestiOS</h1><p>Explorez les douze activités. Sélectionnez un bâtiment pour découvrir sa rubrique.</p></div>
+    <a class="back-link" href="index.html">← Retour à l'accueil</a>
+  </header>
+  <main class="za-main">
+    <section class="scene-shell" aria-label="Zone artisanale 3D interactive">
+      <div id="scene" class="scene" role="application" aria-label="Scène 3D : faites glisser pour tourner, utilisez la molette pour zoomer et sélectionnez un bâtiment.">
+        <div class="scene-loading" id="scene-loading">Préparation de la zone artisanale…</div>
+      </div>
+      <div class="scene-topline"><span class="live-dot"></span> VUE PANORAMIQUE</div>
+      <div class="scene-controls" aria-label="Commandes de la vue">
+        <button id="view-home" type="button" title="Revenir à la vue générale">Vue générale</button>
+        <button id="zoom-in" type="button" aria-label="Zoom avant">+</button>
+        <button id="zoom-out" type="button" aria-label="Zoom arrière">−</button>
+      </div>
+      <p class="scene-hint">Faites glisser pour explorer · Molette pour zoomer · Touchez un bâtiment pour le sélectionner</p>
+    </section>
+    <aside class="building-panel" id="building-panel" aria-live="polite">
+      <p class="panel-kicker">VOTRE PROCHAINE ÉTAPE</p>
+      <h2 id="panel-title">Choisissez un bâtiment</h2>
+      <p id="panel-description">Les douze bâtiments représentent les activités complémentaires de MajestiOS. Sélectionnez-en un dans la scène ou dans la liste ci-dessous.</p>
+      <div class="floor-list" id="floor-list">
+        <div><span>RDC</span><p>Activité principale</p></div>
+        <div><span>1er</span><p>Services et actions</p></div>
+        <div><span>2e</span><p>Outils et intelligence</p></div>
+      </div>
+      <a class="button-primary is-disabled" id="open-building" href="#" aria-disabled="true">Découvrir cette rubrique</a>
+      <p class="panel-note">Prototype de navigation : les pages existantes restent séparées. Les bandeaux sont des exemples de présentation, pas une promesse de fonctionnalité automatisée.</p>
+    </aside>
+    <section class="directory" aria-labelledby="directory-title">
+      <div class="directory-heading"><p class="eyebrow">LES 12 ACTIVITÉS</p><h2 id="directory-title">Choisir une rubrique</h2><p>Vous pouvez aussi accéder directement à une rubrique sans manipuler la scène 3D.</p></div>
+      <div id="building-directory" class="building-directory"></div>
+    </section>
+  </main>
+  <footer class="za-footer"><span>MajestiOS · Intelligence commerciale proactive</span><span>Prototype isolé — non intégré à l'accueil de production</span></footer>
+</body>
+</html>
