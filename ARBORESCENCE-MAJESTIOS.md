@@ -1,7 +1,7 @@
 # MajestiOS — arborescence et dépendances de référence
 
 Version : 2026-10-31  
-Branche de travail : `corrections-securite-scene-2026-10-31`  
+Branche de travail : `reprise-zone-industrielle-avancee-2026-10-31`  
 Objet : document de référence pour nettoyer le dépôt sans casser les pages, les interactions ni le build.
 
 ## 1. Structure obligatoire de la page d’accueil
@@ -51,6 +51,8 @@ La page actuellement rattachée à la navigation « Salon virtuel » porte cette
 12. Suivi commercial — `suivi-commercial.html`
 
 Chaque bâtiment doit pointer vers sa propre page métier. Les destinations sont centralisées dans `catalogue-majestios.js`.
+
+**État réel de la profondeur de navigation (audit du 31/10/2026).** Les bâtiments affichent sur leur façade deux bandes descriptives (`first` et `second`), mais ces textes ne sont pas des sous-rubriques navigables. La sélection d’un bâtiment masque actuellement `#floor-list` et propose un seul lien vers la page métier. Les blocs « Pour aller plus loin » présents sur certaines pages offrent des liens contextuels, mais ne constituent pas encore une arborescence uniforme à trois niveaux. Ne pas déclarer cette profondeur comme achevée avant d’avoir défini les sous-rubriques, leurs destinations réelles et leurs règles de retour.
 
 ### Pages de catégories de recherche
 - `categorie-services-numeriques.html`
