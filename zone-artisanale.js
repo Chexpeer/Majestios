@@ -27,7 +27,7 @@ const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matche
 const scene=new THREE.Scene();
 scene.background=new THREE.Color("#b7c8d5");
 scene.fog=new THREE.Fog("#b7c8d5",34,72);
-const camera=new THREE.PerspectiveCamera(42,1,.1,150);
+const camera=new THREE.PerspectiveCamera(50,1,.1,150);
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.7));
 renderer.shadowMap.enabled=true;
@@ -39,10 +39,10 @@ renderer.domElement.tabIndex=0;
 renderer.domElement.setAttribute("aria-label","Zone 3D. Faites glisser pour tourner et sélectionnez un bâtiment.");
 root.appendChild(renderer.domElement);
 const controls=new OrbitControls(camera,renderer.domElement);
-controls.target.set(0,1.3,-6);
+controls.target.set(0,1.5,-6);
 controls.enableDamping=!reducedMotion;
 controls.dampingFactor=.07;
-controls.minDistance=16;controls.maxDistance=42;
+controls.minDistance=18;controls.maxDistance=48;
 controls.minPolarAngle=.52;controls.maxPolarAngle=1.42;
 controls.maxAzimuthAngle=.85;controls.minAzimuthAngle=-.85;
 controls.enablePan=true;
@@ -56,12 +56,24 @@ function labelTexture(text,color,opts={}){const canvas=document.createElement("c
 function sign(parent,text,color,y,w=5.1){const tex=labelTexture(text,color,{height:150,size:44});const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,.75),new THREE.MeshBasicMaterial({map:tex,side:THREE.DoubleSide}));mesh.position.set(0,y,1.01);parent.add(mesh);return mesh;}
 function band(parent,text,color,y,w=5.1){const tex=labelTexture(text,color,{height:100,size:28,bg:"#17283a"});const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,.5),new THREE.MeshBasicMaterial({map:tex,side:THREE.DoubleSide}));mesh.position.set(0,y,1.012);parent.add(mesh);}
 const ground=box(46,.5,42,material("#7b9878"),0,-.32,-6);ground.receiveShadow=true;
-const asphalt=box(5,.06,39,material("#626b73"),0,-.03,-7);
+const asphalt=box(5,.06,43,material("#626b73"),0,-.03,-6);
 const sidewalkMat=material("#d0d1c9");
 box(7,.1,40,sidewalkMat,-6,-.05,-7);box(7,.1,40,sidewalkMat,6,-.05,-7);
-for(let z=-25;z<13;z+=3.5){box(.12,.012,1.6,material("#f1e6c4"),0,.01,z);}
-const curb=material("#e5e2d8");box(7,.13,40,curb,-6,-.01,-7);box(7,.13,40,curb,6,-.01,-7);box(5,.08,40,material("#60666a"),0,.02,-7);
+for(let z=-26;z<15;z+=3.5){box(.12,.012,1.6,material("#f1e6c4"),0,.01,z);}
+const curb=material("#e5e2d8");box(7,.13,43,curb,-6,-.01,-6);box(7,.13,43,curb,6,-.01,-6);box(5,.08,43,material("#60666a"),0,.02,-6);
 const grass=material("#64835f");for(const [x,z] of [[-18,7],[18,7],[-18,-20],[18,-20]]){box(8,.08,7,grass,x,-.03,z);}
+// Entrance marker: establishes the panoramic viewpoint and the identity of the zone.
+const entrance=new THREE.Group();
+entrance.position.set(0,0,13);
+scene.add(entrance);
+box(0.28,3.4,0.28,material("#263b50"),-5.9,1.7,0,entrance);
+box(0.28,3.4,0.28,material("#263b50"),5.9,1.7,0,entrance);
+box(12.1,0.28,0.42,material("#263b50"),0,3.35,0,entrance);
+const entranceTexture=labelTexture("ZONE D'INTELLIGENCE COMMERCIALE MAJESTIOS","#d9b86c",{height:180,size:40,bg:"#10243a"});
+const entranceSign=new THREE.Mesh(new THREE.PlaneGeometry(11.5,1.35),new THREE.MeshBasicMaterial({map:entranceTexture,side:THREE.DoubleSide}));
+entranceSign.position.set(0,3.32,.24);
+entrance.add(entranceSign);
+
 const buildingMeshes=[];
 const signMaterials=[];
 for(const data of buildings){
@@ -102,7 +114,7 @@ renderer.domElement.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key==="
 document.querySelector("#view-home").addEventListener("click",resetView);
 document.querySelector("#zoom-in").addEventListener("click",()=>{camera.position.multiplyScalar(.88);controls.update();});
 document.querySelector("#zoom-out").addEventListener("click",()=>{camera.position.multiplyScalar(1.12);controls.update();});
-function resetView(){camera.position.set(0,13,29);controls.target.set(0,1.4,-6);controls.update();}
+function resetView(){camera.position.set(0,17,35);controls.target.set(0,1.5,-6);controls.update();}
 function resize(){const w=root.clientWidth,h=root.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 new ResizeObserver(resize).observe(root);resize();resetView();
 function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);}
