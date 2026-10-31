@@ -338,6 +338,12 @@ populateSearchFilters();
 
 const initialSearchParams = new URLSearchParams(window.location.search);
 const initialCategory = initialSearchParams.get("categorie");
+const initialMarketType = initialSearchParams.get("marche");
+if (initialMarketType === "public" || initialMarketType === "private") {
+  const marketControl = document.querySelector("#feed-market-type");
+  if (marketControl) marketControl.value = initialMarketType;
+}
+
 if (initialCategory && majCatalog.searchCategories.some((item) => item.value === initialCategory && !item.planned)) {
   const categoryControl = document.querySelector("#feed-sector");
   if (categoryControl) categoryControl.value = initialCategory;
@@ -486,73 +492,30 @@ navigation.querySelectorAll("a").forEach((link) => {
 }
 
 
-/* Interaction du schéma SVG : survol visuel et sélection accessible au clavier */
-const interactiveSvg = document.querySelector("#majestios-interactive-svg");
+/* Interaction directe avec le SVG intégré dans le DOM de la page d’accueil. */
+const interactiveSvg = document.querySelector("#majestios-panorama");
 if (interactiveSvg) {
   const surfaceNames = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.label]));
   const surfaceDestinations = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.href]));
-  const initializeInteractiveSvg = () => {
-    const svgDocument = interactiveSvg.contentDocument;
-    if (!svgDocument || interactiveSvg.dataset.interactionsReady === "true") return;
-    const surfaces = [...svgDocument.querySelectorAll("[data-surface]")];
-    const title = document.querySelector("#interactive-map-selection");
-    const description = document.querySelector("#interactive-map-description");
-    if (!surfaces.length || !title || !description) return;
-    interactiveSvg.dataset.interactionsReady = "true";
-    let selectedSurface = null;
-
-    const showDefault = () => {
-      title.textContent = "Choisissez une surface";
-      description.textContent = "Survolez un losange pour le mettre en relief, puis cliquez ou utilisez Entrée pour ouvrir sa rubrique dédiée."
-    };
-
-    const previewSurface = (surface) => {
-      const name = surfaceNames[surface.dataset.surface] || "Surface";
-      title.textContent = selectedSurface === surface
-        ? `${name} sélectionnée`
-        : `Découvrir — ${name.toLowerCase()}`;
-      description.textContent = "Cliquez sur ce losange ou utilisez Entrée pour ouvrir directement sa page dédiée."
-    };
-
-    const selectSurface = (surface) => {
-      selectedSurface = surface;
-      surfaces.forEach((item) => {
-        const isSelected = item === surface;
-        item.classList.toggle("selected", isSelected);
-        item.setAttribute("aria-pressed", String(isSelected));
-      });
-      previewSurface(surface);
+  const surfaces = [...interactiveSvg.querySelectorAll("[data-surface]")];
+  surfaces.forEach((surface) => {
+    const name = surfaceNames[surface.dataset.surface] || surface.getAttribute("aria-label") || "Rubrique";
+    surface.setAttribute("aria-pressed", "false");
+    surface.setAttribute("role", "link");
+    surface.setAttribute("aria-label", `Ouvrir ${name}`);
+    surface.addEventListener("click", () => {
       const destination = surfaceDestinations[surface.dataset.surface];
       if (destination) window.location.href = destination;
-    };
-
-    surfaces.forEach((surface) => {
-      surface.setAttribute("aria-pressed", "false");
-      surface.addEventListener("pointerenter", () => previewSurface(surface));
-      surface.addEventListener("focus", () => previewSurface(surface));
-      surface.addEventListener("click", () => selectSurface(surface));
-      surface.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          selectSurface(surface);
-        }
-      });
-      surface.addEventListener("pointerleave", () => {
-        if (selectedSurface) previewSurface(selectedSurface);
-        else showDefault();
-      });
-      surface.addEventListener("blur", () => {
-        if (selectedSurface) previewSurface(selectedSurface);
-        else showDefault();
-      });
     });
-  };
-
-  // Le SVG peut finir de charger avant ou après ce script : couvrir les deux cas.
-  interactiveSvg.addEventListener("load", initializeInteractiveSvg);
-  initializeInteractiveSvg();
+    surface.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        const destination = surfaceDestinations[surface.dataset.surface];
+        if (destination) window.location.href = destination;
+      }
+    });
+  });
 }
-
 
 const personalSpaceDialog = document.querySelector("#personal-space-dialog");
 const openPersonalSpace = document.querySelector("#open-personal-space");
