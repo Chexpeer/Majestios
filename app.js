@@ -45,6 +45,7 @@ const demoTenders = [
     buyer: "Acheteur public fictif · numérique",
     sector: "services",
     sectorLabel: "Services numériques",
+    marketType: "public",
     region: "ouest",
     regionLabel: "Ouest · exemple",
     description: "Exemple de besoin de maintenance informatique."
@@ -55,6 +56,7 @@ const demoTenders = [
     buyer: "Acheteur public fictif · études",
     sector: "conseil",
     sectorLabel: "Conseil & études",
+    marketType: "public",
     region: "nord",
     regionLabel: "Nord · exemple",
     description: "Exemple de projet de rénovation énergétique."
@@ -231,6 +233,37 @@ function setIntent(intent) {
   if (tenderNote) tenderNote.hidden = intent !== "respond" || !tenderNote.textContent;
   formFeedback.hidden = true;
 }
+
+function populateSearchFilters() {
+  const categorySelect = document.querySelector("#feed-sector");
+  if (categorySelect && majCatalog.searchCategories.length) {
+    categorySelect.replaceChildren();
+    const plannedGroup = document.createElement("optgroup");
+    plannedGroup.label = "Catégories prévues · non encore connectées";
+    majCatalog.searchCategories.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.value;
+      option.textContent = category.planned ? `${category.label} · à venir` : category.label;
+      option.disabled = Boolean(category.planned);
+      if (category.planned) plannedGroup.append(option);
+      else categorySelect.append(option);
+    });
+    if (plannedGroup.children.length) categorySelect.append(plannedGroup);
+  }
+
+  const marketSelect = document.querySelector("#feed-market-type");
+  if (marketSelect && majCatalog.marketTypes.length) {
+    marketSelect.replaceChildren();
+    majCatalog.marketTypes.forEach((marketType) => {
+      const option = document.createElement("option");
+      option.value = marketType.value;
+      option.textContent = marketType.label;
+      marketSelect.append(option);
+    });
+  }
+}
+
+populateSearchFilters();
 
 function renderTenderFeed() {
   const query = document.querySelector("#feed-search").value.trim().toLocaleLowerCase("fr");
