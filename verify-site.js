@@ -162,6 +162,29 @@ const virtualDestinations = [
 if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
   const zoneHtml = fs.readFileSync(zoneHtmlPath, "utf8");
   const zoneJs = fs.readFileSync(zoneJsPath, "utf8");
+
+  // Les trois niveaux de navigation de chaque bâtiment doivent pointer vers des pages réelles.
+  const levelRoutes = [...zoneJs.matchAll(/\{id:"(B\d+)"[^\n]*?firstRoute:"([^"]+\.html)",secondRoute:"([^"]+\.html)"/g)]
+    .map((match) => ({ id: match[1], first: match[2], second: match[3] }));
+  if (levelRoutes.length !== 12) errors.push(`Zone 3D : ${levelRoutes.length} bâtiments disposent de deux routes de niveaux, 12 attendus`);
+  for (const building of levelRoutes) {
+    for (const destination of [building.first, building.second]) {
+      if (!fs.existsSync(path.join(root, destination))) {
+        errors.push(`Zone 3D : destination de niveau absente pour ${building.id} : ${destination}`);
+      }
+    }
+  }
+  if (!zoneJs.includes('floorList.hidden=false') || !zoneJs.includes('className="floor-link"')) {
+    errors.push("Zone 3D : les niveaux complémentaires ne sont pas rendus comme des liens accessibles");
+  }
+  const zoneCssPath = path.join(root, "zone-artisanale.css");
+  const zoneCss = fs.existsSync(zoneCssPath) ? fs.readFileSync(zoneCssPath, "utf8") : "";
+  if (zoneCss.includes('#floor-list { display: none !important; }')) {
+    errors.push("Zone 3D : la navigation par niveaux est masquée de force sur l’accueil");
+  }
+  if (!zoneCss.includes(".floor-list .floor-link:focus-visible")) {
+    errors.push("Zone 3D : état de focus clavier absent sur les liens de niveaux");
+  }
   for (const destination of virtualDestinations) {
     if (!zoneHtml.includes(destination) && !zoneJs.includes(destination)) {
       errors.push(`Univers virtuel : rubrique inaccessible depuis la zone artisanale : ${destination}`);
