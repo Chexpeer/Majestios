@@ -191,6 +191,18 @@ if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cata
   }
   if (!app.includes('document.querySelector("#feed-market-type")')) errors.push("Recherche : filtre par type de marché absent du script");
   if (!app.includes("populateSearchFilters();")) errors.push("Recherche : filtres non initialisés depuis le catalogue");
+  const regionBlockMatch = catalogue.match(/const searchRegions = \[([\s\S]*?)\n  \];/);
+  if (!regionBlockMatch) {
+    errors.push("Recherche : catalogue des zones géographiques absent ou illisible");
+  } else {
+    const selectableRegions = [...regionBlockMatch[1].matchAll(/\{\s*value:\s*"([^"]+)"[^}]*\}/g)]
+      .filter((match) => match[1] !== "all" && !/planned:\s*true/.test(match[0]))
+      .map((match) => match[1]);
+    if (selectableRegions.length) {
+      errors.push(`Recherche : zones géographiques non raccordées encore sélectionnables : ${selectableRegions.join(", ")}`);
+    }
+  }
+
 } else {
   errors.push("app.js, zone-artisanale.js ou catalogue-majestios.js absent : contrôle des destinations impossible");
 }
