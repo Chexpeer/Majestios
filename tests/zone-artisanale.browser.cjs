@@ -13,6 +13,23 @@ const mime = {
   ".svg": "image/svg+xml"
 };
 
+async function assertMapCardsDoNotOverlap(page, label) {
+  const boxes = await page.locator("#map-buildings .map-building").evaluateAll(nodes =>
+    nodes.map(node => {
+      const r = node.getBoundingClientRect();
+      return { id: node.dataset.id, left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+    })
+  );
+  for (let i = 0; i < boxes.length; i++) {
+    for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i], b = boxes[j];
+      const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      assert.ok(!(overlapX > 1 && overlapY > 1), `${label}: les cartes ${a.id} et ${b.id} ne doivent pas se chevaucher.`);
+    }
+  }
+}
+
 async function main() {
   assert.ok(fs.existsSync(path.join(root, "index.html")), "dist/index.html doit exister : exécuter node build.js avant le test.");
 
@@ -52,6 +69,7 @@ async function main() {
     assert.equal(await page.locator('[data-scene-mode="map"]').getAttribute("aria-pressed"), "true", "Le mode Carte interactive doit être activé.");
     assert.equal(await page.locator("#zone-map").isVisible(), true, "La carte Carte interactive doit s'afficher.");
     assert.equal(await page.locator("#map-buildings .map-building").count(), 12, "La carte doit proposer les 12 rubriques.");
+    await assertMapCardsDoNotOverlap(page, "Carte ordinateur");
     assert.equal((await page.locator('[data-scene-mode="drive"]').innerText()).trim(), "Street View", "Le mode routier doit être présenté comme Street View.");
     assert.equal((await page.locator('[data-scene-mode="map"]').innerText()).trim(), "Carte interactive", "Le mode Carte interactive doit être présenté comme Carte interactive.");
     assert.ok((await page.locator(".map-header").innerText()).includes("CARTE INTERACTIVE"), "La carte doit afficher son intitulé.");
@@ -122,6 +140,7 @@ async function main() {
     await page.locator('[data-scene-mode="map"]').click();
     assert.equal(await page.locator("#zone-map").isVisible(), true, "La carte doit rester accessible sur un écran mobile.");
     assert.equal(await page.locator("#map-buildings .map-building").count(), 12, "Les 12 destinations doivent rester présentes sur mobile.");
+    await assertMapCardsDoNotOverlap(page, "Carte mobile");
 
     // Le formulaire doit transmettre les critères à la page dédiée de la catégorie choisie.
     await page.locator("#feed-search").fill("rénovation énergétique");
