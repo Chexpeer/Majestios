@@ -26,3 +26,9 @@ jobs:
         run: node build.js
       - name: Vérifier les pages, liens et parcours
         run: node verify-site.js
+      - name: Installer Playwright et Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install --with-deps chromium
+      - name: Tester la zone industrielle dans un vrai navigateur
+        run: node tests/zone-artisanale.browser.cjs
