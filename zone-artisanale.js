@@ -102,6 +102,21 @@ for(const data of buildings){
  band(group,data.second,data.color,4.52,4.75);
  // A subtle roofline marker gives the building a distinct silhouette.
  box(baseW*.91,.18,depth*.89,material(color.clone().multiplyScalar(1.18)),0,5.28,-.04,group);
+ // Each activity building receives its own architectural signature.
+ const index=buildings.indexOf(data);
+ const accent=material(data.color,.52);
+ if(index%3===0){
+  for(const x of [-2.25,2.25])box(.16,3.55,.12,accent,x,2.95,depth/2+.085,group);
+  box(1.35,.14,.58,accent,0,1.62,depth/2+.28,group);
+ }else if(index%3===1){
+  for(const x of [-1.8,-.9,0,.9,1.8])box(.055,1.22,.08,accent,x,4.25,depth/2+.09,group);
+  box(1.65,.16,.72,material("#d7d9d1"),0,5.42,0,group);
+  box(1.25,.3,.52,material("#aeb8bd"),0,5.64,0,group);
+ }else{
+  for(const x of [-2.12,2.12])box(.12,1.5,.12,accent,x,4.45,depth/2+.08,group);
+  const roofUnit=box(.72,.42,.7,material("#9aa9b2"),1.55,5.55,-.72,group);
+  box(.5,.06,.48,material("#526473"),1.55,5.79,-.72,group);
+ }
  group.traverse(o=>{if(o.isMesh){o.userData.building=data;if(o.material?.color)o.userData.baseColor=o.material.color.clone();}});
  buildingMeshes.push(group);
  // Directory works as an accessible alternative to selecting small 3D objects.
