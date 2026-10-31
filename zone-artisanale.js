@@ -160,7 +160,7 @@ window.addEventListener("keyup",e=>pressedKeys.delete(e.key.toLowerCase()));
 function walkThroughZone(delta){
  if(!pressedKeys.size)return;
  const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();
- const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize().negate();
+ const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize();
  const direction=new THREE.Vector3();
  if(pressedKeys.has("w")||pressedKeys.has("z")||pressedKeys.has("arrowup"))direction.add(forward);
  if(pressedKeys.has("s")||pressedKeys.has("arrowdown"))direction.sub(forward);
