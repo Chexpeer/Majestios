@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1240" role="img" aria-labelledby="title desc">
+<title id="title">Schéma interactif MajestiOS</title>
+<desc id="desc">Douze surfaces en forme de losange, six au centre et six en périphérie, inspirées du schéma géométrique multicolore de MajestiOS.</desc>
+<defs><style>
+.bg{fill:#f5f0e4}.edge{stroke:#f5f0e4;stroke-width:10;stroke-linejoin:round}
+g[data-surface]{cursor:pointer;transition:filter .18s ease}
+g[data-surface]:hover,g[data-surface]:focus,g[data-surface].selected{filter:brightness(1.12) drop-shadow(0 0 5px #fff)}
+g[data-surface]:focus{outline:none}
+.hit{stroke:transparent;stroke-width:2;fill:transparent;pointer-events:all}
+g[data-surface]:hover .hit,g[data-surface]:focus .hit,g[data-surface].selected .hit{stroke:#fff;stroke-width:5;fill:#fff;fill-opacity:.07}
+</style></defs>
+<rect class="bg" width="1240" height="1240"/>
+<!-- Les douze zones sont des losanges indépendants. Les facettes internes restent décoratives. -->
+<g data-surface="central-bleu" tabindex="0" role="button" aria-label="Explorer Marchés publics">
+ <polygon class="edge" fill="#4d84b6" points="620,58 922,154 620,322 320,154"/>
+ <polygon fill="#5c91c1" points="620,58 620,190 320,154"/><polygon fill="#467cae" points="620,58 922,154 620,190"/><polygon fill="#719ec5" points="320,154 620,190 620,322"/><polygon fill="#3f70a2" points="620,190 922,154 620,322"/>
+ <polygon class="hit" points="620,58 922,154 620,322 320,154"/>
+</g>
+<g data-surface="central-bleu-clair" tabindex="0" role="button" aria-label="Explorer Veille des marchés">
+ <polygon class="edge" fill="#438bc7" points="320,160 620,322 610,600 320,432"/>
+ <polygon fill="#5a9bd4" points="320,160 460,236 320,432"/><polygon fill="#76b0e5" points="320,160 620,322 460,236"/><polygon fill="#347ab7" points="460,236 620,322 610,600"/><polygon fill="#498dc5" points="320,432 460,236 610,600"/>
+ <polygon class="hit" points="320,160 620,322 610,600 320,432"/>
+</g>
+<g data-surface="central-vert" tabindex="0" role="button" aria-label="Explorer Marchés privés">
+ <polygon class="edge" fill="#4d9a68" points="620,322 922,160 922,432 630,600"/>
+ <polygon fill="#72b584" points="620,322 780,236 630,600"/><polygon fill="#8bc49a" points="780,236 922,160 922,432"/><polygon fill="#4b9464" points="780,236 922,432 630,600"/><polygon fill="#5aa573" points="620,322 780,236 922,160"/>
+ <polygon class="hit" points="620,322 922,160 922,432 630,600"/>
+</g>
+<g data-surface="central-turquoise" tabindex="0" role="button" aria-label="Explorer Prospection inversée">
+ <polygon class="edge" fill="#278f9b" points="320,432 610,600 330,746 60,600"/>
+ <polygon fill="#55b1bb" points="320,432 460,514 60,600"/><polygon fill="#3ba3af" points="320,432 610,600 460,514"/><polygon fill="#21838e" points="460,514 610,600 330,746"/><polygon fill="#62b7bf" points="60,600 460,514 330,746"/>
+ <polygon class="hit" points="320,432 610,600 330,746 60,600"/>
+</g>
+<g data-surface="central-orange" tabindex="0" role="button" aria-label="Explorer Développement commercial">
+ <polygon class="edge" fill="#d65b22" points="630,600 920,432 1180,600 920,746"/>
+ <polygon fill="#ed7d40" points="630,600 780,514 920,746"/><polygon fill="#e36b2e" points="780,514 920,432 1180,600"/><polygon fill="#c95320" points="780,514 1180,600 920,746"/><polygon fill="#f08b4d" points="630,600 780,514 920,432"/>
+ <polygon class="hit" points="630,600 920,432 1180,600 920,746"/>
+</g>
+<g data-surface="central-corail" tabindex="0" role="button" aria-label="Explorer Intelligence économique">
+ <polygon class="edge" fill="#bb354d" points="60,600 330,746 320,1070 620,900 330,760"/>
+ <polygon fill="#cf5366" points="60,600 190,670 320,1070"/><polygon fill="#b92f48" points="190,670 330,746 320,1070"/><polygon fill="#d64b60" points="330,746 620,900 320,1070"/><polygon fill="#e06a79" points="330,746 620,600 620,900"/>
+ <polygon class="hit" points="60,600 330,746 620,600 620,900 320,1070"/>
+</g>
+<g data-surface="peripherique-turquoise" tabindex="0" role="button" aria-label="Explorer Réseaux et synergies">
+ <polygon class="edge" fill="#398f9c" points="320,160 125,330 60,600 320,432"/>
+ <polygon fill="#5aa6b0" points="320,160 125,330 320,300"/><polygon fill="#2b8794" points="320,160 320,432 320,300"/><polygon fill="#3b9ba6" points="125,330 60,600 320,432"/><polygon fill="#70b7bf" points="125,330 320,300 320,432"/>
+ <polygon class="hit" points="320,160 125,330 60,600 320,432"/>
+</g>
+<g data-surface="peripherique-vert" tabindex="0" role="button" aria-label="Explorer Sous-traitance et débordement de marchés">
+ <polygon class="edge" fill="#4d9562" points="922,160 1115,330 1180,600 922,432"/>
+ <polygon fill="#72b07c" points="922,160 922,300 1115,330"/><polygon fill="#3c8755" points="922,160 922,432 922,300"/><polygon fill="#5aa56a" points="922,300 1180,600 922,432"/><polygon fill="#7cba88" points="922,300 1115,330 1180,600"/>
+ <polygon class="hit" points="922,160 1115,330 1180,600 922,432"/>
+</g>
+<g data-surface="peripherique-corail" tabindex="0" role="button" aria-label="Explorer Accompagnement aux appels d’offres">
+ <polygon class="edge" fill="#c73c54" points="60,600 110,865 320,1070 330,746"/>
+ <polygon fill="#b32d46" points="60,600 190,675 110,865"/><polygon fill="#d34c61" points="190,675 330,746 110,865"/><polygon fill="#e16b7c" points="330,746 320,1070 110,865"/><polygon fill="#ca4057" points="190,675 330,746 330,900"/>
+ <polygon class="hit" points="60,600 110,865 320,1070 330,746"/>
+</g>
+<g data-surface="peripherique-orange" tabindex="0" role="button" aria-label="Explorer Veille des entreprises — BODACC">
+ <polygon class="edge" fill="#d9652b" points="920,746 1180,600 1130,865 920,1070"/>
+ <polygon fill="#e98245" points="920,746 1050,675 1130,865"/><polygon fill="#c95720" points="1050,675 1180,600 1130,865"/><polygon fill="#d96a2b" points="920,746 920,1070 1130,865"/><polygon fill="#f09253" points="920,746 1050,675 920,900"/>
+ <polygon class="hit" points="920,746 1180,600 1130,865 920,1070"/>
+</g>
+<g data-surface="peripherique-violet" tabindex="0" role="button" aria-label="Explorer Salons et séminaires">
+ <polygon class="edge" fill="#74518f" points="320,1070 620,900 920,1070 620,1180"/>
+ <polygon fill="#8969a1" points="320,1070 620,1040 620,1180"/><polygon fill="#654580" points="620,1040 920,1070 620,1180"/><polygon fill="#795994" points="320,1070 620,900 620,1040"/><polygon fill="#5d3d78" points="620,900 920,1070 620,1040"/>
+ <polygon class="hit" points="320,1070 620,900 920,1070 620,1180"/>
+</g>
+<g data-surface="peripherique-violet-clair" tabindex="0" role="button" aria-label="Explorer Suivi commercial et capitalisation">
+ <polygon class="edge" fill="#8665a0" points="620,600 920,746 920,1070 620,900"/>
+ <polygon fill="#9b7db0" points="620,600 770,680 620,900"/><polygon fill="#78558f" points="770,680 920,746 920,1070"/><polygon fill="#a58ab9" points="620,600 770,680 920,746"/><polygon fill="#69477f" points="620,900 770,680 920,1070"/>
+ <polygon class="hit" points="620,600 920,746 920,1070 620,900"/>
+</g>
+</svg>

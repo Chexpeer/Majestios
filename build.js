@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const outputDirectory = path.join(__dirname, "dist");
-const siteFiles = ["index.html", "styles.css", "app.js"];
+const siteFiles = ["index.html", "nous-rejoindre.html", "espace-membre.html", "faq.html", "marches-publics.html", "veille-marches.html", "marches-prives.html", "prospection-inversee.html", "developpement-commercial.html", "intelligence-economique.html", "reseaux-synergies.html", "sous-traitance.html", "accompagnement-appels-offres.html", "bodacc-veille-entreprises.html", "salons-seminaires.html", "suivi-commercial.html", "styles.css", "app.js", "schema-majestios.svg"];
 
 fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(outputDirectory, { recursive: true });

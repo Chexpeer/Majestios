@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
   </head>
-  <body>
+  <body class="homepage">
     <header class="site-header">
-      <a class="brand" href="#accueil" aria-label="MajestiOS, accueil">
+      <a class="brand" href="index.html" aria-label="MajestiOS, accueil">
         <span class="brand-mark" aria-hidden="true">M</span>
         <span>majesti<span class="brand-os">OS</span></span>
       </a>
@@ -19,13 +19,10 @@
         <span></span><span></span><span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
-        <a href="#accueil">Accueil</a>
-        <a href="#partenaires">Partenaires</a>
-        <a href="#developpement-commercial">Développement commercial</a>
-        <a href="#devis-facturation">Devis et facturation</a>
-        <a href="#prospection-secretariat">Prospection et secrétariat</a>
-        <a href="#business">Business</a>
-        <a class="nav-cta" href="#espace-client">Espace client <span aria-hidden="true">↗</span></a>
+        <a href="index.html" aria-current="page">Accueil</a>
+        <a href="nous-rejoindre.html">Nous rejoindre</a>
+        <a href="espace-membre.html">Espace membre</a>
+        <a href="faq.html">FAQ</a>
       </nav>
     </header>
 
@@ -37,10 +34,10 @@
           <p class="hero-lede">MajestiOS vous aide à repérer les occasions qui comptent et à choisir où concentrer votre énergie commerciale.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#flux-ao">Voir les opportunités <span aria-hidden="true">→</span></a>
-            <a class="button button-quiet" href="#prospection-inverse">Découvrir MajestiOS <span aria-hidden="true">↓</span></a>
+            <a class="button button-quiet" href="#espace-interactif">Découvrir MajestiOS <span aria-hidden="true">↓</span></a>
           </div>
           <div class="hero-note"><span class="check-mark" aria-hidden="true">✓</span> Vous gardez le choix de la suite à donner.</div>
-          <a class="hero-product-link" href="#demonstration">Voir un exemple <span aria-hidden="true">↓</span></a>
+          <a class="hero-product-link" href="faq.html">Comprendre MajestiOS <span aria-hidden="true">→</span></a>
         </div>
         <div class="hero-visual" aria-label="Exemple illustratif de qualification d’un signal">
           <div class="visual-orbit orbit-one"></div>
@@ -67,6 +64,27 @@
           </div>
           <div class="floating-note"><span class="floating-icon" aria-hidden="true">✳</span><span><strong>Votre activité, en mouvement</strong><small>De nouvelles pistes à explorer</small></span></div>
           <div class="visual-glow"></div>
+        </div>
+      </section>
+
+      <section class="interactive-map-section section-wrap" id="espace-interactif" aria-labelledby="interactive-map-title">
+        <div class="interactive-map-heading">
+          <p class="eyebrow">EXPLOREZ MAJESTIOS</p>
+          <h2 id="interactive-map-title">Un univers à <span>parcourir.</span></h2>
+          <p>Explorez les douze losanges : six au centre et six en périphérie. Survolez pour faire ressortir une surface, puis cliquez pour ouvrir sa rubrique dédiée.</p>
+        </div>
+        <div class="interactive-map-layout">
+          <div class="interactive-map-frame">
+            <object id="majestios-interactive-svg" data="schema-majestios.svg" type="image/svg+xml" aria-label="Schéma interactif MajestiOS composé de douze losanges colorés">
+              <p>Le schéma interactif n’a pas pu être chargé. <a href="schema-majestios.svg">Ouvrir le schéma SVG</a>.</p>
+            </object>
+          </div>
+          <aside class="interactive-map-info" aria-live="polite" aria-atomic="true">
+            <span class="interactive-map-status">ESPACE INTERACTIF</span>
+            <h3 id="interactive-map-selection">Choisissez une surface</h3>
+            <p id="interactive-map-description">Chaque losange ouvre une rubrique dédiée de MajestiOS.</p>
+            <span class="interactive-map-hint">Survoler · Cliquer · Explorer</span>
+          </aside>
         </div>
       </section>
 
@@ -444,6 +462,33 @@
       <p>Repérer les pistes. Garder le discernement.</p>
       <span class="footer-legal">MajestiOS · Une nouvelle perspective sur votre marché</span>
     </footer>
+
+
+    <button class="majestic-help-cta" id="open-personal-space" type="button" aria-haspopup="dialog" aria-controls="personal-space-dialog"
+       aria-label="Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires"
+       title="Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires !">
+      <span class="majestic-help-cta__symbol" aria-hidden="true">!</span>
+      <span class="majestic-help-cta__label">Besoin d’un coup de pouce ?</span>
+      <span class="majestic-help-cta__tooltip">Survolez notre espace, découvrez notre univers, interagissez avec MajestiOS, recevez un coup de pouce et faites de bonnes affaires !</span>
+    </button>
+
+    <dialog class="personal-space-dialog" id="personal-space-dialog" aria-labelledby="personal-space-title">
+      <form class="personal-space-form" id="personal-space-form">
+        <button class="personal-space-close" type="button" id="close-personal-space" aria-label="Fermer le formulaire">×</button>
+        <p class="eyebrow">UN COUP DE POUCE POUR COMMENCER</p>
+        <h2 id="personal-space-title">Créer mon espace personnel</h2>
+        <p class="personal-space-intro">Faites le premier pas avec MajestiOS. Renseignez vos coordonnées pour préparer votre demande.</p>
+        <div class="personal-space-fields">
+          <label class="form-field">Prénom <span>*</span><input name="firstName" autocomplete="given-name" required></label>
+          <label class="form-field">Nom <span>*</span><input name="lastName" autocomplete="family-name" required></label>
+          <label class="form-field">Adresse e-mail <span>*</span><input name="email" type="email" autocomplete="email" required></label>
+          <label class="form-field">Téléphone <span>*</span><input name="phone" type="tel" autocomplete="tel" required></label>
+        </div>
+        <p class="personal-space-notice"><strong>Prototype :</strong> ce formulaire ne crée pas encore de compte et n’envoie ni n’enregistre aucune donnée.</p>
+        <button class="button button-primary personal-space-submit" type="submit">Préparer ma demande <span aria-hidden="true">→</span></button>
+        <p class="personal-space-feedback" id="personal-space-feedback" role="status" aria-live="polite" hidden></p>
+      </form>
+    </dialog>
 
   </body>
 </html>
