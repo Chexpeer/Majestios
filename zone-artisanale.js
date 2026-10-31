@@ -359,7 +359,7 @@ function setSceneMode(mode){
  const mapMode=mode==="map";
  if(mapRoot)mapRoot.hidden=!mapMode;
  renderer.domElement.style.display=mapMode?"none":"block";
- if(mapMode){if(root)root.dataset.viewMode="map";return;}
+ if(mapMode){if(hoverCard){hoverCard.classList.remove("is-visible");hoverCard.setAttribute("aria-hidden","true");}if(root)root.dataset.viewMode="map";return;}
  if(mode==="top"){
   controls.minPolarAngle=0.02; controls.maxPolarAngle=0.08;
   controls.minDistance=18; controls.maxDistance=55;
