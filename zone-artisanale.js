@@ -1,6 +1,9 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js";
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/controls/OrbitControls.js";
 
+// Toute erreur d’initialisation synchrone doit déclencher le mode de secours de l’accueil.
+try {
+
 const rubricRoute = (key) => {
   const rubric = window.MAJESTIOS_CATALOG?.rubrics.find((item) => item.key === key);
   if (!rubric) throw new Error(`Destination de rubrique absente du catalogue partagé : ${key}`);
@@ -275,3 +278,18 @@ if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else wind
 let previousFrame=performance.now();
 function animate(now=performance.now()){requestAnimationFrame(animate);const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;if(cameraDestination&&targetDestination){const speed=reducedMotion?1:.085;camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}walkThroughZone(delta);controls.update();renderer.render(scene,camera);}
 animate();if(loading.dataset.fallbackShown!=="true")loading.classList.add("hidden");else renderer.domElement.style.display="none";
+
+} catch (error) {
+  console.error("[MajestiOS] Impossible d’initialiser la zone artisanale 3D :", error);
+  if (typeof window.majestiosSceneFallback === "function") {
+    window.majestiosSceneFallback();
+  } else {
+    const fallback = document.querySelector("#scene-loading");
+    if (fallback) {
+      fallback.classList.remove("hidden");
+      fallback.classList.add("scene-error");
+      fallback.setAttribute("role", "alert");
+      fallback.textContent = "La vue 3D est momentanément indisponible. Rechargez la page ou utilisez les rubriques accessibles depuis la navigation.";
+    }
+  }
+}
