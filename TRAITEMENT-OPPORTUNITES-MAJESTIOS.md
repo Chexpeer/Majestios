@@ -1,7 +1,7 @@
 # Traitement des opportunités — parcours client et chaîne interne MajestiOS
 
 Version : 2026-10-31  
-Statut : spécification fonctionnelle à mettre en œuvre progressivement. La connexion BOAMP du prototype fournit une première recherche publique ; les marchés privés, le profil d'entreprise, les alertes, le CRM persistant et la qualification assistée restent à développer.
+Statut : prototype de recherche BOAMP et BODACC branché côté navigateur ; validation de bout en bout et traitement serveur encore à réaliser. Le profil d'entreprise, les alertes, le CRM persistant et la file interne de qualification restent à développer.
 
 ## 1. Principes non négociables
 
@@ -88,8 +88,8 @@ Statuts internes suggérés : `received`, `normalized`, `duplicate_review`, `to_
 
 Le BODACC est une source distincte du flux des appels d'offres. Voir `BODACC-TRAITEMENT-SIGNAUX-COMMERCIAUX.md` pour le parcours complet. Les annonces commerciales et légales peuvent être exploitées comme signaux à qualifier, notamment pour les cessions et événements affectant une entreprise, mais elles ne sont pas automatiquement des marchés à remporter.
 
-Le connecteur BODACC devra être développé et testé séparément après vérification d'un accès officiel réutilisable et de ses conditions. La simple existence de la page de recherche ne prouve pas l'existence d'une API. Les résultats BOAMP et BODACC doivent garder des types, des règles de qualification et des libellés distincts. Les équipes MajestiOS peuvent proposer une piste de prospection ou une opération marketing seulement après contrôle de pertinence, conformité et validation humaine.
+Un premier connecteur navigateur vise l'API officielle OpenDataSoft v2.1 du jeu `annonces-commerciales`, distincte de la page de recherche. Les tests navigateur simulent la réponse pour vérifier le rendu ; ils ne prouvent pas encore la disponibilité réelle de l'API depuis le navigateur MajestiOS, les champs exacts ni les conditions de réutilisation. Ces points doivent être validés en direct avant de qualifier le connecteur d'opérationnel. Les résultats BOAMP et BODACC doivent garder des types, des règles de qualification et des libellés distincts. Les équipes MajestiOS peuvent proposer une piste de prospection ou une opération marketing seulement après contrôle de pertinence, conformité et validation humaine.
 
 ## 7. Limites actuelles à afficher
 
-Le prototype interroge le jeu BOAMP depuis le navigateur et n'a pas encore de cache serveur ni de file de traitement persistante. Les résultats privés ne sont pas raccordés. Les critères de catégorie hors type de marché reposent encore sur des correspondances textuelles simples : ils devront être validés avant d'être considérés comme une classification fiable. La recherche BOAMP ne couvre pas à elle seule l'ensemble des marchés publics, et encore moins les marchés privés.
+Le prototype prévoit une interrogation navigateur des jeux BOAMP et BODACC, sans cache serveur ni file de traitement persistante. Les connecteurs doivent encore être vérifiés sur les sources en direct ; les tests automatisés actuels utilisent des réponses simulées. Les critères de catégorie hors type de marché reposent encore sur des correspondances textuelles simples : ils devront être validés avant d'être considérés comme une classification fiable. La recherche BOAMP ne couvre pas à elle seule l'ensemble des marchés publics, et encore moins les marchés privés.
