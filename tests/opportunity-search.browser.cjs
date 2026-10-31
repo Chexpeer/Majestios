@@ -35,7 +35,7 @@ async function main() {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({ total_count: 1, results: [{
-          id: "A202610310001", dateparution: "2026-10-30", numeroannonce: "1001",
+          id: 6, publicationavis: "A202610310001", dateparution: "2026-10-30", numeroannonce: "1001",
           typeavis_lib: "Avis initial", familleavis: "vente", familleavis_lib: "Ventes et cessions",
           departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC de test",
           ville: "Niort", registre: "RCS test", listepersonnes: { personne: { activite: "Rénovation de bâtiments" } },
@@ -79,6 +79,7 @@ async function main() {
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Ventes et cessions/);
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Deux-Sèvres/);
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Rénovation de bâtiments/);
+    assert.match(await page.locator(".bodacc-result-card").innerText(), /A202610310001/, "La référence de publication officielle doit être affichée, pas seulement l’identifiant de ligne.");
     assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
