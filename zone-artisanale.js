@@ -191,6 +191,28 @@ for(const x of [-.88,.88]){
  const lamp=box(.3,.13,.06,material("#f4e9b7",.3),x*.7,.68,-1.55,visitorCar);
 }
 scene.add(visitorCar);visitorCar.visible=false;
+
+// Hélicoptère stylisé : accompagne le mode survol sans simuler une mécanique de vol réelle.
+const visitorHelicopter=new THREE.Group();
+const helicopterBody=material("#c8a44a",.48),helicopterDark=material("#343a40",.38),helicopterGlass=new THREE.MeshStandardMaterial({color:"#8dc8d8",roughness:.2,metalness:.18});
+const fuselage=new THREE.Mesh(new THREE.SphereGeometry(1,20,14),helicopterBody);
+fuselage.scale.set(.92,.52,1.32);fuselage.position.y=.62;fuselage.castShadow=true;visitorHelicopter.add(fuselage);
+const cockpit=new THREE.Mesh(new THREE.SphereGeometry(1,16,12),helicopterGlass);
+cockpit.scale.set(.66,.39,.48);cockpit.position.set(0,.76,-.78);visitorHelicopter.add(cockpit);
+const tailBoom=new THREE.Mesh(new THREE.CylinderGeometry(.12,.2,2.55,10),helicopterBody);
+tailBoom.rotation.x=Math.PI/2;tailBoom.position.set(0,.72,2.03);visitorHelicopter.add(tailBoom);
+const tailFin=box(.12,.72,.22,helicopterBody,0,1.03,3.18,visitorHelicopter);
+const rotorHub=new THREE.Group();rotorHub.position.set(0,1.2,.05);visitorHelicopter.add(rotorHub);
+for(let i=0;i<4;i++){const blade=box(.16,.045,3.7,helicopterDark,0,0,0,rotorHub);blade.rotation.y=i*Math.PI/2;}
+const tailRotor=new THREE.Group();tailRotor.position.set(0,.83,3.28);visitorHelicopter.add(tailRotor);
+for(let i=0;i<3;i++){const blade=box(.12,.035,.72,helicopterDark,0,0,0,tailRotor);blade.rotation.z=i*Math.PI/3;}
+for(const x of [-.62,.62]){
+ const skid=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,1.8,8),helicopterDark);
+ skid.rotation.z=Math.PI/2;skid.position.set(x,.08,.18);visitorHelicopter.add(skid);
+ const strut=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,.58,8),helicopterDark);
+ strut.position.set(x*.75,.32,.18);strut.rotation.z=x>0?-.2:.2;visitorHelicopter.add(strut);
+}
+scene.add(visitorHelicopter);visitorHelicopter.visible=false;
 function syncVisitorCar(){
  const driving=root.dataset.viewMode==="drive";
  visitorCar.visible=driving;
@@ -338,7 +360,7 @@ function resetView(){setSceneMode("fly");}
 function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
 let previousFrame=performance.now();
-function animate(now=performance.now()){requestAnimationFrame(animate);const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;if(cameraDestination&&targetDestination){const speed=reducedMotion?1:1-Math.exp(-5.3*delta);camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}walkThroughZone(delta);controls.update();syncVisitorCar();renderer.render(scene,camera);}
+function animate(now=performance.now()){requestAnimationFrame(animate);const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;if(cameraDestination&&targetDestination){const speed=reducedMotion?1:1-Math.exp(-5.3*delta);camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}walkThroughZone(delta);controls.update();syncVisitorCar();const flying=root.dataset.viewMode==="fly";visitorHelicopter.visible=flying;if(flying){const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize();visitorHelicopter.position.copy(camera.position).addScaledVector(forward,6).addScaledVector(right,2.4);visitorHelicopter.position.y=Math.max(3,camera.position.y-2.2);visitorHelicopter.rotation.y=Math.atan2(forward.x,forward.z)+Math.PI;rotorHub.rotation.y+=delta*18;tailRotor.rotation.x+=delta*15;}renderer.render(scene,camera);}
 animate();if(loading.dataset.fallbackShown!=="true")loading.classList.add("hidden");else renderer.domElement.style.display="none";
 
 } catch (error) {
