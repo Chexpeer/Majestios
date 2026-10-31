@@ -63,7 +63,7 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath)) {
   const svg = fs.readFileSync(svgPath, "utf8");
   const app = fs.readFileSync(appPath, "utf8");
   const surfaces = [...svg.matchAll(/data-surface=["']([^"']+)["']/g)].map((match) => match[1]);
-  const destinationsBlock = app.match(/const surfaceDestinations\s*=\s*\\{([\s\S]*?)\n\s*\\};/);
+  const destinationsBlock = app.match(/const surfaceDestinations\s*=\s*\{([\s\S]*?)\n\s*\};/);
   const destinations = destinationsBlock
     ? [...destinationsBlock[1].matchAll(/["']([^"']+)["']\s*:\s*["']([^"']+\.html)["']/g)]
     : [];
