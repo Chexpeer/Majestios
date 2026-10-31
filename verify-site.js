@@ -761,8 +761,9 @@ const sceneCss = fs.existsSync(path.join(root, "zone-artisanale.css"))
 if (!homeSceneJs.includes('document.querySelectorAll("[data-scene-mode]").forEach')) {
   errors.push("Zone industrielle : les boutons de mode ne sont pas reliés à setSceneMode");
 }
-if (!homeSceneJs.includes("selectBuilding(data,{keepMap:true})")) {
-  errors.push("Carte Majest COYOT : la sélection d’un bâtiment ne conserve pas explicitement le mode carte");
+const directBuildingNavigationCount = (homeSceneJs.match(/window\\.location\\.assign\\(data\\.route\\)/g) || []).length;
+if (directBuildingNavigationCount < 4) {
+  errors.push("Zone industrielle : les clics sur les bâtiments 3D, GPS et annuaire doivent ouvrir directement leur rubrique");
 }
 if (!sceneCss.includes(".zone-map[hidden]{display:none!important}")) {
   errors.push("Carte Majest COYOT : l’attribut hidden n’est pas garanti par le CSS");
