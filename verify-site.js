@@ -236,7 +236,7 @@ for (const page of expectedCategoryPages) {
   }
   const html = fs.readFileSync(path.join(root, page), "utf8");
   if (!html.includes('src="category-results.js"')) errors.push(`${page} : script des résultats par catégorie absent`);
-  if (!html.includes('class="category-page"') || !html.includes('class="virtual-space"')) errors.push(`${page} : structure de page de catégorie absente`);
+  if (!html.includes("category-page") || !html.includes('<section class="virtual-space"')) errors.push(`${page} : structure de page de catégorie absente`);
 }
 if (!fs.existsSync(path.join(root, "category-results.js"))) errors.push("Catégories d’opportunités : category-results.js absent");
 
