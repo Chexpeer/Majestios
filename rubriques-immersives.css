@@ -50,3 +50,20 @@
 .virtual-space[data-world="suivi"] .virtual-space-scene:after{width:58%;height:40%;border-radius:4px;transform:rotate(0)}
 @media(max-width:760px){.virtual-space-scene:before{width:82%;height:62%}.virtual-space-scene:after{width:66%;height:42%}}
 @media(prefers-reduced-motion:reduce){.virtual-space-scene:before,.virtual-space-scene:after{transition:none}}
+
+
+/* Harmonisation visuelle : les univers métier utilisent la charte noir et or MajestiOS. */
+.virtual-space {
+  border-color:rgba(213,181,108,.32)!important;
+  background:radial-gradient(ellipse at 78% 20%,rgba(181,139,56,.16),transparent 58%),linear-gradient(135deg,#101722,#070a0f)!important;
+  box-shadow:0 20px 55px rgba(0,0,0,.32)!important;
+}
+.virtual-space:before { opacity:.55; background-image:linear-gradient(rgba(213,181,108,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(213,181,108,.06) 1px,transparent 1px)!important; }
+.virtual-space-copy h2 { color:#f4edda!important; }
+.virtual-space-copy>p { color:#bdb5a4!important; }
+.virtual-space-note { border-color:rgba(213,181,108,.24)!important; background:#0c1119!important; color:#d2c6a9!important; }
+.virtual-space-float { border-color:rgba(213,181,108,.35)!important; background:rgba(12,17,25,.94)!important; box-shadow:0 13px 32px rgba(0,0,0,.28)!important; }
+.virtual-space-float strong { color:#f4edda!important; }
+.virtual-space-float small { color:#bdb5a4!important; }
+.virtual-space-float .space-meter { background:#252b34!important; }
+@media (max-width:760px) { .virtual-space { border-radius:14px!important; } }
