@@ -49,17 +49,17 @@ async function main() {
     await page.locator('[data-scene-mode="map"]').click();
     await page.locator("#map-buildings .map-building").first().waitFor({ state: "visible", timeout: 30000 });
 
-    assert.equal(await page.locator('[data-scene-mode="map"]').getAttribute("aria-pressed"), "true", "Le mode GPS doit être activé.");
-    assert.equal(await page.locator("#zone-map").isVisible(), true, "La carte GPS doit s'afficher.");
+    assert.equal(await page.locator('[data-scene-mode="map"]').getAttribute("aria-pressed"), "true", "Le mode Carte interactive doit être activé.");
+    assert.equal(await page.locator("#zone-map").isVisible(), true, "La carte Carte interactive doit s'afficher.");
     assert.equal(await page.locator("#map-buildings .map-building").count(), 12, "La carte doit proposer les 12 rubriques.");
     assert.equal((await page.locator('[data-scene-mode="drive"]').innerText()).trim(), "Street View", "Le mode routier doit être présenté comme Street View.");
-    assert.equal((await page.locator('[data-scene-mode="map"]').innerText()).trim(), "Carte interactive", "Le mode GPS doit être présenté comme Carte interactive.");
+    assert.equal((await page.locator('[data-scene-mode="map"]').innerText()).trim(), "Carte interactive", "Le mode Carte interactive doit être présenté comme Carte interactive.");
     assert.ok((await page.locator(".map-header").innerText()).includes("CARTE INTERACTIVE"), "La carte doit afficher son intitulé.");
     assert.equal(await page.locator(".map-parking").count(), 2, "La carte doit représenter deux zones de stationnement.");
     assert.equal(await page.locator(".map-green").count(), 2, "La carte doit représenter des espaces verts.");
 
-    // Les noms et les détails doivent être visibles directement sur les cartes GPS.
-    assert.ok((await page.locator('#map-buildings .map-building[data-id="B01"]').innerText()).includes("Marchés publics"), "Le bâtiment B01 doit afficher son nom sur la carte GPS.");
+    // Les noms et les détails doivent être visibles directement sur la Carte interactive.
+    assert.ok((await page.locator('#map-buildings .map-building[data-id="B01"]').innerText()).includes("Marchés publics"), "Le bâtiment B01 doit afficher son nom sur la carte Carte interactive.");
 
     // Contrat navigateur complet : les 12 bâtiments ouvrent directement leur rubrique métier.
     const routeContracts = [
@@ -110,7 +110,7 @@ async function main() {
     await page.locator('[data-scene-mode="drive"]').click();
     assert.equal(await page.locator('[data-scene-mode="drive"]').getAttribute("aria-pressed"), "true", "Le mode Street View doit être activé.");
     assert.equal(await page.locator("#scene").getAttribute("data-view-mode"), "drive", "La scène doit passer en mode conduite.");
-    assert.equal(await page.locator("#zone-map").isVisible(), false, "La carte GPS doit se masquer en mode conduite.");
+    assert.equal(await page.locator("#zone-map").isVisible(), false, "La carte Carte interactive doit se masquer en mode conduite.");
 
     await page.locator('[data-scene-mode="fly"]').click();
     assert.equal(await page.locator('[data-scene-mode="fly"]').getAttribute("aria-pressed"), "true", "La navigation aérienne doit être activée.");
