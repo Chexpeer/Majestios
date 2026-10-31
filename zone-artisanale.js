@@ -178,7 +178,12 @@ renderer.domElement.addEventListener("pointermove",e=>{
  updateHoverCard(data,e);
 });
 renderer.domElement.addEventListener("pointerleave",()=>{hovered=null;updateHoverCard(null);});
-renderer.domElement.addEventListener("click",e=>{const data=getBuildingAt(e);if(data){selectBuilding(data);updateHoverCard(data,e);}});
+let suppressSyntheticClickUntil=0;
+renderer.domElement.addEventListener("click",e=>{
+ if(performance.now()<suppressSyntheticClickUntil){e.preventDefault();return;}
+ const data=getBuildingAt(e);
+ if(data){selectBuilding(data);updateHoverCard(data,e);}
+});
 let touchCandidate=null;
 renderer.domElement.addEventListener("touchstart",e=>{
  if(e.touches.length!==1){touchCandidate=null;return;}
@@ -189,6 +194,8 @@ renderer.domElement.addEventListener("touchend",e=>{
  const start=touchCandidate;touchCandidate=null;
  const t=Array.from(e.changedTouches).find(item=>item.identifier===start.id);
  if(!t||Math.hypot(t.clientX-start.x,t.clientY-start.y)>12)return;
+ // Évite qu’un clic synthétique du navigateur répète la sélection tactile.
+ suppressSyntheticClickUntil=performance.now()+500;
  const data=getBuildingAt(t);
  if(data){hovered=data.id;selectBuilding(data);updateHoverCard(data,{pointerType:"touch"});}
 },{passive:true});
