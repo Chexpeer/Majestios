@@ -628,3 +628,56 @@ h1 span { color: var(--purple); }
 .homepage .interactive-map-section { padding-top: 28px; padding-bottom: 40px; }
 .homepage .hero { min-height: 430px; }
 @media (max-width: 760px) { .homepage .hero { min-height: auto; padding-top: 28px; padding-bottom: 28px; } }
+
+
+/* Cartes flottantes de navigation : une légère profondeur, sans effet excessif */
+.floating-route-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  max-width: 760px;
+  margin: 54px auto 12px;
+  padding: 24px 28px;
+  border: 1px solid rgba(104, 85, 223, .15);
+  border-radius: 18px;
+  background: linear-gradient(125deg, rgba(250,249,255,.98), rgba(255,255,255,.98));
+  box-shadow: 0 8px 24px rgba(39, 33, 82, .07), 0 2px 5px rgba(39, 33, 82, .04);
+  transform: translateY(0) perspective(900px) rotateX(0deg);
+  transition: transform .35s cubic-bezier(.2,.75,.25,1), box-shadow .35s ease, border-color .35s ease;
+}
+.floating-route-card:hover, .floating-route-card:focus-within {
+  transform: translateY(-7px) perspective(900px) rotateX(1deg);
+  border-color: rgba(104, 85, 223, .32);
+  box-shadow: 0 22px 42px rgba(39, 33, 82, .13), 0 5px 12px rgba(39, 33, 82, .06);
+}
+.floating-route-icon { display:grid; flex:0 0 44px; width:44px; height:44px; place-items:center; border-radius:13px; color:var(--purple-deep); background:#eeebff; font-size:21px; }
+.floating-route-kicker { display:block; margin-bottom:7px; color:#8b82c5; font-size:9px; font-weight:800; letter-spacing:1.2px; }
+.floating-route-card h2 { margin:0 0 7px; font-size:19px; line-height:1.35; letter-spacing:-.4px; }
+.floating-route-card p { margin:0 0 12px; color:#777c8d; font-size:13px; line-height:1.7; }
+.floating-route-card a { display:inline-flex; gap:9px; align-items:center; color:var(--purple-deep); font-size:12px; font-weight:750; }
+.floating-route-card a span { transition:transform .25s ease; }
+.floating-route-card:hover a span, .floating-route-card:focus-within a span { transform:translateX(4px); }
+
+/* Flux AO : priorité à la discrétion et à une circulation lente */
+.tender-feed-section { padding: 38px 0 34px; background:#fcfcfe; }
+.feed-heading { opacity:.86; }
+.feed-demo { border-color:#eeedf4; box-shadow:0 4px 18px rgba(36,32,65,.035); }
+.feed-topbar { background:rgba(255,255,255,.8); }
+.feed-live-dot { opacity:.55; }
+.feed-stream { position:relative; overflow:hidden; }
+.feed-card { position:relative; animation:tender-card-drift 34s ease-in-out infinite alternate; }
+.feed-card:nth-child(2n) { animation-delay:-11s; }
+.feed-card:nth-child(3n) { animation-delay:-19s; }
+.feed-card:hover, .feed-stream:focus-within .feed-card { animation-play-state:paused; }
+@keyframes tender-card-drift { from { transform:translateX(0); opacity:.86; } to { transform:translateX(5px); opacity:1; } }
+@media (prefers-reduced-motion: reduce) {
+ .floating-route-card, .floating-route-card a span { transition:none; }
+ .floating-route-card:hover, .floating-route-card:focus-within { transform:none; }
+ .feed-card, .feed-card:nth-child(2n), .feed-card:nth-child(3n) { animation:none; }
+}
+@media (max-width:560px) {
+ .floating-route-card { gap:12px; padding:19px; margin-top:34px; }
+ .floating-route-icon { flex-basis:36px; width:36px; height:36px; }
+ .floating-route-card h2 { font-size:17px; }
+}
