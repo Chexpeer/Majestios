@@ -373,6 +373,40 @@ if (fs.existsSync(distPath)) {
 }
 
 
+
+// Vérifier la cohérence de la navigation principale sur les pages qui l'affichent.
+const expectedMainNavigation = [
+  "index.html",
+  "developpement-commercial.html",
+  "salons-seminaires.html",
+  "nous-rejoindre.html",
+  "espace-membre.html",
+  "faq.html",
+];
+for (const page of pages) {
+  const html = fs.readFileSync(path.join(root, page), "utf8");
+  const navMatch = html.match(/<nav\\b[^>]*class=["'][^"']*site-nav[^"']*["'][^>]*>([\\s\\S]*?)<\\/nav>/i);
+  if (!navMatch) continue;
+  const navHtml = navMatch[1];
+  const links = [...navHtml.matchAll(/<a\\b([^>]*)href=["']([^"']+)["']([^>]*)>/gi)];
+  const destinations = links.map((match) => match[2]);
+  for (const destination of expectedMainNavigation) {
+    if (!destinations.includes(destination)) {
+      errors.push(`${page} : navigation principale incomplète (${destination})`);
+    }
+  }
+  if (new Set(destinations).size !== destinations.length) {
+    errors.push(`${page} : destination répétée dans la navigation principale`);
+  }
+  const currentLinks = links.filter((match) => /aria-current=["']page["']/i.test(match[1] + match[3]));
+  if (currentLinks.length > 1) {
+    errors.push(`${page} : plusieurs entrées déclarées comme page courante dans la navigation principale`);
+  }
+  if (links.some((match) => match[2].trim() === "#")) {
+    errors.push(`${page} : lien vide href="#" dans la navigation principale`);
+  }
+}
+
 // Vérifier que les parcours encore en démonstration restent explicitement non transactionnels.
 const memberPagePath = path.join(root, "espace-membre.html");
 if (fs.existsSync(memberPagePath)) {
