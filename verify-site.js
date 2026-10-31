@@ -921,7 +921,7 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
 
  // Lot 21 — contrôler les fondations SaaS et le mode plein écran.
  if (!homeSceneHtml.includes('id="scene-fullscreen"')) errors.push("Zone industrielle : commande plein écran absente");
- if (!homeSceneJs.includes("sceneShell.requestFullscreen()") || !homeSceneJs.includes("document.fullscreenchange")) {
+ if (!homeSceneJs.includes("sceneShell.requestFullscreen()") || !homeSceneJs.includes('addEventListener("fullscreenchange"')) {
    errors.push("Zone industrielle : gestion complète du mode plein écran absente");
  }
  const memberPage = fs.readFileSync(path.join(root, "espace-membre.html"), "utf8");
@@ -935,7 +935,7 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
  const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
  const brainPage = fs.readFileSync(path.join(root, "brainos.html"), "utf8");
  if (!crmPage.includes("Aucun CRM opérationnel") || !crmPage.includes("confidentialité")) errors.push("CRM : statut prototype ou exigence de confidentialité non documenté");
- if (!brainPage.includes("Aucun corpus documentaire connecté") || !brainPage.includes("sources officielles")) errors.push("BrainOS : limites du prototype ou gestion des sources non documentées");
+ if (!brainPage.toLowerCase().includes("aucun corpus documentaire connecté") || !brainPage.toLowerCase().includes("sources officielles")) errors.push("BrainOS : limites du prototype ou gestion des sources non documentées");
 
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
