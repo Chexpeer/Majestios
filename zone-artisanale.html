@@ -18,7 +18,12 @@
     loader.innerHTML = fallback;
   }
   window.addEventListener("error", function(event){
-    if (event.target && event.target !== window && !event.target.closest?.("#scene-loading")) return;
+    var target = event.target;
+    if (target && target !== window) {
+      var source = (target.src || target.href || "").toLowerCase();
+      var isSceneScript = target.tagName === "SCRIPT" && (source.indexOf("zone-artisanale.js") !== -1 || source.indexOf("three.module.js") !== -1 || source.indexOf("orbitcontrols.js") !== -1);
+      if (!isSceneScript) return;
+    }
     showFallback();
   }, true);
   window.addEventListener("unhandledrejection", showFallback);
