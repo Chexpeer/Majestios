@@ -1501,7 +1501,7 @@ body.homepage .tender-feed-section .feed-search input,
 body.homepage .tender-feed-section .feed-filter-label select {
   width:100%; min-height:42px; padding:10px 12px;
   border:1px solid rgba(213,181,108,.28); border-radius:9px;
-  color:#f2eee3; background:#101722; font:500 12px/1.3 inherit;
+  color:#f2eee3; background:#101722; font-family:inherit; font-size:12px; font-weight:500; line-height:1.3;
 }
 body.homepage .tender-feed-section .feed-search input::placeholder { color:#9f9a8e; }
 body.homepage .tender-feed-section .feed-search > span:not(.sr-only) { color:#d5b56c; }
