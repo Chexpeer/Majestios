@@ -448,6 +448,36 @@ for (const page of expectedRubricPages) {
   if (!fs.existsSync(path.join(root, page))) errors.push(`Arborescence : page métier référencée mais absente : ${page}`);
 }
 
+
+// Lot 10 — continuité des critères entre la recherche et ses pages de résultats.
+const generalResultsScriptPathForAudit = path.join(root, "search-results.js");
+if (fs.existsSync(generalResultsScriptPathForAudit)) {
+  const searchResultsScript = fs.readFileSync(generalResultsScriptPathForAudit, "utf8");
+  for (const parameter of ["q", "categorie", "marche", "zone"]) {
+    if (!searchResultsScript.includes(`params.get("${parameter}")`)) {
+      errors.push(`Résultats généraux : critère transmis non récapitulé : ${parameter}`);
+    }
+  }
+  if (!searchResultsScript.includes('new URLSearchParams(params)') ||
+      !searchResultsScript.includes('returnLink.href = `index.html')) {
+    errors.push("Résultats généraux : le retour à la recherche ne préserve pas les critères");
+  }
+} else {
+  errors.push("Résultats généraux : search-results.js absent");
+}
+if (fs.existsSync(path.join(root, "category-results.js"))) {
+  const categoryResultsScriptForAudit = fs.readFileSync(path.join(root, "category-results.js"), "utf8");
+  for (const parameter of ["q", "marche", "zone"]) {
+    if (!categoryResultsScriptForAudit.includes(`params.get("${parameter}")`)) {
+      errors.push(`Résultats par catégorie : critère transmis non récapitulé : ${parameter}`);
+    }
+  }
+  if (!categoryResultsScriptForAudit.includes('returnParams.set("categorie", definition.value)') ||
+      !categoryResultsScriptForAudit.includes('link.href = `index.html?')) {
+    errors.push("Résultats par catégorie : le retour à la recherche ne restaure pas la catégorie");
+  }
+}
+
 // Vérifier le contenu réellement préparé dans dist/, pas seulement la liste de build.
 const distPath = path.join(root, "dist");
 if (fs.existsSync(distPath)) {
