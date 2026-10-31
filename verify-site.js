@@ -88,6 +88,30 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!sceneScriptText.includes("webglcontextlost") || !sceneScriptText.includes('loading.dataset.fallbackShown!=="true"')) {
     errors.push("Zone 3D : gestion de la perte WebGL ou protection contre le masquage du secours absente");
   }
+  // Vérifier les trois modes de visite et le fonctionnement structurel de la carte GPS.
+  for (const mode of ["fly", "drive", "map"]) {
+    if (!home.includes(`data-scene-mode="${mode}"`)) {
+      errors.push(`Zone 3D : commande de visite absente pour le mode « ${mode} »`);
+    }
+    if (!sceneScriptText.includes(`mode==="${mode}"`) && !sceneScriptText.includes(`mode === "${mode}"`)) {
+      errors.push(`Zone 3D : traitement JavaScript absent pour le mode « ${mode} »`);
+    }
+  }
+  for (const id of ["zone-map", "map-buildings"]) {
+    if (!home.includes(`id="${id}"`)) errors.push(`GPS Majest COYOT : élément HTML absent : #${id}`);
+  }
+  if (!sceneScriptText.includes("function renderZoneMap()") ||
+      !sceneScriptText.includes("mapBuildings.appendChild(button)") ||
+      !sceneScriptText.includes("renderZoneMap();")) {
+    errors.push("GPS Majest COYOT : génération ou affichage des destinations absent");
+  }
+  if (!sceneCssText.includes(".zone-map") || !sceneCssText.includes(".map-building")) {
+    errors.push("GPS Majest COYOT : styles de la carte ou de ses destinations absents");
+  }
+  if (!sceneScriptText.includes("visitorHelicopter.visible=flying") ||
+      !sceneScriptText.includes("visitorCar.visible=driving")) {
+    errors.push("Visites immersives : affichage de l’Apache ou de la Tesla non relié au mode de visite");
+  }
   if (!sceneScriptText.includes('addEventListener("touchstart"') || !sceneScriptText.includes('addEventListener("touchend"') || !sceneScriptText.includes("ResizeObserver")) {
     errors.push("Zone 3D : sélection tactile ou adaptation de taille non vérifiable dans le script");
   }
