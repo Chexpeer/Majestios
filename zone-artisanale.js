@@ -110,7 +110,24 @@ for(const data of buildings){
  card.addEventListener("click",()=>selectBuilding(data));directory.appendChild(card);
 }
 function tree(position,scale=1){const trunk=box(.22,1.1,.22,material("#70563e"),position.x,.48,position.z);const crown=new THREE.Mesh(new THREE.SphereGeometry(.8*scale,10,8),material("#47775c"));crown.position.set(position.x,1.5*scale,position.z);crown.castShadow=true;scene.add(crown);scene.add(trunk);}
-for(const p of [{x:-19,z:2},{x:19,z:2},{x:-19,z:-11},{x:19,z:-11},{x:-19,z:-22},{x:19,z:-22}])tree(p,.8);
+for(const p of [{x:-19,z:2},{x:19,z:2},{x:-19,z:-11},{x:19,z:-11},{x:-19,z:-22},{x:19,z:-22}])tree(p,.8);\n// Parking bays and pedestrian lighting make the site read as a working business park.
+const parkingPaint=material("#e9e4d3",.9);
+for(const side of [-1,1]){
+ const parking=box(3.5,.035,30,material("#596c60"),side*18.8,-.025,-8);
+ for(let z=-21;z<=4;z+=3.4){
+  box(.055,.018,2.45,parkingPaint,side*17.15,.012,z);
+  box(.055,.018,2.45,parkingPaint,side*20.45,.012,z);
+ }
+ for(const z of [-20,-10,0]){
+  const pole=box(.12,3.7,.12,material("#435363"),side*4.2,1.82,z);
+  box(.9,.12,.42,material("#e8d6a1"),side*4.2,3.72,z);
+  const glow=new THREE.PointLight(0xffdca0,.65,7,2);
+  glow.position.set(side*4.2,3.55,z);scene.add(glow);
+ }
+}
+// A marked pedestrian crossing highlights the main entrance.
+for(let x=-2.1;x<=2.1;x+=.7)box(.42,.025,1.25,parkingPaint,x,.025,9.2);
+
 const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let selected=null,hovered=null;
 let cameraDestination=null,targetDestination=null;
 function focusBuilding(data){
