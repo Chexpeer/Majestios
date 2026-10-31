@@ -487,7 +487,7 @@ if (fs.existsSync(homeHtmlPath)) {
 const showroomPath = path.join(root, "salons-seminaires.html");
 if (fs.existsSync(showroomPath)) {
   const showroomHtml = fs.readFileSync(showroomPath, "utf8");
-  for (const phrase of ["Ne présentez plus votre entreprise. Faites-la visiter.", "Showroom Essentiel", "Showroom Immersif", "Majest COYOT", "les décisions restent humaines"]) {
+  for (const phrase of ["Ne présentez plus votre entreprise. Faites-la visiter.", "Showroom Essentiel", "Showroom Immersif", "Majest COYOT", "la décision appartient toujours aux personnes"]) {
     if (!showroomHtml.toLowerCase().includes(phrase.toLowerCase())) errors.push(`Showroom virtuel : contenu stratégique manquant : ${phrase}`);
   }
   if (!/ne signifie pas que ces services sont déjà disponibles/i.test(showroomHtml)) {
