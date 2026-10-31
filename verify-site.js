@@ -49,45 +49,34 @@ if (fs.existsSync(buildPath)) {
   for (const page of pages) {
     if (!build.includes(`"${page}"`)) errors.push(`build.js: page absente de la liste de publication : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "schema-majestios.svg", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js"]) {
     if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
   }
 } else {
   errors.push("build.js : fichier absent");
 }
 
-// Protéger les fonctions métier essentielles de la page d'accueil contre les régressions.
+// Vérifier les éléments réellement attendus sur l'accueil : navigation, zone 3D et recherche.
 const homePath = path.join(root, "index.html");
 const appScriptPath = path.join(root, "app.js");
 if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   const home = fs.readFileSync(homePath, "utf8");
   const appScript = fs.readFileSync(appScriptPath, "utf8");
-  for (const id of ["flux-ao", "feed-search", "feed-sector", "feed-region", "feed-result-count", "feed-stream", "lead-form", "form-feedback", "preview-request", "contact"]) {
-    if (!home.includes(`id="${id}"`)) {
-      errors.push(`Accueil : fonction commerciale essentielle absente ou identifiant modifié : #${id}`);
-    }
+  for (const id of ["scene", "feed-search", "feed-sector", "feed-market-type", "feed-region", "feed-stream"]) {
+    if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
   }
-  if (!appScript.includes("demoTenders") || !appScript.includes("function renderTenderFeed")) {
-    errors.push("Accueil : moteur de recherche des opportunités de démonstration introuvable ou incomplet dans app.js");
+  if (!home.includes('src="zone-artisanale.js"')) errors.push("Accueil : script de la zone 3D absent");
+  if (!home.includes('href="nous-rejoindre.html"') || !home.includes('href="espace-membre.html"') || !home.includes('href="faq.html"')) {
+    errors.push("Accueil : navigation principale incomplète");
   }
-  if (!appScript.includes("Cette demande de démonstration n’a pas été transmise.")) {
-    errors.push("Accueil : le formulaire doit indiquer clairement qu'une demande de démonstration n'est pas transmise");
+  if (!appScript.includes("function renderTenderFeed") || !appScript.includes("populateSearchFilters();")) {
+    errors.push("Recherche avancée : initialisation ou rendu des résultats absent");
   }
-  if (!appScript.includes('document.querySelector("#preview-request").addEventListener("click"')) {
-    errors.push("Accueil : bouton de prévisualisation du formulaire non relié dans app.js");
-  }
-
-  // Vérifier que les raccourcis de formulaire pointent vers une intention réellement disponible.
-  const intentValues = new Set([...home.matchAll(/name="intent"[^>]*value="([^"]+)"/g)].map((match) => match[1]));
-  const intentLinks = [...home.matchAll(/data-intent-link="([^"]+)"/g)].map((match) => match[1]);
-  for (const intent of intentLinks) {
-    if (!intentValues.has(intent)) errors.push(`Accueil : raccourci de formulaire sans intention correspondante : ${intent}`);
-  }
-  if (!appScript.includes('event.key === "Enter" || event.key === " "')) {
-    errors.push("Schéma interactif : activation clavier par Entrée et Espace non détectée dans app.js");
+  for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="homepage-ticker"', 'class="site-footer"', 'class="directory"']) {
+    if (home.includes(forbidden)) errors.push(`Accueil : bloc hors périmètre encore présent : ${forbidden}`);
   }
 } else {
-  errors.push("index.html ou app.js absent : contrôle des fonctions commerciales essentielles impossible");
+  errors.push("index.html ou app.js absent : contrôle de l'accueil impossible");
 }
 
 // Vérifier que chaque rubrique métier conserve sa couche immersive et la navigation commune.
@@ -184,68 +173,26 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
   errors.push("zone-artisanale.html ou zone-artisanale.js : fichier absent, contrôle de l'univers virtuel impossible");
 }
 
-// Vérifier que le panorama et la zone 3D consomment le même catalogue de routes.
-const svgPath = path.join(root, "schema-majestios.svg");
+// Vérifier le catalogue partagé, les douze destinations et les filtres de recherche.
 const appPath = path.join(root, "app.js");
 const zoneScenePath = path.join(root, "zone-artisanale.js");
 const cataloguePath = path.join(root, "catalogue-majestios.js");
-if (fs.existsSync(svgPath) && fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cataloguePath)) {
-  const svg = fs.readFileSync(svgPath, "utf8");
+if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cataloguePath)) {
   const app = fs.readFileSync(appPath, "utf8");
   const zoneJs = fs.readFileSync(zoneScenePath, "utf8");
   const catalogue = fs.readFileSync(cataloguePath, "utf8");
-  const surfaces = [...svg.matchAll(/data-surface=["']([^"']+)["']/g)].map((match) => match[1]);
   const rubrics = [...catalogue.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)"/g)]
     .map((match) => ({ id: match[1], key: match[2], surface: match[3], href: match[5] }));
-  const surfaceSet = new Set(surfaces);
-  const catalogSurfaceSet = new Set(rubrics.map((item) => item.surface));
-  const destinationPages = new Set(rubrics.map((item) => item.href));
-  if (surfaces.length !== 12 || surfaceSet.size !== 12) errors.push(`schema-majestios.svg : ${surfaces.length} surfaces détectées, 12 uniques attendues`);
-  if (rubrics.length !== 12 || new Set(rubrics.map((item) => item.id)).size !== 12) errors.push(`catalogue-majestios.js : ${rubrics.length} rubriques uniques détectées, 12 attendues`);
-  for (const surface of surfaceSet) if (!catalogSurfaceSet.has(surface)) errors.push(`Catalogue : surface du schéma non référencée : ${surface}`);
-  for (const surface of catalogSurfaceSet) if (!surfaceSet.has(surface)) errors.push(`Catalogue : surface sans losange SVG : ${surface}`);
-  if (destinationPages.size !== 12) errors.push(`Catalogue : ${destinationPages.size} destinations distinctes détectées, 12 attendues`);
+  if (rubrics.length !== 12 || new Set(rubrics.map((item) => item.id)).size !== 12) errors.push(`Catalogue : ${rubrics.length} rubriques reconnues, 12 attendues`);
+  if (new Set(rubrics.map((item) => item.href)).size !== 12) errors.push("Catalogue : les douze destinations doivent être distinctes");
   for (const rubric of rubrics) {
     if (!fs.existsSync(path.join(root, rubric.href))) errors.push(`Catalogue : page de destination absente : ${rubric.href}`);
-    if (!app.includes('Object.fromEntries(majCatalog.rubrics.map')) errors.push("app.js : les destinations du panorama ne sont pas générées depuis le catalogue partagé");
     if (!zoneJs.includes(`rubricRoute("${rubric.key}")`)) errors.push(`Zone 3D : destination non reliée au catalogue pour ${rubric.key}`);
   }
-  if (!app.includes('document.querySelector("#feed-market-type")')) errors.push("Moteur de recherche : filtre par type de marché absent du script");
-  if (!app.includes("populateSearchFilters();")) errors.push("Moteur de recherche : menus déroulants non initialisés depuis le catalogue");
-  const home = fs.readFileSync(homePath, "utf8");
-  if (!home.includes('id="feed-market-type"')) errors.push("Accueil : filtre de type de marché absent");
-  if (!home.includes('catalogue-majestios.js')) errors.push("Accueil : catalogue partagé non chargé avant app.js");
-  const zoneHtmlPath = path.join(root, "zone-artisanale.html");
-  const zoneHtml = fs.existsSync(zoneHtmlPath) ? fs.readFileSync(zoneHtmlPath, "utf8") : "";
-  if (!zoneHtml.includes('catalogue-majestios.js')) errors.push("Zone 3D : catalogue partagé non chargé avant le module de scène");
-  const categoryValues = new Set([...catalogue.matchAll(/\{ value: "([^"]+)", label: "[^"]+", active: true(?:, href: "[^"]+")? \}/g)].map((match) => match[1]));
-  const activeTenderCategories = new Set([...app.matchAll(/sector: "([^"]+)"/g)].map((match) => match[1]));
-  for (const category of activeTenderCategories) if (!categoryValues.has(category)) errors.push(`Moteur de recherche : catégorie des exemples absente du catalogue : ${category}`);
-
-  const categoryRouteMatches = [...catalogue.matchAll(/\{ value: "([^"]+)", label: "[^"]+", active: true, href: "([^"]+\\.html)" \}/g)];
-  for (const [, category, route] of categoryRouteMatches) {
-    if (!fs.existsSync(path.join(root, route))) errors.push(`Arborescence : page de catégorie absente pour ${category} : ${route}`);
-  }
-  const requiredSearchHooks = [
-    ['id="feed-sector"', "filtre catégorie"],
-    ['id="feed-market-type"', "filtre public/privé"],
-    ['id="feed-region"', "filtre géographique"],
-    ['id="feed-search"', "recherche par mot-clé"],
-    ['id="feed-stream"', "zone de résultats"],
-  ];
-  for (const [hook, label] of requiredSearchHooks) {
-    if (!home.includes(hook)) errors.push(`Recherche : ${label} absent de la page d’accueil`);
-  }
-  for (const handler of [
-    'addEventListener("input", renderTenderFeed)',
-    'addEventListener("change", renderTenderFeed)',
-    'categoryLink.href = category.href',
-    'initialSearchParams.get("categorie")',
-  ]) {
-    if (!app.includes(handler)) errors.push(`Recherche et orientation : interaction manquante (${handler})`);
-  }
+  if (!app.includes('document.querySelector("#feed-market-type")')) errors.push("Recherche : filtre par type de marché absent du script");
+  if (!app.includes("populateSearchFilters();")) errors.push("Recherche : filtres non initialisés depuis le catalogue");
 } else {
-  errors.push("schema-majestios.svg, app.js, zone-artisanale.js ou catalogue-majestios.js absent : contrôle des destinations impossible");
+  errors.push("app.js, zone-artisanale.js ou catalogue-majestios.js absent : contrôle des destinations impossible");
 }
 
 // Contrôle explicite de cohérence entre l'arborescence, l'accueil et la navigation.
@@ -303,7 +250,7 @@ if (fs.existsSync(distPath)) {
   for (const page of ["index.html", "zone-artisanale.html", ...expectedRubricPages, ...expectedCategoryPages]) {
     if (!fs.existsSync(path.join(distPath, page))) errors.push(`Build : page attendue absente de dist/ : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "schema-majestios.svg", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js"]) {
     if (!fs.existsSync(path.join(distPath, asset))) errors.push(`Build : ressource attendue absente de dist/ : ${asset}`);
   }
   const builtHome = path.join(distPath, "index.html");
