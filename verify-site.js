@@ -464,14 +464,6 @@ if (fs.existsSync(generalResultsPath)) {
   }
 }
 
-if (errors.length) {
-  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\n- ${errors.join("\n- ")}`);
-  process.exitCode = 1;
-} else {
-  console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
-}
-
-
 // Le point d’aide doit être accessible et ne pas se présenter comme un chatbot déjà connecté.
 if (fs.existsSync(homeHtmlPath)) {
   const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
@@ -514,4 +506,11 @@ if (fs.existsSync(path.join(root, "styles.css"))) {
   if (!/homepage-ticker-track[^}]*animation:[^;]*75s/.test(homeStyles) || !homeStyles.includes("@media(prefers-reduced-motion:reduce) { body.homepage .homepage-ticker-track")) {
     errors.push("Accueil : vitesse lente ou préférence de réduction des animations non prise en compte pour le bandeau");
   }
+}
+
+if (errors.length) {
+  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
+  process.exitCode = 1;
+} else {
+  console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
 }
