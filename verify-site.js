@@ -227,8 +227,14 @@ if (fs.existsSync(homeHtmlPath)) {
       errors.push("Accueil : titre accessible de la zone industrielle absent");
     }
   }
-  if (!homeHtml.includes('href="index.html#accueil"') && !homeHtml.includes('href="zone-artisanale.html"')) {
-    errors.push("Accueil : accès à la zone industrielle absent de la navigation");
+  const navMatch = homeHtml.match(/<nav class="site-nav"[^>]*>([\\s\\S]*?)<\\/nav>/i);
+  const navHrefs = navMatch ? [...navMatch[1].matchAll(/href="([^"]+)"/g)].map((match) => match[1]) : [];
+  const expectedNavHrefs = ["index.html", "developpement-commercial.html", "salons-seminaires.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"];
+  if (navHrefs.length !== expectedNavHrefs.length || navHrefs.some((href, index) => href !== expectedNavHrefs[index])) {
+    errors.push("Accueil : la navigation principale doit contenir exactement les six liens attendus, dans l’ordre défini");
+  }
+  if (!homeHtml.includes("majestiosSceneFallback") || !homeHtml.includes('onerror="window.majestiosSceneFallback()"')) {
+    errors.push("Accueil : mécanisme de secours de la scène 3D absent");
   }
   for (const controlId of ["feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
     if (!homeHtml.includes(`id="${controlId}"`)) {
