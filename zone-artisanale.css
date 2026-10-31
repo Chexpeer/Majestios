@@ -209,3 +209,6 @@ body.homepage .homepage-industrial-layout .building-panel #panel-description { f
 
 /* Sur mobile, les commandes passent au-dessus de la carte : décaler aussi son titre et les repères. */
 @media(max-width:760px){.scene[data-view-mode="map"] .map-header{top:94px}.scene[data-view-mode="map"] .map-compass{top:148px}.scene[data-view-mode="map"] .map-buildings{inset:148px 2px 42px}}
+
+/* En mode GPS, les commandes de déplacement ne doivent pas recouvrir les destinations de la carte. */
+#scene[data-view-mode="map"] .walk-pad{display:none!important}
