@@ -253,10 +253,21 @@ advancedSearchForm.addEventListener("submit", (event) => {
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
   if (region && region !== "all") params.set("zone", region);
+  if (marketType && marketType !== "all") params.set("marche", marketType);
+
+  // Orienter la recherche vers la page correspondant au critère le plus explicite.
+  // Un type de marché choisi mène à sa rubrique ; sinon une catégorie mène à sa page dédiée.
+  const selectedCategory = majCatalog.searchCategories.find(
+    (item) => item.value === category && item.href && !item.planned
+  );
   const destination = marketType === "private"
     ? "marches-prives.html"
-    : "marches-publics.html";
-  if (marketType && marketType !== "all") params.set("marche", marketType);
+    : marketType === "public"
+      ? "marches-publics.html"
+      : selectedCategory
+        ? selectedCategory.href
+        : "marches-publics.html";
+
   window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
 });
 
