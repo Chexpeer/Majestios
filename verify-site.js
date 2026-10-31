@@ -388,7 +388,7 @@ for (const page of pages) {
   const navMatch = html.match(/<nav\b[^>]*class=["'][^"']*site-nav[^"']*["'][^>]*>([\s\S]*?)<\/nav>/i);
   if (!navMatch) continue;
   const navHtml = navMatch[1];
-  const links = [...navHtml.matchAll(/<a\\b([^>]*)href=["']([^"']+)["']([^>]*)>/gi)];
+  const links = [...navHtml.matchAll(/<a\b([^>]*)href=["']([^"']+)["']([^>]*)>/gi)];
   const destinations = links.map((match) => match[2]);
   for (const destination of expectedMainNavigation) {
     if (!destinations.includes(destination)) {
