@@ -863,3 +863,140 @@ h1 span { color: var(--purple); }
   .homepage .interactive-map-frame object { aspect-ratio: 1 / 1; min-height: 300px; }
   .homepage .interactive-map-info { padding: 12px; }
 }
+
+/* Accueil panoramique : une seule identité visuelle noire et or. */
+.homepage {
+  color: #f4f0e6;
+  background: #070a0f;
+}
+.homepage .site-header {
+  color: #f4f0e6;
+  border-bottom: 1px solid rgba(205,168,93,.18);
+}
+.homepage .brand { color: #f4f0e6; }
+.homepage .brand-mark { color: #080a0e; background: linear-gradient(135deg,#fff0b0,#cda85d); }
+.homepage .brand-os { color: #d8b96e; }
+.homepage .site-nav { color: #d2d0ca; }
+.homepage .site-nav > a:hover,
+.homepage .site-nav [aria-current="page"] { color: #f0d38b; }
+.homepage .menu-toggle {
+  border-color: rgba(205,168,93,.35);
+  background: #111925;
+}
+.homepage .menu-toggle span { background: #f0d38b; }
+.homepage .site-nav.open {
+  border-color: rgba(205,168,93,.35);
+  background: #101722;
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
+}
+.homepage .site-nav.open a { color: #e7e1d3; }
+.homepage .interactive-map-section { padding: 30px 0 28px; }
+.homepage .interactive-map-heading { max-width: 900px; margin-bottom: 18px; }
+.homepage .interactive-map-heading .eyebrow { color: #cda85d; }
+.homepage .interactive-map-heading h1 {
+  margin-bottom: 12px;
+  color: #f7f0df;
+  font: 750 clamp(28px, 3.8vw, 46px)/1.15 Georgia, serif;
+  letter-spacing: -.8px;
+}
+.homepage .interactive-map-heading h1 span { color: #d6b76b; }
+.homepage .interactive-map-heading > p:last-child {
+  max-width: 760px;
+  color: #aaa9a5;
+  font-size: 12px;
+}
+.homepage .interactive-map-layout {
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid rgba(205,168,93,.25);
+  border-radius: 12px;
+  background: #0b1018;
+  box-shadow: 0 16px 44px rgba(0,0,0,.2);
+}
+.homepage .interactive-map-frame {
+  overflow: hidden;
+  border: 1px solid rgba(205,168,93,.14);
+  border-radius: 8px;
+  background: #070a0f;
+}
+.homepage .interactive-map-frame object {
+  width: 100%;
+  aspect-ratio: 10 / 7;
+  min-height: 0;
+  background: #070a0f;
+}
+.homepage .interactive-map-info {
+  padding: 20px 16px;
+  border-color: rgba(205,168,93,.24);
+  border-radius: 9px;
+  color: #f4f0e6;
+  background: #101722;
+  box-shadow: none;
+}
+.homepage .interactive-map-status { color: #cda85d; }
+.homepage .interactive-map-info h3 { color: #f4f0e6; }
+.homepage .interactive-map-info p { color: #aaa9a5; }
+.homepage .interactive-map-hint {
+  color: #e7cd8b;
+  background: rgba(205,168,93,.12);
+}
+.homepage .tender-feed-section {
+  padding: 24px 0 30px;
+  border-top: 1px solid rgba(205,168,93,.14);
+  background: #090d13;
+}
+.homepage .feed-heading h2 { color: #f4f0e6; }
+.homepage .feed-heading h2 span { color: #d6b76b; }
+.homepage .feed-heading .eyebrow { color: #cda85d; }
+.homepage .feed-heading p,
+.homepage .feed-heading .feed-heading-copy > p:last-child { color: #aaa9a5; }
+.homepage .feed-callout strong { color: #f4f0e6; }
+.homepage .feed-callout small { color: #aaa9a5; }
+.homepage .feed-topbar,
+.homepage .feed-toolbar,
+.homepage .feed-card,
+.homepage .feed-demo {
+  border-color: rgba(205,168,93,.22);
+  background: #101722;
+}
+.homepage .feed-title strong,
+.homepage .feed-card h3 { color: #f4f0e6; }
+.homepage .feed-title small,
+.homepage .feed-buyer,
+.homepage .feed-description,
+.homepage .feed-card-metadata { color: #aaa9a5; }
+.homepage .feed-interest { color: #e7cd8b; }
+.homepage .feed-source-note { color: #aaa9a5; }
+.homepage .feed-bottom-cta { color: #e8e2d6; }
+.homepage .lead-section {
+  padding-top: 34px;
+  padding-bottom: 38px;
+  border-top: 1px solid rgba(205,168,93,.2);
+  background: #070a0f;
+}
+.homepage .lead-intro .eyebrow { color: #cda85d; }
+.homepage .lead-intro h2 { color: #f4f0e6; }
+.homepage .lead-intro > p:last-child { color: #aaa9a5; }
+.homepage .lead-form-wrap {
+  border: 1px solid rgba(205,168,93,.24);
+  border-radius: 12px;
+  background: #101722;
+}
+.homepage .lead-form,
+.homepage .lead-form legend,
+.homepage .lead-form .intent-option,
+.homepage .lead-form .form-field { color: #e8e2d6; }
+.homepage .lead-form .intent-option small,
+.homepage .lead-form .form-privacy { color: #aaa9a5; }
+.homepage .lead-form .button-primary { color: #080a0e; background: linear-gradient(135deg,#fff0b0,#cda85d); }
+.homepage .form-feedback { color: #e7cd8b; }
+@media (max-width: 760px) {
+  .homepage .interactive-map-section { padding: 18px 0 22px; }
+  .homepage .interactive-map-layout { grid-template-columns: 1fr; gap: 10px; padding: 8px; }
+  .homepage .interactive-map-frame object { aspect-ratio: 1 / 1; min-height: 280px; }
+  .homepage .interactive-map-info { padding: 12px; }
+  .homepage .interactive-map-heading { padding: 0 10px; }
+  .homepage .interactive-map-heading h1 { font-size: 29px; }
+  .homepage .tender-feed-section { padding-top: 22px; }
+}
