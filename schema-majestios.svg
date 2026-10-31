@@ -55,7 +55,7 @@
 </g>
 <g data-surface="peripherique-turquoise" class="tile" tabindex="0" role="button" aria-label="Explorer Réseaux et synergies">
  <polygon class="face" points="845,605 875,580 1135,580 1165,605 1165,730 1135,755 875,755 845,730"/><polygon class="inner" points="856,611 881,592 1129,592 1154,611 1154,724 1129,743 881,743 856,724"/>
- <text class="number" x="875" y="624">07 / ÉCOSYSTÈME</text><text class="label" x="1005" y="667">Réseaux & synergies</text><text class="small" x="1005" y="697">CRÉER DES ALLIANCES</text><polygon class="hit" points="845,605 875,580 1135,580 1165,605 1165,730 1135,755 875,755 845,730"/>
+ <text class="number" x="875" y="624">07 / ÉCOSYSTÈME</text><text class="label" x="1005" y="667">Réseaux &amp; synergies</text><text class="small" x="1005" y="697">CRÉER DES ALLIANCES</text><polygon class="hit" points="845,605 875,580 1135,580 1165,605 1165,730 1135,755 875,755 845,730"/>
 </g>
 <g data-surface="peripherique-vert" class="tile" tabindex="0" role="button" aria-label="Explorer Sous-traitance et débordement de marchés">
  <polygon class="face" points="1235,605 1265,580 1525,580 1555,605 1555,730 1525,755 1265,755 1235,730"/><polygon class="inner" points="1246,611 1271,592 1519,592 1544,611 1544,724 1519,743 1271,743 1246,724"/>
@@ -71,7 +71,7 @@
 </g>
 <g data-surface="peripherique-violet" class="tile" tabindex="0" role="button" aria-label="Explorer Salons et séminaires">
  <polygon class="face" points="845,850 875,825 1135,825 1165,850 1165,975 1135,1000 875,1000 845,975"/><polygon class="inner" points="856,856 881,837 1129,837 1154,856 1154,969 1129,988 881,988 856,969"/>
- <text class="number" x="875" y="869">11 / ÉVÉNEMENTS</text><text class="label" x="1005" y="912">Salons & séminaires</text><text class="small" x="1005" y="942">DÉVELOPPER SA VISIBILITÉ</text><polygon class="hit" points="845,850 875,825 1135,825 1165,850 1165,975 1135,1000 875,1000 845,975"/>
+ <text class="number" x="875" y="869">11 / ÉVÉNEMENTS</text><text class="label" x="1005" y="912">Salons &amp; séminaires</text><text class="small" x="1005" y="942">DÉVELOPPER SA VISIBILITÉ</text><polygon class="hit" points="845,850 875,825 1135,825 1165,850 1165,975 1135,1000 875,1000 845,975"/>
 </g>
 <g data-surface="peripherique-violet-clair" class="tile" tabindex="0" role="button" aria-label="Explorer Suivi commercial et capitalisation">
  <polygon class="face" points="1235,850 1265,825 1525,825 1555,850 1555,975 1525,1000 1265,1000 1235,975"/><polygon class="inner" points="1246,856 1271,837 1519,837 1544,856 1544,969 1519,988 1271,988 1246,969"/>
