@@ -117,7 +117,7 @@ for (const page of immersivePages) {
   ]) {
     if (!pageHtml.includes(component[0])) errors.push(`${page} : composant manquant (${component[1]})`);
   }
-  const relatedStart = pageHtml.indexOf('class="related-rubrics"');
+  const relatedStart = pageHtml.indexOf("related-rubrics");
   const relatedEnd = relatedStart >= 0 ? pageHtml.indexOf("</section>", relatedStart) : -1;
   if (relatedStart >= 0 && relatedEnd > relatedStart) {
     const relatedHtml = pageHtml.slice(relatedStart, relatedEnd);
