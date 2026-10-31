@@ -298,6 +298,18 @@ if (!fs.existsSync(opportunitySchemaPath)) {
 }
 
 
+// La recherche sans catégorie doit aboutir à une page générale dédiée.
+const generalResultsPath = path.join(root, "resultats-recherche.html");
+const generalResultsScriptPath = path.join(root, "search-results.js");
+if (!fs.existsSync(generalResultsPath)) errors.push("Recherche : page générale de résultats absente");
+if (!fs.existsSync(generalResultsScriptPath)) errors.push("Recherche : script des critères de résultats absent");
+if (fs.existsSync(generalResultsPath)) {
+  const generalResultsHtml = fs.readFileSync(generalResultsPath, "utf8");
+  if (!generalResultsHtml.includes('id="search-active-filters"') || !generalResultsHtml.includes('src="search-results.js"')) {
+    errors.push("Recherche : page générale sans récapitulatif des critères ou sans script associé");
+  }
+}
+
 const expectedRubricPages = [
   "marches-publics.html", "veille-marches.html", "marches-prives.html",
   "prospection-inversee.html", "developpement-commercial.html", "intelligence-economique.html",
