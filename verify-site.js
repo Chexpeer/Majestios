@@ -105,24 +105,24 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
     }
   }
   if (!sceneScriptText.includes('mode==="drive"') && !sceneScriptText.includes('mode === "drive"')) {
-    errors.push("Zone 3D : traitement JavaScript absent pour le mode Tesla");
+    errors.push("Zone 3D : traitement JavaScript absent pour le mode Street View");
   }
   if (!sceneScriptText.includes('mode==="map"') && !sceneScriptText.includes('mode === "map"')) {
-    errors.push("Zone 3D : traitement JavaScript absent pour le mode GPS Majest COYOT");
+    errors.push("Zone 3D : traitement JavaScript absent pour la carte interactive");
   }
   if (!sceneScriptText.includes('setSceneMode("fly")')) {
-    errors.push("Zone 3D : retour au mode de survol Apache absent");
+    errors.push("Zone 3D : retour à la navigation aérienne absent");
   }
   for (const id of ["zone-map", "map-buildings"]) {
-    if (!home.includes(`id="${id}"`)) errors.push(`GPS Majest COYOT : élément HTML absent : #${id}`);
+    if (!home.includes(`id="${id}"`)) errors.push(`Carte interactive : élément HTML absent : #${id}`);
   }
   if (!sceneScriptText.includes("function renderZoneMap()") ||
       !sceneScriptText.includes("mapBuildings.appendChild(button)") ||
       !sceneScriptText.includes("renderZoneMap();")) {
-    errors.push("GPS Majest COYOT : génération ou affichage des destinations absent");
+    errors.push("Carte interactive : génération ou affichage des destinations absent");
   }
   if (!sceneCssText.includes(".zone-map") || !sceneCssText.includes(".map-building")) {
-    errors.push("GPS Majest COYOT : styles de la carte ou de ses destinations absents");
+    errors.push("Carte interactive : styles de la carte ou de ses destinations absents");
   }
   if (!sceneScriptText.includes("visitorHelicopter.visible=flying") ||
       !sceneScriptText.includes("visitorCar.visible=driving")) {
