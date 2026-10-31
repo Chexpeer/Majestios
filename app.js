@@ -400,9 +400,7 @@ if (interactiveSvg) {
       title.textContent = selectedSurface === surface
         ? `${name} sélectionnée`
         : `Découvrir — ${name.toLowerCase()}`;
-      description.textContent = selectedSurface === surface
-        ? "Rubrique sélectionnée. Cliquez à nouveau ou utilisez Entrée pour ouvrir la page dédiée."
-        : "Cliquez sur ce losange pour accéder à sa page dédiée."
+      description.textContent = "Cliquez sur ce losange ou utilisez Entrée pour ouvrir directement sa page dédiée."
     };
 
     const selectSurface = (surface) => {
