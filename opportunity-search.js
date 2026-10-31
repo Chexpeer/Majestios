@@ -4,7 +4,7 @@
   const API = "https://boamp-datadila.opendatasoft.com/api/explore/v2.0/catalog/datasets/boamp/records";
   const BODACC_API = "https://www.bodacc.fr/api/explore/v2.1/catalog/datasets/annonces-commerciales/records";
   const BODACC_FIELDS = [
-    "id", "dateparution", "numeroannonce", "typeavis_lib", "familleavis", "familleavis_lib",
+    "id", "publicationavis", "dateparution", "numeroannonce", "typeavis_lib", "familleavis", "familleavis_lib",
     "departement_nom_officiel", "commercant", "ville", "registre", "listepersonnes",
     "listeetablissements", "jugement", "acte", "modificationsgenerales", "divers", "region_nom_officiel", "url_complete"
   ].join(",");
@@ -133,7 +133,7 @@
             const eventType = record.familleavis_lib || record.familleavis || "Annonce commerciale";
             const place = [record.ville, record.departement_nom_officiel].filter(Boolean).join(" · ");
             const date = formatDate(record.dateparution);
-            const identifier = record.id || record.numeroannonce || "";
+            const identifier = record.publicationavis || record.numeroannonce || record.id || "";
             const details = [record.acte, record.jugement, record.modificationsgenerales].map((value) => {
               if (!value) return "";
               if (typeof value === "string") return value;
