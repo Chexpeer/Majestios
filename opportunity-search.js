@@ -42,6 +42,15 @@
     if (typeof value === "object") return Object.values(value).map(flattenText).filter(Boolean).join(" ");
     return String(value);
   };
+  const extractActivity = (value) => {
+    if (value == null) return "";
+    if (Array.isArray(value)) return value.map(extractActivity).filter(Boolean).join(" ");
+    if (typeof value !== "object") return "";
+    return Object.entries(value).map(([key, item]) => {
+      if (/activit[ée]/i.test(key) && typeof item === "string") return item;
+      return extractActivity(item);
+    }).filter(Boolean).join(" ");
+  };
   const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (char) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   })[char]);
@@ -132,6 +141,7 @@
             const company = record.commercant || "Entreprise non renseignée dans l’extrait";
             const eventType = record.familleavis_lib || record.familleavis || "Annonce commerciale";
             const place = [record.ville, record.departement_nom_officiel].filter(Boolean).join(" · ");
+            const activity = extractActivity(record.listepersonnes) || extractActivity(record.listeetablissements);
             const date = formatDate(record.dateparution);
             const identifier = record.publicationavis || record.numeroannonce || record.id || "";
             const details = [record.acte, record.jugement, record.modificationsgenerales].map((value) => {
@@ -148,6 +158,7 @@
               '<p><strong>Type d’annonce :</strong> ' + escapeHtml(eventType) + '</p>' +
               (place ? '<p><strong>Localisation :</strong> ' + escapeHtml(place) + '</p>' : '') +
               '<p><strong>Publication :</strong> ' + escapeHtml(date) + '</p>' +
+              (activity ? '<p><strong>Activité déclarée :</strong> ' + escapeHtml(activity.slice(0, 400)) + '</p>' : '') +
               (identifier ? '<p><strong>Référence :</strong> ' + escapeHtml(identifier) + '</p>' : '') +
               (details ? '<p><strong>Extrait publié :</strong> ' + escapeHtml(details.slice(0, 500)) + '</p>' : '') +
               '<p class="small-note">Signal public à qualifier par une personne habilitée. Il ne prouve pas, à lui seul, l’existence d’un besoin d’achat ni une intention commerciale.</p>' +
