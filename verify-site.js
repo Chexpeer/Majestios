@@ -130,8 +130,11 @@ for (const page of immersivePages) {
   for (const asset of ["rubriques-immersives.css", "rubriques-immersives.js"]) {
     if (!pageHtml.includes(asset)) errors.push(`${page} : couche immersive manquante (${asset})`);
   }
-  for (const href of ["index.html", "zone-artisanale.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"]) {
+  for (const href of ["index.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"]) {
     if (!pageHtml.includes(`href="${href}"`)) errors.push(`${page} : lien de navigation commun manquant (${href})`);
+  }
+  if (!pageHtml.includes('href="index.html#accueil">← Retour à la zone industrielle MajestiOS</a>')) {
+    errors.push(`${page} : retour vers la zone industrielle intégrée à l’accueil absent`);
   }
   for (const component of [
     ['<section class="virtual-space"', "espace visuel dédié"],
