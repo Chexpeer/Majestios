@@ -4,7 +4,7 @@ MajestiOS est un projet d’**intelligence commerciale proactive** et de **prosp
 
 ## Parcours principal
 
-- **Accueil** (index.html) : présentation, schéma interactif à douze surfaces, recherche illustrative d’appels d’offres, démonstration de qualification et formulaires de demande.
+- **Accueil** (index.html) : panorama interactif noir et or à douze surfaces, fil d’opportunités fictives avec recherche et filtres, formulaires de demande et accès à l’espace personnel.
 - **Univers virtuel** (zone-artisanale.html) : visite 3D expérimentale avec douze bâtiments, liens vers les rubriques métier et accès rapide à la recherche et aux formulaires.
 - **Douze rubriques métier** : marchés publics, marchés privés, développement commercial, prospection inversée, intelligence économique, réseaux et synergies, veille des marchés, accompagnement aux appels d’offres, sous-traitance, salons et séminaires, veille BODACC et suivi commercial.
 - **Espace membre** (espace-membre.html) : parcours de prévisualisation d’une demande, sans création réelle de compte.
@@ -40,12 +40,11 @@ Ce contrôle statique ne remplace pas un test dans un navigateur réel, notammen
 ### Présent et interactif dans le prototype
 - Navigation entre l’accueil, le schéma, les rubriques et la zone artisanale.
 - Fil de démonstration avec recherche par texte et filtres secteur/localisation.
-- Scénarios illustratifs de qualification.
 - Formulaires avec validation et prévisualisation locale.
 - Visite 3D avec répertoire de bâtiments et vue de secours en cas d’échec du chargement.
 
 ### Non connecté ou à développer
-- Le flux AO utilise **cinq annonces fictives** : aucune source d’appels d’offres n’est interrogée.
+- Le fil AO de l’accueil utilise **cinq annonces fictives** : aucune source d’appels d’offres n’est interrogée.
 - Les formulaires n’envoient ni n’enregistrent de données.
 - L’espace membre ne crée pas de compte.
 - Les sources BODACC, marchés publics/privés, emploi et réseaux ne sont pas raccordées.
