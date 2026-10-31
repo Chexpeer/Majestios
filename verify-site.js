@@ -107,6 +107,28 @@ for (const page of immersivePages) {
   for (const href of ["index.html", "zone-artisanale.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"]) {
     if (!pageHtml.includes(`href="${href}"`)) errors.push(`${page} : lien de navigation commun manquant (${href})`);
   }
+  for (const component of [
+    ['<section class="virtual-space"', "espace visuel dédié"],
+    ['class="virtual-space-scene"', "scène interactive"],
+    ['class="virtual-space-note"', "indication d'interaction"],
+    ['class="floating-route-card"', "parcours fonctionnel"],
+    ['class="related-rubrics"', "rubriques associées"],
+    ['class="interior-links"', "liens de sortie de rubrique"],
+  ]) {
+    if (!pageHtml.includes(component[0])) errors.push(`${page} : composant manquant (${component[1]})`);
+  }
+  const relatedStart = pageHtml.indexOf('class="related-rubrics"');
+  const relatedEnd = relatedStart >= 0 ? pageHtml.indexOf("</section>", relatedStart) : -1;
+  if (relatedStart >= 0 && relatedEnd > relatedStart) {
+    const relatedHtml = pageHtml.slice(relatedStart, relatedEnd);
+    const relatedLinks = [...relatedHtml.matchAll(/href="([^"]+\.html)(?:#[^"]*)?"/g)];
+    if (relatedLinks.length < 3) errors.push(`${page} : moins de trois parcours associés détectés`);
+    for (const [, destination] of relatedLinks) {
+      if (!fs.existsSync(path.join(root, destination))) errors.push(`${page} : destination associée absente (${destination})`);
+    }
+  } else {
+    errors.push(`${page} : section des rubriques associées mal formée`);
+  }
 }
 
 // Vérifier que les douze rubriques restent accessibles depuis l'univers virtuel.
