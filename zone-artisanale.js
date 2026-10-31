@@ -107,7 +107,13 @@ for(const data of buildings){
 function tree(position,scale=1){const trunk=box(.22,1.1,.22,material("#70563e"),position.x,.48,position.z);const crown=new THREE.Mesh(new THREE.SphereGeometry(.8*scale,10,8),material("#47775c"));crown.position.set(position.x,1.5*scale,position.z);crown.castShadow=true;scene.add(crown);scene.add(trunk);}
 for(const p of [{x:-19,z:2},{x:19,z:2},{x:-19,z:-11},{x:19,z:-11},{x:-19,z:-22},{x:19,z:-22}])tree(p,.8);
 const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let selected=null,hovered=null;
-function selectBuilding(data){selected=data;title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";const floors=[["RDC",data.ground],["1er étage",data.first],["2e étage",data.second]];floors.forEach(([label,text])=>{const row=document.createElement("div");row.style.setProperty("--floor-color",data.color);const tag=document.createElement("span");tag.textContent=label;const p=document.createElement("p");p.textContent=text;row.append(tag,p);floorList.appendChild(row);});openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
+let cameraDestination=null,targetDestination=null;
+function focusBuilding(data){
+ const nextTarget=new THREE.Vector3(data.x,2.7,data.z);
+ targetDestination=nextTarget;
+ cameraDestination=new THREE.Vector3(data.x+1.5,9.2,data.z+16.5);
+}
+function selectBuilding(data){selected=data;focusBuilding(data);title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";const floors=[["RDC",data.ground],["1er étage",data.first],["2e étage",data.second]];floors.forEach(([label,text])=>{const row=document.createElement("div");row.style.setProperty("--floor-color",data.color);const tag=document.createElement("span");tag.textContent=label;const p=document.createElement("p");p.textContent=text;row.append(tag,p);floorList.appendChild(row);});openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
 function getBuildingAt(event){const rect=renderer.domElement.getBoundingClientRect();pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(buildingMeshes,true);return hits.find(h=>h.object.userData.building)?.object.userData.building||null;}
 renderer.domElement.addEventListener("pointermove",e=>{
  if(e.pointerType==="touch")return;
@@ -131,8 +137,8 @@ renderer.domElement.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key==="
 document.querySelector("#view-home").addEventListener("click",resetView);
 document.querySelector("#zoom-in").addEventListener("click",()=>{camera.position.multiplyScalar(.88);controls.update();});
 document.querySelector("#zoom-out").addEventListener("click",()=>{camera.position.multiplyScalar(1.12);controls.update();});
-function resetView(){camera.position.set(0,17,35);controls.target.set(0,1.5,-6);controls.update();}
-function resize(){const w=root.clientWidth,h=root.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
-new ResizeObserver(resize).observe(root);resize();resetView();
-function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);}
+function resetView(){cameraDestination=new THREE.Vector3(0,17,35);targetDestination=new THREE.Vector3(0,1.5,-6);}
+function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
+if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
+function animate(){requestAnimationFrame(animate);if(cameraDestination&&targetDestination){const speed=reducedMotion?1:.085;camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}controls.update();renderer.render(scene,camera);}
 animate();loading.classList.add("hidden");
