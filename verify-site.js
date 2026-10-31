@@ -601,6 +601,43 @@ if (!homeSceneHtml.includes("window.majestiosSceneFallback") || !homeSceneHtml.i
   errors.push("Zone industrielle : mode de secours avec accès aux rubriques absent de l'accueil");
 }
 
+
+// Vérifications complémentaires du contrat HTML/JavaScript et du mode de secours.
+const sceneRequiredIds = [
+  "scene", "scene-loading", "panel-title", "panel-description", "floor-list",
+  "open-building", "zone-map", "map-buildings", "hover-card", "view-home", "zoom-in", "zoom-out"
+];
+for (const id of sceneRequiredIds) {
+  if (!homeSceneHtml.includes(`id="${id}"`)) errors.push(`Zone industrielle : élément HTML requis absent : #${id}`);
+}
+const sceneOptionalIds = ["building-directory"];
+for (const id of sceneOptionalIds) {
+  // Le répertoire est facultatif : la sélection principale passe par la scène 3D et la carte.
+  if (homeSceneJs.includes(`querySelector("#${id}")`) && !homeSceneJs.includes(`if (${id === "building-directory" ? "directory" : id})`)) {
+    errors.push(`Zone industrielle : le composant facultatif #${id} n'est pas protégé contre son absence`);
+  }
+}
+const expectedWalkKeys = ["w", "a", "s", "d"];
+const actualWalkKeys = [...homeSceneHtml.matchAll(/data-walk=["']([^"']+)["']/g)].map((match) => match[1]);
+if (expectedWalkKeys.some((key) => !actualWalkKeys.includes(key))) {
+  errors.push("Zone industrielle : une ou plusieurs commandes de déplacement sont absentes");
+}
+const fallbackRoutes = [...homeSceneHtml.matchAll(/<a href="([^"]+\.html)" style="--building-color:/g)].map((match) => match[1]);
+if (fallbackRoutes.length !== 12) errors.push(`Zone industrielle : ${fallbackRoutes.length} accès dans le mode de secours, 12 attendus`);
+for (const route of fallbackRoutes) {
+  if (!fs.existsSync(path.join(root, route))) errors.push(`Zone industrielle : destination du mode de secours absente : ${route}`);
+}
+const moduleImport = homeSceneJs.match(/from "([^"]+three\.module\.js)"/);
+const controlsImport = homeSceneJs.match(/from "([^"]+OrbitControls\.js)"/);
+if (!moduleImport || !controlsImport || !moduleImport[1].includes("0.166.1") || !controlsImport[1].includes("0.166.1")) {
+  errors.push("Zone industrielle : versions du moteur 3D et des contrôles OrbitControls incohérentes ou non épinglées");
+}
+const sceneCatalog = fs.existsSync(path.join(root, "catalogue-majestios.js"))
+  ? fs.readFileSync(path.join(root, "catalogue-majestios.js"), "utf8") : "";
+if (!sceneCatalog.includes("window.MAJESTIOS_CATALOG") && !sceneCatalog.includes("MAJESTIOS_CATALOG")) {
+  errors.push("Zone industrielle : catalogue partagé absent ou non exposé au module 3D");
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
