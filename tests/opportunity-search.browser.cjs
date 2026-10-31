@@ -1,0 +1,71 @@
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const http = require("node:http");
+const path = require("node:path");
+const { chromium } = require("playwright");
+
+const root = path.resolve(__dirname, "..", "dist");
+const mime = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8" };
+
+async function main() {
+  assert.ok(fs.existsSync(path.join(root, "resultats-recherche.html")), "Le build doit inclure la page générale de résultats.");
+  const server = http.createServer((req, res) => {
+    const pathname = decodeURIComponent(new URL(req.url, "http://127.0.0.1").pathname);
+    const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
+    const file = path.resolve(root, requested);
+    if (!file.startsWith(root + path.sep) && file !== path.join(root, "index.html")) return res.writeHead(403).end("Forbidden");
+    fs.readFile(file, (error, data) => {
+      if (error) return res.writeHead(404).end("Not found");
+      res.writeHead(200, { "content-type": mime[path.extname(file)] || "application/octet-stream" });
+      res.end(data);
+    });
+  });
+  await new Promise((resolve) => server.listen(4174, "127.0.0.1", resolve));
+  let browser;
+  try {
+    browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
+    const page = await browser.newPage();
+    let apiCalls = 0;
+    await page.route("https://boamp-datadila.opendatasoft.com/**", async (route) => {
+      apiCalls++;
+      const requestUrl = new URL(route.request().url());
+      assert.equal(requestUrl.searchParams.get("where")?.includes('nature = "APPEL_OFFRE"'), true, "La requête doit limiter les résultats aux appels d’offres.");
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ total_count: 1, results: [{
+          idweb: "TEST-2027-001", objet: "Prestations de plomberie et chauffage",
+          famille_libelle: "Marchés nationaux", dateparution: "2026-10-30",
+          datelimitereponse: "2027-12-01T12:00:00+01:00", nomacheteur: "Acheteur de test",
+          code_departement: "79", code_departement_prestation: "79",
+          type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
+          descripteur_libelle: "Plomberie, chauffage", etat: "INITIAL",
+          url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2027-001"
+        }] })
+      });
+    });
+
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=plomberie&marche=public", { waitUntil: "domcontentloaded" });
+    await page.getByText("Connexion à la source officielle BOAMP en cours…").waitFor({ state: "detached", timeout: 10000 }).catch(() => {});
+    await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".opportunity-result-card").count(), 1, "Une annonce récupérée doit devenir une carte de résultat.");
+    assert.match(await page.locator(".opportunity-result-card").innerText(), /Acheteur de test/);
+    assert.match(await page.locator("#search-active-filters").innerText(), /plomberie/);
+    assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
+
+    apiCalls = 0;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private", { waitUntil: "domcontentloaded" });
+    await page.getByText(/recherche de marchés privés n’est pas encore raccordée/i).waitFor({ timeout: 10000 });
+    assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
+
+    await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public", { waitUntil: "domcontentloaded" });
+    await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 }).catch(() => {});
+    assert.equal(await page.locator("#category-results-panel").count(), 1, "La page de catégorie doit conserver son panneau de résultats.");
+    assert.ok(apiCalls >= 1, "La page de catégorie doit elle aussi lancer la recherche.");
+    console.log("Recherche navigateur réussie : critères, source BOAMP simulée, rendu des résultats et séparation des marchés privés vérifiés.");
+  } finally {
+    if (browser) await browser.close();
+    await new Promise((resolve) => server.close(resolve));
+  }
+}
+main().catch((error) => { console.error(error); process.exitCode = 1; });
