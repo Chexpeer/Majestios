@@ -576,6 +576,31 @@ for (const page of métierPagesForReturn) {
   }
 }
 
+
+// Contrôles ciblés de non-régression pour l'expérience de visite de la zone industrielle.
+const homeSceneHtml = fs.existsSync(homePath) ? fs.readFileSync(homePath, "utf8") : "";
+const homeSceneJsPath = path.join(root, "zone-artisanale.js");
+const homeSceneJs = fs.existsSync(homeSceneJsPath) ? fs.readFileSync(homeSceneJsPath, "utf8") : "";
+if (!homeSceneHtml.includes('href="zone-artisanale.css"')) errors.push("Zone industrielle : feuille de style de la scène absente de l'accueil");
+if (!homeSceneHtml.includes('type="module" src="zone-artisanale.js"')) errors.push("Zone industrielle : module 3D absent de l'accueil");
+const catalogueScriptPosition = homeSceneHtml.indexOf('src="catalogue-majestios.js"');
+const sceneModulePosition = homeSceneHtml.indexOf('src="zone-artisanale.js"');
+if (catalogueScriptPosition < 0 || sceneModulePosition < 0 || catalogueScriptPosition > sceneModulePosition) {
+  errors.push("Zone industrielle : le catalogue partagé doit être déclaré avant le module 3D");
+}
+for (const mode of ["fly", "drive", "map"]) {
+  if (!homeSceneHtml.includes(`data-scene-mode="${mode}"`)) errors.push(`Zone industrielle : commande de visite ${mode} absente de l'accueil`);
+  if (!homeSceneJs.includes(`mode==="${mode}"`) && !(mode === "fly" && homeSceneJs.includes('setSceneMode("fly")'))) {
+    errors.push(`Zone industrielle : traitement du mode de visite ${mode} absent du script`);
+  }
+}
+if (!homeSceneJs.includes("ZONE DE DÉVELOPPEMENT COMMERCIAL MAJESTIOS") || homeSceneJs.includes("ZONE D'INTELLIGENCE COMMERCIALE MAJESTIOS")) {
+  errors.push("Zone industrielle : signalétique d'entrée non alignée sur le développement commercial");
+}
+if (!homeSceneHtml.includes("window.majestiosSceneFallback") || !homeSceneHtml.includes("fallback-buildings")) {
+  errors.push("Zone industrielle : mode de secours avec accès aux rubriques absent de l'accueil");
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
