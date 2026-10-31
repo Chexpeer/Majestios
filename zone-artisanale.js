@@ -438,7 +438,7 @@ function animate(now=performance.now()){
  const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;
  if(cameraDestination&&targetDestination){const speed=reducedMotion?1:1-Math.exp(-5.3*delta);camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}
  walkThroughZone(delta);controls.update();syncVisitorCar();
- const flying=root.dataset.viewMode==="fly";visitorHelicopter.visible=flying;
+ const flying=root.dataset.viewMode==="fly";visitorHelicopter.visible=false; // Le mode aérien reste fonctionnel, mais l’hélicoptère ne masque jamais la scène.
  if(flying){const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize();visitorHelicopter.position.copy(camera.position).addScaledVector(forward,6).addScaledVector(right,2.4);visitorHelicopter.position.y=Math.max(3,camera.position.y-2.2);visitorHelicopter.rotation.y=Math.atan2(forward.x,forward.z)+Math.PI;rotorHub.rotation.y+=delta*18;tailRotor.rotation.z+=delta*15;}
  renderer.render(scene,camera);
 }
