@@ -91,6 +91,15 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!appScript.includes("advancedSearchForm.addEventListener(\"submit\"") || !appScript.includes("populateSearchFilters();")) {
     errors.push("Recherche avancée : initialisation ou rendu des résultats absent");
   }
+  for (const restorationCheck of [
+    "new URLSearchParams(window.location.search)",
+    "initialSearchParams.get(\"q\")",
+    "initialSearchParams.get(\"categorie\")",
+    "initialSearchParams.get(\"marche\")",
+    "initialSearchParams.get(\"zone\")"
+  ]) {
+    if (!appScript.includes(restorationCheck)) errors.push(`Recherche avancée : restauration d’un critère manquante : ${restorationCheck}`);
+  }
   for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="homepage-ticker"', 'class="site-footer"', 'class="directory"']) {
     if (home.includes(forbidden)) errors.push(`Accueil : bloc hors périmètre encore présent : ${forbidden}`);
   }
