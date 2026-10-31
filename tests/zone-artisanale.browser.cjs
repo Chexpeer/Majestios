@@ -62,6 +62,29 @@ async function main() {
     assert.equal((await page.locator("#panel-title").innerText()).trim(), "Marchés privés", "La sélection B02 doit afficher Marchés privés.");
     assert.match(await page.locator("#floor-list .floor-link").nth(2).getAttribute("href"), /suivi-commercial\.html$/, "Le parcours « Suivi des affaires · Relances » doit ouvrir le suivi commercial.");
 
+    // Contrat navigateur complet : les 12 bâtiments affichent leur rubrique et leurs deux destinations secondaires.
+    const routeContracts = [
+      ["B01", "Marchés publics", "marches-publics.html", "accompagnement-appels-offres.html", "veille-marches.html"],
+      ["B02", "Marchés privés", "marches-prives.html", "sous-traitance.html", "suivi-commercial.html"],
+      ["B03", "Développement commercial", "developpement-commercial.html", "prospection-inversee.html", "suivi-commercial.html"],
+      ["B04", "Prospection inversée", "prospection-inversee.html", "intelligence-economique.html", "developpement-commercial.html"],
+      ["B05", "Intelligence économique", "intelligence-economique.html", "veille-marches.html", "bodacc-veille-entreprises.html"],
+      ["B06", "Réseaux et synergies", "reseaux-synergies.html", "salons-seminaires.html", "sous-traitance.html"],
+      ["B07", "Veille des marchés", "veille-marches.html", "marches-publics.html", "accompagnement-appels-offres.html"],
+      ["B08", "Accompagnement aux appels d'offres", "accompagnement-appels-offres.html", "marches-publics.html", "marches-prives.html"],
+      ["B09", "Sous-traitance et débordement de marchés", "sous-traitance.html", "marches-prives.html", "reseaux-synergies.html"],
+      ["B10", "Salons et séminaires", "salons-seminaires.html", "reseaux-synergies.html", "developpement-commercial.html"],
+      ["B11", "Veille des entreprises — BODACC", "bodacc-veille-entreprises.html", "prospection-inversee.html", "intelligence-economique.html"],
+      ["B12", "Suivi commercial et capitalisation", "suivi-commercial.html", "developpement-commercial.html", "intelligence-economique.html"]
+    ];
+    for (const [id, expectedTitle, mainRoute, firstRoute, secondRoute] of routeContracts) {
+      await page.locator(`#map-buildings .map-building[data-id="${id}"]`).click();
+      assert.equal((await page.locator("#panel-title").innerText()).trim(), expectedTitle, `${id} doit afficher son intitulé exact.`);
+      assert.ok((await page.locator("#open-building").getAttribute("href")).endsWith(mainRoute), `${id} doit ouvrir ${mainRoute}.`);
+      assert.ok((await page.locator("#floor-list .floor-link").nth(1).getAttribute("href")).endsWith(firstRoute), `${id} : premier parcours secondaire attendu ${firstRoute}.`);
+      assert.ok((await page.locator("#floor-list .floor-link").nth(2).getAttribute("href")).endsWith(secondRoute), `${id} : second parcours secondaire attendu ${secondRoute}.`);
+    }
+
     await page.locator('[data-scene-mode="drive"]').click();
     assert.equal(await page.locator('[data-scene-mode="drive"]').getAttribute("aria-pressed"), "true", "Le mode Tesla doit être activé.");
     assert.equal(await page.locator("#scene").getAttribute("data-view-mode"), "drive", "La scène doit passer en mode conduite.");
