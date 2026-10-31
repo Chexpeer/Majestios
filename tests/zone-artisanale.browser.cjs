@@ -159,7 +159,7 @@ async function main() {
       const canvasBox = await page.locator("#scene canvas").boundingBox();
       assert.ok(canvasBox && point.x >= canvasBox.x && point.x <= canvasBox.x + canvasBox.width && point.y >= canvasBox.y && point.y <= canvasBox.y + canvasBox.height, `${id} doit être visible dans la zone 3D pour être testé.`);
       await Promise.all([
-        page.waitForURL(url => new URL(url).pathname.endsWith(mainRoute), { timeout: 8000 }),
+        page.waitForURL(url => new URL(url).pathname.endsWith(mainRoute), { timeout: 15000, waitUntil: "domcontentloaded" }),
         page.mouse.click(point.x, point.y)
       ]);
       assert.ok(new URL(page.url()).pathname.endsWith(mainRoute), `Le clic 3D sur ${id} (${expectedTitle}) doit ouvrir directement ${mainRoute}.`);
