@@ -6,7 +6,22 @@
   <meta name="theme-color" content="#101a2a">
   <meta name="description" content="Prototype interactif de la zone artisanale numérique MajestiOS.">
   <title>Zone artisanale interactive — MajestiOS</title>
-  <link rel="stylesheet" href="zone-artisanale.css">\n  <script>window.addEventListener("error",function(){var l=document.getElementById("scene-loading");if(l){l.classList.add("scene-error");l.innerHTML=${JSON.stringify(fallback)};}});window.addEventListener("unhandledrejection",function(){var l=document.getElementById("scene-loading");if(l){l.classList.add("scene-error");l.innerHTML=${JSON.stringify(fallback)};}});</script>
+  <link rel="stylesheet" href="zone-artisanale.css">
+  <script>
+(function(){
+  var fallback = "<div class=\"scene-error-links\"><p><strong>La vue immersive ne s'est pas chargée.</strong><br>Vous pouvez tout de même explorer les douze espaces MajestiOS ci-dessous. Nous rétablissons la vue panoramique.</p><div><a href=\"marches-publics.html\">Marchés publics</a><a href=\"marches-prives.html\">Marchés privés</a><a href=\"developpement-commercial.html\">Développement commercial</a><a href=\"prospection-inversee.html\">Prospection inversée</a><a href=\"intelligence-economique.html\">Intelligence économique</a><a href=\"reseaux-synergies.html\">Réseaux et synergies</a><a href=\"veille-marches.html\">Veille des marchés</a><a href=\"accompagnement-appels-offres.html\">Accompagnement aux appels d'offres</a><a href=\"sous-traitance.html\">Sous-traitance et débordement</a><a href=\"salons-seminaires.html\">Salons et séminaires</a><a href=\"bodacc-veille-entreprises.html\">Veille BODACC</a><a href=\"suivi-commercial.html\">Suivi commercial et capitalisation</a></div></div>";
+  function showFallback(){
+    var loader = document.getElementById("scene-loading");
+    if (!loader || loader.classList.contains("hidden") || loader.dataset.fallbackShown === "true") return;
+    loader.dataset.fallbackShown = "true";
+    loader.classList.add("scene-error");
+    loader.innerHTML = fallback;
+  }
+  window.addEventListener("error", showFallback);
+  window.addEventListener("unhandledrejection", showFallback);
+  window.setTimeout(showFallback, 8000);
+})();
+</script>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}</script>
   <script type="module" src="zone-artisanale.js"></script>
 </head>
