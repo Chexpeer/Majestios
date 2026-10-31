@@ -556,6 +556,26 @@ if (fs.existsSync(path.join(root, "styles.css"))) {
   }
 }
 
+
+// Les douze pages métier doivent ramener vers la zone intégrée à l'accueil, pas vers l'ancien panorama autonome.
+const métierPagesForReturn = [
+  "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
+  "prospection-inversee.html", "intelligence-economique.html", "reseaux-synergies.html",
+  "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
+  "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html"
+];
+for (const page of métierPagesForReturn) {
+  const pagePath = path.join(root, page);
+  if (!fs.existsSync(pagePath)) continue;
+  const html = fs.readFileSync(pagePath, "utf8");
+  if (!/href=["']index\.html#accueil["'][^>]*>[^<]*(?:Accueil|accueil)|href=["']index\.html#accueil["']/i.test(html)) {
+    errors.push(`${page} : retour vers la zone intégrée à l'accueil absent`);
+  }
+  if (html.includes('href="zone-artisanale.html"')) {
+    errors.push(`${page} : lien de retour obsolète vers l'ancien panorama autonome`);
+  }
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
