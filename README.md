@@ -5,7 +5,7 @@ MajestiOS est un projet d’**intelligence commerciale proactive** et de **prosp
 ## Structure de référence de l’accueil
 
 La page `index.html` doit contenir uniquement :
-1. la barre de navigation principale, sans lien « Zone industrielle » ;
+1. la barre de navigation principale composée exactement de : Accueil, Développement commercial, Salon virtuel, Nous rejoindre, Espace membre et FAQ ;
 2. la zone artisanale virtuelle interactive, visible directement sur l’accueil ;
 3. le moteur de recherche avancé.
 
