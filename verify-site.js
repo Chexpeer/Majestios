@@ -113,6 +113,24 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
       errors.push(`Univers virtuel : page de bâtiment absente : ${route}`);
     }
   }
+
+  // Protéger la composition de la zone : 12 bâtiments, six centraux et six périphériques.
+  const buildings = [...zoneJs.matchAll(/\\{id:"(B\\d+)",group:"(central|peripherique)"[\\s\\S]*?route:"([^"]+\\.html)",x:([^,}]+),z:([^}]+)\\}/g)]
+    .map((match) => ({ id: match[1], group: match[2], route: match[3], position: `${match[4].trim()},${match[5].trim()}` }));
+  const centralCount = buildings.filter((building) => building.group === "central").length;
+  const peripheralCount = buildings.filter((building) => building.group === "peripherique").length;
+  const uniquePositions = new Set(buildings.map((building) => building.position));
+  if (buildings.length !== 12) errors.push(`Univers virtuel : ${buildings.length} bâtiments reconnus, 12 attendus`);
+  if (centralCount !== 6 || peripheralCount !== 6) errors.push(`Univers virtuel : répartition détectée ${centralCount} centraux / ${peripheralCount} périphériques, 6 / 6 attendus`);
+  if (uniquePositions.size !== 12) errors.push(`Univers virtuel : ${uniquePositions.size} positions distinctes, 12 attendues`);
+  if (new Set(buildings.map((building) => building.id)).size !== 12) errors.push("Univers virtuel : identifiants de bâtiments dupliqués");
+
+  // Garder les accès commerciaux essentiels visibles depuis la zone immersive.
+  for (const requiredHref of ["index.html#flux-ao", "index.html#contact", "espace-membre.html"]) {
+    if (!zoneHtml.includes(`href="${requiredHref}"`)) {
+      errors.push(`Univers virtuel : accès commercial manquant : ${requiredHref}`);
+    }
+  }
 } else {
   errors.push("zone-artisanale.html ou zone-artisanale.js : fichier absent, contrôle de l'univers virtuel impossible");
 }
