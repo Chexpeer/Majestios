@@ -18,7 +18,7 @@ for (const page of pages) {
 
   for (const match of html.matchAll(/\b(?:href|src)\s*=\s*["']([^"']+)["']/gi)) {
     const value = match[1].trim();
-    if (!value || value.startsWith("#") || /^(?:[a-z]+:|\/\/)/i.test(value) || value.startsWith("data:")) continue;
+    if (!value || /^(?:[a-z]+:|\/\/)/i.test(value) || value.startsWith("data:")) continue;
 
     const [pathname, fragment = ""] = value.split("#", 2);
     const cleanPath = pathname.split("?")[0];
