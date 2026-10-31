@@ -220,14 +220,16 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath)) {
 const homeHtmlPath = path.join(root, "index.html");
 if (fs.existsSync(homeHtmlPath)) {
   const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
-  const homeMapSection = homeHtml.match(/<section\\b[^>]*id="accueil"[\\s\\S]*?<\\/section>/i);
+  const homeMapStart = homeHtml.indexOf('<section class="interactive-map-section" id="accueil"');
+  const homeMapEnd = homeMapStart >= 0 ? homeHtml.indexOf("</section>", homeMapStart) : -1;
+  const homeMapSection = homeMapStart >= 0 && homeMapEnd > homeMapStart ? homeHtml.slice(homeMapStart, homeMapEnd) : "";
   if (!homeMapSection) {
     errors.push("Accueil : section d'accueil avec panorama (#accueil) absente");
   } else {
-    if (!homeMapSection[0].includes('id="majestios-interactive-svg"') || !homeMapSection[0].includes('data="schema-majestios.svg"')) {
+    if (!homeMapSection.includes('id="majestios-interactive-svg"') || !homeMapSection.includes('data="schema-majestios.svg"')) {
       errors.push("Accueil : le schéma panoramique SVG n'est pas intégré à la section d'accueil");
     }
-    if (!homeMapSection[0].includes('id="interactive-map-title"')) {
+    if (!homeMapSection.includes('id="interactive-map-title"')) {
       errors.push("Accueil : titre accessible du panorama absent");
     }
   }
