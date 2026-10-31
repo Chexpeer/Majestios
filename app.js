@@ -392,3 +392,22 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
   breadcrumb.append(homeLink, separator, currentPage);
   interiorPage.prepend(breadcrumb);
 }
+
+
+// Coup de pouce sur l’accueil : navigation guidée, sans prétendre fournir une IA conversationnelle.
+const homeHelpToggle = document.querySelector("#home-help-toggle");
+const homeHelpPanel = document.querySelector("#home-help-panel");
+const homeHelpClose = document.querySelector("#home-help-close");
+function setHomeHelpOpen(open) {
+  if (!homeHelpToggle || !homeHelpPanel) return;
+  homeHelpPanel.hidden = !open;
+  homeHelpToggle.setAttribute("aria-expanded", String(open));
+  if (open) homeHelpClose?.focus();
+  else homeHelpToggle.focus();
+}
+homeHelpToggle?.addEventListener("click", () => setHomeHelpOpen(homeHelpToggle.getAttribute("aria-expanded") !== "true"));
+homeHelpClose?.addEventListener("click", () => setHomeHelpOpen(false));
+homeHelpPanel?.querySelectorAll("[data-home-help-close]").forEach((link) => link.addEventListener("click", () => setHomeHelpOpen(false)));
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && homeHelpPanel && !homeHelpPanel.hidden) setHomeHelpOpen(false);
+});

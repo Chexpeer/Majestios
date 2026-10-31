@@ -469,3 +469,15 @@ if (errors.length) {
 } else {
   console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
 }
+
+
+// Le point d’aide doit être accessible et ne pas se présenter comme un chatbot déjà connecté.
+if (fs.existsSync(homeHtmlPath)) {
+  const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
+  if (!homeHtml.includes('id="home-help-toggle"') || !homeHtml.includes('aria-controls="home-help-panel"') || !homeHtml.includes('id="home-help-panel"')) {
+    errors.push("Accueil : point d’aide guidée absent ou contrôle accessible incomplet");
+  }
+  if (!homeHtml.includes("L’assistant conversationnel sera connecté dans une prochaine étape")) {
+    errors.push("Accueil : le guide doit préciser que l’assistant conversationnel n’est pas encore connecté");
+  }
+}

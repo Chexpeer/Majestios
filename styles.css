@@ -1448,3 +1448,22 @@ body:not(.homepage) .menu-toggle span { background:#d5b56c; }
     margin-bottom: 0.55rem;
   }
 }
+
+
+/* Coup de pouce discret : guide de navigation, sans simuler un chatbot connecté. */
+body.homepage .home-help { position:fixed; z-index:20; right:max(18px,calc((100vw - 1240px)/2)); bottom:18px; display:flex; flex-direction:column; align-items:flex-end; gap:10px; font-family:inherit; }
+body.homepage .home-help-toggle { display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:0 15px 0 11px; border:1px solid rgba(213,181,108,.55); border-radius:999px; color:#f4edda; background:rgba(12,17,25,.96); box-shadow:0 8px 26px rgba(0,0,0,.32); font-size:12px; font-weight:700; }
+body.homepage .home-help-toggle:hover,body.homepage .home-help-toggle:focus-visible { border-color:#f0d99b; outline:2px solid rgba(240,217,155,.3); outline-offset:2px; }
+body.homepage .home-help-mark { display:grid; width:25px; height:25px; place-items:center; border-radius:50%; color:#11151c; background:linear-gradient(135deg,#f7e6a9,#b28a3c); font-size:15px; }
+body.homepage .home-help-panel { width:min(340px,calc(100vw - 28px)); padding:17px; border:1px solid rgba(213,181,108,.35); border-radius:15px; color:#f2eee3; background:rgba(9,13,20,.98); box-shadow:0 18px 54px rgba(0,0,0,.45); }
+body.homepage .home-help-panel[hidden] { display:none; }
+body.homepage .home-help-panel-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+body.homepage .home-help-kicker { margin:0 0 5px; color:#d5b56c; font-size:9px; font-weight:800; letter-spacing:1px; }
+body.homepage .home-help-panel h2 { margin:0; color:#f4edda; font-size:19px; line-height:1.25; }
+body.homepage .home-help-close { width:30px; height:30px; border:1px solid rgba(213,181,108,.25); border-radius:50%; color:#f4edda; background:#141b25; font-size:22px; line-height:1; }
+body.homepage .home-help-panel>p { margin:12px 0; color:#c8c1b3; font-size:12px; line-height:1.55; }
+body.homepage .home-help-panel>a { display:block; padding:10px 8px; border-top:1px solid rgba(213,181,108,.13); color:#f2e2b4; font-size:12px; }
+body.homepage .home-help-panel>a:hover,body.homepage .home-help-panel>a:focus-visible { color:#fff; background:rgba(213,181,108,.08); }
+body.homepage .home-help-panel>small { display:block; padding-top:10px; color:#9f9a8e; font-size:10px; line-height:1.5; }
+@media(max-width:540px) { body.homepage .home-help { right:12px; bottom:12px; } body.homepage .home-help-toggle { min-height:42px; font-size:11px; } }
+@media(prefers-reduced-motion:reduce) { body.homepage .home-help * { scroll-behavior:auto; transition:none!important; } }
