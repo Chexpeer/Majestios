@@ -59,10 +59,10 @@
         </div>
       </section>
 
-      <section class="tender-feed-section" id="flux-ao">
+      <section class="tender-feed-section" id="recherche-avancee" aria-label="Moteur de recherche avancé">
         <div class="feed-wrap">
           <div class="feed-demo">
-            <div class="feed-toolbar">
+            <form class="feed-toolbar" id="advanced-search-form">
               <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher dans le flux d’appels d’offres</span><input id="feed-search" type="search" placeholder="Mot-clé, acheteur, secteur..." autocomplete="off"></label>
               <label class="feed-filter-label"><span class="sr-only">Filtrer par catégorie</span>
                 <select id="feed-sector" aria-label="Catégorie d'opportunité">
@@ -99,12 +99,10 @@
                   <option value="sud">Sud</option>
                 </select>
               </label>
-              <span class="feed-result-count" id="feed-result-count" aria-live="polite"></span>
-            </div>
-            <div class="feed-stream" id="feed-stream" aria-live="polite"></div>
-<p class="feed-contact-link"><a href="#contact">Décrire mon besoin <span aria-hidden="true">→</span></a></p>
+              <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
+            </form>
           </div>
-          </div>
+        </div>
       </section>
     </main>
 
