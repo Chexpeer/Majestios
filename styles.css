@@ -681,3 +681,17 @@ h1 span { color: var(--purple); }
  .floating-route-icon { flex-basis:36px; width:36px; height:36px; }
  .floating-route-card h2 { font-size:17px; }
 }
+
+/* Harmonisation des grandes sections et du schema interactif */
+.interactive-map-layout { border-color: var(--line); border-radius: 22px; background: linear-gradient(145deg, #fffdf8, #f8f7fc); box-shadow: 0 16px 42px rgba(40,34,75,.08); }
+.interactive-map-info { border-color: var(--line); border-radius: 16px; box-shadow: 0 14px 32px rgba(40,34,75,.07); transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.interactive-map-info h3 { min-height: 2.6em; color: var(--ink); }
+.interactive-map-hint { border: 1px solid #e8e2f9; }
+.tender-feed-section .feed-wrap { border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(145deg, #fff, #fbfaf7); box-shadow: 0 12px 34px rgba(40,34,75,.055); }
+.feed-card { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.feed-card:hover, .feed-card:focus-within { transform: translateY(-3px); border-color: #d9d2f5; box-shadow: 0 12px 28px rgba(40,34,75,.09); }
+.interior-grid .platform-card { border-color: var(--line); border-radius: 18px; box-shadow: 0 8px 24px rgba(40,34,75,.035); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.interior-grid .platform-card:hover { transform: translateY(-3px); border-color: #d9d2f5; box-shadow: 0 14px 30px rgba(40,34,75,.075); }
+.floating-route-card { border-color: #e7e0c8; background: linear-gradient(135deg, #fffefb, #f8f6ff); box-shadow: 0 12px 30px rgba(40,34,75,.09); }
+.site-nav a:focus-visible, a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid rgba(104,85,223,.55); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .interactive-map-info, .feed-card, .interior-grid .platform-card { transition: none !important; } .feed-card:hover, .interior-grid .platform-card:hover { transform: none; } }
