@@ -267,13 +267,11 @@ advancedSearchForm.addEventListener("submit", (event) => {
   const selectedCategory = majCatalog.searchCategories.find(
     (item) => item.value === category && item.href && !item.planned
   );
-  const destination = marketType === "private"
-    ? "marches-prives.html"
-    : marketType === "public"
-      ? "marches-publics.html"
-      : selectedCategory
-        ? selectedCategory.href
-        : "marches-publics.html";
+  const destination = selectedCategory
+    ? selectedCategory.href
+    : marketType === "private"
+      ? "marches-prives.html"
+      : "marches-publics.html";
 
   window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
 });
