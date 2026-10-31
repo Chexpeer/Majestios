@@ -38,8 +38,8 @@ const hoverCard=document.querySelector("#hover-card");
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const scene=new THREE.Scene();
-scene.background=new THREE.Color("#b7c8d5");
-scene.fog=new THREE.Fog("#b7c8d5",34,72);
+scene.background=new THREE.Color("#0b1119");
+scene.fog=new THREE.Fog("#0b1119",42,88);
 const camera=new THREE.PerspectiveCamera(50,1,.1,150);
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.7));
