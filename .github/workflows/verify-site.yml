@@ -14,6 +14,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Vérifier la syntaxe JavaScript
+        run: |
+          node --check app.js
+          node --check catalogue-majestios.js
+          node --check category-results.js
+          node --check search-results.js
+          node --input-type=module --check < zone-artisanale.js
+          node --check rubriques-immersives.js
       - name: Construire le site statique
         run: node build.js
       - name: Vérifier les pages, liens et parcours
