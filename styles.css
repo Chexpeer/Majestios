@@ -707,3 +707,11 @@ h1 span { color: var(--purple); }
 .related-rubric-card:focus-visible { outline: 3px solid rgba(104, 85, 223, .4); outline-offset: 3px; }
 @media (max-width: 760px) { .related-rubrics { grid-template-columns: 1fr; gap: 12px; } .related-rubrics-title { grid-column: 1; } }
 @media (prefers-reduced-motion: reduce) { .related-rubric-card { transition: none; } .related-rubric-card:hover, .related-rubric-card:focus-visible { transform: none; } }
+
+
+/* Repère de navigation commun aux pages de rubrique. */
+.interior-breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 0 0 24px; color: #777c8d; font-size: 12px; line-height: 1.5; }
+.interior-breadcrumb a { color: var(--purple-deep); text-decoration: none; font-weight: 700; }
+.interior-breadcrumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.interior-breadcrumb [aria-current="page"] { color: #555b6e; }
+.interior-breadcrumb a:focus-visible { outline: 2px solid rgba(104,85,223,.55); outline-offset: 3px; border-radius: 2px; }
