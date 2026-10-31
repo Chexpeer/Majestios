@@ -1401,3 +1401,5 @@ body:not(.homepage) .menu-toggle span { background:#d5b56c; }
   body:not(.homepage) .site-nav { border-color:rgba(213,181,108,.25); background:#0c1119; }
   body:not(.homepage) .site-nav a { color:#e7e1d3; }
 }
+
+/* Contrôle final de cohérence : charte noir et or partagée entre les rubriques. */
