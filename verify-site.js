@@ -216,6 +216,69 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath)) {
   errors.push("schema-majestios.svg ou app.js : fichier absent, contrôle du schéma impossible");
 }
 
+// Contrôle explicite de cohérence entre l'arborescence, l'accueil et la navigation.
+const homeHtmlPath = path.join(root, "index.html");
+if (fs.existsSync(homeHtmlPath)) {
+  const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
+  const homeMapSection = homeHtml.match(/<section\\b[^>]*id="accueil"[\\s\\S]*?<\\/section>/i);
+  if (!homeMapSection) {
+    errors.push("Accueil : section d'accueil avec panorama (#accueil) absente");
+  } else {
+    if (!homeMapSection[0].includes('id="majestios-interactive-svg"') || !homeMapSection[0].includes('data="schema-majestios.svg"')) {
+      errors.push("Accueil : le schéma panoramique SVG n'est pas intégré à la section d'accueil");
+    }
+    if (!homeMapSection[0].includes('id="interactive-map-title"')) {
+      errors.push("Accueil : titre accessible du panorama absent");
+    }
+  }
+  if (!homeHtml.includes('href="zone-artisanale.html"')) {
+    errors.push("Accueil : accès à l'univers virtuel absent de la navigation");
+  }
+  if (!homeHtml.includes('href="index.html#flux-ao"')) {
+    errors.push("Accueil : raccourci de navigation vers les opportunités absent");
+  }
+  if (!homeHtml.includes('href="index.html#contact"') && !homeHtml.includes('href="#contact"')) {
+    errors.push("Accueil : accès de navigation vers le formulaire de contact absent");
+  }
+}
+
+// Les douze rubriques sont la source de vérité commune du panorama et de l'univers 3D.
+const expectedRubricPages = [
+  "marches-publics.html", "veille-marches.html", "marches-prives.html",
+  "prospection-inversee.html", "developpement-commercial.html", "intelligence-economique.html",
+  "reseaux-synergies.html", "sous-traitance.html", "accompagnement-appels-offres.html",
+  "bodacc-veille-entreprises.html", "salons-seminaires.html", "suivi-commercial.html"
+];
+const rubricSet = new Set(expectedRubricPages);
+if (rubricSet.size !== 12) errors.push("Arborescence : la liste de référence ne contient pas douze destinations uniques");
+for (const page of expectedRubricPages) {
+  if (!fs.existsSync(path.join(root, page))) errors.push(`Arborescence : page métier référencée mais absente : ${page}`);
+}
+if (fs.existsSync(homeHtmlPath)) {
+  const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
+  for (const page of expectedRubricPages) {
+    if (!homeHtml.includes(page)) errors.push(`Accueil : destination métier absente du HTML de référence : ${page}`);
+  }
+}
+
+// Vérifier le contenu réellement préparé dans dist/, pas seulement la liste de build.
+const distPath = path.join(root, "dist");
+if (fs.existsSync(distPath)) {
+  for (const page of ["index.html", "zone-artisanale.html", ...expectedRubricPages]) {
+    if (!fs.existsSync(path.join(distPath, page))) errors.push(`Build : page attendue absente de dist/ : ${page}`);
+  }
+  for (const asset of ["styles.css", "app.js", "schema-majestios.svg", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js"]) {
+    if (!fs.existsSync(path.join(distPath, asset))) errors.push(`Build : ressource attendue absente de dist/ : ${asset}`);
+  }
+  const builtHome = path.join(distPath, "index.html");
+  if (fs.existsSync(builtHome)) {
+    const builtHtml = fs.readFileSync(builtHome, "utf8");
+    if (!builtHtml.includes('id="majestios-interactive-svg"') || !builtHtml.includes('data="schema-majestios.svg"')) {
+      errors.push("Build : le panorama n'est pas présent dans l'accueil compilé");
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\n- ${errors.join("\n- ")}`);
   process.exitCode = 1;
