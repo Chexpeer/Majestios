@@ -1351,3 +1351,53 @@ body.homepage .majestios-panorama [data-surface]:hover .face { stroke: #f5d98e; 
   body.homepage .interactive-map-frame { overflow-x: auto; }
   body.homepage .majestios-panorama { width: 900px; max-width: none; }
 }
+
+
+/* Charte commune MajestiOS : toutes les pages HTML partagent le noir et or. */
+body:not(.homepage) {
+  --ink:#f2eee3; --muted:#bdb5a4; --soft:#999184; --purple:#d5b56c;
+  --purple-deep:#f0d99b; --paper:#070a0f; --canvas:#0b1017;
+  --line:rgba(213,181,108,.24); color:#f2eee3; background:#070a0f;
+}
+body:not(.homepage) .site-header { color:#f2eee3; border-bottom:1px solid rgba(213,181,108,.2); }
+body:not(.homepage) .site-nav { color:#d4cdbd; }
+body:not(.homepage) .site-nav a:hover,
+body:not(.homepage) .site-nav [aria-current="page"] { color:#f7e6a9; }
+body:not(.homepage) .brand-mark { color:#090b10; background:linear-gradient(135deg,#f7e6a9,#b28a3c); }
+body:not(.homepage) .brand-os { color:#d5b56c; }
+body:not(.homepage) .interior-page,
+body:not(.homepage) .section-wrap { color:#f2eee3; }
+body:not(.homepage) .interior-page h1,
+body:not(.homepage) .interior-page h2,
+body:not(.homepage) .interior-page h3,
+body:not(.homepage) .faq-list summary,
+body:not(.homepage) .platform-card h2 { color:#f4edda; }
+body:not(.homepage) .interior-lede,
+body:not(.homepage) .interior-page p,
+body:not(.homepage) .faq-list p,
+body:not(.homepage) .platform-card p { color:#bdb5a4; }
+body:not(.homepage) .interior-grid .platform-card,
+body:not(.homepage) .faq-list details,
+body:not(.homepage) .interior-callout,
+body:not(.homepage) .floating-route-card,
+body:not(.homepage) .lead-form-wrap,
+body:not(.homepage) .platform-card {
+  color:#f2eee3; border-color:rgba(213,181,108,.25); background:#101722; box-shadow:none;
+}
+body:not(.homepage) .floating-route-card h2,
+body:not(.homepage) .interior-callout h2 { color:#f4edda; }
+body:not(.homepage) .floating-route-card p,
+body:not(.homepage) .interior-callout p { color:#bdb5a4; }
+body:not(.homepage) a.text-link,
+body:not(.homepage) .floating-route-card a { color:#d5b56c; }
+body:not(.homepage) .prototype-note,
+body:not(.homepage) .footer-legal { color:#bdb5a4; }
+body:not(.homepage) .site-footer { color:#bdb5a4; border-top:1px solid rgba(213,181,108,.2); background:#070a0f; }
+body:not(.homepage) .form-field input,
+body:not(.homepage) .form-field textarea,
+body:not(.homepage) .form-field select { color:#f2eee3; border-color:rgba(213,181,108,.3); background:#0c1119; }
+body:not(.homepage) .menu-toggle span { background:#d5b56c; }
+@media (max-width:1020px) {
+  body:not(.homepage) .site-nav { border-color:rgba(213,181,108,.25); background:#0c1119; }
+  body:not(.homepage) .site-nav a { color:#e7e1d3; }
+}
