@@ -403,7 +403,7 @@ function setSceneMode(mode){
  const mapMode=mode==="map";
  if(mapRoot)mapRoot.hidden=!mapMode;
  renderer.domElement.style.display=mapMode?"none":"block";
- if(mapMode){if(hoverCard){hoverCard.classList.remove("is-visible");hoverCard.setAttribute("aria-hidden","true");}if(root)root.dataset.viewMode="map";return;}
+ if(mapMode){if(hoverCard){hoverCard.classList.remove("is-visible");hoverCard.setAttribute("aria-hidden","true");}if(root)root.dataset.viewMode="map";pauseScene();return;}
  if(mode==="top"){
   controls.minPolarAngle=0.02; controls.maxPolarAngle=0.08;
   controls.minDistance=18; controls.maxDistance=55;
@@ -423,6 +423,7 @@ function setSceneMode(mode){
   cameraDestination=new THREE.Vector3(0,23,30);
   if(root)root.dataset.viewMode="fly";
  }
+ wakeScene();
 }
 document.querySelectorAll("[data-scene-mode]").forEach(button=>button.addEventListener("click",()=>setSceneMode(button.dataset.sceneMode)));
 function resetView(){setSceneMode("fly");}
@@ -434,7 +435,7 @@ let sceneVisible=!("IntersectionObserver" in window);
 let animationFrame=0;
 function animate(now=performance.now()){
  animationFrame=0;
- if(!sceneVisible||document.hidden)return;
+ if(!sceneVisible||document.hidden||root.dataset.viewMode==="map")return;
  animationFrame=requestAnimationFrame(animate);
  const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;
  if(cameraDestination&&targetDestination){const speed=reducedMotion?1:1-Math.exp(-5.3*delta);camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}
