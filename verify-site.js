@@ -136,10 +136,10 @@ for (const page of immersivePages) {
   }
   // Cibler la section elle-même, pas une occurrence de "related-rubrics" dans
   // une classe de titre située plus haut dans la page (ex. showroom-grid).
-  const relatedSection = pageHtml.match(/<section\\b(?=[^>]*\\bclass=["'][^"']*\\brelated-rubrics\\b[^"']*["'])[^>]*>[\\s\\S]*?<\\/section>/i);
+  const relatedSection = pageHtml.match(/<section\b(?=[^>]*\bclass=["'][^"']*\brelated-rubrics\b[^"']*["'])[^>]*>[\s\S]*?<\/section>/i);
   if (relatedSection) {
     const relatedHtml = relatedSection[0];
-    const relatedLinks = [...relatedHtml.matchAll(/href="([^"]+\\.html)(?:#[^"]*)?"/g)];
+    const relatedLinks = [...relatedHtml.matchAll(/href="([^"]+\.html)(?:#[^"]*)?"/g)];
     if (relatedLinks.length < 3) errors.push(`${page} : moins de trois parcours associés détectés`);
     for (const [, destination] of relatedLinks) {
       if (!fs.existsSync(path.join(root, destination))) errors.push(`${page} : destination associée absente (${destination})`);
