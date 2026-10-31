@@ -487,7 +487,17 @@ if("IntersectionObserver" in window){
  sceneObserver.observe(root);
 }
 document.addEventListener("visibilitychange",()=>{if(document.hidden)pauseScene();else wakeScene();});
-wakeScene();if(loading.dataset.fallbackShown!=="true")loading.classList.add("hidden");else renderer.domElement.style.display="none";
+wakeScene();
+// Si la scène 3D termine son initialisation après le délai de secours, rétablir la vue interactive :
+// un fallback temporaire ne doit pas masquer durablement un canvas qui a finalement réussi à démarrer.
+if(loading.dataset.fallbackShown==="true"){
+ loading.dataset.fallbackShown="false";
+ loading.classList.remove("scene-error");
+ loading.removeAttribute("role");
+ loading.innerHTML="Préparation de la zone industrielle virtuelle…";
+}
+loading.classList.add("hidden");
+renderer.domElement.style.display="block";
 
 } catch (error) {
   console.error("[MajestiOS] Impossible d’initialiser la zone artisanale 3D :", error);
