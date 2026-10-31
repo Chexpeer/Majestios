@@ -95,7 +95,7 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
     errors.push("Accueil : mécanisme de secours de la scène 3D absent ou incomplet");
   }
   const sceneScriptText = fs.existsSync(path.join(root, "zone-artisanale.js")) ? fs.readFileSync(path.join(root, "zone-artisanale.js"), "utf8") : "";
-  if (!sceneScriptText.includes("webglcontextlost") || !sceneScriptText.includes('loading.dataset.fallbackShown!=="true"')) {
+  if (!sceneScriptText.includes("webglcontextlost") || !sceneScriptText.includes('loading.classList.add("hidden")') || !sceneScriptText.includes('renderer.domElement.style.display="block"')) {
     errors.push("Zone 3D : gestion de la perte WebGL ou protection contre le masquage du secours absente");
   }
   // Vérifier les trois modes de visite et le fonctionnement structurel de la carte GPS.
