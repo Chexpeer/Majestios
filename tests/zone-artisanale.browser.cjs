@@ -60,7 +60,22 @@ async function main() {
     });
     const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
     const pageErrors = [];
+    const browserDiagnostics = { pageErrors, consoleErrors: [], failedRequests: [], rejectedPromises: [] };
     page.on("pageerror", (error) => pageErrors.push(error.message));
+    page.on("console", (message) => {
+      if (message.type() === "error") browserDiagnostics.consoleErrors.push(message.text());
+    });
+    page.on("requestfailed", (request) => browserDiagnostics.failedRequests.push({
+      url: request.url(), error: request.failure()?.errorText || "unknown"
+    }));
+    await page.addInitScript(() => {
+      window.addEventListener("unhandledrejection", (event) => {
+        const reason = event.reason;
+        (window.__MAJESTIOS_TEST_REJECTIONS__ ||= []).push(
+          reason instanceof Error ? reason.stack || reason.message : String(reason)
+        );
+      });
+    });
 
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded", timeout: 30000 });
     await page.locator('[data-scene-mode="map"]').click();
@@ -119,14 +134,27 @@ async function main() {
       await page.locator("canvas").waitFor({ state: "visible", timeout: 30000 });
       await page.waitForFunction(() => Boolean(window.__MAJESTIOS_SCENE_E2E__), null, { timeout: 30000 });
       // Attendre le recentrage caméra : une durée fixe est fragile sur CI.
-      await page.waitForFunction((buildingId) => {
-        const point = window.__MAJESTIOS_SCENE_E2E__.buildingPoint(buildingId);
+      try {
+        await page.waitForFunction((buildingId) => {
+          const point = window.__MAJESTIOS_SCENE_E2E__.buildingPoint(buildingId);
         const canvas = document.querySelector("#scene canvas");
         const rect = canvas?.getBoundingClientRect();
         return Boolean(rect && rect.width && rect.height &&
           point.x >= rect.left && point.x <= rect.right &&
           point.y >= rect.top && point.y <= rect.bottom);
-      }, id, { timeout: 10000 });
+        }, id, { timeout: 10000 });
+      } catch (error) {
+        browserDiagnostics.sceneState = await page.evaluate(() => ({
+          fallbackShown: document.querySelector("#scene-loading")?.dataset.fallbackShown,
+          loadingClasses: document.querySelector("#scene-loading")?.className,
+          sceneMode: document.querySelector("#scene")?.dataset.viewMode,
+          canvasCount: document.querySelectorAll("#scene canvas").length,
+          rejections: window.__MAJESTIOS_TEST_REJECTIONS__ || [],
+          sceneText: document.querySelector("#scene-loading")?.innerText?.slice(0, 500)
+        })).catch(() => null);
+        console.error("[diagnostic 3D]", JSON.stringify(browserDiagnostics, null, 2));
+        throw error;
+      }
       const point = await page.evaluate((buildingId) => window.__MAJESTIOS_SCENE_E2E__.buildingPoint(buildingId), id);
       const canvasBox = await page.locator("#scene canvas").boundingBox();
       assert.ok(canvasBox && point.x >= canvasBox.x && point.x <= canvasBox.x + canvasBox.width && point.y >= canvasBox.y && point.y <= canvasBox.y + canvasBox.height, `${id} doit être visible dans la zone 3D pour être testé.`);
