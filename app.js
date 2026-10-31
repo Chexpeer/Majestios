@@ -194,6 +194,8 @@ function selectDemoCase(button) {
   renderDemoDetail();
 }
 
+/* Les interactions de démonstration ne sont présentes que sur la page d’accueil. */
+if (leadForm && feedStream) {
 document.querySelectorAll(".case-tab").forEach((button) => {
   button.addEventListener("click", () => selectDemoCase(button));
 });
@@ -327,6 +329,9 @@ document.querySelector("#preview-request").addEventListener("click", () => {
   formFeedback.hidden = false;
 });
 
+}
+
+if (menuToggle && navigation) {
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
   menuToggle.setAttribute("aria-expanded", String(!isOpen));
@@ -341,6 +346,7 @@ navigation.querySelectorAll("a").forEach((link) => {
     menuToggle.setAttribute("aria-label", "Ouvrir le menu");
   });
 });
+}
 
 
 /* Interaction du schéma SVG : survol visuel et sélection accessible au clavier */
