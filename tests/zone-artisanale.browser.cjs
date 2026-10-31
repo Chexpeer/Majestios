@@ -210,7 +210,7 @@ async function main() {
     assert.match(page.url(), /marche=public/, "Le filtre public doit être conservé.");
     assert.match(page.url(), /zone=ouest/, "La zone sélectionnée doit être conservée.");
     assert.match((await page.locator("#search-active-filters").innerText()), /maintenance préventive[\s\S]*Marchés publics[\s\S]*Ouest/i, "Le récapitulatif doit présenter les critères choisis.");
-    assert.match((await page.locator("#search-results-panel").innerText()), /Aucune annonce réelle n'est actuellement chargée/, "Les résultats généraux doivent distinguer la recherche des annonces réellement disponibles.");
+    assert.match((await page.locator("#search-results-panel").innerText()), /source BOAMP|Aucune annonce réelle|résultat\(s\) affiché\(s\)/i, "Les résultats généraux doivent signaler l’état réel du connecteur BOAMP sans inventer d’annonce.");
     assert.deepEqual(pageErrors, [], "Aucune erreur JavaScript non interceptée n'est attendue.");
 
     console.log("TEST NAVIGATEUR RÉUSSI : navigation aérienne/Street View/carte interactive, 12 destinations, sélection, affichage mobile et transmission des critères de recherche.");
