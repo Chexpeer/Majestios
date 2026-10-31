@@ -63,9 +63,9 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath) && fs.existsSync(ap
   const zoneHtml = fs.readFileSync(zoneHtmlPath, "utf8").replaceAll('\\\\\"', '"');
   const zoneJs = fs.readFileSync(zoneJsPath, "utf8");
   const app = fs.readFileSync(appPath, "utf8");
-  const destinationsBlock = app.match(/const surfaceDestinations\\s*=\\s*\\{([\\s\\S]*?)\\n\\s*\\};/);
+  const destinationsBlock = app.match(/const surfaceDestinations\s*=\\s*\\{([\\s\\S]*?)\\n\\s*\\};/);
   const destinations = destinationsBlock
-    ? [...destinationsBlock[1].matchAll(/["']([^"']+)["']\\s*:\\s*["']([^"']+\\.html)["']/g)]
+    ? [...destinationsBlock[1].matchAll(/["']([^"']+)["']\s*:\s*["']([^"']+\.html)["']/g)]
     : [];
   for (const [, , destination] of destinations) {
     if (!zoneHtml.includes(destination) && !zoneJs.includes(destination)) {
