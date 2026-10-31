@@ -68,6 +68,15 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   for (const id of ["scene", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
     if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
   }
+  if (!home.includes('aria-label="Rechercher une opportunité commerciale"')) {
+    errors.push("Accueil : libellé accessible de recherche trop restrictif ou absent");
+  }
+  if (!home.includes('placeholder="Mot-clé, entreprise, secteur..."')) {
+    errors.push("Accueil : exemple de recherche ne couvre pas les opportunités privées");
+  }
+  if (!home.includes("Aucune annonce réelle n’est diffusée pour le moment.")) {
+    errors.push("Accueil : avertissement sur l’absence de flux réel absent");
+  }
   if (!home.includes('src="zone-artisanale.js"')) errors.push("Accueil : script de la zone 3D absent");
   if (!home.includes('name="viewport" content="width=device-width, initial-scale=1"')) errors.push("Accueil : méta viewport mobile absente");
   const sceneCssText = fs.existsSync(path.join(root, "zone-artisanale.css")) ? fs.readFileSync(path.join(root, "zone-artisanale.css"), "utf8") : "";
