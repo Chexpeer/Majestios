@@ -69,6 +69,9 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!home.includes('href="nous-rejoindre.html"') || !home.includes('href="espace-membre.html"') || !home.includes('href="faq.html"')) {
     errors.push("Accueil : navigation principale incomplète");
   }
+  if (!appScript.includes('if (advancedSearchForm) {\n  advancedSearchForm.addEventListener("submit"')) {
+    errors.push("Recherche avancée : écouteur submit non protégé sur les pages sans formulaire");
+  }
   if (!appScript.includes("advancedSearchForm.addEventListener(\"submit\"") || !appScript.includes("populateSearchFilters();")) {
     errors.push("Recherche avancée : initialisation ou rendu des résultats absent");
   }
