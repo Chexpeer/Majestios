@@ -343,7 +343,7 @@ for (const page of expectedRubricPages) {
 // Vérifier le contenu réellement préparé dans dist/, pas seulement la liste de build.
 const distPath = path.join(root, "dist");
 if (fs.existsSync(distPath)) {
-  for (const page of ["index.html", "zone-artisanale.html", "resultats-recherche.html", ...expectedRubricPages, ...expectedCategoryPages]) {
+  for (const page of ["index.html", "zone-artisanale.html", "resultats-recherche.html", ...expectedRubricPages, ...Object.keys(expectedCategoryWorlds)]) {
     if (!fs.existsSync(path.join(distPath, page))) errors.push(`Build : page attendue absente de dist/ : ${page}`);
   }
   for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js"]) {
