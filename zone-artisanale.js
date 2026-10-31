@@ -45,8 +45,13 @@ controls.enableDamping=!reducedMotion;
 controls.dampingFactor=.07;
 controls.minDistance=18;controls.maxDistance=48;
 controls.minPolarAngle=.52;controls.maxPolarAngle=1.42;
-controls.maxAzimuthAngle=.85;controls.minAzimuthAngle=-.85;
+controls.maxAzimuthAngle=1.25;controls.minAzimuthAngle=-1.25;
 controls.enablePan=true;
+controls.panSpeed=.65;
+controls.rotateSpeed=.7;
+controls.zoomSpeed=.8;
+controls.touches.ONE=THREE.TOUCH.ROTATE;
+controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;
 const hemi=new THREE.HemisphereLight(0xeaf5ff,0x66715d,2.1);scene.add(hemi);
 const sun=new THREE.DirectionalLight(0xfff0d8,3.1);sun.position.set(-12,22,12);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-35;sun.shadow.camera.right=35;sun.shadow.camera.top=35;sun.shadow.camera.bottom=-35;scene.add(sun);
 const fill=new THREE.DirectionalLight(0x91baff,1.2);fill.position.set(14,10,-18);scene.add(fill);
@@ -115,24 +120,33 @@ function focusBuilding(data){
 }
 function selectBuilding(data){selected=data;focusBuilding(data);title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";const floors=[["RDC",data.ground],["1er étage",data.first],["2e étage",data.second]];floors.forEach(([label,text])=>{const row=document.createElement("div");row.style.setProperty("--floor-color",data.color);const tag=document.createElement("span");tag.textContent=label;const p=document.createElement("p");p.textContent=text;row.append(tag,p);floorList.appendChild(row);});openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
 function getBuildingAt(event){const rect=renderer.domElement.getBoundingClientRect();pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(buildingMeshes,true);return hits.find(h=>h.object.userData.building)?.object.userData.building||null;}
-renderer.domElement.addEventListener("pointermove",e=>{
- if(e.pointerType==="touch")return;
- const data=getBuildingAt(e);
- hovered=data?.id||null;
- renderer.domElement.style.cursor=data?"pointer":"grab";
+function updateHoverCard(data,event){
  if(!hoverCard)return;
  if(!data){hoverCard.classList.remove("is-visible");return;}
  const bounds=root.getBoundingClientRect();
  hoverCard.querySelector("[data-hover-name]").textContent=data.name;
  hoverCard.querySelector("[data-hover-detail]").textContent=data.ground;
  hoverCard.style.setProperty("--hover-color",data.color);
- const left=Math.max(12,Math.min(bounds.width-260,e.clientX-bounds.left+18));
- const top=Math.max(58,Math.min(bounds.height-104,e.clientY-bounds.top+18));
- hoverCard.style.left=left+"px";
- hoverCard.style.top=top+"px";
+ if(event&&event.pointerType!=="touch"){
+  const left=Math.max(12,Math.min(bounds.width-260,event.clientX-bounds.left+18));
+  const top=Math.max(58,Math.min(bounds.height-104,event.clientY-bounds.top+18));
+  hoverCard.style.left=left+"px";hoverCard.style.top=top+"px";
+ }else{hoverCard.style.left="50%";hoverCard.style.top="auto";hoverCard.style.bottom="68px";hoverCard.style.transform="translateX(-50%)";}
  hoverCard.classList.add("is-visible");
+}
+renderer.domElement.addEventListener("pointermove",e=>{
+ if(e.pointerType==="touch")return;
+ const data=getBuildingAt(e);hovered=data?.id||null;
+ renderer.domElement.style.cursor=data?"pointer":"grab";
+ updateHoverCard(data,e);
 });
-renderer.domElement.addEventListener("click",e=>{const data=getBuildingAt(e);if(data){selectBuilding(data);if(hoverCard)hoverCard.classList.remove("is-visible");}});
+renderer.domElement.addEventListener("pointerleave",()=>{hovered=null;updateHoverCard(null);});
+renderer.domElement.addEventListener("click",e=>{const data=getBuildingAt(e);if(data){selectBuilding(data);updateHoverCard(data,e);}});
+renderer.domElement.addEventListener("touchstart",e=>{
+ if(e.touches.length!==1)return;
+ const t=e.touches[0];const data=getBuildingAt(t);
+ if(data){hovered=data.id;selectBuilding(data);updateHoverCard(data,{pointerType:"touch"});}
+},{passive:true});
 renderer.domElement.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();if(selected){openLink.click();}else selectBuilding(buildings[0]);}});
 document.querySelector("#view-home").addEventListener("click",resetView);
 document.querySelector("#zoom-in").addEventListener("click",()=>{camera.position.multiplyScalar(.88);controls.update();});
