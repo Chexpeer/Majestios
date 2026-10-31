@@ -2,7 +2,7 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navigation = document.querySelector("#site-nav");
 const leadForm = document.querySelector("#lead-form");
 const formFeedback = document.querySelector("#form-feedback");
-const feedStream = document.querySelector("#feed-stream");
+const advancedSearchForm = document.querySelector("#advanced-search-form");
 const majCatalog = window.MAJESTIOS_CATALOG || { rubrics: [], searchCategories: [], marketTypes: [] };
 
 const demoTenders = [
@@ -256,7 +256,7 @@ function selectDemoCase(button) {
 }
 
 /* Les interactions de démonstration ne sont présentes que sur la page d’accueil. */
-if (feedStream) {
+if (advancedSearchForm) {
 document.querySelectorAll(".case-tab").forEach((button) => {
   button.addEventListener("click", () => selectDemoCase(button));
 });
@@ -354,81 +354,24 @@ if (initialKeyword) {
   if (keywordControl) keywordControl.value = initialKeyword;
 }
 
-function renderTenderFeed() {
-  const query = document.querySelector("#feed-search").value.trim().toLocaleLowerCase("fr");
-  const sector = document.querySelector("#feed-sector").value;
-  const marketType = document.querySelector("#feed-market-type")?.value || "all";
-  const region = document.querySelector("#feed-region").value;
-  const matches = demoTenders.filter((tender) => {
-    const searchable = `${tender.title} ${tender.buyer} ${tender.sectorLabel} ${tender.regionLabel}`.toLocaleLowerCase("fr");
-    return (sector === "all" || tender.sector === sector)
-      && (marketType === "all" || tender.marketType === marketType)
-      && (region === "all" || tender.region === region)
-      && searchable.includes(query);
-  });
+advancedSearchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const params = new URLSearchParams();
+  const query = document.querySelector("#feed-search")?.value.trim();
+  const category = document.querySelector("#feed-sector")?.value;
+  const marketType = document.querySelector("#feed-market-type")?.value;
+  const region = document.querySelector("#feed-region")?.value;
+  if (query) params.set("q", query);
+  if (category && category !== "all") params.set("categorie", category);
+  if (region && region !== "all") params.set("zone", region);
+  const destination = marketType === "private"
+    ? "marches-prives.html"
+    : "marches-publics.html";
+  if (marketType && marketType !== "all") params.set("marche", marketType);
+  window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
+});
 
-  document.querySelector("#feed-result-count").textContent = `${matches.length} exemple${matches.length === 1 ? "" : "s"}`;
-  feedStream.replaceChildren();
-
-  if (matches.length === 0) {
-    const empty = document.createElement("p");
-    empty.className = "feed-empty";
-    empty.textContent = "Aucun exemple ne correspond à ces critères. Modifiez votre recherche ou vos filtres.";
-    feedStream.append(empty);
-    return;
-  }
-
-  for (const tender of matches) {
-    const card = document.createElement("article");
-    card.className = "feed-card";
-
-    const icon = document.createElement("span");
-    icon.className = "feed-card-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "▤";
-
-    const content = document.createElement("div");
-    content.className = "feed-card-content";
-    const heading = document.createElement("div");
-    heading.className = "feed-card-heading";
-    const title = document.createElement("h3");
-    title.textContent = tender.title;
-    const demoTag = document.createElement("span");
-    demoTag.className = "feed-fictive-tag";
-    demoTag.textContent = "FICTIF";
-    heading.append(title, demoTag);
-
-    const buyer = document.createElement("p");
-    buyer.className = "feed-buyer";
-    buyer.textContent = tender.buyer;
-    const description = document.createElement("p");
-    description.className = "feed-description";
-    description.textContent = tender.description;
-    const metadata = document.createElement("div");
-    metadata.className = "feed-card-metadata";
-    metadata.textContent = `${tender.sectorLabel} · ${tender.regionLabel} · Échéance non renseignée`;
-    content.append(heading, buyer, description, metadata);
-
-    const category = majCatalog.searchCategories.find((item) => item.value === tender.sector);
-    if (category && category.href) {
-      const categoryLink = document.createElement("a");
-      categoryLink.href = category.href;
-      categoryLink.className = "feed-category-link";
-      categoryLink.textContent = `Explorer la rubrique : ${category.label} →`;
-      content.append(categoryLink);
-    }
-
-    card.append(icon, content);
-    feedStream.append(card);
-  }
-}
-
-document.querySelector("#feed-search").addEventListener("input", renderTenderFeed);
-document.querySelector("#feed-sector").addEventListener("change", renderTenderFeed);
-document.querySelector("#feed-market-type")?.addEventListener("change", renderTenderFeed);
-document.querySelector("#feed-region").addEventListener("change", renderTenderFeed);
-renderTenderFeed();
-
+// Le moteur de recherche conserve ses critères ; la liste des annonces n'est pas affichée sur l'accueil.
 // Les anciennes cartes de démonstration ont été retirées de l’accueil compact :
 // n’initialiser leur rendu que si leurs conteneurs existent encore sur une page.
 if (document.querySelector('#demo-detail') && document.querySelector('#demo-status')) {
