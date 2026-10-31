@@ -7,6 +7,7 @@
     <meta name="description" content="MajestiOS aide les entreprises à repérer de nouvelles opportunités commerciales à partir des évolutions du marché.">
     <title>MajestiOS — Prospection inversée et intelligence commerciale</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body class="homepage">
@@ -61,12 +62,27 @@
             </div>
             <div class="feed-toolbar">
               <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher dans le flux d’appels d’offres</span><input id="feed-search" type="search" placeholder="Mot-clé, acheteur, secteur..." autocomplete="off"></label>
-              <label class="feed-filter-label"><span class="sr-only">Filtrer par secteur</span>
-                <select id="feed-sector">
-                  <option value="all">Tous les secteurs</option>
+              <label class="feed-filter-label"><span class="sr-only">Filtrer par catégorie</span>
+                <select id="feed-sector" aria-label="Catégorie d'opportunité">
+                  <option value="all">Toutes les catégories</option>
                   <option value="services">Services numériques</option>
                   <option value="travaux">Travaux & aménagement</option>
                   <option value="conseil">Conseil & études</option>
+                  <optgroup label="Catégories prévues" id="feed-planned-categories">
+                    <option value="fournitures" disabled>Fournitures & équipements · à venir</option>
+                    <option value="btp" disabled>BTP : lots techniques et second œuvre · à venir</option>
+                    <option value="maintenance" disabled>Maintenance & exploitation · à venir</option>
+                    <option value="logistique" disabled>Transport & logistique · à venir</option>
+                    <option value="formation" disabled>Formation & recrutement · à venir</option>
+                    <option value="communication" disabled>Communication & événementiel · à venir</option>
+                  </optgroup>
+                </select>
+              </label>
+              <label class="feed-filter-label"><span class="sr-only">Filtrer par type de marché</span>
+                <select id="feed-market-type" aria-label="Type de marché">
+                  <option value="all">Publics et privés</option>
+                  <option value="public">Marchés publics</option>
+                  <option value="private">Marchés privés</option>
                 </select>
               </label>
               <label class="feed-filter-label"><span class="sr-only">Filtrer par localisation</span>
