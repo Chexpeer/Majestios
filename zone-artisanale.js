@@ -41,8 +41,10 @@ const scene=new THREE.Scene();
 scene.background=new THREE.Color("#0b1119");
 scene.fog=new THREE.Fog("#0b1119",42,88);
 const camera=new THREE.PerspectiveCamera(50,1,.1,150);
-const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.7));
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:"high-performance"});
+// Limiter le nombre de pixels réellement calculés, surtout sur les écrans mobiles haute densité.
+const pixelRatioCap=window.matchMedia("(max-width: 760px)").matches?1.15:1.5;
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,pixelRatioCap));
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -397,9 +399,29 @@ document.querySelectorAll("[data-scene-mode]").forEach(button=>button.addEventLi
 function resetView(){setSceneMode("fly");}
 function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
+// Ne pas animer la scène quand elle est hors écran ou que l'onglet est masqué.
 let previousFrame=performance.now();
-function animate(now=performance.now()){requestAnimationFrame(animate);const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;if(cameraDestination&&targetDestination){const speed=reducedMotion?1:1-Math.exp(-5.3*delta);camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}walkThroughZone(delta);controls.update();syncVisitorCar();const flying=root.dataset.viewMode==="fly";visitorHelicopter.visible=flying;if(flying){const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize();visitorHelicopter.position.copy(camera.position).addScaledVector(forward,6).addScaledVector(right,2.4);visitorHelicopter.position.y=Math.max(3,camera.position.y-2.2);visitorHelicopter.rotation.y=Math.atan2(forward.x,forward.z)+Math.PI;rotorHub.rotation.y+=delta*18;tailRotor.rotation.z+=delta*15;}renderer.render(scene,camera);}
-animate();if(loading.dataset.fallbackShown!=="true")loading.classList.add("hidden");else renderer.domElement.style.display="none";
+let sceneVisible=!("IntersectionObserver" in window);
+let animationFrame=0;
+function animate(now=performance.now()){
+ animationFrame=0;
+ if(!sceneVisible||document.hidden)return;
+ animationFrame=requestAnimationFrame(animate);
+ const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;
+ if(cameraDestination&&targetDestination){const speed=reducedMotion?1:1-Math.exp(-5.3*delta);camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}
+ walkThroughZone(delta);controls.update();syncVisitorCar();
+ const flying=root.dataset.viewMode==="fly";visitorHelicopter.visible=flying;
+ if(flying){const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize();visitorHelicopter.position.copy(camera.position).addScaledVector(forward,6).addScaledVector(right,2.4);visitorHelicopter.position.y=Math.max(3,camera.position.y-2.2);visitorHelicopter.rotation.y=Math.atan2(forward.x,forward.z)+Math.PI;rotorHub.rotation.y+=delta*18;tailRotor.rotation.z+=delta*15;}
+ renderer.render(scene,camera);
+}
+function wakeScene(){if(sceneVisible&&!document.hidden&&!animationFrame){previousFrame=performance.now();animationFrame=requestAnimationFrame(animate);}}
+function pauseScene(){if(animationFrame){cancelAnimationFrame(animationFrame);animationFrame=0;}}
+if("IntersectionObserver" in window){
+ const sceneObserver=new IntersectionObserver(entries=>{sceneVisible=entries.some(entry=>entry.isIntersecting);if(sceneVisible)wakeScene();else pauseScene();},{rootMargin:"120px 0px",threshold:0.01});
+ sceneObserver.observe(root);
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)pauseScene();else wakeScene();});
+wakeScene();if(loading.dataset.fallbackShown!=="true")loading.classList.add("hidden");else renderer.domElement.style.display="none";
 
 } catch (error) {
   console.error("[MajestiOS] Impossible d’initialiser la zone artisanale 3D :", error);
