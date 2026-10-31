@@ -28,7 +28,7 @@ async function main() {
       (typeof record.url_avis === "string" && record.url_avis.startsWith("https://www.boamp.fr/")) || record.idweb,
       "L’avis doit fournir une URL officielle ou un identifiant permettant de construire le lien BOAMP."
     );
-    console.log(`API BOAMP réelle accessible : ${payload.results.length} avis échantillonné(s), référence ${record.idweb || record.id}.`);
+    console.log(`API BOAMP réelle accessible : ${records.length} avis échantillonné(s), référence ${record.idweb || record.id}.`);
   } finally {
     clearTimeout(timeout);
   }
