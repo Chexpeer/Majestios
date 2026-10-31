@@ -298,6 +298,7 @@ if(new URLSearchParams(window.location.search).has("e2e")){
    const rect=renderer.domElement.getBoundingClientRect();
    // Chercher un point réellement cliquable sur ce bâtiment via le même raycaster que l'interface.
    const candidates=[];
+   const blockedElements=new Map();
    for(const y of [1.1,2.0,2.7,3.5,4.2,5.0,5.92]){
     for(const xOffset of [-1.8,-.9,0,.9,1.8]){
      candidates.push(new THREE.Vector3(data.x+xOffset,y,data.z+1.94));
@@ -312,10 +313,11 @@ if(new URLSearchParams(window.location.search).has("e2e")){
     if(x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)continue;
     // Ne retenir qu’un point où le canvas reçoit réellement le clic : un panneau HTML superposé
     // pourrait sinon intercepter la souris et ouvrir la rubrique déjà sélectionnée.
-    if(document.elementFromPoint(x,y)!==renderer.domElement)continue;
+    const topElement=document.elementFromPoint(x,y);
+    if(topElement!==renderer.domElement){const key=topElement?`${topElement.tagName}.${String(topElement.className||"").toString().replace(/\\s+/g,".")}`:"null";blockedElements.set(key,(blockedElements.get(key)||0)+1);continue;}
     if(getBuildingAt({clientX:x,clientY:y})?.id===id)return {x,y};
    }
-   throw new Error(`Aucun point cliquable trouvé pour le bâtiment ${id}.`);
+   throw new Error(`Aucun point cliquable trouvé pour le bâtiment ${id}. Éléments qui recouvrent les candidats : ${JSON.stringify([...blockedElements.entries()])}`);
   }
  };
 }
