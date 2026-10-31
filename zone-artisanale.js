@@ -126,7 +126,8 @@ for(const data of buildings){
  card.addEventListener("click",()=>selectBuilding(data));directory.appendChild(card);
 }
 function tree(position,scale=1){const trunk=box(.22,1.1,.22,material("#70563e"),position.x,.48,position.z);const crown=new THREE.Mesh(new THREE.SphereGeometry(.8*scale,10,8),material("#47775c"));crown.position.set(position.x,1.5*scale,position.z);crown.castShadow=true;scene.add(crown);scene.add(trunk);}
-for(const p of [{x:-19,z:2},{x:19,z:2},{x:-19,z:-11},{x:19,z:-11},{x:-19,z:-22},{x:19,z:-22}])tree(p,.8);\n// Parking bays and pedestrian lighting make the site read as a working business park.
+for(const p of [{x:-19,z:2},{x:19,z:2},{x:-19,z:-11},{x:19,z:-11},{x:-19,z:-22},{x:19,z:-22}])tree(p,.8);
+// Parking bays and pedestrian lighting make the site read as a working business park.
 const parkingPaint=material("#e9e4d3",.9);
 for(const side of [-1,1]){
  const parking=box(3.5,.035,30,material("#596c60"),side*18.8,-.025,-8);
@@ -230,8 +231,8 @@ document.querySelectorAll("[data-walk]").forEach(button=>{
  button.addEventListener("contextmenu",e=>e.preventDefault());
 });
 document.querySelector("#view-home").addEventListener("click",resetView);
-document.querySelector("#zoom-in").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;camera.position.lerp(controls.target,.12);camera.position.multiplyScalar(.88);controls.update();});
-document.querySelector("#zoom-out").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;camera.position.multiplyScalar(1.12);controls.update();});
+document.querySelector("#zoom-in").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;const offset=camera.position.clone().sub(controls.target);offset.multiplyScalar(.88);const distance=THREE.MathUtils.clamp(offset.length(),controls.minDistance,controls.maxDistance);offset.setLength(distance);camera.position.copy(controls.target).add(offset);controls.update();});
+document.querySelector("#zoom-out").addEventListener("click",()=>{cameraDestination=null;targetDestination=null;const offset=camera.position.clone().sub(controls.target);const distance=THREE.MathUtils.clamp(offset.length()*1.12,controls.minDistance,controls.maxDistance);offset.setLength(distance);camera.position.copy(controls.target).add(offset);controls.update();});
 function resetView(){cameraDestination=new THREE.Vector3(0,17,35);targetDestination=new THREE.Vector3(0,1.5,-6);}
 function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
