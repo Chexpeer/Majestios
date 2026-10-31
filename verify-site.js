@@ -134,11 +134,12 @@ for (const page of immersivePages) {
   ]) {
     if (!pageHtml.includes(component[0])) errors.push(`${page} : composant manquant (${component[1]})`);
   }
-  const relatedStart = pageHtml.indexOf("related-rubrics");
-  const relatedEnd = relatedStart >= 0 ? pageHtml.indexOf("</section>", relatedStart) : -1;
-  if (relatedStart >= 0 && relatedEnd > relatedStart) {
-    const relatedHtml = pageHtml.slice(relatedStart, relatedEnd);
-    const relatedLinks = [...relatedHtml.matchAll(/href="([^"]+\.html)(?:#[^"]*)?"/g)];
+  // Cibler la section elle-même, pas une occurrence de "related-rubrics" dans
+  // une classe de titre située plus haut dans la page (ex. showroom-grid).
+  const relatedSection = pageHtml.match(/<section\\b(?=[^>]*\\bclass=["'][^"']*\\brelated-rubrics\\b[^"']*["'])[^>]*>[\\s\\S]*?<\\/section>/i);
+  if (relatedSection) {
+    const relatedHtml = relatedSection[0];
+    const relatedLinks = [...relatedHtml.matchAll(/href="([^"]+\\.html)(?:#[^"]*)?"/g)];
     if (relatedLinks.length < 3) errors.push(`${page} : moins de trois parcours associés détectés`);
     for (const [, destination] of relatedLinks) {
       if (!fs.existsSync(path.join(root, destination))) errors.push(`${page} : destination associée absente (${destination})`);
