@@ -108,7 +108,7 @@ async function main() {
     assert.equal(await page.locator("#zone-map").isVisible(), false, "La carte GPS doit se masquer en mode conduite.");
 
     await page.locator('[data-scene-mode="fly"]').click();
-    assert.equal(await page.locator('[data-scene-mode="fly"]').getAttribute("aria-pressed"), "true", "Le mode Apache doit être activé.");
+    assert.equal(await page.locator('[data-scene-mode="fly"]').getAttribute("aria-pressed"), "true", "La navigation aérienne doit être activée.");
     assert.equal(await page.locator("#scene").getAttribute("data-view-mode"), "fly", "La scène doit revenir en mode survol.");
 
     await page.setViewportSize({ width: 390, height: 844 });
@@ -148,7 +148,7 @@ async function main() {
     assert.match((await page.locator("#search-results-panel").innerText()), /Aucune annonce réelle n'est actuellement chargée/, "Les résultats généraux doivent distinguer la recherche des annonces réellement disponibles.");
     assert.deepEqual(pageErrors, [], "Aucune erreur JavaScript non interceptée n'est attendue.");
 
-    console.log("TEST NAVIGATEUR RÉUSSI : modes Apache/Tesla/GPS, 12 destinations, sélection, affichage mobile et transmission des critères de recherche.");
+    console.log("TEST NAVIGATEUR RÉUSSI : navigation aérienne/Tesla/GPS, 12 destinations, sélection, affichage mobile et transmission des critères de recherche.");
   } finally {
     if (browser) await browser.close();
     await new Promise((resolve) => server.close(resolve));
