@@ -205,7 +205,6 @@ renderer.domElement.addEventListener("keyup",e=>pressedKeys.delete(e.key.toLower
 renderer.domElement.addEventListener("blur",()=>pressedKeys.clear());
 window.addEventListener("blur",()=>pressedKeys.clear());
 document.addEventListener("visibilitychange",()=>{if(document.hidden){pressedKeys.clear();touchCandidate=null;}});
-window.addEventListener("keyup",e=>pressedKeys.delete(e.key.toLowerCase()));
 function walkThroughZone(delta){
  if(!pressedKeys.size)return;
  const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();
@@ -234,6 +233,9 @@ document.querySelectorAll("[data-walk]").forEach(button=>{
  button.addEventListener("pointerup",stop);
  button.addEventListener("pointercancel",stop);
  button.addEventListener("lostpointercapture",stop);
+ // Filet de sécurité si le pointeur est relâché hors de la fenêtre ou si la capture échoue.
+ window.addEventListener("pointerup",()=>pressedKeys.delete(key));
+ window.addEventListener("pointercancel",()=>pressedKeys.delete(key));
  button.addEventListener("contextmenu",e=>e.preventDefault());
 });
 document.querySelector("#view-home").addEventListener("click",resetView);
