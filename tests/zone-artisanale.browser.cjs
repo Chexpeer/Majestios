@@ -88,7 +88,7 @@ async function main() {
     for (const [id, expectedTitle, mainRoute] of routeContracts) {
       await page.goto("http://127.0.0.1:4173/?e2e=1", { waitUntil: "domcontentloaded" });
       await page.locator("canvas").waitFor({ state: "visible", timeout: 30000 });
-      await page.locator('[data-scene-mode="top"]').click();
+      await page.locator('[data-scene-mode="fly"]').click();
       await page.waitForFunction(() => Boolean(window.__MAJESTIOS_SCENE_E2E__), null, { timeout: 30000 });
       await page.waitForTimeout(1800);
       const point = await page.evaluate((buildingId) => window.__MAJESTIOS_SCENE_E2E__.buildingPoint(buildingId), id);
