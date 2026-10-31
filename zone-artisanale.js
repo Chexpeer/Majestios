@@ -153,7 +153,7 @@ for(const data of buildings){
  // Directory works as an accessible alternative to selecting small 3D objects.
  const card=document.createElement("button");card.type="button";card.className="directory-card";card.style.setProperty("--card-color",data.color);card.dataset.building=data.id;card.setAttribute("aria-pressed","false");
  card.innerHTML=`<span class="card-id">${data.id} · ${data.group==="central"?"CENTRAL":"PÉRIPHÉRIQUE"}</span><strong>${data.name}</strong><small>${data.ground}</small>`;
- card.addEventListener("click",()=>selectBuilding(data));if (directory) directory.appendChild(card);
+ card.addEventListener("click",()=>{window.location.assign(data.route);});if (directory) directory.appendChild(card);
 }
 function tree(position,scale=1){const trunk=box(.22,1.1,.22,material("#70563e"),position.x,.48,position.z);const crown=new THREE.Mesh(new THREE.SphereGeometry(.8*scale,10,8),material("#47775c"));crown.position.set(position.x,1.5*scale,position.z);crown.castShadow=true;scene.add(crown);scene.add(trunk);}
 for(const p of [{x:-19,z:2},{x:19,z:2},{x:-19,z:-11},{x:19,z:-11},{x:-19,z:-22},{x:19,z:-22}])tree(p,.8);
@@ -265,7 +265,7 @@ function renderZoneMap(){
   const name=document.createElement("span");name.textContent=data.name;
   const detail=document.createElement("small");detail.textContent=data.ground;
   button.append(name,detail);button.setAttribute("aria-label",data.name+" — "+data.ground);
-  button.addEventListener("click",()=>{selectBuilding(data,{keepMap:true});updateHoverCard(null);});
+  button.addEventListener("click",()=>{window.location.assign(data.route);});
   mapBuildings.appendChild(button);
  });
 }
@@ -299,7 +299,7 @@ renderer.domElement.addEventListener("click",e=>{
  // Sur un écran tactile, la sélection est gérée par touchend pour distinguer toucher et glissement.
  if(e.pointerType==="touch")return;
  const data=getBuildingAt(e);
- if(data){selectBuilding(data);updateHoverCard(data,e);}
+ if(data){window.location.assign(data.route);}
 });
 let touchCandidate=null;
 renderer.domElement.addEventListener("touchstart",e=>{
@@ -314,7 +314,7 @@ renderer.domElement.addEventListener("touchend",e=>{
  // Évite qu’un clic synthétique du navigateur répète la sélection tactile.
  suppressSyntheticClickUntil=performance.now()+500;
  const data=getBuildingAt(t);
- if(data){hovered=data.id;selectBuilding(data);updateHoverCard(data,{pointerType:"touch"});}
+ if(data){window.location.assign(data.route);}
 },{passive:true});
 renderer.domElement.addEventListener("touchcancel",()=>{touchCandidate=null;},{passive:true});
 renderer.domElement.addEventListener("pointercancel",()=>{touchCandidate=null;});
@@ -323,7 +323,7 @@ const pressedKeys=new Set();
 renderer.domElement.addEventListener("keydown",e=>{
  const key=e.key.toLowerCase();
  if(movementKeys.has(key)){e.preventDefault();pressedKeys.add(key);return;}
- if(e.key==="Enter"||e.key===" "){e.preventDefault();if(selected){openLink.click();}else selectBuilding(buildings[0]);}
+ if(e.key==="Enter"||e.key===" "){e.preventDefault();window.location.assign((selected||buildings[0]).route);}
 });
 renderer.domElement.addEventListener("keyup",e=>pressedKeys.delete(e.key.toLowerCase()));
 renderer.domElement.addEventListener("blur",()=>pressedKeys.clear());
