@@ -66,12 +66,18 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
     if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
   }
   if (!home.includes('src="zone-artisanale.js"')) errors.push("Accueil : script de la zone 3D absent");
+  if (!home.includes('name="viewport" content="width=device-width, initial-scale=1"')) errors.push("Accueil : méta viewport mobile absente");
+  const sceneCssText = fs.existsSync(path.join(root, "zone-artisanale.css")) ? fs.readFileSync(path.join(root, "zone-artisanale.css"), "utf8") : "";
+  if (!sceneCssText.includes("@media(max-width:650px)") || !sceneCssText.includes("touch-action:none")) errors.push("Zone 3D : règles responsive mobile ou tactile absentes");
   if (!home.includes("window.majestiosSceneFallback") || !home.includes("loading.dataset.fallbackShown")) {
     errors.push("Accueil : mécanisme de secours de la scène 3D absent ou incomplet");
   }
   const sceneScriptText = fs.existsSync(path.join(root, "zone-artisanale.js")) ? fs.readFileSync(path.join(root, "zone-artisanale.js"), "utf8") : "";
   if (!sceneScriptText.includes("webglcontextlost") || !sceneScriptText.includes('loading.dataset.fallbackShown!=="true"')) {
     errors.push("Zone 3D : gestion de la perte WebGL ou protection contre le masquage du secours absente");
+  }
+  if (!sceneScriptText.includes('addEventListener("touchstart"') || !sceneScriptText.includes('addEventListener("touchend"') || !sceneScriptText.includes("ResizeObserver")) {
+    errors.push("Zone 3D : sélection tactile ou adaptation de taille non vérifiable dans le script");
   }
   if (!home.includes('href="nous-rejoindre.html"') || !home.includes('href="espace-membre.html"') || !home.includes('href="faq.html"')) {
     errors.push("Accueil : navigation principale incomplète");
