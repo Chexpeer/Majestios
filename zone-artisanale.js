@@ -287,10 +287,24 @@ if(new URLSearchParams(window.location.search).has("e2e")){
    controls.target.set(data.x,2.7,data.z);
    controls.update();
    renderer.render(scene,camera);
-   // Cibler la façade avant, face à la caméra de cadrage, plutôt que le toit horizontal.
-   const point=new THREE.Vector3(data.x,2.7,data.z+1.9).project(camera);
    const rect=renderer.domElement.getBoundingClientRect();
-   return {x:rect.left+(point.x+1)*rect.width/2,y:rect.top+(1-point.y)*rect.height/2};
+   // Chercher un point réellement cliquable sur ce bâtiment via le même raycaster que l'interface.
+   const candidates=[];
+   for(const y of [1.1,2.0,2.7,3.5,4.2,5.0,5.92]){
+    for(const xOffset of [-1.8,-.9,0,.9,1.8]){
+     candidates.push(new THREE.Vector3(data.x+xOffset,y,data.z+1.94));
+     candidates.push(new THREE.Vector3(data.x+xOffset,y,data.z-1.94));
+    }
+   }
+   candidates.push(new THREE.Vector3(data.x,5.92,data.z-.04));
+   for(const worldPoint of candidates){
+    const projected=worldPoint.project(camera);
+    const x=rect.left+(projected.x+1)*rect.width/2;
+    const y=rect.top+(1-projected.y)*rect.height/2;
+    if(x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)continue;
+    if(getBuildingAt({clientX:x,clientY:y})?.id===id)return {x,y};
+   }
+   throw new Error(`Aucun point cliquable trouvé pour le bâtiment ${id}.`);
   }
  };
 }
