@@ -852,13 +852,6 @@ for (const match of buildingDefinitions) {
   }
 }
 
-if (errors.length) {
-  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
-  process.exitCode = 1;
-} else {
-  console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
-}
-
 // Lot 19 — contrôler les parcours secondaires des six premiers bâtiments.
 // Ces destinations font partie du parcours métier validé et ne doivent pas dériver silencieusement.
 const firstSixRouteContracts = [
@@ -867,7 +860,13 @@ const firstSixRouteContracts = [
   ["B03", "prospection-inversee.html", "suivi-commercial.html"],
   ["B04", "intelligence-economique.html", "developpement-commercial.html"],
   ["B05", "veille-marches.html", "bodacc-veille-entreprises.html"],
-  ["B06", "salons-seminaires.html", "sous-traitance.html"]
+  ["B06", "salons-seminaires.html", "sous-traitance.html"],
+  ["B07", "marches-publics.html", "accompagnement-appels-offres.html"],
+  ["B08", "marches-publics.html", "marches-prives.html"],
+  ["B09", "marches-prives.html", "reseaux-synergies.html"],
+  ["B10", "reseaux-synergies.html", "developpement-commercial.html"],
+  ["B11", "prospection-inversee.html", "intelligence-economique.html"],
+  ["B12", "developpement-commercial.html", "intelligence-economique.html"]
 ];
 for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
   const match = buildingDefinitions.find((item) => item[1] === id);
@@ -885,3 +884,11 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
   }
 }
 
+
+
+if (errors.length) {
+  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
+  process.exitCode = 1;
+} else {
+  console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
+}
