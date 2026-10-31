@@ -2,6 +2,13 @@
   "use strict";
 
   const API = "https://boamp-datadila.opendatasoft.com/api/explore/v2.0/catalog/datasets/boamp/records";
+  const BODACC_API = "https://www.bodacc.fr/api/explore/v2.1/catalog/datasets/annonces-commerciales/records";
+  const BODACC_FIELDS = [
+    "id", "dateparution", "numeroannonce", "typeavis_lib", "familleavis", "familleavis_lib",
+    "departement_nom_officiel", "commercant", "ville", "registre", "listepersonnes",
+    "listeetablissements", "jugement", "acte", "modificationsgenerales", "region_nom_officiel", "url_complete"
+  ].join(",");
+
   const SOURCE_LABEL = "BOAMP · Direction de l’information légale et administrative (DILA)";
   const CATEGORY_TERMS = {
     conseil: ["conseil", "étude", "études", "audit", "expertise"],
@@ -68,7 +75,83 @@
     empty.setAttribute("role", "status");
 
     if (market === "private") {
-      empty.textContent = "La recherche de marchés privés n’est pas encore raccordée à une source. Aucun résultat public n’est mélangé à cette recherche.";
+      empty.textContent = "Connexion à la source officielle BODACC en cours…";
+      const bodaccUrl = new URL(BODACC_API);
+      bodaccUrl.searchParams.set("limit", "40");
+      bodaccUrl.searchParams.set("order_by", "dateparution desc");
+      bodaccUrl.searchParams.set("select", BODACC_FIELDS);
+      if (query) bodaccUrl.searchParams.set("q", query);
+      const region = params.get("zone") || "all";
+      const regions = {
+        "nouvelle-aquitaine": "Nouvelle-Aquitaine", "ile-de-france": "Île-de-France",
+        "auvergne-rhone-alpes": "Auvergne-Rhône-Alpes", occitanie: "Occitanie",
+        "pays-de-la-loire": "Pays de la Loire", bretagne: "Bretagne", normandie: "Normandie",
+        "hauts-de-france": "Hauts-de-France", "grand-est": "Grand Est",
+        "bourgogne-franche-comte": "Bourgogne-Franche-Comté", "centre-val-de-loire": "Centre-Val de Loire",
+        "provence-alpes-cote-d-azur": "Provence-Alpes-Côte d’Azur", corse: "Corse"
+      };
+      if (regions[region]) bodaccUrl.searchParams.set("where", 'region_nom_officiel = "' + regions[region].replace(/"/g, '\\"') + '"');
+      try {
+        const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" } });
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const payload = await response.json();
+        const records = Array.isArray(payload.results) ? payload.results : [];
+        const filtered = records.filter((record) => {
+          if (!query) return true;
+          const haystack = normalize([
+            record.commercant, record.ville, record.departement_nom_officiel, record.familleavis_lib,
+            record.listepersonnes, record.listeetablissements, record.acte, record.jugement,
+            record.modificationsgenerales, record.divers
+          ].join(" "));
+          return normalize(query).split(/\\s+/).filter(Boolean).every((term) => haystack.includes(term));
+        }).slice(0, 20);
+        if (!filtered.length) {
+          empty.textContent = records.length
+            ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
+            : "La source BODACC a répondu sans annonce pour ces critères. Modifiez la recherche ou réessayez plus tard.";
+        } else {
+          results.innerHTML = filtered.map((record) => {
+            const company = record.commercant || "Entreprise non renseignée dans l’extrait";
+            const eventType = record.familleavis_lib || record.familleavis || "Annonce commerciale";
+            const place = [record.ville, record.departement_nom_officiel].filter(Boolean).join(" · ");
+            const date = formatDate(record.dateparution);
+            const identifier = record.id || record.numeroannonce || "";
+            const details = [record.acte, record.jugement, record.modificationsgenerales].map((value) => {
+              if (!value) return "";
+              if (typeof value === "string") return value;
+              return [value.nature, value.famille, value.complementJugement, value.date].filter(Boolean).join(" — ");
+            }).filter(Boolean).join(" ");
+            const sourceUrl = typeof record.url_complete === "string" && /^https:\\/\\/(www\\.)?bodacc\\.fr\\//i.test(record.url_complete)
+              ? record.url_complete
+              : "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
+            return '<article class="platform-card opportunity-result-card bodacc-result-card">' +
+              '<p class="eyebrow">SIGNAL COMMERCIAL PRIVÉ · BODACC</p>' +
+              '<h3>' + escapeHtml(company) + '</h3>' +
+              '<p><strong>Type d’annonce :</strong> ' + escapeHtml(eventType) + '</p>' +
+              (place ? '<p><strong>Localisation :</strong> ' + escapeHtml(place) + '</p>' : '') +
+              '<p><strong>Publication :</strong> ' + escapeHtml(date) + '</p>' +
+              (identifier ? '<p><strong>Référence :</strong> ' + escapeHtml(identifier) + '</p>' : '') +
+              (details ? '<p><strong>Extrait publié :</strong> ' + escapeHtml(details.slice(0, 500)) + '</p>' : '') +
+              '<p class="small-note">Signal public à qualifier par une personne habilitée. Il ne prouve pas, à lui seul, l’existence d’un besoin d’achat ni une intention commerciale.</p>' +
+              '<a class="button-primary" href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener noreferrer">Consulter l’annonce officielle ↗</a>' +
+              '</article>';
+          }).join("");
+          empty.textContent = filtered.length + " signal(aux) BODACC affiché(s). La qualification commerciale reste à confirmer par l’équipe MajestiOS.";
+          empty.insertAdjacentElement("afterend", results);
+        }
+        const note = document.createElement("p");
+        note.className = "small-note opportunity-source-note";
+        note.textContent = "Source : BODACC / DILA. Les annonces légales sont des signaux à vérifier, pas des marchés à remporter. Données consultées à la demande ; la date de publication et le contenu doivent être contrôlés sur la source officielle.";
+        (results.isConnected ? results : empty).insertAdjacentElement("afterend", note);
+      } catch (error) {
+        empty.textContent = "La source BODACC est momentanément inaccessible depuis cette page. Aucun signal n’est inventé. Réessayez ou consultez directement la recherche officielle.";
+        const link = document.createElement("a");
+        link.href = "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Ouvrir la recherche BODACC ↗";
+        empty.append(" ", link);
+      }
       return;
     }
 
