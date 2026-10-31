@@ -34,7 +34,7 @@ La page actuellement rattachée à la navigation « Salon virtuel » porte cette
 - `nous-rejoindre.html` — contributions et coopérations.
 - `espace-membre.html` — parcours personnel de démonstration, sans compte réel.
 - `faq.html` — explications et limites actuelles.
-- `zone-artisanale.html` — expérience immersive autonome encore référencée par les pages et contrôles. Ne supprimer qu’après migration de tous ses liens entrants.
+- `zone-artisanale.html` — ancienne expérience immersive autonome, conservée provisoirement pour compatibilité. Les retours des douze pages métier renvoient désormais vers `index.html#accueil`, où la zone industrielle est intégrée. Ne supprimer cette page qu’après un scan complet des références restantes et du build.
 
 ### Douze pages métier correspondant aux bâtiments
 1. Marchés publics — `marches-publics.html`
