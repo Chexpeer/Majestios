@@ -349,10 +349,10 @@ if (interactiveSvg) {
   const surfaceNames = {
     bleue: "Surface bleue sélectionnée",
     verte: "Surface verte sélectionnée",
-    violette: "Surface violette sélectionnée",
-    jaune: "Surface jaune sélectionnée",
-    rouge: "Surface rouge sélectionnée",
-    orange: "Surface orange sélectionnée"
+    turquoise: "Surface turquoise sélectionnée",
+    pêche: "Surface pêche sélectionnée",
+    corail: "Surface corail sélectionnée",
+    ardoise: "Surface ardoise sélectionnée"
   };
   interactiveSvg.addEventListener("load", () => {
     const svgDocument = interactiveSvg.contentDocument;
