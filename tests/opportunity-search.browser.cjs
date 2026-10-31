@@ -27,7 +27,7 @@ async function main() {
     const page = await browser.newPage();
     let apiCalls = 0;
     let bodaccCalls = 0;
-    await page.route("https://www.bodacc.fr/api/explore/v2.1/**", async (route) => {
+    await page.route("https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/**", async (route) => {
       bodaccCalls++;
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.pathname.endsWith("/catalog/datasets/annonces-commerciales/records"), true, "La recherche privée doit utiliser le jeu officiel BODACC.");
