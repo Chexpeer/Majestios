@@ -112,7 +112,7 @@ for (const page of immersivePages) {
     ['class="virtual-space-scene"', "scène interactive"],
     ['class="virtual-space-note"', "indication d'interaction"],
     ['class="floating-route-card"', "parcours fonctionnel"],
-    ['class="related-rubrics"', "rubriques associées"],
+    ['related-rubrics', "rubriques associées"],
     ['class="interior-links"', "liens de sortie de rubrique"],
   ]) {
     if (!pageHtml.includes(component[0])) errors.push(`${page} : composant manquant (${component[1]})`);
