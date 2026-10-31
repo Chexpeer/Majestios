@@ -699,6 +699,38 @@ if (fs.existsSync(buildScriptPath)) {
   }
 }
 
+
+// Lot 9 — liaisons entre commandes, carte, recherche et aide.
+const sceneCss = fs.existsSync(path.join(root, "zone-artisanale.css"))
+  ? fs.readFileSync(path.join(root, "zone-artisanale.css"), "utf8") : "";
+if (!homeSceneJs.includes('document.querySelectorAll("[data-scene-mode]").forEach')) {
+  errors.push("Zone industrielle : les boutons de mode ne sont pas reliés à setSceneMode");
+}
+if (!homeSceneJs.includes('button.addEventListener("click",()=>{selectBuilding(data,{keepMap:true})')) {
+  errors.push("Carte Majest COYOT : la sélection d’un bâtiment ne conserve pas explicitement le mode carte");
+}
+if (!sceneCss.includes(".zone-map[hidden]{display:none!important}")) {
+  errors.push("Carte Majest COYOT : l’attribut hidden n’est pas garanti par le CSS");
+}
+if (!homeSceneJs.includes('openLink.href=data.route') || !homeSceneJs.includes('floorList.replaceChildren()')) {
+  errors.push("Zone industrielle : la sélection ne met pas à jour l’accès à la rubrique et les trois niveaux");
+}
+
+const homeAppJs = fs.existsSync(path.join(root, "app.js"))
+  ? fs.readFileSync(path.join(root, "app.js"), "utf8") : "";
+if (!homeAppJs.includes('advancedSearchForm.addEventListener("submit"') ||
+    !homeAppJs.includes('params.set("marche", marketType)') ||
+    !homeAppJs.includes('params.set("zone", region)')) {
+  errors.push("Recherche avancée : soumission ou conservation des filtres marché/localisation absente");
+}
+if (!homeAppJs.includes('selectedCategory ? selectedCategory.href : "resultats-recherche.html"')) {
+  errors.push("Recherche avancée : la destination par catégorie ou résultats généraux n’est pas définie");
+}
+if (!homeAppJs.includes('homeHelpToggle?.addEventListener("click"') ||
+    !homeAppJs.includes('event.key === "Escape"')) {
+  errors.push("Aide d’accueil : ouverture/fermeture accessible ou fermeture par Échap absente");
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
