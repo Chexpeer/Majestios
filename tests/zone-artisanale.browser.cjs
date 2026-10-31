@@ -53,36 +53,34 @@ async function main() {
     assert.equal(await page.locator("#zone-map").isVisible(), true, "La carte GPS doit s'afficher.");
     assert.equal(await page.locator("#map-buildings .map-building").count(), 12, "La carte doit proposer les 12 rubriques.");
 
-    await page.locator('#map-buildings .map-building[data-id="B01"]').click();
-    assert.equal((await page.locator("#panel-title").innerText()).trim(), "Marchés publics", "Le choix sur la carte doit sélectionner la bonne rubrique.");
-    assert.match(await page.locator("#open-building").getAttribute("href"), /marches-publics\.html$/, "Le bouton de destination doit mener à la page de la rubrique.");
+    // Les noms et les détails doivent être visibles directement sur les cartes GPS.
+    assert.ok((await page.locator('#map-buildings .map-building[data-id="B01"]').innerText()).includes("Marchés publics"), "Le bâtiment B01 doit afficher son nom sur la carte GPS.");
 
-    // Le deuxième niveau des marchés privés doit conduire au suivi des affaires.
-    await page.locator('#map-buildings .map-building[data-id="B02"]').click();
-    assert.equal((await page.locator("#panel-title").innerText()).trim(), "Marchés privés", "La sélection B02 doit afficher Marchés privés.");
-    assert.match(await page.locator("#floor-list .floor-link").nth(2).getAttribute("href"), /suivi-commercial\.html$/, "Le parcours « Suivi des affaires · Relances » doit ouvrir le suivi commercial.");
-
-    // Contrat navigateur complet : les 12 bâtiments affichent leur rubrique et leurs deux destinations secondaires.
+    // Contrat navigateur complet : les 12 bâtiments ouvrent directement leur rubrique métier.
     const routeContracts = [
-      ["B01", "Marchés publics", "marches-publics.html", "accompagnement-appels-offres.html", "veille-marches.html"],
-      ["B02", "Marchés privés", "marches-prives.html", "sous-traitance.html", "suivi-commercial.html"],
-      ["B03", "Développement commercial", "developpement-commercial.html", "prospection-inversee.html", "suivi-commercial.html"],
-      ["B04", "Prospection inversée", "prospection-inversee.html", "intelligence-economique.html", "developpement-commercial.html"],
-      ["B05", "Intelligence économique", "intelligence-economique.html", "veille-marches.html", "bodacc-veille-entreprises.html"],
-      ["B06", "Réseaux et synergies", "reseaux-synergies.html", "salons-seminaires.html", "sous-traitance.html"],
-      ["B07", "Veille des marchés", "veille-marches.html", "marches-publics.html", "accompagnement-appels-offres.html"],
-      ["B08", "Accompagnement aux appels d'offres", "accompagnement-appels-offres.html", "marches-publics.html", "marches-prives.html"],
-      ["B09", "Sous-traitance et débordement de marchés", "sous-traitance.html", "marches-prives.html", "reseaux-synergies.html"],
-      ["B10", "Salons et séminaires", "salons-seminaires.html", "reseaux-synergies.html", "developpement-commercial.html"],
-      ["B11", "Veille des entreprises — BODACC", "bodacc-veille-entreprises.html", "prospection-inversee.html", "intelligence-economique.html"],
-      ["B12", "Suivi commercial et capitalisation", "suivi-commercial.html", "developpement-commercial.html", "intelligence-economique.html"]
+      ["B01", "Marchés publics", "marches-publics.html"],
+      ["B02", "Marchés privés", "marches-prives.html"],
+      ["B03", "Développement commercial", "developpement-commercial.html"],
+      ["B04", "Prospection inversée", "prospection-inversee.html"],
+      ["B05", "Intelligence économique", "intelligence-economique.html"],
+      ["B06", "Réseaux et synergies", "reseaux-synergies.html"],
+      ["B07", "Veille des marchés", "veille-marches.html"],
+      ["B08", "Accompagnement aux appels d'offres", "accompagnement-appels-offres.html"],
+      ["B09", "Sous-traitance et débordement de marchés", "sous-traitance.html"],
+      ["B10", "Salons et séminaires", "salons-seminaires.html"],
+      ["B11", "Veille des entreprises — BODACC", "bodacc-veille-entreprises.html"],
+      ["B12", "Suivi commercial et capitalisation", "suivi-commercial.html"]
     ];
-    for (const [id, expectedTitle, mainRoute, firstRoute, secondRoute] of routeContracts) {
-      await page.locator(`#map-buildings .map-building[data-id="${id}"]`).click();
-      assert.equal((await page.locator("#panel-title").innerText()).trim(), expectedTitle, `${id} doit afficher son intitulé exact.`);
-      assert.ok((await page.locator("#open-building").getAttribute("href")).endsWith(mainRoute), `${id} doit ouvrir ${mainRoute}.`);
-      assert.ok((await page.locator("#floor-list .floor-link").nth(1).getAttribute("href")).endsWith(firstRoute), `${id} : premier parcours secondaire attendu ${firstRoute}.`);
-      assert.ok((await page.locator("#floor-list .floor-link").nth(2).getAttribute("href")).endsWith(secondRoute), `${id} : second parcours secondaire attendu ${secondRoute}.`);
+    for (const [id, expectedTitle, mainRoute] of routeContracts) {
+      await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
+      await page.locator('[data-scene-mode="map"]').click();
+      const building = page.locator(`#map-buildings .map-building[data-id="${id}"]`);
+      assert.ok((await building.innerText()).includes(expectedTitle), `${id} doit afficher son nom.`);
+      await Promise.all([
+        page.waitForURL(url => new URL(url).pathname.endsWith(mainRoute)),
+        building.click()
+      ]);
+      assert.ok(new URL(page.url()).pathname.endsWith(mainRoute), `${id} doit mener directement à ${mainRoute}, sans fenêtre intermédiaire.`);
     }
 
     await page.locator('[data-scene-mode="drive"]').click();
