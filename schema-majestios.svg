@@ -30,28 +30,28 @@
   <polygon class="outline" points="462,562 462,308 682,181 682,435"/>
   <path class="seam" d="M462 477.33L682 350.33M462 392.67L682 265.67"/>
 </g>
-<g id="surface-violette" data-surface="violette" tabindex="0" role="button" aria-label="Sélectionner la surface violette">
+<g id="surface-turquoise" data-surface="turquoise" tabindex="0" role="button" aria-label="Sélectionner la surface turquoise">
   <polygon points="462,562 388.67,519.67 168.77,646.67 242,689" fill="#9AD9DE"/>
   <polygon points="388.67,519.67 315.4,477.33 95.5,604.33 168.77,646.67" fill="#A9BBD2"/>
   <polygon points="315.4,477.33 242,435 22.1,562 95.5,604.33" fill="#9AD9DE"/>
   <polygon class="outline" points="462,562 242,435 22.1,562 242,689"/>
   <path class="seam" d="M388.67 519.67L168.77 646.67M315.4 477.33L95.5 604.33"/>
 </g>
-<g id="surface-jaune" data-surface="jaune" tabindex="0" role="button" aria-label="Sélectionner la surface jaune">
+<g id="surface-pêche" data-surface="pêche" tabindex="0" role="button" aria-label="Sélectionner la surface pêche">
   <polygon points="462,562 535.33,604.33 755.23,477.33 682,435" fill="#F4B49A"/>
   <polygon points="535.33,604.33 608.6,646.67 828.5,519.67 755.23,477.33" fill="#A8CFF2"/>
   <polygon points="608.6,646.67 682,689 901.9,562 828.5,519.67" fill="#F4B49A"/>
   <polygon class="outline" points="462,562 682,689 901.9,562 682,435"/>
   <path class="seam" d="M535.33 604.33L755.23 477.33M608.6 646.67L828.5 519.67"/>
 </g>
-<g id="surface-rouge" data-surface="rouge" tabindex="0" role="button" aria-label="Sélectionner la surface rouge">
+<g id="surface-ardoise" data-surface="ardoise" tabindex="0" role="button" aria-label="Sélectionner la surface ardoise">
   <polygon points="462,562 462,646.67 242,773.67 242,689" fill="#EFA2AB"/>
   <polygon points="462,646.67 462,731.33 242,858.33 242,773.67" fill="#A9BBD2"/>
   <polygon points="462,731.33 462,816 242,943 242,858.33" fill="#EFA2AB"/>
   <polygon class="outline" points="462,562 462,816 242,943 242,689"/>
   <path class="seam" d="M462 646.67L242 773.67M462 731.33L242 858.33"/>
 </g>
-<g id="surface-orange" data-surface="orange" tabindex="0" role="button" aria-label="Sélectionner la surface orange">
+<g id="surface-corail" data-surface="corail" tabindex="0" role="button" aria-label="Sélectionner la surface corail">
   <polygon points="462,562 462,646.67 682,773.67 682,689" fill="#A9BBD2"/>
   <polygon points="462,646.67 462,731.33 682,858.33 682,773.67" fill="#F4B49A"/>
   <polygon points="462,731.33 462,816 682,943 682,858.33" fill="#A9BBD2"/>
