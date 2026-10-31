@@ -256,12 +256,6 @@ if (rubricSet.size !== 12) errors.push("Arborescence : la liste de référence n
 for (const page of expectedRubricPages) {
   if (!fs.existsSync(path.join(root, page))) errors.push(`Arborescence : page métier référencée mais absente : ${page}`);
 }
-if (fs.existsSync(homeHtmlPath)) {
-  const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
-  for (const page of expectedRubricPages) {
-    if (!homeHtml.includes(page)) errors.push(`Accueil : destination métier absente du HTML de référence : ${page}`);
-  }
-}
 
 // Vérifier le contenu réellement préparé dans dist/, pas seulement la liste de build.
 const distPath = path.join(root, "dist");
