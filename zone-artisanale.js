@@ -237,7 +237,7 @@ function focusBuilding(data){
  targetDestination=nextTarget;
  cameraDestination=new THREE.Vector3(data.x+1.5,9.2,data.z+16.5);
 }
-function selectBuilding(data){selected=data;setSceneMode("fly");focusBuilding(data);title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";floorList.hidden=true;openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");openLink.removeAttribute("tabindex");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
+function selectBuilding(data,{keepMap=false}={}){selected=data;if(!keepMap){setSceneMode("fly");focusBuilding(data);}title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";floorList.hidden=true;openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");openLink.removeAttribute("tabindex");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
 function renderZoneMap(){
  if(!mapBuildings)return;
  mapBuildings.innerHTML="";
@@ -252,7 +252,7 @@ function renderZoneMap(){
   const name=document.createElement("span");name.textContent=data.name;
   const detail=document.createElement("small");detail.textContent=data.ground;
   button.append(name,detail);button.setAttribute("aria-label",data.name+" — "+data.ground);
-  button.addEventListener("click",()=>{selectBuilding(data);updateHoverCard(data,null);});
+  button.addEventListener("click",()=>{selectBuilding(data,{keepMap:true});updateHoverCard(data,null);});
   mapBuildings.appendChild(button);
  });
 }
