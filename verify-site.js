@@ -66,6 +66,12 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
     if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
   }
   if (!home.includes('src="zone-artisanale.js"')) errors.push("Accueil : script de la zone 3D absent");
+  if (!home.includes("window.majestiosSceneFallback") || !home.includes("loading.dataset.fallbackShown")) {
+    errors.push("Accueil : mécanisme de secours de la scène 3D absent ou incomplet");
+  }
+  if (!zoneJsText.includes("webglcontextlost") || !zoneJsText.includes('loading.dataset.fallbackShown!=="true"')) {
+    errors.push("Zone 3D : gestion de la perte WebGL ou protection contre le masquage du secours absente");
+  }
   if (!home.includes('href="nous-rejoindre.html"') || !home.includes('href="espace-membre.html"') || !home.includes('href="faq.html"')) {
     errors.push("Accueil : navigation principale incomplète");
   }
@@ -126,6 +132,7 @@ for (const page of immersivePages) {
 // Vérifier que les douze rubriques restent accessibles depuis l'univers virtuel.
 const zoneHtmlPath = path.join(root, "zone-artisanale.html");
 const zoneJsPath = path.join(root, "zone-artisanale.js");
+const zoneJsText = fs.existsSync(zoneJsPath) ? fs.readFileSync(zoneJsPath, "utf8") : "";
 const virtualDestinations = [
   "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
   "prospection-inversee.html", "intelligence-economique.html", "reseaux-synergies.html",
