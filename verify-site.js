@@ -385,7 +385,7 @@ const expectedMainNavigation = [
 ];
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
-  const navMatch = html.match(/<nav\\b[^>]*class=["'][^"']*site-nav[^"']*["'][^>]*>([\\s\\S]*?)<\\/nav>/i);
+  const navMatch = html.match(/<nav\b[^>]*class=["'][^"']*site-nav[^"']*["'][^>]*>([\s\S]*?)<\/nav>/i);
   if (!navMatch) continue;
   const navHtml = navMatch[1];
   const links = [...navHtml.matchAll(/<a\\b([^>]*)href=["']([^"']+)["']([^>]*)>/gi)];
