@@ -34,14 +34,14 @@ async function main() {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ total_count: 1, results: [{
+        body: JSON.stringify({ total_count: 1, records: [{ record: { fields: {
           id: "A202610310001", publicationavis: "A", dateparution: "2026-10-30", numeroannonce: "1001",
           typeavis_lib: "Avis initial", familleavis: "vente", familleavis_lib: "Ventes et cessions",
           departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC de test",
           ville: "Niort", registre: "RCS test", listepersonnes: JSON.stringify({ personne: { activite: "Rénovation de bâtiments" } }),
           acte: { nature: "Cession de fonds de commerce" },
           url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?q.id=id:A202610310001"
-        }] })
+        } } }] })
       });
     });
     await page.route("https://boamp-datadila.opendatasoft.com/**", async (route) => {
