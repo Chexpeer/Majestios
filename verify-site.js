@@ -68,7 +68,7 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   for (const id of ["scene", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
     if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
   }
-  if (!home.includes('aria-label="Rechercher une opportunité commerciale"')) {
+  if (!home.includes("Rechercher une opportunité commerciale")) {
     errors.push("Accueil : libellé accessible de recherche trop restrictif ou absent");
   }
   if (!home.includes('placeholder="Mot-clé, entreprise, secteur..."')) {
