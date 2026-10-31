@@ -6,6 +6,7 @@ MajestiOS est un projet d’**intelligence commerciale proactive** et de **prosp
 
 - **Accueil** (index.html) : panorama interactif noir et or à douze surfaces, fil d’opportunités fictives avec recherche et filtres, formulaires de demande et accès à l’espace personnel.
 - **Univers virtuel** (zone-artisanale.html) : visite 3D expérimentale avec douze bâtiments, liens vers les rubriques métier et accès rapide à la recherche et aux formulaires.
+- **Catégories d’appels d’offres** : pages dédiées aux services numériques, travaux/aménagement, conseil/études, bâtiment, rénovation, électricité, plomberie/chauffage et maintenance. Chaque page peut ouvrir le fil avec sa catégorie présélectionnée. Les résultats sont encore fictifs.
 - **Douze rubriques métier** : marchés publics, marchés privés, développement commercial, prospection inversée, intelligence économique, réseaux et synergies, veille des marchés, accompagnement aux appels d’offres, sous-traitance, salons et séminaires, veille BODACC et suivi commercial.
 - **Espace membre** (espace-membre.html) : parcours de prévisualisation d’une demande, sans création réelle de compte.
 - **Nous rejoindre** (nous-rejoindre.html) : présentation des contributions et coopérations envisagées.
