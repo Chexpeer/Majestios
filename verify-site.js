@@ -249,8 +249,17 @@ if (fs.existsSync(homeHtmlPath)) {
 }
 
 // Les douze rubriques sont la source de vérité commune du panorama et de l'univers 3D.
-const expectedCategoryPages = ["categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html"];
-for (const page of expectedCategoryPages) {
+const expectedCategoryWorlds = {
+  "categorie-services-numeriques.html": "services",
+  "categorie-travaux-amenagement.html": "travaux",
+  "categorie-conseil-etudes.html": "conseil",
+  "categorie-batiment.html": "batiment",
+  "categorie-renovation.html": "renovation",
+  "categorie-electricite.html": "electricite",
+  "categorie-plomberie-chauffage.html": "plomberie",
+  "categorie-maintenance.html": "maintenance",
+};
+for (const [page, expectedWorld] of Object.entries(expectedCategoryWorlds)) {
   if (!fs.existsSync(path.join(root, page))) {
     errors.push(`Catégories d’opportunités : page référencée mais absente : ${page}`);
     continue;
@@ -258,13 +267,16 @@ for (const page of expectedCategoryPages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
   if (!html.includes('src="category-results.js"')) errors.push(`${page} : script des résultats par catégorie absent`);
   if (!html.includes("category-page") || !html.includes('<section class="virtual-space"')) errors.push(`${page} : structure de page de catégorie absente`);
+  const worldMatch = html.match(/<section class="virtual-space"[^>]*data-world="([^"]+)"/);
+  if (!worldMatch || worldMatch[1] !== expectedWorld) {
+    errors.push(`${page} : catégorie déclarée incorrecte (attendu : ${expectedWorld})`);
+  }
 }
 if (!fs.existsSync(path.join(root, "category-results.js"))) errors.push("Catégories d’opportunités : category-results.js absent");
 if (fs.existsSync(path.join(root, "category-results.js"))) {
   const resultsScript = fs.readFileSync(path.join(root, "category-results.js"), "utf8");
-  const expectedWorlds = ["services", "travaux", "conseil", "batiment", "renovation", "electricite", "plomberie", "maintenance"];
-  for (const world of expectedWorlds) {
-    if (!resultsScript.includes(`${world}:`)) errors.push(`Résultats de catégorie : correspondance manquante pour ${world}`);
+  for (const world of Object.values(expectedCategoryWorlds)) {
+    if (!resultsScript.includes(`${world}: { value: "${world}"`)) errors.push(`Résultats de catégorie : correspondance manquante ou incohérente pour ${world}`);
   }
 }
 
