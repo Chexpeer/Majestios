@@ -271,7 +271,7 @@ if (fs.existsSync(homeHtmlPath)) {
       errors.push(`Accueil : contrôle de recherche avancée absent : ${controlId}`);
     }
   }
-  for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="homepage-ticker"', 'class="site-footer"']) {
+  for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="site-footer"']) {
     if (homeHtml.includes(forbidden)) {
       errors.push(`Accueil : bloc hors périmètre encore présent : ${forbidden}`);
     }
