@@ -49,7 +49,8 @@ Les liens internes doivent être vérifiés après chaque modification. Un lien 
 
 - index.html : structure de l’accueil et points d’entrée vers les parcours.
 - styles.css : styles communs, navigation, accueil, formulaires et pages éditoriales.
-- app.js : interactions de l’accueil, filtres du flux fictif, scénarios et prévisualisation des demandes.
+- catalogue-majestios.js : source de référence partagée pour les douze rubriques, les destinations du panorama, les routes des bâtiments 3D et la taxonomie du moteur de recherche.
+- app.js : interactions de l’accueil, filtres du flux fictif, scénarios et prévisualisation des demandes. Les destinations et menus de catégories sont construits depuis le catalogue partagé.
 - schema-majestios.svg : surfaces du schéma interactif.
 - rubriques-immersives.css / rubriques-immersives.js : présentation et interactions visuelles communes aux douze pages métier.
 - zone-artisanale.html / zone-artisanale.css / zone-artisanale.js : scène 3D, panneau de bâtiment, répertoire et contrôles de visite.
@@ -62,7 +63,9 @@ Les liens internes doivent être vérifiés après chaque modification. Un lien 
 - Schéma SVG panoramique noir et or interactif avec douze destinations métier.
 - Douze pages dédiées, avec espaces visuels propres à chaque rubrique.
 - Zone artisanale 3D avec sélection de bâtiment, déplacements et solution de secours en cas d’échec de chargement.
-- Fil AO avec recherche par texte et filtres secteur/localisation, sur cinq exemples fictifs.
+- Fil AO avec recherche par texte, filtres catégorie/type de marché/localisation, sur cinq exemples fictifs.
+- Catalogue commun reliant les douze surfaces du panorama aux destinations des bâtiments 3D.
+- Taxonomie de recherche avec catégories de démonstration actives et catégories futures explicitement désactivées tant que les sources ne sont pas connectées.
 - Formulaire de demande avec champs adaptés à l’intention choisie et prévisualisation locale.
 - Formulaire de préfiguration de l’espace membre.
 
@@ -86,8 +89,8 @@ Les liens internes doivent être vérifiés après chaque modification. Un lien 
 ## 6. Prochaines améliorations recommandées — dans cet ordre
 
 ### Priorité 1 — fiabilité structurelle
-1. Vérifier automatiquement les liens locaux, ancres, IDs dupliqués et destinations de schéma.
-2. Exécuter le script de préparation et confirmer que chaque fichier référencé par le HTML est présent dans dist/.
+1. Vérifier automatiquement les liens locaux, ancres, IDs dupliqués et destinations de schéma à partir de catalogue-majestios.js.
+2. Exécuter le script de préparation et confirmer que chaque fichier référencé par le HTML est présent dans dist/, y compris le catalogue partagé.
 3. Vérifier le fonctionnement des menus sur mobile et l’état aria-expanded.
 4. Vérifier les erreurs JavaScript et le fallback 3D avec un serveur local.
 
@@ -119,3 +122,14 @@ Une évolution est considérée comme terminée seulement si :
 - aucune fonctionnalité métier non implémentée n’est annoncée comme opérationnelle.
 
 Ce document est une référence d’arborescence et de contrôle, pas une déclaration que les intégrations métier sont déjà réalisées.
+
+
+## 7. Fondations du moteur de recherche — 31 octobre 2026
+
+- Le catalogue partagé `catalogue-majestios.js` définit les douze destinations, leur identifiant de bâtiment, leur surface SVG et leur page cible.
+- Le schéma d'accueil et la scène 3D lisent leurs destinations depuis ce catalogue, afin de limiter les divergences lors de futures évolutions.
+- Le moteur de démonstration distingue désormais le texte recherché, la catégorie, le type de marché et la localisation.
+- Les catégories actuellement représentées par les cinq annonces fictives restent activées : services numériques, travaux et aménagement, conseil et études.
+- Les futures catégories (fournitures, lots BTP, maintenance, logistique, formation/recrutement, communication/événementiel) sont préparées mais désactivées. Elles ne seront activées qu'après ajout de données et de sources adaptées.
+- Le filtre « marchés privés » existe dans la structure mais ne renvoie aucune annonce dans le jeu de démonstration actuel, composé d'exemples publics fictifs. Ce n'est pas une recherche connectée aux marchés privés.
+- Le catalogue est copié dans `dist/` et vérifié par le contrôle anti-régression.
