@@ -218,6 +218,10 @@ if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cata
     if (!fs.existsSync(path.join(root, rubric.href))) errors.push(`Catalogue : page de destination absente : ${rubric.href}`);
     if (!zoneJs.includes(`rubricRoute("${rubric.key}")`)) errors.push(`Zone 3D : destination non reliée au catalogue pour ${rubric.key}`);
   }
+  // Vérifier que chaque catégorie active du catalogue pointe vers une page existante.
+  for (const match of catalogue.matchAll(/\{\s*value:\s*"([^"]+)",\s*label:\s*"[^"]+",\s*active:\s*true,\s*href:\s*"([^"]+)"/g)) {
+    if (!fs.existsSync(path.join(root, match[2]))) errors.push(`Catalogue : destination de catégorie active absente (${match[1]}) : ${match[2]}`);
+  }
   if (!app.includes('document.querySelector("#feed-market-type")')) errors.push("Recherche : filtre par type de marché absent du script");
   if (!app.includes("populateSearchFilters();")) errors.push("Recherche : filtres non initialisés depuis le catalogue");
   const regionBlockMatch = catalogue.match(/const searchRegions = \[([\s\S]*?)\n  \];/);
@@ -353,20 +357,6 @@ if (!fs.existsSync(opportunitySchemaPath)) {
   }
 }
 
-
-// Vérifier les destinations déclarées dans le catalogue partagé (bâtiments et catégories actives).
-const cataloguePath = path.join(root, "catalogue-majestios.js");
-if (!fs.existsSync(cataloguePath)) {
-  errors.push("Catalogue partagé : catalogue-majestios.js absent");
-} else {
-  const catalogue = fs.readFileSync(cataloguePath, "utf8");
-  for (const match of catalogue.matchAll(/\{\s*id:\s*"B\d+",\s*key:\s*"[^"]+",\s*surface:\s*"[^"]+",\s*label:\s*"[^"]+",\s*href:\s*"([^"]+)"/g)) {
-    if (!fs.existsSync(path.join(root, match[1]))) errors.push(`Catalogue : destination de bâtiment absente : ${match[1]}`);
-  }
-  for (const match of catalogue.matchAll(/\{\s*value:\s*"([^"]+)",\s*label:\s*"[^"]+",\s*active:\s*true,\s*href:\s*"([^"]+)"/g)) {
-    if (!fs.existsSync(path.join(root, match[2]))) errors.push(`Catalogue : destination de catégorie active absente (${match[1]}) : ${match[2]}`);
-  }
-}
 
 // La recherche sans catégorie doit aboutir à une page générale dédiée.
 const generalResultsPath = path.join(root, "resultats-recherche.html");
