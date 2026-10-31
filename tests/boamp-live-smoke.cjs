@@ -14,7 +14,7 @@ async function main() {
     });
     assert.equal(response.ok, true, `L’API BOAMP répond HTTP ${response.status}`);
     const payload = await response.json();
-    assert.ok(Array.isArray(payload.results), "L’API doit retourner un tableau results. Réponse reçue : " + JSON.stringify(payload).slice(0, 1200));
+    assert.ok(Array.isArray(payload.results), "L’API doit retourner un tableau results. Clés reçues : " + Object.keys(payload).join(",") + "; aperçu : " + JSON.stringify(payload).slice(-900));
     assert.ok(payload.results.length > 0, "La requête BOAMP doit retourner au moins un avis d’appel d’offres.");
     const record = payload.results[0];
     assert.ok(record.idweb || record.id, "Chaque avis doit exposer une référence.");
