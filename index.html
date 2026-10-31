@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f8fb">
+    <meta name="theme-color" content="#070a0f">
     <meta name="description" content="MajestiOS aide les entreprises à repérer de nouvelles opportunités commerciales à partir des évolutions du marché.">
     <title>MajestiOS — Prospection inversée et intelligence commerciale</title>
     <link rel="stylesheet" href="styles.css">
@@ -11,197 +11,36 @@
   </head>
   <body class="homepage">
     <header class="site-header">
-      <a class="brand" href="index.html" aria-label="MajestiOS, accueil">
+      <a class="brand" href="index.html#accueil" aria-label="MajestiOS, accueil">
         <span class="brand-mark" aria-hidden="true">M</span>
         <span>majesti<span class="brand-os">OS</span></span>
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu">
         <span></span><span></span><span></span>
       </button>
-      <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
-        <a href="index.html" aria-current="page">Accueil</a>
-        <a href="nous-rejoindre.html">Nous rejoindre</a>
-        <a href="espace-membre.html">Espace membre</a>
-        <a href="faq.html">FAQ</a>
-      </nav>
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="index.html#flux-ao">Opportunités</a><a href="zone-artisanale.html">Univers virtuel</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace membre</a><a href="faq.html">FAQ</a></nav>
     </header>
 
-    <main>
-      <section class="hero section-wrap" id="accueil">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-mark"></span> UNE NOUVELLE FAÇON DE DÉVELOPPER VOTRE ACTIVITÉ</p>
-          <h1>Le marché révèle.<br><span>Vous décidez.</span></h1>
-          <p class="hero-lede">MajestiOS vous aide à repérer les occasions qui comptent et à choisir où concentrer votre énergie commerciale.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#flux-ao">Voir les opportunités <span aria-hidden="true">→</span></a>
-            <a class="button button-quiet" href="#espace-interactif">Découvrir MajestiOS <span aria-hidden="true">↓</span></a>
-          </div>
-          <div class="hero-note"><span class="check-mark" aria-hidden="true">✓</span> Vous gardez le choix de la suite à donner.</div>
-          <a class="hero-product-link" href="faq.html">Comprendre MajestiOS <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="hero-visual" aria-label="Exemple illustratif de qualification d’un signal">
-          <div class="visual-orbit orbit-one"></div>
-          <div class="visual-orbit orbit-two"></div>
-          <div class="visual-card">
-            <div class="visual-card-head">
-              <span class="visual-icon" aria-hidden="true">↗</span>
-              <span class="visual-demo">EXEMPLE ILLUSTRATIF</span>
-              <span class="visual-more" aria-hidden="true">···</span>
-            </div>
-            <p class="visual-kicker">UNE OCCASION À EXPLORER</p>
-            <h2>Un nouveau projet se dessine dans votre secteur.</h2>
-            <p class="visual-company">Illustration · données non réelles</p>
-            <div class="visual-divider"></div>
-            <div class="visual-insight fact">
-              <span class="insight-dot"></span>
-              <div><strong>Une possibilité à saisir</strong><p>Et si cette évolution concernait votre activité ?</p></div>
-            </div>
-            <div class="visual-insight hypothesis">
-              <span class="insight-dot"></span>
-              <div><strong>Votre prochain pas</strong><p>Vous choisissez si cette piste mérite votre attention.</p></div>
-            </div>
-            <div class="human-review"><span aria-hidden="true">◎</span> Vous restez maître de vos décisions.</div>
-          </div>
-          <div class="floating-note"><span class="floating-icon" aria-hidden="true">✳</span><span><strong>Votre activité, en mouvement</strong><small>De nouvelles pistes à explorer</small></span></div>
-          <div class="visual-glow"></div>
-        </div>
-      </section>
+    <main class="majestios-immersive-home">
 
-      <section class="interactive-map-section section-wrap" id="espace-interactif" aria-labelledby="interactive-map-title">
+      <section class="interactive-map-section" id="accueil" aria-labelledby="interactive-map-title">
         <div class="interactive-map-heading">
           <p class="eyebrow">EXPLOREZ MAJESTIOS</p>
-          <h2 id="interactive-map-title">Un univers à <span>parcourir.</span></h2>
-          <p>Explorez les douze losanges : six au centre et six en périphérie. Survolez pour faire ressortir une surface, puis cliquez pour ouvrir sa rubrique dédiée.</p>
+          <h1 id="interactive-map-title">MajestiOS <span>— l’intelligence commerciale en mouvement.</span></h1>
+          <p>Détecter → Qualifier → Identifier → Contacter → Transformer → Capitaliser. Touchez une surface du panorama noir et or pour entrer dans sa rubrique dédiée.</p>
         </div>
         <div class="interactive-map-layout">
           <div class="interactive-map-frame">
-            <object id="majestios-interactive-svg" data="schema-majestios.svg" type="image/svg+xml" aria-label="Schéma interactif MajestiOS composé de douze losanges colorés">
+            <object id="majestios-interactive-svg" data="schema-majestios.svg" type="image/svg+xml" aria-label="Schéma panoramique interactif MajestiOS noir et or, avec douze rubriques">
               <p>Le schéma interactif n’a pas pu être chargé. <a href="schema-majestios.svg">Ouvrir le schéma SVG</a>.</p>
             </object>
           </div>
           <aside class="interactive-map-info" aria-live="polite" aria-atomic="true">
             <span class="interactive-map-status">ESPACE INTERACTIF</span>
             <h3 id="interactive-map-selection">Choisissez une surface</h3>
-            <p id="interactive-map-description">Chaque losange ouvre une rubrique dédiée de MajestiOS.</p>
+            <p id="interactive-map-description">Touchez une surface pour entrer dans une rubrique et explorer ses outils.</p>
             <span class="interactive-map-hint">Survoler · Cliquer · Explorer</span>
           </aside>
-        </div>
-      </section>
-
-      <section class="trust-strip" aria-label="Les bénéfices de MajestiOS">
-        <div class="trust-inner">
-          <span><i class="trust-icon purple">◈</i> Repérer de nouvelles occasions</span>
-          <span><i class="trust-icon blue">⌁</i> Voir votre marché autrement</span>
-          <span><i class="trust-icon green">✓</i> Choisir votre prochaine étape</span>
-        </div>
-      </section>
-
-      <section class="reverse-prospecting section-wrap" id="prospection-inverse" aria-labelledby="reverse-title">
-        <div class="reverse-intro">
-          <p class="eyebrow">LA PROSPECTION INVERSÉE</p>
-          <h2 id="reverse-title">Et si vos prochaines opportunités<br><span>venaient du marché ?</span></h2>
-          <p>Un projet, un appel d’offres ou une évolution de votre secteur peut ouvrir une nouvelle possibilité. MajestiOS vous aide à voir ce qui pourrait compter pour votre activité.</p>
-        </div>
-        <div class="reverse-flow" aria-label="Bénéfices de la prospection inversée">
-          <article class="reverse-step">
-            <span class="reverse-step-number">01</span>
-            <span class="reverse-step-icon reverse-signal" aria-hidden="true">◈</span>
-            <p class="reverse-step-type">PRENDRE DU RECUL</p>
-            <h3>Voir plus large</h3>
-            <p>Ne pas se limiter aux contacts déjà connus ou aux occasions déjà visibles.</p>
-          </article>
-          <article class="reverse-step">
-            <span class="reverse-step-number">02</span>
-            <span class="reverse-step-icon reverse-qualify" aria-hidden="true">✓</span>
-            <p class="reverse-step-type">REPÉRER LES POSSIBILITÉS</p>
-            <h3>Faire émerger des pistes</h3>
-            <p>Identifier les occasions susceptibles de correspondre à votre activité et à vos projets.</p>
-          </article>
-          <article class="reverse-step">
-            <span class="reverse-step-number">03</span>
-            <span class="reverse-step-icon reverse-decision" aria-hidden="true">◎</span>
-            <p class="reverse-step-type">GARDER LA MAIN</p>
-            <h3>Avancer à votre rythme</h3>
-            <p>Vous choisissez les pistes à explorer et la manière de leur donner suite.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="platform-section section-wrap" id="plateforme">
-        <div class="platform-heading">
-          <p class="eyebrow">UNE APPROCHE QUI S’ADAPTE À VOTRE ACTIVITÉ</p>
-          <h2>Moins de dispersion.<br><span>Plus de perspectives.</span></h2>
-          <p>Chaque entreprise avance à sa manière. MajestiOS vous aide à prendre du recul, à repérer ce qui compte et à choisir votre direction.</p>
-        </div>
-        <div class="platform-grid">
-          <article class="platform-card">
-            <span class="platform-icon source-icon" aria-hidden="true">⌕</span>
-            <p class="platform-step">LE MARCHÉ</p>
-            <h3>Garder un temps d’avance</h3>
-            <p>Être attentif aux projets et évolutions qui peuvent ouvrir de nouvelles occasions.</p>
-          </article>
-          <article class="platform-card">
-            <span class="platform-icon relation-icon" aria-hidden="true">⌘</span>
-            <p class="platform-step">VOTRE ACTIVITÉ</p>
-            <h3>Voir ce qui vous correspond</h3>
-            <p>Faire le lien entre les évolutions du marché, vos savoir-faire et vos ambitions.</p>
-          </article>
-          <article class="platform-card">
-            <span class="platform-icon action-icon" aria-hidden="true">◎</span>
-            <p class="platform-step">VOS CHOIX</p>
-            <h3>Décider de la suite</h3>
-            <p>Vous gardez la liberté de donner suite aux occasions qui vous semblent pertinentes.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="services-section section-wrap" aria-labelledby="services-title">
-        <div class="services-heading">
-          <p class="eyebrow">VOS PROJETS, VOS PRIORITÉS</p>
-          <h2 id="services-title">Parlons de ce qui compte<br><span>pour votre activité.</span></h2>
-          <p>Chaque entreprise a ses propres enjeux. Choisissez le sujet qui vous ressemble pour engager la conversation.</p>
-        </div>
-        <div class="services-grid">
-          <article class="service-card" id="developpement-commercial" tabindex="-1">
-            <span class="service-number">01</span>
-            <span class="service-icon growth-icon" aria-hidden="true">↗</span>
-            <p class="service-kicker">FAIRE GRANDIR VOTRE ACTIVITÉ</p>
-            <h3>Développement commercial</h3>
-            <p>Repérer de nouvelles occasions et donner un cap à vos démarches commerciales.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="service-card" id="partenaires" tabindex="-1">
-            <span class="service-number">02</span>
-            <span class="service-icon partner-icon" aria-hidden="true">⌘</span>
-            <p class="service-kicker">AVANCER ENSEMBLE</p>
-            <h3>Partenaires</h3>
-            <p>Créer des liens utiles et trouver les complémentarités qui font avancer vos projets.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="service-card" id="devis-facturation" tabindex="-1">
-            <span class="service-number">03</span>
-            <span class="service-icon quote-icon" aria-hidden="true">▤</span>
-            <p class="service-kicker">SUIVRE VOS ÉCHANGES</p>
-            <h3>Devis et facturation</h3>
-            <p>Parlons de vos besoins pour garder une vision claire de vos propositions et de vos projets.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="service-card" id="prospection-secretariat" tabindex="-1">
-            <span class="service-number">04</span>
-            <span class="service-icon support-icon" aria-hidden="true">◎</span>
-            <p class="service-kicker">GAGNER EN SÉRÉNITÉ</p>
-            <h3>Prospection et secrétariat</h3>
-            <p>Donner plus de continuité à vos démarches commerciales et à votre organisation quotidienne.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="service-card" id="business" tabindex="-1">
-            <span class="service-number">05</span>
-            <span class="service-icon business-icon" aria-hidden="true">◈</span>
-            <p class="service-kicker">EXPLORER DE NOUVELLES VOIES</p>
-            <h3>Business</h3>
-            <p>Faire le point sur vos idées et les pistes de développement qui s’offrent à vous.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
         </div>
       </section>
 
@@ -247,148 +86,6 @@
             <div><strong>Vous voulez que ce type d’opportunité arrive jusqu’à vous ?</strong><span>Décrivez votre activité pour exprimer votre intérêt à recevoir des AO.</span></div>
             <a class="button button-primary" href="#contact" data-intent-link="receive">Décrire mes critères de veille <span aria-hidden="true">→</span></a>
           </div>
-        </div>
-      </section>
-
-      <section class="demo-section" id="demonstration">
-        <div class="demo-wrap">
-          <div class="demo-intro">
-            <p class="eyebrow">UN EXEMPLE EN IMAGES</p>
-            <h2>Une occasion.<br>Plusieurs possibilités.</h2>
-            <p>Découvrez une illustration de la manière dont une évolution du marché pourrait ouvrir de nouvelles perspectives pour une entreprise.</p>
-            <p class="demo-disclaimer">Exemple interactif avec des données fictives.</p>
-          </div>
-          <details class="demo-details">
-            <summary>Découvrir un exemple interactif</summary>
-            <div class="demo-product">
-            <div class="demo-window-bar">
-              <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
-              <span>majestiOS <span class="window-divider">/</span> Atelier de démonstration</span>
-              <span class="demo-mode">MODE DÉMO</span>
-              </div>
-            </details>
-            <div class="demo-workspace">
-              <aside class="demo-rail" aria-label="Modules illustratifs">
-                <span class="rail-logo">M</span>
-                <span class="rail-item active" aria-label="Opportunité">◈</span>
-                <span class="rail-item" aria-label="Organisations">⌂</span>
-                <span class="rail-item" aria-label="Activités">⌁</span>
-                <span class="rail-item" aria-label="Mémoire">▤</span>
-              </aside>
-              <div class="demo-main">
-                <div class="demo-topline">
-                  <span class="demo-breadcrumb">OPPORTUNITÉS <span>›</span> DOSSIER ILLUSTRATIF</span>
-                  <span class="demo-updated">Données de démonstration</span>
-                </div>
-                <div class="demo-case-picker" role="tablist" aria-label="Scénarios fictifs">
-                  <button class="case-tab active" type="button" role="tab" aria-selected="true" data-case="lost">AO non remporté</button>
-                  <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="won">AO attribué</button>
-                  <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="hiring">Signal RH</button>
-                </div>
-                <div class="demo-record">
-                  <div class="record-heading">
-                    <div>
-                      <p class="record-kicker" id="demo-category">MARCHÉ PUBLIC · AVIS DE RÉSULTAT</p>
-                      <h3 id="demo-title">Candidature non retenue</h3>
-                      <p class="record-org" id="demo-org">Entreprise fictive · Exemple illustratif</p>
-                    </div>
-                    <span class="record-status" id="demo-status"><i></i> À qualifier</span>
-                  </div>
-                  <div class="record-meta"><span><small>SOURCE</small><strong id="demo-source">Avis fictif de résultat</strong></span><span><small>STATUT</small><strong>Information à vérifier</strong></span></div>
-                  <div class="demo-tabs" role="tablist" aria-label="Étapes de qualification">
-                    <button class="demo-tab active" type="button" role="tab" aria-selected="true" data-view="signal">Signal</button>
-                    <button class="demo-tab" type="button" role="tab" aria-selected="false" data-view="analysis">Analyse</button>
-                    <button class="demo-tab" type="button" role="tab" aria-selected="false" data-view="network">Acteurs</button>
-                    <button class="demo-tab" type="button" role="tab" aria-selected="false" data-view="action">Décision</button>
-                  </div>
-                  <div class="demo-detail" id="demo-detail" aria-live="polite"></div>
-                  <div class="demo-human-gate"><span aria-hidden="true">◎</span><span><strong>Aucune action externe automatique</strong><small>Une personne autorisée doit qualifier et valider toute suite.</small></span><span class="gate-lock" aria-hidden="true">⌑</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="use-cases section-wrap" id="cas-usage">
-        <div class="use-cases-heading">
-          <p class="eyebrow">PLUSIEURS FAÇONS D’AVANCER</p>
-          <h2>Les opportunités ne se limitent<br>pas aux appels d’offres.</h2>
-          <p>Chaque évolution de votre marché peut ouvrir une nouvelle possibilité pour votre entreprise.</p>
-        </div>
-        <div class="use-case-list">
-          <article class="use-case-row">
-            <span class="use-case-type tender-type">OPPORTUNITÉS</span>
-            <div><h3>De nouveaux projets</h3><p>Les appels d’offres et les projets à venir peuvent ouvrir des perspectives pour votre savoir-faire.</p></div>
-            <span class="use-case-state">À EXPLORER</span>
-          </article>
-          <article class="use-case-row">
-            <span class="use-case-type people-type">ÉVOLUTIONS</span>
-            <div><h3>Un marché qui bouge</h3><p>Les changements dans votre secteur peuvent révéler des besoins ou de nouvelles directions à considérer.</p></div>
-            <span class="use-case-state">À CONSIDÉRER</span>
-          </article>
-          <article class="use-case-row">
-            <span class="use-case-type market-type">COLLABORATIONS</span>
-            <div><h3>Des projets à plusieurs</h3><p>Les bonnes rencontres et les complémentarités peuvent donner une autre dimension à vos projets.</p></div>
-            <span class="use-case-state">À ENVISAGER</span>
-          </article>
-        </div>
-      </section>
-
-      <section class="ao-section section-wrap" id="appels-doffres">
-        <div class="ao-heading">
-          <p class="eyebrow">VOUS AVEZ UN APPEL D’OFFRES EN VUE ?</p>
-          <h2>Quelle place pour vous<br>dans l’opportunité ?</h2>
-          <p>Que vous souhaitiez répondre à un appel d’offres ou en recevoir de nouveaux, choisissez le parcours qui correspond à votre besoin.</p>
-        </div>
-        <div class="ao-paths">
-          <article class="ao-path">
-            <span class="ao-path-number">01</span>
-            <span class="ao-path-icon response-icon" aria-hidden="true">▤</span>
-            <p class="ao-path-kicker">VOUS SOUHAITEZ CANDIDATER</p>
-            <h3>Préparer votre réponse à un AO</h3>
-            <p>Présentez l’appel d’offres et expliquez le type d’accompagnement que vous recherchez.</p>
-            <a class="text-link" href="#contact" data-intent-link="respond">Présenter mon AO et mon besoin <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="ao-path">
-            <span class="ao-path-number">02</span>
-            <span class="ao-path-icon receive-icon" aria-hidden="true">⌁</span>
-            <p class="ao-path-kicker">VOUS RECHERCHEZ DES OPPORTUNITÉS</p>
-            <h3>Recevoir des AO pertinents</h3>
-            <p>Indiquez votre activité et votre zone pour préciser les opportunités qui vous intéressent.</p>
-            <a class="text-link" href="#contact" data-intent-link="receive">Décrire les AO recherchés <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </section>
-
-      <section class="audiences section-wrap" id="pour-vous">
-        <div class="audiences-heading">
-          <p class="eyebrow">BIENVENUE CHEZ MAJESTIOS</p>
-          <h2>Vous découvrez MajestiOS,<br>vous avez un projet ou êtes client ?</h2>
-          <p>Choisissez la prochaine étape qui vous convient.</p>
-        </div>
-        <div class="audience-grid">
-          <article class="audience-card visitor-card">
-            <div class="audience-icon" aria-hidden="true">◉</div>
-            <p class="audience-label">VOUS DÉCOUVREZ</p>
-            <h3>Découvrir une autre approche</h3>
-            <p>Voyez comment les évolutions du marché peuvent ouvrir des perspectives nouvelles.</p>
-            <a href="#prospection-inverse" class="text-link">Découvrir MajestiOS <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="audience-card prospect-card">
-            <div class="audience-icon" aria-hidden="true">↗</div>
-            <p class="audience-label">VOUS AVEZ UN PROJET</p>
-            <h3>Parler de vos objectifs</h3>
-            <p>Expliquez votre besoin et les opportunités que vous souhaitez faire avancer.</p>
-            <a class="text-link" href="#contact" data-intent-link="contact">Présenter mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="audience-card client-card" id="espace-client">
-            <div class="audience-icon" aria-hidden="true">▣</div>
-            <p class="audience-label">VOUS ÊTES CLIENT</p>
-            <h3>Vous êtes déjà client ?</h3>
-            <p>Retrouvez votre interlocuteur MajestiOS ou faites-nous part de votre besoin.</p>
-            <a class="text-link" href="#contact" data-intent-link="contact">Nous contacter <span aria-hidden="true">→</span></a>
-          </article>
         </div>
       </section>
 
@@ -439,18 +136,6 @@
             <button class="button button-primary form-submit" id="preview-request" type="button">Prévisualiser ma demande <span aria-hidden="true">→</span></button>
             <div class="form-feedback" id="form-feedback" role="status" aria-live="polite" hidden></div>
           </form>
-        </div>
-      </section>
-
-      <section class="closing section-wrap">
-        <div class="closing-inner">
-          <div class="closing-spark" aria-hidden="true">✳</div>
-          <div>
-            <p class="eyebrow">CANDIDATURE OU VEILLE COMMERCIALE</p>
-            <h2>Votre besoin commence ici.</h2>
-            <p>Parlez-nous de votre projet ou de votre besoin.</p>
-          </div>
-          <a class="button button-light" href="#contact">Présenter mon besoin <span aria-hidden="true">↗</span></a>
         </div>
       </section>
     </main>

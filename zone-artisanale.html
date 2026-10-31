@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2a">
+  <meta name="description" content="Prototype interactif de la zone artisanale numérique MajestiOS.">
+  <title>Zone artisanale interactive — MajestiOS</title>
+  <link rel="stylesheet" href="zone-artisanale.css">
+  <script>
+(function(){
+  var fallback = "<div class=\"fallback-campus\"><div class=\"fallback-campus-heading\"><span>MAJESTIOS · ESPACE IMMERSIF</span><h2>Bienvenue dans notre zone artisanale</h2><p>La vue 3D est momentanément indisponible. Explorez les douze bâtiments depuis cette vue de secours.</p></div><div class=\"fallback-buildings\"><a style=\"--building-color:#397ab5\" href=\"marches-publics.html\"><i>01</i><b>Marchés publics</b><small>Détecter les opportunités</small></a><a style=\"--building-color:#39865a\" href=\"marches-prives.html\"><i>02</i><b>Marchés privés</b><small>Donneurs d'ordre</small></a><a style=\"--building-color:#c8892e\" href=\"developpement-commercial.html\"><i>03</i><b>Développement commercial</b><small>Stratégie et croissance</small></a><a style=\"--building-color:#218d99\" href=\"prospection-inversee.html\"><i>04</i><b>Prospection inversée</b><small>Identifier les besoins</small></a><a style=\"--building-color:#7b58a8\" href=\"intelligence-economique.html\"><i>05</i><b>Intelligence économique</b><small>Collecter et décrypter</small></a><a style=\"--building-color:#c96f68\" href=\"reseaux-synergies.html\"><i>06</i><b>Réseaux et synergies</b><small>Coopérer et développer</small></a><a style=\"--building-color:#438bc7\" href=\"veille-marches.html\"><i>07</i><b>Veille des marchés</b><small>Surveillance et alertes</small></a><a style=\"--building-color:#6488ad\" href=\"accompagnement-appels-offres.html\"><i>08</i><b>Accompagnement AO</b><small>Préparer les réponses</small></a><a style=\"--building-color:#b56b40\" href=\"sous-traitance.html\"><i>09</i><b>Sous-traitance</b><small>Débordement de marchés</small></a><a style=\"--building-color:#b69a50\" href=\"salons-seminaires.html\"><i>10</i><b>Salons et séminaires</b><small>Rencontres professionnelles</small></a><a style=\"--building-color:#5c8d81\" href=\"bodacc-veille-entreprises.html\"><i>11</i><b>Veille BODACC</b><small>Signaux d'entreprise</small></a><a style=\"--building-color:#7b899d\" href=\"suivi-commercial.html\"><i>12</i><b>Suivi commercial</b><small>Capitalisation et progrès</small></a></div><div class=\"fallback-campus-footer\">DÉTECTER → QUALIFIER → IDENTIFIER → CONTACTER → TRANSFORMER → CAPITALISER</div></div>";
+  function showFallback(){
+    var loader = document.getElementById("scene-loading");
+    if (!loader || loader.classList.contains("hidden") || loader.dataset.fallbackShown === "true") return;
+    loader.dataset.fallbackShown = "true";
+    loader.classList.add("scene-error");
+    loader.innerHTML = fallback;
+  }
+  window.addEventListener("error", function(event){
+    var target = event.target;
+    if (target && target !== window) {
+      var source = (target.src || target.href || "").toLowerCase();
+      var isSceneScript = target.tagName === "SCRIPT" && (source.indexOf("zone-artisanale.js") !== -1 || source.indexOf("three.module.js") !== -1 || source.indexOf("orbitcontrols.js") !== -1);
+      if (!isSceneScript) return;
+    }
+    showFallback();
+  }, true);
+  window.addEventListener("unhandledrejection", showFallback);
+  window.setTimeout(showFallback, 6500);
+})();
+</script>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}</script>
+  <script type="module" src="zone-artisanale.js"></script>
+</head>
+<body>
+  <header class="za-header">
+    <a class="za-brand" href="index.html" aria-label="Retour à l'accueil MajestiOS"><span class="za-mark">M</span><span>majesti<strong>OS</strong></span></a>
+    <div class="za-heading"><p class="eyebrow">ESPACE INTERACTIF · PROTOTYPE</p><h1>La zone artisanale MajestiOS</h1><p>Explorez les douze activités. Sélectionnez un bâtiment pour découvrir sa rubrique.</p></div>
+    <nav class="za-business-links" aria-label="Accès aux fonctions commerciales"><a class="za-search-link" href="index.html#flux-ao">⌕ Rechercher des opportunités</a><a class="za-contact-link" href="index.html#contact">Présenter mon besoin ↗</a><a class="back-link" href="index.html">← Accueil MajestiOS</a></nav>
+  </header>
+  <main class="za-main">
+    <section class="scene-shell" aria-label="Zone artisanale 3D interactive">
+      <div id="scene" class="scene" role="application" aria-label="Scène 3D : faites glisser pour tourner, utilisez la molette pour zoomer et sélectionnez un bâtiment.">
+        <div class="scene-loading" id="scene-loading">Préparation de la zone artisanale…</div>
+        <div class="hover-card" id="hover-card" aria-hidden="true"><span class="hover-card-kicker">ESPACE MAJESTIOS</span><strong data-hover-name></strong><small data-hover-detail></small><span class="hover-card-hint">Touchez pour explorer ↗</span></div>
+      </div>
+      <div class="scene-topline"><span class="live-dot"></span> VUE PANORAMIQUE</div>
+      <div class="scene-controls" aria-label="Commandes de la vue">
+        <button id="view-home" type="button" title="Revenir à la vue générale">Vue générale</button>
+        <button id="zoom-in" type="button" aria-label="Zoom avant">+</button>
+        <button id="zoom-out" type="button" aria-label="Zoom arrière">−</button>
+      </div>
+      <p class="scene-hint">Glissez pour tourner · Molette ou pincement pour zoomer · Cliquez/touchez un bâtiment · Clavier : ZQSD ou flèches pour circuler</p><div class="walk-pad" aria-label="Commandes de déplacement tactile"><button type="button" data-walk="w" aria-label="Avancer">▲</button><div><button type="button" data-walk="a" aria-label="Aller à gauche">◀</button><button type="button" data-walk="s" aria-label="Reculer">▼</button><button type="button" data-walk="d" aria-label="Aller à droite">▶</button></div></div>
+    </section>
+    <aside class="building-panel" id="building-panel" aria-live="polite">
+      <p class="panel-kicker">VOTRE PROCHAINE ÉTAPE</p>
+      <h2 id="panel-title">Choisissez un bâtiment</h2>
+      <p id="panel-description">Les douze bâtiments représentent les activités complémentaires de MajestiOS. Sélectionnez-en un dans la scène ou dans la liste ci-dessous.</p>
+      <div class="floor-list" id="floor-list">
+        <div><span>RDC</span><p>Activité principale</p></div>
+        <div><span>1er</span><p>Services et actions</p></div>
+        <div><span>2e</span><p>Outils et intelligence</p></div>
+      </div>
+      <a class="button-primary is-disabled" id="open-building" href="#" aria-disabled="true">Découvrir cette rubrique</a>
+      <p class="panel-note">Prototype de navigation : les pages existantes restent séparées. Les bandeaux sont des exemples de présentation, pas une promesse de fonctionnalité automatisée.</p>
+    </aside>
+    <section class="za-business-shortcuts" aria-label="Accès rapides aux fonctions commerciales"><a href="index.html#flux-ao"><span aria-hidden="true">⌕</span><strong>Rechercher des opportunités</strong><small>Accéder au flux, aux mots-clés et aux filtres disponibles.</small></a><a href="index.html#contact"><span aria-hidden="true">↗</span><strong>Présenter mon besoin</strong><small>Retrouver les formulaires de demande d’accompagnement et de veille.</small></a><a href="espace-membre.html"><span aria-hidden="true">◎</span><strong>Espace membre</strong><small>Accéder au parcours personnel de MajestiOS.</small></a></section>
+    <section class="directory" aria-labelledby="directory-title">
+      <div class="directory-heading"><p class="eyebrow">LES 12 ACTIVITÉS</p><h2 id="directory-title">Choisir une rubrique</h2><p>Vous pouvez aussi accéder directement à une rubrique sans manipuler la scène 3D.</p></div>
+      <div id="building-directory" class="building-directory"></div>
+    </section>
+  </main>
+  <footer class="za-footer"><span>MajestiOS · Intelligence commerciale proactive</span><span>Prototype isolé — non intégré à l'accueil de production</span></footer>
+</body>
+</html>

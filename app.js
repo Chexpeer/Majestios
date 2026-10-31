@@ -304,7 +304,12 @@ document.querySelector("#feed-search").addEventListener("input", renderTenderFee
 document.querySelector("#feed-sector").addEventListener("change", renderTenderFeed);
 document.querySelector("#feed-region").addEventListener("change", renderTenderFeed);
 renderTenderFeed();
-renderDemoDetail();
+
+// Les anciennes cartes de démonstration ont été retirées de l’accueil compact :
+// n’initialiser leur rendu que si leurs conteneurs existent encore sur une page.
+if (document.querySelector('#demo-detail') && document.querySelector('#demo-status')) {
+  renderDemoDetail();
+}
 
 leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
   radio.addEventListener("change", () => setIntent(radio.value));
@@ -400,9 +405,7 @@ if (interactiveSvg) {
       title.textContent = selectedSurface === surface
         ? `${name} sélectionnée`
         : `Découvrir — ${name.toLowerCase()}`;
-      description.textContent = selectedSurface === surface
-        ? "Rubrique sélectionnée. Cliquez à nouveau ou utilisez Entrée pour ouvrir la page dédiée."
-        : "Cliquez sur ce losange pour accéder à sa page dédiée."
+      description.textContent = "Cliquez sur ce losange ou utilisez Entrée pour ouvrir directement sa page dédiée."
     };
 
     const selectSurface = (surface) => {
@@ -481,7 +484,7 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
   separator.textContent = " / ";
   const currentPage = document.createElement("span");
   currentPage.setAttribute("aria-current", "page");
-  currentPage.textContent = interiorTitle.textContent.replace(/\\s+/g, " ").trim();
+  currentPage.textContent = interiorTitle.textContent.replace(/\s+/g, " ").trim();
   breadcrumb.append(homeLink, separator, currentPage);
   interiorPage.prepend(breadcrumb);
 }
