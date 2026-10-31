@@ -69,8 +69,10 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath)) {
     : [];
   const surfaceSet = new Set(surfaces);
   const destinationKeys = new Set(destinations.map((match) => match[1]));
+  const destinationPages = new Set(destinations.map((match) => match[2]));
   if (surfaces.length !== 12 || surfaceSet.size !== 12) errors.push(`schema-majestios.svg : ${surfaces.length} losanges détectés, 12 uniques attendus`);
-  if (destinations.length !== 12 || destinationKeys.size !== 12) errors.push(`app.js : ${destinations.length} destinations du schéma détectées, 12 uniques attendues`);
+  if (destinations.length !== 12 || destinationKeys.size !== 12) errors.push(`app.js : ${destinations.length} destinations du schéma détectées, 12 clés uniques attendues`);
+  if (destinationPages.size !== 12) errors.push(`app.js : ${destinationPages.size} pages de destination distinctes détectées, 12 attendues`);
   for (const surface of surfaceSet) {
     if (!destinationKeys.has(surface)) errors.push(`Schéma interactif : aucune destination déclarée pour ${surface}`);
   }
