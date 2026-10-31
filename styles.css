@@ -1127,3 +1127,16 @@ h1 span { color: var(--purple); }
   .homepage .feed-wrap { padding: 14px; }
   .homepage .lead-section { padding-inline: 14px; }
 }
+
+
+/* Sur mobile, conserver le caractère panoramique et la lisibilité : le visiteur peut faire défiler le plan au doigt. */
+.homepage .interactive-map-frame { overflow-x: auto; overscroll-behavior-x: contain; }
+.homepage .interactive-map-frame object { min-width: 900px; height: 630px; }
+@media (min-width: 901px) {
+  .homepage .interactive-map-frame { overflow: hidden; }
+  .homepage .interactive-map-frame object { min-width: 0; height: clamp(440px, 64vw, 790px); }
+}
+@media (max-width: 900px) {
+  .homepage .interactive-map-layout { grid-template-columns: minmax(0,1fr); }
+  .homepage .interactive-map-frame object { min-width: 900px; height: 630px; }
+}
