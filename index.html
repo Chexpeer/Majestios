@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#070a0f">
     <meta name="description" content="MajestiOS aide les entreprises à repérer de nouvelles opportunités commerciales à partir des évolutions du marché.">
     <title>MajestiOS — Prospection inversée et intelligence commerciale</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="catalogue-majestios.js" defer></script>
+    <link rel="stylesheet" href="styles.css">\n    <link rel="stylesheet" href="zone-artisanale.css">\n    <link rel="stylesheet" href="zone-home.css">
+    <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}</script>\n    <script src="catalogue-majestios.js" defer></script>\n    <script type="module" src="zone-artisanale.js"></script>
     <script src="app.js" defer></script>
   </head>
   <body class="homepage">
@@ -19,97 +19,49 @@
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu">
         <span></span><span></span><span></span>
       </button>
-      <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="index.html#flux-ao">Opportunités</a><a href="index.html#accueil">Panorama</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace membre</a><a href="faq.html">FAQ</a></nav>
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="index.html#flux-ao">Opportunités</a><a href="index.html#accueil">Zone industrielle</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace membre</a><a href="faq.html">FAQ</a></nav>
     </header>
 
     <main class="majestios-immersive-home">
 
-      <section class="interactive-map-section" id="accueil" aria-labelledby="interactive-map-title">
-        <div class="interactive-map-heading">
-          <p class="eyebrow">MAJESTIOS · INTELLIGENCE COMMERCIALE PROACTIVE</p><h1 id="interactive-map-title">Explorez MajestiOS <span>directement par son panorama interactif.</span></h1>
+      <section class="industrial-zone-home" id="accueil" aria-labelledby="industrial-zone-title">
+        <div class="industrial-zone-intro">
+          <p class="eyebrow">MAJESTIOS · UNIVERS INDUSTRIEL VIRTUEL</p>
+          <h1 id="industrial-zone-title">Entrez dans la zone industrielle <span>interactive MajestiOS</span></h1>
+          <p>Explorez les bâtiments, choisissez une activité et accédez directement à son espace métier.</p>
         </div>
-        <div class="interactive-map-layout">
-          <div class="interactive-map-frame" aria-label="Panorama MajestiOS interactif"><svg id="majestios-panorama" class="majestios-panorama" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1120" role="img" aria-labelledby="title desc">
-<title id="title">MajestiOS — schéma panoramique interactif</title>
-<desc id="desc">Univers panoramique noir et or de MajestiOS. Douze surfaces interactives ouvrent les rubriques dédiées, organisées autour d’un emblème central couronné.</desc>
-<defs>
-  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b0"/><stop offset=".45" stop-color="#cda85d"/><stop offset="1" stop-color="#80602b"/></linearGradient>
-  <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#18202b"/><stop offset="1" stop-color="#090d13"/></linearGradient>
-  <radialGradient id="halo"><stop offset="0" stop-color="#b48b42" stop-opacity=".24"/><stop offset="1" stop-color="#070a0f" stop-opacity="0"/></radialGradient>
-  <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <style>
-    .bg{fill:#070a0f}.grid{stroke:#a88b4f;stroke-opacity:.09;stroke-width:1}.link{fill:none;stroke:#b99a59;stroke-opacity:.28;stroke-width:2;stroke-dasharray:5 9}
-    .tile{cursor:pointer;outline:none;transition:filter .2s ease,opacity .2s ease}.tile .face{fill:url(#panel);stroke:#8e7544;stroke-opacity:.78;stroke-width:2}.tile .inner{fill:none;stroke:#f0d38b;stroke-opacity:.13;stroke-width:1}
-    .tile:hover,.tile:focus,.tile.selected{filter:url(#glow)}.tile:hover .face,.tile:focus .face,.tile.selected .face{stroke:#f5d98e;stroke-opacity:1;stroke-width:3}.tile:focus{outline:none}
-    .tile .number{font:600 15px system-ui,sans-serif;fill:#c6a867;letter-spacing:2px}.tile .label{font:600 22px system-ui,sans-serif;fill:#f5f0e5;text-anchor:middle}.tile .small{font:13px system-ui,sans-serif;fill:#a8a8a8;text-anchor:middle;letter-spacing:1px}
-    .crown{fill:none;stroke:url(#gold);stroke-width:5;stroke-linejoin:round}.brand{font:700 78px Georgia,serif;fill:url(#gold);text-anchor:middle}.caption{font:600 16px system-ui,sans-serif;fill:#d8c18a;text-anchor:middle;letter-spacing:5px}.sub{font:14px system-ui,sans-serif;fill:#898b91;text-anchor:middle;letter-spacing:2px}
-    .tile .hit{fill:transparent;stroke:transparent;pointer-events:all}
-  </style>
-</defs>
-<rect class="bg" width="1600" height="1120"/>
-<rect width="1600" height="1120" fill="url(#halo)"/>
-<g class="grid" aria-hidden="true">
- <path d="M0 140H1600M0 280H1600M0 420H1600M0 560H1600M0 700H1600M0 840H1600M0 980H1600"/>
- <path d="M160 0V1120M320 0V1120M480 0V1120M640 0V1120M800 0V1120M960 0V1120M1120 0V1120M1280 0V1120M1440 0V1120"/>
-</g>
-<path class="link" d="M800 205V265M800 265L205 320M800 265L595 320M800 265L1005 320M800 265L1395 320M205 485V555M595 485V555M1005 485V555M1395 485V555M205 720V790M595 720V790M1005 720V790M1395 720V790"/>
-<g aria-hidden="true">
- <path class="crown" d="M740 154L724 112L765 136L800 91L835 136L876 112L860 154Z"/>
- <path class="crown" d="M742 164H858L849 181H751Z"/>
- <text class="brand" x="800" y="242">M</text>
- <text class="caption" x="800" y="277">MAJESTIOS</text>
- <text class="sub" x="800" y="300">INTELLIGENCE COMMERCIALE PROACTIVE</text>
-</g>
-<g data-surface="central-bleu" class="tile" tabindex="0" role="button" aria-label="Explorer Marchés publics">
- <polygon class="face" points="45,340 75,315 335,315 365,340 365,465 335,490 75,490 45,465"/><polygon class="inner" points="56,346 81,327 329,327 354,346 354,459 329,478 81,478 56,459"/>
- <text class="number" x="75" y="359">01 / CENTRAL</text><text class="label" x="205" y="402">Marchés publics</text><text class="small" x="205" y="432">DÉTECTER LES APPELS D’OFFRES</text><polygon class="hit" points="45,340 75,315 335,315 365,340 365,465 335,490 75,490 45,465"/>
-</g>
-<g data-surface="central-bleu-clair" class="tile" tabindex="0" role="button" aria-label="Explorer Veille des marchés">
- <polygon class="face" points="435,340 465,315 725,315 755,340 755,465 725,490 465,490 435,465"/><polygon class="inner" points="446,346 471,327 719,327 744,346 744,459 719,478 471,478 446,459"/>
- <text class="number" x="465" y="359">02 / CENTRAL</text><text class="label" x="595" y="402">Veille des marchés</text><text class="small" x="595" y="432">SURVEILLER LES SIGNAUX</text><polygon class="hit" points="435,340 465,315 725,315 755,340 755,465 725,490 465,490 435,465"/>
-</g>
-<g data-surface="central-vert" class="tile" tabindex="0" role="button" aria-label="Explorer Marchés privés">
- <polygon class="face" points="845,340 875,315 1135,315 1165,340 1165,465 1135,490 875,490 845,465"/><polygon class="inner" points="856,346 881,327 1129,327 1154,346 1154,459 1129,478 881,478 856,459"/>
- <text class="number" x="875" y="359">03 / CENTRAL</text><text class="label" x="1005" y="402">Marchés privés</text><text class="small" x="1005" y="432">REPÉRER LES OPPORTUNITÉS</text><polygon class="hit" points="845,340 875,315 1135,315 1165,340 1165,465 1135,490 875,490 845,465"/>
-</g>
-<g data-surface="central-turquoise" class="tile" tabindex="0" role="button" aria-label="Explorer Prospection inversée">
- <polygon class="face" points="1235,340 1265,315 1525,315 1555,340 1555,465 1525,490 1265,490 1235,465"/><polygon class="inner" points="1246,346 1271,327 1519,327 1544,346 1544,459 1519,478 1271,478 1246,459"/>
- <text class="number" x="1265" y="359">04 / CENTRAL</text><text class="label" x="1395" y="402">Prospection inversée</text><text class="small" x="1395" y="432">QUALIFIER ET CONTACTER</text><polygon class="hit" points="1235,340 1265,315 1525,315 1555,340 1555,465 1525,490 1265,490 1235,465"/>
-</g>
-<g data-surface="central-orange" class="tile" tabindex="0" role="button" aria-label="Explorer Développement commercial">
- <polygon class="face" points="45,605 75,580 335,580 365,605 365,730 335,755 75,755 45,730"/><polygon class="inner" points="56,611 81,592 329,592 354,611 354,724 329,743 81,743 56,724"/>
- <text class="number" x="75" y="624">05 / CENTRAL</text><text class="label" x="205" y="667">Développement</text><text class="label" x="205" y="695">commercial</text><text class="small" x="205" y="721">TRANSFORMER</text><polygon class="hit" points="45,605 75,580 335,580 365,605 365,730 335,755 75,755 45,730"/>
-</g>
-<g data-surface="central-corail" class="tile" tabindex="0" role="button" aria-label="Explorer Intelligence économique">
- <polygon class="face" points="435,605 465,580 725,580 755,605 755,730 725,755 465,755 435,730"/><polygon class="inner" points="446,611 471,592 719,592 744,611 744,724 719,743 471,743 446,724"/>
- <text class="number" x="465" y="624">06 / CENTRAL</text><text class="label" x="595" y="667">Intelligence</text><text class="label" x="595" y="695">économique</text><text class="small" x="595" y="721">COMPRENDRE LE MARCHÉ</text><polygon class="hit" points="435,605 465,580 725,580 755,605 755,730 725,755 465,755 435,730"/>
-</g>
-<g data-surface="peripherique-turquoise" class="tile" tabindex="0" role="button" aria-label="Explorer Réseaux et synergies">
- <polygon class="face" points="845,605 875,580 1135,580 1165,605 1165,730 1135,755 875,755 845,730"/><polygon class="inner" points="856,611 881,592 1129,592 1154,611 1154,724 1129,743 881,743 856,724"/>
- <text class="number" x="875" y="624">07 / ÉCOSYSTÈME</text><text class="label" x="1005" y="667">Réseaux &amp; synergies</text><text class="small" x="1005" y="697">CRÉER DES ALLIANCES</text><polygon class="hit" points="845,605 875,580 1135,580 1165,605 1165,730 1135,755 875,755 845,730"/>
-</g>
-<g data-surface="peripherique-vert" class="tile" tabindex="0" role="button" aria-label="Explorer Sous-traitance et débordement de marchés">
- <polygon class="face" points="1235,605 1265,580 1525,580 1555,605 1555,730 1525,755 1265,755 1235,730"/><polygon class="inner" points="1246,611 1271,592 1519,592 1544,611 1544,724 1519,743 1271,743 1246,724"/>
- <text class="number" x="1265" y="624">08 / ÉCOSYSTÈME</text><text class="label" x="1395" y="667">Sous-traitance</text><text class="small" x="1395" y="697">CAPTER LES DÉBORDEMENTS</text><polygon class="hit" points="1235,605 1265,580 1525,580 1555,605 1555,730 1525,755 1265,755 1235,730"/>
-</g>
-<g data-surface="peripherique-corail" class="tile" tabindex="0" role="button" aria-label="Explorer Accompagnement aux appels d’offres">
- <polygon class="face" points="45,850 75,825 335,825 365,850 365,975 335,1000 75,1000 45,975"/><polygon class="inner" points="56,856 81,837 329,837 354,856 354,969 329,988 81,988 56,969"/>
- <text class="number" x="75" y="869">09 / ACCOMPAGNEMENT</text><text class="label" x="205" y="912">Accompagnement AO</text><text class="small" x="205" y="942">STRUCTURER LES DOSSIERS</text><polygon class="hit" points="45,850 75,825 335,825 365,850 365,975 335,1000 75,1000 45,975"/>
-</g>
-<g data-surface="peripherique-orange" class="tile" tabindex="0" role="button" aria-label="Explorer Veille des entreprises — BODACC">
- <polygon class="face" points="435,850 465,825 725,825 755,850 755,975 725,1000 465,1000 435,975"/><polygon class="inner" points="446,856 471,837 719,837 744,856 744,969 719,988 471,988 446,969"/>
- <text class="number" x="465" y="869">10 / VEILLE</text><text class="label" x="595" y="912">BODACC</text><text class="small" x="595" y="942">DÉTECTER LES MOUVEMENTS</text><polygon class="hit" points="435,850 465,825 725,825 755,850 755,975 725,1000 465,1000 435,975"/>
-</g>
-<g data-surface="peripherique-violet" class="tile" tabindex="0" role="button" aria-label="Explorer Salons et séminaires">
- <polygon class="face" points="845,850 875,825 1135,825 1165,850 1165,975 1135,1000 875,1000 845,975"/><polygon class="inner" points="856,856 881,837 1129,837 1154,856 1154,969 1129,988 881,988 856,969"/>
- <text class="number" x="875" y="869">11 / ÉVÉNEMENTS</text><text class="label" x="1005" y="912">Salons &amp; séminaires</text><text class="small" x="1005" y="942">DÉVELOPPER SA VISIBILITÉ</text><polygon class="hit" points="845,850 875,825 1135,825 1165,850 1165,975 1135,1000 875,1000 845,975"/>
-</g>
-<g data-surface="peripherique-violet-clair" class="tile" tabindex="0" role="button" aria-label="Explorer Suivi commercial et capitalisation">
- <polygon class="face" points="1235,850 1265,825 1525,825 1555,850 1555,975 1525,1000 1265,1000 1235,975"/><polygon class="inner" points="1246,856 1271,837 1519,837 1544,856 1544,969 1519,988 1271,988 1246,969"/>
- <text class="number" x="1265" y="869">12 / CAPITALISATION</text><text class="label" x="1395" y="912">Suivi commercial</text><text class="small" x="1395" y="942">APPRENDRE ET PROGRESSER</text><polygon class="hit" points="1235,850 1265,825 1525,825 1555,850 1555,975 1525,1000 1265,1000 1235,975"/>
-</g>
-<text class="sub" x="800" y="1065">DÉTECTER  ·  QUALIFIER  ·  IDENTIFIER  ·  CONTACTER  ·  TRANSFORMER  ·  CAPITALISER</text>
-</svg></div>
+        <div class="za-main homepage-industrial-layout">
+          <section class="scene-shell" aria-label="Zone industrielle virtuelle 3D interactive">
+            <div id="scene" class="scene" role="application" aria-label="Zone 3D : faites glisser pour tourner, utilisez la molette pour zoomer et sélectionnez un bâtiment.">
+              <div class="scene-loading" id="scene-loading">Préparation de la zone industrielle virtuelle…</div>
+              <div class="hover-card" id="hover-card" aria-hidden="true"><span class="hover-card-kicker">ESPACE MAJESTIOS</span><strong data-hover-name></strong><small data-hover-detail></small><span class="hover-card-hint">Touchez pour explorer ↗</span></div>
+            </div>
+            <div class="scene-topline"><span class="live-dot"></span> ZONE INDUSTRIELLE · VUE 3D</div>
+            <div class="scene-controls" aria-label="Commandes de la vue">
+              <button id="view-home" type="button" title="Revenir à la vue générale">Vue générale</button>
+              <button id="zoom-in" type="button" aria-label="Zoom avant">+</button>
+              <button id="zoom-out" type="button" aria-label="Zoom arrière">−</button>
+            </div>
+            <p class="scene-hint">Glissez pour tourner · Pincez pour zoomer · Touchez un bâtiment pour entrer</p>
+            <div class="walk-pad" aria-label="Commandes de déplacement tactile"><button type="button" data-walk="w" aria-label="Avancer">▲</button><div><button type="button" data-walk="a" aria-label="Aller à gauche">◀</button><button type="button" data-walk="s" aria-label="Reculer">▼</button><button type="button" data-walk="d" aria-label="Aller à droite">▶</button></div></div>
+          </section>
+          <aside class="building-panel" id="building-panel" aria-live="polite">
+            <p class="panel-kicker">VOTRE PROCHAINE ÉTAPE</p>
+            <h2 id="panel-title">Choisissez un bâtiment</h2>
+            <p id="panel-description">Les bâtiments de la zone représentent les activités complémentaires de MajestiOS. Sélectionnez-en un dans la scène ou dans la liste ci-dessous.</p>
+            <div class="floor-list" id="floor-list"><div><span>RDC</span><p>Activité principale</p></div><div><span>1er</span><p>Services et actions</p></div><div><span>2e</span><p>Outils et intelligence</p></div></div>
+            <a class="button-primary is-disabled" id="open-building" href="#" aria-disabled="true">Découvrir cette rubrique</a>
+            <p class="panel-note">Chaque bâtiment ouvre une rubrique dédiée. Les opportunités et formulaires restent accessibles plus bas sur cette page.</p>
+          </aside>
+          <section class="za-business-shortcuts" aria-label="Accès rapides aux fonctions commerciales">
+            <a href="#flux-ao"><span aria-hidden="true">⌕</span><strong>Rechercher des opportunités</strong><small>Accéder au flux, aux mots-clés et aux filtres.</small></a>
+            <a href="#contact"><span aria-hidden="true">↗</span><strong>Présenter mon besoin</strong><small>Décrire votre projet ou demander un accompagnement.</small></a>
+            <a href="espace-membre.html"><span aria-hidden="true">◎</span><strong>Espace membre</strong><small>Accéder au parcours personnel MajestiOS.</small></a>
+          </section>
+          <section class="directory" aria-labelledby="directory-title">
+            <div class="directory-heading"><p class="eyebrow">LES 12 ESPACES</p><h2 id="directory-title">Choisir un bâtiment</h2><p>Vous pouvez aussi ouvrir directement un espace métier.</p></div>
+            <div id="building-directory" class="building-directory"></div>
+          </section>
         </div>
       </section>
 
