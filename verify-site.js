@@ -638,6 +638,37 @@ if (!sceneCatalog.includes("window.MAJESTIOS_CATALOG") && !sceneCatalog.includes
   errors.push("Zone industrielle : catalogue partagé absent ou non exposé au module 3D");
 }
 
+// Cohérence des douze bâtiments entre la scène, le catalogue partagé et les fichiers livrés.
+const sceneRouteKeys = [...homeSceneJs.matchAll(/rubricRoute\(["']([^"']+)["']\)/g)].map((match) => match[1]);
+const catalogRouteKeys = [...sceneCatalog.matchAll(/\bkey:\s*["']([^"']+)["']/g)].map((match) => match[1]);
+const uniqueSceneKeys = [...new Set(sceneRouteKeys)];
+const uniqueCatalogKeys = [...new Set(catalogRouteKeys)];
+if (uniqueSceneKeys.length !== 12) {
+  errors.push(`Zone industrielle : ${uniqueSceneKeys.length} routes de bâtiments uniques détectées, 12 attendues`);
+}
+for (const key of uniqueSceneKeys) {
+  if (!uniqueCatalogKeys.includes(key)) errors.push(`Zone industrielle : route « ${key} » absente du catalogue partagé`);
+}
+for (const key of uniqueCatalogKeys) {
+  if (!uniqueSceneKeys.includes(key)) errors.push(`Catalogue partagé : route « ${key} » sans bâtiment correspondant dans la scène`);
+}
+const buildScriptPath = path.join(root, "build.js");
+if (fs.existsSync(buildScriptPath)) {
+  const buildScript = fs.readFileSync(buildScriptPath, "utf8");
+  for (const key of uniqueSceneKeys) {
+    const catalogEntry = sceneCatalog.match(new RegExp(`\\{[^}]*key:\\s*["']${key}["'][^}]*href:\\s*["']([^"']+\\.html)["'][^}]*\\}`));
+    if (!catalogEntry) {
+      errors.push(`Catalogue partagé : destination HTML introuvable pour la route « ${key} »`);
+      continue;
+    }
+    const destination = catalogEntry[1];
+    if (!fs.existsSync(path.join(root, destination))) errors.push(`Zone industrielle : page cible absente : ${destination}`);
+    if (!buildScript.includes(`"${destination}"`) && !buildScript.includes(`'${destination}'`)) {
+      errors.push(`Build : page cible de la zone industrielle non incluse dans les fichiers livrés : ${destination}`);
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
