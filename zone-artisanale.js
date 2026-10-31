@@ -53,8 +53,10 @@ controls.rotateSpeed=.7;
 controls.zoomSpeed=.8;
 // Une manipulation manuelle doit reprendre la main sur le déplacement automatique.
 controls.addEventListener("start",()=>{cameraDestination=null;targetDestination=null;});
+// Sur mobile, un doigt fait pivoter la vue ; deux doigts zooment et déplacent la caméra.
 controls.touches.ONE=THREE.TOUCH.ROTATE;
 controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;
+controls.touches.THREE=THREE.TOUCH.DOLLY_PAN;
 const hemi=new THREE.HemisphereLight(0xeaf5ff,0x66715d,2.1);scene.add(hemi);
 const sun=new THREE.DirectionalLight(0xfff0d8,3.1);sun.position.set(-12,22,12);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-35;sun.shadow.camera.right=35;sun.shadow.camera.top=35;sun.shadow.camera.bottom=-35;scene.add(sun);
 const fill=new THREE.DirectionalLight(0x91baff,1.2);fill.position.set(14,10,-18);scene.add(fill);
@@ -181,6 +183,8 @@ renderer.domElement.addEventListener("pointerleave",()=>{hovered=null;updateHove
 let suppressSyntheticClickUntil=0;
 renderer.domElement.addEventListener("click",e=>{
  if(performance.now()<suppressSyntheticClickUntil){e.preventDefault();return;}
+ // Sur un écran tactile, la sélection est gérée par touchend pour distinguer toucher et glissement.
+ if(e.pointerType==="touch")return;
  const data=getBuildingAt(e);
  if(data){selectBuilding(data);updateHoverCard(data,e);}
 });
