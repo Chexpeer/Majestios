@@ -262,8 +262,9 @@ advancedSearchForm.addEventListener("submit", (event) => {
   if (region && region !== "all") params.set("zone", region);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
-  // Orienter la recherche vers la page correspondant au critère le plus explicite.
-  // Un type de marché choisi mène à sa rubrique ; sinon une catégorie mène à sa page dédiée.
+  // Priorité de destination : une catégorie active mène à sa page de résultats dédiée.
+  // Sans catégorie active, un marché privé mène à sa rubrique ; le parcours par défaut mène aux marchés publics.
+  // Les critères q, categorie, marche et zone sont conservés dans l’URL.
   const selectedCategory = majCatalog.searchCategories.find(
     (item) => item.value === category && item.href && !item.planned
   );
