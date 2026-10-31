@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="zone-artisanale.css">
   <script>
 (function(){
-  var fallback = "<div class=\"scene-error-links\"><p><strong>La vue immersive ne s'est pas chargée.</strong><br>Vous pouvez tout de même explorer les douze espaces MajestiOS ci-dessous. Nous rétablissons la vue panoramique.</p><div><a href=\"marches-publics.html\">Marchés publics</a><a href=\"marches-prives.html\">Marchés privés</a><a href=\"developpement-commercial.html\">Développement commercial</a><a href=\"prospection-inversee.html\">Prospection inversée</a><a href=\"intelligence-economique.html\">Intelligence économique</a><a href=\"reseaux-synergies.html\">Réseaux et synergies</a><a href=\"veille-marches.html\">Veille des marchés</a><a href=\"accompagnement-appels-offres.html\">Accompagnement aux appels d'offres</a><a href=\"sous-traitance.html\">Sous-traitance et débordement</a><a href=\"salons-seminaires.html\">Salons et séminaires</a><a href=\"bodacc-veille-entreprises.html\">Veille BODACC</a><a href=\"suivi-commercial.html\">Suivi commercial et capitalisation</a></div></div>";
+  var fallback = "<div class=\"fallback-campus\"><div class=\"fallback-campus-heading\"><span>MAJESTIOS · ESPACE IMMERSIF</span><h2>Bienvenue dans notre zone artisanale</h2><p>La vue 3D est momentanément indisponible. Explorez les douze bâtiments depuis cette vue de secours.</p></div><div class=\"fallback-buildings\"><a style=\"--building-color:#397ab5\" href=\"marches-publics.html\"><i>01</i><b>Marchés publics</b><small>Détecter les opportunités</small></a><a style=\"--building-color:#39865a\" href=\"marches-prives.html\"><i>02</i><b>Marchés privés</b><small>Donneurs d'ordre</small></a><a style=\"--building-color:#c8892e\" href=\"developpement-commercial.html\"><i>03</i><b>Développement commercial</b><small>Stratégie et croissance</small></a><a style=\"--building-color:#218d99\" href=\"prospection-inversee.html\"><i>04</i><b>Prospection inversée</b><small>Identifier les besoins</small></a><a style=\"--building-color:#7b58a8\" href=\"intelligence-economique.html\"><i>05</i><b>Intelligence économique</b><small>Collecter et décrypter</small></a><a style=\"--building-color:#c96f68\" href=\"reseaux-synergies.html\"><i>06</i><b>Réseaux et synergies</b><small>Coopérer et développer</small></a><a style=\"--building-color:#438bc7\" href=\"veille-marches.html\"><i>07</i><b>Veille des marchés</b><small>Surveillance et alertes</small></a><a style=\"--building-color:#6488ad\" href=\"accompagnement-appels-offres.html\"><i>08</i><b>Accompagnement AO</b><small>Préparer les réponses</small></a><a style=\"--building-color:#b56b40\" href=\"sous-traitance.html\"><i>09</i><b>Sous-traitance</b><small>Débordement de marchés</small></a><a style=\"--building-color:#b69a50\" href=\"salons-seminaires.html\"><i>10</i><b>Salons et séminaires</b><small>Rencontres professionnelles</small></a><a style=\"--building-color:#5c8d81\" href=\"bodacc-veille-entreprises.html\"><i>11</i><b>Veille BODACC</b><small>Signaux d'entreprise</small></a><a style=\"--building-color:#7b899d\" href=\"suivi-commercial.html\"><i>12</i><b>Suivi commercial</b><small>Capitalisation et progrès</small></a></div><div class=\"fallback-campus-footer\">DÉTECTER → QUALIFIER → IDENTIFIER → CONTACTER → TRANSFORMER → CAPITALISER</div></div>";
   function showFallback(){
     var loader = document.getElementById("scene-loading");
     if (!loader || loader.classList.contains("hidden") || loader.dataset.fallbackShown === "true") return;
@@ -17,9 +17,12 @@
     loader.classList.add("scene-error");
     loader.innerHTML = fallback;
   }
-  window.addEventListener("error", showFallback);
+  window.addEventListener("error", function(event){
+    if (event.target && event.target !== window && !event.target.closest?.("#scene-loading")) return;
+    showFallback();
+  }, true);
   window.addEventListener("unhandledrejection", showFallback);
-  window.setTimeout(showFallback, 8000);
+  window.setTimeout(showFallback, 6500);
 })();
 </script>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}</script>
