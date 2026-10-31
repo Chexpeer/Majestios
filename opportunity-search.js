@@ -6,7 +6,7 @@
   const BODACC_FIELDS = [
     "id", "dateparution", "numeroannonce", "typeavis_lib", "familleavis", "familleavis_lib",
     "departement_nom_officiel", "commercant", "ville", "registre", "listepersonnes",
-    "listeetablissements", "jugement", "acte", "modificationsgenerales", "region_nom_officiel", "url_complete"
+    "listeetablissements", "jugement", "acte", "modificationsgenerales", "divers", "region_nom_officiel", "url_complete"
   ].join(",");
 
   const SOURCE_LABEL = "BOAMP · Direction de l’information légale et administrative (DILA)";
@@ -26,6 +26,12 @@
   ].join(",");
 
   const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("fr").trim();
+  const flattenText = (value) => {
+    if (value == null) return "";
+    if (Array.isArray(value)) return value.map(flattenText).filter(Boolean).join(" ");
+    if (typeof value === "object") return Object.values(value).map(flattenText).filter(Boolean).join(" ");
+    return String(value);
+  };
   const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (char) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   })[char]);
@@ -100,8 +106,8 @@
           if (!query) return true;
           const haystack = normalize([
             record.commercant, record.ville, record.departement_nom_officiel, record.familleavis_lib,
-            record.listepersonnes, record.listeetablissements, record.acte, record.jugement,
-            record.modificationsgenerales, record.divers
+            flattenText(record.listepersonnes), flattenText(record.listeetablissements), flattenText(record.acte), flattenText(record.jugement),
+            flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
           return normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
         }).slice(0, 20);
