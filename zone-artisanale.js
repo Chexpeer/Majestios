@@ -102,7 +102,7 @@ scene.add(entrance);
 box(0.28,3.4,0.28,material("#263b50"),-5.9,1.7,0,entrance);
 box(0.28,3.4,0.28,material("#263b50"),5.9,1.7,0,entrance);
 box(12.1,0.28,0.42,material("#263b50"),0,3.35,0,entrance);
-const entranceTexture=labelTexture("ZONE D'INTELLIGENCE COMMERCIALE MAJESTIOS","#d9b86c",{height:180,size:40,bg:"#10243a"});
+const entranceTexture=labelTexture("ZONE DE DÉVELOPPEMENT COMMERCIAL MAJESTIOS","#d9b86c",{height:180,size:40,bg:"#10243a"});
 const entranceSign=new THREE.Mesh(new THREE.PlaneGeometry(11.5,1.35),new THREE.MeshBasicMaterial({map:entranceTexture,side:THREE.DoubleSide}));
 entranceSign.position.set(0,3.32,.24);
 entrance.add(entranceSign);
