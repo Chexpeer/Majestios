@@ -235,3 +235,24 @@ body.homepage .homepage-industrial-layout .building-panel #panel-description { f
  .scene-shell:fullscreen .scene-hint { max-width:calc(100% - 20px); font-size:10px; }
  #scene-fullscreen { padding:0 8px; font-size:10px; }
 }
+
+/* Carte interactive : infrastructures lisibles, avec voirie, stationnement et espaces verts. */
+.map-green{position:absolute;z-index:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid #8eaf7d;border-radius:16px;background:repeating-linear-gradient(135deg,#b7d3a4 0 8px,#c7dfb7 8px 16px);color:#365c39;box-shadow:inset 0 0 0 4px #dcebd1a8}
+.map-green span{padding:5px 8px;border:1px solid #8eaf7d;border-radius:5px;background:#eff7e8dc;font-size:9px;font-weight:850;letter-spacing:.08em}
+.map-green-north{left:5%;top:7%;width:22%;height:15%;transform:rotate(-3deg)}
+.map-green-south{right:5%;bottom:7%;width:20%;height:16%;transform:rotate(3deg)}
+.map-parking{position:absolute;z-index:1;width:22%;height:17%;padding:6px 7px;border:2px solid #e9e5d8;border-radius:5px;background:#929fa4;box-shadow:0 2px 5px #263a4930;color:#fff}
+.map-parking strong{display:block;position:relative;z-index:2;font-size:8px;line-height:1.2;letter-spacing:.04em;text-shadow:0 1px 2px #33434c;text-align:center}
+.map-parking-west{left:7%;bottom:28%}
+.map-parking-east{right:7%;top:28%}
+.parking-bays{position:absolute;inset:24px 6px 5px;background:repeating-linear-gradient(90deg,transparent 0 calc(12.5% - 1px),#f8f7ee calc(12.5% - 1px) 12.5%);border-top:2px solid #f8f7ee}
+.map-parking:after{content:"";position:absolute;left:12%;right:12%;top:55%;height:3px;background:#e9e7db;opacity:.85}
+@media(max-width:760px){
+ .map-green span{font-size:7px;padding:3px 4px}
+ .map-parking{width:20%;height:13%;padding:4px}
+ .map-parking strong{font-size:6px}
+ .map-parking-west{left:3%;bottom:25%}
+ .map-parking-east{right:3%;top:25%}
+ .parking-bays{inset:19px 4px 4px}
+}
+
