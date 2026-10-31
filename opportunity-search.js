@@ -76,12 +76,11 @@
     url.searchParams.set("limit", "100");
     url.searchParams.set("order_by", "dateparution desc");
     url.searchParams.set("select", FIELDS);
+    const filters = ['nature = "APPEL_OFFRE"'];
+    if (CATEGORY_TYPES[category]) filters.push('type_marche = "' + CATEGORY_TYPES[category] + '"');
+    url.searchParams.set("where", filters.join(" AND "));
     if (query) url.searchParams.set("q", query);
-    if (CATEGORY_TYPES[category] && !query) {
-      url.searchParams.set("where", 'type_marche = "' + CATEGORY_TYPES[category] + '"');
-    } else if (category === "all" && !query) {
-      url.searchParams.set("where", 'type_avis = "5,1" OR type_avis = "5"');
-    }
+    else if (CATEGORY_TERMS[category]?.length) url.searchParams.set("q", CATEGORY_TERMS[category][0]);
 
     try {
       const response = await fetch(url.toString(), { headers: { Accept: "application/json" } });
