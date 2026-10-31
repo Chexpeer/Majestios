@@ -263,19 +263,13 @@ if (advancedSearchForm) {
   if (region && region !== "all") params.set("zone", region);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
-  // Priorité de destination : une catégorie active mène à sa page de résultats dédiée.
-  // Sans catégorie active, le type choisi mène à sa rubrique ; « Publics et privés » mène aux résultats généraux.
+  // Une catégorie active mène à sa page dédiée ; sinon, tous les filtres vont aux résultats généraux.
+  // Cela évite de perdre visuellement les critères sur les pages de présentation des marchés publics/privés.
   // Les critères q, categorie, marche et zone sont conservés dans l’URL.
   const selectedCategory = majCatalog.searchCategories.find(
     (item) => item.value === category && item.href && !item.planned
   );
-  const destination = selectedCategory
-    ? selectedCategory.href
-    : marketType === "private"
-      ? "marches-prives.html"
-      : marketType === "public"
-        ? "marches-publics.html"
-        : "resultats-recherche.html";
+  const destination = selectedCategory ? selectedCategory.href : "resultats-recherche.html";
 
   window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
 });
