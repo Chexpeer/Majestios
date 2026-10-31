@@ -78,6 +78,20 @@ Les fichiers HTML restent à la racine du dépôt pour préserver les liens rela
 5. Retirer les fonctions redondantes de l’accueil sans supprimer les fonctions requises dans leurs pages dédiées.
 6. Ne pas considérer les exemples de résultats ou formulaires de démonstration comme des services connectés.
 
+## Pages de résultats par catégorie
+
+Les huit catégories actives disposent chacune d’une page dédiée, alimentée par le script commun `category-results.js` :
+- `categorie-services-numeriques.html`
+- `categorie-travaux-amenagement.html`
+- `categorie-conseil-etudes.html`
+- `categorie-batiment.html`
+- `categorie-renovation.html`
+- `categorie-electricite.html`
+- `categorie-plomberie-chauffage.html`
+- `categorie-maintenance.html`
+
+Le parcours transmet les paramètres `q` (mots-clés), `marche` (public/privé) et `zone` (localisation). Une catégorie choisie est prioritaire pour la destination : le filtre de marché reste appliqué comme critère sur sa page, plutôt que de détourner l’utilisateur vers une page générique. Chaque page expose une zone de résultats, récapitule les critères reçus et indique clairement qu’aucune annonce réelle n’est affichée tant que les sources ne sont pas connectées. Les catégories prévues mais désactivées ne doivent pas être présentées comme fonctionnelles.
+
 ## 5. Recherche avancée et limites
 
 Le moteur de recherche de démonstration prévoit les filtres mot-clé, catégorie, type de marché et localisation. Le formulaire oriente désormais une recherche avec type de marché explicite vers `marches-publics.html` ou `marches-prives.html`. Sans type de marché explicite, une catégorie active oriente vers la page `categorie-*.html` correspondante ; sans catégorie ni type explicite, le parcours par défaut mène à `marches-publics.html`. Les paramètres mot-clé et localisation sont transmis dans l’URL, mais ils ne signifient pas qu’un flux de résultats réels est connecté. Les annonces de test ne sont pas un flux réel d’appels d’offres ; aucune source de marchés publics ou privés n’est réputée connectée tant qu’un connecteur opérationnel n’a pas été installé et testé.
