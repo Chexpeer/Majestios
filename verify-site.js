@@ -221,6 +221,29 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath) && fs.existsSync(zoneSceneP
   const categoryValues = new Set([...catalogue.matchAll(/\{ value: "([^"]+)", label: "[^"]+", active: true(?:, href: "[^"]+")? \}/g)].map((match) => match[1]));
   const activeTenderCategories = new Set([...app.matchAll(/sector: "([^"]+)"/g)].map((match) => match[1]));
   for (const category of activeTenderCategories) if (!categoryValues.has(category)) errors.push(`Moteur de recherche : catégorie des exemples absente du catalogue : ${category}`);
+
+  const categoryRouteMatches = [...catalogue.matchAll(/\{ value: "([^"]+)", label: "[^"]+", active: true, href: "([^"]+\\.html)" \}/g)];
+  for (const [, category, route] of categoryRouteMatches) {
+    if (!fs.existsSync(path.join(root, route))) errors.push(`Arborescence : page de catégorie absente pour ${category} : ${route}`);
+  }
+  const requiredSearchHooks = [
+    ['id="feed-sector"', "filtre catégorie"],
+    ['id="feed-market-type"', "filtre public/privé"],
+    ['id="feed-region"', "filtre géographique"],
+    ['id="feed-search"', "recherche par mot-clé"],
+    ['id="feed-stream"', "zone de résultats"],
+  ];
+  for (const [hook, label] of requiredSearchHooks) {
+    if (!home.includes(hook)) errors.push(`Recherche : ${label} absent de la page d’accueil`);
+  }
+  for (const handler of [
+    'addEventListener("input", renderTenderFeed)',
+    'addEventListener("change", renderTenderFeed)',
+    'categoryLink.href = category.href',
+    'initialSearchParams.get("categorie")',
+  ]) {
+    if (!app.includes(handler)) errors.push(`Recherche et orientation : interaction manquante (${handler})`);
+  }
 } else {
   errors.push("schema-majestios.svg, app.js, zone-artisanale.js ou catalogue-majestios.js absent : contrôle des destinations impossible");
 }
