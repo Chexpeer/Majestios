@@ -39,7 +39,7 @@ Ce contrôle statique ne remplace pas un test dans un navigateur réel, notammen
 
 ### Présent et interactif dans le prototype
 - Navigation entre l’accueil, le schéma, les rubriques et la zone artisanale.
-- Fil de démonstration avec recherche par texte et filtres secteur/localisation.
+- Fil de démonstration avec recherche par texte et filtres catégorie/type de marché/localisation. Les catégories futures sont préparées mais désactivées tant que les sources ne sont pas raccordées.
 - Formulaires avec validation et prévisualisation locale.
 - Visite 3D avec répertoire de bâtiments et vue de secours en cas d’échec du chargement.
 
