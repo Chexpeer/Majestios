@@ -84,6 +84,12 @@ Statuts internes suggérés : `received`, `normalized`, `duplicate_review`, `to_
 6. Profil entreprise, rapprochement explicable, alertes et espace personnel.
 7. File interne de qualification et CRM uniquement après mise en place de l'authentification, des autorisations et de la politique de conservation.
 
-## 6. Limites actuelles à afficher
+## 6. Source BODACC — signaux commerciaux privés
+
+Le BODACC est une source distincte du flux des appels d'offres. Voir `BODACC-TRAITEMENT-SIGNAUX-COMMERCIAUX.md` pour le parcours complet. Les annonces commerciales et légales peuvent être exploitées comme signaux à qualifier, notamment pour les cessions et événements affectant une entreprise, mais elles ne sont pas automatiquement des marchés à remporter.
+
+Le connecteur BODACC devra être développé et testé séparément après vérification d'un accès officiel réutilisable et de ses conditions. La simple existence de la page de recherche ne prouve pas l'existence d'une API. Les résultats BOAMP et BODACC doivent garder des types, des règles de qualification et des libellés distincts. Les équipes MajestiOS peuvent proposer une piste de prospection ou une opération marketing seulement après contrôle de pertinence, conformité et validation humaine.
+
+## 7. Limites actuelles à afficher
 
 Le prototype interroge le jeu BOAMP depuis le navigateur et n'a pas encore de cache serveur ni de file de traitement persistante. Les résultats privés ne sont pas raccordés. Les critères de catégorie hors type de marché reposent encore sur des correspondances textuelles simples : ils devront être validés avant d'être considérés comme une classification fiable. La recherche BOAMP ne couvre pas à elle seule l'ensemble des marchés publics, et encore moins les marchés privés.
