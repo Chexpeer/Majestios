@@ -2,7 +2,7 @@
   "use strict";
 
   const API = "https://boamp-datadila.opendatasoft.com/api/explore/v2.0/catalog/datasets/boamp/records";
-  const BODACC_API = "https://www.bodacc.fr/api/explore/v2.1/catalog/datasets/annonces-commerciales/records";
+  const BODACC_API = "https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records";
   const BODACC_FIELDS = [
     "id", "publicationavis", "dateparution", "numeroannonce", "typeavis_lib", "familleavis", "familleavis_lib",
     "departement_nom_officiel", "commercant", "ville", "registre", "listepersonnes",
@@ -45,6 +45,9 @@
   const extractActivity = (value) => {
     if (value == null) return "";
     if (Array.isArray(value)) return value.map(extractActivity).filter(Boolean).join(" ");
+    if (typeof value === "string") {
+      try { return extractActivity(JSON.parse(value)); } catch { return ""; }
+    }
     if (typeof value !== "object") return "";
     return Object.entries(value).map(([key, item]) => {
       if (/activit[ée]/i.test(key) && typeof item === "string") return item;
