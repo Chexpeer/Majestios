@@ -108,7 +108,7 @@ async function main() {
 
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
     await page.locator('[data-scene-mode="drive"]').click();
-    assert.equal(await page.locator('[data-scene-mode="drive"]').getAttribute("aria-pressed"), "true", "Le mode Tesla doit être activé.");
+    assert.equal(await page.locator('[data-scene-mode="drive"]').getAttribute("aria-pressed"), "true", "Le mode Street View doit être activé.");
     assert.equal(await page.locator("#scene").getAttribute("data-view-mode"), "drive", "La scène doit passer en mode conduite.");
     assert.equal(await page.locator("#zone-map").isVisible(), false, "La carte GPS doit se masquer en mode conduite.");
 
@@ -153,7 +153,7 @@ async function main() {
     assert.match((await page.locator("#search-results-panel").innerText()), /Aucune annonce réelle n'est actuellement chargée/, "Les résultats généraux doivent distinguer la recherche des annonces réellement disponibles.");
     assert.deepEqual(pageErrors, [], "Aucune erreur JavaScript non interceptée n'est attendue.");
 
-    console.log("TEST NAVIGATEUR RÉUSSI : navigation aérienne/Tesla/GPS, 12 destinations, sélection, affichage mobile et transmission des critères de recherche.");
+    console.log("TEST NAVIGATEUR RÉUSSI : navigation aérienne/Street View/carte interactive, 12 destinations, sélection, affichage mobile et transmission des critères de recherche.");
   } finally {
     if (browser) await browser.close();
     await new Promise((resolve) => server.close(resolve));
