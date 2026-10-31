@@ -918,6 +918,25 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
    errors.push("Zone 3D : pause du rendu hors écran ou onglet masqué absente");
  }
 
+
+ // Lot 21 — contrôler les fondations SaaS et le mode plein écran.
+ if (!homeSceneHtml.includes('id="scene-fullscreen"')) errors.push("Zone industrielle : commande plein écran absente");
+ if (!homeSceneJs.includes("sceneShell.requestFullscreen()") || !homeSceneJs.includes("document.fullscreenchange")) {
+   errors.push("Zone industrielle : gestion complète du mode plein écran absente");
+ }
+ const memberPage = fs.readFileSync(path.join(root, "espace-membre.html"), "utf8");
+ for (const route of ["crm.html", "brainos.html"]) {
+   if (!memberPage.includes(`href="${route}"`)) errors.push(`Espace membre : lien manquant vers ${route}`);
+   if (!fs.existsSync(path.join(root, route))) errors.push(`Fondations SaaS : page absente ${route}`);
+   if (buildScriptPath && fs.existsSync(buildScriptPath) && !fs.readFileSync(buildScriptPath, "utf8").includes(`"${route}"`)) {
+     errors.push(`Build : module réservé non publié ${route}`);
+   }
+ }
+ const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
+ const brainPage = fs.readFileSync(path.join(root, "brainos.html"), "utf8");
+ if (!crmPage.includes("Aucun CRM opérationnel") || !crmPage.includes("confidentialité")) errors.push("CRM : statut prototype ou exigence de confidentialité non documenté");
+ if (!brainPage.includes("Aucun corpus documentaire connecté") || !brainPage.includes("sources officielles")) errors.push("BrainOS : limites du prototype ou gestion des sources non documentées");
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
