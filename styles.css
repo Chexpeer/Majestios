@@ -1403,3 +1403,50 @@ body:not(.homepage) .menu-toggle span { background:#d5b56c; }
 }
 
 /* Contrôle final de cohérence : charte noir et or partagée entre les rubriques. */
+
+
+/* Pages de résultats par catégorie : structure prête pour les futurs connecteurs de données. */
+.category-results-panel {
+  margin: 1.25rem 0;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid rgba(199, 166, 91, 0.42);
+  border-radius: 1rem;
+  background: rgba(7, 10, 15, 0.72);
+}
+.category-results-panel h3 {
+  margin: 0 0 1rem;
+  color: var(--gold, #c7a65b);
+  font-size: 1.1rem;
+}
+.category-active-filters {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
+  gap: 0.6rem 1rem;
+  margin: 0;
+}
+.category-active-filters dt {
+  color: var(--muted, #aeb5c0);
+  font-size: 0.92rem;
+}
+.category-active-filters dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.category-results-empty {
+  margin: 1.25rem 0 0;
+  padding: 1rem;
+  border-left: 3px solid var(--gold, #c7a65b);
+  background: rgba(199, 166, 91, 0.08);
+}
+.category-results-panel .small-note {
+  margin-bottom: 0;
+}
+@media (max-width: 540px) {
+  .category-active-filters {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+  .category-active-filters dd {
+    margin-bottom: 0.55rem;
+  }
+}
