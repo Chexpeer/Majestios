@@ -22,6 +22,7 @@ const description=document.querySelector("#panel-description");
 const floorList=document.querySelector("#floor-list");
 const openLink=document.querySelector("#open-building");
 const directory=document.querySelector("#building-directory");
+const hoverCard=document.querySelector("#hover-card");
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const scene=new THREE.Scene();
@@ -108,8 +109,24 @@ for(const p of [{x:-19,z:2},{x:19,z:2},{x:-19,z:-11},{x:19,z:-11},{x:-19,z:-22},
 const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let selected=null,hovered=null;
 function selectBuilding(data){selected=data;title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";const floors=[["RDC",data.ground],["1er étage",data.first],["2e étage",data.second]];floors.forEach(([label,text])=>{const row=document.createElement("div");row.style.setProperty("--floor-color",data.color);const tag=document.createElement("span");tag.textContent=label;const p=document.createElement("p");p.textContent=text;row.append(tag,p);floorList.appendChild(row);});openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
 function getBuildingAt(event){const rect=renderer.domElement.getBoundingClientRect();pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(buildingMeshes,true);return hits.find(h=>h.object.userData.building)?.object.userData.building||null;}
-renderer.domElement.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;const data=getBuildingAt(e);hovered=data?.id||null;renderer.domElement.style.cursor=data?"pointer":"grab";});
-renderer.domElement.addEventListener("click",e=>{const data=getBuildingAt(e);if(data)selectBuilding(data);});
+renderer.domElement.addEventListener("pointermove",e=>{
+ if(e.pointerType==="touch")return;
+ const data=getBuildingAt(e);
+ hovered=data?.id||null;
+ renderer.domElement.style.cursor=data?"pointer":"grab";
+ if(!hoverCard)return;
+ if(!data){hoverCard.classList.remove("is-visible");return;}
+ const bounds=root.getBoundingClientRect();
+ hoverCard.querySelector("[data-hover-name]").textContent=data.name;
+ hoverCard.querySelector("[data-hover-detail]").textContent=data.ground;
+ hoverCard.style.setProperty("--hover-color",data.color);
+ const left=Math.max(12,Math.min(bounds.width-260,e.clientX-bounds.left+18));
+ const top=Math.max(58,Math.min(bounds.height-104,e.clientY-bounds.top+18));
+ hoverCard.style.left=left+"px";
+ hoverCard.style.top=top+"px";
+ hoverCard.classList.add("is-visible");
+});
+renderer.domElement.addEventListener("click",e=>{const data=getBuildingAt(e);if(data){selectBuilding(data);if(hoverCard)hoverCard.classList.remove("is-visible");}});
 renderer.domElement.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();if(selected){openLink.click();}else selectBuilding(buildings[0]);}});
 document.querySelector("#view-home").addEventListener("click",resetView);
 document.querySelector("#zoom-in").addEventListener("click",()=>{camera.position.multiplyScalar(.88);controls.update();});
