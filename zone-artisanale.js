@@ -273,6 +273,7 @@ function renderZoneMap(){
  });
 }
 renderZoneMap();
+let e2eFreezeCamera=false;
 function getBuildingAt(event){const rect=renderer.domElement.getBoundingClientRect();if(!rect.width||!rect.height)return null;pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(buildingMeshes,true);for(const hit of hits){let object=hit.object;while(object){if(object.userData?.building)return object.userData.building;object=object.parent;}}return null;}
 // Interface de test temporaire, disponible uniquement avec ?e2e=1 ; elle ne change pas le parcours utilisateur normal.
 if(new URLSearchParams(window.location.search).has("e2e")){
@@ -283,7 +284,7 @@ if(new URLSearchParams(window.location.search).has("e2e")){
    // Geler l'animation uniquement pour le test : sinon la boucle de vol peut
    // déplacer la caméra entre le calcul du point et le clic Playwright.
    // Ce code n'existe que sur l'URL ?e2e=1 et n'affecte pas les visiteurs.
-   cameraDestination=null;targetDestination=null;pauseScene();
+   cameraDestination=null;targetDestination=null;e2eFreezeCamera=true;
    camera.position.set(data.x+1.5,9.2,data.z+16.5);
    controls.target.set(data.x,2.7,data.z);
    // Synchroniser l'orientation de la caméra avec la cible avant de calculer
@@ -467,7 +468,7 @@ function animate(now=performance.now()){
  if(!sceneVisible||document.hidden||root.dataset.viewMode==="map")return;
  animationFrame=requestAnimationFrame(animate);
  const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;
- if(cameraDestination&&targetDestination){const speed=reducedMotion?1:1-Math.exp(-5.3*delta);camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}
+ if(cameraDestination&&targetDestination&&!e2eFreezeCamera){const speed=reducedMotion?1:1-Math.exp(-5.3*delta);camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}
  walkThroughZone(delta);controls.update();syncVisitorCar();
  const flying=root.dataset.viewMode==="fly";visitorHelicopter.visible=false; // Le mode aérien reste fonctionnel, mais l’hélicoptère ne masque jamais la scène.
  if(flying){const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize();visitorHelicopter.position.copy(camera.position).addScaledVector(forward,6).addScaledVector(right,2.4);visitorHelicopter.position.y=Math.max(3,camera.position.y-2.2);visitorHelicopter.rotation.y=Math.atan2(forward.x,forward.z)+Math.PI;rotorHub.rotation.y+=delta*18;tailRotor.rotation.z+=delta*15;}
