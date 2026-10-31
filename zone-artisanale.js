@@ -285,10 +285,13 @@ if(new URLSearchParams(window.location.search).has("e2e")){
    cameraDestination=null;targetDestination=null;
    camera.position.set(data.x+1.5,9.2,data.z+16.5);
    controls.target.set(data.x,2.7,data.z);
-   // Geler OrbitControls pendant le test pour éviter qu'un résidu de rotation
-   // ne déplace la caméra entre le calcul du point et le clic Playwright.
-   controls.enabled=false;controls.enableDamping=false;
+   // Synchroniser l'orientation de la caméra avec la cible avant de calculer
+   // le point de clic, puis figer les contrôles jusqu'à l'action Playwright.
+   controls.enableDamping=false;
+   controls.enabled=true;
    controls.update();
+   controls.enabled=false;
+   camera.updateMatrixWorld(true);
    renderer.render(scene,camera);
    const rect=renderer.domElement.getBoundingClientRect();
    // Chercher un point réellement cliquable sur ce bâtiment via le même raycaster que l'interface.
