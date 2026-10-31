@@ -77,13 +77,14 @@ async function main() {
       ["B12", "Suivi commercial et capitalisation", "suivi-commercial.html"]
     ];
     for (const [id, expectedTitle, mainRoute] of routeContracts) {
-      await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
-      await page.locator('[data-scene-mode="map"]').click();
+      console.log(`[carte] Vérification ${id} — ${expectedTitle}`);
+      await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded", timeout: 15000 });
+      await page.locator('[data-scene-mode="map"]').click({ timeout: 10000 });
       const building = page.locator(`#map-buildings .map-building[data-id="${id}"]`);
       assert.ok((await building.innerText()).includes(expectedTitle), `${id} doit afficher son nom.`);
       await Promise.all([
-        page.waitForURL(url => new URL(url).pathname.endsWith(mainRoute)),
-        building.click()
+        page.waitForURL(url => new URL(url).pathname.endsWith(mainRoute), { timeout: 10000 }),
+        building.click({ timeout: 10000 })
       ]);
       assert.ok(new URL(page.url()).pathname.endsWith(mainRoute), `${id} doit mener directement à ${mainRoute}, sans fenêtre intermédiaire.`);
     }
@@ -91,7 +92,8 @@ async function main() {
     // Teste les vrais gestionnaires de clic du canvas 3D, en ciblant les enseignes de toit depuis la vue aérienne.
     // Le point de projection n'est exposé que sur l'URL de test ?e2e=1.
     for (const [id, expectedTitle, mainRoute] of routeContracts) {
-      await page.goto("http://127.0.0.1:4173/?e2e=1", { waitUntil: "domcontentloaded" });
+      console.log(`[3D] Vérification ${id} — ${expectedTitle}`);
+      await page.goto("http://127.0.0.1:4173/?e2e=1", { waitUntil: "domcontentloaded", timeout: 15000 });
       await page.locator("canvas").waitFor({ state: "visible", timeout: 30000 });
       await page.locator('[data-scene-mode="fly"]').click();
       await page.waitForFunction(() => Boolean(window.__MAJESTIOS_SCENE_E2E__), null, { timeout: 30000 });
@@ -100,7 +102,7 @@ async function main() {
       const canvasBox = await page.locator("#scene canvas").boundingBox();
       assert.ok(canvasBox && point.x >= canvasBox.x && point.x <= canvasBox.x + canvasBox.width && point.y >= canvasBox.y && point.y <= canvasBox.y + canvasBox.height, `${id} doit être visible dans la zone 3D pour être testé.`);
       await Promise.all([
-        page.waitForURL(url => new URL(url).pathname.endsWith(mainRoute), { timeout: 10000 }),
+        page.waitForURL(url => new URL(url).pathname.endsWith(mainRoute), { timeout: 8000 }),
         page.mouse.click(point.x, point.y)
       ]);
       assert.ok(new URL(page.url()).pathname.endsWith(mainRoute), `Le clic 3D sur ${id} (${expectedTitle}) doit ouvrir directement ${mainRoute}.`);
