@@ -256,7 +256,7 @@ function selectDemoCase(button) {
 }
 
 /* Les interactions de démonstration ne sont présentes que sur la page d’accueil. */
-if (leadForm && feedStream) {
+if (feedStream) {
 document.querySelectorAll(".case-tab").forEach((button) => {
   button.addEventListener("click", () => selectDemoCase(button));
 });
@@ -418,21 +418,7 @@ function renderTenderFeed() {
       content.append(categoryLink);
     }
 
-    const action = document.createElement("a");
-    action.href = "#contact";
-    action.className = "feed-interest";
-    action.textContent = "Demander un accompagnement pour cet AO";
-    action.addEventListener("click", () => {
-      setIntent("respond");
-      const tenderInput = leadForm.querySelector('[name="tender"]');
-      const tenderNote = leadForm.querySelector("#selected-tender-note");
-      tenderInput.value = `Exemple fictif : ${tender.title}`;
-      tenderNote.textContent = `Vous avez choisi un appel d’offres fictif : « ${tender.title} ». Remplacez cette valeur par la référence ou le lien d’un AO réel si vous préparez une demande.`;
-      tenderNote.hidden = false;
-      tenderInput.focus({ preventScroll: true });
-    });
-
-    card.append(icon, content, action);
+    card.append(icon, content);
     feedStream.append(card);
   }
 }
@@ -449,28 +435,30 @@ if (document.querySelector('#demo-detail') && document.querySelector('#demo-stat
   renderDemoDetail();
 }
 
-leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
-  radio.addEventListener("change", () => setIntent(radio.value));
-});
-setIntent(leadForm.querySelector('input[name="intent"]:checked').value);
-
-document.querySelectorAll("[data-intent-link]").forEach((link) => {
-  link.addEventListener("click", () => setIntent(link.dataset.intentLink));
-});
-
-document.querySelector("#preview-request").addEventListener("click", () => {
-  if (!leadForm.reportValidity()) return;
-
-  const intent = leadForm.querySelector('input[name="intent"]:checked').value;
-  const intentLabels = {
-    respond: "demande d’accompagnement pour répondre à un AO",
-    receive: "demande de réception d’AO liés à votre activité",
-    contact: "prise de contact au sujet de votre projet"
-  };
-  const intentLabel = intentLabels[intent];
-  formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
-  formFeedback.hidden = false;
-});
+if (leadForm && formFeedback) {
+  leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
+    radio.addEventListener("change", () => setIntent(radio.value));
+  });
+  setIntent(leadForm.querySelector('input[name="intent"]:checked').value);
+  
+  document.querySelectorAll("[data-intent-link]").forEach((link) => {
+    link.addEventListener("click", () => setIntent(link.dataset.intentLink));
+  });
+  
+  document.querySelector("#preview-request").addEventListener("click", () => {
+    if (!leadForm.reportValidity()) return;
+  
+    const intent = leadForm.querySelector('input[name="intent"]:checked').value;
+    const intentLabels = {
+      respond: "demande d’accompagnement pour répondre à un AO",
+      receive: "demande de réception d’AO liés à votre activité",
+      contact: "prise de contact au sujet de votre projet"
+    };
+    const intentLabel = intentLabels[intent];
+    formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
+    formFeedback.hidden = false;
+  });
+}
 
 }
 
