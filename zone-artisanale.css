@@ -138,14 +138,18 @@ body.homepage .homepage-industrial-layout .scene-hint { max-width:calc(100% - 30
 
 /* Accueil compact : bandeau d'information, panorama, recherche et formulaire. */
 .homepage-ticker {
-  display:flex; align-items:center; gap:clamp(18px,3vw,42px); overflow:hidden;
-  min-height:32px; padding:7px clamp(14px,3vw,42px);
+  overflow:hidden; min-height:32px; padding:0;
   color:#e9dfc8; background:#111722; border-bottom:1px solid rgba(217,184,108,.28);
   font-size:10px; font-weight:750; letter-spacing:.08em; white-space:nowrap;
 }
-.homepage-ticker > span { flex:0 0 auto; }
-.homepage-ticker > span:first-child { color:#d9b86c; }
-.homepage-ticker .ticker-demo { margin-left:auto; color:#aab2bf; font-weight:500; letter-spacing:0; }
+.homepage-ticker-track { display:flex; align-items:center; width:max-content; gap:clamp(18px,3vw,42px); padding:7px clamp(14px,3vw,42px); animation:majestios-ticker 42s linear infinite; }
+.homepage-ticker-track > span { flex:0 0 auto; }
+.homepage-ticker-track > span:first-child,
+.homepage-ticker-track > span:nth-child(5) { color:#d9b86c; }
+.homepage-ticker-track .ticker-demo { color:#aab2bf; font-weight:500; letter-spacing:0; }
+.homepage-ticker:hover .homepage-ticker-track { animation-play-state:paused; }
+@keyframes majestios-ticker { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .homepage-ticker-track { animation:none; } }
 body.homepage .site-header { width:100%; max-width:none; padding:0 clamp(14px,3vw,42px); border-bottom:1px solid rgba(217,184,108,.16); }
 body.homepage .site-nav a { color:#d8dce4; }
 body.homepage .site-nav a[aria-current="page"] { color:#d9b86c; }
