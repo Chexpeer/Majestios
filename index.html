@@ -11,42 +11,53 @@
     <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}</script>
     <script src="catalogue-majestios.js" defer></script>
     <script>
-      window.majestiosSceneFallback = function () {
-        const loading = document.getElementById("scene-loading");
-        if (!loading || loading.dataset.fallbackShown === "true") return;
-        loading.dataset.fallbackShown = "true";
-        loading.classList.remove("hidden");
-        loading.classList.add("scene-error");
-        loading.setAttribute("role", "alert");
-        loading.innerHTML = `
-          <div class="fallback-campus">
-            <div class="fallback-campus-heading">
-              <span>MAJESTIOS · MODE DE SECOURS</span>
-              <h2>La vue 3D n’a pas pu se charger</h2>
-              <p>Vous pouvez continuer à explorer les rubriques métier ci-dessous. Vérifiez votre connexion puis rechargez la page pour réessayer la scène interactive.</p>
-            </div>
-            <div class="fallback-buildings">
-              <a href="marches-publics.html" style="--building-color:#397ab5"><i>B01 · CENTRAL</i><b>Marchés publics</b><small>Consulter la rubrique métier</small></a>
-              <a href="marches-prives.html" style="--building-color:#39865a"><i>B02 · CENTRAL</i><b>Marchés privés</b><small>Consulter la rubrique métier</small></a>
-              <a href="developpement-commercial.html" style="--building-color:#c8892e"><i>B03 · CENTRAL</i><b>Développement commercial</b><small>Consulter la rubrique métier</small></a>
-              <a href="prospection-inversee.html" style="--building-color:#218d99"><i>B04 · CENTRAL</i><b>Prospection inversée</b><small>Consulter la rubrique métier</small></a>
-              <a href="intelligence-economique.html" style="--building-color:#7b58a8"><i>B05 · CENTRAL</i><b>Intelligence économique</b><small>Consulter la rubrique métier</small></a>
-              <a href="reseaux-synergies.html" style="--building-color:#c96f68"><i>B06 · PÉRIPHÉRIQUE</i><b>Réseaux et synergies</b><small>Consulter la rubrique métier</small></a>
-              <a href="veille-marches.html" style="--building-color:#438bc7"><i>B07 · CENTRAL</i><b>Veille des marchés</b><small>Consulter la rubrique métier</small></a>
-              <a href="accompagnement-appels-offres.html" style="--building-color:#6488ad"><i>B08 · PÉRIPHÉRIQUE</i><b>Accompagnement aux appels d’offres</b><small>Consulter la rubrique métier</small></a>
-              <a href="sous-traitance.html" style="--building-color:#b56b40"><i>B09 · PÉRIPHÉRIQUE</i><b>Sous-traitance</b><small>Consulter la rubrique métier</small></a>
-              <a href="salons-seminaires.html" style="--building-color:#b69a50"><i>B10 · PÉRIPHÉRIQUE</i><b>Salons et séminaires</b><small>Consulter la rubrique métier</small></a>
-              <a href="bodacc-veille-entreprises.html" style="--building-color:#5c8d81"><i>B11 · PÉRIPHÉRIQUE</i><b>Veille des entreprises — BODACC</b><small>Consulter la rubrique métier</small></a>
-              <a href="suivi-commercial.html" style="--building-color:#7b899d"><i>B12 · PÉRIPHÉRIQUE</i><b>Suivi commercial et capitalisation</b><small>Consulter la rubrique métier</small></a>
-            </div>
-            <div class="fallback-campus-footer">MAJESTIOS · ACCÈS AUX RUBRIQUES MÉTIER</div>
-          </div>`;
-      };
-      window.addEventListener("error", function (event) {
-        if (event.filename && /zone-artisanale\.js|three\.module\.js|OrbitControls\.js/.test(event.filename)) {
-          window.majestiosSceneFallback();
+      (function () {
+        function showSceneFallback() {
+          const loading = document.getElementById("scene-loading");
+          if (!loading || loading.classList.contains("hidden") || loading.dataset.fallbackShown === "true") return;
+          loading.dataset.fallbackShown = "true";
+          loading.classList.add("scene-error");
+          loading.setAttribute("role", "alert");
+          loading.innerHTML = `
+            <div class="fallback-campus">
+              <div class="fallback-campus-heading">
+                <span>MAJESTIOS · MODE DE SECOURS</span>
+                <h2>La vue 3D n’a pas pu se charger</h2>
+                <p>Vous pouvez continuer à explorer les rubriques métier ci-dessous. Vérifiez votre connexion puis rechargez la page pour réessayer la scène interactive.</p>
+              </div>
+              <div class="fallback-buildings">
+                <a href="marches-publics.html" style="--building-color:#397ab5"><i>B01 · CENTRAL</i><b>Marchés publics</b><small>Consulter la rubrique métier</small></a>
+                <a href="marches-prives.html" style="--building-color:#39865a"><i>B02 · CENTRAL</i><b>Marchés privés</b><small>Consulter la rubrique métier</small></a>
+                <a href="developpement-commercial.html" style="--building-color:#c8892e"><i>B03 · CENTRAL</i><b>Développement commercial</b><small>Consulter la rubrique métier</small></a>
+                <a href="prospection-inversee.html" style="--building-color:#218d99"><i>B04 · CENTRAL</i><b>Prospection inversée</b><small>Consulter la rubrique métier</small></a>
+                <a href="intelligence-economique.html" style="--building-color:#7b58a8"><i>B05 · CENTRAL</i><b>Intelligence économique</b><small>Consulter la rubrique métier</small></a>
+                <a href="reseaux-synergies.html" style="--building-color:#c96f68"><i>B06 · PÉRIPHÉRIQUE</i><b>Réseaux et synergies</b><small>Consulter la rubrique métier</small></a>
+                <a href="veille-marches.html" style="--building-color:#438bc7"><i>B07 · CENTRAL</i><b>Veille des marchés</b><small>Consulter la rubrique métier</small></a>
+                <a href="accompagnement-appels-offres.html" style="--building-color:#6488ad"><i>B08 · PÉRIPHÉRIQUE</i><b>Accompagnement aux appels d’offres</b><small>Consulter la rubrique métier</small></a>
+                <a href="sous-traitance.html" style="--building-color:#b56b40"><i>B09 · PÉRIPHÉRIQUE</i><b>Sous-traitance</b><small>Consulter la rubrique métier</small></a>
+                <a href="salons-seminaires.html" style="--building-color:#b69a50"><i>B10 · PÉRIPHÉRIQUE</i><b>Salons et séminaires</b><small>Consulter la rubrique métier</small></a>
+                <a href="bodacc-veille-entreprises.html" style="--building-color:#5c8d81"><i>B11 · PÉRIPHÉRIQUE</i><b>Veille des entreprises — BODACC</b><small>Consulter la rubrique métier</small></a>
+                <a href="suivi-commercial.html" style="--building-color:#7b899d"><i>B12 · PÉRIPHÉRIQUE</i><b>Suivi commercial et capitalisation</b><small>Consulter la rubrique métier</small></a>
+              </div>
+              <div class="fallback-campus-footer">MAJESTIOS · ACCÈS AUX RUBRIQUES MÉTIER</div>
+            </div>`;
         }
-      });
+        window.majestiosSceneFallback = showSceneFallback;
+        window.addEventListener("error", function (event) {
+          const target = event.target;
+          if (target && target !== window) {
+            const source = (target.src || target.href || "").toLowerCase();
+            const isSceneResource = target.tagName === "SCRIPT" &&
+              (source.includes("zone-artisanale.js") || source.includes("three.module.js") || source.includes("orbitcontrols.js"));
+            if (!isSceneResource) return;
+          } else if (event.filename && !/zone-artisanale\\.js|three\\.module\\.js|orbitcontrols\\.js/i.test(event.filename)) {
+            return;
+          }
+          showSceneFallback();
+        }, true);
+        window.addEventListener("unhandledrejection", showSceneFallback);
+        window.setTimeout(showSceneFallback, 10000);
+      })();
     </script>
     <script type="module" src="zone-artisanale.js" onerror="window.majestiosSceneFallback()"></script>
     <script src="app.js" defer></script>
