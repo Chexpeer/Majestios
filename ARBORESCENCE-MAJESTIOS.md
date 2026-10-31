@@ -50,16 +50,18 @@ Chaque bâtiment doit pointer vers sa propre page métier. Les destinations sont
 - `categorie-plomberie-chauffage.html`
 - `categorie-maintenance.html`
 
-Ces pages sont des destinations de filtres, distinctes des douze pages métier.
+Ces pages sont des destinations de filtres, distinctes des douze pages métier. Les liens de retour vers le moteur doivent utiliser `index.html#recherche-avancee` (et non l’ancienne ancre `#flux-ao`).
 
 ## 3. Ressources et dépendances
+
+Les fichiers HTML restent à la racine du dépôt pour préserver les liens relatifs du site statique. L’arborescence ci-dessous est une arborescence fonctionnelle (pages communes, métiers, catégories), pas une consigne de déplacer immédiatement les fichiers dans des répertoires physiques.
 
 - `styles.css` — styles généraux et composants communs.
 - `app.js` — navigation et comportement du moteur de recherche.
 - `catalogue-majestios.js` — correspondance des douze bâtiments avec les pages métier.
 - `zone-artisanale.css`, `zone-artisanale.js` — styles et scène 3D.
 - `rubriques-immersives.css`, `rubriques-immersives.js` — présentation et interactions des pages immersives.
-- `schema-majestios.svg` — ressource du schéma conservée tant que `build.js` et `verify-site.js` la réclament ; elle ne doit pas être supprimée isolément.
+- `schema-majestios.svg` — ancien schéma SVG non utilisé par le build courant ; le conserver jusqu’à une vérification complète des références avant suppression.
 - `build.js` — prépare `dist/` à partir de la liste des ressources déclarées.
 - `verify-site.js` — contrôle structure, ancres, pages et destinations.
 - `.github/workflows/verify-site.yml` — exécute les contrôles automatiques.
@@ -78,7 +80,7 @@ Ces pages sont des destinations de filtres, distinctes des douze pages métier.
 
 ## 5. Recherche avancée et limites
 
-Le moteur de recherche de démonstration prévoit les filtres mot-clé, catégorie, type de marché et localisation. Les annonces de test ne sont pas un flux réel d’appels d’offres ; aucune source de marchés publics ou privés n’est réputée connectée tant qu’un connecteur opérationnel n’a pas été installé et testé.
+Le moteur de recherche de démonstration prévoit les filtres mot-clé, catégorie, type de marché et localisation. Le formulaire oriente désormais une recherche avec type de marché explicite vers `marches-publics.html` ou `marches-prives.html`. Sans type de marché explicite, une catégorie active oriente vers la page `categorie-*.html` correspondante ; sans catégorie ni type explicite, le parcours par défaut mène à `marches-publics.html`. Les paramètres mot-clé et localisation sont transmis dans l’URL, mais ils ne signifient pas qu’un flux de résultats réels est connecté. Les annonces de test ne sont pas un flux réel d’appels d’offres ; aucune source de marchés publics ou privés n’est réputée connectée tant qu’un connecteur opérationnel n’a pas été installé et testé.
 
 ## 6. Critères de validation avant publication
 
