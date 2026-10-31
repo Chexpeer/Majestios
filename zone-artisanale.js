@@ -431,6 +431,11 @@ fullscreenButton?.addEventListener("click",async()=>{
 });
 document.addEventListener("fullscreenchange",syncFullscreenButton);
 
+// Initialiser l’état d’animation avant resetView(), qui appelle wakeScene().
+let previousFrame=performance.now();
+let sceneVisible=!("IntersectionObserver" in window);
+let animationFrame=0;
+
 function setSceneMode(mode){
  const buttons=document.querySelectorAll("[data-scene-mode]");
  buttons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.sceneMode===mode)));
@@ -465,9 +470,6 @@ function resetView(){setSceneMode("fly");}
 function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
 // Ne pas animer la scène quand elle est hors écran ou que l'onglet est masqué.
-let previousFrame=performance.now();
-let sceneVisible=!("IntersectionObserver" in window);
-let animationFrame=0;
 function animate(now=performance.now()){
  animationFrame=0;
  if(!sceneVisible||document.hidden||root.dataset.viewMode==="map")return;
