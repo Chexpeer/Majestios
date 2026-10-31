@@ -63,9 +63,9 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath)) {
   const svg = fs.readFileSync(svgPath, "utf8");
   const app = fs.readFileSync(appPath, "utf8");
   const surfaces = [...svg.matchAll(/data-surface=["']([^"']+)["']/g)].map((match) => match[1]);
-  const destinationsBlock = app.match(/const surfaceDestinations\\s*=\\s*\\{([\\s\\S]*?)\\n\\s*\\};/);
+  const destinationsBlock = app.match(/const surfaceDestinations\s*=\s*\\{([\s\S]*?)\n\s*\\};/);
   const destinations = destinationsBlock
-    ? [...destinationsBlock[1].matchAll(/["']([^"']+)["']\\s*:\\s*["']([^"']+\\.html)["']/g)]
+    ? [...destinationsBlock[1].matchAll(/["']([^"']+)["']\s*:\s*["']([^"']+\.html)["']/g)]
     : [];
   const surfaceSet = new Set(surfaces);
   const destinationKeys = new Set(destinations.map((match) => match[1]));
@@ -82,7 +82,7 @@ if (fs.existsSync(svgPath) && fs.existsSync(appPath)) {
 }
 
 if (errors.length) {
-  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
+  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\n- ${errors.join("\n- ")}`);
   process.exitCode = 1;
 } else {
   console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
