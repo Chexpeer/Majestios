@@ -58,3 +58,19 @@ a{color:inherit}
 @media(min-width:900px){.walk-pad{opacity:.7}.walk-pad:hover,.walk-pad:focus-within{opacity:1}}
 @media(max-width:560px){.walk-pad{right:10px;bottom:55px;padding:5px}.walk-pad button{width:31px;height:31px}.scene-hint{max-width:calc(100% - 150px);font-size:9px;line-height:1.4}}
 @media(prefers-reduced-motion:reduce){.walk-pad button{transition:none}}
+
+
+/* Les fonctions commerciales restent visibles depuis l'univers immersif. */
+.za-business-links{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:8px}
+.za-business-links a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 12px;border:1px solid var(--za-line);border-radius:10px;text-decoration:none;font-size:11px;font-weight:750;white-space:nowrap}
+.za-business-links .za-search-link{border-color:#d9b86c66;color:#f3d58e;background:#d9b86c0d}
+.za-business-links .za-contact-link{background:var(--za-gold);color:#172235;border-color:var(--za-gold)}
+.za-business-links a:hover,.za-business-links a:focus-visible{outline:2px solid var(--za-gold);outline-offset:2px}
+.za-business-shortcuts{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:4px 0 10px}
+.za-business-shortcuts a{display:grid;grid-template-columns:34px 1fr;column-gap:11px;align-content:start;min-height:94px;padding:17px;border:1px solid var(--za-line);border-radius:14px;background:linear-gradient(145deg,#1a2b40,#122034);text-decoration:none}
+.za-business-shortcuts a>span{grid-row:span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:#d9b86c18;color:var(--za-gold);font-size:20px}
+.za-business-shortcuts strong{font-size:13px;line-height:1.35;color:#fff}
+.za-business-shortcuts small{margin-top:5px;font-size:11px;line-height:1.45;color:var(--za-muted)}
+.za-business-shortcuts a:hover,.za-business-shortcuts a:focus-visible{border-color:var(--za-gold);outline:none;transform:translateY(-2px)}
+@media(max-width:1050px){.za-header{grid-template-columns:auto 1fr}.za-business-links{grid-column:1/-1;justify-content:flex-start}.za-business-shortcuts{grid-template-columns:1fr}}
+@media(max-width:650px){.za-business-links{gap:6px}.za-business-links a{font-size:10px;padding:8px 9px}.za-business-shortcuts a{min-height:80px}}
