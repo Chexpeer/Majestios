@@ -169,7 +169,7 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
   }
 
   // Protéger la composition de la zone : 12 bâtiments, six centraux et six périphériques.
-  const buildings = [...zoneJs.matchAll(/\\{id:"(B\\d+)",group:"(central|peripherique)"[\\s\\S]*?route:"([^"]+\\.html)",x:([^,}]+),z:([^}]+)\\}/g)]
+  const buildings = [...zoneJs.matchAll(/\{id:"(B\d+)",group:"(central|peripherique)"[\s\S]*?route:"([^"]+\.html)",x:([^,}]+),z:([^}]+)\}/g)]
     .map((match) => ({ id: match[1], group: match[2], route: match[3], position: `${match[4].trim()},${match[5].trim()}` }));
   const centralCount = buildings.filter((building) => building.group === "central").length;
   const peripheralCount = buildings.filter((building) => building.group === "peripherique").length;
