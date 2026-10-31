@@ -70,9 +70,40 @@ async function main() {
     await page.locator('[data-scene-mode="map"]').click();
     assert.equal(await page.locator("#zone-map").isVisible(), true, "La carte doit rester accessible sur un écran mobile.");
     assert.equal(await page.locator("#map-buildings .map-building").count(), 12, "Les 12 destinations doivent rester présentes sur mobile.");
+
+    // Le formulaire doit transmettre les critères à la page dédiée de la catégorie choisie.
+    await page.locator("#feed-search").fill("rénovation énergétique");
+    await page.locator("#feed-sector").selectOption("renovation");
+    await page.locator("#feed-market-type").selectOption("private");
+    await page.locator("#feed-region").selectOption("all");
+    await Promise.all([
+      page.waitForURL(/categorie-renovation\.html\?/),
+      page.locator("#advanced-search-form button[type='submit']").click()
+    ]);
+    assert.match(page.url(), /q=r%C3%A9novation\+%C3%A9nerg%C3%A9tique|q=r%C3%A9novation%20%C3%A9nerg%C3%A9tique/, "Le mot-clé doit être conservé dans l'URL.");
+    assert.match(page.url(), /categorie=renovation/, "La catégorie doit être conservée dans l'URL.");
+    assert.match(page.url(), /marche=private/, "Le type de marché doit être conservé dans l'URL.");
+    assert.match((await page.locator("#category-results-title").innerText()), /Rénovation/, "La page de résultats doit afficher la catégorie choisie.");
+    assert.match((await page.locator("#category-results-panel").innerText()), /Aucune annonce réelle n’est actuellement chargée/, "La page doit signaler explicitement l'absence de données réelles.");
+
+    // Sans catégorie spécifique, les critères doivent aller au récapitulatif général.
+    await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
+    await page.locator("#feed-search").fill("maintenance préventive");
+    await page.locator("#feed-sector").selectOption("all");
+    await page.locator("#feed-market-type").selectOption("public");
+    await page.locator("#feed-region").selectOption("ouest");
+    await Promise.all([
+      page.waitForURL(/resultats-recherche\.html\?/),
+      page.locator("#advanced-search-form button[type='submit']").click()
+    ]);
+    assert.match(page.url(), /q=maintenance\+pr%C3%A9ventive|q=maintenance%20pr%C3%A9ventive/, "Le mot-clé de recherche générale doit être conservé.");
+    assert.match(page.url(), /marche=public/, "Le filtre public doit être conservé.");
+    assert.match(page.url(), /zone=ouest/, "La zone sélectionnée doit être conservée.");
+    assert.match((await page.locator("#search-active-filters").innerText()), /maintenance préventive[\s\S]*Marchés publics[\s\S]*Ouest/i, "Le récapitulatif doit présenter les critères choisis.");
+    assert.match((await page.locator("#search-results-panel").innerText()), /Aucune annonce réelle n'est actuellement chargée/, "Les résultats généraux doivent distinguer la recherche des annonces réellement disponibles.");
     assert.deepEqual(pageErrors, [], "Aucune erreur JavaScript non interceptée n'est attendue.");
 
-    console.log("TEST NAVIGATEUR RÉUSSI : modes Apache/Tesla/GPS, 12 destinations, sélection et lien de rubrique, affichage mobile.");
+    console.log("TEST NAVIGATEUR RÉUSSI : modes Apache/Tesla/GPS, 12 destinations, sélection, affichage mobile et transmission des critères de recherche.");
   } finally {
     if (browser) await browser.close();
     await new Promise((resolve) => server.close(resolve));
