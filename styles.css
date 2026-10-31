@@ -344,6 +344,13 @@ h1 span { color: var(--purple); }
   .nav-cta { justify-content: center; margin-top: 4px; }
 }
 
+@media (min-width: 701px) and (max-width: 1050px) {
+  .feed-toolbar { flex-wrap: wrap; }
+  .feed-search { flex-basis: 100%; }
+  .feed-filter-label { flex: 1 1 140px; }
+  .feed-filter-label select { width: 100%; max-width: none; }
+}
+
 @media (max-width: 900px) {
   .platform-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .demo-wrap { grid-template-columns: 1fr; gap: 26px; }
