@@ -146,7 +146,7 @@
             const place = [record.ville, record.departement_nom_officiel].filter(Boolean).join(" · ");
             const activity = extractActivity(record.listepersonnes) || extractActivity(record.listeetablissements);
             const date = formatDate(record.dateparution);
-            const identifier = record.publicationavis || record.numeroannonce || record.id || "";
+            const identifier = record.id || record.numeroannonce || "";
             const details = [record.acte, record.jugement, record.modificationsgenerales].map((value) => {
               if (!value) return "";
               if (typeof value === "string") return value;
