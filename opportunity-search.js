@@ -19,6 +19,16 @@
     maintenance: ["maintenance", "entretien", "exploitation"]
   };
   const CATEGORY_TYPES = { services: "SERVICES", travaux: "TRAVAUX" };
+  const BODACC_CATEGORY_TERMS = {
+    services: ["service", "prestation", "informatique", "conseil"],
+    travaux: ["travaux", "construction", "bâtiment", "rénovation"],
+    conseil: ["conseil", "étude", "audit", "expertise"],
+    batiment: ["bâtiment", "construction", "maçonnerie", "gros œuvre"],
+    renovation: ["rénovation", "réhabilitation", "isolation", "amélioration énergétique"],
+    electricite: ["électricité", "électrique", "éclairage"],
+    plomberie: ["plomberie", "chauffage", "sanitaire", "thermique"],
+    maintenance: ["maintenance", "entretien", "exploitation"]
+  };
   const FIELDS = [
     "idweb", "id", "objet", "famille_libelle", "dateparution", "datelimitereponse",
     "nomacheteur", "code_departement", "code_departement_prestation",
@@ -103,13 +113,15 @@
         const payload = await response.json();
         const records = Array.isArray(payload.results) ? payload.results : [];
         const filtered = records.filter((record) => {
-          if (!query) return true;
           const haystack = normalize([
             record.commercant, record.ville, record.departement_nom_officiel, record.familleavis_lib,
             flattenText(record.listepersonnes), flattenText(record.listeetablissements), flattenText(record.acte), flattenText(record.jugement),
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
-          return normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
+          const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
+          const categoryTerms = BODACC_CATEGORY_TERMS[category];
+          const categoryMatches = !categoryTerms?.length || categoryTerms.some((term) => haystack.includes(normalize(term)));
+          return queryMatches && categoryMatches;
         }).slice(0, 20);
         if (!filtered.length) {
           empty.textContent = records.length
@@ -213,7 +225,7 @@
       if (market === "all") {
         const privateNote = document.createElement("p");
         privateNote.className = "small-note opportunity-source-note";
-        privateNote.textContent = "Cette recherche affiche uniquement les résultats publics BOAMP. Les marchés privés seront ajoutés lorsqu’une source dédiée aura été connectée.";
+        privateNote.textContent = "Cette vue affiche uniquement les résultats publics BOAMP. Pour consulter les signaux commerciaux privés du BODACC, sélectionnez « Marchés privés » afin de conserver une qualification et une provenance distinctes.";
         (results.isConnected ? results : empty).insertAdjacentElement("afterend", privateNote);
       }
       const sourceNote = document.createElement("p");
