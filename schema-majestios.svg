@@ -1,70 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1216 1240" width="1216" height="1240" role="img" aria-labelledby="title desc">
-<title id="title">Schéma MajestiOS — six surfaces interactives</title>
-<desc id="desc">Six surfaces colorées distinctes, séparées par des espaces, disposées autour du centre dans un cercle. Chaque surface comporte des facettes triangulaires. Aucun texte n’est inscrit sur le dessin.</desc>
-<defs>
-  <style>
-    .outline{fill:none;stroke:#171717;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
-    g[data-surface]{cursor:pointer;transition:filter .16s ease}
-    g[data-surface]:hover,g[data-surface]:focus,g[data-surface].selected{filter:brightness(1.06)}
-    g[data-surface]:focus{outline:none}
-    g[data-surface]:focus .outline,g[data-surface].selected .outline{stroke-width:5}
-  </style>
-</defs>
-<rect width="1216" height="1240" fill="#f7f5ed"/>
-<circle cx="608" cy="614" r="566" fill="none" stroke="#c8c4b9" stroke-width="2"/>
-<!-- Les six contours et les facettes reprennent la référence visuelle fournie. -->
-<g id="surface-bleue" data-surface="bleue" tabindex="0" role="button" aria-label="Sélectionner la surface bleue">
-  <polygon points="316,165 464,251 316,422" fill="#9fc8f2"/>
-  <polygon points="316,165 596,331 464,251" fill="#b6d7f5"/>
-  <polygon points="464,251 596,331 596,583" fill="#367fc2"/>
-  <polygon points="316,422 464,251 464,509" fill="#6ca8e5"/>
-  <polygon points="316,422 464,509 596,583" fill="#5b9bdc"/>
-  <polygon class="outline" points="316,165 596,331 596,583 316,422"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1240" width="1240" height="1240" role="img" aria-labelledby="title desc">
+<title id="title">Schéma interactif MajestiOS</title>
+<desc id="desc">Six surfaces géométriques colorées, aux contours noirs, avec des facettes triangulaires, disposées autour du centre à l’intérieur d’un cercle. Aucune rubrique n’est inscrite sur le schéma.</desc>
+<defs><style>
+.outline{fill:none;stroke:#171717;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+g[data-surface]{cursor:pointer;transition:filter .16s ease}
+g[data-surface]:hover,g[data-surface]:focus,g[data-surface].selected{filter:brightness(1.07)}
+g[data-surface]:focus{outline:none}
+g[data-surface]:focus .outline,g[data-surface].selected .outline{stroke-width:5}
+</style></defs>
+<rect width="1240" height="1240" fill="#f7f5ed"/>
+<circle cx="620" cy="614" r="566" fill="none" stroke="#c8c4b9" stroke-width="2"/>
+<g data-surface="bleue" tabindex="0" role="button" aria-label="Sélectionner la surface bleue">
+<polygon points="325,167 464,249 325,422" fill="#a8cff4"/>
+<polygon points="325,167 613,331 464,249" fill="#b6d8f6"/>
+<polygon points="464,249 613,331 613,583" fill="#397fc0"/>
+<polygon points="325,422 464,249 464,583" fill="#6aa8e4"/>
+<polygon points="325,422 464,583 613,583" fill="#5897d7"/>
+<polygon class="outline" points="325,167 613,331 613,583 325,422"/>
 </g>
-<g id="surface-verte" data-surface="verte" tabindex="0" role="button" aria-label="Sélectionner la surface verte">
-  <polygon points="636,331 784,251 636,422" fill="#a6d8b7"/>
-  <polygon points="920,165 784,251 920,422" fill="#a4d8b5"/>
-  <polygon points="636,331 920,165 784,251" fill="#b7e0c5"/>
-  <polygon points="784,251 920,422 784,509" fill="#69b589"/>
-  <polygon points="636,583 784,509 784,251" fill="#4f9d76"/>
-  <polygon class="outline" points="636,331 920,165 920,422 636,583"/>
+<g data-surface="verte" tabindex="0" role="button" aria-label="Sélectionner la surface verte">
+<polygon points="635,331 784,249 635,583" fill="#9fd3b1"/>
+<polygon points="921,167 784,249 921,422" fill="#b5dfc2"/>
+<polygon points="635,331 921,167 784,249" fill="#c0e4cb"/>
+<polygon points="784,249 921,422 784,583" fill="#78bd91"/>
+<polygon points="635,583 784,583 784,249" fill="#529f76"/>
+<polygon class="outline" points="635,331 921,167 921,422 635,583"/>
 </g>
-<g id="surface-turquoise" data-surface="turquoise" tabindex="0" role="button" aria-label="Sélectionner la surface turquoise">
-  <polygon points="319,449 198,662 64,590" fill="#9adbe0"/>
-  <polygon points="319,449 464,526 336,744 198,662" fill="#80cbd2"/>
-  <polygon points="319,449 464,526 596,600" fill="#b5e5e7"/>
-  <polygon points="198,662 319,449 319,737" fill="#4da6ad"/>
-  <polygon points="319,737 198,662 336,744" fill="#75c3ca"/>
-  <polygon points="319,449 596,600 336,744" fill="#9adbe0"/>
-  <polygon points="319,449 464,526 319,737" fill="#58b0b8" opacity=".8"/>
-  <polygon class="outline" points="319,449 596,600 336,744 64,590"/>
+<g data-surface="turquoise" tabindex="0" role="button" aria-label="Sélectionner la surface turquoise">
+<polygon points="319,449 197,662 65,590" fill="#a3dfe3"/>
+<polygon points="319,449 464,526 197,662" fill="#8bd2d8"/>
+<polygon points="319,449 596,600 464,526" fill="#b8e6e8"/>
+<polygon points="319,449 464,526 336,745" fill="#6dbdc5"/>
+<polygon points="319,449 336,745 197,662" fill="#5aaeb6"/>
+<polygon points="464,526 596,600 336,745" fill="#9adbe0"/>
+<polygon class="outline" points="319,449 596,600 336,745 65,590"/>
 </g>
-<g id="surface-peche" data-surface="pêche" tabindex="0" role="button" aria-label="Sélectionner la surface pêche">
-  <polygon points="929,449 1060,526 929,737" fill="#f8b092"/>
-  <polygon points="929,449 1181,590 1060,526" fill="#f7c0a5"/>
-  <polygon points="1060,526 1181,590 913,744" fill="#f6a17f"/>
-  <polygon points="929,449 1060,526 913,744" fill="#e98e6e"/>
-  <polygon points="929,449 913,744 782,662" fill="#e98768"/>
-  <polygon points="929,449 782,662 648,600" fill="#f6b18f"/>
-  <polygon points="929,449 1060,526 913,744" fill="#ef9878" opacity=".85"/>
-  <polygon class="outline" points="929,449 1181,590 913,744 648,600"/>
+<g data-surface="pêche" tabindex="0" role="button" aria-label="Sélectionner la surface pêche">
+<polygon points="929,449 1060,526 913,745" fill="#f6ad8c"/>
+<polygon points="929,449 1182,590 1060,526" fill="#f8c2a7"/>
+<polygon points="1060,526 1182,590 913,745" fill="#f7a785"/>
+<polygon points="929,449 913,745 782,662" fill="#e98768"/>
+<polygon points="929,449 782,662 649,600" fill="#f5b294"/>
+<polygon points="929,449 1060,526 913,745" fill="#ed9877" opacity=".7"/>
+<polygon class="outline" points="929,449 1182,590 913,745 649,600"/>
 </g>
-<g id="surface-corail" data-surface="corail" tabindex="0" role="button" aria-label="Sélectionner la surface corail">
-  <polygon points="332,773 461,697 332,1038" fill="#f1a0a9"/>
-  <polygon points="332,773 608,617 461,697" fill="#f5b4b8"/>
-  <polygon points="461,697 608,617 608,878" fill="#d96675"/>
-  <polygon points="332,773 461,697 461,957" fill="#e67f8b"/>
-  <polygon points="461,957 608,878 608,617" fill="#ed8d98"/>
-  <polygon points="332,1038 461,957 608,878 332,773" fill="#f0a0a8"/>
-  <polygon class="outline" points="332,773 608,617 608,878 332,1038"/>
+<g data-surface="corail" tabindex="0" role="button" aria-label="Sélectionner la surface corail">
+<polygon points="332,773 461,697 332,1038" fill="#f2a4ad"/>
+<polygon points="332,773 613,617 461,697" fill="#f6b7bc"/>
+<polygon points="461,697 613,617 613,878" fill="#d86c7a"/>
+<polygon points="332,773 461,697 461,957" fill="#e77f8b"/>
+<polygon points="461,957 613,878 613,617" fill="#eb8994"/>
+<polygon points="332,1038 461,957 613,878 332,773" fill="#f0a0a8"/>
+<polygon class="outline" points="332,773 613,617 613,878 332,1038"/>
 </g>
-<g id="surface-ardoise" data-surface="ardoise" tabindex="0" role="button" aria-label="Sélectionner la surface ardoise">
-  <polygon points="636,617 784,697 636,878" fill="#b3c3d9"/>
-  <polygon points="636,617 913,773 784,697" fill="#a7b8d0"/>
-  <polygon points="784,697 913,773 784,957" fill="#91a6c2"/>
-  <polygon points="636,617 784,697 784,957" fill="#7f94b0"/>
-  <polygon points="636,878 784,957 913,1038" fill="#b7c5d8"/>
-  <polygon points="636,878 784,957 913,773" fill="#a1b3cb"/>
-  <polygon class="outline" points="636,617 913,773 913,1038 636,878"/>
+<g data-surface="ardoise" tabindex="0" role="button" aria-label="Sélectionner la surface ardoise">
+<polygon points="635,617 784,697 635,878" fill="#b8c8dc"/>
+<polygon points="635,617 913,773 784,697" fill="#a9bbd3"/>
+<polygon points="784,697 913,773 784,957" fill="#93a8c4"/>
+<polygon points="635,617 784,697 784,957" fill="#8197b4"/>
+<polygon points="635,878 784,957 913,1038" fill="#b9c8da"/>
+<polygon points="635,878 784,957 913,773" fill="#9fb2cb"/>
+<polygon class="outline" points="635,617 913,773 913,1038 635,878"/>
 </g>
 </svg>
