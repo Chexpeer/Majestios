@@ -465,7 +465,7 @@ h1 span { color: var(--purple); }
 .interactive-map-heading > p:last-child { max-width: 590px; margin: 0 auto; color: #777c8d; font-size: 12px; line-height: 1.8; }
 .interactive-map-layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(220px, .55fr); align-items: center; gap: 28px; padding: 22px; border: 1px solid #e9eaf0; border-radius: 16px; background: #fbfaf7; }
 .interactive-map-frame { min-width: 0; }
-.interactive-map-frame object { display: block; width: 100%; height: auto; aspect-ratio: 1216 / 1240; border: 0; }
+.interactive-map-frame object { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; border: 0; }
 .interactive-map-info { padding: 22px 20px; border: 1px solid #e9eaf0; border-radius: 12px; background: #fff; box-shadow: 0 12px 30px #3932670b; }
 .interactive-map-status { color: #8a8f9c; font-size: 8px; font-weight: 800; letter-spacing: 1.1px; }
 .interactive-map-info h3 { margin: 12px 0 9px; font: 750 19px/1.35 Manrope, sans-serif; letter-spacing: -.4px; }
