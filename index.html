@@ -14,7 +14,7 @@
       (function () {
         function showSceneFallback() {
           const loading = document.getElementById("scene-loading");
-          if (!loading || loading.dataset.fallbackShown === "true") return;
+          if (!loading || loading.dataset.fallbackShown === "true" || loading.classList.contains("hidden")) return;
           loading.dataset.fallbackShown = "true";
           const canvas = document.querySelector("#scene canvas");
           if (canvas) canvas.style.display = "none";
