@@ -27,6 +27,14 @@ Le script build.js copie les pages et tous les fichiers nécessaires dans dist/,
 
     node build.js
 
+## Contrôle structurel
+
+Pour contrôler les liens et ressources locales référencés dans les pages HTML, ainsi que les identifiants dupliqués et les ancres HTML manquantes :
+
+    node verify-site.js
+
+Ce contrôle statique ne remplace pas un test dans un navigateur réel, notamment pour la scène 3D, les gestes tactiles et les interactions JavaScript.
+
 ## État réel des fonctionnalités
 
 ### Présent et interactif dans le prototype
