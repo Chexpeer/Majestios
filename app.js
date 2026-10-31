@@ -232,6 +232,13 @@ if (initialMarketType === "public" || initialMarketType === "private") {
   const marketControl = document.querySelector("#feed-market-type");
   if (marketControl) marketControl.value = initialMarketType;
 }
+const initialRegion = initialSearchParams.get("zone");
+if (initialRegion) {
+  const regionControl = document.querySelector("#feed-region");
+  if (regionControl && [...regionControl.options].some((option) => option.value === initialRegion && !option.disabled)) {
+    regionControl.value = initialRegion;
+  }
+}
 
 if (initialCategory && majCatalog.searchCategories.some((item) => item.value === initialCategory && !item.planned)) {
   const categoryControl = document.querySelector("#feed-sector");
