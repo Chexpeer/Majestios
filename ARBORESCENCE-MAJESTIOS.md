@@ -7,7 +7,7 @@ Nature : audit de structure et feuille de route du prototype statique.
 ## 1. Architecture cible du site public
 
 ### A. Entrée principale
-- index.html — accueil, doctrine de présentation, schéma interactif à douze surfaces, flux de démonstration AO, scénarios illustratifs, formulaires de demande.
+- index.html — accueil compact, doctrine de présentation, panorama noir et or interactif à douze surfaces, fil AO fictif avec recherche et filtres, formulaires de demande.
 - zone-artisanale.html — univers virtuel 3D, répertoire des douze espaces, raccourcis vers la recherche d’opportunités et les formulaires.
 - faq.html — explication du concept et limites actuelles.
 - nous-rejoindre.html — contributions, compétences et coopérations envisagées.
@@ -59,7 +59,7 @@ Les liens internes doivent être vérifiés après chaque modification. Un lien 
 ## 4. État fonctionnel — à ne pas confondre
 
 ### Présent dans le prototype
-- Schéma SVG interactif avec douze destinations métier.
+- Schéma SVG panoramique noir et or interactif avec douze destinations métier.
 - Douze pages dédiées, avec espaces visuels propres à chaque rubrique.
 - Zone artisanale 3D avec sélection de bâtiment, déplacements et solution de secours en cas d’échec de chargement.
 - Fil AO avec recherche par texte et filtres secteur/localisation, sur cinq exemples fictifs.
@@ -74,6 +74,9 @@ Les liens internes doivent être vérifiés après chaque modification. Un lien 
 - Les pages métier sont des présentations structurées et des parcours visuels, pas encore des applications métier complètes.
 
 ## 5. Corrections issues de l’audit du 31 octobre 2026
+
+- L’accueil a été resserré : le panorama interactif, le fil AO avec recherche/filtres et les formulaires restent présents ; les anciennes sections éditoriales et démonstratives ont été retirées de la page d’entrée.
+- Les styles de l’accueil ont été harmonisés autour de l’identité noire et or du panorama, y compris les zones de recherche et de formulaire.
 
 - Le script build.js ne copiait pas les fichiers rubriques-immersives.css et rubriques-immersives.js, pourtant référencés par les douze pages métier. Les deux fichiers doivent rester dans la liste de compilation.
 - La FAQ décrivait à tort les destinations du schéma comme restant à relier. Le texte a été corrigé : les douze destinations existent, mais les connexions métier restent à construire.
