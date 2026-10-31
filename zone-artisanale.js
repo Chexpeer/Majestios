@@ -133,7 +133,7 @@ for(const data of buildings){
  // Directory works as an accessible alternative to selecting small 3D objects.
  const card=document.createElement("button");card.type="button";card.className="directory-card";card.style.setProperty("--card-color",data.color);card.dataset.building=data.id;card.setAttribute("aria-pressed","false");
  card.innerHTML=`<span class="card-id">${data.id} · ${data.group==="central"?"CENTRAL":"PÉRIPHÉRIQUE"}</span><strong>${data.name}</strong><small>${data.ground}</small>`;
- card.addEventListener("click",()=>selectBuilding(data));directory.appendChild(card);
+ card.addEventListener("click",()=>selectBuilding(data));if (directory) directory.appendChild(card);
 }
 function tree(position,scale=1){const trunk=box(.22,1.1,.22,material("#70563e"),position.x,.48,position.z);const crown=new THREE.Mesh(new THREE.SphereGeometry(.8*scale,10,8),material("#47775c"));crown.position.set(position.x,1.5*scale,position.z);crown.castShadow=true;scene.add(crown);scene.add(trunk);}
 for(const p of [{x:-19,z:2},{x:19,z:2},{x:-19,z:-11},{x:19,z:-11},{x:-19,z:-22},{x:19,z:-22}])tree(p,.8);
