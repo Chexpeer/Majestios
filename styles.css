@@ -695,3 +695,15 @@ h1 span { color: var(--purple); }
 .floating-route-card { border-color: #e7e0c8; background: linear-gradient(135deg, #fffefb, #f8f6ff); box-shadow: 0 12px 30px rgba(40,34,75,.09); }
 .site-nav a:focus-visible, a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid rgba(104,85,223,.55); outline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) { .interactive-map-info, .feed-card, .interior-grid .platform-card { transition: none !important; } .feed-card:hover, .interior-grid .platform-card:hover { transform: none; } }
+
+
+/* Passerelles entre rubriques : une navigation transversale cohérente. */
+.related-rubrics { margin-top: 42px; margin-bottom: 38px; }
+.related-rubrics-title { grid-column: 1 / -1; margin: 0 0 2px; }
+.related-rubric-card { display: block; color: inherit; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.related-rubric-card h3 { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; font-size: 17px; line-height: 1.4; }
+.related-rubric-card h3 span { color: var(--purple-deep); }
+.related-rubric-card:hover, .related-rubric-card:focus-visible { transform: translateY(-4px); border-color: rgba(104, 85, 223, .32); box-shadow: 0 12px 26px rgba(39, 33, 82, .10); outline: none; }
+.related-rubric-card:focus-visible { outline: 3px solid rgba(104, 85, 223, .4); outline-offset: 3px; }
+@media (max-width: 760px) { .related-rubrics { grid-template-columns: 1fr; gap: 12px; } .related-rubrics-title { grid-column: 1; } }
+@media (prefers-reduced-motion: reduce) { .related-rubric-card { transition: none; } .related-rubric-card:hover, .related-rubric-card:focus-visible { transform: none; } }
