@@ -252,7 +252,7 @@ function renderZoneMap(){
   const name=document.createElement("span");name.textContent=data.name;
   const detail=document.createElement("small");detail.textContent=data.ground;
   button.append(name,detail);button.setAttribute("aria-label",data.name+" — "+data.ground);
-  button.addEventListener("click",()=>{selectBuilding(data,{keepMap:true});updateHoverCard(data,null);});
+  button.addEventListener("click",()=>{selectBuilding(data,{keepMap:true});updateHoverCard(null);});
   mapBuildings.appendChild(button);
  });
 }
