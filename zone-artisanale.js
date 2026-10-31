@@ -280,6 +280,13 @@ if(new URLSearchParams(window.location.search).has("e2e")){
   buildingPoint(id){
    const data=buildings.find(item=>item.id===id);
    if(!data)throw new Error(`Bâtiment inconnu : ${id}`);
+   // Cadrer le bâtiment comme le fait l'interaction de sélection avant de calculer le clic.
+   // Cette aide n'existe que sur l'URL ?e2e=1 et n'affecte pas les visiteurs.
+   cameraDestination=null;targetDestination=null;
+   camera.position.set(data.x+1.5,9.2,data.z+16.5);
+   controls.target.set(data.x,2.7,data.z);
+   controls.update();
+   renderer.render(scene,camera);
    const point=new THREE.Vector3(data.x,5.92,data.z-.04).project(camera);
    const rect=renderer.domElement.getBoundingClientRect();
    return {x:rect.left+(point.x+1)*rect.width/2,y:rect.top+(1-point.y)*rect.height/2};
