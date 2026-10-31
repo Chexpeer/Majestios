@@ -372,6 +372,35 @@ if (fs.existsSync(distPath)) {
   }
 }
 
+
+// Vérifier que les parcours encore en démonstration restent explicitement non transactionnels.
+const memberPagePath = path.join(root, "espace-membre.html");
+if (fs.existsSync(memberPagePath)) {
+  const memberHtml = fs.readFileSync(memberPagePath, "utf8");
+  if (!memberHtml.includes('id="personal-space-form"') || !memberHtml.includes('id="personal-space-feedback"')) {
+    errors.push("Espace membre : formulaire ou zone de retour utilisateur absents");
+  }
+  if (!/aucune donnée n’est envoyée ni enregistrée/i.test(memberHtml)) {
+    errors.push("Espace membre : avertissement explicite sur l’absence d’envoi et d’enregistrement absent");
+  }
+  if (!/addEventListener\(['"]submit['"],\s*e\s*=>\s*\{\s*e\.preventDefault\(\)/s.test(memberHtml)) {
+    errors.push("Espace membre : le formulaire doit intercepter sa soumission sans transmettre les données");
+  }
+  for (const field of ['name="firstName"', 'name="lastName"', 'name="email"', 'name="phone"']) {
+    if (!memberHtml.includes(field)) errors.push(`Espace membre : champ de préparation manquant (${field})`);
+  }
+}
+
+// La page de résultats généraux doit charger le catalogue avant le script qui affiche les libellés.
+if (fs.existsSync(generalResultsPath)) {
+  const resultsHtml = fs.readFileSync(generalResultsPath, "utf8");
+  const catalogIndex = resultsHtml.indexOf('src="catalogue-majestios.js"');
+  const scriptIndex = resultsHtml.indexOf('src="search-results.js"');
+  if (catalogIndex < 0 || scriptIndex < 0 || catalogIndex > scriptIndex) {
+    errors.push("Recherche : catalogue absent ou chargé après le script de récapitulatif des filtres");
+  }
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\n- ${errors.join("\n- ")}`);
   process.exitCode = 1;
