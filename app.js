@@ -481,7 +481,7 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
   separator.textContent = " / ";
   const currentPage = document.createElement("span");
   currentPage.setAttribute("aria-current", "page");
-  currentPage.textContent = interiorTitle.textContent.replace(/\\s+/g, " ").trim();
+  currentPage.textContent = interiorTitle.textContent.replace(/\s+/g, " ").trim();
   breadcrumb.append(homeLink, separator, currentPage);
   interiorPage.prepend(breadcrumb);
 }
