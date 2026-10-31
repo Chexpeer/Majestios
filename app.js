@@ -354,18 +354,26 @@ if (interactiveSvg) {
     corail: "Surface corail",
     ardoise: "Surface ardoise"
   };
-  interactiveSvg.addEventListener("load", () => {
+  const initializeInteractiveSvg = () => {
     const svgDocument = interactiveSvg.contentDocument;
-    if (!svgDocument) return;
+    if (!svgDocument || interactiveSvg.dataset.interactionsReady === "true") return;
     const surfaces = [...svgDocument.querySelectorAll("[data-surface]")];
     const title = document.querySelector("#interactive-map-selection");
     const description = document.querySelector("#interactive-map-description");
+    if (!surfaces.length || !title || !description) return;
+    interactiveSvg.dataset.interactionsReady = "true";
     let selectedSurface = null;
 
+    const showDefault = () => {
+      title.textContent = "Choisissez une surface";
+      description.textContent = "Survolez une couleur pour l’apercevoir, puis cliquez ou utilisez Entrée pour la sélectionner. Les destinations seront définies avec vous.";
+    };
+
     const previewSurface = (surface) => {
+      const name = surfaceNames[surface.dataset.surface] || "Surface";
       title.textContent = selectedSurface === surface
-        ? `${surfaceNames[surface.dataset.surface]} sélectionnée`
-        : `Découvrir — ${surfaceNames[surface.dataset.surface].toLowerCase()}`;
+        ? `${name} sélectionnée`
+        : `Découvrir — ${name.toLowerCase()}`;
       description.textContent = selectedSurface === surface
         ? "Surface active. Le choix des rubriques, des sous-rubriques et des destinations sera défini ensemble avant d’activer la navigation."
         : "Survolez ou sélectionnez cette surface pour l’explorer. Ses rubriques et ses destinations seront activées après validation de leur contenu.";
@@ -374,8 +382,9 @@ if (interactiveSvg) {
     const selectSurface = (surface) => {
       selectedSurface = surface;
       surfaces.forEach((item) => {
-        item.classList.toggle("selected", item === surface);
-        item.setAttribute("aria-pressed", String(item === surface));
+        const isSelected = item === surface;
+        item.classList.toggle("selected", isSelected);
+        item.setAttribute("aria-pressed", String(isSelected));
       });
       previewSurface(surface);
     };
@@ -393,13 +402,18 @@ if (interactiveSvg) {
       });
       surface.addEventListener("pointerleave", () => {
         if (selectedSurface) previewSurface(selectedSurface);
-        else {
-          title.textContent = "Choisissez une surface";
-          description.textContent = "Survolez une couleur pour l’apercevoir, puis cliquez ou utilisez Entrée pour la sélectionner. Les destinations seront définies avec vous.";
-        }
+        else showDefault();
+      });
+      surface.addEventListener("blur", () => {
+        if (selectedSurface) previewSurface(selectedSurface);
+        else showDefault();
       });
     });
-  });
+  };
+
+  // Le SVG peut finir de charger avant ou après ce script : couvrir les deux cas.
+  interactiveSvg.addEventListener("load", initializeInteractiveSvg);
+  initializeInteractiveSvg();
 }
 
 
