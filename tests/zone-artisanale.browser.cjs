@@ -52,6 +52,11 @@ async function main() {
     assert.equal(await page.locator('[data-scene-mode="map"]').getAttribute("aria-pressed"), "true", "Le mode GPS doit être activé.");
     assert.equal(await page.locator("#zone-map").isVisible(), true, "La carte GPS doit s'afficher.");
     assert.equal(await page.locator("#map-buildings .map-building").count(), 12, "La carte doit proposer les 12 rubriques.");
+    assert.equal((await page.locator('[data-scene-mode="drive"]').innerText()).trim(), "Street View", "Le mode routier doit être présenté comme Street View.");
+    assert.equal((await page.locator('[data-scene-mode="map"]').innerText()).trim(), "Carte interactive", "Le mode GPS doit être présenté comme Carte interactive.");
+    assert.ok((await page.locator(".map-header").innerText()).includes("CARTE INTERACTIVE"), "La carte doit afficher son intitulé.");
+    assert.equal(await page.locator(".map-parking").count(), 2, "La carte doit représenter deux zones de stationnement.");
+    assert.equal(await page.locator(".map-green").count(), 2, "La carte doit représenter des espaces verts.");
 
     // Les noms et les détails doivent être visibles directement sur les cartes GPS.
     assert.ok((await page.locator('#map-buildings .map-building[data-id="B01"]').innerText()).includes("Marchés publics"), "Le bâtiment B01 doit afficher son nom sur la carte GPS.");
