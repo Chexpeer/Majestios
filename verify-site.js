@@ -124,9 +124,9 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!sceneCssText.includes(".zone-map") || !sceneCssText.includes(".map-building")) {
     errors.push("Carte interactive : styles de la carte ou de ses destinations absents");
   }
-  if (!sceneScriptText.includes("visitorHelicopter.visible=flying") ||
+  if (!sceneScriptText.includes("visitorHelicopter.visible=false") ||
       !sceneScriptText.includes("visitorCar.visible=false")) {
-    errors.push("Visites immersives : affichage de l’Apache ou de la Tesla non relié au mode de visite");
+    errors.push("Visites immersives : les véhicules doivent rester masqués pour préserver la visibilité de la scène");
   }
   if (!sceneScriptText.includes('addEventListener("touchstart"') || !sceneScriptText.includes('addEventListener("touchend"') || !sceneScriptText.includes("ResizeObserver")) {
     errors.push("Zone 3D : sélection tactile ou adaptation de taille non vérifiable dans le script");
