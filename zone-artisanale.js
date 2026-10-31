@@ -147,7 +147,7 @@ renderer.domElement.addEventListener("touchstart",e=>{
  const t=e.touches[0];const data=getBuildingAt(t);
  if(data){hovered=data.id;selectBuilding(data);updateHoverCard(data,{pointerType:"touch"});}
 },{passive:true});
-const movementKeys=new Set(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"]);
+const movementKeys=new Set(["w","a","s","d","z","q","arrowup","arrowdown","arrowleft","arrowright","shift"]);
 const pressedKeys=new Set();
 renderer.domElement.addEventListener("keydown",e=>{
  const key=e.key.toLowerCase();
@@ -162,10 +162,10 @@ function walkThroughZone(delta){
  const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();
  const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize().negate();
  const direction=new THREE.Vector3();
- if(pressedKeys.has("w")||pressedKeys.has("arrowup"))direction.add(forward);
+ if(pressedKeys.has("w")||pressedKeys.has("z")||pressedKeys.has("arrowup"))direction.add(forward);
  if(pressedKeys.has("s")||pressedKeys.has("arrowdown"))direction.sub(forward);
  if(pressedKeys.has("d")||pressedKeys.has("arrowright"))direction.add(right);
- if(pressedKeys.has("a")||pressedKeys.has("arrowleft"))direction.sub(right);
+ if(pressedKeys.has("a")||pressedKeys.has("q")||pressedKeys.has("arrowleft"))direction.sub(right);
  if(direction.lengthSq()===0)return;
  direction.normalize().multiplyScalar(delta*(pressedKeys.has("shift")?13:7));
  const nextCamera=camera.position.clone().add(direction);
@@ -177,6 +177,16 @@ function walkThroughZone(delta){
  camera.position.copy(nextCamera);controls.target.copy(nextTarget);
  cameraDestination=null;targetDestination=null;
 }
+document.querySelectorAll("[data-walk]").forEach(button=>{
+ const key=button.dataset.walk;
+ const start=e=>{e.preventDefault();pressedKeys.add(key);button.setPointerCapture?.(e.pointerId);};
+ const stop=e=>{e.preventDefault();pressedKeys.delete(key);};
+ button.addEventListener("pointerdown",start);
+ button.addEventListener("pointerup",stop);
+ button.addEventListener("pointercancel",stop);
+ button.addEventListener("lostpointercapture",stop);
+ button.addEventListener("contextmenu",e=>e.preventDefault());
+});
 document.querySelector("#view-home").addEventListener("click",resetView);
 document.querySelector("#zoom-in").addEventListener("click",()=>{camera.position.multiplyScalar(.88);controls.update();});
 document.querySelector("#zoom-out").addEventListener("click",()=>{camera.position.multiplyScalar(1.12);controls.update();});
