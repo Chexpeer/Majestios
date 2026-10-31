@@ -1,65 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1240" width="1240" height="1240" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1240" role="img" aria-labelledby="title desc">
 <title id="title">Schéma interactif MajestiOS</title>
-<desc id="desc">Six surfaces géométriques colorées, aux contours noirs, avec des facettes triangulaires, disposées autour du centre à l’intérieur d’un cercle. Aucune rubrique n’est inscrite sur le schéma.</desc>
+<desc id="desc">Douze surfaces en forme de losange, six au centre et six en périphérie, inspirées du schéma géométrique multicolore de MajestiOS.</desc>
 <defs><style>
-.outline{fill:none;stroke:#171717;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
-g[data-surface]{cursor:pointer;transition:filter .16s ease}
-g[data-surface]:hover,g[data-surface]:focus,g[data-surface].selected{filter:brightness(1.07)}
+.bg{fill:#f5f0e4}.edge{stroke:#f5f0e4;stroke-width:10;stroke-linejoin:round}
+g[data-surface]{cursor:pointer;transition:filter .18s ease}
+g[data-surface]:hover,g[data-surface]:focus,g[data-surface].selected{filter:brightness(1.12) drop-shadow(0 0 5px #fff)}
 g[data-surface]:focus{outline:none}
-g[data-surface]:focus .outline,g[data-surface].selected .outline{stroke-width:5}
+.hit{stroke:transparent;stroke-width:2;fill:transparent;pointer-events:all}
+g[data-surface]:hover .hit,g[data-surface]:focus .hit,g[data-surface].selected .hit{stroke:#fff;stroke-width:5;fill:#fff;fill-opacity:.07}
 </style></defs>
-<rect width="1240" height="1240" fill="#f7f5ed"/>
-<circle cx="620" cy="614" r="566" fill="none" stroke="#c8c4b9" stroke-width="2"/>
-<g data-surface="bleue" tabindex="0" role="button" aria-label="Sélectionner la surface bleue">
-<polygon points="325,167 464,249 325,422" fill="#a8cff4"/>
-<polygon points="325,167 613,331 464,249" fill="#b6d8f6"/>
-<polygon points="464,249 613,331 613,583" fill="#397fc0"/>
-<polygon points="325,422 464,249 464,583" fill="#6aa8e4"/>
-<polygon points="325,422 464,583 613,583" fill="#5897d7"/>
-<polygon class="outline" points="325,167 613,331 613,583 325,422"/>
+<rect class="bg" width="1240" height="1240"/>
+<!-- Les douze zones sont des losanges indépendants. Les facettes internes restent décoratives. -->
+<g data-surface="central-bleu" tabindex="0" role="button" aria-label="Explorer Marchés publics">
+ <polygon class="edge" fill="#4d84b6" points="620,58 922,154 620,322 320,154"/>
+ <polygon fill="#5c91c1" points="620,58 620,190 320,154"/><polygon fill="#467cae" points="620,58 922,154 620,190"/><polygon fill="#719ec5" points="320,154 620,190 620,322"/><polygon fill="#3f70a2" points="620,190 922,154 620,322"/>
+ <polygon class="hit" points="620,58 922,154 620,322 320,154"/>
 </g>
-<g data-surface="verte" tabindex="0" role="button" aria-label="Sélectionner la surface verte">
-<polygon points="635,331 784,249 635,583" fill="#9fd3b1"/>
-<polygon points="921,167 784,249 921,422" fill="#b5dfc2"/>
-<polygon points="635,331 921,167 784,249" fill="#c0e4cb"/>
-<polygon points="784,249 921,422 784,583" fill="#78bd91"/>
-<polygon points="635,583 784,583 784,249" fill="#529f76"/>
-<polygon class="outline" points="635,331 921,167 921,422 635,583"/>
+<g data-surface="central-bleu-clair" tabindex="0" role="button" aria-label="Explorer Veille des marchés">
+ <polygon class="edge" fill="#438bc7" points="320,160 620,322 610,600 320,432"/>
+ <polygon fill="#5a9bd4" points="320,160 460,236 320,432"/><polygon fill="#76b0e5" points="320,160 620,322 460,236"/><polygon fill="#347ab7" points="460,236 620,322 610,600"/><polygon fill="#498dc5" points="320,432 460,236 610,600"/>
+ <polygon class="hit" points="320,160 620,322 610,600 320,432"/>
 </g>
-<g data-surface="turquoise" tabindex="0" role="button" aria-label="Sélectionner la surface turquoise">
-<polygon points="319,449 197,662 65,590" fill="#a3dfe3"/>
-<polygon points="319,449 464,526 197,662" fill="#8bd2d8"/>
-<polygon points="319,449 596,600 464,526" fill="#b8e6e8"/>
-<polygon points="319,449 464,526 336,745" fill="#6dbdc5"/>
-<polygon points="319,449 336,745 197,662" fill="#5aaeb6"/>
-<polygon points="464,526 596,600 336,745" fill="#9adbe0"/>
-<polygon class="outline" points="319,449 596,600 336,745 65,590"/>
+<g data-surface="central-vert" tabindex="0" role="button" aria-label="Explorer Marchés privés">
+ <polygon class="edge" fill="#4d9a68" points="620,322 922,160 922,432 630,600"/>
+ <polygon fill="#72b584" points="620,322 780,236 630,600"/><polygon fill="#8bc49a" points="780,236 922,160 922,432"/><polygon fill="#4b9464" points="780,236 922,432 630,600"/><polygon fill="#5aa573" points="620,322 780,236 922,160"/>
+ <polygon class="hit" points="620,322 922,160 922,432 630,600"/>
 </g>
-<g data-surface="pêche" tabindex="0" role="button" aria-label="Sélectionner la surface pêche">
-<polygon points="929,449 1060,526 913,745" fill="#f6ad8c"/>
-<polygon points="929,449 1182,590 1060,526" fill="#f8c2a7"/>
-<polygon points="1060,526 1182,590 913,745" fill="#f7a785"/>
-<polygon points="929,449 913,745 782,662" fill="#e98768"/>
-<polygon points="929,449 782,662 649,600" fill="#f5b294"/>
-<polygon points="929,449 1060,526 913,745" fill="#ed9877" opacity=".7"/>
-<polygon class="outline" points="929,449 1182,590 913,745 649,600"/>
+<g data-surface="central-turquoise" tabindex="0" role="button" aria-label="Explorer Prospection inversée">
+ <polygon class="edge" fill="#278f9b" points="320,432 610,600 330,746 60,600"/>
+ <polygon fill="#55b1bb" points="320,432 460,514 60,600"/><polygon fill="#3ba3af" points="320,432 610,600 460,514"/><polygon fill="#21838e" points="460,514 610,600 330,746"/><polygon fill="#62b7bf" points="60,600 460,514 330,746"/>
+ <polygon class="hit" points="320,432 610,600 330,746 60,600"/>
 </g>
-<g data-surface="corail" tabindex="0" role="button" aria-label="Sélectionner la surface corail">
-<polygon points="332,773 461,697 332,1038" fill="#f2a4ad"/>
-<polygon points="332,773 613,617 461,697" fill="#f6b7bc"/>
-<polygon points="461,697 613,617 613,878" fill="#d86c7a"/>
-<polygon points="332,773 461,697 461,957" fill="#e77f8b"/>
-<polygon points="461,957 613,878 613,617" fill="#eb8994"/>
-<polygon points="332,1038 461,957 613,878 332,773" fill="#f0a0a8"/>
-<polygon class="outline" points="332,773 613,617 613,878 332,1038"/>
+<g data-surface="central-orange" tabindex="0" role="button" aria-label="Explorer Développement commercial">
+ <polygon class="edge" fill="#d65b22" points="630,600 920,432 1180,600 920,746"/>
+ <polygon fill="#ed7d40" points="630,600 780,514 920,746"/><polygon fill="#e36b2e" points="780,514 920,432 1180,600"/><polygon fill="#c95320" points="780,514 1180,600 920,746"/><polygon fill="#f08b4d" points="630,600 780,514 920,432"/>
+ <polygon class="hit" points="630,600 920,432 1180,600 920,746"/>
 </g>
-<g data-surface="ardoise" tabindex="0" role="button" aria-label="Sélectionner la surface ardoise">
-<polygon points="635,617 784,697 635,878" fill="#b8c8dc"/>
-<polygon points="635,617 913,773 784,697" fill="#a9bbd3"/>
-<polygon points="784,697 913,773 784,957" fill="#93a8c4"/>
-<polygon points="635,617 784,697 784,957" fill="#8197b4"/>
-<polygon points="635,878 784,957 913,1038" fill="#b9c8da"/>
-<polygon points="635,878 784,957 913,773" fill="#9fb2cb"/>
-<polygon class="outline" points="635,617 913,773 913,1038 635,878"/>
+<g data-surface="central-corail" tabindex="0" role="button" aria-label="Explorer Intelligence économique">
+ <polygon class="edge" fill="#bb354d" points="60,600 330,746 320,1070 620,900 330,760"/>
+ <polygon fill="#cf5366" points="60,600 190,670 320,1070"/><polygon fill="#b92f48" points="190,670 330,746 320,1070"/><polygon fill="#d64b60" points="330,746 620,900 320,1070"/><polygon fill="#e06a79" points="330,746 620,600 620,900"/>
+ <polygon class="hit" points="60,600 330,746 620,600 620,900 320,1070"/>
+</g>
+<g data-surface="peripherique-turquoise" tabindex="0" role="button" aria-label="Explorer Réseaux et synergies">
+ <polygon class="edge" fill="#398f9c" points="320,160 125,330 60,600 320,432"/>
+ <polygon fill="#5aa6b0" points="320,160 125,330 320,300"/><polygon fill="#2b8794" points="320,160 320,432 320,300"/><polygon fill="#3b9ba6" points="125,330 60,600 320,432"/><polygon fill="#70b7bf" points="125,330 320,300 320,432"/>
+ <polygon class="hit" points="320,160 125,330 60,600 320,432"/>
+</g>
+<g data-surface="peripherique-vert" tabindex="0" role="button" aria-label="Explorer Sous-traitance et débordement de marchés">
+ <polygon class="edge" fill="#4d9562" points="922,160 1115,330 1180,600 922,432"/>
+ <polygon fill="#72b07c" points="922,160 922,300 1115,330"/><polygon fill="#3c8755" points="922,160 922,432 922,300"/><polygon fill="#5aa56a" points="922,300 1180,600 922,432"/><polygon fill="#7cba88" points="922,300 1115,330 1180,600"/>
+ <polygon class="hit" points="922,160 1115,330 1180,600 922,432"/>
+</g>
+<g data-surface="peripherique-corail" tabindex="0" role="button" aria-label="Explorer Accompagnement aux appels d’offres">
+ <polygon class="edge" fill="#c73c54" points="60,600 110,865 320,1070 330,746"/>
+ <polygon fill="#b32d46" points="60,600 190,675 110,865"/><polygon fill="#d34c61" points="190,675 330,746 110,865"/><polygon fill="#e16b7c" points="330,746 320,1070 110,865"/><polygon fill="#ca4057" points="190,675 330,746 330,900"/>
+ <polygon class="hit" points="60,600 110,865 320,1070 330,746"/>
+</g>
+<g data-surface="peripherique-orange" tabindex="0" role="button" aria-label="Explorer Veille des entreprises — BODACC">
+ <polygon class="edge" fill="#d9652b" points="920,746 1180,600 1130,865 920,1070"/>
+ <polygon fill="#e98245" points="920,746 1050,675 1130,865"/><polygon fill="#c95720" points="1050,675 1180,600 1130,865"/><polygon fill="#d96a2b" points="920,746 920,1070 1130,865"/><polygon fill="#f09253" points="920,746 1050,675 920,900"/>
+ <polygon class="hit" points="920,746 1180,600 1130,865 920,1070"/>
+</g>
+<g data-surface="peripherique-violet" tabindex="0" role="button" aria-label="Explorer Salons et séminaires">
+ <polygon class="edge" fill="#74518f" points="320,1070 620,900 920,1070 620,1180"/>
+ <polygon fill="#8969a1" points="320,1070 620,1040 620,1180"/><polygon fill="#654580" points="620,1040 920,1070 620,1180"/><polygon fill="#795994" points="320,1070 620,900 620,1040"/><polygon fill="#5d3d78" points="620,900 920,1070 620,1040"/>
+ <polygon class="hit" points="320,1070 620,900 920,1070 620,1180"/>
+</g>
+<g data-surface="peripherique-violet-clair" tabindex="0" role="button" aria-label="Explorer Suivi commercial et capitalisation">
+ <polygon class="edge" fill="#8665a0" points="620,600 920,746 920,1070 620,900"/>
+ <polygon fill="#9b7db0" points="620,600 770,680 620,900"/><polygon fill="#78558f" points="770,680 920,746 920,1070"/><polygon fill="#a58ab9" points="620,600 770,680 920,746"/><polygon fill="#69477f" points="620,900 770,680 920,1070"/>
+ <polygon class="hit" points="620,600 920,746 920,1070 620,900"/>
 </g>
 </svg>
