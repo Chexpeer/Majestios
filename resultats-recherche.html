@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Consulter le récapitulatif de votre recherche d'opportunités commerciales MajestiOS.">
+  <meta name="theme-color" content="#101a2a">
+  <title>Résultats de recherche — MajestiOS</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="catalogue-majestios.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="search-results.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+    <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="salons-seminaires.html">Salon virtuel</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace membre</a><a href="faq.html">FAQ</a>
+    </nav>
+  </header>
+  <main class="section-wrap interior-page search-results-page">
+    <p class="eyebrow">EXPLORER MAJESTIOS · RECHERCHE</p>
+    <h1>Résultats de recherche</h1>
+    <p class="interior-lede">Retrouvez ici les critères transmis par le moteur de recherche avancé. Les résultats réels apparaîtront lorsque les sources d'appels d'offres seront connectées.</p>
+    <section class="category-results-panel" id="search-results-panel" aria-live="polite" aria-labelledby="search-results-status">
+      <h2 id="search-results-status">Récapitulatif de votre recherche</h2>
+      <dl class="category-active-filters" id="search-active-filters"></dl>
+      <p class="category-results-empty">Aucune annonce réelle n'est actuellement chargée. Les connecteurs aux sources et le moteur de classement restent à raccorder.</p>
+      <p class="small-note">MajestiOS ne présente pas de données fictives comme des consultations disponibles. Les critères affichés ne signifient pas qu'une source a été interrogée.</p>
+    </section>
+    <p><a class="button-primary" href="index.html#recherche-avancee">Modifier les critères dans la recherche avancée →</a></p>
+  </main>
+</body>
+</html>
