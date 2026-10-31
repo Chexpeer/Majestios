@@ -1300,3 +1300,31 @@ body.homepage {
 @media (min-width: 1200px) and (min-height: 850px) {
   .homepage .interactive-map-frame object { height: min(72vh, 1000px); }
 }
+
+
+/* Correctif ferme : le panorama est le contenu principal de l'accueil,
+   jamais une rubrique à ouvrir depuis le menu. */
+body.homepage .majestios-immersive-home { display:block; overflow:visible; }
+body.homepage .interactive-map-section { display:block !important; margin:0; }
+body.homepage .interactive-map-heading { margin:0 auto 10px; }
+body.homepage .interactive-map-heading .eyebrow { margin-bottom:7px; }
+body.homepage .interactive-map-heading h1 { margin-bottom:7px; }
+body.homepage .interactive-map-heading > p:last-child { margin-bottom:0; }
+body.homepage .interactive-map-layout { display:grid; grid-template-columns:minmax(0,1fr); }
+body.homepage .interactive-map-frame { display:block; width:100%; overflow-x:auto; overflow-y:hidden; }
+body.homepage .interactive-map-frame object {
+  display:block; width:100%; min-width:0; height:clamp(480px,68vh,900px);
+  aspect-ratio:auto; border:0;
+}
+@media (max-width:900px) {
+  body.homepage .interactive-map-section { min-height:0; padding:12px 10px 20px; }
+  body.homepage .interactive-map-heading h1 { font-size:clamp(23px,6vw,34px); }
+  body.homepage .interactive-map-heading > p:last-child { font-size:12px; line-height:1.45; }
+  body.homepage .interactive-map-frame { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  body.homepage .interactive-map-frame object { width:900px; min-width:900px; height:630px; }
+  body.homepage .interactive-map-info { grid-template-columns:1fr; }
+}
+@media (min-width:901px) {
+  body.homepage .interactive-map-frame { overflow:hidden; }
+  body.homepage .interactive-map-frame object { width:100%; min-width:0; height:clamp(520px,70vh,940px); }
+}
