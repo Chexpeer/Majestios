@@ -1477,3 +1477,70 @@ body.homepage .homepage-ticker strong { color:#d5b56c; font-weight:800; letter-s
 body.homepage .homepage-ticker:hover .homepage-ticker-track,body.homepage .homepage-ticker:focus-within .homepage-ticker-track { animation-play-state:paused; }
 @keyframes majestios-ticker-scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
 @media(prefers-reduced-motion:reduce) { body.homepage .homepage-ticker-track { animation:none; width:100%; min-width:0; } body.homepage .homepage-ticker-track span[aria-hidden="true"] { display:none; } body.homepage .homepage-ticker-track span:first-child { white-space:normal; padding:4px 10px; } body.homepage .homepage-ticker { height:auto; min-height:25px; } }
+
+
+/* Accueil : moteur de recherche compact, sombre et placé avant la zone immersive. */
+body.homepage .tender-feed-section {
+  padding: 14px 0;
+  border-top: 0;
+  border-bottom: 1px solid rgba(213,181,108,.2);
+  background: #0b1017;
+}
+body.homepage .tender-feed-section .feed-wrap { width:min(1240px,calc(100% - 36px)); }
+body.homepage .tender-feed-section .feed-demo { padding:0; border:0; background:transparent; box-shadow:none; }
+body.homepage .tender-feed-section .feed-toolbar {
+  display:grid;
+  grid-template-columns:minmax(190px,1.6fr) repeat(3,minmax(130px,1fr)) auto;
+  align-items:center;
+  gap:9px;
+  margin:0;
+}
+body.homepage .tender-feed-section .feed-search,
+body.homepage .tender-feed-section .feed-filter-label { min-width:0; }
+body.homepage .tender-feed-section .feed-search input,
+body.homepage .tender-feed-section .feed-filter-label select {
+  width:100%; min-height:42px; padding:10px 12px;
+  border:1px solid rgba(213,181,108,.28); border-radius:9px;
+  color:#f2eee3; background:#101722; font:500 12px/1.3 inherit;
+}
+body.homepage .tender-feed-section .feed-search input::placeholder { color:#9f9a8e; }
+body.homepage .tender-feed-section .feed-search > span:not(.sr-only) { color:#d5b56c; }
+body.homepage .tender-feed-section .feed-search-submit {
+  min-height:42px; padding:10px 15px; border:1px solid #d5b56c;
+  border-radius:9px; color:#11151c; background:#d5b56c;
+  font-size:12px; font-weight:800; white-space:nowrap;
+}
+body.homepage .tender-feed-section .feed-search-submit:hover,
+body.homepage .tender-feed-section .feed-search-submit:focus-visible { background:#f0d99b; outline:2px solid #f0d99b; outline-offset:2px; }
+body.homepage .tender-feed-section .feed-search input:focus-visible,
+body.homepage .tender-feed-section .feed-filter-label select:focus-visible { outline:2px solid #f0d99b; outline-offset:2px; }
+@media(max-width:900px) {
+  body.homepage .tender-feed-section .feed-toolbar { grid-template-columns:minmax(0,1.5fr) repeat(2,minmax(0,1fr)); }
+  body.homepage .tender-feed-section .feed-search-submit { grid-column:1/-1; }
+}
+@media(max-width:560px) {
+  body.homepage .tender-feed-section { padding:11px 0; }
+  body.homepage .tender-feed-section .feed-wrap { width:calc(100% - 24px); }
+  body.homepage .tender-feed-section .feed-toolbar { grid-template-columns:1fr 1fr; gap:7px; }
+  body.homepage .tender-feed-section .feed-search { grid-column:1/-1; }
+  body.homepage .tender-feed-section .feed-search input,
+  body.homepage .tender-feed-section .feed-filter-label select { min-height:40px; font-size:11px; }
+  body.homepage .tender-feed-section .feed-search-submit { grid-column:1/-1; }
+}
+
+/* Pied de page commun, renforcé sur l'accueil immersif. */
+body.homepage .homepage-footer {
+  width:100%; max-width:none; min-height:96px; margin:0; padding:22px clamp(14px,3vw,44px);
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px 24px;
+  border-top:1px solid rgba(213,181,108,.22); color:#bdb5a4; background:#070a0f;
+}
+body.homepage .homepage-footer .footer-brand { color:#f2eee3; font-size:16px; white-space:nowrap; }
+body.homepage .homepage-footer .footer-brand .brand-mark { color:#090b10; background:linear-gradient(135deg,#f7e6a9,#b28a3c); }
+body.homepage .homepage-footer > p { margin:0; color:#9f9a8e; font-size:10px; line-height:1.5; }
+body.homepage .footer-links { display:flex; flex-wrap:wrap; gap:9px 16px; }
+body.homepage .footer-links a { color:#d5b56c; font-size:11px; text-underline-offset:3px; }
+body.homepage .footer-links a:hover,body.homepage .footer-links a:focus-visible { color:#f7e6a9; text-decoration:underline; outline-offset:3px; }
+@media(max-width:760px) {
+  body.homepage .homepage-footer { align-items:flex-start; flex-direction:column; gap:12px; }
+  body.homepage .footer-links { gap:10px 14px; }
+}
