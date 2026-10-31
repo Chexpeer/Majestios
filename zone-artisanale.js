@@ -188,7 +188,7 @@ function focusBuilding(data){
  targetDestination=nextTarget;
  cameraDestination=new THREE.Vector3(data.x+1.5,9.2,data.z+16.5);
 }
-function selectBuilding(data){selected=data;focusBuilding(data);title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";floorList.hidden=true;openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");openLink.removeAttribute("tabindex");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
+function selectBuilding(data){selected=data;setSceneMode("fly");focusBuilding(data);title.textContent=data.name;description.textContent=data.description;floorList.innerHTML="";floorList.hidden=true;openLink.href=data.route;openLink.textContent="Découvrir "+data.name;openLink.classList.remove("is-disabled");openLink.removeAttribute("aria-disabled");openLink.removeAttribute("tabindex");document.querySelectorAll(".directory-card").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.building===data.id)));buildingMeshes.forEach(g=>{g.scale.setScalar(g.userData.building.id===data.id?1.06:1);});}
 function getBuildingAt(event){const rect=renderer.domElement.getBoundingClientRect();pointer.x=((event.clientX-rect.left)/rect.width)*2-1;pointer.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(buildingMeshes,true);return hits.find(h=>h.object.userData.building)?.object.userData.building||null;}
 function updateHoverCard(data,event){
  if(!hoverCard)return;
