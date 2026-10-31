@@ -786,6 +786,72 @@ if (!homeAppJs.includes('homeHelpToggle?.addEventListener("click"') ||
   errors.push("Aide d’accueil : ouverture/fermeture accessible ou fermeture par Échap absente");
 }
 
+
+// Lot 18 — contrat de cohérence des douze bâtiments et de leurs trois niveaux.
+const expectedBuildingContracts = [
+  ["B01", "Marchés publics", "marches-publics", "central"],
+  ["B02", "Marchés privés", "marches-prives", "central"],
+  ["B03", "Développement commercial", "developpement-commercial", "central"],
+  ["B04", "Prospection inversée", "prospection-inversee", "central"],
+  ["B05", "Intelligence économique", "intelligence-economique", "central"],
+  ["B06", "Réseaux et synergies", "reseaux-synergies", "peripherique"],
+  ["B07", "Veille des marchés", "veille-marches", "central"],
+  ["B08", "Accompagnement aux appels d'offres", "accompagnement-appels-offres", "peripherique"],
+  ["B09", "Sous-traitance et débordement de marchés", "sous-traitance", "peripherique"],
+  ["B10", "Salons et séminaires", "salons-seminaires", "peripherique"],
+  ["B11", "Veille des entreprises — BODACC", "bodacc-veille-entreprises", "peripherique"],
+  ["B12", "Suivi commercial et capitalisation", "suivi-commercial", "peripherique"]
+];
+const buildingDefinitions = [...homeSceneJs.matchAll(/\{id:"(B\d{2})",group:"(central|peripherique)",name:"([^"]+)"[\s\S]*?route:rubricRoute\(["']([^"']+)["']\),[\s\S]*?\}/g)];
+if (buildingDefinitions.length !== 12) {
+  errors.push(`Zone industrielle : ${buildingDefinitions.length} définitions de bâtiments détectées, 12 attendues`);
+}
+const observedBuildingIds = new Set();
+const observedBuildingNames = new Set();
+const centralCount = buildingDefinitions.filter((match) => match[2] === "central").length;
+const peripheralCount = buildingDefinitions.filter((match) => match[2] === "peripherique").length;
+if (centralCount !== 6 || peripheralCount !== 6) {
+  errors.push(`Zone industrielle : répartition centrale/périphérique incorrecte (${centralCount}/${peripheralCount}, 6/6 attendus)`);
+}
+for (const [id, name, key, group] of expectedBuildingContracts) {
+  const match = buildingDefinitions.find((item) => item[1] === id);
+  if (!match) {
+    errors.push(`Zone industrielle : bâtiment contractuel absent : ${id}`);
+    continue;
+  }
+  if (match[3] !== name || match[4] !== key || match[2] !== group) {
+    errors.push(`Zone industrielle : identité ou rubrique principale incohérente pour ${id}`);
+  }
+  if (observedBuildingIds.has(match[1])) errors.push(`Zone industrielle : identifiant de bâtiment dupliqué : ${id}`);
+  if (observedBuildingNames.has(match[3])) errors.push(`Zone industrielle : nom de bâtiment dupliqué : ${name}`);
+  observedBuildingIds.add(match[1]);
+  observedBuildingNames.add(match[3]);
+}
+for (const match of buildingDefinitions) {
+  const id = match[1];
+  const definitionStart = match.index;
+  const nextStart = homeSceneJs.indexOf('{id:"', definitionStart + 5);
+  const definition = homeSceneJs.slice(definitionStart, nextStart < 0 ? homeSceneJs.indexOf('];', definitionStart) : nextStart);
+  const mainHrefMatch = sceneCatalog.match(new RegExp(`\\{[^}]*key:\\s*["']${match[4]}["'][^}]*href:\\s*["']([^"']+\\.html)["'][^}]*\\}`));
+  const first = definition.match(/firstRoute:"([^"]+)"/);
+  const second = definition.match(/secondRoute:"([^"]+)"/);
+  if (!mainHrefMatch || !first || !second) {
+    errors.push(`Zone industrielle : destinations à trois niveaux incomplètes pour ${id}`);
+    continue;
+  }
+  if (new Set([mainHrefMatch[1], first[1], second[1]]).size !== 3) {
+    errors.push(`Zone industrielle : les trois niveaux doivent mener à des pages distinctes pour ${id}`);
+  }
+  for (const destination of [mainHrefMatch[1], first[1], second[1]]) {
+    if (!fs.existsSync(path.join(root, destination))) errors.push(`Zone industrielle : destination ${destination} absente pour ${id}`);
+    if (!/["']/.test(destination) || (!buildScriptPath || !fs.existsSync(buildScriptPath))) continue;
+    const buildSource = fs.readFileSync(buildScriptPath, "utf8");
+    if (!buildSource.includes(`"${destination}"`) && !buildSource.includes(`'${destination}'`)) {
+      errors.push(`Build : destination ${destination} non incluse pour ${id}`);
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
