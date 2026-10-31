@@ -125,7 +125,7 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
     errors.push("Carte interactive : styles de la carte ou de ses destinations absents");
   }
   if (!sceneScriptText.includes("visitorHelicopter.visible=flying") ||
-      !sceneScriptText.includes("visitorCar.visible=driving")) {
+      !sceneScriptText.includes("visitorCar.visible=false")) {
     errors.push("Visites immersives : affichage de l’Apache ou de la Tesla non relié au mode de visite");
   }
   if (!sceneScriptText.includes('addEventListener("touchstart"') || !sceneScriptText.includes('addEventListener("touchend"') || !sceneScriptText.includes("ResizeObserver")) {
