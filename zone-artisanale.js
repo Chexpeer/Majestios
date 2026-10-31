@@ -147,12 +147,42 @@ renderer.domElement.addEventListener("touchstart",e=>{
  const t=e.touches[0];const data=getBuildingAt(t);
  if(data){hovered=data.id;selectBuilding(data);updateHoverCard(data,{pointerType:"touch"});}
 },{passive:true});
-renderer.domElement.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();if(selected){openLink.click();}else selectBuilding(buildings[0]);}});
+const movementKeys=new Set(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"]);
+const pressedKeys=new Set();
+renderer.domElement.addEventListener("keydown",e=>{
+ const key=e.key.toLowerCase();
+ if(movementKeys.has(key)){e.preventDefault();pressedKeys.add(key);return;}
+ if(e.key==="Enter"||e.key===" "){e.preventDefault();if(selected){openLink.click();}else selectBuilding(buildings[0]);}
+});
+renderer.domElement.addEventListener("keyup",e=>pressedKeys.delete(e.key.toLowerCase()));
+renderer.domElement.addEventListener("blur",()=>pressedKeys.clear());
+window.addEventListener("keyup",e=>pressedKeys.delete(e.key.toLowerCase()));
+function walkThroughZone(delta){
+ if(!pressedKeys.size)return;
+ const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();
+ const right=new THREE.Vector3().crossVectors(forward,new THREE.Vector3(0,1,0)).normalize().negate();
+ const direction=new THREE.Vector3();
+ if(pressedKeys.has("w")||pressedKeys.has("arrowup"))direction.add(forward);
+ if(pressedKeys.has("s")||pressedKeys.has("arrowdown"))direction.sub(forward);
+ if(pressedKeys.has("d")||pressedKeys.has("arrowright"))direction.add(right);
+ if(pressedKeys.has("a")||pressedKeys.has("arrowleft"))direction.sub(right);
+ if(direction.lengthSq()===0)return;
+ direction.normalize().multiplyScalar(delta*(pressedKeys.has("shift")?13:7));
+ const nextCamera=camera.position.clone().add(direction);
+ const nextTarget=controls.target.clone().add(direction);
+ nextCamera.x=THREE.MathUtils.clamp(nextCamera.x,-22,22);
+ nextCamera.z=THREE.MathUtils.clamp(nextCamera.z,-25,17);
+ nextTarget.x=THREE.MathUtils.clamp(nextTarget.x,-22,22);
+ nextTarget.z=THREE.MathUtils.clamp(nextTarget.z,-25,17);
+ camera.position.copy(nextCamera);controls.target.copy(nextTarget);
+ cameraDestination=null;targetDestination=null;
+}
 document.querySelector("#view-home").addEventListener("click",resetView);
 document.querySelector("#zoom-in").addEventListener("click",()=>{camera.position.multiplyScalar(.88);controls.update();});
 document.querySelector("#zoom-out").addEventListener("click",()=>{camera.position.multiplyScalar(1.12);controls.update();});
 function resetView(){cameraDestination=new THREE.Vector3(0,17,35);targetDestination=new THREE.Vector3(0,1.5,-6);}
 function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}
 if("ResizeObserver" in window)new ResizeObserver(resize).observe(root);else window.addEventListener("resize",resize);resize();resetView();
-function animate(){requestAnimationFrame(animate);if(cameraDestination&&targetDestination){const speed=reducedMotion?1:.085;camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}controls.update();renderer.render(scene,camera);}
+let previousFrame=performance.now();
+function animate(now=performance.now()){requestAnimationFrame(animate);const delta=Math.min((now-previousFrame)/1000,.05);previousFrame=now;if(cameraDestination&&targetDestination){const speed=reducedMotion?1:.085;camera.position.lerp(cameraDestination,speed);controls.target.lerp(targetDestination,speed);if(camera.position.distanceTo(cameraDestination)<.04&&controls.target.distanceTo(targetDestination)<.04){camera.position.copy(cameraDestination);controls.target.copy(targetDestination);cameraDestination=null;targetDestination=null;}}walkThroughZone(delta);controls.update();renderer.render(scene,camera);}
 animate();loading.classList.add("hidden");
