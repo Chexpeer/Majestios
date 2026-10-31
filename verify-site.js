@@ -56,6 +56,27 @@ if (fs.existsSync(buildPath)) {
   errors.push("build.js : fichier absent");
 }
 
+// Protéger les fonctions métier essentielles de la page d'accueil contre les régressions.
+const homePath = path.join(root, "index.html");
+const appScriptPath = path.join(root, "app.js");
+if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
+  const home = fs.readFileSync(homePath, "utf8");
+  const appScript = fs.readFileSync(appScriptPath, "utf8");
+  for (const id of ["flux-ao", "feed-search", "feed-sector", "feed-region", "feed-stream", "lead-form", "form-feedback"]) {
+    if (!home.includes(`id="${id}"`)) {
+      errors.push(`Accueil : fonction commerciale essentielle absente ou identifiant modifié : #${id}`);
+    }
+  }
+  if (!appScript.includes("demoTenders")) {
+    errors.push("Accueil : moteur de recherche des opportunités de démonstration introuvable dans app.js");
+  }
+  if (!appScript.includes("Cette demande de démonstration n’a pas été transmise.")) {
+    errors.push("Accueil : le formulaire doit indiquer clairement qu'une demande de démonstration n'est pas transmise");
+  }
+} else {
+  errors.push("index.html ou app.js absent : contrôle des fonctions commerciales essentielles impossible");
+}
+
 // Vérifier que les douze rubriques restent accessibles depuis l'univers virtuel.
 const zoneHtmlPath = path.join(root, "zone-artisanale.html");
 const zoneJsPath = path.join(root, "zone-artisanale.js");
