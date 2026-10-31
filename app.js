@@ -250,7 +250,8 @@ if (initialKeyword) {
   if (keywordControl) keywordControl.value = initialKeyword;
 }
 
-advancedSearchForm.addEventListener("submit", (event) => {
+if (advancedSearchForm) {
+  advancedSearchForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const params = new URLSearchParams();
   const query = document.querySelector("#feed-search")?.value.trim();
@@ -276,6 +277,7 @@ advancedSearchForm.addEventListener("submit", (event) => {
 
   window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
 });
+}
 
 // Le moteur de recherche conserve ses critères ; la liste des annonces n'est pas affichée sur l'accueil.
 // Les anciennes cartes de démonstration ont été retirées de l’accueil compact :
