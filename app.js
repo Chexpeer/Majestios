@@ -347,12 +347,12 @@ navigation.querySelectorAll("a").forEach((link) => {
 const interactiveSvg = document.querySelector("#majestios-interactive-svg");
 if (interactiveSvg) {
   const surfaceNames = {
-    bleue: "Surface bleue sélectionnée",
-    verte: "Surface verte sélectionnée",
-    turquoise: "Surface turquoise sélectionnée",
-    pêche: "Surface pêche sélectionnée",
-    corail: "Surface corail sélectionnée",
-    ardoise: "Surface ardoise sélectionnée"
+    bleue: "Surface bleue",
+    verte: "Surface verte",
+    turquoise: "Surface turquoise",
+    pêche: "Surface pêche",
+    corail: "Surface corail",
+    ardoise: "Surface ardoise"
   };
   interactiveSvg.addEventListener("load", () => {
     const svgDocument = interactiveSvg.contentDocument;
@@ -360,20 +360,42 @@ if (interactiveSvg) {
     const surfaces = [...svgDocument.querySelectorAll("[data-surface]")];
     const title = document.querySelector("#interactive-map-selection");
     const description = document.querySelector("#interactive-map-description");
+    let selectedSurface = null;
+
+    const previewSurface = (surface) => {
+      title.textContent = selectedSurface === surface
+        ? `${surfaceNames[surface.dataset.surface]} sélectionnée`
+        : `Découvrir — ${surfaceNames[surface.dataset.surface].toLowerCase()}`;
+      description.textContent = selectedSurface === surface
+        ? "Surface active. Le choix des rubriques, des sous-rubriques et des destinations sera défini ensemble avant d’activer la navigation."
+        : "Survolez ou sélectionnez cette surface pour l’explorer. Ses rubriques et ses destinations seront activées après validation de leur contenu.";
+    };
+
     const selectSurface = (surface) => {
+      selectedSurface = surface;
       surfaces.forEach((item) => {
         item.classList.toggle("selected", item === surface);
         item.setAttribute("aria-pressed", String(item === surface));
       });
-      title.textContent = surfaceNames[surface.dataset.surface] || "Surface sélectionnée";
-      description.textContent = "Cette surface est sélectionnée. Son intitulé métier, ses sous-rubriques et sa destination seront définis ensemble avant l’activation des liens.";
+      previewSurface(surface);
     };
+
     surfaces.forEach((surface) => {
+      surface.setAttribute("aria-pressed", "false");
+      surface.addEventListener("pointerenter", () => previewSurface(surface));
+      surface.addEventListener("focus", () => previewSurface(surface));
       surface.addEventListener("click", () => selectSurface(surface));
       surface.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           selectSurface(surface);
+        }
+      });
+      surface.addEventListener("pointerleave", () => {
+        if (selectedSurface) previewSurface(selectedSurface);
+        else {
+          title.textContent = "Choisissez une surface";
+          description.textContent = "Survolez une couleur pour l’apercevoir, puis cliquez ou utilisez Entrée pour la sélectionner. Les destinations seront définies avec vous.";
         }
       });
     });
