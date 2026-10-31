@@ -83,6 +83,7 @@ async function main() {
       assert.ok(new URL(page.url()).pathname.endsWith(mainRoute), `${id} doit mener directement à ${mainRoute}, sans fenêtre intermédiaire.`);
     }
 
+    await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
     await page.locator('[data-scene-mode="drive"]').click();
     assert.equal(await page.locator('[data-scene-mode="drive"]').getAttribute("aria-pressed"), "true", "Le mode Tesla doit être activé.");
     assert.equal(await page.locator("#scene").getAttribute("data-view-mode"), "drive", "La scène doit passer en mode conduite.");
