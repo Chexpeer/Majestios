@@ -226,6 +226,21 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
       }
     }
   }
+
+  // LOT 13 — les parcours secondaires doivent être distincts et publiés.
+  const levelPairs = levelRoutes.map((building) => `${building.first}|${building.second}`);
+  if (new Set(levelPairs).size !== levelRoutes.length) {
+    errors.push("Zone 3D : au moins deux bâtiments partagent exactement le même parcours secondaire");
+  }
+  const buildSource = fs.existsSync(path.join(root, "build.js"))
+    ? fs.readFileSync(path.join(root, "build.js"), "utf8") : "";
+  for (const building of levelRoutes) {
+    for (const destination of [building.first, building.second]) {
+      if (!buildSource.includes(`"${destination}"`) && !buildSource.includes(`'${destination}'`)) {
+        errors.push(`Build : destination de niveau non incluse dans les fichiers publiés : ${destination}`);
+      }
+    }
+  }
   if (!zoneJs.includes('floorList.hidden=false') || !zoneJs.includes('className="floor-link"')) {
     errors.push("Zone 3D : les niveaux complémentaires ne sont pas rendus comme des liens accessibles");
   }
