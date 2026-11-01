@@ -26,6 +26,8 @@ jobs:
           node-version: 20
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
+      - name: Tester les suggestions APE/NAF
+        run: node tests/naf-suggestions.test.cjs
       - name: Vérifier le build statique
         run: node build.js
       - name: Vérifier les pages et références internes
