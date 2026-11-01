@@ -43,34 +43,13 @@
   const config = configs[path];
   if (!config) return;
 
-  const categories = [
-    ["all", "Toutes les catégories"],
-    ["services", "Services numériques"],
-    ["travaux", "Travaux et aménagement"],
-    ["conseil", "Conseil et études"],
-    ["batiment", "Bâtiment et construction"],
-    ["renovation", "Rénovation"],
-    ["electricite", "Électricité"],
-    ["plomberie", "Plomberie et chauffage"],
-    ["maintenance", "Maintenance et exploitation"]
-  ];
-  const regions = [
-    ["all", "Toutes les régions"],
-    ["nouvelle-aquitaine", "Nouvelle-Aquitaine"],
-    ["ile-de-france", "Île-de-France"],
-    ["auvergne-rhone-alpes", "Auvergne-Rhône-Alpes"],
-    ["bourgogne-franche-comte", "Bourgogne-Franche-Comté"],
-    ["bretagne", "Bretagne"],
-    ["centre-val-de-loire", "Centre-Val de Loire"],
-    ["corse", "Corse"],
-    ["grand-est", "Grand Est"],
-    ["hauts-de-france", "Hauts-de-France"],
-    ["normandie", "Normandie"],
-    ["occitanie", "Occitanie"],
-    ["pays-de-la-loire", "Pays de la Loire"],
-    ["provence-alpes-cote-d-azur", "Provence-Alpes-Côte d’Azur"],
-    ["outre-mer", "Outre-mer"]
-  ];
+  const catalogue = window.MAJESTIOS_CATALOG || {};
+  const categories = (catalogue.searchCategories || [
+    { value: "all", label: "Toutes les catégories", active: true }
+  ]).filter((item) => item.active || item.value === "all").map((item) => [item.value, item.label]);
+  const regions = (catalogue.searchRegions || [
+    { value: "all", label: "Toutes les régions", active: true }
+  ]).filter((item) => item.active || item.value === "all").map((item) => [item.value, item.label]);
   const optionMarkup = (items) => items.map(([value, label]) =>
     '<option value="' + value + '">' + label + '</option>'
   ).join("");
@@ -90,7 +69,7 @@
     '<select id="rubric-search-category" name="categorie">' + optionMarkup(categories) + '</select>' +
     (config.fixedMarket
       ? '<input type="hidden" name="marche" value="' + config.market + '">'
-      : '<label for="rubric-search-market">Type de source</label><select id="rubric-search-market" name="marche"><option value="all">Publics et privés — BOAMP + BODACC</option><option value="public">Marchés publics (BOAMP)</option><option value="private">Signaux commerciaux privés (BODACC)</option></select>') +
+      : '<label for="rubric-search-market">Type de source</label><select id="rubric-search-market" name="marche"><option value="all">Marchés publics et signaux BODACC</option><option value="public">Marchés publics (BOAMP)</option><option value="private">Signaux d’entreprise publiés (BODACC)</option></select>') +
     '<label for="rubric-search-region">Région</label>' +
     '<select id="rubric-search-region" name="zone">' + optionMarkup(regions) + '</select>' +
     '<button class="button-primary" type="submit">Rechercher →</button>';
