@@ -104,6 +104,64 @@ body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100
 @media(max-width:900px){body.homepage .site-header{flex-wrap:nowrap}body.homepage .site-nav{width:min(290px,calc(100vw - 16px));overflow:auto}body.homepage .search-dock{margin:6px auto 8px}}
 @media(max-width:600px){body.homepage .site-header{padding:5px 8px}body.homepage .search-dock{width:calc(100% - 16px);margin:5px auto 7px}body.homepage .site-nav>a{font-size:12px}}
 
+
+/* Accueil MajestiOS — composition inspirée de la référence architecturale validée. */
+body.homepage{background:#071225;color:#f5f7fb}
+body.homepage .site-header{background:linear-gradient(100deg,#06101f,#102b50);border-bottom-color:#d5b56c66;padding:10px clamp(12px,2vw,28px)}
+body.homepage .brand{font-size:clamp(18px,1.8vw,26px);gap:12px}
+body.homepage .brand-mark{width:40px;height:40px;border-radius:0;background:transparent;border:1px solid var(--gold);color:var(--gold);font-size:24px}
+body.homepage .site-nav a{font-size:clamp(10px,.9vw,13px)}
+body.homepage .homepage-ticker{height:28px;background:#08172b;font-size:10px;border-bottom-color:#d5b56c66}
+body.homepage .home-hero-layout{width:min(1600px,100%);min-height:calc(100dvh - 100px);margin:0 auto;padding:clamp(14px,2vw,28px);display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr);gap:clamp(16px,2vw,30px);align-items:stretch;background:radial-gradient(ellipse at 75% 20%,#214e86 0%,#0a1b34 43%,#071225 78%)}
+body.homepage .home-search-column{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;min-width:0;padding:clamp(8px,1.4vw,22px) 0}
+body.homepage .hero-copy{margin:0 0 clamp(16px,2.2vw,32px)}
+body.homepage .hero-eyebrow{margin:0 0 14px;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.16em}
+body.homepage .hero-copy h1{margin:0;color:#fff;font-size:clamp(34px,4vw,64px);line-height:1.02;letter-spacing:-.045em}
+body.homepage .hero-copy h1 span{color:#f3c65e}
+body.homepage .hero-subtitle{max-width:620px;margin:18px 0 0;color:#e0e9f7;font-size:clamp(15px,1.4vw,21px);line-height:1.45;font-style:italic}
+body.homepage .tender-feed-section{width:100%;margin:0;padding:0;background:transparent}
+body.homepage .tender-feed-section .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
+body.homepage .tender-feed-section .feed-demo{padding:clamp(12px,1.5vw,22px);background:#06142be8;border:1px solid #e8b94e;border-radius:13px;box-shadow:0 18px 48px #0006}
+body.homepage #advanced-search-form{display:grid;grid-template-columns:1fr;gap:10px}
+body.homepage #advanced-search-form .feed-search{display:flex;align-items:center;gap:10px;padding:0 10px;border:1px solid #d5b56c88;border-radius:9px;background:#0b1c34}
+body.homepage #advanced-search-form .feed-search>span:first-child{color:#f3c65e;font-size:25px}
+body.homepage #advanced-search-form .feed-search input{min-height:46px;border:0;background:transparent;font-size:14px}
+body.homepage #advanced-search-form .feed-filter-label select{min-height:44px;border-color:#8098b8;background:#112743;font-size:13px}
+body.homepage #advanced-search-form .feed-filter-label[hidden]{display:none!important}
+body.homepage #advanced-search-form .feed-search-submit{min-height:46px;border:1px solid #ffdf82;border-radius:9px;background:linear-gradient(100deg,#f7d76b,#dfa72e);color:#101828;font-weight:850;font-size:14px}
+body.homepage #advanced-search-form .search-source-note{color:#c4d0e2;font-size:11px;line-height:1.45}
+body.homepage .building-home{width:100%;min-width:0;margin:0;padding:0;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+body.homepage .building-heading{position:relative;z-index:3;margin:0 0 10px;text-align:center;color:#f3c65e;font-size:10px;letter-spacing:.18em;font-weight:800}
+body.homepage .building-heading p{margin:0}
+body.homepage .building-scene{height:calc(100dvh - 150px);min-height:610px;max-height:920px;border:1px solid #90b8e466;border-radius:5px;background:linear-gradient(160deg,#5479a8 0%,#192e4d 34%,#091628 100%);box-shadow:0 22px 60px #0008}
+body.homepage .building-scene:before{background:radial-gradient(ellipse at 50% 10%,#f5c86e38,transparent 40%),linear-gradient(180deg,#07122510 0 58%,#071225d9 100%),repeating-linear-gradient(90deg,transparent 0 7.9%,#dce9f21c 8% 8.15%)}
+body.homepage .cityline{opacity:.85}
+body.homepage .tower{width:min(76%,780px);height:85%;bottom:6%;border-color:#c6d8e9;background:linear-gradient(90deg,#122b4b,#7192b2 8%,#233f60 17%,#9db3c5 19%,#203d60 49%,#9ab2c8 83%,#142a47);box-shadow:0 30px 65px #000b}
+body.homepage .tower-sign{top:-28px;background:#07172d;border-color:#d5b56c;color:#fff}
+body.homepage .floor-row{grid-template-columns:40px minmax(0,1fr) 25px;background:linear-gradient(90deg,#07172beF,#315576d9 52%,#07172beF);border-color:#b8cfe466;border-radius:0}
+body.homepage .floor-no{color:#f4cc69;font-weight:900}
+body.homepage .floor-name{font-size:clamp(9px,.95vw,13px);font-weight:750}
+body.homepage .building-rdc{display:grid;grid-template-columns:42px 1fr;align-items:center;gap:10px;min-height:38px;margin-top:4px;padding:6px 12px;background:linear-gradient(90deg,#6e4e18,#17253a 70%);border:1px solid #e5c56e;color:#fff;font-size:clamp(9px,.95vw,13px)}
+body.homepage .building-rdc span{color:#f4cc69;font-weight:900}
+body.homepage .building-rdc strong{letter-spacing:.08em}
+body.homepage .building-caption{margin-top:8px;color:#9eafc8;font-size:9px;letter-spacing:.13em;text-align:center}
+@media(max-width:900px){
+ body.homepage .home-hero-layout{grid-template-columns:minmax(0,1fr);gap:18px}
+ body.homepage .home-search-column{padding:8px 0}
+ body.homepage .hero-copy h1{font-size:clamp(34px,7vw,56px)}
+ body.homepage .building-scene{height:780px;min-height:640px}
+ body.homepage .tower{width:min(86%,680px);height:85%}
+}
+@media(max-width:600px){
+ body.homepage .home-hero-layout{padding:12px 10px;gap:14px}
+ body.homepage .site-header{padding:7px 9px}
+ body.homepage .building-scene{height:690px;min-height:610px}
+ body.homepage .tower{width:97%;height:85%;padding:5px 4px 3px}
+ body.homepage .floor-row{grid-template-columns:30px minmax(0,1fr) 12px;gap:3px;padding:2px}
+ body.homepage .floor-name{font-size:10px}
+ body.homepage .building-rdc{grid-template-columns:30px 1fr;gap:4px;padding:5px;font-size:10px}
+}
+
 </style>
     <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
@@ -123,25 +181,32 @@ body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100
       <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="salons-seminaires.html">Salon virtuel</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace membre</a><a href="faq.html">FAQ</a></nav>
     </header>
 
+    <main class="home-hero-layout" id="accueil">
+      <section class="home-search-column" aria-label="Recherche d'opportunités">
+        <div class="hero-copy">
+          <p class="hero-eyebrow">DÉVELOPPEMENT COMMERCIAL · MAJESTIOS</p>
+          <h1>Donner de la hauteur<br>à vos <span>ambitions...</span></h1>
+          <p class="hero-subtitle">MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente.</p>
+        </div>
       <section class="tender-feed-section" id="recherche-avancee" aria-label="Moteur de recherche avancé">
         <div class="feed-wrap">
           <div class="feed-demo">
             <form class="feed-toolbar" id="advanced-search-form">
               <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
-              <label class="feed-filter-label"><span class="sr-only">Choisir le type de marché</span>
+              <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
                 <select id="feed-market-type" aria-label="Type de marché" required>
                   <option value="">1. Choisir le type de marché</option>
                   <option value="public">Marchés publics</option>
                   <option value="private">Marchés privés et signaux d’entreprises</option>
                 </select>
               </label>
-              <label class="feed-filter-label"><span class="sr-only">Choisir une catégorie après le type de marché</span>
+              <label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie après le type de marché</span>
                 <select id="feed-sector" aria-label="Catégorie d'opportunité" disabled>
                   <option value="all">2. Choisir d’abord un type</option>
                 </select>
               </label>
-              <label class="feed-filter-label"><span class="sr-only">Filtrer par localisation</span>
-                <select id="feed-region" aria-label="Région administrative">
+              <label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par département</span>
+                <select id="feed-region" aria-label="Département (sélection géographique actuellement limitée par le catalogue disponible)">
                   <option value="all">Toutes les régions</option>
                   <option value="nouvelle-aquitaine">Nouvelle-Aquitaine</option>
                   <option value="ile-de-france">Île-de-France</option>
@@ -165,22 +230,20 @@ body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100
           </div>
         </div>
       </section>
-
-
-    <main class="building-home" id="accueil">
-      <div class="building-heading">
-        <h1>MajestiOS · <span>l’immeuble du développement commercial</span></h1>
-        <p>12 étages visibles · choisissez directement votre rubrique</p>
-      </div>
+      </section>
+<section class="building-home" aria-label="Immeuble virtuel MajestiOS">
+      <div class="building-heading"><p>LES 12 RUBRIQUES MÉTIER</p></div>
       <section class="building-scene" aria-label="Immeuble virtuel MajestiOS à douze étages">
         <div class="cityline" aria-hidden="true"></div>
         <div class="ground-road" aria-hidden="true"></div>
         <div class="tower" aria-label="Façade du building MajestiOS">
           <div class="tower-sign">BUILDING <span>♛ MAJESTIOS</span></div>
           <div class="floor-rows" id="floor-rows"></div>
+          <div class="building-rdc"><span>RDC</span><strong>ACCUEIL MAJESTIOS</strong></div>
         </div>
         <div class="building-caption">BÂTIMENT VIRTUEL · 12 ÉTAGES · 3 BUREAUX PAR ÉTAGE</div>
       </section>
+    </section>
     </main>
     <dialog class="floor-dialog" id="floor-dialog" aria-labelledby="dialog-title">
       <div class="dialog-head">
@@ -212,18 +275,18 @@ body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100
           {id:"B12",name:"Suivi commercial et capitalisation",key:"suivi-commercial",first:"developpement-commercial.html",second:"intelligence-economique.html",description:"Organiser les échanges et capitaliser sur les enseignements commerciaux."}
         ];
         const rubricFor = (key) => catalog.rubrics.find((item) => item.key === key);
-        floors.forEach((floor, index) => {
+        floors.slice().reverse().forEach((floor, index) => {
           const rubric = rubricFor(floor.key);
           if (!rubric || !rubric.href) return;
           const button = document.createElement("button");
           button.type = "button";
           button.className = "floor-row";
-          button.setAttribute("aria-label", "Ouvrir l’étage " + (index + 1) + " : " + floor.name);
+          button.setAttribute("aria-label", "Ouvrir l’étage " + (12 - index) + " : " + floor.name);
           button.setAttribute("aria-haspopup", "dialog");
-          button.innerHTML = '<span class="floor-no">' + String(index + 1).padStart(2, "0") + '</span><span class="floor-name"></span><span class="floor-windows" aria-hidden="true"><i class="window"></i><i class="window"></i><i class="window"></i></span><span class="floor-mini" aria-hidden="true"></span>';
+          button.innerHTML = '<span class="floor-no">' + String(12 - index).padStart(2, "0") + '</span><span class="floor-name"></span><span class="floor-windows" aria-hidden="true"><i class="window"></i><i class="window"></i><i class="window"></i></span><span class="floor-mini" aria-hidden="true"></span>';
           button.querySelector(".floor-name").textContent = floor.name;
           button.addEventListener("click", function () {
-            document.getElementById("dialog-kicker").textContent = "BUILDING MAJESTIOS · ÉTAGE " + String(index + 1).padStart(2, "0");
+            document.getElementById("dialog-kicker").textContent = "BUILDING MAJESTIOS · ÉTAGE " + String(12 - index).padStart(2, "0");
             document.getElementById("dialog-title").textContent = floor.name;
             document.getElementById("dialog-description").textContent = floor.description;
             offices.replaceChildren();
@@ -281,5 +344,35 @@ body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100
       </nav>
     </footer>
 
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const keyword = document.getElementById("feed-search");
+        const market = document.getElementById("feed-market-type");
+        const category = document.getElementById("feed-sector");
+        const department = document.getElementById("feed-region");
+        const marketStep = document.getElementById("market-step");
+        const categoryStep = document.getElementById("category-step");
+        const departmentStep = document.getElementById("department-step");
+        if (!keyword || !market || !category || !department) return;
+        const reveal = () => {
+          marketStep.hidden = false;
+          if (market.value) categoryStep.hidden = false;
+          if (market.value && category.value) departmentStep.hidden = false;
+        };
+        keyword.addEventListener("focus", () => { marketStep.hidden = false; });
+        keyword.addEventListener("click", () => { marketStep.hidden = false; });
+        market.addEventListener("change", () => {
+          categoryStep.hidden = false;
+          departmentStep.hidden = true;
+          department.value = "all";
+        });
+        category.addEventListener("click", () => {
+          if (market.value) departmentStep.hidden = false;
+        });
+        category.addEventListener("change", () => { departmentStep.hidden = false; });
+        if (market.value) reveal();
+      });
+    </script>
   </body>
 </html>
