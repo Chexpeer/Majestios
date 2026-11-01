@@ -43,24 +43,24 @@
   ];
 
   const searchRegions = [
-    { value: "all", label: "Toutes les zones", active: true },
+    { value: "all", label: "Toutes les régions", active: true },
     { value: "nord", label: "Zone Nord · exemple · à venir", planned: true },
     { value: "ouest", label: "Zone Ouest · exemple · à venir", planned: true },
     { value: "sud", label: "Zone Sud · exemple · à venir", planned: true },
-    { value: "nouvelle-aquitaine", label: "Nouvelle-Aquitaine", planned: true },
-    { value: "ile-de-france", label: "Île-de-France", planned: true },
-    { value: "auvergne-rhone-alpes", label: "Auvergne-Rhône-Alpes", planned: true },
-    { value: "occitanie", label: "Occitanie", planned: true },
-    { value: "pays-de-la-loire", label: "Pays de la Loire", planned: true },
-    { value: "bretagne", label: "Bretagne", planned: true },
-    { value: "normandie", label: "Normandie", planned: true },
-    { value: "hauts-de-france", label: "Hauts-de-France", planned: true },
-    { value: "grand-est", label: "Grand Est", planned: true },
-    { value: "bourgogne-franche-comte", label: "Bourgogne-Franche-Comté", planned: true },
-    { value: "centre-val-de-loire", label: "Centre-Val de Loire", planned: true },
-    { value: "provence-alpes-cote-d-azur", label: "Provence-Alpes-Côte d’Azur", planned: true },
-    { value: "corse", label: "Corse", planned: true },
-    { value: "outre-mer", label: "Outre-mer", planned: true }
+    { value: "nouvelle-aquitaine", label: "Nouvelle-Aquitaine", active: true },
+    { value: "ile-de-france", label: "Île-de-France", active: true },
+    { value: "auvergne-rhone-alpes", label: "Auvergne-Rhône-Alpes", active: true },
+    { value: "occitanie", label: "Occitanie", active: true },
+    { value: "pays-de-la-loire", label: "Pays de la Loire", active: true },
+    { value: "bretagne", label: "Bretagne", active: true },
+    { value: "normandie", label: "Normandie", active: true },
+    { value: "hauts-de-france", label: "Hauts-de-France", active: true },
+    { value: "grand-est", label: "Grand Est", active: true },
+    { value: "bourgogne-franche-comte", label: "Bourgogne-Franche-Comté", active: true },
+    { value: "centre-val-de-loire", label: "Centre-Val de Loire", active: true },
+    { value: "provence-alpes-cote-d-azur", label: "Provence-Alpes-Côte d’Azur", active: true },
+    { value: "corse", label: "Corse", active: true },
+    { value: "outre-mer", label: "Outre-mer", active: true }
   ];
 
   root.MAJESTIOS_CATALOG = Object.freeze({
