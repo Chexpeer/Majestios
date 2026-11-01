@@ -149,6 +149,13 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!appScript.includes("advancedSearchForm.addEventListener(\"submit\"") || !appScript.includes("populateSearchFilters();")) {
     errors.push("Recherche avancée : initialisation ou rendu des résultats absent");
   }
+  if (appScript.includes('/* Les interactions de démonstration ne sont présentes que sur la page d’accueil. */\nif (advancedSearchForm) {')) {
+    errors.push("Formulaires : leur initialisation ne doit pas dépendre de la présence du moteur de recherche de l’accueil");
+  }
+  if (!appScript.includes("if (leadForm && formFeedback)") ||
+      !appScript.includes('const previewRequest = leadForm.querySelector("#preview-request")')) {
+    errors.push("Formulaires : initialisation indépendante ou bouton facultatif non protégés");
+  }
   for (const restorationCheck of [
     "new URLSearchParams(window.location.search)",
     "initialSearchParams.get(\"q\")",
