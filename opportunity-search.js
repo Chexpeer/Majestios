@@ -187,7 +187,7 @@
       }
       empty.textContent = "Connexion à la source officielle BODACC en cours…";
       const bodaccUrl = new URL(BODACC_API);
-      bodaccUrl.searchParams.set("limit", "40");
+      bodaccUrl.searchParams.set("limit", "100");
       bodaccUrl.searchParams.set("order_by", "dateparution desc");
       bodaccUrl.searchParams.set("select", BODACC_FIELDS);
       if (query) bodaccUrl.searchParams.set("q", query);
@@ -221,6 +221,7 @@
         const filtered = records.filter((record) => {
           const family = normalize([record.familleavis_lib, record.familleavis].join(" "));
           const haystack = normalize([
+            record.id, record.numeroannonce, record.registre, record.typeavis_lib,
             record.commercant, record.ville, record.departement_nom_officiel, record.familleavis_lib, record.familleavis,
             flattenText(record.listepersonnes), flattenText(record.listeetablissements), flattenText(record.acte), flattenText(record.jugement),
             flattenText(record.modificationsgenerales), flattenText(record.divers)
