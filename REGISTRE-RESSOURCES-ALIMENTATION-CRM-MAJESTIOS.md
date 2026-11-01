@@ -116,3 +116,13 @@ Un nom de source dans ce document ne vaut jamais preuve d’accès, de connexion
 - SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md
 
 **Limite de cette version :** premier inventaire documentaire basé sur les sources officielles identifiées au 1er novembre 2026. Il reste à contrôler les champs précis, les accès effectifs, les licences applicables au cas d’usage MajestiOS et les tests en direct avant intégration.
+
+
+## Mise à jour — 1er novembre 2026 : suggestions de métiers APE/NAF
+
+- **naf-suggestions.js** — moteur local de suggestions lexicales à partir de l’intitulé d’un marché ; 22 règles indicatives ; chaque proposition expose les mots-clés correspondants. Statut : prototype intégré à la page, nomenclature et couverture métier à valider avant usage opérationnel.
+- **tests/naf-suggestions.test.cjs** — tests ciblés de correspondance, explicabilité et plafonnement des résultats.
+- **qualification-entreprises.html** — sélection manuelle des suggestions avant la recherche de candidats ; aucun enregistrement CRM ni envoi de prospection.
+- **.github/workflows/majestios-anti-regression.yml** — workflow prévu pour exécuter les tests ciblés, le build et la vérification structurelle. L’exécution effective reste à confirmer dans GitHub Actions.
+
+Ce moteur ne constitue pas une source de données officielle ni une interprétation automatique du DCE. Les codes proposés doivent être contrôlés dans la nomenclature en vigueur et au regard des exigences du marché.
