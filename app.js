@@ -216,6 +216,7 @@ function populateSearchFilters() {
       option.value = region.value;
       option.textContent = region.planned ? `${region.label} · à venir` : region.label;
       option.disabled = Boolean(region.planned);
+      if (region.planned) option.setAttribute("disabled", "disabled");
       if (region.planned) plannedRegions.append(option);
       else regionSelect.append(option);
     });
