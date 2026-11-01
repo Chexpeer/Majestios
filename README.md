@@ -70,7 +70,8 @@ Lire dans cet ordre avant de reprendre les travaux :
 6. PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md — lots et garde-fous ;
 7. MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md — statut des exigences et preuves attendues ;
 8. REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md — sources candidates et alimentation du CRM ;
-9. CARTOGRAPHIE-DONNEES-STATISTIQUES-MAJESTIOS.md — champs déjà disponibles, modèles manquants et contrôles préalables aux statistiques.
+9. CARTOGRAPHIE-DONNEES-STATISTIQUES-MAJESTIOS.md — champs déjà disponibles, modèles manquants et contrôles préalables aux statistiques ;
+10. MODELE-COMMUN-DONNEES-CRM-MAJESTIOS.md — contrat conceptuel des six objets CRM, provenance, relations, états et critères d’acceptation.
 
 MajestiOS est un outil de **développement commercial assisté par IA**. L'accompagnement humain et technique aux appels d'offres, le ciblage d'entreprises par codes APE/NAF et département, la diffusion ciblée avec proposition d'accompagnement, la veille emploi discrète et les pistes immobilières professionnelles appartiennent au périmètre documenté. Leur mention ne signifie pas qu'ils sont tous implémentés ou connectés.
 
