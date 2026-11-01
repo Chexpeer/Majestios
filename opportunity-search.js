@@ -35,6 +35,25 @@
     "type_marche", "type_marche_facette", "type_avis", "descripteur_libelle", "etat", "url_avis"
   ].join(",");
 
+  // Correspondance explicite des régions administratives avec les codes départementaux BOAMP.
+  // Les filtres de démonstration "nord/ouest/sud" ne sont volontairement pas interprétés comme des régions réelles.
+  const REGION_DEPARTMENTS = {
+    "auvergne-rhone-alpes": ["01","03","07","15","26","38","42","43","63","69","73","74"],
+    "bourgogne-franche-comte": ["21","25","39","58","70","71","89","90"],
+    bretagne: ["22","29","35","56"],
+    "centre-val-de-loire": ["18","28","36","37","41","45"],
+    corse: ["2A","2B"],
+    "grand-est": ["08","10","51","52","54","55","57","67","68","88"],
+    "hauts-de-france": ["02","59","60","62","80"],
+    "ile-de-france": ["75","77","78","91","92","93","94","95"],
+    normandie: ["14","27","50","61","76"],
+    "nouvelle-aquitaine": ["16","17","19","23","24","33","40","47","64","79","86","87"],
+    occitanie: ["09","11","12","30","31","32","34","46","48","65","66","81","82"],
+    "pays-de-la-loire": ["44","49","53","72","85"],
+    "provence-alpes-cote-d-azur": ["04","05","06","13","83","84"],
+    "outre-mer": ["971","972","973","974","976","975","977","978","986","987","988"]
+  };
+
   const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("fr").trim();
   const flattenText = (value) => {
     if (value == null) return "";
@@ -197,6 +216,19 @@
     url.searchParams.set("select", FIELDS);
     const filters = ['nature = "APPEL_OFFRE"'];
     if (CATEGORY_TYPES[category]) filters.push('type_marche = "' + CATEGORY_TYPES[category] + '"');
+
+    const region = params.get("zone") || "all";
+    if (region !== "all") {
+      const departments = REGION_DEPARTMENTS[region];
+      if (!departments) {
+        empty.textContent = "Cette zone n’est pas encore disponible comme filtre géographique. Choisissez une région administrative ou « Toutes les zones ». Aucun résultat n’est présenté comme filtré.";
+        return;
+      }
+      const departmentFilter = departments.map((code) =>
+        '(code_departement_prestation = "' + code + '" OR code_departement = "' + code + '")'
+      ).join(" OR ");
+      filters.push("(" + departmentFilter + ")");
+    }
     url.searchParams.set("where", filters.join(" AND "));
     if (query) url.searchParams.set("q", query);
     else if (CATEGORY_TERMS[category]?.length) url.searchParams.set("q", CATEGORY_TERMS[category][0]);
