@@ -294,8 +294,8 @@ if (advancedSearchForm) {
   if (region && region !== "all") params.set("zone", region);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
-  // Une catégorie active ouvre sa page de résultats dédiée ; les recherches transversales
-  // et les catégories planifiées restent sur la page générale.
+  // Seules les catégories publiques actives disposant d’une page dédiée y sont routées.
+  // Les recherches privées, transversales et les catégories planifiées utilisent la page générale.
   const selectedCategory = marketType === "public"
     ? majCatalog.searchCategories.find((item) => item.value === category && !item.planned && item.href)
     : null;
