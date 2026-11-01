@@ -214,3 +214,8 @@ Ce lot documente une fonction déjà prévue dans la vision produit : mettre en 
 - Les sources et coordonnées ont un statut d'autorisation documenté.
 - Les événements d'envoi et les oppositions sont suivis et testables.
 - Le parcours est spécifié avant le développement ; aucun déploiement ou envoi réel n'est autorisé par ce document.
+
+
+## Ressources d’alimentation du CRM — référence commune
+
+Le registre `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` centralise l’inventaire initial des ressources externes et internes. Le lot CRM doit intégrer progressivement la provenance des données, les identifiants source, les dates de collecte et de publication, les règles de dédoublonnage SIREN/SIRET, les droits de réutilisation, la fraîcheur, les oppositions et la journalisation. L’API Offres d’emploi France Travail est à revalider avant tout développement car sa fiche officielle signale une suspension de son exposition publique. Aucune source candidate n’est réputée connectée sur la seule base de son inscription dans le registre.
