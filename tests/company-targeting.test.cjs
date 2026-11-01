@@ -48,7 +48,7 @@ async function main() {
     assert.equal(found.source, "API Recherche d’Entreprises — DINUM");
     assert.match(requestedUrls[0], /activite_principale=43%2E21A|activite_principale=43.21A/);
     assert.match(requestedUrls[0], /departement=79/);
-    assert.throws(() => targeting.searchCompanies({ departments: ["79"] }), /code APE\/NAF/);
+    await assert.rejects(targeting.searchCompanies({ departments: ["79"] }), /code APE\/NAF/);
   } finally {
     global.fetch = originalFetch;
   }
