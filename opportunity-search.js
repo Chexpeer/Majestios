@@ -115,6 +115,33 @@
     const empty = panel.querySelector(".category-results-empty");
     if (!empty) return;
 
+    // « Publics et privés » interroge les deux sources en parallèle, dans des blocs distincts.
+    // Les résultats BODACC restent des signaux légaux, jamais des appels d’offres.
+    if (market === "all") {
+      empty.textContent = "Recherche des sources officielles BOAMP et BODACC en cours…";
+      empty.setAttribute("role", "status");
+      for (const source of [
+        { value: "public", title: "Marchés publics · BOAMP" },
+        { value: "private", title: "Signaux commerciaux privés · BODACC" }
+      ]) {
+        const sourcePanel = document.createElement("section");
+        sourcePanel.className = "category-results-panel opportunity-source-group";
+        sourcePanel.setAttribute("aria-label", source.title);
+        const heading = document.createElement("h3");
+        heading.textContent = source.title;
+        const sourceEmpty = document.createElement("p");
+        sourceEmpty.className = "category-results-empty";
+        sourceEmpty.textContent = "Préparation de la recherche…";
+        sourceEmpty.setAttribute("role", "status");
+        sourcePanel.append(heading, sourceEmpty);
+        empty.insertAdjacentElement("afterend", sourcePanel);
+        const sourceParams = new URLSearchParams(params);
+        sourceParams.set("marche", source.value);
+        render({ panel: sourcePanel, params: sourceParams, category });
+      }
+      return;
+    }
+
     const results = document.createElement("div");
     results.className = "opportunity-results-list";
     results.setAttribute("aria-live", "polite");
