@@ -436,6 +436,11 @@ if (fs.existsSync(path.join(root, "category-results.js"))) {
   for (const world of Object.values(expectedCategoryWorlds)) {
     if (!resultsScript.includes(`${world}: { value: "${world}"`)) errors.push(`Résultats de catégorie : correspondance manquante ou incohérente pour ${world}`);
   }
+  for (const sharedLabelSource of ["catalogue.searchCategories", "catalogue.marketTypes", "catalogue.searchRegions"]) {
+    if (!resultsScript.includes(sharedLabelSource)) {
+      errors.push(`Résultats de catégorie : libellés non harmonisés avec le catalogue partagé (${sharedLabelSource})`);
+    }
+  }
 }
 
 // Vérifier que le routage donne la priorité à une catégorie active et conserve tous les critères.
