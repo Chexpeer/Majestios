@@ -58,6 +58,71 @@
   };
 
   const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("fr").trim();
+
+  const toIsoDate = (value) => {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date.toISOString();
+  };
+  const emitSearchResults = ({ records, source, category, marketType, recordType, sourceUrl, retrievedAt }) => {
+    const items = records.map((record) => {
+      const sourceId = String(record.idweb || record.numeroannonce || record.id || "").trim() || null;
+      const canonicalUrl = source === "BOAMP" ? officialUrl(record) : (
+        typeof record.url_complete === "string" && /^https:\/\/(www\.)?bodacc\.fr\//i.test(record.url_complete)
+          ? record.url_complete
+          : "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution"
+      );
+      const family = normalize([record.familleavis_lib, record.familleavis].join(" "));
+      let normalizedCategory = category;
+      if (source === "BODACC" && (!normalizedCategory || normalizedCategory === "all")) {
+        normalizedCategory = family.includes("creation") || family.includes("immatriculation") || family.includes("constitution") ? "bodacc-creations"
+          : family.includes("cession") || family.includes("vente") ? "bodacc-cessions"
+          : family.includes("modification") ? "bodacc-modifications"
+          : family.includes("procedure") || family.includes("jugement") ? "bodacc-procedures"
+          : family.includes("radiation") || family.includes("cessation") || family.includes("dissolution") ? "bodacc-radiations"
+          : "bodacc-autres-signaux";
+      }
+      const title = source === "BOAMP"
+        ? (record.objet || "Objet de l’annonce non renseigné")
+        : (record.commercant || "Entreprise non renseignée dans l’extrait");
+      return {
+        id: sourceId ? source.toLowerCase() + ":" + sourceId : source.toLowerCase() + ":" + canonicalUrl,
+        sourceId,
+        recordType,
+        title,
+        summary: source === "BODACC" ? (record.familleavis_lib || record.familleavis || null) : (record.type_marche_facette || null),
+        description: source === "BODACC" ? [flattenText(record.acte), flattenText(record.jugement), flattenText(record.modificationsgenerales), flattenText(record.divers)].filter(Boolean).join(" ").slice(0, 1500) || null : null,
+        category: normalizedCategory || "services",
+        marketType,
+        buyerName: source === "BOAMP" ? (record.nomacheteur || null) : null,
+        location: {
+          label: [record.ville, record.departement_nom_officiel].filter(Boolean).join(" · ") || null,
+          postalCode: record.code_postal || null,
+          city: record.ville || null,
+          departmentCode: String(record.code_departement_prestation || record.code_departement || "").trim() || null,
+          regionCode: record.region_nom_officiel || null
+        },
+        publishedAt: toIsoDate(record.dateparution),
+        deadlineAt: source === "BOAMP" ? toIsoDate(record.datelimitereponse) : null,
+        source,
+        sourceUrl: canonicalUrl || sourceUrl,
+        documentUrls: [],
+        status: source === "BOAMP" && isExpired(record) ? "closed" : "to_verify",
+        verifiedAt: null,
+        lastSeenAt: retrievedAt,
+        firstSeenAt: retrievedAt,
+        deduplicationKey: sourceId ? source.toLowerCase() + ":" + sourceId : source.toLowerCase() + ":" + canonicalUrl,
+        sourceConditionsRef: null,
+        tags: [marketType, normalizedCategory || "all", source.toLowerCase()],
+        provenance: { retrievedAt, method: "api", rawRecordHash: null },
+        qualification: { status: "unreviewed", rationale: null, commercialHypothesis: null, reviewedAt: null, reviewedBy: null, confidence: null },
+        crmLink: { companyId: null, establishmentId: null, opportunityId: null, signalId: null }
+      };
+    });
+    window.dispatchEvent(new CustomEvent("majestios:search-results", {
+      detail: { source, marketType, category: category || "all", retrievedAt, results: items }
+    }));
+  };
   const flattenText = (value) => {
     if (value == null) return "";
     if (Array.isArray(value)) return value.map(flattenText).filter(Boolean).join(" ");
@@ -232,6 +297,8 @@
           );
           return queryMatches && categoryMatches;
         }).slice(0, resultLimit);
+        const retrievedAt = new Date().toISOString();
+        emitSearchResults({ records: filtered, source: "BODACC", category, marketType: "private", recordType: "private_company_signal", sourceUrl: "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution", retrievedAt });
         if (!filtered.length) {
           empty.textContent = records.length
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
@@ -322,6 +389,8 @@
         .filter((record) => categoryMatches(record, category))
         .filter((record) => keywordMatches(record, query))
         .slice(0, resultLimit);
+      const retrievedAt = new Date().toISOString();
+      emitSearchResults({ records: filtered, source: "BOAMP", category, marketType: "public", recordType: "public_tender", sourceUrl: "https://www.boamp.fr/", retrievedAt });
 
       if (filtered.length) {
         results.innerHTML = filtered.map((record) => {
