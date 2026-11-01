@@ -72,7 +72,7 @@ const appScriptPath = path.join(root, "app.js");
 if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   const home = fs.readFileSync(homePath, "utf8");
   const appScript = fs.readFileSync(appScriptPath, "utf8");
-  if (!home.includes("<title>MajestiOS — Développement commercial et prospection inversée</title>") || home.includes("<title>MajestiOS — Prospection inversée et intelligence commerciale</title>")) {
+  if (!home.includes("<title>MajestiOS — Développement commercial intelligent</title>") || home.includes("<title>MajestiOS — Prospection inversée et intelligence commerciale</title>")) {
     errors.push("Accueil : titre SEO non aligné sur le positionnement développement commercial");
   }
   for (const id of ["scene", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
@@ -83,6 +83,39 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   }
   if (!home.includes('placeholder="Mot-clé, entreprise, secteur..."')) {
     errors.push("Accueil : exemple de recherche ne couvre pas les opportunités privées");
+  }
+  // Le nouvel immeuble d’accueil comporte dix thèmes ; la zone 3D conserve séparément ses douze bâtiments.
+  const homeFloorsBlock = home.match(/const floors = \[([\s\S]*?)\n        \];/);
+  const expectedHomeThemes = [
+    "Marchés publics", "Marchés privés", "Veille économique", "Prospection",
+    "Développement commercial", "Accompagnement aux appels d’offres", "Salon virtuel",
+    "Espace entreprises", "CRM", "Business Intelligence"
+  ];
+  if (!homeFloorsBlock) {
+    errors.push("Accueil : liste des dix étages thématiques introuvable");
+  } else {
+    const homeFloorNames = [...homeFloorsBlock[1].matchAll(/name:"([^"]+)"/g)].map((match) => match[1]);
+    if (homeFloorNames.length !== 10 || expectedHomeThemes.some((name, index) => homeFloorNames[index] !== name)) {
+      errors.push("Accueil : les dix thèmes ou leur ordre ne correspondent pas à l’arborescence validée");
+    }
+    if (homeFloorNames.includes("Prospection inversée") || home.includes("12 ÉTAGES")) {
+      errors.push("Accueil : ancien libellé ou ancien nombre d’étages encore présent");
+    }
+  }
+  const expectedDossierFiles = [
+    "dossiers/01-marches-publics/README.md",
+    "dossiers/02-marches-prives/README.md",
+    "dossiers/03-veille-economique/README.md",
+    "dossiers/04-prospection/README.md",
+    "dossiers/05-developpement-commercial/README.md",
+    "dossiers/06-accompagnement-appels-offres/README.md",
+    "dossiers/07-salon-virtuel/README.md",
+    "dossiers/08-espace-entreprises/README.md",
+    "dossiers/09-crm/README.md",
+    "dossiers/10-business-intelligence/README.md"
+  ];
+  for (const dossierFile of expectedDossierFiles) {
+    if (!fs.existsSync(path.join(root, dossierFile))) errors.push(`Arborescence : dossier thématique absent : ${dossierFile}`);
   }
   if (!home.includes("Aucune annonce réelle n’est diffusée pour le moment.")) {
     errors.push("Accueil : avertissement sur l’absence de flux réel absent");
