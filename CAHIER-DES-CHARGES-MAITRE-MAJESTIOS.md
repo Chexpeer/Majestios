@@ -248,3 +248,20 @@ MajestiOS progresse lorsque l’utilisateur professionnel peut :
 - `MODELE-DONNEES-APPELS-OFFRES.md` et `schemas/opportunite.schema.json` : contrat de données des opportunités existantes.
 
 Ce cahier des charges maître sert de base de consolidation. Les documents complémentaires doivent être harmonisés avec lui au fur et à mesure des décisions, sans faire passer une proposition pour une décision validée. Toute implémentation nouvelle attend la validation du périmètre concerné par le Fondateur.
+
+
+## 13. Exigence métier détaillée — accompagnement et diffusion ciblée des appels d'offres
+
+Les exigences suivantes font partie du périmètre fonctionnel consolidé ; elles ne doivent pas être requalifiées en nouvelles fonctionnalités à chaque rappel.
+
+### 13.1 Accompagnement humain et technique aux réponses
+MajestiOS doit accompagner les entreprises, avec une combinaison adaptée d'assistance numérique, d'expertise technique et d'intervention humaine, dans la compréhension du DCE, l'identification des conditions de candidature, la préparation des pièces, la structuration de l'offre et du mémoire technique, la vérification du dossier et le suivi des échéances jusqu'au dépôt. L'entreprise reste responsable de la réponse finale et aucun résultat d'attribution n'est garanti.
+
+### 13.2 Ciblage des entreprises par APE/NAF et département
+Pour chaque appel d'offres qualifié, MajestiOS doit pouvoir identifier les codes APE/NAF et activités pertinentes, rechercher des entreprises par département d'exécution, les dédoublonner et les classer selon des critères explicables. Cible de travail : environ dix entreprises pertinentes par département et par opportunité, uniquement si les données disponibles permettent une sélection de qualité. Le code APE/NAF est un filtre initial, pas une preuve suffisante de capacité.
+
+### 13.3 Diffusion couplée à l'offre d'accompagnement
+La diffusion doit présenter l'appel d'offres, sa source officielle, les informations clés et les échéances disponibles, avec une proposition parallèle d'accompagnement MajestiOS. Les envois, retours, demandes de service, oppositions et suites commerciales doivent pouvoir être suivis dans le futur CRM. Aucune campagne externe ne doit être lancée sans autorisation distincte et vérification des sources, droits de réutilisation, destinataires et règles de prospection.
+
+### 13.4 Référence de reprise pour les IA
+Toute IA reprenant le projet doit lire DOCUMENTATION-REPRISE-IA-MAJESTIOS.md puis SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md. Ces documents explicitent l'état du prototype, les fonctions prévues, les règles de navigation, les garde-fous et les critères d'acceptation. Ils ne prouvent pas qu'une fonction est déjà opérationnelle.
