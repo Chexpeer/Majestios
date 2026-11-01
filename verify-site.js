@@ -1029,6 +1029,36 @@ if (!fs.existsSync(governancePlanPath)) {
     if (!governancePlan.includes(requirement)) errors.push(`Gouvernance : règle obligatoire absente du plan : ${requirement}`);
   }
 }
+// Lot 25 — anti-régression du rendu mobile de la page générale de résultats.
+const generalResultsPath = path.join(root, "resultats-recherche.html");
+const generalResultsEnginePath = path.join(root, "search-results.js");
+if (!fs.existsSync(generalResultsPath)) {
+  errors.push("Résultats mobiles : page générale resultats-recherche.html absente");
+} else {
+  const resultsHtml = fs.readFileSync(generalResultsPath, "utf8");
+  if (!resultsHtml.includes('name="viewport" content="width=device-width, initial-scale=1"')) errors.push("Résultats mobiles : méta viewport absente");
+  if (!resultsHtml.includes('src="search-results.js"')) errors.push("Résultats mobiles : contrôleur search-results.js absent");
+  if (!resultsHtml.includes(".opportunity-result-card { display: grid; grid-template-columns: minmax(0, 1fr); }")) errors.push("Résultats mobiles : carte à une colonne absente");
+  if (!resultsHtml.includes(".opportunity-result-card * { min-width: 0; word-break: normal; overflow-wrap: break-word; }")) errors.push("Résultats mobiles : protection contre le débordement des textes absente");
+}
+if (!fs.existsSync(generalResultsEnginePath)) {
+  errors.push("Résultats mobiles : contrôleur search-results.js absent du projet");
+}
+if (fs.existsSync(opportunityEnginePath)) {
+  const mobileResultsEngine = fs.readFileSync(opportunityEnginePath, "utf8");
+  if (mobileResultsEngine.includes('class="platform-card opportunity-result-card')) {
+    errors.push("Résultats mobiles : les cartes ne doivent pas réutiliser la classe legacy platform-card");
+  }
+}
+const mobileBrowserTestPath = path.join(root, "tests", "opportunity-search.browser.cjs");
+if (!fs.existsSync(mobileBrowserTestPath)) {
+  errors.push("Résultats mobiles : test navigateur anti-régression absent");
+} else {
+  const mobileBrowserTest = fs.readFileSync(mobileBrowserTestPath, "utf8");
+  for (const mobileCheck of ["platform-card", "paragraphFontSize >= 12", "pageScrollWidth <= mobileLayout.viewportWidth", "viewport: { width: 390, height: 844 }"]) {
+    if (!mobileBrowserTest.includes(mobileCheck)) errors.push(`Résultats mobiles : test de régression absent : ${mobileCheck}`);
+  }
+}
 const opportunityEnginePath = path.join(root, "opportunity-search.js");
 if (!fs.existsSync(opportunityEnginePath)) {
   errors.push("Recherche : moteur partagé opportunity-search.js absent");
