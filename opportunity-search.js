@@ -85,14 +85,16 @@
       const title = source === "BOAMP"
         ? (record.objet || "Objet de l’annonce non renseigné")
         : (record.commercant || "Entreprise non renseignée dans l’extrait");
+      const normalizedCategoryValue = normalizedCategory || (source === "BOAMP" ? "public-non-classifie" : "bodacc-autres-signaux");
+      const provisionalIdentity = [source.toLowerCase(), record.dateparution || "undated", normalize(title)].join(":");
       return {
-        id: sourceId ? source.toLowerCase() + ":" + sourceId : source.toLowerCase() + ":" + canonicalUrl,
+        id: sourceId ? source.toLowerCase() + ":" + sourceId : provisionalIdentity,
         sourceId,
         recordType,
         title,
         summary: source === "BODACC" ? (record.familleavis_lib || record.familleavis || null) : (record.type_marche_facette || null),
         description: source === "BODACC" ? [flattenText(record.acte), flattenText(record.jugement), flattenText(record.modificationsgenerales), flattenText(record.divers)].filter(Boolean).join(" ").slice(0, 1500) || null : null,
-        category: normalizedCategory || "services",
+        category: normalizedCategoryValue,
         marketType,
         buyerName: source === "BOAMP" ? (record.nomacheteur || null) : null,
         location: {
@@ -111,9 +113,9 @@
         verifiedAt: null,
         lastSeenAt: retrievedAt,
         firstSeenAt: retrievedAt,
-        deduplicationKey: sourceId ? source.toLowerCase() + ":" + sourceId : source.toLowerCase() + ":" + canonicalUrl,
+        deduplicationKey: sourceId ? source.toLowerCase() + ":" + sourceId : null,
         sourceConditionsRef: null,
-        tags: [marketType, normalizedCategory || "all", source.toLowerCase()],
+        tags: [marketType, normalizedCategoryValue, source.toLowerCase()],
         provenance: { retrievedAt, method: "api", rawRecordHash: null },
         qualification: { status: "unreviewed", rationale: null, commercialHypothesis: null, reviewedAt: null, reviewedBy: null, confidence: null },
         crmLink: { companyId: null, establishmentId: null, opportunityId: null, signalId: null }
