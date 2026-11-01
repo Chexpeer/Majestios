@@ -54,6 +54,16 @@ Chaque bâtiment doit pointer vers sa propre page métier. Les destinations sont
 
 **État réel de la profondeur de navigation (mise à jour du 31/10/2026).** La sélection d’un bâtiment affiche désormais trois niveaux navigables : la rubrique principale, un premier parcours associé et un second parcours associé. Les douze bâtiments ont chacun deux destinations complémentaires vers des pages HTML existantes ; le panneau est visible aussi sur l’accueil, et les liens disposent d’un état de focus clavier. Ces parcours sont des liens contextuels vers des pages métier existantes : ils ne constituent pas encore douze arborescences indépendantes avec des pages enfant dédiées. Ne pas présenter la profondeur dossier/sous-dossier/page comme totalement achevée avant la création éventuelle de pages enfant spécifiques.
 
+
+### Préqualification des entreprises — nouveau parcours
+- `qualification-entreprises.html` — formulaire interne de préqualification par codes APE/NAF et départements, accessible depuis `accompagnement-appels-offres.html`.
+- `company-targeting-page.js` — orchestration du formulaire et affichage des candidats.
+- `company-targeting.js` — adaptateur prototype de l’API publique Recherche d’Entreprises, normalisation, dédoublonnage et score indicatif.
+- `tests/company-targeting.test.cjs` — tests dédiés de la brique de ciblage.
+- `styles.css` — composants visuels de la page ; `build.js` doit déclarer la page et les scripts.
+
+Cette page est un prototype de préqualification : les codes APE/NAF doivent être validés par un opérateur ; les scores ne prouvent pas une capacité technique ; les résultats ne sont pas enregistrés dans un CRM et aucune campagne n’est envoyée. Les tests ciblés simulés ont été effectués dans la session, mais le test Node dédié, le build complet et la validation de l’appel réel API dans le navigateur restent à effectuer avant de déclarer le parcours opérationnel.
+
 ### Pages de catégories de recherche
 - `categorie-services-numeriques.html`
 - `categorie-travaux-amenagement.html`
