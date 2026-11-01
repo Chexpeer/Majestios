@@ -8,88 +8,43 @@
   <title>Résultats de recherche — MajestiOS</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-/* Présentation dédiée aux résultats : destination évidente, cartes compactes et mobile-first. */
-.search-results-page { max-width: 1120px; padding-top: clamp(1.2rem, 4vw, 3.2rem); }
-.search-results-hero {
-  position: relative; margin: 0 0 1.25rem; padding: clamp(1.25rem, 4vw, 2.4rem);
-  overflow: hidden; border: 1px solid rgba(213,181,108,.48); border-radius: 1.2rem;
-  color: #f4edda; background: radial-gradient(ellipse at 90% 0%, rgba(213,181,108,.17), transparent 46%), linear-gradient(135deg,#111a27,#080c13);
-  box-shadow: 0 16px 38px rgba(0,0,0,.18);
+.search-results-page{width:min(1080px,calc(100% - 32px));margin:0 auto;padding:1.25rem 0 2rem;min-width:0}
+.search-results-hero{margin:0 0 .75rem;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:#f4edda}
+.search-results-hero .eyebrow{margin:0 0 .35rem;color:#d5b56c;font-size:.75rem;letter-spacing:.1em}
+.search-results-hero h1{margin:0;color:#fff8e8;font-size:clamp(1.45rem,3.5vw,2.2rem);line-height:1.2}
+.search-results-hero .interior-lede{margin:.35rem 0 0;color:#c5cad2;font-size:.9rem;line-height:1.45}
+.search-results-dashboard{margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;min-width:0}
+.search-results-dashboard>h2{margin:.75rem 0 .45rem;color:#f8e6b5;font-size:1.1rem}
+.search-results-dashboard>.category-active-filters{display:flex;flex-wrap:wrap;gap:.35rem .9rem;margin:0 0 .75rem;padding:.55rem .7rem;border:1px solid rgba(213,181,108,.22);border-radius:.65rem;background:rgba(14,20,29,.65)}
+.search-results-dashboard>.category-active-filters dt{color:#d5b56c;font-size:.75rem;font-weight:700}
+.search-results-dashboard>.category-active-filters dd{margin:0;color:#f1f2f5;font-size:.82rem}
+.search-results-dashboard>.category-results-empty{margin:.5rem 0;padding:.65rem .8rem;border:1px solid rgba(213,181,108,.2);border-radius:.6rem;color:#e0e3e8;background:rgba(14,20,29,.65);font-size:.88rem;line-height:1.45}
+.opportunity-source-group{margin:.75rem 0;padding:.7rem;border:1px solid rgba(213,181,108,.25);border-radius:.75rem;background:rgba(14,20,29,.55)}
+.opportunity-source-group>h3{display:flex;align-items:center;gap:.5rem;margin:0 0 .55rem;font-size:1rem}
+.opportunity-source-group>h3:before{content:"";width:.35rem;height:1.1rem;flex:0 0 .35rem;border-radius:99px;background:#d5b56c}
+.opportunity-results-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;margin:.5rem 0}
+.opportunity-result-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-content:start;gap:.35rem .65rem;min-width:0;margin:0;padding:.75rem;border:1px solid rgba(213,181,108,.2);border-radius:.7rem;background:linear-gradient(145deg,rgba(24,33,45,.96),rgba(10,15,22,.96));overflow-wrap:anywhere}
+.opportunity-result-card>.eyebrow,.opportunity-result-card>h3,.opportunity-result-card>.small-note,.opportunity-result-card>a{grid-column:1/-1}
+.opportunity-result-card>.eyebrow{margin:0;color:#d5b56c;font-size:.72rem;line-height:1.35;letter-spacing:.04em}
+.opportunity-result-card>h3{margin:0;color:#f8e6b5;font-size:.98rem;line-height:1.35}
+.opportunity-result-card>p{min-width:0;margin:0;color:#e0e3e8;font-size:.82rem;line-height:1.45;overflow-wrap:anywhere}
+.opportunity-result-card>p strong{color:#c7ccd5}
+.opportunity-result-card>p.small-note{display:none}
+.opportunity-result-card>p:nth-of-type(5),.bodacc-result-card>p:nth-of-type(5){grid-column:1/-1}
+.opportunity-result-card>a.button-primary{display:flex;align-items:center;justify-content:center;min-height:40px;margin-top:.25rem;text-align:center}
+.opportunity-source-note{margin:.5rem 0;color:#b9c0ca;font-size:.78rem;line-height:1.45}
+.search-results-return{margin:.8rem 0 0}
+.search-results-return .button-primary{display:inline-flex;align-items:center;justify-content:center;min-height:42px}
+@media(max-width:700px){
+ .search-results-page{width:calc(100% - 24px);padding-top:1rem}
+ .search-results-hero .interior-lede{font-size:.86rem}
+ .search-results-dashboard>.category-active-filters{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2rem .5rem;padding:.5rem}
+ .opportunity-results-list{grid-template-columns:minmax(0,1fr)}
+ .opportunity-result-card{grid-template-columns:minmax(0,1fr);gap:.35rem;padding:.7rem}
+ .opportunity-result-card>*{grid-column:1/-1}
+ .search-results-return .button-primary{width:100%;white-space:normal}
 }
-.search-results-hero .eyebrow { margin: 0 0 .65rem; color: #d5b56c; font-weight: 800; letter-spacing: .12em; }
-.search-results-hero h1 { max-width: 760px; margin: 0; color: #fff8e8; font-size: clamp(1.8rem, 4.2vw, 3rem); line-height: 1.08; }
-.search-results-hero .interior-lede { max-width: 700px; margin: .85rem 0 1rem; color: #d4d7de; font-size: clamp(.95rem, 1.7vw, 1.08rem); line-height: 1.55; }
-.search-results-hero-badge { display: inline-flex; align-items: center; min-height: 30px; padding: .35rem .7rem; border: 1px solid rgba(213,181,108,.35); border-radius: 99px; color: #f1d99d; background: rgba(213,181,108,.09); font-size: .78rem; font-weight: 700; }
-.search-results-dashboard { margin: 0; padding: clamp(.85rem, 2.5vw, 1.5rem); border-color: rgba(213,181,108,.55); box-shadow: 0 12px 28px rgba(0,0,0,.12); }
-.search-results-dashboard > h2 { margin: 0 0 1rem; color: #f8e6b5; font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
-.search-results-dashboard > .category-active-filters { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .6rem; margin: 0 0 1rem; }
-.search-results-dashboard > .category-active-filters dt { padding: .55rem .65rem .15rem; border: 1px solid rgba(213,181,108,.18); border-bottom: 0; border-radius: .65rem .65rem 0 0; color: #d5b56c; background: rgba(213,181,108,.06); font-size: .76rem; }
-.search-results-dashboard > .category-active-filters dd { min-width: 0; margin: -.6rem 0 0; padding: .15rem .65rem .65rem; border: 1px solid rgba(213,181,108,.18); border-top: 0; border-radius: 0 0 .65rem .65rem; overflow-wrap: anywhere; color: #f1f2f5; background: rgba(213,181,108,.06); font-size: .86rem; }
-.search-results-dashboard > .category-results-empty { margin: .5rem 0 1rem; border-radius: .35rem; }
-.opportunity-source-group { margin: 1rem 0; padding: clamp(.8rem,2vw,1.2rem); border-color: rgba(213,181,108,.32); background: rgba(14,20,29,.9); }
-.opportunity-source-group > h3 { display: flex; align-items: center; gap: .6rem; margin: 0 0 .85rem; font-size: clamp(1.05rem,2vw,1.25rem); }
-.opportunity-source-group > h3::before { content: ""; width: .45rem; height: 1.35rem; flex: 0 0 .45rem; border-radius: 99px; background: #d5b56c; }
-.opportunity-results-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: stretch; gap: .85rem; margin: .8rem 0; }
-.opportunity-result-card { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-content: start; gap: .4rem .8rem; min-width: 0; margin: 0; padding: 1rem; border: 1px solid rgba(213,181,108,.24); border-radius: .85rem; background: linear-gradient(145deg,rgba(24,33,45,.98),rgba(10,15,22,.98)); overflow-wrap: anywhere; }
-.opportunity-result-card > .eyebrow, .opportunity-result-card > h3, .opportunity-result-card > .small-note, .opportunity-result-card > a { grid-column: 1 / -1; }
-.opportunity-result-card > .eyebrow { margin: 0; font-size: .75rem; line-height: 1.4; letter-spacing: .06em; }
-.opportunity-result-card > h3 { margin: 0 0 .25rem; color: #f8e6b5; font-size: 1.02rem; line-height: 1.35; }
-.opportunity-result-card > p { min-width: 0; margin: 0; color: #e0e3e8; font-size: .84rem; line-height: 1.5; }
-.opportunity-result-card > p strong { color: #c7ccd5; }
-.opportunity-result-card > p.small-note { margin-top: .25rem; padding-top: .6rem; border-top: 1px solid rgba(213,181,108,.16); color: #b9c0ca; font-size: .76rem; }
-.opportunity-result-card > a.button-primary { display: flex; align-items: center; justify-content: center; min-height: 42px; margin-top: .35rem; text-align: center; }
-.bodacc-result-card > p:nth-of-type(4), .bodacc-result-card > p:nth-of-type(6), .bodacc-result-card > p:nth-of-type(7) { grid-column: 1 / -1; }
-.search-results-return { margin: 1rem 0 2rem; }
-.search-results-return .button-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; }
-@media (max-width: 760px) {
-  .search-results-dashboard > .category-active-filters { grid-template-columns: repeat(2,minmax(0,1fr)); gap: .35rem; }
-  .search-results-dashboard > .category-active-filters dt { padding: .5rem .55rem .15rem; border-bottom: 0; border-radius: .55rem .55rem 0 0; }
-  .search-results-dashboard > .category-active-filters dd { margin: -.35rem 0 0; padding: .15rem .55rem .5rem; border-radius: 0 0 .55rem .55rem; font-size: .8rem; }
-  .opportunity-results-list { grid-template-columns: 1fr; }
-  .opportunity-result-card { padding: .9rem; }
-}
-@media (max-width: 420px) {
-  .search-results-page { width: calc(100% - 24px); }
-  .search-results-hero { border-radius: .85rem; }
-  .opportunity-result-card { grid-template-columns: minmax(0,1fr); gap: .45rem; }
-  .opportunity-result-card > * { grid-column: 1 / -1; }
-  .search-results-hero-badge { font-size: .72rem; }
-}
-
-
-/* Correctif prioritaire mobile : neutralise toute grille héritée qui comprime les blocs. */
-.search-results-page { display: block; min-width: 0; }
-.search-results-page > .search-results-hero,
-.search-results-page > .search-results-dashboard,
-.search-results-page > .search-results-return { display: block; width: 100%; min-width: 0; box-sizing: border-box; }
-.search-results-hero { text-align: left; }
-.search-results-hero > * { max-width: 100%; }
-.search-results-hero .interior-lede { margin: .85rem 0 1rem; }
-.search-results-dashboard > .category-active-filters { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.search-results-dashboard .small-note { overflow-wrap: break-word; word-break: normal; }
-.opportunity-result-card,
-.opportunity-result-card * { min-width: 0; word-break: normal; overflow-wrap: break-word; }
-@media (max-width: 760px) {
-  .search-results-page { width: calc(100% - 28px); max-width: 520px; padding-top: 1.25rem; padding-bottom: 2rem; }
-  .search-results-page > * { float: none; }
-  .search-results-hero { display: block; padding: 1.15rem; margin-bottom: 1rem; }
-  .search-results-hero h1 { font-size: clamp(1.55rem, 7vw, 2rem); line-height: 1.2; }
-  .search-results-hero .interior-lede { font-size: .96rem; line-height: 1.55; }
-  .search-results-dashboard { padding: 1rem; }
-  .search-results-dashboard > .category-active-filters { grid-template-columns: minmax(0, 1fr); gap: .25rem; }
-  .search-results-dashboard > .category-active-filters dt { padding: .4rem .55rem 0; border: 0; background: transparent; }
-  .search-results-dashboard > .category-active-filters dd { margin: 0 0 .45rem; padding: 0 .55rem .4rem; border: 0; background: transparent; font-size: .95rem; }
-  .opportunity-results-list { display: grid; grid-template-columns: minmax(0, 1fr); }
-  .opportunity-result-card { display: grid; grid-template-columns: minmax(0, 1fr); }
-  .opportunity-result-card > * { grid-column: 1 / -1; }
-  .search-results-return .button-primary { width: 100%; white-space: normal; text-align: center; }
-}
-@media (max-width: 420px) {
-  .search-results-page { width: calc(100% - 24px); }
-  .search-results-hero, .search-results-dashboard { border-radius: .8rem; }
-}
-
-  </style>
+</style>
   <script src="catalogue-majestios.js" defer></script>
   <script src="app.js" defer></script>
   <script src="search-results.js" defer></script>
@@ -104,16 +59,14 @@
   </header>
   <main class="section-wrap interior-page search-results-page">
     <header class="search-results-hero">
-      <p class="eyebrow">MAJESTIOS · ESPACE DE RECHERCHE</p>
-      <h1>Vos résultats, au même endroit.</h1>
-      <p class="interior-lede">Les annonces sont regroupées par source, avec leurs informations essentielles et un accès direct à la publication officielle.</p>
-      <span class="search-results-hero-badge">Recherche en cours · sources publiques</span>
+      <p class="eyebrow">MAJESTIOS · RECHERCHE</p>
+      <h1>Résultats</h1>
+      <p class="interior-lede">Les annonces utiles et leur source officielle, sans contenu décoratif superflu.</p>
     </header>
     <section class="category-results-panel search-results-dashboard" id="search-results-panel" aria-live="polite" aria-labelledby="search-results-status">
       <h2 id="search-results-status">Résultats de votre recherche</h2>
       <dl class="category-active-filters" id="search-active-filters"></dl>
       <p class="category-results-empty">La recherche va interroger les sources officielles selon vos critères. Les résultats affichés doivent être vérifiés sur leur publication d’origine.</p>
-      <p class="small-note">Les marchés publics BOAMP et les signaux commerciaux BODACC sont présentés séparément. Une annonce BODACC n’est pas un appel d’offres et ne prouve pas, à elle seule, un besoin commercial.</p>
     </section>
     <p class="search-results-return"><a class="button-primary" href="index.html#recherche-avancee">← Modifier les critères</a></p>
   </main>
