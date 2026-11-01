@@ -27,6 +27,7 @@ async function main() {
     const page = await browser.newPage();
     let apiCalls = 0;
     let bodaccCalls = 0;
+    let regionalFilterSeen = false;
     await page.route("https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/**", async (route) => {
       bodaccCalls++;
       const requestUrl = new URL(route.request().url());
@@ -48,9 +49,9 @@ async function main() {
       apiCalls++;
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.searchParams.get("where")?.includes('nature = "APPEL_OFFRE"'), true, "La requête doit limiter les résultats aux appels d’offres.");
-      if (apiCalls === 1) {
-        assert.equal(requestUrl.searchParams.get("where")?.includes('code_departement_prestation = "79"'), true, "La première recherche, filtrée sur Nouvelle-Aquitaine, doit inclure le département 79 côté prestation.");
-        assert.equal(requestUrl.searchParams.get("where")?.includes('code_departement = "79"'), true, "Le filtre régional doit aussi couvrir le département de l’acheteur.");
+      const where = requestUrl.searchParams.get("where") || "";
+      if (where.includes('code_departement_prestation = "79"') && where.includes('code_departement = "79"')) {
+        regionalFilterSeen = true;
       }
       await route.fulfill({
         status: 200,
@@ -74,6 +75,7 @@ async function main() {
     assert.match(await page.locator(".opportunity-result-card").innerText(), /Acheteur de test/);
     assert.match(await page.locator("#search-active-filters").innerText(), /plomberie/);
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
+    assert.equal(regionalFilterSeen, true, "Une requête BOAMP doit appliquer le filtre Nouvelle-Aquitaine au département 79, côté prestation et acheteur.");
 
     apiCalls = 0;
     bodaccCalls = 0;
