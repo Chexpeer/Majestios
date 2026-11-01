@@ -207,6 +207,10 @@ async function main() {
     await page.getByText(/filtre BODACC pour l’Outre-mer n’est pas encore pris en charge/).waitFor({ timeout: 10000 });
     assert.equal(bodaccCalls, 1, "Un filtre BODACC non pris en charge ne doit pas lancer de recherche territoriale trompeuse.");
 
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=nord", { waitUntil: "domcontentloaded" });
+    await page.getByText(/zone n’est pas encore disponible comme filtre BODACC/).waitFor({ timeout: 10000 });
+    assert.equal(bodaccCalls, 1, "Une zone inconnue ou de démonstration ne doit pas lancer une recherche BODACC sans filtre géographique.");
+
     await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Maintenance informatique et cybersécurité" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator("#category-results-panel").count(), 1, "La page de catégorie doit conserver son panneau de résultats.");
