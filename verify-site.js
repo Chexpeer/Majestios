@@ -1101,7 +1101,7 @@ if (fs.existsSync(mobileOpportunityEnginePath)) {
   if (!engine.includes("const MAX_RESULTS = 10;") ||
       !engine.includes("resultLimit = MAX_RESULTS") ||
       !engine.includes("resultLimit: Math.floor(MAX_RESULTS / 2)") ||
-      (engine.match(/slice\\(0, resultLimit\\)/g) || []).length !== 2) {
+      (engine.match(/slice\(0, resultLimit\)/g) || []).length !== 2) {
     errors.push("Résultats : limite de 10 cartes par recherche (5 par source en recherche mixte) absente");
   }
 }
