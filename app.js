@@ -188,11 +188,11 @@ const PUBLIC_SEARCH_CATEGORIES = [
   ["maintenance", "Maintenance & exploitation"]
 ];
 const PRIVATE_SEARCH_CATEGORIES = [
-  ["travaux", "Travaux & rénovation"],
-  ["services", "Services aux entreprises"],
+  ["services", "Services numériques"],
+  ["travaux", "Travaux & construction"],
   ["conseil", "Conseil & études"],
-  ["batiment", "Bâtiment & aménagement"],
-  ["maintenance", "Entretien & maintenance"]
+  ["batiment", "Bâtiment & maçonnerie"],
+  ["maintenance", "Maintenance & entretien"]
 ];
 
 function populateSearchFilters(marketValue = "", selectedCategory = "all") {
