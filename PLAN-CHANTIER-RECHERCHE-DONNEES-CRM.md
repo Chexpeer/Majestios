@@ -2,7 +2,7 @@
 
 Version : 2026-11-01
 
-**Priorité de pilotage actualisée :** avancer d’abord sur le cahier des charges maître (`CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md`) et les décisions produit. L’audit technique ne doit plus bloquer la clarification du produit ; les vérifications restantes seront ciblées sur les lots à implémenter. Aucun développement fonctionnel supplémentaire ne commence avant validation du périmètre concerné.
+**Priorité de pilotage actualisée :** les tests des parcours de recherche BOAMP/BODACC ont déjà été réalisés selon confirmation du Fondateur. Ne pas relancer cet audit ni redemander cette validation ; conserver les tests existants comme garde-fous anti-régression uniquement lorsqu’un changement les concerne. La suite porte sur le premier enrichissement d’entreprises, puis le rapprochement APE/NAF ↔ marché ↔ département et la préparation du ciblage CRM. Aucun déploiement de production ni envoi externe n’est autorisé par ce plan.
 Branche de travail : `chantier-recherche-donnees-gardes-fous-2026-11-01`
 Référence de départ : commit validé de la zone `d21d4d8f7e72c70688d72b0e180d56a5bf59c0df`
 Statut : audit initial réalisé ; corrections progressives à valider. Aucune publication en production n'est autorisée par ce document.
@@ -41,7 +41,10 @@ Statut : audit initial réalisé ; corrections progressives à valider. Aucune p
 - Développement commercial, prospection inversée et veille : définir pour chacune si elle recherche des opportunités, des entreprises, des dossiers documentaires ou des données CRM. Ne pas dupliquer le même formulaire sans sémantique claire.
 - Salon virtuel : recherche d'exposants et d'activités uniquement lorsque le catalogue d'exposants existe.
 
-### Lot 2 — chaîne de données
+### Lot 2 — chaîne de données et premier enrichissement d’entreprises
+**Prochaine étape de réalisation :** partir d’un marché déjà trouvé, extraire ses activités et lieux d’exécution, proposer des codes APE/NAF candidats justifiés, puis rechercher des entreprises dans le ou les départements concernés à partir de sources autorisées. Le premier livrable est une liste de candidats traçable, dédoublonnée et expliquée ; ce n’est pas encore un CRM complet ni une campagne automatique.
+
+
 Collecter → conserver la provenance → normaliser → valider les champs → dédupliquer → classer le statut → qualifier → rapprocher avec un profil d'entreprise autorisé → soumettre à validation humaine → publier / retirer → historiser les changements.
 
 Chaque source doit exposer un état distinct : opérationnelle, retardée, en erreur ou non configurée. Les données incomplètes ou à échéance inconnue ne doivent pas être présentées comme pleinement vérifiées.
@@ -50,9 +53,9 @@ Chaque source doit exposer un état distinct : opérationnelle, retardée, en er
 
 Le registre de référence est `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md`. Une source candidate n’est pas considérée comme intégrée tant que les étapes ci-dessous ne sont pas documentées.
 
-1. **BOAMP — fiabilisation P0** : lancer les tests ciblés existants, vérifier filtres, échéances, provenance, liens officiels et gestion des erreurs. Ne pas ajouter de nouvelle source tant que les écarts critiques de ce parcours ne sont pas levés.
-2. **BODACC — fiabilisation P0** : vérifier les appels réels, les champs exploités, la date, la géographie et le caractère de « signal d’entreprise » ; tester absence de données et erreurs. Ne jamais afficher un événement BODACC comme un appel d’offres ou une preuve de disponibilité immobilière.
-3. **API Recherche d’Entreprises — premier enrichissement P1** : vérifier l’accès, la couverture, les champs réellement renvoyés et les limites de diffusion ; réaliser un essai contrôlé et documenter le résultat avant de l’utiliser pour du ciblage.
+1. **BOAMP — recherche existante** : tests de recherche déjà réalisés selon confirmation du Fondateur. Ne pas rouvrir le lot sans régression identifiée. Toute modification ultérieure doit réutiliser les tests existants.
+2. **BODACC — signaux d’entreprise existants** : tests de recherche déjà réalisés selon confirmation du Fondateur. Conserver la séparation avec les marchés publics et les garde-fous immobiliers ; ne pas refaire l’audit sans défaut reproductible.
+3. **API Recherche d’Entreprises — prochain lot fonctionnel P1** : vérifier le contrat d’API et les champs utiles, puis construire un premier parcours contrôlé d’identification d’entreprises à partir d’un marché et d’un département. Documenter les limites de couverture et de réutilisation ; ne pas déclencher de campagne.
 4. **API Sirene — enrichissement P1 conditionnel** : confirmer les accès, quotas et conditions applicables, notamment les règles relatives aux données en diffusion partielle ; éviter de dupliquer l’API Recherche d’Entreprises sans bénéfice démontré.
 5. **Emploi, immobilier et annuaires privés — cadrage préalable** : vérifier chaque accès et chaque droit de réutilisation avant tout développement. En particulier, ne pas présumer que l’API Offres d’emploi de France Travail est disponible, ni que les portails privés autorisent l’extraction ou la republication.
 6. **Persistance CRM — après contrat de données** : définir le modèle, les permissions, la conservation, les oppositions et le journal d’audit avant de stocker des données de prospects ou d’activer une collecte en arrière-plan.
