@@ -23,6 +23,8 @@ async function main() {
   const selection = targeting.selectCandidates(rows, { nafCodes: ["43.21A"], departments: ["79"], limit: 10 });
   assert.equal(selection.candidates.length, 3);
   assert.equal(selection.countsByDepartment["79"], 2);
+  assert.equal(selection.candidates.find((company) => company.siren === "123456789").score, 100, "Le scoring doit préserver département et statut après normalisation");
+  assert.equal(selection.candidates.find((company) => company.siren === "111222333").active, false, "Le statut inactif doit rester disponible pour filtrage");
   assert.equal(selection.quotaFilledArtificially, false);
   assert.equal(targeting.normalizeCompany({ siren: "123", siret: "12" }).siren, "");
   assert.equal(targeting.normalizeCompany({ siren: "123", siret: "12" }).siret, "");
