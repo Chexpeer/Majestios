@@ -29,7 +29,7 @@ Le ton du site doit rester professionnel, accessible et parfois humoristique ave
 3. Navigation principale : Accueil ; Développement commercial ; Salon virtuel ; Nous rejoindre ; Espace membre ; FAQ.
 4. Aucun empilement de cartes d’annonces fictives sur l’accueil.
 5. Les recherches publiques de marchés et les signaux d’entreprises BODACC sont des fonctions distinctes et doivent être identifiées comme telles.
-6. L’emploi constitue une veille discrète et un dossier autonome. Il ne devient pas une catégorie du moteur principal d’opportunités commerciales ni un moteur public d’emploi sur l’accueil.
+6. L’emploi conserve un dossier et une veille dédiés, mais figure aussi dans la taxonomie du type « Marchés privés » comme famille d’opportunités à connecter. Cette catégorie visible ne signifie pas qu’un connecteur emploi est actif ; MajestiOS ne devient pas pour autant un moteur généraliste public de recherche d’emploi.
 7. L’immobilier professionnel constitue un dossier autonome futur, alimenté par des signaux à vérifier et des annonces immobilières autorisées.
 8. Chaque donnée conserve sa provenance et son statut. Un fait publié, une transformation, une hypothèse commerciale et une validation humaine ne doivent jamais être confondus.
 9. Les pages, formulaires, moteurs, analyses et CRM ne sont déclarés opérationnels qu’après connexion et tests réels.
@@ -54,6 +54,15 @@ Les fonctionnalités doivent être conçues à partir de besoins professionnels 
 ## 4. Périmètre fonctionnel
 
 ### 4.1 Développement commercial et opportunités
+
+Le moteur de recherche suit le parcours **Type → Source → Catégorie → Page de résultats → Qualification commerciale/CRM**. Le type détermine les catégories disponibles et la source pertinente.
+
+Taxonomie du moteur :
+- **Marchés publics** : huit catégories métier (services numériques, travaux et aménagement, conseil et études, bâtiment, rénovation, électricité, plomberie/chauffage, maintenance) ; source de recherche BOAMP.
+- **Marchés privés — signaux BODACC** : créations et implantations ; ventes, cessions et reprises ; modifications d’entreprises ; difficultés et procédures collectives ; radiations et cessations.
+- **Marchés privés — autres opportunités** : immobilier professionnel ; emploi et recrutement ; offres de sous-traitance ; recherche de sous-traitants et partenaires. Ces quatre catégories sont prévues dans l’interface mais restent non connectées ; elles ne doivent pas produire de résultats fictifs.
+- **Tous types** : interroger BOAMP et BODACC en parallèle, présenter les résultats en groupes distincts et limiter l’affichage à cinq résultats par source, dix au total.
+
 - Rechercher des marchés publics à partir de sources adaptées, dont BOAMP.
 - Rechercher séparément les annonces commerciales et événements d’entreprise publiés, notamment via BODACC.
 - Qualifier les informations selon activité, localisation, échéance, entreprise, nature du signal et fiabilité.
@@ -72,7 +81,7 @@ MajestiOS doit pouvoir exploiter, après validation de chaque source, plusieurs 
 - changements concernant des entreprises déjà suivies dans le CRM.
 
 ### 4.3 Emploi — veille discrète
-L’emploi doit rester un module distinct du moteur d’opportunités commerciales. Il doit permettre de préparer une veille sur les offres et compétences recherchées, d’analyser les tendances sectorielles et d’identifier des signaux de recrutement, sans prétendre qu’un recrutement prouve une intention d’achat.
+L’emploi reste un module fonctionnel distinct pour la veille détaillée, les métiers et les compétences. Dans le moteur principal, il figure également comme catégorie du type « Marchés privés » afin de rendre visible cette famille d’opportunités commerciales. Cette catégorie n’est pas encore connectée à une source de données : aucun résultat d’emploi ne doit être inventé ou affiché comme réel avant validation du connecteur. Les analyses doivent distinguer un signal de recrutement d’une intention d’achat.
 
 Sources à instruire, sans présumer d’intégration active : France Travail (API Offres, Marché du travail, ROME 4.0 et événements selon disponibilité), La Bonne Alternance, APEC, Cadremploi, agentCo, HelloWork, Indeed, Welcome to the Jungle, LinkedIn, Meteojob, Choisir le service public, APECITA, plateformes sectorielles et jeux de données publics. Pour chacune, vérifier l’accès officiel, les conditions de réutilisation, la licence, la fréquence, les limites et l’attribution avant automatisation. L’accès visible sur un site web n’équivaut pas à une autorisation de collecte ou de republication.
 
@@ -158,7 +167,7 @@ Cycle d’état cible : **détecté → à compléter → à vérifier → quali
   - analyse territoriale ;
   - transmission et cession ;
   - suivi commercial et CRM.
-- **Emploi** — dossier autonome, non intégré aux filtres du moteur commercial :
+- **Emploi** — dossier de veille dédié et catégorie visible dans le filtre « Marchés privés » (connecteur à réaliser) :
   - sources et veille d’offres autorisées ;
   - dépôt et validation d’offres ;
   - métiers et compétences ;
@@ -261,7 +270,7 @@ Le Fondateur confirme ou ajuste ce périmètre avant toute implémentation qui l
 ### Décisions déjà établies
 - Le développement commercial est le cœur de MajestiOS.
 - La zone virtuelle reste sur l’accueil.
-- Le moteur commercial ne devient pas un moteur public d’emploi.
+- L’emploi peut apparaître comme catégorie du type « Marchés privés », mais cette entrée reste non connectée jusqu’à validation des sources ; MajestiOS ne devient pas un moteur généraliste public d’emploi.
 - BODACC est une source de signaux d’entreprise, pas une source d’appels d’offres.
 - La cessation d’activité ne vaut pas preuve de disponibilité immobilière.
 - Les données doivent rester traçables et les hypothèses identifiables.
