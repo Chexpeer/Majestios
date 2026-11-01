@@ -201,15 +201,15 @@ async function main() {
     await page.locator("#feed-search").fill("maintenance préventive");
     await page.locator("#feed-sector").selectOption("all");
     await page.locator("#feed-market-type").selectOption("public");
-    await page.locator("#feed-region").selectOption("ouest");
+    await page.locator("#feed-region").selectOption("nouvelle-aquitaine");
     await Promise.all([
       page.waitForURL(/resultats-recherche\.html\?/),
       page.locator("#advanced-search-form button[type='submit']").click()
     ]);
     assert.match(page.url(), /q=maintenance\+pr%C3%A9ventive|q=maintenance%20pr%C3%A9ventive/, "Le mot-clé de recherche générale doit être conservé.");
     assert.match(page.url(), /marche=public/, "Le filtre public doit être conservé.");
-    assert.match(page.url(), /zone=ouest/, "La zone sélectionnée doit être conservée.");
-    assert.match((await page.locator("#search-active-filters").innerText()), /maintenance préventive[\s\S]*Marchés publics[\s\S]*Ouest/i, "Le récapitulatif doit présenter les critères choisis.");
+    assert.match(page.url(), /zone=nouvelle-aquitaine/, "La région administrative sélectionnée doit être conservée.");
+    assert.match((await page.locator("#search-active-filters").innerText()), /maintenance préventive[\s\S]*Marchés publics[\s\S]*Nouvelle-Aquitaine/i, "Le récapitulatif doit présenter les critères choisis.");
     await page.waitForFunction(() => {
       const status = document.querySelector("#search-results-panel .category-results-empty");
       return status && !/Aucune annonce réelle n.est actuellement chargée|Les connecteurs aux sources/i.test(status.textContent);
