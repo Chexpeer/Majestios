@@ -1,6 +1,6 @@
 # MajestiOS — prototype public de référence
 
-MajestiOS est un projet d’**intelligence commerciale proactive** et de **prospection inversée assistée par IA**. Ce dépôt contient le prototype statique servant à valider l’expérience, l’arborescence et les parcours avant raccordement des services métier.
+MajestiOS est un projet de **développement commercial proactif** et de **prospection inversée assistée par IA**. Ce dépôt contient le prototype statique servant à valider l’expérience, l’arborescence et les parcours avant raccordement des services métier.
 
 ## Structure de référence de l’accueil
 
