@@ -56,6 +56,39 @@
   .search-results-hero-badge { font-size: .72rem; }
 }
 
+
+/* Correctif prioritaire mobile : neutralise toute grille héritée qui comprime les blocs. */
+.search-results-page { display: block; min-width: 0; }
+.search-results-page > .search-results-hero,
+.search-results-page > .search-results-dashboard,
+.search-results-page > .search-results-return { display: block; width: 100%; min-width: 0; box-sizing: border-box; }
+.search-results-hero { text-align: left; }
+.search-results-hero > * { max-width: 100%; }
+.search-results-hero .interior-lede { margin: .85rem 0 1rem; }
+.search-results-dashboard > .category-active-filters { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.search-results-dashboard .small-note { overflow-wrap: break-word; word-break: normal; }
+.opportunity-result-card,
+.opportunity-result-card * { min-width: 0; word-break: normal; overflow-wrap: break-word; }
+@media (max-width: 760px) {
+  .search-results-page { width: calc(100% - 28px); max-width: 520px; padding-top: 1.25rem; padding-bottom: 2rem; }
+  .search-results-page > * { float: none; }
+  .search-results-hero { display: block; padding: 1.15rem; margin-bottom: 1rem; }
+  .search-results-hero h1 { font-size: clamp(1.55rem, 7vw, 2rem); line-height: 1.2; }
+  .search-results-hero .interior-lede { font-size: .96rem; line-height: 1.55; }
+  .search-results-dashboard { padding: 1rem; }
+  .search-results-dashboard > .category-active-filters { grid-template-columns: minmax(0, 1fr); gap: .25rem; }
+  .search-results-dashboard > .category-active-filters dt { padding: .4rem .55rem 0; border: 0; background: transparent; }
+  .search-results-dashboard > .category-active-filters dd { margin: 0 0 .45rem; padding: 0 .55rem .4rem; border: 0; background: transparent; font-size: .95rem; }
+  .opportunity-results-list { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .opportunity-result-card { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .opportunity-result-card > * { grid-column: 1 / -1; }
+  .search-results-return .button-primary { width: 100%; white-space: normal; text-align: center; }
+}
+@media (max-width: 420px) {
+  .search-results-page { width: calc(100% - 24px); }
+  .search-results-hero, .search-results-dashboard { border-radius: .8rem; }
+}
+
   </style>
   <script src="catalogue-majestios.js" defer></script>
   <script src="app.js" defer></script>
