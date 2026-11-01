@@ -107,3 +107,15 @@ Choisir/valider l'architecture backend et le modèle de sécurité avant de conn
 4. ne changer « à développer » en « présent » qu'après inspection du code ;
 5. ne changer « présent » en « validé » qu'après exécution réussie d'un test adapté ;
 6. préserver les statuts « à valider » tant que la licence, la source ou l'autorisation n'est pas confirmée.
+
+
+## Exigences complémentaires — suggestions APE/NAF (1er novembre 2026)
+
+| ID | Exigence | Implémentation | Vérification | Statut |
+|---|---|---|---|---|
+| CIB-NAF-01 | Proposer des codes APE/NAF depuis un intitulé | `naf-suggestions.js`, 22 règles lexicales explicables | `tests/naf-suggestions.test.cjs` : rénovation énergétique, électricité, chauffage/climatisation, formation | Prototype ; couverture à valider |
+| CIB-NAF-02 | Exiger une sélection explicite des suggestions | `qualification-entreprises.html`, `company-targeting-page.js` | Contrôles ciblés du raccordement et de la syntaxe | Prototype intégré |
+| CIB-NAF-03 | Ne pas confondre suggestion et qualification confirmée | Avertissements dans le formulaire et les résultats | Vérification du texte d’interface | Garde-fou présent |
+| CIB-NAF-04 | Exécuter automatiquement tests, build et vérification structurelle | `.github/workflows/majestios-anti-regression.yml` | Vérifier le résultat du workflow dans GitHub Actions | Configuration ajoutée ; exécution non confirmée |
+
+Les codes suggérés ne doivent jamais déclencher à eux seuls une prise de contact, une inscription CRM ou une décision d’éligibilité.
