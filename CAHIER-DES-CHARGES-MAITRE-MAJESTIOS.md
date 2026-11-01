@@ -316,3 +316,12 @@ La première brique de préqualification est maintenant matérialisée dans le d
 Le score sert uniquement à ordonner des pistes ; il ne prouve pas la capacité à répondre à un marché. Les codes APE/NAF doivent être choisis ou vérifiés à partir des activités et exigences réelles. Le module ne lance aucune campagne et n’enregistre pas de données dans un CRM.
 
 **État de validation :** les fichiers ont été relus après écriture et les vérifications de syntaxe ainsi que des tests ciblés simulés ont réussi dans cette session. Le test Node dédié, le build complet, le test navigateur et l’appel réel à l’API depuis le navigateur restent à exécuter. Le prototype ne doit pas être annoncé comme un service opérationnel avant ces étapes.
+
+
+## Complément — suggestions explicables de codes APE/NAF (1er novembre 2026)
+
+Le prototype de préqualification dispose désormais d’un moteur lexical de suggestions (naf-suggestions.js). À partir de l’intitulé saisi par l’opérateur, il propose des codes APE/NAF issus d’une table de règles documentée, affiche les mots-clés ayant déclenché chaque proposition et laisse l’opérateur cocher les codes à ajouter au formulaire.
+
+**Garde-fous :** cette fonctionnalité n’analyse pas encore le DCE ni l’intégralité de l’avis, ne garantit pas l’exhaustivité des métiers et ne valide pas la nomenclature à la place d’un humain. Aucun code suggéré n’est sélectionné silencieusement, aucun contact n’est envoyé et aucune donnée n’est enregistrée dans le CRM. Les codes retenus doivent être contrôlés avant toute requête ou qualification commerciale.
+
+Un workflow GitHub Actions de vérification anti-régression a été ajouté sur la branche de chantier : tests du ciblage, tests des suggestions APE/NAF, build statique et contrôle des références internes. Son existence ne vaut pas résultat d’exécution ; les résultats doivent être consultés dans GitHub Actions.
