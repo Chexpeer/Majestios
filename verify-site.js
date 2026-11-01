@@ -737,7 +737,8 @@ if (!sceneCatalog.includes("window.MAJESTIOS_CATALOG") && !sceneCatalog.includes
 }
 
 // Cohérence des douze bâtiments entre la scène, le catalogue partagé et les fichiers livrés.
-const zoneConfigForKeys = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";\nconst sceneRouteKeys = [...zoneConfigForKeys.matchAll(/rubricRoute\(["']([^"']+)["']\)/g)].map((match) => match[1]);
+const zoneConfigForKeys = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";
+const sceneRouteKeys = [...zoneConfigForKeys.matchAll(/rubricRoute\(["']([^"']+)["']\)/g)].map((match) => match[1]);
 const catalogRouteKeys = [...sceneCatalog.matchAll(/\bkey:\s*["']([^"']+)["']/g)].map((match) => match[1]);
 const uniqueSceneKeys = [...new Set(sceneRouteKeys)];
 const uniqueCatalogKeys = [...new Set(catalogRouteKeys)];
