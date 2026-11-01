@@ -325,3 +325,15 @@ Le prototype de préqualification dispose désormais d’un moteur lexical de su
 **Garde-fous :** cette fonctionnalité n’analyse pas encore le DCE ni l’intégralité de l’avis, ne garantit pas l’exhaustivité des métiers et ne valide pas la nomenclature à la place d’un humain. Aucun code suggéré n’est sélectionné silencieusement, aucun contact n’est envoyé et aucune donnée n’est enregistrée dans le CRM. Les codes retenus doivent être contrôlés avant toute requête ou qualification commerciale.
 
 Un workflow GitHub Actions de vérification anti-régression a été ajouté sur la branche de chantier : tests du ciblage, tests des suggestions APE/NAF, build statique et contrôle des références internes. Son existence ne vaut pas résultat d’exécution ; les résultats doivent être consultés dans GitHub Actions.
+
+
+## Qualification explicable des entreprises candidates — ajout du 1er novembre 2026
+
+Le module `company-fit.js` complète le ciblage administratif par une qualification lisible, sans transformer une correspondance de données en validation métier. Il distingue :
+
+- la correspondance exacte ou l'absence de correspondance exacte du code APE/NAF, ou une donnée inconnue ;
+- la concordance du département et le cas où le siège est hors périmètre, qui déclenche une vérification d'un éventuel établissement local avant exclusion ;
+- le statut administratif actif, inactif/à vérifier ou inconnu ;
+- les vérifications humaines restant ouvertes : établissement local, qualifications/certifications, références comparables, moyens humains et matériels, éligibilité au marché et disponibilité.
+
+La sortie reste `manual_review_required` : aucune entreprise n'est déclarée compétente ou éligible sur le seul fondement des données administratives. Les informations inconnues sont signalées, et le score éventuel du moteur de ciblage ne doit jamais masquer un manque de preuve. Les tests dédiés sont dans `tests/company-fit.test.cjs` et doivent être exécutés par le workflow anti-régression avant toute intégration ultérieure.
