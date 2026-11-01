@@ -26,7 +26,7 @@ Le parcours cible devient :
 
 **Recherche à la demande → résultat normalisé → contrôle de provenance et fraîcheur → dédoublonnage → qualification humaine → enregistrement CRM autorisé → tâche/action suivie → historique du résultat.**
 
-Le moteur émet désormais un événement navigateur `majestios:search-results` avec les résultats BOAMP/BODACC normalisés selon ce contrat, y compris le type de résultat, la catégorie, l’URL source, la date de collecte, l’état de qualification initial et les références CRM réservées. Cet événement est un point d’intégration pour le futur adaptateur, pas un stockage persistant ni une déclaration que le CRM est opérationnel. Avant tout enregistrement réel, il faudra valider systématiquement les objets contre le schéma, configurer le backend, l’authentification, l’isolation des comptes, les permissions, l’audit et les règles de conservation.
+À ce stade, ce contrat reste documentaire : le moteur de recherche n’émet aucun événement CRM dédié et n’enregistre pas ses résultats dans une base MajestiOS. Aucun raccordement opérationnel ne doit être ajouté avant validation explicite de l’architecture. Le jour où cette étape sera autorisée, il faudra valider systématiquement les objets contre le schéma, construire un adaptateur par source, puis configurer le backend, l’authentification, l’isolation des comptes, les permissions, l’audit et les règles de conservation.
 
 Règles impératives :
 - conserver chaque source et son identifiant natif ; une même opportunité peut avoir plusieurs observations sources ;
