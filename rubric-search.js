@@ -90,7 +90,7 @@
     '<select id="rubric-search-category" name="categorie">' + optionMarkup(categories) + '</select>' +
     (config.fixedMarket
       ? '<input type="hidden" name="marche" value="' + config.market + '">'
-      : '<label for="rubric-search-market">Type de source</label><select id="rubric-search-market" name="marche"><option value="all">Marchés publics (BOAMP) — vue générale</option><option value="public">Marchés publics (BOAMP)</option><option value="private">Signaux commerciaux privés (BODACC)</option></select>') +
+      : '<label for="rubric-search-market">Type de source</label><select id="rubric-search-market" name="marche"><option value="all">Publics et privés — BOAMP + BODACC</option><option value="public">Marchés publics (BOAMP)</option><option value="private">Signaux commerciaux privés (BODACC)</option></select>') +
     '<label for="rubric-search-region">Région</label>' +
     '<select id="rubric-search-region" name="zone">' + optionMarkup(regions) + '</select>' +
     '<button class="button-primary" type="submit">Rechercher →</button>';
