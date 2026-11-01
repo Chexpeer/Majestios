@@ -1,0 +1,33 @@
+/* Accueil MajestiOS — maquette immeuble à 12 étages, temporaire avant intégration de l'image de référence. */
+.industrial-zone-home{position:relative;isolation:isolate;min-height:calc(100vh - 140px);padding:22px clamp(14px,3vw,42px) 16px;overflow:hidden;background:radial-gradient(ellipse at 50% 35%,#1c3550 0%,#0c1624 58%,#070d16 100%);color:#f4f7fb}
+.industrial-zone-slogan{text-align:center;position:relative;z-index:2;margin:0 auto 12px}
+.building-eyebrow{font-size:9px;letter-spacing:.22em;color:#d9b86c;font-weight:800;margin:0 0 7px}
+.industrial-zone-slogan h1{font-size:clamp(22px,3vw,36px);letter-spacing:-.045em;line-height:1.08;margin:0;color:#f6f8fb}
+.industrial-zone-slogan h1 span{color:#e4c779}
+.building-intro{font-size:12px;color:#b7c6d8;margin:7px 0 0}
+.majestios-building-stage{position:relative;min-height:calc(100vh - 255px);display:flex;align-items:center;justify-content:center;isolation:isolate;padding:0 10px 22px}
+.building-atmosphere{position:absolute;z-index:-2;inset:0;background:radial-gradient(ellipse at 50% 48%,#41658a4d 0%,#1329401f 42%,transparent 68%)}
+.majestios-building{position:relative;width:min(590px,94vw);padding:0 18px 0;background:linear-gradient(90deg,#0b1725 0%,#22384d 7%,#17283a 13%,#293f53 50%,#17283a 87%,#0b1725 100%);border:1px solid #7890a94d;box-shadow:0 28px 80px #0009,0 0 0 7px #d8e8ff05, inset 0 0 35px #0008;transform:perspective(1200px) rotateY(-3deg);z-index:1}
+.majestios-building:before,.majestios-building:after{content:"";position:absolute;top:0;bottom:0;width:14px;background:linear-gradient(90deg,#060d15,#536b7e,#101b29);opacity:.9}
+.majestios-building:before{left:0}.majestios-building:after{right:0}
+.building-roof{height:43px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 13px;border-bottom:3px solid #d5b86f;background:linear-gradient(90deg,#111e2d,#253c50,#101c2a);color:#e7ca7b;font-size:12px;letter-spacing:.17em;font-weight:900}
+.building-roof small{font-size:8px;letter-spacing:.1em;color:#b7c8d8;font-weight:700;text-align:right}
+.building-floors{display:grid;gap:3px;padding:7px 0 8px}
+.building-floor{--floor-accent:#9fb8cf;position:relative;display:grid;grid-template-columns:39px minmax(0,1fr) 26px;align-items:center;gap:9px;min-height:clamp(28px,4.1vh,37px);padding:3px 10px;text-decoration:none;color:#f1f5fa;border:1px solid #9eb4c72b;border-left:4px solid var(--floor-accent);background:linear-gradient(100deg,#0b1725 0%,#193047 35%,#102236 72%,#0b1725 100%);box-shadow:inset 0 1px #ffffff0b,inset 0 -2px #02070c6e;transition:background .16s,border-color .16s,transform .16s}
+.building-floor:before{content:"";position:absolute;left:60px;right:44px;top:4px;height:3px;background:repeating-linear-gradient(90deg,#9ac3df65 0 13px,transparent 13px 18px);opacity:.5;pointer-events:none}
+.building-floor:after{content:"";position:absolute;left:60px;right:44px;bottom:4px;height:3px;background:repeating-linear-gradient(90deg,#9ac3df65 0 13px,transparent 13px 18px);opacity:.35;pointer-events:none}
+.floor-number{position:relative;z-index:1;color:var(--floor-accent);font-size:12px;font-weight:900;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.floor-name{position:relative;z-index:1;font-size:clamp(10px,1.25vw,13px);line-height:1.15;font-weight:750;text-shadow:0 1px 2px #0009}
+.floor-arrow{position:relative;z-index:1;justify-self:end;color:var(--floor-accent);font-size:15px}
+.building-floor:hover,.building-floor:focus-visible{outline:0;border-color:var(--floor-accent);background:linear-gradient(90deg,#253d52,#36536a,#182e42);transform:translateX(3px);box-shadow:0 0 16px color-mix(in srgb,var(--floor-accent) 22%,transparent),inset 0 1px #ffffff16}
+.building-floor:focus-visible{outline:2px solid var(--floor-accent);outline-offset:2px}
+.floor-public{--floor-accent:#72b8f1}.floor-private{--floor-accent:#7ed29b}.floor-dev{--floor-accent:#e5bd67}.floor-prospect{--floor-accent:#6ed6d5}.floor-economic{--floor-accent:#c3a1f2}.floor-network{--floor-accent:#f29b96}.floor-watch{--floor-accent:#83c8ff}.floor-support{--floor-accent:#a8c7e6}.floor-subcontract{--floor-accent:#f2ad7b}.floor-events{--floor-accent:#e8d17e}.floor-bodacc{--floor-accent:#8ad1bc}.floor-crm{--floor-accent:#bdc9d8}
+.building-entrance{height:48px;display:flex;align-items:center;justify-content:center;gap:12px;background:linear-gradient(#14263a,#09131f);border-top:2px solid #6e8397;color:#d9b86c;font-size:9px;font-weight:900;letter-spacing:.2em}
+.entrance-door{width:30px;height:31px;border:2px solid #b4c7d6;background:linear-gradient(90deg,#152a3e,#426078,#152a3e);box-shadow:inset 0 0 8px #0008}
+.entrance-lights{font-size:7px;letter-spacing:3px;color:#6ad6b0}
+.building-ground{position:absolute;bottom:0;left:0;right:0;height:30px;display:flex;justify-content:center;align-items:center;gap:14px;border-top:1px solid #a8c1d22b;color:#a7bacd;font-size:8px;letter-spacing:.2em;font-weight:800;background:linear-gradient(90deg,transparent,#20374b66,transparent)}
+.building-side-light{position:absolute;z-index:-1;bottom:20px;width:min(720px,100%);height:30px;background:#6e9bc71c;filter:blur(20px)}
+@media(min-height:900px){.majestios-building{width:min(650px,94vw)}.building-floor{min-height:clamp(31px,4.35vh,42px)}}
+@media(max-width:650px){.industrial-zone-home{padding:18px 8px 10px;min-height:calc(100vh - 100px)}.industrial-zone-slogan{margin-bottom:9px}.building-intro{font-size:10px}.majestios-building-stage{min-height:calc(100vh - 220px);padding:0 2px 24px}.majestios-building{width:min(100%,520px);padding:0 10px;transform:none}.building-roof{height:35px;padding:0 8px;font-size:10px}.building-roof small{font-size:6px}.building-floors{gap:2px;padding:6px 0}.building-floor{grid-template-columns:29px minmax(0,1fr) 18px;gap:5px;min-height:clamp(25px,4.2vh,34px);padding:2px 6px}.floor-number{font-size:10px}.floor-name{font-size:clamp(9px,2.55vw,12px)}.floor-arrow{font-size:12px}.building-floor:before,.building-floor:after{left:43px;right:31px}.building-entrance{height:38px;font-size:7px;letter-spacing:.12em;gap:7px}.entrance-door{height:26px;width:24px}.building-ground{font-size:6px;letter-spacing:.1em;gap:7px}}
+@media(max-height:700px) and (min-width:651px){.industrial-zone-home{padding-top:10px}.industrial-zone-slogan h1{font-size:24px}.majestios-building-stage{min-height:calc(100vh - 205px)}.building-roof{height:32px}.building-floor{min-height:25px}.building-entrance{height:36px}}
+@media(prefers-reduced-motion:reduce){.building-floor{transition:none}}
