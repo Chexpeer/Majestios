@@ -11,7 +11,7 @@ Objet : document de référence pour nettoyer le dépôt sans casser les pages, 
 2. la zone artisanale virtuelle interactive intégrée directement à la page ;
 3. le moteur de recherche avancé (mot-clé, catégorie, type de marché, localisation).
 
-Ne doivent pas apparaître sur l’accueil : liste d’appels d’offres, annonces fictives en cartes, répertoire séparé des bâtiments, raccourcis redondants, blocs explicatifs, formulaires permanents, pied de page ou sections répétitives. Le bandeau de diffusion d’annonces en haut de page est prévu pour une étape ultérieure et ne doit pas être simulé comme un flux réel.
+Ne doivent pas apparaître sur l’accueil : liste d’appels d’offres, annonces fictives en cartes, répertoire séparé des bâtiments, raccourcis redondants, blocs explicatifs, formulaires permanents, pied de page ou sections répétitives. Exception validée : un bandeau horizontal très discret et très lent peut rester en haut de page, uniquement comme flux de démonstration explicitement identifié comme fictif. Il ne doit jamais laisser croire que des annonces réelles défilent ; les résultats réels sont recherchés à la demande.
 
 La zone interactive doit rester visible dès l’accueil. Le retrait de son entrée dans la navigation ne signifie pas que la zone ou ses fichiers sont supprimés.
 
