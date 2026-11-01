@@ -176,7 +176,7 @@
       };
       if (regions[region]) bodaccUrl.searchParams.set("where", 'region_nom_officiel = "' + regions[region].replace(/"/g, '\\"') + '"');
       try {
-        const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" } });
+        const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(12000) });
         if (!response.ok) throw new Error("HTTP " + response.status);
         const payload = await response.json();
         const records = Array.isArray(payload.results)
@@ -272,7 +272,7 @@
     if (query) url.searchParams.set("q", query);
 
     try {
-      const response = await fetch(url.toString(), { headers: { Accept: "application/json" } });
+      const response = await fetch(url.toString(), { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(12000) });
       if (!response.ok) throw new Error("HTTP " + response.status);
       const payload = await response.json();
       const records = Array.isArray(payload.results)
