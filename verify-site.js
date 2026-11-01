@@ -49,7 +49,7 @@ if (fs.existsSync(buildPath)) {
   for (const page of pages) {
     if (!build.includes(`"${page}"`)) errors.push(`build.js: page absente de la liste de publication : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js", "search-results.js", "opportunity-search.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js", "search-results.js", "opportunity-search.js"]) {
     if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
   }
   // LOT 11 — le build doit refuser les doublons et vérifier l’intégrité réelle de dist/.
@@ -213,7 +213,10 @@ for (const page of immersivePages) {
 // Vérifier que les douze rubriques restent accessibles depuis l'univers virtuel.
 const zoneHtmlPath = path.join(root, "zone-artisanale.html");
 const zoneJsPath = path.join(root, "zone-artisanale.js");
+const zoneConfigPath = path.join(root, "zone-artisanale-config.js");
 const zoneJsText = fs.existsSync(zoneJsPath) ? fs.readFileSync(zoneJsPath, "utf8") : "";
+const zoneConfigText = fs.existsSync(zoneConfigPath) ? fs.readFileSync(zoneConfigPath, "utf8") : "";
+const zoneSourceText = `${zoneJsText}\n${zoneConfigText}`;
 const virtualDestinations = [
   "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
   "prospection-inversee.html", "intelligence-economique.html", "reseaux-synergies.html",
@@ -222,10 +225,11 @@ const virtualDestinations = [
 ];
 if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
   const zoneHtml = fs.readFileSync(zoneHtmlPath, "utf8");
-  const zoneJs = fs.readFileSync(zoneJsPath, "utf8");
+  const zoneJs = `${fs.readFileSync(zoneJsPath, "utf8")}\n${fs.existsSync(zoneConfigPath) ? fs.readFileSync(zoneConfigPath, "utf8") : ""}`;
 
   // Les trois niveaux de navigation de chaque bâtiment doivent pointer vers des pages réelles.
-  const levelRoutes = [...zoneJs.matchAll(/\{id:"(B\d+)"[^\n]*?firstRoute:"([^"]+\.html)",secondRoute:"([^"]+\.html)"/g)]
+  const zoneConfigText = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";
+  const levelRoutes = [...`${zoneJs}\\n${zoneConfigText}`.matchAll(/\{id:"(B\d+)"[^\n]*?firstRoute:"([^"]+\.html)",secondRoute:"([^"]+\.html)"/g)]
     .map((match) => ({ id: match[1], first: match[2], second: match[3] }));
   if (levelRoutes.length !== 12) errors.push(`Zone 3D : ${levelRoutes.length} bâtiments disposent de deux routes de niveaux, 12 attendus`);
   for (const building of levelRoutes) {
@@ -518,7 +522,7 @@ if (fs.existsSync(distPath)) {
   for (const page of ["index.html", "zone-artisanale.html", "resultats-recherche.html", ...expectedRubricPages, ...Object.keys(expectedCategoryWorlds)]) {
     if (!fs.existsSync(path.join(distPath, page))) errors.push(`Build : page attendue absente de dist/ : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "category-results.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js"]) {
     if (!fs.existsSync(path.join(distPath, asset))) errors.push(`Build : ressource attendue absente de dist/ : ${asset}`);
   }
   const builtHome = path.join(distPath, "index.html");
