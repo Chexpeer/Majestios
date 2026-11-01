@@ -244,7 +244,7 @@ async function main() {
     assert.equal(await page.locator('#rubric-search-market option[value="private"]').count(), 1, "Le développement commercial doit permettre de choisir les signaux privés BODACC.");
 
     await page.goto("http://127.0.0.1:4174/marches-prives.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#private-signal-search-form").waitFor({ timeout: 10000 });
+    await page.locator("#private-signal-search-form").waitFor({ state: "attached", timeout: 10000 });
     const privateRubricOptions = await page.locator("#private-signal-category option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
     assert.ok(privateRubricOptions.some(option => option.value === "bodacc-cessions"), "La rubrique Marchés privés doit proposer les familles BODACC.");
     assert.ok(privateRubricOptions.some(option => option.value === "immobilier" && /à connecter/.test(option.label)), "La catégorie immobilière doit être visible comme source à connecter.");
