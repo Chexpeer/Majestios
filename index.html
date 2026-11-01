@@ -164,6 +164,32 @@ body.homepage .building-caption{margin-top:8px;color:#9eafc8;font-size:9px;lette
 
 
 /* Photo de référence fournie par le propriétaire du projet */
+/* La photo remplace l’ancien immeuble CSS : on conserve uniquement les liens d’étage superposés. */
+body.homepage .building-scene .tower{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  display:block!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+body.homepage .building-scene .tower:before,
+body.homepage .building-scene .tower:after{display:none!important;content:none!important}
+body.homepage .building-scene .tower .floor-row,
+body.homepage .building-scene .tower .building-rdc{
+  background:transparent!important;
+  box-shadow:none!important;
+  border:0!important;
+  backdrop-filter:none!important;
+}
+body.homepage .building-scene .tower .floor-row:before,
+body.homepage .building-scene .tower .floor-row:after{display:none!important;content:none!important}
 body.homepage .building-scene{
   background-image:linear-gradient(180deg,#07101a20 0%,#07101a15 58%,#07101a88 100%),url("1793559765217.webp");
   background-size:cover;
