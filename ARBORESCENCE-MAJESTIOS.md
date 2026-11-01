@@ -1,7 +1,7 @@
 # MajestiOS — arborescence et dépendances de référence
 
-Version : 2026-10-31  
-Branche de travail : `reprise-zone-industrielle-avancee-2026-10-31`  
+Version : 2026-11-01  
+Branche de travail : `chantier-recherche-donnees-gardes-fous-2026-11-01`  
 Objet : document de référence pour nettoyer le dépôt sans casser les pages, les interactions ni le build.
 
 ## 1. Structure obligatoire de la page d’accueil
@@ -184,3 +184,18 @@ Garde-fou : cessation, liquidation ou cession ne prouve pas que les locaux sont 
 
 ### Règle de dépendance
 Toute nouvelle page ou ressource doit être déclarée dans le build, contrôlée par verify-site, reliée depuis une destination explicite et testée. Ne pas refondre la zone industrielle ni changer la navigation principale ou le moteur commercial sans lot dédié et tests anti-régression.
+
+
+## Dossier Emploi — veille interne, sans moteur public sur l'accueil
+
+Le dossier **Emploi** est séparé des catégories du moteur principal d'opportunités commerciales. Il couvre deux usages distincts :
+
+- **Veille interne discrète** : collecte planifiée de ressources d'emploi autorisées, normalisation des métiers et compétences, détection de tendances et qualification de signaux utiles au développement commercial.
+- **Nous rejoindre** : parcours candidat pour proposer un profil ou un CV, avec traitement sécurisé, accès restreint, politique de conservation et suppression. Tant que le stockage et le traitement côté serveur ne sont pas connectés, ne pas afficher une confirmation laissant croire qu'un CV a été reçu.
+
+Ressources à évaluer dans le cahier des charges : France Travail (API Offres d'emploi sous réserve d'accès confirmé, API Marché du travail, ROME 4.0, événements), La Bonne Alternance, APEC, Cadremploi, agentCo, HelloWork, Indeed, Welcome to the Jungle, LinkedIn, Choisir le service public et plateformes sectorielles. Les noms constituent un inventaire de sources candidates, pas une déclaration d'accès technique ou de droits de réutilisation.
+
+Le bandeau horizontal de l'accueil peut, à terme, diffuser certains signaux emploi validés et non expirés ; il ne doit pas se transformer en liste d'offres ni en moteur public de recherche d'emploi. Les résultats d'emploi ne doivent pas polluer les filtres BOAMP/BODACC.
+
+### Règle de navigation
+Le dossier Emploi peut être accessible depuis la rubrique « Nous rejoindre » pour le parcours candidat ou depuis une rubrique interne dédiée lorsque les modules seront implémentés. Il ne devient pas une nouvelle catégorie du moteur commercial principal. La création d'une page publique dédiée et son inclusion dans build.js exigent un lot ultérieur avec tests des liens, formulaires, confidentialité et anti-régression.
