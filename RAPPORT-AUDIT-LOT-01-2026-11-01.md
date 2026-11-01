@@ -1,6 +1,7 @@
 # Rapport d’audit MajestiOS — Lot 01
 Date : 1er novembre 2026  
-Branche : `chantier-recherche-donnees-gardes-fous-2026-11-01`
+Branche d’origine de l’audit : `chantier-recherche-donnees-gardes-fous-2026-11-01`  
+Branche de poursuite : `refonte-moteur-navigation-mobile-2026-11-01`
 
 ## Périmètre et preuve d’exécution
 
@@ -21,7 +22,7 @@ Cette réussite décrit le commit testé. Toute nouvelle modification doit décl
 | 7 | Recherche combinée public + privé | Testé dans Chromium | Les deux sources sont interrogées séparément et leurs résultats restent regroupés par provenance, sans fusion trompeuse. |
 | 8 | Provenance, références et échéances | Couvert par les contrôles et tests existants | Les cartes affichent les éléments de provenance disponibles, les références utiles et un avertissement lorsque l’échéance BOAMP est absente. Chaque avis doit être confirmé sur sa publication officielle. |
 | 9 | Absence de résultats inventés en cas de problème | Vérifié par les tests de recherche | Les états vides et erreurs indiquent qu’aucun résultat n’est inventé. Les filtres géographiques BODACC non pris en charge sont refusés explicitement au lieu de retourner des résultats non filtrés. |
-| 10 | Zone immersive, veille emploi et formulaires | Zone testée ; limites fonctionnelles identifiées | Le test navigateur de la zone est réussi. La veille emploi reste absente des catégories publiques de recherche. La création de compte, l’envoi de candidature et les demandes de contact ne sont pas encore connectés à un backend : aucun envoi ni stockage réel ne doit être promis. |
+| 10 | Zone immersive, veille emploi et formulaires | Zone testée ; limites fonctionnelles identifiées | Le test navigateur de la zone est réussi. La veille emploi reste absente des catégories publiques de recherche, mais « Emploi et recrutement » figure dans la taxonomie privée comme catégorie non connectée. La création de compte, l’envoi de candidature et les demandes de contact ne sont pas encore connectés à un backend : aucun envoi ni stockage réel ne doit être promis. |
 
 ## Points ouverts à traiter dans les lots suivants
 
@@ -35,3 +36,26 @@ Cette réussite décrit le commit testé. Toute nouvelle modification doit décl
 ## Règle de validation
 
 Une fonctionnalité n’est déclarée « opérationnelle » que si son parcours réel est testé et si sa dépendance externe est effectivement connectée. Les tests avec réponses simulées vérifient la logique applicative ; ils ne prouvent pas à eux seuls la disponibilité continue d’une source ni l’existence d’un traitement backend.
+
+
+## Addendum — Audit des parcours de recherche et des formulaires
+Date : 1er novembre 2026  
+Branche de poursuite : `refonte-moteur-navigation-mobile-2026-11-01`
+
+### Constats vérifiés dans le code
+
+| Parcours | État constaté | Conséquence / prochaine action |
+|---|---|---|
+| Résultats BOAMP | Les cartes proposent un lien direct vers l’avis officiel. | Le lien source est utile et doit être conservé ; il n’ouvre pas de formulaire de demande MajestiOS. |
+| Résultats BODACC | Les cartes affichent un signal légal et proposent un lien vers l’annonce officielle. | Ne pas présenter ce signal comme un appel d’offres. Aucun parcours de contact MajestiOS n’est déclenché depuis la carte. |
+| Formulaire « Créer mon espace personnel » | Le formulaire contrôle les champs côté navigateur puis affiche un message indiquant qu’aucune donnée n’est transmise ni enregistrée. | Prototype honnête, mais ce n’est pas une création de compte opérationnelle. |
+| Formulaire de demande / accompagnement | Le code de prévisualisation de `app.js` ne s’active que si le formulaire `#lead-form` est présent. Les pages principales inspectées ne démontrent pas un parcours complet connecté. | Vérifier l’emplacement et le parcours cible avant de le déclarer disponible. Ne pas brancher de transmission ou de CRM dans ce lot. |
+| Confirmation et retour à l’accueil | Aucun parcours complet de confirmation après envoi réel n’est démontré par les pages et scripts inspectés. | À spécifier avec le futur traitement serveur : confirmation seulement après acceptation réelle de la demande, puis retour temporisé à l’accueil si c’est le parcours retenu. |
+| Catégories privées non connectées | Immobilier professionnel, emploi et recrutement, offres de sous-traitance, recherche de sous-traitants et partenaires affichent un état non connecté sans inventer de résultats. | Comportement attendu ; chaque connecteur doit être validé séparément avant activation. |
+| Préparation CRM | Les résultats de recherche sont affichés dans le navigateur ; aucune écriture CRM n’a été observée dans ce parcours. | Conserver uniquement la préparation documentaire et du modèle de données. Aucune persistance ni alimentation CRM ne doit être activée à ce stade. |
+
+### Décision de périmètre
+
+Le prochain lot doit d’abord **spécifier le parcours de demande à partir d’une annonce** (consulter la source officielle, demander à recevoir l’offre, préparer une candidature ou créer un espace personnel), en séparant nettement les intentions et en indiquant l’état réel de chaque action. Il ne faut pas prétendre envoyer un e-mail, transmettre une candidature, créer un compte ou enregistrer une fiche tant qu’un traitement serveur réel et ses tests ne sont pas en place.
+
+Les changements de ce lot sont documentaires : ils ne connectent aucun backend, ne déclenchent aucun envoi et n’activent pas le CRM.
