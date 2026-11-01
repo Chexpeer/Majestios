@@ -1,6 +1,8 @@
-# Chantier prioritaire — recherche, données, dossiers et garde-fous MajestiOS
+# Chantier — recherche, données, dossiers et garde-fous MajestiOS
 
 Version : 2026-11-01
+
+**Priorité de pilotage actualisée :** avancer d’abord sur le cahier des charges maître (`CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md`) et les décisions produit. L’audit technique ne doit plus bloquer la clarification du produit ; les vérifications restantes seront ciblées sur les lots à implémenter. Aucun développement fonctionnel supplémentaire ne commence avant validation du périmètre concerné.
 Branche de travail : `chantier-recherche-donnees-gardes-fous-2026-11-01`
 Référence de départ : commit validé de la zone `d21d4d8f7e72c70688d72b0e180d56a5bf59c0df`
 Statut : audit initial réalisé ; corrections progressives à valider. Aucune publication en production n'est autorisée par ce document.
