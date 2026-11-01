@@ -89,6 +89,16 @@ async function main() {
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 }).catch(() => {});
     assert.equal(await page.locator("#category-results-panel").count(), 1, "La page de catégorie doit conserver son panneau de résultats.");
     assert.ok(apiCalls >= 1, "La page de catégorie doit elle aussi lancer la recherche.");
+    await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
+    assert.equal(await page.locator('#rubric-opportunity-search input[name="marche"]').inputValue(), "public", "La rubrique Marchés publics doit verrouiller la source publique.");
+    assert.equal(await page.locator('#rubric-search-region option[value="nouvelle-aquitaine"]').count(), 1, "Le formulaire doit proposer une vraie région administrative.");
+    assert.equal(await page.locator('#rubric-search-region option[value="nord"]').count(), 0, "Les zones de démonstration ne doivent pas être présentées comme des régions réelles.");
+
+    await page.goto("http://127.0.0.1:4174/developpement-commercial.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
+    assert.equal(await page.locator('#rubric-search-market option[value="private"]').count(), 1, "Le développement commercial doit permettre de choisir les signaux privés BODACC.");
+
     console.log("Recherche navigateur réussie : critères, source BOAMP simulée, rendu des résultats et séparation des marchés privés vérifiés.");
   } finally {
     if (browser) await browser.close();
