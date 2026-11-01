@@ -844,8 +844,8 @@ for (const [id, name, key, group] of expectedBuildingContracts) {
 for (const match of buildingDefinitions) {
   const id = match[1];
   const definitionStart = match.index;
-  const nextStart = homeSceneJs.indexOf('{id:"', definitionStart + 5);
-  const definition = homeSceneJs.slice(definitionStart, nextStart < 0 ? homeSceneJs.indexOf('];', definitionStart) : nextStart);
+  const nextStart = zoneSourceText.indexOf('{id:"', definitionStart + 5);
+  const definition = zoneSourceText.slice(definitionStart, nextStart < 0 ? zoneSourceText.indexOf('];', definitionStart) : nextStart);
   const mainHrefMatch = sceneCatalog.match(new RegExp(`\\{[^}]*key:\\s*["']${match[4]}["'][^}]*href:\\s*["']([^"']+\\.html)["'][^}]*\\}`));
   const first = definition.match(/firstRoute:"([^"]+)"/);
   const second = definition.match(/secondRoute:"([^"]+)"/);
