@@ -5,7 +5,7 @@ Branche de travail : `refonte-moteur-navigation-mobile-2026-11-01`
 
 ## Objectif
 
-Définir les règles de provenance, de filtrage et de présentation des résultats de recherche MajestiOS. Le schéma machine normalisé reste défini dans `schemas/opportunite.schema.json`. Le moteur de recherche interactif utilise actuellement les connecteurs BOAMP et BODACC ; les autres familles privées restent affichées comme catégories prévues, mais non connectées.
+Définir les règles de provenance, de filtrage et de présentation des résultats de recherche MajestiOS. Le schéma machine partagé est défini dans `schemas/opportunite.schema.json`. Il couvre les huit catégories publiques et les neuf catégories privées, avec `recordType`, provenance, clé de dédoublonnage et métadonnées de qualification prévues pour la future alimentation CRM. Le moteur de recherche utilise actuellement les connecteurs BOAMP et BODACC ; immobilier, emploi et sous-traitance restent non connectés. Le contrat de données ne signifie pas que les résultats sont déjà persistés dans un CRM.
 
 ## Règle de routage du moteur
 
@@ -84,7 +84,7 @@ Les familles BODACC sont filtrées à partir des champs textuels de l’annonce 
 
 ## Limites et prochaines étapes
 
-Les connecteurs BOAMP et BODACC sont interrogés à la demande depuis le navigateur. Les autres sources privées ne sont pas encore connectées. Le moteur de recherche en direct ne constitue pas à lui seul un CRM : l’enregistrement des signaux, la déduplication persistante, le suivi des interactions, l’historique et les règles de conservation restent à spécifier et développer.
+Les connecteurs BOAMP et BODACC sont interrogés à la demande depuis le navigateur. Les autres sources privées ne sont pas encore connectées. Le moteur de recherche en direct ne constitue pas à lui seul un CRM : le schéma commun prépare la normalisation, la provenance, la qualification et le lien futur vers les objets CRM, mais l’adaptateur BOAMP/BODACC, la validation systématique du schéma, la déduplication persistante, le stockage, le suivi des interactions, l’historique et les règles de conservation restent à développer.
 
 Prochaines étapes :
 1. renforcer les tests de correspondance de chaque catégorie BODACC sur des exemples de champs réels ;
