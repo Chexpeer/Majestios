@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#070a0f">
     <meta name="description" content="MajestiOS accompagne le développement commercial des entreprises en repérant de nouvelles opportunités et signaux de marché.">
-    <title>MajestiOS — Développement commercial et prospection inversée</title>
+    <title>MajestiOS — Développement commercial intelligent</title>
     <link rel="stylesheet" href="styles.css">
     <style>
 :root{color-scheme:dark;--gold:#d5b56c;--ink:#f4f0e6;--muted:#bdb5a4;--line:#33465b;--panel:#101a28}
@@ -309,8 +309,8 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
       </section>
       </section>
 <section class="building-home" aria-label="Immeuble virtuel MajestiOS">
-      <div class="building-heading"><p>LES 12 RUBRIQUES MÉTIER</p></div>
-      <section class="building-scene" aria-label="Immeuble virtuel MajestiOS à douze étages">
+      <div class="building-heading"><p>LES 10 DOSSIERS THÉMATIQUES</p></div>
+      <section class="building-scene" aria-label="Immeuble virtuel MajestiOS à dix étages">
         <div class="cityline" aria-hidden="true"></div>
         <div class="ground-road" aria-hidden="true"></div>
         <div class="tower" aria-label="Façade du building MajestiOS">
@@ -318,7 +318,7 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
           <div class="floor-rows" id="floor-rows"></div>
           <div class="building-rdc"><span>RDC</span><strong>ACCUEIL MAJESTIOS</strong></div>
         </div>
-        <div class="building-caption">BÂTIMENT VIRTUEL · 12 ÉTAGES · 3 BUREAUX PAR ÉTAGE</div>
+        <div class="building-caption">BÂTIMENT VIRTUEL · 10 ÉTAGES · 3 ACCÈS PAR ÉTAGE</div>
       </section>
     </section>
     </main>
@@ -338,18 +338,16 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
         const offices = document.getElementById("dialog-offices");
         if (!catalog || !floorRows || !dialog || !offices) return;
         const floors = [
-          {id:"B01",name:"Marchés publics",key:"marches-publics",first:"veille-marches.html",second:"accompagnement-appels-offres.html",description:"Repérer les consultations publiques pertinentes et organiser leur qualification."},
-          {id:"B02",name:"Marchés privés",key:"marches-prives",first:"bodacc-veille-entreprises.html",second:"sous-traitance.html",description:"Repérer les opportunités privées et les besoins des donneurs d’ordre."},
-          {id:"B03",name:"Développement commercial",key:"developpement-commercial",first:"prospection-inversee.html",second:"bodacc-veille-entreprises.html",description:"Développer une stratégie commerciale et transformer les opportunités en relations d’affaires."},
-          {id:"B04",name:"Prospection inversée",key:"prospection-inversee",first:"marches-publics.html",second:"marches-prives.html",description:"Identifier les entreprises susceptibles d’avoir besoin de vos produits, services ou compétences."},
-          {id:"B05",name:"Intelligence économique",key:"intelligence-economique",first:"veille-marches.html",second:"bodacc-veille-entreprises.html",description:"Croiser les informations utiles à la compréhension des marchés."},
-          {id:"B06",name:"Réseaux et synergies",key:"reseaux-synergies",first:"sous-traitance.html",second:"salons-seminaires.html",description:"Identifier des complémentarités et faciliter les coopérations commerciales."},
-          {id:"B07",name:"Veille des marchés",key:"veille-marches",first:"marches-publics.html",second:"marches-prives.html",description:"Surveiller les consultations selon les critères de recherche de l’entreprise."},
-          {id:"B08",name:"Accompagnement aux appels d’offres",key:"accompagnement-appels-offres",first:"marches-publics.html",second:"marches-prives.html",description:"Structurer la préparation des candidatures et la compréhension des dossiers."},
-          {id:"B09",name:"Sous-traitance",key:"sous-traitance",first:"marches-publics.html",second:"reseaux-synergies.html",description:"Repérer les besoins complémentaires et les opportunités de sous-traitance."},
-          {id:"B10",name:"Salons et séminaires",key:"salons-seminaires",first:"espace-membre.html",second:"reseaux-synergies.html",description:"Identifier les événements utiles aux rencontres et au développement commercial."},
-          {id:"B11",name:"Veille des entreprises · BODACC",key:"bodacc-veille-entreprises",first:"intelligence-economique.html",second:"developpement-commercial.html",description:"Suivre les événements et annonces d’entreprise, notamment au BODACC."},
-          {id:"B12",name:"Suivi commercial et capitalisation",key:"suivi-commercial",first:"developpement-commercial.html",second:"intelligence-economique.html",description:"Organiser les échanges et capitaliser sur les enseignements commerciaux."}
+          {id:"B01",name:"Marchés publics",key:"marches-publics",first:"veille-marches.html",second:"accompagnement-appels-offres.html",description:"Repérer et qualifier les consultations publiques pertinentes pour votre entreprise."},
+          {id:"B02",name:"Marchés privés",key:"marches-prives",first:"sous-traitance.html",second:"bodacc-veille-entreprises.html",description:"Identifier les opportunités privées et les besoins des donneurs d’ordre."},
+          {id:"B03",name:"Veille économique",key:"veille-economique",first:"veille-marches.html",second:"intelligence-economique.html",description:"Suivre les marchés et les signaux économiques à partir de sources identifiées."},
+          {id:"B04",name:"Prospection",key:"prospection",first:"marches-publics.html",second:"marches-prives.html",description:"Combiner prospection passive pour détecter et qualifier les opportunités, et prospection active pour engager des démarches commerciales."},
+          {id:"B05",name:"Développement commercial",key:"developpement-commercial",first:"prospection-inversee.html",second:"suivi-commercial.html",description:"Organiser la chaîne commerciale, de la qualification des opportunités à leur transformation."},
+          {id:"B06",name:"Accompagnement aux appels d’offres",key:"accompagnement-appels-offres",first:"marches-publics.html",second:"qualification-entreprises.html",description:"Comprendre le dossier, vérifier les pièces, préparer la candidature et suivre les échéances."},
+          {id:"B07",name:"Salon virtuel",key:"salon-virtuel",first:"reseaux-synergies.html",second:"salons-seminaires.html",description:"Présenter les savoir-faire des entreprises et faciliter les partenariats professionnels."},
+          {id:"B08",name:"Espace entreprises",key:"espace-entreprises",first:"espace-membre.html",second:"nous-rejoindre.html",description:"Accéder au parcours entreprise et préparer la personnalisation des services."},
+          {id:"B09",name:"CRM",key:"crm",first:"suivi-commercial.html",second:"developpement-commercial.html",description:"Structurer les entreprises, contacts, interactions, opportunités et actions de suivi."},
+          {id:"B10",name:"Business Intelligence",key:"business-intelligence",first:"intelligence-economique.html",second:"brainos.html",description:"Transformer les données traçables en analyses et éléments d’aide à la décision."}
         ];
         const rubricFor = (key) => catalog.rubrics.find((item) => item.key === key);
         floors.slice().reverse().forEach((floor, index) => {
@@ -358,12 +356,12 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
           const button = document.createElement("button");
           button.type = "button";
           button.className = "floor-row";
-          button.setAttribute("aria-label", "Ouvrir l’étage " + (12 - index) + " : " + floor.name);
+          button.setAttribute("aria-label", "Ouvrir l’étage " + (10 - index) + " : " + floor.name);
           button.setAttribute("aria-haspopup", "dialog");
-          button.innerHTML = '<span class="floor-no">' + String(12 - index).padStart(2, "0") + '</span><span class="floor-name"></span><span class="floor-windows" aria-hidden="true"><i class="window"></i><i class="window"></i><i class="window"></i></span><span class="floor-mini" aria-hidden="true"></span>';
+          button.innerHTML = '<span class="floor-no">' + String(10 - index).padStart(2, "0") + '</span><span class="floor-name"></span><span class="floor-windows" aria-hidden="true"><i class="window"></i><i class="window"></i><i class="window"></i></span><span class="floor-mini" aria-hidden="true"></span>';
           button.querySelector(".floor-name").textContent = floor.name;
           button.addEventListener("click", function () {
-            document.getElementById("dialog-kicker").textContent = "BUILDING MAJESTIOS · ÉTAGE " + String(12 - index).padStart(2, "0");
+            document.getElementById("dialog-kicker").textContent = "BUILDING MAJESTIOS · ÉTAGE " + String(10 - index).padStart(2, "0");
             document.getElementById("dialog-title").textContent = floor.name;
             document.getElementById("dialog-description").textContent = floor.description;
             offices.replaceChildren();
