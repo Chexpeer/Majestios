@@ -6,9 +6,40 @@
   const results = document.getElementById("company-targeting-results");
   const summary = document.getElementById("company-targeting-summary");
   const cards = document.getElementById("company-targeting-cards");
+  const suggestionButton = document.getElementById("suggest-naf-button");
+  const suggestionPanel = document.getElementById("naf-suggestions");
+  const suggestionList = document.getElementById("naf-suggestions-list");
+  const addSuggestionsButton = document.getElementById("add-naf-suggestions");
+  const suggestionEngine = window.MajestiosNafSuggestions;
   const parseList = (value) => [...new Set(String(value || "").split(/[,;\n]+/).map((item) => item.trim()).filter(Boolean))];
   const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
   const formatScore = (value) => Number.isFinite(value) ? value + "/100" : "Non calculé";
+
+  if (suggestionButton && suggestionPanel && suggestionList && addSuggestionsButton && suggestionEngine) {
+    suggestionButton.addEventListener("click", () => {
+      const title = form.elements.marketTitle.value.trim();
+      const suggestions = suggestionEngine.suggestNafCodes(title, { limit: 8 });
+      suggestionList.replaceChildren();
+      if (!suggestions.length) {
+        status.textContent = title ? "Aucune suggestion lexicale trouvée. Saisissez ou recherchez les codes adaptés avec un opérateur." : "Saisissez d’abord l’intitulé du marché pour proposer des pistes APE/NAF.";
+        suggestionPanel.hidden = true;
+        return;
+      }
+      suggestionList.innerHTML = suggestions.map((item) => '<label class="naf-suggestion-option"><input type="checkbox" value="' + escapeHtml(item.code) + '"> <strong>' + escapeHtml(item.code) + '</strong> — ' + escapeHtml(item.label) + '<span class="small-note">Indice : ' + escapeHtml(item.matches.join(", ")) + '</span></label>').join("");
+      suggestionPanel.hidden = false;
+      status.textContent = "Suggestions lexicales proposées. Vérifiez chaque code avant de lancer la recherche ; elles ne constituent pas une analyse automatique du dossier de consultation.";
+    });
+    addSuggestionsButton.addEventListener("click", () => {
+      const chosen = [...suggestionList.querySelectorAll('input[type="checkbox"]:checked')].map((input) => input.value);
+      if (!chosen.length) {
+        status.textContent = "Cochez au moins une suggestion à ajouter, puis vérifiez la liste des codes.";
+        return;
+      }
+      const current = parseList(form.elements.nafCodes.value);
+      form.elements.nafCodes.value = [...new Set([...current, ...chosen])].join(", ");
+      status.textContent = "Codes ajoutés au champ. Contrôlez leur pertinence et leur format avant de rechercher les entreprises.";
+    });
+  }
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
