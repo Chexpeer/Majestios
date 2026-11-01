@@ -342,3 +342,14 @@ La sortie reste `manual_review_required` : aucune entreprise n'est déclarée co
 ## Suivi parallèle de la dynamique économique des entreprises
 
 Le ciblage des entreprises candidates pourra être enrichi par un historique de chiffre d'affaires publié, de l'exercice concerné, de la variation sur période comparable, de la source et de la fraîcheur de la donnée. L'absence ou la confidentialité des comptes doit rester explicite : aucune valeur zéro artificielle ni exclusion automatique. Une évolution du chiffre d'affaires ne prouve ni rentabilité, ni trésorerie, ni capacité à exécuter un marché. Voir `SPEC-SUIVI-DYNAMIQUE-ECONOMIQUE-ENTREPRISES-MAJESTIOS.md`. Les sources et droits de réutilisation doivent être validés avant tout connecteur opérationnel.
+
+
+## Valorisation des données, statistiques et études commercialisables — ajout du 1er novembre 2026
+
+MajestiOS doit préparer, à terme, des tableaux de bord, graphiques, statistiques sectorielles et territoriales, études ponctuelles, rapports périodiques et éventuellement une API ou des jeux de données enrichis. Les usages possibles comprennent le développement commercial, les marchés publics, les tendances d'emploi, les profils économiques d'entreprises et les signaux immobiliers professionnels.
+
+La valorisation doit porter en priorité sur la qualité du rapprochement, l'historique, la provenance, la méthode et l'interprétation, plutôt que sur la revente indifférenciée de données brutes. Modèles de revenus à étudier : abonnements à des tableaux de bord, études sur commande, rapports sectoriels, services d'analyse/accompagnement, puis accès API si les droits et la valeur sont démontrés.
+
+Les indicateurs sur l'expérience dans les marchés publics doivent tenir compte de la couverture des sources. Les attributions publiées ne permettent pas, à elles seules, de connaître toutes les candidatures déposées ni de calculer un taux de réussite fiable. L'absence de marché attribué identifié ne prouve pas l'absence d'expérience. Les profils commerciaux (conquête/accompagnement, développement, qualification à approfondir) orientent les recommandations mais ne constituent ni une certification ni une exclusion automatique.
+
+Chaque statistique ou rapport devra préciser définition, formule, période, périmètre, sources, dates, couverture, données manquantes et limites. Avant toute commercialisation, vérifier les licences, droits de redistribution, conditions d'API, protection des données personnelles et règles de prospection. Voir `MODELE-VALORISATION-DONNEES-ET-ETUDES-COMMERCIALES-MAJESTIOS.md`. Ce périmètre est documenté mais n'est pas encore implémenté ni commercialisé.
