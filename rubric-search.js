@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const page = document.querySelector("main.interior-page");
+  const page = document.querySelector("main.interior-page, main.category-page");
   if (!page || document.querySelector(".advanced-search-form")) return;
 
   const path = window.location.pathname.split("/").pop();
