@@ -1,67 +1,96 @@
-# Modèle de données — résultats d’appels d’offres MajestiOS
+# Modèle de données — résultats et signaux d’opportunité MajestiOS
 
-Version : 2026-10-31  
-Branche de travail : `correction-accueil-zone-industrielle`
+Version : 2026-11-01  
+Branche de travail : `refonte-moteur-navigation-mobile-2026-11-01`
 
 ## Objectif
 
-Normaliser les annonces pour que les huit pages de catégories partagent le même contrat de données, quelle que soit la source consultée. Le schéma machine est défini dans `schemas/opportunite.schema.json`.
+Définir les règles de provenance, de filtrage et de présentation des résultats de recherche MajestiOS. Le schéma machine normalisé reste défini dans `schemas/opportunite.schema.json`. Le moteur de recherche interactif utilise actuellement les connecteurs BOAMP et BODACC ; les autres familles privées restent affichées comme catégories prévues, mais non connectées.
 
-## Règles de publication
+## Règle de routage du moteur
 
-1. Une annonce présentée comme réelle doit provenir d'une source consultée et identifiable.
-2. Conserver le nom de la source, son URL, l'identifiant source quand il existe, la date de publication et la date de dernière vérification.
+Le parcours de recherche est : **Type de marché → source(s) de données → catégorie → page de résultats → qualification commerciale/CRM**.
+
+- **Marchés publics** : source BOAMP ; les catégories métier publiques actives sont les huit catégories listées ci-dessous.
+- **Marchés privés** : source BODACC pour les cinq familles de signaux légaux ; les catégories immobilier professionnel, emploi, offres de sous-traitance et recherche de sous-traitants/partenaires sont prévues, mais leurs connecteurs ne sont pas encore actifs.
+- **Tous types** : le moteur lance une recherche BOAMP et une recherche BODACC en parallèle, les résultats sont séparés par source et limités à cinq cartes par source, soit dix cartes maximum au total.
+- Une catégorie publique active peut ouvrir sa page de catégorie dédiée. Les recherches privées et les recherches transversales ouvrent actuellement `resultats-recherche.html`, où le moteur doit conserver et appliquer les paramètres `q`, `categorie`, `marche` et `zone`.
+
+Une catégorie non connectée ne doit jamais produire de fausses annonces ni afficher les résultats d’une autre source comme s’ils correspondaient à la sélection. L’interface doit expliquer explicitement que la source est à connecter.
+
+## Règles de publication et de provenance
+
+1. Une annonce présentée comme réelle doit provenir d’une source effectivement interrogée et identifiable.
+2. Conserver le nom de la source, son URL, l’identifiant source lorsqu’il existe et la date de publication publiée par la source.
 3. Distinguer la date de publication, la date limite de réponse et la date de récupération.
-4. Ne pas inventer l'acheteur, les coordonnées, les lots ou les échéances absentes de la source.
-5. Une annonce expirée, retirée ou non vérifiée ne doit pas être présentée comme une opportunité ouverte.
-6. Les pages affichent actuellement zéro annonce réelle : ce schéma prépare les intégrations, il ne signifie pas qu'un connecteur fonctionne déjà.
+4. Ne pas inventer l’acheteur, les coordonnées, les lots, les échéances ou l’activité de l’entreprise.
+5. Pour BOAMP, vérifier la date limite avant de qualifier un marché d’ouvert. Un avis de résultat ou d’attribution ne doit pas être présenté comme un appel d’offres ouvert.
+6. Les annonces BODACC sont des **signaux légaux d’entreprise**, pas des appels d’offres. Elles peuvent motiver une qualification commerciale, mais ne prouvent pas une intention d’achat ni une volonté d’être contacté.
+7. Si une source est inaccessible, afficher un état d’erreur et aucun résultat fictif.
+8. Une réponse API réussie confirme l’accès technique à la source au moment du test ; elle ne garantit ni l’exhaustivité des résultats ni la disponibilité permanente du service.
 
-## Champs essentiels
+## Champs essentiels du schéma normalisé
 
 - `id` : identifiant interne stable.
-- `sourceId` : identifiant d'origine, si fourni.
-- `title`, `summary`, `description` : contenu éditorial de l'annonce.
-- `category` : une des huit catégories actives.
+- `sourceId` : identifiant d’origine, si fourni.
+- `title`, `summary`, `description` : contenu de l’annonce ou du signal.
+- `category` : catégorie fonctionnelle contrôlée.
 - `marketType` : `public` ou `private`.
-- `buyerName` : acheteur ou donneur d'ordre publié par la source.
-- `location` : libellé, commune, code postal, département et région lorsqu'ils sont connus.
-- `publishedAt`, `deadlineAt` : dates normalisées au format date-heure ISO 8601.
+- `buyerName` : acheteur ou donneur d’ordre publié par la source, lorsqu’il existe.
+- `location` : commune, département et région lorsqu’ils sont connus.
+- `publishedAt`, `deadlineAt` : dates normalisées au format date-heure ISO 8601 lorsqu’elles sont disponibles.
 - `source`, `sourceUrl`, `documentUrls` : traçabilité.
 - `status` : `published`, `updated`, `closed`, `withdrawn` ou `to_verify`.
 - `verifiedAt`, `lastSeenAt`, `provenance` : fraîcheur et auditabilité.
 - `tags`, `lots` : recherche et granularité métier.
 
-## Correspondance des catégories
+## Catégories publiques
 
-| Valeur interne | Page |
-| --- | --- |
-| `services` | `categorie-services-numeriques.html` |
-| `travaux` | `categorie-travaux-amenagement.html` |
-| `conseil` | `categorie-conseil-etudes.html` |
-| `batiment` | `categorie-batiment.html` |
-| `renovation` | `categorie-renovation.html` |
-| `electricite` | `categorie-electricite.html` |
-| `plomberie` | `categorie-plomberie-chauffage.html` |
-| `maintenance` | `categorie-maintenance.html` |
+| Valeur interne | Libellé | Page dédiée |
+| --- | --- | --- |
+| `services` | Services numériques | `categorie-services-numeriques.html` |
+| `travaux` | Travaux & aménagement | `categorie-travaux-amenagement.html` |
+| `conseil` | Conseil & études | `categorie-conseil-etudes.html` |
+| `batiment` | Bâtiment & construction | `categorie-batiment.html` |
+| `renovation` | Rénovation énergétique et générale | `categorie-renovation.html` |
+| `electricite` | Électricité | `categorie-electricite.html` |
+| `plomberie` | Plomberie & chauffage | `categorie-plomberie-chauffage.html` |
+| `maintenance` | Maintenance & exploitation | `categorie-maintenance.html` |
 
-## Règles de filtrage prévues
+## Catégories privées et état des connecteurs
 
-Les critères sont combinés par intersection :
-- catégorie exacte ;
-- type de marché si `public` ou `private` est sélectionné ;
-- zone uniquement si la donnée de localisation est suffisamment renseignée ;
-- mots-clés recherchés dans le titre, le résumé, la description et les tags ;
-- date limite future et statut exploitable pour les opportunités ouvertes.
+| Valeur interne | Libellé | Source / état |
+| --- | --- | --- |
+| `bodacc-creations` | Créations et implantations | BODACC connecté |
+| `bodacc-cessions` | Ventes, cessions et reprises | BODACC connecté |
+| `bodacc-modifications` | Modifications d’entreprises | BODACC connecté |
+| `bodacc-procedures` | Difficultés et procédures collectives | BODACC connecté |
+| `bodacc-radiations` | Radiations et cessations | BODACC connecté |
+| `immobilier` | Immobilier professionnel | À connecter |
+| `emploi` | Emploi et recrutement | À connecter |
+| `sous-traitance-offres` | Offres de sous-traitance | À connecter |
+| `sous-traitance-recherche` | Recherche de sous-traitants et partenaires | À connecter |
 
-La recherche textuelle devra être insensible à la casse et aux accents. Le moteur BOAMP utilise une correspondance explicite des régions administratives vers les codes départementaux et vérifie le département de prestation ou celui de l’acheteur. Le moteur BODACC filtre les régions métropolitaines avec son propre champ régional ; si une zone n’est pas prise en charge de manière fiable, la recherche doit le signaler explicitement au lieu de renvoyer des résultats non filtrés.
+Les familles BODACC sont filtrées à partir des champs textuels de l’annonce (famille, acte, jugement, modifications et autres détails disponibles). Les catégories privées non connectées sont bloquées avant l’interrogation d’une source afin d’éviter d’afficher des résultats hors sujet.
 
-## Étapes d'intégration
+## Règles de filtrage
 
-1. Valider un premier connecteur de source et ses conditions d'accès.
-2. Transformer les enregistrements entrants vers ce schéma.
-3. Dédupliquer à partir de l'identifiant source et, en second recours, d'une empreinte contrôlée.
-4. Vérifier la fraîcheur et les échéances.
-5. Alimenter les pages de catégories par une API ou une requête de base de données.
-6. Tester les filtres combinés et les états vide, erreur de source, résultat expiré et résultat non vérifié.
+- Les mots-clés sont comparés sans distinction de casse ni d’accents.
+- La catégorie et le type de marché doivent correspondre à la sélection de l’utilisateur.
+- Pour BOAMP, le filtre régional est converti en codes départementaux et porte sur le département de prestation ou, à défaut, celui de l’acheteur.
+- Pour BODACC, le filtre régional s’appuie sur le champ régional de la source. La zone « Outre-mer » est refusée tant qu’une correspondance fiable n’est pas disponible ; aucun résultat non filtré ne doit être présenté comme territorial.
+- Le moteur mixte est plafonné à dix cartes maximum : cinq BOAMP et cinq BODACC.
+- Les erreurs réseau, catégories non reconnues et catégories non connectées doivent produire un message explicite et ne jamais déclencher de résultats fictifs.
 
-Aucun scraping, appel API ni collecte de coordonnées n'est réputé actif tant que l'intégration n'a pas été développée et testée.
+## Limites et prochaines étapes
+
+Les connecteurs BOAMP et BODACC sont interrogés à la demande depuis le navigateur. Les autres sources privées ne sont pas encore connectées. Le moteur de recherche en direct ne constitue pas à lui seul un CRM : l’enregistrement des signaux, la déduplication persistante, le suivi des interactions, l’historique et les règles de conservation restent à spécifier et développer.
+
+Prochaines étapes :
+1. renforcer les tests de correspondance de chaque catégorie BODACC sur des exemples de champs réels ;
+2. vérifier les filtres combinés de catégorie, mot-clé et région ;
+3. harmoniser la présentation des résultats entre la page générale et les huit pages publiques ;
+4. connecter progressivement les sources immobilier professionnel, emploi et sous-traitance après validation des conditions d’accès ;
+5. définir le passage d’un signal qualifié vers le CRM, avec provenance, date de consultation et décision humaine.
+
+Aucun scraping ni collecte de coordonnées non publiées n’est autorisé par ce document. Toute évolution de source doit respecter ses conditions d’accès et la réglementation applicable.
