@@ -26,6 +26,16 @@ async function main() {
   assert.equal(selection.candidates.find((company) => company.siren === "123456789").score, 100, "Le scoring doit préserver département et statut après normalisation");
   assert.equal(selection.candidates.find((company) => company.siren === "111222333").active, false, "Le statut inactif doit rester disponible pour filtrage");
   assert.equal(selection.quotaFilledArtificially, false);
+  const manyCompanies = Array.from({ length: 14 }, (_, index) => ({
+    siren: String(100000000 + index),
+    siret: String(10000000000000 + index),
+    nom_complet: `Entreprise ${index}`,
+    activite_principale: "43.21A",
+    siege: { code_postal: "79000", departement: "79", etat_administratif: "A" }
+  }));
+  const capped = targeting.selectCandidates(manyCompanies, { nafCodes: ["43.21A"], departments: ["79"], limit: 100, minimumScore: 0 });
+  assert.ok(capped.candidates.length <= 10, "Le ciblage d'entreprises est plafonné à dix résultats au total.");
+  assert.equal(capped.requestedLimit, 10);
   assert.equal(targeting.normalizeCompany({ siren: "123", siret: "12" }).siren, "");
   assert.equal(targeting.normalizeCompany({ siren: "123", siret: "12" }).siret, "");
 
