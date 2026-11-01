@@ -75,8 +75,17 @@ async function main() {
         descripteur_libelle: "Informatique, cybersécurité, logiciels", etat: "INITIAL",
         url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2027-002"
       };
+      const expiredRecord = {
+        idweb: "TEST-2025-EXPIRED", objet: "Travaux de plomberie terminés",
+        famille_libelle: "Marchés nationaux", dateparution: "2025-09-01",
+        datelimitereponse: "2025-10-01T12:00:00+02:00", nomacheteur: "Acheteur ancien",
+        code_departement: "79", code_departement_prestation: "79",
+        type_marche: "TRAVAUX", type_marche_facette: "Travaux", type_avis: "5,1",
+        descripteur_libelle: "Plomberie", etat: "INITIAL",
+        url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2025-EXPIRED"
+      };
       const isServicesCategory = where.includes('type_marche = "SERVICES"');
-      const records = isServicesCategory ? [plumbingRecord, digitalRecord] : [plumbingRecord];
+      const records = isServicesCategory ? [plumbingRecord, digitalRecord, expiredRecord] : [plumbingRecord, expiredRecord];
       await route.fulfill({
         status: 200,
         contentType: "application/json",
