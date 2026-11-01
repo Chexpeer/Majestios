@@ -214,8 +214,8 @@ async function main() {
     // Sans catégorie spécifique, les critères doivent aller au récapitulatif général.
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
     await page.locator("#feed-search").fill("maintenance préventive");
-    await page.locator("#feed-sector").selectOption("all");
     await page.locator("#feed-market-type").selectOption("public");
+    await page.locator("#feed-sector").selectOption("all");
     await page.locator("#feed-region").selectOption("nouvelle-aquitaine");
     await Promise.all([
       page.waitForURL(/resultats-recherche\.html\?/),
