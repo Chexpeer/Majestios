@@ -215,7 +215,7 @@
             const sourceUrl = typeof record.url_complete === "string" && /^https:\/\/(www\.)?bodacc\.fr\//i.test(record.url_complete)
               ? record.url_complete
               : "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
-            return '<article class="platform-card opportunity-result-card bodacc-result-card">' +
+            return '<article class="opportunity-result-card bodacc-result-card">' +
               '<p class="eyebrow">SIGNAL D’ENTREPRISE · BODACC</p>' +
               '<h3>' + escapeHtml(company) + '</h3>' +
               '<p><strong>Type d’annonce :</strong> ' + escapeHtml(eventType) + '</p>' +
@@ -295,7 +295,7 @@
           const deadlineLabel = deadline ? formatDate(deadline) : "Non renseignée — vérifier l’avis";
           const publication = formatDate(record.dateparution);
           const url = officialUrl(record);
-          return '<article class="platform-card opportunity-result-card">' +
+          return '<article class="opportunity-result-card">' +
             '<p class="eyebrow">MARCHÉ PUBLIC · ' + escapeHtml(record.type_marche_facette || record.famille_libelle || "BOAMP") + '</p>' +
             '<h3>' + escapeHtml(title) + '</h3>' +
             '<p><strong>Acheteur :</strong> ' + escapeHtml(buyer) + '</p>' +
