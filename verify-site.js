@@ -886,8 +886,8 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
   const match = buildingDefinitions.find((item) => item[1] === id);
   if (!match) continue;
   const start = match.index;
-  const next = homeSceneJs.indexOf('{id:"', start + 5);
-  const block = homeSceneJs.slice(start, next < 0 ? homeSceneJs.indexOf('];', start) : next);
+  const next = zoneSourceText.indexOf('{id:"', start + 5);
+  const block = zoneSourceText.slice(start, next < 0 ? zoneSourceText.indexOf('];', start) : next);
   const first = block.match(/firstRoute:"([^\"]+)"/);
   const second = block.match(/secondRoute:"([^\"]+)"/);
   if (!first || first[1] !== expectedFirst) {
