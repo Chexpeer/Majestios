@@ -1,8 +1,20 @@
 # MajestiOS — arborescence et dépendances de référence
 
 Version : 2026-11-01  
-Branche de travail : `refonte-moteur-navigation-mobile-2026-11-01`  
+Branche de travail : `refonte-architecture-dossiers-charte-majestios-2026-11-01`  
 Objet : document de référence pour nettoyer le dépôt sans casser les pages, les interactions ni le build.
+
+## Nouvelle architecture thématique — branche de refonte du 01/11/2026
+
+Cette branche introduit une arborescence de **dix dossiers fonctionnels** sous `dossiers/`, décrite dans `DOSSIERS-MAJESTIOS.md`. Le bâtiment de la page d’accueil utilise ces dix thèmes ; le rez-de-chaussée reste « Accueil MajestiOS ».
+
+Il faut distinguer deux éléments :
+- **Immeuble de l’accueil : dix étages thématiques** — Marchés publics, Marchés privés, Veille économique, Prospection, Développement commercial, Accompagnement aux appels d’offres, Salon virtuel, Espace entreprises, CRM et Business Intelligence.
+- **Zone artisanale virtuelle : douze bâtiments** — expérience 3D distincte, conservée avec ses douze destinations historiques afin de ne pas casser sa navigation ni ses contrôles.
+
+Les dix dossiers fonctionnels sont des dossiers d’organisation du projet. Dans ce lot, les fichiers HTML existants restent à la racine pour préserver les routes relatives et le build statique ; ils ne sont pas déplacés ou renommés. Les anciens noms de pages peuvent donc subsister derrière les libellés de navigation harmonisés.
+
+Le moteur de recherche avancé est repris depuis la branche de référence et doit conserver ses critères, ses sources, ses destinations et ses garde-fous. La charte de cette refonte reste sombre, bleu nuit et or, avec des contrastes lisibles et une adaptation mobile. Cette branche ne doit pas être promue en production avant vérification du build, des liens, des filtres et des interactions.
 
 ## 1. Structure obligatoire de la page d’accueil
 
