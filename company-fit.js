@@ -15,9 +15,9 @@
 
     var naf = normalize(company.activite_principale || company.naf || company.code_naf);
     var expectedNaf = (criteria.nafCodes || []).map(normalize).filter(Boolean);
-    var department = normalize(company.departement || company.code_departement);
+    var department = normalize(company.departement || company.department || company.code_departement);
     var expectedDepartments = (criteria.departements || []).map(normalize).filter(Boolean);
-    var status = normalize(company.etat_administratif || company.statut || "");
+    var status = normalize(company.etat_administratif || company.statut || (company.active === true ? "A" : company.active === false ? "C" : ""));
     var warnings = [];
 
     var activity = !naf
