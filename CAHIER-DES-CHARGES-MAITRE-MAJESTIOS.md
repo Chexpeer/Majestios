@@ -337,3 +337,8 @@ Le module `company-fit.js` complète le ciblage administratif par une qualificat
 - les vérifications humaines restant ouvertes : établissement local, qualifications/certifications, références comparables, moyens humains et matériels, éligibilité au marché et disponibilité.
 
 La sortie reste `manual_review_required` : aucune entreprise n'est déclarée compétente ou éligible sur le seul fondement des données administratives. Les informations inconnues sont signalées, et le score éventuel du moteur de ciblage ne doit jamais masquer un manque de preuve. Les tests dédiés sont dans `tests/company-fit.test.cjs` et doivent être exécutés par le workflow anti-régression avant toute intégration ultérieure.
+
+
+## Suivi parallèle de la dynamique économique des entreprises
+
+Le ciblage des entreprises candidates pourra être enrichi par un historique de chiffre d'affaires publié, de l'exercice concerné, de la variation sur période comparable, de la source et de la fraîcheur de la donnée. L'absence ou la confidentialité des comptes doit rester explicite : aucune valeur zéro artificielle ni exclusion automatique. Une évolution du chiffre d'affaires ne prouve ni rentabilité, ni trésorerie, ni capacité à exécuter un marché. Voir `SPEC-SUIVI-DYNAMIQUE-ECONOMIQUE-ENTREPRISES-MAJESTIOS.md`. Les sources et droits de réutilisation doivent être validés avant tout connecteur opérationnel.
