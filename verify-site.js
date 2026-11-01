@@ -334,16 +334,16 @@ if (fs.existsSync(rubricSearchPath)) {
       !rubricSearchText.includes("item.connected !== false")) {
     errors.push("Recherche des rubriques : les catégories privées sans source doivent rester visibles mais désactivées");
   }
-  if (!app.includes("option.disabled = !connected") ||
-      !app.includes("categoryControl?.selectedOptions[0]?.disabled")) {
-    errors.push("Recherche d’accueil : une catégorie privée non connectée doit être désactivée et ne pas être transmise comme filtre actif");
-  }
 }
 const appPath = path.join(root, "app.js");
 const zoneScenePath = path.join(root, "zone-artisanale.js");
 const cataloguePath = path.join(root, "catalogue-majestios.js");
 if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cataloguePath)) {
   const app = fs.readFileSync(appPath, "utf8");
+  if (!app.includes("option.disabled = !connected") ||
+      !app.includes("categoryControl?.selectedOptions[0]?.disabled")) {
+    errors.push("Recherche d’accueil : une catégorie privée non connectée doit être désactivée et ne pas être transmise comme filtre actif");
+  }
   const zoneJs = fs.readFileSync(zoneScenePath, "utf8");
   const zoneConfig = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";
   const catalogue = fs.readFileSync(cataloguePath, "utf8");
