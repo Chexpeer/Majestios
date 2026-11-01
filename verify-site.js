@@ -229,7 +229,7 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
 
   // Les trois niveaux de navigation de chaque bâtiment doivent pointer vers des pages réelles.
   const zoneConfigText = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";
-  const levelRoutes = [...`${zoneJs}\\n${zoneConfigText}`.matchAll(/\{id:"(B\d+)"[^\n]*?firstRoute:"([^"]+\.html)",secondRoute:"([^"]+\.html)"/g)]
+  const levelRoutes = [...zoneConfigText.matchAll(/\{id:"(B\d+)"[^\n]*?firstRoute:"([^"]+\.html)",secondRoute:"([^"]+\.html)"/g)]
     .map((match) => ({ id: match[1], first: match[2], second: match[3] }));
   if (levelRoutes.length !== 12) errors.push(`Zone 3D : ${levelRoutes.length} bâtiments disposent de deux routes de niveaux, 12 attendus`);
   for (const building of levelRoutes) {
@@ -737,7 +737,7 @@ if (!sceneCatalog.includes("window.MAJESTIOS_CATALOG") && !sceneCatalog.includes
 }
 
 // Cohérence des douze bâtiments entre la scène, le catalogue partagé et les fichiers livrés.
-const sceneRouteKeys = [...homeSceneJs.matchAll(/rubricRoute\(["']([^"']+)["']\)/g)].map((match) => match[1]);
+const zoneConfigForKeys = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";\nconst sceneRouteKeys = [...zoneConfigForKeys.matchAll(/rubricRoute\(["']([^"']+)["']\)/g)].map((match) => match[1]);
 const catalogRouteKeys = [...sceneCatalog.matchAll(/\bkey:\s*["']([^"']+)["']/g)].map((match) => match[1]);
 const uniqueSceneKeys = [...new Set(sceneRouteKeys)];
 const uniqueCatalogKeys = [...new Set(catalogRouteKeys)];
@@ -816,7 +816,7 @@ const expectedBuildingContracts = [
   ["B11", "Veille des entreprises — BODACC", "bodacc-veille-entreprises", "peripherique"],
   ["B12", "Suivi commercial et capitalisation", "suivi-commercial", "peripherique"]
 ];
-const buildingDefinitions = [...homeSceneJs.matchAll(/\{id:"(B\d{2})",group:"(central|peripherique)",name:"([^"]+)"[\s\S]*?route:rubricRoute\(["']([^"']+)["']\),[\s\S]*?\}/g)];
+const buildingDefinitions = [...zoneSourceText.matchAll(/\{id:"(B\d{2})",group:"(central|peripherique)",name:"([^"]+)"[\s\S]*?route:rubricRoute\(["']([^"']+)["']\),[\s\S]*?\}/g)];
 if (buildingDefinitions.length !== 12) {
   errors.push(`Zone industrielle : ${buildingDefinitions.length} définitions de bâtiments détectées, 12 attendues`);
 }
