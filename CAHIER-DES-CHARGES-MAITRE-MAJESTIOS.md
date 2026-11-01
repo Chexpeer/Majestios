@@ -3,7 +3,7 @@
 Version : 2026-11-01  
 Statut : document de cadrage à valider par le Fondateur. Il consolide les exigences produit et sépare les décisions établies, les périmètres futurs et les points restant à arbitrer.  
 Branche de travail : `chantier-recherche-donnees-gardes-fous-2026-11-01`  
-Documents complémentaires : `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md`, `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md`, `ARBORESCENCE-MAJESTIOS.md`, `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md`, `CARTOGRAPHIE-DONNEES-STATISTIQUES-MAJESTIOS.md`.
+Documents complémentaires : `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md`, `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md`, `ARBORESCENCE-MAJESTIOS.md`, `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md`, `CARTOGRAPHIE-DONNEES-STATISTIQUES-MAJESTIOS.md`, `MODELE-COMMUN-DONNEES-CRM-MAJESTIOS.md`.
 
 ## 1. Vision du produit
 
