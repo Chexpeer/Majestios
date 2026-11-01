@@ -130,6 +130,7 @@
       panel.querySelectorAll(".opportunity-source-group").forEach((group) => group.remove());
       empty.textContent = "Les résultats sont regroupés ci-dessous par source ; chaque source répond indépendamment.";
       empty.setAttribute("role", "status");
+      let previousSourcePanel = empty;
       for (const source of [
         { value: "public", title: "Marchés publics · BOAMP" },
         { value: "private", title: "Signaux d’entreprise publiés · BODACC" }
@@ -144,7 +145,8 @@
         sourceEmpty.textContent = "Préparation de la recherche…";
         sourceEmpty.setAttribute("role", "status");
         sourcePanel.append(heading, sourceEmpty);
-        empty.insertAdjacentElement("afterend", sourcePanel);
+        previousSourcePanel.insertAdjacentElement("afterend", sourcePanel);
+        previousSourcePanel = sourcePanel;
         const sourceParams = new URLSearchParams(params);
         sourceParams.set("marche", source.value);
         // Une recherche mixte reste plafonnée à 10 cartes au total : 5 maximum par source.
