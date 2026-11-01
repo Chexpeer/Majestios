@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
   <script src="company-targeting.js" defer></script>
+  <script src="naf-suggestions.js" defer></script>
   <script src="company-targeting-page.js" defer></script>
 </head>
 <body>
@@ -28,6 +29,8 @@
       <form id="company-targeting-form">
         <label for="target-market-title">Intitulé ou référence du marché <span>(pour votre repère)</span></label>
         <input id="target-market-title" name="marketTitle" type="text" maxlength="180" placeholder="Ex. rénovation énergétique d’un bâtiment public">
+        <button id="suggest-naf-button" class="button-secondary" type="button">Suggérer des codes APE/NAF à partir de l’intitulé</button>
+        <fieldset id="naf-suggestions" class="naf-suggestions" hidden><legend>Suggestions lexicales à vérifier</legend><div id="naf-suggestions-list"></div><button id="add-naf-suggestions" class="button-secondary" type="button">Ajouter les codes cochés</button><p class="small-note">Ces suggestions sont exploratoires. Vérifiez la nomenclature et les exigences du marché avant d’interroger l’annuaire.</p></fieldset>
         <label for="target-naf-codes">Codes APE/NAF à rechercher <span>(obligatoire, séparés par des virgules)</span></label>
         <input id="target-naf-codes" name="nafCodes" type="text" required placeholder="Ex. 43.21A, 43.22B">
         <p class="small-note">Les codes doivent être choisis ou vérifiés par un opérateur à partir des métiers et exigences du marché. MajestiOS ne les déduit pas encore automatiquement de l’avis.</p>
