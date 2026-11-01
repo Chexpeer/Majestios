@@ -113,6 +113,7 @@
     const panel = options.panel;
     const params = options.params;
     const category = options.category || params.get("categorie") || "all";
+    const resultLimit = Number.isFinite(options.resultLimit) ? options.resultLimit : MAX_RESULTS;
     const query = (params.get("q") || "").trim();
     const market = params.get("marche") || "all";
     const empty = panel.querySelector(".category-results-empty");
