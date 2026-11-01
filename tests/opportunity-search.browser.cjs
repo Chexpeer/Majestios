@@ -129,9 +129,10 @@ async function main() {
     assert.equal(bodaccRegionFilterSeen, true, "Une recherche BODACC avec une région sélectionnée doit transmettre le filtre régional à la source.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=services", { waitUntil: "domcontentloaded" });
-    await page.getByText(/Aucun signal BODACC ne correspond|La source BODACC a répondu sans annonce/).waitFor({ timeout: 10000 });
-    assert.equal(await page.locator(".bodacc-result-card").count(), 0, "Un signal de services généraux ne doit pas être classé à tort comme service numérique.");
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=immobilier", { waitUntil: "domcontentloaded" });
+    await page.getByText(/Immobilier professionnel.*source de données n’est pas encore connectée/).waitFor({ timeout: 10000 });
+    assert.equal(bodaccCalls, 1, "Une rubrique immobilière non connectée ne doit pas lancer une recherche BODACC trompeuse.");
+    assert.equal(await page.locator(".bodacc-result-card").count(), 0, "Aucun signal BODACC ne doit être présenté comme une annonce immobilière.");
 
     apiCalls = 0;
     bodaccCalls = 0;
@@ -156,7 +157,14 @@ async function main() {
     assert.ok(apiCalls >= 1, "La page de catégorie doit elle aussi lancer la recherche.");
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
     const publicJobCategories = await page.locator("#feed-sector option").evaluateAll(options => options.filter(option => /emploi|recrutement/i.test(option.textContent || "")).map(option => option.textContent.trim()));
-    assert.deepEqual(publicJobCategories, [], "La veille emploi doit rester interne et ne pas apparaître comme une catégorie de recherche publique.");
+    assert.deepEqual(publicJobCategories, [], "L’emploi ne doit pas apparaître comme une catégorie de marché public.");
+    await page.locator("#feed-market-type").selectOption("private");
+    const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
+    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
+      assert.ok(privateCategoryOptions.some(option => option.value === expected), `La catégorie privée ${expected} doit être proposée.`);
+    }
+    assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 5, "Les rubriques BODACC doivent être regroupées ensemble.");
+    assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
     assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
     const demoRegion = page.locator('#feed-region option[value="nord"]');
     assert.equal(await demoRegion.count(), 1, "Les anciennes zones de démonstration peuvent rester documentées.");
