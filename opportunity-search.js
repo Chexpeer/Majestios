@@ -194,7 +194,7 @@
           const categoryTerms = BODACC_CATEGORY_TERMS[category];
           const categoryMatches = !categoryTerms?.length || categoryTerms.some((term) => haystack.includes(normalize(term)));
           return queryMatches && categoryMatches;
-        }).slice(0, 20);
+        }).slice(0, 10);
         if (!filtered.length) {
           empty.textContent = records.length
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
@@ -224,7 +224,7 @@
               (activity ? '<p><strong>Activité déclarée :</strong> ' + escapeHtml(activity.slice(0, 400)) + '</p>' : '') +
               (identifier ? '<p><strong>Référence :</strong> ' + escapeHtml(identifier) + '</p>' : '') +
               (details ? '<p><strong>Extrait publié :</strong> ' + escapeHtml(details.slice(0, 500)) + '</p>' : '') +
-              '<p class="small-note">Signal public à qualifier par une personne habilitée. Il ne prouve pas, à lui seul, l’existence d’un besoin d’achat ni une intention commerciale.</p>' +
+
               '<a class="button-primary" href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener noreferrer">Consulter l’annonce officielle ↗</a>' +
               '</article>';
           }).join("");
@@ -284,7 +284,7 @@
         .filter((record) => !isExpired(record))
         .filter((record) => categoryMatches(record, category))
         .filter((record) => keywordMatches(record, query))
-        .slice(0, 20);
+        .slice(0, 10);
 
       if (filtered.length) {
         results.innerHTML = filtered.map((record) => {
@@ -302,7 +302,7 @@
             (departments ? '<p><strong>Département :</strong> ' + escapeHtml(departments) + '</p>' : '') +
             '<p><strong>Publication :</strong> ' + escapeHtml(publication) + '</p>' +
             '<p><strong>Date limite :</strong> ' + escapeHtml(deadlineLabel) + '</p>' +
-            '<p class="small-note">Source vérifiable : ' + escapeHtml(SOURCE_LABEL) + '. Consultez l’avis officiel pour confirmer les pièces, les lots et l’échéance.</p>' +
+
             '<a class="button-primary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Consulter l’avis officiel ↗</a>' +
             '</article>';
         }).join("");
