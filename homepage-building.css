@@ -31,3 +31,132 @@
 @media(max-width:650px){.industrial-zone-home{padding:18px 8px 10px;min-height:calc(100vh - 100px)}.industrial-zone-slogan{margin-bottom:9px}.building-intro{font-size:10px}.majestios-building-stage{min-height:calc(100vh - 220px);padding:0 2px 24px}.majestios-building{width:min(100%,520px);padding:0 10px;transform:none}.building-roof{height:35px;padding:0 8px;font-size:10px}.building-roof small{font-size:6px}.building-floors{gap:2px;padding:6px 0}.building-floor{grid-template-columns:29px minmax(0,1fr) 18px;gap:5px;min-height:clamp(25px,4.2vh,34px);padding:2px 6px}.floor-number{font-size:10px}.floor-name{font-size:clamp(9px,2.55vw,12px)}.floor-arrow{font-size:12px}.building-floor:before,.building-floor:after{left:43px;right:31px}.building-entrance{height:38px;font-size:7px;letter-spacing:.12em;gap:7px}.entrance-door{height:26px;width:24px}.building-ground{font-size:6px;letter-spacing:.1em;gap:7px}}
 @media(max-height:700px) and (min-width:651px){.industrial-zone-home{padding-top:10px}.industrial-zone-slogan h1{font-size:24px}.majestios-building-stage{min-height:calc(100vh - 205px)}.building-roof{height:32px}.building-floor{min-height:25px}.building-entrance{height:36px}}
 @media(prefers-reduced-motion:reduce){.building-floor{transition:none}}
+
+
+/* Ajustement de la maquette de synthèse : façade lisible, 12 niveaux et moteur discret. */
+body.homepage .industrial-zone-home{
+  min-height:0;
+  height:auto;
+  padding:clamp(12px,1.6vh,20px) clamp(10px,2.2vw,30px) 0;
+  background:
+    radial-gradient(ellipse at 50% 42%,rgba(67,103,137,.36) 0%,rgba(19,39,59,.24) 36%,transparent 68%),
+    linear-gradient(180deg,#0b1420 0%,#080e17 72%,#070b12 100%);
+}
+body.homepage .industrial-zone-slogan{margin-bottom:clamp(6px,1vh,12px)}
+body.homepage .building-eyebrow{margin-bottom:5px;font-size:8px;letter-spacing:.24em}
+body.homepage .industrial-zone-slogan h1{font-size:clamp(21px,2.55vw,33px);line-height:1.04}
+body.homepage .building-intro{margin-top:5px;font-size:11px}
+body.homepage .majestios-building-stage{
+  min-height:0;
+  height:clamp(405px,calc(100vh - 310px),590px);
+  padding:0 10px 17px;
+  align-items:stretch;
+}
+body.homepage .building-atmosphere{
+  background:
+    radial-gradient(ellipse at 50% 53%,rgba(105,150,188,.24) 0%,rgba(36,66,94,.13) 39%,transparent 68%),
+    linear-gradient(90deg,transparent 0%,rgba(125,164,196,.035) 50%,transparent 100%);
+}
+body.homepage .majestios-building{
+  width:min(570px,94vw);
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  padding:0 clamp(10px,1.4vw,18px);
+  border:1px solid rgba(157,190,216,.38);
+  background:
+    linear-gradient(90deg,#080f19 0%,#243b50 4%,#172b3e 9%,#243b50 50%,#172b3e 91%,#080f19 100%);
+  box-shadow:0 22px 60px rgba(0,0,0,.56),0 0 0 5px rgba(194,218,238,.035),inset 0 0 30px rgba(0,0,0,.48);
+  transform:perspective(1400px) rotateY(-2deg);
+}
+body.homepage .majestios-building:before,body.homepage .majestios-building:after{
+  width:clamp(7px,1.1vw,14px);
+  background:linear-gradient(90deg,#050a11,#6d8498 48%,#101c29);
+}
+body.homepage .building-roof{
+  flex:0 0 clamp(30px,4.6vh,43px);
+  height:auto;
+  border-bottom:3px solid #d5b86f;
+  background:linear-gradient(90deg,#0c1724,#2c455b 50%,#0c1724);
+}
+body.homepage .building-floors{
+  flex:1 1 auto;
+  min-height:0;
+  grid-template-rows:repeat(12,minmax(0,1fr));
+  gap:clamp(2px,.42vh,4px);
+  padding:clamp(5px,.8vh,8px) 0;
+}
+body.homepage .building-floor{
+  min-height:0;
+  height:100%;
+  grid-template-columns:clamp(27px,3.2vw,39px) minmax(0,1fr) 20px;
+  gap:clamp(4px,.8vw,9px);
+  padding:2px clamp(5px,.8vw,10px);
+  border-left-width:4px;
+  background:
+    linear-gradient(90deg,rgba(4,12,21,.94),rgba(28,51,72,.96) 40%,rgba(12,28,44,.98)),
+    repeating-linear-gradient(90deg,transparent 0 42px,rgba(176,208,229,.08) 42px 44px);
+  box-shadow:inset 0 1px rgba(255,255,255,.08),inset 0 -2px rgba(0,0,0,.42);
+}
+body.homepage .building-floor:before,body.homepage .building-floor:after{
+  left:clamp(42px,5vw,60px);
+  right:clamp(29px,3.8vw,44px);
+  height:2px;
+  opacity:.6;
+}
+body.homepage .floor-number{font-size:clamp(9px,1.05vw,12px)}
+body.homepage .floor-name{font-size:clamp(9px,1.05vw,12px);line-height:1.08}
+body.homepage .floor-arrow{font-size:13px}
+body.homepage .building-entrance{
+  flex:0 0 clamp(34px,5vh,48px);
+  height:auto;
+  border-top:2px solid #8297aa;
+  background:linear-gradient(180deg,#1c3044,#08121e);
+}
+body.homepage .building-ground{height:20px;bottom:0;font-size:7px}
+body.homepage .building-side-light{bottom:10px;opacity:.7}
+body.homepage .search-source-note{
+  grid-column:1/-1;
+  margin:0;
+  color:#9eacba;
+  font-size:9px;
+  line-height:1.25;
+}
+@media(max-width:900px){
+  body.homepage .majestios-building-stage{height:clamp(395px,calc(100vh - 300px),540px)}
+  body.homepage .majestios-building{width:min(540px,96vw)}
+}
+@media(max-width:560px){
+  body.homepage .industrial-zone-home{padding:10px 5px 0}
+  body.homepage .industrial-zone-slogan{margin-bottom:5px}
+  body.homepage .building-eyebrow{font-size:7px;letter-spacing:.17em}
+  body.homepage .industrial-zone-slogan h1{font-size:clamp(19px,5.4vw,25px);letter-spacing:-.04em}
+  body.homepage .building-intro{font-size:10px;margin-top:4px}
+  body.homepage .majestios-building-stage{
+    height:clamp(390px,calc(100svh - 300px),510px);
+    padding:0 1px 16px;
+  }
+  body.homepage .majestios-building{width:100%;padding:0 8px;transform:none}
+  body.homepage .building-roof{flex-basis:32px;padding:0 6px;font-size:9px;letter-spacing:.12em}
+  body.homepage .building-roof small{font-size:6px;letter-spacing:.05em}
+  body.homepage .building-floors{gap:2px;padding:5px 0}
+  body.homepage .building-floor{grid-template-columns:25px minmax(0,1fr) 15px;gap:4px;padding:1px 5px}
+  body.homepage .floor-number{font-size:9px}
+  body.homepage .floor-name{font-size:clamp(8px,2.65vw,11px);letter-spacing:-.01em}
+  body.homepage .floor-arrow{font-size:11px}
+  body.homepage .building-floor:before,body.homepage .building-floor:after{left:35px;right:25px}
+  body.homepage .building-entrance{flex-basis:34px;font-size:6px;letter-spacing:.1em;gap:5px}
+  body.homepage .entrance-door{width:20px;height:23px}
+  body.homepage .building-ground{height:16px;font-size:5px;letter-spacing:.07em;gap:5px}
+}
+@media(max-height:740px) and (min-width:561px){
+  body.homepage .industrial-zone-home{padding-top:7px}
+  body.homepage .industrial-zone-slogan h1{font-size:22px}
+  body.homepage .building-intro{margin-top:3px}
+  body.homepage .majestios-building-stage{height:clamp(350px,calc(100vh - 255px),440px)}
+  body.homepage .building-roof{flex-basis:29px}
+  body.homepage .building-entrance{flex-basis:32px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.homepage .building-floor{transition:none}
+}
