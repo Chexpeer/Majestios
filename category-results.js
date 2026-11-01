@@ -36,8 +36,8 @@
   const heading = card.querySelector("#category-results-title");
   if (heading) heading.textContent = `Résultats de recherche — ${definition.label}`;
   const paragraphs = card.querySelectorAll(":scope > p");
-  if (paragraphs[0]) paragraphs[0].textContent = "Cette page est la destination dédiée à cette catégorie. Les filtres transmis sont conservés pour préparer le classement des annonces lorsque les sources seront connectées.";
-  if (paragraphs[1]) paragraphs[1].textContent = "Aucune annonce réelle n’est actuellement chargée. MajestiOS n’affiche pas de résultats fictifs comme s’il s’agissait de consultations disponibles.";
+  if (paragraphs[0]) paragraphs[0].textContent = "Cette page est la destination dédiée à cette catégorie. La recherche interroge la source correspondant au type de marché sélectionné.";
+  if (paragraphs[1]) paragraphs[1].textContent = "Les résultats dépendent de la disponibilité des sources officielles et doivent être vérifiés dans l’avis d’origine. Aucun résultat fictif n’est présenté comme une consultation disponible.";
 
   const panel = document.createElement("section");
   panel.className = "category-results-panel";
@@ -66,11 +66,11 @@
 
   const empty = document.createElement("p");
   empty.className = "category-results-empty";
-  empty.textContent = "0 annonce vérifiée affichée. Les connecteurs aux sources d’appels d’offres et le moteur de classement restent à raccorder.";
+  empty.textContent = "Interrogation de la source officielle en cours selon les critères transmis…";
   panel.append(empty);
   const note = document.createElement("p");
   note.className = "small-note";
-  note.textContent = "Les critères sont préparés dans cette page ; ils ne prouvent pas qu’une source a été interrogée. Les zones marquées « exemple » ne correspondent pas à des territoires de données réellement filtrées.";
+  note.textContent = "Les résultats BOAMP et les signaux BODACC gardent des provenances distinctes. Vérifiez chaque annonce sur la source officielle avant toute décision.";
   panel.append(note);
 
   const oldPanel = card.querySelector("#category-results-panel");
