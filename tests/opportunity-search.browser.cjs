@@ -142,6 +142,12 @@ async function main() {
     assert.match(await resultCard.innerText(), /Acheteur de test/);
     assert.equal(await page.getByRole("heading", { name: "Travaux de plomberie terminés" }).count(), 0, "Une annonce dont la date limite est dépassée ne doit pas apparaître dans les résultats.");
     assert.match(await page.locator("#search-active-filters").innerText(), /plomberie/);
+    const publicReturnUrl = new URL(await page.locator(".search-results-return a").getAttribute("href"), "http://127.0.0.1:4174/");
+    assert.equal(publicReturnUrl.pathname, "/index.html", "Le retour doit ramener au formulaire d’accueil.");
+    assert.equal(publicReturnUrl.searchParams.get("q"), "plomberie", "Le retour doit conserver les mots-clés.");
+    assert.equal(publicReturnUrl.searchParams.get("marche"), "public", "Le retour doit conserver le type de marché.");
+    assert.equal(publicReturnUrl.searchParams.get("zone"), "nouvelle-aquitaine", "Le retour doit conserver la région.");
+    assert.equal(publicReturnUrl.hash, "#recherche-avancee", "Le retour doit replacer l’utilisateur sur le moteur de recherche.");
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
     assert.equal(regionalFilterSeen, true, "Une requête BOAMP doit appliquer le filtre Nouvelle-Aquitaine au département 79, côté prestation et acheteur.");
 
