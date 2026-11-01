@@ -4,7 +4,8 @@ import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.166.1/exampl
 // Toute erreur d’initialisation synchrone doit déclencher le mode de secours de l’accueil.
 try {
 
-const buildings = createZoneBuildings(window.MAJESTIOS_CATALOG);\nconst root=document.querySelector("#scene");
+const buildings = createZoneBuildings(window.MAJESTIOS_CATALOG);
+const root=document.querySelector("#scene");
 const loading=document.querySelector("#scene-loading");
 const title=document.querySelector("#panel-title");
 const description=document.querySelector("#panel-description");
