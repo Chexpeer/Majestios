@@ -67,8 +67,11 @@
       market: "all"
     }
   };
-  const config = configs[path];
-  if (!config) return;
+  const config = configs[path] || {
+    title: "Recherche MajestiOS",
+    description: "Recherchez des marchés publics et des signaux commerciaux privés depuis cet étage de MajestiOS.",
+    market: "all"
+  };
 
   const catalogue = window.MAJESTIOS_CATALOG || {};
   const publicCategories = (catalogue.searchCategories || [
