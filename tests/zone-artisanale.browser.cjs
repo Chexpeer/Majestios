@@ -210,6 +210,7 @@ async function main() {
     assert.match(page.url(), /marche=private/, "Le filtre privé doit être conservé.");
     assert.match(page.url(), /categorie=bodacc-cessions/, "La catégorie privée BODACC choisie doit être conservée.");
     assert.match((await page.locator("#search-active-filters").innerText()), /Marchés privés/i, "Le récapitulatif doit identifier le type de marché privé.");
+    assert.match((await page.locator("#search-active-filters").innerText()), /Ventes, cessions et reprises/i, "Le récapitulatif doit afficher le libellé de la catégorie privée, pas son identifiant technique.");
 
     // Sans catégorie spécifique, les critères doivent aller au récapitulatif général.
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
