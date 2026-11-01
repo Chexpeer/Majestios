@@ -1,6 +1,7 @@
 (() => {
   "use strict";
 
+  const MAX_RESULTS = 10;
   const API = "https://boamp-datadila.opendatasoft.com/api/explore/v2.0/catalog/datasets/boamp/records";
   const BODACC_API = "https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records";
   const BODACC_FIELDS = [
@@ -143,7 +144,8 @@
         empty.insertAdjacentElement("afterend", sourcePanel);
         const sourceParams = new URLSearchParams(params);
         sourceParams.set("marche", source.value);
-        render({ panel: sourcePanel, params: sourceParams, category });
+        // Une recherche mixte reste plafonnée à 10 cartes au total : 5 maximum par source.
+        render({ panel: sourcePanel, params: sourceParams, category, resultLimit: Math.floor(MAX_RESULTS / 2) });
       }
       return;
     }
@@ -194,7 +196,7 @@
           const categoryTerms = BODACC_CATEGORY_TERMS[category];
           const categoryMatches = !categoryTerms?.length || categoryTerms.some((term) => haystack.includes(normalize(term)));
           return queryMatches && categoryMatches;
-        }).slice(0, 10);
+        }).slice(0, resultLimit);
         if (!filtered.length) {
           empty.textContent = records.length
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
@@ -284,7 +286,7 @@
         .filter((record) => !isExpired(record))
         .filter((record) => categoryMatches(record, category))
         .filter((record) => keywordMatches(record, query))
-        .slice(0, 10);
+        .slice(0, resultLimit);
 
       if (filtered.length) {
         results.innerHTML = filtered.map((record) => {
