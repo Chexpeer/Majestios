@@ -313,6 +313,7 @@ const cataloguePath = path.join(root, "catalogue-majestios.js");
 if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cataloguePath)) {
   const app = fs.readFileSync(appPath, "utf8");
   const zoneJs = fs.readFileSync(zoneScenePath, "utf8");
+  const zoneConfig = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";
   const catalogue = fs.readFileSync(cataloguePath, "utf8");
   const rubrics = [...catalogue.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)"/g)]
     .map((match) => ({ id: match[1], key: match[2], surface: match[3], href: match[5] }));
@@ -320,7 +321,7 @@ if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cata
   if (new Set(rubrics.map((item) => item.href)).size !== 12) errors.push("Catalogue : les douze destinations doivent être distinctes");
   for (const rubric of rubrics) {
     if (!fs.existsSync(path.join(root, rubric.href))) errors.push(`Catalogue : page de destination absente : ${rubric.href}`);
-    if (!zoneJs.includes(`rubricRoute("${rubric.key}")`)) errors.push(`Zone 3D : destination non reliée au catalogue pour ${rubric.key}`);
+    if (!zoneConfig.includes(`rubricRoute("${rubric.key}")`)) errors.push(`Zone 3D : destination non reliée au catalogue pour ${rubric.key}`);
   }
   // Vérifier que chaque catégorie active du catalogue pointe vers une page existante.
   for (const match of catalogue.matchAll(/\{\s*value:\s*"([^"]+)",\s*label:\s*"[^"]+",\s*active:\s*true,\s*href:\s*"([^"]+)"/g)) {
