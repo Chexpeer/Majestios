@@ -191,11 +191,12 @@
 
   function selectCandidates(records, criteria) {
     const options = criteria || {};
-    const limit = Number.isInteger(options.limit) && options.limit > 0 ? Math.min(options.limit, 100) : 10;
+    const limit = Number.isInteger(options.limit) && options.limit > 0 ? Math.min(options.limit, 10) : 10;
     const ranked = rankCompanies(records, options);
     const selected = [];
     const counts = new Map();
     for (const company of ranked) {
+      if (selected.length >= limit) break;
       if (company.score < (Number.isFinite(options.minimumScore) ? options.minimumScore : 25)) continue;
       const dept = company.department || "INCONNU";
       const count = counts.get(dept) || 0;
@@ -206,7 +207,7 @@
     return {
       candidates: selected,
       countsByDepartment: Object.fromEntries(counts),
-      requestedLimitPerDepartment: limit,
+      requestedLimit: limit,
       quotaFilledArtificially: false,
       note: "Le nombre de candidats reflète les données reçues et le seuil de pertinence ; aucune entreprise fictive n'est ajoutée."
     };
