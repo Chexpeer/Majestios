@@ -192,10 +192,6 @@
       bodaccUrl.searchParams.set("select", BODACC_FIELDS);
       if (query) bodaccUrl.searchParams.set("q", query);
       const region = params.get("zone") || "all";
-      if (region === "outre-mer") {
-        empty.textContent = "Le filtre BODACC pour l’Outre-mer n’est pas encore pris en charge de façon fiable. Choisissez une région précise ou « Toutes les régions » ; aucun résultat non filtré ne sera présenté comme territorial.";
-        return;
-      }
       const regions = {
         "nouvelle-aquitaine": "Nouvelle-Aquitaine", "ile-de-france": "Île-de-France",
         "auvergne-rhone-alpes": "Auvergne-Rhône-Alpes", occitanie: "Occitanie",
@@ -204,6 +200,14 @@
         "bourgogne-franche-comte": "Bourgogne-Franche-Comté", "centre-val-de-loire": "Centre-Val de Loire",
         "provence-alpes-cote-d-azur": "Provence-Alpes-Côte d’Azur", corse: "Corse"
       };
+      if (region === "outre-mer") {
+        empty.textContent = "Le filtre BODACC pour l’Outre-mer n’est pas encore pris en charge de façon fiable. Choisissez une région précise ou « Toutes les régions » ; aucun résultat non filtré ne sera présenté comme territorial.";
+        return;
+      }
+      if (region !== "all" && !regions[region]) {
+        empty.textContent = "Cette zone n’est pas encore disponible comme filtre BODACC. Choisissez une région administrative prise en charge ou « Toutes les zones ». Aucun résultat n’est présenté comme filtré.";
+        return;
+      }
       if (regions[region]) bodaccUrl.searchParams.set("where", 'region_nom_officiel = "' + regions[region].replace(/"/g, '\\"') + '"');
       try {
         const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(12000) });
