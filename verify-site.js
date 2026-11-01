@@ -943,6 +943,35 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
  if (!crmPage.includes("Aucun CRM opérationnel") || !crmPage.includes("confidentialité")) errors.push("CRM : statut prototype ou exigence de confidentialité non documenté");
  if (!brainPage.toLowerCase().includes("aucun corpus documentaire connecté") || !brainPage.toLowerCase().includes("sources officielles")) errors.push("BrainOS : limites du prototype ou gestion des sources non documentées");
 
+// Lot 22 — garde-fous du chantier recherche/données et du filtre géographique BOAMP.
+const governancePlanPath = path.join(root, "PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md");
+if (!fs.existsSync(governancePlanPath)) {
+  errors.push("Gouvernance : plan de chantier recherche/données/CRM absent");
+} else {
+  const governancePlan = fs.readFileSync(governancePlanPath, "utf8");
+  for (const requirement of ["Garde-fous anti-régression", "Aucune fusion vers", "Aucune publication en production", "P0 :", "Critère de réussite"]) {
+    if (!governancePlan.includes(requirement)) errors.push(`Gouvernance : règle obligatoire absente du plan : ${requirement}`);
+  }
+}
+const opportunityEnginePath = path.join(root, "opportunity-search.js");
+if (!fs.existsSync(opportunityEnginePath)) {
+  errors.push("Recherche : moteur partagé opportunity-search.js absent");
+} else {
+  const opportunityEngine = fs.readFileSync(opportunityEnginePath, "utf8");
+  if (!opportunityEngine.includes("REGION_DEPARTMENTS") || !opportunityEngine.includes("code_departement_prestation") || !opportunityEngine.includes("Cette zone n’est pas encore disponible comme filtre géographique")) {
+    errors.push("Recherche BOAMP : filtre régional explicite ou garde-fou des zones non administratives absent");
+  }
+}
+const browserSearchTestPath = path.join(root, "tests", "opportunity-search.browser.cjs");
+if (!fs.existsSync(browserSearchTestPath)) {
+  errors.push("Tests : test navigateur du moteur d’opportunités absent");
+} else {
+  const browserSearchTest = fs.readFileSync(browserSearchTestPath, "utf8");
+  if (!browserSearchTest.includes("zone=nouvelle-aquitaine") || !browserSearchTest.includes('code_departement_prestation = "79"')) {
+    errors.push("Tests : scénario anti-régression du filtre régional BOAMP absent");
+  }
+}
+
 if (errors.length) {
   console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
   process.exitCode = 1;
