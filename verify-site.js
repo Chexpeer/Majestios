@@ -49,7 +49,7 @@ if (fs.existsSync(buildPath)) {
   for (const page of pages) {
     if (!build.includes(`"${page}"`)) errors.push(`build.js: page absente de la liste de publication : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js", "search-results.js", "opportunity-search.js", "rubric-search.js", "naf-suggestions.js", "company-targeting.js", "company-targeting-page.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js", "search-results.js", "opportunity-search.js", "rubric-search.js", "naf-suggestions.js", "company-targeting.js", "company-targeting-page.js", "company-fit.js"]) {
     if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
   }
   // LOT 11 — le build doit refuser les doublons et vérifier l’intégrité réelle de dist/.
@@ -1053,4 +1053,17 @@ if (errors.length) {
   process.exitCode = 1;
 } else {
   console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
+}
+
+
+// Lot 24 — qualification explicable : aucune donnée administrative ne vaut validation métier.
+const companyFitPath = path.join(root, "company-fit.js");
+const companyFitTestPath = path.join(root, "tests", "company-fit.test.cjs");
+if (!fs.existsSync(companyFitPath)) errors.push("Qualification entreprises : module company-fit.js absent");
+if (!fs.existsSync(companyFitTestPath)) errors.push("Tests : tests/company-fit.test.cjs absent");
+if (fs.existsSync(companyFitPath)) {
+  const fitSource = fs.readFileSync(companyFitPath, "utf8");
+  for (const safeguard of ["manual_review_required", "qualificationsAndCertifications", "comparableReferences", "humanAndMaterialCapacity", "marketEligibility", "head_office_outside_scope_check_local_establishment", "ne prouve ni la compétence"]) {
+    if (!fitSource.includes(safeguard)) errors.push(`Qualification entreprises : garde-fou absent : ${safeguard}`);
+  }
 }
