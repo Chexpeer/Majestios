@@ -122,6 +122,8 @@ async function main() {
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "La catégorie Services numériques ne doit pas afficher les marchés de plomberie.");
     assert.ok(apiCalls >= 1, "La page de catégorie doit elle aussi lancer la recherche.");
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    const publicJobCategories = await page.locator("#feed-sector option").evaluateAll(options => options.filter(option => /emploi|recrutement/i.test(option.textContent || "")).map(option => option.textContent.trim()));
+    assert.deepEqual(publicJobCategories, [], "La veille emploi doit rester interne et ne pas apparaître comme une catégorie de recherche publique.");
     assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
     const demoRegion = page.locator('#feed-region option[value="nord"]');
     assert.equal(await demoRegion.count(), 1, "Les anciennes zones de démonstration peuvent rester documentées.");
