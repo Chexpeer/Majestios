@@ -221,6 +221,41 @@ MajestiOS progresse lorsque l’utilisateur professionnel peut :
 9. utiliser des formulaires dont l’état réel est explicite ;
 10. évoluer vers un espace personnalisé et un CRM sans reconstruire l’architecture.
 
+## 10 bis. Proposition de périmètre MVP — à valider
+
+**Statut : proposition de cadrage, pas décision de livraison ni preuve que les fonctions sont déjà opérationnelles.** L’objectif est de terminer un premier parcours commercial utile avant d’ouvrir de nouveaux chantiers.
+
+### Inclus dans le MVP fonctionnel cible
+1. **Accueil stable** : zone artisanale virtuelle visible, moteur de recherche commercial multicritère, navigation discrète, accès au chatbot et bandeau lent de démonstration exclusivement fictif.
+2. **Recherche de marchés publics** : interrogation BOAMP, filtres réellement appliqués, échéances, source officielle, états chargement/résultats vides/erreur et distinction des avis expirés.
+3. **Recherche de signaux d’entreprises** : parcours BODACC distinct, typologie du signal clairement affichée, source d’origine et avertissement contre les conclusions automatiques.
+4. **Résultats et catégories** : conservation des critères de recherche, destinations cohérentes, affichage de la provenance et gestion des résultats absents ou incomplets.
+5. **Demande d’accompagnement** : parcours décrit et interface préparée ; il ne sera annoncé comme actif que lorsque l’enregistrement serveur, la confirmation réelle et la protection des données auront été testés.
+6. **Socle de traçabilité** : contrat commun de données, statut des sources, dates, dédoublonnage à la réception lorsque réalisable et séparation entre faits, hypothèses et validation humaine.
+7. **Documentation et tests** : critères d’acceptation, tests anti-régression de la zone d’accueil, tests des filtres et des erreurs, procédure de retour arrière.
+
+### Hors MVP — préparation documentaire seulement
+- Collecte automatique d’offres d’emploi et publication d’offres réelles.
+- Recherche ou publication de biens immobiliers à partir de portails privés.
+- CRM complet avec comptes clients, rôles, historique et automatisations.
+- Enrichissement massif d’entreprises et ciblage de listes par département.
+- Campagnes d’e-mails, candidatures, prises de contact ou autres actions externes automatiques.
+- Personnalisation avancée, analyses prédictives et extensions immersives de la zone.
+
+Ces fonctions restent dans la vision et les chantiers futurs ; elles ne doivent ni encombrer l’accueil ni être présentées comme disponibles avant réalisation, autorisations et tests.
+
+### Critères de sortie du MVP
+- Aucun filtre affiché n’est ignoré silencieusement ; chaque filtre est appliqué ou explicitement indiqué comme indisponible pour la source.
+- Les résultats BOAMP et BODACC restent séparés et renvoient à leur source.
+- Les cas de réponse vide, erreur HTTP, donnée incomplète, échéance dépassée et doublon ont un comportement défini et testé.
+- La zone artisanale et la navigation ne régressent pas.
+- Aucun formulaire ne simule un enregistrement réussi ; aucune action externe n’est déclenchée sans autorisation explicite.
+- Build, vérification du site et tests navigateur concernés passent ; les preuves et le commit sont consignés.
+- Le statut des fonctions est affiché sans ambiguïté : opérationnelle, partielle, non configurée ou future.
+
+### Décision à prendre
+Le Fondateur confirme ou ajuste ce périmètre avant toute implémentation qui l’élargirait. En attendant, ce cadrage sert de proposition de travail pour prioriser les corrections P0 BOAMP/BODACC et la validation des parcours existants.
+
 ## 11. Registre de décisions et de points à valider
 
 ### Décisions déjà établies
