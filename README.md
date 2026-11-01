@@ -45,7 +45,7 @@ Le contrôle statique ne remplace pas un test dans un navigateur réel, notammen
 ## État fonctionnel réel
 
 - La scène 3D et les filtres de recherche sont des fonctions du prototype ; vérifier leur rendu et leur comportement dans le navigateur.
-- Les résultats de marché sont fictifs tant que des sources réelles ne sont pas connectées.
+- Les recherches BOAMP (marchés publics) et BODACC (signaux légaux d’entreprise) disposent de connecteurs interrogés à la demande ; les résultats restent dépendants de la réponse des sources. Les quatre catégories privées immobilier, emploi et sous-traitance ne sont pas encore connectées et ne doivent produire aucun résultat fictif.
 - Les formulaires peuvent prévisualiser une demande mais ne garantissent pas son envoi ni son enregistrement.
 - L’espace membre ne crée pas de compte réel.
 - Aucun lien de navigation ni écran de démonstration ne doit être interprété comme preuve qu’un service métier est opérationnel.
