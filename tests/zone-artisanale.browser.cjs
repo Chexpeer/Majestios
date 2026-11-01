@@ -85,6 +85,8 @@ async function main() {
     assert.equal(await page.locator("#zone-map").isVisible(), true, "La carte Carte interactive doit s'afficher.");
     assert.equal(await page.locator("#map-buildings .map-building").count(), 12, "La carte doit proposer les 12 rubriques.");
     await assertMapCardsDoNotOverlap(page, "Carte ordinateur");
+    assert.equal((await page.locator('[data-scene-mode="fly"]').innerText()).trim(), "Navigation aérienne", "Le mode aérien doit rester générique.");
+    assert.equal(/Apache|hélicoptère/i.test((await page.locator('[data-scene-mode="fly"]').innerText()).trim()), false, "Le libellé du mode aérien ne doit pas réintroduire un hélicoptère.");
     assert.equal((await page.locator('[data-scene-mode="drive"]').innerText()).trim(), "Street View", "Le mode routier doit être présenté comme Street View.");
     assert.equal((await page.locator('[data-scene-mode="map"]').innerText()).trim(), "Carte interactive", "Le mode Carte interactive doit être présenté comme Carte interactive.");
     assert.ok((await page.locator(".map-header").innerText()).includes("CARTE INTERACTIVE"), "La carte doit afficher son intitulé.");
