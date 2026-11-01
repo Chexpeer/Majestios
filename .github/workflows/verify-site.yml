@@ -26,6 +26,7 @@ jobs:
           node --check category-results.js
           node --check search-results.js
           node --check opportunity-search.js
+          node --check rubric-search.js
           node --input-type=module --check < zone-artisanale.js
           node --check rubriques-immersives.js
       - name: Construire le site statique
