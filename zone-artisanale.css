@@ -299,3 +299,6 @@ body.homepage .homepage-industrial-layout .scene-hint{display:none}
 /* Accueil : garder la zone immersive pleine largeur jusqu’à la sélection d’une rubrique. */
 body.homepage .homepage-industrial-layout:has(.building-panel[hidden]) { grid-template-columns: minmax(0, 1fr) !important; }
 body.homepage .homepage-industrial-layout:has(.building-panel[hidden]) .scene-shell { grid-column: 1 / -1; }
+
+/* Correctif : la règle de grille ne doit jamais neutraliser l’attribut hidden natif. */
+body.homepage .homepage-industrial-layout .building-panel[hidden] { display: none !important; }
