@@ -330,6 +330,14 @@ if (fs.existsSync(rubricSearchPath)) {
       !rubricSearchText.includes("catalogue.searchRegions")) {
     errors.push("Recherche des rubriques : les catégories et régions doivent provenir du catalogue partagé");
   }
+  if (!rubricSearchText.includes("option.disabled = item.connected === false") ||
+      !rubricSearchText.includes("item.connected !== false")) {
+    errors.push("Recherche des rubriques : les catégories privées sans source doivent rester visibles mais désactivées");
+  }
+  if (!app.includes("option.disabled = !connected") ||
+      !app.includes("categoryControl?.selectedOptions[0]?.disabled")) {
+    errors.push("Recherche d’accueil : une catégorie privée non connectée doit être désactivée et ne pas être transmise comme filtre actif");
+  }
 }
 const appPath = path.join(root, "app.js");
 const zoneScenePath = path.join(root, "zone-artisanale.js");
