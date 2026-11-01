@@ -11,6 +11,8 @@
 
   const SOURCE_LABEL = "BOAMP · Direction de l’information légale et administrative (DILA)";
   const CATEGORY_TERMS = {
+    services: ["informatique", "logiciel", "cybersécurité", "numérique", "hébergement", "développement", "télécommunication", "réseau", "plateforme"],
+    travaux: ["travaux", "aménagement", "voirie", "espaces verts", "terrassement", "construction", "chantier"],
     conseil: ["conseil", "étude", "études", "audit", "expertise"],
     batiment: ["bâtiment", "construction", "gros œuvre", "maçonnerie"],
     renovation: ["rénovation", "réhabilitation", "rénovation énergétique"],
@@ -84,7 +86,7 @@
   const categoryMatches = (record, category) => {
     if (!category || category === "all") return true;
     const type = normalize(record.type_marche || record.type_marche_facette);
-    if (CATEGORY_TYPES[category]) return type.includes(normalize(CATEGORY_TYPES[category]));
+    if (CATEGORY_TYPES[category] && !type.includes(normalize(CATEGORY_TYPES[category]))) return false;
     const terms = CATEGORY_TERMS[category];
     if (!terms) return true;
     const text = normalize([record.objet, record.descripteur_libelle, record.type_marche_facette].join(" "));
@@ -261,8 +263,9 @@
       filters.push("(" + departmentFilter + ")");
     }
     url.searchParams.set("where", filters.join(" AND "));
+    // Sans mot-clé utilisateur, ne pas imposer un seul terme serveur pour une catégorie :
+    // on filtre localement avec l'ensemble des termes afin de ne pas perdre les synonymes. 
     if (query) url.searchParams.set("q", query);
-    else if (CATEGORY_TERMS[category]?.length) url.searchParams.set("q", CATEGORY_TERMS[category][0]);
 
     try {
       const response = await fetch(url.toString(), { headers: { Accept: "application/json" } });
