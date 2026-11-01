@@ -146,7 +146,7 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   if (!appScript.includes('if (advancedSearchForm) {\n  advancedSearchForm.addEventListener("submit"')) {
     errors.push("Recherche avancée : écouteur submit non protégé sur les pages sans formulaire");
   }
-  if (!appScript.includes("advancedSearchForm.addEventListener(\"submit\"") || !appScript.includes("populateSearchFilters();")) {
+  if (!appScript.includes("advancedSearchForm.addEventListener(\"submit\"") || !appScript.includes("populateSearchFilters(initialMarketType, initialCategory);")) {
     errors.push("Recherche avancée : initialisation ou rendu des résultats absent");
   }
   if (appScript.includes('/* Les interactions de démonstration ne sont présentes que sur la page d’accueil. */\nif (advancedSearchForm) {')) {
@@ -352,7 +352,7 @@ if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cata
     if (!fs.existsSync(path.join(root, match[2]))) errors.push(`Catalogue : destination de catégorie active absente (${match[1]}) : ${match[2]}`);
   }
   if (!app.includes('document.querySelector("#feed-market-type")')) errors.push("Recherche : filtre par type de marché absent du script");
-  if (!app.includes("populateSearchFilters();")) errors.push("Recherche : filtres non initialisés depuis le catalogue");
+  if (!app.includes("populateSearchFilters(initialMarketType, initialCategory);")) errors.push("Recherche : filtres non initialisés depuis le catalogue");
   const regionBlockMatch = catalogue.match(/const searchRegions = \[([\s\S]*?)\n  \];/);
   if (!regionBlockMatch) {
     errors.push("Recherche : catalogue des zones géographiques absent ou illisible");
