@@ -188,6 +188,10 @@ async function main() {
     assert.equal(apiCalls, 1, "La vue publics et privés doit interroger BOAMP.");
     assert.equal(bodaccCalls, 1, "La vue publics et privés doit interroger BODACC séparément.");
     assert.equal(await page.locator(".opportunity-source-group").count(), 2, "Les deux sources doivent rester dans des groupes distincts.");
+    assert.deepEqual(await page.locator(".opportunity-source-group > h3").allTextContents(), [
+      "Marchés publics · BOAMP",
+      "Signaux d’entreprise publiés · BODACC"
+    ], "La recherche combinée doit présenter BOAMP avant BODACC, dans l’ordre annoncé.");
     assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Marchés publics · BOAMP\"] .opportunity-result-card").count(), 1, "Le groupe BOAMP doit afficher son résultat public simulé.");
     assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 5, "Le groupe BODACC doit afficher les cinq familles de signaux simulées.");
     assert.ok(await page.locator(".opportunity-result-card").count() <= 10, "Une recherche mixte ne doit jamais afficher plus de dix annonces et signaux au total.");
