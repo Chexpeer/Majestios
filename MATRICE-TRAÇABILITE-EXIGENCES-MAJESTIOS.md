@@ -33,6 +33,7 @@ Ne pas convertir « documenté » en « livré ». Chaque mise à jour de statut
 | JOB-01 | Veille emploi interne et discrète ; sources candidates multiples, aucune supposée connectée | Cahier veille §4 ; Guide §4.5 | Futur connecteur / registre des sources | Documenté / à valider | Fiche de source complète ; vérifier API/licence/conditions et résultats avant intégration |
 | RE-01 | Veille immobilière professionnelle à partir de signaux d'entreprises, sans affirmer une disponibilité non vérifiée | Cahier maître §4.4 ; Cahier veille §5 ; Spécification §6 | Futur rapprochement signaux/établissements/actifs | Documenté / à développer | Chaque piste est sourcée, présentée comme hypothèse et soumise à vérification |
 | CRM-01 | CRM : entreprises, contacts, opportunités, actions, campagnes, demandes d'accompagnement et résultats | Cahier maître ; Spécification §10 | Architecture backend non confirmée comme active | Documenté / à développer | Modèle validé, droits, journalisation, conservation, tests d'accès et de cycle de vie |
+| CRM-02 | Alimentation du CRM par des sources externes et interactions internes, avec provenance, statut d'accès et dédoublonnage | Registre ressources CRM ; Cahier veille §3 ; Spécification §13 | `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md`, futurs adaptateurs et backend | Registre créé ; sources candidates, non déclarées connectées | Pour chaque source : accès/licence validés, champs et fraîcheur contrôlés, provenance conservée, tests réels consignés ; imports idempotents et oppositions respectées |
 | FORM-01 | Formulaires honnêtes sur l'état réel de transmission/enregistrement | Guide §4.7 ; Spécification §8 | `app.js`, `nous-rejoindre.html`, `espace-membre.html` | Prototype non connecté selon le code examiné | Test : l'interface indique explicitement qu'aucune donnée n'est transmise/enregistrée si aucun backend ne le fait |
 | BOT-01 | Chatbot discret, réponses sourcées et orientation vers des pages exactes | Cahier maître ; Spécification §8 | Module chatbot / navigation à inspecter | À vérifier | Tests de destination, absence d'invention, réponse de repli et demande de contact |
 | BUILD-01 | Build à liste explicite, vérification des fichiers et de l'intégrité de la copie | Guide §6 | `build.js`, `verify-site.js` | Présent dans le prototype (à revalider) | Exécuter le build et le vérificateur sur le commit exact ; conserver les sorties |
@@ -73,7 +74,8 @@ Ne pas convertir « documenté » en « livré ». Chaque mise à jour de statut
 **Sortie :** rapport reproductible ; pas de statut « validé » sans preuve.
 
 ### Lot C — sources et contrats de données
-1. Finir les fiches de source BOAMP/BODACC et préparer celles de l'emploi et des annuaires d'entreprises.
+1. Maintenir `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` comme inventaire maître des sources candidates.
+2. Finir les fiches de source BOAMP/BODACC et préparer celles de l'emploi et des annuaires d'entreprises.
 2. Valider droits d'accès, licence, fréquence, qualité, données personnelles, attribution et conservation.
 3. Définir les schémas pour entreprise, établissement, code APE/NAF, lot, campagne, interaction et demande d'accompagnement.
 
