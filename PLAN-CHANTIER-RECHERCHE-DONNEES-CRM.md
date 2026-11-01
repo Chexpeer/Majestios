@@ -100,3 +100,77 @@ P5 : enrichissements immersifs de la zone industrielle, après stabilisation du 
 ## 7. Critère de réussite
 
 MajestiOS doit permettre de rechercher, comprendre, qualifier et suivre des informations dont la provenance et l'état sont explicites. L'interface ne doit jamais laisser croire qu'une recherche est connectée, qu'une donnée est vérifiée, qu'un formulaire est enregistré ou qu'un CRM fonctionne si cela n'a pas été réellement implémenté et testé.
+
+
+## 8. Extension stratégique — veille économique, emploi et immobilier professionnel
+
+Cette extension prépare l'architecture sans déclarer les modules développés ni connectés. Elle ne remplace pas la priorité immédiate de fiabilisation BOAMP/BODACC.
+
+### 8.1 Principes communs
+
+- Chaîne cible : Sources → collecte → normalisation → contrôles qualité → détection de signaux → qualification humaine → action commerciale/CRM → analyse.
+- Distinguer explicitement le fait publié, la transformation, l'hypothèse commerciale et la validation humaine.
+- Conserver provenance, identifiant source, dates de publication/collecte/vérification, conditions de réutilisation et lien original.
+- Prévoir dédoublonnage, fraîcheur, statut, historique, expiration et retrait.
+- Ne jamais présenter un signal comme une opportunité confirmée sans vérification.
+- Vérifier droits de réutilisation, qualité et limites de chaque source avant automatisation.
+
+### 8.2 Familles de signaux à préparer
+
+1. Commande publique (BOAMP et sources compatibles) : consultations et résultats/attributions lorsque disponibles et vérifiés; pistes de sous-traitance à confirmer.
+2. Événements d'entreprises (BODACC) : créations/immatriculations publiées, ventes et cessions, procédures collectives, modifications et radiations. Le BODACC n'est pas assimilé à un moteur d'appels d'offres.
+3. Référentiel d'entreprises et établissements (ex. Sirene/INSEE) : créations, transferts et fermetures selon les champs disponibles.
+4. Construction et aménagement : données publiques d'urbanisme lorsque jeux de données et conditions d'accès sont vérifiés.
+5. Implantation/déménagement : transferts et créations pouvant signaler des besoins en locaux, travaux, équipements, informatique, télécommunications ou services.
+6. Démarrage d'activité : besoins possibles de nouvelles entreprises, sans présumer d'une intention d'achat.
+7. Transmission : fonds de commerce, cessions de titres et ventes d'actifs à qualifier séparément.
+8. Veille emploi : offres autorisées pouvant signaler compétences recherchées ou évolutions sectorielles; pas de moteur public de recherche d'emploi.
+9. Immobilier professionnel : cessations, transferts, cessions et annonces immobilières autorisées à croiser pour repérer des biens potentiellement libérés ou mis en vente/location.
+10. Tendances territoriales/sectorielles : agrégations datées, avec méthode et limites.
+11. Suivi CRM : changements publics concernant une entreprise connue, proposés comme tâches de vérification, jamais comme certitudes automatiques.
+12. Sous-traitance : rapprochement d'un marché attribué avec les activités et capacités locales; le besoin de sous-traitance reste une hypothèse tant qu'il n'est pas confirmé.
+
+### 8.3 Module Emploi — périmètre futur
+
+- Dossier autonome; ne pas ajouter Emploi aux filtres du moteur d'opportunités commerciales.
+- Dépôt d'offres par un employeur : poste, missions, compétences, secteur, localisation, contrat, dates, employeur, provenance et lien officiel.
+- Veille d'offres uniquement auprès de sources dont l'accès et la réutilisation sont vérifiés.
+- Cycle de vie : brouillon → à vérifier → validée → publiée → expirée ou retirée.
+- Seules les offres approuvées, sourcées et non expirées peuvent alimenter le flux horizontal.
+- Les offres peuvent nourrir des analyses sectorielles; toute inférence est étiquetée comme hypothèse.
+- Formulaire Nous rejoindre avec candidature et CV : collecte minimale, validation serveur, format/taille contrôlés, stockage privé, accès restreint, durée de conservation et procédure de suppression. Pas de faux succès; dépôt désactivé jusqu'à la mise en place d'un backend sécurisé.
+
+### 8.4 Immobilier professionnel — périmètre futur
+
+- Dossier autonome de veille immobilière professionnelle et foncière d'entreprise.
+- Signaux possibles : cessation/transfert, vente de fonds, cession, procédure collective, projet d'aménagement et annonce immobilière explicite.
+- Distinguer murs, fonds de commerce, droit au bail, vente/location du bien, cession d'actifs et simple fermeture.
+- États possibles : signal détecté, informations à compléter, disponibilité vérifiée, opportunité publiée, écartée/expirée.
+- Une cessation ou liquidation ne prouve pas que les locaux sont disponibles. Vérifier séparément propriété/mandat, bail, disponibilité et annonce explicite avant toute présentation comme bien disponible.
+- Publics potentiels : agents immobiliers d'entreprise, gestionnaires de locaux, investisseurs et professionnels de la transmission, selon les autorisations applicables.
+
+### 8.5 Arborescence fonctionnelle cible
+
+- Développement commercial : Marchés publics (BOAMP); événements d'entreprises et annonces commerciales (BODACC); prospection inversée; sous-traitance et partenaires; veille économique et sectorielle; analyse territoriale; transmission et cession; suivi commercial.
+- Emploi (dossier autonome, sans moteur de recherche public) : déposer une offre; veille des offres autorisées; qualification/validation; analyse des compétences et signaux sectoriels.
+- Immobilier professionnel (dossier autonome futur) : signaux de locaux potentiellement libérés; transactions et cessions à qualifier; projets de construction/aménagement; vérification de disponibilité.
+- Nous rejoindre : candidature; dépôt sécurisé de CV; collaboration et partenariat.
+- Socle commun : sources/provenance; qualification; CRM; analyses; historique et gouvernance.
+
+Cette arborescence est fonctionnelle et n'impose pas de déplacer physiquement les fichiers HTML. Toute nouvelle page doit être déclarée dans le build, contrôlée par verify-site et testée avant d'être annoncée comme active.
+
+### 8.6 Jalons
+
+- E0 : inventaire des sources, risques, contrats de données et critères d'acceptation.
+- E1 : stabilisation des recherches BOAMP/BODACC.
+- E2 : contrat commun des signaux (provenance, typologie, qualité, statuts, déduplication, fraîcheur).
+- E3 : dossier Emploi et formulaire Nous rejoindre; CV inactif tant que le stockage sécurisé n'est pas configuré.
+- E4 : veille immobilière et matrice signal → vérifications, sans présenter les signaux comme des biens disponibles.
+- E5 : connecteurs source par source après validation des conditions d'accès et de réutilisation.
+- E6 : CRM, flux et analyses alimentés uniquement par des données validées.
+
+Aucun lot futur ne doit détourner le chantier P0 de stabilisation BOAMP/BODACC. Aucun merge ni déploiement de production n'est autorisé par cette spécification.
+
+### 8.7 Critères d'acceptation des signaux
+
+Pour chaque signal, documenter : source, fait publié, transformation, hypothèse éventuelle, niveau de vérification, accès autorisé, action permise et date d'expiration ou de réexamen.
