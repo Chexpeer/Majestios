@@ -221,7 +221,7 @@ function focusBuilding(data){
  targetDestination=nextTarget;
  cameraDestination=new THREE.Vector3(data.x+1.5,9.2,data.z+16.5);
 }
-function selectBuilding(data,{keepMap=false}={}){selected=data;if(!keepMap){setSceneMode("fly");focusBuilding(data);}title.textContent=data.name;description.textContent=data.description;floorList.replaceChildren();floorList.hidden=false;
+function selectBuilding(data,{keepMap=false}={}){selected=data;const panel=document.querySelector("#building-panel");if(panel)panel.hidden=false;if(!keepMap){setSceneMode("fly");focusBuilding(data);}title.textContent=data.name;description.textContent=data.description;floorList.replaceChildren();floorList.hidden=false;
  const levels=[
   {label:"RDC · RUBRIQUE",text:data.ground,href:data.route},
   {label:"1er NIVEAU · PARCOURS",text:data.first,href:data.firstRoute},
