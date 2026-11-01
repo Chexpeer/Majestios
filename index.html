@@ -205,8 +205,8 @@ body.homepage .building-caption{margin-top:8px;color:#9eafc8;font-size:9px;lette
                   <option value="all">2. Choisir d’abord un type</option>
                 </select>
               </label>
-              <label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par département</span>
-                <select id="feed-region" aria-label="Département (sélection géographique actuellement limitée par le catalogue disponible)">
+              <label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par région</span>
+                <select id="feed-region" aria-label="Région administrative">
                   <option value="all">Toutes les régions</option>
                   <option value="nouvelle-aquitaine">Nouvelle-Aquitaine</option>
                   <option value="ile-de-france">Île-de-France</option>
@@ -366,9 +366,6 @@ body.homepage .building-caption{margin-top:8px;color:#9eafc8;font-size:9px;lette
           categoryStep.hidden = false;
           departmentStep.hidden = true;
           department.value = "all";
-        });
-        category.addEventListener("click", () => {
-          if (market.value) departmentStep.hidden = false;
         });
         category.addEventListener("change", () => { departmentStep.hidden = false; });
         if (market.value) reveal();
