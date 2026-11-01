@@ -59,3 +59,33 @@ Branche de poursuite : `refonte-moteur-navigation-mobile-2026-11-01`
 Le prochain lot doit d’abord **spécifier le parcours de demande à partir d’une annonce** (consulter la source officielle, demander à recevoir l’offre, préparer une candidature ou créer un espace personnel), en séparant nettement les intentions et en indiquant l’état réel de chaque action. Il ne faut pas prétendre envoyer un e-mail, transmettre une candidature, créer un compte ou enregistrer une fiche tant qu’un traitement serveur réel et ses tests ne sont pas en place.
 
 Les changements de ce lot sont documentaires : ils ne connectent aucun backend, ne déclenchent aucun envoi et n’activent pas le CRM.
+
+
+## Addendum — Contrôle des destinations et des filtres dans les pages métier
+
+Contrôle réalisé le 1er novembre 2026 sur la branche `refonte-moteur-navigation-mobile-2026-11-01`.
+
+### Vérifications statiques
+
+- Les douze liens de bâtiments présents sur l’accueil pointent vers douze pages HTML existantes dans le dépôt.
+- Les liens de navigation principaux observés sur l’accueil et la page générale de résultats pointent vers des pages existantes.
+- Les huit pages de résultats par catégorie sont présentes et restent distinctes des douze pages métier.
+- Le formulaire principal respecte la logique Type → Catégorie : le choix du type détermine les catégories affichées ; les recherches privées et transversales utilisent la page générale, tandis que les huit catégories publiques actives disposent de leurs destinations dédiées.
+
+### Défaut constaté et correction engagée
+
+Le formulaire de recherche injecté dans les pages métier par `rubric-search.js` réutilisait auparavant les catégories publiques du catalogue sans tenir compte de la rubrique. Une page « Marchés privés » pouvait donc proposer « Services numériques » ou d’autres catégories BOAMP. De plus, sur les pages transversales dont le type par défaut était « Tous types », le sélecteur de catégorie permettait une combinaison ambiguë que le moteur de résultats refuse à juste titre.
+
+Correction dans le commit `ef973f4534462ea1d32d002b2db62cbe1140f6e2` :
+- les pages à source privée proposent les cinq familles BODACC et les quatre catégories privées à connecter ;
+- les pages à source publique proposent les huit catégories publiques actives ;
+- les pages transversales désactivent le sélecteur de catégorie tant que l’utilisateur n’a pas choisi « Marchés publics » ou « Marchés privés » ;
+- le changement de type reconstruit les options, sans mélanger BOAMP et BODACC ;
+- les quatre catégories privées non connectées portent une mention explicite « à connecter » ;
+- les critères déjà présents dans l’URL sont préremplis quand ils sont valides.
+
+Des assertions navigateur ont été ajoutées dans `tests/opportunity-search.browser.cjs` (commit `6d21a85c482cb62bdf0a3293a49486f8672e7b89`) pour contrôler ces comportements sur les pages « Marchés privés » et « Développement commercial ».
+
+### Statut
+
+Cette correction est poussée sur la branche de travail. **La validation GitHub Actions du commit de tests doit encore être confirmée** avant de déclarer le lot validé. Aucun déploiement de production, aucune fusion dans `main` et aucune intégration CRM n’ont été effectués.
