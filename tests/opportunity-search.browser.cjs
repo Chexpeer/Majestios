@@ -129,6 +129,17 @@ async function main() {
     assert.equal(bodaccRegionFilterSeen, true, "Une recherche BODACC avec une région sélectionnée doit transmettre le filtre régional à la source.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
+    // La catégorie doit filtrer la famille BODACC : un signal de cession ne doit pas
+    // être réaffiché comme création, modification, procédure collective ou radiation.
+    for (const category of ["bodacc-creations", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations"]) {
+      await page.goto(`http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=${category}`, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(100);
+      assert.equal(await page.locator(".bodacc-result-card").count(), 0, `La catégorie ${category} ne doit pas afficher le signal de cession de test.`);
+    }
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=bodacc-cessions", { waitUntil: "domcontentloaded" });
+    await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".bodacc-result-card").count(), 1, "La catégorie bodacc-cessions doit conserver le signal de cession correspondant.");
+
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=immobilier", { waitUntil: "domcontentloaded" });
     await page.getByText(/Immobilier professionnel.*source de données n’est pas encore connectée/).waitFor({ timeout: 10000 });
     assert.equal(bodaccCalls, 1, "Une rubrique immobilière non connectée ne doit pas lancer une recherche BODACC trompeuse.");
