@@ -13,7 +13,8 @@
     .category-page .virtual-space,
     .category-page .related-rubrics,
     .category-page .floating-route-card > .interactive-map-status,
-    .category-page .floating-route-card > p { display:none !important; }
+    .category-page .floating-route-card > p:not(.small-note) { display:none !important; }
+    .category-page .floating-route-card > p.small-note { display:block !important; max-width:70ch; margin:.5rem 0; font-size:.78rem; line-height:1.45; color:#b8b7b0; }
     .category-page .floating-route-card {
       display:block !important; width:100% !important; max-width:none !important;
       min-width:0 !important; margin:1rem 0 !important; padding:0 !important;
