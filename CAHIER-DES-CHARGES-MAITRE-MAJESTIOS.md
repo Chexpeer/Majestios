@@ -56,6 +56,26 @@ Un signal économique ne prouve pas, à lui seul, une intention d’achat, un be
 Le cycle de référence reste : **Détecter → Qualifier → Identifier → Contacter → Transformer → Capitaliser.** Il s’agit d’une capacité de bout en bout, pas d’un chemin obligatoire : selon le contexte, MajestiOS peut commencer par une demande, une offre, un objectif commercial ou un signal, puis recommander uniquement les étapes pertinentes. La préparation de l’alimentation future du CRM ne vaut pas autorisation d’activer dès maintenant une intégration opérationnelle.
 
 
+
+### Personnalisation visuelle des pages par rubrique — activation différée
+
+Prévoir dans la conception la possibilité de personnaliser progressivement les pages selon leur rubrique métier, sans activer cette fonctionnalité pendant la phase de stabilisation du site.
+
+La personnalisation pourra notamment porter, dans des limites communes et cohérentes, sur :
+- une couleur d’accent et une identité visuelle secondaire propres à la rubrique ;
+- un pictogramme, un motif ou un filigrane discret lié au sujet ;
+- des variantes de présentation adaptées au contenu (annonces, signaux, dossiers, accompagnement, showroom) ;
+- certains éléments de mise en page et de hiérarchie visuelle, sans changer les conventions communes de navigation.
+
+Principes d’architecture :
+- réutiliser des gabarits et composants communs plutôt que dupliquer les pages ;
+- associer chaque rubrique à une configuration explicite et centralisée ;
+- conserver une identité MajestiOS cohérente, une navigation prévisible, l’accessibilité, la lisibilité mobile et des contrastes suffisants ;
+- ne pas confondre la personnalisation visuelle avec l’existence ou l’activation d’une source de données ;
+- prévoir un mécanisme d’activation global et réversible, désactivé par défaut pendant la stabilisation, avec retour immédiat au rendu commun en cas de régression.
+
+**Condition d’activation :** n’activer la personnalisation qu’après stabilisation de l’accueil, de la navigation, du moteur, des pages de résultats et des formulaires, avec vérification du build, des parcours, de l’affichage mobile et des éventuelles régressions. La présente exigence est une préparation documentaire et architecturale ; elle n’autorise pas à modifier le rendu du site à ce stade.
+
 ## 2. Décisions produit à préserver
 
 1. La page d’accueil reste compacte : navigation principale, zone artisanale/industrielle virtuelle, moteur de recherche avancé et bandeau horizontal de démonstration très discret, lent et clairement signalé comme fictif.
