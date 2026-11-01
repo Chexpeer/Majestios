@@ -22,7 +22,7 @@ Le showroom virtuel est une offre transversale de présentation et de mise en re
 
 - **Showroom Essentiel** : fiche enrichie, activité, photos, coordonnées et liens utiles (offre à définir).
 - **Showroom Immersif** : visite des locaux, vidéos, démonstrations, projets commentés et visite guidée (évolution à concevoir).
-- **Modes de découverte** : parcours au sol de type « Tesla », survol stratégique de type hélicoptère et guidage « Majest COYOT » ; ce sont des concepts d’expérience, pas des services annoncés comme opérationnels.
+- **Modes de découverte** : « Street View » pour le parcours au sol, « Navigation aérienne » pour la vue en surplomb et « Carte interactive » pour la lecture cartographique. Les libellés restent descriptifs et neutres, sans marque de véhicule ni appareil précis. La disponibilité de chaque mode dépend du fonctionnement effectif de la scène et de ses solutions de secours.
 - **Showroom augmenté par l’IA** : présentation, réponses aux questions et suggestions de partenaires à envisager ultérieurement ; les décisions restent humaines.
 
 La page actuellement rattachée à la navigation « Salon virtuel » porte cette orientation showroom tout en conservant la dimension d’espace collectif d’exposition. Aucune tarification ni disponibilité n’est promise avant validation.
