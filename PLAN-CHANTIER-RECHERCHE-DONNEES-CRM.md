@@ -174,3 +174,18 @@ Aucun lot futur ne doit détourner le chantier P0 de stabilisation BOAMP/BODACC.
 ### 8.7 Critères d'acceptation des signaux
 
 Pour chaque signal, documenter : source, fait publié, transformation, hypothèse éventuelle, niveau de vérification, accès autorisé, action permise et date d'expiration ou de réexamen.
+
+
+## Lot Emploi — veille discrète multisource
+
+**Priorité :** après stabilisation et validation des parcours de recherche BOAMP/BODACC ; préparer le cadrage sans détourner le lot prioritaire.
+
+1. **Inventorier les ressources** : France Travail (offres, marché du travail, ROME 4.0, événements), La Bonne Alternance, APEC, Cadremploi, agentCo, HelloWork, Indeed, Welcome to the Jungle, LinkedIn, Choisir le service public et sources sectorielles pertinentes.
+2. **Qualifier l'accès** : API ou flux officiel, habilitation, licence, conditions d'extraction/réutilisation, fréquence, couverture et coûts éventuels. Aucun scraping ou republication ne doit être présumé autorisé.
+3. **Construire des adaptateurs isolés** par source, sans dépendance dure à un fournisseur unique ; prévoir délais d'attente, limitation de débit, reprises et journalisation.
+4. **Normaliser et fiabiliser** : identifiant source, URL, dates, entreprise, métier, compétences, localisation, contrat, statut et date d'expiration ; dédoublonnage et retrait des annonces périmées.
+5. **Planifier une collecte en arrière-plan** seulement après validation des accès et de la politique de fréquence ; mesurer succès, erreurs, fraîcheur et volumes par source.
+6. **Qualifier les signaux** et séparer les faits des hypothèses de développement commercial. L'analyse doit pouvoir rapprocher métier/compétences/territoire de signaux autorisés sur les entreprises, sans conclusion automatique non démontrée.
+7. **Diffusion optionnelle** : le bandeau d'annonces ne reçoit que des éléments validés, pertinents, non expirés et réutilisables. Pas de moteur de recherche d'emploi sur l'accueil ; le dossier Emploi reste distinct du moteur principal d'opportunités commerciales.
+
+**Critère de sortie :** matrice des sources validée, au moins un adaptateur autorisé testé, contrôles de fraîcheur/doublons documentés, erreurs traçables, et tests anti-régression réussis. Ce lot n'autorise ni fusion dans main ni déploiement en production.
