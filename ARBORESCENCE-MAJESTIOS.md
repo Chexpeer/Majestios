@@ -200,3 +200,19 @@ Le bandeau horizontal de l'accueil peut, à terme, diffuser certains signaux emp
 
 ### Règle de navigation
 Le dossier Emploi peut être accessible depuis la rubrique « Nous rejoindre » pour le parcours candidat ou depuis une rubrique interne dédiée lorsque les modules seront implémentés. Il ne devient pas une nouvelle catégorie du moteur commercial principal. La création d'une page publique dédiée et son inclusion dans build.js exigent un lot ultérieur avec tests des liens, formulaires, confidentialité et anti-régression.
+
+
+## Exigence transversale — ciblage d'entreprises et accompagnement aux appels d'offres
+
+Sous « Développement commercial » et le dossier « Marchés publics », l'arborescence fonctionnelle doit prévoir des parcours dédiés à :
+- qualification d'un appel d'offres et de ses lots ;
+- correspondance entre activités du marché et codes APE/NAF ;
+- recherche et sélection d'entreprises par département ;
+- fiche de qualification et traçabilité des sources ;
+- diffusion ciblée de l'opportunité avec proposition d'accompagnement ;
+- accompagnement humain et technique à la compréhension du DCE, aux pièces de candidature, au mémoire technique, à la vérification et au suivi des échéances ;
+- suivi des réponses et actions dans le futur CRM.
+
+La cible d'environ dix entreprises par département et par opportunité est un objectif de sélection, pas un quota à remplir avec des entreprises inadéquates. Les pages et formulaires correspondants doivent être ajoutés dans un lot fonctionnel dédié avec liens, états d'erreur, droits d'accès et tests. Cette exigence ne justifie pas d'ajouter des listes d'entreprises ou d'appels d'offres sur l'accueil épuré.
+
+Références de reprise pour toute IA : DOCUMENTATION-REPRISE-IA-MAJESTIOS.md et SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md.
