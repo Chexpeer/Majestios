@@ -73,3 +73,8 @@ Lire dans cet ordre avant de reprendre les travaux :
 MajestiOS est un outil de **développement commercial assisté par IA**. L'accompagnement humain et technique aux appels d'offres, le ciblage d'entreprises par codes APE/NAF et département, la diffusion ciblée avec proposition d'accompagnement, la veille emploi discrète et les pistes immobilières professionnelles appartiennent au périmètre documenté. Leur mention ne signifie pas qu'ils sont tous implémentés ou connectés.
 
 Le registre des décisions établies et des arbitrages ouverts se trouve dans la section 11 de `CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md`. Ne pas créer un registre parallèle sans besoin explicite.
+
+
+### Préqualification des entreprises (prototype)
+
+La page `qualification-entreprises.html` permet de rechercher des entreprises par codes APE/NAF et département via l’API publique Recherche d’Entreprises. Le module `naf-suggestions.js` propose des pistes lexicales explicables depuis l’intitulé du marché ; l’opérateur doit choisir et vérifier les codes avant la recherche. Les scores et suggestions sont indicatifs : aucune preuve de compétence, aucune persistance CRM et aucun envoi de prospection ne sont produits par ce prototype. Les tests ciblés sont dans `tests/naf-suggestions.test.cjs` et `tests/company-targeting.test.cjs`.
