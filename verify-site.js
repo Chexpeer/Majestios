@@ -1032,6 +1032,7 @@ if (!fs.existsSync(governancePlanPath)) {
 // Lot 25 — anti-régression du rendu mobile de la page générale de résultats.
 const mobileGeneralResultsPath = path.join(root, "resultats-recherche.html");
 const generalResultsEnginePath = path.join(root, "search-results.js");
+const mobileOpportunityEnginePath = path.join(root, "opportunity-search.js");
 if (!fs.existsSync(mobileGeneralResultsPath)) {
   errors.push("Résultats mobiles : page générale resultats-recherche.html absente");
 } else {
@@ -1044,8 +1045,8 @@ if (!fs.existsSync(mobileGeneralResultsPath)) {
 if (!fs.existsSync(generalResultsEnginePath)) {
   errors.push("Résultats mobiles : contrôleur search-results.js absent du projet");
 }
-if (fs.existsSync(opportunityEnginePath)) {
-  const mobileResultsEngine = fs.readFileSync(opportunityEnginePath, "utf8");
+if (fs.existsSync(mobileOpportunityEnginePath)) {
+  const mobileResultsEngine = fs.readFileSync(mobileOpportunityEnginePath, "utf8");
   if (mobileResultsEngine.includes('class="platform-card opportunity-result-card')) {
     errors.push("Résultats mobiles : les cartes ne doivent pas réutiliser la classe legacy platform-card");
   }
