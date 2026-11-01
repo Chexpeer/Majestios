@@ -22,7 +22,7 @@
   };
   const CATEGORY_TYPES = { services: "SERVICES", travaux: "TRAVAUX" };
   const BODACC_CATEGORY_TERMS = {
-    services: ["service", "prestation", "informatique", "conseil"],
+    services: ["informatique", "logiciel", "cybersécurité", "numérique", "hébergement", "développement", "télécommunication", "réseau", "plateforme", "cloud"],
     travaux: ["travaux", "construction", "bâtiment", "rénovation"],
     conseil: ["conseil", "étude", "audit", "expertise"],
     batiment: ["bâtiment", "construction", "maçonnerie", "gros œuvre"],
