@@ -264,13 +264,10 @@ if (advancedSearchForm) {
   if (region && region !== "all") params.set("zone", region);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
-  // Une catégorie active mène à sa page dédiée ; sinon, tous les filtres vont aux résultats généraux.
-  // Cela évite de perdre visuellement les critères sur les pages de présentation des marchés publics/privés.
-  // Les critères q, categorie, marche et zone sont conservés dans l’URL.
-  const selectedCategory = majCatalog.searchCategories.find(
-    (item) => item.value === category && item.href && !item.planned
-  );
-  const destination = selectedCategory ? selectedCategory.href : "resultats-recherche.html";
+  // Toutes les recherches aboutissent à la page de résultats dédiée.
+  // La catégorie sert de filtre, pas de destination : envoyer vers une page de rubrique
+  // mélangeait la présentation éditoriale et les résultats, qui se retrouvaient comprimés.
+  const destination = "resultats-recherche.html";
 
   window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
 });
