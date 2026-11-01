@@ -302,3 +302,17 @@ La diffusion doit présenter l'appel d'offres, sa source officielle, les informa
 
 ### 13.4 Référence de reprise pour les IA
 Toute IA reprenant le projet doit lire DOCUMENTATION-REPRISE-IA-MAJESTIOS.md puis SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md. Ces documents explicitent l'état du prototype, les fonctions prévues, les règles de navigation, les garde-fous et les critères d'acceptation. Ils ne prouvent pas qu'une fonction est déjà opérationnelle.
+
+
+### État du premier prototype de ciblage — 1er novembre 2026
+
+La première brique de préqualification est maintenant matérialisée dans le dépôt :
+- `qualification-entreprises.html` : formulaire pour saisir des codes APE/NAF validés et des départements ;
+- `company-targeting-page.js` : orchestration de la recherche et affichage des résultats ;
+- `company-targeting.js` : adaptateur de recherche vers l’API publique Recherche d’Entreprises, normalisation, dédoublonnage et score explicable ;
+- `tests/company-targeting.test.cjs` : tests automatisés préparés pour les fonctions de qualification ;
+- `build.js` : inclusion de la page et des scripts dans les ressources à construire.
+
+Le score sert uniquement à ordonner des pistes ; il ne prouve pas la capacité à répondre à un marché. Les codes APE/NAF doivent être choisis ou vérifiés à partir des activités et exigences réelles. Le module ne lance aucune campagne et n’enregistre pas de données dans un CRM.
+
+**État de validation :** les fichiers ont été relus après écriture et les vérifications de syntaxe ainsi que des tests ciblés simulés ont réussi dans cette session. Le test Node dédié, le build complet, le test navigateur et l’appel réel à l’API depuis le navigateur restent à exécuter. Le prototype ne doit pas être annoncé comme un service opérationnel avant ces étapes.
