@@ -46,7 +46,7 @@ Prévoir un formulaire avec identité, courriel, téléphone facultatif, profil,
 Dossier autonome permettant aux employeurs de proposer des offres et à MajestiOS de suivre les offres de sources dont la réutilisation est autorisée. Champs à prévoir : poste, missions, compétences, secteur, localisation, contrat, dates, employeur, provenance et lien officiel. Cycle : brouillon → à vérifier → validée → publiée → expirée ou retirée.
 
 ### 4.3 Limites
-Aucun moteur de recherche d'emploi public n'est demandé. Emploi reste hors des catégories du moteur commercial de l'accueil. Le flux horizontal peut accueillir les offres validées, sourcées et non expirées. Les offres peuvent nourrir des analyses de compétences et de secteurs, en distinguant observation et interprétation.
+Aucun moteur de recherche d'emploi public n'est demandé. Emploi reste hors des catégories du moteur commercial de l'accueil. Le bandeau horizontal de l'accueil demeure exclusivement fictif et ne diffuse aucune offre réelle. Les offres de sources autorisées peuvent alimenter une veille interne et des analyses de compétences et de secteurs, en distinguant observation et interprétation.
 
 ## 5. Immobilier professionnel et foncier d'entreprise
 
@@ -140,7 +140,11 @@ Avant toute connexion, documenter : propriétaire, URL officielle, type de resso
 **Statut au 1er novembre 2026 :** inventaire de cadrage à compléter et à valider. Aucune de ces sources n'est déclarée connectée par le présent document. L’API Offres d’emploi France Travail doit notamment être revalidée, la fiche officielle signalant une suspension de son exposition publique. Aucun moteur public de recherche d'emploi n'est demandé sur l'accueil.
 
 
-## 11. Raccordement au ciblage commercial des appels d'offres
+## 11. Ressources qui alimentent le CRM
+
+Le registre `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` est le document opérationnel de référence pour l’inventaire des sources candidates et leur statut. Il couvre les référentiels d’entreprises, les sources BOAMP/BODACC, les données d’emploi, les sources immobilières, les annuaires professionnels et les données produites par les interactions internes MajestiOS. Chaque source doit être évaluée individuellement : accès officiel, champs, fraîcheur, licence, réutilisation commerciale, données personnelles et mécanisme de retrait. La mention d’une source ne signifie pas qu’elle est connectée.
+
+## 12. Raccordement au ciblage commercial des appels d'offres
 
 La veille stratégique doit alimenter le parcours déjà prévu d'accompagnement et de diffusion ciblée des marchés. À partir d'un appel d'offres qualifié, MajestiOS doit :
 1. extraire les activités, lots, exigences et territoires concernés ;
