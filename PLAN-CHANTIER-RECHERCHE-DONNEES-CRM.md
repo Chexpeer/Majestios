@@ -237,3 +237,8 @@ Ce lot documente une fonction déjà prévue dans la vision produit : mettre en 
 ## Ressources d’alimentation du CRM — référence commune
 
 Le registre `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` centralise l’inventaire initial des ressources externes et internes. Le lot CRM doit intégrer progressivement la provenance des données, les identifiants source, les dates de collecte et de publication, les règles de dédoublonnage SIREN/SIRET, les droits de réutilisation, la fraîcheur, les oppositions et la journalisation. L’API Offres d’emploi France Travail est à revalider avant tout développement car sa fiche officielle signale une suspension de son exposition publique. Aucune source candidate n’est réputée connectée sur la seule base de son inscription dans le registre.
+
+
+### Mise à jour — suggestions APE/NAF
+
+Le prototype comprend maintenant une table de règles lexicales explicables pour suggérer des codes APE/NAF depuis l’intitulé d’un marché. L’opérateur sélectionne explicitement les propositions à ajouter au formulaire. Tests dédiés ajoutés et intégrés au workflow GitHub Actions anti-régression. Restent à confirmer : exécution réelle des tests/build sur GitHub Actions, rendu navigateur mobile/ordinateur et disponibilité de l’API depuis le navigateur. Pas de CRM persistant ni d’envoi externe dans cette étape.
