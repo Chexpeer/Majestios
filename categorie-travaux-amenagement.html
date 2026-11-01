@@ -8,6 +8,43 @@
   <title>Travaux &amp; aménagement — Appels d’offres | MajestiOS</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="rubriques-immersives.css">
+  <style>
+    /* Page d'annonces : priorité au contenu utile, sans panneau décoratif ni grille étroite. */
+    .category-page .virtual-space,
+    .category-page .related-rubrics,
+    .category-page .floating-route-card > .interactive-map-status,
+    .category-page .floating-route-card > p { display:none !important; }
+    .category-page .floating-route-card {
+      display:block !important; width:100% !important; max-width:none !important;
+      min-width:0 !important; margin:1rem 0 !important; padding:0 !important;
+      border:0 !important; border-radius:0 !important; background:transparent !important;
+      box-shadow:none !important; float:none !important;
+    }
+    .category-page .floating-route-card > h2 { margin:0 0 .75rem !important; }
+    .category-page #category-results-panel {
+      display:block !important; width:100% !important; max-width:none !important;
+      min-width:0 !important; margin:.5rem 0 1rem !important; padding:.75rem !important;
+      box-sizing:border-box; border:1px solid rgba(213,181,108,.24);
+      border-radius:.6rem; background:#0c1119;
+    }
+    .category-page #category-results-panel .opportunity-results-list {
+      display:grid !important; grid-template-columns:minmax(0,1fr) !important;
+      width:100% !important; min-width:0 !important;
+    }
+    .category-page #category-results-panel .opportunity-result-card {
+      display:grid !important; grid-template-columns:minmax(0,1fr) !important;
+      width:100% !important; min-width:0 !important; box-sizing:border-box;
+    }
+    .category-page #category-results-panel .opportunity-result-card > * { grid-column:1 !important; }
+    .category-page .floating-route-card > a.feed-interest {
+      display:inline-flex !important; max-width:100%; margin:.25rem 0 1rem;
+    }
+    @media(max-width:760px) {
+      .category-page { width:calc(100% - 24px) !important; }
+      .category-page .floating-route-card > h2 { font-size:1.15rem; }
+      .category-page #category-results-panel { padding:.6rem !important; }
+    }
+  </style>
   <script src="catalogue-majestios.js" defer></script>
   <script src="app.js" defer></script>
   <script src="category-results.js" defer></script>
