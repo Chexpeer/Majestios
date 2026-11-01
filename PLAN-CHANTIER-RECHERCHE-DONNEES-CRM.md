@@ -46,6 +46,19 @@ Collecter → conserver la provenance → normaliser → valider les champs → 
 
 Chaque source doit exposer un état distinct : opérationnelle, retardée, en erreur ou non configurée. Les données incomplètes ou à échéance inconnue ne doivent pas être présentées comme pleinement vérifiées.
 
+### 2.1 Ordre de validation des sources — sans élargir inutilement l’audit
+
+Le registre de référence est `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md`. Une source candidate n’est pas considérée comme intégrée tant que les étapes ci-dessous ne sont pas documentées.
+
+1. **BOAMP — fiabilisation P0** : lancer les tests ciblés existants, vérifier filtres, échéances, provenance, liens officiels et gestion des erreurs. Ne pas ajouter de nouvelle source tant que les écarts critiques de ce parcours ne sont pas levés.
+2. **BODACC — fiabilisation P0** : vérifier les appels réels, les champs exploités, la date, la géographie et le caractère de « signal d’entreprise » ; tester absence de données et erreurs. Ne jamais afficher un événement BODACC comme un appel d’offres ou une preuve de disponibilité immobilière.
+3. **API Recherche d’Entreprises — premier enrichissement P1** : vérifier l’accès, la couverture, les champs réellement renvoyés et les limites de diffusion ; réaliser un essai contrôlé et documenter le résultat avant de l’utiliser pour du ciblage.
+4. **API Sirene — enrichissement P1 conditionnel** : confirmer les accès, quotas et conditions applicables, notamment les règles relatives aux données en diffusion partielle ; éviter de dupliquer l’API Recherche d’Entreprises sans bénéfice démontré.
+5. **Emploi, immobilier et annuaires privés — cadrage préalable** : vérifier chaque accès et chaque droit de réutilisation avant tout développement. En particulier, ne pas présumer que l’API Offres d’emploi de France Travail est disponible, ni que les portails privés autorisent l’extraction ou la republication.
+6. **Persistance CRM — après contrat de données** : définir le modèle, les permissions, la conservation, les oppositions et le journal d’audit avant de stocker des données de prospects ou d’activer une collecte en arrière-plan.
+
+**Porte de sortie obligatoire pour chaque source :** (a) URL officielle et propriétaire identifiés ; (b) accès et conditions de réutilisation vérifiés ; (c) champs, identifiants et fréquence documentés ; (d) tests d’un résultat, d’une réponse vide et d’une erreur ; (e) provenance et fraîcheur conservées ; (f) décision explicite : intégrer, différer ou abandonner. Si une condition manque, le statut reste « candidate / à valider ».
+
 ### Lot 3 — contenu des dossiers
 Chaque dossier doit contenir, selon son objet : présentation utile, moteur pertinent, critères, résultats ou état d'indisponibilité, explication de la provenance, méthode de qualification, actions disponibles avec leur état réel, ressources et liens internes cohérents.
 
