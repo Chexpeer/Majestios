@@ -33,6 +33,8 @@ jobs:
         run: node build.js
       - name: Vérifier les pages, liens et parcours
         run: node verify-site.js
+      - name: Vérifier le contrat commun de données CRM
+        run: node tests/crm-result-contract.test.cjs
       - name: Installer Playwright et Chromium
         run: |
           npm install --no-save --package-lock=false playwright
