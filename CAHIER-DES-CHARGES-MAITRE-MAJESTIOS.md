@@ -3,7 +3,7 @@
 Version : 2026-11-01  
 Statut : document de cadrage à valider par le Fondateur. Il consolide les exigences produit et sépare les décisions établies, les périmètres futurs et les points restant à arbitrer.  
 Branche de travail : `chantier-recherche-donnees-gardes-fous-2026-11-01`  
-Documents complémentaires : `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md`, `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md`, `ARBORESCENCE-MAJESTIOS.md`.
+Documents complémentaires : `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md`, `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md`, `ARBORESCENCE-MAJESTIOS.md`, `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md`.
 
 ## 1. Vision du produit
 
@@ -247,6 +247,7 @@ MajestiOS progresse lorsque l’utilisateur professionnel peut :
 - `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md` : lots techniques, contrôles et ordre de chantier.
 - `ARBORESCENCE-MAJESTIOS.md` : pages, navigation et dépendances.
 - `MODELE-DONNEES-APPELS-OFFRES.md` et `schemas/opportunite.schema.json` : contrat de données des opportunités existantes.
+- `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` : ressources candidates, accès, limites, pipeline d’alimentation et statuts de validation.
 
 Ce cahier des charges maître sert de base de consolidation. Les documents complémentaires doivent être harmonisés avec lui au fur et à mesure des décisions, sans faire passer une proposition pour une décision validée. Toute implémentation nouvelle attend la validation du périmètre concerné par le Fondateur.
 
