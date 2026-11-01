@@ -19,7 +19,8 @@ La liste d’appels d’offres, les blocs explicatifs, les répertoires redondan
 - `categorie-*.html` : pages de destination pour les catégories du moteur de recherche.
 - `nous-rejoindre.html`, `espace-membre.html`, `faq.html` : rubriques secondaires accessibles par navigation.
 - `styles.css`, `app.js`, `catalogue-majestios.js`, `rubriques-immersives.css`, `rubriques-immersives.js` : styles, interactions, correspondance des bâtiments et présentation commune.
-- `build.js`, `verify-site.js`, `.github/workflows/verify-site.yml`, `vercel.json` : préparation, vérification et configuration de publication.
+- `build.js`, `verify-site.js`, `.github/workflows/majestios-anti-regression.yml`, `vercel.json` : préparation, vérification et configuration de publication.
+- `company-targeting.js`, `company-fit.js`, `naf-suggestions.js`, `qualification-entreprises.html` : prototype de ciblage et de qualification explicable ; les correspondances APE/NAF et géographiques restent indicatives.
 - Les documents de référence sont détaillés dans la section « Documentation produit et reprise par une IA » plus bas ; le cahier des charges maître, la spécification fonctionnelle, la matrice et le registre des ressources CRM complètent le README et l’arborescence.
 
 Ne supprimer aucun fichier de page ou ressource avant d’avoir vérifié les références dans les scripts, les liens entrants et le processus de build. Les fichiers de prototype qui paraissent anciens peuvent encore être requis par le contrôle automatique ou par une page métier.
