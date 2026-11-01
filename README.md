@@ -56,3 +56,16 @@ Le contrôle statique ne remplace pas un test dans un navigateur réel, notammen
 - Préserver les douze destinations du catalogue et les formulaires requis par les parcours secondaires.
 - Contrôler les liens, ressources copiées dans `dist/`, états interactifs et rendu mobile après chaque évolution.
 - Ne pas publier en production une branche ou une prévisualisation qui n’a pas été vérifiée.
+
+
+## Documentation produit et reprise par une IA
+
+Lire dans cet ordre avant de reprendre les travaux :
+1. DOCUMENTATION-REPRISE-IA-MAJESTIOS.md — contexte, décisions, état de vérité et protocole de reprise ;
+2. CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md — vision et périmètre ;
+3. SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md — parcours et critères d'acceptation ;
+4. CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md — sources et signaux ;
+5. ARBORESCENCE-MAJESTIOS.md — structure des pages ;
+6. PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md — lots et garde-fous.
+
+MajestiOS est un outil de **développement commercial assisté par IA**. L'accompagnement humain et technique aux appels d'offres, le ciblage d'entreprises par codes APE/NAF et département, la diffusion ciblée avec proposition d'accompagnement, la veille emploi discrète et les pistes immobilières professionnelles appartiennent au périmètre documenté. Leur mention ne signifie pas qu'ils sont tous implémentés ou connectés.
