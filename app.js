@@ -211,6 +211,7 @@ function populateSearchFilters() {
     regionSelect.replaceChildren();
     const plannedRegions = document.createElement("optgroup");
     plannedRegions.label = "Régions françaises · à connecter";
+    plannedRegions.disabled = true;
     majCatalog.searchRegions.forEach((region) => {
       const option = document.createElement("option");
       option.value = region.value;
