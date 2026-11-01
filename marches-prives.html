@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="rubriques-immersives.css">
   <script src="app.js" defer></script>
   <script src="rubriques-immersives.js" defer></script>
+  <script src="catalogue-majestios.js" defer></script>
+  <script src="rubric-search.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -23,47 +25,7 @@
   <h1>Marchés privés</h1>
   <p class="interior-lede">Repérez des signaux d’entreprise et explorez les opportunités privées. Les annonces légales sont des pistes à qualifier, pas des marchés garantis.</p>
 
-  <section class="floating-route-card private-signal-search" aria-labelledby="private-signal-search-title">
-    <span class="interactive-map-status">SOURCE CONNECTÉE · BODACC</span>
-    <h2 id="private-signal-search-title">Rechercher un signal commercial</h2>
-    <form action="resultats-recherche.html" method="get" class="advanced-search-form" id="private-signal-search-form">
-      <label for="private-signal-query">Entreprise, activité ou mot-clé</label>
-      <input id="private-signal-query" name="q" type="search" placeholder="Ex. cession, entreprise, plomberie">
-      <input type="hidden" name="marche" value="private">
-      <label for="private-signal-category">Catégorie</label>
-      <select id="private-signal-category" name="categorie">
-        <option value="all">Toutes les catégories BODACC</option>
-        <option value="bodacc-creations">Créations et implantations</option>
-        <option value="bodacc-cessions">Ventes, cessions et reprises</option>
-        <option value="bodacc-modifications">Modifications d’entreprises</option>
-        <option value="bodacc-procedures">Difficultés et procédures collectives</option>
-        <option value="bodacc-radiations">Radiations et cessations</option>
-        <option value="immobilier" disabled>Immobilier professionnel — source à connecter</option>
-        <option value="emploi" disabled>Emploi et recrutement — source à connecter</option>
-        <option value="sous-traitance-offres" disabled>Offres de sous-traitance — source à connecter</option>
-        <option value="sous-traitance-recherche" disabled>Recherche de sous-traitants et partenaires — source à connecter</option>
-      </select>
-      <label for="private-signal-region">Région</label>
-      <select id="private-signal-region" name="zone">
-        <option value="all">Toutes les régions</option>
-        <option value="nouvelle-aquitaine">Nouvelle-Aquitaine</option>
-        <option value="ile-de-france">Île-de-France</option>
-        <option value="auvergne-rhone-alpes">Auvergne-Rhône-Alpes</option>
-        <option value="occitanie">Occitanie</option>
-        <option value="pays-de-la-loire">Pays de la Loire</option>
-        <option value="bretagne">Bretagne</option>
-        <option value="normandie">Normandie</option>
-        <option value="hauts-de-france">Hauts-de-France</option>
-        <option value="grand-est">Grand Est</option>
-        <option value="bourgogne-franche-comte">Bourgogne-Franche-Comté</option>
-        <option value="centre-val-de-loire">Centre-Val de Loire</option>
-        <option value="provence-alpes-cote-d-azur">Provence-Alpes-Côte d’Azur</option>
-        <option value="corse">Corse</option>
-      </select>
-      <button class="button-primary" type="submit">Rechercher les signaux BODACC →</button>
-    </form>
-    <p class="small-note">Source : BODACC / DILA. Vérifiez chaque annonce sur la <a href="https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution" target="_blank" rel="noopener noreferrer">recherche officielle ↗</a>.</p>
-  </section>
+
 
   <nav class="interior-grid related-rubrics" aria-label="Autres familles d’opportunités">
     <a class="platform-card related-rubric-card" href="bodacc-veille-entreprises.html"><h2>Veille des entreprises</h2><p>Suivre les événements publiés au BODACC.</p></a>
