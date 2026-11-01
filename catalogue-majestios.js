@@ -32,7 +32,6 @@
     { value: "fournitures", label: "Fournitures & équipements", planned: true },
     { value: "btp", label: "BTP : lots techniques et second œuvre", planned: true },
     { value: "logistique", label: "Transport & logistique", planned: true },
-    { value: "formation", label: "Formation & recrutement", planned: true },
     { value: "communication", label: "Communication & événementiel", planned: true }
   ];
 
@@ -64,7 +63,7 @@
   ];
 
   root.MAJESTIOS_CATALOG = Object.freeze({
-    version: "1.0.0",
+    version: "1.0.1",
     rubrics: Object.freeze(rubrics.map((item) => Object.freeze(item))),
     searchCategories: Object.freeze(searchCategories.map((item) => Object.freeze(item))),
     marketTypes: Object.freeze(marketTypes.map((item) => Object.freeze(item))),
