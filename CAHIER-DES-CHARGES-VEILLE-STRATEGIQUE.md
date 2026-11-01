@@ -35,6 +35,8 @@ Faire évoluer MajestiOS vers un outil de développement commercial capable de d
 
 Aucun événement isolé ne prouve automatiquement un besoin, une croissance, une sous-traitance ou une disponibilité immobilière.
 
+Le registre `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` détaille les ressources candidates, leurs usages pour le CRM, leurs limites d’accès et les statuts de validation. Il complète le présent inventaire sans déclarer les sources connectées.
+
 ## 4. Module Emploi
 
 ### 4.1 Candidatures — Nous rejoindre
@@ -135,7 +137,7 @@ Avant toute connexion, documenter : propriétaire, URL officielle, type de resso
 5. Distinguer les faits observés des hypothèses commerciales ; ne pas déduire automatiquement qu'un recrutement signifie une croissance certaine ou un besoin de sous-traitance avéré.
 6. Soumettre les signaux à des règles de qualité avant toute éventuelle diffusion dans le bandeau.
 
-**Statut au 1er novembre 2026 :** inventaire de cadrage à compléter et à valider. Aucune de ces sources n'est déclarée connectée par le présent document. Aucun moteur public de recherche d'emploi n'est demandé sur l'accueil.
+**Statut au 1er novembre 2026 :** inventaire de cadrage à compléter et à valider. Aucune de ces sources n'est déclarée connectée par le présent document. L’API Offres d’emploi France Travail doit notamment être revalidée, la fiche officielle signalant une suspension de son exposition publique. Aucun moteur public de recherche d'emploi n'est demandé sur l'accueil.
 
 
 ## 11. Raccordement au ciblage commercial des appels d'offres
