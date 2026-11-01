@@ -118,7 +118,7 @@
     // « Publics et privés » interroge les deux sources en parallèle, dans des blocs distincts.
     // Les résultats BODACC restent des signaux légaux, jamais des appels d’offres.
     if (market === "all") {
-      empty.textContent = "Recherche des sources officielles BOAMP et BODACC en cours…";
+      empty.textContent = "Les résultats sont regroupés ci-dessous par source ; chaque source répond indépendamment.";
       empty.setAttribute("role", "status");
       for (const source of [
         { value: "public", title: "Marchés publics · BOAMP" },
