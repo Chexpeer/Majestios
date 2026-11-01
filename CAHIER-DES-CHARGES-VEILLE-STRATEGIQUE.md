@@ -100,3 +100,39 @@ Cette structure est logique et ne nécessite pas de déplacer immédiatement les
 ## 10. Critères anti-régression
 
 Pour chaque lot, relever branche, commit et fichiers touchés; vérifier que la zone industrielle et son code restent inchangés; lancer contrôles de syntaxe, build, vérification de site et tests navigateur pertinents; tester erreurs de source, résultats vides, doublons, données obsolètes et liens; confirmer que les nouvelles pages sont incluses dans le build. Aucun module n'est déclaré opérationnel sans test réel. Aucune fusion ni publication de production sans autorisation explicite.
+
+
+## 10. Inventaire initial des ressources de veille Emploi
+
+### Objectif fonctionnel
+La veille Emploi est un traitement discret en arrière-plan. Elle ne crée pas de moteur public de recherche d'emploi sur la page d'accueil et ne doit pas être confondue avec le moteur principal des opportunités commerciales. Les annonces et signaux retenus peuvent alimenter des analyses sectorielles, territoriales et de compétences ; une diffusion dans le bandeau général reste facultative, après contrôle de pertinence, fraîcheur et droits de réutilisation.
+
+### Sources à instruire — aucune intégration ne doit être présumée opérationnelle
+
+| Ressource | Apport attendu | État / garde-fou |
+|---|---|---|
+| France Travail — API Offres d'emploi | Offres individuelles et données de recrutement | L'exposition publique de l'API a été signalée comme suspendue pendant une revue des conditions de diffusion et de réutilisation. Demander les modalités d'accès avant tout développement dépendant de cette API. |
+| France Travail — API Marché du travail | Tendances par métier, secteur, compétences, tensions et embauches | Ressource d'analyse statistique ; ne pas la présenter comme un flux temps réel d'annonces individuelles. |
+| France Travail — ROME 4.0 | Référentiel pour normaliser métiers, compétences et appellations | Étudier le schéma et les conditions d'accès avant implémentation. |
+| France Travail — Mes Événements Emploi | Forums, job datings, événements emploi/formation | Source complémentaire d'événements, pas un substitut aux offres d'emploi. |
+| La Bonne Alternance | Offres d'alternance et entreprises susceptibles de recruter | Étudier l'API, les habilitations, la licence et les limites d'usage ; ressource particulièrement intéressante pour détecter des entreprises qui recrutent potentiellement. |
+| APEC | Emplois cadres et signaux de recrutement de profils qualifiés | Source candidate ; vérifier les possibilités officielles de flux/API et les conditions de réutilisation. |
+| Cadremploi | Recrutements de cadres et profils expérimentés | Source candidate à qualifier ; aucune collecte automatisée sans voie d'accès et droits confirmés. |
+| agentCo | Missions d'agents commerciaux indépendants, apporteurs d'affaires et besoins de force de vente | Source spécialisée prioritaire pour le développement commercial ; vérifier les conditions d'utilisation et obtenir une autorisation adaptée avant toute automatisation. |
+| HelloWork, Indeed, Welcome to the Jungle, LinkedIn, Meteojob | Couverture généraliste, profils, secteurs et signaux d'embauche | Sources candidates, à évaluer séparément ; ne pas assimiler l'accès visible sur le web à une autorisation de collecte ou de republication. |
+| Choisir le service public | Recrutements des fonctions publiques | Vérifier les jeux de données, la fréquence de mise à jour et la licence de chaque ressource retenue. |
+| APECITA et plateformes sectorielles (BTP, industrie, transport/logistique, agriculture, santé, hôtellerie-restauration, intérim) | Couverture de métiers spécialisés | À sélectionner selon les secteurs ciblés et les voies de réutilisation autorisées. |
+| Jeux de données emploi sur data.gouv.fr | Séries statistiques et fichiers publiés par des organismes publics | Vérifier la date de mise à jour de chaque jeu ; un jeu trimestriel ou historique ne doit pas alimenter un flux d'offres présenté comme récent. |
+
+### Fiche obligatoire pour chaque source
+Avant toute connexion, documenter : propriétaire, URL officielle, type de ressource (API, flux partenaire, jeu de données ou consultation manuelle), authentification, licence/conditions, fréquence, couverture géographique, champs disponibles, limites de volume, attribution requise, données personnelles éventuelles, durée de conservation, stratégie de reprise, contact d'accès et statut de validation juridique/technique.
+
+### Traitement attendu
+1. Collecter uniquement par une voie d'accès autorisée.
+2. Conserver l'URL d'origine, l'identifiant source, la date de collecte et la date de publication/mise à jour.
+3. Normaliser métiers et compétences, dédoublonner et détecter les annonces expirées.
+4. Enrichir l'entreprise uniquement à partir de données licites et en conservant la provenance de chaque champ.
+5. Distinguer les faits observés des hypothèses commerciales ; ne pas déduire automatiquement qu'un recrutement signifie une croissance certaine ou un besoin de sous-traitance avéré.
+6. Soumettre les signaux à des règles de qualité avant toute éventuelle diffusion dans le bandeau.
+
+**Statut au 1er novembre 2026 :** inventaire de cadrage à compléter et à valider. Aucune de ces sources n'est déclarée connectée par le présent document. Aucun moteur public de recherche d'emploi n'est demandé sur l'accueil.
