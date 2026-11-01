@@ -15,23 +15,25 @@
     plomberie: { value: "plomberie", label: "Plomberie & chauffage" },
     maintenance: { value: "maintenance", label: "Maintenance & exploitation" }
   };
-  const definition = definitions[space.dataset.world];
+  const catalogue = window.MAJESTIOS_CATALOG || {};
+  const categoryMetadata = (catalogue.searchCategories || []).find(
+    (item) => item.value === space.dataset.world && !item.planned
+  );
+  const fallbackDefinition = definitions[space.dataset.world];
+  const definition = fallbackDefinition
+    ? { ...fallbackDefinition, label: categoryMetadata?.label || fallbackDefinition.label }
+    : null;
   if (!definition) return;
 
   const params = new URLSearchParams(window.location.search);
   const query = (params.get("q") || "").trim();
   const market = params.get("marche") || "all";
   const region = params.get("zone") || "all";
-  const marketLabels = { all: "Publics et privés", public: "Marchés publics", private: "Marchés privés" };
-  const regionLabels = {
-    all: "Toutes les zones", nord: "Zone Nord · exemple", ouest: "Zone Ouest · exemple",
-    sud: "Zone Sud · exemple", "nouvelle-aquitaine": "Nouvelle-Aquitaine",
-    "ile-de-france": "Île-de-France", "auvergne-rhone-alpes": "Auvergne-Rhône-Alpes",
-    occitanie: "Occitanie", "pays-de-la-loire": "Pays de la Loire", bretagne: "Bretagne",
-    normandie: "Normandie", "hauts-de-france": "Hauts-de-France", "grand-est": "Grand Est",
-    "bourgogne-franche-comte": "Bourgogne-Franche-Comté", "centre-val-de-loire": "Centre-Val de Loire",
-    "provence-alpes-cote-d-azur": "Provence-Alpes-Côte d’Azur", corse: "Corse", "outre-mer": "Outre-mer"
-  };
+  const marketTypes = catalogue.marketTypes || [];
+  const searchRegions = catalogue.searchRegions || [];
+  const marketLabels = Object.fromEntries(marketTypes.map((item) => [item.value, item.label]));
+  const regionLabels = Object.fromEntries(searchRegions.map((item) => [item.value, item.label]));
+
 
   const heading = card.querySelector("#category-results-title");
   if (heading) heading.textContent = `Résultats de recherche — ${definition.label}`;
