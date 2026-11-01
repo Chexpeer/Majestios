@@ -98,6 +98,7 @@ async function main() {
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "Une annonce récupérée doit devenir une carte de résultat.");
     assert.match(await page.locator(".opportunity-result-card").innerText(), /Acheteur de test/);
+    assert.equal(await page.getByRole("heading", { name: "Travaux de plomberie terminés" }).count(), 0, "Une annonce dont la date limite est dépassée ne doit pas apparaître dans les résultats.");
     assert.match(await page.locator("#search-active-filters").innerText(), /plomberie/);
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
     assert.equal(regionalFilterSeen, true, "Une requête BOAMP doit appliquer le filtre Nouvelle-Aquitaine au département 79, côté prestation et acheteur.");
