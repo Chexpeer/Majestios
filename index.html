@@ -7,64 +7,87 @@
     <meta name="description" content="MajestiOS accompagne le développement commercial des entreprises en repérant de nouvelles opportunités et signaux de marché.">
     <title>MajestiOS — Développement commercial et prospection inversée</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="zone-artisanale.css">
-    <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}</script>
+    <style>
+:root{color-scheme:dark;--gold:#d5b56c;--ink:#f4f0e6;--muted:#bdb5a4;--line:#33465b;--panel:#101a28}
+*{box-sizing:border-box}
+body.homepage{margin:0;background:#080d15;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.homepage-ticker{height:23px;overflow:hidden;border-bottom:1px solid #d5b56c33;background:#070a0f;color:#bdb5a4;font-size:9px;display:flex;align-items:center}
+.homepage-ticker-track{display:flex;width:max-content;min-width:200%;animation:ticker 75s linear infinite}
+.homepage-ticker-track span{white-space:nowrap;padding-right:5rem}
+.homepage-ticker strong{color:var(--gold)}
+@keyframes ticker{to{transform:translateX(-50%)}}
+.site-header{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin:0;padding:7px clamp(10px,1.8vw,24px);border-bottom:1px solid #d5b56c22;background:#080d15}
+.brand{display:flex;align-items:center;gap:7px;flex:0 0 auto;color:#f4f0e6;text-decoration:none;font-weight:800;font-size:16px;white-space:nowrap}
+.brand-mark{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#f7e6a9,#b28a3c);color:#10151d;font-size:17px}
+.brand-os{color:var(--gold)}
+.site-nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(5px,.9vw,13px);min-width:0}
+.site-nav a{color:#bdb5a4;text-decoration:none;font-size:10px;white-space:nowrap;padding:6px 2px;border-bottom:1px solid transparent}
+.site-nav a:hover,.site-nav [aria-current=page]{color:#f7e6a9;border-bottom-color:#d5b56c}
+.menu-toggle{display:none}
+.search-dock{display:block;width:min(1240px,calc(100% - 24px));margin:7px auto 9px}
+.search-dock summary{cursor:default;list-style:none;color:#d5b56c;font-size:10px;text-align:left;padding:0 2px 5px;font-weight:750;letter-spacing:.03em}
+.search-dock summary::-webkit-details-marker{display:none}
+.search-dock summary:after{content:""}
+.search-dock[open] summary:after{content:""}
+#advanced-search-form{display:grid;grid-template-columns:minmax(190px,1.6fr) repeat(3,minmax(125px,1fr)) auto;gap:6px;align-items:center;padding:7px;border:1px solid #d5b56c35;border-radius:8px;background:#0d141e}
+.feed-search input,.feed-filter-label select{width:100%;min-height:38px;padding:8px 10px;border:1px solid #d5b56c3b;border-radius:7px;background:#101a28;color:#f4f0e6;font:inherit;font-size:11px}
+.feed-search input::placeholder{color:#9f9a8e}
+.feed-search-submit{min-height:38px;padding:8px 13px;border:1px solid var(--gold);border-radius:7px;background:var(--gold);color:#11151c;font-size:11px;font-weight:800}
+.building-home{width:min(1440px,100%);margin:0 auto;padding:0 clamp(8px,1.5vw,20px) 12px}
+.building-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 8px 8px}
+.building-heading h1{font-size:clamp(15px,1.8vw,22px);font-weight:700;letter-spacing:-.02em;margin:0}
+.building-heading h1 span{color:var(--gold)}
+.building-heading p{margin:0;color:#aaa494;font-size:10px;text-align:right}
+.building-scene{position:relative;min-height:calc(100dvh - 210px);height:calc(100dvh - 210px);min-height:480px;overflow:hidden;border:1px solid #52678166;border-radius:12px;background:linear-gradient(180deg,#10243a 0%,#223c52 32%,#45616b 57%,#273a40 75%,#111c27 100%);box-shadow:0 20px 60px #0005}
+.building-scene:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 12%,#e4f3ff24,transparent 45%),linear-gradient(180deg,transparent 0 60%,#080d1599 100%),repeating-linear-gradient(90deg,transparent 0 8%,#dce9f20b 8.1% 8.2%)}
+.cityline{position:absolute;inset:36% 0 0;background:linear-gradient(180deg,#51656a,#263941 58%,#141e27);clip-path:polygon(0 25%,12% 18%,12% 4%,20% 4%,20% 26%,29% 21%,29% 0,36% 0,36% 23%,64% 23%,64% 0,72% 0,72% 24%,82% 18%,82% 4%,89% 4%,89% 25%,100% 18%,100% 100%,0 100%);opacity:.85}
+.ground-road{position:absolute;bottom:-6%;left:-10%;width:120%;height:24%;background:repeating-linear-gradient(90deg,#1c2931 0 90px,#d5b56c 91px 94px,#1c2931 95px 180px);border-top:4px solid #82939a;transform:perspective(300px) rotateX(18deg);transform-origin:top}
+.tower{position:absolute;z-index:2;left:50%;bottom:8%;transform:translateX(-50%);width:min(62%,760px);height:81%;padding:10px 10px 6px;border:2px solid #afc5d4;border-radius:8px 8px 2px 2px;background:linear-gradient(90deg,#c6d5df,#56748b 7%,#d5e2e9 17%,#66869d 48%,#d3e0e7 83%,#304b63);box-shadow:0 30px 65px #0009;display:flex;flex-direction:column}
+.tower:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 8%,#f5f9ff28 8.2% 8.6%,transparent 8.8% 16.5%)}
+.tower-sign{position:absolute;left:18%;right:18%;top:-30px;padding:7px 8px;text-align:center;background:#101d2c;border:1px solid #8b9eaa;color:#f4f0e6;font-size:clamp(12px,1.4vw,18px);font-weight:900;letter-spacing:.08em}
+.tower-sign span{color:var(--gold)}
+.floor-rows{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;min-height:0;gap:3px}
+.floor-row{display:grid;grid-template-columns:42px minmax(0,1fr) 25px;align-items:stretch;gap:8px;flex:1 1 0;min-height:0;padding:3px 5px;border:1px solid #d9e8f277;border-radius:2px;background:linear-gradient(90deg,#1b354bcc,#92afc099 48%,#18344bcc);color:#fff;text-align:left;cursor:pointer;transition:border-color .15s,filter .15s,transform .15s}
+.floor-row:hover,.floor-row:focus-visible,.floor-row[aria-pressed=true]{border-color:#ffe5a0;filter:brightness(1.16);outline:1px solid #d5b56c;outline-offset:0}
+.floor-no{display:grid;place-items:center;background:#10243bdf;border-right:1px solid #d9e8f255;color:#f6d37b;font-weight:900;font-size:clamp(10px,1.1vw,14px)}
+.floor-name{display:flex;align-items:center;padding:0 5px;font-size:clamp(9px,1.15vw,14px);line-height:1.12;font-weight:750;text-shadow:0 1px 3px #0009}
+.floor-windows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;align-items:stretch;padding:4px 0}
+.window{display:block;border:1px solid #d9eaf3;background:linear-gradient(145deg,#e5f6ff,#6398b5 43%,#17354e);box-shadow:inset 0 0 6px #eafaff66}
+.floor-mini{display:grid;place-items:center;border-left:1px solid #d9e8f255;color:#f6d37b;font-size:9px;font-weight:800}
+.floor-mini:after{content:"↗"}
+.building-caption{position:absolute;z-index:3;left:12px;bottom:12px;color:#e1e7e8;font-size:9px;letter-spacing:.08em;text-shadow:0 2px 5px #000;background:#091321bb;padding:7px 9px;border:1px solid #d5b56c33;border-radius:5px}
+.home-help{position:fixed;z-index:20;right:16px;bottom:14px}
+.home-help-toggle{display:flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid #d5b56c88;border-radius:30px;background:#0c1119f2;color:#f4edda;font-size:11px;font-weight:750}
+.home-help-panel{position:absolute;right:0;bottom:50px;width:min(320px,calc(100vw - 24px));padding:15px;border:1px solid #d5b56c55;border-radius:12px;background:#0a111bf7;box-shadow:0 16px 44px #0008}
+.home-help-panel[hidden]{display:none}
+.home-help-panel h2{margin:0 0 8px;font-size:17px}.home-help-panel p,.home-help-panel small{color:#bdb5a4;font-size:11px;line-height:1.5}
+.home-help-panel a{display:block;padding:8px 0;color:#e5cf91;text-decoration:none;font-size:12px}
+.floor-dialog{width:min(560px,calc(100% - 24px));max-height:min(80dvh,650px);padding:0;border:1px solid #d5b56c88;border-radius:14px;background:#0b1420;color:#f4f0e6;box-shadow:0 25px 100px #000b}
+.floor-dialog::backdrop{background:#03070dcc;backdrop-filter:blur(4px)}
+.dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:17px;border-bottom:1px solid #d5b56c33}
+.dialog-head p{margin:0 0 5px;color:var(--gold);font-size:9px;font-weight:900;letter-spacing:.14em}
+.dialog-head h2{margin:0;font-size:21px}
+.dialog-close{width:34px;height:34px;border:1px solid #d5b56c44;border-radius:50%;background:#152234;color:#f4f0e6;font-size:22px}
+.dialog-description{padding:0 17px;color:#c1c7cf;font-size:12px;line-height:1.55}
+.dialog-offices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 17px 17px}
+.dialog-office{display:flex;flex-direction:column;gap:9px;min-height:100px;padding:12px;border:1px solid #d5b56c38;border-radius:9px;background:#111e2e;color:#f4f0e6;text-decoration:none}
+.dialog-office:hover,.dialog-office:focus-visible{border-color:var(--gold);background:#1a2a3d}
+.dialog-office strong{font-size:12px;line-height:1.35}.dialog-office small{margin-top:auto;color:var(--gold);font-size:10px}
+@media(max-width:900px){.site-header{flex-wrap:wrap;gap:5px;padding:6px 10px}.site-nav{width:100%;justify-content:flex-start;gap:14px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}.site-nav::-webkit-scrollbar{display:none}.site-nav a{font-size:10px;padding:4px 0}.building-scene{height:calc(100dvh - 255px);min-height:460px}.tower{width:76%;height:80%}.floor-row{grid-template-columns:32px minmax(0,1fr) 18px;gap:4px;padding:2px}.floor-windows{gap:3px}.floor-name{font-size:clamp(8px,1.4vw,12px)}#advanced-search-form{grid-template-columns:repeat(2,minmax(0,1fr))}.feed-search{grid-column:1/-1}.feed-search-submit{grid-column:1/-1}}
+@media(max-width:600px){.site-header{padding:6px 8px}.site-nav{width:100%;justify-content:flex-start;gap:12px;overflow-x:auto;scrollbar-width:none}.site-nav::-webkit-scrollbar{display:none}.site-nav a{font-size:10px}.search-dock{margin:6px auto 8px}.search-dock summary{font-size:10px}.building-home{padding:0 5px 8px}.building-heading{align-items:flex-start;flex-direction:column;gap:3px;margin-bottom:5px}.building-heading p{text-align:left}.building-scene{height:calc(100dvh - 300px);min-height:450px;border-radius:7px}.tower{width:96%;height:82%;bottom:7%;padding:5px 4px 3px}.tower-sign{left:15%;right:15%;top:-23px;padding:5px;font-size:12px}.floor-rows{gap:2px}.floor-row{grid-template-columns:25px minmax(0,1fr) 12px;gap:2px;padding:1px}.floor-no{font-size:9px}.floor-name{font-size:clamp(8px,2.4vw,12px);padding:0 3px}.floor-windows{gap:2px;padding:2px 0}.floor-mini:after{content:"";display:none}.floor-mini{border:0}.building-caption{font-size:8px;left:5px;bottom:5px;padding:5px}.dialog-offices{grid-template-columns:1fr}.dialog-office{min-height:0;flex-direction:row;align-items:center;justify-content:space-between}.home-help{right:8px;bottom:8px}.home-help-toggle{padding:8px 10px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.homepage-ticker-track{animation:none}.floor-row{transition:none}}
+body.homepage .tender-feed-section{width:min(1240px,calc(100% - 24px));margin:7px auto 9px;padding:0;background:transparent}
+body.homepage .tender-feed-section .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
+body.homepage .tender-feed-section .feed-demo{padding:0;background:transparent;border:0;box-shadow:none}
+body.homepage #advanced-search-form{display:grid;grid-template-columns:minmax(170px,1.5fr) repeat(3,minmax(115px,1fr)) auto;gap:6px;align-items:center;padding:7px;border:1px solid #d5b56c35;border-radius:8px;background:#0d141e}
+body.homepage #advanced-search-form .feed-search{min-width:0}
+body.homepage #advanced-search-form .feed-search input,body.homepage #advanced-search-form .feed-filter-label select{width:100%;min-height:36px;padding:7px 9px;border:1px solid #d5b56c3b;border-radius:7px;background:#101a28;color:#f4f0e6;font:inherit;font-size:11px}
+body.homepage #advanced-search-form .feed-search-submit{min-height:36px;padding:7px 12px;border:1px solid var(--gold);border-radius:7px;background:var(--gold);color:#11151c;font-size:11px;font-weight:800}
+body.homepage .home-help-close{width:30px;height:30px;border:1px solid #d5b56c44;border-radius:50%;background:#152234;color:#f4f0e6;font-size:20px}
+@media(max-width:900px){body.homepage #advanced-search-form{grid-template-columns:repeat(2,minmax(0,1fr))}body.homepage #advanced-search-form .feed-search,body.homepage #advanced-search-form .feed-search-submit{grid-column:1/-1}}
+@media(max-width:600px){body.homepage .tender-feed-section{width:calc(100% - 16px);margin:6px auto 8px}body.homepage #advanced-search-form{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:6px}body.homepage #advanced-search-form .feed-search,body.homepage #advanced-search-form .feed-search-submit{grid-column:1/-1}body.homepage .building-scene{height:calc(100dvh - 300px);min-height:450px}}
+</style>
     <script src="catalogue-majestios.js" defer></script>
-    <script>
-      (function () {
-        function showSceneFallback() {
-          const loading = document.getElementById("scene-loading");
-          if (!loading || loading.dataset.fallbackShown === "true" || loading.classList.contains("hidden")) return;
-          loading.dataset.fallbackShown = "true";
-          const canvas = document.querySelector("#scene canvas");
-          if (canvas) canvas.style.display = "none";
-          const hoverCard = document.getElementById("hover-card");
-          if (hoverCard) hoverCard.style.display = "none";
-          loading.classList.remove("hidden");
-          loading.classList.add("scene-error");
-          loading.setAttribute("role", "alert");
-          loading.innerHTML = `
-            <div class="fallback-campus">
-              <div class="fallback-campus-heading">
-                <span>MAJESTIOS · MODE DE SECOURS</span>
-                <h2>La vue 3D n’a pas pu se charger</h2>
-                <p>Vous pouvez continuer à explorer les rubriques métier ci-dessous. Vérifiez votre connexion puis rechargez la page pour réessayer la scène interactive.</p>
-              </div>
-              <div class="fallback-buildings">
-                <a href="marches-publics.html" style="--building-color:#397ab5"><i>B01 · CENTRAL</i><b>Marchés publics</b><small>Consulter la rubrique métier</small></a>
-                <a href="marches-prives.html" style="--building-color:#39865a"><i>B02 · CENTRAL</i><b>Marchés privés</b><small>Consulter la rubrique métier</small></a>
-                <a href="developpement-commercial.html" style="--building-color:#c8892e"><i>B03 · CENTRAL</i><b>Développement commercial</b><small>Consulter la rubrique métier</small></a>
-                <a href="prospection-inversee.html" style="--building-color:#218d99"><i>B04 · CENTRAL</i><b>Prospection inversée</b><small>Consulter la rubrique métier</small></a>
-                <a href="intelligence-economique.html" style="--building-color:#7b58a8"><i>B05 · CENTRAL</i><b>Intelligence économique</b><small>Consulter la rubrique métier</small></a>
-                <a href="reseaux-synergies.html" style="--building-color:#c96f68"><i>B06 · PÉRIPHÉRIQUE</i><b>Réseaux et synergies</b><small>Consulter la rubrique métier</small></a>
-                <a href="veille-marches.html" style="--building-color:#438bc7"><i>B07 · CENTRAL</i><b>Veille des marchés</b><small>Consulter la rubrique métier</small></a>
-                <a href="accompagnement-appels-offres.html" style="--building-color:#6488ad"><i>B08 · PÉRIPHÉRIQUE</i><b>Accompagnement aux appels d’offres</b><small>Consulter la rubrique métier</small></a>
-                <a href="sous-traitance.html" style="--building-color:#b56b40"><i>B09 · PÉRIPHÉRIQUE</i><b>Sous-traitance</b><small>Consulter la rubrique métier</small></a>
-                <a href="salons-seminaires.html" style="--building-color:#b69a50"><i>B10 · PÉRIPHÉRIQUE</i><b>Salons et séminaires</b><small>Consulter la rubrique métier</small></a>
-                <a href="bodacc-veille-entreprises.html" style="--building-color:#5c8d81"><i>B11 · PÉRIPHÉRIQUE</i><b>Veille des entreprises — BODACC</b><small>Consulter la rubrique métier</small></a>
-                <a href="suivi-commercial.html" style="--building-color:#7b899d"><i>B12 · PÉRIPHÉRIQUE</i><b>Suivi commercial et capitalisation</b><small>Consulter la rubrique métier</small></a>
-              </div>
-              <div class="fallback-campus-footer">MAJESTIOS · ACCÈS AUX RUBRIQUES MÉTIER</div>
-            </div>`;
-        }
-        window.majestiosSceneFallback = showSceneFallback;
-        window.addEventListener("error", function (event) {
-          const target = event.target;
-          if (target && target !== window) {
-            const source = (target.src || target.href || "").toLowerCase();
-            const isSceneResource = target.tagName === "SCRIPT" &&
-              (source.includes("zone-artisanale.js") || source.includes("three.module.js") || source.includes("orbitcontrols.js"));
-            if (!isSceneResource) return;
-          } else if (event.filename && !/zone-artisanale\.js|three\.module\.js|orbitcontrols\.js/i.test(event.filename)) {
-            return;
-          }
-          showSceneFallback();
-        }, true);
-        window.addEventListener("unhandledrejection", showSceneFallback);
-        window.setTimeout(showSceneFallback, 10000);
-      })();
-    </script>
-    <script type="module" src="zone-artisanale.js" onerror="window.majestiosSceneFallback()"></script>
     <script src="app.js" defer></script>
   </head>
   <body class="homepage">
@@ -126,42 +149,90 @@
       </section>
 
 
-    <main class="majestios-immersive-home">
-
-      <section class="industrial-zone-home" id="accueil" aria-labelledby="industrial-zone-title">
-        <div class="industrial-zone-slogan" aria-label="MajestiOS, l’intelligence artificielle qui vous en met plein les yeux">
-          <h1 id="industrial-zone-title">MajestiOS, l’IA qui vous en met plein les yeux.</h1>
+    <main class="building-home" id="accueil">
+      <div class="building-heading">
+        <h1>MajestiOS · <span>l’immeuble du développement commercial</span></h1>
+        <p>12 étages visibles · choisissez directement votre rubrique</p>
+      </div>
+      <section class="building-scene" aria-label="Immeuble virtuel MajestiOS à douze étages">
+        <div class="cityline" aria-hidden="true"></div>
+        <div class="ground-road" aria-hidden="true"></div>
+        <div class="tower" aria-label="Façade du building MajestiOS">
+          <div class="tower-sign">BUILDING <span>♛ MAJESTIOS</span></div>
+          <div class="floor-rows" id="floor-rows"></div>
         </div>
-        <div class="za-main homepage-industrial-layout">
-          <section class="scene-shell" aria-label="Zone industrielle virtuelle 3D interactive">
-            <div id="scene" class="scene" role="application" aria-label="Zone 3D : faites glisser pour tourner, utilisez la molette pour zoomer et sélectionnez un bâtiment.">
-              <div class="scene-loading" id="scene-loading">Préparation de la zone industrielle virtuelle…</div>
-        <div class="zone-map" id="zone-map" role="region" aria-label="Carte interactive des rubriques MajestiOS" hidden><div class="map-header"><strong>CARTE INTERACTIVE · ZONE MAJESTIOS</strong><span>Repérez les rubriques, les voies, les parkings et les espaces verts.</span></div><div class="map-land"><div class="map-road map-road-main"></div><div class="map-road map-road-cross"></div><div class="map-road map-road-upper"></div><div class="map-road map-road-lower"></div><div class="map-green map-green-north" aria-label="Espace vert nord"><span>ESPACE VERT</span></div><div class="map-green map-green-south" aria-label="Espace vert sud"><span>ESPACE VERT</span></div><div class="map-parking map-parking-west" aria-label="Parking visiteurs"><strong>PARKING VISITEURS</strong><div class="parking-bays"></div></div><div class="map-parking map-parking-east" aria-label="Parking entreprises"><strong>PARKING ENTREPRISES</strong><div class="parking-bays"></div></div><div class="map-compass" aria-hidden="true">N ↑</div><div class="map-legend"><span><i class="map-dot public"></i> Marchés publics</span><span><i class="map-dot private"></i> Marchés privés</span><span><i class="map-dot other"></i> Services MajestiOS</span></div><div class="map-buildings" id="map-buildings"></div></div></div>
-              <div class="hover-card" id="hover-card" aria-hidden="true"><span class="hover-card-kicker">ESPACE MAJESTIOS</span><strong data-hover-name></strong><small data-hover-detail></small><span class="hover-card-hint">Cliquez pour ouvrir la rubrique ↗</span></div>
-            </div>
-            <div class="scene-topline"><span class="live-dot"></span> ZONE INDUSTRIELLE · VUE 3D</div>
-            <div class="scene-modes" role="group" aria-label="Choisir votre visite MajestiOS"><button type="button" data-scene-mode="fly" aria-pressed="true" title="Activer la navigation aérienne">Navigation aérienne</button><button type="button" data-scene-mode="drive" aria-pressed="false" title="Explorer la zone au niveau des rues">Street View</button><button type="button" data-scene-mode="map" aria-pressed="false" title="Afficher la carte interactive et choisir une rubrique">Carte interactive</button></div>
-            <div class="scene-controls" aria-label="Commandes de la vue">
-              <button id="view-home" type="button" title="Revenir à la vue générale">Vue générale</button>
-              <button id="zoom-in" type="button" aria-label="Zoom avant">+</button>
-              <button id="zoom-out" type="button" aria-label="Zoom arrière">−</button>
-              <button id="scene-fullscreen" type="button" aria-label="Afficher la zone industrielle en plein écran" aria-pressed="false" title="Passer en plein écran">⛶ Plein écran</button>
-            </div>
-            <div class="walk-pad" aria-label="Commandes de déplacement tactile"><button type="button" data-walk="w" aria-label="Avancer">▲</button><div><button type="button" data-walk="a" aria-label="Aller à gauche">◀</button><button type="button" data-walk="s" aria-label="Reculer">▼</button><button type="button" data-walk="d" aria-label="Aller à droite">▶</button></div></div>
-          </section>
-          <aside class="building-panel" id="building-panel" aria-live="polite" hidden>
-            <p class="panel-kicker">EXPLORATION MAJESTIOS</p>
-            <h2 id="panel-title">Votre espace professionnel</h2>
-            <p id="panel-description">Sélectionnez une rubrique sur la zone interactive.</p>
-            <div class="floor-list" id="floor-list" hidden></div>
-            <a class="button-primary is-disabled" id="open-building" href="index.html" aria-disabled="true" tabindex="-1">Découvrir cette rubrique</a>
-            
-          </aside>
-        </div>
+        <div class="building-caption">BÂTIMENT VIRTUEL · 12 ÉTAGES · 3 BUREAUX PAR ÉTAGE</div>
       </section>
-
-
     </main>
+    <dialog class="floor-dialog" id="floor-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-head">
+        <div><p id="dialog-kicker">BUILDING MAJESTIOS · ÉTAGE 01</p><h2 id="dialog-title">Marchés publics</h2></div>
+        <button class="dialog-close" id="dialog-close" type="button" aria-label="Fermer">×</button>
+      </div>
+      <p class="dialog-description" id="dialog-description"></p>
+      <div class="dialog-offices" id="dialog-offices"></div>
+    </dialog>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const catalog = window.MAJESTIOS_CATALOG;
+        const floorRows = document.getElementById("floor-rows");
+        const dialog = document.getElementById("floor-dialog");
+        const offices = document.getElementById("dialog-offices");
+        if (!catalog || !floorRows || !dialog || !offices) return;
+        const floors = [
+          {id:"B01",name:"Marchés publics",key:"marches-publics",first:"accompagnement-appels-offres.html",second:"veille-marches.html",description:"Repérer les consultations publiques pertinentes et organiser leur qualification."},
+          {id:"B02",name:"Marchés privés",key:"marches-prives",first:"sous-traitance.html",second:"suivi-commercial.html",description:"Repérer les opportunités privées et les besoins des donneurs d’ordre."},
+          {id:"B03",name:"Développement commercial",key:"developpement-commercial",first:"prospection-inversee.html",second:"suivi-commercial.html",description:"Développer une stratégie commerciale et transformer les opportunités en relations d’affaires."},
+          {id:"B04",name:"Prospection inversée",key:"prospection-inversee",first:"intelligence-economique.html",second:"developpement-commercial.html",description:"Identifier les entreprises susceptibles d’avoir besoin de vos produits, services ou compétences."},
+          {id:"B05",name:"Intelligence économique",key:"intelligence-economique",first:"veille-marches.html",second:"bodacc-veille-entreprises.html",description:"Croiser les informations utiles à la compréhension des marchés."},
+          {id:"B06",name:"Réseaux et synergies",key:"reseaux-synergies",first:"salons-seminaires.html",second:"sous-traitance.html",description:"Identifier des complémentarités et faciliter les coopérations commerciales."},
+          {id:"B07",name:"Veille des marchés",key:"veille-marches",first:"marches-publics.html",second:"accompagnement-appels-offres.html",description:"Surveiller les consultations selon les critères de recherche de l’entreprise."},
+          {id:"B08",name:"Accompagnement aux appels d’offres",key:"accompagnement-appels-offres",first:"marches-publics.html",second:"marches-prives.html",description:"Structurer la préparation des candidatures et la compréhension des dossiers."},
+          {id:"B09",name:"Sous-traitance",key:"sous-traitance",first:"marches-prives.html",second:"reseaux-synergies.html",description:"Repérer les besoins complémentaires et les opportunités de sous-traitance."},
+          {id:"B10",name:"Salons et séminaires",key:"salons-seminaires",first:"reseaux-synergies.html",second:"developpement-commercial.html",description:"Identifier les événements utiles aux rencontres et au développement commercial."},
+          {id:"B11",name:"Veille des entreprises · BODACC",key:"bodacc-veille-entreprises",first:"prospection-inversee.html",second:"intelligence-economique.html",description:"Suivre les événements et annonces d’entreprise, notamment au BODACC."},
+          {id:"B12",name:"Suivi commercial et capitalisation",key:"suivi-commercial",first:"developpement-commercial.html",second:"intelligence-economique.html",description:"Organiser les échanges et capitaliser sur les enseignements commerciaux."}
+        ];
+        const rubricFor = (key) => catalog.rubrics.find((item) => item.key === key);
+        floors.forEach((floor, index) => {
+          const rubric = rubricFor(floor.key);
+          if (!rubric || !rubric.href) return;
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "floor-row";
+          button.setAttribute("aria-label", "Ouvrir l’étage " + (index + 1) + " : " + floor.name);
+          button.setAttribute("aria-haspopup", "dialog");
+          button.innerHTML = '<span class="floor-no">' + String(index + 1).padStart(2, "0") + '</span><span class="floor-name"></span><span class="floor-windows" aria-hidden="true"><i class="window"></i><i class="window"></i><i class="window"></i></span><span class="floor-mini" aria-hidden="true"></span>';
+          button.querySelector(".floor-name").textContent = floor.name;
+          button.addEventListener("click", function () {
+            document.getElementById("dialog-kicker").textContent = "BUILDING MAJESTIOS · ÉTAGE " + String(index + 1).padStart(2, "0");
+            document.getElementById("dialog-title").textContent = floor.name;
+            document.getElementById("dialog-description").textContent = floor.description;
+            offices.replaceChildren();
+            [
+              {label:floor.name,href:rubric.href,level:"Rubrique principale"},
+              {label:"Explorer le dossier",href:floor.first,level:"Sous-dossier"},
+              {label:"Approfondir la rubrique",href:floor.second,level:"Page métier"}
+            ].forEach(function (office) {
+              const link = document.createElement("a");
+              link.className = "dialog-office";
+              link.href = office.href;
+              const strong = document.createElement("strong");
+              strong.textContent = office.label;
+              const small = document.createElement("small");
+              small.textContent = office.level + " ↗";
+              link.append(strong, small);
+              offices.append(link);
+            });
+            if (!dialog.open) dialog.showModal();
+          });
+          floorRows.append(button);
+        });
+        document.getElementById("dialog-close")?.addEventListener("click", () => dialog.close());
+        dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+        document.addEventListener("keydown", (event) => { if (event.key === "Escape" && dialog.open) dialog.close(); });
+      });
+    </script>
 
     <aside class="home-help" aria-label="Aide à la visite MajestiOS">
       <button class="home-help-toggle" id="home-help-toggle" type="button" aria-expanded="false" aria-controls="home-help-panel">
