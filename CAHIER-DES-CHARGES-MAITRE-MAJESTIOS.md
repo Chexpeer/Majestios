@@ -2,7 +2,7 @@
 
 Version : 2026-11-01  
 Statut : document de cadrage à valider par le Fondateur. Il consolide les exigences produit et sépare les décisions établies, les périmètres futurs et les points restant à arbitrer.  
-Branche de travail : `chantier-recherche-donnees-gardes-fous-2026-11-01`  
+Branche de travail : `refonte-moteur-navigation-mobile-2026-11-01`  
 Documents complémentaires : `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md`, `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md`, `ARBORESCENCE-MAJESTIOS.md`, `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md`, `CARTOGRAPHIE-DONNEES-STATISTIQUES-MAJESTIOS.md`, `MODELE-COMMUN-DONNEES-CRM-MAJESTIOS.md`.
 
 ## 1. Vision du produit
@@ -21,6 +21,40 @@ Formulations de positionnement à préserver dans les futurs travaux de communic
 - « MajestiOS, l’ADN qui transmet l’information stratégique. »
 
 Le ton du site doit rester professionnel, accessible et parfois humoristique avec mesure. La terminologie produit à privilégier est **développement commercial**.
+
+
+### Principe directeur — adaptation de l’offre et de la demande
+
+MajestiOS doit être conçu comme un système évolutif de développement commercial capable, à terme, de couvrir l’ensemble des fonctions prévues par le cahier des charges. Cette ambition globale ne signifie pas que toutes les fonctions doivent être disponibles, activées ou visibles dès le lancement. Le périmètre opérationnel initial est volontairement limité aux capacités les mieux maîtrisées, puis peut s’étendre sans remettre en cause les principes d’architecture.
+
+Principe central : **adapter une offre à une demande et une demande à une offre, en s’adaptant au contexte.**
+
+- **Adapter une offre à une demande** : partir d’un besoin exprimé ou qualifié, puis rechercher les entreprises, produits, services, compétences, fournisseurs, sous-traitants ou partenaires susceptibles d’y répondre.
+- **Adapter une demande à une offre** : partir des compétences, produits, services ou capacités d’une entreprise, puis rechercher les marchés, clients, projets et interlocuteurs qui pourraient leur correspondre.
+- **S’adapter au contexte** : tenir compte de la situation, du secteur, du territoire, du calendrier, du niveau de preuve disponible et de l’objectif de l’utilisateur. Aucun parcours commercial unique ne doit être imposé à toutes les situations.
+
+### Deux démarches complémentaires de prospection
+
+**Prospection passive — détecter et qualifier.** Elle couvre la recherche d’opportunités déjà publiées (annonces, appels d’offres, cessions, offres de sous-traitance) ainsi que la détection de signaux économiques susceptibles de révéler des besoins futurs. « Passive » décrit ici le mode de détection, et non l’absence de travail commercial ultérieur.
+
+**Prospection active — provoquer et concrétiser.** Elle couvre les démarches engagées pour faire émerger ou transformer des opportunités : ciblage, prise de contact, e-mailing, phoning, diffusion ciblée d’opportunités, relances, mise en relation et suivi commercial, dans le respect des autorisations et règles applicables.
+
+Ces deux démarches sont des modes complémentaires, pas des silos étanches. Une opportunité détectée passivement peut déclencher une action active ; une campagne active peut aussi commencer sans signal préalable, à partir d’un objectif commercial défini.
+
+### Détection, interprétation et niveau de preuve
+
+MajestiOS doit distinguer explicitement :
+1. le **fait publié ou observé**, avec sa source et sa date ;
+2. l’**information normalisée ou enrichie**, avec la transformation effectuée ;
+3. l’**hypothèse commerciale**, déduite du signal mais non confirmée ;
+4. le **besoin ou l’opportunité validé(e)**, après vérification appropriée.
+
+Un signal économique ne prouve pas, à lui seul, une intention d’achat, un besoin de prestataire ou la disponibilité d’un actif. Les hypothèses doivent être présentées comme telles, avec leurs limites et, lorsque c’est pertinent, un niveau de confiance. Toute action commerciale doit respecter les règles de contact, de confidentialité et de réutilisation des données applicables.
+
+### Cycle fonctionnel transversal
+
+Le cycle de référence reste : **Détecter → Qualifier → Identifier → Contacter → Transformer → Capitaliser.** Il s’agit d’une capacité de bout en bout, pas d’un chemin obligatoire : selon le contexte, MajestiOS peut commencer par une demande, une offre, un objectif commercial ou un signal, puis recommander uniquement les étapes pertinentes. La préparation de l’alimentation future du CRM ne vaut pas autorisation d’activer dès maintenant une intégration opérationnelle.
+
 
 ## 2. Décisions produit à préserver
 
