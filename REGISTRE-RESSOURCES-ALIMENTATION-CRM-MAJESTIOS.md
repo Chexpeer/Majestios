@@ -142,3 +142,18 @@ Ce moteur ne constitue pas une source de données officielle ni une interprétat
 - Données visées : CA publié par exercice, date de clôture, évolution comparable, source/provenance et état de disponibilité.
 - Statut actuel : besoin fonctionnel documenté ; les sources financières ne sont pas déclarées connectées ni validées par cette spécification.
 - Garde-fous : ne pas convertir l'absence de données en zéro, ne pas assimiler CA à bénéfice ou solvabilité, ne pas exclure automatiquement une entreprise et documenter les licences/conditions de réutilisation.
+
+
+## Nouvelle piste — sources pour les statistiques et études commerciales (2026-11-01)
+
+Le chantier de valorisation des données devra relier chaque indicateur à ses sources, à ses droits et à ses limites. Points de départ identifiés :
+- INSEE / Sirene pour l'identité et les établissements ; les champs Sirene ne remplacent pas les comptes financiers.
+- BODACC pour les événements légaux et commerciaux publiés ; un événement n'est pas une preuve de disponibilité d'un actif.
+- Données essentielles de la commande publique / DECP et sources officielles de marchés pour les attributions, sous réserve d'évaluer couverture, identifiants des titulaires et licence.
+- Sources de comptes annuels et d'informations financières à identifier précisément, notamment disponibilité/confidentialité des comptes et droits de réutilisation.
+- Sources statistiques publiques d'emploi, de métiers et de territoires, à inventorier selon les indicateurs choisis.
+- Sources immobilières professionnelles explicites ou partenaires autorisés ; les données de transactions ne prouvent pas une disponibilité actuelle.
+
+Pour chaque source, ajouter un statut distinct : identifiée, conditions analysées, accès/API testé, droits de réutilisation commerciale validés, connecteur opérationnel, surveillance en place. Ne pas promouvoir une source au statut « validée » sur la seule base d'une page web ou d'un accès public.
+
+Référence de conception : `MODELE-VALORISATION-DONNEES-ET-ETUDES-COMMERCIALES-MAJESTIOS.md`. Cette piste reste à instruire ; aucune nouvelle source financière ou immobilière n'est déclarée connectée par cette note.
