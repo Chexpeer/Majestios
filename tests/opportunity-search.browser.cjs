@@ -140,9 +140,10 @@ async function main() {
     await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".bodacc-result-card").count(), 1, "La catégorie bodacc-cessions doit conserver le signal de cession correspondant.");
 
+    bodaccCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=immobilier", { waitUntil: "domcontentloaded" });
     await page.getByText(/Immobilier professionnel.*source de données n’est pas encore connectée/).waitFor({ timeout: 10000 });
-    assert.equal(bodaccCalls, 1, "Une rubrique immobilière non connectée ne doit pas lancer une recherche BODACC trompeuse.");
+    assert.equal(bodaccCalls, 0, "Une rubrique immobilière non connectée ne doit pas lancer une recherche BODACC trompeuse.");
     assert.equal(await page.locator(".bodacc-result-card").count(), 0, "Aucun signal BODACC ne doit être présenté comme une annonce immobilière.");
 
     apiCalls = 0;
