@@ -100,6 +100,10 @@ async function main() {
     assert.equal(bodaccCalls, 1, "La vue publics et privés doit interroger BODACC séparément.");
     assert.equal(await page.locator(".opportunity-result-card").count(), 2, "Les résultats des deux sources doivent rester visibles dans des groupes distincts.");
 
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=outre-mer", { waitUntil: "domcontentloaded" });
+    await page.getByText(/filtre BODACC pour l’Outre-mer n’est pas encore pris en charge/).waitFor({ timeout: 10000 });
+    assert.equal(bodaccCalls, 1, "Un filtre BODACC non pris en charge ne doit pas lancer de recherche territoriale trompeuse.");
+
     await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 }).catch(() => {});
     assert.equal(await page.locator("#category-results-panel").count(), 1, "La page de catégorie doit conserver son panneau de résultats.");
