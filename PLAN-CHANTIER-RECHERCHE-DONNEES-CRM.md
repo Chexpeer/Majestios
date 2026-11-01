@@ -44,7 +44,7 @@ Statut : audit initial réalisé ; corrections progressives à valider. Aucune p
 ### Lot 2 — chaîne de données et premier enrichissement d’entreprises
 **Première brique ajoutée :** `company-targeting.js` fournit des fonctions pures de normalisation SIREN/SIRET, dédoublonnage, scoring explicable selon codes APE/NAF et départements, et sélection sans compléter artificiellement un quota. `tests/company-targeting.test.cjs` couvre ces fonctions, mais les tests n’ont pas encore été exécutés dans cette session. Le module est inclus dans `build.js`, mais il n’est pas encore connecté à une API d’entreprises ni à une interface utilisateur.
 
-**Suite immédiate :** exécuter le test dédié, vérifier les paramètres documentés de l’API Recherche d’Entreprises, créer un adaptateur source isolé, puis relier les résultats à une interface de qualification. Le premier livrable est une liste de candidats traçable, dédoublonnée et expliquée ; ce n’est pas encore un CRM complet ni une campagne automatique.
+**Suite immédiate :** exécuter le test dédié, valider l’adaptateur avec des réponses réelles contrôlées, puis relier les résultats à une interface de qualification. Le premier livrable est une liste de candidats traçable, dédoublonnée et expliquée ; ce n’est pas encore un CRM complet ni une campagne automatique.
 
 
 Collecter → conserver la provenance → normaliser → valider les champs → dédupliquer → classer le statut → qualifier → rapprocher avec un profil d'entreprise autorisé → soumettre à validation humaine → publier / retirer → historiser les changements.
