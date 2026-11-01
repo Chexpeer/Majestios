@@ -177,35 +177,55 @@ function setIntent(intent) {
   formFeedback.hidden = true;
 }
 
-function populateSearchFilters() {
+const PUBLIC_SEARCH_CATEGORIES = [
+  ["services", "Services numériques"],
+  ["travaux", "Travaux & aménagement"],
+  ["conseil", "Conseil & études"],
+  ["batiment", "Bâtiment & construction"],
+  ["renovation", "Rénovation énergétique et générale"],
+  ["electricite", "Électricité"],
+  ["plomberie", "Plomberie & chauffage"],
+  ["maintenance", "Maintenance & exploitation"]
+];
+const PRIVATE_SEARCH_CATEGORIES = [
+  ["travaux", "Travaux & rénovation"],
+  ["services", "Services aux entreprises"],
+  ["conseil", "Conseil & études"],
+  ["batiment", "Bâtiment & aménagement"],
+  ["maintenance", "Entretien & maintenance"]
+];
+
+function populateSearchFilters(marketValue = "", selectedCategory = "all") {
   const categorySelect = document.querySelector("#feed-sector");
-  if (categorySelect && majCatalog.searchCategories.length) {
-    categorySelect.replaceChildren();
-    const plannedGroup = document.createElement("optgroup");
-    plannedGroup.label = "Catégories prévues · non encore connectées";
-    majCatalog.searchCategories.forEach((category) => {
-      const option = document.createElement("option");
-      option.value = category.value;
-      option.textContent = category.planned ? `${category.label} · à venir` : category.label;
-      option.disabled = Boolean(category.planned);
-      if (category.planned) plannedGroup.append(option);
-      else categorySelect.append(option);
-    });
-    if (plannedGroup.children.length) categorySelect.append(plannedGroup);
-  }
-
   const marketSelect = document.querySelector("#feed-market-type");
-  if (marketSelect && majCatalog.marketTypes.length) {
-    marketSelect.replaceChildren();
-    majCatalog.marketTypes.forEach((marketType) => {
+  const regionSelect = document.querySelector("#feed-region");
+
+  if (marketSelect && marketSelect.value !== marketValue) marketSelect.value = marketValue;
+  if (categorySelect) {
+    categorySelect.replaceChildren();
+    const placeholder = document.createElement("option");
+    placeholder.value = "all";
+    placeholder.textContent = marketValue
+      ? "Toutes les catégories"
+      : "2. Choisir d’abord un type";
+    categorySelect.append(placeholder);
+    const source = marketValue === "public"
+      ? PUBLIC_SEARCH_CATEGORIES
+      : marketValue === "private"
+        ? PRIVATE_SEARCH_CATEGORIES
+        : [];
+    source.forEach(([value, label]) => {
       const option = document.createElement("option");
-      option.value = marketType.value;
-      option.textContent = marketType.label;
-      marketSelect.append(option);
+      option.value = value;
+      option.textContent = label;
+      categorySelect.append(option);
     });
+    categorySelect.disabled = !marketValue;
+    categorySelect.value = source.some(([value]) => value === selectedCategory)
+      ? selectedCategory
+      : "all";
   }
 
-  const regionSelect = document.querySelector("#feed-region");
   if (regionSelect && majCatalog.searchRegions?.length) {
     regionSelect.replaceChildren();
     const plannedRegions = document.createElement("optgroup");
@@ -216,7 +236,6 @@ function populateSearchFilters() {
       option.value = region.value;
       option.textContent = region.planned ? `${region.label} · à venir` : region.label;
       option.disabled = Boolean(region.planned);
-      if (region.planned) option.setAttribute("disabled", "disabled");
       if (region.planned) plannedRegions.append(option);
       else regionSelect.append(option);
     });
@@ -224,15 +243,11 @@ function populateSearchFilters() {
   }
 }
 
-populateSearchFilters();
-
 const initialSearchParams = new URLSearchParams(window.location.search);
-const initialCategory = initialSearchParams.get("categorie");
-const initialMarketType = initialSearchParams.get("marche");
-if (initialMarketType === "public" || initialMarketType === "private") {
-  const marketControl = document.querySelector("#feed-market-type");
-  if (marketControl) marketControl.value = initialMarketType;
-}
+const initialMarketType = initialSearchParams.get("marche") || "";
+const initialCategory = initialSearchParams.get("categorie") || "all";
+populateSearchFilters(initialMarketType, initialCategory);
+
 const initialRegion = initialSearchParams.get("zone");
 if (initialRegion) {
   const regionControl = document.querySelector("#feed-region");
@@ -240,17 +255,15 @@ if (initialRegion) {
     regionControl.value = initialRegion;
   }
 }
-
-if (initialCategory && majCatalog.searchCategories.some((item) => item.value === initialCategory && !item.planned)) {
-  const categoryControl = document.querySelector("#feed-sector");
-  if (categoryControl) categoryControl.value = initialCategory;
-}
 const initialKeyword = initialSearchParams.get("q");
 if (initialKeyword) {
   const keywordControl = document.querySelector("#feed-search");
   if (keywordControl) keywordControl.value = initialKeyword;
 }
 
+document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
+  populateSearchFilters(event.target.value, "all");
+});
 if (advancedSearchForm) {
   advancedSearchForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -266,7 +279,9 @@ if (advancedSearchForm) {
 
   // Une catégorie active ouvre sa page de résultats dédiée ; les recherches transversales
   // et les catégories planifiées restent sur la page générale.
-  const selectedCategory = majCatalog.searchCategories.find((item) => item.value === category && !item.planned && item.href);
+  const selectedCategory = marketType === "public"
+    ? majCatalog.searchCategories.find((item) => item.value === category && !item.planned && item.href)
+    : null;
   const destination = selectedCategory ? selectedCategory.href : "resultats-recherche.html";
 
   window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
