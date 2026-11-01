@@ -125,7 +125,8 @@ async function main() {
     assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
     const demoRegion = page.locator('#feed-region option[value="nord"]');
     assert.equal(await demoRegion.count(), 1, "Les anciennes zones de démonstration peuvent rester documentées.");
-    assert.equal(await demoRegion.isDisabled(), true, "Les zones Nord/Ouest/Sud de démonstration doivent rester désactivées et non filtrables.");
+    const demoRegionState = await demoRegion.evaluate((option) => ({ disabled: option.disabled, attribute: option.getAttribute("disabled"), parentDisabled: option.parentElement?.disabled, parentTag: option.parentElement?.tagName }));
+    assert.ok(demoRegionState.disabled || demoRegionState.parentDisabled, `Les zones Nord/Ouest/Sud de démonstration doivent rester désactivées et non filtrables : ${JSON.stringify(demoRegionState)}`);
     assert.match(await page.locator('#feed-region optgroup').innerText(), /à connecter/);
 
     await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
