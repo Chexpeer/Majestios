@@ -66,8 +66,9 @@ Lire dans cet ordre avant de reprendre les travaux :
 3. SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md — parcours et critères d'acceptation ;
 4. CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md — sources et signaux ;
 5. ARBORESCENCE-MAJESTIOS.md — structure des pages ;
-6. PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md — lots et garde-fous.
+6. PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md — lots et garde-fous ;
+7. MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md — statut des exigences et preuves attendues.
 
 MajestiOS est un outil de **développement commercial assisté par IA**. L'accompagnement humain et technique aux appels d'offres, le ciblage d'entreprises par codes APE/NAF et département, la diffusion ciblée avec proposition d'accompagnement, la veille emploi discrète et les pistes immobilières professionnelles appartiennent au périmètre documenté. Leur mention ne signifie pas qu'ils sont tous implémentés ou connectés.
 
-7. MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md — exigences, statut prudent, preuves attendues et feuille de route.
+Le registre des décisions établies et des arbitrages ouverts se trouve dans la section 11 de `CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md`. Ne pas créer un registre parallèle sans besoin explicite.
