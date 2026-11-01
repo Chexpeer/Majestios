@@ -1048,14 +1048,6 @@ if (!fs.existsSync(browserSearchTestPath)) {
   }
 }
 
-if (errors.length) {
-  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
-  process.exitCode = 1;
-} else {
-  console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
-}
-
-
 // Lot 24 — qualification explicable : aucune donnée administrative ne vaut validation métier.
 const companyFitPath = path.join(root, "company-fit.js");
 const companyFitTestPath = path.join(root, "tests", "company-fit.test.cjs");
@@ -1066,4 +1058,12 @@ if (fs.existsSync(companyFitPath)) {
   for (const safeguard of ["manual_review_required", "qualificationsAndCertifications", "comparableReferences", "humanAndMaterialCapacity", "marketEligibility", "head_office_outside_scope_check_local_establishment", "ne prouve ni la compétence"]) {
     if (!fitSource.includes(safeguard)) errors.push(`Qualification entreprises : garde-fou absent : ${safeguard}`);
   }
+}
+
+
+if (errors.length) {
+  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
+  process.exitCode = 1;
+} else {
+  console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
 }
