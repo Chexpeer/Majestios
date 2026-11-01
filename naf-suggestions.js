@@ -16,15 +16,16 @@
     .trim();
 
   const RULES = [
-    { code: "43.21A", label: "Installation électrique", keywords: ["electricite", "installation electrique", "reseau electrique", "eclairage", "courant fort", "courant faible"] },
+    { code: "43.21A", label: "Installation électrique", keywords: ["electricite", "installation electrique", "reseau electrique", "eclairage", "courant fort", "courant faible", "renovation energetique"] },
     { code: "43.22A", label: "Plomberie et installations sanitaires", keywords: ["plomberie", "sanitaire", "reseau eau", "canalisation", "robinetterie"] },
-    { code: "43.22B", label: "Chauffage, ventilation et climatisation", keywords: ["chauffage", "climatisation", "pompe a chaleur", "ventilation", "cvc", "equipement thermique"] },
+    { code: "43.22B", label: "Chauffage, ventilation et climatisation", keywords: ["chauffage", "climatisation", "pompe a chaleur", "ventilation", "cvc", "equipement thermique", "renovation energetique"] },
     { code: "43.99C", label: "Maçonnerie et gros œuvre", keywords: ["maconnerie", "gros oeuvre", "beton arme", "fondation", "mur porteur"] },
-    { code: "43.32A", label: "Menuiserie bois et PVC", keywords: ["menuiserie", "fenetre", "porte", "volet", "agencement bois"] },
+    { code: "43.32A", label: "Menuiserie bois et PVC", keywords: ["menuiserie", "fenetre", "porte", "volet", "agencement bois", "renovation energetique"] },
     { code: "43.34Z", label: "Peinture et vitrerie", keywords: ["peinture", "peintre", "vitrerie", "ravalement", "revetement mural"] },
     { code: "43.91B", label: "Couverture", keywords: ["couverture", "couvreur", "toiture", "tuile", "ardoise"] },
     { code: "43.12A", label: "Terrassement", keywords: ["terrassement", "excavation", "nivellement", "plateforme chantier"] },
     { code: "43.99A", label: "Étanchéification", keywords: ["etancheite", "etancheification", "infiltration toiture"] },
+    { code: "43.29A", label: "Travaux d’isolation", keywords: ["isolation thermique", "isolation des combles", "isolation facade", "renovation energetique"] },
     { code: "81.21Z", label: "Nettoyage courant des bâtiments", keywords: ["nettoyage", "menage", "entretien locaux", "proprete", "nettoyage bureaux"] },
     { code: "81.30Z", label: "Services d’aménagement paysager", keywords: ["espaces verts", "paysagiste", "entretien jardin", "elagage", "plantation"] },
     { code: "62.01Z", label: "Programmation informatique", keywords: ["developpement logiciel", "developpement web", "application informatique", "programmation", "site internet"] },
