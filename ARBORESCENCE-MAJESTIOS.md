@@ -226,3 +226,15 @@ Sous « Développement commercial » et le dossier « Marchés publics », l'arb
 La cible d'environ dix entreprises par département et par opportunité est un objectif de sélection, pas un quota à remplir avec des entreprises inadéquates. Les pages et formulaires correspondants doivent être ajoutés dans un lot fonctionnel dédié avec liens, états d'erreur, droits d'accès et tests. Cette exigence ne justifie pas d'ajouter des listes d'entreprises ou d'appels d'offres sur l'accueil épuré.
 
 Références de reprise pour toute IA : DOCUMENTATION-REPRISE-IA-MAJESTIOS.md et SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md.
+
+
+### Qualification d’entreprises — suggestions APE/NAF
+
+- qualification-entreprises.html : formulaire de préqualification des entreprises par code APE/NAF et département.
+- naf-suggestions.js : suggestions lexicales explicables à partir de l’intitulé du marché ; sélection explicite par l’opérateur.
+- company-targeting.js : interrogation de l’API Recherche d’Entreprises, normalisation, dédoublonnage, scoring et sélection plafonnée.
+- company-targeting-page.js : orchestration du formulaire et affichage des candidats.
+- tests/naf-suggestions.test.cjs et tests/company-targeting.test.cjs : tests unitaires dédiés.
+- .github/workflows/majestios-anti-regression.yml : tests ciblés, build et vérification structurelle sur la branche de chantier.
+
+Les suggestions APE/NAF restent indicatives ; elles ne remplacent ni la lecture du DCE, ni la validation humaine des codes et des capacités de l’entreprise.
