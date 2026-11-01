@@ -1030,12 +1030,12 @@ if (!fs.existsSync(governancePlanPath)) {
   }
 }
 // Lot 25 — anti-régression du rendu mobile de la page générale de résultats.
-const generalResultsPath = path.join(root, "resultats-recherche.html");
+const mobileGeneralResultsPath = path.join(root, "resultats-recherche.html");
 const generalResultsEnginePath = path.join(root, "search-results.js");
-if (!fs.existsSync(generalResultsPath)) {
+if (!fs.existsSync(mobileGeneralResultsPath)) {
   errors.push("Résultats mobiles : page générale resultats-recherche.html absente");
 } else {
-  const resultsHtml = fs.readFileSync(generalResultsPath, "utf8");
+  const resultsHtml = fs.readFileSync(mobileGeneralResultsPath, "utf8");
   if (!resultsHtml.includes('name="viewport" content="width=device-width, initial-scale=1"')) errors.push("Résultats mobiles : méta viewport absente");
   if (!resultsHtml.includes('src="search-results.js"')) errors.push("Résultats mobiles : contrôleur search-results.js absent");
   if (!resultsHtml.includes(".opportunity-result-card { display: grid; grid-template-columns: minmax(0, 1fr); }")) errors.push("Résultats mobiles : carte à une colonne absente");
