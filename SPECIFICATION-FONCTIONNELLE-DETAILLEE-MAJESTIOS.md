@@ -209,3 +209,6 @@ Les technologies backend, les sources exactes d'annuaires d'entreprises, le cana
 ## 14. Historique de mise à jour
 
 Cette spécification rassemble les exigences de produit discutées et documentées à la date du 1er novembre 2026. Toute modification ultérieure doit préciser : décision nouvelle ou clarification d'une exigence existante, documents impactés, critères d'acceptation et état d'implémentation.
+
+## 15. Traçabilité et réalisation
+Chaque exigence de cette spécification doit être suivie dans `MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md`, avec statut, fichiers concernés, preuve de validation attendue et lot de réalisation. La matrice doit être mise à jour au fil des commits et ne doit jamais présenter une fonction simplement documentée comme opérationnelle.
