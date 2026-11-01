@@ -157,3 +157,17 @@ Le chantier de valorisation des données devra relier chaque indicateur à ses s
 Pour chaque source, ajouter un statut distinct : identifiée, conditions analysées, accès/API testé, droits de réutilisation commerciale validés, connecteur opérationnel, surveillance en place. Ne pas promouvoir une source au statut « validée » sur la seule base d'une page web ou d'un accès public.
 
 Référence de conception : `MODELE-VALORISATION-DONNEES-ET-ETUDES-COMMERCIALES-MAJESTIOS.md`. Cette piste reste à instruire ; aucune nouvelle source financière ou immobilière n'est déclarée connectée par cette note.
+
+
+## Évaluation prioritaire des sources pour les statistiques (2026-11-01)
+
+| Source | Usage statistique potentiel | Indication documentaire actuelle | Contrôles restant à effectuer |
+|---|---|---|---|
+| DECP — jeux consolidés du Ministère de l'Économie / data.gouv.fr | Attributions, acheteurs, titulaires et montants publiés | Des jeux consolidés et des jeux conformes aux schémas sont référencés ; la licence affichée doit être vérifiée sur le jeu exact retenu | Couverture, période, qualité des identifiants, doublons, montants et définitions, réutilisation du jeu exact |
+| INSEE — Sirene / Annuaire des Entreprises | Unités légales, établissements, activités et territoires | Source candidate pour l'identification et le dédoublonnage ; diffusion partielle possible | Accès, champs exacts, conditions, statut de diffusion et restrictions de réutilisation |
+| INPI / RNE — comptes annuels non confidentiels | Chiffre d'affaires et autres postes des comptes publiés lorsqu'ils sont présents | L'INPI documente des comptes annuels non confidentiels via ses accès/API ; une part des dépôts peut être confidentielle | Compte et accès, format/schema, couverture, champs CA, confidentialité, licence et autorisation pour chaque usage commercial |
+| BODACC | Événements publiés de la vie des entreprises | Source candidate déjà décrite dans le registre | Qualité des identifiants, fraîcheur, conditions et limites d'inférence |
+
+Références de départ : DECP validés (https://data.economie.gouv.fr/explore/assets/decp-v3-marches-valides/), DECP consolidés (https://www.data.gouv.fr/datasets/donnees-essentielles-de-la-commande-publique-fichiers-consolides), Sirene (https://www.insee.fr/fr/information/3591226), accès API INPI/RNE et comptes annuels non confidentiels (https://data.inpi.fr/content/editorial/Acces_API_Entreprises), BODACC (https://www.bodacc.fr/pages/donnees-ouvertes-et-api/), recommandations CNIL (https://www.cnil.fr/fr/recommandations-reutilisateurs-donnees-internet).
+
+Les fiches officielles indiquent une piste de données, pas un statut « connectée » ni une validation juridique pour tous les usages. Le plan d'évaluation est détaillé dans `PLAN-PILOTE-STATISTIQUES-MAJESTIOS.md`.
