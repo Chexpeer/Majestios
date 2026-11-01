@@ -105,9 +105,10 @@ Les fichiers HTML restent à la racine du dépôt pour préserver les liens rela
 5. Retirer les fonctions redondantes de l’accueil sans supprimer les fonctions requises dans leurs pages dédiées.
 6. Ne pas considérer les exemples de résultats ou formulaires de démonstration comme des services connectés.
 
-## Pages de résultats par catégorie
+## Pages de résultats et taxonomie de recherche
 
-Les huit catégories actives disposent chacune d’une page dédiée, alimentée par le script commun `category-results.js` :
+### Catégories publiques
+Les huit catégories publiques possèdent des pages dédiées :
 - `categorie-services-numeriques.html`
 - `categorie-travaux-amenagement.html`
 - `categorie-conseil-etudes.html`
@@ -117,11 +118,26 @@ Les huit catégories actives disposent chacune d’une page dédiée, alimentée
 - `categorie-plomberie-chauffage.html`
 - `categorie-maintenance.html`
 
-Le parcours transmet les paramètres `q` (mots-clés), `marche` (public/privé) et `zone` (localisation). Une catégorie choisie est prioritaire pour la destination : le filtre de marché reste appliqué comme critère sur sa page, plutôt que de détourner l’utilisateur vers une page générique. Chaque page expose une zone de résultats, récapitule les critères reçus et indique clairement qu’aucune annonce réelle n’est affichée tant que les sources ne sont pas connectées. Les catégories prévues mais désactivées ne doivent pas être présentées comme fonctionnelles.
+### Catégories privées
+Le sélecteur privé regroupe neuf catégories, réparties par état de connexion :
+- **BODACC, moteur connecté** : `bodacc-creations`, `bodacc-cessions`, `bodacc-modifications`, `bodacc-procedures`, `bodacc-radiations`.
+- **Sources à connecter** : `immobilier`, `emploi`, `sous-traitance-offres`, `sous-traitance-recherche`.
 
-## 5. Recherche avancée et limites
+Les cinq catégories BODACC interrogent la source légale et filtrent les signaux par famille. Immobilier, emploi et sous-traitance doivent afficher un message explicite « source non connectée » et ne pas produire de résultats BODACC hors sujet.
 
-Le moteur de recherche de démonstration prévoit les filtres mot-clé, catégorie, type de marché et localisation. **Priorité de destination actuelle :** si une catégorie active est choisie, le formulaire ouvre la page `categorie-*.html` correspondante, même si un type de marché est également choisi ; le filtre de marché est transmis comme critère. Sans catégorie active, le formulaire ouvre `resultats-recherche.html`, quel que soit le type de marché choisi. Les paramètres `q`, `categorie`, `marche` et `zone` sont conservés dans l’URL et récapitulés sur la page générale de résultats. Ce récapitulatif ne constitue pas encore un filtrage de données réelles. Le formulaire principal propose les régions administratives françaises. Le moteur BOAMP applique une correspondance explicite région → départements, côté prestation et acheteur. Pour le BODACC, les régions métropolitaines sont filtrées séparément ; le choix « Outre-mer » est explicitement refusé pour cette source tant qu’une correspondance fiable n’est pas validée. Les zones d’exemple Nord/Ouest/Sud ne doivent pas être proposées comme filtres. Les pages métier génériques Marchés publics/privés restent des pages de présentation : elles ne constituent pas encore un moteur de résultats filtrés. Les huit pages de catégories récapitulent les critères, mais affichent zéro annonce tant que les sources ne sont pas connectées. Aucune source de marchés publics ou privés n’est réputée connectée tant qu’un connecteur opérationnel n’a pas été installé et testé.
+### Règle de destination effective
+Le formulaire conserve les paramètres `q` (mots-clés), `categorie`, `marche` et `zone`. Une catégorie publique active peut ouvrir sa page `categorie-*.html`. Les recherches privées, les catégories non connectées et les recherches transversales aboutissent actuellement à `resultats-recherche.html`, qui doit appliquer le type de marché et la catégorie transmis. Ne pas confondre une page métier de présentation avec une page de résultats filtrés.
+
+## 5. Recherche avancée : sources, filtres et limites
+
+Le parcours cible est **Type → Source → Catégorie → Page de résultats → Qualification commerciale/CRM**. Le type de marché doit être choisi avant la catégorie, et détermine les catégories proposées :
+- **Public** : BOAMP et huit catégories métier publiques.
+- **Privé** : BODACC (cinq familles de signaux), immobilier professionnel, emploi, offres de sous-traitance et recherche de sous-traitants/partenaires ; les quatre dernières familles restent à connecter.
+- **Tous types** : recherche parallèle BOAMP + BODACC, résultats séparés par source, cinq cartes maximum par source et dix cartes maximum au total.
+
+Les connecteurs BOAMP et BODACC sont interrogés à la demande depuis le navigateur. Les recherches privées BODACC sont des signaux d’entreprise publiés, pas des appels d’offres. Le moteur n’est pas encore un CRM : historique persistant, déduplication, qualification enregistrée, suivi des interactions et automatisation commerciale restent à développer.
+
+Le filtre régional BOAMP traduit les régions en codes départementaux et vérifie le département de prestation ou celui de l’acheteur. Le filtre BODACC utilise son champ régional ; « Outre-mer » est refusé tant qu’une correspondance fiable n’est pas validée. Les catégories non connectées et les erreurs de source ne doivent jamais afficher de résultats inventés. Toute évolution de la taxonomie doit rester cohérente entre `app.js`, `opportunity-search.js`, les pages de résultats, les tests et cette documentation.
 
 ## 6. Critères de validation avant publication
 
