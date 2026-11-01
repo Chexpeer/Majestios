@@ -24,7 +24,7 @@ async function main() {
   let browser;
   try {
     browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
-    const page = await browser.newPage();
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     let apiCalls = 0;
     let bodaccCalls = 0;
     let bodaccRegionFilterSeen = false;
@@ -97,7 +97,20 @@ async function main() {
     await page.getByText("Connexion à la source officielle BOAMP en cours…").waitFor({ state: "detached", timeout: 10000 }).catch(() => {});
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "Une annonce récupérée doit devenir une carte de résultat.");
-    assert.match(await page.locator(".opportunity-result-card").innerText(), /Acheteur de test/);
+    const resultCard = page.locator(".opportunity-result-card").first();
+    assert.equal(await resultCard.evaluate((card) => card.classList.contains("platform-card")), false, "Les cartes de résultats ne doivent pas hériter des styles legacy platform-card.");
+    const mobileLayout = await resultCard.evaluate((card) => ({
+      cardWidth: card.getBoundingClientRect().width,
+      viewportWidth: document.documentElement.clientWidth,
+      cardDisplay: getComputedStyle(card).display,
+      paragraphFontSize: parseFloat(getComputedStyle(card.querySelector("p")).fontSize),
+      pageScrollWidth: document.documentElement.scrollWidth
+    }));
+    assert.ok(mobileLayout.cardWidth > 280 && mobileLayout.cardWidth <= mobileLayout.viewportWidth, `La carte doit occuper une largeur mobile lisible : ${JSON.stringify(mobileLayout)}`);
+    assert.equal(mobileLayout.cardDisplay, "grid", "Sur mobile, la carte doit utiliser la grille à une colonne.");
+    assert.ok(mobileLayout.paragraphFontSize >= 12, `Le texte des annonces ne doit pas retomber sur la police legacy de 9px : ${JSON.stringify(mobileLayout)}`);
+    assert.ok(mobileLayout.pageScrollWidth <= mobileLayout.viewportWidth, `La page ne doit pas déborder horizontalement sur mobile : ${JSON.stringify(mobileLayout)}`);
+    assert.match(await resultCard.innerText(), /Acheteur de test/);
     assert.equal(await page.getByRole("heading", { name: "Travaux de plomberie terminés" }).count(), 0, "Une annonce dont la date limite est dépassée ne doit pas apparaître dans les résultats.");
     assert.match(await page.locator("#search-active-filters").innerText(), /plomberie/);
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
