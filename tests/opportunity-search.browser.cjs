@@ -38,15 +38,44 @@ async function main() {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ total_count: 1, records: [{ record: { fields: {
-          id: "A202610310001", publicationavis: "A", dateparution: "2026-10-30", numeroannonce: "1001",
-          typeavis_lib: "Avis initial", familleavis: "vente", familleavis_lib: "Ventes et cessions",
-          departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC de test",
-          ville: "Niort", registre: "RCS test", listepersonnes: JSON.stringify({ personne: { activite: "Rénovation de bâtiments" } }),
-          acte: { nature: "Cession de fonds de commerce" },
-          divers: "Prestation de services généraux",
-          url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?q.id=id:A202610310001"
-        } } }] })
+        body: JSON.stringify({ total_count: 5, records: [
+          { record: { fields: {
+            id: "BODACC-CREATION-TEST", publicationavis: "A", dateparution: "2026-10-30", numeroannonce: "1002",
+            typeavis_lib: "Avis initial", familleavis: "creation", familleavis_lib: "Créations d’entreprises",
+            departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC création test", ville: "Niort",
+            acte: { nature: "Immatriculation et constitution" }, divers: "Création d’entreprise",
+            url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-recherche/"
+          } } },
+          { record: { fields: {
+            id: "A202610310001", publicationavis: "A", dateparution: "2026-10-30", numeroannonce: "1001",
+            typeavis_lib: "Avis initial", familleavis: "vente", familleavis_lib: "Ventes et cessions",
+            departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC de test",
+            ville: "Niort", registre: "RCS test", listepersonnes: JSON.stringify({ personne: { activite: "Rénovation de bâtiments" } }),
+            acte: { nature: "Cession de fonds de commerce" }, divers: "Prestation de services généraux",
+            url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?q.id=id:A202610310001"
+          } } },
+          { record: { fields: {
+            id: "BODACC-MODIFICATION-TEST", publicationavis: "A", dateparution: "2026-10-30", numeroannonce: "1003",
+            typeavis_lib: "Avis initial", familleavis: "modification", familleavis_lib: "Modifications d’entreprises",
+            departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC modification test", ville: "Niort",
+            modificationsgenerales: { nature: "Transfert de siège social et changement de dirigeant" },
+            url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-recherche/"
+          } } },
+          { record: { fields: {
+            id: "BODACC-PROCEDURE-TEST", publicationavis: "A", dateparution: "2026-10-30", numeroannonce: "1004",
+            typeavis_lib: "Avis initial", familleavis: "procedure", familleavis_lib: "Procédures collectives",
+            departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC procédure test", ville: "Niort",
+            jugement: { nature: "Redressement judiciaire" },
+            url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-recherche/"
+          } } },
+          { record: { fields: {
+            id: "BODACC-RADIATION-TEST", publicationavis: "A", dateparution: "2026-10-30", numeroannonce: "1005",
+            typeavis_lib: "Avis initial", familleavis: "radiation", familleavis_lib: "Radiations et cessations",
+            departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC radiation test", ville: "Niort",
+            acte: { nature: "Radiation d’entreprise et cessation d’activité" },
+            url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-recherche/"
+          } } }
+        ] })
       });
     });
     await page.route("https://boamp-datadila.opendatasoft.com/**", async (route) => {
@@ -129,16 +158,19 @@ async function main() {
     assert.equal(bodaccRegionFilterSeen, true, "Une recherche BODACC avec une région sélectionnée doit transmettre le filtre régional à la source.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
-    // La catégorie doit filtrer la famille BODACC : un signal de cession ne doit pas
-    // être réaffiché comme création, modification, procédure collective ou radiation.
-    for (const category of ["bodacc-creations", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations"]) {
+    // Chaque famille doit conserver son signal correspondant et exclure les autres familles.
+    const bodaccCategoryCases = [
+      ["bodacc-creations", "Entreprise BODACC création test"],
+      ["bodacc-cessions", "Entreprise BODACC de test"],
+      ["bodacc-modifications", "Entreprise BODACC modification test"],
+      ["bodacc-procedures", "Entreprise BODACC procédure test"],
+      ["bodacc-radiations", "Entreprise BODACC radiation test"]
+    ];
+    for (const [category, expectedCompany] of bodaccCategoryCases) {
       await page.goto(`http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=${category}`, { waitUntil: "domcontentloaded" });
-      await page.getByText(/Aucun signal BODACC ne correspond/).waitFor({ timeout: 10000 });
-      assert.equal(await page.locator(".bodacc-result-card").count(), 0, `La catégorie ${category} ne doit pas afficher le signal de cession de test.`);
+      await page.getByRole("heading", { name: expectedCompany }).waitFor({ timeout: 10000 });
+      assert.equal(await page.locator(".bodacc-result-card").count(), 1, `La catégorie ${category} doit afficher uniquement son signal correspondant.`);
     }
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=bodacc-cessions", { waitUntil: "domcontentloaded" });
-    await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
-    assert.equal(await page.locator(".bodacc-result-card").count(), 1, "La catégorie bodacc-cessions doit conserver le signal de cession correspondant.");
 
     bodaccCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=immobilier", { waitUntil: "domcontentloaded" });
