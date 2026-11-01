@@ -10,10 +10,22 @@
   const categories = catalogue.searchCategories || [];
   const markets = catalogue.marketTypes || [];
   const regions = catalogue.searchRegions || [];
+  const privateCategoryLabels = {
+    "bodacc-creations": "Créations et implantations",
+    "bodacc-cessions": "Ventes, cessions et reprises",
+    "bodacc-modifications": "Modifications d’entreprises",
+    "bodacc-procedures": "Difficultés et procédures collectives",
+    "bodacc-radiations": "Radiations et cessations",
+    immobilier: "Immobilier professionnel",
+    emploi: "Emploi et recrutement",
+    "sous-traitance-offres": "Offres de sous-traitance",
+    "sous-traitance-recherche": "Recherche de sous-traitants et partenaires"
+  };
   const findLabel = (items, value, fallback) => items.find((item) => item.value === value)?.label || fallback;
+  const categoryLabel = privateCategoryLabels[category] || findLabel(categories, category, category);
   const criteria = [
     ["Mots-clés", (params.get("q") || "").trim() || "Aucun mot-clé précisé"],
-    ["Catégorie", findLabel(categories, category, category)],
+    ["Catégorie", categoryLabel],
     ["Type de marché", findLabel(markets, market, market)],
     ["Localisation", findLabel(regions, region, region)]
   ];
