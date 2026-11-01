@@ -264,10 +264,10 @@ if (advancedSearchForm) {
   if (region && region !== "all") params.set("zone", region);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
-  // Toutes les recherches aboutissent à la page de résultats dédiée.
-  // La catégorie sert de filtre, pas de destination : envoyer vers une page de rubrique
-  // mélangeait la présentation éditoriale et les résultats, qui se retrouvaient comprimés.
-  const destination = "resultats-recherche.html";
+  // Une catégorie active ouvre sa page de résultats dédiée ; les recherches transversales
+  // et les catégories planifiées restent sur la page générale.
+  const selectedCategory = majCatalog.searchCategories.find((item) => item.value === category && !item.planned && item.href);
+  const destination = selectedCategory ? selectedCategory.href : "resultats-recherche.html";
 
   window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
 });
