@@ -60,9 +60,9 @@ Ne pas convertir « documenté » en « livré ». Chaque mise à jour de statut
 1. Comparer les documents actuels avec les anciennes versions/notes encore présentes dans le dépôt.
 2. Relever les exigences orphelines, les contradictions et les références de fichiers obsolètes.
 3. Mettre à jour la matrice avec la source de chaque exigence et marquer les points non confirmés.
-4. Ajouter un registre de décisions si le dépôt n'en contient pas déjà un, sans écraser l'historique.
+4. Conserver le registre de décisions dans la section 11 du cahier des charges maître ; ne pas créer un registre parallèle. Harmoniser les autres documents sur les décisions établies.
 
-**Sortie :** aucune exigence importante connue sans document de référence ; contradictions explicites avec résolution ou arbitrage requis.
+**Sortie :** références Markdown locales vérifiées sur les documents de cadrage ; contradiction repérée sur le bandeau d’accueil corrigée dans le cahier maître et l’arborescence ; registre de décisions existant confirmé dans le cahier maître. Les anciennes versions externes ou conversations non présentes dans le dépôt ne sont pas considérées comme intégralement réconciliées.
 
 ### Lot B — validation technique ciblée
 1. Exécuter le build et `verify-site.js` sur le commit exact.
