@@ -136,3 +136,17 @@ Avant toute connexion, documenter : propriétaire, URL officielle, type de resso
 6. Soumettre les signaux à des règles de qualité avant toute éventuelle diffusion dans le bandeau.
 
 **Statut au 1er novembre 2026 :** inventaire de cadrage à compléter et à valider. Aucune de ces sources n'est déclarée connectée par le présent document. Aucun moteur public de recherche d'emploi n'est demandé sur l'accueil.
+
+
+## 11. Raccordement au ciblage commercial des appels d'offres
+
+La veille stratégique doit alimenter le parcours déjà prévu d'accompagnement et de diffusion ciblée des marchés. À partir d'un appel d'offres qualifié, MajestiOS doit :
+1. extraire les activités, lots, exigences et territoires concernés ;
+2. proposer des codes APE/NAF candidats et expliquer leur pertinence ;
+3. rechercher des entreprises par département à partir de sources dont l'accès et la réutilisation sont autorisés ;
+4. enrichir et dédoublonner les listes sans supposer qu'un code d'activité prouve une capacité ;
+5. viser environ dix entreprises pertinentes par département et par opportunité, sans inventer de destinataires si la sélection qualifiée est plus courte ;
+6. préparer la diffusion de l'avis avec une proposition simultanée d'accompagnement à la réponse ;
+7. enregistrer les actions, retours, demandes d'accompagnement et oppositions dans le futur CRM.
+
+L'accompagnement humain et technique aux réponses aux appels d'offres est une fonction déjà prévue dans le périmètre MajestiOS. La veille est un moyen d'identifier les entreprises à aider ; elle ne remplace pas l'analyse du DCE, la préparation de candidature, le mémoire technique, la relecture ni le suivi des échéances. Toute campagne réelle nécessite une validation séparée des sources, licences, destinataires, contenu et conformité.
