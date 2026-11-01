@@ -162,6 +162,24 @@ body.homepage .building-caption{margin-top:8px;color:#9eafc8;font-size:9px;lette
  body.homepage .building-rdc{grid-template-columns:30px 1fr;gap:4px;padding:5px;font-size:10px}
 }
 
+
+/* Photo de référence fournie par le propriétaire du projet */
+body.homepage .building-scene{
+  background-image:linear-gradient(180deg,#07101a20 0%,#07101a15 58%,#07101a88 100%),url("1793559765217.webp");
+  background-size:cover;
+  background-position:center 42%;
+  background-repeat:no-repeat;
+}
+body.homepage .building-scene:before{background:linear-gradient(180deg,#07101a0a 0%,transparent 55%,#07101a55 100%)}
+body.homepage .cityline,body.homepage .ground-road{display:none}
+body.homepage .tower{
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+body.homepage .tower:before{display:none}
+body.homepage .floor-row{background:linear-gradient(90deg,#07101ad9,#10243b75 48%,#07101ad9);backdrop-filter:blur(1px)}
+body.homepage .building-rdc{background:#091321d9}
 </style>
     <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
