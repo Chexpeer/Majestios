@@ -288,3 +288,10 @@ body.homepage .homepage-industrial-layout .building-panel #panel-description { f
   .scene[data-view-mode="map"] .map-building:focus-visible { transform:none; }
   .scene[data-view-mode="map"] .map-compass { top:148px; right:10px; }
 }
+
+/* Accueil : slogan compact pleine largeur au-dessus de la zone interactive. */
+body.homepage .industrial-zone-slogan{max-width:1500px;margin:0 auto;padding:0 clamp(14px,3vw,44px) 10px;width:100%;box-sizing:border-box}
+body.homepage .industrial-zone-slogan h1{margin:0;padding:7px 0;color:#f6f0df;font-size:clamp(18px,2.2vw,27px);line-height:1.15;letter-spacing:-.025em;font-weight:850}
+body.homepage .industrial-zone-slogan h1:after{content:"";display:block;width:100%;height:1px;margin-top:8px;background:linear-gradient(90deg,rgba(217,184,108,.75),rgba(217,184,108,.08))}
+body.homepage .homepage-industrial-layout .scene-hint{display:none}
+@media(max-width:760px){body.homepage .industrial-zone-slogan{padding:0 10px 8px}body.homepage .industrial-zone-slogan h1{font-size:18px;padding:4px 0}}
