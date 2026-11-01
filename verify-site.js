@@ -49,7 +49,7 @@ if (fs.existsSync(buildPath)) {
   for (const page of pages) {
     if (!build.includes(`"${page}"`)) errors.push(`build.js: page absente de la liste de publication : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js", "search-results.js", "opportunity-search.js", "rubric-search.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js", "search-results.js", "opportunity-search.js", "rubric-search.js", "naf-suggestions.js", "company-targeting.js", "company-targeting-page.js"]) {
     if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
   }
   // LOT 11 — le build doit refuser les doublons et vérifier l’intégrité réelle de dist/.
