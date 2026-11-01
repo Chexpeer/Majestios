@@ -1586,3 +1586,27 @@ body.homepage .footer-links a:hover,body.homepage .footer-links a:focus-visible 
   justify-self: start;
   margin-top: .35rem;
 }
+
+/* Qualification d'entreprises : formulaire et cartes de préqualification */
+.company-targeting-panel form { display: grid; gap: .7rem; }
+.company-targeting-panel form > label { margin-top: .35rem; font-weight: 650; }
+.company-targeting-panel form > label span { color: var(--muted, #b8c5d7); font-weight: 400; }
+.company-targeting-panel input:not([type="checkbox"]), .company-targeting-panel select {
+  width: 100%; min-height: 2.85rem; padding: .7rem .85rem; color: var(--text, #eaf0f8);
+  background: rgba(7, 13, 23, .82); border: 1px solid rgba(111, 156, 189, .55); border-radius: .65rem;
+}
+.company-targeting-checkbox { display: flex; gap: .65rem; align-items: center; }
+.company-targeting-checkbox input { width: 1.1rem; height: 1.1rem; }
+.company-targeting-status { padding: .85rem 1rem; border-radius: .65rem; background: rgba(100, 136, 173, .12); }
+.company-targeting-results { margin-top: 2rem; }
+.company-targeting-cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.company-targeting-card { min-width: 0; padding: 1.15rem; border: 1px solid rgba(111, 156, 189, .35); border-radius: .9rem; background: rgba(13, 25, 41, .8); overflow-wrap: anywhere; }
+.company-targeting-card h3 { margin: .65rem 0; }
+.company-targeting-card-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; }
+.company-targeting-score { font-weight: 800; font-size: 1.05rem; }
+.company-targeting-qualification { font-size: .8rem; padding: .25rem .55rem; border-radius: 99px; background: rgba(100, 136, 173, .2); }
+.company-targeting-card details { margin: .8rem 0; }
+.company-targeting-card details li { margin: .35rem 0; }
+.company-targeting-card a { text-underline-offset: .2em; }
+.company-targeting-warning { margin-top: 1rem; padding: 1rem; border-left: 3px solid #d6a35d; }
+.company-targeting-empty { padding: 1rem; border: 1px dashed rgba(111, 156, 189, .55); border-radius: .7rem; }
