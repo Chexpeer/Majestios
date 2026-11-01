@@ -123,6 +123,15 @@
     // Une nouvelle exécution remplace les cartes et notes précédentes au lieu de les empiler.
     panel.querySelectorAll(".opportunity-results-list, .opportunity-source-note").forEach((node) => node.remove());
 
+    // Une catégorie propre à un seul marché ne peut pas être appliquée honnêtement aux deux sources.
+    // Refuser ce cas limite évite de présenter des résultats non filtrés comme s'ils correspondaient au choix.
+    if (market === "all" && category !== "all") {
+      panel.querySelectorAll(".opportunity-source-group").forEach((group) => group.remove());
+      empty.textContent = "La recherche « Publics et privés » ne peut pas appliquer une catégorie spécifique aux deux sources. Choisissez « Toutes les catégories » pour comparer les deux sources, ou sélectionnez « Marchés publics » / « Marchés privés » pour filtrer une catégorie.";
+      empty.setAttribute("role", "status");
+      return;
+    }
+
     // « Publics et privés » interroge les deux sources en parallèle, dans des blocs distincts.
     // Les résultats BODACC restent des signaux légaux, jamais des appels d’offres.
     if (market === "all") {
