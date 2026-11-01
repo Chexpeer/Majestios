@@ -148,6 +148,12 @@ async function main() {
     assert.equal(publicReturnUrl.searchParams.get("marche"), "public", "Le retour doit conserver le type de marché.");
     assert.equal(publicReturnUrl.searchParams.get("zone"), "nouvelle-aquitaine", "Le retour doit conserver la région.");
     assert.equal(publicReturnUrl.hash, "#recherche-avancee", "Le retour doit replacer l’utilisateur sur le moteur de recherche.");
+    await page.locator(".search-results-return a").click();
+    await page.waitForURL(/index\.html\?q=plomberie.*marche=public.*zone=nouvelle-aquitaine.*#recherche-avancee|index\.html\?q=plomberie.*zone=nouvelle-aquitaine.*marche=public.*#recherche-avancee/, { timeout: 10000 });
+    assert.equal(await page.locator("#feed-search").inputValue(), "plomberie", "L’accueil doit restaurer les mots-clés au retour.");
+    assert.equal(await page.locator("#feed-market-type").inputValue(), "public", "L’accueil doit restaurer le type de marché au retour.");
+    assert.equal(await page.locator("#feed-sector").inputValue(), "all", "L’accueil doit restaurer une catégorie non précisée sans en inventer.");
+    assert.equal(await page.locator("#feed-region").inputValue(), "nouvelle-aquitaine", "L’accueil doit restaurer la région au retour.");
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
     assert.equal(regionalFilterSeen, true, "Une requête BOAMP doit appliquer le filtre Nouvelle-Aquitaine au département 79, côté prestation et acheteur.");
 
