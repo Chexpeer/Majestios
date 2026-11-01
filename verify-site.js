@@ -1069,6 +1069,42 @@ if (!fs.existsSync(opportunityEnginePath)) {
     errors.push("Recherche BOAMP : filtre régional explicite ou garde-fou des zones non administratives absent");
   }
 }
+// Harmonisation de toutes les pages qui affichent des annonces ou signaux de recherche.
+const categoryResultPages = [
+  "categorie-batiment.html",
+  "categorie-conseil-etudes.html",
+  "categorie-electricite.html",
+  "categorie-maintenance.html",
+  "categorie-plomberie-chauffage.html",
+  "categorie-renovation.html",
+  "categorie-services-numeriques.html",
+  "categorie-travaux-amenagement.html"
+];
+for (const relativePath of categoryResultPages) {
+  const pagePath = path.join(root, relativePath);
+  if (!fs.existsSync(pagePath)) {
+    errors.push(`Résultats : page de catégorie absente : ${relativePath}`);
+    continue;
+  }
+  const pageHtml = fs.readFileSync(pagePath, "utf8");
+  for (const rule of [
+    "Page d'annonces : priorité au contenu utile",
+    ".category-page .virtual-space",
+    "grid-template-columns:minmax(0,1fr)",
+    ".category-page .floating-route-card > p"
+  ]) {
+    if (!pageHtml.includes(rule)) errors.push(`Résultats : harmonisation mobile absente dans ${relativePath} : ${rule}`);
+  }
+}
+if (fs.existsSync(mobileOpportunityEnginePath)) {
+  const engine = fs.readFileSync(mobileOpportunityEnginePath, "utf8");
+  if (!engine.includes("const MAX_RESULTS = 10;") ||
+      !engine.includes("resultLimit = MAX_RESULTS") ||
+      !engine.includes("resultLimit: Math.floor(MAX_RESULTS / 2)") ||
+      (engine.match(/slice\\(0, resultLimit\\)/g) || []).length !== 2) {
+    errors.push("Résultats : limite de 10 cartes par recherche (5 par source en recherche mixte) absente");
+  }
+}
 const browserSearchTestPath = path.join(root, "tests", "opportunity-search.browser.cjs");
 if (!fs.existsSync(browserSearchTestPath)) {
   errors.push("Tests : test navigateur du moteur d’opportunités absent");
