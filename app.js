@@ -145,7 +145,6 @@ function selectDemoCase(button) {
 }
 
 /* Les interactions de démonstration ne sont présentes que sur la page d’accueil. */
-if (advancedSearchForm) {
 document.querySelectorAll(".case-tab").forEach((button) => {
   button.addEventListener("click", () => selectDemoCase(button));
 });
@@ -307,8 +306,6 @@ if (leadForm && formFeedback) {
     formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
     formFeedback.hidden = false;
   });
-}
-
 }
 
 if (menuToggle && navigation) {
