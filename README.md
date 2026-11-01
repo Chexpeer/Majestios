@@ -83,3 +83,4 @@ La page `qualification-entreprises.html` permet de rechercher des entreprises pa
 - `SPEC-SUIVI-DYNAMIQUE-ECONOMIQUE-ENTREPRISES-MAJESTIOS.md` : suivi envisagé du chiffre d'affaires publié et de la dynamique économique des entreprises ciblées, avec provenance, confidentialité et garde-fous contre les interprétations abusives.
 
 - `MODELE-VALORISATION-DONNEES-ET-ETUDES-COMMERCIALES-MAJESTIOS.md` : conception des statistiques, tableaux de bord, études payantes et options de commercialisation, avec exigences de qualité, conformité et validation des droits.
+- `PLAN-PILOTE-STATISTIQUES-MAJESTIOS.md` : plan opérationnel du premier pilote, indicateurs proposés, sources prioritaires DECP/Sirene/INPI, contrôles de qualité et critères de passage à l'expérimentation.
