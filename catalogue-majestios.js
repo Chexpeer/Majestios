@@ -32,7 +32,7 @@
     { value: "fournitures", label: "Fournitures & équipements", planned: true },
     { value: "btp", label: "BTP : lots techniques et second œuvre", planned: true },
     { value: "logistique", label: "Transport & logistique", planned: true },
-    { value: "formation", label: "Formation & recrutement", planned: true },
+    { value: "formation", label: "Formation professionnelle", planned: true },
     { value: "communication", label: "Communication & événementiel", planned: true }
   ];
 
