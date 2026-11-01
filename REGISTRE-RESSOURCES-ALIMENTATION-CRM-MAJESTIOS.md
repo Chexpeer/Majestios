@@ -126,3 +126,11 @@ Un nom de source dans ce document ne vaut jamais preuve d’accès, de connexion
 - **.github/workflows/majestios-anti-regression.yml** — workflow prévu pour exécuter les tests ciblés, le build et la vérification structurelle. L’exécution effective reste à confirmer dans GitHub Actions.
 
 Ce moteur ne constitue pas une source de données officielle ni une interprétation automatique du DCE. Les codes proposés doivent être contrôlés dans la nomenclature en vigueur et au regard des exigences du marché.
+
+
+## Complément — qualification métier des entreprises candidates (2026-11-01)
+
+- **Module local :** `company-fit.js` — qualification indicative de l'activité APE/NAF, du périmètre départemental et du statut administratif ; expose explicitement les contrôles métier non résolus.
+- **Tests :** `tests/company-fit.test.cjs` — correspondance exacte, entreprise hors département avec contrôle d'établissement local, données inconnues et maintien des vérifications humaines.
+- **Intégration :** `build.js` inclut le module dans les ressources livrées ; `verify-site.js` vérifie sa présence et ses garde-fous ; le workflow anti-régression exécute les tests dédiés.
+- **Limite :** ce module n'est pas une preuve de compétence ou d'éligibilité et ne constitue pas une connexion à une source externe supplémentaire. Les données et qualifications restent à vérifier à partir de sources fiables et autorisées.
