@@ -63,7 +63,9 @@
         "immobilier",
         "emploi",
         "sous-traitance-offres",
-        "sous-traitance-recherche"
+        "sous-traitance-recherche",
+        "bodacc-autres-signaux",
+        "public-non-classifie"
       ]
     },
     "marketType": {
@@ -121,8 +123,11 @@
       }
     },
     "publishedAt": {
-      "type": "string",
-      "format": "date-time"
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Date de publication de la source ; null si absente ou non interprétable, sans date inventée."
     },
     "deadlineAt": {
       "type": [
