@@ -156,6 +156,10 @@
       bodaccUrl.searchParams.set("select", BODACC_FIELDS);
       if (query) bodaccUrl.searchParams.set("q", query);
       const region = params.get("zone") || "all";
+      if (region === "outre-mer") {
+        empty.textContent = "Le filtre BODACC pour l’Outre-mer n’est pas encore pris en charge de façon fiable. Choisissez une région précise ou « Toutes les régions » ; aucun résultat non filtré ne sera présenté comme territorial.";
+        return;
+      }
       const regions = {
         "nouvelle-aquitaine": "Nouvelle-Aquitaine", "ile-de-france": "Île-de-France",
         "auvergne-rhone-alpes": "Auvergne-Rhône-Alpes", occitanie: "Occitanie",
