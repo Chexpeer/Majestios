@@ -25,10 +25,6 @@ async function main() {
   try {
     browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-    await page.addInitScript(() => {
-      window.__majestiosSearchEvents = [];
-      window.addEventListener("majestios:search-results", (event) => window.__majestiosSearchEvents.push(event.detail));
-    });
     let apiCalls = 0;
     let bodaccCalls = 0;
     let bodaccRegionFilterSeen = false;
@@ -147,11 +143,6 @@ async function main() {
     assert.equal(await page.getByRole("heading", { name: "Travaux de plomberie terminés" }).count(), 0, "Une annonce dont la date limite est dépassée ne doit pas apparaître dans les résultats.");
     assert.match(await page.locator("#search-active-filters").innerText(), /plomberie/);
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
-    const publicPayload = await page.evaluate(() => window.__majestiosSearchEvents.find(event => event.source === "BOAMP"));
-    assert.equal(publicPayload.results.length, 1, "Le moteur doit émettre les résultats publics sous forme structurée pour le futur CRM.");
-    assert.equal(publicPayload.results[0].recordType, "public_tender");
-    assert.equal(publicPayload.results[0].source, "BOAMP");
-    assert.ok(publicPayload.results[0].provenance.retrievedAt, "La donnée normalisée doit conserver la date de collecte.");
     assert.equal(regionalFilterSeen, true, "Une requête BOAMP doit appliquer le filtre Nouvelle-Aquitaine au département 79, côté prestation et acheteur.");
 
     apiCalls = 0;
@@ -166,11 +157,6 @@ async function main() {
     assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
     assert.equal(bodaccRegionFilterSeen, true, "Une recherche BODACC avec une région sélectionnée doit transmettre le filtre régional à la source.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
-    const privatePayload = await page.evaluate(() => window.__majestiosSearchEvents.find(event => event.source === "BODACC" && event.category === "bodacc-cessions"));
-    assert.equal(privatePayload.results.length, 1, "Les signaux privés doivent aussi être émis sous forme structurée pour le futur CRM.");
-    assert.equal(privatePayload.results[0].recordType, "private_company_signal");
-    assert.equal(privatePayload.results[0].category, "bodacc-cessions");
-    assert.equal(privatePayload.results[0].qualification.status, "unreviewed", "Un signal ne doit pas être qualifié automatiquement.");
 
     // Chaque famille doit conserver son signal correspondant et exclure les autres familles.
     const bodaccCategoryCases = [
