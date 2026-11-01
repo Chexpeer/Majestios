@@ -607,6 +607,35 @@ if (fs.existsSync(memberPagePath)) {
   }
 }
 
+// Verrouiller les libellés convenus de la zone autonome pour éviter une régression entre l’accueil et sa page dédiée.
+const standaloneZonePath = path.join(root, "zone-artisanale.html");
+if (fs.existsSync(standaloneZonePath)) {
+  const zoneHtml = fs.readFileSync(standaloneZonePath, "utf8");
+  if (!/data-scene-mode=["']fly["'][^>]*>Navigation aérienne<\/button>/i.test(zoneHtml)) {
+    errors.push("Zone autonome : le mode aérien doit s’intituler « Navigation aérienne »");
+  }
+  if (!/data-scene-mode=["']drive["'][^>]*>Street View<\/button>/i.test(zoneHtml)) {
+    errors.push("Zone autonome : le mode routier doit s’intituler « Street View »");
+  }
+  if (!/data-scene-mode=["']map["'][^>]*>Carte interactive<\/button>/i.test(zoneHtml)) {
+    errors.push("Zone autonome : le mode cartographique doit s’intituler « Carte interactive »");
+  }
+  if (/L’Apache|La Tesla|Majest COYOT|GPS DES RUBRIQUES/.test(zoneHtml)) {
+    errors.push("Zone autonome : un ancien libellé de navigation a réapparu");
+  }
+}
+
+// Le bandeau de l’accueil est fictif ; il ne doit pas laisser croire que les sources sont déconnectées.
+const homePagePath = path.join(root, "index.html");
+if (fs.existsSync(homePagePath)) {
+  const homeHtml = fs.readFileSync(homePagePath, "utf8");
+  if (!homeHtml.includes("FLUX DE DÉMONSTRATION") ||
+      !homeHtml.includes("Les résultats réels sont recherchés à la demande") ||
+      homeHtml.includes("Sources d’annonces en cours de connexion")) {
+    errors.push("Accueil : le flux doit être identifié comme démonstration sans contredire l’état des connecteurs");
+  }
+}
+
 // La page de résultats généraux doit charger le catalogue avant le script qui affiche les libellés.
 if (fs.existsSync(generalResultsPath)) {
   const resultsHtml = fs.readFileSync(generalResultsPath, "utf8");
