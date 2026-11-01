@@ -198,17 +198,17 @@ async function main() {
     assert.match((await page.locator("#category-results-title").innerText()), /Rénovation/, "La page de résultats doit afficher la catégorie choisie.");
     assert.match((await page.locator(".floating-route-card").innerText()), /Aucun résultat fictif n’est présenté comme une consultation disponible/, "La page doit signaler explicitement l'absence de données réelles.");
 
-    // En privé, les catégories disponibles mènent au récapitulatif des signaux d'entreprise.
+    // En privé, le type dirige vers une catégorie réellement rattachée au BODACC.
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
     await page.locator("#feed-market-type").selectOption("private");
-    await page.locator("#feed-sector").selectOption("maintenance");
-    await page.locator("#feed-search").fill("maintenance préventive");
+    await page.locator("#feed-sector").selectOption("bodacc-cessions");
+    await page.locator("#feed-search").fill("cession entreprise");
     await Promise.all([
       page.waitForURL(/resultats-recherche\.html\?/),
       page.locator("#advanced-search-form button[type='submit']").click()
     ]);
     assert.match(page.url(), /marche=private/, "Le filtre privé doit être conservé.");
-    assert.match(page.url(), /categorie=maintenance/, "La catégorie privée choisie doit être conservée.");
+    assert.match(page.url(), /categorie=bodacc-cessions/, "La catégorie privée BODACC choisie doit être conservée.");
     assert.match((await page.locator("#search-active-filters").innerText()), /Marchés privés/i, "Le récapitulatif doit identifier le type de marché privé.");
 
     // Sans catégorie spécifique, les critères doivent aller au récapitulatif général.
