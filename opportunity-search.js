@@ -23,15 +23,15 @@
   };
   const CATEGORY_TYPES = { services: "SERVICES", travaux: "TRAVAUX" };
   const BODACC_CATEGORY_TERMS = {
-    services: ["informatique", "logiciel", "cybersécurité", "numérique", "hébergement", "développement", "télécommunication", "réseau", "plateforme", "cloud"],
-    travaux: ["travaux", "construction", "bâtiment", "rénovation"],
-    conseil: ["conseil", "étude", "audit", "expertise"],
-    batiment: ["bâtiment", "construction", "maçonnerie", "gros œuvre"],
-    renovation: ["rénovation", "réhabilitation", "isolation", "amélioration énergétique"],
-    electricite: ["électricité", "électrique", "éclairage"],
-    plomberie: ["plomberie", "chauffage", "sanitaire", "thermique"],
-    maintenance: ["maintenance", "entretien", "exploitation"]
+    "bodacc-creations": ["création", "immatriculation", "constitution", "établissement principal", "ouverture"],
+    "bodacc-cessions": ["vente", "cession", "fonds de commerce", "reprise", "achat"],
+    "bodacc-modifications": ["modification", "transfert", "changement", "augmentation de capital", "siège social"],
+    "bodacc-procedures": ["procédure collective", "redressement judiciaire", "liquidation judiciaire", "sauvegarde"],
+    "bodacc-radiations": ["radiation", "cessation", "dissolution", "clôture"]
   };
+  const PRIVATE_CATEGORIES_NOT_CONNECTED = new Set([
+    "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"
+  ]);
   const FIELDS = [
     "idweb", "id", "objet", "famille_libelle", "dateparution", "datelimitereponse",
     "nomacheteur", "code_departement", "code_departement_prestation",
@@ -158,6 +158,20 @@
     empty.setAttribute("role", "status");
 
     if (market === "private") {
+      if (PRIVATE_CATEGORIES_NOT_CONNECTED.has(category)) {
+        const labels = {
+          immobilier: "Immobilier professionnel",
+          emploi: "Emploi et recrutement",
+          "sous-traitance-offres": "Offres de sous-traitance",
+          "sous-traitance-recherche": "Recherche de sous-traitants et partenaires"
+        };
+        empty.textContent = labels[category] + " : cette famille d’opportunités est prévue dans la taxonomie MajestiOS, mais sa source de données n’est pas encore connectée. Aucun résultat ne sera inventé. La recherche BODACC reste disponible en choisissant une rubrique BODACC.";
+        return;
+      }
+      if (category !== "all" && !BODACC_CATEGORY_TERMS[category]) {
+        empty.textContent = "Cette catégorie privée n’est pas reconnue par le moteur. Choisissez une rubrique disponible.";
+        return;
+      }
       empty.textContent = "Connexion à la source officielle BODACC en cours…";
       const bodaccUrl = new URL(BODACC_API);
       bodaccUrl.searchParams.set("limit", "40");
