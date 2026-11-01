@@ -88,4 +88,8 @@ Des assertions navigateur ont été ajoutées dans `tests/opportunity-search.bro
 
 ### Statut
 
-Cette correction est poussée sur la branche de travail. **La validation GitHub Actions du commit de tests doit encore être confirmée** avant de déclarer le lot validé. Aucun déploiement de production, aucune fusion dans `main` et aucune intégration CRM n’ont été effectués.
+La correction et ses tests sont poussés sur la branche de travail. Le workflow GitHub Actions `Vérification du site MajestiOS`, run **41316509815**, a terminé avec la conclusion **success** sur le commit `d4c74f57c2ec07d62b30dbc2160ff5d8c437ef39` : syntaxe JavaScript, build statique, vérification des pages/liens/parcours, smoke tests des API BOAMP et BODACC, tests du moteur de recherche dans Chromium et test de la zone industrielle dans Chromium ont tous réussi. Le test navigateur a notamment contrôlé les douze destinations, les modes de visite, la disposition mobile et la conservation des critères.
+
+Le run est consultable ici : https://github.com/Chexpeer/Majestios/actions/runs/41316509815
+
+Cette validation porte uniquement sur le commit indiqué. Elle ne prouve ni le fonctionnement de formulaires sans backend, ni la connexion des quatre catégories privées marquées « à connecter », ni une alimentation CRM. Aucun déploiement de production, aucune fusion dans `main` et aucune intégration CRM n’ont été effectués.
