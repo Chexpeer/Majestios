@@ -82,10 +82,10 @@
     { value: "bodacc-modifications", label: "Modifications d’entreprises", group: "Signaux BODACC" },
     { value: "bodacc-procedures", label: "Difficultés et procédures collectives", group: "Signaux BODACC" },
     { value: "bodacc-radiations", label: "Radiations et cessations", group: "Signaux BODACC" },
-    { value: "immobilier", label: "Immobilier professionnel · à connecter", group: "Autres opportunités privées" },
-    { value: "emploi", label: "Emploi et recrutement · à connecter", group: "Autres opportunités privées" },
-    { value: "sous-traitance-offres", label: "Offres de sous-traitance · à connecter", group: "Autres opportunités privées" },
-    { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires · à connecter", group: "Autres opportunités privées" }
+    { value: "immobilier", label: "Immobilier professionnel", group: "Autres opportunités privées", connected: false },
+    { value: "emploi", label: "Emploi et recrutement", group: "Autres opportunités privées", connected: false },
+    { value: "sous-traitance-offres", label: "Offres de sous-traitance", group: "Autres opportunités privées", connected: false },
+    { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires", group: "Autres opportunités privées", connected: false }
   ];
   const regions = (catalogue.searchRegions || [
     { value: "all", label: "Toutes les régions", active: true }
@@ -144,11 +144,12 @@
       }
       const option = document.createElement("option");
       option.value = item.value;
-      option.textContent = item.label;
+      option.textContent = item.connected === false ? `${item.label} · source à connecter` : item.label;
+      option.disabled = item.connected === false;
       parent.append(option);
     }
     categorySelect.disabled = !market || market === "all";
-    categorySelect.value = source.some((item) => item.value === selected) ? selected : "all";
+    categorySelect.value = source.some((item) => item.value === selected && item.connected !== false) ? selected : "all";
   };
 
   if (marketSelect) {
