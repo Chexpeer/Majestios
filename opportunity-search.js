@@ -202,14 +202,34 @@
             ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length)
             : [];
         const filtered = records.filter((record) => {
+          const family = normalize([record.familleavis_lib, record.familleavis].join(" "));
           const haystack = normalize([
-            record.commercant, record.ville, record.departement_nom_officiel, record.familleavis_lib,
+            record.commercant, record.ville, record.departement_nom_officiel, record.familleavis_lib, record.familleavis,
             flattenText(record.listepersonnes), flattenText(record.listeetablissements), flattenText(record.acte), flattenText(record.jugement),
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
           const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
           const categoryTerms = BODACC_CATEGORY_TERMS[category];
-          const categoryMatches = !categoryTerms?.length || categoryTerms.some((term) => haystack.includes(normalize(term)));
+          const categoryFamilyTerms = {
+            "bodacc-creations": ["creation", "immatriculation", "constitution"],
+            "bodacc-cessions": ["vente", "cession"],
+            "bodacc-modifications": ["modification"],
+            "bodacc-procedures": ["procedure", "jugement"],
+            "bodacc-radiations": ["radiation", "cessation", "dissolution"]
+          }[category];
+          const familyKnown = Object.values({
+            creations: ["creation", "immatriculation", "constitution"],
+            cessions: ["vente", "cession"],
+            modifications: ["modification"],
+            procedures: ["procedure", "jugement"],
+            radiations: ["radiation", "cessation", "dissolution"]
+          }).some((terms) => terms.some((term) => family.includes(normalize(term))));
+          // La famille officielle prime sur les détails, qui peuvent mentionner d'autres événements.
+          const categoryMatches = !categoryTerms?.length || (
+            familyKnown
+              ? categoryFamilyTerms.some((term) => family.includes(normalize(term)))
+              : categoryTerms.some((term) => haystack.includes(normalize(term)))
+          );
           return queryMatches && categoryMatches;
         }).slice(0, resultLimit);
         if (!filtered.length) {
