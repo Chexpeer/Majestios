@@ -48,8 +48,10 @@ async function main() {
       apiCalls++;
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.searchParams.get("where")?.includes('nature = "APPEL_OFFRE"'), true, "La requête doit limiter les résultats aux appels d’offres.");
-      assert.equal(requestUrl.searchParams.get("where")?.includes('code_departement_prestation = "79"'), true, "Le filtre Nouvelle-Aquitaine doit inclure le département 79 côté prestation.");
-      assert.equal(requestUrl.searchParams.get("where")?.includes('code_departement = "79"'), true, "Le filtre régional doit aussi couvrir le département de l’acheteur.");
+      if (apiCalls === 1) {
+        assert.equal(requestUrl.searchParams.get("where")?.includes('code_departement_prestation = "79"'), true, "La première recherche, filtrée sur Nouvelle-Aquitaine, doit inclure le département 79 côté prestation.");
+        assert.equal(requestUrl.searchParams.get("where")?.includes('code_departement = "79"'), true, "Le filtre régional doit aussi couvrir le département de l’acheteur.");
+      }
       await route.fulfill({
         status: 200,
         contentType: "application/json",
