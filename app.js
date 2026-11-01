@@ -187,18 +187,18 @@ const PUBLIC_SEARCH_CATEGORIES = [
   ["plomberie", "Plomberie & chauffage"],
   ["maintenance", "Maintenance & exploitation"]
 ];
-// Taxonomie privée organisée par familles de signaux. Les catégories non encore connectées
-// restent visibles pour rendre l'offre lisible, mais le moteur les signale comme « à connecter ».
+// Taxonomie privée : les cinq familles BODACC sont disponibles ; les autres sont
+// conservées comme rubriques prévues, mais désactivées jusqu’à la connexion de leurs sources.
 const PRIVATE_SEARCH_CATEGORIES = [
-  ["bodacc-creations", "Créations et implantations", "Signaux BODACC"],
-  ["bodacc-cessions", "Ventes, cessions et reprises", "Signaux BODACC"],
-  ["bodacc-modifications", "Modifications d’entreprises", "Signaux BODACC"],
-  ["bodacc-procedures", "Difficultés et procédures collectives", "Signaux BODACC"],
-  ["bodacc-radiations", "Radiations et cessations", "Signaux BODACC"],
-  ["immobilier", "Immobilier professionnel", "Autres opportunités privées"],
-  ["emploi", "Emploi et recrutement", "Autres opportunités privées"],
-  ["sous-traitance-offres", "Offres de sous-traitance", "Autres opportunités privées"],
-  ["sous-traitance-recherche", "Recherche de sous-traitants et partenaires", "Autres opportunités privées"]
+  ["bodacc-creations", "Créations et implantations", "Signaux BODACC", true],
+  ["bodacc-cessions", "Ventes, cessions et reprises", "Signaux BODACC", true],
+  ["bodacc-modifications", "Modifications d’entreprises", "Signaux BODACC", true],
+  ["bodacc-procedures", "Difficultés et procédures collectives", "Signaux BODACC", true],
+  ["bodacc-radiations", "Radiations et cessations", "Signaux BODACC", true],
+  ["immobilier", "Immobilier professionnel", "Autres opportunités privées", false],
+  ["emploi", "Emploi et recrutement", "Autres opportunités privées", false],
+  ["sous-traitance-offres", "Offres de sous-traitance", "Autres opportunités privées", false],
+  ["sous-traitance-recherche", "Recherche de sous-traitants et partenaires", "Autres opportunités privées", false]
 ];
 
 function populateSearchFilters(marketValue = "", selectedCategory = "all") {
@@ -221,7 +221,7 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
         ? PRIVATE_SEARCH_CATEGORIES
         : [];
     const groups = new Map();
-    source.forEach(([value, label, groupLabel]) => {
+    source.forEach(([value, label, groupLabel, connected = true]) => {
       let parent = categorySelect;
       if (groupLabel) {
         if (!groups.has(groupLabel)) {
@@ -234,11 +234,12 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
       }
       const option = document.createElement("option");
       option.value = value;
-      option.textContent = label;
+      option.textContent = connected ? label : `${label} · source à connecter`;
+      option.disabled = !connected;
       parent.append(option);
     });
     categorySelect.disabled = !marketValue;
-    categorySelect.value = source.some(([value]) => value === selectedCategory)
+    categorySelect.value = source.some(([value, , , connected = true]) => value === selectedCategory && connected)
       ? selectedCategory
       : "all";
   }
@@ -286,7 +287,8 @@ if (advancedSearchForm) {
   event.preventDefault();
   const params = new URLSearchParams();
   const query = document.querySelector("#feed-search")?.value.trim();
-  const category = document.querySelector("#feed-sector")?.value;
+  const categoryControl = document.querySelector("#feed-sector");
+  const category = categoryControl?.selectedOptions[0]?.disabled ? "all" : categoryControl?.value;
   const marketType = document.querySelector("#feed-market-type")?.value;
   const region = document.querySelector("#feed-region")?.value;
   if (query) params.set("q", query);
