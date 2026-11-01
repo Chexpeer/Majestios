@@ -48,6 +48,9 @@ async function main() {
       apiCalls++;
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.searchParams.get("where")?.includes('nature = "APPEL_OFFRE"'), true, "La requête doit limiter les résultats aux appels d’offres.");
+      if (requestUrl.searchParams.has("where") && requestUrl.searchParams.get("where")?.includes('code_departement_prestation = "79"')) {
+        assert.equal(requestUrl.searchParams.get("where").includes('code_departement = "79"'), true, "Le filtre régional doit couvrir le département de prestation et celui de l’acheteur.");
+      }
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -63,7 +66,7 @@ async function main() {
       });
     });
 
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=plomberie&marche=public", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=plomberie&marche=public&zone=nouvelle-aquitaine", { waitUntil: "domcontentloaded" });
     await page.getByText("Connexion à la source officielle BOAMP en cours…").waitFor({ state: "detached", timeout: 10000 }).catch(() => {});
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "Une annonce récupérée doit devenir une carte de résultat.");
