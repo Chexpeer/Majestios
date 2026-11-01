@@ -120,6 +120,8 @@
     // « Publics et privés » interroge les deux sources en parallèle, dans des blocs distincts.
     // Les résultats BODACC restent des signaux légaux, jamais des appels d’offres.
     if (market === "all") {
+      // Nettoyer les groupes précédents lors d’une nouvelle recherche dans le même panneau.
+      panel.querySelectorAll(".opportunity-source-group").forEach((group) => group.remove());
       empty.textContent = "Les résultats sont regroupés ci-dessous par source ; chaque source répond indépendamment.";
       empty.setAttribute("role", "status");
       for (const source of [
