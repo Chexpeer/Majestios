@@ -183,10 +183,10 @@ async function main() {
     assert.equal(await page.locator("#map-buildings .map-building").count(), 12, "Les 12 destinations doivent rester présentes sur mobile.");
     await assertMapCardsDoNotOverlap(page, "Carte mobile");
 
-    // Le formulaire doit transmettre les critères à la page dédiée de la catégorie choisie.
+    // Le type doit être choisi avant la catégorie ; une catégorie publique mène à sa page dédiée.
     await page.locator("#feed-search").fill("rénovation énergétique");
+    await page.locator("#feed-market-type").selectOption("public");
     await page.locator("#feed-sector").selectOption("renovation");
-    await page.locator("#feed-market-type").selectOption("private");
     await page.locator("#feed-region").selectOption("all");
     await Promise.all([
       page.waitForURL(/categorie-renovation\.html\?/),
@@ -194,9 +194,22 @@ async function main() {
     ]);
     assert.match(page.url(), /q=r%C3%A9novation\+%C3%A9nerg%C3%A9tique|q=r%C3%A9novation%20%C3%A9nerg%C3%A9tique/, "Le mot-clé doit être conservé dans l'URL.");
     assert.match(page.url(), /categorie=renovation/, "La catégorie doit être conservée dans l'URL.");
-    assert.match(page.url(), /marche=private/, "Le type de marché doit être conservé dans l'URL.");
+    assert.match(page.url(), /marche=public/, "Le type de marché doit être conservé dans l'URL.");
     assert.match((await page.locator("#category-results-title").innerText()), /Rénovation/, "La page de résultats doit afficher la catégorie choisie.");
     assert.match((await page.locator(".floating-route-card").innerText()), /Aucun résultat fictif n’est présenté comme une consultation disponible/, "La page doit signaler explicitement l'absence de données réelles.");
+
+    // En privé, les catégories disponibles mènent au récapitulatif des signaux d'entreprise.
+    await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
+    await page.locator("#feed-market-type").selectOption("private");
+    await page.locator("#feed-sector").selectOption("maintenance");
+    await page.locator("#feed-search").fill("maintenance préventive");
+    await Promise.all([
+      page.waitForURL(/resultats-recherche\.html\?/),
+      page.locator("#advanced-search-form button[type='submit']").click()
+    ]);
+    assert.match(page.url(), /marche=private/, "Le filtre privé doit être conservé.");
+    assert.match(page.url(), /categorie=maintenance/, "La catégorie privée choisie doit être conservée.");
+    assert.match((await page.locator("#search-active-filters").innerText()), /Marchés privés/i, "Le récapitulatif doit identifier le type de marché privé.");
 
     // Sans catégorie spécifique, les critères doivent aller au récapitulatif général.
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
