@@ -156,11 +156,13 @@ Travailler par lots limités, réversibles et testables. Éviter les audits sans
 5. `ARBORESCENCE-MAJESTIOS.md` — pages, navigation et dépendances.
 6. `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md` — lots, risques et garde-fous.
 7. `MODELE-DONNEES-APPELS-OFFRES.md` et `schemas/opportunite.schema.json` — contrat des données d'opportunité.
+8. `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` — sources candidates, accès, limites, pipeline et statuts CRM.
 
 ## 10. État de vérité au 1er novembre 2026
 
 - Les documents ci-dessus décrivent le périmètre cible ; ils ne prouvent pas que toutes les fonctions sont développées.
-- Les sources d'emploi listées sont à instruire, pas déclarées connectées.
+- Les sources d'emploi listées sont à instruire, pas déclarées connectées ; la fiche officielle consultée signale que l’API Offres d’emploi France Travail n’est plus exposée publiquement pendant une analyse de ses modalités de distribution et de réutilisation.
+- Le CRM doit être alimenté par un registre de sources traçables et par les interactions internes une fois le backend réalisé. Lire `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` avant toute intégration de source.
 - Le ciblage APE/NAF, la sélection d'environ dix entreprises par département, la diffusion des marchés avec proposition d'accompagnement et le suivi CRM sont des exigences fonctionnelles à spécifier/implémenter ; ne pas prétendre que la campagne est opérationnelle.
 - L'accompagnement humain et technique aux appels d'offres est une fonction déjà prévue dans la vision produit, non une nouveauté.
 - L'audit technique précédent n'est pas réputé intégralement terminé ; aucun statut CI récent n'est présumé.
