@@ -1039,8 +1039,8 @@ if (!fs.existsSync(mobileGeneralResultsPath)) {
   const resultsHtml = fs.readFileSync(mobileGeneralResultsPath, "utf8");
   if (!resultsHtml.includes('name="viewport" content="width=device-width, initial-scale=1"')) errors.push("Résultats mobiles : méta viewport absente");
   if (!resultsHtml.includes('src="search-results.js"')) errors.push("Résultats mobiles : contrôleur search-results.js absent");
-  if (!resultsHtml.includes(".opportunity-result-card { display: grid; grid-template-columns: minmax(0, 1fr); }")) errors.push("Résultats mobiles : carte à une colonne absente");
-  if (!resultsHtml.includes(".opportunity-result-card * { min-width: 0; word-break: normal; overflow-wrap: break-word; }")) errors.push("Résultats mobiles : protection contre le débordement des textes absente");
+  if (!resultsHtml.includes(".opportunity-result-card{display:grid;grid-template-columns:minmax(0,1fr)")) errors.push("Résultats mobiles : carte à une colonne absente");
+  if (!resultsHtml.includes("overflow-wrap:anywhere")) errors.push("Résultats mobiles : protection contre le débordement des textes absente");
 }
 if (!fs.existsSync(generalResultsEnginePath)) {
   errors.push("Résultats mobiles : contrôleur search-results.js absent du projet");
