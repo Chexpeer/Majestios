@@ -202,7 +202,23 @@ Relations clés : une opportunité provient d'une ou plusieurs sources ; un marc
 8. L'accueil reste épuré et la zone virtuelle ne régresse pas.
 9. Toute nouvelle IA peut reprendre le travail à partir du guide de reprise et des documents liés, sans dépendre du contexte de conversation.
 
-## 13. Décisions à ne pas inventer
+## 13. Alimentation du CRM par des ressources externes et internes
+
+Le CRM doit être alimenté par des sources externes autorisées et par les interactions MajestiOS une fois le backend développé. Le registre `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` constitue l’inventaire initial de référence ; il doit être actualisé à chaque validation, intégration, changement de licence ou indisponibilité.
+
+Exigences minimales :
+1. Chaque source possède un identifiant, un producteur, une URL officielle, un mode d’accès, un statut, une date de vérification et des conditions de réutilisation documentées.
+2. Chaque enregistrement conserve son identifiant source, son URL d’origine, ses dates de publication/collecte et la provenance des champs enrichis.
+3. Les entreprises et établissements sont dédoublonnés prioritairement par SIREN/SIRET lorsqu’ils sont disponibles ; un nom ressemblant ne suffit pas à fusionner des fiches.
+4. Le CRM distingue fait publié, donnée normalisée, inférence algorithmique et validation humaine.
+5. Les imports sont idempotents, limités, journalisés et surveillés ; les erreurs, retards, changements de schéma et doublons sont visibles.
+6. Les formulaires, demandes d’accompagnement, interactions, préférences et oppositions n’alimentent le CRM qu’après connexion réelle et contrôle des droits d’accès.
+7. Aucune campagne externe ne part automatiquement du seul fait qu’un signal a été détecté ; la validation humaine et les contrôles de conformité restent requis.
+8. Une source mentionnée dans un cahier des charges n’est jamais considérée comme disponible ou connectée sans test réel documenté.
+
+Le registre recense notamment l’API Recherche d’Entreprises, Sirene, BODACC, BOAMP, RNE/Data INPI, les statistiques de marché du travail, les référentiels métiers, les sources immobilières et les portails professionnels à instruire. Il signale que l’API Offres d’emploi France Travail n’est pas à présumer accessible actuellement.
+
+## 14. Décisions à ne pas inventer
 
 Les technologies backend, les sources exactes d'annuaires d'entreprises, le canal et la fréquence des campagnes, le financement, les tarifs, les rôles humains, les délais de conservation et les niveaux de service détaillés doivent être décidés ou validés avant leur implémentation. Les proposer comme points d'arbitrage, pas comme faits établis.
 
