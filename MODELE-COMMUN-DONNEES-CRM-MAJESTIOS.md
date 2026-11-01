@@ -18,6 +18,25 @@ Le CRM doit relier les entreprises, opportunités, résultats de marchés, signa
 - Une source publique n’est pas automatiquement réutilisable pour toutes les finalités.
 - Un signal ne déclenche pas automatiquement une prospection sans règles de conformité et contrôles préalables.
 
+## 1.1 Contrat commun entre le moteur de recherche et le futur CRM
+
+Le schéma partagé `schemas/opportunite.schema.json` est étendu pour représenter les résultats BOAMP et les signaux BODACC, puis les familles futures immobilier, emploi et sous-traitance sans les confondre. Les champs `recordType`, `marketType` et `category` portent la nature du résultat ; `source`, `sourceId`, `sourceUrl`, `publishedAt`, `provenance` et `firstSeenAt` assurent la traçabilité ; `deduplicationKey` prépare le rapprochement ; `qualification` isole l’analyse commerciale des faits publiés ; `crmLink` réserve les références vers les fiches métier futures.
+
+Le parcours cible devient :
+
+**Recherche à la demande → résultat normalisé → contrôle de provenance et fraîcheur → dédoublonnage → qualification humaine → enregistrement CRM autorisé → tâche/action suivie → historique du résultat.**
+
+Cette évolution est un contrat de données, pas une déclaration que les résultats sont déjà enregistrés. Le moteur actuel affiche les résultats et interroge BOAMP/BODACC à la demande ; il ne dispose pas encore d’une persistance CRM. Avant tout enregistrement réel, il faudra construire l’adaptateur de normalisation de chaque source, valider les données contre le schéma, configurer le backend, l’authentification, l’isolation des comptes, les permissions, l’audit et les règles de conservation.
+
+Règles impératives :
+- conserver chaque source et son identifiant natif ; une même opportunité peut avoir plusieurs observations sources ;
+- ne jamais dédupliquer uniquement sur le nom d’entreprise ;
+- ne pas transformer une catégorie non connectée en résultat, ni inventer une date ou un identifiant ;
+- ne pas confondre un signal BODACC, une offre d’emploi ou un indice immobilier avec une intention d’achat vérifiée ;
+- enregistrer une hypothèse IA dans `qualification.commercialHypothesis`, séparément des données publiées, avec statut de revue ;
+- préserver l’URL source et la date de collecte, et contrôler les droits de stockage/réutilisation avant ingestion persistante ;
+- permettre à terme le passage d’un résultat qualifié vers une fiche entreprise/établissement, une opportunité, une tâche ou une interaction, sans créer automatiquement des actions externes.
+
 ## 2. Les six objets métier
 
 ### 2.1 Entreprise et établissement
