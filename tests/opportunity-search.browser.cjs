@@ -114,7 +114,7 @@ async function main() {
     bodaccCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=all", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Marchés publics · BOAMP" }).waitFor({ timeout: 10000 });
-    await page.getByRole("heading", { name: "Signaux commerciaux privés · BODACC" }).waitFor({ timeout: 10000 });
+    await page.getByRole("heading", { name: "Signaux d’entreprise publiés · BODACC" }).waitFor({ timeout: 10000 });
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
     await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
     assert.equal(apiCalls, 1, "La vue publics et privés doit interroger BOAMP.");
