@@ -336,8 +336,14 @@ if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cata
     const selectableRegions = [...regionBlockMatch[1].matchAll(/\{\s*value:\s*"([^"]+)"[^}]*\}/g)]
       .filter((match) => match[1] !== "all" && !/planned:\s*true/.test(match[0]))
       .map((match) => match[1]);
-    if (selectableRegions.length) {
-      errors.push(`Recherche : zones géographiques non raccordées encore sélectionnables : ${selectableRegions.join(", ")}`);
+    const opportunitySearchPath = path.join(root, "opportunity-search.js");
+    const opportunitySearch = fs.existsSync(opportunitySearchPath) ? fs.readFileSync(opportunitySearchPath, "utf8") : "";
+    const unsupportedRegions = selectableRegions.filter((region) => !opportunitySearch.includes(region));
+    if (unsupportedRegions.length) {
+      errors.push(`Recherche : régions sélectionnables sans traitement explicite dans le moteur : ${unsupportedRegions.join(", ")}`);
+    }
+    if (selectableRegions.length && !opportunitySearch.includes('if (region === "outre-mer")')) {
+      errors.push("Recherche : filtre BODACC Outre-mer doit signaler explicitement sa limite au lieu d’ignorer la zone");
     }
   }
 
