@@ -1,7 +1,7 @@
 # MajestiOS — arborescence et dépendances de référence
 
 Version : 2026-11-01  
-Branche de travail : `chantier-recherche-donnees-gardes-fous-2026-11-01`  
+Branche de travail : `refonte-moteur-navigation-mobile-2026-11-01`  
 Objet : document de référence pour nettoyer le dépôt sans casser les pages, les interactions ni le build.
 
 ## 1. Structure obligatoire de la page d’accueil
@@ -174,7 +174,7 @@ Cette arborescence prépare les futures rubriques sans les annoncer comme déjà
 - Analyse des compétences recherchées et signaux sectoriels.
 - Candidature via Nous rejoindre avec dépôt sécurisé de CV.
 
-Exclusion explicite : aucun moteur de recherche d'emploi public et aucune catégorie Emploi dans le moteur principal d'opportunités commerciales. Le bandeau horizontal de l’accueil reste exclusivement fictif et ne diffuse aucune offre réelle. Toute veille emploi réelle reste interne tant qu’un parcours distinct n’a pas été explicitement défini et autorisé.
+État actuel du moteur : « Emploi et recrutement » figure bien dans le sélecteur des catégories privées afin de préparer l’extension de la taxonomie, mais sa source n’est pas connectée. Tant que le connecteur et le parcours dédié ne sont pas validés, cette sélection doit afficher clairement que la source n’est pas disponible et ne doit lancer aucune recherche BODACC ni présenter de fausses offres d’emploi. Cette présence dans le sélecteur ne signifie pas qu’un moteur d’emploi opérationnel est livré. La veille emploi réelle reste interne et distincte du bandeau horizontal de l’accueil, qui demeure exclusivement fictif et ne diffuse aucune offre réelle.
 
 ### Immobilier professionnel et foncier d'entreprise — dossier autonome futur
 - Signaux de cessation/transfert et établissements potentiellement libérés.
