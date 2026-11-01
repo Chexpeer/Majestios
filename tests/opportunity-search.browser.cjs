@@ -41,6 +41,7 @@ async function main() {
           departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise BODACC de test",
           ville: "Niort", registre: "RCS test", listepersonnes: JSON.stringify({ personne: { activite: "Rénovation de bâtiments" } }),
           acte: { nature: "Cession de fonds de commerce" },
+          divers: "Prestation de services généraux",
           url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?q.id=id:A202610310001"
         } } }] })
       });
@@ -100,6 +101,10 @@ async function main() {
     assert.match(await page.locator(".bodacc-result-card").innerText(), /A202610310001/, "La référence unique de l’annonce doit être affichée.");
     assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
+
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=services", { waitUntil: "domcontentloaded" });
+    await page.getByText(/Aucun signal BODACC ne correspond|La source BODACC a répondu sans annonce/).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".bodacc-result-card").count(), 0, "Un signal de services généraux ne doit pas être classé à tort comme service numérique.");
 
     apiCalls = 0;
     bodaccCalls = 0;
