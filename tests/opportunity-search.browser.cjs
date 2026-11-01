@@ -143,6 +143,7 @@ async function main() {
     assert.equal(apiCalls, 1, "La vue publics et privés doit interroger BOAMP.");
     assert.equal(bodaccCalls, 1, "La vue publics et privés doit interroger BODACC séparément.");
     assert.equal(await page.locator(".opportunity-result-card").count(), 2, "Les résultats des deux sources doivent rester visibles dans des groupes distincts.");
+    assert.ok(await page.locator(".opportunity-result-card").count() <= 10, "Une recherche mixte ne doit jamais afficher plus de dix annonces et signaux au total.");
 
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=outre-mer", { waitUntil: "domcontentloaded" });
     await page.getByText(/filtre BODACC pour l’Outre-mer n’est pas encore pris en charge/).waitFor({ timeout: 10000 });
