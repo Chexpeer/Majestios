@@ -8,63 +8,6 @@
     <title>MajestiOS — Développement commercial et prospection inversée</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="zone-artisanale.css">
-    <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}</script>
-    <script src="catalogue-majestios.js" defer></script>
-    <script>
-      (function () {
-        function showSceneFallback() {
-          const loading = document.getElementById("scene-loading");
-          if (!loading || loading.dataset.fallbackShown === "true" || loading.classList.contains("hidden")) return;
-          loading.dataset.fallbackShown = "true";
-          const canvas = document.querySelector("#scene canvas");
-          if (canvas) canvas.style.display = "none";
-          const hoverCard = document.getElementById("hover-card");
-          if (hoverCard) hoverCard.style.display = "none";
-          loading.classList.remove("hidden");
-          loading.classList.add("scene-error");
-          loading.setAttribute("role", "alert");
-          loading.innerHTML = `
-            <div class="fallback-campus">
-              <div class="fallback-campus-heading">
-                <span>MAJESTIOS · MODE DE SECOURS</span>
-                <h2>La vue 3D n’a pas pu se charger</h2>
-                <p>Vous pouvez continuer à explorer les rubriques métier ci-dessous. Vérifiez votre connexion puis rechargez la page pour réessayer la scène interactive.</p>
-              </div>
-              <div class="fallback-buildings">
-                <a href="marches-publics.html" style="--building-color:#397ab5"><i>B01 · CENTRAL</i><b>Marchés publics</b><small>Consulter la rubrique métier</small></a>
-                <a href="marches-prives.html" style="--building-color:#39865a"><i>B02 · CENTRAL</i><b>Marchés privés</b><small>Consulter la rubrique métier</small></a>
-                <a href="developpement-commercial.html" style="--building-color:#c8892e"><i>B03 · CENTRAL</i><b>Développement commercial</b><small>Consulter la rubrique métier</small></a>
-                <a href="prospection-inversee.html" style="--building-color:#218d99"><i>B04 · CENTRAL</i><b>Prospection inversée</b><small>Consulter la rubrique métier</small></a>
-                <a href="intelligence-economique.html" style="--building-color:#7b58a8"><i>B05 · CENTRAL</i><b>Intelligence économique</b><small>Consulter la rubrique métier</small></a>
-                <a href="reseaux-synergies.html" style="--building-color:#c96f68"><i>B06 · PÉRIPHÉRIQUE</i><b>Réseaux et synergies</b><small>Consulter la rubrique métier</small></a>
-                <a href="veille-marches.html" style="--building-color:#438bc7"><i>B07 · CENTRAL</i><b>Veille des marchés</b><small>Consulter la rubrique métier</small></a>
-                <a href="accompagnement-appels-offres.html" style="--building-color:#6488ad"><i>B08 · PÉRIPHÉRIQUE</i><b>Accompagnement aux appels d’offres</b><small>Consulter la rubrique métier</small></a>
-                <a href="sous-traitance.html" style="--building-color:#b56b40"><i>B09 · PÉRIPHÉRIQUE</i><b>Sous-traitance</b><small>Consulter la rubrique métier</small></a>
-                <a href="salons-seminaires.html" style="--building-color:#b69a50"><i>B10 · PÉRIPHÉRIQUE</i><b>Salons et séminaires</b><small>Consulter la rubrique métier</small></a>
-                <a href="bodacc-veille-entreprises.html" style="--building-color:#5c8d81"><i>B11 · PÉRIPHÉRIQUE</i><b>Veille des entreprises — BODACC</b><small>Consulter la rubrique métier</small></a>
-                <a href="suivi-commercial.html" style="--building-color:#7b899d"><i>B12 · PÉRIPHÉRIQUE</i><b>Suivi commercial et capitalisation</b><small>Consulter la rubrique métier</small></a>
-              </div>
-              <div class="fallback-campus-footer">MAJESTIOS · ACCÈS AUX RUBRIQUES MÉTIER</div>
-            </div>`;
-        }
-        window.majestiosSceneFallback = showSceneFallback;
-        window.addEventListener("error", function (event) {
-          const target = event.target;
-          if (target && target !== window) {
-            const source = (target.src || target.href || "").toLowerCase();
-            const isSceneResource = target.tagName === "SCRIPT" &&
-              (source.includes("zone-artisanale.js") || source.includes("three.module.js") || source.includes("orbitcontrols.js"));
-            if (!isSceneResource) return;
-          } else if (event.filename && !/zone-artisanale\.js|three\.module\.js|orbitcontrols\.js/i.test(event.filename)) {
-            return;
-          }
-          showSceneFallback();
-        }, true);
-        window.addEventListener("unhandledrejection", showSceneFallback);
-        window.setTimeout(showSceneFallback, 10000);
-      })();
-    </script>
-    <script type="module" src="zone-artisanale.js" onerror="window.majestiosSceneFallback()"></script>
     <script src="app.js" defer></script>
   </head>
   <body class="homepage">
@@ -129,34 +72,33 @@
     <main class="majestios-immersive-home">
 
       <section class="industrial-zone-home" id="accueil" aria-labelledby="industrial-zone-title">
-        <div class="industrial-zone-slogan" aria-label="MajestiOS, l’intelligence artificielle qui vous en met plein les yeux">
-          <h1 id="industrial-zone-title">MajestiOS, l’IA qui vous en met plein les yeux.</h1>
+        <div class="industrial-zone-slogan">
+          <p class="building-eyebrow">MAJESTIOS · ESPACE PROFESSIONNEL</p>
+          <h1 id="industrial-zone-title">L’intelligence qui <span>saute aux yeux.</span></h1>
+          <p class="building-intro">Explorez les 12 étages de votre développement commercial.</p>
         </div>
-        <div class="za-main homepage-industrial-layout">
-          <section class="scene-shell" aria-label="Zone industrielle virtuelle 3D interactive">
-            <div id="scene" class="scene" role="application" aria-label="Zone 3D : faites glisser pour tourner, utilisez la molette pour zoomer et sélectionnez un bâtiment.">
-              <div class="scene-loading" id="scene-loading">Préparation de la zone industrielle virtuelle…</div>
-        <div class="zone-map" id="zone-map" role="region" aria-label="Carte interactive des rubriques MajestiOS" hidden><div class="map-header"><strong>CARTE INTERACTIVE · ZONE MAJESTIOS</strong><span>Repérez les rubriques, les voies, les parkings et les espaces verts.</span></div><div class="map-land"><div class="map-road map-road-main"></div><div class="map-road map-road-cross"></div><div class="map-road map-road-upper"></div><div class="map-road map-road-lower"></div><div class="map-green map-green-north" aria-label="Espace vert nord"><span>ESPACE VERT</span></div><div class="map-green map-green-south" aria-label="Espace vert sud"><span>ESPACE VERT</span></div><div class="map-parking map-parking-west" aria-label="Parking visiteurs"><strong>PARKING VISITEURS</strong><div class="parking-bays"></div></div><div class="map-parking map-parking-east" aria-label="Parking entreprises"><strong>PARKING ENTREPRISES</strong><div class="parking-bays"></div></div><div class="map-compass" aria-hidden="true">N ↑</div><div class="map-legend"><span><i class="map-dot public"></i> Marchés publics</span><span><i class="map-dot private"></i> Marchés privés</span><span><i class="map-dot other"></i> Services MajestiOS</span></div><div class="map-buildings" id="map-buildings"></div></div></div>
-              <div class="hover-card" id="hover-card" aria-hidden="true"><span class="hover-card-kicker">ESPACE MAJESTIOS</span><strong data-hover-name></strong><small data-hover-detail></small><span class="hover-card-hint">Cliquez pour ouvrir la rubrique ↗</span></div>
-            </div>
-            <div class="scene-topline"><span class="live-dot"></span> ZONE INDUSTRIELLE · VUE 3D</div>
-            <div class="scene-modes" role="group" aria-label="Choisir votre visite MajestiOS"><button type="button" data-scene-mode="fly" aria-pressed="true" title="Activer la navigation aérienne">Navigation aérienne</button><button type="button" data-scene-mode="drive" aria-pressed="false" title="Explorer la zone au niveau des rues">Street View</button><button type="button" data-scene-mode="map" aria-pressed="false" title="Afficher la carte interactive et choisir une rubrique">Carte interactive</button></div>
-            <div class="scene-controls" aria-label="Commandes de la vue">
-              <button id="view-home" type="button" title="Revenir à la vue générale">Vue générale</button>
-              <button id="zoom-in" type="button" aria-label="Zoom avant">+</button>
-              <button id="zoom-out" type="button" aria-label="Zoom arrière">−</button>
-              <button id="scene-fullscreen" type="button" aria-label="Afficher la zone industrielle en plein écran" aria-pressed="false" title="Passer en plein écran">⛶ Plein écran</button>
-            </div>
-            <div class="walk-pad" aria-label="Commandes de déplacement tactile"><button type="button" data-walk="w" aria-label="Avancer">▲</button><div><button type="button" data-walk="a" aria-label="Aller à gauche">◀</button><button type="button" data-walk="s" aria-label="Reculer">▼</button><button type="button" data-walk="d" aria-label="Aller à droite">▶</button></div></div>
-          </section>
-          <aside class="building-panel" id="building-panel" aria-live="polite" hidden>
-            <p class="panel-kicker">EXPLORATION MAJESTIOS</p>
-            <h2 id="panel-title">Votre espace professionnel</h2>
-            <p id="panel-description">Sélectionnez une rubrique sur la zone interactive.</p>
-            <div class="floor-list" id="floor-list" hidden></div>
-            <a class="button-primary is-disabled" id="open-building" href="index.html" aria-disabled="true" tabindex="-1">Découvrir cette rubrique</a>
-            
-          </aside>
+        <div class="majestios-building-stage" aria-label="Immeuble MajestiOS avec douze étages interactifs">
+          <div class="building-atmosphere" aria-hidden="true"></div>
+          <div class="building-ground" aria-hidden="true"><span>MAJESTIOS</span><span>ZONE DE DÉVELOPPEMENT COMMERCIAL</span></div>
+          <div class="majestios-building">
+            <div class="building-roof"><span>MAJESTIOS</span><small>VOTRE ESPACE PROFESSIONNEL</small></div>
+            <nav class="building-floors" aria-label="Les douze étages MajestiOS">
+              <a class="building-floor floor-public" href="marches-publics.html"><span class="floor-number">12</span><span class="floor-name">Marchés publics</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-private" href="marches-prives.html"><span class="floor-number">11</span><span class="floor-name">Marchés privés</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-dev" href="developpement-commercial.html"><span class="floor-number">10</span><span class="floor-name">Développement commercial</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-prospect" href="prospection-inversee.html"><span class="floor-number">09</span><span class="floor-name">Prospection inversée</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-economic" href="intelligence-economique.html"><span class="floor-number">08</span><span class="floor-name">Intelligence économique</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-network" href="reseaux-synergies.html"><span class="floor-number">07</span><span class="floor-name">Réseaux &amp; synergies</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-watch" href="veille-marches.html"><span class="floor-number">06</span><span class="floor-name">Veille des marchés</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-support" href="accompagnement-appels-offres.html"><span class="floor-number">05</span><span class="floor-name">Accompagnement aux appels d’offres</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-subcontract" href="sous-traitance.html"><span class="floor-number">04</span><span class="floor-name">Sous-traitance</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-events" href="salons-seminaires.html"><span class="floor-number">03</span><span class="floor-name">Salons &amp; séminaires</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-bodacc" href="bodacc-veille-entreprises.html"><span class="floor-number">02</span><span class="floor-name">Veille des entreprises · BODACC</span><span class="floor-arrow">↗</span></a>
+              <a class="building-floor floor-crm" href="suivi-commercial.html"><span class="floor-number">01</span><span class="floor-name">Suivi commercial &amp; capitalisation</span><span class="floor-arrow">↗</span></a>
+            </nav>
+            <div class="building-entrance"><span class="entrance-door" aria-hidden="true"></span><span>ACCÈS MAJESTIOS</span><span class="entrance-lights" aria-hidden="true">● ● ●</span></div>
+          </div>
+          <div class="building-side-light" aria-hidden="true"></div>
         </div>
       </section>
 
