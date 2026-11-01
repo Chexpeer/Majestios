@@ -53,7 +53,7 @@ Les critères sont combinés par intersection :
 - mots-clés recherchés dans le titre, le résumé, la description et les tags ;
 - date limite future et statut exploitable pour les opportunités ouvertes.
 
-La recherche textuelle devra être insensible à la casse et aux accents. Les filtres régionaux ne doivent être activés que lorsque les codes régionaux utilisés dans les annonces et dans le formulaire reposent sur une nomenclature cohérente.
+La recherche textuelle devra être insensible à la casse et aux accents. Le moteur BOAMP utilise une correspondance explicite des régions administratives vers les codes départementaux et vérifie le département de prestation ou celui de l’acheteur. Le moteur BODACC filtre les régions métropolitaines avec son propre champ régional ; si une zone n’est pas prise en charge de manière fiable, la recherche doit le signaler explicitement au lieu de renvoyer des résultats non filtrés.
 
 ## Étapes d'intégration
 
