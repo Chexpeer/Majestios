@@ -29,6 +29,20 @@ La page actuellement rattachée à la navigation « Salon virtuel » porte cette
 
 
 
+
+### Personnalisation différée des pages par rubrique
+
+**Statut : prévue, non activée.** Après stabilisation générale du site, chaque rubrique pourra recevoir une identité visuelle légère et cohérente avec son sujet : couleur d’accent, pictogramme ou filigrane discret, variantes de cartes et ajustements limités de présentation.
+
+Préparation attendue avant activation :
+- définir une configuration centralisée par identifiant de rubrique ;
+- s’appuyer sur les styles et gabarits partagés, sans créer une copie spécifique de chaque page ;
+- prévoir un interrupteur global, désactivé par défaut, et une possibilité de retour au style commun ;
+- vérifier les contrastes, la lisibilité, l’accessibilité clavier, le responsive mobile, les liens et les formulaires ;
+- préserver la distinction entre identité visuelle et état réel des sources/connecteurs.
+
+**Aucun changement visuel n’est à appliquer pendant le chantier de stabilisation.** L’activation sera une étape ultérieure, après validation explicite et tests anti-régression.
+
 ### Pages communes
 - `index.html` — accueil de référence.
 - `nous-rejoindre.html` — contributions et coopérations.
