@@ -338,21 +338,19 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
         const offices = document.getElementById("dialog-offices");
         if (!catalog || !floorRows || !dialog || !offices) return;
         const floors = [
-          {id:"B01",name:"Marchés publics",key:"marches-publics",first:"veille-marches.html",second:"accompagnement-appels-offres.html",description:"Repérer et qualifier les consultations publiques pertinentes pour votre entreprise."},
-          {id:"B02",name:"Marchés privés",key:"marches-prives",first:"sous-traitance.html",second:"bodacc-veille-entreprises.html",description:"Identifier les opportunités privées et les besoins des donneurs d’ordre."},
-          {id:"B03",name:"Veille économique",key:"veille-economique",first:"veille-marches.html",second:"intelligence-economique.html",description:"Suivre les marchés et les signaux économiques à partir de sources identifiées."},
-          {id:"B04",name:"Prospection",key:"prospection",first:"marches-publics.html",second:"marches-prives.html",description:"Combiner prospection passive pour détecter et qualifier les opportunités, et prospection active pour engager des démarches commerciales."},
-          {id:"B05",name:"Développement commercial",key:"developpement-commercial",first:"prospection-inversee.html",second:"suivi-commercial.html",description:"Organiser la chaîne commerciale, de la qualification des opportunités à leur transformation."},
-          {id:"B06",name:"Accompagnement aux appels d’offres",key:"accompagnement-appels-offres",first:"marches-publics.html",second:"qualification-entreprises.html",description:"Comprendre le dossier, vérifier les pièces, préparer la candidature et suivre les échéances."},
-          {id:"B07",name:"Salon virtuel",key:"salon-virtuel",first:"reseaux-synergies.html",second:"salons-seminaires.html",description:"Présenter les savoir-faire des entreprises et faciliter les partenariats professionnels."},
-          {id:"B08",name:"Espace entreprises",key:"espace-entreprises",first:"espace-membre.html",second:"nous-rejoindre.html",description:"Accéder au parcours entreprise et préparer la personnalisation des services."},
-          {id:"B09",name:"CRM",key:"crm",first:"suivi-commercial.html",second:"developpement-commercial.html",description:"Structurer les entreprises, contacts, interactions, opportunités et actions de suivi."},
-          {id:"B10",name:"Business Intelligence",key:"business-intelligence",first:"intelligence-economique.html",second:"brainos.html",description:"Transformer les données traçables en analyses et éléments d’aide à la décision."}
+          {id:"B01",name:"Marchés publics",key:"marches-publics",href:"marches-publics.html",first:"veille-marches.html",second:"accompagnement-appels-offres.html",description:"Repérer et qualifier les consultations publiques pertinentes pour votre entreprise."},
+          {id:"B02",name:"Marchés privés",key:"marches-prives",href:"marches-prives.html",first:"sous-traitance.html",second:"bodacc-veille-entreprises.html",description:"Identifier les opportunités privées et les besoins des donneurs d’ordre."},
+          {id:"B03",name:"Veille économique",key:"veille-economique",href:"bodacc-veille-entreprises.html",first:"veille-marches.html",second:"intelligence-economique.html",description:"Suivre les marchés et les signaux économiques à partir de sources identifiées."},
+          {id:"B04",name:"Prospection",key:"prospection",href:"prospection-inversee.html",first:"marches-publics.html",second:"marches-prives.html",description:"Combiner prospection passive pour détecter et qualifier les opportunités, et prospection active pour engager des démarches commerciales."},
+          {id:"B05",name:"Développement commercial",key:"developpement-commercial",href:"developpement-commercial.html",first:"prospection-inversee.html",second:"suivi-commercial.html",description:"Organiser la chaîne commerciale, de la qualification des opportunités à leur transformation."},
+          {id:"B06",name:"Accompagnement aux appels d’offres",key:"accompagnement-appels-offres",href:"accompagnement-appels-offres.html",first:"marches-publics.html",second:"qualification-entreprises.html",description:"Comprendre le dossier, vérifier les pièces, préparer la candidature et suivre les échéances."},
+          {id:"B07",name:"Salon virtuel",key:"salon-virtuel",href:"salons-seminaires.html",first:"reseaux-synergies.html",second:"sous-traitance.html",description:"Présenter les savoir-faire des entreprises et faciliter les partenariats professionnels."},
+          {id:"B08",name:"Espace entreprises",key:"espace-entreprises",href:"espace-membre.html",first:"nous-rejoindre.html",second:"faq.html",description:"Accéder au parcours entreprise et préparer la personnalisation des services."},
+          {id:"B09",name:"CRM",key:"crm",href:"crm.html",first:"suivi-commercial.html",second:"developpement-commercial.html",description:"Structurer les entreprises, contacts, interactions, opportunités et actions de suivi."},
+          {id:"B10",name:"Business Intelligence",key:"business-intelligence",href:"brainos.html",first:"intelligence-economique.html",second:"vision-majestios.html",description:"Transformer les données traçables en analyses et éléments d’aide à la décision."}
         ];
-        const rubricFor = (key) => catalog.rubrics.find((item) => item.key === key);
         floors.slice().reverse().forEach((floor, index) => {
-          const rubric = rubricFor(floor.key);
-          if (!rubric || !rubric.href) return;
+          if (!floor.href) return;
           const button = document.createElement("button");
           button.type = "button";
           button.className = "floor-row";
@@ -366,7 +364,7 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
             document.getElementById("dialog-description").textContent = floor.description;
             offices.replaceChildren();
             [
-              {label:floor.name,href:rubric.href,level:"Rubrique principale"},
+              {label:floor.name,href:floor.href,level:"Rubrique principale"},
               {label:"Explorer le dossier",href:floor.first,level:"Sous-dossier"},
               {label:"Approfondir la rubrique",href:floor.second,level:"Page métier"}
             ].forEach(function (office) {
