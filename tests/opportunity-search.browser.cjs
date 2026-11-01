@@ -184,6 +184,24 @@ async function main() {
       assert.equal(await page.locator(".bodacc-result-card").count(), 1, `La catégorie ${category} doit afficher uniquement son signal correspondant.`);
     }
 
+    // Le retour depuis une rubrique privée doit restaurer la catégorie privée exacte, sans la convertir en catégorie publique.
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=cession&marche=private&categorie=bodacc-cessions&zone=nouvelle-aquitaine", { waitUntil: "domcontentloaded" });
+    await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
+    await page.locator(".search-results-return a").click();
+    await page.waitForURL((url) => {
+      const restored = new URL(url);
+      return restored.pathname === "/index.html"
+        && restored.searchParams.get("q") === "cession"
+        && restored.searchParams.get("marche") === "private"
+        && restored.searchParams.get("categorie") === "bodacc-cessions"
+        && restored.searchParams.get("zone") === "nouvelle-aquitaine"
+        && restored.hash === "#recherche-avancee";
+    }, { timeout: 10000 });
+    assert.equal(await page.locator("#feed-market-type").inputValue(), "private", "Le retour doit restaurer le type privé.");
+    assert.equal(await page.locator("#feed-sector").inputValue(), "bodacc-cessions", "Le retour doit restaurer la famille BODACC exacte.");
+    assert.equal(await page.locator("#feed-search").inputValue(), "cession", "Le retour doit restaurer le mot-clé privé.");
+    assert.equal(await page.locator("#feed-region").inputValue(), "nouvelle-aquitaine", "Le retour doit restaurer la région privée.");
+
     bodaccCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=immobilier", { waitUntil: "domcontentloaded" });
     await page.getByText(/Immobilier professionnel.*source de données n’est pas encore connectée/).waitFor({ timeout: 10000 });
