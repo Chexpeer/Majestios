@@ -9,7 +9,7 @@ La page `index.html` doit contenir uniquement :
 2. la zone artisanale virtuelle interactive, visible directement sur l’accueil ;
 3. le moteur de recherche avancé.
 
-La liste d’appels d’offres, les blocs explicatifs, les répertoires redondants, les formulaires permanents et les pieds de page sont exclus de l’accueil. Le flux d’annonces défilant en haut de page est une évolution ultérieure, à ajouter seulement lorsqu’il sera prêt. Aucune annonce fictive ne doit être présentée comme un résultat réel.
+La liste d’appels d’offres, les blocs explicatifs, les répertoires redondants, les formulaires permanents et les pieds de page sont exclus de l’accueil. Le bandeau horizontal présent en haut de page reste un flux de démonstration lent, discret et explicitement fictif ; il ne diffuse aucune annonce réelle.
 
 ## Pages et ressources à conserver
 
@@ -20,7 +20,7 @@ La liste d’appels d’offres, les blocs explicatifs, les répertoires redondan
 - `nous-rejoindre.html`, `espace-membre.html`, `faq.html` : rubriques secondaires accessibles par navigation.
 - `styles.css`, `app.js`, `catalogue-majestios.js`, `rubriques-immersives.css`, `rubriques-immersives.js` : styles, interactions, correspondance des bâtiments et présentation commune.
 - `build.js`, `verify-site.js`, `.github/workflows/verify-site.yml`, `vercel.json` : préparation, vérification et configuration de publication.
-- `README.md` et `ARBORESCENCE-MAJESTIOS.md` : seules références documentaires de ce prototype. Le README explique l’état courant ; l’arborescence décrit les pages, dépendances et règles de validation.
+- Les documents de référence sont détaillés dans la section « Documentation produit et reprise par une IA » plus bas ; le cahier des charges maître, la spécification fonctionnelle, la matrice et le registre des ressources CRM complètent le README et l’arborescence.
 
 Ne supprimer aucun fichier de page ou ressource avant d’avoir vérifié les références dans les scripts, les liens entrants et le processus de build. Les fichiers de prototype qui paraissent anciens peuvent encore être requis par le contrôle automatique ou par une page métier.
 
@@ -67,7 +67,8 @@ Lire dans cet ordre avant de reprendre les travaux :
 4. CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md — sources et signaux ;
 5. ARBORESCENCE-MAJESTIOS.md — structure des pages ;
 6. PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md — lots et garde-fous ;
-7. MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md — statut des exigences et preuves attendues.
+7. MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md — statut des exigences et preuves attendues ;
+8. REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md — sources candidates et alimentation du CRM.
 
 MajestiOS est un outil de **développement commercial assisté par IA**. L'accompagnement humain et technique aux appels d'offres, le ciblage d'entreprises par codes APE/NAF et département, la diffusion ciblée avec proposition d'accompagnement, la veille emploi discrète et les pistes immobilières professionnelles appartiennent au périmètre documenté. Leur mention ne signifie pas qu'ils sont tous implémentés ou connectés.
 
