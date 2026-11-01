@@ -1,4 +1,5 @@
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js";\nimport { createZoneBuildings } from "./zone-artisanale-config.js";
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js";
+import { createZoneBuildings } from "./zone-artisanale-config.js";
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/controls/OrbitControls.js";
 
 // Toute erreur d’initialisation synchrone doit déclencher le mode de secours de l’accueil.
