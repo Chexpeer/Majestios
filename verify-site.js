@@ -182,6 +182,15 @@ for (const page of immersivePages) {
   for (const href of ["index.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"]) {
     if (!pageHtml.includes(`href="${href}"`)) errors.push(`${page} : lien de navigation commun manquant (${href})`);
   }
+  if (pageHtml.includes('src="rubric-search.js"')) {
+    const catalogueIndex = pageHtml.indexOf('src="catalogue-majestios.js"');
+    const appIndex = pageHtml.indexOf('src="app.js"');
+    const rubricSearchIndex = pageHtml.indexOf('src="rubric-search.js"');
+    if (catalogueIndex < 0 || appIndex < 0 || rubricSearchIndex < 0 ||
+        catalogueIndex > appIndex || appIndex > rubricSearchIndex) {
+      errors.push(`${page} : ordre des scripts invalide pour charger le catalogue partagé avant les recherches`);
+    }
+  }
   if (!pageHtml.includes('href="index.html#accueil">← Retour à la zone industrielle MajestiOS</a>')) {
     errors.push(`${page} : retour vers la zone industrielle intégrée à l’accueil absent`);
   }
@@ -307,6 +316,14 @@ if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
 }
 
 // Vérifier le catalogue partagé, les douze destinations et les filtres de recherche.
+const rubricSearchPath = path.join(root, "rubric-search.js");
+if (fs.existsSync(rubricSearchPath)) {
+  const rubricSearchText = fs.readFileSync(rubricSearchPath, "utf8");
+  if (!rubricSearchText.includes("catalogue.searchCategories") ||
+      !rubricSearchText.includes("catalogue.searchRegions")) {
+    errors.push("Recherche des rubriques : les catégories et régions doivent provenir du catalogue partagé");
+  }
+}
 const appPath = path.join(root, "app.js");
 const zoneScenePath = path.join(root, "zone-artisanale.js");
 const cataloguePath = path.join(root, "catalogue-majestios.js");
