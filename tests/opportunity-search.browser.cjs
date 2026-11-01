@@ -187,7 +187,9 @@ async function main() {
     await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
     assert.equal(apiCalls, 1, "La vue publics et privés doit interroger BOAMP.");
     assert.equal(bodaccCalls, 1, "La vue publics et privés doit interroger BODACC séparément.");
-    assert.equal(await page.locator(".opportunity-result-card").count(), 2, "Les résultats des deux sources doivent rester visibles dans des groupes distincts.");
+    assert.equal(await page.locator(".opportunity-source-group").count(), 2, "Les deux sources doivent rester dans des groupes distincts.");
+    assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Marchés publics · BOAMP\"] .opportunity-result-card").count(), 1, "Le groupe BOAMP doit afficher son résultat public simulé.");
+    assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 5, "Le groupe BODACC doit afficher les cinq familles de signaux simulées.");
     assert.ok(await page.locator(".opportunity-result-card").count() <= 10, "Une recherche mixte ne doit jamais afficher plus de dix annonces et signaux au total.");
 
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=outre-mer", { waitUntil: "domcontentloaded" });
