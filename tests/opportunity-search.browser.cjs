@@ -202,11 +202,21 @@ async function main() {
     assert.equal(await page.locator("#feed-search").inputValue(), "cession", "Le retour doit restaurer le mot-clé privé.");
     assert.equal(await page.locator("#feed-region").inputValue(), "nouvelle-aquitaine", "Le retour doit restaurer la région privée.");
 
-    bodaccCalls = 0;
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=immobilier", { waitUntil: "domcontentloaded" });
-    await page.getByText(/Immobilier professionnel.*source de données n’est pas encore connectée/).waitFor({ timeout: 10000 });
-    assert.equal(bodaccCalls, 0, "Une rubrique immobilière non connectée ne doit pas lancer une recherche BODACC trompeuse.");
-    assert.equal(await page.locator(".bodacc-result-card").count(), 0, "Aucun signal BODACC ne doit être présenté comme une annonce immobilière.");
+    // Les quatre familles privées prévues mais non connectées doivent rester honnêtes :
+    // elles affichent leur statut, sans requête BODACC ni résultats inventés.
+    const notYetConnectedPrivateCategories = [
+      ["immobilier", "Immobilier professionnel"],
+      ["emploi", "Emploi et recrutement"],
+      ["sous-traitance-offres", "Offres de sous-traitance"],
+      ["sous-traitance-recherche", "Recherche de sous-traitants et partenaires"]
+    ];
+    for (const [category, label] of notYetConnectedPrivateCategories) {
+      bodaccCalls = 0;
+      await page.goto(`http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=${category}`, { waitUntil: "domcontentloaded" });
+      await page.getByText(new RegExp(label + ".*source de données n’est pas encore connectée")).waitFor({ timeout: 10000 });
+      assert.equal(bodaccCalls, 0, `La rubrique privée non connectée ${category} ne doit pas lancer une recherche BODACC trompeuse.`);
+      assert.equal(await page.locator(".bodacc-result-card").count(), 0, `Aucun signal BODACC ne doit être présenté comme une annonce de la rubrique ${category}.`);
+    }
 
     apiCalls = 0;
     bodaccCalls = 0;
