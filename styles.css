@@ -1610,3 +1610,11 @@ body.homepage .footer-links a:hover,body.homepage .footer-links a:focus-visible 
 .company-targeting-card a { text-underline-offset: .2em; }
 .company-targeting-warning { margin-top: 1rem; padding: 1rem; border-left: 3px solid #d6a35d; }
 .company-targeting-empty { padding: 1rem; border: 1px dashed rgba(111, 156, 189, .55); border-radius: .7rem; }
+
+/* Suggestions APE/NAF : choix explicite et lisible au clavier/mobile. */
+.naf-suggestions { margin: 1rem 0; padding: 1rem; border: 1px solid rgba(214, 163, 93, .55); border-radius: .75rem; }
+.naf-suggestions legend { padding: 0 .35rem; font-weight: 700; }
+.naf-suggestion-option { display: grid; grid-template-columns: auto 1fr; gap: .35rem .6rem; align-items: start; padding: .65rem 0; border-bottom: 1px solid rgba(111, 156, 189, .22); }
+.naf-suggestion-option input { margin-top: .25rem; }
+.naf-suggestion-option .small-note { grid-column: 2; margin: 0; }
+#suggest-naf-button, #add-naf-suggestions { margin: .4rem 0 .8rem; }
