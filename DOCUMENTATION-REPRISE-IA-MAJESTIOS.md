@@ -165,3 +165,6 @@ Travailler par lots limités, réversibles et testables. Éviter les audits sans
 - L'accompagnement humain et technique aux appels d'offres est une fonction déjà prévue dans la vision produit, non une nouveauté.
 - L'audit technique précédent n'est pas réputé intégralement terminé ; aucun statut CI récent n'est présumé.
 - Ce guide doit être actualisé quand l'état du dépôt ou les décisions du Fondateur changent.
+
+## Matrice de traçabilité et feuille de route
+Avant de modifier le code, consulter aussi `MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md`. Elle relie les exigences aux documents et fichiers connus, distingue prototype/documenté/à développer/à valider et propose les lots suivants. Les statuts y restent prudents : la présence d'un fichier ou d'une exigence ne vaut pas validation d'exécution.
