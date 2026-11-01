@@ -65,25 +65,28 @@
       title: "Rechercher une piste à suivre",
       description: "Retrouvez des marchés et signaux publiés à qualifier avant toute action de suivi commercial.",
       market: "all"
-    },
-    "developpement-commercial.html": {
-      title: "Rechercher des opportunités de développement commercial",
-      description: "Repérez des consultations publiques ou explorez séparément les signaux commerciaux privés du BODACC.",
-      market: "all"
-    },
-    "prospection-inversee.html": {
-      title: "Rechercher des opportunités pour la prospection inversée",
-      description: "Partez des annonces et signaux publiés pour identifier les pistes qui méritent une qualification humaine.",
-      market: "all"
     }
   };
   const config = configs[path];
   if (!config) return;
 
   const catalogue = window.MAJESTIOS_CATALOG || {};
-  const categories = (catalogue.searchCategories || [
+  const publicCategories = (catalogue.searchCategories || [
     { value: "all", label: "Toutes les catégories", active: true }
-  ]).filter((item) => item.active || item.value === "all").map((item) => [item.value, item.label]);
+  ]).filter((item) => item.active && item.value !== "all").map((item) => ({
+    value: item.value, label: item.label, group: "Marchés publics · BOAMP"
+  }));
+  const privateCategories = [
+    { value: "bodacc-creations", label: "Créations et implantations", group: "Signaux BODACC" },
+    { value: "bodacc-cessions", label: "Ventes, cessions et reprises", group: "Signaux BODACC" },
+    { value: "bodacc-modifications", label: "Modifications d’entreprises", group: "Signaux BODACC" },
+    { value: "bodacc-procedures", label: "Difficultés et procédures collectives", group: "Signaux BODACC" },
+    { value: "bodacc-radiations", label: "Radiations et cessations", group: "Signaux BODACC" },
+    { value: "immobilier", label: "Immobilier professionnel · à connecter", group: "Autres opportunités privées" },
+    { value: "emploi", label: "Emploi et recrutement · à connecter", group: "Autres opportunités privées" },
+    { value: "sous-traitance-offres", label: "Offres de sous-traitance · à connecter", group: "Autres opportunités privées" },
+    { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires · à connecter", group: "Autres opportunités privées" }
+  ];
   const regions = (catalogue.searchRegions || [
     { value: "all", label: "Toutes les régions", active: true }
   ]).filter((item) => item.active || item.value === "all").map((item) => [item.value, item.label]);
@@ -99,17 +102,68 @@
   form.method = "get";
   form.className = "advanced-search-form";
   form.id = "rubric-opportunity-search";
+
+  const initialParams = new URLSearchParams(window.location.search);
+  const initialMarket = config.fixedMarket ? config.market : (initialParams.get("marche") || "all");
+  const marketField = config.fixedMarket
+    ? '<input type="hidden" name="marche" value="' + config.market + '">'
+    : '<label for="rubric-search-market">1. Type de marché</label><select id="rubric-search-market" name="marche"><option value="all">Tous types (publics et privés)</option><option value="public">Marchés publics · BOAMP</option><option value="private">Marchés privés · BODACC et autres signaux</option></select>';
   form.innerHTML =
     '<label for="rubric-search-query">Mot-clé, activité ou entreprise</label>' +
     '<input id="rubric-search-query" name="q" type="search" maxlength="160" placeholder="Ex. plomberie, rénovation, maintenance">' +
-    '<label for="rubric-search-category">Catégorie</label>' +
-    '<select id="rubric-search-category" name="categorie">' + optionMarkup(categories) + '</select>' +
-    (config.fixedMarket
-      ? '<input type="hidden" name="marche" value="' + config.market + '">'
-      : '<label for="rubric-search-market">Type de source</label><select id="rubric-search-market" name="marche"><option value="all">Marchés publics et signaux BODACC</option><option value="public">Marchés publics (BOAMP)</option><option value="private">Signaux d’entreprise publiés (BODACC)</option></select>') +
+    marketField +
+    '<label for="rubric-search-category">' + (config.fixedMarket ? "Catégorie" : "2. Catégorie") + '</label>' +
+    '<select id="rubric-search-category" name="categorie"><option value="all">Toutes les catégories</option></select>' +
     '<label for="rubric-search-region">Région</label>' +
     '<select id="rubric-search-region" name="zone">' + optionMarkup(regions) + '</select>' +
     '<button class="button-primary" type="submit">Rechercher →</button>';
+
+  const marketSelect = form.querySelector("#rubric-search-market");
+  const categorySelect = form.querySelector("#rubric-search-category");
+  const populateCategories = (market, selected = "all") => {
+    categorySelect.replaceChildren();
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = market === "private" ? "Toutes les catégories privées" :
+      market === "public" ? "Toutes les catégories publiques" : "Choisir d’abord un type de marché";
+    categorySelect.append(allOption);
+
+    const source = market === "public" ? publicCategories :
+      market === "private" ? privateCategories : [];
+    const groups = new Map();
+    for (const item of source) {
+      let parent = categorySelect;
+      if (item.group) {
+        if (!groups.has(item.group)) {
+          const group = document.createElement("optgroup");
+          group.label = item.group;
+          groups.set(item.group, group);
+          categorySelect.append(group);
+        }
+        parent = groups.get(item.group);
+      }
+      const option = document.createElement("option");
+      option.value = item.value;
+      option.textContent = item.label;
+      parent.append(option);
+    }
+    categorySelect.disabled = !market || market === "all";
+    categorySelect.value = source.some((item) => item.value === selected) ? selected : "all";
+  };
+
+  if (marketSelect) {
+    marketSelect.value = initialMarket;
+    marketSelect.addEventListener("change", () => populateCategories(marketSelect.value));
+  }
+  populateCategories(initialMarket, initialParams.get("categorie") || "all");
+
+  const queryField = form.querySelector("#rubric-search-query");
+  if (queryField) queryField.value = initialParams.get("q") || "";
+  const regionField = form.querySelector("#rubric-search-region");
+  const initialRegion = initialParams.get("zone");
+  if (regionField && initialRegion && [...regionField.options].some((option) => option.value === initialRegion)) {
+    regionField.value = initialRegion;
+  }
 
   const heading = document.createElement("h2");
   heading.id = "rubric-search-title";
@@ -118,7 +172,7 @@
   description.textContent = config.description;
   const note = document.createElement("p");
   note.className = "small-note";
-  note.textContent = "Les résultats dépendent de la source sélectionnée. Les signaux BODACC ne sont pas des appels d’offres ; aucune donnée n’est considérée comme qualifiée sans vérification.";
+  note.textContent = "Les catégories dépendent du type de marché choisi. Les signaux BODACC ne sont pas des appels d’offres ; les catégories non connectées ne produisent pas de résultats fictifs.";
   section.append(heading, description, form, note);
 
   const lede = page.querySelector(".interior-lede");
