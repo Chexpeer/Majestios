@@ -49,7 +49,7 @@ if (fs.existsSync(buildPath)) {
   for (const page of pages) {
     if (!build.includes(`"${page}"`)) errors.push(`build.js: page absente de la liste de publication : ${page}`);
   }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js", "search-results.js", "opportunity-search.js"]) {
+  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js", "search-results.js", "opportunity-search.js", "rubric-search.js"]) {
     if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
   }
   // LOT 11 — le build doit refuser les doublons et vérifier l’intégrité réelle de dist/.
@@ -943,6 +943,18 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
  if (!crmPage.includes("Aucun CRM opérationnel") || !crmPage.includes("confidentialité")) errors.push("CRM : statut prototype ou exigence de confidentialité non documenté");
  if (!brainPage.toLowerCase().includes("aucun corpus documentaire connecté") || !brainPage.toLowerCase().includes("sources officielles")) errors.push("BrainOS : limites du prototype ou gestion des sources non documentées");
 
+// Lot 23 — rechercher doit être possible dans les principales rubriques métier.
+const contextualSearchPages = ["marches-publics.html", "developpement-commercial.html", "prospection-inversee.html", "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html"];
+for (const pageName of contextualSearchPages) {
+  const pagePath = path.join(root, pageName);
+  if (!fs.existsSync(pagePath)) {
+    errors.push(`Recherche par rubrique : page absente : ${pageName}`);
+    continue;
+  }
+  const pageHtml = fs.readFileSync(pagePath, "utf8");
+  if (!pageHtml.includes('src="rubric-search.js"')) errors.push(`Recherche par rubrique : script partagé absent de ${pageName}`);
+}
+if (!fs.existsSync(path.join(root, "rubric-search.js"))) errors.push("Recherche par rubrique : moteur partagé absent");
 // Lot 22 — garde-fous du chantier recherche/données et du filtre géographique BOAMP.
 const governancePlanPath = path.join(root, "PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md");
 if (!fs.existsSync(governancePlanPath)) {
