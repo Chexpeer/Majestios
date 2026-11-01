@@ -26,7 +26,7 @@ Le parcours cible devient :
 
 **Recherche à la demande → résultat normalisé → contrôle de provenance et fraîcheur → dédoublonnage → qualification humaine → enregistrement CRM autorisé → tâche/action suivie → historique du résultat.**
 
-Cette évolution est un contrat de données, pas une déclaration que les résultats sont déjà enregistrés. Le moteur actuel affiche les résultats et interroge BOAMP/BODACC à la demande ; il ne dispose pas encore d’une persistance CRM. Avant tout enregistrement réel, il faudra construire l’adaptateur de normalisation de chaque source, valider les données contre le schéma, configurer le backend, l’authentification, l’isolation des comptes, les permissions, l’audit et les règles de conservation.
+Le moteur émet désormais un événement navigateur `majestios:search-results` avec les résultats BOAMP/BODACC normalisés selon ce contrat, y compris le type de résultat, la catégorie, l’URL source, la date de collecte, l’état de qualification initial et les références CRM réservées. Cet événement est un point d’intégration pour le futur adaptateur, pas un stockage persistant ni une déclaration que le CRM est opérationnel. Avant tout enregistrement réel, il faudra valider systématiquement les objets contre le schéma, configurer le backend, l’authentification, l’isolation des comptes, les permissions, l’audit et les règles de conservation.
 
 Règles impératives :
 - conserver chaque source et son identifiant natif ; une même opportunité peut avoir plusieurs observations sources ;
