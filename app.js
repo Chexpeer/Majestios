@@ -187,12 +187,18 @@ const PUBLIC_SEARCH_CATEGORIES = [
   ["plomberie", "Plomberie & chauffage"],
   ["maintenance", "Maintenance & exploitation"]
 ];
+// Taxonomie privée organisée par familles de signaux. Les catégories non encore connectées
+// restent visibles pour rendre l'offre lisible, mais le moteur les signale comme « à connecter ».
 const PRIVATE_SEARCH_CATEGORIES = [
-  ["services", "Services numériques"],
-  ["travaux", "Travaux & construction"],
-  ["conseil", "Conseil & études"],
-  ["batiment", "Bâtiment & maçonnerie"],
-  ["maintenance", "Maintenance & entretien"]
+  ["bodacc-creations", "Créations et implantations", "Signaux BODACC"],
+  ["bodacc-cessions", "Ventes, cessions et reprises", "Signaux BODACC"],
+  ["bodacc-modifications", "Modifications d’entreprises", "Signaux BODACC"],
+  ["bodacc-procedures", "Difficultés et procédures collectives", "Signaux BODACC"],
+  ["bodacc-radiations", "Radiations et cessations", "Signaux BODACC"],
+  ["immobilier", "Immobilier professionnel", "Autres opportunités privées"],
+  ["emploi", "Emploi et recrutement", "Autres opportunités privées"],
+  ["sous-traitance-offres", "Offres de sous-traitance", "Autres opportunités privées"],
+  ["sous-traitance-recherche", "Recherche de sous-traitants et partenaires", "Autres opportunités privées"]
 ];
 
 function populateSearchFilters(marketValue = "", selectedCategory = "all") {
@@ -214,11 +220,22 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
       : marketValue === "private"
         ? PRIVATE_SEARCH_CATEGORIES
         : [];
-    source.forEach(([value, label]) => {
+    const groups = new Map();
+    source.forEach(([value, label, groupLabel]) => {
+      let parent = categorySelect;
+      if (groupLabel) {
+        if (!groups.has(groupLabel)) {
+          const group = document.createElement("optgroup");
+          group.label = groupLabel;
+          groups.set(groupLabel, group);
+          categorySelect.append(group);
+        }
+        parent = groups.get(groupLabel);
+      }
       const option = document.createElement("option");
       option.value = value;
       option.textContent = label;
-      categorySelect.append(option);
+      parent.append(option);
     });
     categorySelect.disabled = !marketValue;
     categorySelect.value = source.some(([value]) => value === selectedCategory)
