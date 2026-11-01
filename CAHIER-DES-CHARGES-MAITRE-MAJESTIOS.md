@@ -76,7 +76,7 @@ L’emploi doit rester un module distinct du moteur d’opportunités commercial
 
 Sources à instruire, sans présumer d’intégration active : France Travail (API Offres, Marché du travail, ROME 4.0 et événements selon disponibilité), La Bonne Alternance, APEC, Cadremploi, agentCo, HelloWork, Indeed, Welcome to the Jungle, LinkedIn, Meteojob, Choisir le service public, APECITA, plateformes sectorielles et jeux de données publics. Pour chacune, vérifier l’accès officiel, les conditions de réutilisation, la licence, la fréquence, les limites et l’attribution avant automatisation. L’accès visible sur un site web n’équivaut pas à une autorisation de collecte ou de republication.
 
-Le bandeau d’accueil ne peut accueillir que des offres approuvées, sourcées, à jour et dont la diffusion est autorisée. Cette diffusion est facultative ; aucune offre fictive ne doit être présentée comme réelle.
+Le bandeau horizontal de l’accueil est exclusivement un flux de démonstration lent, discret et explicitement fictif. Il ne diffuse pas d’offres réelles, y compris des offres d’emploi. Les résultats réels se consultent à la demande dans les parcours de recherche appropriés. Une éventuelle diffusion réelle future nécessiterait une décision distincte, un emplacement et un périmètre dédiés, ainsi que la validation des sources et des droits.
 
 ### 4.4 Immobilier professionnel et foncier d’entreprise
 Préparer un dossier dédié pour repérer des pistes concernant les locaux professionnels, commerces et actifs immobiliers, notamment à partir :
@@ -230,13 +230,14 @@ MajestiOS progresse lorsque l’utilisateur professionnel peut :
 - BODACC est une source de signaux d’entreprise, pas une source d’appels d’offres.
 - La cessation d’activité ne vaut pas preuve de disponibilité immobilière.
 - Les données doivent rester traçables et les hypothèses identifiables.
+- Le bandeau horizontal de l’accueil reste fictif ; aucune offre réelle n’y est diffusée.
 - Les connecteurs, formulaires, comptes et CRM ne sont pas réputés opérationnels sans réalisation et tests.
 
 ### À arbitrer avant implémentation
 - Le périmètre exact du MVP commercial et ses critères de sortie.
 - Les sources prioritaires après BOAMP/BODACC et les droits associés.
 - Le rôle des équipes MajestiOS dans la qualification humaine et la mise en relation.
-- Les règles de publication ou de diffusion dans le bandeau horizontal.
+- La politique d’une éventuelle diffusion réelle future, hors bandeau fictif de l’accueil.
 - Les profils d’accès et les règles de conservation pour les données CRM, CV et contacts.
 - Le modèle de financement et les éventuelles offres commerciales, sans annoncer de prix ni de disponibilité avant décision.
 
