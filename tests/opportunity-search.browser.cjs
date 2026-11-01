@@ -133,7 +133,7 @@ async function main() {
     // être réaffiché comme création, modification, procédure collective ou radiation.
     for (const category of ["bodacc-creations", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations"]) {
       await page.goto(`http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=${category}`, { waitUntil: "domcontentloaded" });
-      await page.waitForTimeout(100);
+      await page.getByText(/Aucun signal BODACC ne correspond/).waitFor({ timeout: 10000 });
       assert.equal(await page.locator(".bodacc-result-card").count(), 0, `La catégorie ${category} ne doit pas afficher le signal de cession de test.`);
     }
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=bodacc-cessions", { waitUntil: "domcontentloaded" });
