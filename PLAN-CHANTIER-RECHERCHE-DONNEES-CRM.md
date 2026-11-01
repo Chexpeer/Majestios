@@ -191,3 +191,26 @@ Pour chaque signal, documenter : source, fait publié, transformation, hypothès
 7. **Diffusion optionnelle** : le bandeau d'annonces ne reçoit que des éléments validés, pertinents, non expirés et réutilisables. Pas de moteur de recherche d'emploi sur l'accueil ; le dossier Emploi reste distinct du moteur principal d'opportunités commerciales.
 
 **Critère de sortie :** matrice des sources validée, au moins un adaptateur autorisé testé, contrôles de fraîcheur/doublons documentés, erreurs traçables, et tests anti-régression réussis. Ce lot n'autorise ni fusion dans main ni déploiement en production.
+
+
+## Lot métier transversal — ciblage APE/NAF, diffusion et accompagnement aux appels d'offres
+
+Ce lot documente une fonction déjà prévue dans la vision produit : mettre en relation un marché qualifié, les entreprises susceptibles d'y répondre et le service d'accompagnement MajestiOS.
+
+### Préparation requise
+1. Définir les champs de qualification d'un marché et de ses lots.
+2. Définir une table de correspondance APE/NAF ↔ activités/exigences, avec source, version et justification, en prévoyant des correspondances multiples et des limites explicites.
+3. Inventorier les sources d'entreprises et documenter accès, licence, fréquence, champs, qualité, fraîcheur et réutilisation autorisée.
+4. Définir le score explicable de pertinence et la déduplication (identifiants d'entreprise, établissement, coordonnées professionnelles lorsque licites).
+5. Paramétrer une cible indicative d'environ dix entreprises pertinentes par département et par opportunité ; conserver une liste plus courte si elle est plus exacte.
+6. Préparer un modèle de diffusion présentant l'opportunité et l'offre d'accompagnement à la réponse.
+7. Définir les statuts CRM : identifiée, à vérifier, sélectionnée, validée, prête à contacter, envoyée, échec d'envoi, réponse reçue, intéressée, opposition/désinscription, accompagnement demandé, clôturée.
+8. Définir les garde-fous de conformité, la validation humaine et l'interdiction d'activer une campagne sans autorisation explicite.
+
+### Critères de sortie
+- Le choix des codes APE/NAF et des entreprises est explicable et traçable.
+- Le quota indicatif n'entraîne jamais de sélection artificielle.
+- L'offre d'accompagnement est associée à la diffusion sans promesse de résultat.
+- Les sources et coordonnées ont un statut d'autorisation documenté.
+- Les événements d'envoi et les oppositions sont suivis et testables.
+- Le parcours est spécifié avant le développement ; aucun déploiement ou envoi réel n'est autorisé par ce document.
