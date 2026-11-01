@@ -89,10 +89,25 @@ async function main() {
     assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
+    apiCalls = 0;
+    bodaccCalls = 0;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=all", { waitUntil: "domcontentloaded" });
+    await page.getByRole("heading", { name: "Marchés publics · BOAMP" }).waitFor({ timeout: 10000 });
+    await page.getByRole("heading", { name: "Signaux commerciaux privés · BODACC" }).waitFor({ timeout: 10000 });
+    await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
+    await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
+    assert.equal(apiCalls, 1, "La vue publics et privés doit interroger BOAMP.");
+    assert.equal(bodaccCalls, 1, "La vue publics et privés doit interroger BODACC séparément.");
+    assert.equal(await page.locator(".opportunity-result-card").count(), 2, "Les résultats des deux sources doivent rester visibles dans des groupes distincts.");
+
     await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 }).catch(() => {});
     assert.equal(await page.locator("#category-results-panel").count(), 1, "La page de catégorie doit conserver son panneau de résultats.");
     assert.ok(apiCalls >= 1, "La page de catégorie doit elle aussi lancer la recherche.");
+    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
+    assert.equal(await page.locator('#feed-region option[value="nord"]').count(), 0, "L’accueil ne doit plus présenter Nord/Ouest/Sud comme des régions filtrables.");
+
     await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
     await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
     assert.equal(await page.locator('#rubric-opportunity-search input[name="marche"]').inputValue(), "public", "La rubrique Marchés publics doit verrouiller la source publique.");
@@ -103,7 +118,7 @@ async function main() {
     await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
     assert.equal(await page.locator('#rubric-search-market option[value="private"]').count(), 1, "Le développement commercial doit permettre de choisir les signaux privés BODACC.");
 
-    console.log("Recherche navigateur réussie : critères, source BOAMP simulée, rendu des résultats et séparation des marchés privés vérifiés.");
+    console.log("Recherche navigateur réussie : filtres régionaux, BOAMP, BODACC, vue combinée et séparation des sources vérifiés.");
   } finally {
     if (browser) await browser.close();
     await new Promise((resolve) => server.close(resolve));
