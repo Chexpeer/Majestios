@@ -53,18 +53,30 @@ async function main() {
       if (where.includes('code_departement_prestation = "79"') && where.includes('code_departement = "79"')) {
         regionalFilterSeen = true;
       }
+      const plumbingRecord = {
+        idweb: "TEST-2027-001", objet: "Prestations de plomberie et chauffage",
+        famille_libelle: "Marchés nationaux", dateparution: "2026-10-30",
+        datelimitereponse: "2027-12-01T12:00:00+01:00", nomacheteur: "Acheteur de test",
+        code_departement: "79", code_departement_prestation: "79",
+        type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
+        descripteur_libelle: "Plomberie, chauffage", etat: "INITIAL",
+        url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2027-001"
+      };
+      const digitalRecord = {
+        idweb: "TEST-2027-002", objet: "Maintenance informatique et cybersécurité",
+        famille_libelle: "Marchés nationaux", dateparution: "2026-10-29",
+        datelimitereponse: "2027-12-02T12:00:00+01:00", nomacheteur: "Acheteur numérique de test",
+        code_departement: "79", code_departement_prestation: "79",
+        type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
+        descripteur_libelle: "Informatique, cybersécurité, logiciels", etat: "INITIAL",
+        url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2027-002"
+      };
+      const isServicesCategory = where.includes('type_marche = "SERVICES"');
+      const records = isServicesCategory ? [plumbingRecord, digitalRecord] : [plumbingRecord];
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ total_count: 1, results: [{
-          idweb: "TEST-2027-001", objet: "Prestations de plomberie et chauffage",
-          famille_libelle: "Marchés nationaux", dateparution: "2026-10-30",
-          datelimitereponse: "2027-12-01T12:00:00+01:00", nomacheteur: "Acheteur de test",
-          code_departement: "79", code_departement_prestation: "79",
-          type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
-          descripteur_libelle: "Plomberie, chauffage", etat: "INITIAL",
-          url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2027-001"
-        }] })
+        body: JSON.stringify({ total_count: records.length, results: records })
       });
     });
 
@@ -105,8 +117,9 @@ async function main() {
     assert.equal(bodaccCalls, 1, "Un filtre BODACC non pris en charge ne doit pas lancer de recherche territoriale trompeuse.");
 
     await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public", { waitUntil: "domcontentloaded" });
-    await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 }).catch(() => {});
+    await page.getByRole("heading", { name: "Maintenance informatique et cybersécurité" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator("#category-results-panel").count(), 1, "La page de catégorie doit conserver son panneau de résultats.");
+    assert.equal(await page.locator(".opportunity-result-card").count(), 1, "La catégorie Services numériques ne doit pas afficher les marchés de plomberie.");
     assert.ok(apiCalls >= 1, "La page de catégorie doit elle aussi lancer la recherche.");
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
     assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
