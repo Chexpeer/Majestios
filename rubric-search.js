@@ -38,6 +38,43 @@
       title: "Rechercher des pistes de sous-traitance",
       description: "Explorez les avis et signaux accessibles ; une annonce ne prouve pas à elle seule qu’un besoin de sous-traitance existe.",
       market: "all"
+    },
+    "marches-prives.html": {
+      title: "Rechercher des signaux commerciaux privés",
+      description: "Explorez les annonces d’entreprise publiées au BODACC. Ce sont des signaux à qualifier, pas des appels d’offres.",
+      market: "private",
+      fixedMarket: true
+    },
+    "intelligence-economique.html": {
+      title: "Rechercher des signaux économiques",
+      description: "Repérez des informations publiées qui peuvent éclairer une décision commerciale, sous réserve de vérification.",
+      market: "all"
+    },
+    "reseaux-synergies.html": {
+      title: "Rechercher des opportunités de partenariat",
+      description: "Partez des marchés publiés et des signaux d’entreprise pour identifier des pistes à qualifier humainement.",
+      market: "all"
+    },
+    "bodacc-veille-entreprises.html": {
+      title: "Rechercher dans les annonces BODACC",
+      description: "Consultez les annonces légales d’entreprise comme signaux stratégiques ; elles ne prouvent pas à elles seules une opportunité commerciale.",
+      market: "private",
+      fixedMarket: true
+    },
+    "suivi-commercial.html": {
+      title: "Rechercher une piste à suivre",
+      description: "Retrouvez des marchés et signaux publiés à qualifier avant toute action de suivi commercial.",
+      market: "all"
+    },
+    "developpement-commercial.html": {
+      title: "Rechercher des opportunités de développement commercial",
+      description: "Repérez des consultations publiques ou explorez séparément les signaux commerciaux privés du BODACC.",
+      market: "all"
+    },
+    "prospection-inversee.html": {
+      title: "Rechercher des opportunités pour la prospection inversée",
+      description: "Partez des annonces et signaux publiés pour identifier les pistes qui méritent une qualification humaine.",
+      market: "all"
     }
   };
   const config = configs[path];
