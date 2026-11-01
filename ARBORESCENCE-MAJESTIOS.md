@@ -124,3 +124,63 @@ Le moteur de recherche de démonstration prévoit les filtres mot-clé, catégor
 - La prévisualisation correspond au commit contrôlé avant toute mise en production.
 
 Ce document décrit les exigences et dépendances du prototype ; il ne prétend pas que les intégrations métier sont déjà opérationnelles.
+
+
+## 7. Extension de l'arborescence — informations stratégiques
+
+Cette arborescence prépare les futures rubriques sans les annoncer comme déjà développées. Elle est logique et modulaire : les fichiers restent à la racine tant qu'une migration physique n'a pas été auditée.
+
+### Développement commercial — veille et qualification
+- Marchés publics (BOAMP).
+- Événements d'entreprises et annonces commerciales (BODACC).
+- Prospection inversée et qualification de prospects.
+- Sous-traitance et partenaires.
+- Veille économique et sectorielle.
+- Analyse territoriale.
+- Transmission et cession d'entreprises.
+- Suivi des entreprises et établissements.
+
+### Emploi — dossier autonome
+- Déposer une offre d'emploi.
+- Veille d'offres issues de sources autorisées.
+- Validation, dédoublonnage, dates et expiration.
+- Analyse des compétences recherchées et signaux sectoriels.
+- Candidature via Nous rejoindre avec dépôt sécurisé de CV.
+
+Exclusion explicite : aucun moteur de recherche d'emploi public et aucune catégorie Emploi dans le moteur principal d'opportunités commerciales. Le flux horizontal peut accueillir uniquement les offres approuvées, sourcées et non expirées.
+
+### Immobilier professionnel et foncier d'entreprise — dossier autonome futur
+- Signaux de cessation/transfert et établissements potentiellement libérés.
+- Transactions : murs, fonds de commerce, droit au bail et cessions d'actifs traités séparément.
+- Projets de construction/aménagement issus de données autorisées.
+- Vérification de disponibilité, propriété/mandat et lien vers la source.
+- Mise en relation avec agents immobiliers d'entreprise, gestionnaires et investisseurs, selon le contexte et les autorisations applicables.
+
+Garde-fou : cessation, liquidation ou cession ne prouve pas que les locaux sont disponibles à la vente ou à la location. La disponibilité doit être confirmée séparément.
+
+### Socle commun de veille stratégique
+1. Sources et droits de réutilisation.
+2. Collecte et conservation de la provenance.
+3. Normalisation des entreprises, établissements, lieux, dates et catégories.
+4. Contrôle qualité, dédoublonnage et fraîcheur.
+5. Détection des signaux et distinction fait/hypothèse.
+6. Qualification humaine et file de validation.
+7. CRM : tâches, interactions, opportunités, historique.
+8. Analyses territoriales et sectorielles, méthode et limites explicites.
+9. Flux horizontal alimenté uniquement par des éléments validés pour diffusion.
+10. Sécurité, contrôle d'accès, conservation et suppression des données.
+
+### Cartographie des pistes à évaluer
+- Marchés publics et résultats/attributions vérifiés.
+- Créations, transferts, modifications et radiations d'entreprises.
+- Ventes, cessions et procédures collectives.
+- Projets de construction et d'aménagement.
+- Sous-traitance potentielle après attribution, à confirmer.
+- Besoins possibles des nouvelles entreprises.
+- Évolutions des clients/partenaires suivis dans le CRM.
+- Annonces d'emploi comme signaux sectoriels, sans moteur d'emploi.
+- Signaux immobiliers professionnels.
+- Tendances géographiques et sectorielles fondées sur des données sourcées.
+
+### Règle de dépendance
+Toute nouvelle page ou ressource doit être déclarée dans le build, contrôlée par verify-site, reliée depuis une destination explicite et testée. Ne pas refondre la zone industrielle ni changer la navigation principale ou le moteur commercial sans lot dédié et tests anti-régression.
