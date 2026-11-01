@@ -287,25 +287,30 @@ if (leadForm && formFeedback) {
   leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
     radio.addEventListener("change", () => setIntent(radio.value));
   });
-  setIntent(leadForm.querySelector('input[name="intent"]:checked').value);
-  
+  const selectedIntent = leadForm.querySelector('input[name="intent"]:checked');
+  if (selectedIntent) setIntent(selectedIntent.value);
+
   document.querySelectorAll("[data-intent-link]").forEach((link) => {
     link.addEventListener("click", () => setIntent(link.dataset.intentLink));
   });
-  
-  document.querySelector("#preview-request").addEventListener("click", () => {
-    if (!leadForm.reportValidity()) return;
-  
-    const intent = leadForm.querySelector('input[name="intent"]:checked').value;
-    const intentLabels = {
-      respond: "demande d’accompagnement pour répondre à un AO",
-      receive: "demande de réception d’AO liés à votre activité",
-      contact: "prise de contact au sujet de votre projet"
-    };
-    const intentLabel = intentLabels[intent];
-    formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
-    formFeedback.hidden = false;
-  });
+
+  const previewRequest = leadForm.querySelector("#preview-request");
+  if (previewRequest) {
+    previewRequest.addEventListener("click", () => {
+      if (!leadForm.reportValidity()) return;
+
+      const selectedIntent = leadForm.querySelector('input[name="intent"]:checked');
+      if (!selectedIntent) return;
+      const intentLabels = {
+        respond: "demande d’accompagnement pour répondre à un AO",
+        receive: "demande de réception d’AO liés à votre activité",
+        contact: "prise de contact au sujet de votre projet"
+      };
+      const intentLabel = intentLabels[selectedIntent.value] || "demande de contact";
+      formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
+      formFeedback.hidden = false;
+    });
+  }
 }
 
 if (menuToggle && navigation) {
