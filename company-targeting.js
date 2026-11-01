@@ -19,9 +19,9 @@
     const siret = digits(getFirst(source.siret, siege.siret, source.siret_siege));
     const naf = normalizeCode(getFirst(source.activite_principale, source.code_naf, source.naf, siege.activite_principale));
     const postalCode = digits(getFirst(siege.code_postal, source.code_postal, source.adresse_code_postal));
-    const department = String(getFirst(siege.departement, source.departement, source.code_departement, postalCode.length >= 2 ? postalCode.slice(0, 2) : "") || "").toUpperCase();
+    const department = String(getFirst(siege.departement, source.departement, source.department, source.code_departement, postalCode.length >= 2 ? postalCode.slice(0, 2) : "") || "").toUpperCase();
     const name = String(getFirst(source.nom_complet, source.denomination, source.nom_raison_sociale, source.name, source.nom) || "").trim();
-    const activeRaw = getFirst(source.etat_administratif, source.statut, siege.etat_administratif);
+    const activeRaw = getFirst(source.etat_administratif, source.statut, source.active, siege.etat_administratif);
     const active = typeof activeRaw === "boolean" ? activeRaw : (activeRaw == null ? null : /^(A|ACTIF|ACTIVE|ACTIV)$/i.test(String(activeRaw).trim()));
     return {
       siren: siren.length === 9 ? siren : "",
@@ -30,8 +30,8 @@
       naf,
       department: department === "2A" || department === "2B" ? department : (department.length === 1 ? "0" + department : department),
       active,
-      sourceUrl: String(getFirst(source.url, source.url_annuaire, source.source_url) || ""),
-      sourceId: String(getFirst(source.id, source.id_source, siren, siret) || ""),
+      sourceUrl: String(getFirst(source.url, source.url_annuaire, source.source_url, source.sourceUrl) || ""),
+      sourceId: String(getFirst(source.id, source.id_source, source.sourceId, siren, siret) || ""),
       collectedAt: String(getFirst(source.collectedAt, source.date_collecte) || ""),
       raw: source
     };
