@@ -124,7 +124,7 @@
       empty.setAttribute("role", "status");
       for (const source of [
         { value: "public", title: "Marchés publics · BOAMP" },
-        { value: "private", title: "Signaux commerciaux privés · BODACC" }
+        { value: "private", title: "Signaux d’entreprise publiés · BODACC" }
       ]) {
         const sourcePanel = document.createElement("section");
         sourcePanel.className = "category-results-panel opportunity-source-group";
@@ -212,7 +212,7 @@
               ? record.url_complete
               : "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
             return '<article class="platform-card opportunity-result-card bodacc-result-card">' +
-              '<p class="eyebrow">SIGNAL COMMERCIAL PRIVÉ · BODACC</p>' +
+              '<p class="eyebrow">SIGNAL D’ENTREPRISE · BODACC</p>' +
               '<h3>' + escapeHtml(company) + '</h3>' +
               '<p><strong>Type d’annonce :</strong> ' + escapeHtml(eventType) + '</p>' +
               (place ? '<p><strong>Localisation :</strong> ' + escapeHtml(place) + '</p>' : '') +
