@@ -148,7 +148,7 @@ Cette arborescence prépare les futures rubriques sans les annoncer comme déjà
 - Analyse des compétences recherchées et signaux sectoriels.
 - Candidature via Nous rejoindre avec dépôt sécurisé de CV.
 
-Exclusion explicite : aucun moteur de recherche d'emploi public et aucune catégorie Emploi dans le moteur principal d'opportunités commerciales. Le flux horizontal peut accueillir uniquement les offres approuvées, sourcées et non expirées.
+Exclusion explicite : aucun moteur de recherche d'emploi public et aucune catégorie Emploi dans le moteur principal d'opportunités commerciales. Le bandeau horizontal de l’accueil reste exclusivement fictif et ne diffuse aucune offre réelle. Toute veille emploi réelle reste interne tant qu’un parcours distinct n’a pas été explicitement défini et autorisé.
 
 ### Immobilier professionnel et foncier d'entreprise — dossier autonome futur
 - Signaux de cessation/transfert et établissements potentiellement libérés.
@@ -168,7 +168,7 @@ Garde-fou : cessation, liquidation ou cession ne prouve pas que les locaux sont 
 6. Qualification humaine et file de validation.
 7. CRM : tâches, interactions, opportunités, historique.
 8. Analyses territoriales et sectorielles, méthode et limites explicites.
-9. Flux horizontal alimenté uniquement par des éléments validés pour diffusion.
+9. Bandeau horizontal de l’accueil réservé à une démonstration fictive, sans diffusion d’annonces réelles.
 10. Sécurité, contrôle d'accès, conservation et suppression des données.
 
 ### Cartographie des pistes à évaluer
@@ -196,7 +196,7 @@ Le dossier **Emploi** est séparé des catégories du moteur principal d'opportu
 
 Ressources à évaluer dans le cahier des charges : France Travail (API Offres d'emploi sous réserve d'accès confirmé, API Marché du travail, ROME 4.0, événements), La Bonne Alternance, APEC, Cadremploi, agentCo, HelloWork, Indeed, Welcome to the Jungle, LinkedIn, Choisir le service public et plateformes sectorielles. Les noms constituent un inventaire de sources candidates, pas une déclaration d'accès technique ou de droits de réutilisation.
 
-Le bandeau horizontal de l'accueil peut, à terme, diffuser certains signaux emploi validés et non expirés ; il ne doit pas se transformer en liste d'offres ni en moteur public de recherche d'emploi. Les résultats d'emploi ne doivent pas polluer les filtres BOAMP/BODACC.
+Le bandeau horizontal de l’accueil reste exclusivement un flux de démonstration fictif, lent et discret : il ne doit jamais diffuser de signaux emploi ni d’annonces réelles. La veille emploi demeure interne et distincte des filtres BOAMP/BODACC. Toute évolution vers une diffusion réelle exigerait une décision distincte et un emplacement séparé.
 
 ### Règle de navigation
 Le dossier Emploi peut être accessible depuis la rubrique « Nous rejoindre » pour le parcours candidat ou depuis une rubrique interne dédiée lorsque les modules seront implémentés. Il ne devient pas une nouvelle catégorie du moteur commercial principal. La création d'une page publique dédiée et son inclusion dans build.js exigent un lot ultérieur avec tests des liens, formulaires, confidentialité et anti-régression.
