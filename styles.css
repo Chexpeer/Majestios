@@ -1646,3 +1646,21 @@ body.homepage .tender-feed-section .feed-search-submit{min-height:42px}
  body.homepage .tender-feed-section .feed-filter-label select{font-size:14px}
  body.homepage .tender-feed-section .search-source-note{font-size:11px}
 }
+
+/* Moteur partagé : apparence identique sur l’accueil et Développement commercial. */
+main.interior-page .tender-feed-section{padding:clamp(14px,2vw,24px) 0;background:#0b1018;border:1px solid rgba(213,181,108,.18);border-radius:16px;margin:22px 0 28px}
+main.interior-page .tender-feed-section .feed-wrap{width:100%;max-width:none;margin:0 auto;padding:0 10px;box-sizing:border-box}
+main.interior-page .tender-feed-section .feed-demo{overflow:visible;border:1px solid rgba(213,181,108,.24);border-radius:14px;background:rgba(10,15,22,.96);box-shadow:0 12px 30px rgba(0,0,0,.2)}
+main.interior-page .tender-feed-section .feed-toolbar{display:grid;grid-template-columns:minmax(180px,1.5fr) minmax(180px,1.15fr) minmax(180px,1.15fr) minmax(150px,.9fr) auto;align-items:center;gap:10px;padding:14px;border:0}
+main.interior-page .tender-feed-section .feed-search{min-width:0;min-height:42px;padding:0 10px;border:1px solid rgba(213,181,108,.3);border-radius:8px;background:#101722;color:#d5b56c}
+main.interior-page .tender-feed-section .feed-search input{height:40px;color:#f4f0e6;font-size:14px}
+main.interior-page .tender-feed-section .feed-search input::placeholder{color:#a7afbd}
+main.interior-page .tender-feed-section .feed-filter-label{display:block;min-width:0}
+main.interior-page .tender-feed-section .feed-filter-label select{width:100%;max-width:none;min-width:0;height:42px;padding:0 28px 0 10px;border:1px solid rgba(213,181,108,.3);border-radius:8px;color:#f4f0e6;background:#151d29;font:500 13px/1.3 "DM Sans","Segoe UI",sans-serif}
+main.interior-page .tender-feed-section .feed-filter-label select:disabled{opacity:.58;cursor:not-allowed}
+main.interior-page .tender-feed-section .search-source-note{grid-column:1/-1;margin:0;color:#b9c0ca;font-size:12px;line-height:1.45}
+main.interior-page .tender-feed-section .feed-search-submit{min-height:42px;border:1px solid #d5b56c;border-radius:8px;background:#d5b56c;color:#101722;font-weight:700;padding:0 18px;cursor:pointer}
+main.interior-page .tender-feed-section .feed-search-submit:hover,main.interior-page .tender-feed-section .feed-search-submit:focus-visible{background:#f0d99b;outline:2px solid #f0d99b;outline-offset:2px}
+main.interior-page .tender-feed-section .feed-search input:focus-visible,main.interior-page .tender-feed-section .feed-filter-label select:focus-visible{outline:2px solid #f0d99b;outline-offset:2px}
+@media(max-width:900px){main.interior-page .tender-feed-section .feed-toolbar{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}main.interior-page .tender-feed-section .feed-search,main.interior-page .tender-feed-section .feed-search-submit{grid-column:1/-1}}
+@media(max-width:560px){main.interior-page .tender-feed-section{padding:14px 0;margin:16px 0 22px}main.interior-page .tender-feed-section .feed-wrap{width:calc(100% - 10px);padding:0}main.interior-page .tender-feed-section .feed-toolbar{grid-template-columns:minmax(0,1fr);gap:9px;padding:10px}main.interior-page .tender-feed-section .feed-search,main.interior-page .tender-feed-section .feed-search-submit{grid-column:1}main.interior-page .tender-feed-section .feed-filter-label select{font-size:14px}main.interior-page .tender-feed-section .search-source-note{font-size:11px}}
