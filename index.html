@@ -86,6 +86,24 @@ body.homepage #advanced-search-form .feed-search-submit{min-height:36px;padding:
 body.homepage .home-help-close{width:30px;height:30px;border:1px solid #d5b56c44;border-radius:50%;background:#152234;color:#f4f0e6;font-size:20px}
 @media(max-width:900px){body.homepage #advanced-search-form{grid-template-columns:repeat(2,minmax(0,1fr))}body.homepage #advanced-search-form .feed-search,body.homepage #advanced-search-form .feed-search-submit{grid-column:1/-1}}
 @media(max-width:600px){body.homepage .tender-feed-section{width:calc(100% - 16px);margin:6px auto 8px}body.homepage #advanced-search-form{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:6px}body.homepage #advanced-search-form .feed-search,body.homepage #advanced-search-form .feed-search-submit{grid-column:1/-1}body.homepage .building-scene{height:calc(100dvh - 300px);min-height:450px}}
+
+/* Navigation corrective : menu hamburger compact, sans recouvrir le moteur de recherche. */
+body.homepage .site-header{position:relative;z-index:30;display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:10px;min-height:44px;height:auto;width:100%;margin:0;padding:5px 12px;background:#080d15;border-bottom:1px solid #d5b56c33}
+body.homepage .brand{flex:0 0 auto;font-size:15px}
+body.homepage .brand-mark{width:27px;height:27px}
+body.homepage .menu-toggle{display:flex!important;flex:0 0 36px;position:relative;z-index:32;width:36px;height:34px;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:6px;border:1px solid #d5b56c66;border-radius:6px;background:#101a28;cursor:pointer}
+body.homepage .menu-toggle span{display:block;width:18px;height:2px;border-radius:2px;background:#f4f0e6;transition:transform .15s,opacity .15s}
+body.homepage .menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(6px) rotate(45deg)}
+body.homepage .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+body.homepage .menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-6px) rotate(-45deg)}
+body.homepage .site-nav{display:none!important;position:absolute;top:calc(100% + 3px);right:8px;z-index:40;width:min(290px,calc(100vw - 16px));max-height:min(75vh,520px);overflow:auto;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;padding:7px;border:1px solid #d5b56c66;border-radius:9px;background:#0d141e;box-shadow:0 16px 38px #000b;white-space:normal}
+body.homepage .site-nav.open{display:flex!important}
+body.homepage .site-nav>a{display:flex;align-items:center;min-height:40px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid #d5b56c1c;border-radius:5px;background:transparent;color:#e6e0d4;font-size:12px;line-height:1.35;text-align:left;text-decoration:none;white-space:normal;cursor:pointer}
+body.homepage .site-nav>a:hover,body.homepage .site-nav>a:focus-visible,body.homepage .site-nav>a[aria-current="page"]{background:#1a2a3d;color:#f7e6a9;outline:1px solid #d5b56c55}
+body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100% - 24px));margin:7px auto 9px}
+@media(max-width:900px){body.homepage .site-header{flex-wrap:nowrap}body.homepage .site-nav{width:min(290px,calc(100vw - 16px));overflow:auto}body.homepage .search-dock{margin:6px auto 8px}}
+@media(max-width:600px){body.homepage .site-header{padding:5px 8px}body.homepage .search-dock{width:calc(100% - 16px);margin:5px auto 7px}body.homepage .site-nav>a{font-size:12px}}
+
 </style>
     <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
@@ -180,17 +198,17 @@ body.homepage .home-help-close{width:30px;height:30px;border:1px solid #d5b56c44
         const offices = document.getElementById("dialog-offices");
         if (!catalog || !floorRows || !dialog || !offices) return;
         const floors = [
-          {id:"B01",name:"Marchés publics",key:"marches-publics",first:"accompagnement-appels-offres.html",second:"veille-marches.html",description:"Repérer les consultations publiques pertinentes et organiser leur qualification."},
-          {id:"B02",name:"Marchés privés",key:"marches-prives",first:"sous-traitance.html",second:"suivi-commercial.html",description:"Repérer les opportunités privées et les besoins des donneurs d’ordre."},
-          {id:"B03",name:"Développement commercial",key:"developpement-commercial",first:"prospection-inversee.html",second:"suivi-commercial.html",description:"Développer une stratégie commerciale et transformer les opportunités en relations d’affaires."},
-          {id:"B04",name:"Prospection inversée",key:"prospection-inversee",first:"intelligence-economique.html",second:"developpement-commercial.html",description:"Identifier les entreprises susceptibles d’avoir besoin de vos produits, services ou compétences."},
+          {id:"B01",name:"Marchés publics",key:"marches-publics",first:"veille-marches.html",second:"accompagnement-appels-offres.html",description:"Repérer les consultations publiques pertinentes et organiser leur qualification."},
+          {id:"B02",name:"Marchés privés",key:"marches-prives",first:"bodacc-veille-entreprises.html",second:"sous-traitance.html",description:"Repérer les opportunités privées et les besoins des donneurs d’ordre."},
+          {id:"B03",name:"Développement commercial",key:"developpement-commercial",first:"prospection-inversee.html",second:"bodacc-veille-entreprises.html",description:"Développer une stratégie commerciale et transformer les opportunités en relations d’affaires."},
+          {id:"B04",name:"Prospection inversée",key:"prospection-inversee",first:"marches-publics.html",second:"marches-prives.html",description:"Identifier les entreprises susceptibles d’avoir besoin de vos produits, services ou compétences."},
           {id:"B05",name:"Intelligence économique",key:"intelligence-economique",first:"veille-marches.html",second:"bodacc-veille-entreprises.html",description:"Croiser les informations utiles à la compréhension des marchés."},
-          {id:"B06",name:"Réseaux et synergies",key:"reseaux-synergies",first:"salons-seminaires.html",second:"sous-traitance.html",description:"Identifier des complémentarités et faciliter les coopérations commerciales."},
-          {id:"B07",name:"Veille des marchés",key:"veille-marches",first:"marches-publics.html",second:"accompagnement-appels-offres.html",description:"Surveiller les consultations selon les critères de recherche de l’entreprise."},
+          {id:"B06",name:"Réseaux et synergies",key:"reseaux-synergies",first:"sous-traitance.html",second:"salons-seminaires.html",description:"Identifier des complémentarités et faciliter les coopérations commerciales."},
+          {id:"B07",name:"Veille des marchés",key:"veille-marches",first:"marches-publics.html",second:"marches-prives.html",description:"Surveiller les consultations selon les critères de recherche de l’entreprise."},
           {id:"B08",name:"Accompagnement aux appels d’offres",key:"accompagnement-appels-offres",first:"marches-publics.html",second:"marches-prives.html",description:"Structurer la préparation des candidatures et la compréhension des dossiers."},
-          {id:"B09",name:"Sous-traitance",key:"sous-traitance",first:"marches-prives.html",second:"reseaux-synergies.html",description:"Repérer les besoins complémentaires et les opportunités de sous-traitance."},
-          {id:"B10",name:"Salons et séminaires",key:"salons-seminaires",first:"reseaux-synergies.html",second:"developpement-commercial.html",description:"Identifier les événements utiles aux rencontres et au développement commercial."},
-          {id:"B11",name:"Veille des entreprises · BODACC",key:"bodacc-veille-entreprises",first:"prospection-inversee.html",second:"intelligence-economique.html",description:"Suivre les événements et annonces d’entreprise, notamment au BODACC."},
+          {id:"B09",name:"Sous-traitance",key:"sous-traitance",first:"marches-publics.html",second:"reseaux-synergies.html",description:"Repérer les besoins complémentaires et les opportunités de sous-traitance."},
+          {id:"B10",name:"Salons et séminaires",key:"salons-seminaires",first:"espace-membre.html",second:"reseaux-synergies.html",description:"Identifier les événements utiles aux rencontres et au développement commercial."},
+          {id:"B11",name:"Veille des entreprises · BODACC",key:"bodacc-veille-entreprises",first:"intelligence-economique.html",second:"developpement-commercial.html",description:"Suivre les événements et annonces d’entreprise, notamment au BODACC."},
           {id:"B12",name:"Suivi commercial et capitalisation",key:"suivi-commercial",first:"developpement-commercial.html",second:"intelligence-economique.html",description:"Organiser les échanges et capitaliser sur les enseignements commerciaux."}
         ];
         const rubricFor = (key) => catalog.rubrics.find((item) => item.key === key);
