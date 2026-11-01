@@ -134,3 +134,11 @@ Ce moteur ne constitue pas une source de données officielle ni une interprétat
 - **Tests :** `tests/company-fit.test.cjs` — correspondance exacte, entreprise hors département avec contrôle d'établissement local, données inconnues et maintien des vérifications humaines.
 - **Intégration :** `build.js` inclut le module dans les ressources livrées ; `verify-site.js` vérifie sa présence et ses garde-fous ; le workflow anti-régression exécute les tests dédiés.
 - **Limite :** ce module n'est pas une preuve de compétence ou d'éligibilité et ne constitue pas une connexion à une source externe supplémentaire. Les données et qualifications restent à vérifier à partir de sources fiables et autorisées.
+
+
+## Ressource à instruire — données financières des entreprises
+
+- Spécification : `SPEC-SUIVI-DYNAMIQUE-ECONOMIQUE-ENTREPRISES-MAJESTIOS.md`.
+- Données visées : CA publié par exercice, date de clôture, évolution comparable, source/provenance et état de disponibilité.
+- Statut actuel : besoin fonctionnel documenté ; les sources financières ne sont pas déclarées connectées ni validées par cette spécification.
+- Garde-fous : ne pas convertir l'absence de données en zéro, ne pas assimiler CA à bénéfice ou solvabilité, ne pas exclure automatiquement une entreprise et documenter les licences/conditions de réutilisation.
