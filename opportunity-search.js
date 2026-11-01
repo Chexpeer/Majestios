@@ -116,6 +116,8 @@
     const market = params.get("marche") || "all";
     const empty = panel.querySelector(".category-results-empty");
     if (!empty) return;
+    // Une nouvelle exécution remplace les cartes et notes précédentes au lieu de les empiler.
+    panel.querySelectorAll(".opportunity-results-list, .opportunity-source-note").forEach((node) => node.remove());
 
     // « Publics et privés » interroge les deux sources en parallèle, dans des blocs distincts.
     // Les résultats BODACC restent des signaux légaux, jamais des appels d’offres.
