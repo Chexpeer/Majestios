@@ -27,11 +27,14 @@ async function main() {
     const page = await browser.newPage();
     let apiCalls = 0;
     let bodaccCalls = 0;
+    let bodaccRegionFilterSeen = false;
     let regionalFilterSeen = false;
     await page.route("https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/**", async (route) => {
       bodaccCalls++;
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.pathname.endsWith("/catalog/datasets/annonces-commerciales/records"), true, "La recherche privée doit utiliser le jeu officiel BODACC.");
+      const bodaccWhere = requestUrl.searchParams.get("where") || "";
+      if (bodaccWhere.includes('region_nom_officiel = "Nouvelle-Aquitaine"')) bodaccRegionFilterSeen = true;
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -92,7 +95,7 @@ async function main() {
 
     apiCalls = 0;
     bodaccCalls = 0;
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&q=r%C3%A9novation", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=nouvelle-aquitaine&q=r%C3%A9novation", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".bodacc-result-card").count(), 1, "Une annonce BODACC doit devenir une carte de signal commercial.");
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Ventes et cessions/);
@@ -100,6 +103,7 @@ async function main() {
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Rénovation de bâtiments/);
     assert.match(await page.locator(".bodacc-result-card").innerText(), /A202610310001/, "La référence unique de l’annonce doit être affichée.");
     assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
+    assert.equal(bodaccRegionFilterSeen, true, "Une recherche BODACC avec une région sélectionnée doit transmettre le filtre régional à la source.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=services", { waitUntil: "domcontentloaded" });
