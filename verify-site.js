@@ -78,10 +78,10 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   for (const id of ["advanced-search-form", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
     if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
   }
-  if (!home.includes("LES 10 DOSSIERS THÉMATIQUES")) {
+  if (!home.includes("IMMEUBLE INTERACTIF · 10 DOSSIERS THÉMATIQUES")) {
     errors.push("Accueil : présentation des dix dossiers absente");
   }
-  if (!home.includes("BÂTIMENT VIRTUEL · 10 ÉTAGES")) {
+  if (!home.includes("IMMEUBLE INTERACTIF · 10 ÉTAGES")) {
     errors.push("Accueil : bâtiment des dix étages absent");
   }
   for (const asset of ['src="catalogue-majestios.js"', 'src="app.js"']) {
