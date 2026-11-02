@@ -78,7 +78,7 @@ Principes d’architecture :
 
 ## 2. Décisions produit à préserver
 
-1. La page d’accueil reste compacte : navigation principale, zone artisanale/industrielle virtuelle, moteur de recherche avancé et bandeau horizontal de démonstration très discret, lent et clairement signalé comme fictif.
+1. La page d’accueil reste compacte : navigation principale, immeuble interactif, moteur de recherche avancé et bandeau horizontal de démonstration très discret, lent et clairement signalé comme fictif.
 2. La zone virtuelle reste directement visible sur l’accueil et n’est pas transformée en entrée de navigation supplémentaire.
 3. Navigation principale : Accueil ; Développement commercial ; Salon virtuel ; Nous rejoindre ; Espace membre ; FAQ.
 4. Aucun empilement de cartes d’annonces fictives sur l’accueil.
@@ -289,7 +289,7 @@ MajestiOS progresse lorsque l’utilisateur professionnel peut :
 **Statut : proposition de cadrage, pas décision de livraison ni preuve que les fonctions sont déjà opérationnelles.** L’objectif est de terminer un premier parcours commercial utile avant d’ouvrir de nouveaux chantiers.
 
 ### Inclus dans le MVP fonctionnel cible
-1. **Accueil stable** : zone artisanale virtuelle visible, moteur de recherche commercial multicritère, navigation discrète, accès au chatbot et bandeau lent de démonstration exclusivement fictif.
+1. **Accueil stable** : immeuble interactif visible, moteur de recherche commercial multicritère, navigation discrète, accès au chatbot et bandeau lent de démonstration exclusivement fictif.
 2. **Recherche de marchés publics** : interrogation BOAMP, filtres réellement appliqués, échéances, source officielle, états chargement/résultats vides/erreur et distinction des avis expirés.
 3. **Recherche de signaux d’entreprises** : parcours BODACC distinct, typologie du signal clairement affichée, source d’origine et avertissement contre les conclusions automatiques.
 4. **Résultats et catégories** : conservation des critères de recherche, destinations cohérentes, affichage de la provenance et gestion des résultats absents ou incomplets.
@@ -311,7 +311,7 @@ Ces fonctions restent dans la vision et les chantiers futurs ; elles ne doivent 
 - Aucun filtre affiché n’est ignoré silencieusement ; chaque filtre est appliqué ou explicitement indiqué comme indisponible pour la source.
 - Les résultats BOAMP et BODACC restent séparés et renvoient à leur source.
 - Les cas de réponse vide, erreur HTTP, donnée incomplète, échéance dépassée et doublon ont un comportement défini et testé.
-- La zone artisanale et la navigation ne régressent pas.
+- L’immeuble interactif et la navigation ne régressent pas.
 - Aucun formulaire ne simule un enregistrement réussi ; aucune action externe n’est déclenchée sans autorisation explicite.
 - Build, vérification du site et tests navigateur concernés passent ; les preuves et le commit sont consignés.
 - Le statut des fonctions est affiché sans ambiguïté : opérationnelle, partielle, non configurée ou future.
