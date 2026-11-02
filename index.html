@@ -254,16 +254,9 @@ body.homepage .building-scene .tower .floor-row {
   pointer-events: auto;
 }
 
-/* Zones interactives indépendantes : une grille de dix bandes couvre exactement
-   la façade. L'ordre DOM va du dernier étage au rez-de-chaussée. */
-body.homepage .building-scene .tower {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  padding: 0 !important;
-  overflow: visible;
-}
+/* La façade conserve ses dimensions et sa position visuelles d'origine.
+   Seule la grille des liens recouvre la surface intérieure de la tour.
+   L'ordre DOM va du dernier étage au rez-de-chaussée. */
 body.homepage .building-scene .tower .floor-rows {
   position: absolute !important;
   inset: 0 !important;
