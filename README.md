@@ -15,7 +15,8 @@ La liste d’appels d’offres, les blocs explicatifs, les répertoires redondan
 
 - `index.html` : accueil épuré, scène interactive et recherche avancée.
 - L’immeuble interactif à dix étages est l’unique interface de navigation visuelle de MajestiOS. L’ancienne expérience 3D autonome à douze bâtiments a été retirée.
-- `marches-publics.html`, `marches-prives.html` et les dix autres pages métier : destinations des douze bâtiments.
+- Les dix dossiers fonctionnels sont décrits dans `DOSSIERS-MAJESTIOS.md` ; ils organisent le produit sans imposer de déplacer les fichiers HTML.
+- Les douze pages métier existantes restent des destinations HTML distinctes ; plusieurs pages peuvent compléter un même dossier. Leur correspondance est détaillée dans `DOSSIERS-MAJESTIOS.md` et `ARBORESCENCE-MAJESTIOS.md`.
 - `categorie-*.html` : pages de destination pour les catégories du moteur de recherche.
 - `nous-rejoindre.html`, `espace-membre.html`, `faq.html` : rubriques secondaires accessibles par navigation.
 - `styles.css`, `app.js`, `catalogue-majestios.js`, `rubriques-immersives.css`, `rubriques-immersives.js` : styles, interactions, correspondance des bâtiments et présentation commune.
