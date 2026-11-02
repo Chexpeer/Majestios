@@ -1,6 +1,6 @@
 # MajestiOS — matrice de traçabilité des exigences et état de réalisation
 
-Version : 2026-11-01  
+Version : 2026-11-02  
 Branche de travail pour la consolidation documentaire : `refonte-architecture-dossiers-charte-majestios-2026-11-01`  
 Objet : permettre à une IA ou à une équipe de relier chaque exigence à sa documentation, aux fichiers concernés et à une preuve de validation attendue.
 
@@ -16,7 +16,7 @@ Ne pas convertir « documenté » en « livré ». Chaque mise à jour de statut
 
 ## Matrice principale
 
-| ID | Exigence | Référence fonctionnelle | Code / zone concernée connue | Statut au 2026-11-01 | Preuve / critère de sortie |
+| ID | Exigence | Référence fonctionnelle | Code / zone concernée connue | Statut au 2026-11-02 | Preuve / critère de sortie |
 |---|---|---|---|---|---|
 | GOV-01 | Ne pas déployer en production, fusionner dans main ou lancer une campagne sans autorisation explicite | Guide de reprise §7 ; Plan de chantier §4 | Gouvernance GitHub/Vercel et diffusion | Garde-fou | Autorisation explicite ; journaliser l'action réalisée et sa preuve |
 | MVP-01 | Périmètre MVP limité aux parcours accueil, recherche BOAMP/BODACC, résultats/catégories et traçabilité ; extensions exclues jusqu’à validation | Cahier maître §10 bis ; Plan de chantier §3 et §6 | `index.html`, `opportunity-search.js`, `resultats-recherche.html`, pages catégories et tests associés | Proposition de cadrage à valider ; réalisation à revalider | Vérifier chaque critère de sortie MVP, exécuter build/vérification/tests concernés et consigner les preuves avant toute annonce de livraison |
