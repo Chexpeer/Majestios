@@ -149,14 +149,16 @@ Travailler par lots limités, réversibles et testables. Éviter les audits sans
 
 ## 9. Ordre de lecture recommandé
 
-1. `DOCUMENTATION-REPRISE-IA-MAJESTIOS.md` — présent document.
-2. `CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md` — vision, périmètre et décisions.
-3. `SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md` — parcours et critères d'acceptation.
-4. `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md` — sources et signaux.
-5. `ARBORESCENCE-MAJESTIOS.md` — pages, navigation et dépendances.
+1. `BrainIOS/README.md` — index du référentiel documentaire et règles de qualité.
+2. `BrainIOS/CONSIGNES-ASSISTANTS-IA.md` — règles d’intervention des assistants IA.
+3. `DOCUMENTATION-REPRISE-IA-MAJESTIOS.md` — présent document.
+4. `CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md` — vision, périmètre et décisions.
+5. `SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md` — parcours et critères d'acceptation.
+6. `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md` — sources et signaux.
+7. `ARBORESCENCE-MAJESTIOS.md` — pages, navigation et dépendances.
 6. `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md` — lots, risques et garde-fous.
-7. `MODELE-DONNEES-APPELS-OFFRES.md` et `schemas/opportunite.schema.json` — contrat des données d'opportunité.
-8. `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` — sources candidates, accès, limites, pipeline et statuts CRM.
+9. `MODELE-DONNEES-APPELS-OFFRES.md` et `schemas/opportunite.schema.json` — contrat des données d'opportunité.
+10. `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` — sources candidates, accès, limites, pipeline et statuts CRM.
 
 ## 10. État de vérité au 1er novembre 2026
 
