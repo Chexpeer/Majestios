@@ -1,7 +1,7 @@
 # MajestiOS — dossier de reprise pour toute IA ou équipe technique
 
 Version : 2026-11-01  
-Branche de référence documentaire : `chantier-recherche-donnees-gardes-fous-2026-11-01`  
+Branche de travail documentaire actuelle : `refonte-architecture-dossiers-charte-majestios-2026-11-01`  
 Statut : guide de continuité ; il décrit la vision, les décisions déjà établies, les états vérifiés et les précautions de reprise. Ce document ne vaut ni validation finale du cahier des charges par le Fondateur, ni autorisation de mise en production.
 
 ## 1. Mission de ce document
