@@ -8,6 +8,11 @@
       "source": "/prospection-inversee.html",
       "destination": "/prospection-active.html",
       "permanent": true
+    },
+    {
+      "source": "/zone-artisanale.html",
+      "destination": "/index.html#accueil",
+      "permanent": true
     }
   ],
   "headers": [
