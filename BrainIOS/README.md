@@ -51,3 +51,27 @@ Créer ces sous-dossiers seulement lorsqu'un premier document réel les justifie
 ## État actuel
 
 Le référentiel est amorcé par cette structure et les documents existants du dépôt. **Aucune indexation automatique, synchronisation continue, recherche sémantique ou connexion du chatbot à BrainIOS n'est activée.** Toute automatisation de ce type fera l'objet d'un lot technique distinct, avec contrôle des accès, des versions et des sources.
+
+## Index des documents de référence
+
+| Sujet | Document principal | Compléments |
+|---|---|---|
+| Vision et périmètre produit | `../CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md` | `../SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md` |
+| Dix dossiers et navigation | `../DOSSIERS-MAJESTIOS.md` | `../ARBORESCENCE-MAJESTIOS.md`, README de chaque dossier |
+| État réel et reprise | `../DOCUMENTATION-REPRISE-IA-MAJESTIOS.md` | Code, tests, commits |
+| Statut des exigences | `../MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md` | Preuves de tests |
+| Veille et signaux | `../CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md` | `../BODACC-TRAITEMENT-SIGNAUX-COMMERCIAUX.md`, `../TRAITEMENT-OPPORTUNITES-MAJESTIOS.md` |
+| Parcours depuis une annonce | `../SPEC-PARCOURS-DEPUIS-ANNONCE-MAJESTIOS.md` | `../TRAITEMENT-OPPORTUNITES-MAJESTIOS.md` |
+| CRM et données | `../MODELE-COMMUN-DONNEES-CRM-MAJESTIOS.md` | `../PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md`, `../REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` |
+| Statistiques et valorisation | `../CARTOGRAPHIE-DONNEES-STATISTIQUES-MAJESTIOS.md` | `../PLAN-PILOTE-STATISTIQUES-MAJESTIOS.md`, `../MODELE-VALORISATION-DONNEES-ET-ETUDES-COMMERCIALES-MAJESTIOS.md` |
+| Suivi économique des entreprises | `../SPEC-SUIVI-DYNAMIQUE-ECONOMIQUE-ENTREPRISES-MAJESTIOS.md` | Registre des ressources |
+
+### Règles d'arbitrage documentaire
+
+- Le cahier des charges maître exprime la vision et le périmètre cible ; il est encore indiqué comme à valider par le Fondateur.
+- Les spécifications décrivent le comportement attendu, pas la preuve d'une fonction livrée.
+- La matrice de traçabilité et le code/tests/commits servent à établir l'état réellement constaté.
+- Les modèles CRM, appels d'offres et statistiques ne prouvent pas l'existence d'une base ou d'un service opérationnel.
+- BOAMP désigne les consultations publiques ; BODACC désigne des annonces légales et commerciales, à qualifier comme signaux.
+- Les documents portant une ancienne branche dans leurs métadonnées conservent leur contexte historique tant que leur origine n'a pas été vérifiée.
+- En cas de contradiction non tranchée par une décision datée et vérifiable, documenter l'écart et demander un arbitrage plutôt que choisir silencieusement.
