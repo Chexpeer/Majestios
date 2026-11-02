@@ -166,10 +166,16 @@ body.homepage .building-caption{margin-top:8px;color:#9eafc8;font-size:9px;lette
 /* Photo de référence fournie par le propriétaire du projet */
 /* La photo remplace l’ancien immeuble CSS : on conserve uniquement les liens d’étage superposés. */
 body.homepage .building-scene .tower{
+  /* La tour reste centrée sur la façade photographique : elle ne recouvre
+     jamais toute la scène. Les zones de clic sont limitées à son emprise. */
   position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
+  left:50%!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:7%!important;
+  inset:auto!important;
+  width:min(76%,780px)!important;
+  height:85%!important;
   min-height:0!important;
   margin:0!important;
   padding:0!important;
@@ -177,7 +183,7 @@ body.homepage .building-scene .tower{
   background:transparent!important;
   border:0!important;
   box-shadow:none!important;
-  transform:none!important;
+  transform:translateX(-50%)!important;
 }
 body.homepage .building-scene .tower:before,
 body.homepage .building-scene .tower:after{display:none!important;content:none!important}
