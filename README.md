@@ -62,8 +62,10 @@ Le contrôle statique ne remplace pas un test dans un navigateur réel, notammen
 
 ## Documentation produit et reprise par une IA
 
-Lire dans cet ordre avant de reprendre les travaux :
-1. DOCUMENTATION-REPRISE-IA-MAJESTIOS.md — contexte, décisions, état de vérité et protocole de reprise ;
+Le répertoire `BrainIOS/` est le point d’entrée documentaire pour les assistants IA : il référence les sources de vérité et les consignes de travail. Il ne s’agit pas encore d’une base connectée au chatbot ni d’un moteur de recherche documentaire automatisé. Lire dans cet ordre avant de reprendre les travaux :
+1. `BrainIOS/README.md` — index du référentiel et règles de qualité ;
+2. `BrainIOS/CONSIGNES-ASSISTANTS-IA.md` — consignes d’intervention ;
+3. DOCUMENTATION-REPRISE-IA-MAJESTIOS.md — contexte, décisions, état de vérité et protocole de reprise ;
 2. CAHIER-DES-CHARGES-MAITRE-MAJESTIOS.md — vision et périmètre ;
 3. SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md — parcours et critères d'acceptation ;
 4. CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md — sources et signaux ;
