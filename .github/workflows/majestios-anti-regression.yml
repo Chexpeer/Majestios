@@ -36,3 +36,5 @@ jobs:
         run: node build.js
       - name: Vérifier les pages et références internes
         run: node verify-site.js
+      - name: Vérifier les dix dossiers et leurs accès internes
+        run: node verify-architecture.js
