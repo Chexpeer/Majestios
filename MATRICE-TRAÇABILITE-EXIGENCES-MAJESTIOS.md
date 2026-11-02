@@ -1,7 +1,7 @@
 # MajestiOS — matrice de traçabilité des exigences et état de réalisation
 
 Version : 2026-11-01  
-Branche de référence : `chantier-recherche-donnees-gardes-fous-2026-11-01`  
+Branche de travail pour la consolidation documentaire : `refonte-architecture-dossiers-charte-majestios-2026-11-01`  
 Objet : permettre à une IA ou à une équipe de relier chaque exigence à sa documentation, aux fichiers concernés et à une preuve de validation attendue.
 
 ## Comment lire les statuts
