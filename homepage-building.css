@@ -160,3 +160,22 @@ body.homepage .search-source-note{
 @media(prefers-reduced-motion:reduce){
   body.homepage .building-floor{transition:none}
 }
+
+
+/* 2026-11-02 — zones cliquables des étages au minimum, séparations inactives de 3 mm. */
+body.homepage .building-floors{
+  flex:0 0 auto;
+  grid-template-rows:repeat(12,18px);
+  gap:11px;
+  padding:5px 0;
+}
+body.homepage .building-floor{
+  box-sizing:border-box;
+  min-height:18px;
+  height:18px;
+  padding:0 5px;
+}
+@media(max-width:560px){
+  body.homepage .building-floors{grid-template-rows:repeat(12,18px);gap:11px;padding:5px 0}
+  body.homepage .building-floor{min-height:18px;height:18px;padding:0 5px}
+}
