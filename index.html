@@ -46,7 +46,7 @@ body.homepage{margin:0;background:#080d15;color:var(--ink);font-family:Inter,sys
 .tower:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 8%,#f5f9ff28 8.2% 8.6%,transparent 8.8% 16.5%)}
 .tower-sign{position:absolute;left:18%;right:18%;top:-30px;padding:7px 8px;text-align:center;background:#101d2c;border:1px solid #8b9eaa;color:#f4f0e6;font-size:clamp(12px,1.4vw,18px);font-weight:900;letter-spacing:.08em}
 .tower-sign span{color:var(--gold)}
-.floor-rows{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;min-height:0;gap:3px}
+.floor-rows{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;min-height:0;gap:1.5px}
 .floor-row{display:grid;grid-template-columns:42px minmax(0,1fr) 25px;align-items:stretch;gap:8px;flex:1 1 0;min-height:0;padding:3px 5px;border:1px solid #d9e8f277;border-radius:2px;background:linear-gradient(90deg,#1b354bcc,#92afc099 48%,#18344bcc);color:#fff;text-align:left;text-decoration:none;cursor:pointer;transition:border-color .15s,filter .15s,transform .15s}
 .floor-row:hover,.floor-row:focus-visible,.floor-row[aria-pressed=true]{border-color:#ffe5a0;filter:brightness(1.16);outline:1px solid #d5b56c;outline-offset:0}
 .floor-no{display:grid;place-items:center;background:#10243bdf;border-right:1px solid #d9e8f255;color:#f6d37b;font-weight:900;font-size:clamp(10px,1.1vw,14px)}
@@ -224,7 +224,7 @@ body.homepage .building-scene .tower .floor-rows {
   left:calc(50% + 3cm) !important; transform:translateX(-50%) !important; z-index:12 !important;
   display:grid !important; grid-template-columns:minmax(0,1fr) !important;
   grid-template-rows:repeat(8,minmax(30px,1fr)) !important;
-  align-content:stretch !important; gap:2.5px !important; width:100% !important;
+  align-content:stretch !important; row-gap:1.5px !important; column-gap:0 !important; width:100% !important;
   height:auto !important; min-height:0 !important; padding:0 8px !important;
 }
 body.homepage .building-scene .tower .floor-row {
@@ -268,7 +268,7 @@ body.homepage .building-scene .tower .floor-row:focus-visible {
 @media(max-width:600px) {
   body.homepage .building-scene .tower { width:97% !important; }
   body.homepage .building-scene .tower .floor-rows {
-    top:calc(1% + 2cm) !important; bottom:calc(10% - 2cm) !important; gap:2px !important; padding:0 3px !important;
+    top:calc(1% + 2cm) !important; bottom:calc(10% - 2cm) !important; row-gap:1px !important; column-gap:0 !important; padding:0 3px !important;
   }
   body.homepage .building-scene .tower .floor-row {
     grid-template-columns:34px minmax(0,1fr) 0 16px !important; gap:3px !important; padding:2px 3px !important;
