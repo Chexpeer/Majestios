@@ -221,7 +221,7 @@ body.homepage .building-scene .building-caption { display:none !important; }
 body.homepage .building-scene .tower { display:block !important; }
 body.homepage .building-scene .tower .floor-rows {
   position:absolute !important; top:1% !important; bottom:13% !important;
-  left:50% !important; transform:translateX(-50%) !important; z-index:12 !important;
+  left:calc(50% + 2cm) !important; transform:translateX(-50%) !important; z-index:12 !important;
   display:grid !important; grid-template-columns:minmax(0,1fr) !important;
   grid-template-rows:repeat(10,minmax(30px,1fr)) !important;
   align-content:stretch !important; gap:5px !important; width:100% !important;
@@ -242,7 +242,7 @@ body.homepage .building-scene .tower .floor-row {
 }
 /* La zone cliquable parasite au-dessus du premier étage est retirée.
    Le 10e étage reste visible sur la façade, mais n'est pas une zone de clic distincte. */
-body.homepage .building-scene .tower .floor-row:first-child { pointer-events:none !important; cursor:default !important; }
+body.homepage .building-scene .tower .floor-row:nth-child(-n+2) { pointer-events:none !important; cursor:default !important; }
 body.homepage .building-scene .tower .floor-no {
   display:grid !important; place-items:center !important; min-width:0 !important;
   background:rgba(9,31,55,.92) !important; border-right:1px solid rgba(220,235,248,.35) !important;
