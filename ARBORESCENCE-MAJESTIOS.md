@@ -12,7 +12,7 @@ Il faut distinguer deux éléments :
 - **Immeuble de l’accueil : dix étages thématiques** — Marchés publics, Marchés privés, Veille économique, Prospection active, Développement commercial, Accompagnement aux appels d’offres, Salon virtuel, Espace entreprises, CRM et Business Intelligence.
 - **Zone artisanale virtuelle : douze bâtiments** — expérience 3D distincte, conservée avec ses douze destinations historiques afin de ne pas casser sa navigation ni ses contrôles.
 
-Les dix dossiers fonctionnels sont des dossiers d’organisation du projet. Dans ce lot, les fichiers HTML existants restent à la racine pour préserver les routes relatives et le build statique ; ils ne sont pas déplacés ou renommés. Les anciens noms de pages peuvent donc subsister derrière les libellés de navigation harmonisés.
+Les dix dossiers fonctionnels sont des dossiers d’organisation du projet. Les fichiers HTML restent à la racine pour préserver les routes relatives et le build statique. Les migrations de nom de page doivent être réalisées uniquement après audit des liens entrants, du build et des tests, avec une redirection de compatibilité si nécessaire. Les anciens noms de pages peuvent donc subsister derrière les libellés de navigation harmonisés.
 
 Le moteur de recherche avancé est repris depuis la branche de référence et doit conserver ses critères, ses sources, ses destinations et ses garde-fous. La charte de cette refonte reste sombre, bleu nuit et or, avec des contrastes lisibles et une adaptation mobile. Cette branche ne doit pas être promue en production avant vérification du build, des liens, des filtres et des interactions.
 
