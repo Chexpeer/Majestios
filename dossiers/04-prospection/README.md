@@ -11,4 +11,4 @@ La rubrique couvre un processus actif et piloté :
 
 Page canonique associée : `prospection-active.html`.
 
-Règle : employer exclusivement « Prospection active » comme nom de la rubrique et de l’étage. Ne pas conserver l’ancienne appellation dans les interfaces, liens, tests ou documents de référence.
+Règle : employer « Prospection active » comme nom canonique dans les interfaces et nouveaux documents. Les références historiques à une ancienne appellation peuvent être conservées dans les archives et notes de migration, mais ne doivent pas réintroduire un libellé obsolète dans l'interface.
