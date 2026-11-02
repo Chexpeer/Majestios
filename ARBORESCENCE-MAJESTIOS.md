@@ -60,7 +60,7 @@ Préparation attendue avant activation :
 - `nous-rejoindre.html` — contributions et coopérations.
 - `espace-membre.html` — parcours personnel de démonstration, sans compte réel.
 - `faq.html` — explications et limites actuelles.
-- L’ancienne expérience 3D autonome à douze bâtiments est obsolète. L’interface de référence est désormais l’immeuble interactif de l’accueil, à dix étages. Toute route ou ressource propre à l’ancienne expérience doit être retirée après migration des contrôles et vérification des liens.
+- L’ancienne expérience 3D autonome à douze bâtiments est obsolète. L’interface de référence est désormais l’immeuble interactif de l’accueil, à dix étages. Les fichiers et routes de cette ancienne expérience sont retirés ; seule une redirection de compatibilité conserve l’ancienne URL.
 
 ### Douze pages métier correspondant aux bâtiments
 1. Marchés publics — `marches-publics.html`
