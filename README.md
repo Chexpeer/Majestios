@@ -14,7 +14,7 @@ La liste d’appels d’offres, les blocs explicatifs, les répertoires redondan
 ## Pages et ressources à conserver
 
 - `index.html` : accueil épuré, scène interactive et recherche avancée.
-- L’immeuble interactif est intégré à `index.html` ; l’ancienne expérience 3D autonome à douze bâtiments est obsolète et en cours de retrait contrôlé.
+- L’immeuble interactif à dix étages est l’unique interface de navigation visuelle de MajestiOS. L’ancienne expérience 3D autonome à douze bâtiments a été retirée.
 - `marches-publics.html`, `marches-prives.html` et les dix autres pages métier : destinations des douze bâtiments.
 - `categorie-*.html` : pages de destination pour les catégories du moteur de recherche.
 - `nous-rejoindre.html`, `espace-membre.html`, `faq.html` : rubriques secondaires accessibles par navigation.
