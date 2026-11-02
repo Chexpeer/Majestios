@@ -42,23 +42,36 @@ const expectedThemes = [
   "Développement commercial", "Accompagnement aux appels d’offres", "Salon virtuel",
   "Espace entreprises", "CRM", "Business Intelligence"
 ];
+const expectedFolders = [
+  "dossiers/01-marches-publics/", "dossiers/02-marches-prives/",
+  "dossiers/03-veille-economique/", "dossiers/04-prospection/",
+  "dossiers/05-developpement-commercial/", "dossiers/06-accompagnement-appels-offres/",
+  "dossiers/07-salon-virtuel/", "dossiers/08-espace-entreprises/",
+  "dossiers/09-crm/", "dossiers/10-business-intelligence/"
+];
 if (!floorBlock) {
   errors.push("Accueil : liste des étages introuvable");
 } else {
-  const floors = [...floorBlock[1].matchAll(/\{id:"(B\d{2})",name:"([^"]+)",key:"([^"]+)",href:"([^"]+\.html)",first:"([^"]+\.html)",second:"([^"]+\.html)"/g)]
-    .map((m) => ({ id:m[1], name:m[2], key:m[3], href:m[4], first:m[5], second:m[6] }));
+  const floors = [...floorBlock[1].matchAll(/\{id:"(B\d{2})",name:"([^"]+)",folder:"([^"]+)",description:"[^"]*",links:\[([\s\S]*?)\]\}/g)]
+    .map((m) => ({
+      id:m[1], name:m[2], folder:m[3],
+      destinations:[...m[4].matchAll(/href:"([^"]+\.html)"/g)].map((link) => link[1])
+    }));
   assert(floors.length === 10, `Accueil : ${floors.length} étages détectés au lieu de 10`);
   assert(floors.every((f, i) => f.name === expectedThemes[i]), "Accueil : noms ou ordre des dix thèmes incorrects");
+  assert(floors.every((f, i) => f.folder === expectedFolders[i]), "Accueil : correspondance entre étages et dossiers incorrecte");
   assert(!floors.some((f) => /prospection inversée/i.test(f.name)), "Accueil : ancien libellé « Prospection inversée » encore présent");
   for (const floor of floors) {
-    const destinations = [floor.href, floor.first, floor.second];
-    assert(new Set(destinations).size === 3, `Accueil : destinations dupliquées pour ${floor.name}`);
-    for (const destination of destinations) {
+    assert(floor.destinations.length === 3, `Accueil : ${floor.name} doit proposer exactement trois liens`);
+    assert(new Set(floor.destinations).size === floor.destinations.length, `Accueil : destinations dupliquées pour ${floor.name}`);
+    for (const destination of floor.destinations) {
       assert(exists(destination), `Accueil : destination absente pour ${floor.name} : ${destination}`);
       assert(siteFiles.includes(destination), `Build : destination non publiée pour ${floor.name} : ${destination}`);
     }
   }
+  assert(home.includes("floor.links.forEach(function (office)"), "Accueil : les liens métier ne sont pas générés depuis la liste du dossier");
 }
+
 
 const catalogue = read("catalogue-majestios.js");
 const catalogRubrics = [...catalogue.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)"/g)]
