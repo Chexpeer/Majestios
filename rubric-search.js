@@ -17,8 +17,8 @@
       description: "Repérez des consultations publiques ou explorez séparément les signaux commerciaux privés du BODACC.",
       market: "all"
     },
-    "prospection-inversee.html": {
-      title: "Rechercher des opportunités pour la prospection inversée",
+    "prospection-active.html": {
+      title: "Rechercher des opportunités pour la prospection active",
       description: "Partez des annonces et signaux publiés pour identifier les pistes qui méritent une qualification humaine.",
       market: "all"
     },
