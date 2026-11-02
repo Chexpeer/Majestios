@@ -144,9 +144,9 @@ Pour chaque source, documenter URL officielle, accès autorisé, API/flux, authe
 - Les profils et droits d'accès doivent séparer les données publiques, privées, confidentielles et les dossiers propres à un client.
 - L'historique CRM doit conserver les actions utiles, les sources et les statuts, avec contrôle des accès et durée de conservation.
 
-## 9. Parcours G — salon virtuel et zone interactive
+## 9. Parcours G — salon virtuel et immeuble interactif
 
-- La zone artisanale/industrielle virtuelle est un élément de l'accueil et doit être préservée.
+- L’immeuble interactif à dix étages est l’interface de navigation visuelle de l’accueil et doit être préservé.
 - Le Salon virtuel/showroom est une rubrique distincte, prévue pour des présentations professionnelles et extensions futures.
 - Les deux concepts ne doivent pas être confondus dans l'interface ou l'arborescence.
 - Toute modification de la scène de l'accueil doit être isolée et couverte par des tests anti-régression.
