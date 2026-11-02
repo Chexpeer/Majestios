@@ -38,7 +38,7 @@ assert(home.includes("BÂTIMENT VIRTUEL · 10 ÉTAGES"), "Accueil : nombre d’�
 
 const floorBlock = home.match(/const floors = \[([\s\S]*?)\n        \];/);
 const expectedThemes = [
-  "Marchés publics", "Marchés privés", "Veille économique", "Prospection",
+  "Marchés publics", "Marchés privés", "Veille économique", "Prospection active",
   "Développement commercial", "Accompagnement aux appels d’offres", "Salon virtuel",
   "Espace entreprises", "CRM", "Business Intelligence"
 ];
@@ -60,7 +60,7 @@ if (!floorBlock) {
   assert(floors.length === 10, `Accueil : ${floors.length} étages détectés au lieu de 10`);
   assert(floors.every((f, i) => f.name === expectedThemes[i]), "Accueil : noms ou ordre des dix thèmes incorrects");
   assert(floors.every((f, i) => f.folder === expectedFolders[i]), "Accueil : correspondance entre étages et dossiers incorrecte");
-  assert(!floors.some((f) => /prospection inversée/i.test(f.name)), "Accueil : ancien libellé « Prospection inversée » encore présent");
+  assert(floors.some((f) => f.name === "Prospection active"), "Accueil : étage « Prospection active » absent");
   for (const floor of floors) {
     assert(floor.destinations.length >= 1, `Accueil : ${floor.name} doit proposer au moins un accès utile`);
     assert(new Set(floor.destinations).size === floor.destinations.length, `Accueil : destinations dupliquées pour ${floor.name}`);
@@ -77,10 +77,10 @@ if (!floorBlock) {
 }
 
 
-const prospectingPage = read("prospection-inversee.html");
-assert(prospectingPage.includes("<title>Prospection — MajestiOS</title>"), "Prospection : titre de page non harmonisé");
-assert(prospectingPage.includes("<h1>Prospection</h1>"), "Prospection : titre principal non harmonisé");
-assert(!prospectingPage.includes("Prospection inversée"), "Prospection : ancien intitulé encore visible");
+const prospectingPage = read("prospection-active.html");
+assert(prospectingPage.includes("<title>Prospection active — MajestiOS</title>"), "Prospection active : titre de page non harmonisé");
+assert(prospectingPage.includes("<h1>Prospection active</h1>"), "Prospection active : titre principal non harmonisé");
+assert(!prospectingPage.includes("Prospection inversée"), "Prospection active : ancienne appellation encore visible");
 
 const catalogue = read("catalogue-majestios.js");
 const catalogRubrics = [...catalogue.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)"/g)]
