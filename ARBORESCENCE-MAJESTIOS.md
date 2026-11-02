@@ -109,7 +109,7 @@ Les fichiers HTML restent à la racine du dépôt pour préserver les liens rela
 
 - `styles.css` — styles généraux et composants communs.
 - `app.js` — navigation et comportement du moteur de recherche.
-- `catalogue-majestios.js` — correspondance des douze bâtiments avec les pages métier.
+- `catalogue-majestios.js` — correspondance des dix étages avec les douze pages métier.
 - L’immeuble interactif est rendu directement par `index.html` et son script intégré ; il ne dépend pas de l’ancienne scène 3D autonome.
 - `rubriques-immersives.css`, `rubriques-immersives.js` — présentation et interactions des pages immersives.
 - `schema-majestios.svg` — ancien schéma SVG non utilisé par le build courant ; le conserver jusqu’à une vérification complète des références avant suppression.
