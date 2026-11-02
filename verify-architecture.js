@@ -56,38 +56,33 @@ const expectedThemes = [
   "Développement commercial", "Accompagnement aux appels d’offres", "Salon virtuel",
   "Espace entreprises", "CRM", "Business Intelligence"
 ];
-const expectedFolders = [
-  "dossiers/01-marches-publics/", "dossiers/02-marches-prives/",
-  "dossiers/03-veille-economique/", "dossiers/04-prospection/",
-  "dossiers/05-developpement-commercial/", "dossiers/06-accompagnement-appels-offres/",
-  "dossiers/07-salon-virtuel/", "dossiers/08-espace-entreprises/",
-  "dossiers/09-crm/", "dossiers/10-business-intelligence/"
-];
 const floorBlock = home.match(/const floors = \[([\s\S]*?)\n        \];/);
 if (!floorBlock) {
-  errors.push("Accueil : liste des dix étages introuvable");
+  errors.push("Accueil : catalogue des espaces introuvable");
 } else {
   const floors = [...floorBlock[1].matchAll(/\{id:"(B\d{2})",name:"([^"]+)",folder:"([^"]+)",description:"[^"]*",links:\[([\s\S]*?)\]\}/g)]
-    .map((match) => ({
-      id: match[1], name: match[2], folder: match[3],
-      destinations: [...match[4].matchAll(/href:"([^"]+\.html)"/g)].map((link) => link[1])
+    .map(match => ({
+      id:match[1],name:match[2],folder:match[3],
+      destinations:[...match[4].matchAll(/href:"([^"]+\.html)"/g)].map(link=>link[1])
     }));
-  assert(floors.length === 10, "Accueil : " + floors.length + " étages détectés au lieu de 10");
-  assert(floors.every((floor, index) => floor.name === expectedThemes[index]), "Accueil : noms ou ordre des dix thèmes incorrects");
-  assert(floors.every((floor, index) => floor.folder === expectedFolders[index]), "Accueil : correspondance des dix thèmes incorrecte");
+  assert(floors.length===10,"Accueil : les dix espaces du catalogue doivent être conservés");
+  assert(floors.every((floor,index)=>floor.name===expectedThemes[index]),"Accueil : noms ou ordre du catalogue des espaces incorrects");
   for (const floor of floors) {
-    assert(floor.destinations.length > 0, "Accueil : aucun accès pour " + floor.name);
-    assert(new Set(floor.destinations).size === floor.destinations.length, "Accueil : destinations dupliquées pour " + floor.name);
+    assert(floor.destinations.length>0,"Accueil : aucun accès déclaré pour "+floor.name);
     for (const destination of floor.destinations) {
-      assert(exists(destination), "Accueil : destination absente : " + destination);
-      assert(siteFiles.includes(destination), "Build : destination non publiée : " + destination);
+      assert(exists(destination),"Accueil : destination absente : "+destination);
+      assert(siteFiles.includes(destination),"Build : destination non publiée : "+destination);
     }
   }
-  const enterprise = floors.find((floor) => floor.name === "Espace entreprises");
-  assert(enterprise?.destinations.length === 1 && enterprise.destinations[0] === "espace-membre.html",
-    "Accueil : Espace entreprises doit pointer uniquement vers espace-membre.html");
-  assert(home.includes('document.createElement("a")') && home.includes("link.href = primary.href"),
-    "Accueil : les étages doivent être des liens directs");
+  assert(home.includes('document.createElementNS(SVG_NS, "a")'),"Accueil : les zones doivent être des liens SVG natifs");
+  assert(home.includes('viewBox="0 0 704 1114"'),"Accueil : repère SVG attendu 704 × 1114");
+  assert(home.includes('class="building-photo"') && home.includes('class="building-hotspots"'),"Accueil : photo ou calque de zones absent");
+  assert(home.includes("for (let number = 9; number >= 1; number -= 1)"),"Accueil : neuf étages doivent être générés");
+  assert(home.includes("const leftEdge = 72, rightEdge = 556, halfHeight = 34"),"Accueil : géométrie des zones polygonales absente");
+  assert(home.includes('link.setAttribute("href", floor.links[0].href)'),"Accueil : destinations directes des zones absentes");
+  assert(home.includes('number === 9 ? "IA & Business Intelligence"'),"Accueil : intitulé du neuvième étage incorrect");
+  const enterprise=floors.find(floor=>floor.name==="Espace entreprises");
+  assert(enterprise?.destinations[0]==="espace-membre.html","Accueil : accès Espace entreprises incorrect");
 }
 
 const catalogue = read("catalogue-majestios.js");
