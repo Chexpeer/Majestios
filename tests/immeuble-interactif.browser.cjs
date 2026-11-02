@@ -52,6 +52,12 @@ async function main() {
       const row = page.locator(".floor-row").filter({ hasText:name });
       assert.equal(await row.count(), 1, "L’étage " + name + " doit apparaître une seule fois.");
       assert.equal(await row.getAttribute("href"), route, "Destination incorrecte pour " + name);
+      await Promise.all([
+        page.waitForURL((url) => url.pathname.endsWith("/" + route), { timeout:10000 }),
+        row.click()
+      ]);
+      assert.ok(page.url().endsWith("/" + route), "Le clic sur " + name + " doit ouvrir " + route);
+      await page.goto("http://127.0.0.1:4173/", { waitUntil:"domcontentloaded" });
     }
     for (const item of observed) {
       assert.ok(Object.prototype.hasOwnProperty.call(expected, item.name), "Étage inattendu : " + item.name);
