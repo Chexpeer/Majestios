@@ -33,7 +33,7 @@ Principe central : **adapter une offre à une demande et une demande à une offr
 - **Adapter une demande à une offre** : partir des compétences, produits, services ou capacités d’une entreprise, puis rechercher les marchés, clients, projets et interlocuteurs qui pourraient leur correspondre.
 - **S’adapter au contexte** : tenir compte de la situation, du secteur, du territoire, du calendrier, du niveau de preuve disponible et de l’objectif de l’utilisateur. Aucun parcours commercial unique ne doit être imposé à toutes les situations.
 
-### Deux démarches complémentaires de prospection
+### Prospection active et détection d’opportunités
 
 **Prospection passive — détecter et qualifier.** Elle couvre la recherche d’opportunités déjà publiées (annonces, appels d’offres, cessions, offres de sous-traitance) ainsi que la détection de signaux économiques susceptibles de révéler des besoins futurs. « Passive » décrit ici le mode de détection, et non l’absence de travail commercial ultérieur.
 
@@ -120,7 +120,7 @@ Taxonomie du moteur :
 - Rechercher des marchés publics à partir de sources adaptées, dont BOAMP.
 - Rechercher séparément les annonces commerciales et événements d’entreprise publiés, notamment via BODACC.
 - Qualifier les informations selon activité, localisation, échéance, entreprise, nature du signal et fiabilité.
-- Préparer des pistes de prospection inversée et de sous-traitance, explicitement présentées comme des hypothèses tant qu’elles ne sont pas confirmées.
+- Préparer des pistes de prospection active et de sous-traitance, explicitement présentées comme des hypothèses tant qu’elles ne sont pas confirmées.
 - Permettre à terme le suivi des dossiers et des actions dans le CRM.
 
 ### 4.2 Veille stratégique transverse
@@ -215,7 +215,7 @@ Cycle d’état cible : **détecté → à compléter → à vérifier → quali
 - **Développement commercial** :
   - marchés publics ;
   - événements et annonces d’entreprise BODACC ;
-  - prospection inversée ;
+  - prospection active ;
   - sous-traitance et partenaires ;
   - veille économique et sectorielle ;
   - analyse territoriale ;
