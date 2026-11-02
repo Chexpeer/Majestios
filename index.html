@@ -191,7 +191,7 @@ body.homepage .building-scene .tower .building-rdc{
 body.homepage .building-scene .tower .floor-row:before,
 body.homepage .building-scene .tower .floor-row:after{display:none!important;content:none!important}
 body.homepage .building-scene{
-  background-image:linear-gradient(180deg,#07101a20 0%,#07101a15 58%,#07101a88 100%),url("6180%20(2).webp");
+  background-image:linear-gradient(180deg,#07101a20 0%,#07101a15 58%,#07101a88 100%),url("majestios-batiment.webp");
   background-size:cover;
   background-position:center 42%;
   background-repeat:no-repeat;
@@ -233,7 +233,7 @@ body.homepage .building-scene .tower .floor-row {
   box-shadow: none !important;
   color: transparent !important;
 }
-.dialog-image{display:block;width:calc(100% - 34px);max-height:190px;object-fit:cover;margin:14px 17px 10px;border:1px solid #d5b56c55;border-radius:9px;background:#101a28}.dialog-image[hidden]{display:none}
+
 body.homepage .building-scene .tower .floor-row:hover,
 body.homepage .building-scene .tower .floor-row:focus-visible,
 body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
@@ -363,11 +363,6 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
             document.getElementById("dialog-kicker").textContent = "BUILDING MAJESTIOS · ÉTAGE " + String(10 - index).padStart(2, "0");
             document.getElementById("dialog-title").textContent = floor.name;
             document.getElementById("dialog-description").textContent = floor.description;
-            let dialogImage = document.getElementById("dialog-image");
-            if (!dialogImage) { dialogImage = document.createElement("img"); dialogImage.id = "dialog-image"; dialogImage.className = "dialog-image"; dialogImage.alt = ""; dialogImage.hidden = true; document.getElementById("dialog-description").before(dialogImage); }
-            dialogImage.hidden = !floor.image;
-            if (floor.image) { dialogImage.src = floor.image; dialogImage.alt = "Illustration : " + floor.name; }
-            else { dialogImage.removeAttribute("src"); dialogImage.alt = ""; }
             offices.replaceChildren();
             [
               {label:floor.name,href:floor.href,level:"Rubrique principale"},
