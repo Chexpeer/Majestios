@@ -6,7 +6,7 @@ Statut : nouvelle base de travail isolée ; aucune publication en production.
 
 ## Principe d'architecture
 
-Cette refonte distingue explicitement **les dossiers fonctionnels** des **pages HTML**. Les dossiers ci-dessous organisent le produit, ses responsabilités et sa documentation. Les pages HTML statiques restent provisoirement à la racine du dépôt afin de préserver les chemins relatifs, le moteur de recherche et le build Vercel existants. Aucun fichier de page n'est renommé ni déplacé dans ce lot.
+Cette refonte distingue explicitement **les dossiers fonctionnels** des **pages HTML**. Les dossiers ci-dessous organisent le produit, ses responsabilités et sa documentation. Les pages HTML statiques restent à la racine du dépôt afin de préserver les chemins relatifs, le moteur de recherche et le build Vercel. Une page peut être renommée lors d’une migration fonctionnelle uniquement après audit de ses liens entrants, du manifeste de build, des tests et, si nécessaire, ajout d’une redirection de compatibilité.
 
 ## Les dix dossiers thématiques
 
