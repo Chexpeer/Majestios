@@ -8,7 +8,7 @@
     { id: "B01", key: "marches-publics", surface: "central-bleu", label: "Marchés publics", href: "marches-publics.html", group: "central", x: -7, z: 1 },
     { id: "B02", key: "marches-prives", surface: "central-vert", label: "Marchés privés", href: "marches-prives.html", group: "central", x: 7, z: 1 },
     { id: "B03", key: "developpement-commercial", surface: "central-orange", label: "Développement commercial", href: "developpement-commercial.html", group: "central", x: -7, z: -5 },
-    { id: "B04", key: "prospection-inversee", surface: "central-turquoise", label: "Prospection inversée", href: "prospection-inversee.html", group: "central", x: 7, z: -5 },
+    { id: "B04", key: "prospection-active", surface: "central-turquoise", label: "Prospection active", href: "prospection-active.html", group: "central", x: 7, z: -5 },
     { id: "B05", key: "intelligence-economique", surface: "central-corail", label: "Intelligence économique", href: "intelligence-economique.html", group: "central", x: -7, z: -11 },
     { id: "B06", key: "reseaux-synergies", surface: "peripherique-turquoise", label: "Réseaux et synergies", href: "reseaux-synergies.html", group: "peripherique", x: -13, z: -2 },
     { id: "B07", key: "veille-marches", surface: "central-bleu-clair", label: "Veille des marchés", href: "veille-marches.html", group: "central", x: 7, z: -11 },
