@@ -240,9 +240,6 @@ body.homepage .building-scene .tower .floor-row {
   color:#fff !important; box-shadow:0 2px 7px rgba(0,0,0,.28) !important;
   text-decoration:none !important; pointer-events:auto !important; touch-action:manipulation;
 }
-/* La zone cliquable parasite au-dessus du premier étage est retirée.
-   Le 10e étage reste visible sur la façade, mais n'est pas une zone de clic distincte. */
-body.homepage .building-scene .tower .floor-row:nth-child(-n+2) { pointer-events:none !important; cursor:default !important; }
 body.homepage .building-scene .tower .floor-no {
   display:grid !important; place-items:center !important; min-width:0 !important;
   background:rgba(9,31,55,.92) !important; border-right:1px solid rgba(220,235,248,.35) !important;
@@ -349,8 +346,8 @@ body.homepage .building-scene .tower .floor-row:focus-visible {
       </section>
       </section>
 <section class="building-home" aria-label="Immeuble interactif MajestiOS">
-      <div class="building-heading"><p>IMMEUBLE INTERACTIF · 10 DOSSIERS THÉMATIQUES</p></div>
-      <section class="building-scene" aria-label="Immeuble interactif MajestiOS à dix étages">
+      <div class="building-heading"><p>IMMEUBLE INTERACTIF · 8 DOSSIERS THÉMATIQUES</p></div>
+      <section class="building-scene" aria-label="Immeuble interactif MajestiOS à huit étages">
         <div class="cityline" aria-hidden="true"></div>
         <div class="ground-road" aria-hidden="true"></div>
         <div class="tower" aria-label="Façade de l’immeuble interactif MajestiOS">
@@ -358,7 +355,7 @@ body.homepage .building-scene .tower .floor-row:focus-visible {
           <div class="floor-rows" id="floor-rows"></div>
           <div class="building-rdc"><span>RDC</span><strong>ACCUEIL MAJESTIOS</strong></div>
         </div>
-        <div class="building-caption">IMMEUBLE INTERACTIF · 10 ÉTAGES · 3 ACCÈS PAR ÉTAGE</div>
+        <div class="building-caption">IMMEUBLE INTERACTIF · 8 ZONES CLIQUABLES</div>
       </section>
     </section>
     </main>
@@ -426,7 +423,7 @@ body.homepage .building-scene .tower .floor-row:focus-visible {
             {label:"Vision MajestiOS",href:"vision-majestios.html",level:"Sous-rubrique · orientation et décisions"}
           ]}
         ];
-        floors.slice().reverse().forEach((floor, index) => {
+        floors.slice(0, 8).reverse().forEach((floor, index) => {
           if (!Array.isArray(floor.links) || floor.links.length === 0) return;
           const primary = floor.links[0];
           const link = document.createElement("a");
