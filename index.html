@@ -242,7 +242,7 @@ body.homepage .building-scene .tower .floor-row {
 }
 /* La zone cliquable parasite au-dessus du premier étage est retirée.
    Le 10e étage reste visible sur la façade, mais n'est pas une zone de clic distincte. */
-body.homepage .building-scene .tower .floor-row:first-child { visibility:hidden !important; pointer-events:none !important; }
+body.homepage .building-scene .tower .floor-row:first-child { pointer-events:none !important; cursor:default !important; }
 body.homepage .building-scene .tower .floor-no {
   display:grid !important; place-items:center !important; min-width:0 !important;
   background:rgba(9,31,55,.92) !important; border-right:1px solid rgba(220,235,248,.35) !important;
