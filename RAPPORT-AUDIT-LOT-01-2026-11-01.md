@@ -5,7 +5,7 @@ Branche de poursuite : `refonte-moteur-navigation-mobile-2026-11-01`
 
 ## Périmètre et preuve d’exécution
 
-Le lot porte sur dix contrôles prioritaires autour de l’accueil, de la recherche, de la séparation des sources et des garde-fous. Le workflow GitHub Actions du commit `abf0b187c2a4df84d1519b9217614af94c6923c3` est terminé avec la conclusion **success**. Le job `verify-static-site` a validé la syntaxe JavaScript, le build, les contrôles statiques, les tests de connexion BOAMP/BODACC, la recherche dans Chromium et la zone industrielle dans Chromium.
+Le lot porte sur dix contrôles prioritaires autour de l’accueil, de la recherche, de la séparation des sources et des garde-fous. Le workflow GitHub Actions du commit `abf0b187c2a4df84d1519b9217614af94c6923c3` est terminé avec la conclusion **success**. Le job `verify-static-site` a validé la syntaxe JavaScript, le build, les contrôles statiques, les tests de connexion BOAMP/BODACC, la recherche dans Chromium et l’ancienne scène 3D dans Chromium.
 
 Cette réussite décrit le commit testé. Toute nouvelle modification doit déclencher et réussir son propre contrôle avant de pouvoir être considérée comme validée.
 
@@ -88,7 +88,7 @@ Des assertions navigateur ont été ajoutées dans `tests/opportunity-search.bro
 
 ### Statut
 
-La correction et ses tests sont poussés sur la branche de travail. Le workflow GitHub Actions `Vérification du site MajestiOS`, run **41316509815**, a terminé avec la conclusion **success** sur le commit `d4c74f57c2ec07d62b30dbc2160ff5d8c437ef39` : syntaxe JavaScript, build statique, vérification des pages/liens/parcours, smoke tests des API BOAMP et BODACC, tests du moteur de recherche dans Chromium et test de la zone industrielle dans Chromium ont tous réussi. Le test navigateur a notamment contrôlé les douze destinations, les modes de visite, la disposition mobile et la conservation des critères.
+La correction et ses tests sont poussés sur la branche de travail. Le workflow GitHub Actions `Vérification du site MajestiOS`, run **41316509815**, a terminé avec la conclusion **success** sur le commit `d4c74f57c2ec07d62b30dbc2160ff5d8c437ef39` : syntaxe JavaScript, build statique, vérification des pages/liens/parcours, smoke tests des API BOAMP et BODACC, tests du moteur de recherche dans Chromium et test de l’ancienne scène 3D dans Chromium ont tous réussi. Le test navigateur a notamment contrôlé les douze destinations, les modes de visite, la disposition mobile et la conservation des critères.
 
 Le run est consultable ici : https://github.com/Chexpeer/Majestios/actions/runs/41316509815
 
