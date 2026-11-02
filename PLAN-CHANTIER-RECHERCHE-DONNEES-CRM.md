@@ -10,7 +10,7 @@ Statut : audit initial réalisé ; corrections progressives à valider. Aucune p
 ## 1. Principes de conduite
 
 1. Travailler par lots limités, isolés et réversibles.
-2. Une branche de chantier part de la version de référence validée ; la zone industrielle ne doit pas être refondue dans ce chantier.
+2. Une branche de chantier part de la version de référence validée ; la immeuble interactif ne doit pas être refondue dans ce chantier.
 3. Aucune fusion vers `main`, aucun déploiement de production et aucune activation de collecte ou de campagne externe sans autorisation distincte.
 4. Une fonctionnalité n'est déclarée opérationnelle qu'après test réel adapté. La présence d'un formulaire ou d'un script n'est pas une preuve.
 5. Ne jamais présenter une donnée d'exemple comme une annonce réelle ; toute donnée publiée conserve sa provenance.
@@ -115,7 +115,7 @@ P1 : recherche présente et cohérente dans les principales rubriques qui dispos
 P2 : traitement serveur, normalisation, déduplication, statuts, journalisation et persistance.
 P3 : dossiers métier enrichis et processus interne de qualification.
 P4 : personnalisation, formulaires robustes, analyses et CRM.
-P5 : enrichissements immersifs de la zone industrielle, après stabilisation du reste du site.
+P5 : enrichissements immersifs de la immeuble interactif, après stabilisation du reste du site.
 
 ## 7. Critère de réussite
 
