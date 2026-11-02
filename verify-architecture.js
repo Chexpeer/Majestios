@@ -17,8 +17,9 @@ function walk(directory, relative = "") {
 }
 
 const files = walk(root);
-const markdownFiles = files.filter((file) => /\.mdx?$/i.test(file));
-assert(markdownFiles.length === 0, "Documentation Markdown encore présente : " + markdownFiles.join(", "));
+const markdownFiles = files.filter((file) => /\.mdx?$/i.test(file) && file !== "README.md");
+assert(markdownFiles.length === 0, "Documentation Markdown hors README encore présente : " + markdownFiles.join(", "));
+assert(exists("README.md"), "README.md absent : guide de démarrage attendu");
 
 assert(exists("index.html"), "Accueil absent");
 assert(exists("build.js"), "Build absent");
@@ -105,4 +106,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, 10 espaces thématiques, moteur de recherche et " + siteFiles.length + " ressources publiées. Aucune documentation Markdown.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, 10 espaces thématiques, moteur de recherche et " + siteFiles.length + " ressources publiées. README.md présent, documentation Markdown complémentaire absente.");
