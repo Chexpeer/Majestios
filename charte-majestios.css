@@ -1,0 +1,19 @@
+/* Charte commune MajestiOS — fond bleu nuit, acier et or. */
+:root{
+  --majestios-ink:#f4f0e6;
+  --majestios-muted:#bdb5a4;
+  --majestios-gold:#d5b56c;
+  --majestios-navy:#080d15;
+  --majestios-panel:#101a28;
+  --majestios-line:#33465b;
+}
+body{color:var(--majestios-ink)}
+.site-header{background:var(--majestios-navy);border-bottom:1px solid #d5b56c33}
+.site-nav a{color:var(--majestios-muted)}
+.site-nav a:hover,.site-nav a[aria-current=page]{color:#f7e6a9}
+.brand-os{color:var(--majestios-gold)}
+.nav-cta,.button-primary,.feed-search-submit{border-color:var(--majestios-gold)}
+.button-primary,.feed-search-submit{background:var(--majestios-gold);color:#11151c}
+.card,.panel,.feature-card,.opportunity-card{border-color:var(--majestios-line)}
+.site-footer{border-top:1px solid #d5b56c33}
+:focus-visible{outline:2px solid var(--majestios-gold);outline-offset:3px}
