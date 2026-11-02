@@ -391,7 +391,7 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
           ]}
         ];
         floors.slice().reverse().forEach((floor, index) => {
-          if (!floor.href) return;
+          if (!Array.isArray(floor.links) || floor.links.length === 0) return;
           const button = document.createElement("button");
           button.type = "button";
           button.className = "floor-row";
