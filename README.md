@@ -6,7 +6,7 @@ MajestiOS est un projet de **développement commercial proactif** et de **prospe
 
 La page `index.html` doit contenir uniquement :
 1. la barre de navigation principale composée exactement de : Accueil, Développement commercial, Salon virtuel, Nous rejoindre, Espace membre et FAQ ;
-2. la zone artisanale virtuelle interactive, visible directement sur l’accueil ;
+2. l’immeuble interactif à dix étages, visible directement sur l’accueil ;
 3. le moteur de recherche avancé.
 
 La liste d’appels d’offres, les blocs explicatifs, les répertoires redondants, les formulaires permanents et les pieds de page sont exclus de l’accueil. Le bandeau horizontal présent en haut de page reste un flux de démonstration lent, discret et explicitement fictif ; il ne diffuse aucune annonce réelle.
@@ -14,7 +14,7 @@ La liste d’appels d’offres, les blocs explicatifs, les répertoires redondan
 ## Pages et ressources à conserver
 
 - `index.html` : accueil épuré, scène interactive et recherche avancée.
-- `zone-artisanale.html`, `zone-artisanale.css`, `zone-artisanale.js` : page autonome de secours/visite et moteur 3D partagé tant que les liens des pages métier l’utilisent.
+- L’immeuble interactif est intégré à `index.html` ; l’ancienne expérience 3D autonome à douze bâtiments est obsolète et en cours de retrait contrôlé.
 - `marches-publics.html`, `marches-prives.html` et les dix autres pages métier : destinations des douze bâtiments.
 - `categorie-*.html` : pages de destination pour les catégories du moteur de recherche.
 - `nous-rejoindre.html`, `espace-membre.html`, `faq.html` : rubriques secondaires accessibles par navigation.
@@ -52,7 +52,7 @@ Le contrôle statique ne remplace pas un test dans un navigateur réel, notammen
 
 ## Règles de travail
 
-- La structure d’accueil ci-dessus est la référence : navigation + zone artisanale interactive + recherche avancée, rien d’autre.
+- La structure d’accueil ci-dessus est la référence : navigation + immeuble interactif + recherche avancée, rien d’autre.
 - Une rubrique métier = une page dédiée ; ne pas remplacer des pages par des ancres vers de longs paragraphes de l’accueil.
 - Préserver les douze destinations du catalogue et les formulaires requis par les parcours secondaires.
 - Contrôler les liens, ressources copiées dans `dist/`, états interactifs et rendu mobile après chaque évolution.
