@@ -15,6 +15,20 @@ assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqué
 for (const file of siteFiles) assert(exists(file), "Build : ressource déclarée absente : " + file);
 for (const page of pages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
 
+const rubricSearchPages = [
+  "marches-publics.html", "developpement-commercial.html", "prospection-active.html",
+  "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
+  "intelligence-economique.html", "reseaux-synergies.html",
+  "bodacc-veille-entreprises.html", "suivi-commercial.html"
+];
+for (const page of rubricSearchPages) {
+  assert(exists(page), "Recherche par rubrique : page absente : " + page);
+  if (exists(page)) {
+    const html = fs.readFileSync(path.join(root, page), "utf8");
+    assert(html.includes('src="rubric-search.js"'), page + " : module de recherche par rubrique non chargé");
+  }
+}
+
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
   const ids = new Set();
