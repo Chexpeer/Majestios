@@ -182,3 +182,23 @@
   .rubric-search-card .advanced-search-form{grid-template-columns:minmax(0,1fr);gap:9px}
   .rubric-search-card .advanced-search-form button{grid-column:auto}
 }
+
+
+/* Correctifs transversaux de robustesse et de lisibilite mobile. */
+.virtual-space,.virtual-space *{box-sizing:border-box}
+.virtual-space{min-width:0;max-width:100%;isolation:isolate}
+.virtual-space-copy,.virtual-space-scene{min-width:0;max-width:100%}
+.virtual-space-scene{overflow:hidden}
+.virtual-space-float{max-width:calc(50% - 8px);min-width:0;overflow-wrap:anywhere}
+.virtual-space-float strong,.virtual-space-float small{overflow-wrap:anywhere}
+.virtual-space-building{max-width:100%}
+@media(max-width:760px){
+ .virtual-space{width:100%;grid-template-columns:minmax(0,1fr);overflow:hidden}
+ .virtual-space-scene{width:100%;min-height:245px}
+ .virtual-space-float{max-width:48%}
+}
+@media(max-width:420px){
+ .virtual-space{padding:18px 14px}
+ .virtual-space-scene{min-height:220px}
+ .virtual-space-float{max-width:48%;padding:8px}
+}
