@@ -270,12 +270,12 @@ body.homepage .building-scene .tower .floor-rows {
   transform: translate(-50%, -3mm) !important;
   z-index: 12 !important;
   display: grid !important;
-  grid-template-rows: repeat(10, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(10, 18px) !important;
   grid-template-columns: minmax(0, 1fr) !important;
   width: min(6cm, calc(100% - 12px)) !important;
   height: auto !important;
   min-height: 0 !important;
-  row-gap: 0 !important;
+  row-gap: 3mm !important;
   column-gap: 0 !important;
 }
 body.homepage .building-scene .tower .floor-row {
@@ -300,6 +300,8 @@ body.homepage .building-scene .tower .floor-row:active {
   outline: 2px solid #f2cf79 !important;
   outline-offset: -2px;
 }
+
+/* 02/11/2026 — étages tactiles ramenés à 18 px, avec 3 mm inactifs entre eux. */
 </style>
     <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
