@@ -10,7 +10,7 @@ Faire évoluer MajestiOS vers un outil de développement commercial capable de d
 
 ## 2. Principes non négociables
 
-- Préserver la zone artisanale/industrielle virtuelle existante.
+- Préserver la immeuble interactif existante.
 - Ne pas dégrader les recherches BOAMP/BODACC ni confondre leurs finalités.
 - Ne pas ajouter de moteur de recherche d'emploi au moteur d'opportunités commerciales.
 - Distinguer fait sourcé, donnée transformée, hypothèse et validation humaine.
@@ -101,7 +101,7 @@ Cette structure est logique et ne nécessite pas de déplacer immédiatement les
 
 ## 10. Critères anti-régression
 
-Pour chaque lot, relever branche, commit et fichiers touchés; vérifier que la zone industrielle et son code restent inchangés; lancer contrôles de syntaxe, build, vérification de site et tests navigateur pertinents; tester erreurs de source, résultats vides, doublons, données obsolètes et liens; confirmer que les nouvelles pages sont incluses dans le build. Aucun module n'est déclaré opérationnel sans test réel. Aucune fusion ni publication de production sans autorisation explicite.
+Pour chaque lot, relever branche, commit et fichiers touchés; vérifier que la immeuble interactif et son code restent inchangés; lancer contrôles de syntaxe, build, vérification de site et tests navigateur pertinents; tester erreurs de source, résultats vides, doublons, données obsolètes et liens; confirmer que les nouvelles pages sont incluses dans le build. Aucun module n'est déclaré opérationnel sans test réel. Aucune fusion ni publication de production sans autorisation explicite.
 
 
 ## 10. Inventaire initial des ressources de veille Emploi
