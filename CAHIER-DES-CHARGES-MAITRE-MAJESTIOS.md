@@ -35,11 +35,11 @@ Principe central : **adapter une offre à une demande et une demande à une offr
 
 ### Prospection active et détection d’opportunités
 
-**Prospection passive — détecter et qualifier.** Elle couvre la recherche d’opportunités déjà publiées (annonces, appels d’offres, cessions, offres de sous-traitance) ainsi que la détection de signaux économiques susceptibles de révéler des besoins futurs. « Passive » décrit ici le mode de détection, et non l’absence de travail commercial ultérieur.
+**Veille et détection d’opportunités.** Cette fonction repère les opportunités déjà publiées (annonces, appels d’offres, cessions, offres de sous-traitance) ainsi que les signaux économiques susceptibles de révéler des besoins futurs. Elle alimente la qualification et les démarches commerciales sans constituer une forme de prospection distincte.
 
 **Prospection active — provoquer et concrétiser.** Elle couvre les démarches engagées pour faire émerger ou transformer des opportunités : ciblage, prise de contact, e-mailing, phoning, diffusion ciblée d’opportunités, relances, mise en relation et suivi commercial, dans le respect des autorisations et règles applicables.
 
-Ces deux démarches sont des modes complémentaires, pas des silos étanches. Une opportunité détectée passivement peut déclencher une action active ; une campagne active peut aussi commencer sans signal préalable, à partir d’un objectif commercial défini.
+La veille et la détection alimentent la prospection active. Une opportunité identifiée peut déclencher une prise de contact ; une démarche active peut également commencer à partir d’un objectif commercial défini, même sans signal préalable.
 
 ### Détection, interprétation et niveau de preuve
 
