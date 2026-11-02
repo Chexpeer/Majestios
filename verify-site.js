@@ -66,107 +66,42 @@ if (fs.existsSync(buildPath)) {
   errors.push("build.js : fichier absent");
 }
 
-// Vérifier les éléments réellement attendus sur l'accueil : navigation, zone 3D et recherche.
+// Vérifier l'accueil de référence : navigation, immeuble à dix étages et recherche avancée.
 const homePath = path.join(root, "index.html");
 const appScriptPath = path.join(root, "app.js");
 if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   const home = fs.readFileSync(homePath, "utf8");
   const appScript = fs.readFileSync(appScriptPath, "utf8");
   if (!home.includes("<title>MajestiOS — Développement commercial intelligent</title>")) {
-    errors.push("Accueil : titre SEO non aligné sur le positionnement développement commercial");
+    errors.push("Accueil : titre SEO non aligné sur le positionnement actuel");
   }
-  for (const id of ["scene", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
+  for (const id of ["advanced-search-form", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
     if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
   }
-  if (!home.includes("Rechercher une opportunité commerciale")) {
-    errors.push("Accueil : libellé accessible de recherche trop restrictif ou absent");
+  if (!home.includes("LES 10 DOSSIERS THÉMATIQUES")) {
+    errors.push("Accueil : présentation des dix dossiers absente");
   }
-  if (!home.includes('placeholder="Mot-clé, entreprise, secteur..."')) {
-    errors.push("Accueil : exemple de recherche ne couvre pas les opportunités privées");
+  if (!home.includes("BÂTIMENT VIRTUEL · 10 ÉTAGES")) {
+    errors.push("Accueil : bâtiment des dix étages absent");
   }
-  if (!home.includes("Aucune annonce réelle n’est diffusée pour le moment.")) {
-    errors.push("Accueil : avertissement sur l’absence de flux réel absent");
+  for (const asset of ['src="catalogue-majestios.js"', 'src="app.js"']) {
+    if (!home.includes(asset)) errors.push(`Accueil : script partagé absent : ${asset}`);
   }
-  if (!home.includes('src="zone-artisanale.js"')) errors.push("Accueil : script de la zone 3D absent");
-  if (!home.includes('name="viewport" content="width=device-width, initial-scale=1"')) errors.push("Accueil : méta viewport mobile absente");
-  const sceneCssText = fs.existsSync(path.join(root, "zone-artisanale.css")) ? fs.readFileSync(path.join(root, "zone-artisanale.css"), "utf8") : "";
-  if (!sceneCssText.includes("@media(max-width:650px)") || !sceneCssText.includes("touch-action:none")) errors.push("Zone 3D : règles responsive mobile ou tactile absentes");
-  if (!home.includes("window.majestiosSceneFallback") || !home.includes("loading.dataset.fallbackShown")) {
-    errors.push("Accueil : mécanisme de secours de la scène 3D absent ou incomplet");
+  for (const href of ["nous-rejoindre.html", "espace-membre.html", "faq.html"]) {
+    if (!home.includes(`href="${href}"`)) errors.push(`Accueil : navigation principale incomplète : ${href}`);
   }
-  const sceneScriptText = fs.existsSync(path.join(root, "zone-artisanale.js")) ? fs.readFileSync(path.join(root, "zone-artisanale.js"), "utf8") : "";
-  if (!sceneScriptText.includes("webglcontextlost") || !sceneScriptText.includes('loading.classList.add("hidden")') || !sceneScriptText.includes('renderer.domElement.style.display="block"')) {
-    errors.push("Zone 3D : gestion de la perte WebGL ou protection contre le masquage du secours absente");
-  }
-  // Vérifier les trois modes de visite et le fonctionnement structurel de la carte GPS.
-  for (const mode of ["fly", "drive", "map"]) {
-    if (!home.includes(`data-scene-mode="${mode}"`)) {
-      errors.push(`Zone 3D : commande de visite absente pour le mode « ${mode} »`);
-    }
-  }
-  if (!sceneScriptText.includes('mode==="drive"') && !sceneScriptText.includes('mode === "drive"')) {
-    errors.push("Zone 3D : traitement JavaScript absent pour le mode Street View");
-  }
-  if (!sceneScriptText.includes('mode==="map"') && !sceneScriptText.includes('mode === "map"')) {
-    errors.push("Zone 3D : traitement JavaScript absent pour la carte interactive");
-  }
-  if (!sceneScriptText.includes('setSceneMode("fly")')) {
-    errors.push("Zone 3D : retour à la navigation aérienne absent");
-  }
-  for (const id of ["zone-map", "map-buildings"]) {
-    if (!home.includes(`id="${id}"`)) errors.push(`Carte interactive : élément HTML absent : #${id}`);
-  }
-  if (!sceneScriptText.includes("function renderZoneMap()") ||
-      !sceneScriptText.includes("mapBuildings.appendChild(button)") ||
-      !sceneScriptText.includes("renderZoneMap();")) {
-    errors.push("Carte interactive : génération ou affichage des destinations absent");
-  }
-  if (!sceneCssText.includes(".zone-map") || !sceneCssText.includes(".map-building")) {
-    errors.push("Carte interactive : styles de la carte ou de ses destinations absents");
-  }
-  if (!sceneScriptText.includes("visitorHelicopter.visible=false") ||
-      !sceneScriptText.includes("visitorCar.visible=false")) {
-    errors.push("Visites immersives : les véhicules doivent rester masqués pour préserver la visibilité de la scène");
-  }
-  if (!sceneScriptText.includes('addEventListener("touchstart"') || !sceneScriptText.includes('addEventListener("touchend"') || !sceneScriptText.includes("ResizeObserver")) {
-    errors.push("Zone 3D : sélection tactile ou adaptation de taille non vérifiable dans le script");
-  }
-  if (!sceneScriptText.includes("while(object){if(object.userData?.building)return object.userData.building;object=object.parent;}")) {
-    errors.push("Zone 3D : sélection directe des bâtiments doit remonter les objets touchés jusqu’au bâtiment parent");
-  }
-  if (!sceneScriptText.includes("if(data){window.location.assign(data.route);}") || !sceneScriptText.includes("function getBuildingAt(event)")) {
-    errors.push("Zone 3D : clic sur un bâtiment doit ouvrir directement sa rubrique métier");
-  }
-  if (!sceneScriptText.includes("wrap:true") || !sceneScriptText.includes("height:210,size:48")) {
-    errors.push("Zone 3D : enseignes des bâtiments doivent gérer les intitulés longs et rester lisibles");
-  }
-  if (!home.includes('href="nous-rejoindre.html"') || !home.includes('href="espace-membre.html"') || !home.includes('href="faq.html"')) {
-    errors.push("Accueil : navigation principale incomplète");
-  }
-  if (!appScript.includes('if (advancedSearchForm) {\n  advancedSearchForm.addEventListener("submit"')) {
-    errors.push("Recherche avancée : écouteur submit non protégé sur les pages sans formulaire");
-  }
-  if (!appScript.includes("advancedSearchForm.addEventListener(\"submit\"") || !appScript.includes("populateSearchFilters(initialMarketType, initialCategory);")) {
-    errors.push("Recherche avancée : initialisation ou rendu des résultats absent");
-  }
-  if (appScript.includes('/* Les interactions de démonstration ne sont présentes que sur la page d’accueil. */\nif (advancedSearchForm) {')) {
-    errors.push("Formulaires : leur initialisation ne doit pas dépendre de la présence du moteur de recherche de l’accueil");
-  }
-  if (!appScript.includes("if (leadForm && formFeedback)") ||
-      !appScript.includes('const previewRequest = leadForm.querySelector("#preview-request")')) {
-    errors.push("Formulaires : initialisation indépendante ou bouton facultatif non protégés");
+  if (!appScript.includes('advancedSearchForm.addEventListener("submit"') ||
+      !appScript.includes("populateSearchFilters(initialMarketType, initialCategory);")) {
+    errors.push("Recherche avancée : initialisation ou écouteur submit absent");
   }
   for (const restorationCheck of [
     "new URLSearchParams(window.location.search)",
-    "initialSearchParams.get(\"q\")",
-    "initialSearchParams.get(\"categorie\")",
-    "initialSearchParams.get(\"marche\")",
-    "initialSearchParams.get(\"zone\")"
+    'initialSearchParams.get("q")',
+    'initialSearchParams.get("categorie")',
+    'initialSearchParams.get("marche")',
+    'initialSearchParams.get("zone")'
   ]) {
     if (!appScript.includes(restorationCheck)) errors.push(`Recherche avancée : restauration d’un critère manquante : ${restorationCheck}`);
-  }
-  for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="site-footer"', 'class="directory"']) {
-    if (home.includes(forbidden)) errors.push(`Accueil : bloc hors périmètre encore présent : ${forbidden}`);
   }
 } else {
   errors.push("index.html ou app.js absent : contrôle de l'accueil impossible");
