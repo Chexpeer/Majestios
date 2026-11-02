@@ -275,7 +275,7 @@ body.homepage .building-scene .tower .floor-rows {
   width: min(6cm, calc(100% - 12px)) !important;
   height: auto !important;
   min-height: 0 !important;
-  row-gap: 3mm !important;
+  row-gap: 0 !important;
   column-gap: 0 !important;
 }
 body.homepage .building-scene .tower .floor-row {
@@ -286,10 +286,16 @@ body.homepage .building-scene .tower .floor-row {
   height: auto !important;
   min-height: 0 !important;
   flex: none !important;
-  margin: 0 !important;
+  margin: 0 0 3mm !important;
   padding: 0 !important;
   pointer-events: auto !important;
   touch-action: manipulation;
+}
+body.homepage .building-scene .tower .floor-row:nth-child(8) {
+  margin-bottom: 1mm !important; /* séparation entre les 3e et 2e étages */
+}
+body.homepage .building-scene .tower .floor-row:last-child {
+  margin-bottom: 0 !important;
 }
 body.homepage .building-scene .tower .floor-row:hover,
 body.homepage .building-scene .tower .floor-row:focus-visible,
