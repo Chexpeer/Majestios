@@ -77,9 +77,9 @@ Les dix étages et les dix dossiers fonctionnels ne correspondent pas à douze p
 11. Veille BODACC — `bodacc-veille-entreprises.html`
 12. Suivi commercial — `suivi-commercial.html`
 
-Chaque bâtiment doit pointer vers sa propre page métier. Les destinations sont centralisées dans `catalogue-majestios.js`.
+Chaque étage de l’immeuble doit proposer un accès direct vers une page métier cohérente. Les destinations sont centralisées dans `catalogue-majestios.js`.
 
-**État réel de la profondeur de navigation (mise à jour du 31/10/2026).** La sélection d’un bâtiment affiche désormais trois niveaux navigables : la rubrique principale, un premier parcours associé et un second parcours associé. Les douze bâtiments ont chacun deux destinations complémentaires vers des pages HTML existantes ; le panneau est visible aussi sur l’accueil, et les liens disposent d’un état de focus clavier. Ces parcours sont des liens contextuels vers des pages métier existantes : ils ne constituent pas encore douze arborescences indépendantes avec des pages enfant dédiées. Ne pas présenter la profondeur dossier/sous-dossier/page comme totalement achevée avant la création éventuelle de pages enfant spécifiques.
+**État réel de la profondeur de navigation (mise à jour du 31/10/2026).** La sélection d’un étage affiche désormais trois niveaux navigables : la rubrique principale, un premier parcours associé et un second parcours associé. Les douze pages métier historiques sont accessibles par les étages, avec des destinations complémentaires vers des pages HTML existantes ; le panneau est visible aussi sur l’accueil, et les liens disposent d’un état de focus clavier. Ces parcours sont des liens contextuels vers des pages métier existantes : ils ne constituent pas encore douze arborescences indépendantes avec des pages enfant dédiées. Ne pas présenter la profondeur dossier/sous-dossier/page comme totalement achevée avant la création éventuelle de pages enfant spécifiques.
 
 
 ### Préqualification des entreprises — nouveau parcours
@@ -170,7 +170,7 @@ Le filtre régional BOAMP traduit les régions en codes départementaux et véri
 
 - L’accueil ne contient que navigation, immeuble interactif et moteur de recherche avancé.
 - La navigation principale contient uniquement : Accueil, Développement commercial, Salon virtuel, Nous rejoindre, Espace membre et FAQ. Aucun lien « Immeuble interactif », « Panorama » ou « Opportunités » n’y apparaît.
-- Les douze bâtiments ont douze destinations métier distinctes.
+- Le catalogue conserve douze destinations métier distinctes, réparties entre les dix dossiers fonctionnels.
 - Les filtres et pages de catégories restent accessibles.
 - Les ressources locales existent et les liens internes ne sont pas cassés.
 - `node build.js` puis `node verify-site.js` se terminent sans erreur.
