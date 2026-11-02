@@ -23,7 +23,7 @@ async function main() {
   assert.ok(fs.existsSync(path.join(root, "index.html")), "Exécuter node build.js avant le test.");
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://127.0.0.1").pathname);
-    const requested = pathname === "/" ? "index.html" : pathname.replace(/^\\/+/, "");
+    const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
     const file = path.resolve(root, requested);
     if (!file.startsWith(root + path.sep) && file !== path.join(root, "index.html")) return res.writeHead(403).end("Forbidden");
     fs.readFile(file, (error, data) => {
