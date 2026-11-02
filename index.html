@@ -233,6 +233,7 @@ body.homepage .building-scene .tower .floor-row {
   box-shadow: none !important;
   color: transparent !important;
 }
+.dialog-image{display:block;width:calc(100% - 34px);max-height:190px;object-fit:cover;margin:14px 17px 10px;border:1px solid #d5b56c55;border-radius:9px;background:#101a28}.dialog-image[hidden]{display:none}
 body.homepage .building-scene .tower .floor-row:hover,
 body.homepage .building-scene .tower .floor-row:focus-visible,
 body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
@@ -340,10 +341,10 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
         const floors = [
           {id:"B01",name:"Marchés publics",key:"marches-publics",href:"marches-publics.html",first:"veille-marches.html",second:"accompagnement-appels-offres.html",description:"Repérer et qualifier les consultations publiques pertinentes pour votre entreprise."},
           {id:"B02",name:"Marchés privés",key:"marches-prives",href:"marches-prives.html",first:"sous-traitance.html",second:"bodacc-veille-entreprises.html",description:"Identifier les opportunités privées et les besoins des donneurs d’ordre."},
-          {id:"B03",name:"Veille économique",key:"veille-economique",href:"bodacc-veille-entreprises.html",first:"veille-marches.html",second:"intelligence-economique.html",description:"Suivre les marchés et les signaux économiques à partir de sources identifiées."},
-          {id:"B04",name:"Prospection",key:"prospection",href:"prospection-inversee.html",first:"marches-publics.html",second:"marches-prives.html",description:"Combiner prospection passive pour détecter et qualifier les opportunités, et prospection active pour engager des démarches commerciales."},
+          {id:"B03",name:"Veille économique",key:"veille-economique",href:"bodacc-veille-entreprises.html",first:"veille-marches.html",second:"intelligence-economique.html",image:"majestios-veille-economique (1).webp",description:"Suivre les marchés et les signaux économiques à partir de sources identifiées."},
+          {id:"B04",name:"Prospection",key:"prospection",href:"prospection-inversee.html",first:"marches-publics.html",second:"marches-prives.html",image:"majestios-call-center (1).webp",description:"Combiner prospection passive pour détecter et qualifier les opportunités, et prospection active pour engager des démarches commerciales."},
           {id:"B05",name:"Développement commercial",key:"developpement-commercial",href:"developpement-commercial.html",first:"prospection-inversee.html",second:"suivi-commercial.html",description:"Organiser la chaîne commerciale, de la qualification des opportunités à leur transformation."},
-          {id:"B06",name:"Accompagnement aux appels d’offres",key:"accompagnement-appels-offres",href:"accompagnement-appels-offres.html",first:"marches-publics.html",second:"qualification-entreprises.html",description:"Comprendre le dossier, vérifier les pièces, préparer la candidature et suivre les échéances."},
+          {id:"B06",name:"Accompagnement aux appels d’offres",key:"accompagnement-appels-offres",href:"accompagnement-appels-offres.html",first:"marches-publics.html",second:"qualification-entreprises.html",image:"majestios-appels-d-offres (1).webp",description:"Comprendre le dossier, vérifier les pièces, préparer la candidature et suivre les échéances."},
           {id:"B07",name:"Salon virtuel",key:"salon-virtuel",href:"salons-seminaires.html",first:"reseaux-synergies.html",second:"sous-traitance.html",description:"Présenter les savoir-faire des entreprises et faciliter les partenariats professionnels."},
           {id:"B08",name:"Espace entreprises",key:"espace-entreprises",href:"espace-membre.html",first:"nous-rejoindre.html",second:"faq.html",description:"Accéder au parcours entreprise et préparer la personnalisation des services."},
           {id:"B09",name:"CRM",key:"crm",href:"crm.html",first:"suivi-commercial.html",second:"developpement-commercial.html",description:"Structurer les entreprises, contacts, interactions, opportunités et actions de suivi."},
@@ -362,6 +363,11 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
             document.getElementById("dialog-kicker").textContent = "BUILDING MAJESTIOS · ÉTAGE " + String(10 - index).padStart(2, "0");
             document.getElementById("dialog-title").textContent = floor.name;
             document.getElementById("dialog-description").textContent = floor.description;
+            let dialogImage = document.getElementById("dialog-image");
+            if (!dialogImage) { dialogImage = document.createElement("img"); dialogImage.id = "dialog-image"; dialogImage.className = "dialog-image"; dialogImage.alt = ""; dialogImage.hidden = true; document.getElementById("dialog-description").before(dialogImage); }
+            dialogImage.hidden = !floor.image;
+            if (floor.image) { dialogImage.src = floor.image; dialogImage.alt = "Illustration : " + floor.name; }
+            else { dialogImage.removeAttribute("src"); dialogImage.alt = ""; }
             offices.replaceChildren();
             [
               {label:floor.name,href:floor.href,level:"Rubrique principale"},
