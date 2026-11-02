@@ -67,3 +67,30 @@
 .virtual-space-float small { color:#bdb5a4!important; }
 .virtual-space-float .space-meter { background:#252b34!important; }
 @media (max-width:760px) { .virtual-space { border-radius:14px!important; } }
+
+
+/* Fonds photographiques dédiés aux rubriques : les prochaines images pourront
+   être ajoutées au même endroit sans modifier la structure des pages. */
+.virtual-space[data-world="prospection"]{
+  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),url("majestios-call-center (1).webp")!important;
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+}
+.virtual-space[data-world="accompagnement"]{
+  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),url("majestios-appels-d-offres (1).webp")!important;
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+}
+.virtual-space[data-world="prospection"]:before,.virtual-space[data-world="accompagnement"]:before{opacity:.18}
+.virtual-space[data-world="prospection"] .virtual-space-scene:before,
+.virtual-space[data-world="prospection"] .virtual-space-scene:after,
+.virtual-space[data-world="accompagnement"] .virtual-space-scene:before,
+.virtual-space[data-world="accompagnement"] .virtual-space-scene:after{border-color:rgba(255,255,255,.25)}
+/* La veille BODACC reçoit son visuel en fond de rubrique, avec contraste de lecture. */
+.rubrique-veille{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(24px,4vw,48px)!important;border:1px solid rgba(213,181,108,.32);
+  border-radius:18px;
+  background:linear-gradient(90deg,rgba(5,10,17,.94),rgba(5,10,17,.78) 58%,rgba(5,10,17,.42)),url("majestios-veille-economique (1).webp") center/cover no-repeat!important;
+  box-shadow:0 20px 55px rgba(0,0,0,.32);
+}
+.rubrique-veille h1,.rubrique-veille .eyebrow,.rubrique-veille .interior-lede{position:relative;z-index:1;color:#f4f0e6}
+.rubrique-veille .eyebrow{color:#d5b56c}
