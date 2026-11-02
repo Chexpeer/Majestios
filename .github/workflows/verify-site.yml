@@ -43,7 +43,7 @@ jobs:
         run: node tests/boamp-live-smoke.cjs
       - name: Vérifier la connexion réelle à l’API BODACC
         run: node tests/bodacc-live-smoke.cjs
-      - name: Tester le moteur de recherche dans un vrai navigateur
-        run: node tests/opportunity-search.browser.cjs
       - name: Tester l’immeuble interactif dans un vrai navigateur
         run: node tests/immeuble-interactif.browser.cjs
+      - name: Tester le moteur de recherche dans un vrai navigateur
+        run: node tests/opportunity-search.browser.cjs
