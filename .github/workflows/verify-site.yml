@@ -4,10 +4,12 @@ on:
   push:
   pull_request:
 
-# Éviter d’accumuler les tests obsolètes quand plusieurs corrections sont poussées rapidement.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: \${{ github.workflow }}-\${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   verify-static-site:
@@ -31,10 +33,21 @@ jobs:
           node --check verify-site.js
           node --check verify-architecture.js
           node --check build.js
+          node --check company-targeting.js
+          node --check company-fit.js
+          node --check naf-suggestions.js
+      - name: Tester le ciblage des entreprises
+        run: node tests/company-targeting.test.cjs
+      - name: Tester la qualification des entreprises
+        run: node tests/company-fit.test.cjs
+      - name: Tester les suggestions APE/NAF
+        run: node tests/naf-suggestions.test.cjs
       - name: Construire le site statique
         run: node build.js
-      - name: Vérifier la nouvelle architecture, les dossiers et les routes
+      - name: Vérifier l’architecture et les routes
         run: node verify-architecture.js
+      - name: Vérifier les pages, liens locaux et identifiants
+        run: node verify-site.js
       - name: Installer Playwright et Chromium
         run: |
           npm install --no-save --package-lock=false playwright
