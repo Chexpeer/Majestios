@@ -32,7 +32,7 @@ Le rez-de-chaussée est réservé à **Accueil MajestiOS** et n'est pas compté 
 | Marchés publics | `marches-publics.html` | Recherche et qualification des consultations publiques |
 | Marchés privés | `marches-prives.html` | Opportunités privées ; distinguer les signaux BODACC des appels d'offres |
 | Veille économique | `bodacc-veille-entreprises.html`, `veille-marches.html` | Sources et signaux clairement identifiés |
-| Prospection | `prospection-inversee.html` | Le libellé visible devient « Prospection » ; le nom du fichier n'est pas modifié dans ce lot |
+| Prospection | `prospection-inversee.html` | Libellé visible canonique : « Prospection » ; nom historique du fichier conservé pour préserver les liens |
 | Développement commercial | `developpement-commercial.html` | Domaine général et orchestration des démarches |
 | Accompagnement aux appels d'offres | `accompagnement-appels-offres.html` | Analyse du dossier, pièces, candidature, offre et échéances |
 | Salon virtuel | `salons-seminaires.html` | Page existante à faire évoluer vers le showroom collectif |
