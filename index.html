@@ -265,7 +265,7 @@ body.homepage .building-scene .tower .floor-row {
    Les zones sont contiguës : aucun espace inactif entre deux étages. */
 body.homepage .building-scene .tower .floor-rows {
   position: absolute !important;
-  inset: 7% auto 3% !important;
+  inset: calc(7% + 2mm) auto calc(3% + 2mm) !important;
   left: 50% !important;
   transform: translate(-50%, -3mm) !important;
   z-index: 12 !important;
@@ -291,12 +291,8 @@ body.homepage .building-scene .tower .floor-row {
   pointer-events: auto !important;
   touch-action: manipulation;
 }
-/* À partir du 2e étage (du bas vers le haut), réduire chaque cible de 2 mm.
-   La cible reste centrée dans sa cellule : le premier étage ne change pas. */
-body.homepage .building-scene .tower .floor-row:nth-child(-n+9) {
-  height: calc(100% - 4mm) !important;
-  align-self: center !important;
-}
+/* Les 10 zones forment un seul bloc continu.
+   La réduction totale de 4 mm est appliquée au bloc, pas à chaque étage. */
 body.homepage .building-scene .tower .floor-row:hover,
 body.homepage .building-scene .tower .floor-row:focus-visible,
 body.homepage .building-scene .tower .floor-row:active {
