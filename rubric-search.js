@@ -2,7 +2,7 @@
   "use strict";
 
   const page = document.querySelector("main.interior-page");
-  if (!page || document.querySelector(".advanced-search-form")) return;
+  if (!page || document.querySelector("#rubric-opportunity-search")) return;
 
   const path = window.location.pathname.split("/").pop();
   const configs = {
