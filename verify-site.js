@@ -72,7 +72,7 @@ const appScriptPath = path.join(root, "app.js");
 if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
   const home = fs.readFileSync(homePath, "utf8");
   const appScript = fs.readFileSync(appScriptPath, "utf8");
-  if (!home.includes("<title>MajestiOS — Développement commercial et prospection inversée</title>") || home.includes("<title>MajestiOS — Prospection inversée et intelligence commerciale</title>")) {
+  if (!home.includes("<title>MajestiOS — Développement commercial intelligent</title>")) {
     errors.push("Accueil : titre SEO non aligné sur le positionnement développement commercial");
   }
   for (const id of ["scene", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
