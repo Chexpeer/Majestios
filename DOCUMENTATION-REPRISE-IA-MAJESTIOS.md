@@ -114,7 +114,7 @@ Aucune source n'est considérée comme connectée uniquement parce qu'elle figur
 ## 6. Principes techniques de reprise
 
 - Dépôt : `Chexpeer/Majestios`.
-- Branche de travail connue pour ce chantier : `chantier-recherche-donnees-gardes-fous-2026-11-01`.
+- Branche de travail documentaire actuelle : `refonte-architecture-dossiers-charte-majestios-2026-11-01`. Les documents métier de référence peuvent provenir d'un chantier antérieur ; vérifier chaque fichier sur la branche courante avant de s'y fier.
 - Prototype actuel : site statique avec scripts JavaScript, `build.js`, `verify-site.js` et tests navigateur présents dans le dépôt. Vérifier les fichiers réels avant toute hypothèse sur la configuration.
 - Les choix Next.js, React, Supabase/Postgres et autres briques ont été explorés dans l'historique, mais ne doivent pas être déclarés comme architecture active sans vérification du dépôt et décision explicite.
 - Les modules BOAMP/BODACC ont des adaptateurs et règles de filtrage côté prototype ; confirmer les résultats avec les tests et les sources en direct avant de les qualifier de validés.
