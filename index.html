@@ -313,6 +313,43 @@ body.homepage .building-scene .tower .floor-row:nth-child(9) {
   transform: translateY(-1mm) !important; /* étage 2 : remonter */
 }
 
+
+/* Correctif PC : les deux niveaux supérieurs sont absents de la photo source.
+   On les matérialise comme deux bandeaux lisibles et cliquables au-dessus de la façade. */
+@media (min-width: 1021px) {
+  body.homepage .building-scene .tower .floor-rows {
+    top: 1% !important;
+    bottom: 13% !important;
+    grid-template-rows: repeat(10, 28px) !important;
+    row-gap: 8px !important;
+  }
+  body.homepage .building-scene .tower .floor-row:nth-child(1)::after,
+  body.homepage .building-scene .tower .floor-row:nth-child(2)::after {
+    display: flex !important;
+    position: absolute !important;
+    inset: 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 12px !important;
+    border: 1px solid rgba(232,185,78,.82) !important;
+    border-radius: 3px !important;
+    background: linear-gradient(90deg,rgba(5,16,31,.94),rgba(13,37,65,.88),rgba(5,16,31,.94)) !important;
+    color: #fff4d5 !important;
+    font: 800 12px/1.1 "DM Sans",Arial,sans-serif !important;
+    letter-spacing: .12em !important;
+    text-shadow: 0 1px 4px #000 !important;
+    white-space: nowrap !important;
+    pointer-events: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.35) !important;
+  }
+  body.homepage .building-scene .tower .floor-row:nth-child(1)::after {
+    content: "10  ·  BUSINESS INTELLIGENCE" !important;
+  }
+  body.homepage .building-scene .tower .floor-row:nth-child(2)::after {
+    content: "09  ·  CRM" !important;
+  }
+}
+
 /* 02/11/2026 — zones tactiles allongées à 12 cm, RDC inactif. */
 </style>
     <script src="catalogue-majestios.js" defer></script>
