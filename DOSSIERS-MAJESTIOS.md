@@ -15,7 +15,7 @@ Ordre d'affichage de l'immeuble, du bas vers le haut :
 1. `dossiers/01-marches-publics/` — Marchés publics
 2. `dossiers/02-marches-prives/` — Marchés privés
 3. `dossiers/03-veille-economique/` — Veille économique
-4. `dossiers/04-prospection/` — Prospection (active et passive)
+4. `dossiers/04-prospection/` — Prospection active
 5. `dossiers/05-developpement-commercial/` — Développement commercial
 6. `dossiers/06-accompagnement-appels-offres/` — Accompagnement aux appels d'offres
 7. `dossiers/07-salon-virtuel/` — Salon virtuel
@@ -32,7 +32,7 @@ Le rez-de-chaussée est réservé à **Accueil MajestiOS** et n'est pas compté 
 | Marchés publics | `marches-publics.html` | Recherche et qualification des consultations publiques |
 | Marchés privés | `marches-prives.html` | Opportunités privées ; distinguer les signaux BODACC des appels d'offres |
 | Veille économique | `bodacc-veille-entreprises.html`, `veille-marches.html` | Sources et signaux clairement identifiés |
-| Prospection | `prospection-inversee.html` | Libellé visible canonique : « Prospection » ; nom historique du fichier conservé pour préserver les liens |
+| Prospection | `prospection-active.html` | Libellé et page canoniques : « Prospection active » |
 | Développement commercial | `developpement-commercial.html` | Domaine général et orchestration des démarches |
 | Accompagnement aux appels d'offres | `accompagnement-appels-offres.html` | Analyse du dossier, pièces, candidature, offre et échéances |
 | Salon virtuel | `salons-seminaires.html` | Page existante à faire évoluer vers le showroom collectif |
