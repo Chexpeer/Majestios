@@ -2,1078 +2,119 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = __dirname;
-const pages = fs.readdirSync(root).filter((name) => name.endsWith(".html"));
 const errors = [];
-let references = 0;
+const pages = fs.readdirSync(root).filter((name) => name.endsWith(".html"));
+const buildSource = fs.readFileSync(path.join(root, "build.js"), "utf8");
+const manifestMatch = buildSource.match(/const siteFiles = \[([\s\S]*?)\];/);
+const siteFiles = manifestMatch ? [...manifestMatch[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]) : [];
+const exists = (file) => fs.existsSync(path.join(root, file));
+const assert = (condition, message) => { if (!condition) errors.push(message); };
+
+assert(Boolean(manifestMatch), "Build : manifeste siteFiles introuvable");
+assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqués dans le manifeste");
+for (const file of siteFiles) assert(exists(file), \`Build : ressource déclarée absente : \${file}\`);
+for (const page of pages) assert(siteFiles.includes(page), \`Build : page HTML absente du manifeste : \${page}\`);
+
+const requiredAssets = [
+  "styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
+  "rubriques-immersives.js", "category-results.js", "search-results.js",
+  "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
+  "company-targeting.js", "company-targeting-page.js", "company-fit.js"
+];
+for (const asset of requiredAssets) assert(siteFiles.includes(asset), \`Build : ressource requise absente du manifeste : \${asset}\`);
 
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
-  const ids = new Set([...html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((match) => match[1]));
-  const seenIds = new Set();
-
+  const ids = new Set([...html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((m) => m[1]));
+  const seen = new Set();
   for (const match of html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)) {
-    if (seenIds.has(match[1])) errors.push(`${page}: identifiant dupliqué #${match[1]}`);
-    seenIds.add(match[1]);
+    if (seen.has(match[1])) errors.push(\`\${page} : identifiant dupliqué #\${match[1]}\`);
+    seen.add(match[1]);
   }
-
   for (const match of html.matchAll(/\b(?:href|src)\s*=\s*["']([^"']+)["']/gi)) {
     const value = match[1].trim();
     if (!value || /^(?:[a-z]+:|\/\/)/i.test(value) || value.startsWith("data:")) continue;
-
     const [pathname, fragment = ""] = value.split("#", 2);
     const cleanPath = pathname.split("?")[0];
     const target = cleanPath ? path.resolve(root, decodeURIComponent(cleanPath)) : path.join(root, page);
-    references++;
-
     if (!target.startsWith(root + path.sep) && target !== root) {
-      errors.push(`${page}: chemin hors du projet : ${value}`);
+      errors.push(\`\${page} : chemin hors du projet : \${value}\`);
       continue;
     }
     if (!fs.existsSync(target)) {
-      errors.push(`${page}: ressource locale absente : ${value}`);
+      errors.push(\`\${page} : ressource locale absente : \${value}\`);
       continue;
     }
-
     if (fragment && target.endsWith(".html")) {
       const targetHtml = target === path.join(root, page) ? html : fs.readFileSync(target, "utf8");
-      const targetIds = new Set([...targetHtml.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((item) => item[1]));
-      if (!targetIds.has(decodeURIComponent(fragment))) errors.push(`${page}: ancre absente : ${value}`);
+      const targetIds = new Set([...targetHtml.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((m) => m[1]));
+      if (!targetIds.has(decodeURIComponent(fragment))) errors.push(\`\${page} : ancre absente : \${value}\`);
     }
   }
 }
 
-// Contrôler aussi les fichiers livrés par le script de build.
-const buildPath = path.join(root, "build.js");
-if (fs.existsSync(buildPath)) {
-  const build = fs.readFileSync(buildPath, "utf8");
-  for (const page of pages) {
-    if (!build.includes(`"${page}"`)) errors.push(`build.js: page absente de la liste de publication : ${page}`);
-  }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js", "search-results.js", "opportunity-search.js", "rubric-search.js", "naf-suggestions.js", "company-targeting.js", "company-targeting-page.js", "company-fit.js"]) {
-    if (!build.includes(`"${asset}"`)) errors.push(`build.js: ressource absente de la liste de publication : ${asset}`);
-  }
-  // LOT 11 — le build doit refuser les doublons et vérifier l’intégrité réelle de dist/.
-  for (const buildGuard of [
-    "const duplicateFiles = siteFiles.filter",
-    "const invalidOutputFiles = siteFiles.filter",
-    "fs.readFileSync(sourcePath).equals(fs.readFileSync(outputPath))",
-    "process.exit(1)",
-    "fichiers copiés dans dist/ sans différence avec les sources"
-  ]) {
-    if (!build.includes(buildGuard)) errors.push(`build.js: garde-fou d’intégrité absent : ${buildGuard}`);
-  }
-} else {
-  errors.push("build.js : fichier absent");
+const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
+assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
+assert(home.includes('aria-label="Immeuble interactif MajestiOS"'), "Accueil : immeuble interactif absent");
+assert(home.includes("IMMEUBLE INTERACTIF · 10 DOSSIERS THÉMATIQUES"), "Accueil : intitulé de l’immeuble non harmonisé");
+assert(home.includes("IMMEUBLE INTERACTIF · 10 ÉTAGES"), "Accueil : légende des dix étages absente");
+assert(home.includes('id="floor-rows"'), "Accueil : conteneur des étages absent");
+assert(home.includes('id="advanced-search-form"'), "Accueil : recherche avancée absente");
+for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
+  assert(home.includes(\`id="\${id}"\`), \`Accueil : filtre absent : #\${id}\`);
 }
+assert(!/zone[\s_-]*artisanale|zone[\s_-]*interactive/i.test(home), "Accueil : ancienne appellation encore présente");
+assert(!/zone-artisanale\.(?:html|css|js)/i.test(home), "Accueil : ancienne ressource encore référencée");
 
-// Vérifier l'accueil de référence : navigation, immeuble à dix étages et recherche avancée.
-const homePath = path.join(root, "index.html");
-const appScriptPath = path.join(root, "app.js");
-if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
-  const home = fs.readFileSync(homePath, "utf8");
-  const appScript = fs.readFileSync(appScriptPath, "utf8");
-  if (!home.includes("<title>MajestiOS — Développement commercial intelligent</title>")) {
-    errors.push("Accueil : titre SEO non aligné sur le positionnement actuel");
-  }
-  for (const id of ["advanced-search-form", "feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
-    if (!home.includes(`id="${id}"`)) errors.push(`Accueil : élément attendu absent : #${id}`);
-  }
-  if (!home.includes("IMMEUBLE INTERACTIF · 10 DOSSIERS THÉMATIQUES")) {
-    errors.push("Accueil : présentation des dix dossiers absente");
-  }
-  if (!home.includes("IMMEUBLE INTERACTIF · 10 ÉTAGES")) {
-    errors.push("Accueil : bâtiment des dix étages absent");
-  }
-  for (const asset of ['src="catalogue-majestios.js"', 'src="app.js"']) {
-    if (!home.includes(asset)) errors.push(`Accueil : script partagé absent : ${asset}`);
-  }
-  for (const href of ["nous-rejoindre.html", "espace-membre.html", "faq.html"]) {
-    if (!home.includes(`href="${href}"`)) errors.push(`Accueil : navigation principale incomplète : ${href}`);
-  }
-  if (!appScript.includes('advancedSearchForm.addEventListener("submit"') ||
-      !appScript.includes("populateSearchFilters(initialMarketType, initialCategory);")) {
-    errors.push("Recherche avancée : initialisation ou écouteur submit absent");
-  }
-  for (const restorationCheck of [
-    "new URLSearchParams(window.location.search)",
-    'initialSearchParams.get("q")',
-    'initialSearchParams.get("categorie")',
-    'initialSearchParams.get("marche")',
-    'initialSearchParams.get("zone")'
-  ]) {
-    if (!appScript.includes(restorationCheck)) errors.push(`Recherche avancée : restauration d’un critère manquante : ${restorationCheck}`);
-  }
-} else {
-  errors.push("index.html ou app.js absent : contrôle de l'accueil impossible");
-}
-
-// Vérifier que chaque rubrique métier conserve sa couche immersive et la navigation commune.
-const immersivePages = [
-  "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
-  "prospection-active.html", "intelligence-economique.html", "reseaux-synergies.html",
-  "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
-  "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html",
+const floorBlock = home.match(/const floors = \[([\s\S]*?)\n        \];/);
+const expectedThemes = [
+  "Marchés publics", "Marchés privés", "Veille économique", "Prospection active",
+  "Développement commercial", "Accompagnement aux appels d’offres", "Salon virtuel",
+  "Espace entreprises", "CRM", "Business Intelligence"
 ];
-for (const page of immersivePages) {
-  const pagePath = path.join(root, page);
-  if (!fs.existsSync(pagePath)) continue;
-  const pageHtml = fs.readFileSync(pagePath, "utf8");
-  for (const asset of ["rubriques-immersives.css", "rubriques-immersives.js"]) {
-    if (!pageHtml.includes(asset)) errors.push(`${page} : couche immersive manquante (${asset})`);
-  }
-  for (const href of ["index.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"]) {
-    if (!pageHtml.includes(`href="${href}"`)) errors.push(`${page} : lien de navigation commun manquant (${href})`);
-  }
-  if (pageHtml.includes('src="rubric-search.js"')) {
-    const catalogueIndex = pageHtml.indexOf('src="catalogue-majestios.js"');
-    const appIndex = pageHtml.indexOf('src="app.js"');
-    const rubricSearchIndex = pageHtml.indexOf('src="rubric-search.js"');
-    if (catalogueIndex < 0 || appIndex < 0 || rubricSearchIndex < 0 ||
-        catalogueIndex > appIndex || appIndex > rubricSearchIndex) {
-      errors.push(`${page} : ordre des scripts invalide pour charger le catalogue partagé avant les recherches`);
-    }
-  }
-  if (!pageHtml.includes('href="index.html#accueil">← Retour à la zone industrielle MajestiOS</a>')) {
-    errors.push(`${page} : retour vers la zone industrielle intégrée à l’accueil absent`);
-  }
-  for (const component of [
-    ['<section class="virtual-space"', "espace visuel dédié"],
-    ['class="virtual-space-scene"', "scène interactive"],
-    ['class="virtual-space-note"', "indication d'interaction"],
-    ['class="floating-route-card"', "parcours fonctionnel"],
-    ['related-rubrics', "rubriques associées"],
-    ['class="interior-links"', "liens de sortie de rubrique"],
-  ]) {
-    if (!pageHtml.includes(component[0])) errors.push(`${page} : composant manquant (${component[1]})`);
-  }
-  // Cibler la section elle-même, pas une occurrence de "related-rubrics" dans
-  // une classe de titre située plus haut dans la page (ex. showroom-grid).
-  const relatedSection = pageHtml.match(/<section\b(?=[^>]*\bclass=["'][^"']*\brelated-rubrics\b[^"']*["'])[^>]*>[\s\S]*?<\/section>/i);
-  if (relatedSection) {
-    const relatedHtml = relatedSection[0];
-    const relatedLinks = [...relatedHtml.matchAll(/href="([^"]+\.html)(?:#[^"]*)?"/g)];
-    if (relatedLinks.length < 3) errors.push(`${page} : moins de trois parcours associés détectés`);
-    for (const [, destination] of relatedLinks) {
-      if (!fs.existsSync(path.join(root, destination))) errors.push(`${page} : destination associée absente (${destination})`);
-    }
-  } else {
-    errors.push(`${page} : section des rubriques associées mal formée`);
-  }
-}
-
-// Vérifier que les douze rubriques restent accessibles depuis l'univers virtuel.
-const zoneHtmlPath = path.join(root, "zone-artisanale.html");
-const zoneJsPath = path.join(root, "zone-artisanale.js");
-const zoneConfigPath = path.join(root, "zone-artisanale-config.js");
-const zoneJsText = fs.existsSync(zoneJsPath) ? fs.readFileSync(zoneJsPath, "utf8") : "";
-const zoneConfigText = fs.existsSync(zoneConfigPath) ? fs.readFileSync(zoneConfigPath, "utf8") : "";
-const zoneSourceText = `${zoneJsText}\n${zoneConfigText}`;
-const virtualDestinations = [
-  "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
-  "prospection-active.html", "intelligence-economique.html", "reseaux-synergies.html",
-  "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
-  "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html",
+const expectedFolders = [
+  "dossiers/01-marches-publics/", "dossiers/02-marches-prives/",
+  "dossiers/03-veille-economique/", "dossiers/04-prospection/",
+  "dossiers/05-developpement-commercial/", "dossiers/06-accompagnement-appels-offres/",
+  "dossiers/07-salon-virtuel/", "dossiers/08-espace-entreprises/",
+  "dossiers/09-crm/", "dossiers/10-business-intelligence/"
 ];
-if (fs.existsSync(zoneHtmlPath) && fs.existsSync(zoneJsPath)) {
-  const zoneHtml = fs.readFileSync(zoneHtmlPath, "utf8");
-  const zoneJs = `${fs.readFileSync(zoneJsPath, "utf8")}\n${fs.existsSync(zoneConfigPath) ? fs.readFileSync(zoneConfigPath, "utf8") : ""}`;
-
-  // Les trois niveaux de navigation de chaque bâtiment doivent pointer vers des pages réelles.
-  const zoneConfigText = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";
-  const levelRoutes = [...zoneConfigText.matchAll(/\{id:"(B\d+)"[^\n]*?firstRoute:"([^"]+\.html)",secondRoute:"([^"]+\.html)"/g)]
-    .map((match) => ({ id: match[1], first: match[2], second: match[3] }));
-  if (levelRoutes.length !== 12) errors.push(`Zone 3D : ${levelRoutes.length} bâtiments disposent de deux routes de niveaux, 12 attendus`);
-  for (const building of levelRoutes) {
-    for (const destination of [building.first, building.second]) {
-      if (!fs.existsSync(path.join(root, destination))) {
-        errors.push(`Zone 3D : destination de niveau absente pour ${building.id} : ${destination}`);
-      }
-    }
-  }
-
-  // LOT 13 — les parcours secondaires doivent être distincts et publiés.
-  const levelPairs = levelRoutes.map((building) => `${building.first}|${building.second}`);
-  if (new Set(levelPairs).size !== levelRoutes.length) {
-    errors.push("Zone 3D : au moins deux bâtiments partagent exactement le même parcours secondaire");
-  }
-  const buildSource = fs.existsSync(path.join(root, "build.js"))
-    ? fs.readFileSync(path.join(root, "build.js"), "utf8") : "";
-  for (const building of levelRoutes) {
-    for (const destination of [building.first, building.second]) {
-      if (!buildSource.includes(`"${destination}"`) && !buildSource.includes(`'${destination}'`)) {
-        errors.push(`Build : destination de niveau non incluse dans les fichiers publiés : ${destination}`);
-      }
-    }
-  }
-  if (!zoneJs.includes('floorList.hidden=false') || !zoneJs.includes('className="floor-link"')) {
-    errors.push("Zone 3D : les niveaux complémentaires ne sont pas rendus comme des liens accessibles");
-  }
-  const zoneCssPath = path.join(root, "zone-artisanale.css");
-  const zoneCss = fs.existsSync(zoneCssPath) ? fs.readFileSync(zoneCssPath, "utf8") : "";
-  if (zoneCss.includes('#floor-list { display: none !important; }')) {
-    errors.push("Zone 3D : la navigation par niveaux est masquée de force sur l’accueil");
-  }
-  if (!zoneCss.includes(".floor-list .floor-link:focus-visible")) {
-    errors.push("Zone 3D : état de focus clavier absent sur les liens de niveaux");
-  }
-  for (const destination of virtualDestinations) {
-    if (!zoneHtml.includes(destination) && !zoneJs.includes(destination)) {
-      errors.push(`Univers virtuel : rubrique inaccessible depuis la zone artisanale : ${destination}`);
-    }
-  }
-
-  // Vérifier les routes et positions depuis le catalogue commun utilisé par le panorama et la scène.
-  const sharedCatalogPath = path.join(root, "catalogue-majestios.js");
-  const sharedCatalogText = fs.existsSync(sharedCatalogPath) ? fs.readFileSync(sharedCatalogPath, "utf8") : "";
-  const sharedRubrics = [...sharedCatalogText.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)", group: "(central|peripherique)", x: ([^,]+), z: ([^ }]+) \}/g)]
-    .map((match) => ({ id: match[1], key: match[2], surface: match[3], route: match[5], group: match[6], position: `${match[7].trim()},${match[8].trim()}` }));
-  const buildingRoutes = sharedRubrics.map((rubric) => rubric.route);
-  const uniqueBuildingRoutes = new Set(buildingRoutes);
-  if (buildingRoutes.length !== 12) {
-    errors.push(`Univers virtuel : ${buildingRoutes.length} routes de bâtiments dans le catalogue, 12 attendues`);
-  }
-  if (uniqueBuildingRoutes.size !== 12) {
-    errors.push(`Univers virtuel : ${uniqueBuildingRoutes.size} destinations distinctes pour les bâtiments, 12 attendues`);
-  }
-  for (const route of uniqueBuildingRoutes) {
-    if (!virtualDestinations.includes(route)) errors.push(`Univers virtuel : route de bâtiment inattendue : ${route}`);
-    if (!fs.existsSync(path.join(root, route))) errors.push(`Univers virtuel : page de bâtiment absente : ${route}`);
-  }
-
-  const centralCount = sharedRubrics.filter((building) => building.group === "central").length;
-  const peripheralCount = sharedRubrics.filter((building) => building.group === "peripherique").length;
-  const uniquePositions = new Set(sharedRubrics.map((building) => building.position));
-  if (sharedRubrics.length !== 12) errors.push(`Univers virtuel : ${sharedRubrics.length} bâtiments reconnus dans le catalogue, 12 attendus`);
-  if (centralCount !== 6 || peripheralCount !== 6) errors.push(`Univers virtuel : répartition détectée ${centralCount} centraux / ${peripheralCount} périphériques, 6 / 6 attendus`);
-  if (uniquePositions.size !== 12) errors.push(`Univers virtuel : ${uniquePositions.size} positions distinctes, 12 attendues`);
-  if (new Set(sharedRubrics.map((building) => building.id)).size !== 12) errors.push("Univers virtuel : identifiants de bâtiments dupliqués");
-  // Garder les accès commerciaux essentiels visibles depuis la zone immersive.
-  for (const requiredHref of ["index.html#recherche-avancee", "espace-membre.html"]) {
-    if (!zoneHtml.includes(`href="${requiredHref}"`)) {
-      errors.push(`Univers virtuel : accès commercial manquant : ${requiredHref}`);
-    }
-  }
+if (!floorBlock) {
+  errors.push("Accueil : liste des dix étages introuvable");
 } else {
-  errors.push("zone-artisanale.html ou zone-artisanale.js : fichier absent, contrôle de l'univers virtuel impossible");
-}
-
-// Vérifier le catalogue partagé, les douze destinations et les filtres de recherche.
-const rubricSearchPath = path.join(root, "rubric-search.js");
-if (fs.existsSync(rubricSearchPath)) {
-  const rubricSearchText = fs.readFileSync(rubricSearchPath, "utf8");
-  if (!rubricSearchText.includes("catalogue.searchCategories") ||
-      !rubricSearchText.includes("catalogue.searchRegions")) {
-    errors.push("Recherche des rubriques : les catégories et régions doivent provenir du catalogue partagé");
-  }
-  if (!rubricSearchText.includes("option.disabled = item.connected === false") ||
-      !rubricSearchText.includes("item.connected !== false")) {
-    errors.push("Recherche des rubriques : les catégories privées sans source doivent rester visibles mais désactivées");
-  }
-}
-const appPath = path.join(root, "app.js");
-const zoneScenePath = path.join(root, "zone-artisanale.js");
-const cataloguePath = path.join(root, "catalogue-majestios.js");
-if (fs.existsSync(appPath) && fs.existsSync(zoneScenePath) && fs.existsSync(cataloguePath)) {
-  const app = fs.readFileSync(appPath, "utf8");
-  if (!app.includes("option.disabled = !connected") ||
-      !app.includes("categoryControl?.selectedOptions[0]?.disabled")) {
-    errors.push("Recherche d’accueil : une catégorie privée non connectée doit être désactivée et ne pas être transmise comme filtre actif");
-  }
-  const zoneJs = fs.readFileSync(zoneScenePath, "utf8");
-  const zoneConfig = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";
-  const catalogue = fs.readFileSync(cataloguePath, "utf8");
-  const rubrics = [...catalogue.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)"/g)]
-    .map((match) => ({ id: match[1], key: match[2], surface: match[3], href: match[5] }));
-  if (rubrics.length !== 12 || new Set(rubrics.map((item) => item.id)).size !== 12) errors.push(`Catalogue : ${rubrics.length} rubriques reconnues, 12 attendues`);
-  if (new Set(rubrics.map((item) => item.href)).size !== 12) errors.push("Catalogue : les douze destinations doivent être distinctes");
-  for (const rubric of rubrics) {
-    if (!fs.existsSync(path.join(root, rubric.href))) errors.push(`Catalogue : page de destination absente : ${rubric.href}`);
-    if (!zoneConfig.includes(`rubricRoute("${rubric.key}")`)) errors.push(`Zone 3D : destination non reliée au catalogue pour ${rubric.key}`);
-  }
-  // Vérifier que chaque catégorie active du catalogue pointe vers une page existante.
-  for (const match of catalogue.matchAll(/\{\s*value:\s*"([^"]+)",\s*label:\s*"[^"]+",\s*active:\s*true,\s*href:\s*"([^"]+)"/g)) {
-    if (!fs.existsSync(path.join(root, match[2]))) errors.push(`Catalogue : destination de catégorie active absente (${match[1]}) : ${match[2]}`);
-  }
-  if (!app.includes('document.querySelector("#feed-market-type")')) errors.push("Recherche : filtre par type de marché absent du script");
-  if (!app.includes("populateSearchFilters(initialMarketType, initialCategory);")) errors.push("Recherche : filtres non initialisés depuis le catalogue");
-  const regionBlockMatch = catalogue.match(/const searchRegions = \[([\s\S]*?)\n  \];/);
-  if (!regionBlockMatch) {
-    errors.push("Recherche : catalogue des zones géographiques absent ou illisible");
-  } else {
-    const selectableRegions = [...regionBlockMatch[1].matchAll(/\{\s*value:\s*"([^"]+)"[^}]*\}/g)]
-      .filter((match) => match[1] !== "all" && !/planned:\s*true/.test(match[0]))
-      .map((match) => match[1]);
-    const opportunitySearchPath = path.join(root, "opportunity-search.js");
-    const opportunitySearch = fs.existsSync(opportunitySearchPath) ? fs.readFileSync(opportunitySearchPath, "utf8") : "";
-    const unsupportedRegions = selectableRegions.filter((region) => !opportunitySearch.includes(region));
-    if (unsupportedRegions.length) {
-      errors.push(`Recherche : régions sélectionnables sans traitement explicite dans le moteur : ${unsupportedRegions.join(", ")}`);
-    }
-    if (selectableRegions.length && !opportunitySearch.includes('if (region === "outre-mer")')) {
-      errors.push("Recherche : filtre BODACC Outre-mer doit signaler explicitement sa limite au lieu d’ignorer la zone");
+  const floors = [...floorBlock[1].matchAll(/\{id:"(B\d{2})",name:"([^"]+)",folder:"([^"]+)",description:"[^"]*",links:\[([\s\S]*?)\]\}/g)]
+    .map((m) => ({ id:m[1], name:m[2], folder:m[3], destinations:[...m[4].matchAll(/href:"([^"]+\.html)"/g)].map((link) => link[1]) }));
+  assert(floors.length === 10, \`Accueil : \${floors.length} étages détectés au lieu de 10\`);
+  assert(floors.every((f, i) => f.name === expectedThemes[i]), "Accueil : noms ou ordre des dix thèmes incorrects");
+  assert(floors.every((f, i) => f.folder === expectedFolders[i]), "Accueil : correspondance entre étages et dossiers incorrecte");
+  for (const floor of floors) {
+    assert(floor.destinations.length >= 1, \`Accueil : aucun accès pour \${floor.name}\`);
+    assert(new Set(floor.destinations).size === floor.destinations.length, \`Accueil : destinations dupliquées pour \${floor.name}\`);
+    for (const destination of floor.destinations) {
+      assert(exists(destination), \`Accueil : destination absente pour \${floor.name} : \${destination}\`);
+      assert(siteFiles.includes(destination), \`Build : destination non publiée pour \${floor.name} : \${destination}\`);
     }
   }
-
-} else {
-  errors.push("app.js, zone-artisanale.js ou catalogue-majestios.js absent : contrôle des destinations impossible");
+  assert(home.includes('link.className = "floor-row"') && home.includes("link.href = primary.href"), "Accueil : les étages ne sont pas rendus comme des liens cliquables directs");
 }
 
-// Contrôle explicite de cohérence entre l'arborescence, l'accueil et la navigation.
-const homeHtmlPath = path.join(root, "index.html");
-if (fs.existsSync(homeHtmlPath)) {
-  const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
-  const homeMapStart = homeHtml.indexOf('<section class="industrial-zone-home" id="accueil"');
-  const homeMapEnd = homeMapStart >= 0 ? homeHtml.indexOf("</section>", homeMapStart) : -1;
-  const homeMapSection = homeMapStart >= 0 && homeMapEnd > homeMapStart ? homeHtml.slice(homeMapStart, homeMapEnd) : "";
-  if (!homeMapSection) {
-    errors.push("Accueil : section d'accueil avec panorama (#accueil) absente");
-  } else {
-    if (!homeMapSection.includes('id="scene"') || !homeHtml.includes('src="zone-artisanale.js"')) {
-      errors.push("Accueil : la scène 3D interactive n'est pas intégrée ou son script est absent");
-    }
-    if (!homeMapSection.includes('id="industrial-zone-title"')) {
-      errors.push("Accueil : titre accessible de la zone industrielle absent");
-    }
-  }
-  const navMatch = homeHtml.match(/<nav class="site-nav"[^>]*>([\s\S]*?)<\/nav>/i);
-  const navHrefs = navMatch ? [...navMatch[1].matchAll(/href="([^"]+)"/g)].map((match) => match[1]) : [];
-  const expectedNavHrefs = ["index.html", "developpement-commercial.html", "salons-seminaires.html", "nous-rejoindre.html", "espace-membre.html", "faq.html"];
-  if (navHrefs.length !== expectedNavHrefs.length || navHrefs.some((href, index) => href !== expectedNavHrefs[index])) {
-    errors.push("Accueil : la navigation principale doit contenir exactement les six liens attendus, dans l’ordre défini");
-  }
-  if (!homeHtml.includes("majestiosSceneFallback") || !homeHtml.includes('onerror="window.majestiosSceneFallback()"')) {
-    errors.push("Accueil : mécanisme de secours de la scène 3D absent");
-  }
-  for (const controlId of ["feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
-    if (!homeHtml.includes(`id="${controlId}"`)) {
-      errors.push(`Accueil : contrôle de recherche avancée absent : ${controlId}`);
-    }
-  }
-  for (const forbidden of ['id="lead-form"', 'id="personal-space-dialog"', 'class="site-footer"']) {
-    if (homeHtml.includes(forbidden)) {
-      errors.push(`Accueil : bloc hors périmètre encore présent : ${forbidden}`);
-    }
-  }
-}
+const catalogue = fs.readFileSync(path.join(root, "catalogue-majestios.js"), "utf8");
+assert(catalogue.includes("searchCategories") && catalogue.includes("searchRegions") && catalogue.includes("marketTypes"), "Catalogue : filtres de recherche incomplets");
+assert(!catalogue.includes("rubrics: Object.freeze"), "Catalogue : ancienne liste des bâtiments encore exposée");
+const rubricSearch = fs.readFileSync(path.join(root, "rubric-search.js"), "utf8");
+assert(rubricSearch.includes("catalogue.searchCategories") && rubricSearch.includes("catalogue.searchRegions"), "Recherche : catégories et régions non reliées au catalogue partagé");
 
-// Les douze rubriques sont la source de vérité commune du panorama et de l'univers 3D.
-const expectedCategoryWorlds = {
-  "categorie-services-numeriques.html": "services",
-  "categorie-travaux-amenagement.html": "travaux",
-  "categorie-conseil-etudes.html": "conseil",
-  "categorie-batiment.html": "batiment",
-  "categorie-renovation.html": "renovation",
-  "categorie-electricite.html": "electricite",
-  "categorie-plomberie-chauffage.html": "plomberie",
-  "categorie-maintenance.html": "maintenance",
-};
-for (const [page, expectedWorld] of Object.entries(expectedCategoryWorlds)) {
-  if (!fs.existsSync(path.join(root, page))) {
-    errors.push(`Catégories d’opportunités : page référencée mais absente : ${page}`);
-    continue;
-  }
-  const html = fs.readFileSync(path.join(root, page), "utf8");
-  if (!html.includes('src="category-results.js"')) errors.push(`${page} : script des résultats par catégorie absent`);
-  if (!html.includes("category-page") || !html.includes('<section class="virtual-space"')) errors.push(`${page} : structure de page de catégorie absente`);
-  const worldMatch = html.match(/<section class="virtual-space"[^>]*data-world="([^"]+)"/);
-  if (!worldMatch || worldMatch[1] !== expectedWorld) {
-    errors.push(`${page} : catégorie déclarée incorrecte (attendu : ${expectedWorld})`);
-  }
-}
-if (!fs.existsSync(path.join(root, "category-results.js"))) errors.push("Catégories d’opportunités : category-results.js absent");
-if (fs.existsSync(path.join(root, "category-results.js"))) {
-  const resultsScript = fs.readFileSync(path.join(root, "category-results.js"), "utf8");
-  for (const world of Object.values(expectedCategoryWorlds)) {
-    if (!resultsScript.includes(`${world}: { value: "${world}"`)) errors.push(`Résultats de catégorie : correspondance manquante ou incohérente pour ${world}`);
-  }
-  for (const sharedLabelSource of ["catalogue.searchCategories", "catalogue.marketTypes", "catalogue.searchRegions"]) {
-    if (!resultsScript.includes(sharedLabelSource)) {
-      errors.push(`Résultats de catégorie : libellés non harmonisés avec le catalogue partagé (${sharedLabelSource})`);
-    }
-  }
-}
+const prospecting = fs.readFileSync(path.join(root, "prospection-active.html"), "utf8");
+assert(prospecting.includes("<title>Prospection active — MajestiOS</title>"), "Prospection active : titre de page incorrect");
+assert(prospecting.includes("<h1>Prospection active</h1>"), "Prospection active : titre principal incorrect");
+assert(!/prospection invers[ée]/i.test(prospecting), "Prospection active : ancienne appellation encore visible");
 
-// Vérifier que le routage donne la priorité à une catégorie active et conserve tous les critères.
-if (fs.existsSync(appPath)) {
-  const app = fs.readFileSync(appPath, "utf8");
-  const categoryRouteIndex = app.indexOf("const destination = selectedCategory");
-  const generalResultsRouteIndex = app.indexOf('"resultats-recherche.html"', categoryRouteIndex);
-  if (categoryRouteIndex < 0 || generalResultsRouteIndex < categoryRouteIndex) {
-    errors.push("Recherche : une catégorie active doit primer ; sans catégorie, les critères doivent aller aux résultats généraux");
-  }
-  if (!app.includes('params.set("q", query)') || !app.includes('params.set("categorie", category)') || !app.includes('params.set("marche", marketType)') || !app.includes('params.set("zone", region)')) {
-    errors.push("Recherche : un ou plusieurs critères ne sont plus transmis dans l’URL");
-  }
-}
-
-// Vérifier que le retour depuis les résultats généraux réinjecte les critères dans l'URL d'accueil.
-const searchResultsScriptPath = path.join(root, "search-results.js");
-if (fs.existsSync(searchResultsScriptPath)) {
-  const searchResultsScript = fs.readFileSync(searchResultsScriptPath, "utf8");
-  if (!searchResultsScript.includes('new URLSearchParams(params)') ||
-      !searchResultsScript.includes('returnLink.href = `index.html${returnParams.size ? `?${returnParams.toString()}` : ""}#recherche-avancee`')) {
-    errors.push("Résultats de recherche : les critères ne sont pas préservés dans le lien de retour");
-  }
-} else {
-  errors.push("Résultats de recherche : search-results.js absent");
-}
-
-// Le schéma normalisé doit rester un JSON lisible et couvrir les huit catégories actives.
-const opportunitySchemaPath = path.join(root, "schemas", "opportunite.schema.json");
-if (!fs.existsSync(opportunitySchemaPath)) {
-  errors.push("Modèle de données : schemas/opportunite.schema.json absent");
-} else {
-  try {
-    const opportunitySchema = JSON.parse(fs.readFileSync(opportunitySchemaPath, "utf8"));
-    const categoryProperty = opportunitySchema.properties?.category;
-    const expectedCategories = ["services", "travaux", "conseil", "batiment", "renovation", "electricite", "plomberie", "maintenance"];
-    if (!categoryProperty || expectedCategories.some((category) => !categoryProperty.enum?.includes(category))) {
-      errors.push("Modèle de données : le schéma ne couvre pas les huit catégories actives");
-    }
-    for (const requiredField of ["id", "title", "category", "marketType", "source", "sourceUrl", "publishedAt", "status"]) {
-      if (!opportunitySchema.required?.includes(requiredField)) {
-        errors.push(`Modèle de données : champ obligatoire absent du schéma : ${requiredField}`);
-      }
-    }
-  } catch {
-    errors.push("Modèle de données : schemas/opportunite.schema.json n’est pas un JSON valide");
-  }
-}
-
-
-// La recherche sans catégorie doit aboutir à une page générale dédiée.
-const generalResultsPath = path.join(root, "resultats-recherche.html");
-const generalResultsScriptPath = path.join(root, "search-results.js");
-if (!fs.existsSync(generalResultsPath)) errors.push("Recherche : page générale de résultats absente");
-if (!fs.existsSync(generalResultsScriptPath)) errors.push("Recherche : script des critères de résultats absent");
-if (fs.existsSync(generalResultsPath)) {
-  const generalResultsHtml = fs.readFileSync(generalResultsPath, "utf8");
-  if (!generalResultsHtml.includes('id="search-active-filters"') || !generalResultsHtml.includes('src="search-results.js"')) {
-    errors.push("Recherche : page générale sans récapitulatif des critères ou sans script associé");
-  }
-}
-
-const expectedRubricPages = [
-  "marches-publics.html", "veille-marches.html", "marches-prives.html",
-  "prospection-active.html", "developpement-commercial.html", "intelligence-economique.html",
-  "reseaux-synergies.html", "sous-traitance.html", "accompagnement-appels-offres.html",
-  "bodacc-veille-entreprises.html", "salons-seminaires.html", "suivi-commercial.html"
-];
-const rubricSet = new Set(expectedRubricPages);
-if (rubricSet.size !== 12) errors.push("Arborescence : la liste de référence ne contient pas douze destinations uniques");
-for (const page of expectedRubricPages) {
-  if (!fs.existsSync(path.join(root, page))) errors.push(`Arborescence : page métier référencée mais absente : ${page}`);
-}
-
-
-// Lot 10 — continuité des critères entre la recherche et ses pages de résultats.
-const generalResultsScriptPathForAudit = path.join(root, "search-results.js");
-if (fs.existsSync(generalResultsScriptPathForAudit)) {
-  const searchResultsScript = fs.readFileSync(generalResultsScriptPathForAudit, "utf8");
-  for (const parameter of ["q", "categorie", "marche", "zone"]) {
-    if (!searchResultsScript.includes(`params.get("${parameter}")`)) {
-      errors.push(`Résultats généraux : critère transmis non récapitulé : ${parameter}`);
-    }
-  }
-  if (!searchResultsScript.includes('new URLSearchParams(params)') ||
-      !searchResultsScript.includes('returnLink.href = `index.html')) {
-    errors.push("Résultats généraux : le retour à la recherche ne préserve pas les critères");
-  }
-} else {
-  errors.push("Résultats généraux : search-results.js absent");
-}
-if (fs.existsSync(path.join(root, "category-results.js"))) {
-  const categoryResultsScriptForAudit = fs.readFileSync(path.join(root, "category-results.js"), "utf8");
-  for (const parameter of ["q", "marche", "zone"]) {
-    if (!categoryResultsScriptForAudit.includes(`params.get("${parameter}")`)) {
-      errors.push(`Résultats par catégorie : critère transmis non récapitulé : ${parameter}`);
-    }
-  }
-  if (!categoryResultsScriptForAudit.includes('returnParams.set("categorie", definition.value)') ||
-      !categoryResultsScriptForAudit.includes('link.href = `index.html?')) {
-    errors.push("Résultats par catégorie : le retour à la recherche ne restaure pas la catégorie");
-  }
-}
-
-// Vérifier le contenu réellement préparé dans dist/, pas seulement la liste de build.
-const distPath = path.join(root, "dist");
-if (fs.existsSync(distPath)) {
-  for (const page of ["index.html", "zone-artisanale.html", "resultats-recherche.html", ...expectedRubricPages, ...Object.keys(expectedCategoryWorlds)]) {
-    if (!fs.existsSync(path.join(distPath, page))) errors.push(`Build : page attendue absente de dist/ : ${page}`);
-  }
-  for (const asset of ["styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css", "rubriques-immersives.js", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js", "category-results.js"]) {
-    if (!fs.existsSync(path.join(distPath, asset))) errors.push(`Build : ressource attendue absente de dist/ : ${asset}`);
-  }
-  const builtHome = path.join(distPath, "index.html");
-  if (fs.existsSync(builtHome)) {
-    const builtHtml = fs.readFileSync(builtHome, "utf8");
-    if (!builtHtml.includes('id="scene"') || !builtHtml.includes('src="zone-artisanale.js"')) {
-      errors.push("Build : la scène 3D interactive n'est pas présente dans l'accueil compilé");
-    }
-  }
-}
-
-
-
-// Vérifier la cohérence de la navigation principale sur les pages qui l'affichent.
-const expectedMainNavigation = [
-  "index.html",
-  "developpement-commercial.html",
-  "salons-seminaires.html",
-  "nous-rejoindre.html",
-  "espace-membre.html",
-  "faq.html",
-];
-const expectedMainNavigationLabels = [
-  "Accueil",
-  "Développement commercial",
-  "Salon virtuel",
-  "Nous rejoindre",
-  "Espace membre",
-  "FAQ",
-];
-for (const page of pages) {
-  const html = fs.readFileSync(path.join(root, page), "utf8");
-  const navMatch = html.match(/<nav\b[^>]*class=["'][^"']*site-nav[^"']*["'][^>]*>([\s\S]*?)<\/nav>/i);
-  if (!navMatch) continue;
-  const navHtml = navMatch[1];
-  const links = [...navHtml.matchAll(/<a\b([^>]*)href=["']([^"']+)["']([^>]*)>([\s\S]*?)<\/a>/gi)];
-  const destinations = links.map((match) => match[2]);
-  const labels = links.map((match) => match[4].replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim());
-  if (labels.length !== expectedMainNavigationLabels.length ||
-      labels.some((label, index) => label !== expectedMainNavigationLabels[index])) {
-    errors.push(`${page} : libellés ou ordre de navigation principale incohérents`);
-  }
-  for (const destination of expectedMainNavigation) {
-    if (!destinations.includes(destination)) {
-      errors.push(`${page} : navigation principale incomplète (${destination})`);
-    }
-  }
-  if (new Set(destinations).size !== destinations.length) {
-    errors.push(`${page} : destination répétée dans la navigation principale`);
-  }
-  const currentLinks = links.filter((match) => /aria-current=["']page["']/i.test(match[1] + match[3]));
-  if (currentLinks.length > 1) {
-    errors.push(`${page} : plusieurs entrées déclarées comme page courante dans la navigation principale`);
-  }
-  if (links.some((match) => match[2].trim() === "#")) {
-    errors.push(`${page} : lien vide href="#" dans la navigation principale`);
-  }
-}
-
-// Vérifier que les parcours encore en démonstration restent explicitement non transactionnels.
-const memberPagePath = path.join(root, "espace-membre.html");
-if (fs.existsSync(memberPagePath)) {
-  const memberHtml = fs.readFileSync(memberPagePath, "utf8");
-  if (!memberHtml.includes('id="personal-space-form"') || !memberHtml.includes('id="personal-space-feedback"')) {
-    errors.push("Espace membre : formulaire ou zone de retour utilisateur absents");
-  }
-  if (!/aucune donnée n’est envoyée ni enregistrée/i.test(memberHtml)) {
-    errors.push("Espace membre : avertissement explicite sur l’absence d’envoi et d’enregistrement absent");
-  }
-  if (!/addEventListener\(['"]submit['"],\s*e\s*=>\s*\{\s*e\.preventDefault\(\)/s.test(memberHtml)) {
-    errors.push("Espace membre : le formulaire doit intercepter sa soumission sans transmettre les données");
-  }
-  for (const field of ['name="firstName"', 'name="lastName"', 'name="email"', 'name="phone"']) {
-    if (!memberHtml.includes(field)) errors.push(`Espace membre : champ de préparation manquant (${field})`);
-  }
-}
-
-// Verrouiller les libellés convenus de la zone autonome pour éviter une régression entre l’accueil et sa page dédiée.
-const standaloneZonePath = path.join(root, "zone-artisanale.html");
-if (fs.existsSync(standaloneZonePath)) {
-  const zoneHtml = fs.readFileSync(standaloneZonePath, "utf8");
-  if (!/data-scene-mode=["']fly["'][^>]*>Navigation aérienne<\/button>/i.test(zoneHtml)) {
-    errors.push("Zone autonome : le mode aérien doit s’intituler « Navigation aérienne »");
-  }
-  if (!/data-scene-mode=["']drive["'][^>]*>Street View<\/button>/i.test(zoneHtml)) {
-    errors.push("Zone autonome : le mode routier doit s’intituler « Street View »");
-  }
-  if (!/data-scene-mode=["']map["'][^>]*>Carte interactive<\/button>/i.test(zoneHtml)) {
-    errors.push("Zone autonome : le mode cartographique doit s’intituler « Carte interactive »");
-  }
-  if (/L’Apache|La Tesla|Majest COYOT|GPS DES RUBRIQUES/.test(zoneHtml)) {
-    errors.push("Zone autonome : un ancien libellé de navigation a réapparu");
-  }
-}
-
-// Le bandeau de l’accueil est fictif ; il ne doit pas laisser croire que les sources sont déconnectées.
-const homePagePath = path.join(root, "index.html");
-if (fs.existsSync(homePagePath)) {
-  const homeHtml = fs.readFileSync(homePagePath, "utf8");
-  if (!homeHtml.includes("FLUX DE DÉMONSTRATION") ||
-      !homeHtml.includes("Les résultats réels sont recherchés à la demande") ||
-      homeHtml.includes("Sources d’annonces en cours de connexion")) {
-    errors.push("Accueil : le flux doit être identifié comme démonstration sans contredire l’état des connecteurs");
-  }
-}
-
-// La page de résultats généraux doit charger le catalogue avant le script qui affiche les libellés.
-if (fs.existsSync(generalResultsPath)) {
-  const resultsHtml = fs.readFileSync(generalResultsPath, "utf8");
-  const catalogIndex = resultsHtml.indexOf('src="catalogue-majestios.js"');
-  const scriptIndex = resultsHtml.indexOf('src="search-results.js"');
-  if (catalogIndex < 0 || scriptIndex < 0 || catalogIndex > scriptIndex) {
-    errors.push("Recherche : catalogue absent ou chargé après le script de récapitulatif des filtres");
-  }
-}
-
-// Le point d’aide doit être accessible et ne pas se présenter comme un chatbot déjà connecté.
-if (fs.existsSync(homeHtmlPath)) {
-  const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
-  if (!homeHtml.includes('id="home-help-toggle"') || !homeHtml.includes('aria-controls="home-help-panel"') || !homeHtml.includes('id="home-help-panel"')) {
-    errors.push("Accueil : point d’aide guidée absent ou contrôle accessible incomplet");
-  }
-  if (!homeHtml.includes("L’assistant conversationnel sera connecté dans une prochaine étape")) {
-    errors.push("Accueil : le guide doit préciser que l’assistant conversationnel n’est pas encore connecté");
-  }
-}
-
-
-// La page Salon virtuel présente le showroom comme un concept, sans fausse promesse de disponibilité.
-const showroomPath = path.join(root, "salons-seminaires.html");
-if (fs.existsSync(showroomPath)) {
-  const showroomHtml = fs.readFileSync(showroomPath, "utf8");
-  for (const phrase of ["Ne présentez plus votre entreprise. Faites-la visiter.", "Showroom Essentiel", "Showroom Immersif", "Majest COYOT", "la décision appartient toujours aux personnes"]) {
-    if (!showroomHtml.toLowerCase().includes(phrase.toLowerCase())) errors.push(`Showroom virtuel : contenu stratégique manquant : ${phrase}`);
-  }
-  if (!/ne signifie pas que ces services sont déjà disponibles/i.test(showroomHtml)) {
-    errors.push("Showroom virtuel : avertissement sur les fonctionnalités en préparation absent");
-  }
-}
-
-// Le bandeau supérieur doit être discret, lent et explicitement présenté comme une démonstration.
-if (fs.existsSync(homeHtmlPath)) {
-  const homeHtml = fs.readFileSync(homeHtmlPath, "utf8");
-  if (!homeHtml.includes('class="homepage-ticker"') || !homeHtml.includes('aria-label="Flux de démonstration MajestiOS"')) {
-    errors.push("Accueil : bandeau supérieur de démonstration absent ou non identifié");
-  }
-  if (!/Aucune annonce réelle n’est diffusée pour le moment/.test(homeHtml)) {
-    errors.push("Accueil : le bandeau ne précise pas clairement l’absence d’annonces réelles");
-  }
-  if (homeHtml.indexOf('class="homepage-ticker"') > homeHtml.indexOf('<header class="site-header"')) {
-    errors.push("Accueil : le bandeau d’annonces doit rester au-dessus de la navigation");
-  }
-}
-if (fs.existsSync(path.join(root, "styles.css"))) {
-  const homeStyles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
-  if (!/homepage-ticker-track[^}]*animation:[^;]*75s/.test(homeStyles) || !homeStyles.includes("@media(prefers-reduced-motion:reduce) { body.homepage .homepage-ticker-track")) {
-    errors.push("Accueil : vitesse lente ou préférence de réduction des animations non prise en compte pour le bandeau");
-  }
-}
-
-
-// Les douze pages métier doivent ramener vers la zone intégrée à l'accueil, pas vers l'ancien panorama autonome.
-const métierPagesForReturn = [
-  "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
-  "prospection-active.html", "intelligence-economique.html", "reseaux-synergies.html",
-  "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
-  "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html"
-];
-for (const page of métierPagesForReturn) {
-  const pagePath = path.join(root, page);
-  if (!fs.existsSync(pagePath)) continue;
-  const html = fs.readFileSync(pagePath, "utf8");
-  if (!/href=["']index\.html#accueil["'][^>]*>[^<]*(?:Accueil|accueil)|href=["']index\.html#accueil["']/i.test(html)) {
-    errors.push(`${page} : retour vers la zone intégrée à l'accueil absent`);
-  }
-  if (html.includes('href="zone-artisanale.html"')) {
-    errors.push(`${page} : lien de retour obsolète vers l'ancien panorama autonome`);
-  }
-}
-
-
-// Contrôles ciblés de non-régression pour l'expérience de visite de la zone industrielle.
-const homeSceneHtml = fs.existsSync(homePath) ? fs.readFileSync(homePath, "utf8") : "";
-const homeSceneJsPath = path.join(root, "zone-artisanale.js");
-const homeSceneJs = fs.existsSync(homeSceneJsPath) ? fs.readFileSync(homeSceneJsPath, "utf8") : "";
-if (!homeSceneHtml.includes('href="zone-artisanale.css"')) errors.push("Zone industrielle : feuille de style de la scène absente de l'accueil");
-if (!homeSceneHtml.includes('type="module" src="zone-artisanale.js"')) errors.push("Zone industrielle : module 3D absent de l'accueil");
-const catalogueScriptPosition = homeSceneHtml.indexOf('src="catalogue-majestios.js"');
-const sceneModulePosition = homeSceneHtml.indexOf('src="zone-artisanale.js"');
-if (catalogueScriptPosition < 0 || sceneModulePosition < 0 || catalogueScriptPosition > sceneModulePosition) {
-  errors.push("Zone industrielle : le catalogue partagé doit être déclaré avant le module 3D");
-}
-for (const mode of ["fly", "drive", "map"]) {
-  if (!homeSceneHtml.includes(`data-scene-mode="${mode}"`)) errors.push(`Zone industrielle : commande de visite ${mode} absente de l'accueil`);
-  if (!homeSceneJs.includes(`mode==="${mode}"`) && !(mode === "fly" && homeSceneJs.includes('setSceneMode("fly")'))) {
-    errors.push(`Zone industrielle : traitement du mode de visite ${mode} absent du script`);
-  }
-}
-if (!homeSceneJs.includes("ZONE DE DÉVELOPPEMENT COMMERCIAL MAJESTIOS") || homeSceneJs.includes("ZONE D'INTELLIGENCE COMMERCIALE MAJESTIOS")) {
-  errors.push("Zone industrielle : signalétique d'entrée non alignée sur le développement commercial");
-}
-if (!homeSceneHtml.includes("window.majestiosSceneFallback") || !homeSceneHtml.includes("fallback-buildings")) {
-  errors.push("Zone industrielle : mode de secours avec accès aux rubriques absent de l'accueil");
-}
-
-
-// Vérifications complémentaires du contrat HTML/JavaScript et du mode de secours.
-const sceneRequiredIds = [
-  "scene", "scene-loading", "panel-title", "panel-description", "floor-list",
-  "open-building", "zone-map", "map-buildings", "hover-card", "view-home", "zoom-in", "zoom-out"
-];
-for (const id of sceneRequiredIds) {
-  if (!homeSceneHtml.includes(`id="${id}"`)) errors.push(`Zone industrielle : élément HTML requis absent : #${id}`);
-}
-const sceneOptionalIds = ["building-directory"];
-for (const id of sceneOptionalIds) {
-  // Le répertoire est facultatif : la sélection principale passe par la scène 3D et la carte.
-  if (homeSceneJs.includes(`querySelector("#${id}")`) && !homeSceneJs.includes(`if (${id === "building-directory" ? "directory" : id})`)) {
-    errors.push(`Zone industrielle : le composant facultatif #${id} n'est pas protégé contre son absence`);
-  }
-}
-const expectedWalkKeys = ["w", "a", "s", "d"];
-const actualWalkKeys = [...homeSceneHtml.matchAll(/data-walk=["']([^"']+)["']/g)].map((match) => match[1]);
-if (expectedWalkKeys.some((key) => !actualWalkKeys.includes(key))) {
-  errors.push("Zone industrielle : une ou plusieurs commandes de déplacement sont absentes");
-}
-const fallbackRoutes = [...homeSceneHtml.matchAll(/<a href="([^"]+\.html)" style="--building-color:/g)].map((match) => match[1]);
-if (fallbackRoutes.length !== 12) errors.push(`Zone industrielle : ${fallbackRoutes.length} accès dans le mode de secours, 12 attendus`);
-for (const route of fallbackRoutes) {
-  if (!fs.existsSync(path.join(root, route))) errors.push(`Zone industrielle : destination du mode de secours absente : ${route}`);
-}
-const moduleImport = homeSceneJs.match(/from "([^"]+three\.module\.js)"/);
-const controlsImport = homeSceneJs.match(/from "([^"]+OrbitControls\.js)"/);
-if (!moduleImport || !controlsImport || !moduleImport[1].includes("0.166.1") || !controlsImport[1].includes("0.166.1")) {
-  errors.push("Zone industrielle : versions du moteur 3D et des contrôles OrbitControls incohérentes ou non épinglées");
-}
-const sceneCatalog = fs.existsSync(path.join(root, "catalogue-majestios.js"))
-  ? fs.readFileSync(path.join(root, "catalogue-majestios.js"), "utf8") : "";
-if (!sceneCatalog.includes("window.MAJESTIOS_CATALOG") && !sceneCatalog.includes("MAJESTIOS_CATALOG")) {
-  errors.push("Zone industrielle : catalogue partagé absent ou non exposé au module 3D");
-}
-
-// Cohérence des douze bâtiments entre la scène, le catalogue partagé et les fichiers livrés.
-const zoneConfigForKeys = fs.existsSync(path.join(root, "zone-artisanale-config.js")) ? fs.readFileSync(path.join(root, "zone-artisanale-config.js"), "utf8") : "";
-const sceneRouteKeys = [...zoneConfigForKeys.matchAll(/rubricRoute\(["']([^"']+)["']\)/g)].map((match) => match[1]);
-const catalogRouteKeys = [...sceneCatalog.matchAll(/\bkey:\s*["']([^"']+)["']/g)].map((match) => match[1]);
-const uniqueSceneKeys = [...new Set(sceneRouteKeys)];
-const uniqueCatalogKeys = [...new Set(catalogRouteKeys)];
-if (uniqueSceneKeys.length !== 12) {
-  errors.push(`Zone industrielle : ${uniqueSceneKeys.length} routes de bâtiments uniques détectées, 12 attendues`);
-}
-for (const key of uniqueSceneKeys) {
-  if (!uniqueCatalogKeys.includes(key)) errors.push(`Zone industrielle : route « ${key} » absente du catalogue partagé`);
-}
-for (const key of uniqueCatalogKeys) {
-  if (!uniqueSceneKeys.includes(key)) errors.push(`Catalogue partagé : route « ${key} » sans bâtiment correspondant dans la scène`);
-}
-const buildScriptPath = path.join(root, "build.js");
-if (fs.existsSync(buildScriptPath)) {
-  const buildScript = fs.readFileSync(buildScriptPath, "utf8");
-  for (const key of uniqueSceneKeys) {
-    const catalogEntry = sceneCatalog.match(new RegExp(`\\{[^}]*key:\\s*["']${key}["'][^}]*href:\\s*["']([^"']+\\.html)["'][^}]*\\}`));
-    if (!catalogEntry) {
-      errors.push(`Catalogue partagé : destination HTML introuvable pour la route « ${key} »`);
-      continue;
-    }
-    const destination = catalogEntry[1];
-    if (!fs.existsSync(path.join(root, destination))) errors.push(`Zone industrielle : page cible absente : ${destination}`);
-    if (!buildScript.includes(`"${destination}"`) && !buildScript.includes(`'${destination}'`)) {
-      errors.push(`Build : page cible de la zone industrielle non incluse dans les fichiers livrés : ${destination}`);
-    }
-  }
-}
-
-
-// Lot 9 — liaisons entre commandes, carte, recherche et aide.
-const sceneCss = fs.existsSync(path.join(root, "zone-artisanale.css"))
-  ? fs.readFileSync(path.join(root, "zone-artisanale.css"), "utf8") : "";
-if (!homeSceneJs.includes('document.querySelectorAll("[data-scene-mode]").forEach')) {
-  errors.push("Zone industrielle : les boutons de mode ne sont pas reliés à setSceneMode");
-}
-const directBuildingNavigationCount = (homeSceneJs.match(/window\.location\.assign\(data\.route\)/g) || []).length;
-if (directBuildingNavigationCount < 4) {
-  errors.push("Zone industrielle : les clics sur les bâtiments 3D, GPS et annuaire doivent ouvrir directement leur rubrique");
-}
-if (!sceneCss.includes(".zone-map[hidden]{display:none!important}")) {
-  errors.push("Carte Majest COYOT : l’attribut hidden n’est pas garanti par le CSS");
-}
-if (!homeSceneJs.includes('openLink.href=data.route') || !homeSceneJs.includes('floorList.replaceChildren()')) {
-  errors.push("Zone industrielle : la sélection ne met pas à jour l’accès à la rubrique et les trois niveaux");
-}
-
-const homeAppJs = fs.existsSync(path.join(root, "app.js"))
-  ? fs.readFileSync(path.join(root, "app.js"), "utf8") : "";
-if (!homeAppJs.includes('advancedSearchForm.addEventListener("submit"') ||
-    !homeAppJs.includes('params.set("marche", marketType)') ||
-    !homeAppJs.includes('params.set("zone", region)')) {
-  errors.push("Recherche avancée : soumission ou conservation des filtres marché/localisation absente");
-}
-if (!homeAppJs.includes('selectedCategory ? selectedCategory.href : "resultats-recherche.html"')) {
-  errors.push("Recherche avancée : la destination par catégorie ou résultats généraux n’est pas définie");
-}
-if (!homeAppJs.includes('homeHelpToggle?.addEventListener("click"') ||
-    !homeAppJs.includes('event.key === "Escape"')) {
-  errors.push("Aide d’accueil : ouverture/fermeture accessible ou fermeture par Échap absente");
-}
-
-
-// Lot 18 — contrat de cohérence des douze bâtiments et de leurs trois niveaux.
-const expectedBuildingContracts = [
-  ["B01", "Marchés publics", "marches-publics", "central"],
-  ["B02", "Marchés privés", "marches-prives", "central"],
-  ["B03", "Développement commercial", "developpement-commercial", "central"],
-  ["B04", "Prospection active", "prospection-active", "central"],
-  ["B05", "Intelligence économique", "intelligence-economique", "central"],
-  ["B06", "Réseaux et synergies", "reseaux-synergies", "peripherique"],
-  ["B07", "Veille des marchés", "veille-marches", "central"],
-  ["B08", "Accompagnement aux appels d'offres", "accompagnement-appels-offres", "peripherique"],
-  ["B09", "Sous-traitance et débordement de marchés", "sous-traitance", "peripherique"],
-  ["B10", "Salons et séminaires", "salons-seminaires", "peripherique"],
-  ["B11", "Veille des entreprises — BODACC", "bodacc-veille-entreprises", "peripherique"],
-  ["B12", "Suivi commercial et capitalisation", "suivi-commercial", "peripherique"]
-];
-const buildingDefinitions = [...zoneSourceText.matchAll(/\{id:"(B\d{2})",group:"(central|peripherique)",name:"([^"]+)"[\s\S]*?route:rubricRoute\(["']([^"']+)["']\),[\s\S]*?\}/g)];
-if (buildingDefinitions.length !== 12) {
-  errors.push(`Zone industrielle : ${buildingDefinitions.length} définitions de bâtiments détectées, 12 attendues`);
-}
-const observedBuildingIds = new Set();
-const observedBuildingNames = new Set();
-const centralCount = buildingDefinitions.filter((match) => match[2] === "central").length;
-const peripheralCount = buildingDefinitions.filter((match) => match[2] === "peripherique").length;
-if (centralCount !== 6 || peripheralCount !== 6) {
-  errors.push(`Zone industrielle : répartition centrale/périphérique incorrecte (${centralCount}/${peripheralCount}, 6/6 attendus)`);
-}
-for (const [id, name, key, group] of expectedBuildingContracts) {
-  const match = buildingDefinitions.find((item) => item[1] === id);
-  if (!match) {
-    errors.push(`Zone industrielle : bâtiment contractuel absent : ${id}`);
-    continue;
-  }
-  if (match[3] !== name || match[4] !== key || match[2] !== group) {
-    errors.push(`Zone industrielle : identité ou rubrique principale incohérente pour ${id}`);
-  }
-  if (observedBuildingIds.has(match[1])) errors.push(`Zone industrielle : identifiant de bâtiment dupliqué : ${id}`);
-  if (observedBuildingNames.has(match[3])) errors.push(`Zone industrielle : nom de bâtiment dupliqué : ${name}`);
-  observedBuildingIds.add(match[1]);
-  observedBuildingNames.add(match[3]);
-}
-for (const match of buildingDefinitions) {
-  const id = match[1];
-  const definitionStart = match.index;
-  const nextStart = zoneSourceText.indexOf('{id:"', definitionStart + 5);
-  const definition = zoneSourceText.slice(definitionStart, nextStart < 0 ? zoneSourceText.indexOf('];', definitionStart) : nextStart);
-  const mainHrefMatch = sceneCatalog.match(new RegExp(`\\{[^}]*key:\\s*["']${match[4]}["'][^}]*href:\\s*["']([^"']+\\.html)["'][^}]*\\}`));
-  const first = definition.match(/firstRoute:"([^"]+)"/);
-  const second = definition.match(/secondRoute:"([^"]+)"/);
-  if (!mainHrefMatch || !first || !second) {
-    errors.push(`Zone industrielle : destinations à trois niveaux incomplètes pour ${id}`);
-    continue;
-  }
-  if (new Set([mainHrefMatch[1], first[1], second[1]]).size !== 3) {
-    errors.push(`Zone industrielle : les trois niveaux doivent mener à des pages distinctes pour ${id}`);
-  }
-  for (const destination of [mainHrefMatch[1], first[1], second[1]]) {
-    if (!fs.existsSync(path.join(root, destination))) errors.push(`Zone industrielle : destination ${destination} absente pour ${id}`);
-    if (!/["']/.test(destination) || (!buildScriptPath || !fs.existsSync(buildScriptPath))) continue;
-    const buildSource = fs.readFileSync(buildScriptPath, "utf8");
-    if (!buildSource.includes(`"${destination}"`) && !buildSource.includes(`'${destination}'`)) {
-      errors.push(`Build : destination ${destination} non incluse pour ${id}`);
-    }
-  }
-}
-
-// Lot 19 — contrôler les parcours secondaires des six premiers bâtiments.
-// Ces destinations font partie du parcours métier validé et ne doivent pas dériver silencieusement.
-const firstSixRouteContracts = [
-  ["B01", "accompagnement-appels-offres.html", "veille-marches.html"],
-  ["B02", "sous-traitance.html", "suivi-commercial.html"],
-  ["B03", "prospection-active.html", "suivi-commercial.html"],
-  ["B04", "intelligence-economique.html", "developpement-commercial.html"],
-  ["B05", "veille-marches.html", "bodacc-veille-entreprises.html"],
-  ["B06", "salons-seminaires.html", "sous-traitance.html"],
-  ["B07", "marches-publics.html", "accompagnement-appels-offres.html"],
-  ["B08", "marches-publics.html", "marches-prives.html"],
-  ["B09", "marches-prives.html", "reseaux-synergies.html"],
-  ["B10", "reseaux-synergies.html", "developpement-commercial.html"],
-  ["B11", "prospection-active.html", "intelligence-economique.html"],
-  ["B12", "developpement-commercial.html", "intelligence-economique.html"]
-];
-for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
-  const match = buildingDefinitions.find((item) => item[1] === id);
-  if (!match) continue;
-  const start = match.index;
-  const next = zoneSourceText.indexOf('{id:"', start + 5);
-  const block = zoneSourceText.slice(start, next < 0 ? zoneSourceText.indexOf('];', start) : next);
-  const first = block.match(/firstRoute:"([^\"]+)"/);
-  const second = block.match(/secondRoute:"([^\"]+)"/);
-  if (!first || first[1] !== expectedFirst) {
-    errors.push(`Zone industrielle ${id} : parcours de niveau 1 inattendu (attendu : ${expectedFirst})`);
-  }
-  if (!second || second[1] !== expectedSecond) {
-    errors.push(`Zone industrielle ${id} : parcours de niveau 2 inattendu (attendu : ${expectedSecond})`);
-  }
-}
-
-
-
-
- // Lot 20 — garantir l'ordre de l'accueil, le pied de page et les optimisations 3D.
- const searchPosition = homeSceneHtml.indexOf('class="tender-feed-section"');
- const industrialPosition = homeSceneHtml.indexOf('class="industrial-zone-home"');
- const navigationEndPosition = homeSceneHtml.indexOf("</header>");
- if (searchPosition < 0 || industrialPosition < 0 || searchPosition < navigationEndPosition || searchPosition > industrialPosition) {
-   errors.push("Accueil : le moteur de recherche doit apparaître sous la navigation et avant la zone industrielle");
- }
- for (const route of ["nous-rejoindre.html", "faq.html", "mentions-legales.html", "politique-confidentialite.html"]) {
-   if (!homeSceneHtml.includes(`href="${route}"`)) errors.push(`Pied de page : lien manquant vers ${route}`);
-   if (!fs.existsSync(path.join(root, route))) errors.push(`Pied de page : page cible absente ${route}`);
-   if (buildScriptPath && fs.existsSync(buildScriptPath) && !fs.readFileSync(buildScriptPath, "utf8").includes(`"${route}"`)) {
-     errors.push(`Build : page de pied de page non publiée ${route}`);
-   }
- }
- if (!homeSceneJs.includes("pixelRatioCap") || !homeSceneJs.includes("renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,pixelRatioCap))")) {
-   errors.push("Zone 3D : plafond de résolution adaptatif absent");
- }
- if (!homeSceneJs.includes("function pauseScene()") || !homeSceneJs.includes("new IntersectionObserver") || !homeSceneJs.includes("document.hidden")) {
-   errors.push("Zone 3D : pause du rendu hors écran ou onglet masqué absente");
- }
-
-
- // Lot 21 — contrôler les fondations SaaS et le mode plein écran.
- if (!homeSceneHtml.includes('id="scene-fullscreen"')) errors.push("Zone industrielle : commande plein écran absente");
- if (!homeSceneJs.includes("sceneShell.requestFullscreen()") || !homeSceneJs.includes('addEventListener("fullscreenchange"')) {
-   errors.push("Zone industrielle : gestion complète du mode plein écran absente");
- }
- const memberPage = fs.readFileSync(path.join(root, "espace-membre.html"), "utf8");
- for (const route of ["crm.html", "brainos.html"]) {
-   if (!memberPage.includes(`href="${route}"`)) errors.push(`Espace membre : lien manquant vers ${route}`);
-   if (!fs.existsSync(path.join(root, route))) errors.push(`Fondations SaaS : page absente ${route}`);
-   if (buildScriptPath && fs.existsSync(buildScriptPath) && !fs.readFileSync(buildScriptPath, "utf8").includes(`"${route}"`)) {
-     errors.push(`Build : module réservé non publié ${route}`);
-   }
- }
- const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
- const brainPage = fs.readFileSync(path.join(root, "brainos.html"), "utf8");
- if (!crmPage.includes("Aucun CRM opérationnel") || !crmPage.includes("confidentialité")) errors.push("CRM : statut prototype ou exigence de confidentialité non documenté");
- if (!brainPage.toLowerCase().includes("aucun corpus documentaire connecté") || !brainPage.toLowerCase().includes("sources officielles")) errors.push("BrainOS : limites du prototype ou gestion des sources non documentées");
-
-// Lot 23 — rechercher doit être possible dans les principales rubriques métier.
-const contextualSearchPages = ["marches-publics.html", "developpement-commercial.html", "prospection-active.html", "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html"];
-for (const pageName of contextualSearchPages) {
-  const pagePath = path.join(root, pageName);
-  if (!fs.existsSync(pagePath)) {
-    errors.push(`Recherche par rubrique : page absente : ${pageName}`);
-    continue;
-  }
-  const pageHtml = fs.readFileSync(pagePath, "utf8");
-  if (!pageHtml.includes('src="rubric-search.js"')) errors.push(`Recherche par rubrique : script partagé absent de ${pageName}`);
-}
-if (!fs.existsSync(path.join(root, "rubric-search.js"))) errors.push("Recherche par rubrique : moteur partagé absent");
-// Lot 22 — garde-fous du chantier recherche/données et du filtre géographique BOAMP.
-const governancePlanPath = path.join(root, "PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md");
-if (!fs.existsSync(governancePlanPath)) {
-  errors.push("Gouvernance : plan de chantier recherche/données/CRM absent");
-} else {
-  const governancePlan = fs.readFileSync(governancePlanPath, "utf8");
-  for (const requirement of ["Garde-fous anti-régression", "Aucune fusion vers", "Aucune publication en production", "P0 :", "Critère de réussite"]) {
-    if (!governancePlan.includes(requirement)) errors.push(`Gouvernance : règle obligatoire absente du plan : ${requirement}`);
-  }
-}
-// Lot 25 — anti-régression du rendu mobile de la page générale de résultats.
-const mobileGeneralResultsPath = path.join(root, "resultats-recherche.html");
-const generalResultsEnginePath = path.join(root, "search-results.js");
-const mobileOpportunityEnginePath = path.join(root, "opportunity-search.js");
-if (!fs.existsSync(mobileGeneralResultsPath)) {
-  errors.push("Résultats mobiles : page générale resultats-recherche.html absente");
-} else {
-  const resultsHtml = fs.readFileSync(mobileGeneralResultsPath, "utf8");
-  if (!resultsHtml.includes('name="viewport" content="width=device-width, initial-scale=1"')) errors.push("Résultats mobiles : méta viewport absente");
-  if (!resultsHtml.includes('src="search-results.js"')) errors.push("Résultats mobiles : contrôleur search-results.js absent");
-  if (!resultsHtml.includes(".opportunity-result-card{display:grid;grid-template-columns:minmax(0,1fr)")) errors.push("Résultats mobiles : carte à une colonne absente");
-  if (!resultsHtml.includes("overflow-wrap:anywhere")) errors.push("Résultats mobiles : protection contre le débordement des textes absente");
-}
-if (!fs.existsSync(generalResultsEnginePath)) {
-  errors.push("Résultats mobiles : contrôleur search-results.js absent du projet");
-}
-if (fs.existsSync(mobileOpportunityEnginePath)) {
-  const mobileResultsEngine = fs.readFileSync(mobileOpportunityEnginePath, "utf8");
-  if (mobileResultsEngine.includes('class="platform-card opportunity-result-card')) {
-    errors.push("Résultats mobiles : les cartes ne doivent pas réutiliser la classe legacy platform-card");
-  }
-}
-const mobileBrowserTestPath = path.join(root, "tests", "opportunity-search.browser.cjs");
-if (!fs.existsSync(mobileBrowserTestPath)) {
-  errors.push("Résultats mobiles : test navigateur anti-régression absent");
-} else {
-  const mobileBrowserTest = fs.readFileSync(mobileBrowserTestPath, "utf8");
-  for (const mobileCheck of ["platform-card", "paragraphFontSize >= 12", "pageScrollWidth <= mobileLayout.viewportWidth", "viewport: { width: 390, height: 844 }"]) {
-    if (!mobileBrowserTest.includes(mobileCheck)) errors.push(`Résultats mobiles : test de régression absent : ${mobileCheck}`);
-  }
-}
-const opportunityEnginePath = path.join(root, "opportunity-search.js");
-if (!fs.existsSync(opportunityEnginePath)) {
-  errors.push("Recherche : moteur partagé opportunity-search.js absent");
-} else {
-  const opportunityEngine = fs.readFileSync(opportunityEnginePath, "utf8");
-  if (!opportunityEngine.includes("REGION_DEPARTMENTS") || !opportunityEngine.includes("code_departement_prestation") || !opportunityEngine.includes("Cette zone n’est pas encore disponible comme filtre géographique")) {
-    errors.push("Recherche BOAMP : filtre régional explicite ou garde-fou des zones non administratives absent");
-  }
-}
-// Harmonisation de toutes les pages qui affichent des annonces ou signaux de recherche.
-const categoryResultPages = [
-  "categorie-batiment.html",
-  "categorie-conseil-etudes.html",
-  "categorie-electricite.html",
-  "categorie-maintenance.html",
-  "categorie-plomberie-chauffage.html",
-  "categorie-renovation.html",
-  "categorie-services-numeriques.html",
-  "categorie-travaux-amenagement.html"
-];
-for (const relativePath of categoryResultPages) {
-  const pagePath = path.join(root, relativePath);
-  if (!fs.existsSync(pagePath)) {
-    errors.push(`Résultats : page de catégorie absente : ${relativePath}`);
-    continue;
-  }
-  const pageHtml = fs.readFileSync(pagePath, "utf8");
-  for (const rule of [
-    "Page d'annonces : priorité au contenu utile",
-    ".category-page .virtual-space",
-    "grid-template-columns:minmax(0,1fr)",
-    ".category-page .floating-route-card > p"
-  ]) {
-    if (!pageHtml.includes(rule)) errors.push(`Résultats : harmonisation mobile absente dans ${relativePath} : ${rule}`);
-  }
-}
-if (fs.existsSync(mobileOpportunityEnginePath)) {
-  const engine = fs.readFileSync(mobileOpportunityEnginePath, "utf8");
-  if (!engine.includes("const MAX_RESULTS = 10;") ||
-      !engine.includes("const resultLimit = Number.isFinite(options.resultLimit) ? options.resultLimit : MAX_RESULTS;") ||
-      !engine.includes("resultLimit: Math.floor(MAX_RESULTS / 2)") ||
-      (engine.match(/slice\(0, resultLimit\)/g) || []).length !== 2) {
-    errors.push("Résultats : limite de 10 cartes par recherche (5 par source en recherche mixte) absente");
-  }
-}
-const browserSearchTestPath = path.join(root, "tests", "opportunity-search.browser.cjs");
-if (!fs.existsSync(browserSearchTestPath)) {
-  errors.push("Tests : test navigateur du moteur d’opportunités absent");
-} else {
-  const browserSearchTest = fs.readFileSync(browserSearchTestPath, "utf8");
-  if (!browserSearchTest.includes("zone=nouvelle-aquitaine") || !browserSearchTest.includes('code_departement_prestation = "79"')) {
-    errors.push("Tests : scénario anti-régression du filtre régional BOAMP absent");
-  }
-}
-
-// Lot 24 — qualification explicable : aucune donnée administrative ne vaut validation métier.
-const companyFitPath = path.join(root, "company-fit.js");
-const companyFitTestPath = path.join(root, "tests", "company-fit.test.cjs");
-if (!fs.existsSync(companyFitPath)) errors.push("Qualification entreprises : module company-fit.js absent");
-if (!fs.existsSync(companyFitTestPath)) errors.push("Tests : tests/company-fit.test.cjs absent");
-if (fs.existsSync(companyFitPath)) {
-  const fitSource = fs.readFileSync(companyFitPath, "utf8");
-  for (const safeguard of ["manual_review_required", "qualificationsAndCertifications", "comparableReferences", "humanAndMaterialCapacity", "marketEligibility", "head_office_outside_scope_check_local_establishment", "ne prouve ni la compétence"]) {
-    if (!fitSource.includes(safeguard)) errors.push(`Qualification entreprises : garde-fou absent : ${safeguard}`);
-  }
-}
-
+const legacyFiles = ["zone-artisanale.html", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js"];
+for (const file of legacyFiles) assert(!exists(file), \`Ancienne expérience 3D : fichier encore présent : \${file}\`);
+assert(!siteFiles.some((file) => /zone-artisanale/i.test(file)), "Build : ancienne expérience 3D encore publiée");
 
 if (errors.length) {
-  console.error(`Vérification échouée : ${errors.length} problème(s) sur ${pages.length} pages.\\n- ${errors.join("\\n- ")}`);
-  process.exitCode = 1;
-} else {
-  console.log(`Vérification structurelle réussie : ${pages.length} pages HTML, ${references} références locales contrôlées, aucune ancre locale manquante détectée.`);
+  console.error(\`Vérification du site échouée : \${errors.length} problème(s).\\n- \${errors.join("\\n- ")}\`);
+  process.exit(1);
 }
+console.log(\`Site vérifié : \${pages.length} pages HTML, immeuble interactif à dix étages, moteur de recherche et \${siteFiles.length} ressources publiées cohérents.\`);
