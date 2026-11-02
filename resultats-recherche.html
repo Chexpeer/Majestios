@@ -6,12 +6,12 @@
   <meta name="description" content="Consulter le récapitulatif de votre recherche d'opportunités commerciales MajestiOS.">
   <meta name="theme-color" content="#101a2a">
   <title>Résultats de recherche — MajestiOS</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="charte-majestios.css">
   <style>
-.search-results-page{display:block!important;position:relative;width:calc(100% - 32px)!important;max-width:1080px!important;min-width:0;margin:0 auto!important;padding:1.25rem 0 2rem;box-sizing:border-box;float:none!important;grid-column:1/-1}
+.search-results-page{display:block!important;position:relative;width:min(1400px,calc(100% - 40px))!important;max-width:1400px!important;min-width:0;margin:0 auto!important;padding:1.25rem 0 2rem;box-sizing:border-box;float:none!important;grid-column:1/-1}
 .search-results-hero{margin:0 0 .75rem;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:#f4edda}
 .search-results-hero .eyebrow{margin:0 0 .35rem;color:#d5b56c;font-size:.75rem;letter-spacing:.1em}
-.search-results-hero h1{margin:0;color:#fff8e8;font-size:clamp(1.45rem,3.5vw,2.2rem);line-height:1.2}
+.search-results-hero h1{margin:0}
 .search-results-hero .interior-lede{margin:.35rem 0 0;color:#c5cad2;font-size:.9rem;line-height:1.45}
 .search-results-dashboard{display:block!important;width:100%!important;max-width:none!important;min-width:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;float:none!important}
 .search-results-dashboard>h2{margin:.75rem 0 .45rem;color:#f8e6b5;font-size:1.1rem}
@@ -70,5 +70,11 @@
     </section>
     <p class="search-results-return"><a class="button-primary" href="index.html#recherche-avancee">← Modifier les critères</a></p>
   </main>
+  <footer class="site-footer"><a class="brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><p>Repérer les pistes. Garder le discernement.</p><span class="footer-legal">MajestiOS · Une nouvelle perspective sur votre marché</span></footer>
+  <script>
+const menuToggle=document.querySelector(".menu-toggle");const navigation=document.querySelector("#site-nav");
+menuToggle?.addEventListener("click",()=>{const open=menuToggle.getAttribute("aria-expanded")==="true";menuToggle.setAttribute("aria-expanded",String(!open));menuToggle.setAttribute("aria-label",open?"Ouvrir le menu":"Fermer le menu");navigation?.classList.toggle("open",!open);});
+navigation?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{navigation.classList.remove("open");menuToggle?.setAttribute("aria-expanded","false");}));
+  </script>
 </body>
 </html>
