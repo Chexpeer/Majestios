@@ -69,7 +69,9 @@ if (!floorBlock) {
       assert(siteFiles.includes(destination), `Build : destination non publiée pour ${floor.name} : ${destination}`);
     }
   }
-  assert(home.includes("floor.links.forEach(function (office)"), "Accueil : les liens métier ne sont pas générés depuis la liste du dossier");
+  assert(home.includes('const primary = floor.links[0]'), "Accueil : destination principale de chaque étage absente");
+  assert(home.includes('document.createElement("a")') && home.includes("link.href = primary.href"), "Accueil : les étages ne sont pas des liens directs cliquables");
+  assert(!home.includes('button.className = "floor-row"'), "Accueil : les étages utilisent encore des boutons au lieu de liens directs");
   const enterpriseFloor = floors.find((floor) => floor.name === "Espace entreprises");
   assert(enterpriseFloor?.destinations.length === 1 && enterpriseFloor.destinations[0] === "espace-membre.html", "Accueil : Espace entreprises doit pointer uniquement vers son espace dédié");
 }
