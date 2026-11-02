@@ -10,7 +10,7 @@ Cette branche introduit une arborescence de **dix dossiers fonctionnels** sous `
 
 Il faut distinguer deux éléments :
 - **Immeuble de l’accueil : dix étages thématiques** — Marchés publics, Marchés privés, Veille économique, Prospection active, Développement commercial, Accompagnement aux appels d’offres, Salon virtuel, Espace entreprises, CRM et Business Intelligence.
-- **Zone artisanale virtuelle : douze bâtiments** — expérience 3D distincte, conservée avec ses douze destinations historiques afin de ne pas casser sa navigation ni ses contrôles.
+- **Immeuble interactif : dix étages thématiques** — interface unique de navigation de l’accueil, avec ses accès cliquables vers les dossiers métier.
 
 Les dix dossiers fonctionnels sont des dossiers d’organisation du projet. Les fichiers HTML restent à la racine pour préserver les routes relatives et le build statique. Les migrations de nom de page doivent être réalisées uniquement après audit des liens entrants, du build et des tests, avec une redirection de compatibilité si nécessaire. Les anciens noms de pages peuvent donc subsister derrière les libellés de navigation harmonisés.
 
@@ -20,17 +20,17 @@ Le moteur de recherche avancé est repris depuis la branche de référence et do
 
 `index.html` contient uniquement :
 1. la barre de navigation principale composée exactement de : Accueil, Développement commercial, Salon virtuel, Nous rejoindre, Espace membre et FAQ ;
-2. la zone artisanale virtuelle interactive intégrée directement à la page ;
+2. l’immeuble interactif intégré directement à la page ;
 3. le moteur de recherche avancé (mot-clé, catégorie, type de marché, localisation).
 
 Ne doivent pas apparaître sur l’accueil : liste d’appels d’offres, annonces fictives en cartes, répertoire séparé des bâtiments, raccourcis redondants, blocs explicatifs, formulaires permanents, pied de page ou sections répétitives. Exception validée : un bandeau horizontal très discret et très lent peut rester en haut de page, uniquement comme flux de démonstration explicitement identifié comme fictif. Il ne doit jamais laisser croire que des annonces réelles défilent ; les résultats réels sont recherchés à la demande.
 
-La zone interactive doit rester visible dès l’accueil. Le retrait de son entrée dans la navigation ne signifie pas que la zone ou ses fichiers sont supprimés.
+L’immeuble interactif doit rester visible directement sur l’accueil. Il constitue l’interface de navigation principale et ne doit pas devenir une rubrique de navigation séparée.
 
 ## 2. Pages du site
 
 ### Showroom virtuel — pilier commercial
-Le showroom virtuel est une offre transversale de présentation et de mise en relation, distincte de la veille des marchés. La zone artisanale sert de porte d’entrée collective ; chaque entreprise pourra disposer d’un showroom présentant ses savoir-faire, réalisations, capacités, références, certifications et possibilités de coopération. Le parcours cible est : Découverte → Visite → Compréhension → Confiance → Contact → Relation commerciale.
+Le showroom virtuel est une offre transversale de présentation et de mise en relation, distincte de la veille des marchés. L’immeuble interactif sert de porte d’entrée vers les dossiers MajestiOS ; chaque entreprise pourra disposer d’un showroom présentant ses savoir-faire, réalisations, capacités, références, certifications et possibilités de coopération. Le parcours cible est : Découverte → Visite → Compréhension → Confiance → Contact → Relation commerciale.
 
 - **Showroom Essentiel** : fiche enrichie, activité, photos, coordonnées et liens utiles (offre à définir).
 - **Showroom Immersif** : visite des locaux, vidéos, démonstrations, projets commentés et visite guidée (évolution à concevoir).
@@ -60,7 +60,7 @@ Préparation attendue avant activation :
 - `nous-rejoindre.html` — contributions et coopérations.
 - `espace-membre.html` — parcours personnel de démonstration, sans compte réel.
 - `faq.html` — explications et limites actuelles.
-- `zone-artisanale.html` — ancienne expérience immersive autonome, conservée provisoirement pour compatibilité. Les retours des douze pages métier renvoient désormais vers `index.html#accueil`, où la zone industrielle est intégrée. Ne supprimer cette page qu’après un scan complet des références restantes et du build.
+- L’ancienne expérience 3D autonome à douze bâtiments est obsolète. L’interface de référence est désormais l’immeuble interactif de l’accueil, à dix étages. Toute route ou ressource propre à l’ancienne expérience doit être retirée après migration des contrôles et vérification des liens.
 
 ### Douze pages métier correspondant aux bâtiments
 1. Marchés publics — `marches-publics.html`
@@ -109,7 +109,7 @@ Les fichiers HTML restent à la racine du dépôt pour préserver les liens rela
 - `styles.css` — styles généraux et composants communs.
 - `app.js` — navigation et comportement du moteur de recherche.
 - `catalogue-majestios.js` — correspondance des douze bâtiments avec les pages métier.
-- `zone-artisanale.css`, `zone-artisanale.js` — styles et scène 3D.
+- `L’immeuble interactif est rendu directement par `index.html` et son script intégré ; il ne dépend pas de l’ancienne scène 3D autonome.
 - `rubriques-immersives.css`, `rubriques-immersives.js` — présentation et interactions des pages immersives.
 - `schema-majestios.svg` — ancien schéma SVG non utilisé par le build courant ; le conserver jusqu’à une vérification complète des références avant suppression.
 - `build.js` — prépare `dist/` à partir de la liste des ressources déclarées.
@@ -167,13 +167,13 @@ Le filtre régional BOAMP traduit les régions en codes départementaux et véri
 
 ## 6. Critères de validation avant publication
 
-- L’accueil ne contient que navigation, zone artisanale interactive et moteur de recherche avancé.
-- La navigation principale contient uniquement : Accueil, Développement commercial, Salon virtuel, Nous rejoindre, Espace membre et FAQ. Aucun lien « Zone industrielle », « Panorama » ou « Opportunités » n’y apparaît.
+- L’accueil ne contient que navigation, immeuble interactif et moteur de recherche avancé.
+- La navigation principale contient uniquement : Accueil, Développement commercial, Salon virtuel, Nous rejoindre, Espace membre et FAQ. Aucun lien « Immeuble interactif », « Panorama » ou « Opportunités » n’y apparaît.
 - Les douze bâtiments ont douze destinations métier distinctes.
 - Les filtres et pages de catégories restent accessibles.
 - Les ressources locales existent et les liens internes ne sont pas cassés.
 - `node build.js` puis `node verify-site.js` se terminent sans erreur.
-- La scène 3D et la navigation sont vérifiées dans un navigateur, y compris sur mobile.
+- L’immeuble interactif et ses dix étages sont vérifiés dans un navigateur, y compris sur mobile.
 - La prévisualisation correspond au commit contrôlé avant toute mise en production.
 
 Ce document décrit les exigences et dépendances du prototype ; il ne prétend pas que les intégrations métier sont déjà opérationnelles.
@@ -236,7 +236,7 @@ Garde-fou : cessation, liquidation ou cession ne prouve pas que les locaux sont 
 - Tendances géographiques et sectorielles fondées sur des données sourcées.
 
 ### Règle de dépendance
-Toute nouvelle page ou ressource doit être déclarée dans le build, contrôlée par verify-site, reliée depuis une destination explicite et testée. Ne pas refondre la zone industrielle ni changer la navigation principale ou le moteur commercial sans lot dédié et tests anti-régression.
+Toute nouvelle page ou ressource doit être déclarée dans le build, contrôlée par verify-site, reliée depuis une destination explicite et testée. Ne pas refondre la immeuble interactif ni changer la navigation principale ou le moteur commercial sans lot dédié et tests anti-régression.
 
 
 ## Dossier Emploi — veille interne, sans moteur public sur l'accueil
