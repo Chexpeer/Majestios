@@ -262,7 +262,7 @@ body.homepage .building-scene .tower .floor-row {
 
 /* Dix zones tactiles centrées sur la façade, du 10e au 1er étage.
    Chaque zone mesure 6 cm de large (avec réduction si l'écran est plus étroit).
-   Une séparation verticale de 3 mm reste inactive entre deux étages. */
+   Les zones sont contiguës : aucun espace inactif entre deux étages. */
 body.homepage .building-scene .tower .floor-rows {
   position: absolute !important;
   inset: 7% auto 3% !important;
@@ -286,16 +286,10 @@ body.homepage .building-scene .tower .floor-row {
   height: auto !important;
   min-height: 0 !important;
   flex: none !important;
-  margin: 0 0 3mm !important;
+  margin: 0 !important;
   padding: 0 !important;
   pointer-events: auto !important;
   touch-action: manipulation;
-}
-body.homepage .building-scene .tower .floor-row:nth-child(8) {
-  margin-bottom: 1mm !important; /* séparation entre les 3e et 2e étages */
-}
-body.homepage .building-scene .tower .floor-row:last-child {
-  margin-bottom: 0 !important;
 }
 body.homepage .building-scene .tower .floor-row:hover,
 body.homepage .building-scene .tower .floor-row:focus-visible,
