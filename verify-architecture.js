@@ -75,6 +75,11 @@ if (!floorBlock) {
 }
 
 
+const prospectingPage = read("prospection-inversee.html");
+assert(prospectingPage.includes("<title>Prospection — MajestiOS</title>"), "Prospection : titre de page non harmonisé");
+assert(prospectingPage.includes("<h1>Prospection</h1>"), "Prospection : titre principal non harmonisé");
+assert(!prospectingPage.includes("Prospection inversée"), "Prospection : ancien intitulé encore visible");
+
 const catalogue = read("catalogue-majestios.js");
 const catalogRubrics = [...catalogue.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)"/g)]
   .map((m) => ({ id:m[1], key:m[2], href:m[5] }));
