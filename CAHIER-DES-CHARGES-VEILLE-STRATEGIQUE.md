@@ -81,7 +81,7 @@ Chaque signal doit comporter au minimum : type, source, URL source, identifiant 
 
 ## 8. Arborescence fonctionnelle cible
 
-- Développement commercial : Marchés publics (BOAMP); événements d'entreprises et annonces commerciales (BODACC); prospection inversée; sous-traitance et partenaires; veille économique et sectorielle; analyse territoriale; transmission et cession; suivi commercial/CRM.
+- Développement commercial : Marchés publics (BOAMP); événements d'entreprises et annonces commerciales (BODACC); prospection active; sous-traitance et partenaires; veille économique et sectorielle; analyse territoriale; transmission et cession; suivi commercial/CRM.
 - Emploi (dossier autonome, sans moteur de recherche) : déposer une offre; veille des offres autorisées; qualification/validation; analyse des compétences et signaux sectoriels.
 - Immobilier professionnel (dossier autonome futur) : signaux de locaux potentiellement libérés; transactions et cessions à qualifier; projets de construction/aménagement; vérification de disponibilité.
 - Nous rejoindre : candidature; dépôt sécurisé de CV; collaboration et partenariat.
