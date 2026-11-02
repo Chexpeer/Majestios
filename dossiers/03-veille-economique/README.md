@@ -2,7 +2,7 @@
 
 **Rôle du dossier :** collecter et contextualiser les signaux utiles à la compréhension d'un marché ou de l'évolution d'une entreprise.
 
-Pages existantes associées : `veille-marches.html`, `bodacc-veille-entreprises.html`, `intelligence-economique.html`.
+Pages existantes associées : `veille-marches.html`, `bodacc-veille-entreprises.html`. L’analyse et l’aide à la décision relèvent du dossier Business Intelligence.
 
 Sous-thèmes fonctionnels : veille des marchés ; événements de vie des entreprises ; signaux faibles ; provenance, fraîcheur et niveau de confiance.
 
