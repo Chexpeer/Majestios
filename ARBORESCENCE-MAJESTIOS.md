@@ -9,8 +9,7 @@ Objet : document de référence pour nettoyer le dépôt sans casser les pages, 
 Cette branche introduit une arborescence de **dix dossiers fonctionnels** sous `dossiers/`, décrite dans `DOSSIERS-MAJESTIOS.md`. Le bâtiment de la page d’accueil utilise ces dix thèmes ; le rez-de-chaussée reste « Accueil MajestiOS ».
 
 Il faut distinguer deux éléments :
-- **Immeuble de l’accueil : dix étages thématiques** — Marchés publics, Marchés privés, Veille économique, Prospection active, Développement commercial, Accompagnement aux appels d’offres, Salon virtuel, Espace entreprises, CRM et Business Intelligence.
-- **Immeuble interactif : dix étages thématiques** — interface unique de navigation de l’accueil, avec ses accès cliquables vers les dossiers métier.
+- **Immeuble de l’accueil : dix étages thématiques** — Marchés publics, Marchés privés, Veille économique, Prospection active, Développement commercial, Accompagnement aux appels d’offres, Salon virtuel, Espace entreprises, CRM et Business Intelligence. L’immeuble interactif est l’interface visuelle qui matérialise ces dix thèmes ; il ne constitue pas une seconde arborescence.
 
 Les dix dossiers fonctionnels sont des dossiers d’organisation du projet. Les fichiers HTML restent à la racine pour préserver les routes relatives et le build statique. Les migrations de nom de page doivent être réalisées uniquement après audit des liens entrants, du build et des tests, avec une redirection de compatibilité si nécessaire. Les anciens noms de pages peuvent donc subsister derrière les libellés de navigation harmonisés.
 
@@ -62,7 +61,9 @@ Préparation attendue avant activation :
 - `faq.html` — explications et limites actuelles.
 - L’ancienne expérience 3D autonome à douze bâtiments est obsolète. L’interface de référence est désormais l’immeuble interactif de l’accueil, à dix étages. Les fichiers et routes de cette ancienne expérience sont retirés ; seule une redirection de compatibilité conserve l’ancienne URL.
 
-### Douze pages métier correspondant aux bâtiments
+### Pages métier existantes rattachées aux dix dossiers fonctionnels
+
+Les dix étages et les dix dossiers fonctionnels ne correspondent pas à douze pages HTML en relation un-à-un. Les douze pages ci-dessous sont des destinations métier déjà présentes dans le prototype ; certaines complètent un même dossier (par exemple la veille économique ou le CRM). La correspondance de référence dossier → page est détaillée dans `DOSSIERS-MAJESTIOS.md`.
 1. Marchés publics — `marches-publics.html`
 2. Marchés privés — `marches-prives.html`
 3. Développement commercial — `developpement-commercial.html`
