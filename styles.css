@@ -1976,3 +1976,82 @@ body:not(.homepage) .menu-toggle span { background:#e7d5a6; }
   body:not(.homepage) .platform-card:hover,
   body:not(.homepage) .related-rubric-card:hover { transform:none; }
 }
+
+
+/* CORRECTION D'HARMONISATION — palette bleue et or de l'accueil.
+   Sélecteurs renforcés pour prendre le dessus sur les anciennes règles de cartes. */
+body:not(.homepage) {
+  background:
+    radial-gradient(ellipse at 78% 0%,rgba(33,78,134,.30),transparent 46%),
+    linear-gradient(145deg,#071225 0%,#08172b 48%,#070d18 100%) !important;
+  color:#f5f7fb;
+}
+body:not(.homepage) .site-header,
+body:not(.homepage) .site-footer {
+  background:linear-gradient(100deg,#06101f,#102b50);
+  border-color:rgba(213,181,108,.4);
+}
+body:not(.homepage) main.interior-page {
+  color:#f5f7fb;
+}
+body:not(.homepage) main.interior-page > h1,
+body:not(.homepage) main.interior-page h2,
+body:not(.homepage) main.interior-page h3 {
+  color:#f5f7fb;
+}
+body:not(.homepage) main.interior-page > .eyebrow,
+body:not(.homepage) main.interior-page .eyebrow,
+body:not(.homepage) main.interior-page h1 span {
+  color:#d5b56c;
+}
+body:not(.homepage) main.interior-page .interior-lede,
+body:not(.homepage) main.interior-page p {
+  color:#c4ccda;
+}
+body:not(.homepage) main.interior-page .platform-card,
+body:not(.homepage) main.interior-page .related-rubric-card,
+body:not(.homepage) main.interior-page .interior-callout,
+body:not(.homepage) main.interior-page .category-results-panel,
+body:not(.homepage) main.interior-page .lead-form-wrap,
+body:not(.homepage) main.interior-page .faq-list details {
+  color:#f5f7fb !important;
+  background:linear-gradient(145deg,rgba(6,20,43,.96),rgba(13,31,55,.98)) !important;
+  border:1px solid rgba(213,181,108,.48) !important;
+  box-shadow:0 16px 38px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+body:not(.homepage) main.interior-page .platform-card h2,
+body:not(.homepage) main.interior-page .platform-card h3 {
+  color:#f5f7fb !important;
+}
+body:not(.homepage) main.interior-page .platform-card p {
+  color:#c4ccda !important;
+}
+body:not(.homepage) main.interior-page .platform-card:hover,
+body:not(.homepage) main.interior-page .related-rubric-card:hover {
+  border-color:#e8b94e !important;
+  box-shadow:0 18px 42px rgba(0,0,0,.42),0 0 0 1px rgba(232,185,78,.16) !important;
+}
+body:not(.homepage) main.interior-page .interior-links a,
+body:not(.homepage) main.interior-page a.text-link {
+  color:#e5c56e;
+}
+body:not(.homepage) main.interior-page input,
+body:not(.homepage) main.interior-page textarea,
+body:not(.homepage) main.interior-page select {
+  color:#f5f7fb;
+  background:#0b1c34;
+  border-color:rgba(213,181,108,.48);
+}
+body:not(.homepage) main.interior-page .button-primary,
+body:not(.homepage) main.interior-page .form-submit,
+body:not(.homepage) main.interior-page .feed-search-submit {
+  color:#101828;
+  background:linear-gradient(100deg,#f7d76b,#dfa72e);
+  border-color:#ffdf82;
+}
+@media(max-width:1020px) {
+  body:not(.homepage) .site-nav {
+    background:#0d1c31;
+    border-color:rgba(213,181,108,.55);
+  }
+}
