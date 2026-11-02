@@ -2,7 +2,7 @@
 
 **Rôle du dossier :** transformer des données traçables en indicateurs, analyses et éléments d'aide à la décision.
 
-Pages existantes associées : `intelligence-economique.html`, `brainos.html`, ainsi que les documents de cartographie et de valorisation des données.
+Pages et ressources associées : `intelligence-economique.html` et les documents de cartographie et de valorisation des données. `brainos.html` est une page produit/prototype distincte du répertoire documentaire `BrainIOS/` ; ne pas confondre les deux.
 
 Sous-thèmes fonctionnels : indicateurs ; tendances de marché ; rapprochement de signaux ; segmentation ; tableaux de bord et recommandations explicables.
 
