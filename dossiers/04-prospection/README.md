@@ -1,11 +1,14 @@
-# Prospection
+# Prospection active
 
-**Rôle du dossier :** transformer les informations et les besoins en cibles commerciales pertinentes.
+**Rôle du dossier :** détecter des opportunités, identifier les entreprises pertinentes, engager une prise de contact et suivre les démarches commerciales.
 
-Les deux modes sont complémentaires :
-- **Prospection passive :** détecter et qualifier les opportunités publiées et les signaux économiques.
-- **Prospection active :** cibler des interlocuteurs, préparer une prise de contact, effectuer des relances et suivre les démarches dans le respect des règles applicables.
+La rubrique couvre un processus actif et piloté :
+- **Détecter :** repérer des projets, consultations, signaux économiques et besoins publiés à partir de sources identifiées.
+- **Qualifier :** vérifier la pertinence, la fraîcheur et le niveau de preuve des informations.
+- **Identifier :** sélectionner les entreprises et interlocuteurs adaptés.
+- **Contacter :** préparer et engager les prises de contact dans le respect des règles applicables.
+- **Suivre :** organiser les relances, les échanges et les suites dans le parcours commercial.
 
-Page existante associée : `prospection-inversee.html` (nom de fichier historique conservé dans ce lot).
+Page canonique associée : `prospection-active.html`.
 
-Règle : le libellé visible est simplement « Prospection ». Ne pas employer « prospection inversée » comme nom de l'étage.
+Règle : employer exclusivement « Prospection active » comme nom de la rubrique et de l’étage. Ne pas conserver l’ancienne appellation dans les interfaces, liens, tests ou documents de référence.
