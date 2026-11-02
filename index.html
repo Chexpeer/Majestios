@@ -260,18 +260,21 @@ body.homepage .building-scene .tower .floor-row {
   pointer-events: auto;
 }
 
-/* Dix zones tactiles centrées sur la façade, du 10e au 1er étage.
-   Chaque zone mesure 6 cm de large (avec réduction si l'écran est plus étroit).
-   Les zones sont contiguës : aucun espace inactif entre deux étages. */
+/* Dix liens thématiques, du 10e au 1er étage.
+   RDC volontairement exclu et non cliquable.
+   Chaque zone est réduite au minimum demandé, étirée sur 6 cm,
+   et répartie sur la hauteur des étages avec au moins 3 mm inactifs entre zones. */
 body.homepage .building-scene .tower .floor-rows {
   position: absolute !important;
-  inset: calc(7% + 2mm) auto calc(3% + 2mm) !important;
+  top: 7% !important;
+  bottom: 13% !important;
   left: 50% !important;
-  transform: translate(-50%, -3mm) !important;
+  transform: translateX(-50%) !important;
   z-index: 12 !important;
   display: grid !important;
-  grid-template-rows: repeat(10, 18px) !important;
   grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: repeat(10, 8px) !important;
+  align-content: space-between !important;
   width: min(6cm, calc(100% - 12px)) !important;
   height: auto !important;
   min-height: 0 !important;
@@ -283,16 +286,14 @@ body.homepage .building-scene .tower .floor-row {
   position: relative !important;
   z-index: 12 !important;
   width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
+  height: 8px !important;
+  min-height: 8px !important;
   flex: none !important;
   margin: 0 !important;
   padding: 0 !important;
   pointer-events: auto !important;
   touch-action: manipulation;
 }
-/* Les 10 zones forment un seul bloc continu.
-   La réduction totale de 4 mm est appliquée au bloc, pas à chaque étage. */
 body.homepage .building-scene .tower .floor-row:hover,
 body.homepage .building-scene .tower .floor-row:focus-visible,
 body.homepage .building-scene .tower .floor-row:active {
@@ -301,7 +302,7 @@ body.homepage .building-scene .tower .floor-row:active {
   outline-offset: -2px;
 }
 
-/* 02/11/2026 — étages tactiles ramenés à 18 px, avec 3 mm inactifs entre eux. */
+/* 02/11/2026 — zones tactiles minimales, 6 cm de large, RDC inactif. */
 </style>
     <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
