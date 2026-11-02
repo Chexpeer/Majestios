@@ -110,7 +110,7 @@ if (fs.existsSync(homePath) && fs.existsSync(appScriptPath)) {
 // Vérifier que chaque rubrique métier conserve sa couche immersive et la navigation commune.
 const immersivePages = [
   "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
-  "prospection-inversee.html", "intelligence-economique.html", "reseaux-synergies.html",
+  "prospection-active.html", "intelligence-economique.html", "reseaux-synergies.html",
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
   "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html",
 ];
@@ -170,7 +170,7 @@ const zoneConfigText = fs.existsSync(zoneConfigPath) ? fs.readFileSync(zoneConfi
 const zoneSourceText = `${zoneJsText}\n${zoneConfigText}`;
 const virtualDestinations = [
   "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
-  "prospection-inversee.html", "intelligence-economique.html", "reseaux-synergies.html",
+  "prospection-active.html", "intelligence-economique.html", "reseaux-synergies.html",
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
   "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html",
 ];
@@ -455,7 +455,7 @@ if (fs.existsSync(generalResultsPath)) {
 
 const expectedRubricPages = [
   "marches-publics.html", "veille-marches.html", "marches-prives.html",
-  "prospection-inversee.html", "developpement-commercial.html", "intelligence-economique.html",
+  "prospection-active.html", "developpement-commercial.html", "intelligence-economique.html",
   "reseaux-synergies.html", "sous-traitance.html", "accompagnement-appels-offres.html",
   "bodacc-veille-entreprises.html", "salons-seminaires.html", "suivi-commercial.html"
 ];
@@ -666,7 +666,7 @@ if (fs.existsSync(path.join(root, "styles.css"))) {
 // Les douze pages métier doivent ramener vers la zone intégrée à l'accueil, pas vers l'ancien panorama autonome.
 const métierPagesForReturn = [
   "marches-publics.html", "marches-prives.html", "developpement-commercial.html",
-  "prospection-inversee.html", "intelligence-economique.html", "reseaux-synergies.html",
+  "prospection-active.html", "intelligence-economique.html", "reseaux-synergies.html",
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
   "salons-seminaires.html", "bodacc-veille-entreprises.html", "suivi-commercial.html"
 ];
@@ -815,7 +815,7 @@ const expectedBuildingContracts = [
   ["B01", "Marchés publics", "marches-publics", "central"],
   ["B02", "Marchés privés", "marches-prives", "central"],
   ["B03", "Développement commercial", "developpement-commercial", "central"],
-  ["B04", "Prospection inversée", "prospection-inversee", "central"],
+  ["B04", "Prospection active", "prospection-active", "central"],
   ["B05", "Intelligence économique", "intelligence-economique", "central"],
   ["B06", "Réseaux et synergies", "reseaux-synergies", "peripherique"],
   ["B07", "Veille des marchés", "veille-marches", "central"],
@@ -880,7 +880,7 @@ for (const match of buildingDefinitions) {
 const firstSixRouteContracts = [
   ["B01", "accompagnement-appels-offres.html", "veille-marches.html"],
   ["B02", "sous-traitance.html", "suivi-commercial.html"],
-  ["B03", "prospection-inversee.html", "suivi-commercial.html"],
+  ["B03", "prospection-active.html", "suivi-commercial.html"],
   ["B04", "intelligence-economique.html", "developpement-commercial.html"],
   ["B05", "veille-marches.html", "bodacc-veille-entreprises.html"],
   ["B06", "salons-seminaires.html", "sous-traitance.html"],
@@ -888,7 +888,7 @@ const firstSixRouteContracts = [
   ["B08", "marches-publics.html", "marches-prives.html"],
   ["B09", "marches-prives.html", "reseaux-synergies.html"],
   ["B10", "reseaux-synergies.html", "developpement-commercial.html"],
-  ["B11", "prospection-inversee.html", "intelligence-economique.html"],
+  ["B11", "prospection-active.html", "intelligence-economique.html"],
   ["B12", "developpement-commercial.html", "intelligence-economique.html"]
 ];
 for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
@@ -951,7 +951,7 @@ for (const [id, expectedFirst, expectedSecond] of firstSixRouteContracts) {
  if (!brainPage.toLowerCase().includes("aucun corpus documentaire connecté") || !brainPage.toLowerCase().includes("sources officielles")) errors.push("BrainOS : limites du prototype ou gestion des sources non documentées");
 
 // Lot 23 — rechercher doit être possible dans les principales rubriques métier.
-const contextualSearchPages = ["marches-publics.html", "developpement-commercial.html", "prospection-inversee.html", "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html"];
+const contextualSearchPages = ["marches-publics.html", "developpement-commercial.html", "prospection-active.html", "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html"];
 for (const pageName of contextualSearchPages) {
   const pagePath = path.join(root, pageName);
   if (!fs.existsSync(pagePath)) {
