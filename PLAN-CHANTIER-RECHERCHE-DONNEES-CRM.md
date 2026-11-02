@@ -38,7 +38,7 @@ Statut : audit initial réalisé ; corrections progressives à valider. Aucune p
 - Marchés publics : recherche BOAMP, filtres cohérents, échéances et lien officiel.
 - Marchés privés / veille BODACC : recherche de signaux légaux, distincte des appels d'offres.
 - Pages de catégories : critères transmis, source réellement interrogée, états chargement/résultats/vide/erreur.
-- Développement commercial, prospection inversée et veille : définir pour chacune si elle recherche des opportunités, des entreprises, des dossiers documentaires ou des données CRM. Ne pas dupliquer le même formulaire sans sémantique claire.
+- Développement commercial, prospection active et veille : définir pour chacune si elle recherche des opportunités, des entreprises, des dossiers documentaires ou des données CRM. Ne pas dupliquer le même formulaire sans sémantique claire.
 - Salon virtuel : recherche d'exposants et d'activités uniquement lorsque le catalogue d'exposants existe.
 
 ### Lot 2 — chaîne de données et premier enrichissement d’entreprises
@@ -171,7 +171,7 @@ Cette extension prépare l'architecture sans déclarer les modules développés 
 
 ### 8.5 Arborescence fonctionnelle cible
 
-- Développement commercial : Marchés publics (BOAMP); événements d'entreprises et annonces commerciales (BODACC); prospection inversée; sous-traitance et partenaires; veille économique et sectorielle; analyse territoriale; transmission et cession; suivi commercial.
+- Développement commercial : Marchés publics (BOAMP); événements d'entreprises et annonces commerciales (BODACC); prospection active; sous-traitance et partenaires; veille économique et sectorielle; analyse territoriale; transmission et cession; suivi commercial.
 - Emploi (dossier autonome, sans moteur de recherche public) : déposer une offre; veille des offres autorisées; qualification/validation; analyse des compétences et signaux sectoriels.
 - Immobilier professionnel (dossier autonome futur) : signaux de locaux potentiellement libérés; transactions et cessions à qualifier; projets de construction/aménagement; vérification de disponibilité.
 - Nous rejoindre : candidature; dépôt sécurisé de CV; collaboration et partenariat.
