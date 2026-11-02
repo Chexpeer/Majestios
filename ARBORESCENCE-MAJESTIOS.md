@@ -9,7 +9,7 @@ Objet : document de référence pour nettoyer le dépôt sans casser les pages, 
 Cette branche introduit une arborescence de **dix dossiers fonctionnels** sous `dossiers/`, décrite dans `DOSSIERS-MAJESTIOS.md`. Le bâtiment de la page d’accueil utilise ces dix thèmes ; le rez-de-chaussée reste « Accueil MajestiOS ».
 
 Il faut distinguer deux éléments :
-- **Immeuble de l’accueil : dix étages thématiques** — Marchés publics, Marchés privés, Veille économique, Prospection, Développement commercial, Accompagnement aux appels d’offres, Salon virtuel, Espace entreprises, CRM et Business Intelligence.
+- **Immeuble de l’accueil : dix étages thématiques** — Marchés publics, Marchés privés, Veille économique, Prospection active, Développement commercial, Accompagnement aux appels d’offres, Salon virtuel, Espace entreprises, CRM et Business Intelligence.
 - **Zone artisanale virtuelle : douze bâtiments** — expérience 3D distincte, conservée avec ses douze destinations historiques afin de ne pas casser sa navigation ni ses contrôles.
 
 Les dix dossiers fonctionnels sont des dossiers d’organisation du projet. Dans ce lot, les fichiers HTML existants restent à la racine pour préserver les routes relatives et le build statique ; ils ne sont pas déplacés ou renommés. Les anciens noms de pages peuvent donc subsister derrière les libellés de navigation harmonisés.
@@ -66,7 +66,7 @@ Préparation attendue avant activation :
 1. Marchés publics — `marches-publics.html`
 2. Marchés privés — `marches-prives.html`
 3. Développement commercial — `developpement-commercial.html`
-4. Prospection inversée — `prospection-inversee.html`
+4. Prospection active — `prospection-active.html`
 5. Intelligence économique — `intelligence-economique.html`
 6. Réseaux et synergies — `reseaux-synergies.html`
 7. Veille des marchés — `veille-marches.html`
@@ -186,7 +186,7 @@ Cette arborescence prépare les futures rubriques sans les annoncer comme déjà
 ### Développement commercial — veille et qualification
 - Marchés publics (BOAMP).
 - Événements d'entreprises et annonces commerciales (BODACC).
-- Prospection inversée et qualification de prospects.
+- Prospection active et qualification de prospects.
 - Sous-traitance et partenaires.
 - Veille économique et sectorielle.
 - Analyse territoriale.
