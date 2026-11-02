@@ -264,8 +264,10 @@ body.homepage .building-scene .tower .floor-row {
    Seule la grille des liens recouvre la surface intérieure de la tour.
    L'ordre DOM va du dernier étage au rez-de-chaussée. */
 body.homepage .building-scene .tower .floor-rows {
+  /* Les dix zones couvrent uniquement les étages : marge haute sous la toiture,
+     marges latérales pour resserrer la façade, marge basse pour exclure le RDC. */
   position: absolute !important;
-  inset: 0 !important;
+  inset: 2% 17% 13% !important;
   z-index: 12 !important;
   display: grid !important;
   grid-template-rows: repeat(10, minmax(0, 1fr)) !important;
@@ -285,6 +287,11 @@ body.homepage .building-scene .tower .floor-row {
   flex: none !important;
   pointer-events: auto !important;
   touch-action: manipulation;
+}
+@media (max-width: 600px) {
+  body.homepage .building-scene .tower .floor-rows {
+    inset: 2% 12% 13% !important;
+  }
 }
 body.homepage .building-scene .tower .floor-row:hover,
 body.homepage .building-scene .tower .floor-row:focus-visible,
