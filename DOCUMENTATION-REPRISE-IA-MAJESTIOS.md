@@ -30,7 +30,7 @@ Employer « développement commercial » dans l’interface, pas « intelligence
 ### Accueil
 La page d'accueil doit rester épurée et centrée sur :
 1. navigation discrète : Accueil ; Développement commercial ; Salon virtuel ; Nous rejoindre ; Espace membre ; FAQ ;
-2. zone artisanale/industrielle virtuelle interactive directement intégrée à l'accueil ;
+2. immeuble interactif directement intégrée à l'accueil ;
 3. moteur de recherche multicritère visible ;
 4. accès discret au chatbot/formulaire d'aide ;
 5. exceptionnellement, bandeau horizontal lent et discret de démonstration, clairement marqué comme fictif tant qu'aucun flux réel validé n'est alimenté.
@@ -97,7 +97,7 @@ Prévoir les profils professionnels, la personnalisation des pages, les dossiers
 Le CRM doit pouvoir relier entreprise, interlocuteur/décideur, signal/opportunité, source, actions, communications, consentements/préférences applicables, état et résultats. Limiter les données aux finalités prévues et définir les droits, la conservation et la suppression.
 
 ### 4.8 Chatbot et salon virtuel
-Le chatbot doit rester discret, pouvoir orienter vers une page/dossier/article exact, répondre sur la base de contenus disponibles et demander une prise de contact si la réponse n'est pas fiable. Le salon virtuel/showroom est un pilier prévu pour permettre, à terme, aux professionnels de présenter leur activité ; ne pas le confondre avec la zone industrielle interactive de l'accueil.
+Le chatbot doit rester discret, pouvoir orienter vers une page/dossier/article exact, répondre sur la base de contenus disponibles et demander une prise de contact si la réponse n'est pas fiable. Le salon virtuel/showroom est un pilier prévu pour permettre, à terme, aux professionnels de présenter leur activité ; ne pas le confondre avec l’immeuble interactif de l’accueil.
 
 ## 5. Sources et traçabilité des données
 
