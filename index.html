@@ -302,6 +302,14 @@ body.homepage .building-scene .tower .floor-row:active {
   outline-offset: -2px;
 }
 
+/* 02/11/2026 — ajustement individuel des zones des étages 9 et 1. */
+body.homepage .building-scene .tower .floor-row:nth-child(2) {
+  transform: translateY(3mm) !important; /* étage 9 : descendre */
+}
+body.homepage .building-scene .tower .floor-row:nth-child(10) {
+  transform: translateY(-3mm) !important; /* étage 1 : remonter */
+}
+
 /* 02/11/2026 — zones tactiles allongées à 12 cm, RDC inactif. */
 </style>
     <script src="catalogue-majestios.js" defer></script>
