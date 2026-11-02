@@ -12,8 +12,8 @@ const assert = (condition, message) => { if (!condition) errors.push(message); }
 
 assert(Boolean(manifestMatch), "Build : manifeste siteFiles introuvable");
 assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqués dans le manifeste");
-for (const file of siteFiles) assert(exists(file), \`Build : ressource déclarée absente : \${file}\`);
-for (const page of pages) assert(siteFiles.includes(page), \`Build : page HTML absente du manifeste : \${page}\`);
+for (const file of siteFiles) assert(exists(file), "Build : ressource déclarée absente : " + file);
+for (const page of pages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
 
 const requiredAssets = [
   "styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
@@ -21,34 +21,35 @@ const requiredAssets = [
   "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
   "company-targeting.js", "company-targeting-page.js", "company-fit.js"
 ];
-for (const asset of requiredAssets) assert(siteFiles.includes(asset), \`Build : ressource requise absente du manifeste : \${asset}\`);
+for (const asset of requiredAssets) assert(siteFiles.includes(asset), "Build : ressource requise absente du manifeste : " + asset);
 
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
-  const ids = new Set([...html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((m) => m[1]));
   const seen = new Set();
   for (const match of html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)) {
-    if (seen.has(match[1])) errors.push(\`\${page} : identifiant dupliqué #\${match[1]}\`);
+    if (seen.has(match[1])) errors.push(page + " : identifiant dupliqué #" + match[1]);
     seen.add(match[1]);
   }
   for (const match of html.matchAll(/\b(?:href|src)\s*=\s*["']([^"']+)["']/gi)) {
     const value = match[1].trim();
     if (!value || /^(?:[a-z]+:|\/\/)/i.test(value) || value.startsWith("data:")) continue;
-    const [pathname, fragment = ""] = value.split("#", 2);
+    const parts = value.split("#", 2);
+    const pathname = parts[0];
+    const fragment = parts[1] || "";
     const cleanPath = pathname.split("?")[0];
     const target = cleanPath ? path.resolve(root, decodeURIComponent(cleanPath)) : path.join(root, page);
     if (!target.startsWith(root + path.sep) && target !== root) {
-      errors.push(\`\${page} : chemin hors du projet : \${value}\`);
+      errors.push(page + " : chemin hors du projet : " + value);
       continue;
     }
     if (!fs.existsSync(target)) {
-      errors.push(\`\${page} : ressource locale absente : \${value}\`);
+      errors.push(page + " : ressource locale absente : " + value);
       continue;
     }
     if (fragment && target.endsWith(".html")) {
       const targetHtml = target === path.join(root, page) ? html : fs.readFileSync(target, "utf8");
-      const targetIds = new Set([...targetHtml.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((m) => m[1]));
-      if (!targetIds.has(decodeURIComponent(fragment))) errors.push(\`\${page} : ancre absente : \${value}\`);
+      const targetIds = new Set([...targetHtml.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((item) => item[1]));
+      if (!targetIds.has(decodeURIComponent(fragment))) errors.push(page + " : ancre absente : " + value);
     }
   }
 }
@@ -61,7 +62,7 @@ assert(home.includes("IMMEUBLE INTERACTIF · 10 ÉTAGES"), "Accueil : légende d
 assert(home.includes('id="floor-rows"'), "Accueil : conteneur des étages absent");
 assert(home.includes('id="advanced-search-form"'), "Accueil : recherche avancée absente");
 for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
-  assert(home.includes(\`id="\${id}"\`), \`Accueil : filtre absent : #\${id}\`);
+  assert(home.includes('id="' + id + '"'), "Accueil : filtre absent : #" + id);
 }
 assert(!/zone[\s_-]*artisanale|zone[\s_-]*interactive/i.test(home), "Accueil : ancienne appellation encore présente");
 assert(!/zone-artisanale\.(?:html|css|js)/i.test(home), "Accueil : ancienne ressource encore référencée");
@@ -83,16 +84,19 @@ if (!floorBlock) {
   errors.push("Accueil : liste des dix étages introuvable");
 } else {
   const floors = [...floorBlock[1].matchAll(/\{id:"(B\d{2})",name:"([^"]+)",folder:"([^"]+)",description:"[^"]*",links:\[([\s\S]*?)\]\}/g)]
-    .map((m) => ({ id:m[1], name:m[2], folder:m[3], destinations:[...m[4].matchAll(/href:"([^"]+\.html)"/g)].map((link) => link[1]) }));
-  assert(floors.length === 10, \`Accueil : \${floors.length} étages détectés au lieu de 10\`);
+    .map((m) => ({
+      id:m[1], name:m[2], folder:m[3],
+      destinations:[...m[4].matchAll(/href:"([^"]+\.html)"/g)].map((link) => link[1])
+    }));
+  assert(floors.length === 10, "Accueil : " + floors.length + " étages détectés au lieu de 10");
   assert(floors.every((f, i) => f.name === expectedThemes[i]), "Accueil : noms ou ordre des dix thèmes incorrects");
   assert(floors.every((f, i) => f.folder === expectedFolders[i]), "Accueil : correspondance entre étages et dossiers incorrecte");
   for (const floor of floors) {
-    assert(floor.destinations.length >= 1, \`Accueil : aucun accès pour \${floor.name}\`);
-    assert(new Set(floor.destinations).size === floor.destinations.length, \`Accueil : destinations dupliquées pour \${floor.name}\`);
+    assert(floor.destinations.length >= 1, "Accueil : aucun accès pour " + floor.name);
+    assert(new Set(floor.destinations).size === floor.destinations.length, "Accueil : destinations dupliquées pour " + floor.name);
     for (const destination of floor.destinations) {
-      assert(exists(destination), \`Accueil : destination absente pour \${floor.name} : \${destination}\`);
-      assert(siteFiles.includes(destination), \`Build : destination non publiée pour \${floor.name} : \${destination}\`);
+      assert(exists(destination), "Accueil : destination absente pour " + floor.name + " : " + destination);
+      assert(siteFiles.includes(destination), "Build : destination non publiée pour " + floor.name + " : " + destination);
     }
   }
   assert(home.includes('link.className = "floor-row"') && home.includes("link.href = primary.href"), "Accueil : les étages ne sont pas rendus comme des liens cliquables directs");
@@ -110,11 +114,11 @@ assert(prospecting.includes("<h1>Prospection active</h1>"), "Prospection active 
 assert(!/prospection invers[ée]/i.test(prospecting), "Prospection active : ancienne appellation encore visible");
 
 const legacyFiles = ["zone-artisanale.html", "zone-artisanale.css", "zone-artisanale.js", "zone-artisanale-config.js"];
-for (const file of legacyFiles) assert(!exists(file), \`Ancienne expérience 3D : fichier encore présent : \${file}\`);
+for (const file of legacyFiles) assert(!exists(file), "Ancienne expérience 3D : fichier encore présent : " + file);
 assert(!siteFiles.some((file) => /zone-artisanale/i.test(file)), "Build : ancienne expérience 3D encore publiée");
 
 if (errors.length) {
-  console.error(\`Vérification du site échouée : \${errors.length} problème(s).\\n- \${errors.join("\\n- ")}\`);
+  console.error("Vérification du site échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log(\`Site vérifié : \${pages.length} pages HTML, immeuble interactif à dix étages, moteur de recherche et \${siteFiles.length} ressources publiées cohérents.\`);
+console.log("Site vérifié : " + pages.length + " pages HTML, immeuble interactif à dix étages, moteur de recherche et " + siteFiles.length + " ressources publiées cohérents.");
