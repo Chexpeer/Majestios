@@ -262,8 +262,8 @@ body.homepage .building-scene .tower .floor-row {
 
 /* Dix liens thématiques, du 10e au 1er étage.
    RDC volontairement exclu et non cliquable.
-   Chaque zone est réduite au minimum demandé, étirée sur 6 cm,
-   et répartie sur la hauteur des étages avec au moins 3 mm inactifs entre zones. */
+   Chaque zone conserve sa faible hauteur, passe à 12 cm de longueur
+   (le maximum disponible sur les écrans plus étroits) et reste centrée. */
 body.homepage .building-scene .tower .floor-rows {
   position: absolute !important;
   top: 7% !important;
@@ -275,7 +275,7 @@ body.homepage .building-scene .tower .floor-rows {
   grid-template-columns: minmax(0, 1fr) !important;
   grid-template-rows: repeat(10, 8px) !important;
   align-content: space-between !important;
-  width: min(6cm, calc(100% - 12px)) !important;
+  width: min(12cm, calc(100% - 12px)) !important;
   height: auto !important;
   min-height: 0 !important;
   row-gap: 3mm !important;
@@ -302,7 +302,7 @@ body.homepage .building-scene .tower .floor-row:active {
   outline-offset: -2px;
 }
 
-/* 02/11/2026 — zones tactiles minimales, 6 cm de large, RDC inactif. */
+/* 02/11/2026 — zones tactiles allongées à 12 cm, RDC inactif. */
 </style>
     <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
