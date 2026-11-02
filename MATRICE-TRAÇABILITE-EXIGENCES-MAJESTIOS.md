@@ -81,8 +81,8 @@ Ne pas reprendre l’audit général des recherches BOAMP/BODACC : les tests de 
 ### Lot C — sources et contrats de données
 1. Maintenir `REGISTRE-RESSOURCES-ALIMENTATION-CRM-MAJESTIOS.md` comme inventaire maître des sources candidates.
 2. Finir les fiches de source BOAMP/BODACC et préparer celles de l'emploi et des annuaires d'entreprises.
-2. Valider droits d'accès, licence, fréquence, qualité, données personnelles, attribution et conservation.
-3. Définir les schémas pour entreprise, établissement, code APE/NAF, lot, campagne, interaction et demande d'accompagnement.
+3. Valider droits d'accès, licence, fréquence, qualité, données personnelles, attribution et conservation.
+4. Définir les schémas pour entreprise, établissement, code APE/NAF, lot, campagne, interaction et demande d'accompagnement.
 
 **Sortie :** contrat de données versionné et sources classées actives, candidates, bloquées ou à vérifier.
 
