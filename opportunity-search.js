@@ -105,6 +105,29 @@
     const deadline = new Date(record.datelimitereponse);
     return !Number.isNaN(deadline.getTime()) && deadline.getTime() < Date.now();
   };
+  const activeRequests = new WeakMap();
+
+  const cancelRequest = (panel) => {
+    const active = activeRequests.get(panel);
+    if (active) active.abort();
+    activeRequests.delete(panel);
+  };
+
+  const beginRequest = (panel) => {
+    cancelRequest(panel);
+    const controller = new AbortController();
+    activeRequests.set(panel, controller);
+    const timeoutId = window.setTimeout(() => controller.abort(), 12000);
+    return {
+      signal: controller.signal,
+      isCurrent: () => activeRequests.get(panel) === controller,
+      finish: () => {
+        window.clearTimeout(timeoutId);
+        if (activeRequests.get(panel) === controller) activeRequests.delete(panel);
+      }
+    };
+  };
+
   const officialUrl = (record) => {
     if (typeof record.url_avis === "string" && /^https:\/\/(www\.)?boamp\.fr\//i.test(record.url_avis)) return record.url_avis;
     if (record.idweb) return "https://www.boamp.fr/pages/avis/?q=" + encodeURIComponent("idweb:" + record.idweb);
@@ -120,6 +143,7 @@
     const market = params.get("marche") || "all";
     const empty = panel.querySelector(".category-results-empty");
     if (!empty) return;
+    cancelRequest(panel);
     // Une nouvelle exécution remplace les cartes et notes précédentes au lieu de les empiler.
     panel.querySelectorAll(".opportunity-results-list, .opportunity-source-note").forEach((node) => node.remove());
 
@@ -209,10 +233,12 @@
         return;
       }
       if (regions[region]) bodaccUrl.searchParams.set("where", 'region_nom_officiel = "' + regions[region].replace(/"/g, '\\"') + '"');
+      const request = beginRequest(panel);
       try {
-        const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(12000) });
+        const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
         if (!response.ok) throw new Error("HTTP " + response.status);
         const payload = await response.json();
+        if (!request.isCurrent()) return;
         const records = Array.isArray(payload.results)
           ? payload.results
           : Array.isArray(payload.records)
@@ -290,6 +316,7 @@
         note.textContent = "Source : BODACC / DILA. Les annonces légales sont des signaux à vérifier, pas des marchés à remporter. Données consultées à la demande ; la date de publication et le contenu doivent être contrôlés sur la source officielle.";
         (results.isConnected ? results : empty).insertAdjacentElement("afterend", note);
       } catch (error) {
+        if (!request.isCurrent()) return;
         empty.textContent = "La source BODACC est momentanément inaccessible depuis cette page. Aucun signal n’est inventé. Réessayez ou consultez directement la recherche officielle.";
         const link = document.createElement("a");
         link.href = "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
@@ -297,6 +324,8 @@
         link.rel = "noopener noreferrer";
         link.textContent = "Ouvrir la recherche BODACC ↗";
         empty.append(" ", link);
+      } finally {
+        request.finish();
       }
       return;
     }
@@ -325,10 +354,12 @@
     // on filtre localement avec l'ensemble des termes afin de ne pas perdre les synonymes. 
     if (query) url.searchParams.set("q", query);
 
+    const request = beginRequest(panel);
     try {
-      const response = await fetch(url.toString(), { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(12000) });
+      const response = await fetch(url.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
       if (!response.ok) throw new Error("HTTP " + response.status);
       const payload = await response.json();
+      if (!request.isCurrent()) return;
       const records = Array.isArray(payload.results)
         ? payload.results
         : Array.isArray(payload.records)
@@ -377,6 +408,7 @@
       sourceNote.textContent = "Source : BOAMP / DILA. Données consultées à la demande ; les résultats ne remplacent pas la vérification des documents officiels.";
       (results.isConnected ? results : empty).insertAdjacentElement("afterend", sourceNote);
     } catch (error) {
+      if (!request.isCurrent()) return;
       empty.textContent = "La source BOAMP est momentanément inaccessible depuis cette page. Aucun résultat n’est inventé. Réessayez ou consultez directement le site officiel BOAMP.";
       const link = document.createElement("a");
       link.href = "https://www.boamp.fr/";
@@ -384,6 +416,8 @@
       link.rel = "noopener noreferrer";
       link.textContent = "Ouvrir BOAMP ↗";
       empty.append(" ", link);
+    } finally {
+      request.finish();
     }
   }
 
