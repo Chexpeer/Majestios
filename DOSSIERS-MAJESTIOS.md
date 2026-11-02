@@ -44,6 +44,7 @@ Le rez-de-chaussée est réservé à **Accueil MajestiOS** et n'est pas compté 
 
 - Une seule taxonomie canonique : les mêmes dix intitulés sont utilisés dans la scène d'accueil, le catalogue de navigation et cette arborescence.
 - Les dossiers peuvent accueillir plus tard des sous-dossiers tels que Sources, Méthodes, Données, Parcours et Contrôles ; ne pas créer de pages HTML par simple effet de remplissage.
+- Le nombre de liens affichés dans un étage dépend des pages réellement utiles : ne pas imposer trois accès artificiels. Les accès transversaux (FAQ, contact, rejoindre MajestiOS) restent dans la navigation générale ; les raccourcis entre dossiers ne sont ajoutés que lorsqu'ils servent un parcours métier clair.
 - Le moteur de recherche reste un composant partagé, avec ses paramètres `q`, `categorie`, `marche` et `zone`, ses sources identifiées et ses limites explicites.
 - Le style de référence est le thème sombre bleu nuit, les accents or, les contrastes élevés, les interactions discrètes et une mise en page responsive.
 - La zone/immeuble reste une porte d'entrée visuelle ; le moteur de recherche reste un outil distinct, immédiatement accessible.
