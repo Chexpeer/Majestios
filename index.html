@@ -389,36 +389,15 @@ body.homepage .building-scene .tower .floor-row[aria-pressed="true"] {
         ];
         floors.slice().reverse().forEach((floor, index) => {
           if (!Array.isArray(floor.links) || floor.links.length === 0) return;
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "floor-row";
-          button.setAttribute("aria-label", "Ouvrir l’étage " + (10 - index) + " : " + floor.name);
-          button.setAttribute("aria-haspopup", "dialog");
-          button.innerHTML = '<span class="floor-no">' + String(10 - index).padStart(2, "0") + '</span><span class="floor-name"></span><span class="floor-windows" aria-hidden="true"><i class="window"></i><i class="window"></i><i class="window"></i></span><span class="floor-mini" aria-hidden="true"></span>';
-          button.querySelector(".floor-name").textContent = floor.name;
-          button.addEventListener("click", function () {
-            document.getElementById("dialog-kicker").textContent = "BUILDING MAJESTIOS · ÉTAGE " + String(10 - index).padStart(2, "0");
-            document.getElementById("dialog-title").textContent = floor.name;
-            document.getElementById("dialog-description").textContent = floor.description;
-            offices.replaceChildren();
-            floor.links.forEach(function (office) {
-              const link = document.createElement("a");
-              link.className = "dialog-office";
-              link.href = office.href;
-              const strong = document.createElement("strong");
-              strong.textContent = office.label;
-              const small = document.createElement("small");
-              small.textContent = office.level + " ↗";
-              link.append(strong, small);
-              offices.append(link);
-            });
-            if (!dialog.open) dialog.showModal();
-          });
-          floorRows.append(button);
+          const primary = floor.links[0];
+          const link = document.createElement("a");
+          link.className = "floor-row";
+          link.href = primary.href;
+          link.setAttribute("aria-label", "Accéder à l’étage " + (10 - index) + " : " + floor.name);
+          link.innerHTML = '<span class="floor-no">' + String(10 - index).padStart(2, "0") + '</span><span class="floor-name"></span><span class="floor-windows" aria-hidden="true"><i class="window"></i><i class="window"></i><i class="window"></i></span><span class="floor-mini" aria-hidden="true">↗</span>';
+          link.querySelector(".floor-name").textContent = floor.name;
+          floorRows.append(link);
         });
-        document.getElementById("dialog-close")?.addEventListener("click", () => dialog.close());
-        dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
-        document.addEventListener("keydown", (event) => { if (event.key === "Escape" && dialog.open) dialog.close(); });
       });
     </script>
 
