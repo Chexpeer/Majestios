@@ -33,8 +33,8 @@ for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-region
 }
 assert(home.includes('src="catalogue-majestios.js"'), "Accueil : catalogue partagé non chargé");
 assert(home.includes('src="app.js"'), "Accueil : moteur de recherche non chargé");
-assert(home.includes("LES 10 DOSSIERS THÉMATIQUES"), "Accueil : titre de l'immeuble non harmonisé");
-assert(home.includes("BÂTIMENT VIRTUEL · 10 ÉTAGES"), "Accueil : nombre d’étages incorrect");
+assert(home.includes("IMMEUBLE INTERACTIF · 10 DOSSIERS THÉMATIQUES"), "Accueil : titre de l'immeuble non harmonisé");
+assert(home.includes("IMMEUBLE INTERACTIF · 10 ÉTAGES"), "Accueil : nombre d’étages incorrect");
 
 const floorBlock = home.match(/const floors = \[([\s\S]*?)\n        \];/);
 const expectedThemes = [
@@ -83,15 +83,9 @@ assert(prospectingPage.includes("<h1>Prospection active</h1>"), "Prospection act
 assert(!prospectingPage.includes("Prospection inversée"), "Prospection active : ancienne appellation encore visible");
 
 const catalogue = read("catalogue-majestios.js");
-const catalogRubrics = [...catalogue.matchAll(/\{ id: "(B\d+)", key: "([^"]+)", surface: "([^"]+)", label: "([^"]+)", href: "([^"]+\.html)"/g)]
-  .map((m) => ({ id:m[1], key:m[2], href:m[5] }));
-assert(catalogRubrics.length === 12, `Zone artisanale : ${catalogRubrics.length} bâtiments au catalogue au lieu de 12`);
-assert(new Set(catalogRubrics.map((r) => r.id)).size === 12, "Zone artisanale : identifiants de bâtiments dupliqués");
-assert(new Set(catalogRubrics.map((r) => r.href)).size === 12, "Zone artisanale : destinations de bâtiments dupliquées");
-for (const rubric of catalogRubrics) {
-  assert(exists(rubric.href), `Zone artisanale : destination absente : ${rubric.href}`);
-  assert(siteFiles.includes(rubric.href), `Build : destination de zone absente du manifeste : ${rubric.href}`);
-}
+assert(catalogue.includes("searchCategories") && catalogue.includes("searchRegions") && catalogue.includes("marketTypes"), "Catalogue : filtres de recherche incomplets");
+assert(!catalogue.includes("rubrics: Object.freeze"), "Catalogue : ancien catalogue des bâtiments encore exposé");
+
 
 const dossierFiles = [
   "dossiers/01-marches-publics/README.md",
@@ -125,4 +119,4 @@ if (errors.length) {
   console.error(`Vérification de la refonte échouée : ${errors.length} problème(s).\n- ${errors.join("\n- ")}`);
   process.exit(1);
 }
-console.log(`Refonte vérifiée : 10 dossiers thématiques, 10 étages d’accueil, 12 bâtiments 3D, moteur de recherche et ${siteFiles.length} ressources déclarées cohérents.`);
+console.log(`Refonte vérifiée : 10 dossiers thématiques, 10 étages d’accueil, 10 étages interactifs, moteur de recherche et ${siteFiles.length} ressources déclarées cohérents.`);
