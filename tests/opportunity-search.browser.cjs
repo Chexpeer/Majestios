@@ -259,6 +259,8 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
     const publicJobCategories = await page.locator("#feed-sector option").evaluateAll(options => options.filter(option => /emploi|recrutement/i.test(option.textContent || "")).map(option => option.textContent.trim()));
     assert.deepEqual(publicJobCategories, [], "L’emploi ne doit pas apparaître comme une catégorie de marché public.");
+    await page.locator("#feed-search").focus();
+    await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
     for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
