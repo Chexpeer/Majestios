@@ -62,7 +62,7 @@ if (!floorBlock) {
   assert(floors.every((f, i) => f.folder === expectedFolders[i]), "Accueil : correspondance entre étages et dossiers incorrecte");
   assert(!floors.some((f) => /prospection inversée/i.test(f.name)), "Accueil : ancien libellé « Prospection inversée » encore présent");
   for (const floor of floors) {
-    assert(floor.destinations.length === 3, `Accueil : ${floor.name} doit proposer exactement trois liens`);
+    assert(floor.destinations.length >= 1, `Accueil : ${floor.name} doit proposer au moins un accès utile`);
     assert(new Set(floor.destinations).size === floor.destinations.length, `Accueil : destinations dupliquées pour ${floor.name}`);
     for (const destination of floor.destinations) {
       assert(exists(destination), `Accueil : destination absente pour ${floor.name} : ${destination}`);
@@ -70,6 +70,8 @@ if (!floorBlock) {
     }
   }
   assert(home.includes("floor.links.forEach(function (office)"), "Accueil : les liens métier ne sont pas générés depuis la liste du dossier");
+  const enterpriseFloor = floors.find((floor) => floor.name === "Espace entreprises");
+  assert(enterpriseFloor?.destinations.length === 1 && enterpriseFloor.destinations[0] === "espace-membre.html", "Accueil : Espace entreprises doit pointer uniquement vers son espace dédié");
 }
 
 
