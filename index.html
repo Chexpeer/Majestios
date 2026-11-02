@@ -223,17 +223,16 @@ body.homepage .building-scene .tower .floor-rows {
   position:absolute !important; top:calc(1% + 2cm) !important; bottom:calc(13% - 2cm) !important;
   left:calc(50% + 3cm) !important; transform:translateX(-50%) !important; z-index:12 !important;
   display:grid !important; grid-template-columns:minmax(0,1fr) !important;
-  grid-template-rows:repeat(8,minmax(30px,1fr)) !important;
-  align-content:stretch !important; row-gap:1.5px !important; column-gap:0 !important; width:100% !important;
+  grid-template-rows:repeat(8,minmax(0,1fr)) !important;
+  align-content:stretch !important; row-gap:0 !important; column-gap:0 !important; width:100% !important;
   height:auto !important; min-height:0 !important; padding:0 8px !important;
 }
 body.homepage .building-scene .tower .floor-row {
   display:grid !important;
-  height:calc(100% - 7.56px) !important;
-  align-self:center !important; position:relative !important;
+  align-self:stretch !important; position:relative !important;
   grid-template-columns:48px minmax(0,1fr) minmax(54px,22%) 22px !important;
   align-items:stretch !important; gap:6px !important; width:100% !important;
-  height:auto !important; min-height:30px !important; margin:0 !important;
+  height:100% !important; min-height:0 !important; margin:0 !important;
   padding:3px 6px !important; border:1px solid rgba(220,235,248,.55) !important;
   border-radius:2px !important;
   background:linear-gradient(90deg,rgba(5,18,35,.88),rgba(21,54,83,.76) 55%,rgba(5,18,35,.88)) !important;
@@ -268,7 +267,7 @@ body.homepage .building-scene .tower .floor-row:focus-visible {
 @media(max-width:600px) {
   body.homepage .building-scene .tower { width:97% !important; }
   body.homepage .building-scene .tower .floor-rows {
-    top:calc(1% + 2cm) !important; bottom:calc(10% - 2cm) !important; row-gap:1px !important; column-gap:0 !important; padding:0 3px !important;
+    top:calc(1% + 2cm) !important; bottom:calc(10% - 2cm) !important; row-gap:0 !important; column-gap:0 !important; padding:0 3px !important;
   }
   body.homepage .building-scene .tower .floor-row {
     grid-template-columns:34px minmax(0,1fr) 0 16px !important; gap:3px !important; padding:2px 3px !important;
