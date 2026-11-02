@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - chantier-recherche-donnees-gardes-fous-2026-11-01
+      - refonte-architecture-dossiers-charte-majestios-2026-11-01
   pull_request:
     branches:
       - main
