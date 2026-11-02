@@ -101,7 +101,7 @@ async function main() {
       ["B01", "Marchés publics", "marches-publics.html"],
       ["B02", "Marchés privés", "marches-prives.html"],
       ["B03", "Développement commercial", "developpement-commercial.html"],
-      ["B04", "Prospection inversée", "prospection-inversee.html"],
+      ["B04", "Prospection active", "prospection-active.html"],
       ["B05", "Intelligence économique", "intelligence-economique.html"],
       ["B06", "Réseaux et synergies", "reseaux-synergies.html"],
       ["B07", "Veille des marchés", "veille-marches.html"],
