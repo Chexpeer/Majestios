@@ -84,16 +84,15 @@
 .virtual-space[data-world="prospection"] .virtual-space-scene:after,
 .virtual-space[data-world="accompagnement"] .virtual-space-scene:before,
 .virtual-space[data-world="accompagnement"] .virtual-space-scene:after{border-color:rgba(255,255,255,.25)}
-/* La veille BODACC reçoit son visuel en fond de rubrique, avec contraste de lecture. */
-.rubrique-veille{
-  position:relative;isolation:isolate;overflow:hidden;
-  padding:clamp(24px,4vw,48px)!important;border:1px solid rgba(213,181,108,.32);
-  border-radius:18px;
-  background:linear-gradient(90deg,rgba(5,10,17,.94),rgba(5,10,17,.78) 58%,rgba(5,10,17,.42)),url("majestios-veille-economique (1).webp") center/cover no-repeat!important;
-  box-shadow:0 20px 55px rgba(0,0,0,.32);
+/* La veille économique reçoit son image directement dans le panneau immersif
+   réellement présent sur veille-marches.html, avec contraste de lecture. */
+.virtual-space[data-world="veille"]{
+  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),url("majestios-veille-economique (1).webp")!important;
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
 }
-.rubrique-veille h1,.rubrique-veille .eyebrow,.rubrique-veille .interior-lede{position:relative;z-index:1;color:#f4f0e6}
-.rubrique-veille .eyebrow{color:#d5b56c}
+.virtual-space[data-world="veille"]:before{opacity:.18}
+.virtual-space[data-world="veille"] .virtual-space-scene:before,
+.virtual-space[data-world="veille"] .virtual-space-scene:after{border-color:rgba(255,255,255,.25)}
 
 
 /* Recherche des pages de rubrique : même langage visuel que l'accueil,
