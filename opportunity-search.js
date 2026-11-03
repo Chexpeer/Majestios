@@ -143,6 +143,47 @@
     return "https://www.boamp.fr/";
   };
 
+
+  // Parcourt les pages récentes jusqu'à obtenir assez de correspondances ou atteindre
+  // une borne explicite. Le plafond d'affichage reste distinct du volume analysé.
+  async function fetchMatchingRecords(baseUrl, request, predicate, resultLimit) {
+    const pageSize = 100;
+    const maxPages = 5;
+    const matches = [];
+    const seen = new Set();
+    let scanned = 0;
+    for (let page = 0; page < maxPages && matches.length < resultLimit; page += 1) {
+      const pageUrl = new URL(baseUrl);
+      pageUrl.searchParams.set("limit", String(pageSize));
+      pageUrl.searchParams.set("offset", String(page * pageSize));
+      const response = await fetch(pageUrl.toString(), {
+        headers: { Accept: "application/json" },
+        signal: request.signal
+      });
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      const payload = await response.json();
+      if (!request.isCurrent()) return { matches, scanned, exhausted: true };
+      const records = Array.isArray(payload.results)
+        ? payload.results
+        : Array.isArray(payload.records)
+          ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length)
+          : [];
+      scanned += records.length;
+      let newRecords = 0;
+      for (const record of records) {
+        const key = String(record.id || record.idweb || record.numeroannonce || JSON.stringify(record));
+        if (seen.has(key)) continue;
+        seen.add(key);
+        newRecords += 1;
+        if (predicate(record) && matches.length < resultLimit) matches.push(record);
+      }
+      if (records.length < pageSize || newRecords === 0) {
+        return { matches, scanned, exhausted: true };
+      }
+    }
+    return { matches, scanned, exhausted: matches.length < resultLimit };
+  }
+
   async function render(options) {
     const panel = options.panel;
     const params = options.params;
@@ -255,18 +296,7 @@
       if (whereFilters.length) bodaccUrl.searchParams.set("where", whereFilters.join(" AND "));
       const request = beginRequest(panel);
       try {
-        const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        const payload = await response.json();
-        if (!request.isCurrent()) return;
-        const records = Array.isArray(payload.results)
-          ? payload.results
-          : Array.isArray(payload.records)
-            ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length)
-            : [];
-        const filtered = records.filter((record) => {
-          // La famille BODACC officielle est le critère de périmètre ; le texte détaillé ne peut
-          // jamais faire réentrer une procédure collective ou une radiation dans les résultats.
+        const pageResult = await fetchMatchingRecords(bodaccUrl, request, (record) => {
           const recordCategory = classifyBodaccFamily(record);
           if (!recordCategory) return false;
           const haystack = normalize([
@@ -275,11 +305,14 @@
             flattenText(record.listepersonnes), flattenText(record.listeetablissements), flattenText(record.acte), flattenText(record.jugement),
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
-          const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
+          const queryMatches = !query || normalize(query).split(/\\s+/).filter(Boolean).every((term) => haystack.includes(term));
           const departmentMatches = !selectedDepartment ||
             normalize(record.departement_nom_officiel) === normalize(selectedDepartment.bodacc);
           return departmentMatches && queryMatches && (category === "all" || recordCategory === category);
-        }).slice(0, resultLimit);if (!filtered.length) {
+        }, resultLimit);
+        if (!request.isCurrent()) return;
+        const filtered = pageResult.matches;
+        if (!filtered.length) {
           empty.textContent = records.length
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
             : "La source BODACC a répondu sans annonce pour ces critères. Modifiez la recherche ou réessayez plus tard.";
@@ -369,23 +402,16 @@
 
     const request = beginRequest(panel);
     try {
-      const response = await fetch(url.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
-      if (!response.ok) throw new Error("HTTP " + response.status);
-      const payload = await response.json();
-      if (!request.isCurrent()) return;
-      const records = Array.isArray(payload.results)
-        ? payload.results
-        : Array.isArray(payload.records)
-          ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length)
-          : [];
-      const filtered = records
-        .filter((record) => !isExpired(record))
-        .filter((record) => departmentCode === "all" || [
+      const pageResult = await fetchMatchingRecords(url, request, (record) =>
+        !isExpired(record) &&
+        (departmentCode === "all" || [
           record.code_departement_prestation, record.code_departement
-        ].some((value) => String(value || "").trim() === departmentCode))
-        .filter((record) => categoryMatches(record, category))
-        .filter((record) => keywordMatches(record, query))
-        .slice(0, resultLimit);if (filtered.length) {
+        ].some((value) => String(value || "").trim() === departmentCode)) &&
+        categoryMatches(record, category) &&
+        keywordMatches(record, query), resultLimit);
+      if (!request.isCurrent()) return;
+      const filtered = pageResult.matches;
+      if (filtered.length) {
         results.innerHTML = filtered.map((record) => {
           const title = record.objet || "Objet de l’annonce non renseigné";
           const buyer = record.nomacheteur || "Acheteur non renseigné dans l’extrait";
