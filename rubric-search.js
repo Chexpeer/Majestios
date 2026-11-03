@@ -103,18 +103,12 @@
     categorySelect.value = source.some((item) => item.value === selected && item.connected !== false) ? selected : "all";
   };
 
-  const regions = catalogue.searchRegions || [];
+  const regions = (catalogue.searchRegions || []).filter((region) => region.active && !region.planned);
   regionSelect.replaceChildren();
   addOption(regionSelect, "all", "Toutes les régions");
-  const plannedGroup = document.createElement("optgroup");
-  plannedGroup.label = "Régions françaises · à connecter";
-  plannedGroup.disabled = true;
   regions.forEach((region) => {
-    if (region.value === "all") return;
-    if (region.planned) addOption(plannedGroup, region.value, region.label + " · à venir", true);
-    else addOption(regionSelect, region.value, region.label);
+    if (region.value !== "all") addOption(regionSelect, region.value, region.label);
   });
-  if (plannedGroup.children.length) regionSelect.append(plannedGroup);
 
   if (queryField) queryField.value = params.get("q") || "";
   if (marketSelect) marketSelect.value = initialMarket;
