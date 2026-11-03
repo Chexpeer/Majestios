@@ -1,5 +1,6 @@
 # MAJESTIOS — Audit de l'existant (Phase 1)
 
+**Mise à jour documentaire :** 3 novembre 2026 — décisions complémentaires intégrées, sans modification du code.  
 **Version :** 0.2 — mise à jour du 3 novembre 2026 après décisions du porteur du projet
 **Branche :** `evolution-2.0`, à partir du commit `663829a`
 **Date de l'audit :** 3 novembre 2026
@@ -70,7 +71,7 @@ Légende : **Réel** = interroge une source réelle ; **Logique réelle** = trai
 |---|---|---|---|
 | Recherche de marchés publics | `index`, `marches-publics`, `categorie-*`, `resultats-recherche` ; `opportunity-search.js` | **Réel** (non vérifié en direct) | BOAMP ; catégories reconnues par **mots-clés** dans l'objet de l'annonce, pas par nomenclature officielle |
 | Signaux d'entreprises privées | `marches-prives`, `bodacc-veille-entreprises` ; `opportunity-search.js` | **Réel** (non vérifié en direct) | BODACC ; cinq familles ; l'Outre-mer n'est pas pris en charge |
-| Immobilier, emploi, offres et recherche de sous-traitance | `rubric-search.js`, `opportunity-search.js` | **Inactif** | Affichées comme « source à connecter », désactivées ; aucun résultat |
+| Immobilier, emploi externe, offres et recherche de sous-traitance | `rubric-search.js`, `opportunity-search.js` | **Inactif** | Sources à connecter, désactivées ; aucun résultat. La cible fonctionnelle a depuis été précisée : immobilier retiré du moteur ; emploi réservé aux annonces utilisateurs/équipe ; annonces externes d'emploi différées vers une éventuelle Veille future |
 | Qualification d'entreprises | `qualification-entreprises` ; `company-targeting*.js`, `company-fit.js`, `naf-suggestions.js` | **Réel** (non vérifié en direct) | Recherche par APE/NAF + département ; suggestions de codes par règles fixes (une vingtaine de codes) ; score indicatif ; décision toujours « revue manuelle requise » |
 | Démonstration du cycle (signal → hypothèse → action) | `index`, `app.js` | **Simulé** | Trois scénarios fictifs, explicitement signalés comme tels |
 | Bandeau « flux de démonstration » | `index` | **Simulé** | Exemples fictifs signalés comme tels |
@@ -116,8 +117,9 @@ Légende : **Réel** = interroge une source réelle ; **Logique réelle** = trai
 | Espaces clients cloisonnés (§ 3.5), droits d'accès | Absents : pas d'authentification ni de notion d'utilisateur |
 | Clic sur une annonce → parcours de création d'espace (§ 3.1) | **Non observé dans le code** : les résultats renvoient vers la source officielle ; aucun parcours vers l'espace personnalisé n'est rattaché aux annonces. Une spécification existe dans la documentation historique (`SPEC-PARCOURS-DEPUIS-ANNONCE-MAJESTIOS.md`, statut « proposée — non intégrée ») |
 | Pagination, 10 annonces par page (§ 3.1) | **Partiel** : limite de 10 annonces ; aucune pagination trouvée |
-| Catégorie « Publier mon annonce » | Absente du code (la catégorie « Offres de sous-traitance » est différente) |
-| Offres d'emploi Cadremploi et APEC regroupées | Catégorie « Emploi et recrutement » prévue mais inactive ; aucune source branchée |
+| « Je publie mon annonce » | Absente du code ; la catégorie « Offres de sous-traitance » existante ne couvre pas le besoin transversal (emploi, sous-traitance, demande, offre, autres) |
+| Emploi MajestiOS | La cible validée réserve les offres d'emploi aux annonces utilisateurs et à celles de l'équipe ; ce circuit n'existe pas encore |
+| Sources externes d'emploi | Cadremploi, France Travail et APEC : éventuelle consultation/cache et transmission à la Veille différées ; aucune intégration à développer dans la phase actuelle |
 | Veille qualifiée : rapprochement automatique annonce → entreprises (scénario de référence, § 4) | Absente ; la qualification d'entreprises se lance à la main, sans lien conservé avec l'annonce déclenchante |
 | Prospection : campagnes, relances, désinscription | Absentes |
 | Sécurité, conformité, conditions d'utilisation des sources | Non traitées dans le code ; non documentées |
@@ -135,7 +137,7 @@ Le cahier prévoit que les catégories soient **définies par le porteur du proj
 | Recherche privée BODACC | 3 catégories à définir | 5 familles : créations, ventes et cessions, modifications, procédures collectives, radiations |
 | Autres privées | Immobilier ; emploi (Cadremploi + APEC) ; publier mon annonce | Immobilier ; emploi ; offres de sous-traitance ; recherche de sous-traitants et partenaires (toutes inactives) |
 
-**Mise à jour du 3 novembre 2026.** Le porteur du projet a fixé la structure (cahier, § 11) : cinq catégories publiques parmi les plus importantes du BOAMP ; trois catégories BODACC ; emploi (Cadremploi et APEC) ; annonces internes proposées par les visiteurs. Les listes exactes restent à valider. La documentation historique (cahier maître) reprend, elle, le jeu de huit catégories publiques du code : le code était donc cohérent avec elle, mais plus avec la décision actuelle. Rien n'est modifié dans le code en attendant la validation des listes.
+**Mise à jour du 3 novembre 2026.** La cible a été précisée par le porteur du projet : cinq catégories publiques parmi les plus importantes du BOAMP ; trois catégories BODACC (créations, ventes et cessions, modifications) ; immobilier retiré du moteur ; emploi alimenté uniquement par les annonces utilisateurs et l'équipe MajestiOS ; remplacement de l'entrée Immobilier par « Je publie mon annonce » (emploi, sous-traitance, demande, offre, autres). Cadremploi, France Travail et APEC ne sont pas des sources d'offres d'emploi affichées dans MajestiOS ; leur éventuelle consultation/cache et transmission à la Veille est différée. Le code actuel reste un état historique distinct de cette cible. Aucune modification du code n'est effectuée par cette mise à jour documentaire.
 
 ---
 
@@ -193,9 +195,10 @@ Le cahier prévoit que les catégories soient **définies par le porteur du proj
 **Actions réalisées le 3 novembre 2026, sur la branche `evolution-2.0` uniquement :** restauration de la documentation historique, création de l'index `docs/README.md`, adaptation du contrôle `verify-architecture.js`, correction de la régression de lisibilité. Aucune autre branche, aucun déploiement, aucune configuration de production n'a été touché. Le comportement du site n'a pas changé.
 
 **Questions ouvertes pour le porteur du projet :**
-1. Quelles sont exactement les cinq catégories publiques ? La mesure des volumes BOAMP est prête (cahier, § 11.4) ; les trois catégories BODACC sont tranchées (cahier, § 11.1 bis). L'immobilier est-il conservé ?
-2. Comment les annonces internes des visiteurs doivent-elles être déposées et validées ? (cahier, § 11.2)
-3. Comment intégrer Cadremploi et APEC, et sous quelles conditions d'utilisation ? (cahier, § 11.2)
+1. Quelles sont les cinq catégories publiques retenues après mesure des volumes BOAMP ?
+2. Quelles règles précises encadreront le dépôt, l'identification, la validation, la modération, l'expiration et le signalement des annonces utilisateurs ?
+3. Quelles règles autoriseront, le cas échéant, l'exploitation interne des annonces dans le CRM, la Veille et la prospection ?
+4. La fonctionnalité différée de consultation/cache des sources externes d'emploi et de transfert à la Veille sera réexaminée dans une phase ultérieure.
 
 **Questions tranchées le 3 novembre 2026 :** règle Markdown (documentation rétablie), correction de la régression (faite), conservation de l'harmonisation graphique (conservée).
 
