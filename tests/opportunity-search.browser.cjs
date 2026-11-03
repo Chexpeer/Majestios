@@ -276,32 +276,34 @@ async function main() {
     assert.equal(await page.locator('#feed-region optgroup').getAttribute("label"), "Régions françaises · à connecter", "Le groupe des régions non disponibles doit être clairement identifié.");
 
     await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
-    assert.equal(await page.locator('#rubric-opportunity-search input[name="marche"]').inputValue(), "public", "La rubrique Marchés publics doit verrouiller la source publique.");
-    assert.equal(await page.locator('#rubric-search-region option[value="nouvelle-aquitaine"]').count(), 1, "Le formulaire doit proposer une vraie région administrative.");
-    assert.equal(await page.locator('#rubric-search-region option[value="nord"]').count(), 0, "Les zones de démonstration ne doivent pas être présentées comme des régions réelles.");
+    await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
+    assert.equal(await page.locator('#advanced-search-form input[name="marche"]').inputValue(), "public", "La rubrique Marchés publics doit verrouiller la source publique.");
+    assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "Le formulaire doit proposer une vraie région administrative.");
+    assert.equal(await page.locator('#feed-region option[value="nord"]').count(), 0, "Les zones de démonstration ne doivent pas être présentées comme des régions réelles.");
 
     await page.goto("http://127.0.0.1:4174/developpement-commercial.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
-    assert.equal(await page.locator('#rubric-search-market option[value="private"]').count(), 1, "Le développement commercial doit permettre de choisir les signaux privés BODACC.");
+    await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
+    assert.equal(await page.locator("#advanced-search-form").count(), 1, "Développement commercial ne doit contenir qu’un seul moteur partagé.");
+    assert.ok(await page.locator(".rubric-shared-search").evaluate((element) => element.getBoundingClientRect().width <= 560), "Le moteur de rubrique doit rester compact et aligné sur la colonne gauche.");
+    assert.equal(await page.locator('#feed-market-type option[value="private"]').count(), 1, "Le développement commercial doit permettre de choisir les signaux privés BODACC.");
 
     await page.goto("http://127.0.0.1:4174/marches-prives.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#rubric-opportunity-search").waitFor({ state: "attached", timeout: 10000 });
-    const privateRubricOptions = await page.locator("#rubric-search-category option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
+    await page.locator("#advanced-search-form").waitFor({ state: "attached", timeout: 10000 });
+    const privateRubricOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
     assert.ok(privateRubricOptions.some(option => option.value === "bodacc-cessions"), "La rubrique Marchés privés doit proposer les familles BODACC.");
     assert.ok(privateRubricOptions.some(option => option.value === "immobilier" && /à connecter/.test(option.label)), "La catégorie immobilière doit être visible comme source à connecter.");
     assert.equal(privateRubricOptions.some(option => option.value === "services"), false, "La rubrique privée ne doit pas proposer une catégorie propre aux marchés publics.");
-    assert.equal(await page.locator("#rubric-opportunity-search input[name='marche']").inputValue(), "private", "Le formulaire privé doit rester verrouillé sur la source privée.");
+    assert.equal(await page.locator("#advanced-search-form input[name='marche']").inputValue(), "private", "Le formulaire privé doit rester verrouillé sur la source privée.");
 
     await page.goto("http://127.0.0.1:4174/developpement-commercial.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
-    const mixedCategory = page.locator("#rubric-search-category");
+    await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
+    const mixedCategory = page.locator("#feed-sector");
     assert.equal(await mixedCategory.isDisabled(), true, "La catégorie doit attendre le choix du type de marché pour éviter une recherche mixte ambiguë.");
-    await page.locator("#rubric-search-market").selectOption("public");
+    await page.locator("#feed-market-type").selectOption("public");
     const rubricPublicOptions = await mixedCategory.locator("option").evaluateAll(options => options.map(option => option.value));
     assert.ok(rubricPublicOptions.includes("services"), "Le choix public doit afficher les catégories BOAMP actives.");
     assert.equal(rubricPublicOptions.includes("bodacc-cessions"), false, "Le choix public ne doit pas proposer les familles BODACC.");
-    await page.locator("#rubric-search-market").selectOption("private");
+    await page.locator("#feed-market-type").selectOption("private");
     const rubricPrivateOptions = await mixedCategory.locator("option").evaluateAll(options => options.map(option => option.value));
     assert.ok(rubricPrivateOptions.includes("bodacc-cessions"), "Le choix privé doit afficher les familles BODACC.");
     assert.equal(rubricPrivateOptions.includes("services"), false, "Le choix privé ne doit pas proposer les catégories BOAMP.");
