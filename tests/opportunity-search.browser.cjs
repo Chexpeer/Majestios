@@ -171,6 +171,7 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=public&departement=72", { waitUntil: "domcontentloaded" });
     await page.getByText(/Aucun résultat ne correspond à tous les critères/).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".opportunity-result-card").count(), 0, "BOAMP ne doit pas conserver côté navigateur les annonces hors département.");
+    apiCalls = 0;
     bodaccCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=nouvelle-aquitaine&q=r%C3%A9novation", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
