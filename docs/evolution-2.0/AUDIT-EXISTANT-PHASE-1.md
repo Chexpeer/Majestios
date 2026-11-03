@@ -193,7 +193,7 @@ Le cahier prévoit que les catégories soient **définies par le porteur du proj
 **Actions réalisées le 3 novembre 2026, sur la branche `evolution-2.0` uniquement :** restauration de la documentation historique, création de l'index `docs/README.md`, adaptation du contrôle `verify-architecture.js`, correction de la régression de lisibilité. Aucune autre branche, aucun déploiement, aucune configuration de production n'a été touché. Le comportement du site n'a pas changé.
 
 **Questions ouvertes pour le porteur du projet :**
-1. Quelles sont exactement les cinq catégories publiques et les trois catégories BODACC ? (cahier, § 11.2)
+1. Quelles sont exactement les cinq catégories publiques ? La mesure des volumes BOAMP est prête (cahier, § 11.4) ; les trois catégories BODACC sont tranchées (cahier, § 11.1 bis). L'immobilier est-il conservé ?
 2. Comment les annonces internes des visiteurs doivent-elles être déposées et validées ? (cahier, § 11.2)
 3. Comment intégrer Cadremploi et APEC, et sous quelles conditions d'utilisation ? (cahier, § 11.2)
 

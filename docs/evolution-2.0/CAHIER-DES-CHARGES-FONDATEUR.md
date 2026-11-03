@@ -271,12 +271,17 @@ Cette section ne contient que ce que le porteur du projet a explicitement dit ou
 4. **Harmonisation graphique du 2 novembre 2026 :** à conserver impérativement ; le porteur du projet en est plutôt satisfait. Elle fait partie de l'état de référence.
 5. **Suite :** reprise du perfectionnement de la branche `evolution-2.0`.
 
+### 11.1 bis Décisions complémentaires du 3 novembre 2026
+
+6. **Trois catégories BODACC retenues :** créations, ventes et cessions, modifications. Les procédures collectives et les radiations ne font pas partie des trois catégories.
+7. **Catégories publiques :** les cinq catégories seront choisies d'après une **mesure des volumes réels d'avis BOAMP**, puis validées par le porteur du projet.
+
 ### 11.2 Ce qui reste à décider (non tranché)
 
 | Point | Précision attendue |
 |---|---|
-| Les cinq catégories publiques | Liste exacte et critère de choix : volume réel des avis, importance perçue, ou liste imposée |
-| Les trois catégories BODACC | Liste exacte parmi les familles d'annonces du BODACC |
+| Les cinq catégories publiques | Mesure des volumes réels réalisée (outil prêt, § 11.4) ; le porteur du projet valide ensuite les cinq retenues |
+| Immobilier | Le cahier (§ 3.1) cite l'immobilier parmi les catégories privées ; le message du 3 novembre n'en parle pas. À confirmer : conservé ou abandonné ? |
 | Annonces internes des visiteurs | Qui peut déposer (visiteur anonyme ou compte), validation avant publication, durée de vie d'une annonce, contacts affichés |
 | Emploi : Cadremploi et APEC | Mode d'intégration : lien, flux, accord de réutilisation ; leurs conditions d'utilisation ne sont pas vérifiées |
 
@@ -285,4 +290,11 @@ Cette section ne contient que ce que le porteur du projet a explicitement dit ou
 - Les annonces internes sont du **contenu produit par les visiteurs** : elles supposent un stockage, une identification minimale, une modération, des protections anti-abus et une conformité à vérifier. Le prototype actuel n'a ni base de données ni authentification (audit, § 3.1) : cette fonction relève de l'architecture cible (phase 4), pas d'un ajout de page.
 - Les catégories du code actuel (huit publiques, cinq BODACC, quatre privées inactives) ne correspondent pas à ces décisions. Aucune ne sera modifiée avant la validation des listes exactes (§ 11.2).
 - Le choix des catégories publiques « les plus importantes » peut s'appuyer sur une mesure réelle des avis BOAMP, à effectuer depuis un environnement ayant accès à la source.
+
+### 11.4 Outil de mesure des volumes BOAMP
+
+- **Fichier :** `outils/mesure-boamp.cjs`, vérifié par `tests/mesure-boamp.test.cjs` (réponses simulées).
+- **Action :** quelques requêtes en lecture seule sur l'API publique du BOAMP ; classement par type de marché, famille d'avis et descripteur, plus le volume des catégories actuelles du moteur. Aucune donnée n'est enregistrée, aucun chiffre n'est inventé : une mesure qui échoue est marquée « non mesuré ».
+- **Lancement :** dans GitHub, onglet Actions, « Mesure des volumes BOAMP », « Run workflow » (le rapport apparaît dans le résumé du job et en pièce jointe), ou en local avec `node outils/mesure-boamp.cjs`.
+- **Limites :** l'outil n'a pas pu être essayé contre l'API réelle depuis l'environnement où il a été écrit ; le premier passage réel doit être relu. Les familles d'avis incluent des résultats et rectificatifs. Le volume ne dit rien de la valeur commerciale d'une catégorie.
 
