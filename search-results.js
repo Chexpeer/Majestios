@@ -7,9 +7,11 @@
   const category = params.get("categorie") || "all";
   const market = params.get("marche") || "all";
   const region = params.get("zone") || "all";
+  const department = params.get("departement") || "all";
   const categories = catalogue.searchCategories || [];
   const markets = catalogue.marketTypes || [];
   const regions = catalogue.searchRegions || [];
+  const departments = catalogue.searchDepartments || [];
   const privateCategoryLabels = {
     "bodacc-creations": "Créations et implantations",
     "bodacc-cessions": "Ventes, cessions et reprises",
@@ -21,11 +23,13 @@
   };
   const findLabel = (items, value, fallback) => items.find((item) => item.value === value)?.label || fallback;
   const categoryLabel = privateCategoryLabels[category] || findLabel(categories, category, category);
+  const departmentLabel = findLabel(departments, department, department);
   const criteria = [
     ["Mots-clés", (params.get("q") || "").trim() || "Aucun mot-clé précisé"],
     ["Catégorie", categoryLabel],
     ["Type de marché", findLabel(markets, market, market)],
-    ["Localisation", findLabel(regions, region, region)]
+    ...(department !== "all" ? [["Département", departmentLabel]] : []),
+    ...(region !== "all" ? [["Ancien filtre régional", findLabel(regions, region, region)]] : [])
   ];
   for (const [label, value] of criteria) {
     const term = document.createElement("dt");

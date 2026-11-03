@@ -64,6 +64,8 @@
     "outre-mer": ["971","972","973","974","976","975","977","978","986","987","988"]
   };
 
+  const DEPARTMENTS = new Map((window.MAJESTIOS_CATALOG?.searchDepartments || []).map((item) => [item.value, item]));
+
   const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("fr").trim();
 
 
@@ -222,6 +224,16 @@
       bodaccUrl.searchParams.set("order_by", "dateparution desc");
       bodaccUrl.searchParams.set("select", BODACC_FIELDS);
       if (query) bodaccUrl.searchParams.set("q", query);
+      const whereFilters = [];
+      const departmentCode = params.get("departement") || "all";
+      const selectedDepartment = departmentCode === "all" ? null : DEPARTMENTS.get(departmentCode);
+      if (departmentCode !== "all" && !selectedDepartment) {
+        empty.textContent = "Ce département n’est pas reconnu par le catalogue MajestiOS. Aucun résultat non filtré ne sera présenté comme territorial.";
+        return;
+      }
+      if (selectedDepartment) {
+        whereFilters.push('departement_nom_officiel = "' + selectedDepartment.bodacc.replace(/"/g, '\\"') + '"');
+      }
       const region = params.get("zone") || "all";
       const regions = {
         "nouvelle-aquitaine": "Nouvelle-Aquitaine", "ile-de-france": "Île-de-France",
@@ -232,14 +244,15 @@
         "provence-alpes-cote-d-azur": "Provence-Alpes-Côte d’Azur", corse: "Corse"
       };
       if (region === "outre-mer") {
-        empty.textContent = "Le filtre BODACC pour l’Outre-mer n’est pas encore pris en charge de façon fiable. Choisissez une région précise ou « Toutes les régions » ; aucun résultat non filtré ne sera présenté comme territorial.";
+        empty.textContent = "Le filtre BODACC historique par région pour l’Outre-mer n’est pas pris en charge. Utilisez le filtre départemental ou « Tous les départements ».";
         return;
       }
       if (region !== "all" && !regions[region]) {
-        empty.textContent = "Cette zone n’est pas encore disponible comme filtre BODACC. Choisissez une région administrative prise en charge ou « Toutes les zones ». Aucun résultat n’est présenté comme filtré.";
+        empty.textContent = "Cette ancienne zone régionale n’est pas disponible comme filtre BODACC. Choisissez un département ou « Tous les départements ». Aucun résultat non filtré ne sera présenté comme territorial.";
         return;
       }
-      if (regions[region]) bodaccUrl.searchParams.set("where", 'region_nom_officiel = "' + regions[region].replace(/"/g, '\\"') + '"');
+      if (regions[region]) whereFilters.push('region_nom_officiel = "' + regions[region].replace(/"/g, '\\"') + '"');
+      if (whereFilters.length) bodaccUrl.searchParams.set("where", whereFilters.join(" AND "));
       const request = beginRequest(panel);
       try {
         const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
@@ -263,7 +276,9 @@
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
           const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
-          return queryMatches && (category === "all" || recordCategory === category);
+          const departmentMatches = !selectedDepartment ||
+            normalize(record.departement_nom_officiel) === normalize(selectedDepartment.bodacc);
+          return departmentMatches && queryMatches && (category === "all" || recordCategory === category);
         }).slice(0, resultLimit);if (!filtered.length) {
           empty.textContent = records.length
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
@@ -326,6 +341,15 @@
     const filters = ['nature = "APPEL_OFFRE"'];
     if (CATEGORY_TYPES[category]) filters.push('type_marche = "' + CATEGORY_TYPES[category] + '"');
 
+    const departmentCode = params.get("departement") || "all";
+    if (departmentCode !== "all") {
+      if (!DEPARTMENTS.has(departmentCode)) {
+        empty.textContent = "Ce département n’est pas reconnu par le catalogue MajestiOS. Aucun résultat non filtré ne sera présenté comme territorial.";
+        return;
+      }
+      filters.push('(code_departement_prestation = "' + departmentCode + '" OR code_departement = "' + departmentCode + '")');
+    }
+
     const region = params.get("zone") || "all";
     if (region !== "all") {
       const departments = REGION_DEPARTMENTS[region];
@@ -356,6 +380,9 @@
           : [];
       const filtered = records
         .filter((record) => !isExpired(record))
+        .filter((record) => departmentCode === "all" || [
+          record.code_departement_prestation, record.code_departement
+        ].some((value) => String(value || "").trim() === departmentCode))
         .filter((record) => categoryMatches(record, category))
         .filter((record) => keywordMatches(record, query))
         .slice(0, resultLimit);if (filtered.length) {
