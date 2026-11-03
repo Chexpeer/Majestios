@@ -9,6 +9,7 @@ const mime = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=u
 
 async function main() {
   assert.ok(fs.existsSync(path.join(root, "resultats-recherche.html")), "Le build doit inclure la page générale de résultats.");
+  assert.ok(fs.existsSync(path.join(root, "publier-ma-demande.html")), "Le build doit inclure le parcours Publier ma demande.");
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://127.0.0.1").pathname);
     const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
@@ -274,6 +275,39 @@ async function main() {
     const demoRegionState = await demoRegion.evaluate((option) => ({ disabled: option.disabled, attribute: option.getAttribute("disabled"), parentDisabled: option.parentElement?.disabled, parentTag: option.parentElement?.tagName }));
     assert.ok(demoRegionState.disabled || demoRegionState.parentDisabled, `Les zones Nord/Ouest/Sud de démonstration doivent rester désactivées et non filtrables : ${JSON.stringify(demoRegionState)}`);
     assert.equal(await page.locator('#feed-region optgroup').getAttribute("label"), "Régions françaises · à connecter", "Le groupe des régions non disponibles doit être clairement identifié.");
+
+    // Le troisième parcours mène à un formulaire distinct, sans lancer BOAMP/BODACC.
+    apiCalls = 0;
+    bodaccCalls = 0;
+    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#feed-search").fill("Recherche d’un sous-traitant");
+    await page.locator("#feed-search").focus();
+    await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
+    await page.locator("#feed-market-type").selectOption("publish");
+    await page.waitForURL(/publier-ma-demande\.html\?q=/, { timeout: 10000 });
+    assert.equal(apiCalls, 0, "Publier ma demande ne doit pas lancer BOAMP.");
+    assert.equal(bodaccCalls, 0, "Publier ma demande ne doit pas lancer BODACC.");
+    assert.equal(await page.locator("#request-title").inputValue(), "Recherche d’un sous-traitant", "Le mot-clé doit être repris comme titre de demande.");
+    const requestOptions = await page.locator("#request-type option").evaluateAll(options => options.map(option => option.value));
+    for (const expected of ["offre-sous-traitance","recherche-sous-traitant","offre-emploi","recherche-emploi","recherche-partenaire","recherche-associe","estimation-entreprise","autre"]) {
+      assert.ok(requestOptions.includes(expected), "Le parcours de publication doit proposer " + expected + ".");
+    }
+    await page.locator("#request-type").selectOption("estimation-entreprise");
+    assert.equal(await page.locator("#community-choice").isHidden(), true, "Une estimation d’entreprise doit rester confidentielle.");
+    await page.locator("#request-type").selectOption("offre-emploi");
+    assert.equal(await page.locator("#community-choice").isHidden(), false, "Les autres demandes peuvent solliciter une publication soumise à modération.");
+    await page.locator("#request-title").fill("Recherche d’un sous-traitant qualifié");
+    await page.locator("#request-description").fill("Intervention de second œuvre dans les Pays de la Loire.");
+    await page.locator("#request-firstname").fill("Camille");
+    await page.locator("#request-lastname").fill("Martin");
+    await page.locator("#request-email").fill("camille@example.test");
+    await page.locator("#request-phone").fill("0102030405");
+    await page.locator('input[name="visibilite"][value="moderation"]').check();
+    await page.getByRole("button", { name: /Prévisualiser ma demande/ }).click();
+    assert.match(await page.locator("#publish-feedback").innerText(), /en attente de modération administrative/);
+    assert.match(await page.locator("#publish-feedback").innerText(), /Aucune donnée n’a été envoyée ni enregistrée/);
+    assert.equal(apiCalls, 0, "La prévisualisation ne doit pas déclencher BOAMP.");
+    assert.equal(bodaccCalls, 0, "La prévisualisation ne doit pas déclencher BODACC.");
 
     await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
     await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
