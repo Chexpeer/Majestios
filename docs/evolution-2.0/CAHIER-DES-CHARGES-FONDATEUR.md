@@ -36,10 +36,11 @@ Le moteur comporte un premier choix entre deux familles.
 
 **Recherche privée**
 - Source initiale envisagée : BODACC.
-- Trois catégories issues du BODACC ; la liste exacte reste à faire valider par le porteur du projet (§ 11).
-- Immobilier.
-- Offres d'emploi, avec Cadremploi et APEC regroupés dans une même catégorie.
-- Publier mon annonce : annonces internes proposées par les visiteurs du site (offres d'emploi, demandes de sous-traitance), précisées au § 11.
+- Trois catégories issues du BODACC : créations, ventes et cessions, modifications.
+- **Emploi :** uniquement les annonces publiées par les utilisateurs ou par l'équipe MajestiOS.
+- **Je publie mon annonce :** dépôt d'annonces professionnelles par les utilisateurs : emploi, sous-traitance, demande, offre ou autre annonce pertinente.
+- L'immobilier est retiré du moteur de recherche.
+- Les annonces externes de Cadremploi, France Travail et APEC ne sont pas des offres publiées dans MajestiOS. Leur éventuelle consultation/cache et leur transmission à la Veille sont reportées à une phase ultérieure.
 
 Chaque catégorie possède son propre espace de résultats. La présentation initiale prévoit au maximum dix annonces par page et une pagination. Les catégories ne doivent pas être inventées par les intervenants techniques ou les IA : elles nécessitent une décision explicite.
 
@@ -92,11 +93,16 @@ Il faut distinguer strictement le CRM interne global de MajestiOS et les espaces
 
 ## 4. Circuits de données
 
-Une information collectée peut alimenter trois circuits distincts et coordonnés :
+Une information collectée ou déposée peut alimenter plusieurs circuits coordonnés, selon sa nature, sa provenance, les droits applicables et sa qualification :
 
-1. **CRM :** centralisation, enrichissement, relation entre entités et suivi commercial.
-2. **Publication :** sélection limitée d'informations destinées au site et à l'acquisition d'utilisateurs.
-3. **Veille :** analyse, rapprochement, qualification et préparation d'actions.
+1. **Publication :** annonces et informations validées destinées aux espaces publics de MajestiOS.
+2. **CRM :** entreprises, contacts, demandes, offres, relations, historique et suivi commercial.
+3. **Veille :** détection, rapprochement, qualification et préparation d'actions.
+4. **Prospection active :** exploitation encadrée des informations qualifiées pour développer la clientèle et identifier des marchés de sous-traitance.
+
+**Circuit des annonces déposées par les utilisateurs :** après contrôle et qualification, une annonce peut être publiée dans l'espace approprié, enregistrée ou rapprochée dans le CRM, exploitée par la Veille et utilisée pour préparer des actions de prospection. Ces transmissions ne sont pas automatiques par défaut : elles dépendent de règles à définir, de la provenance, des droits, des consentements ou autres bases applicables et des finalités autorisées.
+
+Il faut distinguer le contenu public de l'annonce, les données internes de gestion et les informations réservées à l'analyse ou à la prospection. Une annonce visible publiquement ne rend pas automatiquement toutes les données de son auteur accessibles ou réutilisables.
 
 Toutes les informations collectées ne sont pas destinées à être publiées. La valeur de la plateforme repose aussi sur le traitement interne, la qualification et les rapprochements.
 
@@ -266,10 +272,18 @@ Cette section ne contient que ce que le porteur du projet a explicitement dit ou
 ### 11.1 Décisions du 3 novembre 2026
 
 1. **Marchés publics :** cinq catégories, choisies parmi les catégories les plus importantes du BOAMP.
-2. **Marchés privés :** trois catégories choisies parmi les sources du BODACC, plus une catégorie **emploi** (Cadremploi et APEC regroupés), plus des **annonces internes proposées par les visiteurs du site** (offres d'emploi et demandes de sous-traitance).
-3. **Documentation :** l'ancienne documentation, retirée du dépôt pour l'alléger, peut être rétablie. Elle l'a été à l'identique dans `docs/historique/` (voir `docs/README.md`).
-4. **Harmonisation graphique du 2 novembre 2026 :** à conserver impérativement ; le porteur du projet en est plutôt satisfait. Elle fait partie de l'état de référence.
-5. **Suite :** reprise du perfectionnement de la branche `evolution-2.0`.
+2. **Marchés privés BODACC :** trois catégories : créations, ventes et cessions, modifications.
+3. **Emploi :** seules les annonces déposées par les utilisateurs ou publiées par l'équipe MajestiOS sont affichées comme offres d'emploi dans la plateforme.
+4. **Annonces utilisateurs :** remplacer la rubrique Immobilier du moteur par **« Je publie mon annonce »**, avec les types annoncés : emploi, sous-traitance, demande, offre et autres annonces professionnelles pertinentes.
+5. **Finalité commerciale :** les marchés publics sont un moyen de détecter de nouveaux clients et des marchés de sous-traitance, et non une finalité isolée de MajestiOS.
+6. **Documentation :** l'ancienne documentation, retirée du dépôt pour l'alléger, peut être rétablie. Elle l'a été à l'identique dans `docs/historique/` (voir `docs/README.md`).
+7. **Harmonisation graphique du 2 novembre 2026 :** à conserver impérativement ; le porteur du projet en est plutôt satisfait. Elle fait partie de l'état de référence.
+8. **Suite :** reprise du perfectionnement de la branche `evolution-2.0`.
+
+### 11.1 ter Précision sur les sources d'emploi — 3 novembre 2026
+
+9. **Sources d'emploi internes uniquement :** les offres d'emploi de MajestiOS proviennent exclusivement des annonces des utilisateurs et de l'équipe MajestiOS.
+10. **Sources externes en attente :** Cadremploi, France Travail et APEC ne sont pas des sources d'offres affichées dans MajestiOS. Leur éventuelle consultation, mise en cache et transmission à la Veille est une fonctionnalité différée, non à développer dans la phase actuelle.
 
 ### 11.1 bis Décisions complémentaires du 3 novembre 2026
 
@@ -281,14 +295,17 @@ Cette section ne contient que ce que le porteur du projet a explicitement dit ou
 | Point | Précision attendue |
 |---|---|
 | Les cinq catégories publiques | Mesure des volumes réels réalisée (outil prêt, § 11.4) ; le porteur du projet valide ensuite les cinq retenues |
-| Immobilier | Le cahier (§ 3.1) cite l'immobilier parmi les catégories privées ; le message du 3 novembre n'en parle pas. À confirmer : conservé ou abandonné ? |
-| Annonces internes des visiteurs | Qui peut déposer (visiteur anonyme ou compte), validation avant publication, durée de vie d'une annonce, contacts affichés |
-| Emploi : Cadremploi et APEC | Mode d'intégration : lien, flux, accord de réutilisation ; leurs conditions d'utilisation ne sont pas vérifiées |
+| Cinq catégories publiques | Mesure des volumes réels réalisée (outil prêt, § 11.4) ; validation finale par le porteur du projet |
+| Annonces utilisateurs | Conditions de dépôt, identification de l'auteur, modération, validation, durée de vie, signalement et modalités de contact |
+| Réutilisation interne des annonces | Règles de qualification, déduplication, alimentation du CRM et de la Veille, déclenchement éventuel de prospection, information et droits des auteurs |
+| Emploi — sources externes | Fonctionnalité différée : faisabilité, conditions d'accès/cache et règles de transmission à la Veille à étudier ultérieurement |
 
 ### 11.3 Conséquences à cadrer (propositions, aucune n'est une décision)
 
-- Les annonces internes sont du **contenu produit par les visiteurs** : elles supposent un stockage, une identification minimale, une modération, des protections anti-abus et une conformité à vérifier. Le prototype actuel n'a ni base de données ni authentification (audit, § 3.1) : cette fonction relève de l'architecture cible (phase 4), pas d'un ajout de page.
-- Les catégories du code actuel (huit publiques, cinq BODACC, quatre privées inactives) ne correspondent pas à ces décisions. Aucune ne sera modifiée avant la validation des listes exactes (§ 11.2).
+- Les annonces internes sont du **contenu produit par les utilisateurs ou l'équipe MajestiOS** : elles supposent stockage, identification de l'auteur, modération, protections anti-abus, gestion des durées et conformité à vérifier. Le prototype actuel n'a ni base de données ni authentification (audit, § 3.1) : cette fonction relève de l'architecture cible, pas d'un simple ajout de page.
+- Le flux d'annonces doit prévoir une qualification avant publication et des règles distinctes pour l'affichage public, l'enregistrement CRM, la Veille et la prospection. La transmission vers ces fonctions doit respecter les finalités et droits applicables.
+- La consultation/cache d'annonces externes d'emploi (Cadremploi, France Travail, APEC) et leur transfert à la Veille sont explicitement différés.
+- Les catégories du code actuel ne correspondent pas entièrement aux décisions. Aucune modification du code n'est autorisée par cette mise à jour documentaire.
 - Le choix des catégories publiques « les plus importantes » peut s'appuyer sur une mesure réelle des avis BOAMP, à effectuer depuis un environnement ayant accès à la source.
 
 ### 11.4 Outil de mesure des volumes BOAMP
