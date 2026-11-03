@@ -28,6 +28,8 @@ La [matrice de permissions proposée](docs/evolution-3.0/LOT-2-MATRICE-PERMISSIO
 
 Le [modèle logique conceptuel du lot 2.2](docs/evolution-3.0/LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md) inventorie les entités, relations, périmètres de propriété, invariants et scénarios de validation. Il prépare le modèle physique et les contrats API sans choisir de technologie ni créer de schéma.
 
+Le [lot 2.3 — traçabilité des contrats API](docs/evolution-3.0/LOT-2-TRAÇABILITE-CONTRATS-API.md) relie les ressources aux permissions, aux contrôles, aux projections de réponse et aux tests contractuels. Il reste un cadrage documentaire, sans endpoint ni spécification OpenAPI exécutable.
+
 **Important :** la consolidation est un guide de cohérence documentaire. Les décisions A-01 à A-10, B-01 à B-10 et C-01 à C-10 restent à confirmer/valider ; ce document ne les valide pas à la place du porteur du projet. Il ne décrit aucune implémentation backend.
 
 ## Technologies
