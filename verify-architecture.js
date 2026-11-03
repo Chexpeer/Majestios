@@ -93,7 +93,7 @@ if (!floorBlock) {
 }
 
 const catalogue = read("catalogue-majestios.js");
-assert(catalogue.includes("searchCategories") && catalogue.includes("searchRegions") && catalogue.includes("marketTypes"),
+assert(catalogue.includes("searchCategories") && catalogue.includes("searchRegions") && catalogue.includes("searchDepartments") && catalogue.includes("marketTypes"),
   "Catalogue : filtres de recherche incomplets");
 const rubricSearch = read("rubric-search.js");
 assert(rubricSearch.includes("catalogue.searchCategories") && rubricSearch.includes("catalogue.searchDepartments"),
