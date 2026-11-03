@@ -18,6 +18,12 @@ Le site regroupe plusieurs espaces fonctionnels :
 
 Les résultats administratifs et les scores de rapprochement sont des aides à l’analyse. Ils ne prouvent pas la compétence, la capacité opérationnelle ou l’éligibilité d’une entreprise à un marché. Une vérification humaine reste nécessaire.
 
+## Documentation de l'évolution 3.0
+
+Le dossier `docs/evolution-3.0/` contient les propositions d'architecture et les décisions de cadrage. Pour reprendre le projet sans confondre proposition et fonctionnalité implémentée, commencer par [CONSOLIDATION-A-B-C-REFERENTIEL.md](docs/evolution-3.0/CONSOLIDATION-A-B-C-REFERENTIEL.md), puis consulter les documents spécialisés des étapes A, B et C.
+
+**Important :** la consolidation est un guide de cohérence documentaire. Les décisions A-01 à A-10, B-01 à B-10 et C-01 à C-10 restent à confirmer/valider ; ce document ne les valide pas à la place du porteur du projet. Il ne décrit aucune implémentation backend.
+
 ## Technologies
 
 - HTML pour les pages ;
@@ -111,7 +117,8 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 - `verify-site.js`, `verify-architecture.js` : contrôles de cohérence ;
 - `build.js` : construction du site statique ;
 - `vercel.json` : configuration de déploiement ;
-- `.github/workflows/` : automatisation des contrôles.
+- `.github/workflows/` : automatisation des contrôles ;
+- `docs/evolution-3.0/` : documentation de référence et propositions d'architecture.
 
 ## Principes de contribution
 
