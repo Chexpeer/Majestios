@@ -313,7 +313,7 @@
         if (!request.isCurrent()) return;
         const filtered = pageResult.matches;
         if (!filtered.length) {
-          empty.textContent = records.length
+          empty.textContent = pageResult.scanned
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
             : "La source BODACC a répondu sans annonce pour ces critères. Modifiez la recherche ou réessayez plus tard.";
         } else {
@@ -434,7 +434,7 @@
         empty.textContent = filtered.length + " résultat(s) affiché(s) depuis BOAMP. Les critères métier restent à confirmer à la lecture de l’avis officiel.";
         empty.insertAdjacentElement("afterend", results);
       } else {
-        empty.textContent = records.length
+        empty.textContent = pageResult.scanned
           ? "Aucun résultat ne correspond à tous les critères sélectionnés parmi les annonces récentes récupérées. Essayez un mot-clé plus large ou une autre catégorie."
           : "La source BOAMP a répondu sans fournir d’annonce pour cette recherche. Modifiez les critères ou réessayez plus tard.";
       }
