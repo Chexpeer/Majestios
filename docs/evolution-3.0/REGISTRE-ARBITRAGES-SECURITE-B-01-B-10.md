@@ -2,18 +2,18 @@
 
 **Date d'ouverture :** 3 novembre 2026  
 **Branche de référence :** `evolution-3.0`  
-**Statut global :** registre préparatoire — aucun arbitrage B-01 à B-10 n'est réputé approuvé.  
+**Statut global :** arbitrages de principe B-01, B-02 et B-03 validés le 3 novembre 2026 ; les autres arbitrages restent à arbitrer.  
 **Références :** `ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md`, `ETAPE-C-CONTRATS-API-EVENEMENTS.md`, `ARCHITECTURE-API-CIBLE.md`.
 
-> Ce registre rend les décisions à prendre traçables. Les recommandations sont des propositions techniques soumises au porteur du projet. Elles ne valent ni validation métier, ni autorisation de développement, ni choix de fournisseur.
+> Ce registre rend les décisions traçables. Les décisions explicitement confirmées par le porteur du projet sont distinguées des propositions encore à arbitrer. Une validation de principe ne vaut ni autorisation de développement, ni validation de tous les détails d'implémentation, ni choix de fournisseur.
 
 ## 1. Synthèse des arbitrages
 
 | ID | Sujet | Proposition à examiner | Conséquence principale | État |
 |---|---|---|---|---|
-| B-01 | Isolation des tenants clients | Comparer base partagée avec isolation renforcée, schémas séparés et bases séparées ; ne retenir aucune option sans critères et preuve | Modèle de données, autorisation, sauvegarde et exploitation | À arbitrer |
-| B-02 | CRM interne | Frontière organisationnelle et d'autorisation distincte des tenants clients | Routes, données, rôles et opérations internes isolés | À arbitrer |
-| B-03 | BrainOS | Périmètre documentaire et autorisations indépendants ; filtrage des droits avant récupération et restitution | Corpus, index, recherche et métadonnées d'accès | À arbitrer |
+| B-01 | Isolation des tenants clients | Base de données commune avec isolation stricte par espace client (Option A) ; choix à traduire en contrôles vérifiables | Modèle de données, autorisation, sauvegarde et exploitation | Validé — 03/11/2026 |
+| B-02 | CRM interne | Périmètre organisationnel distinct ; accès réservé aux utilisateurs internes explicitement autorisés | Routes, données, rôles et opérations internes isolés | Validé — 03/11/2026 |
+| B-03 | BrainOS | Périmètre de données et de permissions indépendant ; accès limité aux corpus et données explicitement autorisés | Corpus, index, recherche et métadonnées d'accès | Validé — 03/11/2026 |
 | B-04 | Entreprises communes | Identité d'entreprise rapprochable, mais dossiers, notes, contacts et pièces restent propres à leur périmètre ; aucune fusion/enrichissement automatique | Référentiel, dédoublonnage et provenance | À arbitrer |
 | B-05 | Partage CRM vers client | Projection de champs minimale, finalisée, approuvée, traçable, expirante si nécessaire et révocable | Objet de partage, autorité d'approbation et propagation de révocation | À arbitrer |
 | B-06 | Annonces | Séparer contenu privé, décision de modération et projection publique ; publication distincte du transfert CRM et de l'usage commercial | États, droits, pièces et projections | À arbitrer |
@@ -27,30 +27,32 @@
 ### B-01 — Modèle d'isolation des tenants clients
 
 - **Question à trancher :** base partagée avec isolation logique renforcée, schéma séparé par tenant ou base séparée par tenant ?
-- **Proposition technique :** évaluer la base partagée comme hypothèse de départ, sans la considérer comme acquise.
+- **Décision validée le 3 novembre 2026 :** Option A — une base de données commune avec isolation stricte par espace client.
+- **Portée de la validation :** le principe d'une base commune est retenu. Les mécanismes concrets d'isolation, le contexte tenant côté serveur, les politiques de base, la séparation des fichiers, exports, caches et tâches asynchrones restent à spécifier et à tester avant toute implémentation.
+- **Options non retenues à ce stade :** schéma séparé ou base séparée par client. Elles pourront être réexaminées si une exigence de sécurité, de résidence, de restauration ou de contrat le justifie.
 - **Critères de comparaison :** niveau d'isolation, risque d'erreur inter-tenant, complexité opérationnelle, sauvegarde/restauration, évolutivité, coût et exigences de résidence.
 - **Conséquences :** modèle de données, contexte tenant côté serveur, politiques de base, fichiers, exports, caches, tâches asynchrones et observabilité.
 - **Preuves attendues :** tests négatifs inter-tenant sur lecture, écriture, recherche, export, fichier et tâche différée ; tests de restauration et vérification de l'isolation.
 - **Responsable de l'arbitrage :** porteur du projet, avec avis technique et sécurité.
-- **État :** À arbitrer.
+- **État :** Validé — principe et option A confirmés par le porteur du projet le 3 novembre 2026. Détails techniques encore à spécifier.
 
 ### B-02 — Frontière du CRM interne MajestiOS
 
 - **Question à trancher :** confirmer que le CRM interne constitue un domaine organisationnel distinct, et non un tenant client standard.
-- **Proposition technique :** autorisation CRM indépendante ; aucune permission client ne donne accès au CRM ; aucun accès d'un opérateur CRM aux espaces clients par simple appartenance au CRM.
+- **Décision validée le 3 novembre 2026 :** le CRM interne constitue un périmètre organisationnel distinct des espaces clients ; seuls les utilisateurs internes explicitement autorisés y accèdent. Aucune permission client ne donne accès au CRM et l'appartenance au CRM ne donne pas automatiquement accès aux espaces clients.
 - **Conséquences :** identité interne, permissions dédiées, routes protégées côté serveur, recherche, exports, tâches et journalisation séparés.
 - **Preuves attendues :** un client ne peut accéder à aucune route ou ressource CRM, même avec un identifiant valide ; un opérateur sans permission CRM est refusé.
 - **Responsable de l'arbitrage :** porteur du projet.
-- **État :** À arbitrer.
+- **État :** Validé — principe de séparation et d'accès interne autorisé confirmés le 3 novembre 2026. La matrice détaillée des rôles reste à arbitrer.
 
 ### B-03 — Cloisonnement de BrainOS
 
 - **Question à trancher :** corpus par utilisateur, par organisation, corpus MajestiOS partagé avec droits documentaires, ou combinaison contrôlée de ces niveaux ?
-- **Proposition technique :** séparer les périmètres documentaires et appliquer les droits avant récupération des documents et avant restitution au modèle.
+- **Décision validée le 3 novembre 2026 :** BrainOS possède un périmètre de données et de permissions indépendant. Il n'accède qu'aux corpus et données explicitement autorisés ; aucun accès implicite au CRM ou aux espaces clients n'est accordé. Les droits doivent être appliqués avant récupération et avant restitution au modèle.
 - **Conséquences :** métadonnées de propriétaire, corpus, finalité et permissions ; cycle d'indexation, suppression, réindexation et invalidation des caches.
 - **Preuves attendues :** aucune recherche ne récupère, ne cite ni n'utilise un document hors périmètre autorisé ; test après révocation.
 - **Responsable de l'arbitrage :** porteur du projet, avec avis sécurité et produit.
-- **État :** À arbitrer.
+- **État :** Validé — principe de séparation et d'accès explicite confirmé le 3 novembre 2026. Le modèle de corpus (utilisateur, organisation, corpus MajestiOS partagé avec droits documentaires ou combinaison) reste à arbitrer.
 
 ### B-04 — Fiches entreprise communes au CRM et aux clients
 
@@ -163,7 +165,7 @@ Les contrats C-01 à C-10 restent eux-mêmes à valider. Ce registre ne les appr
 
 ## 6. Conditions de clôture
 
-Un arbitrage ne passe à « Validé » que lorsque le porteur du projet a explicitement confirmé la décision. Pour chaque décision validée, consigner :
+Un arbitrage ne passe à « Validé » que lorsque le porteur du projet a explicitement confirmé la décision. Les validations B-01 à B-03 du 3 novembre 2026 portent sur les principes et choix explicitement énoncés ; les précisions techniques signalées comme restant à arbitrer ne sont pas réputées approuvées. Pour chaque décision validée, consigner :
 - décision retenue et options écartées ;
 - justification métier et technique ;
 - responsable de validation et date ;
@@ -188,4 +190,4 @@ Tant que les arbitrages bloquants ne sont pas validés :
 
 Le prototype existant reste préservé. Toute implémentation ultérieure devra faire l'objet d'un périmètre distinct, d'un audit, d'une autorisation explicite et de tests reproductibles.
 
-**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Aucun arbitrage métier n'a été rendu par sa création.
+**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (Option A), B-02 (CRM interne distinct) et B-03 (BrainOS indépendant). Les arbitrages B-04 à B-10 restent ouverts.
