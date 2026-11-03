@@ -163,3 +163,6 @@ body:not(.homepage) .menu-toggle{
 }
 body:not(.homepage) .menu-toggle span{background:var(--majestios-gold-light)}
 body:not(.homepage) .vision-doctrine blockquote{font-family:var(--majestios-font-display);font-weight:700;letter-spacing:-.6px}
+
+/* Cartes de résultats de recherche : le repère garde sa taille d'origine (12 px) ; le plancher ci-dessus ne s'y applique pas. */
+body:not(.homepage) main.interior-page .opportunity-result-card>.eyebrow{font-size:12px}

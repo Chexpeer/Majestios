@@ -17,8 +17,14 @@ function walk(directory, relative = "") {
 }
 
 const files = walk(root);
-const markdownFiles = files.filter((file) => /\.mdx?$/i.test(file) && file !== "README.md");
-assert(markdownFiles.length === 0, "Documentation Markdown hors README encore présente : " + markdownFiles.join(", "));
+// La documentation Markdown est autorisée uniquement dans docs/, avec README.md et AGENTS.md à la racine.
+// Elle ne doit jamais être publiée avec le site : le build ne copie que les fichiers de son manifeste.
+const markdownAllowed = (file) => {
+  const normalized = file.split(path.sep).join("/");
+  return normalized === "README.md" || normalized === "AGENTS.md" || normalized.startsWith("docs/");
+};
+const markdownFiles = files.filter((file) => /\.mdx?$/i.test(file) && !markdownAllowed(file));
+assert(markdownFiles.length === 0, "Documentation Markdown hors README.md, AGENTS.md et docs/ : " + markdownFiles.join(", "));
 assert(exists("README.md"), "README.md absent : guide de démarrage attendu");
 
 assert(exists("index.html"), "Accueil absent");
@@ -32,6 +38,7 @@ const siteFiles = manifestMatch ? [...manifestMatch[1].matchAll(/"([^"]+)"/g)].m
 assert(Boolean(manifestMatch), "Build : manifeste siteFiles introuvable");
 assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqués dans le manifeste");
 for (const file of siteFiles) assert(exists(file), "Build : ressource déclarée absente : " + file);
+assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentation Markdown ne doit pas être publiée avec le site");
 
 const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
 for (const page of htmlPages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
@@ -101,4 +108,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, 10 espaces thématiques, moteur de recherche et " + siteFiles.length + " ressources publiées. README.md présent, documentation Markdown complémentaire absente.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, 10 espaces thématiques, moteur de recherche et " + siteFiles.length + " ressources publiées. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
