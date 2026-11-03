@@ -2,80 +2,29 @@
   "use strict";
 
   const page = document.querySelector("main.interior-page");
-  if (!page || document.querySelector("#rubric-opportunity-search")) return;
+  if (!page || document.querySelector("#advanced-search-form")) return;
 
   const path = window.location.pathname.split("/").pop();
   const configs = {
-    "marches-publics.html": {
-      title: "Rechercher des marchés publics",
-      description: "Interrogez le flux BOAMP avec des critères métier et géographiques. Vérifiez toujours l’avis officiel.",
-      market: "public",
-      fixedMarket: true
-    },
-    "developpement-commercial.html": {
-      title: "Rechercher des opportunités de développement commercial",
-      description: "Repérez des consultations publiques ou explorez séparément les signaux commerciaux privés du BODACC.",
-      market: "all"
-    },
-    "prospection-active.html": {
-      title: "Rechercher des opportunités pour la prospection active",
-      description: "Partez des annonces et signaux publiés pour identifier les pistes qui méritent une qualification humaine.",
-      market: "all"
-    },
-    "veille-marches.html": {
-      title: "Rechercher dans la veille des marchés",
-      description: "Filtrez les avis publics par mot-clé, catégorie et région administrative.",
-      market: "public",
-      fixedMarket: true
-    },
-    "accompagnement-appels-offres.html": {
-      title: "Trouver un marché à qualifier",
-      description: "Recherchez une consultation avant d’évaluer les exigences, les pièces et les délais de réponse.",
-      market: "public",
-      fixedMarket: true
-    },
-    "sous-traitance.html": {
-      title: "Rechercher des pistes de sous-traitance",
-      description: "Explorez les avis et signaux accessibles ; une annonce ne prouve pas à elle seule qu’un besoin de sous-traitance existe.",
-      market: "all"
-    },
-    "marches-prives.html": {
-      title: "Rechercher des signaux commerciaux privés",
-      description: "Explorez les annonces d’entreprise publiées au BODACC. Ce sont des signaux à qualifier, pas des appels d’offres.",
-      market: "private",
-      fixedMarket: true
-    },
-    "intelligence-economique.html": {
-      title: "Rechercher des signaux économiques",
-      description: "Repérez des informations publiées qui peuvent éclairer une décision commerciale, sous réserve de vérification.",
-      market: "all"
-    },
-    "reseaux-synergies.html": {
-      title: "Rechercher des opportunités de partenariat",
-      description: "Partez des marchés publiés et des signaux d’entreprise pour identifier des pistes à qualifier humainement.",
-      market: "all"
-    },
-    "bodacc-veille-entreprises.html": {
-      title: "Rechercher dans les annonces BODACC",
-      description: "Consultez les annonces légales d’entreprise comme signaux stratégiques ; elles ne prouvent pas à elles seules une opportunité commerciale.",
-      market: "private",
-      fixedMarket: true
-    },
-    "suivi-commercial.html": {
-      title: "Rechercher une piste à suivre",
-      description: "Retrouvez des marchés et signaux publiés à qualifier avant toute action de suivi commercial.",
-      market: "all"
-    }
+    "marches-publics.html": { market: "public", fixedMarket: true },
+    "developpement-commercial.html": { market: "", fixedMarket: false },
+    "prospection-active.html": { market: "", fixedMarket: false },
+    "veille-marches.html": { market: "public", fixedMarket: true },
+    "accompagnement-appels-offres.html": { market: "public", fixedMarket: true },
+    "sous-traitance.html": { market: "", fixedMarket: false },
+    "marches-prives.html": { market: "private", fixedMarket: true },
+    "intelligence-economique.html": { market: "", fixedMarket: false },
+    "reseaux-synergies.html": { market: "", fixedMarket: false },
+    "bodacc-veille-entreprises.html": { market: "private", fixedMarket: true },
+    "suivi-commercial.html": { market: "", fixedMarket: false }
   };
   const config = configs[path];
   if (!config) return;
 
   const catalogue = window.MAJESTIOS_CATALOG || {};
-  const publicCategories = (catalogue.searchCategories || [
-    { value: "all", label: "Toutes les catégories", active: true }
-  ]).filter((item) => item.active && item.value !== "all").map((item) => ({
-    value: item.value, label: item.label, group: "Marchés publics · BOAMP"
-  }));
+  const publicCategories = (catalogue.searchCategories || [])
+    .filter((item) => item.active && item.value !== "all")
+    .map((item) => ({ value: item.value, label: item.label, group: "Marchés publics · BOAMP" }));
   const privateCategories = [
     { value: "bodacc-creations", label: "Créations et implantations", group: "Signaux BODACC" },
     { value: "bodacc-cessions", label: "Ventes, cessions et reprises", group: "Signaux BODACC" },
@@ -87,51 +36,55 @@
     { value: "sous-traitance-offres", label: "Offres de sous-traitance", group: "Autres opportunités privées", connected: false },
     { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires", group: "Autres opportunités privées", connected: false }
   ];
-  const regions = (catalogue.searchRegions || [
-    { value: "all", label: "Toutes les régions", active: true }
-  ]).filter((item) => item.active || item.value === "all").map((item) => [item.value, item.label]);
-  const optionMarkup = (items) => items.map(([value, label]) =>
-    '<option value="' + value + '">' + label + '</option>'
-  ).join("");
 
   const section = document.createElement("section");
-  section.className = "floating-route-card rubric-search-card";
-  section.setAttribute("aria-labelledby", "rubric-search-title");
-  const form = document.createElement("form");
-  form.action = "resultats-recherche.html";
-  form.method = "get";
-  form.className = "advanced-search-form";
-  form.id = "rubric-opportunity-search";
+  section.className = "tender-feed-section rubric-shared-search";
+  section.id = "recherche-avancee";
+  section.setAttribute("aria-label", "Moteur de recherche avancé");
+  section.innerHTML =
+    '<div class="feed-wrap"><div class="feed-demo">' +
+      '<form class="feed-toolbar" id="advanced-search-form" action="resultats-recherche.html" method="get">' +
+        '<label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" name="q" type="search" maxlength="160" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>' +
+        (config.fixedMarket
+          ? '<input type="hidden" name="marche" value="' + config.market + '">'
+          : '<label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span><select id="feed-market-type" aria-label="Type de marché"><option value="">1. Choisir le type de marché</option><option value="public">Marchés publics</option><option value="private">Marchés privés · signaux BODACC</option></select></label>') +
+        '<label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie</span><select id="feed-sector" name="categorie" aria-label="Catégorie d’opportunité" disabled><option value="all">2. Choisir d’abord un type</option></select></label>' +
+        '<label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par région</span><select id="feed-region" name="zone" aria-label="Région administrative"><option value="all">Toutes les régions</option></select></label>' +
+        '<p class="search-source-note" id="search-source-note">Choisissez d’abord le type d’opportunité, puis une rubrique adaptée. Les signaux BODACC ne sont pas des appels d’offres ; les sources non connectées sont indiquées comme telles.</p>' +
+        '<button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>' +
+      '</form></div></div>';
 
-  const initialParams = new URLSearchParams(window.location.search);
-  const initialMarket = config.fixedMarket ? config.market : (initialParams.get("marche") || "all");
-  const marketField = config.fixedMarket
-    ? '<input type="hidden" name="marche" value="' + config.market + '">'
-    : '<label for="rubric-search-market">1. Type de marché</label><select id="rubric-search-market" name="marche"><option value="all">Tous types (publics et privés)</option><option value="public">Marchés publics · BOAMP</option><option value="private">Marchés privés · BODACC et autres signaux</option></select>';
-  form.innerHTML =
-    '<label for="rubric-search-query">Mot-clé, activité ou entreprise</label>' +
-    '<input id="rubric-search-query" name="q" type="search" maxlength="160" placeholder="Ex. plomberie, rénovation, maintenance">' +
-    marketField +
-    '<label for="rubric-search-category">' + (config.fixedMarket ? "Catégorie" : "2. Catégorie") + '</label>' +
-    '<select id="rubric-search-category" name="categorie"><option value="all">Toutes les catégories</option></select>' +
-    '<label for="rubric-search-region">Région</label>' +
-    '<select id="rubric-search-region" name="zone">' + optionMarkup(regions) + '</select>' +
-    '<button class="button-primary" type="submit">Rechercher →</button>';
+  const lede = page.querySelector(".interior-lede");
+  if (lede) lede.insertAdjacentElement("afterend", section);
+  else page.prepend(section);
 
-  const marketSelect = form.querySelector("#rubric-search-market");
-  const categorySelect = form.querySelector("#rubric-search-category");
+  const form = section.querySelector("#advanced-search-form");
+  const queryField = section.querySelector("#feed-search");
+  const marketStep = section.querySelector("#market-step");
+  const marketSelect = section.querySelector("#feed-market-type");
+  const categoryStep = section.querySelector("#category-step");
+  const categorySelect = section.querySelector("#feed-sector");
+  const departmentStep = section.querySelector("#department-step");
+  const regionSelect = section.querySelector("#feed-region");
+  const params = new URLSearchParams(window.location.search);
+  const initialMarket = config.fixedMarket ? config.market : (params.get("marche") || "");
+  const initialCategory = params.get("categorie") || "all";
+  const initialRegion = params.get("zone") || "all";
+
+  const addOption = (parent, value, label, disabled = false) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    option.disabled = disabled;
+    parent.append(option);
+  };
+
   const populateCategories = (market, selected = "all") => {
     categorySelect.replaceChildren();
-    const allOption = document.createElement("option");
-    allOption.value = "all";
-    allOption.textContent = market === "private" ? "Toutes les catégories privées" :
-      market === "public" ? "Toutes les catégories publiques" : "Choisir d’abord un type de marché";
-    categorySelect.append(allOption);
-
-    const source = market === "public" ? publicCategories :
-      market === "private" ? privateCategories : [];
+    addOption(categorySelect, "all", market ? "Toutes les catégories" : "2. Choisir d’abord un type");
+    const source = market === "public" ? publicCategories : market === "private" ? privateCategories : [];
     const groups = new Map();
-    for (const item of source) {
+    source.forEach((item) => {
       let parent = categorySelect;
       if (item.group) {
         if (!groups.has(item.group)) {
@@ -142,43 +95,62 @@
         }
         parent = groups.get(item.group);
       }
-      const option = document.createElement("option");
-      option.value = item.value;
-      option.textContent = item.connected === false ? `${item.label} · source à connecter` : item.label;
-      option.disabled = item.connected === false;
-      parent.append(option);
-    }
-    categorySelect.disabled = !market || market === "all";
+      addOption(parent, item.value,
+        item.connected === false ? item.label + " · source à connecter" : item.label,
+        item.connected === false);
+    });
+    categorySelect.disabled = !market;
     categorySelect.value = source.some((item) => item.value === selected && item.connected !== false) ? selected : "all";
   };
 
-  if (marketSelect) {
-    marketSelect.value = initialMarket;
-    marketSelect.addEventListener("change", () => populateCategories(marketSelect.value));
+  const regions = (catalogue.searchRegions || []).filter((region) => region.active && !region.planned);
+  regionSelect.replaceChildren();
+  addOption(regionSelect, "all", "Toutes les régions");
+  regions.forEach((region) => {
+    if (region.value !== "all") addOption(regionSelect, region.value, region.label);
+  });
+
+  if (queryField) queryField.value = params.get("q") || "";
+  if (marketSelect) marketSelect.value = initialMarket;
+  populateCategories(initialMarket, initialCategory);
+  if (config.fixedMarket || initialMarket) categoryStep.hidden = false;
+  if (initialCategory !== "all" || initialRegion !== "all") departmentStep.hidden = false;
+  if (regionSelect && [...regionSelect.options].some((option) => option.value === initialRegion && !option.disabled)) {
+    regionSelect.value = initialRegion;
   }
-  populateCategories(initialMarket, initialParams.get("categorie") || "all");
 
-  const queryField = form.querySelector("#rubric-search-query");
-  if (queryField) queryField.value = initialParams.get("q") || "";
-  const regionField = form.querySelector("#rubric-search-region");
-  const initialRegion = initialParams.get("zone");
-  if (regionField && initialRegion && [...regionField.options].some((option) => option.value === initialRegion)) {
-    regionField.value = initialRegion;
+  if (marketStep) {
+    queryField.addEventListener("focus", () => { marketStep.hidden = false; });
+    queryField.addEventListener("input", () => {
+      if (queryField.value.trim()) marketStep.hidden = false;
+    });
+    marketSelect.addEventListener("change", () => {
+      populateCategories(marketSelect.value);
+      categoryStep.hidden = !marketSelect.value;
+      departmentStep.hidden = true;
+      regionSelect.value = "all";
+    });
   }
+  categorySelect.addEventListener("change", () => { departmentStep.hidden = false; });
 
-  const heading = document.createElement("h2");
-  heading.id = "rubric-search-title";
-  heading.textContent = config.title;
-  const description = document.createElement("p");
-  description.textContent = config.description;
-  const note = document.createElement("p");
-  note.className = "small-note";
-  note.textContent = "Les catégories dépendent du type de marché choisi. Les signaux BODACC ne sont pas des appels d’offres ; les catégories non connectées ne produisent pas de résultats fictifs.";
-  section.append(heading, description, form, note);
-
-  const lede = page.querySelector(".interior-lede");
-  const virtualSpace = page.querySelector(".virtual-space");
-  if (lede) lede.insertAdjacentElement("afterend", section);
-  else if (virtualSpace) virtualSpace.insertAdjacentElement("beforebegin", section);
-  else page.prepend(section);
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const market = config.fixedMarket ? config.market : (marketSelect ? marketSelect.value : "");
+    if (!config.fixedMarket && !market) {
+      marketStep.hidden = false;
+      marketSelect.focus();
+      return;
+    }
+    const selected = categorySelect.value;
+    const searchParams = new URLSearchParams();
+    if (queryField.value.trim()) searchParams.set("q", queryField.value.trim());
+    if (selected && selected !== "all" && !categorySelect.selectedOptions[0]?.disabled) searchParams.set("categorie", selected);
+    if (regionSelect.value && regionSelect.value !== "all") searchParams.set("zone", regionSelect.value);
+    if (market) searchParams.set("marche", market);
+    const matchingPublicCategory = market === "public"
+      ? (catalogue.searchCategories || []).find((item) => item.value === selected && !item.planned && item.href)
+      : null;
+    const destination = matchingPublicCategory ? matchingPublicCategory.href : "resultats-recherche.html";
+    window.location.href = destination + (searchParams.size ? "?" + searchParams.toString() : "");
+  });
 })();
