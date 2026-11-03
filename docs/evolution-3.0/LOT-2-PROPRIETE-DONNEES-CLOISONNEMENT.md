@@ -36,6 +36,8 @@ Aucune table conceptuelle, matrice ou séquence de ce dossier ne vaut autorisati
 
 ## 3. Cartographie des périmètres de propriété
 
+Le prolongement conceptuel est détaillé dans [LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md](LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md) : catalogue des entités, relations, invariants d'intégrité et scénarios de validation. Ce document reste lui aussi une proposition, sans schéma physique ni décision B validée.
+
 ### 3.1 Périmètres à séparer
 
 | Périmètre | Propriétaire fonctionnel | Exemples de données | Règle de frontière |
