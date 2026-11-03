@@ -8,6 +8,7 @@ La branche `evolution-3.0` est la branche de travail des évolutions critiques d
 - [Architecture API cible](ARCHITECTURE-API-CIBLE.md) — architecture logique, modèle conceptuel, API, événements, sécurité, flux et migration technique.
 - [Étape A — Architecture fonctionnelle et frontières des modules](ETAPE-A-ARCHITECTURE-FONCTIONNELLE.md) — responsabilités, périmètres de confiance, échanges autorisés et arbitrages à valider.
 - [Étape B — Modèle conceptuel des données et cloisonnement](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md) — propriété des données, entités, séparation CRM/clients/BrainOS, modèle de tenant et tests de sécurité à valider.
+- [Étape C — Contrats API, échanges et événements](ETAPE-C-CONTRATS-API-EVENEMENTS.md) — conventions REST/JSON, autorisation, transmissions, enveloppes d'événements, idempotence, reprise et tests contractuels à valider.
 - [Audit comparatif des choix techniques](AUDIT-COMPARATIF-TECHNIQUE.md) — comparaison backend, base, authentification, isolation multi-tenant, événements, exploitation et recommandation à valider.
 
 ## Références fonctionnelles héritées
