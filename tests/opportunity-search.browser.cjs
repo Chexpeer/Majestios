@@ -168,6 +168,9 @@ async function main() {
     assert.match(await page.locator("#search-active-filters").innerText(), /Département.*79 · Deux-Sèvres/s, "Le récapitulatif doit afficher le département choisi.");
 
     apiCalls = 0;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=public&departement=72", { waitUntil: "domcontentloaded" });
+    await page.getByText(/Aucun résultat ne correspond à tous les critères/).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".opportunity-result-card").count(), 0, "BOAMP ne doit pas conserver côté navigateur les annonces hors département.");
     bodaccCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=nouvelle-aquitaine&q=r%C3%A9novation", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
@@ -293,6 +296,7 @@ async function main() {
     await page.locator("#advanced-search-form button[type='submit']").click();
     await page.waitForURL((url) => url.pathname === "/resultats-recherche.html" && url.searchParams.get("departement") === "72" && url.searchParams.get("categorie") === "bodacc-cessions", { timeout: 10000 });
     assert.match(await page.locator("#search-active-filters").innerText(), /72 · Sarthe/, "Le choix du département doit être transmis à la page de résultats.");
+    assert.equal(await page.locator(".bodacc-result-card").count(), 0, "Les annonces BODACC d’un autre département doivent être exclues côté navigateur.");
     await page.locator(".search-results-return a").click();
     await page.waitForURL((url) => url.pathname === "/index.html" && url.searchParams.get("departement") === "72", { timeout: 10000 });
     assert.equal(await page.locator("#feed-region").inputValue(), "72", "Le retour à l’accueil doit restaurer le département choisi.");
