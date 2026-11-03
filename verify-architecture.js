@@ -96,7 +96,7 @@ const catalogue = read("catalogue-majestios.js");
 assert(catalogue.includes("searchCategories") && catalogue.includes("searchRegions") && catalogue.includes("marketTypes"),
   "Catalogue : filtres de recherche incomplets");
 const rubricSearch = read("rubric-search.js");
-assert(rubricSearch.includes("catalogue.searchCategories") && rubricSearch.includes("catalogue.searchRegions"),
+assert(rubricSearch.includes("catalogue.searchCategories") && rubricSearch.includes("catalogue.searchDepartments"),
   "Recherche : filtres non reliés au catalogue partagé");
 
 const prospecting = read("prospection-active.html");
