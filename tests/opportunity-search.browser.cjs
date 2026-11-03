@@ -273,6 +273,7 @@ async function main() {
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "La catégorie Services numériques ne doit pas afficher les marchés de plomberie.");
     assert.ok(apiCalls >= 1, "La page de catégorie doit elle aussi lancer la recherche.");
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    assert.equal(await page.evaluate(() => window.MAJESTIOS_CATALOG.searchDepartments.length), 101, "Le catalogue partagé doit couvrir les 101 départements français.");
     const publicJobCategories = await page.locator("#feed-sector option").evaluateAll(options => options.filter(option => /emploi|recrutement/i.test(option.textContent || "")).map(option => option.textContent.trim()));
     assert.deepEqual(publicJobCategories, [], "L’emploi ne doit pas apparaître comme une catégorie de marché public.");
     await page.locator("#feed-search").focus();
@@ -331,7 +332,7 @@ async function main() {
     assert.equal(rubricPrivateOptions.includes("services"), false, "Le choix privé ne doit pas proposer les catégories BOAMP.");
     assert.equal(await mixedCategory.isDisabled(), false, "La catégorie doit devenir disponible après le choix public ou privé.");
 
-    console.log("Recherche navigateur réussie : filtres régionaux, BOAMP, BODACC, vue combinée et séparation des sources vérifiés.");
+    console.log("Recherche navigateur réussie : filtres départementaux, BOAMP, BODACC, vue combinée et séparation des sources vérifiés.");
   } finally {
     if (browser) await browser.close();
     await new Promise((resolve) => server.close(resolve));
