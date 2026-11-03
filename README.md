@@ -22,6 +22,8 @@ Les résultats administratifs et les scores de rapprochement sont des aides à l
 
 Le dossier `docs/evolution-3.0/` contient les propositions d'architecture et les décisions de cadrage. Pour reprendre le projet sans confondre proposition et fonctionnalité implémentée, commencer par [CONSOLIDATION-A-B-C-REFERENTIEL.md](docs/evolution-3.0/CONSOLIDATION-A-B-C-REFERENTIEL.md), puis consulter les documents spécialisés des étapes A, B et C.
 
+Le lot 2 est détaillé dans [LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md](docs/evolution-3.0/LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md) : il structure les périmètres CRM interne, tenants clients et BrainOS, les partages, les contrôles d'accès et les tests négatifs, sans valider les arbitrages B-01 à B-10.
+
 **Important :** la consolidation est un guide de cohérence documentaire. Les décisions A-01 à A-10, B-01 à B-10 et C-01 à C-10 restent à confirmer/valider ; ce document ne les valide pas à la place du porteur du projet. Il ne décrit aucune implémentation backend.
 
 ## Technologies
