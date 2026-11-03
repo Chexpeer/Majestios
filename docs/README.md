@@ -24,10 +24,10 @@ Documentation concise de référence. Le porteur du projet est seul à valider l
 
 ## Contradictions et décisions encore ouvertes
 
-- Les listes exactes des cinq catégories BOAMP et des trois catégories BODACC doivent être validées.
-- Le maintien de l'immobilier reste à confirmer.
-- Le dépôt et la validation des annonces visiteurs restent à spécifier.
-- Les modalités et conditions d'intégration de Cadremploi et APEC restent à vérifier.
+- Les cinq catégories BOAMP restent à choisir après mesure des volumes réels.
+- Les règles de dépôt, validation, modération et durée de vie des annonces utilisateurs restent à spécifier.
+- Les règles d'exploitation de ces annonces dans le CRM, la Veille et la prospection restent à cadrer.
+- La consultation/cache de Cadremploi, France Travail et APEC et leur transmission à la Veille sont différées ; à réexaminer ultérieurement.
 
 ## Archive
 
