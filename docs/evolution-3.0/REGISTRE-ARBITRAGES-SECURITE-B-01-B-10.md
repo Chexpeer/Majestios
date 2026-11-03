@@ -15,7 +15,7 @@
 | B-02 | CRM interne | Périmètre organisationnel distinct ; accès réservé aux utilisateurs internes explicitement autorisés | Routes, données, rôles et opérations internes isolés | Validé — 03/11/2026 |
 | B-03 | BrainOS | Périmètre de données et de permissions indépendant ; accès limité aux corpus et données explicitement autorisés | Corpus, index, recherche et métadonnées d'accès | Validé — 03/11/2026 |
 | B-04 | Entreprises communes | Identité d'entreprise rapprochable, mais dossiers, notes, contacts et pièces restent propres à leur périmètre ; aucune fusion/enrichissement automatique | Référentiel, dédoublonnage et provenance | Validé — 03/11/2026 |
-| B-05 | Partage CRM vers client | Projection de champs minimale, finalisée, approuvée, traçable, expirante si nécessaire et révocable | Objet de partage, autorité d'approbation et propagation de révocation | À arbitrer |
+| B-05 | Partage CRM vers client | Autorisation réservée à l'administrateur ; partage minimal, traçable et révocable ; ouverture progressive des informations et verrouillage activable | Habilitations, identification, objet de partage et propagation de révocation | À arbitrer — autorité confirmée |
 | B-06 | Annonces | Séparer contenu privé, décision de modération et projection publique ; publication distincte du transfert CRM et de l'usage commercial | États, droits, pièces et projections | À arbitrer |
 | B-07 | Rapprochements | Proposition explicable, revue selon règles métier ; aucune fusion automatique irréversible | Score explicable, preuves, version et décision | À arbitrer |
 | B-08 | Restrictions et oppositions | Registre central consulté avant toute action pertinente, avec recontrôle avant exécution et rejeu | Éligibilité, prospection, transferts et tâches différées | À arbitrer |
@@ -65,14 +65,17 @@
 - **Responsable de l'arbitrage :** porteur du projet.
 - **État :** Validé — principe de rapprochement d'identité sans fusion ni enrichissement croisé confirmé le 3 novembre 2026. Le modèle technique de référence reste à spécifier.
 
-### B-05 — Partage CRM vers client
+### B-05 — Partage CRM vers client et administration des habilitations
 
-- **Question à trancher :** qui peut autoriser un partage, pour quelle finalité, quels champs et quelle durée ?
-- **Proposition technique :** projection minimale et distincte de la fiche source, avec destinataire, finalité, approbateur, dates, statut et révocation.
-- **Conséquences :** workflow d'approbation, contrôle au moment de l'exécution, traçabilité des champs transmis, révocation des accès, caches et tâches différées.
-- **Preuves attendues :** seuls les champs approuvés sont exposés ; révocation effective ; aucune remontée vers la fiche CRM complète ; traitement des copies déjà transmises défini.
-- **Responsable de l'arbitrage :** porteur du projet ; désignation explicite du rôle approbateur requise.
-- **État :** À arbitrer.
+- **Question à trancher :** quels contenus sont accessibles à tous dans la phase initiale, lesquels nécessitent une identification, et comment activer progressivement les restrictions ?
+- **Décision confirmée le 3 novembre 2026 — autorité d'administration :** le porteur du projet, en qualité d'administrateur, est le seul à accorder, modifier ou retirer les accès, privilèges et fonctionnalités. Aucun utilisateur, rôle client ou opérateur ne peut s'attribuer une habilitation ni en déléguer une implicitement.
+- **Principe de préparation technique :** les fonctionnalités et contenus doivent être conçus avec des points de contrôle d'identification et d'autorisation, afin de pouvoir être ouverts dans la phase initiale puis verrouillés ou restreints ultérieurement sans refonte majeure. L'identification et l'authentification seront mises en place dans le socle prévu ; une fonctionnalité techniquement disponible n'est pas nécessairement autorisée à chaque utilisateur.
+- **Principe de déploiement progressif :** commencer par une expérience aussi simple que possible, avec les informations que le porteur du projet décidera de rendre accessibles à tous, puis faire évoluer les habilitations et les restrictions à mesure que le produit et ses usages se complexifient.
+- **Limite de portée :** « accessible à tous » n'est pas encore défini comme accès public sans compte ou accès à toute personne identifiée. La liste des contenus ouverts, les finalités, les exceptions, les champs partageables depuis le CRM, les durées et les règles de révocation restent à arbitrer. Aucun contenu CRM interne, note, contact privé ou document confidentiel ne devient public par défaut.
+- **Conséquences :** administration centralisée des habilitations, identification, contrôle serveur des accès, séparation entre disponibilité technique et droit d'usage, configuration évolutive des fonctionnalités, journalisation des changements d'accès et révocation effective.
+- **Preuves attendues :** seul l'administrateur peut modifier les habilitations ; un utilisateur ne peut pas contourner un verrouillage par URL ou appel direct ; l'ouverture initiale ne révèle aucune donnée CRM interne ou privée ; un droit retiré est effectivement bloqué.
+- **Responsable de l'arbitrage :** administrateur / porteur du projet.
+- **État :** autorité d'administration validée le 3 novembre 2026 ; politique de partage et définition de « tous » encore à arbitrer.
 
 ### B-06 — Séparation des données d'annonce
 
@@ -192,4 +195,4 @@ Tant que les arbitrages bloquants ne sont pas validés :
 
 Le prototype existant reste préservé. Toute implémentation ultérieure devra faire l'objet d'un périmètre distinct, d'un audit, d'une autorisation explicite et de tests reproductibles.
 
-**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant) et B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé). Les arbitrages B-05 à B-10 restent ouverts.
+**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé) et confirmation, dans B-05, de l'autorité exclusive de l'administrateur sur les habilitations. La politique détaillée de partage et les arbitrages B-05 à B-10 restent ouverts.
