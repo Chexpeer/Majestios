@@ -109,14 +109,14 @@ async function main() {
               dateparution: "2026-11-02", datelimitereponse: "2027-12-01T12:00:00+01:00",
               nomacheteur: "Acheteur de test", code_departement: "79", code_departement_prestation: "79",
               type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
-              descripteur_libelle: "Services", etat: "INITIAL"
+              descripteur_libelle: "Informatique et services numériques", etat: "INITIAL"
             }))
           : Array.from({ length: 12 }, (_, index) => ({
               idweb: "BOAMP-PAGE-2-MATCH-" + index, objet: "Marché paginationtest " + index,
               dateparution: "2026-11-02", datelimitereponse: "2027-12-01T12:00:00+01:00",
               nomacheteur: "Acheteur de test", code_departement: "79", code_departement_prestation: "79",
               type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
-              descripteur_libelle: "Services", etat: "INITIAL",
+              descripteur_libelle: "Informatique et services numériques", etat: "INITIAL",
               url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ABOAMP-PAGE-2-MATCH-" + index
             }));
         await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ total_count: 112, results: records }) });
@@ -282,7 +282,7 @@ async function main() {
     // Pagination BOAMP : 100 annonces sans correspondance, puis 12 correspondances.
     apiCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=paginationtest&marche=public&categorie=services", { waitUntil: "domcontentloaded" });
-    await page.getByRole("heading", { name: "Marché paginationtest 0" }).waitFor({ timeout: 10000 });
+    await page.locator(".opportunity-result-card").filter({ hasText: "Marché paginationtest 0" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".opportunity-result-card").count(), 10, "BOAMP doit plafonner l’affichage à 10 résultats.");
     assert.equal(apiCalls, 2, "BOAMP doit interroger la deuxième page après 100 annonces non pertinentes.");
 
