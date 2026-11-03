@@ -2,7 +2,7 @@
 
 **Date d'ouverture :** 3 novembre 2026  
 **Branche de référence :** `evolution-3.0`  
-**Statut global :** arbitrages de principe B-01, B-02 et B-03 validés le 3 novembre 2026 ; les autres arbitrages restent à arbitrer.  
+**Statut global :** arbitrages de principe B-01 à B-04 validés le 3 novembre 2026 ; les autres arbitrages restent à arbitrer.  
 **Références :** `ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md`, `ETAPE-C-CONTRATS-API-EVENEMENTS.md`, `ARCHITECTURE-API-CIBLE.md`.
 
 > Ce registre rend les décisions traçables. Les décisions explicitement confirmées par le porteur du projet sont distinguées des propositions encore à arbitrer. Une validation de principe ne vaut ni autorisation de développement, ni validation de tous les détails d'implémentation, ni choix de fournisseur.
@@ -14,7 +14,7 @@
 | B-01 | Isolation des tenants clients | Base de données commune avec isolation stricte par espace client (Option A) ; choix à traduire en contrôles vérifiables | Modèle de données, autorisation, sauvegarde et exploitation | Validé — 03/11/2026 |
 | B-02 | CRM interne | Périmètre organisationnel distinct ; accès réservé aux utilisateurs internes explicitement autorisés | Routes, données, rôles et opérations internes isolés | Validé — 03/11/2026 |
 | B-03 | BrainOS | Périmètre de données et de permissions indépendant ; accès limité aux corpus et données explicitement autorisés | Corpus, index, recherche et métadonnées d'accès | Validé — 03/11/2026 |
-| B-04 | Entreprises communes | Identité d'entreprise rapprochable, mais dossiers, notes, contacts et pièces restent propres à leur périmètre ; aucune fusion/enrichissement automatique | Référentiel, dédoublonnage et provenance | À arbitrer |
+| B-04 | Entreprises communes | Identité d'entreprise rapprochable, mais dossiers, notes, contacts et pièces restent propres à leur périmètre ; aucune fusion/enrichissement automatique | Référentiel, dédoublonnage et provenance | Validé — 03/11/2026 |
 | B-05 | Partage CRM vers client | Projection de champs minimale, finalisée, approuvée, traçable, expirante si nécessaire et révocable | Objet de partage, autorité d'approbation et propagation de révocation | À arbitrer |
 | B-06 | Annonces | Séparer contenu privé, décision de modération et projection publique ; publication distincte du transfert CRM et de l'usage commercial | États, droits, pièces et projections | À arbitrer |
 | B-07 | Rapprochements | Proposition explicable, revue selon règles métier ; aucune fusion automatique irréversible | Score explicable, preuves, version et décision | À arbitrer |
@@ -57,11 +57,13 @@
 ### B-04 — Fiches entreprise communes au CRM et aux clients
 
 - **Question à trancher :** comment représenter une même entreprise présente dans plusieurs périmètres sans mélanger les informations ?
-- **Proposition technique :** distinguer identité de l'entreprise et dossiers propres à chaque périmètre ; rapprochement explicable, sans fusion ni enrichissement croisé automatique.
-- **Conséquences :** provenance par champ, propriété des notes et contacts, gestion des doublons et droits de consultation.
-- **Preuves attendues :** une fiche client ne révèle pas les notes, contacts ou pièces CRM ; une modification dans un espace n'altère pas l'autre dossier.
+- **Décision validée le 3 novembre 2026 :** une même entreprise peut être rapprochée entre plusieurs périmètres à partir d'une identité d'entreprise vérifiable, sans fusionner les dossiers ni partager automatiquement leurs informations.
+- **Règle de cloisonnement :** les notes, contacts, pièces, historiques commerciaux et autres données de dossier restent la propriété de leur périmètre. Aucun enrichissement croisé ni accès implicite n'est autorisé. Une modification dans un périmètre ne modifie pas le dossier d'un autre périmètre.
+- **Précision d'identification :** le SIREN peut servir d'identifiant de rapprochement de l'unité légale lorsqu'il est disponible et vérifié ; il ne doit pas être confondu avec le SIRET, qui identifie un établissement. Les cas incomplets, ambigus ou concernant des établissements distincts nécessitent une règle de rapprochement explicable et une vérification adaptée. Cette validation ne décide pas de l'existence ni de la structure d'un référentiel maître partagé.
+- **Conséquences :** provenance par champ, propriété des notes et contacts, gestion des doublons et droits de consultation ; la représentation technique de l'identité rapprochée reste à concevoir.
+- **Preuves attendues :** une fiche client ne révèle pas les notes, contacts ou pièces CRM ; une modification dans un espace n'altère pas l'autre dossier ; tout rapprochement est traçable et n'accorde aucun droit d'accès supplémentaire.
 - **Responsable de l'arbitrage :** porteur du projet.
-- **État :** À arbitrer.
+- **État :** Validé — principe de rapprochement d'identité sans fusion ni enrichissement croisé confirmé le 3 novembre 2026. Le modèle technique de référence reste à spécifier.
 
 ### B-05 — Partage CRM vers client
 
@@ -165,7 +167,7 @@ Les contrats C-01 à C-10 restent eux-mêmes à valider. Ce registre ne les appr
 
 ## 6. Conditions de clôture
 
-Un arbitrage ne passe à « Validé » que lorsque le porteur du projet a explicitement confirmé la décision. Les validations B-01 à B-03 du 3 novembre 2026 portent sur les principes et choix explicitement énoncés ; les précisions techniques signalées comme restant à arbitrer ne sont pas réputées approuvées. Pour chaque décision validée, consigner :
+Un arbitrage ne passe à « Validé » que lorsque le porteur du projet a explicitement confirmé la décision. Les validations B-01 à B-04 du 3 novembre 2026 portent sur les principes et choix explicitement énoncés ; les précisions techniques signalées comme restant à arbitrer ne sont pas réputées approuvées. Pour chaque décision validée, consigner :
 - décision retenue et options écartées ;
 - justification métier et technique ;
 - responsable de validation et date ;
@@ -190,4 +192,4 @@ Tant que les arbitrages bloquants ne sont pas validés :
 
 Le prototype existant reste préservé. Toute implémentation ultérieure devra faire l'objet d'un périmètre distinct, d'un audit, d'une autorisation explicite et de tests reproductibles.
 
-**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (Option A), B-02 (CRM interne distinct) et B-03 (BrainOS indépendant). Les arbitrages B-04 à B-10 restent ouverts.
+**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant) et B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé). Les arbitrages B-05 à B-10 restent ouverts.
