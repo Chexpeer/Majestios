@@ -356,7 +356,11 @@ Ce lot ne réalise pas :
 
 Aucune fuite de données n'est affirmée par ce dossier. Il formalise des risques de conception à traiter avant l'activation de données et services réels.
 
-## 17. Références internes
+## 17. Suite opérationnelle du lot 2
+
+La première matrice de permissions, avec rôles provisoires, ressources, actions, règles de refus par défaut et scénarios PERM-01 à PERM-15, est détaillée dans [LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md](LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md). Cette matrice est une proposition de travail et ne valide aucun rôle ni droit applicatif.
+
+## 18. Références internes
 
 - [Étape B — Modèle conceptuel des données et cloisonnement](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md)
 - [Référentiel de cohérence documentaire A/B/C](CONSOLIDATION-A-B-C-REFERENTIEL.md)
