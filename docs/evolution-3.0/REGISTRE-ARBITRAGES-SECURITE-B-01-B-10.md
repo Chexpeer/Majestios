@@ -2,7 +2,7 @@
 
 **Date d'ouverture :** 3 novembre 2026  
 **Branche de référence :** `evolution-3.0`  
-**Statut global :** arbitrages de principe B-01 à B-04 validés le 3 novembre 2026 ; les autres arbitrages restent à arbitrer.  
+**Statut global :** arbitrages de principe B-01 à B-04 validés le 3 novembre 2026 ; B-05 validé sur les principes d'accès ; B-06 partiellement validé sur l'autorité de publication ; les autres arbitrages et précisions restent à arbitrer.  
 **Références :** `ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md`, `ETAPE-C-CONTRATS-API-EVENEMENTS.md`, `ARCHITECTURE-API-CIBLE.md`.
 
 > Ce registre rend les décisions traçables. Les décisions explicitement confirmées par le porteur du projet sont distinguées des propositions encore à arbitrer. Une validation de principe ne vaut ni autorisation de développement, ni validation de tous les détails d'implémentation, ni choix de fournisseur.
@@ -16,7 +16,7 @@
 | B-03 | BrainOS | Périmètre de données et de permissions indépendant ; accès limité aux corpus et données explicitement autorisés | Corpus, index, recherche et métadonnées d'accès | Validé — 03/11/2026 |
 | B-04 | Entreprises communes | Identité d'entreprise rapprochable, mais dossiers, notes, contacts et pièces restent propres à leur périmètre ; aucune fusion/enrichissement automatique | Référentiel, dédoublonnage et provenance | Validé — 03/11/2026 |
 | B-05 | Accès visiteurs, utilisateurs identifiés et partage CRM vers client | Visiteurs limités à quelques annonces publiques ; annonces privées majoritairement verrouillées ; utilisateurs identifiés accèdent aux étages et contenus pédagogiques ; habilitations administrées exclusivement par l'administrateur | Parcours public/identifié, contrôle d'accès, projection des annonces et partage CRM | Validé — principes d'accès et de présentation ; détails de partage à préciser |
-| B-06 | Annonces | Séparer contenu privé, décision de modération et projection publique ; publication distincte du transfert CRM et de l'usage commercial | États, droits, pièces et projections | À arbitrer |
+| B-06 | Annonces | Séparer soumission, modération, validation privée et publication ; l'auteur peut demander la publication, mais l'administrateur doit l'approuver ; publication distincte du transfert CRM et de l'usage commercial | États, droits, pièces et projections | Partiellement validé — autorité de publication ; workflow détaillé à préciser |
 | B-07 | Rapprochements | Proposition explicable, revue selon règles métier ; aucune fusion automatique irréversible | Score explicable, preuves, version et décision | À arbitrer |
 | B-08 | Restrictions et oppositions | Registre central consulté avant toute action pertinente, avec recontrôle avant exécution et rejeu | Éligibilité, prospection, transferts et tâches différées | À arbitrer |
 | B-09 | Audit | Journal append-only logique, accès restreint, protection contre altération et journalisation de ses consultations | Traçabilité, sécurité et investigation | À arbitrer |
@@ -83,14 +83,23 @@
 - **Responsable de l'arbitrage :** administrateur / porteur du projet.
 - **État :** principes d'accès visiteurs/utilisateurs identifiés, de présentation des annonces privées et d'autorité exclusive de l'administrateur validés le 3 novembre 2026. Les règles détaillées de déverrouillage des annonces privées et de partage de données CRM restent à préciser.
 
-### B-06 — Séparation des données d'annonce
+### B-06 — Cycle de vie et publication des annonces privées
 
-- **Question à trancher :** quels champs et pièces relèvent du contenu privé, de la modération et de la projection publique ?
-- **Proposition technique :** séparer contenu soumis, décision de modération et projection publiée. La publication ne vaut ni transfert CRM ni autorisation de prospection.
-- **Conséquences :** états versionnés, droits d'accès par état, contrôle des pièces, historique des décisions et projections publiques.
-- **Preuves attendues :** annonce non publiée invisible au public ; projection publique limitée aux champs approuvés ; aucun transfert CRM ou usage commercial implicite.
-- **Responsable de l'arbitrage :** porteur du projet, avec avis produit/modération.
-- **État :** À arbitrer.
+- **Question à trancher :** comment une annonce privée est-elle soumise, modérée, validée puis éventuellement rendue publique, sans confondre publication et partage de données CRM ?
+- **Décision confirmée le 3 novembre 2026 — autorité de publication (option B) :** l'auteur d'une annonce peut demander sa publication. Cette demande ne rend pas l'annonce publique : l'administrateur du projet doit examiner et approuver explicitement la publication. L'auteur ne peut pas publier seul, même si l'annonce a déjà été modérée ou validée comme annonce privée.
+- **Séquence de référence proposée, dont les détails restent à spécifier :**
+  1. **Brouillon :** visible par son auteur et les personnes explicitement habilitées à l'accompagner ; aucune visibilité publique.
+  2. **Soumise :** transmise à la modération ; accessible à l'auteur et aux modérateurs habilités.
+  3. **À corriger / refusée :** décision de modération tracée ; les corrections éventuelles repassent par le circuit de soumission.
+  4. **Validée privée :** annonce admise dans le dispositif privé ; elle reste non publique et visible uniquement aux personnes autorisées selon leurs habilitations.
+  5. **Publication demandée :** l'auteur sollicite la publication ; la demande est distincte de la validation privée.
+  6. **Publication approuvée :** l'administrateur approuve explicitement la publication et les champs destinés à la projection publique. Seuls ces champs approuvés sont exposés aux visiteurs.
+  7. **Publication refusée / retirée :** la décision est tracée ; l'annonce ne devient pas publique ou cesse de l'être selon le cas. Les règles de notification et de recours restent à définir.
+- **Séparation impérative :** validation de modération, validation privée et approbation de publication sont des décisions distinctes. Une annonce validée privée ne devient jamais publique automatiquement. La publication ne vaut ni transfert de données CRM, ni autorisation de prospection, ni ingestion dans BrainOS. Tout partage CRM demeure soumis à une autorisation distincte de l'administrateur, selon B-05.
+- **Conséquences :** états versionnés, droits d'accès par état, contrôle des pièces, projection publique en liste blanche de champs approuvés, historique des décisions et révocation/retrait de publication.
+- **Preuves attendues :** annonce non publiée invisible au public ; demande de publication de l'auteur sans effet public tant que l'administrateur n'a pas approuvé ; projection publique limitée aux champs approuvés ; refus ou retrait effectif ; aucun transfert CRM, usage commercial ou ingestion BrainOS implicite.
+- **Responsable de l'arbitrage :** porteur du projet / administrateur, avec avis produit et modération.
+- **État :** partiellement validé le 3 novembre 2026 : option B confirmée pour l'autorité de publication (demande possible par l'auteur, approbation obligatoire de l'administrateur). Les états définitifs, critères de modération, champs publiables, pièces, notifications, retrait et recours restent à préciser.
 
 ### B-07 — Rapprochements entre signaux et entreprises
 
@@ -176,7 +185,7 @@ Les contrats C-01 à C-10 restent eux-mêmes à valider. Ce registre ne les appr
 
 ## 6. Conditions de clôture
 
-Un arbitrage ne passe à « Validé » que lorsque le porteur du projet a explicitement confirmé la décision. Les validations B-01 à B-04 du 3 novembre 2026 portent sur les principes et choix explicitement énoncés ; les précisions techniques signalées comme restant à arbitrer ne sont pas réputées approuvées. Pour chaque décision validée, consigner :
+Un arbitrage ne passe à « Validé » que lorsque le porteur du projet a explicitement confirmé la décision. Les validations B-01 à B-04 du 3 novembre 2026 portent sur les principes et choix explicitement énoncés. B-05 est validé sur les principes d'accès et d'administration des habilitations ; B-06 est partiellement validé sur l'autorité de publication (option B uniquement). Les précisions techniques signalées comme restant à arbitrer ne sont pas réputées approuvées. Pour chaque décision validée, consigner :
 - décision retenue et options écartées ;
 - justification métier et technique ;
 - responsable de validation et date ;
@@ -201,4 +210,4 @@ Tant que les arbitrages bloquants ne sont pas validés :
 
 Le prototype existant reste préservé. Toute implémentation ultérieure devra faire l'objet d'un périmètre distinct, d'un audit, d'une autorisation explicite et de tests reproductibles.
 
-**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé) et B-05 (accès limité des visiteurs, accès identifié aux contenus pédagogiques de tous les étages, annonces privées majoritairement verrouillées pour les visiteurs et autorité exclusive de l'administrateur sur les habilitations). Les règles détaillées de déverrouillage des annonces privées et de partage CRM restent à préciser ; B-06 à B-10 restent à arbitrer.
+**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé), B-05 (accès visiteurs/utilisateurs identifiés et autorité exclusive de l'administrateur sur les habilitations) et B-06 (l'auteur peut demander la publication d'une annonce, mais l'administrateur doit l'approuver). Les règles détaillées de déverrouillage des annonces privées, de partage CRM et le workflow complet des annonces restent à préciser ; B-07 à B-10 restent à arbitrer.
