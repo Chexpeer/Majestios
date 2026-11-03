@@ -18,6 +18,7 @@ Les documents spécialisés restent les références détaillées de leur domain
 |---|---|---|
 | A — Frontières fonctionnelles | [ETAPE-A-ARCHITECTURE-FONCTIONNELLE.md](ETAPE-A-ARCHITECTURE-FONCTIONNELLE.md) | Modules, responsabilités, flux et interdictions |
 | B — Données et cloisonnement | [ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md) | Propriété fonctionnelle, entités, périmètres et isolation |
+| Approfondissement du lot 2 | [LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md](LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md) | Clarification des périmètres CRM/tenants/BrainOS, partages et tests négatifs ; arbitrages B toujours ouverts |
 | C — Contrats | [ETAPE-C-CONTRATS-API-EVENEMENTS.md](ETAPE-C-CONTRATS-API-EVENEMENTS.md) | Routes, commandes, événements, transferts et garanties |
 | Architecture cible antérieure | [ARCHITECTURE-API-CIBLE.md](ARCHITECTURE-API-CIBLE.md) | Proposition d'architecture globale à réaligner |
 | Migration | [MIGRATION-EVOLUTION-3.0.md](MIGRATION-EVOLUTION-3.0.md) | Lots, dépendances et gouvernance de migration |
@@ -314,6 +315,7 @@ Aucun backend, base, authentification, CRM opérationnel, connecteur serveur, wo
 
 - [Étape A — Architecture fonctionnelle](ETAPE-A-ARCHITECTURE-FONCTIONNELLE.md)
 - [Étape B — Modèle de données et cloisonnement](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md)
+- [Lot 2 — Propriété des données et cloisonnement](LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md)
 - [Étape C — Contrats API et événements](ETAPE-C-CONTRATS-API-EVENEMENTS.md)
 - [Architecture API cible](ARCHITECTURE-API-CIBLE.md)
 - [Migration évolution 3.0](MIGRATION-EVOLUTION-3.0.md)
