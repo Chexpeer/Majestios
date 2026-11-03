@@ -276,7 +276,9 @@
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
           const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
-          return queryMatches && (category === "all" || recordCategory === category);
+          const departmentMatches = !selectedDepartment ||
+            normalize(record.departement_nom_officiel) === normalize(selectedDepartment.bodacc);
+          return departmentMatches && queryMatches && (category === "all" || recordCategory === category);
         }).slice(0, resultLimit);if (!filtered.length) {
           empty.textContent = records.length
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
@@ -378,6 +380,9 @@
           : [];
       const filtered = records
         .filter((record) => !isExpired(record))
+        .filter((record) => departmentCode === "all" || [
+          record.code_departement_prestation, record.code_departement
+        ].some((value) => String(value || "").trim() === departmentCode))
         .filter((record) => categoryMatches(record, category))
         .filter((record) => keywordMatches(record, query))
         .slice(0, resultLimit);if (filtered.length) {
