@@ -20,6 +20,7 @@ Les documents spécialisés restent les références détaillées de leur domain
 | B — Données et cloisonnement | [ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md) | Propriété fonctionnelle, entités, périmètres et isolation |
 | Approfondissement du lot 2 | [LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md](LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md) | Clarification des périmètres CRM/tenants/BrainOS, partages et tests négatifs ; arbitrages B toujours ouverts |
 | Modèle logique conceptuel du lot 2.2 | [LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md](LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md) | Catalogue des entités, relations, invariants et tests ; proposition sans schéma physique |
+| Traçabilité API du lot 2.3 | [LOT-2-TRAÇABILITE-CONTRATS-API.md](LOT-2-TRAÇABILITE-CONTRATS-API.md) | Correspondance ressources/permissions/routes/contrôles/tests ; aucun endpoint implémenté |
 | Matrice de permissions proposée | [LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md](LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md) | Rôles provisoires, droits par ressource/action et scénarios de contrôle ; non validée |
 | C — Contrats | [ETAPE-C-CONTRATS-API-EVENEMENTS.md](ETAPE-C-CONTRATS-API-EVENEMENTS.md) | Routes, commandes, événements, transferts et garanties |
 | Architecture cible antérieure | [ARCHITECTURE-API-CIBLE.md](ARCHITECTURE-API-CIBLE.md) | Proposition d'architecture globale à réaligner |
@@ -318,6 +319,9 @@ Aucun backend, base, authentification, CRM opérationnel, connecteur serveur, wo
 - [Étape A — Architecture fonctionnelle](ETAPE-A-ARCHITECTURE-FONCTIONNELLE.md)
 - [Étape B — Modèle de données et cloisonnement](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md)
 - [Lot 2 — Propriété des données et cloisonnement](LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md)
+- [Lot 2.1 — Matrice de permissions proposée](LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md)
+- [Lot 2.2 — Modèle logique conceptuel](LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md)
+- [Lot 2.3 — Traçabilité des contrats API](LOT-2-TRAÇABILITE-CONTRATS-API.md)
 - [Étape C — Contrats API et événements](ETAPE-C-CONTRATS-API-EVENEMENTS.md)
 - [Architecture API cible](ARCHITECTURE-API-CIBLE.md)
 - [Migration évolution 3.0](MIGRATION-EVOLUTION-3.0.md)
