@@ -13,7 +13,7 @@
 6. **Validation explicite.** Aucune modification du code, de l'architecture, des paramètres de production, aucun déploiement ni fusion sans autorisation explicite correspondant au périmètre. Une autorisation documentaire ne vaut pas autorisation de coder.
 7. **Documentation vivante et concise.** Maintenir une documentation synthétique, sans doublons, orientée vers la prochaine étape. Toute décision, évolution de périmètre, anomalie importante ou vérification doit être reportée dans le document de référence concerné.
 8. **Relecture croisée.** Faire relire régulièrement les documents et changements par plusieurs agents IA lorsque c'est possible. Les relecteurs cherchent contradictions, omissions, risques et erreurs ; ils ne valident pas à la place du porteur du projet. Toute divergence est signalée.
-9. **Versions isolées.** Conserver `evolution-2.0` comme base de travail de référence. Pour chaque nouvelle étape structurante, créer une branche dédiée (par exemple `evolution-3.0`, puis `4.0`, etc.) depuis une base explicitement choisie. Ne jamais réécrire l'historique ni écraser une base antérieure. Une branche facilite l'isolation mais ne remplace pas une sauvegarde ou un tag de référence.
+9. **Versions isolées.** Conserver `evolution-2.0` comme base de référence. Tout changement critique ou à risque significatif doit être réalisé sur une branche dédiée, jamais directement sur la base. La prochaine branche dédiée sera `evolution-3.0` (« Évolution 3.0 »), créée depuis une base explicitement choisie et vérifiée. Les étapes ultérieures pourront suivre `evolution-4.0`, etc. Ne jamais réécrire l'historique ni écraser une base antérieure. Une branche ne remplace pas un tag ou une sauvegarde.
 
 ## Séquence obligatoire avant toute intervention
 
@@ -30,8 +30,9 @@
 
 - `AGENTS.md` : règles opérationnelles communes aux agents.
 - `CAHIER-DES-CHARGES-FONDATEUR.md` : vision, besoins, décisions et feuille de route fonctionnelle.
+- `CARTOGRAPHIE-FONCTIONNELLE-FLUX.md` : circulation des informations, responsabilités des modules, règles de visibilité et points à arbitrer ; document de conception évolutif.
 - `AUDIT-EXISTANT-PHASE-1.md` : état constaté, limites, écarts et risques ; dater chaque mise à jour.
 - Le dossier d'architecture cible et les spécifications détaillées seront créés ou actualisés au moment où leur contenu sera suffisamment audité et arbitré. Ne pas multiplier les documents redondants.
 - `docs/README.md` : index, hiérarchie et contradictions connues.
 
-**Règle de priorité :** une décision explicite du porteur du projet prévaut. Une contradiction entre décisions ou documents de référence doit être remontée pour arbitrage, jamais résolue par supposition.
+**Règle de priorité documentaire :** les décisions explicites et récentes du porteur du projet, la feuille de route active et les documents visionnaires validés priment sur les documents historiques. Les archives sont consultatives : elles ne constituent pas des exigences actuelles et ne doivent pas réintroduire une ancienne orientation. Toute contradiction entre décisions actives est remontée pour arbitrage, jamais résolue par supposition.
