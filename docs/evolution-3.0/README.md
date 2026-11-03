@@ -6,6 +6,7 @@ La branche `evolution-3.0` est la branche de travail des évolutions critiques d
 
 - [Dossier de migration et décisions de cadrage](MIGRATION-EVOLUTION-3.0.md) — audit préalable, état de migration, décisions reprises et arbitrages ouverts.
 - [Architecture API cible](ARCHITECTURE-API-CIBLE.md) — architecture logique, modèle conceptuel, API, événements, sécurité, flux et migration technique.
+- [Audit comparatif des choix techniques](AUDIT-COMPARATIF-TECHNIQUE.md) — comparaison backend, base, authentification, isolation multi-tenant, événements, exploitation et recommandation à valider.
 
 ## Références fonctionnelles héritées
 
