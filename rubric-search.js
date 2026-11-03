@@ -80,8 +80,6 @@
     { value: "bodacc-creations", label: "Créations et implantations", group: "Signaux BODACC" },
     { value: "bodacc-cessions", label: "Ventes, cessions et reprises", group: "Signaux BODACC" },
     { value: "bodacc-modifications", label: "Modifications d’entreprises", group: "Signaux BODACC" },
-    { value: "bodacc-procedures", label: "Difficultés et procédures collectives", group: "Signaux BODACC" },
-    { value: "bodacc-radiations", label: "Radiations et cessations", group: "Signaux BODACC" },
     { value: "immobilier", label: "Immobilier professionnel", group: "Autres opportunités privées", connected: false },
     { value: "emploi", label: "Emploi et recrutement", group: "Autres opportunités privées", connected: false },
     { value: "sous-traitance-offres", label: "Offres de sous-traitance", group: "Autres opportunités privées", connected: false },
