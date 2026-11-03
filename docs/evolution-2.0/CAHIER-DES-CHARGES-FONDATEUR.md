@@ -185,7 +185,7 @@ Les phases ci-dessous sont des étapes de validation, pas des dates de livraison
 - formaliser CRM, veille, prospection, publication et espaces clients ;
 - décrire les circuits de données, statuts et règles d'accès.
 
-**Livrable :** cahier des charges fonctionnel validé.
+**Livrables :** cahier des charges fonctionnel validé et cartographie des flux (sources → qualification → publication/CRM/Veille/prospection), avec responsabilités, droits et points à arbitrer.
 
 ### Phase 3 — Cadrage commercial et pédagogique
 - préciser les clientèles prioritaires et propositions de valeur ;
@@ -196,6 +196,7 @@ Les phases ci-dessous sont des étapes de validation, pas des dates de livraison
 **Livrable :** modèle commercial et parcours pédagogiques de référence.
 
 ### Phase 4 — Architecture technique cible
+- traduire la cartographie fonctionnelle validée en architecture technique ;
 - définir le modèle de données et les interfaces ;
 - sélectionner les mécanismes de collecte et d'automatisation ;
 - établir sécurité, conformité, observabilité et sauvegardes ;
