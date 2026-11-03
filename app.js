@@ -187,14 +187,12 @@ const PUBLIC_SEARCH_CATEGORIES = [
   ["plomberie", "Plomberie & chauffage"],
   ["maintenance", "Maintenance & exploitation"]
 ];
-// Taxonomie privée : les cinq familles BODACC sont disponibles ; les autres sont
-// conservées comme rubriques prévues, mais désactivées jusqu’à la connexion de leurs sources.
+// Taxonomie privée : seules les trois familles BODACC validées sont actives.
+// Immobilier, emploi et sous-traitance restent prévues mais désactivées jusqu’à validation de leurs sources.
 const PRIVATE_SEARCH_CATEGORIES = [
   ["bodacc-creations", "Créations et implantations", "Signaux BODACC", true],
   ["bodacc-cessions", "Ventes, cessions et reprises", "Signaux BODACC", true],
   ["bodacc-modifications", "Modifications d’entreprises", "Signaux BODACC", true],
-  ["bodacc-procedures", "Difficultés et procédures collectives", "Signaux BODACC", true],
-  ["bodacc-radiations", "Radiations et cessations", "Signaux BODACC", true],
   ["immobilier", "Immobilier professionnel", "Autres opportunités privées", false],
   ["emploi", "Emploi et recrutement", "Autres opportunités privées", false],
   ["sous-traitance-offres", "Offres de sous-traitance", "Autres opportunités privées", false],

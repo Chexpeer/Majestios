@@ -174,9 +174,7 @@ async function main() {
     const bodaccCategoryCases = [
       ["bodacc-creations", "Entreprise BODACC création test"],
       ["bodacc-cessions", "Entreprise BODACC de test"],
-      ["bodacc-modifications", "Entreprise BODACC modification test"],
-      ["bodacc-procedures", "Entreprise BODACC procédure test"],
-      ["bodacc-radiations", "Entreprise BODACC radiation test"]
+      ["bodacc-modifications", "Entreprise BODACC modification test"]
     ];
     for (const [category, expectedCompany] of bodaccCategoryCases) {
       await page.goto(`http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=${category}`, { waitUntil: "domcontentloaded" });
@@ -240,8 +238,10 @@ async function main() {
       "Signaux d’entreprise publiés · BODACC"
     ], "La recherche combinée doit présenter BOAMP avant BODACC, dans l’ordre annoncé.");
     assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Marchés publics · BOAMP\"] .opportunity-result-card").count(), 1, "Le groupe BOAMP doit afficher son résultat public simulé.");
-    assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 5, "Le groupe BODACC doit afficher les cinq familles de signaux simulées.");
+    assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 3, "Le groupe BODACC doit afficher uniquement les trois familles validées.");
     assert.ok(await page.locator(".opportunity-result-card").count() <= 10, "Une recherche mixte ne doit jamais afficher plus de dix annonces et signaux au total.");
+    assert.equal(await page.getByRole("heading", { name: "Entreprise BODACC procédure test" }).count(), 0, "Les procédures collectives doivent être exclues même si la source les renvoie.");
+    assert.equal(await page.getByRole("heading", { name: "Entreprise BODACC radiation test" }).count(), 0, "Les radiations doivent être exclues même si la source les renvoie.");
 
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=outre-mer", { waitUntil: "domcontentloaded" });
     await page.getByText(/filtre BODACC pour l’Outre-mer n’est pas encore pris en charge/).waitFor({ timeout: 10000 });
@@ -263,10 +263,10 @@ async function main() {
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
-    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
+    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
       assert.ok(privateCategoryOptions.some(option => option.value === expected), `La catégorie privée ${expected} doit être proposée.`);
     }
-    assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 5, "Les rubriques BODACC doivent être regroupées ensemble.");
+    assert.equal(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count(), 3, "Seules les trois familles BODACC validées doivent être proposées.");
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
     assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
     const demoRegion = page.locator('#feed-region option[value="nord"]');
@@ -289,6 +289,7 @@ async function main() {
     await page.locator("#rubric-opportunity-search").waitFor({ state: "attached", timeout: 10000 });
     const privateRubricOptions = await page.locator("#rubric-search-category option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
     assert.ok(privateRubricOptions.some(option => option.value === "bodacc-cessions"), "La rubrique Marchés privés doit proposer les familles BODACC.");
+    assert.equal(privateRubricOptions.some(option => option.value === "bodacc-procedures" || option.value === "bodacc-radiations"), false, "La rubrique privée ne doit pas proposer les procédures collectives ni les radiations.");
     assert.ok(privateRubricOptions.some(option => option.value === "immobilier" && /à connecter/.test(option.label)), "La catégorie immobilière doit être visible comme source à connecter.");
     assert.equal(privateRubricOptions.some(option => option.value === "services"), false, "La rubrique privée ne doit pas proposer une catégorie propre aux marchés publics.");
     assert.equal(await page.locator("#rubric-opportunity-search input[name='marche']").inputValue(), "private", "Le formulaire privé doit rester verrouillé sur la source privée.");
