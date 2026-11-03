@@ -263,8 +263,6 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all", selec
 const initialSearchParams = new URLSearchParams(window.location.search);
 const initialMarketType = initialSearchParams.get("marche") || "";
 const initialCategory = initialSearchParams.get("categorie") || "all";
-populateSearchFilters(initialMarketType, initialCategory);
-
 const initialDepartment = initialSearchParams.get("departement") || "all";
 populateSearchFilters(initialMarketType, initialCategory, initialDepartment);
 const initialKeyword = initialSearchParams.get("q");
