@@ -15,7 +15,7 @@
 | B-02 | CRM interne | Périmètre organisationnel distinct ; accès réservé aux utilisateurs internes explicitement autorisés | Routes, données, rôles et opérations internes isolés | Validé — 03/11/2026 |
 | B-03 | BrainOS | Périmètre de données et de permissions indépendant ; accès limité aux corpus et données explicitement autorisés | Corpus, index, recherche et métadonnées d'accès | Validé — 03/11/2026 |
 | B-04 | Entreprises communes | Identité d'entreprise rapprochable, mais dossiers, notes, contacts et pièces restent propres à leur périmètre ; aucune fusion/enrichissement automatique | Référentiel, dédoublonnage et provenance | Validé — 03/11/2026 |
-| B-05 | Partage CRM vers client | Autorisation réservée à l'administrateur ; partage minimal, traçable et révocable ; ouverture progressive des informations et verrouillage activable | Habilitations, identification, objet de partage et propagation de révocation | À arbitrer — autorité confirmée |
+| B-05 | Accès visiteurs, utilisateurs identifiés et partage CRM vers client | Visiteurs limités à quelques annonces publiques ; annonces privées majoritairement verrouillées ; utilisateurs identifiés accèdent aux étages et contenus pédagogiques ; habilitations administrées exclusivement par l'administrateur | Parcours public/identifié, contrôle d'accès, projection des annonces et partage CRM | Validé — principes d'accès et de présentation ; détails de partage à préciser |
 | B-06 | Annonces | Séparer contenu privé, décision de modération et projection publique ; publication distincte du transfert CRM et de l'usage commercial | États, droits, pièces et projections | À arbitrer |
 | B-07 | Rapprochements | Proposition explicable, revue selon règles métier ; aucune fusion automatique irréversible | Score explicable, preuves, version et décision | À arbitrer |
 | B-08 | Restrictions et oppositions | Registre central consulté avant toute action pertinente, avec recontrôle avant exécution et rejeu | Éligibilité, prospection, transferts et tâches différées | À arbitrer |
@@ -65,17 +65,23 @@
 - **Responsable de l'arbitrage :** porteur du projet.
 - **État :** Validé — principe de rapprochement d'identité sans fusion ni enrichissement croisé confirmé le 3 novembre 2026. Le modèle technique de référence reste à spécifier.
 
-### B-05 — Partage CRM vers client et administration des habilitations
+### B-05 — Accès visiteurs, utilisateurs identifiés et administration des habilitations
 
-- **Question à trancher :** quels contenus sont accessibles à tous dans la phase initiale, lesquels nécessitent une identification, et comment activer progressivement les restrictions ?
+- **Question à trancher :** distinguer les contenus consultables sans compte, les contenus accessibles après identification et les données ou fonctionnalités réservées par habilitation.
 - **Décision confirmée le 3 novembre 2026 — autorité d'administration :** le porteur du projet, en qualité d'administrateur, est le seul à accorder, modifier ou retirer les accès, privilèges et fonctionnalités. Aucun utilisateur, rôle client ou opérateur ne peut s'attribuer une habilitation ni en déléguer une implicitement.
-- **Principe de préparation technique :** les fonctionnalités et contenus doivent être conçus avec des points de contrôle d'identification et d'autorisation, afin de pouvoir être ouverts dans la phase initiale puis verrouillés ou restreints ultérieurement sans refonte majeure. L'identification et l'authentification seront mises en place dans le socle prévu ; une fonctionnalité techniquement disponible n'est pas nécessairement autorisée à chaque utilisateur.
-- **Principe de déploiement progressif :** commencer par une expérience aussi simple que possible, avec les informations que le porteur du projet décidera de rendre accessibles à tous, puis faire évoluer les habilitations et les restrictions à mesure que le produit et ses usages se complexifient.
-- **Limite de portée :** « accessible à tous » n'est pas encore défini comme accès public sans compte ou accès à toute personne identifiée. La liste des contenus ouverts, les finalités, les exceptions, les champs partageables depuis le CRM, les durées et les règles de révocation restent à arbitrer. Aucun contenu CRM interne, note, contact privé ou document confidentiel ne devient public par défaut.
-- **Conséquences :** administration centralisée des habilitations, identification, contrôle serveur des accès, séparation entre disponibilité technique et droit d'usage, configuration évolutive des fonctionnalités, journalisation des changements d'accès et révocation effective.
-- **Preuves attendues :** seul l'administrateur peut modifier les habilitations ; un utilisateur ne peut pas contourner un verrouillage par URL ou appel direct ; l'ouverture initiale ne révèle aucune donnée CRM interne ou privée ; un droit retiré est effectivement bloqué.
+- **Décision confirmée — visiteurs non identifiés :** les visiteurs ne disposent que d'un accès limité à quelques annonces sélectionnées pour être publiques. La majorité des annonces privées est présentée comme verrouillée/grisée afin de rendre visible l'existence de contenus réservés et d'inciter le visiteur à créer son espace personnel. Un élément grisé ne doit jamais exposer les données masquées dans le HTML, les réponses API, les métadonnées, les pièces jointes ou les résultats de recherche.
+- **Décision confirmée — utilisateurs identifiés :** après identification, les utilisateurs peuvent accéder à l'ensemble des étages/rubriques de MajestiOS et consulter les documents pédagogiques qui expliquent la méthode de travail de MajestiOS, ses processus et ses moyens d'action. Cette ouverture concerne les contenus explicatifs prévus pour les utilisateurs ; elle ne donne aucun accès implicite aux données internes du CRM, aux dossiers d'autres clients, aux notes privées, aux contacts confidentiels ou aux documents internes.
+- **Exemples de contenus pédagogiques :**
+  - **Veille économique :** expliquer comment MajestiOS organise la veille, quelles informations sont recueillies, comment elles sont qualifiées et à quelles fins elles sont utilisées.
+  - **Prospection :** expliquer l'organisation de la prospection, notamment le recours à un réseau de télétravailleurs et de business developers, ainsi que le rôle de ces intervenants dans le dispositif.
+  - Les autres étages doivent suivre le même principe : expliquer clairement ce que fait MajestiOS, comment il le fait et ce que le client peut en attendre, sans divulguer d'informations confidentielles ou de données appartenant à un tiers.
+- **Principe de préparation technique :** les contenus, annonces et fonctionnalités doivent être identifiés et contrôlés séparément selon leur niveau d'accès (public visiteur, utilisateur identifié, accès soumis à habilitation). Les contrôles doivent être appliqués côté serveur ; masquer visuellement un contenu ne constitue jamais une mesure de sécurité. Le dispositif doit permettre d'ouvrir simplement les contenus pédagogiques aux utilisateurs identifiés, puis d'ajouter progressivement des restrictions plus fines sans refonte majeure.
+- **Principe de déploiement progressif :** commencer par une expérience aussi simple que possible. Les droits et fonctionnalités supplémentaires sont accordés uniquement par l'administrateur et peuvent être activés ou retirés au fur et à mesure de la montée en complexité du produit.
+- **Limite de portée :** l'identification donne accès aux contenus pédagogiques et aux rubriques prévues pour les utilisateurs, mais ne vaut pas autorisation générale d'accès à toutes les annonces privées, à tous les services, ni aux données CRM. Les conditions exactes de déverrouillage des annonces privées, les catégories d'annonces accessibles selon le statut du compte, les champs partageables depuis le CRM, les finalités, les durées et les modalités de révocation restent à préciser. Aucun contenu CRM interne, note, contact privé ou document confidentiel ne devient accessible par défaut.
+- **Conséquences :** séparation nette entre vitrine publique, espace utilisateur identifié et domaines métier privés ; classification des contenus ; contrôles d'accès serveur ; administration centralisée des habilitations ; configuration évolutive des fonctionnalités ; journalisation des changements d'accès ; révocation effective ; protection contre la fuite de contenus verrouillés via API, recherche, index, fichiers ou caches.
+- **Preuves attendues :** un visiteur ne récupère que les quelques annonces expressément publiées ; les annonces privées verrouillées ne divulguent aucune donnée sous-jacente ; un utilisateur identifié accède aux contenus pédagogiques de tous les étages ; cet accès ne permet pas de lire les dossiers CRM ou ceux d'autres clients ; seul l'administrateur peut modifier les habilitations ; un verrouillage est respecté par URL directe et appel API ; un droit retiré est effectivement bloqué.
 - **Responsable de l'arbitrage :** administrateur / porteur du projet.
-- **État :** autorité d'administration validée le 3 novembre 2026 ; politique de partage et définition de « tous » encore à arbitrer.
+- **État :** principes d'accès visiteurs/utilisateurs identifiés, de présentation des annonces privées et d'autorité exclusive de l'administrateur validés le 3 novembre 2026. Les règles détaillées de déverrouillage des annonces privées et de partage de données CRM restent à préciser.
 
 ### B-06 — Séparation des données d'annonce
 
@@ -128,8 +134,8 @@ La permission doit être évaluée selon : **acteur × domaine × ressource × a
 
 | Acteur | CRM interne | Espace client | Publication / modération | BrainOS | Audit |
 |---|---|---|---|---|---|
-| Visiteur | Aucun accès | Aucun accès privé | Lecture des seules projections publiques | Aucun accès privé | Aucun accès |
-| Utilisateur client | Aucun accès | Selon rôle dans son tenant | Ses annonces selon état et droits | Corpus explicitement autorisés | Aucun accès global |
+| Visiteur non identifié | Aucun accès | Contenus pédagogiques publics uniquement ; aucune donnée d'espace client | Lecture de quelques annonces explicitement publiques ; annonces privées affichées verrouillées sans données sous-jacentes | Aucun accès privé | Aucun accès |
+| Utilisateur identifié | Aucun accès | Accès aux étages et contenus pédagogiques prévus pour les utilisateurs ; données et fonctions privées selon habilitation et périmètre | Accès selon statut du compte et droits ; annonces privées non déverrouillées restent protégées | Corpus explicitement autorisés uniquement | Aucun accès global |
 | Administrateur client | Aucun accès | Administration de son tenant uniquement | Habilitation distincte | Corpus de son organisation si autorisé | Aucun accès global |
 | Opérateur CRM | Permissions CRM attribuées | Aucun accès implicite | Aucun accès implicite | Aucun accès implicite | Selon habilitation distincte |
 | Modérateur | Aucun accès par défaut | Aucun accès implicite | Modération dans son périmètre | Aucun accès par défaut | Traces de modération autorisées |
@@ -147,7 +153,7 @@ Ces questions ne sont pas numérotées B-01 à B-10 dans le document source, mai
 2. Plusieurs espaces ou dossiers indépendants pour un même client ?
 3. Dépôt de fichiers dès le premier lot ou après définition de la politique documentaire ?
 4. Corpus BrainOS par utilisateur, par organisation ou partagé avec droits documentaires ?
-5. Qui valide un partage d'une donnée CRM vers un client ?
+5. Qui valide un partage d'une donnée CRM vers un client ? **Principe décidé : seul l'administrateur du projet l'autorise ;** les contenus, finalités, destinataires, durées et modalités restent à définir.
 
 Elles restent **à arbitrer**.
 
@@ -195,4 +201,4 @@ Tant que les arbitrages bloquants ne sont pas validés :
 
 Le prototype existant reste préservé. Toute implémentation ultérieure devra faire l'objet d'un périmètre distinct, d'un audit, d'une autorisation explicite et de tests reproductibles.
 
-**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé) et confirmation, dans B-05, de l'autorité exclusive de l'administrateur sur les habilitations. La politique détaillée de partage et les arbitrages B-05 à B-10 restent ouverts.
+**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé) et B-05 (accès limité des visiteurs, accès identifié aux contenus pédagogiques de tous les étages, annonces privées majoritairement verrouillées pour les visiteurs et autorité exclusive de l'administrateur sur les habilitations). Les règles détaillées de déverrouillage des annonces privées et de partage CRM restent à préciser ; B-06 à B-10 restent à arbitrer.
