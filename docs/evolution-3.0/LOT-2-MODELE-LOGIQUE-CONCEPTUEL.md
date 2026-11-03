@@ -271,11 +271,14 @@ Le modèle logique pourra être considéré suffisamment stabilisé pour prépar
 
 ## 12. Hors périmètre et références
 
+Le prolongement contractuel est décrit dans [LOT-2-TRAÇABILITE-CONTRATS-API.md](LOT-2-TRAÇABILITE-CONTRATS-API.md) : registre des familles API, permissions, contrôles, erreurs, idempotence et tests. Il ne crée pas d'API active.
+
 Ce document ne crée aucune table, migration, policy, endpoint, rôle, permission ou donnée. Il ne vaut ni validation juridique, ni choix de fournisseur, ni validation des décisions B.
 
 Documents liés :
 - [Référentiel de cohérence A/B/C](CONSOLIDATION-A-B-C-REFERENTIEL.md)
 - [Lot 2 — Propriété des données et cloisonnement](LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md)
 - [Lot 2 — Matrice de permissions proposée](LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md)
+- [Lot 2.3 — Traçabilité des contrats API](LOT-2-TRAÇABILITE-CONTRATS-API.md)
 - [Étape B — Modèle de données et cloisonnement](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md)
 - [Étape C — Contrats API et événements](ETAPE-C-CONTRATS-API-EVENEMENTS.md)
