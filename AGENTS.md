@@ -1,71 +1,50 @@
 # Instructions de travail pour les agents IA — MajestiOS
 
-Ce fichier est le point d'entrée commun destiné aux assistants et agents de développement qui interviennent dans ce dépôt.
+Ce fichier est le point d'entrée canonique pour tout assistant ou agent intervenant dans ce dépôt.
 
-## 1. Lire avant d'agir
+## 1. Lecture obligatoire
 
-Avant toute analyse ou intervention :
-1. Lire `README.md` pour comprendre le dépôt et ses commandes.
-2. Lire `docs/evolution-2.0/CAHIER-DES-CHARGES-FONDATEUR.md`.
-3. Examiner l'état réel du code et de la branche de travail ; ne jamais déduire l'architecture à partir d'anciennes conversations ou d'hypothèses.
-4. Vérifier les instructions complémentaires éventuellement présentes dans les sous-dossiers.
+Avant toute intervention, lire :
+1. `README.md` et les instructions du dossier concerné ;
+2. `docs/evolution-2.0/CAHIER-DES-CHARGES-FONDATEUR.md` ;
+3. `docs/evolution-2.0/AUDIT-EXISTANT-PHASE-1.md` et ses avertissements à jour ;
+4. `docs/evolution-2.0/GOUVERNANCE-INTERVENTIONS.md` ;
+5. les décisions et changements récents de la branche.
 
-## 2. Règle de préservation
+Vérifier ensuite l'état réel du code et de la branche. Ne jamais se fier uniquement aux conversations, à la documentation ancienne ou à des hypothèses.
 
-La branche `evolution-2.0` est un espace de travail isolé créé à partir de `chat-est-une-ordure-sans-docs`.
+## 2. Préservation et autorisations
 
-Tant que le porteur du projet n'a pas explicitement autorisé une étape de réalisation :
-- ne modifier ni le site existant ni son comportement ;
-- ne toucher à aucune branche source ;
-- ne fusionner aucune branche ;
-- ne déployer aucun changement ;
-- ne modifier aucune configuration de production ;
-- ne supprimer ni remplacer des acquis existants.
+`evolution-2.0` est une base de travail isolée. Les règles de gouvernance détaillées sont dans `docs/evolution-2.0/GOUVERNANCE-INTERVENTIONS.md`.
 
-Les modifications documentaires explicitement demandées sont autorisées sur cette branche. Toute modification du code nécessite une autorisation distincte et explicite.
+Sans autorisation explicite adaptée au périmètre :
+- ne modifier ni code ni comportement du site ;
+- ne toucher ni aux branches sources ni à la production ;
+- ne fusionner, déployer ou modifier aucune configuration de production ;
+- ne supprimer ni remplacer des acquis.
 
-## 3. Règles de vérité
+Une autorisation de modifier la documentation n'autorise pas une modification du code.
 
-- Distinguer les faits observés, les hypothèses, les propositions et les décisions validées.
-- Ne jamais présenter une fonctionnalité comme opérationnelle sans l'avoir vérifiée.
-- Ne pas inventer de catégories de recherche, de règles métier, de sources, de tarifs ou de fonctionnalités.
-- Signaler les informations manquantes au lieu de les compléter par supposition.
-- Préserver les liens entre opportunités, entreprises, sources et actions commerciales.
-- Documenter les limites, erreurs, risques et résultats des vérifications.
+## 3. Méthode obligatoire
 
-## 4. Méthode de travail
+Avant toute modification : lire les documents et alertes, auditer l'existant et les changements récents, vérifier la faisabilité et les dépendances, identifier les contradictions et risques, puis présenter une méthode simple, réversible et testable. Obtenir l'autorisation requise.
 
-Pour toute tâche :
-1. Reformuler brièvement l'objectif et le périmètre.
-2. Inspecter les fichiers concernés avant toute modification.
-3. Proposer un plan limité et réversible.
-4. Ne modifier que ce qui est autorisé.
-5. Exécuter les contrôles pertinents et rapporter ceux qui n'ont pas pu être exécutés.
-6. Résumer les fichiers modifiés, les résultats, les risques et les suites proposées.
+Après autorisation : travailler sur une branche isolée, limiter le périmètre, préserver les acquis, exécuter les contrôles pertinents, comparer au résultat initial, faire relire et mettre à jour la documentation. Rapporter exactement les fichiers, tests, limites et risques. Ne jamais masquer un échec.
 
-Ne jamais masquer un échec de test ou une limite d'environnement.
+## 4. Règles de vérité et de conception
 
-## 5. Architecture et décisions
+- Distinguer faits observés, résultats vérifiés, hypothèses, propositions et décisions validées.
+- Ne jamais annoncer une fonctionnalité comme opérationnelle sans vérification.
+- Ne pas inventer catégories, règles métier, sources, tarifs ou fonctions.
+- Signaler toute information manquante et toute contradiction ; demander arbitrage si nécessaire.
+- Le CRM est le référentiel commercial central ; les fonctions doivent échanger des données traçables.
+- Préserver provenance, historique, cloisonnement des données et séparation des espaces clients.
+- Évaluer sécurité, conformité, conditions d'utilisation, coûts et compatibilité avant tout choix technique majeur.
 
-Le CRM est le référentiel central de la plateforme. Recherche, collecte, veille, analyse, qualification, prospection, publication et espaces clients sont des fonctions coordonnées. Le cahier des charges fondateur précise les principes et les éléments restant à arbitrer.
+## 5. Documentation et versions
 
-Ne pas choisir ou introduire une technologie, une base de données, un service externe ou une dépendance majeure sans analyse de compatibilité, de sécurité, de coût et sans validation du porteur du projet.
+La documentation doit rester concise, sans doublons, et précéder les évolutions du produit : la cible et la feuille de route sont définies avant leur réalisation. La tenir à jour après chaque décision ou changement significatif et organiser des relectures croisées par plusieurs IA lorsque possible ; les IA ne remplacent jamais la validation du porteur du projet.
 
-## 6. Données, sécurité et conformité
+Conserver `evolution-2.0` comme base de référence. Pour les étapes structurantes suivantes, créer des branches dédiées (`evolution-3.0`, `evolution-4.0`, etc.) depuis une base explicitement choisie. Une branche n'est pas une sauvegarde : conserver aussi des références stables (tags/commits) et des sauvegardes adaptées.
 
-- Respecter le cloisonnement entre données internes MajestiOS et espaces clients.
-- Ne jamais exposer les données d'un client à un autre.
-- Ne pas publier automatiquement toutes les données collectées.
-- Vérifier les conditions d'utilisation des sources et les règles applicables aux données personnelles et à la prospection.
-- Ne jamais inscrire de secrets, clés ou identifiants dans le dépôt.
-- Préserver la provenance et l'historique des données.
-
-## 7. Langue et documentation
-
-La documentation fonctionnelle et les comptes rendus destinés au porteur du projet sont rédigés en français clair. Les noms techniques peuvent rester dans leur langue d'origine.
-
-En cas de contradiction entre une supposition d'agent et une décision explicitement validée par le porteur du projet, la décision validée prévaut. Si deux documents validés se contredisent, signaler le conflit et demander arbitrage plutôt que choisir arbitrairement.
-
-## 8. Compatibilité des agents
-
-`AGENTS.md` est le guide canonique de ce dépôt. Les outils qui ne reconnaissent pas ce format doivent recevoir ces consignes par leur mécanisme d'instructions propre. Les éventuels fichiers d'adaptation (par exemple pour un IDE ou un agent donné) devront renvoyer à ce guide et ne pas créer une seconde source de vérité.
+La documentation et les comptes rendus sont en français clair. `AGENTS.md` est la source canonique des consignes ; les adaptations à d'autres outils doivent y renvoyer sans créer une seconde source de vérité.
