@@ -280,6 +280,11 @@ if (initialKeyword) {
 }
 
 document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
+  if (event.target.value === "publish") {
+    const query = document.querySelector("#feed-search")?.value.trim();
+    window.location.href = "publier-ma-demande.html" + (query ? "?q=" + encodeURIComponent(query) : "");
+    return;
+  }
   populateSearchFilters(event.target.value, "all");
 });
 if (advancedSearchForm) {
