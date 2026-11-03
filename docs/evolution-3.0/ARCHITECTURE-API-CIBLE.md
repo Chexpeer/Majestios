@@ -395,6 +395,42 @@ Une entreprise rapprochée n'est pas nécessairement une cible de prospection. L
 
 ## 8. Structure de l'API
 
+### 8.0 Vue des domaines d'API
+
+```mermaid
+flowchart TB
+    API[/api/v1/]
+    AUTH[auth]
+    OPP[opportunities]
+    SRC[sources]
+    COMP[companies]
+    CONTACTS[contacts]
+    CRM[crm]
+    WATCH[watch]
+    PROS[prospecting]
+    ANN[announcements]
+    MOD[moderation]
+    WORK[workspaces]
+    BRAIN[brainos]
+    AUDIT[audit]
+
+    API --> AUTH
+    API --> OPP
+    API --> SRC
+    API --> COMP
+    API --> CONTACTS
+    API --> CRM
+    API --> WATCH
+    API --> PROS
+    API --> ANN
+    API --> MOD
+    API --> WORK
+    API --> BRAIN
+    API --> AUDIT
+```
+
+Ce découpage représente des domaines fonctionnels de contrat. Il ne signifie pas qu'il faut créer autant de services ou de déploiements indépendants.
+
 ### 8.1 Principes
 
 - Préfixe versionné proposé : `/api/v1`.
