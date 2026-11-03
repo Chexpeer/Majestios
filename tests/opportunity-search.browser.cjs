@@ -266,7 +266,7 @@ async function main() {
     for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
       assert.ok(privateCategoryOptions.some(option => option.value === expected), `La catégorie privée ${expected} doit être proposée.`);
     }
-    assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count(), 3, "Seules les trois familles BODACC validées doivent être proposées.");
+    assert.equal(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count(), 3, "Seules les trois familles BODACC validées doivent être proposées.");
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
     assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
     const demoRegion = page.locator('#feed-region option[value="nord"]');
@@ -289,6 +289,7 @@ async function main() {
     await page.locator("#rubric-opportunity-search").waitFor({ state: "attached", timeout: 10000 });
     const privateRubricOptions = await page.locator("#rubric-search-category option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
     assert.ok(privateRubricOptions.some(option => option.value === "bodacc-cessions"), "La rubrique Marchés privés doit proposer les familles BODACC.");
+    assert.equal(privateRubricOptions.some(option => option.value === "bodacc-procedures" || option.value === "bodacc-radiations"), false, "La rubrique privée ne doit pas proposer les procédures collectives ni les radiations.");
     assert.ok(privateRubricOptions.some(option => option.value === "immobilier" && /à connecter/.test(option.label)), "La catégorie immobilière doit être visible comme source à connecter.");
     assert.equal(privateRubricOptions.some(option => option.value === "services"), false, "La rubrique privée ne doit pas proposer une catégorie propre aux marchés publics.");
     assert.equal(await page.locator("#rubric-opportunity-search input[name='marche']").inputValue(), "private", "Le formulaire privé doit rester verrouillé sur la source privée.");
