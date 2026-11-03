@@ -26,6 +26,8 @@ Le lot 2 est détaillé dans [LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md](docs/evo
 
 La [matrice de permissions proposée](docs/evolution-3.0/LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md) transforme ces principes en rôles fonctionnels provisoires, droits par ressource/action et 15 scénarios de test. Elle reste une proposition à arbitrer, pas une configuration active.
 
+Le [modèle logique conceptuel du lot 2.2](docs/evolution-3.0/LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md) inventorie les entités, relations, périmètres de propriété, invariants et scénarios de validation. Il prépare le modèle physique et les contrats API sans choisir de technologie ni créer de schéma.
+
 **Important :** la consolidation est un guide de cohérence documentaire. Les décisions A-01 à A-10, B-01 à B-10 et C-01 à C-10 restent à confirmer/valider ; ce document ne les valide pas à la place du porteur du projet. Il ne décrit aucune implémentation backend.
 
 ## Technologies
