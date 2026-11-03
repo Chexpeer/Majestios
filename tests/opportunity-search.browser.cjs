@@ -88,7 +88,7 @@ async function main() {
       const where = requestUrl.searchParams.get("where") || "";
       if (where.includes('code_departement_prestation = "79"') && where.includes('code_departement = "79"')) {
         regionalFilterSeen = true;
-        departmentFilterSeen = true;
+        if ((where.match(/code_departement_prestation =/g) || []).length === 1) departmentFilterSeen = true;
       }
       const plumbingRecord = {
         idweb: "TEST-2027-001", objet: "Prestations de plomberie et chauffage",
@@ -214,7 +214,7 @@ async function main() {
     assert.equal(await page.locator("#feed-market-type").inputValue(), "private", "Le retour doit restaurer le type privé.");
     assert.equal(await page.locator("#feed-sector").inputValue(), "bodacc-cessions", "Le retour doit restaurer la famille BODACC exacte.");
     assert.equal(await page.locator("#feed-search").inputValue(), "cession", "Le retour doit restaurer le mot-clé privé.");
-    assert.equal(await page.locator("#feed-region").inputValue(), "nouvelle-aquitaine", "Le retour doit restaurer la région privée.");
+    assert.equal(await page.locator("#feed-region").inputValue(), "all", "Un ancien filtre régional privé ne doit pas être converti arbitrairement en département.");
 
     // Les quatre familles privées prévues mais non connectées doivent rester honnêtes :
     // elles affichent leur statut, sans requête BODACC ni résultats inventés.
@@ -286,9 +286,11 @@ async function main() {
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
     assert.equal(await page.locator('#feed-region option[value="79"]').count(), 1, "L’accueil doit proposer le département 79.");
     assert.equal(await page.locator('#feed-region option[value="72"]').textContent(), "72 · Sarthe", "Le catalogue départemental doit présenter les codes et noms officiels.");
+    await page.locator("#feed-sector").selectOption("bodacc-cessions");
+    await page.locator("#feed-region").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-region").selectOption("72");
     await page.locator("#advanced-search-form button[type='submit']").click();
-    await page.waitForURL((url) => url.pathname === "/resultats-recherche.html" && url.searchParams.get("departement") === "72", { timeout: 10000 });
+    await page.waitForURL((url) => url.pathname === "/resultats-recherche.html" && url.searchParams.get("departement") === "72" && url.searchParams.get("categorie") === "bodacc-cessions", { timeout: 10000 });
     assert.match(await page.locator("#search-active-filters").innerText(), /72 · Sarthe/, "Le choix du département doit être transmis à la page de résultats.");
     await page.locator(".search-results-return a").click();
     await page.waitForURL((url) => url.pathname === "/index.html" && url.searchParams.get("departement") === "72", { timeout: 10000 });
