@@ -1,6 +1,6 @@
 # MAJESTIOS — Audit de l'existant (Phase 1)
 
-**Version :** 0.1 — audit documentaire, aucune modification du code ni du site
+**Version :** 0.2 — mise à jour du 3 novembre 2026 après décisions du porteur du projet
 **Branche :** `evolution-2.0`, à partir du commit `663829a`
 **Date de l'audit :** 3 novembre 2026
 **Périmètre :** dépôt `Chexpeer/Majestios`, tel qu'il se trouve sur cette branche
@@ -16,7 +16,8 @@ Ce document applique la grille du cahier des charges fondateur (§ 9) : pour cha
 2. **Trois fonctions interrogent de vraies sources publiques** depuis le navigateur du visiteur : la recherche BOAMP, la recherche BODACC et la recherche d'entreprises par code APE/NAF et département. Les deux premières ont des tests automatisés qui passent avec des réponses simulées ; la troisième a des tests de logique qui passent. Les appels réels aux trois services n'ont **pas pu être vérifiés** depuis l'environnement d'audit (réseau restreint).
 3. **Le CRM, la veille, la prospection active, l'espace membre, BrainOS et le salon virtuel sont des pages de présentation.** Aucun de ces modules n'enregistre, ne transmet ni ne traite de données. Les pages le disent elles-mêmes.
 4. **Le code ne correspond pas au cahier des charges sur les catégories de recherche** : le code contient 8 catégories publiques et 5 + 4 catégories privées, alors que le cahier prévoit 5 catégories publiques et 3 catégories BODACC, à définir par le porteur du projet. Ce point est à arbitrer (§ 6).
-5. **Deux contrôles automatiques sont actuellement en échec sur cette branche** (§ 7) : l'un à cause des documents Markdown ajoutés par cette branche, l'autre à cause d'une régression que j'ai introduite le 2 novembre dans l'harmonisation graphique. Les deux causes sont identifiées ; aucune n'est corrigée, faute d'autorisation de toucher au code.
+5. **Deux contrôles automatiques étaient en échec** (§ 7) : l'un à cause des documents Markdown ajoutés par cette branche, l'autre à cause d'une régression que j'ai introduite le 2 novembre dans l'harmonisation graphique. **Les deux sont corrigés le 3 novembre** après les décisions du porteur du projet ; tous les contrôles exécutables passent.
+6. **Une documentation étendue existe sur d'autres branches** (33 documents) et a été restaurée dans `docs/historique/` (§ 11). Les premières versions de cet audit ne la mentionnaient pas.
 
 ---
 
@@ -96,10 +97,10 @@ Légende : **Réel** = interroge une source réelle ; **Logique réelle** = trai
 |---|---|
 | `node build.js` | Réussi : 52 fichiers copiés, identiques aux sources |
 | `node verify-site.js` | Réussi : 32 pages, 52 ressources, liens locaux et identifiants contrôlés |
-| `node verify-architecture.js` | **Échec** : voir § 7.1 |
+| `node verify-architecture.js` | Échec le 3 novembre au matin (§ 7.1) ; **réussi** après correction le même jour |
 | Tests Node : ciblage d'entreprises, qualification, suggestions NAF | Réussis |
 | Test navigateur : immeuble interactif | Réussi |
-| Test navigateur : recherche d'opportunités (réponses simulées) | **Échec** : voir § 7.2 |
+| Test navigateur : recherche d'opportunités (réponses simulées) | Échec le 3 novembre au matin (§ 7.2) ; **réussi** après correction le même jour |
 | Tests de connexion en direct BOAMP et BODACC | **Non exécutables** (réseau de l'environnement) |
 | Appel de l'API Recherche d'Entreprises | **Non exécutable** (réseau de l'environnement) |
 
@@ -113,7 +114,7 @@ Légende : **Réel** = interroge une source réelle ; **Logique réelle** = trai
 | Circuits CRM, publication, veille (§ 4) | Absents : aucune collecte planifiée, aucun stockage, aucune transmission entre fonctions |
 | Traçabilité, historique, déduplication à l'échelle de la plateforme | Absents ; seule la déduplication des fiches d'une recherche d'entreprises existe, en mémoire |
 | Espaces clients cloisonnés (§ 3.5), droits d'accès | Absents : pas d'authentification ni de notion d'utilisateur |
-| Clic sur une annonce → parcours de création d'espace (§ 3.1) | **Non observé** : les résultats renvoient vers la source officielle ; aucun parcours vers l'espace personnalisé n'est rattaché aux annonces |
+| Clic sur une annonce → parcours de création d'espace (§ 3.1) | **Non observé dans le code** : les résultats renvoient vers la source officielle ; aucun parcours vers l'espace personnalisé n'est rattaché aux annonces. Une spécification existe dans la documentation historique (`SPEC-PARCOURS-DEPUIS-ANNONCE-MAJESTIOS.md`, statut « proposée — non intégrée ») |
 | Pagination, 10 annonces par page (§ 3.1) | **Partiel** : limite de 10 annonces ; aucune pagination trouvée |
 | Catégorie « Publier mon annonce » | Absente du code (la catégorie « Offres de sous-traitance » est différente) |
 | Offres d'emploi Cadremploi et APEC regroupées | Catégorie « Emploi et recrutement » prévue mais inactive ; aucune source branchée |
@@ -134,7 +135,7 @@ Le cahier prévoit que les catégories soient **définies par le porteur du proj
 | Recherche privée BODACC | 3 catégories à définir | 5 familles : créations, ventes et cessions, modifications, procédures collectives, radiations |
 | Autres privées | Immobilier ; emploi (Cadremploi + APEC) ; publier mon annonce | Immobilier ; emploi ; offres de sous-traitance ; recherche de sous-traitants et partenaires (toutes inactives) |
 
-**À décider par le porteur du projet** : les catégories à retenir (ou si le jeu actuel sert de base provisoire), et si les catégories de sous-traitance actuelles doivent rester, être renommées ou disparaître. Rien n'est modifié en attendant.
+**Mise à jour du 3 novembre 2026.** Le porteur du projet a fixé la structure (cahier, § 11) : cinq catégories publiques parmi les plus importantes du BOAMP ; trois catégories BODACC ; emploi (Cadremploi et APEC) ; annonces internes proposées par les visiteurs. Les listes exactes restent à valider. La documentation historique (cahier maître) reprend, elle, le jeu de huit catégories publiques du code : le code était donc cohérent avec elle, mais plus avec la décision actuelle. Rien n'est modifié dans le code en attendant la validation des listes.
 
 ---
 
@@ -144,13 +145,14 @@ Le cahier prévoit que les catégories soient **définies par le porteur du proj
 - **Constat :** le contrôle refuse tout fichier Markdown autre que `README.md`. Il échoue donc sur `AGENTS.md`, sur le cahier des charges et sur le présent audit.
 - **Conséquence :** le workflow `verify-site.yml` s'exécute à chaque push, toutes branches : la CI de `evolution-2.0` est en échec tant que le contrôle n'est pas adapté ou que les documents sont déplacés.
 - **Origine :** la règle correspond à l'ancien objectif de la branche `chat-est-une-ordure-sans-docs`, qui voulait un dépôt sans documentation. Elle entre en conflit avec le cahier des charges, qui exige de documenter.
-- **À arbitrer :** assouplir la règle pour le dossier `docs/` et `AGENTS.md`, ou conserver la règle et héberger la documentation ailleurs.
+- **Résolu le 3 novembre 2026 :** le porteur du projet a demandé de rétablir la documentation. `verify-architecture.js` accepte désormais le Markdown dans `docs/`, avec `README.md` et `AGENTS.md` à la racine, et refuse qu'un fichier Markdown soit publié avec le site.
 
 ### 7.2 Régression que j'ai introduite le 2 novembre
 - **Constat :** le test navigateur de recherche d'opportunités échoue : le premier texte d'une carte de résultat (le repère en capitales) s'affiche en 11 px alors que le test exige au moins 12 px.
 - **Cause (confirmée) :** dans l'harmonisation graphique (commit `e62da5a`), j'ai ajouté dans `charte-majestios.css` un plancher de taille qui s'applique aussi aux repères des cartes de résultats et les fait passer de 12 px à 11 px.
 - **Vérification :** sur une copie de travail, retirer `.eyebrow` du plancher général et limiter la règle aux repères directs de la page (`main.interior-page > .eyebrow`) fait passer le test. Cette correction **n'est pas appliquée** sur le dépôt.
-- **Impact :** limité à la lisibilité de ces repères, mais il bloque la CI.
+- **Impact :** limité à la lisibilité de ces repères, mais il bloquait la CI.
+- **Résolu le 3 novembre 2026 :** le porteur du projet tient à conserver l'harmonisation graphique. La correction retenue est plus ciblée que celle essayée sur copie : une règle supplémentaire redonne 12 px aux repères des cartes de résultats, sans toucher au reste de l'harmonisation. Le test navigateur passe.
 
 ### 7.3 Autres constats
 1. **Polices non chargées.** Les feuilles de style désignent DM Sans, Manrope et Inter, mais aucune n'est chargée : le site s'affiche avec les polices système du visiteur, donc différemment selon l'appareil.
@@ -186,12 +188,22 @@ Le cahier prévoit que les catégories soient **définies par le porteur du proj
 
 ## 10. Décisions et actions
 
-**Décisions validées par le porteur du projet à ce jour, d'après les documents :** aucune dans le présent audit.
+**Décisions validées par le porteur du projet :** voir le cahier des charges, § 11 (décisions du 3 novembre 2026). Le présent audit n'en ajoute aucune.
 
-**Actions autorisées pour ce document :** rédaction de documentation dans `docs/evolution-2.0/`. Aucune modification du code, du site, d'une autre branche ou de la production n'a été faite.
+**Actions réalisées le 3 novembre 2026, sur la branche `evolution-2.0` uniquement :** restauration de la documentation historique, création de l'index `docs/README.md`, adaptation du contrôle `verify-architecture.js`, correction de la régression de lisibilité. Aucune autre branche, aucun déploiement, aucune configuration de production n'a été touché. Le comportement du site n'a pas changé.
 
 **Questions ouvertes pour le porteur du projet :**
-1. Quelles catégories publiques (5) et BODACC (3) retenir ? Le jeu actuel est-il provisoire ?
-2. Faut-il adapter le contrôle d'architecture pour accepter `docs/` et `AGENTS.md` ?
-3. Autorisez-vous la correction de la régression de lisibilité (§ 7.2), seule modification de code proposée ?
-4. Faut-il conserver la harmonisation graphique du 2 novembre dans l'état de référence de la phase 1 ?
+1. Quelles sont exactement les cinq catégories publiques et les trois catégories BODACC ? (cahier, § 11.2)
+2. Comment les annonces internes des visiteurs doivent-elles être déposées et validées ? (cahier, § 11.2)
+3. Comment intégrer Cadremploi et APEC, et sous quelles conditions d'utilisation ? (cahier, § 11.2)
+
+**Questions tranchées le 3 novembre 2026 :** règle Markdown (documentation rétablie), correction de la régression (faite), conservation de l'harmonisation graphique (conservée).
+
+## 11. Documentation existante découverte pendant la mise à jour
+
+- Deux branches portaient une documentation complète (33 fichiers Markdown chacune) : `chat-est-une-ordure` et `docs/cleanup-documentation-2026-11-02`. La branche de travail `chat-est-une-ordure-sans-docs` n'en avait aucune, d'où l'absence constatée au départ.
+- La version restaurée vient de la seconde, plus récente et dotée d'un index de classement ; le dossier `BrainIOS/` (2 fichiers) vient de la première.
+- Contenu notable pour la suite : modèle commun de données CRM, modèle des appels d'offres, spécification du parcours depuis une annonce, traitement des signaux BODACC, registre des sources, matrice de traçabilité.
+- Contradictions entre ces documents et le cahier 2.0 : voir `docs/README.md`, § 4. Elles sont signalées, non tranchées.
+- L'addendum de la branche de nettoyage (2 novembre, 14 h 15 UTC) rappelait que les contrôles CI n'étaient pas tous verts à cette date. Cette mise à jour ne le remplace pas : l'état des contrôles est celui du § 4 ci-dessus.
+

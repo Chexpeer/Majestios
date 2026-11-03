@@ -1,6 +1,6 @@
 # MAJESTIOS — Cahier des charges fondateur et feuille de route
 
-**Version :** 0.1 — document de cadrage initial  
+**Version :** 0.2 — décisions du 3 novembre 2026 intégrées (§ 11)  
 **Statut :** base de travail à compléter et à valider  
 **Branche de travail :** `evolution-2.0`  
 **Règle impérative :** aucun changement du site, du code, de l'architecture existante ou de la production avant validation des fondations et autorisation explicite.
@@ -31,15 +31,15 @@ Le moteur comporte un premier choix entre deux familles.
 
 **Recherche publique**
 - Source initiale envisagée : BOAMP.
-- Cinq catégories de recherche restent à définir par le porteur du projet.
+- Cinq catégories de recherche, choisies parmi les catégories les plus importantes du BOAMP ; la liste exacte reste à faire valider par le porteur du projet (§ 11).
 - D'autres sources pourront être ajoutées ultérieurement dans le parcours public.
 
 **Recherche privée**
 - Source initiale envisagée : BODACC.
-- Trois catégories issues du BODACC restent à définir.
+- Trois catégories issues du BODACC ; la liste exacte reste à faire valider par le porteur du projet (§ 11).
 - Immobilier.
 - Offres d'emploi, avec Cadremploi et APEC regroupés dans une même catégorie.
-- Publier mon annonce.
+- Publier mon annonce : annonces internes proposées par les visiteurs du site (offres d'emploi, demandes de sous-traitance), précisées au § 11.
 
 Chaque catégorie possède son propre espace de résultats. La présentation initiale prévoit au maximum dix annonces par page et une pagination. Les catégories ne doivent pas être inventées par les intervenants techniques ou les IA : elles nécessitent une décision explicite.
 
@@ -258,3 +258,31 @@ Une refonte ne pourra être envisagée qu'après validation :
 - du périmètre MVP et de ses critères de réussite.
 
 **Principe final : MajestiOS ne sera pas refondu pour changer son apparence. La transformation ne commencera qu'une fois la plateforme définie, cohérente, maîtrisée techniquement, viable commercialement et compréhensible par ses utilisateurs.**
+
+## 11. Décisions validées par le porteur du projet
+
+Cette section ne contient que ce que le porteur du projet a explicitement dit ou validé. Tout le reste du document demeure une base de travail.
+
+### 11.1 Décisions du 3 novembre 2026
+
+1. **Marchés publics :** cinq catégories, choisies parmi les catégories les plus importantes du BOAMP.
+2. **Marchés privés :** trois catégories choisies parmi les sources du BODACC, plus une catégorie **emploi** (Cadremploi et APEC regroupés), plus des **annonces internes proposées par les visiteurs du site** (offres d'emploi et demandes de sous-traitance).
+3. **Documentation :** l'ancienne documentation, retirée du dépôt pour l'alléger, peut être rétablie. Elle l'a été à l'identique dans `docs/historique/` (voir `docs/README.md`).
+4. **Harmonisation graphique du 2 novembre 2026 :** à conserver impérativement ; le porteur du projet en est plutôt satisfait. Elle fait partie de l'état de référence.
+5. **Suite :** reprise du perfectionnement de la branche `evolution-2.0`.
+
+### 11.2 Ce qui reste à décider (non tranché)
+
+| Point | Précision attendue |
+|---|---|
+| Les cinq catégories publiques | Liste exacte et critère de choix : volume réel des avis, importance perçue, ou liste imposée |
+| Les trois catégories BODACC | Liste exacte parmi les familles d'annonces du BODACC |
+| Annonces internes des visiteurs | Qui peut déposer (visiteur anonyme ou compte), validation avant publication, durée de vie d'une annonce, contacts affichés |
+| Emploi : Cadremploi et APEC | Mode d'intégration : lien, flux, accord de réutilisation ; leurs conditions d'utilisation ne sont pas vérifiées |
+
+### 11.3 Conséquences à cadrer (propositions, aucune n'est une décision)
+
+- Les annonces internes sont du **contenu produit par les visiteurs** : elles supposent un stockage, une identification minimale, une modération, des protections anti-abus et une conformité à vérifier. Le prototype actuel n'a ni base de données ni authentification (audit, § 3.1) : cette fonction relève de l'architecture cible (phase 4), pas d'un ajout de page.
+- Les catégories du code actuel (huit publiques, cinq BODACC, quatre privées inactives) ne correspondent pas à ces décisions. Aucune ne sera modifiée avant la validation des listes exactes (§ 11.2).
+- Le choix des catégories publiques « les plus importantes » peut s'appuyer sur une mesure réelle des avis BOAMP, à effectuer depuis un environnement ayant accès à la source.
+
