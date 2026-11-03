@@ -37,6 +37,21 @@ async function main() {
       assert.equal(requestUrl.pathname.endsWith("/catalog/datasets/annonces-commerciales/records"), true, "La recherche privée doit utiliser le jeu officiel BODACC.");
       const bodaccWhere = requestUrl.searchParams.get("where") || "";
       if (bodaccWhere.includes('region_nom_officiel = "Nouvelle-Aquitaine"')) bodaccRegionFilterSeen = true;
+      if (requestUrl.searchParams.get("q") === "paginationtest") {
+        const offset = Number(requestUrl.searchParams.get("offset") || 0);
+        const records = offset === 0
+          ? Array.from({ length: 100 }, (_, index) => ({ record: { fields: {
+              id: "BODACC-PAGE-1-" + index, familleavis: "creation", familleavis_lib: "Créations d’entreprises",
+              departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise sans correspondance " + index
+            } } }))
+          : [{ record: { fields: {
+              id: "BODACC-PAGE-2-MATCH", familleavis: "creation", familleavis_lib: "Créations d’entreprises",
+              departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise paginationtest deuxième page",
+              dateparution: "2026-11-02", ville: "Niort"
+            } } }];
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ total_count: 101, records }) });
+        return;
+      }
       if (bodaccWhere.includes('departement_nom_officiel = "Deux-Sèvres"')) bodaccDepartmentFilterSeen = true;
       await route.fulfill({
         status: 200,
@@ -86,6 +101,27 @@ async function main() {
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.searchParams.get("where")?.includes('nature = "APPEL_OFFRE"'), true, "La requête doit limiter les résultats aux appels d’offres.");
       const where = requestUrl.searchParams.get("where") || "";
+      if (requestUrl.searchParams.get("q") === "paginationtest") {
+        const offset = Number(requestUrl.searchParams.get("offset") || 0);
+        const records = offset === 0
+          ? Array.from({ length: 100 }, (_, index) => ({
+              idweb: "BOAMP-PAGE-1-" + index, objet: "Annonce sans correspondance " + index,
+              dateparution: "2026-11-02", datelimitereponse: "2027-12-01T12:00:00+01:00",
+              nomacheteur: "Acheteur de test", code_departement: "79", code_departement_prestation: "79",
+              type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
+              descripteur_libelle: "Services", etat: "INITIAL"
+            }))
+          : Array.from({ length: 12 }, (_, index) => ({
+              idweb: "BOAMP-PAGE-2-MATCH-" + index, objet: "Marché paginationtest " + index,
+              dateparution: "2026-11-02", datelimitereponse: "2027-12-01T12:00:00+01:00",
+              nomacheteur: "Acheteur de test", code_departement: "79", code_departement_prestation: "79",
+              type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
+              descripteur_libelle: "Services", etat: "INITIAL",
+              url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ABOAMP-PAGE-2-MATCH-" + index
+            }));
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ total_count: 112, results: records }) });
+        return;
+      }
       if (where.includes('code_departement_prestation = "79"') && where.includes('code_departement = "79"')) {
         regionalFilterSeen = true;
         if ((where.match(/code_departement_prestation =/g) || []).length === 1) departmentFilterSeen = true;
@@ -242,6 +278,21 @@ async function main() {
     await page.getByText(/ne peut pas appliquer une catégorie spécifique aux deux sources/).waitFor({ timeout: 10000 });
     assert.equal(apiCalls, 0, "Une catégorie publique combinée à Publics et privés ne doit pas lancer de recherche ambiguë BOAMP.");
     assert.equal(bodaccCalls, 0, "Une catégorie publique combinée à Publics et privés ne doit pas lancer de recherche ambiguë BODACC.");
+
+    // Pagination BOAMP : 100 annonces sans correspondance, puis 12 correspondances.
+    apiCalls = 0;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=paginationtest&marche=public&categorie=services", { waitUntil: "domcontentloaded" });
+    await page.getByRole("heading", { name: "Marché paginationtest 0" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".opportunity-result-card").count(), 10, "BOAMP doit plafonner l’affichage à 10 résultats.");
+    assert.equal(apiCalls, 2, "BOAMP doit interroger la deuxième page après 100 annonces non pertinentes.");
+
+    // Pagination BODACC : une correspondance située sur la deuxième page doit être récupérée.
+    bodaccCalls = 0;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=paginationtest&marche=private&categorie=bodacc-creations&departement=79", { waitUntil: "domcontentloaded" });
+    await page.getByRole("heading", { name: "Entreprise paginationtest deuxième page" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".bodacc-result-card").count(), 1, "BODACC doit afficher la correspondance de la deuxième page.");
+    assert.equal(bodaccCalls, 2, "BODACC doit interroger la deuxième page après 100 annonces non pertinentes.");
+    assert.match(await page.locator("#search-active-filters").innerText(), /79 · Deux-Sèvres/, "Le filtre départemental doit être conservé pendant la pagination.");
 
     apiCalls = 0;
     bodaccCalls = 0;
