@@ -24,6 +24,8 @@ Le dossier `docs/evolution-3.0/` contient les propositions d'architecture et les
 
 Le lot 2 est détaillé dans [LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md](docs/evolution-3.0/LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md) : il structure les périmètres CRM interne, tenants clients et BrainOS, les partages, les contrôles d'accès et les tests négatifs, sans valider les arbitrages B-01 à B-10.
 
+La [matrice de permissions proposée](docs/evolution-3.0/LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md) transforme ces principes en rôles fonctionnels provisoires, droits par ressource/action et 15 scénarios de test. Elle reste une proposition à arbitrer, pas une configuration active.
+
 **Important :** la consolidation est un guide de cohérence documentaire. Les décisions A-01 à A-10, B-01 à B-10 et C-01 à C-10 restent à confirmer/valider ; ce document ne les valide pas à la place du porteur du projet. Il ne décrit aucune implémentation backend.
 
 ## Technologies
