@@ -21,8 +21,8 @@
   const config = configs[path];
   if (!config) return;
 
-  const catalog = window.MAJESTIOS_CATALOG || {};
-  const publicCategories = (catalog.searchCategories || [])
+  const catalogue = window.MAJESTIOS_CATALOG || {};
+  const publicCategories = (catalogue.searchCategories || [])
     .filter((item) => item.active && item.value !== "all")
     .map((item) => ({ value: item.value, label: item.label, group: "Marchés publics · BOAMP" }));
   const privateCategories = [
@@ -103,7 +103,7 @@
     categorySelect.value = source.some((item) => item.value === selected && item.connected !== false) ? selected : "all";
   };
 
-  const regions = catalog.searchRegions || [];
+  const regions = catalogue.searchRegions || [];
   regionSelect.replaceChildren();
   addOption(regionSelect, "all", "Toutes les régions");
   const plannedGroup = document.createElement("optgroup");
@@ -154,7 +154,7 @@
     if (regionSelect.value && regionSelect.value !== "all") searchParams.set("zone", regionSelect.value);
     if (market) searchParams.set("marche", market);
     const matchingPublicCategory = market === "public"
-      ? (catalog.searchCategories || []).find((item) => item.value === selected && !item.planned && item.href)
+      ? (catalogue.searchCategories || []).find((item) => item.value === selected && !item.planned && item.href)
       : null;
     const destination = matchingPublicCategory ? matchingPublicCategory.href : "resultats-recherche.html";
     window.location.href = destination + (searchParams.size ? "?" + searchParams.toString() : "");
