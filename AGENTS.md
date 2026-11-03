@@ -4,47 +4,55 @@ Ce fichier est le point d'entrée canonique pour tout assistant ou agent interve
 
 ## 1. Lecture obligatoire
 
-Avant toute intervention, lire :
+Pour toute intervention sur la branche active `evolution-3.0`, lire dans cet ordre :
 1. `README.md` et les instructions du dossier concerné ;
-2. `docs/evolution-2.0/CAHIER-DES-CHARGES-FONDATEUR.md` ;
-3. `docs/evolution-2.0/AUDIT-EXISTANT-PHASE-1.md` et ses avertissements à jour ;
-4. `docs/evolution-2.0/GOUVERNANCE-INTERVENTIONS.md` ;
-5. les décisions et changements récents de la branche.
+2. `docs/evolution-3.0/README.md` ;
+3. `docs/evolution-3.0/MIGRATION-EVOLUTION-3.0.md` ;
+4. `docs/evolution-3.0/ARCHITECTURE-API-CIBLE.md` ;
+5. les documents hérités de référence : `docs/evolution-2.0/CAHIER-DES-CHARGES-FONDATEUR.md`, `AUDIT-EXISTANT-PHASE-1.md`, `CARTOGRAPHIE-FONCTIONNELLE-FLUX.md` et `GOUVERNANCE-INTERVENTIONS.md` ;
+6. les changements récents et l'état réel du code de la branche.
 
-Vérifier ensuite l'état réel du code et de la branche. Ne jamais se fier uniquement aux conversations, à la documentation ancienne ou à des hypothèses. Pour la conception future, privilégier les décisions récentes validées, la feuille de route active et les documents visionnaires actifs ; l'historique est secondaire et ne sert que de matériau à comparer.
+Ne jamais se fier uniquement aux conversations ou à la documentation ancienne. Vérifier l'état réel du dépôt, les tests et les limites de vérification.
 
-## 2. Préservation et autorisations
+## 2. Branches et préservation
 
-`evolution-2.0` est une base de travail isolée. Les règles de gouvernance détaillées sont dans `docs/evolution-2.0/GOUVERNANCE-INTERVENTIONS.md`.
-
-Sans autorisation explicite adaptée au périmètre :
-- ne modifier ni code ni comportement du site ;
-- ne toucher ni aux branches sources ni à la production ;
-- ne fusionner, déployer ou modifier aucune configuration de production ;
-- ne supprimer ni remplacer des acquis.
-
-Une autorisation de modifier la documentation n'autorise pas une modification du code.
+- `evolution-2.0` est conservée comme sauvegarde de référence ; ne pas y apporter les évolutions de la 3.0.
+- `evolution-3.0` est la branche de travail active pour les évolutions critiques.
+- Ne jamais réécrire l'historique, supprimer ou écraser une branche de référence.
+- Ne pas fusionner, promouvoir ou déployer sans autorisation explicite.
+- Aucun changement de production ou de configuration Vercel sans autorisation spécifique.
 
 ## 3. Méthode obligatoire
 
-Avant toute modification : lire les documents et alertes, auditer l'existant et les changements récents, vérifier la faisabilité et les dépendances, identifier les contradictions et risques, puis présenter une méthode simple, réversible et testable. Obtenir l'autorisation requise.
+Avant toute modification : auditer l'existant et les changements récents, lire les documents actifs, vérifier faisabilité et dépendances, identifier contradictions, risques, coûts et impacts, puis définir une méthode réversible et testable. Distinguer faits, résultats vérifiés, hypothèses, propositions et décisions validées.
 
-Après autorisation : travailler sur une branche isolée, limiter le périmètre, préserver les acquis, exécuter les contrôles pertinents, comparer au résultat initial, faire relire et mettre à jour la documentation. Rapporter exactement les fichiers, tests, limites et risques. Ne jamais masquer un échec.
+Après autorisation : limiter le périmètre, préserver les acquis, exécuter les contrôles pertinents, comparer au résultat initial, documenter les écarts et rapporter exactement les fichiers, tests, limites et risques. Ne jamais masquer un échec.
 
-## 4. Règles de vérité et de conception
+## 4. Règles de conception MajestiOS
 
-- Distinguer faits observés, résultats vérifiés, hypothèses, propositions et décisions validées.
-- Ne jamais annoncer une fonctionnalité comme opérationnelle sans vérification.
-- Ne pas inventer catégories, règles métier, sources, tarifs ou fonctions.
-- Signaler toute information manquante et toute contradiction ; demander arbitrage si nécessaire.
-- Le CRM est le référentiel commercial central ; les fonctions doivent échanger des données traçables.
-- Préserver provenance, historique, cloisonnement des données et séparation des espaces clients.
-- Évaluer sécurité, conformité, conditions d'utilisation, coûts et compatibilité avant tout choix technique majeur.
+- Le CRM est le référentiel commercial central de MajestiOS, mais le CRM interne est strictement distinct des espaces clients.
+- Publication, CRM, Veille et Prospection active sont des circuits distincts. Aucun transfert automatique par défaut.
+- Toute transmission conserve provenance, date, motif, finalité, règle d'autorisation, destination, statut et résultat.
+- Les codes APE/NAF ne prouvent ni compétence ni capacité à répondre à un marché.
+- Les annonces utilisateurs sont soumises à contrôle et modération ; leur publication n'autorise pas la réutilisation générale des données de l'auteur.
+- Les espaces clients sont cloisonnés entre eux et du CRM interne.
+- BrainOS est un périmètre documentaire séparé, sans accès implicite au CRM.
+- Les offres d'emploi MajestiOS proviennent des utilisateurs ou de l'équipe ; les sources externes Cadremploi, France Travail et APEC restent différées.
+- Périmètre BODACC initial : créations, ventes et cessions, modifications. Procédures collectives, radiations et immobilier exclus.
+- Les cinq catégories BOAMP doivent être choisies après mesure réelle des volumes puis validées par le porteur du projet.
 
-## 5. Documentation et versions
+## 5. Règles techniques et vérité
 
-La documentation doit rester concise, sans doublons, et précéder les évolutions du produit : la cible et la feuille de route sont définies avant leur réalisation. La tenir à jour après chaque décision ou changement significatif et organiser des relectures croisées par plusieurs IA lorsque possible ; les IA ne remplacent jamais la validation du porteur du projet.
+- L'architecture cible 3.0 est une proposition documentaire, pas un système implémenté.
+- Ne pas annoncer une API, une base, une authentification, un CRM ou un événement métier comme opérationnel sans preuve.
+- Ne pas exposer de secrets fournisseurs dans le frontend.
+- Appliquer authentification et autorisation côté serveur ; tester explicitement les accès interdits.
+- Ne pas choisir de technologie majeure, de stratégie multi-tenant ou de fournisseur sans audit comparatif et validation.
+- Les diagrammes Mermaid représentent la cible, pas l'état du prototype.
+- Les contrats OpenAPI proposés doivent être distingués des endpoints réellement disponibles.
 
-Conserver `evolution-2.0` comme base de référence. Tout changement critique ou présentant un risque significatif doit être isolé sur une nouvelle branche dédiée. La prochaine branche de ce type portera le nom Git `evolution-3.0` (affichée « Évolution 3.0 »). Elle sera créée depuis une base explicitement choisie et vérifiée avant intervention. Les étapes structurantes suivantes pourront utiliser `evolution-4.0`, etc. Une branche n'est pas une sauvegarde : conserver aussi des références stables (tags/commits) et des sauvegardes adaptées.
+## 6. Documentation
 
-La documentation et les comptes rendus sont en français clair. `AGENTS.md` est la source canonique des consignes ; les adaptations à d'autres outils doivent y renvoyer sans créer une seconde source de vérité.
+La documentation active 3.0 se trouve dans `docs/evolution-3.0/`. Les documents `docs/evolution-2.0/` sont les références fonctionnelles héritées et la sauvegarde documentaire de l'étape précédente. L'historique est consultatif et ne réintroduit aucune ancienne orientation sans arbitrage.
+
+Les documents et comptes rendus sont rédigés en français clair. `AGENTS.md` reste la source canonique des consignes.
