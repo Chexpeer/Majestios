@@ -47,7 +47,7 @@
         '<label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" name="q" type="search" maxlength="160" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>' +
         (config.fixedMarket
           ? '<input type="hidden" name="marche" value="' + config.market + '">'
-          : '<label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span><select id="feed-market-type" aria-label="Type de marché" required><option value="">1. Choisir le type de marché</option><option value="public">Marchés publics</option><option value="private">Marchés privés · signaux BODACC</option></select></label>') +
+          : '<label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span><select id="feed-market-type" aria-label="Type de marché"><option value="">1. Choisir le type de marché</option><option value="public">Marchés publics</option><option value="private">Marchés privés · signaux BODACC</option></select></label>') +
         '<label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie</span><select id="feed-sector" name="categorie" aria-label="Catégorie d’opportunité" disabled><option value="all">2. Choisir d’abord un type</option></select></label>' +
         '<label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par région</span><select id="feed-region" name="zone" aria-label="Région administrative"><option value="all">Toutes les régions</option></select></label>' +
         '<p class="search-source-note" id="search-source-note">Choisissez d’abord le type d’opportunité, puis une rubrique adaptée. Les signaux BODACC ne sont pas des appels d’offres ; les sources non connectées sont indiquées comme telles.</p>' +
@@ -142,6 +142,11 @@
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const market = config.fixedMarket ? config.market : (marketSelect ? marketSelect.value : "");
+    if (!config.fixedMarket && !market) {
+      marketStep.hidden = false;
+      marketSelect.focus();
+      return;
+    }
     const selected = categorySelect.value;
     const searchParams = new URLSearchParams();
     if (queryField.value.trim()) searchParams.set("q", queryField.value.trim());
