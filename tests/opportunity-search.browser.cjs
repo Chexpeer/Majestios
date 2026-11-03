@@ -309,6 +309,15 @@ async function main() {
     assert.equal(apiCalls, 0, "La prévisualisation ne doit pas déclencher BOAMP.");
     assert.equal(bodaccCalls, 0, "La prévisualisation ne doit pas déclencher BODACC.");
 
+    // Le même troisième parcours doit être disponible depuis le moteur compact des rubriques.
+    await page.goto("http://127.0.0.1:4174/developpement-commercial.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#feed-search").fill("Recherche de partenaire");
+    await page.locator("#feed-search").focus();
+    await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
+    await page.locator("#feed-market-type").selectOption("publish");
+    await page.waitForURL(/publier-ma-demande\.html\?q=/, { timeout: 10000 });
+    assert.equal(await page.locator("#request-title").inputValue(), "Recherche de partenaire", "Le moteur des rubriques doit transmettre le mot-clé au parcours de publication.");
+
     await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
     await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
     assert.equal(await page.locator('#advanced-search-form input[name="marche"]').inputValue(), "public", "La rubrique Marchés publics doit verrouiller la source publique.");
