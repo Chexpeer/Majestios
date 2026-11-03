@@ -215,6 +215,8 @@ Ce document ne crée aucun rôle dans le code, aucune policy RLS, aucun middlewa
 
 ## 12. Références
 
+- [Lot 2.2 — Modèle logique conceptuel](LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md)
+
 - [Lot 2 — Propriété des données et cloisonnement](LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md)
 - [Étape B — Modèle de données et cloisonnement](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md)
 - [Étape C — Contrats API et événements](ETAPE-C-CONTRATS-API-EVENEMENTS.md)
