@@ -19,6 +19,7 @@ Les documents spécialisés restent les références détaillées de leur domain
 | A — Frontières fonctionnelles | [ETAPE-A-ARCHITECTURE-FONCTIONNELLE.md](ETAPE-A-ARCHITECTURE-FONCTIONNELLE.md) | Modules, responsabilités, flux et interdictions |
 | B — Données et cloisonnement | [ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md](ETAPE-B-MODELE-DONNEES-CLOISONNEMENT.md) | Propriété fonctionnelle, entités, périmètres et isolation |
 | Approfondissement du lot 2 | [LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md](LOT-2-PROPRIETE-DONNEES-CLOISONNEMENT.md) | Clarification des périmètres CRM/tenants/BrainOS, partages et tests négatifs ; arbitrages B toujours ouverts |
+| Modèle logique conceptuel du lot 2.2 | [LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md](LOT-2-MODELE-LOGIQUE-CONCEPTUEL.md) | Catalogue des entités, relations, invariants et tests ; proposition sans schéma physique |
 | Matrice de permissions proposée | [LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md](LOT-2-MATRICE-PERMISSIONS-PROPOSITION.md) | Rôles provisoires, droits par ressource/action et scénarios de contrôle ; non validée |
 | C — Contrats | [ETAPE-C-CONTRATS-API-EVENEMENTS.md](ETAPE-C-CONTRATS-API-EVENEMENTS.md) | Routes, commandes, événements, transferts et garanties |
 | Architecture cible antérieure | [ARCHITECTURE-API-CIBLE.md](ARCHITECTURE-API-CIBLE.md) | Proposition d'architecture globale à réaligner |
