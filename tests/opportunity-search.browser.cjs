@@ -299,6 +299,8 @@ async function main() {
     await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
     const mixedCategory = page.locator("#feed-sector");
     assert.equal(await mixedCategory.isDisabled(), true, "La catégorie doit attendre le choix du type de marché pour éviter une recherche mixte ambiguë.");
+    await page.locator("#feed-search").focus();
+    await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("public");
     const rubricPublicOptions = await mixedCategory.locator("option").evaluateAll(options => options.map(option => option.value));
     assert.ok(rubricPublicOptions.includes("services"), "Le choix public doit afficher les catégories BOAMP actives.");
