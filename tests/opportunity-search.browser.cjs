@@ -286,11 +286,21 @@ async function main() {
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
     assert.equal(await page.locator('#feed-region option[value="79"]').count(), 1, "L’accueil doit proposer le département 79.");
     assert.equal(await page.locator('#feed-region option[value="72"]').textContent(), "72 · Sarthe", "Le catalogue départemental doit présenter les codes et noms officiels.");
+    await page.locator("#feed-region").selectOption("72");
+    await page.locator("#advanced-search-form button[type='submit']").click();
+    await page.waitForURL((url) => url.pathname === "/resultats-recherche.html" && url.searchParams.get("departement") === "72", { timeout: 10000 });
+    assert.match(await page.locator("#search-active-filters").innerText(), /72 · Sarthe/, "Le choix du département doit être transmis à la page de résultats.");
+    await page.locator(".search-results-return a").click();
+    await page.waitForURL((url) => url.pathname === "/index.html" && url.searchParams.get("departement") === "72", { timeout: 10000 });
+    assert.equal(await page.locator("#feed-region").inputValue(), "72", "Le retour à l’accueil doit restaurer le département choisi.");
 
     await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
     await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
     assert.equal(await page.locator('#rubric-opportunity-search input[name="marche"]').inputValue(), "public", "La rubrique Marchés publics doit verrouiller la source publique.");
     assert.equal(await page.locator('#rubric-search-region option[value="79"]').count(), 1, "Le formulaire de rubrique doit proposer le département 79.");
+    await page.goto("http://127.0.0.1:4174/marches-publics.html?departement=72", { waitUntil: "domcontentloaded" });
+    await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
+    assert.equal(await page.locator("#rubric-search-region").inputValue(), "72", "Une rubrique doit restaurer le département transmis dans son URL.");
 
     await page.goto("http://127.0.0.1:4174/developpement-commercial.html", { waitUntil: "domcontentloaded" });
     await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
