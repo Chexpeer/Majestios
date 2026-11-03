@@ -14,8 +14,6 @@
     "bodacc-creations": "Créations et implantations",
     "bodacc-cessions": "Ventes, cessions et reprises",
     "bodacc-modifications": "Modifications d’entreprises",
-    "bodacc-procedures": "Difficultés et procédures collectives",
-    "bodacc-radiations": "Radiations et cessations",
     immobilier: "Immobilier professionnel",
     emploi: "Emploi et recrutement",
     "sous-traitance-offres": "Offres de sous-traitance",
