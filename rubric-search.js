@@ -85,9 +85,7 @@
     { value: "sous-traitance-offres", label: "Offres de sous-traitance", group: "Autres opportunités privées", connected: false },
     { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires", group: "Autres opportunités privées", connected: false }
   ];
-  const regions = (catalogue.searchRegions || [
-    { value: "all", label: "Toutes les régions", active: true }
-  ]).filter((item) => item.active || item.value === "all").map((item) => [item.value, item.label]);
+  const departments = (catalogue.searchDepartments || []).map((item) => [item.value, item.label]);
   const optionMarkup = (items) => items.map(([value, label]) =>
     '<option value="' + value + '">' + label + '</option>'
   ).join("");
@@ -112,8 +110,8 @@
     marketField +
     '<label for="rubric-search-category">' + (config.fixedMarket ? "Catégorie" : "2. Catégorie") + '</label>' +
     '<select id="rubric-search-category" name="categorie"><option value="all">Toutes les catégories</option></select>' +
-    '<label for="rubric-search-region">Région</label>' +
-    '<select id="rubric-search-region" name="zone">' + optionMarkup(regions) + '</select>' +
+    '<label for="rubric-search-region">3. Département</label>' +
+    '<select id="rubric-search-region" name="departement"><option value="all">Tous les départements</option>' + optionMarkup(departments) + '</select>' +
     '<button class="button-primary" type="submit">Rechercher →</button>';
 
   const marketSelect = form.querySelector("#rubric-search-market");
@@ -158,10 +156,10 @@
 
   const queryField = form.querySelector("#rubric-search-query");
   if (queryField) queryField.value = initialParams.get("q") || "";
-  const regionField = form.querySelector("#rubric-search-region");
-  const initialRegion = initialParams.get("zone");
-  if (regionField && initialRegion && [...regionField.options].some((option) => option.value === initialRegion)) {
-    regionField.value = initialRegion;
+  const departmentField = form.querySelector("#rubric-search-region");
+  const initialDepartment = initialParams.get("departement");
+  if (departmentField && initialDepartment && [...departmentField.options].some((option) => option.value === initialDepartment)) {
+    departmentField.value = initialDepartment;
   }
 
   const heading = document.createElement("h2");
