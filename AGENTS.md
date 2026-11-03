@@ -11,7 +11,7 @@ Avant toute intervention, lire :
 4. `docs/evolution-2.0/GOUVERNANCE-INTERVENTIONS.md` ;
 5. les décisions et changements récents de la branche.
 
-Vérifier ensuite l'état réel du code et de la branche. Ne jamais se fier uniquement aux conversations, à la documentation ancienne ou à des hypothèses.
+Vérifier ensuite l'état réel du code et de la branche. Ne jamais se fier uniquement aux conversations, à la documentation ancienne ou à des hypothèses. Pour la conception future, privilégier les décisions récentes validées, la feuille de route active et les documents visionnaires actifs ; l'historique est secondaire et ne sert que de matériau à comparer.
 
 ## 2. Préservation et autorisations
 
@@ -45,6 +45,6 @@ Après autorisation : travailler sur une branche isolée, limiter le périmètre
 
 La documentation doit rester concise, sans doublons, et précéder les évolutions du produit : la cible et la feuille de route sont définies avant leur réalisation. La tenir à jour après chaque décision ou changement significatif et organiser des relectures croisées par plusieurs IA lorsque possible ; les IA ne remplacent jamais la validation du porteur du projet.
 
-Conserver `evolution-2.0` comme base de référence. Pour les étapes structurantes suivantes, créer des branches dédiées (`evolution-3.0`, `evolution-4.0`, etc.) depuis une base explicitement choisie. Une branche n'est pas une sauvegarde : conserver aussi des références stables (tags/commits) et des sauvegardes adaptées.
+Conserver `evolution-2.0` comme base de référence. Tout changement critique ou présentant un risque significatif doit être isolé sur une nouvelle branche dédiée. La prochaine branche de ce type portera le nom Git `evolution-3.0` (affichée « Évolution 3.0 »). Elle sera créée depuis une base explicitement choisie et vérifiée avant intervention. Les étapes structurantes suivantes pourront utiliser `evolution-4.0`, etc. Une branche n'est pas une sauvegarde : conserver aussi des références stables (tags/commits) et des sauvegardes adaptées.
 
 La documentation et les comptes rendus sont en français clair. `AGENTS.md` est la source canonique des consignes ; les adaptations à d'autres outils doivent y renvoyer sans créer une seconde source de vérité.
