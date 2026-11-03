@@ -199,10 +199,10 @@ const PRIVATE_SEARCH_CATEGORIES = [
   ["sous-traitance-recherche", "Recherche de sous-traitants et partenaires", "Autres opportunités privées", false]
 ];
 
-function populateSearchFilters(marketValue = "", selectedCategory = "all") {
+function populateSearchFilters(marketValue = "", selectedCategory = "all", selectedDepartment = "all") {
   const categorySelect = document.querySelector("#feed-sector");
   const marketSelect = document.querySelector("#feed-market-type");
-  const regionSelect = document.querySelector("#feed-region");
+  const departmentSelect = document.querySelector("#feed-region");
 
   if (marketSelect && marketSelect.value !== marketValue) marketSelect.value = marketValue;
   if (categorySelect) {
@@ -242,20 +242,21 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
       : "all";
   }
 
-  if (regionSelect && majCatalog.searchRegions?.length) {
-    regionSelect.replaceChildren();
-    const plannedRegions = document.createElement("optgroup");
-    plannedRegions.label = "Régions françaises · à connecter";
-    plannedRegions.disabled = true;
-    majCatalog.searchRegions.forEach((region) => {
+  if (departmentSelect && majCatalog.searchDepartments?.length) {
+    departmentSelect.replaceChildren();
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = "Tous les départements";
+    departmentSelect.append(allOption);
+    majCatalog.searchDepartments.forEach((department) => {
       const option = document.createElement("option");
-      option.value = region.value;
-      option.textContent = region.planned ? `${region.label} · à venir` : region.label;
-      option.disabled = Boolean(region.planned);
-      if (region.planned) plannedRegions.append(option);
-      else regionSelect.append(option);
+      option.value = department.value;
+      option.textContent = department.label;
+      departmentSelect.append(option);
     });
-    if (plannedRegions.children.length) regionSelect.append(plannedRegions);
+    departmentSelect.value = majCatalog.searchDepartments.some((item) => item.value === selectedDepartment)
+      ? selectedDepartment
+      : "all";
   }
 }
 
@@ -264,13 +265,8 @@ const initialMarketType = initialSearchParams.get("marche") || "";
 const initialCategory = initialSearchParams.get("categorie") || "all";
 populateSearchFilters(initialMarketType, initialCategory);
 
-const initialRegion = initialSearchParams.get("zone");
-if (initialRegion) {
-  const regionControl = document.querySelector("#feed-region");
-  if (regionControl && [...regionControl.options].some((option) => option.value === initialRegion && !option.disabled)) {
-    regionControl.value = initialRegion;
-  }
-}
+const initialDepartment = initialSearchParams.get("departement") || "all";
+populateSearchFilters(initialMarketType, initialCategory, initialDepartment);
 const initialKeyword = initialSearchParams.get("q");
 if (initialKeyword) {
   const keywordControl = document.querySelector("#feed-search");
@@ -288,10 +284,10 @@ if (advancedSearchForm) {
   const categoryControl = document.querySelector("#feed-sector");
   const category = categoryControl?.selectedOptions[0]?.disabled ? "all" : categoryControl?.value;
   const marketType = document.querySelector("#feed-market-type")?.value;
-  const region = document.querySelector("#feed-region")?.value;
+  const department = document.querySelector("#feed-region")?.value;
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
-  if (region && region !== "all") params.set("zone", region);
+  if (department && department !== "all") params.set("departement", department);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
   // Seules les catégories publiques actives disposant d’une page dédiée y sont routées.
