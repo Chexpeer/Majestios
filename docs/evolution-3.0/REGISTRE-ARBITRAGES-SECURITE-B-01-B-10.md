@@ -17,7 +17,7 @@
 | B-04 | Entreprises communes | Identité d'entreprise rapprochable, mais dossiers, notes, contacts et pièces restent propres à leur périmètre ; aucune fusion/enrichissement automatique | Référentiel, dédoublonnage et provenance | Validé — 03/11/2026 |
 | B-05 | Accès visiteurs, utilisateurs identifiés et partage CRM vers client | Visiteurs limités à quelques annonces publiques ; annonces privées majoritairement verrouillées ; utilisateurs identifiés accèdent aux étages et contenus pédagogiques ; habilitations administrées exclusivement par l'administrateur | Parcours public/identifié, contrôle d'accès, projection des annonces et partage CRM | Validé — principes d'accès et de présentation ; détails de partage à préciser |
 | B-06 | Annonces | Séparer soumission, modération, validation privée et publication ; l'auteur peut demander la publication, mais l'administrateur doit l'approuver ; publication distincte du transfert CRM et de l'usage commercial | États, droits, pièces et projections | Partiellement validé — autorité de publication ; workflow détaillé à préciser |
-| B-07 | Rapprochements | Proposition explicable, revue selon règles métier ; aucune fusion automatique irréversible | Score explicable, preuves, version et décision | À arbitrer |
+| B-07 | Rapprochements | Identifiant officiel vérifié pour le rapprochement automatique ; au moins deux critères concordants pour une proposition probable soumise à validation humaine ; réglages administrables | Critères, seuils et niveau de filtrage configurables, versionnés et traçables | Validé — règles de principe et paramétrage progressif ; détails opérationnels à préciser |
 | B-08 | Restrictions et oppositions | Registre central consulté avant toute action pertinente, avec recontrôle avant exécution et rejeu | Éligibilité, prospection, transferts et tâches différées | À arbitrer |
 | B-09 | Audit | Journal append-only logique, accès restreint, protection contre altération et journalisation de ses consultations | Traçabilité, sécurité et investigation | À arbitrer |
 | B-10 | Conservation | Politique par catégorie et finalité, couvrant archives, suppression, anonymisation, sauvegardes et index | Cycle de vie et conformité avant données réelles | À arbitrer |
@@ -103,12 +103,16 @@
 
 ### B-07 — Rapprochements entre signaux et entreprises
 
-- **Question à trancher :** quels critères, seuils et cas imposent une revue humaine ?
-- **Proposition technique :** rapprochement proposé avec critères explicables, score/version et preuves ; validation séparée ; aucune fusion automatique irréversible.
-- **Conséquences :** statut de revue, historique des décisions, dédoublonnage idempotent et traitement des ambiguïtés.
-- **Preuves attendues :** cas ambigus envoyés en revue ; rejet sans mutation des dossiers sources ; validation attribuable et historisée.
-- **Responsable de l'arbitrage :** porteur du projet, avec avis métier.
-- **État :** À arbitrer.
+- **Question initiale :** quels critères permettent de rattacher un signal économique à une entreprise, et dans quels cas une vérification humaine est-elle nécessaire ?
+- **Décision confirmée le 3 novembre 2026 — correspondance certaine :** le rapprochement peut être automatique lorsqu'un identifiant officiel vérifié établit une correspondance exacte : SIREN pour l'unité légale ou SIRET pour l'établissement concerné. La distinction entre unité légale et établissement doit être conservée.
+- **Décision confirmée — correspondance probable :** en l'absence de correspondance officielle certaine, MajestiOS peut proposer un rapprochement lorsqu'au moins deux critères concordants sont réunis. Exemples : nom + adresse, nom + téléphone, adresse + téléphone, SIREN + téléphone ou SIRET + adresse. Ces combinaisons sont des exemples, pas une liste exhaustive ni une équivalence de fiabilité : les critères doivent être qualifiés selon leur fiabilité et leur contexte. Une correspondance probable est toujours soumise à la vérification d'un utilisateur habilité ; MajestiOS présente les éléments qui motivent sa proposition.
+- **Décision confirmée — correspondance incertaine :** un seul indice non officiel, des informations contradictoires ou plusieurs entreprises candidates ne déclenchent aucun rattachement automatique. Le signal reste en attente de qualification.
+- **Paramétrage administrateur et simplicité initiale :** le système doit démarrer avec une configuration simple et prudente, comportant peu de règles et des seuils compréhensibles. Depuis l'interface d'administration, l'administrateur du projet doit pouvoir faire évoluer le niveau de filtrage : ajouter ou retirer des critères, ajuster leur poids ou leur caractère obligatoire, relever ou abaisser les seuils et rendre la détection plus stricte ou plus souple. Les réglages doivent être versionnés et leurs changements tracés afin de savoir quelle règle a produit chaque proposition. Les conséquences d'un changement sur les rapprochements déjà effectués restent à définir ; aucun recalcul rétroactif ne doit être implicite.
+- **Garde-fous qui ne peuvent pas être désactivés par un simple réglage de souplesse :** une correspondance probable ne devient pas un rapprochement confirmé sans validation humaine ; aucun dossier CRM ou client n'est fusionné ; aucune note, aucun contact, document ou historique ne traverse un périmètre ; toute association conserve sa source, ses critères, sa justification, sa date, la version des règles et son historique ; une association erronée doit pouvoir être annulée sans détruire le signal source ni les dossiers concernés.
+- **Conséquences :** moteur de critères configurable, niveaux de confiance explicables, file de vérification humaine, versionnement des règles, historique des décisions et traitement idempotent des signaux.
+- **Preuves attendues :** tests des correspondances certaines, probables et incertaines ; validation humaine attribuable ; modification des réglages visible et historisée ; absence de fusion et de transfert de données entre périmètres ; annulation d'un rapprochement sans perte des données sources.
+- **Responsable de l'arbitrage :** porteur du projet / administrateur.
+- **État :** principes validés le 3 novembre 2026 : rapprochement automatique limité à l'identifiant officiel vérifié ; au moins deux critères concordants pour proposer une correspondance probable avec validation humaine ; configuration initiale simple et possibilité pour l'administrateur d'assouplir ou de renforcer le filtrage. Les critères exacts, pondérations, seuils par défaut, droits détaillés et traitement des changements de règles restent à spécifier.
 
 ### B-08 — Restrictions et oppositions
 
@@ -176,7 +180,7 @@ Elles restent **à arbitrer**.
 | B-04 | C-05, C-06, C-08 |
 | B-05 | C-04, C-05, C-09, C-10 |
 | B-06 | C-05, C-06, C-09 |
-| B-07 | C-05, C-08 |
+| B-07 | C-04, C-05, C-08, C-09 |
 | B-08 | C-04, C-09, C-10 |
 | B-09 | C-06, C-07, C-10 |
 | B-10 | C-06, C-07, C-10 |
@@ -185,7 +189,7 @@ Les contrats C-01 à C-10 restent eux-mêmes à valider. Ce registre ne les appr
 
 ## 6. Conditions de clôture
 
-Un arbitrage ne passe à « Validé » que lorsque le porteur du projet a explicitement confirmé la décision. Les validations B-01 à B-04 du 3 novembre 2026 portent sur les principes et choix explicitement énoncés. B-05 est validé sur les principes d'accès et d'administration des habilitations ; B-06 est partiellement validé sur l'autorité de publication (option B uniquement). Les précisions techniques signalées comme restant à arbitrer ne sont pas réputées approuvées. Pour chaque décision validée, consigner :
+Un arbitrage ne passe à « Validé » que lorsque le porteur du projet a explicitement confirmé la décision. Les validations B-01 à B-04 du 3 novembre 2026 portent sur les principes et choix explicitement énoncés. B-05 est validé sur les principes d'accès et d'administration des habilitations ; B-06 est partiellement validé sur l'autorité de publication (option B uniquement) ; B-07 est validé sur les règles de principe des rapprochements et leur paramétrage administrable, mais pas sur les critères, pondérations et seuils détaillés. Les précisions techniques signalées comme restant à arbitrer ne sont pas réputées approuvées. Pour chaque décision validée, consigner :
 - décision retenue et options écartées ;
 - justification métier et technique ;
 - responsable de validation et date ;
@@ -210,4 +214,4 @@ Tant que les arbitrages bloquants ne sont pas validés :
 
 Le prototype existant reste préservé. Toute implémentation ultérieure devra faire l'objet d'un périmètre distinct, d'un audit, d'une autorisation explicite et de tests reproductibles.
 
-**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé), B-05 (accès visiteurs/utilisateurs identifiés et autorité exclusive de l'administrateur sur les habilitations) et B-06 (l'auteur peut demander la publication d'une annonce, mais l'administrateur doit l'approuver). Les règles détaillées de déverrouillage des annonces privées, de partage CRM et le workflow complet des annonces restent à préciser ; B-07 à B-10 restent à arbitrer.
+**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé), B-05 (accès visiteurs/utilisateurs identifiés et autorité exclusive de l'administrateur sur les habilitations), B-06 (l'auteur peut demander la publication d'une annonce, mais l'administrateur doit l'approuver) et B-07 (rapprochement automatique sur identifiant officiel vérifié, revue humaine à partir d'au moins deux critères concordants pour les correspondances probables, et filtrage évolutif réglable par l'administrateur). Les critères, pondérations et seuils détaillés de B-07 restent à préciser. Les règles détaillées de déverrouillage des annonces privées, de partage CRM et le workflow complet des annonces restent également à préciser ; B-08 à B-10 restent à arbitrer.
