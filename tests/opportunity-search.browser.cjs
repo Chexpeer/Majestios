@@ -322,7 +322,7 @@ async function main() {
     assert.equal(await mixedCategory.isDisabled(), false, "La catégorie doit devenir disponible après le choix public ou privé.");
 
     // Le même moteur transversal doit être présent sur les autres destinations principales et le dossier Réseau.
-    for (const destination of ["reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html"]) {
+    for (const destination of ["reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html", "crm.html", "majestios-v5.html"]) {
       await page.goto(`http://127.0.0.1:4174/${destination}`, { waitUntil: "domcontentloaded" });
       await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
       assert.equal(await page.locator("#rubric-search-department").count(), 1, `${destination} doit proposer le filtre département commun.`);
