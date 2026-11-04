@@ -290,7 +290,7 @@ async function main() {
     assert.equal(await page.locator('#feed-department option[value="72"]').count(), 1, "Le département 72 · Sarthe doit être proposé avec son code officiel.");
 
     // Toutes les rubriques utilisent exactement le même formulaire et les mêmes étapes que l’accueil.
-    for (const destination of ["marches-publics.html", "developpement-commercial.html", "marches-prives.html", "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html", "crm.html", "majestios-v5.html"]) {
+    for (const destination of ["marches-publics.html", "developpement-commercial.html", "marches-prives.html", "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html", "crm.html", "majestios-v5.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html", "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html"]) {
       await page.goto(`http://127.0.0.1:4174/${destination}`, { waitUntil: "domcontentloaded" });
       await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
       for (const id of ["feed-search", "feed-market-type", "feed-sector", "feed-department"]) {
