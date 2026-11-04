@@ -176,6 +176,7 @@ Les dépendances principales sont : décisions de gouvernance avant données ré
 
 ## 10. Documents et contrôles associés
 
+- [Audit du lot 5 — architecture CRM et capitalisation](AUDIT-LOT-5-ARCHITECTURE-CRM-CAPITALISATION.md) — état des données par source, modèle conceptuel proposé, cloisonnement et arbitrages avant persistance.
 - [Audit de conformité de l'architecture et des liens](AUDIT-CONFORMITE-ARCHITECTURE-ET-LIENS.md) — preuves, état des routes, résultats et limites des contrôles.
 - [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — détails des rattachements fonctionnels.
 - [Expérience immersive et étages](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — interaction spatiale et exigences du panorama.

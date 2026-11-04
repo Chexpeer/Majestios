@@ -15,6 +15,7 @@ La V5 est la branche de travail active. La branche `evolution-3.0` est conservé
 | [Audit du lot 2 — navigation fonctionnelle](evolution-5.0/AUDIT-LOT-2-NAVIGATION-FONCTIONNELLE.md) | Parcours de second niveau, corrections vérifiées et contrôles non exécutés |
 | [Audit du lot 3 — fonctionnalités des rubriques](evolution-5.0/AUDIT-LOT-3-FONCTIONNALITES.md) | Qualification opérationnelle des rubriques, correction du menu et travaux restant à développer |
 | [Audit du lot 4 — moteur de recherche transversal](evolution-5.0/AUDIT-LOT-4-MOTEUR-RECHERCHE.md) | Sources, filtres, pertinence, limites de couverture, CRM et recommandations d'évolution |
+| [Audit du lot 5 — architecture CRM et capitalisation](evolution-5.0/AUDIT-LOT-5-ARCHITECTURE-CRM-CAPITALISATION.md) | Données par source, écarts entre prototype et CRM cible, modèle conceptuel proposé et décisions avant persistance |
 
 Les autres documents V5 sont des précisions thématiques subordonnées à la référence centrale. En cas de divergence, appliquer la référence et corriger le document de détail.
 
