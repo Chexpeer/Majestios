@@ -79,8 +79,10 @@ for (const page of htmlPages) {
     const currentPage = currentLinks[0][2].split(/[?#]/, 1)[0];
     assert(currentPage === page, page + " : aria-current doit désigner la page réellement affichée");
   }
-  assert(!/const\s+menuToggle\s*=/.test(pageHtml) || !pageHtml.includes('src="app.js"'),
-    page + " : éviter une déclaration globale de menu en conflit avec app.js");
+  assert(pageHtml.includes('src="app.js"'),
+    page + " : le menu principal doit utiliser le contrôleur partagé app.js");
+  assert(!pageHtml.includes('querySelector(".menu-toggle")'),
+    page + " : le menu ne doit pas avoir de contrôleur inline concurrent");
 }
 for (const asset of [
   "styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
@@ -192,6 +194,8 @@ assert(rubricSearch.includes('id="advanced-search-form"') && rubricSearch.includ
   "Recherche : les rubriques ne réutilisent pas le formulaire commun de l’accueil");
 assert(appSearch.includes("MAJESTIOS_CATALOG") && appSearch.includes("populateSearchFilters"),
   "Recherche : les interactions ne consomment pas le catalogue partagé");
+assert(appSearch.includes('#open-personal-space, #open-personal-space-shortcut'),
+  "Espace privé : les deux boutons doivent ouvrir le même formulaire de préparation");
 for (const page of ["marches-publics.html","developpement-commercial.html","prospection-active.html","veille-marches.html",
   "accompagnement-appels-offres.html","sous-traitance.html","intelligence-economique.html","reseaux-synergies.html",
   "bodacc-veille-entreprises.html","suivi-commercial.html","marches-prives.html","reputation-virtuelle.html",

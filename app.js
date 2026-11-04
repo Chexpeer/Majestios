@@ -384,13 +384,14 @@ if (interactiveSvg) {
 }
 
 const personalSpaceDialog = document.querySelector("#personal-space-dialog");
-const openPersonalSpace = document.querySelector("#open-personal-space");
 const closePersonalSpace = document.querySelector("#close-personal-space");
 const personalSpaceForm = document.querySelector("#personal-space-form");
 const personalSpaceFeedback = document.querySelector("#personal-space-feedback");
 
-openPersonalSpace?.addEventListener("click", () => {
-  if (typeof personalSpaceDialog?.showModal === "function") personalSpaceDialog.showModal();
+document.querySelectorAll("#open-personal-space, #open-personal-space-shortcut").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (typeof personalSpaceDialog?.showModal === "function") personalSpaceDialog.showModal();
+  });
 });
 closePersonalSpace?.addEventListener("click", () => personalSpaceDialog?.close());
 personalSpaceDialog?.addEventListener("click", (event) => {

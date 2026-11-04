@@ -16,17 +16,18 @@ La vision ne se réduit ni à un moteur d'annonces, ni à un tableau de bord, ni
 1. [Référence MajestiOS V.5](MAJESTIOS-V5-REFERENCE.md) — document maître et source canonique.
 2. [Audit de conformité de l'architecture et des liens](AUDIT-CONFORMITE-ARCHITECTURE-ET-LIENS.md) — état du dépôt, routes et contrôles vérifiés.
 3. [Audit du lot 2 — conformité fonctionnelle et navigation](AUDIT-LOT-2-NAVIGATION-FONCTIONNELLE.md) — parcours de second niveau, défauts observés, corrections et limites de recette.
-4. [Vision fondatrice](VISION-FONDATRICE.md) — promesse, doctrine et principes.
-5. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — destinations, dossiers, pages et fonctions transversales.
-6. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — quartier, panorama, ascenseur, étages et navigation.
-7. [Architecture fonctionnelle cible](ARCHITECTURE-FONCTIONNELLE-CIBLE.md) — domaines, frontières et données.
-8. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — rôles spécialisés, orchestration, proactivité et gouvernance.
-9. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
-10. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
-11. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
-12. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype et limites vérifiées.
-13. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts historiques à revalider.
-14. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
+4. [Audit du lot 3 — fonctionnalités des rubriques](AUDIT-LOT-3-FONCTIONNALITES.md) — état par rubrique, défaut corrigé, fonctions simulées et travaux restant à développer.
+5. [Vision fondatrice](VISION-FONDATRICE.md) — promesse, doctrine et principes.
+6. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — destinations, dossiers, pages et fonctions transversales.
+7. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — quartier, panorama, ascenseur, étages et navigation.
+8. [Architecture fonctionnelle cible](ARCHITECTURE-FONCTIONNELLE-CIBLE.md) — domaines, frontières et données.
+9. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — rôles spécialisés, orchestration, proactivité et gouvernance.
+10. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
+11. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
+12. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
+13. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype et limites vérifiées.
+14. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts historiques à revalider.
+15. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
 
 Les documents 3 à 13 sont des compléments de sujet. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
