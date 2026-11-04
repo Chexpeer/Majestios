@@ -91,7 +91,7 @@ async function main() {
       const cabinGeometry=await page.locator(".elevator-cabin").evaluate(element=>({
         x:Number(element.getAttribute("x")),width:Number(element.getAttribute("width")),height:Number(element.getAttribute("height"))
       }));
-      assert.ok(Math.abs(cabinGeometry.x-555.5)<0.1,"La cabine doit être décalée d'environ 1 mm vers la droite.");
+      assert.ok(Math.abs(cabinGeometry.x-551.5)<0.1,"L'axe de la cabine doit être décalé d'environ 1 mm vers la droite.");
       assert.deepEqual([cabinGeometry.width,cabinGeometry.height],[68,78],"La cabine doit être agrandie sans déformer la photographie.");
       assert.equal(await page.locator(".elevator-window").evaluate(element=>getComputedStyle(element).fillOpacity),"0.2","La cabine doit présenter un vitrage translucide.");
       assert.equal(await page.locator(".floor-row.is-lit").count(),0,"Aucun étage ne doit être illuminé.");
