@@ -17,7 +17,7 @@ Les éléments sont étiquetés comme suit :
 - **PROPOSITION** : option à examiner, non validée.
 - **À ARBITRER** : choix qui requiert une décision du propriétaire.
 
-L'absence de V4 dans le dépôt examiné est un **fait vérifié** : aucun document suivi sous `docs/evolution-4.0/` ou `docs/evolution-4/` n'a été trouvé. La V4 reste la base fonctionnelle demandée pour la synthèse, mais son contenu devra être fourni ou référencé avant qu'une filiation V4 → V5 puisse être attestée. Les documents 2.0 et 3.0 présents sont consultés comme sources historiques ; la branche `evolution-3.0` n'est pas modifiée.
+L'historique des versions est désormais établi par [FILIATION-DOCUMENTAIRE-V2-A-V5.md](FILIATION-DOCUMENTAIRE-V2-A-V5.md). Les branches V2 (`evolution-2.0`), V3 (`evolution-3.0`) et V4 (`evolution-4.0`) existent et conservent leurs propres sources documentaires. Elles ne sont pas recopiées dans le dossier V5. La branche V4 a été retrouvée et son corpus comporte sept documents. Les copies locales V2 et V3 ont été retirées de l'arborescence V5. MajestiOS V.5 est l'intelligence centrale actuelle ; les anciennes propositions d'intelligence autonome ne constituent pas l'architecture V5.
 
 ## 2. Vision et positionnement
 

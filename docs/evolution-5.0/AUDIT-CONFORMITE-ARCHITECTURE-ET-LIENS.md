@@ -1,4 +1,8 @@
-# Audit de conformité de l'architecture et des liens — MajestiOS V.5
+# Audit de conformité de l'architecture et des liens
+
+> **RECTIFICATIF DOCUMENTAIRE — 5 novembre 2026**  
+> Le constat ci-dessous relatif à l'absence de V4 dans le dépôt est retiré. La vérification initiale avait porté uniquement sur l'arbre de la branche `evolution-5.0`. La branche `evolution-4.0` existe et contient sept documents sous `docs/evolution-4.0/` (commit source observé : `9f7bd53018f30210e2b4ffabd2153b14835c3068`). Le corpus a été retrouvé et analysé. La ligne P1 correspondante est donc **close comme erreur de périmètre de recherche**, et non comme problème de disponibilité des sources. La filiation corrigée est décrite dans [FILIATION-DOCUMENTAIRE-V2-A-V5.md](FILIATION-DOCUMENTAIRE-V2-A-V5.md).  
+> — MajestiOS V.5
 
 **Date :** 4 novembre 2026
 **Branche examinée :** `evolution-5.0`
@@ -25,7 +29,7 @@ Fichiers déterminants :
 - `verify-site.js`, `verify-architecture.js` : assertions automatisées du dépôt.
 - `crm.html`, `espace-membre.html`, `majestios-v5.html` : déclarations d'état du prototype.
 
-Le dépôt contient 32 pages HTML racine et un manifeste de 52 ressources. Aucun document suivi sous `docs/evolution-4.0/` ou `docs/evolution-4/` n'a été trouvé ; la source V4 demandée n'est donc pas disponible dans ce checkout.
+Le dépôt contient 32 pages HTML racine et un manifeste de 52 ressources. La branche V4 n'avait pas été examinée lors de cette première passe. Ce constat est retiré par le rectificatif documentaire du 5 novembre 2026 : le corpus V4 existe sur la branche `evolution-4.0`.
 
 ## 3. Correspondance de l'immeuble et des routes
 
@@ -71,7 +75,7 @@ Aucun lien HTML local défectueux n'a été identifié ; aucun lien de navigatio
 
 | Gravité | Constat | Preuve / conséquence | Suite recommandée |
 |---|---|---|---|
-| P1 | La base documentaire V4 demandée n'est pas présente dans le dépôt | Aucun chemin suivi `docs/evolution-4.0/` ou `docs/evolution-4/` ; la synthèse ne peut pas démontrer quels choix V4 sont conservés ou abandonnés | Fournir le corpus ou son emplacement avant validation de la filiation V4 → V5 |
+| RETIRÉ | La base documentaire V4 demandée n'est pas présente dans le dépôt | Constat initial erroné : seule la branche V5 avait été examinée. Le corpus a été retrouvé sur `evolution-4.0` | Rectificatif et matrice de filiation publiés dans `FILIATION-DOCUMENTAIRE-V2-A-V5.md` |
 | P1 | L'intelligence centrale V5 reste une cible, non un service connecté | `majestios-v5.html` indique l'absence d'orchestrateur, de mémoire persistante et de service IA de production | Garder les formulations « cible » et « à construire » jusqu'à preuve d'exécution |
 | P1 | CRM et espace privé ne sont pas opérationnels | `crm.html` indique l'absence de stockage et de connexion ; `espace-membre.html` indique que les demandes ne sont ni envoyées ni stockées | Ne pas saisir de données réelles ; définir le socle serveur, les rôles et les règles de conservation avant mise en œuvre |
 | P1 | Les contrôles automatisés ne sont pas exécutés localement | Node.js absent ; tests unitaires, contrôles d'architecture, smoke tests réseau et Playwright non lancés | Relancer les commandes du `README.md` dans la CI ou un environnement Node 22 avant de déclarer la recette complète |
@@ -97,7 +101,7 @@ Le contrôle PowerShell des liens HTML est un contrôle statique ponctuel, pas u
 
 ## 7. Ordre de reprise recommandé
 
-1. Obtenir la documentation V4 et arbitrer la matrice finale des huit destinations et de leurs sous-parcours.
+1. Utiliser la filiation V2 → V5 désormais documentée, puis arbitrer les points métier encore ouverts concernant les destinations et leurs sous-parcours.
 2. Corriger les contradictions des documents thématiques en prenant la référence maître comme autorité.
 3. Exécuter en CI Node 22 le build, les vérifications de site et d'architecture, puis les tests unitaires.
 4. Exécuter les smoke tests BOAMP/BODACC et les tests navigateur ; distinguer explicitement les erreurs réseau des défauts de code.

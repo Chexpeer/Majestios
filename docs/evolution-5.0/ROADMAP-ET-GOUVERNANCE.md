@@ -2,8 +2,9 @@
 
 ## 1. Stratégie de branches
 
-- `evolution-3.0` : patrimoine de référence à préserver ; ne pas modifier dans le cadre de la V5.
-- `evolution-4.0` : documentation de consultation en standby ; à relire comme source, sans reprendre automatiquement toutes ses propositions.
+- `evolution-2.0`, `evolution-3.0` et `evolution-4.0` : branches sources historiques à préserver ; leurs documents ne sont pas copiés dans le dossier V5.
+- La filiation et les changements de doctrine sont décrits dans [FILIATION-DOCUMENTAIRE-V2-A-V5.md](FILIATION-DOCUMENTAIRE-V2-A-V5.md).
+- MajestiOS V.5 est l'intelligence centrale ; les capacités d'assistance, de mémoire, d'administration, de supervision et de SEO lui sont rattachées, sans système parallèle.
 - `evolution-5.0` : nouvelle branche de cadrage et de construction.
 - Toute branche de prototype ou de fonctionnalité V5 devra être dédiée et partir d'une base explicitement identifiée.
 
@@ -19,7 +20,7 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 - classer chaque élément : conserver, adapter, fusionner, archiver, abandonner (proposition) ou vérifier ;
 - ne rien supprimer à ce stade.
 
-**Sortie :** registre de patrimoine V3 et plan de nettoyage approuvé.
+**Sortie :** filiation documentaire V2 → V5 publiée ; branches sources historiques préservées ; copies des dossiers antérieurs retirées du référentiel V5.
 
 ### Phase 1 — Vision, arborescence et contre-audit
 - consolider les décisions fondatrices ;

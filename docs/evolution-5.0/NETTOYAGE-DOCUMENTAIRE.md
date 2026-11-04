@@ -1,69 +1,73 @@
 # Nettoyage documentaire — inventaire et règles de conservation
 
+**Mise à jour : 5 novembre 2026 — périmètre documentaire uniquement.**
+
 ## 1. Objectif
 
-La documentation V5 est le point d'entrée actif. Le nettoyage vise à réduire les doublons, contradictions et éléments réellement abandonnés, sans effacer les exigences métier ni l'histoire du projet.
+La documentation V5 est un référentiel autonome. Le nettoyage supprime les copies locales de dossiers de versions antérieures afin d'éviter les confusions de version, sans supprimer les branches sources ni les exigences métier encore utiles.
 
-## 2. Sources à préserver et à confronter
+## 2. Répartition canonique des sources
 
-- `README.md`, `AGENTS.md` et `docs/README.md` : consignes et index globaux.
-- `docs/evolution-5.0/` : référentiel stratégique et cible de travail active.
-- `docs/evolution-3.0/` : patrimoine technique et fonctionnel de référence, à préserver intact.
-- `docs/evolution-2.0/` : cahier fondateur, gouvernance et cartographie fonctionnelle.
-- `docs/historique/` : archives riches en spécifications métier, modèles de données, CRM, AO, veille, parcours et décisions.
-- Documentation V4 : corpus de réflexion et de contre-audit en standby, à exploiter sans reprendre automatiquement ses conclusions.
-- Code, tests, workflows et PR : preuves d'implémentation, à distinguer des intentions documentées.
+- `docs/evolution-5.0/` : référentiel actif et documents propres à la V5.
+- Branche `evolution-2.0` : sources documentaires V2 ; ne pas recopier son dossier dans V5.
+- Branche `evolution-3.0` : sources documentaires V3 ; ne pas recopier son dossier dans V5.
+- Branche `evolution-4.0` : sept documents sources V4 ; ne pas recopier son dossier dans V5.
+- `docs/historique/` : archives thématiques du projet, conservées pour leur valeur documentaire ; elles ne remplacent pas les sources versionnées.
 
-## 3. Règles de tri
+Le document [Filiation documentaire V2 → V5](FILIATION-DOCUMENTAIRE-V2-A-V5.md) identifie les commits, les corpus et les principaux changements.
+
+## 3. Nettoyage réalisé dans V5
+
+- Retrait du dossier local `docs/evolution-2.0/` (quatre copies documentaires).
+- Retrait du dossier local `docs/evolution-3.0/` (neuf copies documentaires).
+- Aucun dossier `docs/evolution-4.0/` n'était présent dans l'arbre V5 ; le corpus V4 a été retrouvé sur sa branche source et n'a pas été copié.
+- Les branches sources `evolution-2.0`, `evolution-3.0` et `evolution-4.0` ne sont pas modifiées.
+- Les documents du dossier `docs/evolution-5.0/` et les fichiers du site ne sont pas déplacés par cette opération.
+
+## 4. Règles de tri
 
 | Classe | Traitement |
 |---|---|
-| Référence actuelle, exacte et utile | Conserver et relier depuis l'index V5 |
-| Fonction ou exigence utile, même non développée | Préserver et rattacher à la roadmap |
-| Contenu utile mais daté | Extraire les éléments valides, garder la source en archive |
-| Doublon | Choisir une référence canonique ; archiver l'original avant retrait |
+| Référence V5 actuelle, exacte et utile | Conserver comme source canonique |
+| Fonction ou exigence métier utile, même non développée | Préserver et rattacher à la référence ou à la roadmap V5 |
+| Contenu utile mais daté | Citer sa source historique et extraire uniquement les éléments encore valides |
+| Copie d'une version antérieure | Retirer du dossier V5 ; conserver la source sur sa branche |
+| Doublon thématique dans les archives | Choisir une référence canonique ; garder l'original si sa valeur historique le justifie |
 | Contradiction | Ouvrir un arbitrage, ne pas choisir silencieusement |
 | Proposition non validée | Garder dans un registre d'hypothèses |
 | Information non vérifiée | Marquer « à vérifier » et définir la preuve attendue |
 | Contenu réellement abandonné | Proposer le retrait après recherche des dépendances et validation |
 
-## 4. Nettoyage technique et documentaire
+## 5. Principes de contrôle
 
-- vérifier les liens Markdown et chemins relatifs ;
+- vérifier les liens Markdown et chemins relatifs après retrait des copies ;
 - harmoniser titres, versions, dates, branches et références de commits ;
-- comparer les documents avant fusion ;
+- comparer les documents avant toute fusion ;
 - distinguer code présent, prototype, fonction testée et fonction opérationnelle ;
-- corriger les termes obsolètes dans l'interface active sans réécrire les archives ;
+- corriger les termes obsolètes dans l'interface active sans réécrire les archives sources ;
 - maintenir la traçabilité destination → dossier → sous-dossier → page → fonction ;
-- inventorier les dépendances HTML/CSS/JS, scripts de build, tests, workflows et ressources ;
-- rechercher les références avant toute suppression ou renommage.
+- inventorier les dépendances HTML/CSS/JS, scripts de build, tests, workflows et ressources avant toute intervention sur le site ;
+- ne jamais modifier le site dans le cadre d'un nettoyage strictement documentaire.
 
-## 5. Points de vigilance stratégiques
+## 6. Points de vigilance stratégiques
 
-- Les documents historiques peuvent contenir des noms ou concepts remplacés ; ils restent utiles pour retrouver les intentions d'origine.
-- MajestiOS V.5 est l'intelligence centrale du site. Les documents de cadrage décrivent des capacités cibles ; leur présence en archive ne prouve pas qu'elles sont intégrées ou opérationnelles.
-- « Réputation virtuelle » est le terme cible ; « e-Réputation » relève de l'historique.
+- Les documents historiques peuvent contenir des noms ou concepts remplacés ; ils servent à retrouver les intentions d'origine, pas à définir seuls la doctrine actuelle.
+- MajestiOS V.5 est l'intelligence centrale du site. Les capacités décrites dans les documents sont des cibles tant que leur réalisation n'est pas prouvée.
+- « Réputation virtuelle » est le terme cible.
 - « Prospection » est l'intitulé du dossier ; « Prosp'active » peut être une signature de marque.
 - Les pages salons et séminaires restent des contenus du Réseau.
-- CRM, Business Intelligence, mémoire, orchestration, administration et SEO sont des capacités à préserver même si elles ne constituent pas des étages.
-- Le SEO continu, la veille des moteurs et les recommandations de maintien à la pointe font partie du périmètre stratégique de l'administration IA.
+- CRM, Business Intelligence, mémoire, orchestration, administration et SEO sont des capacités transversales, même si elles ne constituent pas des étages.
+- Le SEO continu, la veille des moteurs et les recommandations de maintien à la pointe font partie du périmètre stratégique de l'administration de MajestiOS V.5.
 
-## 6. Décisions de conservation connues
+## 7. État des éléments du site — hors périmètre de ce nettoyage
 
-- Le blog « 100 blagues » est explicitement retiré de l'expérience active V5 ; ses références historiques peuvent rester archivées.
-- Les ressources visuelles présentes dans la branche sont `Ambitios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp`, `Marcheprive.webp` et `Reseau.webp`. Aucune ne doit être supprimée sans vérification de son usage et de sa valeur.
-- Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, salons-séminaires, CRM, suivi commercial, intelligence économique, vision, recrutement, FAQ et pages légales sont conservées jusqu'à audit de leur utilité et de leurs liens.
+Les audits précédents ont recensé des ressources visuelles, des pages, des scripts et des parcours. Le présent nettoyage ne les modifie pas. Toute intervention future sur ces éléments exige une demande distincte, un audit de dépendances et les validations habituelles.
 
-## 7. Première passe de nettoyage
+## 8. Livrables documentaires
 
-La première passe privilégie l'inventaire et la conservation. Une exception de nettoyage a été réalisée après vérification des dépendances : `shared-search.css`, absent du manifeste et non référencé par les 32 pages HTML ni les feuilles de style/scripts actifs, a été retiré. Le formulaire statique de recherche en doublon de `developpement-commercial.html` a également été retiré au profit du moteur commun par rubrique. Pour les prochaines suppressions, exiger une preuve d'obsolescence, l'absence de dépendance et de valeur métier, puis consigner la justification dans l'audit. Le manifeste `site-files.json` couvre actuellement les 32 pages HTML et toutes ses 52 entrées correspondent à des fichiers présents.
-
-## 8. Livrables attendus
-
-- inventaire des documents, pages, scripts, styles, images, routes, tests et workflows ;
-- matrice doublons / contradictions / références canoniques ;
-- matrice de traçabilité métier ;
-- liste de corrections non controversées ;
-- propositions motivées de regroupement, archivage et retrait ;
-- vérification automatisée des liens internes, ressources et chemins ;
-- rapport de tests et état exact des limites restantes.
+- inventaire des sources versionnées ;
+- matrice de filiation et de continuité ;
+- corrections des références erronées ;
+- index V5 sans copies des versions antérieures ;
+- vérification des liens documentaires internes ;
+- compte rendu exact des fichiers modifiés et des contrôles exécutés.
