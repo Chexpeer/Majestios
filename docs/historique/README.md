@@ -1,46 +1,32 @@
-# MajestiOS — prototype de développement commercial assisté par IA
+# Archives documentaires thématiques — MajestiOS
 
-MajestiOS vise à aider les professionnels à détecter des marchés et projets, identifier des entreprises et contacts, qualifier des pistes et organiser leur développement commercial.
+**État au 5 novembre 2026 — branche `evolution-5.0`.**
 
-**Ce dépôt contient un prototype statique.** Il ne constitue pas encore une plateforme SaaS complète : les écrans, formulaires et démonstrations ne prouvent pas à eux seuls qu’un service métier, une sauvegarde CRM, une authentification ou une automatisation est opérationnel.
+Ce dossier n'est pas le référentiel actif du produit. La doctrine et les décisions courantes sont centralisées dans [la référence MajestiOS V.5](../evolution-5.0/MAJESTIOS-V5-REFERENCE.md).
 
-## Démarrer le prototype
+## Pourquoi certains documents sont conservés
 
-Aucune installation applicative n’est requise. Depuis la racine du dépôt :
+Après comparaison des empreintes Git de 35 fichiers de l'ancien dossier `docs/historique/` avec les branches sources V2, V3 et V4 :
 
-```sh
-python -m http.server 8000
-```
+- **27 fichiers identiques octet pour octet** à une source historique ont été retirés de V5. Leurs originaux restent accessibles sur les branches V2, V3 ou V4.
+- **6 fichiers modifiés** par rapport aux sources historiques sont conservés provisoirement. Ils doivent être rapprochés de la doctrine V5 avant toute réutilisation.
+- **2 fichiers propres à ce dossier** sont conservés comme ressources historiques : le référentiel de connaissances et les consignes d'assistants IA.
 
-Ouvrir ensuite http://localhost:8000.
+Les branches sources ne sont pas modifiées.
 
-Pour préparer et contrôler le site :
+## Documents conservés — à traiter comme archives, pas comme décisions actives
 
-```sh
-node build.js
-node verify-site.js
-```
+- `DOCUMENTATION-REPRISE-IA-MAJESTIOS.md`
+- `DOSSIERS-MAJESTIOS.md`
+- `MATRICE-TRAÇABILITE-EXIGENCES-MAJESTIOS.md`
+- `PLAN-CHANTIER-RECHERCHE-DONNEES-CRM.md`
+- `SPECIFICATION-FONCTIONNELLE-DETAILLEE-MAJESTIOS.md`
+- `dossiers/10-business-intelligence/README.md`
+- `referentiel-connaissances/CONSIGNES-ASSISTANTS-IA.md`
+- `referentiel-connaissances/README.md`
 
-Les contrôles statiques ne remplacent pas les tests navigateur, notamment pour la scène interactive, les interactions tactiles et les parcours de recherche.
+Certains de ces textes reflètent des termes, hypothèses, branches ou architectures antérieurs. Ils ne doivent pas être copiés tels quels dans la documentation active. En particulier, les références à des concepts remplacés ne décrivent pas l'architecture actuelle.
 
-## État fonctionnel à ne pas surinterpréter
+## Règle de reprise
 
-- Les recherches BOAMP et BODACC interrogent des sources externes à la demande ; disponibilité et résultats dépendent de ces sources.
-- Le ciblage APE/NAF est une aide à la préqualification, pas une preuve de compétence ni une validation commerciale.
-- Les données affichées par les prototypes ne sont pas nécessairement enregistrées dans un CRM.
-- L’espace membre ne doit pas être considéré comme une authentification opérationnelle.
-- Les formulaires de démonstration ne garantissent ni transmission ni conservation d’une demande.
-- Les rubriques non connectées ne doivent pas afficher de résultats fictifs.
-
-## Structure et règles de contribution
-
-- Les pages HTML métier restent à la racine pour préserver les liens relatifs existants.
-- Ne déplacer ni supprimer une page ou une ressource sans vérifier ses références, les liens entrants, le build et les tests.
-- Une rubrique métier doit conduire à une page dédiée ; ne pas remplacer une page par une ancre vers un long contenu d’accueil.
-- Ne pas publier en production une branche ou une prévisualisation qui n’a pas été vérifiée.
-- Distinguer systématiquement documentation, maquette, prototype connecté et fonctionnalité réellement opérationnelle.
-
-## Documentation
-
-Le point d’entrée documentaire est **[docs/README.md](docs/README.md)**. Il classe les documents existants par sujet et donne l’ordre de lecture recommandé.
-
+Pour une décision actuelle, consulter d'abord `docs/evolution-5.0/`. Pour retrouver une formulation ou une exigence d'origine, utiliser ces archives avec prudence, puis vérifier la source de version sur sa branche historique. Toute exigence encore pertinente doit être intégrée à une référence V5 avant de supprimer son dernier exemplaire local.
