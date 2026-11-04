@@ -211,7 +211,7 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
     html.indexOf('src="catalogue-majestios.js"') < html.indexOf('src="rubric-search.js"') &&
     html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
     "Recherche : ordre de chargement du catalogue et du moteur commun incorrect sur " + page);
-  assert(/href="rubriques-immersives\\.css"/.test(html),
+  assert(/href="rubriques-immersives\.css"/.test(html),
     "Recherche : feuille de style commune absente sur " + page);
 }
 
