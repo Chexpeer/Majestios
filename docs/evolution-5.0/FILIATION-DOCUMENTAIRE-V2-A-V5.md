@@ -101,7 +101,7 @@ La V5 possède également sa propre organisation fonctionnelle, son immeuble int
 1. Les dossiers `docs/evolution-2.0/` et `docs/evolution-3.0/` ne font plus partie de l'arborescence documentaire V5. Les sources originales restent consultables sur leurs branches.
 2. Aucun dossier `docs/evolution-4.0/` n'était présent dans l'arbre V5 examiné ; les sources V4 restent sur la branche `evolution-4.0` et ne sont pas copiées dans V5.
 3. Les documents propres à V5 restent dans `docs/evolution-5.0/`.
-4. Les documents de `docs/historique/` sont conservés comme archives thématiques du projet ; ils ne remplacent pas les sources versionnées V2, V3 ou V4.
+4. Le dossier `docs/historique/` ne conserve que huit documents après comparaison : 27 copies strictement identiques aux sources historiques ont été retirées de V5. Les six versions modifiées et les deux ressources sans équivalent sont isolées comme archives, non comme doctrine active. Voir `NETTOYAGE-ARCHIVES-HISTORIQUES-2026-11-05.md`.
 5. Les index, consignes et références V5 doivent pointer vers ce document de filiation plutôt que vers des copies locales des dossiers antérieurs.
 6. Ce nettoyage ne modifie aucun fichier du site ni aucune branche historique.
 
