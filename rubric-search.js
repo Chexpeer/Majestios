@@ -46,7 +46,7 @@
   if (lede) lede.insertAdjacentElement("afterend", section);
   else page.prepend(section);
 
-  const initialMarket = new URLSearchParams(window.location.search).get("marche") || config[2];
+  const initialMarket = new URLSearchParams(window.location.search).get("marche") || "";
   const market = section.querySelector("#feed-market-type");
   const categoryStep = section.querySelector("#category-step");
   market.value = initialMarket;
