@@ -41,7 +41,7 @@ La documentation V5 est le point d'entrée actif. Le nettoyage vise à réduire 
 ## 5. Points de vigilance stratégiques
 
 - Les documents historiques peuvent contenir des noms ou concepts remplacés ; ils restent utiles pour retrouver les intentions d'origine.
-- Le statut de BrainIOS et son éventuelle articulation avec MajestiOS V.5 ne doivent pas être figés avant que le fondateur ait exposé ses idées.
+- BrainIOS est l'appellation antérieure de MajestiOS V.5 : il s'agit d'une seule et même plateforme, pas de deux projets ou architectures. Les capacités, idées et travaux utiles documentés sous BrainIOS doivent être conservés et intégrés au périmètre MajestiOS V.5. Dans la documentation active et l'interface, employer exclusivement « MajestiOS V.5 » ; conserver « BrainIOS » uniquement dans les archives nécessaires à la traçabilité.
 - « Réputation virtuelle » est le terme cible ; « e-Réputation » relève de l'historique.
 - « Prospection » est l'intitulé du dossier ; « Prosp'active » peut être une signature de marque.
 - Les pages salons et séminaires restent des contenus du Réseau.
