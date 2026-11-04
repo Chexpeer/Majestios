@@ -20,7 +20,7 @@ const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf
 async function main() {
   assert.ok(fs.existsSync(path.join(root,"index.html")), "Exécuter node build.js avant le test.");
   assert.ok(fs.existsSync(path.join(root,"Ambisios.webp")), "Le panorama Ambisios est absent du build.");
-  for (const asset of ["Développement-.webp","Marché-Public-.webp","Prospection-.webp"]) {
+  for (const asset of ["Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp"]) {
     assert.ok(fs.existsSync(path.join(root,asset)), "Le fond de rubrique "+asset+" est absent du build.");
   }
   const server = http.createServer((req,res) => {
