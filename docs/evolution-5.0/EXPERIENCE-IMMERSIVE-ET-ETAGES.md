@@ -186,22 +186,22 @@ Comparer avant de choisir :
 
 ## 10. Architecture visuelle effective — référence unique Ambisios
 
-Depuis le 4 novembre 2026, `Ambisios.webp` reste le panorama de l’accueil. Trois fonds supplémentaires ont été ajoutés et doivent être utilisés dans les rubriques correspondantes : `Développement-.webp`, `Marché-Public-.webp` et `Prospection-.webp`.
+Depuis le 4 novembre 2026, `Ambisios.webp` reste le panorama de l’accueil. Quatre fonds de rubrique sont présents : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`.
 
 Conséquences :
 - aucune page ne doit référencer une ancienne image WebP supprimée ;
-- `site-files.json` ne doit contenir qu’une seule ressource `.webp`, `Ambisios.webp` ;
-- les contenus et interactions propres aux rubriques sont différenciés par le HTML et les composants, pas par des fichiers WebP autonomes ;
+- `site-files.json` doit déclarer le panorama et les quatre fonds de rubrique, soit cinq ressources WebP ;
+- les contenus et interactions propres aux rubriques sont différenciés par le HTML et les composants, avec un fond photographique adapté à chaque rubrique lorsque ce fond existe ;
 - toute nouvelle image WebP devra faire l’objet d’un arbitrage explicite.
 
 La cible spatiale comporte huit destinations : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux, sans étage propre.
 
-**État de validation :** le remplacement des références et le nettoyage des fichiers sont enregistrés dans GitHub. La recette des coordonnées de clic, de l’ascenseur et de l’éclairage reste distincte et n’est pas déclarée terminée.
+**État de validation :** les cinq ressources WebP sont présentes dans le dépôt et le manifeste. Cela ne valide ni la recette des zones de clic, ni l'animation de l'ascenseur, ni l'éclairage, ni le rendu responsive.
 
 
 ## 7. Fonds visuels dédiés aux rubriques
 
-Le panorama `Ambisios.webp` reste l'image de navigation de l'accueil. Les fonds ajoutés au dépôt sont conservés et affectés ainsi :
+Le panorama `Ambisios.webp` reste l'image de navigation de l'accueil. Les quatre fonds ajoutés au dépôt sont conservés et affectés ainsi :
 - Développement commercial : `Développement-.webp` ;
 - Marchés publics : `Marché-Public-.webp` ;
 - Prospection : `Prospection-.webp` ;
