@@ -4,6 +4,13 @@ const path = require("node:path");
 const outputDirectory = path.join(__dirname, "dist");
 const siteFiles = ["index.html", "6180 (2).webp", "majestios-veille-economique (1).webp", "majestios-call-center (1).webp", "majestios-batiment.webp", "IMMEUBLE MajestiOS .webp", "majestios-appels-d-offres (1).webp", "crm.html", "brainos.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html", "nous-rejoindre.html", "espace-membre.html", "faq.html", "marches-publics.html", "veille-marches.html", "marches-prives.html", "prospection-active.html", "developpement-commercial.html", "intelligence-economique.html", "reseaux-synergies.html", "sous-traitance.html", "accompagnement-appels-offres.html", "bodacc-veille-entreprises.html", "salons-seminaires.html", "reputation-virtuelle.html", "suivi-commercial.html", "vision-majestios.html", "blog-100-blagues.html", "rubriques-immersives.css", "rubriques-immersives.js", "styles.css", "charte-majestios.css", "app.js", "category-results.js", "search-results.js", "opportunity-search.js", "rubric-search.js", "resultats-recherche.html", "publier-ma-demande.html", "mentions-legales.html", "politique-confidentialite.html", "catalogue-majestios.js", "naf-suggestions.js", "company-targeting.js", "company-targeting-page.js", "company-fit.js", "qualification-entreprises.html"];
 
+// Le cockpit admin est inclus uniquement dans les déploiements Preview Vercel.
+// Il reste absent des builds de production tant que l'authentification serveur n'est pas prête.
+const previewAdminFiles = process.env.VERCEL_ENV === "preview"
+  ? ["admin/index.html", "admin/admin.css", "admin/admin.js"]
+  : [];
+siteFiles.push(...previewAdminFiles);
+
 const duplicateFiles = siteFiles.filter((file, index) => siteFiles.indexOf(file) !== index);
 if (duplicateFiles.length) {
   console.error(`Build interrompu : fichier(s) déclaré(s) plusieurs fois :\\n- ${[...new Set(duplicateFiles)].join("\\n- ")}`);
