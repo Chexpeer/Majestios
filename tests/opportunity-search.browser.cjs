@@ -161,7 +161,7 @@ async function main() {
     await page.waitForURL(/index\.html\?q=plomberie.*marche=public.*departement=79.*#recherche-avancee|index\.html\?q=plomberie.*departement=79.*marche=public.*#recherche-avancee/, { timeout: 10000 });
     assert.equal(await page.locator("#feed-search").inputValue(), "plomberie", "L’accueil doit restaurer les mots-clés au retour.");
     assert.equal(await page.locator("#feed-market-type").inputValue(), "public", "L’accueil doit restaurer le type de marché au retour.");
-    assert.equal(await page.locator("#feed-sector").inputValue(), "all", "L’accueil doit restaurer une catégorie non précisée sans en inventer.");
+    assert.equal(await page.locator("#feed-sector").inputValue(), "", "L’accueil doit laisser la catégorie à choisir quand aucun critère n’a été fourni.");
     assert.equal(await page.locator("#feed-department").inputValue(), "79", "L’accueil doit restaurer le département au retour.");
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
     assert.equal(departmentFilterSeen, true, "Une requête BOAMP doit appliquer le filtre du département 79, côté prestation et acheteur.");
