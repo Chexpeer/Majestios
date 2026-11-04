@@ -204,3 +204,28 @@ h1 { margin: 0; font-size: clamp(22px, 2.3vw, 29px); font-weight: 650; letter-sp
 .brainios-composer-footer small,.brainios-local-note{color:var(--subtle);font-size:9px;line-height:1.5}
 .brainios-local-note{margin:9px 2px 0}
 @media(max-width:520px){.brainios-workspace-heading{flex-direction:column}.brainios-composer-footer{align-items:flex-start;flex-direction:column}.brainios-composer-footer .button{width:100%}}
+
+
+/* Inventaire du site public dans le cockpit */
+.site-map-workspace { text-align: left; }
+.site-map-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+.site-map-heading h2 { margin: 0; font-size: 17px; }
+.site-map-heading .subtitle { max-width: 650px; }
+.site-map-status { margin-bottom: 14px; padding: 11px 13px; border: 1px solid #385344; border-radius: 8px; background: #79c6a009; color: #a8cdb8; font-size: 10px; line-height: 1.5; }
+.site-map-status.is-error { border-color: #74454a; background: #9c41410c; color: #e2a4a4; }
+.site-map-sections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.site-map-card { min-width: 0; padding: 12px 13px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-soft); }
+.site-map-card summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; color: #e4eaf1; font-size: 10px; list-style-position: inside; }
+.site-map-card summary span { color: var(--subtle); font-size: 9px; white-space: nowrap; }
+.site-map-page { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 0 0 16px; }
+.site-map-page a { min-width: 0; color: #a9c9e7; font-size: 9px; overflow-wrap: anywhere; text-decoration: none; }
+.site-map-page a:hover { color: #fff; text-decoration: underline; }
+.site-map-page.is-missing a { color: #e5a0a0; }
+.site-map-badge { flex: 0 0 auto; font-size: 8px; white-space: nowrap; }
+.site-map-badge.is-present { color: #83c7a1; }
+.site-map-badge.is-missing { color: #e5a0a0; }
+.site-map-note { margin: 10px 0 0; padding: 8px 9px; border-left: 2px solid var(--amber); background: #e5bd780b; color: #d8c59f; font-size: 9px; line-height: 1.5; }
+.site-map-additional { margin-top: 13px; padding: 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-soft); }
+.site-map-additional summary { color: var(--muted); font-size: 10px; cursor: pointer; }
+.site-map-footnote { margin: 14px 0 0; color: var(--subtle); font-size: 9px; line-height: 1.55; }
+@media (max-width: 720px) { .site-map-sections { grid-template-columns: 1fr; } .site-map-heading { align-items: flex-start; flex-direction: column; } .site-map-page { align-items: flex-start; flex-direction: column; gap: 3px; } }
