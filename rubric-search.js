@@ -80,6 +80,16 @@
       title: "Rechercher des opportunités de partenariat",
       description: "Repérez des marchés et signaux d’entreprise pouvant ouvrir des pistes de coopération à examiner.",
       market: "all"
+    },
+    "crm.html": {
+      title: "Rechercher des opportunités à suivre dans le CRM",
+      description: "Repérez les marchés et signaux d’entreprise susceptibles d'alimenter votre futur suivi commercial.",
+      market: "all"
+    },
+    "majestios-v5.html": {
+      title: "Rechercher dans l’écosystème MajestiOS",
+      description: "Accédez aux marchés et signaux publiés qui alimentent les fonctions transversales de MajestiOS V.5.",
+      market: "all"
     }
   };
   const config = configs[path];
