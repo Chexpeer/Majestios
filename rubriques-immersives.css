@@ -228,3 +228,13 @@ body.page-prospection main.interior-page{
     padding:18px 14px;background-attachment:scroll;background-position:center top;
   }
 }
+
+/* Fond dédié aux opportunités et marchés privés. */
+body.page-marches-prives main.interior-page{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(22px,3vw,42px);border:1px solid rgba(213,181,108,.24);
+  border-radius:18px;background-color:#091321;background-size:cover;
+  background-position:center;background-repeat:no-repeat;background-attachment:fixed;
+  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.80) 58%,rgba(5,12,23,.58)),url("Marcheprive.webp");
+}
+@media(max-width:760px){body.page-marches-prives main.interior-page{padding:18px 14px;background-attachment:scroll;background-position:center top}}
