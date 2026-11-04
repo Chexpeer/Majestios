@@ -62,7 +62,7 @@ if (process.env.VERCEL_ENV === "preview") {
   };
   const adminOutput = path.join(outputDirectory, "admin");
   fs.mkdirSync(adminOutput, { recursive: true });
-  fs.writeFileSync(path.join(adminOutput, "site-map.json"), JSON.stringify(siteMap, null, 2) + "\\n", "utf8");
+  fs.writeFileSync(path.join(adminOutput, "site-map.json"), JSON.stringify(siteMap, null, 2) + "\n", "utf8");
 }
 
 // Vérification post-copie : ne pas considérer le build comme réussi si une ressource
