@@ -76,17 +76,9 @@
   ]).filter((item) => item.active && item.value !== "all").map((item) => ({
     value: item.value, label: item.label, group: "Marchés publics · BOAMP"
   }));
-  const privateCategories = [
-    { value: "bodacc-creations", label: "Créations et implantations", group: "Signaux BODACC" },
-    { value: "bodacc-cessions", label: "Ventes, cessions et reprises", group: "Signaux BODACC" },
-    { value: "bodacc-modifications", label: "Modifications d’entreprises", group: "Signaux BODACC" },
-    { value: "bodacc-procedures", label: "Difficultés et procédures collectives", group: "Signaux BODACC" },
-    { value: "bodacc-radiations", label: "Radiations et cessations", group: "Signaux BODACC" },
-    { value: "immobilier", label: "Immobilier professionnel", group: "Autres opportunités privées", connected: false },
-    { value: "emploi", label: "Emploi et recrutement", group: "Autres opportunités privées", connected: false },
-    { value: "sous-traitance-offres", label: "Offres de sous-traitance", group: "Autres opportunités privées", connected: false },
-    { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires", group: "Autres opportunités privées", connected: false }
-  ];
+  const privateCategories = (catalogue.privateSearchCategories || [])
+    .filter((item) => item.active || item.planned)
+    .map((item) => ({ value: item.value, label: item.label, group: item.group, connected: !item.planned }));
   const regions = (catalogue.searchRegions || [
     { value: "all", label: "Toutes les régions", active: true }
   ]).filter((item) => item.active || item.value === "all").map((item) => [item.value, item.label]);
