@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101722">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Prototype local du cockpit d'administration MajestiOS.">
+  <title>MajestiOS — Cockpit d'administration (prototype)</title>
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navigation principale">
+      <a class="brand" href="#overview" aria-label="MajestiOS, vue d'ensemble">
+        <span class="brand-mark">M</span>
+        <span class="brand-name">Majesti<span>OS</span><small>COCKPIT ADMIN</small></span>
+      </a>
+
+      <div class="workspace-switch">
+        <span class="workspace-icon">⌂</span>
+        <span><strong>MajestiOS</strong><small>Projet principal</small></span>
+        <span class="switch-chevron">⌄</span>
+      </div>
+
+      <p class="nav-caption">PILOTAGE</p>
+      <nav class="nav-list">
+        <a class="nav-link is-active" href="#overview" data-view="overview"><span class="nav-icon">▦</span>Vue d'ensemble</a>
+        <a class="nav-link" href="#brainios" data-view="brainios"><span class="nav-icon">✳</span>BrainIOS <span class="nav-badge">IA</span></a>
+        <a class="nav-link" href="#requests" data-view="requests"><span class="nav-icon">☷</span>Demandes & lots</a>
+        <a class="nav-link" href="#workshop" data-view="workshop"><span class="nav-icon">⌘</span>Atelier GitHub</a>
+      </nav>
+
+      <p class="nav-caption">CONTRÔLE</p>
+      <nav class="nav-list">
+        <a class="nav-link" href="#quality" data-view="quality"><span class="nav-icon">✓</span>Qualité & tests</a>
+        <a class="nav-link" href="#seo" data-view="seo"><span class="nav-icon">⌕</span>SEO & visibilité</a>
+        <a class="nav-link" href="#settings" data-view="settings"><span class="nav-icon">⚙</span>Paramètres</a>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-status">
+        <span class="status-dot"></span>
+        <span><strong>Prototype local</strong><small>Services non connectés</small></span>
+      </div>
+      <div class="profile">
+        <span class="avatar">A</span>
+        <span><strong>Administrateur</strong><small>Compte de démonstration</small></span>
+        <span class="profile-more">···</span>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+        <div class="breadcrumbs"><span>MajestiOS</span><b>/</b><strong id="breadcrumb-current">Vue d'ensemble</strong></div>
+        <div class="topbar-actions">
+          <span class="environment-pill"><i></i>ENVIRONNEMENT DE CONCEPTION</span>
+          <button class="icon-button" type="button" aria-label="Aide">?</button>
+          <span class="avatar avatar-small">A</span>
+        </div>
+      </header>
+
+      <div class="prototype-banner" role="note">
+        <span>ⓘ</span>
+        <p><strong>Maquette de travail — non connectée.</strong> Les données sont fictives. Aucune action n'est envoyée à MajestiOS, GitHub ou OpenAI.</p>
+      </div>
+
+      <section class="page-content" id="overview" data-page="overview">
+        <div class="page-heading">
+          <div><p class="eyebrow">ESPACE DE PILOTAGE</p><h1>Bonjour, bienvenue dans votre cockpit.</h1><p class="subtitle">Une vue claire pour comprendre, décider et faire évoluer MajestiOS.</p></div>
+          <div class="heading-actions"><span class="date-chip">Mercredi 4 novembre 2026</span><button class="button button-primary" type="button" disabled title="Disponible après connexion du backend">＋ Nouvelle demande</button></div>
+        </div>
+
+        <div class="metric-grid">
+          <article class="metric-card"><div class="metric-top"><span>Demandes en cours</span><span class="metric-icon violet">☷</span></div><strong>04</strong><small><span class="neutral-dot"></span> Suivi de démonstration</small></article>
+          <article class="metric-card"><div class="metric-top"><span>Lots à examiner</span><span class="metric-icon amber">◈</span></div><strong>02</strong><small><span class="neutral-dot"></span> Validation humaine requise</small></article>
+          <article class="metric-card"><div class="metric-top"><span>Contrôles qualité</span><span class="metric-icon green">✓</span></div><strong>—</strong><small>Connexion CI à construire</small></article>
+          <article class="metric-card"><div class="metric-top"><span>Consommation IA</span><span class="metric-icon blue">✳</span></div><strong>—</strong><small>API non configurée</small></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel priority-panel">
+            <div class="panel-heading"><div><p class="eyebrow">VOTRE ESPACE DE TRAVAIL</p><h2>Faire avancer le projet</h2></div><span class="panel-kicker">À VENIR</span></div>
+            <div class="assistant-card">
+              <div class="assistant-symbol">✳</div>
+              <div class="assistant-copy"><h3>BrainIOS, votre copilote de projet</h3><p>Exprimez une évolution. BrainIOS analysera le contexte, préparera un plan, identifiera les risques et proposera un lot vérifiable.</p><span class="feature-status">Passerelle IA à construire</span></div>
+              <button class="button button-secondary" type="button" data-go="brainios">Découvrir BrainIOS <span>→</span></button>
+            </div>
+            <div class="section-heading"><h3>Prochaines étapes structurantes</h3><span>Feuille de route</span></div>
+            <div class="roadmap-list">
+              <div class="roadmap-item"><span class="step-number">01</span><div><strong>Sécuriser l'accès administrateur</strong><small>Identité, sessions et autorisations serveur</small></div><span class="state state-planned">Fondation</span></div>
+              <div class="roadmap-item"><span class="step-number">02</span><div><strong>Connecter BrainIOS à l'API OpenAI</strong><small>Passerelle serveur, quotas et suivi des coûts</small></div><span class="state state-planned">À construire</span></div>
+              <div class="roadmap-item"><span class="step-number">03</span><div><strong>Créer la mémoire projet</strong><small>Vision, décisions et documents de référence</small></div><span class="state state-planned">À construire</span></div>
+            </div>
+          </section>
+
+          <aside class="panel activity-panel">
+            <div class="panel-heading"><div><p class="eyebrow">CENTRE DE CONTRÔLE</p><h2>État des connexions</h2></div><span class="pulse-dot"></span></div>
+            <div class="connection-list">
+              <div class="connection-row"><span class="connection-icon">GH</span><div><strong>GitHub</strong><small>Dépôt accessible séparément</small></div><span class="state state-neutral">Non relié</span></div>
+              <div class="connection-row"><span class="connection-icon">AI</span><div><strong>OpenAI API</strong><small>Clé serveur non configurée</small></div><span class="state state-neutral">Inactif</span></div>
+              <div class="connection-row"><span class="connection-icon">DB</span><div><strong>Base de données</strong><small>Choix technique à finaliser</small></div><span class="state state-neutral">À définir</span></div>
+              <div class="connection-row"><span class="connection-icon">SEO</span><div><strong>Outils SEO</strong><small>Connecteurs non configurés</small></div><span class="state state-neutral">À venir</span></div>
+            </div>
+            <div class="privacy-note"><span>♢</span><p><strong>Un cockpit sous contrôle.</strong><br>Les clés, données sensibles et autorisations resteront côté serveur. Les actions de publication demanderont une validation distincte.</p></div>
+          </aside>
+        </div>
+
+        <div class="bottom-grid">
+          <section class="panel compact-panel"><div class="panel-heading"><div><p class="eyebrow">ACTIVITÉ RÉCENTE</p><h2>Journal du projet</h2></div><span class="muted-label">Exemple</span></div><div class="empty-state"><span>◷</span><div><strong>Le journal prendra vie ici.</strong><p>Décisions, changements, tests et validations seront historisés.</p></div></div></section>
+          <section class="panel compact-panel"><div class="panel-heading"><div><p class="eyebrow">RÈGLE DE GOUVERNANCE</p><h2>Autonomie progressive</h2></div><span class="state state-planned">A → E</span></div><div class="autonomy-line"><span>Observer</span><i></i><span>Conseiller</span><i></i><span>Préparer</span><i></i><span>Appliquer</span><i></i><span>Publier</span></div><p class="small-note">BrainIOS pourra préparer et tester. Fusion, déploiement et changements sensibles resteront soumis à une approbation explicite.</p></section>
+        </div>
+      </section>
+
+      <section class="page-content placeholder-page" id="module-view" hidden>
+        <p class="eyebrow">MODULE DU COCKPIT</p><h1 id="module-title">Module</h1><p class="subtitle" id="module-description"></p>
+        <div class="panel module-placeholder"><span class="placeholder-icon">◈</span><h2>Ce module est prévu dans l'architecture.</h2><p>Son interface et ses contrats seront construits progressivement, après mise en place de l'authentification, des autorisations et des services côté serveur.</p><span class="feature-status">Structure réservée — fonctionnalité non implémentée</span></div>
+      </section>
+
+      <footer class="footer"><span>MajestiOS · Cockpit d'administration</span><span>Prototype d'interface · 4.0</span></footer>
+    </main>
+  </div>
+  <script src="./admin.js" defer></script>
+</body>
+</html>
