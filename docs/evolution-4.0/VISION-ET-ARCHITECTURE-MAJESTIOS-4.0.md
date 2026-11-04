@@ -391,3 +391,97 @@ Le référencement doit privilégier la qualité, l'utilité, l'accessibilité e
 
 ### 12.6 Lien avec Réputation virtuelle
 La compétence SEO développée pour MajestiOS pourra, après validation, inspirer des services clients de Réputation virtuelle : audit de visibilité locale et organique, cohérence des informations d'établissement, qualité de présence web, recommandations éditoriales et suivi. Les données et rapports internes de MajestiOS doivent rester séparés de ceux des entreprises clientes.
+
+
+## Addendum stratégique — 4 novembre 2026 : MajestiOS, intelligence et CRM natif
+
+Cet addendum complète la vision initiale. Il doit être pris en compte dans le contre-audit indépendant. Il exprime une orientation du fondateur, pas une fonctionnalité déjà développée ni une architecture définitivement arrêtée.
+
+### 1. Une marque et une intelligence unifiées
+
+L'orientation proposée est de faire de **MajestiOS** le nom unique du produit, de la plateforme et de l'intelligence qui l'anime. La séparation de marque entre MajestiOS et BrainIOS est donc remise en question.
+
+BrainIOS devient, à ce stade, un nom historique de travail pour les idées d'orchestration, de mémoire, d'assistance et d'amélioration continue. Il ne doit plus être considéré automatiquement comme un produit autonome ou une marque visible. Le contre-audit devra évaluer s'il faut conserver ce nom pour un composant interne, le renommer ou l'abandonner. Aucune migration de nom dans le code ne doit être engagée avant arbitrage.
+
+### 2. Ambition : faire évoluer MajestiOS vers un CRM nativement intelligent
+
+L'ambition ne consiste pas simplement à ajouter un chatbot ou quelques fonctions d'IA à un CRM classique. Elle consiste à faire évoluer progressivement MajestiOS vers un système dans lequel l'intelligence artificielle devient une interface et un opérateur central de la gestion de la relation commerciale.
+
+Trajectoire envisagée :
+- CRM classique : l'utilisateur saisit, classe, actualise et exploite les données.
+- CRM augmenté : l'IA assiste l'utilisateur dans la saisie, l'analyse et les tâches.
+- CRM nativement intelligent : l'IA contribue à détecter, rapprocher, qualifier, enrichir, organiser, analyser, recommander et préparer les actions, dans le respect des permissions et validations humaines.
+- Système de développement commercial intelligent : le CRM devient une fonction centrale d'un ensemble plus large reliant détection, qualification, prospection, transformation, Business Intelligence et capitalisation.
+
+Le CRM reste un référentiel structuré et auditable. L'IA ne doit pas devenir une boîte noire qui modifie silencieusement les données : chaque donnée importante doit conserver sa provenance, sa date, son niveau de confiance, son historique et les règles d'accès applicables.
+
+### 3. Distinguer deux sens du mot CRM
+
+Cette distinction est obligatoire dans toute la documentation, l'architecture, l'arborescence et les interfaces :
+
+**A. CRM comme offre commerciale présentée dans l'immeuble interactif**
+- Cette rubrique correspond à une activité et une proposition de valeur commerciale de MajestiOS.
+- Elle peut inclure conseil, sélection, intégration, configuration ou accompagnement autour de solutions CRM existantes, y compris open source.
+- Elle peut proposer l'évolution vers des usages intégrant IA et Business Intelligence.
+- Elle s'adresse notamment aux entreprises qui souhaitent acquérir, remplacer, améliorer ou mieux exploiter un CRM.
+- Le clic sur cette rubrique doit conduire à une page de présentation de cette offre commerciale, et non être interprété comme l'accès au CRM privé de l'espace client.
+
+**B. CRM interne de la plateforme MajestiOS**
+- Il s'agit du socle de gestion des contacts, entreprises, établissements, opportunités, interactions, activités et suivis nécessaires au fonctionnement de MajestiOS.
+- Son accès relève des espaces authentifiés et des permissions appropriées.
+- Il ne constitue pas la même offre ni la même destination que la rubrique commerciale CRM de l'immeuble.
+- Les données de ce CRM interne ne doivent pas être exposées aux visiteurs ni aux clients sans fondement, finalité et autorisation explicites.
+
+Les deux domaines peuvent partager des concepts génériques, mais leurs données, rôles, interfaces, finalités et droits d'accès doivent rester distincts.
+
+### 4. IA, CRM et Business Intelligence comme ensemble cohérent
+
+L'IA, le CRM et la Business Intelligence ne doivent pas être conçus comme trois modules indépendants juxtaposés :
+- le CRM structure les relations, les interactions, les opportunités et les résultats ;
+- l'IA aide à comprendre, rapprocher, enrichir, prioriser et préparer les actions ;
+- la Business Intelligence transforme les données fiables et contextualisées en analyses, indicateurs et aide à la décision.
+
+Le contre-audit devra recommander les frontières techniques et fonctionnelles qui permettent cette cohérence sans couplage excessif.
+
+### 5. Capacités cibles à examiner
+
+À terme, sous réserve de faisabilité, de sources autorisées et de validation humaine :
+- détection et rapprochement de nouvelles entreprises, établissements, contacts et signaux ;
+- enrichissement traçable des fiches ;
+- qualification explicable et gestion de l'incertitude ;
+- mémoire structurée des interactions et décisions ;
+- synthèse des échanges et préparation de comptes rendus ;
+- recommandations de prochaines actions et priorisation ;
+- préparation de prises de contact et relances, sans envoi autonome par défaut ;
+- suivi des opportunités et analyse des résultats ;
+- tableaux de bord et analyses en langage naturel ;
+- détection de tendances et signaux commerciaux ;
+- apprentissage contrôlé à partir des résultats, retours et évaluations.
+
+Ces capacités doivent être évaluées par étapes. Elles ne sont pas toutes des exigences du premier MVP.
+
+### 6. Principes de gouvernance non négociables
+
+- Pas d'action commerciale externe sensible sans autorisation adaptée.
+- Pas d'envoi automatique de messages par défaut.
+- Pas de modification silencieuse des données de référence.
+- Provenance, horodatage, confiance et journal d'audit pour les enrichissements et recommandations.
+- Cloisonnement strict entre CRM interne, espaces clients et données de clients accompagnés.
+- Contrôle des accès côté serveur ; aucune sécurité fondée uniquement sur l'interface.
+- Possibilité de corriger, contester, exporter et supprimer les données selon les règles applicables.
+- Mesure de la qualité de l'IA, gestion des erreurs et possibilité de revenir à un fonctionnement manuel.
+- Architecture progressive : ne pas imposer une plateforme multi-agents ou distribuée avant que les besoins réels le justifient.
+
+### 7. Questions à soumettre impérativement aux autres IA
+
+1. À quelles conditions une IA peut-elle devenir le cœur opérationnel d'un CRM sans sacrifier la fiabilité, l'auditabilité et le contrôle utilisateur ?
+2. Quel modèle de données et quel modèle d'événements permettent à la fois un CRM structuré et une interaction principalement conversationnelle ?
+3. Quelles opérations peuvent être automatisées, préparées ou seulement recommandées ?
+4. Comment conserver une source de vérité structurée si l'utilisateur interagit principalement avec un agent ?
+5. Comment éviter hallucinations, doublons, enrichissements erronés, dérives de qualification et actions commerciales inappropriées ?
+6. Quel découpage entre CRM interne MajestiOS, offre commerciale CRM et CRM des entreprises clientes accompagnées ?
+7. MajestiOS doit-il intégrer un CRM propre, se connecter à des CRM tiers, proposer les deux approches, ou évoluer progressivement vers un modèle hybride ?
+8. BrainIOS doit-il rester un nom de composant interne, être renommé ou disparaître au profit d'une architecture intégralement nommée MajestiOS ?
+9. Quel rôle précis attribuer à la Business Intelligence et comment distinguer indicateurs descriptifs, diagnostics et prédictions ?
+10. Quels jalons mesurables permettent de passer d'un CRM assisté à un CRM réellement natif IA ?
+
