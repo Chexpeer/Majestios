@@ -180,7 +180,7 @@ function setIntent(intent) {
 function populateSearchFilters(marketValue = "", selectedCategory = "all") {
   const categorySelect = document.querySelector("#feed-sector");
   const marketSelect = document.querySelector("#feed-market-type");
-  const regionSelect = document.querySelector("#feed-region");
+  const departmentSelect = document.querySelector("#feed-department");
 
   if (marketSelect && marketSelect.value !== marketValue) marketSelect.value = marketValue;
   if (categorySelect) {
@@ -216,17 +216,17 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
     categorySelect.value = source.some((item) => item.value === selectedCategory && !item.planned) ? selectedCategory : "all";
   }
 
-  if (regionSelect && majCatalog.searchDepartments?.length) {
-    regionSelect.replaceChildren();
+  if (departmentSelect && majCatalog.searchDepartments?.length) {
+    departmentSelect.replaceChildren();
     const all = document.createElement("option");
     all.value = "all";
     all.textContent = "Tous les départements";
-    regionSelect.append(all);
+    departmentSelect.append(all);
     majCatalog.searchDepartments.forEach((department) => {
       const option = document.createElement("option");
       option.value = department.value;
       option.textContent = department.value + " · " + department.label;
-      regionSelect.append(option);
+      departmentSelect.append(option);
     });
   }
 }
@@ -235,11 +235,11 @@ const initialMarketType = initialSearchParams.get("marche") || "";
 const initialCategory = initialSearchParams.get("categorie") || "all";
 populateSearchFilters(initialMarketType, initialCategory);
 
-const initialRegion = initialSearchParams.get("departement") || initialSearchParams.get("zone");
-if (initialRegion) {
-  const regionControl = document.querySelector("#feed-region");
-  if (regionControl && [...regionControl.options].some((option) => option.value === initialRegion && !option.disabled)) {
-    regionControl.value = initialRegion;
+const initialDepartment = initialSearchParams.get("departement") || initialSearchParams.get("zone");
+if (initialDepartment) {
+  const departmentControl = document.querySelector("#feed-department");
+  if (departmentControl && [...departmentControl.options].some((option) => option.value === initialDepartment && !option.disabled)) {
+    departmentControl.value = initialDepartment;
   }
 }
 const initialKeyword = initialSearchParams.get("q");
@@ -259,7 +259,7 @@ if (advancedSearchForm) {
   const categoryControl = document.querySelector("#feed-sector");
   const category = categoryControl?.selectedOptions[0]?.disabled ? "all" : categoryControl?.value;
   const marketType = document.querySelector("#feed-market-type")?.value;
-  const region = document.querySelector("#feed-region")?.value;
+  const region = document.querySelector("#feed-department")?.value;
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
   if (region && region !== "all") params.set("departement", region);
