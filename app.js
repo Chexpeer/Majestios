@@ -216,20 +216,18 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
     categorySelect.value = source.some((item) => item.value === selectedCategory && !item.planned) ? selectedCategory : "all";
   }
 
-  if (regionSelect && majCatalog.searchRegions?.length) {
+  if (regionSelect && majCatalog.searchDepartments?.length) {
     regionSelect.replaceChildren();
-    const plannedRegions = document.createElement("optgroup");
-    plannedRegions.label = "Régions françaises · à connecter";
-    plannedRegions.disabled = true;
-    majCatalog.searchRegions.forEach((region) => {
+    const all = document.createElement("option");
+    all.value = "all";
+    all.textContent = "Tous les départements";
+    regionSelect.append(all);
+    majCatalog.searchDepartments.forEach((department) => {
       const option = document.createElement("option");
-      option.value = region.value;
-      option.textContent = region.planned ? region.label + " · à venir" : region.label;
-      option.disabled = Boolean(region.planned);
-      if (region.planned) plannedRegions.append(option);
-      else regionSelect.append(option);
+      option.value = department.value;
+      option.textContent = department.value + " · " + department.label;
+      regionSelect.append(option);
     });
-    if (plannedRegions.children.length) regionSelect.append(plannedRegions);
   }
 }
 const initialSearchParams = new URLSearchParams(window.location.search);
@@ -237,7 +235,7 @@ const initialMarketType = initialSearchParams.get("marche") || "";
 const initialCategory = initialSearchParams.get("categorie") || "all";
 populateSearchFilters(initialMarketType, initialCategory);
 
-const initialRegion = initialSearchParams.get("zone");
+const initialRegion = initialSearchParams.get("departement") || initialSearchParams.get("zone");
 if (initialRegion) {
   const regionControl = document.querySelector("#feed-region");
   if (regionControl && [...regionControl.options].some((option) => option.value === initialRegion && !option.disabled)) {
@@ -264,7 +262,7 @@ if (advancedSearchForm) {
   const region = document.querySelector("#feed-region")?.value;
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
-  if (region && region !== "all") params.set("zone", region);
+  if (region && region !== "all") params.set("departement", region);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
   // Les catégories publiques déjà dotées d’une page conservent leur destination dédiée.
