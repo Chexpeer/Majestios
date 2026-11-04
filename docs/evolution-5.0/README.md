@@ -23,6 +23,7 @@ La vision ne se réduit ni à un moteur d'annonces, ni à un tableau de bord, ni
 8. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
 9. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts à traiter.
 10. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
+11. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype, limites de la 2D, prérequis et lots de réalisation.
 
 ## Règles de lecture
 
