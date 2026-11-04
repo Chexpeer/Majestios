@@ -14,6 +14,10 @@
       title: "Atelier GitHub",
       description: "Branches isolées, changements proposés, diffs, pull requests et suivi des contrôles.",
     },
+    "site-map": {
+      title: "Site & arborescence",
+      description: "Inventaire des pages publiques réellement intégrées au build de prévisualisation.",
+    },
     quality: {
       title: "Qualité & tests",
       description: "Builds, tests, contrôles anti-régression, sécurité et preuves de validation.",
@@ -35,6 +39,9 @@
   const breadcrumb = document.querySelector("#breadcrumb-current");
   const moduleTitle = document.querySelector("#module-title");
   const moduleDescription = document.querySelector("#module-description");
+  const defaultPlaceholder = document.querySelector("#module-placeholder-default");
+  const brainiosWorkspace = document.querySelector("#brainios-workspace");
+  const siteMapWorkspace = document.querySelector("#site-map-workspace");
 
   function navigate(view) {
     const links = [...document.querySelectorAll("[data-view]")];
@@ -49,6 +56,11 @@
     overview.hidden = !isOverview;
     moduleView.hidden = isOverview;
 
+    if (defaultPlaceholder) defaultPlaceholder.hidden = view === "brainios" || view === "site-map";
+    if (brainiosWorkspace) brainiosWorkspace.hidden = view !== "brainios";
+    if (siteMapWorkspace) siteMapWorkspace.hidden = view !== "site-map";
+    if (view === "site-map") { loadSiteMap(); loadSiteAudit(); }
+
     if (!isOverview && moduleContent[view]) {
       moduleTitle.textContent = moduleContent[view].title;
       moduleDescription.textContent = moduleContent[view].description;
@@ -59,6 +71,158 @@
 
     sidebar.classList.remove("is-open");
     menuToggle?.setAttribute("aria-expanded", "false");
+  }
+
+  let siteMapLoaded = false;
+  async function loadSiteMap() {
+    if (siteMapLoaded) return;
+    const status = document.querySelector("#site-map-status");
+    const sectionsTarget = document.querySelector("#site-map-sections");
+    const additionalTarget = document.querySelector("#site-map-additional-pages");
+    const count = document.querySelector("#site-map-count");
+    if (!status || !sectionsTarget || !additionalTarget) return;
+    try {
+      const response = await fetch("./site-map.json", { cache: "no-store" });
+      if (!response.ok) throw new Error("Inventaire indisponible (" + response.status + ")");
+      const data = await response.json();
+      const makePageLink = (page) => {
+        const row = document.createElement("div");
+        row.className = "site-map-page" + (page.presentInBuild ? "" : " is-missing");
+        const link = document.createElement("a");
+        link.href = "../" + page.href;
+        link.textContent = page.href;
+        if (!page.presentInBuild) {
+          link.removeAttribute("href");
+          link.setAttribute("aria-disabled", "true");
+        }
+        const badge = document.createElement("span");
+        badge.className = page.presentInBuild ? "site-map-badge is-present" : "site-map-badge is-missing";
+        badge.textContent = page.presentInBuild ? "Présente dans le build" : "Fichier absent";
+        row.append(link, badge);
+        return row;
+      };
+      sectionsTarget.replaceChildren();
+      (data.sections || []).forEach((section) => {
+        const card = document.createElement("details");
+        card.className = "site-map-card";
+        const summary = document.createElement("summary");
+        const title = document.createElement("strong");
+        title.textContent = section.id + " · " + section.name;
+        const pageCount = document.createElement("span");
+        pageCount.textContent = (section.pages || []).length + " lien(s)";
+        summary.append(title, pageCount);
+        card.append(summary);
+        if (section.buildingNote) {
+          const note = document.createElement("p");
+          note.className = "site-map-note";
+          note.textContent = section.buildingNote;
+          card.append(note);
+        }
+        (section.pages || []).forEach((page) => card.append(makePageLink(page)));
+        sectionsTarget.append(card);
+      });
+      additionalTarget.replaceChildren();
+      (data.additionalPages || []).forEach((page) => additionalTarget.append(makePageLink(page)));
+      count.textContent = data.totalHtmlPages + " pages HTML · inventaire du build";
+      status.textContent = "Inventaire chargé depuis le build de prévisualisation. Les liens ci-dessous ouvrent les pages du site dans ce même déploiement.";
+      siteMapLoaded = true;
+    } catch (error) {
+      status.textContent = error.message + ". Vérifiez que ce cockpit est ouvert depuis un déploiement Preview récent.";
+      status.classList.add("is-error");
+    }
+  }
+
+  let siteAuditLoaded = false;
+  async function loadSiteAudit() {
+    if (siteAuditLoaded) return;
+    const status = document.querySelector("#site-audit-status");
+    const metrics = document.querySelector("#site-audit-metrics");
+    const findings = document.querySelector("#site-audit-findings");
+    const count = document.querySelector("#site-audit-count");
+    if (!status || !metrics || !findings) return;
+    try {
+      const response = await fetch("./site-audit.json", { cache: "no-store" });
+      if (!response.ok) throw new Error("Rapport indisponible (" + response.status + ")");
+      const report = await response.json();
+      const totals = report.totals || {};
+      const buildingAudit = report.buildingAudit || {};
+      const buildingRows = document.querySelector("#building-audit-rows");
+      const buildingCount = document.querySelector("#building-audit-count");
+      if (buildingRows) {
+        buildingRows.replaceChildren();
+        (buildingAudit.visibleFloors || []).forEach((floor) => {
+          const row = document.createElement("div");
+          row.className = "building-audit-row";
+          const label = document.createElement("strong");
+          label.textContent = "Étage " + String(floor.floor).padStart(2, "0") + " · " + floor.label;
+          const target = document.createElement("span");
+          target.textContent = "Destination principale : " + floor.hrefs[0] + (floor.primaryTargetPresent ? " · présente" : " · ABSENTE");
+          row.append(label, target);
+          if (floor.missingTargets?.length) {
+            const missing = document.createElement("small");
+            missing.textContent = "Autres destinations absentes : " + floor.missingTargets.join(", ");
+            row.append(missing);
+          }
+          buildingRows.append(row);
+        });
+        (buildingAudit.dossiersWithoutDedicatedFloor || []).forEach((dossier) => {
+          const row = document.createElement("div");
+          row.className = "building-audit-row is-warning";
+          const label = document.createElement("strong");
+          label.textContent = "Dossier sans étage dédié : " + dossier.dossier;
+          const reason = document.createElement("span");
+          reason.textContent = dossier.reason;
+          row.append(label, reason);
+          buildingRows.append(row);
+        });
+      }
+      if (buildingCount) buildingCount.textContent = (totals.visibleBuildingFloors ?? 0) + " zones · " + (totals.dossiersWithoutDedicatedFloor ?? 0) + " dossier(s) sans zone";
+      const items = [
+        ["Références locales", totals.localReferences ?? 0],
+        ["Cibles introuvables", totals.brokenReferences ?? 0],
+        ["Pages sans lien entrant", totals.orphanPages ?? 0],
+        ["Titres dupliqués", totals.duplicateTitles ?? 0]
+      ];
+      metrics.replaceChildren();
+      items.forEach(([label, value]) => {
+        const card = document.createElement("article");
+        card.className = "site-audit-metric";
+        const number = document.createElement("strong");
+        number.textContent = String(value);
+        const caption = document.createElement("span");
+        caption.textContent = label;
+        card.append(number, caption);
+        metrics.append(card);
+      });
+      findings.replaceChildren();
+      const addGroup = (title, entries, format) => {
+        const details = document.createElement("details");
+        details.className = "site-audit-group";
+        const summary = document.createElement("summary");
+        summary.textContent = title + " · " + entries.length;
+        details.append(summary);
+        if (!entries.length) {
+          const empty = document.createElement("p");
+          empty.textContent = "Aucun élément détecté.";
+          details.append(empty);
+        } else entries.forEach((entry) => {
+          const row = document.createElement("p");
+          row.className = "site-audit-row";
+          row.textContent = format(entry);
+          details.append(row);
+        });
+        findings.append(details);
+      };
+      addGroup("Références locales à vérifier", report.brokenReferences || [], (item) => item.source + " → " + item.original + " (cible calculée : " + item.target + ")");
+      addGroup("Pages sans lien entrant", report.orphanPages || [], (item) => item);
+      addGroup("Titres HTML dupliqués", report.duplicateTitles || [], (item) => item.title + " : " + item.pages.join(", "));
+      count.textContent = (totals.htmlPages ?? 0) + " pages analysées";
+      status.textContent = report.scope || "Rapport statique du build Preview.";
+      siteAuditLoaded = true;
+    } catch (error) {
+      status.textContent = error.message + ". Relancez le contrôle depuis un Preview récent.";
+      status.classList.add("is-error");
+    }
   }
 
   document.querySelectorAll("[data-view]").forEach((link) => {
@@ -90,4 +254,38 @@
 
   const initial = window.location.hash.slice(1);
   navigate(moduleContent[initial] ? initial : "overview");
+
+  const brainiosForm = document.querySelector("#brainios-form");
+  const brainiosPrompt = document.querySelector("#brainios-prompt");
+  const brainiosConversation = document.querySelector("#brainios-conversation");
+  brainiosForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const message = brainiosPrompt.value.trim();
+    if (!message) return;
+    const userMessage = document.createElement("article");
+    userMessage.className = "brainios-message brainios-message-user";
+    const userLabel = document.createElement("strong");
+    userLabel.textContent = "Vous";
+    const userText = document.createElement("p");
+    userText.textContent = message;
+    userMessage.append(userLabel, userText);
+    brainiosConversation.append(userMessage);
+    const reply = document.createElement("article");
+    reply.className = "brainios-message brainios-message-assistant";
+    const replyLabel = document.createElement("strong");
+    replyLabel.textContent = "BrainIOS";
+    const replyText = document.createElement("p");
+    replyText.textContent = "Demande reçue dans la maquette. La prochaine étape sera de l'analyser avec le contexte documentaire du projet, puis de proposer un plan et des contrôles. Aucun fichier n'a été modifié et aucune action externe n'a été lancée.";
+    reply.append(replyLabel, replyText);
+    brainiosConversation.append(reply);
+    brainiosPrompt.value = "";
+    brainiosConversation.scrollTop = brainiosConversation.scrollHeight;
+    brainiosPrompt.focus();
+  });
+  brainiosPrompt?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      brainiosForm?.requestSubmit();
+    }
+  });
 })();

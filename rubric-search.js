@@ -6,18 +6,18 @@
 
   const path = window.location.pathname.split("/").pop();
   const configs = {
-    "marches-publics.html": { market: "public", fixedMarket: true },
-    "developpement-commercial.html": { market: "", fixedMarket: false },
-    "prospection-active.html": { market: "", fixedMarket: false },
-    "veille-marches.html": { market: "public", fixedMarket: true },
-    "accompagnement-appels-offres.html": { market: "public", fixedMarket: true },
-    "sous-traitance.html": { market: "", fixedMarket: false },
-    "marches-prives.html": { market: "private", fixedMarket: true },
-    "intelligence-economique.html": { market: "", fixedMarket: false },
-    "reseaux-synergies.html": { market: "", fixedMarket: false },
-    "bodacc-veille-entreprises.html": { market: "private", fixedMarket: true },
-    "suivi-commercial.html": { market: "", fixedMarket: false },
-    "reputation-virtuelle.html": { market: "", fixedMarket: false }
+    "marches-publics.html": {},
+    "developpement-commercial.html": { market: "" },
+    "prospection-active.html": { market: "" },
+    "veille-marches.html": {},
+    "accompagnement-appels-offres.html": {},
+    "sous-traitance.html": { market: "" },
+    "marches-prives.html": {},
+    "intelligence-economique.html": { market: "" },
+    "reseaux-synergies.html": { market: "" },
+    "bodacc-veille-entreprises.html": {},
+    "suivi-commercial.html": { market: "" },
+    "reputation-virtuelle.html": { market: "" }
   };
   const config = configs[path];
   if (!config) return;
@@ -47,9 +47,7 @@
     '<div class="feed-wrap"><div class="feed-demo">' +
       '<form class="feed-toolbar" id="advanced-search-form" action="resultats-recherche.html" method="get">' +
         '<label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" name="q" type="search" maxlength="160" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>' +
-        (config.fixedMarket
-          ? '<input type="hidden" name="marche" value="' + config.market + '">'
-          : '<label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span><select id="feed-market-type" aria-label="Type de marché"><option value="">1. Choisir le type de marché</option><option value="public">Marchés publics</option><option value="private">Marchés privés · signaux BODACC</option><option value="publish">Publier ma demande</option></select></label>') +
+        '<label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span><select id="feed-market-type" aria-label="Type de marché"><option value="">1. Choisir le type de marché</option><option value="public">Marchés publics</option><option value="private">Marchés privés</option><option value="publish">Publier ma demande</option></select></label>' +
         '<label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie</span><select id="feed-sector" name="categorie" aria-label="Catégorie d’opportunité" disabled><option value="all">2. Choisir d’abord un type</option></select></label>' +
         '<label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par région</span><select id="feed-region" name="zone" aria-label="Région administrative"><option value="all">Toutes les régions</option></select></label>' +
         '<p class="search-source-note" id="search-source-note">Choisissez d’abord le type d’opportunité, puis une rubrique adaptée. Les signaux BODACC ne sont pas des appels d’offres ; les sources non connectées sont indiquées comme telles.</p>' +
@@ -69,7 +67,7 @@
   const departmentStep = section.querySelector("#department-step");
   const regionSelect = section.querySelector("#feed-region");
   const params = new URLSearchParams(window.location.search);
-  const initialMarket = config.fixedMarket ? config.market : (params.get("marche") || "");
+  const initialMarket = params.get("marche") || "";
   const initialCategory = params.get("categorie") || "all";
   const initialRegion = params.get("zone") || "all";
 
@@ -115,7 +113,10 @@
   if (queryField) queryField.value = params.get("q") || "";
   if (marketSelect) marketSelect.value = initialMarket;
   populateCategories(initialMarket, initialCategory);
-  if (config.fixedMarket || initialMarket) categoryStep.hidden = false;
+  if (initialMarket) {
+    marketStep.hidden = false;
+    categoryStep.hidden = false;
+  }
   if (initialCategory !== "all" || initialRegion !== "all") departmentStep.hidden = false;
   if (regionSelect && [...regionSelect.options].some((option) => option.value === initialRegion && !option.disabled)) {
     regionSelect.value = initialRegion;
@@ -142,8 +143,8 @@
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const market = config.fixedMarket ? config.market : (marketSelect ? marketSelect.value : "");
-    if (!config.fixedMarket && !market) {
+    const market = marketSelect ? marketSelect.value : "";
+    if (!market) {
       marketStep.hidden = false;
       marketSelect.focus();
       return;
