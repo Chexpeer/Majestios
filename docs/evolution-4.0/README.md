@@ -18,6 +18,6 @@ Ce dossier constitue la référence de cadrage et de suivi de l'évolution 4.0. 
 
 ## Statut
 
-Les documents sont soumis à relecture et contre-audit. Les éléments de vision exprimés par le porteur du projet sont distingués des décisions techniques à arbitrer. Toute divergence ou erreur relevée doit être ajoutée au registre d'arbitrage avant le lancement de la branche de développement 4.0.
+La version 4.0 est engagée. La vision du porteur du projet guide les choix produit ; les observations techniques externes sont traitées comme des contrôles d'ingénierie. L'espace admin et BrainIOS constituent le poste de pilotage des évolutions à venir.
 
 5. **SEO & visibilité** — intégré à la vision BrainIOS et à la feuille de route comme volet de pilotage de la visibilité organique de MajestiOS.
