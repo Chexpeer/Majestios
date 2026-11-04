@@ -211,7 +211,7 @@ Cet addendum complète les constats historiques ci-dessus ; il ne réécrit pas 
 
 ### État des ressources visuelles — vérification du 4 novembre 2026
 
-L'état du dépôt a évolué depuis l'audit initial. Il contient actuellement cinq ressources WebP : `Ambisios.webp` (panorama d'accueil), `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp` (fonds de rubriques). Les cinq sont déclarées dans `site-files.json`. Les affirmations antérieures de suppression de toutes les images sauf Ambisios sont donc historiques et ne décrivent plus l'état courant.
+L'état du dépôt a évolué depuis l'audit initial. Il contient actuellement cinq ressources WebP : `Ambitios.webp` (panorama d'accueil), `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp` (fonds de rubriques). Les cinq sont déclarées dans `site-files.json`. Les affirmations antérieures de suppression de toutes les images sauf Ambitios sont donc historiques et ne décrivent plus l'état courant.
 
 ### Architecture de navigation
 
@@ -229,7 +229,7 @@ Cet addendum prévaut sur les passages antérieurs de ce document lorsqu'ils dé
 ### Rectifications factuelles
 
 - La branche V5 contient un manifeste `site-files.json`. L'affirmation antérieure selon laquelle ce manifeste était absent est historique et ne décrit plus l'état actuel.
-- Le dépôt V5 contient cinq WebP : `Ambisios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Les quatre derniers sont des fonds de rubriques. L'ancien addendum affirmant qu'un seul WebP subsistait est erroné et remplacé par cet inventaire.
+- Le dépôt V5 contient cinq WebP : `Ambitios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Les quatre derniers sont des fonds de rubriques. L'ancien addendum affirmant qu'un seul WebP subsistait est erroné et remplacé par cet inventaire.
 - Le README V5 et l'arborescence doivent mentionner les quatre fonds. La présence dans Git et dans le manifeste ne suffit pas à certifier le rendu ou l'affectation CSS.
 - Le rôle de BrainIOS n'est pas définitivement arbitré. Le fondateur souhaite exposer ses idées avant de définir son périmètre et son articulation avec MajestiOS V.5 ; aucune suppression documentaire ou décision d'architecture ne doit anticiper cet échange.
 - La vision immersive ne se limite pas à des zones SVG posées sur une image : elle comprend le quartier d'affaires, une expérience explorable, l'immeuble, les espaces intérieurs et l'ascenseur. Le prototype actuel ne doit pas être déclaré conforme avant démonstration de ces parcours.
@@ -261,7 +261,7 @@ La règle est désormais sans ambiguïté : **BrainIOS est l'ancien nom de Majes
 
 ### 10.2 Ressource de façade : divergence de nom à résoudre
 
-Le dépôt contient `Ambisios.webp`, référencé dans `index.html`, `site-files.json`, la documentation, le test navigateur et le contrôle d'architecture. Le nom confirmé par le fondateur est `Ambitios.webp`. Cette divergence est un défaut de nomenclature et de traçabilité à résoudre de manière coordonnée. **Ne pas supprimer ni remplacer l'image avant d'avoir confirmé que le binaire existant est bien le visuel attendu.**
+Le dépôt contenait initialement `Ambisios.webp`, alors que le nom confirmé par le fondateur est `Ambitios.webp`. Le fichier a été renommé en conservant exactement ses octets ; les références actives dans l'accueil, le manifeste, les contrôles et les documents V5 sont alignées sur `Ambitios.webp`. L'identité visuelle du binaire doit encore être comparée au visuel source fourni par le fondateur avant de valider définitivement les coordonnées des zones.
 
 ### 10.3 État réel de l'expérience visuelle
 
