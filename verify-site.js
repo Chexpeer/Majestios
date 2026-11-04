@@ -93,13 +93,9 @@ assert(home.includes('id="advanced-search-form"'), "Accueil : moteur de recherch
 for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-department"]) {
   assert(home.includes('id="' + id + '"'), "Accueil : filtre absent : #" + id);
 }
-for (const page of rubricSearchPages) {
-  if (!exists(page)) continue;
-  const html = fs.readFileSync(path.join(root, page), "utf8");
-  for (const id of ["feed-search", "feed-market-type", "feed-sector", "feed-department", "market-step", "category-step", "department-step"]) {
-    assert(fs.readFileSync(path.join(root, "rubric-search.js"), "utf8").includes('id="' + id + '"'),
-      "Moteur partagé : structure commune incomplète, #" + id);
-  }
+const sharedSearchCss = fs.readFileSync(path.join(root, "rubriques-immersives.css"), "utf8");
+for (const selector of ["#advanced-search-form", ".feed-search", ".feed-filter-label", ".feed-search-submit"]) {
+  assert(sharedSearchCss.includes(selector), "Moteur partagé : style commun absent, " + selector);
 }
 assert(home.includes('id="floor-rows"'), "Accueil : immeuble interactif absent");
 
