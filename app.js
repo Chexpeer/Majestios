@@ -185,7 +185,8 @@ const PUBLIC_SEARCH_CATEGORIES = [
   ["renovation", "Rénovation énergétique et générale"],
   ["electricite", "Électricité"],
   ["plomberie", "Plomberie & chauffage"],
-  ["maintenance", "Maintenance & exploitation"]
+  ["maintenance", "Maintenance & exploitation"],
+  ["nettoyage", "Nettoyage"]
 ];
 // Taxonomie privée : les cinq familles BODACC sont disponibles ; les autres sont
 // conservées comme rubriques prévues, mais désactivées jusqu’à la connexion de leurs sources.
@@ -198,7 +199,8 @@ const PRIVATE_SEARCH_CATEGORIES = [
   ["immobilier", "Immobilier professionnel", "Autres opportunités privées", false],
   ["emploi", "Emploi et recrutement", "Autres opportunités privées", false],
   ["sous-traitance-offres", "Offres de sous-traitance", "Autres opportunités privées", false],
-  ["sous-traitance-recherche", "Recherche de sous-traitants et partenaires", "Autres opportunités privées", false]
+  ["sous-traitance-recherche", "Recherche de sous-traitants et partenaires", "Autres opportunités privées", false],
+  ["reputation-virtuelle", "Réputation virtuelle", "Visibilité et présence en ligne", false]
 ];
 
 function populateSearchFilters(marketValue = "", selectedCategory = "all") {
