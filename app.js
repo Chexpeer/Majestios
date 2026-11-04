@@ -271,7 +271,7 @@ if (initialKeyword) {
 }
 
 document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
-  populateSearchFilters(event.target.value, "all");
+  populateSearchFilters(event.target.value, "");
   revealStep(searchSteps.category, Boolean(event.target.value));
   revealStep(searchSteps.department, false);
 });
