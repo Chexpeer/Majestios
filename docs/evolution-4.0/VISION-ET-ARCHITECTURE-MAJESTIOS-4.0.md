@@ -430,7 +430,10 @@ Les décisions techniques suivantes restent à comparer et à documenter au fil 
 7. Comment intégrer Nettoyage sans inventer une taxonomie erronée ?
 8. Quelle architecture d'événements et de rapports est utile sans surveillance excessive ?
 9. Comment concevoir un BrainIOS qui prépare du code et des tests tout en restant sous contrôle ?
-10. Quels risques, coûts, dépendances ou complexités sont sous-estimés ?\n11. Quel modèle de compte de service, de projet API et de budget convient à BrainIOS ?\n12. Quel niveau d'autonomie peut être activé dans l'espace admin à chaque étape ?\n13. Quel mécanisme permet de piloter GitHub, les tests et les validations depuis l'admin sans exposer les secrets ?
+10. Quels risques, coûts, dépendances ou complexités sont sous-estimés ?
+11. Quel modèle de compte de service, de projet API et de budget convient à BrainIOS ?
+12. Quel niveau d'autonomie peut être activé dans l'espace admin à chaque étape ?
+13. Quel mécanisme permet de piloter GitHub, les tests et les validations depuis l'admin sans exposer les secrets ?
 
 ## 12. Critères de réussite de la vision 4.0
 
