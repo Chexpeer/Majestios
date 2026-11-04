@@ -2,7 +2,7 @@
 
 Statut : référence de travail au 4 novembre 2026. Les destinations et rattachements fonctionnels décrivent la cible ; les coordonnées interactives, le rôle de l'ascenseur et la recette de navigation doivent être validés sur le rendu réel.
 
-## Rubriques visibles sur Ambisios
+## Rubriques visibles sur Ambitios
 
 1. Espace privé — destination existante : `espace-membre.html`.
 2. Réseau — destination : `reseaux-synergies.html`. La page `salons-seminaires.html` est un parcours associé, pas un étage autonome par défaut.
@@ -41,7 +41,7 @@ Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, s
 
 ## Ressources visuelles présentes dans la branche
 
-- `Ambisios.webp` : panorama d'accueil.
+- `Ambitios.webp` : panorama d'accueil.
 - `Développement-.webp` : Développement commercial.
 - `Marché-Public-.webp` : Marchés publics.
 - `Prospection-.webp` : Prospection.
