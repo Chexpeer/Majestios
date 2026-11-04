@@ -64,49 +64,63 @@ assert(home.includes("<title>MajestiOS — Développement commercial intelligent
 assert(home.includes('aria-label="Immeuble interactif MajestiOS"'), "Accueil : immeuble interactif absent");
 assert(home.includes('id="floor-rows"'), "Accueil : conteneur des étages absent");
 assert(home.includes('id="advanced-search-form"'), "Accueil : recherche avancée absente");
-for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
+for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-department"]) {
   assert(home.includes('id="' + id + '"'), "Accueil : filtre absent : #" + id);
 }
 
-const expectedThemes = [
-  "Marchés publics", "Marchés privés", "Veille économique", "Prospection active",
-  "Développement commercial", "Accompagnement aux appels d’offres", "Salon virtuel",
-  "Espace entreprises", "CRM", "Business Intelligence"
+const expectedDestinations = [
+  ["Espace privé","espace-membre.html"],
+  ["Réseau","reseaux-synergies.html"],
+  ["Développement commercial","developpement-commercial.html"],
+  ["Prospection","prospection-active.html"],
+  ["Marchés publics","marches-publics.html"],
+  ["Marchés privés","marches-prives.html"],
+  ["Réputation virtuelle","reputation-virtuelle.html"],
+  ["Accueil","index.html"]
 ];
-const floorBlock = home.match(/const floors = \[([\s\S]*?)\n        \];/);
-if (!floorBlock) {
-  errors.push("Accueil : catalogue des espaces introuvable");
+const destinationBlock = home.match(/const destinations = \[([\\s\\S]*?)\\n        \];/);
+if (!destinationBlock) {
+  errors.push("Accueil : catalogue des huit destinations introuvable");
 } else {
-  const floors = [...floorBlock[1].matchAll(/\{id:"(B\d{2})",name:"([^"]+)",folder:"([^"]+)",description:"[^"]*",links:\[([\s\S]*?)\]\}/g)]
-    .map(match => ({
-      id:match[1],name:match[2],folder:match[3],
-      destinations:[...match[4].matchAll(/href:"([^"]+\.html)"/g)].map(link=>link[1])
-    }));
-  assert(floors.length===10,"Accueil : les dix espaces du catalogue doivent être conservés");
-  assert(floors.every((floor,index)=>floor.name===expectedThemes[index]),"Accueil : noms ou ordre du catalogue des espaces incorrects");
-  for (const floor of floors) {
-    assert(floor.destinations.length>0,"Accueil : aucun accès déclaré pour "+floor.name);
-    for (const destination of floor.destinations) {
-      assert(exists(destination),"Accueil : destination absente : "+destination);
-      assert(siteFiles.includes(destination),"Build : destination non publiée : "+destination);
-    }
+  const destinations = [...destinationBlock[1].matchAll(/\{id:"(\\d{2})",name:"([^"]+)",href:"([^"]+)",x:(\\d+),y:(\\d+),width:(\\d+),height:(\\d+)\}/g)]
+    .map(match => ({id:match[1],name:match[2],href:match[3],x:Number(match[4]),y:Number(match[5]),width:Number(match[6]),height:Number(match[7])}));
+  assert(destinations.length===8,"Accueil : exactement huit destinations doivent être définies");
+  assert(destinations.every((item,index)=>item.name===expectedDestinations[index][0] && item.href===expectedDestinations[index][1]),
+    "Accueil : les huit destinations ou leurs routes ne respectent pas la nomenclature Ambisios");
+  for (const destination of destinations) {
+    assert(destination.width>0 && destination.height>0 && destination.x>=0 && destination.y>=0 &&
+      destination.x+destination.width<=943 && destination.y+destination.height<=1387,
+      "Accueil : zone interactive hors image pour "+destination.name);
+    const route = destination.href.split("#")[0];
+    assert(exists(route),"Accueil : destination absente : "+route);
+    assert(siteFiles.includes(route),"Build : destination non publiée : "+route);
   }
-  assert(home.includes('document.createElementNS(SVG_NS, "a")'),"Accueil : les zones doivent être des liens SVG natifs");
-  assert(home.includes('viewBox="0 0 704 1114"'),"Accueil : repère SVG attendu 704 × 1114");
-  assert(home.includes('class="building-photo"') && home.includes('class="building-hotspots"'),"Accueil : photo ou calque de zones absent");
-  assert(home.includes("for (let number = 9; number >= 1; number -= 1)"),"Accueil : neuf étages doivent être générés");
-  assert(home.includes("const leftEdge = 72, rightEdge = 556, halfHeight = 34"),"Accueil : géométrie des zones polygonales absente");
-  assert(home.includes('link.setAttribute("href", floor.links[0].href)'),"Accueil : destinations directes des zones absentes");
-  assert(home.includes('number === 9 ? "IA & Business Intelligence"'),"Accueil : intitulé du neuvième étage incorrect");
-  const enterprise=floors.find(floor=>floor.name==="Espace entreprises");
-  assert(enterprise?.destinations[0]==="espace-membre.html","Accueil : accès Espace entreprises incorrect");
+  assert(home.includes('document.createElementNS(namespace, "a")'),"Accueil : les destinations doivent être des liens SVG natifs");
+  assert(home.includes('viewBox="0 0 943 1387"'),"Accueil : le repère SVG doit correspondre à Ambisios.webp (943 × 1387)");
+  assert(home.includes('src="Ambisios.webp"'),"Accueil : le panorama Ambisios est absent");
+  assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
 }
+for (const asset of ["Ambisios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp"]) {
+  assert(exists(asset),"Image de référence absente : "+asset);
+  assert(siteFiles.includes(asset),"Build : image non publiée : "+asset);
+}
+const immersiveCss = read("rubriques-immersives.css");
+for (const [selector,asset] of [
+  ["body.page-development-commercial","Développement-.webp"],
+  ["body.page-marches-publics","Marché-Public-.webp"],
+  ["body.page-prospection","Prospection-.webp"]
+]) {
+  assert(immersiveCss.includes(selector) && immersiveCss.includes('url("'+asset+'")'),
+    "Fond de rubrique absent ou mal associé : "+asset);
+}
+assert(exists("reputation-virtuelle.html"),"Page Réputation virtuelle absente");
+assert(siteFiles.includes("reputation-virtuelle.html"),"Build : page Réputation virtuelle non publiée");
 
 const catalogue = read("catalogue-majestios.js");
-assert(catalogue.includes("searchCategories") && catalogue.includes("searchRegions") && catalogue.includes("marketTypes"),
+assert(catalogue.includes("searchCategories") && catalogue.includes("searchDepartments") && catalogue.includes("marketTypes"),
   "Catalogue : filtres de recherche incomplets");
 const rubricSearch = read("rubric-search.js");
-assert(rubricSearch.includes("catalogue.searchCategories") && rubricSearch.includes("catalogue.searchRegions"),
+assert(rubricSearch.includes("catalogue.searchCategories") && rubricSearch.includes("catalogue.searchDepartments"),
   "Recherche : filtres non reliés au catalogue partagé");
 
 const prospecting = read("prospection-active.html");
@@ -118,4 +132,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, 10 espaces thématiques, moteur de recherche et " + siteFiles.length + " ressources publiées. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, huit destinations Ambisios, quatre images WebP publiées, moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
