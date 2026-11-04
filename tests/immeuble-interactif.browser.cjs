@@ -5,23 +5,24 @@ const path = require("node:path");
 const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..", "dist");
-const expected = {
-  "01": { name:"Marchés publics", route:"marches-publics.html", center:[314,785] },
-  "02": { name:"Marchés privés", route:"marches-prives.html", center:[314,715] },
-  "03": { name:"Veille économique", route:"bodacc-veille-entreprises.html", center:[314,637] },
-  "04": { name:"Prospection active", route:"prospection-active.html", center:[314,557] },
-  "05": { name:"Développement commercial", route:"developpement-commercial.html", center:[314,477] },
-  "06": { name:"Accompagnement aux appels d’offres", route:"accompagnement-appels-offres.html", center:[314,397] },
-  "07": { name:"Salon virtuel", route:"salons-seminaires.html", center:[314,320] },
-  "08": { name:"Espace entreprises", route:"espace-membre.html", center:[314,242] },
-  "09": { name:"IA & Business Intelligence", route:"intelligence-economique.html", center:[314,164] }
-};
-const rdcPoint = [314,860];
+const expected = [
+  {id:"08",name:"Espace privé",route:"espace-membre.html",rect:[704,10,229,67]},
+  {id:"07",name:"Réseau",route:"reseaux-synergies.html",rect:[704,79,229,65]},
+  {id:"06",name:"Développement commercial",route:"developpement-commercial.html",rect:[704,145,229,69]},
+  {id:"05",name:"Prospection",route:"prospection-active.html",rect:[704,215,229,64]},
+  {id:"04",name:"Marchés publics",route:"marches-publics.html",rect:[704,280,229,65]},
+  {id:"03",name:"Marchés privés",route:"marches-prives.html",rect:[704,346,229,64]},
+  {id:"02",name:"Réputation virtuelle",route:"reputation-virtuelle.html",rect:[704,411,229,65]},
+  {id:"01",name:"Accueil",route:"index.html",rect:[704,477,229,65]}
+];
 const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf-8", ".js":"text/javascript; charset=utf-8", ".webp":"image/webp" };
 
 async function main() {
   assert.ok(fs.existsSync(path.join(root,"index.html")), "Exécuter node build.js avant le test.");
-  assert.ok(fs.existsSync(path.join(root,"IMMEUBLE MajestiOS .webp")), "Photo de l’immeuble absente du build.");
+  assert.ok(fs.existsSync(path.join(root,"Ambisios.webp")), "Le panorama Ambisios est absent du build.");
+  for (const asset of ["Développement-.webp","Marché-Public-.webp","Prospection-.webp"]) {
+    assert.ok(fs.existsSync(path.join(root,asset)), "Le fond de rubrique "+asset+" est absent du build.");
+  }
   const server = http.createServer((req,res) => {
     const pathname = decodeURIComponent(new URL(req.url,"http://127.0.0.1").pathname);
     const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
@@ -41,19 +42,14 @@ async function main() {
     const errors = [];
     page.on("pageerror",error => errors.push(error.message));
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
-    const rows = page.locator(".floor-row");
+    const rows = page.locator(".building-hotspots .floor-row");
     await rows.first().waitFor({state:"attached",timeout:15000});
-    assert.equal(await rows.count(),9,"Neuf étages cliquables sont attendus (RDC exclu).");
+    assert.equal(await rows.count(),8,"Huit destinations interactives sont attendues.");
     const observed = await rows.evaluateAll(nodes => nodes.map(node => ({
-      floor:node.dataset.floor,name:node.dataset.name,href:node.getAttribute("href")
+      id:node.dataset.floor,name:node.dataset.name,href:node.getAttribute("href")
     })));
-    assert.equal(new Set(observed.map(x=>x.name)).size,9,"Les noms d’étage doivent être uniques.");
-    for (const [floor,item] of Object.entries(expected)) {
-      const found = observed.filter(x=>x.floor===floor);
-      assert.equal(found.length,1,"L’étage "+floor+" doit apparaître une seule fois.");
-      assert.equal(found[0].name,item.name,"Nom incorrect pour l’étage "+floor);
-      assert.equal(found[0].href,item.route,"Destination incorrecte pour l’étage "+floor);
-    }
+    assert.deepEqual(observed,expected.map(item=>({id:item.id,name:item.name,href:item.route+(item.route==="index.html"?"#accueil":"")})),
+      "Les huit libellés et routes doivent suivre exactement Ambisios.");
     for (const viewport of [{width:1365,height:900},{width:390,height:844}]) {
       await page.setViewportSize(viewport);
       await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
@@ -64,29 +60,27 @@ async function main() {
         return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
       });
       for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque doit couvrir exactement la photo.");
-      const toScreen=([x,y])=>[geometry.img[0]+x/704*geometry.img[2],geometry.img[1]+y/1114*geometry.img[3]];
-      for (const [floor,item] of Object.entries(expected)) {
-        const [x,y]=toScreen(item.center);
-        const hit=await page.evaluate(([px,py])=>document.elementFromPoint(px,py)?.closest(".floor-row")?.dataset.floor ?? null,[x,y]);
-        assert.equal(hit,floor,"Le centre du bandeau "+floor+" doit être cliquable ("+viewport.width+" px).");
+      const toScreen=([x,y])=>[geometry.img[0]+x/943*geometry.img[2],geometry.img[1]+y/1387*geometry.img[3]];
+      for (const item of expected) {
+        const [x,y,w,h]=item.rect;
+        const [px,py]=toScreen([x+w/2,y+h/2]);
+        const hit=await page.evaluate(([cx,cy])=>document.elementFromPoint(cx,cy)?.closest(".floor-row")?.dataset.floor ?? null,[px,py]);
+        assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px.");
       }
-      const [rx,ry]=toScreen(rdcPoint);
-      const rdcHit=await page.evaluate(([px,py])=>document.elementFromPoint(px,py)?.closest(".floor-row")?.dataset.floor ?? null,[rx,ry]);
-      assert.equal(rdcHit,null,"Le RDC ne doit pas être cliquable.");
     }
-    await page.setViewportSize({width:1365,height:900});
-    for (const [floor,item] of Object.entries(expected)) {
+    for (const item of expected) {
+      await page.setViewportSize({width:1365,height:900});
       await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
-      await page.locator(".building-photo").scrollIntoViewIfNeeded();
       const box=await page.locator(".building-photo img").boundingBox();
+      const [x,y,w,h]=item.rect;
       await Promise.all([
         page.waitForURL(url=>url.pathname.endsWith("/"+item.route),{timeout:10000}),
-        page.mouse.click(box.x+item.center[0]/704*box.width,box.y+item.center[1]/1114*box.height)
+        page.mouse.click(box.x+(x+w/2)/943*box.width,box.y+(y+h/2)/1387*box.height)
       ]);
-      assert.ok(page.url().endsWith("/"+item.route),"Le clic sur l’étage "+floor+" doit ouvrir "+item.route);
+      assert.ok(page.url().endsWith("/"+item.route),"Le clic sur "+item.name+" doit ouvrir "+item.route);
     }
     assert.deepEqual(errors,[],"Aucune erreur JavaScript n’est attendue sur l’accueil.");
-    console.log("TEST NAVIGATEUR RÉUSSI : neuf zones polygonales, calées sur la photo, testées en desktop et mobile.");
+    console.log("TEST NAVIGATEUR RÉUSSI : huit destinations Ambisios, liens directs et zones testées en desktop et mobile.");
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));
