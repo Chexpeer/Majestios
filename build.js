@@ -1,33 +1,63 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const outputDirectory = path.join(__dirname, "dist");
-const siteFiles = ["index.html", "6180 (2).webp", "majestios-veille-economique (1).webp", "majestios-call-center (1).webp", "majestios-batiment.webp", "IMMEUBLE MajestiOS .webp", "majestios-appels-d-offres (1).webp", "crm.html", "brainos.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html", "nous-rejoindre.html", "espace-membre.html", "faq.html", "marches-publics.html", "veille-marches.html", "marches-prives.html", "prospection-active.html", "developpement-commercial.html", "intelligence-economique.html", "reseaux-synergies.html", "sous-traitance.html", "accompagnement-appels-offres.html", "bodacc-veille-entreprises.html", "salons-seminaires.html", "suivi-commercial.html", "vision-majestios.html", "blog-100-blagues.html", "rubriques-immersives.css", "rubriques-immersives.js", "styles.css", "charte-majestios.css", "app.js", "category-results.js", "search-results.js", "opportunity-search.js", "rubric-search.js", "resultats-recherche.html", "mentions-legales.html", "politique-confidentialite.html", "catalogue-majestios.js", "naf-suggestions.js", "company-targeting.js", "company-targeting-page.js", "company-fit.js", "qualification-entreprises.html"];
+const root = __dirname;
+const outputDirectory = path.join(root, "dist");
+const manifestPath = path.join(root, "site-files.json");
 
-const duplicateFiles = siteFiles.filter((file, index) => siteFiles.indexOf(file) !== index);
+function fail(message) {
+  console.error(message);
+  process.exit(1);
+}
+
+if (!fs.existsSync(manifestPath)) fail("Build interrompu : site-files.json est absent.");
+
+let manifest;
+try {
+  manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+} catch (error) {
+  fail("Build interrompu : site-files.json est invalide : " + error.message);
+}
+
+const siteFiles = manifest?.files;
+if (!Array.isArray(siteFiles) || siteFiles.length === 0 || siteFiles.some((file) => typeof file !== "string" || !file.trim())) {
+  fail("Build interrompu : le champ \"files\" de site-files.json doit contenir des chemins non vides.");
+}
+
+const normalizedFiles = siteFiles.map((file) => file.replace(/\\/g, "/"));
+const duplicateFiles = normalizedFiles.filter((file, index) => normalizedFiles.indexOf(file) !== index);
 if (duplicateFiles.length) {
-  console.error(`Build interrompu : fichier(s) déclaré(s) plusieurs fois :\\n- ${[...new Set(duplicateFiles)].join("\\n- ")}`);
-  process.exit(1);
+  fail("Build interrompu : fichier(s) déclaré(s) plusieurs fois :\n- " + [...new Set(duplicateFiles)].join("\n- "));
 }
 
-const missingFiles = siteFiles.filter((file) => !fs.existsSync(path.join(__dirname, file)));
+const invalidPaths = normalizedFiles.filter((file) => path.posix.isAbsolute(file) || file.split("/").includes(".."));
+if (invalidPaths.length) {
+  fail("Build interrompu : chemin(s) interdit(s) dans le manifeste :\n- " + invalidPaths.join("\n- "));
+}
+
+const documentationFiles = normalizedFiles.filter((file) => /\.mdx?$/i.test(file));
+if (documentationFiles.length) {
+  fail("Build interrompu : la documentation ne doit pas être publiée dans dist/ :\n- " + documentationFiles.join("\n- "));
+}
+
+const missingFiles = normalizedFiles.filter((file) => !fs.existsSync(path.join(root, file)) || !fs.statSync(path.join(root, file)).isFile());
 if (missingFiles.length) {
-  console.error(`Build interrompu : ${missingFiles.length} fichier(s) source manquant(s) :\n- ${missingFiles.join("\n- ")}`);
-  process.exit(1);
+  fail("Build interrompu : " + missingFiles.length + " fichier(s) source(s) absent(s) :\n- " + missingFiles.join("\n- "));
 }
 
-// Ne remplacer dist/ qu’après avoir vérifié toutes les sources requises.
+// Ne remplacer dist/ qu’après validation complète du manifeste et de toutes les sources.
 fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(outputDirectory, { recursive: true });
 
-for (const file of siteFiles) {
-  fs.copyFileSync(path.join(__dirname, file), path.join(outputDirectory, file));
+for (const file of normalizedFiles) {
+  const destination = path.join(outputDirectory, file);
+  fs.mkdirSync(path.dirname(destination), { recursive: true });
+  fs.copyFileSync(path.join(root, file), destination);
 }
 
-// Vérification post-copie : ne pas considérer le build comme réussi si une ressource
-// manque dans dist/ ou si son contenu diffère de la source.
-const invalidOutputFiles = siteFiles.filter((file) => {
-  const sourcePath = path.join(__dirname, file);
+// Vérification post-copie : chaque sortie doit être identique à sa source.
+const invalidOutputFiles = normalizedFiles.filter((file) => {
+  const sourcePath = path.join(root, file);
   const outputPath = path.join(outputDirectory, file);
   return !fs.existsSync(outputPath) ||
     !fs.statSync(outputPath).isFile() ||
@@ -35,8 +65,7 @@ const invalidOutputFiles = siteFiles.filter((file) => {
 });
 
 if (invalidOutputFiles.length) {
-  console.error(`Build échoué : ${invalidOutputFiles.length} fichier(s) absent(s) ou altéré(s) dans dist/ :\\n- ${invalidOutputFiles.join("\\n- ")}`);
-  process.exit(1);
+  fail("Build échoué : " + invalidOutputFiles.length + " fichier(s) absent(s) ou altéré(s) dans dist/ :\n- " + invalidOutputFiles.join("\n- "));
 }
 
-console.log(`Build vérifié : ${siteFiles.length} fichiers copiés dans dist/ sans différence avec les sources.`);
+console.log("Build vérifié : " + normalizedFiles.length + " fichiers copiés dans dist/ sans différence avec les sources.");

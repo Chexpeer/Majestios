@@ -39,7 +39,7 @@ Depuis la racine du dépôt :
 node build.js
 ```
 
-Cette commande vérifie les fichiers sources requis, puis copie les pages et ressources dans le dossier `dist/`.
+Cette commande lit `site-files.json`, vérifie le manifeste et les fichiers sources requis, puis copie les pages et ressources dans le dossier `dist/`. **`site-files.json` est la source unique de vérité** pour la liste des fichiers publiés : toute nouvelle page ou ressource doit y être déclarée.
 
 Pour servir le résultat localement, avec Python :
 
@@ -61,7 +61,7 @@ node tests/company-fit.test.cjs
 node tests/naf-suggestions.test.cjs
 ```
 
-Vérification de la syntaxe et de la construction :
+Vérification de la syntaxe, de la construction et de la cohérence du manifeste :
 
 ```bash
 node --check app.js
@@ -109,7 +109,8 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 - `*.js` : interactions, recherche, catalogue et modules métier ;
 - `tests/` : tests unitaires, d’intégration et navigateur ;
 - `verify-site.js`, `verify-architecture.js` : contrôles de cohérence ;
-- `build.js` : construction du site statique ;
+- `site-files.json` : manifeste central des pages et ressources publiées ;
+- `build.js` : construction du site statique à partir du manifeste ;
 - `vercel.json` : configuration de déploiement ;
 - `.github/workflows/` : automatisation des contrôles.
 
