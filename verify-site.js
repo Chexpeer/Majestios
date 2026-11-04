@@ -35,7 +35,11 @@ const rubricSearchPages = [
   "intelligence-economique.html", "reseaux-synergies.html",
   "bodacc-veille-entreprises.html", "suivi-commercial.html", "marches-prives.html",
   "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html",
-  "crm.html", "majestios-v5.html"
+  "crm.html", "majestios-v5.html",
+  "categorie-services-numeriques.html", "categorie-travaux-amenagement.html",
+  "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html",
+  "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html",
+  "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html"
 ];
 for (const page of rubricSearchPages) {
   assert(exists(page), "Recherche par rubrique : page absente : " + page);
