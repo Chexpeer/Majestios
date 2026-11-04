@@ -76,7 +76,7 @@ const expectedDestinations = [
   ["Marchés publics","marches-publics.html"],
   ["Marchés privés","marches-prives.html"],
   ["Réputation virtuelle","reputation-virtuelle.html"],
-  ["Accueil","index.html"]
+  ["Accueil","index.html#accueil"]
 ];
 const destinationBlock = home.match(/const destinations = \[([\s\S]*?)\n        \];/);
 if (!destinationBlock) {
