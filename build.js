@@ -65,6 +65,68 @@ if (process.env.VERCEL_ENV === "preview") {
   fs.writeFileSync(path.join(adminOutput, "site-map.json"), JSON.stringify(siteMap, null, 2) + "\n", "utf8");
 }
 
+// Audit statique des liens internes du build Preview : rapport consultable dans le cockpit.
+if (process.env.VERCEL_ENV === "preview") {
+  const htmlFiles = siteFiles.filter((file) => file.endsWith(".html"));
+  const htmlSet = new Set(htmlFiles);
+  const inbound = new Map(htmlFiles.map((file) => [file, new Set()]));
+  const broken = [];
+  const references = [];
+  const normalizeTarget = (raw, source) => {
+    const value = raw.trim().replace(/&amp;/g, "&");
+    if (!value || value.startsWith("#") || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(value)) return null;
+    let pathname;
+    try { pathname = decodeURIComponent(new URL(value, "https://local.invalid/" + source).pathname).replace(/^\//, ""); }
+    catch { return null; }
+    if (!pathname) return null;
+    const candidates = [pathname, pathname.endsWith("/") ? pathname + "index.html" : pathname + "/index.html"];
+    return candidates.find((candidate) => siteFiles.includes(candidate)) || candidates[0];
+  };
+  for (const source of htmlFiles) {
+    const html = fs.readFileSync(path.join(outputDirectory, source), "utf8");
+    const attrs = /\b(?:href|src|action|poster|xlink:href)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi;
+    let match;
+    while ((match = attrs.exec(html))) {
+      const raw = match[1] ?? match[2] ?? match[3] ?? "";
+      const target = normalizeTarget(raw, source);
+      if (target === null) continue;
+      references.push({ source, target });
+      if (!siteFiles.includes(target)) {
+        broken.push({ source, target, original: raw });
+      } else if (htmlSet.has(target)) {
+        inbound.get(target).add(source);
+      }
+    }
+    const srcset = /\bsrcset\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+    while ((match = srcset.exec(html))) {
+      for (const candidate of (match[1] ?? match[2] ?? "").split(",")) {
+        const raw = candidate.trim().split(/\s+/)[0];
+        const target = normalizeTarget(raw, source);
+        if (target && !siteFiles.includes(target)) broken.push({ source, target, original: raw });
+      }
+    }
+  }
+  const orphanPages = htmlFiles.filter((file) => file !== "index.html" && !file.startsWith("admin/") && !(inbound.get(file)?.size));
+  const titleCounts = new Map();
+  for (const file of htmlFiles) {
+    const html = fs.readFileSync(path.join(outputDirectory, file), "utf8");
+    const title = (html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "").replace(/\s+/g, " ").trim().toLowerCase();
+    if (title) titleCounts.set(title, [...(titleCounts.get(title) || []), file]);
+  }
+  const duplicateTitles = [...titleCounts.entries()].filter(([, pages]) => pages.length > 1).map(([title, pages]) => ({ title, pages }));
+  const report = {
+    generatedAtBuild: new Date().toISOString(),
+    scope: "Contrôle statique des références locales dans les fichiers du build Preview ; aucune requête HTTP externe.",
+    totals: { htmlPages: htmlFiles.length, localReferences: references.length, brokenReferences: broken.length, orphanPages: orphanPages.length, duplicateTitles: duplicateTitles.length },
+    brokenReferences: broken,
+    orphanPages,
+    duplicateTitles
+  };
+  const adminOutput = path.join(outputDirectory, "admin");
+  fs.mkdirSync(adminOutput, { recursive: true });
+  fs.writeFileSync(path.join(adminOutput, "site-audit.json"), JSON.stringify(report, null, 2) + "\n", "utf8");
+}
+
 // Vérification post-copie : ne pas considérer le build comme réussi si une ressource
 // manque dans dist/ ou si son contenu diffère de la source.
 const invalidOutputFiles = siteFiles.filter((file) => {
