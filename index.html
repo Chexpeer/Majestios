@@ -197,9 +197,10 @@ body.homepage .building-scene .tower .building-rdc{
 body.homepage .building-scene .tower .floor-row:before,
 body.homepage .building-scene .tower .floor-row:after{display:none!important;content:none!important}
 body.homepage .building-scene{
-  background-image:linear-gradient(180deg,#07101a20 0%,#07101a15 58%,#07101a88 100%),url("Ambitios.webp");
-  background-size:cover;
-  background-position:center 42%;
+  background-image:linear-gradient(180deg,#07101a20 0%,#07101a15 58%,#07101a88 100%),url("Majestios.immeuble.jpg");
+  background-size:100% 100%,min(100%,843px) auto;
+  background-position:center center,center center;
+  background-repeat:no-repeat,no-repeat;
   background-repeat:no-repeat;
 }
 body.homepage .building-scene:before{background:linear-gradient(180deg,#07101a0a 0%,transparent 55%,#07101a55 100%)}
@@ -213,7 +214,7 @@ body.homepage .tower:before{display:none}
 body.homepage .floor-row{background:linear-gradient(90deg,#07101ad9,#10243b75 48%,#07101ad9);backdrop-filter:blur(1px)}
 body.homepage .building-rdc{background:#091321d9}
 
-/* Dix étages visibles et cliquables, intégrés à la façade.
+/* Huit destinations visibles et cliquables, intégrées à la façade.
    Les libellés sont de vrais éléments HTML (pas de pseudo-bandeaux). */
 body.homepage .building-scene .tower-sign,
 body.homepage .building-scene .building-rdc,
@@ -276,30 +277,30 @@ body.homepage .building-scene .tower .floor-row:focus-visible {
   body.homepage .building-scene .tower .floor-name { font-size:clamp(9px,2.7vw,12px) !important; }
 }
 
-/* Zones cliquables calées sur les huit pastilles de navigation d'Ambitios (943 × 1387). */
+/* Zones cliquables calées sur les huit niveaux actifs de la photo MajestiOS (843 × 1264). */
 body.homepage .building-scene{position:relative;display:grid;place-items:center;height:auto;min-height:0;max-height:none;padding:clamp(6px,1vw,14px);overflow:hidden;border:1px solid #90b8e466;border-radius:5px;background:linear-gradient(160deg,#1f3553 0%,#0a1626 100%);box-shadow:0 22px 60px #0008}
-body.homepage .building-photo{position:relative;margin:0;width:min(100%,580px,max(430px,calc((100dvh - 150px) * 943 / 1387)));aspect-ratio:943/1387}
+body.homepage .building-photo{position:relative;margin:0;width:min(100%,580px,max(430px,calc((100dvh - 150px) * 843 / 1264)));aspect-ratio:843/1264}
 body.homepage .building-photo img{display:block;width:100%;height:100%;border-radius:3px;-webkit-user-drag:none;user-select:none}
 body.homepage .building-hotspots{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 body.homepage .building-hotspots .floor-row{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
 body.homepage .building-hotspots .floor-zone{fill:rgba(255,255,255,0);stroke:rgba(255,255,255,0);stroke-width:3;stroke-linejoin:round;pointer-events:all;transition:fill .15s,stroke .15s}
 body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .building-hotspots .floor-row:focus-visible .floor-zone{fill:rgba(255,255,255,.16);stroke:#f2cf79}
-@media(max-width:900px){body.homepage .building-photo{width:min(100%,580px,calc((100dvh - 190px) * 943 / 1387))}}
-@media(max-width:600px){body.homepage .building-photo{width:min(100%,calc((100dvh - 180px) * 943 / 1387))}}
+@media(max-width:900px){body.homepage .building-photo{width:min(100%,580px,calc((100dvh - 190px) * 843 / 1264))}}
+@media(max-width:600px){body.homepage .building-photo{width:min(100%,calc((100dvh - 180px) * 843 / 1264))}}
 @media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone{transition:none}}
 
 /* Panorama interactif — éclairage des destinations et cabine d'ascenseur. */
 body.homepage .building-hotspots .floor-zone{fill:rgba(255,214,119,0);stroke:rgba(255,220,145,0);stroke-width:4;filter:drop-shadow(0 0 0 transparent);transition:fill .28s ease,stroke .28s ease,filter .28s ease}
 body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .building-hotspots .floor-row:focus-visible .floor-zone,body.homepage .building-hotspots .floor-row.is-lit .floor-zone{fill:rgba(255,205,94,.25);stroke:#ffe5a0;filter:drop-shadow(0 0 9px #ffd36c)}
 body.homepage .building-hotspots .floor-row.is-lit .floor-zone{fill:rgba(255,205,94,.34);stroke-width:5}
-body.homepage .elevator-cabin{fill:rgba(8,25,45,.88);stroke:#f5d27b;stroke-width:3;filter:drop-shadow(0 0 8px #f2c96c);transition:transform 850ms cubic-bezier(.2,.8,.2,1)}
-body.homepage .elevator-window{fill:#bde8ff;fill-opacity:.78;stroke:#fff;stroke-width:1;transition:transform 850ms cubic-bezier(.2,.8,.2,1)}
-body.homepage .elevator-controls{position:absolute;z-index:8;right:clamp(6px,1.2vw,16px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;padding:8px;border:1px solid #e7c87588;border-radius:24px;background:#071629dc;box-shadow:0 5px 22px #0008}
+body.homepage .elevator-cabin{fill:rgba(8,25,45,.28);stroke:#f5d27b;stroke-width:2.5;filter:drop-shadow(0 0 8px #f2c96c);transition:transform 850ms cubic-bezier(.2,.8,.2,1)}
+body.homepage .elevator-window{fill:#bde8ff;fill-opacity:.32;stroke:#fff;stroke-width:1;transition:transform 850ms cubic-bezier(.2,.8,.2,1)}
+body.homepage .elevator-controls{position:absolute;z-index:8;left:clamp(6px,1.2vw,16px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;padding:8px;border:1px solid #e7c87588;border-radius:24px;background:#071629dc;box-shadow:0 5px 22px #0008}
 body.homepage .elevator-controls button{display:grid;place-items:center;width:34px;height:34px;border:1px solid #e7c87588;border-radius:50%;background:#132b46;color:#ffe5a0;font-size:18px;cursor:pointer}
 body.homepage .elevator-controls button:hover,body.homepage .elevator-controls button:focus-visible{background:#d5b56c;color:#091321;outline:2px solid #fff}
 body.homepage .elevator-indicator{min-width:34px;color:#ffe5a0;text-align:center;font-size:10px;font-weight:900}
 body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px;padding:5px 8px;border:1px solid #e7c87566;border-radius:5px;background:#071629d9;color:#f8e8bd;font-size:9px;letter-spacing:.05em}
-@media(max-width:600px){body.homepage .elevator-controls{right:4px;padding:5px;gap:4px}body.homepage .elevator-controls button{width:29px;height:29px;font-size:16px}body.homepage .elevator-caption{right:4px;bottom:4px;font-size:8px}}
+@media(max-width:600px){body.homepage .elevator-controls{left:4px;padding:5px;gap:4px}body.homepage .elevator-controls button{width:29px;height:29px;font-size:16px}body.homepage .elevator-caption{right:4px;bottom:4px;font-size:8px}}
 @media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone,body.homepage .elevator-cabin,body.homepage .elevator-window{transition:none}}
 
 </style>
@@ -362,8 +363,8 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       <div class="building-heading"><p>IMMEUBLE INTERACTIF · 8 DESTINATIONS</p></div>
       <section class="building-scene" aria-label="Panorama MajestiOS et huit destinations interactives">
         <figure class="building-photo">
-          <img src="Ambitios.webp" alt="Panorama MajestiOS présentant huit destinations : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil" width="943" height="1387" draggable="false">
-          <svg class="building-hotspots" id="floor-rows" viewBox="0 0 943 1387" preserveAspectRatio="none" role="group" aria-label="Accès directs aux huit destinations"></svg>
+          <img src="Majestios.immeuble.jpg" alt="Immeuble MajestiOS avec huit niveaux interactifs : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil" width="843" height="1264" draggable="false">
+          <svg class="building-hotspots" id="floor-rows" viewBox="0 0 843 1264" preserveAspectRatio="none" role="group" aria-label="Accès directs aux huit destinations"></svg>
         </figure>
       </section>
     </section>
@@ -389,17 +390,17 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       document.addEventListener("DOMContentLoaded", () => {
         const svg = document.getElementById("floor-rows");
         if (!svg) return;
-        // Coordonnées des huit pastilles de navigation imprimées sur Ambitios.webp (943 × 1387).
-        // L'Accueil reste un accès explicite au point de départ ; aucun étage transverse n'est ajouté.
+        // Repères mesurés sur la photo MajestiOS (843 × 1264); le RDC illustré reste décoratif.
+        // Les huit zones actives correspondent aux niveaux 8 à 1 et aux routes V5 validées.
         const destinations = [
-          {id:"08",name:"Espace privé",href:"espace-membre.html",x:704,y:18,width:229,height:60},
-          {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:704,y:80,width:229,height:60},
-          {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:704,y:142,width:229,height:60},
-          {id:"05",name:"Prospection",href:"prospection-active.html",x:704,y:204,width:229,height:60},
-          {id:"04",name:"Marchés publics",href:"marches-publics.html",x:704,y:266,width:229,height:60},
-          {id:"03",name:"Marchés privés",href:"marches-prives.html",x:704,y:328,width:229,height:60},
-          {id:"02",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:704,y:390,width:229,height:60},
-          {id:"01",name:"Accueil",href:"index.html#accueil",x:704,y:452,width:229,height:60}
+          {id:"08",name:"Espace privé",href:"espace-membre.html",x:185,y:160,width:350,height:100},
+          {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:258,width:350,height:90},
+          {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:90},
+          {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:442,width:350,height:90},
+          {id:"04",name:"Marchés publics",href:"marches-publics.html",x:185,y:534,width:350,height:90},
+          {id:"03",name:"Marchés privés",href:"marches-prives.html",x:185,y:626,width:350,height:90},
+          {id:"02",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:718,width:350,height:90},
+          {id:"01",name:"Accueil",href:"index.html#accueil",x:185,y:810,width:350,height:80}
         ];
         const namespace = "http://www.w3.org/2000/svg";
         destinations.forEach((destination) => {
@@ -422,25 +423,25 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           svg.append(link);
         });
 
-        // Repère de la cabine dans la gaine vitrée visible sur Ambitios.webp.
+        // Repère de la cabine dans la gaine vitrée de la photo MajestiOS.
         const elevator = document.createElementNS(namespace, "g");
         elevator.setAttribute("class", "elevator-lift");
         elevator.setAttribute("aria-hidden", "true");
         const cabin = document.createElementNS(namespace, "rect");
         cabin.setAttribute("class", "elevator-cabin");
-        cabin.setAttribute("x", "518"); cabin.setAttribute("y", "28");
-        cabin.setAttribute("width", "48"); cabin.setAttribute("height", "68");
+        cabin.setAttribute("x", "550"); cabin.setAttribute("y", "145");
+        cabin.setAttribute("width", "60"); cabin.setAttribute("height", "72");
         cabin.setAttribute("rx", "5");
         const windowPane = document.createElementNS(namespace, "rect");
         windowPane.setAttribute("class", "elevator-window");
-        windowPane.setAttribute("x", "526"); windowPane.setAttribute("y", "42");
-        windowPane.setAttribute("width", "32"); windowPane.setAttribute("height", "32");
+        windowPane.setAttribute("x", "558"); windowPane.setAttribute("y", "160");
+        windowPane.setAttribute("width", "44"); windowPane.setAttribute("height", "38");
         windowPane.setAttribute("rx", "2");
         elevator.append(cabin, windowPane); svg.append(elevator);
 
         const scene = document.querySelector(".building-scene");
         if (scene) {
-          const elevatorStops = [314, 424, 534, 644, 754, 864, 974, 1084];
+          const elevatorStops = [210, 305, 397, 487, 577, 667, 757, 847];
           const cabinCenterY = Number(cabin.getAttribute("y")) + Number(cabin.getAttribute("height")) / 2;
           const controls = document.createElement("div");
           controls.className = "elevator-controls";
@@ -453,7 +454,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           caption.setAttribute("aria-live", "polite");
           caption.setAttribute("aria-atomic", "true");
           scene.append(controls, caption);
-          // L'accueil (01) est le rez-de-chaussée et le point de départ de la cabine.
+          // Accueil est le niveau 01; le RDC visible sur l'image reste décoratif.
           let current = destinations.length - 1;
           const indicator = controls.querySelector(".elevator-indicator");
           const selectFloor = (index) => {

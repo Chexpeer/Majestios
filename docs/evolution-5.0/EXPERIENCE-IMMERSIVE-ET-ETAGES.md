@@ -34,7 +34,7 @@ L'ascenseur n'est pas un menu permanent obligatoire dans chaque page. Le concept
 
 ## 4. Le moteur de recherche transversal
 
-Le moteur de recherche est une capacité transversale accessible depuis l’accueil et les pages de rubrique. Il ne constitue pas un neuvième ou un dixième étage : les huit destinations visibles d’`Ambitios.webp` restent la référence spatiale.
+Le moteur de recherche est une capacité transversale accessible depuis l’accueil et les pages de rubrique. Il ne constitue pas un neuvième ou un dixième étage : les huit destinations interactives de `Majestios.immeuble.jpg` restent la référence spatiale.
 
 Le moteur doit conserver une logique de sélection progressive et cohérente avec les sources :
 - choix du type d'opportunité (public / privé lorsque pertinent) ;
@@ -60,15 +60,15 @@ Le moteur affiché sur l'accueil doit reprendre **exactement le principe visuel 
 
 L'interface doit rester fidèle à la sobriété de l'image de référence : **la complexité est dans le moteur et son orchestration, pas dans ce que l'utilisateur voit au premier regard.**
 
-## 5. Nomenclature de référence — alignement sur `Ambitios.webp`
+## 5. Nomenclature de référence — alignement sur `Majestios.immeuble.jpg`
 
-L'image `Ambitios.webp` présente les destinations visibles suivantes : **Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil**.
+L'image `Majestios.immeuble.jpg` présente les huit destinations V5 : **Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil**. « ACCUEIL » au niveau 1 remplace le libellé erroné « ACTINELL » dans le dérivé publié ; l'accueil de rez-de-chaussée reste décoratif et non interactif.
 
 Cette liste devient la référence des intitulés visibles sur l'immeuble. Elle ne signifie pas que chaque fonction technique ou chaque page existante doit devenir un étage autonome.
 
 Les rattachements fonctionnels, les pages existantes à conserver et les écarts du mapping actuel sont détaillés dans [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md).
 
-CRM, Business Intelligence, suivi commercial, recherche, administration, mémoire, orchestration et MajestiOS V.5 sont traités comme des fonctions transversales. « Salon » et « Séminaires » ne sont pas des étages autonomes dans la nomenclature `Ambitios.webp` : les pages correspondantes sont des parcours associés à Réseau. Le libellé « Événements » est retiré de cette proposition.
+CRM, Business Intelligence, suivi commercial, recherche, administration, mémoire, orchestration et MajestiOS V.5 sont traités comme des fonctions transversales. « Salon » et « Séminaires » ne sont pas des étages autonomes dans la nomenclature `Majestios.immeuble.jpg` : les pages correspondantes sont des parcours associés à Réseau. Le libellé « Événements » est retiré de cette proposition.
 
 Le moteur de recherche reste visible sous la forme de la barre simple de la référence ; ses choix apparaissent au clic. Son éventuel statut de destination verticale distincte ne doit pas modifier les huit intitulés visibles sans décision explicite.
 
@@ -141,7 +141,7 @@ Cette liste ne valide ni le nombre d'étages, ni leur ordre, ni l'existence d'un
 
 ### Méthode de sélection et de validation
 
-1. Utiliser la nomenclature visible d'`Ambitios.webp` comme référence et vérifier chaque destination dans l'arborescence réelle.
+1. Utiliser la nomenclature de `Majestios.immeuble.jpg` comme référence et vérifier chaque destination dans l'arborescence réelle.
 2. Définir pour chaque étage une intention visuelle, une palette secondaire et une ambiance.
 3. Présenter les propositions de fonds d'écran pour validation avant intégration.
 4. Décliner chaque décor en formats desktop et mobile, avec des zones de sécurité pour les contenus.
@@ -184,25 +184,19 @@ Comparer avant de choisir :
 - aucun changement des moteurs ou formulaires métier causé par le seul changement de présentation.
 
 
-## 10. Architecture visuelle effective — référence unique `Ambitios.webp`
+## 10. Architecture visuelle effective — référence `Majestios.immeuble.jpg`
 
-Depuis le 4 novembre 2026, `Ambitios.webp` reste le panorama de l’accueil. Cinq fonds de rubrique sont présents : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp`, `Marcheprive.webp` et `Reseau.webp`.
+Le panorama de l'accueil et le fond de Développement commercial utilisent les dérivés `Majestios.immeuble.jpg` et `Majestios.developpement-commercial.jpg`. Les originaux JFIF sont conservés hors du manifeste publié. Quatre autres fonds WebP restent déclarés : `Marché-Public-.webp`, `Prospection-.webp`, `Marcheprive.webp` et `Reseau.webp`.
 
-Conséquences :
-- aucune page ne doit référencer une ancienne image WebP supprimée ;
-- `site-files.json` doit déclarer le panorama et les cinq fonds de rubrique, soit six ressources WebP ;
-- les contenus et interactions propres aux rubriques sont différenciés par le HTML et les composants, avec un fond photographique adapté à chaque rubrique lorsque ce fond existe ;
-- toute nouvelle image WebP devra faire l’objet d’un arbitrage explicite.
+Les huit zones actives correspondent aux niveaux 8 à 1 et aux routes V5. Le libellé Accueil est au niveau 1 ; le RDC représenté dans l'image ne crée pas une neuvième destination. Les deux JPEG restent à leur définition source de 843 × 1264 px : aucune variante artificiellement agrandie n'est créée. Le fond de Développement commercial est plafonné à sa largeur native et se réduit sur les petits écrans.
 
-La cible spatiale comporte huit destinations : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux, sans étage propre.
-
-**État de validation :** les six ressources WebP sont présentes dans le dépôt et le manifeste. Cela ne valide ni la recette des zones de clic, ni l'animation de l'ascenseur, ni l'éclairage, ni le rendu responsive.
+**État de validation :** les ressources, le manifeste, les coordonnées SVG et le test navigateur ont été mis à jour. La recette automatisée reste à exécuter dans un environnement disposant de Node.js et Playwright ; la validation visuelle desktop/mobile finale doit également être consignée.
 
 
 ## 7. Fonds visuels dédiés aux rubriques
 
-Le panorama `Ambitios.webp` reste l'image de navigation de l'accueil. Les cinq fonds de rubrique présents au dépôt sont affectés ainsi :
-- Développement commercial : `Développement-.webp` ;
+Le panorama `Majestios.immeuble.jpg` est l'image de navigation de l'accueil. Les fonds de rubrique présents au dépôt sont affectés ainsi :
+- Développement commercial : `Majestios.developpement-commercial.jpg` ;
 - Marchés publics : `Marché-Public-.webp` ;
 - Prospection : `Prospection-.webp` ;
 - Marchés privés : `Marcheprive.webp` ;

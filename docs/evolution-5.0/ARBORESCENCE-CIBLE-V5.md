@@ -41,8 +41,8 @@ Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, s
 
 ## Ressources visuelles présentes dans la branche
 
-- `Ambitios.webp` : panorama d'accueil.
-- `Développement-.webp` : Développement commercial.
+- `Majestios.immeuble.jpg` : immeuble interactif de l'accueil.
+- `Majestios.developpement-commercial.jpg` : Développement commercial.
 - `Marché-Public-.webp` : Marchés publics.
 - `Prospection-.webp` : Prospection.
 - `Marcheprive.webp` : Marchés privés.

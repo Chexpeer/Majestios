@@ -44,7 +44,7 @@ La liste est extraite du tableau `destinations` dans `index.html` (vers les lign
 
 Les parcours détaillés passent par des pages distinctes : notamment `veille-marches.html`, `accompagnement-appels-offres.html`, `bodacc-veille-entreprises.html`, `sous-traitance.html`, `qualification-entreprises.html`, `salons-seminaires.html` et `suivi-commercial.html`. Ces pages ne sont pas des destinations supplémentaires de l'immeuble.
 
-**FAIT VÉRIFIÉ :** les zones et la cabine sont des éléments SVG superposés à `Ambitios.webp`. La cabine démarre au niveau 01, les huit arrêts sont définis dans `index.html`, les boutons haut/bas changent le niveau et une région `aria-live` annonce le niveau. Une sélection par zone suit le lien après l'animation, avec respect de la préférence de réduction du mouvement. C'est un prototype 2D ; le dépôt n'établit pas l'existence d'une scène 3D.
+**FAIT VÉRIFIÉ (état antérieur à la reprise visuelle) :** les zones et la cabine étaient des éléments SVG superposés à `Ambitios.webp`. La reprise visuelle et le recalibrage des huit routes sont consignés dans `AUDIT-PANORAMA-ET-PLAN-3D.md`.
 
 ## 4. Inventaire et résultat du contrôle des liens
 

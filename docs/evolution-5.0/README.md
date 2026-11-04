@@ -52,15 +52,15 @@ Le nettoyage suit cinq traitements : conserver, corriger, regrouper, archiver ou
 
 ## État des ressources visuelles au 4 novembre 2026
 
-Les six images WebP présentes dans la branche sont :
-- `Ambitios.webp` — panorama d'accueil ;
-- `Développement-.webp` — fond de Développement commercial ;
+Les six visuels publiés dans la branche sont :
+- `Majestios.immeuble.jpg` — image interactive de l'accueil ;
+- `Majestios.developpement-commercial.jpg` — fond de Développement commercial ;
 - `Marché-Public-.webp` — fond de Marchés publics ;
 - `Prospection-.webp` — fond de Prospection ;
 - `Marcheprive.webp` — fond de Marchés privés ;
 - `Reseau.webp` — fond de Réseau.
 
-Leur présence dans Git ne prouve pas à elle seule leur bonne intégration visuelle. Les références CSS, le manifeste de build, le rendu réel et les recadrages desktop/mobile doivent être vérifiés. Ne pas supprimer ou remplacer ces ressources sans comparaison visuelle et contrôle de dépendances.
+Les originaux `Majestios.immeuble.jfif` et `devellopement.jfif` sont conservés à leur définition native ; les JPEG publiés sont des dérivés optimisés sans agrandissement. Le libellé erroné « ACTINELL » a été remplacé par « ACCUEIL » dans les dérivés. Les contrôles de rendu et de recadrage doivent être vérifiés sur desktop et mobile.
 
 ## Architecture de navigation — principes à préserver
 

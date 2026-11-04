@@ -118,24 +118,24 @@ if (!destinationBlock) {
     .map(match => ({id:match[1],name:match[2],href:match[3],x:Number(match[4]),y:Number(match[5]),width:Number(match[6]),height:Number(match[7])}));
   assert(destinations.length===8,"Accueil : exactement huit destinations doivent être définies");
   assert(destinations.every((item,index)=>item.name===expectedDestinations[index][0] && item.href===expectedDestinations[index][1]),
-    "Accueil : les huit destinations ou leurs routes ne respectent pas la nomenclature Ambitios");
+    "Accueil : les huit destinations ou leurs routes ne respectent pas la nomenclature V5");
   for (const destination of destinations) {
     assert(destination.width>0 && destination.height>0 && destination.x>=0 && destination.y>=0 &&
-      destination.x+destination.width<=943 && destination.y+destination.height<=1387,
+      destination.x+destination.width<=843 && destination.y+destination.height<=1264,
       "Accueil : zone interactive hors image pour "+destination.name);
     const route = destination.href.split("#")[0];
     assert(exists(route),"Accueil : destination absente : "+route);
     assert(siteFiles.includes(route),"Build : destination non publiée : "+route);
   }
   assert(home.includes('document.createElementNS(namespace, "a")'),"Accueil : les destinations doivent être des liens SVG natifs");
-  assert(home.includes('viewBox="0 0 943 1387"'),"Accueil : le repère SVG doit correspondre à Ambitios.webp (943 × 1387)");
-  assert(home.includes('src="Ambitios.webp"'),"Accueil : le panorama Ambitios est absent");
+  assert(home.includes('viewBox="0 0 843 1264"'),"Accueil : le repère SVG doit correspondre à la photo (843 × 1264)");
+  assert(home.includes('src="Majestios.immeuble.jpg"'),"Accueil : le nouveau visuel de l'immeuble est absent");
   assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
-  assert(home.includes("let current = destinations.length - 1;"),"Accueil : l'ascenseur doit démarrer au rez-de-chaussée (Accueil)");
+  assert(home.includes("let current = destinations.length - 1;"),"Accueil : l'ascenseur doit démarrer au niveau 01 (Accueil)");
   assert(home.includes("selectFloor(destinations.length - 1);"),"Accueil : la cabine doit être initialisée à Accueil");
-  assert(home.includes('cabin.setAttribute("x", "518")') && home.includes('cabin.setAttribute("width", "48")'),
+  assert(home.includes('cabin.setAttribute("x", "550")') && home.includes('cabin.setAttribute("width", "60")'),
     "Accueil : la cabine doit être positionnée et dimensionnée dans la gaine vitrée");
-  assert(home.includes("const elevatorStops = [314, 424, 534, 644, 754, 864, 974, 1084];") &&
+  assert(home.includes("const elevatorStops = [210, 305, 397, 487, 577, 667, 757, 847];") &&
     home.includes("const offset = elevatorStops[current] - cabinCenterY;"),
     "Accueil : les huit arrêts de cabine doivent suivre la gaine vitrée");
   assert(home.includes('caption.setAttribute("role", "status")') &&
@@ -147,13 +147,15 @@ if (!destinationBlock) {
     "Accueil : la navigation par ascenseur doit respecter la réduction des animations");
 
 }
-for (const asset of ["Ambitios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
+for (const asset of ["Majestios.immeuble.jpg","Majestios.developpement-commercial.jpg","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
   assert(exists(asset),"Image de référence absente : "+asset);
   assert(siteFiles.includes(asset),"Build : image non publiée : "+asset);
 }
+assert(!exists("Ambitios.webp") && !exists("Développement-.webp"),
+  "Les deux anciens visuels remplacés doivent être retirés après vérification de leurs références");
 const immersiveCss = read("rubriques-immersives.css");
 for (const [selector,asset] of [
-  ["body.page-development-commercial","Développement-.webp"],
+  ["body.page-development-commercial","Majestios.developpement-commercial.jpg"],
   ["body.page-marches-publics","Marché-Public-.webp"],
   ["body.page-prospection","Prospection-.webp"],
   ["body.page-marches-prives","Marcheprive.webp"],
