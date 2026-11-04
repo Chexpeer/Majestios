@@ -230,10 +230,25 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
     });
   }
 }
+const searchSteps = {
+  market: document.querySelector("#market-step"),
+  category: document.querySelector("#category-step"),
+  department: document.querySelector("#department-step")
+};
+const revealStep = (step, visible = true) => { if (step) step.hidden = !visible; };
+document.querySelector("#feed-search")?.addEventListener("focus", () => revealStep(searchSteps.market));
+
 const initialSearchParams = new URLSearchParams(window.location.search);
 const initialMarketType = initialSearchParams.get("marche") || "";
 const initialCategory = initialSearchParams.get("categorie") || "all";
 populateSearchFilters(initialMarketType, initialCategory);
+if (initialMarketType) {
+  revealStep(searchSteps.market);
+  revealStep(searchSteps.category);
+}
+if (initialParams.has("categorie") || initialParams.has("departement") || initialParams.has("zone")) {
+  revealStep(searchSteps.department);
+}
 
 const initialDepartment = initialSearchParams.get("departement") || initialSearchParams.get("zone");
 if (initialDepartment) {
@@ -250,6 +265,11 @@ if (initialKeyword) {
 
 document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
   populateSearchFilters(event.target.value, "all");
+  revealStep(searchSteps.category, Boolean(event.target.value));
+  revealStep(searchSteps.department, false);
+});
+document.querySelector("#feed-sector")?.addEventListener("change", () => {
+  revealStep(searchSteps.department);
 });
 if (advancedSearchForm) {
   advancedSearchForm.addEventListener("submit", (event) => {
