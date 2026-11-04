@@ -104,6 +104,15 @@ async function main() {
         descripteur_libelle: "Informatique, cybersécurité, logiciels", etat: "INITIAL",
         url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2027-002"
       };
+      const cleaningRecord = {
+        idweb: "TEST-2027-CLEANING", objet: "Prestations de nettoyage des locaux et propreté",
+        famille_libelle: "Marchés nationaux", dateparution: "2026-10-30",
+        datelimitereponse: "2027-12-03T12:00:00+01:00", nomacheteur: "Acheteur propreté de test",
+        code_departement: "79", code_departement_prestation: "79",
+        type_marche: "SERVICES", type_marche_facette: "Services", type_avis: "5,1",
+        descripteur_libelle: "Nettoyage, entretien des locaux, propreté", etat: "INITIAL",
+        url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2027-CLEANING"
+      };
       const expiredRecord = {
         idweb: "TEST-2025-EXPIRED", objet: "Travaux de plomberie terminés",
         famille_libelle: "Marchés nationaux", dateparution: "2025-09-01",
@@ -114,7 +123,7 @@ async function main() {
         url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ATEST-2025-EXPIRED"
       };
       const isServicesCategory = where.includes('type_marche = "SERVICES"');
-      const records = isServicesCategory ? [plumbingRecord, digitalRecord, expiredRecord] : [plumbingRecord, expiredRecord];
+      const records = isServicesCategory ? [plumbingRecord, digitalRecord, cleaningRecord, expiredRecord] : [plumbingRecord, cleaningRecord, expiredRecord];
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -259,6 +268,14 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
     const publicJobCategories = await page.locator("#feed-sector option").evaluateAll(options => options.filter(option => /emploi|recrutement/i.test(option.textContent || "")).map(option => option.textContent.trim()));
     assert.deepEqual(publicJobCategories, [], "L’emploi ne doit pas apparaître comme une catégorie de marché public.");
+    await page.locator("#feed-market-type").selectOption("public");
+    const publicCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => option.value));
+    assert.ok(publicCategoryOptions.includes("nettoyage"), "Nettoyage doit figurer dans les catégories de marchés publics.");
+    assert.ok(!publicCategoryOptions.includes("emploi"), "L’emploi doit rester une catégorie privée et non publique.");
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=public&categorie=nettoyage", { waitUntil: "domcontentloaded" });
+    await page.getByRole("heading", { name: "Prestations de nettoyage des locaux et propreté" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".opportunity-result-card").count(), 1, "Le filtre Nettoyage doit isoler les annonces de propreté.");
+    assert.match(await page.locator("#search-active-filters").innerText(), /Nettoyage & propreté/);
     await page.locator("#feed-search").focus();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
