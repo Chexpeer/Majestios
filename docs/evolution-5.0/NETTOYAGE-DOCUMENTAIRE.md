@@ -51,7 +51,7 @@ La documentation V5 est le point d'entrée actif. Le nettoyage vise à réduire 
 ## 6. Décisions de conservation connues
 
 - Le blog « 100 blagues » est explicitement retiré de l'expérience active V5 ; ses références historiques peuvent rester archivées.
-- Les ressources visuelles présentes dans la branche sont `Ambisios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Aucune ne doit être supprimée sans vérification de son usage et de sa valeur.
+- Les ressources visuelles présentes dans la branche sont `Ambitios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Aucune ne doit être supprimée sans vérification de son usage et de sa valeur.
 - Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, salons-séminaires, CRM, suivi commercial, intelligence économique, vision, recrutement, FAQ et pages légales sont conservées jusqu'à audit de leur utilité et de leurs liens.
 
 ## 7. Première passe de nettoyage
