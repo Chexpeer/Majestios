@@ -31,10 +31,6 @@
 <nav class="vision-links" aria-label="Découvrir MajestiOS"><a href="index.html">Explorer MajestiOS</a><a class="secondary" href="faq.html">Lire la FAQ</a></nav>
 </main>
 <footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial proactif · L’IA propose, l’humain dispose.</div></footer>
-<script>
-const menuToggle=document.querySelector(".menu-toggle");const navigation=document.querySelector("#site-nav");
-menuToggle?.addEventListener("click",()=>{const open=menuToggle.getAttribute("aria-expanded")==="true";menuToggle.setAttribute("aria-expanded",String(!open));menuToggle.setAttribute("aria-label",open?"Ouvrir le menu":"Fermer le menu");navigation?.classList.toggle("open",!open);});
-navigation?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{navigation.classList.remove("open");menuToggle?.setAttribute("aria-expanded","false");}));
-</script>
+
 </body>
 </html>
