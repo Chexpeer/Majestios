@@ -46,13 +46,14 @@ La V5 est construite sur une branche indépendante. La branche `evolution-3.0` n
 
 ## Statut des décisions
 
-L’image de référence unique est `Ambisios.webp`. Les huit destinations visibles sont Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux : ils ne constituent pas des étages supplémentaires. Le principe « le schéma reflète l’arborescence » demeure non négociable.
+Le panorama de référence de l’accueil est `Ambisios.webp`. Les fonds `Développement-.webp`, `Marché-Public-.webp` et `Prospection-.webp` sont dédiés à leurs rubriques respectives. Les huit destinations visibles sont Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux : ils ne constituent pas des étages supplémentaires. Le principe « le schéma reflète l’arborescence » demeure non négociable.
 
 
 ## Mise à jour d’architecture — 4 novembre 2026
 
-- `Ambisios.webp` est l’unique ressource WebP conservée dans le dépôt et le manifeste de publication.
-- L’accueil et les fonds des espaces immersifs réutilisent cette image unique ; aucune image WebP métier distincte n’est prévue dans l’architecture actuelle.
+- `Ambisios.webp` est le panorama de l’accueil.
+- Trois fonds de rubrique sont conservés et publiés : `Développement-.webp`, `Marché-Public-.webp` et `Prospection-.webp`.
+- Les huit destinations Ambisios disposent d’un lien SVG direct ; les contrôles navigateur desktop/mobile doivent confirmer les zones.
 - Les destinations visibles sont limitées aux huit intitulés de référence. Les fonctions transversales ne doivent pas devenir des étages supplémentaires.
 - Les anciennes images WebP ont été supprimées de `evolution-5.0` après remplacement de leurs références.
 - Les coordonnées interactives, l’éclairage et la position de l’ascenseur restent à vérifier ensemble contre l’image réelle ; cette mise à jour documentaire ne certifie pas leur recette.
