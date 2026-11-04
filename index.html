@@ -431,8 +431,8 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         elevator.setAttribute("aria-hidden", "true");
         const cabin = document.createElementNS(namespace, "rect");
         cabin.setAttribute("class", "elevator-cabin");
-        // Décalage de 1 mm environ vers la droite à l'échelle d'affichage (≈ 5,5 unités SVG).
-        cabin.setAttribute("x", "555.5"); cabin.setAttribute("y", "145");
+        // Décalage de l'axe central d'environ 1 mm vers la droite (≈ 5,5 unités SVG), en tenant compte de l'élargissement.
+        cabin.setAttribute("x", "551.5"); cabin.setAttribute("y", "145");
         cabin.setAttribute("width", "68"); cabin.setAttribute("height", "78");
         cabin.setAttribute("rx", "4");
         const windowPane = document.createElementNS(namespace, "rect");
