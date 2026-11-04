@@ -90,7 +90,7 @@ Aucune IA ne doit s'auto-attribuer des droits, contourner une approbation ou env
 
 ## 8. Éléments à arbitrer
 
-- Nom et rôle éventuel de BrainIOS : marque autonome, composant interne renommé ou abandon du nom.
+- **Décision fondatrice :** le nom BrainIOS est abandonné. L'ensemble de la plateforme intelligente transversale porte désormais le nom **MajestiOS V.5**. Ce nom désigne le socle d'intelligence, de mémoire, d'orchestration, de connaissances et d'administration de la plateforme.
 - Nomenclature définitive des étages.
 - Place de l'offre commerciale CRM dans l'immeuble.
 - Périmètre et priorité du CRM natif par rapport à l'intégration de CRM tiers.
