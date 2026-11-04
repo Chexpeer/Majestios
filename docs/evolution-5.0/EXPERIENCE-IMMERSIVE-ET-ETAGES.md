@@ -2,11 +2,25 @@
 
 ## 1. Concept
 
-L'accueil de MajestiOS devient un panorama immersif d'une zone d'activités / zone industrielle. Un immeuble principal sert de repère visuel. Un ascenseur panoramique extérieur, vitré et visible sur la façade, représente MajestiOS lui-même.
+L'accueil de MajestiOS devient un panorama immersif de haute qualité, centré sur un immeuble principal dans son environnement. Sur ordinateur, ce panorama doit occuper environ **70 % de l'espace visuel de la page d'accueil** : il constitue l'élément central de l'expérience, et non une illustration secondaire ou une petite bannière. Le cadrage, la définition et le niveau de détail doivent permettre d'identifier clairement le bâtiment et ses accès.
+
+Un ascenseur panoramique extérieur, vitré et visible sur la façade, représente MajestiOS lui-même.
 
 **L'immeuble représente l'écosystème ; l'ascenseur représente MajestiOS, l'intelligence qui accompagne la PME vers la destination choisie.**
 
-## 2. Interaction attendue
+## 2. Panorama et interaction spatiale attendue
+
+Le panorama ne doit pas être une image figée simplement décorative. Il doit devenir une véritable zone interactive permettant au visiteur d'explorer le bâtiment dans son ensemble.
+
+- Le visiteur doit pouvoir faire le tour de l'immeuble (exploration des différentes façades / rotation autour du bâtiment ou parcours équivalent).
+- L'exploration doit également permettre d'accéder visuellement à la toiture et, si son contenu est défini, de sélectionner un accès ou une destination située sur le toit.
+- La toiture fait donc partie du périmètre d'exploration à concevoir ; son usage fonctionnel reste à préciser avant de lui attribuer une rubrique.
+- L'interaction spatiale doit rester fluide, intuitive et utilisable à la souris, au tactile et au clavier. Prévoir des commandes ou repères visibles pour tourner, revenir à la vue principale et retrouver l'entrée.
+- Le panorama doit conserver une vue de référence immédiatement compréhensible, sans obliger le visiteur à explorer pour trouver les destinations principales.
+- La cible des 70 % concerne la présence visuelle du panorama sur la page d'accueil desktop ; sur mobile, la composition doit être adaptée sans rendre le panorama minuscule ni masquer les accès essentiels.
+- L'image / scène doit être de haute qualité, mais optimisée pour le chargement : formats modernes, variantes responsive, chargement différé des vues secondaires et budget de poids à définir après choix de la technologie.
+
+### Ascenseur et sélection d'une destination
 
 - À l'arrivée, l'ascenseur est positionné par défaut au niveau de l'accueil / rez-de-chaussée.
 - Le visiteur clique sur une destination clairement identifiée dans le panorama ou sur l'immeuble.
@@ -18,7 +32,7 @@ L'accueil de MajestiOS devient un panorama immersif d'une zone d'activités / zo
 
 L'ascenseur n'est pas un menu permanent obligatoire dans chaque page. Le concept décrit un ascenseur présent sur l'accueil, servant à sélectionner une destination. Les pages internes conservent des moyens simples de retour à l'accueil et de navigation contextuelle.
 
-## 3. Le dixième étage : moteur de recherche
+## 4. Le dixième étage : moteur de recherche
 
 Le 10e étage est destiné au moteur de recherche transversal. Il s'agit d'un espace à part entière, pas seulement d'un champ posé sur la page d'accueil.
 
@@ -30,7 +44,7 @@ Le moteur doit conserver une logique de sélection progressive et cohérente ave
 
 Les catégories, sources, filtres et pages de résultats doivent être spécifiés dans le dossier fonctionnel du moteur. La catégorie Nettoyage reste à cadrer précisément. Les résultats sont traçables et ne doivent pas être présentés comme vérifiés si la source ne le garantit pas.
 
-## 4. Ébauche de nomenclature — non validée
+## 5. Ébauche de nomenclature — non validée
 
 Le premier visuel généré a proposé cette organisation de bas en haut :
 
@@ -52,7 +66,7 @@ Cette liste est une hypothèse de mise en scène, pas une décision d'arborescen
 
 Le visuel généré est une maquette d'intention, pas une maquette technique de précision et ne constitue pas une source fiable pour les textes fins ou les coordonnées des zones interactives.
 
-## 5. Direction artistique
+## 6. Direction artistique
 
 Référence de style issue des échanges :
 - architecture contemporaine en verre et métal ;
@@ -67,7 +81,7 @@ Slogans :
 - « Donner de la hauteur à vos ambitions. »
 - « MajestiOS, pour une ascension magique et exponentielle. »
 
-## 6. Une image intérieure par étage
+## 7. Une image intérieure par étage
 
 Chaque destination doit disposer d'un visuel de l'intérieur de l'étage, et non d'une simple vignette de façade répétée.
 
@@ -82,7 +96,7 @@ Chaque visuel doit :
 
 Le 10e étage (Moteur de recherche) et le 9e étage (Réseau) ont reçu une première direction visuelle approuvée dans son principe ; le bleu doit être nuancé. Les autres étages restent à concevoir un par un, après validation de la nomenclature.
 
-## 7. Navigation et accessibilité
+## 8. Navigation et accessibilité
 
 - La barre de navigation classique peut être supprimée de l'accueil si le panorama rend toutes les destinations essentielles accessibles.
 - Ne pas supprimer les accès utilitaires indispensables : accueil, contact, compte / espace personnel, aide et mentions légales doivent rester trouvables.
@@ -91,7 +105,7 @@ Le 10e étage (Moteur de recherche) et le 9e étage (Réseau) ont reçu une prem
 - Prévoir navigation clavier, focus visible, libellés accessibles, alternatives textuelles et préférence de réduction des animations.
 - Le mouvement de l'ascenseur ne doit pas être l'unique moyen de comprendre la destination.
 
-## 8. Architecture technique à étudier
+## 9. Architecture technique à étudier
 
 Comparer avant de choisir :
 - image de fond responsive + zones SVG ;
@@ -101,8 +115,12 @@ Comparer avant de choisir :
 
 Éviter les coordonnées fixes en pixels. Les zones interactives doivent être définies dans un repère normalisé ou vectoriel, testées sur plusieurs ratios d'écran, et reliées à un catalogue de destinations unique.
 
-## 9. Critères d'acceptation
+## 10. Critères d'acceptation
 
+- le panorama occupe environ 70 % de l'espace visuel de la page d'accueil desktop ;
+- le bâtiment peut être exploré sur plusieurs façades et la toiture est accessible dans l'expérience ;
+- la vue principale reste immédiatement lisible et les destinations principales sont repérables ;
+- les performances de chargement restent acceptables sur desktop et mobile ;
 - chaque étage affiché correspond à un dossier existant et documenté ;
 - aucune destination n'est fictive ;
 - chaque clic sélectionne la bonne destination ;
