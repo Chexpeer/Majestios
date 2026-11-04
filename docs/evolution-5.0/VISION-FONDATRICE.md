@@ -90,7 +90,7 @@ Aucune IA ne doit s'auto-attribuer des droits, contourner une approbation ou env
 
 ## 8. Éléments à arbitrer
 
-- **Décision fondatrice :** le nom BrainIOS est abandonné. L'ensemble de la plateforme intelligente transversale porte désormais le nom **MajestiOS V.5**. Ce nom désigne le socle d'intelligence, de mémoire, d'orchestration, de connaissances et d'administration de la plateforme.
+- **MajestiOS V.5** désigne la plateforme intelligente transversale dans l'orientation actuelle. Le statut, le rôle et l'éventuelle articulation avec l'idée BrainIOS restent à instruire à partir des propositions du fondateur ; ne pas considérer l'abandon de BrainIOS comme définitivement arbitré ni figer son architecture avant cet échange.
 - Nomenclature définitive des étages.
 - Place de l'offre commerciale CRM dans l'immeuble.
 - Périmètre et priorité du CRM natif par rapport à l'intégration de CRM tiers.
