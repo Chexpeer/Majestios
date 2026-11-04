@@ -20,6 +20,10 @@ Statut : référence de travail établie le 4 novembre 2026 à partir de l'image
 - MajestiOS V.5 : module intelligent transversal remplaçant BrainIOS ; ce n'est ni le nom du site ni un étage.
 - Suivi commercial : `suivi-commercial.html`, rattaché au développement commercial et au CRM.
 - Recherche : moteur transversal. La barre reste simple ; les catégories et filtres apparaissent progressivement au clic.
+  - Marchés publics : catégories métier BOAMP, dont « Nettoyage & propreté » ; les catégories sans page dédiée aboutissent aux résultats communs.
+  - Marchés privés : familles BODACC actives (créations, cessions, modifications, procédures, radiations) ; immobilier, emploi et sous-traitance restent visibles comme parcours prévus mais désactivés tant que leurs sources ne sont pas connectées.
+  - Les critères et catégories sont centralisés dans `catalogue-majestios.js` ; l’accueil et les pages de rubrique doivent lire ce catalogue plutôt que maintenir des listes divergentes.
+  - Les résultats privés et publics restent séparés par source. Les liens des résultats renvoient vers les publications officielles ; le lien de navigation « Réseau » mène à `reseaux-synergies.html`.
 - Administration, mémoire, orchestration et SEO assisté : fonctions transversales, pas des rubriques métier autonomes.
 
 ## Pages à conserver
