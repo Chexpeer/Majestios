@@ -177,30 +177,6 @@ function setIntent(intent) {
   formFeedback.hidden = true;
 }
 
-const PUBLIC_SEARCH_CATEGORIES = [
-  ["services", "Services numériques"],
-  ["travaux", "Travaux & aménagement"],
-  ["conseil", "Conseil & études"],
-  ["batiment", "Bâtiment & construction"],
-  ["renovation", "Rénovation énergétique et générale"],
-  ["electricite", "Électricité"],
-  ["plomberie", "Plomberie & chauffage"],
-  ["maintenance", "Maintenance & exploitation"]
-];
-// Taxonomie privée : les cinq familles BODACC sont disponibles ; les autres sont
-// conservées comme rubriques prévues, mais désactivées jusqu’à la connexion de leurs sources.
-const PRIVATE_SEARCH_CATEGORIES = [
-  ["bodacc-creations", "Créations et implantations", "Signaux BODACC", true],
-  ["bodacc-cessions", "Ventes, cessions et reprises", "Signaux BODACC", true],
-  ["bodacc-modifications", "Modifications d’entreprises", "Signaux BODACC", true],
-  ["bodacc-procedures", "Difficultés et procédures collectives", "Signaux BODACC", true],
-  ["bodacc-radiations", "Radiations et cessations", "Signaux BODACC", true],
-  ["immobilier", "Immobilier professionnel", "Autres opportunités privées", false],
-  ["emploi", "Emploi et recrutement", "Autres opportunités privées", false],
-  ["sous-traitance-offres", "Offres de sous-traitance", "Autres opportunités privées", false],
-  ["sous-traitance-recherche", "Recherche de sous-traitants et partenaires", "Autres opportunités privées", false]
-];
-
 function populateSearchFilters(marketValue = "", selectedCategory = "all") {
   const categorySelect = document.querySelector("#feed-sector");
   const marketSelect = document.querySelector("#feed-market-type");
@@ -211,37 +187,33 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
     categorySelect.replaceChildren();
     const placeholder = document.createElement("option");
     placeholder.value = "all";
-    placeholder.textContent = marketValue
-      ? "Toutes les catégories"
-      : "2. Choisir d’abord un type";
+    placeholder.textContent = marketValue ? "Toutes les catégories" : "2. Choisir d’abord un type";
     categorySelect.append(placeholder);
     const source = marketValue === "public"
-      ? PUBLIC_SEARCH_CATEGORIES
+      ? (majCatalog.searchCategories || []).filter((item) => item.active && item.value !== "all")
       : marketValue === "private"
-        ? PRIVATE_SEARCH_CATEGORIES
+        ? (majCatalog.privateSearchCategories || []).filter((item) => item.active || item.planned)
         : [];
     const groups = new Map();
-    source.forEach(([value, label, groupLabel, connected = true]) => {
+    source.forEach((item) => {
       let parent = categorySelect;
-      if (groupLabel) {
-        if (!groups.has(groupLabel)) {
+      if (item.group) {
+        if (!groups.has(item.group)) {
           const group = document.createElement("optgroup");
-          group.label = groupLabel;
-          groups.set(groupLabel, group);
+          group.label = item.group;
+          groups.set(item.group, group);
           categorySelect.append(group);
         }
-        parent = groups.get(groupLabel);
+        parent = groups.get(item.group);
       }
       const option = document.createElement("option");
-      option.value = value;
-      option.textContent = connected ? label : `${label} · source à connecter`;
-      option.disabled = !connected;
+      option.value = item.value;
+      option.textContent = item.planned ? item.label + " · source à connecter" : item.label;
+      option.disabled = Boolean(item.planned);
       parent.append(option);
     });
     categorySelect.disabled = !marketValue;
-    categorySelect.value = source.some(([value, , , connected = true]) => value === selectedCategory && connected)
-      ? selectedCategory
-      : "all";
+    categorySelect.value = source.some((item) => item.value === selectedCategory && !item.planned) ? selectedCategory : "all";
   }
 
   if (regionSelect && majCatalog.searchRegions?.length) {
@@ -252,7 +224,7 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
     majCatalog.searchRegions.forEach((region) => {
       const option = document.createElement("option");
       option.value = region.value;
-      option.textContent = region.planned ? `${region.label} · à venir` : region.label;
+      option.textContent = region.planned ? region.label + " · à venir" : region.label;
       option.disabled = Boolean(region.planned);
       if (region.planned) plannedRegions.append(option);
       else regionSelect.append(option);
@@ -260,7 +232,6 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
     if (plannedRegions.children.length) regionSelect.append(plannedRegions);
   }
 }
-
 const initialSearchParams = new URLSearchParams(window.location.search);
 const initialMarketType = initialSearchParams.get("marche") || "";
 const initialCategory = initialSearchParams.get("categorie") || "all";
@@ -296,8 +267,8 @@ if (advancedSearchForm) {
   if (region && region !== "all") params.set("zone", region);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
-  // Seules les catégories publiques actives disposant d’une page dédiée y sont routées.
-  // Les recherches privées, transversales et les catégories planifiées utilisent la page générale.
+  // Les catégories publiques déjà dotées d’une page conservent leur destination dédiée.
+  // Les nouvelles catégories sans page dédiée et les signaux privés passent par les résultats communs.
   const selectedCategory = marketType === "public"
     ? majCatalog.searchCategories.find((item) => item.value === category && !item.planned && item.href)
     : null;
