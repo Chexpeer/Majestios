@@ -133,8 +133,10 @@ if (!destinationBlock) {
   assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
   assert(home.includes("let current = destinations.length - 1;"),"Accueil : l'ascenseur doit démarrer au niveau 01 (Accueil)");
   assert(home.includes("selectFloor(destinations.length - 1);"),"Accueil : la cabine doit être initialisée à Accueil");
-  assert(home.includes('cabin.setAttribute("x", "550")') && home.includes('cabin.setAttribute("width", "60")'),
-    "Accueil : la cabine doit être positionnée et dimensionnée dans la gaine vitrée");
+  assert(home.includes('cabin.setAttribute("x", "555.5")') &&
+    home.includes('cabin.setAttribute("width", "68")') &&
+    home.includes('cabin.setAttribute("height", "78")'),
+    "Accueil : la cabine vitrée doit être légèrement décalée à droite et dimensionnée dans la gaine");
   assert(home.includes("const elevatorStops = [210, 305, 397, 487, 577, 667, 757, 847];") &&
     home.includes("const offset = elevatorStops[current] - cabinCenterY;"),
     "Accueil : les huit arrêts de cabine doivent suivre la gaine vitrée");
