@@ -145,6 +145,38 @@
       if (!response.ok) throw new Error("Rapport indisponible (" + response.status + ")");
       const report = await response.json();
       const totals = report.totals || {};
+      const buildingAudit = report.buildingAudit || {};
+      const buildingRows = document.querySelector("#building-audit-rows");
+      const buildingCount = document.querySelector("#building-audit-count");
+      if (buildingRows) {
+        buildingRows.replaceChildren();
+        (buildingAudit.visibleFloors || []).forEach((floor) => {
+          const row = document.createElement("div");
+          row.className = "building-audit-row";
+          const label = document.createElement("strong");
+          label.textContent = "Étage " + String(floor.floor).padStart(2, "0") + " · " + floor.label;
+          const target = document.createElement("span");
+          target.textContent = "Destination principale : " + floor.hrefs[0] + (floor.primaryTargetPresent ? " · présente" : " · ABSENTE");
+          row.append(label, target);
+          if (floor.missingTargets?.length) {
+            const missing = document.createElement("small");
+            missing.textContent = "Autres destinations absentes : " + floor.missingTargets.join(", ");
+            row.append(missing);
+          }
+          buildingRows.append(row);
+        });
+        (buildingAudit.dossiersWithoutDedicatedFloor || []).forEach((dossier) => {
+          const row = document.createElement("div");
+          row.className = "building-audit-row is-warning";
+          const label = document.createElement("strong");
+          label.textContent = "Dossier sans étage dédié : " + dossier.dossier;
+          const reason = document.createElement("span");
+          reason.textContent = dossier.reason;
+          row.append(label, reason);
+          buildingRows.append(row);
+        });
+      }
+      if (buildingCount) buildingCount.textContent = (totals.visibleBuildingFloors ?? 0) + " zones · " + (totals.dossiersWithoutDedicatedFloor ?? 0) + " dossier(s) sans zone";
       const items = [
         ["Références locales", totals.localReferences ?? 0],
         ["Cibles introuvables", totals.brokenReferences ?? 0],
