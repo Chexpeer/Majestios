@@ -220,3 +220,28 @@ La référence spatiale est limitée à huit destinations visibles : Espace priv
 ### État des preuves
 
 Les ressources et leurs références sont présentes dans GitHub. La validation du build, des tests et de l'expérience interactive doit être établie par les résultats CI du commit courant. La vérification des zones interactives, des routes, du déplacement de l'ascenseur et de l'éclairage reste à effectuer.
+
+
+## Addendum de rectification — état documentaire et patrimoine visuel (4 novembre 2026, 17 h UTC)
+
+Cet addendum prévaut sur les passages antérieurs de ce document lorsqu'ils décrivent un état de branche ou des décisions désormais dépassés. Les constats historiques restent conservés pour leur traçabilité.
+
+### Rectifications factuelles
+
+- La branche V5 contient un manifeste `site-files.json`. L'affirmation antérieure selon laquelle ce manifeste était absent est historique et ne décrit plus l'état actuel.
+- Le dépôt V5 contient cinq WebP : `Ambisios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Les quatre derniers sont des fonds de rubriques. L'ancien addendum affirmant qu'un seul WebP subsistait est erroné et remplacé par cet inventaire.
+- Le README V5 et l'arborescence doivent mentionner les quatre fonds. La présence dans Git et dans le manifeste ne suffit pas à certifier le rendu ou l'affectation CSS.
+- Le rôle de BrainIOS n'est pas définitivement arbitré. Le fondateur souhaite exposer ses idées avant de définir son périmètre et son articulation avec MajestiOS V.5 ; aucune suppression documentaire ou décision d'architecture ne doit anticiper cet échange.
+- La vision immersive ne se limite pas à des zones SVG posées sur une image : elle comprend le quartier d'affaires, une expérience explorable, l'immeuble, les espaces intérieurs et l'ascenseur. Le prototype actuel ne doit pas être déclaré conforme avant démonstration de ces parcours.
+
+### Nettoyage documentaire déjà appliqué dans cette reprise
+
+- L'index `docs/README.md` présente la V5 comme référentiel actif et conserve les références V2/V3.
+- Le README V5 a été réécrit pour distinguer vision stratégique, patrimoine, état réel des ressources et points à ne pas figer.
+- L'arborescence V5 a été corrigée pour inventorier les cinq images, préserver les parcours métier non visibles comme étages et exiger la validation des zones et de l'ascenseur.
+- La vision fondatrice conserve l'ouverture de l'arbitrage BrainIOS / MajestiOS V.5.
+- Le document de nettoyage distingue désormais clairement les capacités à préserver des éléments éventuellement supprimables.
+
+### Ce qui n'est pas encore validé
+
+Aucun retrait de page, script, style, image ou fonction métier n'est autorisé sur la seule base de cet addendum. Restent à réaliser : inventaire exhaustif des références croisées, cartographie des pages et routes, détection des scripts/styles orphelins, contrôle complet des liens, exécution des tests et vérification visuelle desktop/mobile. Les coordonnées des zones interactives et le comportement de l'ascenseur ne sont pas certifiés ici. Aucun merge ni déploiement de production n'a été effectué.
