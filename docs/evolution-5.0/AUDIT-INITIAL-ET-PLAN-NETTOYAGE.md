@@ -316,3 +316,12 @@ Le parcours de recherche reste à tester de bout en bout pour chaque type, caté
 Le workflow complet précédent a validé la syntaxe, les tests unitaires métier, le build, les routes, les ressources locales, les API BOAMP/BODACC et le test navigateur des huit destinations de l'immeuble. Le test de recherche avait ensuite échoué sur une assertion qui attendait un seul résultat BOAMP alors que les données simulées contenaient deux annonces valides ; l'assertion a été corrigée et des tests de restitution du département et de présence du moteur sur les destinations supplémentaires ont été ajoutés.
 
 **Le workflow couvrant l'ensemble de ces dernières corrections est encore en attente d'exécution sur GitHub Actions.** Aucun succès final n'est déclaré tant que ce workflow n'a pas terminé.
+
+
+### 10.9 Espaces privés, formulaires et capture de contact
+
+- Les huit destinations principales de l'immeuble disposent désormais du moteur de recherche transversal : accueil, espace privé, réseau, développement commercial, prospection, marchés publics, marchés privés et réputation virtuelle. Le moteur par rubrique est configuré sur 16 pages métier/modules et le contrôle statique vérifie ces 16 pages.
+- Le moteur a aussi été ajouté aux pages CRM interne, MajestiOS V.5 et Salons et séminaires. Les tests navigateur vérifient la présence du formulaire et du filtre département sur ces destinations.
+- La page CRM précise maintenant qu'il s'agit du **CRM interne MajestiOS**, distinct de l'offre commerciale d'accompagnement/intégration de CRM tiers et des CRM/données appartenant aux clients.
+- La page « Nous rejoindre » ne contient pas encore de formulaire ni de dépôt de CV. Elle indique désormais que le dépôt sécurisé de CV reste à développer et qu'aucun CV n'est collecté actuellement.
+- L'accueil ne comporte pas encore l'assistant conversationnel qui oriente vers un formulaire de contact. Le formulaire de contact réel, le parcours de candidature, le dépôt sécurisé de CV et la création effective d'espace membre sont inscrits dans la phase 4 de la roadmap ; les formulaires actuellement présents restent des prévisualisations sans transmission ni persistance.
