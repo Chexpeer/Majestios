@@ -266,7 +266,25 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
 const initialSearchParams = new URLSearchParams(window.location.search);
 const initialMarketType = initialSearchParams.get("marche") || "";
 const initialCategory = initialSearchParams.get("categorie") || "all";
+const marketStep = document.querySelector("#market-step");
+const categoryStep = document.querySelector("#category-step");
+const departmentStep = document.querySelector("#department-step");
+const keywordSearch = document.querySelector("#feed-search");
+const marketControl = document.querySelector("#feed-market-type");
+const categoryControl = document.querySelector("#feed-sector");
+const regionControl = document.querySelector("#feed-region");
+
+// Parcours progressif : mot-clé → type de marché → catégorie → département/région.
+if (marketStep && keywordSearch) {
+  keywordSearch.addEventListener("focus", () => { marketStep.hidden = false; });
+  keywordSearch.addEventListener("input", () => {
+    if (keywordSearch.value.trim()) marketStep.hidden = false;
+  });
+}
 populateSearchFilters(initialMarketType, initialCategory);
+if (marketStep && initialMarketType) marketStep.hidden = false;
+if (categoryStep && initialMarketType) categoryStep.hidden = false;
+if (departmentStep && (initialCategory !== "all" || initialSearchParams.has("zone"))) departmentStep.hidden = false;
 
 const initialRegion = initialSearchParams.get("zone");
 if (initialRegion) {
@@ -281,13 +299,19 @@ if (initialKeyword) {
   if (keywordControl) keywordControl.value = initialKeyword;
 }
 
-document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
+marketControl?.addEventListener("change", (event) => {
   if (event.target.value === "publish") {
-    const query = document.querySelector("#feed-search")?.value.trim();
+    const query = keywordSearch?.value.trim();
     window.location.href = "publier-ma-demande.html" + (query ? "?q=" + encodeURIComponent(query) : "");
     return;
   }
   populateSearchFilters(event.target.value, "all");
+  if (categoryStep) categoryStep.hidden = !event.target.value;
+  if (departmentStep) departmentStep.hidden = true;
+  if (regionControl) regionControl.value = "all";
+});
+categoryControl?.addEventListener("change", () => {
+  if (departmentStep) departmentStep.hidden = false;
 });
 if (advancedSearchForm) {
   advancedSearchForm.addEventListener("submit", (event) => {
