@@ -18,7 +18,7 @@ Ce document définit des domaines fonctionnels à étudier. Il ne choisit pas en
 10. **IA transversale et mémoire** : orchestration, récupération de contexte, assistants, recommandations, contrôle de qualité.
 11. **Business Intelligence** : indicateurs, analyses, tendances et aide à la décision.
 12. **SEO et visibilité MajestiOS** : audit technique, indexation, contenu, veille, recommandations et mesure.
-13. **Administration pilotée par l'IA** : cockpit interne, supervision technique et métier, qualité des données, SEO, maintenance, documentation, mémoire opérationnelle et préparation de tâches.\n14. **Gouvernance et sécurité** : utilisateurs, rôles, permissions, journaux d'audit, coûts, conformité, approbations et contrôle des capacités d'action de l'IA.\n\nLe détail fonctionnel et les niveaux d'autonomie sont définis dans [MODULE-ADMIN-IA.md](MODULE-ADMIN-IA.md).
+13. **Administration pilotée par l'IA** : cockpit interne, supervision technique et métier, qualité des données, SEO, maintenance, documentation, mémoire opérationnelle et préparation de tâches.\n14. **Gouvernance et sécurité** : utilisateurs, rôles, permissions, journaux d'audit, coûts, conformité, approbations et contrôle des capacités d'action de l'IA.\n\nLa doctrine transversale, les rôles spécialisés et l'orchestration sont définis dans [VISION-IA-TRANSVERSALE.md](VISION-IA-TRANSVERSALE.md). Le détail du cockpit est défini dans [MODULE-ADMIN-IA.md](MODULE-ADMIN-IA.md).
 
 ## 3. Flux métier de référence
 
