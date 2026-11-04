@@ -38,8 +38,8 @@ Aucun statut « opérationnel » ne sera attribué sur la seule base d'une page 
 | 3 | Socle développement commercial | Recherche fiable, taxonomie, sources, qualification, CRM fondamental | À CONSTRUIRE |
 | 4 | Réputation virtuelle | Recherche de présence locale, vérification et parcours d'accompagnement | À CONSTRUIRE |
 | 5 | BrainIOS utilisateur | Assistant contextuel utile, sourcé et non intrusif | À CONSTRUIRE |
-| 6 | BrainIOS administrateur | Surveillance, rapports, recommandations et mémoire projet | À CONSTRUIRE |
-| 7 | Atelier BrainIOS | GitHub, développement isolé, tests et validation humaine | À CONSTRUIRE |
+| 6 | BrainIOS administrateur | Cockpit de pilotage, API OpenAI, demandes, mémoire, rapports, budgets et recommandations | À CONSTRUIRE |
+| 7 | Atelier BrainIOS | Évolution pilotée depuis l'admin : GitHub, lots isolés, tests, SEO et validations | À CONSTRUIRE |
 | 8 | Apprentissage contrôlé | Analyse agrégée des usages et amélioration mesurée | À CONSTRUIRE |
 | 9 | Stabilisation et ouverture | Sécurité, conformité, performance, recette et déploiement progressif | À CONSTRUIRE |
 
@@ -396,3 +396,14 @@ Faire de BrainIOS un pilote de veille et d'amélioration SEO continue pour Majes
 Ce volet peut commencer par un audit technique non intrusif dès que la base Git et les accès sont validés. Les connexions aux outils, la collecte analytique et les rapports récurrents dépendent du cadrage des accès, de la confidentialité et des pages légales. Il s'intègre à la phase 6 (BrainIOS administrateur), avant ou en parallèle de l'atelier de développement, mais ne doit pas retarder les fondations de sécurité et de données.
 
 **Extension future :** les méthodes validées pourront alimenter les offres de Réputation virtuelle, après définition d'un périmètre client, de droits distincts et de conditions contractuelles adaptées.
+
+
+## 15. Décision structurante — pilotage par l'espace admin
+
+Le porteur du projet a confirmé que les évolutions futures de MajestiOS seront pilotées depuis l'espace d'administration. BrainIOS sera alimenté par une clé API OpenAI payante dédiée à l'application.
+
+Le document de référence détaillé est [BrainIOS — API OpenAI et cockpit d'évolution MajestiOS](BRAINIOS-API-ET-ESPACE-ADMIN.md).
+
+Cette décision implique que l'espace admin n'est pas un chantier secondaire : il est une pièce structurante du produit et doit être développé assez tôt pour devenir le point d'entrée des évolutions suivantes.
+
+La clé API est un secret serveur, jamais un champ de formulaire admin. La facturation API est distincte de l'abonnement ChatGPT. Le service devra comporter des budgets, quotas, alertes et un suivi des coûts avant son ouverture à un usage régulier.
