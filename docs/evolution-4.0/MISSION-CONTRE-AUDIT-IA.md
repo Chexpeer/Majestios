@@ -126,3 +126,48 @@ Ne modifiez pas le dépôt. Le rapport sera remis au porteur du projet et confro
 6. Quelles actions peuvent être automatisées et lesquelles doivent rester soumises à validation humaine ?
 7. Comment réutiliser éventuellement cette compétence dans Réputation virtuelle sans mélanger les données internes de MajestiOS et celles des clients ?
 8. Quels risques de pratiques SEO contraires aux consignes des moteurs, de contenu artificiel ou de promesses de classement faut-il prévenir ?
+
+
+## 7. Contre-audit complémentaire obligatoire — CRM nativement intelligent et identité MajestiOS
+
+Le fondateur a précisé une évolution stratégique majeure. Votre rapport doit obligatoirement l'évaluer, sans considérer qu'elle est déjà décidée techniquement ou implémentée.
+
+### A. Identité produit et BrainIOS
+1. Est-il cohérent de faire de MajestiOS le nom unique du produit, de la plateforme et de son intelligence ?
+2. BrainIOS doit-il devenir un nom interne de composant, être renommé ou être abandonné ?
+3. Quels bénéfices et risques présente une marque unifiée ?
+4. Comment éviter une migration de marque et de code prématurée ?
+
+### B. CRM nativement intelligent
+1. Évaluer la trajectoire CRM classique → CRM augmenté → CRM nativement intelligent.
+2. Peut-on concevoir une interface où l'utilisateur dialogue avec l'IA tandis qu'un référentiel CRM structuré et auditable reste la source de vérité ?
+3. Proposer une architecture fonctionnelle et technique, un modèle de données et un modèle d'événements.
+4. Définir les fonctions qui doivent rester déterministes et celles qui peuvent être confiées à un modèle d'IA.
+5. Décrire les risques d'hallucination, d'enrichissement erroné, de doublonnage, de perte de contexte, de mauvaise priorisation et d'automatisation abusive.
+6. Définir les contrôles, preuves, tests et seuils de qualité nécessaires avant chaque niveau d'autonomie.
+7. Comparer un CRM propriétaire natif, l'intégration de CRM tiers (dont open source) et une approche hybride.
+8. Évaluer les coûts de développement, maintenance, hébergement, modèles, intégrations et support, en explicitant les hypothèses.
+
+### C. Trois périmètres CRM à ne pas confondre
+Votre analyse doit distinguer explicitement :
+1. **L'offre commerciale CRM de MajestiOS** : conseil, choix, intégration, configuration et accompagnement autour de solutions CRM, potentiellement open source, avec possibilités d'IA et de BI. C'est une rubrique commerciale de l'immeuble interactif.
+2. **Le CRM interne de MajestiOS** : outil privé de gestion de ses propres contacts, entreprises, prospects, opportunités et activités.
+3. **Les CRM des entreprises clientes accompagnées** : outils tiers et données appartenant aux entreprises clientes, soumis à des contrats, permissions et cloisonnements propres.
+
+Ne pas assimiler la rubrique CRM de l'immeuble à l'espace client ou au CRM interne de MajestiOS.
+
+### D. IA et Business Intelligence
+1. Définir les responsabilités respectives du référentiel CRM, des agents IA et de la BI.
+2. Expliquer comment produire des analyses fiables, sourcées et compréhensibles.
+3. Distinguer données observées, calculs, corrélations, hypothèses et prédictions.
+4. Proposer des métriques pour mesurer la valeur réelle : temps gagné, complétude, qualité des données, pertinence des recommandations, conversion, taux d'erreur et coût par tâche.
+
+### E. Roadmap et garde-fous
+1. Proposer des étapes progressives, des critères d'acceptation et un MVP réaliste.
+2. Indiquer ce qui doit être construit en premier et ce qui doit être différé.
+3. Identifier les actions qui exigent toujours une approbation humaine.
+4. Vérifier la cohérence avec les exigences de confidentialité, sécurité, droits des personnes et conditions des fournisseurs.
+5. Conclure par un avis explicite : faisable / faisable sous conditions / à revoir / non recommandé, avec niveau de confiance.
+
+Conservez une posture contradictoire et factuelle. Ne validez pas l'ambition par enthousiasme ; identifiez les limites et proposez des moyens de les tester.
+
