@@ -287,6 +287,21 @@ body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .bui
 @media(max-width:900px){body.homepage .building-photo{width:min(100%,580px,calc((100dvh - 190px) * 943 / 1387))}}
 @media(max-width:600px){body.homepage .building-photo{width:min(100%,calc((100dvh - 180px) * 943 / 1387))}}
 @media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone{transition:none}}
+
+/* Panorama interactif — éclairage des destinations et cabine d'ascenseur. */
+body.homepage .building-hotspots .floor-zone{fill:rgba(255,214,119,0);stroke:rgba(255,220,145,0);stroke-width:4;filter:drop-shadow(0 0 0 transparent);transition:fill .28s ease,stroke .28s ease,filter .28s ease}
+body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .building-hotspots .floor-row:focus-visible .floor-zone,body.homepage .building-hotspots .floor-row.is-lit .floor-zone{fill:rgba(255,205,94,.25);stroke:#ffe5a0;filter:drop-shadow(0 0 9px #ffd36c)}
+body.homepage .building-hotspots .floor-row.is-lit .floor-zone{fill:rgba(255,205,94,.34);stroke-width:5}
+body.homepage .elevator-cabin{fill:rgba(8,25,45,.88);stroke:#f5d27b;stroke-width:3;filter:drop-shadow(0 0 8px #f2c96c);transition:transform 850ms cubic-bezier(.2,.8,.2,1)}
+body.homepage .elevator-window{fill:#bde8ff;fill-opacity:.78;stroke:#fff;stroke-width:1;transition:transform 850ms cubic-bezier(.2,.8,.2,1)}
+body.homepage .elevator-controls{position:absolute;z-index:8;right:clamp(6px,1.2vw,16px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;padding:8px;border:1px solid #e7c87588;border-radius:24px;background:#071629dc;box-shadow:0 5px 22px #0008}
+body.homepage .elevator-controls button{display:grid;place-items:center;width:34px;height:34px;border:1px solid #e7c87588;border-radius:50%;background:#132b46;color:#ffe5a0;font-size:18px;cursor:pointer}
+body.homepage .elevator-controls button:hover,body.homepage .elevator-controls button:focus-visible{background:#d5b56c;color:#091321;outline:2px solid #fff}
+body.homepage .elevator-indicator{min-width:34px;color:#ffe5a0;text-align:center;font-size:10px;font-weight:900}
+body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px;padding:5px 8px;border:1px solid #e7c87566;border-radius:5px;background:#071629d9;color:#f8e8bd;font-size:9px;letter-spacing:.05em}
+@media(max-width:600px){body.homepage .elevator-controls{right:4px;padding:5px;gap:4px}body.homepage .elevator-controls button{width:29px;height:29px;font-size:16px}body.homepage .elevator-caption{right:4px;bottom:4px;font-size:8px}}
+@media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone,body.homepage .elevator-cabin,body.homepage .elevator-window{transition:none}}
+
 </style>
     <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
@@ -406,6 +421,66 @@ body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .bui
           link.append(title, zone);
           svg.append(link);
         });
+
+        // Cabine SVG superposée à la façade : elle suit le niveau choisi.
+        const elevator = document.createElementNS(namespace, "g");
+        elevator.setAttribute("class", "elevator-lift");
+        elevator.setAttribute("aria-hidden", "true");
+        const cabin = document.createElementNS(namespace, "rect");
+        cabin.setAttribute("class", "elevator-cabin");
+        cabin.setAttribute("x", "650"); cabin.setAttribute("y", "28");
+        cabin.setAttribute("width", "35"); cabin.setAttribute("height", "42");
+        cabin.setAttribute("rx", "5");
+        const windowPane = document.createElementNS(namespace, "rect");
+        windowPane.setAttribute("class", "elevator-window");
+        windowPane.setAttribute("x", "656"); windowPane.setAttribute("y", "35");
+        windowPane.setAttribute("width", "23"); windowPane.setAttribute("height", "18");
+        windowPane.setAttribute("rx", "2");
+        elevator.append(cabin, windowPane); svg.append(elevator);
+
+        const scene = document.querySelector(".building-scene");
+        if (scene) {
+          const controls = document.createElement("div");
+          controls.className = "elevator-controls";
+          controls.setAttribute("role", "group");
+          controls.setAttribute("aria-label", "Ascenseur MajestiOS");
+          controls.innerHTML = '<button type="button" data-lift="up" aria-label="Monter d’un étage">↑</button><span class="elevator-indicator" aria-live="polite">08</span><button type="button" data-lift="down" aria-label="Descendre d’un étage">↓</button>';
+          const caption = document.createElement("div");
+          caption.className = "elevator-caption"; caption.textContent = "ASCENSEUR · ÉTAGE 08";
+          scene.append(controls, caption);
+          let current = 0;
+          const indicator = controls.querySelector(".elevator-indicator");
+          const selectFloor = (index) => {
+            current = Math.max(0, Math.min(destinations.length - 1, index));
+            const item = destinations[current];
+            const centerY = item.y + item.height / 2;
+            const offset = centerY - 49;
+            cabin.style.transform = "translateY(" + offset + "px)";
+            windowPane.style.transform = "translateY(" + offset + "px)";
+            svg.querySelectorAll(".floor-row").forEach((node) => {
+              const active = node.getAttribute("data-floor") === item.id;
+              node.classList.toggle("is-lit", active);
+              if (active) node.setAttribute("aria-current", "location");
+              else node.removeAttribute("aria-current");
+            });
+            indicator.textContent = item.id;
+            caption.textContent = "ASCENSEUR · " + item.name.toLocaleUpperCase("fr-FR");
+          };
+          controls.addEventListener("click", (event) => {
+            const button = event.target.closest("[data-lift]");
+            if (!button) return;
+            selectFloor(current + (button.dataset.lift === "up" ? -1 : 1));
+          });
+          svg.addEventListener("focusin", (event) => {
+            const row = event.target.closest(".floor-row");
+            if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
+          });
+          svg.addEventListener("pointerover", (event) => {
+            const row = event.target.closest(".floor-row");
+            if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
+          });
+          selectFloor(0);
+        }
       });
     </script>
     <footer class="site-footer homepage-footer" aria-label="Pied de page MajestiOS">
