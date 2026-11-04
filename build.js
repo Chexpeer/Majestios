@@ -114,10 +114,32 @@ if (process.env.VERCEL_ENV === "preview") {
     if (title) titleCounts.set(title, [...(titleCounts.get(title) || []), file]);
   }
   const duplicateTitles = [...titleCounts.entries()].filter(([, pages]) => pages.length > 1).map(([title, pages]) => ({ title, pages }));
+  // Correspondance contrôlée avec le tableau floors/bands de l'immeuble dans index.html.
+  // L'immeuble affiche actuellement 9 zones cliquables : le dossier CRM reste sans étage propre.
+  const buildingFloors = [
+    { floor: 9, label: "IA & Business Intelligence", hrefs: ["intelligence-economique.html", "brainos.html", "vision-majestios.html"] },
+    { floor: 8, label: "Espace entreprises", hrefs: ["espace-membre.html"] },
+    { floor: 7, label: "Réputation virtuelle", hrefs: ["reputation-virtuelle.html", "reseaux-synergies.html", "sous-traitance.html"] },
+    { floor: 6, label: "Accompagnement aux appels d’offres", hrefs: ["accompagnement-appels-offres.html", "marches-publics.html", "qualification-entreprises.html"] },
+    { floor: 5, label: "Développement commercial", hrefs: ["developpement-commercial.html", "prospection-active.html", "suivi-commercial.html"] },
+    { floor: 4, label: "Prospection active", hrefs: ["prospection-active.html", "marches-publics.html", "marches-prives.html"] },
+    { floor: 3, label: "Veille économique", hrefs: ["bodacc-veille-entreprises.html", "veille-marches.html"] },
+    { floor: 2, label: "Marchés privés", hrefs: ["marches-prives.html", "sous-traitance.html", "qualification-entreprises.html"] },
+    { floor: 1, label: "Marchés publics", hrefs: ["marches-publics.html", "veille-marches.html", "accompagnement-appels-offres.html"] }
+  ];
+  const buildingAudit = {
+    visibleFloors: buildingFloors.map((floor) => ({
+      ...floor,
+      primaryTargetPresent: siteFiles.includes(floor.hrefs[0]),
+      missingTargets: floor.hrefs.filter((href) => !siteFiles.includes(href))
+    })),
+    dossiersWithoutDedicatedFloor: [{ dossier: "CRM", expectedPrimaryTarget: "crm.html", reason: "Aucune zone CRM dédiée dans la boucle de génération SVG actuelle ; l'étage supérieur est affecté à IA & Business Intelligence." }]
+  };
   const report = {
     generatedAtBuild: new Date().toISOString(),
     scope: "Contrôle statique des références locales dans les fichiers du build Preview ; aucune requête HTTP externe.",
-    totals: { htmlPages: htmlFiles.length, localReferences: references.length, brokenReferences: broken.length, orphanPages: orphanPages.length, duplicateTitles: duplicateTitles.length },
+    totals: { htmlPages: htmlFiles.length, localReferences: references.length, brokenReferences: broken.length, orphanPages: orphanPages.length, duplicateTitles: duplicateTitles.length, visibleBuildingFloors: buildingFloors.length, buildingTargetsMissing: buildingFloors.reduce((sum, floor) => sum + floor.hrefs.filter((href) => !siteFiles.includes(href)).length, 0), dossiersWithoutDedicatedFloor: buildingAudit.dossiersWithoutDedicatedFloor.length },
+    buildingAudit,
     brokenReferences: broken,
     orphanPages,
     duplicateTitles
