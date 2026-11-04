@@ -18,7 +18,7 @@ for (const page of pages) assert(siteFiles.includes(page), "Build : page HTML ab
 const rubricSearchPages = [
   "marches-publics.html", "developpement-commercial.html", "prospection-active.html",
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
-  "intelligence-economique.html", "reseaux-synergies.html",
+  "intelligence-economique.html", "reseaux-synergies.html", "reputation-virtuelle.html",
   "bodacc-veille-entreprises.html", "suivi-commercial.html"
 ];
 for (const page of rubricSearchPages) {
