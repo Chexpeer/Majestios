@@ -97,7 +97,7 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 
 ### Phase 9 — SEO, amélioration continue et stabilisation
 - SEO technique, indexation, contenu et mesure ;
-- recommandations préparées et validées ;
+- recommandations préparées et validées par le cockpit d'administration IA ;\n- automatisation limitée aux tâches réversibles préautorisées ;
 - évaluation continue des modèles et parcours ;
 - audit sécurité et juridique ;
 - performance, accessibilité, mobile, restauration et recette ;
