@@ -299,3 +299,20 @@ Le parcours de recherche reste à tester de bout en bout pour chaque type, caté
 7. Contrôler sécurité, confidentialité, formulaires, persistance, authentification et cloisonnement ; ne pas assimiler le prototype statique à un SaaS opérationnel.
 
 **Limite :** cette actualisation est une lecture distante du dépôt et des traces GitHub Actions. Elle ne constitue pas une recette visuelle manuelle sur tous les appareils, un audit juridique, un audit de sécurité exhaustif ni une validation de production.
+
+
+### 10.7 Nettoyage et cohérence des parcours — actualisation
+
+- Le fichier de façade a été renommé `Ambisios.webp` → `Ambitios.webp` en conservant le même SHA de contenu Git : le binaire n'a pas été modifié. Les références de l'accueil, du manifeste, des tests et des documents V5 ont été alignées.
+- `shared-search.css` a été retiré après vérification des 32 pages HTML et des feuilles de style/scripts actifs : aucun lien ni import ne le référençait. Les styles utiles du moteur restent dans la feuille globale.
+- La page Développement commercial contenait un ancien formulaire de recherche statique, un filtre régional obsolète et une seconde recherche générée par `rubric-search.js`. Le formulaire statique et son style inline doublon ont été retirés ; la page s'appuie maintenant sur le moteur par rubrique.
+- Le moteur par rubrique a été ajouté à Réputation virtuelle, Espace privé, Salons et séminaires, CRM et MajestiOS V.5. Le contrôle statique et le test navigateur couvrent désormais ces destinations supplémentaires.
+- `category-results.js` affichait encore une localisation régionale alors que le catalogue ne propose plus de régions. Il restitue maintenant le département sélectionné, avec un test dédié.
+- La page Salons et séminaires est explicitement rattachée au Réseau ; les anciens intitulés « Salon virtuel » et « zone artisanale » ont été retirés de cette page et des liens de navigation contrôlés.
+- La FAQ a été corrigée : BOAMP et BODACC sont interrogés à la demande dans le prototype ; il ne s'agit pas d'une veille continue. Elle distingue aussi le panorama cliquable actuel de l'expérience immersive future.
+
+### 10.8 Contrôle CI après corrections
+
+Le workflow complet précédent a validé la syntaxe, les tests unitaires métier, le build, les routes, les ressources locales, les API BOAMP/BODACC et le test navigateur des huit destinations de l'immeuble. Le test de recherche avait ensuite échoué sur une assertion qui attendait un seul résultat BOAMP alors que les données simulées contenaient deux annonces valides ; l'assertion a été corrigée et des tests de restitution du département et de présence du moteur sur les destinations supplémentaires ont été ajoutés.
+
+**Le workflow couvrant l'ensemble de ces dernières corrections est encore en attente d'exécution sur GitHub Actions.** Aucun succès final n'est déclaré tant que ce workflow n'a pas terminé.
