@@ -113,7 +113,10 @@
   if (queryField) queryField.value = params.get("q") || "";
   if (marketSelect) marketSelect.value = initialMarket;
   populateCategories(initialMarket, initialCategory);
-  if (initialMarket) categoryStep.hidden = false;
+  if (initialMarket) {
+    marketStep.hidden = false;
+    categoryStep.hidden = false;
+  }
   if (initialCategory !== "all" || initialRegion !== "all") departmentStep.hidden = false;
   if (regionSelect && [...regionSelect.options].some((option) => option.value === initialRegion && !option.disabled)) {
     regionSelect.value = initialRegion;
