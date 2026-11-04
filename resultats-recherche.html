@@ -48,6 +48,7 @@
   <script src="catalogue-majestios.js" defer></script>
   <script src="app.js" defer></script>
   <script src="search-results.js" defer></script>
+  <script src="site-navigation.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -71,10 +72,6 @@
     <p class="search-results-return"><a class="button-primary" href="index.html#recherche-avancee">← Modifier les critères</a></p>
   </main>
   <footer class="site-footer"><a class="brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><p>Repérer les pistes. Garder le discernement.</p><span class="footer-legal">MajestiOS · Une nouvelle perspective sur votre marché</span></footer>
-  <script>
-const menuToggle=document.querySelector(".menu-toggle");const navigation=document.querySelector("#site-nav");
-menuToggle?.addEventListener("click",()=>{const open=menuToggle.getAttribute("aria-expanded")==="true";menuToggle.setAttribute("aria-expanded",String(!open));menuToggle.setAttribute("aria-label",open?"Ouvrir le menu":"Fermer le menu");navigation?.classList.toggle("open",!open);});
-navigation?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{navigation.classList.remove("open");menuToggle?.setAttribute("aria-expanded","false");}));
-  </script>
+  
 </body>
 </html>

@@ -43,6 +43,10 @@ for (const page of rubricSearchPages) {
 
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
+  assert(html.includes('src="site-navigation.js"'), page + " : module de navigation partagée non chargé");
+  const inlineMenuScripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)]
+    .filter((match) => /menu-toggle|#site-nav/.test(match[1]));
+  assert(inlineMenuScripts.length === 0, page + " : gestionnaire de menu inline à supprimer");
   const ids = new Set();
   for (const match of html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)) {
     if (ids.has(match[1])) errors.push(page + " : identifiant dupliqué #" + match[1]);

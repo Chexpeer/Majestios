@@ -9,6 +9,7 @@
 <style>
 .vision-hero{padding:54px 0 34px;max-width:850px}.vision-hero h1{max-width:780px}.vision-hero .interior-lede{max-width:700px}.vision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:28px 0}.vision-card{padding:24px;border-radius:14px}.vision-card p,.vision-card li{font-size:14px;line-height:1.8}.vision-card ul{padding-left:20px}.vision-doctrine{padding:30px;border-radius:16px}.vision-doctrine blockquote{margin:8px 0 12px;font:800 clamp(28px,4vw,43px)/1.15 Manrope,sans-serif;letter-spacing:-1.5px}.vision-doctrine p{max-width:720px;line-height:1.8}.vision-cycle{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}.vision-cycle li{padding:9px 12px;border:1px solid;border-radius:8px;font-size:12px;font-weight:700}.vision-links{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0}.vision-links a{padding:12px 16px;font-size:13px}@media(max-width:680px){.vision-grid{grid-template-columns:1fr}.vision-hero{padding-top:32px}.vision-doctrine{padding:22px}}
 </style>
+  <script src="site-navigation.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -28,10 +29,6 @@
 <nav class="vision-links" aria-label="Découvrir MajestiOS"><a href="index.html">Explorer la zone artisanale</a><a class="secondary" href="blog-100-blagues.html">Découvrir le blog des 100 blagues</a><a class="secondary" href="faq.html">Lire la FAQ</a></nav>
 </main>
 <footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial proactif · L’IA propose, l’humain dispose.</div></footer>
-<script>
-const menuToggle=document.querySelector(".menu-toggle");const navigation=document.querySelector("#site-nav");
-menuToggle?.addEventListener("click",()=>{const open=menuToggle.getAttribute("aria-expanded")==="true";menuToggle.setAttribute("aria-expanded",String(!open));menuToggle.setAttribute("aria-label",open?"Ouvrir le menu":"Fermer le menu");navigation?.classList.toggle("open",!open);});
-navigation?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{navigation.classList.remove("open");menuToggle?.setAttribute("aria-expanded","false");}));
-</script>
+
 </body>
 </html>

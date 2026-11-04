@@ -54,6 +54,7 @@
     "company-targeting.js",
     "company-targeting-page.js",
     "company-fit.js",
-    "qualification-entreprises.html"
+    "qualification-entreprises.html",
+    "site-navigation.js"
   ]
 }
