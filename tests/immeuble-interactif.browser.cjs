@@ -19,7 +19,7 @@ const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf
 
 async function main() {
   assert.ok(fs.existsSync(path.join(root,"index.html")), "Exécuter node build.js avant le test.");
-  assert.ok(fs.existsSync(path.join(root,"Ambisios.webp")), "Le panorama Ambisios est absent du build.");
+  assert.ok(fs.existsSync(path.join(root,"Ambitios.webp")), "Le panorama Ambitios est absent du build.");
   for (const asset of ["Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp"]) {
     assert.ok(fs.existsSync(path.join(root,asset)), "Le fond de rubrique "+asset+" est absent du build.");
   }
@@ -60,7 +60,7 @@ async function main() {
       id:node.dataset.floor,name:node.dataset.name,href:node.getAttribute("href")
     })));
     assert.deepEqual(observed,expected.map(item=>({id:item.id,name:item.name,href:item.route+(item.route==="index.html"?"#accueil":"")})),
-      "Les huit libellés et routes doivent suivre exactement Ambisios.");
+      "Les huit libellés et routes doivent suivre exactement Ambitios.");
     for (const viewport of [{width:1365,height:900},{width:390,height:844}]) {
       await page.setViewportSize(viewport);
       await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
@@ -91,7 +91,7 @@ async function main() {
       assert.ok(new URL(page.url()).pathname.endsWith("/"+item.route),"Le clic sur "+item.name+" doit ouvrir "+item.route);
     }
     assert.deepEqual(errors,[],"Aucune erreur JavaScript n’est attendue sur l’accueil.");
-    console.log("TEST NAVIGATEUR RÉUSSI : huit destinations Ambisios, liens directs et zones testées en desktop et mobile.");
+    console.log("TEST NAVIGATEUR RÉUSSI : huit destinations Ambitios, liens directs et zones testées en desktop et mobile.");
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));
