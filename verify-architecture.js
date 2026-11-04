@@ -137,9 +137,12 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
   "categorie-plomberie-chauffage.html","categorie-maintenance.html","faq.html","nous-rejoindre.html",
   "vision-majestios.html","qualification-entreprises.html","resultats-recherche.html"]) {
   const html = read(page);
-  assert(html.indexOf('src="rubric-search.js"') >= 0 &&
+  assert(html.indexOf('src="catalogue-majestios.js"') >= 0 &&
+    html.indexOf('src="catalogue-majestios.js"') < html.indexOf('src="rubric-search.js"') &&
     html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
-    "Recherche : ordre de chargement incorrect sur " + page);
+    "Recherche : ordre de chargement du catalogue et du moteur commun incorrect sur " + page);
+  assert(/href="rubriques-immersives\\.css"/.test(html),
+    "Recherche : feuille de style commune absente sur " + page);
 }
 
 const prospecting = read("prospection-active.html");
