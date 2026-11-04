@@ -155,16 +155,16 @@ async function main() {
     assert.equal(publicReturnUrl.pathname, "/index.html", "Le retour doit ramener au formulaire d’accueil.");
     assert.equal(publicReturnUrl.searchParams.get("q"), "plomberie", "Le retour doit conserver les mots-clés.");
     assert.equal(publicReturnUrl.searchParams.get("marche"), "public", "Le retour doit conserver le type de marché.");
-    assert.equal(publicReturnUrl.searchParams.get("departement"), "nouvelle-aquitaine", "Le retour doit conserver le département.");
+    assert.equal(publicReturnUrl.searchParams.get("departement"), "79", "Le retour doit conserver le département.");
     assert.equal(publicReturnUrl.hash, "#recherche-avancee", "Le retour doit replacer l’utilisateur sur le moteur de recherche.");
     await page.locator(".search-results-return a").click();
     await page.waitForURL(/index\.html\?q=plomberie.*marche=public.*departement=79.*#recherche-avancee|index\.html\?q=plomberie.*departement=79.*marche=public.*#recherche-avancee/, { timeout: 10000 });
     assert.equal(await page.locator("#feed-search").inputValue(), "plomberie", "L’accueil doit restaurer les mots-clés au retour.");
     assert.equal(await page.locator("#feed-market-type").inputValue(), "public", "L’accueil doit restaurer le type de marché au retour.");
     assert.equal(await page.locator("#feed-sector").inputValue(), "all", "L’accueil doit restaurer une catégorie non précisée sans en inventer.");
-    assert.equal(await page.locator("#feed-department").inputValue(), "nouvelle-aquitaine", "L’accueil doit restaurer la région au retour.");
+    assert.equal(await page.locator("#feed-department").inputValue(), "79", "L’accueil doit restaurer le département au retour.");
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
-    assert.equal(departmentFilterSeen, true, "Une requête BOAMP doit appliquer le filtre Nouvelle-Aquitaine au département 79, côté prestation et acheteur.");
+    assert.equal(departmentFilterSeen, true, "Une requête BOAMP doit appliquer le filtre du département 79, côté prestation et acheteur.");
 
     apiCalls = 0;
     bodaccCalls = 0;
@@ -176,7 +176,7 @@ async function main() {
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Rénovation de bâtiments/);
     assert.match(await page.locator(".bodacc-result-card").innerText(), /A202610310001/, "La référence unique de l’annonce doit être affichée.");
     assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
-    assert.equal(bodaccDepartmentFilterSeen, true, "Une recherche BODACC avec une région sélectionnée doit transmettre le filtre régional à la source.");
+    assert.equal(bodaccDepartmentFilterSeen, true, "Une recherche BODACC avec un département sélectionné doit transmettre le filtre départemental à la source.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
     // Chaque famille doit conserver son signal correspondant et exclure les autres familles.
@@ -203,13 +203,13 @@ async function main() {
         && restored.searchParams.get("q") === "cession"
         && restored.searchParams.get("marche") === "private"
         && restored.searchParams.get("categorie") === "bodacc-cessions"
-        && restored.searchParams.get("departement") === "nouvelle-aquitaine"
+        && restored.searchParams.get("departement") === "79"
         && restored.hash === "#recherche-avancee";
     }, { timeout: 10000 });
     assert.equal(await page.locator("#feed-market-type").inputValue(), "private", "Le retour doit restaurer le type privé.");
     assert.equal(await page.locator("#feed-sector").inputValue(), "bodacc-cessions", "Le retour doit restaurer la famille BODACC exacte.");
     assert.equal(await page.locator("#feed-search").inputValue(), "cession", "Le retour doit restaurer le mot-clé privé.");
-    assert.equal(await page.locator("#feed-department").inputValue(), "nouvelle-aquitaine", "Le retour doit restaurer le département privé.");
+    assert.equal(await page.locator("#feed-department").inputValue(), "79", "Le retour doit restaurer le département privé.");
 
     // Les quatre familles privées prévues mais non connectées doivent rester honnêtes :
     // elles affichent leur statut, sans requête BODACC ni résultats inventés.
@@ -252,7 +252,7 @@ async function main() {
     assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 5, "Le groupe BODACC doit afficher les cinq familles de signaux simulées.");
     assert.ok(await page.locator(".opportunity-result-card").count() <= 10, "Une recherche mixte ne doit jamais afficher plus de dix annonces et signaux au total.");
 
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=outre-mer", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&departement=999", { waitUntil: "domcontentloaded" });
     await page.getByText(/filtre BODACC pour l’Outre-mer n’est pas encore pris en charge/).waitFor({ timeout: 10000 });
     assert.equal(bodaccCalls, 1, "Un filtre BODACC non pris en charge ne doit pas lancer de recherche territoriale trompeuse.");
 
@@ -285,14 +285,14 @@ async function main() {
     }
     assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 5, "Les rubriques BODACC doivent être regroupées ensemble.");
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
-    assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
+    assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, "L’accueil doit proposer un département français filtrable.");
     assert.equal(await page.locator('#feed-department option[value="72"]').count(), 1, "Le département 72 · Sarthe doit être proposé avec son code officiel.");
 
     await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
     await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
     assert.equal(await page.locator('#rubric-opportunity-search input[name="marche"]').inputValue(), "public", "La rubrique Marchés publics doit verrouiller la source publique.");
     assert.equal(await page.locator('#rubric-search-department option[value="79"]').count(), 1, "Le formulaire doit proposer un vrai département français.");
-    assert.equal(await page.locator('#rubric-search-department option[value="72"]').count(), 0, "Les départements doivent utiliser les codes officiels.");
+    assert.equal(await page.locator('#rubric-search-department option[value="72"]').count(), 1, "Les départements doivent utiliser les codes officiels.");
 
     await page.goto("http://127.0.0.1:4174/developpement-commercial.html", { waitUntil: "domcontentloaded" });
     await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
