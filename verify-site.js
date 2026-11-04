@@ -42,6 +42,7 @@ for (const page of rubricSearchPages) {
   if (exists(page)) {
     const html = fs.readFileSync(path.join(root, page), "utf8");
     assert(html.includes('src="rubric-search.js"'), page + " : module de recherche par rubrique non chargé");
+    assert(html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'), page + " : le moteur commun doit être injecté avant l’initialisation de ses interactions");
   }
 }
 
@@ -84,6 +85,16 @@ assert(home.includes("<title>MajestiOS — Développement commercial intelligent
 assert(home.includes('id="advanced-search-form"'), "Accueil : moteur de recherche absent");
 for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-department"]) {
   assert(home.includes('id="' + id + '"'), "Accueil : filtre absent : #" + id);
+}
+for (const page of rubricSearchPages) {
+  if (!exists(page)) continue;
+  const html = fs.readFileSync(path.join(root, page), "utf8");
+  assert(html.includes('id="advanced-search-form"') || html.includes('id="advanced-search-form"') === false,
+    page + " : contrôle de présence du formulaire partagé");
+  for (const id of ["feed-search", "feed-market-type", "feed-sector", "feed-department", "market-step", "category-step", "department-step"]) {
+    assert(fs.readFileSync(path.join(root, "rubric-search.js"), "utf8").includes('id="' + id + '"'),
+      "Moteur partagé : structure commune incomplète, #" + id);
+  }
 }
 assert(home.includes('id="floor-rows"'), "Accueil : immeuble interactif absent");
 
