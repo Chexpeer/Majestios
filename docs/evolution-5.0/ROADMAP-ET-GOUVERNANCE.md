@@ -67,7 +67,7 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 
 **Sortie :** parcours de recherche et qualification vérifiable de bout en bout.
 
-### Phase 6 — CRM, IA et Business Intelligence
+### Phase 6 — CRM, IA et Business Intelligence\n- appliquer la doctrine multi-rôles / orchestrateur décrite dans [VISION-IA-TRANSVERSALE.md](VISION-IA-TRANSVERSALE.md) ;\n- évaluer chaque capacité IA par tâche, risque, qualité, latence et coût ;
 - commencer par un CRM structuré minimal ;
 - introduire enrichissement et assistance IA en lecture seule ;
 - proposer des modifications avec provenance et validation ;
@@ -77,7 +77,7 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 
 **Sortie :** CRM augmenté mesurable, auditable et cloisonné.
 
-### Phase 7 — Mémoire conversationnelle et assistants
+### Phase 7 — Mémoire conversationnelle et assistants\n- connecter la mémoire externe à l'orchestrateur sans dépendre de la mémoire native d'un fournisseur ;
 - MVP sur corpus pilote non sensible ;
 - recherche avec références aux échanges ;
 - mémoire opérationnelle et stratégique contrôlée ;
