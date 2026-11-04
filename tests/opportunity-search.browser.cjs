@@ -260,9 +260,10 @@ async function main() {
     await page.getByText(/zone n’est pas encore disponible comme filtre BODACC/).waitFor({ timeout: 10000 });
     assert.equal(bodaccCalls, 1, "Une zone inconnue ou de démonstration ne doit pas lancer une recherche BODACC sans filtre géographique.");
 
-    await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public&departement=79", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Maintenance informatique et cybersécurité" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator("#category-results-panel").count(), 1, "La page de catégorie doit conserver son panneau de résultats.");
+    assert.ok((await page.locator(".category-active-filters").innerText()).includes("79 · Deux-Sèvres"), "La page de catégorie doit restituer le département sélectionné.");
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "La catégorie Services numériques ne doit pas afficher les marchés de plomberie.");
     assert.ok(apiCalls >= 1, "La page de catégorie doit elle aussi lancer la recherche.");
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
