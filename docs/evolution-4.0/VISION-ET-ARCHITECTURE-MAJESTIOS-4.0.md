@@ -417,9 +417,9 @@ Les opérations sont séparées par niveau :
 
 Le porteur du projet peut autoriser les niveaux progressivement. Le cockpit ne doit jamais confondre « demander une évolution », « l'implémenter », « la fusionner » et « la déployer ».
 
-## 11. Décisions ouvertes pour le contre-audit
+## 11. Questions d'architecture à trancher
 
-Les IA consultées doivent répondre explicitement à ces questions :
+Les décisions techniques suivantes restent à comparer et à documenter au fil de l'implémentation :
 
 1. Le découpage en quatre domaines et une couche transversale est-il pertinent ?
 2. Le monolithe modulaire est-il proportionné ou faut-il une autre architecture ?
@@ -430,7 +430,7 @@ Les IA consultées doivent répondre explicitement à ces questions :
 7. Comment intégrer Nettoyage sans inventer une taxonomie erronée ?
 8. Quelle architecture d'événements et de rapports est utile sans surveillance excessive ?
 9. Comment concevoir un BrainIOS qui prépare du code et des tests tout en restant sous contrôle ?
-10. Quels risques, coûts, dépendances ou complexités sont sous-estimés ?
+10. Quels risques, coûts, dépendances ou complexités sont sous-estimés ?\n11. Quel modèle de compte de service, de projet API et de budget convient à BrainIOS ?\n12. Quel niveau d'autonomie peut être activé dans l'espace admin à chaque étape ?\n13. Quel mécanisme permet de piloter GitHub, les tests et les validations depuis l'admin sans exposer les secrets ?
 
 ## 12. Critères de réussite de la vision 4.0
 
