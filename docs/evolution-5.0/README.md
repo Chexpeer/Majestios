@@ -1,60 +1,63 @@
 # MajestiOS 5.0 — dossier de référence
 
-**Statut :** architecture fonctionnelle V5 en évolution ; les huit destinations visibles d’Ambisios constituent la référence de travail, sous réserve de validation finale des zones cliquables et des routes.  
+**Statut :** branche de travail stratégique et technique ; le cadrage reste soumis à la confrontation des documents, du code et des décisions récentes du fondateur.  
 **Branche de travail :** `evolution-5.0`  
-**Base :** branche `evolution-3.0`, conservée comme patrimoine de référence.  
+**Patrimoine :** `evolution-3.0` est conservée intacte comme référence ; la documentation 2.0 et les archives historiques restent consultables.  
 **Évolution 4.0 :** mise en standby ; ses documents sont des sources à examiner, pas des décisions automatiquement reprises.
 
 ## Intention
 
-Construire une nouvelle génération de MajestiOS autour de la promesse :
+Construire une nouvelle génération de MajestiOS comme **ascenseur stratégique des PME** : un environnement de développement commercial intelligent, immersif et évolutif. La plateforme associe données, méthodes, services, accompagnement humain, CRM, Business Intelligence, mémoire, IA transversale et amélioration continue.
 
-> **MajestiOS — l'ascenseur stratégique des PME.**  
-> **Donner de la hauteur à vos ambitions.**  
-> *MajestiOS, pour une ascension magique et exponentielle.*
+La vision ne se réduit ni à un moteur d'annonces, ni à un tableau de bord, ni à une image d'accueil cliquable. L'expérience immersive, le quartier d'affaires, l'immeuble, ses espaces intérieurs et l'ascenseur forment un parcours cohérent au service de l'arborescence métier.
 
-La V5 doit associer une expérience immersive, un développement commercial intelligent, une mémoire durable et contrôlée, un CRM nativement intelligent, la Business Intelligence et une capacité d'amélioration continue.
-
-## Documents de ce dossier
-
-0. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats V3/V4/V5, revue des PR de modularisation et lots proposés.
+## Documents de référence
 
 1. [Vision fondatrice](VISION-FONDATRICE.md) — promesse, doctrine et principes.
-2. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — nomenclature Ambisios, rattachement des pages et écarts à corriger.
-3. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — panorama, ascenseur, étages et navigation.
-4. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — rôles spécialisés, orchestration, proactivité, apprentissage contrôlé et gouvernance.
-5. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée des discussions.
+2. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — destinations, dossiers, pages et fonctions transversales.
+3. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — quartier, panorama, ascenseur, étages et navigation.
+4. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — rôles spécialisés, orchestration, proactivité et gouvernance.
+5. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
 6. [Architecture fonctionnelle cible](ARCHITECTURE-FONCTIONNELLE-CIBLE.md) — domaines, frontières et données.
-7. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, validation et autonomie.
+7. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
 8. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
-9. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
+9. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts à traiter.
+10. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
 
 ## Règles de lecture
 
 - **Fait observé** : confirmé dans le code ou une preuve consultée.
 - **Acquis à préserver** : fonctionnalité ou contenu existant dont la valeur doit être évaluée.
-- **Proposition** : piste à étudier, non validée.
 - **Décision fondatrice** : orientation explicitement exprimée par le porteur du projet.
+- **Proposition** : piste à étudier, non validée.
 - **À arbitrer** : point qui nécessite une décision.
 - **À vérifier** : affirmation qui demande une preuve technique, juridique, commerciale ou utilisateur.
 
 Aucun document de cadrage ne prouve qu'une fonctionnalité est développée ou opérationnelle.
 
-## Protection du patrimoine
+## Protection du patrimoine et méthode
 
-La V5 est construite sur une branche indépendante. La branche `evolution-3.0` n'est pas modifiée par les travaux V5. Aucun nettoyage destructif, renommage global, suppression de fonctionnalité, fusion ou déploiement de production ne doit être effectué sans audit et autorisation explicite.
+La V5 est construite sur une branche indépendante. La branche `evolution-3.0` n'est pas modifiée par les travaux V5. Les suppressions, déplacements, fusions et changements irréversibles sont précédés d'un inventaire des dépendances et d'un point de retour. Aucun merge ou déploiement de production sans accord explicite du fondateur.
 
-## Statut des décisions
+Le nettoyage suit cinq traitements : conserver, corriger, regrouper, archiver ou retirer. Une fonction métier n'est jamais supprimée au seul motif qu'elle n'est pas encore opérationnelle ou qu'elle n'apparaît pas comme destination de premier niveau.
 
-Le panorama de référence de l’accueil est `Ambisios.webp`. Quatre fonds de rubrique sont présents : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Leur présence dans le dépôt ne certifie pas encore la validation visuelle de leur affectation ni leur rendu sur toutes les pages. Les huit destinations visibles sont Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux : ils ne constituent pas des étages supplémentaires. Le principe « le schéma reflète l’arborescence » demeure non négociable.
+## État des ressources visuelles au 4 novembre 2026
 
+Les cinq images WebP présentes dans la branche sont :
+- `Ambisios.webp` — panorama d'accueil ;
+- `Développement-.webp` — fond de Développement commercial ;
+- `Marché-Public-.webp` — fond de Marchés publics ;
+- `Prospection-.webp` — fond de Prospection ;
+- `Marcheprive.webp` — fond de Marchés privés.
 
-## Mise à jour d’architecture — 4 novembre 2026
+Leur présence dans Git ne prouve pas à elle seule leur bonne intégration visuelle. Les références CSS, le manifeste de build, le rendu réel et les recadrages desktop/mobile doivent être vérifiés. Ne pas supprimer ou remplacer ces ressources sans comparaison visuelle et contrôle de dépendances.
 
-- `Ambisios.webp` est le panorama de l’accueil.
-- Quatre fonds de rubrique sont présents et déclarés dans le manifeste : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp` (Marchés privés).
-- Les huit destinations Ambisios disposent d’un lien SVG direct ; les contrôles navigateur desktop/mobile doivent confirmer les zones.
-- Les destinations visibles sont limitées aux huit intitulés de référence. Les fonctions transversales ne doivent pas devenir des étages supplémentaires.
-- Les cinq ressources WebP actuellement présentes sont `Ambisios.webp` et les quatre fonds de rubrique listés ci-dessus. Toute suppression supplémentaire exige une vérification des références, de la valeur visuelle et de l'historique.
-- Les coordonnées interactives, l’éclairage et la position de l’ascenseur restent à vérifier ensemble contre l’image réelle ; cette mise à jour documentaire ne certifie pas leur recette.
-- Le filtre géographique du moteur est spécifié comme « département » dans la cible ; son implémentation effective sur chaque source reste à valider.
+## Architecture de navigation — principes à préserver
+
+Les destinations visibles sont des portes d'entrée vers des dossiers réels, pas la totalité des capacités de la plateforme. Recherche, CRM, Business Intelligence, MajestiOS V.5, mémoire, administration, orchestration et SEO sont des fonctions transversales ou des sous-parcours. Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, salons et séminaires, suivi commercial, vision, recrutement, FAQ et pages légales doivent être rattachées correctement ; leur absence du panorama ne justifie pas leur suppression.
+
+Le principe « le schéma reflète l'arborescence » est non négociable. La navigation spatiale doit préserver le rôle de l'ascenseur et la cohérence entre destination, dossier, page, étage éclairé et position de l'ascenseur. Une image statique munie de zones approximatives ne constitue pas à elle seule l'expérience immersive cible.
+
+## Points à ne pas figer prématurément
+
+Toute évolution récente du fondateur peut rouvrir un sujet précédemment documenté comme acquis. Le nom, le périmètre et les relations des modules d'intelligence doivent être traités selon les échanges les plus récents et inscrits dans le registre des décisions ; ne pas clore un débat stratégique par une phrase isolée d'un document antérieur.
