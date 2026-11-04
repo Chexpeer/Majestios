@@ -1,6 +1,6 @@
 # Arborescence cible MajestiOS V5
 
-Statut : référence de travail établie le 4 novembre 2026 à partir de l'image `Ambisios.webp` et de l'inventaire du code. Cette nomenclature ne vaut pas validation des coordonnées de navigation.
+Statut : référence de travail établie le 4 novembre 2026 à partir de l’image unique `Ambisios.webp` et de l’inventaire du code. Les destinations et rattachements fonctionnels sont la cible documentaire ; les coordonnées interactives et la recette de navigation restent à valider.
 
 ## Rubriques visibles sur Ambisios
 
@@ -32,12 +32,12 @@ Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, s
 
 ## Écarts constatés dans le code actuel
 
-- `index.html` contient dix entrées de catalogue B01 à B10, dont CRM et Business Intelligence.
-- Les zones SVG cliquables sont au nombre de neuf et ne correspondent pas à toutes les entrées ; CRM est omis du mapping.
-- Le niveau supérieur est affiché « IA & Business Intelligence », intitulé qui ne figure pas dans Ambisios et mélange des fonctions distinctes.
-- L'accueil utilise actuellement `IMMEUBLE MajestiOS .webp`, pas `Ambisios.webp`.
-- Le menu principal affiche encore « Salon virtuel », alors que l'image de référence affiche « Réseau ».
-- Le texte alternatif de l'image actuelle annonce neuf étages et un rez-de-chaussée ; il doit être recalé lors du remplacement de l'actif.
+- Le catalogue historique contient dix entrées B01 à B10, dont CRM et Business Intelligence ; cette structure historique ne doit pas être confondue avec les huit destinations visibles d’Ambisios.
+- Les zones interactives historiques ne correspondent pas encore de façon démontrée à la nomenclature des huit destinations ; leur mapping doit être audité sans ajouter d’étage transversal.
+- Le libellé historique « IA & Business Intelligence » mélange des fonctions transversales distinctes et ne doit pas devenir une destination visible du bâtiment.
+- Correction effectuée : l’accueil utilise désormais `Ambisios.webp`, unique fichier WebP du dépôt.
+- Le menu principal de l’accueil et de la page de résultats a été réorienté vers « Réseau » ; les autres occurrences historiques restent à contrôler.
+- Le texte alternatif de l’image d’accueil a été remplacé pour désigner le panorama Ambisios.
 
 Ces écarts sont identifiés, mais le mapping SVG ne doit pas être modifié à l'aveugle : il faut mesurer les zones sur l'image réellement utilisée et relier chaque destination, la position de l'ascenseur et l'éclairage à un identifiant unique.
 
@@ -52,3 +52,23 @@ Ces écarts sont identifiés, mais le mapping SVG ne doit pas être modifié à 
 ## Étape technique suivante
 
 Créer un catalogue unique de destinations pour synchroniser libellé, zone interactive, position de l'ascenseur, éclairage et URL. Confirmer d'abord l'image d'accueil et mesurer ses zones ; aucune coordonnée ne doit être devinée.
+
+
+## Mise à jour — image de référence et architecture visuelle (4 novembre 2026)
+
+### Décision appliquée au dépôt
+
+`Ambisios.webp` devient l’unique image WebP du projet sur `evolution-5.0`. Les huit autres fichiers WebP présents dans l’arbre ont été supprimés après mise à jour des références. Le manifeste `site-files.json` ne publie plus que cette image.
+
+L’image est utilisée comme visuel principal de l’accueil et comme fond commun des trois univers immersifs précédemment associés à des images WebP différentes. Les contenus, textes, sous-dossiers et interactions restent propres à chaque destination ; aucune autre image WebP autonome n’est actuellement conservée.
+
+### Architecture visible et architecture transverse
+
+Les huit destinations Ambisios constituent la couche de navigation spatiale. Recherche, CRM, Business Intelligence, administration, mémoire, orchestration et MajestiOS V.5 restent des capacités transversales. Aucun « dixième étage » ne doit être ajouté pour représenter le moteur de recherche sans décision explicite.
+
+### Vérifications restantes
+
+- contrôler toutes les zones cliquables sur `Ambisios.webp` ;
+- garantir la correspondance entre destination, dossier réel, URL, étage éclairé et position de l’ascenseur ;
+- vérifier les ressources publiées par le build ;
+- exécuter les contrôles d’architecture et les tests navigateur après le nettoyage.
