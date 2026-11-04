@@ -42,6 +42,17 @@ async function main() {
     const errors = [];
     page.on("pageerror",error => errors.push(error.message));
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
+    assert.equal(await page.locator("#market-step").isHidden(),true,"Le type de marché doit être masqué au chargement.");
+    assert.equal(await page.locator("#category-step").isHidden(),true,"La catégorie doit être masquée au chargement.");
+    assert.equal(await page.locator("#department-step").isHidden(),true,"Le département doit être masqué au chargement.");
+    await page.locator("#feed-search").click();
+    assert.equal(await page.locator("#market-step").isVisible(),true,"Le premier clic dans la recherche doit afficher le type.");
+    await page.locator("#feed-market-type").selectOption("public");
+    assert.equal(await page.locator("#category-step").isVisible(),true,"Le choix du type doit afficher les catégories.");
+    assert.equal(await page.locator("#department-step").isHidden(),true,"Le département doit attendre le choix d'une catégorie.");
+    await page.locator("#feed-sector").selectOption("nettoyage");
+    assert.equal(await page.locator("#department-step").isVisible(),true,"Le choix de la catégorie doit afficher le département.");
+    await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
     const rows = page.locator(".building-hotspots .floor-row");
     await rows.first().waitFor({state:"attached",timeout:15000});
     assert.equal(await rows.count(),8,"Huit destinations interactives sont attendues.");
