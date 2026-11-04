@@ -2,7 +2,7 @@
 
 ## 1. Concept
 
-L'accueil de MajestiOS devient un panorama immersif de haute qualité, centré sur un immeuble principal dans son environnement. Sur ordinateur, ce panorama doit occuper environ **70 % de l'espace visuel de la page d'accueil** : il constitue l'élément central de l'expérience, et non une illustration secondaire ou une petite bannière. Le cadrage, la définition et le niveau de détail doivent permettre d'identifier clairement le bâtiment et ses accès.
+L'accueil de MajestiOS devient un panorama immersif de haute qualité, centré sur un immeuble principal et son quartier d'affaires. Il ne s'agit pas de représenter uniquement le bâtiment : **tout l'environnement urbain doit être valorisé** et donner l'impression d'un véritable quartier économique international, spectaculaire, vivant et crédible. Sur ordinateur, ce panorama doit occuper environ **70 % de l'espace visuel de la page d'accueil** : il constitue l'élément central de l'expérience, et non une illustration secondaire ou une petite bannière. Le cadrage, la définition et le niveau de détail doivent permettre d'identifier clairement le bâtiment, ses accès et son environnement.
 
 Un ascenseur panoramique extérieur, vitré et visible sur la façade, représente MajestiOS lui-même.
 
@@ -12,7 +12,7 @@ Un ascenseur panoramique extérieur, vitré et visible sur la façade, représen
 
 Le panorama ne doit pas être une image figée simplement décorative. Il doit devenir une véritable zone interactive permettant au visiteur d'explorer le bâtiment dans son ensemble.
 
-- Le visiteur doit pouvoir faire le tour de l'immeuble (exploration des différentes façades / rotation autour du bâtiment ou parcours équivalent).
+- Le visiteur doit pouvoir faire le tour de l'immeuble (exploration des différentes façades / rotation autour du bâtiment ou parcours équivalent) et découvrir progressivement le quartier qui l'entoure.
 - L'exploration doit également permettre d'accéder visuellement à la toiture et, si son contenu est défini, de sélectionner un accès ou une destination située sur le toit.
 - La toiture fait donc partie du périmètre d'exploration à concevoir ; son usage fonctionnel reste à préciser avant de lui attribuer une rubrique.
 - L'interaction spatiale doit rester fluide, intuitive et utilisable à la souris, au tactile et au clavier. Prévoir des commandes ou repères visibles pour tourner, revenir à la vue principale et retrouver l'entrée.
@@ -68,11 +68,16 @@ Le visuel généré est une maquette d'intention, pas une maquette technique de 
 
 ## 6. Direction artistique
 
-Référence de style issue des échanges :
-- architecture contemporaine en verre et métal ;
-- panorama de zone industrielle / parc d'activités, bâtiments et infrastructures ;
-- ascenseur extérieur vitré, vertical, lisible et animé ;
-- atmosphère lumineuse et premium ;
+Référence visuelle transmise le 4 novembre 2026 : une tour contemporaine à structure vitrée et métallique, présentée en coupe / grande ouverture architecturale, laissant voir plusieurs niveaux intérieurs et un axe vertical central de circulation. Cette image est une référence de style et de lisibilité des étages ; elle ne constitue pas le fichier source du futur bâtiment ni un plan technique définitif de l'ascenseur.
+
+Direction artistique enrichie :
+- **un quartier d'affaires complet**, inspiré par l'ampleur et la densité de La Défense et par la modernité urbaine de Singapour ;
+- skyline de tours contemporaines, immeubles tertiaires, voies de circulation, espaces publics, végétation et aménagements paysagers ;
+- environnement cohérent à 360° : le quartier doit rester valorisant lorsqu'on tourne autour du bâtiment, et ne pas se réduire à une façade ou à un décor plaqué ;
+- un immeuble MajestiOS identifiable et central, avec des niveaux lisibles et des espaces intérieurs visibles ;
+- l'ascenseur est un élément architectural et fonctionnel majeur de l'expérience : sa position, sa structure, sa cabine et son mouvement doivent être conçus pour rendre la navigation entre les étages immédiatement compréhensible ;
+- ne pas figer à ce stade le choix entre ascenseur extérieur vitré et axe vertical intégré / apparent : le modèle final devra respecter la référence architecturale et surtout permettre une animation crédible ;
+- atmosphère lumineuse, premium et réaliste, sans basculer dans une ville futuriste irréaliste ;
 - bleu nuancé, non monochrome ni saturé, associé au blanc, à des tons neutres et à des accents dorés ;
 - intérieurs distincts par étage, cohérents dans une même identité graphique ;
 - ambiance crédible et accueillante plutôt que science-fiction excessive.
