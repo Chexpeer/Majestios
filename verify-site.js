@@ -39,7 +39,7 @@ const rubricSearchPages = [
   "categorie-services-numeriques.html", "categorie-travaux-amenagement.html",
   "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html",
   "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html",
-  "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html"
+  "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html", "resultats-recherche.html"
 ];
 for (const page of rubricSearchPages) {
   assert(exists(page), "Recherche par rubrique : page absente : " + page);
