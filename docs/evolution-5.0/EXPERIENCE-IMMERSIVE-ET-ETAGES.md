@@ -32,9 +32,9 @@ Le panorama ne doit pas être une image figée simplement décorative. Il doit d
 
 L'ascenseur n'est pas un menu permanent obligatoire dans chaque page. Le concept décrit un ascenseur présent sur l'accueil, servant à sélectionner une destination. Les pages internes conservent des moyens simples de retour à l'accueil et de navigation contextuelle.
 
-## 4. Le dixième étage : moteur de recherche
+## 4. Le moteur de recherche transversal
 
-Le 10e étage est destiné au moteur de recherche transversal. Il s'agit d'un espace à part entière, pas seulement d'un champ posé sur la page d'accueil.
+Le moteur de recherche est une capacité transversale accessible depuis l’accueil et les pages de rubrique. Il ne constitue pas un neuvième ou un dixième étage : les huit destinations visibles d’Ambisios restent la référence spatiale.
 
 Le moteur doit conserver une logique de sélection progressive et cohérente avec les sources :
 - choix du type d'opportunité (public / privé lorsque pertinent) ;
@@ -105,7 +105,7 @@ Chaque visuel doit :
 - être optimisé en poids et formats ;
 - être validé par le porteur du projet avant intégration.
 
-Le 10e étage (Moteur de recherche) et le 9e étage (Réseau) ont reçu une première direction visuelle approuvée dans son principe ; le bleu doit être nuancé. Les autres étages restent à concevoir un par un, après validation de la nomenclature.
+Le moteur de recherche reste transversal et ne reçoit pas de numéro d’étage. Réseau fait partie des huit destinations visibles ; ses espaces intérieurs restent à concevoir et valider selon la direction artistique commune. Les autres étages restent à concevoir un par un, après validation de la nomenclature.
 
 ## 8. Harmonisation visuelle de l'ensemble du site et décors des étages
 
@@ -182,3 +182,18 @@ Comparer avant de choisir :
 - fonctionnement au clavier et réduction du mouvement ;
 - tests automatisés des correspondances étage → route ;
 - aucun changement des moteurs ou formulaires métier causé par le seul changement de présentation.
+
+
+## 10. Architecture visuelle effective — référence unique Ambisios
+
+Depuis le 4 novembre 2026, `Ambisios.webp` est l’unique fichier WebP conservé dans le dépôt V5. Les anciennes images WebP de l’accueil et des rubriques ont été supprimées. L’accueil référence cette image pour le panorama ; les trois fonds immersifs précédemment associés à des images distinctes réutilisent également `Ambisios.webp`.
+
+Conséquences :
+- aucune page ne doit référencer une ancienne image WebP supprimée ;
+- `site-files.json` ne doit contenir qu’une seule ressource `.webp`, `Ambisios.webp` ;
+- les contenus et interactions propres aux rubriques sont différenciés par le HTML et les composants, pas par des fichiers WebP autonomes ;
+- toute nouvelle image WebP devra faire l’objet d’un arbitrage explicite.
+
+La cible spatiale comporte huit destinations : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux, sans étage propre.
+
+**État de validation :** le remplacement des références et le nettoyage des fichiers sont enregistrés dans GitHub. La recette des coordonnées de clic, de l’ascenseur et de l’éclairage reste distincte et n’est pas déclarée terminée.
