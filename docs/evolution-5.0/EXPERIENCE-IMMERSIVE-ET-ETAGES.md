@@ -44,6 +44,22 @@ Le moteur doit conserver une logique de sélection progressive et cohérente ave
 
 Les catégories, sources, filtres et pages de résultats doivent être spécifiés dans le dossier fonctionnel du moteur. La catégorie Nettoyage reste à cadrer précisément. Les résultats sont traçables et ne doivent pas être présentés comme vérifiés si la source ne le garantit pas.
 
+### Moteur de recherche sur la page d'accueil — apparence et interaction à respecter
+
+Le moteur affiché sur l'accueil doit reprendre **exactement le principe visuel de la barre de recherche de l'image de référence** : un champ unique, compact, arrondi, avec une icône de loupe et un texte d'invitation du type « Rechercher sur le site ou dans vos données… ». Il doit rester extrêmement simple et discret, sans panneau de catégories affiché en permanence, sans succession de cartes, sans filtres visibles dès le départ et sans formulaire encombrant.
+
+**Ce sont les clics de l'utilisateur qui font apparaître les choix, progressivement.** Le comportement attendu est le suivant :
+
+1. État initial : seule la barre de recherche est visible.
+2. Premier clic dans la barre : afficher le premier choix nécessaire, notamment le type de recherche (marché public ou marché privé lorsque la recherche concerne les opportunités).
+3. Clic sur le type : afficher uniquement les catégories correspondantes.
+4. Clic sur une catégorie : afficher l'étape suivante pertinente, notamment le département.
+5. Les mots-clés et le lancement de la recherche restent accessibles dans ce parcours sans transformer la barre initiale en formulaire complexe.
+
+À chaque étape, ne montrer que les choix utiles à cette étape. Les choix précédents restent identifiables et modifiables. Le parcours doit être rapide, lisible et réversible ; un clic en dehors peut refermer les choix sans effacer une recherche déjà saisie. Les catégories proposées dépendent du type choisi et ne doivent jamais mélanger les catégories publiques et privées. Le comportement exact des recherches générales « sur le site » et « dans vos données » devra être raccordé au moteur transversal existant, sans inventer de catégories.
+
+L'interface doit rester fidèle à la sobriété de l'image de référence : **la complexité est dans le moteur et son orchestration, pas dans ce que l'utilisateur voit au premier regard.**
+
 ## 5. Ébauche de nomenclature — non validée
 
 Le premier visuel généré a proposé cette organisation de bas en haut :
