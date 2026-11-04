@@ -197,3 +197,13 @@ Conséquences :
 La cible spatiale comporte huit destinations : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux, sans étage propre.
 
 **État de validation :** le remplacement des références et le nettoyage des fichiers sont enregistrés dans GitHub. La recette des coordonnées de clic, de l’ascenseur et de l’éclairage reste distincte et n’est pas déclarée terminée.
+
+
+## 7. Fonds visuels dédiés aux rubriques
+
+Le panorama `Ambisios.webp` reste l'image de navigation de l'accueil. Les fonds ajoutés au dépôt sont conservés et affectés ainsi :
+- Développement commercial : `Développement-.webp` ;
+- Marchés publics : `Marché-Public-.webp` ;
+- Prospection : `Prospection-.webp`.
+
+Ces fonds ne remplacent pas le panorama et ne créent pas de nouvelles destinations. Ils sont déclarés dans `site-files.json` afin d'être inclus dans le build. Les contrastes, le recadrage et la lisibilité des contenus doivent être contrôlés sur desktop et mobile.
