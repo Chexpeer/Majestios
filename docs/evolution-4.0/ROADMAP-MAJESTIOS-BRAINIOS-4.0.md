@@ -219,46 +219,45 @@ MVP :
 
 ## 9. Phase 6 — BrainIOS côté administration
 
-**Objectif :** donner à l'administrateur un poste de pilotage de l'intelligence.
+**Objectif :** faire de l'espace admin le cockpit depuis lequel le porteur du projet pilote et fait évoluer MajestiOS avec BrainIOS, alimenté par une API OpenAI payante dédiée.
 
-Menu proposé :
-- Assistant ;
-- Surveillance ;
-- Rapports journaliers ;
-- Recommandations ;
-- Atelier de développement ;
-- Laboratoire de tests ;
-- Mémoire du projet.
+Menu et fonctions :
+- Assistant BrainIOS et contexte projet ;
+- vision, mémoire et décisions ;
+- demandes, backlog, lots et priorités ;
+- surveillance et rapports journaliers confidentiels ;
+- recommandations fonctionnelles, techniques et commerciales ;
+- état GitHub, tests et résultats ;
+- SEO et visibilité ;
+- paramètres IA non secrets, budgets et consommation API.
 
-### Traceur et rapports
-- définir une taxonomie d'événements utiles ;
-- collecter le minimum nécessaire ;
-- pseudonymiser les sessions ;
-- séparer événements techniques et métier ;
-- agréger les données ;
-- produire un rapport journalier confidentiel réservé à l'administrateur ;
-- gérer les erreurs et alertes ;
-- documenter conservation et accès.
+Lots :
+1. authentification admin et autorisations serveur ;
+2. backend BrainIOS et passerelle OpenAI ;
+3. conversation admin avec mémoire projet autorisée ;
+4. création de demandes, plans, tâches et décisions ;
+5. budgets, quotas, alertes et suivi des coûts ;
+6. rapports, surveillance et recommandations.
 
-**Critère de sortie :** l'administrateur voit des rapports fiables, utiles et minimisés, sans accès superflu aux conversations ou données personnelles.
+**Critère de sortie :** le porteur peut dialoguer avec BrainIOS depuis l'admin, retrouver la mémoire du projet, transformer une demande en plan de travail et suivre son état. La clé API reste côté serveur ; les coûts sont bornés et traçables.
 
-## 10. Phase 7 — Atelier de développement BrainIOS
+## 10. Phase 7 — Atelier d'évolution piloté depuis l'admin
 
-**Objectif :** faire de BrainIOS un développeur technique permanent, sous gouvernance.
+**Objectif :** permettre au porteur de faire réaliser les évolutions MajestiOS depuis l'espace admin, BrainIOS préparant les changements et contrôles dans un environnement isolé.
 
 Capacités par étapes :
-1. lire la documentation et le code autorisés ;
-2. rechercher les dépendances et routes ;
-3. diagnostiquer les anomalies ;
-4. proposer un plan de correction ;
-5. créer une branche isolée et préparer un diff ;
-6. lancer les tests autorisés ;
-7. fournir un rapport de résultat et les risques ;
-8. demander approbation avant toute fusion ou production.
+1. analyser la demande et l'état réel du dépôt ;
+2. retrouver les décisions, contraintes et travaux antérieurs ;
+3. identifier les fichiers, modules, dépendances et risques ;
+4. transformer la demande en lot et critères d'acceptation ;
+5. créer une branche isolée et préparer les modifications ;
+6. exécuter build, tests, SEO et contrôles anti-régression ;
+7. présenter les diffs, preuves, limites et risques dans l'admin ;
+8. recueillir la décision du porteur avant fusion ou production.
 
-L'atelier doit être séparé de la production, avec permissions minimales, secrets protégés, journalisation et environnement reproductible.
+L'atelier est relié à GitHub avec des permissions minimales. Les opérations sont historisées et réversibles autant que possible.
 
-**Critère de sortie :** BrainIOS peut préparer et tester un correctif dans un environnement contrôlé, mais ne peut pas contourner la validation humaine.
+**Critère de sortie :** une évolution demandée depuis l'admin peut être analysée, planifiée, préparée, testée et présentée. Aucune fusion ou mise en production n'est déclenchée sans autorisation distincte.
 
 ## 11. Phase 8 — Apprentissage et amélioration contrôlés
 
