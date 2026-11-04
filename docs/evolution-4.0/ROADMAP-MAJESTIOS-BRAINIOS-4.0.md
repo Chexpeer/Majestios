@@ -396,3 +396,33 @@ Faire de BrainIOS un pilote de veille et d'amélioration SEO continue pour Majes
 Ce volet peut commencer par un audit technique non intrusif dès que la base Git et les accès sont validés. Les connexions aux outils, la collecte analytique et les rapports récurrents dépendent du cadrage des accès, de la confidentialité et des pages légales. Il s'intègre à la phase 6 (BrainIOS administrateur), avant ou en parallèle de l'atelier de développement, mais ne doit pas retarder les fondations de sécurité et de données.
 
 **Extension future :** les méthodes validées pourront alimenter les offres de Réputation virtuelle, après définition d'un périmètre client, de droits distincts et de conditions contractuelles adaptées.
+
+
+## Addendum de roadmap — convergence vers un CRM nativement intelligent
+
+La roadmap initiale doit être relue à la lumière de l'orientation suivante : **MajestiOS est la marque et le produit unifiés ; le CRM devient progressivement une capacité native de l'intelligence MajestiOS, et non un simple module classique auquel on ajoute un assistant.**
+
+### Ajustement des phases
+
+- **Phase 0 — Contre-audit stratégique :** faire auditer explicitement le modèle CRM natif IA, la distinction entre offre commerciale CRM et CRM interne, la place de la Business Intelligence et le devenir du nom BrainIOS.
+- **Phase 1 — Modèle métier et frontières :** définir séparément les données du CRM interne MajestiOS, les données des espaces clients et les dossiers CRM des entreprises accompagnées. Définir les contrats d'intégration avec les CRM tiers.
+- **Phase 2 — Fondations :** prévoir un référentiel structuré, un historique d'événements, la provenance, les niveaux de confiance, les permissions, les journaux d'audit et les mécanismes de correction.
+- **Phase 3 — CRM fondamental :** livrer d'abord les objets métier et parcours essentiels (entreprises, établissements, contacts, relations, interactions, opportunités, tâches et résultats), sans dépendre d'une autonomie IA non éprouvée.
+- **Phase 4 — Assistance IA contrôlée :** ajouter progressivement recherche en langage naturel, synthèses sourcées, enrichissement proposé, qualification explicable, recommandations et préparation d'actions.
+- **Phase 5 — Business Intelligence :** exploiter les données autorisées et suffisamment fiables pour produire indicateurs, analyses, alertes et explications ; séparer clairement constat, corrélation, hypothèse et prédiction.
+- **Phase 6 — Orchestration MajestiOS :** coordonner les capacités IA, le moteur de recherche, la prospection, la réputation virtuelle, le CRM et la BI, avec permissions par outil et validation des actions sensibles.
+- **Phase 7 — Automatisation graduelle :** automatiser uniquement les tâches répétitives à faible risque et réversibles après mesure de qualité ; maintenir une approbation explicite pour les contacts externes, engagements, suppressions, changements d'accès et publications.
+- **Phase 8 — Écosystème CRM :** évaluer les intégrations avec des solutions existantes, y compris open source, et la possibilité d'accompagner des entreprises qui souhaitent adopter ou faire évoluer leur propre CRM.
+
+### Critères de passage obligatoires
+
+1. Une donnée créée ou enrichie par l'IA est traçable, datée, attribuée à une source et révisable.
+2. Les permissions sont vérifiées côté serveur pour chaque lecture et chaque action.
+3. Les recommandations sont évaluées sur des scénarios métier représentatifs et peuvent être refusées.
+4. Les actions externes sont préparées mais non exécutées sans autorisation appropriée.
+5. Les métriques BI sont définies, documentées et reproductibles.
+6. La séparation entre CRM interne, espaces clients et données des entreprises accompagnées est démontrée par des tests négatifs.
+7. L'intégration d'un CRM tiers ne provoque pas de duplication incontrôlée ni de transfert implicite de données.
+
+Les intitulés BrainIOS de la roadmap sont provisoires : ils devront être harmonisés après arbitrage de marque et d'architecture. Il ne faut pas renommer en masse le code ou les fichiers pendant la phase de consultation.
+
