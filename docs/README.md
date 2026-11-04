@@ -62,7 +62,7 @@ La V5 est la branche de travail active. La branche `evolution-3.0` est conservé
 - Périmètre BODACC et catégories privées, à harmoniser entre décisions métier, catalogue et tests.
 - Catégories BOAMP après mesure des volumes et validation.
 - Circuits distincts entre publication, CRM, veille et prospection.
-- Périmètre de MajestiOS V.5, mémoire, assistants et rôle éventuel de BrainIOS : ne pas figer ce dernier sans arbitrage explicite.
+- Périmètre de MajestiOS V.5, mémoire, assistants et orchestration : BrainIOS est l'ancien nom de MajestiOS V.5, pas un projet séparé. Les idées et travaux utiles de l'historique BrainIOS sont à intégrer dans le périmètre V.5.
 - Architecture backend, identité, cloisonnement, stockage, coûts et intégrations.
 - SEO : audit continu, veille des moteurs, recommandations et validation des changements.
 
