@@ -32,12 +32,22 @@ assert(exists("build.js"), "Build absent");
 assert(exists("catalogue-majestios.js"), "Catalogue partagé absent");
 assert(exists("app.js"), "Moteur de recherche absent");
 
-const buildSource = read("build.js");
-const manifestMatch = buildSource.match(/const siteFiles = \[([\s\S]*?)\];/);
-const siteFiles = manifestMatch ? [...manifestMatch[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]) : [];
-assert(Boolean(manifestMatch), "Build : manifeste siteFiles introuvable");
-assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqués dans le manifeste");
-for (const file of siteFiles) assert(exists(file), "Build : ressource déclarée absente : " + file);
+let siteFiles = [];
+try {
+  const manifest = JSON.parse(read("site-files.json"));
+  assert(manifest.version === 1, "Build : version de manifeste non prise en charge");
+  siteFiles = Array.isArray(manifest.files) ? manifest.files : [];
+} catch (error) {
+  errors.push("Build : site-files.json absent ou invalide : " + error.message);
+}
+assert(siteFiles.length > 0, "Build : manifeste des ressources vide");
+assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqués dans site-files.json");
+for (const file of siteFiles) {
+  assert(typeof file === "string" && file.trim().length > 0, "Build : chemin vide ou invalide dans le manifeste");
+  if (typeof file !== "string" || !file.trim()) continue;
+  assert(!path.posix.isAbsolute(file) && !file.replace(/\\\\/g, "/").split("/").includes(".."), "Build : chemin interdit : " + file);
+  assert(exists(file) && fs.statSync(path.join(root, file)).isFile(), "Build : ressource déclarée absente ou non-fichier : " + file);
+}
 assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentation Markdown ne doit pas être publiée avec le site");
 
 const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
