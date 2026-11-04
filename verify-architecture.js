@@ -78,11 +78,11 @@ const expectedDestinations = [
   ["Réputation virtuelle","reputation-virtuelle.html"],
   ["Accueil","index.html"]
 ];
-const destinationBlock = home.match(/const destinations = \[([\\s\\S]*?)\\n        \];/);
+const destinationBlock = home.match(/const destinations = \[([\s\S]*?)\n        \];/);
 if (!destinationBlock) {
   errors.push("Accueil : catalogue des huit destinations introuvable");
 } else {
-  const destinations = [...destinationBlock[1].matchAll(/\{id:"(\\d{2})",name:"([^"]+)",href:"([^"]+)",x:(\\d+),y:(\\d+),width:(\\d+),height:(\\d+)\}/g)]
+  const destinations = [...destinationBlock[1].matchAll(/\{id:"(\d{2})",name:"([^"]+)",href:"([^"]+)",x:(\d+),y:(\d+),width:(\d+),height:(\d+)\}/g)]
     .map(match => ({id:match[1],name:match[2],href:match[3],x:Number(match[4]),y:Number(match[5]),width:Number(match[6]),height:Number(match[7])}));
   assert(destinations.length===8,"Accueil : exactement huit destinations doivent être définies");
   assert(destinations.every((item,index)=>item.name===expectedDestinations[index][0] && item.href===expectedDestinations[index][1]),
