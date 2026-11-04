@@ -28,11 +28,11 @@
   const params = new URLSearchParams(window.location.search);
   const query = (params.get("q") || "").trim();
   const market = params.get("marche") || "all";
-  const region = params.get("zone") || "all";
+  const department = params.get("departement") || "all";
   const marketTypes = catalogue.marketTypes || [];
-  const searchRegions = catalogue.searchRegions || [];
+  const departments = catalogue.searchDepartments || [];
   const marketLabels = Object.fromEntries(marketTypes.map((item) => [item.value, item.label]));
-  const regionLabels = Object.fromEntries(searchRegions.map((item) => [item.value, item.label]));
+  const departmentLabels = Object.fromEntries(departments.map((item) => [item.value, item.value + " · " + item.label]));
 
 
   const heading = card.querySelector("#category-results-title");
@@ -63,7 +63,7 @@
   addCriterion("Catégorie", definition.label);
   addCriterion("Mots-clés", query || "Aucun mot-clé précisé");
   addCriterion("Type de marché", marketLabels[market] || "Publics et privés");
-  addCriterion("Localisation", regionLabels[region] || region);
+  addCriterion("Département", departmentLabels[department] || (department === "all" ? "Tous les départements" : department));
   panel.append(criteria);
 
   const empty = document.createElement("p");
