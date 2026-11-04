@@ -51,11 +51,20 @@ assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentati
 const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
 for (const page of htmlPages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
 for (const asset of [
-  "styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
+  "styles.css", "app.js", "site-navigation.js", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
   "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
   "company-targeting.js", "company-targeting-page.js", "company-fit.js"
 ]) assert(siteFiles.includes(asset), "Build : ressource requise absente du manifeste : " + asset);
+
+for (const page of htmlPages) {
+  const html = read(page);
+  assert(html.includes('src="site-navigation.js"'), page + " : module de navigation partagée non chargé");
+}
+const app = read("app.js");
+assert(!app.includes("menuToggle") && !app.includes("site-nav"), "Navigation : ancien gestionnaire encore présent dans app.js");
+const navigation = read("site-navigation.js");
+assert(navigation.includes("Escape") && navigation.includes("aria-expanded"), "Navigation : fermeture clavier ou état ARIA absent");
 
 const home = read("index.html");
 assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
