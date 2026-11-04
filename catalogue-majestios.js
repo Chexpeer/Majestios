@@ -14,6 +14,7 @@
     { value: "electricite", label: "Électricité", active: true, href: "categorie-electricite.html" },
     { value: "plomberie", label: "Plomberie & chauffage", active: true, href: "categorie-plomberie-chauffage.html" },
     { value: "maintenance", label: "Maintenance & exploitation", active: true, href: "categorie-maintenance.html" },
+    { value: "nettoyage", label: "Nettoyage", active: true },
     { value: "fournitures", label: "Fournitures & équipements", planned: true },
     { value: "btp", label: "BTP : lots techniques et second œuvre", planned: true },
     { value: "logistique", label: "Transport & logistique", planned: true },
