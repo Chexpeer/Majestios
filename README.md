@@ -109,7 +109,8 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 - `*.js` : interactions, recherche, catalogue et modules métier ;
 - `tests/` : tests unitaires, d’intégration et navigateur ;
 - `verify-site.js`, `verify-architecture.js` : contrôles de cohérence ;
-- `build.js` : construction du site statique ;
+- `site-files.json` : manifeste unique des fichiers publiés dans `dist/` ;
+- `build.js` : construction du site statique à partir du manifeste ;
 - `vercel.json` : configuration de déploiement ;
 - `.github/workflows/` : automatisation des contrôles.
 
