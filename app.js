@@ -246,7 +246,7 @@ if (initialMarketType) {
   revealStep(searchSteps.market);
   revealStep(searchSteps.category);
 }
-if (initialParams.has("categorie") || initialParams.has("departement") || initialParams.has("zone")) {
+if (initialSearchParams.has("categorie") || initialSearchParams.has("departement") || initialSearchParams.has("zone")) {
   revealStep(searchSteps.department);
 }
 
