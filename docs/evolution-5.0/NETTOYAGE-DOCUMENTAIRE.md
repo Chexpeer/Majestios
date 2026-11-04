@@ -56,7 +56,7 @@ La documentation V5 est le point d'entrée actif. Le nettoyage vise à réduire 
 
 ## 7. Première passe de nettoyage
 
-La première passe est non destructive : inventorier, corriger les index et contradictions factuelles, établir les dépendances et préparer le plan de retrait. Une suppression ne devient admissible qu'après preuve qu'un élément est obsolète, sans dépendance ni valeur métier, et après validation du plan par le fondateur.
+La première passe privilégie l'inventaire et la conservation. Une exception de nettoyage a été réalisée après vérification des dépendances : `shared-search.css`, absent du manifeste et non référencé par les 32 pages HTML ni les feuilles de style/scripts actifs, a été retiré. Le formulaire statique de recherche en doublon de `developpement-commercial.html` a également été retiré au profit du moteur commun par rubrique. Pour les prochaines suppressions, exiger une preuve d'obsolescence, l'absence de dépendance et de valeur métier, puis consigner la justification dans l'audit. Le manifeste `site-files.json` couvre actuellement les 32 pages HTML et toutes ses 51 entrées correspondent à des fichiers présents.
 
 ## 8. Livrables attendus
 
