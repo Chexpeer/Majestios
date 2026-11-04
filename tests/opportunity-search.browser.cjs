@@ -273,6 +273,9 @@ async function main() {
     await page.getByRole("heading", { name: "Prestations de nettoyage des locaux et propreté" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "Le filtre Nettoyage doit isoler les annonces de propreté.");
     assert.match(await page.locator("#search-active-filters").innerText(), /Nettoyage & propreté/);
+    assert.equal(await page.locator("#advanced-search-form").count(), 1, "La page de résultats doit aussi proposer le moteur commun pour affiner les critères.");
+    assert.equal(await page.locator("#feed-market-type").count(), 1, "La page de résultats doit réutiliser le champ public/privé commun.");
+    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
     await page.locator("#feed-search").focus();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
