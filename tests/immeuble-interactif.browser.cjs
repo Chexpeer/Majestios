@@ -88,7 +88,7 @@ async function main() {
         page.waitForURL(url=>url.pathname.endsWith("/"+item.route),{timeout:10000}),
         page.mouse.click(box.x+(x+w/2)/943*box.width,box.y+(y+h/2)/1387*box.height)
       ]);
-      assert.ok(page.url().endsWith("/"+item.route),"Le clic sur "+item.name+" doit ouvrir "+item.route);
+      assert.ok(new URL(page.url()).pathname.endsWith("/"+item.route),"Le clic sur "+item.name+" doit ouvrir "+item.route);
     }
     assert.deepEqual(errors,[],"Aucune erreur JavaScript n’est attendue sur l’accueil.");
     console.log("TEST NAVIGATEUR RÉUSSI : huit destinations Ambisios, liens directs et zones testées en desktop et mobile.");
