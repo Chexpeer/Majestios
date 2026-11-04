@@ -15,13 +15,14 @@ Ce dossier constitue la référence de cadrage et de suivi de l'évolution 4.0. 
 ## Référence de code
 
 - Socle de départ : `evolution-3.0`.
-- Branche de développement active : `evolution-4.0`.
+- Branche de référence 4.0 : `evolution-4.0`.
+- Branche isolée du prototype back-office : `foundation-backoffice-4.0` (7 commits propres au chantier, non fusionnés).
 - Les PR héritées ne sont ni fusionnées ni retargetées sans cartographie.
 - Aucun déploiement en production n'a été effectué.
 
 ## Statut
 
-La version 4.0 est engagée. Un premier prototype ergonomique du cockpit admin est isolé dans `admin/` et exclu du build public ; il ne comporte encore aucun service connecté. La vision du porteur du projet guide les choix produit ; les observations techniques externes sont traitées comme des contrôles d'ingénierie. L'espace admin et BrainIOS constituent le poste de pilotage des évolutions à venir.
+La version 4.0 est engagée. Le prototype ergonomique du cockpit admin est isolé dans `admin/`, sur `foundation-backoffice-4.0`, et exclu du build public ; il ne comporte encore aucun service connecté. Cette branche est un chantier préparatoire, pas un remplacement de la branche de référence. La suite doit suivre la feuille de route d'exécution actualisée. La vision du porteur du projet guide les choix produit ; les observations techniques externes sont traitées comme des contrôles d'ingénierie. L'espace admin et BrainIOS constituent le poste de pilotage des évolutions à venir.
 
 Le porteur du projet pilotera les évolutions depuis l'espace admin. BrainIOS utilisera une API OpenAI payante dédiée, appelée côté serveur avec une clé conservée dans les secrets d'environnement. Les budgets et coûts API seront suivis séparément de l'abonnement ChatGPT.
 
