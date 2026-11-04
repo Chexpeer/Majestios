@@ -124,7 +124,17 @@ Découpage logique proposé :
 
 Les modules partagent des contrats explicites ; aucun module ne lit ou ne modifie directement les données privées d'un autre domaine. L'extraction future d'un service indépendant ne sera envisagée qu'en présence d'un besoin mesuré.
 
-## 7. Plan d'action priorisé
+## 7. Avancement opérationnel au 4 novembre 2026
+
+### Lot 1A — Manifeste central des ressources : réalisé et contrôlé
+
+La V5 dispose désormais d'un fichier `site-files.json` (version 1) qui centralise les 51 pages et ressources actuellement publiées. `build.js` lit ce manifeste, contrôle les chemins, les doublons, les fichiers sources et les fichiers Markdown, puis vérifie l'intégrité des copies dans `dist/`. Les contrôles `verify-architecture.js` et `verify-site.js` lisent le même manifeste : il n'existe donc plus trois listes indépendantes à synchroniser.
+
+**Validation GitHub Actions : réussie** sur le commit `f7d4c924f887e3c418284fcf3ce83dc8f7174685`. Les étapes exécutées avec succès comprennent syntaxe JavaScript, tests ciblage/qualification/APE-NAF, build, architecture, liens locaux/identifiants, tests navigateur Playwright de l'immeuble et du moteur de recherche, ainsi que les smoke tests BOAMP et BODACC. Cette réussite valide les contrôles automatisés de ce workflow sur ce commit ; elle ne vaut pas recette complète de tous les parcours métier ni validation de production.
+
+### Point de vigilance découvert — catalogue des étages
+
+Le code actuel contient dix entrées de catalogue, mais ne génère que neuf zones cliquables sur la photo. La correspondance des zones saute l'entrée CRM (B09) et affiche l'entrée Business Intelligence (B10) sous un libellé combiné « IA & Business Intelligence ». La séparation CRM / Business Intelligence et leur emplacement exact doivent être arbitrés avant d'externaliser le catalogue. La PR #33 ne sera donc pas reprise telle quelle : elle introduit notamment des dossiers non présents et un dialogue intermédiaire qui ne correspond pas au parcours direct attendu.
 
 ### Lot 0 — Sécuriser et inventorier
 - conserver V3 et V4 intactes ;
