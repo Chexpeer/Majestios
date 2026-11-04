@@ -51,6 +51,9 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 
 ### Phase 4 — Socle applicatif sécurisé
 - backend, identité, permissions, stockage et journalisation ;
+- formulaires réels de contact, qualification de demande et création d'espace membre, avec consentement, validation et traçabilité ;
+- formulaire « Nous rejoindre » avec dépôt sécurisé de CV, contrôle des formats, limites de taille, accès restreints et politique de conservation ;
+- assistant conversationnel d'accueil capable d'orienter le visiteur et de préparer le formulaire adapté, sans envoyer de demande ni contacter un tiers sans validation ;
 - gestion des secrets, sauvegardes et restauration ;
 - environnements séparés et CI ;
 - observabilité, limites de coûts et protection anti-abus.
