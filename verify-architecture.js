@@ -17,8 +17,6 @@ function walk(directory, relative = "") {
 }
 
 const files = walk(root);
-// La documentation Markdown est autorisée uniquement dans docs/, avec README.md et AGENTS.md à la racine.
-// Elle ne doit jamais être publiée avec le site : le build ne copie que les fichiers de son manifeste.
 const markdownAllowed = (file) => {
   const normalized = file.split(path.sep).join("/");
   return normalized === "README.md" || normalized === "AGENTS.md" || normalized.startsWith("docs/");
@@ -29,15 +27,25 @@ assert(exists("README.md"), "README.md absent : guide de démarrage attendu");
 
 assert(exists("index.html"), "Accueil absent");
 assert(exists("build.js"), "Build absent");
+assert(exists("site-files.json"), "Manifeste centralisé absent");
 assert(exists("catalogue-majestios.js"), "Catalogue partagé absent");
 assert(exists("app.js"), "Moteur de recherche absent");
 
-const buildSource = read("build.js");
-const manifestMatch = buildSource.match(/const siteFiles = \[([\s\S]*?)\];/);
-const siteFiles = manifestMatch ? [...manifestMatch[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]) : [];
-assert(Boolean(manifestMatch), "Build : manifeste siteFiles introuvable");
+let siteFiles = [];
+try {
+  const manifest = JSON.parse(read("site-files.json"));
+  siteFiles = Array.isArray(manifest.files) ? manifest.files : [];
+} catch (error) {
+  errors.push("Manifeste site-files.json invalide : " + error.message);
+}
+assert(siteFiles.length > 0, "Build : manifeste des ressources vide");
 assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqués dans le manifeste");
-for (const file of siteFiles) assert(exists(file), "Build : ressource déclarée absente : " + file);
+for (const file of siteFiles) {
+  assert(typeof file === "string" && file.length > 0, "Build : chemin vide ou invalide dans le manifeste");
+  if (typeof file !== "string" || !file) continue;
+  assert(!path.posix.isAbsolute(file) && !file.split(/[\\/]/).includes(".."), "Build : chemin interdit : " + file);
+  assert(exists(file), "Build : ressource déclarée absente : " + file);
+}
 assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentation Markdown ne doit pas être publiée avec le site");
 
 const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
