@@ -73,3 +73,11 @@ Les intégrations de fournisseurs IA sont également isolées. Les secrets sont 
 ## 8. Conditions avant données réelles
 
 Aucune conversation sensible, donnée CRM client ou donnée personnelle à grande échelle ne doit être collectée avant validation de l'identité, des autorisations, des finalités, de la conservation, du cloisonnement, de la sécurité, des contrats fournisseurs et du processus de suppression.
+
+## Moteur de recherche transversal — composant unique
+
+Le moteur de recherche est un composant transversal unique. La page d’accueil constitue la référence fonctionnelle et visuelle. Toutes les pages de rubrique réutilisent le même formulaire, les mêmes identifiants de champs, les mêmes interactions, le même catalogue de catégories et de départements, le même traitement de soumission et le même habillage. Aucun moteur local ou formulaire alternatif ne doit être créé par rubrique.
+
+Le parcours est identique partout : (1) saisie du mot-clé ; (2) révélation du type de marché au focus ; (3) révélation des catégories adaptées au type choisi ; (4) révélation du département après le choix de catégorie ; (5) soumission vers les résultats dédiés. Le contexte de la rubrique peut guider le texte d’introduction, mais ne verrouille pas le type de marché et ne modifie pas le parcours commun.
+
+Critères d’acceptation : mêmes champs et identifiants sur l’accueil et les rubriques ; mêmes étapes progressives ; mêmes catégories publiques BOAMP et privées BODACC/immobilier/emploi/sous-traitance ; mêmes départements ; mêmes règles de sources connectées ou à connecter ; mêmes paramètres transmis aux pages de résultats ; contrôles navigateur sur plusieurs rubriques desktop et mobile. Toute évolution du moteur doit être faite une fois dans le composant commun, puis vérifiée sur toutes les destinations.
