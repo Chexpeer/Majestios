@@ -6,10 +6,10 @@
   const catalogue = window.MAJESTIOS_CATALOG || {};
   const category = params.get("categorie") || "all";
   const market = params.get("marche") || "all";
-  const region = params.get("zone") || "all";
+  const department = params.get("departement") || "all";
   const categories = catalogue.searchCategories || [];
   const markets = catalogue.marketTypes || [];
-  const regions = catalogue.searchRegions || [];
+  const departments = catalogue.searchDepartments || [];
   const privateCategories = catalogue.privateSearchCategories || [];
   const findLabel = (items, value, fallback) => items.find((item) => item.value === value)?.label || fallback;
   const categoryLabel = findLabel(categories, category, findLabel(privateCategories, category, category));
@@ -17,7 +17,7 @@
     ["Mots-clés", (params.get("q") || "").trim() || "Aucun mot-clé précisé"],
     ["Catégorie", categoryLabel],
     ["Type de marché", findLabel(markets, market, market)],
-    ["Localisation", findLabel(regions, region, region)]
+    ["Département", findLabel(departments, department, department)]
   ];
   for (const [label, value] of criteria) {
     const term = document.createElement("dt");
@@ -31,6 +31,8 @@
   const returnLink = document.querySelector('a.button-primary[href^="index.html"]');
   if (returnLink) {
     const returnParams = new URLSearchParams(params);
+    if (returnParams.has("zone") && !returnParams.has("departement")) returnParams.set("departement", returnParams.get("zone"));
+    returnParams.delete("zone");
     returnLink.href = `index.html${returnParams.size ? `?${returnParams.toString()}` : ""}#recherche-avancee`;
   }
 
