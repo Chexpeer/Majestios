@@ -17,6 +17,8 @@ La V5 doit associer une expérience immersive, un développement commercial inte
 
 ## Documents de ce dossier
 
+0. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats V3/V4/V5, revue des PR de modularisation et lots proposés.
+
 1. [Vision fondatrice](VISION-FONDATRICE.md) — promesse, doctrine et principes.
 2. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — panorama, ascenseur, étages et navigation.
 3. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — rôles spécialisés, orchestration, proactivité, apprentissage contrôlé et gouvernance.
