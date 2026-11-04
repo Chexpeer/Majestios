@@ -92,6 +92,8 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 
 ### Phase 8 — Réputation virtuelle, réseau, salons et séminaires
 - cadrer les sources, API, identités d'établissement, avis et conditions ;
+- concevoir le parcours déclenché par un signal BODACC de création : croiser activité et adresse, vérifier la présence de l'établissement sur Google Maps et les informations/avis publics accessibles par des moyens autorisés ;
+- si la présence est absente ou insuffisante, qualifier une opportunité d'accompagnement visibilité et préparer une prise de contact soumise à validation humaine ; aucune sollicitation automatique par défaut ;
 - définir les fonctions réseau et événementielles ;
 - tester les parcours de mise en relation ;
 - mesurer qualité et valeur métier.
@@ -100,6 +102,8 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 
 ### Phase 9 — SEO, amélioration continue et stabilisation
 - SEO technique, indexation, contenu et mesure ;
+- surveiller en continu les évolutions des moteurs et des expériences de recherche classiques et génératives ;
+- réaliser des audits récurrents, détecter les régressions et préparer des recommandations priorisées pour maintenir MajestiOS à niveau ;
 - recommandations préparées et validées par le cockpit d'administration IA ;
 - automatisation limitée aux tâches réversibles préautorisées ;
 - évaluation continue des modèles et parcours ;
