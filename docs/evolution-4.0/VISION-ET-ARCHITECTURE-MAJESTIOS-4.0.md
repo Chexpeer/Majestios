@@ -1,7 +1,7 @@
 # Vision et architecture cible — MajestiOS 4.0
 
 **Date :** 4 novembre 2026  
-**Statut :** vision produit consolidée et architecture cible à soumettre au contre-audit des IA ; non implémentée et non définitivement arbitrée.  
+**Statut :** vision produit 4.0 en cours de réalisation ; l'espace d'administration est le poste de pilotage depuis lequel le porteur du projet fait évoluer MajestiOS avec BrainIOS.  
 **Référence d'état réel :** `AUDIT-MAJESTIOS-3.0.md`.
 
 ## 1. Ambition
@@ -113,7 +113,49 @@ Un menu BrainIOS dans l'interface d'administration est proposé, avec les espace
 6. **Laboratoire de tests** : tests automatisés, scénarios navigateur, contrôles de liens et anti-régression.
 7. **Mémoire du projet** : décisions, architecture, contrats, changements, preuves et état des lots.
 
-Cette interface peut être intégrée au back-office MajestiOS ; un site indépendant BrainIOS n'est pas une exigence initiale.
+Cette interface est intégrée à l'espace d'administration MajestiOS. Elle constitue le poste de pilotage principal du porteur du projet : l'évolution de MajestiOS doit pouvoir être conduite depuis cet espace, en dialoguant avec BrainIOS, en formulant des demandes, en choisissant les priorités, en examinant les propositions et en suivant les résultats.
+
+L'espace admin ne se limite donc pas à gérer des comptes et des paramètres. Il devient l'atelier de pilotage et d'évolution du produit. Le porteur du projet doit pouvoir demander une évolution fonctionnelle ou technique en langage naturel, joindre des éléments de contexte, faire analyser l'existant, recevoir un plan d'action, suivre les modifications préparées et consulter les tests avant de décider de leur mise en service.
+
+#### C2.1. Moteur IA BrainIOS — API OpenAI payante
+
+BrainIOS utilisera l'API OpenAI avec une clé API dédiée au fonctionnement applicatif de MajestiOS. Le modèle et les capacités appelées seront configurables côté serveur, sans figer le fournisseur ou le modèle dans le code métier.
+
+Principes :
+- clé API dédiée à l'application ou à son projet OpenAI, idéalement portée par un compte de service ;
+- clé conservée exclusivement dans les secrets d'environnement du backend / de la plateforme d'hébergement ;
+- aucun affichage, stockage en clair ou transmission de la clé dans le navigateur, l'espace admin, la base métier, les logs ou GitHub ;
+- les appels au modèle passent par un service serveur BrainIOS, jamais directement depuis le navigateur ;
+- choix du modèle, limites de contexte, plafonds de tokens, délais, quotas et budgets configurables ;
+- journalisation des coûts estimés, volumes, modèles, durées, erreurs et identifiants de requête, sans conserver les secrets ni les données sensibles inutiles ;
+- seuils d'alerte et coupure contrôlée en cas de dépassement du budget applicatif ;
+- gestion des erreurs, limites de débit, reprises bornées et mode dégradé ;
+- possibilité de remplacer ou faire évoluer le modèle sans refondre les modules métier.
+
+La clé API n'est pas un paramètre ordinaire que l'administrateur saisit dans un formulaire web. Son installation et sa rotation relèvent de la configuration sécurisée du serveur. L'espace admin peut indiquer si le service est configuré, afficher son état de santé et ses métriques, mais jamais révéler la clé.
+
+**Facturation :** l'usage de l'API OpenAI est facturé séparément de l'abonnement ChatGPT, selon le compte API, les modèles et les volumes utilisés. Le budget API devra donc être activé et surveillé indépendamment.
+
+#### C2.2. L'espace admin comme cockpit d'évolution de MajestiOS
+
+Le cockpit BrainIOS doit progressivement permettre au porteur du projet de :
+
+1. **Dialoguer et donner des instructions** : décrire une idée, un besoin, une correction ou une nouvelle fonctionnalité.
+2. **Conserver la vision** : consulter et mettre à jour les décisions, la doctrine, les priorités, les documents de référence et le vocabulaire.
+3. **Faire analyser MajestiOS** : demander un audit ciblé du code, des pages, des liens, des données, des parcours, du SEO ou des performances.
+4. **Transformer une demande en travail** : obtenir un diagnostic, les fichiers concernés, les dépendances, un plan par lots et des critères d'acceptation.
+5. **Piloter les développements** : suivre les tâches, branches, commits, pull requests, tests, erreurs et résultats.
+6. **Faire évoluer les contenus et paramètres** : gérer les éléments éditoriaux, taxonomies, règles métier et configurations autorisées depuis l'admin.
+7. **Piloter le SEO** : consulter les audits, tendances, alertes et recommandations ; approuver les modifications de contenu, métadonnées, liens et routes.
+8. **Suivre les coûts IA** : visualiser consommation, budgets, alertes et évolution des appels API.
+9. **Valider les changements** : examiner les diffs, prévisualisations, tests et risques avant toute mise en service.
+
+Le parcours de développement piloté depuis l'admin est :
+**Demande → Analyse du contexte → Proposition de solution → Découpage en tâches → Approbation du lot → Exécution isolée → Tests → Présentation du résultat → Validation de mise en service.**
+
+Les demandes et décisions sont conservées dans une mémoire de projet versionnée. BrainIOS doit retrouver la vision et l'état des travaux avant de proposer une modification, afin d'éviter les régressions et les répétitions.
+
+Le porteur du projet garde le contrôle des priorités et des validations. Les opérations destructrices, les modifications de permissions, les migrations de données, les fusions et les déploiements ne sont jamais déclenchés implicitement par une simple conversation.
 
 #### C3. Intelligence commune, séparation des droits
 
@@ -152,7 +194,8 @@ Cette couche comprend :
 - audit et traçabilité ;
 - notifications ;
 - observabilité et sauvegardes ;
-- connecteurs IA et outils de développement.
+- connecteurs IA et outils de développement ;
+- passerelle serveur vers l'API OpenAI, gestion des quotas et suivi des coûts.
 
 Elle doit assurer la provenance, la finalité, le consentement ou autre base applicable, les droits d'accès, la rétention et la suppression.
 
@@ -226,6 +269,7 @@ L'audit 3.0 recommande d'étudier un **monolithe modulaire** plutôt que des mic
 10. Corpus de connaissances BrainIOS.
 11. Conversations et interactions IA.
 12. Atelier de développement et résultats de tests.
+13. Configuration BrainIOS non secrète, budgets et métriques d'utilisation IA.
 
 La séparation doit être appliquée par permissions, relations de propriété, règles de rétention et tests négatifs ; elle ne repose pas uniquement sur l'interface.
 
@@ -295,6 +339,9 @@ Il doit privilégier les agrégats et éviter d'exposer les messages bruts ou le
 | Action | Autonomie envisagée |
 |---|---|
 | Lire la documentation et les fichiers autorisés | Oui, dans le périmètre de ses droits |
+| Répondre à l'administrateur via l'API OpenAI | Oui, selon les budgets, quotas et permissions configurés |
+| Préparer un plan d'évolution depuis une instruction admin | Oui, proposition à examiner |
+| Modifier des contenus et paramètres explicitement autorisés | Oui, avec historique et possibilité de retour arrière |
 | Analyser les logs et tests autorisés | Oui, avec minimisation des données |
 | Détecter une anomalie et proposer une cause | Oui, avec niveau de confiance et preuves |
 | Proposer une amélioration produit ou technique | Oui |
@@ -335,7 +382,42 @@ Les pages légales actuelles sont des gabarits incomplets : elles devront être 
 - Les noms et l'ordre du catalogue doivent être cohérents avec la taxonomie réelle.
 - Les pages doivent distinguer clairement les fonctions disponibles, les prototypes et les fonctions à venir.
 
-## 10. Décisions ouvertes pour le contre-audit
+## 10. Pilotage de l'évolution depuis l'espace admin
+
+L'espace d'administration est l'interface de commande du projet. Le porteur du projet n'a pas à modifier le code pour chaque évolution : il exprime l'objectif dans BrainIOS, puis suit un processus lisible et contrôlé.
+
+Les demandes sont classées par nature :
+- **Contenu** : textes, pages éditoriales, FAQ, slogans, ressources.
+- **Configuration métier** : catégories, sources activées, règles de qualification, paramètres de recherche.
+- **Évolution fonctionnelle** : nouveaux parcours, rubriques, formulaires, modules.
+- **Évolution technique** : architecture, API, données, performances, sécurité, intégrations.
+- **Visibilité** : SEO, indexation, données structurées, maillage interne et suivi de présence dans les moteurs.
+
+Chaque demande devient un dossier de travail avec identifiant, objectif, contexte, priorité, périmètre, dépendances, fichiers ou données concernés, critères de réussite, état, décisions et historique.
+
+L'espace admin doit présenter au minimum :
+- conversation BrainIOS et contexte projet ;
+- backlog et priorités ;
+- vision et mémoire documentaire ;
+- demandes et plans de travail ;
+- aperçu des changements préparés ;
+- état GitHub et des workflows ;
+- rapports de tests et anti-régression ;
+- surveillance, rapports journaliers et alertes ;
+- tableau de bord SEO ;
+- configuration non secrète du moteur IA et suivi de consommation.
+
+Les opérations sont séparées par niveau :
+- lecture et diagnostic ;
+- proposition et planification ;
+- modification de contenu/configuration réversible ;
+- modification de code sur branche isolée ;
+- approbation d'une PR ;
+- mise en service.
+
+Le porteur du projet peut autoriser les niveaux progressivement. Le cockpit ne doit jamais confondre « demander une évolution », « l'implémenter », « la fusionner » et « la déployer ».
+
+## 11. Décisions ouvertes pour le contre-audit
 
 Les IA consultées doivent répondre explicitement à ces questions :
 
@@ -350,7 +432,7 @@ Les IA consultées doivent répondre explicitement à ces questions :
 9. Comment concevoir un BrainIOS qui prépare du code et des tests tout en restant sous contrôle ?
 10. Quels risques, coûts, dépendances ou complexités sont sous-estimés ?
 
-## 11. Critères de réussite de la vision 4.0
+## 12. Critères de réussite de la vision 4.0
 
 La vision ne sera considérée suffisamment cadrée que si :
 - chaque domaine a une responsabilité et des frontières définies ;
