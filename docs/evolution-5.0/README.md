@@ -1,6 +1,6 @@
 # MajestiOS 5.0 — dossier de référence
 
-**Statut :** cadrage initial — aucune architecture technique ni nomenclature d'étages n'est définitivement validée.  
+**Statut :** architecture fonctionnelle V5 en évolution ; les huit destinations visibles d’Ambisios constituent la référence de travail, sous réserve de validation finale des zones cliquables et des routes.  
 **Branche de travail :** `evolution-5.0`  
 **Base :** branche `evolution-3.0`, conservée comme patrimoine de référence.  
 **Évolution 4.0 :** mise en standby ; ses documents sont des sources à examiner, pas des décisions automatiquement reprises.
@@ -46,4 +46,14 @@ La V5 est construite sur une branche indépendante. La branche `evolution-3.0` n
 
 ## Statut des décisions
 
-Les intitulés des dix étages aperçus dans les visuels sont provisoires. L'organisation finale doit être confrontée à l'arborescence réelle et aux fonctionnalités utiles de la 3.0. Le principe « le schéma reflète l'arborescence » demeure non négociable.
+L’image de référence unique est `Ambisios.webp`. Les huit destinations visibles sont Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux : ils ne constituent pas des étages supplémentaires. Le principe « le schéma reflète l’arborescence » demeure non négociable.
+
+
+## Mise à jour d’architecture — 4 novembre 2026
+
+- `Ambisios.webp` est l’unique ressource WebP conservée dans le dépôt et le manifeste de publication.
+- L’accueil et les fonds des espaces immersifs réutilisent cette image unique ; aucune image WebP métier distincte n’est prévue dans l’architecture actuelle.
+- Les destinations visibles sont limitées aux huit intitulés de référence. Les fonctions transversales ne doivent pas devenir des étages supplémentaires.
+- Les anciennes images WebP ont été supprimées de `evolution-5.0` après remplacement de leurs références.
+- Les coordonnées interactives, l’éclairage et la position de l’ascenseur restent à vérifier ensemble contre l’image réelle ; cette mise à jour documentaire ne certifie pas leur recette.
+- Le filtre géographique du moteur est spécifié comme « département » dans la cible ; son implémentation effective sur chaque source reste à valider.
