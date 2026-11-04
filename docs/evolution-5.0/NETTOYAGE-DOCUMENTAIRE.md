@@ -12,7 +12,7 @@ La documentation V5 est un référentiel autonome. Le nettoyage supprime les cop
 - Branche `evolution-2.0` : sources documentaires V2 ; ne pas recopier son dossier dans V5.
 - Branche `evolution-3.0` : sources documentaires V3 ; ne pas recopier son dossier dans V5.
 - Branche `evolution-4.0` : sept documents sources V4 ; ne pas recopier son dossier dans V5.
-- `docs/historique/` : archives thématiques du projet, conservées pour leur valeur documentaire ; elles ne remplacent pas les sources versionnées.
+- `docs/historique/` : archives sélectives ; les copies strictement identiques aux branches sources ont été retirées le 5 novembre 2026. Huit documents restent isolés comme archives à rapprocher de V5.
 
 Le document [Filiation documentaire V2 → V5](FILIATION-DOCUMENTAIRE-V2-A-V5.md) identifie les commits, les corpus et les principaux changements.
 
@@ -22,7 +22,8 @@ Le document [Filiation documentaire V2 → V5](FILIATION-DOCUMENTAIRE-V2-A-V5.md
 - Retrait du dossier local `docs/evolution-3.0/` (neuf copies documentaires).
 - Aucun dossier `docs/evolution-4.0/` n'était présent dans l'arbre V5 ; le corpus V4 a été retrouvé sur sa branche source et n'a pas été copié.
 - Les branches sources `evolution-2.0`, `evolution-3.0` et `evolution-4.0` ne sont pas modifiées.
-- Les documents du dossier `docs/evolution-5.0/` et les fichiers du site ne sont pas déplacés par cette opération.
+- Le tri des archives historiques est détaillé dans [Nettoyage des archives historiques](NETTOYAGE-ARCHIVES-HISTORIQUES-2026-11-05.md) : 27 copies exactes retirées, 6 versions modifiées et 2 ressources uniques conservées.
+- Les documents actifs du dossier `docs/evolution-5.0/` et les fichiers du site ne sont pas déplacés par cette opération.
 
 ## 4. Règles de tri
 
@@ -32,7 +33,8 @@ Le document [Filiation documentaire V2 → V5](FILIATION-DOCUMENTAIRE-V2-A-V5.md
 | Fonction ou exigence métier utile, même non développée | Préserver et rattacher à la référence ou à la roadmap V5 |
 | Contenu utile mais daté | Citer sa source historique et extraire uniquement les éléments encore valides |
 | Copie d'une version antérieure | Retirer du dossier V5 ; conserver la source sur sa branche |
-| Doublon thématique dans les archives | Choisir une référence canonique ; garder l'original si sa valeur historique le justifie |
+| Copie historique strictement identique à une source de branche | Retirer la copie V5 ; préserver la source sur sa branche historique |
+| Version historique modifiée ou ressource sans équivalent | Conserver provisoirement, marquer comme archive et rapprocher de V5 avant réutilisation |
 | Contradiction | Ouvrir un arbitrage, ne pas choisir silencieusement |
 | Proposition non validée | Garder dans un registre d'hypothèses |
 | Information non vérifiée | Marquer « à vérifier » et définir la preuve attendue |
