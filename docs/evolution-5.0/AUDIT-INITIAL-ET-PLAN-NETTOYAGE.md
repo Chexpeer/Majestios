@@ -209,9 +209,9 @@ Poursuivre sur `evolution-5.0` en gardant V3 comme référence intacte et V4 com
 
 Cet addendum complète les constats historiques ci-dessus ; il ne réécrit pas rétroactivement l’état observé au début de l’audit.
 
-### Image unique
+### État des ressources visuelles — vérification du 4 novembre 2026
 
-Sur `evolution-5.0`, le dépôt ne conserve désormais qu’un seul fichier WebP : `Ambisios.webp`. Les huit autres images WebP précédemment présentes ont été supprimées. L’accueil utilise `Ambisios.webp` comme image principale ; les trois fonds immersifs qui utilisaient des visuels distincts réutilisent désormais cette même image. Le manifeste `site-files.json` ne référence également que `Ambisios.webp`.
+L'état du dépôt a évolué depuis l'audit initial. Il contient actuellement cinq ressources WebP : `Ambisios.webp` (panorama d'accueil), `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp` (fonds de rubriques). Les cinq sont déclarées dans `site-files.json`. Les affirmations antérieures de suppression de toutes les images sauf Ambisios sont donc historiques et ne décrivent plus l'état courant.
 
 ### Architecture de navigation
 
@@ -219,4 +219,4 @@ La référence spatiale est limitée à huit destinations visibles : Espace priv
 
 ### État des preuves
 
-Le nettoyage des fichiers et la mise à jour des références sont enregistrés dans GitHub. Le workflow déclenché après les suppressions était encore en cours lors de la dernière vérification. Il ne faut donc pas présenter le nettoyage comme validé par l’ensemble des tests tant que ce workflow n’a pas une conclusion positive. La vérification de toutes les zones interactives, des routes et des comportements de l’ascenseur reste à effectuer.
+Les ressources et leurs références sont présentes dans GitHub. La validation du build, des tests et de l'expérience interactive doit être établie par les résultats CI du commit courant. La vérification des zones interactives, des routes, du déplacement de l'ascenseur et de l'éclairage reste à effectuer.
