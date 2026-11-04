@@ -46,7 +46,12 @@ L'inventaire initial a repéré :
 - Certains documents A/B/C de la 3.0 sont des architectures cibles, pas des fonctionnalités déployées.
 - Les termes « Prosp'active » et « Réputation virtuelle » doivent être utilisés dans la cible actuelle ; les anciens termes peuvent rester dans les archives pour conserver le contexte historique.
 
-## 6. Nettoyage non destructif — première passe
+## 6. Décisions de nettoyage actées pour V5
+
+- Le nom BrainIOS est abandonné dans le périmètre actif : la plateforme intelligente transversale s'appelle désormais **MajestiOS V.5**. Les références historiques dans les archives V2/V3/V4 restent inchangées afin de ne pas réécrire l'histoire du projet.
+- Le blog « 100 blagues » est retiré de l'expérience V5 : sa page HTML et son inclusion dans la construction du site ont été supprimées, ainsi que ses liens depuis la FAQ et la page Vision.
+
+## 7. Nettoyage non destructif — première passe
 
 Aucune suppression ni déplacement de fichier n'est autorisé dans cette première passe. Le travail consiste à :
 1. dresser l'inventaire complet ;
@@ -56,7 +61,7 @@ Aucune suppression ni déplacement de fichier n'est autorisé dans cette premiè
 5. faire valider le plan ;
 6. appliquer ensuite les changements par petits lots avec vérification des liens.
 
-## 7. Livrables de la phase de nettoyage
+## 8. Livrables de la phase de nettoyage
 
 - inventaire exhaustif des documents, avec taille, date, statut et sujet ;
 - matrice doublons / contradictions / documents de référence ;
