@@ -12,7 +12,7 @@ const expected = {
   "04": { name:"Prospection active", route:"prospection-active.html", center:[314,557] },
   "05": { name:"Développement commercial", route:"developpement-commercial.html", center:[314,477] },
   "06": { name:"Accompagnement aux appels d’offres", route:"accompagnement-appels-offres.html", center:[314,397] },
-  "07": { name:"Salon virtuel", route:"salons-seminaires.html", center:[314,320] },
+  "07": { name:"Réputation virtuelle", route:"salons-seminaires.html", center:[314,320] },
   "08": { name:"Espace entreprises", route:"espace-membre.html", center:[314,242] },
   "09": { name:"IA & Business Intelligence", route:"intelligence-economique.html", center:[314,164] }
 };
