@@ -93,7 +93,7 @@ async function main() {
       }));
       assert.ok(Math.abs(cabinGeometry.x-555.5)<0.1,"La cabine doit être décalée d'environ 1 mm vers la droite.");
       assert.deepEqual([cabinGeometry.width,cabinGeometry.height],[68,78],"La cabine doit être agrandie sans déformer la photographie.");
-      assert.equal(await page.locator(".elevator-window").getAttribute("fill-opacity"),"0.20","La cabine doit présenter un vitrage translucide.");
+      assert.equal(await page.locator(".elevator-window").evaluate(element=>getComputedStyle(element).fillOpacity),"0.2","La cabine doit présenter un vitrage translucide.");
       assert.equal(await page.locator(".floor-row.is-lit").count(),0,"Aucun étage ne doit être illuminé.");
       const instantStyle=await page.addStyleTag({content:".elevator-cabin,.elevator-window{transition:none!important}"});
       const up=page.locator('.elevator-controls [data-lift="up"]');
