@@ -8,7 +8,7 @@
 
 ## 1. Résumé exécutif
 
-La V5 est correctement isolée sur sa branche et conserve la base V3. La comparaison GitHub indique que V5 est en avance de 33 commits sur V3, sans retard, mais les changements observés portent principalement sur la documentation V5, le renommage de la page BrainIOS en MajestiOS V.5, le retrait de la page 100blages et quelques références associées. **La V5 n'a pas encore intégré les chantiers de modularisation des PR #32 à #34.**
+La V5 est correctement isolée sur sa branche et conserve la base V3. La comparaison GitHub indique que V5 est en avance de 33 commits sur V3, sans retard, mais les changements observés portent principalement sur la documentation V5, le renommage de la page BrainIOS en MajestiOS V.5, le retrait de la page 100blages et quelques références associées. **Au moment de ce premier relevé, les principes des PR #32 à #34 n'étaient pas encore repris. État actualisé : V5 a depuis adopté le manifeste central et le build piloté par configuration de la PR #32 ; les PR #33 et #34 restent à examiner et ne sont pas réputées intégrées.**
 
 Le patrimoine V3 est plus avancé que ne le suggère une simple lecture de ses pages : il contient une architecture cible API détaillée, les étapes A/B/C, des tests, des contrôles de cohérence et des parcours de recherche. Toutefois, les documents A/B/C sont des propositions non implémentées et la V4 rappelle que le prototype n'est pas un SaaS : backend métier, persistance, authentification et autorisations serveur ne sont pas établis comme opérationnels.
 
@@ -60,11 +60,13 @@ Leur présence dans le dépôt ne prouve pas à elle seule leur fonctionnement e
 
 ## 4. Constats et écarts prioritaires
 
-### A. V5 n'a pas encore repris les PR de modularisation
+### A. Modularisation : manifeste repris, catalogue et navigation à instruire
 
-La branche V5 contient encore un tableau de fichiers codé directement dans `build.js`. Le manifeste `site-files.json` proposé par la PR #32 n'est pas présent dans l'arbre V5. Le catalogue d'étages reste embarqué dans `index.html` et la navigation partagée proposée par la PR #34 n'est pas intégrée.
+**État vérifié sur V5 :** `site-files.json` est présent, `build.js` le lit et publie les 51 ressources déclarées. Le principe de la PR #32 est donc déjà repris dans la branche V5, même si la PR #32 reste ouverte et non fusionnée. Le contrôle compare la présence des 32 pages HTML dans le manifeste et ne relève aucune page HTML oubliée.
 
-**Recommandation :** reprendre les principes des PR #32 à #34 dans un lot V5 dédié, sans fusionner aveuglément les branches empilées.
+Le catalogue des huit destinations reste embarqué dans `index.html` ; le fichier `building-catalogue.js` proposé par la PR #33 n'est pas présent. La navigation commune proposée par la PR #34 (`site-navigation.js`) n'est pas présente non plus.
+
+**Recommandation :** ne pas reprendre ni fusionner la PR #32 à l'aveugle : comparer son contenu avec le manifeste déjà actif. Examiner les PR #33 et #34 comme propositions, puis décider si un catalogue de destinations et un module de navigation partagés apportent une valeur nette à la nouvelle architecture.
 
 ### B. Le catalogue d'étages de la PR #33 n'est pas validable en l'état
 
@@ -99,7 +101,7 @@ Le cadrage V5 décrit de nombreuses capacités cibles (CRM natif, mémoire, IA t
 
 | PR | Apport intéressant | Risque / vérification avant reprise | Décision proposée |
 |---|---|---|---|
-| #32 | Manifeste central, build piloté par configuration, contrôles de chemins et ressources | Vérifier inclusion de toutes les ressources V5, chemins, exclusion des documents, suppression/recréation de `dist` et gestion d'échec de copie | Reprendre le principe dans un lot isolé |
+| #32 | Manifeste central, build piloté par configuration, contrôles de chemins et ressources | Le principe est déjà implémenté sur V5 via `site-files.json` et `build.js` ; comparer les différences avec la PR avant toute reprise | Ne pas fusionner la PR sans comparaison ; conserver le manifeste V5 comme référence active |
 | #33 | Catalogue de l'immeuble séparé du HTML | Nomenclature ancienne, BrainOS résiduel, routes et dossiers à vérifier, dialogue intermédiaire à arbitrer | Réutiliser le modèle de données après refonte V5 |
 | #34 | Gestionnaire de navigation commun, fermeture Escape et état ARIA | Vérifier que toutes les pages ont le même DOM, les styles, les scripts, l'ordre de chargement et les comportements mobile | Réutiliser seulement après tests multi-pages |
 
