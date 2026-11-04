@@ -4,20 +4,21 @@ Ce fichier est le point d'entrée canonique pour tout assistant ou agent interve
 
 ## 1. Lecture obligatoire
 
-Pour toute intervention sur la branche active `evolution-3.0`, lire dans cet ordre :
+Pour toute intervention sur la branche active `evolution-5.0`, lire dans cet ordre :
 1. `README.md` et les instructions du dossier concerné ;
-2. `docs/evolution-3.0/README.md` ;
-3. `docs/evolution-3.0/MIGRATION-EVOLUTION-3.0.md` ;
-4. `docs/evolution-3.0/ARCHITECTURE-API-CIBLE.md` ;
-5. les documents hérités de référence : `docs/evolution-2.0/CAHIER-DES-CHARGES-FONDATEUR.md`, `AUDIT-EXISTANT-PHASE-1.md`, `CARTOGRAPHIE-FONCTIONNELLE-FLUX.md` et `GOUVERNANCE-INTERVENTIONS.md` ;
-6. les changements récents et l'état réel du code de la branche.
+2. `docs/evolution-5.0/README.md` ;
+3. `docs/evolution-5.0/ARBORESCENCE-CIBLE-V5.md` ;
+4. `docs/evolution-5.0/EXPERIENCE-IMMERSIVE-ET-ETAGES.md` ;
+5. `docs/evolution-5.0/ARCHITECTURE-FONCTIONNELLE-CIBLE.md` et `ROADMAP-ET-GOUVERNANCE.md` ;
+6. les documents hérités de référence : `docs/evolution-2.0/CAHIER-DES-CHARGES-FONDATEUR.md`, `AUDIT-EXISTANT-PHASE-1.md`, `CARTOGRAPHIE-FONCTIONNELLE-FLUX.md` et `GOUVERNANCE-INTERVENTIONS.md` ;
+7. les changements récents et l'état réel du code de la branche.
 
 Ne jamais se fier uniquement aux conversations ou à la documentation ancienne. Vérifier l'état réel du dépôt, les tests et les limites de vérification.
 
 ## 2. Branches et préservation
 
-- `evolution-2.0` est conservée comme sauvegarde de référence ; ne pas y apporter les évolutions de la 3.0.
-- `evolution-3.0` est la branche de travail active pour les évolutions critiques.
+- `evolution-2.0` est conservée comme sauvegarde de référence ; ne pas y apporter les évolutions de la V5.
+- `evolution-3.0` est conservée comme base de référence ; `evolution-5.0` est la branche de travail active pour les évolutions V5.
 - Ne jamais réécrire l'historique, supprimer ou écraser une branche de référence.
 - Ne pas fusionner, promouvoir ou déployer sans autorisation explicite.
 - Aucun changement de production ou de configuration Vercel sans autorisation spécifique.
@@ -53,6 +54,6 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 
 ## 6. Documentation
 
-La documentation active 3.0 se trouve dans `docs/evolution-3.0/`. Les documents `docs/evolution-2.0/` sont les références fonctionnelles héritées et la sauvegarde documentaire de l'étape précédente. L'historique est consultatif et ne réintroduit aucune ancienne orientation sans arbitrage.
+La documentation active V5 se trouve dans `docs/evolution-5.0/`. Les documents `docs/evolution-3.0/` restent une référence historique de la base. Les documents `docs/evolution-2.0/` sont les références fonctionnelles héritées et la sauvegarde documentaire de l'étape précédente. L'historique est consultatif et ne réintroduit aucune ancienne orientation sans arbitrage.
 
 Les documents et comptes rendus sont rédigés en français clair. `AGENTS.md` reste la source canonique des consignes.
