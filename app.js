@@ -322,6 +322,11 @@ if (advancedSearchForm) {
   const category = categoryControl?.selectedOptions[0]?.disabled ? "all" : categoryControl?.value;
   const marketType = document.querySelector("#feed-market-type")?.value;
   const region = document.querySelector("#feed-region")?.value;
+  if (!marketType) {
+    if (marketStep) marketStep.hidden = false;
+    marketControl?.focus();
+    return;
+  }
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
   if (region && region !== "all") params.set("zone", region);
