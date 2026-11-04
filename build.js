@@ -24,25 +24,25 @@ if (!Array.isArray(siteFiles) || siteFiles.length === 0 || siteFiles.some((file)
   fail("Build interrompu : le champ \"files\" de site-files.json doit contenir des chemins non vides.");
 }
 
-const normalizedFiles = siteFiles.map((file) => file.replace(/\\\\/g, "/"));
+const normalizedFiles = siteFiles.map((file) => file.replace(/\\/g, "/"));
 const duplicateFiles = normalizedFiles.filter((file, index) => normalizedFiles.indexOf(file) !== index);
 if (duplicateFiles.length) {
-  fail("Build interrompu : fichier(s) déclaré(s) plusieurs fois :\\n- " + [...new Set(duplicateFiles)].join("\\n- "));
+  fail("Build interrompu : fichier(s) déclaré(s) plusieurs fois :\n- " + [...new Set(duplicateFiles)].join("\n- "));
 }
 
 const invalidPaths = normalizedFiles.filter((file) => path.posix.isAbsolute(file) || file.split("/").includes(".."));
 if (invalidPaths.length) {
-  fail("Build interrompu : chemin(s) interdit(s) dans le manifeste :\\n- " + invalidPaths.join("\\n- "));
+  fail("Build interrompu : chemin(s) interdit(s) dans le manifeste :\n- " + invalidPaths.join("\n- "));
 }
 
-const documentationFiles = normalizedFiles.filter((file) => /\\.mdx?$/i.test(file));
+const documentationFiles = normalizedFiles.filter((file) => /\.mdx?$/i.test(file));
 if (documentationFiles.length) {
-  fail("Build interrompu : la documentation ne doit pas être publiée dans dist/ :\\n- " + documentationFiles.join("\\n- "));
+  fail("Build interrompu : la documentation ne doit pas être publiée dans dist/ :\n- " + documentationFiles.join("\n- "));
 }
 
 const missingFiles = normalizedFiles.filter((file) => !fs.existsSync(path.join(root, file)) || !fs.statSync(path.join(root, file)).isFile());
 if (missingFiles.length) {
-  fail("Build interrompu : " + missingFiles.length + " fichier(s) source(s) absent(s) :\\n- " + missingFiles.join("\\n- "));
+  fail("Build interrompu : " + missingFiles.length + " fichier(s) source(s) absent(s) :\n- " + missingFiles.join("\n- "));
 }
 
 // Ne remplacer dist/ qu’après validation complète du manifeste et de toutes les sources.
@@ -65,7 +65,7 @@ const invalidOutputFiles = normalizedFiles.filter((file) => {
 });
 
 if (invalidOutputFiles.length) {
-  fail("Build échoué : " + invalidOutputFiles.length + " fichier(s) absent(s) ou altéré(s) dans dist/ :\\n- " + invalidOutputFiles.join("\\n- "));
+  fail("Build échoué : " + invalidOutputFiles.length + " fichier(s) absent(s) ou altéré(s) dans dist/ :\n- " + invalidOutputFiles.join("\n- "));
 }
 
 console.log("Build vérifié : " + normalizedFiles.length + " fichiers copiés dans dist/ sans différence avec les sources.");
