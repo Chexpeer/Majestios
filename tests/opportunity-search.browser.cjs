@@ -253,12 +253,8 @@ async function main() {
     assert.ok(await page.locator(".opportunity-result-card").count() <= 10, "Une recherche mixte ne doit jamais afficher plus de dix annonces et signaux au total.");
 
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&departement=999", { waitUntil: "domcontentloaded" });
-    await page.getByText(/filtre BODACC pour l’Outre-mer n’est pas encore pris en charge/).waitFor({ timeout: 10000 });
-    assert.equal(bodaccCalls, 1, "Un filtre BODACC non pris en charge ne doit pas lancer de recherche territoriale trompeuse.");
-
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&departement=999", { waitUntil: "domcontentloaded" });
-    await page.getByText(/zone n’est pas encore disponible comme filtre BODACC/).waitFor({ timeout: 10000 });
-    assert.equal(bodaccCalls, 1, "Une zone inconnue ou de démonstration ne doit pas lancer une recherche BODACC sans filtre géographique.");
+    await page.getByText(/Ce département n’est pas reconnu/).waitFor({ timeout: 10000 });
+    assert.equal(bodaccCalls, 1, "Un département inconnu doit être rejeté avant tout nouvel appel BODACC.");
 
     await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public&departement=79", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Maintenance informatique et cybersécurité" }).waitFor({ timeout: 10000 });
