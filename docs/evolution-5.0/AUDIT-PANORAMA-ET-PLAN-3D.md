@@ -81,3 +81,16 @@ Ce lot améliore l'expérience existante mais ne doit pas être qualifié de vis
 ## Conclusion d'audit
 
 La branche possède déjà un prototype 2D avec éclairage de zones et cabine SVG animée. Elle ne possède pas encore la visite 3D autour du bâtiment demandée. La trajectoire correcte est de fiabiliser d'abord les interactions existantes, puis d'intégrer un véritable actif 3D ; il serait trompeur de qualifier une parallaxe ou une rotation d'image de visite 3D.
+
+
+## Avancement du lot A — interaction 2D fiabilisée
+
+Après l'audit initial, un premier correctif a été appliqué à l'accueil :
+
+- la cabine démarre désormais sur Accueil (01), au rez-de-chaussée ;
+- les commandes haut/bas partent de cette position ;
+- lorsqu'une destination est cliquée, la cabine rejoint son niveau avant l'ouverture de la route ;
+- la durée d'attente est supprimée lorsque `prefers-reduced-motion: reduce` est actif ;
+- le contrôle d'architecture vérifie ces invariants.
+
+**Portée exacte :** il s'agit d'une amélioration du prototype 2D existant. La visite 3D à 360°, les façades latérales, la toiture et la cabine intégrée à une vraie géométrie 3D restent à réaliser après obtention d'un modèle architectural adapté. Le correctif n'a pas remplacé ni modifié `Ambitios.webp`.
