@@ -35,6 +35,8 @@
   const breadcrumb = document.querySelector("#breadcrumb-current");
   const moduleTitle = document.querySelector("#module-title");
   const moduleDescription = document.querySelector("#module-description");
+  const defaultPlaceholder = document.querySelector("#module-placeholder-default");
+  const brainiosWorkspace = document.querySelector("#brainios-workspace");
 
   function navigate(view) {
     const links = [...document.querySelectorAll("[data-view]")];
@@ -48,6 +50,9 @@
     const isOverview = view === "overview";
     overview.hidden = !isOverview;
     moduleView.hidden = isOverview;
+
+    if (defaultPlaceholder) defaultPlaceholder.hidden = view === "brainios";
+    if (brainiosWorkspace) brainiosWorkspace.hidden = view !== "brainios";
 
     if (!isOverview && moduleContent[view]) {
       moduleTitle.textContent = moduleContent[view].title;
@@ -90,4 +95,38 @@
 
   const initial = window.location.hash.slice(1);
   navigate(moduleContent[initial] ? initial : "overview");
+
+  const brainiosForm = document.querySelector("#brainios-form");
+  const brainiosPrompt = document.querySelector("#brainios-prompt");
+  const brainiosConversation = document.querySelector("#brainios-conversation");
+  brainiosForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const message = brainiosPrompt.value.trim();
+    if (!message) return;
+    const userMessage = document.createElement("article");
+    userMessage.className = "brainios-message brainios-message-user";
+    const userLabel = document.createElement("strong");
+    userLabel.textContent = "Vous";
+    const userText = document.createElement("p");
+    userText.textContent = message;
+    userMessage.append(userLabel, userText);
+    brainiosConversation.append(userMessage);
+    const reply = document.createElement("article");
+    reply.className = "brainios-message brainios-message-assistant";
+    const replyLabel = document.createElement("strong");
+    replyLabel.textContent = "BrainIOS";
+    const replyText = document.createElement("p");
+    replyText.textContent = "Demande reçue dans la maquette. La prochaine étape sera de l'analyser avec le contexte documentaire du projet, puis de proposer un plan et des contrôles. Aucun fichier n'a été modifié et aucune action externe n'a été lancée.";
+    reply.append(replyLabel, replyText);
+    brainiosConversation.append(reply);
+    brainiosPrompt.value = "";
+    brainiosConversation.scrollTop = brainiosConversation.scrollHeight;
+    brainiosPrompt.focus();
+  });
+  brainiosPrompt?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      brainiosForm?.requestSubmit();
+    }
+  });
 })();
