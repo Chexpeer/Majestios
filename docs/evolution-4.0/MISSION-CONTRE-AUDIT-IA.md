@@ -116,3 +116,13 @@ Ne proposez pas une réécriture totale par réflexe. Justifiez chaque changemen
 Ne transformez pas vos préférences technologiques en décisions : présentez des options comparées.
 
 Ne modifiez pas le dépôt. Le rapport sera remis au porteur du projet et confronté aux analyses des autres IA avant toute décision ou développement.
+
+### H. SEO et visibilité numérique de MajestiOS
+1. Le périmètre proposé couvre-t-il correctement SEO technique, indexation, contenu, performance, requêtes et veille ?
+2. Quelles interfaces officielles (Google Search Console, Bing Webmaster Tools ou autres) sont pertinentes, avec quelles permissions, quotas, limites et conditions ?
+3.. Comment mesurer la visibilité dans les expériences de recherche générative sans confondre ces signaux avec le classement organique traditionnel ?
+4. Quels indicateurs sont réellement exploitables et comment éviter les conclusions causales abusives ?
+5. Comment intégrer les audits et recommandations à BrainIOS sans exposer de secrets ni modifier directement la production ?
+6. Quelles actions peuvent être automatisées et lesquelles doivent rester soumises à validation humaine ?
+7. Comment réutiliser éventuellement cette compétence dans Réputation virtuelle sans mélanger les données internes de MajestiOS et celles des clients ?
+8. Quels risques de pratiques SEO contraires aux consignes des moteurs, de contenu artificiel ou de promesses de classement faut-il prévenir ?
