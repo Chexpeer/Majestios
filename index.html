@@ -444,11 +444,12 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           controls.className = "elevator-controls";
           controls.setAttribute("role", "group");
           controls.setAttribute("aria-label", "Ascenseur MajestiOS");
-          controls.innerHTML = '<button type="button" data-lift="up" aria-label="Monter d’un étage">↑</button><span class="elevator-indicator" aria-live="polite">08</span><button type="button" data-lift="down" aria-label="Descendre d’un étage">↓</button>';
+          controls.innerHTML = '<button type="button" data-lift="up" aria-label="Monter d’un étage">↑</button><span class="elevator-indicator" aria-live="polite">01</span><button type="button" data-lift="down" aria-label="Descendre d’un étage">↓</button>';
           const caption = document.createElement("div");
           caption.className = "elevator-caption"; caption.textContent = "ASCENSEUR · ÉTAGE 08";
           scene.append(controls, caption);
-          let current = 0;
+          // L'accueil (01) est le rez-de-chaussée et le point de départ de la cabine.
+          let current = destinations.length - 1;
           const indicator = controls.querySelector(".elevator-indicator");
           const selectFloor = (index) => {
             current = Math.max(0, Math.min(destinations.length - 1, index));
@@ -479,7 +480,18 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             const row = event.target.closest(".floor-row");
             if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
           });
-          selectFloor(0);
+          // Le lien reste direct : la cabine atteint simplement l'étage avant le changement de page.
+          svg.addEventListener("click", (event) => {
+            const row = event.target.closest(".floor-row");
+            if (!row) return;
+            const destinationIndex = destinations.findIndex((item) => item.id === row.dataset.floor);
+            if (destinationIndex < 0) return;
+            event.preventDefault();
+            selectFloor(destinationIndex);
+            const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 900;
+            window.setTimeout(() => { window.location.href = row.getAttribute("href"); }, delay);
+          });
+          selectFloor(destinations.length - 1);
         }
       });
     </script>
