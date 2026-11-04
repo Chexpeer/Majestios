@@ -16,7 +16,8 @@
     "intelligence-economique.html": { market: "", fixedMarket: false },
     "reseaux-synergies.html": { market: "", fixedMarket: false },
     "bodacc-veille-entreprises.html": { market: "private", fixedMarket: true },
-    "suivi-commercial.html": { market: "", fixedMarket: false }
+    "suivi-commercial.html": { market: "", fixedMarket: false },
+    "reputation-virtuelle.html": { market: "", fixedMarket: false }
   };
   const config = configs[path];
   if (!config) return;
@@ -34,7 +35,8 @@
     { value: "immobilier", label: "Immobilier professionnel", group: "Autres opportunités privées", connected: false },
     { value: "emploi", label: "Emploi et recrutement", group: "Autres opportunités privées", connected: false },
     { value: "sous-traitance-offres", label: "Offres de sous-traitance", group: "Autres opportunités privées", connected: false },
-    { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires", group: "Autres opportunités privées", connected: false }
+    { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires", group: "Autres opportunités privées", connected: false },
+    { value: "reputation-virtuelle", label: "Réputation virtuelle", group: "Visibilité et présence en ligne", connected: false }
   ];
 
   const section = document.createElement("section");
