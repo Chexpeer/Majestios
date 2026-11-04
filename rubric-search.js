@@ -65,6 +65,21 @@
       title: "Rechercher une piste à suivre",
       description: "Retrouvez des marchés et signaux publiés à qualifier avant toute action de suivi commercial.",
       market: "all"
+    },
+    "reputation-virtuelle.html": {
+      title: "Rechercher des opportunités pour votre visibilité",
+      description: "Repérez des marchés et signaux d’entreprise à qualifier avant de préparer un accompagnement de visibilité locale.",
+      market: "all"
+    },
+    "espace-membre.html": {
+      title: "Rechercher des opportunités pour votre entreprise",
+      description: "Consultez les marchés publics et signaux privés pertinents pour votre activité, avant de les qualifier et de les suivre.",
+      market: "all"
+    },
+    "salons-seminaires.html": {
+      title: "Rechercher des opportunités de partenariat",
+      description: "Repérez des marchés et signaux d’entreprise pouvant ouvrir des pistes de coopération à examiner.",
+      market: "all"
     }
   };
   const config = configs[path];
