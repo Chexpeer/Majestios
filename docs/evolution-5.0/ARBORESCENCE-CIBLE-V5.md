@@ -1,6 +1,6 @@
 # Arborescence cible MajestiOS V5
 
-Statut : référence de travail établie le 4 novembre 2026 à partir du panorama `Ambisios.webp`, des trois fonds de rubriques ajoutés et de l’inventaire du code. Les destinations et rattachements fonctionnels sont la cible documentaire ; les coordonnées interactives et la recette de navigation restent à valider.
+Statut : référence de travail établie le 4 novembre 2026 à partir du panorama `Ambisios.webp`, des quatre fonds de rubriques ajoutés et de l’inventaire du code. Les destinations et rattachements fonctionnels sont la cible documentaire ; les coordonnées interactives et la recette de navigation restent à valider.
 
 ## Rubriques visibles sur Ambisios
 
@@ -35,7 +35,7 @@ Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, s
 - Le catalogue historique contient dix entrées B01 à B10, dont CRM et Business Intelligence ; cette structure historique ne doit pas être confondue avec les huit destinations visibles d’Ambisios.
 - Les zones interactives historiques ne correspondent pas encore de façon démontrée à la nomenclature des huit destinations ; leur mapping doit être audité sans ajouter d’étage transversal.
 - Le libellé historique « IA & Business Intelligence » mélange des fonctions transversales distinctes et ne doit pas devenir une destination visible du bâtiment.
-- L’accueil utilise `Ambisios.webp`. Les fonds `Développement-.webp`, `Marché-Public-.webp` et `Prospection-.webp` sont réservés à leurs rubriques respectives.
+- L’accueil utilise `Ambisios.webp`. Les fonds `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp` sont réservés à leurs rubriques respectives.
 - Le menu principal de l’accueil et de la page de résultats a été réorienté vers « Réseau » ; les autres occurrences historiques restent à contrôler.
 - Le texte alternatif de l’image d’accueil a été remplacé pour désigner le panorama Ambisios.
 
@@ -58,7 +58,7 @@ Créer un catalogue unique de destinations pour synchroniser libellé, zone inte
 
 ### Décision appliquée au dépôt
 
-`Ambisios.webp` reste le panorama de l’accueil. Trois fonds dédiés ont ensuite été ajoutés : `Développement-.webp`, `Marché-Public-.webp` et `Prospection-.webp`. Ces quatre ressources doivent être publiées dans `site-files.json` ; aucun autre ancien fichier WebP n’est conservé.
+`Ambisios.webp` reste le panorama de l’accueil. Quatre fonds dédiés sont présents : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Les cinq ressources WebP (panorama inclus) doivent être déclarées dans `site-files.json`. Leur affectation et leur rendu doivent être vérifiés avant de conclure à leur validation.
 
 Le panorama Ambisios porte la navigation d’accueil. Les trois nouveaux fonds sont affectés respectivement aux pages Développement commercial, Marchés publics et Prospection. Chaque rubrique conserve ses contenus et ses interactions propres.
 
