@@ -135,7 +135,7 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
   "categorie-services-numeriques.html","categorie-travaux-amenagement.html","categorie-conseil-etudes.html",
   "categorie-batiment.html","categorie-renovation.html","categorie-electricite.html",
   "categorie-plomberie-chauffage.html","categorie-maintenance.html","faq.html","nous-rejoindre.html",
-  "vision-majestios.html","qualification-entreprises.html"]) {
+  "vision-majestios.html","qualification-entreprises.html","resultats-recherche.html"]) {
   const html = read(page);
   assert(html.indexOf('src="rubric-search.js"') >= 0 &&
     html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
