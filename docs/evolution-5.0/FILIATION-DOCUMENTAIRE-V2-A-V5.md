@@ -60,11 +60,11 @@ La V3 formalise les frontières fonctionnelles, les modèles conceptuels de donn
 
 Les sept documents présents sur `evolution-4.0` sont :
 - `AUDIT-MAJESTIOS-3.0.md`
-- `BRAINIOS-API-ET-ESPACE-ADMIN.md`
+- Document historique consacré à l'intégration de l'API IA et à l'espace d'administration (intitulé de fichier historique conservé uniquement sur la branche source).
 - `MISSION-CONTRE-AUDIT-IA.md`
 - `README.md`
 - `REGISTRE-OBSERVATIONS-TECHNIQUES-4.0.md`
-- `ROADMAP-MAJESTIOS-BRAINIOS-4.0.md`
+- Feuille de route V4 consacrée à l'intelligence, à l'administration et aux phases de réalisation (intitulé de fichier historique conservé uniquement sur la branche source).
 - `VISION-ET-ARCHITECTURE-MAJESTIOS-4.0.md`
 
 La V4 apporte notamment un audit plus large de la V3, une vision de pilotage depuis l'administration, une intelligence assistée, des niveaux d'autonomie, la surveillance, les rapports, l'atelier d'évolution, le suivi qualité, le SEO continu, ainsi que des exigences de sécurité et de maîtrise des coûts API.
