@@ -90,7 +90,7 @@ Aucune IA ne doit s'auto-attribuer des droits, contourner une approbation ou env
 
 ## 8. Éléments à arbitrer
 
-- **MajestiOS V.5** est le nom retenu pour la plateforme intelligente transversale. Il remplace définitivement l'appellation de travail « Brainstorming ». Ne pas réintroduire Brainstorming comme module, produit, marque ou chantier parallèle. Les idées et capacités envisagées sous cette ancienne appellation sont à intégrer, lorsqu'elles sont pertinentes, dans la vision et le périmètre de MajestiOS V.5.
+- **MajestiOS V.5** est le nom définitif de la plateforme intelligente transversale, précédemment appelée « BrainIOS ». BrainIOS et MajestiOS V.5 désignent un seul et même projet, pas deux produits, modules ou architectures distincts. Toute documentation et tout code doivent employer « MajestiOS V.5 » comme appellation actuelle. L'ancien nom ne doit subsister que dans l'historique nécessaire à la traçabilité.
 - Nomenclature définitive des étages.
 - Place de l'offre commerciale CRM dans l'immeuble.
 - Périmètre et priorité du CRM natif par rapport à l'intégration de CRM tiers.
