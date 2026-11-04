@@ -21,8 +21,8 @@ assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqué
 for (const file of siteFiles) {
   assert(typeof file === "string" && file.length > 0, "Build : chemin vide ou invalide dans le manifeste");
   if (typeof file !== "string" || !file) continue;
-  assert(!path.posix.isAbsolute(file) && !file.split(/[\\\\/]/).includes(".."), "Build : chemin interdit dans le manifeste : " + file);
-  assert(!/\\.mdx?$/i.test(file), "Build : la documentation ne doit pas être publiée : " + file);
+  assert(!path.posix.isAbsolute(file) && !file.split(/[\\/]/).includes(".."), "Build : chemin interdit dans le manifeste : " + file);
+  assert(!/\.mdx?$/i.test(file), "Build : la documentation ne doit pas être publiée : " + file);
   assert(exists(file), "Build : ressource déclarée absente : " + file);
 }
 for (const page of pages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
@@ -44,13 +44,13 @@ for (const page of rubricSearchPages) {
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
   const ids = new Set();
-  for (const match of html.matchAll(/\\bid\\s*=\\s*["']([^"']+)["']/gi)) {
+  for (const match of html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)) {
     if (ids.has(match[1])) errors.push(page + " : identifiant dupliqué #" + match[1]);
     ids.add(match[1]);
   }
-  for (const match of html.matchAll(/\\b(?:href|src)\\s*=\\s*["']([^"']+)["']/gi)) {
+  for (const match of html.matchAll(/\b(?:href|src)\s*=\s*["']([^"']+)["']/gi)) {
     const value = match[1].trim();
-    if (!value || /^(?:[a-z][a-z\\d+.-]*:|\\/\\/)/i.test(value) || value.startsWith("data:") || value.startsWith("#")) continue;
+    if (!value || /^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(value) || value.startsWith("data:") || value.startsWith("#")) continue;
     const [pathname, fragment] = value.split("#", 2);
     const cleanPath = (pathname || "").split("?")[0];
     let decoded;
@@ -69,7 +69,7 @@ for (const page of pages) {
       let targetHtml;
       try { targetHtml = target === path.join(root, page) ? html : fs.readFileSync(target, "utf8"); }
       catch { continue; }
-      const targetIds = new Set([...targetHtml.matchAll(/\\bid\\s*=\\s*["']([^"']+)["']/gi)].map((item) => item[1]));
+      const targetIds = new Set([...targetHtml.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((item) => item[1]));
       if (!targetIds.has(decodeURIComponent(fragment))) errors.push(page + " : ancre absente : " + value);
     }
   }
@@ -84,7 +84,7 @@ for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-region
 assert(home.includes('id="floor-rows"'), "Accueil : immeuble interactif absent");
 
 if (errors.length) {
-  console.error("Vérification du site échouée : " + errors.length + " problème(s).\\n- " + errors.join("\\n- "));
+  console.error("Vérification du site échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
 console.log("Site vérifié : " + pages.length + " pages HTML, " + siteFiles.length + " ressources publiées, liens locaux et identifiants contrôlés.");
