@@ -27,14 +27,14 @@ async function main() {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     let apiCalls = 0;
     let bodaccCalls = 0;
-    let bodaccRegionFilterSeen = false;
-    let regionalFilterSeen = false;
+    let bodaccDepartmentFilterSeen = false;
+    let departmentFilterSeen = false;
     await page.route("https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/**", async (route) => {
       bodaccCalls++;
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.pathname.endsWith("/catalog/datasets/annonces-commerciales/records"), true, "La recherche privée doit utiliser le jeu officiel BODACC.");
       const bodaccWhere = requestUrl.searchParams.get("where") || "";
-      if (bodaccWhere.includes('region_nom_officiel = "Nouvelle-Aquitaine"')) bodaccRegionFilterSeen = true;
+      if (bodaccWhere.includes('departement_nom_officiel = "Deux-Sèvres"')) bodaccDepartmentFilterSeen = true;
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -84,7 +84,7 @@ async function main() {
       assert.equal(requestUrl.searchParams.get("where")?.includes('nature = "APPEL_OFFRE"'), true, "La requête doit limiter les résultats aux appels d’offres.");
       const where = requestUrl.searchParams.get("where") || "";
       if (where.includes('code_departement_prestation = "79"') && where.includes('code_departement = "79"')) {
-        regionalFilterSeen = true;
+        departmentFilterSeen = true;
       }
       const plumbingRecord = {
         idweb: "TEST-2027-001", objet: "Prestations de plomberie et chauffage",
@@ -131,7 +131,7 @@ async function main() {
       });
     });
 
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=plomberie&marche=public&zone=nouvelle-aquitaine", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=plomberie&marche=public&departement=79", { waitUntil: "domcontentloaded" });
     await page.getByText("Connexion à la source officielle BOAMP en cours…").waitFor({ state: "detached", timeout: 10000 }).catch(() => {});
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "Une annonce récupérée doit devenir une carte de résultat.");
@@ -155,20 +155,20 @@ async function main() {
     assert.equal(publicReturnUrl.pathname, "/index.html", "Le retour doit ramener au formulaire d’accueil.");
     assert.equal(publicReturnUrl.searchParams.get("q"), "plomberie", "Le retour doit conserver les mots-clés.");
     assert.equal(publicReturnUrl.searchParams.get("marche"), "public", "Le retour doit conserver le type de marché.");
-    assert.equal(publicReturnUrl.searchParams.get("zone"), "nouvelle-aquitaine", "Le retour doit conserver la région.");
+    assert.equal(publicReturnUrl.searchParams.get("departement"), "nouvelle-aquitaine", "Le retour doit conserver le département.");
     assert.equal(publicReturnUrl.hash, "#recherche-avancee", "Le retour doit replacer l’utilisateur sur le moteur de recherche.");
     await page.locator(".search-results-return a").click();
-    await page.waitForURL(/index\.html\?q=plomberie.*marche=public.*zone=nouvelle-aquitaine.*#recherche-avancee|index\.html\?q=plomberie.*zone=nouvelle-aquitaine.*marche=public.*#recherche-avancee/, { timeout: 10000 });
+    await page.waitForURL(/index\.html\?q=plomberie.*marche=public.*departement=79.*#recherche-avancee|index\.html\?q=plomberie.*departement=79.*marche=public.*#recherche-avancee/, { timeout: 10000 });
     assert.equal(await page.locator("#feed-search").inputValue(), "plomberie", "L’accueil doit restaurer les mots-clés au retour.");
     assert.equal(await page.locator("#feed-market-type").inputValue(), "public", "L’accueil doit restaurer le type de marché au retour.");
     assert.equal(await page.locator("#feed-sector").inputValue(), "all", "L’accueil doit restaurer une catégorie non précisée sans en inventer.");
-    assert.equal(await page.locator("#feed-region").inputValue(), "nouvelle-aquitaine", "L’accueil doit restaurer la région au retour.");
+    assert.equal(await page.locator("#feed-department").inputValue(), "nouvelle-aquitaine", "L’accueil doit restaurer la région au retour.");
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
-    assert.equal(regionalFilterSeen, true, "Une requête BOAMP doit appliquer le filtre Nouvelle-Aquitaine au département 79, côté prestation et acheteur.");
+    assert.equal(departmentFilterSeen, true, "Une requête BOAMP doit appliquer le filtre Nouvelle-Aquitaine au département 79, côté prestation et acheteur.");
 
     apiCalls = 0;
     bodaccCalls = 0;
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=nouvelle-aquitaine&q=r%C3%A9novation", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&departement=79&q=r%C3%A9novation", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".bodacc-result-card").count(), 1, "Une annonce BODACC doit devenir une carte de signal commercial.");
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Ventes et cessions/);
@@ -176,7 +176,7 @@ async function main() {
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Rénovation de bâtiments/);
     assert.match(await page.locator(".bodacc-result-card").innerText(), /A202610310001/, "La référence unique de l’annonce doit être affichée.");
     assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
-    assert.equal(bodaccRegionFilterSeen, true, "Une recherche BODACC avec une région sélectionnée doit transmettre le filtre régional à la source.");
+    assert.equal(bodaccDepartmentFilterSeen, true, "Une recherche BODACC avec une région sélectionnée doit transmettre le filtre régional à la source.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");
 
     // Chaque famille doit conserver son signal correspondant et exclure les autres familles.
@@ -194,7 +194,7 @@ async function main() {
     }
 
     // Le retour depuis une rubrique privée doit restaurer la catégorie privée exacte, sans la convertir en catégorie publique.
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=cession&marche=private&categorie=bodacc-cessions&zone=nouvelle-aquitaine", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=cession&marche=private&categorie=bodacc-cessions&departement=79", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
     await page.locator(".search-results-return a").click();
     await page.waitForURL((url) => {
@@ -203,13 +203,13 @@ async function main() {
         && restored.searchParams.get("q") === "cession"
         && restored.searchParams.get("marche") === "private"
         && restored.searchParams.get("categorie") === "bodacc-cessions"
-        && restored.searchParams.get("zone") === "nouvelle-aquitaine"
+        && restored.searchParams.get("departement") === "nouvelle-aquitaine"
         && restored.hash === "#recherche-avancee";
     }, { timeout: 10000 });
     assert.equal(await page.locator("#feed-market-type").inputValue(), "private", "Le retour doit restaurer le type privé.");
     assert.equal(await page.locator("#feed-sector").inputValue(), "bodacc-cessions", "Le retour doit restaurer la famille BODACC exacte.");
     assert.equal(await page.locator("#feed-search").inputValue(), "cession", "Le retour doit restaurer le mot-clé privé.");
-    assert.equal(await page.locator("#feed-region").inputValue(), "nouvelle-aquitaine", "Le retour doit restaurer la région privée.");
+    assert.equal(await page.locator("#feed-department").inputValue(), "nouvelle-aquitaine", "Le retour doit restaurer le département privé.");
 
     // Les quatre familles privées prévues mais non connectées doivent rester honnêtes :
     // elles affichent leur statut, sans requête BODACC ni résultats inventés.
@@ -256,7 +256,7 @@ async function main() {
     await page.getByText(/filtre BODACC pour l’Outre-mer n’est pas encore pris en charge/).waitFor({ timeout: 10000 });
     assert.equal(bodaccCalls, 1, "Un filtre BODACC non pris en charge ne doit pas lancer de recherche territoriale trompeuse.");
 
-    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&zone=nord", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&departement=999", { waitUntil: "domcontentloaded" });
     await page.getByText(/zone n’est pas encore disponible comme filtre BODACC/).waitFor({ timeout: 10000 });
     assert.equal(bodaccCalls, 1, "Une zone inconnue ou de démonstration ne doit pas lancer une recherche BODACC sans filtre géographique.");
 
@@ -285,18 +285,14 @@ async function main() {
     }
     assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 5, "Les rubriques BODACC doivent être regroupées ensemble.");
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
-    assert.equal(await page.locator('#feed-region option[value="nouvelle-aquitaine"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
-    const demoRegion = page.locator('#feed-region option[value="nord"]');
-    assert.equal(await demoRegion.count(), 1, "Les anciennes zones de démonstration peuvent rester documentées.");
-    const demoRegionState = await demoRegion.evaluate((option) => ({ disabled: option.disabled, attribute: option.getAttribute("disabled"), parentDisabled: option.parentElement?.disabled, parentTag: option.parentElement?.tagName }));
-    assert.ok(demoRegionState.disabled || demoRegionState.parentDisabled, `Les zones Nord/Ouest/Sud de démonstration doivent rester désactivées et non filtrables : ${JSON.stringify(demoRegionState)}`);
-    assert.equal(await page.locator('#feed-region optgroup').getAttribute("label"), "Régions françaises · à connecter", "Le groupe des régions non disponibles doit être clairement identifié.");
+    assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, "L’accueil doit proposer une région administrative filtrable.");
+    assert.equal(await page.locator('#feed-department option[value="72"]').count(), 1, "Le département 72 · Sarthe doit être proposé avec son code officiel.");
 
     await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
     await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
     assert.equal(await page.locator('#rubric-opportunity-search input[name="marche"]').inputValue(), "public", "La rubrique Marchés publics doit verrouiller la source publique.");
-    assert.equal(await page.locator('#rubric-search-region option[value="nouvelle-aquitaine"]').count(), 1, "Le formulaire doit proposer une vraie région administrative.");
-    assert.equal(await page.locator('#rubric-search-region option[value="nord"]').count(), 0, "Les zones de démonstration ne doivent pas être présentées comme des régions réelles.");
+    assert.equal(await page.locator('#rubric-search-department option[value="79"]').count(), 1, "Le formulaire doit proposer un vrai département français.");
+    assert.equal(await page.locator('#rubric-search-department option[value="72"]').count(), 0, "Les départements doivent utiliser les codes officiels.");
 
     await page.goto("http://127.0.0.1:4174/developpement-commercial.html", { waitUntil: "domcontentloaded" });
     await page.locator("#rubric-opportunity-search").waitFor({ timeout: 10000 });
@@ -324,7 +320,7 @@ async function main() {
     assert.equal(rubricPrivateOptions.includes("services"), false, "Le choix privé ne doit pas proposer les catégories BOAMP.");
     assert.equal(await mixedCategory.isDisabled(), false, "La catégorie doit devenir disponible après le choix public ou privé.");
 
-    console.log("Recherche navigateur réussie : filtres régionaux, BOAMP, BODACC, vue combinée et séparation des sources vérifiés.");
+    console.log("Recherche navigateur réussie : filtres par département, BOAMP, BODACC, vue combinée et séparation des sources vérifiés.");
   } finally {
     if (browser) await browser.close();
     await new Promise((resolve) => server.close(resolve));
