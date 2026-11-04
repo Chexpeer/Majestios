@@ -29,6 +29,7 @@
         <a class="nav-link" href="#brainios" data-view="brainios"><span class="nav-icon">✳</span>BrainIOS <span class="nav-badge">IA</span></a>
         <a class="nav-link" href="#requests" data-view="requests"><span class="nav-icon">☷</span>Demandes & lots</a>
         <a class="nav-link" href="#workshop" data-view="workshop"><span class="nav-icon">⌘</span>Atelier GitHub</a>
+        <a class="nav-link" href="#site-map" data-view="site-map"><span class="nav-icon">⌂</span>Site & arborescence</a>
       </nav>
 
       <p class="nav-caption">CONTRÔLE</p>
@@ -116,6 +117,13 @@
       <section class="page-content placeholder-page" id="module-view" hidden>
         <p class="eyebrow">MODULE DU COCKPIT</p><h1 id="module-title">Module</h1><p class="subtitle" id="module-description"></p>
         <div class="panel module-placeholder" id="module-placeholder"><div id="module-placeholder-default"><span class="placeholder-icon">◈</span><h2>Ce module est prévu dans l'architecture.</h2><p>Son interface et ses contrats seront construits progressivement, après mise en place de l'authentification, des autorisations et des services côté serveur.</p><span class="feature-status">Structure réservée — fonctionnalité non implémentée</span></div>
+          <section class="site-map-workspace" id="site-map-workspace" hidden aria-labelledby="site-map-title">
+            <div class="site-map-heading"><div><p class="eyebrow">INVENTAIRE GÉNÉRÉ AU BUILD</p><h2 id="site-map-title">Arborescence du site public</h2><p class="subtitle">Pages réellement intégrées au build de prévisualisation, regroupées selon les dossiers de l’immeuble interactif.</p></div><span class="feature-status" id="site-map-count">Chargement…</span></div>
+            <div class="site-map-status" id="site-map-status" role="status">Lecture de l’inventaire…</div>
+            <div class="site-map-sections" id="site-map-sections"></div>
+            <details class="site-map-additional"><summary>Pages complémentaires hors dossiers de l’immeuble</summary><div id="site-map-additional-pages"></div></details>
+            <p class="site-map-footnote">Cet inventaire reflète les fichiers HTML copiés par build.js. Il ne vérifie pas encore les liens entrants, les réponses HTTP en production ni le contenu métier de chaque page.</p>
+          </section>
           <section class="brainios-workspace" id="brainios-workspace" hidden aria-labelledby="brainios-workspace-title">
             <div class="brainios-workspace-heading"><div><p class="eyebrow">ESPACE DE DIALOGUE</p><h2 id="brainios-workspace-title">Parler à BrainIOS</h2><p class="subtitle">Décrivez une idée, une correction ou une évolution à préparer.</p></div><span class="feature-status">Simulation locale</span></div>
             <div class="brainios-conversation" id="brainios-conversation" role="log" aria-live="polite" aria-relevant="additions">
