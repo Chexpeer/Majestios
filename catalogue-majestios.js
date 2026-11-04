@@ -14,6 +14,7 @@
     { value: "electricite", label: "Électricité", active: true, href: "categorie-electricite.html" },
     { value: "plomberie", label: "Plomberie & chauffage", active: true, href: "categorie-plomberie-chauffage.html" },
     { value: "maintenance", label: "Maintenance & exploitation", active: true, href: "categorie-maintenance.html" },
+    { value: "nettoyage", label: "Nettoyage & propreté", active: true },
     { value: "fournitures", label: "Fournitures & équipements", planned: true },
     { value: "btp", label: "BTP : lots techniques et second œuvre", planned: true },
     { value: "logistique", label: "Transport & logistique", planned: true },
@@ -25,6 +26,20 @@
     { value: "all", label: "Publics et privés" },
     { value: "public", label: "Marchés publics" },
     { value: "private", label: "Marchés privés" }
+  ];
+
+  // Taxonomie privée partagée par l’accueil et les pages de rubrique.
+  // Seules les familles BODACC sont actives tant que les autres sources ne sont pas raccordées.
+  const privateSearchCategories = [
+    { value: "bodacc-creations", label: "Créations et implantations", group: "Signaux BODACC", active: true, source: "bodacc" },
+    { value: "bodacc-cessions", label: "Ventes, cessions et reprises", group: "Signaux BODACC", active: true, source: "bodacc" },
+    { value: "bodacc-modifications", label: "Modifications d’entreprises", group: "Signaux BODACC", active: true, source: "bodacc" },
+    { value: "bodacc-procedures", label: "Difficultés et procédures collectives", group: "Signaux BODACC", active: true, source: "bodacc" },
+    { value: "bodacc-radiations", label: "Radiations et cessations", group: "Signaux BODACC", active: true, source: "bodacc" },
+    { value: "immobilier", label: "Immobilier professionnel", group: "Autres opportunités privées", planned: true, source: null },
+    { value: "emploi", label: "Emploi et recrutement", group: "Autres opportunités privées", planned: true, source: null },
+    { value: "sous-traitance-offres", label: "Offres de sous-traitance", group: "Autres opportunités privées", planned: true, source: null },
+    { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires", group: "Autres opportunités privées", planned: true, source: null }
   ];
 
   const searchRegions = [
@@ -52,6 +67,7 @@
     version: "1.0.0",
     searchCategories: Object.freeze(searchCategories.map((item) => Object.freeze(item))),
     marketTypes: Object.freeze(marketTypes.map((item) => Object.freeze(item))),
+    privateSearchCategories: Object.freeze(privateSearchCategories.map((item) => Object.freeze(item))),
     searchRegions: Object.freeze(searchRegions.map((item) => Object.freeze(item)))
   });
 })(window);
