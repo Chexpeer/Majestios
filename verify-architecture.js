@@ -100,7 +100,7 @@ if (!destinationBlock) {
   assert(home.includes('src="Ambitios.webp"'),"Accueil : le panorama Ambitios est absent");
   assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
 }
-for (const asset of ["Ambitios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp"]) {
+for (const asset of ["Ambitios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
   assert(exists(asset),"Image de référence absente : "+asset);
   assert(siteFiles.includes(asset),"Build : image non publiée : "+asset);
 }
@@ -122,8 +122,21 @@ const catalogue = read("catalogue-majestios.js");
 assert(catalogue.includes("searchCategories") && catalogue.includes("searchDepartments") && catalogue.includes("marketTypes"),
   "Catalogue : filtres de recherche incomplets");
 const rubricSearch = read("rubric-search.js");
-assert(rubricSearch.includes("catalogue.searchCategories") && rubricSearch.includes("catalogue.searchDepartments"),
-  "Recherche : filtres non reliés au catalogue partagé");
+const appSearch = read("app.js");
+assert(rubricSearch.includes('id="advanced-search-form"') && rubricSearch.includes('id="feed-market-type"') &&
+  rubricSearch.includes('id="feed-sector"') && rubricSearch.includes('id="feed-department"'),
+  "Recherche : les rubriques ne réutilisent pas le formulaire commun de l’accueil");
+assert(appSearch.includes("MAJESTIOS_CATALOG") && appSearch.includes("populateSearchFilters"),
+  "Recherche : les interactions ne consomment pas le catalogue partagé");
+for (const page of ["marches-publics.html","developpement-commercial.html","prospection-active.html","veille-marches.html",
+  "accompagnement-appels-offres.html","sous-traitance.html","intelligence-economique.html","reseaux-synergies.html",
+  "bodacc-veille-entreprises.html","suivi-commercial.html","marches-prives.html","reputation-virtuelle.html",
+  "espace-membre.html","salons-seminaires.html","crm.html","majestios-v5.html"]) {
+  const html = read(page);
+  assert(html.indexOf('src="rubric-search.js"') >= 0 &&
+    html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
+    "Recherche : ordre de chargement incorrect sur " + page);
+}
 
 const prospecting = read("prospection-active.html");
 assert(prospecting.includes("<title>Prospection active — MajestiOS</title>"), "Prospection active : titre incorrect");
@@ -134,4 +147,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, huit destinations Ambitios, cinq images WebP publiées (panorama et quatre fonds), moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, huit destinations Ambitios, six images WebP publiées (panorama et cinq fonds), moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
