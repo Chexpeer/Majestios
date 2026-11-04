@@ -46,6 +46,13 @@ for (const page of rubricSearchPages) {
   }
 }
 
+const sharedSearchScript = fs.readFileSync(path.join(root, "rubric-search.js"), "utf8");
+for (const id of ["feed-search", "feed-market-type", "feed-sector", "feed-department", "market-step", "category-step", "department-step"]) {
+  assert(sharedSearchScript.includes('id="' + id + '"'), "Moteur partagé : structure commune incomplète, #" + id);
+}
+assert(sharedSearchScript.includes('class="feed-toolbar"'), "Moteur partagé : le formulaire doit réutiliser le composant de l’accueil");
+assert(sharedSearchScript.includes('class="feed-search-submit"'), "Moteur partagé : le bouton doit réutiliser le composant de l’accueil");
+
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
   const ids = new Set();
@@ -89,8 +96,6 @@ for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-depart
 for (const page of rubricSearchPages) {
   if (!exists(page)) continue;
   const html = fs.readFileSync(path.join(root, page), "utf8");
-  assert(html.includes('id="advanced-search-form"') || html.includes('id="advanced-search-form"') === false,
-    page + " : contrôle de présence du formulaire partagé");
   for (const id of ["feed-search", "feed-market-type", "feed-sector", "feed-department", "market-step", "category-step", "department-step"]) {
     assert(fs.readFileSync(path.join(root, "rubric-search.js"), "utf8").includes('id="' + id + '"'),
       "Moteur partagé : structure commune incomplète, #" + id);
