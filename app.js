@@ -259,10 +259,10 @@ if (advancedSearchForm) {
   const categoryControl = document.querySelector("#feed-sector");
   const category = categoryControl?.selectedOptions[0]?.disabled ? "all" : categoryControl?.value;
   const marketType = document.querySelector("#feed-market-type")?.value;
-  const region = document.querySelector("#feed-department")?.value;
+  const department = document.querySelector("#feed-department")?.value;
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
-  if (region && region !== "all") params.set("departement", region);
+  if (department && department !== "all") params.set("departement", department);
   if (marketType && marketType !== "all") params.set("marche", marketType);
 
   // Les catégories publiques déjà dotées d’une page conservent leur destination dédiée.
