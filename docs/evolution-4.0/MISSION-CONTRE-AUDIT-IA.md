@@ -120,7 +120,7 @@ Ne modifiez pas le dépôt. Le rapport sera remis au porteur du projet et confro
 ### H. SEO et visibilité numérique de MajestiOS
 1. Le périmètre proposé couvre-t-il correctement SEO technique, indexation, contenu, performance, requêtes et veille ?
 2. Quelles interfaces officielles (Google Search Console, Bing Webmaster Tools ou autres) sont pertinentes, avec quelles permissions, quotas, limites et conditions ?
-3.. Comment mesurer la visibilité dans les expériences de recherche générative sans confondre ces signaux avec le classement organique traditionnel ?
+3. Comment mesurer la visibilité dans les expériences de recherche générative sans confondre ces signaux avec le classement organique traditionnel ?
 4. Quels indicateurs sont réellement exploitables et comment éviter les conclusions causales abusives ?
 5. Comment intégrer les audits et recommandations à BrainIOS sans exposer de secrets ni modifier directement la production ?
 6. Quelles actions peuvent être automatisées et lesquelles doivent rester soumises à validation humaine ?
