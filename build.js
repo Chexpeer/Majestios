@@ -33,6 +33,38 @@ for (const file of siteFiles) {
   fs.copyFileSync(path.join(__dirname, file), destination);
 }
 
+// Inventaire du site généré à partir des fichiers réellement inclus dans ce build.
+// Disponible uniquement dans les previews avec le cockpit admin.
+if (process.env.VERCEL_ENV === "preview") {
+  const sectionDefinitions = [
+    { id: "01", name: "Marchés publics", hrefs: ["marches-publics.html", "veille-marches.html", "accompagnement-appels-offres.html"] },
+    { id: "02", name: "Marchés privés", hrefs: ["marches-prives.html", "sous-traitance.html", "qualification-entreprises.html"] },
+    { id: "03", name: "Veille économique", hrefs: ["bodacc-veille-entreprises.html", "veille-marches.html"] },
+    { id: "04", name: "Prospection active", hrefs: ["prospection-active.html", "marches-publics.html", "marches-prives.html"] },
+    { id: "05", name: "Développement commercial", hrefs: ["developpement-commercial.html", "prospection-active.html", "suivi-commercial.html"] },
+    { id: "06", name: "Accompagnement aux appels d’offres", hrefs: ["accompagnement-appels-offres.html", "marches-publics.html", "qualification-entreprises.html"] },
+    { id: "07", name: "Réputation virtuelle", hrefs: ["reputation-virtuelle.html", "reseaux-synergies.html", "sous-traitance.html"] },
+    { id: "08", name: "Espace entreprises", hrefs: ["espace-membre.html"] },
+    { id: "09", name: "CRM", hrefs: ["crm.html", "suivi-commercial.html", "developpement-commercial.html"], buildingNote: "Aucune zone cliquable CRM distincte n’est identifiée dans le mapping SVG actuel." },
+    { id: "10", name: "Business Intelligence", hrefs: ["intelligence-economique.html", "brainos.html", "vision-majestios.html"], buildingNote: "Le dernier étage est libellé « IA & Business Intelligence » sur l’accueil." }
+  ];
+  const htmlPages = siteFiles.filter((file) => file.endsWith(".html"));
+  const assignedPages = new Set(sectionDefinitions.flatMap((section) => section.hrefs));
+  const siteMap = {
+    generatedAtBuild: new Date().toISOString(),
+    source: "build.js · liste effective des fichiers copiés dans dist/",
+    sections: sectionDefinitions.map((section) => ({
+      ...section,
+      pages: section.hrefs.map((href) => ({ href, presentInBuild: htmlPages.includes(href) }))
+    })),
+    additionalPages: htmlPages.filter((href) => !assignedPages.has(href)).map((href) => ({ href, presentInBuild: true })),
+    totalHtmlPages: htmlPages.length
+  };
+  const adminOutput = path.join(outputDirectory, "admin");
+  fs.mkdirSync(adminOutput, { recursive: true });
+  fs.writeFileSync(path.join(adminOutput, "site-map.json"), JSON.stringify(siteMap, null, 2) + "\\n", "utf8");
+}
+
 // Vérification post-copie : ne pas considérer le build comme réussi si une ressource
 // manque dans dist/ ou si son contenu diffère de la source.
 const invalidOutputFiles = siteFiles.filter((file) => {
