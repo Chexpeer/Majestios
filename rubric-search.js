@@ -33,7 +33,8 @@
     "faq.html": ["Rechercher dans MajestiOS", "Accédez aux marchés et signaux commerciaux depuis cette page d’information.", ""],
     "nous-rejoindre.html": ["Explorer les opportunités MajestiOS", "Consultez les marchés et signaux publiés avant de rejoindre le réseau.", ""],
     "vision-majestios.html": ["Explorer les opportunités MajestiOS", "Reliez la vision de développement commercial aux marchés et signaux publiés.", ""],
-    "qualification-entreprises.html": ["Rechercher des opportunités à qualifier", "Repérez les marchés et signaux qui pourront alimenter une qualification d’entreprises.", ""]
+    "qualification-entreprises.html": ["Rechercher des opportunités à qualifier", "Repérez les marchés et signaux qui pourront alimenter une qualification d’entreprises.", ""],
+    "resultats-recherche.html": ["Modifier ou affiner votre recherche", "Ajustez les mots-clés, le type de marché, la catégorie ou le département sans revenir à l’accueil.", ""]
   };
   const config = configs[path];
   if (!config) return;
@@ -54,8 +55,10 @@
         '<button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>' +
       '</form></div></div>';
 
+  const resultsHero = page.querySelector(".search-results-hero");
   const lede = page.querySelector(".interior-lede");
-  if (lede) lede.insertAdjacentElement("afterend", section);
+  if (resultsHero && path === "resultats-recherche.html") resultsHero.insertAdjacentElement("afterend", section);
+  else if (lede) lede.insertAdjacentElement("afterend", section);
   else page.prepend(section);
 
   const initialMarket = new URLSearchParams(window.location.search).get("marche") || "";
