@@ -186,7 +186,7 @@ Comparer avant de choisir :
 
 ## 10. Architecture visuelle effective — référence unique Ambisios
 
-Depuis le 4 novembre 2026, `Ambisios.webp` est l’unique fichier WebP conservé dans le dépôt V5. Les anciennes images WebP de l’accueil et des rubriques ont été supprimées. L’accueil référence cette image pour le panorama ; les trois fonds immersifs précédemment associés à des images distinctes réutilisent également `Ambisios.webp`.
+Depuis le 4 novembre 2026, `Ambisios.webp` reste le panorama de l’accueil. Trois fonds supplémentaires ont été ajoutés et doivent être utilisés dans les rubriques correspondantes : `Développement-.webp`, `Marché-Public-.webp` et `Prospection-.webp`.
 
 Conséquences :
 - aucune page ne doit référencer une ancienne image WebP supprimée ;
