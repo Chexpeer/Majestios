@@ -364,3 +364,30 @@ La vision ne sera considérée suffisamment cadrée que si :
 - les dépendances entre lots sont explicites ;
 - le plan de migration préserve les acquis 3.0 sans déployer prématurément.
 
+## 12. BrainIOS — Pilotage SEO et visibilité numérique
+
+### 12.1 Finalité
+BrainIOS doit également contribuer au maintien et à l'amélioration de la visibilité organique de MajestiOS. Cette fonction est un volet de veille, d'analyse et de développement commercial. Elle ne garantit aucun classement et ne promet pas de contourner les algorithmes : elle observe les signaux disponibles, détecte les problèmes, formule des recommandations et mesure les évolutions.
+
+### 12.2 Périmètre fonctionnel
+- **Surveillance de l'indexation :** couverture des pages, exploration, sitemap, robots.txt, canonical, redirections et erreurs HTTP, selon les données accessibles.
+- **Santé technique :** performances, Core Web Vitals, compatibilité mobile, accessibilité technique, HTTPS et qualité des liens internes.
+- **Qualité éditoriale :** titres, méta-descriptions, hiérarchie des titres, contenu utile, intention de recherche, duplication et cohérence sémantique.
+- **Données structurées :** contrôle des balisages pertinents, de leur validité et de leur conformité au contenu réellement visible.
+- **Veille de visibilité :** évolution des requêtes et positions, tendances de recherche, concurrents pertinents et changements documentés des moteurs.
+- **Recherche assistée par IA :** observer, lorsque des outils fiables le permettent, la découvrabilité et la représentation de MajestiOS dans les moteurs et expériences de recherche générative. Ne pas assimiler cette observation à un classement SEO classique.
+- **Plan d'action :** prioriser les corrections selon leur impact probable, leur niveau de confiance, leur coût et leur risque ; suivre les actions et leurs effets.
+
+### 12.3 Sources et instrumentation à étudier
+Le contre-audit devra comparer les outils et interfaces officiels adaptés, notamment Google Search Console, Bing Webmaster Tools, les outils de mesure de performances et les données analytiques respectueuses de la confidentialité. Les accès, quotas, coûts, conditions d'utilisation et éventuels consentements requis devront être vérifiés avant intégration. Les secrets et jetons restent côté serveur ; aucune clé privée ne doit être exposée dans le navigateur.
+
+### 12.4 Espace administrateur
+Ajouter à BrainIOS un espace **SEO & Visibilité** comprenant : tableau de bord et indicateurs de tendance ; surveillance et alertes techniques ; analyse des requêtes et pages ; audit SEO par page ; veille concurrentielle et évolutions des moteurs ; recommandations priorisées ; suivi des optimisations et historique.
+
+### 12.5 Gouvernance et limites d'autonomie
+BrainIOS peut effectuer des analyses planifiées, signaler une anomalie, rédiger une proposition de contenu ou préparer un correctif dans une branche isolée. Il ne doit pas modifier seul les pages stratégiques, les URL, les redirections, les balises d'indexation, les contenus publiés ni les réglages de production. Toute modification à risque ou publication exige une validation humaine, des tests et une possibilité de retour arrière.
+
+Le référencement doit privilégier la qualité, l'utilité, l'accessibilité et la conformité aux consignes des moteurs. Sont exclus les pratiques trompeuses, le bourrage de mots-clés, les pages artificielles à grande échelle, le cloaking et toute promesse de position garantie.
+
+### 12.6 Lien avec Réputation virtuelle
+La compétence SEO développée pour MajestiOS pourra, après validation, inspirer des services clients de Réputation virtuelle : audit de visibilité locale et organique, cohérence des informations d'établissement, qualité de présence web, recommandations éditoriales et suivi. Les données et rapports internes de MajestiOS doivent rester séparés de ceux des entreprises clientes.
