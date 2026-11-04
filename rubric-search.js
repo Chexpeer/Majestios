@@ -104,8 +104,8 @@
     marketField +
     '<label for="rubric-search-category">' + (config.fixedMarket ? "Catégorie" : "2. Catégorie") + '</label>' +
     '<select id="rubric-search-category" name="categorie"><option value="all">Toutes les catégories</option></select>' +
-    '<label for="rubric-search-region">Département</label>' +
-    '<select id="rubric-search-region" name="departement"><option value="all">Tous les départements</option>' + optionMarkup(departments) + '</select>' +
+    '<label for="rubric-search-department">Département</label>' +
+    '<select id="rubric-search-department" name="departement"><option value="all">Tous les départements</option>' + optionMarkup(departments) + '</select>' +
     '<button class="button-primary" type="submit">Rechercher →</button>';
 
   const marketSelect = form.querySelector("#rubric-search-market");
@@ -150,10 +150,10 @@
 
   const queryField = form.querySelector("#rubric-search-query");
   if (queryField) queryField.value = initialParams.get("q") || "";
-  const regionField = form.querySelector("#rubric-search-region");
-  const initialRegion = initialParams.get("departement") || initialParams.get("zone");
-  if (regionField && initialRegion && [...regionField.options].some((option) => option.value === initialRegion)) {
-    regionField.value = initialRegion;
+  const departmentField = form.querySelector("#rubric-search-department");
+  const initialDepartment = initialParams.get("departement") || initialParams.get("zone");
+  if (departmentField && initialDepartment && [...departmentField.options].some((option) => option.value === initialDepartment)) {
+    departmentField.value = initialDepartment;
   }
 
   const heading = document.createElement("h2");
