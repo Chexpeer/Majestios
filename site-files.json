@@ -3,7 +3,7 @@
   "description": "Manifeste unique des fichiers sources publiés dans dist/. Toute nouvelle page ou ressource publique doit être déclarée ici.",
   "files": [
     "index.html",
-    "Ambisios.webp",
+    "Ambitios.webp",
     "reputation-virtuelle.html",
     "Marcheprive.webp",
     "Prospection-.webp",
