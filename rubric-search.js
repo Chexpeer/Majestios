@@ -79,9 +79,7 @@
   const privateCategories = (catalogue.privateSearchCategories || [])
     .filter((item) => item.active || item.planned)
     .map((item) => ({ value: item.value, label: item.label, group: item.group, connected: !item.planned }));
-  const regions = (catalogue.searchRegions || [
-    { value: "all", label: "Toutes les régions", active: true }
-  ]).filter((item) => item.active || item.value === "all").map((item) => [item.value, item.label]);
+  const departments = (catalogue.searchDepartments || []).map((item) => [item.value, item.value + " · " + item.label]);
   const optionMarkup = (items) => items.map(([value, label]) =>
     '<option value="' + value + '">' + label + '</option>'
   ).join("");
@@ -106,8 +104,8 @@
     marketField +
     '<label for="rubric-search-category">' + (config.fixedMarket ? "Catégorie" : "2. Catégorie") + '</label>' +
     '<select id="rubric-search-category" name="categorie"><option value="all">Toutes les catégories</option></select>' +
-    '<label for="rubric-search-region">Région</label>' +
-    '<select id="rubric-search-region" name="zone">' + optionMarkup(regions) + '</select>' +
+    '<label for="rubric-search-region">Département</label>' +
+    '<select id="rubric-search-region" name="departement"><option value="all">Tous les départements</option>' + optionMarkup(departments) + '</select>' +
     '<button class="button-primary" type="submit">Rechercher →</button>';
 
   const marketSelect = form.querySelector("#rubric-search-market");
@@ -153,7 +151,7 @@
   const queryField = form.querySelector("#rubric-search-query");
   if (queryField) queryField.value = initialParams.get("q") || "";
   const regionField = form.querySelector("#rubric-search-region");
-  const initialRegion = initialParams.get("zone");
+  const initialRegion = initialParams.get("departement") || initialParams.get("zone");
   if (regionField && initialRegion && [...regionField.options].some((option) => option.value === initialRegion)) {
     regionField.value = initialRegion;
   }
