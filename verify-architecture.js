@@ -60,7 +60,7 @@ for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-region
 
 const expectedThemes = [
   "Marchés publics", "Marchés privés", "Veille économique", "Prospection active",
-  "Développement commercial", "Accompagnement aux appels d’offres", "Salon virtuel",
+  "Développement commercial", "Accompagnement aux appels d’offres", "Réputation virtuelle",
   "Espace entreprises", "CRM", "Business Intelligence"
 ];
 const floorBlock = home.match(/const floors = \[([\s\S]*?)\n        \];/);
