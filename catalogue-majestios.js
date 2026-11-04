@@ -42,27 +42,6 @@
     { value: "sous-traitance-recherche", label: "Recherche de sous-traitants et partenaires", group: "Autres opportunités privées", planned: true, source: null }
   ];
 
-  const searchRegions = [
-    { value: "all", label: "Toutes les régions", active: true },
-    { value: "nord", label: "Zone Nord · exemple · à venir", planned: true },
-    { value: "ouest", label: "Zone Ouest · exemple · à venir", planned: true },
-    { value: "sud", label: "Zone Sud · exemple · à venir", planned: true },
-    { value: "nouvelle-aquitaine", label: "Nouvelle-Aquitaine", active: true },
-    { value: "ile-de-france", label: "Île-de-France", active: true },
-    { value: "auvergne-rhone-alpes", label: "Auvergne-Rhône-Alpes", active: true },
-    { value: "occitanie", label: "Occitanie", active: true },
-    { value: "pays-de-la-loire", label: "Pays de la Loire", active: true },
-    { value: "bretagne", label: "Bretagne", active: true },
-    { value: "normandie", label: "Normandie", active: true },
-    { value: "hauts-de-france", label: "Hauts-de-France", active: true },
-    { value: "grand-est", label: "Grand Est", active: true },
-    { value: "bourgogne-franche-comte", label: "Bourgogne-Franche-Comté", active: true },
-    { value: "centre-val-de-loire", label: "Centre-Val de Loire", active: true },
-    { value: "provence-alpes-cote-d-azur", label: "Provence-Alpes-Côte d’Azur", active: true },
-    { value: "corse", label: "Corse", active: true },
-    { value: "outre-mer", label: "Outre-mer", active: true }
-  ];
-
   const searchDepartments = `01|Ain
 02|Aisne
 03|Allier
@@ -173,7 +152,6 @@
     searchCategories: Object.freeze(searchCategories.map((item) => Object.freeze(item))),
     marketTypes: Object.freeze(marketTypes.map((item) => Object.freeze(item))),
     privateSearchCategories: Object.freeze(privateSearchCategories.map((item) => Object.freeze(item))),
-    searchRegions: Object.freeze(searchRegions.map((item) => Object.freeze(item))),
     searchDepartments: Object.freeze(searchDepartments)
   });
 })(window);
