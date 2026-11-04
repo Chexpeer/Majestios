@@ -308,3 +308,13 @@ Ne pas démarrer les développements fonctionnels 4.0 avant :
 - la définition de critères d'acceptation testables pour chaque nouveau domaine.
 
 Le prototype 3.0 est un actif à préserver. La 4.0 doit être construite comme une évolution structurée de cet actif, et non comme une réécriture précipitée ni comme une simple accumulation de fonctionnalités.
+
+### 9.6 BrainIOS — SEO et visibilité de MajestiOS
+
+Une nouvelle proposition du porteur du projet étend le rôle de BrainIOS : piloter la veille et l'amélioration SEO de MajestiOS afin de maintenir une visibilité numérique compétitive dans la durée.
+
+Le périmètre envisagé comprend la surveillance de l'indexation, des erreurs techniques, des redirections et liens, des performances et Core Web Vitals, de la qualité éditoriale, des données structurées, des requêtes et tendances, ainsi qu'une veille sur les évolutions des moteurs et les expériences de recherche assistées par IA.
+
+**État actuel :** aucun dispositif SEO automatisé ou tableau de bord BrainIOS de ce type n'a été identifié dans la branche evolution-3.0 lors de cet audit. Il s'agit d'une exigence nouvelle de la vision 4.0, pas d'une capacité existante.
+
+Les outils officiels, accès, quotas, coûts, indicateurs, conditions d'utilisation et exigences de confidentialité doivent être vérifiés au contre-audit. BrainIOS pourra analyser, alerter et préparer des recommandations ; les modifications de pages, contenus stratégiques, URL, redirections, indexation et publication resteront soumises à validation humaine et à des tests réversibles. Cette compétence pourra ultérieurement nourrir les services de Réputation virtuelle, avec séparation stricte des données internes et clients.
