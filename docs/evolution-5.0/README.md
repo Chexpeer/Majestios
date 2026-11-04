@@ -44,7 +44,7 @@ Le nettoyage suit cinq traitements : conserver, corriger, regrouper, archiver ou
 ## État des ressources visuelles au 4 novembre 2026
 
 Les cinq images WebP présentes dans la branche sont :
-- `Ambisios.webp` — panorama d'accueil ;
+- `Ambitios.webp` — panorama d'accueil ;
 - `Développement-.webp` — fond de Développement commercial ;
 - `Marché-Public-.webp` — fond de Marchés publics ;
 - `Prospection-.webp` — fond de Prospection ;
