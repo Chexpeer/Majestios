@@ -80,7 +80,7 @@ for (const page of pages) {
 const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
 assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
 assert(home.includes('id="advanced-search-form"'), "Accueil : moteur de recherche absent");
-for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-region"]) {
+for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-department"]) {
   assert(home.includes('id="' + id + '"'), "Accueil : filtre absent : #" + id);
 }
 assert(home.includes('id="floor-rows"'), "Accueil : immeuble interactif absent");
