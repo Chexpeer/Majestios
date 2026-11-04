@@ -48,7 +48,7 @@ L'inventaire initial a repéré :
 
 ## 6. Décisions de nettoyage actées pour V5
 
-- Le nom BrainIOS est abandonné dans le périmètre actif : la plateforme intelligente transversale s'appelle désormais **MajestiOS V.5**. Les références historiques dans les archives V2/V3/V4 restent inchangées afin de ne pas réécrire l'histoire du projet.
+- MajestiOS V.5 est le nom de travail actuel de la plateforme intelligente transversale. Le rôle éventuel de BrainIOS n'est pas figé : conserver les idées et documents utiles, et attendre l'arbitrage du fondateur avant toute suppression ou décision d'architecture.
 - Le blog « 100 blagues » est retiré de l'expérience V5 : sa page HTML et son inclusion dans la construction du site ont été supprimées, ainsi que ses liens depuis la FAQ et la page Vision.
 
 ## 7. Nettoyage non destructif — première passe
