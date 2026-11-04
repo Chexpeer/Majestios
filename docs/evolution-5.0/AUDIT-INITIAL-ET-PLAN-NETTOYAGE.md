@@ -325,3 +325,9 @@ Le workflow complet précédent a validé la syntaxe, les tests unitaires métie
 - La page CRM précise maintenant qu'il s'agit du **CRM interne MajestiOS**, distinct de l'offre commerciale d'accompagnement/intégration de CRM tiers et des CRM/données appartenant aux clients.
 - La page « Nous rejoindre » ne contient pas encore de formulaire ni de dépôt de CV. Elle indique désormais que le dépôt sécurisé de CV reste à développer et qu'aucun CV n'est collecté actuellement.
 - L'accueil ne comporte pas encore l'assistant conversationnel qui oriente vers un formulaire de contact. Le formulaire de contact réel, le parcours de candidature, le dépôt sécurisé de CV et la création effective d'espace membre sont inscrits dans la phase 4 de la roadmap ; les formulaires actuellement présents restent des prévisualisations sans transmission ni persistance.
+
+## Contrôle transversal — moteur de recherche
+
+Point de vigilance confirmé pendant l’audit : les premières pages de rubrique proposaient un formulaire différent de celui de l’accueil (champs visibles simultanément, identifiants et logique séparés). Cette divergence est corrigée dans la branche evolution-5.0 : le script de rubrique injecte désormais la même structure de formulaire que l’accueil, puis app.js applique les interactions communes et le catalogue unique. Les styles du formulaire de rubrique reprennent la composition, la palette et les états du panneau d’accueil.
+
+La suite de la recette doit confirmer le même parcours sur toutes les destinations : mot-clé → type public/privé → catégorie correspondante → département → résultats. Aucun type ne doit être préselectionné ou verrouillé par une rubrique. Les tests navigateur doivent contrôler les identifiants communs, l’affichage progressif, la séparation BOAMP/BODACC et les valeurs restaurées au retour des résultats.
