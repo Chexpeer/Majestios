@@ -71,33 +71,50 @@ const expectedThemes = [
   "Développement commercial", "Accompagnement aux appels d’offres", "Salon virtuel",
   "Espace entreprises", "CRM", "Business Intelligence"
 ];
-const floorBlock = home.match(/const floors = \[([\s\S]*?)\n        \];/);
-if (!floorBlock) {
-  errors.push("Accueil : catalogue des espaces introuvable");
-} else {
-  const floors = [...floorBlock[1].matchAll(/\{id:"(B\d{2})",name:"([^"]+)",folder:"([^"]+)",description:"[^"]*",links:\[([\s\S]*?)\]\}/g)]
-    .map(match => ({
-      id:match[1],name:match[2],folder:match[3],
-      destinations:[...match[4].matchAll(/href:"([^"]+\.html)"/g)].map(link=>link[1])
-    }));
-  assert(floors.length===10,"Accueil : les dix espaces du catalogue doivent être conservés");
-  assert(floors.every((floor,index)=>floor.name===expectedThemes[index]),"Accueil : noms ou ordre du catalogue des espaces incorrects");
+const vm = require("node:vm");
+let floors = [];
+try {
+  const buildingCatalogue = { MAJESTIOS_BUILDING_CATALOGUE: null };
+  vm.runInNewContext(read("building-catalogue.js"), { window: buildingCatalogue });
+  floors = buildingCatalogue.MAJESTIOS_BUILDING_CATALOGUE;
+  assert(Array.isArray(floors), "Immeuble : catalogue modulaire absent ou invalide");
+} catch (error) {
+  errors.push("Immeuble : impossible de charger building-catalogue.js : " + error.message);
+}
+if (Array.isArray(floors)) {
+  assert(floors.length === 10, "Immeuble : les dix espaces du catalogue doivent être conservés");
+  assert(floors.every((floor, index) => floor.name === expectedThemes[index]),
+    "Immeuble : noms ou ordre du catalogue des espaces incorrects");
+  assert(floors.every((floor, index) => floor.id === "B" + String(index + 1).padStart(2, "0")),
+    "Immeuble : identifiants B01 à B10 attendus");
   for (const floor of floors) {
-    assert(floor.destinations.length>0,"Accueil : aucun accès déclaré pour "+floor.name);
-    for (const destination of floor.destinations) {
-      assert(exists(destination),"Accueil : destination absente : "+destination);
-      assert(siteFiles.includes(destination),"Build : destination non publiée : "+destination);
+    assert(typeof floor.folder === "string" && floor.folder.startsWith("dossiers/"),
+      "Immeuble : dossier absent pour " + floor.name);
+    assert(Array.isArray(floor.links) && floor.links.length > 0,
+      "Immeuble : aucun accès déclaré pour " + floor.name);
+    for (const destination of floor.links || []) {
+      assert(exists(destination.href), "Immeuble : destination absente : " + destination.href);
+      assert(siteFiles.includes(destination.href), "Build : destination non publiée : " + destination.href);
     }
   }
-  assert(home.includes('document.createElementNS(SVG_NS, "a")'),"Accueil : les zones doivent être des liens SVG natifs");
-  assert(home.includes('viewBox="0 0 704 1114"'),"Accueil : repère SVG attendu 704 × 1114");
-  assert(home.includes('class="building-photo"') && home.includes('class="building-hotspots"'),"Accueil : photo ou calque de zones absent");
-  assert(home.includes("for (let number = 9; number >= 1; number -= 1)"),"Accueil : neuf étages doivent être générés");
-  assert(home.includes("const leftEdge = 72, rightEdge = 556, halfHeight = 34"),"Accueil : géométrie des zones polygonales absente");
-  assert(home.includes('link.setAttribute("href", floor.links[0].href)'),"Accueil : destinations directes des zones absentes");
-  assert(home.includes('number === 9 ? "IA & Business Intelligence"'),"Accueil : intitulé du neuvième étage incorrect");
-  const enterprise=floors.find(floor=>floor.name==="Espace entreprises");
-  assert(enterprise?.destinations[0]==="espace-membre.html","Accueil : accès Espace entreprises incorrect");
+  assert(home.includes("const floors = window.MAJESTIOS_BUILDING_CATALOGUE"),
+    "Accueil : catalogue modulaire non consommé");
+  assert(home.includes('document.createElementNS(SVG_NS, "a")'),
+    "Accueil : les zones doivent être des liens SVG natifs");
+  assert(home.includes('viewBox="0 0 704 1114"'), "Accueil : repère SVG attendu 704 × 1114");
+  assert(home.includes('class="building-photo"') && home.includes('class="building-hotspots"'),
+    "Accueil : photo ou calque de zones absent");
+  assert(home.includes("for (let number = 9; number >= 1; number -= 1)"),
+    "Accueil : neuf étages doivent être générés");
+  assert(home.includes("const leftEdge = 72, rightEdge = 556, halfHeight = 34"),
+    "Accueil : géométrie des zones polygonales absente");
+  assert(home.includes('link.setAttribute("href", floor.links[0].href)'),
+    "Accueil : destinations directes des zones absentes");
+  assert(home.includes('number === 9 ? "IA & Business Intelligence"'),
+    "Accueil : intitulé du neuvième étage incorrect");
+  const enterprise = floors.find(floor => floor.name === "Espace entreprises");
+  assert(enterprise?.links?.[0]?.href === "espace-membre.html",
+    "Accueil : accès Espace entreprises incorrect");
 }
 
 const catalogue = read("catalogue-majestios.js");
