@@ -94,95 +94,37 @@
 .virtual-space[data-world="veille"] .virtual-space-scene:after{border-color:rgba(255,255,255,.25)}
 
 
-/* Recherche des pages de rubrique : même langage visuel que l'accueil,
-   avec une composition verticale qui reste lisible sur mobile. */
-.rubric-search-card{
-  display:block!important;
-  width:100%;
-  max-width:760px;
-  min-width:0;
-  margin:28px auto 24px;
-  padding:clamp(16px,3vw,24px);
-  border:1px solid rgba(213,181,108,.34)!important;
-  border-radius:14px!important;
-  background:linear-gradient(145deg,#101a28,#0b111b)!important;
-  box-shadow:0 16px 42px rgba(0,0,0,.28)!important;
-  color:#f4f0e6;
+/* Moteur de recherche partagé : mêmes étapes, composants, dimensions et palette que l'accueil. */
+body:not(.homepage) .rubric-search-card{
+  display:block!important;width:min(900px,100%);max-width:900px;min-width:0;
+  margin:26px auto 24px;padding:clamp(12px,1.5vw,22px);
+  border:1px solid #e8b94e!important;border-radius:13px!important;
+  background:#06142be8!important;box-shadow:0 18px 48px #0006!important;color:#f5f7fb;
   transform:none!important;
 }
-.rubric-search-card:hover,.rubric-search-card:focus-within{
-  transform:none!important;
-  border-color:rgba(213,181,108,.5)!important;
-  box-shadow:0 16px 42px rgba(0,0,0,.28)!important;
-}
-.rubric-search-card h2{
-  margin:0 0 8px;
-  color:#f4f0e6;
-  font-size:clamp(18px,2.2vw,23px);
-  line-height:1.3;
-}
-.rubric-search-card>p{
-  margin:0 0 16px;
-  color:#bdb5a4!important;
-  font-size:13px;
-  line-height:1.6;
-}
-.rubric-search-card .advanced-search-form{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-  width:100%;
-  min-width:0;
-  margin:0;
-}
-.rubric-search-card .advanced-search-form label{
-  display:block;
-  min-width:0;
-  color:#d9c58f;
-  font-size:11px;
-  font-weight:700;
-  line-height:1.4;
-}
-.rubric-search-card .advanced-search-form input,
-.rubric-search-card .advanced-search-form select{
-  display:block;
-  width:100%;
-  min-width:0;
-  min-height:42px;
-  margin-top:5px;
-  padding:9px 11px;
-  border:1px solid rgba(213,181,108,.35);
-  border-radius:7px;
-  background:#101a28;
-  color:#f4f0e6;
-  font:inherit;
-  font-size:12px;
-}
-.rubric-search-card .advanced-search-form input::placeholder{color:#9f9a8e}
-.rubric-search-card .advanced-search-form button{
-  grid-column:1/-1;
-  width:100%;
-  min-height:42px;
-  border:1px solid #d5b56c;
-  border-radius:7px;
-  background:#d5b56c;
-  color:#11151c;
-  font-size:12px;
-  font-weight:800;
-}
-.rubric-search-card .small-note{
-  margin:12px 0 0;
-  color:#9fa9b6!important;
-  font-size:10px;
-  line-height:1.5;
-}
+body:not(.homepage) .rubric-search-card .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
+body:not(.homepage) .rubric-search-card .feed-demo{padding:0;border:0;background:transparent;box-shadow:none}
+body:not(.homepage) .rubric-search-heading{margin:0 0 16px}
+body:not(.homepage) .rubric-search-heading h2{margin:0 0 7px;color:#fff;font-size:clamp(18px,2.2vw,24px);line-height:1.25}
+body:not(.homepage) .rubric-search-heading p{margin:0;color:#e0e9f7;font-size:12px;line-height:1.5}
+body:not(.homepage) #advanced-search-form{display:grid;grid-template-columns:1fr;gap:10px;width:100%;margin:0}
+body:not(.homepage) #advanced-search-form .feed-search{display:flex;align-items:center;gap:10px;min-width:0;padding:0 10px;border:1px solid #d5b56c88;border-radius:9px;background:#0b1c34}
+body:not(.homepage) #advanced-search-form .feed-search>span:first-child{color:#f3c65e;font-size:25px}
+body:not(.homepage) #advanced-search-form .feed-search input{width:100%;min-height:46px;margin:0;padding:8px 4px;border:0;background:transparent;color:#f4f0e6;font:inherit;font-size:14px}
+body:not(.homepage) #advanced-search-form .feed-search input::placeholder{color:#9facc0}
+body:not(.homepage) #advanced-search-form .feed-filter-label{display:block;min-width:0}
+body:not(.homepage) #advanced-search-form .feed-filter-label[hidden]{display:none!important}
+body:not(.homepage) #advanced-search-form .feed-filter-label select{width:100%;min-height:44px;margin:0;padding:8px 10px;border:1px solid #8098b8;border-radius:7px;background:#112743;color:#f4f0e6;font:inherit;font-size:13px}
+body:not(.homepage) #advanced-search-form .search-source-note{margin:0;color:#c4d0e2;font-size:11px;line-height:1.45}
+body:not(.homepage) #advanced-search-form .feed-search-submit{width:100%;min-height:46px;padding:9px 14px;border:1px solid #ffdf82;border-radius:9px;background:linear-gradient(100deg,#f7d76b,#dfa72e);color:#101828;font-size:14px;font-weight:850;cursor:pointer}
+body:not(.homepage) #advanced-search-form .feed-search-submit:hover{filter:brightness(1.06)}
+body:not(.homepage) #advanced-search-form .feed-search-submit:focus-visible,
+body:not(.homepage) #advanced-search-form input:focus-visible,
+body:not(.homepage) #advanced-search-form select:focus-visible{outline:2px solid #ffe5a0;outline-offset:2px}
 @media(max-width:600px){
-  .rubric-search-card{width:100%;margin:22px auto;padding:15px}
-  .rubric-search-card .advanced-search-form{grid-template-columns:minmax(0,1fr);gap:9px}
-  .rubric-search-card .advanced-search-form button{grid-column:auto}
+  body:not(.homepage) .rubric-search-card{width:100%;margin:20px auto;padding:12px}
+  body:not(.homepage) #advanced-search-form{gap:9px}
 }
-
-
 /* Correctifs transversaux de robustesse et de lisibilite mobile. */
 .virtual-space,.virtual-space *{box-sizing:border-box}
 .virtual-space{min-width:0;max-width:100%;isolation:isolate}
