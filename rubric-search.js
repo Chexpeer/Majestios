@@ -24,7 +24,7 @@
     },
     "veille-marches.html": {
       title: "Rechercher dans la veille des marchés",
-      description: "Filtrez les avis publics par mot-clé, catégorie et région administrative.",
+      description: "Filtrez les avis publics par mot-clé, catégorie et département.",
       market: "public",
       fixedMarket: true
     },
