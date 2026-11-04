@@ -46,15 +46,15 @@ La V5 est construite sur une branche indépendante. La branche `evolution-3.0` n
 
 ## Statut des décisions
 
-Le panorama de référence de l’accueil est `Ambisios.webp`. Les fonds `Développement-.webp`, `Marché-Public-.webp` et `Prospection-.webp` sont dédiés à leurs rubriques respectives. Les huit destinations visibles sont Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux : ils ne constituent pas des étages supplémentaires. Le principe « le schéma reflète l’arborescence » demeure non négociable.
+Le panorama de référence de l’accueil est `Ambisios.webp`. Quatre fonds de rubrique sont présents : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Leur présence dans le dépôt ne certifie pas encore la validation visuelle de leur affectation ni leur rendu sur toutes les pages. Les huit destinations visibles sont Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux : ils ne constituent pas des étages supplémentaires. Le principe « le schéma reflète l’arborescence » demeure non négociable.
 
 
 ## Mise à jour d’architecture — 4 novembre 2026
 
 - `Ambisios.webp` est le panorama de l’accueil.
-- Trois fonds de rubrique sont conservés et publiés : `Développement-.webp`, `Marché-Public-.webp` et `Prospection-.webp`.
+- Quatre fonds de rubrique sont présents et déclarés dans le manifeste : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp` (Marchés privés).
 - Les huit destinations Ambisios disposent d’un lien SVG direct ; les contrôles navigateur desktop/mobile doivent confirmer les zones.
 - Les destinations visibles sont limitées aux huit intitulés de référence. Les fonctions transversales ne doivent pas devenir des étages supplémentaires.
-- Les anciennes images WebP ont été supprimées de `evolution-5.0` après remplacement de leurs références.
+- Les cinq ressources WebP actuellement présentes sont `Ambisios.webp` et les quatre fonds de rubrique listés ci-dessus. Toute suppression supplémentaire exige une vérification des références, de la valeur visuelle et de l'historique.
 - Les coordonnées interactives, l’éclairage et la position de l’ascenseur restent à vérifier ensemble contre l’image réelle ; cette mise à jour documentaire ne certifie pas leur recette.
 - Le filtre géographique du moteur est spécifié comme « département » dans la cible ; son implémentation effective sur chaque source reste à valider.
