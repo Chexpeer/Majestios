@@ -245,3 +245,55 @@ Cet addendum prévaut sur les passages antérieurs de ce document lorsqu'ils dé
 ### Ce qui n'est pas encore validé
 
 Aucun retrait de page, script, style, image ou fonction métier n'est autorisé sur la seule base de cet addendum. Restent à réaliser : inventaire exhaustif des références croisées, cartographie des pages et routes, détection des scripts/styles orphelins, contrôle complet des liens, exécution des tests et vérification visuelle desktop/mobile. Les coordonnées des zones interactives et le comportement de l'ascenseur ne sont pas certifiés ici. Aucun merge ni déploiement de production n'a été effectué.
+
+
+---
+
+## 10. Actualisation de l'audit — 4 novembre 2026, contrôle du dépôt V5
+
+**Branche contrôlée :** `evolution-5.0`  
+**État du code après correction du défaut de recherche :** commit `bf1642be3264410c7b59301037ffb5d18b83a7a5`  
+**Périmètre :** arborescence Git complète, référentiel V5, accueil, moteur de recherche, manifeste, scripts de vérification et dernier workflow observé.
+
+### 10.1 Identité de la plateforme
+
+La règle est désormais sans ambiguïté : **BrainIOS est l'ancien nom de MajestiOS V.5 ; il s'agit d'une seule et même plateforme.** Les capacités utiles de l'ancien corpus BrainIOS doivent être intégrées sous le nom MajestiOS V.5. Le document de nettoyage qui laissait ce sujet ouvert a été corrigé.
+
+### 10.2 Ressource de façade : divergence de nom à résoudre
+
+Le dépôt contient `Ambisios.webp`, référencé dans `index.html`, `site-files.json`, la documentation, le test navigateur et le contrôle d'architecture. Le nom confirmé par le fondateur est `Ambitios.webp`. Cette divergence est un défaut de nomenclature et de traçabilité à résoudre de manière coordonnée. **Ne pas supprimer ni remplacer l'image avant d'avoir confirmé que le binaire existant est bien le visuel attendu.**
+
+### 10.3 État réel de l'expérience visuelle
+
+L'accueil affiche une image WebP statique et superpose huit liens SVG natifs. Cela constitue une navigation par hotspots, pas encore le quartier d'affaires explorable décrit dans l'expérience cible. Ne sont pas démontrés par le code observé :
+- rotation ou exploration de plusieurs façades ;
+- exploration de la toiture ;
+- ascenseur extérieur animé reliant les étages ;
+- déplacement spatial cohérent avec l'arborescence ;
+- expérience immersive complète responsive.
+
+Les anciennes règles CSS de tour construite en CSS coexistent avec des règles ultérieures dédiées à la photo et aux hotspots. Cette superposition de styles doit être rationalisée après vérification du rendu, sans casser les zones de clic. Le test navigateur actuel ne valide que l'image, les huit zones et les routes.
+
+### 10.4 Défaut JavaScript détecté et corrigé
+
+Le test navigateur du workflow `41874890785` a échoué à l'étape de sélection d'une catégorie : `#feed-sector` restait désactivé. L'analyse de `app.js` a identifié une référence à `initialParams` alors que la variable déclarée est `initialSearchParams`. Cette erreur interrompait l'exécution du script avant l'enregistrement des gestionnaires de changement du type de marché.
+
+**Correction appliquée :** remplacement de la référence erronée par `initialSearchParams` dans `app.js`, commit `bf1642be3264410c7b59301037ffb5d18b83a7a5`. Le résultat du nouveau workflow doit être consulté avant de considérer le correctif validé.
+
+### 10.5 État de la recherche et des sources
+
+Le catalogue distingue les catégories publiques des familles privées. Les cinq familles BODACC présentes dans le catalogue sont actives ; immobilier, emploi et sous-traitance restent explicitement planifiés et désactivés. Les tests d'intégration du workflow précédent ont confirmé l'accessibilité des API BOAMP et BODACC sur un échantillon, mais ne démontrent ni exhaustivité, ni fraîcheur garantie, ni pertinence métier de toutes les catégories.
+
+Le parcours de recherche reste à tester de bout en bout pour chaque type, catégorie et département, y compris les catégories sans page dédiée, les paramètres URL, les erreurs de source et les résultats plafonnés à dix.
+
+### 10.6 Priorités de l'audit complet
+
+1. Réconcilier le nom et l'identité du fichier de façade avec `Ambitios.webp` et mettre à jour toutes les références ensemble.
+2. Construire la matrice complète panorama → destination → dossier → sous-dossier → page → fonction et vérifier chaque lien.
+3. Distinguer le prototype d'image cliquable de la future expérience immersive avec quartier, façades, toiture et ascenseur.
+4. Auditer tous les parcours de recherche, catégories privées/publics, sources, paramètres et états d'erreur.
+5. Cartographier les dépendances de chaque page, script, style, image, manifeste, test et workflow avant tout retrait.
+6. Confronter les capacités futures — CRM, Business Intelligence, MajestiOS V.5, mémoire, administration IA, SEO continu, réputation virtuelle, réseau et accompagnement AO — aux preuves du code et à la roadmap.
+7. Contrôler sécurité, confidentialité, formulaires, persistance, authentification et cloisonnement ; ne pas assimiler le prototype statique à un SaaS opérationnel.
+
+**Limite :** cette actualisation est une lecture distante du dépôt et des traces GitHub Actions. Elle ne constitue pas une recette visuelle manuelle sur tous les appareils, un audit juridique, un audit de sécurité exhaustif ni une validation de production.
