@@ -1,0 +1,23 @@
+# Dépendances et sorties générées
+node_modules/
+dist/
+.vercel/
+playwright-report/
+test-results/
+coverage/
+
+# Environnements et secrets locaux
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Systèmes et éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
