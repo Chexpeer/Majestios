@@ -36,7 +36,7 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 - Les codes APE/NAF ne prouvent ni compétence ni capacité à répondre à un marché.
 - Les annonces utilisateurs sont soumises à contrôle et modération ; leur publication n'autorise pas la réutilisation générale des données de l'auteur.
 - Les espaces clients sont cloisonnés entre eux et du CRM interne.
-- BrainOS est un périmètre documentaire séparé, sans accès implicite au CRM.
+- MajestiOS V.5 est la plateforme intelligente transversale ; ses assistants, sa mémoire et ses outils respectent des périmètres de données et des permissions distincts.
 - Les offres d'emploi MajestiOS proviennent des utilisateurs ou de l'équipe ; les sources externes Cadremploi, France Travail et APEC restent différées.
 - Périmètre BODACC initial : créations, ventes et cessions, modifications. Procédures collectives, radiations et immobilier exclus.
 - Les cinq catégories BOAMP doivent être choisies après mesure réelle des volumes puis validées par le porteur du projet.
