@@ -38,7 +38,7 @@ Aucun statut « opérationnel » ne sera attribué sur la seule base d'une page 
 | 3 | Socle développement commercial | Recherche fiable, taxonomie, sources, qualification, CRM fondamental | À CONSTRUIRE |
 | 4 | Réputation virtuelle | Recherche de présence locale, vérification et parcours d'accompagnement | À CONSTRUIRE |
 | 5 | BrainIOS utilisateur | Assistant contextuel utile, sourcé et non intrusif | À CONSTRUIRE |
-| 6 | BrainIOS administrateur | Cockpit de pilotage, API OpenAI, demandes, mémoire, rapports, budgets et recommandations | À CONSTRUIRE |
+| 6 | BrainIOS administrateur | Cockpit de pilotage, API OpenAI, demandes, mémoire, rapports, budgets et recommandations | PROTOTYPE UX INITIAL RÉALISÉ / BACKEND À CONSTRUIRE |
 | 7 | Atelier BrainIOS | Évolution pilotée depuis l'admin : GitHub, lots isolés, tests, SEO et validations | À CONSTRUIRE |
 | 8 | Apprentissage contrôlé | Analyse agrégée des usages et amélioration mesurée | À CONSTRUIRE |
 | 9 | Stabilisation et ouverture | Sécurité, conformité, performance, recette et déploiement progressif | À CONSTRUIRE |
@@ -415,3 +415,176 @@ Le document de référence détaillé est [BrainIOS — API OpenAI et cockpit d'
 Cette décision implique que l'espace admin n'est pas un chantier secondaire : il est une pièce structurante du produit et doit être développé assez tôt pour devenir le point d'entrée des évolutions suivantes.
 
 La clé API est un secret serveur, jamais un champ de formulaire admin. La facturation API est distincte de l'abonnement ChatGPT. Le service devra comporter des budgets, quotas, alertes et un suivi des coûts avant son ouverture à un usage régulier.
+
+
+---
+
+## 17. Feuille de route d'exécution — prochains changements
+
+Cette section transforme les phases fonctionnelles en une séquence de lots techniques concrets. Elle est priorisée pour obtenir rapidement un cockpit réellement utilisable, sans exposer l'administration ni construire prématurément des fonctions coûteuses.
+
+### Ordre directeur
+
+**Sécuriser le terrain → rendre le cockpit accessible → connecter BrainIOS → lui donner une mémoire fiable → lui confier la préparation des évolutions → étendre les modules métier et SEO.**
+
+Les lots sont séquentiels lorsqu'ils touchent à l'identité, aux données ou aux secrets. Les travaux documentaires, UX et contrôles de qualité peuvent avancer en parallèle s'ils ne créent pas de dépendance cachée.
+
+### Lot A — Consolider le chantier back-office et la base Git
+**Priorité : P0 — préalable immédiat**
+
+- conserver le prototype dans `foundation-backoffice-4.0` jusqu'à revue ;
+- vérifier l'arborescence, le build, les scripts de test et les règles d'exclusion du dossier `admin/` ;
+- exécuter le build et les tests disponibles, ajouter un contrôle explicite garantissant que le prototype privé n'entre pas dans `dist/` ;
+- vérifier accessibilité clavier, responsive, liens internes, erreurs console et cohérence des états désactivés ;
+- clarifier la cartographie des branches et PR héritées sans les fusionner ni les retargeter ;
+- intégrer les changements du prototype à la branche 4.0 uniquement après validation des contrôles et de la stratégie de branche.
+
+**Livrables :** rapport de vérification, inventaire des scripts, preuve d'exclusion du build public, décision de conservation du prototype.  
+**Critère de sortie :** build et contrôles ciblés reproductibles ; aucun fichier admin privé dans l'artefact public.
+
+### Lot B — Choisir et documenter le socle backend / identité
+**Priorité : P0 — avant toute connexion réelle**
+
+- inspecter les ressources Vercel et Supabase réellement disponibles, sans créer ni modifier de service ;
+- comparer les options d'authentification, de base relationnelle, de sessions, de migrations, de coûts et de portabilité ;
+- retenir une architecture minimale compatible avec le prototype statique existant et l'hébergement retenu ;
+- définir les environnements local, preview et production ;
+- décider comment sera créé et récupéré le premier compte administrateur ;
+- rédiger le modèle de menace et le contrat d'accès des routes admin.
+
+**Livrables :** ADR (décision d'architecture), schéma de flux, matrice coûts/risques, procédure de bootstrap admin.  
+**Critère de sortie :** choix explicite et vérifié ; aucun secret ni service externe créé pendant la phase d'étude.
+
+### Lot C — Authentification et périmètre d'administration
+**Priorité : P0 — fondation de sécurité**
+
+- implémenter une authentification réelle ;
+- vérifier chaque requête et rôle administrateur côté serveur ;
+- gérer sessions sécurisées, expiration, révocation, protection CSRF/origine et limitation de fréquence ;
+- protéger toutes les routes sous `/api/v1/admin/` ;
+- prévoir une page de connexion et les états session expirée / accès refusé ;
+- ajouter tests anonymes, utilisateur authentifié non admin, admin, session expirée et accès direct aux API ;
+- éviter tout accès public aux données et rapports du cockpit.
+
+**Livrables :** login fonctionnel, middleware/guard serveur, tests de permissions, procédure de récupération d'accès.  
+**Critère de sortie :** les routes sont refusées par défaut et la matrice de permissions est démontrée par des tests.
+
+### Lot D — API admin et persistance minimale
+**Priorité : P0 — rendre le cockpit vivant**
+
+- établir les contrats API versionnés ;
+- créer les entités demandes, plans, lots, tâches, décisions et événements d'audit ;
+- versionner les migrations et documenter sauvegarde/restauration ;
+- ajouter validation stricte des entrées et pagination ;
+- connecter la vue d'ensemble à des données réelles, avec états chargement/vide/erreur ;
+- journaliser les opérations sensibles sans secrets ni contenu inutilement personnel.
+
+**Livrables :** schéma initial, migrations, services, routes et tests d'intégration.  
+**Critère de sortie :** une demande peut être créée, consultée, modifiée et historisée par un administrateur autorisé.
+
+### Lot E — Passerelle BrainIOS / OpenAI
+**Priorité : P1 — premier usage intelligent du cockpit**
+
+- configurer une clé API dédiée dans les secrets serveur uniquement ;
+- créer une passerelle backend qui n'accepte que les appels admin autorisés ;
+- définir modèles autorisés, limites de tokens, budgets, quotas, timeouts et gestion des erreurs ;
+- enregistrer les métriques d'usage et coûts estimés sans conserver de secrets ;
+- ajouter un coupe-circuit lorsque le budget ou les quotas sont atteints ;
+- présenter clairement l'état de configuration sans jamais afficher la clé.
+
+**Livrables :** service IA serveur, paramètres non secrets, suivi de consommation, tests de sécurité et de budget.  
+**Critère de sortie :** une conversation admin fonctionne sans appel direct navigateur → OpenAI ; les limites et refus sont testés.
+
+### Lot F — Mémoire projet et gestion des demandes
+**Priorité : P1 — continuité et pilotage**
+
+- structurer la mémoire à partir de la vision, des décisions validées, du vocabulaire et des documents de référence ;
+- distinguer mémoire confirmée, hypothèses, idées en attente et historique ;
+- rendre les entrées consultables, versionnées, corrigibles et traçables ;
+- permettre à BrainIOS de résumer une demande, identifier les impacts, proposer un lot, critères d'acceptation et risques ;
+- demander une validation avant de transformer une proposition en travail autorisé ;
+- ne pas inclure automatiquement les données CRM ou personnelles dans le contexte IA.
+
+**Livrables :** mémoire projet versionnée, interface de conversation, gestion demandes/plans/lots/décisions.  
+**Critère de sortie :** BrainIOS restitue les décisions pertinentes et transforme une demande en plan vérifiable sans inventer l'état du dépôt.
+
+### Lot G — Atelier GitHub, build et anti-régression
+**Priorité : P1 — capacité d'évolution contrôlée**
+
+- relier le compte GitHub via un jeton/app à permissions minimales ;
+- inspecter le dépôt et les fichiers autorisés ;
+- créer des branches de travail isolées ;
+- afficher diff, fichiers modifiés et justification ;
+- lancer build, tests et contrôles de liens/architecture ;
+- présenter preuves, limites, risques et retour arrière ;
+- séparer approbation de plan, approbation de modification, fusion et déploiement.
+
+**Livrables :** atelier de changement, journal d'exécution, rapports de tests et mécanisme de validation.  
+**Critère de sortie :** une modification est préparée et testée en branche isolée ; aucune fusion ou publication sans approbation distincte.
+
+### Lot H — SEO, rapports et veille continue
+**Priorité : P2 — après fiabilisation du cockpit et de l'observabilité**
+
+- établir l'audit SEO technique initial de MajestiOS ;
+- intégrer progressivement Search Console et Bing Webmaster Tools si autorisés ;
+- suivre indexation, sitemap, robots, canonical, redirections, erreurs HTTP, métadonnées, données structurées, maillage interne, mobile et Core Web Vitals ;
+- distinguer positions et données mesurées des hypothèses, tendances et estimations ;
+- suivre les évolutions de recherche générative séparément du référencement naturel classique ;
+- générer des alertes et recommandations, puis préparer les corrections dans des lots isolés ;
+- exiger revue humaine pour les URLs, canonicals, redirections, contenus stratégiques et directives d'indexation.
+
+**Livrables :** audit de référence, tableau de suivi, rapports périodiques et backlog d'optimisation.  
+**Critère de sortie :** les alertes sont sourcées et reproductibles ; les corrections proposées sont mesurables et réversibles.
+
+### Lot I — Modules métier MajestiOS et intégrations
+**Priorité : P2/P3 — selon les dépendances métier**
+
+- stabiliser le moteur transversal et sa taxonomie ;
+- réconcilier les adaptateurs BOAMP et BODACC ;
+- finaliser les règles de la catégorie Nettoyage ;
+- construire le référentiel entreprise/établissement et le CRM fondamental ;
+- implémenter Réputation virtuelle sur les interfaces autorisées et avec résolution des homonymes ;
+- développer Prosp'active avec qualification, provenance, préférences et validation humaine ;
+- connecter BrainIOS utilisateur après validation du corpus et des permissions.
+
+**Livrables :** modules métier par lots, contrats API, tests de parcours et preuves de provenance.  
+**Critère de sortie :** chaîne de valeur traçable de la détection à la capitalisation, avec les droits et contrôles adaptés.
+
+### Lot J — Recette, sécurité et ouverture
+**Priorité : P0 avant toute mise en production**
+
+- tests de bout en bout desktop/mobile ;
+- audit de sécurité et tests de cloisonnement ;
+- contrôle des données personnelles et conformité ;
+- tests de sauvegarde et restauration ;
+- tests de charge, performance et accessibilité ;
+- vérification des coûts et alertes ;
+- procédure incident et retour arrière ;
+- validation finale explicite avant déploiement.
+
+**Livrables :** dossier de recette, rapport sécurité, plan d'exploitation et décision d'ouverture.  
+**Critère de sortie :** tous les critères critiques sont démontrés ; la mise en production fait l'objet d'une autorisation distincte.
+
+### Priorisation synthétique
+
+| Ordre | Lot | Priorité | Dépend de | Résultat concret |
+|---:|---|---|---|---|
+| 1 | A — Consolidation et vérifications | P0 | Prototype existant | Base propre et contrôlée |
+| 2 | B — Choix backend / identité | P0 | A | Architecture décidée |
+| 3 | C — Authentification admin | P0 | B | Accès admin sécurisé |
+| 4 | D — API et persistance | P0 | B, C | Données et demandes réelles |
+| 5 | E — BrainIOS / OpenAI | P1 | C, D | IA utilisable côté admin |
+| 6 | F — Mémoire et demandes | P1 | D, E | Continuité du projet |
+| 7 | G — Atelier GitHub | P1 | C, D, F | Évolutions isolées et testées |
+| 8 | H — SEO et veille | P2 | D, E, G | Pilotage SEO mesuré |
+| 9 | I — Modules métier | P2/P3 | B, C, D | Fonctions commerciales robustes |
+| 10 | J — Recette et ouverture | P0 final | Tous les lots ouverts | Autorisation de production |
+
+### Règles de progression
+
+- Commencer par le lot A : vérifier ce qui a été préparé avant d'empiler du code.
+- Ne pas créer de projet Supabase, de base, de compte fournisseur ou de secret sans avoir vérifié les ressources et présenté le choix technique.
+- Ne pas demander à l'utilisateur de coller une clé privée dans le chat ou dans l'interface navigateur ; la configuration se fera dans les secrets serveur.
+- Les lots peuvent être subdivisés en sous-lots courts, mais chaque sous-lot conserve ses critères de sortie.
+- À chaque étape, mettre à jour ce document avec le statut réel, le commit, les tests exécutés et les risques résiduels.
+- La branche `foundation-backoffice-4.0` reste isolée jusqu'à validation de son intégration dans la ligne 4.0.
