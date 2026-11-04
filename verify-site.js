@@ -33,7 +33,7 @@ const rubricSearchPages = [
   "marches-publics.html", "developpement-commercial.html", "prospection-active.html",
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
   "intelligence-economique.html", "reseaux-synergies.html",
-  "bodacc-veille-entreprises.html", "suivi-commercial.html",
+  "bodacc-veille-entreprises.html", "suivi-commercial.html", "marches-prives.html",
   "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html",
   "crm.html", "majestios-v5.html"
 ];
