@@ -11,7 +11,7 @@ Ce document définit des domaines fonctionnels à étudier. Il ne choisit pas en
 3. **Développement commercial** : qualification, identification, Prosp'active, suivi des interactions et transformation.
 4. **Accompagnement AO** : préparation, valorisation des compétences et références, aide à la réponse ; les fonctions d'appels d'offres restent accessibles même si elles ne sont plus un étage de premier niveau.
 5. **Réseau, salons et séminaires** : mise en relation, événements, communautés et partenariats ; périmètres à clarifier.
-6. **Réputation virtuelle** : visibilité locale, établissement, présence cartographique, avis et accompagnement, selon les API et conditions réelles.
+6. **Réputation virtuelle** : visibilité locale, établissement, présence cartographique, avis et accompagnement, selon les API et conditions réelles. Cas d'usage à concevoir : à partir d'une création BODACC, rapprocher l'activité et l'adresse de l'entreprise, vérifier sa présence sur Google Maps et les informations/avis publics accessibles par des moyens autorisés, puis qualifier un éventuel besoin d'accompagnement visibilité. Toute prise de contact est préparée et soumise à validation humaine ; aucune prospection automatique par défaut.
 7. **Offre commerciale CRM** : conseil, sélection, intégration et accompagnement de solutions CRM.
 8. **CRM interne MajestiOS** : données commerciales propres à MajestiOS.
 9. **CRM des clients** : données tierces cloisonnées et traitées selon mandat.
