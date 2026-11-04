@@ -221,6 +221,15 @@ MVP :
 
 **Objectif :** faire de l'espace admin le cockpit depuis lequel le porteur du projet pilote et fait évoluer MajestiOS avec BrainIOS, alimenté par une API OpenAI payante dédiée.
 
+### 6.0 — Ergonomie et structure du cockpit (prototype initial réalisé)
+- shell de navigation et vue d'ensemble ;
+- modules BrainIOS, demandes/lots, atelier GitHub, qualité, SEO et paramètres ;
+- design system autonome, responsive et accessible au clavier ;
+- prototype isolé dans `admin/`, non inclus dans le build public ;
+- aucun backend, compte, donnée persistante ou appel externe à ce stade.
+
+Référence : `FONDATIONS-BACK-OFFICE-4.0.md`. Le prototype est une base de conception, pas une interface sécurisée ni une fonctionnalité opérationnelle.
+
 Menu et fonctions :
 - Assistant BrainIOS et contexte projet ;
 - vision, mémoire et décisions ;
