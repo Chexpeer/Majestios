@@ -23,6 +23,7 @@
     nettoyage: ["nettoyage", "propreté", "nettoyage industriel", "entretien des locaux", "nettoyage des locaux"]
   };
   const CATEGORY_TYPES = { services: "SERVICES", travaux: "TRAVAUX" };
+  const PUBLIC_CATEGORIES = new Set([...Object.keys(CATEGORY_TERMS), ...Object.keys(CATEGORY_TYPES)]);
   const BODACC_CATEGORY_TERMS = {
     "bodacc-creations": ["création", "immatriculation", "constitution", "établissement principal", "ouverture"],
     "bodacc-cessions": ["vente", "cession", "fonds de commerce", "reprise", "achat"],
@@ -300,6 +301,12 @@
       } finally {
         request.finish();
       }
+      return;
+    }
+
+    if (category !== "all" && !PUBLIC_CATEGORIES.has(category)) {
+      empty.textContent = "Cette catégorie publique n’est pas reconnue. Choisissez une rubrique disponible.";
+      empty.setAttribute("role", "status");
       return;
     }
 

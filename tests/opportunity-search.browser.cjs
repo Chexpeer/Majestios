@@ -255,6 +255,10 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&departement=999", { waitUntil: "domcontentloaded" });
     await page.getByText(/Ce département n’est pas reconnu/).waitFor({ timeout: 10000 });
     assert.equal(bodaccCalls, 1, "Un département inconnu doit être rejeté avant tout nouvel appel BODACC.");
+    apiCalls = 0;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=public&categorie=unknown-category", { waitUntil: "domcontentloaded" });
+    await page.getByText(/Cette catégorie publique n’est pas reconnue/).waitFor({ timeout: 10000 });
+    assert.equal(apiCalls, 0, "Une catégorie publique inconnue ne doit pas produire des résultats sans filtre.");
 
     await page.goto("http://127.0.0.1:4174/categorie-services-numeriques.html?categorie=services&marche=public&departement=79", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Maintenance informatique et cybersécurité" }).waitFor({ timeout: 10000 });

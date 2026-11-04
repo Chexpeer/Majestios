@@ -14,6 +14,7 @@ La V5 est la branche de travail active. La branche `evolution-3.0` est conservé
 | [Audit de conformité et des liens](evolution-5.0/AUDIT-CONFORMITE-ARCHITECTURE-ET-LIENS.md) | Preuves du contrôle du dépôt, état des routes, résultats et limites de vérification |
 | [Audit du lot 2 — navigation fonctionnelle](evolution-5.0/AUDIT-LOT-2-NAVIGATION-FONCTIONNELLE.md) | Parcours de second niveau, corrections vérifiées et contrôles non exécutés |
 | [Audit du lot 3 — fonctionnalités des rubriques](evolution-5.0/AUDIT-LOT-3-FONCTIONNALITES.md) | Qualification opérationnelle des rubriques, correction du menu et travaux restant à développer |
+| [Audit du lot 4 — moteur de recherche transversal](evolution-5.0/AUDIT-LOT-4-MOTEUR-RECHERCHE.md) | Sources, filtres, pertinence, limites de couverture, CRM et recommandations d'évolution |
 
 Les autres documents V5 sont des précisions thématiques subordonnées à la référence centrale. En cas de divergence, appliquer la référence et corriger le document de détail.
 

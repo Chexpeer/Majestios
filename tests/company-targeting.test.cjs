@@ -14,6 +14,10 @@ async function main() {
   assert.equal(normalized.siren, "123456789");
   assert.equal(normalized.siret, "12345678900016");
   assert.equal(normalized.department, "79");
+  assert.equal(targeting.normalizeCompany({ siege: { code_postal: "97100" } }).department, "971",
+    "Un code postal ultramarin doit conserver le département à trois chiffres.");
+  assert.equal(targeting.normalizeCompany({ siege: { code_postal: "97620" } }).department, "976",
+    "Le département 976 ne doit pas être ramené au préfixe 97.");
   assert.equal(normalized.naf, "43.21A");
   assert.equal(targeting.deduplicateCompanies(rows).length, 3, "Dédoublonnage sur SIRET");
   const ranked = targeting.rankCompanies(rows, { nafCodes: ["43.21A"], departments: ["79"] });

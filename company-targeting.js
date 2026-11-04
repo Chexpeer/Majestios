@@ -19,7 +19,8 @@
     const siret = digits(getFirst(source.siret, siege.siret, source.siret_siege));
     const naf = normalizeCode(getFirst(source.activite_principale, source.code_naf, source.naf, siege.activite_principale));
     const postalCode = digits(getFirst(siege.code_postal, source.code_postal, source.adresse_code_postal));
-    const department = String(getFirst(siege.departement, source.departement, source.department, source.code_departement, postalCode.length >= 2 ? postalCode.slice(0, 2) : "") || "").toUpperCase();
+    const postalDepartment = postalCode.startsWith("97") ? postalCode.slice(0, 3) : postalCode.slice(0, 2);
+    const department = String(getFirst(siege.departement, source.departement, source.department, source.code_departement, postalDepartment) || "").toUpperCase();
     const name = String(getFirst(source.nom_complet, source.denomination, source.nom_raison_sociale, source.name, source.nom) || "").trim();
     const activeRaw = getFirst(source.etat_administratif, source.statut, source.active, siege.etat_administratif);
     const active = typeof activeRaw === "boolean" ? activeRaw : (activeRaw == null ? null : /^(A|ACTIF|ACTIVE|ACTIV)$/i.test(String(activeRaw).trim()));
