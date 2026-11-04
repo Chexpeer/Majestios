@@ -34,7 +34,7 @@ L'ascenseur n'est pas un menu permanent obligatoire dans chaque page. Le concept
 
 ## 4. Le moteur de recherche transversal
 
-Le moteur de recherche est une capacité transversale accessible depuis l’accueil et les pages de rubrique. Il ne constitue pas un neuvième ou un dixième étage : les huit destinations visibles d’Ambisios restent la référence spatiale.
+Le moteur de recherche est une capacité transversale accessible depuis l’accueil et les pages de rubrique. Il ne constitue pas un neuvième ou un dixième étage : les huit destinations visibles d’`Ambitios.webp` restent la référence spatiale.
 
 Le moteur doit conserver une logique de sélection progressive et cohérente avec les sources :
 - choix du type d'opportunité (public / privé lorsque pertinent) ;
@@ -60,15 +60,15 @@ Le moteur affiché sur l'accueil doit reprendre **exactement le principe visuel 
 
 L'interface doit rester fidèle à la sobriété de l'image de référence : **la complexité est dans le moteur et son orchestration, pas dans ce que l'utilisateur voit au premier regard.**
 
-## 5. Nomenclature de référence — alignement sur Ambisios.webp
+## 5. Nomenclature de référence — alignement sur `Ambitios.webp`
 
-L'image `Ambisios.webp` présente les destinations visibles suivantes : **Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil**.
+L'image `Ambitios.webp` présente les destinations visibles suivantes : **Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil**.
 
 Cette liste devient la référence des intitulés visibles sur l'immeuble. Elle ne signifie pas que chaque fonction technique ou chaque page existante doit devenir un étage autonome.
 
 Les rattachements fonctionnels, les pages existantes à conserver et les écarts du mapping actuel sont détaillés dans [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md).
 
-CRM, Business Intelligence, suivi commercial, recherche, administration, mémoire, orchestration et MajestiOS V.5 sont traités comme des fonctions ou modules transversaux, sauf arbitrage explicite ultérieur. « Salon » et « Séminaires » ne sont pas des étages autonomes dans la nomenclature Ambisios : les pages correspondantes sont des parcours associés à Réseau. Le libellé « Événements » est retiré de cette proposition.
+CRM, Business Intelligence, suivi commercial, recherche, administration, mémoire, orchestration et MajestiOS V.5 sont traités comme des fonctions transversales. « Salon » et « Séminaires » ne sont pas des étages autonomes dans la nomenclature `Ambitios.webp` : les pages correspondantes sont des parcours associés à Réseau. Le libellé « Événements » est retiré de cette proposition.
 
 Le moteur de recherche reste visible sous la forme de la barre simple de la référence ; ses choix apparaissent au clic. Son éventuel statut de destination verticale distincte ne doit pas modifier les huit intitulés visibles sans décision explicite.
 
@@ -141,7 +141,7 @@ Cette liste ne valide ni le nombre d'étages, ni leur ordre, ni l'existence d'un
 
 ### Méthode de sélection et de validation
 
-1. Utiliser la nomenclature visible d'Ambisios comme référence et vérifier chaque destination dans l'arborescence réelle.
+1. Utiliser la nomenclature visible d'`Ambitios.webp` comme référence et vérifier chaque destination dans l'arborescence réelle.
 2. Définir pour chaque étage une intention visuelle, une palette secondaire et une ambiance.
 3. Présenter les propositions de fonds d'écran pour validation avant intégration.
 4. Décliner chaque décor en formats desktop et mobile, avec des zones de sécurité pour les contenus.
@@ -184,27 +184,28 @@ Comparer avant de choisir :
 - aucun changement des moteurs ou formulaires métier causé par le seul changement de présentation.
 
 
-## 10. Architecture visuelle effective — référence unique Ambisios
+## 10. Architecture visuelle effective — référence unique `Ambitios.webp`
 
-Depuis le 4 novembre 2026, `Ambisios.webp` reste le panorama de l’accueil. Quatre fonds de rubrique sont présents : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`.
+Depuis le 4 novembre 2026, `Ambitios.webp` reste le panorama de l’accueil. Cinq fonds de rubrique sont présents : `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp`, `Marcheprive.webp` et `Reseau.webp`.
 
 Conséquences :
 - aucune page ne doit référencer une ancienne image WebP supprimée ;
-- `site-files.json` doit déclarer le panorama et les quatre fonds de rubrique, soit cinq ressources WebP ;
+- `site-files.json` doit déclarer le panorama et les cinq fonds de rubrique, soit six ressources WebP ;
 - les contenus et interactions propres aux rubriques sont différenciés par le HTML et les composants, avec un fond photographique adapté à chaque rubrique lorsque ce fond existe ;
 - toute nouvelle image WebP devra faire l’objet d’un arbitrage explicite.
 
 La cible spatiale comporte huit destinations : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence et MajestiOS V.5 sont transversaux, sans étage propre.
 
-**État de validation :** les cinq ressources WebP sont présentes dans le dépôt et le manifeste. Cela ne valide ni la recette des zones de clic, ni l'animation de l'ascenseur, ni l'éclairage, ni le rendu responsive.
+**État de validation :** les six ressources WebP sont présentes dans le dépôt et le manifeste. Cela ne valide ni la recette des zones de clic, ni l'animation de l'ascenseur, ni l'éclairage, ni le rendu responsive.
 
 
 ## 7. Fonds visuels dédiés aux rubriques
 
-Le panorama `Ambisios.webp` reste l'image de navigation de l'accueil. Les quatre fonds ajoutés au dépôt sont conservés et affectés ainsi :
+Le panorama `Ambitios.webp` reste l'image de navigation de l'accueil. Les cinq fonds de rubrique présents au dépôt sont affectés ainsi :
 - Développement commercial : `Développement-.webp` ;
 - Marchés publics : `Marché-Public-.webp` ;
 - Prospection : `Prospection-.webp` ;
-- Marchés privés : `Marcheprive.webp`.
+- Marchés privés : `Marcheprive.webp` ;
+- Réseau : `Reseau.webp`.
 
 Ces fonds ne remplacent pas le panorama et ne créent pas de nouvelles destinations. Ils sont déclarés dans `site-files.json` afin d'être inclus dans le build. Les contrastes, le recadrage et la lisibilité des contenus doivent être contrôlés sur desktop et mobile.

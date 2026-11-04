@@ -15,7 +15,7 @@ MajestiOS doit devenir une plateforme de développement commercial organisée au
 L'architecture cible repose sur six principes :
 
 1. **API comme frontière applicative :** le navigateur ne contacte pas directement les sources externes et ne porte pas les règles sensibles.
-2. **Modules à responsabilités distinctes :** collecte, qualification, publication, CRM, Veille, Prospection, espaces clients et BrainOS ont des périmètres explicites.
+2. **Modules à responsabilités distinctes :** collecte, qualification, publication, CRM, Veille, Prospection, espaces clients et le corpus documentaire ont des périmètres explicites.
 3. **CRM central, accès cloisonné :** le CRM interne MajestiOS est le référentiel commercial de l'opérateur ; les espaces clients sont des espaces de travail séparés, pas des vues ouvertes du CRM interne.
 4. **Circulation conditionnelle :** aucune annonce ou donnée ne passe automatiquement de Publication vers CRM, Veille ou Prospection sans contrôle de finalité, de provenance, de droits et de statut.
 5. **Événements traçables :** chaque changement significatif peut être expliqué, rejoué de manière sûre ou corrigé sans créer de doublons.
@@ -40,7 +40,7 @@ flowchart TB
     WATCH[Veille et rapprochements]
     PROS[Prospection active]
     TENANT[Espaces clients cloisonnés]
-    BRAIN[BrainOS documentaire]
+    KNOWLEDGE[corpus documentaire]
     AUDIT[Journal d'audit et traçabilité]
     DB[(Persistance applicative)]
     DOCS[(Corpus documentaire autorisé)]
@@ -58,8 +58,8 @@ flowchart TB
     CRM --> PROS
     PROS --> CRM
     GATEWAY --> TENANT
-    GATEWAY --> BRAIN
-    BRAIN --> DOCS
+    GATEWAY --> KNOWLEDGE
+    KNOWLEDGE --> DOCS
     PUB --> DB
     CRM --> DB
     WATCH --> DB
@@ -88,7 +88,7 @@ flowchart TB
 | Veille | Détection, analyse, rapprochement et qualification de signaux | Ne conclut pas à la capacité réelle d'une entreprise sur le seul APE/NAF |
 | Prospection active | Préparation et suivi des actions commerciales autorisées | Respecte opposition, désinscription, finalités et règles applicables |
 | Espaces clients | Données et dossiers propres à un client, plus partages explicitement autorisés | Aucun accès au CRM interne ou aux autres clients |
-| BrainOS | Recherche et organisation de documents autorisés | Aucun accès implicite au CRM, aux contacts ou aux campagnes |
+| Corpus documentaire | Recherche et organisation de documents autorisés | Aucun accès implicite au CRM, aux contacts ou aux campagnes |
 | Journal d'audit | Historique des accès sensibles, décisions et transmissions | Ne doit pas devenir un dépôt incontrôlé de données personnelles |
 
 ## 3. Flux métier principal
@@ -152,7 +152,7 @@ Une annonce publique expose uniquement les champs approuvés. Les coordonnées d
 | Veille | Analyse des signaux, rapprochement et qualification | Automatisation non validée ou fondée uniquement sur APE/NAF |
 | Prospection active | Actions commerciales autorisées, traçables et opposables | Campagnes sans contrôle préalable de finalité et d'opposition |
 | Espaces clients | Environnements isolés, dossiers et partages explicitement autorisés | Accès transversal entre clients |
-| BrainOS | Corpus documentaire autorisé | Accès implicite aux données CRM ou aux espaces clients |
+| Corpus documentaire | Corpus documentaire autorisé | Accès implicite aux données CRM ou aux espaces clients |
 
 ## 5. Modèle conceptuel des données
 
@@ -342,7 +342,7 @@ erDiagram
 3. Les dédoublonnages doivent être idempotents et ne pas fusionner automatiquement des entités ambiguës.
 4. Les suppressions, retraits, oppositions et expirations doivent être propagés selon des règles explicites et auditables.
 5. Les scores de rapprochement sont explicables et ne valent jamais validation de capacité.
-6. Les données internes CRM, les données d'un tenant et le corpus BrainOS sont séparés par des contrôles d'accès dédiés.
+6. Les données internes CRM, les données d'un tenant et le corpus documentaire sont séparés par des contrôles d'accès dédiés.
 
 ## 6. Cycle de vie des annonces
 
@@ -411,7 +411,7 @@ flowchart TB
     ANN[announcements]
     MOD[moderation]
     WORK[workspaces]
-    BRAIN[brainos]
+    KNOWLEDGE[corpus documentaire]
     AUDIT[audit]
 
     API --> AUTH
@@ -425,7 +425,7 @@ flowchart TB
     API --> ANN
     API --> MOD
     API --> WORK
-    API --> BRAIN
+    API --> KNOWLEDGE
     API --> AUDIT
 ```
 
@@ -456,7 +456,7 @@ Ce découpage représente des domaines fonctionnels de contrat. Il ne signifie p
 | Annonces | `POST /announcements`, `GET /announcements`, `POST /announcements/{id}/submit` | Auteur authentifié / champs publics |
 | Modération | `POST /moderation/{id}/decision` | Modérateur habilité |
 | Espaces clients | `GET /workspaces/{id}`, `GET /workspaces/{id}/items` | Membres du tenant correspondant uniquement |
-| BrainOS | `POST /brainos/search`, `GET /brainos/documents/{id}` | Accès au corpus documentaire autorisé |
+| Recherche documentaire | `POST /knowledge/search`, `GET /knowledge/documents/{id}` | Accès au corpus documentaire autorisé |
 | Audit | `GET /audit/events` | Auditeur / administrateur autorisé |
 
 Ces routes sont des exemples de découpage, pas des endpoints existants. Les contrats finaux doivent préciser schémas, champs, codes HTTP, erreurs, filtres, pagination, limites, scopes et règles de visibilité.
@@ -584,7 +584,7 @@ flowchart LR
 | Prospection | CRM interne | Actions, interactions, résultats | Traçabilité de l'action | Effacer les oppositions |
 | CRM interne | Espace client | Dossier ou opportunité sélectionnée | Partage explicite, minimisation, tenant correct | Accès au CRM global |
 | Espace client | CRM interne | Retour ou document soumis | Contrôle, attribution et droits | Accès croisé entre clients |
-| Corpus autorisé | BrainOS | Documents explicitement autorisés | Droits documentaires et périmètre validés | Accès implicite au CRM |
+| Corpus autorisé | Corpus documentaire | Documents explicitement autorisés | Droits documentaires et périmètre validés | Accès implicite au CRM |
 
 ## 11. Sécurité, identité et autorisations
 
@@ -614,7 +614,7 @@ Trois périmètres doivent être séparés logiquement et techniquement :
 
 1. **Interne MajestiOS :** CRM interne, sources, qualification, prospection, modération et opérations.
 2. **Tenant client :** dossiers, documents, actions et données appartenant au client, accessibles uniquement aux membres autorisés.
-3. **Corpus BrainOS :** documents autorisés et index documentaire avec permissions propres.
+3. **Corpus documentaire :** documents autorisés et index documentaire avec permissions propres.
 
 Une donnée ne traverse pas ces périmètres par simple disponibilité dans la base. Tout partage doit être explicite, limité en champs, en finalité et en durée, et journalisé.
 
@@ -654,7 +654,7 @@ Les conditions d'utilisation, quotas, limites, politiques de cache et possibilit
 
 ## 13. Migration depuis le prototype actuel
 
-L'audit de phase 1 décrit un prototype HTML/CSS/JavaScript statique, sans serveur applicatif, base de données, authentification, persistance ni CRM opérationnel. Les appels BOAMP, BODACC et Recherche d'Entreprises partent actuellement du navigateur. Les modules CRM, Veille, Prospection, espaces clients et BrainOS sont principalement des pages de présentation.
+L'audit de phase 1 décrit un prototype HTML/CSS/JavaScript statique, sans serveur applicatif, base de données, authentification, persistance ni CRM opérationnel. Les appels BOAMP, BODACC et Recherche d'Entreprises partent actuellement du navigateur. Les modules CRM, Veille, Prospection, espaces clients et le corpus documentaire sont principalement des pages de présentation.
 
 La migration ne doit pas être une réécriture globale. Elle doit préserver l'expérience et les ressources visuelles validées tout en remplaçant progressivement les responsabilités sensibles par des services serveur.
 
@@ -708,7 +708,7 @@ La migration ne doit pas être une réécriture globale. Elle doit préserver l'
 - Développer dépôt, modération, publication, retrait et expiration.
 - Définir le modèle de tenant et les partages.
 - Tester l'impossibilité d'accès croisé entre clients et au CRM interne.
-- N'ajouter BrainOS qu'avec son corpus et ses permissions indépendants.
+- Maintenir une frontière documentaire avec des permissions explicites et indépendantes.
 
 **Critère de sortie :** parcours annonce et espace client testés avec jeux de données cloisonnés.
 
@@ -742,7 +742,7 @@ Aucun des choix suivants ne doit être présenté comme validé avant comparaiso
 
 L'architecture ne sera considérée comme prête pour une implémentation métier que lorsque les points suivants seront vérifiés :
 
-- [ ] Le modèle distingue CRM interne, données de publication, Veille, Prospection, tenants clients et corpus BrainOS.
+- [ ] Le modèle distingue CRM interne, données de publication, Veille, Prospection, tenants clients et corpus documentaire.
 - [ ] Chaque donnée possède une provenance, une date et une finalité.
 - [ ] Chaque transfert a une règle, un statut, une destination et un résultat traçables.
 - [ ] Les droits sont appliqués côté serveur et testés en refus.

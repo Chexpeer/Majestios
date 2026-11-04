@@ -2,9 +2,20 @@
 
 **Index — 4 novembre 2026** · Branche de travail active : `evolution-5.0`
 
-La V5 est la branche de travail active. La branche `evolution-3.0` est conservée intacte comme base de référence et patrimoine fonctionnel ; `evolution-2.0` conserve les références fondatrices et de gouvernance. Les documents de la V4 et les dossiers historiques restent des sources à examiner, pas des décisions automatiquement reprises.
+La V5 est la branche de travail active. La branche `evolution-3.0` est conservée intacte comme base de référence et patrimoine fonctionnel ; `evolution-2.0` conserve les références fondatrices et de gouvernance. Le corpus documentaire V4 demandé n'est pas présent dans ce dépôt ; les dossiers historiques disponibles sont des sources à examiner, pas des décisions automatiquement reprises.
 
 ## Référentiel actif — MajestiOS 5.0
+
+### Référence canonique
+
+| Document | Rôle |
+|---|---|
+| [Référence MajestiOS V.5](evolution-5.0/MAJESTIOS-V5-REFERENCE.md) | Source canonique de vision, d'architecture, d'arborescence, d'état réel et de décisions à prendre |
+| [Audit de conformité et des liens](evolution-5.0/AUDIT-CONFORMITE-ARCHITECTURE-ET-LIENS.md) | Preuves du contrôle du dépôt, état des routes, résultats et limites de vérification |
+
+Les autres documents V5 sont des précisions thématiques subordonnées à la référence centrale. En cas de divergence, appliquer la référence et corriger le document de détail.
+
+### Documents complémentaires
 
 | Document | Rôle |
 |---|---|
@@ -43,7 +54,7 @@ La V5 est la branche de travail active. La branche `evolution-3.0` est conservé
 
 1. Les décisions explicites et validations récentes du porteur du projet prévalent.
 2. Le référentiel V5 définit l'orientation stratégique et la cible de travail actuelle.
-3. Les documents 3.0 et 2.0 préservent les acquis fonctionnels et les décisions héritées ; ils ne sont pas réécrits pour faire disparaître l'historique.
+3. Les documents 3.0 et 2.0 préservent les acquis fonctionnels et les décisions héritées. Les copies versionnées dans cette branche ont été alignées sur la terminologie V5, sans modification de la branche source `evolution-3.0`.
 4. Les audits décrivent un état daté : leurs constats doivent être revalidés avant intervention.
 5. Une proposition n'est pas une décision ; une page ou un script présent n'est pas la preuve d'une fonction opérationnelle.
 6. Toute contradiction non résolue est inscrite dans le registre d'audit ; aucune IA ne tranche par supposition.
@@ -62,7 +73,7 @@ La V5 est la branche de travail active. La branche `evolution-3.0` est conservé
 - Périmètre BODACC et catégories privées, à harmoniser entre décisions métier, catalogue et tests.
 - Catégories BOAMP après mesure des volumes et validation.
 - Circuits distincts entre publication, CRM, veille et prospection.
-- Périmètre de MajestiOS V.5, mémoire, assistants et orchestration : BrainIOS est l'ancien nom de MajestiOS V.5, pas un projet séparé. Les idées et travaux utiles de l'historique BrainIOS sont à intégrer dans le périmètre V.5.
+- Rôle de l'intelligence centrale MajestiOS V.5, permissions des assistants, mémoire et orchestration.
 - Architecture backend, identité, cloisonnement, stockage, coûts et intégrations.
 - SEO : audit continu, veille des moteurs, recommandations et validation des changements.
 

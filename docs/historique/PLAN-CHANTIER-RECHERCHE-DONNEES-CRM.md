@@ -23,7 +23,7 @@ Statut : audit initial réalisé ; corrections progressives à valider. Aucune p
 - Les tests existants prévoient une vérification statique, des tests de disponibilité des sources BOAMP/BODACC et un test navigateur avec réponses simulées.
 - La recherche publique interroge BOAMP ; la recherche privée interroge le jeu OpenDataSoft des annonces commerciales BODACC. Ces résultats ne doivent jamais être fusionnés sans indiquer clairement leur nature et leur source.
 - Le filtre de région est déjà envoyé par le formulaire public, mais le chemin BOAMP ne l'appliquait pas à la requête ni aux résultats. Les valeurs de zones « Nord/Ouest/Sud — exemple » ne correspondent pas à des régions administratives réelles.
-- Plusieurs rubriques métiers décrivent encore des parcours envisagés sans moteur de recherche local intégré. BrainOS et le CRM affichent explicitement un périmètre futur, pas un service connecté.
+- Plusieurs rubriques métiers décrivent encore des parcours envisagés sans moteur de recherche local intégré. La recherche documentaire et le CRM affichent explicitement un périmètre futur, pas un service connecté.
 - Le modèle prévoit provenance, identifiants, dates et statuts ; il reste à construire la persistance serveur, le contrôle qualité, la déduplication et la file interne de qualification.
 
 ## 3. Segmentation des lots

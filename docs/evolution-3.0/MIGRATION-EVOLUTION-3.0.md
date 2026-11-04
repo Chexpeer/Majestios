@@ -30,7 +30,7 @@ L'audit de phase 1 décrit notamment :
 - build Node.js et contrôles automatisés existants ;
 - absence de serveur applicatif, base de données, persistance et authentification ;
 - appels BOAMP, BODACC et Recherche d'Entreprises déclenchés depuis le navigateur ;
-- CRM, Veille, Prospection, espaces clients et BrainOS principalement sous forme de pages de présentation ;
+- CRM, Veille, Prospection, espaces clients et recherche documentaire principalement sous forme de pages de présentation ;
 - absence de transmissions métier persistantes entre modules ;
 - appels réels aux sources non vérifiés depuis l'environnement de l'audit, en raison de restrictions réseau ;
 - tests de build, de structure et tests métier/navigateur décrits comme réussis après les corrections consignées dans l'audit.
@@ -66,7 +66,7 @@ Le fichier Markdown synthétique `ARCHITECTURE-API-CIBLE.md` partagé par un lie
 - Publication, CRM, Veille et Prospection sont des circuits distincts.
 - Toute transmission dépend de la provenance, de la finalité, des droits et d'une règle explicite.
 - Le CRM interne MajestiOS est distinct des espaces clients. Aucun client ne voit le CRM interne ni les données d'un autre client.
-- BrainOS reste un périmètre documentaire indépendant, sans accès implicite au CRM.
+- le corpus documentaire reste un périmètre documentaire indépendant, sans accès implicite au CRM.
 - L'harmonisation graphique du prototype est conservée comme acquis ; aucune refonte visuelle n'est impliquée par ce dossier d'architecture.
 
 ## 4. Orientation technique 3.0
@@ -102,7 +102,7 @@ Les diagrammes représentent la cible et non des fonctionnalités existantes.
 | 4 | CRM et événements | Référentiel, rapprochements, historique | Idempotence et revue humaine |
 | 5 | Publication et espaces clients | Dépôt, modération, publication, tenant | Tests d'isolation inter-clients |
 | 6 | Prospection active | Actions, relances, opposition, résultats | Vérification d'éligibilité avant action |
-| 7 | BrainOS et intégrations complémentaires | Corpus et interfaces autorisés | Aucun accès implicite aux données CRM |
+| 7 | Recherche documentaire et intégrations complémentaires | Corpus et interfaces autorisés | Aucun accès implicite aux données CRM |
 | 8 | Validation et livraison | Tests complets, prévisualisation contrôlée | Production uniquement après autorisation |
 
 Les lots ne sont pas une autorisation automatique de développer. Chaque changement de code doit rester dans le périmètre explicitement autorisé et respecter la gouvernance.
@@ -119,7 +119,7 @@ Les lots ne sont pas une autorisation automatique de développer. Chaque changem
 - Champs publics, internes et confidentiels des annonces.
 - Règles de transmission des annonces au CRM et à la Veille.
 - Règles d'éligibilité, opposition et désinscription pour la prospection.
-- Périmètre documentaire et permissions de BrainOS.
+- Périmètre et permissions des corpus documentaires.
 - Coûts, sauvegardes, restauration, observabilité et critères de mise en production.
 
 ## 8. Gouvernance des branches

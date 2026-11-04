@@ -3,7 +3,7 @@
 **Statut :** branche de travail stratégique et technique ; le cadrage reste soumis à la confrontation des documents, du code et des décisions récentes du fondateur.  
 **Branche de travail :** `evolution-5.0`  
 **Patrimoine :** `evolution-3.0` est conservée intacte comme référence ; la documentation 2.0 et les archives historiques restent consultables.  
-**Évolution 4.0 :** mise en standby ; ses documents sont des sources à examiner, pas des décisions automatiquement reprises.
+**Évolution 4.0 :** la documentation attendue n'est pas présente dans ce checkout. Elle reste nécessaire pour établir la filiation fonctionnelle demandée ; aucune décision V4 n'est présumée.
 
 ## Intention
 
@@ -13,17 +13,21 @@ La vision ne se réduit ni à un moteur d'annonces, ni à un tableau de bord, ni
 
 ## Documents de référence
 
-1. [Vision fondatrice](VISION-FONDATRICE.md) — promesse, doctrine et principes.
-2. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — destinations, dossiers, pages et fonctions transversales.
-3. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — quartier, panorama, ascenseur, étages et navigation.
-4. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — rôles spécialisés, orchestration, proactivité et gouvernance.
-5. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
+1. [Référence MajestiOS V.5](MAJESTIOS-V5-REFERENCE.md) — document maître et source canonique.
+2. [Audit de conformité de l'architecture et des liens](AUDIT-CONFORMITE-ARCHITECTURE-ET-LIENS.md) — état du dépôt, routes et contrôles vérifiés.
+3. [Vision fondatrice](VISION-FONDATRICE.md) — promesse, doctrine et principes.
+4. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — destinations, dossiers, pages et fonctions transversales.
+5. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — quartier, panorama, ascenseur, étages et navigation.
 6. [Architecture fonctionnelle cible](ARCHITECTURE-FONCTIONNELLE-CIBLE.md) — domaines, frontières et données.
-7. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
-8. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
-9. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts à traiter.
-10. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
-11. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype, limites de la 2D, prérequis et lots de réalisation.
+7. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — rôles spécialisés, orchestration, proactivité et gouvernance.
+8. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
+9. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
+10. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
+11. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype et limites vérifiées.
+12. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts historiques à revalider.
+13. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
+
+Les documents 3 à 13 sont des compléments de sujet. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
 ## Règles de lecture
 

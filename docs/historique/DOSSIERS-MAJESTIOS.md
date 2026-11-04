@@ -38,7 +38,7 @@ Le rez-de-chaussée est réservé à **Accueil MajestiOS** et n'est pas compté 
 | Salon virtuel | `salons-seminaires.html` | Page existante à faire évoluer vers le showroom collectif |
 | Espace entreprises | `espace-membre.html` | Parcours de démonstration ; ne pas présenter comme compte réel |
 | CRM | `crm.html`, `suivi-commercial.html` | Distinguer la fiche relationnelle, le pipeline et la capitalisation |
-| Business Intelligence | `intelligence-economique.html`, `brainos.html` | Dossier d'analyse ; préciser les fonctions réelles et ne pas promettre d'automatisation non disponible |
+| Business Intelligence | `intelligence-economique.html`, `majestios-v5.html` | Dossier d'analyse ; préciser les fonctions réelles et ne pas promettre d'automatisation non disponible |
 
 ## Règles de conception
 

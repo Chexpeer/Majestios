@@ -41,7 +41,7 @@ La documentation V5 est le point d'entrée actif. Le nettoyage vise à réduire 
 ## 5. Points de vigilance stratégiques
 
 - Les documents historiques peuvent contenir des noms ou concepts remplacés ; ils restent utiles pour retrouver les intentions d'origine.
-- BrainIOS est l'appellation antérieure de MajestiOS V.5 : il s'agit d'une seule et même plateforme, pas de deux projets ou architectures. Les capacités, idées et travaux utiles documentés sous BrainIOS doivent être conservés et intégrés au périmètre MajestiOS V.5. Dans la documentation active et l'interface, employer exclusivement « MajestiOS V.5 » ; conserver « BrainIOS » uniquement dans les archives nécessaires à la traçabilité.
+- MajestiOS V.5 est l'intelligence centrale du site. Les documents de cadrage décrivent des capacités cibles ; leur présence en archive ne prouve pas qu'elles sont intégrées ou opérationnelles.
 - « Réputation virtuelle » est le terme cible ; « e-Réputation » relève de l'historique.
 - « Prospection » est l'intitulé du dossier ; « Prosp'active » peut être une signature de marque.
 - Les pages salons et séminaires restent des contenus du Réseau.
@@ -51,12 +51,12 @@ La documentation V5 est le point d'entrée actif. Le nettoyage vise à réduire 
 ## 6. Décisions de conservation connues
 
 - Le blog « 100 blagues » est explicitement retiré de l'expérience active V5 ; ses références historiques peuvent rester archivées.
-- Les ressources visuelles présentes dans la branche sont `Ambitios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Aucune ne doit être supprimée sans vérification de son usage et de sa valeur.
+- Les ressources visuelles présentes dans la branche sont `Ambitios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp`, `Marcheprive.webp` et `Reseau.webp`. Aucune ne doit être supprimée sans vérification de son usage et de sa valeur.
 - Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, salons-séminaires, CRM, suivi commercial, intelligence économique, vision, recrutement, FAQ et pages légales sont conservées jusqu'à audit de leur utilité et de leurs liens.
 
 ## 7. Première passe de nettoyage
 
-La première passe privilégie l'inventaire et la conservation. Une exception de nettoyage a été réalisée après vérification des dépendances : `shared-search.css`, absent du manifeste et non référencé par les 32 pages HTML ni les feuilles de style/scripts actifs, a été retiré. Le formulaire statique de recherche en doublon de `developpement-commercial.html` a également été retiré au profit du moteur commun par rubrique. Pour les prochaines suppressions, exiger une preuve d'obsolescence, l'absence de dépendance et de valeur métier, puis consigner la justification dans l'audit. Le manifeste `site-files.json` couvre actuellement les 32 pages HTML et toutes ses 51 entrées correspondent à des fichiers présents.
+La première passe privilégie l'inventaire et la conservation. Une exception de nettoyage a été réalisée après vérification des dépendances : `shared-search.css`, absent du manifeste et non référencé par les 32 pages HTML ni les feuilles de style/scripts actifs, a été retiré. Le formulaire statique de recherche en doublon de `developpement-commercial.html` a également été retiré au profit du moteur commun par rubrique. Pour les prochaines suppressions, exiger une preuve d'obsolescence, l'absence de dépendance et de valeur métier, puis consigner la justification dans l'audit. Le manifeste `site-files.json` couvre actuellement les 32 pages HTML et toutes ses 52 entrées correspondent à des fichiers présents.
 
 ## 8. Livrables attendus
 

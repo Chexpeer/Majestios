@@ -236,7 +236,7 @@ Les parcours A à G ci-dessus constituent la spécification cible. Ils ne doiven
 
 - la recherche, les pages de rubriques, les connecteurs BOAMP/BODACC et l'immeuble interactif disposent de composants de prototype ; leur validation dépend des tests de chaque parcours et du commit concerné ;
 - le test navigateur de recherche a échoué dans l'exécution GitHub Actions du 2 novembre, après réussite du build, des contrôles d'architecture, des connexions BOAMP/BODACC et du test de l'immeuble interactif ;
-- la persistance CRM, les comptes professionnels, les rôles, l'historique durable, les campagnes réelles, les automatisations planifiées et le moteur BrainIOS autonome restent à développer ou à connecter ;
+- la persistance CRM, les comptes professionnels, les rôles, l'historique durable, les campagnes réelles, les automatisations planifiées et le moteur de recherche documentaire autonome restent à développer ou à connecter ;
 - les parcours d'accompagnement aux appels d'offres, de ciblage APE/NAF et de prospection sont des exigences produit déjà définies, mais ne sont pas à présenter comme des services intégralement opérationnels.
 
 La matrice de traçabilité demeure le document de référence pour le statut de chaque exigence. Un statut ne peut évoluer qu'avec une preuve liée à un commit et à un test adapté. Résultat CI consulté : [exécution du 2 novembre 2026](https://github.com/Chexpeer/Majestios/actions/runs/41460016382).

@@ -63,7 +63,7 @@ Les flèches représentent des possibilités de circulation, pas des transferts 
 | Veille | Détecter, rapprocher et qualifier des signaux | Sources autorisées et données accessibles | Analyses, alertes, cibles qualifiées |
 | Prospection active | Transformer les signaux autorisés en actions | Cibles et opportunités qualifiées | Campagnes, relances, retours et résultats |
 | Espaces clients | Fournir un espace de travail isolé | Données explicitement sélectionnées | Dossiers et suivi propres au client |
-| BrainOS | Organiser la connaissance documentaire | Documentation validée et ressources autorisées | Synthèses et réponses traçables ; aucun accès implicite au CRM |
+| Recherche documentaire | Organiser la connaissance documentaire autorisée | Documents validés et ressources autorisées | Synthèses et réponses traçables ; aucun accès implicite au CRM |
 
 ## 4. Flux par source
 

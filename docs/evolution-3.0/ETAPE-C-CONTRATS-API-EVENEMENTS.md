@@ -217,8 +217,8 @@ Les routes ci-dessous sont des exemples de contrats à détailler. Elles ne sont
 | Espaces clients | `GET /api/v1/client/workspaces` | Lister les espaces du tenant courant | Membership actif et rôle |
 | Espaces clients | `POST /api/v1/client/workspaces` | Créer un espace de travail | Permission tenant, quota et propriétaire |
 | Espaces clients | `POST /api/v1/client/shares/{id}/accept` | Accepter un élément explicitement partagé | Tenant destinataire, statut et validité du partage |
-| BrainOS | `POST /api/v1/brain/searches` | Rechercher dans les corpus autorisés | Droits documentaires appliqués avant restitution |
-| BrainOS | `POST /api/v1/brain/documents` | Ajouter un document à un corpus | Droit d'usage, corpus, analyse de fichier |
+| Recherche documentaire | `POST /api/v1/knowledge/searches` | Rechercher dans les corpus autorisés | Droits documentaires appliqués avant restitution |
+| Recherche documentaire | `POST /api/v1/knowledge/documents` | Ajouter un document à un corpus | Droit d'usage, corpus, analyse de fichier |
 | Gouvernance | `POST /api/v1/internal/transfers/{id}/approve` | Approuver une transmission | Autorité de validation, finalité, champs, destinataire |
 | Audit | `GET /api/v1/internal/audit-events` | Consulter les traces autorisées | Permission d'audit et périmètre restreint |
 
@@ -377,7 +377,7 @@ L'enveloppe est un contrat logique. Les données personnelles et contenus métie
 | `prospecting.objection.registered` | Prospection / gouvernance | Une opposition a été enregistrée | Blocage des actions pertinentes |
 | `client.share.created` | Espaces clients / gouvernance | Un partage limité a été créé | Tenant destinataire, audit |
 | `client.share.revoked` | Espaces clients / gouvernance | Un partage est révoqué | Accès, caches et tâches différées |
-| `brain.document.indexed` | BrainOS | Un document autorisé est indexé | Recherche BrainOS |
+| `knowledge.document.indexed` | Recherche documentaire | Un document autorisé est indexé | Recherche dans le corpus autorisé |
 | `identity.membership.revoked` | Identité | Une appartenance est révoquée | Sessions, caches et traitements différés |
 
 La présence d'un événement dans ce catalogue n'implique pas que le consommateur soit abonné ou autorisé. Les abonnements sont définis par cas d'usage, champ et périmètre.
@@ -434,7 +434,7 @@ Le rejeu doit être explicite, limité, autorisé et audité. Il ne doit pas con
 - Les journaux techniques masquent les données personnelles et les charges utiles confidentielles.
 - Une révocation de membre ou de partage doit invalider les caches et traitements en attente dans le périmètre concerné.
 - Les adaptateurs externes appliquent délais, quotas, backoff, circuit breaker si nécessaire et traçabilité de la source ; les secrets sont stockés côté serveur.
-- Les événements de BrainOS ne contiennent pas de texte documentaire ou de fragments récupérés par défaut.
+- Les événements du corpus documentaire ne contiennent pas de texte documentaire ou de fragments récupérés par défaut.
 
 ## 12. Observabilité et audit
 
@@ -490,7 +490,7 @@ Avant toute donnée réelle, les tests automatisés devront couvrir au minimum :
 20. Une annonce publiée n'est pas automatiquement versée au CRM ou à la prospection.
 21. Une opposition active bloque l'exécution même si l'action avait été préparée antérieurement.
 22. Un partage client n'expose que les champs approuvés et cesse d'être accessible après révocation.
-23. Une recherche BrainOS ne retourne aucun document hors corpus autorisé.
+23. Une recherche documentaire ne retourne aucun document hors corpus autorisé.
 
 ## 14. Décisions de l'étape C à valider
 

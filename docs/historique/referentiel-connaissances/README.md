@@ -1,8 +1,8 @@
-# BrainIOS — référentiel de connaissances MajestiOS
+# Référentiel de connaissances MajestiOS
 
 **Rôle :** point d'entrée documentaire pour les personnes et assistants IA qui conçoivent, maintiennent ou exploitent MajestiOS.
 
-BrainIOS est ici un **référentiel documentaire versionné**. Il ne constitue pas, à ce stade, une base de connaissances connectée au chatbot, un moteur RAG, un agent autonome ni un système de surveillance en arrière-plan.
+Ce dossier constitue un **référentiel documentaire versionné**. Il ne constitue pas, à ce stade, une base de connaissances connectée au chatbot, un moteur RAG, un agent autonome ni un système de surveillance en arrière-plan.
 
 ## Sources de vérité
 
@@ -50,7 +50,7 @@ Créer ces sous-dossiers seulement lorsqu'un premier document réel les justifie
 
 ## État actuel
 
-Le référentiel est amorcé par cette structure et les documents existants du dépôt. **Aucune indexation automatique, synchronisation continue, recherche sémantique ou connexion du chatbot à BrainIOS n'est activée.** Toute automatisation de ce type fera l'objet d'un lot technique distinct, avec contrôle des accès, des versions et des sources.
+Le référentiel est amorcé par cette structure et les documents existants du dépôt. **Aucune indexation automatique, synchronisation continue, recherche sémantique ou connexion du chatbot à ces documents n'est activée.** Toute automatisation de ce type fera l'objet d'un lot technique distinct, avec contrôle des accès, des versions et des sources.
 
 ## Index des documents de référence
 

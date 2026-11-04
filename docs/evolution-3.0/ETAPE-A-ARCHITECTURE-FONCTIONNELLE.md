@@ -32,7 +32,7 @@ flowchart TB
     CRM[CRM interne MajestiOS]
     PROS[Prospection active]
     CLIENT[Espaces clients cloisonnés]
-    BRAIN[BrainOS documentaire]
+    KNOWLEDGE[corpus documentaire]
     AUDIT[Traçabilité et audit]
 
     VIS --> FRONT --> GATE
@@ -44,7 +44,7 @@ flowchart TB
     CRM --> PROS
     PROS --> CRM
     GATE --> CLIENT
-    GATE --> BRAIN
+    GATE --> KNOWLEDGE
 
     COLLECT -. décisions et traces .-> AUDIT
     QUAL -. décisions et traces .-> AUDIT
@@ -53,7 +53,7 @@ flowchart TB
     CRM -. décisions et traces .-> AUDIT
     PROS -. décisions et traces .-> AUDIT
     CLIENT -. décisions et traces .-> AUDIT
-    BRAIN -. décisions et traces .-> AUDIT
+    KNOWLEDGE -. décisions et traces .-> AUDIT
 ~~~
 
 Les flèches indiquent des échanges possibles soumis à autorisation. Elles ne signifient ni synchronisation générale ni transfert automatique. La frontière applicative est une responsabilité logique ; elle ne préjuge pas du nombre de serveurs ou de déploiements.
@@ -72,7 +72,7 @@ Les flèches indiquent des échanges possibles soumis à autorisation. Elles ne 
 | CRM interne MajestiOS | Constituer le référentiel commercial interne et l'historique des relations et actions | Entreprises, établissements, contacts, relations, interactions, opportunités et historique interne | Devenir une base partagée avec les clients ou recevoir des données sans provenance/finalité documentées |
 | Prospection active | Préparer et suivre les actions commerciales autorisées | Éligibilité, actions, campagnes, oppositions, relances et résultats | Lancer une action sans vérifier finalité, pertinence, autorisation et opposition |
 | Espaces clients | Fournir à chaque client un espace de travail propre et isolé | Dossiers, documents et éléments explicitement partagés avec ce client | Voir le CRM interne, les données d'un autre client ou les espaces privés de MajestiOS |
-| BrainOS | Rechercher et organiser un corpus documentaire autorisé | Documents, métadonnées, versions, droits et index documentaires | Accéder implicitement au CRM, aux contacts, aux campagnes ou aux espaces clients |
+| Recherche documentaire | Rechercher dans les documents autorisés | Documents, métadonnées, versions, droits et index documentaires | Accéder implicitement au CRM, aux contacts, aux campagnes ou aux espaces clients |
 | Traçabilité et audit | Conserver la preuve des accès sensibles, décisions et transmissions | Acteur, action, ressource, date, motif, résultat et corrélation | Devenir une copie générale du contenu métier ou conserver inutilement des données personnelles |
 
 ## 4. Frontières de confiance et séparation des périmètres
@@ -81,7 +81,7 @@ Les flèches indiquent des échanges possibles soumis à autorisation. Elles ne 
 
 1. **Organisation MajestiOS interne** : CRM, qualification interne, Veille, Prospection, administration et modération. L'accès est réservé aux collaborateurs et rôles internes habilités.
 2. **Périmètre client** : chaque client dispose de son propre tenant et de ses propres membres, dossiers et documents. Deux tenants ne partagent aucune donnée par défaut.
-3. **Corpus BrainOS** : périmètre documentaire séparé, alimenté uniquement par des documents dont l'usage est autorisé. Il ne bénéficie d'aucun droit implicite sur les deux autres périmètres.
+3. **Corpus documentaire** : périmètre de données séparé, alimenté uniquement par des documents dont l'usage est autorisé. Il ne bénéficie d'aucun droit implicite sur les deux autres périmètres.
 
 Le CRM interne n'est pas un tenant client ordinaire. Il constitue un périmètre organisationnel séparé avec une matrice de permissions propre.
 
@@ -89,7 +89,7 @@ Le CRM interne n'est pas un tenant client ordinaire. Il constitue un périmètre
 
 - Aucun accès client au CRM interne, même en lecture.
 - Aucun accès d'un client aux données d'un autre tenant.
-- Aucun accès de BrainOS au CRM ou aux espaces clients sans autorisation documentaire et technique explicite, limitée et révocable.
+- Aucun accès du corpus documentaire au CRM ou aux espaces clients sans autorisation documentaire et technique explicite, limitée et révocable.
 - Aucun secret de fournisseur ou droit privilégié dans le navigateur.
 - Toute requête sensible est autorisée côté serveur ; un identifiant de tenant fourni par le navigateur ne constitue jamais une preuve d'appartenance.
 - Les opérations de support ou d'administration sur un espace client sont limitées, justifiées, journalisées et soumises à des permissions spécifiques.
@@ -111,7 +111,7 @@ Le CRM interne n'est pas un tenant client ordinaire. Il constitue un périmètre
 | Publication | CRM / Veille | Référence ou champs nécessaires d'une annonce | Règle dédiée, finalité et droits vérifiés | Aucun transfert par défaut |
 | CRM interne | Espace client | Dossier ou élément sélectionné | Partage explicite, destinataire, périmètre, durée et révocation | Aucun partage par défaut |
 | Espace client | CRM interne | Demande, retour ou document | Attribution, contrôle, finalité et revue interne | Réception en zone contrôlée |
-| Corpus autorisé | BrainOS | Document et métadonnées autorisés | Droits documentaires, périmètre et rétention définis | Refus si droit non démontré |
+| Corpus autorisé | Recherche documentaire | Document et métadonnées autorisés | Droits documentaires, périmètre et rétention définis | Refus si droit non démontré |
 
 Tout contrat de transmission doit porter au minimum : identifiant, source et provenance, émetteur, destinataire, objet/champs transmis, finalité, règle évaluée, acteur ou processus déclencheur, horodatage, décision, statut, résultat et identifiant de corrélation.
 
@@ -126,7 +126,7 @@ Une transmission refusée ou échouée doit également être traçable. Un évé
 - **CRM :** référentiel commercial interne, distinct des espaces clients.
 - **Veille :** détection, analyse, rapprochement et qualification ; APE/NAF ne prouve ni compétence ni capacité.
 - **Prospection active :** actions commerciales soumises à un contrôle préalable et à la gestion des oppositions.
-- **BrainOS :** corpus documentaire autorisé et indépendant.
+- **Recherche documentaire :** accès aux corpus autorisés, sous permissions explicites.
 
 ## 7. Parcours métier de référence et points d'arrêt
 
@@ -166,7 +166,7 @@ Chaque point de décision doit être associé à un responsable, une règle vers
 - Veille et Prospection active restent deux domaines séparés : analyser un signal n'autorise pas à contacter une entreprise.
 - Le CRM interne reste un domaine autonome et le référentiel central ; il ne se confond ni avec les résultats de recherche ni avec les espaces clients.
 - Les espaces clients partagent éventuellement des composants techniques, mais leurs données et autorisations sont séparées tenant par tenant.
-- BrainOS reste un domaine documentaire distinct.
+- Le corpus documentaire reste un périmètre de données distinct.
 - Audit et traçabilité sont transversaux, sans donner à leurs lecteurs un accès métier implicite aux données journalisées.
 
 ## 9. Décisions d'architecture fonctionnelle proposées à validation
@@ -178,7 +178,7 @@ Les points ci-dessous constituent les arbitrages de l'étape A. Les propositions
 | A-01 | Le CRM interne est un périmètre MajestiOS séparé des tenants clients | Valider | À confirmer |
 | A-02 | Veille et Prospection active sont deux domaines distincts | Valider | À confirmer |
 | A-03 | Publication/modération est séparée de CRM et des usages de prospection | Valider | À confirmer |
-| A-04 | BrainOS n'a aucun accès implicite aux données CRM ou clients | Valider | À confirmer |
+| A-04 | La recherche documentaire n'a aucun accès implicite aux données CRM ou clients | Valider | À confirmer |
 | A-05 | Les transferts intermodules sont explicites, minimisés, autorisés et traçables | Valider | À confirmer |
 | A-06 | La qualification entrante est un point de contrôle commun, sans droit de destination automatique | Valider | À confirmer |
 | A-07 | Les espaces clients sont isolés entre eux et des périmètres internes | Valider | À confirmer |
@@ -192,7 +192,7 @@ Les points ci-dessous constituent les arbitrages de l'étape A. Les propositions
 2. Un client pourra-t-il demander le partage d'un élément du CRM via une demande soumise à validation interne, ou seuls les opérateurs pourront-ils initier un partage ?
 3. Quels éléments précis d'une annonce peuvent être rendus publics, et lesquels restent privés ou internes ?
 4. Quels transferts vers le CRM ou la Veille peuvent être automatisés après validation des règles, et lesquels exigent toujours une revue humaine ?
-5. Quels corpus et types de documents pourront être indexés dans BrainOS ?
+5. Quels corpus et types de documents pourront être indexés ?
 
 ## 10. Critères d'acceptation de l'étape A
 

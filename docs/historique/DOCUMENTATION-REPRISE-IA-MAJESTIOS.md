@@ -174,7 +174,7 @@ Avant de modifier le code, consulter aussi `MATRICE-TRAÇABILITE-EXIGENCES-MAJES
 
 ## 11. Actualisation de l'état technique — 2 novembre 2026 — état vérifié pendant le nettoyage documentaire
 
-Le prototype reste un site statique HTML/CSS/JavaScript. Les éléments suivants sont des fonctions de prototype ou des exigences, pas un CRM SaaS complet : persistance centralisée des entreprises et contacts, authentification et rôles, historique commercial durable, gestion de campagnes, automatisations planifiées et moteur documentaire BrainIOS.
+Le prototype reste un site statique HTML/CSS/JavaScript. Les éléments suivants sont des fonctions de prototype ou des exigences, pas un CRM SaaS complet : persistance centralisée des entreprises et contacts, authentification et rôles, historique commercial durable, gestion de campagnes, automatisations planifiées et moteur de recherche documentaire autonome.
 
 Les exécutions GitHub Actions consultées le 2 novembre 2026 sur la branche de correction ont échoué au test navigateur du moteur de recherche. Les étapes précédentes du même workflow ont réussi : syntaxe JavaScript, build statique, vérification architecture, tests d'accès BOAMP/BODACC et test navigateur de l'immeuble interactif. La correction de la garde dans `rubric-search.js` n'a donc pas encore de preuve de réussite du parcours complet. Voir [exécution du 2 novembre](https://github.com/Chexpeer/Majestios/actions/runs/41460016382).
 

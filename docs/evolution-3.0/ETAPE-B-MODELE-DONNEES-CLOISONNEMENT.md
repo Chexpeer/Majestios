@@ -14,7 +14,7 @@ Définir les grandes familles de données de MajestiOS, leur propriétaire fonct
 Le modèle doit protéger trois périmètres distincts :
 - l'organisation interne MajestiOS, dont le CRM ;
 - chaque espace client, isolé des autres clients et de MajestiOS interne ;
-- BrainOS, corpus documentaire séparé et soumis à des autorisations propres.
+- la recherche documentaire, limitée aux corpus autorisés et soumise à des permissions propres.
 
 **Principe directeur : la proximité technique de deux données ne crée jamais un droit d'accès ou de partage.**
 
@@ -66,7 +66,7 @@ erDiagram
     TRANSFER_DECISION ||--o{ TRANSFER_FIELD : autorise
 
     PRINCIPAL ||--o{ AUDIT_EVENT : agit
-    BRAIN_CORPUS ||--o{ DOCUMENT : contient
+    DOC_CORPUS ||--o{ DOCUMENT : contient
     DOCUMENT ||--o{ DOCUMENT_VERSION : versionne
 ~~~
 
@@ -85,7 +85,7 @@ Ce schéma est volontairement conceptuel. Il ne fixe ni les clés physiques, ni 
 | Prospection | Campagne, action, éligibilité, opposition, résultat | Prospection active | Interne MajestiOS exclusivement |
 | Publication | Annonce, pièce, décision de modération, projection publique | Publication / modération | Auteur, modérateur, public selon état et champs |
 | Espace client | Dossier, élément partagé, document, commentaire | Tenant client concerné | Tenant propriétaire, avec partage explicite |
-| BrainOS | Corpus, document, version, métadonnée, droit documentaire | BrainOS | Corpus autorisé, indépendant |
+| Recherche documentaire | Corpus, document, version, métadonnée, droit documentaire | Plateforme MajestiOS V.5 | Corpus autorisé, indépendant |
 | Gouvernance | Finalité, règle, décision de transfert, champ transféré | Gouvernance des données | Accès restreint et journalisé |
 | Audit | Événement d'accès, mutation, décision, transfert | Fonction transversale d'audit | Lecture réservée aux rôles habilités |
 
@@ -127,9 +127,9 @@ Un partage n'est pas une copie libre ni une ouverture de l'enregistrement CRM. I
 
 Le client ne peut pas remonter de cette projection vers d'autres champs du CRM. Les modifications du client sont enregistrées dans son propre espace et ne modifient pas directement la source interne.
 
-### 5.4 BrainOS
+### 5.4 Corpus documentaire
 
-BrainOS possède son propre périmètre documentaire : corpus, documents, versions, métadonnées, droits et index. Un document n'est indexable que si son origine, son propriétaire et les droits d'usage sont connus.
+Le corpus documentaire possède son propre périmètre de données : documents, versions, métadonnées, droits et index. Un document n'est indexable que si son origine, son propriétaire et les droits d'usage sont connus.
 
 L'index vectoriel éventuel ne doit pas être considéré comme une frontière de sécurité. Chaque résultat doit être filtré et autorisé selon le corpus et les droits du demandeur. Aucun accès implicite au CRM ou aux documents des tenants.
 
@@ -209,7 +209,7 @@ Une décision ancienne ne dispense pas de recontrôler les restrictions au momen
 ### 7.6 Documents et audit
 
 - **Document / DocumentVersion** : fichier, version, origine, empreinte, classification, droits et cycle de vie.
-- **BrainCorpus** : corpus documentaire autorisé, avec règles d'accès et d'indexation.
+- **Corpus documentaire** : ensemble autorisé de documents, avec règles d'accès et d'indexation.
 - **AuditEvent** : acteur, action, ressource, résultat, date, motif et identifiant de corrélation.
 
 Le journal d'audit doit éviter de copier les contenus sensibles. Il ne doit pas être modifiable par les utilisateurs dont les actions sont auditées. Les accès au journal sont eux-mêmes journalisés.
@@ -253,7 +253,7 @@ Ce choix n'est pas encore validé. Il doit être comparé à des schémas ou bas
 
 Le CRM interne ne doit pas être traité comme un tenant client standard. Il doit posséder une frontière d'autorisation distincte, avec des tests démontrant qu'aucun utilisateur client ne peut atteindre ses données.
 
-BrainOS doit disposer d'une frontière de données et de permissions propre. Le choix entre base séparée, schéma séparé ou autre cloisonnement reste ouvert et dépendra du niveau d'indépendance requis.
+Le corpus documentaire doit disposer d'une frontière de données et de permissions propre. Le choix entre base séparée, schéma séparé ou autre cloisonnement reste ouvert et dépendra du niveau d'indépendance requis.
 
 ### 9.2 Défense en profondeur
 
@@ -272,7 +272,7 @@ Les opérations privilégiées doivent utiliser des identités de service distin
 
 ## 10. Matrice minimale des accès à éprouver
 
-| Acteur | CRM interne | Tenant A | Tenant B | BrainOS |
+| Acteur | CRM interne | Tenant A | Tenant B | Corpus documentaire |
 |---|---:|---:|---:|---:|
 | Visiteur non authentifié | Refus | Refus | Refus | Refus |
 | Utilisateur client A | Refus | Selon rôle | Refus | Selon corpus autorisé |
@@ -294,7 +294,7 @@ Avant toute donnée réelle, la preuve de concept devra démontrer au minimum :
 4. Un visiteur non authentifié ne peut accéder à aucune ressource privée.
 5. Un utilisateur retiré d'un tenant perd immédiatement ses droits selon la politique de session.
 6. Un opérateur sans permission CRM ne peut pas consulter ou modifier le CRM.
-7. Un modérateur ne reçoit pas automatiquement des droits CRM ou BrainOS.
+7. Un modérateur ne reçoit pas automatiquement des droits CRM ou d'accès au corpus documentaire.
 8. Un export, une recherche globale et une tâche asynchrone respectent les mêmes restrictions.
 9. Un fichier privé ne peut être téléchargé par un autre tenant en modifiant son URL ou son identifiant.
 10. Une projection partagée ne révèle aucun champ non autorisé de l'objet CRM source.
@@ -309,7 +309,7 @@ Les tests doivent être reproductibles, intégrés au contrôle qualité et exé
 |---|---|---|---|
 | B-01 | Modèle de tenant client | Base partagée et séparation logique renforcée comme hypothèse de départ, à comparer | À valider |
 | B-02 | CRM interne | Périmètre organisationnel distinct, jamais un tenant client standard | À valider |
-| B-03 | BrainOS | Frontière de données et de permissions indépendante | À valider |
+| B-03 | Recherche documentaire | Frontière de données et de permissions indépendante | À valider |
 | B-04 | Fiches entreprise entre CRM et tenants | Aucune fusion ni enrichissement croisé automatique | À valider |
 | B-05 | Partage CRM vers client | Projection limitée, explicite, révocable et historisée | À valider |
 | B-06 | Données d'annonce | Séparer contenu privé, décision de modération et champs publics | À valider |
@@ -323,7 +323,7 @@ Les tests doivent être reproductibles, intégrés au contrôle qualité et exé
 - Faut-il autoriser plusieurs utilisateurs et plusieurs rôles par espace client dès la première version ?
 - Un client peut-il posséder plusieurs espaces ou dossiers indépendants dans son tenant ?
 - Les clients pourront-ils déposer des fichiers dès le premier lot, ou cette capacité doit-elle attendre la politique documentaire ?
-- Quel niveau d'isolation BrainOS est nécessaire : corpus par utilisateur, par organisation, ou corpus MajestiOS partagé avec droits documentaires ?
+- Quel niveau d'isolation du corpus documentaire est nécessaire : corpus par utilisateur, par organisation ou corpus MajestiOS partagé avec droits documentaires ?
 - Qui peut valider un partage d'une donnée CRM vers un client ?
 
 ## 13. Critères d'acceptation de l'étape B
@@ -332,7 +332,7 @@ L'étape B est validée lorsque :
 - les périmètres de propriété et de visibilité sont confirmés ;
 - le traitement des fiches entreprise communes et des données propres aux clients est décidé ;
 - le modèle de partage CRM/client est défini ;
-- les frontières BrainOS sont confirmées ;
+- les frontières du corpus documentaire sont confirmées ;
 - la stratégie d'isolation cible est retenue comme exigence, sans confondre exigence et fournisseur ;
 - les scénarios de tests négatifs sont acceptés ;
 - les règles de cycle de vie et de conservation sont attribuées à un chantier de conformité avant données réelles.

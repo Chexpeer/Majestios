@@ -2,7 +2,7 @@
 
 **Rôle du dossier :** transformer des données traçables en indicateurs, analyses et éléments d'aide à la décision.
 
-Pages existantes associées : `intelligence-economique.html`, `brainos.html`, ainsi que les documents de cartographie et de valorisation des données.
+Pages existantes associées : `intelligence-economique.html`, `majestios-v5.html`, ainsi que les documents de cartographie et de valorisation des données.
 
 Sous-thèmes fonctionnels : indicateurs ; tendances de marché ; rapprochement de signaux ; segmentation ; tableaux de bord et recommandations explicables.
 

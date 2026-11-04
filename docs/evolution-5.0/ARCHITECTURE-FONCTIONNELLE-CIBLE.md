@@ -2,6 +2,8 @@
 
 ## 1. Statut
 
+MajestiOS V.5 est le cerveau du site MajestiOS et son intelligence centrale. Cette orientation fonctionnelle est une décision de cadrage ; le prototype statique ne démontre pas encore un orchestrateur ou un service d'IA opérationnel.
+
 Ce document définit des domaines fonctionnels à étudier. Il ne choisit pas encore le fournisseur backend, la base de données, le moteur vectoriel, le framework frontend ou l'orchestrateur IA. Les décisions techniques seront prises après inventaire de la 3.0 et contre-audit indépendant.
 
 ## 2. Domaines fonctionnels

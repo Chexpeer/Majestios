@@ -8,7 +8,7 @@
 
 ## 1. Résumé exécutif
 
-La V5 est correctement isolée sur sa branche et conserve la base V3. La comparaison GitHub indique que V5 est en avance de 33 commits sur V3, sans retard, mais les changements observés portent principalement sur la documentation V5, le renommage de la page BrainIOS en MajestiOS V.5, le retrait de la page 100blages et quelques références associées. **Au moment de ce premier relevé, les principes des PR #32 à #34 n'étaient pas encore repris. État actualisé : V5 a depuis adopté le manifeste central et le build piloté par configuration de la PR #32 ; les PR #33 et #34 restent à examiner et ne sont pas réputées intégrées.**
+La V5 est correctement isolée sur sa branche et conserve la base V3. La comparaison GitHub indiquait que V5 était en avance de 33 commits sur V3, sans retard ; les changements observés portaient principalement sur la documentation V5, la mise à jour de la page d'intelligence transversale, le retrait de la page 100blages et quelques références associées. **Au moment de ce premier relevé, les principes des PR #32 à #34 n'étaient pas encore repris. État actualisé : V5 a depuis adopté le manifeste central et le build piloté par configuration de la PR #32 ; les PR #33 et #34 restent à examiner et ne sont pas réputées intégrées.**
 
 Le patrimoine V3 est plus avancé que ne le suggère une simple lecture de ses pages : il contient une architecture cible API détaillée, les étapes A/B/C, des tests, des contrôles de cohérence et des parcours de recherche. Toutefois, les documents A/B/C sont des propositions non implémentées et la V4 rappelle que le prototype n'est pas un SaaS : backend métier, persistance, authentification et autorisations serveur ne sont pas établis comme opérationnels.
 
@@ -43,7 +43,7 @@ Les documents V3 A/B/C posent des bases pertinentes :
 - événements idempotents, reprises, corrélation et audit ;
 - migration progressive, sans imposer prématurément des microservices.
 
-Ces principes doivent être repris dans l'architecture V5, en remplaçant le vocabulaire historique BrainOS par MajestiOS V.5 dans les documents actifs, sans réécrire les archives historiques.
+Ces principes doivent être repris dans l'architecture V5, avec une terminologie cohérente et en distinguant clairement la plateforme centrale de ses corpus documentaires.
 
 ### 3.2 Acquis du prototype
 
@@ -62,7 +62,7 @@ Leur présence dans le dépôt ne prouve pas à elle seule leur fonctionnement e
 
 ### A. Modularisation : manifeste repris, catalogue et navigation à instruire
 
-**État vérifié sur V5 :** `site-files.json` est présent, `build.js` le lit et publie les 51 ressources déclarées. Le principe de la PR #32 est donc déjà repris dans la branche V5, même si la PR #32 reste ouverte et non fusionnée. Le contrôle compare la présence des 32 pages HTML dans le manifeste et ne relève aucune page HTML oubliée.
+**État vérifié sur V5 :** `site-files.json` est présent, `build.js` le lit et publie les 52 ressources déclarées. Le principe de la PR #32 est donc déjà repris dans la branche V5, même si la PR #32 reste ouverte et non fusionnée. Le contrôle compare la présence des 32 pages HTML dans le manifeste et ne relève aucune page HTML oubliée.
 
 Le catalogue des huit destinations reste embarqué dans `index.html` ; le fichier `building-catalogue.js` proposé par la PR #33 n'est pas présent. La navigation commune proposée par la PR #34 (`site-navigation.js`) n'est pas présente non plus.
 
@@ -70,7 +70,7 @@ Le catalogue des huit destinations reste embarqué dans `index.html` ; le fichie
 
 ### B. Le catalogue d'étages de la PR #33 n'est pas validable en l'état
 
-La proposition externalise utilement les données éditoriales, mais elle contient encore des références historiques à BrainOS, des intitulés à réexaminer et des destinations/folders qui doivent être comparés à l'arborescence réelle. Le comportement de sélection repose sur une boîte de dialogue et doit être confronté à la préférence exprimée pour une navigation directe vers le dossier ou la page de destination, sans popup intermédiaire.
+La proposition externalise utilement les données éditoriales, mais elle contient encore des références historiques au corpus documentaire, des intitulés à réexaminer et des destinations/folders qui doivent être comparés à l'arborescence réelle. Le comportement de sélection repose sur une boîte de dialogue et doit être confronté à la préférence exprimée pour une navigation directe vers le dossier ou la page de destination, sans popup intermédiaire.
 
 **Recommandation :** reprendre le principe de catalogue unique, mais reconstruire ses données après arbitrage des destinations V5. Ne pas reprendre les intitulés ou comportements tels quels.
 
@@ -102,7 +102,7 @@ Le cadrage V5 décrit de nombreuses capacités cibles (CRM natif, mémoire, IA t
 | PR | Apport intéressant | Risque / vérification avant reprise | Décision proposée |
 |---|---|---|---|
 | #32 | Manifeste central, build piloté par configuration, contrôles de chemins et ressources | Le principe est déjà implémenté sur V5 via `site-files.json` et `build.js` ; comparer les différences avec la PR avant toute reprise | Ne pas fusionner la PR sans comparaison ; conserver le manifeste V5 comme référence active |
-| #33 | Catalogue de l'immeuble séparé du HTML | Nomenclature ancienne, BrainOS résiduel, routes et dossiers à vérifier, dialogue intermédiaire à arbitrer | Réutiliser le modèle de données après refonte V5 |
+| #33 | Catalogue de l'immeuble séparé du HTML | Nomenclature ancienne, éléments de navigation résiduels, routes et dossiers à vérifier, dialogue intermédiaire à arbitrer | Réutiliser le modèle de données après refonte V5 |
 | #34 | Gestionnaire de navigation commun, fermeture Escape et état ARIA | Vérifier que toutes les pages ont le même DOM, les styles, les scripts, l'ordre de chargement et les comportements mobile | Réutiliser seulement après tests multi-pages |
 
 Les PR restent ouvertes et non fusionnées. Leur code n'est pas réputé validé ni intégré.
@@ -233,7 +233,7 @@ Cet addendum prévaut sur les passages antérieurs de ce document lorsqu'ils dé
 - La branche V5 contient un manifeste `site-files.json`. L'affirmation antérieure selon laquelle ce manifeste était absent est historique et ne décrit plus l'état actuel.
 - Le dépôt V5 contient cinq WebP : `Ambitios.webp`, `Développement-.webp`, `Marché-Public-.webp`, `Prospection-.webp` et `Marcheprive.webp`. Les quatre derniers sont des fonds de rubriques. L'ancien addendum affirmant qu'un seul WebP subsistait est erroné et remplacé par cet inventaire.
 - Le README V5 et l'arborescence doivent mentionner les quatre fonds. La présence dans Git et dans le manifeste ne suffit pas à certifier le rendu ou l'affectation CSS.
-- Le rôle de BrainIOS n'est pas définitivement arbitré. Le fondateur souhaite exposer ses idées avant de définir son périmètre et son articulation avec MajestiOS V.5 ; aucune suppression documentaire ou décision d'architecture ne doit anticiper cet échange.
+- Le propriétaire a depuis défini MajestiOS V.5 comme l'intelligence centrale du site. Cet arbitrage remplace les questions ouvertes consignées dans ce relevé initial.
 - La vision immersive ne se limite pas à des zones SVG posées sur une image : elle comprend le quartier d'affaires, une expérience explorable, l'immeuble, les espaces intérieurs et l'ascenseur. Le prototype actuel ne doit pas être déclaré conforme avant démonstration de ces parcours.
 
 ### Nettoyage documentaire déjà appliqué dans cette reprise
@@ -241,7 +241,7 @@ Cet addendum prévaut sur les passages antérieurs de ce document lorsqu'ils dé
 - L'index `docs/README.md` présente la V5 comme référentiel actif et conserve les références V2/V3.
 - Le README V5 a été réécrit pour distinguer vision stratégique, patrimoine, état réel des ressources et points à ne pas figer.
 - L'arborescence V5 a été corrigée pour inventorier les cinq images, préserver les parcours métier non visibles comme étages et exiger la validation des zones et de l'ascenseur.
-- La vision fondatrice conserve l'ouverture de l'arbitrage BrainIOS / MajestiOS V.5.
+- La vision fondatrice doit refléter l'arbitrage récent sur le rôle central de MajestiOS V.5.
 - Le document de nettoyage distingue désormais clairement les capacités à préserver des éléments éventuellement supprimables.
 
 ### Ce qui n'est pas encore validé
@@ -259,7 +259,7 @@ Aucun retrait de page, script, style, image ou fonction métier n'est autorisé 
 
 ### 10.1 Identité de la plateforme
 
-La règle est désormais sans ambiguïté : **BrainIOS est l'ancien nom de MajestiOS V.5 ; il s'agit d'une seule et même plateforme.** Les capacités utiles de l'ancien corpus BrainIOS doivent être intégrées sous le nom MajestiOS V.5. Le document de nettoyage qui laissait ce sujet ouvert a été corrigé.
+La règle est désormais explicite : **MajestiOS V.5 est l'intelligence centrale du site** et coordonne ses fonctionnalités, analyses, automatisations et interactions. Les exigences relatives à cette intelligence restent des cibles tant qu'aucune implémentation testée ne les établit comme opérationnelles.
 
 ### 10.2 Ressource de façade : divergence de nom à résoudre
 

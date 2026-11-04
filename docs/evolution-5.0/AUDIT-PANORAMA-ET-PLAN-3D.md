@@ -19,10 +19,10 @@ Préparer l'évolution de l'accueil MajestiOS vers une expérience spatiale rée
 
 - `Ambitios.webp` est une image 2D : elle ne contient ni géométrie 3D, ni façades latérales, ni profondeur de scène exploitable.
 - Les huit zones SVG sont des rectangles positionnés sur l'image ; elles ne représentent pas une géométrie architecturale 3D.
-- L'ascenseur actuel est un élément SVG superposé. Son animation ne prouve pas qu'une cabine circule dans une gaine architecturale réelle.
-- Le clic sur une destination suit immédiatement son lien. Le mouvement de l'ascenseur n'est donc pas garanti visible avant la navigation.
-- L'initialisation actuelle sélectionne l'index zéro (Espace privé), alors que la doctrine de l'expérience prévoit un départ à l'accueil / rez-de-chaussée.
-- Les boutons haut/bas déplacent l'indicateur, mais ne constituent pas encore une commande complète de destination avec annonce accessible et ouverture de la rubrique à l'arrivée.
+- L'ascenseur actuel est un élément SVG superposé. Son animation ne prouve pas qu'une cabine circule dans une géométrie 3D.
+- La sélection d'une destination anime la cabine avant de suivre le lien ; la durée est raccourcie à zéro lorsque la réduction du mouvement est demandée.
+- La cabine s'initialise sur le niveau Accueil (01), au rez-de-chaussée.
+- Les boutons haut/bas déplacent la cabine et mettent à jour l'indicateur et l'annonce de statut ; la navigation vers une page est déclenchée par la sélection de sa zone.
 - Il n'existe pas encore de visite 360° autour du bâtiment, de vues de façades latérales, ni d'exploration de toiture.
 - Le fichier `rubriques-immersives.js` anime une inclinaison/parallaxe des espaces intérieurs ; ce n'est pas un moteur de visite 3D du bâtiment d'accueil.
 
@@ -97,7 +97,7 @@ Les six WebP prioritaires sont présentes dans Git et dans `site-files.json`. Le
 
 Les arrière-plans des rubriques emploient `background-size: cover`, qui peut agrandir et recadrer ces sources selon la taille de leur conteneur. Le panorama principal conserve son ratio et est plafonné à 580 CSS px : il n'est pas agrandi à densité 1×, mais sa source de 943 px de large ne suffit pas pour garantir un rendu net au plafond actuel sur écran 2×.
 
-La branche et son historique accessible ne fournissent pas de master haute définition validé pour ces compositions. L'ancien nom `Ambisios.webp` est strictement le même objet Git que `Ambitios.webp`. D'autres visuels historiques existent, mais leur équivalence avec les compositions validées n'est pas établie ; ils ne sont donc pas substitués. Aucune variante artificiellement agrandie n'a été créée. La production de variantes responsive est bloquée jusqu'à réception des fichiers maîtres correspondants.
+La branche et son historique accessible ne fournissent pas de master haute définition validé pour ces compositions. D'autres visuels candidats existent, mais leur équivalence avec les compositions validées n'est pas établie ; ils ne sont donc pas substitués. Aucune variante artificiellement agrandie n'a été créée. La production de variantes responsive est bloquée jusqu'à réception des fichiers maîtres correspondants.
 
 
 ## Avancement du lot A — interaction 2D fiabilisée

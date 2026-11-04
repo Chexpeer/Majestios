@@ -37,7 +37,7 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 - Les codes APE/NAF ne prouvent ni compétence ni capacité à répondre à un marché.
 - Les annonces utilisateurs sont soumises à contrôle et modération ; leur publication n'autorise pas la réutilisation générale des données de l'auteur.
 - Les espaces clients sont cloisonnés entre eux et du CRM interne.
-- BrainIOS = MajestiOS V.5. Il s'agit d'un seul et même projet et d'une seule plateforme intelligente transversale. BrainIOS est l'appellation antérieure ; MajestiOS V.5 est le nom actuel et définitif. Ne jamais présenter BrainIOS comme un module, produit, projet ou architecture distincte. Préserver et intégrer sous MajestiOS V.5 les idées, capacités et travaux utiles documentés sous l'ancien nom.
+- MajestiOS V.5 est l'intelligence centrale du site : elle coordonne les fonctionnalités, les analyses, les automatisations et les interactions sous les permissions et validations du projet.
 - SEO et visibilité : considérer la veille des moteurs, l'audit continu, les recommandations et l'amélioration contrôlée comme des capacités transversales de l'administration IA, pas comme un simple contenu éditorial.
 - Les offres d'emploi MajestiOS proviennent des utilisateurs ou de l'équipe ; les sources externes Cadremploi, France Travail et APEC restent différées.
 - BODACC : le périmètre métier V5 comprend les créations et débuts d'activité, ventes/cessions/reprises, modifications, difficultés et procédures collectives, ainsi que radiations et cessations. Ces familles sont exposées dans le catalogue ; leur couverture réelle doit être vérifiée par famille et par filtre. L'immobilier professionnel reste une piste prévue, non active tant qu'une source fiable et autorisée n'est pas raccordée.
@@ -55,6 +55,6 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 
 ## 6. Documentation
 
-La documentation active V5 se trouve dans `docs/evolution-5.0/` et son index est `docs/README.md`. Les documents `docs/evolution-3.0/` restent une référence historique de la base. Les documents `docs/evolution-2.0/` sont les références fonctionnelles héritées et la sauvegarde documentaire de l'étape précédente. L'historique est consultatif et ne réintroduit aucune ancienne orientation sans arbitrage.
+La référence centrale active V5 est `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md`. Son index est `docs/README.md`. Les documents `docs/evolution-3.0/` restent une référence historique de la base. Les documents `docs/evolution-2.0/` sont les références fonctionnelles héritées et la sauvegarde documentaire de l'étape précédente. L'historique est consultatif et ne réintroduit aucune ancienne orientation sans arbitrage.
 
 Les documents et comptes rendus sont rédigés en français clair. `AGENTS.md` reste la source canonique des consignes.

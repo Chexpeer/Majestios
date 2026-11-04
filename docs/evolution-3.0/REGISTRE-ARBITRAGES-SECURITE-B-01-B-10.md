@@ -13,7 +13,7 @@
 |---|---|---|---|---|
 | B-01 | Isolation des tenants clients | Base de données commune avec isolation stricte par espace client (Option A) ; choix à traduire en contrôles vérifiables | Modèle de données, autorisation, sauvegarde et exploitation | Validé — 03/11/2026 |
 | B-02 | CRM interne | Périmètre organisationnel distinct ; accès réservé aux utilisateurs internes explicitement autorisés | Routes, données, rôles et opérations internes isolés | Validé — 03/11/2026 |
-| B-03 | BrainOS | Périmètre de données et de permissions indépendant ; accès limité aux corpus et données explicitement autorisés | Corpus, index, recherche et métadonnées d'accès | Validé — 03/11/2026 |
+| B-03 | Corpus documentaire | Périmètre de données et de permissions indépendant ; accès limité aux corpus et données explicitement autorisés | Corpus, index, recherche et métadonnées d'accès | Validé — 03/11/2026 |
 | B-04 | Entreprises communes | Identité d'entreprise rapprochable, mais dossiers, notes, contacts et pièces restent propres à leur périmètre ; aucune fusion/enrichissement automatique | Référentiel, dédoublonnage et provenance | Validé — 03/11/2026 |
 | B-05 | Accès visiteurs, utilisateurs identifiés et partage CRM vers client | Visiteurs limités à quelques annonces publiques ; annonces privées majoritairement verrouillées ; utilisateurs identifiés accèdent aux étages et contenus pédagogiques ; habilitations administrées exclusivement par l'administrateur | Parcours public/identifié, contrôle d'accès, projection des annonces et partage CRM | Validé — principes d'accès et de présentation ; détails de partage à préciser |
 | B-06 | Annonces | Séparer soumission, modération, validation privée et publication ; l'auteur peut demander la publication, mais l'administrateur doit l'approuver ; publication distincte du transfert CRM et de l'usage commercial | États, droits, pièces et projections | Partiellement validé — autorité de publication ; workflow détaillé à préciser |
@@ -45,10 +45,10 @@
 - **Responsable de l'arbitrage :** porteur du projet.
 - **État :** Validé — principe de séparation et d'accès interne autorisé confirmés le 3 novembre 2026. La matrice détaillée des rôles reste à arbitrer.
 
-### B-03 — Cloisonnement de BrainOS
+### B-03 — Cloisonnement du corpus documentaire
 
 - **Question à trancher :** corpus par utilisateur, par organisation, corpus MajestiOS partagé avec droits documentaires, ou combinaison contrôlée de ces niveaux ?
-- **Décision validée le 3 novembre 2026 :** BrainOS possède un périmètre de données et de permissions indépendant. Il n'accède qu'aux corpus et données explicitement autorisés ; aucun accès implicite au CRM ou aux espaces clients n'est accordé. Les droits doivent être appliqués avant récupération et avant restitution au modèle.
+- **Décision validée le 3 novembre 2026 :** le corpus documentaire possède un périmètre de données et de permissions indépendant. Il ne contient que les documents et données explicitement autorisés ; aucun accès implicite au CRM ou aux espaces clients n'est accordé. Les droits doivent être appliqués avant récupération et avant restitution au modèle.
 - **Conséquences :** métadonnées de propriétaire, corpus, finalité et permissions ; cycle d'indexation, suppression, réindexation et invalidation des caches.
 - **Preuves attendues :** aucune recherche ne récupère, ne cite ni n'utilise un document hors périmètre autorisé ; test après révocation.
 - **Responsable de l'arbitrage :** porteur du projet, avec avis sécurité et produit.
@@ -95,9 +95,9 @@
   5. **Publication demandée :** l'auteur sollicite la publication ; la demande est distincte de la validation privée.
   6. **Publication approuvée :** l'administrateur approuve explicitement la publication et les champs destinés à la projection publique. Seuls ces champs approuvés sont exposés aux visiteurs.
   7. **Publication refusée / retirée :** la décision est tracée ; l'annonce ne devient pas publique ou cesse de l'être selon le cas. Les règles de notification et de recours restent à définir.
-- **Séparation impérative :** validation de modération, validation privée et approbation de publication sont des décisions distinctes. Une annonce validée privée ne devient jamais publique automatiquement. La publication ne vaut ni transfert de données CRM, ni autorisation de prospection, ni ingestion dans BrainOS. Tout partage CRM demeure soumis à une autorisation distincte de l'administrateur, selon B-05.
+- **Séparation impérative :** validation de modération, validation privée et approbation de publication sont des décisions distinctes. Une annonce validée privée ne devient jamais publique automatiquement. La publication ne vaut ni transfert de données CRM, ni autorisation de prospection, ni ingestion dans le corpus documentaire. Tout partage CRM demeure soumis à une autorisation distincte de l'administrateur, selon B-05.
 - **Conséquences :** états versionnés, droits d'accès par état, contrôle des pièces, projection publique en liste blanche de champs approuvés, historique des décisions et révocation/retrait de publication.
-- **Preuves attendues :** annonce non publiée invisible au public ; demande de publication de l'auteur sans effet public tant que l'administrateur n'a pas approuvé ; projection publique limitée aux champs approuvés ; refus ou retrait effectif ; aucun transfert CRM, usage commercial ou ingestion BrainOS implicite.
+- **Preuves attendues :** annonce non publiée invisible au public ; demande de publication de l'auteur sans effet public tant que l'administrateur n'a pas approuvé ; projection publique limitée aux champs approuvés ; refus ou retrait effectif ; aucun transfert CRM, usage commercial ou ingestion implicite dans le corpus documentaire.
 - **Responsable de l'arbitrage :** porteur du projet / administrateur, avec avis produit et modération.
 - **État :** partiellement validé le 3 novembre 2026 : option B confirmée pour l'autorité de publication (demande possible par l'auteur, approbation obligatoire de l'administrateur). Les états définitifs, critères de modération, champs publiables, pièces, notifications, retrait et recours restent à préciser.
 
@@ -136,7 +136,7 @@
 
 - **Question à trancher :** quelles durées ou règles de déclenchement par catégorie et finalité ?
 - **Proposition technique :** politique documentée par catégorie, sans durée globale arbitraire.
-- **Conséquences :** archivage, suppression/anonymisation, sauvegardes, index BrainOS, caches, copies transférées et preuve d'exécution.
+- **Conséquences :** archivage, suppression/anonymisation, sauvegardes, index du corpus documentaire, caches, copies transférées et preuve d'exécution.
 - **Preuves attendues :** tests de suppression et de propagation ; restauration de sauvegarde conforme à la politique ; absence de réapparition d'une donnée supprimée dans les index et traitements.
 - **Responsable de l'arbitrage :** porteur du projet, avec validation compétente en matière de conformité.
 - **État :** À arbitrer.
@@ -145,7 +145,7 @@
 
 La permission doit être évaluée selon : **acteur × domaine × ressource × action × périmètre × finalité**. Un droit de lecture n'implique pas un droit de modification, d'export, de partage ou d'exécution.
 
-| Acteur | CRM interne | Espace client | Publication / modération | BrainOS | Audit |
+| Acteur | CRM interne | Espace client | Publication / modération | Corpus documentaire | Audit |
 |---|---|---|---|---|---|
 | Visiteur non identifié | Aucun accès | Contenus pédagogiques publics uniquement ; aucune donnée d'espace client | Lecture de quelques annonces explicitement publiques ; annonces privées affichées verrouillées sans données sous-jacentes | Aucun accès privé | Aucun accès |
 | Utilisateur identifié | Aucun accès | Accès aux étages et contenus pédagogiques prévus pour les utilisateurs ; données et fonctions privées selon habilitation et périmètre | Accès selon statut du compte et droits ; annonces privées non déverrouillées restent protégées | Corpus explicitement autorisés uniquement | Aucun accès global |
@@ -165,7 +165,7 @@ Ces questions ne sont pas numérotées B-01 à B-10 dans le document source, mai
 1. Plusieurs utilisateurs et plusieurs rôles par espace client dès la première version ?
 2. Plusieurs espaces ou dossiers indépendants pour un même client ?
 3. Dépôt de fichiers dès le premier lot ou après définition de la politique documentaire ?
-4. Corpus BrainOS par utilisateur, par organisation ou partagé avec droits documentaires ?
+4. Corpus documentaire par utilisateur, par organisation ou partagé avec droits documentaires ?
 5. Qui valide un partage d'une donnée CRM vers un client ? **Principe décidé : seul l'administrateur du projet l'autorise ;** les contenus, finalités, destinataires, durées et modalités restent à définir.
 
 Elles restent **à arbitrer**.
@@ -214,4 +214,4 @@ Tant que les arbitrages bloquants ne sont pas validés :
 
 Le prototype existant reste préservé. Toute implémentation ultérieure devra faire l'objet d'un périmètre distinct, d'un audit, d'une autorisation explicite et de tests reproductibles.
 
-**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (BrainOS indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé), B-05 (accès visiteurs/utilisateurs identifiés et autorité exclusive de l'administrateur sur les habilitations), B-06 (l'auteur peut demander la publication d'une annonce, mais l'administrateur doit l'approuver) et B-07 (rapprochement automatique sur identifiant officiel vérifié, revue humaine à partir d'au moins deux critères concordants pour les correspondances probables, et filtrage évolutif réglable par l'administrateur). Les critères, pondérations et seuils détaillés de B-07 restent à préciser. Les règles détaillées de déverrouillage des annonces privées, de partage CRM et le workflow complet des annonces restent également à préciser ; B-08 à B-10 restent à arbitrer.
+**Historique de ce registre :** créé comme document préparatoire le 3 novembre 2026. Mis à jour le 3 novembre 2026 à la suite des arbitrages explicites du porteur du projet : B-01 (base commune avec isolation stricte), B-02 (CRM interne distinct), B-03 (corpus documentaire indépendant), B-04 (rapprochement d'identité d'entreprise sans fusion ni enrichissement croisé), B-05 (accès visiteurs/utilisateurs identifiés et autorité exclusive de l'administrateur sur les habilitations), B-06 (l'auteur peut demander la publication d'une annonce, mais l'administrateur doit l'approuver) et B-07 (rapprochement automatique sur identifiant officiel vérifié, revue humaine à partir d'au moins deux critères concordants pour les correspondances probables, et filtrage évolutif réglable par l'administrateur). Les critères, pondérations et seuils détaillés de B-07 restent à préciser. Les règles détaillées de déverrouillage des annonces privées, de partage CRM et le workflow complet des annonces restent également à préciser ; B-08 à B-10 restent à arbitrer.

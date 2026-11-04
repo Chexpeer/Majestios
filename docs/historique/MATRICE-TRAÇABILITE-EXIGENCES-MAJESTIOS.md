@@ -136,7 +136,7 @@ Cette actualisation complète les lignes datées du 1er novembre ; elle ne réé
 | Recherche navigateur | Échec : attente de visibilité de `#rubric-opportunity-search` | Bloquant ; diagnostic et test de bout en bout à reprendre |
 | CRM central, persistance et comptes | Pas de preuve de backend métier complet dans le prototype audité | Documenté / à développer |
 | Campagnes et automatisations commerciales | Pas de preuve d'envoi, de suivi persistant ou d'exécution planifiée | Documenté / à développer ; aucune campagne réelle autorisée |
-| BrainIOS autonome | Page et documentation de cadrage, sans preuve de moteur documentaire autonome | Documenté / à développer |
+| Recherche documentaire autonome | Page et documentation de cadrage, sans preuve de moteur documentaire autonome | Documenté / à développer |
 
 **Preuve CI :** [workflow du 2 novembre 2026](https://github.com/Chexpeer/Majestios/actions/runs/41460016382), terminé en échec malgré la réussite des étapes précédant le test de recherche.
 

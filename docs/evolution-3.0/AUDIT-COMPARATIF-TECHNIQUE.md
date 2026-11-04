@@ -46,7 +46,7 @@ Le navigateur ne doit pas détenir de secret fournisseur ni décider seul des dr
 
 ### 3.3 Séparation des périmètres
 
-Le CRM interne MajestiOS n'est pas une vue client. Chaque espace client est isolé des autres espaces et du CRM interne. BrainOS reste indépendant. Aucun transfert entre Publication, Veille, CRM et Prospection n'est implicite. Chaque transfert conserve sa provenance, sa finalité, son autorisation, sa destination, son statut et son résultat.
+Le CRM interne MajestiOS n'est pas une vue client. Chaque espace client est isolé des autres espaces et du CRM interne. Le corpus documentaire reste indépendant. Aucun transfert entre Publication, Veille, CRM et Prospection n'est implicite. Chaque transfert conserve sa provenance, sa finalité, son autorisation, sa destination, son statut et son résultat.
 
 ## 4. Comparaison des options
 

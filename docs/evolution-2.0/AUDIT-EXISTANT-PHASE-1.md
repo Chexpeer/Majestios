@@ -15,7 +15,7 @@ Ce document applique la grille du cahier des charges fondateur (§ 9) : pour cha
 
 1. **MajestiOS est aujourd'hui un prototype statique** (HTML, CSS, JavaScript natif), sans serveur applicatif, sans base de données, sans authentification et sans aucune persistance de données.
 2. **Trois fonctions interrogent de vraies sources publiques** depuis le navigateur du visiteur : la recherche BOAMP, la recherche BODACC et la recherche d'entreprises par code APE/NAF et département. Les deux premières ont des tests automatisés qui passent avec des réponses simulées ; la troisième a des tests de logique qui passent. Les appels réels aux trois services n'ont **pas pu être vérifiés** depuis l'environnement d'audit (réseau restreint).
-3. **Le CRM, la veille, la prospection active, l'espace membre, BrainOS et le salon virtuel sont des pages de présentation.** Aucun de ces modules n'enregistre, ne transmet ni ne traite de données. Les pages le disent elles-mêmes.
+3. **Le CRM, la veille, la prospection active, l'espace membre, le corpus documentaire et le salon virtuel sont des pages de présentation.** Aucun de ces modules n'enregistre, ne transmet ni ne traite de données. Les pages le disent elles-mêmes.
 4. **Le code ne correspond pas au cahier des charges sur les catégories de recherche** : le code contient 8 catégories publiques et 5 + 4 catégories privées, alors que le cahier prévoit 5 catégories publiques et 3 catégories BODACC, à définir par le porteur du projet. Ce point est à arbitrer (§ 6).
 5. **Deux contrôles automatiques étaient en échec** (§ 7) : l'un à cause des documents Markdown ajoutés par cette branche, l'autre à cause d'une régression que j'ai introduite le 2 novembre dans l'harmonisation graphique. **Les deux sont corrigés le 3 novembre** après les décisions du porteur du projet ; tous les contrôles exécutables passent.
 6. **Une documentation étendue existe sur d'autres branches** (33 documents) et a été restaurée dans `docs/historique/` (§ 11). Les premières versions de cet audit ne la mentionnaient pas.
@@ -78,7 +78,7 @@ Légende : **Réel** = interroge une source réelle ; **Logique réelle** = trai
 | Formulaire de demande (accompagnement, réception d'AO, contact) | `nous-rejoindre`, `app.js` | **Maquette** | Valide la saisie puis affiche « n'a pas été transmise » ; aucun envoi |
 | Création d'espace personnel | `espace-membre`, `app.js` | **Maquette** | Fenêtre de formulaire ; message « aucune donnée envoyée ni enregistrée » |
 | CRM | `crm` | **Maquette** | Six blocs décrits au futur ; la page indique qu'aucun CRM n'est opérationnel |
-| BrainOS (base de connaissances, chatbot) | `brainos` | **Maquette** | Aucun corpus, aucun moteur ; la page l'indique |
+| Recherche documentaire (base de connaissances, chatbot) | `recherche-documentaire` | **Maquette** | Aucun corpus connecté ni moteur ; la page l'indique |
 | Veille économique, prospection active, réseaux, suivi commercial, sous-traitance, accompagnement AO | pages de rubrique | **Maquette + recherche** | Contenu de présentation ; la carte de recherche partagée y est injectée par `rubric-search.js` |
 | Salon virtuel | `salons-seminaires` | **Maquette** | Présentation, sans moteur de recherche |
 | « Coup de pouce » | `index`, `app.js` | **Logique réelle** | Aide de navigation, pas un assistant conversationnel |
@@ -205,8 +205,7 @@ Le cahier prévoit que les catégories soient **définies par le porteur du proj
 ## 11. Documentation existante découverte pendant la mise à jour
 
 - Deux branches portaient une documentation complète (33 fichiers Markdown chacune) : `chat-est-une-ordure` et `docs/cleanup-documentation-2026-11-02`. La branche de travail `chat-est-une-ordure-sans-docs` n'en avait aucune, d'où l'absence constatée au départ.
-- La version restaurée vient de la seconde, plus récente et dotée d'un index de classement ; le dossier `BrainIOS/` (2 fichiers) vient de la première.
+- La version restaurée vient de la seconde, plus récente et dotée d'un index de classement ; le dossier `referentiel-connaissances/` (2 fichiers) vient de la première.
 - Contenu notable pour la suite : modèle commun de données CRM, modèle des appels d'offres, spécification du parcours depuis une annonce, traitement des signaux BODACC, registre des sources, matrice de traçabilité.
 - Contradictions entre ces documents et le cahier 2.0 : voir `docs/README.md`, § 4. Elles sont signalées, non tranchées.
 - L'addendum de la branche de nettoyage (2 novembre, 14 h 15 UTC) rappelait que les contrôles CI n'étaient pas tous verts à cette date. Cette mise à jour ne le remplace pas : l'état des contrôles est celui du § 4 ci-dessus.
-

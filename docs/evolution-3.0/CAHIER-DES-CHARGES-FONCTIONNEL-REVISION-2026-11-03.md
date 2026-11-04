@@ -99,7 +99,7 @@ Le cycle doit rester compatible avec les principes B-06 déjà documentés :
 
 L'auteur peut demander une publication, mais ne peut pas autoriser seul la publication publique. **Seul l'administrateur du projet approuve cette publication.**
 
-La validation d'une annonce privée, son éventuelle publication publique et tout partage de données CRM sont trois décisions distinctes. La publication ne vaut pas autorisation de transfert CRM, de prospection, ni d'ingestion dans BrainOS.
+La validation d'une annonce privée, son éventuelle publication publique et tout partage de données CRM sont trois décisions distinctes. La publication ne vaut pas autorisation de transfert CRM, de prospection, ni d'ingestion dans le corpus documentaire.
 
 ### 3.4 Informations et contrôles à prévoir
 
@@ -282,7 +282,7 @@ Ces cartes ne doivent pas être remplacées par d'autres cartes sans demande ult
 Les nouvelles fonctionnalités doivent respecter les décisions et principes déjà documentés, notamment :
 - B-01 : isolation stricte des espaces clients ;
 - B-02 : périmètre CRM interne distinct des espaces clients ;
-- B-03 : BrainOS indépendant, accès explicite aux seuls corpus autorisés ;
+- B-03 : corpus documentaire indépendant, accès explicite aux seuls corpus autorisés ;
 - B-04 : rapprochement d'identité d'entreprise sans fusion automatique des dossiers ;
 - B-05 : accès des visiteurs, utilisateurs identifiés et contenus pédagogiques selon les droits ;
 - B-06 : cycle de validation des annonces et approbation administrative obligatoire pour publication publique ;
@@ -310,7 +310,7 @@ Avant validation d'une implémentation, vérifier au minimum :
 - catégories initiales accessibles ;
 - parcours annonce communautaire distinct d'une demande confidentielle ;
 - aucune publication publique sans approbation de l'administrateur ;
-- aucune transmission CRM ou ingestion BrainOS implicite.
+- aucune transmission CRM ou ingestion implicite dans le corpus documentaire.
 
 ### Appels d'offres
 - original toujours accessible et inchangé ;
