@@ -60,7 +60,7 @@ Les six visuels publiés dans la branche sont :
 - `Marcheprive.webp` — fond de Marchés privés ;
 - `Reseau.webp` — fond de Réseau.
 
-Les originaux `Majestios.immeuble.jfif` et `devellopement.jfif` sont conservés à leur définition native ; les JPEG publiés sont des dérivés optimisés sans agrandissement. Le libellé erroné « ACTINELL » a été remplacé par « ACCUEIL » dans les dérivés. Les contrôles de rendu et de recadrage doivent être vérifiés sur desktop et mobile.
+Les originaux `Majestios.immeuble.jfif` et `Majestios.developpement-commercial.jfif` sont conservés à leur définition native ; les JPEG publiés sont des dérivés optimisés sans agrandissement. Le visuel commercial précédemment fourni (`devellopement.jfif`) est conservé mais signalé comme erroné et n'est plus utilisé. Le libellé erroné « ACTINELL » a été remplacé par « ACCUEIL » dans le dérivé de l'immeuble. Les contrôles de rendu et de recadrage doivent être vérifiés sur desktop et mobile.
 
 ## Architecture de navigation — principes à préserver
 

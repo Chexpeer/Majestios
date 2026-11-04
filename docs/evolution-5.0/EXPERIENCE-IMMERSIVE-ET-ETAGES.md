@@ -186,9 +186,9 @@ Comparer avant de choisir :
 
 ## 10. Architecture visuelle effective — référence `Majestios.immeuble.jpg`
 
-Le panorama de l'accueil et le fond de Développement commercial utilisent les dérivés `Majestios.immeuble.jpg` et `Majestios.developpement-commercial.jpg`. Les originaux JFIF sont conservés hors du manifeste publié. Quatre autres fonds WebP restent déclarés : `Marché-Public-.webp`, `Prospection-.webp`, `Marcheprive.webp` et `Reseau.webp`.
+Le panorama de l'accueil et le fond de Développement commercial utilisent les dérivés `Majestios.immeuble.jpg` et `Majestios.developpement-commercial.jpg`. Leurs originaux JFIF (`Majestios.immeuble.jfif` et `Majestios.developpement-commercial.jfif`) sont conservés hors du manifeste publié. L'ancien original commercial `devellopement.jfif`, signalé comme erroné, est conservé mais n'est plus utilisé. Quatre autres fonds WebP restent déclarés : `Marché-Public-.webp`, `Prospection-.webp`, `Marcheprive.webp` et `Reseau.webp`.
 
-Les huit zones actives correspondent aux niveaux 8 à 1 et aux routes V5. Le libellé Accueil est au niveau 1 ; le RDC représenté dans l'image ne crée pas une neuvième destination. Les deux JPEG restent à leur définition source de 843 × 1264 px : aucune variante artificiellement agrandie n'est créée. Le fond de Développement commercial est plafonné à sa largeur native et se réduit sur les petits écrans.
+Les huit zones actives correspondent aux niveaux 8 à 1 et aux routes V5. Le libellé Accueil est au niveau 1 ; le RDC représenté dans l'image ne crée pas une neuvième destination. L'image de l'immeuble est conservée à sa définition source de 843 × 1264 px ; le nouveau visuel commercial est conservé à sa définition source de 1408 × 768 px. Aucun des deux n'est agrandi artificiellement. Le fond de Développement commercial est plafonné à sa largeur native et se réduit sur les petits écrans.
 
 **État de validation :** les ressources, le manifeste, les coordonnées SVG et le test navigateur ont été mis à jour. La recette automatisée reste à exécuter dans un environnement disposant de Node.js et Playwright ; la validation visuelle desktop/mobile finale doit également être consignée.
 

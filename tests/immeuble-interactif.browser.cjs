@@ -137,6 +137,20 @@ async function main() {
       ]);
       assert.ok(new URL(page.url()).pathname.endsWith("/"+item.route),"Le clic sur "+item.name+" doit ouvrir "+item.route);
     }
+    await page.goto("http://127.0.0.1:4173/developpement-commercial.html",{waitUntil:"domcontentloaded"});
+    const developmentVisual=await page.locator("main.interior-page").evaluate(async element=>{
+      const image=new Image();
+      image.src=new URL("Majestios.developpement-commercial.jpg",location.href).href;
+      await image.decode();
+      return {
+        background:getComputedStyle(element).backgroundImage,
+        dimensions:[image.naturalWidth,image.naturalHeight]
+      };
+    });
+    assert.ok(developmentVisual.background.includes("Majestios.developpement-commercial.jpg"),
+      "La page commerciale doit utiliser le nouveau visuel.");
+    assert.deepEqual(developmentVisual.dimensions,[1408,768],
+      "Le visuel commercial doit rester à la définition native de sa nouvelle source.");
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
     await Promise.all([
       page.waitForURL(url=>url.pathname.endsWith("/developpement-commercial.html"),{timeout:10000}),
