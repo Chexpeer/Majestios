@@ -34,4 +34,4 @@ Les six fichiers modifiés ne sont pas présumés à jour : leurs différences p
 - Aucun merge et aucun déploiement n'ont été déclenchés.
 - La documentation V5 reste la référence courante ; les archives restantes ne sont pas une source de doctrine active.
 
-Le détail des archives restantes et leur statut est consigné dans [README des archives](../../historique/README.md).
+Le détail des archives restantes et leur statut est consigné dans [README des archives](../historique/README.md).
