@@ -19,7 +19,8 @@
     renovation: ["rénovation", "réhabilitation", "rénovation énergétique"],
     electricite: ["électricité", "électrique", "éclairage"],
     plomberie: ["plomberie", "chauffage", "sanitaire", "thermique"],
-    maintenance: ["maintenance", "entretien", "exploitation"]
+    maintenance: ["maintenance", "entretien", "exploitation"],
+    nettoyage: ["nettoyage", "propreté", "nettoyage industriel", "entretien des locaux", "nettoyage des locaux"]
   };
   const CATEGORY_TYPES = { services: "SERVICES", travaux: "TRAVAUX" };
   const BODACC_CATEGORY_TERMS = {
