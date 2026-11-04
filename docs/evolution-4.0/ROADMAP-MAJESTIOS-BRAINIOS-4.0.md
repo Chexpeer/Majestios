@@ -345,3 +345,54 @@ Mesures à définir après instrumentation autorisée :
 
 Aucune métrique ne doit être présentée comme disponible tant que le système de mesure correspondant n'existe pas.
 
+## 16. Volet complémentaire — SEO & visibilité de MajestiOS
+
+Ce volet est rattaché à **BrainIOS côté administration** et doit être planifié comme un lot identifiable, sans être confondu avec la Réputation virtuelle proposée aux clients.
+
+### Objectif
+Faire de BrainIOS un pilote de veille et d'amélioration SEO continue pour MajestiOS : surveiller la découvrabilité, détecter les régressions, suivre les requêtes et proposer des optimisations utiles, sans prétendre garantir les positions dans les moteurs.
+
+### Lots proposés
+**6.B — Mesure et accès aux sources**
+- inventorier les propriétés et accès nécessaires ;
+- étudier les interfaces officielles Google Search Console et Bing Webmaster Tools ;
+- définir les mesures de performance et d'analytique adaptées ;
+- cadrer quotas, coûts, permissions, secrets et confidentialité.
+
+**6.C — Audit technique et indexation**
+- contrôler sitemap, robots.txt, canonical, codes HTTP, redirections et erreurs ;
+- suivre l'indexation des pages ;
+- auditer les performances et Core Web Vitals ;
+- contrôler les liens internes, la compatibilité mobile et les données structurées.
+
+**6.D — Analyse éditoriale et veille**
+- analyser requêtes, pages, intentions de recherche et tendances ;
+- repérer les contenus faibles, dupliqués ou manquants ;
+- suivre un ensemble limité de concurrents pertinents ;
+- surveiller les évolutions documentées des moteurs et les possibilités de recherche assistée par IA, sans confondre ces signaux avec les positions organiques classiques.
+
+**6.E — Recommandations et suivi**
+- prioriser les actions selon impact, confiance, coût et risque ;
+- préparer les propositions de titres, descriptions, contenus, liens internes et correctifs ;
+- conserver un historique des recommandations, validations, changements et résultats ;
+- mesurer les effets sans attribuer abusivement toute variation à une seule modification.
+
+### Règles d'exploitation
+- Les analyses planifiées et alertes peuvent être automatisées.
+- Les changements de contenu, de structure, d'URL, de redirection, de canonical ou d'indexation doivent être soumis à validation humaine.
+- Les modifications doivent être testées hors production, versionnées et réversibles.
+- Aucune promesse de classement garanti ni technique contraire aux consignes des moteurs.
+- Les données SEO internes restent distinctes des dossiers SEO des entreprises clientes.
+
+### Critères de sortie
+- sources officielles connectées avec permissions minimales ;
+- tableau de bord affichant date, source, périmètre et limites des mesures ;
+- alertes testées sur des anomalies reproductibles ;
+- recommandations explicables et priorisées ;
+- historique complet des validations et modifications ;
+- absence de publication ou de modification sensible sans approbation.
+
+### Dépendances et ordre
+Ce volet peut commencer par un audit technique non intrusif dès que la base Git et les accès sont validés. Les connexions aux outils, la collecte analytique et les rapports récurrents dépendent du cadrage des accès, de la confidentialité et des pages légales. Il s'intègre à la phase 6 (BrainIOS administrateur), avant ou en parallèle de l'atelier de développement, mais ne doit pas retarder les fondations de sécurité et de données.
+
+**Extension future :** les méthodes validées pourront alimenter les offres de Réputation virtuelle, après définition d'un périmètre client, de droits distincts et de conditions contractuelles adaptées.
