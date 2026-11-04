@@ -11,7 +11,7 @@ Pour toute intervention sur la branche active `evolution-5.0`, lire dans cet ord
 4. `docs/evolution-5.0/EXPERIENCE-IMMERSIVE-ET-ETAGES.md` ;
 5. `docs/evolution-5.0/ARCHITECTURE-FONCTIONNELLE-CIBLE.md` et `ROADMAP-ET-GOUVERNANCE.md` ;
 6. les documents hérités de référence : `docs/evolution-2.0/CAHIER-DES-CHARGES-FONDATEUR.md`, `AUDIT-EXISTANT-PHASE-1.md`, `CARTOGRAPHIE-FONCTIONNELLE-FLUX.md` et `GOUVERNANCE-INTERVENTIONS.md` ;
-7. les changements récents et l'état réel du code de la branche.
+
 
 Ne jamais se fier uniquement aux conversations ou à la documentation ancienne. Vérifier l'état réel du dépôt, les tests et les limites de vérification.
 
@@ -37,9 +37,10 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 - Les codes APE/NAF ne prouvent ni compétence ni capacité à répondre à un marché.
 - Les annonces utilisateurs sont soumises à contrôle et modération ; leur publication n'autorise pas la réutilisation générale des données de l'auteur.
 - Les espaces clients sont cloisonnés entre eux et du CRM interne.
-- MajestiOS V.5 est la plateforme intelligente transversale ; ses assistants, sa mémoire et ses outils respectent des périmètres de données et des permissions distincts.
+- MajestiOS V.5 désigne la plateforme intelligente transversale dans l'orientation actuelle ; le rôle éventuel de BrainIOS reste à instruire avec le fondateur. Ne pas figer son architecture, supprimer ses idées ni déclarer son abandon définitif sans arbitrage explicite.
+- SEO et visibilité : considérer la veille des moteurs, l'audit continu, les recommandations et l'amélioration contrôlée comme des capacités transversales de l'administration IA, pas comme un simple contenu éditorial.
 - Les offres d'emploi MajestiOS proviennent des utilisateurs ou de l'équipe ; les sources externes Cadremploi, France Travail et APEC restent différées.
-- Périmètre BODACC initial : créations, ventes et cessions, modifications. Procédures collectives, radiations et immobilier exclus.
+- BODACC : le périmètre initial documenté comprend créations, ventes/cessions et modifications. Le catalogue V5 expose aussi procédures collectives et radiations, tandis que l'immobilier est prévu mais désactivé. Cette divergence doit être arbitrée à partir des échanges et documents métier les plus récents ; ne pas activer, retirer ni exclure silencieusement une famille.
 - Les cinq catégories BOAMP doivent être choisies après mesure réelle des volumes puis validées par le porteur du projet.
 
 ## 5. Règles techniques et vérité
@@ -54,6 +55,6 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 
 ## 6. Documentation
 
-La documentation active V5 se trouve dans `docs/evolution-5.0/`. Les documents `docs/evolution-3.0/` restent une référence historique de la base. Les documents `docs/evolution-2.0/` sont les références fonctionnelles héritées et la sauvegarde documentaire de l'étape précédente. L'historique est consultatif et ne réintroduit aucune ancienne orientation sans arbitrage.
+La documentation active V5 se trouve dans `docs/evolution-5.0/` et son index est `docs/README.md`. Les documents `docs/evolution-3.0/` restent une référence historique de la base. Les documents `docs/evolution-2.0/` sont les références fonctionnelles héritées et la sauvegarde documentaire de l'étape précédente. L'historique est consultatif et ne réintroduit aucune ancienne orientation sans arbitrage.
 
 Les documents et comptes rendus sont rédigés en français clair. `AGENTS.md` reste la source canonique des consignes.
