@@ -60,27 +60,17 @@ Le moteur affiché sur l'accueil doit reprendre **exactement le principe visuel 
 
 L'interface doit rester fidèle à la sobriété de l'image de référence : **la complexité est dans le moteur et son orchestration, pas dans ce que l'utilisateur voit au premier regard.**
 
-## 5. Ébauche de nomenclature — non validée
+## 5. Nomenclature de référence — alignement sur Ambisios.webp
 
-Le premier visuel généré a proposé cette organisation de bas en haut :
+L'image `Ambisios.webp` présente les destinations visibles suivantes : **Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil**.
 
-| Niveau | Intitulé de travail |
-|---|---|
-| 10 | Moteur de recherche |
-| 9 | Réseau |
-| 8 | Salon |
-| 7 | Séminaires |
-| 6 | Réputation virtuelle |
-| 5 | CRM & Business Intelligence |
-| 4 | Prosp'active / Prospection |
-| 3 | Accompagnement AO |
-| 2 | Développement commercial |
-| 1 | Informations & Services |
-| 0 | Accueil |
+Cette liste devient la référence des intitulés visibles sur l'immeuble. Elle ne signifie pas que chaque fonction technique ou chaque page existante doit devenir un étage autonome.
 
-Cette liste est une hypothèse de mise en scène, pas une décision d'arborescence. Elle contient potentiellement des recouvrements : Réseau / Salon / Séminaires ; CRM / BI / IA ; Développement commercial / Prosp'active / Accompagnement AO. Elle doit être auditée avant toute validation.
+Les rattachements fonctionnels, les pages existantes à conserver et les écarts du mapping actuel sont détaillés dans [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md).
 
-Le visuel généré est une maquette d'intention, pas une maquette technique de précision et ne constitue pas une source fiable pour les textes fins ou les coordonnées des zones interactives.
+CRM, Business Intelligence, suivi commercial, recherche, administration, mémoire, orchestration et MajestiOS V.5 sont traités comme des fonctions ou modules transversaux, sauf arbitrage explicite ultérieur. « Salon » et « Séminaires » ne sont pas des étages autonomes dans la nomenclature Ambisios : les pages correspondantes sont des parcours associés à Réseau. Le libellé « Événements » est retiré de cette proposition.
+
+Le moteur de recherche reste visible sous la forme de la barre simple de la référence ; ses choix apparaissent au clic. Son éventuel statut de destination verticale distincte ne doit pas modifier les huit intitulés visibles sans décision explicite.
 
 ## 6. Direction artistique
 
@@ -142,7 +132,7 @@ Pistes créatives à étudier — **propositions de travail, non décisions déf
 - Marchés publics : environnement institutionnel et salle de consultation professionnelle.
 - Marchés privés : espace de projets, échanges entre entreprises et maquettes de réalisations.
 - Réputation virtuelle : studio de visibilité numérique, avis, présence locale et identité de marque.
-- Événements : hall de congrès / espace de rencontres professionnelles.
+- Réseau : salon professionnel / showroom collectif et espaces de rencontres, sans créer des étages autonomes Salon, Séminaires ou Événements.
 - Réseau : salon exécutif ouvert, espaces de rencontre et connexions entre acteurs.
 - CRM et Business Intelligence, si cette destination est confirmée dans l'arborescence : centre de pilotage sobre, visualisations et relations clients.
 - Moteur de recherche : espace clair et épuré, où la recherche reste l'élément central.
@@ -151,7 +141,7 @@ Cette liste ne valide ni le nombre d'étages, ni leur ordre, ni l'existence d'un
 
 ### Méthode de sélection et de validation
 
-1. Établir la liste définitive des étages et des destinations à partir de l'arborescence réelle.
+1. Utiliser la nomenclature visible d'Ambisios comme référence et vérifier chaque destination dans l'arborescence réelle.
 2. Définir pour chaque étage une intention visuelle, une palette secondaire et une ambiance.
 3. Présenter les propositions de fonds d'écran pour validation avant intégration.
 4. Décliner chaque décor en formats desktop et mobile, avec des zones de sécurité pour les contenus.
