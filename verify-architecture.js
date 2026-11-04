@@ -100,7 +100,7 @@ if (!destinationBlock) {
   assert(home.includes('src="Ambisios.webp"'),"Accueil : le panorama Ambisios est absent");
   assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
 }
-for (const asset of ["Ambisios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp"]) {
+for (const asset of ["Ambisios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp"]) {
   assert(exists(asset),"Image de référence absente : "+asset);
   assert(siteFiles.includes(asset),"Build : image non publiée : "+asset);
 }
@@ -108,7 +108,8 @@ const immersiveCss = read("rubriques-immersives.css");
 for (const [selector,asset] of [
   ["body.page-development-commercial","Développement-.webp"],
   ["body.page-marches-publics","Marché-Public-.webp"],
-  ["body.page-prospection","Prospection-.webp"]
+  ["body.page-prospection","Prospection-.webp"],
+  ["body.page-marches-prives","Marcheprive.webp"]
 ]) {
   assert(immersiveCss.includes(selector) && immersiveCss.includes('url("'+asset+'")'),
     "Fond de rubrique absent ou mal associé : "+asset);
