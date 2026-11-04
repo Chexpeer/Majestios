@@ -14,6 +14,10 @@
       title: "Atelier GitHub",
       description: "Branches isolées, changements proposés, diffs, pull requests et suivi des contrôles.",
     },
+    "site-map": {
+      title: "Site & arborescence",
+      description: "Inventaire des pages publiques réellement intégrées au build de prévisualisation.",
+    },
     quality: {
       title: "Qualité & tests",
       description: "Builds, tests, contrôles anti-régression, sécurité et preuves de validation.",
@@ -37,6 +41,7 @@
   const moduleDescription = document.querySelector("#module-description");
   const defaultPlaceholder = document.querySelector("#module-placeholder-default");
   const brainiosWorkspace = document.querySelector("#brainios-workspace");
+  const siteMapWorkspace = document.querySelector("#site-map-workspace");
 
   function navigate(view) {
     const links = [...document.querySelectorAll("[data-view]")];
@@ -51,8 +56,10 @@
     overview.hidden = !isOverview;
     moduleView.hidden = isOverview;
 
-    if (defaultPlaceholder) defaultPlaceholder.hidden = view === "brainios";
+    if (defaultPlaceholder) defaultPlaceholder.hidden = view === "brainios" || view === "site-map";
     if (brainiosWorkspace) brainiosWorkspace.hidden = view !== "brainios";
+    if (siteMapWorkspace) siteMapWorkspace.hidden = view !== "site-map";
+    if (view === "site-map") loadSiteMap();
 
     if (!isOverview && moduleContent[view]) {
       moduleTitle.textContent = moduleContent[view].title;
@@ -64,6 +71,65 @@
 
     sidebar.classList.remove("is-open");
     menuToggle?.setAttribute("aria-expanded", "false");
+  }
+
+  let siteMapLoaded = false;
+  async function loadSiteMap() {
+    if (siteMapLoaded) return;
+    const status = document.querySelector("#site-map-status");
+    const sectionsTarget = document.querySelector("#site-map-sections");
+    const additionalTarget = document.querySelector("#site-map-additional-pages");
+    const count = document.querySelector("#site-map-count");
+    if (!status || !sectionsTarget || !additionalTarget) return;
+    try {
+      const response = await fetch("./site-map.json", { cache: "no-store" });
+      if (!response.ok) throw new Error("Inventaire indisponible (" + response.status + ")");
+      const data = await response.json();
+      const makePageLink = (page) => {
+        const row = document.createElement("div");
+        row.className = "site-map-page" + (page.presentInBuild ? "" : " is-missing");
+        const link = document.createElement("a");
+        link.href = "../" + page.href;
+        link.textContent = page.href;
+        if (!page.presentInBuild) {
+          link.removeAttribute("href");
+          link.setAttribute("aria-disabled", "true");
+        }
+        const badge = document.createElement("span");
+        badge.className = page.presentInBuild ? "site-map-badge is-present" : "site-map-badge is-missing";
+        badge.textContent = page.presentInBuild ? "Présente dans le build" : "Fichier absent";
+        row.append(link, badge);
+        return row;
+      };
+      sectionsTarget.replaceChildren();
+      (data.sections || []).forEach((section) => {
+        const card = document.createElement("details");
+        card.className = "site-map-card";
+        const summary = document.createElement("summary");
+        const title = document.createElement("strong");
+        title.textContent = section.id + " · " + section.name;
+        const pageCount = document.createElement("span");
+        pageCount.textContent = (section.pages || []).length + " lien(s)";
+        summary.append(title, pageCount);
+        card.append(summary);
+        if (section.buildingNote) {
+          const note = document.createElement("p");
+          note.className = "site-map-note";
+          note.textContent = section.buildingNote;
+          card.append(note);
+        }
+        (section.pages || []).forEach((page) => card.append(makePageLink(page)));
+        sectionsTarget.append(card);
+      });
+      additionalTarget.replaceChildren();
+      (data.additionalPages || []).forEach((page) => additionalTarget.append(makePageLink(page)));
+      count.textContent = data.totalHtmlPages + " pages HTML · inventaire du build";
+      status.textContent = "Inventaire chargé depuis le build de prévisualisation. Les liens ci-dessous ouvrent les pages du site dans ce même déploiement.";
+      siteMapLoaded = true;
+    } catch (error) {
+      status.textContent = error.message + ". Vérifiez que ce cockpit est ouvert depuis un déploiement Preview récent.";
+      status.classList.add("is-error");
+    }
   }
 
   document.querySelectorAll("[data-view]").forEach((link) => {
