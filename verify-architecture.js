@@ -99,6 +99,13 @@ if (!destinationBlock) {
   assert(home.includes('viewBox="0 0 943 1387"'),"Accueil : le repère SVG doit correspondre à Ambitios.webp (943 × 1387)");
   assert(home.includes('src="Ambitios.webp"'),"Accueil : le panorama Ambitios est absent");
   assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
+  assert(home.includes("let current = destinations.length - 1;"),"Accueil : l'ascenseur doit démarrer au rez-de-chaussée (Accueil)");
+  assert(home.includes("selectFloor(destinations.length - 1);"),"Accueil : la cabine doit être initialisée à Accueil");
+  assert(home.includes('window.setTimeout(() => { window.location.href = row.getAttribute("href"); }, delay);'),
+    "Accueil : la cabine doit atteindre l'étage avant la navigation directe");
+  assert(home.includes('window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 900'),
+    "Accueil : la navigation par ascenseur doit respecter la réduction des animations");
+
 }
 for (const asset of ["Ambitios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
   assert(exists(asset),"Image de référence absente : "+asset);
