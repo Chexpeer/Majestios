@@ -59,7 +59,7 @@
     if (defaultPlaceholder) defaultPlaceholder.hidden = view === "brainios" || view === "site-map";
     if (brainiosWorkspace) brainiosWorkspace.hidden = view !== "brainios";
     if (siteMapWorkspace) siteMapWorkspace.hidden = view !== "site-map";
-    if (view === "site-map") loadSiteMap();
+    if (view === "site-map") { loadSiteMap(); loadSiteAudit(); }
 
     if (!isOverview && moduleContent[view]) {
       moduleTitle.textContent = moduleContent[view].title;
@@ -128,6 +128,67 @@
       siteMapLoaded = true;
     } catch (error) {
       status.textContent = error.message + ". Vérifiez que ce cockpit est ouvert depuis un déploiement Preview récent.";
+      status.classList.add("is-error");
+    }
+  }
+
+  let siteAuditLoaded = false;
+  async function loadSiteAudit() {
+    if (siteAuditLoaded) return;
+    const status = document.querySelector("#site-audit-status");
+    const metrics = document.querySelector("#site-audit-metrics");
+    const findings = document.querySelector("#site-audit-findings");
+    const count = document.querySelector("#site-audit-count");
+    if (!status || !metrics || !findings) return;
+    try {
+      const response = await fetch("./site-audit.json", { cache: "no-store" });
+      if (!response.ok) throw new Error("Rapport indisponible (" + response.status + ")");
+      const report = await response.json();
+      const totals = report.totals || {};
+      const items = [
+        ["Références locales", totals.localReferences ?? 0],
+        ["Cibles introuvables", totals.brokenReferences ?? 0],
+        ["Pages sans lien entrant", totals.orphanPages ?? 0],
+        ["Titres dupliqués", totals.duplicateTitles ?? 0]
+      ];
+      metrics.replaceChildren();
+      items.forEach(([label, value]) => {
+        const card = document.createElement("article");
+        card.className = "site-audit-metric";
+        const number = document.createElement("strong");
+        number.textContent = String(value);
+        const caption = document.createElement("span");
+        caption.textContent = label;
+        card.append(number, caption);
+        metrics.append(card);
+      });
+      findings.replaceChildren();
+      const addGroup = (title, entries, format) => {
+        const details = document.createElement("details");
+        details.className = "site-audit-group";
+        const summary = document.createElement("summary");
+        summary.textContent = title + " · " + entries.length;
+        details.append(summary);
+        if (!entries.length) {
+          const empty = document.createElement("p");
+          empty.textContent = "Aucun élément détecté.";
+          details.append(empty);
+        } else entries.forEach((entry) => {
+          const row = document.createElement("p");
+          row.className = "site-audit-row";
+          row.textContent = format(entry);
+          details.append(row);
+        });
+        findings.append(details);
+      };
+      addGroup("Références locales à vérifier", report.brokenReferences || [], (item) => item.source + " → " + item.original + " (cible calculée : " + item.target + ")");
+      addGroup("Pages sans lien entrant", report.orphanPages || [], (item) => item);
+      addGroup("Titres HTML dupliqués", report.duplicateTitles || [], (item) => item.title + " : " + item.pages.join(", "));
+      count.textContent = (totals.htmlPages ?? 0) + " pages analysées";
+      status.textContent = report.scope || "Rapport statique du build Preview.";
+      siteAuditLoaded = true;
+    } catch (error) {
+      status.textContent = error.message + ". Relancez le contrôle depuis un Preview récent.";
       status.classList.add("is-error");
     }
   }
