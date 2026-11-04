@@ -14,7 +14,7 @@ Le site regroupe plusieurs espaces fonctionnels :
 - **Développement commercial** : prospection, suivi commercial, réseaux et accompagnement.
 - **Veille des entreprises** : informations issues notamment du BODACC.
 - **Qualification des entreprises** : outils indicatifs de rapprochement par codes APE/NAF et département.
-- **Espaces complémentaires** : CRM, espace membre, BrainOS, FAQ et informations légales.
+- **Espaces complémentaires** : CRM, espace membre, MajestiOS V.5, FAQ et informations légales.
 
 Les résultats administratifs et les scores de rapprochement sont des aides à l’analyse. Ils ne prouvent pas la compétence, la capacité opérationnelle ou l’éligibilité d’une entreprise à un marché. Une vérification humaine reste nécessaire.
 
