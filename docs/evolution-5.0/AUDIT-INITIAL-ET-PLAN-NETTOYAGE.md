@@ -203,3 +203,20 @@ Ces contrôles doivent être réalisés dans les lots suivants avant toute concl
 ## 10. Décision de pilotage proposée
 
 Poursuivre sur `evolution-5.0` en gardant V3 comme référence intacte et V4 comme corpus historique. Le prochain changement de code doit être le **Lot 1 — modularisation sans changement métier**, en reprenant avec prudence les apports des PR #32 à #34. Le panorama 70 % / tour complet / toiture sera traité dans un prototype isolé et ne doit pas être confondu avec le nettoyage technique du site actuel.
+
+
+## 10. Addendum — évolution du dépôt au 4 novembre 2026 (après l’audit initial)
+
+Cet addendum complète les constats historiques ci-dessus ; il ne réécrit pas rétroactivement l’état observé au début de l’audit.
+
+### Image unique
+
+Sur `evolution-5.0`, le dépôt ne conserve désormais qu’un seul fichier WebP : `Ambisios.webp`. Les huit autres images WebP précédemment présentes ont été supprimées. L’accueil utilise `Ambisios.webp` comme image principale ; les trois fonds immersifs qui utilisaient des visuels distincts réutilisent désormais cette même image. Le manifeste `site-files.json` ne référence également que `Ambisios.webp`.
+
+### Architecture de navigation
+
+La référence spatiale est limitée à huit destinations visibles : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil. Recherche, CRM, Business Intelligence, administration, mémoire, orchestration et MajestiOS V.5 sont transversaux et ne doivent pas être représentés comme des étages supplémentaires.
+
+### État des preuves
+
+Le nettoyage des fichiers et la mise à jour des références sont enregistrés dans GitHub. Le workflow déclenché après les suppressions était encore en cours lors de la dernière vérification. Il ne faut donc pas présenter le nettoyage comme validé par l’ensemble des tests tant que ce workflow n’a pas une conclusion positive. La vérification de toutes les zones interactives, des routes et des comportements de l’ascenseur reste à effectuer.
