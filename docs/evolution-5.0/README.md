@@ -43,12 +43,13 @@ Le nettoyage suit cinq traitements : conserver, corriger, regrouper, archiver ou
 
 ## État des ressources visuelles au 4 novembre 2026
 
-Les cinq images WebP présentes dans la branche sont :
+Les six images WebP présentes dans la branche sont :
 - `Ambitios.webp` — panorama d'accueil ;
 - `Développement-.webp` — fond de Développement commercial ;
 - `Marché-Public-.webp` — fond de Marchés publics ;
 - `Prospection-.webp` — fond de Prospection ;
-- `Marcheprive.webp` — fond de Marchés privés.
+- `Marcheprive.webp` — fond de Marchés privés ;
+- `Reseau.webp` — fond de Réseau.
 
 Leur présence dans Git ne prouve pas à elle seule leur bonne intégration visuelle. Les références CSS, le manifeste de build, le rendu réel et les recadrages desktop/mobile doivent être vérifiés. Ne pas supprimer ou remplacer ces ressources sans comparaison visuelle et contrôle de dépendances.
 
