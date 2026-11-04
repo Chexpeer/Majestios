@@ -131,7 +131,11 @@ assert(appSearch.includes("MAJESTIOS_CATALOG") && appSearch.includes("populateSe
 for (const page of ["marches-publics.html","developpement-commercial.html","prospection-active.html","veille-marches.html",
   "accompagnement-appels-offres.html","sous-traitance.html","intelligence-economique.html","reseaux-synergies.html",
   "bodacc-veille-entreprises.html","suivi-commercial.html","marches-prives.html","reputation-virtuelle.html",
-  "espace-membre.html","salons-seminaires.html","crm.html","majestios-v5.html"]) {
+  "espace-membre.html","salons-seminaires.html","crm.html","majestios-v5.html",
+  "categorie-services-numeriques.html","categorie-travaux-amenagement.html","categorie-conseil-etudes.html",
+  "categorie-batiment.html","categorie-renovation.html","categorie-electricite.html",
+  "categorie-plomberie-chauffage.html","categorie-maintenance.html","faq.html","nous-rejoindre.html",
+  "vision-majestios.html","qualification-entreprises.html"]) {
   const html = read(page);
   assert(html.indexOf('src="rubric-search.js"') >= 0 &&
     html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
