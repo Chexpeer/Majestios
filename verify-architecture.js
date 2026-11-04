@@ -109,7 +109,8 @@ for (const [selector,asset] of [
   ["body.page-development-commercial","Développement-.webp"],
   ["body.page-marches-publics","Marché-Public-.webp"],
   ["body.page-prospection","Prospection-.webp"],
-  ["body.page-marches-prives","Marcheprive.webp"]
+  ["body.page-marches-prives","Marcheprive.webp"],
+  ["body.page-reseaux","Reseau.webp"]
 ]) {
   assert(immersiveCss.includes(selector) && immersiveCss.includes('url("'+asset+'")'),
     "Fond de rubrique absent ou mal associé : "+asset);
