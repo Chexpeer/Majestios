@@ -204,6 +204,7 @@ La cible spatiale comporte huit destinations : Espace privé, Réseau, Développ
 Le panorama `Ambisios.webp` reste l'image de navigation de l'accueil. Les fonds ajoutés au dépôt sont conservés et affectés ainsi :
 - Développement commercial : `Développement-.webp` ;
 - Marchés publics : `Marché-Public-.webp` ;
-- Prospection : `Prospection-.webp`.
+- Prospection : `Prospection-.webp` ;
+- Marchés privés : `Marcheprive.webp`.
 
 Ces fonds ne remplacent pas le panorama et ne créent pas de nouvelles destinations. Ils sont déclarés dans `site-files.json` afin d'être inclus dans le build. Les contrastes, le recadrage et la lisibilité des contenus doivent être contrôlés sur desktop et mobile.
