@@ -344,114 +344,16 @@ body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .bui
       </section>
       </section>
 <section class="building-home" aria-label="Immeuble interactif MajestiOS">
-      <div class="building-heading"><p>IMMEUBLE INTERACTIF · 9 ESPACES THÉMATIQUES</p></div>
-      <section class="building-scene" aria-label="Immeuble interactif MajestiOS, neuf étages cliquables">
+      <div class="building-heading"><p>IMMEUBLE INTERACTIF · 8 DESTINATIONS</p></div>
+      <section class="building-scene" aria-label="Panorama MajestiOS et huit destinations interactives">
         <figure class="building-photo">
-          <img src="Ambisios.webp" alt="Panorama interactif Ambisios de l’immeuble MajestiOS" width="704" height="1114" draggable="false">
-          <svg class="building-hotspots" id="floor-rows" viewBox="0 0 704 1114" preserveAspectRatio="none" role="group" aria-label="Accès directs aux neuf espaces thématiques"></svg>
+          <img src="Ambisios.webp" alt="Panorama MajestiOS présentant huit destinations : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil" width="943" height="1387" draggable="false">
+          <svg class="building-hotspots" id="floor-rows" viewBox="0 0 943 1387" preserveAspectRatio="none" role="group" aria-label="Accès directs aux huit destinations"></svg>
         </figure>
       </section>
     </section>
     </main>
-    <dialog class="floor-dialog" id="floor-dialog" aria-labelledby="dialog-title">
-      <div class="dialog-head">
-        <div><p id="dialog-kicker">IMMEUBLE MAJESTIOS · ÉTAGE 01</p><h2 id="dialog-title">Marchés publics</h2></div>
-        <button class="dialog-close" id="dialog-close" type="button" aria-label="Fermer">×</button>
-      </div>
-      <p class="dialog-description" id="dialog-description"></p>
-      <div class="dialog-offices" id="dialog-offices"></div>
-    </dialog>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const catalog = window.MAJESTIOS_CATALOG;
-        const floorRows = document.getElementById("floor-rows");
-        const dialog = document.getElementById("floor-dialog");
-        const offices = document.getElementById("dialog-offices");
-        if (!catalog || !floorRows || !dialog || !offices) return;
-        const floors = [
-          {id:"B01",name:"Marchés publics",folder:"dossiers/01-marches-publics/",description:"Détecter et qualifier les consultations publiques pertinentes, leurs critères et leurs échéances.",links:[
-            {label:"Marchés publics",href:"marches-publics.html",level:"Rubrique principale"},
-            {label:"Veille des marchés",href:"veille-marches.html",level:"Sous-rubrique · sources et consultations"},
-            {label:"Accompagnement aux appels d’offres",href:"accompagnement-appels-offres.html",level:"Sous-rubrique · candidature et réponse"}
-          ]},
-          {id:"B02",name:"Marchés privés",folder:"dossiers/02-marches-prives/",description:"Explorer les opportunités privées, les besoins de sous-traitance et les signaux d'affaires hors commande publique.",links:[
-            {label:"Marchés privés",href:"marches-prives.html",level:"Rubrique principale"},
-            {label:"Sous-traitance et débordement de marchés",href:"sous-traitance.html",level:"Sous-rubrique · opportunités et coopération"},
-            {label:"Qualification des entreprises",href:"qualification-entreprises.html",level:"Sous-rubrique · acteurs et capacités"}
-          ]},
-          {id:"B03",name:"Veille économique",folder:"dossiers/03-veille-economique/",description:"Collecter et contextualiser les signaux économiques en conservant leur source, leur fraîcheur et leurs limites.",links:[
-            {label:"Veille des entreprises · BODACC",href:"bodacc-veille-entreprises.html",level:"Rubrique principale · événements d’entreprise"},
-            {label:"Veille des marchés",href:"veille-marches.html",level:"Sous-rubrique · évolutions des marchés"}
-          ]},
-          {id:"B04",name:"Prospection active",folder:"dossiers/04-prospection/",description:"Identifier les entreprises pertinentes, préparer une prise de contact, engager l’échange et suivre les démarches commerciales.",links:[
-            {label:"Prospection active",href:"prospection-active.html",level:"Rubrique principale · ciblage, contact et suivi"},
-            {label:"Marchés publics",href:"marches-publics.html",level:"Sous-rubrique · détection des opportunités"},
-            {label:"Marchés privés",href:"marches-prives.html",level:"Sous-rubrique · opportunités privées"}
-          ]},
-          {id:"B05",name:"Développement commercial",folder:"dossiers/05-developpement-commercial/",description:"Coordonner la chaîne Détecter → Qualifier → Identifier → Contacter → Transformer → Capitaliser.",links:[
-            {label:"Développement commercial",href:"developpement-commercial.html",level:"Rubrique principale · stratégie et orchestration"},
-            {label:"Prospection active",href:"prospection-active.html",level:"Sous-rubrique · ciblage et prise de contact"},
-            {label:"Suivi commercial et capitalisation",href:"suivi-commercial.html",level:"Sous-rubrique · transformation et apprentissage"}
-          ]},
-          {id:"B06",name:"Accompagnement aux appels d’offres",folder:"dossiers/06-accompagnement-appels-offres/",description:"Comprendre le DCE, vérifier les pièces requises, préparer la candidature et l’offre, puis suivre les échéances.",links:[
-            {label:"Accompagnement aux appels d’offres",href:"accompagnement-appels-offres.html",level:"Rubrique principale"},
-            {label:"Marchés publics",href:"marches-publics.html",level:"Sous-rubrique · repérage des consultations"},
-            {label:"Qualification des entreprises",href:"qualification-entreprises.html",level:"Sous-rubrique · capacités et critères"}
-          ]},
-          {id:"B07",name:"Salon virtuel",folder:"dossiers/07-salon-virtuel/",description:"Présenter les savoir-faire, les réalisations et les capacités des entreprises pour faciliter les rencontres et les synergies.",links:[
-            {label:"Salon virtuel · showroom collectif",href:"salons-seminaires.html",level:"Rubrique principale"},
-            {label:"Réseaux et synergies",href:"reseaux-synergies.html",level:"Sous-rubrique · partenariats"},
-            {label:"Sous-traitance",href:"sous-traitance.html",level:"Sous-rubrique · coopération entre entreprises"}
-          ]},
-          {id:"B08",name:"Espace entreprises",folder:"dossiers/08-espace-entreprises/",description:"Préparer l’accès aux services, le profil de l’entreprise, les préférences de veille et les demandes d’accompagnement.",links:[
-            {label:"Espace entreprises",href:"espace-membre.html",level:"Accès principal · parcours et espace personnel"}
-          ]},
-          {id:"B09",name:"CRM",folder:"dossiers/09-crm/",description:"Organiser les entreprises, contacts, interactions, opportunités, tâches et actions de suivi.",links:[
-            {label:"CRM MajestiOS",href:"crm.html",level:"Rubrique principale"},
-            {label:"Suivi commercial et capitalisation",href:"suivi-commercial.html",level:"Sous-rubrique · pipeline et historique"},
-            {label:"Développement commercial",href:"developpement-commercial.html",level:"Sous-rubrique · pilotage des actions"}
-          ]},
-          {id:"B10",name:"Business Intelligence",folder:"dossiers/10-business-intelligence/",description:"Transformer des données traçables en indicateurs, analyses et éléments explicables d’aide à la décision.",links:[
-            {label:"Intelligence économique",href:"intelligence-economique.html",level:"Rubrique principale · analyses"},
-            {label:"MajestiOS V.5",href:"majestios-v5.html",level:"Plateforme intelligente · mémoire, orchestration et administration"},
-            {label:"Vision MajestiOS",href:"vision-majestios.html",level:"Sous-rubrique · orientation et décisions"}
-          ]}
-        ];
-        // Polygones des 9 étages dans le repère exact de la photo (704 × 1114).
-        // Le RDC reste volontairement non cliquable. CRM est conservé dans le catalogue,
-        // mais l'immeuble regroupe l'étage supérieur sous « IA & Business Intelligence ».
-        const SVG_NS = "http://www.w3.org/2000/svg";
-        const leftEdge = 72, rightEdge = 556, halfHeight = 34;
-        const bands = {
-          9:{left:193,right:135,floor:9}, 8:{left:268,right:216,floor:7}, 7:{left:341,right:299,floor:6},
-          6:{left:415,right:380,floor:5}, 5:{left:488,right:465,floor:4}, 4:{left:566,right:548,floor:3},
-          3:{left:644,right:630,floor:2}, 2:{left:718,right:712,floor:1}, 1:{left:788,right:782,floor:0}
-        };
-        for (let number = 9; number >= 1; number -= 1) {
-          const band = bands[number];
-          const floor = floors[band.floor];
-          if (!floor || !Array.isArray(floor.links) || floor.links.length === 0) continue;
-          const label = number === 9 ? "IA & Business Intelligence" : floor.name;
-          const points = [
-            [leftEdge, band.left - halfHeight], [rightEdge, band.right - halfHeight],
-            [rightEdge, band.right + halfHeight], [leftEdge, band.left + halfHeight]
-          ].map(point => point.join(",")).join(" ");
-          const link = document.createElementNS(SVG_NS, "a");
-          link.setAttribute("class", "floor-row");
-          link.setAttribute("href", floor.links[0].href);
-          link.setAttribute("aria-label", "Accéder à l’étage " + String(number).padStart(2, "0") + " : " + label);
-          link.setAttribute("data-floor", String(number).padStart(2, "0"));
-          link.setAttribute("data-name", label);
-          const zone = document.createElementNS(SVG_NS, "polygon");
-          zone.setAttribute("class", "floor-zone");
-          zone.setAttribute("points", points);
-          const title = document.createElementNS(SVG_NS, "title");
-          title.textContent = String(number).padStart(2, "0") + " · " + label;
-          link.append(title, zone);
-          floorRows.append(link);
-        }
-      });
-    </script>
+
 
     <aside class="home-help" aria-label="Aide à la visite MajestiOS">
       <button class="home-help-toggle" id="home-help-toggle" type="button" aria-expanded="false" aria-controls="home-help-panel">
@@ -468,6 +370,44 @@ body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .bui
       </section>
     </aside>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const svg = document.getElementById("floor-rows");
+        if (!svg) return;
+        // Coordonnées des huit pastilles de navigation imprimées sur Ambisios.webp (943 × 1387).
+        // L'Accueil reste un accès explicite au point de départ ; aucun étage transverse n'est ajouté.
+        const destinations = [
+          {id:"08",name:"Espace privé",href:"espace-membre.html",x:704,y:10,width:229,height:67},
+          {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:704,y:79,width:229,height:65},
+          {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:704,y:145,width:229,height:69},
+          {id:"05",name:"Prospection",href:"prospection-active.html",x:704,y:215,width:229,height:64},
+          {id:"04",name:"Marchés publics",href:"marches-publics.html",x:704,y:280,width:229,height:65},
+          {id:"03",name:"Marchés privés",href:"marches-prives.html",x:704,y:346,width:229,height:64},
+          {id:"02",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:704,y:411,width:229,height:65},
+          {id:"01",name:"Accueil",href:"index.html#accueil",x:704,y:477,width:229,height:65}
+        ];
+        const namespace = "http://www.w3.org/2000/svg";
+        destinations.forEach((destination) => {
+          const link = document.createElementNS(namespace, "a");
+          link.setAttribute("class", "floor-row");
+          link.setAttribute("href", destination.href);
+          link.setAttribute("data-floor", destination.id);
+          link.setAttribute("data-name", destination.name);
+          link.setAttribute("aria-label", "Ouvrir " + destination.name);
+          const zone = document.createElementNS(namespace, "rect");
+          zone.setAttribute("class", "floor-zone");
+          zone.setAttribute("x", destination.x);
+          zone.setAttribute("y", destination.y);
+          zone.setAttribute("width", destination.width);
+          zone.setAttribute("height", destination.height);
+          zone.setAttribute("rx", "25");
+          const title = document.createElementNS(namespace, "title");
+          title.textContent = destination.name;
+          link.append(title, zone);
+          svg.append(link);
+        });
+      });
+    </script>
     <footer class="site-footer homepage-footer" aria-label="Pied de page MajestiOS">
       <a class="brand footer-brand" href="index.html#accueil" aria-label="MajestiOS, retour à l’accueil">
         <span class="brand-mark" aria-hidden="true">M</span>
