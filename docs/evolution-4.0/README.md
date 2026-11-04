@@ -21,3 +21,17 @@ Ce dossier prépare l'audit croisé et la définition de l'évolution 4.0. Il ne
 Les documents sont soumis à relecture et contre-audit. Les éléments de vision exprimés par le porteur du projet sont distingués des décisions techniques à arbitrer. Toute divergence ou erreur relevée doit être ajoutée au registre d'arbitrage avant le lancement de la branche de développement 4.0.
 
 5. **SEO & visibilité** — intégré à la vision BrainIOS et à la feuille de route comme volet de pilotage de la visibilité organique de MajestiOS.
+
+
+## Mise à jour stratégique du 4 novembre 2026
+
+La vision 4.0 a été complétée par un addendum portant sur :
+- l'unification de la marque et du produit sous le nom **MajestiOS** ;
+- la remise en question de BrainIOS comme marque ou produit autonome ;
+- l'ambition de faire évoluer MajestiOS vers un **CRM nativement intelligent** ;
+- la distinction obligatoire entre l'offre commerciale CRM de l'immeuble, le CRM interne de MajestiOS et les CRM des entreprises clientes accompagnées ;
+- l'intégration cohérente de l'IA, du CRM et de la Business Intelligence ;
+- les étapes d'autonomie et leurs garde-fous.
+
+La mission de contre-audit a été étendue pour demander aux autres IA une analyse explicite de ces points. Cette évolution est une orientation à évaluer, pas une décision technique déjà implémentée.
+
