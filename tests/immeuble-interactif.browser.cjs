@@ -86,8 +86,15 @@ async function main() {
         assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px.");
       }
       const elevatorStops=[210,305,397,487,577,667,757,847];
-      assert.equal(await page.locator(".elevator-cabin").evaluate(element=>getComputedStyle(element).transitionDuration),"0.85s",
-        "La cabine doit utiliser une transition animée sans préférence de réduction.");
+      assert.equal(await page.locator(".elevator-cabin").evaluate(element=>getComputedStyle(element).transitionDuration),"1.05s",
+        "La cabine vitrée doit utiliser un déplacement progressif sans préférence de réduction.");
+      const cabinGeometry=await page.locator(".elevator-cabin").evaluate(element=>({
+        x:Number(element.getAttribute("x")),width:Number(element.getAttribute("width")),height:Number(element.getAttribute("height"))
+      }));
+      assert.ok(Math.abs(cabinGeometry.x-555.5)<0.1,"La cabine doit être décalée d'environ 1 mm vers la droite.");
+      assert.deepEqual([cabinGeometry.width,cabinGeometry.height],[68,78],"La cabine doit être agrandie sans déformer la photographie.");
+      assert.equal(await page.locator(".elevator-window").getAttribute("fill-opacity"),"0.20","La cabine doit présenter un vitrage translucide.");
+      assert.equal(await page.locator(".floor-row.is-lit").count(),0,"Aucun étage ne doit être illuminé.");
       const instantStyle=await page.addStyleTag({content:".elevator-cabin,.elevator-window{transition:none!important}"});
       const up=page.locator('.elevator-controls [data-lift="up"]');
       const down=page.locator('.elevator-controls [data-lift="down"]');
