@@ -41,7 +41,7 @@ L'inventaire initial a repéré :
 ## 5. Points de vigilance déjà visibles
 
 - La mission de contre-audit 4.0 contient une parenthèse excédentaire dans le chemin du document roadmap : `ROADMAP-MAJESTIOS-BRAINIOS-4.0.md)`.
-- Les documents 4.0 parlent encore parfois de BrainIOS comme si le nom et le périmètre étaient stabilisés ; la V5 doit traiter ce point comme un arbitrage ouvert.
+- Les documents historiques V3/V4 peuvent encore contenir le nom BrainIOS. Il est conservé uniquement dans ces archives pour préserver l'historique ; toute nouvelle documentation et toute nouvelle interface utilisent **MajestiOS V.5**.
 - La branche `main` est décrite dans l'audit comme nettement plus réduite que `evolution-3.0` ; ne pas l'utiliser comme base sans comparaison.
 - Certains documents A/B/C de la 3.0 sont des architectures cibles, pas des fonctionnalités déployées.
 - Les termes « Prosp'active » et « Réputation virtuelle » doivent être utilisés dans la cible actuelle ; les anciens termes peuvent rester dans les archives pour conserver le contexte historique.
