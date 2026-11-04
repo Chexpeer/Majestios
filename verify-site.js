@@ -34,7 +34,8 @@ const rubricSearchPages = [
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
   "intelligence-economique.html", "reseaux-synergies.html",
   "bodacc-veille-entreprises.html", "suivi-commercial.html",
-  "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html"
+  "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html",
+  "crm.html", "majestios-v5.html"
 ];
 for (const page of rubricSearchPages) {
   assert(exists(page), "Recherche par rubrique : page absente : " + page);
