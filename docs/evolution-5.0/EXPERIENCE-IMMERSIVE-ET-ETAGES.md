@@ -2,7 +2,7 @@
 
 ## 1. Concept
 
-L'accueil de MajestiOS devient un panorama immersif de haute qualité, centré sur un immeuble principal et son quartier d'affaires. Il ne s'agit pas de représenter uniquement le bâtiment : **tout l'environnement urbain doit être valorisé** et donner l'impression d'un véritable quartier économique international, spectaculaire, vivant et crédible. Sur ordinateur, ce panorama doit occuper environ **70 % de l'espace visuel de la page d'accueil** : il constitue l'élément central de l'expérience, et non une illustration secondaire ou une petite bannière. Le cadrage, la définition et le niveau de détail doivent permettre d'identifier clairement le bâtiment, ses accès et son environnement.
+L'accueil de MajestiOS devient un panorama immersif de haute qualité, centré sur un immeuble principal et son quartier d'affaires. Il ne s'agit pas de représenter uniquement le bâtiment : **tout l'environnement urbain doit être valorisé** et donner l'impression d'un véritable quartier économique international, spectaculaire, vivant et crédible. Sur ordinateur, le panorama doit occuper **le maximum de la surface utile de la page d'accueil**. Il doit dominer immédiatement l'écran et constituer l'expérience principale, pas une illustration secondaire, une petite bannière ou un bloc enfermé dans une mise en page classique. La cible indicative d'environ **70 % de l'espace visuel** devient un minimum de conception, pas un plafond : on peut aller au-delà si cela améliore l'immersion. Réduire au strict nécessaire les bandeaux, marges, cartes et blocs de texte concurrents. Le moteur de recherche, les destinations et les accès essentiels doivent être intégrés au panorama ou superposés avec discrétion, sans masquer le bâtiment, l'ascenseur ni les zones interactives. Le cadrage, la définition et le niveau de détail doivent permettre d'identifier clairement le bâtiment, ses accès et son environnement.
 
 Un ascenseur panoramique extérieur, vitré et visible sur la façade, représente MajestiOS lui-même.
 
@@ -17,7 +17,7 @@ Le panorama ne doit pas être une image figée simplement décorative. Il doit d
 - La toiture fait donc partie du périmètre d'exploration à concevoir ; son usage fonctionnel reste à préciser avant de lui attribuer une rubrique.
 - L'interaction spatiale doit rester fluide, intuitive et utilisable à la souris, au tactile et au clavier. Prévoir des commandes ou repères visibles pour tourner, revenir à la vue principale et retrouver l'entrée.
 - Le panorama doit conserver une vue de référence immédiatement compréhensible, sans obliger le visiteur à explorer pour trouver les destinations principales.
-- La cible des 70 % concerne la présence visuelle du panorama sur la page d'accueil desktop ; sur mobile, la composition doit être adaptée sans rendre le panorama minuscule ni masquer les accès essentiels.
+- Le panorama doit prendre la plus grande place possible dans la surface utile de l'accueil desktop ; les 70 % constituent un repère minimal indicatif et non une limite. Sur mobile, la composition doit également privilégier le panorama, avec une adaptation du cadrage et des commandes sans le réduire à une vignette ni masquer les accès essentiels.
 - L'image / scène doit être de haute qualité, mais optimisée pour le chargement : formats modernes, variantes responsive, chargement différé des vues secondaires et budget de poids à définir après choix de la technologie.
 
 ### Ascenseur et sélection d'une destination
@@ -122,7 +122,7 @@ Comparer avant de choisir :
 
 ## 10. Critères d'acceptation
 
-- le panorama occupe environ 70 % de l'espace visuel de la page d'accueil desktop ;
+- le panorama domine la page d'accueil et occupe le maximum raisonnable de sa surface utile ; la cible indicative de 70 % est un minimum de conception, non un plafond ;
 - le bâtiment peut être exploré sur plusieurs façades et la toiture est accessible dans l'expérience ;
 - la vue principale reste immédiatement lisible et les destinations principales sont repérables ;
 - les performances de chargement restent acceptables sur desktop et mobile ;
