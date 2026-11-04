@@ -177,7 +177,7 @@ function setIntent(intent) {
   formFeedback.hidden = true;
 }
 
-function populateSearchFilters(marketValue = "", selectedCategory = "all") {
+function populateSearchFilters(marketValue = "", selectedCategory = "") {
   const categorySelect = document.querySelector("#feed-sector");
   const marketSelect = document.querySelector("#feed-market-type");
   const departmentSelect = document.querySelector("#feed-department");
@@ -186,9 +186,15 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
   if (categorySelect) {
     categorySelect.replaceChildren();
     const placeholder = document.createElement("option");
-    placeholder.value = "all";
-    placeholder.textContent = marketValue ? "Toutes les catégories" : "2. Choisir d’abord un type";
+    placeholder.value = "";
+    placeholder.textContent = marketValue ? "2. Choisir une catégorie" : "2. Choisir d’abord un type";
     categorySelect.append(placeholder);
+    if (marketValue) {
+      const allCategories = document.createElement("option");
+      allCategories.value = "all";
+      allCategories.textContent = "Toutes les catégories";
+      categorySelect.append(allCategories);
+    }
     const source = marketValue === "public"
       ? (majCatalog.searchCategories || []).filter((item) => item.active && item.value !== "all")
       : marketValue === "private"
@@ -213,7 +219,8 @@ function populateSearchFilters(marketValue = "", selectedCategory = "all") {
       parent.append(option);
     });
     categorySelect.disabled = !marketValue;
-    categorySelect.value = source.some((item) => item.value === selectedCategory && !item.planned) ? selectedCategory : "all";
+    categorySelect.value = selectedCategory === "all" ? "all" :
+      source.some((item) => item.value === selectedCategory && !item.planned) ? selectedCategory : "";
   }
 
   if (departmentSelect && majCatalog.searchDepartments?.length) {
@@ -240,7 +247,7 @@ document.querySelector("#feed-search")?.addEventListener("focus", () => revealSt
 
 const initialSearchParams = new URLSearchParams(window.location.search);
 const initialMarketType = initialSearchParams.get("marche") || "";
-const initialCategory = initialSearchParams.get("categorie") || "all";
+const initialCategory = initialSearchParams.get("categorie") || "";
 populateSearchFilters(initialMarketType, initialCategory);
 if (initialMarketType) {
   revealStep(searchSteps.market);
