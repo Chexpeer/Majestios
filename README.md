@@ -39,7 +39,7 @@ Depuis la racine du dépôt :
 node build.js
 ```
 
-Cette commande lit `site-files.json`, vérifie le manifeste et les fichiers sources requis, puis copie les pages et ressources dans le dossier `dist/`. **`site-files.json` est la source unique de vérité** pour la liste des fichiers publiés : toute nouvelle page ou ressource doit y être déclarée.
+Cette commande lit `site-files.json`, vérifie le manifeste et les fichiers sources requis, puis copie les pages et ressources dans le dossier `dist/`. **`site-files.json` est la source unique de vérité** pour la liste des fichiers publiés : toute nouvelle page ou ressource doit y être déclarée. Le catalogue des dix espaces de l’immeuble est centralisé dans `building-catalogue.js` ; pour modifier un intitulé, un dossier ou une destination, intervenir dans ce fichier plutôt que dans le code de rendu de `index.html`.
 
 Pour servir le résultat localement, avec Python :
 
@@ -110,6 +110,7 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 - `tests/` : tests unitaires, d’intégration et navigateur ;
 - `verify-site.js`, `verify-architecture.js` : contrôles de cohérence ;
 - `site-files.json` : manifeste central des pages et ressources publiées ;
+- `building-catalogue.js` : catalogue éditorial des dix espaces, dossiers et destinations de l’immeuble interactif ;
 - `build.js` : construction du site statique à partir du manifeste ;
 - `vercel.json` : configuration de déploiement ;
 - `.github/workflows/` : automatisation des contrôles.
