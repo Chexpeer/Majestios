@@ -1,7 +1,7 @@
 # Feuille de route — MajestiOS 4.0 et BrainIOS
 
 **Date :** 4 novembre 2026  
-**Statut :** proposition de séquencement à confronter aux autres IA et à faire arbitrer par le porteur du projet.  
+**Statut :** feuille de route de travail 4.0 engagée sur la branche dédiée ; les choix techniques non encore vérifiés restent explicitement ouverts.  
 **Dépendances :** `AUDIT-MAJESTIOS-3.0.md` et `VISION-ET-ARCHITECTURE-MAJESTIOS-4.0.md`.
 
 ## 1. Règles de pilotage
@@ -26,14 +26,14 @@ Aucun statut « opérationnel » ne sera attribué sur la seule base d'une page 
 - Rapport précis des fichiers, preuves, limites et risques.
 - Sauvegarde et procédure de retour arrière pour toute évolution structurante.
 - Aucune fusion, promotion ou mise en production sans autorisation explicite du porteur du projet.
-- Les autres IA interviennent d'abord en contre-audit documentaire ; elles ne modifient pas le dépôt pendant cette consultation.
+- Les contre-audits externes sont facultatifs. Les observations techniques retenues sont suivies dans `REGISTRE-OBSERVATIONS-TECHNIQUES-4.0.md` ; elles ne dictent pas la vision produit.
 
 ## 2. Vue synthétique des phases
 
 | Phase | Intitulé | Résultat attendu | Statut |
 |---|---|---|---|
-| 0 | Audit et consultation | Diagnostic, architecture cible, contre-audits et arbitrages | En cours |
-| 1 | Réconciliation Git et cadrage | Base 4.0 choisie, PR classées, décisions produit consolidées | À CONSTRUIRE |
+| 0 | Cadrage documentaire et lancement | Diagnostic 3.0, vision cible, feuille de route et branche 4.0 créés | TERMINÉ |
+| 1 | Réconciliation Git et hygiène technique | PR cartographiées, risques techniques vérifiés, socle stabilisé | EN COURS |
 | 2 | Fondations sécurité et données | Identité, permissions, données, API, audit et sauvegardes | À ARBITRER / À CONSTRUIRE |
 | 3 | Socle développement commercial | Recherche fiable, taxonomie, sources, qualification, CRM fondamental | À CONSTRUIRE |
 | 4 | Réputation virtuelle | Recherche de présence locale, vérification et parcours d'accompagnement | À CONSTRUIRE |
@@ -62,7 +62,7 @@ Livrables :
 - mission de contre-audit ;
 - registre des décisions et questions ouvertes.
 
-**Critère de sortie :** le porteur du projet a validé le périmètre, les principes de sécurité et les arbitrages prioritaires. Aucune implémentation fonctionnelle nouvelle n'est lancée avant ce jalon.
+**Critère de sortie :** diagnostic, vision, feuille de route et branche de travail 4.0 sont disponibles. Cette phase est terminée ; le développement peut commencer par lots sans attendre un nouvel avis externe.
 
 ## 4. Phase 1 — Réconciliation Git et cadrage détaillé
 
@@ -72,11 +72,11 @@ Travaux :
 - comparer les arbres et commits de `main`, `evolution-2.0`, `evolution-3.0`, sauvegardes et branches de PR ;
 - classifier chaque PR ouverte : conserver, intégrer dans la base, réimplémenter, fermer/archiver après décision ;
 - résoudre les chaînes empilées #24–26, #29–31 et #32–34 ;
-- confirmer la base exacte et créer la branche de développement 4.0 après autorisation ;
+- confirmer et documenter la base exacte de la branche `evolution-4.0` (créée le 4 novembre 2026 depuis la branche documentaire fondée sur `evolution-3.0`) ;
 - établir une matrice exigences → modules → données → permissions → API → tests ;
 - mettre à jour les instructions des agents et la documentation canonique.
 
-**Critère de sortie :** un commit de base approuvé, un plan de conservation des changements et un registre d'arbitrages sans ambiguïté.
+**Critère de sortie :** un commit de base vérifié, une cartographie des PR, un plan de conservation des changements et un registre des décisions techniques.
 
 ## 5. Phase 2 — Fondations techniques, données et sécurité
 
