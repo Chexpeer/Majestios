@@ -19,3 +19,5 @@ Ce dossier prépare l'audit croisé et la définition de l'évolution 4.0. Il ne
 ## Statut
 
 Les documents sont soumis à relecture et contre-audit. Les éléments de vision exprimés par le porteur du projet sont distingués des décisions techniques à arbitrer. Toute divergence ou erreur relevée doit être ajoutée au registre d'arbitrage avant le lancement de la branche de développement 4.0.
+
+5. **SEO & visibilité** — intégré à la vision BrainIOS et à la feuille de route comme volet de pilotage de la visibilité organique de MajestiOS.
