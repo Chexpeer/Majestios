@@ -82,6 +82,23 @@ Ce lot améliore l'expérience existante mais ne doit pas être qualifié de vis
 
 La branche possède déjà un prototype 2D avec éclairage de zones et cabine SVG animée. Elle ne possède pas encore la visite 3D autour du bâtiment demandée. La trajectoire correcte est de fiabiliser d'abord les interactions existantes, puis d'intégrer un véritable actif 3D ; il serait trompeur de qualifier une parallaxe ou une rotation d'image de visite 3D.
 
+## Diagnostic des ressources visuelles — 4 novembre 2026
+
+Les six WebP prioritaires sont présentes dans Git et dans `site-files.json`. Le dépôt contient aussi `schema-majestios.svg`, mais aucune autre image JPEG ou PNG n'est utilisée par les pages repérées.
+
+| Fichier | Dimensions natives | Poids |
+|---|---:|---:|
+| `Ambitios.webp` | 943 × 1 387 | 248 364 octets |
+| `Développement-.webp` | 784 × 1 223 | 189 984 octets |
+| `Marché-Public-.webp` | 1 524 × 704 | 172 588 octets |
+| `Prospection-.webp` | 1 524 × 667 | 192 812 octets |
+| `Marcheprive.webp` | 1 057 × 1 010 | 188 458 octets |
+| `Reseau.webp` | 1 024 × 1 536 | 2 004 442 octets |
+
+Les arrière-plans des rubriques emploient `background-size: cover`, qui peut agrandir et recadrer ces sources selon la taille de leur conteneur. Le panorama principal conserve son ratio et est plafonné à 580 CSS px : il n'est pas agrandi à densité 1×, mais sa source de 943 px de large ne suffit pas pour garantir un rendu net au plafond actuel sur écran 2×.
+
+La branche et son historique accessible ne fournissent pas de master haute définition validé pour ces compositions. L'ancien nom `Ambisios.webp` est strictement le même objet Git que `Ambitios.webp`. D'autres visuels historiques existent, mais leur équivalence avec les compositions validées n'est pas établie ; ils ne sont donc pas substitués. Aucune variante artificiellement agrandie n'a été créée. La production de variantes responsive est bloquée jusqu'à réception des fichiers maîtres correspondants.
+
 
 ## Avancement du lot A — interaction 2D fiabilisée
 
@@ -94,3 +111,11 @@ Après l'audit initial, un premier correctif a été appliqué à l'accueil :
 - le contrôle d'architecture vérifie ces invariants.
 
 **Portée exacte :** il s'agit d'une amélioration du prototype 2D existant. La visite 3D à 360°, les façades latérales, la toiture et la cabine intégrée à une vraie géométrie 3D restent à réaliser après obtention d'un modèle architectural adapté. Le correctif n'a pas remplacé ni modifié `Ambitios.webp`.
+
+### Vérification géométrique de la cabine — 4 novembre 2026
+
+La cabine SVG était initialement dessinée à droite de la gaine vitrée. Elle est désormais centrée sur la gaine du panorama (`x=518`, largeur 48, hauteur 68 dans le repère natif 943 × 1387). Les huit arrêts, du niveau supérieur au rez-de-chaussée, sont définis par les centres verticaux 314, 424, 534, 644, 754, 864, 974 et 1084. La vitre suit le même déplacement. Le niveau courant est annoncé par une région de statut `aria-live="polite"` ; les commandes portent des noms accessibles.
+
+Un contrôle dans le navigateur embarqué a chargé l'image et le SVG à la même taille rendue (315,45 × 463,97 px) dans une fenêtre de 542 × 644 px. Les huit commandes ont été parcourues dans les deux sens ; centres, indicateurs, libellés, routes et état `aria-current` concordaient avec les huit arrêts. Le clic clavier sur les commandes n'a pas encore été exécuté dans le test Playwright. La recette complète desktop, téléphone à 390 px, tactile et transition animée reste à effectuer.
+
+Le test navigateur `tests/immeuble-interactif.browser.cjs` a été complété pour couvrir les huit arrêts et libellés, les commandes clavier et `prefers-reduced-motion` sur desktop et mobile. Il n'a pas pu être lancé dans l'environnement de travail au 4 novembre 2026, faute de Node.js disponible ; son résultat reste donc à confirmer en CI ou dans un environnement Node 22.

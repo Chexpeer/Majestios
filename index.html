@@ -422,31 +422,36 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           svg.append(link);
         });
 
-        // Cabine SVG superposée à la façade : elle suit le niveau choisi.
+        // Repère de la cabine dans la gaine vitrée visible sur Ambitios.webp.
         const elevator = document.createElementNS(namespace, "g");
         elevator.setAttribute("class", "elevator-lift");
         elevator.setAttribute("aria-hidden", "true");
         const cabin = document.createElementNS(namespace, "rect");
         cabin.setAttribute("class", "elevator-cabin");
-        cabin.setAttribute("x", "650"); cabin.setAttribute("y", "28");
-        cabin.setAttribute("width", "35"); cabin.setAttribute("height", "42");
+        cabin.setAttribute("x", "518"); cabin.setAttribute("y", "28");
+        cabin.setAttribute("width", "48"); cabin.setAttribute("height", "68");
         cabin.setAttribute("rx", "5");
         const windowPane = document.createElementNS(namespace, "rect");
         windowPane.setAttribute("class", "elevator-window");
-        windowPane.setAttribute("x", "656"); windowPane.setAttribute("y", "35");
-        windowPane.setAttribute("width", "23"); windowPane.setAttribute("height", "18");
+        windowPane.setAttribute("x", "526"); windowPane.setAttribute("y", "42");
+        windowPane.setAttribute("width", "32"); windowPane.setAttribute("height", "32");
         windowPane.setAttribute("rx", "2");
         elevator.append(cabin, windowPane); svg.append(elevator);
 
         const scene = document.querySelector(".building-scene");
         if (scene) {
+          const elevatorStops = [314, 424, 534, 644, 754, 864, 974, 1084];
+          const cabinCenterY = Number(cabin.getAttribute("y")) + Number(cabin.getAttribute("height")) / 2;
           const controls = document.createElement("div");
           controls.className = "elevator-controls";
           controls.setAttribute("role", "group");
           controls.setAttribute("aria-label", "Ascenseur MajestiOS");
-          controls.innerHTML = '<button type="button" data-lift="up" aria-label="Monter d’un étage">↑</button><span class="elevator-indicator" aria-live="polite">01</span><button type="button" data-lift="down" aria-label="Descendre d’un étage">↓</button>';
+          controls.innerHTML = '<button type="button" data-lift="up" aria-label="Monter d’un étage">↑</button><span class="elevator-indicator" aria-hidden="true">01</span><button type="button" data-lift="down" aria-label="Descendre d’un étage">↓</button>';
           const caption = document.createElement("div");
           caption.className = "elevator-caption"; caption.textContent = "ASCENSEUR · ÉTAGE 08";
+          caption.setAttribute("role", "status");
+          caption.setAttribute("aria-live", "polite");
+          caption.setAttribute("aria-atomic", "true");
           scene.append(controls, caption);
           // L'accueil (01) est le rez-de-chaussée et le point de départ de la cabine.
           let current = destinations.length - 1;
@@ -454,8 +459,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           const selectFloor = (index) => {
             current = Math.max(0, Math.min(destinations.length - 1, index));
             const item = destinations[current];
-            const centerY = item.y + item.height / 2;
-            const offset = centerY - 49;
+            const offset = elevatorStops[current] - cabinCenterY;
             cabin.style.transform = "translateY(" + offset + "px)";
             windowPane.style.transform = "translateY(" + offset + "px)";
             svg.querySelectorAll(".floor-row").forEach((node) => {

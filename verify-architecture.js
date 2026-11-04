@@ -101,6 +101,14 @@ if (!destinationBlock) {
   assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
   assert(home.includes("let current = destinations.length - 1;"),"Accueil : l'ascenseur doit démarrer au rez-de-chaussée (Accueil)");
   assert(home.includes("selectFloor(destinations.length - 1);"),"Accueil : la cabine doit être initialisée à Accueil");
+  assert(home.includes('cabin.setAttribute("x", "518")') && home.includes('cabin.setAttribute("width", "48")'),
+    "Accueil : la cabine doit être positionnée et dimensionnée dans la gaine vitrée");
+  assert(home.includes("const elevatorStops = [314, 424, 534, 644, 754, 864, 974, 1084];") &&
+    home.includes("const offset = elevatorStops[current] - cabinCenterY;"),
+    "Accueil : les huit arrêts de cabine doivent suivre la gaine vitrée");
+  assert(home.includes('caption.setAttribute("role", "status")') &&
+    home.includes('caption.setAttribute("aria-live", "polite")'),
+    "Accueil : le niveau de la cabine doit être annoncé aux technologies d'assistance");
   assert(home.includes('window.setTimeout(() => { window.location.href = row.getAttribute("href"); }, delay);'),
     "Accueil : la cabine doit atteindre l'étage avant la navigation directe");
   assert(home.includes('window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 900'),

@@ -78,6 +78,46 @@ async function main() {
         const hit=await page.evaluate(([cx,cy])=>document.elementFromPoint(cx,cy)?.closest(".floor-row")?.dataset.floor ?? null,[px,py]);
         assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px.");
       }
+      const elevatorStops=[314,424,534,644,754,864,974,1084];
+      assert.equal(await page.locator(".elevator-cabin").evaluate(element=>getComputedStyle(element).transitionDuration),"0.85s",
+        "La cabine doit utiliser une transition animée sans préférence de réduction.");
+      const instantStyle=await page.addStyleTag({content:".elevator-cabin,.elevator-window{transition:none!important}"});
+      const up=page.locator('.elevator-controls [data-lift="up"]');
+      const down=page.locator('.elevator-controls [data-lift="down"]');
+      assert.equal(await up.getAttribute("aria-label"),"Monter d’un étage","La commande de montée doit être accessible.");
+      assert.equal(await down.getAttribute("aria-label"),"Descendre d’un étage","La commande de descente doit être accessible.");
+      assert.equal(await page.locator(".elevator-caption").getAttribute("role"),"status",
+        "Le niveau actuel doit être annoncé comme statut.");
+      assert.equal(await page.locator(".elevator-caption").getAttribute("aria-live"),"polite",
+        "Le niveau actuel doit être annoncé sans interrompre le lecteur d’écran.");
+      for (let index=expected.length-1;index>=0;index--) {
+        if(index<expected.length-1) await up.click();
+        const state=await page.evaluate(()=>({
+          floor:document.querySelector('.floor-row[aria-current="location"]')?.dataset.floor,
+          caption:document.querySelector(".elevator-caption").textContent,
+          center:Number(document.querySelector(".elevator-cabin").getAttribute("y"))+
+            Number(document.querySelector(".elevator-cabin").getAttribute("height"))/2+
+            new DOMMatrix(getComputedStyle(document.querySelector(".elevator-cabin")).transform).m42
+        }));
+        assert.equal(state.floor,expected[index].id,"La cabine doit sélectionner le bon étage à "+viewport.width+" px.");
+        assert.equal(state.caption,"ASCENSEUR · "+expected[index].name.toLocaleUpperCase("fr-FR"),
+          "Le libellé de la cabine doit correspondre à "+expected[index].name+".");
+        assert.ok(Math.abs(state.center-elevatorStops[index])<0.1,
+          "La cabine doit rester dans la gaine au niveau "+expected[index].name+" à "+viewport.width+" px.");
+      }
+      await down.focus();
+      await page.keyboard.press("Enter");
+      assert.equal(await page.locator('.floor-row[aria-current="location"]').getAttribute("data-floor"),"07",
+        "La commande de descente doit être utilisable au clavier.");
+      await up.focus();
+      await page.keyboard.press("Space");
+      assert.equal(await page.locator('.floor-row[aria-current="location"]').getAttribute("data-floor"),"08",
+        "La commande de montée doit être utilisable au clavier.");
+      await instantStyle.evaluate(element=>element.remove());
+      await page.emulateMedia({reducedMotion:"reduce"});
+      assert.equal(await page.locator(".elevator-cabin").evaluate(element=>getComputedStyle(element).transitionDuration),"0s",
+        "La cabine doit respecter la préférence de réduction des animations.");
+      await page.emulateMedia({reducedMotion:"no-preference"});
     }
     for (const item of expected) {
       await page.setViewportSize({width:1365,height:900});
@@ -91,7 +131,7 @@ async function main() {
       assert.ok(new URL(page.url()).pathname.endsWith("/"+item.route),"Le clic sur "+item.name+" doit ouvrir "+item.route);
     }
     assert.deepEqual(errors,[],"Aucune erreur JavaScript n’est attendue sur l’accueil.");
-    console.log("TEST NAVIGATEUR RÉUSSI : huit destinations Ambitios, liens directs et zones testées en desktop et mobile.");
+    console.log("TEST NAVIGATEUR RÉUSSI : huit destinations, zones, cabine, commandes clavier, réduction des animations et liens testés en desktop et mobile.");
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));
