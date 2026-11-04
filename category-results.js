@@ -26,8 +26,9 @@
   if (!definition) return;
 
   const params = new URLSearchParams(window.location.search);
+  params.set("marche", "public");
   const query = (params.get("q") || "").trim();
-  const market = params.get("marche") || "all";
+  const market = params.get("marche");
   const department = params.get("departement") || "all";
   const marketTypes = catalogue.marketTypes || [];
   const departments = catalogue.searchDepartments || [];

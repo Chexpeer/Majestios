@@ -12,6 +12,7 @@ La V5 est la branche de travail active. La branche `evolution-3.0` est conservé
 |---|---|
 | [Référence MajestiOS V.5](evolution-5.0/MAJESTIOS-V5-REFERENCE.md) | Source canonique de vision, d'architecture, d'arborescence, d'état réel et de décisions à prendre |
 | [Audit de conformité et des liens](evolution-5.0/AUDIT-CONFORMITE-ARCHITECTURE-ET-LIENS.md) | Preuves du contrôle du dépôt, état des routes, résultats et limites de vérification |
+| [Audit du lot 2 — navigation fonctionnelle](evolution-5.0/AUDIT-LOT-2-NAVIGATION-FONCTIONNELLE.md) | Parcours de second niveau, corrections vérifiées et contrôles non exécutés |
 
 Les autres documents V5 sont des précisions thématiques subordonnées à la référence centrale. En cas de divergence, appliquer la référence et corriger le document de détail.
 

@@ -13,11 +13,14 @@
   const privateCategories = catalogue.privateSearchCategories || [];
   const findLabel = (items, value, fallback) => items.find((item) => item.value === value)?.label || fallback;
   const categoryLabel = findLabel(categories, category, findLabel(privateCategories, category, category));
+  const departmentLabel = department === "all"
+    ? "Tous les départements"
+    : findLabel(departments, department, department);
   const criteria = [
     ["Mots-clés", (params.get("q") || "").trim() || "Aucun mot-clé précisé"],
     ["Catégorie", categoryLabel],
     ["Type de marché", findLabel(markets, market, market)],
-    ["Département", findLabel(departments, department, department)]
+    ["Département", departmentLabel]
   ];
   for (const [label, value] of criteria) {
     const term = document.createElement("dt");

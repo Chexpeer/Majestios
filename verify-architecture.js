@@ -52,6 +52,36 @@ assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentati
 
 const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
 for (const page of htmlPages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
+const expectedSiteNavigation = [
+  ["index.html", "Accueil"],
+  ["developpement-commercial.html", "Développement commercial"],
+  ["reseaux-synergies.html", "Réseau"],
+  ["reputation-virtuelle.html", "Réputation virtuelle"],
+  ["nous-rejoindre.html", "Nous rejoindre"],
+  ["espace-membre.html", "Espace privé"],
+  ["faq.html", "FAQ"]
+];
+for (const page of htmlPages) {
+  const pageHtml = read(page);
+  const nav = pageHtml.match(/<nav\b(?=[^>]*\bid="site-nav")[^>]*>([\s\S]*?)<\/nav>/);
+  assert(Boolean(nav), page + " : navigation principale absente");
+  if (!nav) continue;
+  const links = [...nav[1].matchAll(/<a\b([^>]*)href="([^"]+)"([^>]*)>([\s\S]*?)<\/a>/g)];
+  const navigation = links.map((match) => [
+    match[2],
+    match[4].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
+  ]);
+  assert(JSON.stringify(navigation) === JSON.stringify(expectedSiteNavigation),
+    page + " : la navigation principale doit rester identique aux autres pages");
+  const currentLinks = links.filter((match) => /aria-current="page"/.test(match[1] + match[3]));
+  assert(currentLinks.length <= 1, page + " : une seule destination au maximum peut être marquée comme courante");
+  if (currentLinks.length === 1) {
+    const currentPage = currentLinks[0][2].split(/[?#]/, 1)[0];
+    assert(currentPage === page, page + " : aria-current doit désigner la page réellement affichée");
+  }
+  assert(!/const\s+menuToggle\s*=/.test(pageHtml) || !pageHtml.includes('src="app.js"'),
+    page + " : éviter une déclaration globale de menu en conflit avec app.js");
+}
 for (const asset of [
   "styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
@@ -136,6 +166,25 @@ assert(siteFiles.includes("reputation-virtuelle.html"),"Build : page Réputation
 const catalogue = read("catalogue-majestios.js");
 assert(catalogue.includes("searchCategories") && catalogue.includes("searchDepartments") && catalogue.includes("marketTypes"),
   "Catalogue : filtres de recherche incomplets");
+const categoryResults = read("category-results.js");
+assert(categoryResults.includes('params.set("marche", "public")'),
+  "Catégories publiques : la recherche et le retour doivent conserver le type de marché public");
+const searchResults = read("search-results.js");
+assert(searchResults.includes('department === "all"\n    ? "Tous les départements"'),
+  "Résultats : le filtre département par défaut doit être libellé clairement");
+for (const [page, category] of [
+  ["categorie-services-numeriques.html", "services"],
+  ["categorie-travaux-amenagement.html", "travaux"],
+  ["categorie-conseil-etudes.html", "conseil"],
+  ["categorie-batiment.html", "batiment"],
+  ["categorie-renovation.html", "renovation"],
+  ["categorie-electricite.html", "electricite"],
+  ["categorie-plomberie-chauffage.html", "plomberie"],
+  ["categorie-maintenance.html", "maintenance"]
+]) {
+  assert(read(page).includes(`href="index.html?marche=public&amp;categorie=${category}#recherche-avancee"`),
+    "Catégories publiques : le retour doit restaurer le type et la catégorie sur " + page);
+}
 const rubricSearch = read("rubric-search.js");
 const appSearch = read("app.js");
 assert(rubricSearch.includes('id="advanced-search-form"') && rubricSearch.includes('id="feed-market-type"') &&
