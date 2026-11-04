@@ -86,7 +86,7 @@ if (!destinationBlock) {
     .map(match => ({id:match[1],name:match[2],href:match[3],x:Number(match[4]),y:Number(match[5]),width:Number(match[6]),height:Number(match[7])}));
   assert(destinations.length===8,"Accueil : exactement huit destinations doivent être définies");
   assert(destinations.every((item,index)=>item.name===expectedDestinations[index][0] && item.href===expectedDestinations[index][1]),
-    "Accueil : les huit destinations ou leurs routes ne respectent pas la nomenclature Ambisios");
+    "Accueil : les huit destinations ou leurs routes ne respectent pas la nomenclature Ambitios");
   for (const destination of destinations) {
     assert(destination.width>0 && destination.height>0 && destination.x>=0 && destination.y>=0 &&
       destination.x+destination.width<=943 && destination.y+destination.height<=1387,
@@ -96,11 +96,11 @@ if (!destinationBlock) {
     assert(siteFiles.includes(route),"Build : destination non publiée : "+route);
   }
   assert(home.includes('document.createElementNS(namespace, "a")'),"Accueil : les destinations doivent être des liens SVG natifs");
-  assert(home.includes('viewBox="0 0 943 1387"'),"Accueil : le repère SVG doit correspondre à Ambisios.webp (943 × 1387)");
-  assert(home.includes('src="Ambisios.webp"'),"Accueil : le panorama Ambisios est absent");
+  assert(home.includes('viewBox="0 0 943 1387"'),"Accueil : le repère SVG doit correspondre à Ambitios.webp (943 × 1387)");
+  assert(home.includes('src="Ambitios.webp"'),"Accueil : le panorama Ambitios est absent");
   assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
 }
-for (const asset of ["Ambisios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp"]) {
+for (const asset of ["Ambitios.webp","Développement-.webp","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp"]) {
   assert(exists(asset),"Image de référence absente : "+asset);
   assert(siteFiles.includes(asset),"Build : image non publiée : "+asset);
 }
@@ -133,4 +133,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, huit destinations Ambisios, cinq images WebP publiées (panorama et quatre fonds), moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, huit destinations Ambitios, cinq images WebP publiées (panorama et quatre fonds), moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
