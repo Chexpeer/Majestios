@@ -39,24 +39,7 @@
     "type_marche", "type_marche_facette", "type_avis", "descripteur_libelle", "etat", "url_avis"
   ].join(",");
 
-  // Correspondance explicite des régions administratives avec les codes départementaux BOAMP.
-  // Les filtres de démonstration "nord/ouest/sud" ne sont volontairement pas interprétés comme des régions réelles.
-  const REGION_DEPARTMENTS = {
-    "auvergne-rhone-alpes": ["01","03","07","15","26","38","42","43","63","69","73","74"],
-    "bourgogne-franche-comte": ["21","25","39","58","70","71","89","90"],
-    bretagne: ["22","29","35","56"],
-    "centre-val-de-loire": ["18","28","36","37","41","45"],
-    corse: ["2A","2B"],
-    "grand-est": ["08","10","51","52","54","55","57","67","68","88"],
-    "hauts-de-france": ["02","59","60","62","80"],
-    "ile-de-france": ["75","77","78","91","92","93","94","95"],
-    normandie: ["14","27","50","61","76"],
-    "nouvelle-aquitaine": ["16","17","19","23","24","33","40","47","64","79","86","87"],
-    occitanie: ["09","11","12","30","31","32","34","46","48","65","66","81","82"],
-    "pays-de-la-loire": ["44","49","53","72","85"],
-    "provence-alpes-cote-d-azur": ["04","05","06","13","83","84"],
-    "outre-mer": ["971","972","973","974","976","975","977","978","986","987","988"]
-  };
+  const DEPARTMENT_CODES = new Set(["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","2A","2B","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","971","972","973","974","976"]);
 
   const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("fr").trim();
 
@@ -216,24 +199,13 @@
       bodaccUrl.searchParams.set("order_by", "dateparution desc");
       bodaccUrl.searchParams.set("select", BODACC_FIELDS);
       if (query) bodaccUrl.searchParams.set("q", query);
-      const region = params.get("zone") || "all";
-      const regions = {
-        "nouvelle-aquitaine": "Nouvelle-Aquitaine", "ile-de-france": "Île-de-France",
-        "auvergne-rhone-alpes": "Auvergne-Rhône-Alpes", occitanie: "Occitanie",
-        "pays-de-la-loire": "Pays de la Loire", bretagne: "Bretagne", normandie: "Normandie",
-        "hauts-de-france": "Hauts-de-France", "grand-est": "Grand Est",
-        "bourgogne-franche-comte": "Bourgogne-Franche-Comté", "centre-val-de-loire": "Centre-Val de Loire",
-        "provence-alpes-cote-d-azur": "Provence-Alpes-Côte d’Azur", corse: "Corse"
-      };
-      if (region === "outre-mer") {
-        empty.textContent = "Le filtre BODACC pour l’Outre-mer n’est pas encore pris en charge de façon fiable. Choisissez une région précise ou « Toutes les régions » ; aucun résultat non filtré ne sera présenté comme territorial.";
+      const department = params.get("departement") || "all";
+      const departments = (window.MAJESTIOS_CATALOG?.searchDepartments || []).filter((item) => item.value === department);
+      if (department !== "all" && !departments.length) {
+        empty.textContent = "Ce département n’est pas reconnu. Choisissez un département français disponible ou « Tous les départements ».";
         return;
       }
-      if (region !== "all" && !regions[region]) {
-        empty.textContent = "Cette zone n’est pas encore disponible comme filtre BODACC. Choisissez une région administrative prise en charge ou « Toutes les zones ». Aucun résultat n’est présenté comme filtré.";
-        return;
-      }
-      if (regions[region]) bodaccUrl.searchParams.set("where", 'region_nom_officiel = "' + regions[region].replace(/"/g, '\\"') + '"');
+      if (departments.length) bodaccUrl.searchParams.set("where", 'departement_nom_officiel = "' + departments[0].label.replace(/"/g, '\\"') + '"');
       const request = beginRequest(panel);
       try {
         const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
@@ -338,17 +310,13 @@
     const filters = ['nature = "APPEL_OFFRE"'];
     if (CATEGORY_TYPES[category]) filters.push('type_marche = "' + CATEGORY_TYPES[category] + '"');
 
-    const region = params.get("zone") || "all";
-    if (region !== "all") {
-      const departments = REGION_DEPARTMENTS[region];
-      if (!departments) {
-        empty.textContent = "Cette zone n’est pas encore disponible comme filtre géographique. Choisissez une région administrative ou « Toutes les zones ». Aucun résultat n’est présenté comme filtré.";
+    const department = params.get("departement") || "all";
+    if (department !== "all") {
+      if (!DEPARTMENT_CODES.has(department)) {
+        empty.textContent = "Ce département n’est pas reconnu. Choisissez un département français disponible ou « Tous les départements ».";
         return;
       }
-      const departmentFilter = departments.map((code) =>
-        '(code_departement_prestation = "' + code + '" OR code_departement = "' + code + '")'
-      ).join(" OR ");
-      filters.push("(" + departmentFilter + ")");
+      filters.push('(code_departement_prestation = "' + department + '" OR code_departement = "' + department + '")');
     }
     url.searchParams.set("where", filters.join(" AND "));
     // Sans mot-clé utilisateur, ne pas imposer un seul terme serveur pour une catégorie :
