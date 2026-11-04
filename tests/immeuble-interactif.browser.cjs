@@ -6,14 +6,14 @@ const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..", "dist");
 const expected = [
-  {id:"08",name:"Espace privé",route:"espace-membre.html",rect:[704,10,229,67]},
-  {id:"07",name:"Réseau",route:"reseaux-synergies.html",rect:[704,79,229,65]},
-  {id:"06",name:"Développement commercial",route:"developpement-commercial.html",rect:[704,145,229,69]},
-  {id:"05",name:"Prospection",route:"prospection-active.html",rect:[704,215,229,64]},
-  {id:"04",name:"Marchés publics",route:"marches-publics.html",rect:[704,280,229,65]},
-  {id:"03",name:"Marchés privés",route:"marches-prives.html",rect:[704,346,229,64]},
-  {id:"02",name:"Réputation virtuelle",route:"reputation-virtuelle.html",rect:[704,411,229,65]},
-  {id:"01",name:"Accueil",route:"index.html",rect:[704,477,229,65]}
+  {id:"08",name:"Espace privé",route:"espace-membre.html",rect:[704,18,229,60]},
+  {id:"07",name:"Réseau",route:"reseaux-synergies.html",rect:[704,80,229,60]},
+  {id:"06",name:"Développement commercial",route:"developpement-commercial.html",rect:[704,142,229,60]},
+  {id:"05",name:"Prospection",route:"prospection-active.html",rect:[704,204,229,60]},
+  {id:"04",name:"Marchés publics",route:"marches-publics.html",rect:[704,266,229,60]},
+  {id:"03",name:"Marchés privés",route:"marches-prives.html",rect:[704,328,229,60]},
+  {id:"02",name:"Réputation virtuelle",route:"reputation-virtuelle.html",rect:[704,390,229,60]},
+  {id:"01",name:"Accueil",route:"index.html",rect:[704,452,229,60]}
 ];
 const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf-8", ".js":"text/javascript; charset=utf-8", ".webp":"image/webp" };
 
