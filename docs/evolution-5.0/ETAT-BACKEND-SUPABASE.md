@@ -14,7 +14,9 @@ Les migrations versionnées sont conservées dans `supabase/migrations/` :
 
 1. `20261105163901_majestios_core_multitenant_foundation.sql`
 2. `20261105163922_harden_private_authorization_and_fk_indexes.sql`
-3. `20261105163940_enforce_tenant_relationship_integrity.sql`
+3. `20261105163953_enforce_tenant_relationship_integrity.sql`
+4. `20261105164403_add_private_consent_records.sql`
+5. `20261105164411_replace_consent_placeholder_with_privacy_acknowledgments.sql`
 
 La première migration crée le socle métier ; la deuxième déplace les fonctions sensibles dans le schéma non exposé `private`, ferme leur exécution anonyme et ajoute les index de clés étrangères ; la troisième bloque les relations inter-organisations et interdit le déplacement d'une ligne d'un tenant à un autre.
 
@@ -30,6 +32,7 @@ La première migration crée le socle métier ; la deuxième déplace les foncti
 | `opportunities` | Opportunités et pipeline commercial, avec provenance de source |
 | `activities` | Historique append-only des actions commerciales |
 | `client_requests` | Demandes transmises depuis un espace client authentifié |
+| `privacy_acknowledgments` | Historique serveur de prise de connaissance d’une version de la politique de confidentialité |
 
 Une organisation interne `majestios-interne` est créée. Aucun utilisateur n'y est rattaché pour le moment : l'identité du premier administrateur doit être confirmée et provisionnée par un canal privilégié. Aucun utilisateur ne peut s'ajouter lui-même à une organisation.
 
@@ -55,15 +58,16 @@ Une organisation interne `majestios-interne` est créée. Aucun utilisateur n'y 
 - Conseiller sécurité Supabase : aucun avertissement restant après durcissement.
 - Conseiller performance : aucun avertissement de clé étrangère non indexée ; les index récemment créés sont signalés « unused » car la base est encore vide, ce qui est attendu à ce stade.
 
-## Limites explicites — rien n'est encore raccordé au site
+## Raccordement déjà engagé et limites restantes
 
-- Aucun formulaire HTML n'envoie encore de données au backend.
-- Aucun compte client ne peut encore être créé depuis le site.
-- Aucun mécanisme d'invitation ou d'affectation à une organisation n'est encore livré.
+- `espace-membre.html` est maintenant raccordé à Supabase Auth : inscription, connexion, demande de réinitialisation et mise à jour du mot de passe. Le module est versionné dans `auth-espace-membre.js` et utilise uniquement la clé publishable côté navigateur.
+- La fonction Edge `provision-client-workspace` (version 2, JWT obligatoire) vérifie l'utilisateur et l'e-mail confirmé, crée l'organisation cliente et son propriétaire, et enregistre la prise de connaissance de la politique. Elle est idempotente pour un compte déjà membre d'un espace client.
+- Le parcours Auth n'a pas encore été testé de bout en bout avec une véritable boîte e-mail. L'URL de redirection autorisée, l'expédition/les modèles d'e-mails et la configuration CAPTCHA/rate-limit doivent être contrôlés dans Supabase avant ouverture publique.
+- Aucun workflow d'invitation de collaborateurs à une organisation n'est encore livré.
 - Aucun premier administrateur MajestiOS n'est provisionné.
 - Aucune passerelle BOAMP/BODACC vers `opportunities` n'est active.
 - Aucun fichier CV/Kbis n'est stocké ; aucun bucket Storage n'est créé.
-- Les formulaires publics devront passer par une fonction serveur protégée contre le spam, avec validation, minimisation et politique de conservation avant stockage.
+- Les formulaires publics de contact, candidature et dépôt de CV/Kbis ne sont pas encore raccordés. Ils devront passer par des endpoints serveur protégés contre le spam, avec validation, minimisation et politique de conservation avant stockage.
 
 ## Étapes suivantes
 
@@ -71,9 +75,20 @@ Une organisation interne `majestios-interne` est créée. Aucun utilisateur n'y 
 2. Configurer Auth (confirmation d'adresse, récupération, règles de mot de passe et CAPTCHA selon les parcours).
 3. Créer un workflow d'invitation et de création contrôlée des organisations clientes.
 4. Définir les contrats des formulaires publics et leur endpoint serveur avant de collecter des données.
-5. Raccorder progressivement les formulaires, puis la qualification et les opportunités, avec tests RLS multi-tenant et tests navigateur.
-6. Ajouter Storage uniquement lorsque les règles de dépôt, d'accès, de durée de conservation et de suppression des pièces sont établies.
+5. Tester l’inscription, la confirmation e-mail, la connexion et la récupération du mot de passe de bout en bout.
+6. Raccorder les formulaires publics de contact et de candidature via des endpoints dédiés.
+7. Raccorder progressivement la qualification et les opportunités, avec tests RLS multi-tenant et tests navigateur.
+8. Ajouter Storage uniquement lorsque les règles de dépôt, d'accès, de durée de conservation et de suppression des pièces sont établies.
 
 ## Règle de gouvernance
 
 Le schéma de données est une fondation technique versionnée, pas une validation définitive de toutes les règles métier ou RGPD. Toute extension doit conserver la séparation CRM interne / espace client / moteur de qualification, la provenance des informations, les décisions humaines et les tests anti-régression.
+
+
+## Fonction serveur déployée
+
+- Nom : `provision-client-workspace` ; version déployée : 2 ; vérification JWT : activée.
+- Source versionnée : `supabase/functions/provision-client-workspace/index.ts`.
+- La clé `service_role` est utilisée exclusivement côté serveur et n’est jamais publiée dans le site.
+- Le navigateur utilise la clé publishable du projet dans `supabase-config.js`.
+- L’URL publique du projet est `https://awtgrjnpckgxsdpfrnhg.supabase.co`.
