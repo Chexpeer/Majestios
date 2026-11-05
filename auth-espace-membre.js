@@ -3,6 +3,7 @@ import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 
 const config = MAJESTIOS_SUPABASE;
 const form = document.querySelector("#personal-space-form");
+const personalSpaceDialog = document.querySelector("#personal-space-dialog");
 const feedback = document.querySelector("#personal-space-feedback");
 const modeToggle = document.querySelector("#toggle-auth-mode");
 const submitButton = form?.querySelector('[type="submit"]');
