@@ -94,37 +94,8 @@
 .virtual-space[data-world="veille"] .virtual-space-scene:after{border-color:rgba(255,255,255,.25)}
 
 
-/* Moteur de recherche partagé : mêmes étapes, composants, dimensions et palette que l'accueil. */
-body:not(.homepage) .rubric-search-card{
-  display:block!important;width:min(900px,100%);max-width:900px;min-width:0;
-  margin:26px auto 24px;padding:clamp(12px,1.5vw,22px);
-  border:1px solid #e8b94e!important;border-radius:13px!important;
-  background:#06142be8!important;box-shadow:0 18px 48px #0006!important;color:#f5f7fb;
-  transform:none!important;
-}
-body:not(.homepage) .rubric-search-card .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
-body:not(.homepage) .rubric-search-card .feed-demo{padding:0;border:0;background:transparent;box-shadow:none}
-body:not(.homepage) .rubric-search-heading{margin:0 0 16px}
-body:not(.homepage) .rubric-search-heading h2{margin:0 0 7px;color:#fff;font-size:clamp(18px,2.2vw,24px);line-height:1.25}
-body:not(.homepage) .rubric-search-heading p{margin:0;color:#e0e9f7;font-size:12px;line-height:1.5}
-body:not(.homepage) #advanced-search-form{display:grid;grid-template-columns:1fr;gap:10px;width:100%;margin:0}
-body:not(.homepage) #advanced-search-form .feed-search{display:flex;align-items:center;gap:10px;min-width:0;padding:0 10px;border:1px solid #d5b56c88;border-radius:9px;background:#0b1c34}
-body:not(.homepage) #advanced-search-form .feed-search>span:first-child{color:#f3c65e;font-size:25px}
-body:not(.homepage) #advanced-search-form .feed-search input{width:100%;min-height:46px;margin:0;padding:8px 4px;border:0;background:transparent;color:#f4f0e6;font:inherit;font-size:14px}
-body:not(.homepage) #advanced-search-form .feed-search input::placeholder{color:#9facc0}
-body:not(.homepage) #advanced-search-form .feed-filter-label{display:block;min-width:0}
-body:not(.homepage) #advanced-search-form .feed-filter-label[hidden]{display:none!important}
-body:not(.homepage) #advanced-search-form .feed-filter-label select{width:100%;min-height:44px;margin:0;padding:8px 10px;border:1px solid #8098b8;border-radius:7px;background:#112743;color:#f4f0e6;font:inherit;font-size:13px}
-body:not(.homepage) #advanced-search-form .search-source-note{margin:0;color:#c4d0e2;font-size:11px;line-height:1.45}
-body:not(.homepage) #advanced-search-form .feed-search-submit{width:100%;min-height:46px;padding:9px 14px;border:1px solid #ffdf82;border-radius:9px;background:linear-gradient(100deg,#f7d76b,#dfa72e);color:#101828;font-size:14px;font-weight:850;cursor:pointer}
-body:not(.homepage) #advanced-search-form .feed-search-submit:hover{filter:brightness(1.06)}
-body:not(.homepage) #advanced-search-form .feed-search-submit:focus-visible,
-body:not(.homepage) #advanced-search-form input:focus-visible,
-body:not(.homepage) #advanced-search-form select:focus-visible{outline:2px solid #ffe5a0;outline-offset:2px}
-@media(max-width:600px){
-  body:not(.homepage) .rubric-search-card{width:100%;margin:20px auto;padding:12px}
-  body:not(.homepage) #advanced-search-form{gap:9px}
-}
+/* Le moteur est stylé par la feuille globale styles.css, comme sur l'accueil. */
+
 /* Correctifs transversaux de robustesse et de lisibilite mobile. */
 .virtual-space,.virtual-space *{box-sizing:border-box}
 .virtual-space{min-width:0;max-width:100%;isolation:isolate}
@@ -197,17 +168,13 @@ body.page-reseaux main.interior-page{
 @media(max-width:760px){body.page-reseaux main.interior-page{padding:18px 14px;background-attachment:scroll;background-position:center top}}
 
 
-/* Fond plein écran explicite de la rubrique Développement commercial. */
-body.page-development-commercial{
+/* Fond photographique visible directement dans la rubrique Développement commercial.
+   Aucun voile sombre : l'image reste lisible et couvre toute la zone de contenu. */
+body.page-development-commercial main.interior-page{
+  background-color:transparent !important;
   background-image:url("./devellopement%20(2).jfif") !important;
   background-size:cover !important;
   background-position:center center !important;
   background-repeat:no-repeat !important;
-  background-attachment:fixed !important;
-}
-body.page-development-commercial main.interior-page{
-  background:transparent !important;
-}
-@media(max-width:760px){
-  body.page-development-commercial{background-attachment:scroll !important;}
+  background-attachment:scroll !important;
 }
