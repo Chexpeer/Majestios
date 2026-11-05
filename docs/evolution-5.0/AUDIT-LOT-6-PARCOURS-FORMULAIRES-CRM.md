@@ -2,7 +2,7 @@
 
 **Date de contrôle :** 5 novembre 2026  
 **Commit examiné initialement :** `fc21d09c20a2679eb78a9fb7f9745aabb1533952`  
-**Dernière revue de code :** `bd59a4c8a7f253c85bf63d40736955b255bf4c74`  
+**Dernière revue de code :** `35ff7e9c96ae4ab1c91160487ce7344f43a44b81`  
 **Branche :** `evolution-5.0-clean-preview`  
 **Périmètre :** accueil, recherche et résultats, espace membre, page « Nous rejoindre », CRM et fonction serveur de provisionnement.  
 **Méthode :** lecture du code réellement présent, rapprochement avec `ETAT-BACKEND-SUPABASE.md` et vérification des workflows GitHub sur le HEAD indiqué. Les contrôles automatisés ne valent pas recette réelle des formulaires avec une boîte e-mail ni validation métier complète.

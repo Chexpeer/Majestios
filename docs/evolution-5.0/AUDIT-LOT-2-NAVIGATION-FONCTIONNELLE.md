@@ -102,3 +102,22 @@ Les trois destinations de l'immeuble qui ne sont pas des liens principaux (Prosp
 3. Vérifier les liens externes d'annonces sur la source officielle et distinguer une indisponibilité réseau d'une erreur de route.
 4. Poursuivre la recette des pages CRM, espace privé, suivi commercial, salons et fonctions transversales sans les présenter comme des services connectés.
 5. Conserver la distinction entre pages accessibles, fonctions simulées et services réellement opérationnels ; aucune action de production n'a été entreprise.
+
+
+## 8. Revue complémentaire des routes d'accueil — 5 novembre 2026
+
+La règle de navigation « une action ouvre une vraie page, pas une ancre locale utilisée comme fausse destination » a été appliquée aux retours et accès suivants :
+
+- logo d'accueil et logo de pied de page : `index.html`, sans fragment `#accueil` ;
+- destination « Accueil » du rez-de-chaussée de l'immeuble : `index.html`, sans fragment ;
+- aide « Rechercher une opportunité » : `developpement-commercial.html`, qui expose le moteur transversal, au lieu d'un renvoi vers `#recherche-avancee` sur la page courante ;
+- retour depuis les résultats de recherche : `index.html` avec conservation des paramètres de recherche, sans fragment ;
+- retour à l'accueil depuis « Suivi commercial » : `index.html`.
+
+Le contrat d'architecture `verify-architecture.js` et les tests navigateur ont été alignés sur la route réelle du RDC et sur l'absence de fragment au retour des résultats.
+
+**Validation sur le HEAD `35ff7e9c96ae4ab1c91160487ce7344f43a44b81` :**
+- workflow PR « Vérification du site MajestiOS » — run `42089279602` : succès complet ;
+- workflow PR « Vérification anti-régression MajestiOS » — run `42089279780` : succès complet.
+
+Les contrôles couvrent la structure de l'immeuble, ses neuf routes, le retour de recherche et les parcours mobile/ordinateur. Cette revue ne prétend pas qu'aucun lien d'ancrage n'existe sur toutes les pages : elle clôt les renvois d'accueil et de recherche identifiés dans ce lot. Les ancres éditoriales internes éventuelles restent à examiner au cas par cas.
