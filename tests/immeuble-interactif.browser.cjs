@@ -161,8 +161,8 @@ async function main() {
 
       for (const item of expected) {
         const [x,y,w,h]=item.rect;
-        const [px,py]=await screenPointFor(item);
-        await page.mouse.move(px,py);
+        const zone=page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"] .floor-zone');
+        await zone.hover();
         const state=await page.evaluate(() => {
           const active=document.querySelector('.floor-row[aria-current="location"]');
           const cabin=document.querySelector(".elevator-cabin");
