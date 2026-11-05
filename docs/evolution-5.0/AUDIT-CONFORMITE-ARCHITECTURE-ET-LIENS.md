@@ -4,6 +4,11 @@
 > Le constat ci-dessous relatif à l'absence de V4 dans le dépôt est retiré. La vérification initiale avait porté uniquement sur l'arbre de la branche `evolution-5.0`. La branche `evolution-4.0` existe et contient sept documents sous `docs/evolution-4.0/` (commit source observé : `9f7bd53018f30210e2b4ffabd2153b14835c3068`). Le corpus a été retrouvé et analysé. La ligne P1 correspondante est donc **close comme erreur de périmètre de recherche**, et non comme problème de disponibilité des sources. La filiation corrigée est décrite dans [FILIATION-DOCUMENTAIRE-V2-A-V5.md](FILIATION-DOCUMENTAIRE-V2-A-V5.md).  
 > — MajestiOS V.5
 
+> **MISE À JOUR DE PÉRIMÈTRE — 5 novembre 2026**
+>
+> Ce rapport décrit le snapshot du 4 novembre (`b64264f`) : son inventaire de huit destinations et 52 ressources est historique. L'état courant de `evolution-5.0` définit neuf destinations et le manifeste contient 49 ressources, dont 32 pages HTML. Au commit `2b97dba`, le build, le contrôle d'architecture et le contrôle statique des pages/liens ont réussi dans la CI ; les tests navigateur étaient encore en cours lors de cette mise à jour. Voir la référence V5 et l'audit immersif pour l'état courant.
+> — MajestiOS V.5
+
 **Date :** 4 novembre 2026
 **Branche examinée :** `evolution-5.0`
 **Commit de départ :** `b64264f30b9be6a8d8380aaa4c1414e6c3c9250a`

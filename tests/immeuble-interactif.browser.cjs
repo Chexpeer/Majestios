@@ -108,7 +108,7 @@ async function main() {
         assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px.");
       }
 
-      await page.addStyleTag({content:".elevator-cabin,.elevator-window,.elevator-detail,.elevator-reflection,.elevator-cylinder-side,.elevator-cylinder-rim,.elevator-cylinder-highlight{transition:none!important}"});
+      const animationOverride = await page.addStyleTag({content:".elevator-cabin,.elevator-window,.elevator-detail,.elevator-reflection,.elevator-cylinder-side,.elevator-cylinder-rim,.elevator-cylinder-highlight{transition:none!important}"});
       assert.equal(await page.locator(".elevator-controls").count(),0,"Les anciennes commandes d'ascenseur ne doivent plus être présentes.");
       assert.ok((await page.locator(".elevator-cabin").getAttribute("d")).startsWith("M558 157"),
         "La cabine doit être un cylindre SVG vitré, et non un ancien rectangle.");
@@ -142,8 +142,9 @@ async function main() {
         "Le défilement LED doit reprendre après le survol.");
 
       await page.emulateMedia({reducedMotion:"reduce"});
-      assert.equal(await page.locator(".floor-row").first().evaluate(element=>getComputedStyle(element).transitionDuration),"0s",
-        "Les transitions des zones d'étage doivent respecter la préférence de réduction des animations.");
+      await animationOverride.evaluate(style => style.remove());
+      assert.equal(await page.locator(".elevator-cabin").evaluate(element=>getComputedStyle(element).transitionDuration),"0s",
+        "Le mouvement de l'ascenseur doit respecter la préférence de réduction des animations.");
       await page.emulateMedia({reducedMotion:"no-preference"});
     }
 

@@ -81,7 +81,7 @@ Les fonctions suivantes traversent plusieurs rubriques et ne sont pas des étage
 **FAITS VÉRIFIÉS dans le dépôt :**
 
 - Le site est un prototype statique construit en HTML, CSS et JavaScript natif ; `build.js` copie les fichiers déclarés dans `site-files.json` vers `dist/`.
-- Le manifeste comporte 52 entrées et les 32 pages HTML racine y figurent.
+- Au contrôle du 5 novembre 2026 sur `evolution-5.0`, le manifeste comporte 49 entrées, dont les 32 pages HTML racine.
 - `index.html` assemble le décor `Designer (2).png`, la photographie `IMMEUBLE.jfif` détourée, neuf liens SVG, les afficheurs LED à matrice de points, l'ascenseur cylindrique SVG et le moteur de recherche d'accueil.
 - `rubric-search.js` installe le formulaire de recherche commun sur les pages de rubrique ; `app.js` pilote les filtres et la soumission.
 - `opportunity-search.js` appelle directement, depuis le navigateur, les API publiques BOAMP et BODACC. Les requêtes d'entreprises sont réalisées par `company-targeting.js` auprès de l'API Recherche d'Entreprises.

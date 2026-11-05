@@ -1,5 +1,7 @@
 # Audit du panorama et trajectoire 3D — 4 novembre 2026
 
+> **Rapport historique :** cet audit décrit l'accueil antérieur fondé sur `Ambitios.webp` et huit destinations. Il a été supersédé par l'intégration de `IMMEUBLE.jfif`, du décor `Designer (2).png` et de neuf destinations. Pour l'état courant, consulter `MAJESTIOS-V5-REFERENCE.md` et `EXPERIENCE-IMMERSIVE-ET-ETAGES.md` ; les constats et décisions à huit destinations ci-dessous ne décrivent pas la version actuelle.
+
 ## Objet
 
 Préparer l'évolution de l'accueil MajestiOS vers une expérience spatiale réellement immersive, sans dégrader les huit destinations existantes, le moteur de recherche ni les parcours métier.
