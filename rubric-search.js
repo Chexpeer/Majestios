@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const page = document.querySelector("main.interior-page");
+  const page = document.querySelector("main.interior-page, main.category-page");
   if (!page || document.querySelector("#advanced-search-form")) return;
 
   const path = window.location.pathname.split("/").pop();
@@ -38,6 +38,13 @@
   };
   const config = configs[path];
   if (!config) return;
+
+  // Préorienter le même moteur selon la rubrique, sans créer une variante locale.
+  const categoryForPage = (window.MAJESTIOS_CATALOG?.searchCategories || []).find((item) => item.href === path)?.value || "";
+  window.MAJESTIOS_SEARCH_DEFAULTS = {
+    market: config[2] || "",
+    category: categoryForPage
+  };
 
   const section = document.createElement("section");
   section.className = "tender-feed-section rubric-search-card";
