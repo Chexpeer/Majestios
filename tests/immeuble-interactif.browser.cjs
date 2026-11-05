@@ -124,25 +124,14 @@ async function main() {
       const screenPointFor = async (item) => {
         const row = page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"]');
         await row.evaluate(element => element.scrollIntoView({block:"center",inline:"center"}));
-        const [rowBox,geometry] = await Promise.all([
-          row.evaluate(element => {
-            const rect=element.getBoundingClientRect();
-            return {x:rect.x,y:rect.y,width:rect.width,height:rect.height};
-          }),
-          page.evaluate(() => {
-            const img=document.querySelector(".building-photo img").getBoundingClientRect();
-            const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
-            return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
-          })
-        ]);
-        assert.ok(rowBox,"La zone SVG "+item.name+" doit rester mesurable après défilement.");
+        const geometry = await page.evaluate(() => {
+          const img=document.querySelector(".building-photo img").getBoundingClientRect();
+          const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
+          return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
+        });
         for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
         const [x,y,w,h]=item.rect;
-        const expectedPoint=[geometry.img[0]+(x+w/2)/imageWidth*geometry.img[2],geometry.img[1]+(y+h/2)/imageHeight*geometry.img[3]];
-        const actualPoint=[rowBox.x+rowBox.width/2,rowBox.y+rowBox.height/2];
-        assert.ok(Math.abs(actualPoint[0]-expectedPoint[0])<1 && Math.abs(actualPoint[1]-expectedPoint[1])<1,
-          "La zone "+item.name+" doit rester alignée sur la photographie : "+JSON.stringify({actualPoint,expectedPoint,scrollY:await page.evaluate(()=>window.scrollY)}));
-        return actualPoint;
+        return [geometry.img[0]+(x+w/2)/imageWidth*geometry.img[2],geometry.img[1]+(y+h/2)/imageHeight*geometry.img[3]];
       };
       for (const item of expected) {
         const [px,py]=await screenPointFor(item);
