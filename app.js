@@ -284,6 +284,7 @@ keywordControl?.addEventListener("input", updateOtherCategoryRequirement);
 
 document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
   populateSearchFilters(event.target.value, "");
+  updateOtherCategoryRequirement();
   revealStep(searchSteps.category, Boolean(event.target.value));
   revealStep(searchSteps.department, false);
 });
