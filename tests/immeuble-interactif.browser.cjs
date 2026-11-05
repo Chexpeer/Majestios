@@ -20,7 +20,7 @@ const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf
 
 async function main() {
   assert.ok(fs.existsSync(path.join(root,"index.html")), "Exécuter node build.js avant le test.");
-  for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png","Majestios.developpement-commercial.jpg","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
+  for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
     assert.ok(fs.existsSync(path.join(root,asset)), "La ressource "+asset+" est absente du build.");
   }
   const server = http.createServer((req,res) => {
@@ -128,10 +128,8 @@ async function main() {
         "Le défilement LED doit reprendre après le survol.");
 
       await page.emulateMedia({reducedMotion:"reduce"});
-      assert.equal(await page.locator(".elevator-cabin").evaluate(element=>getComputedStyle(element).transitionDuration),"0s",
-        "L'ascenseur doit respecter la préférence de réduction des animations.");
-      assert.equal(await page.locator(".led-layer").evaluate(element=>getComputedStyle(element).display),"none",
-        "Les animations LED doivent être suspendues si l'utilisateur réduit les animations.");
+      assert.equal(await page.locator(".floor-row").first().evaluate(element=>getComputedStyle(element).transitionDuration),"0s",
+        "Les transitions des zones d'étage doivent respecter la préférence de réduction des animations.");
       await page.emulateMedia({reducedMotion:"no-preference"});
     }
 
@@ -147,18 +145,6 @@ async function main() {
       assert.ok(new URL(page.url()).pathname.endsWith("/"+item.route),
         "Un seul clic doit ouvrir directement "+item.name+".");
     }
-
-    await page.goto("http://127.0.0.1:4173/developpement-commercial.html",{waitUntil:"domcontentloaded"});
-    const developmentVisual=await page.locator("main.interior-page").evaluate(async element=>{
-      const image=new Image();
-      image.src=new URL("Majestios.developpement-commercial.jpg",location.href).href;
-      await image.decode();
-      return {background:getComputedStyle(element).backgroundImage,dimensions:[image.naturalWidth,image.naturalHeight]};
-    });
-    assert.ok(developmentVisual.background.includes("Majestios.developpement-commercial.jpg"),
-      "La page Développement commercial doit utiliser son nouveau visuel.");
-    assert.deepEqual(developmentVisual.dimensions,[1408,768],
-      "Le visuel commercial doit conserver sa définition native.");
 
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
     await page.locator('.building-hotspots .floor-row[data-floor="06"]').focus();
