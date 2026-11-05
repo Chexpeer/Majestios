@@ -1,11 +1,13 @@
 # MajestiOS V.5 — référence fonctionnelle et technique
 
-**Statut :** référence de cadrage et d'architecture pour la branche `evolution-5.0`
+**Statut :** référence de cadrage et d'architecture V5 ; la branche source `evolution-5.0` est préservée
 **Mise à jour :** 5 novembre 2026 — consolidation de l'immeuble interactif, de la charte et des contrôles anti-régression
-**Branche examinée :** `evolution-5.0` — état de travail après harmonisation V5
+**Branche source examinée :** `evolution-5.0` — état audité historiquement ; l'état a été reproduit sur `evolution-5.0-clean-preview` pour la PR #38, basée sur `main` et non fusionnée
 **Nature :** doctrine cible et état vérifié du prototype ; ce document ne vaut ni décision technique fournisseur ni preuve de mise en production.
 
 ## 1. Autorité et lecture
+
+**Actualisation de continuité — 5 novembre 2026 :** la PR #38 porte une reconstruction propre du contenu V5 depuis la branche source `evolution-5.0`. Les références de commits et résultats de tests cités plus bas correspondent à leurs audits datés ; ils ne remplacent pas la vérification du HEAD et des contrôles les plus récents. Pour la méthode obligatoire de nettoyage, sauvegarde, reprise et mise à jour documentaire, consulter [Maintenance, sauvegardes et continuité](MAINTENANCE-ET-CONTINUITE.md).
 
 Ce document est la référence centrale V5. Il rassemble la vision, l'arborescence, les frontières fonctionnelles, l'architecture technique réellement présente, les états de réalisation et les décisions restant à prendre. Les autres documents V5 précisent certains sujets ; en cas de divergence, appliquer la présente référence et inscrire l'écart dans l'audit de conformité.
 
