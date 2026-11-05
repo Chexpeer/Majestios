@@ -11,7 +11,7 @@ async function main() {
   assert.ok(fs.existsSync(path.join(root, "developpement-commercial.html")), "Construire le site avant le test.");
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://127.0.0.1").pathname);
-    const requested = pathname === "/" ? "developpement-commercial.html" : pathname.replace(/^\\/+/, "");
+    const requested = pathname === "/" ? "developpement-commercial.html" : pathname.replace(/^\/+/, "");
     const file = path.resolve(root, requested);
     if (!file.startsWith(root + path.sep)) return res.writeHead(403).end("Forbidden");
     fs.readFile(file, (error, data) => {
