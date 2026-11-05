@@ -94,7 +94,7 @@
 .virtual-space[data-world="veille"] .virtual-space-scene:after{border-color:rgba(255,255,255,.25)}
 
 
-/* Le moteur est stylé par la feuille globale styles.css, comme sur l'accueil. */
+/* Le moteur est défini exclusivement dans le bloc partagé en fin de fichier. */
 
 /* Correctifs transversaux de robustesse et de lisibilite mobile. */
 .virtual-space,.virtual-space *{box-sizing:border-box}
