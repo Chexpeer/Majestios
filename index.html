@@ -1148,10 +1148,17 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           canvas.setAttribute("data-floor", def.id);
           canvas.setAttribute("data-label", def.title);
           layer.appendChild(canvas);
-          // Une seule ligne par étage : le titre de la rubrique. Les slogans seront lus à l'intérieur.
-          var lines = [def.title + "  ◆  "].map(function (text) {
-            var columns = compile(text);
-            return {columns: columns, row0: 15, phase: Math.round(columns.length * ((index * 0.381966) % 1)), pausedAt: 0, pausedTotal: 0};
+          // Deux lignes maximum : le titre complet devient lisible au survol.
+          var titleLines = ({
+            "08":["ESPACE","PRIVÉ"], "07":["RÉSEAU"], "06":["DÉVELOPPEMENT","COMMERCIAL"],
+            "05":["PROSPECTION"], "04":["ACCOMPAGNEMENT","APPELS D'OFFRES"],
+            "03":["MARCHÉS","PUBLICS"], "02":["MARCHÉS","PRIVÉS"],
+            "01":["RÉPUTATION","VIRTUELLE"], "RDC":["ACCUEIL","MAJESTIOS"]
+          })[def.id] || [def.title.toLocaleUpperCase("fr-FR")];
+          var lines = titleLines.map(function (text, lineIndex) {
+            var columns = compile(text + "  ◆  ");
+            return {columns: columns, row0: titleLines.length === 1 ? 15 : (lineIndex === 0 ? 4 : 16),
+              phase: Math.round(columns.length * ((index * 0.381966) % 1)), pausedAt: 0, pausedTotal: 0};
           });
           return {def: def, canvas: canvas, ctx: canvas.getContext("2d"), lines: lines, rgb: rgb(def.color)};
         });
@@ -1217,17 +1224,21 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           sign.lines.forEach(function (line) {
             var L = line.columns.length;
             var effectiveNow = now - line.pausedTotal - (line.pausedAt ? now - line.pausedAt : 0);
-            var offset = line.phase + effectiveNow * SPEED / 1000;
+            var compact = !!sign.blink;
+            var xPitch = compact ? unit * Math.min(1, (sign.cols - 2) / L) : unit;
+            var visibleCols = compact ? L : sign.cols;
+            var startX = compact ? (sign.cols * unit - L * xPitch) / 2 : 0;
+            var offset = compact ? 0 : line.phase + effectiveNow * SPEED / 1000;
             var base = Math.floor(offset), frac = offset - base;
-            for (var c = 0; c < sign.cols; c++) {
+            for (var c = 0; c < visibleCols; c++) {
               var a = line.columns[(base + c) % L], b = line.columns[(base + c + 1) % L];
               for (var r = 0; r < 9; r++) {
-                // Défilement fluide : l'intensité passe progressivement d'une colonne de points à la suivante.
-                var v = a[r] * (1 - frac) + b[r] * frac;
+                // Au survol, le titre complet est centré et ajusté à la largeur du bandeau.
+                var v = compact ? a[r] : a[r] * (1 - frac) + b[r] * frac;
                 if (v < 0.03) continue;
                 var blink = sign.blink ? (Math.floor(now / 420) % 2 === 0 ? 1 : 0.12) : 1;
                 ctx.globalAlpha = v * blink;
-                ctx.drawImage(sp.lit, (c + 0.5) * unit - sp.size / 2, (r + line.row0 + 0.5) * unit - sp.size / 2);
+                ctx.drawImage(sp.lit, startX + (c + 0.5) * xPitch - sp.size / 2, (r + line.row0 + 0.5) * unit - sp.size / 2);
               }
             }
           });
