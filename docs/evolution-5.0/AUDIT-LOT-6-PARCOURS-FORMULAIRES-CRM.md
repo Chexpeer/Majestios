@@ -2,10 +2,10 @@
 
 **Date de contrôle :** 5 novembre 2026  
 **Commit examiné initialement :** `fc21d09c20a2679eb78a9fb7f9745aabb1533952`  
-**Dernière revue de code :** `cdcf34eb460f3ef8594e7aad2c976280ee7c897e`  
+**Dernière revue de code :** `bd59a4c8a7f253c85bf63d40736955b255bf4c74`  
 **Branche :** `evolution-5.0-clean-preview`  
 **Périmètre :** accueil, recherche et résultats, espace membre, page « Nous rejoindre », CRM et fonction serveur de provisionnement.  
-**Méthode :** lecture du code réellement présent et rapprochement avec `ETAT-BACKEND-SUPABASE.md`. Les deux workflows GitHub de ce commit ont réussi ; ce succès ne vaut pas recette réelle des formulaires avec une boîte e-mail ni validation métier complète.
+**Méthode :** lecture du code réellement présent, rapprochement avec `ETAT-BACKEND-SUPABASE.md` et vérification des workflows GitHub sur le HEAD indiqué. Les contrôles automatisés ne valent pas recette réelle des formulaires avec une boîte e-mail ni validation métier complète.
 
 ## 1. Synthèse exécutive
 
@@ -251,4 +251,20 @@ Ces résultats valident les contrôles automatisés sur le HEAD ; ils ne remplac
 
 **Correction appliquée :** `.github/workflows/verify-site.yml` installe désormais explicitement `playwright@1.64.1`. Le navigateur Chromium est installé avec le CLI correspondant à cette version. Aucun package applicatif ni fichier de production n'est ajouté.
 
-**État :** correction de configuration appliquée ; validation CI complète du nouveau HEAD requise. F-13 ne sera clos qu'après réussite de l'installation Playwright et des suites navigateur/API qui suivent cette étape.
+**Validation :** sur le HEAD `bd59a4c8a7f253c85bf63d40736955b255bf4c74`, l'installation de Playwright/Chromium et toutes les étapes du workflow « Vérification du site MajestiOS » ont réussi sur le run PR `42086813743` : smoke tests BOAMP et BODACC, tests navigateur de l'immeuble interactif, du moteur de recherche, de la navigation mobile/ordinateur et du parcours Contact inclus. Le workflow anti-régression `42086813822` est également terminé avec succès.
+
+**État :** F-13 corrigé et validé sur le HEAD indiqué. Le run déclenché par push `42086804940` était encore en cours lors de la dernière lecture ; le contrôle PR du même HEAD est, lui, entièrement vert. Cette validation ne signifie pas que les formulaires publics transmettent des données ni que le CRM est opérationnel.
+
+
+## 16. Point de contrôle de la revue — HEAD bd59a4c
+
+Au 5 novembre 2026, le HEAD de la branche de revue est `bd59a4c8a7f253c85bf63d40736955b255bf4c74`.
+
+- Workflow PR « Vérification du site MajestiOS » — run `42086813743` : succès, toutes les étapes terminées, y compris Playwright/Chromium, smoke tests BOAMP/BODACC et quatre suites navigateur.
+- Workflow PR « Vérification anti-régression MajestiOS » — run `42086813822` : succès, tests ciblés, build, liens et contrôle des dix dossiers.
+- F-11 (formulaire d'accueil distinct du formulaire injecté dans les rubriques) et F-12 (catégorie de repli « Autre » absente) restent ouverts ; ils ne sont pas réputés corrigés par la réussite de la CI.
+- F-13 (version Playwright non verrouillée) est corrigé et validé.
+- F-01 à F-03 : interface corrigée, mais transmission/persistance des demandes encore absente.
+- F-04 à F-09 et F-10 : restent soumis aux limites et vérifications décrites dans le registre, notamment CRM non opérationnel et parcours Auth réel non testé.
+
+La PR #38 reste ouverte et en brouillon. Aucun merge, déploiement de production ni changement Supabase n'est effectué.
