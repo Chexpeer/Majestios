@@ -1133,7 +1133,6 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             "01":["RÉPUTATION","VIRTUELLE"], "RDC":["ACCUEIL","MAJESTIOS"]
           })[def.id] || [def.title.toLocaleUpperCase("fr-FR")];
           canvas.setAttribute("data-title-lines", titleLines.join("|"));
-          canvas.setAttribute("data-title-lines", titleLines.join("|"));
           var lines = titleLines.map(function (text, lineIndex) {
             var columns = compile(text + "  ◆  ");
             return {columns: columns, row0: titleLines.length === 1 ? 15 : (lineIndex === 0 ? 4 : 16),
