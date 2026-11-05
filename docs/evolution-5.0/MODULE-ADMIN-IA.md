@@ -32,7 +32,7 @@ Le module doit être conçu comme une interface d'administration dédiée, sécu
 
 L'IA ne doit pas promettre un classement, manipuler artificiellement les avis, produire du contenu trompeur ni publier massivement sans contrôle éditorial.
 
-La capacité Brainstorming contribue à cette mission en assurant une veille documentée sur les évolutions des moteurs, les pratiques SEO et les opportunités d'amélioration. Elle formule des hypothèses et recommandations priorisées, mais ne publie aucun changement sans validation éditoriale et technique. Elle reste rattachée à MajestiOS V.5 et ne constitue pas un système autonome.
+La veille stratégique contribue à cette mission par un suivi documenté des évolutions des moteurs, des pratiques SEO et des opportunités d'amélioration. Elle formule des hypothèses et recommandations priorisées, mais ne publie aucun changement sans validation éditoriale et technique. Ces fonctions sont intégrées à MajestiOS V.5.
 
 ### D. Assister le développement et la maintenance
 - analyser les rapports d'erreur et les résultats des tests ;
@@ -70,7 +70,7 @@ L'IA ne peut pas s'accorder elle-même des permissions, ni consulter les donnée
 - suivi des coûts, quotas et consommation IA ;
 - qualité des données et connecteurs ;
 - SEO et visibilité ;
-- veille stratégique et Brainstorming : évolutions des moteurs, recherche générative, idées d'amélioration, hypothèses à tester et suivi des expérimentations ;
+- veille stratégique et amélioration continue : évolutions des moteurs, recherche générative, idées d'amélioration, hypothèses à tester et suivi des expérimentations ;
 - documentation, décisions et mémoire du projet ;
 - atelier de développement, tests et contrôle des versions ;
 - historique des actions de l'IA et des validations humaines.
