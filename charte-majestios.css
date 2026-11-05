@@ -182,6 +182,10 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
   max-width:none;
   margin:0;
   padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
 }
 body:not(.homepage) .rubric-search-card .feed-demo{
   padding:0;
