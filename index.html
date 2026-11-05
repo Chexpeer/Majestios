@@ -856,15 +856,15 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         const ledLayer = document.getElementById("led-sign-layer");
         if (ledLayer) {
           const ledLevels = [
-            {level:"08",title:"ESPACE PRIVÉ",copy:"Vos données au sommet de la sécurité",color:"#53f4ff",points:"306,196 458,187 458,223 306,233",slope:-0.061},
-            {level:"07",title:"RÉSEAU",copy:"Les connexions qui vous élèvent",color:"#ff59e8",points:"306,287 458,278 458,314 306,324",slope:-0.059},
-            {level:"06",title:"DÉVELOPPEMENT COMMERCIAL",copy:"Transformez les opportunités en croissance",color:"#55ffc1",points:"306,378 458,369 458,405 306,415",slope:-0.060},
-            {level:"05",title:"PROSPECTION",copy:"L'intelligence qui cible juste",color:"#ffe36a",points:"306,469 458,460 458,496 306,506",slope:-0.058},
-            {level:"04",title:"ACCOMPAGNEMENT APPELS D'OFFRES",copy:"Gagnez vos appels d'offres avec un expert à vos côtés",color:"#ffc85b",points:"306,560 458,551 458,587 306,597",slope:-0.062},
-            {level:"03",title:"MARCHÉS PUBLICS",copy:"L'IA qui révèle les appels d'offres",color:"#ff895c",points:"306,651 458,642 458,678 306,688",slope:-0.061},
-            {level:"02",title:"MARCHÉS PRIVÉS",copy:"Les affaires prennent de la hauteur",color:"#c99aff",points:"306,742 458,733 458,769 306,779",slope:-0.060},
-            {level:"01",title:"RÉPUTATION VIRTUELLE",copy:"L'intelligence qui saute aux yeux",color:"#65b8ff",points:"306,833 458,824 458,860 306,870",slope:-0.063},
-            {level:"RDC",title:"ACCUEIL MAJESTIOS",copy:"L'intelligence qui vous fait monter au septième ciel",color:"#ffd078",points:"306,924 458,915 458,951 306,961",slope:-0.064}
+            {level:"08",title:"ESPACE PRIVÉ",copy:"Vos données au sommet de la sécurité",color:"#53f4ff",points:"306,196 454,187 454,223 306,233",slope:-0.061},
+            {level:"07",title:"RÉSEAU",copy:"Les connexions qui vous élèvent",color:"#ff59e8",points:"306,287 454,278 454,314 306,324",slope:-0.059},
+            {level:"06",title:"DÉVELOPPEMENT COMMERCIAL",copy:"Transformez les opportunités en croissance",color:"#55ffc1",points:"306,378 454,369 454,405 306,415",slope:-0.060},
+            {level:"05",title:"PROSPECTION",copy:"L'intelligence qui cible juste",color:"#ffe36a",points:"306,469 454,460 454,496 306,506",slope:-0.058},
+            {level:"04",title:"ACCOMPAGNEMENT APPELS D'OFFRES",copy:"Gagnez vos appels d'offres avec un expert à vos côtés",color:"#ffc85b",points:"306,560 454,551 454,587 306,597",slope:-0.062},
+            {level:"03",title:"MARCHÉS PUBLICS",copy:"L'IA qui révèle les appels d'offres",color:"#ff895c",points:"306,651 454,642 454,678 306,688",slope:-0.061},
+            {level:"02",title:"MARCHÉS PRIVÉS",copy:"Les affaires prennent de la hauteur",color:"#c99aff",points:"306,742 454,733 454,769 306,779",slope:-0.060},
+            {level:"01",title:"RÉPUTATION VIRTUELLE",copy:"L'intelligence qui saute aux yeux",color:"#65b8ff",points:"306,833 454,824 454,860 306,870",slope:-0.063},
+            {level:"RDC",title:"ACCUEIL MAJESTIOS",copy:"L'intelligence qui vous fait monter au septième ciel",color:"#ffd078",points:"306,924 454,915 454,951 306,961",slope:-0.064}
           ];
           const ledGlyphs = {
             "A":["01110","10001","10001","11111","10001","10001","10001"],"B":["11110","10001","10001","11110","10001","10001","11110"],
@@ -891,7 +891,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           };
           const pitch = 1.8, radius = 0.62, advance = 10.8, gap = 28;
           const accentChars = {"É":"E","È":"E","Ê":"E","Ë":"E","À":"A","Â":"A","Ä":"A","Î":"I","Ï":"I","Ô":"O","Ö":"O","Ù":"U","Û":"U","Ü":"U","Ç":"C"};
-          const accentMarks = {"É":[[2,0]],"È":[[1,0]],"Ê":[[1,0],[2,-0.8],[3,0]],"Ë":[[1,0],[3,0]],"À":[[2,0]],"Â":[[1,0],[2,-0.8],[3,0]],"Ä":[[1,0],[3,0]],"Î":[[2,0]],"Ï":[[1,0],[3,0]],"Ô":[[1,0],[2,-0.8],[3,0]],"Ö":[[1,0],[3,0]],"Ù":[[1,0]],"Û":[[1,0],[2,-0.8],[3,0]],"Ü":[[1,0],[3,0]],"Ç":[[3,7]]};
+          const accentMarks = {"É":[[2,-1.2]],"È":[[1,-1.2]],"Ê":[[1,-1.2],[2,-2],[3,-1.2]],"Ë":[[1,-1.2],[3,-1.2]],"À":[[2,-1.2]],"Â":[[1,-1.2],[2,-2],[3,-1.2]],"Ä":[[1,-1.2],[3,-1.2]],"Î":[[2,-1.2]],"Ï":[[1,-1.2],[3,-1.2]],"Ô":[[1,-1.2],[2,-2],[3,-1.2]],"Ö":[[1,-1.2],[3,-1.2]],"Ù":[[1,-1.2]],"Û":[[1,-1.2],[2,-2],[3,-1.2]],"Ü":[[1,-1.2],[3,-1.2]],"Ç":[[3,7]]};
           const makeDotPath = (textValue, startX, centerY, slope) => {
             let d = "", cursor = startX;
             for (const rawChar of textValue.toLocaleUpperCase("fr-FR")) {
