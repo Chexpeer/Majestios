@@ -77,3 +77,19 @@ Chaque lot doit laisser une trace vérifiable :
 | Suite | Risques résiduels et prochain lot |
 
 **Règle finale :** comprendre avant de corriger, sauvegarder avant de risquer, vérifier avant d'affirmer et documenter avant de passer au lot suivant.
+
+
+## 8. Boucle de travail intégrée : audit → harmonisation → analyse → correction → optimisation
+
+Ces termes désignent des dimensions complémentaires d'un même processus continu. Ils ne constituent pas cinq missions isolées ni cinq étapes facultatives. Ils doivent fonctionner en synergie et se nourrir mutuellement :
+
+1. **Audit** — observer l'état réel, inventorier, mesurer, détecter les écarts, les régressions, les risques et les incohérences.
+2. **Analyse** — comprendre les causes, les dépendances, les impacts et les priorités ; confronter les constats au besoin métier, à l'architecture et aux décisions validées.
+3. **Harmonisation** — rétablir la cohérence entre vision, terminologie, arborescence, interfaces, code, documentation, tests et règles de gouvernance.
+4. **Correction** — traiter les causes identifiées sans masquer les symptômes ni dégrader les éléments déjà validés ; préserver un point de retour.
+5. **Optimisation** — améliorer lisibilité, robustesse, performance, maintenabilité et expérience, uniquement lorsque les preuves et le périmètre le justifient.
+6. **Vérification et capitalisation** — rejouer les contrôles, comparer avant/après, mettre à jour les documents et inscrire les enseignements dans le référentiel.
+
+Cette boucle est itérative : une correction peut révéler un nouvel écart ; une optimisation peut nécessiter un nouvel audit ; l'harmonisation documentaire peut révéler une contradiction qui impose une analyse complémentaire. On recommence jusqu'à obtenir un résultat cohérent, vérifié et traçable.
+
+**Règle de conduite :** ne pas optimiser une incohérence sans l'avoir comprise ; ne pas corriger sans preuve ni point de retour ; ne pas déclarer terminé sans vérification et mise à jour documentaire.
