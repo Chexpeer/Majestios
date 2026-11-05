@@ -199,10 +199,10 @@ body:not(.homepage) .rubric-search-card #advanced-search-form{
   grid-template-columns:minmax(170px,1.5fr) repeat(3,minmax(115px,1fr)) auto;
   gap:6px;
   align-items:center;
-  padding:0;
-  border:0;
-  border-radius:0;
-  background:transparent;
+  padding:7px;
+  border:1px solid #d5b56c35;
+  border-radius:8px;
+  background:#0d141e;
 }
 body:not(.homepage) .rubric-search-card #advanced-search-form .feed-search{
   display:flex;
@@ -259,7 +259,11 @@ body:not(.homepage) .rubric-search-card #advanced-search-form .feed-search-submi
 }
 @media(max-width:600px){
   body:not(.homepage) .rubric-search-card{margin:6px auto 8px}
-  body:not(.homepage) .rubric-search-card #advanced-search-form{grid-template-columns:1fr}
+  body:not(.homepage) .rubric-search-card #advanced-search-form{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:5px;
+    padding:6px;
+  }
   body:not(.homepage) .rubric-search-card #advanced-search-form .feed-search,
-  body:not(.homepage) .rubric-search-card #advanced-search-form .feed-search-submit{grid-column:1}
+  body:not(.homepage) .rubric-search-card #advanced-search-form .feed-search-submit{grid-column:1/-1}
 }
