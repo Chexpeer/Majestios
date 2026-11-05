@@ -43,6 +43,7 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 18. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
 19. [Audit technique indépendant — source Claude](AUDIT-TECHNIQUE-CLAUDE-2026-11-05.md) — contrôles déclarés, limites de l’analyse, anomalies, points positifs et recommandations de consolidation.
 20. [Cahier des charges — veille stratégique](CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) — cadrage des signaux économiques, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial.
+21. [Maintenance, sauvegardes et continuité](MAINTENANCE-ET-CONTINUITE.md) — méthode permanente de nettoyage Git, points de retour, vérifications, documentation et reprise.
 
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
@@ -58,6 +59,8 @@ Les documents complémentaires précisent des sujets. Ils ne constituent pas des
 Aucun document de cadrage ne prouve qu'une fonctionnalité est développée ou opérationnelle.
 
 ## Protection du patrimoine et méthode
+
+Le protocole opérationnel détaillé est [Maintenance, sauvegardes et continuité](MAINTENANCE-ET-CONTINUITE.md). Il s'applique à chaque lot, y compris aux interventions documentaires : état initial identifié, point de retour, diff contrôlé, tests réellement exécutés et mise à jour des références.
 
 La V5 est construite sur une branche indépendante. Les branches historiques restent intactes et ne sont pas modifiées par les travaux V5. Les suppressions, déplacements, fusions et changements irréversibles sont précédés d'un inventaire des dépendances et d'un point de retour. Aucun merge ou déploiement de production sans accord explicite du fondateur.
 
