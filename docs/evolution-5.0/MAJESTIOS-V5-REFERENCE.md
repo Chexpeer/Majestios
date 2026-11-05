@@ -289,32 +289,16 @@ La cible comprend :
 6. **Mesure des effets** : comparer avant/après, conserver la provenance des données et distinguer corrélation et causalité.
 7. **Amélioration continue** : actualiser la stratégie et les recommandations en fonction des évolutions observées, sans promettre une position garantie ni un maintien automatique en tête des résultats.
 
-### 13.1 Rôle de Brainstorming
+### 13.1 Veille stratégique et amélioration continue
 
-**Brainstorming est retenu comme une capacité fonctionnelle de réflexion, d'exploration et de veille**, notamment pour faire émerger des pistes SEO, détecter des évolutions, confronter des hypothèses et proposer des expérimentations.
+MajestiOS V.5 doit pouvoir explorer des pistes d'amélioration, confronter des hypothèses à des sources fiables, repérer les évolutions pertinentes et proposer des expérimentations mesurables. Ces travaux relèvent directement de l'intelligence centrale et restent soumis aux règles de validation et de gouvernance.
 
-Brainstorming n'est pas un produit séparé, un second cerveau ou une architecture autonome concurrente de MajestiOS V.5. Ses analyses et propositions sont rattachées à l'intelligence centrale, sourcées, qualifiées et soumises aux règles de gouvernance. Le rôle exact, les outils, la fréquence de veille et les niveaux d'autonomie restent à détailler avant implémentation.
 
-### 13.2 État SEO observé et limites de l'audit
+## 14. Intelligence centrale et gouvernance
 
-Sur un échantillon de 17 pages HTML du dépôt examiné :
-- 17/17 possèdent un élément `<title>` et une meta description ;
-- aucune canonical n'a été observée dans cet échantillon ;
-- aucune balise Open Graph n'a été observée dans cet échantillon ;
-- aucune meta robots n'a été observée dans cet échantillon ;
-- aucun fichier `robots.txt` ni `sitemap.xml` n'a été observé à la racine du dépôt, ni déclaré dans le manifeste `site-files.json`.
+Les fonctions d'analyse, de veille, d'exploration et de recommandation sont intégrées à MajestiOS V.5. Elles peuvent contribuer au référencement naturel, à l'évolution des moteurs de recherche, aux offres, à l'expérience utilisateur et à la stratégie commerciale.
 
-Il s'agit d'un constat sur le dépôt et l'échantillon audité, pas d'une preuve de l'état actuel du site publié. Les positions, impressions, clics, indexations et performances de recherche n'ont pas été vérifiés auprès des comptes de mesure du propriétaire.
-
-Avant d'automatiser les recommandations, il faudra connecter et autoriser les sources de mesure pertinentes, établir une référence initiale, vérifier les règles des moteurs et imposer une validation humaine avant toute modification éditoriale ou technique publiée.
-
-## 14. Brainstorming, intelligence centrale et gouvernance
-
-La capacité Brainstorming aide MajestiOS V.5 à explorer des idées, confronter plusieurs scénarios, détecter des opportunités d'innovation et maintenir une veille stratégique. Elle peut contribuer au SEO, à l'évolution des moteurs, aux offres, à l'expérience utilisateur et à la stratégie commerciale.
-
-Elle ne dispose pas de privilèges implicites. Elle ne peut ni modifier la doctrine, ni engager une dépense, ni contacter un tiers, ni publier, ni modifier la production sans les permissions et validations applicables. Une idée issue d'une séance de brainstorming reste une **proposition** jusqu'à validation explicite.
-
-Le cycle attendu est : **observer → explorer → confronter → sourcer → recommander → faire valider → expérimenter → mesurer → capitaliser**.
+Aucune analyse ne confère de privilège implicite : aucune dépense, prise de contact, publication ou modification de la production ne peut être engagée sans les permissions et validations applicables. Toute recommandation reste une proposition jusqu'à validation explicite.
 
 ## 15. Ordre de priorité recommandé après l'audit
 
