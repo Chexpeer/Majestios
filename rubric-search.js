@@ -42,7 +42,7 @@
 
   // Source unique du balisage : accueil et rubriques utilisent exactement le même formulaire.
   const formMarkup = `
-    <form class="feed-toolbar" id="advanced-search-form">
+    <form class="feed-toolbar" id="advanced-search-form" data-default-market="${config?.[2] || ""}">
       <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
       <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
         <select id="feed-market-type" aria-label="Type de marché" required>
@@ -87,7 +87,7 @@
     searchRoot = section;
   }
 
-  const initialMarket = new URLSearchParams(window.location.search).get("marche") || "";
+  const initialMarket = new URLSearchParams(window.location.search).get("marche") || config?.[2] || "";
   const market = searchRoot.querySelector("#feed-market-type");
   const categoryStep = searchRoot.querySelector("#category-step");
   market.value = initialMarket;
