@@ -5,7 +5,8 @@
 - `evolution-2.0`, `evolution-3.0` et `evolution-4.0` : branches sources historiques à préserver ; leurs documents ne sont pas copiés dans le dossier V5.
 - La filiation et les changements de doctrine sont décrits dans [FILIATION-DOCUMENTAIRE-V2-A-V5.md](FILIATION-DOCUMENTAIRE-V2-A-V5.md).
 - MajestiOS V.5 est l'intelligence centrale ; les capacités d'assistance, de mémoire, d'administration, de supervision et de SEO lui sont rattachées, sans système parallèle.
-- `evolution-5.0` : nouvelle branche de cadrage et de construction.
+- `evolution-5.0` : branche source de cadrage et de construction V5, à préserver.
+- `evolution-5.0-clean-preview` : reconstruction propre de l'état V5 source, basée sur `main` et présentée dans la PR #38 pour validation ; elle ne remplace pas silencieusement la branche source.
 - Toute branche de prototype ou de fonctionnalité V5 devra être dédiée et partir d'une base explicitement identifiée.
 
 Aucune fusion vers la branche par défaut ni aucun déploiement production sans accord explicite du fondateur.
@@ -13,10 +14,11 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 ## 2. Phases
 
 ### Phase 0 — Inventaire, nettoyage et gel du patrimoine
-- établir les références exactes de commits ;
+- établir les références exactes de commits et créer un point de retour avant toute opération risquée ;
 - inventorier pages, scripts, styles, images, routes, tests, workflows, PR et documentation ;
 - identifier doublons, fichiers obsolètes, contradictions et fonctionnalités sans destination ;
 - vérifier les commandes de build et les tests réellement exécutables ;
+- vérifier l'état des branches, des PR, des previews et des sauvegardes ;
 - classer chaque élément : conserver, adapter, fusionner, archiver, abandonner (proposition) ou vérifier ;
 - ne rien supprimer à ce stade.
 
@@ -124,6 +126,8 @@ Aucune fusion vers la branche par défaut ni aucun déploiement production sans 
 - Sauvegarde / point de retour avant toute modification risquée.
 - Aucun renommage global ou nettoyage destructif sans inventaire et validation.
 - Tests de non-régression sur routes, formulaires, recherche, données et mobile.
+- Après chaque lot, mettre à jour les documents canoniques et le guide de reprise avec la date, le commit, les preuves, les limites et les travaux restants.
+- Avant tout retour arrière, examiner l'historique et le diff pour identifier la cause et choisir une restauration proportionnée.
 - Distinguer prototype, simulation, intégration testée et fonctionnalité en production.
 - Pas de secrets dans Git, le navigateur, les captures ou les logs.
 - Pas d'envoi externe, d'action commerciale, de suppression, d'export ou de changement de droits sans autorisation appropriée.
