@@ -693,6 +693,47 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         body.homepage #advanced-search-form .feed-search input { min-height:42px!important; font-size:14px!important; }
         body.homepage #advanced-search-form .feed-search-submit { width:40px!important; min-width:40px!important; height:40px!important; min-height:40px!important; }
       }
+
+      /* Fond panoramique Designer 2 : décor général de l'accueil.
+         L'immeuble source reste un élément séparé, inchangé, avec ses hotspots SVG. */
+      body.homepage .home-hero-layout {
+        position:relative;
+        isolation:isolate;
+        background-image:
+          linear-gradient(90deg,rgba(5,13,24,.58) 0%,rgba(5,13,24,.24) 48%,rgba(5,13,24,.12) 100%),
+          linear-gradient(180deg,rgba(5,13,24,.12) 0%,rgba(5,13,24,.18) 68%,rgba(5,13,24,.52) 100%),
+          url("Designer%20(2).png");
+        background-position:center center;
+        background-repeat:no-repeat;
+        background-size:cover;
+      }
+      body.homepage .building-scene {
+        background:transparent!important;
+        border-color:rgba(218,232,242,.28)!important;
+        box-shadow:none!important;
+      }
+      body.homepage .building-scene:before {
+        content:none!important;
+        display:none!important;
+      }
+      body.homepage .building-photo {
+        filter:drop-shadow(0 18px 30px rgba(0,0,0,.42));
+      }
+      @media(max-width:900px) {
+        body.homepage .home-hero-layout {
+          background-position:center center;
+          background-size:cover;
+        }
+        body.homepage .building-scene {
+          background:transparent!important;
+        }
+      }
+      @media(max-width:600px) {
+        body.homepage .home-hero-layout {
+          background-position:54% center;
+        }
+      }
+
     </style>
 </head>
   <body class="homepage">
