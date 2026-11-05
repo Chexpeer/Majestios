@@ -246,14 +246,14 @@ const revealStep = (step, visible = true) => { if (step) step.hidden = !visible;
 document.querySelector("#feed-search")?.addEventListener("focus", () => revealStep(searchSteps.market));
 
 const initialSearchParams = new URLSearchParams(window.location.search);
-const initialMarketType = initialSearchParams.get("marche") || "";
-const initialCategory = initialSearchParams.get("categorie") || "";
+const initialMarketType = initialSearchParams.get("marche") || window.MAJESTIOS_SEARCH_DEFAULTS?.market || "";
+const initialCategory = initialSearchParams.get("categorie") || window.MAJESTIOS_SEARCH_DEFAULTS?.category || "";
 populateSearchFilters(initialMarketType, initialCategory);
 if (initialMarketType) {
   revealStep(searchSteps.market);
   revealStep(searchSteps.category);
 }
-if (initialSearchParams.has("categorie") || initialSearchParams.has("departement") || initialSearchParams.has("zone")) {
+if (initialCategory || initialSearchParams.has("categorie") || initialSearchParams.has("departement") || initialSearchParams.has("zone")) {
   revealStep(searchSteps.department);
 }
 
