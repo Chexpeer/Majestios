@@ -5,6 +5,8 @@
 - **Périmètre :** les 32 pages HTML racine, le catalogue partagé, les scripts de recherche et de qualification, les interactions déclarées et la référence fonctionnelle V5.
 - **Principe :** une page descriptive, un lien ou une simulation ne prouve pas qu'un service connecté est opérationnel.
 
+> **Actualisation de périmètre — 5 novembre 2026 :** cet audit décrit l'état observé le 4 novembre. Depuis, une fondation Supabase multi-tenant a été créée, six migrations ont été appliquées et le code d'authentification de l'espace membre a été raccordé. Le flux Auth n'a toutefois pas encore été validé de bout en bout et le CRM reste non opérationnel. Pour l'état courant du backend, consulter [État du backend Supabase](ETAT-BACKEND-SUPABASE.md). Les constats ci-dessous sur le prototype doivent être lus à la date de cet audit.
+
 ## 1. Synthèse
 
 Le dépôt contient un prototype statique avec des fonctions effectivement exécutables : navigation, recherche à la demande dans BOAMP et BODACC, recherche d'entreprises via l'API Recherche d'Entreprises, qualification indicative et interactions de démonstration. Il ne contient pas de serveur métier ni de stockage persistant : CRM, comptes clients, communauté, BI, orchestration IA, mémoire, collecte SEO et automatisations ne sont pas opérationnels.
