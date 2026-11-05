@@ -3,6 +3,7 @@
   "description": "Manifeste unique des fichiers sources publiés dans dist/. Toute nouvelle page ou ressource publique doit être déclarée ici.",
   "files": [
     "index.html",
+    "IMMEUBLE.jfif",
     "reputation-virtuelle.html",
     "crm.html",
     "majestios-v5.html",
