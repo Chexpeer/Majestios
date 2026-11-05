@@ -1272,31 +1272,5 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
     </footer>
 
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const keyword = document.getElementById("feed-search");
-        const market = document.getElementById("feed-market-type");
-        const category = document.getElementById("feed-sector");
-        const department = document.getElementById("feed-department");
-        const marketStep = document.getElementById("market-step");
-        const categoryStep = document.getElementById("category-step");
-        const departmentStep = document.getElementById("department-step");
-        if (!keyword || !market || !category || !department) return;
-        const reveal = () => {
-          marketStep.hidden = false;
-          if (market.value) categoryStep.hidden = false;
-          if (market.value && category.value) departmentStep.hidden = false;
-        };
-        keyword.addEventListener("focus", () => { marketStep.hidden = false; });
-        keyword.addEventListener("click", () => { marketStep.hidden = false; });
-        market.addEventListener("change", () => {
-          categoryStep.hidden = false;
-          departmentStep.hidden = true;
-          department.value = "all";
-        });
-        category.addEventListener("change", () => { departmentStep.hidden = false; });
-        if (market.value) reveal();
-      });
-    </script>
   </body>
 </html>
