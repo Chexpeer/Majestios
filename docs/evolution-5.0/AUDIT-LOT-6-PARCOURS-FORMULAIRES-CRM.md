@@ -2,7 +2,7 @@
 
 **Date de contrôle :** 5 novembre 2026  
 **Commit examiné initialement :** `fc21d09c20a2679eb78a9fb7f9745aabb1533952`  
-**Dernière revue de code :** `3e61cec83695dd3a4945405d63280242a2986fec`  
+**Dernière revue de code :** `cdcf34eb460f3ef8594e7aad2c976280ee7c897e`  
 **Branche :** `evolution-5.0-clean-preview`  
 **Périmètre :** accueil, recherche et résultats, espace membre, page « Nous rejoindre », CRM et fonction serveur de provisionnement.  
 **Méthode :** lecture du code réellement présent et rapprochement avec `ETAT-BACKEND-SUPABASE.md`. Les deux workflows GitHub de ce commit ont réussi ; ce succès ne vaut pas recette réelle des formulaires avec une boîte e-mail ni validation métier complète.
@@ -241,3 +241,14 @@ Ces résultats valident les contrôles automatisés sur le HEAD ; ils ne remplac
 - Les résultats BOAMP et BODACC sont distincts ; le mode mixte présente les sources dans des blocs séparés et plafonne l'affichage à dix résultats au total.
 - Les tests navigateur couvrent les parcours BOAMP/BODACC, les familles non connectées, les filtres et les CTA contextualisés. Le contrat d'identité du composant d'accueil et des rubriques n'est toutefois pas testé directement.
 - Aucun fichier applicatif, catalogue, moteur, formulaire, source ou backend n'a été modifié dans ce lot d'audit. Ces deux constats sont inscrits au registre ; ils ne sont pas déclarés corrigés.
+
+
+## 15. CI — dépendance Playwright non verrouillée (F-13, P2)
+
+**Incident constaté sur le HEAD précédent :** les workflows « Vérification du site MajestiOS » des runs `42084560690` (événement pull_request) et `42084812786` (push du commit `cdcf34e`) échouent à l'étape d'installation Playwright, après réussite de la syntaxe JavaScript, des tests ciblés, du build, de la vérification d'architecture et des liens. Le journal npm indique `ETARGET` / `No matching version found for playwright-core@1.65.0`. Les tests navigateur suivants sont donc ignorés : ce n'est pas un échec de test applicatif, mais une dépendance flottante qui résout une version non disponible sous ce numéro exact.
+
+**Cause :** le workflow installait `playwright` sans version explicite. Au 5 novembre 2026, la version stable publiée est `1.64.1` ; `1.65.0` apparaît comme version beta/préversion et n'est pas une version stable installable sous le numéro exact. Référence registre : [Playwright 1.64.1](https://www.npmjs.com/package/playwright/v/1.64.1).
+
+**Correction appliquée :** `.github/workflows/verify-site.yml` installe désormais explicitement `playwright@1.64.1`. Le navigateur Chromium est installé avec le CLI correspondant à cette version. Aucun package applicatif ni fichier de production n'est ajouté.
+
+**État :** correction de configuration appliquée ; validation CI complète du nouveau HEAD requise. F-13 ne sera clos qu'après réussite de l'installation Playwright et des suites navigateur/API qui suivent cette étape.
