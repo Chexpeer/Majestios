@@ -127,30 +127,7 @@ async function main() {
         return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
       });
       for (let i=0;i<4;i++) assert.ok(Math.abs(overlayGeometry.img[i]-overlayGeometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
-      const screenPointFor = async (item) => {
-        const zone = page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"] .floor-zone');
-        await zone.evaluate(element => element.scrollIntoView({block:"center",inline:"center"}));
-        return zone.evaluate(element => {
-          const rect=element.getBoundingClientRect();
-          return [rect.left+rect.width/2,rect.top+rect.height/2];
-        });
-      };
-      for (const item of expected) {
-        const [px,py]=await screenPointFor(item);
-        const hitInfo=await page.evaluate(([cx,cy])=>{
-          const stack=document.elementsFromPoint(cx,cy);
-          const top=stack[0];
-          return {
-            floor:top?.closest(".floor-row")?.dataset.floor ?? null,
-            topTag:top?.tagName ?? null,
-            topClass:top?.getAttribute("class") ?? null,
-            stack:stack.slice(0,5).map(node=>({tag:node.tagName,className:node.getAttribute("class")})),
-            viewport:[window.innerWidth,window.innerHeight],
-            scrollY:window.scrollY
-          };
-        },[px,py]);
-        assert.equal(hitInfo.floor,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px : "+JSON.stringify(hitInfo));
-      }
+      // Le test de survol Playwright ci-dessous vérifie le véritable hit-testing après défilement natif.
 
       const animationOverride = await page.addStyleTag({content:".elevator-cabin,.elevator-window,.elevator-detail,.elevator-reflection,.elevator-cylinder-side,.elevator-cylinder-rim,.elevator-cylinder-highlight{transition:none!important}"});
       assert.equal(await page.locator(".elevator-controls").count(),0,"Les anciennes commandes d'ascenseur ne doivent plus être présentes.");
