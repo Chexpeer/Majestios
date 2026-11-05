@@ -17,7 +17,7 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 
 **MajestiOS V.5 reste l'intelligence centrale unique.** Brainstorming est une capacité de réflexion et de veille rattachée à cette intelligence, notamment pour le SEO et l'évolution des moteurs ; ce n'est pas un produit ou un cerveau parallèle.
 
-## Documents de référence
+## Guide de reprise pour les IA\n\n[Guide autonome de reprise IA — MajestiOS V.5](GUIDE-REPRISE-IA-MAJESTIOS-V5.md) : vision, terminologie, arborescence, état réel du code, preuves CI, gouvernance, limites de données et méthode de reprise. À lire après la référence canonique.\n\n## Documents de référence
 
 1. [Référence MajestiOS V.5](MAJESTIOS-V5-REFERENCE.md) — document maître et source canonique.
 2. [Filiation documentaire V2 → V5](FILIATION-DOCUMENTAIRE-V2-A-V5.md) — sources versionnées, continuité des décisions, changements et retrait des copies historiques de V5.
