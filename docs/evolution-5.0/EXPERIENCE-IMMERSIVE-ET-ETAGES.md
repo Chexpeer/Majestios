@@ -2,7 +2,7 @@
 
 ## 1. Concept
 
-L'accueil de MajestiOS devient un panorama immersif de haute qualité, centré sur un immeuble principal et son quartier d'affaires. Il ne s'agit pas de représenter uniquement le bâtiment : **tout l'environnement urbain doit être valorisé** et donner l'impression d'un véritable quartier économique international, spectaculaire, vivant et crédible. Sur ordinateur, le panorama doit occuper **le maximum de la surface utile de la page d'accueil**. Il doit dominer immédiatement l'écran et constituer l'expérience principale, pas une illustration secondaire, une petite bannière ou un bloc enfermé dans une mise en page classique. La cible indicative d'environ **70 % de l'espace visuel** devient un minimum de conception, pas un plafond : on peut aller au-delà si cela améliore l'immersion. Réduire au strict nécessaire les bandeaux, marges, cartes et blocs de texte concurrents. Le moteur de recherche, les destinations et les accès essentiels doivent être intégrés au panorama ou superposés avec discrétion, sans masquer le bâtiment, l'ascenseur ni les zones interactives. Le cadrage, la définition et le niveau de détail doivent permettre d'identifier clairement le bâtiment, ses accès et son environnement.
+L'accueil actuel de MajestiOS combine le décor général Designer (2).png et la photographie détourée IMMEUBLE.jfif. La scène interactive 2D est la version effectivement présente ; une exploration 3D temps réel et un quartier navigable à 360° restent des évolutions possibles, non des fonctions actuellement livrées. Il ne s'agit pas de représenter uniquement le bâtiment : **tout l'environnement urbain doit être valorisé** et donner l'impression d'un véritable quartier économique international, spectaculaire, vivant et crédible. Sur ordinateur, le panorama doit occuper **le maximum de la surface utile de la page d'accueil**. Il doit dominer immédiatement l'écran et constituer l'expérience principale, pas une illustration secondaire, une petite bannière ou un bloc enfermé dans une mise en page classique. La cible indicative d'environ **70 % de l'espace visuel** devient un minimum de conception, pas un plafond : on peut aller au-delà si cela améliore l'immersion. Réduire au strict nécessaire les bandeaux, marges, cartes et blocs de texte concurrents. Le moteur de recherche, les destinations et les accès essentiels doivent être intégrés au panorama ou superposés avec discrétion, sans masquer le bâtiment, l'ascenseur ni les zones interactives. Le cadrage, la définition et le niveau de détail doivent permettre d'identifier clairement le bâtiment, ses accès et son environnement.
 
 Un ascenseur panoramique extérieur, vitré et visible sur la façade, représente MajestiOS lui-même.
 
@@ -23,10 +23,10 @@ Le panorama ne doit pas être une image figée simplement décorative. Il doit d
 ### Ascenseur et sélection d'une destination
 
 - À l'arrivée, l'ascenseur est positionné par défaut au niveau de l'accueil / rez-de-chaussée.
-- Le visiteur clique sur une destination clairement identifiée dans le panorama ou sur l'immeuble.
-- L'ascenseur se déplace vers l'étage correspondant en environ deux secondes (durée cible à tester, pas une garantie technique).
-- À l'arrivée, la destination s'ouvre directement sur le véritable dossier ou la véritable page.
-- Le mouvement doit donner une sensation de montée et de déplacement, sans retarder inutilement l'accès au contenu.
+- Le visiteur survole une zone d'étage : le titre LED correspondant se stabilise et clignote, et l'ascenseur cylindrique vitré se déplace vers le centre de cette zone.
+- Les intitulés longs sont composés sur deux lignes afin d'être lisibles intégralement dans leur bandeau.
+- Un clic unique sur la zone ouvre directement le dossier ou la page correspondante ; aucun second clic ni délai artificiel n'est demandé.
+- Le focus clavier sélectionne également l'étage et annonce le niveau à l'aide d'un statut accessible.
 - L'expérience doit rester compréhensible et utilisable au clavier, au tactile et avec les technologies d'assistance.
 - Sur mobile, prévoir une composition adaptée : le visiteur doit toujours pouvoir sélectionner les destinations sans précision excessive.
 
@@ -34,7 +34,7 @@ L'ascenseur n'est pas un menu permanent obligatoire dans chaque page. Le concept
 
 ## 4. Le moteur de recherche transversal
 
-Le moteur de recherche est une capacité transversale accessible depuis l’accueil et les pages de rubrique. Il ne constitue pas un neuvième ou un dixième étage : les huit destinations interactives de `Majestios.immeuble.jpg` restent la référence spatiale.
+Le moteur de recherche est une capacité transversale accessible depuis l’accueil et les pages de rubrique. Il ne constitue pas un étage supplémentaire : les neuf destinations interactives de IMMEUBLE.jfif restent la référence spatiale.
 
 Le moteur doit conserver une logique de sélection progressive et cohérente avec les sources :
 - choix du type d'opportunité (public / privé lorsque pertinent) ;
@@ -60,17 +60,25 @@ Le moteur affiché sur l'accueil doit reprendre **exactement le principe visuel 
 
 L'interface doit rester fidèle à la sobriété de l'image de référence : **la complexité est dans le moteur et son orchestration, pas dans ce que l'utilisateur voit au premier regard.**
 
-## 5. Nomenclature de référence — alignement sur `Majestios.immeuble.jpg`
+## 5. Nomenclature de référence — immeuble interactif V5
 
-L'image `Majestios.immeuble.jpg` présente les huit destinations V5 : **Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil**. « ACCUEIL » au niveau 1 remplace le libellé erroné « ACTINELL » dans le dérivé publié ; l'accueil de rez-de-chaussée reste décoratif et non interactif.
+Le prototype actuel utilise Designer (2).png comme décor général, IMMEUBLE.jfif comme photographie de la tour et immeuble-masque.png pour le détourage. Neuf zones SVG natives sont superposées à la façade. Les titres LED sont dessinés en matrice de points, avec une couleur propre à chaque étage ; le survol les fige et les fait clignoter. Les titres longs sont répartis sur deux lignes.
 
-Cette liste devient la référence des intitulés visibles sur l'immeuble. Elle ne signifie pas que chaque fonction technique ou chaque page existante doit devenir un étage autonome.
+| Niveau | ID SVG | Intitulé LED | Route |
+|---|---|---|---|
+| 08 | 08 | Espace privé | espace-membre.html |
+| 07 | 07 | Réseau | reseaux-synergies.html |
+| 06 | 06 | Développement commercial | developpement-commercial.html |
+| 05 | 05 | Prospection | prospection-active.html |
+| 04 | 04 | Accompagnement appels d'offres | accompagnement-appels-offres.html |
+| 03 | 03 | Marchés publics | marches-publics.html |
+| 02 | 02 | Marchés privés | marches-prives.html |
+| 01 | 01 | Réputation virtuelle | reputation-virtuelle.html |
+| RDC | RDC | Accueil | index.html#accueil |
 
-Les rattachements fonctionnels, les pages existantes à conserver et les écarts du mapping actuel sont détaillés dans [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md).
+L'ascenseur visible est un cylindre SVG vitré avec anneaux elliptiques, reflets et structure métallique. Il se déplace au survol et au focus, puis le clic unique ouvre la destination. Cette réalisation donne une perception cylindrique et volumétrique ; elle n'est pas un modèle 3D temps réel.
 
-CRM, Business Intelligence, suivi commercial, recherche, administration, mémoire, orchestration et MajestiOS V.5 sont traités comme des fonctions transversales. « Salon » et « Séminaires » ne sont pas des étages autonomes dans la nomenclature `Majestios.immeuble.jpg` : les pages correspondantes sont des parcours associés à Réseau. Le libellé « Événements » est retiré de cette proposition.
-
-Le moteur de recherche reste visible sous la forme de la barre simple de la référence ; ses choix apparaissent au clic. Son éventuel statut de destination verticale distincte ne doit pas modifier les huit intitulés visibles sans décision explicite.
+CRM, Business Intelligence, suivi commercial, recherche, administration, mémoire, orchestration et MajestiOS V.5 sont traités comme des fonctions transversales. « Salon » et « Séminaires » restent des parcours associés à Réseau, pas des étages autonomes.
 
 ## 6. Direction artistique
 
