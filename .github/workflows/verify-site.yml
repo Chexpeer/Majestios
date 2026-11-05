@@ -36,6 +36,8 @@ jobs:
           node --check company-targeting.js
           node --check company-fit.js
           node --check naf-suggestions.js
+          node --input-type=module --check < supabase-config.js
+          node --input-type=module --check < auth-espace-membre.js
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification des entreprises
