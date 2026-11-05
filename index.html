@@ -22,8 +22,7 @@ body.homepage{margin:0;background:#080d15;color:var(--ink);font-family:Inter,sys
 .brand-os{color:var(--gold)}
 .site-nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(5px,.9vw,13px);min-width:0}
 .site-nav a{color:#bdb5a4;text-decoration:none;font-size:10px;white-space:nowrap;padding:6px 2px;border-bottom:1px solid transparent}
-.site-nav a:hover{color:#f7e6a9;border-bottom-color:#d5b56c}
-.site-nav [aria-current=page]{color:#f7e6a9;border-bottom-color:#d5b56c}
+.site-nav a:hover, .site-nav [aria-current=page]{color:#f7e6a9;border-bottom-color:#d5b56c}
 .menu-toggle{display:none}
 .search-dock{display:block;width:min(1240px,calc(100% - 24px));margin:7px auto 9px}
 .search-dock summary{cursor:default;list-style:none;color:#d5b56c;font-size:10px;text-align:left;padding:0 2px 5px;font-weight:750;letter-spacing:.03em}
@@ -45,9 +44,7 @@ body.homepage{margin:0;background:#080d15;color:var(--ink);font-family:Inter,sys
 .tower-sign span{color:var(--gold)}
 .floor-rows{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;min-height:0;gap:1.5px}
 .floor-row{display:grid;grid-template-columns:42px minmax(0,1fr) 25px;align-items:stretch;gap:8px;flex:1 1 0;min-height:0;padding:3px 5px;border:1px solid #d9e8f277;border-radius:2px;background:linear-gradient(90deg,#1b354bcc,#92afc099 48%,#18344bcc);color:#fff;text-align:left;text-decoration:none;cursor:pointer;transition:border-color .15s,filter .15s,transform .15s}
-.floor-row:hover{border-color:#ffe5a0;filter:brightness(1.16);outline:1px solid #d5b56c;outline-offset:0}
-.floor-row:focus-visible{border-color:#ffe5a0;filter:brightness(1.16);outline:1px solid #d5b56c;outline-offset:0}
-.floor-row[aria-pressed=true]{border-color:#ffe5a0;filter:brightness(1.16);outline:1px solid #d5b56c;outline-offset:0}
+.floor-row:hover, .floor-row:focus-visible, .floor-row[aria-pressed=true]{border-color:#ffe5a0;filter:brightness(1.16);outline:1px solid #d5b56c;outline-offset:0}
 .floor-no{display:grid;place-items:center;background:#10243bdf;border-right:1px solid #d9e8f255;color:#f6d37b;font-weight:900;font-size:clamp(10px,1.1vw,14px)}
 .floor-name{display:flex;align-items:center;padding:0 5px;font-size:clamp(9px,1.15vw,14px);line-height:1.12;font-weight:750;text-shadow:0 1px 3px #0009}
 .floor-windows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;align-items:stretch;padding:4px 0}
@@ -59,7 +56,7 @@ body.homepage{margin:0;background:#080d15;color:var(--ink);font-family:Inter,sys
 .home-help-toggle{display:flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid #d5b56c88;border-radius:30px;background:#0c1119f2;color:#f4edda;font-size:11px;font-weight:750}
 .home-help-panel{position:absolute;right:0;bottom:50px;width:min(320px,calc(100vw - 24px));padding:15px;border:1px solid #d5b56c55;border-radius:12px;background:#0a111bf7;box-shadow:0 16px 44px #0008}
 .home-help-panel[hidden]{display:none}
-.home-help-panel h2{margin:0 0 8px;font-size:17px}.home-help-panel p{color:#bdb5a4;font-size:11px;line-height:1.5}.home-help-panel small{color:#bdb5a4;font-size:11px;line-height:1.5}
+.home-help-panel h2{margin:0 0 8px;font-size:17px}.home-help-panel p, .home-help-panel small{color:#bdb5a4;font-size:11px;line-height:1.5}
 .home-help-panel a{display:block;padding:8px 0;color:#e5cf91;text-decoration:none;font-size:12px}
 .floor-dialog{width:min(560px,calc(100% - 24px));max-height:min(80dvh,650px);padding:0;border:1px solid #d5b56c88;border-radius:14px;background:#0b1420;color:#f4f0e6;box-shadow:0 25px 100px #000b}
 .floor-dialog::backdrop{background:#03070dcc;backdrop-filter:blur(4px)}
@@ -70,20 +67,18 @@ body.homepage{margin:0;background:#080d15;color:var(--ink);font-family:Inter,sys
 .dialog-description{padding:0 17px;color:#c1c7cf;font-size:12px;line-height:1.55}
 .dialog-offices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 17px 17px}
 .dialog-office{display:flex;flex-direction:column;gap:9px;min-height:100px;padding:12px;border:1px solid #d5b56c38;border-radius:9px;background:#111e2e;color:#f4f0e6;text-decoration:none}
-.dialog-office:hover{border-color:var(--gold);background:#1a2a3d}
-.dialog-office:focus-visible{border-color:var(--gold);background:#1a2a3d}
+.dialog-office:hover, .dialog-office:focus-visible{border-color:var(--gold);background:#1a2a3d}
 .dialog-office strong{font-size:12px;line-height:1.35}.dialog-office small{margin-top:auto;color:var(--gold);font-size:10px}
 @media(max-width:900px){.site-header{flex-wrap:wrap;gap:5px;padding:6px 10px}.site-nav{width:100%;justify-content:flex-start;gap:14px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}.site-nav::-webkit-scrollbar{display:none}.site-nav a{font-size:10px;padding:4px 0}.building-scene{height:calc(100dvh - 255px);min-height:460px}.tower{width:76%;height:80%}.floor-row{grid-template-columns:32px minmax(0,1fr) 18px;gap:4px;padding:2px}.floor-windows{gap:3px}.floor-name{font-size:clamp(8px,1.4vw,12px)}}
 @media(max-width:600px){.site-header{padding:6px 8px}.site-nav{width:100%;justify-content:flex-start;gap:12px;overflow-x:auto;scrollbar-width:none}.site-nav::-webkit-scrollbar{display:none}.site-nav a{font-size:10px}.search-dock{margin:6px auto 8px}.search-dock summary{font-size:10px}.building-home{padding:0 5px 8px}.building-heading{align-items:flex-start;flex-direction:column;gap:3px;margin-bottom:5px}.building-heading p{text-align:left}.building-scene{height:calc(100dvh - 300px);min-height:450px;border-radius:7px}.tower{width:96%;height:82%;bottom:7%;padding:5px 4px 3px}.tower-sign{left:15%;right:15%;top:-23px;padding:5px;font-size:12px}.floor-rows{gap:2px}.floor-row{grid-template-columns:25px minmax(0,1fr) 12px;gap:2px;padding:1px}.floor-no{font-size:9px}.floor-name{font-size:clamp(8px,2.4vw,12px);padding:0 3px}.floor-windows{gap:2px;padding:2px 0}.floor-mini:after{content:"";display:none}.floor-mini{border:0}.building-caption{font-size:8px;left:5px;bottom:5px;padding:5px}.dialog-offices{grid-template-columns:1fr}.dialog-office{min-height:0;flex-direction:row;align-items:center;justify-content:space-between}.home-help{position:relative;right:auto;bottom:auto;display:flex;flex-direction:column;align-items:flex-end;margin:6px 8px 12px}.home-help-panel{position:static;width:min(320px,calc(100vw - 24px));margin-bottom:8px}.home-help-toggle{padding:8px 10px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){.homepage-ticker-track{animation:none}.floor-row{transition:none}}
-body.homepage .tender-feed-section{width:min(1240px,calc(100% - 24px));margin:7px auto 9px;padding:0;}
+body.homepage .tender-feed-section{width:min(1240px,calc(100% - 24px));margin:7px auto 9px;padding:0;background:transparent}
+body.homepage .tender-feed-section .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
 body.homepage .home-help-close{width:30px;height:30px;border:1px solid #d5b56c44;border-radius:50%;background:#152234;color:#f4f0e6;font-size:20px}
 @media(max-width:900px){}
 @media(max-width:600px){body.homepage .tender-feed-section{width:calc(100% - 16px);margin:6px auto 8px}body.homepage .building-scene{height:calc(100dvh - 300px);min-height:450px}}
 
-/* Navigation corrective : menu hamburger compact{position:relative;z-index:30;display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:10px;min-height:44px;height:auto;width:100%;margin:0;padding:5px 12px;background:#080d15;border-bottom:1px solid #d5b56c33}
-
-sans recouvrir le moteur de recherche. */
+/* Navigation corrective : menu hamburger compact, sans recouvrir le moteur de recherche. */
 body.homepage .site-header{position:relative;z-index:30;display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:10px;min-height:44px;height:auto;width:100%;margin:0;padding:5px 12px;background:#080d15;border-bottom:1px solid #d5b56c33}
 body.homepage .brand{flex:0 0 auto;font-size:15px}
 body.homepage .brand-mark{width:27px;height:27px}
@@ -95,9 +90,7 @@ body.homepage .menu-toggle[aria-expanded="true"] span:last-child{transform:trans
 body.homepage .site-nav{display:none!important;position:absolute;top:calc(100% + 3px);right:8px;z-index:40;width:min(290px,calc(100vw - 16px));max-height:min(75vh,520px);overflow:auto;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;padding:7px;border:1px solid #d5b56c66;border-radius:9px;background:#0d141e;box-shadow:0 16px 38px #000b;white-space:normal}
 body.homepage .site-nav.open{display:flex!important}
 body.homepage .site-nav>a{display:flex;align-items:center;min-height:40px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid #d5b56c1c;border-radius:5px;background:transparent;color:#e6e0d4;font-size:12px;line-height:1.35;text-align:left;text-decoration:none;white-space:normal;cursor:pointer}
-body.homepage .site-nav>a:hover{background:#1a2a3d;color:#f7e6a9;outline:1px solid #d5b56c55}
-body.homepage .site-nav>a:focus-visible{background:#1a2a3d;color:#f7e6a9;outline:1px solid #d5b56c55}
-body.homepage .site-nav>a[aria-current="page"]{background:#1a2a3d;color:#f7e6a9;outline:1px solid #d5b56c55}
+body.homepage .site-nav>a:hover, body.homepage .site-nav>a:focus-visible, body.homepage .site-nav>a[aria-current="page"]{background:#1a2a3d;color:#f7e6a9;outline:1px solid #d5b56c55}
 body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100% - 24px));margin:7px auto 9px}
 @media(max-width:900px){body.homepage .site-header{flex-wrap:nowrap}body.homepage .site-nav{width:min(290px,calc(100vw - 16px));overflow:auto}body.homepage .search-dock{margin:6px auto 8px}}
 @media(max-width:600px){body.homepage .site-header{padding:5px 8px}body.homepage .search-dock{width:calc(100% - 16px);margin:5px auto 7px}body.homepage .site-nav>a{font-size:12px}}
@@ -117,7 +110,8 @@ body.homepage .hero-eyebrow{margin:0 0 14px;color:var(--gold);font-size:11px;fon
 body.homepage .hero-copy h1{margin:0;color:#fff;font-size:clamp(34px,4vw,64px);line-height:1.02;letter-spacing:-.045em}
 body.homepage .hero-copy h1 span{color:#f3c65e}
 body.homepage .hero-subtitle{max-width:620px;margin:18px 0 0;color:#e0e9f7;font-size:clamp(15px,1.4vw,21px);line-height:1.45;font-style:italic}
-body.homepage .tender-feed-section{width:100%;margin:0;padding:0;}
+body.homepage .tender-feed-section{width:100%;margin:0;padding:0;background:transparent}
+body.homepage .tender-feed-section .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
 body.homepage .building-home{width:100%;min-width:0;margin:0;padding:0;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
 body.homepage .building-heading{position:relative;z-index:3;margin:0 0 10px;text-align:center;color:#f3c65e;font-size:10px;letter-spacing:.18em;font-weight:800}
 body.homepage .building-heading p{margin:0}
@@ -173,26 +167,17 @@ body.homepage .building-scene .tower{
   box-shadow:none!important;
   transform:translateX(-50%)!important;
 }
-body.homepage .building-scene .tower:before{display:none!important;content:none!important}
-body.homepage .building-scene .tower:after{display:none!important;content:none!important}
-body.homepage .building-scene .tower .floor-row{
+body.homepage .building-scene .tower:before, body.homepage .building-scene .tower:after{display:none!important;content:none!important}
+body.homepage .building-scene .tower .floor-row, body.homepage .building-scene .tower .building-rdc{
   background:transparent!important;
   box-shadow:none!important;
   border:0!important;
   backdrop-filter:none!important;
 }
-body.homepage .building-scene .tower .building-rdc{
-  background:transparent!important;
-  box-shadow:none!important;
-  border:0!important;
-  backdrop-filter:none!important;
-}
-body.homepage .building-scene .tower .floor-row:before{display:none!important;content:none!important}
-body.homepage .building-scene .tower .floor-row:after{display:none!important;content:none!important}
+body.homepage .building-scene .tower .floor-row:before, body.homepage .building-scene .tower .floor-row:after{display:none!important;content:none!important}
 /* L'ancien fond Majestios.immeuble.jpg a été remplacé par Designer (2).png. */
 body.homepage .building-scene:before{background:linear-gradient(180deg,#07101a0a 0%,transparent 55%,#07101a55 100%)}
-body.homepage .cityline{display:none}
-body.homepage .ground-road{display:none}
+body.homepage .cityline, body.homepage .ground-road{display:none}
 body.homepage .tower{
   background:transparent;
   border:0;
@@ -202,15 +187,9 @@ body.homepage .tower:before{display:none}
 body.homepage .floor-row{background:linear-gradient(90deg,#07101ad9,#10243b75 48%,#07101ad9);backdrop-filter:blur(1px)}
 body.homepage .building-rdc{background:#091321d9}
 
-/* Neuf destinations visibles et cliquables{ display:none !important; }
-
-intégrées à la façade.
+/* Neuf destinations visibles et cliquables, intégrées à la façade.
    Les libellés sont de vrais éléments HTML (pas de pseudo-bandeaux). */
-body.homepage .building-scene .tower-sign{ display:none !important; }
-
-body.homepage .building-scene .building-rdc{ display:none !important; }
-
-body.homepage .building-scene .building-caption{ display:none !important; }
+body.homepage .building-scene .tower-sign, body.homepage .building-scene .building-rdc, body.homepage .building-scene .building-caption{ display:none !important; }
 body.homepage .building-scene .tower{ display:block !important; }
 body.homepage .building-scene .tower .floor-rows{
   position:absolute !important; top:calc(1% + 2cm) !important; bottom:calc(13% - 2cm) !important;
@@ -253,10 +232,7 @@ body.homepage .building-scene .tower .floor-mini{
 }
 body.homepage .building-scene .tower .floor-mini:after{ content:"↗" !important; display:block !important; }
 body.homepage .building-scene .tower .floor-row:after{ content:none !important; display:none !important; }
-body.homepage .building-scene .tower .floor-row:hover{
-  outline:2px solid #f2cf79 !important; outline-offset:-2px !important; filter:brightness(1.18);
-}
-body.homepage .building-scene .tower .floor-row:focus-visible{
+body.homepage .building-scene .tower .floor-row:hover, body.homepage .building-scene .tower .floor-row:focus-visible{
   outline:2px solid #f2cf79 !important; outline-offset:-2px !important; filter:brightness(1.18);
 }
 @media(max-width:600px) {
@@ -278,15 +254,12 @@ body.homepage .building-photo img{display:block;width:100%;height:100%;border-ra
 body.homepage .building-hotspots{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 body.homepage .building-hotspots .floor-row{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
 body.homepage .building-hotspots .floor-zone{fill:rgba(255,255,255,0);stroke:rgba(255,255,255,0);stroke-width:3;stroke-linejoin:round;pointer-events:all;transition:fill .15s,stroke .15s}
-body.homepage .building-hotspots .floor-row:hover .floor-zone{fill:rgba(255,255,255,.16);stroke:#f2cf79}
-body.homepage .building-hotspots .floor-row:focus-visible .floor-zone{fill:rgba(255,255,255,.16);stroke:#f2cf79}
+body.homepage .building-hotspots .floor-row:hover .floor-zone, body.homepage .building-hotspots .floor-row:focus-visible .floor-zone{fill:rgba(255,255,255,.16);stroke:#f2cf79}
 @media(max-width:900px){body.homepage .building-photo{width:min(100%,580px,calc((100dvh - 190px) * 842 / 1264))}}
 @media(max-width:600px){body.homepage .building-photo{width:min(100%,calc((100dvh - 180px) * 842 / 1264))}}
 @media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone{transition:none}}
 
-/* Panorama interactif — cabine vitrée{fill:rgba(6,22,51,.10);stroke:transparent;stroke-width:2;filter:none;transition:none}
-
-repères sobres et déplacement naturel. */
+/* Panorama interactif — cabine vitrée, repères sobres et déplacement naturel. */
 body.homepage .building-hotspots .floor-zone{fill:rgba(6,22,51,.10);stroke:transparent;stroke-width:2;filter:none;transition:none}
 body.homepage .building-hotspots .floor-row:hover .floor-zone{fill:rgba(6,22,51,.10);stroke:transparent;filter:none}
 body.homepage .building-hotspots .floor-row:focus-visible .floor-zone{fill:transparent;stroke:#d9c28d;stroke-width:2;filter:none}
@@ -300,7 +273,7 @@ body.homepage .elevator-cylinder-highlight{fill:rgba(255,255,255,.26);stroke:rgb
 body.homepage .elevator-reflection{fill:rgba(255,255,255,.22);stroke:none;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
 body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px;padding:5px 8px;border:1px solid #e7c87566;border-radius:5px;background:#071629d9;color:#f8e8bd;font-size:9px;letter-spacing:.05em}
 @media(max-width:600px){body.homepage .elevator-caption{right:4px;bottom:4px;font-size:8px}}
-@media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone{transition-duration:0s!important}body.homepage .elevator-cabin{transition-duration:0s!important}body.homepage .elevator-window{transition-duration:0s!important}body.homepage .elevator-detail{transition-duration:0s!important}body.homepage .elevator-reflection{transition-duration:0s!important}body.homepage .elevator-cylinder-side{transition-duration:0s!important}body.homepage .elevator-cylinder-rim{transition-duration:0s!important}body.homepage .elevator-cylinder-highlight{transition-duration:0s!important}}
+@media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone, body.homepage .elevator-cabin, body.homepage .elevator-window, body.homepage .elevator-detail, body.homepage .elevator-reflection, body.homepage .elevator-cylinder-side, body.homepage .elevator-cylinder-rim, body.homepage .elevator-cylinder-highlight{transition-duration:0s!important}}
 
 </style>
     <script src="catalogue-majestios.js" defer></script>
@@ -350,17 +323,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         box-shadow:0 18px 42px #020817d9;
       }
       body.homepage .site-nav>a{ color:#e3edff; border-bottom-color:#29b6d02b; }
-      body.homepage .site-nav>a:hover{
-        color:#ffe09a;
-        background:linear-gradient(90deg,#1467a866,#7b3d9b55,#d46c3555);
-        outline-color:#f4c15d88;
-      }
-      body.homepage .site-nav>a:focus-visible{
-        color:#ffe09a;
-        background:linear-gradient(90deg,#1467a866,#7b3d9b55,#d46c3555);
-        outline-color:#f4c15d88;
-      }
-      body.homepage .site-nav>a[aria-current="page"]{
+      body.homepage .site-nav>a:hover, body.homepage .site-nav>a:focus-visible, body.homepage .site-nav>a[aria-current="page"]{
         color:#ffe09a;
         background:linear-gradient(90deg,#1467a866,#7b3d9b55,#d46c3555);
         outline-color:#f4c15d88;
@@ -399,11 +362,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         background:linear-gradient(145deg,#123c70,#19264c);
         color:#ffe09a;
       }
-      body.homepage .elevator-controls button:hover{
-        background:linear-gradient(110deg,#ffe28a,#f07835);
-        color:#10203a;
-      }
-      body.homepage .elevator-controls button:focus-visible{
+      body.homepage .elevator-controls button:hover, body.homepage .elevator-controls button:focus-visible{
         background:linear-gradient(110deg,#ffe28a,#f07835);
         color:#10203a;
       }
@@ -425,8 +384,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         box-shadow:0 18px 48px #020817d9;
       }
       body.homepage .home-help-panel h2{ color:#fff; }
-      body.homepage .home-help-panel p{ color:#c6d8f1; }
-      body.homepage .home-help-panel small{ color:#c6d8f1; }
+      body.homepage .home-help-panel p, body.homepage .home-help-panel small{ color:#c6d8f1; }
       body.homepage .home-help-panel a{ color:#ffe09a; }
       body.homepage .home-help-panel a:hover{ color:#5dd5e2; }
       body.homepage .home-help-close{
@@ -500,31 +458,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       }
 
       /* Fond panoramique Designer 2 : décor général de l'accueil.
-         L'immeuble source reste un élément séparé{
-        position:relative;
-        isolation:isolate;
-        background-image:
-          linear-gradient(90deg,rgba(5,13,24,.58) 0%,rgba(5,13,24,.24) 48%,rgba(5,13,24,.12) 100%),
-          linear-gradient(180deg,rgba(5,13,24,.12) 0%,rgba(5,13,24,.18) 68%,rgba(5,13,24,.52) 100%),
-          url("Designer%20(2).png");
-        background-position:center center;
-        background-repeat:no-repeat;
-        background-size:cover;
-      }
-
-      inchangé{
-        position:relative;
-        isolation:isolate;
-        background-image:
-          linear-gradient(90deg,rgba(5,13,24,.58) 0%,rgba(5,13,24,.24) 48%,rgba(5,13,24,.12) 100%),
-          linear-gradient(180deg,rgba(5,13,24,.12) 0%,rgba(5,13,24,.18) 68%,rgba(5,13,24,.52) 100%),
-          url("Designer%20(2).png");
-        background-position:center center;
-        background-repeat:no-repeat;
-        background-size:cover;
-      }
-
-      avec ses hotspots SVG. */
+         L'immeuble source reste un élément séparé, inchangé, avec ses hotspots SVG. */
       body.homepage .home-hero-layout{
         position:relative;
         isolation:isolate;
@@ -578,10 +512,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       }
 
 
-      /* Enseignes LED : un afficheur à matrice de points par étage{ position:absolute; inset:0; overflow:hidden; pointer-events:none; border-radius:3px; }
-
-
-      posé sur la photo par homographie.
+      /* Enseignes LED : un afficheur à matrice de points par étage, posé sur la photo par homographie.
          La couche est insérée sous le calque des zones cliquables et ne capte jamais la souris. */
       body.homepage .led-layer{ position:absolute; inset:0; overflow:hidden; pointer-events:none; border-radius:3px; }
       body.homepage .led-sign{ position:absolute; left:0; top:0; display:block; transform-origin:0 0; pointer-events:none; }
