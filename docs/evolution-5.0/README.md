@@ -42,6 +42,7 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 17. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts historiques à revalider.
 18. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
 19. [Audit technique indépendant — source Claude](AUDIT-TECHNIQUE-CLAUDE-2026-11-05.md) — contrôles déclarés, limites de l’analyse, anomalies, points positifs et recommandations de consolidation.
+20. [Cahier des charges — veille stratégique](CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) — cadrage des signaux économiques, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial.
 
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
