@@ -212,3 +212,32 @@ Les deux workflows GitHub associés exactement à ce HEAD sont terminés avec su
 - `Vérification du site MajestiOS` — run `42082623530`, job `verify-static-site` : succès ; syntaxe JavaScript, build, architecture/routes, liens/identifiants, appels de contrôle BOAMP/BODACC et tests navigateur de l'immeuble, recherche, navigation mobile/ordinateur et formulaire Contact réussis.
 
 Ces résultats valident les contrôles automatisés sur le HEAD ; ils ne remplacent pas une recette réelle de compte Auth, d'envoi d'e-mail, de stockage CV, de collecte de contact ou de CRM. Aucune modification applicative, Supabase ou backend n'est effectuée dans cette revue.
+
+
+## 14. Recherche transversale — cohérence du composant et taxonomie de repli
+
+### F-11 — P2 — Formulaire commun dupliqué entre accueil et rubriques
+
+**Constat vérifié :** l'accueil contient le balisage du formulaire directement dans `index.html`. Les rubriques le reconstruisent sous forme de chaîne HTML dans `rubric-search.js`. Les deux variantes réutilisent les mêmes identifiants de champs et les mêmes gestionnaires de `app.js`, mais elles ne proviennent pas d'un composant unique. La version des rubriques ajoute également la note `#search-source-note`, absente de l'accueil.
+
+**Impact :** le comportement est partagé aujourd'hui, mais une évolution du formulaire peut être oubliée dans l'une des deux implémentations. Il s'agit d'un risque de divergence et de maintenance, pas d'une panne de recherche constatée.
+
+**Traitement :** ouvert. À harmoniser dans un lot dédié, en conservant le placement et la présentation compacte de l'accueil. Le test de non-régression devra comparer les champs, identifiants, étapes progressives, catégories, paramètres transmis et comportement desktop/mobile sur l'accueil et plusieurs rubriques. Ne pas ajouter une note ou une section supplémentaire à l'accueil sans vérifier l'impact visuel.
+
+### F-12 — P2 — Absence de catégorie de repli « Autre »
+
+**Constat vérifié :** le catalogue partagé expose les catégories publiques actives et prévues, ainsi que cinq familles BODACC actives et les familles privées prévues (immobilier, emploi, offres et recherches de sous-traitance). Il n'expose pas de catégorie « Autre ». Le moteur refuse une catégorie inconnue au lieu de lui attribuer silencieusement des résultats non filtrés.
+
+**Écart métier :** la règle de classement demandée pour les catégories non répertoriées prévoit un rattachement à « Autre ». Cette règle n'est pas représentée dans le catalogue actuel. Il ne faut pas la simuler en remplaçant une catégorie inconnue par « Toutes les catégories » : cela ferait croire à un filtrage qui n'a pas eu lieu.
+
+**Impact :** une catégorie métier nouvelle ou non encore classée ne dispose pas d'une destination de repli explicite. Le comportement actuel est prudent (message de catégorie non reconnue), mais incomplet au regard de la taxonomie attendue.
+
+**Traitement :** ouvert, à spécifier avant correction. Définir si « Autre » doit être une catégorie de classement, une recherche textuelle libre, ou une famille de résultats explicitement non classés ; préciser séparément le comportement public BOAMP et privé BODACC. Les familles privées sans source connectée doivent rester désactivées et ne jamais être présentées comme alimentées. Ajouter ensuite des tests catalogue, routage et résultats pour chaque marché.
+
+### Contrôle complémentaire effectué
+
+- `catalogue-majestios.js` centralise les catégories, les départements et les familles privées ; les familles sans source sont marquées `planned` et désactivées dans le formulaire.
+- `opportunity-search.js` refuse les catégories privées inconnues et affiche un message explicite pour immobilier, emploi et sous-traitance tant que leurs sources ne sont pas connectées.
+- Les résultats BOAMP et BODACC sont distincts ; le mode mixte présente les sources dans des blocs séparés et plafonne l'affichage à dix résultats au total.
+- Les tests navigateur couvrent les parcours BOAMP/BODACC, les familles non connectées, les filtres et les CTA contextualisés. Le contrat d'identité du composant d'accueil et des rubriques n'est toutefois pas testé directement.
+- Aucun fichier applicatif, catalogue, moteur, formulaire, source ou backend n'a été modifié dans ce lot d'audit. Ces deux constats sont inscrits au registre ; ils ne sont pas déclarés corrigés.
