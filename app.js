@@ -219,7 +219,9 @@ function populateSearchFilters(marketValue = "", selectedCategory = "") {
       parent.append(option);
     });
     categorySelect.disabled = !marketValue;
-    categorySelect.value = selectedCategory === "all" ? "all" :
+    // Le mode mixte ne propose que « Toutes les catégories » :
+    // une catégorie métier ne peut pas être appliquée honnêtement aux deux sources.
+    categorySelect.value = marketValue === "all" ? "all" : selectedCategory === "all" ? "all" :
       source.some((item) => item.value === selectedCategory && !item.planned) ? selectedCategory : "";
   }
 
@@ -309,7 +311,7 @@ if (advancedSearchForm) {
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
   if (department && department !== "all") params.set("departement", department);
-  if (marketType && marketType !== "all") params.set("marche", marketType);
+  if (marketType) params.set("marche", marketType);
 
   // Les catégories publiques déjà dotées d’une page conservent leur destination dédiée.
   // Les nouvelles catégories sans page dédiée et les signaux privés passent par les résultats communs.
