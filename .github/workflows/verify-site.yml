@@ -64,3 +64,5 @@ jobs:
         run: node tests/opportunity-search.browser.cjs
       - name: Tester les menus de navigation sur mobile et ordinateur
         run: node tests/navigation-dropdown.browser.cjs
+      - name: Tester le parcours de contact sans transmission de données
+        run: node tests/contact-form.browser.cjs
