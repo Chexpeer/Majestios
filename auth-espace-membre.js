@@ -34,7 +34,10 @@ if (form && config?.url && config?.publishableKey) {
     });
     const organizationField = field("organizationName");
     const passwordField = field("password");
-    if (passwordField) passwordField.autocomplete = mode === "signup" ? "new-password" : "current-password";
+    if (passwordField) {
+      passwordField.autocomplete = mode === "signup" ? "new-password" : "current-password";
+      passwordField.minLength = mode === "signup" ? 12 : 1;
+    }
     if (organizationField) {
       organizationField.required = mode === "signup";
       organizationField.closest(".form-field")?.classList.toggle("is-optional", mode === "login");
