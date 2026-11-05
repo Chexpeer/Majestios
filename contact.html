@@ -31,6 +31,7 @@
     <p class="eyebrow">ÉCHANGEONS SUR VOTRE PROJET</p>
     <h1>Entrons en <span>contact.</span></h1>
     <p class="interior-lede">Une question sur MajestiOS, un besoin de développement commercial ou une proposition de coopération ? Présentez-nous le sujet qui vous amène.</p>
+    <p class="small-note contact-opportunity-context" id="opportunity-context" hidden></p>
 
     <section class="lead-form-wrap" aria-labelledby="contact-form-title">
       <div class="lead-intro">
@@ -102,11 +103,21 @@
   </footer>
 
   <script>
-    const subject = new URLSearchParams(window.location.search).get("objet");
-    const subjectField = document.getElementById("contact-subject");
-    if (subjectField && ["general", "public-market", "private-market", "partnership", "collaboration"].includes(subject)) {
-      subjectField.value = subject;
-    }
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const subject = params.get("objet");
+      const subjectField = document.getElementById("contact-subject");
+      if (subjectField && ["general", "public-market", "private-market", "partnership", "collaboration"].includes(subject)) {
+        subjectField.value = subject;
+      }
+      const source = params.get("source");
+      const reference = params.get("reference");
+      const context = document.getElementById("opportunity-context");
+      if (context && ["BOAMP", "BODACC"].includes(source) && reference) {
+        context.textContent = "Votre demande concerne une annonce " + source + " — référence " + reference + ". Les critères de recherche ont été conservés ; vérifiez l’avis officiel avant tout échange.";
+        context.hidden = false;
+      }
+    })();
   </script>
 </body>
 </html>

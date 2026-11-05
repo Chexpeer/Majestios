@@ -136,6 +136,14 @@ async function main() {
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".opportunity-result-card").count(), 1, "Une annonce récupérée doit devenir une carte de résultat.");
     const resultCard = page.locator(".opportunity-result-card").first();
+    const publicContact = new URL(await resultCard.locator(".opportunity-contact-link").getAttribute("href"), "http://127.0.0.1:4174/");
+    assert.equal(publicContact.pathname, "/contact.html", "Le CTA BOAMP doit conduire au formulaire de contact MajestiOS.");
+    assert.equal(publicContact.searchParams.get("objet"), "public-market");
+    assert.equal(publicContact.searchParams.get("source"), "BOAMP");
+    assert.equal(publicContact.searchParams.get("reference"), "TEST-2027-001");
+    assert.equal(publicContact.searchParams.get("q"), "plomberie", "Le CTA doit préserver le mot-clé de recherche.");
+    assert.equal(publicContact.searchParams.get("marche"), "public");
+    assert.equal(publicContact.searchParams.get("departement"), "79");
     assert.equal(await resultCard.evaluate((card) => card.classList.contains("platform-card")), false, "Les cartes de résultats ne doivent pas hériter des styles legacy platform-card.");
     const mobileLayout = await resultCard.evaluate((card) => ({
       cardWidth: card.getBoundingClientRect().width,
@@ -175,6 +183,12 @@ async function main() {
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Deux-Sèvres/);
     assert.match(await page.locator(".bodacc-result-card").innerText(), /Rénovation de bâtiments/);
     assert.match(await page.locator(".bodacc-result-card").innerText(), /A202610310001/, "La référence unique de l’annonce doit être affichée.");
+    const privateContact = new URL(await page.locator(".bodacc-result-card .opportunity-contact-link").getAttribute("href"), "http://127.0.0.1:4174/");
+    assert.equal(privateContact.searchParams.get("objet"), "private-market");
+    assert.equal(privateContact.searchParams.get("source"), "BODACC");
+    assert.equal(privateContact.searchParams.get("reference"), "A202610310001");
+    assert.equal(privateContact.searchParams.get("q"), "rénovation", "Le CTA BODACC doit préserver le mot-clé de recherche.");
+    assert.equal(privateContact.searchParams.get("departement"), "79");
     assert.equal(bodaccCalls, 1, "Une recherche privée doit appeler le jeu officiel BODACC.");
     assert.equal(bodaccDepartmentFilterSeen, true, "Une recherche BODACC avec un département sélectionné doit transmettre le filtre départemental à la source.");
     assert.equal(apiCalls, 0, "Une recherche privée ne doit pas interroger BOAMP ni mélanger des résultats publics.");

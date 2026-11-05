@@ -119,6 +119,14 @@
     return "https://www.boamp.fr/";
   };
 
+  const buildContactUrl = (source, reference, params) => {
+    const contactParams = new URLSearchParams(params);
+    contactParams.set("objet", source === "BOAMP" ? "public-market" : "private-market");
+    contactParams.set("source", source);
+    if (reference) contactParams.set("reference", reference);
+    return "contact.html?" + contactParams.toString();
+  };
+
   async function render(options) {
     const panel = options.panel;
     const params = options.params;
@@ -269,6 +277,7 @@
             const sourceUrl = typeof record.url_complete === "string" && /^https:\/\/(www\.)?bodacc\.fr\//i.test(record.url_complete)
               ? record.url_complete
               : "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
+            const contactUrl = buildContactUrl("BODACC", identifier, params);
             return '<article class="opportunity-result-card bodacc-result-card">' +
               '<p class="eyebrow">SIGNAL D’ENTREPRISE · BODACC</p>' +
               '<h3>' + escapeHtml(company) + '</h3>' +
@@ -280,6 +289,7 @@
               (details ? '<p><strong>Extrait publié :</strong> ' + escapeHtml(details.slice(0, 500)) + '</p>' : '') +
 
               '<a class="button-primary" href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener noreferrer">Consulter l’annonce officielle ↗</a>' +
+              '<a class="feed-interest button-secondary opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Demander un accompagnement MajestiOS →</a>' +
               '</article>';
           }).join("");
           empty.textContent = filtered.length + " signal(aux) BODACC affiché(s). La qualification commerciale reste à confirmer par l’équipe MajestiOS.";
@@ -354,6 +364,8 @@
           const deadlineLabel = deadline ? formatDate(deadline) : "Non renseignée — vérifier l’avis";
           const publication = formatDate(record.dateparution);
           const url = officialUrl(record);
+          const identifier = record.idweb || record.id || "";
+          const contactUrl = buildContactUrl("BOAMP", identifier, params);
           return '<article class="opportunity-result-card">' +
             '<p class="eyebrow">MARCHÉ PUBLIC · ' + escapeHtml(record.type_marche_facette || record.famille_libelle || "BOAMP") + '</p>' +
             '<h3>' + escapeHtml(title) + '</h3>' +
@@ -363,6 +375,7 @@
             '<p><strong>Date limite :</strong> ' + escapeHtml(deadlineLabel) + '</p>' +
 
             '<a class="button-primary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Consulter l’avis officiel ↗</a>' +
+            '<a class="feed-interest button-secondary opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Demander un accompagnement MajestiOS →</a>' +
             '</article>';
         }).join("");
         empty.textContent = filtered.length + " résultat(s) affiché(s) depuis BOAMP. Les critères métier restent à confirmer à la lecture de l’avis officiel.";
