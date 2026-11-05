@@ -46,12 +46,12 @@ Principes de positionnement et vocabulaire :
 
 **MajestiOS V.5 est l'intelligence centrale unique de la plateforme.** Elle doit coordonner les capacités, les analyses, les interactions, la mémoire et les automatisations permises.
 
-Les fonctions de réflexion stratégique, d'exploration et de veille sont intégrées à l'intelligence centrale MajestiOS V.5. Elles servent à confronter des hypothèses, identifier des pistes d'amélioration et proposer des expérimentations vérifiables. Toute recommandation reste soumise à validation explicite.
+MajestiOS V.5 assure la réflexion stratégique, l'exploration et le suivi des évolutions utiles à la plateforme. Il confronte les hypothèses aux sources, identifie des pistes d'amélioration et propose des expérimentations vérifiables. Toute recommandation reste soumise à validation explicite.
 
 
 ### SEO comme capacité continue
 
-Le SEO n'est pas une action ponctuelle de rédaction. La cible V5 couvre la surveillance technique, l'indexation, la qualité éditoriale, le maillage, la performance, les évolutions des moteurs classiques et génératifs, les recommandations priorisées et la mesure des effets. La veille stratégique et l'exploration sont intégrées aux fonctions de l'intelligence centrale ; l'administration IA organise le suivi et les validations.
+Le SEO n'est pas une action ponctuelle de rédaction. La cible V5 couvre la surveillance technique, l'indexation, la qualité éditoriale, le maillage, la performance, les évolutions des moteurs classiques et génératifs, les recommandations priorisées et la mesure des effets. MajestiOS V.5 assure également le suivi des évolutions des moteurs et des pratiques de référencement ; l'administration organise le suivi opérationnel et les validations.
 
 Ne jamais promettre une position garantie ou un maintien automatique en tête des moteurs. Les changements de contenu et de production nécessitent une validation humaine.
 
