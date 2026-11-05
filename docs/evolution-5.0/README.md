@@ -66,17 +66,17 @@ La V5 est construite sur une branche indépendante. Les branches historiques res
 
 Le nettoyage suit cinq traitements : conserver, corriger, regrouper, archiver ou retirer. Une fonction métier n'est jamais supprimée au seul motif qu'elle n'est pas encore opérationnelle ou qu'elle n'apparaît pas comme destination de premier niveau.
 
-## État des ressources visuelles au 4 novembre 2026
+## État des ressources visuelles publiées — contrôle du 5 novembre 2026
 
-Les six visuels publiés dans la branche sont :
-- `Majestios.immeuble.jpg` — image interactive de l'accueil ;
-- `Majestios.developpement-commercial.jpg` — fond de Développement commercial ;
-- `Marché-Public-.webp` — fond de Marchés publics ;
-- `Prospection-.webp` — fond de Prospection ;
-- `Marcheprive.webp` — fond de Marchés privés ;
-- `Reseau.webp` — fond de Réseau.
+Le manifeste courant `site-files.json` déclare trois ressources graphiques pour l'accueil :
 
-Les originaux `Majestios.immeuble.jfif` et `Majestios.developpement-commercial.jfif` sont conservés à leur définition native ; les JPEG publiés sont des dérivés optimisés sans agrandissement. Le visuel commercial précédemment fourni (`devellopement.jfif`) est conservé mais signalé comme erroné et n'est plus utilisé. Le libellé erroné « ACTINELL » a été remplacé par « ACCUEIL » dans le dérivé de l'immeuble. Les contrôles de rendu et de recadrage doivent être vérifiés sur desktop et mobile.
+- `IMMEUBLE.jfif` — photographie de référence de l'immeuble interactif ;
+- `Designer (2).png` — décor général de l'accueil ;
+- `immeuble-masque.png` — masque de détourage de la tour.
+
+Ces trois fichiers sont présents dans le manifeste de publication et leurs références sont contrôlées par `verify-architecture.js`. Les anciennes ressources listées dans les notes visuelles antérieures du 4 novembre (`Majestios.immeuble.jpg`, `Majestios.developpement-commercial.jpg`, `Marché-Public-.webp`, `Prospection-.webp`, `Marcheprive.webp`, `Reseau.webp`) ne constituent plus la liste des actifs publiés par le manifeste courant. Ne pas les réintroduire ni les supprimer du patrimoine sans vérifier d'abord leurs références et leur rôle historique.
+
+Le contrôle du manifeste confirme les fichiers déclarés ; il ne remplace pas une recette visuelle du rendu et du recadrage sur desktop et mobile. L'image de l'immeuble et ses zones interactives ne doivent pas être modifiées lors d'une correction de navigation ou de contenu sans demande explicite.
 
 ## Architecture de navigation — principes à préserver
 
