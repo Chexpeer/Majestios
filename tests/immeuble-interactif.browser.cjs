@@ -5,6 +5,8 @@ const path = require("node:path");
 const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..", "dist");
+const imageWidth = 842;
+const imageHeight = 1264;
 const expected = [
   {id:"08",name:"Espace privé",route:"espace-membre.html",rect:[185,182,350,82],lines:"ESPACE|PRIVÉ"},
   {id:"07",name:"Réseau",route:"reseaux-synergies.html",rect:[185,266,350,80],lines:"RÉSEAU"},
@@ -46,8 +48,18 @@ async function main() {
     await page.locator(".building-photo img").evaluate(image=>image.decode());
     assert.deepEqual(
       await page.locator(".building-photo img").evaluate(image=>[image.naturalWidth,image.naturalHeight]),
-      [843,1264],
+      [imageWidth,imageHeight],
       "La photographie IMMEUBLE.jfif doit conserver sa définition native."
+    );
+    assert.deepEqual(
+      await page.evaluate(async () => {
+        const mask = new Image();
+        mask.src = "immeuble-masque.png";
+        await mask.decode();
+        return [mask.naturalWidth,mask.naturalHeight];
+      }),
+      [imageWidth,imageHeight],
+      "Le masque doit conserver les dimensions natives de la photographie."
     );
     assert.equal(await page.locator("#market-step").isHidden(),true,"Le type de marché doit être masqué au chargement.");
     assert.equal(await page.locator("#category-step").isHidden(),true,"La catégorie doit être masquée au chargement.");
@@ -88,7 +100,7 @@ async function main() {
         return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
       });
       for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
-      const toScreen=([x,y])=>[geometry.img[0]+x/843*geometry.img[2],geometry.img[1]+y/1264*geometry.img[3]];
+      const toScreen=([x,y])=>[geometry.img[0]+x/imageWidth*geometry.img[2],geometry.img[1]+y/imageHeight*geometry.img[3]];
       for (const item of expected) {
         const [x,y,w,h]=item.rect;
         const [px,py]=toScreen([x+w/2,y+h/2]);
@@ -142,7 +154,7 @@ async function main() {
       const [x,y,w,h]=item.rect;
       await Promise.all([
         page.waitForURL(url=>url.pathname.endsWith("/"+item.route),{timeout:10000}),
-        page.mouse.click(box.x+(x+w/2)/843*box.width,box.y+(y+h/2)/1264*box.height)
+        page.mouse.click(box.x+(x+w/2)/imageWidth*box.width,box.y+(y+h/2)/imageHeight*box.height)
       ]);
       assert.ok(new URL(page.url()).pathname.endsWith("/"+item.route),
         "Un seul clic doit ouvrir directement "+item.name+".");

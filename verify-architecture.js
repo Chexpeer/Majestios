@@ -122,14 +122,14 @@ if (!destinationBlock) {
     "Accueil : les neuf destinations, leurs identifiants, coordonnées ou routes ne respectent pas l'architecture V5");
   for (const destination of destinations) {
     assert(destination.width>0 && destination.height>0 && destination.x>=0 && destination.y>=0 &&
-      destination.x+destination.width<=843 && destination.y+destination.height<=1264,
+      destination.x+destination.width<=842 && destination.y+destination.height<=1264,
       "Accueil : zone interactive hors image pour "+destination.name);
     const route = destination.href.split("#")[0];
     assert(exists(route),"Accueil : destination absente : "+route);
     assert(siteFiles.includes(route),"Build : destination non publiée : "+route);
   }
   assert(home.includes('document.createElementNS(namespace, "a")'),"Accueil : les destinations doivent être des liens SVG natifs");
-  assert(home.includes('viewBox="0 0 843 1264"'),"Accueil : le repère SVG doit correspondre à la photo (843 × 1264)");
+  assert(home.includes('viewBox="0 0 842 1264"'),"Accueil : le repère SVG doit correspondre à la photo (842 × 1264)");
   assert(home.includes('src="IMMEUBLE.jfif"'),"Accueil : la photographie de l'immeuble est absente");
   assert(home.includes('url("Designer%20(2).png")'),"Accueil : le décor général Designer (2).png est absent");
   assert(home.includes('url("immeuble-masque.png")'),"Accueil : le masque de détourage de l'immeuble est absent");
