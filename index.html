@@ -957,7 +957,8 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             const row = event.target.closest(".floor-row");
             if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
           });
-          // Le lien reste direct : la cabine atteint simplement l'étage avant le changement de page.
+          // Premier clic : appeler et immobiliser la cabine. Deuxième clic sur le même étage : entrer.
+          let armedFloor = null;
           svg.addEventListener("click", (event) => {
             const row = event.target.closest(".floor-row");
             if (!row) return;
@@ -965,8 +966,12 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             if (destinationIndex < 0) return;
             event.preventDefault();
             selectFloor(destinationIndex);
-            const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 900;
-            window.setTimeout(() => { window.location.href = row.getAttribute("href"); }, delay);
+            if (armedFloor === row.dataset.floor) {
+              window.location.href = row.getAttribute("href");
+              return;
+            }
+            armedFloor = row.dataset.floor;
+            caption.textContent = "CABINE IMMOBILISÉE · " + destinations[destinationIndex].name.toLocaleUpperCase("fr-FR") + " · CLIQUEZ À NOUVEAU POUR ENTRER";
           });
           selectFloor(destinations.length - 1);
         }
@@ -984,7 +989,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         var SRC_W = 842, SRC_H = 1264;
         var ROWS = 39;      // lignes de la matrice : deux lignes de texte (2 d'accents + 7 de lettres chacune, 1 d'intervalle), centrées dans le bandeau
         var LINE_ROW0 = [9, 19]; // première ligne de matrice de chaque ligne de texte : lettres sur les lignes 11-17 et 21-27, bloc centré sur la ligne 19 de 39
-        var SPEED = 30;     // vitesse de défilement, en colonnes de points par seconde (lente et constante)
+        var SPEED = 10;     // Défilement trois fois plus lent que le réglage précédent.
 
         var SIGNS = [
           {id:"08", title:"Espace privé", quote:"Vos données au sommet de la sécurité", color:"#3fe9ff",
@@ -1144,7 +1149,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           var lines = [def.title + "  ◆  ", def.quote + "  ◆  "].map(function (text, k) {
             var columns = compile(text);
             // Départs décalés (rapport d'or) pour que les enseignes ne défilent pas à l'unisson.
-            return {columns: columns, row0: LINE_ROW0[k], phase: Math.round(columns.length * (((index + k * 0.5) * 0.381966) % 1))};
+            return {columns: columns, row0: LINE_ROW0[k], phase: Math.round(columns.length * (((index + k * 0.5) * 0.381966) % 1)), pausedAt: 0, pausedTotal: 0};
           });
           return {def: def, canvas: canvas, ctx: canvas.getContext("2d"), lines: lines, rgb: rgb(def.color)};
         });
@@ -1209,7 +1214,8 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           ctx.globalCompositeOperation = "lighter";
           sign.lines.forEach(function (line) {
             var L = line.columns.length;
-            var offset = line.phase + now * SPEED / 1000;
+            var effectiveNow = now - line.pausedTotal - (line.pausedAt ? now - line.pausedAt : 0);
+            var offset = line.phase + effectiveNow * SPEED / 1000;
             var base = Math.floor(offset), frac = offset - base;
             for (var c = 0; c < sign.cols; c++) {
               var a = line.columns[(base + c) % L], b = line.columns[(base + c + 1) % L];
@@ -1239,6 +1245,30 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           if (animate && !frameId) frameId = window.requestAnimationFrame(frame);
           if (!animate && frameId) { window.cancelAnimationFrame(frameId); frameId = 0; }
         }
+
+        // Le survol fige les deux lignes LED de l'étage sans saut de position.
+        function pauseFloor(floorId) {
+          var sign = signs.find(function (item) { return item.def.id === floorId; });
+          if (!sign) return;
+          var now = performance.now();
+          sign.lines.forEach(function (line) { if (!line.pausedAt) line.pausedAt = now; });
+        }
+        function resumeFloor(floorId) {
+          var sign = signs.find(function (item) { return item.def.id === floorId; });
+          if (!sign) return;
+          var now = performance.now();
+          sign.lines.forEach(function (line) {
+            if (line.pausedAt) { line.pausedTotal += now - line.pausedAt; line.pausedAt = 0; }
+          });
+        }
+        hotspots.addEventListener("pointerover", function (event) {
+          var row = event.target.closest(".floor-row");
+          if (row && (!event.relatedTarget || !row.contains(event.relatedTarget))) pauseFloor(row.dataset.floor);
+        });
+        hotspots.addEventListener("pointerout", function (event) {
+          var row = event.target.closest(".floor-row");
+          if (row && (!event.relatedTarget || !row.contains(event.relatedTarget))) resumeFloor(row.dataset.floor);
+        });
 
         layout();
         if (typeof ResizeObserver === "function") new ResizeObserver(layout).observe(figure);
