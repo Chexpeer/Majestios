@@ -62,3 +62,5 @@ jobs:
         run: node tests/immeuble-interactif.browser.cjs
       - name: Tester le moteur de recherche dans un vrai navigateur
         run: node tests/opportunity-search.browser.cjs
+      - name: Tester les menus de navigation sur mobile et ordinateur
+        run: node tests/navigation-dropdown.browser.cjs
