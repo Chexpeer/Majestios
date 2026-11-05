@@ -6,7 +6,7 @@
 
 > **MISE À JOUR DE PÉRIMÈTRE — 5 novembre 2026**
 >
-> Ce rapport décrit le snapshot du 4 novembre (`b64264f`) : son inventaire de huit destinations et 52 ressources est historique. L'état courant de `evolution-5.0` définit neuf destinations et le manifeste contient 49 ressources, dont 32 pages HTML. Au commit `2b97dba`, le build, le contrôle d'architecture et le contrôle statique des pages/liens ont réussi dans la CI ; les tests navigateur étaient encore en cours lors de cette mise à jour. Voir la référence V5 et l'audit immersif pour l'état courant.
+> Ce rapport décrit le snapshot du 4 novembre (`b64264f`) : son inventaire de huit destinations et 52 ressources est historique. L'état courant de `evolution-5.0` définit neuf destinations et le manifeste contient 49 ressources, dont 32 pages HTML. Au commit `2b97dba`, le build et les contrôles statiques avaient réussi ; l'exécution Playwright a ensuite révélé un décalage d'un pixel entre le test et les ressources, puis deux assertions de test incorrectes, corrigées depuis. Au commit `91c5548`, le workflow [CI complet](https://github.com/Chexpeer/Majestios/actions/runs/42035619684) a réussi, y compris les tests navigateur et les contrôles réels BOAMP/BODACC. Les vérifications ont été exécutées dans GitHub Actions : Node.js n'est pas installé localement. Aucun aperçu Vercel n'est associé au commit et aucun déploiement de production n'a été lancé. Voir la référence V5 et l'audit immersif pour l'état courant.
 > — MajestiOS V.5
 
 **Date :** 4 novembre 2026
