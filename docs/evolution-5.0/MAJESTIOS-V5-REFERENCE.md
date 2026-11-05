@@ -1,8 +1,8 @@
 # MajestiOS V.5 — référence fonctionnelle et technique
 
 **Statut :** référence de cadrage et d'architecture pour la branche `evolution-5.0`
-**Mise à jour :** 5 novembre 2026 — consolidation de l'audit sur HEAD
-**Branche examinée :** `evolution-5.0`, commit `735a09ce0b5c476ff659558060791b34a628b6ac`
+**Mise à jour :** 5 novembre 2026 — consolidation de l'immeuble interactif, de la charte et des contrôles anti-régression
+**Branche examinée :** `evolution-5.0` — état de travail après harmonisation V5
 **Nature :** doctrine cible et état vérifié du prototype ; ce document ne vaut ni décision technique fournisseur ni preuve de mise en production.
 
 ## 1. Autorité et lecture
@@ -35,20 +35,21 @@ Terminologie active : **développement commercial**, **prospection** (avec **Pro
 
 ### 3.1 Destinations de l'immeuble
 
-**FAIT VÉRIFIÉ :** `index.html` définit huit liens SVG natifs. Les routes ci-dessous existent dans le dépôt et sont incluses dans `site-files.json`. Les numéros reproduisent les identifiants du prototype, du haut vers le rez-de-chaussée.
+**FAIT VÉRIFIÉ :** `index.html` définit neuf liens SVG natifs superposés à la photographie `IMMEUBLE.jfif`. Le décor général de l'accueil provient de `Designer (2).png` ; le détourage de la tour utilise `immeuble-masque.png`. Les coordonnées des zones actives sont définies dans le même tableau JavaScript que les routes.
 
-| Niveau | Destination | Route vérifiée | Rattachement fonctionnel |
-|---|---|---|---|
-| 08 | Espace privé | `espace-membre.html` | Préparer une demande et présenter l'espace personnel cible ; aucun compte connecté n'est activé. |
-| 07 | Réseau | `reseaux-synergies.html` | Réseau professionnel ; `salons-seminaires.html` est un parcours associé. |
-| 06 | Développement commercial | `developpement-commercial.html` | Démarche commerciale globale et accès aux parcours associés. |
-| 05 | Prospection | `prospection-active.html` | Prospection commerciale ; « Prosp'active » peut servir de signature. |
-| 04 | Marchés publics | `marches-publics.html` | Veille et consultation ; les catégories aboutissent aux résultats communs. |
-| 03 | Marchés privés | `marches-prives.html` | Signaux d'entreprises et catégories privées selon la disponibilité réelle des sources. |
-| 02 | Réputation virtuelle | `reputation-virtuelle.html` | Présence numérique et accompagnement ; les intégrations externes restent à cadrer. |
-| 01 | Accueil | `index.html#accueil` | Panorama, orientation et moteur de recherche. |
+| Niveau | Identifiant | Destination | Route vérifiée | Rattachement fonctionnel |
+|---|---|---|---|---|
+| 08 | `08` | Espace privé | `espace-membre.html` | Préparer une demande et présenter l'espace personnel cible ; aucun compte connecté n'est activé. |
+| 07 | `07` | Réseau | `reseaux-synergies.html` | Réseau professionnel ; `salons-seminaires.html` est un parcours associé. |
+| 06 | `06` | Développement commercial | `developpement-commercial.html` | Démarche commerciale globale et accès aux parcours associés. |
+| 05 | `05` | Prospection | `prospection-active.html` | Prospection commerciale ; « Prosp'active » peut servir de signature. |
+| 04 | `04` | Accompagnement appels d'offres | `accompagnement-appels-offres.html` | Valorisation des compétences, références et satisfaction client pour préparer une réponse. |
+| 03 | `03` | Marchés publics | `marches-publics.html` | Veille et consultation ; les catégories aboutissent aux résultats communs. |
+| 02 | `02` | Marchés privés | `marches-prives.html` | Signaux d'entreprises et catégories privées selon la disponibilité réelle des sources. |
+| 01 | `01` | Réputation virtuelle | `reputation-virtuelle.html` | Présence numérique et accompagnement ; les intégrations externes restent à cadrer. |
+| RDC | `RDC` | Accueil | `index.html#accueil` | Retour à l'accueil, panorama et moteur de recherche. |
 
-Le numéro `01` correspond au point de départ de la cabine. La navigation comprend un délai d'animation avant l'ouverture du lien ; le délai est nul quand `prefers-reduced-motion: reduce` est actif. Les commandes haut/bas déplacent la cabine et mettent à jour l'étage annoncé ; sélectionner une zone ouvre sa route.
+Le moteur de recherche reste transversal : il n'est pas un étage. Le survol d'une zone appelle l'ascenseur cylindrique vitré au centre de la zone sélectionnée ; il fige et fait clignoter le titre LED correspondant. Les intitulés longs sont composés sur deux lignes pour rester entièrement lisibles. Un clic unique ouvre directement la route. Le focus clavier appelle également l'ascenseur et conserve l'accès natif au lien. La cabine est un dessin SVG cylindrique à effet de verre et de métal ; il ne s'agit pas d'un modèle 3D temps réel.
 
 ### 3.2 Dossiers et fonctions transversales
 
@@ -81,7 +82,7 @@ Les fonctions suivantes traversent plusieurs rubriques et ne sont pas des étage
 
 - Le site est un prototype statique construit en HTML, CSS et JavaScript natif ; `build.js` copie les fichiers déclarés dans `site-files.json` vers `dist/`.
 - Le manifeste comporte 52 entrées et les 32 pages HTML racine y figurent.
-- `index.html` contient le panorama WebP, les huit liens superposés, les commandes d'ascenseur et le moteur de recherche d'accueil.
+- `index.html` assemble le décor `Designer (2).png`, la photographie `IMMEUBLE.jfif` détourée, neuf liens SVG, les afficheurs LED à matrice de points, l'ascenseur cylindrique SVG et le moteur de recherche d'accueil.
 - `rubric-search.js` installe le formulaire de recherche commun sur les pages de rubrique ; `app.js` pilote les filtres et la soumission.
 - `opportunity-search.js` appelle directement, depuis le navigateur, les API publiques BOAMP et BODACC. Les requêtes d'entreprises sont réalisées par `company-targeting.js` auprès de l'API Recherche d'Entreprises.
 - `company-fit.js` et les tests associés calculent un rapprochement indicatif à partir des informations disponibles ; un score ne constitue pas une preuve de compétence ou d'éligibilité.
@@ -166,7 +167,7 @@ Les dépendances principales sont : décisions de gouvernance avant données ré
 ## 9. Décisions à obtenir du propriétaire du projet
 
 - Fournir ou référencer la documentation V4, et préciser les éléments V4 abandonnés ou conservés.
-- Valider définitivement les huit noms, l'ordre, les identifiants et les dossiers associés à chaque destination.
+- Maintenir la nomenclature actuelle des neuf destinations, leurs identifiants, leurs routes et leurs rattachements ; toute modification doit être répercutée dans l'immeuble, les tests et la documentation.
 - Définir les frontières et propriétaires des données internes, clients, publiques, privées et partagées.
 - Définir l'inscription, les rôles, le consentement, la modération, les demandes privées et le retrait d'une publication.
 - Valider sources, droits de réutilisation, finalités, durées, oppositions et transferts vers le CRM.
