@@ -59,3 +59,9 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 La référence centrale active V5 est `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md`. Son index est `docs/README.md`. La filiation documentaire est décrite dans `docs/evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md`. Les sources V2, V3 et V4 restent sur leurs branches historiques et ne sont pas recopiées dans V5. Le dossier `docs/historique/` conserve des archives thématiques consultatives ; il ne remplace pas les branches sources.
 
 Les documents et comptes rendus sont rédigés en français clair. `AGENTS.md` reste la source canonique des consignes.
+
+## 7. Nettoyage, sauvegardes et continuité
+
+Appliquer systématiquement le protocole `docs/evolution-5.0/MAINTENANCE-ET-CONTINUITE.md` : identifier branche et HEAD, examiner le diff et les contrôles récents, sécuriser un point de retour avant une intervention risquée, travailler par lots maîtrisés, vérifier le résultat et actualiser la documentation. Ne jamais supprimer, réinitialiser, forcer une branche ou revenir en arrière sans avoir examiné l'historique et identifié une restauration sûre.
+
+**Règle de conduite :** « Si tu commets une erreur, regarde le rétroviseur avant de faire marche arrière. » Comprendre l'origine avant de corriger ; sauvegarder avant de risquer ; vérifier avant d'affirmer. Toute IA doit laisser un compte rendu vérifiable des changements, tests, limites et suites.
