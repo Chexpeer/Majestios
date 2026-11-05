@@ -47,6 +47,7 @@
       <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
         <select id="feed-market-type" aria-label="Type de marché" required>
           <option value="">1. Choisir le type de marché</option>
+          <option value="all">Publics et privés</option>
           <option value="public">Marchés publics</option>
           <option value="private">Marchés privés et signaux d’entreprises</option>
         </select>
