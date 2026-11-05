@@ -889,7 +889,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             ",":["00000","00000","00000","00000","00110","00110","00100"],"-":["00000","00000","00000","11111","00000","00000","00000"],
             "·":["00000","00000","00100","00100","00100","00000","00000"],"!":["00100","00100","00100","00100","00100","00000","00100"]
           };
-          const pitch = 1.8, radius = 0.62, advance = 10.8, gap = 28;
+          const pitch = 1.2, radius = 0.42, advance = 7.2, gap = 22;
           const accentChars = {"É":"E","È":"E","Ê":"E","Ë":"E","À":"A","Â":"A","Ä":"A","Î":"I","Ï":"I","Ô":"O","Ö":"O","Ù":"U","Û":"U","Ü":"U","Ç":"C"};
           const accentMarks = {"É":[[2,-1.2]],"È":[[1,-1.2]],"Ê":[[1,-1.2],[2,-2],[3,-1.2]],"Ë":[[1,-1.2],[3,-1.2]],"À":[[2,-1.2]],"Â":[[1,-1.2],[2,-2],[3,-1.2]],"Ä":[[1,-1.2],[3,-1.2]],"Î":[[2,-1.2]],"Ï":[[1,-1.2],[3,-1.2]],"Ô":[[1,-1.2],[2,-2],[3,-1.2]],"Ö":[[1,-1.2],[3,-1.2]],"Ù":[[1,-1.2]],"Û":[[1,-1.2],[2,-2],[3,-1.2]],"Ü":[[1,-1.2],[3,-1.2]],"Ç":[[3,7]]};
           const makeDotPath = (textValue, startX, centerY, slope) => {
@@ -959,7 +959,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
               animation.setAttribute("type","translate");
               animation.setAttribute("from","0 0");
               animation.setAttribute("to",(-cycle)+" 0");
-              animation.setAttribute("dur",Math.max(34,cycle/11)+"s");
+              animation.setAttribute("dur",Math.max(12,cycle/22)+"s");
               animation.setAttribute("repeatCount","indefinite");
               track.append(animation);
             }
