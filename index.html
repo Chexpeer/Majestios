@@ -293,8 +293,8 @@ body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .bui
 body.homepage .building-hotspots .floor-zone{fill:rgba(6,22,51,.10);stroke:transparent;stroke-width:2;filter:none;transition:none}
 body.homepage .building-hotspots .floor-row:hover .floor-zone{fill:rgba(6,22,51,.10);stroke:transparent;filter:none}
 body.homepage .building-hotspots .floor-row:focus-visible .floor-zone{fill:transparent;stroke:#d9c28d;stroke-width:2;filter:none}
-body.homepage .elevator-cabin{fill:rgba(205,232,244,.10);stroke:#dceaf0;stroke-width:2;filter:none;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
-body.homepage .elevator-window{fill:#b9e5f7;fill-opacity:.20;stroke:rgba(239,250,255,.9);stroke-width:1.2;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-cabin{fill:url(#lift-metal);stroke:#e8f7ff;stroke-width:2;filter:url(#lift-shadow);transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-window{fill:url(#lift-glass);stroke:rgba(239,250,255,.95);stroke-width:1.2;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
 body.homepage .elevator-detail{fill:none;stroke:rgba(231,245,250,.72);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
 body.homepage .elevator-reflection{fill:rgba(255,255,255,.16);stroke:none;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
 body.homepage .elevator-controls{position:absolute;z-index:8;left:clamp(6px,1.2vw,16px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;padding:8px;border:1px solid #e7c87588;border-radius:24px;background:#071629dc;box-shadow:0 5px 22px #0008}
@@ -885,9 +885,20 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         });
 
         // Repère de la cabine dans la gaine vitrée de la photo MajestiOS.
+        const liftDefs = document.createElementNS(namespace, "defs");
+        liftDefs.innerHTML = '<linearGradient id="lift-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#142b3c"/><stop offset=".18" stop-color="#d9f0f7" stop-opacity=".72"/><stop offset=".42" stop-color="#52778b" stop-opacity=".55"/><stop offset=".78" stop-color="#e9fbff" stop-opacity=".8"/><stop offset="1" stop-color="#102638"/></linearGradient><linearGradient id="lift-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6fbff" stop-opacity=".62"/><stop offset=".35" stop-color="#5da3c5" stop-opacity=".16"/><stop offset="1" stop-color="#071b2c" stop-opacity=".72"/></linearGradient><filter id="lift-shadow" x="-40%" y="-30%" width="180%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/><feOffset dy="3" result="offset"/><feComponentTransfer><feFuncA type="linear" slope=".65"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+        svg.append(liftDefs);
         const elevator = document.createElementNS(namespace, "g");
         elevator.setAttribute("class", "elevator-lift");
         elevator.setAttribute("aria-hidden", "true");
+        const cabinSide = document.createElementNS(namespace, "path");
+        cabinSide.setAttribute("class", "elevator-detail");
+        cabinSide.setAttribute("d", "M619.5 148 L627 154 V216 L619.5 220 Z");
+        cabinSide.setAttribute("fill", "#071b2b"); cabinSide.setAttribute("stroke", "#c9e4ef");
+        const cabinTop = document.createElementNS(namespace, "path");
+        cabinTop.setAttribute("class", "elevator-detail");
+        cabinTop.setAttribute("d", "M558 148 L565 142 H627 L621 148 Z");
+        cabinTop.setAttribute("fill", "#e7f7fc"); cabinTop.setAttribute("fill-opacity", ".42");
         const cabin = document.createElementNS(namespace, "rect");
         cabin.setAttribute("class", "elevator-cabin");
         // Décalage de l'axe central d'environ 1 mm vers la droite (≈ 5,5 unités SVG), en tenant compte de l'élargissement.
@@ -908,7 +919,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         const frameLines = document.createElementNS(namespace, "path");
         frameLines.setAttribute("class", "elevator-detail");
         frameLines.setAttribute("d", "M558 148 H621 M558 220 H621 M558 149 V219 M621 149 V219");
-        elevator.append(cabin, windowPane, reflection, doorSeam, frameLines); svg.append(elevator);
+        elevator.append(cabinSide, cabinTop, cabin, windowPane, reflection, doorSeam, frameLines); svg.append(elevator);
 
         const scene = document.querySelector(".building-scene");
         if (scene) {
@@ -933,7 +944,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             const item = destinations[current];
             const offset = elevatorStops[current] - cabinCenterY;
             const liftTransform = "translateY(" + offset + "px)";
-            [cabin, windowPane, reflection, doorSeam, frameLines].forEach((part) => {
+            [cabinSide, cabinTop, cabin, windowPane, reflection, doorSeam, frameLines].forEach((part) => {
               part.style.transform = liftTransform;
             });
             svg.querySelectorAll(".floor-row").forEach((node) => {
@@ -957,21 +968,12 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             const row = event.target.closest(".floor-row");
             if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
           });
-          // Premier clic : appeler et immobiliser la cabine. Deuxième clic sur le même étage : entrer.
-          let armedFloor = null;
+          // Un seul clic ouvre directement l'étage ; le survol sert uniquement à appeler l'ascenseur.
           svg.addEventListener("click", (event) => {
             const row = event.target.closest(".floor-row");
             if (!row) return;
-            const destinationIndex = destinations.findIndex((item) => item.id === row.dataset.floor);
-            if (destinationIndex < 0) return;
             event.preventDefault();
-            selectFloor(destinationIndex);
-            if (armedFloor === row.dataset.floor) {
-              window.location.href = row.getAttribute("href");
-              return;
-            }
-            armedFloor = row.dataset.floor;
-            caption.textContent = "CABINE IMMOBILISÉE · " + destinations[destinationIndex].name.toLocaleUpperCase("fr-FR") + " · CLIQUEZ À NOUVEAU POUR ENTRER";
+            window.location.href = row.getAttribute("href");
           });
           selectFloor(destinations.length - 1);
         }
@@ -1223,7 +1225,8 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
                 // Défilement fluide : l'intensité passe progressivement d'une colonne de points à la suivante.
                 var v = a[r] * (1 - frac) + b[r] * frac;
                 if (v < 0.03) continue;
-                ctx.globalAlpha = v;
+                var blink = sign.blink ? (Math.floor(now / 420) % 2 === 0 ? 1 : 0.12) : 1;
+                ctx.globalAlpha = v * blink;
                 ctx.drawImage(sp.lit, (c + 0.5) * unit - sp.size / 2, (r + line.row0 + 0.5) * unit - sp.size / 2);
               }
             }
@@ -1251,12 +1254,14 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           var sign = signs.find(function (item) { return item.def.id === floorId; });
           if (!sign) return;
           var now = performance.now();
+          sign.blink = true;
           sign.lines.forEach(function (line) { if (!line.pausedAt) line.pausedAt = now; });
         }
         function resumeFloor(floorId) {
           var sign = signs.find(function (item) { return item.def.id === floorId; });
           if (!sign) return;
           var now = performance.now();
+          sign.blink = false;
           sign.lines.forEach(function (line) {
             if (line.pausedAt) { line.pausedTotal += now - line.pausedAt; line.pausedAt = 0; }
           });
