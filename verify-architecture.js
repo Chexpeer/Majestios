@@ -240,7 +240,8 @@ for (const migration of [
   "supabase/migrations/20261105163922_harden_private_authorization_and_fk_indexes.sql",
   "supabase/migrations/20261105163953_enforce_tenant_relationship_integrity.sql",
   "supabase/migrations/20261105164403_add_private_consent_records.sql",
-  "supabase/migrations/20261105164411_replace_consent_placeholder_with_privacy_acknowledgments.sql"
+  "supabase/migrations/20261105164411_replace_consent_placeholder_with_privacy_acknowledgments.sql",
+  "supabase/migrations/20261105164732_harden_privacy_acknowledgment_access.sql"
 ]) {
   assert(exists(migration), "Backend : migration versionnée absente : " + migration);
 }
