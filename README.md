@@ -123,6 +123,10 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 5. Documenter les fonctionnalités comme « opérationnelles » uniquement lorsqu’elles ont été réellement testées.
 6. Ne pas fusionner ni promouvoir une branche en production sans validation explicite.
 
+## Maintenance, sauvegardes et continuité
+
+Le projet suit un protocole documenté de maintenance, de sauvegarde et de reprise : [Maintenance, sauvegardes et continuité](docs/evolution-5.0/MAINTENANCE-ET-CONTINUITE.md). Chaque lot doit partir d'un état identifié, disposer d'un point de retour adapté, être vérifié et laisser une documentation à jour. Aucune fusion vers `main` ni mise en production sans validation explicite.
+
 ## Licence et informations légales
 
 Aucune licence open source n’est déclarée dans ce dépôt. Les mentions légales et la politique de confidentialité publiées dans le site doivent être vérifiées et maintenues par le responsable du projet.
