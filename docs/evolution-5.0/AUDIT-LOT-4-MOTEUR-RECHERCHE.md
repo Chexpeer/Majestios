@@ -174,7 +174,9 @@ Validation sur le HEAD `368496d8b1bd0fa574056af8ade9507d1d1fd85f` : le workflow 
 - Contrôles statiques : une seule source de balisage du formulaire partagé ; écouteurs de recherche inline supprimés de l'accueil ; option mixte visible dans le balisage commun ; paramètre `marche=all` conservé à la soumission.
 - Le build Vercel a terminé en `READY` et a confirmé la copie de 53 fichiers depuis `site-files.json`, sans différence avec les sources.
 
-Un test navigateur supplémentaire a été ajouté dans `tests/opportunity-search.browser.cjs` : il vérifie que le mode mixte sélectionne « Toutes les catégories », conserve `marche=all` dans l'URL et affiche deux groupes de résultats distincts BOAMP/BODACC. **Ce nouveau test n'a pas encore été exécuté dans cette reprise** ; il doit être validé par le workflow CI avant de considérer le lot comme entièrement vérifié.
+Un test navigateur supplémentaire a été ajouté dans `tests/opportunity-search.browser.cjs` : il vérifie que le mode mixte sélectionne « Toutes les catégories », conserve `marche=all` dans l'URL et affiche deux groupes de résultats distincts BOAMP/BODACC. Le test a réussi dans le workflow « Vérification du site MajestiOS » (run PR `42099716688`). Le workflow anti-régression (run PR `42099716875`) a également réussi.
+
+La première exécution CI avait révélé un défaut du vérificateur d'architecture, pas du moteur : son expression régulière tronquait les URL CSS entre guillemets dès qu'un nom de fichier contenait une parenthèse. Le parseur de `verify-architecture.js` a été corrigé pour capturer les URL citées jusqu'au guillemet fermant. Après correction, l'architecture, les routes, les liens et les identifiants ont passé les contrôles ; les smoke tests BOAMP/BODACC et l'ensemble des tests navigateur ont également réussi.
 
 ### Limites qui restent ouvertes
 
