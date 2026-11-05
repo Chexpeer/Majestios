@@ -24,8 +24,11 @@ Rôles fonctionnels envisagés :
 8. **Responsable SEO assisté** — surveille la santé technique, l'indexation, la qualité éditoriale, les évolutions des moteurs et la visibilité dans les expériences de recherche classiques et génératives.
 9. **Administrateur IA** — supervise la plateforme, ses données, ses connecteurs, ses coûts, sa documentation, ses tests et ses incidents, selon le document [MODULE-ADMIN-IA.md](MODULE-ADMIN-IA.md).
 10. **Gardien de la mémoire et de la cohérence** — retrouve les conversations et décisions pertinentes, détecte les contradictions, maintient les liens entre objectifs, décisions, tâches et preuves.
+11. **Capacité Brainstorming et veille stratégique** — explore des pistes, confronte des hypothèses, surveille les évolutions pertinentes (notamment SEO et moteurs de recherche), propose des expérimentations et documente les opportunités à instruire.
 
-Ces rôles sont des responsabilités logiques. Ils ne nécessitent pas obligatoirement dix modèles distincts : le choix entre un modèle unique avec outils, plusieurs agents ou une architecture hybride sera évalué selon fiabilité, coût, latence, sécurité et facilité de maintenance.
+Ces rôles sont des responsabilités logiques, pas nécessairement des agents ou produits séparés. **Brainstorming est une capacité rattachée à l'intelligence centrale MajestiOS V.5** : ce n'est ni un second cerveau ni une architecture parallèle. Ses idées restent des propositions jusqu'à validation ; cette capacité ne publie pas, ne contacte pas, ne dépense pas et ne modifie pas la production sans autorisation spécifique.
+
+Ils ne nécessitent pas obligatoirement onze modèles distincts : le choix entre un modèle unique avec outils, plusieurs agents ou une architecture hybride sera évalué selon fiabilité, coût, latence, sécurité et facilité de maintenance.
 
 ## 3. Orchestration et cycle de travail
 
@@ -178,7 +181,15 @@ Les IA auditrices doivent notamment examiner :
 11. Comment différencier clairement l'intelligence utile d'un simple effet marketing ?
 12. Quelles fonctions devraient être exclues du premier périmètre V5 ?
 
-## 13. Principe directeur
+## 13. Brainstorming et veille continue
+
+La capacité Brainstorming doit aider MajestiOS à rester en mouvement : explorer des idées nouvelles, repérer les changements de pratiques et de technologies, confronter les hypothèses à des sources, identifier les opportunités et proposer des tests mesurables. Le SEO constitue un premier champ d'application prioritaire, sans limiter Brainstorming à ce seul domaine.
+
+Pour le SEO, le cycle de veille comprend : suivre les annonces et documentations officielles des moteurs, observer les changements de formats de résultats et de recherche générative, analyser les effets potentiels sur les contenus et les parcours MajestiOS, proposer des actions priorisées, puis mesurer leurs résultats. Les recommandations doivent distinguer faits sourcés, interprétations, hypothèses et expérimentations.
+
+La fréquence de veille, les sources, les outils, les seuils d'alerte et le degré d'autonomie restent à spécifier. Aucune promesse de classement ou de visibilité garantie ne doit être formulée.
+
+## 14. Principe directeur
 
 **L'IA de MajestiOS doit comprendre avant d'agir, prouver avant d'affirmer, proposer avant de modifier et rendre compte après chaque action.**
 
