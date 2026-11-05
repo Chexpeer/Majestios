@@ -10,7 +10,8 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 
 | Document | Rôle |
 |---|---|
-| [Référence MajestiOS V.5](evolution-5.0/MAJESTIOS-V5-REFERENCE.md) | Source canonique de vision, d'architecture, d'arborescence, d'état réel et de décisions à prendre |\n| [Guide autonome de reprise IA](evolution-5.0/GUIDE-REPRISE-IA-MAJESTIOS-V5.md) | Dossier autonome pour reprendre le projet sans perdre la vision, les décisions, les preuves et les limites |
+| [Référence MajestiOS V.5](evolution-5.0/MAJESTIOS-V5-REFERENCE.md) | Source canonique de vision, d'architecture, d'arborescence, d'état réel et de décisions à prendre |
+| [Guide autonome de reprise IA](evolution-5.0/GUIDE-REPRISE-IA-MAJESTIOS-V5.md) | Dossier autonome pour reprendre le projet sans perdre la vision, les décisions, les preuves et les limites |
 | [Filiation documentaire V2 → V5](evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md) | Chronologie vérifiée, sources par branche, continuité des décisions et rectification de l'erreur sur V4 |
 | [Audit de conformité et des liens](evolution-5.0/AUDIT-CONFORMITE-ARCHITECTURE-ET-LIENS.md) | Preuves du contrôle du dépôt, routes, résultats, rectificatif documentaire et limites de vérification |
 | [Audit du lot 2 — navigation fonctionnelle](evolution-5.0/AUDIT-LOT-2-NAVIGATION-FONCTIONNELLE.md) | Parcours de second niveau, corrections vérifiées et contrôles non exécutés |
