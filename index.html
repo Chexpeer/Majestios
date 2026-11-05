@@ -491,6 +491,26 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             linear-gradient(145deg,#061633,#0a2b59 55%,#20163e);
         }
       }
+
+      /* Ajustement du bloc éditorial et du moteur : remonter l'ensemble dans la colonne gauche. */
+      body.homepage .home-search-column {
+        justify-content:flex-start;
+        padding-top:clamp(12px,2vh,24px);
+        padding-bottom:8px;
+      }
+      body.homepage .hero-copy {
+        margin-bottom:clamp(10px,1.2vw,16px);
+      }
+      body.homepage .hero-eyebrow { margin-bottom:10px; }
+      body.homepage .hero-subtitle { margin-top:12px; }
+      body.homepage .tender-feed-section { margin-top:0; }
+      @media(max-width:900px) {
+        body.homepage .home-search-column {
+          padding-top:10px;
+          padding-bottom:4px;
+        }
+        body.homepage .hero-copy { margin-bottom:10px; }
+      }
     </style>
 </head>
   <body class="homepage">
