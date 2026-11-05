@@ -125,7 +125,10 @@ async function main() {
         const row = page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"]');
         await row.evaluate(element => element.scrollIntoView({block:"center",inline:"center"}));
         const [rowBox,geometry] = await Promise.all([
-          row.boundingBox(),
+          row.evaluate(element => {
+            const rect=element.getBoundingClientRect();
+            return {x:rect.x,y:rect.y,width:rect.width,height:rect.height};
+          }),
           page.evaluate(() => {
             const img=document.querySelector(".building-photo img").getBoundingClientRect();
             const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
