@@ -1,6 +1,6 @@
 # MajestiOS 5.0 — dossier de référence
 
-**Statut :** référentiel stratégique et technique autonome de la version 5.0 ; les décisions restent soumises aux validations du porteur du projet.  
+**Statut :** référentiel stratégique et technique de la version 5.0 ; référence centrale consolidée le 5 novembre 2026 sur le commit audité `735a09c`. Les décisions restent soumises aux validations du porteur du projet.  
 **Branche de travail :** `evolution-5.0`  
 **Filiation :** voir [Filiation documentaire V2 → V5](FILIATION-DOCUMENTAIRE-V2-A-V5.md). Les sources V2, V3 et V4 restent sur leurs branches respectives et ne sont pas recopiées dans ce dossier.
 
@@ -9,6 +9,13 @@
 Construire une nouvelle génération de MajestiOS comme **ascenseur stratégique des PME** : un environnement de développement commercial intelligent, immersif et évolutif. La plateforme associe données, méthodes, services, accompagnement humain, CRM, Business Intelligence, mémoire, intelligence centrale, administration, SEO et amélioration continue.
 
 La vision ne se réduit ni à un moteur d'annonces, ni à un tableau de bord, ni à une image d'accueil cliquable. L'expérience immersive, le quartier d'affaires, l'immeuble, ses espaces intérieurs et l'ascenseur forment un parcours cohérent au service de l'arborescence métier.
+
+
+## État de référence au 5 novembre 2026
+
+La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à partir de l'audit du commit `735a09ce0b5c476ff659558060791b34a628b6ac`. Elle distingue les fonctions réellement présentes, les contrôles CI exécutés, les limites du prototype et les capacités qui restent à construire. Le run GitHub Actions `41936795822` a réussi les contrôles listés dans l'addendum de la référence ; cela ne vaut pas validation exhaustive du dépôt ni preuve de mise en production.
+
+**MajestiOS V.5 reste l'intelligence centrale unique.** Brainstorming est une capacité de réflexion et de veille rattachée à cette intelligence, notamment pour le SEO et l'évolution des moteurs ; ce n'est pas un produit ou un cerveau parallèle.
 
 ## Documents de référence
 
