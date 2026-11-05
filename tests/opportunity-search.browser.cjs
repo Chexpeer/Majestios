@@ -310,6 +310,7 @@ async function main() {
     assert.equal(await page.locator('#feed-department option[value="72"]').count(), 1, "Le département 72 · Sarthe doit être proposé avec son code officiel.");
 
     // « Autre » est un repli de recherche libre : mot-clé obligatoire et source déterminée par le marché.
+    await page.locator("#feed-search").fill("");
     await page.locator("#feed-sector").selectOption("autre");
     assert.equal(await page.locator("#feed-search").getAttribute("required"), "", "La catégorie Autre doit rendre le mot-clé obligatoire.");
     assert.equal(await page.locator("#feed-search").evaluate(input => input.checkValidity()), false, "Autre sans mot-clé doit être invalide.");
