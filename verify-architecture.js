@@ -112,7 +112,7 @@ const expectedDestinations = [
   {id:"03",name:"Marchés publics",href:"marches-publics.html",x:185,y:618,width:350,height:83},
   {id:"02",name:"Marchés privés",href:"marches-prives.html",x:185,y:704,width:350,height:87},
   {id:"01",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:794,width:350,height:85},
-  {id:"RDC",name:"Accueil",href:"index.html#accueil",x:185,y:883,width:350,height:89}
+  {id:"RDC",name:"Accueil",href:"index.html",x:185,y:883,width:350,height:89}
 ];
 const destinationBlock = home.match(/const destinations = \[([\s\S]*?)\n        \];/);
 if (!destinationBlock) {
