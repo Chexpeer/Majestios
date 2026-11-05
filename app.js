@@ -370,12 +370,14 @@ if (navigation) {
     toggle.className = "nav-dropdown-toggle";
     toggle.type = "button";
     toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-controls", "submenu-" + parentHref.replace(/[^a-z0-9]+/gi, "-"));
     toggle.setAttribute("aria-label", "Afficher les rubriques de " + parentLink.textContent.trim());
     toggle.innerHTML = '<span aria-hidden="true">⌄</span>';
     wrapper.append(toggle);
 
     const submenu = document.createElement("div");
     submenu.className = "nav-submenu";
+    submenu.id = toggle.getAttribute("aria-controls");
     submenu.hidden = true;
     submenu.setAttribute("aria-label", "Rubriques associées à " + parentLink.textContent.trim());
     items.forEach(({ label, href }) => {
@@ -388,11 +390,13 @@ if (navigation) {
 
     const setOpen = (open) => {
       toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", (open ? "Masquer" : "Afficher") + " les rubriques de " + parentLink.textContent.trim());
       submenu.hidden = !open;
       wrapper.classList.toggle("is-open", open);
     };
+    // Le focus seul ne doit pas ouvrir le menu : sur écran tactile, focusin précède click.
+    // L’ouverture au clavier reste explicite via Flèche bas ou activation du bouton.
     toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
-    wrapper.addEventListener("focusin", () => setOpen(true));
     wrapper.addEventListener("keydown", (event) => {
       if (event.key === "ArrowDown") {
         event.preventDefault();
@@ -412,7 +416,10 @@ if (navigation) {
       if (window.matchMedia("(min-width: 1021px)").matches) setOpen(true);
     });
     wrapper.addEventListener("mouseleave", () => {
-      if (window.matchMedia("(min-width: 1021px)").matches) setOpen(false);
+      if (window.matchMedia("(min-width: 1021px)").matches && !wrapper.contains(document.activeElement)) setOpen(false);
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (!wrapper.contains(event.target)) setOpen(false);
     });
   });
 }
