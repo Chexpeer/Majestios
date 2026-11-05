@@ -229,7 +229,7 @@ assert(memberAuth.includes("signUp(") && memberAuth.includes("signInWithPassword
   "Espace membre : inscription, connexion et récupération du mot de passe doivent être implémentées");
 assert(memberAuth.includes('provision-client-workspace') && memberAuth.includes('privacy_notice_acknowledged'),
   "Espace membre : le provisionnement sécurisé du tenant doit être appelé après authentification");
-assert(!/service[_-]?role|SUPABASE_SERVICE_ROLE_KEY/i.test(supabaseConfig),
+assert(!/SUPABASE_SERVICE_ROLE_KEY|sb_secret_[A-Za-z0-9]+/i.test(supabaseConfig),
   "Sécurité Supabase : aucune clé service_role ne doit être publiée dans le navigateur");
 assert(workspaceFunction.includes('admin.auth.getUser(token)') &&
   workspaceFunction.includes('role: "owner"') &&
