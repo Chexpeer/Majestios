@@ -5,6 +5,8 @@
 - **Commit de départ :** `af972d73141304dc8b3edbd8cf11e2d47ad01d68`
 - **Périmètre :** 32 pages HTML racine, menus, liens internes, routes dynamiques du moteur de recherche et parcours utilisateur testables dans le navigateur.
 
+> **Actualisation de périmètre — 5 novembre 2026 :** cet audit décrit les parcours et le code examinés le 4 novembre. Les changements ultérieurs du socle Auth et Supabase sont documentés séparément dans [État du backend Supabase](ETAT-BACKEND-SUPABASE.md) ; ils ne changent pas les constats de navigation ci-dessous.
+
 ## 1. Synthèse
 
 L'arborescence des 32 pages est accessible, mais l'audit a révélé trois défauts fonctionnels qui n'apparaissaient pas dans le contrôle des liens locaux : les retours des pages de catégorie perdaient le type de marché, le moteur commun ne s'initialisait pas sur la page de résultats à cause d'une déclaration de menu en conflit, et cinq variantes de menus employaient des destinations ou des libellés différents.
