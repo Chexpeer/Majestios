@@ -340,6 +340,76 @@ if (leadForm && formFeedback) {
   }
 }
 
+// Menus déroulants contextuels : accès direct aux rubriques sans alourdir la navigation.
+const contextualMenus = {
+  "developpement-commercial.html": [
+    { label: "Prosp'active", href: "prospection-active.html" },
+    { label: "Marchés publics", href: "marches-publics.html" },
+    { label: "Marchés privés", href: "marches-prives.html" }
+  ],
+  "espace-membre.html": [
+    { label: "Suivi commercial", href: "suivi-commercial.html" },
+    { label: "CRM MajestiOS", href: "crm.html" },
+    { label: "Qualification entreprises", href: "qualification-entreprises.html" }
+  ]
+};
+
+if (navigation) {
+  Object.entries(contextualMenus).forEach(([parentHref, items]) => {
+    const parentLink = [...navigation.querySelectorAll(":scope > a")].find((link) =>
+      link.getAttribute("href") === parentHref
+    );
+    if (!parentLink || parentLink.parentElement.classList.contains("nav-item-dropdown")) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "nav-item-dropdown";
+    parentLink.before(wrapper);
+    wrapper.append(parentLink);
+
+    const toggle = document.createElement("button");
+    toggle.className = "nav-dropdown-toggle";
+    toggle.type = "button";
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Afficher les rubriques de " + parentLink.textContent.trim());
+    toggle.innerHTML = '<span aria-hidden="true">⌄</span>';
+    wrapper.append(toggle);
+
+    const submenu = document.createElement("div");
+    submenu.className = "nav-submenu";
+    submenu.hidden = true;
+    submenu.setAttribute("aria-label", "Rubriques associées à " + parentLink.textContent.trim());
+    items.forEach(({ label, href }) => {
+      const link = document.createElement("a");
+      link.href = href;
+      link.textContent = label;
+      submenu.append(link);
+    });
+    wrapper.append(submenu);
+
+    const setOpen = (open) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      submenu.hidden = !open;
+      wrapper.classList.toggle("is-open", open);
+    };
+    toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+    wrapper.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    wrapper.addEventListener("focusout", (event) => {
+      if (!wrapper.contains(event.relatedTarget)) setOpen(false);
+    });
+    wrapper.addEventListener("mouseenter", () => {
+      if (window.matchMedia("(min-width: 1021px)").matches) setOpen(true);
+    });
+    wrapper.addEventListener("mouseleave", () => {
+      if (window.matchMedia("(min-width: 1021px)").matches) setOpen(false);
+    });
+  });
+}
+
 if (menuToggle && navigation) {
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
