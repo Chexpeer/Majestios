@@ -77,7 +77,7 @@ La V5 reformule la vision et l'organisation du produit autour de MajestiOS comme
 
 Le composant d'intelligence distinct envisagé dans les documents V4 a été remplacé. Il n'existe pas de système autonome parallèle dans la doctrine V5. Les capacités utiles décrites auparavant — pilotage, mémoire, administration, SEO, supervision, assistance, automatisation et suivi qualité — sont à réexaminer et à rattacher à MajestiOS V.5, avec des permissions et validations explicites.
 
-La V5 possède également sa propre organisation fonctionnelle, son immeuble interactif, ses huit destinations, ses capacités transversales et ses audits de réalisation. La référence canonique est `MAJESTIOS-V5-REFERENCE.md`.
+La V5 possède également sa propre organisation fonctionnelle, son immeuble interactif à neuf destinations, ses capacités transversales et ses audits de réalisation. La référence canonique est `MAJESTIOS-V5-REFERENCE.md`.
 
 ## 4. Matrice de continuité et d'évolution
 
