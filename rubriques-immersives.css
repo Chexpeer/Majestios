@@ -155,9 +155,9 @@ body.page-prospection main.interior-page{
   background-position:center;background-repeat:no-repeat;background-attachment:fixed;
 }
 body.page-development-commercial main.interior-page{
-  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.78) 58%,rgba(5,12,23,.56));
-  background-size:100% 100%,min(100%,1408px) auto;
-  background-position:center top,center top;
+  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.78) 58%,rgba(5,12,23,.56)),url("devellopement%20(2).jfif");
+  background-size:100% 100%,cover;
+  background-position:center,center;
   background-repeat:no-repeat,no-repeat;
   background-attachment:scroll;
 }
