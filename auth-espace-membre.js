@@ -33,6 +33,8 @@ if (form && config?.url && config?.publishableKey) {
       });
     });
     const organizationField = field("organizationName");
+    const passwordField = field("password");
+    if (passwordField) passwordField.autocomplete = mode === "signup" ? "new-password" : "current-password";
     if (organizationField) {
       organizationField.required = mode === "signup";
       organizationField.closest(".form-field")?.classList.toggle("is-optional", mode === "login");
@@ -113,11 +115,13 @@ if (form && config?.url && config?.publishableKey) {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/espace-membre.html`,
+            emailRedirectTo: `${window.location.origin}/espace-membre.html?confirmed=1`,
             data: {
               display_name: displayName,
               phone,
-              organization_name: organizationName
+              organization_name: organizationName,
+              privacy_consent: true,
+              privacy_notice_version: "2026-11-05"
             }
           }
         });
@@ -162,7 +166,18 @@ if (form && config?.url && config?.publishableKey) {
       : "Si un compte correspond à cette adresse, un lien de réinitialisation vient d’être envoyé.");
   });
 
-  supabase.auth.getSession().then(({ data }) => updateAuthStatus(data.session));
+  supabase.auth.getSession().then(async ({ data }) => {
+    await updateAuthStatus(data.session);
+    if (new URLSearchParams(window.location.search).get("confirmed") === "1" && data.session) {
+      try {
+        const organization = await provisionWorkspace(data.session, data.session.user.user_metadata?.organization_name);
+        if (status) status.textContent = `Adresse confirmée · espace « ${organization.name} » prêt.`;
+      } catch (error) {
+        if (status) status.textContent = error.message || "Adresse confirmée · finalisation de l’espace nécessaire.";
+      }
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  });
   supabase.auth.onAuthStateChange((_event, session) => updateAuthStatus(session));
   setMode("signup");
 } else if (form) {
