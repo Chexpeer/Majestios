@@ -169,7 +169,7 @@ function setIntent(intent) {
     const visible = section.dataset.for === intent;
     section.hidden = !visible;
     section.querySelectorAll("input, textarea").forEach((field) => {
-      field.required = visible && ["tender", "sector", "area", "message"].includes(field.name);
+      field.required = visible && ["tender", "sector", "area", "message", "first_name", "last_name", "email", "phone"].includes(field.name);
     });
   });
   const tenderNote = leadForm.querySelector("#selected-tender-note");
@@ -311,6 +311,7 @@ if (document.querySelector('#demo-detail') && document.querySelector('#demo-stat
 }
 
 if (leadForm && formFeedback) {
+  leadForm.addEventListener("submit", (event) => event.preventDefault());
   leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
     radio.addEventListener("change", () => setIntent(radio.value));
   });
@@ -334,7 +335,9 @@ if (leadForm && formFeedback) {
         contact: "prise de contact au sujet de votre projet"
       };
       const intentLabel = intentLabels[selectedIntent.value] || "demande de contact";
-      formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
+      const subjectField = leadForm.querySelector("#contact-subject");
+      const subjectLabel = subjectField?.selectedOptions[0]?.textContent.trim();
+      formFeedback.textContent = `Prévisualisation : ${intentLabel}${subjectLabel ? " · " + subjectLabel : ""}. Aucune donnée n’a été envoyée ni enregistrée.`;
       formFeedback.hidden = false;
     });
   }
