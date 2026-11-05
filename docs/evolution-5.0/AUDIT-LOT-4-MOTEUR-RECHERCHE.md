@@ -101,14 +101,14 @@ Pour une évolution future, la référence V5 requiert provenance, date, finalit
 
 Ces nombres de résultats sont des observations datées, variables selon la disponibilité et l'évolution des sources ; ils ne sont pas des garanties d'exhaustivité.
 
-**Tests présents dans le dépôt, non exécutés**
+**Tests présents dans le dépôt — statut au moment de l'audit initial**
 
 - `tests/opportunity-search.browser.cjs` : filtres, provenance séparée, catégories BOAMP/BODACC, catégories non connectées, départements, résultats expirés, retours, vue mixte et affichage mobile à l'aide de réponses simulées.
 - `tests/boamp-live-smoke.cjs` et `tests/bodacc-live-smoke.cjs` : smoke tests réseau des sources.
 - `tests/company-targeting.test.cjs`, `tests/company-fit.test.cjs`, `tests/naf-suggestions.test.cjs`, `tests/mesure-boamp.test.cjs` : ciblage, rapprochement, suggestions et mesures.
 - `verify-site.js` et `verify-architecture.js` : liens locaux, manifeste et invariants d'architecture.
 
-Node.js n'est pas disponible dans cet environnement ; ces suites, le build et Playwright n'ont pas été lancés. Les appels live ont été effectués dans le navigateur intégré, et ne remplacent pas les tests automatisés.
+À la date de rédaction de cet audit initial, Node.js n'était pas disponible dans l'environnement de revue ; ces suites, le build et Playwright n'avaient donc pas été lancés localement. Les appels live avaient été effectués dans le navigateur intégré, sans remplacer les tests automatisés.
 
 ## 8. Pistes d'évolution vers MajestiOS V.5
 
@@ -128,3 +128,12 @@ Ce sont des exigences à instruire, pas des fonctionnalités à considérer comm
 **Sans modification :** aucun connecteur ou endpoint ajouté ; aucune destination ni règle de sélection métier élargie ; aucune branche source touchée ; aucun déploiement.
 
 **À faire ensuite :** exécuter les tests automatisés dans l'environnement Node 22, arbitrer le périmètre territorial, mesurer les limites de pagination/couverture, puis spécifier la préparation CRM avant toute connexion.
+
+
+## 10. Validation automatisée ultérieure — branche de revue V5
+
+Le constat historique de non-exécution des tests ci-dessus a été réévalué sur la branche `evolution-5.0-clean-preview`. Sur le HEAD `7016db884e7d32da0436526c2189127ae723d460), le workflow PR « Vérification du site MajestiOS » (run `42087422030`) a terminé avec succès toutes les étapes suivantes : syntaxe JavaScript, ciblage et qualification d'entreprises, suggestions APE/NAF, build, architecture/routes, liens et identifiants, installation Playwright/Chromium, smoke tests réels BOAMP/BODACC, tests navigateur de l'immeuble interactif, du moteur de recherche, des menus mobile/ordinateur et du formulaire Contact.
+
+Le workflow « Vérification anti-régression MajestiOS » (run `42087421995`) a également réussi : tests ciblés, build statique, références internes et contrôle des dix dossiers et de leurs accès.
+
+Ces résultats sont des preuves CI sur le HEAD indiqué ; ils ne prouvent ni l'exhaustivité des sources ni la recette des comptes Auth, de la collecte des formulaires ou du CRM. Le prototype conserve les limites de couverture, de pagination et de persistance décrites dans ce rapport.

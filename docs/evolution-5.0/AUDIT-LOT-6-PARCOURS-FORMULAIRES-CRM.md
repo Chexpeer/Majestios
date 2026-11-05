@@ -262,9 +262,22 @@ Au 5 novembre 2026, le HEAD de la branche de revue est `bd59a4c8a7f253c85bf63d40
 
 - Workflow PR « Vérification du site MajestiOS » — run `42086813743` : succès, toutes les étapes terminées, y compris Playwright/Chromium, smoke tests BOAMP/BODACC et quatre suites navigateur.
 - Workflow PR « Vérification anti-régression MajestiOS » — run `42086813822` : succès, tests ciblés, build, liens et contrôle des dix dossiers.
-- F-11 (formulaire d'accueil distinct du formulaire injecté dans les rubriques) et F-12 (catégorie de repli « Autre » absente) restent ouverts ; ils ne sont pas réputés corrigés par la réussite de la CI.
+- F-11 (formulaire d'accueil distinct du formulaire injecté dans les rubriques) est corrigé : le balisage est désormais défini une seule fois dans `rubric-search.js` et monté dans `#home-search-mount` à l'accueil comme dans les rubriques ; contrôles structurels et tests navigateur réussis.
+- F-12 (catégorie de repli « Autre » absente) reste ouvert, car le sens du repli doit être défini sans afficher de résultats non filtrés comme s'ils étaient classés.
 - F-13 (version Playwright non verrouillée) est corrigé et validé.
 - F-01 à F-03 : interface corrigée, mais transmission/persistance des demandes encore absente.
 - F-04 à F-09 et F-10 : restent soumis aux limites et vérifications décrites dans le registre, notamment CRM non opérationnel et parcours Auth réel non testé.
 
 La PR #38 reste ouverte et en brouillon. Aucun merge, déploiement de production ni changement Supabase n'est effectué.
+
+
+## 17. Réévaluation de F-11 — formulaire de recherche réellement commun
+
+Le constat F-11 de la section 14 décrivait un état antérieur du code. La vérification du HEAD `7016db884e7d32da0436526c2189127ae723d460` confirme désormais :
+
+- `index.html` ne contient plus de formulaire de recherche autonome ; il expose le point de montage `#home-search-mount`.
+- `rubric-search.js` contient une seule définition `formMarkup` du formulaire `#advanced-search-form`, injectée dans le point de montage de l'accueil et dans les rubriques configurées.
+- `verify-site.js` contrôle la présence du point de montage, le chargement du composant commun et ses identifiants/champs structurants.
+- Le test navigateur du moteur de recherche vérifie le formulaire sur l'accueil et sur la page de résultats, ainsi que le parcours public/privé et les catégories privées.
+
+**Statut F-11 : corrigé et vérifié.** Le risque de divergence du balisage entre accueil et rubriques est levé au niveau de la source HTML. Les textes d'introduction restent contextuels par page, ce qui est intentionnel. Aucun changement de style ni de placement de l'immeuble n'est impliqué.
