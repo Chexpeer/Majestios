@@ -552,6 +552,22 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         body.homepage #advanced-search-form .feed-filter-label select { min-height:33px; font-size:10px; }
         body.homepage #advanced-search-form .feed-search-submit { min-height:34px; font-size:11px; }
       }
+
+      /* Moteur d'accueil : suppression de l'encadrement extérieur et du texte explicatif. */
+      body.homepage .tender-feed-section .feed-demo {
+        padding:0!important;
+        border:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        box-shadow:none!important;
+      }
+      body.homepage #advanced-search-form {
+        padding:0!important;
+        border:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        box-shadow:none!important;
+      }
     </style>
 </head>
   <body class="homepage">
@@ -598,7 +614,6 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
                   <option value="all">3. Choisir un département (facultatif)</option>
                 </select>
               </label>
-              <p class="search-source-note" id="search-source-note">Choisissez d’abord le type d’opportunité, puis une rubrique adaptée. Les marchés privés regroupent les signaux BODACC et les familles Immobilier, Emploi et Sous-traitance ; les sources non connectées sont indiquées comme telles.</p>
               <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
             </form>
           </div>
