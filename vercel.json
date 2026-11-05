@@ -17,6 +17,19 @@
   ],
   "headers": [
     {
+      "source": "/IMMEUBLE.jfif",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/jpeg"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
