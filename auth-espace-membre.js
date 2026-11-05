@@ -120,7 +120,7 @@ if (form && config?.url && config?.publishableKey) {
               display_name: displayName,
               phone,
               organization_name: organizationName,
-              privacy_consent: true,
+              privacy_notice_acknowledged: true,
               privacy_notice_version: "2026-11-05"
             }
           }
