@@ -17,6 +17,7 @@ Les migrations versionnées sont conservées dans `supabase/migrations/` :
 3. `20261105163953_enforce_tenant_relationship_integrity.sql`
 4. `20261105164403_add_private_consent_records.sql`
 5. `20261105164411_replace_consent_placeholder_with_privacy_acknowledgments.sql`
+6. `20261105164732_harden_privacy_acknowledgment_access.sql`
 
 La première migration crée le socle métier ; la deuxième déplace les fonctions sensibles dans le schéma non exposé `private`, ferme leur exécution anonyme et ajoute les index de clés étrangères ; la troisième bloque les relations inter-organisations et interdit le déplacement d'une ligne d'un tenant à un autre.
 
@@ -55,8 +56,8 @@ Une organisation interne `majestios-interne` est créée. Aucun utilisateur n'y 
 - Trois migrations enregistrées dans l'historique Supabase.
 - Huit tables recensées, toutes avec RLS activé.
 - Contrôle SQL des privilèges : rôle `anon` incapable d'appeler les fonctions privées d'autorisation et le trigger de profil ; `authenticated` peut utiliser les fonctions d'autorisation dans les politiques.
-- Conseiller sécurité Supabase : aucun avertissement restant après durcissement.
-- Conseiller performance : aucun avertissement de clé étrangère non indexée ; les index récemment créés sont signalés « unused » car la base est encore vide, ce qui est attendu à ce stade.
+- Conseiller sécurité Supabase : aucun avertissement restant après ajout d'une politique de refus explicite sur le journal privé.
+- Conseiller performance : aucune clé étrangère non indexée ; les index récemment créés sont signalés « unused » car la base est encore vide, ce qui est attendu à ce stade.
 
 ## Raccordement déjà engagé et limites restantes
 
