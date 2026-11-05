@@ -39,13 +39,6 @@
   const config = configs[path];
   if (!config) return;
 
-  // Préorienter le même moteur selon la rubrique, sans créer une variante locale.
-  const categoryForPage = (window.MAJESTIOS_CATALOG?.searchCategories || []).find((item) => item.href === path)?.value || "";
-  window.MAJESTIOS_SEARCH_DEFAULTS = {
-    market: config[2] || "",
-    category: categoryForPage
-  };
-
   const section = document.createElement("section");
   section.className = "tender-feed-section rubric-search-card";
   section.id = "recherche-avancee";
