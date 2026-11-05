@@ -1,8 +1,8 @@
 # MajestiOS V.5 — référence fonctionnelle et technique
 
 **Statut :** référence de cadrage et d'architecture pour la branche `evolution-5.0`
-**Mise à jour :** 4 novembre 2026
-**Branche examinée :** `evolution-5.0`, commit `b64264f30b9be6a8d8380aaa4c1414e6c3c9250a`
+**Mise à jour :** 5 novembre 2026 — consolidation de l'audit sur HEAD
+**Branche examinée :** `evolution-5.0`, commit `735a09ce0b5c476ff659558060791b34a628b6ac`
 **Nature :** doctrine cible et état vérifié du prototype ; ce document ne vaut ni décision technique fournisseur ni preuve de mise en production.
 
 ## 1. Autorité et lecture
@@ -95,7 +95,7 @@ Le dépôt examiné ne montre pas de serveur applicatif, de base de données con
 | Catégorie | État observé |
 |---|---|
 | **A. Opérationnel dans le prototype** | Navigation statique entre les pages publiées ; moteur commun de recherche ; requêtes à la demande aux APIs BOAMP/BODACC et à l'API publique de recherche d'entreprises ; affichage et qualification indicative des résultats ; interaction 2D de l'immeuble et de l'ascenseur. L'exécution complète de ces parcours doit être confirmée par les tests appropriés. |
-| **B. Partiel ou en cours** | Pages de présentation du CRM, de l'espace privé, de l'IA et de l'administration ; formulaires de démonstration ; recherche et qualification qui ne persistent pas les résultats au CRM ; interactions d'ascenseur dont le test Playwright n'est pas exécutable dans l'environnement courant. |
+| **B. Partiel ou en cours** | Pages de présentation du CRM, de l'espace privé, de l'IA et de l'administration ; formulaires de démonstration ; recherche et qualification qui ne persistent pas les résultats au CRM ; interactions d'ascenseur couvertes par un test Playwright exécuté avec Chromium dans le workflow GitHub Actions sur le commit de référence. |
 | **C. Cible** | MajestiOS V.5 comme intelligence centrale connectant les domaines, assistants, analyses et automatisations avec permissions distinctes ; CRM persistant ; comptes et espaces client ; publication modérée ; BI ; mémoire contrôlée ; compréhension assistée des dossiers d'appels d'offres ; SEO piloté et auditable. |
 | **D. Proposition à étudier** | Backend et hébergement ; base et modèle de séparation ; fournisseur IA et orchestration ; stockage documentaire et recherche sémantique ; fournisseur d'authentification ; automatisation proactive ; choix d'un modèle 3D ou d'une scène de visite. Aucune technologie majeure n'est validée par la seule présence de recommandations documentaires. |
 
@@ -184,3 +184,150 @@ Les dépendances principales sont : décisions de gouvernance avant données ré
 - [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases et règles d'approbation.
 
 La documentation de cadrage ne prouve jamais l'exécution d'une fonction. Pour chaque évolution, consigner les fichiers touchés, les tests réellement lancés, les tests non exécutés et les anomalies restantes. Aucun déploiement de production n'est autorisé par ce document.
+
+
+---
+
+# Addendum de consolidation — 5 novembre 2026
+
+Cet addendum actualise les constats antérieurs à partir de l'état du dépôt au commit `735a09ce0b5c476ff659558060791b34a628b6ac` et des preuves GitHub Actions consultées le 5 novembre 2026. En cas de divergence avec une formulation plus ancienne de ce document, les constats datés de cet addendum prévalent pour l'état technique à cette date. Les décisions métier explicites du propriétaire restent prioritaires.
+
+## 11. État de référence du dépôt et preuves CI
+
+### 11.1 Référence examinée
+
+- Dépôt : `Chexpeer/Majestios`.
+- Branche de travail : `evolution-5.0`.
+- Commit de référence de l'audit : `735a09ce0b5c476ff659558060791b34a628b6ac`.
+- Nature du projet observé : site statique HTML/CSS/JavaScript natif, construit dans `dist/` par `build.js`.
+- Le commit est associé à un déploiement Vercel de type preview observé comme prêt ; cela ne constitue pas une preuve de promotion en production. Aucun déploiement de production n'est autorisé par cet audit.
+
+### 11.2 Exécution CI confirmée
+
+Le workflow **« Vérification du site MajestiOS »** a terminé avec succès sur le commit de référence :
+
+- Run GitHub Actions : `41936795822`.
+- Job : `verify-static-site`.
+- Conclusion : `success`.
+- Date de lancement observée : 4 novembre 2026 à 23:50:05 UTC.
+
+Étapes réussies dans ce run :
+1. récupération du dépôt et installation de Node.js ;
+2. vérification syntaxique JavaScript ;
+3. tests de ciblage des entreprises ;
+4. tests de qualification des entreprises ;
+5. tests des suggestions APE/NAF ;
+6. construction du site statique ;
+7. vérification de l'architecture et des routes ;
+8. vérification des pages, liens locaux et identifiants ;
+9. installation de Playwright et Chromium ;
+10. smoke test réel de l'API BOAMP ;
+11. smoke test réel de l'API BODACC ;
+12. test navigateur de l'immeuble interactif ;
+13. test navigateur du moteur de recherche.
+
+**Portée de la preuve :** ces étapes ont réussi dans ce run et sur ce commit. Cela ne prouve ni la couverture exhaustive des tests du dépôt, ni la pertinence métier de tous les résultats, ni la disponibilité continue des sources, ni le fonctionnement d'un backend, d'un CRM ou d'une IA de production.
+
+### 11.3 Tests présents mais non couverts par le workflow principal
+
+Le dépôt contient notamment `tests/mesure-boamp.test.cjs`. Ce test n'apparaît pas dans les étapes du workflow principal décrit ci-dessus. Il est exécuté par le workflow manuel `.github/workflows/mesure-boamp.yml`, qui lance également une mesure réelle à la demande.
+
+Le script `outils/mesure-boamp.cjs` interroge l'API BOAMP pour mesurer des volumes par types, familles, descripteurs et catégories. Il produit un rapport ; il ne modifie pas le site et ne persiste pas de données. Le script a été conçu avec des réponses simulées. La présence du script et du workflow ne prouve pas qu'une mesure réelle complète ait déjà été lancée et validée. Aucune conclusion de couverture métier des catégories BOAMP ne doit être tirée avant examen d'un rapport réel.
+
+Le workflow `.github/workflows/majestios-anti-regression.yml` ne déclenche pas automatiquement ses contrôles sur la branche `evolution-5.0` selon les filtres de branches actuellement déclarés. Il reste déclenchable manuellement. Le workflow général `verify-site.yml`, lui, est configuré sur push et pull request sans filtre de branche.
+
+## 12. État fonctionnel précis — corrections et limites à retenir
+
+### 12.1 Recherche BOAMP et BODACC
+
+- Les appels BOAMP et BODACC sont effectués directement depuis le navigateur par le prototype.
+- Le moteur peut récupérer un lot récent limité avant filtrage local ; une recherche sans résultat ne démontre donc pas l'absence d'opportunité dans l'ensemble de la source.
+- Le parcours navigateur de recherche utilise des réponses API interceptées et simulées pour tester l'interface, le routage et le rendu. Les smoke tests BOAMP et BODACC du workflow principal sont, eux, des requêtes réelles limitées à un petit échantillon.
+- Ces contrôles vérifient la connectivité et certaines propriétés des réponses, pas l'exhaustivité, la pertinence commerciale ou les droits de réutilisation de chaque donnée.
+- Les annonces BODACC sont des signaux administratifs et économiques à interpréter avec prudence ; elles ne constituent pas en elles-mêmes des marchés privés confirmés.
+
+### 12.2 Ciblage et qualification d'entreprises
+
+- `company-targeting.js` normalise des identifiants et critères tels que SIREN/SIRET, APE/NAF, code postal/département, nom, statut et provenance.
+- Le ciblage et le score sont indicatifs. Les codes APE/NAF, la géographie et le statut ne démontrent ni compétence, ni capacité, ni disponibilité, ni éligibilité.
+- `company-fit.js` impose une revue humaine (`manual_review_required`) avant toute conclusion de qualification.
+- La recherche d'entreprises utilise une pagination limitée dans le parcours audité ; les résultats peuvent être incomplets.
+- Les résultats ne sont pas enregistrés dans un CRM persistant.
+
+### 12.3 Formulaires et conversation
+
+- Les handlers de formulaire examinés affichent explicitement une prévisualisation et indiquent que les données ne sont ni transmises ni enregistrées.
+- Le formulaire de création d'espace personnel n'active pas de compte réel.
+- Le parcours « Nous rejoindre » ne collecte pas de CV dans cette version.
+- L'aide d'accueil est une navigation guidée ; elle ne constitue pas un chatbot conversationnel IA opérationnel.
+
+### 12.4 CRM, intelligence centrale, mémoire et administration
+
+Les pages et documents de présentation ne doivent pas être confondus avec des services connectés. À la date de cet addendum, le dépôt ne démontre pas :
+- de backend applicatif MajestiOS connecté ;
+- de base de données métier persistante ;
+- d'authentification ou d'autorisation multi-tenant ;
+- de CRM avec écritures, historique et pipeline persistants ;
+- d'orchestrateur MajestiOS V.5 en production ;
+- de mémoire conversationnelle MajestiOS persistante ;
+- de cockpit d'administration IA opérationnel ;
+- d'automatisation SEO reliée à des données de Search Console ou à des outils de mesure.
+
+Ces éléments restent des cibles d'architecture et de développement. Les documents associés définissent des exigences et des options, non une implémentation existante.
+
+## 13. SEO et veille des moteurs — doctrine V5 consolidée
+
+Le SEO ne doit pas être réduit à l'ajout de mots-clés ou à la rédaction ponctuelle de pages. Il constitue une capacité transversale de MajestiOS V.5, pilotée dans le cadre de l'administration et de l'amélioration continue.
+
+La cible comprend :
+
+1. **Surveillance technique** : disponibilité, performance, indexabilité, erreurs HTTP, redirections, canonicals, sitemap, robots, données structurées, maillage interne et accessibilité des contenus aux robots.
+2. **Surveillance de l'indexation et de la visibilité** : pages indexées ou exclues, requêtes, impressions, clics, positions et évolutions, à partir de sources et d'accès autorisés.
+3. **Veille des moteurs** : suivre les changements documentés des moteurs de recherche, leurs consignes, fonctionnalités et formats de résultats, y compris les expériences de recherche génératives.
+4. **Analyse concurrentielle et éditoriale** : repérer les sujets, intentions de recherche, contenus manquants, pages faibles, doublons et possibilités de différenciation sans copier les concurrents.
+5. **Recommandations priorisées** : proposer des corrections selon impact attendu, effort, risque, confiance et dépendances.
+6. **Mesure des effets** : comparer avant/après, conserver la provenance des données et distinguer corrélation et causalité.
+7. **Amélioration continue** : actualiser la stratégie et les recommandations en fonction des évolutions observées, sans promettre une position garantie ni un maintien automatique en tête des résultats.
+
+### 13.1 Rôle de Brainstorming
+
+**Brainstorming est retenu comme une capacité fonctionnelle de réflexion, d'exploration et de veille**, notamment pour faire émerger des pistes SEO, détecter des évolutions, confronter des hypothèses et proposer des expérimentations.
+
+Brainstorming n'est pas un produit séparé, un second cerveau ou une architecture autonome concurrente de MajestiOS V.5. Ses analyses et propositions sont rattachées à l'intelligence centrale, sourcées, qualifiées et soumises aux règles de gouvernance. Le rôle exact, les outils, la fréquence de veille et les niveaux d'autonomie restent à détailler avant implémentation.
+
+### 13.2 État SEO observé et limites de l'audit
+
+Sur un échantillon de 17 pages HTML du dépôt examiné :
+- 17/17 possèdent un élément `<title>` et une meta description ;
+- aucune canonical n'a été observée dans cet échantillon ;
+- aucune balise Open Graph n'a été observée dans cet échantillon ;
+- aucune meta robots n'a été observée dans cet échantillon ;
+- aucun fichier `robots.txt` ni `sitemap.xml` n'a été observé à la racine du dépôt, ni déclaré dans le manifeste `site-files.json`.
+
+Il s'agit d'un constat sur le dépôt et l'échantillon audité, pas d'une preuve de l'état actuel du site publié. Les positions, impressions, clics, indexations et performances de recherche n'ont pas été vérifiés auprès des comptes de mesure du propriétaire.
+
+Avant d'automatiser les recommandations, il faudra connecter et autoriser les sources de mesure pertinentes, établir une référence initiale, vérifier les règles des moteurs et imposer une validation humaine avant toute modification éditoriale ou technique publiée.
+
+## 14. Brainstorming, intelligence centrale et gouvernance
+
+La capacité Brainstorming aide MajestiOS V.5 à explorer des idées, confronter plusieurs scénarios, détecter des opportunités d'innovation et maintenir une veille stratégique. Elle peut contribuer au SEO, à l'évolution des moteurs, aux offres, à l'expérience utilisateur et à la stratégie commerciale.
+
+Elle ne dispose pas de privilèges implicites. Elle ne peut ni modifier la doctrine, ni engager une dépense, ni contacter un tiers, ni publier, ni modifier la production sans les permissions et validations applicables. Une idée issue d'une séance de brainstorming reste une **proposition** jusqu'à validation explicite.
+
+Le cycle attendu est : **observer → explorer → confronter → sourcer → recommander → faire valider → expérimenter → mesurer → capitaliser**.
+
+## 15. Ordre de priorité recommandé après l'audit
+
+Cet ordre est une recommandation de séquencement, non une autorisation d'exécuter des changements fonctionnels :
+
+1. actualiser et stabiliser la documentation de référence et le guide de reprise IA ;
+2. consolider les tests et la couverture anti-régression sur la branche V5 ;
+3. terminer la fiabilisation des parcours existants sans refonte générale ;
+4. arbitrer les sources, catégories et mesure réelle BOAMP/BODACC ;
+5. définir les frontières de données, les permissions et le socle serveur ;
+6. construire le CRM persistant et les circuits de capitalisation ;
+7. mettre en place progressivement l'intelligence centrale, la mémoire et les rôles spécialisés ;
+8. connecter l'administration, le SEO et la veille avec des sources mesurables ;
+9. étendre les automatisations seulement après évaluation, autorisation et mécanismes de retour arrière.
+
+**Règle de vérité :** une fonctionnalité documentée comme cible ne devient « présente » qu'après preuve dans le code ; elle ne devient « validée » qu'après tests exécutés et résultats examinés ; elle ne devient « opérationnelle en production » qu'après preuve de déploiement et de fonctionnement dans l'environnement de production.
