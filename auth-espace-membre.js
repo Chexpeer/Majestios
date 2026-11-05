@@ -32,22 +32,40 @@ if (form && config?.url && config?.publishableKey) {
         input.required = mode === "signup" && input.dataset.required === "true";
       });
     });
+    form.querySelectorAll("[data-auth-common]").forEach((element) => {
+      element.hidden = mode === "recovery";
+      element.querySelectorAll("input").forEach((input) => { input.required = mode !== "recovery"; });
+    });
+    form.querySelectorAll("[data-recovery-only]").forEach((element) => {
+      element.hidden = mode !== "recovery";
+      element.querySelectorAll("input").forEach((input) => {
+        input.required = mode === "recovery" && input.dataset.required === "true";
+      });
+    });
+    form.querySelectorAll("[data-login-only]").forEach((element) => {
+      element.hidden = mode !== "login";
+    });
     const organizationField = field("organizationName");
-    const passwordField = field("password");
-    if (passwordField) {
-      passwordField.autocomplete = mode === "signup" ? "new-password" : "current-password";
-      passwordField.minLength = mode === "signup" ? 12 : 1;
-    }
     if (organizationField) {
       organizationField.required = mode === "signup";
       organizationField.closest(".form-field")?.classList.toggle("is-optional", mode === "login");
     }
+    const passwordField = field("password");
+    if (passwordField) {
+      passwordField.autocomplete = mode === "signup" || mode === "recovery" ? "new-password" : "current-password";
+      passwordField.minLength = mode === "login" ? 1 : 12;
+    }
     if (submitButton) submitButton.innerHTML = mode === "signup"
       ? 'Créer mon espace <span aria-hidden="true">→</span>'
-      : 'Se connecter <span aria-hidden="true">→</span>';
-    if (modeToggle) modeToggle.textContent = mode === "signup"
-      ? "Déjà membre ? Se connecter"
-      : "Pas encore de compte ? Créer mon espace";
+      : mode === "recovery"
+        ? 'Enregistrer le nouveau mot de passe <span aria-hidden="true">→</span>'
+        : 'Se connecter <span aria-hidden="true">→</span>';
+    if (modeToggle) {
+      modeToggle.hidden = mode === "recovery";
+      modeToggle.textContent = mode === "signup"
+        ? "Déjà membre ? Se connecter"
+        : "Pas encore de compte ? Créer mon espace";
+    }
     if (feedback) feedback.hidden = true;
   };
 
@@ -112,6 +130,18 @@ if (form && config?.url && config?.publishableKey) {
       ].filter(Boolean).join(" ");
       const phone = String(field("phone")?.value ?? "").trim();
 
+      if (mode === "recovery") {
+        const confirmation = String(field("passwordConfirm")?.value ?? "");
+        if (password.length < 12 || password !== confirmation) {
+          throw new Error("Les deux mots de passe doivent être identiques et contenir au moins 12 caractères.");
+        }
+        const { error } = await supabase.auth.updateUser({ password });
+        if (error) throw error;
+        setMode("login");
+        setFeedback("Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.");
+        return;
+      }
+
       if (mode === "signup") {
         if (password.length < 12) throw new Error("Choisissez un mot de passe d’au moins 12 caractères.");
         const { data, error } = await supabase.auth.signUp({
@@ -162,7 +192,7 @@ if (form && config?.url && config?.publishableKey) {
       return;
     }
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/espace-membre.html`
+      redirectTo: `${window.location.origin}/espace-membre.html?recovery=1`
     });
     setFeedback(error
       ? "Impossible d’envoyer le lien de réinitialisation. Vérifiez l’adresse et réessayez."
@@ -181,7 +211,14 @@ if (form && config?.url && config?.publishableKey) {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   });
-  supabase.auth.onAuthStateChange((_event, session) => updateAuthStatus(session));
+  supabase.auth.onAuthStateChange((event, session) => {
+    updateAuthStatus(session);
+    if (event === "PASSWORD_RECOVERY") {
+      setMode("recovery");
+      if (typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) personalSpaceDialog.showModal();
+      setFeedback("Choisissez votre nouveau mot de passe.");
+    }
+  });
   setMode("signup");
 } else if (form) {
   if (feedback) {
