@@ -2,7 +2,7 @@
 
 **Date de contrôle :** 5 novembre 2026  
 **Commit examiné initialement :** `fc21d09c20a2679eb78a9fb7f9745aabb1533952`  
-**Dernière revue de code :** `f364f7a71c7f3854638004bc604d77d0d523fe88`  
+**Dernière revue de code :** `3e61cec83695dd3a4945405d63280242a2986fec`  
 **Branche :** `evolution-5.0-clean-preview`  
 **Périmètre :** accueil, recherche et résultats, espace membre, page « Nous rejoindre », CRM et fonction serveur de provisionnement.  
 **Méthode :** lecture du code réellement présent et rapprochement avec `ETAT-BACKEND-SUPABASE.md`. Les deux workflows GitHub de ce commit ont réussi ; ce succès ne vaut pas recette réelle des formulaires avec une boîte e-mail ni validation métier complète.
@@ -15,17 +15,18 @@ Le site possède un parcours d'inscription / connexion à l'espace membre raccor
 
 ## 2. Constats vérifiés
 
-| ID | Priorité | Constat | Preuve dans le dépôt | Conséquence |
+| ID | Priorité | Constat au HEAD contrôlé | État | Preuve / conséquence |
 |---|---|---|---|---|
-| F-01 | P1 | Le lien « Contact » du pied de page d'accueil mène à `nous-rejoindre.html`, qui ne contient aucun formulaire de contact. | `index.html`, `nous-rejoindre.html` | Le visiteur ne peut pas transmettre une demande depuis le parcours annoncé « Contact ». |
-| F-02 | P1 | « Nous rejoindre » présente les profils et collaborations envisagés, puis renvoie vers l'inscription à l'espace membre. La page précise que le parcours de candidature, le dépôt sécurisé de CV et l'envoi des demandes restent à connecter. | `nous-rejoindre.html` | Une candidature et la création d'un espace client sont deux intentions différentes ; elles ne doivent pas être confondues. Aucun CV n'est collecté dans cette version. |
-| F-03 | P1 | Les cartes BOAMP et BODACC proposent actuellement un lien vers l'annonce officielle ; elles ne proposent pas de parcours MajestiOS « Me positionner », de demande d'accompagnement ou de préparation CRM. | `opportunity-search.js` | La vérification de la source est possible, mais la conversion commerciale depuis une annonce n'est pas encore assurée. Le lien officiel reste utile et doit être conservé. |
-| F-04 | P1 | Le CRM est une page de périmètre fonctionnel, sans fiches actives, pipeline, enregistrement ni suivi opérationnel. | `crm.html` et `ETAT-BACKEND-SUPABASE.md` | Ne pas présenter le CRM comme utilisable pour gérer des prospects ou des clients. |
-| F-05 | P1 | L'espace membre possède un formulaire d'inscription, de connexion et de récupération de mot de passe. Le code appelle Supabase Auth et la fonction `provision-client-workspace`. | `espace-membre.html`, `auth-espace-membre.js`, `supabase/functions/provision-client-workspace/index.ts` | Le raccordement technique existe, mais il ne prouve pas une recette complète du parcours réel. |
-| F-06 | P1 | Le provisionnement exige un JWT et une adresse e-mail confirmée, crée une organisation de type client, son membre propriétaire et un accusé de prise de connaissance de la politique. | Fonction Edge `provision-client-workspace` | Le mécanisme concerne l'espace client authentifié ; ce n'est pas un endpoint public de réception de prospects ou de candidatures. |
-| F-07 | P1 | La recette avec une véritable boîte e-mail, les redirections, les modèles d'e-mail, la récupération et les protections anti-abus n'est pas confirmée. Aucun compte Auth ni administrateur interne n'était provisionné au dernier contrôle backend documenté. | `ETAT-BACKEND-SUPABASE.md` | Ne pas ouvrir le parcours à une collecte réelle avant recette E2E et préparation de l'administration. |
-| F-08 | P2 | Le bouton d'aide de l'accueil est un guide de visite à liens fixes, pas encore un chatbot ni un formulaire conversationnel. | `index.html` | La page l'indique honnêtement ; le contact assisté reste à construire. |
-| F-09 | P2 | Le moteur de recherche est partagé sur les pages configurées et transmet les critères vers les pages de résultats ; il ne crée pas encore de fiche CRM ni de demande de positionnement. | `rubric-search.js`, `app.js`, `search-results.js`, `opportunity-search.js` | La recherche produit des pistes consultables, pas encore des dossiers commerciaux persistants. |
+| F-01 | P1 | Le lien Contact de l'accueil pointe désormais vers `contact.html`. Le formulaire valide et prévisualise localement, mais bloque l'envoi et toute sauvegarde. | Interface corrigée ; transmission réelle en attente. | `index.html`, `contact.html`, `tests/contact-form.browser.cjs` — le visiteur peut préparer sa demande, mais MajestiOS ne la reçoit pas. |
+| F-02 | P1 | « Nous rejoindre » ouvre désormais `contact.html?objet=collaboration`, sans détourner le parcours vers l'inscription client. Le dépôt de CV et la candidature persistante restent absents. | Partiellement corrigé. | `nous-rejoindre.html`, `contact.html` — les intentions sont mieux séparées, mais aucune candidature n'est enregistrée. |
+| F-03 | P1 | Les cartes BOAMP/BODACC conservent la source officielle et proposent un CTA d'accompagnement qui transmet la référence et les filtres vers Contact. Aucun lead n'est créé. | Interface corrigée ; persistance en attente. | `opportunity-search.js`, `contact.html`, `tests/opportunity-search.browser.cjs` — le positionnement est contextualisé mais non transmis. |
+| F-04 | P1 | Le CRM reste une page de présentation, sans fiches actives, pipeline, enregistrement ni suivi opérationnel. | Ouvert. | `crm.html`, `ETAT-BACKEND-SUPABASE.md` — ne pas le présenter comme un CRM opérationnel. |
+| F-05 | P1 | Inscription, connexion et récupération de mot de passe sont raccordées au code Supabase Auth et au provisionnement client ; le cycle réel n'a pas été validé de bout en bout. | Raccordement présent ; recette E2E en attente. | `espace-membre.html`, `auth-espace-membre.js`, fonction `provision-client-workspace`. |
+| F-06 | P1 | Le provisionnement exige un JWT et une adresse confirmée, puis crée une organisation `kind=client` et son propriétaire. Ce n'est pas un endpoint public de réception de prospects ou de candidatures. | Limite d'architecture documentée, non assimilée à un bug. | Fonction Edge `provision-client-workspace` ; garder séparés Auth, tenant et statut commercial. |
+| F-07 | P1 | E-mail réel, redirections, modèles, récupération et protections anti-abus ne sont pas confirmés ; la préparation de l'administration interne reste à vérifier. | Ouvert / non vérifié. | `ETAT-BACKEND-SUPABASE.md` — aucune ouverture de collecte réelle avant recette E2E. |
+| F-08 | P2 | Le bouton d'aide de l'accueil est un guide de visite à liens fixes, pas encore un chatbot ni un formulaire conversationnel. | Ouvert. | `index.html` — le contact assisté reste à construire. |
+| F-09 | P2 | Le moteur transversal transmet les critères aux résultats ; il ne crée pas de fiche CRM ni de demande persistante. | Recherche disponible ; capitalisation CRM en attente. | `rubric-search.js`, `app.js`, `search-results.js`, `opportunity-search.js`. |
+| F-10 | P2 | En connexion, le provisionnement est rappelé même si le nom d'organisation est facultatif ; la fonction Edge valide ce nom avant de rechercher une appartenance existante. | Anomalie déduite du code ; reproduction E2E réelle requise. | `auth-espace-membre.js`, `supabase/functions/provision-client-workspace/index.ts` — voir section 12 ; backend non modifié.
 
 ## 3. Éléments déjà présents à préserver
 
@@ -199,3 +200,15 @@ Lors d'une prochaine phase autorisée sur l'authentification :
 4. Ajouter des tests couvrant au minimum : connexion d'un client existant sans nom d'organisation, compte confirmé sans espace, compte avec appartenance non-client et échec serveur.
 
 **Décision de ce contrôle :** aucune correction du JavaScript d'authentification, de la fonction Edge, d'Auth, des migrations, de RLS ou des données Supabase n'est appliquée. Supabase reste en pause conformément au périmètre convenu. Cette anomalie est consignée pour être traitée dans un lot dédié après autorisation et recette contrôlée.
+
+
+## 13. Contrôle de cohérence documentaire et CI du HEAD (5 novembre 2026)
+
+La revue complémentaire a rapproché le registre ci-dessus des parcours effectivement livrés dans les lots 6A/6B et de la dernière version du code contrôlée (`3e61cec83695dd3a4945405d63280242a2986fec`). Les anciennes descriptions F-01 à F-03 ont été rectifiées : elles décrivaient l'état antérieur à la page Contact et aux CTA contextualisés. Les états « interface corrigée » ne signifient pas « collecte active » ; les formulaires restent bloqués en prévisualisation.
+
+Les deux workflows GitHub associés exactement à ce HEAD sont terminés avec succès :
+
+- `Vérification anti-régression MajestiOS` — run `42082623667`, job `Tests ciblés, build et liens internes` : succès ; étapes de ciblage, qualification, suggestions APE/NAF, build, pages/liens et dix dossiers vérifiées.
+- `Vérification du site MajestiOS` — run `42082623530`, job `verify-static-site` : succès ; syntaxe JavaScript, build, architecture/routes, liens/identifiants, appels de contrôle BOAMP/BODACC et tests navigateur de l'immeuble, recherche, navigation mobile/ordinateur et formulaire Contact réussis.
+
+Ces résultats valident les contrôles automatisés sur le HEAD ; ils ne remplacent pas une recette réelle de compte Auth, d'envoi d'e-mail, de stockage CV, de collecte de contact ou de CRM. Aucune modification applicative, Supabase ou backend n'est effectuée dans cette revue.
