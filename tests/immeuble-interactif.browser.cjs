@@ -163,7 +163,7 @@ async function main() {
 
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
     await page.locator('.building-hotspots .floor-row[data-floor="06"]').focus();
-    assert.equal(await page.locator(".elevator-caption").textContent,"ASCENSEUR · DÉVELOPPEMENT COMMERCIAL",
+    assert.equal(await page.locator(".elevator-caption").textContent(),"ASCENSEUR · DÉVELOPPEMENT COMMERCIAL",
       "Le focus clavier doit aussi appeler l'ascenseur au bon étage.");
     await Promise.all([
       page.waitForURL(url=>url.pathname.endsWith("/developpement-commercial.html"),{timeout:10000}),
