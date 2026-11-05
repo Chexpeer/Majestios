@@ -47,6 +47,14 @@ async function main() {
     assert.equal(await collaborationLink.getAttribute("href"), "contact.html?objet=collaboration",
       "La proposition de collaboration doit conduire au contact, pas à la création d’un compte client.");
 
+    await page.goto("http://127.0.0.1:4176/contact.html?objet=public-market&source=BOAMP&reference=TEST-2027-001&q=plomberie&marche=public&departement=79", { waitUntil: "domcontentloaded" });
+    await page.locator("#opportunity-context").waitFor({ state: "visible", timeout: 5000 });
+    assert.match(await page.locator("#opportunity-context").textContent(), /BOAMP.*TEST-2027-001/);
+    assert.equal(await page.locator("#contact-subject").inputValue(), "public-market");
+    assert.equal(await page.locator("#feed-search").inputValue(), "plomberie", "Le contexte doit préserver le mot-clé d'origine.");
+    assert.equal(await page.locator("#feed-market-type").inputValue(), "public");
+    assert.equal(await page.locator("#feed-department").inputValue(), "79");
+
     await page.goto("http://127.0.0.1:4176/contact.html?objet=collaboration", { waitUntil: "domcontentloaded" });
     await page.locator("#advanced-search-form").waitFor({ timeout: 5000 });
     assert.equal(await page.locator("#contact-subject").inputValue(), "collaboration",

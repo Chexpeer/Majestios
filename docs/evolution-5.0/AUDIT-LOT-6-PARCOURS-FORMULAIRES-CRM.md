@@ -110,7 +110,7 @@ La liste minimale de contact demandée pour les formulaires de prise de contact 
 
 **Aucune modification applicative ou Supabase n'est effectuée dans cet audit.** Le backend reste en pause pendant la stabilisation du site, conformément au périmètre convenu. Les constats sont documentés pour éviter de présenter comme acquis des formulaires et un CRM qui ne sont pas encore opérationnels.
 
-La prochaine intervention applicative doit commencer par le parcours « Contact » et la séparation des intentions, puis ajouter le CTA de positionnement sur les résultats tout en préservant le lien vers la source officielle. Toute collecte publique réelle attendra le contrat serveur et les garde-fous ci-dessus.
+Le parcours Contact et le CTA de positionnement contextualisé sur les résultats BOAMP/BODACC sont maintenant présents en prévisualisation. La prochaine intervention doit poursuivre la séparation des intentions (candidature, partenariat, demande d'accompagnement) et préparer le contrat serveur. Toute collecte publique réelle attendra les garde-fous ci-dessus.
 
 ## 9. Mise en œuvre du lot 6A — page Contact (5 novembre 2026)
 
@@ -124,3 +124,14 @@ Un test navigateur dédié est ajouté : `tests/contact-form.browser.cjs`. Il v�
 
 **Critère de sortie de 6A :** destination Contact et parcours d'interface disponibles et vérifiables, mais envoi réel toujours bloqué en attente du contrat serveur sécurisé et de la recette backend.
 
+
+
+## 10. Positionnement contextualisé depuis les résultats BOAMP et BODACC
+
+Les cartes BOAMP et BODACC proposent désormais deux actions distinctes : consulter l'avis ou l'annonce officielle, et demander un accompagnement MajestiOS. Le second lien ouvre `contact.html` avec le type d'intention, la source, la référence de l'annonce et les critères de recherche d'origine (mot-clé, marché, catégorie et département) conservés dans l'URL.
+
+La page Contact préremplit l'objet correspondant et affiche la source et la référence via du texte inséré avec `textContent`. Les valeurs de contexte ne sont pas envoyées ni enregistrées ; le formulaire reste en prévisualisation. Le lien officiel d'origine reste visible et inchangé sur chaque carte.
+
+Le test navigateur des résultats vérifie les liens BOAMP et BODACC, leurs références et la conservation des filtres. Le test du formulaire vérifie également l'affichage du contexte et la restauration du mot-clé, du type de marché et du département.
+
+**Limite inchangée :** aucun lead n'est transmis au CRM et aucun enregistrement backend n'a été activé.
