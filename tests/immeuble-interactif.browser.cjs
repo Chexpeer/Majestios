@@ -6,23 +6,22 @@ const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..", "dist");
 const expected = [
-  {id:"08",name:"Espace privé",route:"espace-membre.html",rect:[185,160,350,100]},
-  {id:"07",name:"Réseau",route:"reseaux-synergies.html",rect:[185,258,350,90]},
-  {id:"06",name:"Développement commercial",route:"developpement-commercial.html",rect:[185,350,350,90]},
-  {id:"05",name:"Prospection",route:"prospection-active.html",rect:[185,442,350,90]},
-  {id:"04",name:"Marchés publics",route:"marches-publics.html",rect:[185,534,350,90]},
-  {id:"03",name:"Marchés privés",route:"marches-prives.html",rect:[185,626,350,90]},
-  {id:"02",name:"Réputation virtuelle",route:"reputation-virtuelle.html",rect:[185,718,350,90]},
-  {id:"01",name:"Accueil",route:"index.html",rect:[185,810,350,80]}
+  {id:"08",name:"Espace privé",route:"espace-membre.html",rect:[185,182,350,82],lines:"ESPACE|PRIVÉ"},
+  {id:"07",name:"Réseau",route:"reseaux-synergies.html",rect:[185,266,350,80],lines:"RÉSEAU"},
+  {id:"06",name:"Développement commercial",route:"developpement-commercial.html",rect:[185,350,350,92],lines:"DÉVELOPPEMENT|COMMERCIAL"},
+  {id:"05",name:"Prospection",route:"prospection-active.html",rect:[185,444,350,81],lines:"PROSPECTION"},
+  {id:"04",name:"Accompagnement appels d'offres",route:"accompagnement-appels-offres.html",rect:[185,528,350,87],lines:"ACCOMPAGNEMENT|APPELS D'OFFRES"},
+  {id:"03",name:"Marchés publics",route:"marches-publics.html",rect:[185,618,350,83],lines:"MARCHÉS|PUBLICS"},
+  {id:"02",name:"Marchés privés",route:"marches-prives.html",rect:[185,704,350,87],lines:"MARCHÉS|PRIVÉS"},
+  {id:"01",name:"Réputation virtuelle",route:"reputation-virtuelle.html",rect:[185,794,350,85],lines:"RÉPUTATION|VIRTUELLE"},
+  {id:"RDC",name:"Accueil",route:"index.html",rect:[185,883,350,89],lines:"ACCUEIL|MAJESTIOS"}
 ];
-const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf-8", ".js":"text/javascript; charset=utf-8", ".jpg":"image/jpeg", ".webp":"image/webp" };
+const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf-8", ".js":"text/javascript; charset=utf-8", ".jpg":"image/jpeg", ".jfif":"image/jpeg", ".png":"image/png", ".webp":"image/webp" };
 
 async function main() {
   assert.ok(fs.existsSync(path.join(root,"index.html")), "Exécuter node build.js avant le test.");
-  assert.ok(fs.existsSync(path.join(root,"Majestios.immeuble.jpg")), "Le nouveau visuel de l'immeuble est absent du build.");
-  assert.ok(fs.existsSync(path.join(root,"Majestios.developpement-commercial.jpg")), "Le visuel de Développement commercial est absent du build.");
-  for (const asset of ["Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
-    assert.ok(fs.existsSync(path.join(root,asset)), "Le fond de rubrique "+asset+" est absent du build.");
+  for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png","Majestios.developpement-commercial.jpg","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
+    assert.ok(fs.existsSync(path.join(root,asset)), "La ressource "+asset+" est absente du build.");
   }
   const server = http.createServer((req,res) => {
     const pathname = decodeURIComponent(new URL(req.url,"http://127.0.0.1").pathname);
@@ -42,12 +41,13 @@ async function main() {
     const page = await browser.newPage({viewport:{width:1365,height:900}});
     const errors = [];
     page.on("pageerror",error => errors.push(error.message));
+
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
     await page.locator(".building-photo img").evaluate(image=>image.decode());
     assert.deepEqual(
       await page.locator(".building-photo img").evaluate(image=>[image.naturalWidth,image.naturalHeight]),
       [843,1264],
-      "Le panorama ne doit pas être agrandi artificiellement."
+      "La photographie IMMEUBLE.jfif doit conserver sa définition native."
     );
     assert.equal(await page.locator("#market-step").isHidden(),true,"Le type de marché doit être masqué au chargement.");
     assert.equal(await page.locator("#category-step").isHidden(),true,"La catégorie doit être masquée au chargement.");
@@ -59,25 +59,33 @@ async function main() {
     assert.equal(await page.locator("#department-step").isHidden(),true,"Le département doit attendre le choix d'une catégorie.");
     await page.locator("#feed-sector").selectOption("nettoyage");
     assert.equal(await page.locator("#department-step").isVisible(),true,"Le choix de la catégorie doit afficher le département.");
-    await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
-    const rows = page.locator(".building-hotspots .floor-row");
-    await rows.first().waitFor({state:"attached",timeout:15000});
-    assert.equal(await rows.count(),8,"Huit destinations interactives sont attendues.");
-    const observed = await rows.evaluateAll(nodes => nodes.map(node => ({
-      id:node.dataset.floor,name:node.dataset.name,href:node.getAttribute("href")
-    })));
-    assert.deepEqual(observed,expected.map(item=>({id:item.id,name:item.name,href:item.route+(item.route==="index.html"?"#accueil":"")})),
-      "Les huit libellés et routes doivent suivre exactement l'architecture V5.");
+
     for (const viewport of [{width:1365,height:900},{width:390,height:844}]) {
       await page.setViewportSize(viewport);
       await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
-      await page.locator(".building-photo").scrollIntoViewIfNeeded();
+      const rows = page.locator(".building-hotspots .floor-row");
+      await rows.first().waitFor({state:"attached",timeout:15000});
+      assert.equal(await rows.count(),9,"Neuf destinations interactives sont attendues.");
+      const observed = await rows.evaluateAll(nodes => nodes.map(node => ({
+        id:node.dataset.floor,name:node.dataset.name,href:node.getAttribute("href")
+      })));
+      assert.deepEqual(observed,expected.map(item=>({id:item.id,name:item.name,href:item.route+(item.route==="index.html"?"#accueil":"")})),
+        "Les neuf libellés et routes doivent suivre l'architecture V5.");
+
+      for (const item of expected) {
+        const canvas=page.locator('.led-sign[data-floor="'+item.id+'"]');
+        assert.equal(await canvas.getAttribute("data-label"),item.name,
+          "Le panneau LED doit porter le titre de "+item.name+".");
+        assert.equal(await canvas.getAttribute("data-title-lines"),item.lines,
+          "Le titre LED de "+item.name+" doit être composé sur une ou deux lignes complètes.");
+      }
+
       const geometry = await page.evaluate(() => {
         const img=document.querySelector(".building-photo img").getBoundingClientRect();
         const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
         return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
       });
-      for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque doit couvrir exactement la photo.");
+      for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
       const toScreen=([x,y])=>[geometry.img[0]+x/843*geometry.img[2],geometry.img[1]+y/1264*geometry.img[3]];
       for (const item of expected) {
         const [x,y,w,h]=item.rect;
@@ -85,54 +93,48 @@ async function main() {
         const hit=await page.evaluate(([cx,cy])=>document.elementFromPoint(cx,cy)?.closest(".floor-row")?.dataset.floor ?? null,[px,py]);
         assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px.");
       }
-      const elevatorStops=[210,305,397,487,577,667,757,847];
-      assert.equal(await page.locator(".elevator-cabin").evaluate(element=>getComputedStyle(element).transitionDuration),"1.05s",
-        "La cabine vitrée doit utiliser un déplacement progressif sans préférence de réduction.");
-      const cabinGeometry=await page.locator(".elevator-cabin").evaluate(element=>({
-        x:Number(element.getAttribute("x")),width:Number(element.getAttribute("width")),height:Number(element.getAttribute("height"))
-      }));
-      assert.ok(Math.abs(cabinGeometry.x-551.5)<0.1,"L'axe de la cabine doit être décalé d'environ 1 mm vers la droite.");
-      assert.deepEqual([cabinGeometry.width,cabinGeometry.height],[68,78],"La cabine doit être agrandie sans déformer la photographie.");
-      assert.equal(await page.locator(".elevator-window").evaluate(element=>getComputedStyle(element).fillOpacity),"0.2","La cabine doit présenter un vitrage translucide.");
-      assert.equal(await page.locator(".floor-row.is-lit").count(),0,"Aucun étage ne doit être illuminé.");
-      const instantStyle=await page.addStyleTag({content:".elevator-cabin,.elevator-window{transition:none!important}"});
-      const up=page.locator('.elevator-controls [data-lift="up"]');
-      const down=page.locator('.elevator-controls [data-lift="down"]');
-      assert.equal(await up.getAttribute("aria-label"),"Monter d’un étage","La commande de montée doit être accessible.");
-      assert.equal(await down.getAttribute("aria-label"),"Descendre d’un étage","La commande de descente doit être accessible.");
-      assert.equal(await page.locator(".elevator-caption").getAttribute("role"),"status",
-        "Le niveau actuel doit être annoncé comme statut.");
-      assert.equal(await page.locator(".elevator-caption").getAttribute("aria-live"),"polite",
-        "Le niveau actuel doit être annoncé sans interrompre le lecteur d’écran.");
-      for (let index=expected.length-1;index>=0;index--) {
-        if(index<expected.length-1) await up.click();
-        const state=await page.evaluate(()=>({
-          floor:document.querySelector('.floor-row[aria-current="location"]')?.dataset.floor,
-          caption:document.querySelector(".elevator-caption").textContent,
-          center:Number(document.querySelector(".elevator-cabin").getAttribute("y"))+
-            Number(document.querySelector(".elevator-cabin").getAttribute("height"))/2+
-            new DOMMatrix(getComputedStyle(document.querySelector(".elevator-cabin")).transform).m42
-        }));
-        assert.equal(state.floor,expected[index].id,"La cabine doit sélectionner le bon étage à "+viewport.width+" px.");
-        assert.equal(state.caption,"ASCENSEUR · "+expected[index].name.toLocaleUpperCase("fr-FR"),
-          "Le libellé de la cabine doit correspondre à "+expected[index].name+".");
-        assert.ok(Math.abs(state.center-elevatorStops[index])<0.1,
-          "La cabine doit rester dans la gaine au niveau "+expected[index].name+" à "+viewport.width+" px.");
+
+      await page.addStyleTag({content:".elevator-cabin,.elevator-window,.elevator-detail,.elevator-reflection,.elevator-cylinder-side,.elevator-cylinder-rim,.elevator-cylinder-highlight{transition:none!important}"});
+      assert.equal(await page.locator(".elevator-controls").count(),0,"Les anciennes commandes d'ascenseur ne doivent plus être présentes.");
+      assert.ok((await page.locator(".elevator-cabin").getAttribute("d")).startsWith("M558 157"),
+        "La cabine doit être un cylindre SVG vitré, et non un ancien rectangle.");
+      assert.equal(await page.locator(".elevator-window").evaluate(element=>getComputedStyle(element).fillOpacity),"0.48",
+        "Le vitrage panoramique doit conserver sa transparence.");
+
+      for (const item of expected) {
+        const [x,y,w,h]=item.rect;
+        const [px,py]=toScreen([x+w/2,y+h/2]);
+        await page.mouse.move(px,py);
+        const state=await page.evaluate(() => {
+          const active=document.querySelector('.floor-row[aria-current="location"]');
+          const cabin=document.querySelector(".elevator-cabin");
+          return {
+            floor:active?.dataset.floor,
+            caption:document.querySelector(".elevator-caption").textContent,
+            cabinTransform:new DOMMatrix(getComputedStyle(cabin).transform).m42,
+            ledState:document.querySelector('.led-sign[data-floor="'+active?.dataset.floor+'"]')?.dataset.state
+          };
+        });
+        const stop=y+h/2;
+        assert.equal(state.floor,item.id,"Le survol doit sélectionner "+item.name+".");
+        assert.equal(state.caption,"ASCENSEUR · "+item.name.toLocaleUpperCase("fr-FR"),
+          "Le bandeau de l'ascenseur doit annoncer "+item.name+".");
+        assert.ok(Math.abs(185+state.cabinTransform-stop)<0.1,
+          "La cabine cylindrique doit s'arrêter exactement au centre de l'étage "+item.name+".");
+        assert.equal(state.ledState,"paused","Le titre LED complet doit se stabiliser au survol de "+item.name+".");
       }
-      await down.focus();
-      await page.keyboard.press("Enter");
-      assert.equal(await page.locator('.floor-row[aria-current="location"]').getAttribute("data-floor"),"07",
-        "La commande de descente doit être utilisable au clavier.");
-      await up.focus();
-      await page.keyboard.press("Space");
-      assert.equal(await page.locator('.floor-row[aria-current="location"]').getAttribute("data-floor"),"08",
-        "La commande de montée doit être utilisable au clavier.");
-      await instantStyle.evaluate(element=>element.remove());
+      await page.mouse.move(2,2);
+      assert.equal(await page.locator('.led-sign[data-floor="03"]').getAttribute("data-state"),"scrolling",
+        "Le défilement LED doit reprendre après le survol.");
+
       await page.emulateMedia({reducedMotion:"reduce"});
       assert.equal(await page.locator(".elevator-cabin").evaluate(element=>getComputedStyle(element).transitionDuration),"0s",
-        "La cabine doit respecter la préférence de réduction des animations.");
+        "L'ascenseur doit respecter la préférence de réduction des animations.");
+      assert.equal(await page.locator(".led-layer").evaluate(element=>getComputedStyle(element).display),"none",
+        "Les animations LED doivent être suspendues si l'utilisateur réduit les animations.");
       await page.emulateMedia({reducedMotion:"no-preference"});
     }
+
     for (const item of expected) {
       await page.setViewportSize({width:1365,height:900});
       await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
@@ -142,31 +144,32 @@ async function main() {
         page.waitForURL(url=>url.pathname.endsWith("/"+item.route),{timeout:10000}),
         page.mouse.click(box.x+(x+w/2)/843*box.width,box.y+(y+h/2)/1264*box.height)
       ]);
-      assert.ok(new URL(page.url()).pathname.endsWith("/"+item.route),"Le clic sur "+item.name+" doit ouvrir "+item.route);
+      assert.ok(new URL(page.url()).pathname.endsWith("/"+item.route),
+        "Un seul clic doit ouvrir directement "+item.name+".");
     }
+
     await page.goto("http://127.0.0.1:4173/developpement-commercial.html",{waitUntil:"domcontentloaded"});
     const developmentVisual=await page.locator("main.interior-page").evaluate(async element=>{
       const image=new Image();
       image.src=new URL("Majestios.developpement-commercial.jpg",location.href).href;
       await image.decode();
-      return {
-        background:getComputedStyle(element).backgroundImage,
-        dimensions:[image.naturalWidth,image.naturalHeight]
-      };
+      return {background:getComputedStyle(element).backgroundImage,dimensions:[image.naturalWidth,image.naturalHeight]};
     });
     assert.ok(developmentVisual.background.includes("Majestios.developpement-commercial.jpg"),
-      "La page commerciale doit utiliser le nouveau visuel.");
+      "La page Développement commercial doit utiliser son nouveau visuel.");
     assert.deepEqual(developmentVisual.dimensions,[1408,768],
-      "Le visuel commercial doit rester à la définition native de sa nouvelle source.");
+      "Le visuel commercial doit conserver sa définition native.");
+
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
+    await page.locator('.building-hotspots .floor-row[data-floor="06"]').focus();
+    assert.equal(await page.locator(".elevator-caption").textContent,"ASCENSEUR · DÉVELOPPEMENT COMMERCIAL",
+      "Le focus clavier doit aussi appeler l'ascenseur au bon étage.");
     await Promise.all([
       page.waitForURL(url=>url.pathname.endsWith("/developpement-commercial.html"),{timeout:10000}),
-      page.locator('.building-hotspots .floor-row[data-floor="06"]').press("Enter")
+      page.keyboard.press("Enter")
     ]);
-    assert.ok(new URL(page.url()).pathname.endsWith("/developpement-commercial.html"),
-      "La destination sélectionnée doit aussi être accessible au clavier.");
-    assert.deepEqual(errors,[],"Aucune erreur JavaScript n’est attendue sur l’accueil.");
-    console.log("TEST NAVIGATEUR RÉUSSI : huit destinations, zones, cabine, commandes et lien clavier, réduction des animations et liens testés en desktop et mobile.");
+    assert.deepEqual(errors,[],"Aucune erreur JavaScript n'est attendue sur l'accueil.");
+    console.log("TEST NAVIGATEUR RÉUSSI : neuf destinations, titres LED complets, survol, cabine cylindrique, clic direct, clavier, mobile et réduction des animations.");
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));
