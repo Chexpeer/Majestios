@@ -50,6 +50,8 @@
     "company-targeting.js",
     "company-targeting-page.js",
     "company-fit.js",
-    "qualification-entreprises.html"
+    "qualification-entreprises.html",
+    "supabase-config.js",
+    "auth-espace-membre.js"
   ]
 }
