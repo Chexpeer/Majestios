@@ -195,10 +195,10 @@ body:not(.homepage) .rubric-search-card #advanced-search-form{
   grid-template-columns:minmax(170px,1.5fr) repeat(3,minmax(115px,1fr)) auto;
   gap:6px;
   align-items:center;
-  padding:7px;
-  border:1px solid #d5b56c35;
-  border-radius:8px;
-  background:#0d141e;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
 }
 body:not(.homepage) .rubric-search-card #advanced-search-form .feed-search{
   display:flex;
