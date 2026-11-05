@@ -46,22 +46,12 @@ Principes de positionnement et vocabulaire :
 
 **MajestiOS V.5 est l'intelligence centrale unique de la plateforme.** Elle doit coordonner les capacités, les analyses, les interactions, la mémoire et les automatisations permises.
 
-Ne pas recréer un produit ou un cerveau parallèle appelé BrainIOS. Les rôles spécialisés sont des responsabilités fonctionnelles qui peuvent être implémentées avec un modèle, plusieurs agents ou une architecture hybride selon les besoins démontrés.
+Les fonctions de réflexion stratégique, d'exploration et de veille sont intégrées à l'intelligence centrale MajestiOS V.5. Elles servent à confronter des hypothèses, identifier des pistes d'amélioration et proposer des expérimentations vérifiables. Toute recommandation reste soumise à validation explicite.
 
-### Brainstorming
-
-Brainstorming est une **capacité de réflexion, d'exploration et de veille** rattachée à MajestiOS V.5. Elle doit :
-- faire émerger des idées et scénarios ;
-- confronter les hypothèses à des sources et aux contraintes ;
-- surveiller les évolutions pertinentes, notamment SEO et moteurs de recherche ;
-- proposer des expérimentations priorisées et mesurables ;
-- capitaliser les résultats validés.
-
-Brainstorming n'est ni un produit séparé ni une architecture parallèle. Une idée reste une proposition tant qu'elle n'a pas été validée. Cette capacité ne publie pas, ne contacte pas, ne dépense pas et ne modifie pas la production sans autorisation.
 
 ### SEO comme capacité continue
 
-Le SEO n'est pas une action ponctuelle de rédaction. La cible V5 couvre la surveillance technique, l'indexation, la qualité éditoriale, le maillage, la performance, les évolutions des moteurs classiques et génératifs, les recommandations priorisées et la mesure des effets. Brainstorming contribue à la veille et à l'exploration ; l'administration IA organise le suivi et les validations.
+Le SEO n'est pas une action ponctuelle de rédaction. La cible V5 couvre la surveillance technique, l'indexation, la qualité éditoriale, le maillage, la performance, les évolutions des moteurs classiques et génératifs, les recommandations priorisées et la mesure des effets. La veille stratégique et l'exploration sont intégrées aux fonctions de l'intelligence centrale ; l'administration IA organise le suivi et les validations.
 
 Ne jamais promettre une position garantie ou un maintien automatique en tête des moteurs. Les changements de contenu et de production nécessitent une validation humaine.
 
@@ -181,7 +171,7 @@ Un agent ne s'accorde jamais lui-même des permissions.
 5. Architecture données, identité, permissions et socle serveur.
 6. CRM persistant et circuits de capitalisation.
 7. Intelligence centrale, rôles spécialisés et mémoire.
-8. Administration IA, veille SEO et Brainstorming.
+8. Administration IA, veille SEO et amélioration continue.
 9. Automatisations limitées, mesurées et autorisées.
 
 Cet ordre constitue une recommandation de séquencement, pas une autorisation d'exécuter les lots.
