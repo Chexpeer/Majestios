@@ -83,7 +83,7 @@ Pour une évolution future, la référence V5 requiert provenance, date, finalit
 | **P2 — catégorie publique inconnue** | Avant correction, `categoryMatches` renvoyait `true` quand aucun filtre de catégorie n'était défini pour la valeur reçue. Une URL avec catégorie publique inconnue pouvait donc afficher des résultats non filtrés tout en montrant cette catégorie comme critère. | Résultats trompeurs en cas de lien ou d'URL invalide. | Corrigé : le moteur refuse une catégorie publique non présente dans les catégories traitées et affiche un statut explicite avant tout appel à BOAMP. Test navigateur ajouté, non exécutable sans Node/Playwright. |
 | **P2 — code postal ultramarin en repli** | En absence de département explicite de la source, `97100` et `97620` étaient normalisés à `97`. | Dégradation du score géographique et du regroupement par département pour ces fiches. | Corrigé : les codes postaux `97xxx` produisent un département à trois chiffres ; tests unitaires ajoutés pour `971` et `976`, non exécutés faute de Node. |
 | **P2 — limites de couverture après filtrage** | Le moteur récupère un lot récent de 100 résultats avant certains filtres locaux ; aucune pagination vers les lots suivants. | Faux négatifs possibles pour des catégories ou mots-clés peu fréquents, et couverture non exhaustive. | Recommandation : mesurer les volumes par source et préciser les bornes, puis décider pagination ou autre mécanisme. Aucun changement de source ou de plafond décidé ici. |
-| **P2 — filtres géographiques désalignés** | Le catalogue commun, la validation BOAMP et la validation libre du ciblage n'ont pas exactement le même périmètre territorial. | Un code accepté par un parcours peut être absent du filtre partagé ou refusé par un autre moteur. La couverture des sources concernées n'est pas démontrée. | À arbitrer à partir des exigences métier et de la couverture source ; ne pas étendre silencieusement la liste. |
+| **P2 — périmètres géographiques différents selon le parcours** | Le catalogue commun et la validation BOAMP sont alignés sur 101 codes ; le formulaire distinct de ciblage d'entreprises accepte davantage de codes en saisie libre. | Un code peut être accepté par le ciblage sans être proposé par le moteur d'annonces. Cette différence ne prouve pas la couverture effective des sources. | À arbitrer à partir des exigences métier et de la couverture source ; ne pas étendre silencieusement la liste. |
 | **P1 avant usage de critères confidentiels** | Les appels aux API tierces sont directs depuis le navigateur et incluent les mots-clés/départements dans les requêtes. | Les critères sont transmis aux services externes ; le prototype n'offre pas de contrôle serveur ou de confidentialité des recherches. | Garder une consigne de non-saisie de données confidentielles ; décider finalité, droits et architecture avant tout usage de données privées ou transfert CRM. |
 | **P2 — traitement des erreurs** | Les délais, erreurs réseau et erreurs HTTP sont présentés par un message générique ; aucune reprise automatique. | L'utilisateur sait que la source est indisponible, mais pas si la panne vient du délai, du réseau, du statut serveur ou d'un quota. | Recommandation : conserver une erreur visible, distinguer les causes quand elles sont fiables et offrir une reprise manuelle ; éviter de transformer l'erreur en zéro résultat. |
 | **P2 — CRM non préparé sous forme structurée** | Le moteur ne produit aucun objet d'opportunité enregistré ou transférable. | Pas de continuité du parcours « détecter → qualifier → identifier → contacter → transformer → capitaliser ». | Rester explicite sur l'absence de persistance ; spécifier provenance, permissions, contrôle humain, déduplication et modèle avant tout raccordement. Ce n'est pas une correction locale. |
@@ -151,3 +151,35 @@ Un mot-clé est obligatoire. Sans mot-clé, le moteur affiche un message de vali
 Les tests navigateur couvrent le parcours public et privé, l'obligation du mot-clé, l'absence d'appel réseau sans mot-clé, la présence de résultats simulés correspondant au terme et le libellé de filtre. Les catégories inconnues dans une URL restent rejetées : « Autre » est une option explicite de recherche libre, pas un mécanisme qui masque une URL invalide.
 
 Validation sur le HEAD `368496d8b1bd0fa574056af8ade9507d1d1fd85f` : le workflow push `42088662858` a réussi, y compris le test navigateur du moteur de recherche. Le workflow anti-régression `42088673618` a également réussi.
+
+
+## 12. Reprise de l'audit — harmonisation du formulaire et du routage (5 novembre 2026)
+
+**Branche :** `evolution-5.0-clean-preview`  
+**Commit applicatif vérifié :** `656a0cfd47b06b6df1fddeb1a88aaf608c5cf0d5`  
+**Déploiement Vercel Preview :** `majestios-jc8g-ftx2j0ytg-majistr.vercel.app` — état `READY`.
+
+### Corrections apportées
+
+1. **Suppression du double pilotage sur l'accueil.** Le formulaire est généré par `rubric-search.js` et ses interactions sont pilotées par `app.js`. Le script inline de `index.html`, qui réinstallait des écouteurs `focus/change` concurrents, a été supprimé.
+2. **Mode « Publics et privés » rendu accessible.** L'option `all` existait dans le catalogue et dans le moteur de résultats, mais n'était pas proposée par le formulaire partagé. Elle est maintenant présente sur l'accueil et les rubriques.
+3. **Critères mixtes préservés.** Le mode `all` sélectionne automatiquement « Toutes les catégories » et le paramètre `marche=all` est conservé dans l'URL jusqu'à la page de résultats. Une catégorie propre à un seul marché n'est pas appliquée au mode mixte.
+4. **Taxonomies privées non connectées toujours signalées honnêtement.** Immobilier professionnel, emploi/recrutement et sous-traitance restent visibles comme catégories prévues mais désactivées. Aucune annonce n'est simulée pour ces sources absentes.
+
+### Vérifications exécutées
+
+- Les pages métier examinées chargent toutes le même triplet `catalogue-majestios.js`, `rubric-search.js`, `app.js` ; les pages de résultats utilisent ensuite le même moteur `opportunity-search.js`.
+- Comparaison des départements : 101 codes dans le catalogue et 101 dans l'ensemble BOAMP ; aucune différence entre ces deux listes.
+- Analyse syntaxique JavaScript réussie pour `app.js`, `rubric-search.js`, `opportunity-search.js` et `catalogue-majestios.js`.
+- Contrôles statiques : une seule source de balisage du formulaire partagé ; écouteurs de recherche inline supprimés de l'accueil ; option mixte visible dans le balisage commun ; paramètre `marche=all` conservé à la soumission.
+- Le build Vercel a terminé en `READY` et a confirmé la copie de 53 fichiers depuis `site-files.json`, sans différence avec les sources.
+
+Un test navigateur supplémentaire a été ajouté dans `tests/opportunity-search.browser.cjs` : il vérifie que le mode mixte sélectionne « Toutes les catégories », conserve `marche=all` dans l'URL et affiche deux groupes de résultats distincts BOAMP/BODACC. **Ce nouveau test n'a pas encore été exécuté dans cette reprise** ; il doit être validé par le workflow CI avant de considérer le lot comme entièrement vérifié.
+
+### Limites qui restent ouvertes
+
+- Les sources Immobilier, Emploi et Sous-traitance ne sont pas raccordées ; leurs catégories restent désactivées.
+- Les résultats ne sont toujours pas persistés ni transmis au CRM.
+- Les limites de pagination et de couverture des lots BOAMP/BODACC restent celles décrites plus haut.
+- Les pages de catégories publiques et la page générale ont des adaptateurs de présentation distincts, mais appellent le même moteur de collecte et de filtrage. Une unification visuelle/UX plus profonde reste à évaluer sans casser les pages dédiées.
+- Aucun contrôle visuel navigateur n'a été réalisé dans cette reprise ; `READY` confirme le déploiement, pas la recette graphique ni le comportement interactif en navigateur.
