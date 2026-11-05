@@ -30,20 +30,21 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 5. [Audit du lot 3 — fonctionnalités des rubriques](AUDIT-LOT-3-FONCTIONNALITES.md) — état par rubrique, défaut corrigé, fonctions simulées et travaux restant à développer.
 6. [Audit du lot 4 — moteur de recherche transversal](AUDIT-LOT-4-MOTEUR-RECHERCHE.md) — sources, filtres, pertinence, limites de couverture et état de préparation CRM.
 7. [Audit du lot 5 — architecture CRM et capitalisation](AUDIT-LOT-5-ARCHITECTURE-CRM-CAPITALISATION.md) — modèle conceptuel proposé, données par source, écarts, cloisonnement et arbitrages avant persistance.
-8. [Vision fondatrice](VISION-FONDATRICE.md) — promesse, doctrine et principes.
-9. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — destinations, dossiers, pages et fonctions transversales.
-10. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — quartier, panorama, ascenseur, étages et navigation.
-11. [Architecture fonctionnelle cible](ARCHITECTURE-FONCTIONNELLE-CIBLE.md) — domaines, frontières et données.
-12. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — intelligence centrale, capacités spécialisées, orchestration, proactivité et gouvernance.
-13. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
-14. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
-15. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
-16. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype et limites vérifiées.
-17. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts historiques à revalider.
-18. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
-19. [Audit technique indépendant — source Claude](AUDIT-TECHNIQUE-CLAUDE-2026-11-05.md) — contrôles déclarés, limites de l’analyse, anomalies, points positifs et recommandations de consolidation.
-20. [Cahier des charges — veille stratégique](CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) — cadrage des signaux économiques, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial.
-21. [Maintenance, sauvegardes et continuité](MAINTENANCE-ET-CONTINUITE.md) — méthode permanente de nettoyage Git, points de retour, vérifications, documentation et reprise.
+8. [Audit du lot 6 — parcours de conversion, formulaires et CRM](AUDIT-LOT-6-PARCOURS-FORMULAIRES-CRM.md) — état réel des formulaires, espace membre, résultats, CRM et tunnel de conversion.
+9. [Vision fondatrice](VISION-FONDATRICE.md) — promesse, doctrine et principes.
+10. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — destinations, dossiers, pages et fonctions transversales.
+11. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — quartier, panorama, ascenseur, étages et navigation.
+12. [Architecture fonctionnelle cible](ARCHITECTURE-FONCTIONNELLE-CIBLE.md) — domaines, frontières et données.
+13. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — intelligence centrale, capacités spécialisées, orchestration, proactivité et gouvernance.
+14. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
+15. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
+16. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
+17. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype et limites vérifiées.
+18. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts historiques à revalider.
+19. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
+20. [Audit technique indépendant — source Claude](AUDIT-TECHNIQUE-CLAUDE-2026-11-05.md) — contrôles déclarés, limites de l’analyse, anomalies, points positifs et recommandations de consolidation.
+21. [Cahier des charges — veille stratégique](CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) — cadrage des signaux économiques, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial.
+22. [Maintenance, sauvegardes et continuité](MAINTENANCE-ET-CONTINUITE.md) — méthode permanente de nettoyage Git, points de retour, vérifications, documentation et reprise.
 
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
