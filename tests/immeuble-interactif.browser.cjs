@@ -57,7 +57,9 @@ async function main() {
     await page.locator("#feed-market-type").selectOption("public");
     assert.equal(await page.locator("#category-step").isVisible(),true,"Le choix du type doit afficher les catégories.");
     assert.equal(await page.locator("#department-step").isHidden(),true,"Le département doit attendre le choix d'une catégorie.");
-    await page.locator("#feed-sector").selectOption("nettoyage");
+    const firstCategory = await page.locator("#feed-sector option").evaluateAll(options => options.find(option => option.value && !option.disabled)?.value);
+    assert.ok(firstCategory,"Au moins une catégorie doit être proposée après le choix du type.");
+    await page.locator("#feed-sector").selectOption(firstCategory);
     assert.equal(await page.locator("#department-step").isVisible(),true,"Le choix de la catégorie doit afficher le département.");
 
     for (const viewport of [{width:1365,height:900},{width:390,height:844}]) {
