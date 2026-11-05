@@ -29,6 +29,13 @@ Les résultats administratifs et les scores de rapprochement sont des aides à l
 
 Le projet ne nécessite pas de framework front-end pour construire le site statique.
 
+## Backend Supabase — fondations en cours
+
+Un backend Supabase séparé a été créé pour préparer l'authentification, les espaces clients et le CRM. Le socle multi-tenant (organisations, membres, entreprises, contacts, opportunités, activités et demandes) est versionné dans `supabase/migrations/`, avec RLS activé et règles de séparation des organisations.
+
+**Important :** le site statique n'est pas encore raccordé à ce backend. Les formulaires ne transmettent pas encore de données, aucun compte client ne peut être créé depuis le site et aucun CRM n'est encore opérationnel. Voir [l'état vérifié du backend](docs/evolution-5.0/ETAT-BACKEND-SUPABASE.md) avant toute intégration.
+
+
 ## Lancer le site en local
 
 Prérequis : Node.js 22 recommandé (la CI utilise Node.js 22).
