@@ -41,7 +41,7 @@ Terminologie active : **développement commercial**, **prospection** (avec **Pro
 
 | Niveau | Identifiant | Destination | Route vérifiée | Rattachement fonctionnel |
 |---|---|---|---|---|
-| 08 | `08` | Espace privé | `espace-membre.html` | Préparer une demande et présenter l'espace personnel cible ; aucun compte connecté n'est activé. |
+| 08 | `08` | Espace privé | `espace-membre.html` | Le code d'inscription, connexion et récupération Supabase Auth est raccordé ; aucun compte utilisateur ni administrateur interne n'est provisionné et le parcours e-mail complet reste à valider. |
 | 07 | `07` | Réseau | `reseaux-synergies.html` | Réseau professionnel ; `salons-seminaires.html` est un parcours associé. |
 | 06 | `06` | Développement commercial | `developpement-commercial.html` | Démarche commerciale globale et accès aux parcours associés. |
 | 05 | `05` | Prospection | `prospection-active.html` | Prospection commerciale ; « Prosp'active » peut servir de signature. |
