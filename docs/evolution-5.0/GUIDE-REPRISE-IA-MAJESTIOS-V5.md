@@ -2,7 +2,8 @@
 
 **Version documentaire :** 5 novembre 2026  
 **Dépôt :** `Chexpeer/Majestios`  
-**Branche de travail :** `evolution-5.0`  
+**Branche source V5 :** `evolution-5.0`  
+**Branche de reconstruction en revue :** `evolution-5.0-clean-preview` (PR #38 ; basée sur `main`, non fusionnée)  
 **Référence technique auditée :** commit `735a09ce0b5c476ff659558060791b34a628b6ac`  
 **Référence stratégique :** [MAJESTIOS-V5-REFERENCE.md](MAJESTIOS-V5-REFERENCE.md)
 
@@ -57,18 +58,7 @@ Ne jamais promettre une position garantie ou un maintien automatique en tête de
 
 ## 4. Arborescence de référence
 
-L'immeuble interactif expose huit destinations :
-
-| Niveau | Destination | Route |
-|---|---|---|
-| 08 | Espace privé | `espace-membre.html` |
-| 07 | Réseau | `reseaux-synergies.html` |
-| 06 | Développement commercial | `developpement-commercial.html` |
-| 05 | Prospection | `prospection-active.html` |
-| 04 | Marchés publics | `marches-publics.html` |
-| 03 | Marchés privés | `marches-prives.html` |
-| 02 | Réputation virtuelle | `reputation-virtuelle.html` |
-| 01 | Accueil | `index.html#accueil` |
+L'arborescence de l'immeuble, ses niveaux, ses destinations et ses routes sont définis dans la [référence canonique V5](MAJESTIOS-V5-REFERENCE.md), qui doit prévaloir sur toute copie de tableau dans un document secondaire. En cas d'écart entre un ancien guide et le code actuel, vérifier les routes et le schéma dans le dépôt, puis corriger le document secondaire.
 
 Principe non négociable : **le schéma reflète l'arborescence**. Les zones interactives doivent mener aux bons dossiers et aux vraies pages. Éviter les liens qui renvoient simplement vers une ancre ou un paragraphe de la page courante lorsqu'une destination dédiée est attendue.
 
