@@ -121,17 +121,19 @@ async function main() {
           "Le titre LED de "+item.name+" doit être composé sur une ou deux lignes complètes.");
       }
 
+      const overlayGeometry = await page.evaluate(() => {
+        const img=document.querySelector(".building-photo img").getBoundingClientRect();
+        const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
+        return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
+      });
+      for (let i=0;i<4;i++) assert.ok(Math.abs(overlayGeometry.img[i]-overlayGeometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
       const screenPointFor = async (item) => {
         const row = page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"]');
         await row.evaluate(element => element.scrollIntoView({block:"center",inline:"center"}));
-        const geometry = await page.evaluate(() => {
-          const img=document.querySelector(".building-photo img").getBoundingClientRect();
-          const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
-          return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
+        return row.evaluate(element => {
+          const rect=element.getBoundingClientRect();
+          return [rect.left+rect.width/2,rect.top+rect.height/2];
         });
-        for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
-        const [x,y,w,h]=item.rect;
-        return [geometry.img[0]+(x+w/2)/imageWidth*geometry.img[2],geometry.img[1]+(y+h/2)/imageHeight*geometry.img[3]];
       };
       for (const item of expected) {
         const [px,py]=await screenPointFor(item);
