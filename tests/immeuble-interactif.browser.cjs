@@ -128,9 +128,9 @@ async function main() {
       });
       for (let i=0;i<4;i++) assert.ok(Math.abs(overlayGeometry.img[i]-overlayGeometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
       const screenPointFor = async (item) => {
-        const row = page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"]');
-        await row.evaluate(element => element.scrollIntoView({block:"center",inline:"center"}));
-        return row.evaluate(element => {
+        const zone = page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"] .floor-zone');
+        await zone.evaluate(element => element.scrollIntoView({block:"center",inline:"center"}));
+        return zone.evaluate(element => {
           const rect=element.getBoundingClientRect();
           return [rect.left+rect.width/2,rect.top+rect.height/2];
         });
