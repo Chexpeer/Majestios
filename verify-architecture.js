@@ -85,7 +85,7 @@ for (const page of htmlPages) {
     page + " : le menu ne doit pas avoir de contrôleur inline concurrent");
 }
 for (const asset of [
-  "styles.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
+  "styles.css", "charte-majestios.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
   "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
   "company-targeting.js", "company-targeting-page.js", "company-fit.js"
@@ -101,24 +101,25 @@ for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-depart
 }
 
 const expectedDestinations = [
-  ["Espace privé","espace-membre.html"],
-  ["Réseau","reseaux-synergies.html"],
-  ["Développement commercial","developpement-commercial.html"],
-  ["Prospection","prospection-active.html"],
-  ["Marchés publics","marches-publics.html"],
-  ["Marchés privés","marches-prives.html"],
-  ["Réputation virtuelle","reputation-virtuelle.html"],
-  ["Accueil","index.html#accueil"]
+  {id:"08",name:"Espace privé",href:"espace-membre.html",x:185,y:182,width:350,height:82},
+  {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:266,width:350,height:80},
+  {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:92},
+  {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:444,width:350,height:81},
+  {id:"04",name:"Accompagnement appels d'offres",href:"accompagnement-appels-offres.html",x:185,y:528,width:350,height:87},
+  {id:"03",name:"Marchés publics",href:"marches-publics.html",x:185,y:618,width:350,height:83},
+  {id:"02",name:"Marchés privés",href:"marches-prives.html",x:185,y:704,width:350,height:87},
+  {id:"01",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:794,width:350,height:85},
+  {id:"RDC",name:"Accueil",href:"index.html#accueil",x:185,y:883,width:350,height:89}
 ];
 const destinationBlock = home.match(/const destinations = \[([\s\S]*?)\n        \];/);
 if (!destinationBlock) {
-  errors.push("Accueil : catalogue des huit destinations introuvable");
+  errors.push("Accueil : catalogue des neuf destinations introuvable");
 } else {
-  const destinations = [...destinationBlock[1].matchAll(/\{id:"(\d{2})",name:"([^"]+)",href:"([^"]+)",x:(\d+),y:(\d+),width:(\d+),height:(\d+)\}/g)]
+  const destinations = [...destinationBlock[1].matchAll(/\{id:"(\d{2}|RDC)",name:"([^"]+)",href:"([^"]+)",x:(\d+),y:(\d+),width:(\d+),height:(\d+)\}/g)]
     .map(match => ({id:match[1],name:match[2],href:match[3],x:Number(match[4]),y:Number(match[5]),width:Number(match[6]),height:Number(match[7])}));
-  assert(destinations.length===8,"Accueil : exactement huit destinations doivent être définies");
-  assert(destinations.every((item,index)=>item.name===expectedDestinations[index][0] && item.href===expectedDestinations[index][1]),
-    "Accueil : les huit destinations ou leurs routes ne respectent pas la nomenclature V5");
+  assert(destinations.length===9,"Accueil : exactement neuf destinations doivent être définies");
+  assert(JSON.stringify(destinations)===JSON.stringify(expectedDestinations),
+    "Accueil : les neuf destinations, leurs identifiants, coordonnées ou routes ne respectent pas l'architecture V5");
   for (const destination of destinations) {
     assert(destination.width>0 && destination.height>0 && destination.x>=0 && destination.y>=0 &&
       destination.x+destination.width<=843 && destination.y+destination.height<=1264,
@@ -129,31 +130,36 @@ if (!destinationBlock) {
   }
   assert(home.includes('document.createElementNS(namespace, "a")'),"Accueil : les destinations doivent être des liens SVG natifs");
   assert(home.includes('viewBox="0 0 843 1264"'),"Accueil : le repère SVG doit correspondre à la photo (843 × 1264)");
-  assert(home.includes('src="Majestios.immeuble.jpg"'),"Accueil : le nouveau visuel de l'immeuble est absent");
+  assert(home.includes('src="IMMEUBLE.jfif"'),"Accueil : la photographie de l'immeuble est absente");
+  assert(home.includes('url("Designer%20(2).png")'),"Accueil : le décor général Designer (2).png est absent");
+  assert(home.includes('url("immeuble-masque.png")'),"Accueil : le masque de détourage de l'immeuble est absent");
   assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
-  assert(home.includes("let current = destinations.length - 1;"),"Accueil : l'ascenseur doit démarrer au niveau 01 (Accueil)");
-  assert(home.includes("selectFloor(destinations.length - 1);"),"Accueil : la cabine doit être initialisée à Accueil");
-  assert(home.includes('cabin.setAttribute("x", "551.5")') &&
-    home.includes('cabin.setAttribute("width", "68")') &&
-    home.includes('cabin.setAttribute("height", "78")'),
-    "Accueil : la cabine vitrée doit être légèrement décalée à droite et dimensionnée dans la gaine");
-  assert(home.includes("const elevatorStops = [210, 305, 397, 487, 577, 667, 757, 847];") &&
+  assert(home.includes("const elevatorStops = destinations.map((item) => item.y + item.height / 2);") &&
+    home.includes("const cabinCenterY = 185;") &&
     home.includes("const offset = elevatorStops[current] - cabinCenterY;"),
-    "Accueil : les huit arrêts de cabine doivent suivre la gaine vitrée");
+    "Accueil : les arrêts de cabine doivent être calculés depuis le centre réel des zones de chaque étage");
+  assert(home.includes('makeShape("path", "elevator-cabin"') &&
+    home.includes('d:"M558 157 C558 148 572 144 590 144'),
+    "Accueil : la cabine doit rester un cylindre panoramique en verre");
+  assert(home.includes('svg.addEventListener("pointerover"') &&
+    home.includes('if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));'),
+    "Accueil : le survol doit appeler l'ascenseur au bon étage");
+  assert(home.includes('window.location.href = row.getAttribute("href");'),
+    "Accueil : un clic doit ouvrir directement la destination");
   assert(home.includes('caption.setAttribute("role", "status")') &&
     home.includes('caption.setAttribute("aria-live", "polite")'),
     "Accueil : le niveau de la cabine doit être annoncé aux technologies d'assistance");
-  assert(home.includes('window.setTimeout(() => { window.location.href = row.getAttribute("href"); }, delay);'),
-    "Accueil : la cabine doit atteindre l'étage avant la navigation directe");
-  assert(home.includes('window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 900'),
-    "Accueil : la navigation par ascenseur doit respecter la réduction des animations");
-
+  assert(home.includes('canvas.setAttribute("data-title-lines", titleLines.join("|"))') &&
+    home.includes('sign.canvas.dataset.state = "paused"') &&
+    home.includes('sign.canvas.dataset.state = "scrolling"'),
+    "Accueil : les titres LED doivent exposer leurs lignes et leurs états de survol pour les tests");
 }
-for (const asset of ["Majestios.immeuble.jpg","Majestios.developpement-commercial.jpg","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
+
+for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png","Majestios.developpement-commercial.jpg","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
   assert(exists(asset),"Image de référence absente : "+asset);
   assert(siteFiles.includes(asset),"Build : image non publiée : "+asset);
 }
-assert(!exists("Ambitios.webp") && !exists("Développement-.webp"),
+assert(!exists("Ambitios.webp") && !exists("Développement-.webp") && !exists("Majestios.immeuble.jpg"),
   "Les deux anciens visuels remplacés doivent être retirés après vérification de leurs références");
 const immersiveCss = read("rubriques-immersives.css");
 for (const [selector,asset] of [
@@ -215,6 +221,13 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
     "Recherche : ordre de chargement du catalogue et du moteur commun incorrect sur " + page);
   assert(/href="rubriques-immersives\.css"/.test(html),
     "Recherche : feuille de style commune absente sur " + page);
+  assert(/href="charte-majestios\.css"/.test(html),
+    "Charte : feuille de style commune absente sur " + page);
+  const stylesheetLinks = [...html.matchAll(/<link[^>]+href="([^"]+\.css)"[^>]*>/g)].map(match => match[1]);
+  assert(stylesheetLinks[stylesheetLinks.length - 1] === "charte-majestios.css",
+    "Charte : charte-majestios.css doit être chargée en dernier sur " + page);
+  assert(stylesheetLinks.indexOf("rubriques-immersives.css") < stylesheetLinks.indexOf("charte-majestios.css"),
+    "Charte : les styles de rubrique doivent précéder la charte commune sur " + page);
 }
 
 const prospecting = read("prospection-active.html");
@@ -226,4 +239,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, huit destinations Ambitios, six images WebP publiées (panorama et cinq fonds), moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, neuf destinations MajestiOS, huit visuels publiés (décor, immeuble, masque et cinq fonds), moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
