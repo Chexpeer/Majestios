@@ -33,7 +33,7 @@ Le projet ne nécessite pas de framework front-end pour construire le site stati
 
 Un backend Supabase séparé a été créé pour préparer l'authentification, les espaces clients et le CRM. Le socle multi-tenant (organisations, membres, entreprises, contacts, opportunités, activités et demandes) est versionné dans `supabase/migrations/`, avec RLS activé et règles de séparation des organisations.
 
-**Important :** le site statique n'est pas encore raccordé à ce backend. Les formulaires ne transmettent pas encore de données, aucun compte client ne peut être créé depuis le site et aucun CRM n'est encore opérationnel. Voir [l'état vérifié du backend](docs/evolution-5.0/ETAT-BACKEND-SUPABASE.md) avant toute intégration.
+**Important :** le parcours d'inscription/connexion de l'espace membre et le provisionnement d'un espace client sont maintenant raccordés au backend, mais le flux e-mail doit encore être validé de bout en bout. Les formulaires publics de contact/candidature et le CRM opérationnel ne sont pas encore raccordés. Voir [l'état vérifié du backend](docs/evolution-5.0/ETAT-BACKEND-SUPABASE.md) avant toute intégration.
 
 
 ## Lancer le site en local
