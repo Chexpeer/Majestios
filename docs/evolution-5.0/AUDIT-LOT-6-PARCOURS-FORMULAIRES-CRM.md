@@ -135,3 +135,39 @@ La page Contact préremplit l'objet correspondant et affiche la source et la ré
 Le test navigateur des résultats vérifie les liens BOAMP et BODACC, leurs références et la conservation des filtres. Le test du formulaire vérifie également l'affichage du contexte et la restauration du mot-clé, du type de marché et du département.
 
 **Limite inchangée :** aucun lead n'est transmis au CRM et aucun enregistrement backend n'a été activé.
+
+
+## 11. Audit des destinations réelles et séparation des identités (5 novembre 2026)
+
+Le contrôle des routes et des appels serveur après le lot 6A précise la portée réelle de chaque parcours :
+
+| Parcours visible | Destination actuelle | Effet réellement vérifié | Qualification |
+|---|---|---|---|
+| Contact général | `contact.html` | Validation locale et prévisualisation ; aucune requête d'envoi ni sauvegarde | Demande de contact non transmise |
+| Demander un accompagnement depuis BOAMP/BODACC | `contact.html` avec source, référence et filtres | Contexte restauré dans l'interface ; aucune création de lead | Prospect potentiel, non enregistré |
+| Nous rejoindre / contribuer | `contact.html?objet=collaboration` | Motif de collaboration préselectionné ; aucun dossier de candidature transmis | Candidat ou contributeur potentiel, non enregistré |
+| Créer un espace personnel | `espace-membre.html` puis Supabase Auth | Inscription/connexion Auth et provisionnement d'un espace client via fonction serveur | Compte authentifié + organisation cliente |
+| Partenariat | Contact avec motif partenariat | Prévisualisation uniquement ; aucune qualification partenaire persistante | Partenaire potentiel, non enregistré |
+| CRM | `crm.html` | Présentation du périmètre, sans gestion opérationnelle de fiches | Non opérationnel |
+
+### Point de vigilance — l'inscription n'est pas une qualification commerciale
+
+La fonction `provision-client-workspace` crée explicitement une ligne `organizations` avec `kind: "client"`, puis associe l'utilisateur avec le rôle `owner`. Lorsqu'un utilisateur se connecte, le code tente également le provisionnement de son espace si aucun espace client n'est déjà associé.
+
+Il faut donc conserver trois notions indépendantes :
+
+- **Identité / membre** : utilisateur authentifié et rôle d'accès dans une organisation (par exemple owner ou membre).
+- **Type d'espace** : tenant interne, client ou partenaire, utilisé pour l'isolation et les autorisations.
+- **Statut commercial** : prospect, client, partenaire, membre de réseau, candidat ou contact exclu / blacklisté, avec provenance, date, historique et règles de contact.
+
+Le champ `organizations.kind` ne doit jamais devenir un substitut au statut commercial. Un compte authentifié n'est pas automatiquement un prospect qualifié ; une demande de partenariat n'est pas un compte client ; une candidature n'est pas une opportunité commerciale. La blacklist doit bloquer les actions de prospection même si une fiche ou une organisation existe.
+
+### Décision de stabilisation
+
+- Ne pas modifier la fonction Edge, les migrations, Auth, RLS ou les tables pendant la phase de stabilisation du site.
+- Ne pas détourner l'inscription espace membre pour recueillir des prospects, partenaires ou candidatures.
+- Avant toute activation des formulaires publics, spécifier des contrats d'entrée distincts (contact, positionnement, candidature, partenariat) et une file de qualification sécurisée.
+- Prévoir une règle de priorité : une exclusion active bloque toute prospection ; les statuts client et partenaire doivent être explicitement confirmés et historisés ; le rôle de membre reste une autorisation d'accès, pas une qualification commerciale.
+- Tester en environnement contrôlé le cycle inscription, confirmation e-mail, première connexion, provisionnement idempotent, connexion ultérieure, récupération et déconnexion avant de considérer l'espace client comme prêt à l'ouverture.
+
+**État exact au contrôle :** le compte membre et le provisionnement d'un espace de type client existent dans le code ; les formulaires publics de contact, positionnement, candidature et partenariat ne transmettent rien ; le CRM et les statuts commerciaux différenciés ne sont pas encore opérationnels. Aucun changement backend n'est réalisé dans ce lot documentaire.
