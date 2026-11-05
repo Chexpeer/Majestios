@@ -969,9 +969,9 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       (function () {
         "use strict";
         var SRC_W = 842, SRC_H = 1264;
-        var ROWS = 31;      // lignes de la matrice : 10 de marge haute, 2 pour les accents, 7 pour les lettres, 12 de marge basse (lettres centrées)
-        var ROW0 = 10;      // première ligne de la matrice occupée par un pixel de texte (accents puis lettres) : lettres sur les lignes 12 à 18, centre = ligne 15 sur 31
-        var SPEED = 24;     // vitesse de défilement, en colonnes de points par seconde (lente et constante)
+        var ROWS = 39;      // lignes de la matrice : deux lignes de texte (2 d'accents + 7 de lettres chacune, 1 d'intervalle), centrées dans le bandeau
+        var LINE_ROW0 = [9, 19]; // première ligne de matrice de chaque ligne de texte : lettres sur les lignes 11-17 et 21-27, bloc centré sur la ligne 19 de 39
+        var SPEED = 30;     // vitesse de défilement, en colonnes de points par seconde (lente et constante)
 
         var SIGNS = [
           {id:"08", title:"Espace privé", quote:"Vos données au sommet de la sécurité", color:"#3fe9ff",
@@ -1127,11 +1127,13 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           canvas.setAttribute("data-floor", def.id);
           canvas.setAttribute("data-label", def.title);
           layer.appendChild(canvas);
-          var text = def.title + "  ◆  " + def.quote + "  ◆  ";
-          var columns = compile(text);
-          // Départs décalés (rapport d'or) pour que les enseignes ne défilent pas à l'unisson.
-          var phase = Math.round(columns.length * ((index * 0.381966) % 1));
-          return {def: def, canvas: canvas, ctx: canvas.getContext("2d"), columns: columns, phase: phase, rgb: rgb(def.color)};
+          // Deux lignes : la rubrique en haut, l'accroche en dessous, chacune en boucle continue.
+          var lines = [def.title + "  ◆  ", def.quote + "  ◆  "].map(function (text, k) {
+            var columns = compile(text);
+            // Départs décalés (rapport d'or) pour que les enseignes ne défilent pas à l'unisson.
+            return {columns: columns, row0: LINE_ROW0[k], phase: Math.round(columns.length * (((index + k * 0.5) * 0.381966) % 1))};
+          });
+          return {def: def, canvas: canvas, ctx: canvas.getContext("2d"), lines: lines, rgb: rgb(def.color)};
         });
 
         function prepare(sign, unit, cols, width, height) {
@@ -1186,24 +1188,27 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         }
 
         function draw(sign, now) {
-          var ctx = sign.ctx, sp = sign.sprite, unit = sign.unit, L = sign.columns.length;
+          var ctx = sign.ctx, sp = sign.sprite, unit = sign.unit;
           if (!sp) return;
           ctx.globalCompositeOperation = "source-over";
           ctx.globalAlpha = 1;
           ctx.drawImage(sp.bg, 0, 0);
-          var offset = sign.phase + now * SPEED / 1000;
-          var base = Math.floor(offset), frac = offset - base;
           ctx.globalCompositeOperation = "lighter";
-          for (var c = 0; c < sign.cols; c++) {
-            var a = sign.columns[(base + c) % L], b = sign.columns[(base + c + 1) % L];
-            for (var r = 0; r < 9; r++) {
-              // Défilement fluide : l'intensité passe progressivement d'une colonne de points à la suivante.
-              var v = a[r] * (1 - frac) + b[r] * frac;
-              if (v < 0.03) continue;
-              ctx.globalAlpha = v;
-              ctx.drawImage(sp.lit, (c + 0.5) * unit - sp.size / 2, (r + ROW0 + 0.5) * unit - sp.size / 2);
+          sign.lines.forEach(function (line) {
+            var L = line.columns.length;
+            var offset = line.phase + now * SPEED / 1000;
+            var base = Math.floor(offset), frac = offset - base;
+            for (var c = 0; c < sign.cols; c++) {
+              var a = line.columns[(base + c) % L], b = line.columns[(base + c + 1) % L];
+              for (var r = 0; r < 9; r++) {
+                // Défilement fluide : l'intensité passe progressivement d'une colonne de points à la suivante.
+                var v = a[r] * (1 - frac) + b[r] * frac;
+                if (v < 0.03) continue;
+                ctx.globalAlpha = v;
+                ctx.drawImage(sp.lit, (c + 0.5) * unit - sp.size / 2, (r + line.row0 + 0.5) * unit - sp.size / 2);
+              }
             }
-          }
+          });
           ctx.globalAlpha = 1;
           ctx.globalCompositeOperation = "source-over";
           ctx.drawImage(sp.gloss, 0, 0);
