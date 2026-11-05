@@ -749,13 +749,12 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       }
 
 
-    
-      /* Enseignes LED matricielles — calées séparément sur les neuf bandeaux de la façade. */
-      body.homepage .led-sign-layer{position:absolute;inset:0;width:100%;height:100%;z-index:3;overflow:visible;pointer-events:none}
-      body.homepage .led-sign-layer .led-panel{fill:#020306;stroke:#17212b;stroke-width:1.2}
-      body.homepage .led-sign-layer .led-pixels{fill:var(--led-color);filter:drop-shadow(0 0 1.1px var(--led-color))}
-      @media(prefers-reduced-motion:reduce){body.homepage .led-sign-layer .led-pixels{filter:none}}
-</style>
+      /* Enseignes LED : un afficheur à matrice de points par étage, posé sur la photo par homographie.
+         La couche est insérée sous le calque des zones cliquables et ne capte jamais la souris. */
+      body.homepage .led-layer { position:absolute; inset:0; overflow:hidden; pointer-events:none; border-radius:3px; }
+      body.homepage .led-sign { position:absolute; left:0; top:0; display:block; transform-origin:0 0; pointer-events:none; }
+
+    </style>
 </head>
   <body class="homepage">
     <div class="homepage-ticker" role="status" aria-label="Flux de démonstration MajestiOS">
@@ -813,7 +812,6 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         <figure class="building-photo">
           <img src="IMMEUBLE.jfif" alt="Immeuble MajestiOS avec huit niveaux interactifs : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil" width="843" height="1264" draggable="false">
           <svg class="building-hotspots" id="floor-rows" viewBox="0 0 843 1264" preserveAspectRatio="none" role="group" aria-label="Accès directs aux huit destinations"></svg>
-          <svg class="led-sign-layer" id="led-sign-layer" viewBox="0 0 843 1264" preserveAspectRatio="none" aria-hidden="true"></svg>
         </figure>
       </section>
     </section>
@@ -851,123 +849,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           {id:"02",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:718,width:350,height:90},
           {id:"01",name:"Accueil",href:"index.html#accueil",x:185,y:810,width:350,height:80}
         ];
-      const namespace = "http://www.w3.org/2000/svg";
-        // Enseignes matricielles : couche SVG indépendante, sans toucher aux hotspots ni à leurs routes.
-        const ledLayer = document.getElementById("led-sign-layer");
-        if (ledLayer) {
-          const ledLevels = [
-            {level:"08",title:"ESPACE PRIVÉ",copy:"Vos données au sommet de la sécurité",color:"#53f4ff",points:"306,192 454,166 454,211 306,237",slope:-0.1763},
-            {level:"07",title:"RÉSEAU",copy:"Les connexions qui vous élèvent",color:"#ff59e8",points:"306,283 454,257 454,302 306,328",slope:-0.1763},
-            {level:"06",title:"DÉVELOPPEMENT COMMERCIAL",copy:"Transformez les opportunités en croissance",color:"#55ffc1",points:"306,374 454,348 454,393 306,419",slope:-0.1763},
-            {level:"05",title:"PROSPECTION",copy:"L'intelligence qui cible juste",color:"#ffe36a",points:"306,465 454,439 454,484 306,510",slope:-0.1763},
-            {level:"04",title:"ACCOMPAGNEMENT APPELS D'OFFRES",copy:"Gagnez vos appels d'offres avec un expert à vos côtés",color:"#ffc85b",points:"306,556 454,530 454,575 306,601",slope:-0.1763},
-            {level:"03",title:"MARCHÉS PUBLICS",copy:"L'IA qui révèle les appels d'offres",color:"#ff895c",points:"306,647 454,621 454,666 306,692",slope:-0.1763},
-            {level:"02",title:"MARCHÉS PRIVÉS",copy:"Les affaires prennent de la hauteur",color:"#c99aff",points:"306,738 454,712 454,757 306,783",slope:-0.1763},
-            {level:"01",title:"RÉPUTATION VIRTUELLE",copy:"L'intelligence qui saute aux yeux",color:"#65b8ff",points:"306,829 454,803 454,848 306,874",slope:-0.1763},
-            {level:"RDC",title:"ACCUEIL MAJESTIOS",copy:"L'intelligence qui vous fait monter au septième ciel",color:"#ffd078",points:"306,920 454,894 454,939 306,965",slope:-0.1763}
-          ];
-          const ledGlyphs = {
-            "A":["01110","10001","10001","11111","10001","10001","10001"],"B":["11110","10001","10001","11110","10001","10001","11110"],
-            "C":["01111","10000","10000","10000","10000","10000","01111"],"D":["11110","10001","10001","10001","10001","10001","11110"],
-            "E":["11111","10000","10000","11110","10000","10000","11111"],"F":["11111","10000","10000","11110","10000","10000","10000"],
-            "G":["01111","10000","10000","10111","10001","10001","01111"],"H":["10001","10001","10001","11111","10001","10001","10001"],
-            "I":["11111","00100","00100","00100","00100","00100","11111"],"J":["00111","00010","00010","00010","10010","10010","01100"],
-            "K":["10001","10010","10100","11000","10100","10010","10001"],"L":["10000","10000","10000","10000","10000","10000","11111"],
-            "M":["10001","11011","10101","10101","10001","10001","10001"],"N":["10001","11001","10101","10011","10001","10001","10001"],
-            "O":["01110","10001","10001","10001","10001","10001","01110"],"P":["11110","10001","10001","11110","10000","10000","10000"],
-            "Q":["01110","10001","10001","10001","10101","10010","01101"],"R":["11110","10001","10001","11110","10100","10010","10001"],
-            "S":["01111","10000","10000","01110","00001","00001","11110"],"T":["11111","00100","00100","00100","00100","00100","00100"],
-            "U":["10001","10001","10001","10001","10001","10001","01110"],"V":["10001","10001","10001","10001","10001","01010","00100"],
-            "W":["10001","10001","10001","10101","10101","10101","01010"],"X":["10001","10001","01010","00100","01010","10001","10001"],
-            "Y":["10001","10001","01010","00100","00100","00100","00100"],"Z":["11111","00001","00010","00100","01000","10000","11111"],
-            "0":["01110","10001","10011","10101","11001","10001","01110"],"1":["00100","01100","00100","00100","00100","00100","01110"],
-            "2":["01110","10001","00001","00010","00100","01000","11111"],"3":["11110","00001","00001","01110","00001","00001","11110"],
-            "4":["00010","00110","01010","10010","11111","00010","00010"],"5":["11111","10000","10000","11110","00001","00001","11110"],
-            "6":["01110","10000","10000","11110","10001","10001","01110"],"7":["11111","00001","00010","00100","01000","01000","01000"],
-            "8":["01110","10001","10001","01110","10001","10001","01110"],"9":["01110","10001","10001","01111","00001","00001","01110"],
-            "'":["00100","00100","00000","00000","00000","00000","00000"],".":["00000","00000","00000","00000","00000","00110","00110"],
-            ",":["00000","00000","00000","00000","00110","00110","00100"],"-":["00000","00000","00000","11111","00000","00000","00000"],
-            "·":["00000","00000","00100","00100","00100","00000","00000"],"!":["00100","00100","00100","00100","00100","00000","00100"]
-          };
-          const pitch = 1.2, radius = 0.42, advance = 7.2, gap = 22;
-          const accentChars = {"É":"E","È":"E","Ê":"E","Ë":"E","À":"A","Â":"A","Ä":"A","Î":"I","Ï":"I","Ô":"O","Ö":"O","Ù":"U","Û":"U","Ü":"U","Ç":"C"};
-          const accentMarks = {"É":[[2,-1.2]],"È":[[1,-1.2]],"Ê":[[1,-1.2],[2,-2],[3,-1.2]],"Ë":[[1,-1.2],[3,-1.2]],"À":[[2,-1.2]],"Â":[[1,-1.2],[2,-2],[3,-1.2]],"Ä":[[1,-1.2],[3,-1.2]],"Î":[[2,-1.2]],"Ï":[[1,-1.2],[3,-1.2]],"Ô":[[1,-1.2],[2,-2],[3,-1.2]],"Ö":[[1,-1.2],[3,-1.2]],"Ù":[[1,-1.2]],"Û":[[1,-1.2],[2,-2],[3,-1.2]],"Ü":[[1,-1.2],[3,-1.2]],"Ç":[[3,7]]};
-          const makeDotPath = (textValue, startX, centerY, slope) => {
-            let d = "", cursor = startX;
-            for (const rawChar of textValue.toLocaleUpperCase("fr-FR")) {
-              const char = rawChar === "’" ? "'" : rawChar;
-              if (char === " ") { cursor += advance * 0.52; continue; }
-              const base = accentChars[char] || char;
-              const glyph = ledGlyphs[base] || ledGlyphs["·"];
-              for (let row = 0; row < glyph.length; row++) {
-                for (let col = 0; col < glyph[row].length; col++) {
-                  if (glyph[row][col] !== "1") continue;
-                  const x = cursor + col * pitch;
-                  const y = centerY + (row - 3) * pitch + (x - 306) * slope;
-                  d += "M" + (x-radius).toFixed(2) + " " + y.toFixed(2) + "a" + radius + " " + radius + " 0 1 0 " + (radius*2) + " 0a" + radius + " " + radius + " 0 1 0 " + (-radius*2) + " 0";
-                }
-              }
-              if (accentMarks[char]) accentMarks[char].forEach(([col,row]) => {
-                const x = cursor + col * pitch, y = centerY + (row - 3) * pitch + (x - 306) * slope;
-                d += "M" + (x-radius).toFixed(2) + " " + y.toFixed(2) + "a" + radius + " " + radius + " 0 1 0 " + (radius*2) + " 0a" + radius + " " + radius + " 0 1 0 " + (-radius*2) + " 0";
-              });
-              cursor += advance;
-            }
-            return {d, width:cursor-startX};
-          };
-          ledLevels.forEach((item,index) => {
-            const coords = item.points.split(" ").map(pair => pair.split(",").map(Number));
-            const leftX = coords[0][0], centerY = (coords[0][1] + coords[3][1]) / 2;
-            const clipId = "maj-led-clip-" + index;
-            const clip = document.createElementNS(namespace,"clipPath");
-            clip.setAttribute("id",clipId);
-            clip.setAttribute("clipPathUnits","userSpaceOnUse");
-            const clipPolygon = document.createElementNS(namespace,"polygon");
-            clipPolygon.setAttribute("points",item.points);
-            clip.append(clipPolygon);
-            if (index === 0) {
-              const defs = document.createElementNS(namespace,"defs");
-              ledLayer.append(defs);
-              ledLayer._defs = defs;
-            }
-            ledLayer._defs.append(clip);
-            const panel = document.createElementNS(namespace,"polygon");
-            panel.setAttribute("class","led-panel");
-            panel.setAttribute("points",item.points);
-            panel.setAttribute("stroke",item.color);
-            panel.setAttribute("stroke-opacity","0.38");
-            ledLayer.append(panel);
-            const viewport = document.createElementNS(namespace,"g");
-            viewport.setAttribute("clip-path","url(#"+clipId+")");
-            viewport.style.setProperty("--led-color",item.color);
-            const track = document.createElementNS(namespace,"g");
-            track.setAttribute("class","led-motion");
-            const fullText = item.title + "  ·  " + item.copy;
-            const first = makeDotPath(fullText,leftX+6,centerY,item.slope);
-            const cycle = first.width + gap;
-            const p1 = document.createElementNS(namespace,"path");
-            p1.setAttribute("class","led-pixels");
-            p1.setAttribute("d",first.d);
-            const p2 = document.createElementNS(namespace,"path");
-            p2.setAttribute("class","led-pixels");
-            p2.setAttribute("d",first.d);
-            p2.setAttribute("transform","translate("+cycle+" 0)");
-            track.append(p1,p2);
-            if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-              const animation = document.createElementNS(namespace,"animateTransform");
-              animation.setAttribute("attributeName","transform");
-              animation.setAttribute("type","translate");
-              animation.setAttribute("from","0 0");
-              animation.setAttribute("to",(-cycle)+" 0");
-              animation.setAttribute("dur",Math.max(12,cycle/22)+"s");
-              animation.setAttribute("repeatCount","indefinite");
-              track.append(animation);
-            }
-            viewport.append(track);
-            ledLayer.append(viewport);
-          });
-        }
-
+        const namespace = "http://www.w3.org/2000/svg";
         destinations.forEach((destination) => {
           const link = document.createElementNS(namespace, "a");
           link.setAttribute("class", "floor-row");
@@ -1075,6 +957,280 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           selectFloor(destinations.length - 1);
         }
       });
+    </script>
+    <script>
+      /* Enseignes LED des étages.
+         Chaque afficheur est un <canvas> dessiné en matrice de points (cellules carrées). Il est posé sur le
+         panneau peint de son étage par une homographie CSS (matrix3d) calculée à partir des quatre coins de ce
+         panneau, mesurés sur IMMEUBLE.jfif (842 × 1264) et rentrés d'1 px. Aucune rotation commune : chaque
+         étage a son propre quadrilatère (haut-gauche, haut-droit, bas-droit, bas-gauche).
+         L'image, les zones cliquables et les liens ne sont pas modifiés ; la couche ne capte jamais la souris. */
+      (function () {
+        "use strict";
+        var SRC_W = 842, SRC_H = 1264;
+        var ROWS = 16;      // lignes de la matrice : 3 de marge haute, 2 pour les accents, 7 pour les lettres, 4 de marge basse
+        var ROW0 = 3;       // première ligne de la matrice occupée par un pixel de texte (accents puis lettres)
+        var SPEED = 14;     // vitesse de défilement, en colonnes de points par seconde (lente et constante)
+
+        var SIGNS = [
+          {id:"08", title:"Espace privé", quote:"Vos données au sommet de la sécurité", color:"#3fe9ff",
+           quad:[[251.0,210.3],[448.0,168.7],[448.0,237.2],[251.0,276.3]]},
+          {id:"07", title:"Réseau", quote:"Les connexions qui vous élèvent", color:"#ff4be8",
+           quad:[[251.0,290.8],[449.0,254.2],[449.0,324.1],[251.0,354.8]]},
+          {id:"06", title:"Développement commercial", quote:"Transformez les opportunités en croissance", color:"#3dffb0",
+           quad:[[251.0,371.9],[449.0,341.7],[449.0,429.1],[251.0,444.9]]},
+          {id:"05", title:"Prospection", quote:"L'intelligence qui cible juste", color:"#fff23d",
+           quad:[[251.0,459.9],[449.0,437.1],[449.0,510.1],[251.0,528.9]]},
+          {id:"04", title:"Accompagnement appels d'offres", quote:"Gagnez vos appels d'offres avec un expert à vos côtés", color:"#ffa21f",
+           quad:[[251.0,541.9],[449.0,527.1],[449.0,604.0],[251.0,613.0]]},
+          {id:"03", title:"Marchés publics", quote:"L'IA qui révèle les appels d'offres", color:"#ff4d2d",
+           quad:[[251.0,630.9],[449.0,619.1],[449.0,692.0],[251.0,698.0]]},
+          {id:"02", title:"Marchés privés", quote:"Les affaires prennent de la hauteur", color:"#a07cff",
+           quad:[[250.0,714.0],[449.0,708.0],[449.0,782.0],[250.0,784.0]]},
+          {id:"01", title:"Réputation virtuelle", quote:"L'intelligence qui saute aux yeux", color:"#4a9bff",
+           quad:[[248.0,804.0],[479.0,800.8],[479.0,871.0],[248.0,875.0]]},
+          {id:"RDC", title:"Accueil MajestiOS", quote:"L'intelligence qui vous fait monter au septième ciel", color:"#fff0d2",
+           quad:[[248.0,890.0],[460.0,888.5],[460.0,965.0],[248.0,963.0]]}
+        ];
+
+        // Police à matrice 5 × 7 (majuscules). Les accents sont ajoutés sur deux lignes au-dessus de la lettre.
+        var FONT = {
+          "A":[".###.","#...#","#...#","#####","#...#","#...#","#...#"],
+          "B":["####.","#...#","#...#","####.","#...#","#...#","####."],
+          "C":[".###.","#...#","#....","#....","#....","#...#",".###."],
+          "D":["####.","#...#","#...#","#...#","#...#","#...#","####."],
+          "E":["#####","#....","#....","####.","#....","#....","#####"],
+          "F":["#####","#....","#....","####.","#....","#....","#...."],
+          "G":[".###.","#...#","#....","#.###","#...#","#...#",".###."],
+          "H":["#...#","#...#","#...#","#####","#...#","#...#","#...#"],
+          "I":[".###.","..#..","..#..","..#..","..#..","..#..",".###."],
+          "J":["..###","...#.","...#.","...#.","...#.","#..#.",".##.."],
+          "K":["#...#","#..#.","#.#..","##...","#.#..","#..#.","#...#"],
+          "L":["#....","#....","#....","#....","#....","#....","#####"],
+          "M":["#...#","##.##","#.#.#","#.#.#","#...#","#...#","#...#"],
+          "N":["#...#","##..#","#.#.#","#..##","#...#","#...#","#...#"],
+          "O":[".###.","#...#","#...#","#...#","#...#","#...#",".###."],
+          "P":["####.","#...#","#...#","####.","#....","#....","#...."],
+          "Q":[".###.","#...#","#...#","#...#","#.#.#","#..#.",".##.#"],
+          "R":["####.","#...#","#...#","####.","#.#..","#..#.","#...#"],
+          "S":[".####","#....","#....",".###.","....#","....#","####."],
+          "T":["#####","..#..","..#..","..#..","..#..","..#..","..#.."],
+          "U":["#...#","#...#","#...#","#...#","#...#","#...#",".###."],
+          "V":["#...#","#...#","#...#","#...#","#...#",".#.#.","..#.."],
+          "W":["#...#","#...#","#...#","#.#.#","#.#.#","##.##","#...#"],
+          "X":["#...#","#...#",".#.#.","..#..",".#.#.","#...#","#...#"],
+          "Y":["#...#","#...#",".#.#.","..#..","..#..","..#..","..#.."],
+          "Z":["#####","....#","...#.","..#..",".#...","#....","#####"],
+          "'":["#","#",".",".",".",".","."],
+          "-":["...","...","...","###","...","...","..."],
+          "◆":["...","...",".#.","###",".#.","...","..."]
+        };
+        FONT["’"] = FONT["'"];
+        var ACCENTS = {
+          "̀":[".#...","..#.."],   // grave
+          "́":["...#.","..#.."],   // aigu
+          "̂":["..#..",".#.#."],   // circonflexe
+          "̈":[".#.#.","....."]    // tréma
+        };
+
+        function blankColumn() { return new Uint8Array(9); }
+
+        // Transforme un texte en colonnes de points : chaque colonne compte 9 lignes (2 d'accent + 7 de lettre).
+        function compile(text) {
+          var cols = [], lastStart = -1, lastWidth = 0;
+          var chars = text.toLocaleUpperCase("fr-FR").normalize("NFD").split("");
+          chars.forEach(function (ch) {
+            if (/[̀-ͯ]/.test(ch)) {
+              var pattern = ACCENTS[ch];
+              if (pattern && lastStart >= 0 && lastWidth === 5) {
+                for (var r = 0; r < 2; r++) {
+                  for (var x = 0; x < 5; x++) {
+                    if (pattern[r].charAt(x) === "#") cols[lastStart + x][r] = 1;
+                  }
+                }
+              }
+              return;
+            }
+            if (ch === " ") {
+              for (var s = 0; s < 3; s++) cols.push(blankColumn());
+              lastStart = -1;
+              return;
+            }
+            var glyph = FONT[ch];
+            if (!glyph) { for (var u = 0; u < 3; u++) cols.push(blankColumn()); lastStart = -1; return; }
+            var width = glyph[0].length;
+            lastStart = cols.length; lastWidth = width;
+            for (var gx = 0; gx < width; gx++) {
+              var column = blankColumn();
+              for (var gy = 0; gy < 7; gy++) if (glyph[gy].charAt(gx) === "#") column[2 + gy] = 1;
+              cols.push(column);
+            }
+            cols.push(blankColumn());
+          });
+          return cols;
+        }
+
+        // Résout le système 8 × 8 d'une homographie (élimination de Gauss avec pivot partiel).
+        function solve(A, b) {
+          var n = 8, i, j, k;
+          for (i = 0; i < n; i++) A[i].push(b[i]);
+          for (i = 0; i < n; i++) {
+            var pivot = i;
+            for (j = i + 1; j < n; j++) if (Math.abs(A[j][i]) > Math.abs(A[pivot][i])) pivot = j;
+            var tmp = A[i]; A[i] = A[pivot]; A[pivot] = tmp;
+            for (j = i + 1; j < n; j++) {
+              var factor = A[j][i] / A[i][i];
+              for (k = i; k <= n; k++) A[j][k] -= factor * A[i][k];
+            }
+          }
+          var x = new Array(n);
+          for (i = n - 1; i >= 0; i--) {
+            var sum = A[i][n];
+            for (j = i + 1; j < n; j++) sum -= A[i][j] * x[j];
+            x[i] = sum / A[i][i];
+          }
+          return x;
+        }
+
+        // CSS matrix3d qui envoie le rectangle (0,0)-(w,h) sur le quadrilatère q (haut-gauche, haut-droit, bas-droit, bas-gauche).
+        function homography(w, h, q) {
+          var src = [[0, 0], [w, 0], [w, h], [0, h]], A = [], b = [];
+          for (var i = 0; i < 4; i++) {
+            var x = src[i][0], y = src[i][1], X = q[i][0], Y = q[i][1];
+            A.push([x, y, 1, 0, 0, 0, -x * X, -y * X]); b.push(X);
+            A.push([0, 0, 0, x, y, 1, -x * Y, -y * Y]); b.push(Y);
+          }
+          var m = solve(A, b);
+          return "matrix3d(" + [m[0], m[3], 0, m[6], m[1], m[4], 0, m[7], 0, 0, 1, 0, m[2], m[5], 0, 1].join(",") + ")";
+        }
+
+        function rgb(hex) {
+          var n = parseInt(hex.slice(1), 16);
+          return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+        }
+        function dist(a, b) { return Math.hypot(a[0] - b[0], a[1] - b[1]); }
+        function makeCanvas(w, h) { var c = document.createElement("canvas"); c.width = w; c.height = h; return c; }
+
+        var figure = document.querySelector(".building-photo");
+        var hotspots = document.getElementById("floor-rows");
+        if (!figure || !hotspots || !figure.insertBefore) return;
+
+        var layer = document.createElement("div");
+        layer.className = "led-layer";
+        layer.setAttribute("aria-hidden", "true");
+        figure.insertBefore(layer, hotspots);
+
+        var signs = SIGNS.map(function (def, index) {
+          var canvas = document.createElement("canvas");
+          canvas.className = "led-sign";
+          canvas.setAttribute("data-floor", def.id);
+          canvas.setAttribute("data-label", def.title);
+          layer.appendChild(canvas);
+          var text = def.title + "  ◆  " + def.quote + "  ◆  ";
+          var columns = compile(text);
+          // Départs décalés (rapport d'or) pour que les enseignes ne défilent pas à l'unisson.
+          var phase = Math.round(columns.length * ((index * 0.381966) % 1));
+          return {def: def, canvas: canvas, ctx: canvas.getContext("2d"), columns: columns, phase: phase, rgb: rgb(def.color)};
+        });
+
+        function prepare(sign, unit, cols, width, height) {
+          var c = sign.rgb, rgba = function (a) { return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")"; };
+          var dotR = unit * 0.36, glowR = unit * 0.95, size = Math.ceil(glowR * 2) + 2, mid = size / 2;
+          // Point allumé : halo coloré + cœur plus clair.
+          var lit = makeCanvas(size, size), lc = lit.getContext("2d");
+          var glow = lc.createRadialGradient(mid, mid, 0, mid, mid, glowR);
+          glow.addColorStop(0, rgba(0.55)); glow.addColorStop(1, rgba(0));
+          lc.fillStyle = glow; lc.beginPath(); lc.arc(mid, mid, glowR, 0, 6.2832); lc.fill();
+          var core = lc.createRadialGradient(mid, mid, 0, mid, mid, dotR);
+          core.addColorStop(0, "rgba(255,255,255,1)");
+          core.addColorStop(0.55, "rgba(" + Math.round((c[0] + 255) / 2) + "," + Math.round((c[1] + 255) / 2) + "," + Math.round((c[2] + 255) / 2) + ",1)");
+          core.addColorStop(1, rgba(1));
+          lc.fillStyle = core; lc.beginPath(); lc.arc(mid, mid, dotR, 0, 6.2832); lc.fill();
+          // Fond noir profond avec la grille des points éteints.
+          var bg = makeCanvas(width, height), bc = bg.getContext("2d");
+          bc.fillStyle = "#010204"; bc.fillRect(0, 0, width, height);
+          bc.fillStyle = rgba(0.11);
+          for (var r = 0; r < ROWS; r++) for (var x = 0; x < cols; x++) {
+            bc.beginPath(); bc.arc((x + 0.5) * unit, (r + 0.5) * unit, dotR * 0.92, 0, 6.2832); bc.fill();
+          }
+          // Reflet de vitre très léger, au-dessus des points.
+          var gloss = makeCanvas(width, height), gc = gloss.getContext("2d");
+          var sheen = gc.createLinearGradient(0, 0, width * 0.55, height);
+          sheen.addColorStop(0, "rgba(255,255,255,0.09)"); sheen.addColorStop(0.45, "rgba(255,255,255,0)");
+          gc.fillStyle = sheen; gc.fillRect(0, 0, width, height);
+          sign.sprite = {lit: lit, size: size, bg: bg, gloss: gloss};
+          sign.unit = unit; sign.cols = cols;
+        }
+
+        function layout() {
+          var W = figure.clientWidth, H = figure.clientHeight;
+          if (!W || !H) return;
+          var sx = W / SRC_W, sy = H / SRC_H;
+          var density = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
+          signs.forEach(function (sign) {
+            var q = sign.def.quad.map(function (p) { return [p[0] * sx, p[1] * sy]; });
+            var wAvg = (dist(q[0], q[1]) + dist(q[3], q[2])) / 2;
+            var hAvg = (dist(q[0], q[3]) + dist(q[1], q[2])) / 2;
+            var pitch = hAvg / ROWS;                       // cellules carrées
+            var cols = Math.max(8, Math.round(wAvg / pitch));
+            var w = cols * pitch, h = ROWS * pitch;
+            sign.canvas.width = Math.round(w * density);
+            sign.canvas.height = Math.round(h * density);
+            sign.canvas.style.width = w + "px";
+            sign.canvas.style.height = h + "px";
+            sign.canvas.style.transform = homography(w, h, q);
+            prepare(sign, pitch * density, cols, sign.canvas.width, sign.canvas.height);
+            sign.ctx = sign.canvas.getContext("2d");
+          });
+        }
+
+        function draw(sign, now) {
+          var ctx = sign.ctx, sp = sign.sprite, unit = sign.unit, L = sign.columns.length;
+          if (!sp) return;
+          ctx.globalCompositeOperation = "source-over";
+          ctx.globalAlpha = 1;
+          ctx.drawImage(sp.bg, 0, 0);
+          var offset = sign.phase + now * SPEED / 1000;
+          var base = Math.floor(offset), frac = offset - base;
+          ctx.globalCompositeOperation = "lighter";
+          for (var c = 0; c < sign.cols; c++) {
+            var a = sign.columns[(base + c) % L], b = sign.columns[(base + c + 1) % L];
+            for (var r = 0; r < 9; r++) {
+              // Défilement fluide : l'intensité passe progressivement d'une colonne de points à la suivante.
+              var v = a[r] * (1 - frac) + b[r] * frac;
+              if (v < 0.03) continue;
+              ctx.globalAlpha = v;
+              ctx.drawImage(sp.lit, (c + 0.5) * unit - sp.size / 2, (r + ROW0 + 0.5) * unit - sp.size / 2);
+            }
+          }
+          ctx.globalAlpha = 1;
+          ctx.globalCompositeOperation = "source-over";
+          ctx.drawImage(sp.gloss, 0, 0);
+        }
+
+        var frameId = 0, visible = true;
+        var reduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+        function frame(now) {
+          signs.forEach(function (sign) { draw(sign, now); });
+          frameId = window.requestAnimationFrame(frame);
+        }
+        function sync() {
+          var animate = visible && !document.hidden && !(reduce && reduce.matches);
+          layer.style.display = reduce && reduce.matches ? "none" : "";
+          if (animate && !frameId) frameId = window.requestAnimationFrame(frame);
+          if (!animate && frameId) { window.cancelAnimationFrame(frameId); frameId = 0; }
+        }
+
+        layout();
+        if (typeof ResizeObserver === "function") new ResizeObserver(layout).observe(figure);
+        else window.addEventListener("resize", layout);
+        if (typeof IntersectionObserver === "function") {
+          new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; sync(); }).observe(figure);
+        }
+        document.addEventListener("visibilitychange", sync);
+        if (reduce) { if (reduce.addEventListener) reduce.addEventListener("change", sync); else if (reduce.addListener) reduce.addListener(sync); }
+        sync();
+      })();
     </script>
     <footer class="site-footer homepage-footer" aria-label="Pied de page MajestiOS">
       <a class="brand footer-brand" href="index.html#accueil" aria-label="MajestiOS, retour à l’accueil">
