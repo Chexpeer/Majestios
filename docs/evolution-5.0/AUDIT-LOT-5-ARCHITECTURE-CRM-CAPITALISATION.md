@@ -6,6 +6,8 @@
 
 **Nature :** audit documentaire et proposition d'architecture fonctionnelle ; aucune implémentation CRM n'est autorisée ou réalisée par ce document.
 
+> **Actualisation de périmètre — 5 novembre 2026 :** ce rapport décrit l'état avant la création de la fondation Supabase. Depuis, six migrations et neuf tables avec RLS sont présentes, ainsi qu'une fonction serveur de provisionnement client ; cela ne constitue pas encore un CRM opérationnel, une passerelle BOAMP/BODACC ni une chaîne de prospection. Le statut courant et les limites sont consignés dans [État du backend Supabase](ETAT-BACKEND-SUPABASE.md). Les propositions conceptuelles de ce rapport restent à arbitrer avant toute extension.
+
 ## 1. Synthèse
 
 Le dépôt contient les premiers composants de détection et d'identification : recherche BOAMP et BODACC, recherche d'entreprises DINUM, fonctions de normalisation et de rapprochement en mémoire, ainsi qu'un schéma JSON d'opportunité. Ces éléments constituent un prototype de collecte et de qualification indicative, pas une chaîne de capitalisation commerciale.
