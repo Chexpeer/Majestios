@@ -1,17 +1,24 @@
 # Arborescence cible MajestiOS V5
 
-Statut : référence de travail au 4 novembre 2026. Les destinations et rattachements fonctionnels décrivent la cible ; les coordonnées interactives, le rôle de l'ascenseur et la recette de navigation doivent être validés sur le rendu réel.
+Statut : référence fonctionnelle et visuelle au 5 novembre 2026. Les neuf destinations, leurs routes et leurs coordonnées sont vérifiées dans index.html et les tests navigateur ; toute évolution doit mettre à jour simultanément le schéma, les tests et cette référence.
 
-## Rubriques visibles sur Ambitios
+## Rubriques visibles sur l'immeuble interactif MajestiOS
 
-1. Espace privé — destination existante : `espace-membre.html`.
-2. Réseau — destination : `reseaux-synergies.html`. La page `salons-seminaires.html` est un parcours associé, pas un étage autonome par défaut.
-3. Développement commercial — `developpement-commercial.html` ; démarche globale Détecter → Qualifier → Identifier → Contacter → Transformer → Capitaliser.
-4. Prospection — `prospection-active.html`. Employer « Prospection » sur le bâtiment ; « Prosp'active » peut être utilisé comme signature de marque selon le contexte.
-5. Marchés publics — `marches-publics.html` ; parcours associés : `veille-marches.html` et `accompagnement-appels-offres.html`.
-6. Marchés privés — `marches-prives.html` ; parcours associés : BODACC, sous-traitance et qualification selon disponibilité réelle des sources.
-7. Réputation virtuelle — visibilité en ligne, présence locale, avis et SEO.
-8. Accueil — panorama et accès à la recherche.
+Les neuf destinations ci-dessous correspondent à l'ordre réel des zones SVG de l'accueil, du haut vers le rez-de-chaussée.
+
+| Niveau | Identifiant | Destination | Route |
+|---|---|---|---|
+| 08 | 08 | Espace privé | espace-membre.html |
+| 07 | 07 | Réseau | reseaux-synergies.html |
+| 06 | 06 | Développement commercial | developpement-commercial.html |
+| 05 | 05 | Prospection | prospection-active.html |
+| 04 | 04 | Accompagnement appels d'offres | accompagnement-appels-offres.html |
+| 03 | 03 | Marchés publics | marches-publics.html |
+| 02 | 02 | Marchés privés | marches-prives.html |
+| 01 | 01 | Réputation virtuelle | reputation-virtuelle.html |
+| RDC | RDC | Accueil | index.html#accueil |
+
+Le moteur de recherche, le CRM et la Business Intelligence sont des fonctions transversales, pas des étages. Le survol d'un étage appelle l'ascenseur cylindrique et stabilise/clignote son intitulé LED ; les noms longs sont répartis sur deux lignes. Un clic unique ouvre directement la page liée.
 
 ## Fonctions transversales, non assimilées à des étages
 
@@ -41,7 +48,9 @@ Les pages de veille, accompagnement AO, BODACC, sous-traitance, qualification, s
 
 ## Ressources visuelles présentes dans la branche
 
-- `Majestios.immeuble.jpg` : immeuble interactif de l'accueil.
+- `Designer (2).png` : décor général de l'accueil.
+- `IMMEUBLE.jfif` : photographie de la tour affichée au premier plan.
+- `immeuble-masque.png` : masque de détourage de la tour.
 - `Majestios.developpement-commercial.jpg` : Développement commercial.
 - `Marché-Public-.webp` : Marchés publics.
 - `Prospection-.webp` : Prospection.
@@ -60,4 +69,4 @@ La présence d'un fichier ne certifie pas son rendu ni son affectation correcte.
 
 ## Étape technique suivante
 
-Établir la matrice destination → dossier → sous-dossier → page → fonction, puis tester les liens et l'expérience d'ascenseur. Mesurer les zones sur l'image finale plutôt que de déduire leurs coordonnées.
+Maintenir la matrice destination → dossier → sous-dossier → page → fonction. Les coordonnées actuelles sont définies et testées ; toute modification de l'image ou de la façade impose une nouvelle mesure et une recette complète desktop/mobile.
