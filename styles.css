@@ -2055,3 +2055,98 @@ body:not(.homepage) main.interior-page .feed-search-submit {
     border-color:rgba(213,181,108,.55);
   }
 }
+
+
+/* Navigation contextuelle MajestiOS : menus courts, accessibles et utilisables au clavier. */
+.site-nav .nav-item-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.site-nav .nav-dropdown-toggle {
+  display: inline-grid;
+  width: 23px;
+  height: 26px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  color: currentColor;
+  background: transparent;
+  font-size: 14px;
+  line-height: 1;
+}
+.site-nav .nav-dropdown-toggle:hover,
+.site-nav .nav-dropdown-toggle[aria-expanded="true"] {
+  color: #e5c56e;
+  background: rgba(213,181,108,.1);
+}
+.site-nav .nav-submenu {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  min-width: 218px;
+  gap: 3px;
+  padding: 7px;
+  border: 1px solid rgba(213,181,108,.35);
+  border-radius: 10px;
+  background: #0b1c31;
+  box-shadow: 0 16px 34px rgba(0,0,0,.3);
+}
+.site-nav .nav-submenu[hidden] { display: none; }
+.site-nav .nav-submenu a {
+  display: block;
+  padding: 9px 11px;
+  border-radius: 6px;
+  color: #e8edf5;
+  font-size: 11px;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.site-nav .nav-submenu a:hover,
+.site-nav .nav-submenu a:focus-visible {
+  color: #ffe29a;
+  background: rgba(213,181,108,.12);
+}
+@media (max-width: 1020px) {
+  .site-nav .nav-item-dropdown {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 34px;
+    align-items: center;
+    width: 100%;
+    gap: 0;
+  }
+  .site-nav .nav-item-dropdown > a {
+    min-width: 0;
+    padding: 10px;
+  }
+  .site-nav .nav-dropdown-toggle {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(213,181,108,.2);
+  }
+  .site-nav .nav-submenu {
+    position: static;
+    grid-column: 1 / -1;
+    min-width: 0;
+    margin: 2px 0 7px 8px;
+    padding: 5px;
+    border-color: rgba(213,181,108,.2);
+    box-shadow: none;
+  }
+  .site-nav .nav-submenu a {
+    white-space: normal;
+    padding: 9px 10px;
+  }
+}
+@media (min-width: 1021px) {
+  .site-nav .nav-item-dropdown:focus-within .nav-submenu,
+  .site-nav .nav-item-dropdown:hover .nav-submenu { display: grid; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .nav-dropdown-toggle,
+  .site-nav .nav-submenu a { transition: none; }
+}
