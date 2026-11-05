@@ -71,11 +71,11 @@
 
 /* Fonds photographiques dédiés aux rubriques et sous-rubriques V5. */
 .virtual-space[data-world="prospection"]{
-  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),url("Prospection-.webp")!important;
+  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),none!important;
   background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
 }
 .virtual-space[data-world="accompagnement"]{
-  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),url("Marché-Public-.webp")!important;
+  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),none!important;
   background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
 }
 .virtual-space[data-world="prospection"]:before,.virtual-space[data-world="accompagnement"]:before{opacity:.18}
@@ -86,7 +86,7 @@
 /* La veille économique reçoit son image directement dans le panneau immersif
    réellement présent sur veille-marches.html, avec contraste de lecture. */
 .virtual-space[data-world="veille"]{
-  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),url("Marché-Public-.webp")!important;
+  background-image:linear-gradient(90deg,rgba(5,10,17,.94) 0%,rgba(5,10,17,.82) 44%,rgba(5,10,17,.36) 100%),none!important;
   background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
 }
 .virtual-space[data-world="veille"]:before{opacity:.18}
@@ -155,17 +155,17 @@ body.page-prospection main.interior-page{
   background-position:center;background-repeat:no-repeat;background-attachment:fixed;
 }
 body.page-development-commercial main.interior-page{
-  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.78) 58%,rgba(5,12,23,.56)),url("Majestios.developpement-commercial.jpg");
+  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.78) 58%,rgba(5,12,23,.56)),none;
   background-size:100% 100%,min(100%,1408px) auto;
   background-position:center top,center top;
   background-repeat:no-repeat,no-repeat;
   background-attachment:scroll;
 }
 body.page-marches-publics main.interior-page{
-  background-image:linear-gradient(90deg,rgba(5,12,23,.92),rgba(5,12,23,.78) 55%,rgba(5,12,23,.60)),url("Marché-Public-.webp");
+  background-image:linear-gradient(90deg,rgba(5,12,23,.92),rgba(5,12,23,.78) 55%,rgba(5,12,23,.60)),none;
 }
 body.page-prospection main.interior-page{
-  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.80) 58%,rgba(5,12,23,.58)),url("Prospection-.webp");
+  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.80) 58%,rgba(5,12,23,.58)),none;
 }
 @media(max-width:760px){
   body.page-development-commercial main.interior-page,
@@ -181,7 +181,7 @@ body.page-marches-prives main.interior-page{
   padding:clamp(22px,3vw,42px);border:1px solid rgba(213,181,108,.24);
   border-radius:18px;background-color:#091321;background-size:cover;
   background-position:center;background-repeat:no-repeat;background-attachment:fixed;
-  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.80) 58%,rgba(5,12,23,.58)),url("Marcheprive.webp");
+  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.80) 58%,rgba(5,12,23,.58)),none;
 }
 @media(max-width:760px){body.page-marches-prives main.interior-page{padding:18px 14px;background-attachment:scroll;background-position:center top}}
 
@@ -192,6 +192,6 @@ body.page-reseaux main.interior-page{
   padding:clamp(22px,3vw,42px);border:1px solid rgba(213,181,108,.24);
   border-radius:18px;background-color:#091321;background-size:cover;
   background-position:center;background-repeat:no-repeat;background-attachment:fixed;
-  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.80) 58%,rgba(5,12,23,.58)),url("Reseau.webp");
+  background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.80) 58%,rgba(5,12,23,.58)),none;
 }
 @media(max-width:760px){body.page-reseaux main.interior-page{padding:18px 14px;background-attachment:scroll;background-position:center top}}
