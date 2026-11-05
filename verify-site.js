@@ -29,6 +29,25 @@ for (const file of siteFiles) {
 }
 for (const page of pages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
 
+const legacyVisibleTerms = [
+  "prospection inversée",
+  "zone artisanale",
+  "zone industrielle",
+  "quartier d'affaires",
+  "quartier d’affaires",
+  "intelligence commerciale",
+  "e-réputation",
+  "prospection active"
+];
+for (const page of pages) {
+  const html = fs.readFileSync(path.join(root, page), "utf8");
+  const normalized = html.toLocaleLowerCase("fr");
+  for (const term of legacyVisibleTerms) {
+    assert(!normalized.includes(term), page + " : terminologie MajestiOS obsolète détectée (« " + term + " »)");
+  }
+  assert(!html.includes('href="index.html#accueil"'), page + " : le retour d'accueil doit ouvrir la route, sans fragment local");
+}
+
 const rubricSearchPages = [
   "marches-publics.html", "developpement-commercial.html", "prospection-active.html",
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
