@@ -24,16 +24,17 @@
 <div class="personal-space-fields">
 <label class="form-field" data-signup-only>Prénom <span>*</span><input name="firstName" autocomplete="given-name" data-required="true" required></label>
 <label class="form-field" data-signup-only>Nom <span>*</span><input name="lastName" autocomplete="family-name" data-required="true" required></label>
-<label class="form-field">Entreprise ou nom de votre espace <span>*</span><input name="organizationName" autocomplete="organization" minlength="2" maxlength="120" data-required="true" required></label>
-<label class="form-field">Adresse e-mail <span>*</span><input name="email" type="email" autocomplete="email" required></label>
+<label class="form-field" data-auth-common>Entreprise ou nom de votre espace <span>*</span><input name="organizationName" autocomplete="organization" minlength="2" maxlength="120" data-required="true" required></label>
+<label class="form-field" data-auth-common>Adresse e-mail <span>*</span><input name="email" type="email" autocomplete="email" required></label>
 <label class="form-field" data-signup-only>Téléphone <span>*</span><input name="phone" type="tel" autocomplete="tel" data-required="true" required></label>
 <label class="form-field">Mot de passe <span>*</span><input name="password" type="password" autocomplete="new-password" minlength="12" required></label>
+<label class="form-field" data-recovery-only hidden>Confirmer le nouveau mot de passe <span>*</span><input name="passwordConfirm" type="password" autocomplete="new-password" minlength="12" data-required="true"></label>
 </div>
 <label class="personal-space-consent" data-signup-only><input name="privacyAccepted" type="checkbox" data-required="true" required><span>Je confirme avoir pris connaissance de la politique de confidentialité relative à la création et à la gestion de mon compte. Consultez la <a href="politique-confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>
 <p class="personal-space-notice">Mot de passe : 12 caractères minimum. Une confirmation par e-mail peut être nécessaire avant la première connexion.</p>
 <button class="button button-primary personal-space-submit" type="submit">Créer mon espace <span aria-hidden="true">→</span></button>
 <button class="text-button" id="toggle-auth-mode" type="button">Déjà membre ? Se connecter</button>
-<button class="text-button" id="forgot-member-password" type="button">Mot de passe oublié ?</button>
+<button class="text-button" id="forgot-member-password" type="button" data-login-only hidden>Mot de passe oublié ?</button>
 <p class="personal-space-feedback" id="personal-space-feedback" role="status" aria-live="polite" hidden></p>
 </form></dialog>
 </body></html>
