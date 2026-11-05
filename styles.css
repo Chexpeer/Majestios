@@ -2142,10 +2142,6 @@ body:not(.homepage) main.interior-page .feed-search-submit {
     padding: 9px 10px;
   }
 }
-@media (min-width: 1021px) {
-  .site-nav .nav-item-dropdown:focus-within .nav-submenu,
-  .site-nav .nav-item-dropdown:hover .nav-submenu { display: grid; }
-}
 @media (prefers-reduced-motion: reduce) {
   .site-nav .nav-dropdown-toggle,
   .site-nav .nav-submenu a { transition: none; }
