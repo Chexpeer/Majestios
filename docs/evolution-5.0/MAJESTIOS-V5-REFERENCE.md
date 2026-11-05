@@ -289,9 +289,9 @@ La cible comprend :
 6. **Mesure des effets** : comparer avant/après, conserver la provenance des données et distinguer corrélation et causalité.
 7. **Amélioration continue** : actualiser la stratégie et les recommandations en fonction des évolutions observées, sans promettre une position garantie ni un maintien automatique en tête des résultats.
 
-### 13.1 Veille stratégique et amélioration continue
+### 13.1 MajestiOS V.5
 
-MajestiOS V.5 doit pouvoir explorer des pistes d'amélioration, confronter des hypothèses à des sources fiables, repérer les évolutions pertinentes et proposer des expérimentations mesurables. Ces travaux relèvent directement de l'intelligence centrale et restent soumis aux règles de validation et de gouvernance.
+MajestiOS V.5 explore des pistes d'amélioration, confronte les hypothèses à des sources fiables, repère les évolutions pertinentes et propose des expérimentations mesurables. Ces fonctions relèvent directement de MajestiOS V.5 et restent soumises aux règles de validation et de gouvernance.
 
 
 ## 14. Intelligence centrale et gouvernance
