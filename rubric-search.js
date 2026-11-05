@@ -32,6 +32,7 @@
     "categorie-maintenance.html": ["Rechercher des marchés de maintenance", "Filtrez les consultations de maintenance, d’exploitation technique et d’entretien.", "public"],
     "faq.html": ["Rechercher dans MajestiOS", "Accédez aux marchés et signaux commerciaux depuis cette page d’information.", ""],
     "nous-rejoindre.html": ["Explorer les opportunités MajestiOS", "Consultez les marchés et signaux publiés avant de rejoindre le réseau.", ""],
+    "contact.html": ["Rechercher avant de nous contacter", "Affinez votre recherche d’opportunités avant de préparer votre demande auprès de MajestiOS.", ""],
     "vision-majestios.html": ["Explorer les opportunités MajestiOS", "Reliez la vision de développement commercial aux marchés et signaux publiés.", ""],
     "qualification-entreprises.html": ["Rechercher des opportunités à qualifier", "Repérez les marchés et signaux qui pourront alimenter une qualification d’entreprises.", ""],
     "resultats-recherche.html": ["Modifier ou affiner votre recherche", "Ajustez les mots-clés, le type de marché, la catégorie ou le département sans revenir à l’accueil.", ""]
