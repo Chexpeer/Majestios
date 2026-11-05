@@ -474,12 +474,14 @@ closePersonalSpace?.addEventListener("click", () => personalSpaceDialog?.close()
 personalSpaceDialog?.addEventListener("click", (event) => {
   if (event.target === personalSpaceDialog) personalSpaceDialog.close();
 });
-personalSpaceForm?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  if (!personalSpaceForm.reportValidity()) return;
-  personalSpaceFeedback.textContent = "Votre demande a été prévisualisée. Aucune donnée n’a été envoyée ni enregistrée : la création réelle de compte reste à connecter.";
-  personalSpaceFeedback.hidden = false;
-});
+if (personalSpaceForm && !personalSpaceForm.hasAttribute("data-supabase-auth")) {
+  personalSpaceForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!personalSpaceForm.reportValidity()) return;
+    personalSpaceFeedback.textContent = "Le service de création de compte n’est pas connecté.";
+    personalSpaceFeedback.hidden = false;
+  });
+}
 
 
 // Fil d’Ariane partagé : garder un repère de retour sur toutes les pages de rubrique.
