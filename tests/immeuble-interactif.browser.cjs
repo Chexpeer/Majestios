@@ -135,8 +135,19 @@ async function main() {
       };
       for (const item of expected) {
         const [px,py]=await screenPointFor(item);
-        const hit=await page.evaluate(([cx,cy])=>document.elementFromPoint(cx,cy)?.closest(".floor-row")?.dataset.floor ?? null,[px,py]);
-        assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px (point "+px+","+py+").");
+        const hitInfo=await page.evaluate(([cx,cy])=>{
+          const stack=document.elementsFromPoint(cx,cy);
+          const top=stack[0];
+          return {
+            floor:top?.closest(".floor-row")?.dataset.floor ?? null,
+            topTag:top?.tagName ?? null,
+            topClass:top?.getAttribute("class") ?? null,
+            stack:stack.slice(0,5).map(node=>({tag:node.tagName,className:node.getAttribute("class")})),
+            viewport:[window.innerWidth,window.innerHeight],
+            scrollY:window.scrollY
+          };
+        },[px,py]);
+        assert.equal(hitInfo.floor,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px : "+JSON.stringify(hitInfo));
       }
 
       const animationOverride = await page.addStyleTag({content:".elevator-cabin,.elevator-window,.elevator-detail,.elevator-reflection,.elevator-cylinder-side,.elevator-cylinder-rim,.elevator-cylinder-highlight{transition:none!important}"});
