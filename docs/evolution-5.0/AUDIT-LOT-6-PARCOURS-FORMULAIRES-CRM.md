@@ -1,7 +1,8 @@
 # Audit du lot 6 — parcours de conversion, formulaires et CRM
 
 **Date de contrôle :** 5 novembre 2026  
-**Commit examiné :** `fc21d09c20a2679eb78a9fb7f9745aabb1533952`  
+**Commit examiné initialement :** `fc21d09c20a2679eb78a9fb7f9745aabb1533952`  
+**Dernière revue de code :** `f364f7a71c7f3854638004bc604d77d0d523fe88`  
 **Branche :** `evolution-5.0-clean-preview`  
 **Périmètre :** accueil, recherche et résultats, espace membre, page « Nous rejoindre », CRM et fonction serveur de provisionnement.  
 **Méthode :** lecture du code réellement présent et rapprochement avec `ETAT-BACKEND-SUPABASE.md`. Les deux workflows GitHub de ce commit ont réussi ; ce succès ne vaut pas recette réelle des formulaires avec une boîte e-mail ni validation métier complète.
@@ -171,3 +172,30 @@ Le champ `organizations.kind` ne doit jamais devenir un substitut au statut comm
 - Tester en environnement contrôlé le cycle inscription, confirmation e-mail, première connexion, provisionnement idempotent, connexion ultérieure, récupération et déconnexion avant de considérer l'espace client comme prêt à l'ouverture.
 
 **État exact au contrôle :** le compte membre et le provisionnement d'un espace de type client existent dans le code ; les formulaires publics de contact, positionnement, candidature et partenariat ne transmettent rien ; le CRM et les statuts commerciaux différenciés ne sont pas encore opérationnels. Aucun changement backend n'est réalisé dans ce lot documentaire.
+
+
+## 12. Revue complémentaire du cycle de connexion (5 novembre 2026)
+
+La lecture croisée de `auth-espace-membre.js`, `espace-membre.html` et de la fonction `provision-client-workspace` met en évidence un point à traiter avant la recette réelle de l'espace membre.
+
+### Constat vérifié
+
+- En mode connexion, le champ « Entreprise ou nom de votre espace » devient facultatif dans l'interface.
+- Après une connexion réussie, le navigateur appelle néanmoins systématiquement `provision-client-workspace`, en lui transmettant ce champ, même lorsqu'il est vide.
+- La fonction Edge vérifie actuellement que le nom d'organisation contient au moins deux caractères **avant** de rechercher une appartenance client déjà existante.
+- Par conséquent, un membre qui possède déjà un espace client et qui se connecte sans renseigner à nouveau le nom peut recevoir un message d'échec de finalisation de l'espace, alors que son authentification a réussi et que son appartenance peut être présente.
+- Le statut affiché ensuite par `updateAuthStatus` peut confirmer la connexion à l'espace ; l'interface présente donc deux messages successifs qui peuvent sembler contradictoires.
+
+### Qualification
+
+**Anomalie de parcours / P2 — confirmation par test E2E nécessaire.** Le défaut est déductible de l'ordre des contrôles dans le code, mais il n'a pas été reproduit avec un compte Supabase réel dans cet audit. Il ne faut donc pas le présenter comme un incident de production confirmé.
+
+### Correction recommandée — différée
+
+Lors d'une prochaine phase autorisée sur l'authentification :
+1. Ne pas relancer le provisionnement lors d'une connexion ordinaire si l'utilisateur dispose déjà d'un espace client.
+2. Si aucun espace client n'existe, demander explicitement le nom de l'organisation avant de lancer le provisionnement, ou adapter le contrat serveur pour vérifier les appartenances existantes avant d'exiger ce nom.
+3. Harmoniser le retour d'état : distinguer clairement « authentification réussie », « espace existant retrouvé » et « espace à créer ».
+4. Ajouter des tests couvrant au minimum : connexion d'un client existant sans nom d'organisation, compte confirmé sans espace, compte avec appartenance non-client et échec serveur.
+
+**Décision de ce contrôle :** aucune correction du JavaScript d'authentification, de la fonction Edge, d'Auth, des migrations, de RLS ou des données Supabase n'est appliquée. Supabase reste en pause conformément au périmètre convenu. Cette anomalie est consignée pour être traitée dans un lot dédié après autorisation et recette contrôlée.
