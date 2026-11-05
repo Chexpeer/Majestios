@@ -48,7 +48,7 @@ async function main() {
     assert.equal(await toggle.getAttribute("aria-expanded"), "false", "Échap doit fermer le sous-menu.");
     assert.equal(await page.evaluate(() => document.activeElement.classList.contains("nav-dropdown-toggle")), true, "Échap doit rendre le focus au bouton.");
     await toggle.click();
-    await page.locator("h1").click();
+    await page.locator("footer.site-footer").click({ position: { x: 12, y: 12 } });
     assert.equal(await toggle.getAttribute("aria-expanded"), "false", "Un clic extérieur doit fermer le sous-menu.");
     await menuToggle.click();
     assert.equal(await page.locator("#site-nav").evaluate(node => node.classList.contains("open")), false, "Le menu mobile principal doit se refermer.");
