@@ -94,10 +94,11 @@ for (const page of pages) {
 
 const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
 assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
-assert(home.includes('id="advanced-search-form"'), "Accueil : moteur de recherche absent");
-for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-department"]) {
-  assert(home.includes('id="' + id + '"'), "Accueil : filtre absent : #" + id);
-}
+assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du moteur de recherche partagé absent");
+assert(home.includes('src="rubric-search.js"'), "Accueil : composant commun de recherche non chargé");
+assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
+  home.indexOf('src="rubric-search.js"') < home.indexOf('src="app.js"'),
+  "Accueil : le catalogue, le composant de recherche et son contrôleur doivent être chargés dans cet ordre");
 const sharedSearchCss = fs.readFileSync(path.join(root, "rubriques-immersives.css"), "utf8");
 for (const selector of ["#advanced-search-form", ".feed-search", ".feed-filter-label", ".feed-search-submit"]) {
   assert(sharedSearchCss.includes(selector), "Moteur partagé : style commun absent, " + selector);

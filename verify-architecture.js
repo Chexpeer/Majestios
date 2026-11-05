@@ -97,10 +97,11 @@ const home = read("index.html");
 assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
 assert(home.includes('aria-label="Immeuble interactif MajestiOS"'), "Accueil : immeuble interactif absent");
 assert(home.includes('id="floor-rows"'), "Accueil : conteneur des étages absent");
-assert(home.includes('id="advanced-search-form"'), "Accueil : recherche avancée absente");
-for (const id of ["feed-search", "feed-sector", "feed-market-type", "feed-department"]) {
-  assert(home.includes('id="' + id + '"'), "Accueil : filtre absent : #" + id);
-}
+assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
+assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
+assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
+  home.indexOf('src="rubric-search.js"') < home.indexOf('src="app.js"'),
+  "Accueil : ordre de chargement du catalogue, du formulaire partagé et du contrôleur incorrect");
 
 const expectedDestinations = [
   {id:"08",name:"Espace privé",href:"espace-membre.html",x:185,y:182,width:350,height:82},
@@ -208,9 +209,10 @@ for (const [page, category] of [
 }
 const rubricSearch = read("rubric-search.js");
 const appSearch = read("app.js");
-assert(rubricSearch.includes('id="advanced-search-form"') && rubricSearch.includes('id="feed-market-type"') &&
-  rubricSearch.includes('id="feed-sector"') && rubricSearch.includes('id="feed-department"'),
-  "Recherche : les rubriques ne réutilisent pas le formulaire commun de l’accueil");
+assert(rubricSearch.includes('id="advanced-search-form"') && rubricSearch.includes('id="feed-search"') &&
+  rubricSearch.includes('id="feed-market-type"') && rubricSearch.includes('id="feed-sector"') &&
+  rubricSearch.includes('id="feed-department"') && rubricSearch.includes('id="search-source-note"'),
+  "Recherche : le composant unique doit définir tous les champs communs pour l’accueil et les rubriques");
 assert(appSearch.includes("MAJESTIOS_CATALOG") && appSearch.includes("populateSearchFilters"),
   "Recherche : les interactions ne consomment pas le catalogue partagé");
 assert(appSearch.includes('#open-personal-space, #open-personal-space-shortcut'),

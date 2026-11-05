@@ -45,6 +45,33 @@ async function main() {
     page.on("pageerror",error => errors.push(error.message));
 
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
+    const captureSearchContract = async () => {
+      const fields = await page.locator("#advanced-search-form").evaluate(form =>
+        [...form.querySelectorAll("input, select, button")].map(field => ({
+          id: field.id, type: field.type, required: field.required, disabled: field.disabled
+        }))
+      );
+      await page.locator("#feed-search").click();
+      await page.locator("#feed-market-type").selectOption("public");
+      const publicCategories = await page.locator("#feed-sector option").evaluateAll(options =>
+        options.map(option => ({value:option.value,label:option.textContent.trim(),disabled:option.disabled}))
+      );
+      await page.locator("#feed-market-type").selectOption("private");
+      const privateCategories = await page.locator("#feed-sector option").evaluateAll(options =>
+        options.map(option => ({value:option.value,label:option.textContent.trim(),disabled:option.disabled}))
+      );
+      await page.locator("#feed-sector").selectOption("bodacc-creations");
+      const departments = await page.locator("#feed-department option").evaluateAll(options =>
+        options.map(option => ({value:option.value,label:option.textContent.trim(),disabled:option.disabled}))
+      );
+      return {fields,publicCategories,privateCategories,departments};
+    };
+    const homeSearchContract = await captureSearchContract();
+    await page.goto("http://127.0.0.1:4173/contact.html",{waitUntil:"domcontentloaded"});
+    const rubricSearchContract = await captureSearchContract();
+    assert.deepEqual(rubricSearchContract,homeSearchContract,
+      "L’accueil et les rubriques doivent partager exactement les champs, catégories publiques/privées et départements.");
+    await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
     await page.locator(".building-photo img").evaluate(image=>image.decode());
     assert.deepEqual(
       await page.locator(".building-photo img").evaluate(image=>[image.naturalWidth,image.naturalHeight]),

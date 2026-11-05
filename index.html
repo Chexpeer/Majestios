@@ -301,6 +301,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
 
 </style>
     <script src="catalogue-majestios.js" defer></script>
+    <script src="rubric-search.js" defer></script>
     <script src="app.js" defer></script>
     <link rel="stylesheet" href="charte-majestios.css">
 
@@ -787,29 +788,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         </div>
       <section class="tender-feed-section" id="recherche-avancee" aria-label="Moteur de recherche avancé">
         <div class="feed-wrap">
-          <div class="feed-demo">
-            <form class="feed-toolbar" id="advanced-search-form">
-              <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
-              <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
-                <select id="feed-market-type" aria-label="Type de marché" required>
-                  <option value="">1. Choisir le type de marché</option>
-                  <option value="public">Marchés publics</option>
-                  <option value="private">Marchés privés et signaux d’entreprises</option>
-                </select>
-              </label>
-              <label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie après le type de marché</span>
-                <select id="feed-sector" aria-label="Catégorie d'opportunité" required disabled>
-                  <option value="all">2. Choisir d’abord un type</option>
-                </select>
-              </label>
-              <label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par département</span>
-                <select id="feed-department" aria-label="Département">
-                  <option value="all">3. Choisir un département (facultatif)</option>
-                </select>
-              </label>
-              <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
-            </form>
-          </div>
+          <div class="feed-demo" id="home-search-mount"></div>
         </div>
       </section>
       </section>

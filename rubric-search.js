@@ -1,9 +1,8 @@
 (() => {
   "use strict";
 
+  const homeMount = document.querySelector("#home-search-mount");
   const page = document.querySelector("main.interior-page, main.category-page");
-  if (!page || document.querySelector("#advanced-search-form")) return;
-
   const path = window.location.pathname.split("/").pop();
   const configs = {
     "marches-publics.html": ["Rechercher des marchés publics", "Interrogez le flux BOAMP avec des critères métier et géographiques. Vérifiez toujours l’avis officiel.", "public"],
@@ -37,34 +36,60 @@
     "qualification-entreprises.html": ["Rechercher des opportunités à qualifier", "Repérez les marchés et signaux qui pourront alimenter une qualification d’entreprises.", ""],
     "resultats-recherche.html": ["Modifier ou affiner votre recherche", "Ajustez les mots-clés, le type de marché, la catégorie ou le département sans revenir à l’accueil.", ""]
   };
+
   const config = configs[path];
-  if (!config) return;
+  if (!homeMount && (!page || !config)) return;
 
-  const section = document.createElement("section");
-  section.className = "tender-feed-section rubric-search-card";
-  section.id = "recherche-avancee";
-  section.setAttribute("aria-label", "Moteur de recherche avancé");
-  section.innerHTML =
-    '<div class="feed-wrap"><div class="feed-demo">' +
-      '<div class="rubric-search-heading"><h2>' + config[0] + '</h2><p>' + config[1] + '</p></div>' +
-      '<form class="feed-toolbar" id="advanced-search-form">' +
-        '<label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>' +
-        '<label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span><select id="feed-market-type" aria-label="Type de marché" required><option value="">1. Choisir le type de marché</option><option value="public">Marchés publics</option><option value="private">Marchés privés et signaux d’entreprises</option></select></label>' +
-        '<label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie</span><select id="feed-sector" aria-label="Catégorie d’opportunité" required disabled><option value="all">2. Choisir d’abord un type</option></select></label>' +
-        '<label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par département</span><select id="feed-department" aria-label="Département"><option value="all">3. Choisir un département (facultatif)</option></select></label>' +
-        '<p class="search-source-note" id="search-source-note">Choisissez le type d’opportunité, puis une catégorie adaptée. Les marchés privés regroupent les signaux BODACC et les familles Immobilier, Emploi et Sous-traitance ; les sources non connectées sont indiquées comme telles.</p>' +
-        '<button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>' +
-      '</form></div></div>';
+  // Source unique du balisage : accueil et rubriques utilisent exactement le même formulaire.
+  const formMarkup = `
+    <form class="feed-toolbar" id="advanced-search-form">
+      <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
+      <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
+        <select id="feed-market-type" aria-label="Type de marché" required>
+          <option value="">1. Choisir le type de marché</option>
+          <option value="public">Marchés publics</option>
+          <option value="private">Marchés privés et signaux d’entreprises</option>
+        </select>
+      </label>
+      <label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie après le type de marché</span>
+        <select id="feed-sector" aria-label="Catégorie d’opportunité" required disabled>
+          <option value="all">2. Choisir d’abord un type</option>
+        </select>
+      </label>
+      <label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par département</span>
+        <select id="feed-department" aria-label="Département">
+          <option value="all">3. Choisir un département (facultatif)</option>
+        </select>
+      </label>
+      <p class="search-source-note" id="search-source-note">Choisissez le type d’opportunité, puis une catégorie adaptée. Les marchés privés regroupent les signaux BODACC et les familles Immobilier, Emploi et Sous-traitance ; les sources non connectées sont indiquées comme telles.</p>
+      <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
+    </form>`;
 
-  const resultsHero = page.querySelector(".search-results-hero");
-  const lede = page.querySelector(".interior-lede");
-  if (resultsHero && path === "resultats-recherche.html") resultsHero.insertAdjacentElement("afterend", section);
-  else if (lede) lede.insertAdjacentElement("afterend", section);
-  else page.prepend(section);
+  let searchRoot = homeMount;
+  if (homeMount) {
+    homeMount.innerHTML = formMarkup;
+  } else {
+    const section = document.createElement("section");
+    section.className = "tender-feed-section rubric-search-card";
+    section.id = "recherche-avancee";
+    section.setAttribute("aria-label", "Moteur de recherche avancé");
+    section.innerHTML =
+      '<div class="feed-wrap"><div class="feed-demo">' +
+        '<div class="rubric-search-heading"><h2>' + config[0] + '</h2><p>' + config[1] + '</p></div>' +
+        formMarkup +
+      '</div></div>';
+
+    const resultsHero = page.querySelector(".search-results-hero");
+    const lede = page.querySelector(".interior-lede");
+    if (resultsHero && path === "resultats-recherche.html") resultsHero.insertAdjacentElement("afterend", section);
+    else if (lede) lede.insertAdjacentElement("afterend", section);
+    else page.prepend(section);
+    searchRoot = section;
+  }
 
   const initialMarket = new URLSearchParams(window.location.search).get("marche") || "";
-  const market = section.querySelector("#feed-market-type");
-  const categoryStep = section.querySelector("#category-step");
+  const market = searchRoot.querySelector("#feed-market-type");
+  const categoryStep = searchRoot.querySelector("#category-step");
   market.value = initialMarket;
   if (initialMarket) categoryStep.hidden = false;
 })();
