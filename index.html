@@ -922,8 +922,10 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
 
         const scene = document.querySelector(".building-scene");
         if (scene) {
-          const elevatorStops = [209, 295, 391, 480, 572, 662, 751, 842, 933];
-          const cabinCenterY = Number(cabin.getAttribute("y")) + Number(cabin.getAttribute("height")) / 2;
+          // Les arrêts sont calculés depuis les véritables zones cliquables de chaque étage.
+          // La cabine étant désormais un path cylindrique (et non plus un rect), son centre est défini explicitement.
+          const elevatorStops = destinations.map((item) => item.y + item.height / 2);
+          const cabinCenterY = 185;
           const controls = document.createElement("div");
           controls.className = "elevator-controls";
           controls.setAttribute("role", "group");
