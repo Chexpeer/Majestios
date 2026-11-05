@@ -111,3 +111,16 @@ La liste minimale de contact demandée pour les formulaires de prise de contact 
 **Aucune modification applicative ou Supabase n'est effectuée dans cet audit.** Le backend reste en pause pendant la stabilisation du site, conformément au périmètre convenu. Les constats sont documentés pour éviter de présenter comme acquis des formulaires et un CRM qui ne sont pas encore opérationnels.
 
 La prochaine intervention applicative doit commencer par le parcours « Contact » et la séparation des intentions, puis ajouter le CTA de positionnement sur les résultats tout en préservant le lien vers la source officielle. Toute collecte publique réelle attendra le contrat serveur et les garde-fous ci-dessus.
+
+## 9. Mise en œuvre du lot 6A — page Contact (5 novembre 2026)
+
+La branche de prévisualisation contient désormais une page dédiée `contact.html` et le lien « Contact » du pied de page d'accueil pointe vers cette page. Le CTA de `nous-rejoindre.html` ouvre le même parcours avec le motif « Rejoindre ou contribuer à MajestiOS » préselectionné ; il ne redirige plus vers la création d'un espace client.
+
+La page conserve le moteur de recherche transversal via `rubric-search.js`. Elle distingue visuellement la prise de contact, l'espace client et la page « Nous rejoindre ».
+
+**Limite volontaire :** le formulaire est en mode prévisualisation uniquement. Il contrôle les champs (prénom, nom, e-mail, téléphone, objet et message) puis affiche un état local ; il bloque toute soumission et ne transmet ni n'enregistre de donnée. Le backend et Supabase n'ont pas été modifiés. Il ne faut donc pas annoncer que le contact est désormais envoyé ou reçu par MajestiOS.
+
+Un test navigateur dédié est ajouté : `tests/contact-form.browser.cjs`. Il vérifie la route depuis l'accueil, le contexte de collaboration, la présence du moteur partagé, la validation des champs et l'absence de requête de transmission. Le workflow du site exécute désormais ce test après le test de navigation.
+
+**Critère de sortie de 6A :** destination Contact et parcours d'interface disponibles et vérifiables, mais envoi réel toujours bloqué en attente du contrat serveur sécurisé et de la recette backend.
+
