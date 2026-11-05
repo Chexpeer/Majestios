@@ -277,7 +277,7 @@ body.homepage .building-scene .tower .floor-row:focus-visible {
   body.homepage .building-scene .tower .floor-name { font-size:clamp(9px,2.7vw,12px) !important; }
 }
 
-/* Zones cliquables calées sur les huit niveaux actifs de la photo MajestiOS (843 × 1264). */
+/* Zones cliquables calées sur les neuf niveaux actifs de la photo MajestiOS (843 × 1264). */
 body.homepage .building-scene{position:relative;display:grid;place-items:center;height:auto;min-height:0;max-height:none;padding:clamp(6px,1vw,14px);overflow:hidden;border:1px solid #90b8e466;border-radius:5px;background:linear-gradient(160deg,#1f3553 0%,#0a1626 100%);box-shadow:0 22px 60px #0008}
 body.homepage .building-photo{position:relative;margin:0;width:min(100%,580px,max(430px,calc((100dvh - 150px) * 843 / 1264)));aspect-ratio:843/1264}
 body.homepage .building-photo img{display:block;width:100%;height:100%;border-radius:3px;-webkit-user-drag:none;user-select:none}
@@ -807,11 +807,11 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       </section>
       </section>
 <section class="building-home" aria-label="Immeuble interactif MajestiOS">
-      <div class="building-heading"><p>IMMEUBLE INTERACTIF · 8 DESTINATIONS</p></div>
-      <section class="building-scene" aria-label="Panorama MajestiOS et huit destinations interactives">
+      <div class="building-heading"><p>IMMEUBLE INTERACTIF · 9 DESTINATIONS</p></div>
+      <section class="building-scene" aria-label="Panorama MajestiOS et neuf destinations interactives">
         <figure class="building-photo">
-          <img src="IMMEUBLE.jfif" alt="Immeuble MajestiOS avec huit niveaux interactifs : Espace privé, Réseau, Développement commercial, Prospection, Marchés publics, Marchés privés, Réputation virtuelle et Accueil" width="843" height="1264" draggable="false">
-          <svg class="building-hotspots" id="floor-rows" viewBox="0 0 843 1264" preserveAspectRatio="none" role="group" aria-label="Accès directs aux huit destinations"></svg>
+          <img src="IMMEUBLE.jfif" alt="Immeuble MajestiOS avec neuf niveaux interactifs : Espace privé, Réseau, Développement commercial, Prospection, Accompagnement appels d'offres, Marchés publics, Marchés privés, Réputation virtuelle et Accueil" width="843" height="1264" draggable="false">
+          <svg class="building-hotspots" id="floor-rows" viewBox="0 0 843 1264" preserveAspectRatio="none" role="group" aria-label="Accès directs aux neuf destinations"></svg>
         </figure>
       </section>
     </section>
@@ -838,16 +838,17 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         const svg = document.getElementById("floor-rows");
         if (!svg) return;
         // Repères mesurés sur la photo MajestiOS (843 × 1264); le RDC illustré reste décoratif.
-        // Les huit zones actives correspondent aux niveaux 8 à 1 et aux routes V5 validées.
+        // Les neuf zones actives correspondent aux niveaux 8 à 1 et au RDC, avec les routes V5 validées.
         const destinations = [
-          {id:"08",name:"Espace privé",href:"espace-membre.html",x:185,y:160,width:350,height:100},
-          {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:258,width:350,height:90},
-          {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:90},
-          {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:442,width:350,height:90},
-          {id:"04",name:"Marchés publics",href:"marches-publics.html",x:185,y:534,width:350,height:90},
-          {id:"03",name:"Marchés privés",href:"marches-prives.html",x:185,y:626,width:350,height:90},
-          {id:"02",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:718,width:350,height:90},
-          {id:"01",name:"Accueil",href:"index.html#accueil",x:185,y:810,width:350,height:80}
+          {id:"08",name:"Espace privé",href:"espace-membre.html",x:185,y:182,width:350,height:82},
+          {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:266,width:350,height:80},
+          {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:92},
+          {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:444,width:350,height:81},
+          {id:"04",name:"Accompagnement appels d'offres",href:"accompagnement-appels-offres.html",x:185,y:528,width:350,height:87},
+          {id:"03",name:"Marchés publics",href:"marches-publics.html",x:185,y:618,width:350,height:83},
+          {id:"02",name:"Marchés privés",href:"marches-prives.html",x:185,y:704,width:350,height:87},
+          {id:"01",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:794,width:350,height:85},
+          {id:"RDC",name:"Accueil",href:"index.html#accueil",x:185,y:883,width:350,height:89}
         ];
         const namespace = "http://www.w3.org/2000/svg";
         destinations.forEach((destination) => {
@@ -898,20 +899,20 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
 
         const scene = document.querySelector(".building-scene");
         if (scene) {
-          const elevatorStops = [210, 305, 397, 487, 577, 667, 757, 847];
+          const elevatorStops = [209, 295, 391, 480, 572, 662, 751, 842, 933];
           const cabinCenterY = Number(cabin.getAttribute("y")) + Number(cabin.getAttribute("height")) / 2;
           const controls = document.createElement("div");
           controls.className = "elevator-controls";
           controls.setAttribute("role", "group");
           controls.setAttribute("aria-label", "Ascenseur MajestiOS");
-          controls.innerHTML = '<button type="button" data-lift="up" aria-label="Monter d’un étage">↑</button><span class="elevator-indicator" aria-hidden="true">01</span><button type="button" data-lift="down" aria-label="Descendre d’un étage">↓</button>';
+          controls.innerHTML = '<button type="button" data-lift="up" aria-label="Monter d’un étage">↑</button><span class="elevator-indicator" aria-hidden="true">RDC</span><button type="button" data-lift="down" aria-label="Descendre d’un étage">↓</button>';
           const caption = document.createElement("div");
           caption.className = "elevator-caption"; caption.textContent = "ASCENSEUR · ÉTAGE 08";
           caption.setAttribute("role", "status");
           caption.setAttribute("aria-live", "polite");
           caption.setAttribute("aria-atomic", "true");
           scene.append(controls, caption);
-          // Accueil est le niveau 01; le RDC visible sur l'image reste décoratif.
+          // Accueil est au RDC, dernier niveau de l'immeuble.
           let current = destinations.length - 1;
           const indicator = controls.querySelector(".elevator-indicator");
           const selectFloor = (index) => {
