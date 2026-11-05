@@ -121,16 +121,20 @@ async function main() {
           "Le titre LED de "+item.name+" doit être composé sur une ou deux lignes complètes.");
       }
 
-      const geometry = await page.evaluate(() => {
-        const img=document.querySelector(".building-photo img").getBoundingClientRect();
-        const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
-        return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
-      });
-      for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
-      const toScreen=([x,y])=>[geometry.img[0]+x/imageWidth*geometry.img[2],geometry.img[1]+y/imageHeight*geometry.img[3]];
-      for (const item of expected) {
+      const screenPointFor = async (item) => {
+        const row = page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"]');
+        await row.scrollIntoViewIfNeeded();
+        const geometry = await page.evaluate(() => {
+          const img=document.querySelector(".building-photo img").getBoundingClientRect();
+          const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
+          return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
+        });
+        for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
         const [x,y,w,h]=item.rect;
-        const [px,py]=toScreen([x+w/2,y+h/2]);
+        return [geometry.img[0]+(x+w/2)/imageWidth*geometry.img[2],geometry.img[1]+(y+h/2)/imageHeight*geometry.img[3]];
+      };
+      for (const item of expected) {
+        const [px,py]=await screenPointFor(item);
         const hit=await page.evaluate(([cx,cy])=>document.elementFromPoint(cx,cy)?.closest(".floor-row")?.dataset.floor ?? null,[px,py]);
         assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px.");
       }
@@ -144,7 +148,7 @@ async function main() {
 
       for (const item of expected) {
         const [x,y,w,h]=item.rect;
-        const [px,py]=toScreen([x+w/2,y+h/2]);
+        const [px,py]=await screenPointFor(item);
         await page.mouse.move(px,py);
         const state=await page.evaluate(() => {
           const active=document.querySelector('.floor-row[aria-current="location"]');
