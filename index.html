@@ -309,6 +309,189 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
     <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
     <link rel="stylesheet" href="charte-majestios.css">
+
+    <style id="homepage-image-palette">
+      /* Palette harmonisée sur l'immeuble MajestiOS : bleu profond, cyan, turquoise,
+         or, ambre, orange et violet. L'image et ses zones cliquables restent intactes. */
+      body.homepage {
+        --gold:#f4c15d;
+        --gold-light:#ffe09a;
+        --blue:#1769c2;
+        --cyan:#19b9d2;
+        --teal:#20bda9;
+        --violet:#a84bc5;
+        --orange:#f07835;
+        color:#f4f7ff;
+        background:#061633;
+      }
+      body.homepage .homepage-ticker {
+        color:#d8e8ff;
+        background:linear-gradient(90deg,#061633 0%,#103d78 34%,#38205c 68%,#061633 100%);
+        border-bottom:1px solid #22b7d0a6;
+      }
+      body.homepage .homepage-ticker strong { color:#ffd36e; }
+      body.homepage .site-header {
+        background:linear-gradient(105deg,#04132f 0%,#0a3470 48%,#102957 76%,#251746 100%);
+        border-bottom:1px solid #28b8d0a0;
+        box-shadow:0 8px 28px #020b20a8;
+      }
+      body.homepage .brand-mark {
+        border-color:#f4c15d;
+        color:#ffe09a;
+        box-shadow:0 0 16px #f4c15d35;
+      }
+      body.homepage .brand-os { color:#ffd36e; }
+      body.homepage .menu-toggle {
+        border-color:#20b9d2a8;
+        background:linear-gradient(145deg,#103d78,#14264b);
+      }
+      body.homepage .menu-toggle span { background:#ffe09a; }
+      body.homepage .site-nav {
+        border-color:#27b8d0a8;
+        background:linear-gradient(145deg,#071a3a,#102d59 72%,#251746);
+        box-shadow:0 18px 42px #020817d9;
+      }
+      body.homepage .site-nav>a { color:#e3edff; border-bottom-color:#29b6d02b; }
+      body.homepage .site-nav>a:hover,
+      body.homepage .site-nav>a:focus-visible,
+      body.homepage .site-nav>a[aria-current="page"] {
+        color:#ffe09a;
+        background:linear-gradient(90deg,#1467a866,#7b3d9b55,#d46c3555);
+        outline-color:#f4c15d88;
+      }
+      body.homepage .home-hero-layout {
+        background:
+          radial-gradient(ellipse at 8% 16%,#1264b84a 0%,transparent 36%),
+          radial-gradient(ellipse at 48% 82%,#8a347a30 0%,transparent 36%),
+          radial-gradient(ellipse at 88% 18%,#13b8d23b 0%,transparent 35%),
+          linear-gradient(125deg,#061633 0%,#0a2b59 42%,#101e49 72%,#20163e 100%);
+      }
+      body.homepage .hero-eyebrow { color:#5dd5e2; }
+      body.homepage .hero-copy h1 { color:#f8faff; }
+      body.homepage .hero-copy h1 span {
+        color:#ffd36e;
+        text-shadow:0 0 24px #f0783540;
+      }
+      body.homepage .hero-subtitle { color:#dceaff; }
+      body.homepage .tender-feed-section .feed-demo {
+        position:relative;
+        overflow:hidden;
+        border:1px solid transparent;
+        background:
+          linear-gradient(145deg,#071a38f5,#102d58f5 65%,#211944f5) padding-box,
+          linear-gradient(110deg,#18bfd0,#2b75d0 35%,#a84bc5 66%,#f07835 84%,#f4c15d) border-box;
+        box-shadow:0 18px 48px #02081799,0 0 28px #1678c322;
+      }
+      body.homepage .tender-feed-section .feed-demo:before {
+        content:"";
+        position:absolute;
+        top:0;left:8%;right:8%;height:2px;
+        background:linear-gradient(90deg,#18bfd0,#2877d5,#a84bc5,#f07835,#f4c15d);
+      }
+      body.homepage #advanced-search-form .feed-search {
+        border-color:#24b8d077;
+        background:linear-gradient(110deg,#081b3a,#0d2c55);
+      }
+      body.homepage #advanced-search-form .feed-search>span:first-child { color:#43d0df; }
+      body.homepage #advanced-search-form .feed-search input { color:#f5f8ff; }
+      body.homepage #advanced-search-form .feed-search input::placeholder { color:#a9bddb; }
+      body.homepage #advanced-search-form .feed-filter-label select {
+        border-color:#5486c4;
+        background:linear-gradient(110deg,#102d56,#14264b);
+        color:#f4f7ff;
+      }
+      body.homepage #advanced-search-form .feed-filter-label select:focus,
+      body.homepage #advanced-search-form .feed-search:focus-within {
+        border-color:#45d4df;
+        box-shadow:0 0 0 3px #22bfd026;
+        outline:none;
+      }
+      body.homepage #advanced-search-form .feed-search-submit {
+        border-color:#ffe09a;
+        background:linear-gradient(100deg,#ffe28a 0%,#f4bd4e 48%,#f07835 100%);
+        color:#17213a;
+        box-shadow:0 6px 18px #ed9d3d35;
+      }
+      body.homepage #advanced-search-form .feed-search-submit:hover {
+        filter:brightness(1.08);
+        box-shadow:0 8px 24px #f0783550;
+      }
+      body.homepage #advanced-search-form .search-source-note { color:#c6d8f1; }
+      body.homepage .building-heading { color:#ffe09a; }
+      body.homepage .building-scene {
+        border:1px solid #20b9d2a6;
+        background:linear-gradient(145deg,#0b3470,#12224b 58%,#311b50);
+        box-shadow:0 22px 60px #020817a8,0 0 28px #1678c322;
+      }
+      body.homepage .building-photo { filter:drop-shadow(0 14px 28px #02081766); }
+      body.homepage .building-hotspots .floor-row:focus-visible .floor-zone {
+        stroke:#ffe09a;
+        filter:drop-shadow(0 0 5px #f4c15d);
+      }
+      body.homepage .elevator-controls {
+        border-color:#35c6d6a8;
+        background:linear-gradient(160deg,#071a3bed,#142b53ed);
+      }
+      body.homepage .elevator-controls button {
+        border-color:#f4c15d;
+        background:linear-gradient(145deg,#123c70,#19264c);
+        color:#ffe09a;
+      }
+      body.homepage .elevator-controls button:hover,
+      body.homepage .elevator-controls button:focus-visible {
+        background:linear-gradient(110deg,#ffe28a,#f07835);
+        color:#10203a;
+      }
+      body.homepage .elevator-caption {
+        border-color:#26bfd0a8;
+        background:linear-gradient(110deg,#071a3bed,#251746ed);
+        color:#ffe09a;
+      }
+      body.homepage .home-help-toggle {
+        border-color:#f4c15d;
+        background:linear-gradient(110deg,#0a3470f5,#251746f5);
+        color:#fff3d0;
+        box-shadow:0 8px 26px #02081788,0 0 18px #1cb8d033;
+      }
+      body.homepage .home-help-mark { color:#5dd5e2; }
+      body.homepage .home-help-panel {
+        border-color:#27b8d0a8;
+        background:linear-gradient(145deg,#071a38f7,#102d59f7 68%,#251746f7);
+        box-shadow:0 18px 48px #020817d9;
+      }
+      body.homepage .home-help-panel h2 { color:#fff; }
+      body.homepage .home-help-panel p,
+      body.homepage .home-help-panel small { color:#c6d8f1; }
+      body.homepage .home-help-panel a { color:#ffe09a; }
+      body.homepage .home-help-panel a:hover { color:#5dd5e2; }
+      body.homepage .home-help-close {
+        border-color:#f4c15d77;
+        background:#12345e;
+        color:#ffe09a;
+      }
+      body.homepage .site-footer {
+        background:linear-gradient(100deg,#04132f,#0a3470 48%,#102957 76%,#251746);
+        border-top:1px solid #27b8d088;
+        color:#d5e3f8;
+      }
+      body.homepage .site-footer .brand-mark {
+        border-color:#f4c15d;
+        color:#ffe09a;
+        background:transparent;
+      }
+      body.homepage .site-footer .brand-os { color:#ffd36e; }
+      body.homepage .site-footer>p { color:#c1d2ec; }
+      body.homepage .footer-links a { color:#d9e8ff; }
+      body.homepage .footer-links a:hover { color:#ffe09a; }
+      @media(max-width:900px) {
+        body.homepage .home-hero-layout {
+          background:
+            radial-gradient(ellipse at 15% 10%,#1264b84a,transparent 38%),
+            radial-gradient(ellipse at 90% 48%,#8a347a28,transparent 38%),
+            linear-gradient(145deg,#061633,#0a2b59 55%,#20163e);
+        }
+      }
+    </style>
 </head>
   <body class="homepage">
     <div class="homepage-ticker" role="status" aria-label="Flux de démonstration MajestiOS">
