@@ -392,7 +392,14 @@ if (navigation) {
       wrapper.classList.toggle("is-open", open);
     };
     toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+    wrapper.addEventListener("focusin", () => setOpen(true));
     wrapper.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setOpen(true);
+        submenu.querySelector("a")?.focus();
+        return;
+      }
       if (event.key === "Escape") {
         setOpen(false);
         toggle.focus();
