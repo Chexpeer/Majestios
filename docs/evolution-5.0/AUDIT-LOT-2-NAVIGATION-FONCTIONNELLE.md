@@ -89,7 +89,11 @@ Ces tests prouvent le comportement observé dans ce navigateur et pour ces crit�
 
 `verify-architecture.js` a été renforcé pour contrôler les sept liens principaux sur toutes les pages, les marqueurs `aria-current`, les liens de retour de catégories publiques, le libellé du département par défaut et l'absence de déclaration globale concurrente du menu.
 
-**POINT À ARBITRER :** le menu commun de sept destinations reprend le menu déjà présent sur l'accueil ; il ne rend pas directement accessibles depuis chaque page les trois autres destinations de l'immeuble (Prospection, Marchés publics et Marchés privés). Les liens du logo ramènent à l'accueil, où l'immeuble donne accès aux huit niveaux. Décider si cette navigation compacte est voulue ou si les huit destinations doivent également être exposées dans le menu global. Aucun lien supplémentaire n'a été ajouté sans arbitrage.
+**État actualisé du menu contextuel — contrôle du 5 novembre 2026 :** le constat ci-dessus est désormais dépassé par le contrôleur partagé `app.js`. La navigation principale conserve ses sept portes d'entrée, et le contrôleur ajoute deux sous-menus contextuels :
+- sous « Développement commercial » : « Prosp'active », « Marchés publics » et « Marchés privés » ;
+- sous « Espace privé » : « Suivi commercial », « CRM MajestiOS » et « Qualification entreprises ».
+
+Les trois destinations de l'immeuble qui ne sont pas des liens principaux (Prospection, Marchés publics et Marchés privés) sont ainsi accessibles depuis le menu contextuel « Développement commercial » sur les pages qui partagent la navigation canonique. Le logo conserve le retour à l'accueil et à l'immeuble interactif. Le panorama définit huit étages numérotés plus le rez-de-chaussée, soit neuf destinations cliquables. Le code de création, les routes et les états ARIA du sous-menu ont été inspectés ; un parcours navigateur exhaustif du sous-menu sur mobile, clavier et tous les gabarits reste à ajouter à la recette.
 
 ## 7. Suite recommandée
 
