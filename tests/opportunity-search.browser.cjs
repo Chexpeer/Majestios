@@ -299,6 +299,20 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
     await page.locator("#feed-search").focus();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
+
+    // Le mode mixte doit être réellement accessible depuis le formulaire partagé.
+    await page.locator("#feed-market-type").selectOption("all");
+    assert.equal(await page.locator("#feed-sector").inputValue(), "all", "Le mode mixte doit sélectionner automatiquement toutes les catégories.");
+    await Promise.all([
+      page.waitForURL(/resultats-recherche\.html\?.*marche=all/),
+      page.locator("#advanced-search-form").evaluate(form => form.requestSubmit())
+    ]);
+    await page.locator(".opportunity-source-group").nth(1).waitFor({ state: "attached", timeout: 10000 });
+    assert.equal(await page.locator(".opportunity-source-group").count(), 2, "Le mode mixte doit séparer les résultats BOAMP et BODACC.");
+
+    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#feed-search").focus();
+    await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
     for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
