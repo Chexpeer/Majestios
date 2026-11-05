@@ -3,447 +3,1321 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f8fb">
-    <meta name="description" content="MajestiOS aide les entreprises à repérer de nouvelles opportunités commerciales à partir des évolutions du marché.">
-    <title>MajestiOS — Prospection inversée et intelligence commerciale</title>
+    <meta name="theme-color" content="#070a0f">
+    <meta name="description" content="MajestiOS accompagne le développement commercial des entreprises en repérant de nouvelles opportunités et signaux de marché.">
+    <title>MajestiOS — Développement commercial intelligent</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+:root{color-scheme:dark;--gold:#d5b56c;--ink:#f4f0e6;--muted:#bdb5a4;--line:#33465b;--panel:#101a28}
+*{box-sizing:border-box}
+body.homepage{margin:0;background:#080d15;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.homepage-ticker{height:23px;overflow:hidden;border-bottom:1px solid #d5b56c33;background:#070a0f;color:#bdb5a4;font-size:9px;display:flex;align-items:center}
+.homepage-ticker-track{display:flex;width:max-content;min-width:200%;animation:ticker 75s linear infinite}
+.homepage-ticker-track span{white-space:nowrap;padding-right:5rem}
+.homepage-ticker strong{color:var(--gold)}
+@keyframes ticker{to{transform:translateX(-50%)}}
+.site-header{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin:0;padding:7px clamp(10px,1.8vw,24px);border-bottom:1px solid #d5b56c22;background:#080d15}
+.brand{display:flex;align-items:center;gap:7px;flex:0 0 auto;color:#f4f0e6;text-decoration:none;font-weight:800;font-size:16px;white-space:nowrap}
+.brand-mark{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#f7e6a9,#b28a3c);color:#10151d;font-size:17px}
+.brand-os{color:var(--gold)}
+.site-nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(5px,.9vw,13px);min-width:0}
+.site-nav a{color:#bdb5a4;text-decoration:none;font-size:10px;white-space:nowrap;padding:6px 2px;border-bottom:1px solid transparent}
+.site-nav a:hover,.site-nav [aria-current=page]{color:#f7e6a9;border-bottom-color:#d5b56c}
+.menu-toggle{display:none}
+.search-dock{display:block;width:min(1240px,calc(100% - 24px));margin:7px auto 9px}
+.search-dock summary{cursor:default;list-style:none;color:#d5b56c;font-size:10px;text-align:left;padding:0 2px 5px;font-weight:750;letter-spacing:.03em}
+.search-dock summary::-webkit-details-marker{display:none}
+.search-dock summary:after{content:""}
+.search-dock[open] summary:after{content:""}
+#advanced-search-form{display:grid;grid-template-columns:minmax(190px,1.6fr) repeat(3,minmax(125px,1fr)) auto;gap:6px;align-items:center;padding:7px;border:1px solid #d5b56c35;border-radius:8px;background:#0d141e}
+.feed-search input,.feed-filter-label select{width:100%;min-height:38px;padding:8px 10px;border:1px solid #d5b56c3b;border-radius:7px;background:#101a28;color:#f4f0e6;font:inherit;font-size:11px}
+.feed-search input::placeholder{color:#9f9a8e}
+.feed-search-submit{min-height:38px;padding:8px 13px;border:1px solid var(--gold);border-radius:7px;background:var(--gold);color:#11151c;font-size:11px;font-weight:800}
+.building-home{width:min(1440px,100%);margin:0 auto;padding:0 clamp(8px,1.5vw,20px) 12px}
+.building-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 8px 8px}
+.building-heading h1{font-size:clamp(15px,1.8vw,22px);font-weight:700;letter-spacing:-.02em;margin:0}
+.building-heading h1 span{color:var(--gold)}
+.building-heading p{margin:0;color:#aaa494;font-size:10px;text-align:right}
+.building-scene{position:relative;min-height:calc(100dvh - 210px);height:calc(100dvh - 210px);min-height:480px;overflow:hidden;border:1px solid #52678166;border-radius:12px;background:linear-gradient(180deg,#10243a 0%,#223c52 32%,#45616b 57%,#273a40 75%,#111c27 100%);box-shadow:0 20px 60px #0005}
+.building-scene:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 12%,#e4f3ff24,transparent 45%),linear-gradient(180deg,transparent 0 60%,#080d1599 100%),repeating-linear-gradient(90deg,transparent 0 8%,#dce9f20b 8.1% 8.2%)}
+.cityline{position:absolute;inset:36% 0 0;background:linear-gradient(180deg,#51656a,#263941 58%,#141e27);clip-path:polygon(0 25%,12% 18%,12% 4%,20% 4%,20% 26%,29% 21%,29% 0,36% 0,36% 23%,64% 23%,64% 0,72% 0,72% 24%,82% 18%,82% 4%,89% 4%,89% 25%,100% 18%,100% 100%,0 100%);opacity:.85}
+.ground-road{position:absolute;bottom:-6%;left:-10%;width:120%;height:24%;background:repeating-linear-gradient(90deg,#1c2931 0 90px,#d5b56c 91px 94px,#1c2931 95px 180px);border-top:4px solid #82939a;transform:perspective(300px) rotateX(18deg);transform-origin:top}
+.tower{position:absolute;z-index:2;left:50%;bottom:8%;transform:translateX(-50%);width:min(62%,760px);height:81%;padding:10px 10px 6px;border:2px solid #afc5d4;border-radius:8px 8px 2px 2px;background:linear-gradient(90deg,#c6d5df,#56748b 7%,#d5e2e9 17%,#66869d 48%,#d3e0e7 83%,#304b63);box-shadow:0 30px 65px #0009;display:flex;flex-direction:column}
+.tower:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 8%,#f5f9ff28 8.2% 8.6%,transparent 8.8% 16.5%)}
+.tower-sign{position:absolute;left:18%;right:18%;top:-30px;padding:7px 8px;text-align:center;background:#101d2c;border:1px solid #8b9eaa;color:#f4f0e6;font-size:clamp(12px,1.4vw,18px);font-weight:900;letter-spacing:.08em}
+.tower-sign span{color:var(--gold)}
+.floor-rows{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;min-height:0;gap:1.5px}
+.floor-row{display:grid;grid-template-columns:42px minmax(0,1fr) 25px;align-items:stretch;gap:8px;flex:1 1 0;min-height:0;padding:3px 5px;border:1px solid #d9e8f277;border-radius:2px;background:linear-gradient(90deg,#1b354bcc,#92afc099 48%,#18344bcc);color:#fff;text-align:left;text-decoration:none;cursor:pointer;transition:border-color .15s,filter .15s,transform .15s}
+.floor-row:hover,.floor-row:focus-visible,.floor-row[aria-pressed=true]{border-color:#ffe5a0;filter:brightness(1.16);outline:1px solid #d5b56c;outline-offset:0}
+.floor-no{display:grid;place-items:center;background:#10243bdf;border-right:1px solid #d9e8f255;color:#f6d37b;font-weight:900;font-size:clamp(10px,1.1vw,14px)}
+.floor-name{display:flex;align-items:center;padding:0 5px;font-size:clamp(9px,1.15vw,14px);line-height:1.12;font-weight:750;text-shadow:0 1px 3px #0009}
+.floor-windows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;align-items:stretch;padding:4px 0}
+.window{display:block;border:1px solid #d9eaf3;background:linear-gradient(145deg,#e5f6ff,#6398b5 43%,#17354e);box-shadow:inset 0 0 6px #eafaff66}
+.floor-mini{display:grid;place-items:center;border-left:1px solid #d9e8f255;color:#f6d37b;font-size:9px;font-weight:800}
+.floor-mini:after{content:"↗"}
+.building-caption{position:absolute;z-index:3;left:12px;bottom:12px;color:#e1e7e8;font-size:9px;letter-spacing:.08em;text-shadow:0 2px 5px #000;background:#091321bb;padding:7px 9px;border:1px solid #d5b56c33;border-radius:5px}
+.home-help{position:fixed;z-index:20;right:16px;bottom:14px}
+.home-help-toggle{display:flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid #d5b56c88;border-radius:30px;background:#0c1119f2;color:#f4edda;font-size:11px;font-weight:750}
+.home-help-panel{position:absolute;right:0;bottom:50px;width:min(320px,calc(100vw - 24px));padding:15px;border:1px solid #d5b56c55;border-radius:12px;background:#0a111bf7;box-shadow:0 16px 44px #0008}
+.home-help-panel[hidden]{display:none}
+.home-help-panel h2{margin:0 0 8px;font-size:17px}.home-help-panel p,.home-help-panel small{color:#bdb5a4;font-size:11px;line-height:1.5}
+.home-help-panel a{display:block;padding:8px 0;color:#e5cf91;text-decoration:none;font-size:12px}
+.floor-dialog{width:min(560px,calc(100% - 24px));max-height:min(80dvh,650px);padding:0;border:1px solid #d5b56c88;border-radius:14px;background:#0b1420;color:#f4f0e6;box-shadow:0 25px 100px #000b}
+.floor-dialog::backdrop{background:#03070dcc;backdrop-filter:blur(4px)}
+.dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:17px;border-bottom:1px solid #d5b56c33}
+.dialog-head p{margin:0 0 5px;color:var(--gold);font-size:9px;font-weight:900;letter-spacing:.14em}
+.dialog-head h2{margin:0;font-size:21px}
+.dialog-close{width:34px;height:34px;border:1px solid #d5b56c44;border-radius:50%;background:#152234;color:#f4f0e6;font-size:22px}
+.dialog-description{padding:0 17px;color:#c1c7cf;font-size:12px;line-height:1.55}
+.dialog-offices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 17px 17px}
+.dialog-office{display:flex;flex-direction:column;gap:9px;min-height:100px;padding:12px;border:1px solid #d5b56c38;border-radius:9px;background:#111e2e;color:#f4f0e6;text-decoration:none}
+.dialog-office:hover,.dialog-office:focus-visible{border-color:var(--gold);background:#1a2a3d}
+.dialog-office strong{font-size:12px;line-height:1.35}.dialog-office small{margin-top:auto;color:var(--gold);font-size:10px}
+@media(max-width:900px){.site-header{flex-wrap:wrap;gap:5px;padding:6px 10px}.site-nav{width:100%;justify-content:flex-start;gap:14px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}.site-nav::-webkit-scrollbar{display:none}.site-nav a{font-size:10px;padding:4px 0}.building-scene{height:calc(100dvh - 255px);min-height:460px}.tower{width:76%;height:80%}.floor-row{grid-template-columns:32px minmax(0,1fr) 18px;gap:4px;padding:2px}.floor-windows{gap:3px}.floor-name{font-size:clamp(8px,1.4vw,12px)}#advanced-search-form{grid-template-columns:repeat(2,minmax(0,1fr))}.feed-search{grid-column:1/-1}.feed-search-submit{grid-column:1/-1}}
+@media(max-width:600px){.site-header{padding:6px 8px}.site-nav{width:100%;justify-content:flex-start;gap:12px;overflow-x:auto;scrollbar-width:none}.site-nav::-webkit-scrollbar{display:none}.site-nav a{font-size:10px}.search-dock{margin:6px auto 8px}.search-dock summary{font-size:10px}.building-home{padding:0 5px 8px}.building-heading{align-items:flex-start;flex-direction:column;gap:3px;margin-bottom:5px}.building-heading p{text-align:left}.building-scene{height:calc(100dvh - 300px);min-height:450px;border-radius:7px}.tower{width:96%;height:82%;bottom:7%;padding:5px 4px 3px}.tower-sign{left:15%;right:15%;top:-23px;padding:5px;font-size:12px}.floor-rows{gap:2px}.floor-row{grid-template-columns:25px minmax(0,1fr) 12px;gap:2px;padding:1px}.floor-no{font-size:9px}.floor-name{font-size:clamp(8px,2.4vw,12px);padding:0 3px}.floor-windows{gap:2px;padding:2px 0}.floor-mini:after{content:"";display:none}.floor-mini{border:0}.building-caption{font-size:8px;left:5px;bottom:5px;padding:5px}.dialog-offices{grid-template-columns:1fr}.dialog-office{min-height:0;flex-direction:row;align-items:center;justify-content:space-between}.home-help{right:8px;bottom:8px}.home-help-toggle{padding:8px 10px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.homepage-ticker-track{animation:none}.floor-row{transition:none}}
+body.homepage .tender-feed-section{width:min(1240px,calc(100% - 24px));margin:7px auto 9px;padding:0;background:transparent}
+body.homepage .tender-feed-section .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
+body.homepage .tender-feed-section .feed-demo{padding:0;background:transparent;border:0;box-shadow:none}
+body.homepage #advanced-search-form{display:grid;grid-template-columns:minmax(170px,1.5fr) repeat(3,minmax(115px,1fr)) auto;gap:6px;align-items:center;padding:7px;border:1px solid #d5b56c35;border-radius:8px;background:#0d141e}
+body.homepage #advanced-search-form .feed-search{min-width:0}
+body.homepage #advanced-search-form .feed-search input,body.homepage #advanced-search-form .feed-filter-label select{width:100%;min-height:36px;padding:7px 9px;border:1px solid #d5b56c3b;border-radius:7px;background:#101a28;color:#f4f0e6;font:inherit;font-size:11px}
+body.homepage #advanced-search-form .feed-search-submit{min-height:36px;padding:7px 12px;border:1px solid var(--gold);border-radius:7px;background:var(--gold);color:#11151c;font-size:11px;font-weight:800}
+body.homepage .home-help-close{width:30px;height:30px;border:1px solid #d5b56c44;border-radius:50%;background:#152234;color:#f4f0e6;font-size:20px}
+@media(max-width:900px){body.homepage #advanced-search-form{grid-template-columns:repeat(2,minmax(0,1fr))}body.homepage #advanced-search-form .feed-search,body.homepage #advanced-search-form .feed-search-submit{grid-column:1/-1}}
+@media(max-width:600px){body.homepage .tender-feed-section{width:calc(100% - 16px);margin:6px auto 8px}body.homepage #advanced-search-form{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:6px}body.homepage #advanced-search-form .feed-search,body.homepage #advanced-search-form .feed-search-submit{grid-column:1/-1}body.homepage .building-scene{height:calc(100dvh - 300px);min-height:450px}}
+
+/* Navigation corrective : menu hamburger compact, sans recouvrir le moteur de recherche. */
+body.homepage .site-header{position:relative;z-index:30;display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:10px;min-height:44px;height:auto;width:100%;margin:0;padding:5px 12px;background:#080d15;border-bottom:1px solid #d5b56c33}
+body.homepage .brand{flex:0 0 auto;font-size:15px}
+body.homepage .brand-mark{width:27px;height:27px}
+body.homepage .menu-toggle{display:flex!important;flex:0 0 36px;position:relative;z-index:32;width:36px;height:34px;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:6px;border:1px solid #d5b56c66;border-radius:6px;background:#101a28;cursor:pointer}
+body.homepage .menu-toggle span{display:block;width:18px;height:2px;border-radius:2px;background:#f4f0e6;transition:transform .15s,opacity .15s}
+body.homepage .menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(6px) rotate(45deg)}
+body.homepage .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+body.homepage .menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-6px) rotate(-45deg)}
+body.homepage .site-nav{display:none!important;position:absolute;top:calc(100% + 3px);right:8px;z-index:40;width:min(290px,calc(100vw - 16px));max-height:min(75vh,520px);overflow:auto;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;padding:7px;border:1px solid #d5b56c66;border-radius:9px;background:#0d141e;box-shadow:0 16px 38px #000b;white-space:normal}
+body.homepage .site-nav.open{display:flex!important}
+body.homepage .site-nav>a{display:flex;align-items:center;min-height:40px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid #d5b56c1c;border-radius:5px;background:transparent;color:#e6e0d4;font-size:12px;line-height:1.35;text-align:left;text-decoration:none;white-space:normal;cursor:pointer}
+body.homepage .site-nav>a:hover,body.homepage .site-nav>a:focus-visible,body.homepage .site-nav>a[aria-current="page"]{background:#1a2a3d;color:#f7e6a9;outline:1px solid #d5b56c55}
+body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100% - 24px));margin:7px auto 9px}
+@media(max-width:900px){body.homepage .site-header{flex-wrap:nowrap}body.homepage .site-nav{width:min(290px,calc(100vw - 16px));overflow:auto}body.homepage .search-dock{margin:6px auto 8px}}
+@media(max-width:600px){body.homepage .site-header{padding:5px 8px}body.homepage .search-dock{width:calc(100% - 16px);margin:5px auto 7px}body.homepage .site-nav>a{font-size:12px}}
+
+
+/* Accueil MajestiOS — composition inspirée de la référence architecturale validée. */
+body.homepage{background:#071225;color:#f5f7fb}
+body.homepage .site-header{background:linear-gradient(100deg,#06101f,#102b50);border-bottom-color:#d5b56c66;padding:10px clamp(12px,2vw,28px)}
+body.homepage .brand{font-size:clamp(18px,1.8vw,26px);gap:12px}
+body.homepage .brand-mark{width:40px;height:40px;border-radius:0;background:transparent;border:1px solid var(--gold);color:var(--gold);font-size:24px}
+body.homepage .site-nav a{font-size:clamp(10px,.9vw,13px)}
+body.homepage .homepage-ticker{height:28px;background:#08172b;font-size:10px;border-bottom-color:#d5b56c66}
+body.homepage .home-hero-layout{width:min(1600px,100%);min-height:calc(100dvh - 100px);margin:0 auto;padding:clamp(14px,2vw,28px);display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr);gap:clamp(16px,2vw,30px);align-items:stretch;background:radial-gradient(ellipse at 75% 20%,#214e86 0%,#0a1b34 43%,#071225 78%)}
+body.homepage .home-search-column{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;min-width:0;padding:clamp(8px,1.4vw,22px) 0}
+body.homepage .hero-copy{margin:0 0 clamp(16px,2.2vw,32px)}
+body.homepage .hero-eyebrow{margin:0 0 14px;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.16em}
+body.homepage .hero-copy h1{margin:0;color:#fff;font-size:clamp(34px,4vw,64px);line-height:1.02;letter-spacing:-.045em}
+body.homepage .hero-copy h1 span{color:#f3c65e}
+body.homepage .hero-subtitle{max-width:620px;margin:18px 0 0;color:#e0e9f7;font-size:clamp(15px,1.4vw,21px);line-height:1.45;font-style:italic}
+body.homepage .tender-feed-section{width:100%;margin:0;padding:0;background:transparent}
+body.homepage .tender-feed-section .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
+body.homepage .tender-feed-section .feed-demo{padding:clamp(12px,1.5vw,22px);background:#06142be8;border:1px solid #e8b94e;border-radius:13px;box-shadow:0 18px 48px #0006}
+body.homepage #advanced-search-form{display:grid;grid-template-columns:1fr;gap:10px}
+body.homepage #advanced-search-form .feed-search{display:flex;align-items:center;gap:10px;padding:0 10px;border:1px solid #d5b56c88;border-radius:9px;background:#0b1c34}
+body.homepage #advanced-search-form .feed-search>span:first-child{color:#f3c65e;font-size:25px}
+body.homepage #advanced-search-form .feed-search input{min-height:46px;border:0;background:transparent;font-size:14px}
+body.homepage #advanced-search-form .feed-filter-label select{min-height:44px;border-color:#8098b8;background:#112743;font-size:13px}
+body.homepage #advanced-search-form .feed-filter-label[hidden]{display:none!important}
+body.homepage #advanced-search-form .feed-search-submit{min-height:46px;border:1px solid #ffdf82;border-radius:9px;background:linear-gradient(100deg,#f7d76b,#dfa72e);color:#101828;font-weight:850;font-size:14px}
+body.homepage #advanced-search-form .search-source-note{color:#c4d0e2;font-size:11px;line-height:1.45}
+body.homepage .building-home{width:100%;min-width:0;margin:0;padding:0;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+body.homepage .building-heading{position:relative;z-index:3;margin:0 0 10px;text-align:center;color:#f3c65e;font-size:10px;letter-spacing:.18em;font-weight:800}
+body.homepage .building-heading p{margin:0}
+body.homepage .building-scene{height:calc(100dvh - 150px);min-height:610px;max-height:920px;border:1px solid #90b8e466;border-radius:5px;background:linear-gradient(160deg,#5479a8 0%,#192e4d 34%,#091628 100%);box-shadow:0 22px 60px #0008}
+body.homepage .building-scene:before{background:radial-gradient(ellipse at 50% 10%,#f5c86e38,transparent 40%),linear-gradient(180deg,#07122510 0 58%,#071225d9 100%),repeating-linear-gradient(90deg,transparent 0 7.9%,#dce9f21c 8% 8.15%)}
+body.homepage .cityline{opacity:.85}
+body.homepage .tower{width:min(76%,780px);height:85%;bottom:6%;border-color:#c6d8e9;background:linear-gradient(90deg,#122b4b,#7192b2 8%,#233f60 17%,#9db3c5 19%,#203d60 49%,#9ab2c8 83%,#142a47);box-shadow:0 30px 65px #000b}
+body.homepage .tower-sign{top:-28px;background:#07172d;border-color:#d5b56c;color:#fff}
+body.homepage .floor-row{grid-template-columns:40px minmax(0,1fr) 25px;background:linear-gradient(90deg,#07172beF,#315576d9 52%,#07172beF);border-color:#b8cfe466;border-radius:0}
+body.homepage .floor-no{color:#f4cc69;font-weight:900}
+body.homepage .floor-name{font-size:clamp(9px,.95vw,13px);font-weight:750}
+body.homepage .building-rdc{display:grid;grid-template-columns:42px 1fr;align-items:center;gap:10px;min-height:38px;margin-top:4px;padding:6px 12px;background:linear-gradient(90deg,#6e4e18,#17253a 70%);border:1px solid #e5c56e;color:#fff;font-size:clamp(9px,.95vw,13px)}
+body.homepage .building-rdc span{color:#f4cc69;font-weight:900}
+body.homepage .building-rdc strong{letter-spacing:.08em}
+body.homepage .building-caption{margin-top:8px;color:#9eafc8;font-size:9px;letter-spacing:.13em;text-align:center}
+@media(max-width:900px){
+ body.homepage .home-hero-layout{grid-template-columns:minmax(0,1fr);gap:18px}
+ body.homepage .home-search-column{padding:8px 0}
+ body.homepage .hero-copy h1{font-size:clamp(34px,7vw,56px)}
+ body.homepage .building-scene{height:780px;min-height:640px}
+ body.homepage .tower{width:min(86%,680px);height:85%}
+}
+@media(max-width:600px){
+ body.homepage .home-hero-layout{padding:12px 10px;gap:14px}
+ body.homepage .site-header{padding:7px 9px}
+ body.homepage .building-scene{height:690px;min-height:610px}
+ body.homepage .tower{width:97%;height:85%;padding:5px 4px 3px}
+ body.homepage .floor-row{grid-template-columns:30px minmax(0,1fr) 12px;gap:3px;padding:2px}
+ body.homepage .floor-name{font-size:10px}
+ body.homepage .building-rdc{grid-template-columns:30px 1fr;gap:4px;padding:5px;font-size:10px}
+}
+
+
+/* Photo de référence fournie par le propriétaire du projet */
+/* La photo remplace l’ancien immeuble CSS : on conserve uniquement les liens d’étage superposés. */
+body.homepage .building-scene .tower{
+  /* La tour reste centrée sur la façade photographique : elle ne recouvre
+     jamais toute la scène. Les zones de clic sont limitées à son emprise. */
+  position:absolute!important;
+  left:50%!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:7%!important;
+  inset:auto!important;
+  width:min(76%,780px)!important;
+  height:85%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  display:block!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  transform:translateX(-50%)!important;
+}
+body.homepage .building-scene .tower:before,
+body.homepage .building-scene .tower:after{display:none!important;content:none!important}
+body.homepage .building-scene .tower .floor-row,
+body.homepage .building-scene .tower .building-rdc{
+  background:transparent!important;
+  box-shadow:none!important;
+  border:0!important;
+  backdrop-filter:none!important;
+}
+body.homepage .building-scene .tower .floor-row:before,
+body.homepage .building-scene .tower .floor-row:after{display:none!important;content:none!important}
+/* L'ancien fond Majestios.immeuble.jpg a été remplacé par Designer (2).png. */
+body.homepage .building-scene:before{background:linear-gradient(180deg,#07101a0a 0%,transparent 55%,#07101a55 100%)}
+body.homepage .cityline,body.homepage .ground-road{display:none}
+body.homepage .tower{
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+body.homepage .tower:before{display:none}
+body.homepage .floor-row{background:linear-gradient(90deg,#07101ad9,#10243b75 48%,#07101ad9);backdrop-filter:blur(1px)}
+body.homepage .building-rdc{background:#091321d9}
+
+/* Neuf destinations visibles et cliquables, intégrées à la façade.
+   Les libellés sont de vrais éléments HTML (pas de pseudo-bandeaux). */
+body.homepage .building-scene .tower-sign,
+body.homepage .building-scene .building-rdc,
+body.homepage .building-scene .building-caption { display:none !important; }
+body.homepage .building-scene .tower { display:block !important; }
+body.homepage .building-scene .tower .floor-rows {
+  position:absolute !important; top:calc(1% + 2cm) !important; bottom:calc(13% - 2cm) !important;
+  left:calc(50% + 3cm) !important; transform:translateX(-50%) !important; z-index:12 !important;
+  display:grid !important; grid-template-columns:minmax(0,1fr) !important;
+  grid-template-rows:repeat(9,minmax(0,1fr)) !important;
+  align-content:stretch !important; row-gap:0 !important; column-gap:0 !important; width:100% !important;
+  height:auto !important; min-height:0 !important; padding:0 8px !important;
+}
+body.homepage .building-scene .tower .floor-row {
+  display:grid !important;
+  align-self:center !important; position:relative !important;
+  grid-template-columns:48px minmax(0,1fr) minmax(54px,22%) 22px !important;
+  align-items:stretch !important; gap:6px !important; width:100% !important;
+  height:calc(100% - 3mm) !important; min-height:0 !important; margin:0 !important;
+  padding:3px 6px !important; border:1px solid rgba(220,235,248,.55) !important;
+  border-radius:2px !important;
+  background:linear-gradient(90deg,rgba(5,18,35,.88),rgba(21,54,83,.76) 55%,rgba(5,18,35,.88)) !important;
+  color:#fff !important; box-shadow:0 2px 7px rgba(0,0,0,.28) !important;
+  text-decoration:none !important; pointer-events:auto !important; touch-action:manipulation;
+}
+body.homepage .building-scene .tower .floor-no {
+  display:grid !important; place-items:center !important; min-width:0 !important;
+  background:rgba(9,31,55,.92) !important; border-right:1px solid rgba(220,235,248,.35) !important;
+  color:#f6d37b !important; font-size:clamp(12px,1.4vw,20px) !important; font-weight:900 !important;
+}
+body.homepage .building-scene .tower .floor-name {
+  display:flex !important; align-items:center !important; min-width:0 !important;
+  padding:0 5px !important; color:#fff !important;
+  font-size:clamp(10px,1.15vw,15px) !important; line-height:1.15 !important;
+  font-weight:800 !important; text-shadow:0 1px 4px #000 !important; overflow-wrap:anywhere !important;
+}
+body.homepage .building-scene .tower .floor-windows {
+  display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:4px !important; min-width:0 !important; padding:3px 0 !important;
+}
+body.homepage .building-scene .tower .floor-mini {
+  display:grid !important; place-items:center !important;
+  border-left:1px solid rgba(220,235,248,.35) !important; color:#f6d37b !important; font-size:12px !important;
+}
+body.homepage .building-scene .tower .floor-mini:after { content:"↗" !important; display:block !important; }
+body.homepage .building-scene .tower .floor-row:after { content:none !important; display:none !important; }
+body.homepage .building-scene .tower .floor-row:hover,
+body.homepage .building-scene .tower .floor-row:focus-visible {
+  outline:2px solid #f2cf79 !important; outline-offset:-2px !important; filter:brightness(1.18);
+}
+@media(max-width:600px) {
+  body.homepage .building-scene .tower { width:97% !important; }
+  body.homepage .building-scene .tower .floor-rows {
+    top:calc(1% + 2cm) !important; bottom:calc(10% - 2cm) !important; row-gap:0 !important; column-gap:0 !important; padding:0 3px !important;
+  }
+  body.homepage .building-scene .tower .floor-row {
+    grid-template-columns:34px minmax(0,1fr) 0 16px !important; gap:3px !important; padding:2px 3px !important;
+  }
+  body.homepage .building-scene .tower .floor-windows { display:none !important; }
+  body.homepage .building-scene .tower .floor-name { font-size:clamp(9px,2.7vw,12px) !important; }
+}
+
+/* Zones cliquables calées sur les neuf niveaux actifs de la photo MajestiOS (842 × 1264). */
+body.homepage .building-scene{position:relative;display:grid;place-items:center;height:auto;min-height:0;max-height:none;padding:clamp(6px,1vw,14px);overflow:hidden;border:1px solid #90b8e466;border-radius:5px;background:linear-gradient(160deg,#1f3553 0%,#0a1626 100%);box-shadow:0 22px 60px #0008}
+body.homepage .building-photo{position:relative;margin:0;width:min(100%,580px,max(430px,calc((100dvh - 150px) * 842 / 1264)));aspect-ratio:842/1264}
+body.homepage .building-photo img{display:block;width:100%;height:100%;border-radius:3px;-webkit-user-drag:none;user-select:none}
+body.homepage .building-hotspots{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+body.homepage .building-hotspots .floor-row{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+body.homepage .building-hotspots .floor-zone{fill:rgba(255,255,255,0);stroke:rgba(255,255,255,0);stroke-width:3;stroke-linejoin:round;pointer-events:all;transition:fill .15s,stroke .15s}
+body.homepage .building-hotspots .floor-row:hover .floor-zone,body.homepage .building-hotspots .floor-row:focus-visible .floor-zone{fill:rgba(255,255,255,.16);stroke:#f2cf79}
+@media(max-width:900px){body.homepage .building-photo{width:min(100%,580px,calc((100dvh - 190px) * 842 / 1264))}}
+@media(max-width:600px){body.homepage .building-photo{width:min(100%,calc((100dvh - 180px) * 842 / 1264))}}
+@media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone{transition:none}}
+
+/* Panorama interactif — cabine vitrée, repères sobres et déplacement naturel. */
+body.homepage .building-hotspots .floor-zone{fill:rgba(6,22,51,.10);stroke:transparent;stroke-width:2;filter:none;transition:none}
+body.homepage .building-hotspots .floor-row:hover .floor-zone{fill:rgba(6,22,51,.10);stroke:transparent;filter:none}
+body.homepage .building-hotspots .floor-row:focus-visible .floor-zone{fill:transparent;stroke:#d9c28d;stroke-width:2;filter:none}
+body.homepage .elevator-cabin{fill:url(#lift-glass);stroke:rgba(236,251,255,.78);stroke-width:1.35;filter:url(#lift-shadow);transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-window{fill:url(#lift-glass);fill-opacity:.48;stroke:rgba(239,250,255,.62);stroke-width:.8;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-detail{fill:none;stroke:rgba(231,245,250,.78);stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-cylinder-side{fill:url(#lift-metal);stroke:#dff6ff;stroke-width:1.5;opacity:.88;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-cylinder-rim{fill:none;stroke:#e9faff;stroke-width:2.1;filter:url(#lift-shadow);transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-cylinder-rim-back{stroke:rgba(226,247,255,.52);stroke-width:1.2}
+body.homepage .elevator-cylinder-highlight{fill:rgba(255,255,255,.26);stroke:rgba(255,255,255,.65);stroke-width:.7;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-reflection{fill:rgba(255,255,255,.22);stroke:none;transition:transform 1050ms cubic-bezier(.45,.05,.2,1)}
+body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px;padding:5px 8px;border:1px solid #e7c87566;border-radius:5px;background:#071629d9;color:#f8e8bd;font-size:9px;letter-spacing:.05em}
+@media(max-width:600px){body.homepage .elevator-caption{right:4px;bottom:4px;font-size:8px}}
+@media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone,body.homepage .elevator-cabin,body.homepage .elevator-window,body.homepage .elevator-detail,body.homepage .elevator-reflection,body.homepage .elevator-cylinder-side,body.homepage .elevator-cylinder-rim,body.homepage .elevator-cylinder-highlight{transition-duration:0s!important}}
+
+</style>
+    <script src="catalogue-majestios.js" defer></script>
     <script src="app.js" defer></script>
-  </head>
-  <body>
+    <link rel="stylesheet" href="charte-majestios.css">
+
+    <style id="homepage-image-palette">
+      /* Palette harmonisée sur l'immeuble MajestiOS : bleu profond, cyan, turquoise,
+         or, ambre, orange et violet. L'image et ses zones cliquables restent intactes. */
+      body.homepage {
+        --gold:#f4c15d;
+        --gold-light:#ffe09a;
+        --blue:#1769c2;
+        --cyan:#19b9d2;
+        --teal:#20bda9;
+        --violet:#a84bc5;
+        --orange:#f07835;
+        color:#f4f7ff;
+        background:#061633;
+      }
+      body.homepage .homepage-ticker {
+        color:#d8e8ff;
+        background:linear-gradient(90deg,#061633 0%,#103d78 34%,#38205c 68%,#061633 100%);
+        border-bottom:1px solid #22b7d0a6;
+      }
+      body.homepage .homepage-ticker strong { color:#ffd36e; }
+      body.homepage .site-header {
+        background:linear-gradient(105deg,#04132f 0%,#0a3470 48%,#102957 76%,#251746 100%);
+        border-bottom:1px solid #28b8d0a0;
+        box-shadow:0 8px 28px #020b20a8;
+      }
+      body.homepage .brand-mark {
+        border-color:#f4c15d;
+        color:#ffe09a;
+        box-shadow:0 0 16px #f4c15d35;
+      }
+      body.homepage .brand-os { color:#ffd36e; }
+      body.homepage .menu-toggle {
+        border-color:#20b9d2a8;
+        background:linear-gradient(145deg,#103d78,#14264b);
+      }
+      body.homepage .menu-toggle span { background:#ffe09a; }
+      body.homepage .site-nav {
+        border-color:#27b8d0a8;
+        background:linear-gradient(145deg,#071a3a,#102d59 72%,#251746);
+        box-shadow:0 18px 42px #020817d9;
+      }
+      body.homepage .site-nav>a { color:#e3edff; border-bottom-color:#29b6d02b; }
+      body.homepage .site-nav>a:hover,
+      body.homepage .site-nav>a:focus-visible,
+      body.homepage .site-nav>a[aria-current="page"] {
+        color:#ffe09a;
+        background:linear-gradient(90deg,#1467a866,#7b3d9b55,#d46c3555);
+        outline-color:#f4c15d88;
+      }
+      body.homepage .home-hero-layout {
+        background:
+          radial-gradient(ellipse at 8% 16%,#1264b84a 0%,transparent 36%),
+          radial-gradient(ellipse at 48% 82%,#8a347a30 0%,transparent 36%),
+          radial-gradient(ellipse at 88% 18%,#13b8d23b 0%,transparent 35%),
+          linear-gradient(125deg,#061633 0%,#0a2b59 42%,#101e49 72%,#20163e 100%);
+      }
+      body.homepage .hero-eyebrow { color:#5dd5e2; }
+      body.homepage .hero-copy h1 { color:#f8faff; }
+      body.homepage .hero-copy h1 span {
+        color:#ffd36e;
+        text-shadow:0 0 24px #f0783540;
+      }
+      body.homepage .hero-subtitle { color:#dceaff; }
+      body.homepage .tender-feed-section .feed-demo {
+        position:relative;
+        overflow:hidden;
+        border:1px solid transparent;
+        background:
+          linear-gradient(145deg,#071a38f5,#102d58f5 65%,#211944f5) padding-box,
+          linear-gradient(110deg,#18bfd0,#2b75d0 35%,#a84bc5 66%,#f07835 84%,#f4c15d) border-box;
+        box-shadow:0 18px 48px #02081799,0 0 28px #1678c322;
+      }
+      body.homepage .tender-feed-section .feed-demo:before {
+        content:"";
+        position:absolute;
+        top:0;left:8%;right:8%;height:2px;
+        background:linear-gradient(90deg,#18bfd0,#2877d5,#a84bc5,#f07835,#f4c15d);
+      }
+      body.homepage #advanced-search-form .feed-search {
+        border-color:#24b8d077;
+        background:linear-gradient(110deg,#081b3a,#0d2c55);
+      }
+      body.homepage #advanced-search-form .feed-search>span:first-child { color:#43d0df; }
+      body.homepage #advanced-search-form .feed-search input { color:#f5f8ff; }
+      body.homepage #advanced-search-form .feed-search input::placeholder { color:#a9bddb; }
+      body.homepage #advanced-search-form .feed-filter-label select {
+        border-color:#5486c4;
+        background:linear-gradient(110deg,#102d56,#14264b);
+        color:#f4f7ff;
+      }
+      body.homepage #advanced-search-form .feed-filter-label select:focus,
+      body.homepage #advanced-search-form .feed-search:focus-within {
+        border-color:#45d4df;
+        box-shadow:0 0 0 3px #22bfd026;
+        outline:none;
+      }
+      body.homepage #advanced-search-form .feed-search-submit {
+        border-color:#ffe09a;
+        background:linear-gradient(100deg,#ffe28a 0%,#f4bd4e 48%,#f07835 100%);
+        color:#17213a;
+        box-shadow:0 6px 18px #ed9d3d35;
+      }
+      body.homepage #advanced-search-form .feed-search-submit:hover {
+        filter:brightness(1.08);
+        box-shadow:0 8px 24px #f0783550;
+      }
+      body.homepage #advanced-search-form .search-source-note { color:#c6d8f1; }
+      body.homepage .building-heading { color:#ffe09a; }
+      body.homepage .building-scene {
+        border:1px solid #20b9d2a6;
+        background:linear-gradient(145deg,#0b3470,#12224b 58%,#311b50);
+        box-shadow:0 22px 60px #020817a8,0 0 28px #1678c322;
+      }
+      body.homepage .building-photo { filter:drop-shadow(0 14px 28px #02081766); }
+      body.homepage .building-hotspots .floor-row:focus-visible .floor-zone {
+        stroke:#ffe09a;
+        filter:drop-shadow(0 0 5px #f4c15d);
+      }
+      body.homepage .elevator-controls {
+        border-color:#35c6d6a8;
+        background:linear-gradient(160deg,#071a3bed,#142b53ed);
+      }
+      body.homepage .elevator-controls button {
+        border-color:#f4c15d;
+        background:linear-gradient(145deg,#123c70,#19264c);
+        color:#ffe09a;
+      }
+      body.homepage .elevator-controls button:hover,
+      body.homepage .elevator-controls button:focus-visible {
+        background:linear-gradient(110deg,#ffe28a,#f07835);
+        color:#10203a;
+      }
+      body.homepage .elevator-caption {
+        border-color:#26bfd0a8;
+        background:linear-gradient(110deg,#071a3bed,#251746ed);
+        color:#ffe09a;
+      }
+      body.homepage .home-help-toggle {
+        border-color:#f4c15d;
+        background:linear-gradient(110deg,#0a3470f5,#251746f5);
+        color:#fff3d0;
+        box-shadow:0 8px 26px #02081788,0 0 18px #1cb8d033;
+      }
+      body.homepage .home-help-mark { color:#5dd5e2; }
+      body.homepage .home-help-panel {
+        border-color:#27b8d0a8;
+        background:linear-gradient(145deg,#071a38f7,#102d59f7 68%,#251746f7);
+        box-shadow:0 18px 48px #020817d9;
+      }
+      body.homepage .home-help-panel h2 { color:#fff; }
+      body.homepage .home-help-panel p,
+      body.homepage .home-help-panel small { color:#c6d8f1; }
+      body.homepage .home-help-panel a { color:#ffe09a; }
+      body.homepage .home-help-panel a:hover { color:#5dd5e2; }
+      body.homepage .home-help-close {
+        border-color:#f4c15d77;
+        background:#12345e;
+        color:#ffe09a;
+      }
+      body.homepage .site-footer {
+        background:linear-gradient(100deg,#04132f,#0a3470 48%,#102957 76%,#251746);
+        border-top:1px solid #27b8d088;
+        color:#d5e3f8;
+      }
+      body.homepage .site-footer .brand-mark {
+        border-color:#f4c15d;
+        color:#ffe09a;
+        background:transparent;
+      }
+      body.homepage .site-footer .brand-os { color:#ffd36e; }
+      body.homepage .site-footer>p { color:#c1d2ec; }
+      body.homepage .footer-links a { color:#d9e8ff; }
+      body.homepage .footer-links a:hover { color:#ffe09a; }
+      @media(max-width:900px) {
+        body.homepage .home-hero-layout {
+          background:
+            radial-gradient(ellipse at 15% 10%,#1264b84a,transparent 38%),
+            radial-gradient(ellipse at 90% 48%,#8a347a28,transparent 38%),
+            linear-gradient(145deg,#061633,#0a2b59 55%,#20163e);
+        }
+      }
+
+      /* Accueil : réduire le bloc éditorial et compacter/remonter le moteur de recherche. */
+      body.homepage .home-search-column {
+        justify-content:flex-start;
+        padding-top:clamp(4px,.6vh,8px);
+        padding-bottom:4px;
+      }
+      body.homepage .hero-copy { margin:0 0 7px; }
+      body.homepage .hero-eyebrow {
+        margin:0 0 7px;
+        font-size:9px;
+        letter-spacing:.13em;
+      }
+      body.homepage .hero-copy h1 {
+        font-size:clamp(27px,3vw,44px);
+        line-height:1.04;
+        letter-spacing:-.035em;
+      }
+      body.homepage .hero-subtitle {
+        margin:8px 0 0;
+        max-width:500px;
+        font-size:clamp(12px,1.05vw,16px);
+        line-height:1.3;
+      }
+      body.homepage .tender-feed-section { margin:0; }
+      body.homepage .tender-feed-section .feed-demo {
+        padding:clamp(7px,.8vw,11px);
+        border-radius:10px;
+      }
+      body.homepage #advanced-search-form { gap:6px; }
+      body.homepage #advanced-search-form .feed-search { gap:7px; padding:0 8px; }
+      body.homepage #advanced-search-form .feed-search>span:first-child { font-size:19px; }
+      body.homepage #advanced-search-form .feed-search input {
+        min-height:36px; padding:6px 7px; font-size:12px;
+      }
+      body.homepage #advanced-search-form .feed-filter-label select {
+        min-height:35px; padding:6px 8px; font-size:11px;
+      }
+      body.homepage #advanced-search-form .feed-search-submit {
+        min-height:36px; padding:6px 10px; font-size:12px;
+      }
+      body.homepage #advanced-search-form .search-source-note {
+        margin:2px 0; font-size:9px; line-height:1.3;
+      }
+      @media(max-width:900px) {
+        body.homepage .home-search-column { padding:4px 0 2px; }
+        body.homepage .hero-copy { margin-bottom:6px; }
+        body.homepage .hero-copy h1 { font-size:clamp(25px,5vw,38px); }
+        body.homepage .hero-subtitle { font-size:clamp(11px,2vw,14px); }
+        body.homepage .tender-feed-section .feed-demo { padding:7px; }
+        body.homepage #advanced-search-form { gap:5px; }
+      }
+      @media(max-width:600px) {
+        body.homepage .hero-eyebrow { font-size:8px; margin-bottom:5px; }
+        body.homepage .hero-copy h1 { font-size:clamp(23px,7vw,32px); }
+        body.homepage .hero-subtitle { margin-top:6px; font-size:12px; }
+        body.homepage .tender-feed-section .feed-demo { padding:6px; }
+        body.homepage #advanced-search-form .feed-search input { min-height:33px; font-size:11px; }
+        body.homepage #advanced-search-form .feed-filter-label select { min-height:33px; font-size:10px; }
+        body.homepage #advanced-search-form .feed-search-submit { min-height:34px; font-size:11px; }
+      }
+
+      /* Moteur d'accueil : suppression de l'encadrement extérieur et du texte explicatif. */
+      body.homepage .tender-feed-section .feed-demo {
+        padding:0!important;
+        border:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        box-shadow:none!important;
+      }
+      body.homepage #advanced-search-form {
+        padding:0!important;
+        border:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        box-shadow:none!important;
+      }
+
+      /* Moteur d'accueil : présentation blanche, épurée, inspirée de Google. */
+      body.homepage .tender-feed-section,
+      body.homepage .tender-feed-section .feed-wrap,
+      body.homepage .tender-feed-section .feed-demo {
+        width:100%!important;
+        max-width:none!important;
+        margin:0!important;
+        padding:0!important;
+        border:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        box-shadow:none!important;
+        overflow:visible!important;
+      }
+      body.homepage .tender-feed-section .feed-wrap::before,
+      body.homepage .tender-feed-section .feed-demo::before {
+        display:none!important;
+        content:none!important;
+      }
+      body.homepage #advanced-search-form {
+        display:grid!important;
+        grid-template-columns:minmax(0,1fr) 44px!important;
+        align-items:center!important;
+        gap:8px!important;
+        width:100%!important;
+        margin:0!important;
+        padding:0!important;
+        border:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        box-shadow:none!important;
+      }
+      body.homepage #advanced-search-form .feed-search {
+        display:flex!important;
+        align-items:center!important;
+        min-width:0!important;
+        min-height:48px!important;
+        gap:10px!important;
+        padding:0 17px!important;
+        border:0!important;
+        border-radius:28px!important;
+        background:#fff!important;
+        color:#5f6368!important;
+        box-shadow:0 1px 6px rgba(32,33,36,.22)!important;
+      }
+      body.homepage #advanced-search-form .feed-search>span:first-child {
+        color:#5f6368!important;
+        font-size:22px!important;
+      }
+      body.homepage #advanced-search-form .feed-search input {
+        width:100%!important;
+        min-width:0!important;
+        min-height:46px!important;
+        padding:0!important;
+        border:0!important;
+        outline:0!important;
+        background:transparent!important;
+        color:#202124!important;
+        font:400 15px/1.4 Arial,sans-serif!important;
+        box-shadow:none!important;
+      }
+      body.homepage #advanced-search-form .feed-search input::placeholder {
+        color:#70757a!important;
+        opacity:1!important;
+      }
+      body.homepage #advanced-search-form .feed-search:focus-within {
+        border:0!important;
+        background:#fff!important;
+        box-shadow:0 1px 8px rgba(32,33,36,.28)!important;
+        outline:none!important;
+      }
+      body.homepage #advanced-search-form .feed-search-submit {
+        display:grid!important;
+        place-items:center!important;
+        width:44px!important;
+        min-width:44px!important;
+        height:44px!important;
+        min-height:44px!important;
+        margin:0!important;
+        padding:0!important;
+        border:0!important;
+        border-radius:50%!important;
+        background:#fff!important;
+        color:#5f6368!important;
+        box-shadow:0 1px 6px rgba(32,33,36,.18)!important;
+        font-size:0!important;
+        cursor:pointer!important;
+      }
+      body.homepage #advanced-search-form .feed-search-submit::before {
+        content:"⌕";
+        font:400 25px/1 Arial,sans-serif;
+      }
+      body.homepage #advanced-search-form .feed-search-submit:hover,
+      body.homepage #advanced-search-form .feed-search-submit:focus-visible {
+        background:#f8f9fa!important;
+        box-shadow:0 1px 8px rgba(32,33,36,.28)!important;
+        outline:2px solid #8ab4f8!important;
+        outline-offset:2px!important;
+      }
+      body.homepage #advanced-search-form .feed-filter-label {
+        min-width:0!important;
+      }
+      body.homepage #advanced-search-form .feed-filter-label select {
+        width:100%!important;
+        min-height:42px!important;
+        padding:8px 12px!important;
+        border:1px solid #dadce0!important;
+        border-radius:8px!important;
+        background:#fff!important;
+        color:#202124!important;
+        font:400 13px/1.4 Arial,sans-serif!important;
+        box-shadow:none!important;
+      }
+      body.homepage #advanced-search-form .feed-filter-label select:focus-visible {
+        border-color:#8ab4f8!important;
+        outline:2px solid #8ab4f8!important;
+        outline-offset:1px!important;
+      }
+      @media(max-width:600px) {
+        body.homepage #advanced-search-form { grid-template-columns:minmax(0,1fr) 40px!important; gap:6px!important; }
+        body.homepage #advanced-search-form .feed-search { min-height:44px!important; padding:0 13px!important; }
+        body.homepage #advanced-search-form .feed-search input { min-height:42px!important; font-size:14px!important; }
+        body.homepage #advanced-search-form .feed-search-submit { width:40px!important; min-width:40px!important; height:40px!important; min-height:40px!important; }
+      }
+
+      /* Fond panoramique Designer 2 : décor général de l'accueil.
+         L'immeuble source reste un élément séparé, inchangé, avec ses hotspots SVG. */
+      body.homepage .home-hero-layout {
+        position:relative;
+        isolation:isolate;
+        background-image:
+          linear-gradient(90deg,rgba(5,13,24,.58) 0%,rgba(5,13,24,.24) 48%,rgba(5,13,24,.12) 100%),
+          linear-gradient(180deg,rgba(5,13,24,.12) 0%,rgba(5,13,24,.18) 68%,rgba(5,13,24,.52) 100%),
+          url("Designer%20(2).png");
+        background-position:center center;
+        background-repeat:no-repeat;
+        background-size:cover;
+      }
+      body.homepage .building-scene {
+        background:transparent!important;
+        border-color:rgba(218,232,242,.28)!important;
+        box-shadow:none!important;
+      }
+      body.homepage .building-scene:before {
+        content:none!important;
+        display:none!important;
+      }
+      body.homepage .building-photo {
+        filter:drop-shadow(0 12px 24px rgba(2,8,23,.32));
+      }
+      body.homepage .building-photo img {
+        filter:contrast(1.04) saturate(.96);
+      }
+      body.homepage .building-photo::after {
+        content:"";
+        position:absolute;
+        z-index:1;
+        inset:0;
+        border-radius:4px;
+        pointer-events:none;
+        background:
+          linear-gradient(90deg,rgba(6,22,51,.20) 0%,transparent 5%,transparent 95%,rgba(6,22,51,.20) 100%),
+          linear-gradient(180deg,rgba(6,22,51,.12) 0%,transparent 3%,transparent 97%,rgba(6,22,51,.18) 100%);
+      }
+      @media(max-width:900px) {
+        body.homepage .home-hero-layout {
+          background-position:center center;
+          background-size:cover;
+        }
+        body.homepage .building-scene {
+          background:transparent!important;
+        }
+      }
+      @media(max-width:600px) {
+        body.homepage .home-hero-layout {
+          background-position:54% center;
+        }
+      }
+
+
+      /* Enseignes LED : un afficheur à matrice de points par étage, posé sur la photo par homographie.
+         La couche est insérée sous le calque des zones cliquables et ne capte jamais la souris. */
+      body.homepage .led-layer { position:absolute; inset:0; overflow:hidden; pointer-events:none; border-radius:3px; }
+      body.homepage .led-sign { position:absolute; left:0; top:0; display:block; transform-origin:0 0; pointer-events:none; }
+
+
+      /* Intégration de l'immeuble dans le décor de la page : seule la silhouette de la tour est affichée
+         (masque immeuble-masque.png appliqué à la photo, qui reste inchangée). Le ciel, les immeubles voisins
+         et les engins volants de la photo disparaissent : on voit le décor de la page autour de la tour. */
+      body.homepage .building-scene { border:0!important; border-radius:0!important; box-shadow:none!important; }
+      body.homepage .building-photo {
+        filter:none;
+        -webkit-mask-image:url("immeuble-masque.png"); mask-image:url("immeuble-masque.png");
+        -webkit-mask-size:100% 100%; mask-size:100% 100%;
+        -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+      }
+      body.homepage .building-photo::after { content:none; display:none; }
+      body.homepage .building-photo img { border-radius:0; }
+    </style>
+</head>
+  <body class="homepage">
+    <div class="homepage-ticker" role="status" aria-label="Flux de démonstration MajestiOS">
+      <div class="homepage-ticker-track"><span><strong>MAJESTIOS · FLUX DE DÉMONSTRATION</strong> — Exemples fictifs de marchés publics et privés — Aucune annonce réelle n’est diffusée pour le moment. Les résultats réels sont recherchés à la demande.</span><span aria-hidden="true"><strong>MAJESTIOS · FLUX DE DÉMONSTRATION</strong> — Exemples fictifs de marchés publics et privés — Aucune annonce réelle n’est diffusée pour le moment. Les résultats réels sont recherchés à la demande.</span></div>
+    </div>
     <header class="site-header">
-      <a class="brand" href="#accueil" aria-label="MajestiOS, accueil">
+      <a class="brand" href="index.html#accueil" aria-label="MajestiOS, accueil">
         <span class="brand-mark" aria-hidden="true">M</span>
         <span>majesti<span class="brand-os">OS</span></span>
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu">
         <span></span><span></span><span></span>
       </button>
-      <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
-        <a href="#accueil">Accueil</a>
-        <a href="#partenaires">Partenaires</a>
-        <a href="#developpement-commercial">Développement commercial</a>
-        <a href="#devis-facturation">Devis et facturation</a>
-        <a href="#prospection-secretariat">Prospection et secrétariat</a>
-        <a href="#business">Business</a>
-        <a class="nav-cta" href="#espace-client">Espace client <span aria-hidden="true">↗</span></a>
-      </nav>
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="reseaux-synergies.html">Réseau</a><a href="reputation-virtuelle.html">Réputation virtuelle</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace privé</a><a href="faq.html">FAQ</a></nav>
     </header>
 
-    <main>
-      <section class="hero section-wrap" id="accueil">
+    <main class="home-hero-layout" id="accueil">
+      <section class="home-search-column" aria-label="Recherche d'opportunités">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-mark"></span> UNE NOUVELLE FAÇON DE DÉVELOPPER VOTRE ACTIVITÉ</p>
-          <h1>Le marché révèle.<br><span>Vous décidez.</span></h1>
-          <p class="hero-lede">MajestiOS vous aide à repérer les occasions qui comptent et à choisir où concentrer votre énergie commerciale.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#flux-ao">Voir les opportunités <span aria-hidden="true">→</span></a>
-            <a class="button button-quiet" href="#prospection-inverse">Découvrir MajestiOS <span aria-hidden="true">↓</span></a>
-          </div>
-          <div class="hero-note"><span class="check-mark" aria-hidden="true">✓</span> Vous gardez le choix de la suite à donner.</div>
-          <a class="hero-product-link" href="#demonstration">Voir un exemple <span aria-hidden="true">↓</span></a>
+          <p class="hero-eyebrow">DÉVELOPPEMENT COMMERCIAL · MAJESTIOS</p>
+          <h1>Donner de la hauteur<br>à vos <span>ambitions...</span></h1>
+          <p class="hero-subtitle">MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente.</p>
         </div>
-        <div class="hero-visual" aria-label="Exemple illustratif de qualification d’un signal">
-          <div class="visual-orbit orbit-one"></div>
-          <div class="visual-orbit orbit-two"></div>
-          <div class="visual-card">
-            <div class="visual-card-head">
-              <span class="visual-icon" aria-hidden="true">↗</span>
-              <span class="visual-demo">EXEMPLE ILLUSTRATIF</span>
-              <span class="visual-more" aria-hidden="true">···</span>
-            </div>
-            <p class="visual-kicker">UNE OCCASION À EXPLORER</p>
-            <h2>Un nouveau projet se dessine dans votre secteur.</h2>
-            <p class="visual-company">Illustration · données non réelles</p>
-            <div class="visual-divider"></div>
-            <div class="visual-insight fact">
-              <span class="insight-dot"></span>
-              <div><strong>Une possibilité à saisir</strong><p>Et si cette évolution concernait votre activité ?</p></div>
-            </div>
-            <div class="visual-insight hypothesis">
-              <span class="insight-dot"></span>
-              <div><strong>Votre prochain pas</strong><p>Vous choisissez si cette piste mérite votre attention.</p></div>
-            </div>
-            <div class="human-review"><span aria-hidden="true">◎</span> Vous restez maître de vos décisions.</div>
-          </div>
-          <div class="floating-note"><span class="floating-icon" aria-hidden="true">✳</span><span><strong>Votre activité, en mouvement</strong><small>De nouvelles pistes à explorer</small></span></div>
-          <div class="visual-glow"></div>
-        </div>
-      </section>
-
-      <section class="trust-strip" aria-label="Les bénéfices de MajestiOS">
-        <div class="trust-inner">
-          <span><i class="trust-icon purple">◈</i> Repérer de nouvelles occasions</span>
-          <span><i class="trust-icon blue">⌁</i> Voir votre marché autrement</span>
-          <span><i class="trust-icon green">✓</i> Choisir votre prochaine étape</span>
-        </div>
-      </section>
-
-      <section class="reverse-prospecting section-wrap" id="prospection-inverse" aria-labelledby="reverse-title">
-        <div class="reverse-intro">
-          <p class="eyebrow">LA PROSPECTION INVERSÉE</p>
-          <h2 id="reverse-title">Et si vos prochaines opportunités<br><span>venaient du marché ?</span></h2>
-          <p>Un projet, un appel d’offres ou une évolution de votre secteur peut ouvrir une nouvelle possibilité. MajestiOS vous aide à voir ce qui pourrait compter pour votre activité.</p>
-        </div>
-        <div class="reverse-flow" aria-label="Bénéfices de la prospection inversée">
-          <article class="reverse-step">
-            <span class="reverse-step-number">01</span>
-            <span class="reverse-step-icon reverse-signal" aria-hidden="true">◈</span>
-            <p class="reverse-step-type">PRENDRE DU RECUL</p>
-            <h3>Voir plus large</h3>
-            <p>Ne pas se limiter aux contacts déjà connus ou aux occasions déjà visibles.</p>
-          </article>
-          <article class="reverse-step">
-            <span class="reverse-step-number">02</span>
-            <span class="reverse-step-icon reverse-qualify" aria-hidden="true">✓</span>
-            <p class="reverse-step-type">REPÉRER LES POSSIBILITÉS</p>
-            <h3>Faire émerger des pistes</h3>
-            <p>Identifier les occasions susceptibles de correspondre à votre activité et à vos projets.</p>
-          </article>
-          <article class="reverse-step">
-            <span class="reverse-step-number">03</span>
-            <span class="reverse-step-icon reverse-decision" aria-hidden="true">◎</span>
-            <p class="reverse-step-type">GARDER LA MAIN</p>
-            <h3>Avancer à votre rythme</h3>
-            <p>Vous choisissez les pistes à explorer et la manière de leur donner suite.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="platform-section section-wrap" id="plateforme">
-        <div class="platform-heading">
-          <p class="eyebrow">UNE APPROCHE QUI S’ADAPTE À VOTRE ACTIVITÉ</p>
-          <h2>Moins de dispersion.<br><span>Plus de perspectives.</span></h2>
-          <p>Chaque entreprise avance à sa manière. MajestiOS vous aide à prendre du recul, à repérer ce qui compte et à choisir votre direction.</p>
-        </div>
-        <div class="platform-grid">
-          <article class="platform-card">
-            <span class="platform-icon source-icon" aria-hidden="true">⌕</span>
-            <p class="platform-step">LE MARCHÉ</p>
-            <h3>Garder un temps d’avance</h3>
-            <p>Être attentif aux projets et évolutions qui peuvent ouvrir de nouvelles occasions.</p>
-          </article>
-          <article class="platform-card">
-            <span class="platform-icon relation-icon" aria-hidden="true">⌘</span>
-            <p class="platform-step">VOTRE ACTIVITÉ</p>
-            <h3>Voir ce qui vous correspond</h3>
-            <p>Faire le lien entre les évolutions du marché, vos savoir-faire et vos ambitions.</p>
-          </article>
-          <article class="platform-card">
-            <span class="platform-icon action-icon" aria-hidden="true">◎</span>
-            <p class="platform-step">VOS CHOIX</p>
-            <h3>Décider de la suite</h3>
-            <p>Vous gardez la liberté de donner suite aux occasions qui vous semblent pertinentes.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="services-section section-wrap" aria-labelledby="services-title">
-        <div class="services-heading">
-          <p class="eyebrow">VOS PROJETS, VOS PRIORITÉS</p>
-          <h2 id="services-title">Parlons de ce qui compte<br><span>pour votre activité.</span></h2>
-          <p>Chaque entreprise a ses propres enjeux. Choisissez le sujet qui vous ressemble pour engager la conversation.</p>
-        </div>
-        <div class="services-grid">
-          <article class="service-card" id="developpement-commercial" tabindex="-1">
-            <span class="service-number">01</span>
-            <span class="service-icon growth-icon" aria-hidden="true">↗</span>
-            <p class="service-kicker">FAIRE GRANDIR VOTRE ACTIVITÉ</p>
-            <h3>Développement commercial</h3>
-            <p>Repérer de nouvelles occasions et donner un cap à vos démarches commerciales.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="service-card" id="partenaires" tabindex="-1">
-            <span class="service-number">02</span>
-            <span class="service-icon partner-icon" aria-hidden="true">⌘</span>
-            <p class="service-kicker">AVANCER ENSEMBLE</p>
-            <h3>Partenaires</h3>
-            <p>Créer des liens utiles et trouver les complémentarités qui font avancer vos projets.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="service-card" id="devis-facturation" tabindex="-1">
-            <span class="service-number">03</span>
-            <span class="service-icon quote-icon" aria-hidden="true">▤</span>
-            <p class="service-kicker">SUIVRE VOS ÉCHANGES</p>
-            <h3>Devis et facturation</h3>
-            <p>Parlons de vos besoins pour garder une vision claire de vos propositions et de vos projets.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="service-card" id="prospection-secretariat" tabindex="-1">
-            <span class="service-number">04</span>
-            <span class="service-icon support-icon" aria-hidden="true">◎</span>
-            <p class="service-kicker">GAGNER EN SÉRÉNITÉ</p>
-            <h3>Prospection et secrétariat</h3>
-            <p>Donner plus de continuité à vos démarches commerciales et à votre organisation quotidienne.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="service-card" id="business" tabindex="-1">
-            <span class="service-number">05</span>
-            <span class="service-icon business-icon" aria-hidden="true">◈</span>
-            <p class="service-kicker">EXPLORER DE NOUVELLES VOIES</p>
-            <h3>Business</h3>
-            <p>Faire le point sur vos idées et les pistes de développement qui s’offrent à vous.</p>
-            <a class="service-link" href="#contact" data-intent-link="contact">Parler de mon projet <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </section>
-
-      <section class="tender-feed-section" id="flux-ao">
+      <section class="tender-feed-section" id="recherche-avancee" aria-label="Moteur de recherche avancé">
         <div class="feed-wrap">
-          <div class="feed-heading">
-            <div class="feed-heading-copy">
-              <p class="eyebrow">EXEMPLES D’OPPORTUNITÉS</p>
-              <h2>Les appels d’offres,<br><span>dans votre fil.</span></h2>
-              <p>Parcourez les avis du fil et leurs informations, puis choisissez de demander un accompagnement pour un AO. Cet aperçu utilise uniquement des annonces fictives.</p>
-            </div>
-            <div class="feed-callout"><span aria-hidden="true">⌁</span><p><strong>Un fil, plusieurs perspectives</strong><small>Suivre les avis, repérer des acteurs et exprimer un intérêt.</small></p></div>
-          </div>
           <div class="feed-demo">
-            <div class="feed-topbar">
-              <div class="feed-title"><span class="feed-live-dot"></span><div><strong>Flux des appels d’offres</strong><small>Aperçu produit · données fictives</small></div></div>
-              <span class="feed-refresh-label"><span aria-hidden="true">↻</span> Fil de démonstration</span>
-            </div>
-            <div class="feed-toolbar">
-              <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher dans le flux d’appels d’offres</span><input id="feed-search" type="search" placeholder="Mot-clé, acheteur, secteur..." autocomplete="off"></label>
-              <label class="feed-filter-label"><span class="sr-only">Filtrer par secteur</span>
-                <select id="feed-sector">
-                  <option value="all">Tous les secteurs</option>
-                  <option value="services">Services numériques</option>
-                  <option value="travaux">Travaux & aménagement</option>
-                  <option value="conseil">Conseil & études</option>
+            <form class="feed-toolbar" id="advanced-search-form">
+              <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
+              <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
+                <select id="feed-market-type" aria-label="Type de marché" required>
+                  <option value="">1. Choisir le type de marché</option>
+                  <option value="public">Marchés publics</option>
+                  <option value="private">Marchés privés et signaux d’entreprises</option>
                 </select>
               </label>
-              <label class="feed-filter-label"><span class="sr-only">Filtrer par localisation</span>
-                <select id="feed-region">
-                  <option value="all">Toutes les zones</option>
-                  <option value="nord">Nord</option>
-                  <option value="ouest">Ouest</option>
-                  <option value="sud">Sud</option>
+              <label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie après le type de marché</span>
+                <select id="feed-sector" aria-label="Catégorie d'opportunité" required disabled>
+                  <option value="all">2. Choisir d’abord un type</option>
                 </select>
               </label>
-              <span class="feed-result-count" id="feed-result-count" aria-live="polite"></span>
-            </div>
-            <div class="feed-stream" id="feed-stream" aria-live="polite"></div>
-            <div class="feed-source-note"><span aria-hidden="true">i</span> Exemples fictifs : aucune annonce réelle n’est affichée dans ce fil.</div>
-          </div>
-          <div class="feed-bottom-cta">
-            <div><strong>Vous voulez que ce type d’opportunité arrive jusqu’à vous ?</strong><span>Décrivez votre activité pour exprimer votre intérêt à recevoir des AO.</span></div>
-            <a class="button button-primary" href="#contact" data-intent-link="receive">Décrire mes critères de veille <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </section>
-
-      <section class="demo-section" id="demonstration">
-        <div class="demo-wrap">
-          <div class="demo-intro">
-            <p class="eyebrow">UN EXEMPLE EN IMAGES</p>
-            <h2>Une occasion.<br>Plusieurs possibilités.</h2>
-            <p>Découvrez une illustration de la manière dont une évolution du marché pourrait ouvrir de nouvelles perspectives pour une entreprise.</p>
-            <p class="demo-disclaimer">Exemple interactif avec des données fictives.</p>
-          </div>
-          <details class="demo-details">
-            <summary>Découvrir un exemple interactif</summary>
-            <div class="demo-product">
-            <div class="demo-window-bar">
-              <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
-              <span>majestiOS <span class="window-divider">/</span> Atelier de démonstration</span>
-              <span class="demo-mode">MODE DÉMO</span>
-              </div>
-            </details>
-            <div class="demo-workspace">
-              <aside class="demo-rail" aria-label="Modules illustratifs">
-                <span class="rail-logo">M</span>
-                <span class="rail-item active" aria-label="Opportunité">◈</span>
-                <span class="rail-item" aria-label="Organisations">⌂</span>
-                <span class="rail-item" aria-label="Activités">⌁</span>
-                <span class="rail-item" aria-label="Mémoire">▤</span>
-              </aside>
-              <div class="demo-main">
-                <div class="demo-topline">
-                  <span class="demo-breadcrumb">OPPORTUNITÉS <span>›</span> DOSSIER ILLUSTRATIF</span>
-                  <span class="demo-updated">Données de démonstration</span>
-                </div>
-                <div class="demo-case-picker" role="tablist" aria-label="Scénarios fictifs">
-                  <button class="case-tab active" type="button" role="tab" aria-selected="true" data-case="lost">AO non remporté</button>
-                  <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="won">AO attribué</button>
-                  <button class="case-tab" type="button" role="tab" aria-selected="false" data-case="hiring">Signal RH</button>
-                </div>
-                <div class="demo-record">
-                  <div class="record-heading">
-                    <div>
-                      <p class="record-kicker" id="demo-category">MARCHÉ PUBLIC · AVIS DE RÉSULTAT</p>
-                      <h3 id="demo-title">Candidature non retenue</h3>
-                      <p class="record-org" id="demo-org">Entreprise fictive · Exemple illustratif</p>
-                    </div>
-                    <span class="record-status" id="demo-status"><i></i> À qualifier</span>
-                  </div>
-                  <div class="record-meta"><span><small>SOURCE</small><strong id="demo-source">Avis fictif de résultat</strong></span><span><small>STATUT</small><strong>Information à vérifier</strong></span></div>
-                  <div class="demo-tabs" role="tablist" aria-label="Étapes de qualification">
-                    <button class="demo-tab active" type="button" role="tab" aria-selected="true" data-view="signal">Signal</button>
-                    <button class="demo-tab" type="button" role="tab" aria-selected="false" data-view="analysis">Analyse</button>
-                    <button class="demo-tab" type="button" role="tab" aria-selected="false" data-view="network">Acteurs</button>
-                    <button class="demo-tab" type="button" role="tab" aria-selected="false" data-view="action">Décision</button>
-                  </div>
-                  <div class="demo-detail" id="demo-detail" aria-live="polite"></div>
-                  <div class="demo-human-gate"><span aria-hidden="true">◎</span><span><strong>Aucune action externe automatique</strong><small>Une personne autorisée doit qualifier et valider toute suite.</small></span><span class="gate-lock" aria-hidden="true">⌑</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="use-cases section-wrap" id="cas-usage">
-        <div class="use-cases-heading">
-          <p class="eyebrow">PLUSIEURS FAÇONS D’AVANCER</p>
-          <h2>Les opportunités ne se limitent<br>pas aux appels d’offres.</h2>
-          <p>Chaque évolution de votre marché peut ouvrir une nouvelle possibilité pour votre entreprise.</p>
-        </div>
-        <div class="use-case-list">
-          <article class="use-case-row">
-            <span class="use-case-type tender-type">OPPORTUNITÉS</span>
-            <div><h3>De nouveaux projets</h3><p>Les appels d’offres et les projets à venir peuvent ouvrir des perspectives pour votre savoir-faire.</p></div>
-            <span class="use-case-state">À EXPLORER</span>
-          </article>
-          <article class="use-case-row">
-            <span class="use-case-type people-type">ÉVOLUTIONS</span>
-            <div><h3>Un marché qui bouge</h3><p>Les changements dans votre secteur peuvent révéler des besoins ou de nouvelles directions à considérer.</p></div>
-            <span class="use-case-state">À CONSIDÉRER</span>
-          </article>
-          <article class="use-case-row">
-            <span class="use-case-type market-type">COLLABORATIONS</span>
-            <div><h3>Des projets à plusieurs</h3><p>Les bonnes rencontres et les complémentarités peuvent donner une autre dimension à vos projets.</p></div>
-            <span class="use-case-state">À ENVISAGER</span>
-          </article>
-        </div>
-      </section>
-
-      <section class="ao-section section-wrap" id="appels-doffres">
-        <div class="ao-heading">
-          <p class="eyebrow">VOUS AVEZ UN APPEL D’OFFRES EN VUE ?</p>
-          <h2>Quelle place pour vous<br>dans l’opportunité ?</h2>
-          <p>Que vous souhaitiez répondre à un appel d’offres ou en recevoir de nouveaux, choisissez le parcours qui correspond à votre besoin.</p>
-        </div>
-        <div class="ao-paths">
-          <article class="ao-path">
-            <span class="ao-path-number">01</span>
-            <span class="ao-path-icon response-icon" aria-hidden="true">▤</span>
-            <p class="ao-path-kicker">VOUS SOUHAITEZ CANDIDATER</p>
-            <h3>Préparer votre réponse à un AO</h3>
-            <p>Présentez l’appel d’offres et expliquez le type d’accompagnement que vous recherchez.</p>
-            <a class="text-link" href="#contact" data-intent-link="respond">Présenter mon AO et mon besoin <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="ao-path">
-            <span class="ao-path-number">02</span>
-            <span class="ao-path-icon receive-icon" aria-hidden="true">⌁</span>
-            <p class="ao-path-kicker">VOUS RECHERCHEZ DES OPPORTUNITÉS</p>
-            <h3>Recevoir des AO pertinents</h3>
-            <p>Indiquez votre activité et votre zone pour préciser les opportunités qui vous intéressent.</p>
-            <a class="text-link" href="#contact" data-intent-link="receive">Décrire les AO recherchés <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </section>
-
-      <section class="audiences section-wrap" id="pour-vous">
-        <div class="audiences-heading">
-          <p class="eyebrow">BIENVENUE CHEZ MAJESTIOS</p>
-          <h2>Vous découvrez MajestiOS,<br>vous avez un projet ou êtes client ?</h2>
-          <p>Choisissez la prochaine étape qui vous convient.</p>
-        </div>
-        <div class="audience-grid">
-          <article class="audience-card visitor-card">
-            <div class="audience-icon" aria-hidden="true">◉</div>
-            <p class="audience-label">VOUS DÉCOUVREZ</p>
-            <h3>Découvrir une autre approche</h3>
-            <p>Voyez comment les évolutions du marché peuvent ouvrir des perspectives nouvelles.</p>
-            <a href="#prospection-inverse" class="text-link">Découvrir MajestiOS <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="audience-card prospect-card">
-            <div class="audience-icon" aria-hidden="true">↗</div>
-            <p class="audience-label">VOUS AVEZ UN PROJET</p>
-            <h3>Parler de vos objectifs</h3>
-            <p>Expliquez votre besoin et les opportunités que vous souhaitez faire avancer.</p>
-            <a class="text-link" href="#contact" data-intent-link="contact">Présenter mon projet <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="audience-card client-card" id="espace-client">
-            <div class="audience-icon" aria-hidden="true">▣</div>
-            <p class="audience-label">VOUS ÊTES CLIENT</p>
-            <h3>Vous êtes déjà client ?</h3>
-            <p>Retrouvez votre interlocuteur MajestiOS ou faites-nous part de votre besoin.</p>
-            <a class="text-link" href="#contact" data-intent-link="contact">Nous contacter <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </section>
-
-      <section class="lead-section section-wrap" id="contact">
-        <div class="lead-intro">
-          <p class="eyebrow">PARLONS DE VOTRE PROJET</p>
-          <h2>Quelle est votre<br>prochaine étape ?</h2>
-          <p>Choisissez le sujet qui vous amène et présentez-nous votre besoin.</p>
-        </div>
-        <div class="lead-form-wrap">
-          <form id="lead-form">
-            <fieldset class="intent-options">
-              <legend>Je souhaite…</legend>
-              <label class="intent-option">
-                <input type="radio" name="intent" value="respond" checked>
-                <span class="intent-radio"></span>
-                <span><strong>Être accompagné pour répondre à un AO</strong><small>Décrivez l’appel et l’appui recherché.</small></span>
+              <label class="feed-filter-label" id="department-step" hidden><span class="sr-only">Filtrer par département</span>
+                <select id="feed-department" aria-label="Département">
+                  <option value="all">3. Choisir un département (facultatif)</option>
+                </select>
               </label>
-              <label class="intent-option">
-                <input type="radio" name="intent" value="receive">
-                <span class="intent-radio"></span>
-                <span><strong>Recevoir des AO correspondant à mon activité</strong><small>Indiquez votre secteur et votre zone.</small></span>
-              </label>
-              <label class="intent-option">
-                <input type="radio" name="intent" value="contact">
-                <span class="intent-radio"></span>
-                <span><strong>Parler d’un autre projet ou besoin</strong><small>Décrivez le sujet de votre demande.</small></span>
-              </label>
-            </fieldset>
-            <div class="form-grid">
-              <label class="form-field">Nom et prénom <span>*</span><input name="name" required autocomplete="name" placeholder="Votre nom"></label>
-              <label class="form-field">Organisation <span>*</span><input name="organization" required autocomplete="organization" placeholder="Votre entreprise"></label>
-              <label class="form-field full-width">Adresse e-mail <span>*</span><input name="email" type="email" required autocomplete="email" placeholder="vous@entreprise.fr"></label>
-              <div class="intent-fields full-width" data-for="respond">
-                <p class="selected-tender-note" id="selected-tender-note" role="note" hidden></p>
-                <label class="form-field">Référence, intitulé ou lien de l’AO <span>*</span><input name="tender" placeholder="Référence, URL ou intitulé"></label>
-                <label class="form-field">Votre besoin<textarea name="responseNeed" rows="3" placeholder="Quel appui recherchez-vous pour votre réponse ?"></textarea></label>
-              </div>
-              <div class="intent-fields full-width" data-for="receive" hidden>
-                <label class="form-field">Votre activité ou secteur <span>*</span><input name="sector" placeholder="Ex. : ingénierie, travaux, services"></label>
-                <label class="form-field">Zone géographique souhaitée <span>*</span><input name="area" placeholder="Région, département ou pays"></label>
-              </div>
-              <div class="intent-fields full-width" data-for="contact" hidden>
-                <label class="form-field">Votre projet ou besoin <span>*</span><textarea name="message" rows="3" placeholder="Expliquez-nous ce que vous souhaitez faire avancer."></textarea></label>
-              </div>
-            </div>
-            <p class="form-privacy"><strong>Formulaire de démonstration :</strong> rien n’est envoyé.</p>
-            <button class="button button-primary form-submit" id="preview-request" type="button">Prévisualiser ma demande <span aria-hidden="true">→</span></button>
-            <div class="form-feedback" id="form-feedback" role="status" aria-live="polite" hidden></div>
-          </form>
-        </div>
-      </section>
-
-      <section class="closing section-wrap">
-        <div class="closing-inner">
-          <div class="closing-spark" aria-hidden="true">✳</div>
-          <div>
-            <p class="eyebrow">CANDIDATURE OU VEILLE COMMERCIALE</p>
-            <h2>Votre besoin commence ici.</h2>
-            <p>Parlez-nous de votre projet ou de votre besoin.</p>
+              <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
+            </form>
           </div>
-          <a class="button button-light" href="#contact">Présenter mon besoin <span aria-hidden="true">↗</span></a>
         </div>
       </section>
+      </section>
+<section class="building-home" aria-label="Immeuble interactif MajestiOS">
+      <div class="building-heading"><p>IMMEUBLE INTERACTIF · 9 DESTINATIONS</p></div>
+      <section class="building-scene" aria-label="Panorama MajestiOS et neuf destinations interactives">
+        <figure class="building-photo">
+          <img src="IMMEUBLE.jfif" alt="Immeuble MajestiOS avec neuf niveaux interactifs : Espace privé, Réseau, Développement commercial, Prospection, Accompagnement appels d'offres, Marchés publics, Marchés privés, Réputation virtuelle et Accueil" width="842" height="1264" draggable="false">
+          <svg class="building-hotspots" id="floor-rows" viewBox="0 0 842 1264" preserveAspectRatio="none" role="group" aria-label="Accès directs aux neuf destinations"></svg>
+        </figure>
+      </section>
+    </section>
     </main>
 
-    <footer class="site-footer">
-      <a class="brand footer-brand" href="#accueil" aria-label="MajestiOS, retour en haut">
-        <span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span>
+
+    <aside class="home-help" aria-label="Aide à la visite MajestiOS">
+      <button class="home-help-toggle" id="home-help-toggle" type="button" aria-expanded="false" aria-controls="home-help-panel">
+        <span class="home-help-mark" aria-hidden="true">✦</span><span>Besoin d’un coup de pouce&nbsp;?</span>
+      </button>
+      <section class="home-help-panel" id="home-help-panel" aria-labelledby="home-help-title" hidden>
+        <div class="home-help-panel-head"><div><p class="home-help-kicker">MAJESTIOS · GUIDE DE VISITE</p><h2 id="home-help-title">Par où commencer&nbsp;?</h2></div><button class="home-help-close" id="home-help-close" type="button" aria-label="Fermer l’aide">×</button></div>
+        <p>Vous proposez, MajestiOS dispose. Choisissez votre prochaine étape :</p>
+        <a href="#recherche-avancee" data-home-help-close>⌕ Rechercher une opportunité</a>
+        <a href="developpement-commercial.html">↗ Découvrir le développement commercial</a>
+        <a href="espace-membre.html">＋ Préparer mon espace personnel</a>
+        <a href="faq.html">? Consulter les questions fréquentes</a>
+        <small>Ce guide vous oriente vers les bonnes rubriques. L’assistant conversationnel sera connecté dans une prochaine étape.</small>
+      </section>
+    </aside>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const svg = document.getElementById("floor-rows");
+        if (!svg) return;
+        // Repères mesurés sur la photo MajestiOS (842 × 1264); le RDC illustré reste décoratif.
+        // Les neuf zones actives correspondent aux niveaux 8 à 1 et au RDC, avec les routes V5 validées.
+        const destinations = [
+          {id:"08",name:"Espace privé",href:"espace-membre.html",x:185,y:182,width:350,height:82},
+          {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:266,width:350,height:80},
+          {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:92},
+          {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:444,width:350,height:81},
+          {id:"04",name:"Accompagnement appels d'offres",href:"accompagnement-appels-offres.html",x:185,y:528,width:350,height:87},
+          {id:"03",name:"Marchés publics",href:"marches-publics.html",x:185,y:618,width:350,height:83},
+          {id:"02",name:"Marchés privés",href:"marches-prives.html",x:185,y:704,width:350,height:87},
+          {id:"01",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:794,width:350,height:85},
+          {id:"RDC",name:"Accueil",href:"index.html#accueil",x:185,y:883,width:350,height:89}
+        ];
+        const namespace = "http://www.w3.org/2000/svg";
+        destinations.forEach((destination) => {
+          const link = document.createElementNS(namespace, "a");
+          link.setAttribute("class", "floor-row");
+          link.setAttribute("href", destination.href);
+          link.setAttribute("data-floor", destination.id);
+          link.setAttribute("data-name", destination.name);
+          link.setAttribute("aria-label", "Ouvrir " + destination.name);
+          const zone = document.createElementNS(namespace, "rect");
+          zone.setAttribute("class", "floor-zone");
+          zone.setAttribute("x", destination.x);
+          zone.setAttribute("y", destination.y);
+          zone.setAttribute("width", destination.width);
+          zone.setAttribute("height", destination.height);
+          zone.setAttribute("rx", "25");
+          const title = document.createElementNS(namespace, "title");
+          title.textContent = destination.name;
+          link.append(title, zone);
+          svg.append(link);
+        });
+
+        // Repère de la cabine dans la gaine vitrée de la photo MajestiOS.
+        const liftDefs = document.createElementNS(namespace, "defs");
+        liftDefs.innerHTML = '<linearGradient id="lift-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#142b3c"/><stop offset=".18" stop-color="#d9f0f7" stop-opacity=".72"/><stop offset=".42" stop-color="#52778b" stop-opacity=".55"/><stop offset=".78" stop-color="#e9fbff" stop-opacity=".8"/><stop offset="1" stop-color="#102638"/></linearGradient><linearGradient id="lift-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6fbff" stop-opacity=".62"/><stop offset=".35" stop-color="#5da3c5" stop-opacity=".16"/><stop offset="1" stop-color="#071b2c" stop-opacity=".72"/></linearGradient><filter id="lift-shadow" x="-40%" y="-30%" width="180%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/><feOffset dy="3" result="offset"/><feComponentTransfer><feFuncA type="linear" slope=".65"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+        svg.append(liftDefs);
+        const elevator = document.createElementNS(namespace, "g");
+        elevator.setAttribute("class", "elevator-lift");
+        elevator.setAttribute("aria-hidden", "true");
+        const makeShape = (tag, cls, attrs) => {
+          const el = document.createElementNS(namespace, tag);
+          if (cls) el.setAttribute("class", cls);
+          Object.keys(attrs).forEach((key) => el.setAttribute(key, attrs[key]));
+          return el;
+        };
+        // Corps cylindrique vitré, avec courbure, flancs et anneaux elliptiques visibles.
+        const cabinSide = makeShape("path", "elevator-cylinder-side", {
+          d:"M558 157 C558 148 572 141 590 141 C608 141 623 148 623 157 L623 211 C623 221 608 229 590 229 C572 229 558 221 558 211 Z"
+        });
+        const cabinTop = makeShape("ellipse", "elevator-cylinder-rim elevator-cylinder-rim-back", {cx:"590",cy:"157",rx:"32",ry:"13"});
+        const cabin = makeShape("path", "elevator-cabin", {
+          d:"M558 157 C558 148 572 144 590 144 C608 144 623 148 623 157 L623 211 C623 220 608 226 590 226 C572 226 558 220 558 211 Z"
+        });
+        const windowPane = makeShape("path", "elevator-window", {
+          d:"M562 158 C562 152 574 148 590 148 C606 148 619 152 619 158 L619 210 C619 217 606 222 590 222 C574 222 562 217 562 210 Z"
+        });
+        const reflection = makeShape("path", "elevator-reflection", {d:"M566 157 C568 153 572 152 578 151 L578 216 C573 215 569 213 566 210 Z"});
+        const doorSeam = makeShape("path", "elevator-detail", {d:"M590 149 C588 166 588 204 590 221"});
+        const frameLines = makeShape("path", "elevator-cylinder-rim elevator-cylinder-rim-front", {
+          d:"M558 157 C558 148 572 144 590 144 C608 144 623 148 623 157 M558 211 C558 220 572 226 590 226 C608 226 623 220 623 211"
+        });
+        const cylinderHighlight = makeShape("path", "elevator-cylinder-highlight", {d:"M562 160 C562 154 565 151 569 150 L569 215 C565 214 562 212 562 207 Z"});
+        elevator.append(cabinSide, cabinTop, cabin, windowPane, reflection, cylinderHighlight, doorSeam, frameLines); svg.append(elevator);
+
+        const scene = document.querySelector(".building-scene");
+        if (scene) {
+          // Les arrêts sont calculés depuis les véritables zones cliquables de chaque étage.
+          // La cabine étant désormais un path cylindrique (et non plus un rect), son centre est défini explicitement.
+          const elevatorStops = destinations.map((item) => item.y + item.height / 2);
+          const cabinCenterY = 185;
+          const caption = document.createElement("div");
+          caption.className = "elevator-caption"; caption.textContent = "ASCENSEUR · ÉTAGE 08";
+          caption.setAttribute("role", "status");
+          caption.setAttribute("aria-live", "polite");
+          caption.setAttribute("aria-atomic", "true");
+          scene.append(caption); // flèches haut/bas retirées : la cabine suit le survol et le focus des étages
+          // Accueil est au RDC, dernier niveau de l'immeuble.
+          let current = destinations.length - 1;
+          const selectFloor = (index) => {
+            current = Math.max(0, Math.min(destinations.length - 1, index));
+            const item = destinations[current];
+            const offset = elevatorStops[current] - cabinCenterY;
+            const liftTransform = "translateY(" + offset + "px)";
+            [cabinSide, cabinTop, cabin, windowPane, reflection, doorSeam, frameLines, cylinderHighlight].forEach((part) => {
+              part.style.transform = liftTransform;
+            });
+            svg.querySelectorAll(".floor-row").forEach((node) => {
+              const active = node.getAttribute("data-floor") === item.id;
+              if (active) node.setAttribute("aria-current", "location");
+              else node.removeAttribute("aria-current");
+            });
+            caption.textContent = "ASCENSEUR · " + item.name.toLocaleUpperCase("fr-FR");
+          };
+          svg.addEventListener("focusin", (event) => {
+            const row = event.target.closest(".floor-row");
+            if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
+          });
+          svg.addEventListener("pointerover", (event) => {
+            const row = event.target.closest(".floor-row");
+            if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
+          });
+          // Un seul clic ouvre directement l'étage ; le survol sert uniquement à appeler l'ascenseur.
+          svg.addEventListener("click", (event) => {
+            const row = event.target.closest(".floor-row");
+            if (!row) return;
+            event.preventDefault();
+            window.location.href = row.getAttribute("href");
+          });
+          selectFloor(destinations.length - 1);
+        }
+      });
+    </script>
+    <script>
+      /* Enseignes LED des étages.
+         Chaque afficheur est un <canvas> dessiné en matrice de points (cellules carrées). Il est posé sur le
+         panneau peint de son étage par une homographie CSS (matrix3d) calculée à partir des quatre coins de ce
+         panneau, mesurés sur IMMEUBLE.jfif (842 × 1264) et rentrés d'1 px. Aucune rotation commune : chaque
+         étage a son propre quadrilatère (haut-gauche, haut-droit, bas-droit, bas-gauche).
+         L'image, les zones cliquables et les liens ne sont pas modifiés ; la couche ne capte jamais la souris. */
+      (function () {
+        "use strict";
+        var SRC_W = 842, SRC_H = 1264;
+        var ROWS = 27;      // deux lignes de titre au maximum, centrées dans le bandeau
+        var SPEED = 10;     // Défilement trois fois plus lent que le réglage précédent.
+
+        var SIGNS = [
+          {id:"08", title:"Espace privé", color:"#3fe9ff",
+           quad:[[251.0,210.3],[448.0,168.7],[448.0,237.2],[251.0,276.3]]},
+          {id:"07", title:"Réseau", color:"#ff4be8",
+           quad:[[251.0,290.8],[449.0,254.2],[449.0,324.1],[251.0,354.8]]},
+          {id:"06", title:"Développement commercial", color:"#3dffb0",
+           quad:[[251.0,371.9],[449.0,341.7],[449.0,429.1],[251.0,444.9]]},
+          {id:"05", title:"Prospection", color:"#fff23d",
+           quad:[[251.0,459.9],[449.0,437.1],[449.0,510.1],[251.0,528.9]]},
+          {id:"04", title:"Accompagnement appels d'offres", color:"#ffa21f",
+           quad:[[251.0,541.9],[449.0,527.1],[449.0,604.0],[251.0,613.0]]},
+          {id:"03", title:"Marchés publics", color:"#ff4d2d",
+           quad:[[251.0,630.9],[449.0,619.1],[449.0,692.0],[251.0,698.0]]},
+          {id:"02", title:"Marchés privés", color:"#a07cff",
+           quad:[[250.0,714.0],[449.0,708.0],[449.0,782.0],[250.0,784.0]]},
+          {id:"01", title:"Réputation virtuelle", color:"#4a9bff",
+           quad:[[248.0,804.0],[479.0,800.8],[479.0,871.0],[248.0,875.0]]},
+          {id:"RDC", title:"Accueil", color:"#fff0d2",
+           quad:[[248.0,890.0],[460.0,888.5],[460.0,965.0],[248.0,963.0]]}
+        ];
+
+        // Police à matrice 5 × 7 (majuscules). Les accents sont ajoutés sur deux lignes au-dessus de la lettre.
+        var FONT = {
+          "A":[".###.","#...#","#...#","#####","#...#","#...#","#...#"],
+          "B":["####.","#...#","#...#","####.","#...#","#...#","####."],
+          "C":[".###.","#...#","#....","#....","#....","#...#",".###."],
+          "D":["####.","#...#","#...#","#...#","#...#","#...#","####."],
+          "E":["#####","#....","#....","####.","#....","#....","#####"],
+          "F":["#####","#....","#....","####.","#....","#....","#...."],
+          "G":[".###.","#...#","#....","#.###","#...#","#...#",".###."],
+          "H":["#...#","#...#","#...#","#####","#...#","#...#","#...#"],
+          "I":[".###.","..#..","..#..","..#..","..#..","..#..",".###."],
+          "J":["..###","...#.","...#.","...#.","...#.","#..#.",".##.."],
+          "K":["#...#","#..#.","#.#..","##...","#.#..","#..#.","#...#"],
+          "L":["#....","#....","#....","#....","#....","#....","#####"],
+          "M":["#...#","##.##","#.#.#","#.#.#","#...#","#...#","#...#"],
+          "N":["#...#","##..#","#.#.#","#..##","#...#","#...#","#...#"],
+          "O":[".###.","#...#","#...#","#...#","#...#","#...#",".###."],
+          "P":["####.","#...#","#...#","####.","#....","#....","#...."],
+          "Q":[".###.","#...#","#...#","#...#","#.#.#","#..#.",".##.#"],
+          "R":["####.","#...#","#...#","####.","#.#..","#..#.","#...#"],
+          "S":[".####","#....","#....",".###.","....#","....#","####."],
+          "T":["#####","..#..","..#..","..#..","..#..","..#..","..#.."],
+          "U":["#...#","#...#","#...#","#...#","#...#","#...#",".###."],
+          "V":["#...#","#...#","#...#","#...#","#...#",".#.#.","..#.."],
+          "W":["#...#","#...#","#...#","#.#.#","#.#.#","##.##","#...#"],
+          "X":["#...#","#...#",".#.#.","..#..",".#.#.","#...#","#...#"],
+          "Y":["#...#","#...#",".#.#.","..#..","..#..","..#..","..#.."],
+          "Z":["#####","....#","...#.","..#..",".#...","#....","#####"],
+          "'":["#","#",".",".",".",".","."],
+          "-":["...","...","...","###","...","...","..."],
+          "◆":["...","...",".#.","###",".#.","...","..."]
+        };
+        FONT["’"] = FONT["'"];
+        var ACCENTS = {
+          "̀":[".#...","..#.."],   // grave
+          "́":["...#.","..#.."],   // aigu
+          "̂":["..#..",".#.#."],   // circonflexe
+          "̈":[".#.#.","....."]    // tréma
+        };
+
+        function blankColumn() { return new Uint8Array(9); }
+
+        // Transforme un texte en colonnes de points : chaque colonne compte 9 lignes (2 d'accent + 7 de lettre).
+        function compile(text) {
+          var cols = [], lastStart = -1, lastWidth = 0;
+          var chars = text.toLocaleUpperCase("fr-FR").normalize("NFD").split("");
+          chars.forEach(function (ch) {
+            if (/[̀-ͯ]/.test(ch)) {
+              var pattern = ACCENTS[ch];
+              if (pattern && lastStart >= 0 && lastWidth === 5) {
+                for (var r = 0; r < 2; r++) {
+                  for (var x = 0; x < 5; x++) {
+                    if (pattern[r].charAt(x) === "#") cols[lastStart + x][r] = 1;
+                  }
+                }
+              }
+              return;
+            }
+            if (ch === " ") {
+              for (var s = 0; s < 3; s++) cols.push(blankColumn());
+              lastStart = -1;
+              return;
+            }
+            var glyph = FONT[ch];
+            if (!glyph) { for (var u = 0; u < 3; u++) cols.push(blankColumn()); lastStart = -1; return; }
+            var width = glyph[0].length;
+            lastStart = cols.length; lastWidth = width;
+            for (var gx = 0; gx < width; gx++) {
+              var column = blankColumn();
+              for (var gy = 0; gy < 7; gy++) if (glyph[gy].charAt(gx) === "#") column[2 + gy] = 1;
+              cols.push(column);
+            }
+            cols.push(blankColumn());
+          });
+          return cols;
+        }
+
+        // Résout le système 8 × 8 d'une homographie (élimination de Gauss avec pivot partiel).
+        function solve(A, b) {
+          var n = 8, i, j, k;
+          for (i = 0; i < n; i++) A[i].push(b[i]);
+          for (i = 0; i < n; i++) {
+            var pivot = i;
+            for (j = i + 1; j < n; j++) if (Math.abs(A[j][i]) > Math.abs(A[pivot][i])) pivot = j;
+            var tmp = A[i]; A[i] = A[pivot]; A[pivot] = tmp;
+            for (j = i + 1; j < n; j++) {
+              var factor = A[j][i] / A[i][i];
+              for (k = i; k <= n; k++) A[j][k] -= factor * A[i][k];
+            }
+          }
+          var x = new Array(n);
+          for (i = n - 1; i >= 0; i--) {
+            var sum = A[i][n];
+            for (j = i + 1; j < n; j++) sum -= A[i][j] * x[j];
+            x[i] = sum / A[i][i];
+          }
+          return x;
+        }
+
+        // CSS matrix3d qui envoie le rectangle (0,0)-(w,h) sur le quadrilatère q (haut-gauche, haut-droit, bas-droit, bas-gauche).
+        function homography(w, h, q) {
+          var src = [[0, 0], [w, 0], [w, h], [0, h]], A = [], b = [];
+          for (var i = 0; i < 4; i++) {
+            var x = src[i][0], y = src[i][1], X = q[i][0], Y = q[i][1];
+            A.push([x, y, 1, 0, 0, 0, -x * X, -y * X]); b.push(X);
+            A.push([0, 0, 0, x, y, 1, -x * Y, -y * Y]); b.push(Y);
+          }
+          var m = solve(A, b);
+          return "matrix3d(" + [m[0], m[3], 0, m[6], m[1], m[4], 0, m[7], 0, 0, 1, 0, m[2], m[5], 0, 1].join(",") + ")";
+        }
+
+        function rgb(hex) {
+          var n = parseInt(hex.slice(1), 16);
+          return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+        }
+        function dist(a, b) { return Math.hypot(a[0] - b[0], a[1] - b[1]); }
+        function makeCanvas(w, h) { var c = document.createElement("canvas"); c.width = w; c.height = h; return c; }
+
+        var figure = document.querySelector(".building-photo");
+        var hotspots = document.getElementById("floor-rows");
+        if (!figure || !hotspots || !figure.insertBefore) return;
+
+        var layer = document.createElement("div");
+        layer.className = "led-layer";
+        layer.setAttribute("aria-hidden", "true");
+        figure.insertBefore(layer, hotspots);
+
+        var signs = SIGNS.map(function (def, index) {
+          var canvas = document.createElement("canvas");
+          canvas.className = "led-sign";
+          canvas.setAttribute("data-floor", def.id);
+          canvas.setAttribute("data-label", def.title);
+          layer.appendChild(canvas);
+          // Deux lignes maximum : le titre complet devient lisible au survol.
+          var titleLines = ({
+            "08":["ESPACE","PRIVÉ"], "07":["RÉSEAU"], "06":["DÉVELOPPEMENT","COMMERCIAL"],
+            "05":["PROSPECTION"], "04":["ACCOMPAGNEMENT","APPELS D'OFFRES"],
+            "03":["MARCHÉS","PUBLICS"], "02":["MARCHÉS","PRIVÉS"],
+            "01":["RÉPUTATION","VIRTUELLE"], "RDC":["ACCUEIL","MAJESTIOS"]
+          })[def.id] || [def.title.toLocaleUpperCase("fr-FR")];
+          canvas.setAttribute("data-title-lines", titleLines.join("|"));
+          var lines = titleLines.map(function (text, lineIndex) {
+            var columns = compile(text + "  ◆  ");
+            return {columns: columns, row0: titleLines.length === 1 ? 15 : (lineIndex === 0 ? 4 : 16),
+              phase: Math.round(columns.length * ((index * 0.381966) % 1)), pausedAt: 0, pausedTotal: 0};
+          });
+          canvas.dataset.state = "scrolling";
+          return {def: def, canvas: canvas, ctx: canvas.getContext("2d"), lines: lines, rgb: rgb(def.color)};
+        });
+
+        function prepare(sign, unit, cols, width, height) {
+          var c = sign.rgb, rgba = function (a) { return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")"; };
+          var dotR = unit * 0.36, glowR = unit * 0.95, size = Math.ceil(glowR * 2) + 2, mid = size / 2;
+          // Point allumé : halo coloré + cœur plus clair.
+          var lit = makeCanvas(size, size), lc = lit.getContext("2d");
+          var glow = lc.createRadialGradient(mid, mid, 0, mid, mid, glowR);
+          glow.addColorStop(0, rgba(0.55)); glow.addColorStop(1, rgba(0));
+          lc.fillStyle = glow; lc.beginPath(); lc.arc(mid, mid, glowR, 0, 6.2832); lc.fill();
+          var core = lc.createRadialGradient(mid, mid, 0, mid, mid, dotR);
+          core.addColorStop(0, "rgba(255,255,255,1)");
+          core.addColorStop(0.55, "rgba(" + Math.round((c[0] + 255) / 2) + "," + Math.round((c[1] + 255) / 2) + "," + Math.round((c[2] + 255) / 2) + ",1)");
+          core.addColorStop(1, rgba(1));
+          lc.fillStyle = core; lc.beginPath(); lc.arc(mid, mid, dotR, 0, 6.2832); lc.fill();
+          // Fond noir profond avec la grille des points éteints.
+          var bg = makeCanvas(width, height), bc = bg.getContext("2d");
+          bc.fillStyle = "#010204"; bc.fillRect(0, 0, width, height);
+          bc.fillStyle = rgba(0.11);
+          for (var r = 0; r < ROWS; r++) for (var x = 0; x < cols; x++) {
+            bc.beginPath(); bc.arc((x + 0.5) * unit, (r + 0.5) * unit, dotR * 0.92, 0, 6.2832); bc.fill();
+          }
+          // Reflet de vitre très léger, au-dessus des points.
+          var gloss = makeCanvas(width, height), gc = gloss.getContext("2d");
+          var sheen = gc.createLinearGradient(0, 0, width * 0.55, height);
+          sheen.addColorStop(0, "rgba(255,255,255,0.09)"); sheen.addColorStop(0.45, "rgba(255,255,255,0)");
+          gc.fillStyle = sheen; gc.fillRect(0, 0, width, height);
+          sign.sprite = {lit: lit, size: size, bg: bg, gloss: gloss};
+          sign.unit = unit; sign.cols = cols;
+        }
+
+        function layout() {
+          var W = figure.clientWidth, H = figure.clientHeight;
+          if (!W || !H) return;
+          var sx = W / SRC_W, sy = H / SRC_H;
+          var density = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
+          signs.forEach(function (sign) {
+            var q = sign.def.quad.map(function (p) { return [p[0] * sx, p[1] * sy]; });
+            var wAvg = (dist(q[0], q[1]) + dist(q[3], q[2])) / 2;
+            var hAvg = (dist(q[0], q[3]) + dist(q[1], q[2])) / 2;
+            var pitch = hAvg / ROWS;                       // cellules carrées
+            var cols = Math.max(8, Math.round(wAvg / pitch));
+            var w = cols * pitch, h = ROWS * pitch;
+            sign.canvas.width = Math.round(w * density);
+            sign.canvas.height = Math.round(h * density);
+            sign.canvas.style.width = w + "px";
+            sign.canvas.style.height = h + "px";
+            sign.canvas.style.transform = homography(w, h, q);
+            prepare(sign, pitch * density, cols, sign.canvas.width, sign.canvas.height);
+            sign.ctx = sign.canvas.getContext("2d");
+          });
+        }
+
+        function draw(sign, now) {
+          var ctx = sign.ctx, sp = sign.sprite, unit = sign.unit;
+          if (!sp) return;
+          ctx.globalCompositeOperation = "source-over";
+          ctx.globalAlpha = 1;
+          ctx.drawImage(sp.bg, 0, 0);
+          ctx.globalCompositeOperation = "lighter";
+          sign.lines.forEach(function (line) {
+            var L = line.columns.length;
+            var effectiveNow = now - line.pausedTotal - (line.pausedAt ? now - line.pausedAt : 0);
+            var compact = !!sign.blink;
+            var xPitch = compact ? unit * Math.min(1, (sign.cols - 2) / L) : unit;
+            var visibleCols = compact ? L : sign.cols;
+            var startX = compact ? (sign.cols * unit - L * xPitch) / 2 : 0;
+            var offset = compact ? 0 : line.phase + effectiveNow * SPEED / 1000;
+            var base = Math.floor(offset), frac = offset - base;
+            for (var c = 0; c < visibleCols; c++) {
+              var a = line.columns[(base + c) % L], b = line.columns[(base + c + 1) % L];
+              for (var r = 0; r < 9; r++) {
+                // Au survol, le titre complet est centré et ajusté à la largeur du bandeau.
+                var v = compact ? a[r] : a[r] * (1 - frac) + b[r] * frac;
+                if (v < 0.03) continue;
+                var blink = sign.blink ? (Math.floor(now / 420) % 2 === 0 ? 1 : 0.12) : 1;
+                ctx.globalAlpha = v * blink;
+                ctx.drawImage(sp.lit, startX + (c + 0.5) * xPitch - sp.size / 2, (r + line.row0 + 0.5) * unit - sp.size / 2);
+              }
+            }
+          });
+          ctx.globalAlpha = 1;
+          ctx.globalCompositeOperation = "source-over";
+          ctx.drawImage(sp.gloss, 0, 0);
+        }
+
+        var frameId = 0, visible = true;
+        var reduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+        function frame(now) {
+          signs.forEach(function (sign) { draw(sign, now); });
+          frameId = window.requestAnimationFrame(frame);
+        }
+        function sync() {
+          var animate = visible && !document.hidden && !(reduce && reduce.matches);
+          layer.style.display = reduce && reduce.matches ? "none" : "";
+          if (animate && !frameId) frameId = window.requestAnimationFrame(frame);
+          if (!animate && frameId) { window.cancelAnimationFrame(frameId); frameId = 0; }
+        }
+
+        // Le survol fige les deux lignes LED de l'étage sans saut de position.
+        function pauseFloor(floorId) {
+          var sign = signs.find(function (item) { return item.def.id === floorId; });
+          if (!sign) return;
+          var now = performance.now();
+          sign.blink = true;
+          sign.canvas.dataset.state = "paused";
+          sign.lines.forEach(function (line) { if (!line.pausedAt) line.pausedAt = now; });
+        }
+        function resumeFloor(floorId) {
+          var sign = signs.find(function (item) { return item.def.id === floorId; });
+          if (!sign) return;
+          var now = performance.now();
+          sign.blink = false;
+          sign.canvas.dataset.state = "scrolling";
+          sign.lines.forEach(function (line) {
+            if (line.pausedAt) { line.pausedTotal += now - line.pausedAt; line.pausedAt = 0; }
+          });
+        }
+        hotspots.addEventListener("pointerover", function (event) {
+          var row = event.target.closest(".floor-row");
+          if (row && (!event.relatedTarget || !row.contains(event.relatedTarget))) pauseFloor(row.dataset.floor);
+        });
+        hotspots.addEventListener("pointerout", function (event) {
+          var row = event.target.closest(".floor-row");
+          if (row && (!event.relatedTarget || !row.contains(event.relatedTarget))) resumeFloor(row.dataset.floor);
+        });
+
+        layout();
+        if (typeof ResizeObserver === "function") new ResizeObserver(layout).observe(figure);
+        else window.addEventListener("resize", layout);
+        if (typeof IntersectionObserver === "function") {
+          new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; sync(); }).observe(figure);
+        }
+        document.addEventListener("visibilitychange", sync);
+        if (reduce) { if (reduce.addEventListener) reduce.addEventListener("change", sync); else if (reduce.addListener) reduce.addListener(sync); }
+        sync();
+      })();
+    </script>
+    <footer class="site-footer homepage-footer" aria-label="Pied de page MajestiOS">
+      <a class="brand footer-brand" href="index.html#accueil" aria-label="MajestiOS, retour à l’accueil">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>majesti<span class="brand-os">OS</span></span>
       </a>
-      <p>Repérer les pistes. Garder le discernement.</p>
-      <span class="footer-legal">MajestiOS · Une nouvelle perspective sur votre marché</span>
+      <p>© <span id="footer-year">2026</span> MajestiOS · Développement commercial et prospection intelligente.</p>
+      <nav class="footer-links" aria-label="Liens utiles et informations légales">
+        <a href="nous-rejoindre.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="politique-confidentialite.html">Confidentialité</a>
+      </nav>
     </footer>
 
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const keyword = document.getElementById("feed-search");
+        const market = document.getElementById("feed-market-type");
+        const category = document.getElementById("feed-sector");
+        const department = document.getElementById("feed-department");
+        const marketStep = document.getElementById("market-step");
+        const categoryStep = document.getElementById("category-step");
+        const departmentStep = document.getElementById("department-step");
+        if (!keyword || !market || !category || !department) return;
+        const reveal = () => {
+          marketStep.hidden = false;
+          if (market.value) categoryStep.hidden = false;
+          if (market.value && category.value) departmentStep.hidden = false;
+        };
+        keyword.addEventListener("focus", () => { marketStep.hidden = false; });
+        keyword.addEventListener("click", () => { marketStep.hidden = false; });
+        market.addEventListener("change", () => {
+          categoryStep.hidden = false;
+          departmentStep.hidden = true;
+          department.value = "all";
+        });
+        category.addEventListener("change", () => { departmentStep.hidden = false; });
+        if (market.value) reveal();
+      });
+    </script>
   </body>
 </html>

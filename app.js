@@ -2,60 +2,10 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navigation = document.querySelector("#site-nav");
 const leadForm = document.querySelector("#lead-form");
 const formFeedback = document.querySelector("#form-feedback");
-const feedStream = document.querySelector("#feed-stream");
+const advancedSearchForm = document.querySelector("#advanced-search-form");
+const majCatalog = window.MAJESTIOS_CATALOG || { rubrics: [], searchCategories: [], marketTypes: [] };
 
-const demoTenders = [
-  {
-    id: "feed-01",
-    title: "Évolution d’un portail de démarches",
-    buyer: "Acheteur public fictif · services",
-    sector: "services",
-    sectorLabel: "Services numériques",
-    region: "nord",
-    regionLabel: "Nord · exemple",
-    description: "Exemple de consultation dans le secteur des services numériques."
-  },
-  {
-    id: "feed-02",
-    title: "Réaménagement d’un équipement de proximité",
-    buyer: "Acheteur public fictif · aménagement",
-    sector: "travaux",
-    sectorLabel: "Travaux & aménagement",
-    region: "ouest",
-    regionLabel: "Ouest · exemple",
-    description: "Exemple de projet de travaux pour un équipement de proximité."
-  },
-  {
-    id: "feed-03",
-    title: "Étude de stratégie de transition",
-    buyer: "Acheteur public fictif · conseil",
-    sector: "conseil",
-    sectorLabel: "Conseil & études",
-    region: "sud",
-    regionLabel: "Sud · exemple",
-    description: "Exemple de mission d’étude autour de la transition."
-  },
-  {
-    id: "feed-04",
-    title: "Maintenance d’un système d’information",
-    buyer: "Acheteur public fictif · numérique",
-    sector: "services",
-    sectorLabel: "Services numériques",
-    region: "ouest",
-    regionLabel: "Ouest · exemple",
-    description: "Exemple de besoin de maintenance informatique."
-  },
-  {
-    id: "feed-05",
-    title: "Diagnostic de rénovation énergétique",
-    buyer: "Acheteur public fictif · études",
-    sector: "conseil",
-    sectorLabel: "Conseil & études",
-    region: "nord",
-    regionLabel: "Nord · exemple",
-    description: "Exemple de projet de rénovation énergétique."
-  }
-];
+
 
 const demoScenarios = {
   lost: {
@@ -194,6 +144,7 @@ function selectDemoCase(button) {
   renderDemoDetail();
 }
 
+/* Les interactions de démonstration ne sont présentes que sur la page d’accueil. */
 document.querySelectorAll(".case-tab").forEach((button) => {
   button.addEventListener("click", () => selectDemoCase(button));
 });
@@ -226,107 +177,170 @@ function setIntent(intent) {
   formFeedback.hidden = true;
 }
 
-function renderTenderFeed() {
-  const query = document.querySelector("#feed-search").value.trim().toLocaleLowerCase("fr");
-  const sector = document.querySelector("#feed-sector").value;
-  const region = document.querySelector("#feed-region").value;
-  const matches = demoTenders.filter((tender) => {
-    const searchable = `${tender.title} ${tender.buyer} ${tender.sectorLabel} ${tender.regionLabel}`.toLocaleLowerCase("fr");
-    return (sector === "all" || tender.sector === sector)
-      && (region === "all" || tender.region === region)
-      && searchable.includes(query);
-  });
+function populateSearchFilters(marketValue = "", selectedCategory = "") {
+  const categorySelect = document.querySelector("#feed-sector");
+  const marketSelect = document.querySelector("#feed-market-type");
+  const departmentSelect = document.querySelector("#feed-department");
 
-  document.querySelector("#feed-result-count").textContent = `${matches.length} exemple${matches.length === 1 ? "" : "s"}`;
-  feedStream.replaceChildren();
-
-  if (matches.length === 0) {
-    const empty = document.createElement("p");
-    empty.className = "feed-empty";
-    empty.textContent = "Aucun exemple ne correspond à ces critères. Modifiez votre recherche ou vos filtres.";
-    feedStream.append(empty);
-    return;
+  if (marketSelect && marketSelect.value !== marketValue) marketSelect.value = marketValue;
+  if (categorySelect) {
+    categorySelect.replaceChildren();
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = marketValue ? "2. Choisir une catégorie" : "2. Choisir d’abord un type";
+    categorySelect.append(placeholder);
+    if (marketValue) {
+      const allCategories = document.createElement("option");
+      allCategories.value = "all";
+      allCategories.textContent = "Toutes les catégories";
+      categorySelect.append(allCategories);
+    }
+    const source = marketValue === "public"
+      ? (majCatalog.searchCategories || []).filter((item) => item.active && item.value !== "all")
+      : marketValue === "private"
+        ? (majCatalog.privateSearchCategories || []).filter((item) => item.active || item.planned)
+        : [];
+    const groups = new Map();
+    source.forEach((item) => {
+      let parent = categorySelect;
+      if (item.group) {
+        if (!groups.has(item.group)) {
+          const group = document.createElement("optgroup");
+          group.label = item.group;
+          groups.set(item.group, group);
+          categorySelect.append(group);
+        }
+        parent = groups.get(item.group);
+      }
+      const option = document.createElement("option");
+      option.value = item.value;
+      option.textContent = item.planned ? item.label + " · source à connecter" : item.label;
+      option.disabled = Boolean(item.planned);
+      parent.append(option);
+    });
+    categorySelect.disabled = !marketValue;
+    categorySelect.value = selectedCategory === "all" ? "all" :
+      source.some((item) => item.value === selectedCategory && !item.planned) ? selectedCategory : "";
   }
 
-  for (const tender of matches) {
-    const card = document.createElement("article");
-    card.className = "feed-card";
-
-    const icon = document.createElement("span");
-    icon.className = "feed-card-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "▤";
-
-    const content = document.createElement("div");
-    content.className = "feed-card-content";
-    const heading = document.createElement("div");
-    heading.className = "feed-card-heading";
-    const title = document.createElement("h3");
-    title.textContent = tender.title;
-    const demoTag = document.createElement("span");
-    demoTag.className = "feed-fictive-tag";
-    demoTag.textContent = "FICTIF";
-    heading.append(title, demoTag);
-
-    const buyer = document.createElement("p");
-    buyer.className = "feed-buyer";
-    buyer.textContent = tender.buyer;
-    const description = document.createElement("p");
-    description.className = "feed-description";
-    description.textContent = tender.description;
-    const metadata = document.createElement("div");
-    metadata.className = "feed-card-metadata";
-    metadata.textContent = `${tender.sectorLabel} · ${tender.regionLabel} · Échéance non renseignée`;
-    content.append(heading, buyer, description, metadata);
-
-    const action = document.createElement("a");
-    action.href = "#contact";
-    action.className = "feed-interest";
-    action.textContent = "Demander un accompagnement pour cet AO";
-    action.addEventListener("click", () => {
-      setIntent("respond");
-      const tenderInput = leadForm.querySelector('[name="tender"]');
-      const tenderNote = leadForm.querySelector("#selected-tender-note");
-      tenderInput.value = `Exemple fictif : ${tender.title}`;
-      tenderNote.textContent = `Vous avez choisi un appel d’offres fictif : « ${tender.title} ». Remplacez cette valeur par la référence ou le lien d’un AO réel si vous préparez une demande.`;
-      tenderNote.hidden = false;
-      tenderInput.focus({ preventScroll: true });
+  if (departmentSelect && majCatalog.searchDepartments?.length) {
+    departmentSelect.replaceChildren();
+    const all = document.createElement("option");
+    all.value = "all";
+    all.textContent = "Tous les départements";
+    departmentSelect.append(all);
+    majCatalog.searchDepartments.forEach((department) => {
+      const option = document.createElement("option");
+      option.value = department.value;
+      option.textContent = department.value + " · " + department.label;
+      departmentSelect.append(option);
     });
+  }
+}
+const searchSteps = {
+  market: document.querySelector("#market-step"),
+  category: document.querySelector("#category-step"),
+  department: document.querySelector("#department-step")
+};
+const revealStep = (step, visible = true) => { if (step) step.hidden = !visible; };
+document.querySelector("#feed-search")?.addEventListener("focus", () => revealStep(searchSteps.market));
 
-    card.append(icon, content, action);
-    feedStream.append(card);
+const initialSearchParams = new URLSearchParams(window.location.search);
+const initialMarketType = initialSearchParams.get("marche") || "";
+const initialCategory = initialSearchParams.get("categorie") || "";
+populateSearchFilters(initialMarketType, initialCategory);
+if (initialMarketType) {
+  revealStep(searchSteps.market);
+  revealStep(searchSteps.category);
+}
+if (initialSearchParams.has("categorie") || initialSearchParams.has("departement") || initialSearchParams.has("zone")) {
+  revealStep(searchSteps.department);
+}
+
+const initialDepartment = initialSearchParams.get("departement") || initialSearchParams.get("zone");
+if (initialDepartment) {
+  const departmentControl = document.querySelector("#feed-department");
+  if (departmentControl && [...departmentControl.options].some((option) => option.value === initialDepartment && !option.disabled)) {
+    departmentControl.value = initialDepartment;
+  }
+}
+const initialKeyword = initialSearchParams.get("q");
+if (initialKeyword) {
+  const keywordControl = document.querySelector("#feed-search");
+  if (keywordControl) keywordControl.value = initialKeyword;
+}
+
+document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
+  populateSearchFilters(event.target.value, "");
+  revealStep(searchSteps.category, Boolean(event.target.value));
+  revealStep(searchSteps.department, false);
+});
+document.querySelector("#feed-sector")?.addEventListener("change", () => {
+  revealStep(searchSteps.department);
+});
+if (advancedSearchForm) {
+  advancedSearchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const params = new URLSearchParams();
+  const query = document.querySelector("#feed-search")?.value.trim();
+  const categoryControl = document.querySelector("#feed-sector");
+  const category = categoryControl?.selectedOptions[0]?.disabled ? "all" : categoryControl?.value;
+  const marketType = document.querySelector("#feed-market-type")?.value;
+  const department = document.querySelector("#feed-department")?.value;
+  if (query) params.set("q", query);
+  if (category && category !== "all") params.set("categorie", category);
+  if (department && department !== "all") params.set("departement", department);
+  if (marketType && marketType !== "all") params.set("marche", marketType);
+
+  // Les catégories publiques déjà dotées d’une page conservent leur destination dédiée.
+  // Les nouvelles catégories sans page dédiée et les signaux privés passent par les résultats communs.
+  const selectedCategory = marketType === "public"
+    ? majCatalog.searchCategories.find((item) => item.value === category && !item.planned && item.href)
+    : null;
+  const destination = selectedCategory ? selectedCategory.href : "resultats-recherche.html";
+
+  window.location.href = `${destination}${params.size ? `?${params.toString()}` : ""}`;
+});
+}
+
+// Le moteur de recherche conserve ses critères ; la liste des annonces n'est pas affichée sur l'accueil.
+// Les anciennes cartes de démonstration ont été retirées de l’accueil compact :
+// n’initialiser leur rendu que si leurs conteneurs existent encore sur une page.
+if (document.querySelector('#demo-detail') && document.querySelector('#demo-status')) {
+  renderDemoDetail();
+}
+
+if (leadForm && formFeedback) {
+  leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
+    radio.addEventListener("change", () => setIntent(radio.value));
+  });
+  const selectedIntent = leadForm.querySelector('input[name="intent"]:checked');
+  if (selectedIntent) setIntent(selectedIntent.value);
+
+  document.querySelectorAll("[data-intent-link]").forEach((link) => {
+    link.addEventListener("click", () => setIntent(link.dataset.intentLink));
+  });
+
+  const previewRequest = leadForm.querySelector("#preview-request");
+  if (previewRequest) {
+    previewRequest.addEventListener("click", () => {
+      if (!leadForm.reportValidity()) return;
+
+      const selectedIntent = leadForm.querySelector('input[name="intent"]:checked');
+      if (!selectedIntent) return;
+      const intentLabels = {
+        respond: "demande d’accompagnement pour répondre à un AO",
+        receive: "demande de réception d’AO liés à votre activité",
+        contact: "prise de contact au sujet de votre projet"
+      };
+      const intentLabel = intentLabels[selectedIntent.value] || "demande de contact";
+      formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
+      formFeedback.hidden = false;
+    });
   }
 }
 
-document.querySelector("#feed-search").addEventListener("input", renderTenderFeed);
-document.querySelector("#feed-sector").addEventListener("change", renderTenderFeed);
-document.querySelector("#feed-region").addEventListener("change", renderTenderFeed);
-renderTenderFeed();
-renderDemoDetail();
-
-leadForm.querySelectorAll('input[name="intent"]').forEach((radio) => {
-  radio.addEventListener("change", () => setIntent(radio.value));
-});
-setIntent(leadForm.querySelector('input[name="intent"]:checked').value);
-
-document.querySelectorAll("[data-intent-link]").forEach((link) => {
-  link.addEventListener("click", () => setIntent(link.dataset.intentLink));
-});
-
-document.querySelector("#preview-request").addEventListener("click", () => {
-  if (!leadForm.reportValidity()) return;
-
-  const intent = leadForm.querySelector('input[name="intent"]:checked').value;
-  const intentLabels = {
-    respond: "demande d’accompagnement pour répondre à un AO",
-    receive: "demande de réception d’AO liés à votre activité",
-    contact: "prise de contact au sujet de votre projet"
-  };
-  const intentLabel = intentLabels[intent];
-  formFeedback.textContent = `Parcours prévisualisé : ${intentLabel}. Cette demande de démonstration n’a pas été transmise.`;
-  formFeedback.hidden = false;
-});
-
+if (menuToggle && navigation) {
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
   menuToggle.setAttribute("aria-expanded", String(!isOpen));
@@ -340,4 +354,92 @@ navigation.querySelectorAll("a").forEach((link) => {
     menuToggle.setAttribute("aria-expanded", "false");
     menuToggle.setAttribute("aria-label", "Ouvrir le menu");
   });
+});
+}
+
+
+/* Interaction directe avec le SVG intégré dans le DOM de la page d’accueil. */
+const interactiveSvg = document.querySelector("#majestios-panorama");
+if (interactiveSvg) {
+  const surfaceNames = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.label]));
+  const surfaceDestinations = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.href]));
+  const surfaces = [...interactiveSvg.querySelectorAll("[data-surface]")];
+  surfaces.forEach((surface) => {
+    const name = surfaceNames[surface.dataset.surface] || surface.getAttribute("aria-label") || "Rubrique";
+    surface.setAttribute("aria-pressed", "false");
+    surface.setAttribute("role", "link");
+    surface.setAttribute("aria-label", `Ouvrir ${name}`);
+    surface.addEventListener("click", () => {
+      const destination = surfaceDestinations[surface.dataset.surface];
+      if (destination) window.location.href = destination;
+    });
+    surface.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        const destination = surfaceDestinations[surface.dataset.surface];
+        if (destination) window.location.href = destination;
+      }
+    });
+  });
+}
+
+const personalSpaceDialog = document.querySelector("#personal-space-dialog");
+const closePersonalSpace = document.querySelector("#close-personal-space");
+const personalSpaceForm = document.querySelector("#personal-space-form");
+const personalSpaceFeedback = document.querySelector("#personal-space-feedback");
+
+document.querySelectorAll("#open-personal-space, #open-personal-space-shortcut").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (typeof personalSpaceDialog?.showModal === "function") personalSpaceDialog.showModal();
+  });
+});
+closePersonalSpace?.addEventListener("click", () => personalSpaceDialog?.close());
+personalSpaceDialog?.addEventListener("click", (event) => {
+  if (event.target === personalSpaceDialog) personalSpaceDialog.close();
+});
+personalSpaceForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!personalSpaceForm.reportValidity()) return;
+  personalSpaceFeedback.textContent = "Votre demande a été prévisualisée. Aucune donnée n’a été envoyée ni enregistrée : la création réelle de compte reste à connecter.";
+  personalSpaceFeedback.hidden = false;
+});
+
+
+// Fil d’Ariane partagé : garder un repère de retour sur toutes les pages de rubrique.
+const interiorPage = document.querySelector("main.interior-page");
+const interiorTitle = interiorPage?.querySelector("h1");
+if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-breadcrumb")) {
+  const breadcrumb = document.createElement("nav");
+  breadcrumb.className = "interior-breadcrumb";
+  breadcrumb.setAttribute("aria-label", "Fil d’Ariane");
+  const homeLink = document.createElement("a");
+  homeLink.href = "index.html";
+  homeLink.textContent = "Accueil";
+  const separator = document.createElement("span");
+  separator.setAttribute("aria-hidden", "true");
+  separator.textContent = " / ";
+  const currentPage = document.createElement("span");
+  currentPage.setAttribute("aria-current", "page");
+  currentPage.textContent = interiorTitle.textContent.replace(/\s+/g, " ").trim();
+  breadcrumb.append(homeLink, separator, currentPage);
+  interiorPage.prepend(breadcrumb);
+}
+
+
+// Coup de pouce sur l’accueil : navigation guidée, sans prétendre fournir une IA conversationnelle.
+const homeHelpToggle = document.querySelector("#home-help-toggle");
+const homeHelpPanel = document.querySelector("#home-help-panel");
+const homeHelpClose = document.querySelector("#home-help-close");
+function setHomeHelpOpen(open) {
+  if (!homeHelpToggle || !homeHelpPanel) return;
+  homeHelpPanel.hidden = !open;
+  homeHelpToggle.setAttribute("aria-expanded", String(open));
+  if (open) homeHelpClose?.focus();
+  else homeHelpToggle.focus();
+}
+homeHelpToggle?.addEventListener("click", () => setHomeHelpOpen(homeHelpToggle.getAttribute("aria-expanded") !== "true"));
+homeHelpClose?.addEventListener("click", () => setHomeHelpOpen(false));
+homeHelpPanel?.querySelectorAll("[data-home-help-close]").forEach((link) => link.addEventListener("click", () => setHomeHelpOpen(false)));
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && homeHelpPanel && !homeHelpPanel.hidden) setHomeHelpOpen(false);
 });

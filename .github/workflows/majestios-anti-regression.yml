@@ -1,0 +1,40 @@
+name: Vérification anti-régression MajestiOS
+
+on:
+  push:
+    branches:
+      - chantier-recherche-donnees-gardes-fous-2026-11-01
+      - refonte-architecture-dossiers-charte-majestios-2026-11-01
+  pull_request:
+    branches:
+      - main
+      - chantier-recherche-donnees-gardes-fous-2026-11-01
+      - refonte-architecture-dossiers-charte-majestios-2026-11-01
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Tests ciblés, build et liens internes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Tester le ciblage des entreprises
+        run: node tests/company-targeting.test.cjs
+      - name: Tester la qualification explicable des entreprises
+        run: node tests/company-fit.test.cjs
+      - name: Tester les suggestions APE/NAF
+        run: node tests/naf-suggestions.test.cjs
+      - name: Vérifier le build statique
+        run: node build.js
+      - name: Vérifier les pages et références internes
+        run: node verify-site.js
+      - name: Vérifier les dix dossiers et leurs accès internes
+        run: node verify-architecture.js

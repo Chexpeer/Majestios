@@ -1,0 +1,48 @@
+name: Mesure des volumes BOAMP
+
+# Déclenchement manuel uniquement : Actions > « Mesure des volumes BOAMP » > Run workflow.
+# Lecture seule : quelques requêtes GET sur l'API publique du BOAMP, rapport dans le résumé du job
+# et en pièce jointe. Aucun commit, aucun déploiement.
+on:
+  workflow_dispatch:
+    inputs:
+      jours:
+        description: "Période mesurée, en jours"
+        required: false
+        default: "365"
+
+permissions:
+  contents: read
+
+jobs:
+  mesure:
+    name: Mesurer les volumes d'avis par catégorie
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Vérifier l'outil (réponses simulées)
+        run: node tests/mesure-boamp.test.cjs
+      - name: Mesurer
+        env:
+          JOURS: ${{ github.event.inputs.jours }}
+        run: |
+          set +e
+          node outils/mesure-boamp.cjs --jours "${JOURS:-365}" --sortie rapport-boamp.md
+          echo "MESURE_STATUT=$?" >> "$GITHUB_ENV"
+          [ -f rapport-boamp.md ] && cat rapport-boamp.md >> "$GITHUB_STEP_SUMMARY"
+          exit 0
+      - name: Conserver le rapport
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-boamp
+          path: rapport-boamp.md
+          if-no-files-found: warn
+      - name: Signaler une mesure incomplète
+        if: env.MESURE_STATUT != '0'
+        run: |
+          echo "::warning::La mesure est incomplète ou a échoué (code ${MESURE_STATUT}). Lire la section « Erreurs » du rapport."
