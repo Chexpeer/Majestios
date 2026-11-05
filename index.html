@@ -568,6 +568,131 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         background:transparent!important;
         box-shadow:none!important;
       }
+
+      /* Moteur d'accueil : présentation blanche, épurée, inspirée de Google. */
+      body.homepage .tender-feed-section,
+      body.homepage .tender-feed-section .feed-wrap,
+      body.homepage .tender-feed-section .feed-demo {
+        width:100%!important;
+        max-width:none!important;
+        margin:0!important;
+        padding:0!important;
+        border:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        box-shadow:none!important;
+        overflow:visible!important;
+      }
+      body.homepage .tender-feed-section .feed-wrap::before,
+      body.homepage .tender-feed-section .feed-demo::before {
+        display:none!important;
+        content:none!important;
+      }
+      body.homepage #advanced-search-form {
+        display:grid!important;
+        grid-template-columns:minmax(0,1fr) 44px!important;
+        align-items:center!important;
+        gap:8px!important;
+        width:100%!important;
+        margin:0!important;
+        padding:0!important;
+        border:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        box-shadow:none!important;
+      }
+      body.homepage #advanced-search-form .feed-search {
+        display:flex!important;
+        align-items:center!important;
+        min-width:0!important;
+        min-height:48px!important;
+        gap:10px!important;
+        padding:0 17px!important;
+        border:0!important;
+        border-radius:28px!important;
+        background:#fff!important;
+        color:#5f6368!important;
+        box-shadow:0 1px 6px rgba(32,33,36,.22)!important;
+      }
+      body.homepage #advanced-search-form .feed-search>span:first-child {
+        color:#5f6368!important;
+        font-size:22px!important;
+      }
+      body.homepage #advanced-search-form .feed-search input {
+        width:100%!important;
+        min-width:0!important;
+        min-height:46px!important;
+        padding:0!important;
+        border:0!important;
+        outline:0!important;
+        background:transparent!important;
+        color:#202124!important;
+        font:400 15px/1.4 Arial,sans-serif!important;
+        box-shadow:none!important;
+      }
+      body.homepage #advanced-search-form .feed-search input::placeholder {
+        color:#70757a!important;
+        opacity:1!important;
+      }
+      body.homepage #advanced-search-form .feed-search:focus-within {
+        border:0!important;
+        background:#fff!important;
+        box-shadow:0 1px 8px rgba(32,33,36,.28)!important;
+        outline:none!important;
+      }
+      body.homepage #advanced-search-form .feed-search-submit {
+        display:grid!important;
+        place-items:center!important;
+        width:44px!important;
+        min-width:44px!important;
+        height:44px!important;
+        min-height:44px!important;
+        margin:0!important;
+        padding:0!important;
+        border:0!important;
+        border-radius:50%!important;
+        background:#fff!important;
+        color:#5f6368!important;
+        box-shadow:0 1px 6px rgba(32,33,36,.18)!important;
+        font-size:0!important;
+        cursor:pointer!important;
+      }
+      body.homepage #advanced-search-form .feed-search-submit::before {
+        content:"⌕";
+        font:400 25px/1 Arial,sans-serif;
+      }
+      body.homepage #advanced-search-form .feed-search-submit:hover,
+      body.homepage #advanced-search-form .feed-search-submit:focus-visible {
+        background:#f8f9fa!important;
+        box-shadow:0 1px 8px rgba(32,33,36,.28)!important;
+        outline:2px solid #8ab4f8!important;
+        outline-offset:2px!important;
+      }
+      body.homepage #advanced-search-form .feed-filter-label {
+        min-width:0!important;
+      }
+      body.homepage #advanced-search-form .feed-filter-label select {
+        width:100%!important;
+        min-height:42px!important;
+        padding:8px 12px!important;
+        border:1px solid #dadce0!important;
+        border-radius:8px!important;
+        background:#fff!important;
+        color:#202124!important;
+        font:400 13px/1.4 Arial,sans-serif!important;
+        box-shadow:none!important;
+      }
+      body.homepage #advanced-search-form .feed-filter-label select:focus-visible {
+        border-color:#8ab4f8!important;
+        outline:2px solid #8ab4f8!important;
+        outline-offset:1px!important;
+      }
+      @media(max-width:600px) {
+        body.homepage #advanced-search-form { grid-template-columns:minmax(0,1fr) 40px!important; gap:6px!important; }
+        body.homepage #advanced-search-form .feed-search { min-height:44px!important; padding:0 13px!important; }
+        body.homepage #advanced-search-form .feed-search input { min-height:42px!important; font-size:14px!important; }
+        body.homepage #advanced-search-form .feed-search-submit { width:40px!important; min-width:40px!important; height:40px!important; min-height:40px!important; }
+      }
     </style>
 </head>
   <body class="homepage">
