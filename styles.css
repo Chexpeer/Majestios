@@ -2150,3 +2150,47 @@ body:not(.homepage) main.interior-page .feed-search-submit {
   .site-nav .nav-dropdown-toggle,
   .site-nav .nav-submenu a { transition: none; }
 }
+
+
+/* Authentification Supabase — formulaire d'espace membre */
+.personal-space-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 14px 0;
+  color: #686579;
+  font-size: 11px;
+  line-height: 1.55;
+  text-align: left;
+}
+.personal-space-consent input { flex: 0 0 auto; margin-top: 2px; accent-color: var(--purple); }
+.personal-space-consent a { color: var(--purple-deep); text-decoration: underline; }
+.personal-space-form .text-button {
+  display: block;
+  width: 100%;
+  margin-top: 11px;
+  padding: 7px 10px;
+  border: 0;
+  color: var(--purple-deep);
+  background: transparent;
+  font: 650 11px/1.4 Manrope, sans-serif;
+  cursor: pointer;
+}
+.personal-space-form .text-button:hover { text-decoration: underline; }
+.personal-space-feedback[data-state="error"] {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #9a3434;
+  background: #fff0ef;
+}
+.personal-space-feedback[data-state="success"] {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #315e3b;
+  background: #edf8ef;
+}
+.personal-space-submit:disabled { opacity: .65; cursor: wait; }
+#member-auth-status { margin-top: 12px; }
+#member-signout { margin: 12px auto 0; }
+.personal-space-fields [hidden],
+.personal-space-consent[hidden] { display: none !important; }
