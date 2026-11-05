@@ -15,7 +15,7 @@ La vision ne se réduit ni à un moteur d'annonces, ni à un tableau de bord, ni
 
 La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à partir de l'audit du commit `735a09ce0b5c476ff659558060791b34a628b6ac`. Elle distingue les fonctions réellement présentes, les contrôles CI exécutés, les limites du prototype et les capacités qui restent à construire. Le run GitHub Actions `41936795822` a réussi les contrôles listés dans l'addendum de la référence ; cela ne vaut pas validation exhaustive du dépôt ni preuve de mise en production.
 
-**MajestiOS V.5 reste l'intelligence centrale unique.** Brainstorming est une capacité de réflexion et de veille rattachée à cette intelligence, notamment pour le SEO et l'évolution des moteurs ; ce n'est pas un produit ou un cerveau parallèle.
+**MajestiOS V.5 reste l'intelligence centrale unique.** La veille stratégique et le suivi du référencement naturel sont intégrés à ses fonctions de pilotage et d'amélioration continue.
 
 ## Guide de reprise pour les IA
 
