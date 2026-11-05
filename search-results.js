@@ -12,7 +12,9 @@
   const departments = catalogue.searchDepartments || [];
   const privateCategories = catalogue.privateSearchCategories || [];
   const findLabel = (items, value, fallback) => items.find((item) => item.value === value)?.label || fallback;
-  const categoryLabel = findLabel(categories, category, findLabel(privateCategories, category, category));
+  const categoryLabel = market === "private"
+    ? findLabel(privateCategories, category, findLabel(categories, category, category))
+    : findLabel(categories, category, findLabel(privateCategories, category, category));
   const departmentLabel = department === "all"
     ? "Tous les départements"
     : findLabel(departments, department, department);

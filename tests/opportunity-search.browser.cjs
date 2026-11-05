@@ -288,6 +288,7 @@ async function main() {
     await page.locator("#feed-market-type").selectOption("public");
     const publicCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => option.value));
     assert.ok(publicCategoryOptions.includes("nettoyage"), "Nettoyage doit figurer dans les catégories de marchés publics.");
+    assert.ok(publicCategoryOptions.includes("autre"), "La catégorie Autre doit être disponible pour les marchés publics.");
     assert.ok(!publicCategoryOptions.includes("emploi"), "L’emploi doit rester une catégorie privée et non publique.");
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=public&categorie=nettoyage", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Prestations de nettoyage des locaux et propreté" }).waitFor({ timeout: 10000 });
@@ -300,13 +301,48 @@ async function main() {
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
-    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
+    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
       assert.ok(privateCategoryOptions.some(option => option.value === expected), `La catégorie privée ${expected} doit être proposée.`);
     }
     assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 5, "Les rubriques BODACC doivent être regroupées ensemble.");
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
     assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, "L’accueil doit proposer un département français filtrable.");
     assert.equal(await page.locator('#feed-department option[value="72"]').count(), 1, "Le département 72 · Sarthe doit être proposé avec son code officiel.");
+
+    // « Autre » est un repli de recherche libre : mot-clé obligatoire et source déterminée par le marché.
+    await page.locator("#feed-sector").selectOption("autre");
+    assert.equal(await page.locator("#feed-search").getAttribute("required"), "", "La catégorie Autre doit rendre le mot-clé obligatoire.");
+    assert.equal(await page.locator("#feed-search").evaluate(input => input.checkValidity()), false, "Autre sans mot-clé doit être invalide.");
+    await page.locator("#feed-search").fill("cession");
+    await Promise.all([
+      page.waitForURL(/resultats-recherche\.html\?.*marche=private.*categorie=autre|resultats-recherche\.html\?.*categorie=autre.*marche=private/),
+      page.locator("#advanced-search-form").evaluate(form => form.requestSubmit())
+    ]);
+    await page.getByRole("heading", { name: "Entreprise BODACC de test" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".bodacc-result-card").count(), 1, "Autre privé doit lancer une recherche BODACC textuelle, sans inventer de famille.");
+    assert.match(await page.locator("#search-active-filters").innerText(), /Autre signal BODACC/);
+
+    const callsBeforePublicOther = apiCalls;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=public&categorie=autre", { waitUntil: "domcontentloaded" });
+    await page.getByText(/La catégorie Autre nécessite un mot-clé/).waitFor({ timeout: 10000 });
+    assert.equal(apiCalls, callsBeforePublicOther, "Autre public sans mot-clé ne doit pas appeler BOAMP.");
+
+    const callsBeforePrivateOther = bodaccCalls;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=autre", { waitUntil: "domcontentloaded" });
+    await page.getByText(/La catégorie Autre nécessite un mot-clé/).waitFor({ timeout: 10000 });
+    assert.equal(bodaccCalls, callsBeforePrivateOther, "Autre privé sans mot-clé ne doit pas appeler BODACC.");
+
+    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#feed-search").focus();
+    await page.locator("#feed-market-type").selectOption("public");
+    await page.locator("#feed-sector").selectOption("autre");
+    await page.locator("#feed-search").fill("plomberie");
+    await Promise.all([
+      page.waitForURL(/resultats-recherche\.html\?.*marche=public.*categorie=autre|resultats-recherche\.html\?.*categorie=autre.*marche=public/),
+      page.locator("#advanced-search-form").evaluate(form => form.requestSubmit())
+    ]);
+    await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
+    assert.match(await page.locator("#search-active-filters").innerText(), /Autre marché public/);
 
     // Toutes les rubriques utilisent exactement le même formulaire et les mêmes étapes que l’accueil.
     for (const destination of ["marches-publics.html", "developpement-commercial.html", "marches-prives.html", "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html", "crm.html", "majestios-v5.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html", "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html"]) {

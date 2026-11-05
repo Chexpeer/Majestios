@@ -264,11 +264,23 @@ if (initialDepartment) {
     departmentControl.value = initialDepartment;
   }
 }
+const keywordControl = document.querySelector("#feed-search");
+const categoryControl = document.querySelector("#feed-sector");
+const updateOtherCategoryRequirement = () => {
+  if (!keywordControl) return;
+  const requiresKeyword = categoryControl?.value === "autre";
+  keywordControl.required = requiresKeyword;
+  keywordControl.setCustomValidity(requiresKeyword && !keywordControl.value.trim()
+    ? "Pour utiliser la catégorie Autre, saisissez un mot-clé."
+    : "");
+  keywordControl.placeholder = requiresKeyword
+    ? "Précisez le sujet à rechercher dans Autre..."
+    : "Mot-clé, entreprise, secteur...";
+};
 const initialKeyword = initialSearchParams.get("q");
-if (initialKeyword) {
-  const keywordControl = document.querySelector("#feed-search");
-  if (keywordControl) keywordControl.value = initialKeyword;
-}
+if (initialKeyword && keywordControl) keywordControl.value = initialKeyword;
+updateOtherCategoryRequirement();
+keywordControl?.addEventListener("input", updateOtherCategoryRequirement);
 
 document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
   populateSearchFilters(event.target.value, "");
@@ -277,6 +289,7 @@ document.querySelector("#feed-market-type")?.addEventListener("change", (event) 
 });
 document.querySelector("#feed-sector")?.addEventListener("change", () => {
   revealStep(searchSteps.department);
+  updateOtherCategoryRequirement();
 });
 if (advancedSearchForm) {
   advancedSearchForm.addEventListener("submit", (event) => {
@@ -285,6 +298,11 @@ if (advancedSearchForm) {
   const query = document.querySelector("#feed-search")?.value.trim();
   const categoryControl = document.querySelector("#feed-sector");
   const category = categoryControl?.selectedOptions[0]?.disabled ? "all" : categoryControl?.value;
+  if (category === "autre" && !query) {
+    keywordControl?.setCustomValidity("Pour utiliser la catégorie Autre, saisissez un mot-clé.");
+    keywordControl?.reportValidity();
+    return;
+  }
   const marketType = document.querySelector("#feed-market-type")?.value;
   const department = document.querySelector("#feed-department")?.value;
   if (query) params.set("q", query);

@@ -23,7 +23,7 @@
     nettoyage: ["nettoyage", "propreté", "nettoyage industriel", "entretien des locaux", "nettoyage des locaux"]
   };
   const CATEGORY_TYPES = { services: "SERVICES", travaux: "TRAVAUX" };
-  const PUBLIC_CATEGORIES = new Set([...Object.keys(CATEGORY_TERMS), ...Object.keys(CATEGORY_TYPES)]);
+  const PUBLIC_CATEGORIES = new Set([...Object.keys(CATEGORY_TERMS), ...Object.keys(CATEGORY_TYPES), "autre"]);
   const BODACC_CATEGORY_TERMS = {
     "bodacc-creations": ["création", "immatriculation", "constitution", "établissement principal", "ouverture"],
     "bodacc-cessions": ["vente", "cession", "fonds de commerce", "reprise", "achat"],
@@ -136,6 +136,11 @@
     const market = params.get("marche") || "all";
     const empty = panel.querySelector(".category-results-empty");
     if (!empty) return;
+    if (category === "autre" && !query) {
+      empty.textContent = "La catégorie Autre nécessite un mot-clé. Précisez le sujet pour lancer une recherche libre dans la source sélectionnée.";
+      empty.setAttribute("role", "status");
+      return;
+    }
     cancelRequest(panel);
     // Une nouvelle exécution remplace les cartes et notes précédentes au lieu de les empiler.
     panel.querySelectorAll(".opportunity-results-list, .opportunity-source-note").forEach((node) => node.remove());
@@ -198,7 +203,7 @@
         empty.textContent = labels[category] + " : cette famille d’opportunités est prévue dans la taxonomie MajestiOS, mais sa source de données n’est pas encore connectée. Aucun résultat ne sera inventé. La recherche BODACC reste disponible en choisissant une rubrique BODACC.";
         return;
       }
-      if (category !== "all" && !BODACC_CATEGORY_TERMS[category]) {
+      if (category !== "all" && category !== "autre" && !BODACC_CATEGORY_TERMS[category]) {
         empty.textContent = "Cette catégorie privée n’est pas reconnue par le moteur. Choisissez une rubrique disponible.";
         return;
       }
