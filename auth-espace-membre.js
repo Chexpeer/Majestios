@@ -1,6 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 
-const config = window.MAJESTIOS_SUPABASE;
+const config = MAJESTIOS_SUPABASE;
 const form = document.querySelector("#personal-space-form");
 const feedback = document.querySelector("#personal-space-feedback");
 const modeToggle = document.querySelector("#toggle-auth-mode");
@@ -27,6 +28,9 @@ if (form && config?.url && config?.publishableKey) {
     form.dataset.mode = mode;
     form.querySelectorAll("[data-signup-only]").forEach((element) => {
       element.hidden = mode !== "signup";
+      element.querySelectorAll("input").forEach((input) => {
+        input.required = mode === "signup" && input.dataset.required === "true";
+      });
     });
     const organizationField = field("organizationName");
     if (organizationField) {
