@@ -76,7 +76,6 @@
     section.setAttribute("aria-label", "Moteur de recherche avancé");
     section.innerHTML =
       '<div class="feed-wrap"><div class="feed-demo">' +
-        '<div class="rubric-search-heading"><h2>' + config[0] + '</h2><p>' + config[1] + '</p></div>' +
         formMarkup +
       '</div></div>';
 
