@@ -275,9 +275,9 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
 }
 
 const prospecting = read("prospection-active.html");
-assert(prospecting.includes("<title>Prospection active — MajestiOS</title>"), "Prospection active : titre incorrect");
-assert(prospecting.includes("<h1>Prospection active</h1>"), "Prospection active : titre principal incorrect");
-assert(!/prospection invers[ée]/i.test(prospecting), "Prospection active : ancienne appellation encore visible");
+assert(prospecting.includes("<title>Prosp'active — MajestiOS</title>"), "Prosp'active : titre incorrect");
+assert(prospecting.includes("<h1>Prosp'active</h1>"), "Prosp'active : titre principal incorrect");
+assert(!/prospection invers[ée]/i.test(prospecting), "Prosp'active : ancienne appellation encore visible");
 
 if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
