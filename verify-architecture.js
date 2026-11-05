@@ -246,4 +246,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, neuf destinations MajestiOS, huit visuels publiés (décor, immeuble, masque et cinq fonds), moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, neuf destinations MajestiOS, trois visuels d’accueil publiés, fonds de rubrique sans ressources manquantes, moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
