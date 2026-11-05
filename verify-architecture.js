@@ -215,6 +215,38 @@ assert(appSearch.includes("MAJESTIOS_CATALOG") && appSearch.includes("populateSe
   "Recherche : les interactions ne consomment pas le catalogue partagé");
 assert(appSearch.includes('#open-personal-space, #open-personal-space-shortcut'),
   "Espace privé : les deux boutons doivent ouvrir le même formulaire de préparation");
+
+const memberPage = read("espace-membre.html");
+const memberAuth = read("auth-espace-membre.js");
+const supabaseConfig = read("supabase-config.js");
+const workspaceFunction = read("supabase/functions/provision-client-workspace/index.ts");
+assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes('data-supabase-auth'),
+  "Espace membre : le formulaire doit utiliser le contrôleur Auth Supabase");
+assert(memberPage.includes('name="privacyAccepted"') && memberPage.includes('name="passwordConfirm"'),
+  "Espace membre : prise de connaissance de la politique et confirmation du nouveau mot de passe attendues");
+assert(memberAuth.includes("signUp(") && memberAuth.includes("signInWithPassword(") &&
+  memberAuth.includes("resetPasswordForEmail(") && memberAuth.includes("updateUser({ password })"),
+  "Espace membre : inscription, connexion et récupération du mot de passe doivent être implémentées");
+assert(memberAuth.includes('provision-client-workspace') && memberAuth.includes('privacy_notice_acknowledged'),
+  "Espace membre : le provisionnement sécurisé du tenant doit être appelé après authentification");
+assert(!/service[_-]?role|SUPABASE_SERVICE_ROLE_KEY/i.test(supabaseConfig),
+  "Sécurité Supabase : aucune clé service_role ne doit être publiée dans le navigateur");
+assert(workspaceFunction.includes('admin.auth.getUser(token)') &&
+  workspaceFunction.includes('role: "owner"') &&
+  workspaceFunction.includes('privacy_acknowledgments'),
+  "Backend : la fonction doit vérifier la session, créer le propriétaire et journaliser la politique");
+for (const migration of [
+  "supabase/migrations/20261105163901_majestios_core_multitenant_foundation.sql",
+  "supabase/migrations/20261105163922_harden_private_authorization_and_fk_indexes.sql",
+  "supabase/migrations/20261105163953_enforce_tenant_relationship_integrity.sql",
+  "supabase/migrations/20261105164403_add_private_consent_records.sql",
+  "supabase/migrations/20261105164411_replace_consent_placeholder_with_privacy_acknowledgments.sql"
+]) {
+  assert(exists(migration), "Backend : migration versionnée absente : " + migration);
+}
+assert(siteFiles.includes("supabase-config.js") && siteFiles.includes("auth-espace-membre.js"),
+  "Build : les modules publics de configuration et Auth doivent être déclarés dans le manifeste");
+
 for (const page of ["marches-publics.html","developpement-commercial.html","prospection-active.html","veille-marches.html",
   "accompagnement-appels-offres.html","sous-traitance.html","intelligence-economique.html","reseaux-synergies.html",
   "bodacc-veille-entreprises.html","suivi-commercial.html","marches-prives.html","reputation-virtuelle.html",
