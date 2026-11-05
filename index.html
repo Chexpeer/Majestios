@@ -968,8 +968,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       (function () {
         "use strict";
         var SRC_W = 842, SRC_H = 1264;
-        var ROWS = 27;      // une seule ligne de titre, centrée verticalement dans le bandeau
-        var LINE_ROW0 = [15]; // première ligne de matrice du titre unique
+        var ROWS = 27;      // deux lignes de titre au maximum, centrées dans le bandeau
         var SPEED = 10;     // Défilement trois fois plus lent que le réglage précédent.
 
         var SIGNS = [
@@ -1134,11 +1133,13 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
             "01":["RÉPUTATION","VIRTUELLE"], "RDC":["ACCUEIL","MAJESTIOS"]
           })[def.id] || [def.title.toLocaleUpperCase("fr-FR")];
           canvas.setAttribute("data-title-lines", titleLines.join("|"));
+          canvas.setAttribute("data-title-lines", titleLines.join("|"));
           var lines = titleLines.map(function (text, lineIndex) {
             var columns = compile(text + "  ◆  ");
             return {columns: columns, row0: titleLines.length === 1 ? 15 : (lineIndex === 0 ? 4 : 16),
               phase: Math.round(columns.length * ((index * 0.381966) % 1)), pausedAt: 0, pausedTotal: 0};
           });
+          canvas.dataset.state = "scrolling";
           return {def: def, canvas: canvas, ctx: canvas.getContext("2d"), lines: lines, rgb: rgb(def.color)};
         });
 
@@ -1245,6 +1246,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           if (!sign) return;
           var now = performance.now();
           sign.blink = true;
+          sign.canvas.dataset.state = "paused";
           sign.lines.forEach(function (line) { if (!line.pausedAt) line.pausedAt = now; });
         }
         function resumeFloor(floorId) {
@@ -1252,6 +1254,7 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           if (!sign) return;
           var now = performance.now();
           sign.blink = false;
+          sign.canvas.dataset.state = "scrolling";
           sign.lines.forEach(function (line) {
             if (line.pausedAt) { line.pausedTotal += now - line.pausedAt; line.pausedAt = 0; }
           });
