@@ -263,7 +263,7 @@ Au 5 novembre 2026, le HEAD de la branche de revue est `bd59a4c8a7f253c85bf63d40
 - Workflow PR « Vérification du site MajestiOS » — run `42086813743` : succès, toutes les étapes terminées, y compris Playwright/Chromium, smoke tests BOAMP/BODACC et quatre suites navigateur.
 - Workflow PR « Vérification anti-régression MajestiOS » — run `42086813822` : succès, tests ciblés, build, liens et contrôle des dix dossiers.
 - F-11 (formulaire d'accueil distinct du formulaire injecté dans les rubriques) est corrigé : le balisage est désormais défini une seule fois dans `rubric-search.js` et monté dans `#home-search-mount` à l'accueil comme dans les rubriques ; contrôles structurels et tests navigateur réussis.
-- F-12 (catégorie de repli « Autre » absente) reste ouvert, car le sens du repli doit être défini sans afficher de résultats non filtrés comme s'ils étaient classés.
+- F-12 (catégorie de repli « Autre » absente) est corrigé : « Autre » est désormais une recherche libre avec mot-clé obligatoire, séparée par source BOAMP/BODACC.
 - F-13 (version Playwright non verrouillée) est corrigé et validé.
 - F-01 à F-03 : interface corrigée, mais transmission/persistance des demandes encore absente.
 - F-04 à F-09 et F-10 : restent soumis aux limites et vérifications décrites dans le registre, notamment CRM non opérationnel et parcours Auth réel non testé.
@@ -281,3 +281,29 @@ Le constat F-11 de la section 14 décrivait un état antérieur du code. La vér
 - Le test navigateur du moteur de recherche vérifie le formulaire sur l'accueil et sur la page de résultats, ainsi que le parcours public/privé et les catégories privées.
 
 **Statut F-11 : corrigé et vérifié.** Le risque de divergence du balisage entre accueil et rubriques est levé au niveau de la source HTML. Les textes d'introduction restent contextuels par page, ce qui est intentionnel. Aucun changement de style ni de placement de l'immeuble n'est impliqué.
+
+
+## 18. Réévaluation de F-12 et anomalie mobile de l'immeuble
+
+### F-12 — Catégorie « Autre » : corrigé et vérifié
+
+La règle de repli est maintenant matérialisée dans le catalogue :
+
+- côté public : « Autre marché public · recherche par mot-clé » ;
+- côté privé : « Autre signal BODACC · recherche par mot-clé ».
+
+« Autre » ne signifie pas « toutes les annonces » et ne prétend pas attribuer une famille métier inexistante. Un mot-clé est obligatoire. Le moteur interroge uniquement la source correspondant au type choisi : BOAMP pour le public, BODACC pour le privé. Une URL directe sans mot-clé affiche un message explicite et ne déclenche aucun appel API. Les catégories inconnues reçues dans une URL restent refusées : elles ne sont pas converties silencieusement en « Autre ».
+
+Le libellé de la catégorie est restitué depuis le bon catalogue selon le type de marché. Les tests navigateur vérifient les deux parcours, la validation du mot-clé, l'absence d'appel API sans mot-clé, le filtrage textuel et la provenance de la source.
+
+**Statut F-12 : corrigé et vérifié** sur le HEAD `368496d8b1bd0fa574056af8ade9507d1d1fd85f`.
+
+### F-14 — P2 — Le bouton d'aide mobile recouvrait une zone de l'immeuble
+
+**Constat reproductible :** le contrôle navigateur sur mobile a montré que le bouton d'aide fixe pouvait intercepter le clic sur la zone du rez-de-chaussée. Le test du run `42088388598` a remonté une cible `home-help-toggle` au-dessus de la zone SVG `RDC`.
+
+**Correction :** sous 600 px, le bouton d'aide et son panneau passent dans le flux normal sous l'immeuble. Ils ne recouvrent plus les zones interactives. Le test immeuble utilise désormais le survol réel Playwright de chaque zone et contrôle le niveau actif, l'annonce de l'ascenseur et l'état LED, en plus de l'alignement global du calque SVG.
+
+**Validation :** sur le HEAD `368496d8b1bd0fa574056af8ade9507d1d1fd85f`, le workflow push `42088662858` a terminé avec succès, notamment le test navigateur de l'immeuble sur ordinateur et mobile. Le workflow anti-régression `42088673618` est également réussi.
+
+**Statut F-14 : corrigé et vérifié.** Aucun visuel de l'immeuble n'a été modifié ; seul le placement mobile du bouton d'aide a changé.

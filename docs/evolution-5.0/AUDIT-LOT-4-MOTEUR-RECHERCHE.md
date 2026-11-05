@@ -137,3 +137,17 @@ Le constat historique de non-exécution des tests ci-dessus a été réévalué 
 Le workflow « Vérification anti-régression MajestiOS » (run `42087421995`) a également réussi : tests ciblés, build statique, références internes et contrôle des dix dossiers et de leurs accès.
 
 Ces résultats sont des preuves CI sur le HEAD indiqué ; ils ne prouvent ni l'exhaustivité des sources ni la recette des comptes Auth, de la collecte des formulaires ou du CRM. Le prototype conserve les limites de couverture, de pagination et de persistance décrites dans ce rapport.
+
+
+## 11. Catégorie de repli « Autre » — implémentation et validation
+
+La catégorie de repli demandée est implémentée sur les deux marchés, sans confusion de provenance :
+
+- BOAMP : « Autre marché public · recherche par mot-clé » ;
+- BODACC : « Autre signal BODACC · recherche par mot-clé ».
+
+Un mot-clé est obligatoire. Sans mot-clé, le moteur affiche un message de validation et n'appelle pas l'API. Avec un mot-clé, le moteur exécute une recherche textuelle sur la seule source du marché choisi. Les résultats conservent leur libellé réel de source/famille ; MajestiOS ne les requalifie pas artificiellement comme une catégorie métier.
+
+Les tests navigateur couvrent le parcours public et privé, l'obligation du mot-clé, l'absence d'appel réseau sans mot-clé, la présence de résultats simulés correspondant au terme et le libellé de filtre. Les catégories inconnues dans une URL restent rejetées : « Autre » est une option explicite de recherche libre, pas un mécanisme qui masque une URL invalide.
+
+Validation sur le HEAD `368496d8b1bd0fa574056af8ade9507d1d1fd85f` : le workflow push `42088662858` a réussi, y compris le test navigateur du moteur de recherche. Le workflow anti-régression `42088673618` a également réussi.
