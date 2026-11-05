@@ -37,6 +37,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Audit initial et plan de nettoyage](evolution-5.0/AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) | Constats datés, écarts historiques et rectifications à revalider |
 | [Nettoyage documentaire](evolution-5.0/NETTOYAGE-DOCUMENTAIRE.md) | Inventaire, règles de tri et conservation du patrimoine |
 | [Nettoyage des archives historiques](evolution-5.0/NETTOYAGE-ARCHIVES-HISTORIQUES-2026-11-05.md) | Comparaison des empreintes Git et retrait des copies exactes ; statut des huit documents conservés |
+| [Cahier des charges — veille stratégique](evolution-5.0/CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) | Spécification de cadrage des signaux, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial |
 
 ## Archives thématiques
 
