@@ -4,7 +4,7 @@ Ce fichier est le point d'entrée canonique pour tout assistant ou agent interve
 
 ## 1. Lecture obligatoire
 
-Pour toute intervention sur la branche active `evolution-5.0`, lire dans cet ordre :
+Avant toute intervention sur MajestiOS V5, identifier le dépôt, la branche, le HEAD et la PR éventuelle, puis lire dans cet ordre :
 1. `README.md` et les instructions du dossier concerné ;
 2. `docs/README.md` ;
 3. `docs/evolution-5.0/README.md` ;
@@ -19,7 +19,9 @@ Ne jamais se fier uniquement aux conversations ou à la documentation ancienne. 
 ## 2. Branches et préservation
 
 - `evolution-2.0`, `evolution-3.0` et `evolution-4.0` sont des branches sources historiques ; ne pas les modifier dans le cadre des travaux V5.
-- `evolution-5.0` est la branche de travail active pour les évolutions V5.
+- `evolution-5.0` est la branche source V5 d'origine à préserver ; elle porte l'état de construction et les décisions historiques du projet.
+- `evolution-5.0-clean-preview` est une reconstruction basée sur `main`, utilisée pour la revue de livraison dans la PR #38. Elle ne remplace pas la branche source et ne doit pas être considérée comme fusionnée.
+- Sur toute autre branche, ne pas présumer qu'elle est la branche de travail autorisée : vérifier son objectif et la PR associée avant d'écrire.
 - Ne jamais réécrire l'historique, supprimer ou écraser une branche de référence.
 - Ne pas fusionner, promouvoir ou déployer sans autorisation explicite.
 - Aucun changement de production ou de configuration Vercel sans autorisation spécifique.
