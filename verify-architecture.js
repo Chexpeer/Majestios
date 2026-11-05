@@ -169,8 +169,10 @@ assert(!exists("Ambitios.webp") && !exists("Développement-.webp") && !exists("M
 // Cela évite les arrière-plans silencieusement cassés après le build.
 for (const stylesheet of siteFiles.filter((file) => /\.css$/i.test(file))) {
   const css = read(stylesheet);
-  for (const match of css.matchAll(/url\(\s*["']?([^"'\)]+)["']?\s*\)/gi)) {
-    const value = match[1].trim();
+  // Les URL entre guillemets peuvent contenir des parenthèses (ex. « image (2).jfif »).
+  // Les capturer jusqu'au guillemet fermant évite de tronquer le nom de fichier.
+  for (const match of css.matchAll(/url\(\s*(?:"([^"]+)"|'([^']+)'|([^)"'\s][^)]*))\s*\)/gi)) {
+    const value = (match[1] || match[2] || match[3] || "").trim();
     if (!value || /^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(value)) continue;
     let decoded;
     try { decoded = decodeURIComponent(value.split(/[?#]/,1)[0]); }
