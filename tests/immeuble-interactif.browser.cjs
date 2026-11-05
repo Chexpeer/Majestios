@@ -123,20 +123,28 @@ async function main() {
 
       const screenPointFor = async (item) => {
         const row = page.locator('.building-hotspots .floor-row[data-floor="'+item.id+'"]');
-        await row.scrollIntoViewIfNeeded();
-        const geometry = await page.evaluate(() => {
-          const img=document.querySelector(".building-photo img").getBoundingClientRect();
-          const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
-          return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
-        });
+        await row.evaluate(element => element.scrollIntoView({block:"center",inline:"center"}));
+        const [rowBox,geometry] = await Promise.all([
+          row.boundingBox(),
+          page.evaluate(() => {
+            const img=document.querySelector(".building-photo img").getBoundingClientRect();
+            const svg=document.querySelector(".building-hotspots").getBoundingClientRect();
+            return {img:[img.left,img.top,img.width,img.height],svg:[svg.left,svg.top,svg.width,svg.height]};
+          })
+        ]);
+        assert.ok(rowBox,"La zone SVG "+item.name+" doit rester mesurable après défilement.");
         for (let i=0;i<4;i++) assert.ok(Math.abs(geometry.img[i]-geometry.svg[i])<0.5,"Le calque SVG doit couvrir exactement la photo.");
         const [x,y,w,h]=item.rect;
-        return [geometry.img[0]+(x+w/2)/imageWidth*geometry.img[2],geometry.img[1]+(y+h/2)/imageHeight*geometry.img[3]];
+        const expectedPoint=[geometry.img[0]+(x+w/2)/imageWidth*geometry.img[2],geometry.img[1]+(y+h/2)/imageHeight*geometry.img[3]];
+        const actualPoint=[rowBox.x+rowBox.width/2,rowBox.y+rowBox.height/2];
+        assert.ok(Math.abs(actualPoint[0]-expectedPoint[0])<1 && Math.abs(actualPoint[1]-expectedPoint[1])<1,
+          "La zone "+item.name+" doit rester alignée sur la photographie : "+JSON.stringify({actualPoint,expectedPoint,scrollY:await page.evaluate(()=>window.scrollY)}));
+        return actualPoint;
       };
       for (const item of expected) {
         const [px,py]=await screenPointFor(item);
         const hit=await page.evaluate(([cx,cy])=>document.elementFromPoint(cx,cy)?.closest(".floor-row")?.dataset.floor ?? null,[px,py]);
-        assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px.");
+        assert.equal(hit,item.id,"La zone "+item.name+" doit être cliquable à "+viewport.width+" px (point "+px+","+py+").");
       }
 
       const animationOverride = await page.addStyleTag({content:".elevator-cabin,.elevator-window,.elevator-detail,.elevator-reflection,.elevator-cylinder-side,.elevator-cylinder-rim,.elevator-cylinder-highlight{transition:none!important}"});
