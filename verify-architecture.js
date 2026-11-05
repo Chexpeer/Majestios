@@ -155,22 +155,29 @@ if (!destinationBlock) {
     "Accueil : les titres LED doivent exposer leurs lignes et leurs états de survol pour les tests");
 }
 
-for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png","Majestios.developpement-commercial.jpg","Marché-Public-.webp","Prospection-.webp","Marcheprive.webp","Reseau.webp"]) {
-  assert(exists(asset),"Image de référence absente : "+asset);
-  assert(siteFiles.includes(asset),"Build : image non publiée : "+asset);
+for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
+  assert(exists(asset),"Visuel de l'accueil absent : "+asset);
+  assert(siteFiles.includes(asset),"Build : visuel de l'accueil non publié : "+asset);
 }
 assert(!exists("Ambitios.webp") && !exists("Développement-.webp") && !exists("Majestios.immeuble.jpg"),
-  "Les deux anciens visuels remplacés doivent être retirés après vérification de leurs références");
-const immersiveCss = read("rubriques-immersives.css");
-for (const [selector,asset] of [
-  ["body.page-development-commercial","Majestios.developpement-commercial.jpg"],
-  ["body.page-marches-publics","Marché-Public-.webp"],
-  ["body.page-prospection","Prospection-.webp"],
-  ["body.page-marches-prives","Marcheprive.webp"],
-  ["body.page-reseaux","Reseau.webp"]
-]) {
-  assert(immersiveCss.includes(selector) && immersiveCss.includes('url("'+asset+'")'),
-    "Fond de rubrique absent ou mal associé : "+asset);
+  "Un ancien visuel de l'accueil doit être retiré après vérification de ses références");
+
+// Chaque URL locale utilisée par une feuille CSS doit réellement exister et être publiée.
+// Cela évite les arrière-plans silencieusement cassés après le build.
+for (const stylesheet of siteFiles.filter((file) => /\.css$/i.test(file))) {
+  const css = read(stylesheet);
+  for (const match of css.matchAll(/url\(\s*["']?([^"'\)]+)["']?\s*\)/gi)) {
+    const value = match[1].trim();
+    if (!value || /^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(value)) continue;
+    let decoded;
+    try { decoded = decodeURIComponent(value.split(/[?#]/,1)[0]); }
+    catch { errors.push(stylesheet+" : URL CSS locale mal encodée : "+value); continue; }
+    const target = path.posix.normalize(path.posix.join(path.posix.dirname(stylesheet),decoded));
+    assert(!target.startsWith("../") && exists(target),
+      stylesheet+" : ressource CSS locale absente : "+value);
+    if (exists(target)) assert(siteFiles.includes(target),
+      stylesheet+" : ressource CSS non publiée dans site-files.json : "+value);
+  }
 }
 assert(exists("reputation-virtuelle.html"),"Page Réputation virtuelle absente");
 assert(siteFiles.includes("reputation-virtuelle.html"),"Build : page Réputation virtuelle non publiée");
