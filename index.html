@@ -969,9 +969,9 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       (function () {
         "use strict";
         var SRC_W = 842, SRC_H = 1264;
-        var ROWS = 16;      // lignes de la matrice : 3 de marge haute, 2 pour les accents, 7 pour les lettres, 4 de marge basse
-        var ROW0 = 3;       // première ligne de la matrice occupée par un pixel de texte (accents puis lettres)
-        var SPEED = 14;     // vitesse de défilement, en colonnes de points par seconde (lente et constante)
+        var ROWS = 23;      // lignes de la matrice : 6 de marge haute, 2 pour les accents, 7 pour les lettres, 8 de marge basse (lettres centrées)
+        var ROW0 = 6;       // première ligne de la matrice occupée par un pixel de texte (accents puis lettres) : lettres sur les lignes 8 à 14, centre = ligne 11 sur 23
+        var SPEED = 18;     // vitesse de défilement, en colonnes de points par seconde (lente et constante)
 
         var SIGNS = [
           {id:"08", title:"Espace privé", quote:"Vos données au sommet de la sécurité", color:"#3fe9ff",
