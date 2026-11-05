@@ -1,6 +1,6 @@
 # Documentation MajestiOS
 
-**Index — 5 novembre 2026** · Branche documentaire active : `evolution-5.0`
+**Index — 5 novembre 2026** · Référentiel V5 source : `evolution-5.0` · Reconstruction de livraison en revue : `evolution-5.0-clean-preview` (PR #38)
 
 La branche `evolution-5.0` porte le référentiel documentaire actuel de MajestiOS. Les versions antérieures restent séparées sur leurs branches sources : `evolution-2.0`, `evolution-3.0` et `evolution-4.0`. Leurs dossiers ne sont pas recopiés dans V5.
 
@@ -36,6 +36,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Audit du panorama et trajectoire 3D](evolution-5.0/AUDIT-PANORAMA-ET-PLAN-3D.md) | État réel du prototype et limites vérifiées |
 | [Audit initial et plan de nettoyage](evolution-5.0/AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) | Constats datés, écarts historiques et rectifications à revalider |
 | [Nettoyage documentaire](evolution-5.0/NETTOYAGE-DOCUMENTAIRE.md) | Inventaire, règles de tri et conservation du patrimoine |
+| [Maintenance, sauvegardes et continuité](evolution-5.0/MAINTENANCE-ET-CONTINUITE.md) | Protocole permanent de nettoyage Git, points de retour, contrôles, documentation et reprise |
 | [Nettoyage des archives historiques](evolution-5.0/NETTOYAGE-ARCHIVES-HISTORIQUES-2026-11-05.md) | Comparaison des empreintes Git et retrait des copies exactes ; statut des huit documents conservés |
 | [Cahier des charges — veille stratégique](evolution-5.0/CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) | Spécification de cadrage des signaux, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial |
 
@@ -51,6 +52,10 @@ Le dossier `historique/` conserve des spécifications et ressources thématiques
 4. Les audits décrivent un état daté : leurs constats doivent être revalidés avant intervention.
 5. Une proposition n'est pas une décision ; une page ou un script présent n'est pas la preuve d'une fonction opérationnelle.
 6. Toute contradiction non résolue est inscrite dans le registre d'audit ; aucune IA ne tranche par supposition.
+
+## Règles d'entretien et de continuité
+
+Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires à chaque évolution importante. Le protocole détaillé est défini dans [Maintenance, sauvegardes et continuité](evolution-5.0/MAINTENANCE-ET-CONTINUITE.md). Les références de branche et de commit doivent être datées et revalidées avant toute reprise.
 
 ## Règles de conservation
 
