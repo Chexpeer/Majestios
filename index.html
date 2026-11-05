@@ -749,31 +749,6 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
       }
 
 
-      /* Enseignes défilantes : textes HTML superposés à la photo, sans modifier l'image ni les hotspots. */
-      body.homepage .floor-ticker-layer { pointer-events:none; overflow:hidden; }
-      body.homepage .floor-ticker-band {
-        width:100%; height:100%; display:flex; align-items:center; overflow:hidden;
-        box-sizing:border-box; padding:0 9px; border:1px solid currentColor;
-        border-radius:3px; background:rgba(4,12,24,.82);
-        box-shadow:inset 0 0 12px currentColor, 0 0 8px rgba(0,0,0,.55);
-        opacity:.97; pointer-events:none;
-      }
-      body.homepage .floor-ticker-track {
-        display:flex; align-items:center; width:max-content; min-width:max-content;
-        white-space:nowrap; will-change:transform;
-        animation:majestios-floor-scroll var(--floor-speed,26s) linear infinite;
-      }
-      body.homepage .floor-ticker-track span {
-        display:inline-block; padding-right:3.5rem; color:var(--floor-color);
-        font:800 17px/1.1 Inter,system-ui,sans-serif; letter-spacing:.055em;
-        text-transform:uppercase; text-shadow:0 0 4px currentColor,0 0 10px currentColor;
-      }
-      @keyframes majestios-floor-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-      @media(prefers-reduced-motion:reduce) {
-        body.homepage .floor-ticker-track { animation:none; }
-        body.homepage .floor-ticker-track span { padding-right:0; }
-      }
-
     </style>
 </head>
   <body class="homepage">
@@ -869,46 +844,6 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           {id:"02",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:718,width:350,height:90},
           {id:"01",name:"Accueil",href:"index.html#accueil",x:185,y:810,width:350,height:80}
         ];
-        const floorTickerStyles = document.createElement("style");
-      floorTickerStyles.textContent = `
-      /* Enseignes défilantes : textes HTML superposés à la photo, sans modifier l'image ni les hotspots. */
-      body.homepage .floor-ticker-layer { pointer-events:none; overflow:hidden; }
-      body.homepage .floor-ticker-band {
-        width:100%; height:100%; display:flex; align-items:center; overflow:hidden;
-        box-sizing:border-box; padding:0 9px; border:1px solid currentColor;
-        border-radius:3px; background:rgba(4,12,24,.82);
-        box-shadow:inset 0 0 12px currentColor, 0 0 8px rgba(0,0,0,.55);
-        opacity:.97; pointer-events:none;
-      }
-      body.homepage .floor-ticker-track {
-        display:flex; align-items:center; width:max-content; min-width:max-content;
-        white-space:nowrap; will-change:transform;
-        animation:majestios-floor-scroll var(--floor-speed,26s) linear infinite;
-      }
-      body.homepage .floor-ticker-track span {
-        display:inline-block; padding-right:3.5rem; color:var(--floor-color);
-        font:800 17px/1.1 Inter,system-ui,sans-serif; letter-spacing:.055em;
-        text-transform:uppercase; text-shadow:0 0 4px currentColor,0 0 10px currentColor;
-      }
-      @keyframes majestios-floor-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-      @media(prefers-reduced-motion:reduce) {
-        body.homepage .floor-ticker-track { animation:none; }
-        body.homepage .floor-ticker-track span { padding-right:0; }
-      }
-`;
-      document.head.appendChild(floorTickerStyles);
-      const floorTickerCopy = [
-        "Vos données au sommet de la sécurité",
-        "Les connexions qui vous élèvent",
-        "Transformez les opportunités en croissance",
-        "L'intelligence qui cible juste",
-        "L'IA qui révèle les appels d'offres",
-        "Les affaires prennent de la hauteur",
-        "L'intelligence qui saute aux yeux",
-        "L'intelligence qui vous fait monter au septième ciel"
-      ];
-      const floorTickerColors = ["#57e9ff","#ff65d8","#52f0c0","#ffbd55","#ffe36b","#ff795e","#b99aff","#f4d16b"];
-      const floorTickerSpeeds = [27,29,25,28,26,30,24,31];
       const namespace = "http://www.w3.org/2000/svg";
         destinations.forEach((destination) => {
           const link = document.createElementNS(namespace, "a");
@@ -928,32 +863,6 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
           title.textContent = destination.name;
           link.append(title, zone);
           svg.append(link);
-
-          // Une enseigne indépendante par étage. Le calque ne capte jamais les clics des hotspots.
-          const ticker = document.createElementNS(namespace, "foreignObject");
-          ticker.setAttribute("class", "floor-ticker-layer");
-          ticker.setAttribute("x", destination.x);
-          ticker.setAttribute("y", destination.y + 28);
-          ticker.setAttribute("width", destination.width);
-          ticker.setAttribute("height", "34");
-          ticker.setAttribute("aria-hidden", "true");
-          ticker.style.setProperty("--floor-color", floorTickerColors[destinations.indexOf(destination)]);
-          ticker.style.setProperty("--floor-speed", floorTickerSpeeds[destinations.indexOf(destination)] + "s");
-
-          const htmlNamespace = "http://www.w3.org/1999/xhtml";
-          const band = document.createElementNS(htmlNamespace, "div");
-          band.setAttribute("class", "floor-ticker-band");
-          const track = document.createElementNS(htmlNamespace, "div");
-          track.setAttribute("class", "floor-ticker-track");
-          const message = destination.name + " · " + floorTickerCopy[destinations.indexOf(destination)] + " · ";
-          [0, 1].forEach(() => {
-            const span = document.createElementNS(htmlNamespace, "span");
-            span.textContent = message;
-            track.appendChild(span);
-          });
-          band.appendChild(track);
-          ticker.appendChild(band);
-          svg.appendChild(ticker);
         });
 
         // Repère de la cabine dans la gaine vitrée de la photo MajestiOS.
