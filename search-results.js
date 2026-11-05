@@ -38,7 +38,7 @@
     const returnParams = new URLSearchParams(params);
     if (returnParams.has("zone") && !returnParams.has("departement")) returnParams.set("departement", returnParams.get("zone"));
     returnParams.delete("zone");
-    returnLink.href = `index.html${returnParams.size ? `?${returnParams.toString()}` : ""}#recherche-avancee`;
+    returnLink.href = `index.html${returnParams.size ? `?${returnParams.toString()}` : ""}`;
   }
 
   const panel = document.querySelector("#search-results-panel");

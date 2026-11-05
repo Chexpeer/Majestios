@@ -110,7 +110,7 @@ async function main() {
       const observed = await rows.evaluateAll(nodes => nodes.map(node => ({
         id:node.dataset.floor,name:node.dataset.name,href:node.getAttribute("href")
       })));
-      assert.deepEqual(observed,expected.map(item=>({id:item.id,name:item.name,href:item.route+(item.route==="index.html"?"#accueil":"")})),
+      assert.deepEqual(observed,expected.map(item=>({id:item.id,name:item.name,href:item.route})),
         "Les neuf libellés et routes doivent suivre l'architecture V5.");
 
       for (const item of expected) {

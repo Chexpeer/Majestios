@@ -164,9 +164,9 @@ async function main() {
     assert.equal(publicReturnUrl.searchParams.get("q"), "plomberie", "Le retour doit conserver les mots-clés.");
     assert.equal(publicReturnUrl.searchParams.get("marche"), "public", "Le retour doit conserver le type de marché.");
     assert.equal(publicReturnUrl.searchParams.get("departement"), "79", "Le retour doit conserver le département.");
-    assert.equal(publicReturnUrl.hash, "#recherche-avancee", "Le retour doit replacer l’utilisateur sur le moteur de recherche.");
+    assert.equal(publicReturnUrl.hash, "", "Le retour doit ouvrir la vraie page d’accueil, sans ancre locale.");
     await page.locator(".search-results-return a").click();
-    await page.waitForURL(/index\.html\?q=plomberie.*marche=public.*departement=79.*#recherche-avancee|index\.html\?q=plomberie.*departement=79.*marche=public.*#recherche-avancee/, { timeout: 10000 });
+    await page.waitForURL(/index\.html\?q=plomberie.*marche=public.*departement=79|index\.html\?q=plomberie.*departement=79.*marche=public/, { timeout: 10000 });
     assert.equal(await page.locator("#feed-search").inputValue(), "plomberie", "L’accueil doit restaurer les mots-clés au retour.");
     assert.equal(await page.locator("#feed-market-type").inputValue(), "public", "L’accueil doit restaurer le type de marché au retour.");
     assert.equal(await page.locator("#feed-sector").inputValue(), "", "L’accueil doit laisser la catégorie à choisir quand aucun critère n’a été fourni.");
@@ -218,7 +218,7 @@ async function main() {
         && restored.searchParams.get("marche") === "private"
         && restored.searchParams.get("categorie") === "bodacc-cessions"
         && restored.searchParams.get("departement") === "79"
-        && restored.hash === "#recherche-avancee";
+        && restored.hash === "";
     }, { timeout: 10000 });
     assert.equal(await page.locator("#feed-market-type").inputValue(), "private", "Le retour doit restaurer le type privé.");
     assert.equal(await page.locator("#feed-sector").inputValue(), "bodacc-cessions", "Le retour doit restaurer la famille BODACC exacte.");
