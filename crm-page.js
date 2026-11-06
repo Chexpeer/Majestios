@@ -8,7 +8,6 @@ const accountEmail = document.querySelector("#crm-account-email");
 const organizationName = document.querySelector("#crm-organization-name");
 const accountRole = document.querySelector("#crm-account-role");
 const adminPanel = document.querySelector("#crm-admin-panel");
-let crmAccessReady = false;
 function updateSessionIndicator(session) {
   if (!sessionIndicator || !sessionLabel) return;
   sessionIndicator.classList.remove("is-checking", "is-connected", "is-disconnected");
@@ -382,7 +381,6 @@ function bindForm(id, create, values) {
 const nullableId = value => value || null;
 try {
   const { session, membership, organization } = await MajestiosCRM.requireWorkspace();
-  crmAccessReady = true;
   updateSessionIndicator(session);
   if (organizationName) organizationName.textContent = "Organisation : " + organization.name;
   if (accountRole) accountRole.textContent = "Rôle : " + membership.role;
@@ -424,11 +422,10 @@ MajestiosCRM.auth.onAuthStateChange((event, session) => {
   window.setTimeout(() => {
     updateSessionIndicator(session);
     if (event === "SIGNED_OUT") {
-      crmAccessReady = false;
       setStatus("Session terminée. Le CRM est verrouillé jusqu’à votre prochaine connexion.", true);
       document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
         .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
-      document.querySelectorAll("#crm-business-list, #crm-contact-list, #crm-opportunity-list, #crm-activity-list, #crm-persistent-reminders")
+      document.querySelectorAll("#crm-business-list, #crm-contact-list, #crm-opportunity-list, #crm-activity-list, #crm-persistent-reminders, #crm-followup-overdue, #crm-followup-today, #crm-followup-upcoming, #crm-followup-unplanned")
         .forEach(list => list.replaceChildren());
     } else if (event === "TOKEN_REFRESHED" && session) {
       setStatus("Session CRM active · connexion sécurisée renouvelée.");
