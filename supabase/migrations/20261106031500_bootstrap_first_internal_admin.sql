@@ -16,6 +16,9 @@ begin
     raise exception 'A valid Auth user ID is required' using errcode = '22004';
   end if;
 
+  -- Serialize concurrent bootstrap attempts so only one can become the first owner.
+  perform pg_advisory_xact_lock(2026110601);
+
   select email_confirmed_at into v_user_confirmed
   from auth.users
   where id = p_user_id;
