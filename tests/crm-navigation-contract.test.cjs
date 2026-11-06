@@ -22,10 +22,14 @@ assert.ok(
 assert.ok(html.includes('id="crm-admin-nav-link" href="administration.html" hidden') && html.includes('id="crm-search-nav-link" href="admin-recherches.html" hidden'), "Les liens de pilotage du CRM doivent être masqués par défaut.");
 const crmScript = fs.readFileSync(path.join(__dirname, "..", "crm-page.js"), "utf8");
 assert.ok(crmScript.includes('const canAdminister = ["owner", "admin"].includes(membership.role)') && crmScript.includes('document.querySelector("#crm-admin-nav-link").hidden = !canAdminister') && crmScript.includes('document.querySelector("#crm-search-nav-link").hidden = !canAdminister'), "Les liens Administration et Recherches du CRM doivent dépendre du rôle owner/admin.");
-const adminNav = adminHtml.match(/<nav id="admin-nav" class="admin-nav">([\\s\\S]*?)<\\/nav>/)?.[1] || "";
+const adminNavStart = adminHtml.indexOf('<nav id="admin-nav" class="admin-nav">');
+const adminNavEnd = adminHtml.indexOf("</nav>", adminNavStart);
+const adminNav = adminHtml.slice(adminNavStart, adminNavEnd);
 assert.ok(adminNav.includes('href="crm.html"') && adminNav.includes('href="admin-recherches.html"'), "Le cockpit doit donner accès au CRM et aux recherches dans sa navigation principale.");
 const searchHtml = fs.readFileSync(path.join(__dirname, "..", "admin-recherches.html"), "utf8");
-const searchNav = searchHtml.match(/<nav class="admin-nav">([\\s\\S]*?)<\\/nav>/)?.[1] || "";
+const searchNavStart = searchHtml.indexOf('<nav class="admin-nav">');
+const searchNavEnd = searchHtml.indexOf("</nav>", searchNavStart);
+const searchNav = searchHtml.slice(searchNavStart, searchNavEnd);
 assert.ok(searchNav.includes('href="espace-interne.html"') && searchNav.includes('href="administration.html"') && searchNav.includes('href="crm.html"'), "Les recherches doivent proposer des repères cohérents vers l’accueil interne, l’administration et le CRM.");
 assert.ok(
   !html.includes('<footer class="admin-crm-footer"><a'),
