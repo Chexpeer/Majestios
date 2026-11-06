@@ -94,9 +94,9 @@ function renderEditableList(selector, rows, label, kind, canEdit) {
           if (kind === "contact" && !values.last_name.trim()) throw new Error("Le nom est obligatoire.");
           if (kind === "opportunity" && !values.title.trim()) throw new Error("L’intitulé est obligatoire.");
           if (kind === "opportunity" && values.qualification_score === "") values.qualification_score = null;
-          await config.update(row.id, values);
+          const result = await config.update(row.id, values);
           await refresh(true);
-          setStatus("Modification enregistrée.");
+          setStatus(result.historyRecorded ? "Modification enregistrée et ajoutée à l’historique." : "Fiche modifiée, mais l’historique n’a pas pu être enregistré. Vérifiez les droits CRM.", !result.historyRecorded);
         } catch (error) { setStatus(error.message || "Modification impossible.", true); }
         finally { button.disabled = false; }
       });
@@ -120,7 +120,18 @@ async function refresh(canEdit = false) {
   renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
   const activityList = document.querySelector("#crm-activity-list");
   activityList.replaceChildren();
-  activities.forEach(row => { const item = document.createElement("li"); item.textContent = row.subject + " · " + row.activity_type; activityList.append(item); });
+  activities.forEach(row => {
+    const item = document.createElement("li");
+    const heading = document.createElement("strong");
+    heading.textContent = row.subject;
+    const detail = document.createElement("p");
+    detail.textContent = row.body || row.activity_type;
+    const date = document.createElement("time");
+    date.dateTime = row.occurred_at;
+    date.textContent = row.occurred_at ? new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(row.occurred_at)) : "";
+    item.append(heading, detail, date);
+    activityList.append(item);
+  });
   renderSelect("#crm-contact-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
   renderSelect("#crm-opportunity-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
   renderSelect("#crm-opportunity-form [name=primary_contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact principal");
