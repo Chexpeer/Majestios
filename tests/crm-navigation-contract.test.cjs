@@ -14,8 +14,9 @@ assert.ok(
 
 assert.equal(returnLinkCount, 1, "Le CRM doit proposer un seul retour vers l’administration générale.");
 assert.ok(
-  html.includes('<header class="admin-crm-header">') &&
-  html.includes('<a class="admin-crm-return" href="administration.html">'),
+  html.includes('<nav class="admin-crm-header" aria-label="Fil d’Ariane">') &&
+  html.includes('<a class="admin-crm-return" href="administration.html">') &&
+  html.includes('<span class="admin-crm-current" aria-current="page">'),
   "Le retour unique vers l’administration doit rester dans l’en-tête."
 );
 assert.ok(
