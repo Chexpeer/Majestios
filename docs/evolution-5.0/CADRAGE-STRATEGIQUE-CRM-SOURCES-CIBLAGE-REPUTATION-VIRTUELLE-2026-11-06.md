@@ -381,3 +381,10 @@ Formulation originale du porteur du projet : « MajestiOS l'ascenseur qui fait m
 - permettre de suivre une alerte jusqu'à sa résolution et de conserver son historique.
 
 L'ascenseur ne remplace pas les espaces ni leur organisation : il assure la circulation verticale de l'information. La moutarde qui monte doit attirer l'attention sur un sujet réel, pas provoquer artificiellement de l'agacement.
+
+
+## 13. État d'avancement — analyse du descriptif de marché
+
+Le prototype de préqualification permet maintenant de fournir un intitulé et un descriptif libre du marché ou du lot. Les suggestions APE/NAF exploitent conjointement le texte saisi et affichent les indices lexicaux à l'origine de chaque proposition.
+
+Cette avancée reste une aide à l'analyse, pas un moteur d'extraction documentaire : elle ne lit pas encore directement un avis BOAMP, ses lots structurés ou les pièces du dossier de consultation. Les correspondances sont lexicales, non sémantiques, et exigent une validation humaine. Le prototype n'est pas encore intégré au poste CRM authentifié et ne persiste aucun résultat dans Supabase.
