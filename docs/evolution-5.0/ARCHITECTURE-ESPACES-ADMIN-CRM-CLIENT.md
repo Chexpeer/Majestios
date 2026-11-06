@@ -636,3 +636,36 @@ Principes d'application à respecter lors de la réalisation :
 - aucune modification de l'immeuble interactif, de son image, de ses libellés, de ses liens ou de ses zones cliquables.
 
 **Statut :** choix graphique décidé ; palette détaillée, composants et déclinaisons d'états à définir lors de la construction de la coque d'administration.
+
+
+## 16. Premier lot applicatif — poste de commandement chrome et gold
+
+**Branche de réalisation :** `evolution-5.0-admin-cockpit`, créée depuis le `main` courant après fusion de la PR #38.  
+**Périmètre :** coque de navigation et premier raccordement contextuel du CRM ; aucun changement de schéma ou de données.
+
+### 16.1 Éléments livrés dans le code
+
+- `administration.html` : entrée distincte pour le poste de commandement.
+- `administration.css` : identité gris chrome et gold, navigation latérale responsive et cartes de modules.
+- `administration.js` : vérification de session, appartenance à une organisation de type `internal` et rôle `owner` ou `admin` avant affichage du cockpit.
+- `crm.html` : retrait de la navigation du site public au profit d'un repère interne « Administration générale / CRM interne » et d'un retour unique au poste de commandement.
+- `site-files.json` : déclaration des trois nouvelles ressources pour le build statique.
+- `verify-site.js` et le workflow de vérification : contrôles de présence, de navigation et de syntaxe du nouveau module.
+
+Le CRM reste servi par `crm.html`, `crm-page.js` et `crm-client.js`. Aucune fonction métier existante n'a été réécrite. Le cockpit présente le CRM comme premier module opérationnel ; les autres modules sont explicitement étiquetés « À construire ».
+
+### 16.2 Contrôle d'accès et limites
+
+Le navigateur confirme l'utilisateur avec Supabase Auth, lit ses appartenances, vérifie l'organisation interne et n'affiche le cockpit qu'aux rôles `owner` et `admin`. Ce contrôle d'interface améliore le parcours, mais **ne constitue pas à lui seul une frontière de sécurité** : toute future action d'administration devra être autorisée côté serveur et protégée par des politiques ou fonctions adaptées. Aucun bouton de recherche, d'export, de diffusion, de gestion des rôles ou de maintenance n'exécute une opération dans ce lot.
+
+Le provisionnement du premier administrateur reste une opération distincte. La procédure de bootstrap versionnée n'est pas exécutée par cette interface ; aucune création de compte, attribution de rôle ou migration n'est réalisée ici. Si aucun membre interne avec rôle `owner` ou `admin` n'existe, le cockpit reste verrouillé.
+
+### 16.3 Hors périmètre préservé
+
+- aucune modification de table, migration, politique RLS, fonction Edge ou donnée Supabase ;
+- aucun changement de `crm-page.js` ou `crm-client.js` ;
+- aucune collecte BODACC/BOAMP, automatisation, génération de fichier ou diffusion ;
+- aucune modification de l'immeuble interactif, de ses ressources, de ses libellés, de ses zones ou de ses liens ;
+- aucune fusion vers `main` ni promotion en production.
+
+**Statut :** code du premier lot présent sur la branche de réalisation ; validation CI et recette visuelle/authentifiée à effectuer avant toute ouverture ou promotion.
