@@ -64,7 +64,8 @@
       </label>
       <p class="search-source-note" id="search-source-note">Choisissez le type d’opportunité, puis une catégorie adaptée. Les marchés privés regroupent les signaux BODACC et les familles Immobilier, Emploi et Sous-traitance ; les sources non connectées sont indiquées comme telles.</p>
       <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
-    </form>`;
+    </form>
+    <a class="publish-request-link" href="publier-ma-demande.html">Vous avez un besoin à exprimer ? <strong>Publier ma demande →</strong></a>`;
 
   let searchRoot = homeMount;
   if (homeMount) {
