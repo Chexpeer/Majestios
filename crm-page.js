@@ -143,7 +143,7 @@ function renderPersistentReminders(reminders, canEdit) {
         try {
           await MajestiosCRM.markReminderRead(reminder.id);
           await refresh(canEdit);
-          setStatus("Relance marquée comme traitée.");
+          setStatus("Relance traitée et ajoutée à l’historique commercial.");
         } catch (error) {
           button.disabled = false;
           setStatus(error.message || "Impossible de mettre à jour la relance.", true);
