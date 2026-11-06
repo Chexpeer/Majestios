@@ -270,7 +270,7 @@
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
           const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
-          return queryMatches && Boolean(recordCategory) && (category === "all" || recordCategory === category);
+          return queryMatches && Boolean(recordCategory) && (category === "all" || category === "autre" || recordCategory === category);
         }, resultLimit);
         if (!request.isCurrent()) return;
         const filtered = pageResult.matches;
