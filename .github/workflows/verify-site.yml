@@ -67,4 +67,5 @@ jobs:
         run: node tests/navigation-dropdown.browser.cjs
       - name: Tester le parcours de contact sans transmission de données
         run: node tests/contact-form.browser.cjs
-          node tests/administration-access.browser.cjs
+      - name: Tester le verrouillage du poste de commandement sans session
+        run: node tests/administration-access.browser.cjs
