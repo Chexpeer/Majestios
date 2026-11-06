@@ -269,7 +269,7 @@
             flattenText(record.listepersonnes), flattenText(record.listeetablissements), flattenText(record.acte), flattenText(record.jugement),
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
-          const queryMatches = !query || normalize(query).split(/\\s+/).filter(Boolean).every((term) => haystack.includes(term));
+          const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
           return queryMatches && (category === "all" || recordCategory === category);
         }, resultLimit);
         if (!request.isCurrent()) return;
