@@ -133,7 +133,10 @@
   box-shadow:0 8px 24px rgba(31,42,50,.1);
   font-family:"DM Sans",Arial,sans-serif;
 }
-.admin-crm-return{color:#8d6825;text-decoration:none;font-size:11px;font-weight:800}
+.admin-crm-links{display:flex;align-items:center;flex-wrap:wrap;gap:9px 18px}
+.admin-crm-links a{color:#68747d;text-decoration:none;font-size:10px;font-weight:800}
+.admin-crm-links a:hover{color:#8d6825;text-decoration:underline}
+.admin-crm-return{color:#8d6825!important;text-decoration:none;font-size:11px;font-weight:800}
 .admin-crm-return:hover{text-decoration:underline}
 .admin-crm-current{text-align:right}
 .admin-crm-current span,.admin-crm-current strong{display:block}
@@ -149,7 +152,7 @@
 @media(max-width:600px){
   .admin-crm-header,.admin-crm-footer{width:calc(100% - 28px)}
   .admin-crm-header{align-items:flex-start;padding:11px 12px}
-  .admin-crm-return{font-size:10px}
+  .admin-crm-links{gap:8px 12px}.admin-crm-links a{font-size:9px}.admin-crm-return{font-size:10px}
   .admin-crm-current span{font-size:7px}
   .admin-crm-current strong{font-size:10px}
   .admin-crm-footer{font-size:9px}
