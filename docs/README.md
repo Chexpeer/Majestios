@@ -41,6 +41,8 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Nettoyage des archives historiques](evolution-5.0/NETTOYAGE-ARCHIVES-HISTORIQUES-2026-11-05.md) | Comparaison des empreintes Git et retrait des copies exactes ; statut des huit documents conservés |
 | [Cahier des charges — veille stratégique](evolution-5.0/CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) | Spécification de cadrage des signaux, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial |
 
+| [Cadrage stratégique CRM, sources et Réputation virtuelle](evolution-5.0/CADRAGE-STRATEGIQUE-CRM-SOURCES-CIBLAGE-REPUTATION-VIRTUELLE-2026-11-06.md) | Ciblage NAF/APE depuis les appels d'offres, détection des nouvelles entreprises, parcours Réputation virtuelle et questions de revue indépendante par IA |
+
 ## Archives thématiques
 
 Le dossier `historique/` conserve des spécifications et ressources thématiques utiles à la compréhension du projet. Il ne constitue pas un substitut aux branches sources V2, V3 ou V4 et ne doit pas être interprété comme une doctrine active sans rapprochement avec la référence V5.
