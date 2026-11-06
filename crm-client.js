@@ -125,13 +125,33 @@ async function create(table, values) {
   return data;
 }
 
+async function listReminders() {
+  const { membership } = await requireWorkspace();
+  const { data, error } = await supabase.from("crm_reminders").select("*")
+    .eq("organization_id", membership.organization_id).eq("state", "pending")
+    .order("due_at", { ascending: true }).limit(100);
+  if (error) throw error;
+  return data || [];
+}
+
+async function markReminderRead(id) {
+  const { membership } = await requireWorkspace();
+  if (membership.role === "viewer") throw new Error("Votre rôle autorise uniquement la consultation du CRM.");
+  const { data, error } = await supabase.from("crm_reminders")
+    .update({ state: "read", read_at: new Date().toISOString() })
+    .eq("id", id).eq("organization_id", membership.organization_id)
+    .select("id").single();
+  if (error) throw error;
+  return data;
+}
+
 export const MajestiosCRM = Object.freeze({
   auth: supabase.auth,
   requireWorkspace,
   listBusinesses: () => list("businesses"),
   listContacts: () => list("contacts"),
   listOpportunities: () => list("opportunities"),
-  listActivities: () => list("activities"),
+  listActivities: () => list("activities"),\n  listReminders,\n  markReminderRead,
   createBusiness: (values) => create("businesses", values),
   createContact: (values) => create("contacts", values),
   createOpportunity: (values) => create("opportunities", values),
