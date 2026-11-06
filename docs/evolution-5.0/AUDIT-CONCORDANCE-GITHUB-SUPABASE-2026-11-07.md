@@ -386,3 +386,75 @@ Il reste nécessaire de récupérer une trace du mécanisme d'application (histo
 - Écriture Supabase, migration, correction de version ou modification de données : **aucune**.
 - Code CRM et immeuble interactif : **inchangés**.
 - Merge, déploiement ou création de projet : **aucun**.
+
+
+## 12. Recherche de la preuve du mécanisme d'application — GitHub Actions et PR #38
+
+### 12.1 Workflow GitHub déclenché immédiatement après la fusion
+
+La lecture de l'API GitHub Actions sur la fenêtre du 6 novembre 2026, de 08:45 à 09:00 UTC, retourne dix exécutions. Pour le commit de merge `844cb147524d15310d00c8c314921de405717527`, un workflow est créé **à 08:54:04 UTC**, soit deux secondes après la fusion de la PR #38 :
+
+- workflow : **Vérification du site MajestiOS** ;
+- événement : `push` ;
+- branche : `main` ;
+- SHA : `844cb147524d15310d00c8c314921de405717527` ;
+- run : `42190997800` ;
+- résultat : **success** ;
+- exécution du job : 08:54:08 à 08:54:56 UTC.
+
+Les étapes du job ont toutes réussi : syntaxe JavaScript, tests de ciblage et qualification d'entreprises, suggestions APE/NAF, build statique, vérification des routes et liens, tests live BOAMP/BODACC, navigateur de l'immeuble interactif, moteur de recherche, navigation et formulaire Contact.
+
+**Ce run est une preuve d'un contrôle applicatif post-merge, pas une preuve d'application de migrations Supabase.**
+
+### 12.2 Contenu des workflows présents dans la branche fusionnée
+
+Le répertoire `.github/workflows` de `evolution-5.0-clean-preview` contient trois fichiers :
+
+- `verify-site.yml` ;
+- `majestios-anti-regression.yml` ;
+- `mesure-boamp.yml`.
+
+Le workflow `verify-site.yml` déclenche sur `push` et `pull_request`. Son job vérifie les modules JavaScript, compile le site statique et exécute des tests de navigateur et des tests d'accès aux API BOAMP/BODACC. Il vérifie aussi la syntaxe de `supabase-config.js` et `auth-espace-membre.js`, mais **ne contient aucune commande de migration, aucun appel d'application SQL et aucune étape de déploiement Supabase**.
+
+Le workflow `majestios-anti-regression.yml` exécute des tests ciblés, le build et les contrôles de liens. Il ne contient pas non plus d'étape d'application de migration.
+
+Dans le répertoire de workflows inspecté, aucun workflow dédié à Supabase ou à l'application des migrations n'a été trouvé. Cette observation porte sur les trois fichiers présents dans ce répertoire ; elle ne permet pas d'exclure un déclenchement externe, une action manuelle, le SQL Editor, la CLI depuis un poste, ou un autre canal hors de ces workflows.
+
+### 12.3 Le statut Vercel ne doit pas être confondu avec Supabase
+
+Le statut GitHub associé au commit de merge affiche un échec du contexte **Vercel – majestios**, avec le message : `Deployment rate limited — retry in 24 hours`, horodaté à 08:54:06 UTC.
+
+Ce statut concerne une limitation de déploiement Vercel. Il ne constitue ni un échec du workflow GitHub Actions (qui a réussi), ni une preuve d'échec ou de réussite d'une opération Supabase.
+
+### 12.4 Ce que les traces établissent — et ce qu'elles ne permettent pas d'affirmer
+
+**Éléments vérifiés :**
+- PR #38 fusionnée à 08:54:02 UTC par le compte GitHub `Chexpeer` ;
+- workflow de vérification du site déclenché sur `main` à 08:54:04 UTC sur le SHA du merge ;
+- job GitHub Actions terminé avec succès à 08:54:56 UTC ;
+- le workflow vérifie le site et ses tests, mais n'applique pas de migrations ;
+- les trois workflows présents dans le répertoire inspecté ne comportent pas de procédure d'application Supabase ;
+- l'historique live Supabase contient les six migrations fonctionnelles entre 08:54:09 et 08:54:36 UTC.
+
+**Conclusion limitée :** les traces GitHub Actions accessibles ne démontrent pas que la fusion a déclenché les migrations Supabase. Le workflow post-merge observé ne réalise pas cette opération. La proximité temporelle entre le merge et les six entrées live demeure donc une corrélation forte, mais le canal d'application n'est toujours pas identifié.
+
+**Non établi :**
+- si les migrations ont été lancées depuis Supabase SQL Editor, Supabase CLI, une API de gestion, un outil tiers ou une autre session ;
+- quel utilisateur ou processus a soumis les requêtes SQL ;
+- si le SQL appliqué était identique octet par octet aux fichiers Git ;
+- si un journal externe ou une trace d'audit de l'opération est encore disponible.
+
+Les logs Supabase unifiés accessibles par l'outil de lecture sont limités à une fenêtre maximale de 24 heures. Ils ne peuvent donc pas reconstituer directement l'opération du 6 novembre depuis le contrôle du 7 novembre. L'historique des migrations reste consultable, mais il ne fournit pas à lui seul le texte SQL ni l'identité du canal d'exécution.
+
+### 12.5 Décision et prochaine preuve utile
+
+La piste « GitHub Actions post-merge » est désormais contrôlée : elle explique le contrôle du site, pas l'application des migrations. Il faut donc rechercher une trace hors de ces workflows : historique d'activité Supabase conservé, journal d'audit/organisation, historique local de terminal ou capture/export du processus d'application, si l'un de ces éléments existe encore.
+
+Aucune nouvelle opération ne doit être lancée pour tenter de reproduire l'événement historique.
+
+- Inspection GitHub Actions et des workflows : **effectuée en lecture seule**.
+- Lecture de l'historique Supabase : **effectuée en lecture seule**.
+- Canal exact d'application des six migrations : **toujours non identifié**.
+- Migration, SQL, table, grant, RLS, fonction, job ou donnée modifiés : **aucun**.
+- CRM et immeuble interactif : **inchangés**.
+- Merge, déploiement ou création de projet : **aucun**.
