@@ -37,6 +37,10 @@ async function main() {
     assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation interne doit rester masquée sans session.");
     assert.equal(await page.locator("#admin-gate a[href='espace-membre.html']").count(), 1, "Le parcours d’authentification doit être accessible.");
     assert.equal(await page.locator("#admin-signout").isVisible(), false, "La déconnexion ne doit pas apparaître sans session.");
+    await page.goto("http://127.0.0.1:4177/admin-recherches.html", {waitUntil:"domcontentloaded"});
+    await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
+    assert.equal(await page.locator("#workspace").isVisible(), false, "Les recherches doivent rester masquées sans session.");
+    assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation des recherches doit rester masquée sans session.");
     console.log("TEST ADMIN RÉUSSI : accès non authentifié bloqué, cockpit et navigation internes masqués.");
   } finally {
     if (browser) await browser.close();
