@@ -5,7 +5,7 @@ const signOutButton = document.querySelector("#crm-signout");
 const setStatus = (message, state = "connected") => {
   if (!status) return;
   status.textContent = message;
-  status.dataset.state = state;
+  status.dataset.state = state === true ? "error" : state === false ? "connected" : state;
 };
 signOutButton?.addEventListener("click", async () => {
   signOutButton.disabled = true;
