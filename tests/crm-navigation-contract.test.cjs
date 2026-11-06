@@ -63,7 +63,12 @@ const internalHtml = fs.readFileSync(path.join(__dirname, "..", "espace-interne.
 assert.ok(internalHtml.includes('<meta name="robots" content="noindex,nofollow">'), "L’accueil interne doit être exclu de l’indexation.");
 assert.ok(internalHtml.includes('src="espace-interne.js"') && internalHtml.includes('href="espace-interne.css"'), "L’accueil interne doit charger ses ressources dédiées.");
 assert.ok(!internalHtml.includes("signUp(") && !internalHtml.includes("provision-client-workspace"), "L’accueil interne ne doit pas inscrire ni provisionner les espaces clients.");
-console.log("CONTRAT NAVIGATION RÉUSSI : accueil interne, CRM, administration et espace client séparés.");
+
+assert.ok(html.includes('id="crm-targeting-form"') && html.includes('name="nafCodes"') && html.includes('name="departments"'), "Le poste Entreprises doit intégrer le ciblage marché au CRM.");
+assert.ok(crmScript.includes("initMarketTargeting(!isReadOnly)") && crmScript.includes("MajestiosCRM.createBusiness") && crmScript.includes('qualification_status: "to_review"'), "Le ciblage doit réutiliser le client CRM et ses droits existants.");
+assert.ok(crmScript.includes("targetingCandidates") && crmScript.includes("SIREN:"), "Le ciblage doit proposer la sélection et un contrôle des doublons déjà chargés.");
+
+console.log("CONTRAT NAVIGATION ET CIBLAGE CRM RÉUSSI.");
 
 const workspaceNav = fs.readFileSync(path.join(__dirname, "..", "crm-workspace-nav.js"), "utf8");
 const workspaceCss = fs.readFileSync(path.join(__dirname, "..", "crm-workspace.css"), "utf8");
