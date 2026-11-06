@@ -537,3 +537,54 @@ Le fait que la PR contienne les fichiers SQL, et qu'elle ait été suivie sept s
 - Écriture Supabase, migration, SQL, privilège, RLS, fonction, job ou donnée : **aucune**.
 - Code CRM et immeuble interactif : **inchangés**.
 - Merge, déploiement ou création de projet : **aucun**.
+
+
+## 15. Retrouver l'origine de l'application : historique des échanges MajestiOS — 7 novembre 2026
+
+### 15.1 Élément déterminant retrouvé dans l'historique des conversations
+
+La recherche ciblée dans les échanges du 6 novembre a retrouvé un compte rendu de l'assistant horodaté **08:55:00 UTC**. Il y déclarait explicitement, après l'action « Go » de l'utilisateur :
+
+- la PR #38 venait d'être fusionnée ;
+- les **six migrations CRM** venaient d'être appliquées à Supabase ;
+- la fonction Edge `provision-client-workspace` était active en **version 3** ;
+- une erreur avait été rencontrée pendant l'application de la migration des relances : le SQL appelait `public.is_org_member` au lieu de `private.is_org_member`, et avait été corrigé avant validation.
+
+Un second compte rendu, horodaté **08:57:40 UTC**, indiquait que le fichier source GitHub avait ensuite été corrigé par le commit `c0a40ec7b6bbd2fdfe1ead4b625ea325ad0be8a1`, et précisait qu'aucune migration supplémentaire n'avait été exécutée à ce moment-là.
+
+Le commit GitHub correspondant est vérifiable : créé à **08:57:34 UTC**, son diff remplace exactement `public.is_org_member(organization_id)` par `private.is_org_member(organization_id)` dans `20261106100000_persistent_crm_reminders.sql`. Le catalogue Supabase live confirme aujourd'hui que la politique utilise le helper privé.
+
+### 15.2 Conséquence sur la piste d'exécution
+
+Cette trace change la conclusion de l'enquête : il existe un compte rendu contemporain affirmant que l'application des six migrations a été effectuée pendant la session ChatGPT, et non par le workflow GitHub Actions. Les outils Supabase connectés à cette session exposaient précisément les actions d'application de migration et de déploiement de fonction Edge.
+
+**Canal le plus probable : l'intégration Supabase connectée à ChatGPT**, utilisée directement pendant l'échange pour appliquer les migrations et publier la fonction Edge. Ce scénario est cohérent avec le compte rendu de 08:55 UTC, l'historique live (08:54:09–08:54:36 UTC), et la version 3 de la fonction constatée dans le projet.
+
+**Limite probatoire :** la recherche historique a retrouvé le compte rendu de l'assistant, mais pas le journal brut des appels d'outils avec leurs arguments et réponses. On peut donc attribuer l'opération à la session de travail ChatGPT avec un niveau de confiance élevé, mais pas certifier le détail de chaque appel ni reproduire le SQL exact soumis à partir de ce seul compte rendu.
+
+### 15.3 La migration de grants de 13:50 UTC
+
+Un autre échange du 6 novembre, à **13:49:32 UTC**, rapporte que Supabase contenait alors **12 migrations**. L'historique live actuel en contient 13, la dernière étant `20261106135037_grant_crm_record_updates`.
+
+La chronologie Git indépendante établit que le fichier de grants a été créé à 13:50:41 UTC, puis renommé/aligné à 13:50:51 UTC. L'entrée live porte l'identifiant 13:50:37 UTC. Cette concordance, associée au compte rendu des 12 migrations juste avant, indique que la treizième migration a été appliquée ou enregistrée dans la même séquence de travail, très probablement via l'intégration Supabase connectée. Le compte rendu retrouvé ne contient cependant pas le journal brut de cet appel précis.
+
+### 15.4 Contrôle live en lecture seule effectué le 7 novembre
+
+Une nouvelle lecture des interfaces Supabase confirme à cet instant :
+
+- **13 migrations** enregistrées, dont les six migrations initiales, les six migrations CRM et la migration de grants ;
+- fonction Edge `provision-client-workspace` : **ACTIVE**, version **3**, JWT obligatoire.
+
+Aucune écriture n'a été effectuée pendant ce contrôle.
+
+### 15.5 Correction de la conclusion historique
+
+La formulation précédente « canal exact non identifié » était trop générale au regard du compte rendu retrouvé dans l'historique de la session. La conclusion mise à jour est :
+
+- GitHub Actions n'a pas appliqué les migrations ;
+- un compte rendu contemporain attribue leur application à la session ChatGPT ;
+- l'intégration Supabase connectée est le canal le plus probable et correspond aux outils disponibles ;
+- le journal brut des appels d'outils n'a pas été retrouvé, donc le détail exact de l'exécution reste à confirmer ;
+- la version Edge 3 et les 13 entrées live sont confirmées par lecture directe.
+
+**Périmètre actuel :** cette enquête et la mise à jour documentaire sont les seules opérations réalisées dans cette étape. Aucun SQL, migration, privilège, RLS, fonction, job ou donnée Supabase n'a été modifié. Le CRM et l'immeuble interactif restent intacts.
