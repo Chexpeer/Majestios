@@ -81,6 +81,15 @@ assert.ok(crmScript.includes("dans l’ensemble des fiches CRM accessibles à vo
 assert.ok(html.includes('id="crm-business-server-search"') && html.includes('id="crm-business-previous"') && html.includes('id="crm-business-next"'), "Le poste Entreprises doit exposer recherche globale et pagination.");
 assert.ok(crmScript.includes("MajestiosCRM.listBusinessesPage") && crmScript.includes("businessPageSize = 25"), "L’interface doit charger les entreprises par pages de 25 via le client CRM.");
 
+assert.ok(crmClient.includes("async function listWorkspaceRecordsPage") && crmClient.includes('contacts: ["first_name", "last_name", "job_title", "email", "phone"]') && crmClient.includes('opportunities: ["title", "description", "source_external_id", "source_type"]') && crmClient.includes('activities: ["subject", "body", "activity_type"]'), "Les trois autres rubriques doivent disposer d’une recherche serveur adaptée à leurs champs réels.");
+assert.ok(crmClient.includes("Object.prototype.hasOwnProperty.call(searchableColumns, table)") && crmClient.includes('.eq("organization_id", membership.organization_id)') && crmClient.includes(".range(from, to)"), "La pagination relationnelle doit utiliser une liste blanche de tables, le tenant authentifié et des plages serveur.");
+for (const id of ["crm-contact-server-search", "crm-opportunity-server-search", "crm-activity-server-search", "crm-contact-previous", "crm-opportunity-previous", "crm-activity-previous", "crm-contact-next", "crm-opportunity-next", "crm-activity-next"]) {
+  assert.ok(html.includes('id="' + id + '"'), "Contrôle de recherche/pagination manquant : " + id);
+}
+assert.ok(crmScript.includes('loadWorkspacePage("contacts", true, canEdit)') && crmScript.includes('loadWorkspacePage("opportunities", true, canEdit)') && crmScript.includes('loadWorkspacePage("activities", true, canEdit)'), "Le CRM doit charger les trois rubriques en pages de 25.");
+assert.ok(crmScript.includes("renderActivityTimeline(result.rows") && crmScript.includes('document.getElementById("crm-" + prefix + "-next")'), "L’historique doit conserver son rendu chronologique et sa pagination.");
+
+
 
 console.log("CONTRAT NAVIGATION ET CIBLAGE CRM RÉUSSI.");
 
