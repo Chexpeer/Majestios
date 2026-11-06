@@ -684,7 +684,7 @@ Les fichiers admin-recherches.html et admin-recherches.js ajoutent un écran int
 
 Fonctions : choix BODACC/BOAMP ; territoires de départ Pays de la Loire et Île-de-France, avec option France entière ; département précis ; mot-clé ; filtre de famille BODACC ; aperçu de 10, 20 ou 50 résultats ; date, territoire, nature, résumé et lien officiel ; état explicite de requête ; contrôle d'accès session + appartenance à l'organisation interne + rôle owner/admin.
 
-Sources raccordées en lecture : BODACC, jeu annonces-commerciales, API Explore v2.1 sur bodacc-datadila.opendatasoft.com ; BOAMP, jeu boamp, API Explore v2.1 sur boamp-datadila.opendatasoft.com.
+Sources raccordées en lecture : BODACC, jeu annonces-commerciales, API Explore v2.1 sur bodacc-datadila.opendatasoft.com ; BOAMP, jeu boamp, API Explore v2.1 sur boamp-datadila.opendatasoft.com. Les fiches officielles DILA mentionnent la Licence Ouverte 2.0 et signalent que les données peuvent contenir des données personnelles : la réutilisation doit respecter les conditions applicables et les règles de protection des données.
 
 Les recherches sont manuelles. Aucun traitement périodique, export, import CRM, partage, e-mail ou diffusion n'est déclenché. Les résultats ne sont pas persistés ; « À qualifier » est un repère de travail et non une qualification enregistrée.
 
