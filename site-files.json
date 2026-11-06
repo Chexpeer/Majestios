@@ -60,6 +60,9 @@
     "administration.css",
     "administration.js",
     "admin-recherches.html",
-    "admin-recherches.js"
+    "admin-recherches.js",
+    "espace-interne.html",
+    "espace-interne.css",
+    "espace-interne.js"
   ]
 }
