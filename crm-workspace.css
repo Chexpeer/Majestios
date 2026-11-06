@@ -64,3 +64,11 @@
 .crm-business-related-status{margin:4px 0;color:#68737b;font-size:12px;line-height:1.45}
 .crm-business-related-pagination{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .crm-business-related-pagination button:disabled{opacity:.45;cursor:not-allowed}
+
+
+/* Sélecteurs relationnels distants : recherche et pagination indépendantes. */
+.crm-relation-search { display:block; width:100%; margin-top:.45rem; }
+.crm-relation-pagination { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin:.35rem 0 .8rem; font-size:.82rem; }
+.crm-relation-pagination span { flex:1; text-align:center; }
+.crm-relation-pagination button { min-height:2rem; }
+@media(max-width:600px) { .crm-relation-pagination { flex-wrap:wrap; } .crm-relation-pagination span { flex-basis:100%; order:-1; } }
