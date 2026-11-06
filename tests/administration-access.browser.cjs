@@ -7,11 +7,36 @@ const { chromium } = require("playwright");
 const root = path.resolve(__dirname, "..", "dist");
 const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf-8", ".js":"text/javascript; charset=utf-8" };
 
+function supabaseMock(role) {
+  if (!role) return `export function createClient(){return {auth:{getSession:async()=>({data:{session:null},error:null}),getUser:async()=>({data:{user:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),signOut:async()=>({error:null})},from(){throw new Error("Une session absente ne doit pas interroger les données.");}};}`;
+  const user = { id:"simulated-internal-user", email:"test@example.invalid" };
+  const membership = { organization_id:"simulated-internal-org", role };
+  const organization = { id:"simulated-internal-org", name:"Organisation interne simulée", kind:"internal" };
+  return `const user=${JSON.stringify(user)};
+const membership=${JSON.stringify(membership)};
+const organization=${JSON.stringify(organization)};
+export function createClient(){return {
+  auth:{
+    getSession:async()=>({data:{session:{user}},error:null}),
+    getUser:async()=>({data:{user},error:null}),
+    onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),
+    signOut:async()=>({error:null})
+  },
+  from(table){
+    return {select(){
+      if(table==="organization_members") return {eq:()=>({limit:async()=>({data:[membership],error:null})})};
+      if(table==="organizations") return {in:async()=>({data:[organization],error:null})};
+      throw new Error("Table inattendue: "+table);
+    }};
+  }
+};}`;
+}
+
 async function main() {
   assert.ok(fs.existsSync(path.join(root, "administration.html")), "Le build doit publier le cockpit d’administration.");
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://127.0.0.1").pathname);
-    const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
+    const requested = pathname === "/" ? "index.html" : pathname.replace(/^\\/+/, "");
     const file = path.resolve(root, requested);
     if (!file.startsWith(root + path.sep)) return res.writeHead(403).end("Forbidden");
     fs.readFile(file, (error, data) => {
@@ -25,11 +50,12 @@ async function main() {
   let browser;
   try {
     browser = await chromium.launch({ headless:true, args:["--no-sandbox"] });
+
     const page = await browser.newPage({ viewport:{width:390,height:844} });
     await page.route("https://esm.sh/@supabase/supabase-js@2.119.0", route => route.fulfill({
       status:200,
       contentType:"application/javascript",
-      body:`export function createClient(){return {auth:{getSession:async()=>({data:{session:null},error:null}),getUser:async()=>({data:{user:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),signOut:async()=>({error:null})},from(){throw new Error("Une session absente ne doit pas interroger les données.");}};}`
+      body:supabaseMock(null)
     }));
     await page.goto("http://127.0.0.1:4177/administration.html", {waitUntil:"domcontentloaded"});
     await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
@@ -47,7 +73,42 @@ async function main() {
     await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
     assert.equal(await page.locator("#workspace").isVisible(), false, "Les recherches doivent rester masquées sans session.");
     assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation des recherches doit rester masquée sans session.");
-    console.log("TEST ADMIN RÉUSSI : accès non authentifié bloqué, cockpit et navigation internes masqués.");
+    await page.close();
+
+    for (const role of ["owner", "admin", "member", "viewer"]) {
+      const rolePage = await browser.newPage({viewport:{width:390,height:844}});
+      await rolePage.route("https://esm.sh/@supabase/supabase-js@2.119.0", route => route.fulfill({
+        status:200,
+        contentType:"application/javascript",
+        body:supabaseMock(role)
+      }));
+      await rolePage.goto("http://127.0.0.1:4177/espace-interne.html", {waitUntil:"domcontentloaded"});
+      await rolePage.locator("#internal-workspace").waitFor({state:"visible",timeout:5000});
+      assert.equal(await rolePage.locator("#internal-role").innerText(), ({
+        owner:"Propriétaire interne",
+        admin:"Administrateur interne",
+        member:"Collaborateur interne",
+        viewer:"Collaborateur · consultation seule"
+      })[role], `Le rôle ${role} doit être correctement reconnu.`);
+      assert.equal(await rolePage.locator("#internal-admin-card").isVisible(), ["owner","admin"].includes(role), `La carte Administration doit respecter le rôle ${role}.`);
+      assert.equal(await rolePage.locator("#internal-search-card").isVisible(), ["owner","admin"].includes(role), `La carte Recherches doit respecter le rôle ${role}.`);
+      assert.equal(await rolePage.locator("#internal-crm-link").isVisible(), true, `Le CRM doit être proposé au rôle ${role}.`);
+      if (role === "viewer") {
+        assert.match(await rolePage.locator("#internal-crm-access").innerText(), /CONSULTATION SEULE/);
+      }
+      await rolePage.close();
+    }
+
+    const memberRedirect = await browser.newPage();
+    await memberRedirect.route("https://esm.sh/@supabase/supabase-js@2.119.0", route => route.fulfill({
+      status:200, contentType:"application/javascript", body:supabaseMock("member")
+    }));
+    await memberRedirect.goto("http://127.0.0.1:4177/espace-interne.html?returnTo=administration.html", {waitUntil:"domcontentloaded"});
+    await memberRedirect.locator("#internal-workspace").waitFor({state:"visible",timeout:5000});
+    assert.match(memberRedirect.url(), /espace-interne\\.html\\?returnTo=administration\\.html$/, "Un membre ne doit pas être redirigé vers l’administration.");
+    await memberRedirect.close();
+
+    console.log("TEST ADMIN RÉUSSI : accès sans session bloqué ; matrice simulée owner/admin/member/viewer vérifiée ; redirection admin interdite pour member.");
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve => server.close(resolve));
