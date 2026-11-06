@@ -8,18 +8,18 @@
 <body>
 <header class="site-header"><a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button><nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="reseaux-synergies.html">Réseau</a><a href="reputation-virtuelle.html">Réputation virtuelle</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace privé</a><a href="faq.html">FAQ</a></nav></header>
 <main class="section-wrap interior-page">
-<p class="eyebrow">FONDATIONS SAAS · MODULE RÉSERVÉ</p><h1>CRM interne <span>MajestiOS.</span></h1>
-<p class="interior-lede">L’intelligence qui saute aux yeux sans franchir les étapes (business intelligence).</p><p class="small-note">Cette page concerne le CRM interne de la plateforme. Il est distinct de l’offre commerciale d’accompagnement ou d’intégration de CRM tiers, ainsi que des CRM et des données propres à chaque client, qui restent séparés et cloisonnés.</p>
-<div class="interior-grid">
-<article class="platform-card"><h2>Entreprises & contacts</h2><p>Prévoir une fiche entreprise, les interlocuteurs, les coordonnées professionnelles et la source de chaque information.</p></article>
-<article class="platform-card"><h2>Opportunités & pipeline</h2><p>Prévoir des étapes de qualification, de décision, de réponse, de négociation et de transformation.</p></article>
-<article class="platform-card"><h2>Actions & relances</h2><p>Réserver le suivi des appels, rendez-vous, échéances, rappels et prochaines actions.</p></article>
-<article class="platform-card"><h2>Historique & traçabilité</h2><p>Garder un historique daté des interactions, changements de statut et sources associées.</p></article>
-<article class="platform-card"><h2>Rapprochement d'opportunités</h2><p>À terme, relier les critères du membre aux appels d'offres et signaux d'affaires pertinents.</p></article>
-<article class="platform-card"><h2>Accès & confidentialité</h2><p>La future version devra isoler les données de chaque compte, gérer les rôles et contrôler les autorisations côté serveur.</p></article>
-</div>
-<p class="prototype-note"><strong>État actuel :</strong> cette page réserve le périmètre fonctionnel. Aucun CRM opérationnel, stockage de contacts ni connexion de compte n'est activé à ce stade.</p>
-<a class="button button-primary" href="espace-membre.html">← Retour à l’espace personnel</a>
+<p class="eyebrow">CRM · ESPACE PRIVÉ</p><h1>CRM <span>MajestiOS.</span></h1>
+<p class="interior-lede">Votre base de développement commercial : entreprises, contacts, opportunités et historique.</p>
+<p id="crm-status" class="small-note" role="status" aria-live="polite">Vérification de votre session…</p>
+<section class="interior-grid" aria-label="Données CRM">
+<article class="platform-card"><h2>Entreprises <span id="crm-business-count">—</span></h2><form id="crm-business-form"><label class="form-field">Nom de l’entreprise<input name="legal_name" required maxlength="200"></label><label class="form-field">Site web<input name="website" type="url"></label><label class="form-field">Ville<input name="city"></label><button class="button button-primary" type="submit">Ajouter l’entreprise</button></form><ul id="crm-business-list"></ul></article>
+<article class="platform-card"><h2>Contacts <span id="crm-contact-count">—</span></h2><form id="crm-contact-form"><label class="form-field">Nom<input name="last_name" required></label><label class="form-field">Prénom<input name="first_name"></label><label class="form-field">E-mail<input name="email" type="email"></label><label class="form-field">Téléphone<input name="phone" type="tel"></label><button class="button button-primary" type="submit">Ajouter le contact</button></form><ul id="crm-contact-list"></ul></article>
+<article class="platform-card"><h2>Opportunités <span id="crm-opportunity-count">—</span></h2><form id="crm-opportunity-form"><label class="form-field">Intitulé<input name="title" required></label><label class="form-field">Description<textarea name="description"></textarea></label><label class="form-field">Origine<select name="source_type"><option value="manual">Saisie manuelle</option><option value="public_market">Marché public</option><option value="private_signal">Signal privé</option><option value="referral">Recommandation</option></select></label><button class="button button-primary" type="submit">Ajouter l’opportunité</button></form><ul id="crm-opportunity-list"></ul></article>
+<article class="platform-card"><h2>Activité <span id="crm-activity-count">—</span></h2><p>Les actions et échanges pourront être historisés ici. Les enregistrements sont isolés par l’organisation connectée.</p><ul id="crm-activity-list"></ul></article>
+</section>
+<p class="prototype-note">Les accès sont contrôlés par les politiques RLS Supabase. Le navigateur utilise uniquement la clé publique ; aucune clé service_role n’est exposée.</p>
+<a class="button button-secondary" href="espace-membre.html">← Retour à l’espace personnel</a>
 </main>
+<script type="module" src="crm-page.js"></script>
 <footer class="site-footer"><a class="brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><p>MajestiOS · Développement commercial</p><nav class="footer-legal" aria-label="Liens utiles"><a href="espace-membre.html">Espace personnel</a> · <a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Confidentialité</a></nav></footer>
 </body></html>
