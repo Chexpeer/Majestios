@@ -18,16 +18,17 @@
   if (suggestionButton && suggestionPanel && suggestionList && addSuggestionsButton && suggestionEngine) {
     suggestionButton.addEventListener("click", () => {
       const title = form.elements.marketTitle.value.trim();
-      const suggestions = suggestionEngine.suggestNafCodes(title, { limit: 8 });
+      const description = form.elements.marketDescription.value.trim();
+      const suggestions = suggestionEngine.suggestNafCodes({ title, description }, { limit: 8 });
       suggestionList.replaceChildren();
       if (!suggestions.length) {
-        status.textContent = title ? "Aucune suggestion lexicale trouvée. Saisissez ou recherchez les codes adaptés avec un opérateur." : "Saisissez d’abord l’intitulé du marché pour proposer des pistes APE/NAF.";
+        status.textContent = title || description ? "Aucune suggestion lexicale trouvée. Vérifiez les métiers et recherchez les codes adaptés avec un opérateur." : "Saisissez l’intitulé et/ou le contenu du marché pour proposer des pistes APE/NAF.";
         suggestionPanel.hidden = true;
         return;
       }
       suggestionList.innerHTML = suggestions.map((item) => '<label class="naf-suggestion-option"><input type="checkbox" value="' + escapeHtml(item.code) + '"> <strong>' + escapeHtml(item.code) + '</strong> — ' + escapeHtml(item.label) + '<span class="small-note">Indice : ' + escapeHtml(item.matches.join(", ")) + '</span></label>').join("");
       suggestionPanel.hidden = false;
-      status.textContent = "Suggestions lexicales proposées. Vérifiez chaque code avant de lancer la recherche ; elles ne constituent pas une analyse automatique du dossier de consultation.";
+      status.textContent = "Pistes lexicales extraites de l’intitulé et du texte fourni. Elles ne constituent ni une lecture juridique du dossier ni une preuve de compétence : vérifiez chaque code et chaque lot.";
     });
     addSuggestionsButton.addEventListener("click", () => {
       const chosen = [...suggestionList.querySelectorAll('input[type="checkbox"]:checked')].map((input) => input.value);
