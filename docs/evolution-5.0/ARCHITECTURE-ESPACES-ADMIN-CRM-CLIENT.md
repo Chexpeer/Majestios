@@ -761,3 +761,12 @@ Il contrôle désormais explicitement :
 Cette vérification est exécutée par le workflow `.github/workflows/majestios-anti-regression.yml`.
 
 **Portée :** ajout de tests de navigation uniquement. Aucun changement de logique d'authentification, de rôles, de Supabase ou de données. Aucun changement à l'immeuble interactif, à la production ou à la branche `main`.
+
+
+## 21. Exclusion du CRM interne de l’indexation — 6 novembre 2026
+
+La revue des métadonnées des espaces internes a relevé que `administration.html` et `admin-recherches.html` déclaraient déjà `noindex,nofollow`, contrairement à `crm.html`. Cette omission ne donnait pas accès aux données — le contrôle de session et les politiques Supabase restent déterminants — mais elle laissait une incohérence de protection contre l’indexation des pages internes.
+
+La balise `<meta name="robots" content="noindex,nofollow">` a été ajoutée à `crm.html`. Le contrôle est désormais vérifié à deux niveaux : `verify-site.js` et `tests/crm-navigation-contract.test.cjs`.
+
+**Portée :** métadonnée HTML et garde-fous CI uniquement. Aucun changement d’authentification, de rôle, de table, de politique RLS, de fonction Edge, de donnée Supabase, de navigation métier ou d’immeuble interactif. `noindex` n’est pas une mesure de contrôle d’accès : le CRM reste protégé par son authentification et les autorisations côté Supabase.
