@@ -114,3 +114,56 @@ La première extension devra isoler clairement les données de consultation publ
 - Immeuble interactif : hors périmètre et inchangé.
 
 **Prochaine étape technique : réconcilier l'historique des migrations et identifier la branche de référence du backend avant de préparer la matrice RLS définitive.**
+
+
+## 8. Contrôle complémentaire du 7 novembre 2026 — état du projet et limites de sauvegarde
+
+Un nouveau contrôle en lecture seule a été réalisé via l'API de gestion Supabase :
+
+- Projet : `majestios-backend` ; référence `awtgrjnpckgxsdpfrnhg`.
+- Organisation : identifiant `rgzepnxzzcusrosifcnx` (organisation affichée dans le compte : **Chexpeer's Org**).
+- Région : `eu-west-3`.
+- État retourné : `ACTIVE_HEALTHY`.
+- PostgreSQL : version 17.11.
+- Tables publiques : 10, toujours toutes avec RLS activé.
+- Historique des migrations : 13 entrées, dont la dernière retournée est `20261106135037_grant_crm_record_updates`.
+- Fonction Edge active retournée : `provision-client-workspace`, version 3, JWT obligatoire.
+
+### Volumétrie constatée
+
+Le relevé SQL précédent indique :
+
+| Ressource | Nombre de lignes |
+|---|---:|
+| organizations | 1 |
+| organization_members | 1 |
+| profiles | 1 |
+| businesses | 0 |
+| contacts | 0 |
+| opportunities | 0 |
+| activities | 0 |
+| client_requests | 0 |
+| privacy_acknowledgments | 0 |
+| crm_reminders | 0 |
+| auth.users | 1 |
+
+Les zéros des tables métier signifient qu'aucune fiche métier n'y a encore été enregistrée au moment du relevé. Ils ne signifient pas que le CRM ou son schéma peuvent être supprimés : le code, les tables, les relations, les politiques et les fonctions existent.
+
+### Ce que ce contrôle ne constitue pas
+
+Ce contrôle est un **inventaire technique en lecture seule**, pas une sauvegarde. Il ne contient pas les données exportées, les secrets, les fichiers Storage, ni une copie restaurable de PostgreSQL.
+
+Les outils connectés disponibles dans cette session ne fournissent pas de commande de téléchargement d'un dump SQL complet ni d'archive physique. Aucun dump n'a donc été créé et aucune sauvegarde restaurable n'est revendiquée.
+
+### Procédure de protection adaptée à une utilisation actuelle sur téléphone
+
+Tant que l'utilisateur ne dispose que de son téléphone :
+
+1. ne pas supprimer, mettre en pause, réinitialiser ou migrer le projet existant ;
+2. ne pas créer un second projet payant ou une branche Supabase de développement ;
+3. conserver le dépôt GitHub et les documents d'audit comme sauvegarde du code et de la documentation uniquement ;
+4. différer le dump PostgreSQL jusqu'à l'accès à un ordinateur, ou jusqu'à la disponibilité d'un environnement local sûr capable d'exécuter Supabase CLI ;
+5. lors de cette session ultérieure, produire au minimum un dump du schéma et des données, vérifier son intégrité, puis traiter séparément les éventuels objets Storage ;
+6. ne jamais transmettre une clé `service_role`, un mot de passe de base ou un secret dans la conversation.
+
+**Décision maintenue :** projet actuel conservé intact ; aucune création de projet Foundation, aucune migration, aucune modification CRM, aucun changement de l'immeuble interactif, aucun déploiement.
