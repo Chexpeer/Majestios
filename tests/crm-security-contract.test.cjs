@@ -252,3 +252,5 @@ for (const fragment of [
 ]) assert.ok(internalAdmin.includes(fragment), "Contrôle d’administration interne absent : " + fragment);
 assert.doesNotMatch(internalAdmin, /Écriture réservée au service role via Edge Function/);
 console.log("CRM admin contract: OK — publication des modules, état de session, rôles protégés et journal d’administration.");
+
+assert.match(page, /member\.role === "owner"/);
