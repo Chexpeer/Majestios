@@ -15,5 +15,13 @@ assert.ok(renovation.some((item) => item.code === "43.29A"), "Rénovation énerg
 assert.ok(renovation.some((item) => item.code === "43.22B"), "Rénovation énergétique doit ouvrir une piste chauffage à vérifier");
 const training = engine.suggestNafCodes("Formation professionnelle continue des adultes");
 assert.ok(training.some((item) => item.code === "85.59A"), "Formation continue doit proposer 85.59A");
+const tenderBrief = engine.suggestNafCodes({
+  title: "Réhabilitation d’un bâtiment public",
+  description: "Le lot technique comprend la rénovation des installations électriques, le remplacement des luminaires et la mise en conformité des réseaux électriques."
+});
+assert.ok(tenderBrief.some((item) => item.code === "43.21A"), "L’analyse doit exploiter le descriptif du lot, pas seulement son intitulé.");
+assert.ok(tenderBrief.find((item) => item.code === "43.21A").matchCount >= 2, "Les indices du descriptif doivent rester explicables.");
+assert.equal(tenderBrief.find((item) => item.code === "43.21A").evidenceType, "lexical_only", "La suggestion doit être explicitement qualifiée d’indice lexical.");
+assert.deepEqual(engine.suggestNafCodes({ title: "", description: "", lot: "", requirements: "" }), []);
 assert.ok(engine.suggestNafCodes("menuiserie plomberie informatique", { limit: 99 }).length <= 10, "Le nombre de suggestions doit rester plafonné");
 console.log("Tests naf-suggestions : OK");
