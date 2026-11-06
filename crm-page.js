@@ -5,27 +5,108 @@ const setStatus = (message, error = false) => {
   status.textContent = message;
   status.dataset.state = error ? "error" : "success";
 };
-
-const renderList = (selector, rows, label) => {
-  const list = document.querySelector(selector);
-  list.replaceChildren();
-  rows.forEach((row) => {
-    const item = document.createElement("li");
-    item.textContent = label(row);
-    list.append(item);
-  });
-};
-
 const renderSelect = (selector, rows, label, placeholder) => {
   const select = document.querySelector(selector);
   if (!select) return;
   const currentValue = select.value;
   select.replaceChildren(new Option(placeholder, ""));
-  rows.forEach((row) => select.add(new Option(label(row), row.id)));
-  if (rows.some((row) => row.id === currentValue)) select.value = currentValue;
+  rows.forEach(row => select.add(new Option(label(row), row.id)));
+  if (rows.some(row => row.id === currentValue)) select.value = currentValue;
 };
-
-async function refresh() {
+const makeField = (name, caption, value, type = "text", options = null) => {
+  const wrapper = document.createElement("label");
+  wrapper.className = "form-field";
+  wrapper.append(document.createTextNode(caption));
+  let control;
+  if (options) {
+    control = document.createElement("select");
+    options.forEach(([label, optionValue]) => control.add(new Option(label, optionValue)));
+  } else if (type === "textarea") control = document.createElement("textarea");
+  else { control = document.createElement("input"); control.type = type; }
+  control.name = name;
+  control.value = value ?? "";
+  wrapper.append(control);
+  return wrapper;
+};
+const editConfigs = {
+  business: {
+    title: "Modifier / qualifier l’entreprise",
+    fields: [
+      ["legal_name", "Raison sociale"], ["trade_name", "Nom commercial"], ["siren", "SIREN"],
+      ["siret", "SIRET"], ["ape_naf", "Code APE / NAF"], ["website", "Site web", "url"],
+      ["city", "Ville"], ["department_code", "Département"],
+      ["qualification_status", "Qualification", null, [["À examiner", "to_review"], ["En cours", "in_progress"], ["Qualifiée", "qualified"], ["Non qualifiée", "not_qualified"], ["Ne pas contacter", "do_not_contact"]]],
+      ["qualification_notes", "Notes de qualification", "textarea"]
+    ],
+    update: MajestiosCRM.updateBusiness
+  },
+  contact: {
+    title: "Modifier le contact",
+    fields: [
+      ["last_name", "Nom"], ["first_name", "Prénom"], ["job_title", "Fonction"],
+      ["email", "E-mail", "email"], ["phone", "Téléphone", "tel"],
+      ["consent_status", "Statut du consentement", null, [["Inconnu", "unknown"], ["Fourni", "provided"], ["Retiré", "withdrawn"], ["Non applicable", "not_applicable"]]]
+    ],
+    update: MajestiosCRM.updateContact
+  },
+  opportunity: {
+    title: "Qualifier l’opportunité",
+    fields: [
+      ["title", "Intitulé"], ["description", "Description", "textarea"],
+      ["status", "Étape commerciale", null, [["Détectée", "detected"], ["À qualifier", "to_qualify"], ["Qualifiée", "qualified"], ["À contacter", "to_contact"], ["Contactée", "contacted"], ["Rendez-vous", "meeting"], ["Proposition", "proposal"], ["Gagnée", "won"], ["Perdue", "lost"], ["Archivée", "archived"]]],
+      ["qualification_score", "Score (0 à 100)", "number"], ["qualification_summary", "Synthèse de qualification", "textarea"],
+      ["next_action", "Prochaine action"], ["next_action_at", "Échéance", "datetime-local"]
+    ],
+    update: MajestiosCRM.updateOpportunity
+  }
+};
+function renderEditableList(selector, rows, label, kind, canEdit) {
+  const list = document.querySelector(selector);
+  list.replaceChildren();
+  rows.forEach(row => {
+    const item = document.createElement("li");
+    const text = document.createElement("span");
+    text.textContent = label(row);
+    item.append(text);
+    if (canEdit) {
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      summary.textContent = kind === "opportunity" ? "Qualifier" : "Modifier";
+      details.append(summary);
+      const config = editConfigs[kind];
+      const form = document.createElement("form");
+      form.className = "crm-inline-edit";
+      const heading = document.createElement("strong");
+      heading.textContent = config.title;
+      form.append(heading);
+      config.fields.forEach(([name, caption, type, options]) => form.append(makeField(name, caption, row[name], type || "text", options || null)));
+      const button = document.createElement("button");
+      button.type = "submit";
+      button.className = "button button-primary";
+      button.textContent = "Enregistrer les modifications";
+      form.append(button);
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        button.disabled = true;
+        try {
+          const values = Object.fromEntries(new FormData(form).entries());
+          if (kind === "business" && !values.legal_name.trim()) throw new Error("La raison sociale est obligatoire.");
+          if (kind === "contact" && !values.last_name.trim()) throw new Error("Le nom est obligatoire.");
+          if (kind === "opportunity" && !values.title.trim()) throw new Error("L’intitulé est obligatoire.");
+          if (kind === "opportunity" && values.qualification_score === "") values.qualification_score = null;
+          await config.update(row.id, values);
+          await refresh();
+          setStatus("Modification enregistrée.");
+        } catch (error) { setStatus(error.message || "Modification impossible.", true); }
+        finally { button.disabled = false; }
+      });
+      details.append(form);
+      item.append(details);
+    }
+    list.append(item);
+  });
+}
+async function refresh(canEdit = false) {
   const [businesses, contacts, opportunities, activities] = await Promise.all([
     MajestiosCRM.listBusinesses(), MajestiosCRM.listContacts(),
     MajestiosCRM.listOpportunities(), MajestiosCRM.listActivities()
@@ -34,25 +115,19 @@ async function refresh() {
   document.querySelector("#crm-contact-count").textContent = contacts.length;
   document.querySelector("#crm-opportunity-count").textContent = opportunities.length;
   document.querySelector("#crm-activity-count").textContent = activities.length;
-  renderList("#crm-business-list", businesses, row => row.trade_name || row.legal_name);
-  renderList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""));
-  renderList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status);
-  renderList("#crm-activity-list", activities, row => row.subject + " · " + row.activity_type);
-
-  renderSelect("#crm-contact-form [name=business_id]", businesses,
-    row => row.trade_name || row.legal_name, "Aucune entreprise associée");
-  renderSelect("#crm-opportunity-form [name=business_id]", businesses,
-    row => row.trade_name || row.legal_name, "Aucune entreprise associée");
-  renderSelect("#crm-opportunity-form [name=primary_contact_id]", contacts,
-    row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact principal");
-  renderSelect("#crm-activity-form [name=business_id]", businesses,
-    row => row.trade_name || row.legal_name, "Aucune entreprise associée");
-  renderSelect("#crm-activity-form [name=contact_id]", contacts,
-    row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact associé");
-  renderSelect("#crm-activity-form [name=opportunity_id]", opportunities,
-    row => row.title, "Aucune opportunité associée");
+  renderEditableList("#crm-business-list", businesses, row => (row.trade_name || row.legal_name) + " · " + row.qualification_status, "business", canEdit);
+  renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
+  renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
+  const activityList = document.querySelector("#crm-activity-list");
+  activityList.replaceChildren();
+  activities.forEach(row => { const item = document.createElement("li"); item.textContent = row.subject + " · " + row.activity_type; activityList.append(item); });
+  renderSelect("#crm-contact-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
+  renderSelect("#crm-opportunity-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
+  renderSelect("#crm-opportunity-form [name=primary_contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact principal");
+  renderSelect("#crm-activity-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
+  renderSelect("#crm-activity-form [name=contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact associé");
+  renderSelect("#crm-activity-form [name=opportunity_id]", opportunities, row => row.title, "Aucune opportunité associée");
 }
-
 function bindForm(id, create, values) {
   const form = document.querySelector(id);
   form.addEventListener("submit", async event => {
@@ -63,62 +138,30 @@ function bindForm(id, create, values) {
       const data = Object.fromEntries(new FormData(form).entries());
       await create(values(data));
       form.reset();
-      await refresh();
+      await refresh(true);
       setStatus("Enregistrement effectué dans votre CRM.");
-    } catch (error) {
-      setStatus(error.message || "Enregistrement impossible.", true);
-    } finally {
-      button.disabled = false;
-    }
+    } catch (error) { setStatus(error.message || "Enregistrement impossible.", true); }
+    finally { button.disabled = false; }
   });
 }
-
 const nullableId = value => value || null;
-
 try {
   const { membership, organization } = await MajestiosCRM.requireWorkspace();
   const isReadOnly = membership.role === "viewer";
   if (isReadOnly) {
     document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
-      .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(field => field.disabled = true));
+      .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
     setStatus("Espace interne connecté · consultation seule.");
   } else {
     setStatus("Espace interne connecté · " + organization.name + " · rôle : " + membership.role);
-    bindForm("#crm-business-form", MajestiosCRM.createBusiness, data => ({
-      legal_name: data.legal_name.trim(),
-      website: data.website || null,
-      city: data.city || null,
-      country_code: "FR",
-      qualification_status: "to_review"
-    }));
-    bindForm("#crm-contact-form", MajestiosCRM.createContact, data => ({
-      business_id: nullableId(data.business_id),
-      last_name: data.last_name.trim(),
-      first_name: data.first_name || null,
-      email: data.email || null,
-      phone: data.phone || null,
-      consent_status: "unknown"
-    }));
-    bindForm("#crm-opportunity-form", MajestiosCRM.createOpportunity, data => ({
-      business_id: nullableId(data.business_id),
-      primary_contact_id: nullableId(data.primary_contact_id),
-      title: data.title.trim(),
-      description: data.description || null,
-      source_type: data.source_type,
-      status: "detected"
-    }));
-    bindForm("#crm-activity-form", MajestiosCRM.createActivity, data => ({
-      business_id: nullableId(data.business_id),
-      contact_id: nullableId(data.contact_id),
-      opportunity_id: nullableId(data.opportunity_id),
-      subject: data.subject.trim(),
-      activity_type: data.activity_type,
-      body: data.body || null
-    }));
+    bindForm("#crm-business-form", MajestiosCRM.createBusiness, data => ({ legal_name: data.legal_name.trim(), website: data.website || null, city: data.city || null, country_code: "FR", qualification_status: "to_review" }));
+    bindForm("#crm-contact-form", MajestiosCRM.createContact, data => ({ business_id: nullableId(data.business_id), last_name: data.last_name.trim(), first_name: data.first_name || null, email: data.email || null, phone: data.phone || null, consent_status: "unknown" }));
+    bindForm("#crm-opportunity-form", MajestiosCRM.createOpportunity, data => ({ business_id: nullableId(data.business_id), primary_contact_id: nullableId(data.primary_contact_id), title: data.title.trim(), description: data.description || null, source_type: data.source_type, status: "detected" }));
+    bindForm("#crm-activity-form", MajestiosCRM.createActivity, data => ({ business_id: nullableId(data.business_id), contact_id: nullableId(data.contact_id), opportunity_id: nullableId(data.opportunity_id), subject: data.subject.trim(), activity_type: data.activity_type, body: data.body || null }));
   }
-  await refresh();
+  await refresh(!isReadOnly);
 } catch (error) {
   setStatus(error.message || "Connexion au CRM impossible.", true);
   document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
-    .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(field => field.disabled = true));
+    .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
 }
