@@ -40,8 +40,13 @@
     { code: "49.41B", label: "Transports routiers de fret de proximité", keywords: ["transport de marchandises", "livraison", "transport routier", "fret de proximite"] }
   ];
 
-  function suggestNafCodes(text, options) {
-    const normalized = normalizeText(text);
+  function suggestNafCodes(input, options) {
+    const sourceText = typeof input === "string"
+      ? input
+      : [input && input.title, input && input.description, input && input.lot, input && input.requirements]
+        .filter((value) => value != null && String(value).trim())
+        .join("\\n");
+    const normalized = normalizeText(sourceText);
     const limit = Number.isInteger(options && options.limit) ? Math.max(1, Math.min(options.limit, 10)) : 6;
     if (!normalized) return [];
     const words = normalized.split(" ");
@@ -50,12 +55,12 @@
         const phrase = normalizeText(keyword);
         return phrase.includes(" ") ? (" " + normalized + " ").includes(" " + phrase + " ") : words.includes(phrase);
       });
-      return { code: rule.code, label: rule.label, matches, matchCount: matches.length, confidence: matches.length >= 2 ? "plusieurs indices lexicaux" : "indice lexical unique" };
+      return { code: rule.code, label: rule.label, matches, matchCount: matches.length, confidence: matches.length >= 3 ? "plusieurs indices lexicaux" : matches.length === 2 ? "deux indices lexicaux" : "indice lexical unique", evidenceType: "lexical_only" };
     })
       .filter((item) => item.matchCount > 0)
       .sort((a, b) => b.matchCount - a.matchCount || a.code.localeCompare(b.code, "fr"))
       .slice(0, limit)
-      .map(({ code, label, matches, matchCount, confidence }) => ({ code, label, matches, matchCount, confidence }));
+      .map(({ code, label, matches, matchCount, confidence, evidenceType }) => ({ code, label, matches, matchCount, confidence, evidenceType }));
   }
 
   return { normalizeText, suggestNafCodes, rulesCount: RULES.length };
