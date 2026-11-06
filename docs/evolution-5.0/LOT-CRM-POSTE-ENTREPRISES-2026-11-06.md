@@ -65,3 +65,13 @@ L'opérateur saisit l'intitulé et le descriptif du marché, vérifie les codes 
 **Droits et limites :** le rôle viewer ne peut pas lancer le ciblage ni intégrer de fiches ; les autres rôles restent soumis aux contrôles du client et de Supabase RLS. La recherche ne crée aucune fiche automatiquement. Le dédoublonnage côté interface ne couvre que les 100 entreprises actuellement chargées ; il ne remplace pas une contrainte d'unicité globale. Les erreurs individuelles d'insertion sont comptabilisées.
 
 Aucune table, colonne, migration, politique RLS, fonction SQL/Edge, donnée préexistante, identité ou rôle n'a été modifié. Aucun courriel n'est envoyé. Aucun déploiement, merge vers main ou promotion en production n'est effectué. L'immeuble interactif reste strictement hors périmètre.
+
+## Extension — indicateurs de structure, provenance et contrôle des doublons
+
+Le parcours de ciblage affiche désormais, lorsqu'ils sont présents dans la réponse de l'API Recherche d’Entreprises, la tranche d’effectif et son année de référence, le nombre d’établissements, le statut administratif et la date de création. Ces valeurs sont présentées comme des déclarations de source, jamais comme une preuve de capacité à exécuter un marché. Une donnée absente reste explicitement « non renseignée ».
+
+Le rapprochement préalable compare les SIREN et SIRET des candidats aux 100 entreprises actuellement chargées dans le CRM. Le nombre de candidats déjà connus est signalé ; ils ne sont pas proposés à l'import. Un second contrôle est exécuté juste avant chaque insertion. La contrainte d’unicité existante sur (organization_id, siren) protège également contre un doublon non visible dans les 100 fiches chargées. Les erreurs retournées par Supabase sont désormais restituées dans le bilan d'import au lieu d'être silencieusement comptabilisées.
+
+Les fiches nouvelles conservent dans qualification_notes les indicateurs disponibles, l'identifiant source, la date de collecte, les critères APE/NAF et départementaux, le score indicatif et les motifs de rapprochement. Elles sont créées au statut « à examiner ». Aucune mise à jour, fusion ou écrasement automatique d'une fiche existante n'est autorisé.
+
+**Limites non levées :** le contrôle visuel reste borné aux 100 fiches chargées ; il ne constitue pas une recherche globale dans le CRM. La source publique ne garantit pas que chaque fiche comporte effectif, nombre d'établissements ou toutes les données de structure. Les informations sont conservées dans les notes faute de colonnes dédiées déjà présentes dans le schéma ; aucune colonne, table, migration, politique RLS ou donnée Supabase n'a été modifiée. La pagination serveur et une procédure de rapprochement contrôlée restent des lots distincts.
