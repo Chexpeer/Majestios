@@ -104,5 +104,6 @@ assert.match(provisioning, /public\.organizations/);
 assert.match(bootstrap, /pg_advisory_xact_lock/);
 assert.match(bootstrap, /email_confirmed_at/);
 assert.match(bootstrap, /grant execute on function private\.bootstrap_first_internal_admin\(uuid\) to service_role/);
+assert.match(bootstrap, /grant usage on schema private to service_role/);
 
 console.log("CRM security contract: OK — schéma, privilèges, rôles, isolation tenant, confidentialité, bootstrap et provisionnement atomique.");
