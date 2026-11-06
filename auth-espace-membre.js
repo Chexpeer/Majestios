@@ -130,6 +130,11 @@ if (form && config?.url && config?.publishableKey) {
         String(field("lastName")?.value ?? "").trim()
       ].filter(Boolean).join(" ");
       const phone = String(field("phone")?.value ?? "").trim();
+      const privacyAccepted = field("privacyAccepted")?.checked === true;
+
+      if (mode === "signup" && !privacyAccepted) {
+        throw new Error("Veuillez confirmer avoir pris connaissance de la politique de confidentialité.");
+      }
 
       if (mode === "recovery") {
         const confirmation = String(field("passwordConfirm")?.value ?? "");
@@ -154,7 +159,7 @@ if (form && config?.url && config?.publishableKey) {
               display_name: displayName,
               phone,
               organization_name: organizationName,
-              privacy_notice_acknowledged: true,
+              privacy_notice_acknowledged: privacyAccepted,
               privacy_notice_version: "2026-11-05"
             }
           }
@@ -170,12 +175,7 @@ if (form && config?.url && config?.publishableKey) {
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        try {
-          const organization = await provisionWorkspace(data.session, organizationName);
-          setFeedback(`Connexion réussie. Votre espace « ${organization.name} » est disponible.`);
-        } catch (workspaceError) {
-          setFeedback(workspaceError.message || "Connexion réussie, mais votre espace doit encore être configuré.", true);
-        }
+        setFeedback("Connexion réussie.");
         await updateAuthStatus(data.session);
       }
     } catch (error) {
