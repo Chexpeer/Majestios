@@ -311,3 +311,78 @@ Cette décision n'autorise ni merge, ni déploiement, ni modification du schéma
 - Modification Supabase, migration, grant, politique, fonction, job ou donnée : **aucune**.
 - Modification du code CRM ou de l'immeuble interactif : **aucune**.
 - Merge ou déploiement : **aucun**.
+
+
+## 11. Chronologie des six migrations dont les versions live diffèrent des noms de fichiers
+
+### 11.1 Chronologie Git vérifiée
+
+L'historique des fichiers sur `evolution-5.0-clean-preview` permet de dater leurs ajouts et principales modifications (heures UTC) :
+
+| Fichier de migration | Historique Git vérifié | Dernière évolution relevée avant intégration |
+|---|---|---|
+| `20261106031500_bootstrap_first_internal_admin.sql` | ajout le 6 nov. à 03:12:36 ; verrou advisory ajouté à 07:40:15 ; accès au schéma privé accordé à 07:45:56 | 07:45:56 |
+| `20261106074500_enforce_crm_editor_roles.sql` | ajout le 6 nov. à 07:38:31 | 07:38:31 |
+| `20261106090000_atomic_client_workspace_provisioning.sql` | ajout le 6 nov. à 07:43:34 ; notification de rechargement PostgREST ajoutée à 07:44:14 | 07:44:14 |
+| `20261106100000_persistent_crm_reminders.sql` | ajout le 6 nov. à 08:29:40 | 08:29:40 |
+| `20261106110000_sync_crm_reminder_lifecycle.sql` | ajout le 6 nov. à 08:41:50 | 08:41:50 |
+| `20261106120000_complete_crm_reminder_with_activity.sql` | ajout le 6 nov. à 08:42:37 | 08:42:37 |
+
+Les commits correspondants confirment les étapes de conception et de durcissement des migrations. Pour le bootstrap administrateur, le fichier a notamment évolué en trois commits distincts : création de la procédure protégée, sérialisation des tentatives concurrentes, puis autorisation d'accès au schéma privé pour `service_role`.
+
+### 11.2 Point de synchronisation Git juste avant l'historique live
+
+La PR GitHub **#38 — « MajestiOS V5 — reconstruction propre et validation complète »** a été fusionnée le 6 novembre 2026 à **08:54:02 UTC**, avec le commit de merge `844cb147524d15310d00c8c314921de405717527`.
+
+Cette PR intègre la lignée `evolution-5.0-clean-preview` dans `main`. Les six fichiers de migration étudiés sont présents dans l'arbre Git de cette lignée au moment de cette intégration.
+
+L'API GitHub confirme que la PR est fermée et fusionnée. Son texte descriptif contient toutefois encore des mentions indiquant que la PR serait ouverte/en brouillon et que Supabase, Auth, migrations, RLS, fonctions Edge et données resteraient en pause. Ces phrases sont donc des indications de garde-fou historiques, pas une preuve de l'état effectif après le 6 novembre à 08:54 UTC.
+
+### 11.3 Corrélation avec les versions enregistrées dans Supabase
+
+L'historique live relu le 7 novembre retourne, dans le même ordre fonctionnel :
+
+| Version live Supabase | Migration |
+|---|---|
+| `20261106085409` | `bootstrap_first_internal_admin` |
+| `20261106085411` | `enforce_crm_editor_roles` |
+| `20261106085415` | `atomic_client_workspace_provisioning` |
+| `20261106085430` | `persistent_crm_reminders` |
+| `20261106085434` | `sync_crm_reminder_lifecycle` |
+| `20261106085436` | `complete_crm_reminder_with_activity` |
+
+La première entrée live apparaît **7 secondes après** le merge de la PR #38 ; les six entrées s'échelonnent sur **27 secondes** (08:54:09 à 08:54:36 UTC). L'ordre est identique à celui des six migrations fonctionnelles.
+
+Cette proximité temporelle constitue un indice fort d'une séquence de livraison ou d'enregistrement réalisée juste après l'intégration Git. Elle explique vraisemblablement pourquoi les versions live portent des horodatages proches de 08:54, alors que les fichiers portent des préfixes de migration plus anciens (03:15, 07:45, 09:00, 10:00, 11:00, 12:00).
+
+**Ce qui est démontré :**
+- les six fichiers existaient dans Git avant le merge ;
+- la PR #38 a été fusionnée à 08:54:02 UTC ;
+- les six noms fonctionnels apparaissent dans Supabase entre 08:54:09 et 08:54:36 UTC ;
+- leur ordre live correspond à l'ordre fonctionnel des fichiers.
+
+**Ce qui n'est pas démontré :**
+- le mécanisme exact ayant généré les six versions live (outil, commande, appel API ou procédure manuelle) ;
+- que le merge Git a déclenché automatiquement l'application SQL ;
+- que le SQL exécuté est identique octet par octet au contenu des fichiers ;
+- que la mention « Supabase en pause » dans la description de PR était encore exacte après sa fusion.
+
+L'hypothèse la plus cohérente est une application/enregistrement séquentiel des six migrations à proximité immédiate de la fusion, avec des identifiants live attribués au moment de l'opération plutôt que repris des préfixes de fichiers. Elle reste une **hypothèse de chronologie**, pas une preuve du canal d'exécution.
+
+### 11.4 Conclusion sur l'écart des horodatages
+
+La cause des six écarts est désormais mieux circonscrite : les noms de fichiers représentent des horodatages antérieurs de préparation/versionnement, tandis que les versions live correspondent à une séquence enregistrée quelques secondes après le merge de la PR #38. La migration de grants, elle, a fait l'objet d'un renommage explicite et documenté de `135000` vers `135037` dans deux commits à 13:50:41 et 13:50:51 UTC.
+
+Il reste nécessaire de récupérer une trace du mécanisme d'application (historique CLI/API, journal d'opération ou export fiable de la table de migrations accompagné des éléments de livraison) pour transformer cette corrélation en preuve complète.
+
+**Décision maintenue :** ne pas renommer les six fichiers pour imiter les versions live, ne pas les rejouer, ne pas utiliser `migration repair` et ne pas tenter de correction de l'historique. Les versions live et les fichiers Git doivent être rapprochés par leur contenu et leur provenance, pas par une modification cosmétique des horodatages.
+
+### 11.5 Périmètre de cette étape
+
+- Lecture de l'historique Git des six fichiers : effectuée.
+- Lecture de la PR #38 et de sa date de fusion : effectuée.
+- Relecture de l'historique des migrations Supabase : effectuée.
+- Explication temporelle : corrélation forte, mécanisme exact non prouvé.
+- Écriture Supabase, migration, correction de version ou modification de données : **aucune**.
+- Code CRM et immeuble interactif : **inchangés**.
+- Merge, déploiement ou création de projet : **aucun**.
