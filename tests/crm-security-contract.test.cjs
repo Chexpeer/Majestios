@@ -161,3 +161,21 @@ for (const id of ["overdue", "today", "upcoming", "unplanned"]) {
   assert.ok(crmHtml.includes(`id="crm-followup-${id}"`), `Vue de relance absente : ${id}`);
   assert.ok(crmHtml.includes(`id="crm-followup-${id}-count"`), `Compteur de relance absent : ${id}`);
 }
+
+const persistentReminders = read("supabase/migrations/20261106100000_persistent_crm_reminders.sql");
+assert.match(persistentReminders, /create table if not exists public\\.crm_reminders/);
+assert.match(persistentReminders, /enable row level security/);
+assert.match(persistentReminders, /public\\.is_org_member\\(organization_id\\)/);
+assert.match(persistentReminders, /private\\.is_org_editor\\(organization_id\\)/);
+assert.match(persistentReminders, /unique \\(organization_id, opportunity_id, due_at\\)/);
+assert.match(persistentReminders, /on conflict \\(organization_id, opportunity_id, due_at\\) do nothing/);
+assert.match(persistentReminders, /cron\\.schedule/);
+assert.match(persistentReminders, /'\\*\\/5 \\* \\* \\* \\*'/);
+assert.match(persistentReminders, /status not in \\('won', 'lost', 'archived'\\)/);
+assert.match(client, /async function listReminders\\(\\)/);
+assert.match(client, /async function markReminderRead\\(id\\)/);
+assert.match(page, /function renderPersistentReminders\\(reminders, canEdit\\)/);
+assert.match(page, /Marquer comme traitée/);
+assert.match(page, /MajestiosCRM\\.listReminders\\(\\)/);
+assert.ok(crmHtml.includes('id="crm-persistent-reminders"'), "Le panneau de relances persistantes est absent.");
+console.log("CRM persistent reminders contract: OK — persistance, déduplication, isolation tenant, droits et planification PostgreSQL.");
