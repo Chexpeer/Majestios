@@ -53,12 +53,20 @@
   <section class="interior-grid" aria-label="Données CRM">
     <article class="platform-card">
       <h2>Entreprises <span id="crm-business-count">—</span></h2>
-      <div class="crm-business-filters" role="search" aria-label="Filtrer les entreprises du CRM">
-        <label class="form-field">Rechercher une entreprise<input id="crm-business-search" type="search" placeholder="Nom, SIREN, SIRET, APE/NAF, ville…" autocomplete="off"></label>
-        <label class="form-field">Qualification<select id="crm-business-qualification"><option value="">Toutes les qualifications</option><option value="to_review">À examiner</option><option value="in_progress">En cours</option><option value="qualified">Qualifiées</option><option value="not_qualified">Non qualifiées</option><option value="do_not_contact">Ne pas contacter</option></select></label>
-        <label class="form-field">Département<input id="crm-business-department" inputmode="numeric" maxlength="3" pattern="[0-9A-Za-z]{2,3}" placeholder="Ex. 72"></label>
+      <form id="crm-business-server-search">
+        <div class="crm-business-filters" role="search" aria-label="Filtrer les entreprises du CRM">
+          <label class="form-field">Rechercher une entreprise<input id="crm-business-search" type="search" placeholder="Nom, SIREN, SIRET, APE/NAF, ville…" autocomplete="off" maxlength="120"></label>
+          <label class="form-field">Qualification<select id="crm-business-qualification"><option value="">Toutes les qualifications</option><option value="to_review">À examiner</option><option value="in_progress">En cours</option><option value="qualified">Qualifiées</option><option value="not_qualified">Non qualifiées</option><option value="do_not_contact">Ne pas contacter</option></select></label>
+          <label class="form-field">Département<input id="crm-business-department" inputmode="numeric" maxlength="3" pattern="[0-9A-Za-z]{2,3}" placeholder="Ex. 72"></label>
+        </div>
+        <button class="button button-secondary" type="submit">Rechercher dans toutes les entreprises</button>
+      </form>
+      <p id="crm-business-filter-count" class="small-note" role="status" aria-live="polite">Les filtres locaux s’appliquent à la page affichée.</p>
+      <div class="crm-business-pagination" aria-label="Pagination des entreprises">
+        <button id="crm-business-previous" class="button button-secondary" type="button" disabled>Précédent</button>
+        <span id="crm-business-page-status" role="status" aria-live="polite">Chargement des entreprises…</span>
+        <button id="crm-business-next" class="button button-secondary" type="button" disabled>Suivant</button>
       </div>
-      <p id="crm-business-filter-count" class="small-note" role="status" aria-live="polite">Toutes les entreprises sont affichées.</p>
       <details class="crm-targeting-panel">
         <summary><strong>Ciblage depuis un marché</strong> — rechercher des entreprises candidates</summary>
         <p class="small-note">Outil exploratoire connecté au CRM authentifié. Les suggestions APE/NAF restent lexicales et chaque entreprise doit être vérifiée avant intégration.</p>
