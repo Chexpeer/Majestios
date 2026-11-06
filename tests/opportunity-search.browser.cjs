@@ -313,7 +313,7 @@ async function main() {
       "Signaux d’entreprise publiés · BODACC"
     ], "La recherche combinée doit présenter BOAMP avant BODACC, dans l’ordre annoncé.");
     assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Marchés publics · BOAMP\"] .opportunity-result-card").count(), 2, "Le groupe BOAMP doit afficher les deux résultats publics simulés encore valides.");
-    assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 5, "Le groupe BODACC doit afficher les cinq familles de signaux simulées.");
+    assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 3, "Le groupe BODACC doit afficher uniquement les trois familles validées : créations, cessions et modifications.");
     assert.ok(await page.locator(".opportunity-result-card").count() <= 10, "Une recherche mixte ne doit jamais afficher plus de dix annonces et signaux au total.");
 
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&departement=999", { waitUntil: "domcontentloaded" });
