@@ -147,6 +147,16 @@ assert.match(page, /Ouvrir la fiche/);
 assert.match(page, /new Date\(values\.next_action_at\)\.toISOString\(\)/);
 assert.match(page, /values\.next_action_at = values\.next_action_at \?/);
 assert.match(page, /renderFollowups\(opportunities\)/);
+assert.match(page, /function sendDueReminders\(opportunities\)/);
+assert.match(page, /Notification\.requestPermission\(\)/);
+assert.match(page, /Notification\.permission !== "granted"/);
+assert.match(page, /new Notification\(/);
+assert.match(page, /notifiedReminders\.has\(key\)/);
+assert.match(page, /notification\.addEventListener\("click"/);
+assert.match(page, /sendDueReminders\(opportunities\)/);
+assert.ok(crmHtml.includes('id="crm-enable-reminders"'), "Le contrôle d’activation des alertes est absent.");
+assert.ok(crmHtml.includes('id="crm-reminder-status"'), "Le statut des alertes est absent.");
+
 for (const id of ["overdue", "today", "upcoming", "unplanned"]) {
   assert.ok(crmHtml.includes(`id="crm-followup-${id}"`), `Vue de relance absente : ${id}`);
   assert.ok(crmHtml.includes(`id="crm-followup-${id}-count"`), `Compteur de relance absent : ${id}`);
