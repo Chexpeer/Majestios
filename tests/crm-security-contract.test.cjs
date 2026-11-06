@@ -254,4 +254,12 @@ for (const fragment of [
 assert.doesNotMatch(internalAdmin, /Écriture réservée au service role via Edge Function/);
 console.log("CRM admin contract: OK — publication des modules, état de session, rôles protégés et journal d’administration.");
 
+assert.match(page, /function clearCRMWorkspaceData\(\)/);
+assert.match(page, /#crm-admin-member-list/);
+assert.match(page, /#crm-admin-business-count/);
+assert.match(page, /#crm-admin-reminder-count/);
+assert.match(page, /if \(adminPanel\) adminPanel\.hidden = true;[\s\S]*clearCRMWorkspaceData\(\)/);
+assert.match(page, /if \(event === "SIGNED_OUT"\)[\s\S]*clearCRMWorkspaceData\(\)/);
+
+
 assert.match(page, /member\.role === "owner"/);
