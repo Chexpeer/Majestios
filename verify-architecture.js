@@ -235,17 +235,23 @@ assert(memberAuth.includes('provision-client-workspace') && memberAuth.includes(
   "Espace membre : le provisionnement sécurisé du tenant doit être appelé après authentification");
 assert(!/SUPABASE_SERVICE_ROLE_KEY|sb_secret_[A-Za-z0-9]+/i.test(supabaseConfig),
   "Sécurité Supabase : aucune clé service_role ne doit être publiée dans le navigateur");
+const atomicProvisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
 assert(workspaceFunction.includes('admin.auth.getUser(token)') &&
-  workspaceFunction.includes('role: "owner"') &&
-  workspaceFunction.includes('privacy_acknowledgments'),
-  "Backend : la fonction doit vérifier la session, créer le propriétaire et journaliser la politique");
+  workspaceFunction.includes('admin.rpc("provision_client_workspace"') &&
+  workspaceFunction.includes('privacy_acknowledged'),
+  "Backend : la fonction Edge doit vérifier la session et déléguer le provisionnement atomique au RPC sécurisé");
+assert(atomicProvisioning.includes("insert into public.organization_members(organization_id, user_id, role)") &&
+  atomicProvisioning.includes("'owner'") &&
+  atomicProvisioning.includes("public.privacy_acknowledgments"),
+  "Backend : le RPC atomique doit créer le propriétaire et journaliser la politique");
 for (const migration of [
   "supabase/migrations/20261105163901_majestios_core_multitenant_foundation.sql",
   "supabase/migrations/20261105163922_harden_private_authorization_and_fk_indexes.sql",
   "supabase/migrations/20261105163953_enforce_tenant_relationship_integrity.sql",
   "supabase/migrations/20261105164403_add_private_consent_records.sql",
   "supabase/migrations/20261105164411_replace_consent_placeholder_with_privacy_acknowledgments.sql",
-  "supabase/migrations/20261105164732_harden_privacy_acknowledgment_access.sql"
+  "supabase/migrations/20261105164732_harden_privacy_acknowledgment_access.sql",
+  "supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql"
 ]) {
   assert(exists(migration), "Backend : migration versionnée absente : " + migration);
 }
