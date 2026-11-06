@@ -191,4 +191,17 @@ assert.match(persistentReminders, /state = 'cancelled', cancelled_at = now\\(\\)
 assert.match(persistentReminders, /due_at is distinct from new\\.next_action_at/);
 assert.match(persistentReminders, /where public\\.crm_reminders\\.state = 'cancelled'/);
 assert.match(persistentReminders, /read_at = null/);
+
+const reminderCompletion = read("supabase/migrations/20261106120000_complete_crm_reminder_with_activity.sql");
+assert.match(reminderCompletion, /create or replace function public\\.complete_crm_reminder/);
+assert.match(reminderCompletion, /private\\.is_org_editor\\(v_reminder\\.organization_id\\)/);
+assert.match(reminderCompletion, /for update/);
+assert.match(reminderCompletion, /update public\\.crm_reminders[\\s\\S]*state = 'read'/);
+assert.match(reminderCompletion, /insert into public\\.activities/);
+assert.match(reminderCompletion, /'crm_reminder'/);
+assert.match(reminderCompletion, /'reminder_id', v_reminder\\.id/);
+assert.match(reminderCompletion, /grant execute on function public\\.complete_crm_reminder\\(uuid\\) to authenticated/);
+assert.match(client, /supabase\\.rpc\\("complete_crm_reminder"/);
+assert.match(page, /Relance traitée et ajoutée à l’historique/);
+
 console.log("CRM persistent reminders contract: OK — persistance, déduplication, isolation tenant, cycle de vie et planification PostgreSQL.");
