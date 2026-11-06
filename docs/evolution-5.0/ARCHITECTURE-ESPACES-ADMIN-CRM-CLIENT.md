@@ -1018,3 +1018,41 @@ L'advisor signale également que la protection Auth contre les mots de passe com
 ### 28.5 Limites et périmètre
 
 Contrôle effectué en lecture seule : inventaire des tables et colonnes, lecture de `pg_policies`, lecture des définitions des fonctions de contrôle et de la RPC, lecture des avis de sécurité Supabase. Aucun compte, rôle, enregistrement, table, politique, fonction, paramètre Auth ou configuration n'a été modifié. Aucun déploiement Vercel, merge ou promotion n'a été lancé. L'immeuble interactif et tous ses composants restent strictement intacts.
+
+
+## 29. Harmonisation ciblée de la navigation interne — 6 novembre 2026
+
+### 29.1 Constat de départ
+
+Les espaces Administration, Recherches et CRM proposaient des repères différents :
+- le cockpit d’administration permettait d’ouvrir le CRM et les recherches depuis les cartes, mais son menu latéral ne proposait pas le CRM ;
+- le menu des recherches proposait Administration et CRM, mais pas de lien latéral vers l’accueil interne ;
+- l’en-tête du CRM ne proposait qu’un retour vers l’accueil interne, sans accès contextuel aux autres modules autorisés.
+
+Cette asymétrie obligeait les collaborateurs à revenir à l’accueil interne ou à repasser par plusieurs écrans pour changer de module.
+
+### 29.2 Correction appliquée
+
+- Le menu latéral du cockpit contient désormais les entrées CRM interne et Recherches ciblées, en complément de la vue générale.
+- Le menu latéral des recherches contient un retour explicite vers l’accueil interne, ainsi que les entrées Administration et CRM.
+- L’en-tête du CRM conserve son identité visuelle et son lien unique vers l’accueil interne ; il propose en plus des liens directs vers Administration et Recherches ciblées.
+- Les liens Administration et Recherches dans le CRM sont masqués par défaut, puis affichés uniquement pour les rôles `owner` et `admin` après résolution de l’appartenance interne. Les rôles `member` et `viewer` ne reçoivent pas ces raccourcis.
+- La barre du CRM reste responsive et s’appuie sur les styles de navigation existants ; aucune refonte de la charte métier du CRM n’est engagée.
+
+### 29.3 Contrats anti-régression
+
+Le test `tests/crm-navigation-contract.test.cjs` vérifie désormais :
+- la présence des raccourcis transverses dans les menus Administration et Recherches ;
+- la présence dans le CRM des liens conditionnels Administration / Recherches ;
+- le masquage par défaut de ces liens dans le HTML ;
+- leur affichage conditionné aux rôles `owner` et `admin` dans `crm-page.js` ;
+- le maintien de l’unique retour CRM vers l’accueil interne ;
+- l’absence de lien CRM interne dans l’espace client.
+
+La vérification statique du code ne remplace pas une recette navigateur avec des sessions Supabase authentifiées pour chaque rôle.
+
+### 29.4 Périmètre et limites
+
+Ce lot est une harmonisation de navigation, pas une fusion technique des applications. Le CRM conserve ses modules, ses formulaires, ses données, son client Supabase et sa charte métier. L’administration conserve son poste de commandement chrome et gold. L’espace client reste séparé.
+
+Aucune table, donnée, politique RLS, fonction SQL/Edge, configuration Auth ou compte Supabase n’a été modifié. Aucun déploiement Vercel, merge vers `main` ou promotion en production n’a été lancé. L’immeuble interactif, ses images, son arborescence, ses étages, ses zones cliquables et ses liens restent strictement intacts.
