@@ -54,3 +54,9 @@
 .crm-business-pagination button:disabled{opacity:.45;cursor:not-allowed}
 #crm-business-server-search>button{margin:0 0 8px}
 @media(max-width:520px){.crm-business-pagination{flex-wrap:wrap}.crm-business-pagination span{flex-basis:100%;order:-1;text-align:center}}
+.crm-record-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 16px;padding:10px 12px;border:1px solid #d8dde0;border-radius:8px;background:#fbfcfc;color:#56616a;font-size:13px}
+.crm-record-pagination button:disabled{opacity:.45;cursor:not-allowed}
+.crm-record-search{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px;margin:12px 0 4px}
+.crm-record-search .form-field{margin:0}
+.crm-record-search button{margin:0 0 2px}
+@media(max-width:600px){.crm-record-search{grid-template-columns:1fr}.crm-record-pagination{flex-wrap:wrap}.crm-record-pagination span{flex-basis:100%;order:-1;text-align:center}}
