@@ -619,3 +619,20 @@ Le premier lot applicatif doit se limiter à une coque de navigation d'administr
 Avant toute écriture applicative, le statut de la branche et de la PR doit être vérifié : la PR #38 est désormais fermée et fusionnée. La branche de prévisualisation n'est donc plus à traiter comme une PR en brouillon. La branche source V5 reste à préserver. Toute intervention doit rester cantonnée au périmètre explicitement autorisé et être accompagnée d'un point de retour ainsi que des contrôles adaptés.
 
 **Statut de cette réaudit :** lecture du dépôt uniquement. Aucun fichier applicatif, aucune donnée, aucun schéma ou paramètre Supabase et aucun déploiement n'ont été modifiés.
+
+
+## 11. Identité visuelle du poste de commandement — décision du 6 novembre 2026
+
+**Décision validée par le porteur du projet :** l'administration générale (poste de commandement) adoptera une identité visuelle **gris chrome et gold**.
+
+Cette palette caractérise l'environnement d'administration générale. Elle ne doit pas être étendue automatiquement au CRM, à l'espace client ou aux rubriques du site : chaque environnement conserve sa personnalité graphique et fonctionnelle.
+
+Principes d'application à respecter lors de la réalisation :
+- gris chrome comme base structurante de l'interface ;
+- gold comme accent de hiérarchie, de repérage et d'action ;
+- contraste, lisibilité et accessibilité prioritaires ;
+- navigation sobre, précise et stable, sans surcharge décorative ;
+- identité propre au poste de commandement, distincte de la charte du site public ;
+- aucune modification de l'immeuble interactif, de son image, de ses libellés, de ses liens ou de ses zones cliquables.
+
+**Statut :** choix graphique décidé ; palette détaillée, composants et déclinaisons d'états à définir lors de la construction de la coque d'administration.
