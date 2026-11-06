@@ -60,3 +60,7 @@
 .crm-record-search .form-field{margin:0}
 .crm-record-search button{margin:0 0 2px}
 @media(max-width:600px){.crm-record-search{grid-template-columns:1fr}.crm-record-pagination{flex-wrap:wrap}.crm-record-pagination span{flex-basis:100%;order:-1;text-align:center}}
+
+.crm-business-related-status{margin:4px 0;color:#68737b;font-size:12px;line-height:1.45}
+.crm-business-related-pagination{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.crm-business-related-pagination button:disabled{opacity:.45;cursor:not-allowed}
