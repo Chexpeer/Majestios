@@ -331,14 +331,17 @@ async function refreshAdminMembers() {
       controls.className = "crm-admin-member-controls";
       const role = document.createElement("select");
       role.setAttribute("aria-label", "Rôle du membre " + member.user_id);
-      [["owner","Propriétaire"],["admin","Administrateur"],["member","Membre"],["viewer","Consultation seule"]].forEach(([value,label]) => {
+      [["admin","Administrateur"],["member","Membre"],["viewer","Consultation seule"]].forEach(([value,label]) => {
         const option = document.createElement("option");
         option.value = value;
         option.textContent = label;
+        if (value === "admin" && workspace.membership.role !== "owner") option.disabled = true;
         role.append(option);
       });
       role.value = member.role;
-      role.disabled = member.role === "owner" || member.user_id === currentUserId;
+      const protectedAdmin = workspace.membership.role !== "owner" && member.role === "admin";
+      role.disabled = member.user_id === currentUserId || protectedAdmin;
+      if (protectedAdmin) role.title = "Seul le propriétaire peut modifier le rôle d’un administrateur.";
       const save = document.createElement("button");
       save.type = "button";
       save.className = "button button-secondary";
@@ -492,7 +495,17 @@ try {
   await refresh(!isReadOnly);
   if (["owner", "admin"].includes(membership.role)) await refreshAdminMembers();
 } catch (error) {
-  setStatus(error.message || "Connexion au CRM impossible.", true);
+  let activeSession = null;
+  try {
+    const { data } = await MajestiosCRM.auth.getSession();
+    activeSession = data?.session || null;
+  } catch {
+    // Keep the disconnected fallback if the session cannot be read.
+  }
+  updateSessionIndicator(activeSession);
+  setStatus(activeSession
+    ? (error.message || "Session active, mais accès au CRM interne non autorisé.")
+    : "CRM · DÉCONNECTÉ — reconnectez-vous depuis votre espace membre.", true);
   document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
     .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
 }
@@ -513,6 +526,11 @@ document.getElementById("crm-admin-refresh-members")?.addEventListener("click", 
 
 MajestiosCRM.auth.onAuthStateChange((event, session) => {
   window.setTimeout(() => {
+    if (event === "SIGNED_IN" && session) {
+      // Re-run workspace authorization and data loading after a login in another tab.
+      window.location.reload();
+      return;
+    }
     updateSessionIndicator(session);
     if (event === "SIGNED_OUT") {
       setStatus("Session terminée. Le CRM est verrouillé jusqu’à votre prochaine connexion.", true);
