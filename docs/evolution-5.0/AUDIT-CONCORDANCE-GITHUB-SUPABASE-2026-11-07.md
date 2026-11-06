@@ -501,3 +501,39 @@ Aucune extension, aucun paramètre de journalisation et aucun rôle n'ont été 
 La recherche des journaux d'audit côté plateforme est donc bloquée par le niveau d'offre et les capacités d'accès disponibles. Les seules pistes restantes sans changer d'offre sont des traces déjà conservées hors de Supabase : historique local d'un terminal/CLI, historique du navigateur ou capture/export de l'opération, journaux d'un outil tiers, ou historique de compte accessible directement dans le Dashboard si celui-ci expose un événement pertinent.
 
 **Aucune mise à niveau payante, aucun changement de configuration, aucune activation de journalisation, aucune migration et aucune modification du backend ne sont entrepris.**
+
+
+## 14. Vérification du périmètre exact de la PR #38 et des mécanismes GitHub visibles
+
+### 14.1 Fichiers effectivement intégrés par la PR #38
+
+La liste complète des chemins modifiés de la PR #38 a été relue via l'API GitHub. Elle inclut les migrations SQL et les fichiers applicatifs déjà analysés. Pour le périmètre automatisation, les trois seuls fichiers du répertoire GitHub Actions intégrés par cette PR sont :
+
+- `.github/workflows/verify-site.yml` ;
+- `.github/workflows/majestios-anti-regression.yml` ;
+- `.github/workflows/mesure-boamp.yml`.
+
+Le contenu des trois fichiers a été relu directement sur `evolution-5.0-clean-preview`. Les deux workflows de vérification exécutent des contrôles du site, des tests et un build ; le workflow BOAMP est manuel et effectue des requêtes de mesure en lecture seule sur l'API publique. Aucun des trois ne contient de commande `supabase db push`, de commande d'application SQL, d'étape `supabase migration` ou de déploiement de fonction Supabase.
+
+La liste des fichiers de la PR ne montre pas de quatrième workflow GitHub Actions ajouté ou modifié pour appliquer les migrations. Cette vérification renforce le constat de la section 12 : **la livraison des migrations n'est pas expliquée par un workflow GitHub Actions présent dans la PR #38**.
+
+### 14.2 Métadonnées de revue de la PR
+
+Les interfaces GitHub consultées retournent zéro revue soumise et zéro fil de revue en ligne pour la PR #38. Cela décrit les objets de revue accessibles via ces endpoints ; cela ne renseigne pas sur d'éventuelles validations externes, conversations hors GitHub ou actions effectuées directement dans Supabase.
+
+### 14.3 Limite de la conclusion
+
+Le fait que la PR contienne les fichiers SQL, et qu'elle ait été suivie sept secondes plus tard par la première entrée live, ne démontre toujours pas que GitHub a exécuté ces fichiers. Aucun workflow visible dans cette PR ne réalise cette opération. Un lancement manuel ou un canal externe reste possible, mais aucune trace accessible ne permet de l'attribuer à un acteur ou à un outil.
+
+**Conclusion consolidée :** le dépôt GitHub et la PR #38 permettent de retracer la préparation et l'intégration des migrations ; les workflows de la PR permettent de retracer les tests du site ; l'historique Supabase permet de constater l'enregistrement des migrations live. Le lien d'exécution entre ces trois éléments reste non prouvé.
+
+### 14.4 État et périmètre
+
+- Liste des fichiers modifiés de la PR #38 : **consultée**.
+- Trois workflows intégrés : **relus intégralement**.
+- Workflow GitHub d'application Supabase dans la PR : **aucun identifié**.
+- Revues GitHub et fils de revue accessibles : **aucun retourné**.
+- Canal, identité de l'exécutant et texte SQL exact de l'opération : **non établis**.
+- Écriture Supabase, migration, SQL, privilège, RLS, fonction, job ou donnée : **aucune**.
+- Code CRM et immeuble interactif : **inchangés**.
+- Merge, déploiement ou création de projet : **aucun**.
