@@ -1,6 +1,33 @@
 import { MajestiosCRM } from "./crm-client.js";
 
 const status = document.querySelector("#crm-status");
+const sessionIndicator = document.querySelector("#crm-session-indicator");
+const sessionLabel = document.querySelector("#crm-session-label");
+const signoutButton = document.querySelector("#crm-signout");
+const accountEmail = document.querySelector("#crm-account-email");
+const organizationName = document.querySelector("#crm-organization-name");
+const accountRole = document.querySelector("#crm-account-role");
+const adminPanel = document.querySelector("#crm-admin-panel");
+let crmAccessReady = false;
+function updateSessionIndicator(session) {
+  if (!sessionIndicator || !sessionLabel) return;
+  sessionIndicator.classList.remove("is-checking", "is-connected", "is-disconnected");
+  if (session) {
+    sessionIndicator.classList.add("is-connected");
+    sessionLabel.textContent = "Connecté au CRM";
+    if (accountEmail) accountEmail.textContent = session.user?.email || "Compte authentifié";
+    if (signoutButton) signoutButton.disabled = false;
+  } else {
+    sessionIndicator.classList.add("is-disconnected");
+    sessionLabel.textContent = "Déconnecté";
+    if (accountEmail) accountEmail.textContent = "Aucun compte connecté";
+    if (signoutButton) signoutButton.disabled = true;
+    if (organizationName) organizationName.textContent = "Organisation : aucune session";
+    if (accountRole) accountRole.textContent = "Rôle : indisponible";
+    if (adminPanel) adminPanel.hidden = true;
+  }
+}
+
 const setStatus = (message, error = false) => {
   status.textContent = message;
   status.dataset.state = error ? "error" : "success";
@@ -354,7 +381,12 @@ function bindForm(id, create, values) {
 }
 const nullableId = value => value || null;
 try {
-  const { membership, organization } = await MajestiosCRM.requireWorkspace();
+  const { session, membership, organization } = await MajestiosCRM.requireWorkspace();
+  crmAccessReady = true;
+  updateSessionIndicator(session);
+  if (organizationName) organizationName.textContent = "Organisation : " + organization.name;
+  if (accountRole) accountRole.textContent = "Rôle : " + membership.role;
+  if (adminPanel) adminPanel.hidden = !["owner", "admin"].includes(membership.role);
   const isReadOnly = membership.role === "viewer";
   if (isReadOnly) {
     document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
@@ -373,3 +405,34 @@ try {
   document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
     .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
 }
+
+signoutButton?.addEventListener("click", async () => {
+  signoutButton.disabled = true;
+  const { error } = await MajestiosCRM.auth.signOut();
+  if (error) {
+    signoutButton.disabled = false;
+    setStatus("La déconnexion n’a pas abouti. Réessayez.", true);
+  } else {
+    updateSessionIndicator(null);
+    setStatus("Vous êtes déconnecté du CRM. Reconnectez-vous depuis l’espace membre.", true);
+    document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
+      .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
+  }
+});
+
+MajestiosCRM.auth.onAuthStateChange((event, session) => {
+  window.setTimeout(() => {
+    updateSessionIndicator(session);
+    if (event === "SIGNED_OUT") {
+      crmAccessReady = false;
+      setStatus("Session terminée. Le CRM est verrouillé jusqu’à votre prochaine connexion.", true);
+      document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
+        .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
+      document.querySelectorAll("#crm-business-list, #crm-contact-list, #crm-opportunity-list, #crm-activity-list, #crm-persistent-reminders")
+        .forEach(list => list.replaceChildren());
+    } else if (event === "TOKEN_REFRESHED" && session) {
+      setStatus("Session CRM active · connexion sécurisée renouvelée.");
+    }
+  }, 0);
+});
+
