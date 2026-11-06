@@ -46,6 +46,8 @@ jobs:
         run: node tests/company-fit.test.cjs
       - name: Tester les suggestions APE/NAF
         run: node tests/naf-suggestions.test.cjs
+      - name: Vérifier le contrat de sécurité CRM
+        run: node tests/crm-security-contract.test.cjs
       - name: Construire le site statique
         run: node build.js
       - name: Vérifier l’architecture et les routes
