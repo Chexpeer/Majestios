@@ -59,6 +59,10 @@ assert(searchPage.includes('meta name="robots" content="noindex,nofollow"'), "Re
 assert(searchPage.includes('src="admin-recherches.js"'), "Recherches : script métier non chargé");
 const searchScript = fs.readFileSync(path.join(root, "admin-recherches.js"), "utf8");
 assert(searchScript.includes("annonces-commerciales/records") && searchScript.includes("boamp/records"), "Recherches : les deux sources officielles doivent être raccordées");
+assert(searchPage.includes('id="date-from"') && searchPage.includes('id="date-to"'), "Recherches : filtres de période absents");
+assert(searchPage.includes('id="market-type"'), "Recherches : filtre du type de marché BOAMP absent");
+assert(searchScript.includes("code_departement_prestation") && searchScript.includes("dateparution >= date") && searchScript.includes("type_marche ="), "Recherches : filtres territoriaux, temporels ou métier incomplets");
+assert(searchScript.includes("AbortController") && searchScript.includes("source.dispatchEvent(new Event(\"change\"))"), "Recherches : délai réseau ou état initial des filtres non maîtrisé");
 assert(searchPage.includes('href="administration.html"') && searchPage.includes('href="crm.html"'), "Recherches : navigation interne incomplète");
 assert(searchScript.includes("organization_members") && searchScript.includes("owner") && searchScript.includes("admin"), "Recherches : contrôle d’accès interne absent");
 assert(siteFiles.includes("administration.css") && siteFiles.includes("administration.js"), "Administration : ressources du cockpit absentes du manifeste");
