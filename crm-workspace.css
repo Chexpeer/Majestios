@@ -25,3 +25,5 @@
   .crm-workspace-nav-button{width:100%;padding-inline:6px}
 }
 @media(prefers-reduced-motion:reduce){.crm-workspace-nav-button{scroll-behavior:auto}}
+
+.interior-grid[hidden],.crm-followups[hidden],.interior-grid article[hidden]{display:none!important}
