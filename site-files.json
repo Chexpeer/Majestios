@@ -58,6 +58,7 @@
     "auth-espace-membre.js",
     "administration.html",
     "administration.css",
-    "administration.js"
+    "administration.js",
+    "admin-recherches.html"
   ]
 }
