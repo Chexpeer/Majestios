@@ -54,6 +54,8 @@
     "company-fit.js",
     "qualification-entreprises.html",
     "supabase-config.js",
-    "auth-espace-membre.js"
+    "auth-espace-membre.js",
+    "crm-page.js",
+    "crm-client.js"
   ]
 }
