@@ -72,6 +72,14 @@ for (const page of htmlPages) {
     assert(pageHtml.includes('href="index.html"'), page + " : retour au site public absent");
     continue;
   }
+  if (page === "admin-recherches.html") {
+    const researchNav = pageHtml.match(/<nav\b(?=[^>]*\bclass="admin-nav")[^>]*>([\s\S]*?)<\/nav>/);
+    assert(Boolean(researchNav), page + " : navigation interne des recherches absente");
+    assert(researchNav?.[1].includes('href="administration.html"'), page + " : retour au poste de commandement absent");
+    assert(researchNav?.[1].includes('href="crm.html"'), page + " : accès au CRM interne absent");
+    assert(pageHtml.includes('href="index.html"'), page + " : retour au site public absent");
+    continue;
+  }
   if (page === "crm.html") {
     assert(pageHtml.includes("admin-crm-header") && pageHtml.includes('href="administration.html"'),
       page + " : repère de navigation Administration ↔ CRM absent");
