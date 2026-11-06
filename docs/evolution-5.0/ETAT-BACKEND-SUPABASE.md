@@ -105,8 +105,9 @@ Les migrations suivantes sont présentes dans la branche GitHub mais ne font pas
 - `20261106031500_bootstrap_first_internal_admin.sql` : installe une procédure de bootstrap unique, réservée au rôle `service_role`. Elle ne crée aucun utilisateur Auth et n'accorde aucun accès tant qu'elle n'est pas exécutée explicitement après création et confirmation du compte administrateur.
 - `20261106074500_enforce_crm_editor_roles.sql` : rend le rôle `viewer` strictement consultatif dans les politiques d'écriture et protège les colonnes d'audit / rattachement.
 - `20261106090000_atomic_client_workspace_provisioning.sql` : installe la RPC transactionnelle appelée par la nouvelle version source de la fonction Edge.
+- `20261106140000_internal_admin_audit.sql` : ajoute le journal des opérations d'administration interne et les RPC sécurisées de changement de rôle / retrait d'un membre. Cette migration reste en attente ; elle n'est pas appliquée au projet Supabase.
 
-**Aucune de ces trois migrations n'a été appliquée à Supabase.** Le code navigateur et la fonction Edge versionnés ne constituent donc pas une validation opérationnelle du CRM ou de l'inscription.
+**Aucune de ces quatre migrations n'a été appliquée à Supabase.** Le code navigateur et la fonction Edge versionnés ne constituent donc pas une validation opérationnelle du CRM ou de l'inscription.
 
 ## 8. Gouvernance et ordre de reprise
 
