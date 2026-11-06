@@ -461,3 +461,101 @@ Sens métier et règle de conduite pour MajestiOS :
 **Règle opérationnelle :** aucune marche arrière précipitée, aucun retour de branche ou remplacement de version sans examen du rétroviseur. Une anomalie documentée n'est pas une anomalie résolue : elle reste suivie jusqu'à correction et validation.
 
 Cette métaphore complète les garde-fous de sauvegarde, de réversibilité, d'historisation et de contrôle anti-régression du projet.
+
+## 15. Schéma directeur opérationnel de l'administration générale et du CRM intégré
+
+Cette section transforme les décisions précédentes en organisation cible exploitable pour la conception des écrans. Elle ne constitue pas une déclaration de fonctionnalités déjà livrées.
+
+### 15.1 Principe d'organisation : une administration, un CRM intégré
+
+Le CRM est un module central de l'administration générale, et non une application concurrente à côté d'elle.
+
+Conséquences :
+- l'administrateur entre dans un environnement d'administration unique ;
+- il accède au CRM depuis la navigation de cette administration ;
+- le CRM conserve ses propres fonctions métier, ses écrans et ses données existantes ;
+- les outils de pilotage (utilisateurs, équipes, permissions, recherches, automatisations, diffusion et supervision) relèvent de l'administration ;
+- le CRM fournit les données et opérations commerciales nécessaires à ces outils ;
+- les accès clients restent dans un environnement séparé et ne donnent jamais accès à la navigation ni aux données internes du CRM.
+
+L'intégration est donc une intégration fonctionnelle et de navigation. Elle n'implique ni fusion des bases, ni duplication du CRM, ni refonte de ses fondations Supabase.
+
+### 15.2 Navigation cible de l'administration
+
+La navigation d'administration doit répondre à trois questions en permanence : **où suis-je, sur quel périmètre j'agis, quelle action suis-je autorisé à effectuer ?**
+
+Organisation fonctionnelle proposée :
+
+1. **Vue générale** — état de la plateforme, activité récente, alertes et éléments nécessitant une décision.
+2. **CRM** — entreprises, contacts, opportunités, activités, relances et affectations. C'est le centre opérationnel intégré.
+3. **Recherches et sources** — recherches ponctuelles BODACC/BOAMP, critères, territoires, résultats, provenance et historique. Au démarrage, lancement manuel et ciblé.
+4. **Production et fichiers** — sélections qualifiées, exports, dossiers et livrables. La génération et la diffusion ne seront activées qu'après définition des contrôles.
+5. **Diffusion et destinataires** — choix des personnes, équipes, clients ou groupes autorisés, aperçu, validation et historique.
+6. **Utilisateurs et organisations** — comptes, rattachements, invitations et état des organisations, selon les droits.
+7. **Équipes et permissions** — affectations, responsabilités et droits par fonction.
+8. **Supervision et journal** — traitements, erreurs, décisions, actions sensibles et historique.
+
+Cette liste décrit des domaines de navigation. Elle ne commande pas de créer huit applications ou huit tables. Les écrans peuvent être livrés progressivement et certains domaines resteront masqués ou indiqués comme non disponibles tant qu'ils ne seront pas opérationnels.
+
+### 15.3 Matrice métier de départ — à implémenter et tester ultérieurement
+
+Les rôles techniques existants restent inchangés : `owner`, `admin`, `member`, `viewer`. La matrice ci-dessous est une proposition métier de départ, à valider contre les usages réels et à traduire côté serveur avant toute ouverture de droits.
+
+| Capacité | Owner interne | Admin interne | Member interne | Viewer interne |
+|---|---|---|---|---|
+| Consulter le cockpit et les indicateurs | Oui | Oui | Selon affectation | Lecture autorisée |
+| Consulter le CRM | Oui | Oui | Selon périmètre | Lecture seule |
+| Créer et modifier des fiches CRM | Oui | Oui | Selon périmètre | Non |
+| Qualifier et affecter une opportunité | Oui | Oui | Selon délégation | Non |
+| Lancer une recherche ponctuelle | Oui | Oui si habilité | Non par défaut | Non |
+| Configurer ou automatiser une recherche | Oui | Oui si habilité | Non | Non |
+| Préparer un fichier ou livrable | Oui | Oui si habilité | Selon délégation | Non |
+| Valider une diffusion | Oui | Oui si habilité | Non par défaut | Non |
+| Gérer utilisateurs et organisations | Oui | Selon délégation | Non | Non |
+| Modifier les permissions | Oui | Selon délégation explicite | Non | Non |
+| Consulter les journaux de supervision | Oui | Oui | Selon périmètre | Non par défaut |
+| Accéder aux données d'un espace client | Selon habilitation et besoin | Selon habilitation et besoin | Seulement si autorisé | Seulement si autorisé |
+
+**Précaution :** les mentions « selon affectation », « selon délégation » et « si habilité » impliquent des permissions métier supplémentaires qui ne sont pas démontrées dans le backend actuel. Elles ne doivent pas être simulées par de simples conditions JavaScript ou par le masquage de boutons. Elles nécessiteront une conception et des contrôles serveur/RLS adaptés, après validation.
+
+Les permissions de l'administration interne ne doivent pas être confondues avec celles des organisations clientes. Les clients ne deviennent pas membres de l'organisation internal et n'héritent d'aucun droit d'administration.
+
+### 15.4 Repères de navigation obligatoires
+
+Chaque écran d'administration doit afficher clairement :
+- l'environnement actif : **Administration** ;
+- la rubrique et le sous-dossier actifs ;
+- le périmètre de données concerné (plateforme, équipe, organisation ou dossier) ;
+- l'utilisateur et son niveau d'accès ;
+- une navigation principale stable et une navigation locale cohérente ;
+- une action de retour unique, explicite et prévisible.
+
+Le CRM doit afficher le même cadre d'administration lorsqu'il est ouvert comme module, tout en conservant une navigation locale propre à ses fonctions. Il ne doit pas reprendre la navigation du site public ni afficher plusieurs flèches concurrentes. L'espace client conserve son propre cadre et ne montre jamais les repères internes.
+
+### 15.5 État des capacités : ne pas confondre cible et existant
+
+| Domaine | État établi dans l'audit | Traitement prévu |
+|---|---|---|
+| CRM entreprises, contacts, opportunités, activités, relances | Socle et première interface présents | Préserver, intégrer à la navigation admin, tester |
+| Administration générale | Cockpit applicatif non retrouvé | Concevoir puis construire par lots |
+| Utilisateurs et organisations | Fondations Supabase présentes | Construire l'interface admin sans casser le modèle |
+| Permissions fines par fonction | Non retrouvées | Définir puis sécuriser côté serveur |
+| Recherche BODACC/BOAMP | Sources non connectées dans le backend observé | Commencer par des recherches manuelles ciblées |
+| Automatisation des recherches | Non retrouvée | Après validation des recherches ponctuelles |
+| Production de fichiers | Pas de chaîne complète retrouvée | Concevoir après qualification |
+| Diffusion contrôlée | Pas de mécanisme complet retrouvé | Concevoir avec aperçu, droits et journal |
+| Espace client opérationnel complet | Parcours partiel / écrans de présentation | Développer séparément et progressivement |
+
+### 15.6 Ordre de réalisation recommandé
+
+1. Valider cette organisation fonctionnelle et la matrice de départ.
+2. Cartographier les routes et composants existants afin de réutiliser ce qui fonctionne.
+3. Concevoir la coque de navigation Administration, sans toucher au site public ni à l'immeuble.
+4. Intégrer le CRM existant dans cette coque, sans réécrire ses fonctions métier.
+5. Tester les parcours et les droits existants avec des comptes de test.
+6. Ajouter ensuite les capacités d'administration manquantes, une par une.
+7. Ouvrir les recherches BODACC/BOAMP manuelles après définition de leur contrat et de leur traçabilité.
+8. N'ajouter automatisation, production et diffusion qu'après validation de la première chaîne manuelle.
+
+**Périmètre de cette étape documentaire :** aucun code applicatif, aucune migration, aucune donnée Supabase, aucune politique RLS, aucun déploiement et aucun élément de l'immeuble interactif ne sont modifiés par cette proposition.
+
