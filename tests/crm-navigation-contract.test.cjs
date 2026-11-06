@@ -69,6 +69,6 @@ const workspaceNav = fs.readFileSync(path.join(__dirname, "..", "crm-workspace-n
 const workspaceCss = fs.readFileSync(path.join(__dirname, "..", "crm-workspace.css"), "utf8");
 assert.ok(html.includes('href="crm-workspace.css"') && html.includes('src="crm-workspace-nav.js"'), "Le CRM doit charger sa navigation métier dédiée.");
 assert.ok(workspaceNav.includes('label: "Vue générale"') && workspaceNav.includes('label: "Entreprises"') && workspaceNav.includes('label: "Contacts"') && workspaceNav.includes('label: "Opportunités"') && workspaceNav.includes('label: "Activités & historique"'), "La navigation doit exposer les cinq espaces de travail CRM.");
-assert.ok(workspaceNav.includes('aria-label", "Navigation des modules CRM"') && workspaceNav.includes('aria-current', "La navigation CRM doit exposer l’état du module actif aux technologies d’assistance.");
+assert.ok(workspaceNav.includes('nav.setAttribute("aria-label", "Navigation des modules CRM")') && workspaceNav.includes('button.setAttribute("aria-current"'), "La navigation CRM doit exposer l’état du module actif aux technologies d’assistance.");
 assert.ok(workspaceNav.includes('event.key === "ArrowRight"') && workspaceNav.includes('event.key === "Home"') && workspaceNav.includes('event.key === "End"'), "La navigation CRM doit prendre en charge le clavier.");
 assert.ok(workspaceCss.includes(".crm-workspace-nav-button.is-active") && workspaceCss.includes("@media(max-width:600px)"), "La navigation CRM doit distinguer le module actif et rester utilisable sur mobile.");
