@@ -497,7 +497,7 @@ try {
     .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
 }
 
-document.getElementById("crm-admin-refresh-members")?.addEventListener("click", refreshAdminMembers);\n\nsignoutButton?.addEventListener("click", async () => {
+document.getElementById("crm-admin-refresh-members")?.addEventListener("click", refreshAdminMembers);signoutButton?.addEventListener("click", async () => {
   signoutButton.disabled = true;
   const { error } = await MajestiosCRM.auth.signOut();
   if (error) {
