@@ -65,6 +65,7 @@ function renderEditableList(selector, rows, label, kind, canEdit) {
   list.replaceChildren();
   rows.forEach(row => {
     const item = document.createElement("li");
+    item.dataset.recordId = row.id;
     const text = document.createElement("span");
     text.textContent = label(row);
     item.append(text);
@@ -94,6 +95,9 @@ function renderEditableList(selector, rows, label, kind, canEdit) {
           if (kind === "contact" && !values.last_name.trim()) throw new Error("Le nom est obligatoire.");
           if (kind === "opportunity" && !values.title.trim()) throw new Error("L’intitulé est obligatoire.");
           if (kind === "opportunity" && values.qualification_score === "") values.qualification_score = null;
+          if (kind === "opportunity" && Object.hasOwn(values, "next_action_at")) {
+            values.next_action_at = values.next_action_at ? new Date(values.next_action_at).toISOString() : null;
+          }
           const result = await config.update(row.id, values);
           await refresh(true);
           setStatus(result.historyRecorded ? "Modification enregistrée et ajoutée à l’historique." : "Fiche modifiée, mais l’historique n’a pas pu être enregistré. Vérifiez les droits CRM.", !result.historyRecorded);
@@ -106,6 +110,71 @@ function renderEditableList(selector, rows, label, kind, canEdit) {
     list.append(item);
   });
 }
+
+function renderFollowups(opportunities) {
+  const now = new Date();
+  const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const dayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const groups = { overdue: [], today: [], upcoming: [], unplanned: [] };
+  const closedStatuses = new Set(["won", "lost", "archived"]);
+  opportunities.filter(row => !closedStatuses.has(row.status)).forEach(row => {
+    const hasAction = Boolean(row.next_action && row.next_action.trim());
+    const due = row.next_action_at ? new Date(row.next_action_at) : null;
+    if (!hasAction || !due || Number.isNaN(due.getTime())) groups.unplanned.push(row);
+    else if (due < now && due < dayStart) groups.overdue.push(row);
+    else if (due >= dayStart && due < dayEnd) groups.today.push(row);
+    else if (due >= dayEnd) groups.upcoming.push(row);
+    else groups.today.push(row);
+  });
+  const labels = {
+    overdue: "crm-followup-overdue", today: "crm-followup-today",
+    upcoming: "crm-followup-upcoming", unplanned: "crm-followup-unplanned"
+  };
+  Object.entries(groups).forEach(([key, rows]) => {
+    const list = document.getElementById(labels[key]);
+    const count = document.getElementById(labels[key] + "-count");
+    list.replaceChildren();
+    count.textContent = String(rows.length);
+    if (!rows.length) {
+      const empty = document.createElement("li");
+      empty.textContent = key === "unplanned" ? "Aucune opportunité à planifier." : "Aucune relance.";
+      list.append(empty);
+      return;
+    }
+    rows.sort((a, b) => {
+      const aTime = a.next_action_at ? new Date(a.next_action_at).getTime() : Number.MAX_SAFE_INTEGER;
+      const bTime = b.next_action_at ? new Date(b.next_action_at).getTime() : Number.MAX_SAFE_INTEGER;
+      return aTime - bTime;
+    });
+    rows.forEach(row => {
+      const item = document.createElement("li");
+      const heading = document.createElement("strong");
+      heading.textContent = row.title;
+      const detail = document.createElement("p");
+      detail.textContent = row.next_action || "Aucune prochaine action définie.";
+      const date = document.createElement("time");
+      if (row.next_action_at) {
+        date.dateTime = row.next_action_at;
+        date.textContent = new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(row.next_action_at));
+      } else date.textContent = "Échéance non définie";
+      const open = document.createElement("button");
+      open.type = "button";
+      open.className = "button button-secondary";
+      open.textContent = "Ouvrir la fiche";
+      open.addEventListener("click", () => {
+        const record = document.querySelector("#crm-opportunity-list li[data-record-id='" + row.id + "']");
+        const details = record?.querySelector("details");
+        if (details) {
+          details.open = true;
+          record.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else setStatus("Cette fiche est disponible en consultation seule.", false);
+      });
+      item.append(heading, detail, date, open);
+      list.append(item);
+    });
+  });
+}
+
 async function refresh(canEdit = false) {
   const [businesses, contacts, opportunities, activities] = await Promise.all([
     MajestiosCRM.listBusinesses(), MajestiosCRM.listContacts(),
@@ -118,6 +187,7 @@ async function refresh(canEdit = false) {
   renderEditableList("#crm-business-list", businesses, row => (row.trade_name || row.legal_name) + " · " + row.qualification_status, "business", canEdit);
   renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
   renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
+  renderFollowups(opportunities);
   const activityList = document.querySelector("#crm-activity-list");
   activityList.replaceChildren();
   activities.forEach(row => {
