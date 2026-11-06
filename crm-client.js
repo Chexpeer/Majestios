@@ -80,6 +80,29 @@ async function listBusinessesPage({ page = 0, pageSize = 25, search = "", qualif
   };
 }
 
+async function findBusinessesByIdentifiers({ sirens = [], sirets = [] } = {}) {
+  const { membership } = await requireWorkspace();
+  const cleanSirens = [...new Set(sirens.map(value => String(value || "").replace(/\\D/g, "")).filter(value => /^\\d{9}$/.test(value)))];
+  const cleanSirets = [...new Set(sirets.map(value => String(value || "").replace(/\\D/g, "")).filter(value => /^\\d{14}$/.test(value)))];
+  const requests = [];
+  if (cleanSirens.length) {
+    requests.push(supabase.from("businesses").select("id, legal_name, siren, siret")
+      .eq("organization_id", membership.organization_id).in("siren", cleanSirens));
+  }
+  if (cleanSirets.length) {
+    requests.push(supabase.from("businesses").select("id, legal_name, siren, siret")
+      .eq("organization_id", membership.organization_id).in("siret", cleanSirets));
+  }
+  if (!requests.length) return [];
+  const results = await Promise.all(requests);
+  const byId = new Map();
+  results.forEach(({ data, error }) => {
+    if (error) throw error;
+    (data || []).forEach(row => byId.set(row.id, row));
+  });
+  return [...byId.values()];
+}
+
 async function list(table) {
   if (!tables.includes(table)) throw new Error("Module CRM inconnu.");
   const { membership } = await requireWorkspace();
@@ -182,6 +205,7 @@ export const MajestiosCRM = Object.freeze({
   requireWorkspace,
   listBusinesses: () => list("businesses"),
   listBusinessesPage,
+  findBusinessesByIdentifiers,
   listContacts: () => list("contacts"),
   listOpportunities: () => list("opportunities"),
   listActivities: () => list("activities"),
