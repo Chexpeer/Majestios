@@ -80,7 +80,7 @@ async function listBusinessesPage({ page = 0, pageSize = 25, search = "", qualif
   };
 }
 
-async function listWorkspaceRecordsPage({ table, page = 0, pageSize = 25, search = "" } = {}) {
+async function listWorkspaceRecordsPage({ table, page = 0, pageSize = 25, search = "", businessId = "" } = {}) {
   const searchableColumns = {
     contacts: ["first_name", "last_name", "job_title", "email", "phone"],
     opportunities: ["title", "description", "source_external_id", "source_type"],
@@ -107,6 +107,10 @@ async function listWorkspaceRecordsPage({ table, page = 0, pageSize = 25, search
     .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\s.'’-]/g, " ")
     .replace(/\s+/g, " ")
     .slice(0, 120);
+  const safeBusinessId = String(businessId || "").trim();
+  if (safeBusinessId && ["contacts", "opportunities", "activities"].includes(table)) {
+    query = query.eq("business_id", safeBusinessId);
+  }
   if (safeSearch) {
     query = query.or(searchableColumns[table]
       .map(column => column + '.ilike."%' + safeSearch + '%"').join(","));
