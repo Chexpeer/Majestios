@@ -80,9 +80,17 @@ for (const page of htmlPages) {
     assert(pageHtml.includes('href="index.html"'), page + " : retour au site public absent");
     continue;
   }
+  if (page === "espace-interne.html") {
+    assert(pageHtml.includes('id="internal-login-form"') && pageHtml.includes('id="internal-workspace"'),
+      page + " : accueil et authentification des collaborateurs absents");
+    assert(pageHtml.includes('meta name="robots" content="noindex,nofollow"'),
+      page + " : l’espace interne doit être exclu de l’indexation");
+    assert(!pageHtml.includes('id="site-nav"'), page + " : l’espace interne ne doit pas reprendre le menu public");
+    continue;
+  }
   if (page === "crm.html") {
-    assert(pageHtml.includes("admin-crm-header") && pageHtml.includes('href="administration.html"'),
-      page + " : repère de navigation Administration ↔ CRM absent");
+    assert(pageHtml.includes("admin-crm-header") && pageHtml.includes('href="espace-interne.html"'),
+      page + " : repère de navigation Accueil interne ↔ CRM absent");
     assert(!pageHtml.includes('id="site-nav"'), page + " : le CRM interne ne doit pas reprendre le menu public");
     continue;
   }
