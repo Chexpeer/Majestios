@@ -175,6 +175,65 @@ function renderFollowups(opportunities) {
   });
 }
 
+
+const reminderButton = document.getElementById("crm-enable-reminders");
+const reminderStatus = document.getElementById("crm-reminder-status");
+const notifiedReminders = new Set();
+function sendDueReminders(opportunities) {
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tomorrowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  opportunities.forEach(row => {
+    if (["won", "lost", "archived"].includes(row.status) || !row.next_action || !row.next_action_at) return;
+    const due = new Date(row.next_action_at);
+    if (Number.isNaN(due.getTime()) || due >= tomorrowStart) return;
+    const key = row.id + ":" + todayStart.toISOString().slice(0, 10);
+    if (notifiedReminders.has(key)) return;
+    notifiedReminders.add(key);
+    const overdue = due < now && due < todayStart;
+    const notification = new Notification(overdue ? "Relance commerciale en retard" : "Relance commerciale à traiter", {
+      body: row.title + " — " + row.next_action,
+      tag: "majestios-crm-" + key,
+      renotify: false
+    });
+    notification.addEventListener("click", () => {
+      window.focus();
+      const record = document.querySelector("#crm-opportunity-list li[data-record-id='" + row.id + "']");
+      const details = record?.querySelector("details");
+      if (details) details.open = true;
+      record?.scrollIntoView({ behavior: "smooth", block: "center" });
+      notification.close();
+    });
+  });
+}
+if (reminderButton && reminderStatus) {
+  if (!("Notification" in window)) {
+    reminderButton.disabled = true;
+    reminderStatus.textContent = "Les notifications de navigateur ne sont pas prises en charge sur cet appareil.";
+  } else if (Notification.permission === "granted") {
+    reminderButton.textContent = "Alertes activées sur cet appareil";
+    reminderStatus.textContent = "Les relances en retard et prévues aujourd’hui déclenchent une alerte lorsque le CRM est ouvert.";
+    reminderButton.disabled = true;
+  } else if (Notification.permission === "denied") {
+    reminderStatus.textContent = "Notifications bloquées par le navigateur. Modifiez l’autorisation dans les réglages du site.";
+  }
+  reminderButton.addEventListener("click", async () => {
+    if (!("Notification" in window)) return;
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      reminderButton.textContent = "Alertes activées sur cet appareil";
+      reminderButton.disabled = true;
+      reminderStatus.textContent = "Alertes activées : les relances urgentes seront signalées lorsque le CRM est ouvert.";
+      sendDueReminders(await MajestiosCRM.listOpportunities());
+    } else {
+      reminderStatus.textContent = permission === "denied"
+        ? "Notifications refusées. Autorisez-les dans les réglages du navigateur."
+        : "Autorisation non accordée. Vous pourrez réessayer plus tard.";
+    }
+  });
+}
+
 async function refresh(canEdit = false) {
   const [businesses, contacts, opportunities, activities] = await Promise.all([
     MajestiosCRM.listBusinesses(), MajestiosCRM.listContacts(),
@@ -188,6 +247,7 @@ async function refresh(canEdit = false) {
   renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
   renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
   renderFollowups(opportunities);
+  sendDueReminders(opportunities);
   const activityList = document.querySelector("#crm-activity-list");
   activityList.replaceChildren();
   activities.forEach(row => {
