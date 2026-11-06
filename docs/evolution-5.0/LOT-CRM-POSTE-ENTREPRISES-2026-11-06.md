@@ -129,3 +129,16 @@ Les requêtes réutilisent les contrôles d'authentification, le filtrage organi
 Lorsqu'une page ou une recherche change, la valeur déjà sélectionnée est conservée même si elle n'appartient plus aux 25 résultats affichés. Aucun schéma, aucune table, colonne, politique RLS, fonction SQL/Edge, donnée, compte ou rôle Supabase n'est modifié.
 
 **Limites et contrôles :** la recherche reste lexicale et limitée aux colonnes explicitement déclarées par les méthodes de pagination. Le chargement initial des formulaires interroge chaque sélecteur indépendamment. Les tests de contrat statiques couvrent le raccordement des sélecteurs, les appels paginés et les attributs d'accessibilité ; ils ne remplacent pas une exécution des tests ni une validation navigateur/CI. Aucun merge, déploiement ou changement de l'immeuble interactif n'est effectué.
+
+
+## Extension — cohérence des associations par entreprise
+
+Les sélecteurs de contacts et d'opportunités des formulaires sont désormais dépendants de l'entreprise choisie :
+
+- Dans le formulaire Opportunité, le contact principal est recherché dans l'entreprise sélectionnée.
+- Dans le formulaire Activité, les contacts et opportunités proposés sont limités à l'entreprise sélectionnée.
+- Tout changement d'entreprise vide la sélection dépendante, revient à la première page et relance la recherche distante.
+- Le filtre business_id est appliqué côté serveur après vérification de l'espace interne et uniquement sur les tables relationnelles autorisées.
+- Sans entreprise sélectionnée, les contacts et opportunités de l'espace interne restent consultables afin de permettre une association sans rattachement d'entreprise.
+
+Cette cohérence améliore la qualité des liens CRM sans modifier les données déjà enregistrées ni le schéma Supabase. Le contrôle côté interface facilite la saisie ; il ne remplace pas une validation métier côté serveur/RLS lors de toute future API d'écriture.
