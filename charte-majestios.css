@@ -191,3 +191,35 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
 @media(max-width:600px){
   body:not(.homepage) .rubric-search-card{margin:6px auto 8px}
 }
+
+
+/* Identité visuelle dédiée à l'environnement CRM interne */
+.crm-topbar{display:flex;align-items:center;gap:1.5rem;padding:1rem clamp(1rem,4vw,3.5rem);background:#101a32;color:#fff;border-bottom:3px solid #d5ad63;position:relative;z-index:5}
+.crm-topbar .brand{color:#fff;text-decoration:none;flex:0 0 auto}
+.crm-topbar-context{display:flex;flex-direction:column;gap:.15rem;padding-left:1.25rem;border-left:1px solid rgba(255,255,255,.22);letter-spacing:.08em}
+.crm-context-label{font-size:.65rem;color:#d5ad63;font-weight:700}
+.crm-topbar-context strong{font-size:.9rem;letter-spacing:.13em}
+.crm-topbar-actions{margin-left:auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.crm-session-indicator{display:inline-flex;align-items:center;gap:.55rem;padding:.55rem .8rem;border-radius:999px;background:rgba(255,255,255,.09);font-size:.82rem;font-weight:700;color:#fff}
+.crm-session-dot{width:.58rem;height:.58rem;border-radius:50%;background:#d5ad63;box-shadow:0 0 0 3px rgba(213,173,99,.16)}
+.crm-session-indicator.is-connected .crm-session-dot{background:#55d69e;box-shadow:0 0 0 3px rgba(85,214,158,.16)}
+.crm-session-indicator.is-disconnected .crm-session-dot{background:#ff7474;box-shadow:0 0 0 3px rgba(255,116,116,.16)}
+.crm-signout{padding:.55rem .85rem;font-size:.8rem}
+.crm-site-return{color:#fff;text-decoration:none;font-size:.82rem;white-space:nowrap}
+.crm-site-return:hover{text-decoration:underline}
+.crm-page{max-width:1400px}
+.crm-identity-card{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;padding:1.4rem 1.6rem;margin:1.5rem 0;background:#f3f6fb;border:1px solid #dce4f0;border-left:4px solid #d5ad63;border-radius:14px}
+.crm-identity-card h2{margin:.1rem 0 .35rem;font-size:1.35rem}
+.crm-account-email{margin:0;color:#52617a}
+.crm-identity-meta{display:flex;flex-direction:column;gap:.4rem;text-align:right;color:#52617a;font-size:.88rem}
+.crm-admin-panel{margin:1.5rem 0;padding:1.4rem 1.6rem;background:linear-gradient(120deg,#172746,#263c60);border:1px solid #344d70;border-radius:14px;color:#fff}
+.crm-admin-panel[hidden]{display:none}
+.crm-admin-heading{display:flex;align-items:center;gap:.9rem}
+.crm-admin-heading h2{margin:0;color:#fff}
+.crm-admin-heading .eyebrow{margin:0 0 .2rem;color:#e2c17e}
+.crm-admin-mark{display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:10px;background:rgba(213,173,99,.18);color:#e2c17e;font-size:1.4rem}
+.crm-admin-panel>p{max-width:850px;color:#e2e9f3}
+.crm-admin-role{display:inline-block;padding:.45rem .7rem;border:1px solid rgba(226,193,126,.55);border-radius:999px;color:#f0d69b;font-size:.78rem;font-weight:700}
+.crm-operation-status{padding:.6rem .8rem;border-left:3px solid #d5ad63;background:#f7f8fa}
+.crm-footer{margin-top:3rem}
+@media(max-width:760px){.crm-topbar{align-items:flex-start;flex-wrap:wrap}.crm-topbar-actions{width:100%;margin-left:0;gap:.65rem}.crm-session-indicator{order:0}.crm-signout{order:1}.crm-site-return{order:2;margin-left:auto}.crm-identity-card{align-items:flex-start;flex-direction:column}.crm-identity-meta{text-align:left}}
