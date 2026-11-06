@@ -35,8 +35,14 @@ async function main() {
     await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
     assert.equal(await page.locator("#admin-workspace").isVisible(), false, "Le cockpit doit rester masqué sans session.");
     assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation interne doit rester masquée sans session.");
-    assert.equal(await page.locator("#admin-gate a[href='espace-membre.html']").count(), 1, "Le parcours d’authentification doit être accessible.");
+    assert.equal(await page.locator("#admin-gate a[href='espace-interne.html?returnTo=administration.html']").count(), 1, "Le parcours d’authentification interne doit être accessible.");
     assert.equal(await page.locator("#admin-signout").isVisible(), false, "La déconnexion ne doit pas apparaître sans session.");
+    await page.goto("http://127.0.0.1:4177/espace-interne.html", {waitUntil:"domcontentloaded"});
+    await page.locator("#internal-login-form").waitFor({state:"visible",timeout:5000});
+    assert.equal(await page.locator("#internal-workspace").isVisible(), false, "L’accueil interne ne doit afficher aucun module sans session.");
+    assert.equal(await page.locator("#internal-login-form input[name='email']").count(), 1, "La connexion interne doit être proposée.");
+    assert.equal(await page.locator("#internal-login-form input[name='password']").count(), 1, "Le formulaire interne doit demander le mot de passe.");
+    assert.equal(await page.locator("#internal-login-form input[name='organizationName']").count(), 0, "L’accueil interne ne doit pas proposer la création d’un espace client.");
     await page.goto("http://127.0.0.1:4177/admin-recherches.html", {waitUntil:"domcontentloaded"});
     await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
     assert.equal(await page.locator("#workspace").isVisible(), false, "Les recherches doivent rester masquées sans session.");
