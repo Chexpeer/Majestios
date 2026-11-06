@@ -365,11 +365,15 @@ if (reminderButton && reminderStatus) {
   });
 }
 
+let targetingBusinesses = [];
+let targetingCandidates = [];
+
 async function refresh(canEdit = false) {
   const [businesses, contacts, opportunities, activities] = await Promise.all([
     MajestiosCRM.listBusinesses(), MajestiosCRM.listContacts(),
     MajestiosCRM.listOpportunities(), MajestiosCRM.listActivities()
   ]);
+  targetingBusinesses = businesses;
   document.querySelector("#crm-business-count").textContent = businesses.length;
   document.querySelector("#crm-contact-count").textContent = contacts.length;
   document.querySelector("#crm-opportunity-count").textContent = opportunities.length;
@@ -439,13 +443,112 @@ function bindForm(id, create, values) {
     finally { button.disabled = false; }
   });
 }
+
 const nullableId = value => value || null;
+function initMarketTargeting(canEdit) {
+  const form = document.getElementById("crm-targeting-form");
+  const suggest = document.getElementById("crm-targeting-suggest");
+  const suggestions = document.getElementById("crm-targeting-suggestions");
+  const status = document.getElementById("crm-targeting-status");
+  const results = document.getElementById("crm-targeting-results");
+  const importButton = document.getElementById("crm-targeting-import");
+  const api = window.MajestiosCompanyTargeting;
+  if (!form || !api) return;
+  if (!canEdit) {
+    form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true);
+    importButton.disabled = true;
+    status.textContent = "Consultation seule : ciblage et intégration réservés aux rôles autorisés à modifier le CRM.";
+    return;
+  }
+  const parseList = value => [...new Set(String(value || "").split(/[,;\\n]+/).map(item => item.trim()).filter(Boolean))];
+  const selected = () => [...results.querySelectorAll('input[data-candidate-index]:checked')].map(input => targetingCandidates[Number(input.dataset.candidateIndex)]).filter(Boolean);
+  suggest.addEventListener("click", () => {
+    const engine = window.MajestiosNafSuggestions;
+    if (!engine) { status.textContent = "Moteur de suggestions APE/NAF indisponible."; return; }
+    const values = engine.suggestNafCodes({ title: form.elements.marketTitle.value, description: form.elements.marketDescription.value }, { limit: 8 });
+    suggestions.replaceChildren();
+    if (!values.length) { suggestions.hidden = true; status.textContent = "Aucune piste lexicale trouvée. Vérifiez les métiers et les codes manuellement."; return; }
+    values.forEach(item => {
+      const label = document.createElement("label");
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox"; checkbox.value = item.code;
+      label.append(checkbox, document.createTextNode(" " + item.code + " — " + item.label + " (indice : " + item.matches.join(", ") + ")"));
+      suggestions.append(label, document.createElement("br"));
+    });
+    const add = document.createElement("button");
+    add.type = "button"; add.className = "button button-secondary"; add.textContent = "Ajouter les codes cochés";
+    add.addEventListener("click", () => {
+      const codes = [...suggestions.querySelectorAll('input:checked')].map(input => input.value);
+      form.elements.nafCodes.value = [...new Set([...parseList(form.elements.nafCodes.value), ...codes])].join(", ");
+    });
+    suggestions.append(add); suggestions.hidden = false;
+    status.textContent = "Suggestions lexicales uniquement : vérification humaine obligatoire.";
+  });
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    const nafCodes = parseList(form.elements.nafCodes.value).map(value => value.toUpperCase());
+    const departments = parseList(form.elements.departments.value).map(value => value.toUpperCase());
+    if (!nafCodes.length || nafCodes.some(value => !/^\\d{2}\\.\\d{2}[A-Z]$/.test(value)) || !departments.length ||
+        departments.some(value => !/^(\\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(value))) {
+      status.textContent = "Vérifiez les codes APE/NAF (ex. 43.21A) et les départements."; return;
+    }
+    const button = form.querySelector('[type="submit"]');
+    button.disabled = true; importButton.disabled = true; results.replaceChildren();
+    status.textContent = "Recherche en cours auprès de l’API publique Recherche d’Entreprises.";
+    try {
+      const response = await api.searchCompanies({ nafCodes, departments, perPage: 25, maxPages: 1 });
+      let candidates = api.rankCompanies(response.candidates, { nafCodes, departments });
+      if (form.elements.activeOnly.checked) candidates = candidates.filter(company => company.active !== false);
+      targetingCandidates = api.selectCandidates(candidates, { nafCodes, departments, limit: Number(form.elements.limit.value), minimumScore: 25 }).candidates;
+      const existing = new Set(targetingBusinesses.flatMap(row => [row.siren && "SIREN:" + row.siren, row.siret && "SIRET:" + row.siret]).filter(Boolean));
+      targetingCandidates = targetingCandidates.filter(company => !existing.has(company.siren && "SIREN:" + company.siren) && !existing.has(company.siret && "SIRET:" + company.siret));
+      targetingCandidates.forEach((company, index) => {
+        const card = document.createElement("article"); card.className = "crm-targeting-candidate";
+        const label = document.createElement("label"); const checkbox = document.createElement("input");
+        checkbox.type = "checkbox"; checkbox.dataset.candidateIndex = String(index);
+        label.append(checkbox, document.createTextNode(" " + (company.name || "Dénomination non fournie") + " — " + company.score + "/100"));
+        const detail = document.createElement("p");
+        detail.textContent = "SIREN : " + (company.siren || "inconnu") + " · APE/NAF : " + (company.naf || "inconnu") + " · Département : " + (company.department || "inconnu") + ". " + company.warning;
+        card.append(label, detail); results.append(card);
+      });
+      status.textContent = response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount + " entreprise(s) unique(s), " + targetingCandidates.length + " candidat(s) nouveau(x). Source : " + response.source + " · " + new Date(response.fetchedAt).toLocaleString("fr-FR") + ". Aucune fiche enregistrée à ce stade.";
+      importButton.disabled = !targetingCandidates.length;
+    } catch (error) { targetingCandidates = []; status.textContent = error.message || "Recherche échouée : aucun candidat intégré."; }
+    finally { button.disabled = false; }
+  });
+  results.addEventListener("change", () => { importButton.disabled = selected().length === 0; });
+  importButton.addEventListener("click", async () => {
+    const chosen = selected(); if (!chosen.length) return;
+    importButton.disabled = true; let saved = 0, failed = 0;
+    for (const company of chosen) {
+      const raw = company.raw || {}; const siege = raw.siege || raw.etablissement || {};
+      const postal = String(siege.code_postal || raw.code_postal || "");
+      const department = company.department || (postal.startsWith("97") ? postal.slice(0,3) : postal.slice(0,2));
+      const notes = "Candidat issu d’un ciblage APE/NAF et départemental. Score indicatif : " + company.score + "/100. " + company.reasons.join(" ; ") + " Vérification humaine requise.";
+      try {
+        await MajestiosCRM.createBusiness({
+          legal_name: company.name || "Dénomination à vérifier", siren: company.siren || null,
+          siret: company.siret || null, ape_naf: company.naf || null, department_code: department || null,
+          city: siege.libelle_commune || raw.libelle_commune || raw.commune || null, postal_code: postal || null,
+          address_line: [siege.numero_voie, siege.type_voie, siege.libelle_voie].filter(Boolean).join(" ") || null,
+          source_label: "API Recherche d’Entreprises — DINUM", source_url: company.sourceUrl || "https://recherche-entreprises.api.gouv.fr/",
+          qualification_status: "to_review", qualification_notes: notes, country_code: "FR"
+        });
+        saved++;
+      } catch { failed++; }
+    }
+    await refresh(true); targetingCandidates = []; results.replaceChildren();
+    status.textContent = saved + " entreprise(s) intégrée(s) au CRM comme « à examiner » ; " + failed + " échec(s). Vérifiez les fiches et leurs sources.";
+    importButton.disabled = true;
+  });
+}
 try {
   const { membership, organization } = await MajestiosCRM.requireWorkspace();
   const canAdminister = ["owner", "admin"].includes(membership.role);
   document.querySelector("#crm-admin-nav-link").hidden = !canAdminister;
   document.querySelector("#crm-search-nav-link").hidden = !canAdminister;
   const isReadOnly = membership.role === "viewer";
+  initMarketTargeting(!isReadOnly);
   if (isReadOnly) {
     document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
       .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
