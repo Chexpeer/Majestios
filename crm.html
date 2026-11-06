@@ -51,6 +51,12 @@
   <section class="interior-grid" aria-label="Données CRM">
     <article class="platform-card">
       <h2>Entreprises <span id="crm-business-count">—</span></h2>
+      <div class="crm-business-filters" role="search" aria-label="Filtrer les entreprises du CRM">
+        <label class="form-field">Rechercher une entreprise<input id="crm-business-search" type="search" placeholder="Nom, SIREN, SIRET, APE/NAF, ville…" autocomplete="off"></label>
+        <label class="form-field">Qualification<select id="crm-business-qualification"><option value="">Toutes les qualifications</option><option value="to_review">À examiner</option><option value="in_progress">En cours</option><option value="qualified">Qualifiées</option><option value="not_qualified">Non qualifiées</option><option value="do_not_contact">Ne pas contacter</option></select></label>
+        <label class="form-field">Département<input id="crm-business-department" inputmode="numeric" maxlength="3" pattern="[0-9A-Za-z]{2,3}" placeholder="Ex. 72"></label>
+      </div>
+      <p id="crm-business-filter-count" class="small-note" role="status" aria-live="polite">Toutes les entreprises sont affichées.</p>
       <form id="crm-business-form">
         <label class="form-field">Nom de l’entreprise<input name="legal_name" required maxlength="200"></label>
         <label class="form-field">Site web<input name="website" type="url"></label>
@@ -100,6 +106,7 @@
   <p class="prototype-note">Les accès sont contrôlés par les politiques RLS Supabase. Le navigateur utilise uniquement la clé publique ; aucune clé service_role n’est exposée.</p>
 </main>
 <script type="module" src="crm-page.js"></script>
+<script type="module" src="crm-business-filters.js"></script>
 <script type="module" src="crm-workspace-nav.js"></script>
 <footer class="admin-crm-footer"><span>MajestiOS V.5 · CRM interne</span><span>Administration générale · Contrôle d’accès actif</span></footer>
 </body>
