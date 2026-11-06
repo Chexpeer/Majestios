@@ -1,6 +1,6 @@
 # Documentation MajestiOS
 
-**Index — 5 novembre 2026** · Référentiel V5 source : `evolution-5.0` · Reconstruction de livraison en revue : `evolution-5.0-clean-preview` (PR #38)
+**Index — 6 novembre 2026** · Référentiel V5 source : `evolution-5.0` · PR #38 fusionnée dans `main` · Branche de réalisation du cockpit : `evolution-5.0-admin-cockpit`
 
 La branche `evolution-5.0` porte le référentiel documentaire actuel de MajestiOS. Les versions antérieures restent séparées sur leurs branches sources : `evolution-2.0`, `evolution-3.0` et `evolution-4.0`. Leurs dossiers ne sont pas recopiés dans V5.
 
