@@ -313,11 +313,23 @@ async function refresh(canEdit = false) {
   document.querySelector("#crm-contact-count").textContent = contacts.length;
   document.querySelector("#crm-opportunity-count").textContent = opportunities.length;
   document.querySelector("#crm-activity-count").textContent = activities.length;
+  const adminMetrics = {
+    "#crm-admin-business-count": businesses.length,
+    "#crm-admin-contact-count": contacts.length,
+    "#crm-admin-opportunity-count": opportunities.filter(row => !["won", "lost", "archived"].includes(row.status)).length,
+    "#crm-admin-activity-count": activities.length
+  };
+  Object.entries(adminMetrics).forEach(([selector, value]) => {
+    const element = document.querySelector(selector);
+    if (element) element.textContent = String(value);
+  });
   renderEditableList("#crm-business-list", businesses, row => (row.trade_name || row.legal_name) + " · " + row.qualification_status, "business", canEdit);
   renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
   renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
   renderFollowups(opportunities);
   const reminders = await MajestiosCRM.listReminders();
+  const adminReminderCount = document.querySelector("#crm-admin-reminder-count");
+  if (adminReminderCount) adminReminderCount.textContent = String(reminders.filter(row => row.state === "pending").length);
   renderPersistentReminders(reminders, canEdit);
   sendDueReminders(opportunities);
   const activityList = document.querySelector("#crm-activity-list");
