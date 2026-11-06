@@ -101,7 +101,7 @@ async function update(table, id, values) {
   const { error: historyError } = await supabase.from("activities").insert({
     organization_id: membership.organization_id, actor_user_id: authData.user?.id || null,
     activity_type: activityType, subject, body,
-    business_id: table === "businesses" ? data.id : (data.business_id || null),
+    business_id: table === "businesses" ? data.id : (data.business_id || before.business_id || null),
     contact_id: table === "contacts" ? data.id : null,
     opportunity_id: table === "opportunities" ? data.id : null,
     metadata: { entity_type: table, entity_id: id, changed_fields: changedFields,
