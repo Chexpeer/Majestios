@@ -861,3 +861,60 @@ Cette matrice décrit uniquement une orientation d'interface. Elle ne constitue 
 ### Décision et périmètre du présent lot
 
 La page `espace-interne.html` est retenue comme proposition d'architecture, pas encore comme implémentation. Le présent lot ajoute cette spécification documentaire uniquement. Aucun fichier applicatif, schéma, rôle, compte, donnée, politique RLS, fonction Edge, configuration Supabase, déploiement ou environnement de production n'a été modifié. L'immeuble interactif reste strictement intact.
+
+
+## 26. Vérification réelle des comptes, de l'authentification et des droits CRM — 6 novembre 2026
+
+Contrôle effectué en lecture seule sur le projet Supabase actif `majestios-backend` (PostgreSQL 17.11), puis confrontation avec les fichiers de la branche `evolution-5.0-admin-cockpit`. Aucune donnée nominative, adresse e-mail ou identité de compte n'est reproduite ici.
+
+### 26.1 État réel du provisionnement
+
+- **[Vérifié — Supabase, 6 novembre 2026]** Une organisation de type `internal` est présente.
+- **[Vérifié — Supabase, 6 novembre 2026]** Une ligne d'appartenance interne est présente avec le rôle `owner`.
+- **[Vérifié — Supabase, 6 novembre 2026]** Une identité Auth utilisateur est présente. La relation de clé étrangère entre `organization_members.user_id` et `auth.users.id`, ainsi que le décompte d'une appartenance owner, confirment le provisionnement d'un premier compte interne.
+- **[Vérifié — Supabase]** Aucun autre rôle de membre n'est actuellement recensé dans les données contrôlées. Ce constat décrit l'instant du contrôle ; il ne préjuge pas des futurs collaborateurs.
+- **[Conclusion]** La note de la section 12, qui signalait déjà une appartenance owner observée, est cohérente avec l'état réel actuel. En revanche, `ETAT-BACKEND-SUPABASE.md` contient encore des passages historiques indiquant qu'aucun compte Auth ni membre interne n'était provisionné. Ces passages sont périmés et doivent être lus comme un état antérieur, non comme l'état courant. Le présent contrôle ne réécrit pas ce document d'état dans ce lot.
+
+### 26.2 Authentification interne : état du parcours
+
+- **[Vérifié — code]** `auth-espace-membre.js` offre inscription, connexion par mot de passe et récupération du mot de passe.
+- **[Vérifié — code]** Le mode inscription appelle `provision-client-workspace` pour créer un espace client. Le flux de connexion peut également déclencher ce provisionnement client lorsqu'un compte ne possède aucune appartenance et que ses métadonnées répondent aux conditions prévues.
+- **[Vérifié — code]** Les pages Administration générale et Recherches ciblées demandent à l'utilisateur de se connecter avec un compte interne qui lui a été attribué ; elles contrôlent ensuite l'organisation et le rôle. Le CRM vérifie également la session, l'identité Auth et l'appartenance interne.
+- **[Limite constatée]** Il n'existe pas encore de parcours d'authentification interne dédié et explicitement séparé du formulaire public/client. Le formulaire actuel permet techniquement à un compte interne déjà provisionné de se connecter, mais il reste conçu autour de l'inscription et du provisionnement des clients. Il ne doit pas servir de mécanisme d'invitation, de création ou d'attribution de rôle à un collaborateur.
+- **[Décision]** Avant de construire `espace-interne.html`, prévoir un point d'entrée de connexion interne sans inscription publique ni appel au provisionnement client. L'attribution des membres et des rôles doit rester une opération privilégiée, distincte de l'auto-inscription client. Aucun mécanisme de création de compte ou d'invitation interne n'est ajouté ici.
+
+### 26.3 Droits réels RLS des rôles CRM
+
+Les définitions SQL actuellement déployées ont été lues directement dans PostgreSQL, avec les politiques des tables métier.
+
+- **Lecture CRM :** les politiques SELECT de `businesses`, `contacts`, `opportunities` et `activities` appellent `private.is_org_member(organization_id)`. Cette fonction vérifie l'appartenance à l'organisation, sans exclure le rôle `viewer`. Un viewer membre de l'organisation interne est donc autorisé par ces politiques à lire les données CRM de cette organisation.
+- **Écriture CRM :** les politiques INSERT/UPDATE s'appuient sur `private.is_org_editor(organization_id)`, qui reconnaît `owner`, `admin` et `member`, mais pas `viewer`. Les viewers sont donc exclus des écritures ordinaires. Les suppressions examinées sont réservées à `owner` et `admin`.
+- **Activités :** la politique d'ajout d'activité exige également le rôle éditeur ; un viewer peut lire l'historique, mais ne peut pas y ajouter d'activité.
+- **Fonction interne globale :** `private.is_internal_staff()` reconnaît `owner`, `admin` et `member`, mais exclut `viewer`. Les politiques de `client_requests` qui utilisent cette fonction ne donnent donc pas aux viewers le même périmètre de lecture/traitement que les autres tables CRM.
+- **Rappels :** la fonction `public.complete_crm_reminder(uuid)` vérifie l'identité authentifiée et appelle `private.is_org_editor` avant de traiter une relance. Le code client bloque aussi cette action pour le rôle viewer.
+- **Conclusion vérifiée :** la consultation seule du CRM par un viewer est autorisée par les politiques SELECT des quatre tables CRM principales ; ce n'est pas uniquement un masquage de boutons dans l'interface. Les opérations d'écriture restent contrôlées côté base. Cette conclusion ne doit pas être étendue automatiquement aux demandes client, rappels ou futurs modules sans audit de leurs politiques propres.
+
+### 26.4 Matrice d'orientation désormais étayée
+
+| Rôle interne | CRM : lecture des 4 tables principales | Écriture CRM ordinaire | Administration et recherches |
+|---|---|---|---|
+| owner | Oui | Oui | Oui |
+| admin | Oui | Oui | Oui |
+| member | Oui | Oui | Non |
+| viewer | Oui | Non | Non |
+
+Cette matrice décrit les contrôles actuellement observés. Elle ne promet pas l'accès à toutes les fonctions CRM annexes : chaque table, RPC et opération conserve sa propre politique. Les pages Administration et Recherches exigent explicitement `owner` ou `admin`.
+
+### 26.5 Conséquences pour le futur accueil interne
+
+1. La page `espace-interne.html` peut être conçue comme un sas d'orientation pour les quatre rôles, à condition de conserver ses contrôles d'accès côté serveur et les contrôles indépendants des pages cibles.
+2. La carte CRM peut être proposée aux quatre rôles internes ; l'état « consultation seule » doit être affiché pour viewer.
+3. Les cartes Administration générale et Recherches ciblées sont réservées à owner/admin.
+4. Le futur accueil ne doit pas détourner `espace-membre.html` ni son flux de provisionnement client. Le parcours de connexion interne dédié constitue un prérequis fonctionnel à traiter dans le même chantier.
+5. Le retour du CRM devra pointer vers l'accueil interne, mais seulement lorsque cet accueil et son authentification seront construits et testés ensemble.
+
+### 26.6 Périmètre et limites
+
+Ce contrôle a utilisé uniquement des lectures de métadonnées, définitions de fonctions, politiques RLS, décomptes et fichiers du dépôt. Aucune ligne métier ou identité individuelle n'a été modifiée ; aucune migration, politique, fonction, configuration ou compte n'a été créé, supprimé ou modifié. Aucun déploiement, merge ou changement de production n'a été lancé. L'immeuble interactif et tous ses composants restent hors périmètre et intacts.
+
+La recette authentifiée dans un navigateur pour chacun des rôles n'a pas été réalisée. Les droits viewer sont établis par inspection des politiques déployées, pas par un test de session viewer. La CI de ce futur commit documentaire devra être vérifiée séparément ; aucun succès de CI n'est présumé.
