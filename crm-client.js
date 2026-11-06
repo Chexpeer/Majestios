@@ -47,6 +47,39 @@ async function requireWorkspace() {
   return { session, user, membership, organization: internalOrganizations[0] };
 }
 
+async function listBusinessesPage({ page = 0, pageSize = 25, search = "", qualification = "", department = "" } = {}) {
+  const { membership } = await requireWorkspace();
+  const safePage = Math.max(0, Math.floor(Number(page) || 0));
+  const safePageSize = Math.min(100, Math.max(1, Math.floor(Number(pageSize) || 25)));
+  const from = safePage * safePageSize;
+  const to = from + safePageSize - 1;
+  let query = supabase.from("businesses").select("*", { count: "exact" })
+    .eq("organization_id", membership.organization_id)
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: true })
+    .range(from, to);
+
+  const safeSearch = String(search || "").trim()
+    .replace(/[,%()_*\\\\]/g, " ")
+    .replace(/\\s+/g, " ")
+    .slice(0, 120);
+  if (safeSearch) {
+    const columns = ["legal_name", "trade_name", "siren", "siret", "ape_naf", "city"];
+    query = query.or(columns.map((column) => column + ".ilike.%" + safeSearch + "%").join(","));
+  }
+  if (qualification) query = query.eq("qualification_status", qualification);
+  const safeDepartment = String(department || "").trim().toUpperCase();
+  if (safeDepartment) query = query.eq("department_code", safeDepartment);
+
+  const { data, count, error } = await query;
+  if (error) throw error;
+  const total = Number(count || 0);
+  return {
+    rows: data || [], total, page: safePage, pageSize: safePageSize,
+    pageCount: Math.ceil(total / safePageSize)
+  };
+}
+
 async function list(table) {
   if (!tables.includes(table)) throw new Error("Module CRM inconnu.");
   const { membership } = await requireWorkspace();
@@ -148,6 +181,7 @@ export const MajestiosCRM = Object.freeze({
   auth: supabase.auth,
   requireWorkspace,
   listBusinesses: () => list("businesses"),
+  listBusinessesPage,
   listContacts: () => list("contacts"),
   listOpportunities: () => list("opportunities"),
   listActivities: () => list("activities"),
