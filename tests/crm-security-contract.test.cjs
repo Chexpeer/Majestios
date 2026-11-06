@@ -217,3 +217,38 @@ assert.ok(page.includes("activityTypes[row.activity_type]"));
 
 
 console.log("CRM persistent reminders contract: OK — persistance, déduplication, isolation tenant, cycle de vie et planification PostgreSQL.");
+
+
+const internalAdmin = read("supabase/migrations/20261106140000_internal_admin_audit.sql");
+const publishedFiles = JSON.parse(read("site-files.json")).files;
+assert.ok(publishedFiles.includes("crm-page.js"), "Le module CRM doit être publié dans dist/.");
+assert.ok(publishedFiles.includes("crm-client.js"), "Le client CRM doit être publié dans dist/.");
+assert.match(crmHtml, /<script type="module" src="crm-page\.js"><\/script>/);
+assert.match(crmHtml, /id="crm-session-indicator"/);
+assert.match(crmHtml, /id="crm-admin-panel"[^>]*hidden/);
+assert.match(page, /CRM · DÉCONNECTÉ/);
+assert.match(page, /updateSessionIndicator\(activeSession\)/);
+assert.match(page, /event === "SIGNED_IN" && session/);
+assert.match(page, /window\.location\.reload\(\)/);
+assert.doesNotMatch(page, /\["owner","Propriétaire"\]/);
+assert.match(page, /workspace\.membership\.role !== "owner"/);
+assert.match(client, /async function listInternalMembers\(\)/);
+assert.match(client, /supabase\.rpc\("manage_internal_member_role"/);
+assert.match(client, /supabase\.rpc\("remove_internal_member"/);
+for (const fragment of [
+  "create table if not exists public.internal_admin_audit",
+  "enable row level security",
+  "Internal administrators can read admin audit",
+  "security definer",
+  "set search_path = ''",
+  "v_target.role = 'owner'",
+  "v_target.user_id = v_actor",
+  "Seul le propriétaire peut gérer les administrateurs.",
+  "Seul le propriétaire peut retirer un administrateur.",
+  "'change_role'",
+  "'remove_member'",
+  "grant execute on function public.manage_internal_member_role(uuid, text) to authenticated",
+  "grant execute on function public.remove_internal_member(uuid) to authenticated"
+]) assert.ok(internalAdmin.includes(fragment), "Contrôle d’administration interne absent : " + fragment);
+assert.doesNotMatch(internalAdmin, /Écriture réservée au service role via Edge Function/);
+console.log("CRM admin contract: OK — publication des modules, état de session, rôles protégés et journal d’administration.");
