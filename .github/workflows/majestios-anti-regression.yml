@@ -32,8 +32,10 @@ jobs:
           node-version: 20
       - name: Vérifier le contrat de sécurité CRM
         run: node tests/crm-security-contract.test.cjs
-      - name: Vérifier la navigation unique du CRM interne
+      - name: Vérifier la navigation et l’accueil interne
         run: node tests/crm-navigation-contract.test.cjs
+      - name: Vérifier le contrat d’accès collaborateur interne
+        run: node tests/internal-entry-contract.test.cjs
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification explicable des entreprises
