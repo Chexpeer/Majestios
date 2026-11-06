@@ -89,6 +89,8 @@ assert.match(auth, /signInWithPassword/);
 assert.match(auth, /!memberships\?\.length/);
 assert.match(auth, /await provisionWorkspace\(\s*data\.session/);
 assert.match(edge, /const NOTICE_VERSION = "2026-11-05"/);
+assert.ok(edge.includes("isAllowedOrigin(origin)") && edge.includes("majestios-jc8g-") && edge.includes("ALLOWED_ORIGINS"));
+assert.ok(!edge.includes('"Access-Control-Allow-Origin": "*"'));
 assert.match(edge, /admin\.rpc\("provision_client_workspace"/);
 assert.doesNotMatch(edge, /\.from\("organizations"\)\s*\.insert/);
 assert.doesNotMatch(edge, /\.from\("organization_members"\)\s*\.insert/);
