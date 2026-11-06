@@ -650,7 +650,7 @@ Principes d'application à respecter lors de la réalisation :
 - `administration.js` : vérification de session, appartenance à une organisation de type `internal` et rôle `owner` ou `admin` avant affichage du cockpit.
 - `crm.html` : retrait de la navigation du site public au profit d'un repère interne « Administration générale / CRM interne » et d'un retour unique au poste de commandement.
 - `site-files.json` : déclaration des trois nouvelles ressources pour le build statique.
-- `verify-site.js` et le workflow de vérification : contrôles de présence, de navigation et de syntaxe du nouveau module.
+- `verify-site.js`, `verify-architecture.js` et le workflow de vérification : contrôles de présence, de navigation, de syntaxe et test navigateur du verrouillage sans session via `tests/administration-access.browser.cjs`.
 
 Le CRM reste servi par `crm.html`, `crm-page.js` et `crm-client.js`. Aucune fonction métier existante n'a été réécrite. Le cockpit présente le CRM comme premier module opérationnel ; les autres modules sont explicitement étiquetés « À construire ».
 
