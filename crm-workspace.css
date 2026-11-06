@@ -27,3 +27,13 @@
 @media(prefers-reduced-motion:reduce){.crm-workspace-nav-button{scroll-behavior:auto}}
 
 .interior-grid[hidden],.crm-followups[hidden],.interior-grid article[hidden]{display:none!important}
+
+
+.crm-business-filters{display:grid;grid-template-columns:minmax(220px,2fr) minmax(170px,1fr) minmax(120px,.7fr);gap:10px;margin:14px 0 6px;padding:12px;border:1px solid #d8dde0;border-radius:9px;background:#f7f8f8}
+.crm-business-filters .form-field{margin:0}
+.crm-business-filters input,.crm-business-filters select{width:100%;min-height:40px;padding:9px 10px;border:1px solid #cbd1d5;border-radius:6px;background:#fff;color:#303941;font:inherit}
+.crm-business-filters input:focus-visible,.crm-business-filters select:focus-visible{outline:3px solid #657f9a;outline-offset:2px}
+#crm-business-filter-count{margin:7px 0 12px}
+#crm-business-list>li[hidden]{display:none!important}
+.crm-business-metadata{margin:5px 0 0;color:#65717a;font-size:12px;line-height:1.5}
+@media(max-width:680px){.crm-business-filters{grid-template-columns:1fr}}
