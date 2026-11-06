@@ -1,7 +1,11 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 const NOTICE_VERSION = "2026-11-05";
-const allowedOrigins = (Deno.env.get("ALLOWED_ORIGINS") ?? "")
-  .split(",").map((origin) => origin.trim()).filter(Boolean);
+const allowedOrigins = [
+  "https://majestios.com",
+  "https://www.majestios.com",
+  "https://majestios-jc8g-cqy7hpelc-majistr.vercel.app",
+  ...((Deno.env.get("ALLOWED_ORIGINS") ?? "").split(",").map((origin) => origin.trim()).filter(Boolean))
+];
 
 function corsHeaders(origin: string | null): HeadersInit {
   return {
