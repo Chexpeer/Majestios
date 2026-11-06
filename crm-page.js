@@ -338,10 +338,13 @@ async function refreshAdminMembers() {
         if (value === "admin" && workspace.membership.role !== "owner") option.disabled = true;
         role.append(option);
       });
+      if (member.role === "owner") role.add(new Option("Propriétaire", "owner"), 0);
       role.value = member.role;
+      const protectedOwner = member.role === "owner";
       const protectedAdmin = workspace.membership.role !== "owner" && member.role === "admin";
-      role.disabled = member.user_id === currentUserId || protectedAdmin;
-      if (protectedAdmin) role.title = "Seul le propriétaire peut modifier le rôle d’un administrateur.";
+      role.disabled = protectedOwner || member.user_id === currentUserId || protectedAdmin;
+      if (protectedOwner) role.title = "Le compte propriétaire est protégé.";
+      else if (protectedAdmin) role.title = "Seul le propriétaire peut modifier le rôle d’un administrateur.";
       const save = document.createElement("button");
       save.type = "button";
       save.className = "button button-secondary";
