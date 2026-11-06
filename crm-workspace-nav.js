@@ -34,6 +34,7 @@ if (status && dataGrid && followups && panels.length === 5) {
       button.classList.toggle("is-active", active);
       if (active && moveFocus) button.focus();
     });
+    dataGrid.hidden = id === "overview";
     nav.dataset.activeView = id;
   }
 
