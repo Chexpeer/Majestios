@@ -16,8 +16,8 @@ const auth = read("auth-espace-membre.js");
 const columnsByTable = {};
 for (const match of schema.matchAll(/create table public\.(\w+) \(([\s\S]*?)\n\);/g)) {
   const columns = new Set();
-  for (const line of match[2].split("\\n")) {
-    for (const column of line.matchAll(/(?:^|,)\\s*([a-z_]+)\\s+(?=[a-z])/g)) {
+  for (const line of match[2].split("\n")) {
+    for (const column of line.matchAll(/(?:^|,)\s*([a-z_]+)\s+(?=[a-z])/g)) {
       columns.add(column[1]);
     }
   }
