@@ -52,33 +52,40 @@ function bindForm(id, create, values) {
 }
 
 try {
-  const { membership } = await MajestiosCRM.requireWorkspace();
-  setStatus("Espace sécurisé connecté · rôle : " + membership.role);
-  bindForm("#crm-business-form", MajestiosCRM.createBusiness, data => ({
-    legal_name: data.legal_name.trim(),
-    website: data.website || null,
-    city: data.city || null,
-    country_code: "FR",
-    qualification_status: "to_review"
-  }));
-  bindForm("#crm-contact-form", MajestiosCRM.createContact, data => ({
-    last_name: data.last_name.trim(),
-    first_name: data.first_name || null,
-    email: data.email || null,
-    phone: data.phone || null,
-    consent_status: "unknown"
-  }));
-  bindForm("#crm-opportunity-form", MajestiosCRM.createOpportunity, data => ({
-    title: data.title.trim(),
-    description: data.description || null,
-    source_type: data.source_type,
-    status: "detected"
-  }));
-  bindForm("#crm-activity-form", MajestiosCRM.createActivity, data => ({
-    subject: data.subject.trim(),
-    activity_type: data.activity_type,
-    body: data.body || null
-  }));
+  const { membership, organization } = await MajestiosCRM.requireWorkspace();
+  const isReadOnly = membership.role === "viewer";
+  if (isReadOnly) {
+    document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
+      .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(field => field.disabled = true));
+    setStatus("Espace interne connecté · consultation seule.");
+  } else {
+    setStatus("Espace interne connecté · " + organization.name + " · rôle : " + membership.role);
+    bindForm("#crm-business-form", MajestiosCRM.createBusiness, data => ({
+      legal_name: data.legal_name.trim(),
+      website: data.website || null,
+      city: data.city || null,
+      country_code: "FR",
+      qualification_status: "to_review"
+    }));
+    bindForm("#crm-contact-form", MajestiosCRM.createContact, data => ({
+      last_name: data.last_name.trim(),
+      first_name: data.first_name || null,
+      email: data.email || null,
+      phone: data.phone || null,
+      consent_status: "unknown"
+    }));
+    bindForm("#crm-opportunity-form", MajestiosCRM.createOpportunity, data => ({
+      title: data.title.trim(),
+      description: data.description || null,
+      source_type: data.source_type,
+      status: "detected"
+    }));
+    bindForm("#crm-activity-form", MajestiosCRM.createActivity, data => ({
+      subject: data.subject.trim(),
+      activity_type: data.activity_type,
+      body: data.body || null
+    }));
+  }
   await refresh();
 } catch (error) {
   setStatus(error.message || "Connexion au CRM impossible.", true);
