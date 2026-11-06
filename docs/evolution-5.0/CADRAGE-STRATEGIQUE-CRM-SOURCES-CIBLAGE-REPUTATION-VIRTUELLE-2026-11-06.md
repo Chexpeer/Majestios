@@ -365,3 +365,19 @@ Formulation originale du porteur du projet : « MajestiOS le CRM qui transforme 
 - mesurer la qualité du résultat obtenu, pas seulement le volume traité.
 
 Cette image complète les métaphores de l'aspirateur, du composteur, du malaxeur, de la bétonnière et de l'imprimante 3D : elle résume, avec humour, la promesse de transformation du CRM. Elle ne signifie pas que le système peut inventer les ingrédients manquants ou garantir un résultat sans contrôle.
+
+
+### Métaphore ajoutée — l'ascenseur qui fait monter la moutarde au nez
+
+Formulation originale du porteur du projet : « MajestiOS l'ascenseur qui fait monter la moutarde au nez »
+
+**Interprétation fonctionnelle :** cette formule joue sur deux images complémentaires. L'ascenseur relie les étages et fait circuler les informations, les demandes et les services entre les rubriques de MajestiOS. « Faire monter la moutarde au nez » évoque, avec humour, la capacité du CRM à faire remonter ce qui coince : irritants clients, retards, anomalies, opportunités négligées, incohérences ou signaux faibles qui nécessitent une décision.
+
+**Conséquences de conception :**
+- organiser la remontée d'informations pertinentes entre les rubriques et le poste de commandement ;
+- distinguer les alertes urgentes, les simples notifications et les informations à consulter ;
+- rattacher chaque signal à son origine, son contexte, son responsable et son état de traitement ;
+- éviter les alertes répétitives ou inutiles : priorité, seuils et fréquence doivent être configurables ;
+- permettre de suivre une alerte jusqu'à sa résolution et de conserver son historique.
+
+L'ascenseur ne remplace pas les espaces ni leur organisation : il assure la circulation verticale de l'information. La moutarde qui monte doit attirer l'attention sur un sujet réel, pas provoquer artificiellement de l'agacement.
