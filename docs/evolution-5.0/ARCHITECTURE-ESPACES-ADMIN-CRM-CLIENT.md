@@ -1169,3 +1169,9 @@ La liste principale des entreprises est chargée par pages de 25 au moyen de `li
 Ce dispositif supprime la limite des 100 lignes pour la recherche paginée des entreprises, mais ne modifie pas encore les autres listes CRM, les sélecteurs relationnels ni les rapprochements chargés localement. La pagination offset n’est pas un instantané : des insertions concurrentes peuvent déplacer les résultats entre deux pages. Aucune évolution du schéma, migration ou modification RLS n’est nécessaire ni effectuée pour ce lot.
 
 La méthode `findBusinessesByIdentifiers()` consulte les SIREN et SIRET candidats avec des filtres `IN`, sous le périmètre `organization_id` issu de `requireWorkspace()` et les politiques RLS existantes. Elle est appelée lors de l'affichage des candidats puis répétée immédiatement avant chaque insertion. Aucun import sans identifiant légal SIREN ou SIRET n'est autorisé. L'index unique existant sur `(organization_id, siren)` a été vérifié en lecture seule ; aucun index ni schéma n'a été modifié.
+
+### 37. Pagination des espaces Contacts, Opportunités et Activités
+
+Les espaces principaux Contacts, Opportunités et Activités utilisent `listWorkspaceRecordsPage()`, fonction générique à liste blanche stricte (`contacts`, `opportunities`, `activities`). La fonction vérifie le workspace authentifié, applique `organization_id`, conserve RLS et retourne les pages de 25 lignes avec `count: exact` et `range()`. Les champs de recherche sont définis par table et correspondent aux colonnes réelles du schéma.
+
+Les tris sont déterministes : contacts par date de création décroissante, opportunités par date de mise à jour décroissante, activités par date d’occurrence décroissante, chacun complété par `id ASC`. L’historique garde son rendu chronologique. Les sélecteurs relationnels et les traitements de rappel reposent encore sur les listes auxiliaires limitées à 100 ; leur pagination/recherche propre reste un lot ultérieur.
