@@ -680,7 +680,7 @@ La lecture du schéma Supabase réel confirme que le CRM conserve les tables org
 
 ### 17.2 Écran livré sur la branche de réalisation
 
-Le fichier admin-recherches.html ajoute un écran interne accessible depuis le menu du poste de commandement et la carte « Recherches ciblées ».
+Les fichiers admin-recherches.html et admin-recherches.js ajoutent un écran interne accessible depuis le menu du poste de commandement et la carte « Recherches ciblées ». Le script est séparé pour être contrôlé par la vérification de syntaxe JavaScript de la CI.
 
 Fonctions : choix BODACC/BOAMP ; territoires de départ Pays de la Loire et Île-de-France, avec option France entière ; département précis ; mot-clé ; filtre de famille BODACC ; aperçu de 10, 20 ou 50 résultats ; date, territoire, nature, résumé et lien officiel ; état explicite de requête ; contrôle d'accès session + appartenance à l'organisation interne + rôle owner/admin.
 
@@ -696,6 +696,6 @@ La sélection initiale des territoires est une configuration modifiable par l'ad
 
 ### 17.4 Contrôles et points restant à valider
 
-Le manifeste inclut la nouvelle page et verify-site.js vérifie sa présence, son exclusion de l'indexation, ses sources et son contrôle d'accès. La validation réelle des requêtes dépend encore d'un essai navigateur authentifié avec un compte owner/admin et de la disponibilité/CORS des API DILA depuis la prévisualisation. Le dédoublonnage, le rapprochement SIREN/SIRET et l'import CRM restent hors périmètre.
+Le manifeste inclut la page et son script ; le workflow vérifie la syntaxe du script. verify-site.js contrôle leur présence, l'exclusion de la page de l'indexation, les sources et le contrôle d'accès. Le test navigateur administration-access.browser.cjs vérifie aussi que la page de recherche et sa navigation restent masquées sans session. La validation réelle des requêtes dépend encore d'un essai navigateur authentifié avec un compte owner/admin et de la disponibilité/CORS des API DILA depuis la prévisualisation. Le dédoublonnage, le rapprochement SIREN/SIRET et l'import CRM restent hors périmètre.
 
 Aucun changement de table, migration, RLS, fonction Edge, donnée Supabase ou immeuble interactif n'est effectué. Aucun déploiement Vercel, fusion dans main ou promotion en production n'est lancé.
