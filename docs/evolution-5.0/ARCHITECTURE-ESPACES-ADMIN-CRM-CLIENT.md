@@ -918,3 +918,49 @@ Cette matrice décrit les contrôles actuellement observés. Elle ne promet pas 
 Ce contrôle a utilisé uniquement des lectures de métadonnées, définitions de fonctions, politiques RLS, décomptes et fichiers du dépôt. Aucune ligne métier ou identité individuelle n'a été modifiée ; aucune migration, politique, fonction, configuration ou compte n'a été créé, supprimé ou modifié. Aucun déploiement, merge ou changement de production n'a été lancé. L'immeuble interactif et tous ses composants restent hors périmètre et intacts.
 
 La recette authentifiée dans un navigateur pour chacun des rôles n'a pas été réalisée. Les droits viewer sont établis par inspection des politiques déployées, pas par un test de session viewer. La CI de ce futur commit documentaire devra être vérifiée séparément ; aucun succès de CI n'est présumé.
+
+
+## 27. Mise en place de l'accueil et de l'authentification des collaborateurs — 6 novembre 2026
+
+À la suite de la vérification réelle des comptes et des politiques RLS (section 26), le premier parcours interne dédié est implémenté sur la branche `evolution-5.0-admin-cockpit`.
+
+### 27.1 Nouvelle porte d'entrée interne
+
+Trois ressources dédiées sont créées :
+
+- `espace-interne.html` — point d'entrée et accueil commun ;
+- `espace-interne.css` — identité visuelle propre à cet accueil, avec adaptation mobile ;
+- `espace-interne.js` — authentification et orientation selon les habilitations.
+
+La page propose uniquement une connexion par identifiants existants via Supabase Auth. Elle ne propose ni inscription, ni création de compte, ni provisionnement d'organisation client. Elle vérifie la session, reconfirme l'identité avec `auth.getUser()`, retrouve les appartenances de l'utilisateur et exige une organisation de type `internal` unique avec un rôle reconnu (`owner`, `admin`, `member` ou `viewer`). Un compte sans appartenance interne est déconnecté et reste sur l'écran de connexion avec un message explicite.
+
+### 27.2 Orientation conditionnée par rôle
+
+L'accueil propose le CRM aux quatre rôles internes reconnus. Le rôle viewer voit explicitement « consultation seule ». Les cartes Administration générale et Recherches ciblées ne sont présentées qu'aux rôles owner et admin.
+
+La page accepte un paramètre `returnTo` uniquement pour une liste fermée de routes internes. Après authentification, le CRM peut être ouvert à tout rôle interne admis ; Administration et Recherches ne sont ouvertes automatiquement qu'à owner/admin. Si le rôle ne permet pas la destination demandée, l'utilisateur reste sur l'accueil interne. Les pages cibles conservent leurs propres contrôles : cette orientation ne remplace pas les contrôles de sécurité ni les politiques RLS.
+
+### 27.3 Parcours de navigation raccordés
+
+- Le fil d'Ariane du CRM renvoie désormais vers `espace-interne.html`, ce qui évite d'envoyer un viewer vers une Administration qui lui est interdite.
+- Le contrôle d'accès de la page Administration propose désormais `espace-interne.html?returnTo=administration.html`.
+- Le contrôle d'accès de la page Recherches ciblées propose `espace-interne.html?returnTo=admin-recherches.html`.
+- Les fils d'Ariane de ces deux pages offrent aussi un retour vers l'accueil interne.
+
+Le formulaire public/client `espace-membre.html` et son contrôleur `auth-espace-membre.js` ne sont pas modifiés. Le CRM Supabase existant est conservé ; aucune seconde base CRM n'est créée.
+
+### 27.4 Contrôles anti-régression ajoutés
+
+- `tests/internal-entry-contract.test.cjs` vérifie la connexion sans inscription/provisionnement, la vérification d'identité et d'organisation, la matrice de rôles, le filtrage des destinations et les routes de retour.
+- `tests/crm-navigation-contract.test.cjs` vérifie désormais le retour unique CRM → accueil interne et la séparation avec l'espace client.
+- `verify-site.js` contrôle la présence et le manifeste des trois ressources, le noindex, le chargement des ressources, le filtrage par rôle et les routes d'authentification.
+- `.github/workflows/verify-site.yml` vérifie la syntaxe du nouveau module.
+- `.github/workflows/majestios-anti-regression.yml` exécute le nouveau contrat d'accès interne.
+
+Pendant ce contrôle, une erreur préexistante a été détectée dans `verify-site.js` : une seconde déclaration de la constante `crmPage` dans la même portée provoquait une erreur de syntaxe. La déclaration redondante a été retirée et le contrôle du lien CRM a été actualisé vers l'accueil interne. La compilation syntaxique de `verify-site.js` a ensuite été vérifiée.
+
+### 27.5 Limites de recette et périmètre
+
+L'implémentation du parcours et les contrats statiques sont ajoutés, mais une recette navigateur authentifiée pour chacun des quatre rôles reste à effectuer. En particulier, il faut tester owner, admin, member et viewer avec des comptes de test réellement attribués, puis vérifier les redirections et les cas de compte client seul / absence d'appartenance. Le compte owner actuel n'a pas été utilisé ni modifié pour cette recette.
+
+Aucune politique RLS, fonction SQL/Edge, table, donnée, compte ou rôle Supabase n'a été modifié. Aucun provisionnement ni invitation de collaborateur n'a été créé. Aucun déploiement Vercel, merge vers `main` ou promotion en production n'a été lancé. L'immeuble interactif, ses visuels, ses étages, ses libellés, ses zones cliquables et ses liens restent strictement intacts. La CI du commit final doit être consultée séparément ; la présence des tests dans les workflows ne constitue pas à elle seule une preuve de réussite.
