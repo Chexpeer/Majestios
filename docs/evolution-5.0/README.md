@@ -45,7 +45,8 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 19. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
 20. [Audit technique indépendant — source Claude](AUDIT-TECHNIQUE-CLAUDE-2026-11-05.md) — contrôles déclarés, limites de l’analyse, anomalies, points positifs et recommandations de consolidation.
 21. [Cahier des charges — veille stratégique](CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) — cadrage des signaux économiques, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial.
-22. [Maintenance, sauvegardes et continuité](MAINTENANCE-ET-CONTINUITE.md) — méthode permanente de nettoyage Git, points de retour, vérifications, documentation et reprise.\n23. [Correctif ciblé — navigation du CRM interne](CORRECTIF-NAVIGATION-CRM-2026-11-06.md) — suppression d'un retour redondant, nettoyage du balisage et contrôle anti-régression.
+22. [Maintenance, sauvegardes et continuité](MAINTENANCE-ET-CONTINUITE.md) — méthode permanente de nettoyage Git, points de retour, vérifications, documentation et reprise.
+23. [Correctif ciblé — navigation du CRM interne](CORRECTIF-NAVIGATION-CRM-2026-11-06.md) — suppression d'un retour redondant, nettoyage du balisage et contrôle anti-régression.
 
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
