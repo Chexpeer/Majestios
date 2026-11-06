@@ -167,3 +167,90 @@ Tant que l'utilisateur ne dispose que de son téléphone :
 6. ne jamais transmettre une clé `service_role`, un mot de passe de base ou un secret dans la conversation.
 
 **Décision maintenue :** projet actuel conservé intact ; aucune création de projet Foundation, aucune migration, aucune modification CRM, aucun changement de l'immeuble interactif, aucun déploiement.
+
+
+## 9. Réconciliation approfondie des migrations et des branches — contrôle du 7 novembre 2026
+
+### 9.1 Les deux branches backend ne sont pas interchangeables
+
+La comparaison GitHub entre `evolution-5.0-clean-preview` et `evolution-5.0-admin-cockpit` retourne :
+
+- statut : `diverged` ;
+- 245 commits d'avance côté `evolution-5.0-admin-cockpit` ;
+- 259 commits d'avance côté `evolution-5.0-clean-preview` ;
+- ancêtre commun retourné : `7ea2f31944c2b8daddad50fb78468a1a5af992e2`.
+
+Ce sont deux lignées divergentes, pas une simple branche en avance sur l'autre. Aucune fusion ni promotion ne doit être tentée pour résoudre le sujet.
+
+Le document historique `ETAT-BACKEND-SUPABASE.md` désigne `evolution-5.0-clean-preview` comme branche contenant les migrations et fonctions. Cette indication est un repère historique, pas une preuve suffisante que cette branche est aujourd'hui la source exacte du backend live.
+
+### 9.2 Correspondance nominale entre l'historique live et les fichiers SQL
+
+Les sept entrées live de novembre 2026 correspondent par leur nom aux sept migrations fonctionnelles retrouvées dans GitHub, mais les six premières portent des horodatages différents :
+
+| Version enregistrée par Supabase | Nom live | Fichier retrouvé dans GitHub |
+|---|---|---|
+| `20261106085409` | `bootstrap_first_internal_admin` | `20261106031500_bootstrap_first_internal_admin.sql` |
+| `20261106085411` | `enforce_crm_editor_roles` | `20261106074500_enforce_crm_editor_roles.sql` |
+| `20261106085415` | `atomic_client_workspace_provisioning` | `20261106090000_atomic_client_workspace_provisioning.sql` |
+| `20261106085430` | `persistent_crm_reminders` | `20261106100000_persistent_crm_reminders.sql` |
+| `20261106085434` | `sync_crm_reminder_lifecycle` | `20261106110000_sync_crm_reminder_lifecycle.sql` |
+| `20261106085436` | `complete_crm_reminder_with_activity` | `20261106120000_complete_crm_reminder_with_activity.sql` |
+| `20261106135037` | `grant_crm_record_updates` | `20261106135037_grant_crm_record_updates.sql` |
+
+Les six premières correspondances sont nominales et fonctionnelles à ce stade ; l'historique Supabase ne livre pas le texte SQL exécuté. Il n'est donc pas possible d'affirmer une identité octet par octet entre chaque fichier GitHub et le SQL historique.
+
+### 9.3 Différence précise entre les deux versions de la migration des relances
+
+Les fichiers `20261106100000_persistent_crm_reminders.sql` des deux branches ont une seule différence textuelle relevée :
+
+- `evolution-5.0-clean-preview` : la politique de lecture appelle `public.is_org_member(organization_id)` ;
+- `evolution-5.0-admin-cockpit` : elle appelle `private.is_org_member(organization_id)`.
+
+Le contrôle de `pg_policies` sur le projet live confirme que la politique effective appelle **`private.is_org_member(organization_id)`**. Sur ce point précis, le fichier de la branche `evolution-5.0-admin-cockpit` correspond à l'expression live ; la version de `evolution-5.0-clean-preview` ne correspond pas.
+
+Autre écart : la fonction live `private.materialize_crm_reminders()` réactive une relance annulée en cas de conflit sur la même échéance (remise à `pending`, actualisation du titre et de l'action, remise à zéro des dates de lecture et d'annulation). Les deux fichiers SQL comparés utilisent simplement `ON CONFLICT ... DO NOTHING`. Cette logique live supplémentaire n'est donc pas retrouvée dans ces deux fichiers. Elle doit être retrouvée dans un commit, un patch ou un historique SQL avant toute réécriture de source.
+
+### 9.4 Les commentaires « non appliquée » sont devenus obsolètes
+
+Les fichiers `20261106074500_enforce_crm_editor_roles.sql` et `20261106100000_persistent_crm_reminders.sql` contiennent des commentaires indiquant qu'ils sont versionnés dans GitHub uniquement / non appliqués en production. Or l'historique live Supabase contient les migrations portant ces deux noms, et le schéma live expose les politiques et objets correspondants.
+
+Ces commentaires ne décrivent donc plus de manière fiable l'état live actuel. Ils ne doivent pas être utilisés comme preuve de non-application.
+
+### 9.5 La migration de grants est absente d'une des branches
+
+Le fichier `20261106135037_grant_crm_record_updates.sql` est présent dans `evolution-5.0-clean-preview` mais absent de `evolution-5.0-admin-cockpit`.
+
+Le contrôle live de `information_schema.role_table_grants` confirme néanmoins le privilège `UPDATE` pour `authenticated` sur `businesses`, `contacts` et `opportunities`. Les politiques RLS restent présentes et déterminent les lignes et rôles autorisés.
+
+La branche `evolution-5.0-admin-cockpit` ne contient donc pas à elle seule l'ensemble des fichiers qui expliquent les privilèges live constatés.
+
+### 9.6 Contrôles live complémentaires des relances
+
+Les lectures seules du catalogue PostgreSQL confirment :
+
+- la table `public.crm_reminders` existe ;
+- son état inclut `pending`, `read` et `cancelled` ;
+- la colonne `cancelled_at` existe ;
+- les deux politiques live de lecture et de traitement appellent les helpers du schéma `private` ;
+- le job `majestios-crm-reminders` est actif, planifié toutes les cinq minutes ;
+- la fonction de matérialisation live contient la logique de réactivation décrite ci-dessus ;
+- la fonction `public.complete_crm_reminder(uuid)` existe et écrit une activité dans la chronologie commerciale.
+
+Ces constats démontrent que le dispositif de relances existe bien dans le backend live. Ils ne constituent pas une validation fonctionnelle de bout en bout et n'autorisent aucune modification du CRM.
+
+### 9.7 Conclusion de réconciliation
+
+La situation est maintenant mieux circonscrite :
+
+1. les noms des sept migrations live sont retrouvés dans les fichiers GitHub ;
+2. les six premiers horodatages de fichiers ne correspondent pas aux versions inscrites dans l'historique Supabase ;
+3. les deux branches sont fortement divergentes ;
+4. la politique de lecture des relances live correspond à la variante `private.is_org_member` de `evolution-5.0-admin-cockpit` ;
+5. la fonction live de matérialisation contient une logique absente des deux fichiers SQL comparés ;
+6. la migration de grants est absente de la branche `evolution-5.0-admin-cockpit`, alors que ses privilèges sont observés dans le backend ;
+7. certains commentaires GitHub « non appliquée » sont contredits par l'historique et les objets live.
+
+**Décision : la réconciliation n'est pas clôturée.** Il faut retrouver la source exacte de la fonction de matérialisation live et la provenance des grants, puis comparer les sept définitions SQL historiques si elles peuvent être récupérées. En attendant : aucune migration, aucun changement de privilège, aucun déploiement Edge, aucune fusion de branches, aucune réinitialisation.
+
+**Périmètre inchangé :** contrôle en lecture seule de Supabase et documentation GitHub uniquement. Aucun objet CRM, aucune donnée, aucune politique, aucune fonction, aucun job et aucun élément de l'immeuble interactif n'ont été modifiés.
