@@ -296,16 +296,37 @@ async function refresh(canEdit = false) {
   sendDueReminders(opportunities);
   const activityList = document.querySelector("#crm-activity-list");
   activityList.replaceChildren();
+  const businessById = new Map(businesses.map(row => [row.id, row.trade_name || row.legal_name]));
+  const contactById = new Map(contacts.map(row => [row.id, [row.first_name, row.last_name].filter(Boolean).join(" ")]));
+  const opportunityById = new Map(opportunities.map(row => [row.id, row.title]));
+  const activityTypes = {
+    note: "Note", call: "Appel", email: "E-mail", meeting: "Rendez-vous",
+    task: "Tâche", status_change: "Changement d’étape",
+    qualification: "Qualification", system: "Système"
+  };
   activities.forEach(row => {
     const item = document.createElement("li");
+    item.className = "crm-timeline-entry";
     const heading = document.createElement("strong");
     heading.textContent = row.subject;
+    const type = document.createElement("span");
+    type.className = "crm-timeline-type";
+    type.textContent = activityTypes[row.activity_type] || row.activity_type;
     const detail = document.createElement("p");
-    detail.textContent = row.body || row.activity_type;
+    detail.textContent = row.body || "Aucun détail complémentaire.";
+    const related = [];
+    if (row.business_id) related.push("Entreprise : " + (businessById.get(row.business_id) || "fiche associée"));
+    if (row.contact_id) related.push("Contact : " + (contactById.get(row.contact_id) || "fiche associée"));
+    if (row.opportunity_id) related.push("Opportunité : " + (opportunityById.get(row.opportunity_id) || "fiche associée"));
+    const context = document.createElement("p");
+    context.className = "crm-timeline-context";
+    context.textContent = related.join(" · ");
     const date = document.createElement("time");
     date.dateTime = row.occurred_at;
     date.textContent = row.occurred_at ? new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(row.occurred_at)) : "";
-    item.append(heading, detail, date);
+    item.append(type, heading, detail);
+    if (related.length) item.append(context);
+    item.append(date);
     activityList.append(item);
   });
   renderSelect("#crm-contact-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
