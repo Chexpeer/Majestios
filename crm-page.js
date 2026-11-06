@@ -310,7 +310,8 @@ async function refreshAdminMembers() {
   if (!list || !adminPanel || adminPanel.hidden) return;
   list.replaceChildren();
   try {
-    const members = await MajestiosCRM.listInternalMembers();
+    const [members, workspace] = await Promise.all([MajestiosCRM.listInternalMembers(), MajestiosCRM.requireWorkspace()]);
+    const currentUserId = workspace.session.user.id;
     if (!members.length) {
       const empty = document.createElement("li");
       empty.textContent = "Aucun membre trouvé.";
@@ -337,7 +338,7 @@ async function refreshAdminMembers() {
         role.append(option);
       });
       role.value = member.role;
-      role.disabled = member.role === "owner" || member.user_id === (await MajestiosCRM.requireWorkspace()).session.user.id;
+      role.disabled = member.role === "owner" || member.user_id === currentUserId;
       const save = document.createElement("button");
       save.type = "button";
       save.className = "button button-secondary";
