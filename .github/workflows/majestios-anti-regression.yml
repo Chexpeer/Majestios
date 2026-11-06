@@ -6,6 +6,7 @@ on:
       - chantier-recherche-donnees-gardes-fous-2026-11-01
       - refonte-architecture-dossiers-charte-majestios-2026-11-01
       - evolution-5.0-clean-preview
+      - evolution-5.0-admin-cockpit
   pull_request:
     branches:
       - main
