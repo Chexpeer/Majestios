@@ -197,15 +197,16 @@ async function main() {
     const bodaccCategoryCases = [
       ["bodacc-creations", "Entreprise BODACC création test"],
       ["bodacc-cessions", "Entreprise BODACC de test"],
-      ["bodacc-modifications", "Entreprise BODACC modification test"],
-      ["bodacc-procedures", "Entreprise BODACC procédure test"],
-      ["bodacc-radiations", "Entreprise BODACC radiation test"]
+      ["bodacc-modifications", "Entreprise BODACC modification test"]
     ];
     for (const [category, expectedCompany] of bodaccCategoryCases) {
       await page.goto(`http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=${category}`, { waitUntil: "domcontentloaded" });
       await page.getByRole("heading", { name: expectedCompany }).waitFor({ timeout: 10000 });
       assert.equal(await page.locator(".bodacc-result-card").count(), 1, `La catégorie ${category} doit afficher uniquement son signal correspondant.`);
     }
+
+    assert.equal(await page.getByRole("heading", { name: "Entreprise BODACC procédure test" }).count(), 0, "Les procédures collectives doivent être exclues.");
+    assert.equal(await page.getByRole("heading", { name: "Entreprise BODACC radiation test" }).count(), 0, "Les radiations doivent être exclues.");
 
     // Le retour depuis une rubrique privée doit restaurer la catégorie privée exacte, sans la convertir en catégorie publique.
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=cession&marche=private&categorie=bodacc-cessions&departement=79", { waitUntil: "domcontentloaded" });
@@ -315,7 +316,7 @@ async function main() {
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
-    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
+    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
       assert.ok(privateCategoryOptions.some(option => option.value === expected), `La catégorie privée ${expected} doit être proposée.`);
     }
     assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 5, "Les rubriques BODACC doivent être regroupées ensemble.");
