@@ -421,6 +421,28 @@ Le registre doit être enrichi au fil du projet. Conserver les formulations orig
 - ce qui existe déjà et ce qui reste à construire.
 
 
+### 14.7 Le septième ciel et les couleurs : une expérience qui émerveille
+
+Formulations rappelées par le porteur du projet :
+
+- **« Le septième ciel !! »**
+- **« Des couleurs !! »**
+- Formule de positionnement déjà exprimée dans le projet : **« MajestiOS, l'IA qui vous en fait voir de toutes les couleurs. »**
+
+Sens métier à retenir, sans figer au-delà de ce qui a été exprimé :
+- « Le septième ciel » évoque une expérience qui dépasse la simple satisfaction fonctionnelle : une impression d'élévation, de plaisir et d'accomplissement.
+- « Des couleurs » rappelle que MajestiOS doit offrir une expérience vivante, expressive et riche, et ne pas être réduit à une interface uniforme ou austère.
+- La formule « vous en faire voir de toutes les couleurs » porte une promesse de découverte, de diversité et d'efficacité visible. Elle appartient au ton et à l'identité de MajestiOS.
+
+Conséquences de conception :
+- préserver la personnalité visuelle des rubriques et leur diversité graphique ;
+- faire des couleurs un langage utile à la compréhension, à l'orientation et à la mise en valeur des informations, pas un décor arbitraire ;
+- rechercher une expérience enthousiasmante et fluide, sans sacrifier la lisibilité, l'accessibilité ni la cohérence fonctionnelle.
+
+**Limite explicite :** cette métaphore ne constitue aucune autorisation de modifier l'immeuble interactif, ses couleurs, ses visuels, ses étages, ses liens ou son architecture. Elle documente une intention d'expérience et de personnalité visuelle ; sa traduction devra respecter les garde-fous déjà posés.
+
+À ce stade, il s'agit d'une intention de conception, pas de la preuve qu'une expérience « septième ciel » est déjà livrée.
+
 ### 14.6 Le rétroviseur : apprendre de l'erreur avant toute marche arrière
 
 Formulation originale exacte du porteur du projet :
