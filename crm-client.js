@@ -10,7 +10,7 @@ const tables = ["businesses", "contacts", "opportunities", "activities"];
 async function requireWorkspace() {
   const { data: { session }, error: sessionError } = await supabase.auth.getSession();
   if (sessionError) throw sessionError;
-  if (!session) throw new Error("Connectez-vous depuis l’espace membre pour accéder au CRM.");
+  if (!session) throw new Error("Connectez-vous depuis l’accueil interne MajestiOS pour accéder au CRM.");
 
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError) throw userError;
@@ -25,7 +25,7 @@ async function requireWorkspace() {
     .limit(100);
   if (error) throw error;
   if (!memberships?.length) {
-    throw new Error("Aucun espace entreprise n’est associé à ce compte. Finalisez d’abord votre inscription.");
+    throw new Error("Aucune appartenance interne n’est associée à ce compte. Contactez l’administration MajestiOS pour faire vérifier vos habilitations.");
   }
 
   const organizationIds = memberships.map((membership) => membership.organization_id);
