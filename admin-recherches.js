@@ -20,6 +20,7 @@ const form=document.querySelector("#search-form"),source=document.querySelector(
 const zones={pdl:["44","49","53","72","85"],idf:["75","77","78","91","92","93","94","95"]};
 function setStatus(message,error=false){status.textContent=message;status.classList.toggle("error",error);}
 source.addEventListener("change",()=>{const isBodacc=source.value==="bodacc";family.disabled=!isBodacc;family.closest(".search-field").style.opacity=isBodacc?"1":".55";marketType.disabled=isBodacc;marketType.closest(".search-field").style.opacity=isBodacc?".55":"1";});
+source.dispatchEvent(new Event("change"));
 territoryInputs.forEach(input=>input.addEventListener("change",()=>{if(input.value==="all"&&input.checked)territoryInputs.filter(x=>x!==input).forEach(x=>x.checked=false);else if(input.checked){const all=territoryInputs.find(x=>x.value==="all");if(all)all.checked=false;}}));
 function quote(value){return "'"+String(value).replace(/\\/g,"\\\\").replace(/'/g,"\\'")+"'";}
 function departments(){
@@ -46,7 +47,7 @@ function render(items,kind){
 }
 form.addEventListener("submit",async event=>{
  event.preventDefault();if(workspace.hidden)return;
- const kind=source.value,terms=departments(),kw=keyword.value.trim();if(!terms.length&&!kw&& !territoryInputs.some(x=>x.value==="all"&&x.checked)){setStatus("Sélectionnez au moins un territoire ou saisissez un mot-clé.",true);return;}
+ const kind=source.value,terms=departments(),kw=keyword.value.trim();if(dateFrom.value&&dateTo.value&&dateFrom.value>dateTo.value){setStatus("La date de début doit être antérieure ou égale à la date de fin.",true);return;}if(!terms.length&&!kw&& !territoryInputs.some(x=>x.value==="all"&&x.checked)){setStatus("Sélectionnez au moins un territoire ou saisissez un mot-clé.",true);return;}
  if(terms.length>0&&!terms.every(x=>/^\d{2,3}$|^[0-9][A-Z]$/.test(x))){setStatus("Code département invalide. Utilisez un code à 2 ou 3 caractères, par exemple 72 ou 2A.",true);return;}
  submit.disabled=true;submit.textContent="Recherche en cours…";results.innerHTML="";count.textContent="INTERROGATION DE LA SOURCE";setStatus("Connexion à la source officielle "+(kind==="bodacc"?"BODACC":"BOAMP")+"…");
  try{
