@@ -40,6 +40,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Maintenance, sauvegardes et continuité](evolution-5.0/MAINTENANCE-ET-CONTINUITE.md) | Protocole permanent de nettoyage Git, points de retour, contrôles, documentation et reprise |
 | [Nettoyage des archives historiques](evolution-5.0/NETTOYAGE-ARCHIVES-HISTORIQUES-2026-11-05.md) | Comparaison des empreintes Git et retrait des copies exactes ; statut des huit documents conservés |
 | [Cahier des charges — veille stratégique](evolution-5.0/CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) | Spécification de cadrage des signaux, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial |
+| [Concept — Publipostage intelligent par QR Code et badge MajestiOS](evolution-5.0/CONCEPT-PUBLIPOSTAGE-QR-CODE-BADGE-VIP-2026-11-06.md) | Orientation stratégique à soumettre aux autres IA : publipostage physique QR complémentaire à l'emailing, badge public/invité/VIP, Accès VIP, sécurité, conformité et MVP pilote |
 
 | [Cadrage stratégique CRM, sources et Réputation virtuelle](evolution-5.0/CADRAGE-STRATEGIQUE-CRM-SOURCES-CIBLAGE-REPUTATION-VIRTUELLE-2026-11-06.md) | Ciblage NAF/APE depuis les appels d'offres, détection des nouvelles entreprises, parcours Réputation virtuelle et questions de revue indépendante par IA |
 | [Lot CRM — poste de travail Entreprises](evolution-5.0/LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md) | Recherche locale, filtres de qualification et département, limites et prochaines briques du module Entreprises |
