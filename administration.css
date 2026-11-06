@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 .admin-shell{
   --admin-ink:#222930;
@@ -111,3 +111,15 @@
   .admin-footer{font-size:8px}.admin-gate{margin:55px auto;padding:35px 22px}
 }
 @media(prefers-reduced-motion:reduce){.admin-button{transition:none}.admin-button:hover{transform:none}}
+
+/* Lien contextuel Administration ↔ CRM : ne modifie pas la charte du CRM. */
+.admin-context-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:0 0 22px;padding:10px 13px;border:1px solid #c9b77f;border-radius:8px;
+  color:#424c55;background:linear-gradient(100deg,#eef0f2,#f8f5ec);
+  font:600 10px/1.4 "DM Sans",Arial,sans-serif;
+}
+.admin-context-bar a{color:#8f6924;text-decoration:none;font-weight:800}
+.admin-context-bar a:hover{text-decoration:underline}
+.admin-context-bar span{color:#727d86}
+@media(max-width:600px){.admin-context-bar{align-items:flex-start;flex-direction:column;gap:4px}}
