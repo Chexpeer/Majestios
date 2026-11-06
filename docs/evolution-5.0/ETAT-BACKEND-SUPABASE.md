@@ -1,4 +1,4 @@
-# État du backend MajestiOS — 5 novembre 2026
+# État du backend MajestiOS — 6 novembre 2026
 
 ## 1. Périmètre et statut
 
@@ -73,8 +73,9 @@ Le raccordement du parcours espace membre est **présent dans le code**, mais so
 - `espace-membre.html` charge `auth-espace-membre.js`.
 - Le module prévoit inscription, connexion, demande de réinitialisation et mise à jour du mot de passe via Supabase Auth.
 - Le navigateur utilise la clé publishable définie dans `supabase-config.js`.
-- La fonction Edge `provision-client-workspace` est déployée en version 2 avec vérification JWT activée.
-- La fonction vérifie l'utilisateur et l'adresse e-mail confirmée, crée l'organisation cliente et son propriétaire, puis enregistre l'accusé de prise de connaissance de la politique. Le flux est conçu pour être idempotent pour un utilisateur déjà membre d'un espace client.
+- La fonction Edge `provision-client-workspace` est toujours déployée en version 2 avec vérification JWT activée. **Le code source actuellement versionné dans la branche n'a pas été redéployé** : il appelle désormais la RPC atomique `public.provision_client_workspace`.
+- La migration `20261106090000_atomic_client_workspace_provisioning.sql` installe cette RPC, qui sérialise les tentatives concurrentes par utilisateur et crée ou complète l'espace dans une transaction. Cette migration est versionnée dans GitHub uniquement et **n'a pas été appliquée au projet Supabase**.
+- En conséquence, le parcours actuellement déployé ne doit pas être décrit comme utilisant le nouveau provisionnement atomique. La recette Auth et le test de la RPC restent bloqués jusqu'à application contrôlée de la migration puis déploiement explicite de la fonction Edge.
 
 **Limites de validation :** aucune recette complète avec une véritable boîte e-mail n'a été confirmée. Les URL de redirection, les modèles et l'expédition des e-mails, les protections CAPTCHA / limitation de débit et les scénarios de récupération doivent être testés avant ouverture publique.
 
@@ -96,7 +97,17 @@ Les éléments suivants ne sont pas opérationnels :
 
 Les formulaires publics devront passer par des endpoints serveur avec validation, protections anti-spam, minimisation, finalités et durées de conservation définies avant toute collecte.
 
-## 7. Gouvernance et ordre de reprise
+## 7. Migrations en attente — état au 6 novembre 2026
+
+Les migrations suivantes sont présentes dans la branche GitHub mais ne font pas partie des six migrations appliquées listées plus haut :
+
+- `20261106031500_bootstrap_first_internal_admin.sql` : installe une procédure de bootstrap unique, réservée au rôle `service_role`. Elle ne crée aucun utilisateur Auth et n'accorde aucun accès tant qu'elle n'est pas exécutée explicitement après création et confirmation du compte administrateur.
+- `20261106074500_enforce_crm_editor_roles.sql` : rend le rôle `viewer` strictement consultatif dans les politiques d'écriture et protège les colonnes d'audit / rattachement.
+- `20261106090000_atomic_client_workspace_provisioning.sql` : installe la RPC transactionnelle appelée par la nouvelle version source de la fonction Edge.
+
+**Aucune de ces trois migrations n'a été appliquée à Supabase.** Le code navigateur et la fonction Edge versionnés ne constituent donc pas une validation opérationnelle du CRM ou de l'inscription.
+
+## 8. Gouvernance et ordre de reprise
 
 Le socle Supabase est conservé comme fondation versionnée. **Aucune extension backend n'est engagée dans le lot courant tant que le chantier du site, de la navigation, des liens et des parcours n'est pas stabilisé.**
 
@@ -113,7 +124,7 @@ Lors de la reprise du chantier backend, l'ordre recommandé est :
 
 Toute extension doit conserver la séparation CRM interne / espace client / moteur de qualification, la provenance des informations, les décisions humaines, les règles d'exclusion et les tests anti-régression.
 
-## 8. Références techniques
+## 9. Références techniques
 
 - Projet : `https://awtgrjnpckgxsdpfrnhg.supabase.co`.
 - Migrations : `supabase/migrations/`.
