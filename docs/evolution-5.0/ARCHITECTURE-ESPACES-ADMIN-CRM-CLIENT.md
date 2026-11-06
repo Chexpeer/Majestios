@@ -669,3 +669,33 @@ Le provisionnement du premier administrateur reste une opération distincte. La 
 - aucune fusion vers `main` ni promotion en production.
 
 **Statut :** code du premier lot présent sur la branche de réalisation ; validation CI et recette visuelle/authentifiée à effectuer avant toute ouverture ou promotion.
+
+## 17. Premier écran de recherches ponctuelles BODACC / BOAMP — 6 novembre 2026
+
+### 17.1 Vérification préalable des fondations
+
+La lecture du schéma Supabase réel confirme que le CRM conserve les tables organizations, organization_members, businesses, contacts, opportunities, activities et crm_reminders, toutes avec RLS activée. La table opportunities possède les champs de provenance source_type, source_external_id, source_url, source_published_at et department_code. Les types de source acceptent déjà bodacc et boamp. Aucun connecteur BODACC ou BOAMP n'est présent dans les fonctions Edge actuellement déployées ; la seule fonction recensée est provision-client-workspace.
+
+**Décision de préservation :** ne pas créer de table de recherche ou de résultats, ne pas ajouter de migration, ne pas modifier les politiques RLS, ne pas déployer de fonction Edge et ne pas écrire dans le CRM dans ce premier lot.
+
+### 17.2 Écran livré sur la branche de réalisation
+
+Le fichier admin-recherches.html ajoute un écran interne accessible depuis le menu du poste de commandement et la carte « Recherches ciblées ».
+
+Fonctions : choix BODACC/BOAMP ; territoires de départ Pays de la Loire et Île-de-France, avec option France entière ; département précis ; mot-clé ; filtre de famille BODACC ; aperçu de 10, 20 ou 50 résultats ; date, territoire, nature, résumé et lien officiel ; état explicite de requête ; contrôle d'accès session + appartenance à l'organisation interne + rôle owner/admin.
+
+Sources raccordées en lecture : BODACC, jeu annonces-commerciales, API Explore v2.1 sur bodacc-datadila.opendatasoft.com ; BOAMP, jeu boamp, API Explore v2.1 sur boamp-datadila.opendatasoft.com.
+
+Les recherches sont manuelles. Aucun traitement périodique, export, import CRM, partage, e-mail ou diffusion n'est déclenché. Les résultats ne sont pas persistés ; « À qualifier » est un repère de travail et non une qualification enregistrée.
+
+### 17.3 Limites métier explicites
+
+BODACC et BOAMP sont des sources d'annonces et d'avis, pas un référentiel exhaustif des effectifs et codes APE/NAF. Le critère 5 à 15 salariés, l'exclusion des entreprises de plus de 15 salariés et l'enrichissement APE/NAF nécessiteront une étape de rapprochement distincte, notamment à partir de sources d'identification d'entreprises, avant intégration au CRM.
+
+La sélection initiale des territoires est une configuration modifiable par l'administrateur ; elle ne constitue pas une géolocalisation automatique.
+
+### 17.4 Contrôles et points restant à valider
+
+Le manifeste inclut la nouvelle page et verify-site.js vérifie sa présence, son exclusion de l'indexation, ses sources et son contrôle d'accès. La validation réelle des requêtes dépend encore d'un essai navigateur authentifié avec un compte owner/admin et de la disponibilité/CORS des API DILA depuis la prévisualisation. Le dédoublonnage, le rapprochement SIREN/SIRET et l'import CRM restent hors périmètre.
+
+Aucun changement de table, migration, RLS, fonction Edge, donnée Supabase ou immeuble interactif n'est effectué. Aucun déploiement Vercel, fusion dans main ou promotion en production n'est lancé.
