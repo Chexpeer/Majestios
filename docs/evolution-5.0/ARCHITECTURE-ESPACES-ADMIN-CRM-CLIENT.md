@@ -559,3 +559,63 @@ Le CRM doit afficher le même cadre d'administration lorsqu'il est ouvert comme 
 
 **Périmètre de cette étape documentaire :** aucun code applicatif, aucune migration, aucune donnée Supabase, aucune politique RLS, aucun déploiement et aucun élément de l'immeuble interactif ne sont modifiés par cette proposition.
 
+
+
+## 10. Réaudit du code applicatif — 6 novembre 2026, 20 h 33
+
+Cette section actualise les constats à partir du code réellement présent sur le HEAD de la branche. Elle prévaut sur les audits antérieurs lorsqu'ils décrivent un état plus ancien.
+
+### 10.1 Rectification importante : le CRM est déjà opérationnel sur son périmètre actuel
+
+La lecture de `crm.html`, `crm-page.js` et `crm-client.js` confirme que le CRM ne se limite plus à une page de présentation. L'interface contient des formulaires et des traitements raccordés au backend Supabase pour :
+
+- créer et consulter des entreprises ;
+- créer et consulter des contacts ;
+- créer et consulter des opportunités ;
+- enregistrer et consulter des activités ;
+- modifier et qualifier les fiches entreprises, contacts et opportunités ;
+- historiser les modifications sous forme d'activités ;
+- afficher les relances persistantes, les classer par échéance et les marquer comme traitées ;
+- vérifier la session et l'appartenance à une organisation de type `internal` ;
+- empêcher les écritures depuis l'interface pour le rôle `viewer`, en complément des politiques RLS.
+
+**Conséquence documentaire :** le constat F-04 de l'ancien audit du lot 6 (« CRM informatif, sans fiches opérationnelles ») est désormais obsolète au regard du code actuel. Il ne doit plus être repris comme description de l'état présent. Cela ne vaut toutefois pas recette de bout en bout avec un compte interne réel ni validation de toutes les règles RLS.
+
+### 10.2 Ce qui manque encore au CRM
+
+Le périmètre CRUD actuel ne prouve pas l'existence des capacités industrielles cibles. Aucun écran ni flux opérationnel complet n'a été établi ici pour :
+
+- lancer des recherches BODACC/BOAMP depuis l'administration ;
+- enregistrer et rejouer des recherches ciblées ;
+- importer, normaliser et dédoublonner des lots ;
+- qualifier automatiquement des résultats et les affecter à des collaborateurs ;
+- générer des fichiers de prospection ou des dossiers ;
+- choisir les destinataires et diffuser des livrables avec aperçu et journal ;
+- exposer des services CRM gouvernés aux différentes rubriques.
+
+Ces capacités restent à construire ou à vérifier séparément. La présence des valeurs `boamp` et `bodacc` dans le champ d'origine des opportunités n'est pas une preuve de connecteur actif.
+
+### 10.3 Administration générale : absence d'interface applicative identifiée
+
+La recherche dans les fichiers racine et l'examen des pages internes ont identifié les routes `crm.html` et `espace-membre.html`, mais aucune page applicative dédiée à une administration générale. Le document `MODULE-ADMIN-IA.md` est une spécification, pas une interface livrée.
+
+La navigation de `crm.html` reprend encore l'en-tête du site public et propose un retour au site public ainsi qu'un retour à l'espace personnel. Il manque donc une coque interne d'administration qui fournisse un repère stable entre le poste de commandement et les modules qu'il pilote.
+
+### 10.4 Espace client : parcours Auth présent, espace de travail incomplet
+
+`espace-membre.html` et `auth-espace-membre.js` portent le parcours d'inscription/connexion et le provisionnement client. Les fonctions métier annoncées — documents, dossiers d'appels d'offres, échanges, demandes et opportunités partagées — ne sont pas encore démontrées comme un espace de travail opérationnel complet.
+
+### 10.5 Périmètre de réalisation retenu pour le premier lot applicatif
+
+Le premier lot applicatif doit se limiter à une coque de navigation d'administration et à son raccordement non destructif au CRM existant :
+
+1. créer une entrée d'administration distincte du site public et de l'espace client ;
+2. présenter le CRM comme module interne accessible depuis cette administration ;
+3. conserver `crm.html`, `crm-page.js`, `crm-client.js`, les contrats Supabase et les tables existantes ;
+4. ne modifier ni les migrations, ni les données, ni les politiques RLS, ni les fonctions Supabase ;
+5. ne toucher à aucun fichier, ressource, lien, destination ou zone de l'immeuble interactif ;
+6. ne pas activer de déploiement automatique, ne pas fusionner et ne pas promouvoir en production.
+
+Avant toute écriture applicative, le statut de la branche et de la PR doit être vérifié : la PR #38 est désormais fermée et fusionnée. La branche de prévisualisation n'est donc plus à traiter comme une PR en brouillon. La branche source V5 reste à préserver. Toute intervention doit rester cantonnée au périmètre explicitement autorisé et être accompagnée d'un point de retour ainsi que des contrôles adaptés.
+
+**Statut de cette réaudit :** lecture du dépôt uniquement. Aucun fichier applicatif, aucune donnée, aucun schéma ou paramètre Supabase et aucun déploiement n'ont été modifiés.
