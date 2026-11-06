@@ -499,19 +499,46 @@ function initMarketTargeting(canEdit) {
       const response = await api.searchCompanies({ nafCodes, departments, perPage: 25, maxPages: 1 });
       let candidates = api.rankCompanies(response.candidates, { nafCodes, departments });
       if (form.elements.activeOnly.checked) candidates = candidates.filter(company => company.active !== false);
-      targetingCandidates = api.selectCandidates(candidates, { nafCodes, departments, limit: Number(form.elements.limit.value), minimumScore: 25 }).candidates;
-      const existing = new Set(targetingBusinesses.flatMap(row => [row.siren && "SIREN:" + row.siren, row.siret && "SIRET:" + row.siret]).filter(Boolean));
-      targetingCandidates = targetingCandidates.filter(company => !existing.has(company.siren && "SIREN:" + company.siren) && !existing.has(company.siret && "SIRET:" + company.siret));
+      const selectedCandidates = api.selectCandidates(candidates, { nafCodes, departments, limit: Number(form.elements.limit.value), minimumScore: 25 }).candidates;
+      const existingSiren = new Set(targetingBusinesses.map(row => String(row.siren || "").replace(/\\D/g, "")).filter(Boolean));
+      const existingSiret = new Set(targetingBusinesses.map(row => String(row.siret || "").replace(/\\D/g, "")).filter(Boolean));
+      const alreadyKnown = selectedCandidates.filter(company =>
+        (company.siren && existingSiren.has(company.siren)) || (company.siret && existingSiret.has(company.siret)));
+      targetingCandidates = selectedCandidates.filter(company =>
+        !(company.siren && existingSiren.has(company.siren)) && !(company.siret && existingSiret.has(company.siret)));
       targetingCandidates.forEach((company, index) => {
+        const raw = company.raw || {};
+        const workforce = raw.tranche_effectif_salarie || raw.trancheEffectifSalarie || "";
+        const workforceYear = raw.annee_tranche_effectif_salarie || raw.anneeTrancheEffectifSalarie || "";
+        const establishments = raw.nombre_etablissements ?? raw.nombre_etablissements_ouverts ?? null;
+        const created = raw.date_creation || raw.dateCreation || "";
+        const adminStatus = raw.etat_administratif || raw.statut || "";
         const card = document.createElement("article"); card.className = "crm-targeting-candidate";
         const label = document.createElement("label"); const checkbox = document.createElement("input");
         checkbox.type = "checkbox"; checkbox.dataset.candidateIndex = String(index);
         label.append(checkbox, document.createTextNode(" " + (company.name || "Dénomination non fournie") + " — " + company.score + "/100"));
         const detail = document.createElement("p");
-        detail.textContent = "SIREN : " + (company.siren || "inconnu") + " · APE/NAF : " + (company.naf || "inconnu") + " · Département : " + (company.department || "inconnu") + ". " + company.warning;
-        card.append(label, detail); results.append(card);
+        const facts = [
+          "SIREN : " + (company.siren || "inconnu"),
+          "SIRET siège : " + (company.siret || "inconnu"),
+          "APE/NAF : " + (company.naf || "inconnu"),
+          "Département : " + (company.department || "inconnu"),
+          workforce ? "Tranche d’effectif : " + workforce + (workforceYear ? " (" + workforceYear + ")" : "") : "Effectif : non renseigné",
+          establishments !== null ? "Établissements : " + establishments : "Établissements : non renseignés",
+          adminStatus ? "Statut : " + adminStatus : "",
+          created ? "Création : " + created : "",
+          "Source collectée le : " + new Date(response.fetchedAt).toLocaleDateString("fr-FR")
+        ].filter(Boolean);
+        detail.textContent = facts.join(" · ") + ". " + company.warning;
+        const reasons = document.createElement("p");
+        reasons.textContent = "Motifs du rapprochement : " + (company.reasons || []).join(" ; ");
+        card.append(label, detail, reasons); results.append(card);
       });
-      status.textContent = response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount + " entreprise(s) unique(s), " + targetingCandidates.length + " candidat(s) nouveau(x). Source : " + response.source + " · " + new Date(response.fetchedAt).toLocaleString("fr-FR") + ". Aucune fiche enregistrée à ce stade.";
+      status.textContent = response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount + " entreprise(s) unique(s), " +
+        targetingCandidates.length + " nouveau(x) candidat(s), " + alreadyKnown.length +
+        " déjà présent(s) parmi les 100 fiches CRM chargées. Source : " + response.source + " · " +
+        new Date(response.fetchedAt).toLocaleString("fr-FR") +
+        ". La contrainte d’unicité SIREN du CRM reste le dernier rempart contre un doublon non visible dans cette liste.";
       importButton.disabled = !targetingCandidates.length;
     } catch (error) { targetingCandidates = []; status.textContent = error.message || "Recherche échouée : aucun candidat intégré."; }
     finally { button.disabled = false; }
@@ -519,12 +546,34 @@ function initMarketTargeting(canEdit) {
   results.addEventListener("change", () => { importButton.disabled = selected().length === 0; });
   importButton.addEventListener("click", async () => {
     const chosen = selected(); if (!chosen.length) return;
-    importButton.disabled = true; let saved = 0, failed = 0;
+    importButton.disabled = true; let saved = 0;
+    const failures = [];
+    const currentSirens = new Set(targetingBusinesses.map(row => String(row.siren || "").replace(/\\D/g, "")).filter(Boolean));
+    const currentSirets = new Set(targetingBusinesses.map(row => String(row.siret || "").replace(/\\D/g, "")).filter(Boolean));
     for (const company of chosen) {
       const raw = company.raw || {}; const siege = raw.siege || raw.etablissement || {};
       const postal = String(siege.code_postal || raw.code_postal || "");
       const department = company.department || (postal.startsWith("97") ? postal.slice(0,3) : postal.slice(0,2));
-      const notes = "Candidat issu d’un ciblage APE/NAF et départemental. Score indicatif : " + company.score + "/100. " + company.reasons.join(" ; ") + " Vérification humaine requise.";
+      if ((company.siren && currentSirens.has(company.siren)) || (company.siret && currentSirets.has(company.siret))) {
+        failures.push((company.name || company.siren || "Entreprise") + " : déjà présente dans les fiches chargées.");
+        continue;
+      }
+      const workforce = raw.tranche_effectif_salarie || raw.trancheEffectifSalarie || "non renseignée";
+      const workforceYear = raw.annee_tranche_effectif_salarie || raw.anneeTrancheEffectifSalarie || "année non précisée";
+      const establishments = raw.nombre_etablissements ?? raw.nombre_etablissements_ouverts ?? "non renseigné";
+      const notes = [
+        "Candidat issu d’un ciblage APE/NAF et départemental.",
+        "Score indicatif : " + company.score + "/100.",
+        "Motifs : " + (company.reasons || []).join(" ; "),
+        "Effectif déclaré : " + workforce + " (" + workforceYear + ").",
+        "Nombre d’établissements selon la source : " + establishments + ".",
+        "Statut administratif source : " + (raw.etat_administratif || raw.statut || "non renseigné") + ".",
+        "Date de création source : " + (raw.date_creation || raw.dateCreation || "non renseignée") + ".",
+        "Identifiant source : " + (company.sourceId || "non fourni") + ".",
+        "Collecte : " + (company.collectedAt || new Date().toISOString()) + ".",
+        "Critères : APE/NAF " + nafCodes.join(", ") + " ; départements " + departments.join(", ") + ".",
+        "Vérification humaine requise ; l’effectif et le nombre d’établissements dépendent des données disponibles dans l’annuaire."
+      ].join(" ");
       try {
         await MajestiosCRM.createBusiness({
           legal_name: company.name || "Dénomination à vérifier", siren: company.siren || null,
@@ -535,10 +584,18 @@ function initMarketTargeting(canEdit) {
           qualification_status: "to_review", qualification_notes: notes, country_code: "FR"
         });
         saved++;
-      } catch { failed++; }
+        if (company.siren) currentSirens.add(company.siren);
+        if (company.siret) currentSirets.add(company.siret);
+      } catch (error) {
+        failures.push((company.name || company.siren || "Entreprise") + " : " + (error?.message || "échec d’insertion"));
+      }
     }
     await refresh(true); targetingCandidates = []; results.replaceChildren();
-    status.textContent = saved + " entreprise(s) intégrée(s) au CRM comme « à examiner » ; " + failed + " échec(s). Vérifiez les fiches et leurs sources.";
+    const failureSummary = failures.slice(0, 3).join(" | ");
+    status.textContent = saved + " entreprise(s) intégrée(s) au CRM comme « à examiner » ; " + failures.length +
+      " non intégrée(s)." + (failureSummary ? " Détails : " + failureSummary : "") +
+      (failures.length > 3 ? " · " + (failures.length - 3) + " autre(s) échec(s)." : "") +
+      " Aucun dossier existant n’a été écrasé ou fusionné automatiquement.";
     importButton.disabled = true;
   });
 }
