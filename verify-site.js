@@ -51,6 +51,14 @@ for (const page of pages) {
 
 const adminPage = fs.readFileSync(path.join(root, "administration.html"), "utf8");
 assert(siteFiles.includes("administration.html"), "Administration : page absente du manifeste");
+const searchPagePath = path.join(root, "admin-recherches.html");
+assert(fs.existsSync(searchPagePath), "Recherches : page d’administration absente");
+assert(siteFiles.includes("admin-recherches.html"), "Recherches : page absente du manifeste");
+const searchPage = fs.readFileSync(searchPagePath, "utf8");
+assert(searchPage.includes('meta name="robots" content="noindex,nofollow"'), "Recherches : la page doit être exclue de l’indexation");
+assert(searchPage.includes("annonces-commerciales/records") && searchPage.includes("boamp/records"), "Recherches : les deux sources officielles doivent être raccordées");
+assert(searchPage.includes('href="administration.html"') && searchPage.includes('href="crm.html"'), "Recherches : navigation interne incomplète");
+assert(searchPage.includes("organization_members") && searchPage.includes('"owner","admin"'), "Recherches : contrôle d’accès interne absent");
 assert(siteFiles.includes("administration.css") && siteFiles.includes("administration.js"), "Administration : ressources du cockpit absentes du manifeste");
 assert(adminPage.includes('meta name="robots" content="noindex,nofollow"'), "Administration : la page doit être exclue de l’indexation");
 assert(adminPage.includes('src="administration.js"') && adminPage.includes('href="administration.css"'), "Administration : ressources du cockpit non chargées");
