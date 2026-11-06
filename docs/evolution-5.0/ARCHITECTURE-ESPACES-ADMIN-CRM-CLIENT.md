@@ -1146,3 +1146,12 @@ Le porteur du projet souhaite étudier le publipostage physique intégrant un QR
 Le badge virtuel QR se décline en badge public de découverte, badge invité à accès limité et badge VIP nominatif. « Accès VIP » est la porte d'entrée institutionnelle vers des espaces distincts selon les habilitations. Un investisseur ou partenaire n'est pas administrateur par défaut ; le badge et le QR Code ne confèrent jamais, à eux seuls, un droit d'accès privé. Authentification distincte, permissions minimales, révocation/expiration et traçabilité sont nécessaires.
 
 Le concept complet et son protocole de revue sont décrits dans [Concept — Publipostage intelligent par QR Code et badge MajestiOS](CONCEPT-PUBLIPOSTAGE-QR-CODE-BADGE-VIP-2026-11-06.md). Il reste à l'étude : aucun module, badge ou flux de publipostage n'est déclaré opérationnel. Aucune modification du socle Supabase, des rôles, des RLS, de l'authentification ou de l'immeuble interactif n'est autorisée par cette orientation.
+
+
+## 34. Intégration du ciblage de marché dans le poste Entreprises
+
+Le ciblage exploratoire issu d'un appel d'offres est intégré à l'interface du CRM interne authentifié. Le parcours reprend le moteur DINUM et les suggestions lexicales existantes, permet à l'opérateur de contrôler les codes APE/NAF et les départements, de consulter les candidats et de sélectionner explicitement les fiches à intégrer au référentiel businesses.
+
+Les entreprises retenues sont créées avec le statut « à examiner » et conservent la provenance et les motifs de rapprochement. Le client Supabase existant et ses contrôles d'autorisation sont réutilisés ; le rôle viewer ne peut pas lancer la recherche ni créer de fiches. Le filtrage anti-doublon côté interface est limité aux 100 entreprises chargées et ne remplace pas une contrainte d'unicité globale.
+
+Le détail et les limites figurent dans le lot Poste Entreprises. Aucun schéma, droit, donnée existante, envoi de campagne ou composant de l'immeuble interactif n'a été modifié.
