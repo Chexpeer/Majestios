@@ -28,7 +28,7 @@ async function refresh() {
   renderList("#crm-business-list", businesses, row => row.trade_name || row.legal_name);
   renderList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""));
   renderList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status);
-  renderList("#crm-activity-list", activities, row => row.subject);
+  renderList("#crm-activity-list", activities, row => row.subject + " · " + row.activity_type);
 }
 
 function bindForm(id, create, values) {
@@ -74,9 +74,14 @@ try {
     source_type: data.source_type,
     status: "detected"
   }));
+  bindForm("#crm-activity-form", MajestiosCRM.createActivity, data => ({
+    subject: data.subject.trim(),
+    activity_type: data.activity_type,
+    body: data.body || null
+  }));
   await refresh();
 } catch (error) {
   setStatus(error.message || "Connexion au CRM impossible.", true);
-  document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form")
+  document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
     .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(field => field.disabled = true));
 }
