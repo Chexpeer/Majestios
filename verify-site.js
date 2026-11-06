@@ -79,6 +79,14 @@ for (const token of ["organization_members", 'kind === "internal"', '["owner", "
 
 assert(crmPage.includes('href="espace-interne.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’accueil interne absent");
 assert(crmPage.includes('meta name="robots" content="noindex,nofollow"'), "CRM : la page interne doit être exclue de l’indexation");
+for (const asset of ["crm-workspace.css", "crm-page.js", "crm-client.js", "crm-workspace-nav.js", "crm-business-filters.js"]) {
+  assert(siteFiles.includes(asset), "CRM : ressource du poste de travail absente du manifeste : " + asset);
+  assert(exists(asset), "CRM : ressource du poste de travail absente du dépôt : " + asset);
+}
+assert(crmPage.includes('href="crm-workspace.css"') && crmPage.includes('src="crm-page.js"') &&
+  crmPage.includes('src="crm-business-filters.js"') && crmPage.includes('src="crm-workspace-nav.js"'),
+  "CRM : styles et modules du poste de travail doivent être chargés.");
+
 
 const rubricSearchPages = [
   "marches-publics.html", "developpement-commercial.html", "prospection-active.html",
