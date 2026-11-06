@@ -7,6 +7,19 @@ const setStatus = (message, state = "connected") => {
   status.textContent = message;
   status.dataset.state = state === true ? "error" : state === false ? "connected" : state;
 };
+MajestiosCRM.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_OUT" || !session) {
+    setStatus("CRM · DÉCONNECTÉ — reconnectez-vous depuis votre espace membre.", "disconnected");
+    if (signOutButton) signOutButton.hidden = true;
+    document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
+      .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
+    return;
+  }
+  if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
+    setStatus("CRM · CONNECTÉ — session sécurisée active.");
+    if (signOutButton) signOutButton.hidden = false;
+  }
+});
 signOutButton?.addEventListener("click", async () => {
   signOutButton.disabled = true;
   const { error } = await MajestiosCRM.auth.signOut();
