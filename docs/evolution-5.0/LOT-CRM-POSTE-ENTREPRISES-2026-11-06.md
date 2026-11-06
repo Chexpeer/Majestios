@@ -35,3 +35,13 @@ Aucun enregistrement n'est créé, modifié ou supprimé par les filtres. Aucun 
 ## Protection du patrimoine
 
 Le CRM Supabase existant est conservé. Aucune migration, table, colonne, politique RLS, fonction SQL/Edge, donnée, compte ou rôle n'a été modifié. Aucun déploiement, merge vers `main` ou promotion en production n'est effectué dans ce lot. L'immeuble interactif et tous ses composants restent strictement hors périmètre.
+
+## Extension du lot — dossier entreprise détaillé
+
+Le dossier dépliable d'une entreprise rassemble désormais, à partir des champs déjà présents dans la fiche : identité juridique et commerciale, SIREN/SIRET, TVA, APE/NAF, adresse, coordonnées territoriales, site web, source et lien source, responsable interne, qualification et notes. Il rapproche également les contacts, opportunités et activités dont le `business_id` correspond à l'entreprise.
+
+Les liens externes sont rendus comme liens uniquement pour les protocoles HTTP/HTTPS et s'ouvrent dans un nouvel onglet avec les protections `noopener noreferrer`. Les contenus issus des fiches sont insérés comme texte, pas comme HTML.
+
+**Limite de couverture importante :** chaque rubrique est actuellement chargée avec une limite de 100 enregistrements. Le dossier rapproche uniquement les relations présentes dans ces listes chargées. Un message explicite évite de confondre absence d'élément affiché et absence réelle de relation dans la base. Ce lot ne met pas en place de pagination, de recherche serveur ni de nouvelles requêtes relationnelles.
+
+Aucun changement de schéma Supabase, aucune migration et aucune écriture de données n'ont été nécessaires.
