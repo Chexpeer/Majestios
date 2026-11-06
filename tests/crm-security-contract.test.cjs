@@ -183,25 +183,31 @@ assert.ok(page.includes("Marquer comme traitée"));
 assert.ok(page.includes("MajestiosCRM.listReminders()"));
 assert.ok(crmHtml.includes('id="crm-persistent-reminders"'), "Le panneau de relances persistantes est absent.");
 
-assert.match(persistentReminders, /add column if not exists cancelled_at/);
-assert.match(persistentReminders, /state in \\('pending', 'read', 'cancelled'\\)/);
-assert.match(persistentReminders, /create or replace function private\\.sync_crm_reminders_for_opportunity/);
-assert.match(persistentReminders, /after update of status, title, next_action, next_action_at/);
-assert.match(persistentReminders, /state = 'cancelled', cancelled_at = now\\(\\)/);
-assert.match(persistentReminders, /due_at is distinct from new\\.next_action_at/);
-assert.match(persistentReminders, /where public\\.crm_reminders\\.state = 'cancelled'/);
-assert.match(persistentReminders, /read_at = null/);
+const reminderLifecycle = read("supabase/migrations/20261106110000_sync_crm_reminder_lifecycle.sql");
+for (const fragment of [
+  "add column if not exists cancelled_at",
+  "state in ('pending', 'read', 'cancelled')",
+  "create or replace function private.sync_crm_reminders_for_opportunity",
+  "after update of status, title, next_action, next_action_at",
+  "state = 'cancelled', cancelled_at = now()",
+  "due_at is distinct from new.next_action_at",
+  "where public.crm_reminders.state = 'cancelled'",
+  "read_at = null"
+]) assert.ok(reminderLifecycle.includes(fragment), "Cycle de vie des relances incomplet : " + fragment);
 
 const reminderCompletion = read("supabase/migrations/20261106120000_complete_crm_reminder_with_activity.sql");
-assert.match(reminderCompletion, /create or replace function public\\.complete_crm_reminder/);
-assert.match(reminderCompletion, /private\\.is_org_editor\\(v_reminder\\.organization_id\\)/);
-assert.match(reminderCompletion, /for update/);
-assert.match(reminderCompletion, /update public\\.crm_reminders[\\s\\S]*state = 'read'/);
-assert.match(reminderCompletion, /insert into public\\.activities/);
-assert.match(reminderCompletion, /'crm_reminder'/);
-assert.match(reminderCompletion, /'reminder_id', v_reminder\\.id/);
-assert.match(reminderCompletion, /grant execute on function public\\.complete_crm_reminder\\(uuid\\) to authenticated/);
-assert.match(client, /supabase\\.rpc\\("complete_crm_reminder"/);
-assert.match(page, /Relance traitée et ajoutée à l’historique/);
+for (const fragment of [
+  "create or replace function public.complete_crm_reminder",
+  "private.is_org_editor(v_reminder.organization_id)",
+  "for update",
+  "update public.crm_reminders",
+  "state = 'read'",
+  "insert into public.activities",
+  "'crm_reminder'",
+  "'reminder_id', v_reminder.id",
+  "grant execute on function public.complete_crm_reminder(uuid) to authenticated"
+]) assert.ok(reminderCompletion.includes(fragment), "Clôture de relance non conforme : " + fragment);
+assert.ok(client.includes('supabase.rpc("complete_crm_reminder"'));
+assert.ok(page.includes("Relance traitée et ajoutée à l’historique"));
 
 console.log("CRM persistent reminders contract: OK — persistance, déduplication, isolation tenant, cycle de vie et planification PostgreSQL.");
