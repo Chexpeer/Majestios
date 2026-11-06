@@ -917,7 +917,7 @@ Cette matrice décrit les contrôles actuellement observés. Elle ne promet pas 
 
 Ce contrôle a utilisé uniquement des lectures de métadonnées, définitions de fonctions, politiques RLS, décomptes et fichiers du dépôt. Aucune ligne métier ou identité individuelle n'a été modifiée ; aucune migration, politique, fonction, configuration ou compte n'a été créé, supprimé ou modifié. Aucun déploiement, merge ou changement de production n'a été lancé. L'immeuble interactif et tous ses composants restent hors périmètre et intacts.
 
-La recette authentifiée dans un navigateur pour chacun des rôles n'a pas été réalisée. Les droits viewer sont établis par inspection des politiques déployées, pas par un test de session viewer. La CI de ce futur commit documentaire devra être vérifiée séparément ; aucun succès de CI n'est présumé.
+La recette avec de véritables sessions Supabase pour chacun des rôles n'a pas été réalisée. Le test Chromium ajouté simule les réponses Supabase pour contrôler l'orientation de l'interface ; il ne prouve pas les droits effectifs des politiques RLS. Les droits viewer restent à confirmer avec une session réelle. La CI du commit de test devra être vérifiée séparément ; aucun succès n'est présumé.
 
 
 ## 27. Mise en place de l'accueil et de l'authentification des collaborateurs — 6 novembre 2026
@@ -952,6 +952,7 @@ Le formulaire public/client `espace-membre.html` et son contrôleur `auth-espace
 ### 27.4 Contrôles anti-régression ajoutés
 
 - `tests/internal-entry-contract.test.cjs` vérifie la connexion sans inscription/provisionnement, la vérification d'identité et d'organisation, la matrice de rôles, le filtrage des destinations et les routes de retour.
+- `tests/administration-access.browser.cjs` couvre désormais, dans Chromium avec un client Supabase simulé, les quatre profils owner/admin/member/viewer, la visibilité des modules, le libellé viewer et le refus de redirection d'un member vers l'administration. Cette simulation valide le comportement de l'interface ; elle ne remplace pas une recette avec de véritables sessions Supabase et les politiques RLS déployées.
 - `tests/crm-navigation-contract.test.cjs` vérifie désormais le retour unique CRM → accueil interne et la séparation avec l'espace client.
 - `verify-site.js` contrôle la présence et le manifeste des trois ressources, le noindex, le chargement des ressources, le filtrage par rôle et les routes d'authentification.
 - `.github/workflows/verify-site.yml` vérifie la syntaxe du nouveau module.
