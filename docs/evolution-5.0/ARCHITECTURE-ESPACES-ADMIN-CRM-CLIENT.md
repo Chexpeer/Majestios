@@ -699,3 +699,17 @@ La sélection initiale des territoires est une configuration modifiable par l'ad
 Le manifeste inclut la page et son script ; le workflow vérifie la syntaxe du script. verify-site.js contrôle leur présence, l'exclusion de la page de l'indexation, les sources et le contrôle d'accès. Le test navigateur administration-access.browser.cjs vérifie aussi que la page de recherche et sa navigation restent masquées sans session. La validation réelle des requêtes dépend encore d'un essai navigateur authentifié avec un compte owner/admin et de la disponibilité/CORS des API DILA depuis la prévisualisation. Le dédoublonnage, le rapprochement SIREN/SIRET et l'import CRM restent hors périmètre.
 
 Aucun changement de table, migration, RLS, fonction Edge, donnée Supabase ou immeuble interactif n'est effectué. Aucun déploiement Vercel, fusion dans main ou promotion en production n'est lancé.
+
+### 17.5 Correction du contrôle d'architecture et validation CI — 6 novembre 2026
+
+La première exécution CI après l'ajout de l'écran a révélé un défaut du vérificateur d'architecture, et non un défaut de navigation de la page : `admin-recherches.html` utilise la navigation interne du poste de commandement, tandis que le vérificateur lui appliquait à tort le contrat du menu public. Le contrôle a été corrigé pour reconnaître explicitement cette navigation interne et vérifier ses destinations Administration, CRM et site public.
+
+Une anomalie indépendante de présentation a également été corrigée dans `administration.css` : la déclaration d'import Google Fonts était tronquée. L'import complet de DM Sans et Manrope est désormais rétabli.
+
+Après ces corrections, les deux workflows GitHub Actions ont réussi sur le commit `483fa115acb1d9982e9fc180fe8456f826a91df4` :
+- Vérification anti-régression MajestiOS : succès ;
+- Vérification du site MajestiOS : succès, y compris build, vérifications d'architecture et de liens, tests navigateur et contrôles de connexion réels aux API BODACC et BOAMP.
+
+Les tests navigateur de l'immeuble interactif, du moteur de recherche, des menus, du parcours de contact et du verrouillage des pages d'administration ont réussi. Le test de l'immeuble est un contrôle de non-régression : aucun fichier, visuel, libellé, étage, zone cliquable ou lien de l'immeuble n'a été modifié dans ce lot.
+
+Cette validation CI ne remplace pas la recette visuelle et authentifiée du compte owner/admin dans la prévisualisation Vercel. Aucun déploiement Vercel, aucune promotion en production, aucune fusion vers `main` et aucune modification du backend Supabase n'ont été effectués.
