@@ -1,10 +1,22 @@
 import { MajestiosCRM } from "./crm-client.js";
 
 const status = document.querySelector("#crm-status");
-const setStatus = (message, error = false) => {
+const signOutButton = document.querySelector("#crm-signout");
+const setStatus = (message, state = "connected") => {
+  if (!status) return;
   status.textContent = message;
-  status.dataset.state = error ? "error" : "success";
+  status.dataset.state = state;
 };
+signOutButton?.addEventListener("click", async () => {
+  signOutButton.disabled = true;
+  const { error } = await MajestiosCRM.auth.signOut();
+  if (error) {
+    setStatus("CRM · Déconnexion impossible. Réessayez.", "error");
+    signOutButton.disabled = false;
+    return;
+  }
+  window.location.href = "espace-membre.html";
+});
 const renderSelect = (selector, rows, label, placeholder) => {
   const select = document.querySelector(selector);
   if (!select) return;
@@ -354,14 +366,21 @@ function bindForm(id, create, values) {
 }
 const nullableId = value => value || null;
 try {
+  const { data: sessionData, error: sessionError } = await MajestiosCRM.auth.getSession();
+  if (sessionError) throw sessionError;
+  if (!sessionData.session) {
+    setStatus("CRM · DÉCONNECTÉ — connectez-vous depuis votre espace membre.", "disconnected");
+    throw new Error("Vous devez être connecté pour accéder aux données du CRM.");
+  }
   const { membership, organization } = await MajestiosCRM.requireWorkspace();
+  if (signOutButton) signOutButton.hidden = false;
   const isReadOnly = membership.role === "viewer";
   if (isReadOnly) {
     document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
       .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
-    setStatus("Espace interne connecté · consultation seule.");
+    setStatus("CRM · CONNECTÉ — " + organization.name + " · consultation seule.");
   } else {
-    setStatus("Espace interne connecté · " + organization.name + " · rôle : " + membership.role);
+    setStatus("CRM · CONNECTÉ — " + organization.name + " · rôle : " + membership.role);
     bindForm("#crm-business-form", MajestiosCRM.createBusiness, data => ({ legal_name: data.legal_name.trim(), website: data.website || null, city: data.city || null, country_code: "FR", qualification_status: "to_review" }));
     bindForm("#crm-contact-form", MajestiosCRM.createContact, data => ({ business_id: nullableId(data.business_id), last_name: data.last_name.trim(), first_name: data.first_name || null, email: data.email || null, phone: data.phone || null, consent_status: "unknown" }));
     bindForm("#crm-opportunity-form", MajestiosCRM.createOpportunity, data => ({ business_id: nullableId(data.business_id), primary_contact_id: nullableId(data.primary_contact_id), title: data.title.trim(), description: data.description || null, source_type: data.source_type, status: "detected" }));
@@ -369,7 +388,7 @@ try {
   }
   await refresh(!isReadOnly);
 } catch (error) {
-  setStatus(error.message || "Connexion au CRM impossible.", true);
+  if (status?.dataset.state !== "disconnected") setStatus("CRM · ACCÈS REFUSÉ / INDISPONIBLE — " + (error.message || "Connexion impossible."), "error");
   document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
     .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
 }
