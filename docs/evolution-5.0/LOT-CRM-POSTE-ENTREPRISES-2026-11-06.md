@@ -45,3 +45,12 @@ Les liens externes sont rendus comme liens uniquement pour les protocoles HTTP/H
 **Limite de couverture importante :** chaque rubrique est actuellement chargée avec une limite de 100 enregistrements. Le dossier rapproche uniquement les relations présentes dans ces listes chargées. Un message explicite évite de confondre absence d'élément affiché et absence réelle de relation dans la base. Ce lot ne met pas en place de pagination, de recherche serveur ni de nouvelles requêtes relationnelles.
 
 Aucun changement de schéma Supabase, aucune migration et aucune écriture de données n'ont été nécessaires.
+
+
+## Extension — analyse lexicale du contenu d'un marché
+
+Le prototype de préqualification accepte désormais, en plus de l'intitulé, un texte descriptif pouvant contenir les prestations, le contenu d'un lot et les compétences attendues. Le moteur de suggestions APE/NAF analyse conjointement ces éléments et restitue les mots-clés qui motivent chaque proposition.
+
+**Nature du résultat :** suggestion lexicale explicable uniquement. Ce mécanisme n'extrait pas encore automatiquement les lots d'un avis BOAMP, ne lit pas les pièces PDF du dossier de consultation, ne comprend pas les exigences juridiques ou techniques et ne valide aucune compétence. Le code proposé doit être contrôlé par un opérateur avant recherche d'entreprises.
+
+**Périmètre technique de ce sous-lot :** évolution du prototype `qualification-entreprises.html` et de ses modules JavaScript/tests. Il ne raccorde pas encore le parcours au poste CRM authentifié et ne crée aucune fiche dans Supabase. Il ne modifie ni schéma, ni données, ni habilitations. L'immeuble interactif reste hors périmètre.
