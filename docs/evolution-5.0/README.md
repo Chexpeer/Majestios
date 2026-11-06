@@ -51,6 +51,9 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 
 24. [Cadrage stratégique — CRM, sources, ciblage commercial et Réputation virtuelle](CADRAGE-STRATEGIQUE-CRM-SOURCES-CIBLAGE-REPUTATION-VIRTUELLE-2026-11-06.md) — nouveaux circuits métier et dossier de consultation pour revue indépendante par d'autres IA.
 
+
+25. [Prompt de revue indépendante par IA — CRM](PROMPT-REVUE-INDEPENDANTE-IA-CRM-2026-11-06.md) — consigne prête à transmettre à plusieurs IA pour obtenir des audits critiques comparables.
+
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
 ## Règles de lecture
