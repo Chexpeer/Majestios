@@ -294,3 +294,55 @@ Ces domaines sont des frontières de conception, pas une proposition de créer i
 ### 12.6 Garde-fou de diffusion
 
 La capacité donnée à l'administrateur de choisir qui reçoit quoi doit être puissante mais gouvernée. Une diffusion à un client ne doit jamais ouvrir par effet de bord l'accès à la base CRM interne. Il faut partager un livrable ou une vue précisément définie, avec un périmètre, une durée, une version et des droits explicites. Les exports contenant des données personnelles devront respecter les finalités, bases légales, droits des personnes et conditions d'utilisation des sources.
+
+
+## 13. Cartographie détaillée des parcours et des limites d'autorisation — Lot 1
+
+### 13.1 Parcours espace membre
+
+- [Vérifié — dépôt] `espace-membre.html` charge `auth-espace-membre.js` et expose un dialogue d'inscription, de connexion et de récupération de mot de passe via Supabase Auth.
+- [Vérifié — dépôt] Le provisionnement client passe par l'Edge Function `provision-client-workspace`. Le code versionné vérifie le jeton utilisateur côté serveur, l'adresse e-mail confirmée, l'origine autorisée et les données minimales avant d'appeler la RPC atomique `provision_client_workspace`.
+- [Vérifié — Supabase] La fonction Edge déployée est active (version 3) et la RPC de provisionnement figure dans les migrations appliquées. Le parcours complet de bout en bout (e-mails, redirections, consentement, création et accès) reste à tester avec un compte de test dédié.
+- [Point de vigilance — code] La fonction Edge versionnée vérifie aussi des valeurs de `user_metadata` pour la prise de connaissance de la notice. Ces métadonnées sont modifiables par l'utilisateur ; elles ne doivent pas être considérées seules comme une preuve forte de consentement. La procédure doit être revue avant de donner à cette trace une portée juridique.
+
+### 13.2 Parcours CRM interne
+
+- [Vérifié — dépôt] `crm.html` et `crm-page.js` constituent une première interface CRM ; `crm-client.js` expose les opérations sur entreprises, contacts, opportunités, activités et relances.
+- [Vérifié — dépôt] Le client CRM exige une session authentifiée et une appartenance à une organisation de type `internal`. Il sélectionne cette organisation puis limite ses lectures à son identifiant.
+- [Vérifié — dépôt] Le contrôle de rôle côté navigateur bloque les écritures pour `viewer`. Ce contrôle améliore l'expérience, mais la véritable autorité reste RLS et les fonctions PostgreSQL : un contrôle dans le navigateur n'est jamais une frontière de sécurité suffisante à lui seul.
+- [Vérifié — dépôt] Les rôles `owner`, `admin`, `member` et `viewer` sont les rôles techniques actuellement utilisés. Il n'existe pas encore de permissions détaillées par fonction (recherche, export, diffusion, administration d'une équipe, gestion de connecteurs, etc.).
+- [Limite fonctionnelle] Le CRM actuel est une interface opérationnelle de premier niveau, non un cockpit de commandement, ni un moteur de collecte, ni un atelier de production et diffusion de fichiers.
+
+### 13.3 Séparation des espaces : problèmes d'expérience constatés
+
+- [Vérifié — dépôt] `crm.html` conserve l'en-tête et la navigation du site public, ainsi qu'un lien de retour au site. L'espace interne n'a donc pas encore une navigation autonome et clairement identifiée.
+- [Vérifié — dépôt] `espace-membre.html` conserve également la navigation publique et présente des cartes de prévisualisation, tandis que le CRM interne est exposé comme un lien. Les fonctions de consultation, de gestion des dossiers et d'échanges clients restent largement des éléments de présentation plutôt qu'un espace client complet.
+- [Déduit] Ce mélange explique une partie de la désorientation déjà relevée : les trois environnements (site public, cockpit d'administration, CRM interne et espace client) ne sont pas encore séparés par des cadres de navigation et des identités fonctionnelles suffisamment explicites.
+- [Décision de conception recommandée] Prévoir des cadres d'application distincts pour administration générale, CRM interne et espace client. Chaque cadre possède son propre repère de position, sa navigation contextuelle, son tableau de bord et ses actions principales. Les liens entre espaces doivent être explicites et soumis aux autorisations ; éviter les doubles flèches de retour et les navigations qui renvoient vers le site public sans raison métier.
+
+### 13.4 Matrice de permissions à définir avant tout développement admin
+
+Les rôles techniques actuels ne suffisent pas à représenter la hiérarchie métier souhaitée. La prochaine conception devra distinguer au minimum :
+
+| Domaine | Questions de permission à trancher |
+|---|---|
+| Administration générale | Voir l'ensemble, inviter/suspendre, gérer les rôles, configurer les services, superviser les traitements |
+| Recherches et sources | Créer, lancer, planifier, modifier, suspendre et consulter les recherches ; gérer les connecteurs et leurs quotas |
+| Données CRM | Consulter, créer, qualifier, modifier, fusionner, archiver et exporter |
+| Production | Générer, valider, versionner et télécharger les fichiers ou dossiers |
+| Diffusion | Choisir les destinataires, partager, limiter la durée, révoquer et consulter le journal de diffusion |
+| Espace client | Voir et modifier ses propres documents/dossiers ; consulter uniquement les opportunités, contacts et livrables explicitement partagés |
+| IA et automatisations | Observer, analyser, recommander, préparer ou exécuter dans un périmètre autorisé ; demander une validation pour les actions sensibles |
+
+Cette matrice doit être traduite en permissions côté serveur, contrôles RLS et tests d'accès croisé. Ne pas se contenter de masquer des boutons dans l'interface.
+
+### 13.5 Ordre de travail proposé après la cartographie
+
+1. Valider le modèle conceptuel des espaces et des responsabilités (administration générale, CRM-usine, espaces de rubriques, espace client).
+2. Établir la matrice de permissions et les parcours de navigation, sans modifier l'immeuble interactif.
+3. Concevoir l'intégration du cockpit d'administration au-dessus des fondations existantes.
+4. Définir les contrats des connecteurs et du moteur de recherches BODACC/BOAMP avant de choisir les tables ou les tâches d'exécution.
+5. Concevoir les services transversaux CRM et les formats de production/diffusion.
+6. Développer en lots réversibles, avec tests RLS multi-tenant, tests de parcours et contrôle anti-régression.
+
+Aucun changement applicatif, migration, déploiement ou modification de l'immeuble n'a été réalisé pendant cette cartographie.
