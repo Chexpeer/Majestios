@@ -55,7 +55,7 @@ Deno.serve(async (request: Request) => {
   const organizationName = cleanText(metadata.organization_name || body.organization_name, 120);
   const displayName = cleanText(metadata.display_name || body.display_name, 120);
   const phone = cleanText(metadata.phone || body.phone, 32);
-  if (organizationName.length < 2) return response(400, { error: "Le nom de l’entreprise ou de l’espace personnel est obligatoire." });
+  if (organizationName.length < 2) return response(400, { error: "Le nom de l’entreprise ou de l’espace personnel est obligatoire." }, origin);
   const { data: memberships, error: lookupError } = await admin.from("organization_members").select("organization_id").eq("user_id", user.id).limit(20);
   if (lookupError) return response(500, { error: "Impossible de vérifier les espaces existants." }, origin);
   if (memberships?.length) {
