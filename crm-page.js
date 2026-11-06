@@ -576,7 +576,7 @@ function initMarketTargeting(canEdit) {
       });
       status.textContent = response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount + " entreprise(s) unique(s), " +
         targetingCandidates.length + " nouveau(x) candidat(s), " + alreadyKnown.length +
-        " déjà présent(s) parmi les 100 fiches CRM chargées. Source : " + response.source + " · " +
+        " déjà présent(s) dans l’ensemble des fiches CRM accessibles à votre organisation. Source : " + response.source + " · " +
         new Date(response.fetchedAt).toLocaleString("fr-FR") +
         ". Le contrôle SIREN/SIRET est effectué sur l’ensemble des fiches du tenant avant intégration ; la contrainte unique SIREN existante protège également l’insertion.";
       importButton.disabled = !targetingCandidates.length;
