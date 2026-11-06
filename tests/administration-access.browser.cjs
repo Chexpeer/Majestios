@@ -41,6 +41,10 @@ async function main() {
     await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
     assert.equal(await page.locator("#workspace").isVisible(), false, "Les recherches doivent rester masquées sans session.");
     assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation des recherches doit rester masquée sans session.");
+    await page.goto("http://127.0.0.1:4177/admin-recherches.html", {waitUntil:"domcontentloaded"});
+    await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
+    assert.equal(await page.locator("#workspace").isVisible(), false, "Les recherches doivent rester masquées sans session.");
+    assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation des recherches doit rester masquée sans session.");
     console.log("TEST ADMIN RÉUSSI : accès non authentifié bloqué, cockpit et navigation internes masqués.");
   } finally {
     if (browser) await browser.close();
