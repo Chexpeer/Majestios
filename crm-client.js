@@ -137,12 +137,11 @@ async function listReminders() {
 async function markReminderRead(id) {
   const { membership } = await requireWorkspace();
   if (membership.role === "viewer") throw new Error("Votre rôle autorise uniquement la consultation du CRM.");
-  const { data, error } = await supabase.from("crm_reminders")
-    .update({ state: "read", read_at: new Date().toISOString() })
-    .eq("id", id).eq("organization_id", membership.organization_id)
-    .select("id").single();
+  const { data, error } = await supabase.rpc("complete_crm_reminder", {
+    p_reminder_id: id
+  });
   if (error) throw error;
-  return data;
+  return { activityId: data, organizationId: membership.organization_id };
 }
 
 export const MajestiosCRM = Object.freeze({
