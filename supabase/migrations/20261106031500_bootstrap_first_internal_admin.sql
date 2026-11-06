@@ -62,6 +62,7 @@ begin
 end;
 $$;
 
+grant usage on schema private to service_role;
 revoke all on function private.bootstrap_first_internal_admin(uuid) from public, anon, authenticated;
 grant execute on function private.bootstrap_first_internal_admin(uuid) to service_role;
 
