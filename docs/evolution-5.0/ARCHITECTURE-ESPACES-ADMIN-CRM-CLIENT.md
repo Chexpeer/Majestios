@@ -241,3 +241,56 @@ Le Lot 1 doit également identifier, en lecture seule :
 - les permissions permettant à l'administration de créer, exécuter, suspendre et distribuer des recherches ou fichiers.
 
 Aucune de ces capacités ne doit être considérée comme opérationnelle avant vérification dans le code et dans les services connectés.
+
+
+## 12. Résultats complémentaires du Lot 1 — contrôle du dépôt et du backend
+
+Contrôle en lecture seule effectué après l'ajout du principe d'usine transversale. Les constats ci-dessous décrivent l'état observé au 6 novembre 2026 ; ils ne constituent pas une recette fonctionnelle complète.
+
+### 12.1 Administration générale : interface non retrouvée
+
+- [Vérifié — dépôt] L'arborescence de la branche evolution-5.0-clean-preview ne contient pas de page ou module applicatif identifié comme administration générale, tableau de bord admin ou cockpit. Les seuls éléments explicitement nommés administration sont des documents de cadrage et la migration de bootstrap du premier administrateur.
+- [Vérifié — dépôt] MODULE-ADMIN-IA.md décrit un cockpit cible, ses niveaux d'autonomie et ses garde-fous. Il s'agit d'une spécification, pas d'une interface déjà livrée.
+- [Conclusion] Il ne faut donc pas présenter le tableau de bord administrateur comme déjà opérationnel. Il reste à construire en préservant les fondations existantes.
+
+### 12.2 État réel du backend au contrôle
+
+- [Vérifié — Supabase] Les treize migrations du dépôt sont maintenant présentes dans l'historique du projet Supabase, dont le bootstrap administrateur, les rôles CRM, le provisionnement atomique et les relances persistantes. Cela actualise l'ancien état décrit dans ETAT-BACKEND-SUPABASE.md, qui signalait encore certaines migrations comme en attente.
+- [Vérifié — Supabase] Une appartenance interne existe actuellement avec le rôle owner. Le rôle technique d'administration initiale est donc provisionné dans l'organisation internal.
+- [Vérifié — Supabase] La seule Edge Function actuellement déployée est provision-client-workspace, active en version 3 avec vérification JWT activée.
+- [Vérifié — Supabase] Le seul job pg_cron observé est la matérialisation des relances CRM toutes les cinq minutes (private.materialize_crm_reminders). Ce job n'est pas un moteur de recherches externes.
+- [Vérifié — Supabase] Les tables métier observées restent celles du socle CRM et des espaces : organisations, membres, profils, entreprises, contacts, opportunités, activités, demandes client, accusés de prise de connaissance et relances. Aucun registre de collecte BODACC/BOAMP, de campagnes de recherche, de traitements d'import ou de lots de diffusion n'a été observé dans ces schémas.
+
+### 12.3 Rôles et contrôles observés
+
+- [Vérifié — Supabase] Les rôles stockés dans organization_members sont owner, admin, member et viewer.
+- [Vérifié — Supabase] private.is_internal_staff() reconnaît comme équipe interne les membres owner, admin et member d'une organisation internal.
+- [Vérifié — Supabase] private.is_org_admin() reconnaît owner et admin au sein d'une organisation donnée ; private.is_org_editor() reconnaît owner, admin et member.
+- [Vérifié — Supabase] Les politiques RLS des tables métier cloisonnent la lecture par appartenance à l'organisation. Les écritures sont généralement réservées aux éditeurs ; les suppressions sont réservées aux administrateurs de l'organisation.
+- [Vérifié — code] crm-client.js exige une appartenance à une organisation internal pour ouvrir le CRM interne et bloque les écritures pour viewer. Il n'implémente pas encore une matrice granulaire de permissions par rubrique, service ou action.
+- [Point de vigilance] La métaphore Général / Colonel / officiers / équipes ne doit pas être traduite directement en renommant les rôles techniques existants. Il faudra définir une matrice métier claire, puis la faire appliquer côté serveur et par RLS.
+
+### 12.4 Connecteurs, recherches et diffusion : capacités non livrées
+
+- [Vérifié — code et backend observés] Le modèle opportunities.source_type prévoit les valeurs boamp et bodacc, et conserve une identité externe ainsi qu'une URL de source. Cela prépare la traçabilité des opportunités, mais ne prouve pas l'existence d'une collecte.
+- [Vérifié — backend observé] Aucun connecteur BOAMP/BODACC, recherche automatisée, planificateur de collecte, dédoublonnage d'import, générateur de fichiers ou mécanisme de diffusion à des destinataires n'a été retrouvé dans les Edge Functions, tables métier et tâches planifiées observées.
+- [Conclusion] La vision de l'aspirateur / composteur / malaxeur / bétonnière / imprimante 3D est une cible fonctionnelle à construire. Le CRM actuel est une fondation de gestion commerciale et de suivi, pas encore l'usine de collecte, d'intelligence et de distribution décrite par le projet.
+
+### 12.5 Découpage recommandé pour le futur moteur d'intelligence
+
+Sans créer de tables ni de fonctions à ce stade, la conception devra distinguer les domaines suivants :
+
+1. Connecteurs et sources : registre des sources, conditions d'utilisation, méthodes d'accès, quotas et état de disponibilité.
+2. Recherches et règles : critères, périmètres, fréquences, propriétaire, statut, date de prochaine exécution et limites.
+3. Collecte brute : réponse source conservée avec identifiant externe, URL, date de publication et date de collecte.
+4. Préparation : normalisation, dédoublonnage, rapprochement et journal des transformations.
+5. Qualification et IA : scores, explications, signaux, niveau de confiance et validation humaine.
+6. Production : sélections, exports, dossiers, rapports et fichiers versionnés.
+7. Diffusion : destinataires, autorisations, aperçu, historique, expiration et révocation du partage.
+8. Pilotage et audit : état des tâches, erreurs, reprises, coûts, quotas et journal des décisions.
+
+Ces domaines sont des frontières de conception, pas une proposition de créer immédiatement huit modules ou huit tables. Leur découpage technique devra être établi après cartographie des usages et des sources.
+
+### 12.6 Garde-fou de diffusion
+
+La capacité donnée à l'administrateur de choisir qui reçoit quoi doit être puissante mais gouvernée. Une diffusion à un client ne doit jamais ouvrir par effet de bord l'accès à la base CRM interne. Il faut partager un livrable ou une vue précisément définie, avec un périmètre, une durée, une version et des droits explicites. Les exports contenant des données personnelles devront respecter les finalités, bases légales, droits des personnes et conditions d'utilisation des sources.
