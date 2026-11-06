@@ -348,3 +348,20 @@ Références : [Google Maps Platform Terms of Service](https://cloud.google.com/
 ### 13.6 Statut de la consultation inter-IA
 
 Cette annexe est une première vérification documentaire fondée sur des références institutionnelles et les conditions officielles de fournisseurs. **Elle ne constitue pas un avis d'une autre IA.** Les 27 questions de la section 10 restent le questionnaire à transmettre à des relecteurs indépendants. Leurs retours devront être ajoutés séparément, avec leur date, leur périmètre, les sources qu'ils citent et les points de désaccord. Aucun avis ne sera présenté comme un consensus avant confrontation.
+
+
+### Métaphore ajoutée — transformer la moutarde en mayonnaise
+
+Formulation originale du porteur du projet : « MajestiOS le CRM qui transforme la moutarde en Mayonnaise ! »
+
+**Interprétation fonctionnelle :** le CRM doit être capable de partir d'informations disparates, brutes, parfois peu exploitables ou contradictoires, puis de les transformer en un résultat structuré, cohérent et directement utile au développement commercial. La valeur ne réside pas dans l'accumulation des données, mais dans leur transformation maîtrisée : collecte, tri, nettoyage, rapprochement, qualification, enrichissement, mise en forme et production d'un livrable ou d'une action exploitable.
+
+**Conséquences de conception :**
+- conserver la provenance et la date de chaque information ;
+- distinguer les faits sources des déductions et enrichissements ;
+- rendre visibles les données manquantes, contradictions et niveaux de confiance ;
+- appliquer des règles de transformation explicites et révisables ;
+- prévoir une validation humaine avant toute action engageante ou diffusion ;
+- mesurer la qualité du résultat obtenu, pas seulement le volume traité.
+
+Cette image complète les métaphores de l'aspirateur, du composteur, du malaxeur, de la bétonnière et de l'imprimante 3D : elle résume, avec humour, la promesse de transformation du CRM. Elle ne signifie pas que le système peut inventer les ingrédients manquants ou garantir un résultat sans contrôle.
