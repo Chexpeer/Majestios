@@ -398,7 +398,6 @@ async function refresh(canEdit = false) {
   const reminders = await MajestiosCRM.listReminders();
   renderPersistentReminders(reminders, canEdit);
   sendDueReminders(opportunities);
-  renderActivityTimeline(activities, businesses, contacts, opportunities);
   renderSelect("#crm-contact-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
   renderSelect("#crm-opportunity-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
   renderSelect("#crm-opportunity-form [name=primary_contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact principal");
