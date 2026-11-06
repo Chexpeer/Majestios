@@ -69,6 +69,22 @@ function renderEditableList(selector, rows, label, kind, canEdit) {
     const text = document.createElement("span");
     text.textContent = label(row);
     item.append(text);
+    if (kind === "business") {
+      const searchParts = [row.legal_name, row.trade_name, row.siren, row.siret, row.ape_naf, row.city, row.department_code, row.qualification_notes];
+      item.dataset.searchText = searchParts.filter(Boolean).join(" ").toLocaleLowerCase("fr-FR");
+      item.dataset.qualificationStatus = row.qualification_status || "";
+      item.dataset.departmentCode = row.department_code || "";
+      const metadata = document.createElement("p");
+      metadata.className = "crm-business-metadata";
+      const details = [
+        row.siren ? "SIREN " + row.siren : "",
+        row.ape_naf ? "APE/NAF " + row.ape_naf : "",
+        row.city || "",
+        row.department_code ? "Département " + row.department_code : ""
+      ].filter(Boolean);
+      metadata.textContent = details.length ? details.join(" · ") : "Informations d’identification à compléter.";
+      item.append(metadata);
+    }
     if (canEdit) {
       const details = document.createElement("details");
       const summary = document.createElement("summary");
