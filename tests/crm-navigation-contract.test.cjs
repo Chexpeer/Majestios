@@ -64,3 +64,11 @@ assert.ok(internalHtml.includes('<meta name="robots" content="noindex,nofollow">
 assert.ok(internalHtml.includes('src="espace-interne.js"') && internalHtml.includes('href="espace-interne.css"'), "L’accueil interne doit charger ses ressources dédiées.");
 assert.ok(!internalHtml.includes("signUp(") && !internalHtml.includes("provision-client-workspace"), "L’accueil interne ne doit pas inscrire ni provisionner les espaces clients.");
 console.log("CONTRAT NAVIGATION RÉUSSI : accueil interne, CRM, administration et espace client séparés.");
+
+const workspaceNav = fs.readFileSync(path.join(__dirname, "..", "crm-workspace-nav.js"), "utf8");
+const workspaceCss = fs.readFileSync(path.join(__dirname, "..", "crm-workspace.css"), "utf8");
+assert.ok(html.includes('href="crm-workspace.css"') && html.includes('src="crm-workspace-nav.js"'), "Le CRM doit charger sa navigation métier dédiée.");
+assert.ok(workspaceNav.includes('label: "Vue générale"') && workspaceNav.includes('label: "Entreprises"') && workspaceNav.includes('label: "Contacts"') && workspaceNav.includes('label: "Opportunités"') && workspaceNav.includes('label: "Activités & historique"'), "La navigation doit exposer les cinq espaces de travail CRM.");
+assert.ok(workspaceNav.includes('aria-label", "Navigation des modules CRM"') && workspaceNav.includes('aria-current', "La navigation CRM doit exposer l’état du module actif aux technologies d’assistance.");
+assert.ok(workspaceNav.includes('event.key === "ArrowRight"') && workspaceNav.includes('event.key === "Home"') && workspaceNav.includes('event.key === "End"'), "La navigation CRM doit prendre en charge le clavier.");
+assert.ok(workspaceCss.includes(".crm-workspace-nav-button.is-active") && workspaceCss.includes("@media(max-width:600px)"), "La navigation CRM doit distinguer le module actif et rester utilisable sur mobile.");
