@@ -70,9 +70,13 @@ if (form && config?.url && config?.publishableKey) {
     if (feedback) feedback.hidden = true;
   };
 
-  const provisionWorkspace = async (session, organizationName) => {
+  const provisionWorkspace = async (session, organizationName, privacyAcknowledged = false) => {
     const { data, error } = await supabase.functions.invoke("provision-client-workspace", {
-      body: { organization_name: organizationName || "" },
+      body: {
+        flow: "signup",
+        privacy_acknowledged: privacyAcknowledged === true,
+        organization_name: organizationName || ""
+      },
       headers: { Authorization: `Bearer ${session.access_token}` }
     });
     if (error) throw error;
@@ -166,7 +170,7 @@ if (form && config?.url && config?.publishableKey) {
         });
         if (error) throw error;
         if (data.session) {
-          const organization = await provisionWorkspace(data.session, organizationName);
+          const organization = await provisionWorkspace(data.session, organizationName, privacyAccepted);
           setFeedback(`Votre compte est créé et votre espace « ${organization.name} » est prêt. Vous êtes connecté.`);
           await updateAuthStatus(data.session);
         } else {
@@ -204,7 +208,11 @@ if (form && config?.url && config?.publishableKey) {
     await updateAuthStatus(data.session);
     if (new URLSearchParams(window.location.search).get("confirmed") === "1" && data.session) {
       try {
-        const organization = await provisionWorkspace(data.session, data.session.user.user_metadata?.organization_name);
+        const organization = await provisionWorkspace(
+          data.session,
+          data.session.user.user_metadata?.organization_name,
+          data.session.user.user_metadata?.privacy_notice_acknowledged === true
+        );
         if (status) status.textContent = `Adresse confirmée · espace « ${organization.name} » prêt.`;
       } catch (error) {
         if (status) status.textContent = error.message || "Adresse confirmée · finalisation de l’espace nécessaire.";
