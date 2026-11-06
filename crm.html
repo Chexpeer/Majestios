@@ -103,6 +103,15 @@
         <label class="form-field">Téléphone<input name="phone" type="tel"></label>
         <button class="button button-primary" type="submit">Ajouter le contact</button>
       </form>
+      <form id="crm-contact-server-search" class="crm-record-search">
+        <label class="form-field">Rechercher un contact<input id="crm-contact-search" type="search" maxlength="120" placeholder="Nom, fonction, e-mail, téléphone…" autocomplete="off"></label>
+        <button class="button button-secondary" type="submit">Rechercher dans tous les contacts</button>
+      </form>
+      <div class="crm-record-pagination" aria-label="Pagination des contacts">
+        <button id="crm-contact-previous" class="button button-secondary" type="button" disabled>Précédent</button>
+        <span id="crm-contact-page-status" role="status" aria-live="polite">Chargement des contacts…</span>
+        <button id="crm-contact-next" class="button button-secondary" type="button" disabled>Suivant</button>
+      </div>
       <ul id="crm-contact-list"></ul>
     </article>
     <article class="platform-card">
@@ -115,6 +124,15 @@
         <label class="form-field">Origine<select name="source_type"><option value="manual">Saisie manuelle</option><option value="boamp">Marché public · BOAMP</option><option value="bodacc">Signal privé · BODACC</option><option value="private_market">Marché privé</option><option value="partner">Partenaire</option><option value="other">Autre source</option></select></label>
         <button class="button button-primary" type="submit">Ajouter l’opportunité</button>
       </form>
+      <form id="crm-opportunity-server-search" class="crm-record-search">
+        <label class="form-field">Rechercher une opportunité<input id="crm-opportunity-search" type="search" maxlength="120" placeholder="Intitulé, description, source…" autocomplete="off"></label>
+        <button class="button button-secondary" type="submit">Rechercher dans toutes les opportunités</button>
+      </form>
+      <div class="crm-record-pagination" aria-label="Pagination des opportunités">
+        <button id="crm-opportunity-previous" class="button button-secondary" type="button" disabled>Précédent</button>
+        <span id="crm-opportunity-page-status" role="status" aria-live="polite">Chargement des opportunités…</span>
+        <button id="crm-opportunity-next" class="button button-secondary" type="button" disabled>Suivant</button>
+      </div>
       <ul id="crm-opportunity-list"></ul>
     </article>
     <article class="platform-card">
@@ -128,6 +146,15 @@
         <label class="form-field">Détail<textarea name="body"></textarea></label>
         <button class="button button-primary" type="submit">Enregistrer l’activité</button>
       </form>
+      <form id="crm-activity-server-search" class="crm-record-search">
+        <label class="form-field">Rechercher dans l’historique<input id="crm-activity-search" type="search" maxlength="120" placeholder="Objet, détail, type d’activité…" autocomplete="off"></label>
+        <button class="button button-secondary" type="submit">Rechercher dans tout l’historique</button>
+      </form>
+      <div class="crm-record-pagination" aria-label="Pagination de l’historique">
+        <button id="crm-activity-previous" class="button button-secondary" type="button" disabled>Précédent</button>
+        <span id="crm-activity-page-status" role="status" aria-live="polite">Chargement de l’historique…</span>
+        <button id="crm-activity-next" class="button button-secondary" type="button" disabled>Suivant</button>
+      </div>
       <ul id="crm-activity-list"></ul>
     </article>
   </section>
