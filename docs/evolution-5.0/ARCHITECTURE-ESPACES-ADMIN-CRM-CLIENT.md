@@ -745,3 +745,19 @@ Le lien a été retiré. La carte précise désormais que le CRM est un outil in
 Le lien Administration → CRM reste en place, ainsi que le retour unique CRM → Administration. Le changement ne touche ni l'authentification, ni les rôles, ni les politiques RLS, ni les tables ou fonctions Supabase. Aucun changement de l'immeuble interactif, de ses images, étages, libellés, dossiers, zones ou liens n'a été effectué.
 
 **Statut :** correction de navigation publiée sur la branche `evolution-5.0-admin-cockpit`. Les deux workflows CI du commit précédent `44f708f71d527fe1e6a9e4491b32c962c6b6b5a3` ont réussi ; la correction présente déclenche une nouvelle exécution qui doit être contrôlée séparément.
+
+
+## 20. Test anti-régression de la séparation des espaces — 6 novembre 2026
+
+Le contrat automatisé `tests/crm-navigation-contract.test.cjs` a été étendu pour empêcher le retour de la confusion relevée entre l'espace membre et le CRM interne.
+
+Il contrôle désormais explicitement :
+- la présence du lien Administration générale → CRM interne ;
+- le retour unique CRM interne → Administration générale dans l'en-tête ;
+- l'absence de lien direct espace membre → CRM interne ;
+- la présence d'un texte expliquant que l'espace membre reste distinct et ne reçoit que les informations et documents destinés au client ;
+- la conservation du module JavaScript `crm-page.js` et l'absence du défaut de balisage précédemment corrigé.
+
+Cette vérification est exécutée par le workflow `.github/workflows/majestios-anti-regression.yml`.
+
+**Portée :** ajout de tests de navigation uniquement. Aucun changement de logique d'authentification, de rôles, de Supabase ou de données. Aucun changement à l'immeuble interactif, à la production ou à la branche `main`.
