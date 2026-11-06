@@ -24,7 +24,7 @@ create policy "Internal administrators can read admin audit"
 revoke all on public.internal_admin_audit from anon, authenticated;
 grant select on public.internal_admin_audit to authenticated;
 comment on table public.internal_admin_audit is
-  'Journal des opérations de gestion des membres internes. Écriture réservée au service role via Edge Function.';
+  'Journal des opérations de gestion des membres internes. Écritures réalisées par les fonctions SECURITY DEFINER de gestion des rôles et des appartenances.';
 
 create or replace function public.manage_internal_member_role(p_membership_id uuid, p_role text)
 returns void
