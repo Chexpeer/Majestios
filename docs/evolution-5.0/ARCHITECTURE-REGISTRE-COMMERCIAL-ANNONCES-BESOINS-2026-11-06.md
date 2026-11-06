@@ -173,3 +173,64 @@ Aucun changement de code applicatif, schéma Supabase, migration, RLS, compte, r
 **MajestiOS ne doit pas seulement savoir qui est une entreprise. Il doit comprendre, avec des éléments vérifiables, ce qu'elle propose, ce qu'elle recherche, ce qui change autour d'elle et avec qui elle pourrait utilement entrer en relation.**
 
 L'objectif n'est pas de surveiller les entreprises ni de fabriquer des intentions. Il est de transformer des informations dispersées en possibilités de coopération et de développement commercial, dans un cadre transparent, maîtrisé et réciproque.
+
+
+## 11. Axe stratégique majeur — vulgariser et démocratiser les appels d'offres
+
+La mission de MajestiOS va plus loin que publier des annonces ou rapprocher des entreprises : **MajestiOS doit rendre les appels d'offres compréhensibles, accessibles et exploitables par les petites entreprises, les artisans et les TPE/PME qui n'ont pas nécessairement les ressources administratives ou commerciales d'un grand groupe.**
+
+Il ne s'agit pas de simplifier artificiellement les exigences ni de masquer les contraintes d'un marché. Il s'agit de traduire le langage administratif et technique en informations claires, hiérarchisées et directement utiles à la décision.
+
+### Ce que MajestiOS doit rendre lisible
+
+Pour chaque consultation, l'expérience devra progressivement permettre de comprendre :
+
+- **L'objet réel du marché** : ce que l'acheteur veut concrètement faire réaliser, au-delà de l'intitulé administratif.
+- **Les compétences attendues** : métiers, spécialités, qualifications, certifications et savoir-faire concernés, avec distinction entre exigences obligatoires et éléments simplement souhaités.
+- **Le territoire** : lieu d'exécution, départements concernés, déplacements et contraintes d'intervention.
+- **Les conditions d'accès** : critères de candidature, capacités demandées, références, assurances, moyens humains et matériels.
+- **Les pièces du dossier** : rôle du règlement de consultation, du CCTP, du CCAP, du BPU, du DQE, du DPGF et des autres documents, expliqués en langage courant.
+- **Les critères de sélection** : ce qui sera évalué, leur pondération lorsqu'elle est publiée, et les conséquences pratiques pour construire une réponse.
+- **Le calendrier** : date limite, visites obligatoires, questions/réponses, délais et étapes importantes.
+- **Les risques et points de vigilance** : clauses sensibles, pénalités, allotissement, variantes, sous-traitance, exigences disproportionnées ou points à faire vérifier.
+- **La décision de se positionner** : adéquation entre le marché et les capacités connues de l'entreprise, éléments manquants et questions à résoudre avant de mobiliser du temps.
+
+### Traduire, expliquer, orienter — sans déformer
+
+Chaque explication doit distinguer clairement :
+1. **Le texte officiel** : la formulation exacte issue de la consultation et de ses pièces.
+2. **La traduction MajestiOS** : une reformulation pédagogique, sans altérer la portée juridique.
+3. **L'interprétation ou le conseil** : une aide à la compréhension qui doit être présentée comme telle.
+4. **Le point à confirmer** : toute ambiguïté nécessitant une vérification dans le dossier ou auprès de l'acheteur.
+
+MajestiOS doit conserver un accès direct aux documents et passages sources. L'IA peut expliquer, résumer, comparer et signaler des incohérences, mais ne doit jamais inventer une exigence, garantir l'éligibilité ou se substituer à une validation juridique ou technique nécessaire.
+
+### Rendre possible la réponse, même seul ou à plusieurs
+
+La vulgarisation doit aider une entreprise à identifier plusieurs voies réalistes :
+
+- répondre seule lorsqu'elle possède les capacités requises ;
+- répondre à un lot précis plutôt qu'à l'ensemble du marché ;
+- identifier les compétences ou pièces qui lui manquent ;
+- rechercher un cotraitant, un groupement ou un sous-traitant complémentaire ;
+- proposer ses compétences à une entreprise mieux dimensionnée pour porter la réponse ;
+- détecter une opportunité de sous-traitance en amont ou en aval du marché.
+
+C'est ici que le registre des annonces, des besoins, des entreprises et des compétences devient stratégique : il ne sert pas seulement à stocker des publications. Il permet de transformer un marché difficile à décoder en occasions de coopération concrètes.
+
+### Parcours pédagogique cible
+
+1. **Je découvre** — présentation claire du besoin de l'acheteur.
+2. **Je comprends** — traduction des termes, documents et contraintes.
+3. **Je vérifie** — exigences obligatoires, critères, calendrier et points de vigilance.
+4. **Je mesure** — adéquation avec mes compétences, moyens, références et territoire.
+5. **Je choisis** — répondre seul, sur un lot, en groupement, en sous-traitance ou ne pas candidater.
+6. **Je m'entoure** — identification de partenaires complémentaires et préparation des mises en relation.
+7. **Je prépare ma réponse** — checklist et accompagnement méthodologique, sans promesse de résultat.
+8. **Je capitalise** — conservation des décisions, partenaires, réponses et retours d'expérience dans le CRM.
+
+### Principe d'équité commerciale
+
+Un appel d'offres ne doit plus être perçu comme un document opaque réservé aux entreprises déjà équipées d'un service commercial ou d'un bureau d'études. MajestiOS doit contribuer à réduire cette barrière de compréhension et à donner aux petites structures les moyens de voir où elles peuvent légitimement prendre leur place.
+
+**La vulgarisation des appels d'offres est donc un axe produit à part entière, au même niveau stratégique que la détection des opportunités, le registre commercial et la mise en relation.** Elle doit guider les parcours, les contenus, les outils d'analyse et l'accompagnement, et non rester une simple rubrique d'aide.
