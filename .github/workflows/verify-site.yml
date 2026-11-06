@@ -48,6 +48,8 @@ jobs:
         run: node tests/naf-suggestions.test.cjs
       - name: Vérifier le contrat de sécurité CRM
         run: node tests/crm-security-contract.test.cjs
+      - name: Vérifier la politique de déploiement manuel Vercel
+        run: node tests/vercel-deployment-policy.test.cjs
       - name: Construire le site statique
         run: node build.js
       - name: Vérifier l’architecture et les routes
