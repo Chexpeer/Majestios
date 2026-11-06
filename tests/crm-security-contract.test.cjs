@@ -56,7 +56,20 @@ assert.match(client, /supabase\.auth\.getUser\(\)/);
 assert.match(client, /organization\.kind === "internal"/);
 assert.match(client, /\.eq\("organization_id", membership\.organization_id\)/);
 assert.match(client, /membership\.role === "viewer"/);
+assert.match(client, /async function update\(table, id, values\)/);
+assert.match(client, /editableColumns/);
+assert.match(client, /\.eq\("organization_id", membership\.organization_id\)\.select/);
+assert.match(client, /payload\.qualification_score = score/);
+assert.match(client, /updateBusiness: \(id, values\)/);
+assert.match(client, /updateContact: \(id, values\)/);
+assert.match(client, /updateOpportunity: \(id, values\)/);
 assert.match(page, /consultation seule/);
+assert.match(page, /renderEditableList/);
+assert.match(page, /Modifier \/ qualifier l’entreprise/);
+assert.match(page, /Qualifier l’opportunité/);
+assert.match(page, /qualification_status/);
+assert.match(page, /qualification_score/);
+assert.match(page, /Ne pas contacter/);
 
 const crmPayloadColumns = {
   businesses: ["legal_name", "website", "city", "country_code", "qualification_status", "organization_id", "created_by"],
