@@ -60,7 +60,7 @@ const editConfigs = {
     update: MajestiosCRM.updateOpportunity
   }
 };
-function renderEditableList(selector, rows, label, kind, canEdit) {
+function renderEditableList(selector, rows, label, kind, canEdit, related = {}) {
   const list = document.querySelector(selector);
   list.replaceChildren();
   rows.forEach(row => {
@@ -84,6 +84,77 @@ function renderEditableList(selector, rows, label, kind, canEdit) {
       ].filter(Boolean);
       metadata.textContent = details.length ? details.join(" · ") : "Informations d’identification à compléter.";
       item.append(metadata);
+      const dossier = document.createElement("details");
+      dossier.className = "crm-business-dossier";
+      const dossierSummary = document.createElement("summary");
+      dossierSummary.textContent = "Ouvrir le dossier entreprise";
+      dossier.append(dossierSummary);
+
+      const identity = document.createElement("dl");
+      identity.className = "crm-business-identity";
+      const identityFields = [
+        ["Raison sociale", row.legal_name], ["Nom commercial", row.trade_name],
+        ["SIREN", row.siren], ["SIRET", row.siret], ["TVA intracommunautaire", row.vat_number],
+        ["APE / NAF", row.ape_naf], ["Adresse", row.address_line],
+        ["Code postal", row.postal_code], ["Ville", row.city],
+        ["Département", row.department_code], ["Pays", row.country_code],
+        ["Site web", row.website], ["Source", row.source_label],
+        ["Lien source", row.source_url], ["Responsable interne", row.assigned_to],
+        ["Qualification", row.qualification_status], ["Notes", row.qualification_notes]
+      ];
+      identityFields.forEach(([caption, value]) => {
+        if (value === null || value === undefined || value === "") return;
+        const term = document.createElement("dt");
+        term.textContent = caption;
+        const description = document.createElement("dd");
+        if (caption === "Site web" || caption === "Lien source") {
+          try {
+            const url = new URL(value);
+            if (url.protocol === "https:" || url.protocol === "http:") {
+              const link = document.createElement("a");
+              link.href = url.href;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              link.textContent = value;
+              description.append(link);
+            } else description.textContent = value;
+          } catch { description.textContent = value; }
+        } else description.textContent = value;
+        identity.append(term, description);
+      });
+      dossier.append(identity);
+
+      const relatedSections = [
+        ["Contacts associés", (related.contacts || []).filter(contact => contact.business_id === row.id)
+          .map(contact => [ [contact.first_name, contact.last_name].filter(Boolean).join(" "), contact.job_title, contact.email, contact.phone ].filter(Boolean).join(" · "))],
+        ["Opportunités associées", (related.opportunities || []).filter(opportunity => opportunity.business_id === row.id)
+          .map(opportunity => [opportunity.title, opportunity.status, opportunity.next_action].filter(Boolean).join(" · "))],
+        ["Activités et historique", (related.activities || []).filter(activity => activity.business_id === row.id)
+          .map(activity => [activity.subject, activity.activity_type, activity.occurred_at ? new Intl.DateTimeFormat("fr-FR", {dateStyle:"medium"}).format(new Date(activity.occurred_at)) : ""].filter(Boolean).join(" · "))]
+      ];
+      relatedSections.forEach(([headingText, entries]) => {
+        const section = document.createElement("section");
+        section.className = "crm-business-related";
+        const heading = document.createElement("h4");
+        heading.textContent = headingText;
+        const relatedList = document.createElement("ul");
+        if (!entries.length) {
+          const empty = document.createElement("li");
+          empty.textContent = "Aucun élément associé dans les données actuellement chargées.";
+          relatedList.append(empty);
+        } else entries.forEach(entry => {
+          const relatedItem = document.createElement("li");
+          relatedItem.textContent = entry;
+          relatedList.append(relatedItem);
+        });
+        section.append(heading, relatedList);
+        dossier.append(section);
+      });
+      const coverage = document.createElement("p");
+      coverage.className = "crm-business-coverage";
+      coverage.textContent = "Dossier alimenté par les 100 dernières fiches au maximum chargées dans chaque rubrique. Une absence ici ne prouve pas l’absence d’un lien dans l’ensemble du CRM.";
+      dossier.append(coverage);
+      item.append(dossier);
     }
     if (canEdit) {
       const details = document.createElement("details");
@@ -303,7 +374,7 @@ async function refresh(canEdit = false) {
   document.querySelector("#crm-contact-count").textContent = contacts.length;
   document.querySelector("#crm-opportunity-count").textContent = opportunities.length;
   document.querySelector("#crm-activity-count").textContent = activities.length;
-  renderEditableList("#crm-business-list", businesses, row => (row.trade_name || row.legal_name) + " · " + row.qualification_status, "business", canEdit);
+  renderEditableList("#crm-business-list", businesses, row => (row.trade_name || row.legal_name) + " · " + row.qualification_status, "business", canEdit, { contacts, opportunities, activities });
   renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
   renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
   renderFollowups(opportunities);
