@@ -53,8 +53,9 @@ form.addEventListener("submit",async event=>{
   const base=kind==="bodacc"?"https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records":"https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records";
   const clauses=[];if(terms.length){const field=kind==="bodacc"?"numerodepartement":"code_departement";clauses.push(field+" IN ("+terms.map(quote).join(",")+")");}
   if(kind==="bodacc"&&family.value)clauses.push("familleavis_lib = "+quote(family.value));
-  if(kw){const fields=kind==="bodacc"?["commercant","ville","acte","listeetablissements"]:["objet","nomacheteur","descripteur_libelle"];clauses.push("("+fields.map(f=>"search("+f+", "+quote(kw)+")").join(" OR ")+")");}
-  const params=new URLSearchParams({limit:limit.value,order_by:"dateparution DESC"});if(clauses.length)params.set("where",clauses.join(" AND "));
+  if(kw){const fields=kind==="bodacc"?["commercant","ville","tribunal"]:["objet","nomacheteur","descripteur_libelle"];clauses.push("("+fields.map(f=>"search("+f+", "+quote(kw)+")").join(" OR ")+")");}
+  const selected=kind==="bodacc"?"id,dateparution,numerodepartement,departement_nom_officiel,commercant,ville,familleavis_lib,acte,jugement,url_complete":"idweb,id,objet,dateparution,datefindiffusion,code_departement,code_departement_prestation,nomacheteur,nature_libelle,type_marche,descripteur_libelle,url_avis";
+  const params=new URLSearchParams({limit:limit.value,order_by:"dateparution DESC",select:selected});if(clauses.length)params.set("where",clauses.join(" AND "));
   const response=await fetch(base+"?"+params.toString(),{headers:{Accept:"application/json"}});
   if(!response.ok)throw new Error("La source a répondu avec le statut HTTP "+response.status+".");
   const payload=await response.json();const items=payload.results||[];render(items,kind);count.textContent=(payload.total_count??items.length)+" ANNONCE(S) CORRESPONDANTE(S) · "+items.length+" AFFICHÉE(S)";
