@@ -209,5 +209,11 @@ for (const fragment of [
 ]) assert.ok(reminderCompletion.includes(fragment), "Clôture de relance non conforme : " + fragment);
 assert.ok(client.includes('supabase.rpc("complete_crm_reminder"'));
 assert.ok(page.includes("Relance traitée et ajoutée à l’historique"));
+assert.ok(page.includes("const businessById = new Map(businesses.map"));
+assert.ok(page.includes("const contactById = new Map(contacts.map"));
+assert.ok(page.includes("const opportunityById = new Map(opportunities.map"));
+assert.ok(page.includes("crm-timeline-context"));
+assert.ok(page.includes("activityTypes[row.activity_type]"));
+
 
 console.log("CRM persistent reminders contract: OK — persistance, déduplication, isolation tenant, cycle de vie et planification PostgreSQL.");
