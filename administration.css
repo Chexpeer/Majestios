@@ -154,3 +154,6 @@
   .admin-crm-current strong{font-size:10px}
   .admin-crm-footer{font-size:9px}
 }
+
+.admin-frame.is-locked{grid-template-columns:minmax(0,1fr)}
+.admin-frame.is-locked .admin-sidebar{display:none}
