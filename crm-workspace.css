@@ -50,3 +50,7 @@
 .crm-business-related li{margin:5px 0;overflow-wrap:anywhere}
 .crm-business-coverage{margin:12px 0 0;color:#737e85;font-size:11px;line-height:1.5}
 @media(max-width:600px){.crm-business-identity{grid-template-columns:1fr;gap:2px}.crm-business-identity dd{margin-bottom:7px}}
+.crm-business-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 16px;padding:10px 12px;border:1px solid #d8dde0;border-radius:8px;background:#fbfcfc;color:#56616a;font-size:13px}
+.crm-business-pagination button:disabled{opacity:.45;cursor:not-allowed}
+#crm-business-server-search>button{margin:0 0 8px}
+@media(max-width:520px){.crm-business-pagination{flex-wrap:wrap}.crm-business-pagination span{flex-basis:100%;order:-1;text-align:center}}
