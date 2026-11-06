@@ -1,0 +1,27 @@
+.crm-workspace-nav{
+  width:min(1180px,calc(100% - 48px));margin:18px auto 22px;padding:13px 15px;
+  border:1px solid #c7b477;border-radius:10px;
+  background:linear-gradient(105deg,#eef1f3 0%,#fff 55%,#f5efdf 100%);
+  box-shadow:0 6px 18px rgba(31,42,50,.07);
+  font-family:"DM Sans",Arial,sans-serif;
+}
+.crm-workspace-nav-label{margin:0 0 9px;color:#8a6b2e;font-size:8px;font-weight:800;letter-spacing:.16em}
+.crm-workspace-nav-controls{display:flex;flex-wrap:wrap;gap:7px}
+.crm-workspace-nav-button{
+  min-height:36px;padding:8px 13px;border:1px solid #cbd1d5;border-radius:7px;
+  color:#4e5962;background:#fff;font:700 10px "DM Sans",Arial,sans-serif;cursor:pointer;
+}
+.crm-workspace-nav-button:hover{border-color:#b28b3f;color:#8b6827}
+.crm-workspace-nav-button.is-active{
+  border-color:#a98235;color:#303941;
+  background:linear-gradient(105deg,#f1d99e,#d6b66e);
+  box-shadow:0 3px 9px rgba(148,111,40,.13);
+}
+.crm-workspace-nav-button:focus-visible{outline:3px solid #657f9a;outline-offset:2px}
+.crm-workspace-nav [hidden],.crm-workspace-nav-controls [hidden]{display:none!important}
+@media(max-width:600px){
+  .crm-workspace-nav{width:calc(100% - 28px);padding:11px}
+  .crm-workspace-nav-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .crm-workspace-nav-button{width:100%;padding-inline:6px}
+}
+@media(prefers-reduced-motion:reduce){.crm-workspace-nav-button{scroll-behavior:auto}}
