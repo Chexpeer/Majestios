@@ -116,3 +116,9 @@ assert.ok(crmScript.includes('className = "crm-business-dossier"'), "Chaque entr
 assert.ok(crmScript.includes('["Contacts associés", "contacts"]') && crmScript.includes('["Opportunités associées", "opportunities"]') && crmScript.includes('["Activités et historique", "activities"]'), "Le dossier entreprise doit rapprocher contacts, opportunités et historique par rubrique paginée.");
 assert.ok(crmScript.includes("identityFields") && crmScript.includes("source_url") && crmScript.includes("qualification_notes"), "Le dossier doit exposer identité, provenance et qualification disponibles.");
 assert.ok(crmScript.includes("Aucun élément associé à cette entreprise.") && crmScript.includes("result.total") && crmScript.includes("result.pageCount"), "Le dossier doit afficher le volume relationnel complet et la pagination, sans confondre page vide et absence de relation.");
+
+
+assert.ok(crmScript.includes('function setupRemoteRelationSelect') && crmScript.includes('listBusinessesPage') && crmScript.includes('listWorkspaceRecordsPage'), 'Les sélecteurs relationnels doivent interroger les listes serveur paginées.');
+assert.ok(crmScript.includes('pageSize: 25') && crmScript.includes('type = "search"') && crmScript.includes('aria-live'), 'Les sélecteurs doivent proposer recherche, pagination et retour accessible.');
+assert.ok(crmScript.includes('relationSelectors') && crmScript.includes('setupRemoteRelationSelectors();'), 'Tous les champs relationnels doivent être raccordés au chargement distant.');
+assert.ok(workspaceCss.includes('.crm-relation-search') && workspaceCss.includes('.crm-relation-pagination'), 'Les contrôles relationnels distants doivent disposer d’un style dédié.');
