@@ -59,7 +59,7 @@ try {
     website: data.website || null,
     city: data.city || null,
     country_code: "FR",
-    qualification_status: "to_qualify"
+    qualification_status: "to_review"
   }));
   bindForm("#crm-contact-form", MajestiosCRM.createContact, data => ({
     last_name: data.last_name.trim(),
@@ -72,7 +72,7 @@ try {
     title: data.title.trim(),
     description: data.description || null,
     source_type: data.source_type,
-    status: "new"
+    status: "detected"
   }));
   await refresh();
 } catch (error) {
