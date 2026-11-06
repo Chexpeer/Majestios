@@ -282,6 +282,30 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
 @media(max-width:600px){body.homepage .elevator-caption{right:4px;bottom:4px;font-size:8px}}
 @media(prefers-reduced-motion:reduce){body.homepage .building-hotspots .floor-zone{transition-duration:0s!important}body.homepage .elevator-cabin{transition-duration:0s!important}body.homepage .elevator-window{transition-duration:0s!important}body.homepage .elevator-detail{transition-duration:0s!important}body.homepage .elevator-reflection{transition-duration:0s!important}body.homepage .elevator-cylinder-side{transition-duration:0s!important}body.homepage .elevator-cylinder-rim{transition-duration:0s!important}body.homepage .elevator-cylinder-highlight{transition-duration:0s!important}}
 
+
+/* Navigation mobile V2 : même panneau compact et mêmes sous-menus sur l'accueil. */
+@media(max-width:760px){
+ body.homepage .site-header{position:relative!important;z-index:50!important}
+ body.homepage .menu-toggle{display:flex!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:4px!important;width:40px!important;height:40px!important;z-index:52!important}
+ body.homepage .site-nav{
+  display:none!important;position:absolute!important;top:calc(100% + 6px)!important;right:8px!important;left:auto!important;
+  width:min(320px,calc(100vw - 32px))!important;max-width:calc(100vw - 32px)!important;
+  max-height:min(70dvh,520px)!important;overflow-x:hidden!important;overflow-y:auto!important;
+  flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;
+  gap:4px!important;padding:10px!important;margin:0!important;
+  border:1px solid rgba(213,181,108,.5)!important;border-radius:12px!important;
+  background:#0d1a2b!important;box-shadow:0 18px 42px rgba(0,0,0,.48)!important;white-space:normal!important
+ }
+ body.homepage .site-nav.open{display:flex!important}
+ body.homepage .site-nav>a{display:flex!important;align-items:center!important;width:100%!important;min-height:42px!important;padding:10px 12px!important;border:0!important;border-bottom:1px solid rgba(213,181,108,.16)!important;border-radius:7px!important;font-size:13px!important;line-height:1.35!important;white-space:normal!important}
+ body.homepage .site-nav .nav-item-dropdown{display:grid!important;grid-template-columns:minmax(0,1fr) 38px!important;align-items:center!important;gap:4px!important;width:100%!important;min-width:0!important}
+ body.homepage .site-nav .nav-item-dropdown>a{display:flex!important;align-items:center!important;min-height:42px!important;min-width:0!important;padding:9px 10px!important;border:0!important;border-radius:7px!important;white-space:normal!important;overflow-wrap:anywhere}
+ body.homepage .site-nav .nav-dropdown-toggle{display:grid!important;place-items:center!important;width:38px!important;height:38px!important;padding:0!important;border:1px solid rgba(213,181,108,.24)!important;border-radius:8px!important;color:#ead7a5!important;background:#14253a!important;font-size:18px!important}
+ body.homepage .site-nav .nav-submenu{grid-column:1/-1!important;display:grid!important;gap:3px!important;padding:4px 0 5px 12px!important;margin:0!important;border-left:1px solid rgba(213,181,108,.32)!important}
+ body.homepage .site-nav .nav-submenu[hidden]{display:none!important}
+ body.homepage .site-nav .nav-submenu a{display:flex!important;align-items:center!important;min-height:36px!important;padding:8px 10px!important;border:0!important;border-radius:6px!important;color:#cbd5e2!important;font-size:12px!important;white-space:normal!important}
+}
+
 </style>
     <script src="catalogue-majestios.js" defer></script>
     <script src="rubric-search.js" defer></script>
