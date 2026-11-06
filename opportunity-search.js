@@ -24,12 +24,19 @@
   };
   const CATEGORY_TYPES = { services: "SERVICES", travaux: "TRAVAUX" };
   const PUBLIC_CATEGORIES = new Set([...Object.keys(CATEGORY_TERMS), ...Object.keys(CATEGORY_TYPES), "autre"]);
+  // Périmètre BODACC validé : créations, cessions et modifications uniquement.
+  // Les procédures collectives, radiations et familles inconnues sont exclues de toute recherche.
   const BODACC_CATEGORY_TERMS = {
     "bodacc-creations": ["création", "immatriculation", "constitution", "établissement principal", "ouverture"],
     "bodacc-cessions": ["vente", "cession", "fonds de commerce", "reprise", "achat"],
-    "bodacc-modifications": ["modification", "transfert", "changement", "augmentation de capital", "siège social"],
-    "bodacc-procedures": ["procédure collective", "redressement judiciaire", "liquidation judiciaire", "sauvegarde"],
-    "bodacc-radiations": ["radiation", "cessation", "dissolution", "clôture"]
+    "bodacc-modifications": ["modification", "transfert", "changement", "augmentation de capital", "siège social"]
+  };
+  const classifyBodaccFamily = (record) => {
+    const family = normalize([record.familleavis, record.familleavis_lib].join(" "));
+    if (/creation|immatriculation|constitution/.test(family)) return "bodacc-creations";
+    if (/vente|cession/.test(family)) return "bodacc-cessions";
+    if (/modification/.test(family)) return "bodacc-modifications";
+    return null;
   };
   const PRIVATE_CATEGORIES_NOT_CONNECTED = new Set([
     "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"
@@ -232,36 +239,18 @@
             ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length)
             : [];
         const filtered = records.filter((record) => {
-          const family = normalize([record.familleavis_lib, record.familleavis].join(" "));
+          // La famille BODACC officielle détermine le périmètre ; le texte détaillé ne peut
+          // jamais réintroduire une procédure collective, une radiation ou une famille inconnue.
+          const recordCategory = classifyBodaccFamily(record);
+          if (!recordCategory) return false;
           const haystack = normalize([
             record.id, record.numeroannonce, record.registre, record.typeavis_lib,
             record.commercant, record.ville, record.departement_nom_officiel, record.familleavis_lib, record.familleavis,
             flattenText(record.listepersonnes), flattenText(record.listeetablissements), flattenText(record.acte), flattenText(record.jugement),
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
-          const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
-          const categoryTerms = BODACC_CATEGORY_TERMS[category];
-          const categoryFamilyTerms = {
-            "bodacc-creations": ["creation", "immatriculation", "constitution"],
-            "bodacc-cessions": ["vente", "cession"],
-            "bodacc-modifications": ["modification"],
-            "bodacc-procedures": ["procedure", "jugement"],
-            "bodacc-radiations": ["radiation", "cessation", "dissolution"]
-          }[category];
-          const familyKnown = Object.values({
-            creations: ["creation", "immatriculation", "constitution"],
-            cessions: ["vente", "cession"],
-            modifications: ["modification"],
-            procedures: ["procedure", "jugement"],
-            radiations: ["radiation", "cessation", "dissolution"]
-          }).some((terms) => terms.some((term) => family.includes(normalize(term))));
-          // La famille officielle prime sur les détails, qui peuvent mentionner d'autres événements.
-          const categoryMatches = !categoryTerms?.length || (
-            familyKnown
-              ? categoryFamilyTerms.some((term) => family.includes(normalize(term)))
-              : categoryTerms.some((term) => haystack.includes(normalize(term)))
-          );
-          return queryMatches && categoryMatches;
+          const queryMatches = !query || normalize(query).split(/\\s+/).filter(Boolean).every((term) => haystack.includes(term));
+          return queryMatches && (category === "all" || recordCategory === category);
         }).slice(0, resultLimit);if (!filtered.length) {
           empty.textContent = records.length
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
