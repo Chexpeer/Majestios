@@ -295,3 +295,56 @@ Le CRM MajestiOS doit être capable de partir d'un signal économique, de l'inte
 Il ne s'agit pas seulement de collecter des annonces. Il s'agit de relier les marchés, les entreprises, les territoires, les compétences, les besoins et les professionnels, tout en gardant la traçabilité et le contrôle humain.
 
 **Une entreprise peut être une cible, un client, un donneur d'ordre, un fournisseur ou un bénéficiaire de service selon le contexte. Le CRM doit savoir gérer ces relations sans enfermer l'entreprise dans une seule case.**
+
+
+## 13. Première revue documentaire indépendante — sources officielles consultées le 6 novembre 2026
+
+Cette annexe apporte des éléments vérifiables à la consultation. Elle ne remplace pas les avis d'autres IA, qui restent à recueillir. Les sources ci-dessous sont officielles ou institutionnelles ; les conditions et versions doivent être recontrôlées avant intégration technique.
+
+### 13.1 Référentiels d'entreprises : commencer par les API publiques adaptées
+
+- **API Recherche d'Entreprises (DINUM)** : API ouverte, synthèse notamment de données RNE et Sirene ; la documentation institutionnelle indique une limite de 400 appels/minute/IP. Elle est utile pour la recherche et la synthèse, mais ne donne pas accès à l'intégralité des données Sirene. Les entreprises non diffusibles ne sont pas accessibles par cette API.  
+  Références : [présentation des API Entreprises](https://annuaire-entreprises.data.gouv.fr/donnees/api-entreprises) ; [documentation API Recherche d'Entreprises](https://recherche-entreprises.api.gouv.fr/docs/).
+- **API Sirene (INSEE)** : accès aux données d'identité des entreprises et établissements ; l'INSEE décrit des données mises à jour quotidiennement et des possibilités de recherche ou de téléchargement. C'est une source centrale pour l'identification, les établissements, les dates, activités et effectifs lorsqu'ils sont disponibles.  
+  Référence : [Consulter et télécharger la base Sirene](https://www.insee.fr/fr/information/3591226).
+- **RNE / INPI** : données publiques du Registre national des entreprises, formalités, actes et comptes annuels selon les droits et disponibilités. L'accès API/SFTP nécessite un compte et des conditions d'accès propres aux ressources.  
+  Références : [Accès aux API Entreprises INPI](https://data.inpi.fr/content/editorial/Acces_API_Entreprises) ; [présentation du RNE](https://www.inpi.fr/ressources/formalites-dentreprises/registre-national-entreprises).
+- **API Entreprise** : ne pas la considérer comme un connecteur public librement disponible. L'accès est réservé aux acteurs et démarches habilités ; vérifier l'éligibilité de MajestiOS avant de la retenir.  
+  Référence : [API Entreprise — conditions d'accès](https://www.data.gouv.fr/dataservices/api-entreprise).
+
+**Conséquence de conception :** pour un premier prototype, étudier l'API Recherche d'Entreprises et l'API Sirene avant de développer des connecteurs multiples. Utiliser RNE/INPI comme source complémentaire lorsque les données et conditions le justifient. Distinguer l'entreprise (SIREN) de ses établissements (SIRET).
+
+### 13.2 Commande publique : ne pas s'arrêter aux avis de consultation
+
+Les données essentielles de la commande publique consolidées constituent un complément utile aux avis BOAMP : elles peuvent aider à identifier les marchés attribués, les acheteurs, les titulaires et les historiques disponibles. Le jeu consulté sur data.gouv.fr est publié sous Licence Ouverte et comporte des fichiers consolidés volumineux ; il faudra mesurer les coûts d'ingestion, la granularité, les mises à jour et les correspondances avec les avis initiaux avant de choisir entre API, fichiers complets ou extractions ciblées.
+
+Référence : [Données essentielles de la commande publique — fichiers consolidés](https://www.data.gouv.fr/datasets/donnees-essentielles-de-la-commande-publique-fichiers-consolides).
+
+### 13.3 Prospection électronique B2B : distinguer l'adresse générique et la personne physique
+
+La CNIL rappelle qu'en B2B, la prospection électronique peut reposer sur l'intérêt légitime lorsque la sollicitation est en rapport avec la profession de la personne contactée. La personne doit être informée de l'utilisation de ses coordonnées et pouvoir s'opposer simplement et gratuitement. Les adresses génériques de personnes morales (par exemple contact@ ou info@) relèvent d'un traitement distinct des adresses nominatives de personnes physiques. Chaque message doit identifier l'émetteur et offrir un moyen simple de ne plus recevoir de sollicitations.
+
+Références : [CNIL — prospection commerciale par courrier électronique, SMS-MMS et automate d'appel (10 juin 2026)](https://www.cnil.fr/fr/la-prospection-commerciale-par-courrier-electronique-sms-mms-et-automate-dappel) ; [CNIL — communication électronique aux prospects et clients](https://www.cnil.fr/fr/communication-electronique-quelles-regles).
+
+**Conséquence de conception :** le CRM ne doit pas considérer qu'une adresse trouvée dans un annuaire équivaut automatiquement à une adresse utilisable. Il faut conserver la source, le caractère générique ou nominatif, la date et le contexte de collecte, l'information délivrée, le statut d'opposition et la justification de la pertinence professionnelle. La validation de conformité précède l'envoi.
+
+### 13.4 Google Maps : point de vigilance majeur pour le cas « restaurant absent »
+
+Les conditions Google Maps Platform interdisent notamment l'extraction ou le scraping de contenus Maps pour les réutiliser en dehors des services, y compris la copie et la sauvegarde de noms d'entreprises, adresses ou avis. Les politiques Places API rappellent également des restrictions de stockage, de redistribution et d'utilisation des contenus.
+
+Références : [Google Maps Platform Terms of Service](https://cloud.google.com/maps-platform/terms) ; [Places API — policies and attributions](https://developers.google.com/maps/documentation/places/web-service/policies).
+
+**Conséquence de conception :** ne pas bâtir le détecteur de « restaurant absent de Google Maps » sur du scraping, de l'aspiration ou la constitution d'une base locale à partir des contenus Google Maps. Le diagnostic de présence numérique doit privilégier des sources et API dont les conditions autorisent explicitement l'usage envisagé, des liens de vérification manuelle, des informations fournies par le commerçant ou des services contractuellement autorisés. Une absence de résultat ne doit jamais être présentée comme une preuve certaine.
+
+### 13.5 Décisions de prudence à retenir dès le cadrage
+
+1. Construire d'abord un premier parcours autour de données d'identité d'entreprises officielles et documentées.
+2. Séparer les données d'entreprise (personne morale) des données personnelles de contacts professionnels.
+3. Séparer la détection d'une opportunité, la qualification d'un contact, la préparation d'une campagne et l'envoi effectif.
+4. Ne pas confondre données accessibles, données ouvertes, données réutilisables et données autorisées pour une finalité commerciale déterminée.
+5. Pour Réputation virtuelle, ne pas s'appuyer sur l'extraction de Google Maps ; concevoir une vérification licite, traçable et confirmée par le professionnel.
+6. Faire valider les traitements et les messages par une revue juridique/conformité avant le premier envoi réel.
+
+### 13.6 Statut de la consultation inter-IA
+
+Cette annexe est une première vérification documentaire fondée sur des références institutionnelles et les conditions officielles de fournisseurs. **Elle ne constitue pas un avis d'une autre IA.** Les 27 questions de la section 10 restent le questionnaire à transmettre à des relecteurs indépendants. Leurs retours devront être ajoutés séparément, avec leur date, leur périmètre, les sources qu'ils citent et les points de désaccord. Aucun avis ne sera présenté comme un consensus avant confrontation.
