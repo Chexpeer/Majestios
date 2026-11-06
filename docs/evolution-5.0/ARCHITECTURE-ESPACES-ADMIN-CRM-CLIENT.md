@@ -790,3 +790,32 @@ La comparaison des repères de navigation a révélé que la page « Recherches 
 L'entrée porte désormais `aria-current="page"`. Le contrôle correspondant est ajouté à `verify-site.js`, afin que l'état actif visuel et l'état sémantique restent cohérents.
 
 **Portée :** attribut HTML et contrôle statique uniquement. Aucun changement aux recherches BODACC/BOAMP, au CRM, à Supabase, aux habilitations, à la production ou à l'immeuble interactif.
+
+
+## 24. Audit des parcours selon les rôles — 6 novembre 2026
+
+La revue croisée des pages Administration générale, Recherches ciblées, CRM interne et Espace membre confirme la séparation des environnements, mais révèle un cas de navigation qui doit être arbitré avant tout changement d'interface.
+
+### Contrats actuellement observés
+
+- **Administration générale** (administration.js) : session Supabase confirmée, appartenance à une organisation de type internal et rôle owner ou admin requis.
+- **Recherches ciblées** (admin-recherches.js) : même frontière d'accès ; seuls les rôles owner et admin peuvent lancer une recherche.
+- **CRM interne** (crm-client.js, crm-page.js) : appartenance à une organisation interne unique requise. Le rôle viewer accède en lecture seule ; les autres rôles présents dans l'organisation suivent les opérations autorisées par le module et les politiques Supabase.
+- **Espace membre** (espace-membre.html) : aucune entrée directe vers le CRM interne ; la séparation client/interne reste explicitement annoncée.
+- Les trois pages internes disposent d'un repère de contexte et d'une action de déconnexion. Les pages Administration et Recherches proposent une authentification via l'espace membre lorsque la session manque.
+
+### Point de friction identifié : retour du CRM vers l'administration
+
+Le fil d'Ariane de crm.html propose actuellement un lien permanent vers administration.html. Or un membre interne ayant le rôle viewer peut être autorisé à consulter le CRM, tout en étant explicitement refusé par l'administration, réservée à owner et admin. Le lien de retour conduit donc certains utilisateurs vers un écran d'accès refusé.
+
+Ce n'est pas une faille d'accès : l'administration refait son propre contrôle d'habilitation. C'est une incohérence de parcours et de destination selon le rôle.
+
+### Décision d'architecture à prendre avant correction
+
+Ne pas élargir les droits Administration aux viewers et ne pas rediriger ces utilisateurs vers l'espace membre client : ce serait confondre les environnements. Aucun espace d'accueil interne commun aux collaborateurs n'a été identifié dans l'arborescence actuelle. Il faut donc décider si un tel point d'entrée interne doit exister, ou si le retour Administration doit être affiché conditionnellement après lecture du rôle. Cette décision relève de l'architecture de navigation ; elle n'est pas appliquée dans ce lot.
+
+### Périmètre et validation
+
+Audit en lecture seule des fichiers administration.html/js, admin-recherches.html/js, crm.html, crm-page.js, crm-client.js, espace-membre.html et auth-espace-membre.js. Aucun code applicatif, droit, rôle, schéma, donnée, politique RLS ou fonction Supabase n'a été modifié. Aucun changement de l'immeuble interactif, de ses visuels, étages, libellés, dossiers, zones cliquables ou liens n'a été effectué. Aucun déploiement, merge ou promotion en production n'a été lancé.
+
+La comparaison de branche confirme evolution-5.0-admin-cockpit à 83 commits devant main, sans retard. Pour le commit documentaire précédent 2da3fbb4ddc7978e260d170594dcdd0aff5e50f7, l'outil de consultation des exécutions associées au commit n'a retourné aucun workflow (il ne remonte que les exécutions déclenchées par pull request). Ce résultat ne prouve ni succès ni échec de la CI ; le statut CI reste donc non confirmé.
