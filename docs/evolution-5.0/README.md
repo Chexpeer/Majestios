@@ -48,6 +48,9 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 22. [Maintenance, sauvegardes et continuité](MAINTENANCE-ET-CONTINUITE.md) — méthode permanente de nettoyage Git, points de retour, vérifications, documentation et reprise.
 23. [Correctif ciblé — navigation du CRM interne](CORRECTIF-NAVIGATION-CRM-2026-11-06.md) — suppression d'un retour redondant, nettoyage du balisage et contrôle anti-régression.
 
+
+24. [Cadrage stratégique — CRM, sources, ciblage commercial et Réputation virtuelle](CADRAGE-STRATEGIQUE-CRM-SOURCES-CIBLAGE-REPUTATION-VIRTUELLE-2026-11-06.md) — nouveaux circuits métier et dossier de consultation pour revue indépendante par d'autres IA.
+
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
 ## Règles de lecture
