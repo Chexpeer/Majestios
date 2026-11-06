@@ -304,6 +304,85 @@ if (reminderButton && reminderStatus) {
   });
 }
 
+async function refreshAdminMembers() {
+  const list = document.getElementById("crm-admin-member-list");
+  const status = document.getElementById("crm-admin-member-status");
+  if (!list || !adminPanel || adminPanel.hidden) return;
+  list.replaceChildren();
+  try {
+    const members = await MajestiosCRM.listInternalMembers();
+    if (!members.length) {
+      const empty = document.createElement("li");
+      empty.textContent = "Aucun membre trouvé.";
+      list.append(empty);
+      return;
+    }
+    members.forEach(member => {
+      const item = document.createElement("li");
+      item.className = "crm-admin-member";
+      const identity = document.createElement("div");
+      const id = document.createElement("code");
+      id.textContent = member.user_id;
+      const meta = document.createElement("span");
+      meta.textContent = "Ajouté le " + new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium" }).format(new Date(member.created_at));
+      identity.append(id, meta);
+      const controls = document.createElement("div");
+      controls.className = "crm-admin-member-controls";
+      const role = document.createElement("select");
+      role.setAttribute("aria-label", "Rôle du membre " + member.user_id);
+      [["owner","Propriétaire"],["admin","Administrateur"],["member","Membre"],["viewer","Consultation seule"]].forEach(([value,label]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        role.append(option);
+      });
+      role.value = member.role;
+      role.disabled = member.role === "owner" || member.user_id === (await MajestiosCRM.requireWorkspace()).session.user.id;
+      const save = document.createElement("button");
+      save.type = "button";
+      save.className = "button button-secondary";
+      save.textContent = "Enregistrer";
+      save.disabled = role.disabled;
+      save.addEventListener("click", async () => {
+        save.disabled = true;
+        try {
+          await MajestiosCRM.setInternalMemberRole(member.id, role.value);
+          if (status) status.textContent = "Rôle mis à jour. Le changement est consigné.";
+          await refreshAdminMembers();
+        } catch (error) {
+          if (status) status.textContent = error.message || "Modification du rôle impossible.";
+          save.disabled = false;
+        }
+      });
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "button button-secondary";
+      remove.textContent = "Retirer";
+      remove.disabled = role.disabled;
+      remove.addEventListener("click", async () => {
+        if (!window.confirm("Retirer ce membre de l’organisation interne ? Son compte d’authentification ne sera pas supprimé.")) return;
+        remove.disabled = true;
+        try {
+          await MajestiosCRM.removeInternalMember(member.id);
+          if (status) status.textContent = "Accès interne retiré. Le compte Auth est conservé.";
+          await refreshAdminMembers();
+        } catch (error) {
+          if (status) status.textContent = error.message || "Retrait impossible.";
+          remove.disabled = false;
+        }
+      });
+      controls.append(role, save, remove);
+      item.append(identity, controls);
+      list.append(item);
+    });
+  } catch (error) {
+    if (status) status.textContent = error.message || "Chargement des habilitations impossible.";
+    const item = document.createElement("li");
+    item.textContent = "Les habilitations ne sont pas disponibles.";
+    list.append(item);
+  }
+}
+
 async function refresh(canEdit = false) {
   const [businesses, contacts, opportunities, activities] = await Promise.all([
     MajestiosCRM.listBusinesses(), MajestiosCRM.listContacts(),
@@ -409,14 +488,14 @@ try {
     bindForm("#crm-opportunity-form", MajestiosCRM.createOpportunity, data => ({ business_id: nullableId(data.business_id), primary_contact_id: nullableId(data.primary_contact_id), title: data.title.trim(), description: data.description || null, source_type: data.source_type, status: "detected" }));
     bindForm("#crm-activity-form", MajestiosCRM.createActivity, data => ({ business_id: nullableId(data.business_id), contact_id: nullableId(data.contact_id), opportunity_id: nullableId(data.opportunity_id), subject: data.subject.trim(), activity_type: data.activity_type, body: data.body || null }));
   }
-  await refresh(!isReadOnly);
+  await refresh(!isReadOnly);\n  if (["owner", "admin"].includes(membership.role)) await refreshAdminMembers();
 } catch (error) {
   setStatus(error.message || "Connexion au CRM impossible.", true);
   document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
     .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
 }
 
-signoutButton?.addEventListener("click", async () => {
+document.getElementById("crm-admin-refresh-members")?.addEventListener("click", refreshAdminMembers);\n\nsignoutButton?.addEventListener("click", async () => {
   signoutButton.disabled = true;
   const { error } = await MajestiosCRM.auth.signOut();
   if (error) {
