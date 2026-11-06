@@ -1,4 +1,4 @@
-import { createClient } from "npm:@supabase/supabase-js@2";
+import { createClient } from "npm:@supabase/supabase-js@2.119.0";
 const NOTICE_VERSION = "2026-11-05";
 const allowedOrigins = [
   "https://majestios.com",
