@@ -14,11 +14,19 @@ assert.ok(
 
 assert.equal(returnLinkCount, 1, "Le CRM doit proposer un seul retour vers l’accueil interne.");
 assert.ok(
-  html.includes('<nav class="admin-crm-header" aria-label="Fil d’Ariane">') &&
+  html.includes('<nav class="admin-crm-header" aria-label="Navigation interne">') &&
   html.includes('<a class="admin-crm-return" href="espace-interne.html">') &&
   html.includes('<span class="admin-crm-current" aria-current="page">'),
-  "Le retour unique vers l’accueil interne doit rester dans l’en-tête."
+  "Le CRM doit conserver son en-tête contextuel et un retour unique vers l’accueil interne."
 );
+assert.ok(html.includes('id="crm-admin-nav-link" href="administration.html" hidden') && html.includes('id="crm-search-nav-link" href="admin-recherches.html" hidden'), "Les liens de pilotage du CRM doivent être masqués par défaut.");
+const crmScript = fs.readFileSync(path.join(__dirname, "..", "crm-page.js"), "utf8");
+assert.ok(crmScript.includes('const canAdminister = ["owner", "admin"].includes(membership.role)') && crmScript.includes('document.querySelector("#crm-admin-nav-link").hidden = !canAdminister') && crmScript.includes('document.querySelector("#crm-search-nav-link").hidden = !canAdminister'), "Les liens Administration et Recherches du CRM doivent dépendre du rôle owner/admin.");
+const adminNav = adminHtml.match(/<nav id="admin-nav" class="admin-nav">([\\s\\S]*?)<\\/nav>/)?.[1] || "";
+assert.ok(adminNav.includes('href="crm.html"') && adminNav.includes('href="admin-recherches.html"'), "Le cockpit doit donner accès au CRM et aux recherches dans sa navigation principale.");
+const searchHtml = fs.readFileSync(path.join(__dirname, "..", "admin-recherches.html"), "utf8");
+const searchNav = searchHtml.match(/<nav class="admin-nav">([\\s\\S]*?)<\\/nav>/)?.[1] || "";
+assert.ok(searchNav.includes('href="espace-interne.html"') && searchNav.includes('href="administration.html"') && searchNav.includes('href="crm.html"'), "Les recherches doivent proposer des repères cohérents vers l’accueil interne, l’administration et le CRM.");
 assert.ok(
   !html.includes('<footer class="admin-crm-footer"><a'),
   "Le pied de page ne doit pas dupliquer le lien de retour."
