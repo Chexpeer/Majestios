@@ -209,11 +209,11 @@ Les fichiers `20261106100000_persistent_crm_reminders.sql` des deux branches ont
 
 Le contrôle de `pg_policies` sur le projet live confirme que la politique effective appelle **`private.is_org_member(organization_id)`**. Sur ce point précis, le fichier de la branche `evolution-5.0-admin-cockpit` correspond à l'expression live ; la version de `evolution-5.0-clean-preview` ne correspond pas.
 
-Autre écart : la fonction live `private.materialize_crm_reminders()` réactive une relance annulée en cas de conflit sur la même échéance (remise à `pending`, actualisation du titre et de l'action, remise à zéro des dates de lecture et d'annulation). Les deux fichiers SQL comparés utilisent simplement `ON CONFLICT ... DO NOTHING`. Cette logique live supplémentaire n'est donc pas retrouvée dans ces deux fichiers. Elle doit être retrouvée dans un commit, un patch ou un historique SQL avant toute réécriture de source.
+La fonction live `private.materialize_crm_reminders()` réactive une relance annulée en cas de conflit sur la même échéance (remise à `pending`, actualisation du titre et de l'action, remise à zéro des dates de lecture et d'annulation). Cette logique n'est pas dans la migration initiale `20261106100000_persistent_crm_reminders.sql`, qui utilise `DO NOTHING`, mais elle est bien introduite par la migration suivante `20261106110000_sync_crm_reminder_lifecycle.sql`, qui redéfinit cette fonction avec `ON CONFLICT ... DO UPDATE`. Le corps de la fonction live lu via `pg_get_functiondef` correspond à cette version ultérieure. **Cet écart est donc expliqué par la séquence des migrations et n'est pas, à lui seul, une dérive SQL non versionnée.**
 
 ### 9.4 Les commentaires « non appliquée » sont devenus obsolètes
 
-Les fichiers `20261106074500_enforce_crm_editor_roles.sql` et `20261106100000_persistent_crm_reminders.sql` contiennent des commentaires indiquant qu'ils sont versionnés dans GitHub uniquement / non appliqués en production. Or l'historique live Supabase contient les migrations portant ces deux noms, et le schéma live expose les politiques et objets correspondants.
+Les fichiers `20261106074500_enforce_crm_editor_roles.sql`, `20261106100000_persistent_crm_reminders.sql` et `20261106110000_sync_crm_reminder_lifecycle.sql` contiennent des commentaires indiquant qu'ils sont versionnés dans GitHub uniquement / non appliqués en production. Or l'historique live Supabase contient les migrations portant ces trois noms, et le schéma live expose les politiques, objets, triggers et fonctions correspondants.
 
 Ces commentaires ne décrivent donc plus de manière fiable l'état live actuel. Ils ne doivent pas être utilisés comme preuve de non-application.
 
@@ -247,7 +247,7 @@ La situation est maintenant mieux circonscrite :
 2. les six premiers horodatages de fichiers ne correspondent pas aux versions inscrites dans l'historique Supabase ;
 3. les deux branches sont fortement divergentes ;
 4. la politique de lecture des relances live correspond à la variante `private.is_org_member` de `evolution-5.0-admin-cockpit` ;
-5. la fonction live de matérialisation contient une logique absente des deux fichiers SQL comparés ;
+5. la logique live de réactivation des relances est expliquée par la migration ultérieure `20261106110000_sync_crm_reminder_lifecycle.sql` ;
 6. la migration de grants est absente de la branche `evolution-5.0-admin-cockpit`, alors que ses privilèges sont observés dans le backend ;
 7. certains commentaires GitHub « non appliquée » sont contredits par l'historique et les objets live.
 
