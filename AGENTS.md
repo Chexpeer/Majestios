@@ -20,7 +20,8 @@ Ne jamais se fier uniquement aux conversations ou à la documentation ancienne. 
 
 - `evolution-2.0`, `evolution-3.0` et `evolution-4.0` sont des branches sources historiques ; ne pas les modifier dans le cadre des travaux V5.
 - `evolution-5.0` est la branche source V5 d'origine à préserver ; elle porte l'état de construction et les décisions historiques du projet.
-- `evolution-5.0-clean-preview` est une reconstruction basée sur `main`, utilisée pour la revue de livraison dans la PR #38. Elle ne remplace pas la branche source et ne doit pas être considérée comme fusionnée.
+- `evolution-5.0-clean-preview` était la reconstruction utilisée pour la PR #38 ; cette PR a été fusionnée dans `main` le 6 novembre 2026. La branche est conservée comme référence historique et ne doit pas être réécrite.
+- `evolution-5.0-admin-cockpit` est la branche de réalisation du premier cockpit d’administration, créée depuis le `main` actualisé après la fusion de la PR #38. Elle ne remplace pas la branche source `evolution-5.0`.
 - Sur toute autre branche, ne pas présumer qu'elle est la branche de travail autorisée : vérifier son objectif et la PR associée avant d'écrire.
 - Ne jamais réécrire l'historique, supprimer ou écraser une branche de référence.
 - Ne pas fusionner, promouvoir ou déployer sans autorisation explicite.
