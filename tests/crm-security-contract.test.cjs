@@ -137,3 +137,17 @@ assert.match(client, /new_status:/);
 assert.match(client, /activity_type: activityType/);
 assert.match(page, /ajoutée à l’historique/);
 assert.match(page, /Intl\.DateTimeFormat\("fr-FR"/);
+assert.match(page, /function renderFollowups\(opportunities\)/);
+assert.match(page, /const closedStatuses = new Set\(\["won", "lost", "archived"\]\)/);
+assert.match(page, /groups\.overdue\.push\(row\)/);
+assert.match(page, /groups\.today\.push\(row\)/);
+assert.match(page, /groups\.upcoming\.push\(row\)/);
+assert.match(page, /groups\.unplanned\.push\(row\)/);
+assert.match(page, /Ouvrir la fiche/);
+assert.match(page, /new Date\(values\.next_action_at\)\.toISOString\(\)/);
+assert.match(page, /values\.next_action_at = values\.next_action_at \?/);
+assert.match(page, /renderFollowups\(opportunities\)/);
+for (const id of ["overdue", "today", "upcoming", "unplanned"]) {
+  assert.ok(crmHtml.includes(`id="crm-followup-${id}"`), `Vue de relance absente : ${id}`);
+  assert.ok(crmHtml.includes(`id="crm-followup-${id}-count"`), `Compteur de relance absent : ${id}`);
+}
