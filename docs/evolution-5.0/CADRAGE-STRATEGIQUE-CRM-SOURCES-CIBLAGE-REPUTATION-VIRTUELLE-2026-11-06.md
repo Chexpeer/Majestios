@@ -401,3 +401,26 @@ Le parcours cible est : ciblage CRM → qualification et validation du segment �
 **Garde-fous :** un QR Code public est transférable et ne doit ouvrir que des contenus publics ou invités limités. Il n'est jamais une preuve d'identité ni une clé d'accès privé. Aucun mot de passe ou renseignement confidentiel dans le code ; références opaques, révocables et éventuellement expirables ; authentification distincte pour les espaces personnels/VIP ; habilitations minimales ; collecte et conservation des mesures limitées ; revue juridique/RGPD avant toute campagne réelle. Aucun envoi, publication ou automatisation n'est autorisé par le seul cadrage.
 
 Le concept détaillé, son MVP, ses indicateurs, ses risques et les questions destinées aux autres IA figurent dans [Concept — Publipostage intelligent par QR Code et badge MajestiOS](CONCEPT-PUBLIPOSTAGE-QR-CODE-BADGE-VIP-2026-11-06.md).
+
+
+## 10. Clarification stratégique — MajestiOS comme aspirateur à leads
+
+### 10.1 Le produit ne se réduit pas à une source d'opportunités
+
+Le porteur du projet résume cette dimension par l'expression : **« C'est un aspirateur à leads. »** MajestiOS doit capter des signaux, des entreprises, des contacts et des occasions commerciales provenant de sources multiples. Les appels d'offres ne sont qu'un appât, une porte d'entrée ou un prétexte possible à la découverte de l'écosystème ; ils ne constituent ni la finalité du produit ni sa définition stratégique.
+
+En conséquence, aucun audit, prototype ou plan de réalisation ne doit ramener MajestiOS à un simple outil de rapprochement appels d'offres / sous-traitants. Les flux BOAMP et BODACC sont des canaux parmi d'autres dans un dispositif d'acquisition, de qualification et de développement commercial plus large.
+
+### 10.2 La confiance comme point d'entrée dans l'univers commercial du client
+
+Le porteur du projet décrit également un mécanisme relationnel : le client perçoit MajestiOS comme une puissance technologique considérable et lui fait confiance. Cette confiance ouvre la possibilité de comprendre plus largement son activité, de repérer des besoins exprimés ou latents et de faire émerger des opportunités qui dépassent le motif initial de sa venue.
+
+Cette idée est une orientation de conception et de relation commerciale, pas une autorisation d'exploiter abusivement la confiance du client. Les opportunités proposées doivent rester pertinentes, transparentes, utiles au client et soumises aux consentements, mandats et validations requis. La confiance doit être convertie en valeur réciproque et en relation durable.
+
+### 10.3 Conséquence pour le CRM
+
+Le CRM est le système de capitalisation qui reçoit et organise les leads captés par les différentes portes d'entrée. Il doit permettre de conserver le contexte d'origine, la provenance, la date, le motif de détection, les enrichissements, les hypothèses, le niveau de confiance, les interactions et les suites données. Il ne doit pas supposer que chaque lead provient d'un appel d'offres ni imposer un parcours unique à toutes les sources.
+
+La métaphore « aspirateur à leads » exprime le rôle d'acquisition transversal de MajestiOS ; elle ne signifie pas aspiration indiscriminée de données. Chaque connecteur et chaque traitement restent soumis aux conditions d'accès, aux finalités, à la minimisation, à la conformité et à la validation humaine adaptées.
+
+**Statut :** clarification stratégique exprimée par le porteur du projet le 6 novembre 2026. À prendre en compte dans les prochains audits indépendants et dans l'évolution de la doctrine CRM. Elle ne déclare aucune nouvelle source connectée ni aucune fonctionnalité déjà opérationnelle.
