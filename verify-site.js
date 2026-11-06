@@ -76,8 +76,8 @@ const adminScript = fs.readFileSync(path.join(root, "administration.js"), "utf8"
 for (const token of ["organization_members", 'kind === "internal"', '["owner", "admin"]']) {
   assert(adminScript.includes(token), "Administration : contrôle d’accès interne incomplet (" + token + ")");
 }
-const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
-assert(crmPage.includes('href="administration.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’administration absent");
+
+assert(crmPage.includes('href="espace-interne.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’accueil interne absent");
 assert(crmPage.includes('meta name="robots" content="noindex,nofollow"'), "CRM : la page interne doit être exclue de l’indexation");
 
 const rubricSearchPages = [
@@ -155,6 +155,29 @@ for (const selector of ["#advanced-search-form", ".feed-search", ".feed-filter-l
   assert(sharedSearchCss.includes(selector), "Moteur partagé : style commun absent, " + selector);
 }
 assert(home.includes('id="floor-rows"'), "Accueil : immeuble interactif absent");
+
+
+const internalEntryHtml = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
+const internalEntryCss = fs.readFileSync(path.join(root, "espace-interne.css"), "utf8");
+const internalEntryScript = fs.readFileSync(path.join(root, "espace-interne.js"), "utf8");
+assert(siteFiles.includes("espace-interne.html") && siteFiles.includes("espace-interne.css") && siteFiles.includes("espace-interne.js"),
+  "Accueil interne : page, styles ou script absents du manifeste");
+assert(internalEntryHtml.includes('meta name="robots" content="noindex,nofollow"'),
+  "Accueil interne : la page doit être exclue de l’indexation");
+assert(internalEntryHtml.includes('src="espace-interne.js"') && internalEntryHtml.includes('href="espace-interne.css"'),
+  "Accueil interne : ressources dédiées non chargées");
+assert(internalEntryScript.includes("signInWithPassword(") && !internalEntryScript.includes("signUp(") &&
+  !internalEntryScript.includes("provision-client-workspace"),
+  "Accueil interne : connexion existante attendue, sans inscription ni provisionnement client");
+assert(internalEntryScript.includes('["owner", "admin"].includes(membership.role)') &&
+  internalEntryScript.includes('membership.role === "viewer"'),
+  "Accueil interne : filtrage des modules par rôle incomplet");
+assert(internalEntryCss.includes(".internal-module-grid") && internalEntryCss.includes("@media(max-width:760px)"),
+  "Accueil interne : grille des modules ou adaptation mobile absente");
+assert(adminPage.includes('href="espace-interne.html?returnTo=administration.html"'),
+  "Administration : le parcours d’authentification interne doit être utilisé");
+assert(searchPage.includes('href="espace-interne.html?returnTo=admin-recherches.html"'),
+  "Recherches : le parcours d’authentification interne doit être utilisé");
 
 if (errors.length) {
   console.error("Vérification du site échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
