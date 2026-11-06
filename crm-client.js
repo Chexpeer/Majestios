@@ -60,6 +60,36 @@ async function list(table) {
   return data || [];
 }
 
+const editableColumns = Object.freeze({
+  businesses: new Set(["legal_name", "trade_name", "siren", "siret", "vat_number", "ape_naf", "website", "address_line", "postal_code", "city", "department_code", "country_code", "qualification_status", "qualification_notes", "source_label", "source_url", "assigned_to"]),
+  contacts: new Set(["business_id", "first_name", "last_name", "job_title", "email", "phone", "is_primary", "source_label", "consent_status"]),
+  opportunities: new Set(["business_id", "primary_contact_id", "title", "description", "source_type", "source_external_id", "source_url", "source_published_at", "department_code", "status", "qualification_score", "qualification_summary", "assigned_to", "next_action", "next_action_at"])
+});
+
+async function update(table, id, values) {
+  if (!editableColumns[table]) throw new Error("Ce module CRM ne permet pas la modification.");
+  if (!id) throw new Error("Enregistrement CRM introuvable.");
+  const { membership } = await requireWorkspace();
+  if (membership.role === "viewer") throw new Error("Votre rôle autorise uniquement la consultation du CRM.");
+  const entries = Object.entries(values);
+  if (!entries.length || entries.some(([key]) => !editableColumns[table].has(key))) {
+    throw new Error("Champ de modification non autorisé.");
+  }
+  const payload = Object.fromEntries(entries);
+  if (table === "opportunities" && payload.qualification_score !== undefined) {
+    const score = payload.qualification_score === "" || payload.qualification_score === null ? null : Number(payload.qualification_score);
+    if (score !== null && (!Number.isFinite(score) || score < 0 || score > 100)) {
+      throw new Error("Le score de qualification doit être compris entre 0 et 100.");
+    }
+    payload.qualification_score = score;
+  }
+  const { data, error } = await supabase.from(table).update(payload)
+    .eq("id", id).eq("organization_id", membership.organization_id).select("*").single();
+  if (error) throw error;
+  if (!data || data.organization_id !== membership.organization_id) throw new Error("Modification non confirmée dans votre espace.");
+  return data;
+}
+
 async function create(table, values) {
   if (!tables.includes(table)) throw new Error("Module CRM inconnu.");
   const { session, membership } = await requireWorkspace();
@@ -84,5 +114,8 @@ export const MajestiosCRM = Object.freeze({
   createBusiness: (values) => create("businesses", values),
   createContact: (values) => create("contacts", values),
   createOpportunity: (values) => create("opportunities", values),
-  createActivity: (values) => create("activities", values)
+  createActivity: (values) => create("activities", values),
+  updateBusiness: (id, values) => update("businesses", id, values),
+  updateContact: (id, values) => update("contacts", id, values),
+  updateOpportunity: (id, values) => update("opportunities", id, values)
 });
