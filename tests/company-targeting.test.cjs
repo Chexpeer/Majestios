@@ -6,6 +6,7 @@ async function main() {
   const rows = [
     { siren: "123456789", siret: "12345678900016", nom_complet: "Entreprise Alpha", activite_principale: "43.21A", siege: { code_postal: "79000", departement: "79", etat_administratif: "A" } },
     { siren: "123456789", siret: "12345678900016", nom_complet: "Entreprise Alpha doublon", activite_principale: "43.21A", siege: { code_postal: "79000", departement: "79", etat_administratif: "A" } },
+    { siren: "123456789", siret: "12345678900024", nom_complet: "Entreprise Alpha établissement secondaire", activite_principale: "43.21A", siege: { code_postal: "79000", departement: "79", etat_administratif: "A" } },
     { siren: "987654321", siret: "98765432100011", nom_complet: "Entreprise Beta", activite_principale: "43.21A", siege: { code_postal: "33000", departement: "33", etat_administratif: "A" } },
     { siren: "111222333", siret: "11122233300019", nom_complet: "Entreprise Fermée", activite_principale: "43.21A", siege: { code_postal: "79000", departement: "79", etat_administratif: "C" } }
   ];
@@ -19,7 +20,7 @@ async function main() {
   assert.equal(targeting.normalizeCompany({ siege: { code_postal: "97620" } }).department, "976",
     "Le département 976 ne doit pas être ramené au préfixe 97.");
   assert.equal(normalized.naf, "43.21A");
-  assert.equal(targeting.deduplicateCompanies(rows).length, 3, "Dédoublonnage sur SIRET");
+  assert.equal(targeting.deduplicateCompanies(rows).length, 3, "Dédoublonnage prioritaire sur le SIREN pour ne conserver qu’une fiche par personne morale.");
   const ranked = targeting.rankCompanies(rows, { nafCodes: ["43.21A"], departments: ["79"] });
   assert.equal(ranked[0].name, "Entreprise Alpha");
   assert.equal(ranked[0].score, 100);
