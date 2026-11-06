@@ -113,6 +113,6 @@ assert.ok(businessFilterScript.includes("new MutationObserver(applyFilters)") &&
 assert.ok(businessFilterScript.includes("qualification.addEventListener") && businessFilterScript.includes("department.addEventListener"), "Les filtres de qualification et de département doivent être interactifs.");
 
 assert.ok(crmScript.includes('className = "crm-business-dossier"'), "Chaque entreprise doit disposer d’un dossier détaillé consultable.");
-assert.ok(crmScript.includes("related.contacts") && crmScript.includes("related.opportunities") && crmScript.includes("related.activities"), "Le dossier entreprise doit rapprocher contacts, opportunités et historique.");
+assert.ok(crmScript.includes('["Contacts associés", "contacts"]') && crmScript.includes('["Opportunités associées", "opportunities"]') && crmScript.includes('["Activités et historique", "activities"]'), "Le dossier entreprise doit rapprocher contacts, opportunités et historique par rubrique paginée.");
 assert.ok(crmScript.includes("identityFields") && crmScript.includes("source_url") && crmScript.includes("qualification_notes"), "Le dossier doit exposer identité, provenance et qualification disponibles.");
-assert.ok(crmScript.includes("Une absence ici ne prouve pas l’absence"), "Le dossier doit expliciter la limite de couverture des relations chargées.");
+assert.ok(crmScript.includes("Aucun élément associé à cette entreprise.") && crmScript.includes("result.total") && crmScript.includes("result.pageCount"), "Le dossier doit afficher le volume relationnel complet et la pagination, sans confondre page vide et absence de relation.");
