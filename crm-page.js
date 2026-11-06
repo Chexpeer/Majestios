@@ -365,7 +365,6 @@ if (reminderButton && reminderStatus) {
   });
 }
 
-let targetingBusinesses = [];
 let targetingCandidates = [];
 let businessPageIndex = 0;
 const businessPageSize = 25;
@@ -378,7 +377,6 @@ async function refresh(canEdit = false) {
     MajestiosCRM.listBusinesses(), MajestiosCRM.listContacts(),
     MajestiosCRM.listOpportunities(), MajestiosCRM.listActivities()
   ]);
-  targetingBusinesses = businesses;
   businessRelatedData = { contacts, opportunities, activities };
   businessRecordsCanEdit = canEdit;
   document.querySelector("#crm-contact-count").textContent = contacts.length;
@@ -580,7 +578,7 @@ function initMarketTargeting(canEdit) {
         targetingCandidates.length + " nouveau(x) candidat(s), " + alreadyKnown.length +
         " déjà présent(s) parmi les 100 fiches CRM chargées. Source : " + response.source + " · " +
         new Date(response.fetchedAt).toLocaleString("fr-FR") +
-        ". La contrainte d’unicité SIREN du CRM reste le dernier rempart contre un doublon non visible dans cette liste.";
+        ". Le contrôle SIREN/SIRET est effectué sur l’ensemble des fiches du tenant avant intégration ; la contrainte unique SIREN existante protège également l’insertion.";
       importButton.disabled = !targetingCandidates.length;
     } catch (error) { targetingCandidates = []; status.textContent = error.message || "Recherche échouée : aucun candidat intégré."; }
     finally { button.disabled = false; }
