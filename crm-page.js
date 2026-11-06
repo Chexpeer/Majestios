@@ -355,6 +355,9 @@ function bindForm(id, create, values) {
 const nullableId = value => value || null;
 try {
   const { membership, organization } = await MajestiosCRM.requireWorkspace();
+  const canAdminister = ["owner", "admin"].includes(membership.role);
+  document.querySelector("#crm-admin-nav-link").hidden = !canAdminister;
+  document.querySelector("#crm-search-nav-link").hidden = !canAdminister;
   const isReadOnly = membership.role === "viewer";
   if (isReadOnly) {
     document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
