@@ -54,3 +54,14 @@ Le prototype de préqualification accepte désormais, en plus de l'intitulé, un
 **Nature du résultat :** suggestion lexicale explicable uniquement. Ce mécanisme n'extrait pas encore automatiquement les lots d'un avis BOAMP, ne lit pas les pièces PDF du dossier de consultation, ne comprend pas les exigences juridiques ou techniques et ne valide aucune compétence. Le code proposé doit être contrôlé par un opérateur avant recherche d'entreprises.
 
 **Périmètre technique de ce sous-lot :** évolution du prototype `qualification-entreprises.html` et de ses modules JavaScript/tests. Il ne raccorde pas encore le parcours au poste CRM authentifié et ne crée aucune fiche dans Supabase. Il ne modifie ni schéma, ni données, ni habilitations. L'immeuble interactif reste hors périmètre.
+
+
+## Extension — ciblage marché intégré au CRM authentifié
+
+Le parcours de ciblage est proposé dans le poste Entreprises du CRM, derrière la session et l'appartenance interne déjà exigées par le client Supabase existant. Il réutilise le moteur DINUM et les suggestions lexicales APE/NAF déjà présents, sans créer de second référentiel.
+
+L'opérateur saisit l'intitulé et le descriptif du marché, vérifie les codes APE/NAF suggérés, définit les départements, lance une recherche, examine les candidats et coche ceux qu'il souhaite intégrer. Les fiches choisies sont créées dans la table businesses existante via MajestiosCRM.createBusiness, avec le statut « à examiner », la provenance et les motifs de rapprochement dans les notes.
+
+**Droits et limites :** le rôle viewer ne peut pas lancer le ciblage ni intégrer de fiches ; les autres rôles restent soumis aux contrôles du client et de Supabase RLS. La recherche ne crée aucune fiche automatiquement. Le dédoublonnage côté interface ne couvre que les 100 entreprises actuellement chargées ; il ne remplace pas une contrainte d'unicité globale. Les erreurs individuelles d'insertion sont comptabilisées.
+
+Aucune table, colonne, migration, politique RLS, fonction SQL/Edge, donnée préexistante, identité ou rôle n'a été modifié. Aucun courriel n'est envoyé. Aucun déploiement, merge vers main ou promotion en production n'est effectué. L'immeuble interactif reste strictement hors périmètre.
