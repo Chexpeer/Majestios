@@ -15,8 +15,12 @@
   <script src="app.js" defer></script>
 </head>
 <body>
-<nav class="admin-crm-header" aria-label="Fil d’Ariane">
-  <a class="admin-crm-return" href="espace-interne.html">← Accueil interne</a>
+<nav class="admin-crm-header" aria-label="Navigation interne">
+  <div class="admin-crm-links">
+    <a class="admin-crm-return" href="espace-interne.html">⌂ Accueil interne</a>
+    <a id="crm-admin-nav-link" href="administration.html" hidden>Administration générale</a>
+    <a id="crm-search-nav-link" href="admin-recherches.html" hidden>Recherches ciblées</a>
+  </div>
   <span class="admin-crm-current" aria-current="page"><span>POSTE DE COMMANDEMENT</span><strong>CRM INTERNE</strong></span>
 </nav>
 <main class="section-wrap interior-page">
