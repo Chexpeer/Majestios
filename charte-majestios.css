@@ -224,7 +224,7 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
 .crm-footer{margin-top:3rem}
 @media(max-width:760px){.crm-topbar{align-items:flex-start;flex-wrap:wrap}.crm-topbar-actions{width:100%;margin-left:0;gap:.65rem}.crm-session-indicator{order:0}.crm-signout{order:1}.crm-site-return{order:2;margin-left:auto}.crm-identity-card{align-items:flex-start;flex-direction:column}.crm-identity-meta{text-align:left}}
 
-.crm-topbar .site-nav{color:#d9e0ed;gap:10px;font-size:8px;white-space:nowrap}
+.crm-topbar .site-nav{color:#d9e0ed;gap:8px;font-size:.7rem;white-space:nowrap}
 .crm-topbar .site-nav>a{color:#d9e0ed}
 .crm-topbar .site-nav>a:hover{color:#e2c17e}
 .crm-topbar .menu-toggle{display:none}
