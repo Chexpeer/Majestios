@@ -60,6 +60,55 @@ const editConfigs = {
     update: MajestiosCRM.updateOpportunity
   }
 };
+async function loadBusinessRelatedSection(section, businessId, pageIndex) {
+  const table = section.dataset.relatedTable;
+  const list = section.querySelector(".crm-business-related-list");
+  const resultStatus = section.querySelector(".crm-business-related-status");
+  const [previous, next] = section.querySelectorAll("button");
+  section.dataset.loading = "true";
+  resultStatus.textContent = "Chargement des éléments associés…";
+  previous.disabled = true;
+  next.disabled = true;
+  try {
+    const result = await MajestiosCRM.listBusinessRelatedPage({
+      businessId, table, page: pageIndex, pageSize: 10
+    });
+    section.dataset.relatedPage = String(result.page);
+    section.dataset.loaded = "true";
+    list.replaceChildren();
+    const formatRow = row => {
+      if (table === "contacts") {
+        return [ [row.first_name, row.last_name].filter(Boolean).join(" "), row.job_title, row.email, row.phone ].filter(Boolean).join(" · ");
+      }
+      if (table === "opportunities") {
+        return [row.title, row.status, row.next_action].filter(Boolean).join(" · ");
+      }
+      return [row.subject, row.activity_type, row.occurred_at
+        ? new Intl.DateTimeFormat("fr-FR", {dateStyle:"medium", timeStyle:"short"}).format(new Date(row.occurred_at))
+        : ""].filter(Boolean).join(" · ");
+    };
+    if (!result.rows.length) {
+      const empty = document.createElement("li");
+      empty.textContent = "Aucun élément associé.";
+      list.append(empty);
+    } else result.rows.forEach(row => {
+      const item = document.createElement("li");
+      item.textContent = formatRow(row) || "Élément associé";
+      list.append(item);
+    });
+    resultStatus.textContent = result.total
+      ? result.total + " élément(s) · page " + (result.page + 1) + " sur " + result.pageCount
+      : "Aucun élément associé à cette entreprise.";
+    previous.disabled = result.page <= 0;
+    next.disabled = result.pageCount === 0 || result.page >= result.pageCount - 1;
+  } catch (error) {
+    section.dataset.loaded = "false";
+    resultStatus.textContent = error.message || "Impossible de charger les éléments associés.";
+  } finally {
+    section.dataset.loading = "false";
+  }
+}
+
 function renderEditableList(selector, rows, label, kind, canEdit, related = {}) {
   const list = document.querySelector(selector);
   list.replaceChildren();
@@ -124,36 +173,50 @@ function renderEditableList(selector, rows, label, kind, canEdit, related = {}) 
       });
       dossier.append(identity);
 
-      const relatedSections = [
-        ["Contacts associés", (related.contacts || []).filter(contact => contact.business_id === row.id)
-          .map(contact => [ [contact.first_name, contact.last_name].filter(Boolean).join(" "), contact.job_title, contact.email, contact.phone ].filter(Boolean).join(" · "))],
-        ["Opportunités associées", (related.opportunities || []).filter(opportunity => opportunity.business_id === row.id)
-          .map(opportunity => [opportunity.title, opportunity.status, opportunity.next_action].filter(Boolean).join(" · "))],
-        ["Activités et historique", (related.activities || []).filter(activity => activity.business_id === row.id)
-          .map(activity => [activity.subject, activity.activity_type, activity.occurred_at ? new Intl.DateTimeFormat("fr-FR", {dateStyle:"medium"}).format(new Date(activity.occurred_at)) : ""].filter(Boolean).join(" · "))]
+      const relatedTables = [
+        ["Contacts associés", "contacts"],
+        ["Opportunités associées", "opportunities"],
+        ["Activités et historique", "activities"]
       ];
-      relatedSections.forEach(([headingText, entries]) => {
+      relatedTables.forEach(([headingText, table]) => {
         const section = document.createElement("section");
         section.className = "crm-business-related";
+        section.dataset.relatedTable = table;
+        section.dataset.relatedPage = "0";
         const heading = document.createElement("h4");
         heading.textContent = headingText;
+        const resultStatus = document.createElement("p");
+        resultStatus.className = "crm-business-related-status";
+        resultStatus.setAttribute("aria-live", "polite");
+        resultStatus.textContent = "Ouvrez le dossier pour charger les éléments associés.";
         const relatedList = document.createElement("ul");
-        if (!entries.length) {
-          const empty = document.createElement("li");
-          empty.textContent = "Aucun élément associé dans les données actuellement chargées.";
-          relatedList.append(empty);
-        } else entries.forEach(entry => {
-          const relatedItem = document.createElement("li");
-          relatedItem.textContent = entry;
-          relatedList.append(relatedItem);
-        });
-        section.append(heading, relatedList);
+        relatedList.className = "crm-business-related-list";
+        const controls = document.createElement("div");
+        controls.className = "crm-business-related-pagination";
+        const previous = document.createElement("button");
+        previous.type = "button";
+        previous.className = "button button-secondary";
+        previous.textContent = "Précédent";
+        previous.disabled = true;
+        const next = document.createElement("button");
+        next.type = "button";
+        next.className = "button button-secondary";
+        next.textContent = "Suivant";
+        next.disabled = true;
+        previous.addEventListener("click", () => loadBusinessRelatedSection(section, row.id, Math.max(0, Number(section.dataset.relatedPage || 0) - 1)));
+        next.addEventListener("click", () => loadBusinessRelatedSection(section, row.id, Number(section.dataset.relatedPage || 0) + 1));
+        controls.append(previous, next);
+        section.append(heading, resultStatus, relatedList, controls);
         dossier.append(section);
       });
-      const coverage = document.createElement("p");
-      coverage.className = "crm-business-coverage";
-      coverage.textContent = "Dossier alimenté par les 100 dernières fiches au maximum chargées dans chaque rubrique. Une absence ici ne prouve pas l’absence d’un lien dans l’ensemble du CRM.";
-      dossier.append(coverage);
+      dossier.addEventListener("toggle", () => {
+        if (!dossier.open) return;
+        dossier.querySelectorAll("[data-related-table]").forEach(section => {
+          if (section.dataset.loaded !== "true" && section.dataset.loading !== "true") {
+            loadBusinessRelatedSection(section, row.id, 0);
+          }
+        });
+      });
       item.append(dossier);
     }
     if (canEdit) {
