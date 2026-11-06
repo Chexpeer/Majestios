@@ -65,6 +65,19 @@ const expectedSiteNavigation = [
 ];
 for (const page of htmlPages) {
   const pageHtml = read(page);
+  if (page === "administration.html") {
+    const adminNav = pageHtml.match(/<nav\b(?=[^>]*\bid="admin-nav")[^>]*>([\s\S]*?)<\/nav>/);
+    assert(Boolean(adminNav), page + " : navigation interne d’administration absente");
+    assert(pageHtml.includes('href="crm.html"'), page + " : accès au CRM interne absent");
+    assert(pageHtml.includes('href="index.html"'), page + " : retour au site public absent");
+    continue;
+  }
+  if (page === "crm.html") {
+    assert(pageHtml.includes("admin-crm-header") && pageHtml.includes('href="administration.html"'),
+      page + " : repère de navigation Administration ↔ CRM absent");
+    assert(!pageHtml.includes('id="site-nav"'), page + " : le CRM interne ne doit pas reprendre le menu public");
+    continue;
+  }
   const nav = pageHtml.match(/<nav\b(?=[^>]*\bid="site-nav")[^>]*>([\s\S]*?)<\/nav>/);
   assert(Boolean(nav), page + " : navigation principale absente");
   if (!nav) continue;
