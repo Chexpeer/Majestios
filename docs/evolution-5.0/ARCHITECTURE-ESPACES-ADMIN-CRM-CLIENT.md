@@ -1155,3 +1155,9 @@ Le ciblage exploratoire issu d'un appel d'offres est intégré à l'interface du
 Les entreprises retenues sont créées avec le statut « à examiner » et conservent la provenance et les motifs de rapprochement. Le client Supabase existant et ses contrôles d'autorisation sont réutilisés ; le rôle viewer ne peut pas lancer la recherche ni créer de fiches. Le filtrage anti-doublon côté interface est limité aux 100 entreprises chargées et ne remplace pas une contrainte d'unicité globale.
 
 Le détail et les limites figurent dans le lot Poste Entreprises. Aucun schéma, droit, donnée existante, envoi de campagne ou composant de l'immeuble interactif n'a été modifié.
+
+### 35. Ciblage entreprises — provenance, structure et non-fusion automatique
+
+Le poste Entreprises exploite les indicateurs de structure transmis par l’annuaire public (tranche d’effectif, année de référence, nombre d’établissements, statut administratif, date de création) lorsqu’ils sont disponibles. Ces indicateurs sont des signaux de qualification à vérifier, pas des garanties de capacité. En l’absence de colonnes dédiées dans le schéma CRM actuel, les données et leur contexte de collecte sont conservés dans les notes de qualification avec l’identifiant source, la date, les filtres APE/NAF et départementaux, le score et les motifs.
+
+Le contrôle de doublons rapproche SIREN et SIRET avec les fiches chargées (limite actuelle : 100). La contrainte unique existante sur le SIREN au niveau de l’organisation reste la protection finale en base. Une fiche déjà présente n’est ni écrasée ni fusionnée automatiquement ; les échecs d’insertion sont restitués pour traitement humain. Toute recherche globale, pagination ou fusion contrôlée nécessitera un lot distinct et une autorisation spécifique avant modification du schéma ou des données.
