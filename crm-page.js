@@ -369,6 +369,12 @@ let targetingCandidates = [];
 let businessPageIndex = 0;
 const businessPageSize = 25;
 let businessPageCount = 0;
+const workspacePageSize = 25;
+const workspacePages = {
+  contacts: { page: 0, pageCount: 0, canEdit: false },
+  opportunities: { page: 0, pageCount: 0, canEdit: false },
+  activities: { page: 0, pageCount: 0, canEdit: false }
+};
 let businessRelatedData = { contacts: [], opportunities: [], activities: [] };
 let businessRecordsCanEdit = false;
 
@@ -382,13 +388,25 @@ async function refresh(canEdit = false) {
   document.querySelector("#crm-contact-count").textContent = contacts.length;
   document.querySelector("#crm-opportunity-count").textContent = opportunities.length;
   document.querySelector("#crm-activity-count").textContent = activities.length;
-  await loadBusinessPage();
-  renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
-  renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
+  await Promise.all([
+    loadBusinessPage(),
+    loadWorkspacePage("contacts", true, canEdit),
+    loadWorkspacePage("opportunities", true, canEdit),
+    loadWorkspacePage("activities", true, canEdit)
+  ]);
   renderFollowups(opportunities);
   const reminders = await MajestiosCRM.listReminders();
   renderPersistentReminders(reminders, canEdit);
   sendDueReminders(opportunities);
+  renderActivityTimeline(activities, businesses, contacts, opportunities);
+  renderSelect("#crm-contact-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
+  renderSelect("#crm-opportunity-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
+  renderSelect("#crm-opportunity-form [name=primary_contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact principal");
+  renderSelect("#crm-activity-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
+  renderSelect("#crm-activity-form [name=contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact associé");
+  renderSelect("#crm-activity-form [name=opportunity_id]", opportunities, row => row.title, "Aucune opportunité associée");
+}
+function renderActivityTimeline(activities, businesses, contacts, opportunities) {
   const activityList = document.querySelector("#crm-activity-list");
   activityList.replaceChildren();
   const businessById = new Map(businesses.map(row => [row.id, row.trade_name || row.legal_name]));
@@ -424,13 +442,46 @@ async function refresh(canEdit = false) {
     item.append(date);
     activityList.append(item);
   });
-  renderSelect("#crm-contact-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
-  renderSelect("#crm-opportunity-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
-  renderSelect("#crm-opportunity-form [name=primary_contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact principal");
-  renderSelect("#crm-activity-form [name=business_id]", businesses, row => row.trade_name || row.legal_name, "Aucune entreprise associée");
-  renderSelect("#crm-activity-form [name=contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact associé");
-  renderSelect("#crm-activity-form [name=opportunity_id]", opportunities, row => row.title, "Aucune opportunité associée");
 }
+
+async function loadWorkspacePage(table, resetPage = false, canEdit = workspacePages[table].canEdit) {
+  const state = workspacePages[table];
+  if (resetPage) state.page = 0;
+  state.canEdit = canEdit;
+  const prefix = table === "opportunities" ? "opportunity" : table === "activities" ? "activity" : "contact";
+  const input = document.getElementById(prefix + "-search");
+  const result = await MajestiosCRM.listWorkspaceRecordsPage({
+    table, page: state.page, pageSize: workspacePageSize, search: input?.value || ""
+  });
+  if (result.pageCount && state.page >= result.pageCount) {
+    state.page = result.pageCount - 1;
+    return loadWorkspacePage(table, false, canEdit);
+  }
+  state.page = result.page;
+  state.pageCount = result.pageCount;
+  const count = document.getElementById("crm-" + prefix + "-count");
+  const status = document.getElementById("crm-" + prefix + "-page-status");
+  const previous = document.getElementById("crm-" + prefix + "-previous");
+  const next = document.getElementById("crm-" + prefix + "-next");
+  count.textContent = String(result.total);
+  status.textContent = result.total
+    ? "Page " + (result.page + 1) + " sur " + result.pageCount + " · " + result.total + " enregistrement(s)"
+    : "Aucun résultat pour cette recherche.";
+  previous.disabled = result.page <= 0;
+  next.disabled = result.pageCount === 0 || result.page >= result.pageCount - 1;
+  if (table === "contacts") {
+    renderEditableList("#crm-contact-list", result.rows,
+      row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""),
+      "contact", canEdit);
+  } else if (table === "opportunities") {
+    renderEditableList("#crm-opportunity-list", result.rows,
+      row => row.title + " · " + row.status, "opportunity", canEdit);
+  } else {
+    renderActivityTimeline(result.rows, businessRelatedDataRows.businesses,
+      businessRelatedData.contacts, businessRelatedData.opportunities);
+  }
+}
+
 async function loadBusinessPage(resetPage = false) {
   if (resetPage) businessPageIndex = 0;
   const search = document.getElementById("crm-business-search");
