@@ -367,6 +367,11 @@ if (reminderButton && reminderStatus) {
 
 let targetingBusinesses = [];
 let targetingCandidates = [];
+let businessPageIndex = 0;
+const businessPageSize = 25;
+let businessPageCount = 0;
+let businessRelatedData = { contacts: [], opportunities: [], activities: [] };
+let businessRecordsCanEdit = false;
 
 async function refresh(canEdit = false) {
   const [businesses, contacts, opportunities, activities] = await Promise.all([
@@ -374,11 +379,12 @@ async function refresh(canEdit = false) {
     MajestiosCRM.listOpportunities(), MajestiosCRM.listActivities()
   ]);
   targetingBusinesses = businesses;
-  document.querySelector("#crm-business-count").textContent = businesses.length;
+  businessRelatedData = { contacts, opportunities, activities };
+  businessRecordsCanEdit = canEdit;
   document.querySelector("#crm-contact-count").textContent = contacts.length;
   document.querySelector("#crm-opportunity-count").textContent = opportunities.length;
   document.querySelector("#crm-activity-count").textContent = activities.length;
-  renderEditableList("#crm-business-list", businesses, row => (row.trade_name || row.legal_name) + " · " + row.qualification_status, "business", canEdit, { contacts, opportunities, activities });
+  await loadBusinessPage();
   renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
   renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
   renderFollowups(opportunities);
@@ -427,6 +433,33 @@ async function refresh(canEdit = false) {
   renderSelect("#crm-activity-form [name=contact_id]", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Aucun contact associé");
   renderSelect("#crm-activity-form [name=opportunity_id]", opportunities, row => row.title, "Aucune opportunité associée");
 }
+async function loadBusinessPage(resetPage = false) {
+  if (resetPage) businessPageIndex = 0;
+  const search = document.getElementById("crm-business-search");
+  const qualification = document.getElementById("crm-business-qualification");
+  const department = document.getElementById("crm-business-department");
+  const previous = document.getElementById("crm-business-previous");
+  const next = document.getElementById("crm-business-next");
+  const pageStatus = document.getElementById("crm-business-page-status");
+  const count = document.getElementById("crm-business-count");
+  const result = await MajestiosCRM.listBusinessesPage({
+    page: businessPageIndex, pageSize: businessPageSize,
+    search: search?.value || "", qualification: qualification?.value || "",
+    department: department?.value || ""
+  });
+  businessPageIndex = result.page;
+  businessPageCount = result.pageCount;
+  renderEditableList("#crm-business-list", result.rows,
+    row => (row.trade_name || row.legal_name) + " · " + row.qualification_status,
+    "business", businessRecordsCanEdit, businessRelatedData);
+  count.textContent = String(result.total);
+  pageStatus.textContent = result.total
+    ? "Page " + (result.page + 1) + " sur " + result.pageCount + " · " + result.total + " entreprise(s)"
+    : "Aucune entreprise ne correspond à cette recherche.";
+  previous.disabled = result.page <= 0;
+  next.disabled = result.pageCount === 0 || result.page >= result.pageCount - 1;
+}
+
 function bindForm(id, create, values) {
   const form = document.querySelector(id);
   form.addEventListener("submit", async event => {
@@ -599,6 +632,30 @@ function initMarketTargeting(canEdit) {
     importButton.disabled = true;
   });
 }
+const businessSearchForm = document.getElementById("crm-business-server-search");
+if (businessSearchForm) {
+  businessSearchForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const submit = businessSearchForm.querySelector('[type="submit"]');
+    submit.disabled = true;
+    try { await loadBusinessPage(true); }
+    catch (error) { setStatus(error.message || "Recherche CRM impossible.", true); }
+    finally { submit.disabled = false; }
+  });
+}
+document.getElementById("crm-business-previous")?.addEventListener("click", async () => {
+  if (businessPageIndex <= 0) return;
+  businessPageIndex -= 1;
+  try { await loadBusinessPage(); }
+  catch (error) { setStatus(error.message || "Chargement de la page impossible.", true); }
+});
+document.getElementById("crm-business-next")?.addEventListener("click", async () => {
+  if (businessPageIndex >= businessPageCount - 1) return;
+  businessPageIndex += 1;
+  try { await loadBusinessPage(); }
+  catch (error) { setStatus(error.message || "Chargement de la page impossible.", true); }
+});
+
 try {
   const { membership, organization } = await MajestiosCRM.requireWorkspace();
   const canAdminister = ["owner", "admin"].includes(membership.role);
