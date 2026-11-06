@@ -686,7 +686,7 @@ Fonctions : choix BODACC/BOAMP ; territoires de départ Pays de la Loire et Île
 
 Sources raccordées en lecture : BODACC, jeu annonces-commerciales, API Explore v2.1 sur bodacc-datadila.opendatasoft.com ; BOAMP, jeu boamp, API Explore v2.1 sur boamp-datadila.opendatasoft.com. Les fiches officielles DILA mentionnent la Licence Ouverte 2.0 et signalent que les données peuvent contenir des données personnelles : la réutilisation doit respecter les conditions applicables et les règles de protection des données.
 
-Les recherches sont manuelles. Aucun traitement périodique, export, import CRM, partage, e-mail ou diffusion n'est déclenché. Les résultats ne sont pas persistés ; « À qualifier » est un repère de travail et non une qualification enregistrée.
+Les recherches sont manuelles. Aucun traitement périodique, export, import CRM, partage, e-mail ou diffusion n'est déclenché. Les résultats ne sont pas persistés ; « À qualifier » est un repère de travail et non une qualification enregistrée. L’écran permet également de borner la période de publication et, côté BOAMP, de choisir le type de marché (travaux, services ou fournitures). Le filtre territorial BOAMP porte sur le département de publication ou le département d’exécution/prestation afin de ne pas écarter les avis dont le lieu d’exécution diffère du siège de l’acheteur. Les requêtes utilisent les littéraux date et la syntaxe ODSQL documentée.
 
 ### 17.3 Limites métier explicites
 
