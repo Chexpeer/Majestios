@@ -1,0 +1,68 @@
+name: Vérification du site MajestiOS
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify-static-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Vérifier la syntaxe JavaScript
+        run: |
+          node --check app.js
+          node --check catalogue-majestios.js
+          node --check category-results.js
+          node --check search-results.js
+          node --check opportunity-search.js
+          node --check rubric-search.js
+          node --check rubriques-immersives.js
+          node --check verify-site.js
+          node --check verify-architecture.js
+          node --check build.js
+          node --check company-targeting.js
+          node --check company-fit.js
+          node --check naf-suggestions.js
+          node --input-type=module --check < supabase-config.js
+          node --input-type=module --check < auth-espace-membre.js
+      - name: Tester le ciblage des entreprises
+        run: node tests/company-targeting.test.cjs
+      - name: Tester la qualification des entreprises
+        run: node tests/company-fit.test.cjs
+      - name: Tester les suggestions APE/NAF
+        run: node tests/naf-suggestions.test.cjs
+      - name: Construire le site statique
+        run: node build.js
+      - name: Vérifier l’architecture et les routes
+        run: node verify-architecture.js
+      - name: Vérifier les pages, liens locaux et identifiants
+        run: node verify-site.js
+      - name: Installer Playwright et Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright@1.64.1
+          npx playwright install --with-deps chromium
+      - name: Vérifier la connexion réelle à l’API BOAMP
+        run: node tests/boamp-live-smoke.cjs
+      - name: Vérifier la connexion réelle à l’API BODACC
+        run: node tests/bodacc-live-smoke.cjs
+      - name: Tester l’immeuble interactif dans un vrai navigateur
+        run: node tests/immeuble-interactif.browser.cjs
+      - name: Tester le moteur de recherche dans un vrai navigateur
+        run: node tests/opportunity-search.browser.cjs
+      - name: Tester les menus de navigation sur mobile et ordinateur
+        run: node tests/navigation-dropdown.browser.cjs
+      - name: Tester le parcours de contact sans transmission de données
+        run: node tests/contact-form.browser.cjs

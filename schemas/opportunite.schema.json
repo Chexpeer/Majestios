@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://majestios.fr/schemas/opportunite.schema.json",
+  "title": "Résultat de recherche et signal d’opportunité MajestiOS",
+  "description": "Contrat normalisé de résultats de recherche destiné à l’affichage et à une future alimentation CRM. Ne signifie ni stockage persistant ni connexion active à une source.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "category",
+    "marketType",
+    "source",
+    "sourceUrl",
+    "publishedAt",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifiant interne stable, distinct de l'identifiant source."
+    },
+    "sourceId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Identifiant attribué par la plateforme source."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "services",
+        "travaux",
+        "conseil",
+        "batiment",
+        "renovation",
+        "electricite",
+        "plomberie",
+        "maintenance",
+        "bodacc-creations",
+        "bodacc-cessions",
+        "bodacc-modifications",
+        "bodacc-procedures",
+        "bodacc-radiations",
+        "immobilier",
+        "emploi",
+        "sous-traitance-offres",
+        "sous-traitance-recherche",
+        "bodacc-autres-signaux",
+        "public-non-classifie"
+      ]
+    },
+    "marketType": {
+      "type": "string",
+      "enum": [
+        "public",
+        "private"
+      ]
+    },
+    "buyerName": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Acheteur ou donneur d'ordre, uniquement si publié par la source."
+    },
+    "location": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "postalCode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9A-Za-z -]{2,12}$"
+        },
+        "city": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "departmentCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "regionCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "publishedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Date de publication de la source ; null si absente ou non interprétable, sans date inventée."
+    },
+    "deadlineAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Nom de la source consultée."
+    },
+    "sourceUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL de la fiche source officielle ou autorisée."
+    },
+    "documentUrls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "default": []
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "updated",
+        "closed",
+        "withdrawn",
+        "to_verify"
+      ]
+    },
+    "verifiedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "lastSeenAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "lots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "default": []
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retrievedAt",
+        "method"
+      ],
+      "properties": {
+        "retrievedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "api",
+            "feed",
+            "authorized_scraping",
+            "manual_review"
+          ]
+        },
+        "rawRecordHash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "recordType": {
+      "type": "string",
+      "enum": [
+        "public_tender",
+        "private_company_signal",
+        "employment_signal",
+        "real_estate_signal",
+        "subcontracting_signal",
+        "business_directory_result"
+      ],
+      "description": "Nature métier du résultat. Permet au CRM de distinguer un appel d’offres d’un signal d’entreprise ou d’un autre type d’opportunité."
+    },
+    "deduplicationKey": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Clé déterministe de rapprochement (priorité à l’identifiant source, puis référence source stable). Ne jamais fusionner sur le seul nom."
+    },
+    "firstSeenAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "Première date à laquelle MajestiOS a observé ce résultat, si elle est connue."
+    },
+    "sourceConditionsRef": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Référence interne vers la fiche de licence, conditions d’accès et règles de réutilisation validées pour la source."
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Métadonnées de qualification séparées des faits bruts publiés. À compléter par le CRM ; une hypothèse IA ne constitue pas une validation.",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "unreviewed",
+            "to_verify",
+            "qualified",
+            "rejected",
+            "converted",
+            "expired"
+          ],
+          "default": "unreviewed"
+        },
+        "rationale": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Explication de pertinence ou motif de rejet, daté et révisable."
+        },
+        "commercialHypothesis": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Piste commerciale à vérifier, jamais présentée comme un fait source."
+        },
+        "reviewedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "reviewedBy": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Identifiant interne du réviseur, sans donnée personnelle superflue."
+        },
+        "confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confiance indicative d’un rapprochement ou classement, pas une probabilité de succès commercial."
+        }
+      }
+    },
+    "crmLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Références facultatives vers des objets CRM une fois le backend et les permissions implémentés.",
+      "properties": {
+        "companyId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "establishmentId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "opportunityId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "signalId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
