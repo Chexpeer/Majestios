@@ -11,6 +11,7 @@ const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_inter
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
 const client = read("crm-client.js");
 const page = read("crm-page.js");
+const crmHtml = read("crm.html");
 const edge = read("supabase/functions/provision-client-workspace/index.ts");
 const auth = read("auth-espace-membre.js");
 
@@ -56,6 +57,29 @@ assert.match(client, /organization\.kind === "internal"/);
 assert.match(client, /\.eq\("organization_id", membership\.organization_id\)/);
 assert.match(client, /membership\.role === "viewer"/);
 assert.match(page, /consultation seule/);
+
+const crmPayloadColumns = {
+  businesses: ["legal_name", "website", "city", "country_code", "qualification_status", "organization_id", "created_by"],
+  contacts: ["last_name", "first_name", "email", "phone", "consent_status", "organization_id", "created_by"],
+  opportunities: ["title", "description", "source_type", "status", "organization_id", "created_by"],
+  activities: ["subject", "activity_type", "body", "organization_id", "actor_user_id"]
+};
+for (const [table, columns] of Object.entries(crmPayloadColumns)) {
+  for (const column of columns) {
+    assert.ok(columnsByTable[table]?.has(column), `Le payload CRM utilise une colonne absente : ${table}.${column}`);
+  }
+}
+for (const value of ["manual", "boamp", "bodacc", "private_market", "partner", "other"]) {
+  assert.ok(schema.includes(`'${value}'`), `Source d’opportunité absente du schéma : ${value}`);
+  assert.ok(crmHtml.includes(`<option value="${value}"`), `Source d’opportunité absente du formulaire : ${value}`);
+}
+for (const value of ["note", "call", "email", "meeting", "task", "qualification"]) {
+  assert.ok(schema.includes(`'${value}'`), `Type d’activité absent du schéma : ${value}`);
+  assert.ok(crmHtml.includes(`<option value="${value}"`), `Type d’activité absent du formulaire : ${value}`);
+}
+assert.match(page, /qualification_status: "to_review"/);
+assert.match(page, /consent_status: "unknown"/);
+assert.match(page, /status: "detected"/);
 
 assert.match(edge, /metadata\.privacy_notice_acknowledged !== true/);
 assert.match(edge, /metadata\.privacy_notice_version !== NOTICE_VERSION/);
