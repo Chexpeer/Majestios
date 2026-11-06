@@ -1101,7 +1101,7 @@ Aucune migration, table, colonne, politique RLS, fonction SQL/Edge, donnée, ide
 
 ## 32. Dossier entreprise et rapprochement des relations
 
-Chaque fiche entreprise dispose d'un dossier dépliable présentant les champs d'identité, de localisation, de qualification et de provenance déjà disponibles, ainsi que les contacts, opportunités et activités liées par `business_id`. Les données restent issues des listes CRM existantes et de leur périmètre organisationnel RLS. La limite actuelle de 100 enregistrements par liste est explicitement affichée : le rapprochement côté navigateur ne constitue pas une vue exhaustive tant que la pagination et les requêtes relationnelles serveur ne sont pas construites.
+Chaque fiche entreprise dispose d'un dossier dépliable présentant les champs d'identité, de localisation, de qualification et de provenance déjà disponibles, ainsi que les contacts, opportunités et activités liées par `business_id`. Les données restent issues des listes CRM existantes et de leur périmètre organisationnel RLS. La limite de 100 enregistrements concerne encore les autres listes relationnelles ; la liste principale des entreprises est désormais paginée côté serveur.
 
 Le dossier n'ajoute aucune table ni colonne, n'effectue aucune écriture et ne modifie aucun droit. Les champs sont affichés comme texte ; seuls les liens HTTP/HTTPS sont cliquables. Les détails de réalisation figurent dans [Lot CRM — poste de travail Entreprises](LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md).
 
@@ -1152,7 +1152,7 @@ Le concept complet et son protocole de revue sont décrits dans [Concept — Pub
 
 Le ciblage exploratoire issu d'un appel d'offres est intégré à l'interface du CRM interne authentifié. Le parcours reprend le moteur DINUM et les suggestions lexicales existantes, permet à l'opérateur de contrôler les codes APE/NAF et les départements, de consulter les candidats et de sélectionner explicitement les fiches à intégrer au référentiel businesses.
 
-Les entreprises retenues sont créées avec le statut « à examiner » et conservent la provenance et les motifs de rapprochement. Le client Supabase existant et ses contrôles d'autorisation sont réutilisés ; le rôle viewer ne peut pas lancer la recherche ni créer de fiches. Le filtrage anti-doublon côté interface est limité aux 100 entreprises chargées et ne remplace pas une contrainte d'unicité globale.
+Les entreprises retenues sont créées avec le statut « à examiner » et conservent la provenance et les motifs de rapprochement. Le client Supabase existant et ses contrôles d'autorisation sont réutilisés ; le rôle viewer ne peut pas lancer la recherche ni créer de fiches. Le contrôle SIREN/SIRET est effectué côté serveur sur l'ensemble des fiches du tenant avant l'import ; la contrainte unique SIREN existante reste la protection finale contre les insertions concurrentes.
 
 Le détail et les limites figurent dans le lot Poste Entreprises. Aucun schéma, droit, donnée existante, envoi de campagne ou composant de l'immeuble interactif n'a été modifié.
 
@@ -1160,10 +1160,12 @@ Le détail et les limites figurent dans le lot Poste Entreprises. Aucun schéma,
 
 Le poste Entreprises exploite les indicateurs de structure transmis par l’annuaire public (tranche d’effectif, année de référence, nombre d’établissements, statut administratif, date de création) lorsqu’ils sont disponibles. Ces indicateurs sont des signaux de qualification à vérifier, pas des garanties de capacité. En l’absence de colonnes dédiées dans le schéma CRM actuel, les données et leur contexte de collecte sont conservés dans les notes de qualification avec l’identifiant source, la date, les filtres APE/NAF et départementaux, le score et les motifs.
 
-Le contrôle de doublons rapproche SIREN et SIRET avec les fiches chargées (limite actuelle : 100). La contrainte unique existante sur le SIREN au niveau de l’organisation reste la protection finale en base. Une fiche déjà présente n’est ni écrasée ni fusionnée automatiquement ; les échecs d’insertion sont restitués pour traitement humain. Toute recherche globale, pagination ou fusion contrôlée nécessitera un lot distinct et une autorisation spécifique avant modification du schéma ou des données.
+Le contrôle de doublons rapproche SIREN et SIRET avec l'ensemble des fiches du tenant au moyen de requêtes serveur ciblées. La contrainte unique existante sur le SIREN au niveau de l’organisation reste la protection finale en base. Une fiche déjà présente n’est ni écrasée ni fusionnée automatiquement ; les échecs d’insertion sont restitués pour traitement humain. Toute recherche globale, pagination ou fusion contrôlée nécessitera un lot distinct et une autorisation spécifique avant modification du schéma ou des données.
 
 ### 36. Poste Entreprises — pagination et recherche tenant-scoped
 
 La liste principale des entreprises est chargée par pages de 25 au moyen de `listBusinessesPage()`. Le client Supabase demande un compte exact, applique l’organisation interne issue de `requireWorkspace()`, conserve RLS comme frontière d’autorisation, puis utilise une pagination `range()` à ordre déterministe (`created_at DESC`, `id ASC`). La recherche serveur couvre raison sociale, nom commercial, SIREN, SIRET, APE/NAF et ville ; qualification et département peuvent être combinés à cette recherche. Les filtres instantanés restent des filtres locaux sur la page affichée.
 
 Ce dispositif supprime la limite des 100 lignes pour la recherche paginée des entreprises, mais ne modifie pas encore les autres listes CRM, les sélecteurs relationnels ni les rapprochements chargés localement. La pagination offset n’est pas un instantané : des insertions concurrentes peuvent déplacer les résultats entre deux pages. Aucune évolution du schéma, migration ou modification RLS n’est nécessaire ni effectuée pour ce lot.
+
+La méthode `findBusinessesByIdentifiers()` consulte les SIREN et SIRET candidats avec des filtres `IN`, sous le périmètre `organization_id` issu de `requireWorkspace()` et les politiques RLS existantes. Elle est appelée lors de l'affichage des candidats puis répétée immédiatement avant chaque insertion. Aucun import sans identifiant légal SIREN ou SIRET n'est autorisé. L'index unique existant sur `(organization_id, siren)` a été vérifié en lecture seule ; aucun index ni schéma n'a été modifié.
