@@ -77,6 +77,7 @@ assert.ok(crmClient.includes('.eq("organization_id", membership.organization_id)
 assert.ok(crmClient.includes('"legal_name", "trade_name", "siren", "siret", "ape_naf", "city"'), "La recherche serveur doit couvrir identité, identifiants, APE/NAF et ville.");
 assert.ok(crmClient.includes("async function findBusinessesByIdentifiers") && crmClient.includes('.in("siren", cleanSirens)') && crmClient.includes('.in("siret", cleanSirets)'), "Le contrôle des doublons doit interroger tous les identifiants correspondants du tenant, sans limite de liste locale.");
 assert.ok(crmScript.includes("MajestiosCRM.findBusinessesByIdentifiers") && crmScript.includes("SIREN et SIRET absents"), "Le ciblage doit contrôler les doublons à la recherche et juste avant l’import, et refuser les candidats sans identifiant légal.");
+assert.ok(crmScript.includes("dans l’ensemble des fiches CRM accessibles à votre organisation") && !crmScript.includes("parmi les 100 fiches CRM chargées"), "Le statut de ciblage doit refléter le rapprochement global et ne plus annoncer la limite locale de 100 fiches.");
 assert.ok(html.includes('id="crm-business-server-search"') && html.includes('id="crm-business-previous"') && html.includes('id="crm-business-next"'), "Le poste Entreprises doit exposer recherche globale et pagination.");
 assert.ok(crmScript.includes("MajestiosCRM.listBusinessesPage") && crmScript.includes("businessPageSize = 25"), "L’interface doit charger les entreprises par pages de 25 via le client CRM.");
 
