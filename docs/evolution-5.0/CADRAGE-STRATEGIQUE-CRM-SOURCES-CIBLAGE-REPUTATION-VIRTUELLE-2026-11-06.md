@@ -424,3 +424,58 @@ Le CRM est le système de capitalisation qui reçoit et organise les leads capt�
 La métaphore « aspirateur à leads » exprime le rôle d'acquisition transversal de MajestiOS ; elle ne signifie pas aspiration indiscriminée de données. Chaque connecteur et chaque traitement restent soumis aux conditions d'accès, aux finalités, à la minimisation, à la conformité et à la validation humaine adaptées.
 
 **Statut :** clarification stratégique exprimée par le porteur du projet le 6 novembre 2026. À prendre en compte dans les prochains audits indépendants et dans l'évolution de la doctrine CRM. Elle ne déclare aucune nouvelle source connectée ni aucune fonctionnalité déjà opérationnelle.
+
+
+## Valeur ajoutée — petites annonces gratuites et accès élargi aux opportunités
+
+### Intention exprimée par le porteur du projet
+
+MajestiOS doit également permettre de **publier gratuitement des annonces**, notamment :
+- des offres d'emploi ;
+- des demandes d'emploi ou de missions ;
+- des offres et demandes de sous-traitance ;
+- des besoins de renfort, de compétences ou de collaboration entre professionnels.
+
+L'objectif est de donner une visibilité et une porte d'accès aux artisans et petites entreprises qui ont le sentiment d'être exclus des grands portails ou qui ne disposent pas des moyens, du réseau ou des codes pour y accéder.
+
+Formulation imagée du porteur du projet : **« les artisans qui se sentent exclus des portails officiels ont la possibilité de flirter avec les grands et de voyager en première classe »**.
+
+### Valeur apportée
+
+MajestiOS ne doit pas réserver la circulation des opportunités aux acteurs déjà visibles, référencés ou familiers des plateformes institutionnelles et professionnelles. La publication gratuite d'annonces peut :
+- rendre visibles des compétences, disponibilités et besoins qui restent habituellement en marge ;
+- faciliter les rencontres entre artisans, donneurs d'ordre, entreprises générales et sous-traitants ;
+- permettre à une petite structure de se présenter à des acteurs plus importants ;
+- faire émerger des collaborations locales ou interterritoriales ;
+- alimenter l'écosystème de leads et de relations du CRM, dans les deux sens : celui qui publie un besoin et celui qui propose une compétence peuvent tous deux devenir des contacts ou partenaires pertinents.
+
+### Positionnement produit
+
+Cette capacité est une **porte d'entrée ouverte dans l'écosystème MajestiOS**, et non un simple tableau d'annonces. Elle complète l'aspirateur à leads : MajestiOS détecte des opportunités depuis des sources externes, mais permet aussi aux professionnels de venir eux-mêmes exprimer une offre, une demande ou une disponibilité.
+
+La gratuité de publication est ici un choix d'accessibilité et d'acquisition à instruire. Elle ne préjuge pas d'une gratuité illimitée de tous les services ultérieurs, ni d'un modèle économique déjà décidé. Toute évolution commerciale devra préserver la promesse de visibilité et d'accès équitable annoncée aux professionnels.
+
+### Principes fonctionnels à instruire
+
+1. Distinguer clairement les catégories : emploi, recherche d'emploi/missions, offre de sous-traitance, recherche de sous-traitant et autres annonces professionnelles pertinentes.
+2. Permettre une publication simple, avec un formulaire proportionné au type d'annonce.
+3. Prévoir une modération et des mécanismes de signalement pour limiter les annonces frauduleuses, trompeuses, discriminatoires, périmées ou sans rapport avec l'activité.
+4. Afficher les informations utiles à la mise en relation sans exposer inutilement les coordonnées personnelles.
+5. Prévoir une durée de publication, une date d'expiration, la possibilité de modifier ou retirer une annonce et un statut de vérification.
+6. Faciliter la mise en relation entre petites structures et donneurs d'ordre, sans promettre un contrat ni garantir une sélection.
+7. Rattacher, lorsque cela est légitime et autorisé, l'annonce et les échanges associés au CRM afin de conserver l'origine et l'historique de la relation.
+8. Distinguer une annonce publiée directement par un professionnel d'une opportunité détectée par MajestiOS dans une source tierce.
+
+### Garde-fous et points à vérifier
+
+La gratuité ne dispense pas de règles : conditions de publication explicites, modération, lutte contre les faux profils et les arnaques, protection des données, durée de conservation, droit de retrait et conformité des annonces d'emploi et de sous-traitance. Les obligations applicables aux offres d'emploi, à la non-discrimination, au travail et à la sous-traitance devront être examinées avant ouverture publique. Les coordonnées ne doivent pas être rendues publiques par défaut si une mise en relation contrôlée suffit.
+
+### Questions pour la revue indépendante
+
+- Comment garantir une expérience réellement accessible aux artisans peu familiers des portails numériques ?
+- Quelles catégories d'annonces doivent être ouvertes dès le premier pilote, et lesquelles doivent attendre ?
+- Quel niveau de vérification et de modération est proportionné à une publication gratuite ?
+- Comment éviter que les acteurs les plus puissants monopolisent la visibilité ou détournent le service ?
+- Comment mesurer les mises en relation utiles, les collaborations conclues et l'accès effectif des petites structures aux donneurs d'ordre ?
+
+**Statut :** valeur ajoutée proposée par le porteur du projet le 6 novembre 2026. À intégrer à la consultation stratégique et à instruire avant toute réalisation. Cette inscription documentaire ne signifie pas que la publication gratuite d'annonces est déjà disponible ou activée.
