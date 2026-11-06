@@ -1081,3 +1081,21 @@ Ce cadrage ne modifie pas l'immeuble interactif, qui demeure strictement hors p�
 ### 30.1 Premiers points de vigilance issus des sources officielles
 
 Une première revue documentaire institutionnelle est consignée dans le dossier de cadrage stratégique : API Recherche d'Entreprises (DINUM), Sirene (INSEE), RNE/INPI, données essentielles de la commande publique, règles CNIL de prospection B2B et conditions Google Maps Platform. Elle fait ressortir quatre garde-fous : distinguer SIREN et SIRET ; ne pas présumer de l'éligibilité à l'API Entreprise réservée aux acteurs habilités ; distinguer les adresses génériques des coordonnées nominatives pour les campagnes ; ne pas scraper ni constituer une base de contenus Google Maps pour rechercher les établissements absents. Cette première revue documentaire n'est pas un avis d'une autre IA ; les consultations indépendantes restent à recueillir.
+
+## 31. Poste de travail Entreprises — recherche et qualification locale
+
+Le module Entreprises du CRM reçoit une première couche opérationnelle de recherche et de filtrage, construite sur les fiches déjà présentes dans Supabase :
+
+- recherche sur la raison sociale, le nom commercial, les identifiants SIREN/SIRET, le code APE/NAF, la ville, le département et les notes de qualification ;
+- filtre par statut de qualification et par département ;
+- compteur de résultats et réapplication des filtres après actualisation des fiches ;
+- affichage des identifiants disponibles sous le nom de l'entreprise.
+
+Cette première recherche s'exécute uniquement dans le navigateur sur les enregistrements déjà chargés. Elle ne consulte aucun annuaire externe, n'importe aucune entreprise et n'envoie aucun message. La limite de lecture actuelle à 100 enregistrements demeure : une pagination et une recherche serveur seront nécessaires avant de traiter un référentiel volumineux.
+
+Le lot est décrit dans [Lot CRM — poste de travail Entreprises](LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md).
+
+Le manifeste de publication et les contrôles statiques incluent désormais les ressources du poste CRM, afin que ses feuilles de style et modules JavaScript soient copiés dans le site construit. Le module de filtrage fait l'objet d'un contrôle de syntaxe dans le workflow de vérification et d'un contrat anti-régression ciblé.
+
+Aucune migration, table, colonne, politique RLS, fonction SQL/Edge, donnée, identité ou rôle Supabase n'a été modifié. Aucun déploiement, merge vers `main` ou promotion en production n'a été lancé. L'immeuble interactif reste strictement hors périmètre.
+
