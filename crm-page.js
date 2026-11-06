@@ -489,7 +489,8 @@ try {
     bindForm("#crm-opportunity-form", MajestiosCRM.createOpportunity, data => ({ business_id: nullableId(data.business_id), primary_contact_id: nullableId(data.primary_contact_id), title: data.title.trim(), description: data.description || null, source_type: data.source_type, status: "detected" }));
     bindForm("#crm-activity-form", MajestiosCRM.createActivity, data => ({ business_id: nullableId(data.business_id), contact_id: nullableId(data.contact_id), opportunity_id: nullableId(data.opportunity_id), subject: data.subject.trim(), activity_type: data.activity_type, body: data.body || null }));
   }
-  await refresh(!isReadOnly);\n  if (["owner", "admin"].includes(membership.role)) await refreshAdminMembers();
+  await refresh(!isReadOnly);
+  if (["owner", "admin"].includes(membership.role)) await refreshAdminMembers();
 } catch (error) {
   setStatus(error.message || "Connexion au CRM impossible.", true);
   document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
