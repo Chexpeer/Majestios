@@ -60,12 +60,12 @@ async function listBusinessesPage({ page = 0, pageSize = 25, search = "", qualif
     .range(from, to);
 
   const safeSearch = String(search || "").trim()
-    .replace(/[,%()_*]/g, " ")
+    .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\\s.'’-]/g, " ")
     .replace(/\s+/g, " ")
     .slice(0, 120);
   if (safeSearch) {
     const columns = ["legal_name", "trade_name", "siren", "siret", "ape_naf", "city"];
-    query = query.or(columns.map((column) => column + ".ilike.%" + safeSearch + "%").join(","));
+    query = query.or(columns.map((column) => column + '.ilike."%' + safeSearch + '%"').join(","));
   }
   if (qualification) query = query.eq("qualification_status", qualification);
   const safeDepartment = String(department || "").trim().toUpperCase();
