@@ -241,6 +241,7 @@ for (const fragment of [
   "Internal administrators can read admin audit",
   "security definer",
   "set search_path = ''",
+  "if p_role is null or p_role not in ('admin','member','viewer')",
   "v_target.role = 'owner'",
   "v_target.user_id = v_actor",
   "Seul le propriétaire peut gérer les administrateurs.",
