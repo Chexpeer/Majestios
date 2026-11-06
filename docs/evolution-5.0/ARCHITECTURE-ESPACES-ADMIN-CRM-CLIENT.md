@@ -171,3 +171,73 @@ L'administration configure les fonctionnalités accessibles et les données part
 ## 8. Prochaine action technique
 
 Terminer le Lot 1 en retrouvant et cartographiant les routes d'administration existantes, les fonctions de provisionnement et la matrice réelle des rôles. À ce stade, les éléments inspectés prouvent la présence d'un CRM et d'un socle multi-organisation, mais ne suffisent pas encore à déclarer l'administration générale complète ni les fonctionnalités client opérationnelles.
+
+
+## 9. Principe directeur ajouté — le CRM comme usine transversale d'intelligence
+
+Le CRM ne se limite ni à un carnet d'adresses, ni à un pipeline commercial, ni à un simple moteur de traitement. Il constitue le **centre opérationnel, industriel et transversal de transformation de l'information en intelligence commerciale** de MajestiOS.
+
+Il remplit deux fonctions indissociables :
+
+1. **Le centre opérationnel** : piloter les entreprises, contacts, opportunités, activités, équipes, affectations, relances et historiques.
+2. **La chaufferie transversale de MajestiOS** : fournir aux rubriques et espaces autorisés les données, analyses, documents, services et productions dont ils ont besoin, selon les habilitations définies par l'administration.
+
+### 9.1 Chaîne de transformation
+
+Les métaphores formulées par le porteur du projet décrivent les capacités attendues :
+
+- **Aspirateur de compétition — collecte** : agréger des informations issues de sources externes et internes (notamment BODACC, BOAMP, marchés publics et privés, données d'entreprises, contacts, documents et historiques).
+- **Composteur industriel — préparation** : nettoyer, normaliser, dédoublonner, rapprocher et structurer les données brutes.
+- **Malaxeur d'intelligence artificielle — enrichissement et analyse** : croiser les informations, détecter les signaux, qualifier les entreprises et opportunités, produire des synthèses et recommandations.
+- **Bétonnière — orchestration** : combiner en continu données, règles métier, tâches et contributions humaines pour alimenter les processus opérationnels.
+- **Imprimante 3D — production** : fabriquer des livrables concrets adaptés aux besoins : fichiers ciblés, listes de prospection, dossiers commerciaux, dossiers de candidature et de réponse aux appels d'offres, rapports, tableaux de suivi, recommandations et contenus destinés aux espaces autorisés.
+
+Cette chaîne doit rester contrôlable : provenance des données, date de collecte, transformations appliquées, niveau de confiance, validation humaine lorsque nécessaire, historique des traitements et traçabilité des diffusions.
+
+### 9.2 Administration des recherches et automatisations
+
+L'administration générale doit pouvoir piloter, depuis son environnement et en s'appuyant sur le CRM :
+
+- des recherches ponctuelles dans les sources connectées, en premier lieu BODACC et BOAMP ;
+- des recherches enregistrées et automatisées selon des critères configurables (activité/APE-NAF, département, type d'annonce ou de marché, taille d'entreprise et autres critères pertinents) ;
+- la fréquence, le périmètre, les règles de qualification et les conditions d'arrêt ou de reprise des traitements ;
+- la constitution de fichiers et sélections à partir des résultats collectés et qualifiés ;
+- la diffusion d'un fichier ou d'un jeu de données choisi vers les destinataires choisis par l'administrateur : collaborateurs, équipes, clients ou groupes autorisés.
+
+Le CRM exécute et coordonne la collecte, la préparation, l'enrichissement, la qualification, la production, l'historisation et la mise à disposition. L'administration définit les objectifs, critères, règles, destinataires et habilitations.
+
+La diffusion doit être gouvernée : aperçu avant envoi, choix précis des colonnes et pièces, contrôle des droits par destinataire, journal de diffusion, date/version du fichier et possibilité de révoquer un accès lorsque le mode de partage le permet. Les données personnelles et les conditions d'utilisation des sources doivent être respectées.
+
+### 9.3 Modèle de services transversaux
+
+Le CRM ne doit pas devenir un accès universel et indistinct à toutes les données. Il expose des **services et ensembles de données autorisés** à chaque rubrique. Chaque espace ne reçoit que ce qui est nécessaire à sa mission et permis par les droits de l'utilisateur et de son organisation.
+
+À distinguer dans la conception :
+- collecte et connecteurs de sources ;
+- stockage des données brutes et provenance ;
+- normalisation et dédoublonnage ;
+- qualification métier et enrichissement IA ;
+- production de fichiers, dossiers et rapports ;
+- distribution et partage contrôlés ;
+- journalisation, audit et gouvernance des accès.
+
+Ces blocs constituent une cible fonctionnelle à concevoir progressivement ; ils ne sont pas déclarés comme déjà implémentés dans le dépôt.
+
+## 10. Clarification des responsabilités
+
+- **Administration générale** : autorité de pilotage ; définit les recherches, automatisations, règles de diffusion, destinataires et habilitations ; dispose de la vue globale et des outils de contrôle.
+- **CRM** : usine de transformation et centre de coordination ; collecte, prépare, rapproche, analyse, qualifie, produit et distribue les informations et livrables autorisés ; conserve les historiques utiles.
+- **Intelligence artificielle** : capacité d'assistance au croisement, à l'analyse, à la qualification et à la production ; elle ne remplace pas la décision humaine sur les actions sensibles ou les partages.
+- **Espaces de rubriques et espace client** : consomment les services et livrables qui leur sont explicitement ouverts, sans accès implicite au reste du CRM.
+- **Utilisateur humain** : fixe les objectifs, arbitre, valide les décisions métier et conserve la maîtrise des actions engageantes.
+
+## 11. Complément au plan de cartographie
+
+Le Lot 1 doit également identifier, en lecture seule :
+- les connecteurs, imports, fonctions ou tâches déjà présents pour BODACC, BOAMP et les autres sources ;
+- les traitements de collecte, planifications, automatisations et éventuels cron/jobs ;
+- les formats d'export, génération de fichiers et mécanismes de partage existants ;
+- les journaux de collecte, de transformation, de génération et de diffusion ;
+- les permissions permettant à l'administration de créer, exécuter, suspendre et distribuer des recherches ou fichiers.
+
+Aucune de ces capacités ne doit être considérée comme opérationnelle avant vérification dans le code et dans les services connectés.
