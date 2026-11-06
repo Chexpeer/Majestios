@@ -111,6 +111,50 @@ function renderEditableList(selector, rows, label, kind, canEdit) {
   });
 }
 
+function renderPersistentReminders(reminders, canEdit) {
+  const list = document.getElementById("crm-persistent-reminders");
+  const count = document.getElementById("crm-persistent-reminders-count");
+  if (!list || !count) return;
+  list.replaceChildren();
+  count.textContent = String(reminders.length);
+  if (!reminders.length) {
+    const empty = document.createElement("li");
+    empty.textContent = "Aucune relance persistante en attente.";
+    list.append(empty);
+    return;
+  }
+  reminders.forEach(reminder => {
+    const item = document.createElement("li");
+    const title = document.createElement("strong");
+    title.textContent = reminder.title;
+    const action = document.createElement("p");
+    action.textContent = reminder.action;
+    const date = document.createElement("time");
+    date.dateTime = reminder.due_at;
+    date.textContent = new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(reminder.due_at));
+    item.append(title, action, date);
+    if (canEdit) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "button button-secondary";
+      button.textContent = "Marquer comme traitée";
+      button.addEventListener("click", async () => {
+        button.disabled = true;
+        try {
+          await MajestiosCRM.markReminderRead(reminder.id);
+          await refresh(canEdit);
+          setStatus("Relance marquée comme traitée.");
+        } catch (error) {
+          button.disabled = false;
+          setStatus(error.message || "Impossible de mettre à jour la relance.", true);
+        }
+      });
+      item.append(button);
+    }
+    list.append(item);
+  });
+}
+
 function renderFollowups(opportunities) {
   const now = new Date();
   const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -246,7 +290,7 @@ async function refresh(canEdit = false) {
   renderEditableList("#crm-business-list", businesses, row => (row.trade_name || row.legal_name) + " · " + row.qualification_status, "business", canEdit);
   renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
   renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
-  renderFollowups(opportunities);
+  renderFollowups(opportunities);\n  renderPersistentReminders(reminders, canEdit);
   sendDueReminders(opportunities);
   const activityList = document.querySelector("#crm-activity-list");
   activityList.replaceChildren();
