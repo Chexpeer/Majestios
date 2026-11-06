@@ -419,3 +419,23 @@ Le registre doit être enrichi au fil du projet. Conserver les formulations orig
 - le sens métier compris ;
 - les conséquences d'architecture ou de fonctionnement ;
 - ce qui existe déjà et ce qui reste à construire.
+
+
+### 14.6 Le rétroviseur : apprendre de l'erreur avant toute marche arrière
+
+Formulation originale exacte du porteur du projet :
+
+- **« Si tu commets une erreur, regarde le rétroviseur avant de faire marche arrière. »**
+- Formulation initiale spontanée : « si tu commet une erreur regarde le rétroviseur avant de faire marcher arrière ».
+
+Sens métier et règle de conduite pour MajestiOS :
+- avant toute correction, revenir sur l'origine de l'anomalie et comprendre ce qui l'a provoquée ;
+- consulter l'historique des modifications, les décisions précédentes, la documentation et les contrôles déjà effectués ;
+- préserver l'état existant et effectuer une sauvegarde avant une opération risquée ;
+- corriger la cause sans détruire les éléments qui fonctionnent ;
+- vérifier le résultat et les éventuelles régressions ;
+- documenter la correction et conserver la trace de l'anomalie jusqu'à sa résolution et sa validation.
+
+**Règle opérationnelle :** aucune marche arrière précipitée, aucun retour de branche ou remplacement de version sans examen du rétroviseur. Une anomalie documentée n'est pas une anomalie résolue : elle reste suivie jusqu'à correction et validation.
+
+Cette métaphore complète les garde-fous de sauvegarde, de réversibilité, d'historisation et de contrôle anti-régression du projet.
