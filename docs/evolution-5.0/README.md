@@ -38,6 +38,7 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 13. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — intelligence centrale, capacités spécialisées, orchestration, proactivité et gouvernance.
 14. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
 15. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
+16. [Architecture des espaces Administration, CRM et Client](ARCHITECTURE-ESPACES-ADMIN-CRM-CLIENT.md) — séparation des espaces, navigation, CRM intégré, habilitations et état du premier cockpit.
 16. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
 17. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype et limites vérifiées.
 18. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts historiques à revalider.
