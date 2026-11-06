@@ -729,3 +729,19 @@ Ces contrôles complètent les tests ciblés déjà exécutés par le workflow a
 **Portée du correctif :** workflow CI uniquement. Aucun code métier CRM, aucune donnée, table, migration, politique RLS ou fonction Supabase n'a été modifié. Aucun changement de navigation, de visuel ou de contenu de l'immeuble interactif n'a été effectué. Aucun déploiement, fusion ou promotion n'a été lancé.
 
 **État de validation au moment de l'ajout :** sur le commit documentaire précédent `9600b9c12b38f176669bd541683fda5a83529134`, le workflow anti-régression était terminé avec succès ; le workflow de vérification du site était encore en cours pendant l'installation de Playwright/Chromium. Le commit qui ajoute les contrôles de syntaxe CRM déclenche une nouvelle exécution CI : ses résultats doivent être vérifiés séparément et ne sont pas présumés réussis.
+
+
+## 19. Clarification de la frontière CRM interne / espace membre — 6 novembre 2026
+
+L'audit de navigation entre les trois environnements a révélé un lien inadapté dans `espace-membre.html` : la carte CRM de l'espace membre proposait un accès direct à `crm.html`, alors que cette page est le CRM interne réservé aux collaborateurs appartenant à l'organisation interne MajestiOS.
+
+Le lien a été retiré. La carte précise désormais que le CRM est un outil interne distinct et que l'espace personnel ne reçoit que les informations et documents explicitement destinés au client.
+
+**Règle de navigation confirmée :**
+- Administration générale : poste de commandement réservé aux rôles internes owner/admin.
+- CRM interne : outil opérationnel interne, avec droits de consultation ou de modification selon le rôle.
+- Espace membre/client : environnement distinct ; aucune entrée directe vers le CRM interne et aucune visibilité implicite sur les données CRM.
+
+Le lien Administration → CRM reste en place, ainsi que le retour unique CRM → Administration. Le changement ne touche ni l'authentification, ni les rôles, ni les politiques RLS, ni les tables ou fonctions Supabase. Aucun changement de l'immeuble interactif, de ses images, étages, libellés, dossiers, zones ou liens n'a été effectué.
+
+**Statut :** correction de navigation publiée sur la branche `evolution-5.0-admin-cockpit`. Les deux workflows CI du commit précédent `44f708f71d527fe1e6a9e4491b32c962c6b6b5a3` ont réussi ; la correction présente déclenche une nouvelle exécution qui doit être contrôlée séparément.
