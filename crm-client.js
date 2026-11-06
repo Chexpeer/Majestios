@@ -60,7 +60,7 @@ async function listBusinessesPage({ page = 0, pageSize = 25, search = "", qualif
     .range(from, to);
 
   const safeSearch = String(search || "").trim()
-    .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\\s.'’-]/g, " ")
+    .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\s.'’-]/g, " ")
     .replace(/\s+/g, " ")
     .slice(0, 120);
   if (safeSearch) {
