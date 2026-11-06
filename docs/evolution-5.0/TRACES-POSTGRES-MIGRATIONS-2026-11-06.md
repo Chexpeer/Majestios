@@ -49,3 +49,19 @@ Une transaction SQL distincte apparaît à **13:50:37.630 UTC**, toujours via `m
 ## Périmètre de l'enquête
 
 Lecture seule : aucune migration, requête d'écriture, modification de fonction, configuration, donnée CRM ou immeuble interactif n'a été effectuée.
+
+
+## Vérification complémentaire — métadonnées de l'historique
+
+Lecture directe de `supabase_migrations.schema_migrations` (SELECT uniquement) :
+
+- les 13 entrées sont présentes ;
+- le champ `created_by` contient la même valeur déclarative pour les 13 migrations ;
+- `idempotency_key` est nul pour les 13 entrées ;
+- la table ne possède pas de colonne `created_at` : la tentative de lecture de cette colonne a renvoyé une erreur de schéma, sans effet sur la base.
+
+Le champ `created_by` est une métadonnée enregistrée dans l'historique des migrations. Il est cohérent avec l'identifiant transmis dans le SQL de chaque migration, mais il ne constitue pas une preuve cryptographique de l'identité humaine qui a déclenché l'appel API. Il ne permet donc pas d'attribuer formellement l'opération à une personne ou à une interface précise.
+
+## Inventaire des journaux disponibles
+
+Sur les fenêtres interrogées du 6 novembre 2026, la table unifiée de logs ne retourne que deux sources : `postgres_logs` et `postgrest_logs`. Aucun flux `edge_logs`, `function_edge_logs` ou journal d'audit de déploiement n'est disponible dans ces résultats pour cette période. Les journaux PostgreSQL permettent donc de prouver les requêtes SQL et l'erreur, mais pas de reconstituer l'appel API côté client ni le déploiement de la fonction Edge.
