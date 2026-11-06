@@ -42,6 +42,7 @@ jobs:
           node --input-type=module --check < admin-recherches.js
           node --input-type=module --check < espace-interne.js
           node --input-type=module --check < crm-page.js
+          node --input-type=module --check < crm-business-filters.js
           node --input-type=module --check < crm-client.js
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
