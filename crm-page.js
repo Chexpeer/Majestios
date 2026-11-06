@@ -15,8 +15,12 @@ MajestiosCRM.auth.onAuthStateChange((event, session) => {
       .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
     return;
   }
+  if (event === "SIGNED_IN" && status?.dataset.state === "disconnected") {
+    // Re-run the complete workspace and role initialization after a fresh login.
+    window.location.reload();
+    return;
+  }
   if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
-    setStatus("CRM · CONNECTÉ — session sécurisée active.");
     if (signOutButton) signOutButton.hidden = false;
   }
 });
