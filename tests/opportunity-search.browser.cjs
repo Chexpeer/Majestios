@@ -393,7 +393,7 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
     assert.equal(await page.locator("#feed-market-type option").evaluateAll(options => options.map(option => option.value).join(",")), ",all,public,private", "Le moteur conserve uniquement ses choix de marché existants.");
     await page.getByRole("link", { name: /Publier ma demande/ }).click();
-    await page.waitForURL(/publier-ma-demande\\.html$/);
+    await page.waitForURL(/publier-ma-demande\.html$/);
     const requestOptions = await page.locator("#request-type option").evaluateAll(options => options.map(option => option.value));
     for (const expected of ["offre-sous-traitance","recherche-sous-traitant","offre-emploi","recherche-emploi","recherche-partenaire","recherche-associe","estimation-entreprise","autre"]) assert.ok(requestOptions.includes(expected), "Le formulaire doit proposer " + expected + ".");
     await page.locator("#request-type").selectOption("estimation-entreprise");
