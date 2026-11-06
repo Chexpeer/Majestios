@@ -442,11 +442,16 @@ async function loadBusinessPage(resetPage = false) {
   const next = document.getElementById("crm-business-next");
   const pageStatus = document.getElementById("crm-business-page-status");
   const count = document.getElementById("crm-business-count");
-  const result = await MajestiosCRM.listBusinessesPage({
+  const filters = {
     page: businessPageIndex, pageSize: businessPageSize,
     search: search?.value || "", qualification: qualification?.value || "",
     department: department?.value || ""
-  });
+  };
+  let result = await MajestiosCRM.listBusinessesPage(filters);
+  if (result.pageCount && businessPageIndex >= result.pageCount) {
+    businessPageIndex = result.pageCount - 1;
+    result = await MajestiosCRM.listBusinessesPage({ ...filters, page: businessPageIndex });
+  }
   businessPageIndex = result.page;
   businessPageCount = result.pageCount;
   renderEditableList("#crm-business-list", result.rows,
