@@ -59,6 +59,7 @@
     "administration.html",
     "administration.css",
     "administration.js",
-    "admin-recherches.html"
+    "admin-recherches.html",
+    "admin-recherches.js"
   ]
 }
