@@ -166,7 +166,7 @@ const persistentReminders = read("supabase/migrations/20261106100000_persistent_
 for (const fragment of [
   "create table if not exists public.crm_reminders",
   "enable row level security",
-  "public.is_org_member(organization_id)",
+  "private.is_org_member(organization_id)",
   "private.is_org_editor(organization_id)",
   "unique (organization_id, opportunity_id, due_at)",
   "on conflict (organization_id, opportunity_id, due_at) do nothing",
