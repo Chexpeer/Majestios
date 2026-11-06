@@ -87,3 +87,17 @@ La recherche serveur par sous-chaîne couvre raison sociale, nom commercial, SIR
 Aucune table, colonne, index, fonction SQL, migration, politique RLS, donnée ni configuration Supabase n’a été modifiée. Le lot utilise uniquement les capacités de lecture existantes de PostgREST / supabase-js.
 
 Le contrôle global d'identifiants est effectué par deux requêtes `IN` ciblées, l'une sur les SIREN et l'autre sur les SIRET, toutes deux filtrées par `organization_id` et soumises aux politiques RLS. L'import répète ce contrôle pour chaque candidat juste avant l'insertion. Aucun SIREN/SIRET absent n'est accepté pour import. L'index unique `businesses_organization_id_siren_key` a été confirmé par une lecture des index existants ; il n'a pas été créé ou modifié dans ce lot.
+
+## Extension — pagination serveur des Contacts, Opportunités et Activités
+
+Les espaces Contacts, Opportunités et Activités disposent désormais de leur propre recherche serveur et pagination de 25 enregistrements. Le client `listWorkspaceRecordsPage()` n’accepte que ces trois tables via une liste blanche, récupère le membre authentifié avec `requireWorkspace()`, filtre explicitement `organization_id`, demande le compte exact et utilise `range()`. Les politiques RLS existantes restent actives.
+
+- **Contacts :** recherche sur prénom, nom, fonction, e-mail et téléphone ; tri `created_at DESC, id ASC`.
+- **Opportunités :** recherche sur intitulé, description, identifiant externe et type de source ; tri `updated_at DESC, id ASC`.
+- **Activités :** recherche sur objet, détail et type ; tri `occurred_at DESC, id ASC`. Le rendu chronologique est conservé.
+
+Chaque rubrique possède son propre champ de recherche, son compteur exact et ses boutons Précédent/Suivant. Une nouvelle recherche revient à la première page ; si une page devient invalide après une suppression ou un changement de filtre, le chargement revient automatiquement à la dernière page disponible.
+
+**Limites restantes :** les formulaires relationnels (listes déroulantes entreprise/contact/opportunité), les rappels et certains traitements transverses utilisent encore les listes historiques limitées à 100 enregistrements. Les pages principales des quatre rubriques sont désormais paginées côté serveur, mais cette extension ne transforme pas encore les sélecteurs relationnels en recherche dédiée. La pagination offset reste non transactionnelle en cas d’insertions concurrentes.
+
+Aucun schéma, index, migration, rôle, utilisateur, politique RLS ou donnée Supabase n’a été modifié.
