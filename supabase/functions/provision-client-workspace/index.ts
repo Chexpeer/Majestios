@@ -48,8 +48,13 @@ Deno.serve(async (request: Request) => {
   let body: Record<string, unknown> = {};
   try { body = await request.json(); } catch { return response(400, { error: "Corps de requête invalide." }, origin); }
   const metadata = user.user_metadata ?? {};
-  if (body.flow !== "signup" || body.privacy_acknowledged !== true) {
-    return response(403, { error: "Une confirmation explicite de la politique est nécessaire pour finaliser l’inscription." }, origin);
+  if (
+    body.flow !== "signup" ||
+    body.privacy_acknowledged !== true ||
+    metadata.privacy_notice_acknowledged !== true ||
+    metadata.privacy_notice_version !== NOTICE_VERSION
+  ) {
+    return response(403, { error: "La confirmation de la politique doit être fournie lors de l’inscription avec la version en vigueur." }, origin);
   }
   const noticeVersion = NOTICE_VERSION;
   const organizationName = cleanText(metadata.organization_name || body.organization_name, 120);
