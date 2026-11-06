@@ -79,3 +79,8 @@ assert.ok(html.includes('src="crm-business-filters.js"'), "Le module de filtres 
 assert.ok(crmScript.includes("item.dataset.searchText") && crmScript.includes("item.dataset.qualificationStatus") && crmScript.includes("item.dataset.departmentCode"), "Les fiches entreprises doivent exposer les champs utiles au filtrage local.");
 assert.ok(businessFilterScript.includes("new MutationObserver(applyFilters)") && businessFilterScript.includes("item.hidden = !show"), "Les filtres doivent se réappliquer après actualisation de la liste sans recharger la page.");
 assert.ok(businessFilterScript.includes("qualification.addEventListener") && businessFilterScript.includes("department.addEventListener"), "Les filtres de qualification et de département doivent être interactifs.");
+
+assert.ok(crmScript.includes('className = "crm-business-dossier"'), "Chaque entreprise doit disposer d’un dossier détaillé consultable.");
+assert.ok(crmScript.includes("related.contacts") && crmScript.includes("related.opportunities") && crmScript.includes("related.activities"), "Le dossier entreprise doit rapprocher contacts, opportunités et historique.");
+assert.ok(crmScript.includes("identityFields") && crmScript.includes("source_url") && crmScript.includes("qualification_notes"), "Le dossier doit exposer identité, provenance et qualification disponibles.");
+assert.ok(crmScript.includes("Une absence ici ne prouve pas l’absence"), "Le dossier doit expliciter la limite de couverture des relations chargées.");
