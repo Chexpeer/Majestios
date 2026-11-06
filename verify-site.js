@@ -75,6 +75,7 @@ for (const token of ["organization_members", 'kind === "internal"', '["owner", "
 }
 const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
 assert(crmPage.includes('href="administration.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’administration absent");
+assert(crmPage.includes('meta name="robots" content="noindex,nofollow"'), "CRM : la page interne doit être exclue de l’indexation");
 
 const rubricSearchPages = [
   "marches-publics.html", "developpement-commercial.html", "prospection-active.html",
