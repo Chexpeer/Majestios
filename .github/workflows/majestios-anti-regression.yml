@@ -5,11 +5,13 @@ on:
     branches:
       - chantier-recherche-donnees-gardes-fous-2026-11-01
       - refonte-architecture-dossiers-charte-majestios-2026-11-01
+      - evolution-5.0-clean-preview
   pull_request:
     branches:
       - main
       - chantier-recherche-donnees-gardes-fous-2026-11-01
       - refonte-architecture-dossiers-charte-majestios-2026-11-01
+      - evolution-5.0-clean-preview
   workflow_dispatch:
 
 permissions:
@@ -26,6 +28,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Vérifier le contrat de sécurité CRM
+        run: node tests/crm-security-contract.test.cjs
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification explicable des entreprises
