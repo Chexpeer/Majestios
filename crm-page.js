@@ -41,7 +41,9 @@ function setupRemoteRelationSelect(selector, table, label, caption, placeholder)
   const pageStatus = document.createElement("span");
   pageStatus.setAttribute("aria-live", "polite");
   controls.append(previous, pageStatus, next);
-  select.insertAdjacentElement("afterend", search);
+  const field = select.closest(".form-field");
+  if (field) field.insertAdjacentElement("afterend", search);
+  else select.insertAdjacentElement("afterend", search);
   search.insertAdjacentElement("afterend", controls);
   const state = { page: 0, pageCount: 0, search: "", request: 0, selected: null };
   const load = async () => {
