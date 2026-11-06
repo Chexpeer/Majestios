@@ -254,3 +254,60 @@ La situation est maintenant mieux circonscrite :
 **Décision : la réconciliation n'est pas clôturée.** La logique live de matérialisation est retrouvée dans la migration de cycle de vie. Il reste à tracer la provenance du grant d'UPDATE, à expliquer les horodatages divergents et à déterminer comment préserver une source de vérité unique sans fusionner aveuglément les deux lignées. L'historique Supabase ne donnant pas le texte SQL historique, une comparaison byte-à-byte reste impossible avec les seules données accessibles. En attendant : aucune migration, aucun changement de privilège, aucun déploiement Edge, aucune fusion de branches, aucune réinitialisation.
 
 **Périmètre inchangé :** contrôle en lecture seule de Supabase et documentation GitHub uniquement. Aucun objet CRM, aucune donnée, aucune politique, aucune fonction, aucun job et aucun élément de l'immeuble interactif n'ont été modifiés.
+
+
+## 10. Provenance de la migration de grants et décision sur la branche de référence — 7 novembre 2026
+
+### 10.1 Origine Git vérifiée de `grant_crm_record_updates`
+
+L'historique GitHub du fichier permet désormais de reconstituer sa séquence :
+
+1. **13:50:41 UTC** — commit `60ba793541b926891e97cdf027304bee7e5d37b3`, intitulé **« Grant CRM editor update privileges »**. Il ajoute le fichier `supabase/migrations/20261106135000_grant_crm_record_updates.sql`.
+2. Le contenu de ce premier fichier contient exactement trois instructions :
+   - `grant update on table public.businesses to authenticated;`
+   - `grant update on table public.contacts to authenticated;`
+   - `grant update on table public.opportunities to authenticated;`
+   Le commentaire précise que les contrôles d'organisation et de rôle restent assurés par les politiques RLS.
+3. **13:50:51 UTC** — commit `f659a2123ef7797f7e862c86202d362fce3518f5`, intitulé **« Align CRM update migration version with Supabase history »**. Il ajoute la version renommée `supabase/migrations/20261106135037_grant_crm_record_updates.sql`, avec le même contenu SQL.
+4. Le fichier versionné sous le nom final est présent dans `evolution-5.0-clean-preview), et absent de `evolution-5.0-admin-cockpit). L'historique Git de ce chemin sur la branche clean-preview retourne le commit de réalignement `f659a212...`.
+
+Cette séquence explique précisément le passage du suffixe `135000` au suffixe `135037` : le second commit a renommé la migration pour aligner son identifiant sur celui retourné par l'historique Supabase.
+
+**Limite de preuve importante :** GitHub établit l'origine, le contenu et le renommage du fichier. Le catalogue Supabase établit que la migration portant le nom `grant_crm_record_updates` figure dans l'historique live et que les trois privilèges sont présents. Les éléments disponibles ne prouvent toutefois pas quel canal exact a exécuté le SQL (CLI, SQL Editor ou autre processus), ni ne fournissent le journal d'exécution contenant le texte SQL historique. On ne doit donc pas affirmer que le commit GitHub a, à lui seul, déclenché l'application en production.
+
+### 10.2 Pourquoi les six autres versions ne correspondent pas aux horodatages des fichiers
+
+Le constat reste le suivant : les six premières versions enregistrées dans l'historique Supabase (de `20261106085409` à `20261106085436`) ne sont pas les préfixes des six fichiers retrouvés dans le dépôt (de `20261106031500` à `20261106120000`).
+
+La migration de grants fournit un exemple démontré d'un réalignement volontaire d'horodatage, mais **elle ne permet pas de généraliser cette explication aux six autres migrations**. Aucune preuve suffisante n'établit à ce stade si leurs identifiants live résultent d'un renommage, d'une exécution via un autre canal, d'une génération d'identifiants distincts ou d'une autre séquence de livraison.
+
+Pour lever ce point, il faudra obtenir le journal de déploiement/migration d'origine ou une archive du dépôt et de l'environnement utilisés lors de l'application. Tant que cette preuve n'est pas disponible, les correspondances restent nominales/fonctionnelles et non une équivalence historique exacte.
+
+### 10.3 Quelle branche peut être déclarée référence ?
+
+**Aucune des deux branches ne peut actuellement être certifiée comme source de vérité complète du backend live.**
+
+- `evolution-5.0-clean-preview` contient la migration de grants finale et sa provenance Git, mais sa variante de la politique de lecture dans `20261106100000_persistent_crm_reminders.sql` appelle `public.is_org_member`, alors que la politique live appelle `private.is_org_member`.
+- `evolution-5.0-admin-cockpit` contient la variante de cette politique qui correspond au catalogue live et porte les documents d'audit les plus récents, mais ne contient pas le fichier de migration qui explique les privilèges UPDATE live.
+- Les deux branches restent divergentes de plusieurs centaines de commits au total ; leur fusion ne constitue pas une opération de réconciliation sûre.
+
+**Décision provisoire :**
+- conserver `evolution-5.0-admin-cockpit` comme branche de travail documentaire pour le présent audit ;
+- utiliser `evolution-5.0-clean-preview` comme source de preuve historique pour la migration de grants ;
+- ne déclarer ni l'une ni l'autre « branche canonique backend » ;
+- ne copier, rejouer, renommer ou appliquer aucune migration pour le seul motif de faire disparaître l'écart ;
+- établir ultérieurement une référence backend canonique par comparaison des contenus SQL, des objets live et des preuves de livraison, puis seulement préparer une réconciliation contrôlée.
+
+Cette décision n'autorise ni merge, ni déploiement, ni modification du schéma ou des privilèges.
+
+### 10.4 État final de cette étape
+
+- Provenance Git de la migration de grants : **retrouvée**.
+- Renommage `135000` → `135037` : **démontré par deux commits successifs et leurs diffs**.
+- Canal exact d'application en production : **non établi**.
+- Cause des six autres écarts d'horodatage : **non établie**.
+- Branche canonique backend : **non déterminée**.
+- Branche de travail documentaire : `evolution-5.0-admin-cockpit`.
+- Modification Supabase, migration, grant, politique, fonction, job ou donnée : **aucune**.
+- Modification du code CRM ou de l'immeuble interactif : **aucune**.
+- Merge ou déploiement : **aucun**.
