@@ -114,3 +114,18 @@ Les trois rubriques sont chargées à la demande et indépendamment. Les tris so
 **Protection du patrimoine :** aucune table, colonne, migration, politique RLS, fonction SQL/Edge, donnée, compte ou rôle n'a été modifié. Les requêtes restent strictement limitées au tenant authentifié et aux trois tables explicitement autorisées. Aucun envoi externe, merge vers main, déploiement ou promotion en production n'est effectué. L'immeuble interactif reste hors périmètre.
 
 **Contrôles ajoutés :** le contrat statique vérifie la liste blanche relationnelle, le filtre tenant, le filtre business_id, le chargement à la demande et l'affichage du décompte paginé. Ces assertions ne remplacent pas l'exécution des tests navigateur ni une validation CI réelle.
+
+
+## Extension — sélecteurs relationnels avec recherche et pagination serveur
+
+Les champs d'association des formulaires Contact, Opportunité et Activité ne sont plus alimentés uniquement par les tableaux historiques limités à 100 enregistrements. Chaque sélecteur dispose maintenant d'une recherche dédiée et d'une pagination serveur de 25 résultats :
+
+- Entreprises : méthode listBusinessesPage avec recherche sur les champs métier déjà autorisés.
+- Contacts : méthode listWorkspaceRecordsPage avec table contacts.
+- Opportunités : méthode listWorkspaceRecordsPage avec table opportunities.
+
+Les requêtes réutilisent les contrôles d'authentification, le filtrage organization_id, les listes blanches de tables, le compte exact et les tris déterministes déjà présents dans le client CRM. Les sélecteurs sont indépendants : recherche, page et résultats d'un champ ne modifient pas les autres. Un compteur accessible annonce le nombre de résultats et la page courante. Les contrôles de recherche ne portent pas d'attribut name et ne sont donc pas transmis dans FormData.
+
+Lorsqu'une page ou une recherche change, la valeur déjà sélectionnée est conservée même si elle n'appartient plus aux 25 résultats affichés. Aucun schéma, aucune table, colonne, politique RLS, fonction SQL/Edge, donnée, compte ou rôle Supabase n'est modifié.
+
+**Limites et contrôles :** la recherche reste lexicale et limitée aux colonnes explicitement déclarées par les méthodes de pagination. Le chargement initial des formulaires interroge chaque sélecteur indépendamment. Les tests de contrat statiques couvrent le raccordement des sélecteurs, les appels paginés et les attributs d'accessibilité ; ils ne remplacent pas une exécution des tests ni une validation navigateur/CI. Aucun merge, déploiement ou changement de l'immeuble interactif n'est effectué.
