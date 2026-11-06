@@ -1076,3 +1076,8 @@ La méthode reste progressive : recherches ponctuelles, ciblées et mesurées au
 Le document de consultation indépendant, qui détaille les flux, les garde-fous, les questions à poser aux autres IA et le format de leurs retours, est [Cadrage stratégique — CRM, sources, ciblage commercial et Réputation virtuelle](CADRAGE-STRATEGIQUE-CRM-SOURCES-CIBLAGE-REPUTATION-VIRTUELLE-2026-11-06.md).
 
 Ce cadrage ne modifie pas l'immeuble interactif, qui demeure strictement hors périmètre.
+
+
+### 30.1 Premiers points de vigilance issus des sources officielles
+
+Une première revue documentaire institutionnelle est consignée dans le dossier de cadrage stratégique : API Recherche d'Entreprises (DINUM), Sirene (INSEE), RNE/INPI, données essentielles de la commande publique, règles CNIL de prospection B2B et conditions Google Maps Platform. Elle fait ressortir quatre garde-fous : distinguer SIREN et SIRET ; ne pas présumer de l'éligibilité à l'API Entreprise réservée aux acteurs habilités ; distinguer les adresses génériques des coordonnées nominatives pour les campagnes ; ne pas scraper ni constituer une base de contenus Google Maps pour rechercher les établissements absents. Cette première revue documentaire n'est pas un avis d'une autre IA ; les consultations indépendantes restent à recueillir.
