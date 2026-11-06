@@ -5,6 +5,7 @@ const supabase = createClient(MAJESTIOS_SUPABASE.url, MAJESTIOS_SUPABASE.publish
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
 });
 
+const frame = document.querySelector(".admin-frame");
 const gate = document.querySelector("#admin-gate");
 const gateMessage = document.querySelector("#admin-gate-message");
 const workspace = document.querySelector("#admin-workspace");
@@ -12,6 +13,7 @@ const sessionLabel = document.querySelector("#admin-session-label");
 const signOutButton = document.querySelector("#admin-signout");
 
 function showGate(message, signedIn = false) {
+  frame.classList.add("is-locked");
   workspace.hidden = true;
   gate.hidden = false;
   gateMessage.textContent = message;
@@ -75,6 +77,7 @@ async function verifyInternalAdmin() {
   document.querySelector("#admin-role-label").textContent = membership.role === "owner" ? "Propriétaire interne" : "Administrateur interne";
   sessionLabel.textContent = "Accès interne vérifié";
   signOutButton.hidden = false;
+  frame.classList.remove("is-locked");
   gate.hidden = true;
   workspace.hidden = false;
 }
