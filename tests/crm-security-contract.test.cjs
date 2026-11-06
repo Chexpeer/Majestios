@@ -108,4 +108,16 @@ assert.match(bootstrap, /email_confirmed_at/);
 assert.match(bootstrap, /grant execute on function private\.bootstrap_first_internal_admin\(uuid\) to service_role/);
 assert.match(bootstrap, /grant usage on schema private to service_role/);
 
-console.log("CRM security contract: OK — schéma, privilèges, rôles, isolation tenant, confidentialité, bootstrap et provisionnement atomique.");
+for (const field of ["business_id"]) {
+  assert.ok(crmHtml.includes(`name="${field}"`), `Le formulaire CRM doit exposer le rattachement ${field}.`);
+  assert.match(page, new RegExp(`\\\\b${field}: nullableId\\\\(data\\\\.${field}\\\\)`));
+}
+for (const field of ["primary_contact_id", "contact_id", "opportunity_id"]) {
+  assert.ok(crmHtml.includes(`name="${field}"`), `Le formulaire CRM doit exposer le rattachement ${field}.`);
+  assert.match(page, new RegExp(`\\\\b${field}: nullableId\\\\(data\\\\.${field}\\\\)`));
+}
+assert.match(page, /renderSelect\("#crm-contact-form \\[name=business_id\\]"/);
+assert.match(page, /renderSelect\("#crm-opportunity-form \\[name=primary_contact_id\\]"/);
+assert.match(page, /renderSelect\("#crm-activity-form \\[name=opportunity_id\\]"/);
+
+console.log("CRM security contract: OK — schéma, privilèges, rôles, isolation tenant, confidentialité, bootstrap, provisionnement et rattachements CRM.");
