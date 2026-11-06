@@ -42,6 +42,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Cahier des charges — veille stratégique](evolution-5.0/CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) | Spécification de cadrage des signaux, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial |
 
 | [Cadrage stratégique CRM, sources et Réputation virtuelle](evolution-5.0/CADRAGE-STRATEGIQUE-CRM-SOURCES-CIBLAGE-REPUTATION-VIRTUELLE-2026-11-06.md) | Ciblage NAF/APE depuis les appels d'offres, détection des nouvelles entreprises, parcours Réputation virtuelle et questions de revue indépendante par IA |
+| [Lot CRM — poste de travail Entreprises](evolution-5.0/LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md) | Recherche locale, filtres de qualification et département, limites et prochaines briques du module Entreprises |
 
 ## Archives thématiques
 
