@@ -98,3 +98,5 @@ Le principe « le schéma reflète l'arborescence » est non négociable. La nav
 ## Points à ne pas figer prématurément
 
 Toute évolution récente du fondateur peut rouvrir un sujet précédemment documenté comme acquis. Le nom, le périmètre et les relations des capacités d'intelligence doivent être traités selon les échanges les plus récents et inscrits dans le registre des décisions ; ne pas clore un débat stratégique par une phrase isolée d'un document antérieur.
+
+| [Concept — Publipostage intelligent par QR Code et badge MajestiOS](evolution-5.0/CONCEPT-PUBLIPOSTAGE-QR-CODE-BADGE-VIP-2026-11-06.md) | Orientation stratégique à soumettre aux autres IA : publipostage physique QR complémentaire à l'emailing, badge public/invité/VIP, Accès VIP, sécurité, conformité et MVP pilote |
