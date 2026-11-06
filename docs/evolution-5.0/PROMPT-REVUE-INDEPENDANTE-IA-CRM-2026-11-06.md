@@ -88,3 +88,8 @@ Termine impérativement par :
 - Signale explicitement les informations que tu n'as pas pu vérifier.
 - Si tu contestes une proposition, explique pourquoi et propose une alternative.
 - Ne transforme pas une recommandation en décision : le fondateur conserve les arbitrages.
+
+
+### Axe de revue supplémentaire — publipostage QR et badge numérique
+
+La revue indépendante doit aussi lire [Concept — Publipostage intelligent par QR Code et badge MajestiOS](CONCEPT-PUBLIPOSTAGE-QR-CODE-BADGE-VIP-2026-11-06.md) et évaluer le publipostage physique avec QR Code comme canal complémentaire à l'emailing, le badge public/invité/VIP, les niveaux d'accès, la sécurité des QR Codes, la conformité, le coût et le protocole de test. Répondre aux dix questions de la section 11 de ce document. Ne pas présenter le concept comme déjà développé et ne pas recommander de toucher à l'immeuble interactif.
