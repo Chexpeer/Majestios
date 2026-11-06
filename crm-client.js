@@ -82,8 +82,8 @@ async function listBusinessesPage({ page = 0, pageSize = 25, search = "", qualif
 
 async function findBusinessesByIdentifiers({ sirens = [], sirets = [] } = {}) {
   const { membership } = await requireWorkspace();
-  const cleanSirens = [...new Set(sirens.map(value => String(value || "").replace(/\\D/g, "")).filter(value => /^\\d{9}$/.test(value)))];
-  const cleanSirets = [...new Set(sirets.map(value => String(value || "").replace(/\\D/g, "")).filter(value => /^\\d{14}$/.test(value)))];
+  const cleanSirens = [...new Set(sirens.map(value => String(value || "").replace(/\D/g, "")).filter(value => /^\d{9}$/.test(value)))];
+  const cleanSirets = [...new Set(sirets.map(value => String(value || "").replace(/\D/g, "")).filter(value => /^\d{14}$/.test(value)))];
   const requests = [];
   if (cleanSirens.length) {
     requests.push(supabase.from("businesses").select("id, legal_name, siren, siret")
