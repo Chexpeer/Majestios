@@ -1056,3 +1056,23 @@ La vérification statique du code ne remplace pas une recette navigateur avec de
 Ce lot est une harmonisation de navigation, pas une fusion technique des applications. Le CRM conserve ses modules, ses formulaires, ses données, son client Supabase et sa charte métier. L’administration conserve son poste de commandement chrome et gold. L’espace client reste séparé.
 
 Aucune table, donnée, politique RLS, fonction SQL/Edge, configuration Auth ou compte Supabase n’a été modifié. Aucun déploiement Vercel, merge vers `main` ou promotion en production n’a été lancé. L’immeuble interactif, ses images, son arborescence, ses étages, ses zones cliquables et ses liens restent strictement intacts.
+
+
+## 30. Évolution stratégique — sources étendues, ciblage issu des appels d'offres et Réputation virtuelle
+
+Le cadrage stratégique du 6 novembre 2026 élargit le rôle du CRM : BODACC et BOAMP restent des sources importantes, mais doivent être intégrées à un écosystème extensible de sources généralistes et sectorielles (référentiels d'entreprises, annonces économiques, commande publique, projets privés, données territoriales, emploi, immobilier professionnel, qualifications et présence numérique).
+
+Deux circuits métier complémentaires sont désormais explicitement demandés :
+
+1. **Appel d'offres → ciblage d'entreprises** : analyser les lots et compétences recherchées ; proposer une correspondance NAF/APE justifiée ; identifier les départements ; interroger les annuaires d'entreprises ; enrichir et qualifier les résultats ; préparer un dossier traçable et une campagne d'e-mails soumise à validation.
+2. **Création d'entreprise → Réputation virtuelle** : détecter une nouvelle entreprise ; vérifier prudemment sa présence numérique publique ; identifier un éventuel besoin ; contacter le dirigeant ; recueillir son intérêt et son accord ; puis, seulement après validation explicite, publier une demande dans Réputation virtuelle afin de trouver un professionnel adapté.
+
+Le CRM doit conserver un référentiel d'entreprise commun : une même entité peut être cible, client, donneur d'ordre, sous-traitant, fournisseur, partenaire ou bénéficiaire d'un service selon le contexte. Ces rôles doivent être contextualisés et datés, et non devenir une catégorie exclusive et définitive.
+
+**Limites structurantes :** le code NAF/APE est un indice d'activité, pas une preuve de compétence ; les effectifs et coordonnées doivent être sourcés et datés ; l'absence de résultat sur une carte ou un moteur ne prouve pas l'absence de présence numérique ; une donnée publique n'est pas automatiquement réutilisable pour toute finalité ; aucune campagne ni publication au nom d'un client ne doit partir sans les validations et contrôles requis.
+
+La méthode reste progressive : recherches ponctuelles, ciblées et mesurées au départ ; adaptation des critères selon les résultats ; automatisation ultérieure uniquement après évaluation. L'architecture doit s'appuyer sur le CRM Supabase existant, sans CRM parallèle ni modification du schéma, des RLS, des fonctions ou des données sans autorisation.
+
+Le document de consultation indépendant, qui détaille les flux, les garde-fous, les questions à poser aux autres IA et le format de leurs retours, est [Cadrage stratégique — CRM, sources, ciblage commercial et Réputation virtuelle](CADRAGE-STRATEGIQUE-CRM-SOURCES-CIBLAGE-REPUTATION-VIRTUELLE-2026-11-06.md).
+
+Ce cadrage ne modifie pas l'immeuble interactif, qui demeure strictement hors périmètre.
