@@ -22,7 +22,7 @@ async function requireWorkspace() {
     .from("organization_members")
     .select("organization_id, role")
     .eq("user_id", user.id)
-    .limit(20);
+    .limit(100);
   if (error) throw error;
   if (!memberships?.length) {
     throw new Error("Aucun espace entreprise n’est associé à ce compte. Finalisez d’abord votre inscription.");
@@ -49,10 +49,11 @@ async function requireWorkspace() {
 
 async function list(table) {
   if (!tables.includes(table)) throw new Error("Module CRM inconnu.");
-  await requireWorkspace();
+  const { membership } = await requireWorkspace();
   const { data, error } = await supabase
     .from(table)
     .select("*")
+    .eq("organization_id", membership.organization_id)
     .order("created_at", { ascending: false })
     .limit(100);
   if (error) throw error;
