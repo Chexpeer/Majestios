@@ -383,7 +383,7 @@ async function refresh(canEdit = false) {
     MajestiosCRM.listBusinesses(), MajestiosCRM.listContacts(),
     MajestiosCRM.listOpportunities(), MajestiosCRM.listActivities()
   ]);
-  businessRelatedData = { contacts, opportunities, activities };
+  businessRelatedData = { businesses, contacts, opportunities, activities };
   businessRecordsCanEdit = canEdit;
   document.querySelector("#crm-contact-count").textContent = contacts.length;
   document.querySelector("#crm-opportunity-count").textContent = opportunities.length;
@@ -477,7 +477,7 @@ async function loadWorkspacePage(table, resetPage = false, canEdit = workspacePa
     renderEditableList("#crm-opportunity-list", result.rows,
       row => row.title + " · " + row.status, "opportunity", canEdit);
   } else {
-    renderActivityTimeline(result.rows, businessRelatedDataRows.businesses,
+    renderActivityTimeline(result.rows, businessRelatedData.businesses,
       businessRelatedData.contacts, businessRelatedData.opportunities);
   }
 }
