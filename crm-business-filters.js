@@ -28,8 +28,8 @@ if (list && search && qualification && department && count) {
     });
 
     count.textContent = visible === items.length
-      ? (items.length ? `${items.length} entreprise(s) affichée(s).` : "Aucune entreprise enregistrée dans le CRM.")
-      : `${visible} entreprise(s) affichée(s) sur ${items.length}.`;
+      ? (items.length ? `${items.length} entreprise(s) visible(s) sur cette page.` : "Aucune entreprise sur cette page.")
+      : `${visible} entreprise(s) visible(s) sur ${items.length} sur cette page.`;
   }
 
   search.addEventListener("input", applyFilters);
