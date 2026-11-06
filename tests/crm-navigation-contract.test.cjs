@@ -72,3 +72,10 @@ assert.ok(workspaceNav.includes('label: "Vue générale"') && workspaceNav.inclu
 assert.ok(workspaceNav.includes('nav.setAttribute("aria-label", "Navigation des modules CRM")') && workspaceNav.includes('button.setAttribute("aria-current"'), "La navigation CRM doit exposer l’état du module actif aux technologies d’assistance.");
 assert.ok(workspaceNav.includes('event.key === "ArrowRight"') && workspaceNav.includes('event.key === "Home"') && workspaceNav.includes('event.key === "End"'), "La navigation CRM doit prendre en charge le clavier.");
 assert.ok(workspaceCss.includes(".crm-workspace-nav-button.is-active") && workspaceCss.includes("@media(max-width:600px)"), "La navigation CRM doit distinguer le module actif et rester utilisable sur mobile.");
+
+const businessFilterScript = fs.readFileSync(path.join(__dirname, "..", "crm-business-filters.js"), "utf8");
+assert.ok(html.includes('id="crm-business-search"') && html.includes('id="crm-business-qualification"') && html.includes('id="crm-business-department"'), "Le poste Entreprises doit proposer recherche, qualification et filtre département.");
+assert.ok(html.includes('src="crm-business-filters.js"'), "Le module de filtres entreprises doit être raccordé à la page CRM.");
+assert.ok(crmScript.includes("item.dataset.searchText") && crmScript.includes("item.dataset.qualificationStatus") && crmScript.includes("item.dataset.departmentCode"), "Les fiches entreprises doivent exposer les champs utiles au filtrage local.");
+assert.ok(businessFilterScript.includes("new MutationObserver(applyFilters)") && businessFilterScript.includes("item.hidden = !show"), "Les filtres doivent se réappliquer après actualisation de la liste sans recharger la page.");
+assert.ok(businessFilterScript.includes("qualification.addEventListener") && businessFilterScript.includes("department.addEventListener"), "Les filtres de qualification et de département doivent être interactifs.");
