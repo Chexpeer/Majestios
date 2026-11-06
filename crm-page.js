@@ -718,6 +718,34 @@ document.getElementById("crm-business-next")?.addEventListener("click", async ()
   catch (error) { setStatus(error.message || "Chargement de la page impossible.", true); }
 });
 
+for (const table of ["contacts", "opportunities", "activities"]) {
+  const prefix = table === "opportunities" ? "opportunity" : table === "activities" ? "activity" : "contact";
+  const form = document.getElementById("crm-" + prefix + "-server-search");
+  form?.addEventListener("submit", async event => {
+    event.preventDefault();
+    const submit = form.querySelector('[type="submit"]');
+    submit.disabled = true;
+    try { await loadWorkspacePage(table, true); }
+    catch (error) { setStatus(error.message || "Recherche CRM impossible.", true); }
+    finally { submit.disabled = false; }
+  });
+  document.getElementById("crm-" + prefix + "-previous")?.addEventListener("click", async () => {
+    const state = workspacePages[table];
+    if (state.page <= 0) return;
+    state.page -= 1;
+    try { await loadWorkspacePage(table); }
+    catch (error) { setStatus(error.message || "Chargement de la page impossible.", true); }
+  });
+  document.getElementById("crm-" + prefix + "-next")?.addEventListener("click", async () => {
+    const state = workspacePages[table];
+    if (state.page >= state.pageCount - 1) return;
+    state.page += 1;
+    try { await loadWorkspacePage(table); }
+    catch (error) { setStatus(error.message || "Chargement de la page impossible.", true); }
+  });
+}
+
+
 try {
   const { membership, organization } = await MajestiosCRM.requireWorkspace();
   const canAdminister = ["owner", "admin"].includes(membership.role);
