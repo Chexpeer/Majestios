@@ -136,7 +136,7 @@ function render(items,kind){
 form.addEventListener("submit",async event=>{
  event.preventDefault();if(workspace.hidden)return;
  const kind=source.value,terms=departments(),kw=keyword.value.trim();if(!terms.length&&!kw&& !territoryInputs.some(x=>x.value==="all"&&x.checked)){setStatus("Sélectionnez au moins un territoire ou saisissez un mot-clé.",true);return;}
- if(terms.length>0&&!terms.every(x=>/^\\d{2,3}$|^[0-9][A-Z]$/.test(x))){setStatus("Code département invalide. Utilisez un code à 2 ou 3 caractères, par exemple 72 ou 2A.",true);return;}
+ if(terms.length>0&&!terms.every(x=>/^\d{2,3}$|^[0-9][A-Z]$/.test(x))){setStatus("Code département invalide. Utilisez un code à 2 ou 3 caractères, par exemple 72 ou 2A.",true);return;}
  submit.disabled=true;submit.textContent="Recherche en cours…";results.innerHTML="";count.textContent="INTERROGATION DE LA SOURCE";setStatus("Connexion à la source officielle "+(kind==="bodacc"?"BODACC":"BOAMP")+"…");
  try{
   const base=kind==="bodacc"?"https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records":"https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records";
