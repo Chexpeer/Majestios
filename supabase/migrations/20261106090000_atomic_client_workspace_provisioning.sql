@@ -122,3 +122,5 @@ grant execute on function public.provision_client_workspace(uuid, text, text, te
 
 comment on function public.provision_client_workspace(uuid, text, text, text, text, text) is
 'Atomic, idempotent client workspace provisioning. Service-role only; serializes concurrent requests per Auth user and records the current privacy acknowledgment.';
+
+notify pgrst, 'reload schema';
