@@ -8,6 +8,22 @@ const accountEmail = document.querySelector("#crm-account-email");
 const organizationName = document.querySelector("#crm-organization-name");
 const accountRole = document.querySelector("#crm-account-role");
 const adminPanel = document.querySelector("#crm-admin-panel");
+function clearCRMWorkspaceData() {
+  document.querySelectorAll(
+    "#crm-business-list, #crm-contact-list, #crm-opportunity-list, #crm-activity-list, " +
+    "#crm-persistent-reminders, #crm-followup-overdue, #crm-followup-today, " +
+    "#crm-followup-upcoming, #crm-followup-unplanned, #crm-admin-member-list"
+  ).forEach(list => list.replaceChildren());
+  document.querySelectorAll(
+    "#crm-business-count, #crm-contact-count, #crm-opportunity-count, #crm-activity-count, " +
+    "#crm-persistent-reminders-count, #crm-followup-overdue-count, #crm-followup-today-count, " +
+    "#crm-followup-upcoming-count, #crm-followup-unplanned-count, #crm-admin-business-count, " +
+    "#crm-admin-contact-count, #crm-admin-opportunity-count, #crm-admin-activity-count, #crm-admin-reminder-count"
+  ).forEach(counter => { counter.textContent = "—"; });
+  const memberStatus = document.getElementById("crm-admin-member-status");
+  if (memberStatus) memberStatus.textContent = "";
+}
+
 function updateSessionIndicator(session) {
   if (!sessionIndicator || !sessionLabel) return;
   sessionIndicator.classList.remove("is-checking", "is-connected", "is-disconnected");
@@ -24,6 +40,7 @@ function updateSessionIndicator(session) {
     if (organizationName) organizationName.textContent = "Organisation : aucune session";
     if (accountRole) accountRole.textContent = "Rôle : indisponible";
     if (adminPanel) adminPanel.hidden = true;
+    clearCRMWorkspaceData();
   }
 }
 
@@ -539,8 +556,7 @@ MajestiosCRM.auth.onAuthStateChange((event, session) => {
       setStatus("Session terminée. Le CRM est verrouillé jusqu’à votre prochaine connexion.", true);
       document.querySelectorAll("#crm-business-form, #crm-contact-form, #crm-opportunity-form, #crm-activity-form")
         .forEach(form => form.querySelectorAll("input, textarea, select, button").forEach(control => control.disabled = true));
-      document.querySelectorAll("#crm-business-list, #crm-contact-list, #crm-opportunity-list, #crm-activity-list, #crm-persistent-reminders, #crm-followup-overdue, #crm-followup-today, #crm-followup-upcoming, #crm-followup-unplanned")
-        .forEach(list => list.replaceChildren());
+      clearCRMWorkspaceData();
     } else if (event === "TOKEN_REFRESHED" && session) {
       setStatus("Session CRM active · connexion sécurisée renouvelée.");
     }
