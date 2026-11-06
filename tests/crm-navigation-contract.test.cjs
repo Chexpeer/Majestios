@@ -83,6 +83,8 @@ assert.ok(crmScript.includes("MajestiosCRM.listBusinessesPage") && crmScript.inc
 
 assert.ok(crmClient.includes("async function listWorkspaceRecordsPage") && crmClient.includes('contacts: ["first_name", "last_name", "job_title", "email", "phone"]') && crmClient.includes('opportunities: ["title", "description", "source_external_id", "source_type"]') && crmClient.includes('activities: ["subject", "body", "activity_type"]'), "Les trois autres rubriques doivent disposer d’une recherche serveur adaptée à leurs champs réels.");
 assert.ok(crmClient.includes("Object.prototype.hasOwnProperty.call(searchableColumns, table)") && crmClient.includes('.eq("organization_id", membership.organization_id)') && crmClient.includes(".range(from, to)"), "La pagination relationnelle doit utiliser une liste blanche de tables, le tenant authentifié et des plages serveur.");
+assert.ok(crmClient.includes('.select("*", { count: "exact" })') && crmClient.includes('.order("occurred_at", { ascending: false })') && crmClient.includes('.order("updated_at", { ascending: false })'), "Les trois espaces doivent fournir un compte exact et un ordre stable adapté à leur chronologie.");
+assert.ok(!crmScript.includes("renderActivityTimeline(activities, businesses, contacts, opportunities);"), "Le rafraîchissement CRM ne doit pas écraser la page d’historique demandée par l’utilisateur.");
 for (const id of ["crm-contact-server-search", "crm-opportunity-server-search", "crm-activity-server-search", "crm-contact-previous", "crm-opportunity-previous", "crm-activity-previous", "crm-contact-next", "crm-opportunity-next", "crm-activity-next"]) {
   assert.ok(html.includes('id="' + id + '"'), "Contrôle de recherche/pagination manquant : " + id);
 }
