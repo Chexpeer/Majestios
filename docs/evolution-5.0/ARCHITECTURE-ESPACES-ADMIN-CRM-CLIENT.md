@@ -819,3 +819,45 @@ Ne pas élargir les droits Administration aux viewers et ne pas rediriger ces ut
 Audit en lecture seule des fichiers administration.html/js, admin-recherches.html/js, crm.html, crm-page.js, crm-client.js, espace-membre.html et auth-espace-membre.js. Aucun code applicatif, droit, rôle, schéma, donnée, politique RLS ou fonction Supabase n'a été modifié. Aucun changement de l'immeuble interactif, de ses visuels, étages, libellés, dossiers, zones cliquables ou liens n'a été effectué. Aucun déploiement, merge ou promotion en production n'a été lancé.
 
 La comparaison de branche confirme evolution-5.0-admin-cockpit à 83 commits devant main, sans retard. Pour le commit documentaire précédent 2da3fbb4ddc7978e260d170594dcdd0aff5e50f7, l'outil de consultation des exécutions associées au commit n'a retourné aucun workflow (il ne remonte que les exécutions déclenchées par pull request). Ce résultat ne prouve ni succès ni échec de la CI ; le statut CI reste donc non confirmé.
+
+
+## 25. Proposition de point d'entrée interne pour les collaborateurs — 6 novembre 2026
+
+L'audit confirme qu'aucune page d'accueil interne commune aux collaborateurs n'est actuellement reliée aux parcours observés. L'espace membre public/client ne doit pas être détourné pour remplir cette fonction. La proposition est donc de créer, dans un lot ultérieur et après validation du contrat d'accès, une page dédiée nommée provisoirement `espace-interne.html`.
+
+### Rôle de cette page
+
+Cette page serait un sas d'orientation et non un quatrième outil métier : elle identifie l'espace interne, affiche les modules accessibles à la personne connectée et indique clairement les destinations interdites ou non attribuées. Elle ne remplace ni le CRM Supabase existant, ni le poste de commandement, ni l'espace client.
+
+### Matrice de navigation proposée — sans changement des rôles
+
+| Rôle interne | Point d'accueil interne | CRM interne | Administration générale | Recherches ciblées |
+|---|---|---|---|---|
+| owner | Oui | Selon les contrôles CRM existants | Oui | Oui |
+| admin | Oui | Selon les contrôles CRM existants | Oui | Oui |
+| member | Oui | Selon les contrôles CRM existants et RLS | Non | Non |
+| viewer | Oui | Consultation seule si les politiques de données l'autorisent | Non | Non |
+
+Cette matrice décrit uniquement une orientation d'interface. Elle ne constitue pas une attribution de droits. Les politiques RLS et les contrôles serveur restent seuls déterminants pour les données et opérations. Le rôle `viewer` ne doit jamais obtenir des fonctions d'écriture par le seul fait de voir une carte ou un lien.
+
+### Principes d'expérience
+
+- Une seule identité visuelle et un seul fil d'Ariane cohérent pour le parcours interne ; pas de flèches de retour concurrentes.
+- Un titre de contexte explicite : espace interne MajestiOS, identité de l'organisation et rôle détecté.
+- Une carte CRM pour les rôles internes admis par le contrôle CRM ; une mention claire « consultation seule » pour viewer.
+- Les cartes Administration générale et Recherches ciblées ne sont présentées qu'aux rôles owner/admin ; les pages cibles conservent leurs propres contrôles indépendants.
+- Une destination de retour stable depuis le CRM vers cet accueil interne, au lieu d'un lien inconditionnel vers l'administration. La modification du fil d'Ariane CRM sera réalisée dans le même lot que la page d'accueil, après tests des parcours.
+- Une déconnexion unique, visible et cohérente ; aucun renvoi vers l'espace client comme substitut d'un accueil collaborateur.
+- En l'absence de session ou d'appartenance interne, l'écran explique la situation et propose une authentification ou un contact approprié ; il ne révèle aucune donnée interne.
+
+### Prérequis avant développement
+
+1. Vérifier en lecture seule l'état réel du provisionnement du premier compte interne et des membres internes. Les documents d'état du dépôt ne sont pas tous synchronisés sur ce point : certains indiquent qu'aucun membre interne n'était provisionné, tandis qu'une section d'audit ultérieure mentionne une appartenance owner observée. Ne pas déduire l'état actuel de la base à partir d'une note historique.
+2. Définir le parcours d'authentification interne : le formulaire espace membre actuel provisionne des espaces clients. Il ne doit pas être utilisé pour créer automatiquement une organisation interne ou attribuer un rôle interne.
+3. Vérifier les politiques RLS et les fonctions serveur qui autorisent les lectures CRM pour chaque rôle, notamment viewer, sans modifier ces politiques dans le lot de navigation.
+4. Ajouter des tests couvrant chaque rôle, l'absence de session, l'appartenance client seule et l'absence d'appartenance. Les tests doivent démontrer que masquer une carte ne remplace jamais le contrôle d'accès sur la page cible.
+5. Seulement après ces vérifications, construire la page et modifier le retour CRM en un lot cohérent, puis exécuter les tests et faire une recette authentifiée.
+
+### Décision et périmètre du présent lot
+
+La page `espace-interne.html` est retenue comme proposition d'architecture, pas encore comme implémentation. Le présent lot ajoute cette spécification documentaire uniquement. Aucun fichier applicatif, schéma, rôle, compte, donnée, politique RLS, fonction Edge, configuration Supabase, déploiement ou environnement de production n'a été modifié. L'immeuble interactif reste strictement intact.
