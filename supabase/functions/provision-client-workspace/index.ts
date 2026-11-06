@@ -7,9 +7,15 @@ const allowedOrigins = [
   ...((Deno.env.get("ALLOWED_ORIGINS") ?? "").split(",").map((origin) => origin.trim()).filter(Boolean))
 ];
 
+function isAllowedOrigin(origin: string | null): boolean {
+  if (!origin) return true;
+  return allowedOrigins.includes(origin) ||
+    /^https:\/\/majestios-jc8g-[a-z0-9-]+-majistr\.vercel\.app$/.test(origin);
+}
+
 function corsHeaders(origin: string | null): HeadersInit {
   return {
-    ...(origin && allowedOrigins.includes(origin)
+    ...(origin && isAllowedOrigin(origin)
       ? { "Access-Control-Allow-Origin": origin, "Vary": "Origin" } : {}),
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -28,7 +34,7 @@ function slugify(value: string): string {
 }
 Deno.serve(async (request: Request) => {
   const origin = request.headers.get("Origin");
-  if (origin && !allowedOrigins.includes(origin)) {
+  if (origin && !isAllowedOrigin(origin)) {
     return new Response(JSON.stringify({ error: "Origine non autorisée." }), {
       status: 403, headers: { "Content-Type": "application/json; charset=utf-8" }
     });
