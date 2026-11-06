@@ -124,3 +124,7 @@ assert.ok(crmScript.includes('relationSelectors') && crmScript.includes('setupRe
 assert.ok(workspaceCss.includes('.crm-relation-search') && workspaceCss.includes('.crm-relation-pagination'), 'Les contrôles relationnels distants doivent disposer d’un style dédié.');
 
 assert.ok(crmScript.includes('select.closest(".form-field")'), 'Le champ de recherche doit être placé hors du label du sélecteur pour éviter des contrôles imbriqués.');
+
+assert.ok(crmClient.includes('businessId = ""') && crmClient.includes('query.eq("business_id", safeBusinessId)'), 'La pagination relationnelle doit permettre un filtre entreprise côté serveur.');
+assert.ok(crmScript.includes('dependencySelector') && crmScript.includes('dependency?.value') && crmScript.includes('dependency.addEventListener("change"'), 'Les contacts et opportunités associés doivent suivre l’entreprise choisie et se recharger à chaque changement.');
+assert.ok(crmScript.includes('"#crm-opportunity-form [name=business_id]"') && crmScript.includes('"#crm-activity-form [name=business_id]"'), 'Les formulaires Opportunité et Activité doivent filtrer leurs relations selon leur entreprise.');
