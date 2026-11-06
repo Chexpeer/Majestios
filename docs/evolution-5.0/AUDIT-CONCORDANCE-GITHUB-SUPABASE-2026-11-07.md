@@ -251,6 +251,6 @@ La situation est maintenant mieux circonscrite :
 6. la migration de grants est absente de la branche `evolution-5.0-admin-cockpit`, alors que ses privilèges sont observés dans le backend ;
 7. certains commentaires GitHub « non appliquée » sont contredits par l'historique et les objets live.
 
-**Décision : la réconciliation n'est pas clôturée.** Il faut retrouver la source exacte de la fonction de matérialisation live et la provenance des grants, puis comparer les sept définitions SQL historiques si elles peuvent être récupérées. En attendant : aucune migration, aucun changement de privilège, aucun déploiement Edge, aucune fusion de branches, aucune réinitialisation.
+**Décision : la réconciliation n'est pas clôturée.** La logique live de matérialisation est retrouvée dans la migration de cycle de vie. Il reste à tracer la provenance du grant d'UPDATE, à expliquer les horodatages divergents et à déterminer comment préserver une source de vérité unique sans fusionner aveuglément les deux lignées. L'historique Supabase ne donnant pas le texte SQL historique, une comparaison byte-à-byte reste impossible avec les seules données accessibles. En attendant : aucune migration, aucun changement de privilège, aucun déploiement Edge, aucune fusion de branches, aucune réinitialisation.
 
 **Périmètre inchangé :** contrôle en lecture seule de Supabase et documentation GitHub uniquement. Aucun objet CRM, aucune donnée, aucune politique, aucune fonction, aucun job et aucun élément de l'immeuble interactif n'ont été modifiés.
