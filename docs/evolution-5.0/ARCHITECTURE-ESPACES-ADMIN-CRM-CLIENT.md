@@ -965,3 +965,56 @@ Pendant ce contrôle, une erreur préexistante a été détectée dans `verify-s
 L'implémentation du parcours et les contrats statiques sont ajoutés, mais une recette navigateur authentifiée pour chacun des quatre rôles reste à effectuer. En particulier, il faut tester owner, admin, member et viewer avec des comptes de test réellement attribués, puis vérifier les redirections et les cas de compte client seul / absence d'appartenance. Le compte owner actuel n'a pas été utilisé ni modifié pour cette recette.
 
 Aucune politique RLS, fonction SQL/Edge, table, donnée, compte ou rôle Supabase n'a été modifié. Aucun provisionnement ni invitation de collaborateur n'a été créé. Aucun déploiement Vercel, merge vers `main` ou promotion en production n'a été lancé. L'immeuble interactif, ses visuels, ses étages, ses libellés, ses zones cliquables et ses liens restent strictement intacts. La CI du commit final doit être consultée séparément ; la présence des tests dans les workflows ne constitue pas à elle seule une preuve de réussite.
+
+
+## 28. Contrôle de consolidation CRM / administration — 6 novembre 2026, 21:14 UTC
+
+Un nouveau contrôle en lecture seule a été effectué directement sur le projet Supabase `awtgrjnpckgxsdpfrnhg`, après validation des deux workflows CI du commit `ccf1ae5edda7c5dc1445132846b58342397cf627`.
+
+### 28.1 Socle CRM confirmé
+
+Les tables `organizations`, `organization_members`, `businesses`, `contacts`, `opportunities`, `activities` et `crm_reminders` sont présentes et RLS est activé sur chacune. Les tables CRM principales conservent leur rattachement `organization_id`. Les colonnes observées couvrent déjà notamment :
+
+- identité et qualification des entreprises : SIREN, SIRET, APE/NAF, coordonnées, source et qualification ;
+- contacts et statut de consentement ;
+- opportunités : origine, identifiant externe, URL source, date de publication, département, statut, score, synthèse et affectation ;
+- activités : auteur, liens vers les fiches, type, contenu et métadonnées ;
+- relances : échéance, état, date de lecture et annulation.
+
+Les quatre tables métier principales sont actuellement vides dans l'organisation interne observée ; cela ne signifie pas que le CRM est absent, mais que le référentiel interne n'a pas encore été alimenté avec des fiches métier.
+
+### 28.2 Matrice RLS vérifiée dans PostgreSQL
+
+Les politiques actuellement déployées confirment la matrice suivante :
+
+| Opération | owner | admin | member | viewer |
+|---|---:|---:|---:|---:|
+| Lire entreprises, contacts, opportunités, activités | Oui | Oui | Oui | Oui |
+| Créer et modifier les fiches CRM | Oui | Oui | Oui | Non |
+| Ajouter une activité | Oui | Oui | Oui | Non |
+| Supprimer entreprises, contacts, opportunités | Oui | Oui | Non | Non |
+| Lire les relances de son organisation | Oui | Oui | Oui | Oui |
+| Traiter une relance | Oui | Oui | Oui | Non |
+| Ouvrir Administration et Recherches dans l'interface | Oui | Oui | Non | Non |
+
+Cette matrice est issue des fonctions `private.is_org_member`, `private.is_org_editor`, `private.is_org_admin`, des politiques `pg_policies` et des contrôles applicatifs. Les permissions de chaque future table ou fonction devront être auditées séparément ; cette matrice ne leur est pas automatiquement applicable.
+
+### 28.3 Fonction de traitement des relances : avertissement à instruire
+
+L'advisor de sécurité Supabase signale toujours `public.complete_crm_reminder(uuid)` comme fonction `SECURITY DEFINER` exécutable par `authenticated`.
+
+La définition actuellement déployée vérifie `auth.uid()`, verrouille la relance, vérifie `private.is_org_editor(organization_id)`, refuse une relance déjà traitée et réalise dans la même fonction la mise à jour de la relance et l'ajout de l'activité correspondante. Le contrôle d'autorisation métier est donc présent dans le corps de la fonction. L'avertissement de l'advisor reste néanmoins réel : l'exposition de cette RPC dans le schéma API public doit faire l'objet d'une revue dédiée des privilèges EXECUTE, du schéma d'exposition et des tests de non-contournement avant toute évolution des habilitations. **Aucune révocation, modification de fonction ou migration n'est effectuée dans ce lot.**
+
+L'advisor signale également que la protection Auth contre les mots de passe compromis est désactivée. Ce paramètre doit être examiné dans un lot de durcissement Auth distinct.
+
+### 28.4 État fonctionnel et prochaine consolidation
+
+- L'administration générale fournit le poste de pilotage et les accès vers le CRM et les recherches ciblées.
+- Le CRM existant conserve ses données, son client Supabase, ses formulaires, ses fiches, son historique et ses relances ; aucune seconde base CRM n'est créée.
+- La page CRM conserve encore une présentation métier distincte et un fil de retour vers l'accueil interne. La navigation partagée avec le cockpit d'administration n'est pas encore une coque unifiée : ce point reste un chantier UX à traiter sans effacer l'identité fonctionnelle du CRM.
+- Les recherches BODACC/BOAMP sont manuelles et ponctuelles. Aucun pipeline persistant de collecte, aucune campagne enregistrée, aucun import automatique dans le CRM et aucun mécanisme de diffusion de fichiers n'a été constaté dans ce contrôle.
+- Les tables métier principales étant vides dans l'organisation interne observée, le prochain contrôle fonctionnel devra porter sur les parcours réels de création, modification, qualification, historique et relance avec un compte autorisé. Aucun jeu de données de test n'a été injecté.
+
+### 28.5 Limites et périmètre
+
+Contrôle effectué en lecture seule : inventaire des tables et colonnes, lecture de `pg_policies`, lecture des définitions des fonctions de contrôle et de la RPC, lecture des avis de sécurité Supabase. Aucun compte, rôle, enregistrement, table, politique, fonction, paramètre Auth ou configuration n'a été modifié. Aucun déploiement Vercel, merge ou promotion n'a été lancé. L'immeuble interactif et tous ses composants restent strictement intacts.
