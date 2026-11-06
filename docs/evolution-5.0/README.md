@@ -54,6 +54,8 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 
 25. [Prompt de revue indépendante par IA — CRM](PROMPT-REVUE-INDEPENDANTE-IA-CRM-2026-11-06.md) — consigne prête à transmettre à plusieurs IA pour obtenir des audits critiques comparables.
 
+26. [Lot CRM — poste de travail Entreprises](LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md) — recherche locale, filtres de qualification et de département, limites et étapes suivantes.
+
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
 ## Règles de lecture
