@@ -781,3 +781,12 @@ L'en-tête a été converti en navigation de fil d'Ariane avec le libellé acces
 Le contrat `tests/crm-navigation-contract.test.cjs` et `verify-site.js` contrôlent cette structure afin d'éviter une régression.
 
 **Portée :** sémantique HTML et contrôles CI uniquement. Aucun changement aux données ou droits Supabase, à la logique métier du CRM, à l'espace membre, à la production ou à l'immeuble interactif.
+
+
+## 23. État actif accessible dans la navigation des recherches — 6 novembre 2026
+
+La comparaison des repères de navigation a révélé que la page « Recherches ciblées » affichait visuellement son entrée active dans le menu latéral, sans exposer cet état aux technologies d'assistance.
+
+L'entrée porte désormais `aria-current="page"`. Le contrôle correspondant est ajouté à `verify-site.js`, afin que l'état actif visuel et l'état sémantique restent cohérents.
+
+**Portée :** attribut HTML et contrôle statique uniquement. Aucun changement aux recherches BODACC/BOAMP, au CRM, à Supabase, aux habilitations, à la production ou à l'immeuble interactif.
