@@ -7,6 +7,11 @@ const adminHtml = fs.readFileSync(path.join(__dirname, "..", "administration.htm
 const memberHtml = fs.readFileSync(path.join(__dirname, "..", "espace-membre.html"), "utf8");
 const returnLinkCount = html.split('href="administration.html"').length - 1;
 
+assert.ok(
+  html.includes('<meta name="robots" content="noindex,nofollow">'),
+  "Le CRM interne doit être exclu de l’indexation des moteurs de recherche."
+);
+
 assert.equal(returnLinkCount, 1, "Le CRM doit proposer un seul retour vers l’administration générale.");
 assert.ok(
   html.includes('<header class="admin-crm-header">') &&
