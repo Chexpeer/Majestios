@@ -80,6 +80,43 @@ async function listBusinessesPage({ page = 0, pageSize = 25, search = "", qualif
   };
 }
 
+async function listWorkspaceRecordsPage({ table, page = 0, pageSize = 25, search = "" } = {}) {
+  const searchableColumns = {
+    contacts: ["first_name", "last_name", "job_title", "email", "phone"],
+    opportunities: ["title", "description", "source_external_id", "source_type"],
+    activities: ["subject", "body", "activity_type"]
+  };
+  if (!Object.prototype.hasOwnProperty.call(searchableColumns, table)) {
+    throw new Error("Rubrique CRM non autorisée pour la pagination.");
+  }
+  const { membership } = await requireWorkspace();
+  const safePage = Math.max(0, Math.floor(Number(page) || 0));
+  const safePageSize = Math.min(100, Math.max(1, Math.floor(Number(pageSize) || 25)));
+  const from = safePage * safePageSize;
+  const to = from + safePageSize - 1;
+  let query = supabase.from(table).select("*", { count: "exact" })
+    .eq("organization_id", membership.organization_id);
+  if (table === "activities") {
+    query = query.order("occurred_at", { ascending: false }).order("id", { ascending: true });
+  } else if (table === "opportunities") {
+    query = query.order("updated_at", { ascending: false }).order("id", { ascending: true });
+  } else {
+    query = query.order("created_at", { ascending: false }).order("id", { ascending: true });
+  }
+  const safeSearch = String(search || "").trim()
+    .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\\s.'’-]/g, " ")
+    .replace(/\\s+/g, " ")
+    .slice(0, 120);
+  if (safeSearch) {
+    query = query.or(searchableColumns[table]
+      .map(column => column + '.ilike."%' + safeSearch + '%"').join(","));
+  }
+  const { data, count, error } = await query.range(from, to);
+  if (error) throw error;
+  const total = Number(count || 0);
+  return { rows: data || [], total, page: safePage, pageSize: safePageSize, pageCount: Math.ceil(total / safePageSize) };
+}
+
 async function findBusinessesByIdentifiers({ sirens = [], sirets = [] } = {}) {
   const { membership } = await requireWorkspace();
   const cleanSirens = [...new Set(sirens.map(value => String(value || "").replace(/\D/g, "")).filter(value => /^\d{9}$/.test(value)))];
@@ -205,6 +242,7 @@ export const MajestiosCRM = Object.freeze({
   requireWorkspace,
   listBusinesses: () => list("businesses"),
   listBusinessesPage,
+  listWorkspaceRecordsPage,
   findBusinessesByIdentifiers,
   listContacts: () => list("contacts"),
   listOpportunities: () => list("opportunities"),
