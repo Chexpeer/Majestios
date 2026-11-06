@@ -129,3 +129,11 @@ assert.ok(page.includes("renderSelect(\"#crm-contact-form [name=business_id]\"")
 assert.ok(page.includes("renderSelect(\"#crm-opportunity-form [name=primary_contact_id]\""));
 assert.ok(page.includes("renderSelect(\"#crm-activity-form [name=opportunity_id]\""));
 console.log("CRM security contract: OK — schéma, privilèges, rôles, isolation tenant, confidentialité, bootstrap, provisionnement et rattachements CRM.");
+
+assert.match(client, /order\(table === "activities" \? "occurred_at"/);
+assert.match(client, /changedFields/);
+assert.match(client, /previous_status:/);
+assert.match(client, /new_status:/);
+assert.match(client, /activity_type: activityType/);
+assert.match(page, /ajoutée à l’historique/);
+assert.match(page, /Intl\.DateTimeFormat\("fr-FR"/);
