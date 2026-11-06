@@ -234,3 +234,73 @@ C'est ici que le registre des annonces, des besoins, des entreprises et des comp
 Un appel d'offres ne doit plus être perçu comme un document opaque réservé aux entreprises déjà équipées d'un service commercial ou d'un bureau d'études. MajestiOS doit contribuer à réduire cette barrière de compréhension et à donner aux petites structures les moyens de voir où elles peuvent légitimement prendre leur place.
 
 **La vulgarisation des appels d'offres est donc un axe produit à part entière, au même niveau stratégique que la détection des opportunités, le registre commercial et la mise en relation.** Elle doit guider les parcours, les contenus, les outils d'analyse et l'accompagnement, et non rester une simple rubrique d'aide.
+
+
+## 12. Fonction IA centrale — traduire un appel d'offres en langage de chantier
+
+L'IA intégrée ne doit pas s'arrêter à un résumé administratif. Elle doit traduire l'appel d'offres et ses pièces en langage de chantier : expliquer concrètement les travaux, les corps d'état concernés, les compétences, les lots, les contraintes, le calendrier et les conditions de candidature. Chaque explication doit rester reliée au passage source. Les faits du dossier, les reformulations pédagogiques, les hypothèses et les points à confirmer doivent être clairement distingués.
+
+À partir de cette lecture, l'IA transforme le besoin en critères de recherche compréhensibles : métiers et compétences réellement nécessaires ; qualifications et certifications exigées ou pertinentes ; zone géographique et capacité d'intervention ; moyens humains et matériels adaptés ; références et assurances demandées ; capacités économiques et financières explicitement requises.
+
+Les codes APE/NAF servent d'indices de recherche, jamais de preuve suffisante de compétence. Une qualification RGE n'est recherchée que pour les travaux et domaines où elle est pertinente ou explicitement demandée ; son domaine et sa validité doivent être vérifiés.
+
+### Exemple de scénario de référence
+
+> « Recherche entreprises de rénovation certifiées RGE, comptabilité saine, pour petits travaux sur la maison d'enfants de Boucé dans l'Orne. Vérifier votre éligibilité et construire votre dossier en créant votre espace personnel. »
+
+L'IA analyse le contenu réel du marché pour déterminer les corps d'état et les exigences. Elle ne présume pas que tous les travaux nécessitent le RGE ni n'interprète « comptabilité saine » comme un jugement opaque. Les informations financières doivent être disponibles légalement, datées, sourcées et qualifiées : comptes publiés, évolution d'indicateurs, procédures collectives connues, données manquantes ou documents transmis volontairement. L'absence de comptes publiés ne prouve pas une mauvaise santé financière. Aucun résultat ne constitue un audit ou une garantie de solvabilité.
+
+### Pré-diagnostic d'adéquation
+
+Après création de son espace personnel, l'entreprise peut compléter son profil et transmettre les justificatifs nécessaires. L'IA compare les éléments disponibles aux exigences du marché, lot par lot, et présente :
+- **semble correspondre** : éléments connus compatibles, sous réserve des vérifications finales ;
+- **à compléter / à vérifier** : pièce absente, donnée incertaine ou information à confirmer ;
+- **ne semble pas correspondre** : exigence explicite non satisfaite au vu des éléments connus.
+
+Chaque état est justifié par l'exigence du marché et les informations du profil utilisées. Ce pré-diagnostic ne constitue pas une décision juridique d'admissibilité, laquelle relève de l'acheteur.
+
+### Parcours de conversion et d'accompagnement
+
+Appel à l'action cible :
+
+**« Vérifiez votre éligibilité et construisez votre dossier — Créez votre espace personnel. »**
+
+L'espace personnel permet de vérifier ou compléter la fiche entreprise, sélectionner les lots, renseigner les compétences, déposer les justificatifs, identifier les pièces manquantes, préparer une checklist et structurer les éléments de candidature et d'offre. L'entreprise conserve le contrôle de ses documents et valide explicitement toute transmission à un acheteur, partenaire ou tiers. La création d'un espace ne vaut ni candidature ni dépôt automatique.
+
+## 13. L'espace personnel : une porte d'entrée qui construit le réseau MajestiOS
+
+**La création d'un espace personnel constitue déjà une valeur stratégique pour MajestiOS, même si l'entreprise ne répond finalement pas à l'appel d'offres présenté.** Il ne faut donc pas mesurer le succès du parcours uniquement au nombre de candidatures déposées ou de marchés remportés.
+
+Lorsqu'une entreprise crée son espace pour vérifier son adéquation à un chantier, MajestiOS commence à construire son réseau professionnel : il accueille un nouvel acteur, apprend à connaître son activité et ses compétences, et peut, avec les autorisations appropriées, enrichir progressivement le graphe relationnel de la plateforme.
+
+Cette inscription doit être pensée comme une première relation utile, et non comme une simple collecte de coordonnées.
+
+### Valeur créée dès l'inscription
+
+- L'entreprise crée ou revendique sa fiche et vérifie son identité.
+- Elle renseigne ses métiers, compétences, qualifications, territoires et capacités.
+- Elle peut compléter son profil progressivement, sans être obligée de fournir immédiatement tous ses documents sensibles.
+- Elle peut conserver son profil même si elle ne candidate pas à ce marché précis.
+- Elle peut recevoir, selon ses choix et préférences explicites, des opportunités pertinentes à l'avenir.
+- Elle peut publier ou consulter des offres, besoins, disponibilités et propositions de coopération selon les règles de visibilité de MajestiOS.
+- Elle peut être mise en relation avec des entreprises complémentaires lorsqu'une opportunité concrète le justifie et qu'elle accepte cette mise en relation.
+
+### Construire un réseau qualifié, pas une base de contacts artificielle
+
+Le réseau MajestiOS doit se construire à partir de profils réels, de compétences renseignées, de qualifications vérifiables, de territoires d'intervention et de relations consenties. Il faut distinguer le compte utilisateur, l'entreprise représentée, les compétences et qualifications renseignées ou contrôlées, les documents privés déposés, les préférences de visibilité et les consentements.
+
+L'inscription ne vaut pas consentement général à la prospection, à la publication de données ou au partage de documents. Les paramètres de visibilité, les finalités de traitement, les préférences de contact, les droits d'accès et les possibilités de retrait doivent être explicites.
+
+### Indicateurs de valeur à suivre
+
+Le pilotage MajestiOS devra mesurer notamment :
+- les espaces personnels créés à partir d'un parcours d'appel d'offres ;
+- les entreprises dont le profil est complété et vérifié ;
+- les compétences et qualifications renseignées ;
+- les entreprises qui reviennent consulter d'autres opportunités ;
+- les mises en relation acceptées ;
+- les coopérations ou candidatures effectivement engagées.
+
+**Principe produit : un appel d'offres peut ne pas déboucher sur une candidature, mais il peut faire entrer une entreprise pertinente dans le réseau MajestiOS.** Chaque parcours doit donc offrir une raison concrète de créer son espace personnel, puis une valeur durable pour y rester actif.
+
+La croissance du réseau doit rester un résultat de service rendu et de confiance gagnée, jamais une justification pour collecter des données sans finalité claire.
