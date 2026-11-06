@@ -368,7 +368,7 @@ async function main() {
     for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
       assert.ok(privateCategoryOptions.some(option => option.value === expected), `La catégorie privée ${expected} doit être proposée.`);
     }
-    assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 5, "Les rubriques BODACC doivent être regroupées ensemble.");
+    assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 4, "Les trois familles BODACC validées et la recherche Autre doivent être regroupées ensemble.");
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
     assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, "L’accueil doit proposer un département français filtrable.");
     assert.equal(await page.locator('#feed-department option[value="72"]').count(), 1, "Le département 72 · Sarthe doit être proposé avec son code officiel.");
