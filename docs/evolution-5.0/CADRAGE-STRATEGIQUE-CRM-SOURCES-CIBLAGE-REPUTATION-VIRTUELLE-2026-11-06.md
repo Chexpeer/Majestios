@@ -388,3 +388,16 @@ L'ascenseur ne remplace pas les espaces ni leur organisation : il assure la circ
 Le prototype de préqualification permet maintenant de fournir un intitulé et un descriptif libre du marché ou du lot. Les suggestions APE/NAF exploitent conjointement le texte saisi et affichent les indices lexicaux à l'origine de chaque proposition.
 
 Cette avancée reste une aide à l'analyse, pas un moteur d'extraction documentaire : elle ne lit pas encore directement un avis BOAMP, ses lots structurés ou les pièces du dossier de consultation. Les correspondances sont lexicales, non sémantiques, et exigent une validation humaine. Le prototype n'est pas encore intégré au poste CRM authentifié et ne persiste aucun résultat dans Supabase.
+
+
+## 11. Troisième circuit stratégique — publipostage intelligent par QR Code et badge MajestiOS
+
+Le porteur du projet souhaite instruire un canal complémentaire à l'emailing : un **publipostage physique (carte, courrier ou invitation) intégrant un QR Code**, accompagné du slogan original « Ouvrez vous les portes du succès 😂😂 ». La graphie marketing proposée est « Ouvrez-vous les portes du succès ! ». L'intention est de transformer le support postal en invitation vers une expérience numérique MajestiOS, mesurable et adaptée à la campagne.
+
+Le concept comprend également un badge virtuel avec QR Code, susceptible d'être partagé sur les réseaux sociaux. Trois niveaux doivent rester distincts : badge public de découverte (contenus publics), badge invité (parcours sélectionné et éventuellement temporaire), badge VIP nominatif (espace personnel après authentification et contrôle des habilitations). La porte peut porter le libellé « Accès VIP », mais le statut VIP ne donne jamais automatiquement des droits d'administration ou d'accès au CRM.
+
+Le parcours cible est : ciblage CRM → qualification et validation du segment → choix d'une destination → génération d'un QR Code de campagne ou individuel → composition du support → validation humaine du contenu et du BAT → impression/expédition → scan → page de destination → action volontaire du destinataire → mesure proportionnée → qualification des retours dans le CRM. Le publipostage QR est complémentaire à l'emailing ; son intérêt doit être comparé par un pilote limité et mesuré, sans présumer qu'il le remplace.
+
+**Garde-fous :** un QR Code public est transférable et ne doit ouvrir que des contenus publics ou invités limités. Il n'est jamais une preuve d'identité ni une clé d'accès privé. Aucun mot de passe ou renseignement confidentiel dans le code ; références opaques, révocables et éventuellement expirables ; authentification distincte pour les espaces personnels/VIP ; habilitations minimales ; collecte et conservation des mesures limitées ; revue juridique/RGPD avant toute campagne réelle. Aucun envoi, publication ou automatisation n'est autorisé par le seul cadrage.
+
+Le concept détaillé, son MVP, ses indicateurs, ses risques et les questions destinées aux autres IA figurent dans [Concept — Publipostage intelligent par QR Code et badge MajestiOS](CONCEPT-PUBLIPOSTAGE-QR-CODE-BADGE-VIP-2026-11-06.md).
