@@ -458,3 +458,46 @@ Aucune nouvelle opération ne doit être lancée pour tenter de reproduire l'év
 - Migration, SQL, table, grant, RLS, fonction, job ou donnée modifiés : **aucun**.
 - CRM et immeuble interactif : **inchangés**.
 - Merge, déploiement ou création de projet : **aucun**.
+
+
+## 13. Disponibilité des journaux d'audit de la plateforme Supabase
+
+### 13.1 Offre de l'organisation vérifiée
+
+La lecture des métadonnées de l'organisation Supabase confirme :
+
+- organisation : **Chexpeer's Org** ;
+- identifiant : `rgzepnxzzcusrosifcnx` ;
+- offre : **Free** (`tier_free`).
+
+La documentation officielle Supabase indique que les **Platform Audit Logs** (actions effectuées dans le Dashboard ou via la Platform API par les membres de l'organisation) sont réservés aux offres **Team et Enterprise**. Ils sont consultables dans les journaux d'audit de l'organisation. Ils peuvent contenir l'horodatage, l'acteur, l'adresse IP, l'action, la cible et des métadonnées de requête.
+
+Référence officielle : https://supabase.com/docs/guides/security/platform-audit-logs
+
+**Conséquence :** le journal de plateforme susceptible de montrer une action de gestion liée au projet n'est pas disponible avec l'offre Free actuelle de Chexpeer's Org. Il n'est donc pas possible de s'appuyer sur cet écran pour identifier l'acteur ou le canal de l'opération du 6 novembre, sauf changement d'offre ou autre trace conservée indépendamment. Aucune montée en gamme n'est recommandée pour cette enquête.
+
+### 13.2 Ne pas confondre journaux d'authentification et journaux de plateforme
+
+Supabase conserve également des Auth Audit Logs, notamment dans `auth.audit_log_entries` lorsque le stockage PostgreSQL correspondant est activé. Ces événements concernent les activités d'authentification (inscriptions, connexions, changements de mot de passe, etc.).
+
+Ils ne constituent pas un journal général des commandes SQL, des migrations ou des actions de gestion de la plateforme. Même si ces entrées sont présentes, elles ne permettraient pas à elles seules d'établir qui a appliqué les six migrations.
+
+Référence officielle : https://supabase.com/docs/guides/auth/audit-logs
+
+### 13.3 PGAudit et journaux PostgreSQL
+
+PGAudit peut journaliser des opérations SQL si l'extension et les paramètres de journalisation ont été configurés avant les opérations concernées. Une vérification actuelle de sa présence ou de ses paramètres ne pourrait pas recréer rétroactivement des événements qui n'auraient pas été journalisés le 6 novembre.
+
+Aucune extension, aucun paramètre de journalisation et aucun rôle n'ont été modifiés dans le cadre de cet audit. Il n'est pas proposé d'activer PGAudit maintenant pour tenter de reconstituer l'historique passé.
+
+### 13.4 Conclusion de cette piste
+
+- Offre de l'organisation vérifiée : **Free**.
+- Platform Audit Logs Supabase : **non inclus dans l'offre actuelle**, selon la documentation officielle.
+- Auth Audit Logs : périmètre authentification, pas preuve d'application de migrations.
+- Logs unifiés projet : fenêtre maximale de 24 heures via l'outil disponible, donc trop courte pour l'événement du 6 novembre au moment de cet audit.
+- Journal historique identifiant l'acteur ou le canal des migrations : **non accessible par les interfaces connectées de cette session**.
+
+La recherche des journaux d'audit côté plateforme est donc bloquée par le niveau d'offre et les capacités d'accès disponibles. Les seules pistes restantes sans changer d'offre sont des traces déjà conservées hors de Supabase : historique local d'un terminal/CLI, historique du navigateur ou capture/export de l'opération, journaux d'un outil tiers, ou historique de compte accessible directement dans le Dashboard si celui-ci expose un événement pertinent.
+
+**Aucune mise à niveau payante, aucun changement de configuration, aucune activation de journalisation, aucune migration et aucune modification du backend ne sont entrepris.**
