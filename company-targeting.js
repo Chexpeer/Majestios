@@ -43,7 +43,7 @@
     const unique = [];
     for (const raw of Array.isArray(records) ? records : []) {
       const company = normalizeCompany(raw);
-      const key = company.siret ? "SIRET:" + company.siret : company.siren ? "SIREN:" + company.siren : company.sourceId ? "SOURCE:" + company.sourceId : "";
+      const key = company.siren ? "SIREN:" + company.siren : company.siret ? "SIRET:" + company.siret : company.sourceId ? "SOURCE:" + company.sourceId : "";
       if (!key || seen.has(key)) continue;
       seen.add(key);
       unique.push(company);
