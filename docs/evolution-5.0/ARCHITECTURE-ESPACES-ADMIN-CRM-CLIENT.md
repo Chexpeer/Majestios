@@ -1104,3 +1104,20 @@ Aucune migration, table, colonne, politique RLS, fonction SQL/Edge, donnée, ide
 Chaque fiche entreprise dispose d'un dossier dépliable présentant les champs d'identité, de localisation, de qualification et de provenance déjà disponibles, ainsi que les contacts, opportunités et activités liées par `business_id`. Les données restent issues des listes CRM existantes et de leur périmètre organisationnel RLS. La limite actuelle de 100 enregistrements par liste est explicitement affichée : le rapprochement côté navigateur ne constitue pas une vue exhaustive tant que la pagination et les requêtes relationnelles serveur ne sont pas construites.
 
 Le dossier n'ajoute aucune table ni colonne, n'effectue aucune écriture et ne modifie aucun droit. Les champs sont affichés comme texte ; seuls les liens HTTP/HTTPS sont cliquables. Les détails de réalisation figurent dans [Lot CRM — poste de travail Entreprises](LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md).
+
+
+### Métaphore ajoutée — transformer la moutarde en mayonnaise
+
+Formulation originale du porteur du projet : « MajestiOS le CRM qui transforme la moutarde en Mayonnaise ! »
+
+**Interprétation fonctionnelle :** le CRM doit être capable de partir d'informations disparates, brutes, parfois peu exploitables ou contradictoires, puis de les transformer en un résultat structuré, cohérent et directement utile au développement commercial. La valeur ne réside pas dans l'accumulation des données, mais dans leur transformation maîtrisée : collecte, tri, nettoyage, rapprochement, qualification, enrichissement, mise en forme et production d'un livrable ou d'une action exploitable.
+
+**Conséquences de conception :**
+- conserver la provenance et la date de chaque information ;
+- distinguer les faits sources des déductions et enrichissements ;
+- rendre visibles les données manquantes, contradictions et niveaux de confiance ;
+- appliquer des règles de transformation explicites et révisables ;
+- prévoir une validation humaine avant toute action engageante ou diffusion ;
+- mesurer la qualité du résultat obtenu, pas seulement le volume traité.
+
+Cette image complète les métaphores de l'aspirateur, du composteur, du malaxeur, de la bétonnière et de l'imprimante 3D : elle résume, avec humour, la promesse de transformation du CRM. Elle ne signifie pas que le système peut inventer les ingrédients manquants ou garantir un résultat sans contrôle.
