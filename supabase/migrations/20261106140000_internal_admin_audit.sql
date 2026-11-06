@@ -39,7 +39,7 @@ declare
   v_target public.organization_members%rowtype;
 begin
   if v_actor is null then raise exception 'Authentification requise.' using errcode = '28000'; end if;
-  if p_role not in ('admin','member','viewer') then raise exception 'Rôle non autorisé.' using errcode = '22023'; end if;
+  if p_role is null or p_role not in ('admin','member','viewer') then raise exception 'Rôle non autorisé.' using errcode = '22023'; end if;
 
   select o.id, m.role into v_org_id, v_actor_role
   from public.organizations o
