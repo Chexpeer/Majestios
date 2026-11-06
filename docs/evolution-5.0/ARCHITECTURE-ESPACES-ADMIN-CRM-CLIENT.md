@@ -1137,3 +1137,12 @@ Formulation originale du porteur du projet : « MajestiOS l'ascenseur qui fait m
 - permettre de suivre une alerte jusqu'à sa résolution et de conserver son historique.
 
 L'ascenseur ne remplace pas les espaces ni leur organisation : il assure la circulation verticale de l'information. La moutarde qui monte doit attirer l'attention sur un sujet réel, pas provoquer artificiellement de l'agacement.
+
+
+## 33. Orientation stratégique — publipostage QR, badge numérique et Accès VIP
+
+Le porteur du projet souhaite étudier le publipostage physique intégrant un QR Code, avec le slogan « Ouvrez vous les portes du succès 😂😂 » (graphie marketing proposée : « Ouvrez-vous les portes du succès ! »). Ce canal doit être envisagé comme complément à l'emailing : une carte ou invitation personnalisée conduit vers une expérience numérique MajestiOS et une action volontaire du destinataire. Le CRM pourrait à terme préparer les segments, suivre la campagne et mesurer les conversions, sous réserve d'un pilote et d'une validation.
+
+Le badge virtuel QR se décline en badge public de découverte, badge invité à accès limité et badge VIP nominatif. « Accès VIP » est la porte d'entrée institutionnelle vers des espaces distincts selon les habilitations. Un investisseur ou partenaire n'est pas administrateur par défaut ; le badge et le QR Code ne confèrent jamais, à eux seuls, un droit d'accès privé. Authentification distincte, permissions minimales, révocation/expiration et traçabilité sont nécessaires.
+
+Le concept complet et son protocole de revue sont décrits dans [Concept — Publipostage intelligent par QR Code et badge MajestiOS](CONCEPT-PUBLIPOSTAGE-QR-CODE-BADGE-VIP-2026-11-06.md). Il reste à l'étude : aucun module, badge ou flux de publipostage n'est déclaré opérationnel. Aucune modification du socle Supabase, des rôles, des RLS, de l'authentification ou de l'immeuble interactif n'est autorisée par cette orientation.
