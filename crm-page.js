@@ -290,7 +290,9 @@ async function refresh(canEdit = false) {
   renderEditableList("#crm-business-list", businesses, row => (row.trade_name || row.legal_name) + " · " + row.qualification_status, "business", canEdit);
   renderEditableList("#crm-contact-list", contacts, row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""), "contact", canEdit);
   renderEditableList("#crm-opportunity-list", opportunities, row => row.title + " · " + row.status, "opportunity", canEdit);
-  renderFollowups(opportunities);\n  renderPersistentReminders(reminders, canEdit);
+  renderFollowups(opportunities);
+  const reminders = await MajestiosCRM.listReminders();
+  renderPersistentReminders(reminders, canEdit);
   sendDueReminders(opportunities);
   const activityList = document.querySelector("#crm-activity-list");
   activityList.replaceChildren();
