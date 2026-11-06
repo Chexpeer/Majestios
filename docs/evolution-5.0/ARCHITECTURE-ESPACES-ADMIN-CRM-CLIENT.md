@@ -713,3 +713,19 @@ Après ces corrections, les deux workflows GitHub Actions ont réussi sur le com
 Les tests navigateur de l'immeuble interactif, du moteur de recherche, des menus, du parcours de contact et du verrouillage des pages d'administration ont réussi. Le test de l'immeuble est un contrôle de non-régression : aucun fichier, visuel, libellé, étage, zone cliquable ou lien de l'immeuble n'a été modifié dans ce lot.
 
 Cette validation CI ne remplace pas la recette visuelle et authentifiée du compte owner/admin dans la prévisualisation Vercel. Aucun déploiement Vercel, aucune promotion en production, aucune fusion vers `main` et aucune modification du backend Supabase n'ont été effectués.
+
+
+## 18. Renforcement du contrôle CI des modules CRM — 6 novembre 2026
+
+La revue de la chaîne de vérification a identifié une lacune précise : le workflow `.github/workflows/verify-site.yml` contrôlait déjà la syntaxe des modules Administration et Recherches ciblées, mais ne contrôlait pas explicitement les deux modules JavaScript centraux du CRM.
+
+Le workflow inclut désormais les vérifications de syntaxe ES modules suivantes :
+
+- `crm-page.js` : interface CRM, formulaires, fiches modifiables, qualifications, historique et relances ;
+- `crm-client.js` : accès aux données CRM via Supabase, contrôle d'appartenance, rôles et opérations autorisées.
+
+Ces contrôles complètent les tests ciblés déjà exécutés par le workflow anti-régression, notamment le contrat de sécurité CRM et le contrat de navigation unique du CRM.
+
+**Portée du correctif :** workflow CI uniquement. Aucun code métier CRM, aucune donnée, table, migration, politique RLS ou fonction Supabase n'a été modifié. Aucun changement de navigation, de visuel ou de contenu de l'immeuble interactif n'a été effectué. Aucun déploiement, fusion ou promotion n'a été lancé.
+
+**État de validation au moment de l'ajout :** sur le commit documentaire précédent `9600b9c12b38f176669bd541683fda5a83529134`, le workflow anti-régression était terminé avec succès ; le workflow de vérification du site était encore en cours pendant l'installation de Playwright/Chromium. Le commit qui ajoute les contrôles de syntaxe CRM déclenche une nouvelle exécution CI : ses résultats doivent être vérifiés séparément et ne sont pas présumés réussis.
