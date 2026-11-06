@@ -14,6 +14,7 @@
   <script src="catalogue-majestios.js" defer></script>
   <script src="rubric-search.js" defer></script>
   <script src="app.js" defer></script>
+  <script src="company-targeting.js" defer></script>
 </head>
 <body>
 <nav class="admin-crm-header" aria-label="Navigation interne">
@@ -57,6 +58,24 @@
         <label class="form-field">Département<input id="crm-business-department" inputmode="numeric" maxlength="3" pattern="[0-9A-Za-z]{2,3}" placeholder="Ex. 72"></label>
       </div>
       <p id="crm-business-filter-count" class="small-note" role="status" aria-live="polite">Toutes les entreprises sont affichées.</p>
+      <details class="crm-targeting-panel">
+        <summary><strong>Ciblage depuis un marché</strong> — rechercher des entreprises candidates</summary>
+        <p class="small-note">Outil exploratoire connecté au CRM authentifié. Les suggestions APE/NAF restent lexicales et chaque entreprise doit être vérifiée avant intégration.</p>
+        <form id="crm-targeting-form">
+          <label class="form-field">Intitulé du marché<input name="marketTitle" maxlength="180"></label>
+          <label class="form-field">Description du marché, des lots et compétences<textarea name="marketDescription" rows="5" maxlength="12000"></textarea></label>
+          <button id="crm-targeting-suggest" class="button button-secondary" type="button">Suggérer des codes APE/NAF</button>
+          <div id="crm-targeting-suggestions" hidden></div>
+          <label class="form-field">Codes APE/NAF validés<input name="nafCodes" required placeholder="43.21A, 43.22B"></label>
+          <label class="form-field">Départements ciblés<input name="departments" required placeholder="72, 37"></label>
+          <label class="form-field">Maximum de candidats<select name="limit"><option value="5">5</option><option value="10" selected>10</option></select></label>
+          <label><input name="activeOnly" type="checkbox" checked> Exclure les entreprises signalées comme non actives</label>
+          <button class="button button-primary" type="submit">Rechercher les candidats</button>
+        </form>
+        <p id="crm-targeting-status" class="small-note" role="status" aria-live="polite">Aucune recherche lancée.</p>
+        <div id="crm-targeting-results"></div>
+        <button id="crm-targeting-import" class="button button-primary" type="button" disabled>Intégrer les entreprises sélectionnées au CRM</button>
+      </details>
       <form id="crm-business-form">
         <label class="form-field">Nom de l’entreprise<input name="legal_name" required maxlength="200"></label>
         <label class="form-field">Site web<input name="website" type="url"></label>
