@@ -38,6 +38,8 @@ jobs:
           node --check naf-suggestions.js
           node --input-type=module --check < supabase-config.js
           node --input-type=module --check < auth-espace-membre.js
+          node --input-type=module --check < crm-page.js
+          node --input-type=module --check < crm-client.js
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification des entreprises
