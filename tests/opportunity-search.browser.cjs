@@ -388,7 +388,33 @@ async function main() {
       assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, `${destination} doit proposer le département 79.`);
     }
 
-    console.log("Recherche navigateur réussie : filtres par département, BOAMP, BODACC, vue combinée et séparation des sources vérifiés.");
+    apiCalls = 0;
+    bodaccCalls = 0;
+    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    assert.equal(await page.locator("#feed-market-type option").evaluateAll(options => options.map(option => option.value).join(",")), ",all,public,private", "Le moteur conserve uniquement ses choix de marché existants.");
+    await page.getByRole("link", { name: /Publier ma demande/ }).click();
+    await page.waitForURL(/publier-ma-demande\\.html$/);
+    const requestOptions = await page.locator("#request-type option").evaluateAll(options => options.map(option => option.value));
+    for (const expected of ["offre-sous-traitance","recherche-sous-traitant","offre-emploi","recherche-emploi","recherche-partenaire","recherche-associe","estimation-entreprise","autre"]) assert.ok(requestOptions.includes(expected), "Le formulaire doit proposer " + expected + ".");
+    await page.locator("#request-type").selectOption("estimation-entreprise");
+    assert.equal(await page.locator("#community-choice").isHidden(), true, "Une estimation d'entreprise doit rester confidentielle.");
+    await page.locator("#request-type").selectOption("offre-emploi");
+    assert.equal(await page.locator("#community-choice").isHidden(), false, "Les autres demandes peuvent être proposées à la communauté sous modération.");
+    await page.locator("#request-title").fill("Recherche d'un partenaire");
+    await page.locator("#request-description").fill("Besoin de coopération en Pays de la Loire.");
+    await page.locator("#request-firstname").fill("Camille");
+    await page.locator("#request-lastname").fill("Martin");
+    await page.locator("#request-email").fill("camille@example.test");
+    await page.locator("#request-phone").fill("0102030405");
+    await page.locator('input[name="visibility"][value="moderation"]').check();
+    await page.getByRole("button", { name: /Prévisualiser ma demande/ }).click();
+    assert.match(await page.locator("#publish-feedback").innerText(), /en attente de modération/);
+    assert.match(await page.locator("#publish-feedback").innerText(), /Aucune donnée n'a été envoyée ni enregistrée/);
+    assert.equal(apiCalls, 0, "Le parcours de publication ne doit pas appeler BOAMP.");
+    assert.equal(bodaccCalls, 0, "Le parcours de publication ne doit pas appeler BODACC.");
+    await page.goto("http://127.0.0.1:4174/developpement-commercial.html", { waitUntil: "domcontentloaded" });
+    await page.getByRole("link", { name: /Publier ma demande/ }).waitFor({ timeout: 10000 });
+    console.log("Recherche navigateur réussie : filtres par département, BOAMP, BODACC, vue combinée et publication indépendante vérifiés.");
   } finally {
     if (browser) await browser.close();
     await new Promise((resolve) => server.close(resolve));
