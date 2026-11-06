@@ -60,8 +60,8 @@ async function listBusinessesPage({ page = 0, pageSize = 25, search = "", qualif
     .range(from, to);
 
   const safeSearch = String(search || "").trim()
-    .replace(/[,%()_*\\\\]/g, " ")
-    .replace(/\\s+/g, " ")
+    .replace(/[,%()_*]/g, " ")
+    .replace(/\s+/g, " ")
     .slice(0, 120);
   if (safeSearch) {
     const columns = ["legal_name", "trade_name", "siren", "siret", "ape_naf", "city"];
