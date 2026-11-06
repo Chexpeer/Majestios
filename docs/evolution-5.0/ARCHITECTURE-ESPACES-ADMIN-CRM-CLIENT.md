@@ -770,3 +770,14 @@ La revue des métadonnées des espaces internes a relevé que `administration.ht
 La balise `<meta name="robots" content="noindex,nofollow">` a été ajoutée à `crm.html`. Le contrôle est désormais vérifié à deux niveaux : `verify-site.js` et `tests/crm-navigation-contract.test.cjs`.
 
 **Portée :** métadonnée HTML et garde-fous CI uniquement. Aucun changement d’authentification, de rôle, de table, de politique RLS, de fonction Edge, de donnée Supabase, de navigation métier ou d’immeuble interactif. `noindex` n’est pas une mesure de contrôle d’accès : le CRM reste protégé par son authentification et les autorisations côté Supabase.
+
+
+## 22. Repère de localisation dans le CRM — 6 novembre 2026
+
+L'audit de navigation a confirmé que le CRM disposait déjà d'un retour vers l'administration générale, mais que son en-tête n'était pas exposé comme un fil d'Ariane sémantique. Le libellé « CRM INTERNE » n'était pas non plus annoncé aux technologies d'assistance comme la page actuellement consultée.
+
+L'en-tête a été converti en navigation de fil d'Ariane avec le libellé accessible « Fil d’Ariane ». Le lien de retour unique reste dirigé vers `administration.html`, et l'indicateur courant porte désormais `aria-current="page"`. Les repères visuels existants et la charte du CRM sont conservés.
+
+Le contrat `tests/crm-navigation-contract.test.cjs` et `verify-site.js` contrôlent cette structure afin d'éviter une régression.
+
+**Portée :** sémantique HTML et contrôles CI uniquement. Aucun changement aux données ou droits Supabase, à la logique métier du CRM, à l'espace membre, à la production ou à l'immeuble interactif.
