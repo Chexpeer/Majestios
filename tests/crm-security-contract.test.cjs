@@ -15,9 +15,13 @@ const auth = read("auth-espace-membre.js");
 
 const columnsByTable = {};
 for (const match of schema.matchAll(/create table public\.(\w+) \(([\s\S]*?)\n\);/g)) {
-  columnsByTable[match[1]] = new Set(
-    [...match[2].matchAll(/^\s*([a-z_]+)\s+/gm)].map((column) => column[1])
-  );
+  const columns = new Set();
+  for (const line of match[2].split("\\n")) {
+    for (const column of line.matchAll(/(?:^|,)\\s*([a-z_]+)\\s+(?=[a-z])/g)) {
+      columns.add(column[1]);
+    }
+  }
+  columnsByTable[match[1]] = columns;
 }
 
 for (const match of roles.matchAll(/grant update \(([\s\S]*?)\) on public\.(\w+) to authenticated;/g)) {
