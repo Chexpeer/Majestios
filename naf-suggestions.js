@@ -45,7 +45,7 @@
       ? input
       : [input && input.title, input && input.description, input && input.lot, input && input.requirements]
         .filter((value) => value != null && String(value).trim())
-        .join("\\n");
+        .join("\n");
     const normalized = normalizeText(sourceText);
     const limit = Number.isInteger(options && options.limit) ? Math.max(1, Math.min(options.limit, 10)) : 6;
     if (!normalized) return [];
