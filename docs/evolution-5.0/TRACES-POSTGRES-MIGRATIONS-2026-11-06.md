@@ -65,3 +65,29 @@ Le champ `created_by` est une métadonnée enregistrée dans l'historique des mi
 ## Inventaire des journaux disponibles
 
 Sur les fenêtres interrogées du 6 novembre 2026, la table unifiée de logs ne retourne que deux sources : `postgres_logs` et `postgrest_logs`. Aucun flux `edge_logs`, `function_edge_logs` ou journal d'audit de déploiement n'est disponible dans ces résultats pour cette période. Les journaux PostgreSQL permettent donc de prouver les requêtes SQL et l'erreur, mais pas de reconstituer l'appel API côté client ni le déploiement de la fonction Edge.
+
+
+## Concordance exacte entre le SQL enregistré en production et les fichiers GitHub
+
+Une vérification complémentaire a été menée en lecture seule. Pour chacune des sept migrations CRM enregistrées dans `supabase_migrations.schema_migrations`, le contenu de `statements[1]` a été comparé caractère par caractère au contenu du fichier SQL GitHub correspondant.
+
+Résultat : **7 correspondances exactes sur 7** (même longueur et égalité stricte des chaînes SQL).
+
+| Version enregistrée en production | Migration | Fichier GitHub correspondant | Branche | Résultat |
+|---|---|---|---|---|
+| `20261106085409` | `bootstrap_first_internal_admin` | `20261106031500_bootstrap_first_internal_admin.sql` | `evolution-5.0-admin-cockpit` | Exact |
+| `20261106085411` | `enforce_crm_editor_roles` | `20261106074500_enforce_crm_editor_roles.sql` | `evolution-5.0-admin-cockpit` | Exact |
+| `20261106085415` | `atomic_client_workspace_provisioning` | `20261106090000_atomic_client_workspace_provisioning.sql` | `evolution-5.0-admin-cockpit` | Exact |
+| `20261106085430` | `persistent_crm_reminders` | `20261106100000_persistent_crm_reminders.sql` | `evolution-5.0-admin-cockpit` | Exact |
+| `20261106085434` | `sync_crm_reminder_lifecycle` | `20261106110000_sync_crm_reminder_lifecycle.sql` | `evolution-5.0-admin-cockpit` | Exact |
+| `20261106085436` | `complete_crm_reminder_with_activity` | `20261106120000_complete_crm_reminder_with_activity.sql` | `evolution-5.0-admin-cockpit` | Exact |
+| `20261106135037` | `grant_crm_record_updates` | `20261106135037_grant_crm_record_updates.sql` | `evolution-5.0-clean-preview` | Exact |
+
+### Portée et limites
+
+- Cette comparaison établit que le SQL conservé dans l'historique Supabase pour les sept migrations correspond exactement aux fichiers GitHub indiqués.
+- La septième migration est retrouvée dans `evolution-5.0-clean-preview`, pas dans `evolution-5.0-admin-cockpit` au moment de la vérification. C'est une divergence documentaire entre branches à conserver dans l'audit, pas une raison de relancer la migration.
+- La première tentative de `persistent_crm_reminders` du 6 novembre à 08:54:17 UTC a échoué et n'est pas une entrée supplémentaire dans l'historique des migrations. La version enregistrée `20261106085430` correspond au SQL corrigé, comparé ci-dessus.
+- Cette concordance prouve l'identité du SQL enregistré et des fichiers de référence. Elle ne prouve toujours pas quelle interface ou quelle personne a déclenché les appels API.
+
+Aucune écriture, migration, modification de schéma ou opération sur les données n'a été effectuée pendant cette vérification.
