@@ -3,6 +3,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const html = fs.readFileSync(path.join(__dirname, "..", "crm.html"), "utf8");
+const adminHtml = fs.readFileSync(path.join(__dirname, "..", "administration.html"), "utf8");
+const memberHtml = fs.readFileSync(path.join(__dirname, "..", "espace-membre.html"), "utf8");
 const returnLinkCount = html.split('href="administration.html"').length - 1;
 
 assert.equal(returnLinkCount, 1, "Le CRM doit proposer un seul retour vers l’administration générale.");
@@ -24,4 +26,19 @@ assert.ok(
   "Le raccordement du CRM existant doit être conservé."
 );
 
-console.log("CONTRAT NAVIGATION CRM RÉUSSI : un seul retour Administration, pied de page sans doublon et balisage propre.");
+
+assert.ok(
+  adminHtml.includes('href="crm.html"'),
+  "L’administration doit conserver son accès direct au CRM interne."
+);
+assert.ok(
+  !memberHtml.includes('href="crm.html"'),
+  "L’espace membre ne doit jamais proposer de lien direct vers le CRM interne."
+);
+assert.ok(
+  memberHtml.includes("Votre espace personnel reste distinct") &&
+  memberHtml.includes("seules les informations et les documents qui vous sont destinés"),
+  "L’espace membre doit expliquer clairement la séparation avec le CRM interne."
+);
+
+console.log("CONTRAT NAVIGATION RÉUSSI : Administration → CRM interne, retour unique et espace membre séparé.");
