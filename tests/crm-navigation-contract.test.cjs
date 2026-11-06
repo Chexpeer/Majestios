@@ -21,6 +21,7 @@ assert.ok(
 );
 assert.ok(html.includes('id="crm-admin-nav-link" href="administration.html" hidden') && html.includes('id="crm-search-nav-link" href="admin-recherches.html" hidden'), "Les liens de pilotage du CRM doivent être masqués par défaut.");
 const crmScript = fs.readFileSync(path.join(__dirname, "..", "crm-page.js"), "utf8");
+const crmClient = fs.readFileSync(path.join(__dirname, "..", "crm-client.js"), "utf8");
 assert.ok(crmScript.includes('const canAdminister = ["owner", "admin"].includes(membership.role)') && crmScript.includes('document.querySelector("#crm-admin-nav-link").hidden = !canAdminister') && crmScript.includes('document.querySelector("#crm-search-nav-link").hidden = !canAdminister'), "Les liens Administration et Recherches du CRM doivent dépendre du rôle owner/admin.");
 const adminNavStart = adminHtml.indexOf('<nav id="admin-nav" class="admin-nav">');
 const adminNavEnd = adminHtml.indexOf("</nav>", adminNavStart);
