@@ -182,4 +182,13 @@ assert.ok(page.includes("function renderPersistentReminders(reminders, canEdit)"
 assert.ok(page.includes("Marquer comme traitée"));
 assert.ok(page.includes("MajestiosCRM.listReminders()"));
 assert.ok(crmHtml.includes('id="crm-persistent-reminders"'), "Le panneau de relances persistantes est absent.");
-console.log("CRM persistent reminders contract: OK — persistance, déduplication, isolation tenant, droits et planification PostgreSQL.");
+
+assert.match(persistentReminders, /add column if not exists cancelled_at/);
+assert.match(persistentReminders, /state in \\('pending', 'read', 'cancelled'\\)/);
+assert.match(persistentReminders, /create or replace function private\\.sync_crm_reminders_for_opportunity/);
+assert.match(persistentReminders, /after update of status, title, next_action, next_action_at/);
+assert.match(persistentReminders, /state = 'cancelled', cancelled_at = now\\(\\)/);
+assert.match(persistentReminders, /due_at is distinct from new\\.next_action_at/);
+assert.match(persistentReminders, /where public\\.crm_reminders\\.state = 'cancelled'/);
+assert.match(persistentReminders, /read_at = null/);
+console.log("CRM persistent reminders contract: OK — persistance, déduplication, isolation tenant, cycle de vie et planification PostgreSQL.");
