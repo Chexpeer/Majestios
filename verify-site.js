@@ -48,6 +48,20 @@ for (const page of pages) {
   assert(!html.includes('href="index.html#accueil"'), page + " : le retour d'accueil doit ouvrir la route, sans fragment local");
 }
 
+
+const adminPage = fs.readFileSync(path.join(root, "administration.html"), "utf8");
+assert(siteFiles.includes("administration.html"), "Administration : page absente du manifeste");
+assert(siteFiles.includes("administration.css") && siteFiles.includes("administration.js"), "Administration : ressources du cockpit absentes du manifeste");
+assert(adminPage.includes('meta name="robots" content="noindex,nofollow"'), "Administration : la page doit être exclue de l’indexation");
+assert(adminPage.includes('src="administration.js"') && adminPage.includes('href="administration.css"'), "Administration : ressources du cockpit non chargées");
+assert(adminPage.includes('href="crm.html"'), "Administration : accès au CRM interne absent");
+const adminScript = fs.readFileSync(path.join(root, "administration.js"), "utf8");
+for (const token of ["organization_members", 'kind === "internal"', '["owner", "admin"]']) {
+  assert(adminScript.includes(token), "Administration : contrôle d’accès interne incomplet (" + token + ")");
+}
+const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
+assert(crmPage.includes('href="administration.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’administration absent");
+
 const rubricSearchPages = [
   "marches-publics.html", "developpement-commercial.html", "prospection-active.html",
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
