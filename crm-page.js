@@ -15,15 +15,15 @@ const renderSelect = (selector, rows, label, placeholder) => {
 };
 
 const relationSelectors = [
-  ["#crm-contact-form [name=business_id]", "businesses", row => row.trade_name || row.legal_name, "Entreprise", "Aucune entreprise associée"],
-  ["#crm-opportunity-form [name=business_id]", "businesses", row => row.trade_name || row.legal_name, "Entreprise", "Aucune entreprise associée"],
-  ["#crm-opportunity-form [name=primary_contact_id]", "contacts", row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Contact principal", "Aucun contact principal"],
-  ["#crm-activity-form [name=business_id]", "businesses", row => row.trade_name || row.legal_name, "Entreprise", "Aucune entreprise associée"],
-  ["#crm-activity-form [name=contact_id]", "contacts", row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Contact associé", "Aucun contact associé"],
-  ["#crm-activity-form [name=opportunity_id]", "opportunities", row => row.title, "Opportunité", "Aucune opportunité associée"]
+  ["#crm-contact-form [name=business_id]", "businesses", row => row.trade_name || row.legal_name, "Entreprise", "Aucune entreprise associée", null],
+  ["#crm-opportunity-form [name=business_id]", "businesses", row => row.trade_name || row.legal_name, "Entreprise", "Aucune entreprise associée", null],
+  ["#crm-opportunity-form [name=primary_contact_id]", "contacts", row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Contact principal", "Aucun contact principal", "#crm-opportunity-form [name=business_id]"],
+  ["#crm-activity-form [name=business_id]", "businesses", row => row.trade_name || row.legal_name, "Entreprise", "Aucune entreprise associée", null],
+  ["#crm-activity-form [name=contact_id]", "contacts", row => [row.first_name, row.last_name].filter(Boolean).join(" "), "Contact associé", "Aucun contact associé", "#crm-activity-form [name=business_id]"],
+  ["#crm-activity-form [name=opportunity_id]", "opportunities", row => row.title, "Opportunité", "Aucune opportunité associée", "#crm-activity-form [name=business_id]"]
 ];
 
-function setupRemoteRelationSelect(selector, table, label, caption, placeholder) {
+function setupRemoteRelationSelect(selector, table, label, caption, placeholder, dependencySelector) {
   const select = document.querySelector(selector);
   if (!select || select.dataset.remoteReady === "true") return;
   select.dataset.remoteReady = "true";
@@ -45,7 +45,8 @@ function setupRemoteRelationSelect(selector, table, label, caption, placeholder)
   if (field) field.insertAdjacentElement("afterend", search);
   else select.insertAdjacentElement("afterend", search);
   search.insertAdjacentElement("afterend", controls);
-  const state = { page: 0, pageCount: 0, search: "", request: 0, selected: null };
+  const dependency = dependencySelector ? document.querySelector(dependencySelector) : null;
+  const state = { page: 0, pageCount: 0, search: "", request: 0 };
   const load = async () => {
     const request = ++state.request;
     pageStatus.textContent = "Chargement…";
@@ -53,7 +54,7 @@ function setupRemoteRelationSelect(selector, table, label, caption, placeholder)
     try {
       const result = table === "businesses"
         ? await MajestiosCRM.listBusinessesPage({ page: state.page, pageSize: 25, search: state.search })
-        : await MajestiosCRM.listWorkspaceRecordsPage({ table, page: state.page, pageSize: 25, search: state.search });
+        : await MajestiosCRM.listWorkspaceRecordsPage({ table, page: state.page, pageSize: 25, search: state.search, businessId: dependency?.value || "" });
       if (request !== state.request) return;
       const currentValue = select.value;
       const currentOption = currentValue ? [...select.options].find(option => option.value === currentValue) : null;
@@ -72,6 +73,11 @@ function setupRemoteRelationSelect(selector, table, label, caption, placeholder)
       pageStatus.textContent = error.message || "Recherche indisponible.";
     }
   };
+  if (dependency) dependency.addEventListener("change", () => {
+    select.value = "";
+    state.page = 0;
+    load();
+  });
   let timer;
   search.addEventListener("input", () => {
     clearTimeout(timer);
@@ -82,8 +88,8 @@ function setupRemoteRelationSelect(selector, table, label, caption, placeholder)
   load();
 }
 function setupRemoteRelationSelectors() {
-  relationSelectors.forEach(([selector, table, label, caption, placeholder]) =>
-    setupRemoteRelationSelect(selector, table, label, caption, placeholder));
+  relationSelectors.forEach(([selector, table, label, caption, placeholder, dependency]) =>
+    setupRemoteRelationSelect(selector, table, label, caption, placeholder, dependency));
 }
 
 const makeField = (name, caption, value, type = "text", options = null) => {
