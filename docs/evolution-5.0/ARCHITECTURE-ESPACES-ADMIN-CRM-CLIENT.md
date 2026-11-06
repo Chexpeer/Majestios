@@ -346,3 +346,76 @@ Cette matrice doit être traduite en permissions côté serveur, contrôles RLS 
 6. Développer en lots réversibles, avec tests RLS multi-tenant, tests de parcours et contrôle anti-régression.
 
 Aucun changement applicatif, migration, déploiement ou modification de l'immeuble n'a été réalisé pendant cette cartographie.
+
+
+## 14. Registre des métaphores et principes exprimés par le porteur du projet
+
+**Règle documentaire :** toute métaphore, image ou formule imagée formulée par le porteur du projet et liée à MajestiOS, au CRM, à son fonctionnement ou à sa stratégie doit être conservée dans cette documentation. Ces expressions ne sont pas de simples plaisanteries : elles portent une intention fonctionnelle, une vision d'architecture ou un principe de pilotage. Elles doivent être reprises sans les dénaturer, puis explicitées en exigences concrètes. Toute nouvelle métaphore exprimée dans les échanges futurs devra être ajoutée au présent registre ou à la section métier correspondante.
+
+### 14.1 Le CRM-usine : les métaphores de transformation
+
+Expression exacte du porteur du projet :
+
+- **« Le CRM n'est pas seulement le moteur de traitement... c'est l'aspirateur de compétition... le composteur industriel, le malaxeur de l'intelligence artificielle, la bétonnière chinoise... l'imprimante 3D !!! »**
+
+Interprétation fonctionnelle à préserver :
+- aspirer : collecter largement et efficacement les données utiles ;
+- composter : nettoyer, trier, normaliser et éliminer les éléments sans valeur ou les doublons ;
+- malaxer : croiser les données, les règles métier et l'intelligence artificielle pour en tirer une qualification exploitable ;
+- bétonner / orchestrer : faire travailler ensemble les flux, traitements, équipes et contributions ;
+- imprimer en 3D : produire des résultats tangibles, structurés et adaptés à chaque usage (fichiers, dossiers, rapports, listes, recommandations et espaces de travail alimentés).
+
+La formule « bétonnière chinoise » doit rester attribuée au porteur du projet et ne doit pas être remplacée par une expression édulcorée dans les citations. Son sens fonctionnel est celui d'une orchestration robuste et soutenue des opérations.
+
+### 14.2 MajestiOS et son CRM : « une Rolls avec un moteur de F1 »
+
+Expression exacte du porteur du projet :
+
+- **« On a une Rolls avec un moteur de F1... on va pas se plaindre !!! »**
+
+Cette image exprime la complémentarité entre :
+- la plateforme MajestiOS, son architecture, ses espaces et son expérience globale — la « Rolls » ;
+- le CRM et ses fondations Supabase, qui constituent le moteur opérationnel puissant — le « moteur de F1 ».
+
+Conséquence de conception : ne pas opposer la plateforme et le CRM, ni reconstruire l'un à côté de l'autre. Il faut faire fonctionner ensemble la plateforme et le moteur existant, exploiter les fondations déjà construites et ne développer que les capacités manquantes. La métaphore n'autorise pas à considérer le moteur comme achevé : les connecteurs BODACC/BOAMP, le moteur de recherche, la transformation industrielle et la diffusion restent à construire et à vérifier.
+
+### 14.3 La caserne et la chaîne de commandement
+
+Métaphores d'organisation déjà formulées par le porteur du projet :
+- **MajestiOS est la plateforme / la caserne.**
+- **L'administration générale est le Général en chef.**
+- **Le CRM est le Colonel et la « chaufferie qui alimente tous les étages ».**
+- Les équipes et collaborateurs sont comparés à des officiers et personnels d'exécution.
+
+Sens fonctionnel :
+- l'administration fixe les objectifs, les règles, les autorisations et les destinataires ;
+- le CRM centralise et exécute les opérations de transformation et de coordination ;
+- les rubriques et espaces consomment les services et livrables auxquels ils sont autorisés.
+
+Cette métaphore décrit l'organisation fonctionnelle, pas les rôles techniques de la base. Elle ne doit pas conduire à renommer ou détourner les rôles Supabase existants (owner, admin, member, viewer).
+
+### 14.4 Première stratégie de recherche : apprendre avant d'industrialiser
+
+Décision exprimée par le porteur du projet :
+- les recherches seront **ponctuelles et ciblées au départ** ;
+- l'administrateur commencera par **sa région et la région parisienne** ;
+- les critères et méthodes seront adaptés en fonction des résultats observés ;
+- l'extension à une exploitation industrielle interviendra ensuite, après cette phase d'apprentissage.
+
+Conséquences fonctionnelles :
+1. première version centrée sur le lancement manuel de recherches BODACC et BOAMP ;
+2. sélection précise des territoires et critères ;
+3. restitution lisible des résultats et de leur provenance ;
+4. mesure de la pertinence, des doublons et des opportunités réellement exploitables ;
+5. ajustement des critères à partir des résultats ;
+6. industrialisation seulement lorsque le fonctionnement aura été éprouvé.
+
+Ne pas commencer par un dispositif de collecte massive ou des automatisations complexes. La priorité est un outil de recherche ponctuelle efficace, contrôlable et adaptable.
+
+### 14.5 Consigne de conservation des formulations
+
+Le registre doit être enrichi au fil du projet. Conserver les formulations originales entre guillemets lorsque leur sens dépend de leur expression exacte, puis ajouter une traduction fonctionnelle. Ne pas remplacer silencieusement les métaphores du porteur du projet par des slogans inventés par l'assistant. Distinguer systématiquement :
+- la citation originale ;
+- le sens métier compris ;
+- les conséquences d'architecture ou de fonctionnement ;
+- ce qui existe déjà et ce qui reste à construire.
