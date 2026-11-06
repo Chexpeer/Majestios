@@ -16,10 +16,10 @@ async function authorize(){
 signout.addEventListener("click",async()=>{await supabase.auth.signOut();lock("Vous êtes déconnecté.");});
 supabase.auth.onAuthStateChange(event=>{if(event==="SIGNED_OUT")lock("Vous êtes déconnecté.");});
 try{await authorize();}catch(e){lock(e?.message||"La vérification des habilitations a échoué.",true);}
-const form=document.querySelector("#search-form"),source=document.querySelector("#source"),family=document.querySelector("#family"),territoryInputs=[...document.querySelectorAll('input[name="territory"]')],department=document.querySelector("#department"),keyword=document.querySelector("#keyword"),limit=document.querySelector("#limit"),submit=document.querySelector("#submit"),status=document.querySelector("#status"),results=document.querySelector("#results"),count=document.querySelector("#count");
+const form=document.querySelector("#search-form"),source=document.querySelector("#source"),family=document.querySelector("#family"),marketType=document.querySelector("#market-type"),dateFrom=document.querySelector("#date-from"),dateTo=document.querySelector("#date-to"),territoryInputs=[...document.querySelectorAll('input[name="territory"]')],department=document.querySelector("#department"),keyword=document.querySelector("#keyword"),limit=document.querySelector("#limit"),submit=document.querySelector("#submit"),status=document.querySelector("#status"),results=document.querySelector("#results"),count=document.querySelector("#count");
 const zones={pdl:["44","49","53","72","85"],idf:["75","77","78","91","92","93","94","95"]};
 function setStatus(message,error=false){status.textContent=message;status.classList.toggle("error",error);}
-source.addEventListener("change",()=>{const isBodacc=source.value==="bodacc";family.disabled=!isBodacc;family.closest(".search-field").style.opacity=isBodacc?"1":".55";});
+source.addEventListener("change",()=>{const isBodacc=source.value==="bodacc";family.disabled=!isBodacc;family.closest(".search-field").style.opacity=isBodacc?"1":".55";marketType.disabled=isBodacc;marketType.closest(".search-field").style.opacity=isBodacc?".55":"1";});
 territoryInputs.forEach(input=>input.addEventListener("change",()=>{if(input.value==="all"&&input.checked)territoryInputs.filter(x=>x!==input).forEach(x=>x.checked=false);else if(input.checked){const all=territoryInputs.find(x=>x.value==="all");if(all)all.checked=false;}}));
 function quote(value){return "'"+String(value).replace(/\\/g,"\\\\").replace(/'/g,"\\'")+"'";}
 function departments(){
@@ -51,12 +51,16 @@ form.addEventListener("submit",async event=>{
  submit.disabled=true;submit.textContent="Recherche en cours…";results.innerHTML="";count.textContent="INTERROGATION DE LA SOURCE";setStatus("Connexion à la source officielle "+(kind==="bodacc"?"BODACC":"BOAMP")+"…");
  try{
   const base=kind==="bodacc"?"https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records":"https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records";
-  const clauses=[];if(terms.length){const field=kind==="bodacc"?"numerodepartement":"code_departement";clauses.push(field+" IN ("+terms.map(quote).join(",")+")");}
+  const clauses=[];if(terms.length){if(kind==="bodacc"){clauses.push("numerodepartement IN ("+terms.map(quote).join(",")+")");}else{const list=terms.map(quote).join(",");clauses.push("(code_departement IN ("+list+") OR code_departement_prestation IN ("+list+"))");}}
   if(kind==="bodacc"&&family.value)clauses.push("familleavis_lib = "+quote(family.value));
+  if(kind==="boamp"&&marketType.value)clauses.push("type_marche = "+quote(marketType.value));
+  if(dateFrom.value)clauses.push("dateparution >= date"+quote(dateFrom.value));
+  if(dateTo.value)clauses.push("dateparution <= date"+quote(dateTo.value));
   if(kw){const fields=kind==="bodacc"?["commercant","ville","tribunal"]:["objet","nomacheteur","descripteur_libelle"];clauses.push("("+fields.map(f=>"search("+f+", "+quote(kw)+")").join(" OR ")+")");}
   const selected=kind==="bodacc"?"id,dateparution,numerodepartement,departement_nom_officiel,commercant,ville,familleavis_lib,acte,jugement,url_complete":"idweb,id,objet,dateparution,datefindiffusion,code_departement,code_departement_prestation,nomacheteur,nature_libelle,type_marche,descripteur_libelle,url_avis";
   const params=new URLSearchParams({limit:limit.value,order_by:"dateparution DESC",select:selected});if(clauses.length)params.set("where",clauses.join(" AND "));
-  const response=await fetch(base+"?"+params.toString(),{headers:{Accept:"application/json"}});
+  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),20000);
+  let response;try{response=await fetch(base+"?"+params.toString(),{headers:{Accept:"application/json"},signal:controller.signal});}finally{clearTimeout(timeout);}
   if(!response.ok)throw new Error("La source a répondu avec le statut HTTP "+response.status+".");
   const payload=await response.json();const items=payload.results||[];render(items,kind);count.textContent=(payload.total_count??items.length)+" ANNONCE(S) CORRESPONDANTE(S) · "+items.length+" AFFICHÉE(S)";
   setStatus("Recherche terminée. "+items.length+" résultat(s) affiché(s) sur "+(payload.total_count??items.length)+". Les résultats ne sont pas enregistrés dans le CRM : ils sont uniquement consultables et à qualifier.");
