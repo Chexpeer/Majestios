@@ -538,8 +538,12 @@ function initMarketTargeting(canEdit) {
       let candidates = api.rankCompanies(response.candidates, { nafCodes, departments });
       if (form.elements.activeOnly.checked) candidates = candidates.filter(company => company.active !== false);
       const selectedCandidates = api.selectCandidates(candidates, { nafCodes, departments, limit: Number(form.elements.limit.value), minimumScore: 25 }).candidates;
-      const existingSiren = new Set(targetingBusinesses.map(row => String(row.siren || "").replace(/\\D/g, "")).filter(Boolean));
-      const existingSiret = new Set(targetingBusinesses.map(row => String(row.siret || "").replace(/\\D/g, "")).filter(Boolean));
+      const existingMatches = await MajestiosCRM.findBusinessesByIdentifiers({
+        sirens: selectedCandidates.map(company => company.siren).filter(Boolean),
+        sirets: selectedCandidates.map(company => company.siret).filter(Boolean)
+      });
+      const existingSiren = new Set(existingMatches.map(row => row.siren).filter(Boolean));
+      const existingSiret = new Set(existingMatches.map(row => row.siret).filter(Boolean));
       const alreadyKnown = selectedCandidates.filter(company =>
         (company.siren && existingSiren.has(company.siren)) || (company.siret && existingSiret.has(company.siret)));
       targetingCandidates = selectedCandidates.filter(company =>
@@ -586,16 +590,10 @@ function initMarketTargeting(canEdit) {
     const chosen = selected(); if (!chosen.length) return;
     importButton.disabled = true; let saved = 0;
     const failures = [];
-    const currentSirens = new Set(targetingBusinesses.map(row => String(row.siren || "").replace(/\\D/g, "")).filter(Boolean));
-    const currentSirets = new Set(targetingBusinesses.map(row => String(row.siret || "").replace(/\\D/g, "")).filter(Boolean));
     for (const company of chosen) {
       const raw = company.raw || {}; const siege = raw.siege || raw.etablissement || {};
       const postal = String(siege.code_postal || raw.code_postal || "");
       const department = company.department || (postal.startsWith("97") ? postal.slice(0,3) : postal.slice(0,2));
-      if ((company.siren && currentSirens.has(company.siren)) || (company.siret && currentSirets.has(company.siret))) {
-        failures.push((company.name || company.siren || "Entreprise") + " : déjà présente dans les fiches chargées.");
-        continue;
-      }
       const workforce = raw.tranche_effectif_salarie || raw.trancheEffectifSalarie || "non renseignée";
       const workforceYear = raw.annee_tranche_effectif_salarie || raw.anneeTrancheEffectifSalarie || "année non précisée";
       const establishments = raw.nombre_etablissements ?? raw.nombre_etablissements_ouverts ?? "non renseigné";
@@ -613,6 +611,18 @@ function initMarketTargeting(canEdit) {
         "Vérification humaine requise ; l’effectif et le nombre d’établissements dépendent des données disponibles dans l’annuaire."
       ].join(" ");
       try {
+        if (!company.siren && !company.siret) {
+          failures.push((company.name || "Entreprise") + " : SIREN et SIRET absents, intégration refusée.");
+          continue;
+        }
+        const duplicates = await MajestiosCRM.findBusinessesByIdentifiers({
+          sirens: company.siren ? [company.siren] : [],
+          sirets: company.siret ? [company.siret] : []
+        });
+        if (duplicates.length) {
+          failures.push((company.name || company.siren || "Entreprise") + " : déjà présente dans le CRM (SIREN/SIRET).");
+          continue;
+        }
         await MajestiosCRM.createBusiness({
           legal_name: company.name || "Dénomination à vérifier", siren: company.siren || null,
           siret: company.siret || null, ape_naf: company.naf || null, department_code: department || null,
@@ -622,8 +632,6 @@ function initMarketTargeting(canEdit) {
           qualification_status: "to_review", qualification_notes: notes, country_code: "FR"
         });
         saved++;
-        if (company.siren) currentSirens.add(company.siren);
-        if (company.siret) currentSirets.add(company.siret);
       } catch (error) {
         failures.push((company.name || company.siren || "Entreprise") + " : " + (error?.message || "échec d’insertion"));
       }
