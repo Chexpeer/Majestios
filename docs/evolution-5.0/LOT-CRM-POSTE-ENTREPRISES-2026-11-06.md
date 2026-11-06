@@ -101,3 +101,16 @@ Chaque rubrique possède son propre champ de recherche, son compteur exact et se
 **Limites restantes :** les formulaires relationnels (listes déroulantes entreprise/contact/opportunité), les rappels et certains traitements transverses utilisent encore les listes historiques limitées à 100 enregistrements. Les pages principales des quatre rubriques sont désormais paginées côté serveur, mais cette extension ne transforme pas encore les sélecteurs relationnels en recherche dédiée. La pagination offset reste non transactionnelle en cas d’insertions concurrentes.
 
 Aucun schéma, index, migration, rôle, utilisateur, politique RLS ou donnée Supabase n’a été modifié.
+
+
+## Extension — pagination des relations du dossier entreprise
+
+Le dossier détaillé ne dépend plus des seules listes auxiliaires limitées à 100 enregistrements pour afficher ses contacts, opportunités et activités associés. À l'ouverture du dossier, chaque rubrique relationnelle interroge directement la table autorisée correspondante, avec le business_id de l'entreprise, le organization_id du membre authentifié, les politiques RLS existantes, un décompte exact et une pagination de 10 lignes.
+
+Les trois rubriques sont chargées à la demande et indépendamment. Les tris sont déterministes : contacts par création décroissante, opportunités par mise à jour décroissante et activités par date d'occurrence décroissante, avec id ASC comme départage. Les erreurs de chargement restent visibles dans la rubrique concernée et peuvent être retentées à la réouverture du dossier.
+
+**Effet fonctionnel :** le dossier entreprise peut maintenant parcourir ses relations au-delà des 100 lignes auxiliaires utilisées par les sélecteurs et autres vues. Il ne confond plus « absent de la première page » avec « inexistant ».
+
+**Protection du patrimoine :** aucune table, colonne, migration, politique RLS, fonction SQL/Edge, donnée, compte ou rôle n'a été modifié. Les requêtes restent strictement limitées au tenant authentifié et aux trois tables explicitement autorisées. Aucun envoi externe, merge vers main, déploiement ou promotion en production n'est effectué. L'immeuble interactif reste hors périmètre.
+
+**Contrôles ajoutés :** le contrat statique vérifie la liste blanche relationnelle, le filtre tenant, le filtre business_id, le chargement à la demande et l'affichage du décompte paginé. Ces assertions ne remplacent pas l'exécution des tests navigateur ni une validation CI réelle.
