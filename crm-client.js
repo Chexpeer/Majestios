@@ -104,8 +104,8 @@ async function listWorkspaceRecordsPage({ table, page = 0, pageSize = 25, search
     query = query.order("created_at", { ascending: false }).order("id", { ascending: true });
   }
   const safeSearch = String(search || "").trim()
-    .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\\s.'’-]/g, " ")
-    .replace(/\\s+/g, " ")
+    .replace(/[^a-zA-Z0-9À-ÖØ-öø-ÿ\s.'’-]/g, " ")
+    .replace(/\s+/g, " ")
     .slice(0, 120);
   if (safeSearch) {
     query = query.or(searchableColumns[table]
