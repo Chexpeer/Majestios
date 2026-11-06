@@ -36,7 +36,7 @@ async function main() {
   assert.ok(fs.existsSync(path.join(root, "administration.html")), "Le build doit publier le cockpit d’administration.");
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://127.0.0.1").pathname);
-    const requested = pathname === "/" ? "index.html" : pathname.replace(/^\\/+/, "");
+    const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
     const file = path.resolve(root, requested);
     if (!file.startsWith(root + path.sep)) return res.writeHead(403).end("Forbidden");
     fs.readFile(file, (error, data) => {
@@ -105,7 +105,7 @@ async function main() {
     }));
     await memberRedirect.goto("http://127.0.0.1:4177/espace-interne.html?returnTo=administration.html", {waitUntil:"domcontentloaded"});
     await memberRedirect.locator("#internal-workspace").waitFor({state:"visible",timeout:5000});
-    assert.match(memberRedirect.url(), /espace-interne\\.html\\?returnTo=administration\\.html$/, "Un membre ne doit pas être redirigé vers l’administration.");
+    assert.match(memberRedirect.url(), /espace-interne\.html\?returnTo=administration\.html$/, "Un membre ne doit pas être redirigé vers l’administration.");
     await memberRedirect.close();
 
     console.log("TEST ADMIN RÉUSSI : accès sans session bloqué ; matrice simulée owner/admin/member/viewer vérifiée ; redirection admin interdite pour member.");
