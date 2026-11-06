@@ -24,7 +24,7 @@ const makeField = (name, caption, value, type = "text", options = null) => {
   } else if (type === "textarea") control = document.createElement("textarea");
   else { control = document.createElement("input"); control.type = type; }
   control.name = name;
-  control.value = value ?? "";
+  control.value = type === "datetime-local" && value ? String(value).slice(0, 16) : (value ?? "");
   wrapper.append(control);
   return wrapper;
 };
@@ -95,7 +95,7 @@ function renderEditableList(selector, rows, label, kind, canEdit) {
           if (kind === "opportunity" && !values.title.trim()) throw new Error("L’intitulé est obligatoire.");
           if (kind === "opportunity" && values.qualification_score === "") values.qualification_score = null;
           await config.update(row.id, values);
-          await refresh();
+          await refresh(true);
           setStatus("Modification enregistrée.");
         } catch (error) { setStatus(error.message || "Modification impossible.", true); }
         finally { button.disabled = false; }
