@@ -117,6 +117,39 @@ async function listWorkspaceRecordsPage({ table, page = 0, pageSize = 25, search
   return { rows: data || [], total, page: safePage, pageSize: safePageSize, pageCount: Math.ceil(total / safePageSize) };
 }
 
+
+async function listBusinessRelatedPage({ businessId, table, page = 0, pageSize = 10 } = {}) {
+  const sortableTables = {
+    contacts: "created_at",
+    opportunities: "updated_at",
+    activities: "occurred_at"
+  };
+  if (!Object.prototype.hasOwnProperty.call(sortableTables, table)) {
+    throw new Error("Rubrique relationnelle non autorisée.");
+  }
+  if (typeof businessId !== "string" || !businessId.trim()) {
+    throw new Error("Entreprise associée introuvable.");
+  }
+  const { membership } = await requireWorkspace();
+  const safePage = Math.max(0, Math.floor(Number(page) || 0));
+  const safePageSize = Math.min(50, Math.max(1, Math.floor(Number(pageSize) || 10)));
+  const from = safePage * safePageSize;
+  const to = from + safePageSize - 1;
+  const { data, count, error } = await supabase.from(table)
+    .select("*", { count: "exact" })
+    .eq("organization_id", membership.organization_id)
+    .eq("business_id", businessId)
+    .order(sortableTables[table], { ascending: false })
+    .order("id", { ascending: true })
+    .range(from, to);
+  if (error) throw error;
+  const total = Number(count || 0);
+  return {
+    rows: data || [], total, page: safePage, pageSize: safePageSize,
+    pageCount: Math.ceil(total / safePageSize)
+  };
+}
+
 async function findBusinessesByIdentifiers({ sirens = [], sirets = [] } = {}) {
   const { membership } = await requireWorkspace();
   const cleanSirens = [...new Set(sirens.map(value => String(value || "").replace(/\D/g, "")).filter(value => /^\d{9}$/.test(value)))];
@@ -243,6 +276,7 @@ export const MajestiosCRM = Object.freeze({
   listBusinesses: () => list("businesses"),
   listBusinessesPage,
   listWorkspaceRecordsPage,
+  listBusinessRelatedPage,
   findBusinessesByIdentifiers,
   listContacts: () => list("contacts"),
   listOpportunities: () => list("opportunities"),
