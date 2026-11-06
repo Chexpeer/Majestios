@@ -1099,3 +1099,8 @@ Le manifeste de publication et les contrôles statiques incluent désormais les 
 
 Aucune migration, table, colonne, politique RLS, fonction SQL/Edge, donnée, identité ou rôle Supabase n'a été modifié. Aucun déploiement, merge vers `main` ou promotion en production n'a été lancé. L'immeuble interactif reste strictement hors périmètre.
 
+## 32. Dossier entreprise et rapprochement des relations
+
+Chaque fiche entreprise dispose d'un dossier dépliable présentant les champs d'identité, de localisation, de qualification et de provenance déjà disponibles, ainsi que les contacts, opportunités et activités liées par `business_id`. Les données restent issues des listes CRM existantes et de leur périmètre organisationnel RLS. La limite actuelle de 100 enregistrements par liste est explicitement affichée : le rapprochement côté navigateur ne constitue pas une vue exhaustive tant que la pagination et les requêtes relationnelles serveur ne sont pas construites.
+
+Le dossier n'ajoute aucune table ni colonne, n'effectue aucune écriture et ne modifie aucun droit. Les champs sont affichés comme texte ; seuls les liens HTTP/HTTPS sont cliquables. Les détails de réalisation figurent dans [Lot CRM — poste de travail Entreprises](LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md).
