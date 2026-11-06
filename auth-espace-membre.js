@@ -179,7 +179,31 @@ if (form && config?.url && config?.publishableKey) {
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        setFeedback("Connexion réussie.");
+
+        const { data: memberships, error: membershipError } = await supabase
+          .from("organization_members")
+          .select("organization_id")
+          .eq("user_id", data.user.id)
+          .limit(1);
+
+        if (
+          !membershipError &&
+          !memberships?.length &&
+          data.user.user_metadata?.privacy_notice_acknowledged === true &&
+          data.user.user_metadata?.privacy_notice_version === "2026-11-05" &&
+          data.user.user_metadata?.organization_name
+        ) {
+          const organization = await provisionWorkspace(
+            data.session,
+            data.user.user_metadata.organization_name,
+            true
+          );
+          setFeedback(`Connexion réussie. Votre espace « ${organization.name} » est prêt.`);
+        } else if (membershipError) {
+          setFeedback("Connexion réussie, mais la vérification de votre espace est momentanément indisponible.");
+        } else {
+          setFeedback("Connexion réussie.");
+        }
         await updateAuthStatus(data.session);
       }
     } catch (error) {
