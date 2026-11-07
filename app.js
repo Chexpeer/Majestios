@@ -367,7 +367,7 @@ if (leadForm && formFeedback) {
 // Menus déroulants contextuels : accès direct aux rubriques sans alourdir la navigation.
 const contextualMenus = {
   "developpement-commercial.html": [
-    { label: "Prosp'active", href: "prospection-active.html" },
+    { label: "Prospection", href: "prospection-active.html" },
     { label: "Marchés publics", href: "marches-publics.html" },
     { label: "Marchés privés", href: "marches-prives.html" }
   ],
