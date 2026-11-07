@@ -44,6 +44,13 @@ jobs:
           test -s backup/data.sql
           printf 'Export terminé. Tailles :\n'
           wc -c backup/roles.sql backup/schema.sql backup/data.sql
+          {
+            echo "## Sauvegarde PostgreSQL MajestiOS"
+            echo "- Export rôles, schéma et données PostgreSQL terminé."
+            echo "- Attention : Supabase CLI exclut les schémas gérés, notamment auth et storage."
+            echo "- Les utilisateurs Auth, paramètres de projet, secrets et fichiers Storage ne sont pas inclus dans cette archive."
+            echo "- Cette archive chiffrée est conservée comme artifact GitHub pendant 90 jours ; télécharger une copie hors GitHub est nécessaire pour une conservation durable."
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Chiffrer l'archive avant toute conservation
         shell: bash
