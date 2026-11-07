@@ -35,8 +35,6 @@
     { value: "bodacc-creations", label: "Créations et implantations", group: "Signaux BODACC", active: true, source: "bodacc" },
     { value: "bodacc-cessions", label: "Ventes, cessions et reprises", group: "Signaux BODACC", active: true, source: "bodacc" },
     { value: "bodacc-modifications", label: "Modifications d’entreprises", group: "Signaux BODACC", active: true, source: "bodacc" },
-    { value: "bodacc-procedures", label: "Difficultés et procédures collectives", group: "Signaux BODACC", active: true, source: "bodacc" },
-    { value: "bodacc-radiations", label: "Radiations et cessations", group: "Signaux BODACC", active: true, source: "bodacc" },
     { value: "autre", label: "Autre signal BODACC · recherche par mot-clé", group: "Signaux BODACC", active: true, source: "bodacc" },
     { value: "immobilier", label: "Immobilier professionnel", group: "Autres opportunités privées", planned: true, source: null },
     { value: "emploi", label: "Emploi et recrutement", group: "Autres opportunités privées", planned: true, source: null },

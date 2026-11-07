@@ -24,12 +24,19 @@
   };
   const CATEGORY_TYPES = { services: "SERVICES", travaux: "TRAVAUX" };
   const PUBLIC_CATEGORIES = new Set([...Object.keys(CATEGORY_TERMS), ...Object.keys(CATEGORY_TYPES), "autre"]);
+  // Périmètre BODACC validé : créations, cessions et modifications uniquement.
+  // Les procédures collectives, radiations et familles inconnues sont exclues de toute recherche.
   const BODACC_CATEGORY_TERMS = {
     "bodacc-creations": ["création", "immatriculation", "constitution", "établissement principal", "ouverture"],
     "bodacc-cessions": ["vente", "cession", "fonds de commerce", "reprise", "achat"],
-    "bodacc-modifications": ["modification", "transfert", "changement", "augmentation de capital", "siège social"],
-    "bodacc-procedures": ["procédure collective", "redressement judiciaire", "liquidation judiciaire", "sauvegarde"],
-    "bodacc-radiations": ["radiation", "cessation", "dissolution", "clôture"]
+    "bodacc-modifications": ["modification", "transfert", "changement", "augmentation de capital", "siège social"]
+  };
+  const classifyBodaccFamily = (record) => {
+    const family = normalize([record.familleavis, record.familleavis_lib].join(" "));
+    if (/creation|immatriculation|constitution/.test(family)) return "bodacc-creations";
+    if (/vente|cession/.test(family)) return "bodacc-cessions";
+    if (/modification/.test(family)) return "bodacc-modifications";
+    return null;
   };
   const PRIVATE_CATEGORIES_NOT_CONNECTED = new Set([
     "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"
@@ -118,6 +125,37 @@
     if (record.idweb) return "https://www.boamp.fr/pages/avis/?q=" + encodeURIComponent("idweb:" + record.idweb);
     return "https://www.boamp.fr/";
   };
+
+  // Analyse plusieurs pages récentes ; le nombre de cartes affichées reste plafonné à 10.
+  async function fetchMatchingRecords(baseUrl, request, predicate, resultLimit) {
+    const pageSize = 100;
+    const maxPages = 5;
+    const matches = [];
+    const seen = new Set();
+    let scanned = 0;
+    for (let page = 0; page < maxPages && matches.length < resultLimit; page += 1) {
+      const pageUrl = new URL(baseUrl);
+      pageUrl.searchParams.set("limit", String(pageSize));
+      pageUrl.searchParams.set("offset", String(page * pageSize));
+      const response = await fetch(pageUrl.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      const payload = await response.json();
+      if (!request.isCurrent()) return { matches, scanned };
+      const records = Array.isArray(payload.results) ? payload.results :
+        Array.isArray(payload.records) ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length) : [];
+      scanned += records.length;
+      let newRecords = 0;
+      for (const record of records) {
+        const key = String(record.id || record.idweb || record.numeroannonce || JSON.stringify(record));
+        if (seen.has(key)) continue;
+        seen.add(key);
+        newRecords += 1;
+        if (predicate(record) && matches.length < resultLimit) matches.push(record);
+      }
+      if (records.length < pageSize || newRecords === 0) break;
+    }
+    return { matches, scanned };
+  }
 
   const buildContactUrl = (source, reference, params) => {
     const contactParams = new URLSearchParams(params);
@@ -222,17 +260,9 @@
       if (departments.length) bodaccUrl.searchParams.set("where", 'departement_nom_officiel = "' + departments[0].label.replace(/"/g, '\\"') + '"');
       const request = beginRequest(panel);
       try {
-        const response = await fetch(bodaccUrl.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        const payload = await response.json();
-        if (!request.isCurrent()) return;
-        const records = Array.isArray(payload.results)
-          ? payload.results
-          : Array.isArray(payload.records)
-            ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length)
-            : [];
-        const filtered = records.filter((record) => {
-          const family = normalize([record.familleavis_lib, record.familleavis].join(" "));
+        const pageResult = await fetchMatchingRecords(bodaccUrl, request, (record) => {
+          const recordCategory = classifyBodaccFamily(record);
+          if (!recordCategory) return false;
           const haystack = normalize([
             record.id, record.numeroannonce, record.registre, record.typeavis_lib,
             record.commercant, record.ville, record.departement_nom_officiel, record.familleavis_lib, record.familleavis,
@@ -240,30 +270,12 @@
             flattenText(record.modificationsgenerales), flattenText(record.divers)
           ].join(" "));
           const queryMatches = !query || normalize(query).split(/\s+/).filter(Boolean).every((term) => haystack.includes(term));
-          const categoryTerms = BODACC_CATEGORY_TERMS[category];
-          const categoryFamilyTerms = {
-            "bodacc-creations": ["creation", "immatriculation", "constitution"],
-            "bodacc-cessions": ["vente", "cession"],
-            "bodacc-modifications": ["modification"],
-            "bodacc-procedures": ["procedure", "jugement"],
-            "bodacc-radiations": ["radiation", "cessation", "dissolution"]
-          }[category];
-          const familyKnown = Object.values({
-            creations: ["creation", "immatriculation", "constitution"],
-            cessions: ["vente", "cession"],
-            modifications: ["modification"],
-            procedures: ["procedure", "jugement"],
-            radiations: ["radiation", "cessation", "dissolution"]
-          }).some((terms) => terms.some((term) => family.includes(normalize(term))));
-          // La famille officielle prime sur les détails, qui peuvent mentionner d'autres événements.
-          const categoryMatches = !categoryTerms?.length || (
-            familyKnown
-              ? categoryFamilyTerms.some((term) => family.includes(normalize(term)))
-              : categoryTerms.some((term) => haystack.includes(normalize(term)))
-          );
-          return queryMatches && categoryMatches;
-        }).slice(0, resultLimit);if (!filtered.length) {
-          empty.textContent = records.length
+          return queryMatches && Boolean(recordCategory) && (category === "all" || category === "autre" || recordCategory === category);
+        }, resultLimit);
+        if (!request.isCurrent()) return;
+        const filtered = pageResult.matches;
+        if (!filtered.length) {
+          empty.textContent = pageResult.scanned
             ? "Aucun signal BODACC ne correspond à tous les mots-clés parmi les annonces récentes récupérées. Essayez une recherche plus large."
             : "La source BODACC a répondu sans annonce pour ces critères. Modifiez la recherche ou réessayez plus tard.";
         } else {
@@ -347,20 +359,13 @@
 
     const request = beginRequest(panel);
     try {
-      const response = await fetch(url.toString(), { headers: { Accept: "application/json" }, signal: request.signal });
-      if (!response.ok) throw new Error("HTTP " + response.status);
-      const payload = await response.json();
+      const pageResult = await fetchMatchingRecords(url, request, (record) =>
+        !isExpired(record) &&
+        categoryMatches(record, category) &&
+        keywordMatches(record, query), resultLimit);
       if (!request.isCurrent()) return;
-      const records = Array.isArray(payload.results)
-        ? payload.results
-        : Array.isArray(payload.records)
-          ? payload.records.map((item) => item?.record?.fields || item?.fields || {}).filter((record) => Object.keys(record).length)
-          : [];
-      const filtered = records
-        .filter((record) => !isExpired(record))
-        .filter((record) => categoryMatches(record, category))
-        .filter((record) => keywordMatches(record, query))
-        .slice(0, resultLimit);if (filtered.length) {
+      const filtered = pageResult.matches;
+      if (filtered.length) {
         results.innerHTML = filtered.map((record) => {
           const title = record.objet || "Objet de l’annonce non renseigné";
           const buyer = record.nomacheteur || "Acheteur non renseigné dans l’extrait";
@@ -386,7 +391,7 @@
         empty.textContent = filtered.length + " résultat(s) affiché(s) depuis BOAMP. Les critères métier restent à confirmer à la lecture de l’avis officiel.";
         empty.insertAdjacentElement("afterend", results);
       } else {
-        empty.textContent = records.length
+        empty.textContent = pageResult.scanned
           ? "Aucun résultat ne correspond à tous les critères sélectionnés parmi les annonces récentes récupérées. Essayez un mot-clé plus large ou une autre catégorie."
           : "La source BOAMP a répondu sans fournir d’annonce pour cette recherche. Modifiez les critères ou réessayez plus tard.";
       }

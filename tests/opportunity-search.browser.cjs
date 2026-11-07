@@ -34,6 +34,21 @@ async function main() {
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.pathname.endsWith("/catalog/datasets/annonces-commerciales/records"), true, "La recherche privée doit utiliser le jeu officiel BODACC.");
       const bodaccWhere = requestUrl.searchParams.get("where") || "";
+      if (requestUrl.searchParams.get("q") === "paginationtest") {
+        const offset = Number(requestUrl.searchParams.get("offset") || 0);
+        const records = offset === 0
+          ? Array.from({ length: 100 }, (_, index) => ({ record: { fields: {
+              id: "BODACC-PAGE-1-" + index, familleavis: "creation", familleavis_lib: "Créations d’entreprises",
+              departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise sans correspondance " + index
+            } } }))
+          : [{ record: { fields: {
+              id: "BODACC-PAGE-2-MATCH", familleavis: "creation", familleavis_lib: "Créations d’entreprises",
+              departement_nom_officiel: "Deux-Sèvres", commercant: "Entreprise paginationtest deuxième page",
+              dateparution: "2026-11-02", ville: "Niort"
+            } } }];
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ total_count: 101, records }) });
+        return;
+      }
       if (bodaccWhere.includes('departement_nom_officiel = "Deux-Sèvres"')) bodaccDepartmentFilterSeen = true;
       await route.fulfill({
         status: 200,
@@ -83,6 +98,27 @@ async function main() {
       const requestUrl = new URL(route.request().url());
       assert.equal(requestUrl.searchParams.get("where")?.includes('nature = "APPEL_OFFRE"'), true, "La requête doit limiter les résultats aux appels d’offres.");
       const where = requestUrl.searchParams.get("where") || "";
+      if (requestUrl.searchParams.get("q") === "paginationtest") {
+        const offset = Number(requestUrl.searchParams.get("offset") || 0);
+        const records = offset === 0
+          ? Array.from({ length: 100 }, (_, index) => ({
+              idweb: "BOAMP-PAGE-1-" + index, objet: "Annonce sans correspondance " + index,
+              dateparution: "2026-11-02", datelimitereponse: "2027-12-01T12:00:00+01:00",
+              nomacheteur: "Acheteur de test", code_departement: "79", code_departement_prestation: "79",
+              type_marche: "SERVICES", type_marche_facette: "Services",
+              descripteur_libelle: "Informatique et services numériques", etat: "INITIAL"
+            }))
+          : Array.from({ length: 12 }, (_, index) => ({
+              idweb: "BOAMP-PAGE-2-MATCH-" + index, objet: "Marché paginationtest " + index,
+              dateparution: "2026-11-02", datelimitereponse: "2027-12-01T12:00:00+01:00",
+              nomacheteur: "Acheteur de test", code_departement: "79", code_departement_prestation: "79",
+              type_marche: "SERVICES", type_marche_facette: "Services",
+              descripteur_libelle: "Informatique et services numériques", etat: "INITIAL",
+              url_avis: "https://www.boamp.fr/pages/avis/?q=idweb%3ABOAMP-PAGE-2-MATCH-" + index
+            }));
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ total_count: 112, results: records }) });
+        return;
+      }
       if (where.includes('code_departement_prestation = "79"') && where.includes('code_departement = "79"')) {
         departmentFilterSeen = true;
       }
@@ -197,15 +233,16 @@ async function main() {
     const bodaccCategoryCases = [
       ["bodacc-creations", "Entreprise BODACC création test"],
       ["bodacc-cessions", "Entreprise BODACC de test"],
-      ["bodacc-modifications", "Entreprise BODACC modification test"],
-      ["bodacc-procedures", "Entreprise BODACC procédure test"],
-      ["bodacc-radiations", "Entreprise BODACC radiation test"]
+      ["bodacc-modifications", "Entreprise BODACC modification test"]
     ];
     for (const [category, expectedCompany] of bodaccCategoryCases) {
       await page.goto(`http://127.0.0.1:4174/resultats-recherche.html?marche=private&categorie=${category}`, { waitUntil: "domcontentloaded" });
       await page.getByRole("heading", { name: expectedCompany }).waitFor({ timeout: 10000 });
       assert.equal(await page.locator(".bodacc-result-card").count(), 1, `La catégorie ${category} doit afficher uniquement son signal correspondant.`);
     }
+
+    assert.equal(await page.getByRole("heading", { name: "Entreprise BODACC procédure test" }).count(), 0, "Les procédures collectives doivent être exclues.");
+    assert.equal(await page.getByRole("heading", { name: "Entreprise BODACC radiation test" }).count(), 0, "Les radiations doivent être exclues.");
 
     // Le retour depuis une rubrique privée doit restaurer la catégorie privée exacte, sans la convertir en catégorie publique.
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=cession&marche=private&categorie=bodacc-cessions&departement=79", { waitUntil: "domcontentloaded" });
@@ -248,6 +285,19 @@ async function main() {
     assert.equal(apiCalls, 0, "Une catégorie publique combinée à Publics et privés ne doit pas lancer de recherche ambiguë BOAMP.");
     assert.equal(bodaccCalls, 0, "Une catégorie publique combinée à Publics et privés ne doit pas lancer de recherche ambiguë BODACC.");
 
+    // La recherche doit parcourir la page suivante quand les 100 premières annonces ne correspondent pas.
+    apiCalls = 0;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=paginationtest&marche=public&categorie=services", { waitUntil: "domcontentloaded" });
+    await page.locator(".opportunity-result-card").filter({ hasText: "Marché paginationtest 0" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".opportunity-result-card").count(), 10, "BOAMP doit plafonner l’affichage à 10 résultats.");
+    assert.equal(apiCalls, 2, "BOAMP doit interroger la deuxième page après 100 annonces non pertinentes.");
+
+    bodaccCalls = 0;
+    await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=paginationtest&marche=private&categorie=bodacc-creations&departement=79", { waitUntil: "domcontentloaded" });
+    await page.getByRole("heading", { name: "Entreprise paginationtest deuxième page" }).waitFor({ timeout: 10000 });
+    assert.equal(await page.locator(".bodacc-result-card").count(), 1, "BODACC doit afficher la correspondance de la deuxième page.");
+    assert.equal(bodaccCalls, 2, "BODACC doit interroger la deuxième page après 100 annonces non pertinentes.");
+
     apiCalls = 0;
     bodaccCalls = 0;
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=all", { waitUntil: "domcontentloaded" });
@@ -263,7 +313,7 @@ async function main() {
       "Signaux d’entreprise publiés · BODACC"
     ], "La recherche combinée doit présenter BOAMP avant BODACC, dans l’ordre annoncé.");
     assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Marchés publics · BOAMP\"] .opportunity-result-card").count(), 2, "Le groupe BOAMP doit afficher les deux résultats publics simulés encore valides.");
-    assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 5, "Le groupe BODACC doit afficher les cinq familles de signaux simulées.");
+    assert.equal(await page.locator(".opportunity-source-group[aria-label=\"Signaux d’entreprise publiés · BODACC\"] .opportunity-result-card").count(), 3, "Le groupe BODACC doit afficher uniquement les trois familles validées : créations, cessions et modifications.");
     assert.ok(await page.locator(".opportunity-result-card").count() <= 10, "Une recherche mixte ne doit jamais afficher plus de dix annonces et signaux au total.");
 
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?marche=private&departement=999", { waitUntil: "domcontentloaded" });
@@ -315,10 +365,10 @@ async function main() {
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
-    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
+    for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
       assert.ok(privateCategoryOptions.some(option => option.value === expected), `La catégorie privée ${expected} doit être proposée.`);
     }
-    assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 5, "Les rubriques BODACC doivent être regroupées ensemble.");
+    assert.ok(await page.locator("#feed-sector optgroup[label='Signaux BODACC'] option").count() >= 4, "Les trois familles BODACC validées et la recherche Autre doivent être regroupées ensemble.");
     assert.ok(await page.locator("#feed-sector optgroup[label='Autres opportunités privées'] option").count() >= 4, "Immobilier, emploi et sous-traitance doivent former un groupe extensible.");
     assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, "L’accueil doit proposer un département français filtrable.");
     assert.equal(await page.locator('#feed-department option[value="72"]').count(), 1, "Le département 72 · Sarthe doit être proposé avec son code officiel.");
