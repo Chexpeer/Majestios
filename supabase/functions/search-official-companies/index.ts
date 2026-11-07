@@ -54,7 +54,7 @@ Deno.serve(async (req: Request) => {
   upstream.searchParams.set("page", String(page));
   upstream.searchParams.set("per_page", String(perPage));
   if (department && /^[0-9]{2,3}$/.test(department)) upstream.searchParams.set("departement", department);
-  if (activity && /^[0-9]{2}\\.?[0-9]{2}[A-Z]$/.test(activity)) upstream.searchParams.set("activite_principale", activity);
+  if (activity && /^[0-9]{2}\.?[0-9]{2}[A-Z]$/.test(activity)) upstream.searchParams.set("activite_principale", activity);
 
   try {
     const response = await fetch(upstream, {
