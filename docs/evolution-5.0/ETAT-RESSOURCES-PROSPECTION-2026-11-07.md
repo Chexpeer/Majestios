@@ -6,7 +6,7 @@
 
 | Ressource | Réalisation présente dans cette branche | Limite |
 |---|---|---|
-| API Recherche d’Entreprises (DINUM) | Recherche par APE/NAF et département ; récupération enrichie avec les champs administratifs disponibles | API de recherche ouverte, mais elle ne remplace pas l'accès complet au répertoire SIRENE |
+| API Recherche d’Entreprises (DINUM) | Recherche par APE/NAF, département/région, chiffre d’affaires et labels disponibles ; recherche géographique par rayon jusqu’à 50 km via `/near_point` | API de recherche ouverte, mais elle ne remplace pas l'accès complet au répertoire SIRENE |
 | SIRENE (INSEE) | Connecteur serveur préparé par URL de proxy configurable | Aucun proxy ni identifiant INSEE configuré ; aucune requête SIRENE directe validée |
 | RNE (INPI) | Connecteur serveur préparé par URL de proxy configurable | Accès INPI et proxy non configurés ; aucune requête RNE validée |
 | ADEME — entreprises RGE | Recherche dédiée et interface ; lecture du schéma du jeu de données avant filtrage | Réponse réelle de l'API non testée depuis ce lot ; le schéma et les noms de champs doivent être confirmés en recette |
@@ -30,13 +30,16 @@
 
 - Compilation syntaxique V8 des fichiers JavaScript modifiés : réussie.
 - Simulation de normalisation administrative (SIREN, SIRET, département, date de création et tranche d'effectif) : réussie.
-- Présence du nouveau script dans `site-files.json) et de ses formulaires dans `prospection-active.html` : vérifiée.
-- GitHub Actions sur le commit `66cfc8c` : syntaxe JavaScript réussie ; tests `company-targeting`, `company-fit` et `prospecting-resources` réussis.\n- Le workflow s’arrête ensuite sur un échec préexistant du test `naf-suggestions.test.cjs` (assertion sur l’exploitation du descriptif du lot) ; le build, les contrôles d’architecture et les tests navigateur sont donc ignorés dans ce run. Cet échec n’est pas lié au connecteur de ressources, mais bloque la validation globale.\n- Appels API ADEME, INSEE, INPI et fournisseurs de certification en conditions réelles : non exécutés.
+- Présence des scripts dans `site-files.json` et des formulaires dans `prospection-active.html` : vérifiée.
+- GitHub Actions sur le commit `66cfc8c` : syntaxe JavaScript réussie ; tests `company-targeting`, `company-fit` et `prospecting-resources` réussis.\n- Le workflow s’arrête ensuite sur un échec préexistant du test `naf-suggestions.test.cjs` (assertion sur l’exploitation du descriptif du lot) ; le build, les contrôles d’architecture et les tests navigateur sont donc ignorés dans ce run. Cet échec n’est pas lié au connecteur de ressources, mais bloque la validation globale.\n- Recherche géographique : syntaxe JavaScript et simulation du flux géocodage → `/near_point` validées avec une réponse simulée ; aucune recherche réelle en navigateur n’a été effectuée.
+- Documentation officielle geo.api.gouv.fr consultée ; géocodage par nom/code postal et coordonnées du centre communal confirmés.
+- Appels API ADEME, INSEE, INPI et fournisseurs de certification en conditions réelles : non exécutés.
 - Aucun déploiement, aucune modification CRM/Supabase.
 
 ## Sources officielles de référence
 
-- API Recherche d'Entreprises : https://recherche-entreprises.api.gouv.fr/docs/
+- API Recherche d’Entreprises : https://recherche-entreprises.api.gouv.fr/docs/
+- API Découpage administratif / géocodage des communes : https://geo.api.gouv.fr/decoupage-administratif/communes
 - Catalogue API INSEE / SIRENE : https://www.insee.fr/fr/information/8184146
 - Accès API entreprises INPI / RNE : https://data.inpi.fr/content/editorial/Acces_API_Entreprises
 - Liste des entreprises RGE ADEME : https://data.ademe.fr/datasets/liste-des-entreprises-rge-2
@@ -44,4 +47,4 @@
 - API Certification QUALIBAT : https://www.data.gouv.fr/dataservices/api-certification-qualibat-qualibat-bouquet-api-entreprise
 - Sources de l'Annuaire des Entreprises : https://annuaire-entreprises.data.gouv.fr/donnees/sources
 
-**Dernier commit de code au moment de la rédaction :** `0aa78477d5787835bdc7a139e97574ce178f2f5b` (les commits ultérieurs de documentation ne modifient pas le code).
+**Derniers commits du lot géographique :** `2673358d8cc36a9d33a6b437977e606042e83fc2`, `29c68dffc0b98b924b113cf7d12f0a0ff5a65f28`, `9611a248006622eaf69a2c7f9e05b37fbce37ab5`, `6a34c7c41363d01a2e5ade78f763c3d412ae6062`.
