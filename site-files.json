@@ -55,6 +55,10 @@
     "company-fit.js",
     "qualification-entreprises.html",
     "supabase-config.js",
-    "auth-espace-membre.js"
+    "auth-espace-membre.js",
+    "espace-prive.html",
+    "espace-interne.html",
+    "espace-interne.css",
+    "espace-interne.js"
   ]
 }
