@@ -30,16 +30,38 @@
     const query = String(options.query || "").trim();
     const department = String(options.department || "").trim();
     if (!query && !department) throw new Error("Saisissez une entreprise ou choisissez un département.");
-    const endpoint = "https://data.ademe.fr/data-fair/api/v1/datasets/liste-des-entreprises-rge-2/lines";
-    const url = new URL(endpoint);
-    url.searchParams.set("size", String(Math.min(20, Math.max(1, Number(options.limit) || 10))));
+    const base = "https://data.ademe.fr/data-fair/api/v1/datasets/liste-des-entreprises-rge-2";
+    const metadataResponse = await fetch(base, { headers:{Accept:"application/json"} });
+    if (!metadataResponse.ok) throw new Error("Impossible de lire le schéma ADEME (HTTP " + metadataResponse.status + ").");
+    const metadata = await metadataResponse.json();
+    const fields = Array.isArray(metadata.schema) ? metadata.schema.map(field => field.key) : [];
+    const pick = (...names) => names.find(name => fields.includes(name));
+    const deptField = pick("code_departement","departement","departement_code","code_postal");
+    const url = new URL(base + "/lines");
+    url.searchParams.set("size", String(Math.min(100, Math.max(1, Number(options.limit) || 10))));
     if (query) url.searchParams.set("q", query);
-    if (department) url.searchParams.set("qs", "code_departement:" + department);
+    // Les noms de colonnes varient selon les versions du jeu de données :
+    // on ne construit un filtre exact que si le schéma public confirme le champ.
+    if (department && deptField) {
+      if (deptField === "code_postal") url.searchParams.set("code_postal", department);
+      else url.searchParams.set(deptField + "_eq", department);
+    }
     const response = await fetch(url.toString(), { headers:{Accept:"application/json"} });
     if (!response.ok) throw new Error("L’API ADEME a répondu avec le statut " + response.status + ".");
     const payload = await response.json();
-    const rows = Array.isArray(payload.results) ? payload.results : Array.isArray(payload) ? payload : [];
-    return { source:"ADEME — entreprises RGE", sourceUrl:"https://data.ademe.fr/datasets/liste-des-entreprises-rge-2", records:rows, fetchedAt:new Date().toISOString() };
+    const rows = Array.isArray(payload.results) ? payload.results : [];
+    const normalizeDept = value => String(value || "").replace(/\\D/g,"").padStart(2,"0");
+    const filtered = department && deptField === "code_postal"
+      ? rows.filter(row => normalizeDept(row.code_postal).startsWith(normalizeDept(department)))
+      : rows;
+    return {
+      source:"ADEME — entreprises RGE",
+      sourceUrl:"https://data.ademe.fr/datasets/liste-des-entreprises-rge-2",
+      records:filtered.slice(0, Math.min(100, Math.max(1, Number(options.limit) || 10))),
+      fields,
+      departmentFilterApplied:!department || Boolean(deptField),
+      fetchedAt:new Date().toISOString()
+    };
   }
 
   async function searchConfiguredProxy(sourceId, criteria) {
