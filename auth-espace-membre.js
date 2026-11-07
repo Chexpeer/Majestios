@@ -9,6 +9,9 @@ const modeToggle = document.querySelector("#toggle-auth-mode");
 const submitButton = form?.querySelector('[type="submit"]');
 const status = document.querySelector("#member-auth-status");
 const preview = document.querySelector(".member-preview");
+const callbackParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+const queryParams = new URLSearchParams(window.location.search);
+const inviteCallback = callbackParams.get("type") === "invite" || queryParams.get("type") === "invite";
 
 if (form && config?.url && config?.publishableKey) {
   const supabase = createClient(config.url, config.publishableKey, {
@@ -34,13 +37,13 @@ if (form && config?.url && config?.publishableKey) {
       });
     });
     form.querySelectorAll("[data-auth-common]").forEach((element) => {
-      element.hidden = mode === "recovery";
-      element.querySelectorAll("input").forEach((input) => { input.required = mode !== "recovery"; });
+      element.hidden = mode === "recovery" || mode === "invite-setup";
+      element.querySelectorAll("input").forEach((input) => { input.required = mode !== "recovery" && mode !== "invite-setup"; });
     });
     form.querySelectorAll("[data-recovery-only]").forEach((element) => {
-      element.hidden = mode !== "recovery";
+      element.hidden = mode !== "recovery" && mode !== "invite-setup";
       element.querySelectorAll("input").forEach((input) => {
-        input.required = mode === "recovery" && input.dataset.required === "true";
+        input.required = (mode === "recovery" || mode === "invite-setup") && input.dataset.required === "true";
       });
     });
     form.querySelectorAll("[data-login-only]").forEach((element) => {
@@ -53,16 +56,16 @@ if (form && config?.url && config?.publishableKey) {
     }
     const passwordField = field("password");
     if (passwordField) {
-      passwordField.autocomplete = mode === "signup" || mode === "recovery" ? "new-password" : "current-password";
+      passwordField.autocomplete = mode === "signup" || mode === "recovery" || mode === "invite-setup" ? "new-password" : "current-password";
       passwordField.minLength = mode === "login" ? 1 : 12;
     }
     if (submitButton) submitButton.innerHTML = mode === "signup"
       ? 'Créer mon espace <span aria-hidden="true">→</span>'
-      : mode === "recovery"
-        ? 'Enregistrer le nouveau mot de passe <span aria-hidden="true">→</span>'
+      : mode === "recovery" || mode === "invite-setup"
+        ? 'Définir mon mot de passe <span aria-hidden="true">→</span>'
         : 'Se connecter <span aria-hidden="true">→</span>';
     if (modeToggle) {
-      modeToggle.hidden = mode === "recovery";
+      modeToggle.hidden = mode === "recovery" || mode === "invite-setup";
       modeToggle.textContent = mode === "signup"
         ? "Déjà membre ? Se connecter"
         : "Pas encore de compte ? Créer mon espace";
@@ -166,15 +169,23 @@ if (form && config?.url && config?.publishableKey) {
         throw new Error("Veuillez confirmer avoir pris connaissance de la politique de confidentialité.");
       }
 
-      if (mode === "recovery") {
+      if (mode === "recovery" || mode === "invite-setup") {
         const confirmation = String(field("passwordConfirm")?.value ?? "");
         if (password.length < 12 || password !== confirmation) {
           throw new Error("Les deux mots de passe doivent être identiques et contenir au moins 12 caractères.");
         }
-        const { error } = await supabase.auth.updateUser({ password });
+        const { data: updated, error } = await supabase.auth.updateUser({ password });
         if (error) throw error;
+        if (mode === "invite-setup" && isInternalAdmin(updated.user?.email)) {
+          const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+          if (sessionError || !sessionData.session) throw new Error("Mot de passe enregistré, mais la session d’activation est absente. Reconnectez-vous pour terminer.");
+          await bootstrapInternalAdmin(sessionData.session);
+          setFeedback("Mot de passe défini. Les accès du Général sont activés.");
+          await updateAuthStatus(sessionData.session);
+        } else {
+          setFeedback(mode === "invite-setup" ? "Votre mot de passe est défini. Votre compte invité est activé." : "Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.");
+        }
         setMode("login");
-        setFeedback("Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.");
         return;
       }
 
@@ -267,6 +278,11 @@ if (form && config?.url && config?.publishableKey) {
   });
 
   supabase.auth.getSession().then(async ({ data }) => {
+    if (inviteCallback && data.session) {
+      setMode("invite-setup");
+      if (typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) personalSpaceDialog.showModal();
+      setFeedback("Invitation confirmée. Choisissez maintenant votre mot de passe personnel (12 caractères minimum).");
+    }
     await updateAuthStatus(data.session);
     if (new URLSearchParams(window.location.search).get("confirmed") === "1" && data.session) {
       try {
@@ -289,6 +305,11 @@ if (form && config?.url && config?.publishableKey) {
   });
   supabase.auth.onAuthStateChange((event, session) => {
     updateAuthStatus(session);
+    if (inviteCallback && session && event === "SIGNED_IN") {
+      setMode("invite-setup");
+      if (typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) personalSpaceDialog.showModal();
+      setFeedback("Invitation confirmée. Choisissez maintenant votre mot de passe personnel (12 caractères minimum).");
+    }
     if (event === "PASSWORD_RECOVERY") {
       setMode("recovery");
       if (typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) personalSpaceDialog.showModal();
