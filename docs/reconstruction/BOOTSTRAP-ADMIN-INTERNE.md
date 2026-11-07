@@ -34,10 +34,10 @@ Cette procédure ne crée pas elle-même le compte Auth et ne confirme pas l'adr
 
 - Migration : `20261107070905_expose_internal_admin_bootstrap_service_role_only` (version Supabase appliquée).
 - Source versionnée : `supabase/migrations/20261107081000_expose_internal_admin_bootstrap.sql`.
-- Fonction Edge : `bootstrap-internal-admin`, version 1, ACTIVE, JWT obligatoire.
+- Fonction Edge : `bootstrap-internal-admin`, version 2, ACTIVE, JWT obligatoire ; répétition du bootstrap idempotente pour le même propriétaire.
 - Source versionnée : `supabase/functions/bootstrap-internal-admin/index.ts`.
 - Client web : `supabase-config.js` pointe désormais vers le projet Supabase vierge `majestios-crm`.
-- `auth-espace-membre.js` distingue le compte interne désigné des comptes clients et n'envoie pas ce compte dans le provisionnement client.
+- `auth-espace-membre.js` distingue le compte interne désigné des comptes clients, n'envoie pas ce compte dans le provisionnement client et affiche un accès direct au centre de commandement après bootstrap réussi.
 
 ## Limite de recette
 
