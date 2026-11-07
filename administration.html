@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Poste de commandement interne MajestiOS.">
+  <title>Administration générale — MajestiOS</title>
+  <link rel="stylesheet" href="administration.css">
+</head>
+<body class="admin-shell">
+  <div class="admin-frame is-locked">
+    <aside class="admin-sidebar" aria-label="Navigation de l’administration">
+      <a class="admin-brand" href="administration.html" aria-label="MajestiOS, poste de commandement">
+        <span class="admin-brand-mark" aria-hidden="true">M</span>
+        <span><strong>MajestiOS</strong><small>POSTE DE COMMANDEMENT</small></span>
+      </a>
+      <div class="admin-sidebar-caption">PILOTAGE GÉNÉRAL</div>
+      <nav id="admin-nav" class="admin-nav">
+        <a class="is-active" href="#overview"><span class="nav-symbol" aria-hidden="true">◈</span>Vue générale</a>
+        <a href="#operations"><span class="nav-symbol" aria-hidden="true">▦</span>Modules opérationnels</a>
+        <a href="crm.html"><span class="nav-symbol" aria-hidden="true">▣</span>CRM interne</a>
+        <a href="admin-recherches.html"><span class="nav-symbol" aria-hidden="true">⌕</span>Recherches ciblées</a>
+        <button type="button" disabled aria-disabled="true"><span class="nav-symbol" aria-hidden="true">⇄</span>Sources & connecteurs <small>À construire</small></button>
+        <button type="button" disabled aria-disabled="true"><span class="nav-symbol" aria-hidden="true">▤</span>Fichiers & diffusion <small>À construire</small></button>
+        <button type="button" disabled aria-disabled="true"><span class="nav-symbol" aria-hidden="true">♙</span>Équipes & habilitations <small>À construire</small></button>
+        <button type="button" disabled aria-disabled="true"><span class="nav-symbol" aria-hidden="true">⌁</span>Supervision & IA <small>À construire</small></button>
+      </nav>
+      <div class="admin-sidebar-bottom">
+        <span class="admin-security-dot" aria-hidden="true"></span>
+        <span>Accès interne contrôlé</span>
+        <a href="index.html">Retour au site public ↗</a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-breadcrumb"><a href="espace-interne.html">Accueil interne</a><span aria-hidden="true">/</span><strong>Administration générale</strong></div>
+        <div class="admin-session">
+          <span id="admin-session-label">Vérification des accès…</span>
+          <button id="admin-signout" type="button" hidden>Déconnexion</button>
+        </div>
+      </header>
+
+      <section id="admin-gate" class="admin-gate" aria-live="polite">
+        <div class="gate-emblem" aria-hidden="true">M</div>
+        <p class="admin-kicker">POSTE DE COMMANDEMENT</p>
+        <h1>Administration générale</h1>
+        <p id="admin-gate-message">Vérification de votre identité et de vos habilitations internes…</p>
+        <a class="admin-button admin-button-primary" href="espace-interne.html?returnTo=administration.html">Connexion collaborateurs <span aria-hidden="true">→</span></a>
+        <p class="admin-gate-note">L’accès est réservé aux administrateurs internes MajestiOS. Un compte membre ou client ne donne pas accès à cet espace.</p>
+      </section>
+
+      <div id="admin-workspace" hidden>
+        <section id="overview" class="admin-welcome">
+          <div>
+            <p class="admin-kicker">POSTE DE PILOTAGE · <span>ACCÈS AUTORISÉ</span></p>
+            <h1>Administration <em>générale</em></h1>
+            <p>Le centre de commandement de MajestiOS : superviser, orienter, rechercher, qualifier et distribuer — dans le respect des habilitations.</p>
+          </div>
+          <div class="admin-authority-badge"><span aria-hidden="true">✦</span><div><strong id="admin-organization-name">Organisation interne</strong><small id="admin-role-label">Administrateur</small></div></div>
+        </section>
+
+        <section class="admin-principle" aria-label="Principe de gouvernance">
+          <span class="principle-icon" aria-hidden="true">⚖</span>
+          <p><strong>L’administrateur garde la main.</strong> Les recherches, traitements, partages et opérations sensibles sont préparés dans le cockpit ; leur exécution reste encadrée par les droits et les validations humaines.</p>
+        </section>
+
+        <section id="operations" class="admin-section">
+          <div class="admin-section-heading">
+            <div><p class="admin-kicker">VOS OUTILS</p><h2>Modules opérationnels</h2></div>
+            <span class="admin-section-count">01 MODULE DISPONIBLE</span>
+          </div>
+          <div class="admin-module-grid">
+            <article class="admin-module-card admin-module-featured">
+              <div class="module-card-top"><span class="module-icon" aria-hidden="true">▦</span><span class="module-state is-live"><i></i> Opérationnel</span></div>
+              <p class="module-overline">LE COLONEL · CHAUFFERIE CENTRALE</p>
+              <h3>CRM MajestiOS</h3>
+              <p>Le référentiel commercial interne : entreprises, contacts, opportunités, activités, qualifications et relances. Il alimente les autres fonctions sans ouvrir indistinctement les données.</p>
+              <a class="admin-button admin-button-primary" href="crm.html">Ouvrir le CRM <span aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="admin-module-card">
+              <div class="module-card-top"><span class="module-icon" aria-hidden="true">⌕</span><span class="module-state is-live"><i></i> Disponible</span></div>
+              <p class="module-overline">DÉTECTION & COLLECTE</p>
+              <h3>Recherches ciblées</h3>
+              <p>Préparer les recherches ponctuelles BODACC et BOAMP, en commençant par la région de l’administrateur et la région parisienne. Les critères évolueront selon les résultats observés.</p>
+              <a class="admin-button admin-button-primary" href="admin-recherches.html">Ouvrir les recherches <span aria-hidden="true">→</span></a><span class="module-footnote">Lancement manuel uniquement ; aucun enregistrement ni automatisation.</span>
+            </article>
+
+            <article class="admin-module-card">
+              <div class="module-card-top"><span class="module-icon" aria-hidden="true">⇄</span><span class="module-state is-planned">À construire</span></div>
+              <p class="module-overline">ORIGINE DES DONNÉES</p>
+              <h3>Sources & connecteurs</h3>
+              <p>Suivre les sources, leur disponibilité, leur couverture, leur provenance et les conditions d’utilisation associées.</p>
+              <span class="module-footnote">Connecteurs à raccorder et à vérifier.</span>
+            </article>
+
+            <article class="admin-module-card">
+              <div class="module-card-top"><span class="module-icon" aria-hidden="true">▤</span><span class="module-state is-planned">À construire</span></div>
+              <p class="module-overline">PRODUCTION & PARTAGE</p>
+              <h3>Fichiers & diffusion</h3>
+              <p>Constituer des fichiers ciblés, choisir les colonnes, contrôler les destinataires et valider chaque diffusion avant envoi.</p>
+              <span class="module-footnote">Aucun export ni envoi automatique n’est activé.</span>
+            </article>
+
+            <article class="admin-module-card">
+              <div class="module-card-top"><span class="module-icon" aria-hidden="true">♙</span><span class="module-state is-planned">À construire</span></div>
+              <p class="module-overline">ORGANISATION</p>
+              <h3>Équipes & habilitations</h3>
+              <p>Organiser les collaborateurs, les équipes, les rôles et les accès aux modules et aux données autorisées.</p>
+              <span class="module-footnote">La gestion des droits n’est pas disponible dans cette interface.</span>
+            </article>
+
+            <article class="admin-module-card">
+              <div class="module-card-top"><span class="module-icon" aria-hidden="true">⌁</span><span class="module-state is-planned">À construire</span></div>
+              <p class="module-overline">MAINTENANCE & INTELLIGENCE</p>
+              <h3>Supervision MajestiOS V.5</h3>
+              <p>Suivre la santé de la plateforme, les anomalies, les contrôles, les recommandations IA et les validations en attente.</p>
+              <span class="module-footnote">Aucune action de maintenance n’est exécutée depuis ce cockpit à ce stade.</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="admin-next-steps">
+          <div><p class="admin-kicker">FEUILLE DE ROUTE</p><h2>Construire sans brûler les étapes</h2><p>Le poste de commandement commence par donner une vue claire des espaces et de leur état réel. Les capacités seront ajoutées progressivement, après vérification de leurs fondations.</p></div>
+          <ol><li><span>01</span> Stabiliser la navigation Administration ↔ CRM.</li><li><span>02</span> Préparer les recherches ponctuelles et ciblées.</li><li><span>03</span> Organiser la qualification, la capitalisation et la diffusion.</li></ol>
+        </section>
+      </div>
+
+      <footer class="admin-footer"><span>MajestiOS V.5 · Administration générale</span><span>Chrome & gold · Contrôle humain conservé</span></footer>
+    </main>
+  </div>
+  <script type="module" src="administration.js"></script>
+</body>
+</html>
