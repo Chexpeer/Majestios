@@ -70,6 +70,21 @@ if (form && config?.url && config?.publishableKey) {
     if (feedback) feedback.hidden = true;
   };
 
+  const INTERNAL_ADMIN_EMAIL = "szineddine174@gmail.com";
+  const isInternalAdmin = (email) => String(email || "").trim().toLowerCase() === INTERNAL_ADMIN_EMAIL;
+
+  const bootstrapInternalAdmin = async (session) => {
+    const { data, error } = await supabase.functions.invoke("bootstrap-internal-admin", {
+      body: {},
+      headers: { Authorization: `Bearer ${session.access_token}` }
+    });
+    if (error) throw error;
+    if (!data?.ok || data.role !== "owner") {
+      throw new Error(data?.error || "L'initialisation du compte administrateur n'a pas été confirmée.");
+    }
+    return data;
+  };
+
   const provisionWorkspace = async (session, organizationName, privacyAcknowledged = false) => {
     const { data, error } = await supabase.functions.invoke("provision-client-workspace", {
       body: {
@@ -170,39 +185,51 @@ if (form && config?.url && config?.publishableKey) {
         });
         if (error) throw error;
         if (data.session) {
-          const organization = await provisionWorkspace(data.session, organizationName, privacyAccepted);
-          setFeedback(`Votre compte est créé et votre espace « ${organization.name} » est prêt. Vous êtes connecté.`);
+          if (isInternalAdmin(email)) {
+            await bootstrapInternalAdmin(data.session);
+            setFeedback("Compte du Général confirmé : les accès administrateur internes sont activés.");
+          } else {
+            const organization = await provisionWorkspace(data.session, organizationName, privacyAccepted);
+            setFeedback(`Votre compte est créé et votre espace « ${organization.name} » est prêt. Vous êtes connecté.`);
+          }
           await updateAuthStatus(data.session);
         } else {
-          setFeedback("Votre demande de création de compte est enregistrée. Consultez votre messagerie pour confirmer votre adresse e-mail, puis revenez ici pour vous connecter.");
+          setFeedback(isInternalAdmin(email)
+            ? "Compte enregistré. Confirmez l'adresse e-mail du Général depuis le message reçu ; les accès administrateur seront alors initialisés à la première connexion."
+            : "Votre demande de création de compte est enregistrée. Consultez votre messagerie pour confirmer votre adresse e-mail, puis revenez ici pour vous connecter.");
         }
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
 
-        const { data: memberships, error: membershipError } = await supabase
-          .from("organization_members")
-          .select("organization_id")
-          .eq("user_id", data.user.id)
-          .limit(1);
-
-        if (
-          !membershipError &&
-          !memberships?.length &&
-          data.user.user_metadata?.privacy_notice_acknowledged === true &&
-          data.user.user_metadata?.privacy_notice_version === "2026-11-05" &&
-          data.user.user_metadata?.organization_name
-        ) {
-          const organization = await provisionWorkspace(
-            data.session,
-            data.user.user_metadata.organization_name,
-            true
-          );
-          setFeedback(`Connexion réussie. Votre espace « ${organization.name} » est prêt.`);
-        } else if (membershipError) {
-          setFeedback("Connexion réussie, mais la vérification de votre espace est momentanément indisponible.");
+        if (isInternalAdmin(data.user.email)) {
+          await bootstrapInternalAdmin(data.session);
+          setFeedback("Bienvenue dans le centre de commandement MajestiOS. Accès Général confirmé.");
         } else {
-          setFeedback("Connexion réussie.");
+          const { data: memberships, error: membershipError } = await supabase
+            .from("organization_members")
+            .select("organization_id")
+            .eq("user_id", data.user.id)
+            .limit(1);
+
+          if (
+            !membershipError &&
+            !memberships?.length &&
+            data.user.user_metadata?.privacy_notice_acknowledged === true &&
+            data.user.user_metadata?.privacy_notice_version === "2026-11-05" &&
+            data.user.user_metadata?.organization_name
+          ) {
+            const organization = await provisionWorkspace(
+              data.session,
+              data.user.user_metadata.organization_name,
+              true
+            );
+            setFeedback(`Connexion réussie. Votre espace « ${organization.name} » est prêt.`);
+          } else if (membershipError) {
+            setFeedback("Connexion réussie, mais la vérification de votre espace est momentanément indisponible.");
+          } else {
+            setFeedback("Connexion réussie.");
+          }
         }
         await updateAuthStatus(data.session);
       }
@@ -232,12 +259,17 @@ if (form && config?.url && config?.publishableKey) {
     await updateAuthStatus(data.session);
     if (new URLSearchParams(window.location.search).get("confirmed") === "1" && data.session) {
       try {
-        const organization = await provisionWorkspace(
-          data.session,
-          data.session.user.user_metadata?.organization_name,
-          data.session.user.user_metadata?.privacy_notice_acknowledged === true
-        );
-        if (status) status.textContent = `Adresse confirmée · espace « ${organization.name} » prêt.`;
+        if (isInternalAdmin(data.session.user.email)) {
+          await bootstrapInternalAdmin(data.session);
+          if (status) status.textContent = "Adresse du Général confirmée · accès administrateur interne activé.";
+        } else {
+          const organization = await provisionWorkspace(
+            data.session,
+            data.session.user.user_metadata?.organization_name,
+            data.session.user.user_metadata?.privacy_notice_acknowledged === true
+          );
+          if (status) status.textContent = `Adresse confirmée · espace « ${organization.name} » prêt.`;
+        }
       } catch (error) {
         if (status) status.textContent = error.message || "Adresse confirmée · finalisation de l’espace nécessaire.";
       }
