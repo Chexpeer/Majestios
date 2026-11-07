@@ -1,70 +1,39 @@
 <!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Identifier les entreprises pertinentes, engager des prises de contact ciblées et développer de nouvelles opportunités commerciales."><title>Prospection — MajestiOS</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="rubriques-immersives.css"><script src="catalogue-majestios.js" defer></script><script src="rubriques-immersives.js" defer></script> <script src="app.js" defer></script><script src="company-targeting.js" defer></script><script src="prospecting-signals.js" defer></script><script src="prospecting-resources.js" defer></script><script src="naf-suggestions.js" defer></script><script src="company-fit.js" defer></script><script src="company-targeting-page.js" defer></script>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Identifier les entreprises pertinentes, engager des prises de contact ciblées et développer de nouvelles opportunités commerciales."><title>Prospection — MajestiOS</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="rubriques-immersives.css"><script src="catalogue-majestios.js" defer></script><script src="rubriques-immersives.js" defer></script> <script src="app.js" defer></script><script src="company-targeting.js" defer></script><script src="naf-suggestions.js" defer></script><script src="company-fit.js" defer></script><script src="company-targeting-page.js" defer></script>
   <link rel="stylesheet" href="charte-majestios.css">
+<style>
+.page-prospection .prospecting-search-shell{width:min(1240px,calc(100% - 24px));margin:18px auto 28px;padding:0;background:transparent;border:0;box-shadow:none}
+.page-prospection .prospecting-search-shell .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
+.page-prospection .prospecting-search-heading{margin:0 0 12px;color:#f4f0e6}
+.page-prospection .prospecting-search-heading .eyebrow{color:#d5b56c;font-size:10px;font-weight:800;letter-spacing:.14em}
+.page-prospection .prospecting-search-heading h2{margin:5px 0 7px;color:#fff;font-size:clamp(22px,2.5vw,34px);line-height:1.15}
+.page-prospection .prospecting-search-heading p:last-child{margin:0;color:#bdb5a4;font-size:13px;line-height:1.5}
+.page-prospection #company-targeting-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:0;padding:16px;border:1px solid #d5b56c55;border-radius:10px;background:#0d141e;color:#f4f0e6;box-shadow:0 14px 35px #0004}
+.page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;display:flex;align-items:center;gap:12px;min-height:54px;padding:0 18px;border:1px solid #d5b56c66;border-radius:8px;background:#101a28;color:#d5b56c}
+.page-prospection #company-targeting-form>.feed-search input{width:100%;min-width:0;min-height:52px;padding:0;border:0;outline:0;background:transparent;color:#fff;font:400 15px/1.3 inherit}
+.page-prospection #company-targeting-form>label:not(.feed-search),.page-prospection #company-targeting-form>fieldset{grid-column:1/-1}
+.page-prospection #company-targeting-form label,.page-prospection #company-targeting-form legend{color:#e7d6ad;font-size:12px;font-weight:650}
+.page-prospection #company-targeting-form input:not([type=checkbox]),.page-prospection #company-targeting-form select,.page-prospection #company-targeting-form textarea{width:100%;min-height:40px;margin-top:5px;padding:9px 11px;border:1px solid #526781;border-radius:6px;background:#101a28;color:#f4f0e6;font:inherit;font-size:13px}
+.page-prospection #company-targeting-form fieldset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;padding:13px;border:1px solid #d5b56c44;border-radius:8px;background:#101a28}
+.page-prospection #company-targeting-form fieldset legend{padding:0 6px;color:#d5b56c}
+.page-prospection #company-targeting-form .company-targeting-checkbox{display:flex;align-items:center;gap:8px;color:#d8dce4;font-weight:450}
+.page-prospection #company-targeting-form .company-targeting-checkbox input{accent-color:#d5b56c}
+.page-prospection #company-targeting-form .small-note{grid-column:1/-1;color:#aeb8c8;font-size:11px;line-height:1.45}
+.page-prospection #company-targeting-form .button-secondary{grid-column:1/-1;justify-self:start}
+.page-prospection #company-targeting-form .feed-search-submit{grid-column:1/-1;justify-self:start;min-height:42px;padding:9px 18px;border:1px solid #d5b56c;border-radius:7px;background:#d5b56c;color:#11151c;font-size:13px;font-weight:800;cursor:pointer}
+.page-prospection #company-targeting-form .feed-search-submit:hover{background:#f0d38b}
+.page-prospection #company-targeting-status{color:#d8dce4}
+@media(max-width:650px){.page-prospection #company-targeting-form{grid-template-columns:1fr;padding:11px}.page-prospection #company-targeting-form fieldset{grid-template-columns:1fr}.page-prospection .prospecting-search-shell{width:calc(100% - 16px)}}
+</style>
+
 </head>
 <body class="page-prospection"><header class="site-header"><a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button><nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="reseaux-synergies.html">Réseau</a><a href="reputation-virtuelle.html">Réputation virtuelle</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace privé</a><a href="faq.html">FAQ</a></nav></header>
 <main class="section-wrap interior-page"><p class="eyebrow">EXPLORER MAJESTIOS · RUBRIQUE</p><h1>Prospection</h1><p class="interior-lede">Confiez-nous votre prospection : concentrez-vous sur ce que vous aimez et ce que vous savez faire.</p>
-<section class="virtual-space" data-world="prospection" style="--space-accent:#218d99" aria-label="Espace virtuel Prospection"><div class="virtual-space-copy"><span class="virtual-space-kicker">LABORATOIRE DE PROSPECTION</span><h2>Entrez dans votre espace <span style="color:#218d99">Prospection</span></h2><p>Détecter les opportunités, identifier les entreprises pertinentes et engager des prises de contact ciblées au bon moment.</p><span class="virtual-space-note">Espace visuel interactif · parcours guidé</span></div><div class="virtual-space-scene" aria-label="Illustration visuelle de l'espace"><div class="virtual-space-platform"></div><div class="virtual-space-building" aria-hidden="true"><span class="roof"></span><span class="front"></span><span class="windows"></span><span class="door"></span></div><article class="virtual-space-float one"><span class="space-status">DU SIGNAL À L’ACTION</span><strong>Signal détecté</strong><small>Information à examiner dans votre parcours</small><span class="space-meter"></span></article><article class="virtual-space-float two"><span class="space-status">ANALYSE</span><strong>Entreprise identifiée</strong><small>Qualification progressive des éléments utiles</small><span class="space-meter"></span></article><article class="virtual-space-float three"><span class="space-status">PROCHAINE ÉTAPE</span><strong>Contact à qualifier</strong><small>Vous gardez la maîtrise de la décision</small></article></div></section>
-<section class="category-results-panel prospecting-resources-panel" aria-labelledby="prospecting-resources-title">
-  <h2 id="prospecting-resources-title">Ressources complémentaires pour identifier les entreprises</h2>
-  <p>Référentiels publics, données sectorielles et réseaux professionnels. Les ressources nécessitant une authentification sont prévues via un connecteur serveur : aucun secret ne doit être exposé dans cette page.</p>
-  <div id="prospecting-resource-catalog" class="company-targeting-cards" aria-live="polite"></div>
-  <h3>Vérifier une qualification professionnelle par SIRET</h3>
-  <p>Contrôle individuel via les connecteurs de certification. Les accès fournisseur doivent être configurés côté serveur avant interrogation.</p>
-  <form id="prospecting-qualification-form">
-    <label for="prospecting-qualification-siret">SIRET de l’entreprise</label>
-    <input id="prospecting-qualification-siret" name="siret" inputmode="numeric" pattern="[0-9]{14}" maxlength="14" required placeholder="14 chiffres">
-    <label for="prospecting-qualification-source">Organisme de qualification</label>
-    <select id="prospecting-qualification-source" name="source">
-      <option value="qualibat">QUALIBAT — bâtiment</option>
-      <option value="qualifelec">QUALIFELEC — électricité</option>
-      <option value="opqibi">OPQIBI — ingénierie</option>
-      <option value="fntp">FNTP — travaux publics</option>
-    </select>
-    <button class="button-secondary" type="submit">Vérifier la qualification</button>
-  </form>
-  <p id="prospecting-qualification-status" class="company-targeting-status" role="status" aria-live="polite">Vérification non lancée.</p>
-  <pre id="prospecting-qualification-result" class="small-note" hidden></pre>
-  <h3>Entreprises du bâtiment qualifiées RGE — ADEME</h3>
-  <form id="prospecting-rge-form">
-    <label for="prospecting-rge-query">Entreprise ou activité</label>
-    <input id="prospecting-rge-query" name="query" type="search" maxlength="160" placeholder="Nom d’entreprise ou spécialité">
-    <label for="prospecting-rge-department">Département</label>
-    <select id="prospecting-rge-department" name="department"><option value="">Tous les départements</option></select>
-    <label for="prospecting-rge-limit">Nombre maximal de résultats</label>
-    <select id="prospecting-rge-limit" name="limit"><option value="10">10 résultats</option><option value="20">20 résultats</option></select>
-    <button class="button-primary" type="submit">Rechercher dans les entreprises RGE</button>
-  </form>
-  <p id="prospecting-rge-status" class="company-targeting-status" role="status" aria-live="polite">Recherche ADEME non lancée.</p>
-  <div id="prospecting-rge-results" class="company-targeting-cards" aria-live="polite"></div>
-  <p class="small-note">Les annuaires professionnels et plateformes de sous-traitance sont répertoriés comme sources à connecter individuellement selon leurs API, leurs licences et leurs conditions d’accès. Leur présence au catalogue ne signifie pas qu’ils sont déjà interrogés automatiquement.</p>
-</section>
-<section class="category-results-panel prospecting-signals-panel" aria-labelledby="prospecting-signals-title">
-  <h2 id="prospecting-signals-title">Détecter les événements concernant les entreprises</h2>
-  <p>Interrogez directement les annonces légales BODACC pour repérer des événements d’entreprise. Cette recherche est indépendante des appels d’offres privés : elle fournit des signaux à examiner, pas des marchés à remporter.</p>
-  <form id="prospecting-signals-form">
-    <label for="prospecting-signal-query">Mot-clé <span>(facultatif si un département est choisi)</span></label>
-    <input id="prospecting-signal-query" name="query" type="search" maxlength="160" placeholder="Ex. rénovation, construction, transfert…">
-    <label for="prospecting-signal-department">Département <span>(facultatif si un mot-clé est saisi)</span></label>
-    <select id="prospecting-signal-department" name="department"><option value="">Tous les départements</option></select>
-    <label for="prospecting-signal-family">Type d’événement</label>
-    <select id="prospecting-signal-family" name="family">
-      <option value="all">Tous les événements</option><option value="creations">Créations et immatriculations</option><option value="cessions">Ventes, cessions et reprises</option><option value="modifications">Modifications d’entreprises</option><option value="procedures">Procédures collectives</option><option value="radiations">Radiations et cessations</option>
-    </select>
-    <label for="prospecting-signal-limit">Nombre maximal de signaux</label>
-    <select id="prospecting-signal-limit" name="limit"><option value="10">10 signaux maximum</option><option value="5">5 signaux maximum</option></select>
-    <button class="button-primary" type="submit">Rechercher des signaux BODACC</button>
-  </form>
-  <p id="prospecting-signals-status" class="company-targeting-status" role="status" aria-live="polite">Aucune recherche lancée.</p>
-  <div id="prospecting-signals-results" class="company-targeting-cards" aria-live="polite"></div>
-  <p class="small-note">Source officielle : BODACC / DILA. Un événement publié ne démontre pas, à lui seul, un besoin commercial ou une intention d’achat. Les procédures collectives et cessations sont signalées comme points de vigilance.</p>
-</section>
-<section class="category-results-panel company-targeting-panel" aria-labelledby="company-targeting-form-title">
-  <h2 id="company-targeting-form-title">Identifier des entreprises à potentiel</h2>
+<section class="tender-feed-section prospecting-search-shell" aria-labelledby="company-targeting-form-title">
+  <div class="feed-wrap"><div class="feed-demo"><div class="prospecting-search-heading"><p class="eyebrow">MOTEUR DE RECHERCHE · PROSPECTION</p><h2 id="company-targeting-form-title">Trouvez les entreprises qui correspondent à votre activité</h2><p>Définissez votre cible. MajestiOS rassemble et qualifie les résultats dans une recherche unique.</p></div>
   <p>Recherchez des entreprises par activité APE/NAF et territoire. MajestiOS rapproche les critères, élimine les doublons et classe les entreprises candidates à vérifier.</p>
-  <form id="company-targeting-form">
-    <label for="target-market-title">Activité ou objectif commercial <span>(facultatif)</span></label>
-    <input id="target-market-title" name="marketTitle" type="text" maxlength="180" placeholder="Ex. entreprises de plomberie, rénovation énergétique…">
+  <form id="company-targeting-form" class="feed-toolbar company-targeting-search-form">
+    <label class="feed-search" for="target-market-title"><span aria-hidden="true">⌕</span><span class="sr-only">Activité ou entreprise recherchée</span><input id="target-market-title" name="marketTitle" type="search" maxlength="180" placeholder="Entreprise, activité, métier ou secteur recherché…" autocomplete="off"></label>
     <label for="target-market-description">Précisions sur les compétences ou le type d’entreprise recherché <span>(facultatif)</span></label>
     <textarea id="target-market-description" name="marketDescription" rows="4" maxlength="12000" placeholder="Métiers, spécialités, prestations ou signaux recherchés…"></textarea>
     <button id="suggest-naf-button" class="button-secondary" type="button">Suggérer des codes APE/NAF à partir de ma recherche</button>
@@ -119,14 +88,17 @@
       </fieldset>
       <p class="small-note">Les filtres d’effectif et d’ancienneté sont appliqués aux données disponibles. Les fiches sans information sont conservées si cette option est cochée.</p>
     </fieldset>
-    <button class="button-primary" type="submit">Rechercher des entreprises</button>
+    <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
   </form>
   <p id="company-targeting-status" class="company-targeting-status" role="status" aria-live="polite">Aucune recherche lancée.</p>
-</section>
+</div></div></section>
+
+<section class="virtual-space" data-world="prospection" style="--space-accent:#218d99" aria-label="Espace virtuel Prospection"><div class="virtual-space-copy"><span class="virtual-space-kicker">LABORATOIRE DE PROSPECTION</span><h2>Entrez dans votre espace <span style="color:#218d99">Prospection</span></h2><p>Détecter les opportunités, identifier les entreprises pertinentes et engager des prises de contact ciblées au bon moment.</p><span class="virtual-space-note">Espace visuel interactif · parcours guidé</span></div><div class="virtual-space-scene" aria-label="Illustration visuelle de l'espace"><div class="virtual-space-platform"></div><div class="virtual-space-building" aria-hidden="true"><span class="roof"></span><span class="front"></span><span class="windows"></span><span class="door"></span></div><article class="virtual-space-float one"><span class="space-status">DU SIGNAL À L’ACTION</span><strong>Signal détecté</strong><small>Information à examiner dans votre parcours</small><span class="space-meter"></span></article><article class="virtual-space-float two"><span class="space-status">ANALYSE</span><strong>Entreprise identifiée</strong><small>Qualification progressive des éléments utiles</small><span class="space-meter"></span></article><article class="virtual-space-float three"><span class="space-status">PROCHAINE ÉTAPE</span><strong>Contact à qualifier</strong><small>Vous gardez la maîtrise de la décision</small></article></div></section>
+
 <section id="company-targeting-results" class="company-targeting-results" aria-labelledby="company-targeting-results-title" hidden>
   <h2 id="company-targeting-results-title">Entreprises à qualifier</h2>
   <p id="company-targeting-summary" class="small-note"></p>
   <div id="company-targeting-cards" class="company-targeting-cards"></div>
   <p class="small-note company-targeting-warning">Les codes APE/NAF et le score sont des indices de ciblage. Ils ne prouvent ni les compétences, ni les moyens, ni l’éligibilité d’une entreprise. Vérifiez les informations avant toute prise de contact.</p>
 </section>
-<article class="floating-route-card"><span class="interactive-map-status">VOTRE PARCOURS</span><h2>Prospection</h2><p>La Prospection transforme les signaux et les besoins détectés en démarches concrètes : qualifier, identifier les bons interlocuteurs, préparer le contact et suivre les échanges.</p><p class="small-note">Cette rubrique présente le principe fonctionnel visé. Les connexions aux sources, aux données et aux services seront activées progressivement et signalées clairement.</p></article><section class="interior-grid related-rubrics" aria-labelledby="related-rubrics-title"><h2 id="related-rubrics-title" class="related-rubrics-title">Pour aller plus loin</h2><a class="platform-card related-rubric-card" href="marches-publics.html"><h3>Marchés publics <span aria-hidden="true">→</span></h3><p>Partir des consultations publiées.</p></a><a class="platform-card related-rubric-card" href="marches-prives.html"><h3>Marchés privés <span aria-hidden="true">→</span></h3><p>Explorer les signaux hors commande publique.</p></a><a class="platform-card related-rubric-card" href="developpement-commercial.html"><h3>Développement commercial <span aria-hidden="true">→</span></h3><p>Organiser les prochaines actions.</p></a></section><div class="interior-links"><a href="index.html">← Retour à l’immeuble interactif MajestiOS</a> · <a href="index.html">Accueil MajestiOS</a> · <a href="faq.html">Comprendre MajestiOS</a></div></main><footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial et Prospection</div></footer></body></html>
+<section class="interior-grid related-rubrics" aria-labelledby="related-rubrics-title"><h2 id="related-rubrics-title" class="related-rubrics-title">Pour aller plus loin</h2><a class="platform-card related-rubric-card" href="marches-publics.html"><h3>Marchés publics <span aria-hidden="true">→</span></h3><p>Partir des consultations publiées.</p></a><a class="platform-card related-rubric-card" href="marches-prives.html"><h3>Marchés privés <span aria-hidden="true">→</span></h3><p>Explorer les signaux hors commande publique.</p></a><a class="platform-card related-rubric-card" href="developpement-commercial.html"><h3>Développement commercial <span aria-hidden="true">→</span></h3><p>Organiser les prochaines actions.</p></a></section><div class="interior-links"><a href="index.html">← Retour à l’immeuble interactif MajestiOS</a> · <a href="index.html">Accueil MajestiOS</a> · <a href="faq.html">Comprendre MajestiOS</a></div></main><footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial et Prospection</div></footer></body></html>
