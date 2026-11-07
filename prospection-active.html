@@ -11,7 +11,14 @@
 .page-prospection #company-targeting-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:0;padding:16px;border:1px solid #d5b56c55;border-radius:10px;background:#0d141e;color:#f4f0e6;box-shadow:0 14px 35px #0004}
 .page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;display:flex;align-items:center;gap:12px;min-height:54px;padding:0 18px;border:1px solid #d5b56c66;border-radius:8px;background:#101a28;color:#d5b56c}
 .page-prospection #company-targeting-form>.feed-search input{width:100%;min-width:0;min-height:52px;padding:0;border:0;outline:0;background:transparent;color:#fff;font:inherit;font-size:15px;line-height:1.3}
-.page-prospection #company-targeting-form>label:not(.feed-search),.page-prospection #company-targeting-form>fieldset{grid-column:1/-1}
+.page-prospection #company-targeting-form>.prospecting-core-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.page-prospection #company-targeting-form>.prospecting-core-grid label{display:block;min-width:0}
+.page-prospection #company-targeting-form>.company-targeting-checkbox,.page-prospection #company-targeting-form>.prospecting-advanced-details{grid-column:1/-1}
+.page-prospection #company-targeting-form>.prospecting-advanced-details{padding:10px 12px;border:1px solid #d5b56c44;border-radius:8px;background:#101a28}
+.page-prospection #company-targeting-form>.prospecting-advanced-details>summary{color:#f0d38b;font-size:12px;font-weight:750;cursor:pointer}
+.page-prospection #company-targeting-form>.prospecting-advanced-details>*:not(summary){margin-top:12px}
+.page-prospection #company-targeting-form>.prospecting-advanced-details>label{display:block}
+.page-prospection #company-targeting-form>.prospecting-advanced-details>fieldset{margin-top:12px}
 .page-prospection #company-targeting-form label,.page-prospection #company-targeting-form legend{color:#e7d6ad;font-size:12px;font-weight:650}
 .page-prospection #company-targeting-form input:not([type=checkbox]),.page-prospection #company-targeting-form select,.page-prospection #company-targeting-form textarea{width:100%;min-height:40px;margin-top:5px;padding:9px 11px;border:1px solid #526781;border-radius:6px;background:#101a28;color:#f4f0e6;font:inherit;font-size:13px}
 .page-prospection #company-targeting-form fieldset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;padding:13px;border:1px solid #d5b56c44;border-radius:8px;background:#101a28}
@@ -23,7 +30,7 @@
 .page-prospection #company-targeting-form .feed-search-submit{grid-column:1/-1;justify-self:start;min-height:42px;padding:9px 18px;border:1px solid #d5b56c;border-radius:7px;background:#d5b56c;color:#11151c;font-size:13px;font-weight:800;cursor:pointer}
 .page-prospection #company-targeting-form .feed-search-submit:hover{background:#f0d38b}
 .page-prospection #company-targeting-status{color:#d8dce4}
-@media(max-width:650px){.page-prospection #company-targeting-form{grid-template-columns:1fr;padding:11px}.page-prospection #company-targeting-form fieldset{grid-template-columns:1fr}.page-prospection .prospecting-search-shell{width:calc(100% - 16px)}}
+@media(max-width:650px){.page-prospection #company-targeting-form{grid-template-columns:1fr;padding:11px}.page-prospection #company-targeting-form fieldset,.page-prospection #company-targeting-form>.prospecting-core-grid{grid-template-columns:1fr}.page-prospection .prospecting-search-shell{width:calc(100% - 16px)}}
 </style>
 
 </head>
@@ -34,60 +41,44 @@
   <p>Recherchez des entreprises par activité APE/NAF et territoire. MajestiOS rapproche les critères, élimine les doublons et classe les entreprises candidates à vérifier.</p>
   <form id="company-targeting-form" class="feed-toolbar company-targeting-search-form">
     <label class="feed-search" for="target-market-title"><span aria-hidden="true">⌕</span><span class="sr-only">Activité ou entreprise recherchée</span><input id="target-market-title" name="marketTitle" type="search" maxlength="180" placeholder="Entreprise, activité, métier ou secteur recherché…" autocomplete="off"></label>
-    <label for="target-market-description">Précisions sur les compétences ou le type d’entreprise recherché <span>(facultatif)</span></label>
-    <textarea id="target-market-description" name="marketDescription" rows="4" maxlength="12000" placeholder="Métiers, spécialités, prestations ou signaux recherchés…"></textarea>
-    <button id="suggest-naf-button" class="button-secondary" type="button">Suggérer des codes APE/NAF à partir de ma recherche</button>
-    <fieldset id="naf-suggestions" class="naf-suggestions" hidden><legend>Suggestions à vérifier</legend><div id="naf-suggestions-list"></div><button id="add-naf-suggestions" class="button-secondary" type="button">Ajouter les codes cochés</button><p class="small-note">Les suggestions sont des pistes lexicales, pas une preuve de compétence.</p></fieldset>
-    <label for="target-naf-codes">Codes APE/NAF <span>(obligatoire, séparés par des virgules)</span></label>
-    <input id="target-naf-codes" name="nafCodes" type="text" required placeholder="Ex. 43.21A, 43.22B">
-    <label for="target-departments">Départements <span>(facultatif si une région est choisie, séparés par des virgules)</span></label>
-    <input id="target-departments" name="departments" type="text" placeholder="Ex. 72, 37, 49">
-    <fieldset class="company-targeting-advanced">
-      <legend>Recherche par proximité</legend>
-      <label for="target-radius-location">Commune ou code postal</label>
-      <input id="target-radius-location" name="radiusLocation" type="search" maxlength="100" placeholder="Ex. Le Mans ou 72000">
-      <label for="target-radius-km">Rayon de recherche</label>
-      <select id="target-radius-km" name="radiusKm"><option value="5">5 km</option><option value="10" selected>10 km</option><option value="15">15 km</option><option value="20">20 km</option><option value="30">30 km</option><option value="40">40 km</option><option value="50">50 km</option></select>
-      <p class="small-note">Le centre utilisé est le centre géographique officiel de la commune. Le rayon est limité à 50 km par l’API.</p>
-    </fieldset>
-    <label for="target-region">Région</label>
-    <select id="target-region" name="region">
-      <option value="">Toutes les régions (avec départements saisis)</option>
-      <option value="11">Île-de-France</option><option value="24">Centre-Val de Loire</option><option value="27">Bourgogne-Franche-Comté</option><option value="28">Normandie</option><option value="32">Hauts-de-France</option><option value="44">Grand Est</option><option value="52">Pays de la Loire</option><option value="53">Bretagne</option><option value="75">Nouvelle-Aquitaine</option><option value="76">Occitanie</option><option value="84">Auvergne-Rhône-Alpes</option><option value="93">Provence-Alpes-Côte d’Azur</option><option value="94">Corse</option><option value="01">Guadeloupe</option><option value="02">Martinique</option><option value="03">Guyane</option><option value="04">La Réunion</option><option value="06">Mayotte</option>
-    </select>
-    <label for="target-limit">Nombre maximal de résultats</label>
-    <select id="target-limit" name="limit"><option value="10" selected>10 entreprises maximum</option><option value="5">5 entreprises maximum</option></select>
+    <div class="prospecting-core-grid">
+      <label for="target-naf-codes">Activité APE/NAF <span>(obligatoire)</span><input id="target-naf-codes" name="nafCodes" type="text" required placeholder="Ex. 43.21A, 43.22B"></label>
+      <label for="target-departments">Départements <span>(facultatif si une région est choisie)</span><input id="target-departments" name="departments" type="text" placeholder="Ex. 72, 37, 49"></label>
+      <label for="target-radius-location">Commune ou code postal <span>(pour une recherche par rayon)</span><input id="target-radius-location" name="radiusLocation" type="search" maxlength="100" placeholder="Ex. Le Mans ou 72000"></label>
+      <label for="target-radius-km">Rayon<select id="target-radius-km" name="radiusKm"><option value="5">5 km</option><option value="10" selected>10 km</option><option value="15">15 km</option><option value="20">20 km</option><option value="30">30 km</option><option value="40">40 km</option><option value="50">50 km</option></select></label>
+      <label for="target-region">Région<select id="target-region" name="region">
+        <option value="">Toutes les régions (avec départements saisis)</option>
+        <option value="11">Île-de-France</option><option value="24">Centre-Val de Loire</option><option value="27">Bourgogne-Franche-Comté</option><option value="28">Normandie</option><option value="32">Hauts-de-France</option><option value="44">Grand Est</option><option value="52">Pays de la Loire</option><option value="53">Bretagne</option><option value="75">Nouvelle-Aquitaine</option><option value="76">Occitanie</option><option value="84">Auvergne-Rhône-Alpes</option><option value="93">Provence-Alpes-Côte d’Azur</option><option value="94">Corse</option><option value="01">Guadeloupe</option><option value="02">Martinique</option><option value="03">Guyane</option><option value="04">La Réunion</option><option value="06">Mayotte</option>
+      </select></label>
+      <label for="target-limit">Nombre de résultats<select id="target-limit" name="limit"><option value="10" selected>10 entreprises maximum</option><option value="5">5 entreprises maximum</option></select></label>
+    </div>
     <label class="company-targeting-checkbox"><input id="target-active-only" name="activeOnly" type="checkbox" checked> Exclure les entreprises dont le statut est indiqué comme non actif</label>
-    <fieldset class="company-targeting-advanced">
-      <legend>Filtres avancés</legend>
-      <label for="target-workforce">Effectif salarié</label>
-      <select id="target-workforce" name="workforce">
-        <option value="">Toutes les tailles</option><option value="0-2">0 à 2 salariés</option><option value="3-5">3 à 5 salariés</option><option value="6-9">6 à 9 salariés</option><option value="10-19">10 à 19 salariés</option><option value="20-49">20 à 49 salariés</option><option value="50+">50 salariés et plus</option><option value="unknown">Effectif non renseigné</option>
-      </select>
-      <label for="target-age">Ancienneté de l’entreprise</label>
-      <select id="target-age" name="companyAge">
-        <option value="">Toutes les anciennetés</option><option value="0-2">Créée depuis moins de 3 ans</option><option value="3-5">3 à 5 ans</option><option value="6-10">6 à 10 ans</option><option value="10+">Plus de 10 ans</option><option value="unknown">Date de création inconnue</option>
-      </select>
-      <label for="target-legal-category">Forme ou catégorie juridique <span>(facultatif)</span></label>
-      <input id="target-legal-category" name="legalCategory" type="search" maxlength="80" placeholder="Ex. SAS, SARL, entrepreneur individuel">
-      <label for="target-name-contains">Nom ou raison sociale contient <span>(facultatif)</span></label>
-      <input id="target-name-contains" name="nameContains" type="search" maxlength="100" placeholder="Mot ou expression">
-      <label class="company-targeting-checkbox"><input id="target-include-unknown" name="includeUnknown" type="checkbox" checked> Conserver les entreprises dont l’information filtrée est inconnue</label>
-      <label for="target-ca-min">Chiffre d’affaires minimum (€)</label>
-      <input id="target-ca-min" name="caMin" type="number" min="0" step="1000" inputmode="numeric" placeholder="Ex. 100000">
-      <label for="target-ca-max">Chiffre d’affaires maximum (€)</label>
-      <input id="target-ca-max" name="caMax" type="number" min="0" step="1000" inputmode="numeric" placeholder="Ex. 2000000">
-      <span class="small-note">Le filtre de chiffre d’affaires est transmis à l’API officielle. Les données financières ne sont pas disponibles pour toutes les entreprises.</span>
-      <fieldset>
-        <legend>Qualifications et labels référencés</legend>
-        <label class="company-targeting-checkbox"><input type="checkbox" name="estRge"> Entreprises RGE</label>
-        <label class="company-targeting-checkbox"><input type="checkbox" name="estQualiopi"> Certification Qualiopi</label>
-        <label class="company-targeting-checkbox"><input type="checkbox" name="estEpV"> Entreprise du Patrimoine Vivant</label>
-        <label class="company-targeting-checkbox"><input type="checkbox" name="estEss"> Économie sociale et solidaire</label>
-        <p class="small-note">Les indicateurs de qualification et les labels disponibles peuvent être incomplets. Toute information importante doit être vérifiée avant la prise de contact.</p>
+    <details class="prospecting-advanced-details">
+      <summary>Affiner les critères de recherche</summary>
+      <label for="target-market-description">Précisions sur les compétences ou le type d’entreprise recherché <span>(facultatif)</span><textarea id="target-market-description" name="marketDescription" rows="3" maxlength="12000" placeholder="Métiers, spécialités, prestations ou signaux recherchés…"></textarea></label>
+      <button id="suggest-naf-button" class="button-secondary" type="button">Suggérer des codes APE/NAF à partir de ma recherche</button>
+      <fieldset id="naf-suggestions" class="naf-suggestions" hidden><legend>Suggestions à vérifier</legend><div id="naf-suggestions-list"></div><button id="add-naf-suggestions" class="button-secondary" type="button">Ajouter les codes cochés</button><p class="small-note">Les suggestions sont des pistes lexicales, pas une preuve de compétence.</p></fieldset>
+      <fieldset class="company-targeting-advanced">
+        <legend>Filtres avancés</legend>
+        <label for="target-workforce">Effectif salarié<select id="target-workforce" name="workforce"><option value="">Toutes les tailles</option><option value="0-2">0 à 2 salariés</option><option value="3-5">3 à 5 salariés</option><option value="6-9">6 à 9 salariés</option><option value="10-19">10 à 19 salariés</option><option value="20-49">20 à 49 salariés</option><option value="50+">50 salariés et plus</option><option value="unknown">Effectif non renseigné</option></select></label>
+        <label for="target-age">Ancienneté de l’entreprise<select id="target-age" name="companyAge"><option value="">Toutes les anciennetés</option><option value="0-2">Créée depuis moins de 3 ans</option><option value="3-5">3 à 5 ans</option><option value="6-10">6 à 10 ans</option><option value="10+">Plus de 10 ans</option><option value="unknown">Date de création inconnue</option></select></label>
+        <label for="target-legal-category">Forme ou catégorie juridique <span>(facultatif)</span><input id="target-legal-category" name="legalCategory" type="search" maxlength="80" placeholder="Ex. SAS, SARL, entrepreneur individuel"></label>
+        <label for="target-name-contains">Nom ou raison sociale contient <span>(facultatif)</span><input id="target-name-contains" name="nameContains" type="search" maxlength="100" placeholder="Mot ou expression"></label>
+        <label class="company-targeting-checkbox"><input id="target-include-unknown" name="includeUnknown" type="checkbox" checked> Conserver les entreprises dont l’information filtrée est inconnue</label>
+        <label for="target-ca-min">Chiffre d’affaires minimum (€)<input id="target-ca-min" name="caMin" type="number" min="0" step="1000" inputmode="numeric" placeholder="Ex. 100000"></label>
+        <label for="target-ca-max">Chiffre d’affaires maximum (€)<input id="target-ca-max" name="caMax" type="number" min="0" step="1000" inputmode="numeric" placeholder="Ex. 2000000"></label>
+        <p class="small-note">Les données financières peuvent être incomplètes.</p>
+        <fieldset>
+          <legend>Qualifications et labels</legend>
+          <label class="company-targeting-checkbox"><input type="checkbox" name="estRge"> Entreprises RGE</label>
+          <label class="company-targeting-checkbox"><input type="checkbox" name="estQualiopi"> Certification Qualiopi</label>
+          <label class="company-targeting-checkbox"><input type="checkbox" name="estEpV"> Entreprise du Patrimoine Vivant</label>
+          <label class="company-targeting-checkbox"><input type="checkbox" name="estEss"> Économie sociale et solidaire</label>
+          <p class="small-note">Les indicateurs de qualification et les labels disponibles peuvent être incomplets. Toute information importante doit être vérifiée avant la prise de contact.</p>
+        </fieldset>
+        <p class="small-note">Les filtres d’effectif et d’ancienneté sont appliqués aux données disponibles. Les fiches sans information sont conservées si cette option est cochée.</p>
       </fieldset>
-      <p class="small-note">Les filtres d’effectif et d’ancienneté sont appliqués aux données disponibles. Les fiches sans information sont conservées si cette option est cochée.</p>
-    </fieldset>
+    </details>
     <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
   </form>
   <p id="company-targeting-status" class="company-targeting-status" role="status" aria-live="polite">Aucune recherche lancée.</p>
