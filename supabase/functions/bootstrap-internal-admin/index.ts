@@ -47,6 +47,29 @@ Deno.serve(async (req: Request) => {
   const adminClient = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+
+  // A repeated login by the already bootstrapped owner is a successful no-op.
+  const { data: membership, error: membershipError } = await adminClient
+    .from("organization_members")
+    .select("id, role, organization_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (membershipError) return json(500, { ok: false, error: "Vérification des accès internes indisponible." });
+  if (membership) {
+    const { data: organization, error: organizationError } = await adminClient
+      .from("organizations")
+      .select("id")
+      .eq("id", membership.organization_id)
+      .eq("kind", "internal")
+      .maybeSingle();
+    if (organizationError) return json(500, { ok: false, error: "Vérification de l'organisation interne indisponible." });
+    if (organization && membership.role === "owner") {
+      return json(200, { ok: true, role: "owner", already_bootstrapped: true });
+    }
+    return json(409, { ok: false, error: "Ce compte possède déjà une appartenance qui empêche le bootstrap initial." });
+  }
+
   const { data: membershipId, error: bootstrapError } = await adminClient.rpc(
     "bootstrap_first_internal_admin",
     { p_user_id: user.id },
@@ -57,7 +80,7 @@ Deno.serve(async (req: Request) => {
     return json(duplicate ? 409 : 400, {
       ok: false,
       error: duplicate
-        ? "Le premier administrateur interne a déjà été initialisé ou ce compte possède déjà un accès."
+        ? "Le premier administrateur interne a déjà été initialisé par un autre compte."
         : "L'initialisation du compte administrateur a échoué.",
     });
   }
