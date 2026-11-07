@@ -105,13 +105,17 @@
       if (filter === "10+") return age >= 10;
       return true;
     };
+    const radiusLocation = form.elements.radiusLocation.value.trim();
+    if (radiusLocation && (advanced.caMin || advanced.caMax || advanced.estRge || advanced.estQualiopi || advanced.estEpV || advanced.estEss)) {
+      status.textContent = "La recherche par rayon ne prend pas en charge les filtres chiffre d’affaires et labels. Retirez ces critères ou utilisez la recherche par département/région.";
+      return;
+    }
     const marketTitle = form.elements.marketTitle.value.trim();
     status.textContent = "Recherche en cours auprès de l’API publique. Les résultats ne sont pas enregistrés dans un CRM.";
     form.querySelector("button[type=submit]").disabled = true;
     results.hidden = true;
     cards.replaceChildren();
     try {
-      const radiusLocation = form.elements.radiusLocation.value.trim();
       const response = radiusLocation
         ? await window.MajestiosCompanyTargeting.searchCompaniesNearPoint({ nafCodes, location: radiusLocation, radiusKm: Number(form.elements.radiusKm.value), perPage: 25, maxPages: 1 })
         : await window.MajestiosCompanyTargeting.searchCompanies({ nafCodes, departments, region, caMin: advanced.caMin, caMax: advanced.caMax, estRge: advanced.estRge, estQualiopi: advanced.estQualiopi, estEpV: advanced.estEpV, estEss: advanced.estEss, perPage: 25, maxPages: 1 });
@@ -131,7 +135,7 @@
       const selected = window.MajestiosCompanyTargeting.selectCandidates(candidates, { nafCodes, departments, limit, minimumScore: 25 });
       const list = selected.candidates;
       summary.textContent = (marketTitle ? "Repère : " + marketTitle + " · " : "") +
-        response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount + " entreprise(s) unique(s) après dédoublonnage ; " +
+        (response.radiusKm ? "Zone : " + response.center.name + " · rayon " + response.radiusKm + " km · " : "") + response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount + " entreprise(s) unique(s) après dédoublonnage ; " +
         list.length + " candidat(s) affiché(s). Source : API Recherche d’Entreprises — DINUM. Collecte : " +
         new Date(response.fetchedAt).toLocaleString("fr-FR") + ".";
       if (!list.length) {
