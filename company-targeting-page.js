@@ -142,7 +142,6 @@
         cards.innerHTML = '<p class="company-targeting-empty">Aucune entreprise ne correspond aux critères reçus. Cela ne prouve pas qu’il n’existe aucune entreprise pertinente : élargissez les critères de recherche.</p>';
       } else {
         cards.innerHTML = list.map((company) => {
-          const officialUrl = company.siren ? "https://annuaire-entreprises.data.gouv.fr/entreprise/" + encodeURIComponent(company.siren) : "https://recherche-entreprises.api.gouv.fr/";
           const activity = company.naf ? "APE/NAF : " + escapeHtml(company.naf) : "Code APE/NAF non renseigné";
           const department = company.department ? "Département : " + escapeHtml(company.department) : "Département non déterminé";
           const reasons = company.reasons.map((reason) => "<li>" + escapeHtml(reason) + "</li>").join("");
@@ -163,7 +162,7 @@
       results.hidden = false;
       status.textContent = "Recherche terminée. Contrôlez les fiches avant toute décision ou prise de contact.";
     } catch (error) {
-      status.textContent = error && error.message ? error.message : "La recherche a échoué. Réessayez plus tard.";
+      status.textContent = "La recherche n’a pas pu aboutir. Réessayez ou modifiez vos critères.";
     } finally {
       form.querySelector("button[type=submit]").disabled = false;
     }
