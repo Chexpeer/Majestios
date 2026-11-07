@@ -870,9 +870,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_import_official_company: {
+        Args: { p_organization_id: string }
+        Returns: boolean
+      }
       complete_crm_reminder: {
         Args: { p_reminder_id: string }
         Returns: string
+      }
+      import_official_company_record: {
+        Args: {
+          p_company: Json
+          p_establishments: Json
+          p_organization_id: string
+          p_source_url: string
+        }
+        Returns: Json
       }
       provision_client_workspace: {
         Args: {
