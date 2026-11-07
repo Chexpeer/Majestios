@@ -31,7 +31,7 @@
 - Compilation syntaxique V8 des fichiers JavaScript modifiés : réussie.
 - Simulation de normalisation administrative (SIREN, SIRET, département, date de création et tranche d'effectif) : réussie.
 - Présence du nouveau script dans `site-files.json) et de ses formulaires dans `prospection-active.html` : vérifiée.
-- Tests Node du dépôt, build, tests navigateur et appels API réels : non exécutés.
+- GitHub Actions sur le commit `66cfc8c` : syntaxe JavaScript réussie ; tests `company-targeting`, `company-fit` et `prospecting-resources` réussis.\n- Le workflow s’arrête ensuite sur un échec préexistant du test `naf-suggestions.test.cjs` (assertion sur l’exploitation du descriptif du lot) ; le build, les contrôles d’architecture et les tests navigateur sont donc ignorés dans ce run. Cet échec n’est pas lié au connecteur de ressources, mais bloque la validation globale.\n- Appels API ADEME, INSEE, INPI et fournisseurs de certification en conditions réelles : non exécutés.
 - Aucun déploiement, aucune modification CRM/Supabase.
 
 ## Sources officielles de référence
