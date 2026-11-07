@@ -47,8 +47,9 @@
     const nafCodes = parseList(form.elements.nafCodes.value);
     const departments = parseList(form.elements.departments.value).map((value) => value.toUpperCase());
     const limit = Number(form.elements.limit.value) || 10;
-    if (!nafCodes.length || !departments.length) {
-      status.textContent = "Saisissez au moins un code APE/NAF et un département.";
+    const region = form.elements.region.value;
+    if (!nafCodes.length || (!departments.length && !region)) {
+      status.textContent = "Saisissez au moins un code APE/NAF et choisissez un département ou une région.";
       return;
     }
     if (nafCodes.some((code) => !/^\d{2}\.\d{2}[A-Z]$/.test(code.toUpperCase()))) {
@@ -64,7 +65,13 @@
       companyAge: form.elements.companyAge.value,
       legalCategory: form.elements.legalCategory.value.trim().toLocaleLowerCase("fr"),
       nameContains: form.elements.nameContains.value.trim().toLocaleLowerCase("fr"),
-      includeUnknown: form.elements.includeUnknown.checked
+      includeUnknown: form.elements.includeUnknown.checked,
+      caMin: form.elements.caMin.value,
+      caMax: form.elements.caMax.value,
+      estRge: form.elements.estRge.checked,
+      estQualiopi: form.elements.estQualiopi.checked,
+      estEpV: form.elements.estEpV.checked,
+      estEss: form.elements.estEss.checked
     };
     const workforceRanges = {
       "0-2": [[0, 2], ["00", "01"]],
@@ -104,7 +111,7 @@
     results.hidden = true;
     cards.replaceChildren();
     try {
-      const response = await window.MajestiosCompanyTargeting.searchCompanies({ nafCodes, departments, perPage: 25, maxPages: 1 });
+      const response = await window.MajestiosCompanyTargeting.searchCompanies({ nafCodes, departments, region, caMin: advanced.caMin, caMax: advanced.caMax, estRge: advanced.estRge, estQualiopi: advanced.estQualiopi, estEpV: advanced.estEpV, estEss: advanced.estEss, perPage: 25, maxPages: 1 });
       let candidates = window.MajestiosCompanyTargeting.rankCompanies(response.candidates, { nafCodes, departments });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
       candidates = candidates.filter(company => {
