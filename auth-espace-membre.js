@@ -11,6 +11,12 @@ const status = document.querySelector("#member-auth-status");
 const preview = document.querySelector(".member-preview");
 const callbackParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
 const queryParams = new URLSearchParams(window.location.search);
+const requestedReturn = queryParams.get("returnTo");
+const allowedReturnTargets = new Set(["administration.html", "admin-recherches.html", "crm.html"]);
+const safeReturnTarget = allowedReturnTargets.has(requestedReturn) ? requestedReturn : null;
+const returnToRequestedPage = () => {
+  if (safeReturnTarget) window.location.replace(safeReturnTarget);
+};
 const inviteCallback = callbackParams.get("type") === "invite" || queryParams.get("type") === "invite";
 const recoveryCallback = callbackParams.get("type") === "recovery" || queryParams.get("recovery") === "1";
 
@@ -183,6 +189,7 @@ if (form && config?.url && config?.publishableKey) {
           await bootstrapInternalAdmin(sessionData.session);
           setFeedback("Mot de passe défini. Les accès du Général sont activés.");
           await updateAuthStatus(sessionData.session);
+          if (safeReturnTarget === "administration.html") window.setTimeout(returnToRequestedPage, 500);
         } else {
           setFeedback(mode === "invite-setup" ? "Votre mot de passe est défini. Votre compte invité est activé." : "Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.");
         }
@@ -255,6 +262,7 @@ if (form && config?.url && config?.publishableKey) {
           }
         }
         await updateAuthStatus(data.session);
+        if (safeReturnTarget) window.setTimeout(returnToRequestedPage, 500);
       }
     } catch (error) {
       setFeedback(error.message || "Une erreur est survenue. Veuillez réessayer.", true);
@@ -328,6 +336,10 @@ if (form && config?.url && config?.publishableKey) {
     }
   });
   setMode("signup");
+  if (safeReturnTarget && typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) {
+    personalSpaceDialog.showModal();
+    setMode("login");
+  }
 } else if (form) {
   if (feedback) {
     feedback.textContent = "Le service de connexion n’est pas configuré. Votre demande n’a pas été envoyée.";
