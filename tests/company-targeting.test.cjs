@@ -99,6 +99,23 @@ async function main() {
     await assert.rejects(targeting.searchCompanies({ nafCodes: ["43.21A"], departments: ["72"], caMin: 500, caMax: 100 }), /minimum ne peut pas dépasser/);
   } finally { global.fetch = originalFetchForAdvanced; }
 
+
+  const originalGeoFetch = global.fetch;
+  const geoCalls = [];
+  global.fetch = async url => {
+    geoCalls.push(String(url));
+    if (String(url).includes("geo.api.gouv.fr")) return { ok: true, status: 200, json: async () => [{ nom: "Le Mans", code: "72181", codeDepartement: "72", centre: { type: "Point", coordinates: [0.1996, 48.0061] } }] };
+    return { ok: true, status: 200, json: async () => ({ results: [{ siren: "123456789", nom_complet: "Entreprise proche", activite_principale: "43.21A", siege: { siret: "12345678900016" } }], total_pages: 1, total_results: 1 }) };
+  };
+  try {
+    const near = await targeting.searchCompaniesNearPoint({ nafCodes: ["43.21A"], location: "72000", radiusKm: 15 });
+    assert.equal(near.center.name, "Le Mans");
+    assert.equal(near.radiusKm, 15);
+    assert.match(geoCalls[1], /near_point/);
+    assert.match(geoCalls[1], /radius=15/);
+    await assert.rejects(targeting.searchCompaniesNearPoint({ nafCodes: ["43.21A"], location: "Le Mans", radiusKm: 75 }), /1 et 50/);
+  } finally { global.fetch = originalGeoFetch; }
+
   console.log("Tests company-targeting : OK");
 }
 
