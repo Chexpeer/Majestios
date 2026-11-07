@@ -88,6 +88,8 @@
   if (!homeMount) {
     const form = searchRoot.querySelector("#advanced-search-form");
     form.dataset.progressive = "true";
+    const sourceNote = form.querySelector("#search-source-note");
+    if (sourceNote) sourceNote.hidden = true;
     const criteriaButton = document.createElement("button");
     criteriaButton.type = "button";
     criteriaButton.className = "feed-criteria-toggle";
