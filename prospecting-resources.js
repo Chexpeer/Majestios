@@ -9,6 +9,10 @@
     { id:"recherche-entreprises", name:"Annuaire des Entreprises / API Recherche", kind:"api", status:"connected", coverage:"Recherche ouverte ; données agrégées SIRENE/RNE", url:"https://annuaire-entreprises.data.gouv.fr/donnees/api-entreprises" },
     { id:"sirene", name:"INSEE — répertoire SIRENE", kind:"api", status:"proxy_required", coverage:"Identité légale, établissements, APE/NAF, effectifs et historique", url:"https://www.insee.fr/fr/information/3591226", configKey:"sireneProxyUrl" },
     { id:"rne", name:"INPI — Registre national des entreprises", kind:"api", status:"proxy_required", coverage:"Immatriculations, modifications, cessations, actes et comptes non confidentiels", url:"https://data.inpi.fr/content/editorial/Acces_API_Entreprises", configKey:"rneProxyUrl" },
+    { id:"qualibat", name:"QUALIBAT — qualifications bâtiment", kind:"certification_api", status:"proxy_required", coverage:"Vérifier les qualifications et certifications d’une entreprise par SIRET ; API du bouquet Entreprise annoncée ouverte", url:"https://www.data.gouv.fr/dataservices/api-certification-qualibat-qualibat-bouquet-api-entreprise", configKey:"qualibatProxyUrl" },
+    { id:"qualifelec", name:"QUALIFELEC — qualifications électriques", kind:"certification_api", status:"access_restricted", coverage:"Certification et qualifications des entreprises électriques ; conditions d’accès à confirmer", url:"https://www.qualifelec.fr/", configKey:"qualifelecProxyUrl" },
+    { id:"opqibi", name:"OPQIBI — qualifications ingénierie", kind:"certification_api", status:"access_restricted", coverage:"Qualifications des bureaux d’études et de l’ingénierie ; accès API à confirmer", url:"https://www.opqibi.com/", configKey:"opqibiProxyUrl" },
+    { id:"fntp", name:"FNTP — entreprises de travaux publics", kind:"certification_api", status:"access_restricted", coverage:"Carte professionnelle et référencement d’entrepreneurs de travaux publics ; accès API réservé selon habilitation", url:"https://www.fntp.fr/", configKey:"fntpProxyUrl" },
     { id:"ademe-rge", name:"ADEME — entreprises qualifiées RGE", kind:"open_api", status:"available", coverage:"Entreprises du bâtiment, domaines de travaux et périodes de qualification", url:"https://data.ademe.fr/datasets/liste-des-entreprises-rge-2", dataset:"liste-des-entreprises-rge-2" },
     { id:"annuaire-pro", name:"Annuaires professionnels et fédérations", kind:"directory", status:"catalogued", coverage:"Répertoires sectoriels à intégrer avec accord et conditions de réutilisation", url:"https://www.data.gouv.fr/dataservices/search" },
     { id:"sous-traitance", name:"Réseaux et plateformes de sous-traitance", kind:"directory", status:"catalogued", coverage:"Offres et demandes de partenariat ; intégration API au cas par cas", url:"https://www.data.gouv.fr/dataservices/search" }
@@ -22,6 +26,7 @@
     if (source.configKey && !config()[source.configKey]) return "Accès serveur à configurer";
     if (source.status === "connected") return "Déjà connecté";
     if (source.status === "available") return "API ouverte à interroger";
+    if (source.status === "access_restricted") return "Accès soumis à habilitation ou conditions du fournisseur";
     return "Catalogue de sources — connecteur à contractualiser ou documenter";
   }
 
@@ -60,6 +65,14 @@
       departmentFilterApplied:!department || Boolean(deptField),
       fetchedAt:new Date().toISOString()
     };
+  }
+
+  async function searchQualification(sourceId, siret) {
+    const cleanSiret = String(siret || "").replace(/\\D/g, "");
+    if (!/^\\d{14}$/.test(cleanSiret)) throw new Error("Un SIRET valide à 14 chiffres est nécessaire.");
+    const allowed = ["qualibat","qualifelec","opqibi","fntp"];
+    if (!allowed.includes(sourceId)) throw new Error("Source de qualification non autorisée.");
+    return searchConfiguredProxy(sourceId, { siret:cleanSiret });
   }
 
   async function searchConfiguredProxy(sourceId, criteria) {
@@ -127,7 +140,7 @@
     });
   }
 
-  const api = { SOURCES, sourceState, searchRge, searchConfiguredProxy, renderCatalog };
+  const api = { SOURCES, sourceState, searchRge, searchQualification, searchConfiguredProxy, renderCatalog };
   if (typeof module === "object" && module.exports) module.exports = api;
   root.MajestiosProspectingResources = api;
   if (root.document) {
