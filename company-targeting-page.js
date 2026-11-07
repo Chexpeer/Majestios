@@ -59,6 +59,45 @@
       status.textContent = "Vérifiez les codes départementaux saisis.";
       return;
     }
+    const advanced = {
+      workforce: form.elements.workforce.value,
+      companyAge: form.elements.companyAge.value,
+      legalCategory: form.elements.legalCategory.value.trim().toLocaleLowerCase("fr"),
+      nameContains: form.elements.nameContains.value.trim().toLocaleLowerCase("fr"),
+      includeUnknown: form.elements.includeUnknown.checked
+    };
+    const workforceRanges = {
+      "0-2": [[0, 2], ["00", "01"]],
+      "3-5": [[3, 5], ["02"]],
+      "6-9": [[6, 9], ["03"]],
+      "10-19": [[10, 19], ["11"]],
+      "20-49": [[20, 49], ["12"]],
+      "50+": [[50, Infinity], ["21", "22", "31", "32", "41", "42", "51", "52", "53"]]
+    };
+    const workforceMatch = (company, filter) => {
+      if (!filter) return true;
+      const raw = company.workforce;
+      const numeric = raw == null || raw === "" ? NaN : Number(String(raw).replace(",", "."));
+      const band = String(company.workforceBand || "").trim().toUpperCase();
+      if (filter === "unknown") return !Number.isFinite(numeric) && !band;
+      const rule = workforceRanges[filter];
+      if (!rule) return true;
+      if (Number.isFinite(numeric)) return numeric >= rule[0][0] && numeric <= rule[0][1];
+      if (band) return rule[1].includes(band);
+      return advanced.includeUnknown;
+    };
+    const ageMatch = (company, filter) => {
+      if (!filter) return true;
+      const date = company.creationDate ? new Date(company.creationDate) : null;
+      if (!date || Number.isNaN(date.getTime())) return filter === "unknown" || advanced.includeUnknown;
+      if (filter === "unknown") return false;
+      const age = (Date.now() - date.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
+      if (filter === "0-2") return age < 3;
+      if (filter === "3-5") return age >= 3 && age < 6;
+      if (filter === "6-10") return age >= 6 && age < 11;
+      if (filter === "10+") return age >= 10;
+      return true;
+    };
     const marketTitle = form.elements.marketTitle.value.trim();
     status.textContent = "Recherche en cours auprès de l’API publique. Les résultats ne sont pas enregistrés dans un CRM.";
     form.querySelector("button[type=submit]").disabled = true;
@@ -68,6 +107,17 @@
       const response = await window.MajestiosCompanyTargeting.searchCompanies({ nafCodes, departments, perPage: 25, maxPages: 1 });
       let candidates = window.MajestiosCompanyTargeting.rankCompanies(response.candidates, { nafCodes, departments });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
+      candidates = candidates.filter(company => {
+        const workforceOk = workforceMatch(company, advanced.workforce);
+        const ageOk = ageMatch(company, advanced.companyAge);
+        const legal = String(company.legalCategory || "").toLocaleLowerCase("fr");
+        const legalOk = !advanced.legalCategory
+          ? true
+          : (legal ? legal.includes(advanced.legalCategory) : advanced.includeUnknown);
+        const name = String(company.name || "").toLocaleLowerCase("fr");
+        const nameOk = !advanced.nameContains || name.includes(advanced.nameContains);
+        return workforceOk && ageOk && legalOk && nameOk;
+      });
       const selected = window.MajestiosCompanyTargeting.selectCandidates(candidates, { nafCodes, departments, limit, minimumScore: 25 });
       const list = selected.candidates;
       summary.textContent = (marketTitle ? "Repère : " + marketTitle + " · " : "") +
