@@ -14,7 +14,6 @@
     "intelligence-economique.html": ["Rechercher des signaux économiques", "Repérez les informations publiées utiles à une décision commerciale.", ""],
     "bodacc-veille-entreprises.html": ["Rechercher dans les annonces BODACC", "Consultez les annonces légales comme signaux stratégiques à vérifier.", "private"],
     "suivi-commercial.html": ["Rechercher une piste à suivre", "Retrouvez les marchés et signaux à qualifier avant leur suivi commercial.", ""],
-    "reputation-virtuelle.html": ["Rechercher des opportunités pour votre visibilité", "Repérez les pistes à qualifier avant un accompagnement de visibilité locale.", ""],
     "espace-membre.html": ["Rechercher des opportunités pour votre entreprise", "Consultez les marchés et signaux pertinents pour votre activité.", ""],
     "salons-seminaires.html": ["Rechercher des opportunités de partenariat", "Repérez les pistes de coopération à examiner au sein du réseau.", ""],
     "crm.html": ["Rechercher des opportunités à suivre dans le CRM", "Repérez les marchés et signaux susceptibles d’alimenter votre suivi commercial.", ""],
