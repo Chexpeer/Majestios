@@ -32,6 +32,11 @@
       department: department === "2A" || department === "2B" ? department : (department.length === 1 ? "0" + department : department),
       active,
       sourceUrl: String(getFirst(source.url, source.url_annuaire, source.source_url, source.sourceUrl) || ""),
+      legalCategory: String(getFirst(source.nature_juridique, source.categorie_juridique, source.categorie_entreprise) || ""),
+      creationDate: String(getFirst(source.date_creation, source.date_debut_activite, source.date_creation_unite_legale) || ""),
+      workforceBand: String(getFirst(source.tranche_effectif_salarie, source.tranche_effectif, siege.tranche_effectif_salarie) || ""),
+      workforce: getFirst(source.effectif, source.effectif_salarie, source.nombre_salaries, siege.effectif_salarie) ?? null,
+      address: String(getFirst(siege.adresse, source.adresse, source.adresse_complete) || ""),
       sourceId: String(getFirst(source.id, source.id_source, source.sourceId, siren, siret) || ""),
       collectedAt: String(getFirst(source.collectedAt, source.date_collecte) || ""),
       raw: source
@@ -130,7 +135,7 @@
             departement: department,
             per_page: String(perPage),
             page: String(page),
-            minimal: "true",
+            minimal: "false",
             include: "siege"
           });
           const url = baseUrl + "?" + params.toString();
