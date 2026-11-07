@@ -210,6 +210,54 @@
     };
   }
 
+  async function geocodeSearchCenter(input) {
+    const value = String(input || "").trim();
+    if (!value) throw new Error("Saisissez une commune ou un code postal pour définir le centre du rayon.");
+    const isPostalCode = /^\\d{5}$/.test(value);
+    const url = isPostalCode
+      ? "https://geo.api.gouv.fr/communes?codePostal=" + encodeURIComponent(value) + "&fields=nom,code,codeDepartement,centre&format=json"
+      : "https://geo.api.gouv.fr/communes?nom=" + encodeURIComponent(value) + "&fields=nom,code,codeDepartement,centre&boost=population&limit=10&format=json";
+    const response = await fetch(url, { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error("Le service officiel de géolocalisation a répondu avec le statut " + response.status + ".");
+    const matches = await response.json();
+    if (!Array.isArray(matches) || !matches.length) throw new Error("Aucune commune trouvée pour ce lieu. Essayez un code postal ou un nom plus précis.");
+    const match = matches.find(item => item.centre && Array.isArray(item.centre.coordinates) && item.centre.coordinates.length === 2) || matches[0];
+    if (!match.centre || !Array.isArray(match.centre.coordinates)) throw new Error("Le service n’a pas fourni de coordonnées pour cette commune.");
+    return { name: match.nom, code: match.code, department: match.codeDepartement || "", latitude: Number(match.centre.coordinates[1]), longitude: Number(match.centre.coordinates[0]) };
+  }
+
+  async function searchCompaniesNearPoint(criteria) {
+    const options = criteria || {};
+    const codes = [...new Set((options.nafCodes || []).map(normalizeCode).filter(Boolean))];
+    if (!codes.length) throw new Error("Au moins un code APE/NAF validé est requis pour interroger l’annuaire.");
+    const radius = Number(options.radiusKm);
+    if (!Number.isFinite(radius) || radius < 1 || radius > 50) throw new Error("Le rayon doit être compris entre 1 et 50 kilomètres.");
+    const center = await geocodeSearchCenter(options.location);
+    const perPage = Number.isInteger(options.perPage) ? Math.max(1, Math.min(options.perPage, 25)) : 25;
+    const maxPages = Number.isInteger(options.maxPages) ? Math.max(1, Math.min(options.maxPages, 4)) : 1;
+    const records = [];
+    const requests = [];
+    const fetchedAt = new Date().toISOString();
+    for (const code of codes) {
+      for (let page = 1; page <= maxPages; page++) {
+        const params = new URLSearchParams({
+          lat: String(center.latitude), long: String(center.longitude), radius: String(radius),
+          activite_principale: code, per_page: String(perPage), page: String(page), minimal: "true", include: "siege,finances"
+        });
+        const url = "https://recherche-entreprises.api.gouv.fr/near_point?" + params.toString();
+        const response = await fetch(url, { headers: { Accept: "application/json" } });
+        if (!response.ok) throw new Error("L’annuaire géographique a répondu avec le statut " + response.status + ". Aucun résultat ne peut être validé.");
+        const payload = await response.json();
+        if (!payload || !Array.isArray(payload.results)) throw new Error("Format de réponse inattendu de l’annuaire géographique.");
+        requests.push({ nafCode: code, page, radiusKm: radius, returned: payload.results.length, totalResults: payload.total_results ?? null });
+        for (const item of payload.results) records.push({ ...item, source: "API Recherche d’Entreprises — DINUM (recherche géographique)", source_url: "https://recherche-entreprises.api.gouv.fr/", collectedAt: fetchedAt, query: { center, radiusKm: radius, nafCode: code, page } });
+        if (page >= Number(payload.total_pages || 1)) break;
+      }
+    }
+    const unique = deduplicateCompanies(records);
+    return { candidates: unique, source: "API Recherche d’Entreprises — DINUM (recherche géographique)", sourceUrl: "https://recherche-entreprises.api.gouv.fr/", fetchedAt, center, radiusKm: radius, requests, rawCount: records.length, uniqueCount: unique.length, note: "Recherche géographique officielle autour du centre de la commune. Le rayon maximal de l’API est de 50 km ; les coordonnées correspondent au centre communal, pas à une adresse précise." };
+  }
+
   function selectCandidates(records, criteria) {
     const options = criteria || {};
     const limit = Number.isInteger(options.limit) && options.limit > 0 ? Math.min(options.limit, 10) : 10;
@@ -234,5 +282,5 @@
     };
   }
 
-  return { normalizeCompany, deduplicateCompanies, scoreCompany, rankCompanies, selectCandidates, searchCompanies };
+  return { normalizeCompany, deduplicateCompanies, scoreCompany, rankCompanies, selectCandidates, searchCompanies, geocodeSearchCenter, searchCompaniesNearPoint };
 });
