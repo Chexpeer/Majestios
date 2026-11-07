@@ -34,6 +34,9 @@ jobs:
           node --check verify-architecture.js
           node --check build.js
           node --check company-targeting.js
+          node --check company-targeting-page.js
+          node --check prospecting-resources.js
+          node --check prospecting-signals.js
           node --check company-fit.js
           node --check naf-suggestions.js
           node --input-type=module --check < supabase-config.js
@@ -48,6 +51,8 @@ jobs:
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification des entreprises
         run: node tests/company-fit.test.cjs
+      - name: Tester les ressources du moteur de Prospection
+        run: node tests/prospecting-resources.test.cjs
       - name: Tester les suggestions APE/NAF
         run: node tests/naf-suggestions.test.cjs
       - name: Construire le site statique
