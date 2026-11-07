@@ -76,6 +76,23 @@
     <label for="target-limit">Nombre maximal de résultats</label>
     <select id="target-limit" name="limit"><option value="10" selected>10 entreprises maximum</option><option value="5">5 entreprises maximum</option></select>
     <label class="company-targeting-checkbox"><input id="target-active-only" name="activeOnly" type="checkbox" checked> Exclure les entreprises indiquées comme non actives par la source</label>
+    <fieldset class="company-targeting-advanced">
+      <legend>Filtres avancés</legend>
+      <label for="target-workforce">Effectif salarié</label>
+      <select id="target-workforce" name="workforce">
+        <option value="">Toutes les tailles</option><option value="0-2">0 à 2 salariés</option><option value="3-5">3 à 5 salariés</option><option value="6-9">6 à 9 salariés</option><option value="10-19">10 à 19 salariés</option><option value="20-49">20 à 49 salariés</option><option value="50+">50 salariés et plus</option><option value="unknown">Effectif non renseigné</option>
+      </select>
+      <label for="target-age">Ancienneté de l’entreprise</label>
+      <select id="target-age" name="companyAge">
+        <option value="">Toutes les anciennetés</option><option value="0-2">Créée depuis moins de 3 ans</option><option value="3-5">3 à 5 ans</option><option value="6-10">6 à 10 ans</option><option value="10+">Plus de 10 ans</option><option value="unknown">Date de création inconnue</option>
+      </select>
+      <label for="target-legal-category">Forme ou catégorie juridique <span>(facultatif)</span></label>
+      <input id="target-legal-category" name="legalCategory" type="search" maxlength="80" placeholder="Ex. SAS, SARL, entrepreneur individuel">
+      <label for="target-name-contains">Nom ou raison sociale contient <span>(facultatif)</span></label>
+      <input id="target-name-contains" name="nameContains" type="search" maxlength="100" placeholder="Mot ou expression">
+      <label class="company-targeting-checkbox"><input id="target-include-unknown" name="includeUnknown" type="checkbox" checked> Conserver les entreprises dont l’information filtrée est inconnue</label>
+      <p class="small-note">Les filtres d’effectif et d’ancienneté sont appliqués aux données disponibles. Les fiches sans information sont conservées si cette option est cochée.</p>
+    </fieldset>
     <button class="button-primary" type="submit">Rechercher des entreprises</button>
   </form>
   <p id="company-targeting-status" class="company-targeting-status" role="status" aria-live="polite">Aucune recherche lancée.</p>
