@@ -1,0 +1,70 @@
+name: Sauvegarde sécurisée de Supabase
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    name: Export PostgreSQL chiffré
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      BACKUP_ENCRYPTION_PASSPHRASE: ${{ secrets.BACKUP_ENCRYPTION_PASSPHRASE }}
+    steps:
+      - name: Vérifier les secrets requis
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$SUPABASE_DB_URL" || { echo "::error::Secret SUPABASE_DB_URL manquant."; exit 1; }
+          test -n "$BACKUP_ENCRYPTION_PASSPHRASE" || { echo "::error::Secret BACKUP_ENCRYPTION_PASSPHRASE manquant."; exit 1; }
+
+      - name: Installer Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Exporter rôles, structure et données
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p backup
+          supabase db dump --remote="$SUPABASE_DB_URL" -f backup/roles.sql --role-only
+          supabase db dump --remote="$SUPABASE_DB_URL" -f backup/schema.sql
+          supabase db dump --remote="$SUPABASE_DB_URL" -f backup/data.sql --use-copy --data-only -x "storage.buckets_vectors" -x "storage.vector_indexes"
+          test -s backup/roles.sql
+          test -s backup/schema.sql
+          test -s backup/data.sql
+          printf 'Export terminé. Tailles :\n'
+          wc -c backup/roles.sql backup/schema.sql backup/data.sql
+
+      - name: Chiffrer l'archive avant toute conservation
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -czf supabase-backup.tar.gz -C backup roles.sql schema.sql data.sql
+          openssl enc -aes-256-cbc -salt -pbkdf2 -iter 600000 \
+            -in supabase-backup.tar.gz \
+            -out supabase-backup.tar.gz.enc \
+            -pass env:BACKUP_ENCRYPTION_PASSPHRASE
+          sha256sum supabase-backup.tar.gz.enc > supabase-backup.tar.gz.enc.sha256
+          rm -f supabase-backup.tar.gz
+          rm -rf backup
+          test -s supabase-backup.tar.gz.enc
+
+      - name: Publier uniquement l'archive chiffrée
+        uses: actions/upload-artifact@v4
+        with:
+          name: majestios-supabase-backup-${{ github.run_id }}
+          path: |
+            supabase-backup.tar.gz.enc
+            supabase-backup.tar.gz.enc.sha256
+          if-no-files-found: error
+          retention-days: 90
