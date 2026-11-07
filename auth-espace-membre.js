@@ -73,6 +73,16 @@ if (form && config?.url && config?.publishableKey) {
   const INTERNAL_ADMIN_EMAIL = "szineddine174@gmail.com";
   const isInternalAdmin = (email) => String(email || "").trim().toLowerCase() === INTERNAL_ADMIN_EMAIL;
 
+  const showInternalCrmLink = () => {
+    if (!preview || preview.querySelector("#internal-crm-link")) return;
+    const link = document.createElement("a");
+    link.id = "internal-crm-link";
+    link.className = "button button-primary";
+    link.href = "crm.html";
+    link.textContent = "Ouvrir le centre de commandement MajestiOS →";
+    preview.append(link);
+  };
+
   const bootstrapInternalAdmin = async (session) => {
     const { data, error } = await supabase.functions.invoke("bootstrap-internal-admin", {
       body: {},
@@ -82,6 +92,7 @@ if (form && config?.url && config?.publishableKey) {
     if (!data?.ok || data.role !== "owner") {
       throw new Error(data?.error || "L'initialisation du compte administrateur n'a pas été confirmée.");
     }
+    showInternalCrmLink();
     return data;
   };
 
