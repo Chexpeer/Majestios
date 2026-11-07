@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d15">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Choisissez votre accès sécurisé à l’espace privé MajestiOS.">
+<title>Espace privé — MajestiOS</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+:root{color-scheme:dark;--gold:#d5b56c;--ink:#f4f0e6;--muted:#bdb5a4}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#20364d 0%,#0b1420 48%,#080d15 100%);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.private-page{width:min(980px,calc(100% - 32px));margin:clamp(48px,10vh,100px) auto 64px}
+.private-eyebrow{color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.16em}
+.private-page h1{margin:12px 0;font-size:clamp(30px,5vw,52px);line-height:1.08}
+.private-page h1 span{color:var(--gold)}
+.private-intro{max-width:650px;color:var(--muted);font-size:15px;line-height:1.7}
+.access-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:38px}
+.access-card{position:relative;display:flex;flex-direction:column;min-height:270px;padding:26px;border:1px solid #d5b56c55;border-radius:16px;background:linear-gradient(145deg,#17283aee,#0d1724f5);box-shadow:0 18px 48px #0005;overflow:hidden}
+.access-card:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(#f7e6a9,#a47b32)}
+.access-card h2{margin:18px 0 8px;font-size:24px}
+.access-card p{color:#bdb5a4;font-size:13px;line-height:1.6}
+.access-icon{display:grid;place-items:center;width:48px;height:48px;border:1px solid #d5b56c88;border-radius:12px;background:#d5b56c12;color:#f3d78e;font-size:23px}
+.access-state{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:22px;color:#e7d39f;font-size:11px;font-weight:800;letter-spacing:.08em}
+.lock{font-size:15px}
+.access-action{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;padding:12px 16px;border:1px solid var(--gold);border-radius:8px;background:linear-gradient(135deg,#f0d995,#b58a3e);color:#111722;text-decoration:none;font-size:13px;font-weight:850}
+.access-action:hover{filter:brightness(1.08)}
+.access-action:focus-visible{outline:2px solid white;outline-offset:3px}
+.access-card.is-pending{border-color:#526276}
+.access-card.is-pending:before{background:#526276}
+.access-card.is-pending .access-icon{border-color:#526276;color:#aab6c3;background:#52627618}
+.access-card.is-pending .access-state{color:#aab6c3}
+.access-unavailable{margin-top:14px;padding:12px 14px;border:1px solid #52627688;border-radius:8px;background:#101b29;color:#aab6c3;font-size:12px;line-height:1.5}
+.private-back{display:inline-block;margin-top:30px;color:#d9c58f;text-decoration:none;font-size:12px}
+@media(max-width:650px){.access-grid{grid-template-columns:1fr}.access-card{min-height:230px;padding:22px}.private-page{margin-top:42px}}
+</style>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+<nav class="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="espace-prive.html" aria-current="page">Espace privé</a></nav>
+</header>
+<main class="private-page">
+<p class="private-eyebrow">MAJESTIOS · ACCÈS PRIVÉ</p>
+<h1>Deux portes. <span>Deux niveaux d’accès.</span></h1>
+<p class="private-intro">Choisissez votre espace. Chaque accès est réservé aux personnes autorisées et nécessite une identification. Les droits sont contrôlés séparément.</p>
+<section class="access-grid" aria-label="Choix de l'accès sécurisé">
+<article class="access-card is-pending">
+<div class="access-icon" aria-hidden="true">♛</div>
+<h2>Accès VIP</h2>
+<p>Réservé à l’administration MajestiOS et aux futurs associés habilités. L’accès au poste de pilotage sera accordé après vérification de votre identité et de vos droits.</p>
+<div class="access-state"><span class="lock" aria-hidden="true">🔒</span> ACCÈS VERROUILLÉ</div>
+<div class="access-unavailable">Le parcours d’authentification VIP est en cours de finalisation. Aucun accès administratif n’est ouvert depuis cette page.</div>
+</article>
+<article class="access-card">
+<div class="access-icon" aria-hidden="true">▣</div>
+<h2>Accès Membres</h2>
+<p>Réservé aux membres de l’écosystème MajestiOS. Connectez-vous pour retrouver votre espace personnel ou préparer la création de votre compte.</p>
+<div class="access-state"><span class="lock" aria-hidden="true">🔒</span> IDENTIFICATION REQUISE</div>
+<a class="access-action" href="espace-membre.html">Accéder à l’espace Membres <span aria-hidden="true">→</span></a>
+</article>
+</section>
+<a class="private-back" href="index.html">← Retour à l’accueil MajestiOS</a>
+</main>
+</body>
+</html>
