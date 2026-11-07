@@ -26,7 +26,7 @@ grant update (state, read_at) on public.crm_reminders to authenticated;
 
 create policy "Members can read their CRM reminders"
   on public.crm_reminders for select to authenticated
-  using ((select public.is_org_member(organization_id)));
+  using ((select private.is_org_member(organization_id)));
 
 create policy "Editors can mark their CRM reminders read"
   on public.crm_reminders for update to authenticated
