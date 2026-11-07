@@ -92,10 +92,9 @@ function showWorkspace(organization, membership) {
     : "ACCÈS SELON VOS HABILITATIONS";
   const canAdminister = ["owner", "admin"].includes(membership.role);
   document.querySelector("#internal-admin-card").hidden = !canAdminister;
-  document.querySelector("#internal-search-card").hidden = !canAdminister;
   if (returnTo !== "espace-interne.html") {
     const destinationAllowed = returnTo === "crm.html" ||
-      (canAdminister && ["administration.html", "admin-recherches.html"].includes(returnTo));
+      (canAdminister && ["administration.html"].includes(returnTo));
     if (destinationAllowed) window.location.replace(returnTo);
   }
 }

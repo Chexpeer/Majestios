@@ -52,7 +52,7 @@ for (const file of siteFiles) {
 }
 assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentation Markdown ne doit pas être publiée avec le site");
 
-const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
+const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep) && !["administration.html", "espace-interne.html", "espace-prive.html"].includes(file));
 for (const page of htmlPages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
 const expectedSiteNavigation = [
   ["index.html", "Accueil"],

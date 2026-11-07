@@ -59,6 +59,9 @@
     "espace-prive.html",
     "espace-interne.html",
     "espace-interne.css",
-    "espace-interne.js"
+    "espace-interne.js",
+    "administration.html",
+    "administration.css",
+    "administration.js"
   ]
 }
