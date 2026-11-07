@@ -379,8 +379,8 @@
             '<p><strong>Publication :</strong> ' + escapeHtml(publication) + '</p>' +
             '<p><strong>Date limite :</strong> ' + escapeHtml(deadlineLabel) + '</p>' +
 
-            '<a class="button-primary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Consulter l’avis officiel ↗</a>' +
-            '<a class="feed-interest button-secondary opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Demander un accompagnement MajestiOS →</a>' +
+            '<a class="button-primary opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Me positionner sur cet appel d’offres →</a>' +
+            '<a class="feed-interest button-secondary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Consulter l’avis officiel ↗</a>' +
             '</article>';
         }).join("");
         empty.textContent = filtered.length + " résultat(s) affiché(s) depuis BOAMP. Les critères métier restent à confirmer à la lecture de l’avis officiel.";
