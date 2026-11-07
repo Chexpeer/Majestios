@@ -57,6 +57,18 @@ function showLogin(message = "Connectez-vous avec les identifiants qui vous ont 
   gate.hidden = false;
   workspace.hidden = true;
   loginForm.hidden = false;
+  if (!passwordSetup) {
+    const emailLabel = document.querySelector('label[for="internal-email"]');
+    const passwordLabel = document.querySelector('label[for="internal-password"]');
+    emailLabel.hidden = false;
+    passwordLabel.firstChild.textContent = "Mot de passe";
+    const passwordInput = document.querySelector("#internal-password");
+    passwordInput.autocomplete = "current-password";
+    passwordInput.minLength = 0;
+    if (passwordConfirmInput) passwordConfirmInput.closest("label")?.remove();
+    passwordConfirmInput = null;
+    loginButton.innerHTML = 'Se connecter <span aria-hidden="true">→</span>';
+  }
   gateMessage.textContent = message;
   sessionLabel.textContent = "Authentification interne";
   signOutButton.hidden = true;
