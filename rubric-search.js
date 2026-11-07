@@ -6,14 +6,12 @@
   const path = window.location.pathname.split("/").pop();
   const configs = {
     "marches-publics.html": ["Rechercher des marchés publics", "Interrogez le flux BOAMP avec des critères métier et géographiques. Vérifiez toujours l’avis officiel.", "public"],
-    "developpement-commercial.html": ["Rechercher des opportunités de développement commercial", "Repérez les consultations publiques et les signaux commerciaux privés.", ""],
     "prospection-active.html": ["Rechercher des opportunités pour la prospection", "Identifiez des pistes à qualifier avant toute prise de contact.", ""],
     "veille-marches.html": ["Rechercher dans la veille des marchés", "Filtrez les avis publics par mot-clé, catégorie et département.", "public"],
     "accompagnement-appels-offres.html": ["Trouver un marché à qualifier", "Recherchez une consultation avant d’évaluer les exigences et les délais.", "public"],
     "sous-traitance.html": ["Rechercher des pistes de sous-traitance", "Explorez les avis et signaux accessibles ; toute piste reste à qualifier.", ""],
     "marches-prives.html": ["Rechercher des signaux commerciaux privés", "Explorez les annonces d’entreprise publiées au BODACC. Ce sont des signaux, pas des appels d’offres.", "private"],
     "intelligence-economique.html": ["Rechercher des signaux économiques", "Repérez les informations publiées utiles à une décision commerciale.", ""],
-    "reseaux-synergies.html": ["Rechercher des opportunités de partenariat", "Identifiez des pistes de coopération à partir des marchés et signaux publiés.", ""],
     "bodacc-veille-entreprises.html": ["Rechercher dans les annonces BODACC", "Consultez les annonces légales comme signaux stratégiques à vérifier.", "private"],
     "suivi-commercial.html": ["Rechercher une piste à suivre", "Retrouvez les marchés et signaux à qualifier avant leur suivi commercial.", ""],
     "reputation-virtuelle.html": ["Rechercher des opportunités pour votre visibilité", "Repérez les pistes à qualifier avant un accompagnement de visibilité locale.", ""],
