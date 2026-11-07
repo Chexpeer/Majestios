@@ -115,7 +115,13 @@
     const codes = [...new Set((options.nafCodes || []).map(normalizeCode).filter(Boolean))];
     const departments = [...new Set((options.departments || []).map((value) => String(value).trim().toUpperCase()).filter(Boolean))];
     if (!codes.length) throw new Error("Au moins un code APE/NAF validé est requis pour interroger l’annuaire.");
-    if (!departments.length) throw new Error("Au moins un département est requis pour limiter la recherche.");
+    const region = String(options.region || "").trim();
+    if (!departments.length && !region) throw new Error("Choisissez au moins un département ou une région pour limiter la recherche.");
+    const caMin = options.caMin == null || options.caMin === "" ? null : Number(options.caMin);
+    const caMax = options.caMax == null || options.caMax === "" ? null : Number(options.caMax);
+    if (caMin !== null && (!Number.isFinite(caMin) || caMin < 0)) throw new Error("Le chiffre d’affaires minimum doit être un montant positif.");
+    if (caMax !== null && (!Number.isFinite(caMax) || caMax < 0)) throw new Error("Le chiffre d’affaires maximum doit être un montant positif.");
+    if (caMin !== null && caMax !== null && caMin > caMax) throw new Error("Le chiffre d’affaires minimum ne peut pas dépasser le maximum.");
     if (typeof fetch !== "function") throw new Error("Cette recherche nécessite un navigateur ou un environnement disposant de fetch.");
 
     const perPage = Number.isInteger(options.perPage) ? Math.max(1, Math.min(options.perPage, 25)) : 25;
@@ -127,17 +133,25 @@
     const fetchedAt = new Date().toISOString();
 
     // Requêtes séquentielles pour éviter de dépasser les limites de l'API publique.
-    for (const department of departments) {
+    const geographicScopes = departments.length ? departments.map(department => ({ department, region: "" })) : [{ department: "", region }];
+    for (const scope of geographicScopes) {
       for (const code of codes) {
         for (let page = 1; page <= maxPages; page++) {
           const params = new URLSearchParams({
             activite_principale: code,
-            departement: department,
             per_page: String(perPage),
             page: String(page),
-            minimal: "false",
-            include: "siege"
+            minimal: "true",
+            include: "siege,finances"
           });
+          if (scope.department) params.set("departement", scope.department);
+          if (scope.region) params.set("region", scope.region);
+          if (caMin !== null) params.set("ca_min", String(Math.round(caMin)));
+          if (caMax !== null) params.set("ca_max", String(Math.round(caMax)));
+          if (options.estRge) params.set("est_rge", "true");
+          if (options.estQualiopi) params.set("est_qualiopi", "true");
+          if (options.estEpV) params.set("est_patrimoine_vivant", "true");
+          if (options.estEss) params.set("est_ess", "true");
           const url = baseUrl + "?" + params.toString();
           const controller = typeof AbortController === "function" ? new AbortController() : null;
           const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
@@ -167,14 +181,14 @@
           if (!payload || !Array.isArray(payload.results)) {
             throw new Error("Format de réponse inattendu de l’annuaire des entreprises ; aucun résultat n’a été validé.");
           }
-          requests.push({ department, nafCode: code, page, returned: payload.results.length, totalResults: payload.total_results ?? null });
+          requests.push({ department: scope.department || null, region: scope.region || null, nafCode: code, page, returned: payload.results.length, totalResults: payload.total_results ?? null });
           for (const item of payload.results) {
             records.push({
               ...item,
               source: "API Recherche d’Entreprises — DINUM",
               source_url: "https://recherche-entreprises.api.gouv.fr/",
               collectedAt: fetchedAt,
-              query: { department, nafCode: code, page }
+              query: { department: scope.department || null, region: scope.region || null, nafCode: code, page }
             });
           }
           if (page >= Number(payload.total_pages || 1)) break;
@@ -191,7 +205,8 @@
       requests,
       rawCount: records.length,
       uniqueCount: unique.length,
-      note: "Résultats limités aux filtres APE/NAF et département demandés. Une correspondance administrative ne prouve pas la capacité à répondre au marché."
+      appliedFilters: { departments, region: region || null, caMin, caMax, estRge: Boolean(options.estRge), estQualiopi: Boolean(options.estQualiopi), estEpV: Boolean(options.estEpV), estEss: Boolean(options.estEss) },
+      note: "Résultats limités aux filtres administratifs transmis à l’API. Le chiffre d’affaires peut être indisponible pour certaines entreprises ; une correspondance administrative ne prouve pas la capacité à répondre au marché."
     };
   }
 
