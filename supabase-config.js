@@ -1,5 +1,5 @@
-// Configuration publique du client web ; les secrets restent exclusivement côté serveur.
+// Configuration publique du client web ; aucune clé privilégiée n'est exposée ici.
 export const MAJESTIOS_SUPABASE = Object.freeze({
-  url: "https://awtgrjnpckgxsdpfrnhg.supabase.co",
-  publishableKey: "sb_publishable_C7x_XfCvX9kr70hnu3KPqw_8pTqAV7J"
+  url: "https://qxaghcifdhugfskuscoc.supabase.co",
+  publishableKey: "sb_publishable_1rbE5yDQs12JCNifwunMCg_u9-Ixl63"
 });
