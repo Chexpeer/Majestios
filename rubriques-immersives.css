@@ -373,3 +373,25 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
   #advanced-search-form .search-source-note{font-size:11px}
 }
 
+
+
+/* Fonds visuels restaurés depuis les visuels MajestiOS conservés dans la branche de sauvegarde V5. */
+body.page-reseaux{
+  background-color:#071225;
+  background-image:linear-gradient(180deg,rgba(5,15,30,.54),rgba(5,15,30,.82)),url("https://raw.githubusercontent.com/Chexpeer/Majestios/backup/evolution-5.0-clean-preview-2026-11-07/RESEAU.png");
+  background-position:center 18%;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+body.page-prospection{
+  background-color:#071225;
+  background-image:linear-gradient(180deg,rgba(5,15,30,.56),rgba(5,15,30,.84)),url("https://raw.githubusercontent.com/Chexpeer/Majestios/backup/evolution-5.0-clean-preview-2026-11-07/PROSPECTION.jfif");
+  background-position:center 18%;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+@media(max-width:760px){
+  body.page-reseaux,body.page-prospection{background-attachment:scroll}
+}
