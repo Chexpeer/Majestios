@@ -83,10 +83,17 @@
           const department = company.department ? "Département : " + escapeHtml(company.department) : "Département non déterminé";
           const reasons = company.reasons.map((reason) => "<li>" + escapeHtml(reason) + "</li>").join("");
           const state = company.active === true ? "Statut administratif : actif selon la source" : company.active === false ? "Statut administratif : non actif selon la source" : "Statut administratif : à vérifier";
+          const adminDetails = [
+            company.creationDate ? "Création : " + company.creationDate : "",
+            company.legalCategory ? "Catégorie juridique : " + company.legalCategory : "",
+            company.workforceBand ? "Tranche d’effectif : " + company.workforceBand : "",
+            company.workforce != null ? "Effectif déclaré : " + company.workforce : "",
+            company.address ? "Adresse : " + company.address : ""
+          ].filter(Boolean).map(escapeHtml).join(" · ");
           const fit = window.MajestiosCompanyFit ? window.MajestiosCompanyFit.qualify(company, { nafCodes, departements: departments }) : null;
           const fitWarnings = fit ? fit.warnings.map((warning) => "<li>" + escapeHtml(warning) + "</li>").join("") : "<li>Qualification complémentaire indisponible : contrôle manuel requis.</li>";
           const manualChecks = fit ? Object.entries(fit.manualChecks).map(([key, value]) => "<li>" + escapeHtml(key) + " : " + escapeHtml(value === "to_verify" ? "à vérifier" : value) + "</li>").join("") : "";
-          return '<article class="company-targeting-card"><div class="company-targeting-card-top"><span class="company-targeting-score">' + formatScore(company.score) + '</span><span class="company-targeting-qualification">' + escapeHtml(company.qualification) + '</span></div><h3>' + escapeHtml(company.name || "Dénomination non fournie") + '</h3><p>' + activity + ' · ' + department + '</p><p>' + escapeHtml(state) + '</p><p class="small-note">SIREN : ' + escapeHtml(company.siren || "non fourni") + ' · SIRET : ' + escapeHtml(company.siret || "non fourni") + '</p><details><summary>Pourquoi cette correspondance ?</summary><ul>' + reasons + '</ul></details><p><a href="' + officialUrl + '" target="_blank" rel="noopener noreferrer">Consulter la fiche officielle ↗</a></p><p class="small-note">' + escapeHtml(company.warning) + '</p></article>';
+          return '<article class="company-targeting-card"><div class="company-targeting-card-top"><span class="company-targeting-score">' + formatScore(company.score) + '</span><span class="company-targeting-qualification">' + escapeHtml(company.qualification) + '</span></div><h3>' + escapeHtml(company.name || "Dénomination non fournie") + '</h3><p>' + activity + ' · ' + department + '</p><p>' + escapeHtml(state) + '</p>' + (adminDetails ? '<p class="small-note">' + adminDetails + '</p>' : '') + '<p class="small-note">SIREN : ' + escapeHtml(company.siren || "non fourni") + ' · SIRET : ' + escapeHtml(company.siret || "non fourni") + '</p><details><summary>Pourquoi cette correspondance ?</summary><ul>' + reasons + '</ul></details><p><a href="' + officialUrl + '" target="_blank" rel="noopener noreferrer">Consulter la fiche officielle ↗</a></p><p class="small-note">' + escapeHtml(company.warning) + '</p></article>';
         }).join("");
       }
       results.hidden = false;
