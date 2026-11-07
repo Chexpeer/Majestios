@@ -138,6 +138,28 @@
       } catch (error) { status.textContent = error.message || "La recherche ADEME a échoué."; }
       finally { if (button) button.disabled = false; }
     });
+
+    const qualificationForm = root.document.getElementById("prospecting-qualification-form");
+    const qualificationStatus = root.document.getElementById("prospecting-qualification-status");
+    const qualificationResult = root.document.getElementById("prospecting-qualification-result");
+    if (qualificationForm && qualificationStatus && qualificationResult) {
+      qualificationForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        qualificationResult.hidden = true;
+        qualificationResult.textContent = "";
+        qualificationStatus.textContent = "Vérification de la source de certification…";
+        const button = qualificationForm.querySelector('button[type="submit"]');
+        if (button) button.disabled = true;
+        try {
+          const data = await searchQualification(qualificationForm.elements.source.value, qualificationForm.elements.siret.value);
+          qualificationResult.textContent = JSON.stringify(data, null, 2);
+          qualificationResult.hidden = false;
+          qualificationStatus.textContent = "Réponse reçue. Vérifiez la provenance et la date de validité de la qualification.";
+        } catch (error) {
+          qualificationStatus.textContent = error.message || "La vérification n’a pas abouti.";
+        } finally { if (button) button.disabled = false; }
+      });
+    }
   }
 
   const api = { SOURCES, sourceState, searchRge, searchQualification, searchConfiguredProxy, renderCatalog };
