@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, "..", "dist");
 const imageWidth = 842;
 const imageHeight = 1264;
 const expected = [
-  {id:"08",name:"Espace privé",route:"espace-membre.html",rect:[185,182,350,82],lines:"ESPACE|PRIVÉ"},
+  {id:"08",name:"Espace privé",route:"espace-prive.html",rect:[185,182,350,82],lines:"ESPACE|PRIVÉ"},
   {id:"07",name:"Réseau",route:"reseaux-synergies.html",rect:[185,266,350,80],lines:"RÉSEAU"},
   {id:"06",name:"Développement commercial",route:"developpement-commercial.html",rect:[185,350,350,92],lines:"DÉVELOPPEMENT|COMMERCIAL"},
   {id:"05",name:"Prospection",route:"prospection-active.html",rect:[185,444,350,81],lines:"PROSPECTION"},
@@ -22,7 +22,7 @@ const mime = { ".html":"text/html; charset=utf-8", ".css":"text/css; charset=utf
 
 async function main() {
   assert.ok(fs.existsSync(path.join(root,"index.html")), "Exécuter node build.js avant le test.");
-  for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
+  for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png","PROSPECTION.jfif","RESEAU.png"]) {
     assert.ok(fs.existsSync(path.join(root,asset)), "La ressource "+asset+" est absente du build.");
   }
   const server = http.createServer((req,res) => {
