@@ -35,7 +35,7 @@
     if (!metadataResponse.ok) throw new Error("Impossible de lire le schéma ADEME (HTTP " + metadataResponse.status + ").");
     const metadata = await metadataResponse.json();
     const fields = Array.isArray(metadata.schema) ? metadata.schema.map(field => field.key) : [];
-    const departmentFields = ["code_departement","departement","departement_code","dpt","code_postal","siret"];
+    const departmentFields = ["code_departement","departement","departement_code","dpt","code_postal"];
     const deptField = departmentFields.find(name => fields.includes(name));
     if (department && !deptField) throw new Error("Le schéma ADEME ne fournit pas de champ géographique exploitable : filtre département non appliqué.");
     const url = new URL(base + "/lines");
@@ -50,7 +50,6 @@
     const filtered = department ? rows.filter(row => {
       const raw = row[deptField];
       if (deptField === "code_postal") return digits(raw).startsWith(target);
-      if (deptField === "siret") return digits(raw).slice(0,5).startsWith(target);
       return digits(raw) === target || String(raw || "").trim().toUpperCase() === department.toUpperCase();
     }) : rows;
     return {
