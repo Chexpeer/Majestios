@@ -9,7 +9,7 @@ async function main() {
   assert.ok(resources.SOURCES.some(source => source.id === "qualifelec"));
   assert.ok(resources.SOURCES.some(source => source.id === "opqibi"));
   assert.ok(resources.SOURCES.some(source => source.id === "fntp"));
-  assert.throws(() => resources.searchQualification("qualibat", "123"), /SIRET valide/);
+  await assert.rejects(resources.searchQualification("qualibat", "123"), /SIRET valide/);
   await assert.rejects(resources.searchConfiguredProxy("rne", { siren:"123456789" }), /pas configuré/);
 
   const originalFetch = global.fetch;
