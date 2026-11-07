@@ -57,7 +57,7 @@
     </select>
     <label for="target-limit">Nombre maximal de résultats</label>
     <select id="target-limit" name="limit"><option value="10" selected>10 entreprises maximum</option><option value="5">5 entreprises maximum</option></select>
-    <label class="company-targeting-checkbox"><input id="target-active-only" name="activeOnly" type="checkbox" checked> Exclure les entreprises indiquées comme non actives par la source</label>
+    <label class="company-targeting-checkbox"><input id="target-active-only" name="activeOnly" type="checkbox" checked> Exclure les entreprises dont le statut est indiqué comme non actif</label>
     <fieldset class="company-targeting-advanced">
       <legend>Filtres avancés</legend>
       <label for="target-workforce">Effectif salarié</label>
@@ -84,7 +84,7 @@
         <label class="company-targeting-checkbox"><input type="checkbox" name="estQualiopi"> Certification Qualiopi</label>
         <label class="company-targeting-checkbox"><input type="checkbox" name="estEpV"> Entreprise du Patrimoine Vivant</label>
         <label class="company-targeting-checkbox"><input type="checkbox" name="estEss"> Économie sociale et solidaire</label>
-        <p class="small-note">Ces critères interrogent les indicateurs disponibles dans l’API Recherche d’Entreprises. Les qualifications QUALIBAT, QUALIFELEC, OPQIBI et FNTP restent vérifiées séparément par SIRET.</p>
+        <p class="small-note">Les indicateurs de qualification et les labels disponibles peuvent être incomplets. Toute information importante doit être vérifiée avant la prise de contact.</p>
       </fieldset>
       <p class="small-note">Les filtres d’effectif et d’ancienneté sont appliqués aux données disponibles. Les fiches sans information sont conservées si cette option est cochée.</p>
     </fieldset>
