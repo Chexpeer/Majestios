@@ -245,7 +245,7 @@ const searchSteps = {
   department: document.querySelector("#department-step")
 };
 const revealStep = (step, visible = true) => { if (step) step.hidden = !visible; };
-document.querySelector("#feed-search")?.addEventListener("focus", () => revealStep(searchSteps.market));
+document.querySelector("#feed-search")?.addEventListener("focus", () => { if (advancedSearchForm?.dataset.progressive !== "true") revealStep(searchSteps.market); });
 
 const initialSearchParams = new URLSearchParams(window.location.search);
 const initialMarketType = initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "";
@@ -287,11 +287,13 @@ keywordControl?.addEventListener("input", updateOtherCategoryRequirement);
 document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
   populateSearchFilters(event.target.value, "");
   updateOtherCategoryRequirement();
-  revealStep(searchSteps.category, Boolean(event.target.value));
-  revealStep(searchSteps.department, false);
+  if (advancedSearchForm?.dataset.progressive !== "true") {
+    revealStep(searchSteps.category, Boolean(event.target.value));
+    revealStep(searchSteps.department, false);
+  }
 });
 document.querySelector("#feed-sector")?.addEventListener("change", () => {
-  revealStep(searchSteps.department);
+  if (advancedSearchForm?.dataset.progressive !== "true") revealStep(searchSteps.department);
   updateOtherCategoryRequirement();
 });
 if (advancedSearchForm) {
