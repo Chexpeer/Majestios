@@ -134,3 +134,64 @@ Toute extension doit conserver la séparation CRM interne / espace client / mote
 - Fonction serveur : `supabase/functions/provision-client-workspace/index.ts`.
 
 Les identifiants ci-dessus sont des références de projet, pas des secrets. Aucune clé privée ne doit figurer dans cette documentation.
+
+
+## 10. Contrôle live complémentaire — 7 novembre 2026 à 06:44 UTC
+
+Ce contrôle a été effectué directement sur le projet Supabase référencé ci-dessus. Il **remplace les affirmations historiques contradictoires des sections précédentes lorsqu'elles décrivent un état antérieur** ; les paragraphes historiques restent conservés pour comprendre l'évolution.
+
+### État du projet et migrations
+
+- Projet retrouvé : `majestios-backend`, référence `awtgrjnpckgxsdpfrnhg`.
+- Statut observé : `ACTIVE_HEALTHY`.
+- PostgreSQL observé : `17.11.0.018`.
+- Branche Supabase de développement : aucune branche de développement listée.
+- La branche GitHub `evolution-5.0-clean-preview` est retrouvée.
+- **13 migrations sont maintenant enregistrées comme appliquées** dans l'historique Supabase :
+  1. `20261105163901_majestios_core_multitenant_foundation`
+  2. `20261105163922_harden_private_authorization_and_fk_indexes`
+  3. `20261105163953_enforce_tenant_relationship_integrity`
+  4. `20261105164403_add_private_consent_records`
+  5. `20261105164411_replace_consent_placeholder_with_privacy_acknowledgments`
+  6. `20261105164732_harden_privacy_acknowledgment_access`
+  7. `20261106085409_bootstrap_first_internal_admin`
+  8. `20261106085411_enforce_crm_editor_roles`
+  9. `20261106085415_atomic_client_workspace_provisioning`
+  10. `20261106085430_persistent_crm_reminders`
+  11. `20261106085434_sync_crm_reminder_lifecycle`
+  12. `20261106085436_complete_crm_reminder_with_activity`
+  13. `20261106135037_grant_crm_record_updates`
+
+Les versions de migration appliquées en base ne reprennent pas exactement les horodatages des trois fichiers précédemment signalés comme en attente dans Git. Il faut donc comparer le contenu SQL réel des migrations versionnées et les versions appliquées avant toute restauration ; ne pas conclure à une correspondance uniquement sur le nom.
+
+### Tables métier observées
+
+Dix tables sont présentes dans `public`, avec RLS activé :
+`organizations`, `profiles`, `organization_members`, `businesses`, `contacts`, `opportunities`, `activities`, `client_requests`, `privacy_acknowledgments`, `crm_reminders`.
+
+La table `crm_reminders` constitue une évolution non documentée dans l'ancien état : relances commerciales persistantes, rattachées à une organisation et à une opportunité. Les fonctions et triggers de synchronisation des relances sont présents dans la base.
+
+Les compteurs renvoyés par l'inspection des tables indiquent une ligne dans `organizations` et une ligne dans `profiles`, et zéro ligne dans les autres tables métier observées. Ce sont des compteurs, pas un export des enregistrements. Aucun contenu personnel n'est reproduit ici.
+
+### Fonctions, triggers et automatisation
+
+Le catalogue SQL inspecté montre notamment :
+- fonctions privées d'autorisation multi-tenant et de contrôle d'intégrité ;
+- procédure `private.bootstrap_first_internal_admin` ;
+- RPC `public.provision_client_workspace` ;
+- fonctions de gestion des relances `private.materialize_crm_reminders`, `private.sync_crm_reminders_for_opportunity` et `public.complete_crm_reminder` ;
+- triggers de cohérence tenant, mise à jour des horodatages et cycle de vie des relances ;
+- tâche `pg_cron` active nommée `majestios-crm-reminders`, exécutée toutes les cinq minutes pour matérialiser les relances.
+
+### Fonction Edge
+
+La fonction `provision-client-workspace` est active en **version 3**, avec vérification JWT activée. Cela remplace le constat historique de version 2. Le code déployé doit encore être comparé octet par octet ou fonctionnellement au code source GitHub ; la seule version affichée ne prouve pas cette correspondance.
+
+### Storage et limites d'export
+
+- Aucun bucket Storage applicatif n'a été retourné par l'inspection.
+- Le catalogue des extensions indique notamment `pgcrypto`, `uuid-ossp`, `pg_stat_statements`, `supabase_vault` et `pg_cron` comme installées.
+- Les tables métier ont RLS activé ; les politiques ont été inspectées dans le catalogue SQL.
+- Le connecteur Supabase disponible dans cette session permet d'inspecter les projets, tables, migrations, fonctions Edge et d'exécuter du SQL en lecture. Il ne fournit pas ici de commande native d'export physique complet type `pg_dump`, ni d'archive téléchargeable des données et objets Storage.
+
+**Conclusion impérative : ce contrôle live est un inventaire, pas une sauvegarde complète.** Le schéma, les données, les utilisateurs Auth, les secrets, les paramètres Auth, les configurations de plateforme et les fichiers ne sont pas encore réunis dans une archive indépendante et restaurable. Ne supprimer, réinitialiser ou remplacer aucun projet Supabase. La prochaine étape est d'obtenir un export physique complet par un canal adapté (Supabase CLI / sauvegarde PostgreSQL et exports Auth/Storage selon disponibilité), de le stocker hors de Supabase et hors de la seule branche Git, puis d'en vérifier l'intégrité et la restaurabilité.
