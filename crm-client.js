@@ -125,6 +125,33 @@ async function create(table, values) {
   return data;
 }
 
+async function listInternalMembers() {
+  const { membership } = await requireWorkspace();
+  if (!["owner", "admin"].includes(membership.role)) throw new Error("Accès réservé aux administrateurs internes.");
+  const { data, error } = await supabase.from("organization_members")
+    .select("id,user_id,role,created_at")
+    .eq("organization_id", membership.organization_id)
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
+async function setInternalMemberRole(membershipId, role) {
+  const { membership } = await requireWorkspace();
+  if (!["owner", "admin"].includes(membership.role)) throw new Error("Droits administrateur requis.");
+  const { error } = await supabase.rpc("manage_internal_member_role", {
+    p_membership_id: membershipId, p_role: role
+  });
+  if (error) throw error;
+}
+
+async function removeInternalMember(membershipId) {
+  const { membership } = await requireWorkspace();
+  if (!["owner", "admin"].includes(membership.role)) throw new Error("Droits administrateur requis.");
+  const { error } = await supabase.rpc("remove_internal_member", { p_membership_id: membershipId });
+  if (error) throw error;
+}
+
 async function listReminders() {
   const { membership } = await requireWorkspace();
   const { data, error } = await supabase.from("crm_reminders").select("*")
@@ -152,6 +179,9 @@ export const MajestiosCRM = Object.freeze({
   listOpportunities: () => list("opportunities"),
   listActivities: () => list("activities"),
   listReminders,
+  listInternalMembers,
+  setInternalMemberRole,
+  removeInternalMember,
   markReminderRead,
   createBusiness: (values) => create("businesses", values),
   createContact: (values) => create("contacts", values),

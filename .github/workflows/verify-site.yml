@@ -38,12 +38,18 @@ jobs:
           node --check naf-suggestions.js
           node --input-type=module --check < supabase-config.js
           node --input-type=module --check < auth-espace-membre.js
+          node --input-type=module --check < crm-page.js
+          node --input-type=module --check < crm-client.js
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification des entreprises
         run: node tests/company-fit.test.cjs
       - name: Tester les suggestions APE/NAF
         run: node tests/naf-suggestions.test.cjs
+      - name: Vérifier le contrat de sécurité CRM
+        run: node tests/crm-security-contract.test.cjs
+      - name: Vérifier la politique de déploiement manuel Vercel
+        run: node tests/vercel-deployment-policy.test.cjs
       - name: Construire le site statique
         run: node build.js
       - name: Vérifier l’architecture et les routes
