@@ -95,6 +95,32 @@ Ne confonds pas :
 
 Respecte les décisions les plus récentes du propriétaire et les documents canoniques du dépôt. Toute contradiction doit être signalée, pas tranchée par supposition.
 
+
+
+### 6 bis. Modèle fonctionnel et métaphore d'organisation : le CRM comme une caserne
+
+Le CRM MajestiOS ne doit pas être reconstruit comme un simple carnet de contacts ou un tableau de bord générique. Sa représentation fonctionnelle doit évoquer une **caserne organisée**, c'est-à-dire un centre opérationnel structuré, avec des accès contrôlés, des unités spécialisées, des outils de recherche et des missions coordonnées.
+
+Cette métaphore décrit l'organisation et les parcours fonctionnels ; elle ne doit pas conduire à militariser le discours commercial ni à introduire des mécanismes de surveillance disproportionnés.
+
+Éléments à retrouver, documenter et préserver dans le code, les écrans, les droits et la feuille de route :
+
+- **Accès VIP et zones réservées** : espaces et fonctionnalités accessibles selon le statut, l'abonnement, l'invitation ou le rôle de l'utilisateur. Les règles d'accès doivent être explicites, appliquées côté serveur (RLS, autorisations et contrôles backend), testées et non simplement masquées dans l'interface.
+- **Poste de commandement / centre opérationnel** : point d'entrée qui donne une vision claire des missions, alertes, priorités, dossiers, actions en cours et historiques, sans confondre indicateurs et actions réellement exécutées.
+- **Moteurs de recherche avancés** : recherche transversale et spécialisée, filtres combinables, critères métier, territoire, secteur, statut, dates et provenance. Les résultats doivent conserver leur source, leur date, leur lien d'origine et leur historique de qualification.
+- **Sources et cellules de veille** : intégration ou préparation d'intégration des marchés publics (notamment BOAMP) et des annonces légales/commerciales (notamment BODACC), ainsi que d'autres sources pertinentes. Distinguer strictement les connecteurs réellement opérationnels, les imports disponibles, les maquettes et les intégrations encore à développer.
+- **Inspecteur / fonctions d'investigation commerciale** : outils permettant d'examiner une entreprise, vérifier et recouper des informations accessibles et licitement obtenues, comprendre son activité, ses signaux, ses marchés, ses interlocuteurs et ses relations, puis produire une fiche sourcée et une qualification à valider par un humain. L'« inspecteur » est une fonction d'analyse et de vérification, pas un accès illimité à des données privées.
+- **Unités et équipes spécialisées** : espaces ou modules dédiés à la détection, la qualification, l'identification des interlocuteurs, la prospection, l'accompagnement des réponses aux appels d'offres, la relation client et la capitalisation. Chaque unité doit avoir une mission, des entrées/sorties, des permissions et un historique clairement définis.
+- **Journal des opérations** : traçabilité des recherches, consultations sensibles, changements de statut, affectations, prises de contact et décisions, avec horodatage et auteur lorsque cela est pertinent et légal.
+- **Passage de relais** : toute information utile doit pouvoir être transformée en dossier, affectée à un membre autorisé, enrichie, suivie puis capitalisée dans le CRM.
+
+La doctrine opérationnelle à respecter est :
+**Détecter → Qualifier → Identifier → Contacter → Transformer → Capitaliser.**
+
+Lors de la récupération, l'IA doit dresser une matrice de correspondance entre ces fonctions et les éléments concrets existants : pages, composants, tables, colonnes, RPC, Edge Functions, politiques d'accès, connecteurs, tests et documents. Pour chaque fonction, indiquer l'état réel : présent dans Git, déployé, connecté à une source, testé, opérationnel, en préparation ou absent. Ne jamais présenter BOAMP, BODACC, les moteurs avancés, l'inspecteur ou les accès VIP comme opérationnels sans preuve technique vérifiable.
+
+Le modèle de caserne est une **exigence de vision produit à préserver** dans toute reconstruction. Il doit être confronté aux choix déjà présents dans le dépôt et aux arbitrages les plus récents du propriétaire, sans effacer les fonctionnalités existantes ni inventer une architecture technique avant l'audit.
+
 ### 7. Livrables obligatoires
 
 À la fin, fournis :
