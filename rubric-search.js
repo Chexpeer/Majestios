@@ -84,6 +84,37 @@
     searchRoot = section;
   }
 
+  // Parcours progressif réservé aux rubriques : l’accueil garde son moteur inchangé.
+  if (!homeMount) {
+    const form = searchRoot.querySelector("#advanced-search-form");
+    form.dataset.progressive = "true";
+    const criteriaButton = document.createElement("button");
+    criteriaButton.type = "button";
+    criteriaButton.className = "feed-criteria-toggle";
+    criteriaButton.textContent = "Choisir des critères";
+    criteriaButton.setAttribute("aria-controls", "market-step category-step department-step");
+    criteriaButton.setAttribute("aria-expanded", "false");
+    form.insertBefore(criteriaButton, form.querySelector("#market-step"));
+    const steps = [
+      form.querySelector("#market-step"),
+      form.querySelector("#category-step"),
+      form.querySelector("#department-step")
+    ];
+    steps.forEach((step) => { if (step) step.hidden = true; });
+    let level = 0;
+    criteriaButton.addEventListener("click", () => {
+      const marketChosen = Boolean(form.querySelector("#feed-market-type")?.value);
+      const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
+      if (level === 0) level = 1;
+      else if (level === 1 && marketChosen) level = 2;
+      else if (level === 2 && categoryChosen) level = 3;
+      else if (level >= 3) level = 1;
+      steps.forEach((step, index) => { if (step) step.hidden = index >= level; });
+      criteriaButton.setAttribute("aria-expanded", String(level > 0));
+      criteriaButton.textContent = level >= 3 ? "Modifier les critères" : "Affiner les critères";
+    });
+  }
+
   const initialMarket = new URLSearchParams(window.location.search).get("marche") || config?.[2] || "";
   const market = searchRoot.querySelector("#feed-market-type");
   const categoryStep = searchRoot.querySelector("#category-step");
