@@ -240,6 +240,11 @@ for (const [page, category] of [
 }
 const rubricSearch = read("rubric-search.js");
 const appSearch = read("app.js");
+assert(rubricSearch.includes('form.dataset.progressive = "true"') && rubricSearch.includes('feed-criteria-toggle'),
+  "Recherche rubriques : le filtrage progressif doit être activé hors accueil");
+assert(read("prospection-active.html").includes('id="prospecting-criteria-toggle"') &&
+  read("prospection-active.html").includes('prospecting-advanced-details" hidden'),
+  "Prospection : les critères doivent être révélés progressivement par le même bouton");
 assert(rubricSearch.includes('id="advanced-search-form"') && rubricSearch.includes('id="feed-search"') &&
   rubricSearch.includes('id="feed-market-type"') && rubricSearch.includes('id="feed-sector"') &&
   rubricSearch.includes('id="feed-department"') && rubricSearch.includes('id="search-source-note"'),
