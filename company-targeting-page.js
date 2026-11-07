@@ -94,7 +94,7 @@
       const age = (Date.now() - date.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
       if (filter === "0-2") return age < 3;
       if (filter === "3-5") return age >= 3 && age < 6;
-      if (filter === "6-10") return age >= 6 && age < 11;
+      if (filter === "6-10") return age >= 6 && age < 10;
       if (filter === "10+") return age >= 10;
       return true;
     };
