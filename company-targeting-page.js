@@ -111,7 +111,7 @@
       return;
     }
     const marketTitle = form.elements.marketTitle.value.trim();
-    status.textContent = "Recherche en cours auprès de l’API publique. Les résultats ne sont pas enregistrés dans un CRM.";
+    status.textContent = "Recherche en cours…";
     form.querySelector("button[type=submit]").disabled = true;
     results.hidden = true;
     cards.replaceChildren();
@@ -136,17 +136,17 @@
       const list = selected.candidates;
       summary.textContent = (marketTitle ? "Repère : " + marketTitle + " · " : "") +
         (response.radiusKm ? "Zone : " + response.center.name + " · rayon " + response.radiusKm + " km · " : "") + response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount + " entreprise(s) unique(s) après dédoublonnage ; " +
-        list.length + " candidat(s) affiché(s). Source : API Recherche d’Entreprises — DINUM. Collecte : " +
+        list.length + " entreprise(s) affichée(s). Recherche effectuée le " +
         new Date(response.fetchedAt).toLocaleString("fr-FR") + ".";
       if (!list.length) {
-        cards.innerHTML = '<p class="company-targeting-empty">Aucun candidat ne correspond aux critères reçus. Cela ne prouve pas qu’il n’existe aucune entreprise pertinente : vérifiez les codes, les départements et la couverture de la source.</p>';
+        cards.innerHTML = '<p class="company-targeting-empty">Aucune entreprise ne correspond aux critères reçus. Cela ne prouve pas qu’il n’existe aucune entreprise pertinente : élargissez les critères de recherche.</p>';
       } else {
         cards.innerHTML = list.map((company) => {
           const officialUrl = company.siren ? "https://annuaire-entreprises.data.gouv.fr/entreprise/" + encodeURIComponent(company.siren) : "https://recherche-entreprises.api.gouv.fr/";
           const activity = company.naf ? "APE/NAF : " + escapeHtml(company.naf) : "Code APE/NAF non renseigné";
           const department = company.department ? "Département : " + escapeHtml(company.department) : "Département non déterminé";
           const reasons = company.reasons.map((reason) => "<li>" + escapeHtml(reason) + "</li>").join("");
-          const state = company.active === true ? "Statut administratif : actif selon la source" : company.active === false ? "Statut administratif : non actif selon la source" : "Statut administratif : à vérifier";
+          const state = company.active === true ? "Statut administratif : actif" : company.active === false ? "Statut administratif : non actif" : "Statut administratif : à vérifier";
           const adminDetails = [
             company.creationDate ? "Création : " + company.creationDate : "",
             company.legalCategory ? "Catégorie juridique : " + company.legalCategory : "",
@@ -157,7 +157,7 @@
           const fit = window.MajestiosCompanyFit ? window.MajestiosCompanyFit.qualify(company, { nafCodes, departements: departments }) : null;
           const fitWarnings = fit ? fit.warnings.map((warning) => "<li>" + escapeHtml(warning) + "</li>").join("") : "<li>Qualification complémentaire indisponible : contrôle manuel requis.</li>";
           const manualChecks = fit ? Object.entries(fit.manualChecks).map(([key, value]) => "<li>" + escapeHtml(key) + " : " + escapeHtml(value === "to_verify" ? "à vérifier" : value) + "</li>").join("") : "";
-          return '<article class="company-targeting-card"><div class="company-targeting-card-top"><span class="company-targeting-score">' + formatScore(company.score) + '</span><span class="company-targeting-qualification">' + escapeHtml(company.qualification) + '</span></div><h3>' + escapeHtml(company.name || "Dénomination non fournie") + '</h3><p>' + activity + ' · ' + department + '</p><p>' + escapeHtml(state) + '</p>' + (adminDetails ? '<p class="small-note">' + adminDetails + '</p>' : '') + '<p class="small-note">SIREN : ' + escapeHtml(company.siren || "non fourni") + ' · SIRET : ' + escapeHtml(company.siret || "non fourni") + '</p><details><summary>Pourquoi cette correspondance ?</summary><ul>' + reasons + '</ul></details><p><a href="' + officialUrl + '" target="_blank" rel="noopener noreferrer">Consulter la fiche officielle ↗</a></p><p class="small-note">' + escapeHtml(company.warning) + '</p></article>';
+          return '<article class="company-targeting-card"><div class="company-targeting-card-top"><span class="company-targeting-score">' + formatScore(company.score) + '</span><span class="company-targeting-qualification">' + escapeHtml(company.qualification) + '</span></div><h3>' + escapeHtml(company.name || "Dénomination non fournie") + '</h3><p>' + activity + ' · ' + department + '</p><p>' + escapeHtml(state) + '</p>' + (adminDetails ? '<p class="small-note">' + adminDetails + '</p>' : '') + '<p class="small-note">SIREN : ' + escapeHtml(company.siren || "non fourni") + ' · SIRET : ' + escapeHtml(company.siret || "non fourni") + '</p><details><summary>Pourquoi cette correspondance ?</summary><ul>' + reasons + '</ul></details><p><a href="' + officialUrl + '" target="_blank" rel="noopener noreferrer">Consulter les informations légales ↗</a></p><p class="small-note">' + escapeHtml(company.warning) + '</p></article>';
         }).join("");
       }
       results.hidden = false;
