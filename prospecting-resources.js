@@ -122,7 +122,7 @@
             const details = [record.domaine || record.domaine_travaux, record.commune || record.ville, record.code_departement || record.departement].filter(Boolean).join(" · ");
             return '<article class="opportunity-result-card"><h3>' + escapeHtml(name) + '</h3><p>' + escapeHtml(details || "Qualification RGE référencée par l’ADEME") + '</p>' + (siren ? '<p>Identifiant : ' + escapeHtml(siren) + '</p>' : '') + '<p class="small-note">Source : ADEME · données à rapprocher du SIRET et à vérifier à la date de prise de contact.</p></article>';
           }).join("");
-          status.textContent = result.records.length + " résultat(s) retourné(s) par l’ADEME.";
+          status.textContent = result.records.length + " résultat(s) retourné(s) par l’ADEME." + (result.departmentFilterApplied ? "" : " Attention : le schéma actuel ne permet pas de confirmer le filtre départemental ; vérifiez la localisation de chaque fiche.");
         }
       } catch (error) { status.textContent = error.message || "La recherche ADEME a échoué."; }
       finally { if (button) button.disabled = false; }
