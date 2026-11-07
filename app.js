@@ -251,12 +251,14 @@ const initialSearchParams = new URLSearchParams(window.location.search);
 const initialMarketType = initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "";
 const initialCategory = initialSearchParams.get("categorie") || "";
 populateSearchFilters(initialMarketType, initialCategory);
-if (initialMarketType) {
-  revealStep(searchSteps.market);
-  revealStep(searchSteps.category);
-}
-if (initialSearchParams.has("categorie") || initialSearchParams.has("departement") || initialSearchParams.has("zone")) {
-  revealStep(searchSteps.department);
+if (advancedSearchForm?.dataset.progressive !== "true") {
+  if (initialMarketType) {
+    revealStep(searchSteps.market);
+    revealStep(searchSteps.category);
+  }
+  if (initialSearchParams.has("categorie") || initialSearchParams.has("departement") || initialSearchParams.has("zone")) {
+    revealStep(searchSteps.department);
+  }
 }
 
 const initialDepartment = initialSearchParams.get("departement") || initialSearchParams.get("zone");
