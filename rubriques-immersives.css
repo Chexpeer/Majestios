@@ -373,3 +373,38 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
   #advanced-search-form .search-source-note{font-size:11px}
 }
 
+
+
+/* Cartes éditoriales du parcours : elles contiennent plusieurs blocs de texte
+   frères (repère, titre et paragraphes). Ne pas les laisser en disposition
+   horizontale comme les anciennes cartes icône + résumé : cela écrase leur
+   largeur et produit des colonnes de quelques mots sur mobile. */
+.floating-route-card:has(> .interactive-map-status){
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:0;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+}
+.floating-route-card:has(> .interactive-map-status) > *{
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:break-word;
+  word-break:normal;
+}
+body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-status){
+  grid-column:1 / -1;
+}
+@media(max-width:600px){
+  .floating-route-card:has(> .interactive-map-status){
+    padding:18px 16px;
+    margin:18px 0 12px;
+  }
+  .floating-route-card:has(> .interactive-map-status) p{
+    font-size:14px;
+    line-height:1.65;
+  }
+}
