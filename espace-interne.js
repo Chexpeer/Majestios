@@ -16,6 +16,37 @@ const sessionLabel = document.querySelector("#internal-session-label");
 const allowedDestinations = new Set(["espace-interne.html", "crm.html", "administration.html", "admin-recherches.html"]);
 const requestedDestination = new URLSearchParams(window.location.search).get("returnTo");
 const returnTo = allowedDestinations.has(requestedDestination) ? requestedDestination : "espace-interne.html";
+const authHash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+const inviteFlow = authHash.get("type") === "invite";
+let passwordSetup = inviteFlow;
+let passwordConfirmInput = null;
+
+function showPasswordSetup() {
+  passwordSetup = true;
+  const emailLabel = document.querySelector('label[for="internal-email"]');
+  const passwordLabel = document.querySelector('label[for="internal-password"]');
+  emailLabel.hidden = true;
+  passwordLabel.firstChild.textContent = "Choisissez votre mot de passe";
+  const passwordInput = document.querySelector("#internal-password");
+  passwordInput.autocomplete = "new-password";
+  passwordInput.minLength = 12;
+  if (!passwordConfirmInput) {
+    const label = document.createElement("label");
+    label.htmlFor = "internal-password-confirm";
+    label.textContent = "Confirmez votre mot de passe";
+    passwordConfirmInput = document.createElement("input");
+    passwordConfirmInput.id = "internal-password-confirm";
+    passwordConfirmInput.type = "password";
+    passwordConfirmInput.autocomplete = "new-password";
+    passwordConfirmInput.minLength = 12;
+    passwordConfirmInput.required = true;
+    label.append(passwordConfirmInput);
+    loginForm.insertBefore(label, loginButton);
+  }
+  loginButton.innerHTML = 'Définir mon mot de passe <span aria-hidden="true">→</span>';
+  gateMessage.textContent = "Votre invitation est reconnue. Définissez votre mot de passe personnel pour activer votre accès.";
+}
+
 
 function showMessage(message, isError = false) {
   feedback.textContent = message;
@@ -98,8 +129,22 @@ loginForm.addEventListener("submit", async event => {
   loginButton.disabled = true;
   feedback.hidden = true;
   try {
-    const email = String(loginForm.elements.email.value || "").trim().toLowerCase();
     const password = String(loginForm.elements.password.value || "");
+    if (passwordSetup) {
+      if (password.length < 12 || password !== String(passwordConfirmInput?.value || "")) {
+        throw new Error("Les deux mots de passe doivent être identiques et contenir au moins 12 caractères.");
+      }
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) throw sessionError;
+      if (!session) throw new Error("La session de votre invitation n’est plus valide. Ouvrez à nouveau le lien reçu par e-mail.");
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) throw error;
+      passwordSetup = false;
+      window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+      await authenticateExistingSession();
+      return;
+    }
+    const email = String(loginForm.elements.email.value || "").trim().toLowerCase();
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -128,8 +173,24 @@ signOutButton.addEventListener("click", async () => {
   }
   showLogin("Vous êtes déconnecté. Connectez-vous avec votre compte interne MajestiOS.");
 });
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === "PASSWORD_RECOVERY") {
+    showPasswordSetup();
+    showMessage("Choisissez votre nouveau mot de passe.");
+  } else if (event === "SIGNED_IN" && session && inviteFlow) {
+    showPasswordSetup();
+  }
+});
+
 try {
-  await authenticateExistingSession();
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError) throw sessionError;
+  if (inviteFlow) {
+    showPasswordSetup();
+    if (!session) showMessage("Ouverture de votre invitation… Si rien ne se passe, rouvrez le lien reçu par e-mail.", true);
+  } else {
+    await authenticateExistingSession();
+  }
 } catch (error) {
   showLogin("La vérification de votre accès interne a échoué. Aucun module n’est ouvert.");
   showMessage(error?.message || "Vérification impossible. Réessayez plus tard.", true);
