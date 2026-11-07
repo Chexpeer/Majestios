@@ -393,7 +393,7 @@ body.page-marches-publics main.interior-page{
 }
 
 
-/* Correctif prioritaire V5 : les fonds photographiques sont appliqués au conteneur réel de rubrique. */
+/* Correctif prioritaire V5 : les fonds photographiques validés sont appliqués au conteneur réel de rubrique. */
 body.page-prospection main.interior-page{
   background-color:#091321!important;
   background-image:linear-gradient(90deg,rgba(5,12,23,.78),rgba(5,12,23,.58) 58%,rgba(5,12,23,.34)),url("/PROSPECTION.jfif")!important;
