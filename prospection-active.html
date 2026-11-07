@@ -9,6 +9,22 @@
   <h2 id="prospecting-resources-title">Ressources complémentaires pour identifier les entreprises</h2>
   <p>Référentiels publics, données sectorielles et réseaux professionnels. Les ressources nécessitant une authentification sont prévues via un connecteur serveur : aucun secret ne doit être exposé dans cette page.</p>
   <div id="prospecting-resource-catalog" class="company-targeting-cards" aria-live="polite"></div>
+  <h3>Vérifier une qualification professionnelle par SIRET</h3>
+  <p>Contrôle individuel via les connecteurs de certification. Les accès fournisseur doivent être configurés côté serveur avant interrogation.</p>
+  <form id="prospecting-qualification-form">
+    <label for="prospecting-qualification-siret">SIRET de l’entreprise</label>
+    <input id="prospecting-qualification-siret" name="siret" inputmode="numeric" pattern="[0-9]{14}" maxlength="14" required placeholder="14 chiffres">
+    <label for="prospecting-qualification-source">Organisme de qualification</label>
+    <select id="prospecting-qualification-source" name="source">
+      <option value="qualibat">QUALIBAT — bâtiment</option>
+      <option value="qualifelec">QUALIFELEC — électricité</option>
+      <option value="opqibi">OPQIBI — ingénierie</option>
+      <option value="fntp">FNTP — travaux publics</option>
+    </select>
+    <button class="button-secondary" type="submit">Vérifier la qualification</button>
+  </form>
+  <p id="prospecting-qualification-status" class="company-targeting-status" role="status" aria-live="polite">Vérification non lancée.</p>
+  <pre id="prospecting-qualification-result" class="small-note" hidden></pre>
   <h3>Entreprises du bâtiment qualifiées RGE — ADEME</h3>
   <form id="prospecting-rge-form">
     <label for="prospecting-rge-query">Entreprise ou activité</label>
