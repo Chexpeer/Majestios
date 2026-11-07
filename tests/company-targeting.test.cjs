@@ -65,6 +65,8 @@ async function main() {
     assert.equal(found.source, "API Recherche d’Entreprises — DINUM");
     assert.match(requestedUrls[0], /activite_principale=43%2E21A|activite_principale=43.21A/);
     assert.match(requestedUrls[0], /departement=79/);
+    assert.match(requestedUrls[0], /minimal=true/);
+    assert.match(requestedUrls[0], /include=siege%2Cfinances|include=siege,finances/);
     await assert.rejects(targeting.searchCompanies({ departments: ["79"] }), /code APE\/NAF/);
   } finally {
     global.fetch = originalFetch;
@@ -80,6 +82,23 @@ async function main() {
   } finally {
     global.fetch = originalFetchForError;
   }
+
+  const originalFetchForAdvanced = global.fetch;
+  let advancedUrl = "";
+  global.fetch = async (url) => {
+    advancedUrl = String(url);
+    return { ok: true, status: 200, json: async () => ({ results: [], total_pages: 1, total_results: 0 }) };
+  };
+  try {
+    await targeting.searchCompanies({ nafCodes: ["43.21A"], departments: [], region: "52", caMin: 100000, caMax: 2000000, estRge: true, estQualiopi: true });
+    assert.match(advancedUrl, /region=52/);
+    assert.match(advancedUrl, /ca_min=100000/);
+    assert.match(advancedUrl, /ca_max=2000000/);
+    assert.match(advancedUrl, /est_rge=true/);
+    assert.match(advancedUrl, /est_qualiopi=true/);
+    await assert.rejects(targeting.searchCompanies({ nafCodes: ["43.21A"], departments: ["72"], caMin: 500, caMax: 100 }), /minimum ne peut pas dépasser/);
+  } finally { global.fetch = originalFetchForAdvanced; }
+
   console.log("Tests company-targeting : OK");
 }
 
