@@ -155,6 +155,16 @@
     const output = root.document.getElementById("prospecting-signals-results");
     const status = root.document.getElementById("prospecting-signals-status");
     if (!form || !output || !status) return;
+    const departmentSelect = form.elements.department;
+    const departments = root.MAJESTIOS_CATALOG && root.MAJESTIOS_CATALOG.searchDepartments;
+    if (departmentSelect && Array.isArray(departments)) {
+      for (const item of departments) {
+        const option = root.document.createElement("option");
+        option.value = item.label;
+        option.textContent = item.value + " — " + item.label;
+        departmentSelect.append(option);
+      }
+    }
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const submit = form.querySelector('button[type="submit"]');
