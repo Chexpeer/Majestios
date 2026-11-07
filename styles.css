@@ -2060,7 +2060,7 @@ body:not(.homepage) main.interior-page .button-primary{
 body:not(.homepage) .rubric-search-card #advanced-search-form[data-progressive="true"] .feed-criteria-toggle{
   grid-column:1/-1;justify-self:start;min-height:36px;padding:8px 14px;
   border:1px solid rgba(213,181,108,.42);border-radius:999px;
-  background:#101a28;color:#f0d38b;font:700 12px/1.2 inherit;cursor:pointer;
+  background:#101a28;color:#f0d38b;font-family:inherit;font-size:12px;font-weight:700;line-height:1.2;cursor:pointer;
 }
 body:not(.homepage) .rubric-search-card #advanced-search-form[data-progressive="true"]>[hidden]{display:none!important}
 body:not(.homepage) .rubric-search-card #advanced-search-form[data-progressive="true"] .feed-filter-label select{max-width:100%}
