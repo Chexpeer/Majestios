@@ -11,6 +11,8 @@
 .page-prospection #company-targeting-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:0;padding:16px;border:1px solid #d5b56c55;border-radius:10px;background:#0d141e;color:#f4f0e6;box-shadow:0 14px 35px #0004}
 .page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;display:flex;align-items:center;gap:12px;min-height:54px;padding:0 18px;border:1px solid #d5b56c66;border-radius:8px;background:#101a28;color:#d5b56c}
 .page-prospection #company-targeting-form>.feed-search input{width:100%;min-width:0;min-height:52px;padding:0;border:0;outline:0;background:transparent;color:#fff;font:inherit;font-size:15px;line-height:1.3}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{grid-column:1/-1;justify-self:start;min-height:36px;padding:8px 14px;border:1px solid #d5b56c88;border-radius:7px;background:#172334;color:#f0d38b;font-size:12px;font-weight:750;cursor:pointer}
+.page-prospection #company-targeting-form>[hidden]{display:none!important}
 .page-prospection #company-targeting-form>.prospecting-core-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .page-prospection #company-targeting-form>.prospecting-core-grid label{display:block;min-width:0}
 .page-prospection #company-targeting-form>.company-targeting-checkbox,.page-prospection #company-targeting-form>.prospecting-advanced-details{grid-column:1/-1}
@@ -40,8 +42,9 @@
   <div class="feed-wrap"><div class="feed-demo"><div class="prospecting-search-heading"><p class="eyebrow">MOTEUR DE RECHERCHE · PROSPECTION</p><h2 id="company-targeting-form-title">Trouvez les entreprises qui correspondent à votre activité</h2><p>Définissez votre cible. MajestiOS rassemble et qualifie les résultats dans une recherche unique.</p></div>
   <p>Recherchez des entreprises par activité APE/NAF et territoire. MajestiOS rapproche les critères, élimine les doublons et classe les entreprises candidates à vérifier.</p>
   <form id="company-targeting-form" class="feed-toolbar company-targeting-search-form">
+    <button id="prospecting-criteria-toggle" class="prospecting-criteria-toggle" type="button" aria-expanded="false">Choisir des critères</button>
     <label class="feed-search" for="target-market-title"><span aria-hidden="true">⌕</span><span class="sr-only">Activité ou entreprise recherchée</span><input id="target-market-title" name="marketTitle" type="search" maxlength="180" placeholder="Entreprise, activité, métier ou secteur recherché…" autocomplete="off"></label>
-    <div class="prospecting-core-grid">
+    <div class="prospecting-core-grid" hidden>
       <label for="target-naf-codes">Activité APE/NAF <span>(obligatoire)</span><input id="target-naf-codes" name="nafCodes" type="text" required placeholder="Ex. 43.21A, 43.22B"></label>
       <label for="target-departments">Départements <span>(facultatif si une région est choisie)</span><input id="target-departments" name="departments" type="text" placeholder="Ex. 72, 37, 49"></label>
       <label for="target-radius-location">Commune ou code postal <span>(pour une recherche par rayon)</span><input id="target-radius-location" name="radiusLocation" type="search" maxlength="100" placeholder="Ex. Le Mans ou 72000"></label>
@@ -52,8 +55,8 @@
       </select></label>
       <label for="target-limit">Nombre de résultats<select id="target-limit" name="limit"><option value="10" selected>10 entreprises maximum</option><option value="5">5 entreprises maximum</option></select></label>
     </div>
-    <label class="company-targeting-checkbox"><input id="target-active-only" name="activeOnly" type="checkbox" checked> Exclure les entreprises dont le statut est indiqué comme non actif</label>
-    <details class="prospecting-advanced-details">
+    <label class="company-targeting-checkbox" hidden><input id="target-active-only" name="activeOnly" type="checkbox" checked> Exclure les entreprises dont le statut est indiqué comme non actif</label>
+    <details class="prospecting-advanced-details" hidden>
       <summary>Affiner les critères de recherche</summary>
       <label for="target-market-description">Précisions sur les compétences ou le type d’entreprise recherché <span>(facultatif)</span><textarea id="target-market-description" name="marketDescription" rows="3" maxlength="12000" placeholder="Métiers, spécialités, prestations ou signaux recherchés…"></textarea></label>
       <button id="suggest-naf-button" class="button-secondary" type="button">Suggérer des codes APE/NAF à partir de ma recherche</button>
@@ -92,4 +95,23 @@
   <div id="company-targeting-cards" class="company-targeting-cards"></div>
   <p class="small-note company-targeting-warning">Les codes APE/NAF et le score sont des indices de ciblage. Ils ne prouvent ni les compétences, ni les moyens, ni l’éligibilité d’une entreprise. Vérifiez les informations avant toute prise de contact.</p>
 </section>
-<section class="interior-grid related-rubrics" aria-labelledby="related-rubrics-title"><h2 id="related-rubrics-title" class="related-rubrics-title">Pour aller plus loin</h2><a class="platform-card related-rubric-card" href="marches-publics.html"><h3>Marchés publics <span aria-hidden="true">→</span></h3><p>Partir des consultations publiées.</p></a><a class="platform-card related-rubric-card" href="marches-prives.html"><h3>Marchés privés <span aria-hidden="true">→</span></h3><p>Explorer les signaux hors commande publique.</p></a><a class="platform-card related-rubric-card" href="developpement-commercial.html"><h3>Développement commercial <span aria-hidden="true">→</span></h3><p>Organiser les prochaines actions.</p></a></section><div class="interior-links"><a href="index.html">← Retour à l’immeuble interactif MajestiOS</a> · <a href="index.html">Accueil MajestiOS</a> · <a href="faq.html">Comprendre MajestiOS</a></div></main><footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial et Prospection</div></footer></body></html>
+<section class="interior-grid related-rubrics" aria-labelledby="related-rubrics-title"><h2 id="related-rubrics-title" class="related-rubrics-title">Pour aller plus loin</h2><a class="platform-card related-rubric-card" href="marches-publics.html"><h3>Marchés publics <span aria-hidden="true">→</span></h3><p>Partir des consultations publiées.</p></a><a class="platform-card related-rubric-card" href="marches-prives.html"><h3>Marchés privés <span aria-hidden="true">→</span></h3><p>Explorer les signaux hors commande publique.</p></a><a class="platform-card related-rubric-card" href="developpement-commercial.html"><h3>Développement commercial <span aria-hidden="true">→</span></h3><p>Organiser les prochaines actions.</p></a></section><div class="interior-links"><a href="index.html">← Retour à l’immeuble interactif MajestiOS</a> · <a href="index.html">Accueil MajestiOS</a> · <a href="faq.html">Comprendre MajestiOS</a></div></main><footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial et Prospection</div></footer>
+<script>
+(() => {
+  const form = document.getElementById("company-targeting-form");
+  const button = document.getElementById("prospecting-criteria-toggle");
+  if (!form || !button) return;
+  const core = form.querySelector(".prospecting-core-grid");
+  const active = form.querySelector(".company-targeting-checkbox");
+  const advanced = form.querySelector(".prospecting-advanced-details");
+  let level = 0;
+  button.addEventListener("click", () => {
+    if (level === 0) { level = 1; core.hidden = false; button.textContent = "Affiner les critères"; }
+    else if (level === 1) { level = 2; active.hidden = false; button.textContent = "Afficher les critères avancés"; }
+    else if (level === 2) { level = 3; advanced.hidden = false; advanced.open = true; button.textContent = "Masquer les critères avancés"; }
+    else { level = 2; advanced.open = false; advanced.hidden = true; button.textContent = "Afficher les critères avancés"; }
+    button.setAttribute("aria-expanded", String(level > 0));
+  });
+})();
+</script>
+</body></html>
