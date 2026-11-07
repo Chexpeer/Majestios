@@ -4,7 +4,7 @@
 create or replace function public.complete_crm_reminder(p_reminder_id uuid)
 returns uuid
 language plpgsql
-security definer
+security invoker
 set search_path = ''
 as $$
 declare
