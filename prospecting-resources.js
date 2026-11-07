@@ -71,6 +71,16 @@
     const catalog = root.document.getElementById("prospecting-resource-catalog");
     renderCatalog(catalog);
     const form = root.document.getElementById("prospecting-rge-form");
+    const deptSelect = form && form.elements.department;
+    const departments = root.MAJESTIOS_CATALOG && root.MAJESTIOS_CATALOG.searchDepartments;
+    if (deptSelect && Array.isArray(departments)) {
+      departments.forEach(item => {
+        const option = root.document.createElement("option");
+        option.value = item.value;
+        option.textContent = item.value + " — " + item.label;
+        deptSelect.append(option);
+      });
+    }
     const output = root.document.getElementById("prospecting-rge-results");
     const status = root.document.getElementById("prospecting-rge-status");
     if (!form || !output || !status) return;
