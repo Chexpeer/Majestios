@@ -12,6 +12,7 @@ const preview = document.querySelector(".member-preview");
 const callbackParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
 const queryParams = new URLSearchParams(window.location.search);
 const inviteCallback = callbackParams.get("type") === "invite" || queryParams.get("type") === "invite";
+const recoveryCallback = callbackParams.get("type") === "recovery" || queryParams.get("recovery") === "1";
 
 if (form && config?.url && config?.publishableKey) {
   const supabase = createClient(config.url, config.publishableKey, {
@@ -283,6 +284,11 @@ if (form && config?.url && config?.publishableKey) {
       if (typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) personalSpaceDialog.showModal();
       setFeedback("Invitation confirmée. Choisissez maintenant votre mot de passe personnel (12 caractères minimum).");
     }
+    if (!inviteCallback && recoveryCallback && data.session) {
+      setMode("recovery");
+      if (typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) personalSpaceDialog.showModal();
+      setFeedback("Lien de récupération confirmé. Choisissez votre nouveau mot de passe.");
+    }
     await updateAuthStatus(data.session);
     if (new URLSearchParams(window.location.search).get("confirmed") === "1" && data.session) {
       try {
@@ -309,6 +315,11 @@ if (form && config?.url && config?.publishableKey) {
       setMode("invite-setup");
       if (typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) personalSpaceDialog.showModal();
       setFeedback("Invitation confirmée. Choisissez maintenant votre mot de passe personnel (12 caractères minimum).");
+    }
+    if (recoveryCallback && session && event === "SIGNED_IN") {
+      setMode("recovery");
+      if (typeof personalSpaceDialog?.showModal === "function" && !personalSpaceDialog.open) personalSpaceDialog.showModal();
+      setFeedback("Lien de récupération confirmé. Choisissez votre nouveau mot de passe.");
     }
     if (event === "PASSWORD_RECOVERY") {
       setMode("recovery");
