@@ -373,3 +373,22 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
   #advanced-search-form .search-source-note{font-size:11px}
 }
 
+
+
+/* Restauration ciblée des fonds photographiques validés dans la sauvegarde V5 du 7 novembre. */
+body.page-prospection main.interior-page{
+  background-color:#091321!important;
+  background-image:linear-gradient(90deg,rgba(5,12,23,.78),rgba(5,12,23,.58) 58%,rgba(5,12,23,.34)),url("/PROSPECTION.jfif")!important;
+  background-size:cover,cover!important;
+  background-position:center,center!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-attachment:scroll!important;
+}
+body.page-reseaux main.interior-page{
+  background-color:#091321!important;
+  background-image:linear-gradient(90deg,rgba(5,12,23,.76),rgba(5,12,23,.52) 58%,rgba(5,12,23,.32)),url("/RESEAU.png")!important;
+  background-size:cover,cover!important;
+  background-position:center,center!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-attachment:scroll!important;
+}
