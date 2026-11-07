@@ -1,0 +1,3 @@
+{
+  "text": "{\"functions\":[{\"id\":\"f817bdb6-130e-4998-b275-cd7a123b9493\",\"slug\":\"provision-client-workspace\",\"name\":\"provision-client-workspace\",\"status\":\"ACTIVE\",\"version\":3,\"created_at\":1793896927218,\"updated_at\":1793955281399,\"verify_jwt\":true,\"import_map\":false,\"entrypoint_path\":\"file:///tmp/user_fn_awtgrjnpckgxsdpfrnhg_f817bdb6-130e-4998-b275-cd7a123b9493_3/source/index.ts\",\"ezbr_sha256\":\"e16e6ade6cf2a4ba53d4a6b58add73eba4a848dd7fe9a490bf9998f1083daf62\"}]}"
+}
