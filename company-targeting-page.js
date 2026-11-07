@@ -48,8 +48,8 @@
     const departments = parseList(form.elements.departments.value).map((value) => value.toUpperCase());
     const limit = Number(form.elements.limit.value) || 10;
     const region = form.elements.region.value;
-    if (!nafCodes.length || (!departments.length && !region)) {
-      status.textContent = "Saisissez au moins un code APE/NAF et choisissez un département ou une région.";
+    if (!nafCodes.length || (!form.elements.radiusLocation.value.trim() && !departments.length && !region)) {
+      status.textContent = "Saisissez un code APE/NAF et choisissez un rayon, un département ou une région.";
       return;
     }
     if (nafCodes.some((code) => !/^\d{2}\.\d{2}[A-Z]$/.test(code.toUpperCase()))) {
@@ -111,7 +111,10 @@
     results.hidden = true;
     cards.replaceChildren();
     try {
-      const response = await window.MajestiosCompanyTargeting.searchCompanies({ nafCodes, departments, region, caMin: advanced.caMin, caMax: advanced.caMax, estRge: advanced.estRge, estQualiopi: advanced.estQualiopi, estEpV: advanced.estEpV, estEss: advanced.estEss, perPage: 25, maxPages: 1 });
+      const radiusLocation = form.elements.radiusLocation.value.trim();
+      const response = radiusLocation
+        ? await window.MajestiosCompanyTargeting.searchCompaniesNearPoint({ nafCodes, location: radiusLocation, radiusKm: Number(form.elements.radiusKm.value), perPage: 25, maxPages: 1 })
+        : await window.MajestiosCompanyTargeting.searchCompanies({ nafCodes, departments, region, caMin: advanced.caMin, caMax: advanced.caMax, estRge: advanced.estRge, estQualiopi: advanced.estQualiopi, estEpV: advanced.estEpV, estEss: advanced.estEss, perPage: 25, maxPages: 1 });
       let candidates = window.MajestiosCompanyTargeting.rankCompanies(response.candidates, { nafCodes, departments });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
       candidates = candidates.filter(company => {
