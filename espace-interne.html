@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Accueil sécurisé des collaborateurs MajestiOS.">
+  <title>Espace interne — MajestiOS</title>
+  <link rel="stylesheet" href="espace-interne.css">
+  <script type="module" src="espace-interne.js"></script>
+</head>
+<body class="internal-shell">
+  <main class="internal-frame">
+    <header class="internal-header">
+      <a class="internal-brand" href="espace-interne.html" aria-label="MajestiOS, accueil interne">
+        <span class="internal-brand-mark" aria-hidden="true">M</span>
+        <span><strong>MajestiOS</strong><small>ESPACE COLLABORATEURS</small></span>
+      </a>
+      <div class="internal-session">
+        <span id="internal-session-label" role="status" aria-live="polite">Vérification de votre accès…</span>
+        <button id="internal-signout" type="button" hidden>Déconnexion</button>
+      </div>
+    </header>
+
+    <section id="internal-gate" class="internal-gate" aria-labelledby="internal-gate-title">
+      <p class="internal-kicker">ACCÈS COLLABORATEURS · AUTHENTIFICATION SÉCURISÉE</p>
+      <h1 id="internal-gate-title">Bienvenue dans votre espace interne.</h1>
+      <p id="internal-gate-message">Connectez-vous avec les identifiants qui vous ont été attribués par MajestiOS.</p>
+      <form id="internal-login-form" class="internal-login" autocomplete="on">
+        <label for="internal-email">Adresse e-mail professionnelle</label>
+        <input id="internal-email" name="email" type="email" autocomplete="username" required maxlength="254">
+        <label for="internal-password">Mot de passe</label>
+        <input id="internal-password" name="password" type="password" autocomplete="current-password" required>
+        <button id="internal-login-submit" type="submit">Se connecter <span aria-hidden="true">→</span></button>
+      </form>
+      <p id="internal-feedback" class="internal-feedback" role="status" aria-live="polite" hidden></p>
+      <p class="internal-security-note">Cet accès est réservé aux membres de l’organisation interne MajestiOS. L’inscription publique et la création d’espaces clients ne sont pas proposées ici.</p>
+    </section>
+
+    <section id="internal-workspace" class="internal-workspace" hidden aria-labelledby="internal-welcome-title">
+      <div class="internal-welcome">
+        <div>
+          <p class="internal-kicker">POINT D’ACCUEIL · ÉQUIPE MAJESTIOS</p>
+          <h1 id="internal-welcome-title">Votre espace de travail.</h1>
+          <p id="internal-identity">Votre identité et vos habilitations sont vérifiées.</p>
+        </div>
+        <div class="internal-role-badge"><span aria-hidden="true">✦</span><div><strong id="internal-organization">Organisation interne</strong><small id="internal-role">Collaborateur</small></div></div>
+      </div>
+      <div class="internal-module-grid">
+        <article class="internal-module-card internal-module-primary">
+          <p class="internal-card-kicker">CENTRE OPÉRATIONNEL</p>
+          <h2>CRM MajestiOS</h2>
+          <p>Entreprises, contacts, opportunités, activités et relances. Votre rôle détermine les opérations disponibles.</p>
+          <p id="internal-crm-access" class="internal-access-label"></p>
+          <a id="internal-crm-link" class="internal-action" href="crm.html">Ouvrir le CRM <span aria-hidden="true">→</span></a>
+        </article>
+        <article id="internal-admin-card" class="internal-module-card" hidden>
+          <p class="internal-card-kicker">POSTE DE COMMANDEMENT</p>
+          <h2>Administration générale</h2>
+          <p>Piloter les modules, les règles et les opérations de la plateforme.</p>
+          <a class="internal-action" href="administration.html">Ouvrir l’administration <span aria-hidden="true">→</span></a>
+        </article>
+        <article id="internal-search-card" class="internal-module-card" hidden>
+          <p class="internal-card-kicker">DÉTECTION & COLLECTE</p>
+          <h2>Recherches ciblées</h2>
+          <p>Lancer les recherches ponctuelles BODACC et BOAMP dans le périmètre autorisé.</p>
+          <a class="internal-action" href="admin-recherches.html">Ouvrir les recherches <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+      <p class="internal-footnote">Les cartes orientent vers les outils. Chaque application et chaque donnée conservent leurs propres contrôles d’accès.</p>
+    </section>
+
+    <footer class="internal-footer"><span>MajestiOS · Espace interne</span><a href="index.html">Site public ↗</a></footer>
+  </main>
+</body>
+</html>
