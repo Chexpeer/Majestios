@@ -133,7 +133,7 @@
     const fetchedAt = new Date().toISOString();
 
     // Requêtes séquentielles pour éviter de dépasser les limites de l'API publique.
-    const geographicScopes = departments.length ? departments.map(department => ({ department, region: "" })) : [{ department: "", region }];
+    const geographicScopes = departments.length ? departments.map(department => ({ department, region })) : [{ department: "", region }];
     for (const scope of geographicScopes) {
       for (const code of codes) {
         for (let page = 1; page <= maxPages; page++) {
