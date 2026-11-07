@@ -31,7 +31,7 @@
 - Compilation syntaxique V8 des fichiers JavaScript modifiés : réussie.
 - Simulation de normalisation administrative (SIREN, SIRET, département, date de création et tranche d'effectif) : réussie.
 - Présence des scripts dans `site-files.json` et des formulaires dans `prospection-active.html` : vérifiée.
-- GitHub Actions sur le commit `66cfc8c` : syntaxe JavaScript réussie ; tests `company-targeting`, `company-fit` et `prospecting-resources` réussis.\n- Le workflow s’arrête ensuite sur un échec préexistant du test `naf-suggestions.test.cjs` (assertion sur l’exploitation du descriptif du lot) ; le build, les contrôles d’architecture et les tests navigateur sont donc ignorés dans ce run. Cet échec n’est pas lié au connecteur de ressources, mais bloque la validation globale.\n- Recherche géographique : syntaxe JavaScript et simulation du flux géocodage → `/near_point` validées avec une réponse simulée ; aucune recherche réelle en navigateur n’a été effectuée.
+- GitHub Actions sur le commit `66cfc8c` : syntaxe JavaScript réussie ; tests `company-targeting`, `company-fit` et `prospecting-resources` réussis.\n- Le workflow s’arrête ensuite sur un échec préexistant du test `naf-suggestions.test.cjs` (assertion sur l’exploitation du descriptif du lot) ; le build, les contrôles d’architecture et les tests navigateur sont donc ignorés dans ce run. Cet échec n’est pas lié au connecteur de ressources, mais bloque la validation globale.\n- Recherche géographique : syntaxe JavaScript et simulation du flux géocodage → `/near_point` validées avec une réponse simulée ; les critères CA/labels sont explicitement bloqués dans ce mode afin d’éviter une recherche silencieusement incomplète ; aucune recherche réelle en navigateur n’a été effectuée.
 - Documentation officielle geo.api.gouv.fr consultée ; géocodage par nom/code postal et coordonnées du centre communal confirmés.
 - Appels API ADEME, INSEE, INPI et fournisseurs de certification en conditions réelles : non exécutés.
 - Aucun déploiement, aucune modification CRM/Supabase.
@@ -47,4 +47,4 @@
 - API Certification QUALIBAT : https://www.data.gouv.fr/dataservices/api-certification-qualibat-qualibat-bouquet-api-entreprise
 - Sources de l'Annuaire des Entreprises : https://annuaire-entreprises.data.gouv.fr/donnees/sources
 
-**Derniers commits du lot géographique :** `2673358d8cc36a9d33a6b437977e606042e83fc2`, `29c68dffc0b98b924b113cf7d12f0a0ff5a65f28`, `9611a248006622eaf69a2c7f9e05b37fbce37ab5`, `6a34c7c41363d01a2e5ade78f763c3d412ae6062`.
+**Derniers commits du lot géographique :** `2673358d8cc36a9d33a6b437977e606042e83fc2`, `29c68dffc0b98b924b113cf7d12f0a0ff5a65f28`, `9611a248006622eaf69a2c7f9e05b37fbce37ab5`, `446b56d6fa3d1827eb079759f9998dbb4fa83302`.
