@@ -73,7 +73,10 @@ for (const page of htmlPages) {
     match[2],
     match[4].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
   ]);
-  assert(JSON.stringify(navigation) === JSON.stringify(expectedSiteNavigation),
+  const expectedNavigation = page === "index.html"
+    ? expectedSiteNavigation.map(([href, label]) => label === "Espace privé" ? ["espace-prive.html", label] : [href, label])
+    : expectedSiteNavigation;
+  assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation),
     page + " : la navigation principale doit rester identique aux autres pages");
   const currentLinks = links.filter((match) => /aria-current="page"/.test(match[1] + match[3]));
   assert(currentLinks.length <= 1, page + " : une seule destination au maximum peut être marquée comme courante");
@@ -104,7 +107,7 @@ assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-
   "Accueil : ordre de chargement du catalogue, du formulaire partagé et du contrôleur incorrect");
 
 const expectedDestinations = [
-  {id:"08",name:"Espace privé",href:"espace-membre.html",x:185,y:182,width:350,height:82},
+  {id:"08",name:"Espace privé",href:"espace-prive.html",x:185,y:182,width:350,height:82},
   {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:266,width:350,height:80},
   {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:92},
   {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:444,width:350,height:81},
