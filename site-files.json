@@ -64,6 +64,8 @@
     "administration.css",
     "administration.js",
     "PROSPECTION.jfif",
-    "RESEAU.png"
+    "RESEAU.png",
+    "crm-page.js",
+    "crm-client.js"
   ]
 }
