@@ -59,6 +59,40 @@ assert.ok(vipBoundary.includes("private.can_edit_crm_org"));
 assert.ok(vipBoundary.includes("m.role in ('owner', 'admin')"));
 assert.ok(vipBoundary.includes('create policy "Authorized users can read businesses"'));
 assert.ok(vipBoundary.includes("private.can_edit_crm_org(v_reminder.organization_id)"));
+
+assert.match(vipBoundary, /o\.kind <> 'internal'\s+or m\.role in \('owner', 'admin'\)/,
+  "La lecture CRM interne doit être réservée aux rôles VIP.");
+assert.match(vipBoundary, /o\.kind = 'internal' and m\.role in \('owner', 'admin'\)/,
+  "L’écriture CRM interne doit être réservée aux rôles VIP.");
+assert.match(vipBoundary, /o\.kind <> 'internal' and m\.role in \('owner', 'admin', 'member'\)/,
+  "Les membres doivent conserver leurs droits d’écriture dans leur propre tenant client/partenaire.");
+
+for (const [table, oldRead, oldInsert, oldUpdate, newRead, newInsert, newUpdate] of [
+  ["businesses", "Members can read businesses", "Editors can create businesses", "Editors can update businesses", "Authorized users can read businesses", "Authorized editors can create businesses", "Authorized editors can update businesses"],
+  ["contacts", "Members can read contacts", "Editors can create contacts", "Editors can update contacts", "Authorized users can read contacts", "Authorized editors can create contacts", "Authorized editors can update contacts"],
+  ["opportunities", "Members can read opportunities", "Editors can create opportunities", "Editors can update opportunities", "Authorized users can read opportunities", "Authorized editors can create opportunities", "Authorized editors can update opportunities"]
+]) {
+  for (const [oldName, newName] of [[oldRead,newRead],[oldInsert,newInsert],[oldUpdate,newUpdate]]) {
+    assert.ok(vipBoundary.includes(`drop policy if exists "${oldName}" on public.${table}`),
+      `L’ancienne politique ${oldName} doit être retirée.`);
+    assert.ok(vipBoundary.includes(`create policy "${newName}"`),
+      `La politique VIP ${newName} doit être créée.`);
+  }
+}
+for (const [table, oldName, newName] of [
+  ["activities", "Members can read activities", "Authorized users can read activities"],
+  ["activities", "Editors can append activities", "Authorized editors can append activities"],
+  ["crm_reminders", "Members can read their CRM reminders", "Authorized users can read their CRM reminders"],
+  ["crm_reminders", "Editors can mark their CRM reminders read", "Authorized editors can mark their CRM reminders read"]
+]) {
+  assert.ok(vipBoundary.includes(`drop policy if exists "${oldName}" on public.${table}`),
+    `L’ancienne politique ${oldName} doit être retirée.`);
+  assert.ok(vipBoundary.includes(`create policy "${newName}"`),
+    `La politique VIP ${newName} doit être créée.`);
+}
+assert.match(vipBoundary, /create or replace function public\.complete_crm_reminder\(p_reminder_id uuid\)[\s\S]*?security definer\s+set search_path = ''/);
+assert.match(vipBoundary, /revoke all on function public\.complete_crm_reminder\(uuid\) from public, anon/);
+assert.match(vipBoundary, /grant execute on function public\.complete_crm_reminder\(uuid\) to authenticated/);
 assert.ok(client.includes('!["owner", "admin"].includes(membership.role)'));
 assert.match(internalAccess, /const canAdminister = \["owner", "admin"\]\.includes\(membership\.role\)/);
 assert.match(internalAccess, /crmLink\.hidden = !canAdminister/);
