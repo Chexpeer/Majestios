@@ -78,6 +78,12 @@ async function main(){
   assert.equal(result.items[0].last_verified_at,"2026-11-08T11:00:00.000Z");
   assert.deepEqual(contract.findForbiddenDtoFields(result),[]);
 
+  const ordinaryLastPage=await core.executeMemberSearch({
+    criteria:validation.validateMemberSearch({filters:{activity_codes:["43.21A"]},page:{number:2,size:10}}).value,
+    fetchImpl:async()=>({ok:true,status:200,json:async()=>({results:fixture.slice(0,2),total_pages:2})})
+  });
+  assert.equal(ordinaryLastPage.page.has_more,false);
+
   const dated=await core.executeMemberSearch({
     criteria:validation.validateMemberSearch({filters:{activity_codes:["43.21A"],creation_after:"2020-01-01"}}).value,
     fetchImpl:async()=>({ok:true,status:200,json:async()=>({results:fixture,total_pages:3})})
