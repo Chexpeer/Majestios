@@ -31,6 +31,9 @@ async function main(){
     {query:"foo",filters:{regions:["pays-de-la-loire"]}},
     {query:"",filters:{departments:["72"],radius_km:5}},
     {query:"foo",filters:{activity_codes:["43.21A"],radius_km:5,location:"Le Mans"}},
+    {filters:{activity_codes:["43.21A"],radius_km:5,location:"Le Mans",workforce_bands:["3-5"]}},
+    {filters:{activity_codes:["43.21A"],radius_km:5,location:"Le Mans",legal_forms:["5499"]}},
+    {filters:{activity_codes:["43.21A"],radius_km:5,location:"Le Mans",labels:["rge"]}},
     {query:"123456789",filters:{departments:["72"]}},
     {query:"",filters:{workforce_bands:["0-2"]}}
   ]) assert.equal(validation.validateMemberSearch(body).ok,false);
@@ -82,6 +85,45 @@ async function main(){
   assert.equal(dated.items.length,10);
   assert.equal(dated.items.some(item=>item.name==="Entreprise 0"),false);
   assert.equal(dated.partial,false);
+
+  const pagedFixture=(page)=>Array.from({length:10},(_,i)=>({
+    siren:String(200000000+(page-1)*10+i),
+    nom_complet:"Page "+page+" entreprise "+i,
+    etat_administratif:"A",
+    activite_principale:"43.21A",
+    nature_juridique:"5499",
+    date_creation:page===1&&i<8?"2018-01-01":"2022-03-15",
+    tranche_effectif_salarie:"02",
+    siege:{siret:String(20000000000000+(page-1)*10+i),code_postal:"72000",libelle_commune:"Le Mans",departement:"72"}
+  }));
+  const pagedCalls=[];
+  const paged=await core.executeMemberSearch({
+    criteria:validation.validateMemberSearch({filters:{activity_codes:["43.21A"],creation_after:"2020-01-01"}}).value,
+    fetchImpl:async(url)=>{const page=Number(new URL(url).searchParams.get("page"));pagedCalls.push(page);return {ok:true,status:200,json:async()=>({results:pagedFixture(page),total_pages:2})};}
+  });
+  assert.deepEqual(pagedCalls,[1,2]);
+  assert.equal(paged.items.length,10);
+  assert.equal(paged.items[0].name,"Page 1 entreprise 8");
+  assert.equal(paged.items[2].name,"Page 2 entreprise 0");
+  assert.equal(paged.page.has_more,false);
+  assert.equal(paged.partial,false);
+
+  const secondPage=await core.executeMemberSearch({
+    criteria:validation.validateMemberSearch({filters:{activity_codes:["43.21A"],creation_after:"2020-01-01"},page:{number:2,size:10}}).value,
+    fetchImpl:async(url)=>{const page=Number(new URL(url).searchParams.get("page"));return {ok:true,status:200,json:async()=>({results:pagedFixture(page),total_pages:2})};}
+  });
+  assert.equal(secondPage.items.length,2);
+  assert.equal(secondPage.items[0].name,"Page 2 entreprise 8");
+  assert.equal(secondPage.page.has_more,false);
+
+  let cappedCalls=0;
+  const capped=await core.executeMemberSearch({
+    criteria:validation.validateMemberSearch({filters:{activity_codes:["43.21A"],creation_after:"2020-01-01"}}).value,
+    fetchImpl:async()=>{cappedCalls++;return {ok:true,status:200,json:async()=>({results:pagedFixture(1).map(row=>({...row,date_creation:"2018-01-01"})),total_pages:7})};}
+  });
+  assert.equal(cappedCalls,5);
+  assert.equal(capped.partial,true);
+  assert.equal(capped.page.has_more,true);
 
   await assert.rejects(()=>core.executeMemberSearch({
     criteria:valid.value,
