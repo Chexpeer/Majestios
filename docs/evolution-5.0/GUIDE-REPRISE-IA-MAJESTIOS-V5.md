@@ -180,6 +180,8 @@ En cas de contradiction entre un ancien document et une décision explicite plus
 
 ## 12. Documents canoniques à consulter
 
+- [Dossier de reprise IA — CRM, Supabase et Prospection](DOSSIER-REPRISE-IA-CRM-SUPABASE-PROSPECTION-2026-11-08.md) — état consolidé des réalisations, preuves, limites et travaux restants au 8 novembre 2026.
+
 - [Référence V5](MAJESTIOS-V5-REFERENCE.md)
 - [Vision IA transversale](VISION-IA-TRANSVERSALE.md)
 - [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md)
