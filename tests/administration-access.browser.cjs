@@ -91,6 +91,10 @@ async function main() {
         member:"Collaborateur interne",
         viewer:"Collaborateur · consultation seule"
       })[role], `Le rôle ${role} doit être correctement reconnu.`);
+      if (role === "viewer") {
+        assert.match(await rolePage.locator("#internal-identity").innerText(), /CRM interne reste réservé aux comptes VIP/,
+          "Le message du rôle viewer ne doit pas laisser croire que le CRM VIP est accessible.");
+      }
       assert.equal(await rolePage.locator("#internal-admin-card").isVisible(), ["owner","admin"].includes(role), `La carte Administration doit respecter le rôle ${role}.`);
       assert.equal(await rolePage.locator("#internal-search-card").isVisible(), ["owner","admin"].includes(role), `La carte Recherches doit respecter le rôle ${role}.`);
       assert.equal(await rolePage.locator("#internal-crm-link").isVisible(), ["owner","admin"].includes(role), `Le CRM doit être réservé aux rôles VIP owner/admin ; rôle ${role}.`);
