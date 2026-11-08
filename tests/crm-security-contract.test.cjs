@@ -137,7 +137,7 @@ assert.match(authReturn, /detectSessionInUrl: true/);
 assert.match(authReturn, /email_confirmed_at/);
 assert.match(authReturn, /window\.location\.replace\("\/espace-membre\.html\?confirmed=1"\)/);
 assert.ok(read("index.html").includes('src="member-auth-return.js"'));
-assert.ok(siteFiles.includes("member-auth-return.js"));
+assert.ok(read("site-files.json").includes('"member-auth-return.js"'));
 assert.match(edge, /const NOTICE_VERSION = "2026-11-05"/);
 assert.ok(edge.includes("isAllowedOrigin(origin)") && edge.includes("majestios-jc8g-") && edge.includes("ALLOWED_ORIGINS"));
 assert.ok(!edge.includes('"Access-Control-Allow-Origin": "*"'));
