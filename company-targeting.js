@@ -114,10 +114,9 @@
     const options = criteria || {};
     const codes = [...new Set((options.nafCodes || []).map(normalizeCode).filter(Boolean))];
     const departments = [...new Set((options.departments || []).map((value) => String(value).trim().toUpperCase()).filter(Boolean))];
-    if (!codes.length) throw new Error("Au moins un code APE/NAF validé est requis pour interroger l’annuaire.");
     const region = String(options.region || "").trim();
     const query = String(options.query || "").trim().slice(0, 180);
-    if (!departments.length && !region) throw new Error("Choisissez au moins un département ou une région pour limiter la recherche.");
+    if (!codes.length && !departments.length && !region && !query) throw new Error("Saisissez un mot-clé ou ajoutez au moins un critère pour lancer la recherche.");
     const caMin = options.caMin == null || options.caMin === "" ? null : Number(options.caMin);
     const caMax = options.caMax == null || options.caMax === "" ? null : Number(options.caMax);
     const workforceCodes = {
@@ -141,18 +140,19 @@
     const requests = [];
     const fetchedAt = new Date().toISOString();
 
-    // Requêtes séquentielles pour éviter de dépasser les limites de l'API publique.
-    const geographicScopes = departments.length ? departments.map(department => ({ department, region })) : [{ department: "", region }];
+    // Requêtes séquentielles : seuls les critères renseignés sont transmis à l'annuaire.
+    const geographicScopes = departments.length
+      ? departments.map(department => ({ department, region }))
+      : [{ department: "", region }];
+    const activityCodes = codes.length ? codes : [""];
     for (const scope of geographicScopes) {
-      for (const code of codes) {
+      for (const code of activityCodes) {
         for (let page = 1; page <= maxPages; page++) {
           const params = new URLSearchParams({
-            activite_principale: code,
-            per_page: String(perPage),
-            page: String(page),
-            minimal: "true",
+            per_page: String(perPage), page: String(page), minimal: "true",
             include: "siege,finances"
           });
+          if (code) params.set("activite_principale", code);
           if (query) params.set("q", query);
           if (scope.department) params.set("departement", scope.department);
           if (scope.region) params.set("region", scope.region);
@@ -169,8 +169,7 @@
           let response;
           try {
             response = await fetch(url, {
-              method: "GET",
-              headers: { Accept: "application/json" },
+              method: "GET", headers: { Accept: "application/json" },
               signal: controller ? controller.signal : undefined
             });
           } catch (error) {
@@ -184,22 +183,18 @@
             throw new Error("L’annuaire des entreprises a répondu avec le statut " + status + ". Réessayer plus tard ; ne pas assimiler cette erreur à zéro résultat.");
           }
           let payload;
-          try {
-            payload = await response.json();
-          } catch {
-            throw new Error("Réponse illisible de l’annuaire des entreprises ; aucun résultat n’a été validé.");
-          }
+          try { payload = await response.json(); }
+          catch { throw new Error("Réponse illisible de l’annuaire des entreprises ; aucun résultat n’a été validé."); }
           if (!payload || !Array.isArray(payload.results)) {
             throw new Error("Format de réponse inattendu de l’annuaire des entreprises ; aucun résultat n’a été validé.");
           }
-          requests.push({ department: scope.department || null, region: scope.region || null, nafCode: code, page, returned: payload.results.length, totalResults: payload.total_results ?? null });
+          requests.push({ department: scope.department || null, region: scope.region || null, nafCode: code || null, page, returned: payload.results.length, totalResults: payload.total_results ?? null });
           for (const item of payload.results) {
             records.push({
-              ...item,
-              source: "API Recherche d’Entreprises — DINUM",
+              ...item, source: "API Recherche d’Entreprises — DINUM",
               source_url: "https://recherche-entreprises.api.gouv.fr/",
               collectedAt: fetchedAt,
-              query: { department: scope.department || null, region: scope.region || null, nafCode: code, page }
+              query: { department: scope.department || null, region: scope.region || null, nafCode: code || null, text: query || null, page }
             });
           }
           if (page >= Number(payload.total_pages || 1)) break;
@@ -216,7 +211,7 @@
       requests,
       rawCount: records.length,
       uniqueCount: unique.length,
-      appliedFilters: { departments, region: region || null, caMin, caMax, estRge: Boolean(options.estRge), estQualiopi: Boolean(options.estQualiopi), estEpV: Boolean(options.estEpV), estEss: Boolean(options.estEss) },
+      appliedFilters: { nafCodes: codes, query: query || null, departments, region: region || null, caMin, caMax, estRge: Boolean(options.estRge), estQualiopi: Boolean(options.estQualiopi), estEpV: Boolean(options.estEpV), estEss: Boolean(options.estEss) },
       note: "Résultats limités aux filtres administratifs transmis à l’API. Le chiffre d’affaires peut être indisponible pour certaines entreprises ; une correspondance administrative ne prouve pas la capacité à répondre au marché."
     };
   }
