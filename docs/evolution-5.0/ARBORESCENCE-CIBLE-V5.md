@@ -24,7 +24,7 @@ Le moteur de recherche, le CRM et la Business Intelligence sont des fonctions tr
 
 - CRM MajestiOS : `crm.html`, structuration des entreprises, contacts, opportunités, activités et historique.
 - Business Intelligence : analyses et aide à la décision, dont `intelligence-economique.html`.
-- MajestiOS V.5 : intelligence centrale du site, qui coordonne les capacités transversales sous gouvernance ; son implémentation reste une cible non opérationnelle dans le prototype actuel.
+- Cheexpeer : IA intégrée à MajestiOS, destinée à la surveillance, à l’analyse, aux rapports, aux alertes et au scoring explicable des opportunités. Son activation reste différée pendant la préparation des fondations.
 - Suivi commercial : `suivi-commercial.html`, rattaché au développement commercial et au CRM.
 - Recherche : moteur transversal ; les choix apparaissent progressivement.
   - Marchés publics : catégories métier BOAMP, dont « Nettoyage & propreté » ; les catégories sans page dédiée aboutissent aux résultats communs.
