@@ -251,7 +251,7 @@ const initialSearchParams = new URLSearchParams(window.location.search);
 const initialMarketType = initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "";
 const initialCategory = initialSearchParams.get("categorie") || "";
 populateSearchFilters(initialMarketType, initialCategory);
-if (advancedSearchForm?.dataset.progressive !== "true") {
+if (advancedSearchForm?.dataset.progressive !== "true" && advancedSearchForm?.dataset.fixedMarket !== "true") {
   if (initialMarketType) {
     revealStep(searchSteps.market);
     revealStep(searchSteps.category);
@@ -310,7 +310,7 @@ if (advancedSearchForm) {
     keywordControl?.reportValidity();
     return;
   }
-  const marketType = document.querySelector("#feed-market-type")?.value;
+  const marketType = document.querySelector("#feed-market-type")?.value || advancedSearchForm?.dataset.defaultMarket;
   const department = document.querySelector("#feed-department")?.value;
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
