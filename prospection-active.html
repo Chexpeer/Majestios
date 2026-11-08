@@ -55,6 +55,27 @@
 .page-prospection .prospecting-progressive-criteria [hidden]{display:none!important}
 
 @media(max-width:650px){.page-prospection .prospecting-criteria-editor-fields{grid-template-columns:1fr}.page-prospection #company-targeting-form{grid-template-columns:1fr;padding:11px}.page-prospection #company-targeting-form fieldset,.page-prospection #company-targeting-form>.prospecting-core-grid{grid-template-columns:1fr}.page-prospection .prospecting-search-shell{width:calc(100% - 16px)}}
+
+/* Ajustement compact du moteur Prospection : mêmes critères, moins d'emprise visuelle. */
+.page-prospection .prospecting-search-shell{width:min(900px,calc(100% - 24px));margin:12px auto 20px}
+.page-prospection .prospecting-search-heading{margin:0 0 8px}
+.page-prospection .prospecting-search-heading h2{font-size:clamp(20px,2.1vw,27px);margin:4px 0 5px}
+.page-prospection .prospecting-search-heading p:last-child{font-size:12px;line-height:1.4}
+.page-prospection #company-targeting-form{gap:8px;padding:10px;border-radius:9px;box-shadow:0 6px 18px #39326708}
+.page-prospection #company-targeting-form>.feed-search{min-height:44px;padding:0 14px}
+.page-prospection #company-targeting-form>.feed-search input{min-height:42px;font-size:14px}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{min-height:32px;padding:6px 11px;font-size:11px}
+.page-prospection #company-targeting-form .feed-search-submit{min-height:36px;padding:7px 14px;font-size:12px}
+.page-prospection .prospecting-progressive-criteria{gap:7px}
+.page-prospection .prospecting-criteria-available,.page-prospection .prospecting-criteria-selected{gap:6px}
+.page-prospection .prospecting-criteria-choice{min-height:32px;padding:6px 9px;font-size:11px}
+.page-prospection .prospecting-criteria-chip{padding:3px 5px;font-size:11px}
+@media(max-width:650px){
+  .page-prospection .prospecting-search-shell{width:calc(100% - 16px);margin:10px auto 16px}
+  .page-prospection #company-targeting-form{padding:8px;gap:7px}
+  .page-prospection #company-targeting-form>.feed-search{min-height:42px}
+}
+
 </style>
 
 </head>
@@ -62,7 +83,6 @@
 <main class="section-wrap interior-page"><p class="eyebrow">EXPLORER MAJESTIOS · RUBRIQUE</p><h1>Prospection</h1><p class="interior-lede">Confiez-nous votre prospection : concentrez-vous sur ce que vous aimez et ce que vous savez faire.</p>
 <section class="tender-feed-section prospecting-search-shell" aria-labelledby="company-targeting-form-title">
   <div class="feed-wrap"><div class="feed-demo"><div class="prospecting-search-heading"><p class="eyebrow">MOTEUR DE RECHERCHE · PROSPECTION</p><h2 id="company-targeting-form-title">Trouvez les entreprises qui correspondent à votre activité</h2><p>Définissez votre cible. MajestiOS rassemble et qualifie les résultats dans une recherche unique.</p></div>
-  <p>Recherchez des entreprises par activité APE/NAF et territoire. MajestiOS rapproche les critères, élimine les doublons et classe les entreprises candidates à vérifier.</p>
   <form id="company-targeting-form" class="feed-toolbar company-targeting-search-form">
     <label class="feed-search" for="target-market-title"><span aria-hidden="true">⌕</span><span class="sr-only">Activité ou entreprise recherchée</span><input id="target-market-title" name="marketTitle" type="search" maxlength="180" placeholder="Nom d’entreprise ou mot-clé textuel…" autocomplete="off"></label>
     <button id="prospecting-criteria-toggle" class="prospecting-criteria-toggle" type="button" aria-expanded="false">Choisir des critères</button>
