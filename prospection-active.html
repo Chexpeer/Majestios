@@ -214,6 +214,26 @@
 .page-prospection #company-targeting-status{margin:12px 2px;color:#e2e9f3;font-size:13px}
 .page-prospection .company-targeting-results{width:min(1240px,calc(100% - 24px));margin:18px auto}
 @media(max-width:650px){.page-prospection .prospecting-search-shell{width:calc(100% - 24px);margin:14px auto 20px}.page-prospection #company-targeting-form>.feed-search{min-height:68px;padding:0 22px}.page-prospection #company-targeting-form>.feed-search input{min-height:64px;font-size:18px}.page-prospection #company-targeting-form>.feed-search-submit{min-height:52px}.page-prospection .prospecting-search-heading h2{font-size:clamp(27px,7vw,36px)}}
+
+/* Correctif mobile : conserver le champ de saisie blanc du moteur d'accueil. */
+.page-prospection #company-targeting-form>.feed-search input:not([type=checkbox]){
+  display:block!important;flex:1 1 auto!important;width:100%!important;min-width:0!important;
+  height:100%!important;min-height:0!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;outline:0!important;box-shadow:none!important;
+  background:transparent!important;color:#202735!important;-webkit-appearance:none!important;appearance:none!important;
+  font:inherit!important;font-size:clamp(17px,2vw,22px)!important;
+}
+.page-prospection #company-targeting-form>.feed-search input:not([type=checkbox])::placeholder{color:#7d8189!important;opacity:1!important}
+.page-prospection #company-targeting-form>.feed-search:focus-within{outline:2px solid #d5b56c;outline-offset:3px}
+.page-prospection #company-targeting-form>.feed-search{width:100%!important;min-width:0!important;box-sizing:border-box!important;gap:12px!important}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{order:2!important}
+.page-prospection #company-targeting-form>.prospecting-core-grid{order:3!important}
+.page-prospection #company-targeting-form>details{order:4!important}
+.page-prospection #company-targeting-form>.feed-search-submit{order:5!important}
+@media(max-width:650px){
+ .page-prospection #company-targeting-form>.feed-search{min-height:68px!important;height:68px!important;padding:0 24px!important}
+ .page-prospection #company-targeting-form>.feed-search input:not([type=checkbox]){height:100%!important;min-height:0!important;font-size:18px!important}
+}
 </style>
 
 </head>
@@ -225,7 +245,7 @@
     <label class="feed-search" for="target-market-title"><span aria-hidden="true">⌕</span><span class="sr-only">Activité ou entreprise recherchée</span><input id="target-market-title" name="marketTitle" type="search" maxlength="180" placeholder="Nom d’entreprise ou mot-clé textuel…" autocomplete="off"></label>
     <button id="prospecting-criteria-toggle" class="prospecting-criteria-toggle" type="button" aria-expanded="false">Choisir des critères</button>
     <div class="prospecting-core-grid" hidden>
-      <label for="target-naf-codes">Activité APE/NAF <span>(obligatoire)</span><input id="target-naf-codes" name="nafCodes" type="text" required placeholder="Ex. 43.21A, 43.22B"></label>
+      <label for="target-naf-codes">Activité APE/NAF <span>(facultatif)</span><input id="target-naf-codes" name="nafCodes" type="text" placeholder="Ex. 43.21A, 43.22B"></label>
       <label for="target-departments">Départements <span>(facultatif si une région est choisie)</span><input id="target-departments" name="departments" type="text" placeholder="Ex. 72, 37, 49"></label>
       <label for="target-radius-location">Commune ou code postal <span>(pour une recherche par rayon)</span><input id="target-radius-location" name="radiusLocation" type="search" maxlength="100" placeholder="Ex. Le Mans ou 72000"></label>
       <label for="target-radius-km">Rayon<select id="target-radius-km" name="radiusKm"><option value="5">5 km</option><option value="10" selected>10 km</option><option value="15">15 km</option><option value="20">20 km</option><option value="30">30 km</option><option value="40">40 km</option><option value="50">50 km</option></select></label>
