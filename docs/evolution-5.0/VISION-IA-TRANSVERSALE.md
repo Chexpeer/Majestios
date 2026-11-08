@@ -8,7 +8,7 @@ MajestiOS ne doit pas être un site auquel on aurait ajouté un chatbot. Il doit
 
 L'ambition est celle d'une plateforme **nativement intelligente**, mais gouvernée : l'intelligence augmente les capacités humaines sans devenir une autorité opaque ou incontrôlée.
 
-## 2. Une intelligence commune, plusieurs rôles spécialisés
+## 2. Cheexpeer, une identité commune et plusieurs rôles spécialisés
 
 Éviter de concevoir un agent universel qui aurait tous les droits. Concevoir plutôt un orchestrateur central qui distribue les tâches à des capacités ou agents spécialisés, chacun limité à son domaine et à ses permissions.
 
@@ -24,9 +24,9 @@ Rôles fonctionnels envisagés :
 8. **Responsable SEO assisté** — surveille la santé technique, l'indexation, la qualité éditoriale, les évolutions des moteurs et la visibilité dans les expériences de recherche classiques et génératives.
 9. **Administrateur IA** — supervise la plateforme, ses données, ses connecteurs, ses coûts, sa documentation, ses tests et ses incidents, selon le document [MODULE-ADMIN-IA.md](MODULE-ADMIN-IA.md).
 10. **Gardien de la mémoire et de la cohérence** — retrouve les conversations et décisions pertinentes, détecte les contradictions, maintient les liens entre objectifs, décisions, tâches et preuves.
-11. **Cheexpeer** — IA intégrée à MajestiOS, dont l’activation est différée pendant la préparation des fondations. À terme, elle surveillera les signaux autorisés, analysera les opportunités, produira des rapports et des alertes, et proposera un scoring explicable des leads.
+11. **Cheexpeer** — identité d'usage de l'IA intégrée à MajestiOS, indépendante du modèle ou du fournisseur qui l'alimente. Son activation est différée pendant la préparation des fondations. À terme, elle portera progressivement les responsabilités fonctionnelles décrites ci-dessus, dans le périmètre qui lui sera délégué.
 
-Ces rôles sont des responsabilités logiques, pas nécessairement des agents ou produits séparés. Ces responsabilités relèveront progressivement de Cheexpeer, dans le périmètre qui lui sera délégué et sous la gouvernance de l’Administration. Toute proposition reste soumise à validation ; aucune publication, prise de contact, dépense ou modification de la production n'est autorisée sans accord explicite.
+Les dix premiers éléments décrivent des responsabilités fonctionnelles, pas nécessairement des agents ou produits séparés. Cheexpeer n'est pas un douzième agent ni un produit parallèle : c'est l'identité intégrée qui pourra porter progressivement ces responsabilités, selon les capacités du moteur connecté, le périmètre délégué et la gouvernance de l’Administration. Toute proposition reste soumise à validation ; aucune publication, prise de contact, dépense ou modification de la production n'est autorisée sans accord explicite.
 
 Ils ne nécessitent pas obligatoirement onze modèles distincts : le choix entre un modèle unique avec outils, plusieurs agents ou une architecture hybride sera évalué selon fiabilité, coût, latence, sécurité et facilité de maintenance.
 
