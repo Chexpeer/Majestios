@@ -83,7 +83,13 @@ async function main() {
     assert.match(requestedUrls[0], /departement=79/);
     assert.match(requestedUrls[0], /minimal=true/);
     assert.match(requestedUrls[0], /include=siege%2Cfinances|include=siege,finances/);
-    await assert.rejects(targeting.searchCompanies({ departments: ["79"] }), /code APE\/NAF/);
+    const departmentOnly = await targeting.searchCompanies({ departments: ["79"] });
+    assert.equal(departmentOnly.uniqueCount, 1, "Un territoire seul doit suffire à lancer une recherche.");
+    assert.match(requestedUrls.at(-1), /departement=79/);
+    const keywordOnly = await targeting.searchCompanies({ query: "atelier Martin" });
+    assert.equal(keywordOnly.uniqueCount, 1, "Un mot-clé seul doit suffire à lancer une recherche.");
+    assert.match(requestedUrls.at(-1), /q=atelier\+Martin/);
+    await assert.rejects(targeting.searchCompanies({}), /mot-clé|critère/);
   } finally {
     global.fetch = originalFetch;
   }
