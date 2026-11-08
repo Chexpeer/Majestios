@@ -46,11 +46,15 @@
     event.preventDefault();
     const nafCodes = parseList(form.elements.nafCodes.value).map((value) => value.toUpperCase());
     const departments = parseList(form.elements.departments.value).map((value) => value.toUpperCase());
+    const region = form.elements.region.value.trim();
+    const radiusLocation = form.elements.radiusLocation.value.trim();
+    const radiusKm = Number(form.elements.radiusKm.value) || 10;
     const limit = Number(form.elements.limit.value) || 10;
     const marketTitle = form.elements.marketTitle.value.trim();
+    const includeUnknown = form.elements.includeUnknown.checked;
 
-    if (!nafCodes.length || !departments.length) {
-      status.textContent = "Saisissez au moins un code APE/NAF et un département.";
+    if (!nafCodes.length || (!departments.length && !region && !radiusLocation)) {
+      status.textContent = "Saisissez au moins un code APE/NAF et choisissez un département, une région ou un lieu pour le rayon.";
       return;
     }
     if (nafCodes.some((code) => !/^\d{2}\.\d{2}[A-Z]$/.test(code))) {
@@ -68,19 +72,35 @@
     results.hidden = true;
     cards.replaceChildren();
     try {
-      // Parcours historique conservé provisoirement : le nouvel endpoint membre
-      // n'est pas encore déployé. Les critères envoyés correspondent strictement
-      // aux champs réellement présents dans le formulaire.
-      const response = await window.MajestiosCompanyTargeting.searchCompanies({
-        nafCodes, departments, perPage: 25, maxPages: 1
-      });
+      const searchCriteria = {
+        nafCodes, departments, region, perPage: 25, maxPages: 1,
+        caMin: form.elements.caMin.value,
+        caMax: form.elements.caMax.value,
+        estRge: form.elements.estRge.checked,
+        estQualiopi: form.elements.estQualiopi.checked,
+        estEpV: form.elements.estEpV.checked,
+        estEss: form.elements.estEss.checked
+      };
+      const response = radiusLocation
+        ? await window.MajestiosCompanyTargeting.searchCompaniesNearPoint({
+            ...searchCriteria, location: radiusLocation, radiusKm
+          })
+        : await window.MajestiosCompanyTargeting.searchCompanies(searchCriteria);
       let candidates = window.MajestiosCompanyTargeting.rankCompanies(response.candidates, { nafCodes, departments });
+      candidates = window.MajestiosCompanyTargeting.filterCompaniesByCriteria(candidates, {
+        workforce: form.elements.workforce.value,
+        companyAge: form.elements.companyAge.value,
+        legalCategory: form.elements.legalCategory.value,
+        nameContains: form.elements.nameContains.value,
+        includeUnknown
+      });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
       const selected = window.MajestiosCompanyTargeting.selectCandidates(candidates, {
         nafCodes, departments, limit, minimumScore: 25
       });
       const list = selected.candidates;
       summary.textContent = (marketTitle ? "Repère : " + marketTitle + " · " : "") +
+        (radiusLocation ? "Périmètre : " + radiusLocation + " · " + radiusKm + " km · " : region && !departments.length ? "Région sélectionnée · " : "") +
         response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount +
         " entreprise(s) unique(s) après dédoublonnage ; " + list.length +
         " entreprise(s) affichée(s). Recherche effectuée le " +
