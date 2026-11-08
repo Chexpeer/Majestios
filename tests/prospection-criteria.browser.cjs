@@ -33,6 +33,10 @@ async function main() {
     const available = page.locator(".prospecting-criteria-available");
     const selected = page.locator(".prospecting-criteria-selected");
     const editor = page.locator(".prospecting-criteria-editor");
+    const criteriaToggle = page.locator("#prospecting-criteria-toggle");
+    assert.equal(await criteriaToggle.isVisible(), true, "Le bouton unique de critères doit rester visible.");
+    assert.equal(await available.isVisible(), false, "Les choix de critères doivent rester masqués avant activation.");
+    await criteriaToggle.click();
     await available.waitFor({ state: "visible" });
 
     // Add activity, then another group: the first control must remain associated with the form.
@@ -40,12 +44,15 @@ async function main() {
     await page.locator("#target-naf-codes").fill("43.21A");
     await editor.getByRole("button", { name: "Valider ce critère" }).click();
     assert.equal(await selected.locator(".prospecting-criteria-chip").count(), 1, "L’activité validée doit devenir un critère actif.");
+    assert.equal(await available.isVisible(), false, "La liste doit se refermer après validation du premier critère.");
     assert.equal(await available.getByRole("button", { name: /Activité APE\/NAF/ }).count(), 0, "Un critère actif doit disparaître des choix disponibles.");
 
+    await criteriaToggle.click();
     await available.getByRole("button", { name: /Effectif salarié/ }).click();
     await page.locator("#target-workforce").selectOption("10-19");
     await editor.getByRole("button", { name: "Valider ce critère" }).click();
     assert.equal(await selected.locator(".prospecting-criteria-chip").count(), 2, "Les deux critères doivent rester actifs simultanément.");
+    assert.equal(await available.isVisible(), false, "La liste doit se refermer après chaque validation.");
     assert.equal(await form.evaluate((node) => Boolean(node.elements.namedItem("nafCodes"))), true, "Le champ APE/NAF doit rester associé au formulaire après changement de critère.");
 
     // Edit both chips and ensure their values survive each editor transition.
@@ -58,8 +65,10 @@ async function main() {
 
     // Remove one filter, reintroduce it, and make sure the other active filter is untouched.
     await selected.getByRole("button", { name: "Retirer le critère Activité APE/NAF" }).click();
-    assert.equal(await available.getByRole("button", { name: /Activité APE\/NAF/ }).count(), 1, "Un critère supprimé doit revenir dans la liste disponible.");
+    assert.equal(await available.isVisible(), false, "La liste reste repliée après suppression.");
     assert.equal(await selected.locator(".prospecting-criteria-chip").count(), 1, "La suppression ne doit pas effacer les autres critères.");
+    await criteriaToggle.click();
+    assert.equal(await available.getByRole("button", { name: /Activité APE\/NAF/ }).count(), 1, "Un critère supprimé doit revenir dans la liste disponible.");
     await available.getByRole("button", { name: /Activité APE\/NAF/ }).click();
     assert.equal(await page.locator("#target-naf-codes").inputValue(), "", "Un critère réintroduit doit repartir de valeurs réinitialisées.");
     assert.equal(await form.evaluate((node) => Boolean(node.elements.namedItem("nafCodes"))), true, "Le champ réintroduit doit rester dans le formulaire.");
