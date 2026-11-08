@@ -109,4 +109,4 @@ Toute évolution récente du fondateur peut rouvrir un sujet précédemment docu
 
 ## Audit des circuits d'information — 8 novembre 2026
 
-[Audit et optimisation des circuits d'information — Immeuble, rubriques, CRM et Administration](AUDIT-CIRCUITS-INFORMATION-IMMEUBLE-RUBRIQUES-CRM-ADMIN-2026-11-08.md) — état vérifié des tables et politiques RLS, frontières de visibilité, séparation des rôles, circuit de validation/affectation/restitution et plan de correction priorisé.
+[Audit et optimisation des circuits d'information — Immeuble, rubriques, CRM et Administration](AUDIT-CIRCUITS-INFORMATION-IMMEUBLE-RUBRIQUES-CRM-ADMIN-2026-11-08.md) — état vérifié des tables et politiques RLS, frontières de visibilité, séparation des rôles, circuit de validation/affectation/restitution et plan de correction priorisé.\n\n[Contrat commun de transmission — rubriques, Administration et CRM](CONTRAT-COMMUN-TRANSMISSION-RUBRIQUES-ADMIN-CRM-2026-11-08.md) — spécification détaillée des acteurs, finalités, états, transitions, historique, API conceptuelle, permissions, modèle minimal et tests d'acceptation ; aucune implémentation déclenchée.
