@@ -389,3 +389,44 @@ Avant toute correction, il faut retrouver le chemin source exact et comparer :
 6. Ensuite seulement, préparer la migration et les tests d'accès.
 
 **État de sortie du contrôle Edge :** une fuite de métadonnées fournisseur dans la réponse de recherche et un import direct en fiche CRM « à examiner » ont été confirmés. Ces constats renforcent la nécessité d'un circuit de transmission et de validation distinct du CRM. Aucun code ni service actif n'a été modifié.
+
+
+## 13. Recherche de provenance Git des fonctions déployées — 8 novembre 2026
+
+### 13.1 Résultat de la recherche des sources
+
+Les chemins conventionnels suivants ont été recherchés dans cinq branches représentatives : `main`, `evolution-5.0-admin-cockpit`, `backup/evolution-5.0-admin-cockpit-2026-11-07`, `rebuild/evolution-5.0-admin-cockpit-clean-supabase` et `feature/crm-atomic-integration`.
+
+- `supabase/functions/search-official-companies/index.ts`
+- `supabase/functions/import-official-company/index.ts`
+- `supabase/functions/bootstrap-internal-admin/index.ts`
+
+**Résultat : aucun de ces trois fichiers n'a été retrouvé à ces chemins dans les cinq branches contrôlées.** La recherche de code GitHub sur la branche par défaut n'a pas non plus remonté ces fonctions. Cette absence ne prouve pas qu'aucune copie n'existe dans un autre dépôt, une archive locale ou un historique externe ; elle signifie que la branche de travail ne fournit pas actuellement une source de référence vérifiable par ces chemins.
+
+### 13.2 Indices historiques identifiés
+
+L'historique Git contient le commit `844cb147524d15310d00c8c314921de405717527`, intitulé « MajestiOS V5 — reconstruction propre et validation complète (#38) », qui regroupe notamment les travaux de CRM, de bootstrap interne et de migrations. La recherche de commits a également identifié `28b4001ee68da730deb09c3b6de69bec252424be`, intitulé « feat: add atomic deduplicated official company import ».
+
+Ces commits constituent des pistes d'historique, mais les résultats de recherche de commits ne fournissent pas ici les chemins ni les contenus des fonctions Edge déployées. Ils ne permettent donc pas d'établir une filiation source-déploiement ni une égalité de contenu.
+
+### 13.3 Matrice de parité actuelle
+
+| Fonction déployée | Version active relevée | Source exacte dans les branches testées | Parité vérifiée | Décision |
+|---|---:|---|---|---|
+| `search-official-companies` | v4 | Non retrouvée | Non | Bloquer toute modification/redéploiement jusqu'à récupération du source |
+| `import-official-company` | v2 | Non retrouvée | Non | Bloquer toute modification/redéploiement jusqu'à récupération du source |
+| `bootstrap-internal-admin` | v3 | Non retrouvée | Non | Bloquer toute modification/redéploiement jusqu'à récupération du source |
+
+### 13.4 Procédure de récupération recommandée
+
+1. Exporter ou récupérer le code exact de chaque fonction depuis la source qui a servi au déploiement (poste de développement, archive, dépôt secondaire ou historique de déploiement), sans exporter de secrets.
+2. Archiver les fichiers avec leur nom, leur version active, leur empreinte SHA-256, la date de récupération et l'origine vérifiable.
+3. Comparer le code récupéré au contenu actuellement déployé, imports inclus.
+4. Reconstituer les dépendances et variables d'environnement attendues, sans afficher les valeurs secrètes.
+5. Réintégrer les sources dans un emplacement Git versionné et documenter leur filiation avant toute correction.
+6. Ajouter des tests de contrat sur les autorisations, la forme des réponses et la non-exposition des fournisseurs.
+7. Faire relire le diff et valider une procédure de retour arrière avant toute livraison.
+
+Ne pas recréer les fonctions à partir de leur comportement observé ou de leurs noms : cela risquerait de perdre des contrôles implicites, des dépendances ou des correctifs déjà présents en production.
+
+**Conclusion de cette étape :** la recherche Git ne permet pas encore d'établir la provenance des trois fonctions Edge. Le bon prochain geste n'est donc pas de les réécrire, mais de récupérer leur source exacte et de la versionner. Aucun changement Supabase, aucune modification de fonction, aucun déploiement et aucune fusion n'ont été effectués pendant cette étape.
