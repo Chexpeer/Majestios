@@ -282,5 +282,78 @@
     };
   }
 
-  return { normalizeCompany, deduplicateCompanies, scoreCompany, rankCompanies, selectCandidates, searchCompanies, geocodeSearchCenter, searchCompaniesNearPoint };
+  function filterCompaniesByCriteria(records, criteria) {
+    const options = criteria || {};
+    const includeUnknown = options.includeUnknown !== false;
+    const workforceTarget = String(options.workforce || "");
+    const ageTarget = String(options.companyAge || "");
+    const legalTarget = String(options.legalCategory || "").trim().toLocaleLowerCase("fr");
+    const nameTarget = String(options.nameContains || "").trim().toLocaleLowerCase("fr");
+
+    const workforceRanges = {
+      "0-2": [[0, 0], [1, 2]],
+      "3-5": [[3, 5]],
+      "6-9": [[6, 9]],
+      "10-19": [[10, 19]],
+      "20-49": [[20, 49]],
+      "50+": [[50, Infinity]]
+    };
+    const workforceCodeRanges = {
+      "00": [0, 0], "01": [1, 2], "02": [3, 5], "03": [6, 9],
+      "11": [10, 19], "12": [20, 49], "21": [50, 99], "22": [100, 199],
+      "31": [200, 249], "32": [250, 499], "41": [500, 999],
+      "42": [1000, 1999], "51": [2000, 4999], "52": [5000, 9999], "53": [10000, Infinity]
+    };
+    const workforceRange = (company) => {
+      const numeric = Number(company.workforce);
+      if (company.workforce != null && company.workforce !== "" && Number.isFinite(numeric)) return [numeric, numeric];
+      const raw = String(company.workforceBand || "").trim().toUpperCase();
+      if (workforceCodeRanges[raw]) return workforceCodeRanges[raw];
+      const match = raw.match(/(\\d+)\\s*(?:à|a|-)\\s*(\\d+)/i);
+      if (match) return [Number(match[1]), Number(match[2])];
+      const high = raw.match(/(\\d+)\\s*(?:salariés? et plus|et plus|\\+)/i);
+      if (high) return [Number(high[1]), Infinity];
+      return null;
+    };
+    const matchesRange = (range, target) => {
+      if (!target) return true;
+      if (target === "unknown") return range === null;
+      if (!range) return includeUnknown;
+      return (workforceRanges[target] || []).some(([min, max]) => range[0] >= min && range[1] <= max);
+    };
+    const companyAge = (company) => {
+      if (!company.creationDate) return null;
+      const date = new Date(company.creationDate);
+      if (Number.isNaN(date.getTime())) return null;
+      const now = new Date();
+      if (date > now) return null;
+      return (now.getTime() - date.getTime()) / (365.2425 * 24 * 60 * 60 * 1000);
+    };
+
+    return (Array.isArray(records) ? records : []).filter((company) => {
+      if (workforceTarget) {
+        const range = workforceRange(company);
+        if (workforceTarget === "unknown" ? range !== null : !matchesRange(range, workforceTarget)) return false;
+      }
+      if (ageTarget) {
+        const age = companyAge(company);
+        if (ageTarget === "unknown" ? age !== null : age === null
+          ? !includeUnknown
+          : ageTarget === "0-2" ? age >= 3
+          : ageTarget === "3-5" ? age < 3 || age >= 6
+          : ageTarget === "6-10" ? age < 6 || age > 10
+          : ageTarget === "10+" ? age <= 10
+          : false) return false;
+      }
+      if (legalTarget) {
+        const value = String(company.legalCategory || "").toLocaleLowerCase("fr");
+        if (!value) { if (!includeUnknown) return false; }
+        else if (!value.includes(legalTarget)) return false;
+      }
+      if (nameTarget && !String(company.name || "").toLocaleLowerCase("fr").includes(nameTarget)) return false;
+      return true;
+    });
+  }
+
+  return { normalizeCompany, deduplicateCompanies, scoreCompany, rankCompanies, selectCandidates, filterCompaniesByCriteria, searchCompanies, geocodeSearchCenter, searchCompaniesNearPoint };
 });
