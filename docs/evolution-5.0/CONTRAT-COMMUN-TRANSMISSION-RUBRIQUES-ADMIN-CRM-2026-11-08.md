@@ -324,4 +324,4 @@ Aucune de ces questions ne doit être tranchée implicitement par le nom d'une c
 
 ## Journal de périmètre
 
-Pour cette étape, seul ce document de conception est ajouté. Aucun code applicatif, schéma Supabase, politique RLS, fonction Edge, donnée, secret, branche de production ou déploiement n'est modifié. Aucun test d'exécution n'est déclaré : il s'agit d'une spécification à valider, non d'une fonctionnalité livrée.
+Pour cette étape, un document de conception est ajouté et référencé dans les deux index documentaires. Aucun code applicatif, schéma Supabase, politique RLS, fonction Edge, donnée, secret, branche de production ou déploiement n'est modifié. Aucun test d'exécution n'est déclaré : il s'agit d'une spécification à valider, non d'une fonctionnalité livrée.
