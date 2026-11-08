@@ -297,7 +297,7 @@ document.querySelector("#feed-market-type")?.addEventListener("change", (event) 
   }
 });
 document.querySelector("#feed-sector")?.addEventListener("change", () => {
-  if (advancedSearchForm?.dataset.progressive !== "true") revealStep(searchSteps.department);
+  if (advancedSearchForm?.dataset.progressive !== "true" && advancedSearchForm?.dataset.fixedMarket !== "true") revealStep(searchSteps.department);
   updateOtherCategoryRequirement();
 });
 if (advancedSearchForm) {
