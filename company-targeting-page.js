@@ -14,6 +14,12 @@
   const parseList = (value) => [...new Set(String(value || "").split(/[,;\n]+/).map((item) => item.trim()).filter(Boolean))];
   const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
   const formatScore = (value) => Number.isFinite(value) ? value + "/100" : "Non calculé";
+  const field = (name) => form.elements.namedItem(name);
+  const valueOf = (name) => {
+    const control = field(name);
+    return control && typeof control.value === "string" ? control.value : "";
+  };
+  const checked = (name) => Boolean(field(name) && field(name).checked);
 
   if (suggestionButton && suggestionPanel && suggestionList && addSuggestionsButton && suggestionEngine) {
     suggestionButton.addEventListener("click", () => {
@@ -46,12 +52,12 @@
     event.preventDefault();
     const nafCodes = parseList(form.elements.nafCodes.value).map((value) => value.toUpperCase());
     const departments = parseList(form.elements.departments.value).map((value) => value.toUpperCase());
-    const region = form.elements.region.value.trim();
-    const radiusLocation = form.elements.radiusLocation.value.trim();
-    const radiusKm = Number(form.elements.radiusKm.value) || 10;
+    const region = valueOf("region").trim();
+    const radiusLocation = valueOf("radiusLocation").trim();
+    const radiusKm = Number(valueOf("radiusKm")) || 10;
     const limit = Number(form.elements.limit.value) || 10;
     const marketTitle = form.elements.marketTitle.value.trim();
-    const includeUnknown = form.elements.includeUnknown.checked;
+    const includeUnknown = field("includeUnknown") ? checked("includeUnknown") : true;
 
     if (!nafCodes.length || (!departments.length && !region && !radiusLocation)) {
       status.textContent = "Saisissez au moins un code APE/NAF et choisissez un département, une région ou un lieu pour le rayon.";
@@ -78,12 +84,12 @@
     try {
       const searchCriteria = {
         nafCodes, departments, region, perPage: 25, maxPages: 1,
-        caMin: form.elements.caMin.value,
-        caMax: form.elements.caMax.value,
-        estRge: form.elements.estRge.checked,
-        estQualiopi: form.elements.estQualiopi.checked,
-        estEpV: form.elements.estEpV.checked,
-        estEss: form.elements.estEss.checked
+        caMin: valueOf("caMin"),
+        caMax: valueOf("caMax"),
+        estRge: checked("estRge"),
+        estQualiopi: checked("estQualiopi"),
+        estEpV: checked("estEpV"),
+        estEss: checked("estEss")
       };
       const response = radiusLocation
         ? await window.MajestiosCompanyTargeting.searchCompaniesNearPoint({
@@ -92,10 +98,10 @@
         : await window.MajestiosCompanyTargeting.searchCompanies(searchCriteria);
       let candidates = window.MajestiosCompanyTargeting.rankCompanies(response.candidates, { nafCodes, departments });
       candidates = window.MajestiosCompanyTargeting.filterCompaniesByCriteria(candidates, {
-        workforce: form.elements.workforce.value,
-        companyAge: form.elements.companyAge.value,
-        legalCategory: form.elements.legalCategory.value,
-        nameContains: form.elements.nameContains.value,
+        workforce: valueOf("workforce"),
+        companyAge: valueOf("companyAge"),
+        legalCategory: valueOf("legalCategory"),
+        nameContains: valueOf("nameContains"),
         includeUnknown
       });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
