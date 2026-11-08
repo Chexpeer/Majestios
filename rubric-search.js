@@ -35,6 +35,9 @@
     "resultats-recherche.html": ["Modifier ou affiner votre recherche", "Ajustez les mots-clés, le type de marché, la catégorie ou le département sans revenir à l’accueil.", ""]
   };
 
+  // Prospection possède son moteur métier dédié (entreprises, APE/NAF et territoire) ; ne pas injecter le moteur générique une seconde fois.
+  if (path === "prospection-active.html") return;
+
   const config = configs[path];
   if (!homeMount && (!page || !config)) return;
 
