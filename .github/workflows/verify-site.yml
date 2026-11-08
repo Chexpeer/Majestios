@@ -21,6 +21,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Installer Deno pour vérifier l'Edge Function
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Vérifier le typage de l'Edge Function Prospection
+        run: deno check supabase/functions/prospection-search-member/index.ts
       - name: Vérifier la syntaxe JavaScript
         run: |
           node --check app.js
