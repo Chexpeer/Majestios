@@ -50,7 +50,9 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 
 | [Cadrage stratégique CRM, sources et Réputation virtuelle](evolution-5.0/CADRAGE-STRATEGIQUE-CRM-SOURCES-CIBLAGE-REPUTATION-VIRTUELLE-2026-11-06.md) | Ciblage NAF/APE depuis les appels d'offres, détection des nouvelles entreprises, parcours Réputation virtuelle et questions de revue indépendante par IA |
 | [Parcours éditorial de l’immeuble interactif](evolution-5.0/PARCOURS-EDITORIAL-IMMEUBLE-INTERACTIF-2026-11-07.md) | Contenus différenciés pour le RDC et les huit étages, progression commerciale, promesses, slogans et règles d’intégration |
-| [Lot CRM — poste de travail Entreprises](evolution-5.0/LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md) | Recherche locale, filtres de qualification et département, limites et prochaines briques du module Entreprises |\n| [État des ressources du moteur de Prospection](evolution-5.0/ETAT-RESSOURCES-PROSPECTION-2026-11-07.md) | État réel des connecteurs DINUM, SIRENE, RNE, ADEME et organismes de qualification, avec limites et contrôles exécutés |
+| [Lot CRM — poste de travail Entreprises](evolution-5.0/LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md) | Recherche locale, filtres de qualification et département, limites et prochaines briques du module Entreprises |
+| [État des ressources du moteur de Prospection](evolution-5.0/ETAT-RESSOURCES-PROSPECTION-2026-11-07.md) | État réel des connecteurs DINUM, SIRENE, RNE, ADEME et organismes de qualification, avec limites et contrôles exécutés |
+| [Préparation de l’environnement technique de Cheexpeer — 8 novembre 2026](evolution-5.0/PREPARATION-ENVIRONNEMENT-CHEXPEER-2026-11-08.md) | État vérifié du projet Supabase, registre des sources, fonctions serveur, écarts de migrations, gouvernance des données et prérequis IA |
 
 ## Archives thématiques
 
