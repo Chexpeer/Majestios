@@ -118,6 +118,78 @@
   .page-prospection .prospecting-criteria-editor-fields>fieldset{grid-column:1}
 }
 
+
+/* Identité du dock de recherche de l'accueil : bleu nuit, acier et or. */
+.page-prospection .prospecting-search-shell{width:min(1240px,calc(100% - 24px));margin:12px auto 20px}
+.page-prospection .prospecting-search-heading{display:block;margin:0 0 10px}
+.page-prospection .prospecting-search-heading .eyebrow{color:#d5b56c;letter-spacing:.16em}
+.page-prospection .prospecting-search-heading h2{color:#f5f7fb;font-family:Georgia,"Times New Roman",serif;font-size:clamp(22px,2.5vw,32px)}
+.page-prospection .prospecting-search-heading p:last-child{color:#c4ccda}
+.page-prospection #company-targeting-form{
+ display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;
+ padding:10px;border:1px solid rgba(213,181,108,.55);border-radius:9px;
+ background:linear-gradient(100deg,#06101f,#102b50);color:#f5f7fb;
+ box-shadow:0 12px 30px rgba(0,0,0,.24)
+}
+.page-prospection #company-targeting-form>.feed-search{
+ grid-column:1;grid-row:1;min-width:0;min-height:46px;padding:0 14px;
+ border:1px solid rgba(213,181,108,.38);border-radius:7px;background:#071225;color:#f0d38b
+}
+.page-prospection #company-targeting-form>.feed-search input{
+ min-height:44px;color:#f5f7fb;font-size:14px
+}
+.page-prospection #company-targeting-form>.feed-search input::placeholder{color:#a9b4c6;opacity:1}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{
+ grid-column:2;grid-row:1;min-height:40px;padding:8px 12px;
+ border:1px solid rgba(213,181,108,.5);border-radius:7px;
+ background:rgba(213,181,108,.08);color:#f0d38b;font-size:12px;font-weight:750
+}
+.page-prospection #company-targeting-form .feed-search-submit{
+ grid-column:3;grid-row:1;min-height:40px;padding:8px 16px;
+ border:1px solid #ffdf82;border-radius:7px;
+ background:linear-gradient(100deg,#f7d76b,#dfa72e);color:#101828;
+ font-size:12px;font-weight:850
+}
+.page-prospection #company-targeting-form .feed-search-submit:hover{background:#f0d38b}
+.page-prospection .prospecting-progressive-criteria{grid-column:1/-1;gap:8px}
+.page-prospection .prospecting-criteria-choice{
+ min-height:32px;padding:7px 10px;border:1px solid rgba(213,181,108,.38);
+ border-radius:7px;background:#0b1c34;color:#f0d38b
+}
+.page-prospection .prospecting-criteria-chip{
+ border:1px solid rgba(213,181,108,.55);background:#102b50;color:#f5f7fb
+}
+.page-prospection .prospecting-criteria-chip-edit,.page-prospection .prospecting-criteria-chip-remove{color:#f0d38b}
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{
+ border:1px solid rgba(213,181,108,.38);border-radius:8px;background:#0b1c34;color:#f5f7fb
+}
+.page-prospection .prospecting-criteria-editor h3,.page-prospection .prospecting-criteria-options>summary{color:#f0d38b}
+.page-prospection .prospecting-criteria-editor-fields label,
+.page-prospection #company-targeting-form label,.page-prospection #company-targeting-form legend{color:#dce5f2}
+.page-prospection #company-targeting-form input:not([type=checkbox]),
+.page-prospection #company-targeting-form select,.page-prospection #company-targeting-form textarea{
+ border:1px solid rgba(213,181,108,.3);background:#071225;color:#f5f7fb
+}
+.page-prospection #company-targeting-form input::placeholder,
+.page-prospection #company-targeting-form textarea::placeholder{color:#a9b4c6}
+.page-prospection #company-targeting-form .company-targeting-checkbox{color:#c4ccda}
+.page-prospection #company-targeting-status{color:#dce5f2}
+.page-prospection .company-targeting-results{width:min(1240px,calc(100% - 24px));margin:18px auto}
+.page-prospection .company-targeting-results h2{color:#f5f7fb}
+.page-prospection .company-targeting-card{
+ margin:10px 0;padding:16px;border:1px solid rgba(213,181,108,.38);
+ border-radius:9px;background:linear-gradient(145deg,#06142b,#0d1f37);color:#f5f7fb
+}
+.page-prospection .company-targeting-card h3{color:#f0d38b}
+.page-prospection .company-targeting-card p,.page-prospection .company-targeting-card li{color:#c4ccda}
+@media(max-width:620px){
+ .page-prospection .prospecting-search-shell{width:calc(100% - 16px)}
+ .page-prospection #company-targeting-form{grid-template-columns:minmax(0,1fr) auto;gap:7px;padding:8px}
+ .page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;grid-row:1}
+ .page-prospection #company-targeting-form>.prospecting-criteria-toggle{grid-column:1;grid-row:2;justify-self:start}
+ .page-prospection #company-targeting-form>.feed-search-submit{grid-column:2;grid-row:2;justify-self:end}
+}
+
 </style>
 
 </head>
