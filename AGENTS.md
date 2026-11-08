@@ -41,8 +41,8 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 - Les codes APE/NAF ne prouvent ni compétence ni capacité à répondre à un marché.
 - Les annonces utilisateurs sont soumises à contrôle et modération ; leur publication n'autorise pas la réutilisation générale des données de l'auteur.
 - Les espaces clients sont cloisonnés entre eux et du CRM interne.
-- MajestiOS V.5 est l'intelligence centrale du site : elle coordonne les fonctionnalités, les analyses, les automatisations et les interactions sous les permissions et validations du projet.
-- SEO et visibilité : considérer la veille des moteurs, l'audit continu, les recommandations et l'amélioration contrôlée comme des capacités transversales de l'administration de MajestiOS V.5, pas comme un simple contenu éditorial.
+- Cheexpeer est l’IA intégrée à MajestiOS. À terme, elle pourra surveiller, analyser et produire des rapports et des alertes, notamment sur les opportunités commerciales, puis établir un scoring explicable des leads. Son périmètre sera activé progressivement, sous les permissions et validations du projet.
+- SEO et visibilité : considérer la veille des moteurs, l'audit continu, les recommandations et l'amélioration contrôlée comme des capacités transversales de l'administration et de Cheexpeer, pas comme un simple contenu éditorial.
 - Les offres d'emploi MajestiOS proviennent des utilisateurs ou de l'équipe ; les sources externes Cadremploi, France Travail et APEC restent différées.
 - BODACC : le périmètre métier V5 comprend les créations et débuts d'activité, ventes/cessions/reprises, modifications, difficultés et procédures collectives, ainsi que radiations et cessations. Ces familles sont exposées dans le catalogue ; leur couverture réelle doit être vérifiée par famille et par filtre. L'immobilier professionnel reste une piste prévue, non active tant qu'une source fiable et autorisée n'est pas raccordée.
 - Les cinq catégories BOAMP doivent être choisies après mesure réelle des volumes puis validées par le porteur du projet.
