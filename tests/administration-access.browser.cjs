@@ -119,9 +119,31 @@ async function main() {
       assert.match(await directCrm.locator("#crm-status").innerText(), /réservé aux comptes disposant d’un accès VIP/i,
         "L’accès direct à crm.html doit être refusé au rôle " + role + ".");
       await directCrm.close();
+
+      const directAdmin = await browser.newPage({viewport:{width:390,height:844}});
+      await directAdmin.route("https://esm.sh/@supabase/supabase-js@2.119.0", route => route.fulfill({
+        status:200, contentType:"application/javascript", body:supabaseMock(role)
+      }));
+      await directAdmin.goto("http://127.0.0.1:4177/administration.html", {waitUntil:"domcontentloaded"});
+      await directAdmin.locator("#admin-gate").waitFor({state:"visible",timeout:5000});
+      assert.equal(await directAdmin.locator("#admin-workspace").isVisible(), false,
+        "L’accès direct au cockpit doit être refusé au rôle " + role + ".");
+      assert.match(await directAdmin.locator("#admin-gate-message").innerText(), /rôle ne vous autorise pas/i);
+      await directAdmin.close();
+
+      const directSearch = await browser.newPage({viewport:{width:390,height:844}});
+      await directSearch.route("https://esm.sh/@supabase/supabase-js@2.119.0", route => route.fulfill({
+        status:200, contentType:"application/javascript", body:supabaseMock(role)
+      }));
+      await directSearch.goto("http://127.0.0.1:4177/admin-recherches.html", {waitUntil:"domcontentloaded"});
+      await directSearch.locator("#gate").waitFor({state:"visible",timeout:5000});
+      assert.equal(await directSearch.locator("#workspace").isVisible(), false,
+        "L’accès direct aux recherches d’administration doit être refusé au rôle " + role + ".");
+      assert.match(await directSearch.locator("#gate-message").innerText(), /rôle attribué ne permet pas/i);
+      await directSearch.close();
     }
 
-    console.log("TEST ADMIN RÉUSSI : accès sans session bloqué ; matrice owner/admin/member/viewer vérifiée ; redirection admin et accès direct au CRM VIP protégés.");
+    console.log("TEST ADMIN RÉUSSI : accès sans session bloqué ; matrice owner/admin/member/viewer vérifiée ; accès direct CRM, cockpit et recherches d’administration protégé.");
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve => server.close(resolve));
