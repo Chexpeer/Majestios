@@ -133,7 +133,7 @@ assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-
   "Accueil : ordre de chargement du catalogue, du formulaire partagé et du contrôleur incorrect");
 
 const expectedDestinations = [
-  {id:"08",name:"Espace privé",href:"espace-membre.html",x:185,y:182,width:350,height:82},
+  {id:"08",name:"Espace privé",href:"espace-prive.html",x:185,y:182,width:350,height:82},
   {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:266,width:350,height:80},
   {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:92},
   {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:444,width:350,height:81},
