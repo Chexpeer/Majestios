@@ -360,7 +360,7 @@ async function main() {
     assert.match(await page.locator("#search-active-filters").innerText(), /Autre marché public/);
 
     // Toutes les rubriques utilisent exactement le même formulaire et les mêmes étapes que l’accueil.
-    for (const destination of ["marches-publics.html", "developpement-commercial.html", "marches-prives.html", "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html", "crm.html", "majestios-v5.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html", "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html"]) {
+    for (const destination of ["marches-publics.html", "developpement-commercial.html", "marches-prives.html", "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html", "majestios-v5.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html", "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html"]) {
       await page.goto(`http://127.0.0.1:4174/${destination}`, { waitUntil: "domcontentloaded" });
       await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
       for (const id of ["feed-search", "feed-market-type", "feed-sector", "feed-department"]) {
@@ -387,6 +387,11 @@ async function main() {
       assert.equal(await page.locator("#department-step").isVisible(), true, `${destination} doit révéler le département après la catégorie.`);
       assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, `${destination} doit proposer le département 79.`);
     }
+
+    // Le CRM VIP est volontairement isolé du moteur public des marchés.
+    await page.goto("http://127.0.0.1:4174/crm.html", { waitUntil: "domcontentloaded" });
+    assert.equal(await page.locator("#advanced-search-form").count(), 0, "Le CRM VIP ne doit pas charger le moteur public des marchés.");
+    assert.equal(await page.locator("#feed-search").count(), 0, "Le CRM VIP ne doit pas exposer les champs de recherche BOAMP/BODACC.");
 
     console.log("Recherche navigateur réussie : filtres par département, BOAMP, BODACC, vue combinée et séparation des sources vérifiés.");
   } finally {
