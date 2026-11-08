@@ -25,4 +25,15 @@ assert.ok(script.includes("searchCompaniesNearPoint"), "Le mode rayon doit être
 assert.ok(script.includes("query: marketTitle"), "Le champ textuel doit être transmis au moteur département/région.");
 assert.ok(script.includes("searchCompanies(searchCriteria)"), "Le mode département/région doit être raccordé au moteur principal.");
 assert.ok(script.includes("filterCompaniesByCriteria"), "Les filtres métier doivent être appliqués aux résultats.");
+const ux = fs.readFileSync("prospection-criteria-ux.js", "utf8");
+for (const group of ["activity", "territory", "workforce", "age", "legal", "name", "revenue", "labels"]) {
+  assert.ok(ux.includes('id: "' + group + '"'), "Groupe de critères progressifs absent : " + group);
+}
+assert.ok(ux.includes("prospecting-criteria-choice"), "Les critères non sélectionnés doivent être proposés sous forme de choix.");
+assert.ok(ux.includes("prospecting-criteria-chip"), "Les critères sélectionnés doivent rester visibles sous forme de filtres actifs.");
+assert.ok(ux.includes("available.replaceChildren()"), "La liste des critères disponibles doit être reconstruite après sélection.");
+assert.ok(ux.includes("selected.append(chip)"), "Un critère sélectionné doit rejoindre le récapitulatif actif.");
+assert.ok(ux.includes("chip.addEventListener(\"click\""), "Un critère actif doit rester modifiable.");
+assert.ok(ux.includes("group.required && !selectedNow"), "Les critères indispensables doivent être contrôlés avant validation.");
+assert.ok(html.includes('src="prospection-criteria-ux.js"'), "L'interface progressive doit être chargée sur la page Prospection.");
 console.log("Contrat du formulaire et du moteur Prospection : OK");
