@@ -14,6 +14,12 @@
   const parseList = (value) => [...new Set(String(value || "").split(/[,;\n]+/).map((item) => item.trim()).filter(Boolean))];
   const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
   const formatScore = (value) => Number.isFinite(value) ? value + "/100" : "Non calculé";
+  const field = (name) => form.elements[name];
+  const valueOf = (name) => {
+    const control = field(name);
+    return control && typeof control.value === "string" ? control.value : "";
+  };
+  const checked = (name) => Boolean(field(name) && field(name).checked);
 
   if (suggestionButton && suggestionPanel && suggestionList && addSuggestionsButton && suggestionEngine) {
     suggestionButton.addEventListener("click", () => {
@@ -46,11 +52,27 @@
     event.preventDefault();
     const nafCodes = parseList(form.elements.nafCodes.value).map((value) => value.toUpperCase());
     const departments = parseList(form.elements.departments.value).map((value) => value.toUpperCase());
+    const region = valueOf("region").trim();
+    const radiusLocation = valueOf("radiusLocation").trim();
+    const radiusKm = Number(valueOf("radiusKm")) || 10;
     const limit = Number(form.elements.limit.value) || 10;
     const marketTitle = form.elements.marketTitle.value.trim();
+    const includeUnknown = field("includeUnknown") ? checked("includeUnknown") : true;
 
-    if (!nafCodes.length || !departments.length) {
-      status.textContent = "Saisissez au moins un code APE/NAF et un département.";
+    if (!nafCodes.length || (!departments.length && !region && !radiusLocation)) {
+      status.textContent = "Saisissez au moins un code APE/NAF et choisissez un département, une région ou un lieu pour le rayon.";
+      return;
+    }
+    if (radiusLocation && (departments.length || region)) {
+      status.textContent = "Choisissez un seul périmètre géographique : rayon autour d’une commune, ou département/région.";
+      return;
+    }
+    if (radiusLocation && marketTitle) {
+      status.textContent = "La recherche textuelle par nom ou mot-clé nécessite un périmètre département/région. En mode rayon, utilisez les codes APE/NAF.";
+      return;
+    }
+    if (radiusLocation && (valueOf("caMin") || valueOf("caMax") || checked("estRge") || checked("estQualiopi") || checked("estEpV") || checked("estEss"))) {
+      status.textContent = "En mode rayon, l’annuaire ne permet de filtrer que par activité et distance. Pour utiliser le chiffre d’affaires ou les labels, choisissez un département ou une région.";
       return;
     }
     if (nafCodes.some((code) => !/^\d{2}\.\d{2}[A-Z]$/.test(code))) {
@@ -68,19 +90,37 @@
     results.hidden = true;
     cards.replaceChildren();
     try {
-      // Parcours historique conservé provisoirement : le nouvel endpoint membre
-      // n'est pas encore déployé. Les critères envoyés correspondent strictement
-      // aux champs réellement présents dans le formulaire.
-      const response = await window.MajestiosCompanyTargeting.searchCompanies({
-        nafCodes, departments, perPage: 25, maxPages: 1
-      });
+      const searchCriteria = {
+        nafCodes, departments, region, query: marketTitle, perPage: 25, maxPages: 1,
+        caMin: valueOf("caMin"),
+        caMax: valueOf("caMax"),
+        workforce: valueOf("workforce"),
+        includeUnknown,
+        estRge: checked("estRge"),
+        estQualiopi: checked("estQualiopi"),
+        estEpV: checked("estEpV"),
+        estEss: checked("estEss")
+      };
+      const response = radiusLocation
+        ? await window.MajestiosCompanyTargeting.searchCompaniesNearPoint({
+            ...searchCriteria, location: radiusLocation, radiusKm
+          })
+        : await window.MajestiosCompanyTargeting.searchCompanies(searchCriteria);
       let candidates = window.MajestiosCompanyTargeting.rankCompanies(response.candidates, { nafCodes, departments });
+      candidates = window.MajestiosCompanyTargeting.filterCompaniesByCriteria(candidates, {
+        workforce: valueOf("workforce"),
+        companyAge: valueOf("companyAge"),
+        legalCategory: valueOf("legalCategory"),
+        nameContains: valueOf("nameContains"),
+        includeUnknown
+      });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
       const selected = window.MajestiosCompanyTargeting.selectCandidates(candidates, {
         nafCodes, departments, limit, minimumScore: 25
       });
       const list = selected.candidates;
       summary.textContent = (marketTitle ? "Repère : " + marketTitle + " · " : "") +
+        (radiusLocation ? "Périmètre : " + radiusLocation + " · " + radiusKm + " km · " : region && !departments.length ? "Région sélectionnée · " : "") +
         response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount +
         " entreprise(s) unique(s) après dédoublonnage ; " + list.length +
         " entreprise(s) affichée(s). Recherche effectuée le " +
@@ -116,7 +156,7 @@
       results.hidden = false;
       status.textContent = "Recherche terminée. Contrôlez les fiches avant toute décision ou prise de contact.";
     } catch (error) {
-      status.textContent = "La recherche n’a pas pu aboutir. Réessayez ou modifiez vos critères.";
+      status.textContent = error && error.message ? error.message : "La recherche n’a pas pu aboutir. Réessayez ou modifiez vos critères.";
     } finally {
       submitButton.disabled = false;
     }

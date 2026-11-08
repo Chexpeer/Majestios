@@ -6,17 +6,13 @@
   const path = window.location.pathname.split("/").pop();
   const configs = {
     "marches-publics.html": ["Rechercher des marchés publics", "Interrogez le flux BOAMP avec des critères métier et géographiques. Vérifiez toujours l’avis officiel.", "public"],
-    "developpement-commercial.html": ["Rechercher des opportunités de développement commercial", "Repérez les marchés et signaux commerciaux à qualifier pour développer votre activité.", ""],
     "prospection-active.html": ["Rechercher des opportunités pour la prospection", "Identifiez des pistes à qualifier avant toute prise de contact.", ""],
     "veille-marches.html": ["Rechercher dans la veille des marchés", "Filtrez les avis publics par mot-clé, catégorie et département.", "public"],
-    "accompagnement-appels-offres.html": ["Trouver un marché à qualifier", "Recherchez une consultation avant d’évaluer les exigences et les délais.", "public"],
     "sous-traitance.html": ["Rechercher des pistes de sous-traitance", "Explorez les avis et signaux accessibles ; toute piste reste à qualifier.", ""],
     "marches-prives.html": ["Rechercher des signaux commerciaux privés", "Explorez les annonces d’entreprise publiées au BODACC. Ce sont des signaux, pas des appels d’offres.", "private"],
     "intelligence-economique.html": ["Rechercher des signaux économiques", "Repérez les informations publiées utiles à une décision commerciale.", ""],
     "bodacc-veille-entreprises.html": ["Rechercher dans les annonces BODACC", "Consultez les annonces légales comme signaux stratégiques à vérifier.", "private"],
     "suivi-commercial.html": ["Rechercher une piste à suivre", "Retrouvez les marchés et signaux à qualifier avant leur suivi commercial.", ""],
-    "espace-membre.html": ["Rechercher des opportunités pour votre entreprise", "Consultez les marchés et signaux pertinents pour votre activité.", ""],
-    "salons-seminaires.html": ["Rechercher des opportunités de partenariat", "Repérez les pistes de coopération à examiner au sein du réseau.", ""],
     "crm.html": ["Rechercher des opportunités à suivre dans le CRM", "Repérez les marchés et signaux susceptibles d’alimenter votre suivi commercial.", ""],
     "majestios-v5.html": ["Rechercher dans l’espace Cheexpeer", "Accédez aux marchés et signaux publiés qui pourront alimenter les analyses de l’IA intégrée.", ""],
     "categorie-services-numeriques.html": ["Rechercher des marchés de services numériques", "Filtrez les consultations liées aux services informatiques, plateformes et prestations numériques.", "public"],
@@ -41,10 +37,9 @@
   const config = configs[path];
   if (!homeMount && (!page || !config)) return;
 
-  // Source unique du balisage : accueil et rubriques utilisent exactement le même formulaire.
-  const formMarkup = `
-    <form class="feed-toolbar" id="advanced-search-form" data-default-market="${config?.[2] || ""}">
-      <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
+  // Les rubriques Marchés publics et Marchés privés ont un type fixe : aucun sélecteur public/privé ne doit y apparaître.
+  const fixedMarket = path === "marches-publics.html" || path === "marches-prives.html";
+  const marketStepMarkup = fixedMarket ? "" : `
       <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
         <select id="feed-market-type" aria-label="Type de marché" required>
           <option value="">1. Choisir le type de marché</option>
@@ -52,7 +47,13 @@
           <option value="public">Marchés publics</option>
           <option value="private">Marchés privés et signaux d’entreprises</option>
         </select>
-      </label>
+      </label>`;
+
+  // Source unique du balisage : accueil et rubriques utilisent exactement le même formulaire.
+  const formMarkup = `
+    <form class="feed-toolbar" id="advanced-search-form" data-default-market="${config?.[2] || ""}">
+      <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
+      ${marketStepMarkup}
       <label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie après le type de marché</span>
         <select id="feed-sector" aria-label="Catégorie d’opportunité" required disabled>
           <option value="all">2. Choisir d’abord un type</option>
@@ -91,40 +92,69 @@
   // Parcours progressif réservé aux rubriques : l’accueil garde son moteur inchangé.
   if (!homeMount) {
     const form = searchRoot.querySelector("#advanced-search-form");
-    form.dataset.progressive = "true";
+    if (!fixedMarket) form.dataset.progressive = "true";
+    else {
+      form.dataset.fixedMarket = "true";
+      const categoryButton = document.createElement("button");
+      categoryButton.type = "button";
+      categoryButton.className = "feed-criteria-toggle";
+      categoryButton.textContent = "Choisir une catégorie";
+      categoryButton.setAttribute("aria-controls", "category-step");
+      categoryButton.setAttribute("aria-expanded", "false");
+      form.insertBefore(categoryButton, form.querySelector("#category-step"));
+      let fixedLevel = 0;
+      const departmentStep = form.querySelector("#department-step");
+      categoryButton.textContent = "Choisir une catégorie";
+      categoryButton.setAttribute("aria-controls", "category-step department-step");
+      categoryButton.addEventListener("click", () => {
+        const categoryStep = form.querySelector("#category-step");
+        const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
+        if (fixedLevel === 0) fixedLevel = 1;
+        else if (fixedLevel === 1 && categoryChosen) fixedLevel = 2;
+        else if (fixedLevel >= 2) fixedLevel = 1;
+        categoryStep.hidden = fixedLevel < 1;
+        if (departmentStep) departmentStep.hidden = fixedLevel < 2;
+        categoryButton.setAttribute("aria-expanded", String(fixedLevel > 0));
+        categoryButton.textContent = fixedLevel >= 2 ? "Modifier les critères" : fixedLevel === 1 ? "Affiner les critères" : "Choisir une catégorie";
+      });
+    }
     const sourceNote = form.querySelector("#search-source-note");
     if (sourceNote) sourceNote.hidden = true;
-    const criteriaButton = document.createElement("button");
-    criteriaButton.type = "button";
-    criteriaButton.className = "feed-criteria-toggle";
-    criteriaButton.textContent = "Choisir des critères";
-    criteriaButton.setAttribute("aria-controls", "market-step category-step department-step");
-    criteriaButton.setAttribute("aria-expanded", "false");
-    form.insertBefore(criteriaButton, form.querySelector("#market-step"));
-    const steps = [
-      form.querySelector("#market-step"),
-      form.querySelector("#category-step"),
-      form.querySelector("#department-step")
-    ];
-    steps.forEach((step) => { if (step) step.hidden = true; });
-    let level = 0;
-    criteriaButton.addEventListener("click", () => {
-      const marketChosen = Boolean(form.querySelector("#feed-market-type")?.value);
-      const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
-      if (level === 0) level = 1;
-      else if (level === 1 && marketChosen) level = 2;
-      else if (level === 2 && categoryChosen) level = 3;
-      else if (level >= 3) level = 1;
-      steps.forEach((step, index) => { if (step) step.hidden = index >= level; });
-      criteriaButton.setAttribute("aria-expanded", String(level > 0));
-      criteriaButton.textContent = level >= 3 ? "Modifier les critères" : "Affiner les critères";
-    });
+    if (!fixedMarket) {
+      const criteriaButton = document.createElement("button");
+      criteriaButton.type = "button";
+      criteriaButton.className = "feed-criteria-toggle";
+      criteriaButton.textContent = "Choisir des critères";
+      criteriaButton.setAttribute("aria-controls", "market-step category-step department-step");
+      criteriaButton.setAttribute("aria-expanded", "false");
+      form.insertBefore(criteriaButton, form.querySelector("#market-step"));
+      const steps = [
+        form.querySelector("#market-step"),
+        form.querySelector("#category-step"),
+        form.querySelector("#department-step")
+      ];
+      steps.forEach((step) => { if (step) step.hidden = true; });
+      let level = 0;
+      criteriaButton.addEventListener("click", () => {
+        const marketChosen = Boolean(form.querySelector("#feed-market-type")?.value);
+        const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
+        if (level === 0) level = 1;
+        else if (level === 1 && marketChosen) level = 2;
+        else if (level === 2 && categoryChosen) level = 3;
+        else if (level >= 3) level = 1;
+        steps.forEach((step, index) => { if (step) step.hidden = index >= level; });
+        criteriaButton.setAttribute("aria-expanded", String(level > 0));
+        criteriaButton.textContent = level >= 3 ? "Modifier les critères" : "Affiner les critères";
+      });
+    }
   }
 
   const initialMarket = new URLSearchParams(window.location.search).get("marche") || config?.[2] || "";
   const market = searchRoot.querySelector("#feed-market-type");
   const categoryStep = searchRoot.querySelector("#category-step");
-  market.value = initialMarket;
-  const progressiveMode = searchRoot.querySelector("#advanced-search-form")?.dataset.progressive === "true";
-  if (initialMarket && !progressiveMode) categoryStep.hidden = false;
+  if (market) market.value = initialMarket;
+  const form = searchRoot.querySelector("#advanced-search-form");
+  const progressiveMode = form?.dataset.progressive === "true";
+  const fixedMarketMode = form?.dataset.fixedMarket === "true";
+  if (initialMarket && !progressiveMode && !fixedMarketMode && categoryStep) categoryStep.hidden = false;
 })();

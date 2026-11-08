@@ -248,10 +248,12 @@ const revealStep = (step, visible = true) => { if (step) step.hidden = !visible;
 document.querySelector("#feed-search")?.addEventListener("focus", () => { if (advancedSearchForm?.dataset.progressive !== "true") revealStep(searchSteps.market); });
 
 const initialSearchParams = new URLSearchParams(window.location.search);
-const initialMarketType = initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "";
+const initialMarketType = advancedSearchForm?.dataset.fixedMarket === "true"
+  ? (advancedSearchForm.dataset.defaultMarket || "")
+  : (initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "");
 const initialCategory = initialSearchParams.get("categorie") || "";
 populateSearchFilters(initialMarketType, initialCategory);
-if (advancedSearchForm?.dataset.progressive !== "true") {
+if (advancedSearchForm?.dataset.progressive !== "true" && advancedSearchForm?.dataset.fixedMarket !== "true") {
   if (initialMarketType) {
     revealStep(searchSteps.market);
     revealStep(searchSteps.category);
@@ -295,7 +297,7 @@ document.querySelector("#feed-market-type")?.addEventListener("change", (event) 
   }
 });
 document.querySelector("#feed-sector")?.addEventListener("change", () => {
-  if (advancedSearchForm?.dataset.progressive !== "true") revealStep(searchSteps.department);
+  if (advancedSearchForm?.dataset.progressive !== "true" && advancedSearchForm?.dataset.fixedMarket !== "true") revealStep(searchSteps.department);
   updateOtherCategoryRequirement();
 });
 if (advancedSearchForm) {
@@ -310,7 +312,7 @@ if (advancedSearchForm) {
     keywordControl?.reportValidity();
     return;
   }
-  const marketType = document.querySelector("#feed-market-type")?.value;
+  const marketType = document.querySelector("#feed-market-type")?.value || advancedSearchForm?.dataset.defaultMarket;
   const department = document.querySelector("#feed-department")?.value;
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);

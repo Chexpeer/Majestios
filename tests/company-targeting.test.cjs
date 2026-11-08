@@ -31,6 +31,22 @@ async function main() {
   assert.equal(selection.candidates.find((company) => company.siren === "123456789").score, 100, "Le scoring doit préserver département et statut après normalisation");
   assert.equal(selection.candidates.find((company) => company.siren === "111222333").active, false, "Le statut inactif doit rester disponible pour filtrage");
   assert.equal(selection.quotaFilledArtificially, false);
+
+  const workforceExamples = [
+    targeting.normalizeCompany({ siren: "100000001", nom_complet: "Petite entreprise", tranche_effectif_salarie: "02", date_creation: "2022-01-01", nature_juridique: "5499" }),
+    targeting.normalizeCompany({ siren: "100000002", nom_complet: "Entreprise moyenne", tranche_effectif_salarie: "12", date_creation: "2018-01-01", nature_juridique: "5710" }),
+    targeting.normalizeCompany({ siren: "100000003", nom_complet: "Donnée inconnue", date_creation: "", nature_juridique: "" })
+  ];
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "3-5", includeUnknown: false }).length, 1,
+    "Le filtre d'effectif doit interpréter les codes de tranche INSEE.");
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "unknown" }).length, 1,
+    "Le filtre effectif inconnu doit isoler les fiches sans donnée.");
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "3-5" }).length, 2,
+    "Les fiches sans effectif restent incluses lorsque l'option de conservation est activée.");
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { companyAge: "3-5", includeUnknown: false }).length, 1,
+    "Le filtre d'ancienneté doit calculer l'âge à partir de la date de création.");
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { legalCategory: "5710" })[0].name, "Entreprise moyenne");
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { nameContains: "petite" })[0].name, "Petite entreprise");
   const manyCompanies = Array.from({ length: 14 }, (_, index) => ({
     siren: String(100000000 + index),
     siret: String(10000000000000 + index),
@@ -90,8 +106,10 @@ async function main() {
     return { ok: true, status: 200, json: async () => ({ results: [], total_pages: 1, total_results: 0 }) };
   };
   try {
-    await targeting.searchCompanies({ nafCodes: ["43.21A"], departments: [], region: "52", caMin: 100000, caMax: 2000000, estRge: true, estQualiopi: true });
+    await targeting.searchCompanies({ nafCodes: ["43.21A"], departments: [], region: "52", query: "atelier Martin", workforce: "3-5", includeUnknown: true, caMin: 100000, caMax: 2000000, estRge: true, estQualiopi: true });
     assert.match(advancedUrl, /region=52/);
+    assert.match(advancedUrl, /q=atelier\+Martin/);
+    assert.match(advancedUrl, /tranche_effectif_salarie=02%2CNN/);
     assert.match(advancedUrl, /ca_min=100000/);
     assert.match(advancedUrl, /ca_max=2000000/);
     assert.match(advancedUrl, /est_rge=true/);
@@ -108,11 +126,15 @@ async function main() {
     return { ok: true, status: 200, json: async () => ({ results: [{ siren: "123456789", nom_complet: "Entreprise proche", activite_principale: "43.21A", siege: { siret: "12345678900016" } }], total_pages: 1, total_results: 1 }) };
   };
   try {
-    const near = await targeting.searchCompaniesNearPoint({ nafCodes: ["43.21A"], location: "72000", radiusKm: 15 });
+    const near = await targeting.searchCompaniesNearPoint({
+      nafCodes: ["43.21A"], location: "72000", radiusKm: 15
+    });
     assert.equal(near.center.name, "Le Mans");
     assert.equal(near.radiusKm, 15);
     assert.match(geoCalls[1], /near_point/);
     assert.match(geoCalls[1], /radius=15/);
+    assert.doesNotMatch(geoCalls[1], /ca_min|ca_max|est_rge/,
+      "La recherche géographique ne doit pas transmettre des filtres non pris en charge par son endpoint.");
     await assert.rejects(targeting.searchCompaniesNearPoint({ nafCodes: ["43.21A"], location: "Le Mans", radiusKm: 75 }), /1 et 50/);
   } finally { global.fetch = originalGeoFetch; }
 
