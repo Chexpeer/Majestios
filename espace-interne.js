@@ -87,15 +87,18 @@ function showWorkspace(organization, membership) {
   document.querySelector("#internal-identity").textContent = membership.role === "viewer"
     ? "Votre accès est limité à la consultation des données CRM autorisées."
     : "Votre espace de travail et vos habilitations sont confirmés.";
-  document.querySelector("#internal-crm-access").textContent = membership.role === "viewer"
-    ? "CONSULTATION SEULE · AUCUNE ÉCRITURE"
-    : "ACCÈS SELON VOS HABILITATIONS";
   const canAdminister = ["owner", "admin"].includes(membership.role);
+  const crmLink = document.querySelector("#internal-crm-link");
+  crmLink.hidden = !canAdminister;
+  crmLink.setAttribute("aria-hidden", String(!canAdminister));
+  document.querySelector("#internal-crm-access").textContent = canAdminister
+    ? "ACCÈS VIP · HABILITATION OWNER / ADMIN"
+    : "CRM INTERNE RÉSERVÉ AUX COMPTES VIP OWNER / ADMIN";
   document.querySelector("#internal-admin-card").hidden = !canAdminister;
   document.querySelector("#internal-search-card").hidden = !canAdminister;
   if (returnTo !== "espace-interne.html") {
-    const destinationAllowed = returnTo === "crm.html" ||
-      (canAdminister && ["administration.html", "admin-recherches.html"].includes(returnTo));
+    const destinationAllowed = canAdminister &&
+      ["crm.html", "administration.html", "admin-recherches.html"].includes(returnTo);
     if (destinationAllowed) window.location.replace(returnTo);
   }
 }

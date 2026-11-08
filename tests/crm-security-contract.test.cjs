@@ -15,6 +15,8 @@ const page = read("crm-page.js");
 const crmHtml = read("crm.html");
 const edge = read("supabase/functions/provision-client-workspace/index.ts");
 const auth = read("auth-espace-membre.js");
+const internalAccess = read("espace-interne.js");
+const internalPage = read("espace-interne.html");
 
 const columnsByTable = {};
 for (const match of schema.matchAll(/create table public\.(\w+) \(([\s\S]*?)\n\);/g)) {
@@ -58,6 +60,11 @@ assert.ok(vipBoundary.includes("m.role in ('owner', 'admin')"));
 assert.ok(vipBoundary.includes('create policy "Authorized users can read businesses"'));
 assert.ok(vipBoundary.includes("private.can_edit_crm_org(v_reminder.organization_id)"));
 assert.ok(client.includes('!["owner", "admin"].includes(membership.role)'));
+assert.match(internalAccess, /const canAdminister = \["owner", "admin"\]\.includes\(membership\.role\)/);
+assert.match(internalAccess, /crmLink\.hidden = !canAdminister/);
+assert.match(internalAccess, /const destinationAllowed = canAdminister/);
+assert.match(internalAccess, /\["crm\.html", "administration\.html", "admin-recherches\.html"\]/);
+assert.match(internalPage, /id="internal-crm-link"/);
 
 assert.match(client, /supabase\.auth\.getUser\(\)/);
 assert.match(client, /organization\.kind === "internal"/);
