@@ -44,99 +44,46 @@
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const nafCodes = parseList(form.elements.nafCodes.value);
+    const nafCodes = parseList(form.elements.nafCodes.value).map((value) => value.toUpperCase());
     const departments = parseList(form.elements.departments.value).map((value) => value.toUpperCase());
     const limit = Number(form.elements.limit.value) || 10;
-    const region = form.elements.region.value;
-    if (!nafCodes.length || (!form.elements.radiusLocation.value.trim() && !departments.length && !region)) {
-      status.textContent = "Saisissez un code APE/NAF et choisissez un rayon, un département ou une région.";
+    const marketTitle = form.elements.marketTitle.value.trim();
+
+    if (!nafCodes.length || !departments.length) {
+      status.textContent = "Saisissez au moins un code APE/NAF et un département.";
       return;
     }
-    if (nafCodes.some((code) => !/^\d{2}\.\d{2}[A-Z]$/.test(code.toUpperCase()))) {
-      status.textContent = "Un code APE/NAF semble invalide. Utilisez le format officiel, par exemple 43.21A, et vérifiez chaque code.";
+    if (nafCodes.some((code) => !/^\\d{2}\\.\\d{2}[A-Z]$/.test(code))) {
+      status.textContent = "Un code APE/NAF semble invalide. Utilisez le format officiel, par exemple 43.21A.";
       return;
     }
-    if (departments.some((dept) => !/^(\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(dept))) {
+    if (departments.some((dept) => !/^(\\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(dept))) {
       status.textContent = "Vérifiez les codes départementaux saisis.";
       return;
     }
-    const advanced = {
-      workforce: form.elements.workforce.value,
-      companyAge: form.elements.companyAge.value,
-      legalCategory: form.elements.legalCategory.value.trim().toLocaleLowerCase("fr"),
-      nameContains: form.elements.nameContains.value.trim().toLocaleLowerCase("fr"),
-      includeUnknown: form.elements.includeUnknown.checked,
-      caMin: form.elements.caMin.value,
-      caMax: form.elements.caMax.value,
-      estRge: form.elements.estRge.checked,
-      estQualiopi: form.elements.estQualiopi.checked,
-      estEpV: form.elements.estEpV.checked,
-      estEss: form.elements.estEss.checked
-    };
-    const workforceRanges = {
-      "0-2": [[0, 2], ["00", "01"]],
-      "3-5": [[3, 5], ["02"]],
-      "6-9": [[6, 9], ["03"]],
-      "10-19": [[10, 19], ["11"]],
-      "20-49": [[20, 49], ["12"]],
-      "50+": [[50, Infinity], ["21", "22", "31", "32", "41", "42", "51", "52", "53"]]
-    };
-    const workforceMatch = (company, filter) => {
-      if (!filter) return true;
-      const raw = company.workforce;
-      const numeric = raw == null || raw === "" ? NaN : Number(String(raw).replace(",", "."));
-      const band = String(company.workforceBand || "").trim().toUpperCase();
-      if (filter === "unknown") return !Number.isFinite(numeric) && !band;
-      const rule = workforceRanges[filter];
-      if (!rule) return true;
-      if (Number.isFinite(numeric)) return numeric >= rule[0][0] && numeric <= rule[0][1];
-      if (band) return rule[1].includes(band);
-      return advanced.includeUnknown;
-    };
-    const ageMatch = (company, filter) => {
-      if (!filter) return true;
-      const date = company.creationDate ? new Date(company.creationDate) : null;
-      if (!date || Number.isNaN(date.getTime())) return filter === "unknown" || advanced.includeUnknown;
-      if (filter === "unknown") return false;
-      const age = (Date.now() - date.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
-      if (filter === "0-2") return age < 3;
-      if (filter === "3-5") return age >= 3 && age < 6;
-      if (filter === "6-10") return age >= 6 && age < 10;
-      if (filter === "10+") return age >= 10;
-      return true;
-    };
-    const radiusLocation = form.elements.radiusLocation.value.trim();
-    if (radiusLocation && (advanced.caMin || advanced.caMax || advanced.estRge || advanced.estQualiopi || advanced.estEpV || advanced.estEss)) {
-      status.textContent = "La recherche par rayon ne prend pas en charge les filtres chiffre d’affaires et labels. Retirez ces critères ou utilisez la recherche par département/région.";
-      return;
-    }
-    const marketTitle = form.elements.marketTitle.value.trim();
+
     status.textContent = "Recherche en cours…";
-    form.querySelector("button[type=submit]").disabled = true;
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
     results.hidden = true;
     cards.replaceChildren();
     try {
-      const response = radiusLocation
-        ? await window.MajestiosCompanyTargeting.searchCompaniesNearPoint({ nafCodes, location: radiusLocation, radiusKm: Number(form.elements.radiusKm.value), perPage: 25, maxPages: 1 })
-        : await window.MajestiosCompanyTargeting.searchCompanies({ nafCodes, departments, region, caMin: advanced.caMin, caMax: advanced.caMax, estRge: advanced.estRge, estQualiopi: advanced.estQualiopi, estEpV: advanced.estEpV, estEss: advanced.estEss, perPage: 25, maxPages: 1 });
+      // Parcours historique conservé provisoirement : le nouvel endpoint membre
+      // n'est pas encore déployé. Les critères envoyés correspondent strictement
+      // aux champs réellement présents dans le formulaire.
+      const response = await window.MajestiosCompanyTargeting.searchCompanies({
+        nafCodes, departments, perPage: 25, maxPages: 1
+      });
       let candidates = window.MajestiosCompanyTargeting.rankCompanies(response.candidates, { nafCodes, departments });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
-      candidates = candidates.filter(company => {
-        const workforceOk = workforceMatch(company, advanced.workforce);
-        const ageOk = ageMatch(company, advanced.companyAge);
-        const legal = String(company.legalCategory || "").toLocaleLowerCase("fr");
-        const legalOk = !advanced.legalCategory
-          ? true
-          : (legal ? legal.includes(advanced.legalCategory) : advanced.includeUnknown);
-        const name = String(company.name || "").toLocaleLowerCase("fr");
-        const nameOk = !advanced.nameContains || name.includes(advanced.nameContains);
-        return workforceOk && ageOk && legalOk && nameOk;
+      const selected = window.MajestiosCompanyTargeting.selectCandidates(candidates, {
+        nafCodes, departments, limit, minimumScore: 25
       });
-      const selected = window.MajestiosCompanyTargeting.selectCandidates(candidates, { nafCodes, departments, limit, minimumScore: 25 });
       const list = selected.candidates;
       summary.textContent = (marketTitle ? "Repère : " + marketTitle + " · " : "") +
-        (response.radiusKm ? "Zone : " + response.center.name + " · rayon " + response.radiusKm + " km · " : "") + response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount + " entreprise(s) unique(s) après dédoublonnage ; " +
-        list.length + " entreprise(s) affichée(s). Recherche effectuée le " +
+        response.rawCount + " fiche(s) reçue(s), " + response.uniqueCount +
+        " entreprise(s) unique(s) après dédoublonnage ; " + list.length +
+        " entreprise(s) affichée(s). Recherche effectuée le " +
         new Date(response.fetchedAt).toLocaleString("fr-FR") + ".";
       if (!list.length) {
         cards.innerHTML = '<p class="company-targeting-empty">Aucune entreprise ne correspond aux critères reçus. Cela ne prouve pas qu’il n’existe aucune entreprise pertinente : élargissez les critères de recherche.</p>';
@@ -144,19 +91,26 @@
         cards.innerHTML = list.map((company) => {
           const activity = company.naf ? "APE/NAF : " + escapeHtml(company.naf) : "Code APE/NAF non renseigné";
           const department = company.department ? "Département : " + escapeHtml(company.department) : "Département non déterminé";
+          const state = company.active === true ? "Statut administratif : actif" :
+            company.active === false ? "Statut administratif : non actif" : "Statut administratif : à vérifier";
           const reasons = company.reasons.map((reason) => "<li>" + escapeHtml(reason) + "</li>").join("");
-          const state = company.active === true ? "Statut administratif : actif" : company.active === false ? "Statut administratif : non actif" : "Statut administratif : à vérifier";
           const adminDetails = [
             company.creationDate ? "Création : " + company.creationDate : "",
             company.legalCategory ? "Catégorie juridique : " + company.legalCategory : "",
             company.workforceBand ? "Tranche d’effectif : " + company.workforceBand : "",
-            company.workforce != null ? "Effectif déclaré : " + company.workforce : "",
             company.address ? "Adresse : " + company.address : ""
           ].filter(Boolean).map(escapeHtml).join(" · ");
-          const fit = window.MajestiosCompanyFit ? window.MajestiosCompanyFit.qualify(company, { nafCodes, departements: departments }) : null;
-          const fitWarnings = fit ? fit.warnings.map((warning) => "<li>" + escapeHtml(warning) + "</li>").join("") : "<li>Qualification complémentaire indisponible : contrôle manuel requis.</li>";
-          const manualChecks = fit ? Object.entries(fit.manualChecks).map(([key, value]) => "<li>" + escapeHtml(key) + " : " + escapeHtml(value === "to_verify" ? "à vérifier" : value) + "</li>").join("") : "";
-          return '<article class="company-targeting-card"><div class="company-targeting-card-top"><span class="company-targeting-score">' + formatScore(company.score) + '</span><span class="company-targeting-qualification">' + escapeHtml(company.qualification) + '</span></div><h3>' + escapeHtml(company.name || "Dénomination non fournie") + '</h3><p>' + activity + ' · ' + department + '</p><p>' + escapeHtml(state) + '</p>' + (adminDetails ? '<p class="small-note">' + adminDetails + '</p>' : '') + '<p class="small-note">SIREN : ' + escapeHtml(company.siren || "non fourni") + ' · SIRET : ' + escapeHtml(company.siret || "non fourni") + '</p><details><summary>Pourquoi cette correspondance ?</summary><ul>' + reasons + '</ul></details><p class="small-note">' + escapeHtml(company.warning) + '</p></article>';
+          return '<article class="company-targeting-card"><div class="company-targeting-card-top"><span class="company-targeting-score">' +
+            formatScore(company.score) + '</span><span class="company-targeting-qualification">' +
+            escapeHtml(company.qualification) + '</span></div><h3>' +
+            escapeHtml(company.name || "Dénomination non fournie") + '</h3><p>' +
+            activity + ' · ' + department + '</p><p>' + escapeHtml(state) + '</p>' +
+            (adminDetails ? '<p class="small-note">' + adminDetails + '</p>' : '') +
+            '<p class="small-note">SIREN : ' + escapeHtml(company.siren || "non fourni") +
+            ' · SIRET : ' + escapeHtml(company.siret || "non fourni") +
+            '</p><details><summary>Pourquoi cette correspondance ?</summary><ul>' +
+            reasons + '</ul></details><p class="small-note">' +
+            escapeHtml(company.warning) + '</p></article>';
         }).join("");
       }
       results.hidden = false;
@@ -164,7 +118,7 @@
     } catch (error) {
       status.textContent = "La recherche n’a pas pu aboutir. Réessayez ou modifiez vos critères.";
     } finally {
-      form.querySelector("button[type=submit]").disabled = false;
+      submitButton.disabled = false;
     }
   });
 })();
