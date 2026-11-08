@@ -16,6 +16,9 @@ on:
       - ".github/workflows/prospection-search-contract.yml"
   pull_request:
     paths:
+      - "qualification-entreprises.html"
+      - "company-targeting-page.js"
+      - "tests/prospection-form-contract.test.cjs"
       - "supabase/functions/_shared/prospection-search-core.mjs"
       - "supabase/functions/_shared/prospection-validation.mjs"
       - "supabase/functions/_shared/prospection-contract.mjs"
