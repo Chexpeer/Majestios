@@ -53,11 +53,11 @@
       status.textContent = "Saisissez au moins un code APE/NAF et un département.";
       return;
     }
-    if (nafCodes.some((code) => !/^\\d{2}\\.\\d{2}[A-Z]$/.test(code))) {
+    if (nafCodes.some((code) => !/^\d{2}\.\d{2}[A-Z]$/.test(code))) {
       status.textContent = "Un code APE/NAF semble invalide. Utilisez le format officiel, par exemple 43.21A.";
       return;
     }
-    if (departments.some((dept) => !/^(\\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(dept))) {
+    if (departments.some((dept) => !/^(\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(dept))) {
       status.textContent = "Vérifiez les codes départementaux saisis.";
       return;
     }
