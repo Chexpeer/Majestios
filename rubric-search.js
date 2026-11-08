@@ -142,7 +142,9 @@
   const initialMarket = new URLSearchParams(window.location.search).get("marche") || config?.[2] || "";
   const market = searchRoot.querySelector("#feed-market-type");
   const categoryStep = searchRoot.querySelector("#category-step");
-  market.value = initialMarket;
-  const progressiveMode = searchRoot.querySelector("#advanced-search-form")?.dataset.progressive === "true";
-  if (initialMarket && !progressiveMode) categoryStep.hidden = false;
+  if (market) market.value = initialMarket;
+  const form = searchRoot.querySelector("#advanced-search-form");
+  const progressiveMode = form?.dataset.progressive === "true";
+  const fixedMarketMode = form?.dataset.fixedMarket === "true";
+  if (initialMarket && !progressiveMode && !fixedMarketMode && categoryStep) categoryStep.hidden = false;
 })();
