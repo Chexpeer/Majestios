@@ -44,6 +44,9 @@ async function requireWorkspace() {
 
   const membership = memberships.find((item) => item.organization_id === internalOrganizations[0].id);
   if (!membership) throw new Error("L’appartenance à l’espace interne n’a pas pu être vérifiée.");
+  if (!["owner", "admin"].includes(membership.role)) {
+    throw new Error("Le CRM interne est réservé aux comptes disposant d’un accès VIP (owner ou admin). L’espace Membres ne donne aucun accès au CRM.");
+  }
   return { session, user, membership, organization: internalOrganizations[0] };
 }
 
