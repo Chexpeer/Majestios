@@ -25,7 +25,7 @@ Séquence métier de référence :
 
 Terminologie à respecter :
 - « développement commercial » ;
-- « Prosp'active » ;
+- « Prospection » ;
 - « Réputation virtuelle » ;
 - « immeuble interactif » ;
 - « ascenseur stratégique ».
