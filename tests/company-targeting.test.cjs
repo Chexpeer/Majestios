@@ -106,8 +106,9 @@ async function main() {
     return { ok: true, status: 200, json: async () => ({ results: [], total_pages: 1, total_results: 0 }) };
   };
   try {
-    await targeting.searchCompanies({ nafCodes: ["43.21A"], departments: [], region: "52", caMin: 100000, caMax: 2000000, estRge: true, estQualiopi: true });
+    await targeting.searchCompanies({ nafCodes: ["43.21A"], departments: [], region: "52", workforce: "3-5", includeUnknown: true, caMin: 100000, caMax: 2000000, estRge: true, estQualiopi: true });
     assert.match(advancedUrl, /region=52/);
+    assert.match(advancedUrl, /tranche_effectif_salarie=02%2CNN/);
     assert.match(advancedUrl, /ca_min=100000/);
     assert.match(advancedUrl, /ca_max=2000000/);
     assert.match(advancedUrl, /est_rge=true/);
@@ -125,16 +126,14 @@ async function main() {
   };
   try {
     const near = await targeting.searchCompaniesNearPoint({
-      nafCodes: ["43.21A"], location: "72000", radiusKm: 15,
-      caMin: 100000, caMax: 2000000, estRge: true
+      nafCodes: ["43.21A"], location: "72000", radiusKm: 15
     });
     assert.equal(near.center.name, "Le Mans");
     assert.equal(near.radiusKm, 15);
     assert.match(geoCalls[1], /near_point/);
     assert.match(geoCalls[1], /radius=15/);
-    assert.match(geoCalls[1], /ca_min=100000/);
-    assert.match(geoCalls[1], /ca_max=2000000/);
-    assert.match(geoCalls[1], /est_rge=true/);
+    assert.doesNotMatch(geoCalls[1], /ca_min|ca_max|est_rge/,
+      "La recherche géographique ne doit pas transmettre des filtres non pris en charge par son endpoint.");
     await assert.rejects(targeting.searchCompaniesNearPoint({ nafCodes: ["43.21A"], location: "Le Mans", radiusKm: 75 }), /1 et 50/);
   } finally { global.fetch = originalGeoFetch; }
 
