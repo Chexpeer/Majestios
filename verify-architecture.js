@@ -102,8 +102,20 @@ for (const page of htmlPages) {
     match[2],
     match[4].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
   ]);
-  assert(JSON.stringify(navigation) === JSON.stringify(expectedSiteNavigation),
-    page + " : la navigation principale doit rester identique aux autres pages");
+  const expectedNavigation = page === "index.html"
+    ? [
+        ...expectedSiteNavigation.slice(0, 6),
+        ["espace-interne.html", "Espace VIP"],
+        expectedSiteNavigation[6]
+      ]
+    : expectedSiteNavigation;
+  assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation),
+    page + " : la navigation principale doit respecter le menu public attendu");
+  if (page === "index.html") {
+    const vipLink = links.find((match) => match[2] === "espace-interne.html");
+    assert(Boolean(vipLink && /site-nav-vip/.test(vipLink[1] + vipLink[3])),
+      "index.html : le raccourci VIP doit rester explicitement identifié");
+  }
   const currentLinks = links.filter((match) => /aria-current="page"/.test(match[1] + match[3]));
   assert(currentLinks.length <= 1, page + " : une seule destination au maximum peut être marquée comme courante");
   if (currentLinks.length === 1) {
