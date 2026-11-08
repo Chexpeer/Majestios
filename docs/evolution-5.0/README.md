@@ -123,3 +123,9 @@ Toute évolution récente du fondateur peut rouvrir un sujet précédemment docu
 [Audit ciblé — invisibilité des sources et séparation des DTO — 8 novembre 2026](AUDIT-INVISIBILITE-SOURCES-DTO-2026-11-08.md) — analyse des endpoints historiques et membre, accès directs au registre et au CRM, architecture cible et tests anti-fuite ; audit statique en lecture seule.
 
 [Cartographie des consommateurs — moteurs de recherche entreprises et CRM — 8 novembre 2026](CARTOGRAPHIE-CONSOMMATEURS-MOTEURS-ENTREPRISES-CRM-2026-11-08.md) — parcours navigateur confirmé, endpoints historiques, données de provenance dans le CRM, écarts de critères et plan de bascule vers le moteur serveur ; audit statique en lecture seule.
+
+## Moteur serveur de Prospection — 8 novembre 2026
+
+[Lot D — contrat complet du moteur serveur de Prospection](LOT-D-CONTRAT-COMPLET-MOTEUR-PROSPECTION-2026-11-08.md) — matrice ancien moteur / contrat membre / traitement effectif, filtres ignorés en mode rayon, pagination et complétude, désynchronisation HTML/JavaScript ; audit statique en lecture seule.
+
+[Lot D1 — corrections ciblées du contrat serveur de Prospection](LOT-D1-CORRECTIONS-CONTRAT-SERVEUR-PROSPECTION-2026-11-08.md) — refus explicite des filtres non transmis en mode rayon, pagination bornée et signalée après filtrage local, tests unitaires et preuve CI ciblée réussie. Aucun raccordement frontend ni changement Supabase.
