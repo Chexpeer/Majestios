@@ -120,7 +120,7 @@
       });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
       const selected = window.MajestiosCompanyTargeting.selectCandidates(candidates, {
-        nafCodes, departments, limit, minimumScore: 25
+        nafCodes, departments, limit, minimumScore: (nafCodes.length || departments.length || region || radiusLocation) ? 25 : 0
       });
       const list = selected.candidates;
       summary.textContent = (marketTitle ? "Repère : " + marketTitle + " · " : "") +
