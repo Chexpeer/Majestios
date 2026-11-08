@@ -19,6 +19,8 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 
 ## Guide de reprise pour les IA
 
+[Dossier de reprise IA — CRM, Supabase et Prospection](DOSSIER-REPRISE-IA-CRM-SUPABASE-PROSPECTION-2026-11-08.md) : état détaillé du CRM, du backend hébergé, des migrations, des fonctions Edge, des tests Auth/RLS, des écarts de sécurité et des lots restant à réaliser. À consulter pour tout travail backend/CRM.
+
 [Guide autonome de reprise IA — MajestiOS V.5](GUIDE-REPRISE-IA-MAJESTIOS-V5.md) : vision, terminologie, arborescence, état réel du code, preuves CI, gouvernance, limites de données et méthode de reprise. À lire après la référence canonique.
 
 ## Documents de référence
