@@ -102,12 +102,20 @@
       categoryButton.setAttribute("aria-controls", "category-step");
       categoryButton.setAttribute("aria-expanded", "false");
       form.insertBefore(categoryButton, form.querySelector("#category-step"));
+      let fixedLevel = 0;
+      const departmentStep = form.querySelector("#department-step");
+      categoryButton.textContent = "Choisir une catégorie";
+      categoryButton.setAttribute("aria-controls", "category-step department-step");
       categoryButton.addEventListener("click", () => {
         const categoryStep = form.querySelector("#category-step");
-        const show = categoryStep.hidden;
-        categoryStep.hidden = !show;
-        categoryButton.setAttribute("aria-expanded", String(show));
-        categoryButton.textContent = show ? "Masquer les catégories" : "Choisir une catégorie";
+        const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
+        if (fixedLevel === 0) fixedLevel = 1;
+        else if (fixedLevel === 1 && categoryChosen) fixedLevel = 2;
+        else if (fixedLevel >= 2) fixedLevel = 1;
+        categoryStep.hidden = fixedLevel < 1;
+        if (departmentStep) departmentStep.hidden = fixedLevel < 2;
+        categoryButton.setAttribute("aria-expanded", String(fixedLevel > 0));
+        categoryButton.textContent = fixedLevel >= 2 ? "Modifier les critères" : fixedLevel === 1 ? "Affiner les critères" : "Choisir une catégorie";
       });
     }
     const sourceNote = form.querySelector("#search-source-note");
