@@ -18,7 +18,7 @@
     "espace-membre.html": ["Rechercher des opportunités pour votre entreprise", "Consultez les marchés et signaux pertinents pour votre activité.", ""],
     "salons-seminaires.html": ["Rechercher des opportunités de partenariat", "Repérez les pistes de coopération à examiner au sein du réseau.", ""],
     "crm.html": ["Rechercher des opportunités à suivre dans le CRM", "Repérez les marchés et signaux susceptibles d’alimenter votre suivi commercial.", ""],
-    "majestios-v5.html": ["Rechercher dans l’écosystème MajestiOS V.5", "Accédez aux marchés et signaux publiés qui alimentent les fonctions transversales.", ""],
+    "majestios-v5.html": ["Rechercher dans l’espace Cheexpeer", "Accédez aux marchés et signaux publiés qui pourront alimenter les analyses de l’IA intégrée.", ""],
     "categorie-services-numeriques.html": ["Rechercher des marchés de services numériques", "Filtrez les consultations liées aux services informatiques, plateformes et prestations numériques.", "public"],
     "categorie-travaux-amenagement.html": ["Rechercher des marchés de travaux et d’aménagement", "Filtrez les consultations de construction, d’aménagement et de remise en état.", "public"],
     "categorie-conseil-etudes.html": ["Rechercher des marchés de conseil et d’études", "Filtrez les consultations d’études, de diagnostics et d’accompagnement.", "public"],
