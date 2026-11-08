@@ -7,6 +7,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
 const schema = read("supabase/migrations/20261105163901_majestios_core_multitenant_foundation.sql");
 const roles = read("supabase/migrations/20261106074500_enforce_crm_editor_roles.sql");
+const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
 const client = read("crm-client.js");
@@ -51,6 +52,12 @@ for (const [table, policy] of [
 assert.match(roles, /m\.role in \('owner', 'admin', 'member'\)/);
 assert.match(roles, /create policy "Editors can append activities"/);
 assert.match(roles, /revoke update on public\.businesses, public\.contacts, public\.opportunities from authenticated/);
+assert.ok(vipBoundary.includes("private.can_read_crm_org"));
+assert.ok(vipBoundary.includes("private.can_edit_crm_org"));
+assert.ok(vipBoundary.includes("m.role in ('owner', 'admin')"));
+assert.ok(vipBoundary.includes('create policy "Authorized users can read businesses"'));
+assert.ok(vipBoundary.includes("private.can_edit_crm_org(v_reminder.organization_id)"));
+assert.ok(client.includes('!["owner", "admin"].includes(membership.role)'));
 
 assert.match(client, /supabase\.auth\.getUser\(\)/);
 assert.match(client, /organization\.kind === "internal"/);
