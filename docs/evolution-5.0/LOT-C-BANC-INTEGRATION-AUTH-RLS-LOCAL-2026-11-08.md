@@ -17,7 +17,7 @@ Périmètre : configuration et tests d’intégration sur stack Supabase locale 
 - Organisations `internal` et `partner` : refusées.
 - Utilisateur sans appartenance : refusé.
 - Utilisateur avec deux appartenances client : refusé.
-- E-mail non confirmé : refusé par le résolveur.
+- E-mail non confirmé : Auth refuse la connexion par mot de passe avec le code email_not_confirmed ; le test vérifie ce refus directement.
 - JWT altéré : refusé par Auth.
 - Lecture effective des memberships et organisations sous JWT utilisateur : vérification des lignes visibles par RLS.
 - Tentative d’envoyer `organization_id` ou `role` dans la requête navigateur : rejetée par le validateur.
@@ -42,8 +42,15 @@ Périmètre : configuration et tests d’intégration sur stack Supabase locale 
 
 ## Statut d’exécution
 
-Le workflow est versionné et sera déclenché par les changements ciblés sur la branche et les pull requests. Son résultat doit être consulté dans GitHub Actions avant de déclarer les tests réussis. Tant qu’un run complet n’est pas terminé avec succès, ce document décrit le banc et ses assertions, pas une validation exécutée.
+Premier run GitHub Actions : [run #1](https://github.com/Chexpeer/Majestios/actions/runs/42477651009).
+
+- Démarrage de la stack locale : réussi.
+- Replay local des 21 migrations : réussi ; aucune migration n’a échoué malgré les différences de préfixes entre le ledger hébergé et les fichiers historiques Git.
+- Tests Auth/RLS : échec sur le scénario d’e-mail non confirmé. Le banc supposait à tort que Supabase Auth autoriserait une session de connexion avec un e-mail non confirmé ; Auth a correctement renvoyé email_not_confirmed.
+- Arrêt de la stack et suppression des volumes : réussi.
+
+Correction appliquée dans le test : le cas non confirmé attend maintenant le refus de connexion Auth (email_not_confirmed) et vérifie qu’aucune session n’est délivrée. Le run suivant doit confirmer ce correctif. Le premier run n’est donc pas une validation réussie de l’ensemble du banc.
 
 ## Prochaine étape
 
-Consulter le premier run GitHub Actions, corriger tout échec de replay ou de test dans un lot dédié, puis compléter séparément les tests JWT expiré et runtime HTTP Edge. Aucune modification de production n’est autorisée par ce lot.
+Vérifier le second run GitHub Actions après la correction, corriger tout autre échec éventuel, puis compléter séparément les tests JWT expiré et runtime HTTP Edge. Aucune modification de production n’est autorisée par ce lot.
