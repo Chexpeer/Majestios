@@ -359,8 +359,8 @@ async function main() {
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
     assert.match(await page.locator("#search-active-filters").innerText(), /Autre marché public/);
 
-    // Toutes les rubriques utilisent exactement le même formulaire et les mêmes étapes que l’accueil.
-    for (const destination of ["marches-publics.html", "developpement-commercial.html", "marches-prives.html", "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html", "crm.html", "majestios-v5.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html", "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html"]) {
+    // Les rubriques équipées du moteur partagé suivent le filtrage progressif ; Réputation virtuelle reste explicitement exclue.
+    for (const destination of ["marches-publics.html", "developpement-commercial.html", "marches-prives.html", "espace-membre.html", "salons-seminaires.html", "crm.html", "majestios-v5.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html", "faq.html", "nous-rejoindre.html", "vision-majestios.html", "qualification-entreprises.html"]) {
       await page.goto(`http://127.0.0.1:4174/${destination}`, { waitUntil: "domcontentloaded" });
       await page.locator("#advanced-search-form").waitFor({ timeout: 10000 });
       for (const id of ["feed-search", "feed-market-type", "feed-sector", "feed-department"]) {
