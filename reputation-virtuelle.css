@@ -1,0 +1,76 @@
+/* Rubrique Réputation virtuelle — vitrine sociale et deux recherches compactes. */
+body.page-reputation-virtuelle .reputation-page{max-width:1420px}
+.reputation-hero{
+  display:grid;grid-template-columns:minmax(0,.94fr) minmax(380px,1.06fr);gap:clamp(24px,4vw,58px);
+  align-items:center;margin:26px 0 34px;padding:clamp(22px,3.6vw,48px);
+  overflow:hidden;border:1px solid rgba(111,169,239,.3);border-radius:22px;
+  background:radial-gradient(ellipse at 78% 22%,rgba(28,112,218,.25),transparent 48%),linear-gradient(135deg,#071a35,#0b2d58 58%,#07172e);
+  box-shadow:0 22px 58px rgba(0,0,0,.28);isolation:isolate
+}
+.reputation-hero-copy{position:relative;z-index:2;min-width:0}
+.reputation-kicker{margin:0 0 13px;color:#8cc9ff!important;font-size:10px;font-weight:850;letter-spacing:.18em}
+.reputation-hero-copy h2{margin:0 0 14px;color:#fff!important;font:700 clamp(32px,4.5vw,54px)/1.04 Georgia,serif;letter-spacing:-.04em}
+.reputation-hero-copy h2 span{color:#83c8ff}
+.reputation-intro{max-width:510px;margin:0 0 22px;color:#d0def0!important;font-size:14px;line-height:1.75}
+.reputation-searches{display:grid;gap:10px;max-width:530px}
+.reputation-search{padding:12px 13px;border:1px solid rgba(157,202,255,.24);border-radius:12px;background:rgba(5,19,39,.72);box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.reputation-search label{display:flex;align-items:center;gap:10px;margin-bottom:9px;color:#f5f8ff;cursor:pointer}
+.reputation-search label>span:last-child{display:grid;gap:2px}
+.reputation-search label strong{font-size:12px;line-height:1.3}
+.reputation-search label small{color:#aebfd5;font-size:10px;line-height:1.3}
+.search-icon{display:grid;flex:0 0 29px;width:29px;height:29px;place-items:center;border-radius:9px;background:#fff;color:#4285f4;font:800 18px Arial,sans-serif;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.maps-icon{color:#fff;background:linear-gradient(145deg,#34a853 0 34%,#4285f4 35% 65%,#fbbc05 66%);font-size:20px}
+.reputation-search-controls{display:grid;grid-template-columns:minmax(0,1fr) 36px;gap:7px}
+.reputation-search-controls input{width:100%;min-width:0;height:36px;padding:0 11px;border:1px solid rgba(170,198,230,.28)!important;border-radius:7px!important;background:#102b4b!important;color:#fff!important;font-size:11px}
+.reputation-search-controls input::placeholder{color:#9eafc5}
+.reputation-search-controls button{display:grid;place-items:center;width:36px;height:36px;border:1px solid #83c8ff;border-radius:7px;background:linear-gradient(135deg,#bce5ff,#5eaff4);color:#082346;font-size:19px;font-weight:800;cursor:pointer}
+.reputation-search-controls button:hover{filter:brightness(1.08)}
+.reputation-disclaimer{max-width:520px;margin:10px 0 0;color:#9fb3cc!important;font-size:10px;line-height:1.55}
+.social-showcase{
+  position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(8,36px);
+  align-items:center;justify-items:center;min-height:330px;padding:22px 12px 38px;overflow:hidden;
+  border:1px solid rgba(150,207,255,.28);border-radius:18px;
+  background:radial-gradient(ellipse at 50% 100%,rgba(96,171,255,.42),transparent 55%),linear-gradient(145deg,#1476d6,#0753ad 58%,#073b83);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 22px 42px rgba(0,0,0,.28)
+}
+.social-showcase:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.09) 50%,transparent 70%);pointer-events:none}
+.social-showcase-heading{position:absolute;top:15px;left:17px;right:17px;display:flex;align-items:center;justify-content:space-between;color:#d8edff;font-size:8px;font-weight:800;letter-spacing:.17em}
+.social-live-dot{width:6px;height:6px;border-radius:50%;background:#8effc0;box-shadow:0 0 12px #8effc0}
+.social-orbit{position:absolute;left:50%;top:52%;border:1px solid rgba(218,239,255,.18);border-radius:50%;transform:translate(-50%,-50%) rotate(-18deg);pointer-events:none}
+.orbit-one{width:90%;height:68%}.orbit-two{width:70%;height:95%;transform:translate(-50%,-50%) rotate(28deg);border-style:dashed}
+.social-tile{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:clamp(74px,10vw,112px);aspect-ratio:1;border:1px solid rgba(255,255,255,.36);border-radius:19px;color:#fff;box-shadow:0 14px 25px rgba(0,15,48,.32),inset 0 2px 2px rgba(255,255,255,.3);transform:rotate(var(--tile-rotate,0deg));transition:transform .2s ease,filter .2s ease}
+.social-tile:hover{transform:translateY(-5px) rotate(0) scale(1.04);filter:brightness(1.08)}
+.social-symbol{font-family:Arial,sans-serif;font-size:clamp(34px,5vw,54px);font-weight:900;line-height:1;text-shadow:0 2px 2px rgba(0,0,0,.12)}
+.social-tile small{font-size:8px;font-weight:800;letter-spacing:.02em}
+.social-facebook{grid-column:2/span 3;grid-row:3/span 3;background:linear-gradient(145deg,#5aa5ff,#0861c8);--tile-rotate:-8deg}
+.social-tiktok{grid-column:5/span 3;grid-row:2/span 3;background:linear-gradient(145deg,#30323c,#08090d);--tile-rotate:7deg}
+.social-instagram{grid-column:7/span 3;grid-row:4/span 3;background:linear-gradient(145deg,#ffca65,#ed2788 58%,#7745d8);--tile-rotate:-5deg}
+.social-linkedin{grid-column:10/span 3;grid-row:3/span 3;background:linear-gradient(145deg,#5eb9ff,#0757a9);--tile-rotate:8deg}
+.social-youtube{grid-column:4/span 3;grid-row:5/span 3;background:linear-gradient(145deg,#fff,#dbe6f3);color:#e62117;--tile-rotate:-3deg}
+.social-youtube .social-symbol{display:grid;place-items:center;width:60%;height:40%;border-radius:10px;background:#e62117;color:#fff;font-size:26px}
+.social-x{grid-column:8/span 3;grid-row:6/span 3;background:linear-gradient(145deg,#353b44,#080a0e);--tile-rotate:5deg}
+.social-showcase-caption{position:absolute;bottom:13px;left:10px;right:10px;margin:0;color:#e1f1ff!important;text-align:center;font-size:10px;font-weight:650;letter-spacing:.02em}
+.reputation-explainer{margin:24px 0 30px}
+.reputation-explainer h2,.reputation-next-step h2{margin:9px 0 10px}
+.reputation-pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:26px 0}
+.reputation-pillars .related-rubrics-title{grid-column:1/-1}
+.reputation-pillars .platform-card{position:relative;padding:22px}
+.reputation-pillars .platform-card h3{margin:12px 0 8px}
+.pillar-number{color:#82c8ff;font-size:10px;font-weight:900;letter-spacing:.14em}
+.reputation-next-step{margin-top:28px}
+@media(max-width:900px){
+ .reputation-hero{grid-template-columns:1fr;gap:22px}
+ .social-showcase{min-height:330px}
+ .reputation-pillars{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+ .reputation-hero{margin:18px 0 24px;padding:19px 15px;border-radius:15px}
+ .reputation-hero-copy h2{font-size:37px}
+ .social-showcase{min-height:285px;grid-template-rows:repeat(8,31px);padding-inline:5px}
+ .social-tile{width:clamp(65px,20vw,88px);border-radius:14px}
+ .social-tile small{font-size:7px}
+ .social-symbol{font-size:40px}
+ .social-youtube .social-symbol{font-size:20px}
+ .reputation-pillars .platform-card{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){.social-tile{transition:none}}
