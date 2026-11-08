@@ -12,6 +12,9 @@ on:
       - "tests/prospection-form-contract.test.cjs"
       - "qualification-entreprises.html"
       - "company-targeting-page.js"
+      - "prospection-member-adapter.mjs"
+      - "prospection-member-client.js"
+      - "tests/prospection-member-adapter.test.cjs"
       - "tests/prospection-contract.test.cjs"
       - ".github/workflows/prospection-search-contract.yml"
   pull_request:
@@ -19,6 +22,9 @@ on:
       - "qualification-entreprises.html"
       - "company-targeting-page.js"
       - "tests/prospection-form-contract.test.cjs"
+      - "prospection-member-adapter.mjs"
+      - "prospection-member-client.js"
+      - "tests/prospection-member-adapter.test.cjs"
       - "supabase/functions/_shared/prospection-search-core.mjs"
       - "supabase/functions/_shared/prospection-validation.mjs"
       - "supabase/functions/_shared/prospection-contract.mjs"
@@ -47,3 +53,5 @@ jobs:
         run: node tests/prospection-search-core.test.cjs
       - name: Vérifier la cohérence du formulaire de qualification
         run: node tests/prospection-form-contract.test.cjs
+      - name: Tester l’adaptateur authentifié de recherche membre
+        run: node tests/prospection-member-adapter.test.cjs
