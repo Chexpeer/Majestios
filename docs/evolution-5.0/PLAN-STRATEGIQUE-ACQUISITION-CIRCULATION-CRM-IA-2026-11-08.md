@@ -214,3 +214,14 @@ Cet ordre évite de bâtir une couche d'intelligence sur des liens incomplets, d
 5. La navigation contextuelle souhaitée entre rubriques, fiches CRM et résultats d'origine.
 
 **Règle de protection :** ce plan ne modifie pas l'immeuble interactif, les zones cliquables, les libellés, l'arborescence ou les visuels. Aucun changement de schéma Supabase, aucune fusion, aucune promotion en production et aucun renommage global ne sont autorisés par ce document.
+
+
+## Arbitrage fondateur du 8 novembre — gouvernance de la circulation et Cheexpeer
+
+Le fondateur confirme que **toutes les données métier pertinentes peuvent circuler entre les rubriques et le CRM après contrôle et validation de l'Administration**. Une fois validées, elles sont restituées au membre qui en a fait la demande ou au collaborateur auquel elles ont été affectées.
+
+La cible ne se limite donc pas à un transfert ponctuel Prospection → CRM. Elle repose sur un circuit commun de demande, préparation, contrôle, validation administrative, affectation, restitution et capitalisation. Chaque étape conserve la provenance, le demandeur, le bénéficiaire, l'affectation, la décision administrative, les droits appliqués et l'historique.
+
+À terme, une partie des tâches pourra être confiée à **Cheexpeer**, l'IA intégrée à MajestiOS. Sa délégation sera progressive : préparation et analyse en premier, puis tâches autorisées selon un périmètre explicite. Cheexpeer ne reçoit pas implicitement le pouvoir de valider les données ou de remplacer l'Administration. Les permissions, validations humaines requises et journaux d'audit restent applicables.
+
+Cette décision devient le principe directeur des prochains travaux d'architecture et de circulation. Elle ne déclenche pas à elle seule une migration Supabase, une modification des rôles, une automatisation active ou un déploiement en production.
