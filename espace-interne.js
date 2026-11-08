@@ -85,7 +85,7 @@ function showWorkspace(organization, membership) {
   document.querySelector("#internal-organization").textContent = organization.name || "Organisation interne";
   document.querySelector("#internal-role").textContent = roleLabel(membership.role);
   document.querySelector("#internal-identity").textContent = membership.role === "viewer"
-    ? "Votre accès est limité à la consultation des données CRM autorisées."
+    ? "Votre accès est limité aux rubriques qui vous sont autorisées. Le CRM interne reste réservé aux comptes VIP."
     : "Votre espace de travail et vos habilitations sont confirmés.";
   const canAdminister = ["owner", "admin"].includes(membership.role);
   const crmLink = document.querySelector("#internal-crm-link");
