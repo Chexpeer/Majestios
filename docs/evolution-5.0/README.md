@@ -40,6 +40,7 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 15. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
 16. [Architecture des espaces Administration, CRM et Client](ARCHITECTURE-ESPACES-ADMIN-CRM-CLIENT.md) — séparation des espaces, navigation, CRM intégré, habilitations et état du premier cockpit.
 16. [Roadmap et gouvernance](ROADMAP-ET-GOUVERNANCE.md) — phases, critères de sortie et autonomie.
+ [Plan stratégique acquisition, circulation, CRM et IA — 8 novembre 2026](PLAN-STRATEGIQUE-ACQUISITION-CIRCULATION-CRM-IA-2026-11-08.md) — audit de l’état courant, parcours bidirectionnels rubriques ↔ CRM, contrat de transmission, rôles IA et étapes stratégiques.
 17. [Audit du panorama et trajectoire 3D](AUDIT-PANORAMA-ET-PLAN-3D.md) — état réel du prototype et limites vérifiées.
 18. [Audit initial et plan de nettoyage](AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) — constats datés et écarts historiques à revalider.
 19. [Nettoyage documentaire](NETTOYAGE-DOCUMENTAIRE.md) — inventaire, règles de tri et conservation du patrimoine.
