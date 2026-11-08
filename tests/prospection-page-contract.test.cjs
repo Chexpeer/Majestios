@@ -41,5 +41,8 @@ assert.ok(ux.includes('group.id === "territory"'), "Le territoire ne doit être 
 assert.ok(ux.includes("const clearGroup = (group)"), "Un critère supprimé doit pouvoir être réinitialisé.");
 assert.ok(ux.includes("label.hidden = false"), "Les champs déplacés dans le panneau progressif doivent rester visibles.");
 assert.ok(ux.includes("if (control?.required) control.required = false"), "La validation native ne doit pas bloquer un champ requis masqué.");
+assert.ok(ux.includes("const parking = document.createElement(\"div\")"), "Les champs doivent rester dans le formulaire lorsqu’ils ne sont pas affichés.");
+assert.ok(ux.includes("[...editorFields.children].forEach((label) => parking.append(label))"), "Fermer un critère doit remettre ses champs en réserve.");
+assert.ok(ux.includes("editorFields.append(label)"), "Ouvrir un autre critère doit déplacer ses champs sans les détacher du formulaire.");
 assert.ok(html.includes('src="prospection-criteria-ux.js"'), "L'interface progressive doit être chargée sur la page Prospection.");
 console.log("Contrat du formulaire et du moteur Prospection : OK");
