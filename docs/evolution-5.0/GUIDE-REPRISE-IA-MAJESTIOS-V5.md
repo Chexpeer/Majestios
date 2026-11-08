@@ -43,7 +43,7 @@ Principes de positionnement et vocabulaire :
 - ne pas réintroduire « prospection inversée » ;
 - un signal BODACC est une piste à qualifier, pas un marché privé confirmé.
 
-## 3. Doctrine de l'intelligence centrale
+## 3. Doctrine de Cheexpeer et indépendance du moteur IA
 
 **Cheexpeer est l’IA intégrée à MajestiOS.** Son activation est volontairement différée pendant la préparation des fondations. À terme, elle assurera la surveillance, l’analyse, les rapports, les alertes et le scoring explicable des opportunités. Elle pourra ensuite recevoir progressivement d’autres tâches autorisées, sans se substituer à l’Administration.
 
