@@ -64,8 +64,12 @@ for (const page of rubricSearchPages) {
   assert(exists(page), "Recherche par rubrique : page absente : " + page);
   if (exists(page)) {
     const html = fs.readFileSync(path.join(root, page), "utf8");
-    assert(html.includes('src="rubric-search.js"'), page + " : module de recherche par rubrique non chargé");
-    assert(html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'), page + " : le moteur commun doit être injecté avant l’initialisation de ses interactions");
+    if (page !== "crm.html") {
+      assert(html.includes('src="rubric-search.js"'), page + " : module de recherche par rubrique non chargé");
+      assert(html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'), page + " : le moteur commun doit être injecté avant l’initialisation de ses interactions");
+    } else {
+      assert(!html.includes('src="rubric-search.js"'), "CRM : le moteur public de recherche ne doit pas être injecté");
+    }
     assert(html.includes('href="rubriques-immersives.css"'), page + " : feuille de style commune du moteur non chargée");
   }
 }
