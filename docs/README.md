@@ -88,3 +88,7 @@ Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires 
 - Choix du premier moteur IA pouvant alimenter Cheexpeer, conditions d'accès, coûts, évaluations et modalités d'intégration ; les missions et l'identité de Cheexpeer sont déjà cadrées.
 - Architecture backend, identité, cloisonnement, stockage, coûts et intégrations.
 - SEO : audit continu, veille des moteurs, recommandations et validation des changements.
+
+## Audit des circuits d'information — 8 novembre 2026
+
+[Audit et optimisation des circuits d'information — Immeuble, rubriques, CRM et Administration](evolution-5.0/AUDIT-CIRCUITS-INFORMATION-IMMEUBLE-RUBRIQUES-CRM-ADMIN-2026-11-08.md) — contrôle en lecture seule du schéma Supabase et des politiques RLS, écarts de visibilité et d'habilitation, circuit cible demande → préparation → validation Administration → affectation → restitution → CRM, plan de correction et tests d'acceptation.
