@@ -37,7 +37,7 @@ MajestiOS ne doit pas devenir un simple agrégateur d'annonces, un tableau de bo
 
 Principes de positionnement et vocabulaire :
 - employer **Développement commercial** ;
-- employer **Prospection** pour le dossier et **Prosp'active** comme signature de marque lorsque cela convient ;
+- employer **Prospection** de façon cohérente dans les menus, les pages, les contenus publics et la documentation ;
 - employer **Réputation virtuelle**, pas « e-Réputation » ;
 - employer **Réseau** et rattacher **Salons & Séminaires** à ce domaine ;
 - ne pas réintroduire « prospection inversée » ;
