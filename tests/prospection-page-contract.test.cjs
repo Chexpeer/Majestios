@@ -34,6 +34,10 @@ assert.ok(ux.includes("prospecting-criteria-chip"), "Les critères sélectionné
 assert.ok(ux.includes("available.replaceChildren()"), "La liste des critères disponibles doit être reconstruite après sélection.");
 assert.ok(ux.includes("selected.append(chip)"), "Un critère sélectionné doit rejoindre le récapitulatif actif.");
 assert.ok(ux.includes("chip.addEventListener(\"click\""), "Un critère actif doit rester modifiable.");
+assert.ok(ux.includes("prospecting-criteria-chip-remove"), "Un critère actif doit pouvoir être retiré.");
+assert.ok(ux.includes("clearGroup(group)"), "Le retrait doit réinitialiser les valeurs du critère.");
+assert.ok(ux.includes('group.id === "territory"'), "Le territoire ne doit être considéré actif qu'avec une localisation réelle.");
+
 assert.ok(ux.includes("group.required && !selectedNow"), "Les critères indispensables doivent être contrôlés avant validation.");
 assert.ok(html.includes('src="prospection-criteria-ux.js"'), "L'interface progressive doit être chargée sur la page Prospection.");
 console.log("Contrat du formulaire et du moteur Prospection : OK");
