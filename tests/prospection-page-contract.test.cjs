@@ -45,4 +45,5 @@ assert.ok(ux.includes("const parking = document.createElement(\"div\")"), "Les c
 assert.ok(ux.includes("[...editorFields.children].forEach((label) => parking.append(label))"), "Fermer un critère doit remettre ses champs en réserve.");
 assert.ok(ux.includes("editorFields.append(label)"), "Ouvrir un autre critère doit déplacer ses champs sans les détacher du formulaire.");
 assert.ok(html.includes('src="prospection-criteria-ux.js"'), "L'interface progressive doit être chargée sur la page Prospection.");
+assert.ok(JSON.parse(fs.readFileSync("site-files.json", "utf8")).files.includes("prospection-criteria-ux.js"), "Le script UX doit être publié dans le build statique.");
 console.log("Contrat du formulaire et du moteur Prospection : OK");
