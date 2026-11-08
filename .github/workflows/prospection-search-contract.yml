@@ -16,6 +16,7 @@ on:
       - "tests/prospection-page-contract.test.cjs"
       - "qualification-entreprises.html"
       - "company-targeting-page.js"
+      - "prospection-criteria-ux.js"
       - "company-targeting.js"
       - "prospection-active.html"
       - "tests/company-targeting.test.cjs"
