@@ -32,6 +32,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Vision IA transversale](evolution-5.0/VISION-IA-TRANSVERSALE.md) | Intelligence centrale, orchestration, capacités transversales et gouvernance |
 | [Module Administration IA](evolution-5.0/MODULE-ADMIN-IA.md) | Supervision, maintenance, SEO et autonomie encadrée |
 | [Architecture des espaces Administration, CRM et Client](evolution-5.0/ARCHITECTURE-ESPACES-ADMIN-CRM-CLIENT.md) | Séparation des espaces, intégration CRM, permissions, métaphores et état de réalisation du cockpit |
+| [Lot CRM 04 — navigation Administration / CRM](evolution-5.0/LOT-CRM-ATOMIC-04-NAVIGATION-ADMIN-CRM.md) | Navigation de modules cohérente, séparation des ancres du cockpit et maintien des restrictions par rôle |
 | [Mémoire conversationnelle](evolution-5.0/MEMOIRE-CONVERSATIONNELLE-ET-IA.md) | Continuité, recherche et réutilisation contrôlée du contexte |
 | [Roadmap et gouvernance](evolution-5.0/ROADMAP-ET-GOUVERNANCE.md) | Phases, critères, validations et autonomie |
 | [Audit du panorama et trajectoire 3D](evolution-5.0/AUDIT-PANORAMA-ET-PLAN-3D.md) | État réel du prototype et limites vérifiées |

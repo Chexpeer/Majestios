@@ -1175,3 +1175,16 @@ La méthode `findBusinessesByIdentifiers()` consulte les SIREN et SIRET candidat
 Les espaces principaux Contacts, Opportunités et Activités utilisent `listWorkspaceRecordsPage()`, fonction générique à liste blanche stricte (`contacts`, `opportunities`, `activities`). La fonction vérifie le workspace authentifié, applique `organization_id`, conserve RLS et retourne les pages de 25 lignes avec `count: exact` et `range()`. Les champs de recherche sont définis par table et correspondent aux colonnes réelles du schéma.
 
 Les tris sont déterministes : contacts par date de création décroissante, opportunités par date de mise à jour décroissante, activités par date d’occurrence décroissante, chacun complété par `id ASC`. L’historique garde son rendu chronologique. Les sélecteurs relationnels et les traitements de rappel reposent encore sur les listes auxiliaires limitées à 100 ; leur pagination/recherche propre reste un lot ultérieur.
+
+
+## 12. Mise à jour vérifiée — navigation des modules Administration et CRM (8 novembre 2026)
+
+Sur la branche de réalisation `feature/crm-atomic-integration`, le cockpit et le CRM disposent d'une navigation de modules cohérente :
+
+- le cockpit identifie explicitement « Administration générale » comme module actif et propose des accès directs au CRM interne et aux recherches ciblées ;
+- ses ancres de pilotage (vue générale, sources, membres, clients) sont regroupées dans une navigation distincte, afin de ne pas confondre les sections du cockpit et les modules de la plateforme ;
+- le CRM conserve son en-tête propre, son accès à l'accueil interne et ses liens conditionnels vers Administration et Recherches ;
+- les liens Administration et Recherches du CRM restent masqués pour les rôles autres que `owner` et `admin`. Le CRM demeure accessible aux rôles internes autorisés, avec le rôle `viewer` en consultation seule ;
+- cette harmonisation ne modifie ni les contrôles d'accès, ni les politiques RLS, ni les espaces clients, ni l'immeuble interactif.
+
+**Limite importante :** cette étape harmonise la navigation et rend le CRM identifiable comme module de l'administration. Elle ne constitue pas encore une coque applicative unique, une gestion complète des habilitations depuis le cockpit, ni une intégration de l'administration des clients. Ces capacités restent à construire et à tester séparément.
