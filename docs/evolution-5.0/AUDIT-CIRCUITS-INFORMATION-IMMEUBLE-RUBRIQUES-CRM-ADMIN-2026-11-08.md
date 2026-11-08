@@ -228,3 +228,96 @@ Ce contrôle confirme la structure des tables, les colonnes principales, l'état
 La prochaine intervention technique doit être un **lot de correction des permissions et du contrat de transmission**, après arbitrage précis des rôles et de la visibilité des demandes. Ne pas commencer par brancher toutes les rubriques au CRM ni par ajouter Cheexpeer.
 
 **État de sortie :** architecture de circulation clarifiée ; écarts backend identifiés et priorisés ; aucune modification risquée appliquée. La base existante est conservée et les corrections proposées sont préparées pour un lot contrôlé.
+
+
+---
+
+## 11. Vérification complémentaire — privilèges SQL et précision des habilitations
+
+**Contrôle complémentaire du 8 novembre 2026 — lecture seule.** Les politiques RLS ont été recoupées avec les privilèges SQL effectifs et les définitions des fonctions d'autorisation. Cette vérification affine les constats précédents.
+
+### 11.1 Privilèges effectifs sur `client_requests`
+
+Le rôle `authenticated` dispose actuellement de :
+- `SELECT` ;
+- `INSERT` ;
+- `UPDATE(status)` uniquement.
+
+Il ne dispose pas d'un droit général de mise à jour de toutes les colonnes via le privilège de table. La politique RLS `Internal staff can update request status` autorise néanmoins la mise à jour de la colonne `status` à toute personne reconnue par `private.is_internal_staff()`.
+
+**Précision importante :** le constat est donc qu'un membre de l'organisation interne ayant le rôle `member` peut modifier le statut d'une demande ; il ne peut pas, sur la seule base de ces privilèges, modifier librement toutes les colonnes de la demande. La correction doit porter sur le pouvoir de transition du statut et sur l'absence de séparation des habilitations, sans exagérer les droits actuels.
+
+### 11.2 Définition actuelle du personnel interne
+
+La fonction `private.is_internal_staff()` retourne vrai si l'utilisateur appartient à l'organisation de type `internal` avec l'un des rôles `owner`, `admin` ou `member`.
+
+Les fonctions `private.is_org_admin(organization_id)` et `private.is_org_editor(organization_id)` sont distinctes :
+- `is_org_admin` reconnaît `owner` et `admin` dans l'organisation ciblée ;
+- `is_org_editor` reconnaît `owner`, `admin` et `member`.
+
+Il n'existe donc pas, dans le modèle de rôles actuellement vérifié, de rôle fonctionnel explicite « agent Administration habilité à valider et diffuser ». Il ne faut pas simplement renommer `member` en « Administration » ni supposer que tous les administrateurs d'une organisation cliente sont des administrateurs MajestiOS.
+
+### 11.3 Privilèges effectifs sur les ressources de sources
+
+Le rôle `authenticated` possède actuellement `SELECT` sur :
+- `official_data_sources` ;
+- `company_source_observations` ;
+- `company_registry` ;
+- `company_registry_establishments`.
+
+Les politiques RLS de lecture des quatre tables utilisent actuellement `USING (true)`. En revanche, `official_source_sync_runs` dispose d'une politique de lecture refusée et aucun privilège `SELECT` pour `authenticated` n'a été observé lors du contrôle.
+
+**Optimisation à appliquer sans casser le produit :**
+- réserver le catalogue technique `official_data_sources` et les observations brutes `company_source_observations` aux fonctions serveur et aux habilitations internes nécessaires ;
+- conserver un accès métier aux données d'entreprise du registre uniquement à travers un parcours maîtrisé, avec des champs utiles et une finalité définie ;
+- ne pas exposer les noms de fournisseurs, paramètres de connecteurs, payloads bruts ou détails d'exécution dans les écrans métier ;
+- vérifier les fonctions Edge existantes avant de retirer les privilèges directs, afin de ne pas casser la recherche ni l'import des entreprises.
+
+### 11.4 Matrice de permissions cible — à appliquer à chaque type de dossier
+
+Cette matrice formalise le modèle de travail à préparer. Elle ne modifie pas les rôles ni les politiques actuellement déployés.
+
+| Acteur | Lecture | Préparation / contribution | Validation | Affectation | Livraison / suivi |
+|---|---|---|---|---|---|
+| Demandeur | Sa demande et son suivi, selon le type de dossier | Compléments à sa demande | Non | Non | Reçoit le résultat si désigné bénéficiaire |
+| Bénéficiaire | Résultats qui lui sont explicitement délivrés | Peut contribuer selon habilitation | Non | Non | Consulte et suit les éléments qui lui sont destinés |
+| Préparateur de rubrique | Dossier métier dans son périmètre | Prépare, normalise et documente | Non | Non | Retourne le dossier à l'Administration ou au circuit prévu |
+| Collaborateur affecté | Dossier et pièces nécessaires à sa mission | Traite et rend compte | Non, sauf habilitation distincte | Non | Accède au dossier affecté et à son historique utile |
+| Agent Administration habilité | Dossier, preuves et historique nécessaires au contrôle | Peut demander un complément ou corriger selon procédure | Oui, dans son périmètre | Oui, dans son périmètre | Autorise la restitution et en suit l'état |
+| Administrateur technique | Configuration, sécurité, audit technique | Opérations techniques contrôlées | Pas de validation métier automatique | Pas d'affectation métier automatique | Supervision et audit technique |
+| Cheexpeer (future) | Lecture strictement autorisée | Analyse et préparation déléguées | Non par défaut | Recommandation seulement au départ | Alerte / rapport ; action ultérieure uniquement sur délégation explicite |
+
+Les habilitations sont des capacités fonctionnelles, pas nécessairement des rôles exclusifs. Une même personne peut cumuler plusieurs capacités, mais chaque action doit vérifier la capacité requise, le périmètre d'organisation, la finalité, le destinataire et l'état du dossier.
+
+### 11.5 Architecture de rôles recommandée
+
+Ne pas surcharger le rôle générique `organization_members.role` pour exprimer tous les pouvoirs métier. Séparer :
+1. **rôle d'appartenance à une organisation** : `owner`, `admin`, `member`, `viewer` ;
+2. **habilitations internes MajestiOS** : consulter, contrôler, valider, affecter, corriger, administrer techniquement ;
+3. **affectation au dossier** : demandeur, bénéficiaire, préparateur et collaborateur responsable ;
+4. **droits sur la ressource** : tenant, rubrique, dossier, données, finalité et durée d'accès.
+
+Les habilitations Administration doivent être attribuées par un mécanisme de confiance, jamais par une valeur de profil librement modifiable par l'utilisateur. Le contrôle doit être appliqué côté serveur/RLS et vérifié à chaque transition sensible.
+
+### 11.6 Ordre de correction retenu pour la suite
+
+1. **Cartographier les rôles internes existants et leurs usages** dans le cockpit, les fonctions Edge et les parcours de demandes ; identifier les comptes et scénarios de test sans afficher ni copier de secrets.
+2. **Définir les capacités Administration** (lecture, contrôle, validation, affectation, correction, administration technique) et leur attribution sécurisée.
+3. **Séparer les règles de lecture des demandes** : demandeur, bénéficiaire, collaborateurs affectés, Administration habilitée ; décider explicitement des éventuels dossiers collaboratifs visibles à toute une organisation.
+4. **Protéger les métadonnées et observations des fournisseurs** tout en conservant un accès métier maîtrisé aux données d'entreprise utiles.
+5. **Définir le contrat de transmission** et les transitions autorisées avant d'ajouter de nouvelles tables ou colonnes.
+6. **Préparer une migration réversible et ses tests** ; la faire relire, sauvegarder et tester sur environnement isolé avant toute application.
+
+### 11.7 Scénarios de sécurité supplémentaires
+
+- Un membre interne ordinaire ne peut pas faire passer une demande de `received` à `accepted` ou `rejected`.
+- Un administrateur d'un tenant client ne reçoit aucun droit de validation Administration MajestiOS par simple cumul de rôles.
+- Le demandeur ne peut pas s'auto-désigner validateur.
+- Le bénéficiaire ne peut consulter le dossier qu'après décision et livraison autorisées, sauf accès de collaboration explicitement défini.
+- Un collaborateur perd l'accès au dossier lorsqu'il est désaffecté, sans effacer son historique d'intervention.
+- Un agent Administration peut consulter les preuves nécessaires sans exposer les identifiants techniques des fournisseurs dans l'espace membre.
+- Une requête directe PostgREST sur le catalogue ou le payload brut est refusée pour un membre métier non habilité.
+- La recherche métier continue de fonctionner après restriction des tables internes, via les fonctions serveur autorisées.
+- Les accès refusés, décisions, changements d'affectation et livraisons sont auditables.
+
+**État après vérification complémentaire :** le modèle de circulation et la matrice de permissions sont désormais plus précis. Aucun privilège, rôle, objet métier, fonction Edge ou paramètre Supabase n'a été modifié. La prochaine étape reste la préparation d'un correctif contrôlé, après inventaire des usages applicatifs et définition du mécanisme d'habilitation Administration.
