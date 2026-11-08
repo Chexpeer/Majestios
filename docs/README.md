@@ -83,6 +83,6 @@ Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires 
 - Périmètre BODACC et catégories privées, à harmoniser entre décisions métier, catalogue et tests.
 - Catégories BOAMP après mesure des volumes et validation.
 - Circuits distincts entre publication, CRM, veille et prospection.
-- Rôle de l'intelligence centrale MajestiOS V.5, permissions, mémoire et orchestration.
+- Choix du premier moteur IA pouvant alimenter Cheexpeer, conditions d'accès, coûts, évaluations et modalités d'intégration ; les missions et l'identité de Cheexpeer sont déjà cadrées.
 - Architecture backend, identité, cloisonnement, stockage, coûts et intégrations.
 - SEO : audit continu, veille des moteurs, recommandations et validation des changements.
