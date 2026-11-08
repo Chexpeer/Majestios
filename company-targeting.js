@@ -119,6 +119,14 @@
     if (!departments.length && !region) throw new Error("Choisissez au moins un département ou une région pour limiter la recherche.");
     const caMin = options.caMin == null || options.caMin === "" ? null : Number(options.caMin);
     const caMax = options.caMax == null || options.caMax === "" ? null : Number(options.caMax);
+    const workforceCodes = {
+      "0-2": ["00", "01"], "3-5": ["02"], "6-9": ["03"],
+      "10-19": ["11"], "20-49": ["12"],
+      "50+": ["21", "22", "31", "32", "41", "42", "51", "52", "53"],
+      "unknown": ["NN"]
+    };
+    const workforceFilter = workforceCodes[options.workforce] ? [...workforceCodes[options.workforce]] : [];
+    if (options.workforce && options.workforce !== "unknown" && options.includeUnknown !== false) workforceFilter.push("NN");
     if (caMin !== null && (!Number.isFinite(caMin) || caMin < 0)) throw new Error("Le chiffre d’affaires minimum doit être un montant positif.");
     if (caMax !== null && (!Number.isFinite(caMax) || caMax < 0)) throw new Error("Le chiffre d’affaires maximum doit être un montant positif.");
     if (caMin !== null && caMax !== null && caMin > caMax) throw new Error("Le chiffre d’affaires minimum ne peut pas dépasser le maximum.");
@@ -146,6 +154,7 @@
           });
           if (scope.department) params.set("departement", scope.department);
           if (scope.region) params.set("region", scope.region);
+          if (workforceFilter.length) params.set("tranche_effectif_salarie", [...new Set(workforceFilter)].join(","));
           if (caMin !== null) params.set("ca_min", String(Math.round(caMin)));
           if (caMax !== null) params.set("ca_max", String(Math.round(caMax)));
           if (options.estRge) params.set("est_rge", "true");
@@ -233,11 +242,6 @@
     const radius = Number(options.radiusKm);
     if (!Number.isFinite(radius) || radius < 1 || radius > 50) throw new Error("Le rayon doit être compris entre 1 et 50 kilomètres.");
     const center = await geocodeSearchCenter(options.location);
-    const caMin = options.caMin == null || options.caMin === "" ? null : Number(options.caMin);
-    const caMax = options.caMax == null || options.caMax === "" ? null : Number(options.caMax);
-    if (caMin !== null && (!Number.isFinite(caMin) || caMin < 0)) throw new Error("Le chiffre d’affaires minimum doit être un montant positif.");
-    if (caMax !== null && (!Number.isFinite(caMax) || caMax < 0)) throw new Error("Le chiffre d’affaires maximum doit être un montant positif.");
-    if (caMin !== null && caMax !== null && caMin > caMax) throw new Error("Le chiffre d’affaires minimum ne peut pas dépasser le maximum.");
     const perPage = Number.isInteger(options.perPage) ? Math.max(1, Math.min(options.perPage, 25)) : 25;
     const maxPages = Number.isInteger(options.maxPages) ? Math.max(1, Math.min(options.maxPages, 4)) : 1;
     const records = [];
@@ -249,12 +253,6 @@
           lat: String(center.latitude), long: String(center.longitude), radius: String(radius),
           activite_principale: code, per_page: String(perPage), page: String(page), minimal: "true", include: "siege,finances"
         });
-        if (caMin !== null) params.set("ca_min", String(Math.round(caMin)));
-        if (caMax !== null) params.set("ca_max", String(Math.round(caMax)));
-        if (options.estRge) params.set("est_rge", "true");
-        if (options.estQualiopi) params.set("est_qualiopi", "true");
-        if (options.estEpV) params.set("est_patrimoine_vivant", "true");
-        if (options.estEss) params.set("est_ess", "true");
         const url = "https://recherche-entreprises.api.gouv.fr/near_point?" + params.toString();
         const response = await fetch(url, { headers: { Accept: "application/json" } });
         if (!response.ok) throw new Error("L’annuaire géographique a répondu avec le statut " + response.status + ". Aucun résultat ne peut être validé.");
