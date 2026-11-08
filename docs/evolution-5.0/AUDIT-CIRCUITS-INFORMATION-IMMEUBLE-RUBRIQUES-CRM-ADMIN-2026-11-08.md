@@ -321,3 +321,71 @@ Les habilitations Administration doivent être attribuées par un mécanisme de 
 - Les accès refusés, décisions, changements d'affectation et livraisons sont auditables.
 
 **État après vérification complémentaire :** le modèle de circulation et la matrice de permissions sont désormais plus précis. Aucun privilège, rôle, objet métier, fonction Edge ou paramètre Supabase n'a été modifié. La prochaine étape reste la préparation d'un correctif contrôlé, après inventaire des usages applicatifs et définition du mécanisme d'habilitation Administration.
+
+
+## 12. Contrôle des fonctions Edge actives — nouveaux écarts de circulation
+
+Les trois fonctions actives du projet ont été relues directement dans Supabase, en lecture seule : `search-official-companies` v4, `import-official-company` v2 et `bootstrap-internal-admin` v3. Les fonctions exigent un JWT (`verify_jwt=true`). Aucun déploiement ni changement de fonction n'a été effectué.
+
+### 12.1 Les réponses de recherche révèlent le fournisseur technique
+
+La fonction `search-official-companies` renvoie dans son JSON :
+- le nom du fournisseur ;
+- l'URL du fournisseur ;
+- les données brutes de sa réponse.
+
+Cela signifie que la discrétion visuelle du moteur ne garantit pas l'invisibilité de la ressource : le nom du fournisseur est transmis au navigateur et peut être inspecté dans la réponse réseau. Cela contredit la règle métier selon laquelle les sources restent invisibles dans les moteurs et écrans de Prospection.
+
+**Correction à préparer :** conserver la provenance dans le journal technique interne, mais renvoyer au moteur un contrat de résultat neutre, normalisé et limité aux champs nécessaires. Ne pas transmettre le nom du fournisseur ni le catalogue technique au client.
+
+### 12.2 L'import crée déjà une fiche dans le CRM de l'organisation
+
+La fonction `import-official-company` vérifie l'identité de l'utilisateur, contrôle via `can_import_official_company` qu'il possède le droit d'édition dans l'organisation demandée, puis utilise le rôle serveur pour appeler `import_official_company_record`.
+
+Cette procédure :
+- met à jour le registre commun d'entreprise ;
+- met à jour les établissements ;
+- crée ou met à jour directement une ligne `businesses` dans l'organisation choisie ;
+- marque cette fiche `qualification_status = 'to_review'` ;
+- enregistre une observation brute dans `company_source_observations`.
+
+Il s'agit donc d'un import authentifié et balisé « à examiner », pas d'une validation Administration. Il faut éviter de présenter cette fiche comme une donnée déjà validée ou comme une opportunité prête à être exploitée.
+
+**Optimisation recommandée :** distinguer visuellement et techniquement « donnée importée / à contrôler » de « donnée validée et diffusée ». Le futur circuit doit décider si l'import reste un brouillon CRM non opérationnel ou s'il passe d'abord par un dossier de transmission en attente de contrôle. Dans les deux cas, l'écriture doit conserver l'état de contrôle, la provenance, l'acteur initiateur et l'organisation bénéficiaire. Aucune conversion automatique en opportunité ne doit se produire.
+
+### 12.3 Le droit d'import et le droit de validation sont deux capacités différentes
+
+La fonction SQL `can_import_official_company(organization_id)` s'appuie sur `private.is_org_editor(organization_id)`, qui autorise les rôles `owner`, `admin` et `member` du tenant. Ce contrôle peut être pertinent pour importer une donnée dans un espace de travail, mais il ne constitue pas une habilitation Administration MajestiOS.
+
+**Règle à préserver :** l'utilisateur peut éventuellement demander ou préparer un import dans son organisation ; cela ne lui confère jamais le droit de valider la donnée au nom de MajestiOS, de la diffuser à d'autres utilisateurs ou de la transformer en opportunité qualifiée.
+
+### 12.4 Bootstrap du premier administrateur
+
+La fonction `bootstrap-internal-admin` v3 utilise une vérification serveur d'identité et de confirmation d'adresse, puis appelle un bootstrap SQL protégé par verrou transactionnel pour créer le premier propriétaire de l'organisation interne. La fonction est active et protégée par JWT.
+
+Le bootstrap SQL vérifie notamment qu'aucun propriétaire ou administrateur interne n'a déjà été initialisé et que l'utilisateur ne possède pas déjà une appartenance. Ce mécanisme est un bootstrap initial, pas un système complet de délégation des habilitations Administration. Il faudra vérifier son caractère strictement temporaire, son idempotence et la procédure de révocation / transfert avant de généraliser les rôles.
+
+### 12.5 État de parité entre les fonctions déployées et Git
+
+Les versions et empreintes des trois fonctions déployées ont été relevées. La récupération du contenu déployé est possible, mais la parité avec les fichiers de la branche examinée n'est pas encore établie : les chemins de fichiers testés dans `supabase/functions/` n'ont pas tous été retrouvés sur cette branche. Aucun rapprochement par hash Git n'est donc déclaré.
+
+Avant toute correction, il faut retrouver le chemin source exact et comparer :
+- le contenu complet ;
+- les imports et dépendances ;
+- les variables d'environnement attendues (sans lire ni exposer leurs valeurs secrètes) ;
+- les contrôles d'identité et d'autorisation ;
+- les contrats JSON de sortie ;
+- les versions et empreintes des fonctions déployées.
+
+**Ne pas redéployer une fonction tant que son source de référence et ses dépendances ne sont pas identifiés.**
+
+### 12.6 Priorités mises à jour
+
+1. Corriger le contrat JSON de recherche pour ne plus exposer le fournisseur au navigateur.
+2. Clarifier le statut de l'import entreprise : brouillon à contrôler, dossier de transmission ou autre étape explicitement définie.
+3. Séparer droit d'import, droit de validation Administration et droit de diffusion.
+4. Protéger les tables de métadonnées et observations techniques sans casser les fonctions serveur.
+5. Retrouver les sources Git exactes des fonctions déployées et établir la parité.
+6. Ensuite seulement, préparer la migration et les tests d'accès.
+
+**État de sortie du contrôle Edge :** une fuite de métadonnées fournisseur dans la réponse de recherche et un import direct en fiche CRM « à examiner » ont été confirmés. Ces constats renforcent la nécessité d'un circuit de transmission et de validation distinct du CRM. Aucun code ni service actif n'a été modifié.
