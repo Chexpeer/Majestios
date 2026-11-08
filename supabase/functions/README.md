@@ -23,3 +23,11 @@ Seuls les noms sont documentés ; aucune valeur secrète n'est enregistrée dans
 - La recherche expose actuellement l'identité du fournisseur, son URL, l'horodatage et le payload amont. Cela contrevient à la règle MajestiOS : les sources restent invisibles dans l'interface. Le code est restauré à l'identique ; aucune correction fonctionnelle n'est incluse.
 - Le bootstrap est une initialisation initiale, pas un mécanisme de délégation, transfert ou révocation des droits d'administration.
 - La restauration Git ne signifie pas que les tests d'intégration ont été exécutés ni que les droits/RLS sont conformes.
+
+## Nouvelle fonction en préparation — 8 novembre 2026
+
+| Fonction | Statut Git | Statut Supabase |
+|---|---|---|
+| prospection-search-member | Source créée dans prospection-search-member/index.ts | **Non déployée** |
+
+Cette fonction est un endpoint authentifié de recherche avancée. Elle réutilise les modules partagés _shared/prospection-*.mjs, vérifie l'appartenance cliente par RLS et normalise les résultats avant retour. Elle n'utilise pas service_role. Les critères de chiffre d'affaires sont explicitement refusés à ce stade. Ne pas confondre la présence de la source dans Git avec un déploiement ou une activation dans Supabase.

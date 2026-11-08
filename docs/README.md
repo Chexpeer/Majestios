@@ -102,3 +102,7 @@ Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires 
 ## Lot technique Prospection — 8 novembre 2026
 
 [Lot A — fondations partagées de Prospection : DTO, validation et autorisation](evolution-5.0/LOT-A-FONDATIONS-PROSPECTION-DTO-VALIDATION-AUTHZ-2026-11-08.md) — modules partagés ESM, projections DTO en liste blanche, validation des deux parcours, contrôle d'appartenance client avec RLS et tests Node ajoutés. Aucun endpoint ni changement Supabase déployé.
+
+## Endpoint authentifié de Prospection — 8 novembre 2026
+
+[Lot B — premier endpoint authentifié de Prospection](evolution-5.0/LOT-B-ENDPOINT-PROSPECTION-MEMBER-2026-11-08.md) — source du premier endpoint membre, orchestration serveur, normalisation des résultats, validation des filtres, tests simulés et garde-fous avant déploiement.

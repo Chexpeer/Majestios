@@ -43,6 +43,7 @@ jobs:
           node --check supabase/functions/_shared/prospection-validation.mjs
           node --check supabase/functions/_shared/prospection-authz.mjs
           node --check supabase/functions/_shared/prospection-errors.mjs
+          node --check supabase/functions/_shared/prospection-search-core.mjs
           node --input-type=module --check < supabase-config.js
           node --input-type=module --check < auth-espace-membre.js
           node --input-type=module --check < administration.js
@@ -63,6 +64,8 @@ jobs:
         run: node tests/naf-suggestions.test.cjs
       - name: Tester les contrats, DTO et habilitations Prospection
         run: node tests/prospection-contract.test.cjs
+      - name: Tester le noyau de recherche Prospection membre
+        run: node tests/prospection-search-core.test.cjs
       - name: Construire le site statique
         run: node build.js
       - name: Vérifier l’architecture et les routes

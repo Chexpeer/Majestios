@@ -1,4 +1,4 @@
-export const SEARCH_ERROR_CODES = Object.freeze(["INVALID_QUERY","INVALID_FILTERS","AUTH_REQUIRED","ACCESS_DENIED","RATE_LIMITED","SEARCH_TEMPORARILY_UNAVAILABLE","PARTIAL_RESULTS","INTERNAL_ERROR"]);
+export const SEARCH_ERROR_CODES = Object.freeze(["INVALID_QUERY","INVALID_FILTERS","AUTH_REQUIRED","ACCESS_DENIED","RATE_LIMITED","SEARCH_TEMPORARILY_UNAVAILABLE","PARTIAL_RESULTS","METHOD_NOT_ALLOWED","PAYLOAD_TOO_LARGE","INTERNAL_ERROR"]);
 export const SEARCH_ERROR_MESSAGES = Object.freeze({
   INVALID_QUERY:"Le terme de recherche est absent ou invalide.",
   INVALID_FILTERS:"Un ou plusieurs critères ne sont pas autorisés ou sont invalides.",
@@ -7,6 +7,8 @@ export const SEARCH_ERROR_MESSAGES = Object.freeze({
   RATE_LIMITED:"La limite de recherches autorisée est atteinte. Réessayez ultérieurement.",
   SEARCH_TEMPORARILY_UNAVAILABLE:"La recherche est momentanément indisponible.",
   PARTIAL_RESULTS:"La recherche n'a retourné qu'une partie des résultats attendus.",
+  METHOD_NOT_ALLOWED:"Cette méthode de requête n\u0027est pas autorisée.",
+  PAYLOAD_TOO_LARGE:"La requête dépasse la taille autorisée.",
   INTERNAL_ERROR:"Une erreur interne empêche de traiter la recherche."
 });
 export const MEMBER_ROLES = Object.freeze(["owner","admin","member"]);
