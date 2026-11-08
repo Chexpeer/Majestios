@@ -77,6 +77,7 @@ assert.match(vipBoundary, /and state = 'read'[\s\S]*and read_at is not null/);
 assert.match(vipBoundary, /Authorized editors can mark their CRM reminders read[\s\S]*and state = 'read'[\s\S]*and read_at is not null/);
 assert.match(vipBoundary, /create or replace function public\.complete_crm_reminder/);
 assert.match(client, /!\["owner", "admin"\]\.includes\(membership\.role\)/);
+assert.match(client, /Connectez-vous via l’accès VIP depuis la page Espace privé/);
 
 
 assert.match(client, /supabase\.auth\.getUser\(\)/);
