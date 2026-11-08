@@ -72,7 +72,7 @@ assert.ok(crmScript.includes("alreadyKnown.length") && crmScript.includes("contr
 assert.ok(crmScript.includes("tranche_effectif_salarie") && crmScript.includes("nombre_etablissements"), "Les résultats doivent exploiter les indicateurs d’effectif et d’établissements lorsqu’ils sont fournis par la source.");
 assert.ok(crmScript.includes("Identifiant source") && crmScript.includes("Collecte :") && crmScript.includes("Critères : APE/NAF"), "La fiche intégrée doit conserver les éléments de provenance et les critères de ciblage.");
 assert.ok(crmScript.includes("failures.push") && crmScript.includes("Aucun dossier existant n’a été écrasé"), "Les erreurs d’intégration doivent être explicites et aucune fusion automatique ne doit être réalisée.");
-const crmClient = fs.readFileSync(path.join(__dirname, "..", "crm-client.js"), "utf8");
+
 assert.ok(crmClient.includes('async function listBusinessesPage') && crmClient.includes('.select("*", { count: "exact" })') && crmClient.includes(".range(from, to)"), "La recherche entreprises doit compter et paginer les résultats côté serveur.");
 assert.ok(crmClient.includes('.eq("organization_id", membership.organization_id)') && crmClient.includes('query = query.or('), "La pagination et la recherche doivent rester limitées au tenant authentifié.");
 assert.ok(crmClient.includes('"legal_name", "trade_name", "siren", "siret", "ape_naf", "city"'), "La recherche serveur doit couvrir identité, identifiants, APE/NAF et ville.");
