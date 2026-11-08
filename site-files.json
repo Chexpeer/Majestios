@@ -71,6 +71,7 @@
     "admin-recherches.js",
     "espace-interne.html",
     "espace-interne.css",
-    "espace-interne.js"
+    "espace-interne.js",
+    "reputation-virtuelle.css"
   ]
 }
