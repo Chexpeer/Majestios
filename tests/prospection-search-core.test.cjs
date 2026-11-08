@@ -111,7 +111,7 @@ async function main(){
   assert.equal(paged.items.length,10);
   assert.equal(paged.items[0].name,"Page 1 entreprise 8");
   assert.equal(paged.items[2].name,"Page 2 entreprise 0");
-  assert.equal(paged.page.has_more,false);
+  assert.equal(paged.page.has_more,true);
   assert.equal(paged.partial,false);
 
   const secondPage=await core.executeMemberSearch({
