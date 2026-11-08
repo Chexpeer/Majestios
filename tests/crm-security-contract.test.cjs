@@ -7,6 +7,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
 const schema = read("supabase/migrations/20261105163901_majestios_core_multitenant_foundation.sql");
 const roles = read("supabase/migrations/20261106074500_enforce_crm_editor_roles.sql");
+const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
 const client = read("crm-client.js");
@@ -51,6 +52,30 @@ for (const [table, policy] of [
 assert.match(roles, /m\.role in \('owner', 'admin', 'member'\)/);
 assert.match(roles, /create policy "Editors can append activities"/);
 assert.match(roles, /revoke update on public\.businesses, public\.contacts, public\.opportunities from authenticated/);
+
+assert.match(vipBoundary, /private\.can_read_crm_org/);
+assert.match(vipBoundary, /private\.can_edit_crm_org/);
+assert.match(vipBoundary, /o\.kind = 'internal' and m\.role in \('owner', 'admin'\)/);
+assert.match(vipBoundary, /o\.kind <> 'internal' and m\.role in \('owner', 'admin', 'member'\)/);
+for (const policy of [
+  'Authorized users can read businesses',
+  'Authorized editors can create businesses',
+  'Authorized editors can update businesses',
+  'Authorized users can read contacts',
+  'Authorized editors can create contacts',
+  'Authorized editors can update contacts',
+  'Authorized users can read opportunities',
+  'Authorized editors can create opportunities',
+  'Authorized editors can update opportunities',
+  'Authorized users can read activities',
+  'Authorized editors can append activities',
+  'Authorized users can read their CRM reminders',
+  'Authorized editors can mark their CRM reminders read'
+]) assert.ok(vipBoundary.includes(policy), "Frontière VIP absente pour la politique : " + policy);
+assert.match(vipBoundary, /private\.can_edit_crm_org\(v_reminder\.organization_id\)/);
+assert.match(vipBoundary, /create or replace function public\.complete_crm_reminder/);
+assert.match(client, /!\["owner", "admin"\]\.includes\(membership\.role\)/);
+
 
 assert.match(client, /supabase\.auth\.getUser\(\)/);
 assert.match(client, /organization\.kind === "internal"/);
