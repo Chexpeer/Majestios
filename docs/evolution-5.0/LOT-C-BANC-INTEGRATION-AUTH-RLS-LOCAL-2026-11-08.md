@@ -42,15 +42,21 @@ Périmètre : configuration et tests d’intégration sur stack Supabase locale 
 
 ## Statut d’exécution
 
-Premier run GitHub Actions : [run #1](https://github.com/Chexpeer/Majestios/actions/runs/42477651009).
+Deux exécutions ont été nécessaires :
 
-- Démarrage de la stack locale : réussi.
-- Replay local des 21 migrations : réussi ; aucune migration n’a échoué malgré les différences de préfixes entre le ledger hébergé et les fichiers historiques Git.
-- Tests Auth/RLS : échec sur le scénario d’e-mail non confirmé. Le banc supposait à tort que Supabase Auth autoriserait une session de connexion avec un e-mail non confirmé ; Auth a correctement renvoyé email_not_confirmed.
-- Arrêt de la stack et suppression des volumes : réussi.
+- [Run #1 — échec initial](https://github.com/Chexpeer/Majestios/actions/runs/42477651009) : la stack a démarré et les 21 migrations ont été rejouées correctement. Le test attendait à tort une session pour un e-mail non confirmé ; Auth a correctement renvoyé `email_not_confirmed`.
+- [Run #2 — succès](https://github.com/Chexpeer/Majestios/actions/runs/42477827778) : après correction de l’assertion, le workflow est terminé avec `success`.
 
-Correction appliquée dans le test : le cas non confirmé attend maintenant le refus de connexion Auth (email_not_confirmed) et vérifie qu’aucune session n’est délivrée. Le run suivant doit confirmer ce correctif. Le premier run n’est donc pas une validation réussie de l’ensemble du banc.
+Résultat confirmé du second run :
+
+- Stack Supabase locale démarrée ; PostgreSQL 17.
+- Les 21 fichiers de migration du dépôt ont été appliqués à une base locale vierge, sans erreur.
+- 9 utilisateurs Auth et 9 organisations de test ont été créés uniquement dans la stack éphémère.
+- Les scénarios `owner`, `admin`, `member`, `viewer`, organisations `internal`/`partner`, absence et multiplicité d’appartenance, e-mail non confirmé, JWT altéré, lectures RLS et rejet des champs client `organization_id`/`role` ont passé.
+- La stack locale et ses volumes ont été arrêtés et supprimés avec succès.
+
+Le run #2 valide le banc Auth/RLS tel qu’il est défini. Il ne valide pas encore un JWT correctement signé mais expiré, le runtime HTTP complet de l’Edge Function, les appels fournisseurs, ni la parité exacte des identifiants de migrations avec le ledger hébergé.
 
 ## Prochaine étape
 
-Vérifier le second run GitHub Actions après la correction, corriger tout autre échec éventuel, puis compléter séparément les tests JWT expiré et runtime HTTP Edge. Aucune modification de production n’est autorisée par ce lot.
+Compléter séparément les tests de JWT expiré et du runtime HTTP Edge, puis mesurer la parité du schéma local avec le schéma hébergé sans modifier le projet de production. Aucune modification de production n’est autorisée par ce lot.
