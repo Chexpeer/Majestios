@@ -112,3 +112,6 @@ Toute évolution récente du fondateur peut rouvrir un sujet précédemment docu
 [Audit et optimisation des circuits d'information — Immeuble, rubriques, CRM et Administration](AUDIT-CIRCUITS-INFORMATION-IMMEUBLE-RUBRIQUES-CRM-ADMIN-2026-11-08.md) — état vérifié des tables et politiques RLS, frontières de visibilité, séparation des rôles, circuit de validation/affectation/restitution et plan de correction priorisé.
 
 [Contrat commun de transmission — rubriques, Administration et CRM](CONTRAT-COMMUN-TRANSMISSION-RUBRIQUES-ADMIN-CRM-2026-11-08.md) — spécification détaillée des acteurs, finalités, états, transitions, historique, API conceptuelle, permissions, modèle minimal et tests d'acceptation ; aucune implémentation déclenchée.
+
+
+[Mapping du contrat de transmission vers l'existant — Supabase et fonctions serveur](MAPPING-CONTRAT-TRANSMISSION-SCHEMA-SUPABASE-EDGE-2026-11-08.md) — champs existants/manquants, permissions, visibilité des sources, fonctions Edge, migrations et ordre de correction. Relevé en lecture seule ; aucune modification du backend.
