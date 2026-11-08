@@ -1,11 +1,16 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Développez votre réputation virtuelle : visibilité locale, présence sur les cartes, avis clients et référencement naturel.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Évaluez votre présence sur le Web et votre visibilité locale avec les points de contrôle Google et Google Maps de MajestiOS.">
   <title>Réputation virtuelle — MajestiOS</title>
-  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="rubriques-immersives.css"><link rel="stylesheet" href="charte-majestios.css">
-  <script src="catalogue-majestios.js" defer></script><script src="app.js" defer></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="rubriques-immersives.css">
+  <link rel="stylesheet" href="charte-majestios.css">
+  <link rel="stylesheet" href="reputation-virtuelle.css">
+  <script src="catalogue-majestios.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body class="page-reputation-virtuelle">
 <header class="site-header">
@@ -15,22 +20,74 @@
     <a href="index.html">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="reseaux-synergies.html">Réseau</a><a href="reputation-virtuelle.html" aria-current="page">Réputation virtuelle</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace privé</a><a href="faq.html">FAQ</a>
   </nav>
 </header>
-<main class="section-wrap interior-page">
-  <p class="eyebrow">VISIBILITÉ · PRÉSENCE LOCALE · RÉFÉRENCEMENT</p>
+
+<main class="section-wrap interior-page reputation-page">
+  <p class="eyebrow">ÉTAGE 01 · VISIBILITÉ · PRÉSENCE NUMÉRIQUE</p>
   <h1>Réputation virtuelle</h1>
-  <p class="interior-lede">Votre présence en ligne est souvent le premier contact avec vos futurs clients. MajestiOS a vocation à vous aider à la rendre visible, cohérente et crédible.</p>
-  <section class="floating-route-card"><span class="interactive-map-status">VOTRE VISIBILITÉ EN LIGNE</span><h2>Être visible, inspirer confiance et rester pertinent</h2>
-    <p>La Réputation virtuelle rassemble le suivi de votre présence locale, la qualité des informations publiées, les avis accessibles au public et les leviers de référencement naturel.</p>
-    <p class="small-note">Les diagnostics, recherches cartographiques, relevés d’avis et recommandations SEO seront présentés comme réalisés uniquement lorsqu'une source et une date de vérification pourront être indiquées. Cette page décrit le parcours cible ; elle ne prétend pas effectuer ces contrôles automatiquement aujourd'hui.</p>
+
+  <section class="reputation-hero" aria-labelledby="reputation-question">
+    <div class="reputation-hero-copy">
+      <p class="reputation-kicker">VOTRE IMAGE SUR INTERNET</p>
+      <h2 id="reputation-question">Que valez-vous<br><span>sur le Web&nbsp;?</span></h2>
+      <p class="reputation-intro">Votre présence en ligne parle de votre entreprise avant même le premier échange. Prenez le temps de regarder ce que vos futurs clients découvrent.</p>
+
+      <div class="reputation-searches" aria-label="Points de contrôle de votre présence en ligne">
+        <form class="reputation-search reputation-search-web" action="https://www.google.com/search" method="get" target="_blank" rel="noopener">
+          <label for="reputation-web-query"><span class="search-icon" aria-hidden="true">G</span><span><strong>Votre présence sur le Web</strong><small>Rechercher votre entreprise sur Google</small></span></label>
+          <div class="reputation-search-controls">
+            <input id="reputation-web-query" name="q" type="search" placeholder="Nom de l’entreprise, site…" required>
+            <button type="submit" aria-label="Rechercher sur Google">↗</button>
+          </div>
+        </form>
+
+        <form class="reputation-search reputation-search-maps" action="https://www.google.com/maps/search/" method="get" target="_blank" rel="noopener">
+          <input type="hidden" name="api" value="1">
+          <label for="reputation-maps-query"><span class="search-icon maps-icon" aria-hidden="true">⌖</span><span><strong>Votre visibilité locale</strong><small>Vérifier votre présence sur Google Maps</small></span></label>
+          <div class="reputation-search-controls">
+            <input id="reputation-maps-query" name="query" type="search" placeholder="Entreprise, ville…" required>
+            <button type="submit" aria-label="Rechercher sur Google Maps">↗</button>
+          </div>
+        </form>
+      </div>
+      <p class="reputation-disclaimer">Ces recherches ouvrent Google dans un nouvel onglet. Elles ne constituent pas encore un diagnostic automatisé réalisé par MajestiOS.</p>
+    </div>
+
+    <div class="social-showcase" aria-label="Panorama des réseaux et plateformes où votre entreprise peut être visible">
+      <div class="social-showcase-heading"><span>ÉCOSYSTÈME NUMÉRIQUE</span><span class="social-live-dot"></span></div>
+      <div class="social-orbit orbit-one" aria-hidden="true"></div>
+      <div class="social-orbit orbit-two" aria-hidden="true"></div>
+      <div class="social-tile social-facebook" aria-label="Facebook"><span class="social-symbol">f</span><small>facebook</small></div>
+      <div class="social-tile social-tiktok" aria-label="TikTok"><span class="social-symbol">♪</span><small>tiktok</small></div>
+      <div class="social-tile social-instagram" aria-label="Instagram"><span class="social-symbol">◎</span><small>instagram</small></div>
+      <div class="social-tile social-linkedin" aria-label="LinkedIn"><span class="social-symbol">in</span><small>linkedin</small></div>
+      <div class="social-tile social-youtube" aria-label="YouTube"><span class="social-symbol">▶</span><small>youtube</small></div>
+      <div class="social-tile social-x" aria-label="X"><span class="social-symbol">𝕏</span><small>réseau X</small></div>
+      <p class="social-showcase-caption">Votre entreprise, là où vos clients vous cherchent.</p>
+    </div>
   </section>
-<section class="floating-route-card" aria-labelledby="floor-story-title"><span class="interactive-map-status">ÉTAGE 01 · COMPRENDRE</span><h2 id="floor-story-title">Comprendre l’image que renvoie une entreprise</h2><p>La Réputation virtuelle examine la présence en ligne : informations locales, site web, réseaux sociaux et avis publics. Elle aide à repérer les points forts, les incohérences et les pistes d’amélioration.</p><p><strong>Votre bénéfice :</strong> transformer des observations vérifiables en pistes d’action pertinentes.</p></section>
-  <section class="interior-grid related-rubrics" aria-labelledby="reputation-actions-title"><h2 id="reputation-actions-title" class="related-rubrics-title">Les axes de travail</h2>
-    <article class="platform-card related-rubric-card"><h3>Présence locale et nouvelles entreprises</h3><p>À partir d'un signal de création BODACC, rapprocher l'activité et l'adresse, vérifier la présence de l'établissement sur Google Maps et examiner les informations publiques disponibles. Si la visibilité semble insuffisante, qualifier un besoin d'accompagnement et préparer une proposition, sans prise de contact automatique.</p><p class="small-note">Parcours cible à développer : sources, API, conditions d'utilisation et validation humaine restent à cadrer.</p></article>
-    <article class="platform-card related-rubric-card"><h3>Avis et confiance</h3><p>Repérer les avis publics, suivre leur évolution et préparer des réponses adaptées, sans publier ni contacter qui que ce soit sans validation.</p></article>
-    <article class="platform-card related-rubric-card"><h3>Référencement naturel</h3><p>Améliorer progressivement les contenus, la structure du site, les informations locales et la qualité technique pour rester en phase avec les moteurs de recherche.</p></article>
+
+  <section class="reputation-explainer floating-route-card" aria-labelledby="reputation-explainer-title">
+    <span class="interactive-map-status">COMPRENDRE · VÉRIFIER · PROGRESSER</span>
+    <h2 id="reputation-explainer-title">Une présence numérique se construit sur plusieurs terrains</h2>
+    <p>Site web, résultats de recherche, fiche établissement, réseaux sociaux et avis publics composent l’image que renvoie votre entreprise. L’enjeu est de repérer les points forts, les informations incohérentes et les pistes d’amélioration.</p>
   </section>
-  <section class="floating-route-card"><h2>Un diagnostic avant toute action</h2><p>Une recherche associant activité et adresse peut constituer un premier point de départ pour examiner la visibilité locale. Les constats doivent ensuite être vérifiés et partagés avec l'entreprise avant toute intervention.</p><a class="button-primary" href="espace-membre.html">Préparer mon espace personnel →</a></section>
+
+  <section class="interior-grid related-rubrics reputation-pillars" aria-labelledby="reputation-actions-title">
+    <h2 id="reputation-actions-title" class="related-rubrics-title">Les axes de travail</h2>
+    <article class="platform-card related-rubric-card"><span class="pillar-number">01</span><h3>Présence locale et visibilité</h3><p>Vérifier les informations publiques de l’établissement, son adresse, ses coordonnées et sa visibilité dans les recherches locales.</p></article>
+    <article class="platform-card related-rubric-card"><span class="pillar-number">02</span><h3>Avis et confiance</h3><p>Repérer les avis accessibles au public, suivre leur évolution et préparer des réponses adaptées, sans publier ni contacter qui que ce soit sans validation.</p></article>
+    <article class="platform-card related-rubric-card"><span class="pillar-number">03</span><h3>Réseaux et référencement</h3><p>Examiner la cohérence des profils publics, la qualité des contenus et les leviers de référencement naturel.</p></article>
+  </section>
+
+  <section class="floating-route-card reputation-next-step">
+    <h2>Du constat à l’action</h2>
+    <p>Les observations doivent être vérifiées et partagées avec l’entreprise avant toute intervention. MajestiOS a vocation à transformer ces constats en pistes d’action commerciales concrètes.</p>
+    <p class="small-note">Les diagnostics automatiques, relevés d’avis et recommandations SEO ne sont pas encore activés sur cette page. Aucun résultat n’est simulé.</p>
+    <a class="button-primary" href="espace-membre.html">Préparer mon espace personnel →</a>
+  </section>
+
   <div class="interior-links"><a href="index.html">← Retour à l'accueil</a> · <a href="reseaux-synergies.html">Découvrir le Réseau</a> · <a href="faq.html">Comprendre MajestiOS</a></div>
 </main>
 <footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial et Réputation virtuelle</div></footer>
-</body></html>
+</body>
+</html>
