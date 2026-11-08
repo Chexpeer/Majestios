@@ -42,6 +42,11 @@
   const editorFields = document.createElement("div");
   editorFields.className = "prospecting-criteria-editor-fields";
   editor.append(editorFields);
+  const parking = document.createElement("div");
+  parking.hidden = true;
+  parking.setAttribute("aria-hidden", "true");
+  parking.className = "prospecting-criteria-parking";
+  form.append(parking);
   const editorActions = document.createElement("div");
   editorActions.className = "prospecting-criteria-editor-actions";
   const validate = document.createElement("button");
@@ -119,16 +124,18 @@
   };
 
   const closeEditor = () => {
+    [...editorFields.children].forEach((label) => parking.append(label));
     editor.hidden = true;
     editing = null;
   };
   const openEditor = (group) => {
+    closeEditor();
     editing = group;
     editorTitle.textContent = group.label;
-    editorFields.replaceChildren();
     group.fields.forEach((id) => {
       const control = controlFor(id);
       const label = control?.closest("label");
+      if (control?.required) control.required = false;
       if (label) {
         label.hidden = false;
         editorFields.append(label);
@@ -143,7 +150,10 @@
       const control = controlFor(id);
       const label = control?.closest("label");
       if (control?.required) control.required = false;
-      if (label) label.hidden = true;
+      if (label) {
+        label.hidden = true;
+        parking.append(label);
+      }
     });
     state.set(group.id, null);
   });
@@ -186,8 +196,6 @@
 
   validate.addEventListener("click", () => {
     if (!editing) return;
-    const group = editing;
-    const selectedNow = isSelected(group);
     closeEditor();
     render();
   });
