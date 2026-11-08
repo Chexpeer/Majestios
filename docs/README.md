@@ -29,8 +29,8 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Arborescence cible](evolution-5.0/ARBORESCENCE-CIBLE-V5.md) | Correspondance immeuble → étages → dossiers → pages |
 | [Expérience immersive](evolution-5.0/EXPERIENCE-IMMERSIVE-ET-ETAGES.md) | Panorama, quartier, immeuble, ascenseur et navigation |
 | [Architecture fonctionnelle](evolution-5.0/ARCHITECTURE-FONCTIONNELLE-CIBLE.md) | Domaines métier, données et frontières fonctionnelles |
-| [Vision IA transversale](evolution-5.0/VISION-IA-TRANSVERSALE.md) | Intelligence centrale, orchestration, capacités transversales et gouvernance |
-| [Plan stratégique acquisition, circulation, CRM et IA — 8 novembre 2026](evolution-5.0/PLAN-STRATEGIQUE-ACQUISITION-CIRCULATION-CRM-IA-2026-11-08.md) | Audit courant, circulation bidirectionnelle entre rubriques et CRM, contrat de transmission, rôles et nom de l’IA à arbitrer |
+| [Vision IA transversale](evolution-5.0/VISION-IA-TRANSVERSALE.md) | Périmètre de Cheexpeer, missions, surveillance, analyse, scoring et gouvernance |
+| [Plan stratégique acquisition, circulation, CRM et IA — 8 novembre 2026](evolution-5.0/PLAN-STRATEGIQUE-ACQUISITION-CIRCULATION-CRM-IA-2026-11-08.md) | Audit courant, circulation bidirectionnelle entre rubriques et CRM, contrat de transmission, rôles et nom retenu pour l’IA intégrée : Cheexpeer |
 | [Matrice de circulation — Immeuble, rubriques, acquisition et CRM — 8 novembre 2026](evolution-5.0/MATRICE-CIRCULATION-RUBRIQUES-CRM-2026-11-08.md) | Routes observées, liens existants, limites du raccordement CRM et parcours bidirectionnels à réaliser et tester |
 | [Module Administration IA](evolution-5.0/MODULE-ADMIN-IA.md) | Supervision, maintenance, SEO et autonomie encadrée |
 | [Architecture des espaces Administration, CRM et Client](evolution-5.0/ARCHITECTURE-ESPACES-ADMIN-CRM-CLIENT.md) | Séparation des espaces, intégration CRM, permissions, métaphores et état de réalisation du cockpit |
