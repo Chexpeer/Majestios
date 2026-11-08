@@ -60,6 +60,7 @@
     "prospecting-signals.js",
     "prospecting-resources.js",
     "company-targeting-page.js",
+    "prospection-criteria-ux.js",
     "company-fit.js",
     "qualification-entreprises.html",
     "supabase-config.js",
