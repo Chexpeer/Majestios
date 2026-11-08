@@ -67,6 +67,10 @@
       status.textContent = "Choisissez un seul périmètre géographique : rayon autour d’une commune, ou département/région.";
       return;
     }
+    if (radiusLocation && (valueOf("caMin") || valueOf("caMax") || checked("estRge") || checked("estQualiopi") || checked("estEpV") || checked("estEss"))) {
+      status.textContent = "En mode rayon, l’annuaire ne permet de filtrer que par activité et distance. Pour utiliser le chiffre d’affaires ou les labels, choisissez un département ou une région.";
+      return;
+    }
     if (nafCodes.some((code) => !/^\d{2}\.\d{2}[A-Z]$/.test(code))) {
       status.textContent = "Un code APE/NAF semble invalide. Utilisez le format officiel, par exemple 43.21A.";
       return;
@@ -86,6 +90,8 @@
         nafCodes, departments, region, perPage: 25, maxPages: 1,
         caMin: valueOf("caMin"),
         caMax: valueOf("caMax"),
+        workforce: valueOf("workforce"),
+        includeUnknown,
         estRge: checked("estRge"),
         estQualiopi: checked("estQualiopi"),
         estEpV: checked("estEpV"),
