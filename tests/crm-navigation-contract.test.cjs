@@ -14,7 +14,7 @@ assert.ok(
 
 assert.equal(returnLinkCount, 1, "Le CRM doit proposer un seul retour vers l’accueil interne.");
 assert.ok(
-  html.includes('<nav class="admin-crm-header" aria-label="Navigation interne">') &&
+  html.includes('<nav class="admin-crm-header" aria-label="Navigation des modules internes et accueil">') &&
   html.includes('<a class="admin-crm-return" href="espace-interne.html">') &&
   html.includes('<span class="admin-crm-current" aria-current="page">'),
   "Le CRM doit conserver son en-tête contextuel et un retour unique vers l’accueil interne."
