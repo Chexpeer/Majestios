@@ -37,10 +37,9 @@
   const config = configs[path];
   if (!homeMount && (!page || !config)) return;
 
-  // Source unique du balisage : accueil et rubriques utilisent exactement le même formulaire.
-  const formMarkup = `
-    <form class="feed-toolbar" id="advanced-search-form" data-default-market="${config?.[2] || ""}">
-      <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
+  // Les rubriques Marchés publics et Marchés privés ont un type fixe : aucun sélecteur public/privé ne doit y apparaître.
+  const fixedMarket = path === "marches-publics.html" || path === "marches-prives.html";
+  const marketStepMarkup = fixedMarket ? "" : `
       <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
         <select id="feed-market-type" aria-label="Type de marché" required>
           <option value="">1. Choisir le type de marché</option>
@@ -48,7 +47,13 @@
           <option value="public">Marchés publics</option>
           <option value="private">Marchés privés et signaux d’entreprises</option>
         </select>
-      </label>
+      </label>`;
+
+  // Source unique du balisage : accueil et rubriques utilisent exactement le même formulaire.
+  const formMarkup = `
+    <form class="feed-toolbar" id="advanced-search-form" data-default-market="${config?.[2] || ""}">
+      <label class="feed-search"><span aria-hidden="true">⌕</span><span class="sr-only">Rechercher une opportunité commerciale</span><input id="feed-search" type="search" placeholder="Mot-clé, entreprise, secteur..." autocomplete="off"></label>
+      ${marketStepMarkup}
       <label class="feed-filter-label" id="category-step" hidden><span class="sr-only">Choisir une catégorie après le type de marché</span>
         <select id="feed-sector" aria-label="Catégorie d’opportunité" required disabled>
           <option value="all">2. Choisir d’abord un type</option>
@@ -87,7 +92,24 @@
   // Parcours progressif réservé aux rubriques : l’accueil garde son moteur inchangé.
   if (!homeMount) {
     const form = searchRoot.querySelector("#advanced-search-form");
-    form.dataset.progressive = "true";
+    if (!fixedMarket) form.dataset.progressive = "true";
+    else {
+      form.dataset.fixedMarket = "true";
+      const categoryButton = document.createElement("button");
+      categoryButton.type = "button";
+      categoryButton.className = "feed-criteria-toggle";
+      categoryButton.textContent = "Choisir une catégorie";
+      categoryButton.setAttribute("aria-controls", "category-step");
+      categoryButton.setAttribute("aria-expanded", "false");
+      form.insertBefore(categoryButton, form.querySelector("#category-step"));
+      categoryButton.addEventListener("click", () => {
+        const categoryStep = form.querySelector("#category-step");
+        const show = categoryStep.hidden;
+        categoryStep.hidden = !show;
+        categoryButton.setAttribute("aria-expanded", String(show));
+        categoryButton.textContent = show ? "Masquer les catégories" : "Choisir une catégorie";
+      });
+    }
     const sourceNote = form.querySelector("#search-source-note");
     if (sourceNote) sourceNote.hidden = true;
     const criteriaButton = document.createElement("button");
