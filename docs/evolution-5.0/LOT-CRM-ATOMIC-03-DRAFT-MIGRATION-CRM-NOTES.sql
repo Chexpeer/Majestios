@@ -3,6 +3,12 @@
 -- It has NOT been applied to any Supabase project.
 -- Generate the final migration filename with `supabase migration new crm_notes`
 -- after the product decisions and SQL review are approved.
+--
+-- PRODUCT DECISIONS APPROVED:
+-- - All organization members may read notes; only editors may create/update them.
+-- - Deleting one parent must not silently delete a note that is also linked elsewhere.
+-- - If the deleted parent is the note's only remaining parent, the FK/check constraints
+--   block that parent deletion until the note is reassigned or archived/deleted explicitly.
 
 begin;
 
@@ -33,13 +39,16 @@ create table public.crm_notes (
     check (business_id is not null or contact_id is not null or opportunity_id is not null),
   constraint crm_notes_business_same_org_fk
     foreign key (organization_id, business_id)
-    references public.businesses (organization_id, id) on delete cascade,
+    references public.businesses (organization_id, id)
+    on delete set null (business_id),
   constraint crm_notes_contact_same_org_fk
     foreign key (organization_id, contact_id)
-    references public.contacts (organization_id, id) on delete cascade,
+    references public.contacts (organization_id, id)
+    on delete set null (contact_id),
   constraint crm_notes_opportunity_same_org_fk
     foreign key (organization_id, opportunity_id)
-    references public.opportunities (organization_id, id) on delete cascade
+    references public.opportunities (organization_id, id)
+    on delete set null (opportunity_id)
 );
 
 create index crm_notes_org_updated_idx
@@ -95,10 +104,11 @@ comment on column public.crm_notes.archived_at is
 commit;
 
 -- REVIEW GATES BEFORE GENERATING/APPLYING A REAL MIGRATION:
--- 1. Confirm organization-wide visibility (current draft: all tenant members can read).
--- 2. Confirm editor roles owner/admin/member and viewer read-only.
--- 3. Confirm cascade deletion semantics for notes attached to deleted CRM records.
--- 4. Confirm whether created_by/updated_by should be nullable on Auth user deletion.
--- 5. Add application-level and SQL tests for cross-tenant parent IDs, viewer writes,
+-- 1. Confirm whether created_by/updated_by should be nullable on Auth user deletion.
+-- 2. Add application-level and SQL tests for cross-tenant parent IDs, viewer writes,
 --    editor CRUD, empty title/body, missing parent, archive/restore, and tenant isolation.
--- 6. Run Supabase advisors and verify grants/RLS on a disposable development database.
+-- 3. Test deletion semantics explicitly:
+--    a. deleting one of several linked parents nulls only that parent_id and preserves the note;
+--    b. deleting the sole remaining parent is rejected by crm_notes_at_least_one_parent;
+--    c. deleting an organization still cascades through organization_id.
+-- 4. Run Supabase advisors and verify grants/RLS on a disposable development database.
