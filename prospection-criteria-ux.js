@@ -87,8 +87,8 @@
   if (nafSuggestionButton) optionFields.append(nafSuggestionButton);
   if (nafSuggestions) optionFields.append(nafSuggestions);
 
-  const state = new Map();
   let editing = null;
+  let choicesOpen = false;
   const isChecked = (control) => Boolean(control && control.checked);
   const hasValue = (control) => Boolean(control && String(control.value || "").trim());
   const isSelected = (group) => {
@@ -130,6 +130,7 @@
   };
   const openEditor = (group) => {
     closeEditor();
+    choicesOpen = false;
     editing = group;
     editorTitle.textContent = group.label;
     group.fields.forEach((id) => {
@@ -142,6 +143,7 @@
       }
     });
     editor.hidden = false;
+    render();
     editor.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
 
@@ -155,7 +157,6 @@
         parking.append(label);
       }
     });
-    state.set(group.id, null);
   });
 
   const render = () => {
@@ -188,24 +189,22 @@
         available.append(button);
       }
     });
-    available.hidden = available.childElementCount === 0;
+    available.hidden = !choicesOpen || available.childElementCount === 0;
     selected.hidden = selected.childElementCount === 0;
-    toggle.textContent = "Ajouter ou modifier des critères";
-    toggle.setAttribute("aria-expanded", String(!editor.hidden));
+    toggle.textContent = choicesOpen ? "Masquer les critères" : "Ajouter ou modifier des critères";
+    toggle.setAttribute("aria-expanded", String(choicesOpen || !editor.hidden));
   };
 
   validate.addEventListener("click", () => {
     if (!editing) return;
     closeEditor();
+    choicesOpen = false;
     render();
   });
-  cancel.addEventListener("click", closeEditor);
+  cancel.addEventListener("click", () => { closeEditor(); render(); });
   toggle.addEventListener("click", () => {
-    if (editor.hidden) {
-      const firstAvailable = groups.find((group) => !isSelected(group));
-      if (firstAvailable) openEditor(firstAvailable);
-      else optionDetails.open = !optionDetails.open;
-    } else closeEditor();
+    if (!editor.hidden) closeEditor();
+    choicesOpen = !choicesOpen;
     render();
   });
 
@@ -222,6 +221,6 @@
   core.hidden = true;
   advanced.hidden = true;
   if (activeOnly) activeOnly.hidden = false;
-  toggle.hidden = true;
+  toggle.hidden = false;
   render();
 })();
