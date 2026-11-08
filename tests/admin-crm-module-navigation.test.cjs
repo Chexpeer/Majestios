@@ -9,6 +9,7 @@ const crmPage = read("crm-page.js");
 const internal = read("espace-interne.js");
 const crmClient = read("crm-client.js");
 const member = read("espace-membre.html");
+const internalHtml = read("espace-interne.html");
 
 const moduleNavStart = admin.indexOf('<nav id="admin-nav" class="admin-nav"');
 const moduleNavEnd = admin.indexOf("</nav>", moduleNavStart);
@@ -38,7 +39,7 @@ assert.ok(crmPage.includes('document.querySelector("#crm-admin-nav-link").hidden
 assert.ok(internal.includes('["owner", "admin", "member", "viewer"]'), "Les quatre rôles internes doivent être reconnus.");
 assert.ok(internal.includes('["owner", "admin"].includes(membership.role)'), "L'administration doit rester réservée à owner/admin.");
 assert.ok(internal.includes('membership.role === "viewer"') && internal.includes("CONSULTATION SEULE"), "Le rôle viewer doit rester explicitement en lecture seule.");
-assert.ok(internal.includes('id="internal-crm-link"') || internal.includes('"internal-crm-link"'), "Le CRM doit rester proposé depuis l'accueil interne.");
+assert.ok(internalHtml.includes('id="internal-crm-link"') && internalHtml.includes('href="crm.html"'), "Le CRM doit rester proposé depuis l'accueil interne.");
 
 assert.ok(!member.includes('href="crm.html"'), "L'espace client ne doit jamais proposer de lien direct vers le CRM interne.");
 assert.ok(crmClient.includes('.eq("organization_id", membership.organization_id)'), "Les requêtes CRM doivent rester limitées à l'organisation authentifiée.");
