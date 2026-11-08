@@ -11,6 +11,8 @@
 
 Ce document est la référence centrale V5. Il rassemble la vision, l'arborescence, les frontières fonctionnelles, l'architecture technique réellement présente, les états de réalisation et les décisions restant à prendre. Les autres documents V5 précisent certains sujets ; en cas de divergence, appliquer la présente référence et inscrire l'écart dans l'audit de conformité.
 
+**Actualisation stratégique du 8 novembre 2026 :** l'audit de la branche `feature/crm-atomic-integration`, la correction du contrôle d'accès aux recherches ciblées et la feuille de route de circulation entre rubriques, acquisition et CRM sont consignés dans [Plan stratégique acquisition, circulation, CRM et IA — 8 novembre 2026](PLAN-STRATEGIQUE-ACQUISITION-CIRCULATION-CRM-IA-2026-11-08.md). Les constats du 5 novembre ci-dessous restent des références historiques de leur branche et de leur commit ; ils ne décrivent pas à eux seuls l'état courant de la branche de réalisation.
+
 Les éléments sont étiquetés comme suit :
 
 - **FAIT VÉRIFIÉ** : constaté dans le dépôt ou confirmé par un contrôle indiqué.
