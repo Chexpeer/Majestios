@@ -71,7 +71,7 @@ async function main() {
     assert.equal(await page.locator("#internal-login-form input[name='organizationName']").count(), 0, "L’accueil interne ne doit pas proposer la création d’un espace client.");
     await page.goto("http://127.0.0.1:4177/admin-recherches.html", {waitUntil:"domcontentloaded"});
     await page.locator("#gate").waitFor({state:"visible",timeout:5000});
-    assert.equal(await page.locator("#gate a[href=" + ""espace-interne.html?returnTo=admin-recherches.html"" + "]").count(), 1, "Le parcours de connexion interne doit être proposé depuis les recherches ciblées.");
+    assert.equal(await page.locator("#gate a[href='espace-interne.html?returnTo=admin-recherches.html']").count(), 1, "Le parcours de connexion interne doit être proposé depuis les recherches ciblées.");
     assert.equal(await page.locator("#workspace").isVisible(), false, "Les recherches doivent rester masquées sans session.");
     assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation des recherches doit rester masquée sans session.");
     await page.close();
