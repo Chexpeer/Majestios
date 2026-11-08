@@ -40,5 +40,6 @@ assert.ok(ux.includes('group.id === "territory"'), "Le territoire ne doit être 
 
 assert.ok(ux.includes("const clearGroup = (group)"), "Un critère supprimé doit pouvoir être réinitialisé.");
 assert.ok(ux.includes("label.hidden = false"), "Les champs déplacés dans le panneau progressif doivent rester visibles.");
+assert.ok(ux.includes("if (control?.required) control.required = false"), "La validation native ne doit pas bloquer un champ requis masqué.");
 assert.ok(html.includes('src="prospection-criteria-ux.js"'), "L'interface progressive doit être chargée sur la page Prospection.");
 console.log("Contrat du formulaire et du moteur Prospection : OK");
