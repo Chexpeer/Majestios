@@ -230,7 +230,7 @@ function renderEditableList(selector, rows, label, kind, canEdit, related = {}) 
           description.append(link);
         } else if (caption === "Téléphone") {
           const link = document.createElement("a");
-          link.href = "tel:" + String(value).replace(/[^+\\d]/g, "");
+          link.href = "tel:" + String(value).replace(/[^+\d]/g, "");
           link.textContent = value;
           description.append(link);
         } else {
