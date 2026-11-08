@@ -176,13 +176,13 @@ Les anciennes références à BrainIOS ou à MajestiOS V.5 qui désignent l'iden
 
 **Critère de sortie :** un utilisateur autorisé passe de la rubrique au CRM et revient sans perdre le contexte ni élargir ses droits.
 
-### Lot 4 — Définition de l'intelligence et de son identité
-- Recueillir les idées du fondateur sur les rôles de l'IA et BrainIOS.
-- Distinguer nom de plateforme, nom de l'intelligence, nom des capacités spécialisées et numéro de version.
-- Définir une matrice permissions × rôles × données × actions.
-- Définir les évaluations de qualité, coûts, latence, traçabilité et mécanismes de repli.
+### Lot 4 — Définition de l'intelligence et de son identité — arbitrage clôturé le 8 novembre 2026
+- Les références à BrainIOS dans les notes ci-dessous appartiennent à la phase de réflexion antérieure et ne désignent pas l'identité actuelle de l'IA intégrée.
+- Le fondateur a confirmé que Cheexpeer est le nom d'emprunt et l'identité d'usage de l'IA intégrée à MajestiOS.
+- MajestiOS V.5 désigne la version de la plateforme ; Claude, ChatGPT ou un autre modèle peuvent constituer le moteur sous-jacent.
+- Restent à instruire : choix du premier moteur, conditions d'accès, intégration, coûts, évaluations et mécanismes de repli.
 
-**Critère de sortie :** nom et architecture validés par le fondateur ; aucune ambiguïté entre marque, plateforme et assistant.
+**Critère de sortie :** identité fonctionnelle validée. Décision acquise ; choix du moteur et architecture d'intégration encore à instruire.
 
 ### Lot 5 — IA en lecture seule puis préparation
 - Commencer par la recherche contextualisée, la synthèse sourcée et l'explication de qualification.
@@ -210,11 +210,12 @@ Cet ordre évite de bâtir une couche d'intelligence sur des liens incomplets, d
 
 ## 8. Points à arbitrer avec le fondateur
 
-1. La frontière exacte entre intelligence centrale et assistants spécialisés.
-2. Le nom propre éventuel de l'IA, distinct de MajestiOS, et la place de BrainIOS dans cette réflexion.
-3. Les événements qui peuvent proposer un transfert vers le CRM et ceux qui doivent rester purement consultatifs.
-4. Le niveau de confirmation requis pour créer, modifier, exporter ou contacter.
-5. La navigation contextuelle souhaitée entre rubriques, fiches CRM et résultats d'origine.
+Les deux premiers points de la liste initiale sont désormais tranchés par l'arbitrage du 8 novembre 2026 décrit à la section 5 : Cheexpeer est l'identité de l'IA intégrée, indépendante du moteur ; les anciennes mentions de BrainIOS sont historiques et ne désignent pas une seconde IA à développer.
+
+Restent à instruire :
+1. Les événements qui peuvent proposer un transfert vers le CRM et ceux qui doivent rester purement consultatifs.
+2. Le niveau de confirmation requis pour créer, modifier, exporter ou contacter.
+3. La navigation contextuelle souhaitée entre rubriques, fiches CRM et résultats d'origine.
 
 **Règle de protection :** ce plan ne modifie pas l'immeuble interactif, les zones cliquables, les libellés, l'arborescence ou les visuels. Aucun changement de schéma Supabase, aucune fusion, aucune promotion en production et aucun renommage global ne sont autorisés par ce document.
 
