@@ -4,7 +4,7 @@
 
 - `evolution-2.0`, `evolution-3.0` et `evolution-4.0` : branches sources historiques à préserver ; leurs documents ne sont pas copiés dans le dossier V5.
 - La filiation et les changements de doctrine sont décrits dans [FILIATION-DOCUMENTAIRE-V2-A-V5.md](FILIATION-DOCUMENTAIRE-V2-A-V5.md).
-- MajestiOS V.5 est l'intelligence centrale ; les capacités d'assistance, de mémoire, d'administration, de supervision et de SEO lui sont rattachées, sans système parallèle.
+- Cheexpeer est l'identité d'usage de l'IA intégrée à MajestiOS, indépendamment du modèle ou du fournisseur qui l'alimente. Les capacités d'assistance, de mémoire, d'analyse, de supervision et de SEO relèvent de son périmètre fonctionnel progressif, sous la gouvernance de l'Administration. MajestiOS V.5 désigne la version de la plateforme, pas l'identité du moteur IA.
 - `evolution-5.0` : branche source de cadrage et de construction V5, à préserver.
 - `evolution-5.0-clean-preview` : reconstruction propre de l'état V5 source, basée sur `main` et présentée dans la PR #38 pour validation ; elle ne remplace pas silencieusement la branche source.
 - Toute branche de prototype ou de fonctionnalité V5 devra être dédiée et partir d'une base explicitement identifiée.
