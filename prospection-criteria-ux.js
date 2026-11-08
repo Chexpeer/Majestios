@@ -142,6 +142,7 @@
     group.fields.forEach((id) => {
       const control = controlFor(id);
       const label = control?.closest("label");
+      if (control?.required) control.required = false;
       if (label) label.hidden = true;
     });
     state.set(group.id, null);
