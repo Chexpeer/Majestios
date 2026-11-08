@@ -97,3 +97,8 @@ Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires 
 ## Mapping du contrat de transmission — 8 novembre 2026
 
 [Mapping du contrat de transmission vers l'existant — Supabase et fonctions serveur](evolution-5.0/MAPPING-CONTRAT-TRANSMISSION-SCHEMA-SUPABASE-EDGE-2026-11-08.md) — rapprochement en lecture seule du contrat avec les 15 tables, les politiques et privilèges RLS, les 21 migrations appliquées, les trois fonctions Edge actives et les écarts de versionnement.
+
+
+## Lot technique Prospection — 8 novembre 2026
+
+[Lot A — fondations partagées de Prospection : DTO, validation et autorisation](evolution-5.0/LOT-A-FONDATIONS-PROSPECTION-DTO-VALIDATION-AUTHZ-2026-11-08.md) — modules partagés ESM, projections DTO en liste blanche, validation des deux parcours, contrôle d'appartenance client avec RLS et tests Node ajoutés. Aucun endpoint ni changement Supabase déployé.
