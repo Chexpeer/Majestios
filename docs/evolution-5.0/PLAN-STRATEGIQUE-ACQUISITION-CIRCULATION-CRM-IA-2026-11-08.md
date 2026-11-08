@@ -127,17 +127,20 @@ Conserver une intelligence de coordination commune, mais ne pas lui donner un ac
 
 Le mode par défaut du premier déploiement métier doit rester **lecture, analyse et préparation**. Les écritures et actions externes viennent après la validation des permissions, de la traçabilité et des contrôles.
 
-## 5. Nom de l'IA : séparation à étudier, décision non prise
+## 5. Identité de Cheexpeer et indépendance du moteur IA — arbitrage du fondateur
 
-Le nom « MajestiOS » désigne d'abord la plateforme et son univers. Utiliser exactement le même nom pour l'agent conversationnel peut créer une ambiguïté : parle-t-on du site, de l'ensemble du système, du CRM ou de son assistant ?
+Le fondateur confirme que **Cheexpeer est le nom d'emprunt et l'identité d'usage de l'intelligence intégrée à MajestiOS**. Cheexpeer n'est pas une seconde IA indépendante à développer séparément : c'est l'identité fonctionnelle présentée dans MajestiOS, incarnée par un modèle d'intelligence artificielle connecté.
 
-**Proposition à arbitrer :**
-- conserver **MajestiOS** comme nom de la plateforme ;
-- conserver **V.5** comme repère de version et d'architecture interne, pas nécessairement comme nom public de l'assistant ;
-- attribuer éventuellement à l'intelligence un nom propre distinct, qui identifie son rôle sans la présenter comme une seconde plateforme ;
-- garder une intelligence centrale commune et ses rôles spécialisés, plutôt que créer plusieurs IA autonomes concurrentes.
+- **MajestiOS** désigne la plateforme et son environnement.
+- **Cheexpeer** désigne l'intelligence intégrée, ses missions et son identité au sein de la plateforme.
+- **Claude, ChatGPT ou un autre modèle** peuvent constituer le moteur qui alimente Cheexpeer, selon les capacités, les coûts, les conditions d'accès et les résultats évalués.
+- **V.5** reste un repère de version de MajestiOS et ne doit pas être confondu avec l'identité de l'assistant.
 
-Aucun nom n'est retenu dans ce document. Le nom, la personnalité, la portée, les responsabilités et la relation avec les concepts BrainIOS restent ouverts. Les idées BrainIOS du fondateur doivent être exposées et examinées avant de figer une architecture, un rôle ou une connexion. Ne pas renommer les fichiers, routes, modules ou variables avant décision formelle et inventaire des dépendances.
+L'architecture doit donc séparer l'identité stable de Cheexpeer du fournisseur et du modèle sous-jacent. Une couche d'intégration doit permettre, à terme, de connecter ou remplacer un moteur sans redéfinir les missions, les règles métier, les permissions et l'expérience Cheexpeer. Les abonnements interactifs des fournisseurs ne doivent pas être confondus avec les accès API nécessaires à une intégration applicative.
+
+Cette indépendance est une cible d'architecture, pas la preuve que plusieurs moteurs sont déjà connectés. Le choix du premier moteur, les modalités techniques d'accès, les coûts et les évaluations restent à instruire. La préparation de l'environnement et des données peut avancer sans activer immédiatement les missions complexes de Cheexpeer.
+
+Les anciennes références à BrainIOS ou à MajestiOS V.5 qui désignent l'identité de l'intelligence intégrée doivent être harmonisées avec **Cheexpeer**. En revanche, les références historiques, les noms de versions, les chemins de fichiers et les éléments techniques ne doivent pas être renommés aveuglément : chaque occurrence doit être qualifiée selon son sens et ses dépendances.
 
 ## 6. Feuille de route stratégique proposée
 
@@ -225,3 +228,45 @@ La cible ne se limite donc pas à un transfert ponctuel Prospection → CRM. Ell
 À terme, une partie des tâches pourra être confiée à **Cheexpeer**, l'IA intégrée à MajestiOS. Sa délégation sera progressive : préparation et analyse en premier, puis tâches autorisées selon un périmètre explicite. Cheexpeer ne reçoit pas implicitement le pouvoir de valider les données ou de remplacer l'Administration. Les permissions, validations humaines requises et journaux d'audit restent applicables.
 
 Cette décision devient le principe directeur des prochains travaux d'architecture et de circulation. Elle ne déclenche pas à elle seule une migration Supabase, une modification des rôles, une automatisation active ou un déploiement en production.
+
+
+## 9. Périmètre SEO et visibilité numérique de Cheexpeer — arbitrage du fondateur
+
+Le fondateur ajoute explicitement le **SEO (référencement naturel)** aux missions de Cheexpeer. Cette responsabilité s'inscrit dans le domaine plus large du marketing, de la visibilité numérique et de l'acquisition. Elle doit contribuer à transformer la visibilité de MajestiOS en visites qualifiées, demandes pertinentes et opportunités commerciales mesurables.
+
+### 9.1 Missions SEO
+
+| Domaine | Mission de Cheexpeer | Livrable ou signal attendu |
+|---|---|---|
+| Audit SEO | Examiner la structure, les contenus, les performances et les problèmes techniques des pages | Audit daté, anomalies classées et recommandations argumentées |
+| Recherche de mots-clés | Identifier les requêtes, variantes, intentions de recherche et sujets pertinents | Cartographie des requêtes par rubrique et intention |
+| Stratégie éditoriale | Proposer des sujets, briefs, contenus et améliorations des pages existantes | Calendrier éditorial et propositions soumises à validation |
+| Référencement local | Étudier les besoins de visibilité par territoire et zone géographique | Recommandations locales cohérentes avec les offres et zones réellement couvertes |
+| SEO technique | Contrôler indexabilité, exploration, balises, titres, descriptions, canonicals, données structurées, liens internes, redirections et performances | Liste d'incidents techniques, priorité, preuve et procédure de correction |
+| Autorité et liens entrants | Repérer des possibilités de partenariats et de liens éditoriaux légitimes | Opportunités qualifiées ; aucune acquisition artificielle ou trompeuse de liens |
+| Veille concurrentielle | Observer les évolutions visibles des concurrents et des résultats de recherche | Comparatifs datés, écarts et pistes d'amélioration |
+| Mesure et reporting | Suivre impressions, clics, positions, trafic organique, conversions et contribution aux demandes commerciales | Rapports périodiques, tendances, alertes et limites de mesure |
+
+### 9.2 Boucle de travail SEO
+
+1. Collecter les données disponibles et conserver leur origine, leur période et leur périmètre.
+2. Diagnostiquer les problèmes et distinguer les faits mesurés des hypothèses.
+3. Prioriser les actions selon leur impact potentiel, leur effort, leur urgence et leur niveau de confiance.
+4. Préparer les corrections techniques, éditoriales ou structurelles avec les pages et éléments concernés.
+5. Soumettre les changements sensibles à validation avant publication.
+6. Mesurer les effets après mise en ligne et comparer les résultats à une situation de référence.
+7. Capitaliser les décisions, tests, résultats et enseignements dans la documentation et les espaces autorisés.
+
+### 9.3 Outils de mesure et limites d'autorité
+
+Cheexpeer pourra exploiter, lorsque les accès auront été configurés et autorisés, les données de Search Console, d'outils d'analyse d'audience, de mesure de performance et de suivi de positionnement. La présence de ces outils dans la cible documentaire ne signifie pas qu'ils sont déjà connectés.
+
+Cheexpeer peut observer, analyser, alerter, rédiger des briefs et préparer des modifications. Il ne doit pas publier automatiquement des contenus, modifier des pages publiques, changer les directives d'indexation, créer des redirections ou engager des actions de netlinking sans autorisation adaptée. Les changements doivent être traçables, contrôlables et réversibles.
+
+### 9.4 Finalité commerciale
+
+Le SEO ne doit pas être piloté uniquement par le volume de trafic ou la position d'un mot-clé. Cheexpeer doit relier, lorsque les données et les consentements le permettent, les performances organiques aux demandes qualifiées, aux prises de contact, aux opportunités et aux résultats commerciaux capitalisés dans le CRM. Il doit distinguer attribution observée, corrélation et hypothèse, sans surévaluer sa contribution.
+
+**Principe directeur : Cheexpeer ne cherche pas seulement à améliorer le classement de MajestiOS dans les moteurs de recherche ; il contribue à transformer sa visibilité numérique en opportunités commerciales pertinentes.**
+
+Ce périmètre est une mission cible documentée. Il ne signifie pas que le SEO est déjà automatisé ni que les connecteurs d'analyse sont opérationnels.
