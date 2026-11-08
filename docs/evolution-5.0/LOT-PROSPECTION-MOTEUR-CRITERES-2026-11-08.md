@@ -12,7 +12,7 @@ Le service de géolocalisation des communes n'est utilisé que pour convertir le
 
 ## Raccordements réalisés
 
-- Recherche par code APE/NAF et département ou région via `GET /search`.
+- Recherche textuelle facultative par nom ou mot-clé, combinée aux codes APE/NAF et au département ou à la région via `GET /search`.
 - Recherche par code APE/NAF et rayon de 1 à 50 km via `GET /near_point`, après géocodage de la commune ou du code postal.
 - Effectif : transmission du filtre `tranche_effectif_salarie` à `/search`, y compris la valeur inconnue `NN` lorsque l'option de conservation des inconnues est active ; contrôle complémentaire des résultats.
 - Chiffre d'affaires minimum et maximum, ainsi que les indicateurs RGE, Qualiopi, EPV et ESS : transmis uniquement à `/search`.
@@ -23,7 +23,7 @@ Le service de géolocalisation des communes n'est utilisé que pour convertir le
 
 ## Limites d'API prises en compte
 
-La documentation officielle de `/near_point` ne décrit que les filtres géographiques et l'activité APE/NAF. Les filtres chiffre d'affaires et labels ne lui sont donc pas transmis. L'interface bloque explicitement ces combinaisons en mode rayon et demande de choisir un département ou une région pour les utiliser.
+La documentation officielle de `/near_point` ne décrit que les filtres géographiques et l'activité APE/NAF ; le texte libre est donc réservé à `/search`. Les filtres chiffre d'affaires et labels ne lui sont donc pas transmis. L'interface bloque explicitement ces combinaisons en mode rayon et demande de choisir un département ou une région pour les utiliser.
 
 En mode rayon, les critères d'effectif, d'ancienneté, de forme juridique et de dénomination sont appliqués localement aux fiches retournées. Le volume récupéré reste limité par la pagination demandée ; une liste filtrée ne doit pas être présentée comme exhaustive.
 
