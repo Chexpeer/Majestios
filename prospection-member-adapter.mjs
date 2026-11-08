@@ -75,7 +75,13 @@ const ERROR_MESSAGES = Object.freeze({
   PARTIAL_RESULTS: "La recherche n'a retourné qu'une partie des résultats attendus."
 });
 
-function errorCode(error) {
+async function errorCode(error) {
+  if (error?.context && typeof error.context.json === "function") {
+    try {
+      const body = await error.context.json();
+      if (typeof body?.error?.code === "string") return body.error.code;
+    } catch { /* Réponse d'erreur non JSON : message générique côté interface. */ }
+  }
   return error?.code || error?.context?.error?.code || "";
 }
 
@@ -98,7 +104,7 @@ export function createProspectionMemberAdapter({ supabase } = {}) {
       }
       const { data, error } = await supabase.functions.invoke("prospection-search-member", { body });
       if (error) {
-        const code = errorCode(error);
+        const code = await errorCode(error);
         throw new Error(ERROR_MESSAGES[code] || "La recherche sécurisée n'a pas pu aboutir.");
       }
       if (!data || data.ok !== true || !Array.isArray(data.items) ||
