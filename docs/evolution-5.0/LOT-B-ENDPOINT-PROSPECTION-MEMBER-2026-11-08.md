@@ -68,4 +68,6 @@ Les réponses utilisent des codes MajestiOS stables. Les erreurs HTTP amont, mes
 
 ## Vérifications attendues
 
-La CI exécute les tests unitaires du noyau de recherche et l'ensemble des vérifications existantes. Ces tests utilisent des réponses simulées et ne constituent pas un test d'intégration authentifié avec le projet Supabase. L'endpoint n'est pas déployé ; son activation exige une validation distincte des tests d'intégration, de la configuration de fonction et de la stratégie de limitation globale.
+La CI GitHub Actions #3330 a réussi sur le commit f91e6ea50c377e741f773d4f7638fc1ed37bcf50. Les tests du nouveau noyau de recherche, les tests de contrats et d'habilitations du lot A, les contrôles de syntaxe, le build, les vérifications d'architecture, les tests navigateur Playwright et les smoke tests BOAMP/BODACC sont passés : https://github.com/Chexpeer/Majestios/actions/runs/42476232069.
+
+Ces tests utilisent des réponses simulées pour le nouveau noyau et ne constituent pas un test d'intégration authentifié avec le projet Supabase. L'endpoint n'est pas déployé ; son activation exige une validation distincte des tests d'intégration, de la configuration de fonction et de la stratégie de limitation globale.
