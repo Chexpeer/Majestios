@@ -29,6 +29,7 @@ on:
   pull_request:
     paths:
       - "prospection-active.html"
+      - "prospection-criteria-ux.js"
       - "company-targeting.js"
       - "company-targeting-page.js"
       - "tests/company-targeting.test.cjs"
