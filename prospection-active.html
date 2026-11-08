@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Identifier les entreprises pertinentes, engager des prises de contact ciblées et développer de nouvelles opportunités commerciales."><title>Prospection — MajestiOS</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="rubriques-immersives.css"><script src="catalogue-majestios.js" defer></script><script src="rubriques-immersives.js" defer></script> <script src="rubric-search.js" defer></script>
-<script src="app.js" defer></script><script src="company-targeting.js" defer></script><script src="naf-suggestions.js" defer></script><script src="company-fit.js" defer></script><script src="company-targeting-page.js" defer></script>
+<script src="app.js" defer></script><script src="company-targeting.js" defer></script><script src="naf-suggestions.js" defer></script><script src="company-fit.js" defer></script><script src="company-targeting-page.js" defer></script><script src="prospection-criteria-ux.js" defer></script>
   <link rel="stylesheet" href="charte-majestios.css">
 <style>
 .page-prospection .prospecting-search-shell{width:min(1240px,calc(100% - 24px));margin:18px auto 28px;padding:0;background:transparent;border:0;box-shadow:none}
@@ -33,7 +33,23 @@
 .page-prospection #company-targeting-form .feed-search-submit{grid-column:1/-1;justify-self:start;min-height:42px;padding:9px 18px;border:1px solid #5b4bb2;border-radius:7px;background:#5b4bb2;color:#fff;font-size:13px;font-weight:800;cursor:pointer}
 .page-prospection #company-targeting-form .feed-search-submit:hover{background:#7564c5}
 .page-prospection #company-targeting-status{color:#596174}
-@media(max-width:650px){.page-prospection #company-targeting-form{grid-template-columns:1fr;padding:11px}.page-prospection #company-targeting-form fieldset,.page-prospection #company-targeting-form>.prospecting-core-grid{grid-template-columns:1fr}.page-prospection .prospecting-search-shell{width:calc(100% - 16px)}}
+
+.page-prospection .prospecting-progressive-criteria{grid-column:1/-1;display:grid;gap:12px;min-width:0}
+.page-prospection .prospecting-criteria-available,.page-prospection .prospecting-criteria-selected{display:flex;flex-wrap:wrap;gap:8px;min-width:0}
+.page-prospection .prospecting-criteria-choice,.page-prospection .prospecting-criteria-chip{max-width:100%;min-height:38px;padding:8px 12px;border:1px solid #dedbea;border-radius:8px;background:#fff;color:#51439f;font:inherit;font-size:12px;font-weight:700;text-align:left;overflow-wrap:anywhere;cursor:pointer}
+.page-prospection .prospecting-criteria-chip{border-color:#c9c0ee;background:#f4f1ff;color:#40347f}
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{min-width:0;padding:13px;border:1px solid #e6e7ef;border-radius:9px;background:#fbfaff}
+.page-prospection .prospecting-criteria-editor h3{margin:0 0 12px;color:#51439f;font-size:14px}
+.page-prospection .prospecting-criteria-editor-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.page-prospection .prospecting-criteria-editor-fields>label{display:block;min-width:0}
+.page-prospection .prospecting-criteria-editor-fields>fieldset{grid-column:1/-1}
+.page-prospection .prospecting-criteria-editor-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.page-prospection .prospecting-criteria-editor-actions .feed-search-submit{grid-column:auto}
+.page-prospection .prospecting-criteria-options>summary{color:#5b4bb2;font-size:12px;font-weight:750;cursor:pointer}
+.page-prospection .prospecting-criteria-options[open] .prospecting-criteria-editor-fields{margin-top:12px}
+.page-prospection .prospecting-progressive-criteria [hidden]{display:none!important}
+
+@media(max-width:650px){.page-prospection .prospecting-criteria-editor-fields{grid-template-columns:1fr}.page-prospection #company-targeting-form{grid-template-columns:1fr;padding:11px}.page-prospection #company-targeting-form fieldset,.page-prospection #company-targeting-form>.prospecting-core-grid{grid-template-columns:1fr}.page-prospection .prospecting-search-shell{width:calc(100% - 16px)}}
 </style>
 
 </head>
