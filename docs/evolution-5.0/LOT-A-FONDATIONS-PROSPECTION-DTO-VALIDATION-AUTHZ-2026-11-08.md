@@ -48,6 +48,8 @@ Couverture : validation des deux parcours, rejet des paramètres interdits, proj
 - `supabase/functions/_shared/prospection-authz.mjs`
 - `supabase/functions/_shared/prospection-errors.mjs`
 - `tests/prospection-contract.test.cjs`
+- `.github/workflows/verify-site.yml` — contrôles de syntaxe ESM et exécution du nouveau test dans la CI ;
+- `verify-architecture.js` — autorisation explicite du README technique déjà présent dans `supabase/functions/` ;
 - `docs/README.md`
 - présent compte rendu
 
@@ -57,6 +59,10 @@ Aucune fonction Edge existante, page frontend, moteur de recherche global d'accu
 
 ## Vérification et limites
 
-Le code et les tests sont ajoutés au dépôt. L'environnement de cette intervention ne dispose pas d'un checkout local permettant d'exécuter Node, le build ou les tests. **Aucun résultat d'exécution n'est donc revendiqué.** Les tests devront être exécutés et la CI GitHub consultée avant le lot B.
+Le code et les tests ont été exécutés par GitHub Actions sur le commit `8bbf4b79b240c8e50ec47571e95448d2b7a07b33` (run #3328) : **succès complet**. Les contrôles de syntaxe des quatre modules ESM, le nouveau test `prospection-contract.test.cjs`, les tests métier existants, le build, les vérifications d'architecture et de site, les tests navigateur Playwright ainsi que les smoke tests BOAMP et BODACC sont tous passés. Run : https://github.com/Chexpeer/Majestios/actions/runs/42473710407.
+
+Un premier run (#3327) s'était arrêté sur une règle d'architecture préexistante : `supabase/functions/README.md` n'était pas dans la liste des emplacements Markdown autorisés. Le même échec était déjà présent sur le commit parent documentaire (#3325), avant l'ajout du lot A. La règle a été corrigée de façon ciblée pour autoriser uniquement ce README technique ; le run #3328 a ensuite passé l'ensemble du workflow.
+
+L'environnement de rédaction ne disposait pas d'un checkout local ; les résultats ci-dessus proviennent de l'exécution distante GitHub Actions. Les tests d'intégration réels de l'autorisation Supabase restent à effectuer avec des sessions de test avant l'utilisation du résolveur par un endpoint.
 
 Le résolveur s'appuie sur l'audit lecture seule du schéma et des policies daté du 8 novembre 2026 ; il devra être validé par des tests d'intégration authentifiés avant son utilisation par un endpoint.
