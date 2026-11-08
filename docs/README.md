@@ -106,3 +106,7 @@ Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires 
 ## Endpoint authentifié de Prospection — 8 novembre 2026
 
 [Lot B — premier endpoint authentifié de Prospection](evolution-5.0/LOT-B-ENDPOINT-PROSPECTION-MEMBER-2026-11-08.md) — source du premier endpoint membre, orchestration serveur, normalisation des résultats, validation des filtres, tests simulés et garde-fous avant déploiement.
+
+## Tests d’intégration Auth/RLS — 8 novembre 2026
+
+[Lot C — banc d’intégration Auth/RLS local](evolution-5.0/LOT-C-BANC-INTEGRATION-AUTH-RLS-LOCAL-2026-11-08.md) — configuration Supabase locale isolée, workflow GitHub Actions, vraies sessions Auth, vérification RLS et limites de couverture avant toute connexion au projet hébergé.
