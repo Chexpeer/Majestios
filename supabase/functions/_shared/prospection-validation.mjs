@@ -58,7 +58,7 @@ export function validateMemberSearch(input){
     filters.radius_km=source.radius_km;
   }
   if(Boolean(filters.location)!==Boolean(filters.radius_km))return {ok:false,code:"INVALID_FILTERS"};
-  if(filters.radius_km&&(!filters.activity_codes?.length||q.value||filters.departments?.length||filters.regions?.length))return {ok:false,code:"INVALID_FILTERS"};
+  if(filters.radius_km&&(!filters.activity_codes?.length||q.value||filters.departments?.length||filters.regions?.length||filters.workforce_bands?.length||filters.legal_forms?.length||filters.labels?.length))return {ok:false,code:"INVALID_FILTERS"};
   if(/^\d{9}$|^\d{14}$/.test(q.value)&&Object.keys(filters).length)return {ok:false,code:"INVALID_FILTERS"};
   const hasSelector=Boolean(q.value)||Boolean(filters.activity_codes?.length)||Boolean(filters.departments?.length)||Boolean(filters.regions?.length)||Boolean(filters.radius_km);
   if(!hasSelector)return {ok:false,code:"INVALID_QUERY"};
