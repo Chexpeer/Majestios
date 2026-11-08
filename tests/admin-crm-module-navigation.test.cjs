@@ -39,7 +39,7 @@ assert.ok(crmPage.includes('document.querySelector("#crm-admin-nav-link").hidden
 
 assert.ok(internal.includes('["owner", "admin", "member", "viewer"]'), "Les quatre rôles internes doivent être reconnus.");
 assert.ok(internal.includes('["owner", "admin"].includes(membership.role)'), "L'administration doit rester réservée à owner/admin.");
-assert.ok(internal.includes('membership.role === "viewer"') && internal.includes("CONSULTATION SEULE"), "Le rôle viewer doit rester explicitement en lecture seule.");
+assert.ok(internal.includes('membership.role === "viewer"') && /consultation seule/i.test(internal), "Le rôle viewer doit rester explicitement en lecture seule.");
 assert.ok(internalHtml.includes('id="internal-crm-link"') && internalHtml.includes('href="crm.html"'), "Le CRM doit rester proposé depuis l'accueil interne.");
 
 assert.ok(!member.includes('href="crm.html"'), "L'espace client ne doit jamais proposer de lien direct vers le CRM interne.");
