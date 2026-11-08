@@ -60,7 +60,18 @@
     const includeUnknown = field("includeUnknown") ? checked("includeUnknown") : true;
 
     if (!nafCodes.length || (!departments.length && !region && !radiusLocation)) {
-      status.textContent = "Saisissez au moins un code APE/NAF et choisissez un département, une région ou un lieu pour le rayon.";
+      status.textContent = !nafCodes.length
+        ? "Pour lancer la recherche, ajoutez d’abord une activité APE/NAF, puis un territoire."
+        : "Ajoutez un département, une région ou une commune pour définir le territoire.";
+      const toggle = document.getElementById("prospecting-criteria-toggle");
+      if (toggle) {
+        const choicesWereClosed = toggle.getAttribute("aria-expanded") !== "true";
+        if (choicesWereClosed) toggle.click();
+        const targetLabel = !nafCodes.length ? "Activité APE/NAF" : "Territoire";
+        const choice = [...form.querySelectorAll(".prospecting-criteria-choice")]
+          .find((button) => button.textContent.includes(targetLabel));
+        if (choice) choice.click();
+      }
       return;
     }
     if (radiusLocation && (departments.length || region)) {
