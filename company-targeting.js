@@ -116,6 +116,7 @@
     const departments = [...new Set((options.departments || []).map((value) => String(value).trim().toUpperCase()).filter(Boolean))];
     if (!codes.length) throw new Error("Au moins un code APE/NAF validé est requis pour interroger l’annuaire.");
     const region = String(options.region || "").trim();
+    const query = String(options.query || "").trim().slice(0, 180);
     if (!departments.length && !region) throw new Error("Choisissez au moins un département ou une région pour limiter la recherche.");
     const caMin = options.caMin == null || options.caMin === "" ? null : Number(options.caMin);
     const caMax = options.caMax == null || options.caMax === "" ? null : Number(options.caMax);
@@ -152,6 +153,7 @@
             minimal: "true",
             include: "siege,finances"
           });
+          if (query) params.set("q", query);
           if (scope.department) params.set("departement", scope.department);
           if (scope.region) params.set("region", scope.region);
           if (workforceFilter.length) params.set("tranche_effectif_salarie", [...new Set(workforceFilter)].join(","));
