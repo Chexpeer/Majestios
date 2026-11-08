@@ -320,9 +320,9 @@
       if (company.workforce != null && company.workforce !== "" && Number.isFinite(numeric)) return [numeric, numeric];
       const raw = String(company.workforceBand || "").trim().toUpperCase();
       if (workforceCodeRanges[raw]) return workforceCodeRanges[raw];
-      const match = raw.match(/(\\d+)\\s*(?:à|a|-)\\s*(\\d+)/i);
+      const match = raw.match(/(\d+)\s*(?:à|a|-)\s*(\d+)/i);
       if (match) return [Number(match[1]), Number(match[2])];
-      const high = raw.match(/(\\d+)\\s*(?:salariés? et plus|et plus|\\+)/i);
+      const high = raw.match(/(\d+)\s*(?:salariés? et plus|et plus|\+)/i);
       if (high) return [Number(high[1]), Infinity];
       return null;
     };
