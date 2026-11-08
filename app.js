@@ -248,7 +248,9 @@ const revealStep = (step, visible = true) => { if (step) step.hidden = !visible;
 document.querySelector("#feed-search")?.addEventListener("focus", () => { if (advancedSearchForm?.dataset.progressive !== "true") revealStep(searchSteps.market); });
 
 const initialSearchParams = new URLSearchParams(window.location.search);
-const initialMarketType = initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "";
+const initialMarketType = advancedSearchForm?.dataset.fixedMarket === "true"
+  ? (advancedSearchForm.dataset.defaultMarket || "")
+  : (initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "");
 const initialCategory = initialSearchParams.get("categorie") || "";
 populateSearchFilters(initialMarketType, initialCategory);
 if (advancedSearchForm?.dataset.progressive !== "true" && advancedSearchForm?.dataset.fixedMarket !== "true") {
