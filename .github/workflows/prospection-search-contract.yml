@@ -27,8 +27,12 @@ on:
       - ".github/workflows/prospection-search-contract.yml"
   pull_request:
     paths:
-      - "qualification-entreprises.html"
+      - "prospection-active.html"
+      - "company-targeting.js"
       - "company-targeting-page.js"
+      - "tests/company-targeting.test.cjs"
+      - "tests/prospection-page-contract.test.cjs"
+      - "qualification-entreprises.html"
       - "tests/prospection-form-contract.test.cjs"
       - "prospection-member-adapter.mjs"
       - "prospection-member-client.js"
