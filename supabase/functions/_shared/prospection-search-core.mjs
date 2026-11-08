@@ -17,6 +17,7 @@ const WORKFORCE_LABELS = Object.freeze({
   "51":"2 000 à 4 999 salariés","52":"5 000 à 9 999 salariés","53":"10 000 salariés et plus"
 });
 const LABEL_PARAMS = Object.freeze({rge:"est_rge",qualiopi:"est_qualiopi",epv:"est_patrimoine_vivant",ess:"est_ess"});
+const MAX_LOCAL_FILTER_UPSTREAM_PAGES = 5;
 
 function appendCommonFilters(params, filters) {
   if (filters.activity_codes?.length) params.set("activite_principale", filters.activity_codes.join(","));
@@ -111,8 +112,7 @@ function normalizeOfficialRecord(record,verifiedAt) {
   };
 }
 
-export async function executeMemberSearch({criteria,fetchImpl=fetch,now=()=>new Date().toISOString()}) {
-  const url=await buildMemberSearchUrl(criteria,fetchImpl);
+async function fetchSearchPage(url,fetchImpl) {
   let response;
   try {
     response=await fetchImpl(url.toString(),{
@@ -126,11 +126,44 @@ export async function executeMemberSearch({criteria,fetchImpl=fetch,now=()=>new 
   let payload;
   try{payload=await response.json();}catch{throw new ProspectionSearchError("SEARCH_TEMPORARILY_UNAVAILABLE");}
   if(!payload||!Array.isArray(payload.results)) throw new ProspectionSearchError("SEARCH_TEMPORARILY_UNAVAILABLE");
-  const filtered=payload.results.filter(record=>creationMatches(record,criteria.filters));
-  const verifiedAt=now();
-  const items=filtered.map(record=>toMemberCompanyDTO(normalizeOfficialRecord(record,verifiedAt))).filter(Boolean).slice(0,10);
-  const totalPages=Number.isInteger(payload.total_pages)?payload.total_pages:1;
-  const hasMore=criteria.page.number<totalPages;
+  return payload;
+}
+
+export async function executeMemberSearch({criteria,fetchImpl=fetch,now=()=>new Date().toISOString()}) {
   const dateFilter=Boolean(criteria.filters.creation_after||criteria.filters.creation_before);
-  return {items,page:{number:criteria.page.number,size:10,has_more:hasMore},partial:dateFilter&&items.length<10&&hasMore};
+  const requestedPage=criteria.page.number;
+  const offset=(requestedPage-1)*10;
+  const verifiedAt=now();
+  let filtered=[];
+  let totalPages=1;
+  let scannedPages=0;
+  let scanCapped=false;
+
+  if(!dateFilter) {
+    const url=await buildMemberSearchUrl(criteria,fetchImpl);
+    const payload=await fetchSearchPage(url,fetchImpl);
+    totalPages=Number.isInteger(payload.total_pages)?payload.total_pages:1;
+    filtered=payload.results.filter(record=>creationMatches(record,criteria.filters));
+    scannedPages=1;
+  } else {
+    // Les dates sont filtrées après réception : reconstruire les pages logiques
+    // depuis la première page amont évite de sauter des résultats entre pages.
+    const scanLimit=MAX_LOCAL_FILTER_UPSTREAM_PAGES;
+    for(let upstreamPage=1;upstreamPage<=scanLimit;upstreamPage++) {
+      const pageCriteria={...criteria,page:{...criteria.page,number:upstreamPage}};
+      const url=await buildMemberSearchUrl(pageCriteria,fetchImpl);
+      const payload=await fetchSearchPage(url,fetchImpl);
+      scannedPages=upstreamPage;
+      totalPages=Number.isInteger(payload.total_pages)?Math.max(1,payload.total_pages):1;
+      filtered.push(...payload.results.filter(record=>creationMatches(record,criteria.filters)));
+      if(filtered.length>=offset+10||upstreamPage>=totalPages) break;
+      if(upstreamPage===scanLimit) scanCapped=true;
+    }
+    if(scannedPages===scanLimit&&scannedPages<totalPages&&filtered.length<offset+10) scanCapped=true;
+  }
+
+  const window=filtered.slice(offset,offset+10);
+  const items=window.map(record=>toMemberCompanyDTO(normalizeOfficialRecord(record,verifiedAt))).filter(Boolean);
+  const hasMore=filtered.length>offset+10||scannedPages<totalPages||scanCapped;
+  return {items,page:{number:requestedPage,size:10,has_more:hasMore},partial:dateFilter&&scanCapped};
 }
