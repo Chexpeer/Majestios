@@ -55,7 +55,9 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 
 25. [Prompt de revue indépendante par IA — CRM](PROMPT-REVUE-INDEPENDANTE-IA-CRM-2026-11-06.md) — consigne prête à transmettre à plusieurs IA pour obtenir des audits critiques comparables.
 
-26. [Lot CRM — poste de travail Entreprises](LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md) — recherche locale, filtres de qualification et de département, limites et étapes suivantes.\n27. [État des ressources du moteur de Prospection](ETAT-RESSOURCES-PROSPECTION-2026-11-07.md) — état réel des connecteurs officiels et professionnels, conditions d’accès, contrôles exécutés et limites.
+26. [Lot CRM — poste de travail Entreprises](LOT-CRM-POSTE-ENTREPRISES-2026-11-06.md) — recherche locale, filtres de qualification et de département, limites et étapes suivantes.
+27. [État des ressources du moteur de Prospection](ETAT-RESSOURCES-PROSPECTION-2026-11-07.md) — état réel des connecteurs officiels et professionnels, conditions d’accès, contrôles exécutés et limites.
+28. [Préparation de l’environnement technique de Cheexpeer — 8 novembre 2026](PREPARATION-ENVIRONNEMENT-CHEXPEER-2026-11-08.md) — état vérifié du backend, registre des sources, connecteurs, écarts de migrations, circuits Administration/CRM et prérequis d’intégration IA.
 
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
