@@ -47,9 +47,11 @@ async function main() {
     await page.goto("http://127.0.0.1:4173/",{waitUntil:"domcontentloaded"});
     const captureSearchContract = async () => {
       const fields = await page.locator("#advanced-search-form").evaluate(form =>
-        [...form.querySelectorAll("input, select, button")].map(field => ({
-          id: field.id, type: field.type, required: field.required, disabled: field.disabled
-        }))
+        [...form.querySelectorAll("input, select, button")]
+          .filter(field => !field.classList.contains("feed-criteria-toggle"))
+          .map(field => ({
+            id: field.id, type: field.type, required: field.required, disabled: field.disabled
+          }))
       );
       await page.locator("#feed-search").click();
       const progressive = page.locator(".feed-criteria-toggle");
