@@ -10,7 +10,7 @@ const tables = ["businesses", "contacts", "opportunities", "activities"];
 async function requireWorkspace() {
   const { data: { session }, error: sessionError } = await supabase.auth.getSession();
   if (sessionError) throw sessionError;
-  if (!session) throw new Error("Connectez-vous depuis l’espace membre pour accéder au CRM.");
+  if (!session) throw new Error("Connectez-vous via l’accès VIP depuis la page Espace privé pour accéder au CRM interne.");
 
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError) throw userError;
