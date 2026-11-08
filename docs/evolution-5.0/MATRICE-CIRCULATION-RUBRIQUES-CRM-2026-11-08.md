@@ -199,3 +199,45 @@ Les tests doivent couvrir les permissions côté serveur / RLS, et pas seulement
 5. Comment articuler le futur rôle de l'intelligence centrale avec la préparation, la validation et la traçabilité des transmissions ?
 
 **État final de cet inventaire :** l'arborescence de premier niveau et plusieurs liens inter-rubriques sont déjà présents ; le CRM interne et son ciblage sont opérationnels dans le code avec des contrôles d'accès ; la circulation bidirectionnelle rubrique ↔ fiche CRM n'est pas encore démontrée. La prochaine implémentation doit commencer par le contrat de transmission et un parcours pilote, pas par une refonte visuelle.
+
+
+## 12. Arbitrage fondateur — circulation des données, validation Administration et attribution
+
+**Décision fonctionnelle confirmée le 8 novembre 2026 :**
+
+- Toutes les données métier pertinentes peuvent circuler entre les rubriques, les moteurs, les dossiers et le CRM, sous réserve de contrôles et de validation par l'Administration.
+- La validation administrative constitue le point de contrôle avant diffusion, partage ou attribution. Elle ne signifie pas que toutes les données doivent être visibles par tous les membres.
+- Après validation, les données et résultats sont renvoyés au membre qui en a fait la demande ou au collaborateur auquel ils ont été affectés.
+- Le système doit donc conserver l'identité du demandeur, le bénéficiaire final, l'éventuel collaborateur affecté, le motif de la demande, le périmètre d'accès, le statut de validation et l'historique des transmissions.
+- À terme, une partie des tâches aujourd'hui préparées ou réalisées par les utilisateurs pourra être déléguée à **Cheexpeer**, l'IA intégrée à MajestiOS. Cette délégation sera progressive et encadrée par les droits, les validations et la traçabilité définis par l'Administration.
+
+### Cycle de circulation cible
+
+1. **Demande ou collecte :** un membre ou un collaborateur déclenche une recherche, demande une donnée ou produit un résultat dans une rubrique.
+2. **Préparation :** MajestiOS rassemble les éléments utiles, leur provenance et le contexte de la demande.
+3. **Contrôles :** contrôle de qualité, cohérence, doublons, provenance, confidentialité, droits d'accès et finalité.
+4. **Validation Administration :** un administrateur habilité approuve, refuse ou demande une correction. La décision est horodatée et attribuée à son auteur.
+5. **Affectation :** le résultat validé est adressé au demandeur ou affecté à un collaborateur désigné. Une réaffectation doit rester traçable.
+6. **Restitution :** le bénéficiaire retrouve les éléments dans son espace autorisé, avec le lien vers la rubrique, le dossier et le contexte d'origine.
+7. **Suivi et capitalisation :** les actions et décisions effectivement réalisées sont consignées dans le CRM selon les droits applicables.
+
+### Séparation des responsabilités
+
+| Acteur | Responsabilité cible | Limite |
+|---|---|---|
+| Membre demandeur | Formuler une demande, consulter les éléments qui lui sont restitués et suivre son traitement | Ne valide pas administrativement les données ni les droits d'autrui |
+| Collaborateur affecté | Traiter la tâche ou exploiter les données dans le périmètre attribué | N'accède qu'aux dossiers et données autorisés |
+| Administrateur | Contrôler, valider, refuser, demander une correction, attribuer ou réattribuer | Les actions doivent être journalisées ; les accès restent soumis aux règles de sécurité |
+| Cheexpeer | À terme, préparer, analyser, classer, rapprocher, proposer une affectation et exécuter certaines tâches déléguées | N'obtient pas de pouvoir d'approbation administrative implicite et respecte les permissions et validations configurées |
+
+### Registre de circulation à prévoir
+
+Chaque transmission doit conserver au minimum : identifiant de demande, rubrique et dossier d'origine, identifiant du résultat, provenance et date, demandeur, organisation, bénéficiaire, collaborateur affecté le cas échéant, statut de contrôle, décision et auteur de validation, horodatages, droits appliqués, destination, historique des changements et lien de retour.
+
+Les données personnelles, confidentielles ou contractuellement limitées doivent faire l'objet de règles de visibilité adaptées. Une validation d'Administration ne remplace ni la base légale du traitement, ni les permissions serveur, ni les politiques RLS.
+
+### Place de Cheexpeer dans la trajectoire
+
+Cheexpeer est le nom retenu par le fondateur pour l'IA intégrée à MajestiOS. Son périmètre fonctionnel sera défini progressivement. La première étape consiste à lui faire préparer des tâches et des propositions explicables ; les étapes ultérieures pourront inclure des traitements délégués, uniquement dans les limites expressément autorisées. La validation Administration reste distincte de l'exécution par l'IA.
+
+**Cet arbitrage remplace l'hypothèse précédente d'une simple transmission individuelle vers le CRM : la cible est une circulation gouvernée à l'échelle de MajestiOS, avec restitution au demandeur ou au collaborateur affecté.**
