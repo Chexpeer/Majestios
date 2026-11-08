@@ -228,19 +228,45 @@ if (form && config?.url && config?.publishableKey) {
       : "Si un compte correspond à cette adresse, un lien de réinitialisation vient d’être envoyé.");
   });
 
-  supabase.auth.getSession().then(async ({ data }) => {
+  const finalizePendingWorkspace = async (session) => {
+    if (!session?.user) return null;
+    const metadata = session.user.user_metadata ?? {};
+    if (
+      metadata.privacy_notice_acknowledged !== true ||
+      metadata.privacy_notice_version !== "2026-11-05" ||
+      !metadata.organization_name ||
+      !session.user.email_confirmed_at
+    ) return null;
+
+    const { data: memberships, error } = await supabase
+      .from("organization_members")
+      .select("organization_id")
+      .eq("user_id", session.user.id)
+      .limit(1);
+    if (error) throw error;
+    if (memberships?.length) return null;
+
+    return provisionWorkspace(session, metadata.organization_name, true);
+  };
+
+  supabase.auth.getSession().then(async ({ data, error }) => {
+    if (error) {
+      if (status) status.textContent = "La vérification de votre session a échoué. Reconnectez-vous pour finaliser votre espace.";
+      return;
+    }
     await updateAuthStatus(data.session);
-    if (new URLSearchParams(window.location.search).get("confirmed") === "1" && data.session) {
+    if (data.session) {
       try {
-        const organization = await provisionWorkspace(
-          data.session,
-          data.session.user.user_metadata?.organization_name,
-          data.session.user.user_metadata?.privacy_notice_acknowledged === true
-        );
-        if (status) status.textContent = `Adresse confirmée · espace « ${organization.name} » prêt.`;
+        const organization = await finalizePendingWorkspace(data.session);
+        if (organization && status) {
+          status.textContent = `Adresse confirmée · espace « ${organization.name} » prêt. Vous pouvez maintenant finaliser votre profil.`;
+        }
       } catch (error) {
-        if (status) status.textContent = error.message || "Adresse confirmée · finalisation de l’espace nécessaire.";
+        if (status) status.textContent = error.message || "Votre compte est confirmé, mais la finalisation de l’espace reste nécessaire. Réessayez depuis cette page.";
+        setFeedback(error.message || "La création de votre espace n’a pas abouti. Votre compte est conservé ; réessayez.", true);
       }
+    }
+    if (new URLSearchParams(window.location.search).has("confirmed")) {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   });
