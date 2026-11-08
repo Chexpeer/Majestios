@@ -254,6 +254,7 @@ Le workflow `.github/workflows/majestios-anti-regression.yml` ne déclenche pas 
 - `company-targeting.js` normalise des identifiants et critères tels que SIREN/SIRET, APE/NAF, code postal/département, nom, statut et provenance.
 - Le ciblage et le score sont indicatifs. Les codes APE/NAF, la géographie et le statut ne démontrent ni compétence, ni capacité, ni disponibilité, ni éligibilité.
 - `company-fit.js` impose une revue humaine (`manual_review_required`) avant toute conclusion de qualification.
+- `naf-suggestions.js` rapproche les descriptifs de marchés par indices lexicaux explicables ; les variantes au pluriel des termes techniques doivent être couvertes par des tests dédiés. Ces suggestions restent indicatives et ne prouvent pas la compétence.
 - La recherche d'entreprises utilise une pagination limitée dans le parcours audité ; les résultats peuvent être incomplets.
 - Les résultats ne sont pas enregistrés dans un CRM persistant.
 

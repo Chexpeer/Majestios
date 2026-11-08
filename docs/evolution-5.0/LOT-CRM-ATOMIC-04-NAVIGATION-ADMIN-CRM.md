@@ -29,10 +29,9 @@ Faire apparaître clairement le CRM comme un module opérationnel de l'administr
 ## Vérifications
 
 - GitHub Actions, run `42455346047` sur le commit `6a936cfe414a6a4518dbb62ddd29cb78a1cffa23` : syntaxe JavaScript réussie et étape « Vérifier la navigation Administration / CRM » réussie. Le contrat ciblé est donc effectivement exécuté et validé.
-- Le workflow global reste en échec après cette étape, sur le test préexistant `tests/naf-suggestions.test.cjs`, assertion « L’analyse doit exploiter le descriptif du lot, pas seulement son intitulé. » (ligne 22). Les étapes build, vérification des routes et navigateur sont ignorées par arrêt anticipé. Cet échec ne concerne pas les fichiers de navigation.
-- Aucun test navigateur ni contrôle Supabase n'a été exécuté pour ce lot.
-- La CI existante du commit de départ `6f52f11184f72ad11cf49a244ad39fa28682a02d` est en échec avant ce lot : `tests/naf-suggestions.test.cjs`, assertion « L’analyse doit exploiter le descriptif du lot, pas seulement son intitulé. » (ligne 22). Les étapes de build et de vérification des routes ont été ignorées par arrêt anticipé du workflow. Cet échec préexistant est indépendant des fichiers de navigation ; il ne doit pas être masqué ni attribué au présent lot.
-- Aucune recette navigateur ou vérification Supabase exécutée pour ce lot.
+- Le test ciblé de navigation Administration / CRM a réussi dans les runs GitHub Actions `42455346047` et `42455375960`.
+- Le workflow global a ensuite échoué sur `tests/naf-suggestions.test.cjs` (ligne 22) : le descriptif du lot contenait les formes plurielles « installations électriques » et « réseaux électriques », absentes du vocabulaire de la règle 43.21A. Ce défaut de couverture lexicale est corrigé dans le lot suivant ; il n'était pas causé par les changements de navigation.
+- Aucun test navigateur ni contrôle Supabase n'a été exécuté pour le lot 04.
 
 ## Point de retour et limites
 

@@ -16,7 +16,7 @@
     .trim();
 
   const RULES = [
-    { code: "43.21A", label: "Installation électrique", keywords: ["electricite", "installation electrique", "reseau electrique", "eclairage", "courant fort", "courant faible", "renovation energetique"] },
+    { code: "43.21A", label: "Installation électrique", keywords: ["electricite", "installation electrique", "installations electriques", "reseau electrique", "reseaux electriques", "mise en conformite des reseaux electriques", "remplacement des luminaires", "eclairage", "courant fort", "courant faible", "renovation energetique"] },
     { code: "43.22A", label: "Plomberie et installations sanitaires", keywords: ["plomberie", "sanitaire", "reseau eau", "canalisation", "robinetterie"] },
     { code: "43.22B", label: "Chauffage, ventilation et climatisation", keywords: ["chauffage", "climatisation", "pompe a chaleur", "ventilation", "cvc", "equipement thermique", "renovation energetique"] },
     { code: "43.99C", label: "Maçonnerie et gros œuvre", keywords: ["maconnerie", "gros oeuvre", "beton arme", "fondation", "mur porteur"] },

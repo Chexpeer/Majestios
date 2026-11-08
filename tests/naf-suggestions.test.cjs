@@ -20,6 +20,9 @@ const tenderBrief = engine.suggestNafCodes({
   description: "Le lot technique comprend la rénovation des installations électriques, le remplacement des luminaires et la mise en conformité des réseaux électriques."
 });
 assert.ok(tenderBrief.some((item) => item.code === "43.21A"), "L’analyse doit exploiter le descriptif du lot, pas seulement son intitulé.");
+assert.ok(tenderBrief.find((item) => item.code === "43.21A").matches.includes("installations electriques"), "Les installations électriques au pluriel doivent être reconnues.");
+assert.ok(tenderBrief.find((item) => item.code === "43.21A").matches.includes("reseaux electriques"), "Les réseaux électriques au pluriel doivent être reconnus.");
+assert.ok(tenderBrief.find((item) => item.code === "43.21A").matchCount >= 3, "Les indices électriques du descriptif doivent être cumulés et explicables.");
 assert.ok(tenderBrief.find((item) => item.code === "43.21A").matchCount >= 2, "Les indices du descriptif doivent rester explicables.");
 assert.equal(tenderBrief.find((item) => item.code === "43.21A").evidenceType, "lexical_only", "La suggestion doit être explicitement qualifiée d’indice lexical.");
 assert.deepEqual(engine.suggestNafCodes({ title: "", description: "", lot: "", requirements: "" }), []);
