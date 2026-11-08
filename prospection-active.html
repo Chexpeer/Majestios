@@ -76,6 +76,48 @@
   .page-prospection #company-targeting-form>.feed-search{min-height:42px}
 }
 
+
+/* Phase 2 — interface de prospection ramenée à une ligne de recherche. */
+.page-prospection .prospecting-search-shell{width:min(1040px,calc(100% - 28px));margin:8px auto 16px}
+.page-prospection .prospecting-search-heading{display:none}
+.page-prospection #company-targeting-form{
+  display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;
+  gap:7px;width:100%;padding:8px;border:1px solid #e7e5f0;border-radius:10px;
+  background:#fff;box-shadow:0 5px 16px #39326708
+}
+.page-prospection #company-targeting-form>.feed-search{grid-column:1;grid-row:1;min-width:0;min-height:42px;padding:0 12px;border-radius:7px}
+.page-prospection #company-targeting-form>.feed-search input{min-height:40px;font-size:14px}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{
+  grid-column:2;grid-row:1;min-height:36px;padding:7px 10px;white-space:nowrap;
+  border-color:#e5e1f1;background:#faf9fe;font-size:11px
+}
+.page-prospection .prospecting-progressive-criteria{grid-column:1/-1;gap:6px}
+.page-prospection .prospecting-criteria-available,.page-prospection .prospecting-criteria-selected{gap:5px}
+.page-prospection .prospecting-criteria-choice{min-height:29px;padding:5px 8px;font-size:11px;border-radius:6px}
+.page-prospection .prospecting-criteria-chip{padding:2px 4px;border-radius:6px;font-size:10px}
+.page-prospection .prospecting-criteria-chip-edit,.page-prospection .prospecting-criteria-chip-remove{font-size:10px}
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{padding:9px;border-radius:7px}
+.page-prospection .prospecting-criteria-editor h3{margin:0 0 7px;font-size:12px}
+.page-prospection .prospecting-criteria-editor-fields{gap:8px}
+.page-prospection .prospecting-criteria-editor-fields input:not([type=checkbox]),
+.page-prospection .prospecting-criteria-editor-fields select{min-height:34px;padding:6px 8px;font-size:12px}
+.page-prospection .prospecting-criteria-editor-actions{margin-top:8px}
+.page-prospection .prospecting-criteria-editor-actions .feed-search-submit{min-height:31px;padding:5px 10px}
+.page-prospection #company-targeting-form>.feed-search-submit{
+  grid-column:3;grid-row:1;min-height:36px;padding:7px 12px;white-space:nowrap
+}
+.page-prospection #company-targeting-status{margin:7px 2px 0;font-size:11px;line-height:1.4}
+.page-prospection .company-targeting-results{margin-top:10px}
+@media(max-width:620px){
+  .page-prospection .prospecting-search-shell{width:calc(100% - 18px);margin:7px auto 12px}
+  .page-prospection #company-targeting-form{grid-template-columns:minmax(0,1fr) auto;gap:6px;padding:7px}
+  .page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;grid-row:1}
+  .page-prospection #company-targeting-form>.prospecting-criteria-toggle{grid-column:1;grid-row:2;justify-self:start}
+  .page-prospection #company-targeting-form>.feed-search-submit{grid-column:2;grid-row:2;justify-self:end}
+  .page-prospection .prospecting-criteria-editor-fields{grid-template-columns:1fr}
+  .page-prospection .prospecting-criteria-editor-fields>fieldset{grid-column:1}
+}
+
 </style>
 
 </head>
