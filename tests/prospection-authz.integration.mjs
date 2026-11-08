@@ -63,6 +63,11 @@ async function createActor({ label, kind = "client", role = "member", confirmed 
     email,
     password
   });
+  if (!confirmed) {
+    assert.equal(signInError?.code, "email_not_confirmed", "Auth doit bloquer la connexion non confirmée");
+    assert.equal(sessionData.session, null);
+    return { user: created.user, userClient, token: null, organizationIds, signInError };
+  }
   assert.ifError(signInError);
   assert.ok(sessionData.session?.access_token, `Session Auth réelle : ${label}`);
   return { user: created.user, userClient, token: sessionData.session.access_token, organizationIds };
@@ -124,7 +129,7 @@ const multiple = await createActor({ label: "multiple", memberships: 2 });
 assert.equal((await decision(multiple)).ok, false, "Plusieurs appartenances doivent être refusées");
 
 const unconfirmed = await createActor({ label: "unconfirmed", confirmed: false });
-assert.equal((await decision(unconfirmed)).ok, false, "Un e-mail non confirmé doit être refusé");
+assert.equal(unconfirmed.signInError?.code, "email_not_confirmed", "Auth doit refuser l'ouverture de session non confirmée");
 
 const validActor = authorized[0];
 const invalidToken = await resolveProspectionAccess({
@@ -147,5 +152,5 @@ assert.equal(
 );
 
 console.log(
-  `Intégration Auth/RLS Supabase locale : OK — ${createdUsers} utilisateurs Auth, ${createdOrganizations} organisations, rôles owner/admin/member, viewer, internal/partner, absence et multiplicité d'appartenance, e-mail non confirmé, JWT altéré, RLS et rejet des identifiants/roles client.`
+  `Intégration Auth/RLS Supabase locale : OK — ${createdUsers} utilisateurs Auth, ${createdOrganizations} organisations, rôles owner/admin/member, viewer, internal/partner, absence et multiplicité d'appartenance, connexion non confirmée bloquée par Auth, JWT altéré, RLS et rejet des identifiants/roles client.`
 );
