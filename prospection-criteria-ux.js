@@ -110,8 +110,10 @@
     group.fields.forEach((id) => {
       const control = controlFor(id);
       const label = control?.closest("label");
-      if (label && label.parentElement !== editorFields) editorFields.append(label);
-      else if (label) editorFields.append(label);
+      if (label) {
+        label.hidden = false;
+        editorFields.append(label);
+      }
     });
     editor.hidden = false;
     editor.scrollIntoView({ behavior: "smooth", block: "nearest" });
