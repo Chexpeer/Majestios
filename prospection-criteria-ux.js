@@ -101,7 +101,10 @@
     render();
   };
   const valueSummary = (group) => {
-    const values = group.fields.map((id) => {
+    const fields = group.id === "territory" && !hasValue(controlFor("target-radius-location"))
+      ? group.fields.filter((id) => id !== "target-radius-km")
+      : group.fields;
+    const values = fields.map((id) => {
       const control = controlFor(id);
       if (!control) return "";
       if (control.type === "checkbox") return control.checked ? (control.closest("label")?.textContent || id).trim() : "";
