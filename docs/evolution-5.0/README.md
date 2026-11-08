@@ -117,3 +117,5 @@ Toute évolution récente du fondateur peut rouvrir un sujet précédemment docu
 
 
 [Mapping du contrat de transmission vers l'existant — Supabase et fonctions serveur](MAPPING-CONTRAT-TRANSMISSION-SCHEMA-SUPABASE-EDGE-2026-11-08.md) — champs existants/manquants, permissions, visibilité des sources, fonctions Edge, migrations et ordre de correction. Relevé en lecture seule ; aucune modification du backend.
+
+[Audit de rapprochement Git / ledger / schéma Supabase — 8 novembre 2026](AUDIT-RAPPROCHEMENT-GIT-LEDGER-SCHEMA-SUPABASE-2026-11-08.md) — correspondance des 21 migrations, divergences de versions, objets PostgreSQL observés, écarts de visibilité des sources et limites de preuve ; audit en lecture seule.
