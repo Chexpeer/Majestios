@@ -32,7 +32,7 @@ Le module doit être conçu comme une interface d'administration dédiée, sécu
 
 L'IA ne doit pas promettre un classement, manipuler artificiellement les avis, produire du contenu trompeur ni publier massivement sans contrôle éditorial.
 
-MajestiOS V.5 contribue à cette mission par un suivi documenté des évolutions des moteurs, des pratiques SEO et des opportunités d'amélioration. Il formule des hypothèses et recommandations priorisées, mais ne publie aucun changement sans validation éditoriale et technique.
+Cheexpeer pourra contribuer à cette mission par un suivi documenté des évolutions des moteurs, des pratiques SEO et des opportunités d'amélioration. Elle formulera des hypothèses et recommandations priorisées, sans publication de changement avant validation éditoriale et technique.
 
 ### D. Assister le développement et la maintenance
 - analyser les rapports d'erreur et les résultats des tests ;
@@ -70,7 +70,7 @@ L'IA ne peut pas s'accorder elle-même des permissions, ni consulter les donnée
 - suivi des coûts, quotas et consommation IA ;
 - qualité des données et connecteurs ;
 - SEO et visibilité ;
-- MajestiOS V.5 : suivi des évolutions des moteurs, recherche générative, idées d'amélioration, hypothèses à tester et suivi des expérimentations ;
+- Cheexpeer : missions futures de surveillance des évolutions des moteurs, recherche générative, idées d'amélioration, hypothèses à tester et suivi des expérimentations ;
 - documentation, décisions et mémoire du projet ;
 - atelier de développement, tests et contrôle des versions ;
 - historique des actions de l'IA et des validations humaines.
