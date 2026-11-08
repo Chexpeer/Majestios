@@ -43,7 +43,7 @@ async function main() {
     assert.equal(await submenu.isVisible(), false, "Le sous-menu mobile fermé doit être masqué.");
     await page.keyboard.press("ArrowDown");
     assert.equal(await toggle.getAttribute("aria-expanded"), "true", "Flèche bas doit ouvrir le sous-menu.");
-    assert.equal(await page.evaluate(() => document.activeElement.textContent.trim()), "Prosp'active", "Flèche bas doit placer le focus sur le premier lien.");
+    assert.equal(await page.evaluate(() => document.activeElement.textContent.trim()), "Prospection", "Flèche bas doit placer le focus sur le premier lien.");
     await page.keyboard.press("Escape");
     assert.equal(await toggle.getAttribute("aria-expanded"), "false", "Échap doit fermer le sous-menu.");
     assert.equal(await page.evaluate(() => document.activeElement.classList.contains("nav-dropdown-toggle")), true, "Échap doit rendre le focus au bouton.");
