@@ -59,6 +59,8 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 
 Les documents complémentaires précisent des sujets. Ils ne constituent pas des sources de décision concurrentes à la référence centrale.
 
+**Cahier des charges opérationnel de Cheexpeer :** [CAHIER-DES-CHARGES-CHEXPEER.md](CAHIER-DES-CHARGES-CHEXPEER.md) — identité indépendante du moteur IA, veille et analyse commerciale, scoring explicable, SEO, rapports, alertes, gouvernance, sécurité et déploiement progressif. Ce document prépare l'intégration future sans activer l'IA.
+
 ## Règles de lecture
 
 - **Fait observé** : confirmé dans le code ou une preuve consultée.
