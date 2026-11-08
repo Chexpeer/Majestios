@@ -121,5 +121,6 @@
   const market = searchRoot.querySelector("#feed-market-type");
   const categoryStep = searchRoot.querySelector("#category-step");
   market.value = initialMarket;
-  if (initialMarket) categoryStep.hidden = false;
+  const progressiveMode = searchRoot.querySelector("#advanced-search-form")?.dataset.progressive === "true";
+  if (initialMarket && !progressiveMode) categoryStep.hidden = false;
 })();
