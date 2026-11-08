@@ -25,7 +25,7 @@ L'historique des versions est désormais établi par [FILIATION-DOCUMENTAIRE-V2-
 
 ## 2. Vision et positionnement
 
-**DÉCISION DE CADRAGE — MajestiOS V.5 est le cerveau du site MajestiOS.** Il est l'intelligence centrale qui coordonne les fonctionnalités, les analyses, les automatisations et les interactions du site, sous les autorisations et validations définies par le projet.
+**DÉCISION DE CADRAGE — Cheexpeer est le nom de l’IA intégrée à MajestiOS.** Son activation est différée pendant la préparation des fondations. À terme, elle surveillera les signaux autorisés, analysera les opportunités, produira des rapports et des alertes et proposera un scoring explicable des leads, sous les autorisations et validations définies par le projet.
 
 MajestiOS aide les PME à repérer des opportunités, comprendre leur contexte, décider d'une action commerciale, la préparer et en capitaliser les résultats. La séquence métier directrice est :
 
@@ -33,7 +33,7 @@ MajestiOS aide les PME à repérer des opportunités, comprendre leur contexte, 
 
 MajestiOS ne se réduit ni à un annuaire, ni à un agrégateur d'annonces, ni à un tableau de bord, ni à un CRM générique. L'immeuble est une représentation de l'écosystème fonctionnel ; il ne remplace pas les pages, les dossiers ou les fonctions transversales réellement accessibles.
 
-Terminologie active : **développement commercial**, **prospection**, **Réseau**, **Réputation virtuelle**, **immeuble interactif**, **MajestiOS V.5**.
+Terminologie active : **développement commercial**, **prospection**, **Réseau**, **Réputation virtuelle**, **immeuble interactif**, **Cheexpeer**.
 
 ## 3. Architecture fonctionnelle de référence
 
@@ -64,7 +64,7 @@ Les fonctions suivantes traversent plusieurs rubriques et ne sont pas des étage
 - **Moteur de recherche** : composant partagé par l'accueil et les rubriques, alimenté par `catalogue-majestios.js`, injecté par `rubric-search.js` et traité par `app.js`.
 - **CRM** : fonction centrale prévue pour organiser les relations et activités commerciales ; `crm.html` est actuellement une page de présentation.
 - **Business Intelligence** : analyses et aide à la décision ; `intelligence-economique.html` existe, mais aucun entrepôt décisionnel ou tableau de bord connecté n'est prouvé.
-- **Intelligence centrale MajestiOS V.5** : coordination cible des capacités, données, analyses, automatisations et interactions ; l'orchestration n'est pas opérationnelle dans le prototype.
+- **Cheexpeer** : IA intégrée dont les missions futures incluent surveillance, analyse, rapports, alertes et scoring explicable des leads ; activation différée jusqu’à la préparation des fondations.
 - **SEO, mémoire, administration, automatisations et gouvernance** : capacités transversales à construire et à soumettre aux règles d'accès et d'approbation.
 
 ### 3.3 Domaines métier
@@ -101,7 +101,7 @@ Le dépôt examiné ne montre pas de serveur applicatif, de base de données con
 |---|---|
 | **A. Opérationnel dans le prototype** | Navigation statique entre les pages publiées ; moteur commun de recherche ; requêtes à la demande aux APIs BOAMP/BODACC et à l'API publique de recherche d'entreprises ; affichage et qualification indicative des résultats ; interaction 2D de l'immeuble et de l'ascenseur. L'exécution complète de ces parcours doit être confirmée par les tests appropriés. |
 | **B. Partiel ou en cours** | Pages de présentation du CRM, de l'espace privé, de l'IA et de l'administration ; formulaires de démonstration ; recherche et qualification qui ne persistent pas les résultats au CRM ; interactions d'ascenseur couvertes par un test Playwright exécuté avec Chromium dans le workflow GitHub Actions sur le commit de référence. |
-| **C. Cible** | MajestiOS V.5 comme intelligence centrale connectant les domaines, assistants, analyses et automatisations avec permissions distinctes ; CRM persistant ; comptes et espaces client ; publication modérée ; BI ; mémoire contrôlée ; compréhension assistée des dossiers d'appels d'offres ; SEO piloté et auditable. |
+| **C. Cible** | Cheexpeer comme IA intégrée chargée progressivement de missions de surveillance, d’analyse, de rapports, d’alertes et de scoring, avec permissions distinctes ; CRM persistant ; comptes et espaces client ; publication modérée ; BI ; mémoire contrôlée ; compréhension assistée des dossiers d'appels d'offres ; SEO piloté et auditable. |
 | **D. Proposition à étudier** | Backend et hébergement ; base et modèle de séparation ; fournisseur IA et orchestration ; stockage documentaire et recherche sémantique ; fournisseur d'authentification ; automatisation proactive ; choix d'un modèle 3D ou d'une scène de visite. Aucune technologie majeure n'est validée par la seule présence de recommandations documentaires. |
 
 Les pages `crm.html`, `majestios-v5.html` et `espace-membre.html` indiquent elles-mêmes que les fonctions connectées correspondantes ne sont pas activées. Les formulaires qui précisent qu'aucune donnée n'est transmise ne doivent pas être présentés comme une collecte réelle.
@@ -162,7 +162,7 @@ L'auteur précise la visibilité et la finalité ; une demande privée adressée
 4. **Socle serveur** : choisir backend, stockage, authentification, sauvegarde et observabilité après comparaison et validation.
 5. **Données et CRM** : mettre en place modèle de données, provenance, identité, déduplication et isolation avant tout transfert CRM.
 6. **Publication, réseau et services** : distinguer annonces publiques, demandes privées, modération et espaces utilisateurs.
-7. **Intelligence centrale MajestiOS V.5** : introduire progressivement analyse en lecture seule, synthèses sourcées, préparation d'action, validation humaine, puis seules automatisations explicitement autorisées.
+7. **Cheexpeer** : préparer progressivement l’analyse en lecture seule, les synthèses sourcées, les rapports, les alertes et le scoring explicable ; toute automatisation ultérieure sera explicitement autorisée.
 8. **BI, SEO et mémoire** : bâtir à partir de données fiables, permissions testées, finalités définies et règles de rétention.
 9. **Stabilisation** : tests bout en bout, accessibilité, performance, sécurité, sauvegarde/restauration et validation avant toute autorisation de production.
 
@@ -274,7 +274,7 @@ Les pages et documents de présentation ne doivent pas être confondus avec des 
 - de base de données métier persistante ;
 - d'authentification ou d'autorisation multi-tenant ;
 - de CRM avec écritures, historique et pipeline persistants ;
-- d'orchestrateur MajestiOS V.5 en production ;
+- de Cheexpeer en production ;
 - de mémoire conversationnelle MajestiOS persistante ;
 - de cockpit d'administration IA opérationnel ;
 - d'automatisation SEO reliée à des données de Search Console ou à des outils de mesure.
@@ -283,7 +283,7 @@ Ces éléments restent des cibles d'architecture et de développement. Les docum
 
 ## 13. SEO et veille des moteurs — doctrine V5 consolidée
 
-Le SEO ne doit pas être réduit à l'ajout de mots-clés ou à la rédaction ponctuelle de pages. Il constitue une capacité transversale de MajestiOS V.5, pilotée dans le cadre de l'administration et de l'amélioration continue.
+Le SEO ne doit pas être réduit à l'ajout de mots-clés ou à la rédaction ponctuelle de pages. Il constitue une capacité future de Cheexpeer, pilotée dans le cadre de l'administration et de l'amélioration continue.
 
 La cible comprend :
 
@@ -295,14 +295,14 @@ La cible comprend :
 6. **Mesure des effets** : comparer avant/après, conserver la provenance des données et distinguer corrélation et causalité.
 7. **Amélioration continue** : actualiser la stratégie et les recommandations en fonction des évolutions observées, sans promettre une position garantie ni un maintien automatique en tête des résultats.
 
-### 13.1 MajestiOS V.5
+### 13.1 Cheexpeer
 
-MajestiOS V.5 explore des pistes d'amélioration, confronte les hypothèses à des sources fiables, repère les évolutions pertinentes et propose des expérimentations mesurables. Ces fonctions relèvent directement de MajestiOS V.5 et restent soumises aux règles de validation et de gouvernance.
+Cheexpeer pourra explorer des pistes d'amélioration, confronter les hypothèses à des sources fiables, repérer les évolutions pertinentes et proposer des expérimentations mesurables. Ces fonctions relèveront progressivement de son périmètre délégué et resteront soumises aux règles de validation et de gouvernance.
 
 
 ## 14. Intelligence centrale et gouvernance
 
-Les fonctions d'analyse, de veille, d'exploration et de recommandation sont intégrées à MajestiOS V.5. Elles peuvent contribuer au référencement naturel, à l'évolution des moteurs de recherche, aux offres, à l'expérience utilisateur et à la stratégie commerciale.
+Les fonctions d'analyse, de veille, d'exploration et de recommandation seront progressivement confiées à Cheexpeer. Elles peuvent contribuer au référencement naturel, à l'évolution des moteurs de recherche, aux offres, à l'expérience utilisateur et à la stratégie commerciale.
 
 Aucune analyse ne confère de privilège implicite : aucune dépense, prise de contact, publication ou modification de la production ne peut être engagée sans les permissions et validations applicables. Toute recommandation reste une proposition jusqu'à validation explicite.
 
@@ -316,7 +316,7 @@ Cet ordre est une recommandation de séquencement, non une autorisation d'exécu
 4. arbitrer les sources, catégories et mesure réelle BOAMP/BODACC ;
 5. définir les frontières de données, les permissions et le socle serveur ;
 6. construire le CRM persistant et les circuits de capitalisation ;
-7. mettre en place progressivement l'intelligence centrale, la mémoire et les rôles spécialisés ;
+7. préparer progressivement Cheexpeer, sa mémoire et les rôles spécialisés ;
 8. connecter l'administration, le SEO et la veille avec des sources mesurables ;
 9. étendre les automatisations seulement après évaluation, autorisation et mécanismes de retour arrière.
 
