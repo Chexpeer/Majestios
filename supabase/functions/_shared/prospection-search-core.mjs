@@ -144,14 +144,16 @@ export async function executeMemberSearch({criteria,fetchImpl=fetch,now=()=>new 
     const payload=await fetchSearchPage(url,fetchImpl);
     totalPages=Number.isInteger(payload.total_pages)?payload.total_pages:1;
     filtered=payload.results.filter(record=>creationMatches(record,criteria.filters));
-    scannedPages=1;
+    scannedPages=requestedPage;
   } else {
     // Les dates sont filtrées après réception : reconstruire les pages logiques
     // depuis la première page amont évite de sauter des résultats entre pages.
     const scanLimit=MAX_LOCAL_FILTER_UPSTREAM_PAGES;
+    const firstPageCriteria={...criteria,page:{...criteria.page,number:1}};
+    const firstPageUrl=await buildMemberSearchUrl(firstPageCriteria,fetchImpl);
     for(let upstreamPage=1;upstreamPage<=scanLimit;upstreamPage++) {
-      const pageCriteria={...criteria,page:{...criteria.page,number:upstreamPage}};
-      const url=await buildMemberSearchUrl(pageCriteria,fetchImpl);
+      const url=new URL(firstPageUrl);
+      url.searchParams.set("page",String(upstreamPage));
       const payload=await fetchSearchPage(url,fetchImpl);
       scannedPages=upstreamPage;
       totalPages=Number.isInteger(payload.total_pages)?Math.max(1,payload.total_pages):1;
