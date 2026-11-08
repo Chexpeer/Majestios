@@ -225,6 +225,25 @@ assert(appSearch.includes('#open-personal-space, #open-personal-space-shortcut')
 
 const memberPage = read("espace-membre.html");
 const memberAuth = read("auth-espace-membre.js");
+const privateAccessPage = read("espace-prive.html");
+const vipAdminPage = read("administration.html");
+const vipAdminAuth = read("administration.js");
+assert(privateAccessPage.includes('href="administration.html">Accéder à l’espace VIP'),
+  "Accès privé : la porte VIP doit conduire directement à l’administration");
+assert(privateAccessPage.includes('href="espace-membre.html">Accéder à l’espace Membres'),
+  "Accès privé : la porte Membres doit conduire directement à l’espace membre");
+assert(!/href="espace-interne\.html[^"]*"/.test(privateAccessPage),
+  "Accès privé : la porte VIP ne doit pas transiter par un sas collaborateurs");
+assert(vipAdminPage.includes('id="admin-login-form"') && vipAdminPage.includes('id="admin-email"') &&
+  vipAdminPage.includes('id="admin-password"'),
+  "Accès VIP : le formulaire d’authentification doit être directement dans la cabine d’administration");
+assert(vipAdminAuth.includes("signInWithPassword(") &&
+  vipAdminAuth.includes('[\"owner\",\"admin\"]') &&
+  vipAdminAuth.includes('kind==="internal"'),
+  "Accès VIP : l’administration doit vérifier l’identité, l’organisation interne et le rôle owner/admin");
+assert(!memberPage.includes("internal-admin-entry") && !memberAuth.includes("internal-admin-entry") &&
+  !memberPage.includes("administration.html"),
+  "Espace Membres : aucune porte ou promotion vers l’administration ne doit y être intégrée");
 const supabaseConfig = read("supabase-config.js");
 const workspaceFunction = read("supabase/functions/provision-client-workspace/index.ts");
 assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes('data-supabase-auth'),
