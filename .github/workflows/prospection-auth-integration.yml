@@ -1,0 +1,72 @@
+name: Tests d’intégration Auth et RLS — Prospection
+
+on:
+  push:
+    branches:
+      - feature/crm-atomic-integration
+    paths:
+      - "supabase/config.toml"
+      - "supabase/migrations/**"
+      - "supabase/functions/_shared/prospection-*.mjs"
+      - "tests/prospection-authz.integration.mjs"
+      - ".github/workflows/prospection-auth-integration.yml"
+  pull_request:
+    paths:
+      - "supabase/config.toml"
+      - "supabase/migrations/**"
+      - "supabase/functions/_shared/prospection-*.mjs"
+      - "tests/prospection-authz.integration.mjs"
+      - ".github/workflows/prospection-auth-integration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prospection-auth-integration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  local-auth-rls:
+    name: Stack Supabase locale éphémère
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Installer Supabase CLI v2.122.1
+        uses: supabase/setup-cli@v3
+        with:
+          version: 2.122.1
+
+      - name: Installer le client Supabase JavaScript
+        run: npm install --no-save --package-lock=false @supabase/supabase-js@2.119.0
+
+      - name: Démarrer la stack Supabase locale
+        run: supabase start
+
+      - name: Reconstruire la base locale depuis les migrations versionnées
+        run: supabase db reset --local
+
+      - name: Exécuter les tests Auth et RLS avec de vraies sessions locales
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase status -o env > "$RUNNER_TEMP/supabase-local.env"
+          set -a
+          source "$RUNNER_TEMP/supabase-local.env"
+          set +a
+          SUPABASE_URL="$API_URL" \
+          SUPABASE_ANON_KEY="$ANON_KEY" \
+          SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY" \
+          node tests/prospection-authz.integration.mjs
+
+      - name: Arrêter et supprimer les volumes de la stack locale
+        if: always()
+        run: supabase stop --no-backup
