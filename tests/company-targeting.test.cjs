@@ -37,13 +37,13 @@ async function main() {
     targeting.normalizeCompany({ siren: "100000002", nom_complet: "Entreprise moyenne", tranche_effectif_salarie: "12", date_creation: "2018-01-01", nature_juridique: "5710" }),
     targeting.normalizeCompany({ siren: "100000003", nom_complet: "Donnée inconnue", date_creation: "", nature_juridique: "" })
   ];
-  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "3-5" }).length, 1,
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "3-5", includeUnknown: false }).length, 1,
     "Le filtre d'effectif doit interpréter les codes de tranche INSEE.");
   assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "unknown" }).length, 1,
     "Le filtre effectif inconnu doit isoler les fiches sans donnée.");
   assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "3-5", includeUnknown: false }).length, 0,
     "Les données d'effectif inconnues doivent être exclues si l'option est désactivée.");
-  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { companyAge: "3-5" }).length, 1,
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { companyAge: "3-5", includeUnknown: false }).length, 1,
     "Le filtre d'ancienneté doit calculer l'âge à partir de la date de création.");
   assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { legalCategory: "5710" })[0].name, "Entreprise moyenne");
   assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { nameContains: "petite" })[0].name, "Petite entreprise");
