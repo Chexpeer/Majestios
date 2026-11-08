@@ -73,7 +73,7 @@ for (const page of htmlPages) {
     match[2],
     match[4].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
   ]);
-  const expectedNavigation = page === "index.html"
+  const expectedNavigation = page === "index.html" || page === "espace-membre.html"
     ? expectedSiteNavigation.map(([href, label]) => label === "Espace privé" ? ["espace-prive.html", label] : [href, label])
     : expectedSiteNavigation;
   assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation),
@@ -242,8 +242,12 @@ assert(vipAdminAuth.includes("signInWithPassword(") &&
   vipAdminAuth.includes('kind==="internal"'),
   "Accès VIP : l’administration doit vérifier l’identité, l’organisation interne et le rôle owner/admin");
 assert(!memberPage.includes("internal-admin-entry") && !memberAuth.includes("internal-admin-entry") &&
-  !memberPage.includes("administration.html"),
-  "Espace Membres : aucune porte ou promotion vers l’administration ne doit y être intégrée");
+  !memberPage.includes("administration.html") && !memberPage.includes('href="crm.html"') &&
+  !memberPage.includes("<h2>CRM MajestiOS</h2>"),
+  "Espace Membres : aucune porte vers l’administration ou le CRM ne doit y être intégrée");
+assert(memberPage.includes('href="espace-prive.html">Espace privé</a>') &&
+  !memberPage.includes('href="espace-membre.html" aria-current="page"'),
+  "Espace Membres : la navigation privée doit revenir à la page de choix des deux accès");
 const supabaseConfig = read("supabase-config.js");
 const workspaceFunction = read("supabase/functions/provision-client-workspace/index.ts");
 assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes('data-supabase-auth'),
