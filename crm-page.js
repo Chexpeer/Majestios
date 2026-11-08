@@ -197,6 +197,50 @@ function renderEditableList(selector, rows, label, kind, canEdit, related = {}) 
     const text = document.createElement("span");
     text.textContent = label(row);
     item.append(text);
+    if (kind === "contact") {
+      const profile = document.createElement("details");
+      profile.className = "crm-contact-profile";
+      const profileSummary = document.createElement("summary");
+      profileSummary.textContent = "Ouvrir la fiche contact";
+      profile.append(profileSummary);
+
+      const fields = document.createElement("dl");
+      fields.className = "crm-contact-profile-fields";
+      const business = (related.businesses || []).find(company => company.id === row.business_id);
+      const profileFields = [
+        ["Prénom", row.first_name],
+        ["Nom", row.last_name],
+        ["Fonction", row.job_title],
+        ["Entreprise", business ? (business.trade_name || business.legal_name) : (row.business_id ? "Entreprise associée — nom non chargé dans cette page" : "")],
+        ["E-mail", row.email],
+        ["Téléphone", row.phone],
+        ["Consentement", row.consent_status],
+        ["Provenance", row.source_label],
+        ["Créé le", row.created_at ? new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium" }).format(new Date(row.created_at)) : ""]
+      ];
+      profileFields.forEach(([caption, value]) => {
+        if (value === null || value === undefined || value === "") return;
+        const term = document.createElement("dt");
+        term.textContent = caption;
+        const description = document.createElement("dd");
+        if (caption === "E-mail") {
+          const link = document.createElement("a");
+          link.href = "mailto:" + value;
+          link.textContent = value;
+          description.append(link);
+        } else if (caption === "Téléphone") {
+          const link = document.createElement("a");
+          link.href = "tel:" + String(value).replace(/[^+\\d]/g, "");
+          link.textContent = value;
+          description.append(link);
+        } else {
+          description.textContent = value;
+        }
+        fields.append(term, description);
+      });
+      profile.append(fields);
+      item.append(profile);
+    }
     if (kind === "business") {
       const searchParts = [row.legal_name, row.trade_name, row.siren, row.siret, row.ape_naf, row.city, row.department_code, row.qualification_notes];
       item.dataset.searchText = searchParts.filter(Boolean).join(" ").toLocaleLowerCase("fr-FR");
@@ -607,8 +651,8 @@ async function loadWorkspacePage(table, resetPage = false, canEdit = workspacePa
   next.disabled = result.pageCount === 0 || result.page >= result.pageCount - 1;
   if (table === "contacts") {
     renderEditableList("#crm-contact-list", result.rows,
-      row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.email ? " · " + row.email : ""),
-      "contact", canEdit);
+      row => [row.first_name, row.last_name].filter(Boolean).join(" ") + (row.job_title ? " · " + row.job_title : "") + (row.email ? " · " + row.email : ""),
+      "contact", canEdit, businessRelatedData);
   } else if (table === "opportunities") {
     renderEditableList("#crm-opportunity-list", result.rows,
       row => row.title + " · " + row.status, "opportunity", canEdit);
