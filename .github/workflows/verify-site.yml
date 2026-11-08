@@ -55,6 +55,10 @@ jobs:
           node --input-type=module --check < crm-client.js
       - name: Vérifier la navigation Administration / CRM
         run: node tests/admin-crm-module-navigation.test.cjs
+      - name: Vérifier le contrat de navigation du CRM
+        run: node tests/crm-navigation-contract.test.cjs
+      - name: Vérifier le contrat de sécurité du CRM
+        run: node tests/crm-security-contract.test.cjs
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification des entreprises
