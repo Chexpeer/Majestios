@@ -58,7 +58,7 @@ async function main() {
       body:supabaseMock(null)
     }));
     await page.goto("http://127.0.0.1:4177/administration.html", {waitUntil:"domcontentloaded"});
-    await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
+    await page.getByText("Identifiez-vous par l’accès VIP", {exact:false}).waitFor({timeout:5000});
     assert.equal(await page.locator("#admin-workspace").isVisible(), false, "Le cockpit doit rester masqué sans session.");
     assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation interne doit rester masquée sans session.");
     assert.equal(await page.locator("#admin-gate a[href='espace-interne.html?returnTo=administration.html']").count(), 1, "Le parcours d’authentification interne doit être accessible.");
@@ -70,7 +70,7 @@ async function main() {
     assert.equal(await page.locator("#internal-login-form input[name='password']").count(), 1, "Le formulaire interne doit demander le mot de passe.");
     assert.equal(await page.locator("#internal-login-form input[name='organizationName']").count(), 0, "L’accueil interne ne doit pas proposer la création d’un espace client.");
     await page.goto("http://127.0.0.1:4177/admin-recherches.html", {waitUntil:"domcontentloaded"});
-    await page.getByText("Connectez-vous avec le compte interne", {exact:false}).waitFor({timeout:5000});
+    await page.getByText("Identifiez-vous par l’accès VIP", {exact:false}).waitFor({timeout:5000});
     assert.equal(await page.locator("#workspace").isVisible(), false, "Les recherches doivent rester masquées sans session.");
     assert.equal(await page.locator(".admin-sidebar").isVisible(), false, "La navigation des recherches doit rester masquée sans session.");
     await page.close();
