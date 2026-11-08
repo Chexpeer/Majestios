@@ -267,7 +267,7 @@ Le workflow `.github/workflows/majestios-anti-regression.yml` ne déclenche pas 
 - Le parcours « Nous rejoindre » ne collecte pas de CV dans cette version.
 - L'aide d'accueil est une navigation guidée ; elle ne constitue pas un chatbot conversationnel IA opérationnel.
 
-### 12.4 CRM, intelligence centrale, mémoire et administration
+### 12.4 CRM, Cheexpeer, mémoire et administration
 
 Les pages et documents de présentation ne doivent pas être confondus avec des services connectés. À la date de cet addendum, le dépôt ne démontre pas :
 - de backend applicatif MajestiOS connecté ;
@@ -300,9 +300,9 @@ La cible comprend :
 Cheexpeer pourra explorer des pistes d'amélioration, confronter les hypothèses à des sources fiables, repérer les évolutions pertinentes et proposer des expérimentations mesurables. Ces fonctions relèveront progressivement de son périmètre délégué et resteront soumises aux règles de validation et de gouvernance.
 
 
-## 14. Intelligence centrale et gouvernance
+## 14. Cheexpeer et gouvernance de l'IA intégrée
 
-Les fonctions d'analyse, de veille, d'exploration et de recommandation seront progressivement confiées à Cheexpeer. Elles peuvent contribuer au référencement naturel, à l'évolution des moteurs de recherche, aux offres, à l'expérience utilisateur et à la stratégie commerciale.
+Cheexpeer est l'identité d'usage de l'IA intégrée à MajestiOS, indépendamment du modèle ou du fournisseur qui l'alimente. Les fonctions d'analyse, de veille, d'exploration et de recommandation relèveront progressivement de son périmètre délégué. Elles peuvent contribuer au référencement naturel, à l'évolution des moteurs de recherche, aux offres, à l'expérience utilisateur et à la stratégie commerciale.
 
 Aucune analyse ne confère de privilège implicite : aucune dépense, prise de contact, publication ou modification de la production ne peut être engagée sans les permissions et validations applicables. Toute recommandation reste une proposition jusqu'à validation explicite.
 
