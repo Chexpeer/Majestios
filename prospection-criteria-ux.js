@@ -179,19 +179,9 @@
   groups.forEach((group) => group.fields.forEach((id) => {
     const control = controlFor(id);
     if (!control) return;
-    control.addEventListener("change", () => {
-      if (editing === group && isSelected(group)) {
-        closeEditor();
-      }
-      render();
-    });
+    control.addEventListener("change", render);
     if (control.matches("input[type='text'], input[type='search'], input[type='number']")) {
-      control.addEventListener("blur", () => {
-        if (editing === group && isSelected(group)) {
-          closeEditor();
-          render();
-        }
-      });
+      control.addEventListener("input", render);
     }
   }));
 
