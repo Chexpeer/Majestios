@@ -6,6 +6,7 @@
   const path = window.location.pathname.split("/").pop();
   const configs = {
     "marches-publics.html": ["Rechercher des marchés publics", "Interrogez le flux BOAMP avec des critères métier et géographiques. Vérifiez toujours l’avis officiel.", "public"],
+    "developpement-commercial.html": ["Rechercher des opportunités de développement commercial", "Repérez les marchés et signaux commerciaux à qualifier pour développer votre activité.", ""],
     "prospection-active.html": ["Rechercher des opportunités pour la prospection", "Identifiez des pistes à qualifier avant toute prise de contact.", ""],
     "veille-marches.html": ["Rechercher dans la veille des marchés", "Filtrez les avis publics par mot-clé, catégorie et département.", "public"],
     "accompagnement-appels-offres.html": ["Trouver un marché à qualifier", "Recherchez une consultation avant d’évaluer les exigences et les délais.", "public"],
