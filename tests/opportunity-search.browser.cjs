@@ -369,12 +369,14 @@ async function main() {
       const publicContextPages = ["marches-publics.html", "categorie-services-numeriques.html", "categorie-travaux-amenagement.html", "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html", "categorie-electricite.html", "categorie-plomberie-chauffage.html", "categorie-maintenance.html"];
       const contextualMarket = publicContextPages.includes(destination) ? "public" : destination === "marches-prives.html" ? "private" : "";
       assert.equal(await page.locator("#feed-market-type").inputValue(), contextualMarket, `${destination} doit appliquer son type de marché contextuel.`);
-      assert.equal(await page.locator("#market-step").isVisible(), Boolean(contextualMarket), `${destination} doit afficher le type uniquement s’il est défini par son contexte.`);
-      assert.equal(await page.locator("#category-step").isVisible(), Boolean(contextualMarket), `${destination} doit afficher la catégorie après son type contextuel.`);
-      await page.locator("#feed-search").focus();
-      assert.equal(await page.locator("#market-step").isVisible(), true, `${destination} doit révéler le type au focus du mot-clé.`);
-      if (!contextualMarket) assert.equal(await page.locator("#category-step").isVisible(), false, `${destination} ne doit pas afficher la catégorie avant le choix du type.`);
+      const criteriaButton = page.locator(".feed-criteria-toggle");
+      assert.equal(await criteriaButton.count(), 1, `${destination} doit proposer le bouton unique de filtrage progressif.`);
+      assert.equal(await page.locator("#market-step").isVisible(), false, `${destination} doit masquer le type avant activation du bouton.`);
+      assert.equal(await page.locator("#category-step").isVisible(), false, `${destination} doit masquer la catégorie avant activation du bouton.`);
+      await criteriaButton.click();
+      assert.equal(await page.locator("#market-step").isVisible(), true, `${destination} doit révéler le premier niveau de critères.`);
       await page.locator("#feed-market-type").selectOption("public");
+      await criteriaButton.click();
       assert.equal(await page.locator("#category-step").isVisible(), true, `${destination} doit révéler la catégorie après le choix du type.`);
       const publicOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => option.value));
       assert.ok(publicOptions.includes("services"), `${destination} doit proposer les catégories BOAMP.`);
@@ -384,6 +386,7 @@ async function main() {
       assert.ok(privateOptions.includes("bodacc-cessions"), `${destination} doit proposer les familles BODACC.`);
       assert.equal(privateOptions.includes("services"), false, `${destination} ne doit pas mélanger les catégories publiques.`);
       await page.locator("#feed-sector").selectOption("bodacc-cessions");
+      await criteriaButton.click();
       assert.equal(await page.locator("#department-step").isVisible(), true, `${destination} doit révéler le département après la catégorie.`);
       assert.equal(await page.locator('#feed-department option[value="79"]').count(), 1, `${destination} doit proposer le département 79.`);
     }
