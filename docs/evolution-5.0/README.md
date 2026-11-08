@@ -129,3 +129,6 @@ Toute évolution récente du fondateur peut rouvrir un sujet précédemment docu
 [Lot D — contrat complet du moteur serveur de Prospection](LOT-D-CONTRAT-COMPLET-MOTEUR-PROSPECTION-2026-11-08.md) — matrice ancien moteur / contrat membre / traitement effectif, filtres ignorés en mode rayon, pagination et complétude, désynchronisation HTML/JavaScript ; audit statique en lecture seule.
 
 [Lot D1 — corrections ciblées du contrat serveur de Prospection](LOT-D1-CORRECTIONS-CONTRAT-SERVEUR-PROSPECTION-2026-11-08.md) — refus explicite des filtres non transmis en mode rayon, pagination bornée et signalée après filtrage local, tests unitaires et preuve CI ciblée réussie. Aucun raccordement frontend ni changement Supabase.
+
+
+[Lot D2-A — harmonisation du formulaire de qualification — 8 novembre 2026](LOT-D2-A-HARMONISATION-FORMULAIRE-PROSPECTION-2026-11-08.md) — alignement des champs HTML/JavaScript, test anti-régression et limites avant raccordement à l'endpoint membre.
