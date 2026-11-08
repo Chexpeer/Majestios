@@ -28,7 +28,7 @@ Le workflow `42458915680`, déclenché sur `f4b03c6`, a exécuté avec succès l
 
 Le test a été corrigé sur la branche pour vérifier les éléments fonctionnels stables : porte d'accès visible, lien de connexion interne vers `espace-interne.html?returnTo=admin-recherches.html`, espace de travail masqué et navigation interne masquée sans session.
 
-**Statut après correction :** correction commitée sous `a5f16f2`, mais le nouveau workflow doit encore être observé avant de déclarer la CI verte. Le déploiement Preview antérieur au correctif de test ne contient pas ce dernier commit. Aucun changement de production n'a été effectué.
+**Résultat après correction — vérifié :** le workflow `42459412213` s'est terminé avec succès sur le commit `b329277d2f492b0d36f63e02a7ed22a4af7f3071`. Les 20 étapes du job sont réussies, y compris le test du verrouillage Administration / Recherches ciblées. La correction du test est dans `a5f16f2` ; le run vert porte le commit documentaire final `b329277`. La Preview associée est READY : `https://majestios-jc8g-18qdglxui-majistr.vercel.app`. Aucun changement de production n'a été effectué.
 
 ### 1.3 Limites à ne pas masquer
 
