@@ -24,9 +24,9 @@ Rôles fonctionnels envisagés :
 8. **Responsable SEO assisté** — surveille la santé technique, l'indexation, la qualité éditoriale, les évolutions des moteurs et la visibilité dans les expériences de recherche classiques et génératives.
 9. **Administrateur IA** — supervise la plateforme, ses données, ses connecteurs, ses coûts, sa documentation, ses tests et ses incidents, selon le document [MODULE-ADMIN-IA.md](MODULE-ADMIN-IA.md).
 10. **Gardien de la mémoire et de la cohérence** — retrouve les conversations et décisions pertinentes, détecte les contradictions, maintient les liens entre objectifs, décisions, tâches et preuves.
-11. **MajestiOS V.5** — assure l'exploration des pistes d'amélioration, confronte les hypothèses, suit les évolutions pertinentes (notamment SEO et moteurs de recherche), propose des expérimentations et documente les opportunités à instruire.
+11. **Cheexpeer** — IA intégrée à MajestiOS, dont l’activation est différée pendant la préparation des fondations. À terme, elle surveillera les signaux autorisés, analysera les opportunités, produira des rapports et des alertes, et proposera un scoring explicable des leads.
 
-Ces rôles sont des responsabilités logiques, pas nécessairement des agents ou produits séparés. L'ensemble de ces responsabilités relève de MajestiOS V.5. Toute proposition reste soumise à validation ; aucune publication, prise de contact, dépense ou modification de la production n'est autorisée sans accord explicite.
+Ces rôles sont des responsabilités logiques, pas nécessairement des agents ou produits séparés. Ces responsabilités relèveront progressivement de Cheexpeer, dans le périmètre qui lui sera délégué et sous la gouvernance de l’Administration. Toute proposition reste soumise à validation ; aucune publication, prise de contact, dépense ou modification de la production n'est autorisée sans accord explicite.
 
 Ils ne nécessitent pas obligatoirement onze modèles distincts : le choix entre un modèle unique avec outils, plusieurs agents ou une architecture hybride sera évalué selon fiabilité, coût, latence, sécurité et facilité de maintenance.
 
@@ -181,9 +181,9 @@ Les IA auditrices doivent notamment examiner :
 11. Comment différencier clairement l'intelligence utile d'un simple effet marketing ?
 12. Quelles fonctions devraient être exclues du premier périmètre V5 ?
 
-## 13. MajestiOS V.5
+## 13. Cheexpeer — missions futures
 
-MajestiOS V.5 doit aider la plateforme à rester en mouvement : explorer des idées nouvelles, repérer les changements de pratiques et de technologies, confronter les hypothèses à des sources, identifier les opportunités et proposer des tests mesurables. Le SEO constitue un premier champ d'application prioritaire, sans limiter MajestiOS V.5 à ce seul domaine.
+Cheexpeer est l’IA intégrée à MajestiOS. Son activation est volontairement différée : la priorité actuelle est de préparer les données, les référentiels, les droits, les circuits de validation et les outils nécessaires. À terme, ses missions prioritaires seront la surveillance des signaux autorisés, l’analyse des opportunités, la production de rapports et d’alertes, ainsi que le scoring et la notation explicables des leads. Elle pourra ensuite contribuer à d’autres analyses transversales, notamment le suivi SEO, selon un périmètre délégué et validé.
 
 Pour le SEO, le cycle de veille comprend : suivre les annonces et documentations officielles des moteurs, observer les changements de formats de résultats et de recherche générative, analyser les effets potentiels sur les contenus et les parcours MajestiOS, proposer des actions priorisées, puis mesurer leurs résultats. Les recommandations doivent distinguer faits sourcés, interprétations, hypothèses et expérimentations.
 
