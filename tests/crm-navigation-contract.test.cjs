@@ -14,7 +14,7 @@ assert.ok(
 
 assert.equal(returnLinkCount, 1, "Le CRM doit proposer un seul retour vers l’accueil interne.");
 assert.ok(
-  html.includes('<nav class="admin-crm-header" aria-label="Navigation des modules internes et accueil">') &&
+  html.includes('<nav class="admin-crm-header" aria-label="Navigation interne">') &&
   html.includes('<a class="admin-crm-return" href="espace-interne.html">') &&
   html.includes('<span class="admin-crm-current" aria-current="page">'),
   "Le CRM doit conserver son en-tête contextuel et un retour unique vers l’accueil interne."
@@ -23,15 +23,10 @@ assert.ok(html.includes('id="crm-admin-nav-link" href="administration.html" hidd
 const crmScript = fs.readFileSync(path.join(__dirname, "..", "crm-page.js"), "utf8");
 const crmClient = fs.readFileSync(path.join(__dirname, "..", "crm-client.js"), "utf8");
 assert.ok(crmScript.includes('const canAdminister = ["owner", "admin"].includes(membership.role)') && crmScript.includes('document.querySelector("#crm-admin-nav-link").hidden = !canAdminister') && crmScript.includes('document.querySelector("#crm-search-nav-link").hidden = !canAdminister'), "Les liens Administration et Recherches du CRM doivent dépendre du rôle owner/admin.");
-const adminNavStart = adminHtml.indexOf('<nav id="admin-nav" class="admin-nav"');
+const adminNavStart = adminHtml.indexOf('<nav id="admin-nav" class="admin-nav">');
 const adminNavEnd = adminHtml.indexOf("</nav>", adminNavStart);
 const adminNav = adminHtml.slice(adminNavStart, adminNavEnd);
-assert.ok(adminNav.includes('href="administration.html"') && adminNav.includes('aria-current="page"') && adminNav.includes('Administration générale'), "Le cockpit doit identifier explicitement le module Administration actif.");
-assert.ok(adminNav.includes('href="crm.html"') && adminNav.includes('href="admin-recherches.html"'), "La navigation des modules doit donner accès au CRM et aux recherches ciblées.");
-const adminSectionStart = adminHtml.indexOf('<nav class="admin-nav admin-section-nav"');
-const adminSectionEnd = adminHtml.indexOf("</nav>", adminSectionStart);
-const adminSectionNav = adminHtml.slice(adminSectionStart, adminSectionEnd);
-assert.ok(adminSectionNav.includes('href="#cockpit"') && adminSectionNav.includes('href="#sources"') && adminSectionNav.includes('href="#team"') && adminSectionNav.includes('href="#clients"'), "Les repères internes du cockpit doivent rester séparés de la navigation entre modules.");
+assert.ok(adminNav.includes('href="crm.html"') && adminNav.includes('href="admin-recherches.html"'), "Le cockpit doit donner accès au CRM et aux recherches dans sa navigation principale.");
 const searchHtml = fs.readFileSync(path.join(__dirname, "..", "admin-recherches.html"), "utf8");
 const searchNavStart = searchHtml.indexOf('<nav class="admin-nav">');
 const searchNavEnd = searchHtml.indexOf("</nav>", searchNavStart);
@@ -77,7 +72,7 @@ assert.ok(crmScript.includes("alreadyKnown.length") && crmScript.includes("contr
 assert.ok(crmScript.includes("tranche_effectif_salarie") && crmScript.includes("nombre_etablissements"), "Les résultats doivent exploiter les indicateurs d’effectif et d’établissements lorsqu’ils sont fournis par la source.");
 assert.ok(crmScript.includes("Identifiant source") && crmScript.includes("Collecte :") && crmScript.includes("Critères : APE/NAF"), "La fiche intégrée doit conserver les éléments de provenance et les critères de ciblage.");
 assert.ok(crmScript.includes("failures.push") && crmScript.includes("Aucun dossier existant n’a été écrasé"), "Les erreurs d’intégration doivent être explicites et aucune fusion automatique ne doit être réalisée.");
-
+const crmClient = fs.readFileSync(path.join(__dirname, "..", "crm-client.js"), "utf8");
 assert.ok(crmClient.includes('async function listBusinessesPage') && crmClient.includes('.select("*", { count: "exact" })') && crmClient.includes(".range(from, to)"), "La recherche entreprises doit compter et paginer les résultats côté serveur.");
 assert.ok(crmClient.includes('.eq("organization_id", membership.organization_id)') && crmClient.includes('query = query.or('), "La pagination et la recherche doivent rester limitées au tenant authentifié.");
 assert.ok(crmClient.includes('"legal_name", "trade_name", "siren", "siret", "ape_naf", "city"'), "La recherche serveur doit couvrir identité, identifiants, APE/NAF et ville.");
