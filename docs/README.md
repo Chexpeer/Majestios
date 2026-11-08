@@ -92,3 +92,8 @@ Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires 
 ## Audit des circuits d'information — 8 novembre 2026
 
 [Audit et optimisation des circuits d'information — Immeuble, rubriques, CRM et Administration](evolution-5.0/AUDIT-CIRCUITS-INFORMATION-IMMEUBLE-RUBRIQUES-CRM-ADMIN-2026-11-08.md) — contrôle en lecture seule du schéma Supabase et des politiques RLS, écarts de visibilité et d'habilitation, circuit cible demande → préparation → validation Administration → affectation → restitution → CRM, plan de correction et tests d'acceptation.
+
+
+## Mapping du contrat de transmission — 8 novembre 2026
+
+[Mapping du contrat de transmission vers l'existant — Supabase et fonctions serveur](evolution-5.0/MAPPING-CONTRAT-TRANSMISSION-SCHEMA-SUPABASE-EDGE-2026-11-08.md) — rapprochement en lecture seule du contrat avec les 15 tables, les politiques et privilèges RLS, les 21 migrations appliquées, les trois fonctions Edge actives et les écarts de versionnement.
