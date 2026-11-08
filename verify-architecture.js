@@ -248,6 +248,12 @@ assert(!memberPage.includes("internal-admin-entry") && !memberAuth.includes("int
 assert(memberPage.includes('href="espace-prive.html">Espace privé</a>') &&
   !memberPage.includes('href="espace-membre.html" aria-current="page"'),
   "Espace Membres : la navigation privée doit revenir à la page de choix des deux accès");
+const crmPage = read("crm.html");
+assert(!crmPage.includes('src="rubric-search.js"'),
+  "CRM : le moteur de recherche public des opportunités ne doit pas être injecté dans le CRM");
+assert(!crmPage.includes('href="espace-membre.html"') &&
+  crmPage.includes('href="administration.html">← Retour à l’administration'),
+  "CRM : la navigation doit rester dans l’administration VIP et ne jamais renvoyer vers l’espace Membres");
 const crmClient = read("crm-client.js");
 assert(crmClient.includes('!["owner", "admin"].includes(membership.role)') ||
   crmClient.includes('!["owner","admin"].includes(membership.role)'),
