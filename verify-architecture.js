@@ -73,7 +73,7 @@ for (const page of htmlPages) {
     match[2],
     match[4].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
   ]);
-  const expectedNavigation = page === "index.html" || page === "espace-membre.html"
+  const expectedNavigation = page === "index.html" || page === "espace-membre.html" || page === "crm.html"
     ? expectedSiteNavigation.map(([href, label]) => label === "Espace privé" ? ["espace-prive.html", label] : [href, label])
     : expectedSiteNavigation;
   assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation),
@@ -306,10 +306,15 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
   "categorie-plomberie-chauffage.html","categorie-maintenance.html","faq.html","nous-rejoindre.html",
   "vision-majestios.html","qualification-entreprises.html","resultats-recherche.html"]) {
   const html = read(page);
-  assert(html.indexOf('src="catalogue-majestios.js"') >= 0 &&
-    html.indexOf('src="catalogue-majestios.js"') < html.indexOf('src="rubric-search.js"') &&
-    html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
-    "Recherche : ordre de chargement du catalogue et du moteur commun incorrect sur " + page);
+  if (page !== "crm.html") {
+    assert(html.indexOf('src="catalogue-majestios.js"') >= 0 &&
+      html.indexOf('src="catalogue-majestios.js"') < html.indexOf('src="rubric-search.js"') &&
+      html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
+      "Recherche : ordre de chargement du catalogue et du moteur commun incorrect sur " + page);
+  } else {
+    assert(!html.includes('src="rubric-search.js"'),
+      "CRM : le moteur public de recherche ne doit pas être chargé");
+  }
   assert(/href="rubriques-immersives\.css"/.test(html),
     "Recherche : feuille de style commune absente sur " + page);
   assert(/href="charte-majestios\.css"/.test(html),
