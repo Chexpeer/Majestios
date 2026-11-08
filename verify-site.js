@@ -75,11 +75,12 @@ assert(adminPage.includes('meta name="robots" content="noindex,nofollow"'), "Adm
 assert(adminPage.includes('src="administration.js"') && adminPage.includes('href="administration.css"'), "Administration : ressources du cockpit non chargées");
 assert(adminPage.includes('href="crm.html"'), "Administration : accès au CRM interne absent");
 const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
-assert(crmPage.includes('<nav class="admin-crm-header" aria-label="Navigation interne">') && crmPage.includes('aria-current="page"') && crmPage.includes('id="crm-admin-nav-link"') && crmPage.includes('id="crm-search-nav-link"'), "CRM : navigation interne ou repère de page actuelle absent");
+assert(crmPage.includes('<nav class="admin-crm-header" aria-label="Navigation des modules internes et accueil">') && crmPage.includes('aria-current="page"') && crmPage.includes('id="crm-admin-nav-link"') && crmPage.includes('id="crm-search-nav-link"'), "CRM : navigation interne ou repère de page actuelle absent");
 const adminScript = fs.readFileSync(path.join(root, "administration.js"), "utf8");
-for (const token of ["organization_members", 'kind === "internal"', '["owner", "admin"]']) {
-  assert(adminScript.includes(token), "Administration : contrôle d’accès interne incomplet (" + token + ")");
-}
+assert(adminScript.includes("organization_members"), "Administration : contrôle d’accès aux appartenances internes absent");
+assert(/\.kind\s*===\s*"internal"/.test(adminScript), "Administration : filtrage de l’organisation interne absent");
+assert(/\[\s*"owner"\s*,\s*"admin"\s*\]\.includes\(\s*membership\.role\s*\)/.test(adminScript),
+  "Administration : seuls owner/admin doivent pouvoir accéder au cockpit");
 
 assert(crmPage.includes('href="espace-interne.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’accueil interne absent");
 assert(crmPage.includes('meta name="robots" content="noindex,nofollow"'), "CRM : la page interne doit être exclue de l’indexation");
