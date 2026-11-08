@@ -14,7 +14,7 @@
   const parseList = (value) => [...new Set(String(value || "").split(/[,;\n]+/).map((item) => item.trim()).filter(Boolean))];
   const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
   const formatScore = (value) => Number.isFinite(value) ? value + "/100" : "Non calculé";
-  const field = (name) => form.elements.namedItem(name);
+  const field = (name) => form.elements[name];
   const valueOf = (name) => {
     const control = field(name);
     return control && typeof control.value === "string" ? control.value : "";
