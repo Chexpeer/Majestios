@@ -1,0 +1,41 @@
+name: Tests du contrat serveur de Prospection
+
+on:
+  push:
+    branches:
+      - feature/crm-atomic-integration
+    paths:
+      - "supabase/functions/_shared/prospection-search-core.mjs"
+      - "supabase/functions/_shared/prospection-validation.mjs"
+      - "supabase/functions/_shared/prospection-contract.mjs"
+      - "tests/prospection-search-core.test.cjs"
+      - "tests/prospection-contract.test.cjs"
+      - ".github/workflows/prospection-search-contract.yml"
+  pull_request:
+    paths:
+      - "supabase/functions/_shared/prospection-search-core.mjs"
+      - "supabase/functions/_shared/prospection-validation.mjs"
+      - "supabase/functions/_shared/prospection-contract.mjs"
+      - "tests/prospection-search-core.test.cjs"
+      - "tests/prospection-contract.test.cjs"
+      - ".github/workflows/prospection-search-contract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    name: Tests unitaires du contrat et du moteur
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Tester le contrat DTO, validation et habilitations
+        run: node tests/prospection-contract.test.cjs
+      - name: Tester le moteur membre, les filtres et la pagination
+        run: node tests/prospection-search-core.test.cjs
