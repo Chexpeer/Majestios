@@ -41,8 +41,8 @@ async function main() {
     "Le filtre d'effectif doit interpréter les codes de tranche INSEE.");
   assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "unknown" }).length, 1,
     "Le filtre effectif inconnu doit isoler les fiches sans donnée.");
-  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "3-5", includeUnknown: false }).length, 0,
-    "Les données d'effectif inconnues doivent être exclues si l'option est désactivée.");
+  assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { workforce: "3-5" }).length, 2,
+    "Les fiches sans effectif restent incluses lorsque l'option de conservation est activée.");
   assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { companyAge: "3-5", includeUnknown: false }).length, 1,
     "Le filtre d'ancienneté doit calculer l'âge à partir de la date de création.");
   assert.equal(targeting.filterCompaniesByCriteria(workforceExamples, { legalCategory: "5710" })[0].name, "Entreprise moyenne");
