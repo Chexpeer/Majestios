@@ -28,7 +28,7 @@ Faire apparaître clairement le CRM comme un module opérationnel de l'administr
 
 ## Vérifications
 
-- Contrat statique de navigation mis à jour ; exécution locale non disponible dans cette intervention.
+- Le workflow principal `.github/workflows/verify-site.yml` inclut maintenant le contrat de navigation Administration / CRM afin qu’il soit exécuté sur les pushes de cette branche. Le résultat de cette exécution reste à confirmer.
 - La CI existante du commit de départ `6f52f11184f72ad11cf49a244ad39fa28682a02d` est en échec avant ce lot : `tests/naf-suggestions.test.cjs`, assertion « L’analyse doit exploiter le descriptif du lot, pas seulement son intitulé. » (ligne 22). Les étapes de build et de vérification des routes ont été ignorées par arrêt anticipé du workflow. Cet échec préexistant est indépendant des fichiers de navigation ; il ne doit pas être masqué ni attribué au présent lot.
 - Aucune recette navigateur ou vérification Supabase exécutée pour ce lot.
 
