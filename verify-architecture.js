@@ -293,8 +293,9 @@ for (const migration of [
 ]) {
   assert(exists(migration), "Backend : migration versionnée absente : " + migration);
 }
-assert(siteFiles.includes("supabase-config.js") && siteFiles.includes("auth-espace-membre.js"),
-  "Build : les modules publics de configuration et Auth doivent être déclarés dans le manifeste");
+assert(siteFiles.includes("supabase-config.js") && siteFiles.includes("auth-espace-membre.js") &&
+  siteFiles.includes("crm-page.js") && siteFiles.includes("crm-client.js"),
+  "Build : les modules Auth et les deux modules du CRM doivent être déclarés dans le manifeste");
 
 for (const page of ["marches-publics.html","developpement-commercial.html","prospection-active.html","veille-marches.html",
   "accompagnement-appels-offres.html","sous-traitance.html","intelligence-economique.html","reseaux-synergies.html",
