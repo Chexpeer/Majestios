@@ -1188,3 +1188,10 @@ Sur la branche de réalisation `feature/crm-atomic-integration`, le cockpit et l
 - cette harmonisation ne modifie ni les contrôles d'accès, ni les politiques RLS, ni les espaces clients, ni l'immeuble interactif.
 
 **Limite importante :** cette étape harmonise la navigation et rend le CRM identifiable comme module de l'administration. Elle ne constitue pas encore une coque applicative unique, une gestion complète des habilitations depuis le cockpit, ni une intégration de l'administration des clients. Ces capacités restent à construire et à tester séparément.
+
+
+## 13. Indicateurs CRM dans le cockpit — lot 06 (8 novembre 2026)
+
+Le cockpit d’administration expose désormais trois compteurs de consultation : entreprises, contacts et opportunités de l’organisation interne. Les requêtes Supabase utilisent un comptage exact sans charger les lignes (`head: true`) et filtrent explicitement `organization_id` sur l’organisation interne authentifiée. Les erreurs propres à un compteur affichent « — » et ne bloquent pas les autres instruments du cockpit. Le lien vers le CRM complet reste la destination pour consulter et gérer les dossiers.
+
+Cette première intégration est strictement en lecture seule : aucun enregistrement, modification ou suppression depuis le cockpit. Elle ne remplace ni les politiques RLS ni les contrôles de rôle existants. Les espaces clients et leurs données restent hors de ce périmètre.

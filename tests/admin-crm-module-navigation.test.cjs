@@ -10,6 +10,7 @@ const internal = read("espace-interne.js");
 const crmClient = read("crm-client.js");
 const member = read("espace-membre.html");
 const internalHtml = read("espace-interne.html");
+const adminJs = read("administration.js");
 
 const moduleNavStart = admin.indexOf('<nav id="admin-nav" class="admin-nav"');
 const moduleNavEnd = admin.indexOf("</nav>", moduleNavStart);
@@ -45,4 +46,13 @@ assert.ok(!member.includes('href="crm.html"'), "L'espace client ne doit jamais p
 assert.ok(crmClient.includes('.eq("organization_id", membership.organization_id)'), "Les requêtes CRM doivent rester limitées à l'organisation authentifiée.");
 assert.ok(crmClient.includes('membership.role === "viewer"'), "Le client CRM doit conserver le verrouillage en lecture seule du rôle viewer.");
 
+for (const [id,table] of [
+  ["metric-crm-businesses","businesses"],
+  ["metric-crm-contacts","contacts"],
+  ["metric-crm-opportunities","opportunities"]
+]) {
+  assert.ok(admin.includes('id="' + id + '"'), "Indicateur CRM absent du cockpit : " + id);
+  assert.ok(adminJs.includes('from("' + table + '").select("id",{count:"exact",head:true}).eq("organization_id",orgId)'),
+    "Le compteur " + table + " doit être limité à l'organisation interne authentifiée.");
+}
 console.log("CONTRAT NAVIGATION ADMINISTRATION / CRM RÉUSSI.");
