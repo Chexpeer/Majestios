@@ -56,7 +56,7 @@ Le document [Filiation documentaire V2 → V5](FILIATION-DOCUMENTAIRE-V2-A-V5.md
 - Les documents historiques peuvent contenir des noms ou concepts remplacés ; ils servent à retrouver les intentions d'origine, pas à définir seuls la doctrine actuelle.
 - MajestiOS V.5 est l'intelligence centrale du site. Les capacités décrites dans les documents sont des cibles tant que leur réalisation n'est pas prouvée.
 - « Réputation virtuelle » est le terme cible.
-- « Prospection » est l'intitulé du dossier ; « Prosp'active » peut être une signature de marque.
+- « Prospection » est l'intitulé officiel du dossier et le terme à employer dans toute l’interface.
 - Les pages salons et séminaires restent des contenus du Réseau.
 - CRM, Business Intelligence, mémoire, orchestration, administration et SEO sont des capacités transversales, même si elles ne constituent pas des étages.
 - Le SEO continu, la veille des moteurs et les recommandations de maintien à la pointe font partie du périmètre stratégique de l'administration de MajestiOS V.5.
