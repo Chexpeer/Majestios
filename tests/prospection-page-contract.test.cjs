@@ -4,7 +4,7 @@ const fs = require("node:fs");
 
 const html = fs.readFileSync("prospection-active.html", "utf8");
 const script = fs.readFileSync("company-targeting-page.js", "utf8");
-const form = html.match(/<form id="company-targeting-form">([\s\S]*?)<\/form>/);
+const form = html.match(/<form\b(?=[^>]*\bid="company-targeting-form")[^>]*>([\s\S]*?)<\/form>/);
 assert.ok(form, "Le formulaire principal de Prospection doit exister.");
 
 const controls = new Set();
