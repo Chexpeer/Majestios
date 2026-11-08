@@ -67,7 +67,7 @@ assert.ok(!internalHtml.includes("signUp(") && !internalHtml.includes("provision
 
 assert.ok(html.includes('id="crm-targeting-form"') && html.includes('name="nafCodes"') && html.includes('name="departments"'), "Le poste Entreprises doit intégrer le ciblage marché au CRM.");
 assert.ok(crmScript.includes("initMarketTargeting(!isReadOnly)") && crmScript.includes("MajestiosCRM.createBusiness") && crmScript.includes('qualification_status: "to_review"'), "Le ciblage doit réutiliser le client CRM et ses droits existants.");
-assert.ok(crmScript.includes("targetingCandidates") && crmScript.includes("SIREN:"), "Le ciblage doit proposer la sélection et un contrôle des doublons déjà chargés.");
+assert.ok(crmScript.includes("targetingCandidates") && crmScript.includes("SIREN :"), "Le ciblage doit proposer la sélection et un contrôle des doublons déjà chargés.");
 assert.ok(crmScript.includes("alreadyKnown.length") && crmScript.includes("contrainte d’unicité SIREN"), "Le ciblage doit signaler les doublons visibles et rappeler la limite du contrôle local.");
 assert.ok(crmScript.includes("tranche_effectif_salarie") && crmScript.includes("nombre_etablissements"), "Les résultats doivent exploiter les indicateurs d’effectif et d’établissements lorsqu’ils sont fournis par la source.");
 assert.ok(crmScript.includes("Identifiant source") && crmScript.includes("Collecte :") && crmScript.includes("Critères : APE/NAF"), "La fiche intégrée doit conserver les éléments de provenance et les critères de ciblage.");
