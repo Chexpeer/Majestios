@@ -73,7 +73,10 @@
     findLabel("target-limit"),
     findLabel("target-market-description")
   ].filter(Boolean);
-  optionLabels.forEach((label) => optionFields.append(label));
+  optionLabels.forEach((label) => {
+    label.hidden = false;
+    optionFields.append(label);
+  });
   const nafSuggestionButton = document.getElementById("suggest-naf-button");
   const nafSuggestions = document.getElementById("naf-suggestions");
   if (nafSuggestionButton) optionFields.append(nafSuggestionButton);
