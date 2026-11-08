@@ -24,7 +24,9 @@ Le test CI fournit un marché dont le titre est générique (« Réhabilitation 
 
 ## Vérifications
 
-Le test ciblé et la CI complète seront renseignés après leur exécution sur le commit de ce lot. Aucune réussite n'est présumée à la création de ce document.
+- GitHub Actions, run `42455599604` : `tests/naf-suggestions.test.cjs` réussi ; le build a copié les 70 fichiers du manifeste sans différence avec les sources.
+- Le workflow s'arrête ensuite dans `verify-architecture.js` sur six incohérences de navigation/architecture listées dans le lot 06. Les tests ciblés et le build sont donc validés ; l'architecture générale reste non validée.
+- Aucun test navigateur, contrôle Supabase réel ou test d'intégration API n'a été exécuté après cet arrêt.
 
 ## Point de retour
 

@@ -29,7 +29,9 @@ Relier le cockpit au référentiel CRM interne par des données réelles, sans d
 - Contrat statique enrichi pour vérifier la présence des trois compteurs et le filtre explicite par organisation.
 - La CI précédente a confirmé le succès du test APE/NAF corrigé et du build (70 fichiers copiés).
 - Le workflow s’arrête ensuite sur six incohérences préexistantes de `verify-architecture.js` : navigation publique absente/incohérente sur certaines pages, coordonnées/identifiants des destinations de l’accueil divergents du contrat codé, et ordre/titres de la page Prospection divergents. Le script de vérification et les pages concernées sont identiques à ceux de la branche de base ; ces constats ne sont pas provoqués par le présent lot. Aucune modification de l’immeuble ou de ces pages n’est incluse ici.
-- Le résultat CI de ce lot sera consigné après exécution sur son commit.
+- GitHub Actions, run `42455730436` : syntaxe JavaScript réussie ; contrat ciblé Administration / CRM réussi ; tests de ciblage, qualification, ressources de Prospection et suggestions APE/NAF réussis ; build réussi (70 fichiers copiés).
+- Le contrôle global `verify-architecture.js` échoue ensuite sur six constats : `espace-prive.html` sans navigation publique attendue ; navigation de l'accueil différente ; destinations de l'immeuble différentes du contrat codé ; ordre des scripts de recherche et deux titres divergents sur `prospection-active.html`. Le fichier de vérification et les pages concernées sont identiques à la branche de base `rebuild/evolution-5.0-admin-cockpit-clean-supabase` : ce blocage est hérité, pas introduit par le lot 06.
+- Les tests navigateur sont ignorés par arrêt anticipé. Aucun test Supabase avec une session réelle n'a été exécuté ; les compteurs sont validés statiquement, mais leur retour effectif depuis le projet connecté reste à vérifier.
 
 ## Point de retour
 
