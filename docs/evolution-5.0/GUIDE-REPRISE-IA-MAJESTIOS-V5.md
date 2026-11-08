@@ -1,4 +1,4 @@
-# Guide de reprise IA — MajestiOS V.5
+# Guide de reprise IA — Cheexpeer dans MajestiOS V.5
 
 **Version documentaire :** 5 novembre 2026  
 **Dépôt :** `Chexpeer/Majestios`  
@@ -52,7 +52,7 @@ MajestiOS V.5 assure la réflexion stratégique, l'exploration et le suivi des �
 
 ### SEO comme capacité continue
 
-Le SEO n'est pas une action ponctuelle de rédaction. La cible V5 couvre la surveillance technique, l'indexation, la qualité éditoriale, le maillage, la performance, les évolutions des moteurs classiques et génératifs, les recommandations priorisées et la mesure des effets. MajestiOS V.5 assure également le suivi des évolutions des moteurs et des pratiques de référencement ; l'administration organise le suivi opérationnel et les validations.
+Le SEO n'est pas une action ponctuelle de rédaction. La cible V5 couvre la surveillance technique, l'indexation, la qualité éditoriale, le maillage, la performance, les évolutions des moteurs classiques et génératifs, les recommandations priorisées et la mesure des effets. Cheexpeer pourra également contribuer au suivi des évolutions des moteurs et des pratiques de référencement. L’Administration conserve le contrôle opérationnel et les validations. À ce stade, Cheexpeer reste en attente pendant la préparation des fondations.
 
 Ne jamais promettre une position garantie ou un maintien automatique en tête des moteurs. Les changements de contenu et de production nécessitent une validation humaine.
 
