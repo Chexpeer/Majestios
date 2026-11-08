@@ -57,6 +57,10 @@
       status.textContent = "Saisissez au moins un code APE/NAF et choisissez un département, une région ou un lieu pour le rayon.";
       return;
     }
+    if (radiusLocation && (departments.length || region)) {
+      status.textContent = "Choisissez un seul périmètre géographique : rayon autour d’une commune, ou département/région.";
+      return;
+    }
     if (nafCodes.some((code) => !/^\d{2}\.\d{2}[A-Z]$/.test(code))) {
       status.textContent = "Un code APE/NAF semble invalide. Utilisez le format officiel, par exemple 43.21A.";
       return;
@@ -136,7 +140,7 @@
       results.hidden = false;
       status.textContent = "Recherche terminée. Contrôlez les fiches avant toute décision ou prise de contact.";
     } catch (error) {
-      status.textContent = "La recherche n’a pas pu aboutir. Réessayez ou modifiez vos critères.";
+      status.textContent = error && error.message ? error.message : "La recherche n’a pas pu aboutir. Réessayez ou modifiez vos critères.";
     } finally {
       submitButton.disabled = false;
     }
