@@ -52,7 +52,10 @@ async function main() {
         }))
       );
       await page.locator("#feed-search").click();
+      const progressive = page.locator(".feed-criteria-toggle");
+      if (await progressive.count()) await progressive.click();
       await page.locator("#feed-market-type").selectOption("public");
+      if (await progressive.count()) await progressive.click();
       const publicCategories = await page.locator("#feed-sector option").evaluateAll(options =>
         options.map(option => ({value:option.value,label:option.textContent.trim(),disabled:option.disabled}))
       );
@@ -61,6 +64,7 @@ async function main() {
         options.map(option => ({value:option.value,label:option.textContent.trim(),disabled:option.disabled}))
       );
       await page.locator("#feed-sector").selectOption("bodacc-creations");
+      if (await progressive.count()) await progressive.click();
       const departments = await page.locator("#feed-department option").evaluateAll(options =>
         options.map(option => ({value:option.value,label:option.textContent.trim(),disabled:option.disabled}))
       );
