@@ -59,26 +59,19 @@
     const marketTitle = form.elements.marketTitle.value.trim();
     const includeUnknown = field("includeUnknown") ? checked("includeUnknown") : true;
 
-    if (!nafCodes.length || (!departments.length && !region && !radiusLocation)) {
-      status.textContent = !nafCodes.length
-        ? "Pour lancer la recherche, ajoutez d’abord une activité APE/NAF, puis un territoire."
-        : "Ajoutez un département, une région ou une commune pour définir le territoire.";
-      const toggle = document.getElementById("prospecting-criteria-toggle");
-      if (toggle) {
-        const choicesWereClosed = toggle.getAttribute("aria-expanded") !== "true";
-        if (choicesWereClosed) toggle.click();
-        const targetLabel = !nafCodes.length ? "Activité APE/NAF" : "Territoire";
-        const choice = [...form.querySelectorAll(".prospecting-criteria-choice")]
-          .find((button) => button.textContent.includes(targetLabel));
-        if (choice) choice.click();
-      }
+    if (!nafCodes.length && !departments.length && !region && !radiusLocation && !marketTitle) {
+      status.textContent = "Saisissez un nom ou un mot-clé, ou ajoutez un critère facultatif pour lancer la recherche.";
+      return;
+    }
+    if (radiusLocation && !nafCodes.length) {
+      status.textContent = "Pour une recherche par rayon, indiquez une activité APE/NAF. Ce filtre est nécessaire au service géographique.";
       return;
     }
     if (radiusLocation && (departments.length || region)) {
       status.textContent = "Choisissez un seul périmètre géographique : rayon autour d’une commune, ou département/région.";
       return;
     }
-    if (radiusLocation && marketTitle) {
+    if (radiusLocation && marketTitle && nafCodes.length) {
       status.textContent = "La recherche textuelle par nom ou mot-clé nécessite un périmètre département/région. En mode rayon, utilisez les codes APE/NAF.";
       return;
     }
