@@ -121,3 +121,5 @@ Toute évolution récente du fondateur peut rouvrir un sujet précédemment docu
 [Audit de rapprochement Git / ledger / schéma Supabase — 8 novembre 2026](AUDIT-RAPPROCHEMENT-GIT-LEDGER-SCHEMA-SUPABASE-2026-11-08.md) — correspondance des 21 migrations, divergences de versions, objets PostgreSQL observés, écarts de visibilité des sources et limites de preuve ; audit en lecture seule.
 
 [Audit ciblé — invisibilité des sources et séparation des DTO — 8 novembre 2026](AUDIT-INVISIBILITE-SOURCES-DTO-2026-11-08.md) — analyse des endpoints historiques et membre, accès directs au registre et au CRM, architecture cible et tests anti-fuite ; audit statique en lecture seule.
+
+[Cartographie des consommateurs — moteurs de recherche entreprises et CRM — 8 novembre 2026](CARTOGRAPHIE-CONSOMMATEURS-MOTEURS-ENTREPRISES-CRM-2026-11-08.md) — parcours navigateur confirmé, endpoints historiques, données de provenance dans le CRM, écarts de critères et plan de bascule vers le moteur serveur ; audit statique en lecture seule.
