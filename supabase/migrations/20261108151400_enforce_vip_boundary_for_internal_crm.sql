@@ -124,7 +124,11 @@ create policy "Authorized users can read their CRM reminders"
 create policy "Authorized editors can mark their CRM reminders read"
   on public.crm_reminders for update to authenticated
   using ((select private.can_edit_crm_org(organization_id)))
-  with check ((select private.can_edit_crm_org(organization_id)));
+  with check (
+    (select private.can_edit_crm_org(organization_id))
+    and state = 'read'
+    and read_at is not null
+  );
 
 -- L'appel RPC doit appliquer exactement la même frontière de sécurité que les tables.
 create or replace function public.complete_crm_reminder(p_reminder_id uuid)
