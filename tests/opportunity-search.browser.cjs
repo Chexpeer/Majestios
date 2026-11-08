@@ -131,6 +131,13 @@ async function main() {
       });
     });
 
+    await page.goto("http://127.0.0.1:4174/prospection-active.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#company-targeting-form").waitFor({ state: "visible", timeout: 5000 });
+    assert.equal(await page.locator("form.feed-toolbar").count(), 1, "La rubrique Prospection doit afficher un seul moteur de recherche.");
+    assert.equal(await page.locator("#advanced-search-form").count(), 0, "Le moteur transversal ne doit pas être injecté en doublon dans Prospection.");
+    assert.equal(await page.locator(".rubric-search-card").count(), 0, "Aucune seconde carte de recherche générique ne doit apparaître dans Prospection.");
+    assert.equal(await page.locator("#prospecting-criteria-toggle").count(), 1, "Le moteur métier Prospection doit conserver son bouton de critères.");
+
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=plomberie&marche=public&departement=79", { waitUntil: "domcontentloaded" });
     await page.getByText("Connexion à la source officielle BOAMP en cours…").waitFor({ state: "detached", timeout: 10000 }).catch(() => {});
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
