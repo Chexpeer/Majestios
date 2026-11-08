@@ -44,6 +44,7 @@ jobs:
           node --check supabase/functions/_shared/prospection-authz.mjs
           node --check supabase/functions/_shared/prospection-errors.mjs
           node --check supabase/functions/_shared/prospection-search-core.mjs
+          node --experimental-strip-types --check supabase/functions/prospection-search-member/index.ts
           node --input-type=module --check < supabase-config.js
           node --input-type=module --check < auth-espace-membre.js
           node --input-type=module --check < administration.js
