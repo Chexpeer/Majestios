@@ -106,8 +106,9 @@ async function main() {
     return { ok: true, status: 200, json: async () => ({ results: [], total_pages: 1, total_results: 0 }) };
   };
   try {
-    await targeting.searchCompanies({ nafCodes: ["43.21A"], departments: [], region: "52", workforce: "3-5", includeUnknown: true, caMin: 100000, caMax: 2000000, estRge: true, estQualiopi: true });
+    await targeting.searchCompanies({ nafCodes: ["43.21A"], departments: [], region: "52", query: "atelier Martin", workforce: "3-5", includeUnknown: true, caMin: 100000, caMax: 2000000, estRge: true, estQualiopi: true });
     assert.match(advancedUrl, /region=52/);
+    assert.match(advancedUrl, /q=atelier\+Martin/);
     assert.match(advancedUrl, /tranche_effectif_salarie=02%2CNN/);
     assert.match(advancedUrl, /ca_min=100000/);
     assert.match(advancedUrl, /ca_max=2000000/);
