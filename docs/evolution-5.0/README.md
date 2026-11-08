@@ -15,7 +15,7 @@ La vision ne se réduit ni à un moteur d'annonces, ni à un tableau de bord, ni
 
 La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à partir de l'audit du commit `735a09ce0b5c476ff659558060791b34a628b6ac`. Elle distingue les fonctions réellement présentes, les contrôles CI exécutés, les limites du prototype et les capacités qui restent à construire. Le run GitHub Actions `41936795822` a réussi les contrôles listés dans l'addendum de la référence ; cela ne vaut pas validation exhaustive du dépôt ni preuve de mise en production.
 
-**MajestiOS V.5 reste l'intelligence centrale unique.** MajestiOS V.5 assure le suivi du référencement naturel et pilote l'amélioration continue de la plateforme.
+**Cheexpeer est le nom retenu pour l’IA intégrée à MajestiOS.** Son activation est différée pendant la préparation des fondations. À terme, elle assurera notamment la surveillance, l’analyse, les rapports, les alertes et le scoring explicable des opportunités ; elle pourra également contribuer au suivi du référencement naturel.
 
 ## Guide de reprise pour les IA
 
@@ -35,7 +35,7 @@ La référence canonique `MAJESTIOS-V5-REFERENCE.md` a été actualisée à part
 10. [Arborescence cible V5](ARBORESCENCE-CIBLE-V5.md) — destinations, dossiers, pages et fonctions transversales.
 11. [Expérience immersive et immeuble](EXPERIENCE-IMMERSIVE-ET-ETAGES.md) — quartier, panorama, ascenseur, étages et navigation.
 12. [Architecture fonctionnelle cible](ARCHITECTURE-FONCTIONNELLE-CIBLE.md) — domaines, frontières et données.
-13. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — intelligence centrale, capacités spécialisées, orchestration, proactivité et gouvernance.
+13. [Vision IA transversale](VISION-IA-TRANSVERSALE.md) — Cheexpeer, missions futures, capacités spécialisées, surveillance, analyse, scoring et gouvernance.
 14. [Mémoire conversationnelle et IA](MEMOIRE-CONVERSATIONNELLE-ET-IA.md) — conservation, recherche et réutilisation contrôlée.
 15. [Module Administration piloté par l'IA](MODULE-ADMIN-IA.md) — cockpit, supervision, SEO, maintenance et autonomie encadrée.
 16. [Architecture des espaces Administration, CRM et Client](ARCHITECTURE-ESPACES-ADMIN-CRM-CLIENT.md) — séparation des espaces, navigation, CRM intégré, habilitations et état du premier cockpit.
