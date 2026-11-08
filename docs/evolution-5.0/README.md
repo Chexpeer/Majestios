@@ -132,3 +132,5 @@ Toute évolution récente du fondateur peut rouvrir un sujet précédemment docu
 
 
 [Lot D2-A — harmonisation du formulaire de qualification — 8 novembre 2026](LOT-D2-A-HARMONISATION-FORMULAIRE-PROSPECTION-2026-11-08.md) — alignement des champs HTML/JavaScript, test anti-régression et limites avant raccordement à l'endpoint membre.
+
+[Lot D2-B — adaptateur authentifié et projection des résultats — 8 novembre 2026](LOT-D2-B-ADAPTATEUR-AUTHENTIFIE-PROSPECTION-2026-11-08.md) — adaptateur membre, projection positive, tests et CI ciblée réussie ; raccordement page et recette live volontairement différés.
