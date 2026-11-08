@@ -109,7 +109,19 @@ async function main() {
     assert.match(memberRedirect.url(), /espace-interne\.html\?returnTo=administration\.html$/, "Un membre ne doit pas être redirigé vers l’administration.");
     await memberRedirect.close();
 
-    console.log("TEST ADMIN RÉUSSI : accès sans session bloqué ; matrice simulée owner/admin/member/viewer vérifiée ; redirection admin interdite pour member.");
+    for (const role of ["member", "viewer"]) {
+      const directCrm = await browser.newPage({viewport:{width:390,height:844}});
+      await directCrm.route("https://esm.sh/@supabase/supabase-js@2.119.0", route => route.fulfill({
+        status:200, contentType:"application/javascript", body:supabaseMock(role)
+      }));
+      await directCrm.goto("http://127.0.0.1:4177/crm.html", {waitUntil:"domcontentloaded"});
+      await directCrm.locator("#crm-status").filter({hasText:"VIP"}).waitFor({timeout:5000});
+      assert.match(await directCrm.locator("#crm-status").innerText(), /réservé aux comptes disposant d’un accès VIP/i,
+        "L’accès direct à crm.html doit être refusé au rôle " + role + ".");
+      await directCrm.close();
+    }
+
+    console.log("TEST ADMIN RÉUSSI : accès sans session bloqué ; matrice owner/admin/member/viewer vérifiée ; redirection admin et accès direct au CRM VIP protégés.");
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve => server.close(resolve));
