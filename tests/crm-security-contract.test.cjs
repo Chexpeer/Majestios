@@ -173,9 +173,17 @@ for (const field of ["business_id", "primary_contact_id", "contact_id", "opportu
   assert.ok(crmHtml.includes("name=\"" + field + "\""), "Le formulaire CRM doit exposer le rattachement " + field + ".");
   assert.ok(page.includes(field + ": nullableId(data." + field + ")"), "Le rattachement " + field + " doit être transmis au client CRM.");
 }
-assert.ok(page.includes("renderSelect(\"#crm-contact-form [name=business_id]\""));
-assert.ok(page.includes("renderSelect(\"#crm-opportunity-form [name=primary_contact_id]\""));
-assert.ok(page.includes("renderSelect(\"#crm-activity-form [name=opportunity_id]\""));
+assert.ok(page.includes("const relationSelectors = ["));
+for (const selector of [
+  "#crm-contact-form [name=business_id]",
+  "#crm-opportunity-form [name=primary_contact_id]",
+  "#crm-activity-form [name=opportunity_id]"
+]) {
+  assert.ok(page.includes('["' + selector + '"'),
+    "Le sélecteur relationnel distant doit être configuré : " + selector);
+}
+assert.ok(page.includes("setupRemoteRelationSelectors();"),
+  "Les sélecteurs relationnels doivent être initialisés au chargement du CRM.");
 console.log("CRM security contract: OK — schéma, privilèges, rôles, isolation tenant, confidentialité, bootstrap, provisionnement et rattachements CRM.");
 
 assert.match(client, /order\(table === "activities" \? "occurred_at"/);
