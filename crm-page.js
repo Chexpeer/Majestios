@@ -940,7 +940,7 @@ try {
   } else {
     setStatus("Espace interne connecté · " + organization.name + " · rôle : " + membership.role);
     bindForm("#crm-business-form", MajestiosCRM.createBusiness, data => ({ legal_name: data.legal_name.trim(), website: data.website || null, city: data.city || null, country_code: "FR", qualification_status: "to_review" }));
-    bindForm("#crm-contact-form", MajestiosCRM.createContact, data => ({ business_id: nullableId(data.business_id), last_name: data.last_name.trim(), first_name: data.first_name || null, email: data.email || null, phone: data.phone || null, consent_status: "unknown" }));
+    bindForm("#crm-contact-form", MajestiosCRM.createContact, data => ({ business_id: nullableId(data.business_id), last_name: data.last_name.trim(), first_name: data.first_name || null, job_title: data.job_title || null, email: data.email || null, phone: data.phone || null, consent_status: "unknown" }));
     bindForm("#crm-opportunity-form", MajestiosCRM.createOpportunity, data => ({ business_id: nullableId(data.business_id), primary_contact_id: nullableId(data.primary_contact_id), title: data.title.trim(), description: data.description || null, source_type: data.source_type, status: "detected" }));
     bindForm("#crm-activity-form", MajestiosCRM.createActivity, data => ({ business_id: nullableId(data.business_id), contact_id: nullableId(data.contact_id), opportunity_id: nullableId(data.opportunity_id), subject: data.subject.trim(), activity_type: data.activity_type, body: data.body || null }));
   }
