@@ -22,6 +22,7 @@ for (const required of [
   assert.ok(controls.has(required), "Critère de prospection absent du formulaire : " + required);
 }
 assert.ok(script.includes("searchCompaniesNearPoint"), "Le mode rayon doit être raccordé au moteur géographique.");
+assert.ok(script.includes("query: marketTitle"), "Le champ textuel doit être transmis au moteur département/région.");
 assert.ok(script.includes("searchCompanies(searchCriteria)"), "Le mode département/région doit être raccordé au moteur principal.");
 assert.ok(script.includes("filterCompaniesByCriteria"), "Les filtres métier doivent être appliqués aux résultats.");
 console.log("Contrat du formulaire et du moteur Prospection : OK");
