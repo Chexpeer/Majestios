@@ -116,7 +116,7 @@ Découpage logique proposé :
 1. **Socle web** : manifeste de publication, routes, navigation, design system, accessibilité et instrumentation.
 2. **Expérience immersive** : panorama, scènes/façades, toiture, ascenseur, destinations et vues intérieures.
 3. **Recherche** : interface commune, taxonomie, filtres, adaptateurs de sources, normalisation et résultats.
-4. **Développement commercial** : qualification, identification, Prosp'active, accompagnement AO et suivi.
+4. **Développement commercial** : qualification, identification, prospection, accompagnement AO et suivi.
 5. **Référentiel CRM** : entreprises, établissements, contacts, opportunités, activités et historique.
 6. **Réputation virtuelle et SEO** : identité locale, visibilité, avis, audit SEO et recommandations, avec frontières de données propres.
 7. **CRM clients et intégrations** : connecteurs de CRM tiers et espaces cloisonnés par client/mandat.
