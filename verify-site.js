@@ -109,8 +109,12 @@ for (const page of rubricSearchPages) {
   assert(exists(page), "Recherche par rubrique : page absente : " + page);
   if (exists(page)) {
     const html = fs.readFileSync(path.join(root, page), "utf8");
-    assert(html.includes('src="rubric-search.js"'), page + " : module de recherche par rubrique non chargé");
-    assert(html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'), page + " : le moteur commun doit être injecté avant l’initialisation de ses interactions");
+    if (page === "reputation-virtuelle.html") {
+      assert(!html.includes('src="rubric-search.js"'), page + " : le moteur de recherche partagé ne doit pas être chargé sur cette page");
+    } else {
+      assert(html.includes('src="rubric-search.js"'), page + " : module de recherche par rubrique non chargé");
+      assert(html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'), page + " : le moteur commun doit être injecté avant l’initialisation de ses interactions");
+    }
     assert(html.includes('href="rubriques-immersives.css"'), page + " : feuille de style commune du moteur non chargée");
   }
 }
