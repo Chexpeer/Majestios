@@ -248,6 +248,12 @@ assert(!memberPage.includes("internal-admin-entry") && !memberAuth.includes("int
 assert(memberPage.includes('href="espace-prive.html">Espace privé</a>') &&
   !memberPage.includes('href="espace-membre.html" aria-current="page"'),
   "Espace Membres : la navigation privée doit revenir à la page de choix des deux accès");
+const crmClient = read("crm-client.js");
+assert(crmClient.includes('!["owner", "admin"].includes(membership.role)') ||
+  crmClient.includes('!["owner","admin"].includes(membership.role)'),
+  "CRM interne : l’appartenance seule ne suffit pas ; seuls les rôles VIP owner/admin sont autorisés");
+assert(crmClient.includes("L’espace Membres ne donne aucun accès au CRM"),
+  "CRM interne : le refus doit distinguer explicitement l’espace Membres de l’accès VIP");
 const supabaseConfig = read("supabase-config.js");
 const workspaceFunction = read("supabase/functions/provision-client-workspace/index.ts");
 assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes('data-supabase-auth'),
