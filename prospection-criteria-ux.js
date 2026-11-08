@@ -85,7 +85,20 @@
   const hasValue = (control) => Boolean(control && String(control.value || "").trim());
   const isSelected = (group) => {
     if (group.id === "labels") return group.fields.some((id) => isChecked(controlFor(id)));
+    if (group.id === "territory") return ["target-departments", "target-region", "target-radius-location"].some((id) => hasValue(controlFor(id)));
     return group.fields.some((id) => hasValue(controlFor(id)));
+  };
+  const clearGroup = (group) => {
+    group.fields.forEach((id) => {
+      const control = controlFor(id);
+      if (!control) return;
+      if (control.type === "checkbox") control.checked = false;
+      else if (id === "target-radius-km") control.value = "10";
+      else control.value = "";
+      control.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    closeEditor();
+    render();
   };
   const valueSummary = (group) => {
     const values = group.fields.map((id) => {
@@ -133,12 +146,21 @@
     selected.replaceChildren();
     groups.forEach((group) => {
       if (isSelected(group)) {
-        const chip = document.createElement("button");
-        chip.type = "button";
+        const chip = document.createElement("div");
         chip.className = "prospecting-criteria-chip";
-        chip.textContent = group.label + " · " + valueSummary(group);
-        chip.setAttribute("aria-label", "Modifier le critère " + group.label);
-        chip.addEventListener("click", () => openEditor(group));
+        const edit = document.createElement("button");
+        edit.type = "button";
+        edit.className = "prospecting-criteria-chip-edit";
+        edit.textContent = group.label + " · " + valueSummary(group);
+        edit.setAttribute("aria-label", "Modifier le critère " + group.label);
+        edit.addEventListener("click", () => openEditor(group));
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "prospecting-criteria-chip-remove";
+        remove.textContent = "×";
+        remove.setAttribute("aria-label", "Retirer le critère " + group.label);
+        remove.addEventListener("click", () => clearGroup(group));
+        chip.append(edit, remove);
         selected.append(chip);
       } else {
         const button = document.createElement("button");
@@ -159,10 +181,6 @@
     if (!editing) return;
     const group = editing;
     const selectedNow = isSelected(group);
-    if (group.required && !selectedNow) {
-      editorTitle.textContent = group.label + " — renseignez au moins une valeur.";
-      return;
-    }
     closeEditor();
     render();
   });
