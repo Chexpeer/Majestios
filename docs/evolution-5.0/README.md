@@ -105,3 +105,8 @@ Le principe « le schéma reflète l'arborescence » est non négociable. La nav
 Toute évolution récente du fondateur peut rouvrir un sujet précédemment documenté comme acquis. Le nom, le périmètre et les relations des capacités d'intelligence doivent être traités selon les échanges les plus récents et inscrits dans le registre des décisions ; ne pas clore un débat stratégique par une phrase isolée d'un document antérieur.
 
 | [Concept — Publipostage intelligent par QR Code et badge MajestiOS](evolution-5.0/CONCEPT-PUBLIPOSTAGE-QR-CODE-BADGE-VIP-2026-11-06.md) | Orientation stratégique à soumettre aux autres IA : publipostage physique QR complémentaire à l'emailing, badge public/invité/VIP, Accès VIP, sécurité, conformité et MVP pilote |
+
+
+## Audit des circuits d'information — 8 novembre 2026
+
+[Audit et optimisation des circuits d'information — Immeuble, rubriques, CRM et Administration](AUDIT-CIRCUITS-INFORMATION-IMMEUBLE-RUBRIQUES-CRM-ADMIN-2026-11-08.md) — état vérifié des tables et politiques RLS, frontières de visibilité, séparation des rôles, circuit de validation/affectation/restitution et plan de correction priorisé.
