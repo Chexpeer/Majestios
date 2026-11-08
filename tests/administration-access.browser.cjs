@@ -93,9 +93,9 @@ async function main() {
       })[role], `Le rôle ${role} doit être correctement reconnu.`);
       assert.equal(await rolePage.locator("#internal-admin-card").isVisible(), ["owner","admin"].includes(role), `La carte Administration doit respecter le rôle ${role}.`);
       assert.equal(await rolePage.locator("#internal-search-card").isVisible(), ["owner","admin"].includes(role), `La carte Recherches doit respecter le rôle ${role}.`);
-      assert.equal(await rolePage.locator("#internal-crm-link").isVisible(), true, `Le CRM doit être proposé au rôle ${role}.`);
-      if (role === "viewer") {
-        assert.match(await rolePage.locator("#internal-crm-access").innerText(), /CONSULTATION SEULE/);
+      assert.equal(await rolePage.locator("#internal-crm-link").isVisible(), ["owner","admin"].includes(role), `Le CRM doit être réservé aux rôles VIP owner/admin ; rôle ${role}.`);
+      if (["member", "viewer"].includes(role)) {
+        assert.match(await rolePage.locator("#internal-crm-access").innerText(), /RÉSERVÉ AUX COMPTES VIP OWNER \/ ADMIN/);
       }
       await rolePage.close();
     }
