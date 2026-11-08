@@ -9,6 +9,9 @@ on:
       - "supabase/functions/_shared/prospection-validation.mjs"
       - "supabase/functions/_shared/prospection-contract.mjs"
       - "tests/prospection-search-core.test.cjs"
+      - "tests/prospection-form-contract.test.cjs"
+      - "qualification-entreprises.html"
+      - "company-targeting-page.js"
       - "tests/prospection-contract.test.cjs"
       - ".github/workflows/prospection-search-contract.yml"
   pull_request:
@@ -39,3 +42,5 @@ jobs:
         run: node tests/prospection-contract.test.cjs
       - name: Tester le moteur membre, les filtres et la pagination
         run: node tests/prospection-search-core.test.cjs
+      - name: Vérifier la cohérence du formulaire de qualification
+        run: node tests/prospection-form-contract.test.cjs
