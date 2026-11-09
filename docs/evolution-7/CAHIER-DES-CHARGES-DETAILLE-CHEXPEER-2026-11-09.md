@@ -9,6 +9,12 @@
 
 ---
 
+## 0.1 Référence obligatoire — architecture d'exécution
+
+Ce cahier décrit les capacités fonctionnelles cibles. Pour savoir comment Cheexpeer les exécutera concrètement, quels composants existent, quels connecteurs sont raccordés et quel est leur état réel, consulter [l'Architecture d'exécution de Cheexpeer](ARCHITECTURE-EXECUTION-CHEXPEER-2026-11-09.md).
+
+Les statuts « spécifiée », « implémentée », « déployée/raccordée » et « recettée » sont distincts. Aucune capacité ne doit être présentée comme opérationnelle sur la seule base de sa description dans le présent cahier.
+
 ## 1. Identité, mission et frontière avec MajestiOS
 
 ### 1.1 Deux entités complémentaires, deux responsabilités
