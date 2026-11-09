@@ -377,7 +377,7 @@ if (leadForm && formFeedback) {
   }
 }
 
-// Navigation MajestiOS — rubriques accessibles directement, sous-rubriques en tiroirs.
+// Navigation MajestiOS — tiroirs accessibles, lien de rubrique indépendant du bouton d'ouverture.
 const navigationGroups = [
   { label: "Appels d’offres", href: "marches-publics.html", items: [
     ["Appels d’offres publics","marches-publics.html"],
@@ -413,7 +413,6 @@ const navigationGroups = [
     ["Contact","contact.html"],
     ["FAQ","faq.html"],
     ["Vision MajestiOS","vision-majestios.html"],
-    ["Présentation MajestiOS V5","majestios-v5.html"],
     ["Mentions légales","mentions-legales.html"],
     ["Confidentialité","politique-confidentialite.html"]
   ]}
@@ -444,18 +443,31 @@ if (navigation && menuToggle) {
   if (currentFile === "index.html") homeLink.setAttribute("aria-current", "page");
   navigation.append(homeLink);
 
-  navigationGroups.forEach((group) => {
+  navigationGroups.forEach((group, index) => {
     const section = document.createElement("section");
     section.className = "nav-drawer-section";
+    section.dataset.navIndex = String(index + 1);
+
     const heading = document.createElement("a");
     heading.className = "nav-group-link";
     heading.href = group.href;
     heading.textContent = group.label;
     if (group.href === currentFile) heading.setAttribute("aria-current", "page");
-    section.append(heading);
 
     const submenu = document.createElement("div");
+    const submenuId = `nav-group-items-${index + 1}`;
     submenu.className = "nav-group-items";
+    submenu.id = submenuId;
+    submenu.hidden = true;
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "nav-group-toggle";
+    toggle.setAttribute("aria-label", `Dérouler : ${group.label}`);
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-controls", submenuId);
+    toggle.textContent = "⌄";
+
     group.items.forEach(([label, href]) => {
       const link = document.createElement("a");
       link.href = href;
@@ -465,7 +477,26 @@ if (navigation && menuToggle) {
       }
       submenu.append(link);
     });
-    section.append(submenu);
+
+    const setGroupOpen = (open) => {
+      section.classList.toggle("is-open", open);
+      submenu.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", `${open ? "Replier" : "Dérouler"} : ${group.label}`);
+    };
+    toggle.addEventListener("click", () => setGroupOpen(submenu.hidden));
+    section.addEventListener("mouseenter", () => {
+      if (window.matchMedia("(min-width: 901px)").matches) setGroupOpen(true);
+    });
+    section.addEventListener("mouseleave", () => {
+      if (window.matchMedia("(min-width: 901px)").matches) setGroupOpen(false);
+    });
+    section.addEventListener("focusout", (event) => {
+      if (window.matchMedia("(min-width: 901px)").matches && !section.contains(event.relatedTarget)) {
+        setGroupOpen(false);
+      }
+    });
+    section.append(heading, toggle, submenu);
     navigation.append(section);
   });
 
@@ -486,7 +517,7 @@ if (navigation && menuToggle) {
     menuToggle.setAttribute("aria-expanded", String(open));
     menuToggle.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
     if (open) closeButton.focus();
-    else menuToggle.focus();
+    else if (window.matchMedia("(max-width: 900px)").matches) menuToggle.focus();
   };
   menuToggle.addEventListener("click", () => setDrawerOpen(menuToggle.getAttribute("aria-expanded") !== "true"));
   closeButton.addEventListener("click", () => setDrawerOpen(false));
