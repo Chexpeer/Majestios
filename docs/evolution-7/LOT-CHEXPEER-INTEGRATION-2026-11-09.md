@@ -24,7 +24,7 @@ Le parcours de la page Réputation virtuelle est maintenant raccordé au handler
 - `supabase/functions/_shared/reputation-audit-handler.mjs` : orchestration collection → analyse optionnelle → DTO de restitution.
 - `supabase/functions/_shared/reputation-audit-provider.mjs` : nouvel adaptateur serveur pour API compatible Chat Completions et JSON Schema strict.
 - `supabase/functions/reputation-audit-context/index.ts` : lecture des variables d’environnement IA, contrôle d'appartenance et consommation du quota par RPC avec le client utilisateur.
-- `supabase/migrations/20261109193000_cheexpeer_reputation_audit_quotas.sql` : quota atomique de 5 audits par membre et 25 par organisation, par jour UTC ; migration non appliquée.
+- `supabase/migrations/20261109193000_cheexpeer_reputation_audit_quotas.sql` : quota atomique de 5 audits par membre et 25 par organisation, par jour UTC ; compteurs détaillés purgés après 90 jours ; migration non appliquée.
 - `tests/reputation-audit-access-contract.test.mjs` : test du contrôle d'appartenance serveur.\n- `tests/reputation-audit-connectors.test.mjs` et `tests/reputation-audit-analysis.test.mjs` : tests de rapprochement SIREN et de résistance aux instructions présentes dans les preuves.
 - `tests/reputation-audit-handler.test.mjs` : cas analyse active et cas fournisseur absent.
 - `tests/reputation-audit-provider.test.mjs` : authentification fournisseur, JSON Schema strict, erreurs et endpoint HTTPS.
