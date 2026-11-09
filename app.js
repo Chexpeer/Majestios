@@ -370,87 +370,91 @@ if (leadForm && formFeedback) {
   }
 }
 
-// Menus déroulants contextuels : accès direct aux rubriques sans alourdir la navigation.
-const contextualMenus = {
-  "developpement-commercial.html": [
-    { label: "Prospection", href: "prospection-active.html" },
-    { label: "Marchés publics", href: "marches-publics.html" },
-    { label: "Marchés privés", href: "marches-prives.html" }
-  ],
-  "espace-membre.html": [
-    { label: "Suivi commercial", href: "suivi-commercial.html" },
-    { label: "CRM MajestiOS", href: "crm.html" },
-    { label: "Qualification entreprises", href: "qualification-entreprises.html" }
-  ]
-};
+// Navigation globale MajestiOS : toutes les rubriques et pages métier restent accessibles.
+const navigationGroups = [
+  { label: "Opportunités", items: [
+    ["Marchés publics","marches-publics.html"],["Marchés privés","marches-prives.html"],
+    ["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],
+    ["Sous-traitance","sous-traitance.html"],["Services numériques","categorie-services-numeriques.html"],
+    ["Travaux & aménagement","categorie-travaux-amenagement.html"],["Conseil & études","categorie-conseil-etudes.html"],
+    ["Bâtiment & construction","categorie-batiment.html"],["Rénovation","categorie-renovation.html"],
+    ["Électricité","categorie-electricite.html"],["Plomberie & chauffage","categorie-plomberie-chauffage.html"],
+    ["Maintenance","categorie-maintenance.html"]
+  ]},
+  { label: "Développement commercial", items: [
+    ["Vue d’ensemble","developpement-commercial.html"],["Prospection active","prospection-active.html"],
+    ["Accompagnement appels d’offres","accompagnement-appels-offres.html"],
+    ["Suivi commercial","suivi-commercial.html"],["Qualification des entreprises","qualification-entreprises.html"]
+  ]},
+  { label: "Réseau & visibilité", items: [
+    ["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"],
+    ["Réputation virtuelle","reputation-virtuelle.html"],["Intelligence économique","intelligence-economique.html"]
+  ]},
+  { label: "Espaces", items: [
+    ["Espace privé","espace-membre.html"],["Espace VIP","espace-interne.html"],
+    ["CRM MajestiOS · accès réservé","crm.html"],["Administration · accès réservé","administration.html"]
+  ]},
+  { label: "Informations", items: [
+    ["Nous rejoindre","nous-rejoindre.html"],["Contact","contact.html"],["FAQ","faq.html"],
+    ["Vision MajestiOS","vision-majestios.html"],["Présentation MajestiOS V5","majestios-v5.html"],
+    ["Mentions légales","mentions-legales.html"],["Confidentialité","politique-confidentialite.html"]
+  ]}
+];
 
 if (navigation) {
-  Object.entries(contextualMenus).forEach(([parentHref, items]) => {
-    const parentLink = [...navigation.querySelectorAll(":scope > a")].find((link) =>
-      link.getAttribute("href") === parentHref
-    );
-    if (!parentLink || parentLink.parentElement.classList.contains("nav-item-dropdown")) return;
+  const currentFile = window.location.pathname.split("/").pop() || "index.html";
+  const currentUrl = new URL(window.location.href);
+  const fragment = currentUrl.hash;
+  navigation.replaceChildren();
 
+  const home = document.createElement("a");
+  home.href = "index.html";
+  home.textContent = "Accueil";
+  if (currentFile === "index.html") home.setAttribute("aria-current", "page");
+  navigation.append(home);
+
+  navigationGroups.forEach((group, index) => {
     const wrapper = document.createElement("div");
-    wrapper.className = "nav-item-dropdown";
-    parentLink.before(wrapper);
-    wrapper.append(parentLink);
+    wrapper.className = "nav-group";
+    const trigger = document.createElement("button");
+    trigger.className = "nav-group-trigger";
+    trigger.type = "button";
+    trigger.textContent = group.label;
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-controls", "nav-group-" + index);
+    const panel = document.createElement("div");
+    panel.className = "nav-group-menu";
+    panel.id = "nav-group-" + index;
+    panel.hidden = true;
+    panel.setAttribute("aria-label", group.label);
 
-    const toggle = document.createElement("button");
-    toggle.className = "nav-dropdown-toggle";
-    toggle.type = "button";
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-controls", "submenu-" + parentHref.replace(/[^a-z0-9]+/gi, "-"));
-    toggle.setAttribute("aria-label", "Afficher les rubriques de " + parentLink.textContent.trim());
-    toggle.innerHTML = '<span aria-hidden="true">⌄</span>';
-    wrapper.append(toggle);
-
-    const submenu = document.createElement("div");
-    submenu.className = "nav-submenu";
-    submenu.id = toggle.getAttribute("aria-controls");
-    submenu.hidden = true;
-    submenu.setAttribute("aria-label", "Rubriques associées à " + parentLink.textContent.trim());
-    items.forEach(({ label, href }) => {
+    group.items.forEach(([label, href]) => {
       const link = document.createElement("a");
       link.href = href;
       link.textContent = label;
-      submenu.append(link);
+      if (href === currentFile || (href === "espace-membre.html" && currentFile === "espace-prive.html")) {
+        link.setAttribute("aria-current", "page");
+        wrapper.classList.add("has-current");
+      }
+      panel.append(link);
     });
-    wrapper.append(submenu);
 
     const setOpen = (open) => {
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", (open ? "Masquer" : "Afficher") + " les rubriques de " + parentLink.textContent.trim());
-      submenu.hidden = !open;
+      trigger.setAttribute("aria-expanded", String(open));
+      panel.hidden = !open;
       wrapper.classList.toggle("is-open", open);
     };
-    // Le focus seul ne doit pas ouvrir le menu : sur écran tactile, focusin précède click.
-    // L’ouverture au clavier reste explicite via Flèche bas ou activation du bouton.
-    toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+    trigger.addEventListener("click", () => setOpen(trigger.getAttribute("aria-expanded") !== "true"));
     wrapper.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        setOpen(true);
-        submenu.querySelector("a")?.focus();
-        return;
-      }
-      if (event.key === "Escape") {
-        setOpen(false);
-        toggle.focus();
-      }
+      if (event.key === "ArrowDown") { event.preventDefault(); setOpen(true); panel.querySelector("a")?.focus(); }
+      if (event.key === "Escape") { setOpen(false); trigger.focus(); }
     });
-    wrapper.addEventListener("focusout", (event) => {
-      if (!wrapper.contains(event.relatedTarget)) setOpen(false);
-    });
-    wrapper.addEventListener("mouseenter", () => {
-      if (window.matchMedia("(min-width: 1021px)").matches) setOpen(true);
-    });
-    wrapper.addEventListener("mouseleave", () => {
-      if (window.matchMedia("(min-width: 1021px)").matches && !wrapper.contains(document.activeElement)) setOpen(false);
-    });
-    document.addEventListener("pointerdown", (event) => {
-      if (!wrapper.contains(event.target)) setOpen(false);
-    });
+    wrapper.addEventListener("focusout", (event) => { if (!wrapper.contains(event.relatedTarget)) setOpen(false); });
+    wrapper.addEventListener("mouseenter", () => { if (window.matchMedia("(min-width: 1021px)").matches) setOpen(true); });
+    wrapper.addEventListener("mouseleave", () => { if (window.matchMedia("(min-width: 1021px)").matches && !wrapper.contains(document.activeElement)) setOpen(false); });
+    document.addEventListener("pointerdown", (event) => { if (!wrapper.contains(event.target)) setOpen(false); });
+    wrapper.append(trigger, panel);
+    navigation.append(wrapper);
   });
 }
 
