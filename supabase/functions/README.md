@@ -67,3 +67,6 @@ Avant tout déploiement :
 La source Git actuelle du pont ajoute des validations avant tout appel RPC : UUID de mission, identifiant worker non vide et borné, identifiant de message PGMQ entier positif sûr, corps de requête plafonné à 64 Ko et résultat JSON objet plafonné à 32 Ko. Ces contrôles sont couverts par les tests contractuels du worker.
 
 **Ces protections sont présentes dans Git mais pas encore déployées sur Supabase.** La fonction Edge reste absente de l'environnement distant et aucun secret n'est configuré.
+
+
+La limite du corps est appliquée en lecture progressive du flux Request : la lecture est annulée dès que le seuil de 64 Ko est dépassé, y compris si le client ne fournit pas un en-tête `Content-Length` fiable. Cette protection reste dans la source Git, non déployée.
