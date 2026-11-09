@@ -53,3 +53,45 @@ test("rejects oversized and non-JSON requests", async () => {
   assert.equal(wrongType.status, 415);
   assert.equal(large.status, 413);
 });
+
+test("runs Cheexpeer analysis on collected evidence when an analyzer is configured", async () => {
+  let receivedSubject = "";
+  const handler = createReputationAuditHandler({
+    authenticate: authOk,
+    fetchImpl: fetchOk,
+    analyze: async request => {
+      receivedSubject = request.input.subject;
+      assert.equal(request.input.evidence.length, 2);
+      return {
+        findings: [],
+        recommendations: [],
+        gaps: ["Les avis clients et les résultats web ne sont pas encore collectés."]
+      };
+    }
+  });
+  const response = await handler(request({
+    subject: "Atelier Exemple",
+    siren: "123456789",
+    website: "https://atelier.example",
+    activity: "Menuiserie",
+    territory: "Le Mans",
+    objectives: ["Développer la visibilité locale"]
+  }));
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(receivedSubject, "Atelier Exemple");
+  assert.equal(body.status, "analysis_ready");
+  assert.equal(body.analysis.review_required, true);
+  assert.equal(body.analysis.findings.length, 0);
+  assert.match(body.analysis.gaps[0], /avis clients/);
+});
+
+test("does not claim automatic analysis when no analyzer is configured", async () => {
+  const handler = createReputationAuditHandler({ authenticate: authOk, fetchImpl: fetchOk });
+  const response = await handler(request({ subject: "Atelier Exemple" }));
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(body.status, "collection_only");
+  assert.equal(body.analysis_unavailable, true);
+  assert.match(body.analysis_notice, /n’est pas configuré/);
+});
