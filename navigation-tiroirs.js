@@ -3,7 +3,7 @@
   const init = () => {
     const nav = document.querySelector("#site-nav");
     const header = document.querySelector(".site-header");
-    const menuButton = document.querySelector("#menu-toggle");
+    const menuButton = document.querySelector("#menu-toggle, .menu-toggle");
     if (!nav || !header || !menuButton || nav.dataset.drawerReady === "true") return;
     nav.dataset.drawerReady = "true";
     nav.classList.add("site-nav-drawer");
