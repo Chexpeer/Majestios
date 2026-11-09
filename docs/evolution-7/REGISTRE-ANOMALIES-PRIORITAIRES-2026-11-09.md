@@ -15,17 +15,17 @@
 | P1 — important | 9 | Correction ou vérification prioritaire |
 
 **À traiter en premier :**
-1. **AUTH-01 — OTP / espace membre :** parcours réel non validé de bout en bout. 
-2. **CRM-06 — import entreprise officiel :** l'Edge Function utilise `service_role` après un contrôle qui accepte encore `member`, alors que le CRM est désormais VIP `owner/admin`.
-3. **AUTH-02 — consentement :** contrôle serveur insuffisant lors du provisionnement.
-4. **CRM-02 — traçabilité :** création de fiches sans activité historique atomique.
-5. **CRM-03 — privilèges CRM :** correction préparée, état distant à vérifier avant clôture.
-6. **CRM-04 — RPC des relances :** le contrôle SQL historique accepte un rôle plus large que la frontière VIP actuelle.
-7. **CRM-05 — cohérence relationnelle :** contact rattaché à une autre entreprise que l’opportunité et absence d’unicité SIRET au niveau SQL.
-8. **CHEEXPEER-01 — accès à l’audit IA :** contrôle d’authentification présent, mais absence de vérification d’appartenance à un espace MajestiOS.
-9. **CHEEXPEER-02 — identification des entreprises :** un nom seul pouvait être présenté comme identité confirmée dans la collecte administrative et BODACC.
-10. **CHEEXPEER-03 — résistance aux instructions injectées :** les champs du dossier entreprise pouvaient contenir des consignes malveillantes transmises au modèle avec les données.
-11. **CHEEXPEER-04 — information des utilisateurs :** la notice avant lancement ne détaille pas encore les sources, le fournisseur IA éventuel, les destinataires et les durées de conservation.
+1. **AUTH-01 — OTP / espace membre (P0) :** recette réelle d'envoi, validation, expiration, limites de débit et provisionnement encore manquante.
+2. **CRM-06 — import officiel (P0) :** correctif de la frontière VIP préparé et testé en CI ; migration non appliquée, recette multi-rôles obligatoire.
+3. **AUTH-02 — consentement (P1) :** contrôle serveur des métadonnées de consentement encore à corriger.
+4. **CRM-02 — traçabilité (P1) :** correction atomique préparée et testée ; migration non appliquée, recette transactionnelle requise.
+5. **CRM-03 — privilèges CRM (P1) :** restriction des colonnes préparée et testée ; privilèges distants à vérifier.
+6. **CRM-04 — RPC des relances (P1) :** contrôle VIP corrigé dans le code ; migration non appliquée, recette multi-rôles requise.
+7. **CRM-05 — cohérence relationnelle (P1) :** correctif préparé et testé ; doublons préexistants et migration à traiter avant clôture.
+8. **CHEEXPEER-01 — accès et quotas (P1) :** contrôle d'appartenance et quota préparés/testés ; migration non appliquée, rate limit et suivi financier encore absents.
+9. **CHEEXPEER-02 — identification des entreprises (P1) :** règles de rapprochement SIREN/BODACC corrigées dans le code ; recette réelle multi-entreprises requise.
+10. **CHEEXPEER-03 — injection d'instructions (P1) :** garde-fous prompt ajoutés et tests automatisés passés.
+11. **CHEEXPEER-04 — information des utilisateurs (P1) :** notice de transparence à compléter avant activation d'un fournisseur IA et ouverture élargie.
 
 **Consigne aux agents :** traiter les P0 avant les P1. Après chaque découverte ou correction, préciser l'ID, le statut, les fichiers concernés, le commit, les tests exécutés et la preuve. Une modification de code seule ne suffit pas à déclarer une anomalie corrigée.
 
