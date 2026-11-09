@@ -129,10 +129,10 @@ Le mode par défaut du premier déploiement métier doit rester **lecture, analy
 
 ## 5. Identité de Cheexpeer et indépendance du moteur IA — arbitrage du fondateur
 
-Le fondateur confirme que **Cheexpeer est le nom d'emprunt et l'identité d'usage de l'intelligence intégrée à MajestiOS**. Cheexpeer n'est pas une seconde IA indépendante à développer séparément : c'est l'identité fonctionnelle présentée dans MajestiOS, incarnée par un modèle d'intelligence artificielle connecté.
+Le fondateur confirme que **Cheexpeer est l'agent IA intégré à MajestiOS, distinct de la plateforme qui l'héberge**. Cheexpeer n'est pas une seconde IA indépendante à développer séparément : c'est l'identité fonctionnelle présentée dans MajestiOS, incarnée par un modèle d'intelligence artificielle connecté.
 
-- **MajestiOS** désigne la plateforme et son environnement.
-- **Cheexpeer** désigne l'intelligence intégrée, ses missions et son identité au sein de la plateforme.
+- **MajestiOS** désigne la plateforme et son environnement de services, de données, de CRM et d'administration.
+- **Cheexpeer** désigne l'agent IA intégré, ses missions et ses capacités transversales au sein de la plateforme ; il agit dans les limites des services et permissions qui lui sont accordés.
 - **Claude, ChatGPT ou un autre modèle** peuvent constituer le moteur qui alimente Cheexpeer, selon les capacités, les coûts, les conditions d'accès et les résultats évalués.
 - **V.5** reste un repère de version de MajestiOS et ne doit pas être confondu avec l'identité de l'assistant.
 
@@ -178,7 +178,7 @@ L'identité de l'intelligence intégrée à MajestiOS est exclusivement **Cheexp
 
 ### Lot 4 — Définition de l'intelligence et de son identité — arbitrage clôturé le 8 novembre 2026
 - L'identité fonctionnelle de l'IA intégrée est définitivement fixée : **Cheexpeer**.
-- Le fondateur a confirmé que Cheexpeer est le nom d'emprunt et l'identité d'usage de l'IA intégrée à MajestiOS.
+- Le fondateur a confirmé que Cheexpeer est l'agent IA intégré et l'identité d'usage de l'IA intégrée à MajestiOS.
 - MajestiOS V.5 désigne la version de la plateforme ; Claude, ChatGPT ou un autre modèle peuvent constituer le moteur sous-jacent.
 - Restent à instruire : choix du premier moteur, conditions d'accès, intégration, coûts, évaluations et mécanismes de repli.
 
