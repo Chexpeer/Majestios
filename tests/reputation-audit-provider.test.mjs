@@ -27,6 +27,7 @@ test("provider sends strict structured analysis request with server-side bearer 
   assert.equal(body.response_format.type, "json_schema");
   assert.equal(body.response_format.json_schema.strict, true);
   assert.equal(body.model, "test-model");
+  assert.equal(body.max_tokens, 4096);
 });
 
 test("provider rejects missing credentials and insecure endpoints", () => {
