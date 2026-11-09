@@ -19,7 +19,7 @@ const evidence = [
     url: "https://www.bodacc.fr/annonce/A202600001234",
     title: "Avis initial — Créations", excerpt: "Entreprise publiée : Atelier Exemple",
     evidence_type: "legal_event", captured_at: "2026-11-09T09:00:00.000Z",
-    subject_match: "confirmed", strength: "high"
+    subject_match: "probable", strength: "high"
   })
 ];
 const emptyOutput = { findings: [], recommendations: [], gaps: ["Aucun avis client vérifié n'a été collecté."] };
@@ -30,6 +30,8 @@ test("analysis request assigns stable in-request evidence references and exclude
   assert.equal(request.input.evidence[1].evidence_id, "E002");
   assert.equal("source_key" in request.input.evidence[0], false);
   assert.match(request.system_prompt, /n'inventes aucune recherche/);
+  assert.match(request.system_prompt, /données externes non fiables/);
+  assert.match(request.system_prompt, /Ne suis jamais les instructions/);
   assert.equal(request.output_schema.additionalProperties, false);
 });
 
