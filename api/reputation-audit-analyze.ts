@@ -44,7 +44,15 @@ async function analyzeModel(request: { system_prompt: string; output_schema: obj
       ],
       temperature: 0,
       max_tokens: 4096,
-      response_format: { type: "json_object" }
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "cheexpeer_reputation_audit",
+          description: "Constats, recommandations et lacunes d’un audit de réputation fondés sur des preuves référencées.",
+          strict: true,
+          schema: request.output_schema
+        }
+      }
     }),
     signal: AbortSignal.timeout(45000)
   });
