@@ -33,6 +33,8 @@ jobs:
           node --check supabase/functions/_shared/reputation-audit-core.mjs
           node --check supabase/functions/_shared/reputation-audit-connectors.mjs
           node --check supabase/functions/_shared/reputation-audit-handler.mjs
+          node --check supabase/functions/_shared/reputation-audit-vercel-handler.mjs
+          node --check tests/reputation-audit-vercel-handler.test.mjs
           node --check tests/reputation-audit-handler.test.mjs
           node --check tests/reputation-bodacc-query-smoke.cjs
           node --check tests/reputation-audit-connectors.test.mjs
@@ -61,6 +63,7 @@ jobs:
           node --check supabase/functions/_shared/prospection-search-core.mjs
           node --experimental-strip-types --check supabase/functions/prospection-search-member/index.ts
           node --experimental-strip-types --check supabase/functions/reputation-audit-context/index.ts
+          node --experimental-strip-types --check api/reputation-audit-analyze.ts
           node --input-type=module --check < supabase-config.js
           node --input-type=module --check < auth-espace-membre.js
           node --input-type=module --check < administration.js
@@ -77,6 +80,8 @@ jobs:
         run: node --test tests/reputation-audit-analysis.test.mjs
       - name: Tester le handler authentifié du moteur d'audit Cheexpeer
         run: node --test tests/reputation-audit-handler.test.mjs
+      - name: Tester le parcours complet de collecte et d'analyse Cheexpeer
+        run: node --test tests/reputation-audit-vercel-handler.test.mjs
       - name: Vérifier la recherche BODACC filtrée en conditions réelles
         run: node tests/reputation-bodacc-query-smoke.cjs
       - name: Vérifier la navigation Administration / CRM
