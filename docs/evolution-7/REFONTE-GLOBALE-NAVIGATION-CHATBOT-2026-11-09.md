@@ -160,3 +160,12 @@ La CI est verte sur ce commit. Cela ne vaut pas recette fonctionnelle complète 
 ### Assistant — enrichissement de la base d’orientation
 
 Le premier assistant a été enrichi pour distinguer les annonces BODACC de la rubrique générale Marchés privés, orienter directement vers la veille BODACC, la veille des marchés, la FAQ et la page Vision. Le test navigateur vérifie désormais qu’une question BODACC conduit bien à la page dédiée. Le moteur reste local et déterministe, sans connexion IA distante à ce stade.
+
+### Conservation des menus et de leurs textes
+
+- Le menu global expose désormais **33 destinations de rubrique**, plus Accueil, soit 34 liens vérifiés dans le navigateur.
+- Les raccourcis de l'ancien guide d'accueil n'ont pas été abandonnés : « Rechercher une opportunité », « Découvrir le développement commercial », « Préparer mon espace personnel » et « Consulter les questions fréquentes » sont repris dans le panneau conversationnel.
+- Les formulations « Besoin d’un coup de pouce ? », « MAJESTIOS · GUIDE DE VISITE », « Par où commencer ? » et « Vous proposez, MajestiOS dispose. » sont conservées dans cette nouvelle interface.
+- Les rubriques BODACC, Veille des marchés, FAQ et Vision disposent d'une orientation directe depuis le chatbot.
+
+Le dernier run entièrement vert avant ces derniers ajouts conversationnels et l'extension de la vérification à 34 liens est le run `42601432700`. Le run déclenché sur la dernière version est en attente côté GitHub Actions ; aucun résultat vert n'est revendiqué pour ces ajouts tant que ce run n'a pas terminé.
