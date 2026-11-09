@@ -64,3 +64,12 @@ body.homepage .nav-group-menu{top:calc(100% + 5px);background:#0b1420!important}
 .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 @media(max-width:600px){.majestios-chat{right:10px;bottom:10px}.majestios-chat-toggle{min-height:42px;padding:0 12px 0 9px}.majestios-chat-panel{right:0;bottom:52px;width:min(370px,calc(100vw - 20px));height:min(560px,calc(100dvh - 82px))}}
 @media(prefers-reduced-motion:reduce){.majestios-chat *{scroll-behavior:auto!important}}
+
+.majestios-chat-toggle-copy{display:flex;flex-direction:column;gap:2px;text-align:left}
+.majestios-chat-toggle-copy strong{font-size:12px;line-height:1.15}
+.majestios-chat-toggle-copy small{color:#c5c0b5;font-size:9px;font-weight:500;line-height:1.15}
+.majestios-chat-head>div>small:first-child{margin-bottom:5px;color:#d5b56c;font-size:9px;font-weight:800;letter-spacing:.08em}
+.majestios-chat-shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px 12px;border-bottom:1px solid #d5b56c22}
+.majestios-chat-shortcuts a{display:flex;align-items:center;min-height:34px;padding:7px 8px;border:1px solid #d5b56c33;border-radius:7px;background:#101d2c;color:#e9e5dc;font-size:10px;line-height:1.3;text-decoration:none}
+.majestios-chat-shortcuts a:hover,.majestios-chat-shortcuts a:focus-visible{border-color:#d5b56c;color:#f3d58b;outline:none}
+@media(max-width:420px){.majestios-chat-shortcuts{grid-template-columns:1fr}}
