@@ -34,7 +34,9 @@ async function main() {
     await page.locator("#site-nav .nav-group").first().waitFor({state:"attached",timeout:15000});
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
     assert.equal(await page.locator("#site-nav .nav-group").count(),5,"Cinq familles de navigation doivent être visibles.");
-    assert.ok(await page.locator("#site-nav a").count()>=25,"Le menu doit exposer les rubriques et sous-rubriques.");
+    assert.equal(await page.locator("#site-nav a").count(),34,"Le menu doit exposer l’accueil et les 33 destinations de rubrique.");
+    const navigationHrefs=await page.locator("#site-nav a").evaluateAll(links=>links.map(link=>link.getAttribute("href")));
+    for(const href of navigationHrefs) assert.ok(published.has(href),"Chaque destination du menu doit être publiée : "+href);
     for (const route of ["marches-publics.html","marches-prives.html","prospection-active.html","bodacc-veille-entreprises.html","qualification-entreprises.html","salons-seminaires.html","reputation-virtuelle.html","crm.html"]) {
       assert.ok(published.has(route),"La route de navigation doit être publiée : "+route);
       assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),1,"Le menu doit exposer "+route);
