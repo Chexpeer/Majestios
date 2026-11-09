@@ -54,5 +54,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/reputation-audit-analyze.ts": {
+      "maxDuration": 60
+    }
+  }
 }
