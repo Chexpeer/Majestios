@@ -171,7 +171,9 @@ const sharedSearchCss = fs.readFileSync(path.join(root, "rubriques-immersives.cs
 for (const selector of ["#advanced-search-form", ".feed-search", ".feed-filter-label", ".feed-search-submit"]) {
   assert(sharedSearchCss.includes(selector), "Moteur partagé : style commun absent, " + selector);
 }
-assert(home.includes('id="floor-rows"'), "Accueil : immeuble interactif absent");
+assert(!home.includes('id="floor-rows"') && !home.includes('class="building-home"'), "Accueil : ancienne navigation par immeuble encore présente");
+assert(home.includes('class="home-rubric-directory"'), "Accueil : répertoire classique des rubriques absent");
+assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes("Assistant conversationnel de première génération"), "Assistant conversationnel partagé absent");
 
 
 const internalEntryHtml = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
