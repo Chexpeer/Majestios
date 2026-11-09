@@ -511,3 +511,29 @@ html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a[aria-curren
   border:0!important;box-shadow:none!important;
  }
 }
+
+
+/* Séparation nette : navigation invisible, bouton hamburger visible et identifiable. */
+@media(min-width:901px){
+ html body header.site-header,
+ html body .site-header,
+ html body .site-header nav.site-nav.site-nav-drawer{
+  background:transparent!important;border:0!important;box-shadow:none!important;
+ }
+}
+@media(max-width:900px){
+ html body header.site-header{
+  background:transparent!important;border:0!important;box-shadow:none!important;
+ }
+ html body header.site-header>button#menu-toggle{
+  display:flex!important;visibility:visible!important;opacity:1!important;
+  width:34px!important;min-width:34px!important;height:34px!important;min-height:34px!important;
+  flex:0 0 34px!important;padding:6px!important;margin-right:10px!important;
+  background:#fff!important;border:1px solid #c7d3df!important;border-radius:7px!important;
+  box-shadow:0 1px 4px rgba(20,40,60,.14)!important;
+ }
+ html body header.site-header>button#menu-toggle span{
+  display:block!important;width:18px!important;height:2px!important;
+  flex:0 0 2px!important;background:#17324f!important;
+ }
+}
