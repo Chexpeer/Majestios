@@ -145,3 +145,39 @@ body.homepage .nav-group-menu{top:calc(100% + 5px);background:#0b1420!important}
   background:#e2ebf5!important;color:#102b50!important}
  .nav-drawer-overlay{z-index:1501!important;pointer-events:auto!important}
 }
+
+
+/* Navigation tiroirs v2 — liens directs + ouverture indépendante et palette claire. */
+.site-nav-drawer .nav-drawer-section{position:relative;display:flex;align-items:center;gap:3px}
+.site-nav-drawer .nav-group-link{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 10px;border:1px solid #c5d1df;border-radius:8px;color:#203650;background:#edf3fa;font-size:12px;font-weight:750;text-decoration:none;white-space:nowrap}
+.site-nav-drawer .nav-group-toggle{display:inline-grid;place-items:center;flex:0 0 27px;width:27px;height:27px;border:1px solid #b8c7d8;border-radius:6px;background:#fff;color:#203650;font:700 15px/1 inherit;cursor:pointer}
+.site-nav-drawer .nav-group-toggle[aria-expanded="true"]{background:#e2ebf5;transform:rotate(180deg)}
+.site-nav-drawer .nav-group-items[hidden]{display:none!important}
+.site-nav-drawer .nav-group-items{display:grid;gap:3px;min-width:230px;padding:8px;border:1px solid #b8c7d8;border-radius:9px;background:#f8fbff;box-shadow:0 14px 35px #07122535}
+.site-nav-drawer .nav-group-items a{display:block;padding:9px 11px;border-radius:6px;color:#203650;font-size:12px;line-height:1.35;text-decoration:none}
+.site-nav-drawer .nav-group-items a:hover,.site-nav-drawer .nav-group-items a:focus-visible{background:#e3edf8;color:#102b50;outline:2px solid transparent}
+.site-nav-drawer .nav-drawer-section:nth-of-type(1)>.nav-group-link{background:#176b78;color:#fff;border-color:#54c5c8}
+.site-nav-drawer .nav-drawer-section:nth-of-type(2)>.nav-group-link{background:#285da8;color:#fff;border-color:#7fb4ff}
+.site-nav-drawer .nav-drawer-section:nth-of-type(3)>.nav-group-link{background:#28734f;color:#fff;border-color:#7bd5a4}
+.site-nav-drawer .nav-drawer-section:nth-of-type(4)>.nav-group-link{background:#7550a5;color:#fff;border-color:#c4a1f0}
+.site-nav-drawer .nav-drawer-section:nth-of-type(5)>.nav-group-link{background:#a45b27;color:#fff;border-color:#f0b77e}
+.site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{background:#596579;color:#fff;border-color:#b9c7da}
+@media(min-width:901px){
+ .site-nav-drawer .nav-drawer-head{display:none}
+ .site-nav-drawer .nav-drawer-section{align-self:center}
+ .site-nav-drawer .nav-group-items{position:absolute;top:calc(100% + 7px);left:0;z-index:1700;max-height:min(65vh,520px);overflow:auto}
+ .site-nav-drawer .nav-group-items a{white-space:normal}
+}
+@media(max-width:900px){
+ .site-nav-drawer .nav-drawer-section{display:grid;grid-template-columns:minmax(0,1fr) 34px;align-items:center;width:100%;gap:4px}
+ .site-nav-drawer .nav-group-link{justify-content:flex-start;width:100%;min-height:42px;white-space:normal}
+ .site-nav-drawer .nav-group-toggle{width:34px;height:34px;flex-basis:34px}
+ .site-nav-drawer .nav-group-items{grid-column:1/-1;position:static;min-width:0;width:auto;margin:0 0 7px 8px;padding:4px 0 4px 10px;border:0;border-left:3px solid #aebed0;border-radius:0;background:transparent;box-shadow:none}
+ .site-nav-drawer .nav-drawer-section:nth-of-type(1) .nav-group-items{border-left-color:#176b78}
+ .site-nav-drawer .nav-drawer-section:nth-of-type(2) .nav-group-items{border-left-color:#285da8}
+ .site-nav-drawer .nav-drawer-section:nth-of-type(3) .nav-group-items{border-left-color:#28734f}
+ .site-nav-drawer .nav-drawer-section:nth-of-type(4) .nav-group-items{border-left-color:#7550a5}
+ .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items{border-left-color:#a45b27}
+ .site-nav-drawer .nav-drawer-section:nth-of-type(6) .nav-group-items{border-left-color:#596579}
+ .site-nav-drawer .nav-group-items a{padding:9px 10px;color:#203650}
+}
