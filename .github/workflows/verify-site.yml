@@ -24,6 +24,7 @@ jobs:
       - name: Vérifier la syntaxe JavaScript
         run: |
           node --check app.js
+          node --check official-source-links.js
           node --check reputation-virtuelle.js
           node --check reputation-audit-core.mjs
           node --check reputation-audit-connectors.mjs
@@ -79,6 +80,8 @@ jobs:
         run: node --test tests/reputation-audit-analysis.test.mjs
       - name: Tester le handler authentifié du moteur d'audit Cheexpeer
         run: node --test tests/reputation-audit-handler.test.mjs
+      - name: Tester la validation des liens de sources officielles
+        run: node --test tests/official-source-links.test.mjs
       - name: Vérifier la recherche BODACC filtrée en conditions réelles
         run: node tests/reputation-bodacc-query-smoke.cjs
       - name: Vérifier la navigation Administration / CRM
