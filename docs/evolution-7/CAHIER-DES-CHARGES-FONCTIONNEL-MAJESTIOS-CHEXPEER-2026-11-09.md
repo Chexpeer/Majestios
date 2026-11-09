@@ -153,6 +153,16 @@ L'utilisateur retrouve ses informations, demandes, dossiers, services souscrits 
 
 **Acceptation :** navigation claire, état des demandes compréhensible, absence de promesses de service non encore activé.
 
+### PF-09 — Phase pilote ouverte aux 20 premiers clients
+
+La stratégie d'ouverture progressive est définie dans [Stratégie d'ouverture progressive — 20 premiers clients](STRATEGIE-OUVERTURE-PROGRESSIVE-20-PREMIERS-CLIENTS-2026-11-09.md).
+
+Pendant cette phase, un même compte client peut circuler librement entre toutes les rubriques métier ouvertes au test et évaluer les fonctions disponibles. Les habilitations ne doivent pas être multipliées artificiellement par rubrique. L'ouverture des parcours ne donne toutefois aucun accès aux données d'autres organisations, au cockpit VIP ni aux archives confidentielles de l'administrateur.
+
+La création de compte conserve une authentification et une information adaptées. Une fois le compte créé, l'exploration des rubriques ne doit pas déclencher de demandes d'autorisation répétitives. Les actions sensibles et les accès aux données restent contrôlés à leur niveau propre.
+
+Le seuil des 20 premiers clients déclenche une revue de stratégie, pas une fermeture automatique. Les critères de recette et les règles de comptage sont définis dans le document dédié.
+
 ## 5. Cahier des charges de Cheexpeer
 
 Cheexpeer est l'agent IA transversal de MajestiOS. Sa spécification détaillée — identité, missions, quatre espaces, compétences métier, fonctionnement des missions, autonomie, mémoire, archives, centre de commande, connecteurs, notifications, critères de recette, priorités et état réel du dépôt — est maintenue dans un document dédié :
