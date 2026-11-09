@@ -50,7 +50,7 @@
     if (!response.ok) throw new Error("Le service de données a répondu avec le statut " + response.status + ".");
     const payload = await response.json();
     const rows = Array.isArray(payload.results) ? payload.results : [];
-    const digits = value => String(value == null ? "" : value).replace(/\\D/g,"");
+    const digits = value => String(value == null ? "" : value).replace(/\D/g,"");
     const target = digits(department);
     const filtered = department ? rows.filter(row => {
       const raw = row[deptField];
@@ -66,8 +66,8 @@
   }
 
   async function searchQualification(siret) {
-    const cleanSiret = String(siret || "").replace(/\\D/g, "");
-    if (!/^\\d{14}$/.test(cleanSiret)) throw new Error("Un SIRET valide à 14 chiffres est nécessaire.");
+    const cleanSiret = String(siret || "").replace(/\D/g, "");
+    if (!/^\d{14}$/.test(cleanSiret)) throw new Error("Un SIRET valide à 14 chiffres est nécessaire.");
     const connectorIds = ["qualibat","qualifelec","opqibi","fntp"];
     const configured = connectorIds.filter(id => {
       const item = SOURCES.find(source => source.id === id);

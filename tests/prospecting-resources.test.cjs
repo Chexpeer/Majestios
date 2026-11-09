@@ -3,14 +3,41 @@ const assert = require("node:assert/strict");
 const resources = require("../prospecting-resources.js");
 
 async function main() {
-  assert.ok(resources.SOURCES.some(source => source.id === "sirene"));
-  assert.ok(resources.SOURCES.some(source => source.id === "rne"));
-  assert.ok(resources.SOURCES.some(source => source.id === "qualibat"));
-  assert.ok(resources.SOURCES.some(source => source.id === "qualifelec"));
-  assert.ok(resources.SOURCES.some(source => source.id === "opqibi"));
-  assert.ok(resources.SOURCES.some(source => source.id === "fntp"));
-  await assert.rejects(resources.searchQualification("qualibat", "123"), /SIRET valide/);
-  await assert.rejects(resources.searchConfiguredProxy("rne", { siren:"123456789" }), /pas configuré/);
+  assert.equal(typeof resources.searchRge, "function");
+  assert.equal(typeof resources.searchQualification, "function");
+  assert.equal(typeof resources.renderCatalog, "function");
+  assert.equal(resources.SOURCES, undefined, "Le catalogue des fournisseurs ne doit pas être exposé dans l’API publique.");
+
+  await assert.rejects(resources.searchQualification("123"), /SIRET valide/);
+
+  const previousConfig = global.MAJESTIOS_PROSPECTING_CONFIG;
+  const previousQualificationFetch = global.fetch;
+  try {
+    global.MAJESTIOS_PROSPECTING_CONFIG = {};
+    const unavailable = await resources.searchQualification("12345678901234");
+    assert.deepEqual(unavailable, {
+      siret:"12345678901234", results:[], checkedCount:0, successCount:0, available:false
+    });
+
+    global.MAJESTIOS_PROSPECTING_CONFIG = {
+      qualibatProxyUrl:"https://qualification.example.test/check"
+    };
+    const qualificationCalls = [];
+    global.fetch = async url => {
+      qualificationCalls.push(String(url));
+      return { ok:true, status:200, json:async()=>({ qualification:"à vérifier" }) };
+    };
+    const qualification = await resources.searchQualification("123 456 789 012 34");
+    assert.equal(qualification.available, true);
+    assert.equal(qualification.checkedCount, 1);
+    assert.equal(qualification.successCount, 1);
+    assert.equal(qualification.results[0].qualification, "à vérifier");
+    assert.equal(new URL(qualificationCalls[0]).searchParams.get("siret"), "12345678901234");
+  } finally {
+    global.fetch = previousQualificationFetch;
+    if (previousConfig === undefined) delete global.MAJESTIOS_PROSPECTING_CONFIG;
+    else global.MAJESTIOS_PROSPECTING_CONFIG = previousConfig;
+  }
 
   const originalFetch = global.fetch;
   const calls = [];
