@@ -237,7 +237,7 @@ La fonction `import-official-company` vérifie le jeton utilisateur puis appelle
 - Suppression des détails d'erreur RPC, des statuts techniques du service upstream et des exceptions brutes dans les réponses HTTP.
 - Ajout de contrôles contractuels dans `tests/crm-security-contract.test.cjs`.
 
-**Limites restantes :** le test de contrat n'a pas encore été exécuté dans cette session ; les tests réels avec member/viewer, owner/admin et organisation tierce restent à faire. Les origines de preview nécessaires doivent être configurées explicitement dans `ALLOWED_ORIGINS`. L'application de la migration sur Supabase n'est pas vérifiée.
+**Limites restantes :** le test de contrat n'a pas encore été exécuté dans cette session ; les tests réels avec member/viewer, owner/admin et organisation tierce restent à faire. Les origines de preview nécessaires doivent être configurées explicitement dans `ALLOWED_ORIGINS`. L'application de la migration sur Supabase n'est pas vérifiée. En complément, l'Edge appelle `import_official_company_record`, mais aucune définition de ce RPC n'a été retrouvée dans les migrations versionnées examinées. Son existence éventuelle dans Supabase distant n'a pas été vérifiée ; l'import ne doit pas être déclaré opérationnel avant contrôle de sa signature et de ses droits.
 
 ### 10.7 Activation effective des contrôles d'intégrité CRM
 
