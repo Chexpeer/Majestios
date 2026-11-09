@@ -4,6 +4,12 @@
 
 La branche `evolution-5.0` porte le référentiel documentaire actuel de MajestiOS. Les versions antérieures restent séparées sur leurs branches sources : `evolution-2.0`, `evolution-3.0` et `evolution-4.0`. Leurs dossiers ne sont pas recopiés dans V5.
 
+## Évolution 7 — refonte globale
+
+| Document | Rôle |
+|---|---|
+| [Refonte globale — navigation classique et chatbot — 9 novembre 2026](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Décision validée : abandon de l'immeuble comme navigation, menu global de toutes les rubriques, préservation des contenus/fonds/fonctionnalités/CRM-Supabase, première génération du chatbot, nettoyage CSS et audit des liens. |
+
 ## Évolution 6 — lots intégrés
 
 | Document | Rôle |
