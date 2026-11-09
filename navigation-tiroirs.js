@@ -26,8 +26,8 @@
         display:"flex",position:"relative","z-index":"2601",width:"34px","min-width":"34px",
         height:"34px","min-height":"34px",padding:"6px",flex:"0 0 34px",
         "flex-direction":"column","align-items":"center","justify-content":"center",gap:"4px",
-        background:"transparent",border:"0","border-radius":"0",
-        "box-shadow":"none",visibility:"visible",opacity:"1",
+        background:"#ffffff",border:"1px solid #c7d3df","border-radius":"7px",
+        "box-shadow":"0 1px 4px rgba(20,40,60,.14)",visibility:"visible",opacity:"1",
         "pointer-events":"auto",cursor:"pointer"
       }).forEach(([p,v]) => setImportant(menuButton,p,v));
       menuButton.querySelectorAll("span").forEach(span => {
