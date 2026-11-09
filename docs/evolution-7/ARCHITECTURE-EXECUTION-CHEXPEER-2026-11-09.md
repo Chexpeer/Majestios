@@ -479,3 +479,50 @@ pg_cron est installé et le job CRM existant est toujours présent (un job obser
 5. Ajouter les validations humaines et les écritures métier uniquement après tests d'isolation et d'idempotence.
 
 **Statut à retenir :** fondation de données et transport installés et testés sur MajestiOS-Test ; moteur d'exécution Cheexpeer encore à construire. Aucune mise en production, aucun déploiement d'Edge Function et aucune modification de majestios-crm.
+
+
+### 13.8 Dispatcher, leases et validation humaine — recette du 9 novembre
+
+Deux migrations supplémentaires ont été appliquées à MajestiOS-Test et versionnées dans Evolution-7 :
+
+- 20261109240000_cheexpeer_dispatcher_and_lifecycle.sql
+- 20261109241000_cheexpeer_human_approval_lifecycle.sql
+
+#### Fonctions désormais disponibles
+
+- Soumission idempotente d'une mission, avec clé anti-doublon.
+- Affectation initiale à la file, à la planification ou à l'attente de validation humaine.
+- Promotion des missions planifiées et des reprises arrivées à échéance.
+- Réservation atomique de la mission éligible par priorité décroissante, échéance, ancienneté et verrouillage SKIP LOCKED.
+- Bail temporaire du worker, renouvellement et contrôle du propriétaire du bail.
+- Clôture réussie, échec, temporisation de reprise et récupération des baux expirés.
+- Création automatique d'une demande de validation si la mission l'exige.
+- Décision d'approbation réservée à un owner/admin de l'organisation ; refus ou approbation journalisés.
+
+Les fonctions sont SECURITY INVOKER, dans le schéma privé, et leur EXECUTE est réservé à service_role. Les rôles anon et authenticated ne peuvent ni soumettre, ni réserver, ni décider directement.
+
+#### Résultats de tests réellement exécutés
+
+- Mission de contrôle soumise : succès.
+- Même clé d'idempotence soumise une seconde fois : même mission retournée, was_created=false.
+- Claim par worker-test-01 : succès, tentative 1, bail accordé.
+- Renouvellement du bail : true.
+- Tentative de clôture par worker-impostor : false.
+- Clôture par le propriétaire du bail : true ; mission au statut succeeded.
+- Mission nécessitant une validation : créée avec statut awaiting_approval et ligne d'approbation pending.
+- Tentative de claim alors que la validation est pending : aucune mission retournée.
+- Tentative de validation par un identifiant non membre owner/admin : refus SQL 42501 ; la demande reste pending et la mission reste awaiting_approval.
+- Contrôle des droits : anon=false, authenticated=false, service_role=true sur les RPC sensibles testées.
+
+Le projet de test ne contient actuellement aucun compte auth utilisateur ; il n'a donc pas été possible de tester une approbation positive avec un vrai compte owner/admin. Ce test reste à faire dès qu'un compte de recette sera provisionné.
+
+#### Réserves et limites
+
+- PGMQ reste une file de réveil/transport ; la priorité réelle est décidée par le claim SQL. Le worker devra consommer puis archiver les messages PGMQ et appeler le claim.
+- La promotion des tâches dues nécessite encore un déclencheur périodique ; aucun Cron Cheexpeer n'a été activé à ce stade.
+- Les dépendances entre étapes, les quotas par organisation, les budgets, les politiques d'outils et les circuits d'exécution restent à relier au worker.
+- Aucun outil métier n'est activé dans le registre ; aucune mission n'a déclenché d'effet externe.
+- Le seul avertissement de sécurité advisor qui persiste est l'avertissement historique sur public.complete_crm_reminder ; les nouvelles RPC Cheexpeer ne génèrent pas de finding.
+- Les index encore marqués unused sont normaux dans cette base de recette sans charge représentative.
+
+**État actualisé :** fondation persistante, file, dispatcher SQL, baux, idempotence et garde-fou d'approbation installés et partiellement testés. Il reste à construire et déployer le consommateur/worker, le déclencheur périodique et le registre opérationnel des outils. Aucune modification du projet majestios-crm et aucun déploiement de fonction Edge.
