@@ -331,3 +331,20 @@ assert.ok(officialImportEdge.indexOf('userClient.rpc(\n    "can_import_official_
 assert.ok(officialImportEdge.includes('serviceClient.rpc(\n      "import_official_company_record"'),
   "L'import privilégié doit rester encapsulé dans l'Edge Function.");
 console.log("Official company import permissions: OK — seuls owner/admin peuvent déclencher l'import privilégié.");
+
+// The privileged official importer must not expose a wildcard browser origin
+// or internal database/upstream errors to callers.
+assert.ok(officialImportEdge.includes('Deno.env.get("ALLOWED_ORIGINS")'));
+assert.ok(officialImportEdge.includes('"https://majestios.com"'));
+assert.ok(officialImportEdge.includes('"https://www.majestios.com"'));
+assert.match(officialImportEdge, /function isAllowedOrigin\(origin: string \| null\): boolean/);
+assert.match(officialImportEdge, /if \(!isAllowedOrigin\(origin\)\)/);
+assert.match(officialImportEdge, /"Access-Control-Allow-Origin": origin/);
+assert.doesNotMatch(officialImportEdge, /"Access-Control-Allow-Origin": "\*"/);
+assert.match(officialImportEdge, /Accès réservé aux administrateurs VIP de cette organisation/);
+assert.doesNotMatch(officialImportEdge, /rôle éditeur/);
+assert.doesNotMatch(officialImportEdge, /detail:\s*importError\.message/);
+assert.doesNotMatch(officialImportEdge, /upstream_status:/);
+assert.doesNotMatch(officialImportEdge, /\{ error: "[^"]+", detail \}/);
+assert.match(officialImportEdge, /console\.error\("Official company import failed\."/);
+console.log("Official company import hardening: OK — CORS à origine autorisée, rôle VIP cohérent et erreurs internes non exposées.");
