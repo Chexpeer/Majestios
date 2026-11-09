@@ -49,3 +49,21 @@ body.page-reputation-virtuelle .reputation-page{width:min(1240px,calc(100% - 64p
 .reputation-page .interior-links{color:#c4ccda}
 @media(max-width:900px){.reputation-hero{grid-template-columns:1fr;gap:28px}.reputation-visual{min-height:470px}.reputation-explainer{grid-template-columns:1fr;gap:18px}}
 @media(max-width:600px){body.page-reputation-virtuelle .reputation-page{width:calc(100% - 28px);padding:34px 0 54px}.reputation-search-column h1{font-size:clamp(36px,10vw,48px)}.reputation-lede{font-size:14px}.reputation-search-card{padding:13px}.reputation-input-row{flex-direction:column}.reputation-input-row button{min-height:42px;width:100%}.reputation-visual{min-height:410px;border-radius:20px}.social-hub{width:140px;height:140px}.social-hub strong{font-size:16px}.social-badge{gap:6px;padding:7px}.social-badge b{width:31px;height:31px}.social-badge span{font-size:10px}.social-facebook{left:3%}.social-youtube{right:3%}.social-instagram{right:1%}.social-linkedin{right:3%}.social-tiktok{left:3%}.social-x{left:1%}.reputation-pillars{grid-template-columns:1fr}.reputation-explainer{padding-top:42px}}
+
+/* Consultation intégrée Google — prototype configuré par identifiants explicites. */
+.reputation-workspace{display:grid;gap:16px;max-width:700px}
+.reputation-consultation{overflow:hidden;border:1px solid rgba(213,181,108,.3);border-radius:15px;background:#f7f9fc;color:#172235;box-shadow:0 16px 38px rgba(0,0,0,.22)}
+.consultation-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;background:#102746;color:#fff}
+.consultation-toolbar .eyebrow{margin:0 0 5px;color:#e5c56e;font-size:10px;letter-spacing:.12em}
+.consultation-toolbar h2{margin:0;font-size:16px}
+.consultation-status{padding:6px 9px;border:1px solid rgba(255,255,255,.22);border-radius:20px;color:#dbe7f5;font-size:10px;text-align:center}
+.consultation-content{min-height:220px;max-height:560px;overflow:auto;background:#fff}
+.consultation-placeholder{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:28px;text-align:center}
+.consultation-placeholder>span{font-size:34px;color:#b18b39}
+.consultation-placeholder strong{color:#172235;font-size:15px}
+.consultation-placeholder p{max-width:460px;margin:0;color:#637086;font-size:12px;line-height:1.65}
+.consultation-legal{margin:0;padding:10px 15px;border-top:1px solid #e5eaf0;color:#64748b;background:#f7f9fc;font-size:10px;line-height:1.5}
+.reputation-map-frame{display:block;width:100%;height:420px;border:0}
+.reputation-consultation .gsc-control-cse{padding:14px!important;border:0!important}
+.reputation-consultation .gsc-results-wrapper-overlay{position:static!important}
+@media(max-width:600px){.consultation-toolbar{align-items:flex-start;flex-direction:column}.consultation-status{align-self:flex-start}.reputation-map-frame{height:360px}}
