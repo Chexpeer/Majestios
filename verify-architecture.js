@@ -64,7 +64,11 @@ const requiredNavigationRoutes = [
   "accompagnement-appels-offres.html","suivi-commercial.html","qualification-entreprises.html",
   "reseaux-synergies.html","salons-seminaires.html","reputation-virtuelle.html",
   "intelligence-economique.html","espace-membre.html","espace-interne.html","crm.html",
-  "administration.html","nous-rejoindre.html","contact.html","faq.html","vision-majestios.html"
+  "administration.html","nous-rejoindre.html","contact.html","faq.html","vision-majestios.html",
+  "categorie-services-numeriques.html","categorie-travaux-amenagement.html","categorie-conseil-etudes.html",
+  "categorie-batiment.html","categorie-renovation.html","categorie-electricite.html",
+  "categorie-plomberie-chauffage.html","categorie-maintenance.html","majestios-v5.html",
+  "mentions-legales.html","politique-confidentialite.html"
 ];
 for (const route of requiredNavigationRoutes) {
   assert(navigationController.includes(route), "Navigation : destination absente du catalogue global : " + route);
