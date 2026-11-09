@@ -11,7 +11,8 @@ Le parcours de la page Réputation virtuelle est maintenant raccordé au handler
 2. Le bouton « Lancer l’audit Cheexpeer » devient actif.
 3. Le navigateur vérifie la session Supabase et appelle `reputation-audit-context`.
 4. L’Edge Function authentifie le JWT avec `auth.getUser(token)`.
-5. Le serveur authentifie le JWT et vérifie l’appartenance à au moins un espace MajestiOS via `organization_members` et les politiques RLS.\n6. Le serveur collecte le contexte d’identité d’entreprise et les annonces BODACC.
+5. Le serveur authentifie le JWT et vérifie l’appartenance à au moins un espace MajestiOS via `organization_members` et les politiques RLS.
+6. Le serveur collecte le contexte d’identité d’entreprise et les annonces BODACC.
 7. Si le fournisseur IA est configuré côté serveur, le handler transmet les seules preuves collectées au module Cheexpeer.
 8. Le module valide le schéma, les références de preuves et les liens entre constats et recommandations.
 9. Le navigateur affiche les éléments, les constats, les recommandations et les lacunes avec insertion DOM en texte, sans interpréter les réponses comme du HTML.
@@ -22,7 +23,8 @@ Le parcours de la page Réputation virtuelle est maintenant raccordé au handler
 - `reputation-virtuelle.js` : client Supabase, appel authentifié, restitution du rapport et activation conditionnelle du bouton.
 - `supabase/functions/_shared/reputation-audit-handler.mjs` : orchestration collection → analyse optionnelle → DTO de restitution.
 - `supabase/functions/_shared/reputation-audit-provider.mjs` : nouvel adaptateur serveur pour API compatible Chat Completions et JSON Schema strict.
-- `supabase/functions/reputation-audit-context/index.ts` : lecture des variables d’environnement IA, branchement de l’adaptateur et contrôle d'appartenance à un espace MajestiOS.\n- `tests/reputation-audit-access-contract.test.mjs` : test du contrôle d'appartenance serveur.\n- `tests/reputation-audit-connectors.test.mjs` et `tests/reputation-audit-analysis.test.mjs` : tests de rapprochement SIREN et de résistance aux instructions présentes dans les preuves.
+- `supabase/functions/reputation-audit-context/index.ts` : lecture des variables d’environnement IA, branchement de l’adaptateur et contrôle d'appartenance à un espace MajestiOS.
+- `tests/reputation-audit-access-contract.test.mjs` : test du contrôle d'appartenance serveur.\n- `tests/reputation-audit-connectors.test.mjs` et `tests/reputation-audit-analysis.test.mjs` : tests de rapprochement SIREN et de résistance aux instructions présentes dans les preuves.
 - `tests/reputation-audit-handler.test.mjs` : cas analyse active et cas fournisseur absent.
 - `tests/reputation-audit-provider.test.mjs` : authentification fournisseur, JSON Schema strict, erreurs et endpoint HTTPS.
 - `tests/reputation-virtuelle.browser.cjs` : mock du SDK Supabase et tests d’état du bouton.
