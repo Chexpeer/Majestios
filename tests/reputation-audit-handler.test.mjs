@@ -95,3 +95,19 @@ test("does not claim automatic analysis when no analyzer is configured", async (
   assert.equal(body.analysis_unavailable, true);
   assert.match(body.analysis_notice, /n’est pas configuré/);
 });
+
+test("preserves collected evidence when the AI analyzer fails", async () => {
+  const handler = createReputationAuditHandler({
+    authenticate: authOk,
+    fetchImpl: fetchOk,
+    analyze: async () => { throw new Error("provider unavailable"); }
+  });
+  const response = await handler(request({ subject: "Atelier Exemple", siren: "123456789" }));
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(body.status, "collection_only");
+  assert.equal(body.analysis_unavailable, true);
+  assert.equal(body.evidence_count, 2);
+  assert.equal(body.evidence.length, 2);
+  assert.match(body.analysis_notice, /collecte a abouti/i);
+});
