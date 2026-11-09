@@ -163,6 +163,8 @@ assert.match(page, /consent_status: "unknown"/);
 assert.match(page, /status: "detected"/);
 
 assert.match(edge, /body\.privacy_acknowledged !== true/);
+assert.match(edge, /metadata\.privacy_notice_acknowledged !== true/);
+assert.match(edge, /metadata\.privacy_notice_version !== NOTICE_VERSION/);
 assert.match(edge, /body\.flow !== "signup"/);
 assert.match(edge, /const noticeVersion = NOTICE_VERSION/);
 assert.match(edge, /SUPABASE_SERVICE_ROLE_KEY/);
