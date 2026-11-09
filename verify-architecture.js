@@ -80,7 +80,7 @@ for (const page of htmlPages) {
 assert(navigationStyles.includes(".nav-group-menu"), "Navigation : styles des sous-menus absents");
 assert(navigationStyles.includes(".majestios-chat-panel"), "Assistant : styles de conversation absents");
 for (const asset of [
-  "styles.css", "charte-majestios.css", "app.js", "navigation-majestios.css", "catalogue-majestios.js", "rubriques-immersives.css",
+  "styles.css", "charte-majestios.css", "app.js", "navigation-majestios.css", "homepage.css", "homepage-theme.css", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
   "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
   "company-targeting.js", "company-targeting-page.js", "company-fit.js"
@@ -98,6 +98,9 @@ assert(home.includes("Donner de la hauteur"), "Accueil : texte de positionnement
 assert(home.includes('href="marches-publics.html"') && home.includes('href="reputation-virtuelle.html"'),
   "Accueil : accès aux rubriques principales absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
+assert(!home.includes("<style"), "Accueil : les styles doivent être externalisés dans des feuilles dédiées");
+const homepageCss = read("homepage.css") + read("homepage-theme.css");
+assert(!/\\.(?:building|tower|floor|elevator|home-help)[\\w-]*|#floor-rows|\\.site-nav\\b|\\.menu-toggle\\b/i.test(homepageCss), "CSS accueil : styles obsolètes de l’immeuble et de l’ancien menu encore présents");
 
 for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
   assert(exists(asset),"Visuel de l'accueil absent : "+asset);
