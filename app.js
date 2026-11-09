@@ -377,32 +377,31 @@ if (leadForm && formFeedback) {
   }
 }
 
-// Navigation MajestiOS — tiroir latéral unique, sans menus déroulants en cascade.
+// Navigation MajestiOS — rubriques accessibles directement, sous-rubriques en tiroirs.
 const navigationGroups = [
-  { label: "Appels d’offres", items: [
+  { label: "Appels d’offres", href: "marches-publics.html", items: [
     ["Appels d’offres publics","marches-publics.html"],
     ["Appels d’offres privés","marches-prives.html"],
     ["Accompagnement appels d’offres","accompagnement-appels-offres.html"]
   ]},
-  { label: "Développement commercial", items: [
-    ["Vue d’ensemble","developpement-commercial.html"],
+  { label: "Développement commercial", href: "developpement-commercial.html", items: [
     ["Prospection","prospection-active.html"],
     ["Accompagnement appels d’offres","accompagnement-appels-offres.html"],
     ["Suivi commercial","suivi-commercial.html"],
     ["Qualification des entreprises","qualification-entreprises.html"]
   ]},
-  { label: "Réseau", items: [
+  { label: "Réseau", href: "reseaux-synergies.html", items: [
     ["Réseau et synergies","reseaux-synergies.html"],
     ["Salons & séminaires","salons-seminaires.html"]
   ]},
-  { label: "Réputation virtuelle", items: [
+  { label: "Réputation virtuelle", href: "reputation-virtuelle.html", items: [
     ["Présence et visibilité","reputation-virtuelle.html"],
     ["Intelligence économique","intelligence-economique.html"]
   ]},
-  { label: "Espace client", items: [
+  { label: "Espace client", href: "espace-membre.html", items: [
     ["Espace client","espace-membre.html"]
   ]},
-  { label: "Explorer davantage", items: [
+  { label: "Explorer davantage", href: "veille-marches.html", items: [
     ["Veille des marchés","veille-marches.html"],
     ["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],
     ["Sous-traitance","sous-traitance.html"],
@@ -424,7 +423,7 @@ if (navigation && menuToggle) {
   const currentFile = window.location.pathname.split("/").pop() || "index.html";
   navigation.replaceChildren();
   navigation.classList.add("site-nav-drawer");
-  navigation.setAttribute("aria-label", "Menu principal");
+  navigation.setAttribute("aria-label", "Navigation principale");
 
   const drawerHead = document.createElement("div");
   drawerHead.className = "nav-drawer-head";
@@ -448,9 +447,15 @@ if (navigation && menuToggle) {
   navigationGroups.forEach((group) => {
     const section = document.createElement("section");
     section.className = "nav-drawer-section";
-    const heading = document.createElement("h2");
+    const heading = document.createElement("a");
+    heading.className = "nav-group-link";
+    heading.href = group.href;
     heading.textContent = group.label;
+    if (group.href === currentFile) heading.setAttribute("aria-current", "page");
     section.append(heading);
+
+    const submenu = document.createElement("div");
+    submenu.className = "nav-group-items";
     group.items.forEach(([label, href]) => {
       const link = document.createElement("a");
       link.href = href;
@@ -458,8 +463,9 @@ if (navigation && menuToggle) {
       if (href === currentFile || (href === "espace-membre.html" && currentFile === "espace-prive.html")) {
         link.setAttribute("aria-current", "page");
       }
-      section.append(link);
+      submenu.append(link);
     });
+    section.append(submenu);
     navigation.append(section);
   });
 
@@ -490,13 +496,7 @@ if (navigation && menuToggle) {
   });
   navigation.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-      if (link.getAttribute("href") !== "#") {
-        navigation.classList.remove("open");
-        overlay.classList.remove("is-visible");
-        document.body.classList.remove("nav-drawer-active");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Ouvrir le menu");
-      }
+      if (window.matchMedia("(max-width: 900px)").matches) setDrawerOpen(false);
     });
   });
 }
