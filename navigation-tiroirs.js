@@ -82,12 +82,6 @@
       title.href = group.href;
       title.textContent = group.label;
       if (current === group.href) title.setAttribute("aria-current","page");
-      const toggle = document.createElement("button");
-      toggle.type = "button";
-      toggle.className = "nav-group-toggle";
-      toggle.textContent = "⌄";
-      toggle.setAttribute("aria-expanded","false");
-      toggle.setAttribute("aria-label","Dérouler "+group.label);
       const submenu = document.createElement("div");
       submenu.className = "nav-group-items";
       submenu.hidden = true;
@@ -98,17 +92,23 @@
         if (current === href) a.setAttribute("aria-current","page");
         submenu.append(a);
       });
+
+      // Desktop : ouverture au survol et au clavier.
+      // Mobile : sous-rubriques visibles dans le tiroir, sans bouton chevron.
+      const desktop = () => window.matchMedia("(min-width: 901px)").matches;
       const setOpen = value => {
-        submenu.hidden = !value;
-        section.classList.toggle("is-open",value);
-        toggle.setAttribute("aria-expanded",String(value));
-        toggle.setAttribute("aria-label",(value?"Replier ":"Dérouler ")+group.label);
+        submenu.hidden = desktop() ? !value : false;
+        section.classList.toggle("is-open", desktop() && value);
       };
-      toggle.addEventListener("click",() => setOpen(submenu.hidden));
-      section.addEventListener("mouseenter",() => { if(matchMedia("(min-width: 901px)").matches) setOpen(true); });
-      section.addEventListener("mouseleave",() => { if(matchMedia("(min-width: 901px)").matches) setOpen(false); });
-      section.addEventListener("focusout",e => { if(matchMedia("(min-width: 901px)").matches && !section.contains(e.relatedTarget)) setOpen(false); });
-      section.append(title,toggle,submenu);
+      if (desktop()) submenu.hidden = true;
+      else submenu.hidden = false;
+      section.addEventListener("mouseenter", () => { if (desktop()) setOpen(true); });
+      section.addEventListener("mouseleave", () => { if (desktop()) setOpen(false); });
+      section.addEventListener("focusin", () => { if (desktop()) setOpen(true); });
+      section.addEventListener("focusout", e => {
+        if (desktop() && !section.contains(e.relatedTarget)) setOpen(false);
+      });
+      section.append(title,submenu);
       nav.append(section);
     });
     nav.querySelectorAll("a").forEach(a => a.addEventListener("click",() => {
