@@ -125,7 +125,7 @@
   .site-header {
     position: sticky !important;
     top: 0 !important;
-    z-index: 2300 !important;
+    z-index: 2500 !important;
     justify-content: space-between !important;
     min-height: 48px !important;
     isolation: isolate;
