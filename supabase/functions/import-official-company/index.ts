@@ -1,29 +1,61 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Content-Type": "application/json; charset=utf-8",
-};
+const allowedOrigins = new Set([
+  "https://majestios.com",
+  "https://www.majestios.com",
+  ...((Deno.env.get("ALLOWED_ORIGINS") ?? "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean)),
+]);
 
-function reply(body: unknown, status = 200) {
-  return new Response(JSON.stringify(body), { status, headers: corsHeaders });
+function isAllowedOrigin(origin: string | null): boolean {
+  return !origin || allowedOrigins.has(origin);
+}
+
+function corsHeaders(origin: string | null): HeadersInit {
+  return {
+    ...(origin && isAllowedOrigin(origin)
+      ? { "Access-Control-Allow-Origin": origin, "Vary": "Origin" }
+      : {}),
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Content-Type": "application/json; charset=utf-8",
+  };
+}
+
+function reply(body: unknown, status = 200, origin: string | null = null) {
+  return new Response(JSON.stringify(body), { status, headers: corsHeaders(origin) });
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  if (req.method !== "POST") return reply({ error: "Méthode non autorisée." }, 405);
+  const origin = req.headers.get("Origin");
+  if (!isAllowedOrigin(origin)) {
+    return new Response(JSON.stringify({ error: "Origine non autorisée." }), {
+      status: 403,
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    });
+  }
+
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(origin) });
+  if (req.method !== "POST") return reply({ error: "Méthode non autorisée." }, 405, origin);
 
   const authorization = req.headers.get("Authorization");
-  if (!authorization?.startsWith("Bearer ")) return reply({ error: "Authentification requise." }, 401);
+  if (!authorization?.startsWith("Bearer ")) return reply({ error: "Authentification requise." }, 401, origin);
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
-  const publishableKeys = Deno.env.get("SUPABASE_PUBLISHABLE_KEYS");
-  const anonKey = publishableKeys ? JSON.parse(publishableKeys)["default"] : Deno.env.get("SUPABASE_ANON_KEY");
+  let anonKey: string | undefined;
+  try {
+    const publishableKeys = Deno.env.get("SUPABASE_PUBLISHABLE_KEYS");
+    anonKey = publishableKeys
+      ? JSON.parse(publishableKeys)["default"]
+      : Deno.env.get("SUPABASE_ANON_KEY");
+  } catch {
+    return reply({ error: "Configuration serveur incomplète." }, 500, origin);
+  }
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !anonKey || !serviceKey) {
-    return reply({ error: "Configuration serveur incomplète." }, 500);
+    return reply({ error: "Configuration serveur incomplète." }, 500, origin);
   }
 
   const userClient = createClient(supabaseUrl, anonKey, {
@@ -32,27 +64,32 @@ Deno.serve(async (req: Request) => {
   });
   const token = authorization.slice("Bearer ".length);
   const { data: authData, error: authError } = await userClient.auth.getUser(token);
-  if (authError || !authData.user) return reply({ error: "Session invalide ou expirée." }, 401);
+  if (authError || !authData.user) return reply({ error: "Session invalide ou expirée." }, 401, origin);
 
   let input: { organization_id?: string; siren?: string };
   try {
     input = await req.json();
   } catch {
-    return reply({ error: "Corps JSON invalide." }, 400);
+    return reply({ error: "Corps JSON invalide." }, 400, origin);
   }
+
   const organizationId = input.organization_id?.trim();
-  const siren = input.siren?.replace(/\s/g, "");
+  const siren = input.siren?.replace(/\\s/g, "");
   if (!organizationId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(organizationId)) {
-    return reply({ error: "Identifiant d’organisation invalide." }, 400);
+    return reply({ error: "Identifiant d’organisation invalide." }, 400, origin);
   }
-  if (!siren || !/^[0-9]{9}$/.test(siren)) return reply({ error: "Un SIREN valide à 9 chiffres est requis." }, 400);
+  if (!siren || !/^[0-9]{9}$/.test(siren)) {
+    return reply({ error: "Un SIREN valide à 9 chiffres est requis." }, 400, origin);
+  }
 
   const { data: allowed, error: permissionError } = await userClient.rpc(
     "can_import_official_company",
     { p_organization_id: organizationId },
   );
-  if (permissionError) return reply({ error: "Vérification des habilitations impossible." }, 500);
-  if (allowed !== true) return reply({ error: "Accès refusé : un rôle éditeur dans cette organisation est nécessaire." }, 403);
+  if (permissionError) return reply({ error: "Vérification des habilitations impossible." }, 500, origin);
+  if (allowed !== true) {
+    return reply({ error: "Accès réservé aux administrateurs VIP de cette organisation." }, 403, origin);
+  }
 
   const upstream = new URL("https://recherche-entreprises.api.gouv.fr/search");
   upstream.searchParams.set("q", siren);
@@ -64,13 +101,19 @@ Deno.serve(async (req: Request) => {
       headers: { "Accept": "application/json", "User-Agent": "MajestiOS/1.0 (import entreprise officielle; https://majestios.com)" },
       signal: AbortSignal.timeout(10000),
     });
-    if (response.status === 429) return reply({ error: "Limite temporaire du service officiel.", retry_after: response.headers.get("Retry-After") }, 429);
-    if (!response.ok) return reply({ error: "Le service officiel est momentanément indisponible.", upstream_status: response.status }, 502);
+    if (response.status === 429) {
+      return reply({ error: "Limite temporaire du service officiel." }, 429, origin);
+    }
+    if (!response.ok) {
+      return reply({ error: "Le service officiel est momentanément indisponible." }, 502, origin);
+    }
 
     const payload = await response.json();
     const matches = Array.isArray(payload.results) ? payload.results : [];
     const company = matches.find((item: Record<string, unknown>) => String(item.siren ?? "") === siren);
-    if (!company) return reply({ error: "Aucune entreprise correspondant exactement à ce SIREN n’a été trouvée." }, 404);
+    if (!company) {
+      return reply({ error: "Aucune entreprise correspondant exactement à ce SIREN n’a été trouvée." }, 404, origin);
+    }
 
     const establishments = Array.isArray(company.matching_etablissements) ? [...company.matching_etablissements] : [];
     const headOffice = company.siege && typeof company.siege === "object"
@@ -94,7 +137,10 @@ Deno.serve(async (req: Request) => {
         p_source_url: "https://recherche-entreprises.api.gouv.fr",
       },
     );
-    if (importError) return reply({ error: "Import impossible.", detail: importError.message }, 500);
+    if (importError) {
+      console.error("Official company import failed.");
+      return reply({ error: "Import impossible. Réessayez ultérieurement ou contactez l’administrateur." }, 500, origin);
+    }
 
     return reply({
       source: "API Recherche d’Entreprises — DINUM",
@@ -110,9 +156,9 @@ Deno.serve(async (req: Request) => {
         establishment_count_received: uniqueEstablishments.length,
       },
       result: imported,
-    });
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : "Erreur inconnue";
-    return reply({ error: "Échec de la connexion au service officiel.", detail }, 502);
+    }, 200, origin);
+  } catch {
+    console.error("Official company import request failed.");
+    return reply({ error: "Échec de la connexion au service officiel. Réessayez ultérieurement." }, 502, origin);
   }
 });
