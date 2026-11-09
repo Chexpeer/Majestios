@@ -133,8 +133,8 @@ assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formul
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
 assert(home.includes("FLUX DE DÉMONSTRATION"), "Accueil : avertissement du flux fictif absent");
 assert(home.includes("Donner de la hauteur"), "Accueil : texte de positionnement existant absent");
-assert(home.includes('href="marches-publics.html"') && home.includes('href="reputation-virtuelle.html"'),
-  "Accueil : accès aux rubriques principales absent");
+assert(home.includes('href="developpement-commercial.html"') && home.includes('href="reseaux-synergies.html"'),
+  "Accueil : accès aux principales rubriques de navigation absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
 assert(!/<script>\s*[\s\S]*?<\/script>/i.test(home), "Accueil : contrôleur inline résiduel encore présent");
 assert(!navigationController.includes('const interactiveSvg = document.querySelector("#majestios-panorama")'), "Navigation : gestionnaire de l’ancien SVG interactif encore présent");
