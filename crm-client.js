@@ -216,13 +216,29 @@ async function update(table, id, values) {
     }
     payload.qualification_score = score;
   }
+  const { data: before, error: readError } = await supabase.from(table).select("*")
+    .eq("id", id).eq("organization_id", membership.organization_id).single();
+  if (readError) throw readError;
+  const changedFields = entries
+    .filter(([key, value]) => before[key] !== value)
+    .map(([key]) => key)
+    .sort();
   const { data, error } = await supabase.from(table).update(payload)
     .eq("id", id).eq("organization_id", membership.organization_id).select("*").single();
   if (error) throw error;
   if (!data || data.organization_id !== membership.organization_id) throw new Error("Modification non confirmée dans votre espace.");
-  // L'historique est écrit par le trigger SQL dans la même transaction que la fiche.
-  // Ne pas ajouter une seconde activité côté navigateur : cela créerait des doublons.
-  return { record: data, historyRecorded: true };
+  if (!changedFields.length) return { record: data, historyRecorded: true };
+
+  // Le trigger SQL écrit l'activité dans la même transaction que la fiche.
+  // Cette lecture confirme sa présence sans créer une seconde activité côté navigateur.
+  const { data: historyRows, error: historyReadError } = await supabase.from("activities")
+    .select("id")
+    .eq("organization_id", membership.organization_id)
+    .contains("metadata", { event: "updated", entity_type: table, entity_id: id, changed_fields: changedFields })
+    .gte("occurred_at", data.updated_at)
+    .order("occurred_at", { ascending: false })
+    .limit(1);
+  return { record: data, historyRecorded: !historyReadError && Boolean(historyRows?.length) };
 }
 
 async function create(table, values) {
