@@ -7,8 +7,7 @@ export function isBootstrapMission(mission) {
 }
 
 export function healthIsReady({ stopping, lastErrorAt, lastSuccessAt }) {
-  return !stopping && (
-    lastErrorAt === null
-    || (lastSuccessAt !== null && Date.parse(lastSuccessAt) >= Date.parse(lastErrorAt))
-  );
+  return !stopping
+    && lastSuccessAt !== null
+    && (lastErrorAt === null || Date.parse(lastSuccessAt) >= Date.parse(lastErrorAt));
 }
