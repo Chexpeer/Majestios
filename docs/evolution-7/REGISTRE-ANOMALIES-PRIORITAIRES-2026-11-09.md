@@ -224,3 +224,14 @@ L'Edge Function `import-official-company/index.ts` vérifie le droit d'import av
 - **Qualification :** incohérence potentiellement bloquante pour les membres des espaces clients ; aucun accès inter-organisation n'est démontré par ce constat. La correction rétablit uniquement les droits dans le tenant propre.
 - **État :** migration et contrat ajoutés à la branche ; aucun déploiement ni changement Supabase distant. Vérifier les rôles réels et exécuter les tests d'isolation avant application.
 - **CI :** le contrôle Vercel observé sur les commits de cette série est en échec avec le motif `build-rate-limit`. Aucun résultat de test automatisé n'est donc revendiqué.
+
+## SEC-08 — Garde d'intégrité CRM définie mais non activée ; clôture des relances contournable
+
+**Type :** défaut d'activation de contrôles en base et incohérence de journalisation — correction préparée.
+
+- **Constat A :** la migration `20261109190000_enforce_crm_business_relationships.sql` définit `private.enforce_tenant_relationship_integrity()` et crée l'index SIRET, mais ne crée aucun trigger appelant cette fonction. Les contrôles de rattachement entreprise/contact/opportunité/activité et l'immutabilité de `organization_id` n'étaient donc pas activés par cette migration.
+- **Constat B :** la migration initiale accorde `UPDATE(state, read_at)` sur `crm_reminders`. Même si le navigateur utilise le RPC atomique `complete_crm_reminder`, un client authentifié disposant du droit de table et de la politique RLS pouvait modifier directement l'état d'une relance sans créer l'activité associée.
+- **Correction préparée sur Evolution-7 :** migration `20261109210000_activate_crm_integrity_and_reminder_rpc.sql` qui attache les triggers BEFORE INSERT/UPDATE sur businesses, contacts, opportunities et activities ; révoque UPDATE direct sur les relances ; conserve la clôture via RPC avec contrôle d'organisation et journalisation atomique ; ajoute un contrôle explicite de l'existence de l'opportunité liée.
+- **Test de contrat ajouté :** vérifie la présence des quatre triggers, la révocation UPDATE et le contrôle d'existence avant clôture. L'exécution du test reste non confirmée.
+- **Qualification :** risque d'intégrité et de traçabilité ; aucune exploitation réelle ni donnée altérée n'est démontrée.
+- **État :** correction et tests ajoutés à Evolution-7 ; aucun déploiement ni changement Supabase distant.
