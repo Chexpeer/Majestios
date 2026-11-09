@@ -1,9 +1,16 @@
-// Chargeur unique de la navigation, partagé par toutes les pages qui chargent app.js.
-if (!document.querySelector('script[data-majestios-drawer]')) {
+// Chargement commun des ressources de navigation sur toutes les pages.
+if (!document.querySelector('link[data-majestios-drawer-css]') &&
+    !document.querySelector('link[href*="navigation-tiroirs.css"]')) {
+  const drawerStyle = document.createElement("link");
+  drawerStyle.rel = "stylesheet";
+  drawerStyle.href = new URL("navigation-tiroirs.css", document.baseURI).href;
+  drawerStyle.dataset.majestiosDrawerCss = "true";
+  document.head.append(drawerStyle);
+}
+if (!document.querySelector('script[src*="navigation-tiroirs.js"]')) {
   const drawerScript = document.createElement("script");
   drawerScript.src = new URL("navigation-tiroirs.js", document.baseURI).href;
   drawerScript.dataset.majestiosDrawer = "true";
-  drawerScript.defer = true;
   document.head.append(drawerScript);
 }
 const leadForm = document.querySelector("#lead-form");
