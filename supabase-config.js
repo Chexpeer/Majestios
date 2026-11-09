@@ -1,2 +1,5 @@
-// Configuration publique partagée avec les fonctions serveur ; aucune clé secrète ici.
-export { MAJESTIOS_SUPABASE } from "./majestios-supabase-public-config.mjs";
+// Configuration publique du client web ; aucune clé secrète ou service_role côté navigateur.
+export const MAJESTIOS_SUPABASE = Object.freeze({
+  url: "https://qxaghcifdhugfskuscoc.supabase.co",
+  publishableKey: "sb_publishable_1rbE5yDQs12JCNifwunMCg_u9-Ixl63"
+});
