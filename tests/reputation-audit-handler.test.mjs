@@ -35,7 +35,7 @@ test("returns sanitized identity evidence and no internal connector identifiers"
   const response = await handler(request({ subject: "Atelier Exemple", siren: "123456789" }));
   const body = await response.json();
   assert.equal(response.status, 200);
-  assert.equal(body.status, "completed");
+  assert.equal(body.status, "collection_only");
   assert.equal(body.evidence_count, 2);
   assert.equal(body.evidence[0].subject_match, "confirmed");
   assert.ok(body.evidence.some(item => item.evidence_type === "legal_event"));
