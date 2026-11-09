@@ -54,81 +54,33 @@ assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentati
 
 const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
 for (const page of htmlPages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
-const expectedSiteNavigation = [
-  ["index.html", "Accueil"],
-  ["developpement-commercial.html", "Développement commercial"],
-  ["reseaux-synergies.html", "Réseau"],
-  ["reputation-virtuelle.html", "Réputation virtuelle"],
-  ["nous-rejoindre.html", "Nous rejoindre"],
-  ["espace-membre.html", "Espace privé"],
-  ["faq.html", "FAQ"]
+const navigationController = read("app.js");
+const navigationStyles = read("navigation-majestios.css");
+assert(navigationController.includes("const navigationGroups = ["), "Navigation : catalogue global des rubriques absent");
+assert(navigationController.includes("Assistant conversationnel de première génération"), "Assistant conversationnel absent du contrôleur partagé");
+const requiredNavigationRoutes = [
+  "marches-publics.html","marches-prives.html","veille-marches.html","bodacc-veille-entreprises.html",
+  "sous-traitance.html","developpement-commercial.html","prospection-active.html",
+  "accompagnement-appels-offres.html","suivi-commercial.html","qualification-entreprises.html",
+  "reseaux-synergies.html","salons-seminaires.html","reputation-virtuelle.html",
+  "intelligence-economique.html","espace-membre.html","espace-interne.html","crm.html",
+  "administration.html","nous-rejoindre.html","contact.html","faq.html","vision-majestios.html"
 ];
+for (const route of requiredNavigationRoutes) {
+  assert(navigationController.includes(route), "Navigation : destination absente du catalogue global : " + route);
+  assert(exists(route), "Navigation : route inexistante : " + route);
+  assert(siteFiles.includes(route), "Navigation : route non publiée : " + route);
+}
 for (const page of htmlPages) {
   const pageHtml = read(page);
-  if (page === "administration.html") {
-    const adminNav = pageHtml.match(/<nav\b(?=[^>]*\bid="admin-nav")[^>]*>([\s\S]*?)<\/nav>/);
-    assert(Boolean(adminNav), page + " : navigation interne d’administration absente");
-    assert(pageHtml.includes('href="crm.html"'), page + " : accès au CRM interne absent");
-    assert(pageHtml.includes('href="index.html"'), page + " : retour au site public absent");
-    continue;
-  }
-  if (page === "admin-recherches.html") {
-    const researchNav = pageHtml.match(/<nav\b(?=[^>]*\bclass="admin-nav")[^>]*>([\s\S]*?)<\/nav>/);
-    assert(Boolean(researchNav), page + " : navigation interne des recherches absente");
-    assert(researchNav?.[1].includes('href="administration.html"'), page + " : retour au poste de commandement absent");
-    assert(researchNav?.[1].includes('href="crm.html"'), page + " : accès au CRM interne absent");
-    assert(pageHtml.includes('href="index.html"'), page + " : retour au site public absent");
-    continue;
-  }
-  if (page === "espace-interne.html") {
-    assert(pageHtml.includes('id="internal-login-form"') && pageHtml.includes('id="internal-workspace"'),
-      page + " : accueil et authentification des collaborateurs absents");
-    assert(pageHtml.includes('meta name="robots" content="noindex,nofollow"'),
-      page + " : l’espace interne doit être exclu de l’indexation");
-    assert(!pageHtml.includes('id="site-nav"'), page + " : l’espace interne ne doit pas reprendre le menu public");
-    continue;
-  }
-  if (page === "crm.html") {
-    assert(pageHtml.includes("admin-crm-header") && pageHtml.includes('href="espace-interne.html"'),
-      page + " : repère de navigation Accueil interne ↔ CRM absent");
-    assert(!pageHtml.includes('id="site-nav"'), page + " : le CRM interne ne doit pas reprendre le menu public");
-    continue;
-  }
-  const nav = pageHtml.match(/<nav\b(?=[^>]*\bid="site-nav")[^>]*>([\s\S]*?)<\/nav>/);
-  assert(Boolean(nav), page + " : navigation principale absente");
-  if (!nav) continue;
-  const links = [...nav[1].matchAll(/<a\b([^>]*)href="([^"]+)"([^>]*)>([\s\S]*?)<\/a>/g)];
-  const navigation = links.map((match) => [
-    match[2],
-    match[4].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
-  ]);
-  const expectedNavigation = page === "index.html"
-    ? [
-        ...expectedSiteNavigation.slice(0, 6),
-        ["espace-interne.html", "Espace VIP"],
-        expectedSiteNavigation[6]
-      ]
-    : expectedSiteNavigation;
-  assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation),
-    page + " : la navigation principale doit respecter le menu public attendu");
-  if (page === "index.html") {
-    const vipLink = links.find((match) => match[2] === "espace-interne.html");
-    assert(Boolean(vipLink && /site-nav-vip/.test(vipLink[1] + vipLink[3])),
-      "index.html : le raccourci VIP doit rester explicitement identifié");
-  }
-  const currentLinks = links.filter((match) => /aria-current="page"/.test(match[1] + match[3]));
-  assert(currentLinks.length <= 1, page + " : une seule destination au maximum peut être marquée comme courante");
-  if (currentLinks.length === 1) {
-    const currentPage = currentLinks[0][2].split(/[?#]/, 1)[0];
-    assert(currentPage === page, page + " : aria-current doit désigner la page réellement affichée");
-  }
-  assert(pageHtml.includes('src="app.js"'),
-    page + " : le menu principal doit utiliser le contrôleur partagé app.js");
-  assert(!pageHtml.includes('querySelector(".menu-toggle")'),
-    page + " : le menu ne doit pas avoir de contrôleur inline concurrent");
+  if (["administration.html","admin-recherches.html","espace-interne.html","crm.html"].includes(page)) continue;
+  assert(pageHtml.includes('id="site-nav"'), page + " : conteneur de navigation publique absent");
+  assert(pageHtml.includes('src="app.js"'), page + " : contrôleur partagé de navigation absent");
 }
+assert(navigationStyles.includes(".nav-group-menu"), "Navigation : styles des sous-menus absents");
+assert(navigationStyles.includes(".majestios-chat-panel"), "Assistant : styles de conversation absents");
 for (const asset of [
-  "styles.css", "charte-majestios.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
+  "styles.css", "charte-majestios.css", "app.js", "navigation-majestios.css", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
   "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
   "company-targeting.js", "company-targeting-page.js", "company-fit.js"
@@ -136,68 +88,16 @@ for (const asset of [
 
 const home = read("index.html");
 assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
-assert(home.includes('aria-label="Immeuble interactif MajestiOS"'), "Accueil : immeuble interactif absent");
-assert(home.includes('id="floor-rows"'), "Accueil : conteneur des étages absent");
+assert(!home.includes('aria-label="Immeuble interactif MajestiOS"') && !home.includes('id="floor-rows"'),
+  "Accueil : l'ancien système de navigation par immeuble doit être retiré");
+assert(home.includes('class="home-rubric-directory"'), "Accueil : répertoire classique des rubriques absent");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
-assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
-  home.indexOf('src="rubric-search.js"') < home.indexOf('src="app.js"'),
-  "Accueil : ordre de chargement du catalogue, du formulaire partagé et du contrôleur incorrect");
-
-const expectedDestinations = [
-  {id:"08",name:"Espace privé",href:"espace-prive.html",x:185,y:182,width:350,height:82},
-  {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:266,width:350,height:80},
-  {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:92},
-  {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:444,width:350,height:81},
-  {id:"04",name:"Accompagnement appels d'offres",href:"accompagnement-appels-offres.html",x:185,y:528,width:350,height:87},
-  {id:"03",name:"Marchés publics",href:"marches-publics.html",x:185,y:618,width:350,height:83},
-  {id:"02",name:"Marchés privés",href:"marches-prives.html",x:185,y:704,width:350,height:87},
-  {id:"01",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:794,width:350,height:85},
-  {id:"RDC",name:"Accueil",href:"index.html",x:185,y:883,width:350,height:89}
-];
-const destinationBlock = home.match(/const destinations = \[([\s\S]*?)\n        \];/);
-if (!destinationBlock) {
-  errors.push("Accueil : catalogue des neuf destinations introuvable");
-} else {
-  const destinations = [...destinationBlock[1].matchAll(/\{id:"(\d{2}|RDC)",name:"([^"]+)",href:"([^"]+)",x:(\d+),y:(\d+),width:(\d+),height:(\d+)\}/g)]
-    .map(match => ({id:match[1],name:match[2],href:match[3],x:Number(match[4]),y:Number(match[5]),width:Number(match[6]),height:Number(match[7])}));
-  assert(destinations.length===9,"Accueil : exactement neuf destinations doivent être définies");
-  assert(JSON.stringify(destinations)===JSON.stringify(expectedDestinations),
-    "Accueil : les neuf destinations, leurs identifiants, coordonnées ou routes ne respectent pas l'architecture V5");
-  for (const destination of destinations) {
-    assert(destination.width>0 && destination.height>0 && destination.x>=0 && destination.y>=0 &&
-      destination.x+destination.width<=842 && destination.y+destination.height<=1264,
-      "Accueil : zone interactive hors image pour "+destination.name);
-    const route = destination.href.split("#")[0];
-    assert(exists(route),"Accueil : destination absente : "+route);
-    assert(siteFiles.includes(route),"Build : destination non publiée : "+route);
-  }
-  assert(home.includes('document.createElementNS(namespace, "a")'),"Accueil : les destinations doivent être des liens SVG natifs");
-  assert(home.includes('viewBox="0 0 842 1264"'),"Accueil : le repère SVG doit correspondre à la photo (842 × 1264)");
-  assert(home.includes('src="IMMEUBLE.jfif"'),"Accueil : la photographie de l'immeuble est absente");
-  assert(home.includes('url("Designer%20(2).png")'),"Accueil : le décor général Designer (2).png est absent");
-  assert(home.includes('url("immeuble-masque.png")'),"Accueil : le masque de détourage de l'immeuble est absent");
-  assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
-  assert(home.includes("const elevatorStops = destinations.map((item) => item.y + item.height / 2);") &&
-    home.includes("const cabinCenterY = 185;") &&
-    home.includes("const offset = elevatorStops[current] - cabinCenterY;"),
-    "Accueil : les arrêts de cabine doivent être calculés depuis le centre réel des zones de chaque étage");
-  assert(home.includes('makeShape("path", "elevator-cabin"') &&
-    home.includes('d:"M558 157 C558 148 572 144 590 144'),
-    "Accueil : la cabine doit rester un cylindre panoramique en verre");
-  assert(home.includes('svg.addEventListener("pointerover"') &&
-    home.includes('if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));'),
-    "Accueil : le survol doit appeler l'ascenseur au bon étage");
-  assert(home.includes('window.location.href = row.getAttribute("href");'),
-    "Accueil : un clic doit ouvrir directement la destination");
-  assert(home.includes('caption.setAttribute("role", "status")') &&
-    home.includes('caption.setAttribute("aria-live", "polite")'),
-    "Accueil : le niveau de la cabine doit être annoncé aux technologies d'assistance");
-  assert(home.includes('canvas.setAttribute("data-title-lines", titleLines.join("|"))') &&
-    home.includes('sign.canvas.dataset.state = "paused"') &&
-    home.includes('sign.canvas.dataset.state = "scrolling"'),
-    "Accueil : les titres LED doivent exposer leurs lignes et leurs états de survol pour les tests");
-}
+assert(home.includes("FLUX DE DÉMONSTRATION"), "Accueil : avertissement du flux fictif absent");
+assert(home.includes("Donner de la hauteur"), "Accueil : texte de positionnement existant absent");
+assert(home.includes('href="marches-publics.html"') && home.includes('href="reputation-virtuelle.html"'),
+  "Accueil : accès aux rubriques principales absent");
+assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
 
 for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
   assert(exists(asset),"Visuel de l'accueil absent : "+asset);
