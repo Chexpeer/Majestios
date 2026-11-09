@@ -42,6 +42,16 @@ async function main() {
     assert.equal(await vipLink.innerText(),"Accès VIP · Administration","Le libellé doit identifier clairement l’accès administrateur.");
     assert.equal(await vipLink.evaluate(el=>el.classList.contains("nav-vip-link")),true,
       "Le lien VIP doit porter sa classe graphique dédiée bleu nuit, or et chrome.");
+    const vipStyle = await vipLink.evaluate(el => {
+      const style = getComputedStyle(el);
+      return { color: style.color, background: style.backgroundColor, border: style.borderBottomColor };
+    });
+    assert.equal(vipStyle.color, "rgb(23, 50, 79)",
+      "Le texte VIP doit rester bleu nuit pour conserver un contraste lisible sur le tiroir clair.");
+    assert.equal(vipStyle.background, "rgba(0, 0, 0, 0)",
+      "Le lien VIP conserve le fond transparent de la navigation.");
+    assert.equal(vipStyle.border, "rgb(197, 164, 94)",
+      "La signature or doit être portée par un filet discret, sans texte doré peu contrasté.");
     assert.equal(await vipLink.evaluate(el=>el.closest(".nav-drawer-section")?.querySelector(".nav-group-link")?.textContent),"Espaces privés",
       "L’accès VIP doit être regroupé avec l’espace client dans Espaces privés.");
     const exploreGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Explorer davantage"})});
