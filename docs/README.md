@@ -19,6 +19,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Orchestration et premier connecteur](evolution-6/REPUTATION-VIRTUELLE-ORCHESTRATION-ET-CONNECTEUR-2026-11-09.md) | Registre interne et vérification du contexte administratif |
 | [Edge Function authentifiée](evolution-6/REPUTATION-VIRTUELLE-EDGE-FUNCTION-2026-11-09.md) | Endpoint serveur, contrôles d'accès, CORS et limites avant déploiement |
 | [Analyse Cheexpeer fondée sur les preuves](evolution-6/REPUTATION-VIRTUELLE-ANALYSE-CHEXPEER-2026-11-09.md) | Schéma d'analyse, citations obligatoires, contrôle des conclusions et recommandations liées aux constats |
+| [Exécution IA via Vercel AI Gateway](evolution-6/REPUTATION-VIRTUELLE-EXECUTION-IA-VERCEL-2026-11-09.md) | Parcours serveur authentifié, Claude, JSON Schema strict, coûts et conditions d'activation |
 
 ## Référentiel actif — MajestiOS V.5
 
