@@ -99,7 +99,7 @@ test("BODACC adapter builds a constrained official query and normalizes legal no
       return response({ results: [{
         id: "A202600001234", commercant: "ATELIER EXEMPLE", dateparution: "2026-11-08",
         typeavis_lib: "Avis initial", familleavis_lib: "Créations", ville: "Le Mans",
-        departement_nom_officiel: "Sarthe", url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?id=A202600001234"
+        departement_nom_officiel: "Sarthe", registre: ["123456789"], url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?id=A202600001234"
       }] });
     }
   });
@@ -107,12 +107,30 @@ test("BODACC adapter builds a constrained official query and normalizes legal no
   const url = new URL(requestedUrl);
   assert.equal(url.hostname, "bodacc-datadila.opendatasoft.com");
   assert.match(url.searchParams.get("where"), /search\(commercant,/);
+  assert.match(url.searchParams.get("select"), /registre/);
   assert.equal(url.searchParams.get("limit"), "10");
   assert.equal(items.length, 1);
   assert.equal(items[0].evidence_type, "legal_event");
   assert.equal(items[0].subject_match, "probable");
   assert.equal(items[0].source_record_id, "A202600001234");
   assert.match(items[0].limitations.join(" "), /pas une appréciation de la réputation/);
+});
+
+
+test("BODACC identity requires matching SIREN when one is supplied", async () => {
+  const adapter = createBodaccLegalEventsAdapter({
+    fetchImpl: async () => response({ results: [
+      { id: "MATCH", commercant: "Atelier Exemple", registre: ["123456789"] },
+      { id: "OTHER", commercant: "Atelier Exemple", registre: ["987654321"] },
+      { id: "MISSING", commercant: "Atelier Exemple", registre: [] }
+    ] })
+  });
+  const matched = await adapter.collect({ auditCase: { subject: "Atelier Exemple", siren: "123456789" } });
+  const unmatched = await adapter.collect({ auditCase: { subject: "Atelier Exemple", siren: "111111111" } });
+  const noSiren = await adapter.collect({ auditCase: { subject: "Atelier Exemple", siren: "" } });
+  assert.equal(matched[0].subject_match, "confirmed");
+  assert.equal(unmatched[0].subject_match, "rejected");
+  assert.equal(noSiren[0].subject_match, "probable");
 });
 
 test("BODACC rate limits are surfaced as a stable connector error", async () => {
