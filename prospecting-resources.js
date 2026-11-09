@@ -37,17 +37,17 @@
     if (!query && !department) throw new Error("Saisissez une entreprise ou choisissez un département.");
     const base = "https://data.ademe.fr/data-fair/api/v1/datasets/liste-des-entreprises-rge-2";
     const metadataResponse = await fetch(base, { headers:{Accept:"application/json"} });
-    if (!metadataResponse.ok) throw new Error("Impossible de lire le schéma ADEME (HTTP " + metadataResponse.status + ").");
+    if (!metadataResponse.ok) throw new Error("Impossible de préparer la recherche de qualifications (HTTP " + metadataResponse.status + ").");
     const metadata = await metadataResponse.json();
     const fields = Array.isArray(metadata.schema) ? metadata.schema.map(field => field.key) : [];
     const departmentFields = ["code_departement","departement","departement_code","dpt","code_postal"];
     const deptField = departmentFields.find(name => fields.includes(name));
-    if (department && !deptField) throw new Error("Le schéma ADEME ne fournit pas de champ géographique exploitable : filtre département non appliqué.");
+    if (department && !deptField) throw new Error("Le référentiel ne fournit pas de champ géographique exploitable : filtre département non appliqué.");
     const url = new URL(base + "/lines");
     url.searchParams.set("size", "100");
     if (query) url.searchParams.set("q", query);
     const response = await fetch(url.toString(), { headers:{Accept:"application/json"} });
-    if (!response.ok) throw new Error("L’API ADEME a répondu avec le statut " + response.status + ".");
+    if (!response.ok) throw new Error("Le service de données a répondu avec le statut " + response.status + ".");
     const payload = await response.json();
     const rows = Array.isArray(payload.results) ? payload.results : [];
     const digits = value => String(value == null ? "" : value).replace(/\\D/g,"");
@@ -58,8 +58,6 @@
       return digits(raw) === target || String(raw || "").trim().toUpperCase() === department.toUpperCase();
     }) : rows;
     return {
-      source:"ADEME — entreprises RGE",
-      sourceUrl:"https://data.ademe.fr/datasets/liste-des-entreprises-rge-2",
       records:filtered.slice(0, Math.min(100, Math.max(1, Number(options.limit) || 10))),
       fields,
       departmentFilterApplied:!department || Boolean(deptField),
@@ -67,36 +65,37 @@
     };
   }
 
-  async function searchQualification(sourceId, siret) {
+  async function searchQualification(siret) {
     const cleanSiret = String(siret || "").replace(/\\D/g, "");
     if (!/^\\d{14}$/.test(cleanSiret)) throw new Error("Un SIRET valide à 14 chiffres est nécessaire.");
-    const allowed = ["qualibat","qualifelec","opqibi","fntp"];
-    if (!allowed.includes(sourceId)) throw new Error("Source de qualification non autorisée.");
-    return searchConfiguredProxy(sourceId, { siret:cleanSiret });
+    const connectorIds = ["qualibat","qualifelec","opqibi","fntp"];
+    const configured = connectorIds.filter(id => {
+      const item = SOURCES.find(source => source.id === id);
+      return Boolean(item && item.configKey && config()[item.configKey]);
+    });
+    if (!configured.length) return { siret:cleanSiret, results:[], checkedCount:0, successCount:0, available:false };
+    const settled = await Promise.allSettled(configured.map(id => searchConfiguredProxy(id, { siret:cleanSiret })));
+    const results = settled.filter(item => item.status === "fulfilled").map(item => item.value);
+    return { siret:cleanSiret, results, checkedCount:configured.length, successCount:results.length, available:true };
   }
 
   async function searchConfiguredProxy(sourceId, criteria) {
     const source = SOURCES.find(item => item.id === sourceId);
     if (!source || !source.configKey) throw new Error("Source non reconnue.");
     const endpoint = config()[source.configKey];
-    if (!endpoint) throw new Error("Le connecteur serveur " + source.name + " n’est pas configuré. Aucun identifiant secret ne doit être placé dans le navigateur.");
+    if (!endpoint) throw new Error("Le service de qualification n’est pas configuré côté serveur.");
     const url = new URL(endpoint, root.location && root.location.origin ? root.location.origin : undefined);
     Object.entries(criteria || {}).forEach(([key,value]) => { if (value != null && value !== "") url.searchParams.set(key, String(value)); });
     const response = await fetch(url.toString(), { headers:{Accept:"application/json"} });
-    if (!response.ok) throw new Error(source.name + " : réponse HTTP " + response.status + ".");
+    if (!response.ok) throw new Error("Un service de qualification a répondu avec le statut " + response.status + ".");
     return response.json();
   }
 
   function renderCatalog(container) {
     if (!container) return;
-    container.innerHTML = SOURCES.map(source =>
-      '<article class="opportunity-result-card prospecting-source-card">' +
-        '<h3>' + escapeHtml(source.name) + '</h3>' +
-        '<p>' + escapeHtml(source.coverage) + '</p>' +
-        '<p><strong>État :</strong> ' + escapeHtml(sourceState(source)) + '</p>' +
-        '<a class="button-secondary" href="' + escapeHtml(source.url) + '" target="_blank" rel="noopener noreferrer">Documentation officielle ↗</a>' +
-      '</article>'
-    ).join("");
+    container.replaceChildren();
+    container.hidden = true;
+    container.setAttribute("aria-hidden", "true");
   }
 
   function init() {
@@ -121,21 +120,21 @@
       event.preventDefault();
       const button = form.querySelector('button[type="submit"]');
       if (button) button.disabled = true;
-      status.textContent = "Interrogation de la base ADEME…";
+      status.textContent = "Recherche des qualifications professionnelles…";
       output.replaceChildren();
       try {
         const result = await searchRge({query:form.elements.query.value, department:form.elements.department.value, limit:Number(form.elements.limit.value)});
-        if (!result.records.length) status.textContent = "Aucun résultat retourné par la source ADEME pour ces critères.";
+        if (!result.records.length) status.textContent = "Aucun résultat correspondant à ces critères.";
         else {
           output.innerHTML = result.records.map(record => {
             const name = record.raison_sociale || record.nom_entreprise || record.nom || record.denomination || "Entreprise RGE";
             const siren = record.siren || record.siret || "";
             const details = [record.domaine || record.domaine_travaux, record.commune || record.ville, record.code_departement || record.departement].filter(Boolean).join(" · ");
-            return '<article class="opportunity-result-card"><h3>' + escapeHtml(name) + '</h3><p>' + escapeHtml(details || "Qualification RGE référencée par l’ADEME") + '</p>' + (siren ? '<p>Identifiant : ' + escapeHtml(siren) + '</p>' : '') + '<p class="small-note">Source : ADEME · données à rapprocher du SIRET et à vérifier à la date de prise de contact.</p></article>';
+            return '<article class="opportunity-result-card"><h3>' + escapeHtml(name) + '</h3><p>' + escapeHtml(details || "Qualification RGE référencée") + '</p>' + (siren ? '<p>Identifiant : ' + escapeHtml(siren) + '</p>' : '') + '<p class="small-note">Données à rapprocher du SIRET et à vérifier à la date de prise de contact.</p></article>';
           }).join("");
-          status.textContent = result.records.length + " résultat(s) retourné(s) par l’ADEME." + (result.departmentFilterApplied ? "" : " Attention : le schéma actuel ne permet pas de confirmer le filtre départemental ; vérifiez la localisation de chaque fiche.");
+          status.textContent = result.records.length + " résultat(s) de qualification retrouvé(s)." + (result.departmentFilterApplied ? "" : " Attention : le schéma actuel ne permet pas de confirmer le filtre départemental ; vérifiez la localisation de chaque fiche.");
         }
-      } catch (error) { status.textContent = error.message || "La recherche ADEME a échoué."; }
+      } catch (error) { status.textContent = error.message || "La recherche de qualifications a échoué."; }
       finally { if (button) button.disabled = false; }
     });
 
@@ -147,14 +146,14 @@
         event.preventDefault();
         qualificationResult.hidden = true;
         qualificationResult.textContent = "";
-        qualificationStatus.textContent = "Vérification de la source de certification…";
+        qualificationStatus.textContent = "Vérification des qualifications professionnelles…";
         const button = qualificationForm.querySelector('button[type="submit"]');
         if (button) button.disabled = true;
         try {
-          const data = await searchQualification(qualificationForm.elements.source.value, qualificationForm.elements.siret.value);
-          qualificationResult.textContent = JSON.stringify(data, null, 2);
+          const data = await searchQualification(qualificationForm.elements.siret.value);
+          qualificationResult.textContent = data.successCount ? "Vérification terminée : " + data.successCount + " qualification(s) à examiner." : "Aucune qualification n’a pu être confirmée pour le moment.";
           qualificationResult.hidden = false;
-          qualificationStatus.textContent = "Réponse reçue. Vérifiez la provenance et la date de validité de la qualification.";
+          qualificationStatus.textContent = "Vérification terminée. Contrôlez la validité des qualifications avant toute prise de contact.";
         } catch (error) {
           qualificationStatus.textContent = error.message || "La vérification n’a pas abouti.";
         } finally { if (button) button.disabled = false; }
@@ -162,7 +161,7 @@
     }
   }
 
-  const api = { SOURCES, sourceState, searchRge, searchQualification, searchConfiguredProxy, renderCatalog };
+  const api = { searchRge, searchQualification, renderCatalog };
   if (typeof module === "object" && module.exports) module.exports = api;
   root.MajestiosProspectingResources = api;
   if (root.document) {
