@@ -32,6 +32,7 @@ export function createOpenAICompatibleCheexpeerAnalyzer({
       body: JSON.stringify({
         model: model.trim(),
         temperature: 0.1,
+        max_tokens: 4096,
         messages: [
           { role: "system", content: request.system_prompt },
           { role: "user", content: JSON.stringify(request.input) }
