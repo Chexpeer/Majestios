@@ -41,7 +41,7 @@
 
     const groups = [
       {label:"Appels d’offres",href:"marches-publics.html",items:[["Appels d’offres publics","marches-publics.html"],["Appels d’offres privés","marches-prives.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"]]},
-      {label:"Développement commercial",href:"developpement-commercial.html",items:[["Prospection","prospection-active.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Suivi commercial","suivi-commercial.html"],["Qualification des entreprises","qualification-entreprises.html"]]},
+      {label:"Développement commercial",href:"developpement-commercial.html",items:[["Vue d’ensemble","developpement-commercial.html"],["Prospection","prospection-active.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Suivi commercial","suivi-commercial.html"],["Qualification des entreprises","qualification-entreprises.html"]]},
       {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"]]},
       {label:"Réputation virtuelle",href:"reputation-virtuelle.html",items:[["Présence et visibilité","reputation-virtuelle.html"],["Intelligence économique","intelligence-economique.html"]]},
       {label:"Espace client",href:"espace-membre.html",items:[["Espace client","espace-membre.html"]]},
