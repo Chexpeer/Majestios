@@ -16,7 +16,9 @@ Le registre Evolution-7 reste la source de vérité pour les identifiants, const
 | ID | Priorité | Domaine | État connu | Règle de traitement |
 |---|---|---|---|---|
 | AUTH-01 | P0 — avant ouverture aux membres | Authentification OTP et provisionnement | **Recette E2E non démontrée** | Ne pas modifier Auth, migrations, fonctions déployées ou données Supabase métier sans autorisation explicite. |
+| AUTH-02 | P1 — conformité / traçabilité | Preuve de prise de connaissance | **Ouvert — contrôle serveur incomplet** | Vérifier côté Edge Function les métadonnées et la version du consentement ; ne pas déployer sans autorisation. |
 | CRM-02 | P1 — traçabilité | Journalisation des créations CRM | **Correction à concevoir** | Définir et tester une écriture atomique ou une compensation avant toute écriture métier. |
+| CRM-03 | P1 — intégrité des données | Privilèges UPDATE des tables CRM | **Ouvert — privilèges distants à confirmer** | Contrôler les privilèges réels puis révoquer le droit global et réaccorder une liste blanche de colonnes, uniquement après autorisation. |
 
 Ces états sont ceux documentés dans le registre Evolution-7 au 9 novembre 2026. Ils ne constituent pas une affirmation de validation en environnement réel.
 
@@ -50,6 +52,6 @@ Sauf autorisation explicite du porteur du projet, aucun agent ne doit :
 
 ## 6. Dernière actualisation
 
-**Dernière indexation :** 9 novembre 2026.
+**Dernière indexation :** 9 novembre 2026 — registre complété avec AUTH-02 et CRM-03.
 **Branche de travail autorisée dans le chantier en cours :** Evolution-7.
 **Règle :** actualiser ce point d'entrée et le registre détaillé à chaque évolution significative des anomalies critiques.
