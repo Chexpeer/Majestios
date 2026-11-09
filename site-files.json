@@ -66,6 +66,7 @@
     "company-fit.js",
     "qualification-entreprises.html",
     "supabase-config.js",
+    "majestios-supabase-public-config.mjs",
     "auth-espace-membre.js",
     "administration.html",
     "administration.css",
