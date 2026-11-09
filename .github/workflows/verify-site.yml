@@ -26,6 +26,8 @@ jobs:
           node --check app.js
           node --check reputation-virtuelle.js
           node --check reputation-audit-core.mjs
+          node --check reputation-audit-connectors.mjs
+          node --check tests/reputation-audit-connectors.test.mjs
           node --check tests/reputation-audit-core.test.mjs
           node --check catalogue-majestios.js
           node --check category-results.js
@@ -60,6 +62,8 @@ jobs:
           node --input-type=module --check < crm-client.js
       - name: Tester le contrat du moteur d'audit interne Cheexpeer
         run: node --test tests/reputation-audit-core.test.mjs
+      - name: Tester le registre et le premier connecteur de Réputation virtuelle
+        run: node --test tests/reputation-audit-connectors.test.mjs
       - name: Vérifier la navigation Administration / CRM
         run: node tests/admin-crm-module-navigation.test.cjs
       - name: Vérifier le contrat de navigation du CRM
