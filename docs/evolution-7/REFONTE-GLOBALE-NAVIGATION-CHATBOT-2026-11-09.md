@@ -192,3 +192,11 @@ Cette validation porte sur le commit correctif ci-dessus. Elle ne vaut pas valid
 - Limite restant à traiter séparément : la recherche RGE récupère actuellement un premier lot de 100 lignes puis filtre localement. Une pagination/filtration serveur doit être validée sur le contrat réel de l'API Data Fair avant d'être modifiée.
 
 **Source de schéma consultée :** API ADEME « Liste des entreprises RGE », actualisation indiquée au 30 juin 2026 ; champ géographique disponible : `code_postal`.
+
+### Correctif navigation et cohérence CI — 9 novembre 2026
+
+- Le clic sur un onglet parent de la navigation desktop ouvre désormais la page principale de sa rubrique ; le survol conserve l'ouverture du sous-menu. Sur mobile, le toucher continue d'ouvrir/replier le sous-menu.
+- Les tests navigateur classique et tiroirs vérifient explicitement le clic sur le parent desktop, en plus du survol, du focus clavier et du parcours tactile.
+- Le contrôle d'architecture et le test navigateur classique ont été réalignés sur le menu réellement retenu dans Evolution-7 : six familles, 18 liens secondaires et 17 destinations distinctes, plus Accueil. L'ancienne attente de 24 liens et la rubrique « Espace client » de premier niveau provenaient d'un contrat obsolète ; l'espace client est bien une entrée du groupe « Espaces privés ».
+- Le lien « Accès VIP · Administration » reste dans « Espaces privés », avec sa classe dédiée et son traitement visuel bleu nuit / or / chrome. Sa présence dans le menu ne remplace jamais les contrôles d'accès.
+- Les tests sont ajoutés ou adaptés, mais leur exécution sur le commit final reste en attente du résultat GitHub Actions. Aucun déploiement ni changement Supabase n'a été effectué.
