@@ -10,8 +10,8 @@
   if (!toggle || !core || !advanced) return;
 
   const groups = [
-    { id: "activity", label: "Activité APE/NAF", fields: ["target-naf-codes"], required: true },
-    { id: "territory", label: "Territoire", fields: ["target-departments", "target-region", "target-radius-location", "target-radius-km"], required: true },
+    { id: "activity", label: "Activité APE/NAF", fields: ["target-naf-codes"] },
+    { id: "territory", label: "Territoire", fields: ["target-departments", "target-region", "target-radius-location", "target-radius-km"] },
     { id: "workforce", label: "Effectif salarié", fields: ["target-workforce"] },
     { id: "age", label: "Ancienneté", fields: ["target-age"] },
     { id: "legal", label: "Catégorie juridique", fields: ["target-legal-category"] },
@@ -184,7 +184,7 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "prospecting-criteria-choice";
-        button.textContent = (group.required ? "＋ " : "＋ ") + group.label;
+        button.textContent = "＋ " + group.label;
         button.addEventListener("click", () => openEditor(group));
         available.append(button);
       }

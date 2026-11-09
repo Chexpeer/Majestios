@@ -118,6 +118,122 @@
   .page-prospection .prospecting-criteria-editor-fields>fieldset{grid-column:1}
 }
 
+
+/* Identité du dock de recherche de l'accueil : bleu nuit, acier et or. */
+.page-prospection .prospecting-search-shell{width:min(1240px,calc(100% - 24px));margin:12px auto 20px}
+.page-prospection .prospecting-search-heading{display:block;margin:0 0 10px}
+.page-prospection .prospecting-search-heading .eyebrow{color:#d5b56c;letter-spacing:.16em}
+.page-prospection .prospecting-search-heading h2{color:#f5f7fb;font-family:Georgia,"Times New Roman",serif;font-size:clamp(22px,2.5vw,32px)}
+.page-prospection .prospecting-search-heading p:last-child{color:#c4ccda}
+.page-prospection #company-targeting-form{
+ display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;
+ padding:10px;border:1px solid rgba(213,181,108,.55);border-radius:9px;
+ background:linear-gradient(100deg,#06101f,#102b50);color:#f5f7fb;
+ box-shadow:0 12px 30px rgba(0,0,0,.24)
+}
+.page-prospection #company-targeting-form>.feed-search{
+ grid-column:1;grid-row:1;min-width:0;min-height:46px;padding:0 14px;
+ border:1px solid rgba(213,181,108,.38);border-radius:7px;background:#071225;color:#f0d38b
+}
+.page-prospection #company-targeting-form>.feed-search input{
+ min-height:44px;color:#f5f7fb;font-size:14px
+}
+.page-prospection #company-targeting-form>.feed-search input::placeholder{color:#a9b4c6;opacity:1}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{
+ grid-column:2;grid-row:1;min-height:40px;padding:8px 12px;
+ border:1px solid rgba(213,181,108,.5);border-radius:7px;
+ background:rgba(213,181,108,.08);color:#f0d38b;font-size:12px;font-weight:750
+}
+.page-prospection #company-targeting-form .feed-search-submit{
+ grid-column:3;grid-row:1;min-height:40px;padding:8px 16px;
+ border:1px solid #ffdf82;border-radius:7px;
+ background:linear-gradient(100deg,#f7d76b,#dfa72e);color:#101828;
+ font-size:12px;font-weight:850
+}
+.page-prospection #company-targeting-form .feed-search-submit:hover{background:#f0d38b}
+.page-prospection .prospecting-progressive-criteria{grid-column:1/-1;gap:8px}
+.page-prospection .prospecting-criteria-choice{
+ min-height:32px;padding:7px 10px;border:1px solid rgba(213,181,108,.38);
+ border-radius:7px;background:#0b1c34;color:#f0d38b
+}
+.page-prospection .prospecting-criteria-chip{
+ border:1px solid rgba(213,181,108,.55);background:#102b50;color:#f5f7fb
+}
+.page-prospection .prospecting-criteria-chip-edit,.page-prospection .prospecting-criteria-chip-remove{color:#f0d38b}
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{
+ border:1px solid rgba(213,181,108,.38);border-radius:8px;background:#0b1c34;color:#f5f7fb
+}
+.page-prospection .prospecting-criteria-editor h3,.page-prospection .prospecting-criteria-options>summary{color:#f0d38b}
+.page-prospection .prospecting-criteria-editor-fields label,
+.page-prospection #company-targeting-form label,.page-prospection #company-targeting-form legend{color:#dce5f2}
+.page-prospection #company-targeting-form input:not([type=checkbox]),
+.page-prospection #company-targeting-form select,.page-prospection #company-targeting-form textarea{
+ border:1px solid rgba(213,181,108,.3);background:#071225;color:#f5f7fb
+}
+.page-prospection #company-targeting-form input::placeholder,
+.page-prospection #company-targeting-form textarea::placeholder{color:#a9b4c6}
+.page-prospection #company-targeting-form .company-targeting-checkbox{color:#c4ccda}
+.page-prospection #company-targeting-status{color:#dce5f2}
+.page-prospection .company-targeting-results{width:min(1240px,calc(100% - 24px));margin:18px auto}
+.page-prospection .company-targeting-results h2{color:#f5f7fb}
+.page-prospection .company-targeting-card{
+ margin:10px 0;padding:16px;border:1px solid rgba(213,181,108,.38);
+ border-radius:9px;background:linear-gradient(145deg,#06142b,#0d1f37);color:#f5f7fb
+}
+.page-prospection .company-targeting-card h3{color:#f0d38b}
+.page-prospection .company-targeting-card p,.page-prospection .company-targeting-card li{color:#c4ccda}
+@media(max-width:620px){
+ .page-prospection .prospecting-search-shell{width:calc(100% - 16px)}
+ .page-prospection #company-targeting-form{grid-template-columns:minmax(0,1fr) auto;gap:7px;padding:8px}
+ .page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;grid-row:1}
+ .page-prospection #company-targeting-form>.prospecting-criteria-toggle{grid-column:1;grid-row:2;justify-self:start}
+ .page-prospection #company-targeting-form>.feed-search-submit{grid-column:2;grid-row:2;justify-self:end}
+}
+
+
+/* Harmonisation stricte avec le moteur de recherche de l'accueil. */
+.page-prospection .prospecting-search-shell{width:min(1240px,calc(100% - 24px));margin:16px auto 24px}
+.page-prospection .prospecting-search-heading{display:block;margin:0 0 18px}
+.page-prospection .prospecting-search-heading .eyebrow{color:#63c3d0;font-size:11px;letter-spacing:.15em}
+.page-prospection .prospecting-search-heading h2{color:#fff;font-family:Inter,system-ui,sans-serif;font-size:clamp(28px,4vw,42px);line-height:1.08;letter-spacing:-.035em}
+.page-prospection .prospecting-search-heading p:last-child{color:#dce5f2;font-size:15px;line-height:1.5}
+.page-prospection #company-targeting-form{display:flex;flex-direction:column;align-items:stretch;gap:12px;width:100%;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.page-prospection #company-targeting-form>.feed-search{order:1;display:flex;align-items:center;min-height:76px;padding:0 28px;border:0;border-radius:999px;background:#fff;color:#77808d;box-shadow:0 8px 24px #0002}
+.page-prospection #company-targeting-form>.feed-search input{min-height:72px;padding:0;background:transparent;color:#202735;font-size:clamp(17px,2vw,22px)}
+.page-prospection #company-targeting-form>.feed-search input::placeholder{color:#7d8189;opacity:1}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{order:3;align-self:flex-start;min-height:34px;padding:5px 0;border:0;background:transparent;color:#f1d58b;font-size:13px;font-weight:750;text-decoration:underline;text-underline-offset:4px}
+.page-prospection #company-targeting-form>.feed-search-submit{order:4;align-self:flex-start;min-height:54px;padding:12px 28px;border:0;border-radius:999px;background:#fff;color:#20232b;font-size:16px;font-weight:800;box-shadow:0 4px 16px #0002}
+.page-prospection #company-targeting-form>.feed-search-submit:hover{background:#f3e5bd}
+.page-prospection .prospecting-progressive-criteria{order:2;display:grid;gap:10px;padding:0 2px}
+.page-prospection .prospecting-criteria-available,.page-prospection .prospecting-criteria-selected{gap:8px}
+.page-prospection .prospecting-criteria-choice,.page-prospection .prospecting-criteria-chip{border:1px solid #d5b56c66;border-radius:20px;background:#102b50;color:#f5e5b5}
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{border:1px solid #d5b56c55;border-radius:12px;background:#0b1c34;color:#f5f7fb}
+.page-prospection .prospecting-criteria-editor h3,.page-prospection .prospecting-criteria-options>summary{color:#f0d38b}
+.page-prospection #company-targeting-form label,.page-prospection #company-targeting-form legend{color:#e5eaf2}
+.page-prospection #company-targeting-form input:not([type=checkbox]),.page-prospection #company-targeting-form select,.page-prospection #company-targeting-form textarea{border:1px solid #52647d;border-radius:8px;background:#071225;color:#f5f7fb}
+.page-prospection #company-targeting-status{margin:12px 2px;color:#e2e9f3;font-size:13px}
+.page-prospection .company-targeting-results{width:min(1240px,calc(100% - 24px));margin:18px auto}
+@media(max-width:650px){.page-prospection .prospecting-search-shell{width:calc(100% - 24px);margin:14px auto 20px}.page-prospection #company-targeting-form>.feed-search{min-height:68px;padding:0 22px}.page-prospection #company-targeting-form>.feed-search input{min-height:64px;font-size:18px}.page-prospection #company-targeting-form>.feed-search-submit{min-height:52px}.page-prospection .prospecting-search-heading h2{font-size:clamp(27px,7vw,36px)}}
+
+/* Correctif mobile : conserver le champ de saisie blanc du moteur d'accueil. */
+.page-prospection #company-targeting-form>.feed-search input:not([type=checkbox]){
+  display:block!important;flex:1 1 auto!important;width:100%!important;min-width:0!important;
+  height:100%!important;min-height:0!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;outline:0!important;box-shadow:none!important;
+  background:transparent!important;color:#202735!important;-webkit-appearance:none!important;appearance:none!important;
+  font:inherit!important;font-size:clamp(17px,2vw,22px)!important;
+}
+.page-prospection #company-targeting-form>.feed-search input:not([type=checkbox])::placeholder{color:#7d8189!important;opacity:1!important}
+.page-prospection #company-targeting-form>.feed-search:focus-within{outline:2px solid #d5b56c;outline-offset:3px}
+.page-prospection #company-targeting-form>.feed-search{width:100%!important;min-width:0!important;box-sizing:border-box!important;gap:12px!important}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{order:2!important}
+.page-prospection #company-targeting-form>.prospecting-core-grid{order:3!important}
+.page-prospection #company-targeting-form>details{order:4!important}
+.page-prospection #company-targeting-form>.feed-search-submit{order:5!important}
+@media(max-width:650px){
+ .page-prospection #company-targeting-form>.feed-search{min-height:68px!important;height:68px!important;padding:0 24px!important}
+ .page-prospection #company-targeting-form>.feed-search input:not([type=checkbox]){height:100%!important;min-height:0!important;font-size:18px!important}
+}
 </style>
 
 </head>
@@ -129,7 +245,7 @@
     <label class="feed-search" for="target-market-title"><span aria-hidden="true">⌕</span><span class="sr-only">Activité ou entreprise recherchée</span><input id="target-market-title" name="marketTitle" type="search" maxlength="180" placeholder="Nom d’entreprise ou mot-clé textuel…" autocomplete="off"></label>
     <button id="prospecting-criteria-toggle" class="prospecting-criteria-toggle" type="button" aria-expanded="false">Choisir des critères</button>
     <div class="prospecting-core-grid" hidden>
-      <label for="target-naf-codes">Activité APE/NAF <span>(obligatoire)</span><input id="target-naf-codes" name="nafCodes" type="text" required placeholder="Ex. 43.21A, 43.22B"></label>
+      <label for="target-naf-codes">Activité APE/NAF <span>(facultatif)</span><input id="target-naf-codes" name="nafCodes" type="text" placeholder="Ex. 43.21A, 43.22B"></label>
       <label for="target-departments">Départements <span>(facultatif si une région est choisie)</span><input id="target-departments" name="departments" type="text" placeholder="Ex. 72, 37, 49"></label>
       <label for="target-radius-location">Commune ou code postal <span>(pour une recherche par rayon)</span><input id="target-radius-location" name="radiusLocation" type="search" maxlength="100" placeholder="Ex. Le Mans ou 72000"></label>
       <label for="target-radius-km">Rayon<select id="target-radius-km" name="radiusKm"><option value="5">5 km</option><option value="10" selected>10 km</option><option value="15">15 km</option><option value="20">20 km</option><option value="30">30 km</option><option value="40">40 km</option><option value="50">50 km</option></select></label>

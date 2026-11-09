@@ -59,15 +59,19 @@
     const marketTitle = form.elements.marketTitle.value.trim();
     const includeUnknown = field("includeUnknown") ? checked("includeUnknown") : true;
 
-    if (!nafCodes.length || (!departments.length && !region && !radiusLocation)) {
-      status.textContent = "Saisissez au moins un code APE/NAF et choisissez un département, une région ou un lieu pour le rayon.";
+    if (!nafCodes.length && !departments.length && !region && !radiusLocation && !marketTitle) {
+      status.textContent = "Saisissez un nom ou un mot-clé, ou ajoutez un critère facultatif pour lancer la recherche.";
+      return;
+    }
+    if (radiusLocation && !nafCodes.length) {
+      status.textContent = "Pour une recherche par rayon, indiquez une activité APE/NAF. Ce filtre est nécessaire au service géographique.";
       return;
     }
     if (radiusLocation && (departments.length || region)) {
       status.textContent = "Choisissez un seul périmètre géographique : rayon autour d’une commune, ou département/région.";
       return;
     }
-    if (radiusLocation && marketTitle) {
+    if (radiusLocation && marketTitle && nafCodes.length) {
       status.textContent = "La recherche textuelle par nom ou mot-clé nécessite un périmètre département/région. En mode rayon, utilisez les codes APE/NAF.";
       return;
     }
@@ -116,7 +120,7 @@
       });
       if (form.elements.activeOnly.checked) candidates = candidates.filter((company) => company.active !== false);
       const selected = window.MajestiosCompanyTargeting.selectCandidates(candidates, {
-        nafCodes, departments, limit, minimumScore: 25
+        nafCodes, departments, limit, minimumScore: (nafCodes.length || departments.length || region || radiusLocation) ? 25 : 0
       });
       const list = selected.candidates;
       summary.textContent = (marketTitle ? "Repère : " + marketTitle + " · " : "") +
