@@ -121,3 +121,10 @@ Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires 
 ## Tests d’intégration Auth/RLS — 8 novembre 2026
 
 [Lot C — banc d’intégration Auth/RLS local](evolution-5.0/LOT-C-BANC-INTEGRATION-AUTH-RLS-LOCAL-2026-11-08.md) — configuration Supabase locale isolée, workflow GitHub Actions, vraies sessions Auth, vérification RLS et limites de couverture avant toute connexion au projet hébergé.
+
+
+## Réputation virtuelle — moteur Cheexpeer
+
+- [État d'implémentation au 9 novembre 2026](evolution-6/REPUTATION-VIRTUELLE-ETAT-IMPLEMENTATION-2026-11-09.md)
+- [Contrat initial du moteur d'audit interne](evolution-6/REPUTATION-VIRTUELLE-MOTEUR-CHEXPEER-ARCHITECTURE-2026-11-09.md)
+- [Orchestration et premier connecteur de contexte](evolution-6/REPUTATION-VIRTUELLE-ORCHESTRATION-ET-CONNECTEUR-2026-11-09.md)
