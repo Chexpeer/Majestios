@@ -78,7 +78,7 @@
     const department = String(options.department || "").trim();
     const family = String(options.family || "all");
     if (!query && !department) throw new Error("Saisissez un mot-clé ou choisissez un département pour limiter la recherche.");
-    if (family !== "all" && !FAMILY_TERMS[family]) throw new Error("Famille de signaux BODACC inconnue.");
+    if (family !== "all" && !FAMILY_TERMS[family]) throw new Error("Famille de signaux inconnue.");
     const limit = Number.isInteger(options.limit) ? Math.max(1, Math.min(options.limit, 10)) : 10;
     const timeoutMs = Number.isInteger(options.timeoutMs) ? Math.max(1000, Math.min(options.timeoutMs, 30000)) : 12000;
     const url = new URL(API);
@@ -99,13 +99,13 @@
     } catch (error) {
       if (timer) clearTimeout(timer);
       throw new Error(error && error.name === "AbortError"
-        ? "La recherche BODACC a dépassé le délai autorisé."
-        : "La source BODACC est momentanément inaccessible.");
+        ? "La recherche des signaux a dépassé le délai autorisé."
+        : "Le service de signaux est momentanément indisponible.");
     }
     if (timer) clearTimeout(timer);
-    if (!response || !response.ok) throw new Error("La source BODACC a répondu avec le statut " + (response ? response.status : "inconnu") + ".");
+    if (!response || !response.ok) throw new Error("Le service de signaux a répondu avec le statut " + (response ? response.status : "inconnu") + ".");
     let payload;
-    try { payload = await response.json(); } catch { throw new Error("La réponse BODACC est illisible."); }
+    try { payload = await response.json(); } catch { throw new Error("La réponse du service de signaux est illisible."); }
     const seen = new Set();
     const signals = [];
     for (const raw of unwrap(payload)) {
@@ -117,11 +117,9 @@
     }
     return {
       signals,
-      source: "BODACC — Direction de l’information légale et administrative",
-      sourceUrl: "https://www.bodacc.fr/pages/donnees-ouvertes-et-api/",
       fetchedAt: new Date().toISOString(),
       returnedCount: unwrap(payload).length,
-      note: "Un avis BODACC est un signal légal publié. Il ne prouve ni un besoin d'achat, ni un budget, ni une intention de devenir client. Vérification humaine indispensable."
+      note: "Un signal légal publié ne prouve ni un besoin d’achat, ni un budget, ni une intention de devenir client. Vérification humaine indispensable."
     };
   }
 
@@ -133,14 +131,13 @@
     }
     container.innerHTML = result.signals.map((signal) =>
       '<article class="opportunity-result-card prospecting-signal-card">' +
-        '<p class="eyebrow">SIGNAL DE PROSPECTION · BODACC</p>' +
+        '<p class="eyebrow">SIGNAL COMMERCIAL</p>' +
         '<h3>' + escapeHtml(signal.company) + '</h3>' +
         '<p><strong>Événement :</strong> ' + escapeHtml(signal.family) + '</p>' +
         (signal.city || signal.department ? '<p><strong>Localisation :</strong> ' + escapeHtml([signal.city, signal.department].filter(Boolean).join(" · ")) + '</p>' : '') +
         '<p><strong>Publication :</strong> ' + escapeHtml(signal.publishedAt || "Date non renseignée") + '</p>' +
         '<p><strong>Lecture :</strong> ' + escapeHtml(signal.signalKind) + '</p>' +
         (signal.details ? '<p><strong>Extrait :</strong> ' + escapeHtml(signal.details) + '</p>' : '') +
-        '<a class="button-secondary" href="' + escapeHtml(signal.officialUrl) + '" target="_blank" rel="noopener noreferrer">Vérifier l’avis officiel ↗</a>' +
       '</article>'
     ).join("");
     const note = document.createElement("p");
@@ -169,7 +166,7 @@
       event.preventDefault();
       const submit = form.querySelector('button[type="submit"]');
       if (submit) submit.disabled = true;
-      status.textContent = "Interrogation de la source officielle BODACC…";
+      status.textContent = "Analyse des signaux d’entreprise…";
       output.replaceChildren();
       try {
         const data = await searchSignals({
@@ -179,9 +176,9 @@
           limit: Number(form.elements.limit.value)
         });
         renderSignals(output, data);
-        status.textContent = data.signals.length + " signal(aux) trouvé(s) dans les annonces récupérées. Source : BODACC.";
+        status.textContent = data.signals.length + " signal(aux) commercial(aux) détecté(s).";
       } catch (error) {
-        status.textContent = error.message || "La recherche n’a pas abouti.";
+        status.textContent = error.message || "La recherche de signaux n’a pas abouti.";
       } finally {
         if (submit) submit.disabled = false;
       }
