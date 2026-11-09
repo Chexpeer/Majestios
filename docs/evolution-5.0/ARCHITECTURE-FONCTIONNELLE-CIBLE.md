@@ -2,7 +2,7 @@
 
 ## 1. Statut
 
-MajestiOS V.5 est le cerveau du site MajestiOS et son intelligence centrale. Cette orientation fonctionnelle est une décision de cadrage ; le prototype statique ne démontre pas encore un orchestrateur ou un service d'IA opérationnel.
+MajestiOS est la plateforme : elle porte les rubriques, les services, le CRM, les données, les utilisateurs, l'administration et les règles métier. Cheexpeer est l'agent IA transversal intégré à cette plateforme ; il intervient au travers des services et capacités autorisés, sans se substituer à l'administration, au CRM ou aux règles métier. Cette architecture fonctionnelle est une cible ; le prototype ne démontre pas à lui seul que toutes ces capacités sont opérationnelles.
 
 Ce document définit des domaines fonctionnels à étudier. Il ne choisit pas encore le fournisseur backend, la base de données, le moteur vectoriel, le framework frontend ou l'orchestrateur IA. Les décisions techniques seront prises après inventaire de la 3.0 et contre-audit indépendant.
 
@@ -17,7 +17,7 @@ Ce document définit des domaines fonctionnels à étudier. Il ne choisit pas en
 7. **Offre commerciale CRM** : conseil, sélection, intégration et accompagnement de solutions CRM.
 8. **CRM interne MajestiOS** : données commerciales propres à MajestiOS.
 9. **CRM des clients** : données tierces cloisonnées et traitées selon mandat.
-10. **IA transversale et mémoire** : orchestration, récupération de contexte, assistants, recommandations, contrôle de qualité.
+10. **Cheexpeer — agent IA transversal** : veille, recherche, analyse, qualification, synthèse, préparation d'actions et capitalisation contrôlée, au travers des services autorisés de MajestiOS.
 11. **Business Intelligence** : indicateurs, analyses, tendances et aide à la décision.
 12. **SEO et visibilité MajestiOS** : audit technique, indexation, contenu, veille, recommandations et mesure.
 13. **Administration pilotée par l'IA** : cockpit interne, supervision technique et métier, qualité des données, SEO, maintenance, documentation, mémoire opérationnelle et préparation de tâches.
