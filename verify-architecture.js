@@ -92,8 +92,8 @@ for (const route of uniqueMenuRoutes) {
   assert(exists(route), "Navigation : destination de sous-menu inexistante : " + route);
   assert(siteFiles.includes(route), "Navigation : destination de sous-menu non publiée : " + route);
 }
-assert(menuRoutes.length === 23, "Navigation : le menu doit contenir 23 entrées secondaires, actuellement " + menuRoutes.length);
-assert(uniqueMenuRoutes.length === 22, "Navigation : les destinations secondaires uniques doivent être 22, actuellement " + uniqueMenuRoutes.length);
+assert( menuRoutes.length === 24, "Navigation : le menu doit contenir 24 entrées secondaires, actuellement " + menuRoutes.length);
+assert(uniqueMenuRoutes.length === 23, "Navigation : les destinations secondaires uniques doivent être 23, actuellement " + uniqueMenuRoutes.length);
 for (const label of ["Appels d’offres","Développement commercial","Réseau","Réputation virtuelle","Espace client","Explorer davantage"]) {
   assert(drawerController.includes('label:"' + label + '"'), "Navigation : rubrique principale absente : " + label);
 }
