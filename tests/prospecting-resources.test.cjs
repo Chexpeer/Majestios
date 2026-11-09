@@ -70,7 +70,8 @@ async function main() {
   try {
     await assert.rejects(resources.searchRge({ department:"2A" }), /ne permet pas de distinguer précisément la Corse-du-Sud/);
     await assert.rejects(resources.searchRge({ department:"2B" }), /ne permet pas de distinguer précisément la Corse-du-Sud/);
-    assert.equal(corsicaCalls.length, 2, "Aucun appel de lignes ne doit être lancé avec un filtre postal ambigu.");
+    assert.equal(corsicaCalls.length, 2, "La métadonnée du schéma est vérifiée pour chaque département.");
+    assert.ok(corsicaCalls.every(url => !url.endsWith("/lines")), "Aucune requête de résultats ne doit être lancée avec un filtre postal ambigu.");
   } finally {
     global.fetch = corsicaFetch;
   }
