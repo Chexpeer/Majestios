@@ -3,47 +3,10 @@
   const init = () => {
     const nav = document.querySelector("#site-nav");
     const header = document.querySelector(".site-header");
-    const menuButton = document.querySelector(".menu-toggle");
-    if (!nav || !header || !menuButton || nav.dataset.drawerReady === "true") return;
+    const menuCheck = document.querySelector("#mobile-nav-toggle");
+    if (!nav || !header || !menuCheck || nav.dataset.drawerReady === "true") return;
     nav.dataset.drawerReady = "true";
     nav.classList.add("site-nav-drawer");
-    // Styles inline prioritaires : le bouton reste utilisable même si une ancienne
-    // feuille CSS du thème écrase les règles du hamburger.
-    const applyHamburgerStyle = () => {
-      if (!matchMedia("(max-width: 900px)").matches) return;
-      menuButton.style.setProperty("display","flex","important");
-      menuButton.style.setProperty("visibility","visible","important");
-      menuButton.style.setProperty("opacity","1","important");
-      menuButton.style.setProperty("pointer-events","auto","important");
-      menuButton.style.setProperty("position","relative","important");
-      menuButton.style.setProperty("z-index","99999","important");
-      menuButton.style.setProperty("width","48px","important");
-      menuButton.style.setProperty("min-width","48px","important");
-      menuButton.style.setProperty("height","48px","important");
-      menuButton.style.setProperty("min-height","48px","important");
-      menuButton.style.setProperty("padding","10px","important");
-      menuButton.style.setProperty("flex-direction","column","important");
-      menuButton.style.setProperty("align-items","center","important");
-      menuButton.style.setProperty("justify-content","center","important");
-      menuButton.style.setProperty("gap","5px","important");
-      menuButton.style.setProperty("background","#ffffff","important");
-      menuButton.style.setProperty("border","2px solid #17324f","important");
-      menuButton.style.setProperty("border-radius","10px","important");
-      menuButton.style.setProperty("box-shadow","0 2px 8px #10243b30","important");
-      menuButton.querySelectorAll("span").forEach(span => {
-        span.style.setProperty("display","block","important");
-        span.style.setProperty("width","22px","important");
-        span.style.setProperty("height","2px","important");
-        span.style.setProperty("min-height","2px","important");
-        span.style.setProperty("margin","0","important");
-        span.style.setProperty("background","#17324f","important");
-        span.style.setProperty("border-radius","2px","important");
-        span.style.setProperty("transform","none","important");
-        span.style.setProperty("opacity","1","important");
-      });
-    };
-    applyHamburgerStyle();
-    window.addEventListener("resize",applyHamburgerStyle);
     const css = document.createElement("link");
     css.rel = "stylesheet";
     css.href = new URL("navigation-tiroirs.css", document.baseURI).href;
@@ -74,23 +37,7 @@
     overlay.hidden = true;
     document.body.append(overlay);
 
-    const closeDrawer = () => {
-      nav.classList.remove("open");
-      overlay.classList.remove("is-visible");
-      overlay.hidden = true;
-      document.body.classList.remove("nav-drawer-active");
-      menuButton.setAttribute("aria-expanded","false");
-      menuButton.setAttribute("aria-label","Ouvrir le menu");
-    };
-    const openDrawer = () => {
-      nav.classList.add("open");
-      overlay.hidden = false;
-      overlay.classList.add("is-visible");
-      document.body.classList.add("nav-drawer-active");
-      menuButton.setAttribute("aria-expanded","true");
-      menuButton.setAttribute("aria-label","Fermer le menu");
-    };
-    menuButton.addEventListener("click",() => nav.classList.contains("open") ? closeDrawer() : openDrawer());
+    const closeDrawer = () => { menuCheck.checked = false; };
     overlay.addEventListener("click",closeDrawer);
     document.addEventListener("keydown",e => { if(e.key === "Escape") closeDrawer(); });
 
