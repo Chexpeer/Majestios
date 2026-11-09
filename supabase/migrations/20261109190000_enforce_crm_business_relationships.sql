@@ -128,7 +128,8 @@ begin
     select 1
     from public.businesses
     where siret is not null
-    group by organization_id, siret
+      and regexp_replace(siret, '[^0-9]', '', 'g') <> ''
+    group by organization_id, regexp_replace(siret, '[^0-9]', '', 'g')
     having count(*) > 1
   ) then
     raise exception 'Duplicate SIRET values exist within an organization; deduplicate CRM records before applying this migration.';
@@ -137,5 +138,6 @@ end;
 $$;
 
 create unique index if not exists businesses_org_siret_unique
-  on public.businesses (organization_id, siret)
-  where siret is not null;
+  on public.businesses (organization_id, (regexp_replace(siret, '[^0-9]', '', 'g')))
+  where siret is not null
+    and regexp_replace(siret, '[^0-9]', '', 'g') <> '';
