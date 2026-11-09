@@ -482,31 +482,6 @@ navigation.querySelectorAll("a").forEach((link) => {
 }
 
 
-/* Interaction directe avec le SVG intégré dans le DOM de la page d’accueil. */
-const interactiveSvg = document.querySelector("#majestios-panorama");
-if (interactiveSvg) {
-  const surfaceNames = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.label]));
-  const surfaceDestinations = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.href]));
-  const surfaces = [...interactiveSvg.querySelectorAll("[data-surface]")];
-  surfaces.forEach((surface) => {
-    const name = surfaceNames[surface.dataset.surface] || surface.getAttribute("aria-label") || "Rubrique";
-    surface.setAttribute("aria-pressed", "false");
-    surface.setAttribute("role", "link");
-    surface.setAttribute("aria-label", `Ouvrir ${name}`);
-    surface.addEventListener("click", () => {
-      const destination = surfaceDestinations[surface.dataset.surface];
-      if (destination) window.location.href = destination;
-    });
-    surface.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        const destination = surfaceDestinations[surface.dataset.surface];
-        if (destination) window.location.href = destination;
-      }
-    });
-  });
-}
-
 const personalSpaceDialog = document.querySelector("#personal-space-dialog");
 const closePersonalSpace = document.querySelector("#close-personal-space");
 const personalSpaceForm = document.querySelector("#personal-space-form");
