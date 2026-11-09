@@ -253,4 +253,10 @@ La fonction `import-official-company` vérifie le jeton utilisateur puis appelle
 - appel direct API/RPC : mêmes contrôles que l'interface ;
 - clé service_role : jamais exposée au navigateur ni utilisée sans autorisation utilisateur vérifiée côté serveur.
 
+### 10.5 CORS du provisionnement des espaces clients
+
+La fonction `provision-client-workspace` utilisait auparavant un motif générique autorisant une famille de previews Vercel. Ce motif a été supprimé sur `Evolution-7`. Les origines admises sont désormais les deux domaines de production, la preview explicitement déclarée dans le code et les origines additionnelles listées dans `ALLOWED_ORIGINS`.
+
+Un contrôle contractuel vérifie que le motif générique n'est plus présent. Il reste à configurer les previews réellement utilisées dans l'environnement de test et à exécuter les tests CORS. Cette correction ne change pas la politique d'autorisation métier du RPC de provisionnement.
+
 **Suite :** vérifier les migrations et politiques réellement appliquées à l'environnement Supabase avant d'affirmer que le runtime est conforme. Aucune connexion ni mutation distante n'a été effectuée.
