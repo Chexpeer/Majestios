@@ -1,5 +1,12 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const navigation = document.querySelector("#site-nav");
+if (!document.querySelector('link[data-majestios-navigation]')) {
+  const navStyles = document.createElement("link");
+  navStyles.rel = "stylesheet";
+  navStyles.href = "navigation-majestios.css";
+  navStyles.dataset.majestiosNavigation = "true";
+  document.head.append(navStyles);
+}
 const leadForm = document.querySelector("#lead-form");
 const formFeedback = document.querySelector("#form-feedback");
 const advancedSearchForm = document.querySelector("#advanced-search-form");
