@@ -87,8 +87,6 @@ jobs:
         run: node tests/crm-navigation-contract.test.cjs
       - name: Vérifier le parcours d’authentification OTP de l’espace membre
         run: node tests/auth-espace-membre-otp.test.cjs
-      - name: Vérifier le contrat de sécurité du CRM
-        run: node tests/crm-security-contract.test.cjs
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification des entreprises
@@ -129,3 +127,5 @@ jobs:
         run: node tests/contact-form.browser.cjs
       - name: Tester le verrouillage du poste de commandement sans session
         run: node tests/administration-access.browser.cjs
+      - name: Vérifier le contrat de sécurité du CRM
+        run: node tests/crm-security-contract.test.cjs
