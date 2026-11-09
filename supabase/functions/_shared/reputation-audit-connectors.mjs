@@ -26,7 +26,7 @@ export const REPUTATION_SOURCE_REGISTRY = Object.freeze([
   }),
   Object.freeze({
     source_key: "bodacc",
-    status: "assessment",
+    status: "ready",
     scopes: Object.freeze(["legal_events"]),
     access_mode: "to_assess",
     purpose: "Événements légaux à qualifier avant usage dans un audit."
@@ -163,5 +163,78 @@ export function toReputationCollectionDTO(result, toEvidenceDTO) {
     evidence_count: result.evidence.length,
     // Aucun identifiant de fournisseur, statut de connecteur ou catalogue technique dans le DTO UI.
     notice: "Les éléments administratifs constituent un contexte d'identification ; ils ne sont pas un score de réputation."
+  });
+}
+
+
+/**
+ * Collecte limitée aux annonces commerciales publiées par la DILA.
+ * Les annonces sont du contexte légal, jamais un score ou un jugement de réputation.
+ */
+export function createBodaccLegalEventsAdapter({ fetchImpl = fetch, now = () => new Date().toISOString() } = {}) {
+  return Object.freeze({
+    source_key: "bodacc",
+    async collect({ auditCase, signal } = {}) {
+      const subject = clean(auditCase?.subject, 120).replace(/["\\\\]/g, " ").replace(/\\s+/g, " ").trim();
+      if (subject.length < 2) throw new ReputationCollectionError("AUDIT_SUBJECT_INVALID");
+      const url = new URL("https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records");
+      url.searchParams.set("where", 'search(commercant, "' + subject + '")');
+      url.searchParams.set("limit", "10");
+      url.searchParams.set("order_by", "dateparution desc");
+      url.searchParams.set("select", "id,publicationavis,dateparution,numeroannonce,typeavis_lib,familleavis_lib,departement_nom_officiel,commercant,ville,url_complete");
+      let response;
+      try {
+        response = await fetchImpl(url.toString(), {
+          method: "GET",
+          headers: { Accept: "application/json", "User-Agent": "MajestiOS/1.0 (contexte légal; https://majestios.com)" },
+          signal: signal || AbortSignal.timeout(12000)
+        });
+      } catch {
+        throw new ReputationCollectionError("BODACC_UNAVAILABLE");
+      }
+      if (response.status === 429) throw new ReputationCollectionError("BODACC_RATE_LIMITED");
+      if (!response.ok) throw new ReputationCollectionError("BODACC_UNAVAILABLE");
+      let payload;
+      try { payload = await response.json(); } catch { throw new ReputationCollectionError("BODACC_INVALID_RESPONSE"); }
+      const records = Array.isArray(payload?.results) ? payload.results :
+        Array.isArray(payload?.records) ? payload.records.map(item => item?.record?.fields || item?.fields || {}).filter(item => Object.keys(item).length) : null;
+      if (!records) throw new ReputationCollectionError("BODACC_INVALID_RESPONSE");
+
+      const capturedAt = now();
+      return records.slice(0, 10).map(record => {
+        const merchant = clean(record?.commercant, 180);
+        const normalizedSubject = normalizeName(subject);
+        const normalizedMerchant = normalizeName(merchant);
+        const match = normalizedMerchant && normalizedMerchant === normalizedSubject ? "confirmed" :
+          normalizedMerchant && (normalizedMerchant.includes(normalizedSubject) || normalizedSubject.includes(normalizedMerchant)) ? "probable" : "uncertain";
+        const id = clean(String(record?.id || record?.numeroannonce || record?.publicationavis || ""), 100);
+        const titleParts = [clean(record?.typeavis_lib, 120), clean(record?.familleavis_lib, 120)].filter(Boolean);
+        const details = [
+          merchant ? "Entreprise publiée : " + merchant : "",
+          clean(record?.dateparution, 20) ? "Parution : " + clean(record.dateparution, 20) : "",
+          clean(record?.ville, 100) ? "Commune : " + clean(record.ville, 100) : "",
+          clean(record?.departement_nom_officiel, 100) ? "Département : " + clean(record.departement_nom_officiel, 100) : ""
+        ].filter(Boolean).join(" · ");
+        const officialUrl = typeof record?.url_complete === "string" && /^https:\/\/(www\.)?bodacc\.fr\//i.test(record.url_complete)
+          ? record.url_complete
+          : url.toString();
+        return {
+          source_key: "bodacc",
+          source_record_id: id || null,
+          url: officialUrl,
+          title: titleParts.join(" — ") || "Annonce commerciale publiée",
+          excerpt: details,
+          evidence_type: "legal_event",
+          captured_at: capturedAt,
+          subject_match: match,
+          strength: "high",
+          limitations: [
+            "Une annonce légale est un fait de publication, pas une appréciation de la réputation de l'entreprise.",
+            "Le contenu intégral et le contexte juridique doivent être vérifiés avant toute interprétation.",
+            "Les données BODACC peuvent contenir des données personnelles ; seules les informations nécessaires à l'identification de l'entreprise sont reprises ici."
+          ]
+        };
+      });
+    }
   });
 }
