@@ -61,7 +61,7 @@ Tests ajoutés au workflow :
 - interface : bouton actif après préparation du dossier et inactif après réinitialisation ;
 - vérification de syntaxe du module navigateur, de l’adaptateur et des tests.
 
-**Statut de suivi :** le workflow GitHub `42654718695` (run `4097`, commit `326ceac1c93a1d2ac1a580e152854b1ae37d330b`) est terminé avec succès pour l'état précédent. Les changements de quota privé et de refus multi-espace attendent leur propre résultat CI. Il couvre la syntaxe, les tests unitaires Cheexpeer, le contrôle d'appartenance, le quota persistant, les connecteurs, l'analyse et le parcours navigateur de Réputation virtuelle. Cela valide la suite automatisée du dépôt, pas le déploiement ni la recette multi-comptes dans l'environnement Supabase réel. Aucun appel au fournisseur IA, aucune migration, aucun déploiement Edge Function et aucune modification du projet Supabase hébergé n’ont été réalisés.
+**Statut vérifié :** le workflow GitHub `42656483619` (run `4117`, commit `08eab8dec239f4b5abfd7d1806adc6df25a38561`) est terminé avec succès. Il couvre la syntaxe, les tests unitaires Cheexpeer, le contrôle d'appartenance, le quota persistant, les connecteurs, l'analyse et le parcours navigateur de Réputation virtuelle. Le workflow lancé après les mises à jour documentaires est encore en cours au moment de cette mise à jour. Cela valide les tests automatisés du dépôt, pas le déploiement ni la recette multi-comptes dans l'environnement Supabase réel. Aucun appel au fournisseur IA, aucune migration, aucun déploiement Edge Function et aucune modification du projet Supabase hébergé n’ont été réalisés.
 
 ## 6. Prochaine étape contrôlée
 
