@@ -11,6 +11,8 @@ test("Cheexpeer reputation audit requires a valid Supabase user and an organizat
   assert.match(source, /\.select\("organization_id"\)/);
   assert.match(source, /\.eq\("user_id", data\.user\.id\)/);
   assert.match(source, /if \(!memberships\?\.length\) return null/);
+  assert.match(source, /\.limit\(2\)/);
+  assert.match(source, /organization_selection_required/);
   assert.doesNotMatch(source, /SUPABASE_SERVICE_ROLE_KEY/);
 });
 
