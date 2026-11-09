@@ -99,6 +99,8 @@ assert(home.includes('href="marches-publics.html"') && home.includes('href="repu
   "Accueil : accès aux rubriques principales absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
 assert(!home.includes("<style"), "Accueil : les styles doivent être externalisés dans des feuilles dédiées");
+assert(home.includes("MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : le texte de positionnement doit être préservé");
+assert((read("homepage.css") + read("homepage-theme.css")).includes('url("Designer%20(2).png")'), "Accueil : le fond panoramique Designer doit être préservé");
 const homepageCss = read("homepage.css") + read("homepage-theme.css");
 assert(!/\\.(?:building|tower|floor|elevator|home-help|dialog-[\\w-]*|window)[\\w-]*|#floor-rows|\\.site-nav\\b|\\.menu-toggle\\b/i.test(homepageCss), "CSS accueil : styles obsolètes de l’immeuble et de l’ancien menu encore présents");
 
