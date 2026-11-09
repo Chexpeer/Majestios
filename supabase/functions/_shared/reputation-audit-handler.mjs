@@ -1,5 +1,5 @@
 import { createAuditCase, normalizeEvidence, toAuditEvidenceDTO } from "./reputation-audit-core.mjs";
-import { createOfficialCompanyIdentityAdapter, runReputationCollection, toReputationCollectionDTO } from "./reputation-audit-connectors.mjs";
+import { createOfficialCompanyIdentityAdapter, createBodaccLegalEventsAdapter, runReputationCollection, toReputationCollectionDTO } from "./reputation-audit-connectors.mjs";
 
 const baseHeaders = Object.freeze({
   "Access-Control-Allow-Headers": "authorization, apikey, x-client-info, content-type",
@@ -62,19 +62,20 @@ export function createReputationAuditHandler({ authenticate, fetchImpl = fetch, 
 
     try {
       const auditCase = createAuditCase({ subject, siren });
-      const adapter = createOfficialCompanyIdentityAdapter({ fetchImpl, now });
+      const identityAdapter = createOfficialCompanyIdentityAdapter({ fetchImpl, now });
+      const legalEventsAdapter = createBodaccLegalEventsAdapter({ fetchImpl, now });
       const collection = await runReputationCollection({
         auditCase,
-        requestedScopes: ["identity_context"],
-        adapters: [adapter],
+        requestedScopes: ["identity_context", "legal_events"],
+        adapters: [identityAdapter, legalEventsAdapter],
         normalizeEvidence
       });
       const dto = toReputationCollectionDTO(collection, toAuditEvidenceDTO);
       return json({
         ...dto,
         subject: auditCase.subject,
-        scope: "identity_context",
-        notice: "Cheexpeer a vérifié le contexte administratif disponible. Ces éléments ne constituent pas un audit ni un score de réputation en ligne."
+        scope: "identity_and_legal_context",
+        notice: "Cheexpeer a vérifié le contexte administratif et les annonces légales accessibles. Ces éléments ne constituent pas un audit ni un score de réputation en ligne."
       }, 200, req);
     } catch {
       return json({ error: "La collecte de contexte administratif n'a pas pu aboutir." }, 502, req);

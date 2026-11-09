@@ -39,4 +39,4 @@ Cette fonction est un endpoint authentifié de recherche avancée. Elle réutili
 |---|---|---|
 | `reputation-audit-context` | Handler authentifié et tests ajoutés dans `reputation-audit-context/index.ts` | **Non déployée** |
 
-L'endpoint vérifie la session de l'utilisateur, valide le nom et le SIREN, puis retourne un contexte d'identité administrative normalisé. Il n'effectue pas d'audit de réputation en ligne, ne stocke rien en base et n'utilise pas `service_role`. Les sources partagées sont placées sous `_shared/`. Ne pas présenter la fonction comme active avant déploiement et test authentifié en environnement non-production.
+L'endpoint vérifie la session de l'utilisateur, valide le nom et le SIREN, puis retourne un contexte d'identité administrative et des annonces commerciales BODACC normalisés. Il n'effectue pas d'audit de réputation en ligne, ne stocke rien en base et n'utilise pas `service_role`. Les sources partagées sont placées sous `_shared/`. La recherche BODACC filtrée dispose d'un smoke test dédié dans la CI. Ne pas présenter la fonction comme active avant déploiement et test authentifié en environnement non-production.

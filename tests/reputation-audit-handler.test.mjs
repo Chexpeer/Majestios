@@ -6,7 +6,7 @@ const payload = { results: [{
   siren: "123456789", nom_complet: "Atelier Exemple", etat_administratif: "A",
   libelle_activite_principale: "Travaux électriques", siege: { libelle_commune: "Le Mans" }
 }] };
-const fetchOk = async () => ({ ok: true, status: 200, json: async () => payload });
+const fetchOk = async url => ({ ok: true, status: 200, json: async () => url.includes("bodacc-datadila") ? { results: [{ id: "A202600001234", commercant: "Atelier Exemple", dateparution: "2026-11-08", typeavis_lib: "Avis initial", familleavis_lib: "Créations", ville: "Le Mans", url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?id=A202600001234" }] } : payload });
 const authOk = async () => ({ id: "user-test" });
 const request = (body, headers = {}) => new Request("https://local.test/reputation-audit-context", {
   method: "POST",
@@ -36,8 +36,9 @@ test("returns sanitized identity evidence and no internal connector identifiers"
   const body = await response.json();
   assert.equal(response.status, 200);
   assert.equal(body.status, "completed");
-  assert.equal(body.evidence_count, 1);
+  assert.equal(body.evidence_count, 2);
   assert.equal(body.evidence[0].subject_match, "confirmed");
+  assert.ok(body.evidence.some(item => item.evidence_type === "legal_event"));
   assert.equal("source_key" in body.evidence[0], false);
   assert.equal("source_results" in body, false);
   assert.match(body.notice, /ne constituent pas un audit/);

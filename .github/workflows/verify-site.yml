@@ -31,6 +31,7 @@ jobs:
           node --check supabase/functions/_shared/reputation-audit-connectors.mjs
           node --check supabase/functions/_shared/reputation-audit-handler.mjs
           node --check tests/reputation-audit-handler.test.mjs
+          node --check tests/reputation-bodacc-query-smoke.cjs
           node --check tests/reputation-audit-connectors.test.mjs
           node --check tests/reputation-audit-core.test.mjs
           node --check catalogue-majestios.js
@@ -71,6 +72,8 @@ jobs:
         run: node --test tests/reputation-audit-connectors.test.mjs
       - name: Tester le handler authentifié du moteur d'audit Cheexpeer
         run: node --test tests/reputation-audit-handler.test.mjs
+      - name: Vérifier la recherche BODACC filtrée en conditions réelles
+        run: node tests/reputation-bodacc-query-smoke.cjs
       - name: Vérifier la navigation Administration / CRM
         run: node tests/admin-crm-module-navigation.test.cjs
       - name: Vérifier le contrat de navigation du CRM

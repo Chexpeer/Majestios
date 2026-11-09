@@ -5,7 +5,7 @@
  */
 export const AUDIT_STATUSES = Object.freeze(["draft", "collecting", "analysing", "ready", "blocked"]);
 export const EVIDENCE_TYPES = Object.freeze([
-  "web_result", "local_listing", "social_profile", "review", "website_page", "business_identity",
+  "web_result", "local_listing", "social_profile", "review", "website_page", "business_identity", "legal_event",
   "technical_signal", "competitor_signal", "manual_observation"
 ]);
 export const EVIDENCE_STRENGTHS = Object.freeze(["low", "medium", "high"]);
