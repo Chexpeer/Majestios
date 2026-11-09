@@ -1,3 +1,11 @@
+// Chargeur unique de la navigation, partagé par toutes les pages qui chargent app.js.
+if (!document.querySelector('script[data-majestios-drawer]')) {
+  const drawerScript = document.createElement("script");
+  drawerScript.src = new URL("navigation-tiroirs.js", document.baseURI).href;
+  drawerScript.dataset.majestiosDrawer = "true";
+  drawerScript.defer = true;
+  document.head.append(drawerScript);
+}
 const leadForm = document.querySelector("#lead-form");
 const formFeedback = document.querySelector("#form-feedback");
 const advancedSearchForm = document.querySelector("#advanced-search-form");
