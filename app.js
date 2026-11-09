@@ -380,31 +380,51 @@ if (leadForm && formFeedback) {
 // Navigation globale MajestiOS : toutes les rubriques et pages métier restent accessibles.
 const navigationGroups = [
   { label: "Appels d’offres", items: [
-    ["Appels d’offres publics","marches-publics.html"],["Appels d’offres privés","marches-prives.html"],
-    ["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],
-    ["Sous-traitance","sous-traitance.html"],["Services numériques","categorie-services-numeriques.html"],
-    ["Travaux & aménagement","categorie-travaux-amenagement.html"],["Conseil & études","categorie-conseil-etudes.html"],
-    ["Bâtiment & construction","categorie-batiment.html"],["Rénovation","categorie-renovation.html"],
-    ["Électricité","categorie-electricite.html"],["Plomberie & chauffage","categorie-plomberie-chauffage.html"],
+    ["Appels d’offres publics","marches-publics.html"],
+    ["Appels d’offres privés","marches-prives.html"]
+  ]},
+  { label: "Veille & sourcing", items: [
+    ["Veille des marchés","veille-marches.html"],
+    ["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],
+    ["Sous-traitance","sous-traitance.html"]
+  ]},
+  { label: "Secteurs d’activité", items: [
+    ["Services numériques","categorie-services-numeriques.html"],
+    ["Travaux & aménagement","categorie-travaux-amenagement.html"],
+    ["Conseil & études","categorie-conseil-etudes.html"],
+    ["Bâtiment & construction","categorie-batiment.html"],
+    ["Rénovation","categorie-renovation.html"],
+    ["Électricité","categorie-electricite.html"],
+    ["Plomberie & chauffage","categorie-plomberie-chauffage.html"],
     ["Maintenance","categorie-maintenance.html"]
   ]},
   { label: "Développement commercial", items: [
-    ["Vue d’ensemble","developpement-commercial.html"],["Prospection","prospection-active.html"],
+    ["Vue d’ensemble","developpement-commercial.html"],
+    ["Prospection","prospection-active.html"],
     ["Accompagnement appels d’offres","accompagnement-appels-offres.html"],
-    ["Suivi commercial","suivi-commercial.html"],["Qualification des entreprises","qualification-entreprises.html"]
+    ["Suivi commercial","suivi-commercial.html"],
+    ["Qualification des entreprises","qualification-entreprises.html"]
   ]},
   { label: "Réseau & visibilité", items: [
-    ["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"],
-    ["Réputation virtuelle","reputation-virtuelle.html"],["Intelligence économique","intelligence-economique.html"]
+    ["Réseau et synergies","reseaux-synergies.html"],
+    ["Salons & séminaires","salons-seminaires.html"],
+    ["Réputation virtuelle","reputation-virtuelle.html"],
+    ["Intelligence économique","intelligence-economique.html"]
   ]},
   { label: "Espaces", items: [
-    ["Espace privé","espace-membre.html"],["Espace VIP","espace-interne.html"],
-    ["CRM MajestiOS · accès réservé","crm.html"],["Administration · accès réservé","administration.html"]
+    ["Espace privé","espace-membre.html"],
+    ["Espace VIP","espace-interne.html"],
+    ["CRM MajestiOS · accès réservé","crm.html"],
+    ["Administration · accès réservé","administration.html"]
   ]},
   { label: "Informations", items: [
-    ["Nous rejoindre","nous-rejoindre.html"],["Contact","contact.html"],["FAQ","faq.html"],
-    ["Vision MajestiOS","vision-majestios.html"],["Présentation MajestiOS V5","majestios-v5.html"],
-    ["Mentions légales","mentions-legales.html"],["Confidentialité","politique-confidentialite.html"]
+    ["Nous rejoindre","nous-rejoindre.html"],
+    ["Contact","contact.html"],
+    ["FAQ","faq.html"],
+    ["Vision MajestiOS","vision-majestios.html"],
+    ["Présentation MajestiOS V5","majestios-v5.html"],
+    ["Mentions légales","mentions-legales.html"],
+    ["Confidentialité","politique-confidentialite.html"]
   ]}
 ];
 
