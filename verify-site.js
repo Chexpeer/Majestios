@@ -22,7 +22,7 @@ assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqué
 for (const file of siteFiles) {
   assert(typeof file === "string" && file.trim().length > 0, "Build : chemin vide ou invalide dans le manifeste");
   if (typeof file !== "string" || !file.trim()) continue;
-  const normalized = file.replace(/\\/g, "/"));
+  const normalized = file.replace(/\\/g, "/");
   assert(!path.posix.isAbsolute(normalized) && !normalized.split("/").includes(".."), "Build : chemin interdit dans le manifeste : " + file);
   assert(!/\.mdx?$/i.test(file), "Build : la documentation ne doit pas être publiée : " + file);
   assert(exists(file) && fs.statSync(path.join(root, file)).isFile(), "Build : ressource déclarée absente ou non-fichier : " + file);
