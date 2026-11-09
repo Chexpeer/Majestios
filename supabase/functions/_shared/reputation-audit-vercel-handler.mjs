@@ -88,7 +88,10 @@ export function createVercelReputationAuditHandler({ verifyUser, collectContext,
     let report;
     try {
       report = await runCheexpeerAuditAnalysis({ auditCase, evidence, analyze: analyzeModel });
-    } catch {
+    } catch (error) {
+      if (["AI_GATEWAY_AUTH_UNAVAILABLE", "AI_GATEWAY_MODEL_INVALID"].includes(error?.message)) {
+        return json({ error: "Le service d'analyse Cheexpeer n'est pas configuré. Aucun rapport n'a été produit." }, 503);
+      }
       return json({ error: "L'analyse Cheexpeer n'a pas produit de réponse vérifiable. Aucun rapport n'a été publié." }, 502);
     }
 
