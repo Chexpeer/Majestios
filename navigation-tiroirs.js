@@ -93,15 +93,15 @@
         submenu.append(a);
       });
 
-      // Desktop : ouverture au survol et au clavier.
-      // Mobile : sous-rubriques visibles dans le tiroir, sans bouton chevron.
+      // Les sous-menus restent fermés à l'ouverture du hamburger.
+      // Sur ordinateur, ils apparaissent uniquement au survol ou au focus clavier.
+      // Sur mobile/tactile, le lien principal mène directement à la rubrique.
       const desktop = () => window.matchMedia("(min-width: 901px)").matches;
       const setOpen = value => {
-        submenu.hidden = desktop() ? !value : false;
-        section.classList.toggle("is-open", desktop() && value);
+        submenu.hidden = !value;
+        section.classList.toggle("is-open", value);
       };
-      if (desktop()) submenu.hidden = true;
-      else submenu.hidden = false;
+      submenu.hidden = true;
       section.addEventListener("mouseenter", () => { if (desktop()) setOpen(true); });
       section.addEventListener("mouseleave", () => { if (desktop()) setOpen(false); });
       section.addEventListener("focusin", () => { if (desktop()) setOpen(true); });
