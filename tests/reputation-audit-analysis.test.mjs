@@ -84,6 +84,24 @@ test("facts require confirmed subject matching", () => {
   assert.throws(() => validateCheexpeerAnalysis(invalid, indexed), /AUDIT_ANALYSIS_FACT_NOT_CONFIRMED/);
 });
 
+
+test("rejected identity evidence cannot support any finding", () => {
+  const rejected = [normalizeEvidence({
+    source_key: "official_company_identity", url: "https://example.org",
+    title: "Homonyme", excerpt: "SIREN différent", evidence_type: "business_identity",
+    captured_at: "2026-11-09", subject_match: "rejected"
+  })];
+  const indexed = buildCheexpeerAnalysisRequest({ auditCase, evidence: rejected }).input.evidence;
+  const invalid = {
+    findings: [{
+      category: "identity", classification: "hypothesis", confidence: "low", severity: "low",
+      statement: "Cette entreprise pourrait être liée.", evidence_ids: ["E001"], limitations: []
+    }],
+    recommendations: [], gaps: []
+  };
+  assert.throws(() => validateCheexpeerAnalysis(invalid, indexed), /AUDIT_ANALYSIS_REJECTED_EVIDENCE_REFERENCE/);
+});
+
 test("recommendations must point to a valid finding", () => {
   const invalid = {
     findings: [{
