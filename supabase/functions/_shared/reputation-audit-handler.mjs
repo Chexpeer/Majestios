@@ -45,6 +45,9 @@ export function createReputationAuditHandler({ authenticate, consumeQuota = null
     try { user = await authenticate(tokenMatch[1]); }
     catch { return json({ error: "Vérification de session temporairement indisponible." }, 503, req); }
     if (!user?.id) return json({ error: "Session invalide ou expirée." }, 401, req);
+    if (user.organization_selection_required) {
+      return json({ error: "Plusieurs espaces sont associés à ce compte. Sélectionnez un espace avant de lancer un audit Cheexpeer." }, 409, req);
+    }
 
     const contentType = req.headers.get("Content-Type") || "";
     if (!contentType.toLowerCase().includes("application/json")) {
