@@ -167,3 +167,15 @@ L'Edge Function `import-official-company/index.ts` vérifie le droit d'import av
 **Correction préparée dans Evolution-7 :** la migration `20261109194500_harden_official_import_vip_permissions.sql` remplace le contrôle par `private.is_org_admin()`, conserve `SECURITY INVOKER` et réserve l'exécution à `authenticated`. Le test de contrat vérifie que le contrôle avec le client utilisateur intervient avant la création du client `service_role`.
 
 **CI verte** dans le workflow `42656483619` (run `4117`). La migration n'est pas appliquée à Supabase ; un test réel avec rôles `member`, `owner` et `admin` reste obligatoire avant clôture.
+
+
+## ROADMAP-20 — Écosystème de veille outillée et archives Google Workspace
+
+**Nature : évolution stratégique structurante — non développée.**
+
+- **Objectif :** permettre à Cheexpeer d'orchestrer des sources officielles, API, flux, collecte web autorisée, utilitaires d'extraction et Google Workspace/Drive pour produire une veille sourcée, historisée et exploitable par MajestiOS.
+- **État vérifié :** aucun connecteur Google Drive/Workspace ni orchestrateur de scraping général n'a été identifié dans le runtime audité. Instant Data Scraper est à considérer comme utilitaire ponctuel assisté, pas comme connecteur serveur récurrent.
+- **Prérequis :** modèle de droits par organisation, OAuth à portée minimale, stockage serveur des secrets, registre des sources/licences, traçabilité des collectes, déduplication, limites de débit, rétention/suppression et séparation stricte des archives administrateur et du chat utilisateur.
+- **Règle :** ne pas contourner authentification, CAPTCHA, paywall ou restrictions ; distinguer faits, inférences et recommandations ; toute action externe sensible reste soumise à validation.
+- **Étapes :** cartographie RLS/Storage → modèle conversations et pièces jointes → tests d'isolation → centre de commande → Drive en environnement de test → connecteurs de veille progressifs.
+- **Statut :** conception documentée dans la section 9 du lot Cheexpeer ; aucun connecteur activé, aucune migration distante, aucun déploiement.
