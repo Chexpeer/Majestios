@@ -69,12 +69,18 @@ Conséquence : un utilisateur VIP autorisé à modifier une ligne peut contourne
 **Correction attendue :** vérifier `information_schema.column_privileges` et les privilèges table sur l'environnement autorisé ; si le droit large est confirmé, appliquer une migration qui révoque `UPDATE` table-level et réaccorde uniquement les colonnes métier nécessaires, en conservant la politique VIP et les triggers. Ajouter un test d'intégration qui tente de modifier `created_by`, `created_at` et `organization_id` par API directe. Aucune migration ni requête distante n'a été exécutée pendant cet audit.
 
 
-## H. Vérification du lot Cheexpeer — intégration réelle
+## H. Vérification du lot Cheexpeer — intégration au parcours membre
 
-Le contrôle de `supabase/functions/_shared/reputation-audit-analysis.mjs` confirme la présence d'un contrat d'analyse fondé sur les preuves : références d'éléments, distinction faits/interprétations/hypothèses, rejet des références inexistantes, interdiction de déduire une réputation d'une simple identité administrative ou d'une annonce BODACC, recommandations rattachées à des constats et validation humaine obligatoire.
+Le moteur d’analyse fondé sur les preuves reste la référence : chaque constat doit citer des éléments existants ; faits, interprétations et hypothèses sont distingués ; les données administratives et les annonces BODACC ne peuvent pas prouver une réputation ; les recommandations sont liées à des constats ; la validation humaine est obligatoire.
 
-Les tests `tests/reputation-audit-core.test.mjs`, `tests/reputation-audit-connectors.test.mjs`, `tests/reputation-audit-analysis.test.mjs` et `tests/reputation-audit-handler.test.mjs` passent dans le workflow GitHub du 9 novembre 2026.
+**Correction de l’écart d’intégration dans le code :** la page `reputation-virtuelle.html` / `reputation-virtuelle.js` appelle désormais l’Edge Function `reputation-audit-context` avec une session Supabase authentifiée. Le handler exécute la collecte existante puis appelle `runCheexpeerAuditAnalysis` lorsqu’un adaptateur IA est configuré. La réponse est restituée dans la page avec des insertions DOM textuelles. Le bouton n’est activé qu’après préparation du dossier.
 
-**Limite d'intégration confirmée :** `supabase/functions/reputation-audit-context/index.ts` appelle le handler de collecte ; ce handler collecte l'identité officielle et les annonces BODACC, mais n'importe ni n'appelle le module d'analyse Cheexpeer. De son côté, `reputation-virtuelle.js` gère le dossier en session et ouvre des recherches Google manuelles ; il n'appelle pas l'Edge Function. Le message affiché par la page décrit d'ailleurs explicitement ce mode prototype manuel.
+Un nouvel adaptateur serveur `reputation-audit-provider.mjs` permet de joindre un endpoint compatible Chat Completions avec JSON Schema strict. Les variables attendues sont `CHEEXPEER_AI_API_KEY`, `CHEEXPEER_AI_MODEL` et, facultativement, `CHEEXPEER_AI_BASE_URL`. Elles sont lues côté Edge Function uniquement. **Aucun fournisseur, modèle ou secret n’a été choisi ou configuré.** En l’absence de configuration, l’API retourne explicitement `collection_only` et ne prétend pas avoir produit une analyse.
 
-**Qualification :** ROADMAP-07, évolution fonctionnelle bloquante avant de promettre un audit automatisé, et non anomalie de sécurité démontrée. Le raccordement nécessite de choisir et configurer un fournisseur IA côté serveur, de définir le flux d'authentification et de persistance autorisé, puis de tester les refus et la validation humaine. Aucun secret, fournisseur IA, appel distant ou déploiement n'a été ajouté pendant cet audit.
+Les tests ajoutés couvrent l’orchestration avec et sans analyse, l’adaptateur fournisseur, la validation de schéma et le comportement d’activation du bouton. Le workflow doit encore être consulté sur le commit courant avant de qualifier le lot de validé.
+
+**Limites non levées :** connecteurs de collecte limités à l’identité officielle et au BODACC ; pas de collecte automatisée exhaustive du Web, des avis ou des réseaux ; dossier et rapport non persistés ; quotas, contrôle de coûts et historique multi-tenant non réalisés ; aucune recette réelle du fournisseur ou de l’Edge Function déployée.
+
+**Qualification :** ROADMAP-07 passe de « non raccordé » à « raccordement code effectué — CI et recette distante à confirmer ». Il ne s’agit pas d’une vulnérabilité de sécurité démontrée. Aucun secret, appel au fournisseur IA, déploiement Edge Function, migration ou changement du projet Supabase hébergé n’a été réalisé.
+
+Détails, fichiers, configuration et séquence de recette : [Lot Cheexpeer — raccordement du parcours d’audit](LOT-CHEXPEER-INTEGRATION-2026-11-09.md).
