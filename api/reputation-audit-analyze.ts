@@ -1,4 +1,5 @@
 import { MAJESTIOS_SUPABASE } from "../majestios-supabase-public-config.mjs";
+import { createAiGatewayAnalyzer, DEFAULT_CHEEXPEER_AUDIT_MODEL } from "../supabase/functions/_shared/reputation-audit-ai-gateway.mjs";
 import { createVercelReputationAuditHandler } from "../supabase/functions/_shared/reputation-audit-vercel-handler.mjs";
 
 const supabaseHeaders = {
@@ -26,41 +27,10 @@ async function collectContext({ token, subject, siren }: { token: string; subjec
 }
 
 async function analyzeModel(request: { system_prompt: string; output_schema: object; input: object }): Promise<string> {
-  const gatewayToken = process.env.VERCEL_OIDC_TOKEN || process.env.AI_GATEWAY_API_KEY;
-  if (!gatewayToken) throw new Error("AI_GATEWAY_AUTH_UNAVAILABLE");
-  const model = process.env.CHEXPEER_AUDIT_MODEL || "anthropic/claude-sonnet-4.6";
-  const system = request.system_prompt + "\n\nSchéma JSON obligatoire :\n" + JSON.stringify(request.output_schema);
-  const response = await fetch("https://ai-gateway.vercel.sh/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + gatewayToken,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: "system", content: system },
-        { role: "user", content: JSON.stringify(request.input) }
-      ],
-      temperature: 0,
-      max_tokens: 4096,
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "cheexpeer_reputation_audit",
-          description: "Constats, recommandations et lacunes d’un audit de réputation fondés sur des preuves référencées.",
-          strict: true,
-          schema: request.output_schema
-        }
-      }
-    }),
-    signal: AbortSignal.timeout(45000)
-  });
-  if (!response.ok) throw new Error("AI_GATEWAY_HTTP_" + response.status);
-  const payload = await response.json();
-  const content = payload?.choices?.[0]?.message?.content;
-  if (typeof content !== "string" || !content.trim()) throw new Error("AI_GATEWAY_EMPTY_RESPONSE");
-  return content;
+  const token = process.env.VERCEL_OIDC_TOKEN || process.env.AI_GATEWAY_API_KEY;
+  const model = process.env.CHEXPEER_AUDIT_MODEL || DEFAULT_CHEEXPEER_AUDIT_MODEL;
+  const analyzer = createAiGatewayAnalyzer({ token, model });
+  return analyzer(request);
 }
 
 const handler = createVercelReputationAuditHandler({ verifyUser, collectContext, analyzeModel });
