@@ -4,6 +4,12 @@
 
 La branche `evolution-5.0` porte le référentiel documentaire actuel de MajestiOS. Les versions antérieures restent séparées sur leurs branches sources : `evolution-2.0`, `evolution-3.0` et `evolution-4.0`. Leurs dossiers ne sont pas recopiés dans V5.
 
+## Évolution 6 — lots intégrés
+
+| Document | Rôle |
+|---|---|
+| [Réputation virtuelle — état d’implémentation du 9 novembre 2026](evolution-6/REPUTATION-VIRTUELLE-ETAT-IMPLEMENTATION-2026-11-09.md) | Compte rendu du lot fusionné par la PR #53 : recherches Google Web/Maps, dossier d’audit et journal en session, vitrine sociale illustrative, limites fonctionnelles, contrôles CI et tests navigateur restant à ajouter |
+
 ## Référentiel actif — MajestiOS V.5
 
 ### Référence canonique
