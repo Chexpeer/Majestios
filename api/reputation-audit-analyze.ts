@@ -1,6 +1,10 @@
-import { MAJESTIOS_SUPABASE } from "../majestios-supabase-public-config.mjs";
 import { createAiGatewayAnalyzer, DEFAULT_CHEEXPEER_AUDIT_MODEL } from "../supabase/functions/_shared/reputation-audit-ai-gateway.mjs";
 import { createVercelReputationAuditHandler } from "../supabase/functions/_shared/reputation-audit-vercel-handler.mjs";
+
+const MAJESTIOS_SUPABASE = Object.freeze({
+  url: "https://qxaghcifdhugfskuscoc.supabase.co",
+  publishableKey: "sb_publishable_1rbE5yDQs12JCNifwunMCg_u9-Ixl63"
+});
 
 const supabaseHeaders = {
   apikey: MAJESTIOS_SUPABASE.publishableKey,
