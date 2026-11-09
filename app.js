@@ -553,20 +553,70 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
 }
 
 
-// Coup de pouce sur l’accueil : navigation guidée, sans prétendre fournir une IA conversationnelle.
-const homeHelpToggle = document.querySelector("#home-help-toggle");
-const homeHelpPanel = document.querySelector("#home-help-panel");
-const homeHelpClose = document.querySelector("#home-help-close");
-function setHomeHelpOpen(open) {
-  if (!homeHelpToggle || !homeHelpPanel) return;
-  homeHelpPanel.hidden = !open;
-  homeHelpToggle.setAttribute("aria-expanded", String(open));
-  if (open) homeHelpClose?.focus();
-  else homeHelpToggle.focus();
-}
-homeHelpToggle?.addEventListener("click", () => setHomeHelpOpen(homeHelpToggle.getAttribute("aria-expanded") !== "true"));
-homeHelpClose?.addEventListener("click", () => setHomeHelpOpen(false));
-homeHelpPanel?.querySelectorAll("[data-home-help-close]").forEach((link) => link.addEventListener("click", () => setHomeHelpOpen(false)));
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && homeHelpPanel && !homeHelpPanel.hidden) setHomeHelpOpen(false);
-});
+// Assistant conversationnel de première génération : orientation fondée sur les rubriques existantes.
+(() => {
+  if (document.querySelector("#majestios-chat")) return;
+  const knowledge = [
+    {terms:["marché public","marches publics","appel d'offre public","boamp"],label:"Marchés publics",href:"marches-publics.html",answer:"La rubrique Marchés publics aide à repérer les consultations et à préparer leur analyse."},
+    {terms:["marché privé","marches privés","bodacc","cession","création entreprise"],label:"Marchés privés et veille BODACC",href:"marches-prives.html",answer:"Les Marchés privés regroupent les opportunités privées. La veille BODACC suit notamment les créations, cessions, modifications et procédures collectives."},
+    {terms:["prospection","prospecter","ciblage","entreprise à contacter"],label:"Prospection active",href:"prospection-active.html",answer:"La Prospection active sert à détecter, qualifier et identifier des entreprises pertinentes avant de préparer une prise de contact."},
+    {terms:["développement commercial","commercial","opportunité"],label:"Développement commercial",href:"developpement-commercial.html",answer:"Le Développement commercial relie la détection des opportunités, leur qualification, la prise de contact et la capitalisation."},
+    {terms:["accompagnement","répondre","mémoire technique","appel d'offre"],label:"Accompagnement appels d’offres",href:"accompagnement-appels-offres.html",answer:"L'accompagnement aide à valoriser les compétences, les références, les chantiers et la satisfaction des clients."},
+    {terms:["sous-traitance","sous traitant","partenaire chantier"],label:"Sous-traitance",href:"sous-traitance.html",answer:"La rubrique Sous-traitance permet d'explorer les besoins de renfort, les offres et les recherches de partenaires."},
+    {terms:["réseau","synergie","partenaire","mise en relation"],label:"Réseau et synergies",href:"reseaux-synergies.html",answer:"La rubrique Réseau aide à identifier des complémentarités et des possibilités de coopération."},
+    {terms:["salon","séminaire","événement"],label:"Salons et séminaires",href:"salons-seminaires.html",answer:"Cette rubrique présente les salons, rencontres et séminaires utiles au développement des relations professionnelles."},
+    {terms:["réputation","visibilité","réseaux sociaux","facebook","linkedin"],label:"Réputation virtuelle",href:"reputation-virtuelle.html",answer:"La Réputation virtuelle présente les axes de présence numérique et prépare leur analyse. Les icônes sociales illustrent les plateformes ; elles ne prouvent pas une connexion active."},
+    {terms:["qualification","naf","ape","entreprise"],label:"Qualification des entreprises",href:"qualification-entreprises.html",answer:"La qualification aide à rapprocher les entreprises de critères d'activité et à préparer une vérification humaine."},
+    {terms:["suivi commercial","historique","relance"],label:"Suivi commercial",href:"suivi-commercial.html",answer:"Le Suivi commercial permet de structurer la mémoire des démarches, des réponses et des suites à donner."},
+    {terms:["crm","client","contact"],label:"CRM MajestiOS",href:"crm.html",answer:"Le CRM VIP est réservé aux administrateurs internes autorisés. L'authentification seule ne donne pas de droits CRM."},
+    {terms:["espace privé","inscription","connexion","code","otp"],label:"Espace privé",href:"espace-membre.html",answer:"L'Espace privé est destiné aux membres. Le parcours de connexion par code e-mail est en préparation et doit encore être validé de bout en bout."},
+    {terms:["contact","parler à quelqu'un","contacter"],label:"Contact",href:"contact.html",answer:"Pour une demande qui nécessite un échange humain, utilisez la page Contact."},
+    {terms:["emploi","recrutement","candidature","cv"],label:"Nous rejoindre",href:"nous-rejoindre.html",answer:"Pour rejoindre l'équipe ou transmettre une candidature, consultez la rubrique Nous rejoindre."},
+    {terms:["intelligence économique","business intelligence","analyse"],label:"Intelligence économique",href:"intelligence-economique.html",answer:"L'Intelligence économique rassemble les informations utiles à l'analyse et à la décision commerciale."}
+  ];
+  const host = document.createElement("aside");
+  host.id = "majestios-chat";
+  host.className = "majestios-chat";
+  host.innerHTML = '<button class="majestios-chat-toggle" type="button" aria-expanded="false" aria-controls="majestios-chat-panel"><span aria-hidden="true">✦</span><span>Parler à MajestiOS</span></button><section class="majestios-chat-panel" id="majestios-chat-panel" aria-label="Assistant MajestiOS" hidden><header class="majestios-chat-head"><div><strong>Assistant MajestiOS</strong><small>Première génération · orientation du site</small></div><button class="majestios-chat-close" type="button" aria-label="Fermer l’assistant">×</button></header><div class="majestios-chat-disclaimer">Je vous guide dans les rubriques et les contenus disponibles. Mes réponses sont préparées à partir du site ; je ne suis pas encore connecté au moteur IA de Cheexpeer.</div><div class="majestios-chat-messages" role="log" aria-live="polite"><p class="majestios-chat-message is-assistant">Bonjour ! Que souhaitez-vous trouver ou comprendre sur MajestiOS ?</p></div><form class="majestios-chat-form"><label class="visually-hidden" for="majestios-chat-input">Votre question</label><input id="majestios-chat-input" name="question" type="text" maxlength="500" placeholder="Votre question…" autocomplete="off" required><button type="submit">Envoyer</button></form></section>';
+  document.body.append(host);
+  const toggle = host.querySelector(".majestios-chat-toggle");
+  const panel = host.querySelector(".majestios-chat-panel");
+  const close = host.querySelector(".majestios-chat-close");
+  const form = host.querySelector(".majestios-chat-form");
+  const input = host.querySelector("#majestios-chat-input");
+  const messages = host.querySelector(".majestios-chat-messages");
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+    if (open) input.focus(); else toggle.focus();
+  };
+  toggle.addEventListener("click", () => setOpen(panel.hidden));
+  close.addEventListener("click", () => setOpen(false));
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !panel.hidden) setOpen(false); });
+  const appendMessage = (text, role, link) => {
+    const message = document.createElement("p");
+    message.className = "majestios-chat-message " + (role === "user" ? "is-user" : "is-assistant");
+    message.textContent = text;
+    messages.append(message);
+    if (link) {
+      const anchor = document.createElement("a");
+      anchor.className = "majestios-chat-link";
+      anchor.href = link.href;
+      anchor.textContent = "Ouvrir : " + link.label + " →";
+      messages.append(anchor);
+    }
+    messages.scrollTop = messages.scrollHeight;
+  };
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+    appendMessage(question, "user");
+    const normalized = question.toLocaleLowerCase("fr");
+    const match = knowledge.find((item) => item.terms.some((term) => normalized.includes(term)));
+    if (match) appendMessage(match.answer, "assistant", match);
+    else appendMessage("Je ne trouve pas de réponse suffisamment fiable dans les rubriques actuellement référencées. Vous pouvez parcourir le menu principal ou transmettre votre demande à l'équipe.", "assistant", {label:"Contact",href:"contact.html"});
+    input.value = "";
+    input.focus();
+  });
+})();
