@@ -56,7 +56,9 @@ Deno.serve(async (request: Request) => {
   const metadata = user.user_metadata ?? {};
   if (
     body.flow !== "signup" ||
-    body.privacy_acknowledged !== true
+    body.privacy_acknowledged !== true ||
+    metadata.privacy_notice_acknowledged !== true ||
+    metadata.privacy_notice_version !== NOTICE_VERSION
   ) {
     return response(403, { error: "La confirmation de la politique doit être fournie lors de l’inscription avec la version en vigueur." }, origin);
   }
