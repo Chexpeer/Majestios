@@ -55,14 +55,19 @@ assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentati
 const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
 for (const page of htmlPages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
 const navigationController = read("app.js");
-const navigationStyles = read("navigation-majestios.css");
-assert(navigationController.includes("const navigationGroups = ["), "Navigation : catalogue global des rubriques absent");
+const drawerController = read("navigation-tiroirs.js");
+const drawerStyles = read("navigation-tiroirs.css");
+assert(navigationController.includes('navigation-tiroirs.js') && navigationController.includes('navigation-tiroirs.css'),
+  "Navigation : le contrôleur partagé doit charger le système de tiroirs et ses styles");
 assert(navigationController.includes("Assistant conversationnel de première génération"), "Assistant conversationnel absent du contrôleur partagé");
 for (const preservedText of ["MAJESTIOS · GUIDE DE VISITE","Besoin d’un coup de pouce","Par où commencer ?","Vous proposez, MajestiOS dispose.","Rechercher une opportunité","Découvrir le développement commercial","Préparer mon espace personnel","Consulter les questions fréquentes"]) {
   assert(navigationController.includes(preservedText), "Assistant : texte ou raccourci historique non préservé : " + preservedText);
 }
-assert(navigationController.includes('label:"Veille des entreprises · BODACC",href:"bodacc-veille-entreprises.html"'),
+assert(navigationController.includes('bodacc-veille-entreprises.html'),
   "Assistant : orientation directe vers la veille BODACC absente");
+
+// Les destinations fonctionnelles du site sont contrôlées indépendamment du menu public.
+// Certaines pages sont internes, sectorielles ou légales et ne doivent pas toutes devenir des entrées de menu.
 const requiredNavigationRoutes = [
   "marches-publics.html","marches-prives.html","veille-marches.html","bodacc-veille-entreprises.html",
   "sous-traitance.html","developpement-commercial.html","prospection-active.html",
@@ -76,18 +81,42 @@ const requiredNavigationRoutes = [
   "mentions-legales.html","politique-confidentialite.html"
 ];
 for (const route of requiredNavigationRoutes) {
-  assert(navigationController.includes(route), "Navigation : destination absente du catalogue global : " + route);
-  assert(exists(route), "Navigation : route inexistante : " + route);
-  assert(siteFiles.includes(route), "Navigation : route non publiée : " + route);
+  assert(exists(route), "Navigation : route fonctionnelle inexistante : " + route);
+  assert(siteFiles.includes(route), "Navigation : route fonctionnelle non publiée : " + route);
 }
+
+// Contrat du menu réel : six rubriques principales et vingt-trois liens secondaires.
+const menuRoutes = [...drawerController.matchAll(/\["[^"]+","([^"]+\.html)"\]/g)].map((match) => match[1]);
+const uniqueMenuRoutes = [...new Set(menuRoutes)];
+for (const route of uniqueMenuRoutes) {
+  assert(exists(route), "Navigation : destination de sous-menu inexistante : " + route);
+  assert(siteFiles.includes(route), "Navigation : destination de sous-menu non publiée : " + route);
+}
+assert(menuRoutes.length === 23, "Navigation : le menu doit contenir 23 entrées secondaires, actuellement " + menuRoutes.length);
+assert(uniqueMenuRoutes.length === 22, "Navigation : les destinations secondaires uniques doivent être 22, actuellement " + uniqueMenuRoutes.length);
+for (const label of ["Appels d’offres","Développement commercial","Réseau","Réputation virtuelle","Espace client","Explorer davantage"]) {
+  assert(drawerController.includes('label:"' + label + '"'), "Navigation : rubrique principale absente : " + label);
+}
+assert(drawerController.includes('mouseenter') && drawerController.includes('mouseleave'),
+  "Navigation : ouverture au survol sur ordinateur absente");
+assert(drawerController.includes('focusin') && drawerController.includes('focusout'),
+  "Navigation : ouverture clavier sur ordinateur absente");
+assert(drawerController.includes('max-width: 900px') && drawerController.includes('title.addEventListener("click"'),
+  "Navigation : ouverture tactile des sous-menus absente");
+assert(drawerController.includes('menuButton.addEventListener("click"') && drawerController.includes('nav.classList.add("open")'),
+  "Navigation : commande du hamburger absente");
+assert(drawerStyles.includes(".nav-group-link") && drawerStyles.includes(".nav-group-items"),
+  "Navigation : styles des rubriques et sous-menus absents");
+assert(drawerStyles.includes("#menu-toggle") || drawerStyles.includes(".menu-toggle"),
+  "Navigation : style du bouton hamburger absent");
 for (const page of htmlPages) {
   const pageHtml = read(page);
   if (["administration.html","admin-recherches.html","espace-interne.html","crm.html"].includes(page)) continue;
   assert(pageHtml.includes('id="site-nav"'), page + " : conteneur de navigation publique absent");
   assert(pageHtml.includes('src="app.js"'), page + " : contrôleur partagé de navigation absent");
+  assert(pageHtml.includes('id="menu-toggle"') || pageHtml.includes('class="menu-toggle"'),
+    page + " : bouton hamburger absent");
 }
-assert(navigationStyles.includes(".nav-group-menu"), "Navigation : styles des sous-menus absents");
-assert(navigationStyles.includes(".majestios-chat-panel"), "Assistant : styles de conversation absents");
 for (const asset of [
   "styles.css", "charte-majestios.css", "app.js", "navigation-majestios.css", "homepage.css", "homepage-theme.css", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
