@@ -13,7 +13,7 @@ test("worker bridge requires the independent shared secret before creating servi
   assert.notEqual(secretCheck, -1);
   assert.notEqual(clientCreation, -1);
   assert.ok(secretCheck < clientCreation);
-  assert.match(source, /CHEEXPEER_WORKER_SECRET/);
+  assert.match(source, /CHEXPEER_WORKER_SECRET/);
 });
 
 test("worker bridge exposes only the explicit RPC action allowlist", () => {
@@ -31,6 +31,15 @@ test("worker bridge exposes only the explicit RPC action allowlist", () => {
   }
   assert.match(source, /if \(!allowedActions\.has\(action\)\)/);
   assert.doesNotMatch(source, /rpc\(String\(body\./);
+});
+
+test("worker bridge validates identifiers and rejects oversized payloads before RPC", () => {
+  assert.match(source, /validWorkerId\(body\.worker_id\)/);
+  assert.match(source, /validMissionId\(body\.mission_id\)/);
+  assert.match(source, /Number\.isSafeInteger\(Number\(body\.message_id\)\)/);
+  assert.match(source, /MAX_BODY_BYTES/);
+  assert.match(source, /MAX_RESULT_BYTES/);
+  assert.match(source, /result must be a JSON object/);
 });
 
 test("worker bridge never enables browser CORS", () => {
