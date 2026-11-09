@@ -142,8 +142,9 @@ assert.match(page, /qualification_status: "to_review"/);
 assert.match(page, /consent_status: "unknown"/);
 assert.match(page, /status: "detected"/);
 
-assert.match(edge, /metadata\.privacy_notice_acknowledged !== true/);
-assert.match(edge, /metadata\.privacy_notice_version !== NOTICE_VERSION/);
+assert.match(edge, /body\.privacy_acknowledged !== true/);
+assert.match(edge, /body\.flow !== "signup"/);
+assert.match(edge, /const noticeVersion = NOTICE_VERSION/);
 assert.match(edge, /SUPABASE_SERVICE_ROLE_KEY/);
 assert.match(auth, /privacy_notice_version: "2026-11-05"/);
 assert.match(auth, /signInWithPassword/);
