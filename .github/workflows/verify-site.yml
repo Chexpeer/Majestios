@@ -24,7 +24,7 @@ jobs:
       - name: Vérifier la syntaxe JavaScript
         run: |
           node --check app.js
-          node --check official-source-links.js
+          node --check official-source-links.mjs
           node --check reputation-virtuelle.js
           node --check reputation-audit-core.mjs
           node --check reputation-audit-connectors.mjs
