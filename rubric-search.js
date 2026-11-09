@@ -64,7 +64,7 @@
           <option value="all">3. Choisir un département (facultatif)</option>
         </select>
       </label>
-      <p class="search-source-note" id="search-source-note">Choisissez le type d’opportunité, puis une catégorie adaptée. Les marchés privés regroupent les signaux BODACC et les familles Immobilier, Emploi et Sous-traitance ; les sources non connectées sont indiquées comme telles.</p>
+      <p class="search-source-note" id="search-source-note">Choisissez le type d’opportunité, puis une catégorie adaptée. Les marchés privés regroupent les signaux d’entreprise et les familles Immobilier, Emploi et Sous-traitance ; les résultats sont présentés dans un parcours unifié.</p>
       <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
     </form>`;
 
