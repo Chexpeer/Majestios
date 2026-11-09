@@ -223,6 +223,8 @@ L'Edge Function `import-official-company/index.ts` vérifie le droit d'import av
 - **Test renforcé :** `tests/crm-security-contract.test.cjs` contrôle désormais la migration finale pour les entreprises, contacts, opportunités, activités et relances, ainsi que le RPC de clôture. L'exécution du test n'est pas encore confirmée. Le statut Vercel associé aux commits contrôlés est en échec avec le motif `build-rate-limit` ; ce statut ne prouve ni réussite ni échec des tests de contrat.
 - **Qualification :** incohérence potentiellement bloquante pour les membres des espaces clients ; aucun accès inter-organisation n'est démontré par ce constat. La correction rétablit uniquement les droits dans le tenant propre.
 - **État :** migration et contrat ajoutés à la branche ; aucun déploiement ni changement Supabase distant. Vérifier les rôles réels et exécuter les tests d'isolation avant application.
+
+**Décision produit du 9 novembre 2026 :** les droits CRM tenant-scoped constituent le cadre de sécurité prévu pour un futur CRM client minimal et modulaire. Ils ne signifient pas que ce CRM doit être activé immédiatement. Priorité : finaliser et faire maîtriser le CRM interne par l'administrateur ; concevoir et promouvoir le CRM client seulement ensuite. La migration SEC-07 reste à valider techniquement en environnement autorisé, mais son existence ne déclenche aucune ouverture fonctionnelle client.
 - **CI :** le contrôle Vercel observé sur les commits de cette série est en échec avec le motif `build-rate-limit`. Aucun résultat de test automatisé n'est donc revendiqué.
 
 ## SEC-08 — Garde d'intégrité CRM définie mais non activée ; clôture des relances contournable
