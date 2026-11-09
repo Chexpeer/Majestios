@@ -63,7 +63,7 @@
     overlay.hidden = true;
     document.body.append(overlay);
 
-    const closeDrawer = () => { nav.classList.remove("open"); document.body.classList.remove("nav-drawer-active"); menuButton.setAttribute("aria-expanded","false"); menuButton.setAttribute("aria-label","Ouvrir le menu"); overlay.classList.remove("is-visible"); overlay.hidden = true; };
+    const closeDrawer = () => { nav.classList.remove("open"); document.body.classList.remove("nav-drawer-active"); menuButton.setAttribute("aria-expanded","false"); menuButton.setAttribute("aria-label","Ouvrir le menu"); overlay.classList.remove("is-visible"); overlay.hidden = true; nav.querySelectorAll(".nav-drawer-section").forEach(section => { const submenu = section.querySelector(".nav-group-items"); const title = section.querySelector(".nav-group-link"); if (submenu) submenu.hidden = true; if (title) title.setAttribute("aria-expanded","false"); section.classList.remove("is-open"); }); };
     const openDrawer = () => { nav.classList.add("open"); document.body.classList.add("nav-drawer-active"); menuButton.setAttribute("aria-expanded","true"); menuButton.setAttribute("aria-label","Fermer le menu"); overlay.hidden = false; requestAnimationFrame(() => overlay.classList.add("is-visible")); };
     menuButton.addEventListener("click", event => {
       event.preventDefault();
