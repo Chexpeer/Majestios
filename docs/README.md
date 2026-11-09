@@ -161,3 +161,4 @@ Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires 
 - [État d'implémentation au 9 novembre 2026](evolution-6/REPUTATION-VIRTUELLE-ETAT-IMPLEMENTATION-2026-11-09.md)
 - [Contrat initial du moteur d'audit interne](evolution-6/REPUTATION-VIRTUELLE-MOTEUR-CHEXPEER-ARCHITECTURE-2026-11-09.md)
 - [Orchestration et premier connecteur de contexte](evolution-6/REPUTATION-VIRTUELLE-ORCHESTRATION-ET-CONNECTEUR-2026-11-09.md)
+- [Lot Cheexpeer — raccordement du parcours d’audit (Evolution-7, 9 novembre 2026)](evolution-7/LOT-CHEXPEER-INTEGRATION-2026-11-09.md)
