@@ -259,4 +259,16 @@ La fonction `provision-client-workspace` utilisait auparavant un motif génériq
 
 Un contrôle contractuel vérifie que le motif générique n'est plus présent. Il reste à configurer les previews réellement utilisées dans l'environnement de test et à exécuter les tests CORS. Cette correction ne change pas la politique d'autorisation métier du RPC de provisionnement.
 
+### 10.6 Cohérence finale des droits CRM entre organisations
+
+L'ordre des migrations révélait une contradiction : `20261108151400_enforce_vip_boundary_for_internal_crm.sql` distingue l'organisation interne des tenants clients/partenaires, puis `20261108181246_vip_only_crm_access.sql` remplace les politiques des tables CRM par une règle `owner/admin` globale. Les migrations ultérieures durcissent les colonnes et le RPC de relance, sans restaurer la différenciation attendue par le contrat métier.
+
+**Correction préparée sur Evolution-7 :** `20261109200000_restore_tenant_scoped_crm_permissions.sql` rétablit :
+- organisation interne MajestiOS : lecture et écriture réservées à `owner/admin` ;
+- organisations client/partenaire : lecture selon appartenance et écriture `owner/admin/member` dans le tenant propre ; `viewer` reste en lecture seule ;
+- suppression des fiches : réservée à `owner/admin` ;
+- clôture des relances par RPC : même contrôle tenant-scoped que les politiques des tables.
+
+Le test de contrat contrôle maintenant la migration finale, et non seulement la migration historique. Cette migration élargit les droits des membres clients par rapport à la migration VIP globale ; elle est cohérente avec le contrat déjà présent dans le dépôt, mais doit être validée en environnement de test avant toute application distante. Aucun changement Supabase n'a été effectué.
+
 **Suite :** vérifier les migrations et politiques réellement appliquées à l'environnement Supabase avant d'affirmer que le runtime est conforme. Aucune connexion ni mutation distante n'a été effectuée.
