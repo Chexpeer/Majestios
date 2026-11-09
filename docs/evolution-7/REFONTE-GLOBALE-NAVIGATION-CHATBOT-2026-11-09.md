@@ -168,4 +168,4 @@ Le premier assistant a été enrichi pour distinguer les annonces BODACC de la r
 - Les formulations « Besoin d’un coup de pouce ? », « MAJESTIOS · GUIDE DE VISITE », « Par où commencer ? » et « Vous proposez, MajestiOS dispose. » sont conservées dans cette nouvelle interface.
 - Les rubriques BODACC, Veille des marchés, FAQ et Vision disposent d'une orientation directe depuis le chatbot.
 
-Le dernier run entièrement vert avant ces derniers ajouts conversationnels et l'extension de la vérification à 34 liens est le run `42601432700`. Le run déclenché sur la dernière version est en attente côté GitHub Actions ; aucun résultat vert n'est revendiqué pour ces ajouts tant que ce run n'a pas terminé.
+**Dernière validation complète :** run GitHub Actions `42602181746` — conclusion `success` — commit `de68625326e5887d0f68dc19cfa90e314eaf94fa`. Ce run couvre les 34 liens de navigation, les raccourcis historiques du guide, l'orientation directe BODACC, les contrôles CSS, les tests navigateur desktop/mobile, les moteurs de recherche, les formulaires, le verrouillage administratif et le contrat de sécurité CRM.
