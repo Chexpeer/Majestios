@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { safeOfficialSourceUrl } from "../official-source-links.js";
+import { safeOfficialSourceUrl } from "../official-source-links.mjs";
 
 assert.equal(
   safeOfficialSourceUrl("https://www.bodacc.fr/pages/annonces-commerciales-detail/?q.id=id:ABC", "bodacc"),
