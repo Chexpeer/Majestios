@@ -6,6 +6,7 @@ const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "espace-membre.html"), "utf8");
 const auth = fs.readFileSync(path.join(root, "auth-espace-membre.js"), "utf8");
 const provisioning = fs.readFileSync(path.join(root, "supabase/functions/provision-client-workspace/index.ts"), "utf8");
+const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
 assert.match(html, /name="firstName"[^>]*required/);
 assert.match(html, /name="lastName"[^>]*required/);
@@ -15,6 +16,8 @@ assert.match(html, /Entreprise <small>\(facultatif\)<\/small>/);
 assert.match(html, /Téléphone <small>\(facultatif\)<\/small>/);
 assert.match(html, /name="otp"[^>]*autocomplete="one-time-code"/);
 assert.match(html, /data-resend-otp/);
+assert.match(styles, /personal-space-fields\\[hidden\\]/);
+assert.match(styles, /personal-space-otp\\[hidden\\]/);
 assert.doesNotMatch(html, /type="password"/);
 assert.doesNotMatch(html, /name="passwordConfirm"/);
 
