@@ -38,3 +38,12 @@ Le handler HTTP est isolé et testé avec authentification et transport simulés
 La fonction est uniquement présente dans le dépôt Git à ce stade. Elle n'est pas déployée dans Supabase et n'est pas encore appelée depuis l'interface Réputation virtuelle. L'API officielle confirme le contexte administratif de l'entreprise ; elle ne fournit pas une analyse de réputation en ligne.
 
 Avant tout déploiement : vérifier les secrets de configuration disponibles, les paramètres CORS et JWT du projet, les conditions d'accès de l'API amont, puis effectuer un test authentifié dans un environnement non-production. Aucun déploiement n'est inclus dans ce lot.
+
+
+## Extension — contexte légal BODACC
+
+Le connecteur BODACC est maintenant qualifié comme source automatique de contexte légal, à côté du référentiel d'identité DINUM. Il interroge le jeu officiel DILA `annonces-commerciales` par recherche plein texte sur le champ `commercant`, avec une limite de dix annonces et une sélection de champs minimisés.
+
+Les annonces BODACC sont traitées comme des **faits de publication**, jamais comme un score de réputation. L'extrait ne reprend pas les personnes physiques ; les limites rappellent que le texte intégral et le contexte juridique doivent être vérifiés. La réponse de l'endpoint authentifié peut donc contenir des preuves `business_identity` et `legal_event`.
+
+Le dataset BODACC est proposé gratuitement par la DILA sous Licence Ouverte 2.0. La DILA avertit toutefois que les données peuvent contenir des données personnelles : la réutilisation doit respecter les obligations applicables. Cette intégration est bornée aux champs nécessaires à l'identification et au contexte de l'entreprise.
