@@ -322,6 +322,18 @@
   border-bottom: 1px solid rgba(192, 202, 214, .78);
   background: transparent !important;
 }
+.site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link {
+  color: #c5a45e !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(192, 202, 214, .78) !important;
+}
+.site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link:hover,
+.site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link:focus-visible,
+.site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link[aria-current="page"] {
+  color: #f0d58f !important;
+  background: transparent !important;
+  border-bottom-color: #d5b56c !important;
+}
 .site-nav-drawer .nav-vip-link::before {
   content: "✦";
   flex: 0 0 auto;
