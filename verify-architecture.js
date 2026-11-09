@@ -47,7 +47,7 @@ assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqué
 for (const file of siteFiles) {
   assert(typeof file === "string" && file.trim().length > 0, "Build : chemin vide ou invalide dans le manifeste");
   if (typeof file !== "string" || !file.trim()) continue;
-  assert(!path.posix.isAbsolute(file) && !file.replace(/\\\\/g, "/").split("/").includes(".."), "Build : chemin interdit : " + file);
+  assert(!path.posix.isAbsolute(file) && !file.replace(/\\/g, "/")).split("/").includes(".."), "Build : chemin interdit : " + file);
   assert(exists(file) && fs.statSync(path.join(root, file)).isFile(), "Build : ressource déclarée absente ou non-fichier : " + file);
 }
 assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentation Markdown ne doit pas être publiée avec le site");
