@@ -175,3 +175,25 @@ Le prototype sera considéré comme prêt pour un premier audit lorsque :
 - **Portée de cette validation :** elle confirme le parcours de consultation testé dans l'interface. Elle ne valide pas une API Google officielle, une collecte automatisée, l'extraction du contenu des iframes, ni la production d'un audit automatique.
 - **Comportement de sécurité conservé :** les liens directs de secours restent disponibles ; aucun contenu inaccessible n'est simulé ; les constats d'audit devront être relevés, datés et vérifiés à partir de sources consultables.
 - **Étape suivante :** préparer un dossier d'audit structuré (identité de l'entreprise, activité, territoire, objectifs commerciaux, requêtes examinées, date et preuves), sans stockage persistant ni connexion Cheexpeer tant que ces choix ne sont pas spécifiés et validés.
+
+
+## 13. Première structure du dossier d'audit — prototype
+
+**Implémenté dans la page Réputation virtuelle :**
+- identification de l'entreprise / nom commercial ;
+- activité principale ;
+- site Internet (facultatif) ;
+- ville et territoire desservi ;
+- clientèle visée ;
+- objectif commercial prioritaire ;
+- journal horodaté des requêtes lancées depuis les formulaires Google Web et Google Maps, tant qu'un dossier est actif.
+
+**Comportement de stockage :** ces éléments sont conservés dans `sessionStorage`, dans l'onglet / la session du navigateur. Ils ne sont transmis à aucun serveur, ne sont pas associés à un compte MajestiOS et disparaissent lorsque la session de navigation est fermée ou lorsque l'utilisateur réinitialise le dossier. Le journal est limité aux 50 dernières requêtes.
+
+**Limites explicites :**
+- le journal prouve qu'une requête a été saisie et lancée depuis l'interface ; il ne prouve ni que Google a affiché tous les résultats, ni que MajestiOS a lu leur contenu ;
+- aucun résultat, avis, classement ou position SEO n'est collecté automatiquement ;
+- aucun rapport d'audit n'est généré à ce stade ;
+- aucun dossier n'est encore sauvegardé dans une base de données ou un espace membre.
+
+**Validation attendue :** renseigner une entreprise, préparer le dossier, effectuer une recherche Web puis Maps, vérifier que les deux requêtes apparaissent avec leur horodatage, actualiser l'onglet pour vérifier la restauration de session, puis réinitialiser le dossier et vérifier l'effacement du résumé et du journal.
