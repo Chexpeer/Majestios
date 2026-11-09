@@ -56,17 +56,14 @@ Deno.serve(async (request: Request) => {
   const metadata = user.user_metadata ?? {};
   if (
     body.flow !== "signup" ||
-    body.privacy_acknowledged !== true ||
-    metadata.privacy_notice_acknowledged !== true ||
-    metadata.privacy_notice_version !== NOTICE_VERSION
+    body.privacy_acknowledged !== true
   ) {
     return response(403, { error: "La confirmation de la politique doit être fournie lors de l’inscription avec la version en vigueur." }, origin);
   }
   const noticeVersion = NOTICE_VERSION;
-  const organizationName = cleanText(metadata.organization_name || body.organization_name, 120);
-  const displayName = cleanText(metadata.display_name || body.display_name, 120);
-  const phone = cleanText(metadata.phone || body.phone, 32);
-  if (organizationName.length < 2) return response(400, { error: "Le nom de l’entreprise ou de l’espace personnel est obligatoire." }, origin);
+  const organizationName = cleanText(body.organization_name || metadata.organization_name, 120) || "Espace personnel";
+  const displayName = cleanText(body.display_name || metadata.display_name, 120);
+  const phone = cleanText(body.phone || metadata.phone, 32);
   const slug = `${slugify(organizationName) || "espace-client"}-${crypto.randomUUID().slice(0, 8)}`;
   const { data: result, error: provisioningError } = await admin.rpc("provision_client_workspace", {
     p_user_id: user.id,
