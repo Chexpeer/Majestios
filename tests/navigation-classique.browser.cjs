@@ -60,7 +60,7 @@ async function main() {
     assert.equal(await opportunityMenu.isVisible(),false,"Le retrait du pointeur doit refermer le sous-menu.");
     await opportunityGroup.locator(".nav-group-link").click();
     await page.waitForURL("**/marches-publics.html");
-    assert.match(page.url(),/marches-publics\\.html$/,"Le clic desktop sur l’onglet parent doit ouvrir sa rubrique.");
+    assert.match(page.url(),/marches-publics\.html$/,"Le clic desktop sur l’onglet parent doit ouvrir sa rubrique.");
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
 
