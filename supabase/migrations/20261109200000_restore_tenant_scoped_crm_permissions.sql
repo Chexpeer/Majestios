@@ -26,6 +26,7 @@ create policy "Authorized editors can update businesses"
   on public.businesses for update to authenticated
   using ((select private.can_edit_crm_org(organization_id)))
   with check ((select private.can_edit_crm_org(organization_id)));
+drop policy if exists "Organization admins can delete businesses" on public.businesses;
 create policy "Organization admins can delete businesses"
   on public.businesses for delete to authenticated
   using ((select private.is_org_admin(organization_id)));
@@ -52,6 +53,7 @@ create policy "Authorized editors can update contacts"
   on public.contacts for update to authenticated
   using ((select private.can_edit_crm_org(organization_id)))
   with check ((select private.can_edit_crm_org(organization_id)));
+drop policy if exists "Organization admins can delete contacts" on public.contacts;
 create policy "Organization admins can delete contacts"
   on public.contacts for delete to authenticated
   using ((select private.is_org_admin(organization_id)));
@@ -78,6 +80,7 @@ create policy "Authorized editors can update opportunities"
   on public.opportunities for update to authenticated
   using ((select private.can_edit_crm_org(organization_id)))
   with check ((select private.can_edit_crm_org(organization_id)));
+drop policy if exists "Organization admins can delete opportunities" on public.opportunities;
 create policy "Organization admins can delete opportunities"
   on public.opportunities for delete to authenticated
   using ((select private.is_org_admin(organization_id)));
