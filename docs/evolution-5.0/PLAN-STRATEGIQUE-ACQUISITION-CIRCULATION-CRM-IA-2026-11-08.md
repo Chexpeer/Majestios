@@ -4,7 +4,7 @@
 **Branche examinée :** `feature/crm-atomic-integration`  
 **Commit de référence au début de l'audit :** `f4b03c6d3417e6143ac24e34aa97994aaa8ca877`  
 **Dernière correction de test pendant cet audit :** `a5f16f25770804dfc351e8e98943dca7dd8c26f9`  
-**Statut :** feuille de route stratégique proposée ; les arbitrages produit et le nom de l'IA restent ouverts.
+**Statut :** feuille de route stratégique proposée ; les arbitrages de mise en œuvre et de déploiement restent ouverts.
 
 Ce document organise la prochaine étape de MajestiOS. Il distingue les acquis vérifiables, les défauts identifiés, la cible fonctionnelle et les décisions qui doivent rester entre les mains du fondateur. Il ne vaut ni autorisation de production ni validation d'une automatisation commerciale.
 
@@ -140,7 +140,7 @@ L'architecture doit donc séparer l'identité stable de Cheexpeer du fournisseur
 
 Cette indépendance est une cible d'architecture, pas la preuve que plusieurs moteurs sont déjà connectés. Le choix du premier moteur, les modalités techniques d'accès, les coûts et les évaluations restent à instruire. La préparation de l'environnement et des données peut avancer sans activer immédiatement les missions complexes de Cheexpeer.
 
-Les anciennes références à BrainIOS ou à MajestiOS V.5 qui désignent l'identité de l'intelligence intégrée doivent être harmonisées avec **Cheexpeer**. En revanche, les références historiques, les noms de versions, les chemins de fichiers et les éléments techniques ne doivent pas être renommés aveuglément : chaque occurrence doit être qualifiée selon son sens et ses dépendances.
+L'identité de l'intelligence intégrée à MajestiOS est exclusivement **Cheexpeer**. Les repères de version de la plateforme, les chemins de fichiers et les éléments techniques conservent leur fonction propre et ne doivent pas être confondus avec cette identité.
 
 ## 6. Feuille de route stratégique proposée
 
@@ -177,7 +177,7 @@ Les anciennes références à BrainIOS ou à MajestiOS V.5 qui désignent l'iden
 **Critère de sortie :** un utilisateur autorisé passe de la rubrique au CRM et revient sans perdre le contexte ni élargir ses droits.
 
 ### Lot 4 — Définition de l'intelligence et de son identité — arbitrage clôturé le 8 novembre 2026
-- Les références à BrainIOS dans les notes ci-dessous appartiennent à la phase de réflexion antérieure et ne désignent pas l'identité actuelle de l'IA intégrée.
+- L'identité fonctionnelle de l'IA intégrée est définitivement fixée : **Cheexpeer**.
 - Le fondateur a confirmé que Cheexpeer est le nom d'emprunt et l'identité d'usage de l'IA intégrée à MajestiOS.
 - MajestiOS V.5 désigne la version de la plateforme ; Claude, ChatGPT ou un autre modèle peuvent constituer le moteur sous-jacent.
 - Restent à instruire : choix du premier moteur, conditions d'accès, intégration, coûts, évaluations et mécanismes de repli.
@@ -210,7 +210,7 @@ Cet ordre évite de bâtir une couche d'intelligence sur des liens incomplets, d
 
 ## 8. Points à arbitrer avec le fondateur
 
-Les deux premiers points de la liste initiale sont désormais tranchés par l'arbitrage du 8 novembre 2026 décrit à la section 5 : Cheexpeer est l'identité de l'IA intégrée, indépendante du moteur ; les anciennes mentions de BrainIOS sont historiques et ne désignent pas une seconde IA à développer.
+L'identité de l'IA intégrée est définitivement fixée : **Cheexpeer**, indépendante du moteur sous-jacent. Aucun autre nom ne doit être employé pour désigner cette intelligence dans la documentation ou les interfaces de MajestiOS.
 
 Restent à instruire :
 1. Les événements qui peuvent proposer un transfert vers le CRM et ceux qui doivent rester purement consultatifs.
