@@ -79,6 +79,7 @@
     "homepage.css",
     "homepage-theme.css",
     "navigation-tiroirs.js",
-    "navigation-tiroirs.css"
+    "navigation-tiroirs.css",
+    "official-source-links.mjs"
   ]
 }
