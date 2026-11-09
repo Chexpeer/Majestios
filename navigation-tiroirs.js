@@ -84,7 +84,10 @@
       if (current === group.href) title.setAttribute("aria-current","page");
       const submenu = document.createElement("div");
       submenu.className = "nav-group-items";
+      submenu.id = `nav-submenu-${index + 1}`;
       submenu.hidden = true;
+      title.setAttribute("aria-controls", submenu.id);
+      title.setAttribute("aria-expanded", "false");
       group.items.forEach(([label,href]) => {
         const a = document.createElement("a");
         a.href = href;
@@ -100,8 +103,29 @@
       const setOpen = value => {
         submenu.hidden = !value;
         section.classList.toggle("is-open", value);
+        title.setAttribute("aria-expanded", String(value));
       };
       submenu.hidden = true;
+
+      // Sur téléphone, le premier toucher déplie le tiroir.
+      // Un second toucher sur le même onglet ouvre sa rubrique.
+      title.addEventListener("click", event => {
+        if (desktop() || submenu.children.length === 0) return;
+        if (submenu.hidden) {
+          event.preventDefault();
+          nav.querySelectorAll(".nav-drawer-section").forEach(other => {
+            const otherSubmenu = other.querySelector(".nav-group-items");
+            const otherTitle = other.querySelector(".nav-group-link");
+            if (otherSubmenu && otherSubmenu !== submenu) {
+              otherSubmenu.hidden = true;
+              other.classList.remove("is-open");
+              otherTitle?.setAttribute("aria-expanded", "false");
+            }
+          });
+          setOpen(true);
+        }
+      });
+
       section.addEventListener("mouseenter", () => { if (desktop()) setOpen(true); });
       section.addEventListener("mouseleave", () => { if (desktop()) setOpen(false); });
       section.addEventListener("focusin", () => { if (desktop()) setOpen(true); });
