@@ -167,3 +167,11 @@ Le prototype sera considéré comme prêt pour un premier audit lorsque :
 - il ne déclenche aucune action externe sans validation humaine.
 
 **État au 9 novembre 2026 :** méthode définie pour guider le développement. Le formulaire d'audit, le stockage des dossiers, la génération du rapport et les indicateurs ne sont pas déclarés implémentés par la seule présence de ce document.
+
+
+## 12. Journal de validation du prototype
+
+- **9 novembre 2026 — test utilisateur de la prévisualisation :** Google Web et Google Maps sont confirmés fonctionnels par l'utilisateur dans la prévisualisation Vercel de la branche `brouillon-reputation-virtuelle`.
+- **Portée de cette validation :** elle confirme le parcours de consultation testé dans l'interface. Elle ne valide pas une API Google officielle, une collecte automatisée, l'extraction du contenu des iframes, ni la production d'un audit automatique.
+- **Comportement de sécurité conservé :** les liens directs de secours restent disponibles ; aucun contenu inaccessible n'est simulé ; les constats d'audit devront être relevés, datés et vérifiés à partir de sources consultables.
+- **Étape suivante :** préparer un dossier d'audit structuré (identité de l'entreprise, activité, territoire, objectifs commerciaux, requêtes examinées, date et preuves), sans stockage persistant ni connexion Cheexpeer tant que ces choix ne sont pas spécifiés et validés.
