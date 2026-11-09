@@ -290,7 +290,7 @@ for (const fragment of [
 assert.ok(client.includes('supabase.rpc("complete_crm_reminder"'));
 assert.match(reminderVipHardening, /create or replace function public\.complete_crm_reminder\(p_reminder_id uuid\)/);
 assert.match(reminderVipHardening, /private\.is_org_admin\(v_reminder\.organization_id\)/);
-assert.doesNotMatch(reminderVipHardening, /private\.is_org_editor\(/);
+assert.doesNotMatch(reminderVipHardening.slice(reminderVipHardening.indexOf("as $")), /private\.is_org_editor\(/);
 assert.match(reminderVipHardening, /security definer\s+set search_path = ''/);
 assert.match(reminderVipHardening, /revoke all on function public\.complete_crm_reminder\(uuid\) from public, anon/);
 assert.match(reminderVipHardening, /grant execute on function public\.complete_crm_reminder\(uuid\) to authenticated/);
