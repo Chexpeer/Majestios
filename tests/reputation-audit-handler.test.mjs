@@ -20,6 +20,18 @@ test("requires a verified authenticated user", async () => {
   assert.equal(response.status, 401);
 });
 
+test("requires an unambiguous organization context before quota or collection", async () => {
+  let quotaCalled = false;
+  const handler = createReputationAuditHandler({
+    authenticate: async () => ({ id: "user-test", organization_selection_required: true }),
+    consumeQuota: async () => { quotaCalled = true; return true; },
+    fetchImpl: async () => { throw new Error("upstream must not be called"); }
+  });
+  const response = await handler(request({ subject: "Atelier Exemple" }));
+  assert.equal(response.status, 409);
+  assert.equal(quotaCalled, false);
+});
+
 test("validates the company name and SIREN before upstream calls", async () => {
   let called = false;
   const handler = createReputationAuditHandler({ authenticate: authOk, consumeQuota: async () => true, fetchImpl: async () => { called = true; return fetchOk(); } });
