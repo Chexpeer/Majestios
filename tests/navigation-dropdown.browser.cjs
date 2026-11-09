@@ -37,6 +37,11 @@ async function main() {
     assert.equal(await menuButton.getAttribute("aria-expanded"),"true",
       "L’état aria-expanded du hamburger doit passer à true.");
 
+    const explorerGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Explorer davantage"})});
+    const vipLink=explorerGroup.locator('a[href="espace-interne.html?returnTo=administration.html"]');
+    assert.equal(await vipLink.count(),1,"Le lien VIP doit conduire au parcours d’authentification de l’administration.");
+    assert.equal(await vipLink.innerText(),"Accès VIP · Administration","Le libellé doit identifier clairement l’accès administrateur.");
+
     const group=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
     const toggle=group.locator(".nav-group-link");
     const submenu=group.locator(".nav-group-items");
