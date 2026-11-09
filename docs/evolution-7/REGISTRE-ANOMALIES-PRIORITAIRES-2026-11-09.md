@@ -201,3 +201,14 @@ L'Edge Function `import-official-company/index.ts` vérifie le droit d'import av
 - **À vérifier avant clôture :** présence des origines preview nécessaires dans `ALLOWED_ORIGINS` ; application effective de la migration VIP sur l'environnement cible ; tests d'intégration avec member/viewer, owner/admin et organisation tierce ; appel direct du RPC et résultat réel de l'import.
 - **Qualification :** risque à contrôler, pas de contournement ni fuite avérée démontrés.
 - **État :** code et tests de contrat mis à jour sur `Evolution-7` ; aucun déploiement, aucune migration distante et aucun test réel Supabase effectués.
+
+## SEC-06 — Origines de prévisualisation trop largement autorisées sur le provisionnement
+
+**Type :** durcissement CORS d'une fonction Edge existante — correction préparée, configuration de déploiement à vérifier.
+
+- **Constat :** `provision-client-workspace` acceptait, en plus des origines déclarées, toute origine correspondant à un motif générique de prévisualisation Vercel `majestios-jc8g-…-majistr.vercel.app`.
+- **Risque :** une prévisualisation non explicitement approuvée pouvait bénéficier des autorisations CORS du parcours de provisionnement. Cela ne démontre pas une compromission de compte ni un contournement du contrôle serveur.
+- **Correction sur Evolution-7 :** suppression du motif générique ; seules les origines de production, la prévisualisation explicitement listée et les origines renseignées dans `ALLOWED_ORIGINS` sont admises.
+- **Test de contrat ajouté :** vérification de la liste explicite et rejet de la règle générique.
+- **À vérifier :** renseigner dans `ALLOWED_ORIGINS` chaque preview réellement nécessaire, puis tester les prévols CORS en environnement de test.
+- **État :** correction et test ajoutés à la branche ; exécution du test non confirmée ; aucun déploiement effectué.
