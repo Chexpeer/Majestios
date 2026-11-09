@@ -9,6 +9,7 @@ const schema = read("supabase/migrations/20261105163901_majestios_core_multitena
 const roles = read("supabase/migrations/20261106074500_enforce_crm_editor_roles.sql");
 const crmColumnHardening = read("supabase/migrations/20261109160000_restrict_crm_update_columns.sql");
 const crmActivityHistory = read("supabase/migrations/20261109170000_atomic_crm_activity_history.sql");
+const crmRelationshipIntegrity = read("supabase/migrations/20261109190000_enforce_crm_business_relationships.sql");
 const reminderVipHardening = read("supabase/migrations/20261109180000_harden_crm_reminder_vip_rpc.sql");
 const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
@@ -191,6 +192,11 @@ for (const field of ["business_id", "primary_contact_id", "contact_id", "opportu
   assert.ok(crmHtml.includes("name=\"" + field + "\""), "Le formulaire CRM doit exposer le rattachement " + field + ".");
   assert.ok(page.includes(field + ": nullableId(data." + field + ")"), "Le rattachement " + field + " doit être transmis au client CRM.");
 }
+assert.match(crmRelationshipIntegrity, /opportunity contact must belong to the opportunity business/);
+assert.match(crmRelationshipIntegrity, /activity contact must match the opportunity business/);
+assert.match(crmRelationshipIntegrity, /activity business must match the opportunity business/);
+assert.match(crmRelationshipIntegrity, /create unique index if not exists businesses_org_siret_unique/);
+assert.match(crmRelationshipIntegrity, /group by organization_id, siret\s+having count\(\*\) > 1/);
 assert.ok(page.includes("const relationSelectors = ["));
 for (const selector of [
   "#crm-contact-form [name=business_id]",
