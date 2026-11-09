@@ -186,6 +186,7 @@ if (form && config?.url && config?.publishableKey) {
     if (mode === "signup") {
       const organization = await provisionWorkspace(data.session, profileFromForm());
       setFeedback(`Votre adresse est vérifiée et votre espace « ${organization.name} » est prêt.`);
+      await updateAuthStatus(data.session);
     } else {
       const { data: memberships, error: membershipError } = await supabase
         .from("organization_members")
@@ -205,6 +206,7 @@ if (form && config?.url && config?.publishableKey) {
           organization_name: metadata.organization_name || "Espace personnel"
         });
         setFeedback(`Connexion réussie. Votre espace « ${organization.name} » est prêt.`);
+        await updateAuthStatus(data.session);
       } else {
         setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
       }
