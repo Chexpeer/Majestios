@@ -193,10 +193,11 @@ L'Edge Function `import-official-company/index.ts` vérifie le droit d'import av
 
 ## SEC-05 — Vérifier la frontière d'autorisation de l'import entreprise privilégié
 
-**Type :** durcissement d'un flux existant utilisant `service_role` — vérification requise avant extension.
+**Type :** durcissement d'un flux existant utilisant `service_role` — contrôle de code partiellement corrigé, validation distante encore requise.
 
-- **Constat :** la fonction Edge `import-official-company` valide l'utilisateur, appelle `can_import_official_company`, puis utilise `service_role` pour l'écriture. La migration versionnée aligne le RPC sur owner/admin en `security invoker`, mais son application sur la base cible n'est pas confirmée.
-- **Écarts constatés dans le code :** message utilisateur mentionnant encore « éditeur » ; détails techniques RPC/catch renvoyés dans la réponse ; CORS générique `*`.
-- **Action :** vérifier l'état distant avant toute activation ; durcir CORS, supprimer les détails techniques des réponses, aligner le message owner/admin et ajouter tests member/viewer, autre tenant, RPC direct et import autorisé.
+- **Constat initial :** la fonction Edge `import-official-company` valide l'utilisateur, appelle `can_import_official_company`, puis utilise `service_role` pour l'écriture. La migration versionnée aligne le RPC sur owner/admin en `security invoker`, mais son application sur la base cible n'est pas confirmée.
+- **Corrections réalisées sur `Evolution-7` :** CORS limité aux deux origines de production (`majestios.com`, `www.majestios.com`) et aux origines explicitement ajoutées dans `ALLOWED_ORIGINS` ; refus des origines non autorisées ; message de refus aligné sur les administrateurs VIP ; suppression des détails RPC, des statuts upstream et des messages d'exception dans les réponses HTTP. Les erreurs serveur ne journalisent plus le détail brut.
+- **Tests de contrat ajoutés :** contrôle de la liste d'origines, absence de wildcard, cohérence du rôle VIP et absence de détails techniques dans les réponses. Le test source `tests/crm-security-contract.test.cjs` n'a pas encore été exécuté dans cette session ; son ajout ne vaut pas preuve d'exécution.
+- **À vérifier avant clôture :** présence des origines preview nécessaires dans `ALLOWED_ORIGINS` ; application effective de la migration VIP sur l'environnement cible ; tests d'intégration avec member/viewer, owner/admin et organisation tierce ; appel direct du RPC et résultat réel de l'import.
 - **Qualification :** risque à contrôler, pas de contournement ni fuite avérée démontrés.
-- **État :** audit documenté ; aucun changement de fonction Edge ni de base distante dans ce lot.
+- **État :** code et tests de contrat mis à jour sur `Evolution-7` ; aucun déploiement, aucune migration distante et aucun test réel Supabase effectués.
