@@ -60,3 +60,10 @@ Avant tout déploiement :
 - déployer la fonction Edge en environnement de test, puis vérifier les refus sans secret et avec un mauvais secret ;
 - démarrer un seul worker de recette et exécuter une mission readiness_probe ;
 - ne jamais utiliser la clé service_role côté navigateur.
+
+
+### Contrôles d'entrée ajoutés au pont Cheexpeer — 9 novembre 2026
+
+La source Git actuelle du pont ajoute des validations avant tout appel RPC : UUID de mission, identifiant worker non vide et borné, identifiant de message PGMQ entier positif sûr, corps de requête plafonné à 64 Ko et résultat JSON objet plafonné à 32 Ko. Ces contrôles sont couverts par les tests contractuels du worker.
+
+**Ces protections sont présentes dans Git mais pas encore déployées sur Supabase.** La fonction Edge reste absente de l'environnement distant et aucun secret n'est configuré.
