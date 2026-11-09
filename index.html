@@ -579,151 +579,20 @@ body.homepage .elevator-caption{position:absolute;z-index:8;right:8px;bottom:8px
         </div>
       </section>
       </section>
-<section class="building-home" aria-label="Immeuble interactif MajestiOS">
-      <div class="building-heading"><p>IMMEUBLE INTERACTIF · 9 DESTINATIONS</p></div>
-      <section class="building-scene" aria-label="Panorama MajestiOS et neuf destinations interactives">
-        <figure class="building-photo">
-          <img src="IMMEUBLE.jfif" alt="Immeuble MajestiOS avec neuf niveaux interactifs : Espace privé, Réseau, Développement commercial, Prospection, Accompagnement appels d'offres, Marchés publics, Marchés privés, Réputation virtuelle et Accueil" width="842" height="1264" draggable="false">
-          <svg class="building-hotspots" id="floor-rows" viewBox="0 0 842 1264" preserveAspectRatio="none" role="group" aria-label="Accès directs aux neuf destinations"></svg>
-        </figure>
+<section class="home-rubric-directory" aria-label="Explorer les rubriques MajestiOS">
+        <a class="home-rubric-card" href="marches-publics.html"><strong>Marchés publics</strong><span>Repérer les consultations, analyser les besoins des acheteurs et préparer les réponses.</span><small>Explorer les marchés publics →</small></a>
+        <a class="home-rubric-card" href="marches-prives.html"><strong>Marchés privés</strong><span>Identifier les signaux d'affaires et les opportunités du secteur privé.</span><small>Explorer les marchés privés →</small></a>
+        <a class="home-rubric-card" href="developpement-commercial.html"><strong>Développement commercial</strong><span>Structurer la démarche, la prospection active et le suivi des opportunités.</span><small>Développer votre activité →</small></a>
+        <a class="home-rubric-card" href="accompagnement-appels-offres.html"><strong>Accompagnement appels d’offres</strong><span>Valoriser vos compétences, vos références et la satisfaction de vos clients.</span><small>Préparer une réponse →</small></a>
+        <a class="home-rubric-card" href="reseaux-synergies.html"><strong>Réseau & synergies</strong><span>Identifier des complémentarités, partenaires et occasions de coopération.</span><small>Développer votre réseau →</small></a>
+        <a class="home-rubric-card" href="reputation-virtuelle.html"><strong>Réputation virtuelle</strong><span>Présenter votre présence numérique et préparer son analyse.</span><small>Explorer votre visibilité →</small></a>
       </section>
-    </section>
 </main>
 
 
-    <aside class="home-help" aria-label="Aide à la visite MajestiOS">
-      <button class="home-help-toggle" id="home-help-toggle" type="button" aria-expanded="false" aria-controls="home-help-panel">
-        <span class="home-help-mark" aria-hidden="true">✦</span><span>Besoin d’un coup de pouce&nbsp;?</span>
-      </button>
-      <section class="home-help-panel" id="home-help-panel" aria-labelledby="home-help-title" hidden>
-        <div class="home-help-panel-head"><div><p class="home-help-kicker">MAJESTIOS · GUIDE DE VISITE</p><h2 id="home-help-title">Par où commencer&nbsp;?</h2></div><button class="home-help-close" id="home-help-close" type="button" aria-label="Fermer l’aide">×</button></div>
-        <p>Vous proposez, MajestiOS dispose. Choisissez votre prochaine étape :</p>
-        <a href="developpement-commercial.html" data-home-help-close>⌕ Rechercher une opportunité</a>
-        <a href="developpement-commercial.html">↗ Découvrir le développement commercial</a>
-        <a href="espace-membre.html">＋ Préparer mon espace personnel</a>
-        <a href="faq.html">? Consulter les questions fréquentes</a>
-        <small>Ce guide vous oriente vers les bonnes rubriques. L’assistant conversationnel sera connecté dans une prochaine étape.</small>
-      </section>
-    </aside>
+    
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const svg = document.getElementById("floor-rows");
-        if (!svg) return;
-        // Repères mesurés sur la photo MajestiOS (842 × 1264); le RDC illustré reste décoratif.
-        // Les neuf zones actives correspondent aux niveaux 8 à 1 et au RDC, avec les routes V5 validées.
-        const destinations = [
-          {id:"08",name:"Espace privé",href:"espace-prive.html",x:185,y:182,width:350,height:82},
-          {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:266,width:350,height:80},
-          {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:92},
-          {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:444,width:350,height:81},
-          {id:"04",name:"Accompagnement appels d'offres",href:"accompagnement-appels-offres.html",x:185,y:528,width:350,height:87},
-          {id:"03",name:"Marchés publics",href:"marches-publics.html",x:185,y:618,width:350,height:83},
-          {id:"02",name:"Marchés privés",href:"marches-prives.html",x:185,y:704,width:350,height:87},
-          {id:"01",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:794,width:350,height:85},
-          {id:"RDC",name:"Accueil",href:"index.html",x:185,y:883,width:350,height:89}
-        ];
-        const namespace = "http://www.w3.org/2000/svg";
-        destinations.forEach((destination) => {
-          const link = document.createElementNS(namespace, "a");
-          link.setAttribute("class", "floor-row");
-          link.setAttribute("href", destination.href);
-          link.setAttribute("data-floor", destination.id);
-          link.setAttribute("data-name", destination.name);
-          link.setAttribute("aria-label", "Ouvrir " + destination.name);
-          const zone = document.createElementNS(namespace, "rect");
-          zone.setAttribute("class", "floor-zone");
-          zone.setAttribute("x", destination.x);
-          zone.setAttribute("y", destination.y);
-          zone.setAttribute("width", destination.width);
-          zone.setAttribute("height", destination.height);
-          zone.setAttribute("rx", "25");
-          const title = document.createElementNS(namespace, "title");
-          title.textContent = destination.name;
-          link.append(title, zone);
-          svg.append(link);
-        });
-
-        // Repère de la cabine dans la gaine vitrée de la photo MajestiOS.
-        const liftDefs = document.createElementNS(namespace, "defs");
-        liftDefs.innerHTML = '<linearGradient id="lift-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#142b3c"/><stop offset=".18" stop-color="#d9f0f7" stop-opacity=".72"/><stop offset=".42" stop-color="#52778b" stop-opacity=".55"/><stop offset=".78" stop-color="#e9fbff" stop-opacity=".8"/><stop offset="1" stop-color="#102638"/></linearGradient><linearGradient id="lift-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6fbff" stop-opacity=".62"/><stop offset=".35" stop-color="#5da3c5" stop-opacity=".16"/><stop offset="1" stop-color="#071b2c" stop-opacity=".72"/></linearGradient><filter id="lift-shadow" x="-40%" y="-30%" width="180%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/><feOffset dy="3" result="offset"/><feComponentTransfer><feFuncA type="linear" slope=".65"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
-        svg.append(liftDefs);
-        const elevator = document.createElementNS(namespace, "g");
-        elevator.setAttribute("class", "elevator-lift");
-        elevator.setAttribute("aria-hidden", "true");
-        const makeShape = (tag, cls, attrs) => {
-          const el = document.createElementNS(namespace, tag);
-          if (cls) el.setAttribute("class", cls);
-          Object.keys(attrs).forEach((key) => el.setAttribute(key, attrs[key]));
-          return el;
-        };
-        // Corps cylindrique vitré, avec courbure, flancs et anneaux elliptiques visibles.
-        const cabinSide = makeShape("path", "elevator-cylinder-side", {
-          d:"M558 157 C558 148 572 141 590 141 C608 141 623 148 623 157 L623 211 C623 221 608 229 590 229 C572 229 558 221 558 211 Z"
-        });
-        const cabinTop = makeShape("ellipse", "elevator-cylinder-rim elevator-cylinder-rim-back", {cx:"590",cy:"157",rx:"32",ry:"13"});
-        const cabin = makeShape("path", "elevator-cabin", {
-          d:"M558 157 C558 148 572 144 590 144 C608 144 623 148 623 157 L623 211 C623 220 608 226 590 226 C572 226 558 220 558 211 Z"
-        });
-        const windowPane = makeShape("path", "elevator-window", {
-          d:"M562 158 C562 152 574 148 590 148 C606 148 619 152 619 158 L619 210 C619 217 606 222 590 222 C574 222 562 217 562 210 Z"
-        });
-        const reflection = makeShape("path", "elevator-reflection", {d:"M566 157 C568 153 572 152 578 151 L578 216 C573 215 569 213 566 210 Z"});
-        const doorSeam = makeShape("path", "elevator-detail", {d:"M590 149 C588 166 588 204 590 221"});
-        const frameLines = makeShape("path", "elevator-cylinder-rim elevator-cylinder-rim-front", {
-          d:"M558 157 C558 148 572 144 590 144 C608 144 623 148 623 157 M558 211 C558 220 572 226 590 226 C608 226 623 220 623 211"
-        });
-        const cylinderHighlight = makeShape("path", "elevator-cylinder-highlight", {d:"M562 160 C562 154 565 151 569 150 L569 215 C565 214 562 212 562 207 Z"});
-        elevator.append(cabinSide, cabinTop, cabin, windowPane, reflection, cylinderHighlight, doorSeam, frameLines); svg.append(elevator);
-
-        const scene = document.querySelector(".building-scene");
-        if (scene) {
-          // Les arrêts sont calculés depuis les véritables zones cliquables de chaque étage.
-          // La cabine étant désormais un path cylindrique (et non plus un rect), son centre est défini explicitement.
-          const elevatorStops = destinations.map((item) => item.y + item.height / 2);
-          const cabinCenterY = 185;
-          const caption = document.createElement("div");
-          caption.className = "elevator-caption"; caption.textContent = "ASCENSEUR · ÉTAGE 08";
-          caption.setAttribute("role", "status");
-          caption.setAttribute("aria-live", "polite");
-          caption.setAttribute("aria-atomic", "true");
-          scene.append(caption); // flèches haut/bas retirées : la cabine suit le survol et le focus des étages
-          // Accueil est au RDC, dernier niveau de l'immeuble.
-          let current = destinations.length - 1;
-          const selectFloor = (index) => {
-            current = Math.max(0, Math.min(destinations.length - 1, index));
-            const item = destinations[current];
-            const offset = elevatorStops[current] - cabinCenterY;
-            const liftTransform = "translateY(" + offset + "px)";
-            [cabinSide, cabinTop, cabin, windowPane, reflection, doorSeam, frameLines, cylinderHighlight].forEach((part) => {
-              part.style.transform = liftTransform;
-            });
-            svg.querySelectorAll(".floor-row").forEach((node) => {
-              const active = node.getAttribute("data-floor") === item.id;
-              if (active) node.setAttribute("aria-current", "location");
-              else node.removeAttribute("aria-current");
-            });
-            caption.textContent = "ASCENSEUR · " + item.name.toLocaleUpperCase("fr-FR");
-          };
-          svg.addEventListener("focusin", (event) => {
-            const row = event.target.closest(".floor-row");
-            if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
-          });
-          svg.addEventListener("pointerover", (event) => {
-            const row = event.target.closest(".floor-row");
-            if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));
-          });
-          // Un seul clic ouvre directement l'étage ; le survol sert uniquement à appeler l'ascenseur.
-          svg.addEventListener("click", (event) => {
-            const row = event.target.closest(".floor-row");
-            if (!row) return;
-            event.preventDefault();
-            window.location.href = row.getAttribute("href");
-          });
-          selectFloor(destinations.length - 1);
-        }
-      });
-    </script>
+    
     <script>
       /* Enseignes LED des étages.
          Chaque afficheur est un <canvas> dessiné en matrice de points (cellules carrées). Il est posé sur le
