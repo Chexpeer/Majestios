@@ -24,6 +24,7 @@ jobs:
       - name: Vérifier la syntaxe JavaScript
         run: |
           node --check app.js
+          node --check reputation-virtuelle.js
           node --check catalogue-majestios.js
           node --check category-results.js
           node --check search-results.js
@@ -33,6 +34,7 @@ jobs:
           node --check verify-site.js
           node --check verify-architecture.js
           node --check build.js
+          node --check tests/reputation-virtuelle.browser.cjs
           node --check company-targeting.js
           node --check company-targeting-page.js
           node --check prospection-criteria-ux.js
@@ -92,6 +94,8 @@ jobs:
         run: node tests/immeuble-interactif.browser.cjs
       - name: Tester le moteur de recherche dans un vrai navigateur
         run: node tests/opportunity-search.browser.cjs
+      - name: Tester le dossier et les consultations de Réputation virtuelle
+        run: node tests/reputation-virtuelle.browser.cjs
       - name: Tester les menus de navigation sur mobile et ordinateur
         run: node tests/navigation-dropdown.browser.cjs
       - name: Tester le parcours de contact sans transmission de données
