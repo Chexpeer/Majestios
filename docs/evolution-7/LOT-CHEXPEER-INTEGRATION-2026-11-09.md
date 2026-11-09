@@ -11,7 +11,7 @@ Le parcours de la page Réputation virtuelle est maintenant raccordé au handler
 2. Le bouton « Lancer l’audit Cheexpeer » devient actif.
 3. Le navigateur vérifie la session Supabase et appelle `reputation-audit-context`.
 4. L’Edge Function authentifie le JWT avec `auth.getUser(token)`.
-5. Le serveur authentifie le JWT et vérifie l’appartenance à au moins un espace MajestiOS via `organization_members` et les politiques RLS.
+5. Le serveur authentifie le JWT et vérifie l’appartenance à un espace MajestiOS via `organization_members` et les politiques RLS. Si plusieurs espaces sont associés au compte, l’audit est refusé (`409`) plutôt que de choisir arbitrairement le premier.
 6. Le serveur collecte le contexte d’identité d’entreprise et les annonces BODACC.
 7. Si le fournisseur IA est configuré côté serveur, le handler transmet les seules preuves collectées au module Cheexpeer.
 8. Le module valide le schéma, les références de preuves et les liens entre constats et recommandations.
@@ -24,7 +24,7 @@ Le parcours de la page Réputation virtuelle est maintenant raccordé au handler
 - `supabase/functions/_shared/reputation-audit-handler.mjs` : orchestration collection → analyse optionnelle → DTO de restitution.
 - `supabase/functions/_shared/reputation-audit-provider.mjs` : nouvel adaptateur serveur pour API compatible Chat Completions et JSON Schema strict.
 - `supabase/functions/reputation-audit-context/index.ts` : lecture des variables d’environnement IA, contrôle d'appartenance et consommation du quota par RPC avec le client utilisateur.
-- `supabase/migrations/20261109193000_cheexpeer_reputation_audit_quotas.sql` : quota atomique de 5 audits par membre et 25 par organisation, par jour UTC ; compteurs détaillés purgés après 90 jours ; migration non appliquée.
+- `supabase/migrations/20261109193000_cheexpeer_reputation_audit_quotas.sql` : quota atomique de 5 audits par membre et 25 par organisation, par jour UTC ; compteurs détaillés purgés après 90 jours ; logique privilégiée isolée dans `private`, avec wrapper RPC `SECURITY INVOKER` ; migration non appliquée.
 - `tests/reputation-audit-access-contract.test.mjs` : test du contrôle d'appartenance serveur.\n- `tests/reputation-audit-connectors.test.mjs` et `tests/reputation-audit-analysis.test.mjs` : tests de rapprochement SIREN et de résistance aux instructions présentes dans les preuves.
 - `tests/reputation-audit-handler.test.mjs` : cas analyse active et cas fournisseur absent.
 - `tests/reputation-audit-provider.test.mjs` : authentification fournisseur, JSON Schema strict, erreurs et endpoint HTTPS.
@@ -47,8 +47,8 @@ Le choix du fournisseur, du modèle, du budget, de la politique de conservation 
 
 - La collecte reste limitée aux connecteurs d’identité officielle et BODACC déjà présents.
 - Il ne s’agit pas encore d’une couverture automatisée exhaustive de Google Web, Google Maps, des avis, des réseaux sociaux ou des sites concurrents.
-- Le dossier est conservé dans `sessionStorage` ; aucun rapport durable ni historique par organisation n’est créé.
-- L’accès est authentifié par session Supabase et le quota journalier est préparé en SQL ; la migration n'est pas appliquée. Le stockage multi-tenant des dossiers/rapports, le rate limit à court terme, le suivi financier par jetons et la traçabilité durable des audits restent à construire.
+- Le dossier est conservé dans `sessionStorage` ; aucun rapport durable ni historique par organisation n’est créé. Le CRM n’est pas encore alimenté par les audits : aucune fiche entreprise, activité ou opportunité n’est créée automatiquement.
+- L’accès est authentifié par session Supabase ; un seul espace associé est accepté pour le moment, et les comptes multi-espaces reçoivent un refus explicite en attendant un sélecteur. Le quota journalier est préparé en SQL ; la migration n'est pas appliquée. Le stockage multi-tenant des dossiers/rapports, le rate limit à court terme, le suivi financier par jetons et la traçabilité durable des audits restent à construire.
 - L’analyse, si configurée, est préparatoire et doit être validée humainement. Aucun score global ni action externe automatique n’est autorisé.
 - Le fournisseur doit réellement prendre en charge le format strict demandé ; les incompatibilités remontent une erreur contrôlée et aucun rapport n’est produit.
 
@@ -61,7 +61,7 @@ Tests ajoutés au workflow :
 - interface : bouton actif après préparation du dossier et inactif après réinitialisation ;
 - vérification de syntaxe du module navigateur, de l’adaptateur et des tests.
 
-**Statut de suivi :** le workflow GitHub `42654718695` (run `4097`, commit `326ceac1c93a1d2ac1a580e152854b1ae37d330b`) est terminé avec succès. Il couvre la syntaxe, les tests unitaires Cheexpeer, le contrôle d'appartenance, le quota persistant, les connecteurs, l'analyse et le parcours navigateur de Réputation virtuelle. Cela valide la suite automatisée du dépôt, pas le déploiement ni la recette multi-comptes dans l'environnement Supabase réel. Aucun appel au fournisseur IA, aucune migration, aucun déploiement Edge Function et aucune modification du projet Supabase hébergé n’ont été réalisés.
+**Statut de suivi :** le workflow GitHub `42654718695` (run `4097`, commit `326ceac1c93a1d2ac1a580e152854b1ae37d330b`) est terminé avec succès pour l'état précédent. Les changements de quota privé et de refus multi-espace attendent leur propre résultat CI. Il couvre la syntaxe, les tests unitaires Cheexpeer, le contrôle d'appartenance, le quota persistant, les connecteurs, l'analyse et le parcours navigateur de Réputation virtuelle. Cela valide la suite automatisée du dépôt, pas le déploiement ni la recette multi-comptes dans l'environnement Supabase réel. Aucun appel au fournisseur IA, aucune migration, aucun déploiement Edge Function et aucune modification du projet Supabase hébergé n’ont été réalisés.
 
 ## 6. Prochaine étape contrôlée
 
@@ -71,5 +71,6 @@ Tests ajoutés au workflow :
 4. Déployer uniquement dans cet environnement après autorisation explicite.
 5. Exécuter une recette avec compte membre de test, SIREN de test et preuves vérifiables ; vérifier les erreurs, les limites de débit et la restitution.
 6. Définir ensuite le modèle de persistance des dossiers et rapports par organisation, avec RLS et durée de conservation.
+7. Ajouter un sélecteur d’espace pour les comptes multi-organisations, puis un raccordement CRM explicite (fiche entreprise, preuves sourcées, activité d’audit, statut de validation) sans écriture automatique non validée.
 
 **Ne pas annoncer « audit automatique opérationnel » avant la configuration du fournisseur, le déploiement et la recette réelle.**
