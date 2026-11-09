@@ -199,6 +199,6 @@
 
   showMessage(
     "Commencez par une recherche",
-    "Préparez d’abord le dossier de l’entreprise, puis lancez vos consultations Google. Les recherches effectuées seront horodatées dans le journal de cette session ; MajestiOS ne lit pas le contenu interne des pages Google."
+    "Cheexpeer a vocation à conduire lui-même les recherches et l’analyse à partir de sources autorisées. Dans ce prototype, le dossier est préparé manuellement et les consultations Google restent manuelles ; aucun diagnostic automatique n’est encore produit."
   );
 })();
