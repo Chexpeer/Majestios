@@ -269,6 +269,6 @@ L'ordre des migrations révélait une contradiction : `20261108151400_enforce_vi
 - suppression des fiches : réservée à `owner/admin` ;
 - clôture des relances par RPC : même contrôle tenant-scoped que les politiques des tables.
 
-Le test de contrat contrôle maintenant la migration finale, et non seulement la migration historique. Cette migration élargit les droits des membres clients par rapport à la migration VIP globale ; elle est cohérente avec le contrat déjà présent dans le dépôt, mais doit être validée en environnement de test avant toute application distante. Aucun changement Supabase n'a été effectué.
+Le test de contrat contrôle maintenant la migration finale, et non seulement la migration historique. Cette migration élargit les droits des membres clients par rapport à la migration VIP globale ; elle est cohérente avec le contrat déjà présent dans le dépôt, mais doit être validée en environnement de test avant toute application distante. Aucun changement Supabase n'a été effectué. Le statut Vercel des commits de cette série signale `build-rate-limit` ; il ne fournit donc pas de résultat exploitable sur l'exécution du test de contrat.
 
 **Suite :** vérifier les migrations et politiques réellement appliquées à l'environnement Supabase avant d'affirmer que le runtime est conforme. Aucune connexion ni mutation distante n'a été effectuée.
