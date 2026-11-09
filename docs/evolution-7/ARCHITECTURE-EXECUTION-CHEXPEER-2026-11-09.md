@@ -526,3 +526,22 @@ Le projet de test ne contient actuellement aucun compte auth utilisateur ; il n'
 - Les index encore marqués unused sont normaux dans cette base de recette sans charge représentative.
 
 **État actualisé :** fondation persistante, file, dispatcher SQL, baux, idempotence et garde-fou d'approbation installés et partiellement testés. Il reste à construire et déployer le consommateur/worker, le déclencheur périodique et le registre opérationnel des outils. Aucune modification du projet majestios-crm et aucun déploiement de fonction Edge.
+
+
+### 13.9 Fermeture par défaut du registre d'outils
+
+Migration appliquée : 20261109242000_cheexpeer_fail_closed_tool_registry.sql.
+
+Le dispatcher refuse désormais de réserver une mission si aucun outil correspondant n'est activé dans le registre. L'exception est limitée à readiness_probe, autonomie 0, sans effet externe, uniquement pour les tests techniques. Si un outil exige une validation, la mission doit également disposer d'une validation approuvée avant réservation.
+
+Tests réalisés :
+- Mission not_registered soumise : enregistrée, mais non réservable (claim vide).
+- Outil test_executor enregistré temporairement avec effets read, autonomie 0 et sans validation obligatoire : réservation réussie.
+- Mission de test terminée avec succès.
+- Outil de test ensuite désactivé ; aucun outil de test ne reste activé.
+- Mission non enregistrée de test placée à l'état blocked avec le motif TEST_NO_EXECUTOR.
+- Les contrôles précédents d'idempotence, de bail, de propriétaire du bail et de validation humaine restent confirmés.
+
+Cette fermeture par défaut empêche une instruction de partir vers un exécuteur inconnu ou non autorisé. L'activation d'un outil réel devra être précédée de sa définition, de son schéma d'entrée/sortie, de ses effets, de son niveau d'autonomie, de son plafond de coût et de ses tests.
+
+**État après cette étape :** 38 migrations versionnées et appliquées sur MajestiOS-Test. Aucun outil réel activé, aucun worker déployé, aucun Cron Cheexpeer programmé. Le test positif de décision d'approbation attend la création d'un véritable compte owner/admin de recette. Le projet majestios-crm reste intact.
