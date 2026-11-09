@@ -12,7 +12,7 @@
 | Niveau | Anomalies inscrites | Traitement |
 |---|---:|---|
 | P0 — bloquant avant ouverture | 1 | Recette impérative avant ouverture aux membres |
-| P1 — important | 3 | Correction ou vérification prioritaire |
+| P1 — important | 4 | Correction ou vérification prioritaire |
 | Corrigée à revalider | 1 | Ne pas clôturer sans preuve de recette |
 
 **À traiter en premier :**
@@ -20,6 +20,7 @@
 2. **AUTH-02 — consentement :** contrôle serveur insuffisant lors du provisionnement.
 3. **CRM-02 — traçabilité :** création de fiches sans activité historique atomique.
 4. **CRM-03 — privilèges CRM :** correction préparée, état distant à vérifier avant clôture.
+5. **CRM-04 — RPC des relances :** le contrôle SQL historique accepte un rôle plus large que la frontière VIP actuelle.
 
 **Consigne aux agents :** traiter les P0 avant les P1. Après chaque découverte ou correction, préciser l'ID, le statut, les fichiers concernés, le commit, les tests exécutés et la preuve. Une modification de code seule ne suffit pas à déclarer une anomalie corrigée.
 
@@ -35,6 +36,7 @@ Ce document ne doit pas devenir une liste de toutes les fonctionnalités manquan
 | AUTH-01 | **P0 — avant ouverture aux membres** | OTP / espace membre | Le front appelle `signInWithOtp()` et `verifyOtp()`, mais aucun test de bout en bout ne prouve l'envoi réel, la validation, l'expiration, les limites de débit et le provisionnement de l'espace. Le déploiement de `provision-client-workspace` en environnement de test n'est pas confirmé. | **À vérifier — recette E2E isolée.** Aucun changement Auth, migration, déploiement de fonction ou donnée de test dans Supabase métier sans autorisation. |
 | CRM-02 | **P1 — traçabilité** | Création et modification de fiches CRM | Avant correction, `create()` n'enregistrait aucune activité ; `update()` modifiait la fiche puis tentait une seconde insertion d'activité, pouvant échouer après la modification. Les imports via `createBusiness()` étaient également concernés. | **Correction préparée sur Evolution-7 — à valider.** La migration `20261109170000_atomic_crm_activity_history.sql` ajoute un trigger SQL après insertion/modification des entreprises, contacts et opportunités ; le client ne crée plus de doublon d'historique. La CI GitHub est verte sur le commit de code `71c456fba64afb4dc5caeb79b58f7958977d4096` (run `42647542128`). La migration n'est pas appliquée à Supabase. Recette transactionnelle autorisée encore requise avant clôture. |
 | CRM-03 | **P1 — intégrité des données** | Colonnes d’audit CRM | `20261107065916_grant_crm_record_updates.sql` réintroduit un `UPDATE` table-level sur entreprises, contacts et opportunités. La migration `20261109160000_restrict_crm_update_columns.sql` révoque ce droit puis restaure exactement les listes blanches de `20261106074500_enforce_crm_editor_roles.sql`. | **Corrigé dans Evolution-7 — à vérifier en environnement autorisé.** Migration et test de non-régression ajoutés ; workflow GitHub vert. Aucun privilège distant lu ni migration appliquée. Les champs d’audit ne sont donc pas déclarés protégés en production tant que la migration n’est pas appliquée et contrôlée. |
+| CRM-04 | **P1 — contrôle d’accès** | RPC de traitement des relances CRM | `complete_crm_reminder()` est une fonction `SECURITY DEFINER` qui vérifie encore `private.is_org_editor()`, lequel accepte `owner`, `admin` et `member`. La migration VIP appliquée remplace les politiques des tables par une frontière `owner/admin`, mais ne remplace pas ce contrôle RPC. Un membre peut donc tenter un appel direct par identifiant de relance et contourner la restriction d’interface et les politiques RLS. | **Correction préparée sur Evolution-7 — CI à confirmer.** Migration `20261109180000_harden_crm_reminder_vip_rpc.sql` : le RPC vérifie `private.is_org_admin()` avant toute écriture, avec test de contrat. Migration non appliquée à Supabase ; recette directe multi-rôles nécessaire avant clôture. |
 | AUTH-02 | **P1 — conformité / traçabilité** | Consentement lors du provisionnement | `auth-espace-membre.js` contrôle la case dans le parcours normal, mais `provision-client-workspace/index.ts` vérifie seulement `body.privacy_acknowledged === true`. La fonction transmet ensuite la version courante au RPC, qui enregistre une ligne `privacy_acknowledgments`. Un utilisateur authentifié peut appeler directement l’Edge Function avec cette valeur sans passer par la case du formulaire ; le serveur ne vérifie pas `user.user_metadata.privacy_notice_acknowledged` ni sa version. | **Ouvert — correction serveur à préparer.** Valider côté Edge Function les métadonnées de consentement et leur version avant l’appel RPC ; prévoir un test d’intégration négatif. Ne pas déployer sans autorisation. |
 
 ## B. Évolutions produit — hors registre des erreurs
@@ -119,3 +121,12 @@ L'audit du 9 novembre 2026 a confirmé deux défauts liés :
 **Correction préparée dans Evolution-7 :** la migration `20261109170000_atomic_crm_activity_history.sql` installe un trigger SQL après insertion ou modification sur `businesses`, `contacts` et `opportunities`. L'activité est alors écrite dans la même transaction que la fiche : si la journalisation échoue, l'opération métier échoue aussi. Les métadonnées identifient l'entité, l'événement et les champs modifiés. Le client `crm-client.js` ne tente plus d'insérer une seconde activité lors d'une modification, afin d'éviter les doublons.
 
 **Limite de validation :** le changement est versionné dans GitHub uniquement. La CI du commit `71c456fba64afb4dc5caeb79b58f7958977d4096` est verte (run `42647542128`), y compris le contrat de sécurité CRM. Aucune migration n'a été appliquée à Supabase. Une recette autorisée doit encore confirmer création, modification, rollback si l'insertion d'activité échoue, et absence de doublon. Ne pas déclarer CRM-02 validé en environnement réel avant ces preuves.
+
+
+## J. Détail du risque CRM-04 — contrôle du RPC de relance
+
+La migration `20261106120000_complete_crm_reminder_with_activity.sql` crée `public.complete_crm_reminder(uuid)` en `SECURITY DEFINER`. Son contrôle historique utilise `private.is_org_editor()`, qui autorise les rôles `owner`, `admin` et `member`. La migration `20261108181246_vip_only_crm_access.sql`, indiquée comme appliquée, a ensuite restreint les politiques des tables CRM aux rôles `owner/admin`, sans redéfinir ce RPC. Or une fonction `SECURITY DEFINER` effectue ses écritures avec les privilèges de son propriétaire ; les politiques RLS ne constituent donc pas une protection suffisante si le contrôle interne du RPC reste plus permissif.
+
+**Correction préparée dans Evolution-7 :** la migration `20261109180000_harden_crm_reminder_vip_rpc.sql` remplace le contrôle par `private.is_org_admin(v_reminder.organization_id)`, cohérent avec la frontière VIP des tables, et refuse aussi une relance dont l'opportunité associée est absente. Le test de contrat vérifie explicitement l'absence de l'ancien contrôle permissif.
+
+**Limite de validation :** aucune migration n'a été appliquée à Supabase. Après CI, une recette autorisée doit tenter le RPC avec un rôle `member` puis `owner/admin` et vérifier le refus/acceptation, ainsi que l'absence de modification de la relance et d'insertion d'activité lors du refus. Ne pas déclarer le risque corrigé en environnement réel avant cette preuve.
