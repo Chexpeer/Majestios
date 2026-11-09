@@ -365,3 +365,8 @@ Le workflow `prospection-auth-integration.yml` exécute de véritables sessions 
 3. **P1 — résoudre les deux Edge Functions manquantes** pour les parcours membres, en vérifiant le code versionné, les paramètres d'environnement et les règles Auth avant déploiement.
 4. **P1 — décider de la protection des previews `majestios-jc8g`** et clarifier si `majestios-ljx1` doit rester un projet de production parallèle.
 5. **P2 — examiner l'avertissement Auth sur les mots de passe compromis** et conserver les index tant que les volumes ne justifient pas une optimisation.
+
+
+### Confirmation directe dans le catalogue live
+
+Une interrogation du catalogue PostgreSQL confirme que `private.can_read_crm_org(uuid)` et `private.can_edit_crm_org(uuid)` **n'existent pas** dans `majestios-crm`. En revanche, `private.is_org_admin(uuid)` et `public.complete_crm_reminder(uuid)` sont bien présentes. Cela confirme que la migration locale supplémentaire n'a pas été appliquée et que les politiques live reposent sur l'autre modèle d'autorisation.
