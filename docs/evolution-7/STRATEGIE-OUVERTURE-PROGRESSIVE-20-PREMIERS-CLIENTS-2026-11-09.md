@@ -106,3 +106,16 @@ Les contrôles de sécurité ne doivent plus être traités comme un blocage glo
 Les défauts de cloisonnement entre organisations, les accès au cockpit VIP et les fuites de données restent prioritaires. En revanche, une règle trop restrictive qui empêche un client de naviguer entre deux rubriques sans protéger de donnée ni prévenir de risque concret doit être simplifiée.
 
 Cette stratégie guide la conception fonctionnelle de MajestiOS et l'audit de la branche `Evolution-7`. Elle ne vaut pas autorisation de déployer des changements distants ni de désactiver indistinctement les politiques de sécurité existantes.
+
+## 9. Premier constat sur le code Evolution-7
+
+Le contrôle ciblé effectué après la décision montre déjà une distinction importante :
+
+- `navigation-tiroirs.js` construit les rubriques et leurs sous-menus sans filtrage par rôle : la navigation générale n'est donc pas, à ce stade, le principal verrou identifié.
+- `espace-interne.js` vérifie l'appartenance à l'organisation interne MajestiOS et distingue l'espace client de l'espace collaborateurs. Cette séparation ne doit pas être supprimée pour ouvrir les rubriques métier.
+- `crm-client.js` réserve le CRM interne à `owner/admin`. Cette règle concerne le poste CRM interne ; elle ne doit pas être confondue avec l'accès d'un client pilote à ses propres services.
+- `administration.js` réserve le cockpit à `owner/admin`. Cette frontière VIP reste volontairement intacte.
+
+**Conséquence :** ne pas supprimer ces contrôles par réflexe. La prochaine vérification fonctionnelle doit porter sur les parcours réellement proposés aux comptes clients, les éventuels contrôles de rôle propres à chaque page ou API et l'existence d'un espace de test client. Les assouplissements doivent porter sur les restrictions de navigation et d'usage qui bloquent sans raison les tests, pas sur la séparation des espaces internes, les données des autres organisations ou le cockpit privé.
+
+Aucune règle RLS, migration Supabase, authentification, permission distante ni code d'accès n'a été modifié par la création de cette stratégie documentaire.
