@@ -45,7 +45,7 @@
       {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"]]},
       {label:"Réputation virtuelle",href:"reputation-virtuelle.html",items:[["Présence et visibilité","reputation-virtuelle.html"],["Intelligence économique","intelligence-economique.html"]]},
       {label:"Espace client",href:"espace-membre.html",items:[["Espace client","espace-membre.html"]]},
-      {label:"Explorer davantage",href:"veille-marches.html",items:[["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],["Sous-traitance","sous-traitance.html"],["Secteurs d’activité","categorie-services-numeriques.html"],["Nous rejoindre","nous-rejoindre.html"],["Espace VIP","espace-interne.html"],["Contact","contact.html"],["FAQ","faq.html"],["Vision MajestiOS","vision-majestios.html"],["Mentions légales","mentions-legales.html"],["Confidentialité","politique-confidentialite.html"]]}
+      {label:"Explorer davantage",href:"veille-marches.html",items:[["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],["Sous-traitance","sous-traitance.html"],["Secteurs d’activité","categorie-services-numeriques.html"],["Nous rejoindre","nous-rejoindre.html"],["Accès VIP · Administration","espace-interne.html?returnTo=administration.html"],["Contact","contact.html"],["FAQ","faq.html"],["Vision MajestiOS","vision-majestios.html"],["Mentions légales","mentions-legales.html"],["Confidentialité","politique-confidentialite.html"]]}
     ];
     const current = location.pathname.split("/").pop() || "index.html";
     nav.replaceChildren();
