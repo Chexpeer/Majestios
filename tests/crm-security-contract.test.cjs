@@ -8,6 +8,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const schema = read("supabase/migrations/20261105163901_majestios_core_multitenant_foundation.sql");
 const roles = read("supabase/migrations/20261106074500_enforce_crm_editor_roles.sql");
 const crmColumnHardening = read("supabase/migrations/20261109160000_restrict_crm_update_columns.sql");
+const crmActivityHistory = read("supabase/migrations/20261109170000_atomic_crm_activity_history.sql");
 const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
@@ -203,10 +204,16 @@ assert.ok(page.includes("setupRemoteRelationSelectors();"),
 console.log("CRM security contract: OK — schéma, privilèges, rôles, isolation tenant, confidentialité, bootstrap, provisionnement et rattachements CRM.");
 
 assert.match(client, /order\(table === "activities" \? "occurred_at"/);
-assert.match(client, /changedFields/);
-assert.match(client, /previous_status:/);
-assert.match(client, /new_status:/);
-assert.match(client, /activity_type: activityType/);
+assert.match(crmActivityHistory, /create or replace function public\\.record_crm_activity\\(\\)/);
+assert.match(crmActivityHistory, /after insert or update on public\\.businesses/);
+assert.match(crmActivityHistory, /after insert or update on public\\.contacts/);
+assert.match(crmActivityHistory, /after insert or update on public\\.opportunities/);
+assert.match(crmActivityHistory, /insert into public\\.activities/);
+assert.match(crmActivityHistory, /'changed_fields', to_jsonb\\(v_changed_fields\\)/);
+assert.match(crmActivityHistory, /'event', 'created'/);
+assert.match(crmActivityHistory, /'event', 'updated'/);
+assert.match(client, /L'historique est écrit par le trigger SQL/);
+assert.doesNotMatch(client, /const \\{ error: historyError \\} = await supabase\\.from\\("activities"\\)\\.insert/);
 assert.match(page, /ajoutée à l’historique/);
 assert.match(page, /Intl\.DateTimeFormat\("fr-FR"/);
 assert.match(page, /function renderFollowups\(opportunities\)/);
