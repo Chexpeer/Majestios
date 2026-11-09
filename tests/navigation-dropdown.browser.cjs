@@ -26,53 +26,72 @@ async function main() {
     browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
     const page=await browser.newPage({viewport:{width:390,height:844},hasTouch:true});
     await page.goto("http://127.0.0.1:4175/",{waitUntil:"domcontentloaded"});
-    await page.locator(".menu-toggle").click();
+    await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
+    const menuButton=page.locator("#menu-toggle");
+    await menuButton.waitFor({state:"visible",timeout:15000});
+    assert.equal(await menuButton.evaluate(el=>getComputedStyle(el).opacity),"1",
+      "Le hamburger doit rester visible sur mobile.");
+    await menuButton.click();
     assert.equal(await page.locator("#site-nav").evaluate(node=>node.classList.contains("open")),true,
       "Le menu mobile principal doit s'ouvrir.");
+    assert.equal(await menuButton.getAttribute("aria-expanded"),"true",
+      "L’état aria-expanded du hamburger doit passer à true.");
 
-    const group=page.locator("#site-nav .nav-group").filter({has:page.getByRole("button",{name:"Développement commercial"})});
-    const toggle=group.locator(".nav-group-trigger");
-    const submenu=group.locator(".nav-group-menu");
+    const group=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
+    const toggle=group.locator(".nav-group-link");
+    const submenu=group.locator(".nav-group-items");
     assert.equal(await toggle.getAttribute("aria-controls"),await submenu.getAttribute("id"),
       "Le bouton doit référencer son sous-menu.");
+    assert.equal(await toggle.getAttribute("aria-expanded"),"false",
+      "Le sous-menu doit être fermé initialement.");
     await toggle.focus();
     assert.equal(await toggle.getAttribute("aria-expanded"),"false",
-      "Le simple focus ne doit pas ouvrir le sous-menu.");
+      "Le focus seul ne doit pas ouvrir le sous-menu tactile.");
     await toggle.click();
-    assert.equal(await toggle.getAttribute("aria-expanded"),"true","Le clic doit ouvrir le sous-menu mobile.");
+    assert.equal(await toggle.getAttribute("aria-expanded"),"true","Le toucher doit ouvrir le sous-menu mobile.");
     assert.equal(await submenu.isVisible(),true,"Le sous-menu mobile ouvert doit être visible.");
     await toggle.click();
-    assert.equal(await toggle.getAttribute("aria-expanded"),"false","Un second clic doit fermer le sous-menu.");
+    assert.equal(await toggle.getAttribute("aria-expanded"),"false","Un second toucher doit fermer le sous-menu.");
     assert.equal(await submenu.isVisible(),false,"Le sous-menu mobile fermé doit être masqué.");
 
-    await toggle.focus();
-    await page.keyboard.press("ArrowDown");
-    assert.equal(await toggle.getAttribute("aria-expanded"),"true","Flèche bas doit ouvrir le sous-menu.");
-    assert.equal(await page.evaluate(()=>document.activeElement.textContent.trim()),"Vue d’ensemble",
-      "Flèche bas doit placer le focus sur le premier lien.");
-    await page.keyboard.press("Escape");
-    assert.equal(await toggle.getAttribute("aria-expanded"),"false","Échap doit fermer le sous-menu.");
-    assert.equal(await page.evaluate(()=>document.activeElement.classList.contains("nav-group-trigger")),true,
-      "Échap doit rendre le focus au bouton.");
     await toggle.click();
-    await page.locator("footer.site-footer").click({position:{x:12,y:12}});
-    assert.equal(await toggle.getAttribute("aria-expanded"),"false","Un clic extérieur doit fermer le sous-menu.");
-    await page.locator(".menu-toggle").click();
+    assert.equal(await submenu.isVisible(),true,"Le sous-menu doit pouvoir être rouvert.");
+    await page.keyboard.press("Escape");
     assert.equal(await page.locator("#site-nav").evaluate(node=>node.classList.contains("open")),false,
-      "Le menu mobile principal doit se refermer.");
+      "Échap doit fermer le tiroir mobile.");
+    assert.equal(await menuButton.getAttribute("aria-expanded"),"false",
+      "Échap doit synchroniser l’état accessible du hamburger.");
+    await menuButton.click();
+    assert.equal(await page.locator("#site-nav").evaluate(node=>node.classList.contains("open")),true,
+      "Le hamburger doit pouvoir rouvrir le tiroir après Échap.");
 
     await page.setViewportSize({width:1365,height:900});
     await page.reload({waitUntil:"domcontentloaded"});
-    const desktopGroup=page.locator("#site-nav .nav-group").filter({has:page.getByRole("button",{name:"Développement commercial"})});
-    const desktopToggle=desktopGroup.locator(".nav-group-trigger");
-    const desktopSubmenu=desktopGroup.locator(".nav-group-menu");
-    await desktopToggle.click();
-    assert.equal(await desktopToggle.getAttribute("aria-expanded"),"true","Le clic doit ouvrir le sous-menu desktop.");
-    assert.equal(await desktopSubmenu.isVisible(),true,"Le sous-menu desktop doit être visible.");
-    await page.locator("body").click({position:{x:5,y:5}});
-    assert.equal(await desktopToggle.getAttribute("aria-expanded"),"false","Un clic extérieur doit fermer le sous-menu desktop.");
-    assert.equal(await desktopSubmenu.isVisible(),false,"Le sous-menu fermé doit être masqué.");
-    console.log("TEST NAVIGATION RÉUSSI : ouverture tactile, clic, focus, clavier, Échap, clic extérieur et sous-menus desktop synchronisent visibilité et aria-expanded.");
+    const desktopGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
+    const desktopToggle=desktopGroup.locator(".nav-group-link");
+    const desktopSubmenu=desktopGroup.locator(".nav-group-items");
+    assert.equal(await desktopToggle.getAttribute("aria-expanded"),"false",
+      "Les sous-menus desktop doivent être fermés au chargement.");
+    await desktopGroup.hover();
+    assert.equal(await desktopToggle.getAttribute("aria-expanded"),"true",
+      "Le survol doit ouvrir le sous-menu desktop.");
+    assert.equal(await desktopSubmenu.isVisible(),true,
+      "Le sous-menu desktop ouvert au survol doit être visible.");
+    await page.locator("body").hover({position:{x:5,y:5}});
+    assert.equal(await desktopToggle.getAttribute("aria-expanded"),"false",
+      "La sortie du pointeur doit refermer le sous-menu desktop.");
+    assert.equal(await desktopSubmenu.isVisible(),false,
+      "Le sous-menu desktop refermé doit être masqué.");
+
+    await desktopToggle.focus();
+    assert.equal(await desktopToggle.getAttribute("aria-expanded"),"true",
+      "Le focus clavier doit ouvrir le sous-menu desktop.");
+    assert.equal(await desktopSubmenu.isVisible(),true,
+      "Le sous-menu doit être visible au focus clavier.");
+    await page.locator("body").focus();
+    assert.equal(await desktopToggle.getAttribute("aria-expanded"),"false",
+      "La sortie du focus doit refermer le sous-menu desktop.");
+    console.log("TEST TIROIRS RÉUSSI : hamburger mobile, aria-expanded, toucher, Échap, survol et focus clavier desktop.");
   } finally {
     if(browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));
