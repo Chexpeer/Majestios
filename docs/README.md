@@ -26,6 +26,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 |---|---|
 | [Architecture transversale de Cheexpeer — 9 novembre 2026](evolution-6/ARCHITECTURE-TRANSVERSALE-CHEXPEER-2026-11-09.md) | Document directeur : connaissance globale de MajestiOS, mémoire, circulation inter-rubriques, compétences spécialisées, SEO, canal privilégié Admin, orchestration, autonomie et sécurité. Spécification cible, non preuve d'implémentation. |
 | [Audit initial de l'environnement Cheexpeer — 9 novembre 2026](evolution-6/AUDIT-INITIAL-ENVIRONNEMENT-CHEXPEER-2026-11-09.md) | État constaté du dépôt, de l'arborescence, des projets Supabase et Vercel, du CRM, des migrations, des fonctions, des politiques RLS et des écarts prioritaires. Audit en lecture seule. |
+| [Cartographie technique — Lot 1A — 9 novembre 2026](evolution-6/CARTOGRAPHIE-TECHNIQUE-LOT-1A-2026-11-09.md) | Inventaire vérifié du manifeste, des workflows, des migrations Git/Supabase, des tables/RLS/fonctions et des trois projets Vercel ; écarts de versionnement et priorités. Cartographie partielle, audit en lecture seule. |
 
 ## Référentiel actif — MajestiOS V.5
 
