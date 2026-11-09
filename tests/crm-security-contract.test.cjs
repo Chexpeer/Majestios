@@ -196,7 +196,8 @@ assert.match(crmRelationshipIntegrity, /opportunity contact must belong to the o
 assert.match(crmRelationshipIntegrity, /activity contact must match the opportunity business/);
 assert.match(crmRelationshipIntegrity, /activity business must match the opportunity business/);
 assert.match(crmRelationshipIntegrity, /create unique index if not exists businesses_org_siret_unique/);
-assert.match(crmRelationshipIntegrity, /group by organization_id, siret\s+having count\(\*\) > 1/);
+assert.match(crmRelationshipIntegrity, /group by organization_id, regexp_replace\(siret, '\[\^0-9\]', '', 'g'\)\s+having count\(\*\) > 1/);
+assert.match(crmRelationshipIntegrity, /regexp_replace\(siret, '\[\^0-9\]', '', 'g'\) <> ''/);
 assert.ok(page.includes("const relationSelectors = ["));
 for (const selector of [
   "#crm-contact-form [name=business_id]",
