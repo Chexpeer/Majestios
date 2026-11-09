@@ -15,6 +15,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | Document | Rôle |
 |---|---|
 | [Refonte globale — navigation classique et chatbot — 9 novembre 2026](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Décision validée : abandon de l'immeuble comme navigation, menu global de toutes les rubriques, préservation des contenus/fonds/fonctionnalités/CRM-Supabase, première génération du chatbot, nettoyage CSS et audit des liens. |
+| [Registre des anomalies et risques — Evolution-7](evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md) | Suivi vérifié des risques Auth/CRM, correction CRM-03 préparée dans GitHub, état du moteur Cheexpeer et limites d’intégration. |
 
 ## Évolution 6 — lots intégrés
 
