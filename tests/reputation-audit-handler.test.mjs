@@ -23,7 +23,6 @@ test("requires a verified authenticated user", async () => {
 test("validates the company name and SIREN before upstream calls", async () => {
   let called = false;
   const handler = createReputationAuditHandler({ authenticate: authOk, consumeQuota: async () => true, fetchImpl: async () => { called = true; return fetchOk(); } });
-    consumeQuota: async () => true,
   const shortName = await handler(request({ subject: "A" }));
   const badSiren = await handler(request({ subject: "Atelier Exemple", siren: "123" }));
   assert.equal(shortName.status, 400);
@@ -58,7 +57,6 @@ test("fails closed when the persistent quota check is unavailable", async () => 
 
 test("returns sanitized identity evidence and no internal connector identifiers", async () => {
   const handler = createReputationAuditHandler({ authenticate: authOk, consumeQuota: async () => true, fetchImpl: fetchOk, now: () => "2026-11-09T08:45:00.000Z" });
-    consumeQuota: async () => true,
   const response = await handler(request({ subject: "Atelier Exemple", siren: "123456789" }));
   const body = await response.json();
   assert.equal(response.status, 200);
@@ -73,7 +71,6 @@ test("returns sanitized identity evidence and no internal connector identifiers"
 
 test("rejects oversized and non-JSON requests", async () => {
   const handler = createReputationAuditHandler({ authenticate: authOk, consumeQuota: async () => true, fetchImpl: fetchOk });
-    consumeQuota: async () => true,
   const wrongType = await handler(new Request("https://local.test/reputation-audit-context", {
     method: "POST", headers: { Authorization: "Bearer valid-token", "Content-Type": "text/plain" }, body: "x"
   }));
@@ -117,7 +114,6 @@ test("runs Cheexpeer analysis on collected evidence when an analyzer is configur
 
 test("does not claim automatic analysis when no analyzer is configured", async () => {
   const handler = createReputationAuditHandler({ authenticate: authOk, consumeQuota: async () => true, fetchImpl: fetchOk });
-    consumeQuota: async () => true,
   const response = await handler(request({ subject: "Atelier Exemple" }));
   const body = await response.json();
   assert.equal(response.status, 200);
