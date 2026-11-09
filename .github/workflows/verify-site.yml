@@ -25,6 +25,8 @@ jobs:
         run: |
           node --check app.js
           node --check official-source-links.mjs
+          node --input-type=module --check < reputation-virtuelle.js
+          node --check supabase/functions/_shared/reputation-audit-provider.mjs
           node --check reputation-virtuelle.js
           node --check reputation-audit-core.mjs
           node --check reputation-audit-connectors.mjs
@@ -35,6 +37,7 @@ jobs:
           node --check supabase/functions/_shared/reputation-audit-connectors.mjs
           node --check supabase/functions/_shared/reputation-audit-handler.mjs
           node --check tests/reputation-audit-handler.test.mjs
+          node --check tests/reputation-audit-provider.test.mjs
           node --check tests/reputation-bodacc-query-smoke.cjs
           node --check tests/reputation-audit-connectors.test.mjs
           node --check tests/reputation-audit-core.test.mjs
@@ -80,6 +83,8 @@ jobs:
         run: node --test tests/reputation-audit-analysis.test.mjs
       - name: Tester le handler authentifié du moteur d'audit Cheexpeer
         run: node --test tests/reputation-audit-handler.test.mjs
+      - name: Tester le fournisseur IA serveur de Cheexpeer
+        run: node --test tests/reputation-audit-provider.test.mjs
       - name: Tester la validation des liens de sources officielles
         run: node --test tests/official-source-links.test.mjs
       - name: Vérifier la recherche BODACC filtrée en conditions réelles
