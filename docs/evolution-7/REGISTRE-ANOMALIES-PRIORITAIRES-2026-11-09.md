@@ -11,21 +11,21 @@
 
 | Niveau | Anomalies inscrites | Traitement |
 |---|---:|---|
-| P0 — bloquant avant ouverture | 1 | Recette impérative avant ouverture aux membres |
+| P0 — bloquant avant ouverture | 2 | Sécurité / recette impérative avant ouverture aux membres |
 | P1 — important | 9 | Correction ou vérification prioritaire |
 | Corrigée à revalider | 1 | Ne pas clôturer sans preuve de recette |
 
 **À traiter en premier :**
-1. **AUTH-01 — OTP / espace membre :** parcours réel non validé de bout en bout.
-2. **AUTH-02 — consentement :** contrôle serveur insuffisant lors du provisionnement.
-3. **CRM-02 — traçabilité :** création de fiches sans activité historique atomique.
-4. **CRM-03 — privilèges CRM :** correction préparée, état distant à vérifier avant clôture.
-5. **CRM-04 — RPC des relances :** le contrôle SQL historique accepte un rôle plus large que la frontière VIP actuelle.
-6. **CRM-05 — cohérence relationnelle :** contact rattaché à une autre entreprise que l’opportunité et absence d’unicité SIRET au niveau SQL.
-7. **CHEEXPEER-01 — accès à l’audit IA :** contrôle d’authentification présent, mais absence de vérification d’appartenance à un espace MajestiOS.
-8. **CHEEXPEER-02 — identification des entreprises :** un nom seul pouvait être présenté comme identité confirmée dans la collecte administrative et BODACC.
-9. **CHEEXPEER-03 — résistance aux instructions injectées :** les champs du dossier entreprise pouvaient contenir des consignes malveillantes transmises au modèle avec les données.
-10. **CHEEXPEER-04 — information des utilisateurs :** la notice avant lancement ne détaille pas encore les sources, le fournisseur IA éventuel, les destinataires et les durées de conservation.
+1. **AUTH-01 — OTP / espace membre :** parcours réel non validé de bout en bout.\n2. **CRM-06 — import entreprise officiel :** l'Edge Function utilise `service_role` après un contrôle qui accepte encore `member`, alors que le CRM est désormais VIP `owner/admin`.
+3. **AUTH-02 — consentement :** contrôle serveur insuffisant lors du provisionnement.
+4. **CRM-02 — traçabilité :** création de fiches sans activité historique atomique.
+5. **CRM-03 — privilèges CRM :** correction préparée, état distant à vérifier avant clôture.
+6. **CRM-04 — RPC des relances :** le contrôle SQL historique accepte un rôle plus large que la frontière VIP actuelle.
+7. **CRM-05 — cohérence relationnelle :** contact rattaché à une autre entreprise que l’opportunité et absence d’unicité SIRET au niveau SQL.
+8. **CHEEXPEER-01 — accès à l’audit IA :** contrôle d’authentification présent, mais absence de vérification d’appartenance à un espace MajestiOS.
+9. **CHEEXPEER-02 — identification des entreprises :** un nom seul pouvait être présenté comme identité confirmée dans la collecte administrative et BODACC.
+10. **CHEEXPEER-03 — résistance aux instructions injectées :** les champs du dossier entreprise pouvaient contenir des consignes malveillantes transmises au modèle avec les données.
+11. **CHEEXPEER-04 — information des utilisateurs :** la notice avant lancement ne détaille pas encore les sources, le fournisseur IA éventuel, les destinataires et les durées de conservation.
 
 **Consigne aux agents :** traiter les P0 avant les P1. Après chaque découverte ou correction, préciser l'ID, le statut, les fichiers concernés, le commit, les tests exécutés et la preuve. Une modification de code seule ne suffit pas à déclarer une anomalie corrigée.
 
@@ -38,6 +38,7 @@ Ce document ne doit pas devenir une liste de toutes les fonctionnalités manquan
 
 | ID | Priorité | Domaine | Constat vérifié | Action / statut |
 |---|---|---|---|---|
+| CRM-06 | **P0 — privilèges / import privilégié** | L’Edge Function d’import officiel peut contourner la frontière VIP du CRM | `import-official-company/index.ts` vérifie `can_import_official_company()` avec le client utilisateur, puis écrit via `service_role`. La définition actuelle de cette fonction appelle encore `private.is_org_editor()`, qui accepte `owner/admin/member`, alors que la migration VIP `20261108181246_vip_only_crm_access.sql` réserve désormais les écritures CRM à `owner/admin`. Un membre peut donc déclencher une écriture CRM privilégiée par l’Edge Function. | **Correction préparée sur Evolution-7.** Migration `20261109194500_harden_official_import_vip_permissions.sql` remplace le contrôle par `private.is_org_admin()`, conserve `SECURITY INVOKER` et restreint l’exécution à `authenticated`. Test de contrat ajouté pour vérifier que le contrôle utilisateur précède la création du client `service_role`. Migration non appliquée ; déploiement/recette multi-rôles requis avant clôture. |
 | AUTH-01 | **P0 — avant ouverture aux membres** | OTP / espace membre | Le front appelle `signInWithOtp()` et `verifyOtp()`, mais aucun test de bout en bout ne prouve l'envoi réel, la validation, l'expiration, les limites de débit et le provisionnement de l'espace. Le déploiement de `provision-client-workspace` en environnement de test n'est pas confirmé. | **À vérifier — recette E2E isolée.** Aucun changement Auth, migration, déploiement de fonction ou donnée de test dans Supabase métier sans autorisation. |
 | CRM-02 | **P1 — traçabilité** | Création et modification de fiches CRM | Avant correction, `create()` n'enregistrait aucune activité ; `update()` modifiait la fiche puis tentait une seconde insertion d'activité, pouvant échouer après la modification. Les imports via `createBusiness()` étaient également concernés. | **Correction préparée sur Evolution-7 — test de contrat CRM inclus dans le workflow vert `42654718695` (run `4097`).** La migration `20261109170000_atomic_crm_activity_history.sql` ajoute un trigger SQL après insertion/modification des entreprises, contacts et opportunités ; le client ne crée plus de doublon d'historique. Cette CI ne vaut pas recette transactionnelle en environnement réel. La migration n'est pas appliquée à Supabase. Recette transactionnelle autorisée encore requise avant clôture. |
 | CRM-03 | **P1 — intégrité des données** | Colonnes d’audit CRM | `20261107065916_grant_crm_record_updates.sql` réintroduit un `UPDATE` table-level sur entreprises, contacts et opportunités. La migration `20261109160000_restrict_crm_update_columns.sql` révoque ce droit puis restaure exactement les listes blanches de `20261106074500_enforce_crm_editor_roles.sql`. | **Corrigé dans Evolution-7 — à vérifier en environnement autorisé.** Migration et test de non-régression ajoutés ; workflow GitHub vert. Aucun privilège distant lu ni migration appliquée. Les champs d’audit ne sont donc pas déclarés protégés en production tant que la migration n’est pas appliquée et contrôlée. |
