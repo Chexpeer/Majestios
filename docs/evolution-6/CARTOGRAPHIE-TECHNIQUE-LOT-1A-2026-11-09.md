@@ -190,3 +190,55 @@ Cette livraison ne prétend pas constituer l'audit exhaustif final :
 - aucune vérification exhaustive des domaines, aliases, variables d'environnement et réglages Git Vercel n'a été réalisée.
 
 **Critère de sortie du Lot 1A : non atteint.** Cette livraison est une première cartographie vérifiée et fait apparaître des écarts bloquants à traiter avant toute évolution backend ou automatisation Cheexpeer.
+
+
+## 8. Dépendances des 37 pages HTML — extraction terminée
+
+Les 37 pages HTML du manifeste ont été lues. Les références `<script src>` et `<link rel="stylesheet">` ont été extraites pour chaque page. Cette passe confirme une forte mutualisation autour de `catalogue-majestios.js`, `rubric-search.js`, `app.js`, `rubriques-immersives.js`, `styles.css`, `rubriques-immersives.css` et `charte-majestios.css`, avec des modules spécialisés selon les dossiers.
+
+Principaux rattachements constatés :
+
+| Page / groupe | Scripts et styles spécialisés | Dépendances et limites observées |
+|---|---|---|
+| Accueil et rubriques générales | `catalogue-majestios.js`, `rubric-search.js`, `app.js`, souvent `rubriques-immersives.js` | Navigation et recherche côté navigateur ; les scripts partagés ne constituent pas à eux seuls un service backend |
+| Pages de catégories | Ajout de `category-results.js` | Affichage de résultats par catégorie |
+| Résultats transversaux | `search-results.js` | Consommation du contexte de recherche côté navigateur |
+| Prospection | `company-targeting.js`, `naf-suggestions.js`, `company-fit.js`, `company-targeting-page.js`, `prospection-criteria-ux.js` | Requêtes directes vers `recherche-entreprises.api.gouv.fr` et `geo.api.gouv.fr` ; l'adaptateur membre appelle une Edge Function distincte |
+| Appels d'offres / opportunités | `opportunity-search.js` | Requêtes directes vers les API BOAMP et BODACC depuis le navigateur |
+| CRM | `crm-page.js`, `crm-business-filters.js`, `crm-workspace-nav.js` ; `crm-page.js` importe `crm-client.js` | Le client CRM interroge `organization_members`, `organizations`, `businesses`, `activities`, `crm_reminders` et appelle le RPC `complete_crm_reminder` |
+| Administration | `administration.js`, `administration.css` | Interroge `official_data_sources`, `organization_members`, `businesses`, `contacts`, `opportunities`, `organizations` |
+| Espace interne | `espace-interne.js`, `espace-interne.css` | Interroge `organization_members` et `organizations` |
+| Espace membre | `auth-espace-membre.js` | Interroge `organization_members` et appelle `provision-client-workspace` |
+| Réputation virtuelle | `reputation-virtuelle.js`, `reputation-virtuelle.css` | Requêtes de consultation Google Web/Maps ; le JavaScript de page n'appelle pas de moteur IA Cheexpeer |
+
+### 8.1 Écarts d'intégration détectés
+
+- Le parcours Auth de l'espace membre appelle `provision-client-workspace`, mais cette Edge Function n'apparaît pas dans les trois fonctions actives du projet Supabase. Le code correspondant existe dans Git. **Le parcours d'inscription/provisionnement doit donc être considéré comme non confirmé et potentiellement bloqué en production** tant que le déploiement réel de cette fonction n'est pas vérifié ou rétabli.
+- Le module d'adaptation de Prospection appelle `prospection-search-member`, mais cette Edge Function n'apparaît pas non plus dans l'inventaire distant actif. Le parcours de recherche membre ne peut pas être qualifié d'opérationnel sur la seule base du code versionné.
+- `opportunity-search.js` interroge directement les API BOAMP et BODACC depuis le navigateur. Les fournisseurs sont donc des dépendances runtime côté client, même si l'interface n'affiche pas nécessairement leur nom.
+- Le ciblage d'entreprises s'appuie sur les API publiques Recherche d'entreprises et geo.api.gouv.fr directement depuis le navigateur.
+- La page Réputation virtuelle permet des consultations Google Web/Maps, mais son script de page ne déclenche pas d'analyse IA Cheexpeer. La présence d'une architecture d'analyse dans le dépôt ou d'une PR ne prouve pas l'exécution d'un endpoint en production.
+
+### 8.2 Déclencheurs PostgreSQL observés
+
+L'introspection des triggers du schéma public confirme :
+- des triggers d'intégrité multi-tenant sur `businesses`, `contacts`, `opportunities` et `activities`, appelant `private.enforce_tenant_relationship_integrity()` ;
+- des triggers `set_updated_at` sur `businesses`, `client_requests`, `contacts`, `opportunities`, `organizations` et `profiles` ;
+- un trigger sur `opportunities` appelant `private.sync_crm_reminders_for_opportunity()`.
+
+Les relances CRM reposent donc sur des mécanismes SQL déclenchés par les modifications d'opportunités. La tâche planifiée qui matérialise les relances doit encore être rapprochée des jobs `pg_cron` et de leur dernière exécution.
+
+### 8.3 Exécution CI sur la livraison documentaire
+
+Le commit documentaire `2f8f7410ba870ec790b67bd0e297a2ee7524c72e` a déclenché le workflow `Vérification du site MajestiOS` (`verify-site.yml`) sur `Evolution-6`.
+
+Résultat observé après achèvement :
+- statut du run : `completed` ;
+- conclusion : `success` ;
+- 31 étapes terminées avec succès, dont syntaxe JavaScript, tests unitaires ciblés, build statique, vérification d'architecture, liens/identifiants, tests navigateur Prospection, BOAMP, BODACC, immeuble interactif, recherche, Réputation virtuelle, navigation responsive, formulaire de contact et verrouillage du poste de commandement sans session.
+
+Ce résultat constitue une preuve CI utile pour le commit documentaire testé. Il ne constitue pas un test Auth/RLS multi-identités contre Supabase distant, ni une validation du déploiement Vercel de production.
+
+## 9. Mise à jour du critère de sortie
+
+L'extraction des 37 pages HTML et la vérification CI sont maintenant réalisées. Le critère de sortie du Lot 1A reste **non atteint**, car les écarts critiques de versionnement des migrations, l'absence apparente de deux Edge Functions requises par les parcours membre, l'audit complet des privilèges et l'identification du projet Vercel canonique restent ouverts.
