@@ -389,7 +389,7 @@ const navigationGroups = [
     ["Maintenance","categorie-maintenance.html"]
   ]},
   { label: "Développement commercial", items: [
-    ["Vue d’ensemble","developpement-commercial.html"],["Prospection active","prospection-active.html"],
+    ["Vue d’ensemble","developpement-commercial.html"],["Prospection","prospection-active.html"],
     ["Accompagnement appels d’offres","accompagnement-appels-offres.html"],
     ["Suivi commercial","suivi-commercial.html"],["Qualification des entreprises","qualification-entreprises.html"]
   ]},
@@ -559,7 +559,7 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
   const knowledge = [
     {terms:["marché public","marches publics","appel d'offre public","boamp"],label:"Marchés publics",href:"marches-publics.html",answer:"La rubrique Marchés publics aide à repérer les consultations et à préparer leur analyse."},
     {terms:["marché privé","marches privés","bodacc","cession","création entreprise"],label:"Marchés privés et veille BODACC",href:"marches-prives.html",answer:"Les Marchés privés regroupent les opportunités privées. La veille BODACC suit notamment les créations, cessions, modifications et procédures collectives."},
-    {terms:["prospection","prospecter","ciblage","entreprise à contacter"],label:"Prospection active",href:"prospection-active.html",answer:"La Prospection active sert à détecter, qualifier et identifier des entreprises pertinentes avant de préparer une prise de contact."},
+    {terms:["prospection","prospecter","ciblage","entreprise à contacter"],label:"Prospection",href:"prospection-active.html",answer:"La rubrique Prospection sert à détecter, qualifier et identifier des entreprises pertinentes avant de préparer une prise de contact."},
     {terms:["développement commercial","commercial","opportunité"],label:"Développement commercial",href:"developpement-commercial.html",answer:"Le Développement commercial relie la détection des opportunités, leur qualification, la prise de contact et la capitalisation."},
     {terms:["accompagnement","répondre","mémoire technique","appel d'offre"],label:"Accompagnement appels d’offres",href:"accompagnement-appels-offres.html",answer:"L'accompagnement aide à valoriser les compétences, les références, les chantiers et la satisfaction des clients."},
     {terms:["sous-traitance","sous traitant","partenaire chantier"],label:"Sous-traitance",href:"sous-traitance.html",answer:"La rubrique Sous-traitance permet d'explorer les besoins de renfort, les offres et les recherches de partenaires."},
