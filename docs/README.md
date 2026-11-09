@@ -46,7 +46,7 @@ Cheexpeer est transversal : il relie les rubriques et les données autorisées a
 | 3 | [Référence MajestiOS V5](evolution-5.0/MAJESTIOS-V5-REFERENCE.md) | État de référence, architecture et décisions structurantes |
 | 4 | [Architecture fonctionnelle cible](evolution-5.0/ARCHITECTURE-FONCTIONNELLE-CIBLE.md) | Organisation des domaines métier et de leurs relations |
 | 5 | [Référentiel Evolution-7](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Refonte du site, navigation et première interface conversationnelle |
-| 6 | [Intégration de Cheexpeer — état du lot](evolution-7/LOT-CHEXPEER-INTEGRATION-2026-11-09.md) | Ce qui est effectivement raccordé, les tests et les limites actuelles |
+| 6 | [Intégration de Cheexpeer — état du lot](evolution-7/LOT-CHEXPEER-INTEGRATION-2026-11-09.md) | Connexions réellement actives, limites et ordre de raccordement CRM puis services métier ; GitHub séparé |
 | 7 | [Registre des anomalies prioritaires](evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md) | Défauts avérés et risques à traiter, distincts des évolutions souhaitées |
 
 ## 4. Organisation de la documentation
