@@ -231,7 +231,7 @@ Le code du client et de la fonction Edge `provision-client-workspace` a été ad
 
 **Limites non levées :**
 - `provision-client-workspace` n'était pas présente dans l'inventaire des fonctions actives du projet métier lors du dernier contrôle ; le code adapté n'a pas été déployé.
-- Le modèle e-mail doit contenir `{{ .Token }}) pour délivrer un code numérique et les paramètres d'expiration/limitation doivent être vérifiés dans Supabase.
+- Le modèle e-mail doit contenir `{{ .Token }} pour délivrer un code numérique et les paramètres d'expiration/limitation doivent être vérifiés dans Supabase.
 - Aucun test d'intégration Auth/OTP réel n'a encore été exécuté.
 - Aucun QR code n'est implémenté dans ce lot ; il reste une option ultérieure à concevoir.
 - Le parcours d'administration et les droits CRM VIP ne sont pas modifiés.
