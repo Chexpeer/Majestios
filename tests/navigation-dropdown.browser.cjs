@@ -40,6 +40,8 @@ async function main() {
     const vipLink=page.locator('#site-nav a[href="espace-interne.html"]');
     assert.equal(await vipLink.count(),1,"Le lien VIP doit conduire au parcours d’authentification interne.");
     assert.equal(await vipLink.innerText(),"Accès VIP · Administration","Le libellé doit identifier clairement l’accès administrateur.");
+    assert.equal(await vipLink.evaluate(el=>el.classList.contains("nav-vip-link")),true,
+      "Le lien VIP doit porter sa classe graphique dédiée bleu nuit, or et chrome.");
     assert.equal(await vipLink.evaluate(el=>el.closest(".nav-drawer-section")?.querySelector(".nav-group-link")?.textContent),"Espaces privés",
       "L’accès VIP doit être regroupé avec l’espace client dans Espaces privés.");
     const exploreGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Explorer davantage"})});
