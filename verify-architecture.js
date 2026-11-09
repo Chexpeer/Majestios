@@ -107,6 +107,8 @@ assert(home.includes("Donner de la hauteur"), "Accueil : texte de positionnement
 assert(home.includes('href="marches-publics.html"') && home.includes('href="reputation-virtuelle.html"'),
   "Accueil : accès aux rubriques principales absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
+assert(!/<script>\s*[\s\S]*?<\/script>/i.test(home), "Accueil : contrôleur inline résiduel encore présent");
+assert(!navigationController.includes('const interactiveSvg = document.querySelector("#majestios-panorama")'), "Navigation : gestionnaire de l’ancien SVG interactif encore présent");
 assert(!home.includes("<style"), "Accueil : les styles doivent être externalisés dans des feuilles dédiées");
 assert(home.includes("MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : le texte de positionnement doit être préservé");
 assert((read("homepage.css") + read("homepage-theme.css")).includes('url("Designer%20(2).png")'), "Accueil : le fond panoramique Designer doit être préservé");
