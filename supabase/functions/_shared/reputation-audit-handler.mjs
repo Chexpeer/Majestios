@@ -75,17 +75,25 @@ export function createReputationAuditHandler({ authenticate, analyze = null, fet
         adapters: [identityAdapter, legalEventsAdapter],
         normalizeEvidence
       });
-      const dto = toReputationCollectionDTO(collection, toAuditEvidenceDTO);
+      const dto = toReputationCollectionDTO(collection);
       let analysis = null;
+      let analysisNotice = "";
       if (typeof analyze === "function") {
-        analysis = await runCheexpeerAuditAnalysis({ auditCase, evidence: collection.evidence, analyze });
+        try {
+          analysis = await runCheexpeerAuditAnalysis({ auditCase, evidence: collection.evidence, analyze });
+        } catch {
+          // Une panne du fournisseur IA ne doit pas faire perdre les preuves déjà collectées.
+          analysisNotice = "La collecte a abouti, mais l’analyse IA est temporairement indisponible. Aucun diagnostic automatique n’est présenté.";
+        }
+      } else {
+        analysisNotice = "Le moteur IA Cheexpeer n’est pas configuré sur le serveur. Les preuves sont collectées, mais aucun diagnostic automatique n’est présenté.";
       }
       return json({
         ...dto,
         ...(analysis ? { analysis, status: analysis.status } : {
           status: "collection_only",
           analysis_unavailable: true,
-          analysis_notice: "Le moteur IA Cheexpeer n’est pas configuré sur le serveur. Les preuves sont collectées, mais aucun diagnostic automatique n’est présenté."
+          analysis_notice: analysisNotice
         }),
         subject: auditCase.subject,
         scope: "identity_and_legal_context",
