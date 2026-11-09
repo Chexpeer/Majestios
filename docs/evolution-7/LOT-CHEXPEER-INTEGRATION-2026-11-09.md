@@ -23,7 +23,8 @@ Le parcours de la page Réputation virtuelle est maintenant raccordé au handler
 - `reputation-virtuelle.js` : client Supabase, appel authentifié, restitution du rapport et activation conditionnelle du bouton.
 - `supabase/functions/_shared/reputation-audit-handler.mjs` : orchestration collection → analyse optionnelle → DTO de restitution.
 - `supabase/functions/_shared/reputation-audit-provider.mjs` : nouvel adaptateur serveur pour API compatible Chat Completions et JSON Schema strict.
-- `supabase/functions/reputation-audit-context/index.ts` : lecture des variables d’environnement IA, branchement de l’adaptateur et contrôle d'appartenance à un espace MajestiOS.
+- `supabase/functions/reputation-audit-context/index.ts` : lecture des variables d’environnement IA, contrôle d'appartenance et consommation du quota par RPC avec le client utilisateur.
+- `supabase/migrations/20261109193000_cheexpeer_reputation_audit_quotas.sql` : quota atomique de 5 audits par membre et 25 par organisation, par jour UTC ; migration non appliquée.
 - `tests/reputation-audit-access-contract.test.mjs` : test du contrôle d'appartenance serveur.\n- `tests/reputation-audit-connectors.test.mjs` et `tests/reputation-audit-analysis.test.mjs` : tests de rapprochement SIREN et de résistance aux instructions présentes dans les preuves.
 - `tests/reputation-audit-handler.test.mjs` : cas analyse active et cas fournisseur absent.
 - `tests/reputation-audit-provider.test.mjs` : authentification fournisseur, JSON Schema strict, erreurs et endpoint HTTPS.
@@ -47,7 +48,7 @@ Le choix du fournisseur, du modèle, du budget, de la politique de conservation 
 - La collecte reste limitée aux connecteurs d’identité officielle et BODACC déjà présents.
 - Il ne s’agit pas encore d’une couverture automatisée exhaustive de Google Web, Google Maps, des avis, des réseaux sociaux ou des sites concurrents.
 - Le dossier est conservé dans `sessionStorage` ; aucun rapport durable ni historique par organisation n’est créé.
-- L’accès est authentifié par session Supabase, mais le stockage multi-tenant, les quotas, le contrôle de coûts et la traçabilité des audits ne sont pas implémentés dans ce lot.
+- L’accès est authentifié par session Supabase et le quota journalier est préparé en SQL ; la migration n'est pas appliquée. Le stockage multi-tenant des dossiers/rapports, le rate limit à court terme, le suivi financier par jetons et la traçabilité durable des audits restent à construire.
 - L’analyse, si configurée, est préparatoire et doit être validée humainement. Aucun score global ni action externe automatique n’est autorisé.
 - Le fournisseur doit réellement prendre en charge le format strict demandé ; les incompatibilités remontent une erreur contrôlée et aucun rapport n’est produit.
 
