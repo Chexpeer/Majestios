@@ -26,7 +26,7 @@ test("uses the selected Claude model and strict JSON Schema through AI Gateway",
   assert.equal(body.model, DEFAULT_CHEEXPEER_AUDIT_MODEL);
   assert.equal(body.response_format.type, "json_schema");
   assert.equal(body.response_format.json_schema.strict, true);
-  assert.equal(body.response_format.json_schema.schema, request.output_schema);
+  assert.deepEqual(body.response_format.json_schema.schema, request.output_schema);
   assert.equal(result, '{"findings":[],"recommendations":[],"gaps":[]}');
 });
 
