@@ -156,3 +156,37 @@ html body .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{ba
  html body .site-header details.mobile-nav-shell{display:contents!important}
  html body .site-header details.mobile-nav-shell>summary.menu-toggle{display:none!important}
 }
+
+
+/* Restauration ferme du bouton hamburger classique et du tiroir mobile. */
+@media(max-width:900px){
+ html body header.site-header{position:sticky!important;top:0!important;z-index:2500!important;display:flex!important;align-items:center!important;overflow:visible!important}
+ html body header.site-header>button#menu-toggle{
+  display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;
+  position:relative!important;z-index:2600!important;flex:0 0 48px!important;
+  width:48px!important;min-width:48px!important;height:48px!important;min-height:48px!important;
+  margin-left:auto!important;margin-right:12px!important;padding:10px!important;box-sizing:border-box!important;
+  flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;
+  background:#fff!important;border:2px solid #d5b45b!important;border-radius:10px!important;
+  box-shadow:0 2px 8px #07122535!important;cursor:pointer!important;
+ }
+ html body header.site-header>button#menu-toggle span{
+  display:block!important;visibility:visible!important;opacity:1!important;flex:0 0 2px!important;
+  width:23px!important;height:2px!important;min-height:2px!important;margin:0!important;
+  background:#17324f!important;border-radius:2px!important;transform:none!important;
+ }
+ html body header.site-header nav.site-nav.site-nav-drawer{
+  display:flex!important;position:fixed!important;top:0!important;right:0!important;bottom:0!important;left:auto!important;
+  z-index:2400!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;
+  width:min(380px,90vw)!important;height:100vh!important;height:100dvh!important;max-height:100dvh!important;
+  overflow-x:hidden!important;overflow-y:auto!important;padding:18px 16px calc(30px + env(safe-area-inset-bottom))!important;
+  background:#f5f8fc!important;box-shadow:-14px 0 40px #07122540!important;
+  transform:translateX(105%)!important;visibility:hidden!important;pointer-events:none!important;
+ }
+ html body header.site-header nav.site-nav.site-nav-drawer.open{
+  transform:translateX(0)!important;visibility:visible!important;pointer-events:auto!important;
+ }
+ html body .nav-drawer-overlay[hidden]{display:none!important}
+ html body .nav-drawer-overlay{z-index:2300!important}
+}
+@media(min-width:901px){html body #menu-toggle{display:none!important}}
