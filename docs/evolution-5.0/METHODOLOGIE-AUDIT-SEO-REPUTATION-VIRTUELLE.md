@@ -82,7 +82,7 @@ Le niveau de confiance s'applique à chaque constat important, pas seulement à 
 
 ## 5. Sources, accès et indépendance vis-à-vis des API Google
 
-Le premier audit ne doit pas être bloqué par l'absence d'identifiant Programmable Search, de clé Maps ou par l'absence de connexion de Cheexpeer.
+Le cadrage de la méthode et la préparation du dossier peuvent avancer sans identifiant Programmable Search ni clé Maps. En revanche, un audit client ne doit jamais être présenté comme réalisé par Cheexpeer tant que son environnement d'exécution, ses accès aux sources et ses capacités d'analyse ne sont pas effectivement raccordés et testés.
 
 Cheexpeer doit orchestrer l'audit interne à partir des sources autorisées et accessibles. Les données peuvent provenir :
 - des informations et documents fournis par l'entreprise ;
