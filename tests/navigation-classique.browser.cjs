@@ -35,8 +35,8 @@ async function main() {
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
 
     assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,"Les six familles de navigation doivent être présentes.");
-    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),24,"Le menu doit exposer les 24 entrées secondaires.");
-    assert.equal(await page.locator("#site-nav a").count(),25,"Le menu doit exposer Accueil et les 24 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),18,"Le menu doit exposer les 18 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav a").count(),19,"Le menu doit exposer Accueil et les 18 entrées secondaires.");
     assert.equal(await page.locator('#site-nav a[href="developpement-commercial.html"]').count(),1,
       "La page d’orientation Développement commercial doit être accessible depuis son sous-menu.");
 
