@@ -37,10 +37,11 @@ async function main() {
     assert.equal(await menuButton.getAttribute("aria-expanded"),"true",
       "L’état aria-expanded du hamburger doit passer à true.");
 
-    const explorerGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Explorer davantage"})});
-    const vipLink=explorerGroup.locator('a[href="espace-interne.html"]');
-    assert.equal(await vipLink.count(),1,"Le lien VIP doit conduire au parcours d’authentification de l’administration.");
+    const vipLink=page.locator('#site-nav a[href="espace-interne.html"]');
+    assert.equal(await vipLink.count(),1,"Le lien VIP doit conduire au parcours d’authentification interne.");
     assert.equal(await vipLink.innerText(),"Accès VIP · Administration","Le libellé doit identifier clairement l’accès administrateur.");
+    assert.equal(await vipLink.evaluate(el=>el.closest(".nav-drawer-section")?.querySelector(".nav-group-link")?.textContent),"Explorer davantage",
+      "L’accès VIP doit rester visible dans le tiroir Explorer davantage jusqu’à son déplacement éditorial.");
 
     const group=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
     const toggle=group.locator(".nav-group-link");
