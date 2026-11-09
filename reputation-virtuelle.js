@@ -148,7 +148,7 @@ import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
     const values = new FormData(dossierForm);
     dossier = {
       company: String(values.get("company") || "").trim(),
-      siren: String(values.get("siren") || "").replace(/\\s+/g, "").trim(),
+      siren: String(values.get("siren") || "").replace(/\s+/g, "").trim(),
       activity: String(values.get("activity") || "").trim(),
       website: String(values.get("website") || "").trim(),
       territory: String(values.get("territory") || "").trim(),
