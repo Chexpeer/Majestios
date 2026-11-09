@@ -16,7 +16,8 @@
 | Corrigée à revalider | 1 | Ne pas clôturer sans preuve de recette |
 
 **À traiter en premier :**
-1. **AUTH-01 — OTP / espace membre :** parcours réel non validé de bout en bout.\n2. **CRM-06 — import entreprise officiel :** l'Edge Function utilise `service_role` après un contrôle qui accepte encore `member`, alors que le CRM est désormais VIP `owner/admin`.
+1. **AUTH-01 — OTP / espace membre :** parcours réel non validé de bout en bout. 
+2. **CRM-06 — import entreprise officiel :** l'Edge Function utilise `service_role` après un contrôle qui accepte encore `member`, alors que le CRM est désormais VIP `owner/admin`.
 3. **AUTH-02 — consentement :** contrôle serveur insuffisant lors du provisionnement.
 4. **CRM-02 — traçabilité :** création de fiches sans activité historique atomique.
 5. **CRM-03 — privilèges CRM :** correction préparée, état distant à vérifier avant clôture.
