@@ -60,6 +60,37 @@ function validMissionId(value: unknown): value is string {
   return typeof value === "string" && UUID_PATTERN.test(value);
 }
 
+async function readBodyLimited(req: Request): Promise<string> {
+  const declaredLength = req.headers.get("content-length");
+  if (declaredLength && Number(declaredLength) > MAX_BODY_BYTES) {
+    throw new Error("BODY_TOO_LARGE");
+  }
+
+  const reader = req.body?.getReader();
+  if (!reader) return "";
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > MAX_BODY_BYTES) {
+      await reader.cancel().catch(() => {});
+      throw new Error("BODY_TOO_LARGE");
+    }
+    chunks.push(value);
+  }
+
+  const body = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return new TextDecoder().decode(body);
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
@@ -77,15 +108,12 @@ Deno.serve(async (req: Request) => {
 
   let body: Record<string, unknown>;
   try {
-    const rawBody = await req.text();
-    if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
-      return json({ error: "Request body too large" }, 413);
-    }
+    const rawBody = await readBodyLimited(req);
     const parsed: unknown = JSON.parse(rawBody);
     if (!isRecord(parsed)) throw new Error("Invalid body");
     body = parsed;
   } catch (error) {
-    if (error instanceof Error && error.message === "Request body too large") {
+    if (error instanceof Error && error.message === "BODY_TOO_LARGE") {
       return json({ error: "Request body too large" }, 413);
     }
     return json({ error: "Invalid JSON body" }, 400);
