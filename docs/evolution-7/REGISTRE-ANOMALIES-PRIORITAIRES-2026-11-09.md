@@ -179,3 +179,24 @@ L'Edge Function `import-official-company/index.ts` vérifie le droit d'import av
 - **Règle :** ne pas contourner authentification, CAPTCHA, paywall ou restrictions ; distinguer faits, inférences et recommandations ; toute action externe sensible reste soumise à validation.
 - **Étapes :** cartographie RLS/Storage → modèle conversations et pièces jointes → tests d'isolation → centre de commande → Drive en environnement de test → connecteurs de veille progressifs.
 - **Statut :** conception documentée dans la section 9 du lot Cheexpeer ; aucun connecteur activé, aucune migration distante, aucun déploiement.
+
+
+## SEC-04 — Préparer et vérifier le stockage confidentiel Cheexpeer
+
+**Type :** prérequis sécurité avant développement du centre de commande — non résolu, non incident avéré.
+
+- **Constat :** aucune migration bucket privé/politique `storage.objects` ni configuration Storage n'a été identifiée dans le dépôt Evolution-7.
+- **Risque :** impossible de garantir le cloisonnement et la confidentialité des captures/archives tant que bucket, RLS Storage, liens temporaires, rétention et suppression ne sont pas conçus et testés.
+- **Action :** spécifier le stockage privé tenant-scoped ; tester les accès anon, viewer/member, autre organisation et admin autorisé ; vérifier expiration/révocation des liens et suppression.
+- **Dépendance :** ne pas accepter de captures confidentielles dans le centre de commande avant validation de ces tests.
+- **État :** documenté dans la section 10 du lot Cheexpeer ; aucun bucket créé et aucune migration distante appliquée.
+
+## SEC-05 — Vérifier la frontière d'autorisation de l'import entreprise privilégié
+
+**Type :** durcissement d'un flux existant utilisant `service_role` — vérification requise avant extension.
+
+- **Constat :** la fonction Edge `import-official-company` valide l'utilisateur, appelle `can_import_official_company`, puis utilise `service_role` pour l'écriture. La migration versionnée aligne le RPC sur owner/admin en `security invoker`, mais son application sur la base cible n'est pas confirmée.
+- **Écarts constatés dans le code :** message utilisateur mentionnant encore « éditeur » ; détails techniques RPC/catch renvoyés dans la réponse ; CORS générique `*`.
+- **Action :** vérifier l'état distant avant toute activation ; durcir CORS, supprimer les détails techniques des réponses, aligner le message owner/admin et ajouter tests member/viewer, autre tenant, RPC direct et import autorisé.
+- **Qualification :** risque à contrôler, pas de contournement ni fuite avérée démontrés.
+- **État :** audit documenté ; aucun changement de fonction Edge ni de base distante dans ce lot.
