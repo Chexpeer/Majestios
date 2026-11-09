@@ -61,6 +61,20 @@ async function main() {
     global.fetch = originalFetch;
   }
 
+  const corsicaFetch = global.fetch;
+  const corsicaCalls = [];
+  global.fetch = async url => {
+    corsicaCalls.push(String(url));
+    return { ok:true, status:200, json:async()=>({ schema:[{key:"code_postal"}] }) };
+  };
+  try {
+    await assert.rejects(resources.searchRge({ department:"2A" }), /ne permet pas de distinguer précisément la Corse-du-Sud/);
+    await assert.rejects(resources.searchRge({ department:"2B" }), /ne permet pas de distinguer précisément la Corse-du-Sud/);
+    assert.equal(corsicaCalls.length, 2, "Aucun appel de lignes ne doit être lancé avec un filtre postal ambigu.");
+  } finally {
+    global.fetch = corsicaFetch;
+  }
+
   const previousFetch = global.fetch;
   global.fetch = async () => ({ ok:true, status:200, json:async()=>({ schema:[], results:[] }) });
   try {

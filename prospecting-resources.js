@@ -52,9 +52,15 @@
     const rows = Array.isArray(payload.results) ? payload.results : [];
     const digits = value => String(value == null ? "" : value).replace(/\D/g,"");
     const target = digits(department);
+    if ((department.toUpperCase() === "2A" || department.toUpperCase() === "2B") && deptField === "code_postal") {
+      throw new Error("Le référentiel RGE ne fournit que le code postal : il ne permet pas de distinguer précisément la Corse-du-Sud (2A) de la Haute-Corse (2B). Choisissez une commune ou recherchez sans filtre départemental.");
+    }
     const filtered = department ? rows.filter(row => {
       const raw = row[deptField];
       if (deptField === "code_postal") return digits(raw).startsWith(target);
+      if (department.toUpperCase() === "2A" || department.toUpperCase() === "2B") {
+        return String(raw || "").trim().toUpperCase() === department.toUpperCase();
+      }
       return digits(raw) === target || String(raw || "").trim().toUpperCase() === department.toUpperCase();
     }) : rows;
     return {

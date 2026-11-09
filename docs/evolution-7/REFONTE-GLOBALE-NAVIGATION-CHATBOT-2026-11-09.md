@@ -182,3 +182,13 @@ Le premier assistant a été enrichi pour distinguer les annonces BODACC de la r
 **Validation GitHub Actions :** run 42605289091 — conclusion success sur ce commit. Les tests de ressources de prospection, suggestions APE/NAF, contrats/DTO/habilitations, recherche membre, build, architecture, liens, tests navigateur desktop/mobile, formulaires, verrouillage Administration et contrat de sécurité CRM ont tous réussi.
 
 Cette validation porte sur le commit correctif ci-dessus. Elle ne vaut pas validation de tous les services externes ou de l'activation réelle des connecteurs de qualification.
+
+### Correctif de précision géographique — référentiel RGE (9 novembre 2026)
+
+- Le schéma public ADEME consulté expose un champ `code_postal`, mais pas de code département distinct.
+- Les codes postaux ne permettent pas de distinguer de façon fiable les départements corses 2A et 2B. Le filtre précédent réduisait les deux codes à `2` et pouvait mélanger les résultats.
+- La recherche refuse désormais ce filtre ambigu lorsque seul le code postal est disponible, au lieu de présenter des résultats géographiques inexacts. Le message invite à rechercher par commune ou sans filtre départemental.
+- Les tests couvrent explicitement les deux cas corses et vérifient qu'aucune requête de lignes n'est envoyée avec ce filtre ambigu.
+- Limite restant à traiter séparément : la recherche RGE récupère actuellement un premier lot de 100 lignes puis filtre localement. Une pagination/filtration serveur doit être validée sur le contrat réel de l'API Data Fair avant d'être modifiée.
+
+**Source de schéma consultée :** API ADEME « Liste des entreprises RGE », actualisation indiquée au 30 juin 2026 ; champ géographique disponible : `code_postal`.
