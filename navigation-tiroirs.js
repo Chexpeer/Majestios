@@ -9,7 +9,7 @@
     nav.classList.add("site-nav-drawer");
     const css = document.createElement("link");
     css.rel = "stylesheet";
-    css.href = new URL("navigation-majestios.css", document.baseURI).href;
+    css.href = new URL("navigation-tiroirs.css", document.baseURI).href;
     css.dataset.majestiosNavigation = "true";
     document.head.append(css);
 
