@@ -86,7 +86,11 @@ export function createOfficialCompanyIdentityAdapter({ fetchImpl = fetch, now = 
         const activity = clean(record?.libelle_activite_principale || record?.activite_principale, 180);
         const city = clean(record?.siege?.libelle_commune || record?.siege?.commune, 100);
         const active = record?.etat_administratif === "A";
-        const exactMatch = normalizeName(name) === normalizeName(subject) || Boolean(auditCase?.siren && siren === clean(auditCase.siren, 9));
+        const sirenMatch = Boolean(auditCase?.siren && siren === clean(auditCase.siren, 9));
+        const exactNameMatch = normalizeName(name) === normalizeName(subject);
+        const subjectMatch = auditCase?.siren
+          ? sirenMatch ? "confirmed" : "rejected"
+          : exactNameMatch ? "probable" : "uncertain";
         const details = [
           siren ? "SIREN " + siren : "",
           active ? "établissement administratif actif" : record?.etat_administratif === "C" ? "établissement administratif cessé" : "état administratif non confirmé",
@@ -101,7 +105,7 @@ export function createOfficialCompanyIdentityAdapter({ fetchImpl = fetch, now = 
           excerpt: details,
           evidence_type: "business_identity",
           captured_at: capturedAt,
-          subject_match: exactMatch ? "confirmed" : "probable",
+          subject_match: subjectMatch,
           strength: "high",
           limitations: [
             "Cette observation confirme des éléments d'identité administrative, pas la qualité de la réputation en ligne.",
@@ -205,8 +209,8 @@ export function createBodaccLegalEventsAdapter({ fetchImpl = fetch, now = () => 
         const merchant = clean(record?.commercant, 180);
         const normalizedSubject = normalizeName(subject);
         const normalizedMerchant = normalizeName(merchant);
-        const match = normalizedMerchant && normalizedMerchant === normalizedSubject ? "confirmed" :
-          normalizedMerchant && (normalizedMerchant.includes(normalizedSubject) || normalizedSubject.includes(normalizedMerchant)) ? "probable" : "uncertain";
+        const match = normalizedMerchant && normalizedMerchant === normalizedSubject ? "probable" :
+          normalizedMerchant && (normalizedMerchant.includes(normalizedSubject) || normalizedSubject.includes(normalizedMerchant)) ? "uncertain" : "uncertain";
         const id = clean(String(record?.id || record?.numeroannonce || record?.publicationavis || ""), 100);
         const titleParts = [clean(record?.typeavis_lib, 120), clean(record?.familleavis_lib, 120)].filter(Boolean);
         const details = [
