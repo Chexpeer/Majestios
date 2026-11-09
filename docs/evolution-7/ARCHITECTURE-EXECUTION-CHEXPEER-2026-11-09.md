@@ -354,3 +354,65 @@ La documentation ne doit jamais faire passer une cible pour une fonction livrée
 La priorité n'est pas de développer immédiatement douze connecteurs séparés ni de créer un agent différent pour chaque domaine. La priorité est de construire un **socle d'exécution commun** : mission persistante, étapes, registre d'outils, worker, validation, journal et livrables. Les connecteurs métier viennent ensuite se brancher sur ce socle.
 
 C'est ce socle qui transformera Cheexpeer d'une vision fonctionnelle et de quelques fonctions spécialisées en un véritable agent technico-commercial capable d'exécuter, de vérifier et de rendre compte.
+
+
+## 13. Premier audit du système nerveux Supabase — 9 novembre 2026
+
+### 13.1 Environnements distants observés en lecture seule
+
+| Projet | État vérifié | Inventaire constaté |
+|---|---|---|
+| `majestios-crm` (`qxaghcifdhugfskuscoc`, Paris) | Actif, PostgreSQL 17.11 | 15 tables publiques ; RLS activé sur les 15 ; schéma `private` non accessible à `anon` ; 3 Edge Functions actives ; 1 tâche Cron CRM toutes les 5 minutes |
+| `MajestiOS-Test` (`qrlnnfjstoeliymxtkbk`, Francfort) | Actif, PostgreSQL 17.11 | Aucune table publique métier, aucune migration enregistrée par l'outil, aucune Edge Function ; seule extension pertinente observée : `pgcrypto` |
+
+Sur `majestios-crm`, les migrations distantes observées s'arrêtent à `20261108181246_vip_only_crm_access`. Les migrations Evolution-7 ultérieures du 9 novembre — notamment restrictions de colonnes, historique atomique, permissions d'import, restauration tenant-scoped et triggers d'intégrité — ne sont donc pas confirmées comme appliquées à cette base. Le dépôt Git ne doit jamais être pris pour un état de déploiement.
+
+### 13.2 Briques Supabase disponibles ou absentes
+
+| Brique | État observé sur `majestios-crm` | Rôle envisagé pour Cheexpeer |
+|---|---|---|
+| PostgreSQL | Présent | Source de vérité : missions, étapes, états, dépendances, décisions, journaux et quotas |
+| `pg_cron` | Installé ; 1 job CRM existant | Déclenchement des échéances, récurrences et reprises |
+| `pgmq` / Queues | Non installé / aucune file observée | Transport durable des travaux vers les consommateurs |
+| `pg_net` | Non installé | Appels HTTP asynchrones éventuels depuis PostgreSQL ; à évaluer, pas à activer par défaut |
+| Vault | Non installé / non observé | Secrets des connecteurs et appels planifiés, sans valeurs dans le dépôt |
+| `vector` | Non installé | Recherche sémantique documentaire éventuelle, après définition des besoins et du fournisseur d'embeddings |
+| Storage | Aucun bucket métier observé | Pièces jointes, captures, rapports et archives privées après définition des politiques d'accès |
+| Edge Functions | 3 actives | Endpoints et tâches courtes spécialisées ; pas un moteur de missions persistant à elles seules |
+| Auth + RLS | Présents ; RLS sur les 15 tables publiques observées | Identité, rattachement organisationnel et contrôle des données |
+| Realtime | Capacité non encore vérifiée dans cet audit | Notifications et actualisation du centre de commande, à valider |
+
+Les contrôles Supabase ont également signalé la protection des mots de passe compromis désactivée sur `majestios-crm`. Vérifier le mode d'authentification effectivement proposé ; si des mots de passe sont acceptés, activer cette protection avant une ouverture plus large. L'audit performance a signalé 20 index inutilisés à ce stade : ne pas les supprimer sans mesure d'usage représentative.
+
+### 13.3 Architecture cible recommandée
+
+1. **Tables métier durables dans PostgreSQL** : `agent_missions`, `agent_mission_steps`, `agent_mission_events`, `agent_approvals`, `agent_tool_registry`, `agent_artifacts` et `agent_schedules` (noms indicatifs à confirmer avant migration).
+2. **Ordonnanceur métier** : sélectionne les missions dues selon priorité, `run_at`, échéance, dépendances, budget, quotas et règles anti-famine. Il ne délègue pas ces décisions à l'ordre FIFO d'une file.
+3. **Queues pgmq** : distribuent les identifiants de missions/étapes prêtes ; messages minimaux, sans secrets ni documents confidentiels en clair. La base métier reste la source de vérité.
+4. **Worker / consommateurs** : prennent un travail avec bail/visibilité, vérifient l'état et l'idempotence, appellent un outil autorisé, enregistrent la sortie, puis acquittent ou planifient une reprise bornée. Les tâches longues ou durables pourront nécessiter un worker externe persistant ; ne pas faire dépendre une mission longue d'une invocation Edge Function unique.
+5. **Cron** : réveille l'ordonnanceur et les reprises à intervalles maîtrisés ; conserver un nombre limité de jobs, avec suivi de durée et d'échec.
+6. **Edge Functions** : API d'entrée, connecteurs et opérations courtes, avec authentification, validation des paramètres et contrôle des droits à chaque appel.
+7. **Realtime** : diffuse les changements d'état autorisés vers le cockpit, sans remplacer le journal durable.
+8. **Storage privé** : conserve les fichiers ; la base conserve leurs métadonnées, leur propriétaire, leur organisation, leur classification et leurs références. Les accès sont contrôlés par politiques dédiées.
+9. **Vault** : conserve les secrets serveur nécessaires aux appels externes ; aucun secret dans le navigateur, les messages de queue ou Git.
+10. **Registre des outils** : associe chaque outil à un schéma d'entrée/sortie, un contexte, un niveau d'autonomie, un coût, un délai, des effets et une règle de validation.
+
+### 13.4 Règles de conception non négociables
+
+- Séparer les missions immédiates des missions planifiées sans sacrifier les urgences légitimes.
+- Ne jamais utiliser la queue comme seul historique ou registre d'état.
+- Prévoir clés d'idempotence, baux d'exécution, tentatives bornées, backoff, file d'échec et reprise contrôlée.
+- Cloisonner les missions, fichiers et journaux par espace et organisation ; le cockpit privé administrateur reste strictement séparé.
+- Le worker ne reçoit que les permissions nécessaires à l'étape ; aucun accès global implicite lié au statut d'agent IA.
+- Toute action externe sensible (message, campagne, publication, dépense, suppression, changement de droits) applique le niveau de validation requis.
+- Mesurer coût, durée, volume, erreurs et appels fournisseurs par mission.
+- Commencer par une mission de test sans effet externe, puis un connecteur en lecture seule, avant toute écriture métier.
+
+### 13.5 Suite de l'audit
+
+- Réconcilier précisément les migrations Git et les migrations distantes, puis examiner les fonctions SQL, RLS et droits effectifs avant toute application.
+- Vérifier les paramètres Auth, les flux OTP, Realtime, les politiques Storage et la configuration des secrets sans afficher de valeurs sensibles.
+- Comparer les trois Edge Functions déployées à leurs sources Git et vérifier leurs contrats d'autorisation.
+- Préparer l'environnement `MajestiOS-Test` comme cible de recette uniquement après synchronisation contrôlée des migrations et des fonctions.
+- Concevoir le socle de mission dans Git et le tester d'abord hors production. Aucun changement distant, aucune migration, activation d'extension, création de bucket ou déploiement n'a été effectué pendant cet inventaire.
+
