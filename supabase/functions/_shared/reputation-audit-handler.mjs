@@ -74,8 +74,8 @@ export function createReputationAuditHandler({ authenticate, fetchImpl = fetch, 
       return json({
         ...dto,
         subject: auditCase.subject,
-        scope: "identity_context",
-        notice: "Cheexpeer a vérifié le contexte administratif disponible. Ces éléments ne constituent pas un audit ni un score de réputation en ligne."
+        scope: "identity_and_legal_context",
+        notice: "Cheexpeer a vérifié le contexte administratif et les annonces légales accessibles. Ces éléments ne constituent pas un audit ni un score de réputation en ligne."
       }, 200, req);
     } catch {
       return json({ error: "La collecte de contexte administratif n'a pas pu aboutir." }, 502, req);
