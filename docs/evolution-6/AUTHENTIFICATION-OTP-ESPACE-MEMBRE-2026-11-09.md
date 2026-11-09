@@ -121,3 +121,16 @@ Le QR code n'est pas implémenté dans cette livraison. Il ne doit jamais être 
 - [ ] Validation complète avant activation sur le projet métier.
 
 **Conclusion :** le parcours front-end OTP et son contrat de provisionnement sont versionnés sur `Evolution-6`. La livraison n'est pas encore qualifiée d'opérationnelle en production ; la configuration Auth, le déploiement Edge manquant et les tests d'intégration restent des prérequis explicites.
+
+
+## 9. Contrôle de suivi après le « Go » — 9 novembre 2026, 10:06 UTC
+
+Contrôle effectué sur le dernier commit applicatif examiné (`add27bbe5baccc5a8a0061a0eaa48b706071cdc4`) :
+
+- Le workflow `verify-site.yml` est configuré pour `push` et `pull_request`.
+- Le wrapper GitHub disponible pour les exécutions associées à un commit ne retourne que les exécutions déclenchées par pull request ; il ne permet donc pas, à lui seul, de conclure qu'aucune exécution push n'existe.
+- Le statut combiné GitHub du commit contrôlé ne retourne aucun statut. Il n'y a donc pas de preuve vérifiable, par cette interface, que la CI du dernier commit soit passée.
+- Le projet Vercel de preview `majestios-jc8g` est toujours en état READY, mais le dernier déploiement retourné pointe sur le commit antérieur `934ec9154cd8b905a8137a1e5d7e976564f977de`, pas sur les modifications OTP. Aucun aperçu contenant le nouveau parcours n'est donc confirmé.
+- Le projet Supabase `MajestiOS-Test` est `ACTIVE_HEALTHY`, mais reste vierge : zéro migration et zéro fonction Edge. Il ne peut pas encore exécuter le flux d'inscription tant que le schéma et les dépendances de la fonction ne sont pas installés.
+
+**Décision de sécurité :** aucune migration n'a été appliquée, aucune fonction Edge n'a été déployée, aucune configuration Auth distante n'a été modifiée et aucun déploiement Vercel n'a été lancé. Il faut d'abord reconstituer l'environnement de test à partir des migrations validées du dépôt, vérifier leur ordre et leur compatibilité, puis exécuter les tests. Ne pas copier les données du projet métier vers l'environnement de test.
