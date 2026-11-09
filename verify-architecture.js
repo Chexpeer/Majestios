@@ -174,8 +174,8 @@ assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes
   "Espace membre : le formulaire doit utiliser le contrôleur Auth Supabase");
 assert(memberPage.includes('name="privacyAccepted"') && memberPage.includes('autocomplete="one-time-code"'),
   "Espace membre : consentement et saisie du code OTP attendus");
-assert(memberAuth.includes("signUp(") && memberAuth.includes("signInWithOtp(") &&
-  memberAuth.includes("verifyOtp(") && memberAuth.includes("shouldCreateUser: false"),
+assert(memberAuth.includes("signInWithOtp(") && memberAuth.includes("verifyOtp(") &&
+  memberAuth.includes("shouldCreateUser: mode === \"signup\""),
   "Espace membre : inscription, connexion OTP et vérification du code doivent être implémentées");
 assert(!memberPage.includes('name="password"') && !memberPage.includes('name="passwordConfirm"') &&
   !memberAuth.includes("signInWithPassword(") && !memberAuth.includes("resetPasswordForEmail("),
