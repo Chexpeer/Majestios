@@ -379,8 +379,8 @@ if (leadForm && formFeedback) {
 
 // Navigation globale MajestiOS : toutes les rubriques et pages métier restent accessibles.
 const navigationGroups = [
-  { label: "Opportunités", items: [
-    ["Marchés publics","marches-publics.html"],["Marchés privés","marches-prives.html"],
+  { label: "Appels d’offres", items: [
+    ["Appels d’offres publics","marches-publics.html"],["Appels d’offres privés","marches-prives.html"],
     ["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],
     ["Sous-traitance","sous-traitance.html"],["Services numériques","categorie-services-numeriques.html"],
     ["Travaux & aménagement","categorie-travaux-amenagement.html"],["Conseil & études","categorie-conseil-etudes.html"],
