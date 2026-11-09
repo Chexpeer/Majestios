@@ -27,7 +27,6 @@ jobs:
           node --check official-source-links.mjs
           node --input-type=module --check < reputation-virtuelle.js
           node --check supabase/functions/_shared/reputation-audit-provider.mjs
-          node --check reputation-virtuelle.js
           node --check reputation-audit-core.mjs
           node --check reputation-audit-connectors.mjs
           node --check reputation-audit-analysis.mjs
