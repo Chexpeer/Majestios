@@ -1,5 +1,11 @@
 # Documentation MajestiOS
 
+## Suivi prioritaire — anomalies critiques
+
+**À lire avant toute intervention :** [Dossier central des anomalies critiques](CRITIQUES/README.md).  
+Ce dossier est le point d'entrée commun à tous les agents et développeurs. Il renvoie vers le registre détaillé de la branche active, distingue anomalies, évolutions produit et recettes, et fixe les règles de correction et de validation.
+
+
 **Index — 6 novembre 2026** · Référentiel V5 source : `evolution-5.0` · PR #38 fusionnée dans `main` · Branche de réalisation du cockpit : `evolution-5.0-admin-cockpit`
 
 La branche `evolution-5.0` porte le référentiel documentaire actuel de MajestiOS. Les versions antérieures restent séparées sur leurs branches sources : `evolution-2.0`, `evolution-3.0` et `evolution-4.0`. Leurs dossiers ne sont pas recopiés dans V5.
