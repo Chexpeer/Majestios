@@ -57,6 +57,7 @@ Le tableau de bord admin est le centre de supervision de Cheexpeer, pas une clé
 | 6 | [Intégration de Cheexpeer — état du lot](evolution-7/LOT-CHEXPEER-INTEGRATION-2026-11-09.md) | Connexions réellement actives, limites et architecture cible des quatre espaces Cheexpeer |
 | 7 | [Registre des anomalies prioritaires](evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md) | Défauts avérés et risques à traiter, distincts des évolutions souhaitées |
 | 8 | [Cahier des charges fonctionnel MajestiOS & Cheexpeer](evolution-7/CAHIER-DES-CHARGES-FONCTIONNEL-MAJESTIOS-CHEXPEER-2026-11-09.md) | Publics, services, parcours métier, CRM, missions de Cheexpeer, automatisations et critères de recette |
+| 9 | [Cahier des charges détaillé de Cheexpeer](evolution-7/CAHIER-DES-CHARGES-DETAILLE-CHEXPEER-2026-11-09.md) | Spécification complète de l'agent : quatre espaces, 12 compétences, missions, autonomie, centre de commande, mémoire, connecteurs, recettes et état réel |
 
 ## 4. Organisation de la documentation
 
