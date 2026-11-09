@@ -172,7 +172,7 @@ for (const selector of ["#advanced-search-form", ".feed-search", ".feed-filter-l
   assert(sharedSearchCss.includes(selector), "Moteur partagé : style commun absent, " + selector);
 }
 assert(!home.includes('id="floor-rows"') && !home.includes('class="building-home"'), "Accueil : ancienne navigation par immeuble encore présente");
-assert(home.includes('class="home-rubric-directory"'), "Accueil : répertoire classique des rubriques absent");
+assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
 assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes("Assistant conversationnel de première génération"), "Assistant conversationnel partagé absent");
 
 
