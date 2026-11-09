@@ -6,15 +6,13 @@
 
 ## 1. Décision de lancement
 
-MajestiOS ne doit pas devenir une citadelle imprenable. Pendant la phase pilote, les premiers clients doivent pouvoir découvrir, parcourir, tester et évaluer les différentes rubriques et les fonctionnalités disponibles, sans être enfermés dans un parcours trop étroit ni bloqués par des cloisonnements fonctionnels prématurés.
+MajestiOS ne doit pas devenir une citadelle imprenable. La première phase est un **cercle de mise au point de 5, 6 ou 7 personnes de confiance** — amis, collègues et investisseurs — et non une cohorte de clients recrutés ni un lancement commercial. Ces participants doivent pouvoir découvrir, parcourir et tester largement les rubriques et fonctionnalités disponibles, afin de contribuer à poser les bases d'un outil efficace et de donner des avis concrets.
 
-**Repère indicatif de réévaluation : autour des 6 à 7 premières organisations clientes, sans seuil fixe.** Le chiffre de 20 mentionné initialement n'est ni un objectif, ni un minimum à atteindre, ni une condition d'ouverture ou de fermeture. Le premier bilan peut être avancé dès que 6 ou 7 organisations fournissent des retours suffisamment représentatifs ; il peut aussi être différé si l'échantillon ou le recul sont insuffisants. La stratégie est réexaminée selon les usages, les retours, les coûts, les incidents et les besoins réels, sans attendre un nombre prédéfini. Aucun seuil n'entraîne de fermeture automatique.
-
-Pour le suivi initial, le compteur porte provisoirement sur les comptes clients distincts (et non sur le nombre de rubriques consultées ou de sessions). Cette convention devra être confirmée au moment de l'instrumentation.
+**Repère de constitution du premier cercle : 5, 6 ou 7 personnes**, sans obligation d'atteindre un nombre précis. Leur rôle est de tester l'outil, aider à en établir les bases et formuler des retours ; leur participation ne leur confère pas automatiquement le statut de client, d'investisseur au capital ou d'administrateur. Il n'existe aucun seuil commercial ou mécanisme de fermeture lié à ce groupe. La suite dépendra de la qualité des retours, de la maturité du produit, des usages, des coûts, des incidents et des besoins constatés.
 
 ## 2. Ce qui doit être ouvert pendant la phase pilote
 
-Pour les comptes clients actifs de la cohorte initiale :
+Pour les participants identifiés du premier cercle :
 
 - accès de navigation à toutes les rubriques métier ouvertes au test ;
 - passage libre d'une rubrique à l'autre, sans devoir créer un compte distinct ni demander une habilitation à chaque changement ;
@@ -28,7 +26,7 @@ L'objectif est de tester le produit dans son ensemble, pas seulement une rubriqu
 
 ## 3. Ouverture fonctionnelle ≠ accès universel aux données
 
-La liberté de circulation concerne d'abord les **rubriques et les fonctionnalités**. Elle ne donne pas à un client le droit de consulter les données privées d'un autre client, les conversations confidentielles de l'administrateur ou les opérations réservées à l'administration.
+La liberté de circulation et l'ouverture initiale des droits concernent d'abord les **rubriques et les capacités de test**. Elles ne donnent pas accès aux données privées d'autres organisations, aux conversations confidentielles de l'administrateur, aux secrets techniques ni aux opérations d'administration qui doivent rester protégées.
 
 Les frontières minimales suivantes restent en place :
 
@@ -58,42 +56,47 @@ Le parcours de création de compte doit notamment prévoir, selon le niveau de r
 
 Une fois le compte créé et son espace établi, l'utilisateur ne doit pas subir de demandes répétées d'autorisation pour simplement explorer les rubriques. Les actions sensibles — accès administratif, partage externe, campagne de prospection, dépense, suppression importante ou modification des droits — conservent une validation adaptée.
 
-## 5. Règles de conception des droits
+## 5. Règles de conception et d'évolution des droits
 
-Les droits doivent être organisés en trois dimensions distinctes :
+Au démarrage, l'attribution des droits aux 5 à 7 participants de confiance doit être **ouverte et suffisamment large** pour qu'ils puissent tester l'ensemble des parcours et fonctions disponibles, sans habilitations répétitives à chaque changement de rubrique. Il s'agit d'une ouverture volontaire, organisée et réversible pour le cercle initial — pas d'une ouverture publique ni d'un accès universel à toutes les données.
 
-1. **Accès aux rubriques :** largement ouvert à la cohorte pilote.
-2. **Capacités fonctionnelles :** activées selon l'état du service ; les opérations d'essai doivent être possibles dans un périmètre maîtrisé.
-3. **Accès aux données et actions privilégiées :** limité par utilisateur, organisation et rôle.
+Cette ouverture sera ensuite **réduite et affinée progressivement**, à partir des retours, des rôles réellement tenus, des besoins constatés et de la préparation à une ouverture plus large. Les droits deviendront alors différenciés selon les profils et les responsabilités, en évitant les privilèges inutiles.
 
-Un refus d'accès doit être réservé à une véritable raison : donnée appartenant à un tiers, action administrative, fonction non activée, risque concret ou obligation applicable. Un simple changement de rubrique ne doit pas provoquer un refus d'autorisation.
+Dès le départ, les garde-fous suivants restent non négociables :
 
-Les profils ne doivent pas être multipliés artificiellement pour reproduire chaque rubrique. Un même compte client doit pouvoir tester plusieurs domaines métier.
+- un compte nominatif par personne ; aucun partage d'identifiants ;
+- cloisonnement des données entre organisations et espaces privés ;
+- accès VIP / Administration et secrets techniques réservés aux personnes expressément habilitées ;
+- actions sensibles ou irréversibles soumises à une validation adaptée ;
+- droits traçables, révocables et révisables individuellement.
 
-## 6. Après les 20 premiers clients
+Un simple changement de rubrique ne doit pas provoquer un refus d'autorisation. Les restrictions doivent correspondre à une frontière réelle de données, à une action sensible, à un risque concret ou à une obligation applicable.
 
-À l'atteinte du seuil, organiser une revue avant toute restriction nouvelle :
+## 6. Révision des droits après le premier cercle
+
+À l'issue des premiers tests, organiser une revue avant d'ouvrir plus largement MajestiOS :
 
 - rubriques réellement utilisées et parcours les plus fréquents ;
 - fonctions qui apportent une valeur démontrée ;
 - demandes d'accès et blocages rencontrés ;
-- retours des clients et difficultés d'appropriation ;
+- retours des participants et difficultés d'appropriation ;
 - charge opérationnelle, coûts de collecte et d'IA ;
 - incidents, erreurs et besoins de confidentialité ;
 - différences pertinentes entre catégories de clients.
 
-La revue pourra conduire à conserver l'ouverture, à simplifier certains parcours, à introduire des niveaux de service ou à restreindre certaines fonctions coûteuses ou sensibles. Aucune restriction générale ne doit être décidée sur le seul fait que le seuil de 20 est atteint.
+La revue devra notamment décider quels droits conserver, réduire ou séparer, quelles fonctions nécessitent des profils distincts et quels points doivent être corrigés avant une ouverture plus large. La réduction des droits sera progressive, motivée et vérifiée ; elle ne doit pas empêcher les personnes de confiance de contribuer utilement à la phase de mise au point.
 
 ## 7. Critères de recette de la phase pilote
 
-- Un compte client pilote peut ouvrir chaque rubrique métier déclarée disponible.
+- Chaque participant du premier cercle peut ouvrir les rubriques métier déclarées disponibles pour le test.
 - Il peut passer d'une rubrique à l'autre sans nouvelle habilitation ni reconnexion injustifiée.
 - Les fonctions disponibles sont testables dans son propre espace ou dans un environnement de démonstration clairement signalé.
 - Un client ne peut pas consulter les données privées d'une autre organisation en changeant d'URL, d'identifiant ou de rubrique.
 - L'accès VIP / Administration et le centre de commande privé restent inaccessibles aux comptes clients ordinaires.
 - Les fonctions non disponibles sont indiquées honnêtement ; aucun bouton ne simule une action réussie.
-- Les retours et anomalies de la cohorte pilote peuvent être enregistrés et suivis.
-- Le nombre de comptes clients pilotes est mesurable afin de déclencher la revue au seuil de 20.
+- Les retours et anomalies du premier cercle peuvent être enregistrés et suivis.
+- Les droits accordés à chaque participant sont identifiables, traçables et révocables.
+- La revue de fin de phase peut conduire à une réduction ou une différenciation des droits avant l'ouverture élargie.
 
 ## 8. Conséquences pour l'audit et la feuille de route
 
@@ -120,4 +123,4 @@ Le contrôle ciblé effectué après la décision montre déjà une distinction 
 
 **Conséquence :** ne pas supprimer ces contrôles par réflexe. La prochaine vérification fonctionnelle doit porter sur les parcours réellement proposés aux comptes clients, les éventuels contrôles de rôle propres à chaque page ou API et l'existence d'un espace de test client. Les assouplissements doivent porter sur les restrictions de navigation et d'usage qui bloquent sans raison les tests, pas sur la séparation des espaces internes, les données des autres organisations ou le cockpit privé.
 
-Aucune règle RLS, migration Supabase, authentification, permission distante ni code d'accès n'a été modifié par la création de cette stratégie documentaire.
+Aucune règle RLS, migration Supabase, authentification, permission distante ni code d'accès n'a été modifié par cette mise à jour documentaire. L'ouverture initiale des droits reste une décision de conception à implémenter et à tester ; elle ne constitue pas une autorisation de supprimer les frontières de sécurité.
