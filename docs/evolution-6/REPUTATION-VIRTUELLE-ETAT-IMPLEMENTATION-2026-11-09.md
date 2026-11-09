@@ -39,6 +39,8 @@ Les références visuelles Facebook, YouTube, Instagram, LinkedIn, TikTok et X i
 
 ## 3. Capacités non livrées — ne pas les présenter comme opérationnelles
 
+**Règle métier confirmée : l'audit est une mission interne de Cheexpeer.** L'utilisateur cadre le besoin et fournit les informations nécessaires ; Cheexpeer doit conduire l'investigation, l'analyse, le diagnostic et les recommandations. Le prototype actuel ne réalise pas encore cette mission automatisée.
+
 Le lot ne comprend pas :
 
 - de connexion OAuth ou API aux réseaux sociaux ;
@@ -82,7 +84,13 @@ Le contenu des résultats Google intégrés n’est pas vérifiable par un test 
 
 La PR #53 n’introduit aucun changement au CRM VIP, à Auth, aux rôles, aux permissions, à Supabase ou aux politiques RLS. Le dossier d’audit reste local à la session. Aucun déploiement ou promotion en production n’est autorisé par la fusion de cette PR.
 
-## 7. Suites recommandées
+## 7. Recette navigateur ajoutée le 9 novembre 2026
+
+Le test Playwright `tests/reputation-virtuelle.browser.cjs` a été ajouté au workflow `.github/workflows/verify-site.yml`. Le run GitHub Actions `42584058635` est terminé avec succès. Il vérifie la préparation et la restauration du dossier après rechargement, l'affichage des données comme texte (sans interprétation HTML), le plafonnement du journal à 50 entrées, l'URL et le lien de secours Google Maps, ainsi que la réinitialisation du dossier et du journal.
+
+Cette recette valide les comportements de l'interface et du stockage de session ; elle ne valide pas encore l'orchestration ni l'analyse interne de Cheexpeer.
+
+## 8. Suites recommandées
 
 1. Ajouter les tests navigateur dédiés au dossier d’audit et au journal de session.
 2. Vérifier la validation des champs, l’échappement des données affichées et l’absence d’injection HTML.
