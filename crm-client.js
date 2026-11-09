@@ -216,32 +216,13 @@ async function update(table, id, values) {
     }
     payload.qualification_score = score;
   }
-  const { data: before, error: readError } = await supabase.from(table).select("*")
-    .eq("id", id).eq("organization_id", membership.organization_id).single();
-  if (readError) throw readError;
   const { data, error } = await supabase.from(table).update(payload)
     .eq("id", id).eq("organization_id", membership.organization_id).select("*").single();
   if (error) throw error;
   if (!data || data.organization_id !== membership.organization_id) throw new Error("Modification non confirmée dans votre espace.");
-  const changedFields = entries.filter(([key, value]) => before[key] !== value).map(([key]) => key);
-  if (!changedFields.length) return { record: data, historyRecorded: true };
-  const isQualification = table === "businesses" || table === "opportunities";
-  const statusChanged = table === "opportunities" && before.status !== data.status;
-  const activityType = statusChanged ? "status_change" : isQualification ? "qualification" : "note";
-  const subject = statusChanged ? "Étape commerciale modifiée : " + data.title : isQualification ? "Qualification mise à jour : " + (data.legal_name || data.title) : "Fiche contact modifiée : " + [data.first_name, data.last_name].filter(Boolean).join(" ");
-  const body = statusChanged ? "Étape précédente : " + before.status + " · Nouvelle étape : " + data.status : "Champs modifiés : " + changedFields.join(", ");
-  const { data: authData } = await supabase.auth.getUser();
-  const { error: historyError } = await supabase.from("activities").insert({
-    organization_id: membership.organization_id, actor_user_id: authData.user?.id || null,
-    activity_type: activityType, subject, body,
-    business_id: table === "businesses" ? data.id : (data.business_id || before.business_id || null),
-    contact_id: table === "contacts" ? data.id : null,
-    opportunity_id: table === "opportunities" ? data.id : null,
-    metadata: { entity_type: table, entity_id: id, changed_fields: changedFields,
-      previous_status: before.status ?? before.qualification_status ?? null,
-      new_status: data.status ?? data.qualification_status ?? null }
-  });
-  return { record: data, historyRecorded: !historyError };
+  // L'historique est écrit par le trigger SQL dans la même transaction que la fiche.
+  // Ne pas ajouter une seconde activité côté navigateur : cela créerait des doublons.
+  return { record: data, historyRecorded: true };
 }
 
 async function create(table, values) {
