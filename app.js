@@ -457,8 +457,7 @@ if (navigation) {
       if (event.key === "Escape") { setOpen(false); trigger.focus(); }
     });
     wrapper.addEventListener("focusout", (event) => { if (!wrapper.contains(event.relatedTarget)) setOpen(false); });
-    wrapper.addEventListener("mouseenter", () => { if (window.matchMedia("(min-width: 1021px)").matches) setOpen(true); });
-    wrapper.addEventListener("mouseleave", () => { if (window.matchMedia("(min-width: 1021px)").matches && !wrapper.contains(document.activeElement)) setOpen(false); });
+    // L’ouverture reste explicite au clic ou au clavier, sans conflit entre survol et activation tactile.
     document.addEventListener("pointerdown", (event) => { if (!wrapper.contains(event.target)) setOpen(false); });
     wrapper.append(trigger, panel);
     navigation.append(wrapper);
