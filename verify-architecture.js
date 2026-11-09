@@ -58,6 +58,11 @@ const navigationController = read("app.js");
 const navigationStyles = read("navigation-majestios.css");
 assert(navigationController.includes("const navigationGroups = ["), "Navigation : catalogue global des rubriques absent");
 assert(navigationController.includes("Assistant conversationnel de première génération"), "Assistant conversationnel absent du contrôleur partagé");
+for (const preservedText of ["MAJESTIOS · GUIDE DE VISITE","Besoin d’un coup de pouce","Par où commencer ?","Vous proposez, MajestiOS dispose.","Rechercher une opportunité","Découvrir le développement commercial","Préparer mon espace personnel","Consulter les questions fréquentes"]) {
+  assert(navigationController.includes(preservedText), "Assistant : texte ou raccourci historique non préservé : " + preservedText);
+}
+assert(navigationController.includes('label:"Veille des entreprises · BODACC",href:"bodacc-veille-entreprises.html"'),
+  "Assistant : orientation directe vers la veille BODACC absente");
 const requiredNavigationRoutes = [
   "marches-publics.html","marches-prives.html","veille-marches.html","bodacc-veille-entreprises.html",
   "sous-traitance.html","developpement-commercial.html","prospection-active.html",
