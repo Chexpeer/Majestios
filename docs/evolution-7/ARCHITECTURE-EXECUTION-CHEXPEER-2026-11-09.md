@@ -619,3 +619,30 @@ Ces résultats sont des validations CI sur le code source. Ils ne prouvent pas e
 - Le projet de production `majestios-crm` reste hors périmètre et non modifié.
 
 **Prochaine étape sûre :** préparer un test d'intégration isolé, strictement limité à `MajestiOS-Test`, avec une mission `readiness_probe`, un nettoyage contrôlé et aucune connexion métier. Le déploiement Edge, la configuration de secrets et le provisionnement d'un hôte restent des décisions distinctes qui nécessitent une autorisation explicite.
+
+
+### 13.12 Limitation HTTP appliquée en flux et état de recette — 9 novembre 2026
+
+Le contrôle de taille du pont Edge est désormais effectué pendant la lecture du flux HTTP, avec annulation de la lecture dès que 64 Ko sont dépassés ; il ne dépend pas uniquement de l'en-tête `Content-Length`. Le résultat JSON d'une mission reste limité à 32 Ko.
+
+#### Dernière validation automatisée du code
+
+Tête de branche contrôlée : `b3e2018dcc4106201c918fda266280dd8ec2e027`.
+
+- Worker contract CI, run 42699390224 : **succès**.
+- Vérification globale du site, run 42699390466 : **succès**.
+- Les contrôles statiques et navigateurs du site, y compris les vérifications d'API BOAMP/BODACC et de parcours sans transmission de données, ont terminé sans échec dans ce workflow.
+
+La validation reste une preuve CI du code source ; elle ne vaut pas exécution réelle du worker.
+
+#### État distant de recette constaté
+
+Sur `MajestiOS-Test`, lecture SQL en date du 9 novembre :
+- 0 outil métier activé ;
+- 0 message actif dans la file PGMQ ;
+- 0 tâche Cron Cheexpeer ;
+- missions de test : 2 `succeeded`, 1 `blocked`, 1 `awaiting_approval`.
+
+La mission `awaiting_approval` est conservée comme preuve du verrou d'approbation. La décision positive attend un véritable compte owner/admin de recette ; ne pas forcer son approbation par SQL ni la supprimer pour faire disparaître le statut.
+
+**Prochaine action technique :** construire un test d'intégration du cycle complet limité à MajestiOS-Test. Tant que la passerelle Edge n'est pas déployée et que les secrets ne sont pas configurés, le worker ne peut pas être déclaré opérationnel.
