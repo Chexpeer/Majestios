@@ -88,14 +88,41 @@ L'audit du code de la branche distingue l'interface, les services métier et l'a
 | CRM | `crm-client.js` utilise directement Supabase pour les données CRM et les règles VIP. Aucun appel à Cheexpeer ni outil CRM dédié à l'agent n'a été trouvé dans le client CRM audité. | Cheexpeer n'est pas encore raccordé au CRM. |
 | GitHub | Aucun connecteur GitHub ni secret d'accès dépôt n'a été trouvé dans le runtime applicatif audité. | GitHub n'est pas une connexion de l'agent dans le produit. L'accès GitHub utilisé pendant cet audit est un outil de développement distinct. |
 
-### Ordre de raccordement recommandé
+### Architecture cible — un agent, quatre espaces
 
-**Priorité 1 — CRM MajestiOS :** c'est le référentiel commercial central. Commencer par des outils de lecture strictement limités à l'espace autorisé : recherche de fiches, contacts, opportunités, historique et rappels. Cheexpeer doit pouvoir préparer une qualification, une synthèse ou une action proposée. Toute création, modification, relance ou prise de contact reste soumise à validation et à des droits explicites. Ne jamais donner à l'agent une clé `service_role` ou un accès direct général aux tables.
+Cheexpeer conserve une identité unique et intervient dans quatre espaces complémentaires :
 
-**Priorité 2 — services métier :** raccorder progressivement les services de prospection, de veille et de réputation comme des outils spécialisés, avec provenance, date, périmètre et statut de fiabilité pour chaque résultat. Un résultat de recherche ne devient pas automatiquement une fiche CRM.
+1. **Chat utilisateurs** — assistance et échanges avec les utilisateurs de MajestiOS, selon leurs droits et les fonctionnalités réellement disponibles.
+2. **Tableau de bord admin** — poste de supervision privilégié : l'administrateur dialogue directement avec Cheexpeer, lui confie des tâches, suit leur avancement, consulte les alertes, l'historique et les anomalies, puis valide les actions qui le nécessitent. Le cockpit actuel (`administration.html` / `administration.js`) est un tableau de bord de pilotage, mais ne contient pas encore de fenêtre de dialogue Cheexpeer.
+3. **Supabase / CRM** — consultation et opérations métier limitées à l'organisation et au rôle autorisés. Les écritures sont préparées puis exécutées selon des règles de validation adaptées.
+4. **GitHub / développement** — audit du dépôt, suivi des anomalies, tests, propositions de correction sur branche de travail et mise à jour documentaire. Aucun merge, déploiement ou changement de production sans autorisation explicite.
 
-**Priorité 3 — GitHub, séparément :** utile seulement si Cheexpeer reçoit aussi une mission d'assistance technique sur le dépôt. Dans ce cas : accès en lecture par défaut, dépôt et branche autorisés, aucun secret exposé au modèle, modifications proposées en branche, tests et validation humaine avant fusion ou déploiement. Cette connexion ne doit pas être confondue avec son rôle d'agent commercial.
+Le cockpit admin est le centre de supervision de l'agent, pas un accès universel. Les quatre espaces partagent une orchestration et une capitalisation gouvernée, mais chaque connecteur conserve ses permissions, son contexte, ses journaux et ses limites. Aucun secret privilégié ne doit être transmis au modèle.
 
-### Décision d'architecture à retenir
+### Archivage, historisation et amélioration continue
 
-Cheexpeer doit être **connecté d'abord au CRM**, puis aux services métier de MajestiOS. GitHub relève d'un connecteur technique séparé, activé uniquement si cette mission est souhaitée. Le chatbot local actuel pourra devenir l'interface conversationnelle de Cheexpeer, mais il ne faut pas annoncer cette évolution comme déjà réalisée.
+Cheexpeer doit progressivement :
+- archiver les échanges, dossiers, décisions, preuves, anomalies, corrections et résultats de tests ;
+- historiser les actions avec date, auteur/agent, source, motif, statut et preuve ;
+- retrouver les informations utiles et signaler les contradictions ;
+- capitaliser les enseignements vérifiés et les retours autorisés ;
+- détecter les anomalies et préparer des corrections réversibles ;
+- analyser les frictions d'usage, proposer des simplifications ergonomiques et vérifier les non-régressions.
+
+L'apprentissage désigne une capitalisation contrôlée des informations autorisées, pas un entraînement autonome du modèle, une modification autonome de ses règles ou un droit de publier/déployer sans validation.
+
+### Priorités de réalisation
+
+1. Stabiliser les parcours CRM et l'accès multi-espace avec un sélecteur simple plutôt qu'un refus systématique lorsqu'un compte possède plusieurs appartenances.
+2. Construire le point d'entrée conversationnel Cheexpeer dans le cockpit admin, avec suivi des tâches, alertes, historique et validations.
+3. Raccorder le chat utilisateurs à la même identité Cheexpeer, avec contexte et droits propres.
+4. Ouvrir les outils CRM en lecture contrôlée, puis les actions métier validées.
+5. Ouvrir le connecteur GitHub en lecture sur les dépôts/branches autorisés, puis les propositions de correction sur branche.
+6. Mettre en place archivage, historisation, recherche et capitalisation communes, avec règles de conservation et cloisonnement.
+7. Ajouter la boucle d'amélioration ergonomique fondée sur les retours, mesures et tests.
+
+### État réel et décision
+
+L'audit confirme que le chatbot global actuel est un guide à mots-clés, que le cockpit admin actuel ne comporte pas de dialogue Cheexpeer, que le CRM utilise directement Supabase sans outil Cheexpeer dédié et qu'aucun connecteur GitHub Cheexpeer n'est intégré au runtime applicatif. Le parcours Réputation virtuelle constitue la première capacité serveur limitée de l'agent, avec fournisseur IA non configuré dans ce lot.
+
+L'architecture cible est donc **un Cheexpeer unique à quatre espaces**. Cette décision est actée dans la documentation ; elle ne signifie pas que les quatre connexions sont déjà opérationnelles.
