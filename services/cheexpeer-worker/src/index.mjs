@@ -1,4 +1,5 @@
 import { createServer } from "node:http";
+import { isBootstrapMission, healthIsReady } from "./policy.mjs";
 import { randomUUID } from "node:crypto";
 
 const config = {
@@ -55,7 +56,7 @@ async function processOneMission() {
 
   // Deliberately the only executable handler in this bootstrap worker.
   // It has no external side effects. All business tools remain disabled.
-  if (mission.mission_type === "readiness_probe" && Number(mission.autonomy_level) === 0) {
+  if (isBootstrapMission(mission)) {
     const completed = await bridge("complete_mission", {
       mission_id: mission.mission_id,
       worker_id: config.workerId,
@@ -132,10 +133,7 @@ const server = createServer((req, res) => {
     res.end(JSON.stringify({ error: "Not found" }));
     return;
   }
-  const healthy = !stopping && (
-    lastErrorAt === null
-    || (lastSuccessAt !== null && Date.parse(lastSuccessAt) >= Date.parse(lastErrorAt))
-  );
+  const healthy = healthIsReady({ stopping, lastErrorAt, lastSuccessAt });
   res.writeHead(healthy ? 200 : 503, { "content-type": "application/json", "cache-control": "no-store" });
   res.end(JSON.stringify({
     status: healthy ? "ok" : "degraded",
