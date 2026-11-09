@@ -7,6 +7,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
 const schema = read("supabase/migrations/20261105163901_majestios_core_multitenant_foundation.sql");
 const roles = read("supabase/migrations/20261106074500_enforce_crm_editor_roles.sql");
+const crmColumnHardening = read("supabase/migrations/20261109160000_restrict_crm_update_columns.sql");
 const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
@@ -54,6 +55,19 @@ for (const [table, policy] of [
 assert.match(roles, /m\.role in \('owner', 'admin', 'member'\)/);
 assert.match(roles, /create policy "Editors can append activities"/);
 assert.match(roles, /revoke update on public\.businesses, public\.contacts, public\.opportunities from authenticated/);
+assert.ok(crmColumnHardening.includes("revoke update on public.businesses, public.contacts, public.opportunities from authenticated"));
+for (const table of ["businesses", "contacts", "opportunities"]) {
+  const grantPattern = new RegExp("grant update \\(([\\s\\S]*?)\\) on public\\." + table + " to authenticated;");
+  const historicalGrant = roles.match(grantPattern);
+  const finalGrant = crmColumnHardening.match(grantPattern);
+  assert.ok(historicalGrant, "Liste blanche historique absente : " + table);
+  assert.ok(finalGrant, "Liste blanche finale absente : " + table);
+  assert.deepEqual(finalGrant[1].split(",").map(column => column.trim()).filter(Boolean),
+    historicalGrant[1].split(",").map(column => column.trim()).filter(Boolean),
+    "Les colonnes autorisées doivent rester identiques pour " + table);
+}
+assert.ok(crmColumnHardening.indexOf("revoke update") < crmColumnHardening.indexOf("grant update"),
+  "Le droit global doit être révoqué avant les droits ciblés.");
 assert.ok(vipBoundary.includes("private.can_read_crm_org"));
 assert.ok(vipBoundary.includes("private.can_edit_crm_org"));
 assert.ok(vipBoundary.includes("m.role in ('owner', 'admin')"));
