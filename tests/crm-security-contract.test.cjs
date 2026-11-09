@@ -15,6 +15,7 @@ const officialImportPermission = read("supabase/migrations/20261107070406_harden
 const officialImportVipHardening = read("supabase/migrations/20261109194500_harden_official_import_vip_permissions.sql");
 const officialImportEdge = read("supabase/functions/import-official-company/index.ts");
 const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
+const tenantCrmPermissions = read("supabase/migrations/20261109200000_restore_tenant_scoped_crm_permissions.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
 const client = read("crm-client.js");
@@ -351,3 +352,31 @@ assert.doesNotMatch(officialImportEdge, /upstream_status:/);
 assert.doesNotMatch(officialImportEdge, /\{ error: "[^"]+", detail \}/);
 assert.match(officialImportEdge, /console\.error\("Official company import failed\."/);
 console.log("Official company import hardening: OK — CORS à origine autorisée, rôle VIP cohérent et erreurs internes non exposées.");
+
+// The latest migration must win over the intermediate global VIP-only policy.
+// Internal CRM stays VIP-only; client/partner CRM remains tenant-scoped.
+for (const [table, action, helper] of [
+  ["businesses", "read", "can_read_crm_org"],
+  ["contacts", "read", "can_read_crm_org"],
+  ["opportunities", "read", "can_read_crm_org"],
+  ["activities", "read", "can_read_crm_org"],
+  ["crm_reminders", "read", "can_read_crm_org"],
+  ["businesses", "create", "can_edit_crm_org"],
+  ["contacts", "create", "can_edit_crm_org"],
+  ["opportunities", "create", "can_edit_crm_org"],
+  ["businesses", "update", "can_edit_crm_org"],
+  ["contacts", "update", "can_edit_crm_org"],
+  ["opportunities", "update", "can_edit_crm_org"],
+  ["activities", "append", "can_edit_crm_org"],
+  ["crm_reminders", "mark", "can_edit_crm_org"]
+]) {
+  assert.ok(tenantCrmPermissions.includes(helper), `Le contrôle ${helper} doit être appliqué à ${table}.`);
+}
+assert.match(tenantCrmPermissions, /create policy "Authorized users can read businesses"[\s\S]*?private\.can_read_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized editors can create businesses"[\s\S]*?private\.can_edit_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Organization admins can delete businesses"[\s\S]*?private\.is_org_admin/);
+assert.match(tenantCrmPermissions, /create or replace function public\.complete_crm_reminder\(p_reminder_id uuid\)[\s\S]*?private\.can_edit_crm_org\(v_reminder\.organization_id\)/);
+assert.match(tenantCrmPermissions, /security definer\s+set search_path = ''/);
+assert.match(tenantCrmPermissions, /revoke all on function public\.complete_crm_reminder\(uuid\) from public, anon/);
+assert.match(tenantCrmPermissions, /grant execute on function public\.complete_crm_reminder\(uuid\) to authenticated/);
+console.log("Tenant CRM permission contract: OK — isolation par organisation, VIP interne, membres clients et suppression admin-only.");
