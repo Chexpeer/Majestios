@@ -239,6 +239,16 @@ La fonction `import-official-company` vérifie le jeton utilisateur puis appelle
 
 **Limites restantes :** le test de contrat n'a pas encore été exécuté dans cette session ; les tests réels avec member/viewer, owner/admin et organisation tierce restent à faire. Les origines de preview nécessaires doivent être configurées explicitement dans `ALLOWED_ORIGINS`. L'application de la migration sur Supabase n'est pas vérifiée.
 
+### 10.7 Activation effective des contrôles d'intégrité CRM
+
+La migration `20261109190000_enforce_crm_business_relationships.sql` définissait une fonction de contrôle tenant-scoped mais n'attachait pas de triggers aux tables : la fonction restait inactive. Par ailleurs, le droit SQL `UPDATE(state, read_at)` accordé aux utilisateurs authentifiés permettait théoriquement de marquer une relance comme traitée sans passer par le RPC qui inscrit l'activité d'historique.
+
+**Correction préparée sur Evolution-7 :** `20261109210000_activate_crm_integrity_and_reminder_rpc.sql` attache les contrôles BEFORE INSERT/UPDATE aux entreprises, contacts, opportunités et activités ; retire le droit UPDATE direct sur `crm_reminders` ; maintient le RPC comme chemin unique de clôture et ajoute une vérification de l'opportunité liée avant écriture de l'activité.
+
+Le test de contrat couvre désormais ces points. Son exécution et les tests d'intégration restent à effectuer. Aucun déploiement ni changement Supabase distant n'a été effectué.
+
+
+
 **Qualification :** risque de configuration/autorisation à vérifier avant extension du flux privilégié ; pas de preuve d'exploitation ni de contournement démontré. Aucun déploiement ni changement de base distante n'a été effectué.
 
 ### 10.4 Tests de sécurité obligatoires pour le centre de commande
