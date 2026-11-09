@@ -21,7 +21,8 @@
 3. **CRM-02 — traçabilité :** création de fiches sans activité historique atomique.
 4. **CRM-03 — privilèges CRM :** correction préparée, état distant à vérifier avant clôture.
 5. **CRM-04 — RPC des relances :** le contrôle SQL historique accepte un rôle plus large que la frontière VIP actuelle.
-6. **CRM-05 — cohérence relationnelle :** contact rattaché à une autre entreprise que l’opportunité et absence d’unicité SIRET au niveau SQL.\n7. **CHEEXPEER-01 — accès à l’audit IA :** contrôle d’authentification présent, mais absence de vérification d’appartenance à un espace MajestiOS.
+6. **CRM-05 — cohérence relationnelle :** contact rattaché à une autre entreprise que l’opportunité et absence d’unicité SIRET au niveau SQL.
+7. **CHEEXPEER-01 — accès à l’audit IA :** contrôle d’authentification présent, mais absence de vérification d’appartenance à un espace MajestiOS.
 
 **Consigne aux agents :** traiter les P0 avant les P1. Après chaque découverte ou correction, préciser l'ID, le statut, les fichiers concernés, le commit, les tests exécutés et la preuve. Une modification de code seule ne suffit pas à déclarer une anomalie corrigée.
 
@@ -53,7 +54,8 @@ Ces éléments sont des limites ou des fonctions non développées, pas des déf
 | ROADMAP-03 | Circulation vers CRM | Import manuel DINUM depuis le CRM présent ; transferts BOAMP/BODACC et prospection publique vers CRM non démontrés. | Étudier des actions d'import avec revue humaine, provenance et anti-doublon. |
 | ROADMAP-04 | Couverture BODACC | Le moteur traite jusqu'à 100 annonces récentes sans pagination dans ce parcours. | Étudier pagination et filtres serveur selon les besoins métier. |
 | ROADMAP-05 | Résultats mixtes | Le plafond actuel répartit 10 résultats, soit 5 maximum par source. | Étudier pagination ou chargement progressif. |
-| ROADMAP-08 | Cheexpeer / CRM | Aucun connecteur ne permet actuellement à Cheexpeer de lire, qualifier ou préparer des actions sur les données CRM. | Concevoir un connecteur serveur multi-tenant avec permissions explicites, journalisation, quotas et validation humaine des écritures. |\n| ROADMAP-09 | Cheexpeer / GitHub | Aucune intégration GitHub n'est implémentée dans l'application MajestiOS pour que Cheexpeer audite le dépôt ou prépare des corrections. | Concevoir une intégration GitHub limitée aux dépôts et branches autorisés, en lecture par défaut et écriture sur branche dédiée. |
+| ROADMAP-08 | Cheexpeer / CRM | Aucun connecteur ne permet actuellement à Cheexpeer de lire, qualifier ou préparer des actions sur les données CRM. | Concevoir un connecteur serveur multi-tenant avec permissions explicites, journalisation, quotas et validation humaine des écritures. |
+| ROADMAP-09 | Cheexpeer / GitHub | Aucune intégration GitHub n'est implémentée dans l'application MajestiOS pour que Cheexpeer audite le dépôt ou prépare des corrections. | Concevoir une intégration GitHub limitée aux dépôts et branches autorisés, en lecture par défaut et écriture sur branche dédiée. |
 | ROADMAP-06 | Familles privées | Immobilier, emploi et sous-traitance sont déclarés non connectés et renvoient un état d'indisponibilité. | Connecter des sources adaptées ou maintenir un affichage explicite « à venir ». |
 
 ## C. Détail de la recette AUTH-01
