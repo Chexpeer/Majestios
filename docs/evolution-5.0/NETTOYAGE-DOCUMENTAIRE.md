@@ -54,7 +54,7 @@ Le document [Filiation documentaire V2 → V5](FILIATION-DOCUMENTAIRE-V2-A-V5.md
 ## 6. Points de vigilance stratégiques
 
 - Les documents historiques peuvent contenir des noms ou concepts remplacés ; ils servent à retrouver les intentions d'origine, pas à définir seuls la doctrine actuelle.
-- MajestiOS V.5 est l'intelligence centrale du site. Les capacités décrites dans les documents sont des cibles tant que leur réalisation n'est pas prouvée.
+- MajestiOS est la plateforme et l'environnement métier. Cheexpeer est l'agent IA intégré ; il assiste les utilisateurs et les équipes à travers les services autorisés, sans se substituer à l'administration ni au CRM. Les capacités décrites dans les documents sont des cibles tant que leur réalisation n'est pas prouvée.
 - « Réputation virtuelle » est le terme cible.
 - « Prospection » est l'intitulé officiel du dossier et le terme à employer dans toute l’interface.
 - Les pages salons et séminaires restent des contenus du Réseau.
