@@ -16,6 +16,7 @@ const officialImportVipHardening = read("supabase/migrations/20261109194500_hard
 const officialImportEdge = read("supabase/functions/import-official-company/index.ts");
 const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
 const tenantCrmPermissions = read("supabase/migrations/20261109200000_restore_tenant_scoped_crm_permissions.sql");
+const crmIntegrityActivation = read("supabase/migrations/20261109210000_activate_crm_integrity_and_reminder_rpc.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
 const client = read("crm-client.js");
@@ -373,3 +374,22 @@ assert.match(tenantCrmPermissions, /security definer\s+set search_path = ''/);
 assert.match(tenantCrmPermissions, /revoke all on function public\.complete_crm_reminder\(uuid\) from public, anon/);
 assert.match(tenantCrmPermissions, /grant execute on function public\.complete_crm_reminder\(uuid\) to authenticated/);
 console.log("Tenant CRM permission contract: OK — isolation par organisation, VIP interne, membres clients et suppression admin-only.");
+
+// Integrity must be active as table triggers, not merely present as an unused function.
+for (const table of ["businesses", "contacts", "opportunities", "activities"]) {
+  assert.match(crmIntegrityActivation,
+    new RegExp('create trigger ' + table + '_enforce_tenant_integrity[\\s\\S]*?execute function private\\.enforce_tenant_relationship_integrity\\(\\)'));
+}
+assert.match(crmIntegrityActivation, /before insert or update on public\.businesses/);
+assert.match(crmIntegrityActivation, /before insert or update on public\.contacts/);
+assert.match(crmIntegrityActivation, /before insert or update on public\.opportunities/);
+assert.match(crmIntegrityActivation, /before insert or update on public\.activities/);
+
+// Browser clients must not close reminders directly and bypass the activity-writing RPC.
+assert.match(crmIntegrityActivation, /revoke update on public\.crm_reminders from authenticated/);
+assert.match(crmIntegrityActivation, /create or replace function public\.complete_crm_reminder\(p_reminder_id uuid\)/);
+assert.match(crmIntegrityActivation, /if not found then\s+raise exception 'Opportunité associée introuvable\.'/);
+assert.match(crmIntegrityActivation, /insert into public\.activities/);
+assert.match(crmIntegrityActivation, /revoke all on function public\.complete_crm_reminder\(uuid\) from public, anon/);
+assert.match(crmIntegrityActivation, /grant execute on function public\.complete_crm_reminder\(uuid\) to authenticated/);
+console.log("CRM integrity activation: OK — triggers actifs et clôture de relance exclusivement via RPC atomique.");
