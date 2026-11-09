@@ -59,6 +59,7 @@ jobs:
           node --check supabase/functions/_shared/prospection-authz.mjs
           node --check supabase/functions/_shared/prospection-errors.mjs
           node --check supabase/functions/_shared/prospection-search-core.mjs
+          node --experimental-strip-types --check supabase/functions/provision-client-workspace/index.ts
           node --experimental-strip-types --check supabase/functions/prospection-search-member/index.ts
           node --experimental-strip-types --check supabase/functions/reputation-audit-context/index.ts
           node --input-type=module --check < supabase-config.js
@@ -83,6 +84,8 @@ jobs:
         run: node tests/admin-crm-module-navigation.test.cjs
       - name: Vérifier le contrat de navigation du CRM
         run: node tests/crm-navigation-contract.test.cjs
+      - name: Vérifier le parcours d’authentification OTP de l’espace membre
+        run: node tests/auth-espace-membre-otp.test.cjs
       - name: Vérifier le contrat de sécurité du CRM
         run: node tests/crm-security-contract.test.cjs
       - name: Tester le ciblage des entreprises
