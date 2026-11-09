@@ -174,6 +174,12 @@ if (form && config?.url && config?.publishableKey) {
     if (error || !data.session) {
       throw new Error("Ce code est invalide ou expiré. Demandez-en un nouveau.");
     }
+    awaitingOtp = false;
+    if (otpInput) otpInput.required = false;
+    if (otpStep) otpStep.hidden = true;
+    form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
+    if (modeToggle) modeToggle.hidden = false;
+    await updateAuthStatus(data.session);
     if (mode === "signup") {
       const organization = await provisionWorkspace(data.session, profileFromForm());
       setFeedback(`Votre adresse est vérifiée et votre espace « ${organization.name} » est prêt.`);
@@ -200,13 +206,7 @@ if (form && config?.url && config?.publishableKey) {
         setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
       }
     }
-    await updateAuthStatus(data.session);
-    awaitingOtp = false;
-    if (otpInput) otpInput.required = false;
-    if (otpStep) otpStep.hidden = true;
-    form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
     if (submitButton) submitButton.disabled = false;
-    if (modeToggle) modeToggle.hidden = false;
   };
 
   modeToggle?.addEventListener("click", () => setMode(mode === "signup" ? "login" : "signup"));
