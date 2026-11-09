@@ -8,7 +8,7 @@
 
 MajestiOS ne doit pas devenir une citadelle imprenable. Pendant la phase pilote, les premiers clients doivent pouvoir découvrir, parcourir, tester et évaluer les différentes rubriques et les fonctionnalités disponibles, sans être enfermés dans un parcours trop étroit ni bloqués par des cloisonnements fonctionnels prématurés.
 
-**Seuil de réévaluation : les 20 premiers clients.** Jusqu'à ce seuil, la règle est l'ouverture fonctionnelle par défaut. Une fois ce premier groupe atteint, la stratégie pourra être réexaminée à partir des usages, des retours, des coûts, des incidents et des besoins réels. Le seuil de 20 est un point de réévaluation, pas une fermeture automatique ni une promesse de changement.
+**Repère indicatif de réévaluation : autour des 6 à 7 premières organisations clientes, sans seuil fixe.** Le chiffre de 20 mentionné initialement n'est ni un objectif, ni un minimum à atteindre, ni une condition d'ouverture ou de fermeture. Le premier bilan peut être avancé dès que 6 ou 7 organisations fournissent des retours suffisamment représentatifs ; il peut aussi être différé si l'échantillon ou le recul sont insuffisants. La stratégie est réexaminée selon les usages, les retours, les coûts, les incidents et les besoins réels, sans attendre un nombre prédéfini. Aucun seuil n'entraîne de fermeture automatique.
 
 Pour le suivi initial, le compteur porte provisoirement sur les comptes clients distincts (et non sur le nombre de rubriques consultées ou de sessions). Cette convention devra être confirmée au moment de l'instrumentation.
 
