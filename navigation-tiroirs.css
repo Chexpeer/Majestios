@@ -307,3 +307,51 @@ html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a[aria-curren
     border-bottom:1px solid rgba(23,50,79,.09)!important;
   }
 }
+
+
+/* Lisibilité prioritaire : sous-menus translucides clairs, jamais transparents au point
+   de laisser le fond sombre rendre les libellés illisibles. */
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items:not([hidden]){
+  background:rgba(255,255,255,.94)!important;
+  background-color:rgba(255,255,255,.94)!important;
+  color:#17324f!important;
+  border:1px solid rgba(190,205,221,.82)!important;
+  border-radius:9px!important;
+  box-shadow:0 10px 26px rgba(10,28,48,.18)!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:link,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:visited{
+  color:#17324f!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  opacity:1!important;
+  text-shadow:none!important;
+  font-weight:650!important;
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:hover,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:focus-visible,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a[aria-current="page"]{
+  color:#102b49!important;
+  background:rgba(214,229,243,.82)!important;
+  background-color:rgba(214,229,243,.82)!important;
+}
+@media(max-width:900px){
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items:not([hidden]){
+    background:rgba(255,255,255,.88)!important;
+    background-color:rgba(255,255,255,.88)!important;
+    border:1px solid rgba(190,205,221,.7)!important;
+    border-left:3px solid rgba(84,113,142,.8)!important;
+    border-radius:8px!important;
+    padding:5px!important;
+    box-shadow:0 5px 16px rgba(10,28,48,.08)!important;
+  }
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a{
+    color:#17324f!important;
+    min-height:42px!important;
+    padding:10px 11px!important;
+    border-bottom:1px solid rgba(23,50,79,.1)!important;
+  }
+}
