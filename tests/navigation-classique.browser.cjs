@@ -58,6 +58,12 @@ async function main() {
       "Le chatbot doit répondre à une question connue.");
     assert.equal(await page.locator('.majestios-chat-link[href="prospection-active.html"]').count(),1,
       "Le chatbot doit proposer un lien vers la rubrique concernée.");
+    await page.locator("#majestios-chat-input").fill("Où trouver les annonces BODACC ?");
+    await page.locator(".majestios-chat-form button").click();
+    assert.ok((await page.locator(".majestios-chat-message.is-assistant").last().textContent()).includes("BODACC"),
+      "Le chatbot doit orienter vers la veille BODACC.");
+    assert.equal(await page.locator('.majestios-chat-link[href="bodacc-veille-entreprises.html"]').count(),1,
+      "Le chatbot doit proposer la page BODACC dédiée.");
 
     await page.setViewportSize({width:390,height:844});
     await page.reload({waitUntil:"domcontentloaded"});
