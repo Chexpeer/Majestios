@@ -31,3 +31,12 @@ Seuls les noms sont documentés ; aucune valeur secrète n'est enregistrée dans
 | prospection-search-member | Source créée dans prospection-search-member/index.ts | **Non déployée** |
 
 Cette fonction est un endpoint authentifié de recherche avancée. Elle réutilise les modules partagés _shared/prospection-*.mjs, vérifie l'appartenance cliente par RLS et normalise les résultats avant retour. Elle n'utilise pas service_role. Les critères de chiffre d'affaires sont explicitement refusés à ce stade. Ne pas confondre la présence de la source dans Git avec un déploiement ou une activation dans Supabase.
+
+
+## Nouvelle fonction en préparation — Réputation virtuelle — 9 novembre 2026
+
+| Fonction | Statut Git | Statut Supabase |
+|---|---|---|
+| `reputation-audit-context` | Handler authentifié et tests ajoutés dans `reputation-audit-context/index.ts` | **Non déployée** |
+
+L'endpoint vérifie la session de l'utilisateur, valide le nom et le SIREN, puis retourne un contexte d'identité administrative normalisé. Il n'effectue pas d'audit de réputation en ligne, ne stocke rien en base et n'utilise pas `service_role`. Les sources partagées sont placées sous `_shared/`. Ne pas présenter la fonction comme active avant déploiement et test authentifié en environnement non-production.

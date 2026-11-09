@@ -27,6 +27,10 @@ jobs:
           node --check reputation-virtuelle.js
           node --check reputation-audit-core.mjs
           node --check reputation-audit-connectors.mjs
+          node --check supabase/functions/_shared/reputation-audit-core.mjs
+          node --check supabase/functions/_shared/reputation-audit-connectors.mjs
+          node --check supabase/functions/_shared/reputation-audit-handler.mjs
+          node --check tests/reputation-audit-handler.test.mjs
           node --check tests/reputation-audit-connectors.test.mjs
           node --check tests/reputation-audit-core.test.mjs
           node --check catalogue-majestios.js
@@ -52,6 +56,7 @@ jobs:
           node --check supabase/functions/_shared/prospection-errors.mjs
           node --check supabase/functions/_shared/prospection-search-core.mjs
           node --experimental-strip-types --check supabase/functions/prospection-search-member/index.ts
+          node --experimental-strip-types --check supabase/functions/reputation-audit-context/index.ts
           node --input-type=module --check < supabase-config.js
           node --input-type=module --check < auth-espace-membre.js
           node --input-type=module --check < administration.js
@@ -64,6 +69,8 @@ jobs:
         run: node --test tests/reputation-audit-core.test.mjs
       - name: Tester le registre et le premier connecteur de Réputation virtuelle
         run: node --test tests/reputation-audit-connectors.test.mjs
+      - name: Tester le handler authentifié du moteur d'audit Cheexpeer
+        run: node --test tests/reputation-audit-handler.test.mjs
       - name: Vérifier la navigation Administration / CRM
         run: node tests/admin-crm-module-navigation.test.cjs
       - name: Vérifier le contrat de navigation du CRM

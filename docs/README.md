@@ -10,6 +10,15 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 |---|---|
 | [Réputation virtuelle — état d’implémentation du 9 novembre 2026](evolution-6/REPUTATION-VIRTUELLE-ETAT-IMPLEMENTATION-2026-11-09.md) | Compte rendu du lot fusionné par la PR #53 : recherches Google Web/Maps, dossier d’audit et journal en session, vitrine sociale illustrative, limites fonctionnelles, contrôles CI et tests navigateur restant à ajouter |
 
+## Évolution 6 — moteur d'audit Réputation virtuelle
+
+| Document | Rôle |
+|---|---|
+| [État d'implémentation du 9 novembre 2026](evolution-6/REPUTATION-VIRTUELLE-ETAT-IMPLEMENTATION-2026-11-09.md) | Interface, dossier, journal de consultation et limites |
+| [Architecture du moteur d'audit Cheexpeer](evolution-6/REPUTATION-VIRTUELLE-MOTEUR-CHEXPEER-ARCHITECTURE-2026-11-09.md) | Contrat de données, preuves et rapport préparatoire |
+| [Orchestration et premier connecteur](evolution-6/REPUTATION-VIRTUELLE-ORCHESTRATION-ET-CONNECTEUR-2026-11-09.md) | Registre interne et vérification du contexte administratif |
+| [Edge Function authentifiée](evolution-6/REPUTATION-VIRTUELLE-EDGE-FUNCTION-2026-11-09.md) | Endpoint serveur, contrôles d'accès, CORS et limites avant déploiement |
+
 ## Référentiel actif — MajestiOS V.5
 
 ### Référence canonique
