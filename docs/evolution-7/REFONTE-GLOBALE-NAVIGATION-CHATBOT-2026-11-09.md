@@ -169,3 +169,16 @@ Le premier assistant a été enrichi pour distinguer les annonces BODACC de la r
 - Les rubriques BODACC, Veille des marchés, FAQ et Vision disposent d'une orientation directe depuis le chatbot.
 
 **Dernière validation complète :** run GitHub Actions `42602181746` — conclusion `success` — commit `de68625326e5887d0f68dc19cfa90e314eaf94fa`. Ce run couvre les 34 liens de navigation, les raccourcis historiques du guide, l'orientation directe BODACC, les contrôles CSS, les tests navigateur desktop/mobile, les moteurs de recherche, les formulaires, le verrouillage administratif et le contrat de sécurité CRM.
+### Correctif CI — ressources de prospection et validation du SIRET (9 novembre 2026)
+
+- Le run 42604087884 sur 31caf02 a révélé un test obsolète dans tests/prospecting-resources.test.cjs : il attendait l'ancien catalogue public SOURCES et l'ancienne signature de sélection individuelle d'un fournisseur.
+- Le contrat actuel est conservé : les fournisseurs ne sont pas exposés dans l'API publique et la vérification orchestre uniquement les connecteurs configurés côté serveur.
+- Le test a été réaligné sur ce contrat : absence de configuration, appel d'un proxy configuré, normalisation du SIRET et recherche RGE avec filtre départemental.
+- Correction des expressions régulières qui normalisent les chiffres et valident les 14 chiffres du SIRET. La version précédente échouait à reconnaître correctement les caractères non numériques et les chiffres.
+- Aucun secret, endpoint distant, réglage Supabase ou donnée métier n'a été modifié.
+
+**Commit correctif :** 8219491195c3d0aba902293e978af1318053d0a4.
+
+**Validation GitHub Actions :** run 42605289091 — conclusion success sur ce commit. Les tests de ressources de prospection, suggestions APE/NAF, contrats/DTO/habilitations, recherche membre, build, architecture, liens, tests navigateur desktop/mobile, formulaires, verrouillage Administration et contrat de sécurité CRM ont tous réussi.
+
+Cette validation porte sur le commit correctif ci-dessus. Elle ne vaut pas validation de tous les services externes ou de l'activation réelle des connecteurs de qualification.
