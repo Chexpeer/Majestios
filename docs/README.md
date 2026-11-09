@@ -18,6 +18,7 @@ La branche `evolution-5.0` porte le référentiel documentaire actuel de Majesti
 | [Architecture du moteur d'audit Cheexpeer](evolution-6/REPUTATION-VIRTUELLE-MOTEUR-CHEXPEER-ARCHITECTURE-2026-11-09.md) | Contrat de données, preuves et rapport préparatoire |
 | [Orchestration et premier connecteur](evolution-6/REPUTATION-VIRTUELLE-ORCHESTRATION-ET-CONNECTEUR-2026-11-09.md) | Registre interne et vérification du contexte administratif |
 | [Edge Function authentifiée](evolution-6/REPUTATION-VIRTUELLE-EDGE-FUNCTION-2026-11-09.md) | Endpoint serveur, contrôles d'accès, CORS et limites avant déploiement |
+| [Analyse Cheexpeer fondée sur les preuves](evolution-6/REPUTATION-VIRTUELLE-ANALYSE-CHEXPEER-2026-11-09.md) | Schéma d'analyse, citations obligatoires, contrôle des conclusions et recommandations liées aux constats |
 
 ## Référentiel actif — MajestiOS V.5
 
