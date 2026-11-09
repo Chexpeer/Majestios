@@ -52,6 +52,6 @@ Sauf autorisation explicite du porteur du projet, aucun agent ne doit :
 
 ## 6. Dernière actualisation
 
-**Dernière indexation :** 9 novembre 2026 — CRM-03 corrigé dans le code de la branche (migration non appliquée) ; état Cheexpeer et limites d’intégration ajoutés au registre Evolution-7.
+**Dernière indexation :** 9 novembre 2026 — CRM-03 corrigé dans le code de la branche (migration non appliquée) ; ROADMAP-07 raccordé dans le code, CI et recette distante à confirmer. Le fournisseur IA n’est pas configuré.
 **Branche de travail autorisée dans le chantier en cours :** Evolution-7.
 **Règle :** actualiser ce point d'entrée et le registre détaillé à chaque évolution significative des anomalies critiques.
