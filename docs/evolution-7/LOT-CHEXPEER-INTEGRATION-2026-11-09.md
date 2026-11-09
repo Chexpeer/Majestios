@@ -61,7 +61,7 @@ Tests ajoutés au workflow :
 - interface : bouton actif après préparation du dossier et inactif après réinitialisation ;
 - vérification de syntaxe du module navigateur, de l’adaptateur et des tests.
 
-**Statut de suivi :** le workflow GitHub `42654411971` (run `4091`, commit `406f66dd2c14974c7f243988a2aaf876322b6bc8`) est terminé avec succès. Il couvre la syntaxe, les tests unitaires Cheexpeer, le contrôle d'appartenance, le quota persistant, les connecteurs, l'analyse et le parcours navigateur de Réputation virtuelle. Cela valide la suite automatisée du dépôt, pas le déploiement ni la recette multi-comptes dans l'environnement Supabase réel. Aucun appel au fournisseur IA, aucune migration, aucun déploiement Edge Function et aucune modification du projet Supabase hébergé n’ont été réalisés.
+**Statut de suivi :** le workflow GitHub `42654718695` (run `4097`, commit `326ceac1c93a1d2ac1a580e152854b1ae37d330b`) est terminé avec succès. Il couvre la syntaxe, les tests unitaires Cheexpeer, le contrôle d'appartenance, le quota persistant, les connecteurs, l'analyse et le parcours navigateur de Réputation virtuelle. Cela valide la suite automatisée du dépôt, pas le déploiement ni la recette multi-comptes dans l'environnement Supabase réel. Aucun appel au fournisseur IA, aucune migration, aucun déploiement Edge Function et aucune modification du projet Supabase hébergé n’ont été réalisés.
 
 ## 6. Prochaine étape contrôlée
 
