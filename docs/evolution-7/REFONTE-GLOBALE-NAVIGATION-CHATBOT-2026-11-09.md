@@ -156,3 +156,7 @@ Contrôles exécutés avec succès :
 
 La CI est verte sur ce commit. Cela ne vaut pas recette fonctionnelle complète de chaque contenu métier, ni validation d'une connexion IA générative au chatbot.
 
+
+### Assistant — enrichissement de la base d’orientation
+
+Le premier assistant a été enrichi pour distinguer les annonces BODACC de la rubrique générale Marchés privés, orienter directement vers la veille BODACC, la veille des marchés, la FAQ et la page Vision. Le test navigateur vérifie désormais qu’une question BODACC conduit bien à la page dédiée. Le moteur reste local et déterministe, sans connexion IA distante à ce stade.
