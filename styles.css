@@ -589,7 +589,7 @@ h1 span{ color: var(--purple); }
 .personal-space-otp{ margin: 16px 0; padding: 16px; border: 1px solid #e9e6f4; border-radius: 10px; background: #faf9ff; }
 .personal-space-otp [name="otp"]{ min-height: 48px; text-align: center; font-size: 21px; font-weight: 750; letter-spacing: .35em; }
 .personal-space-otp .small-note{ margin: 8px 0 2px; color: #777688; font-size: 10px; line-height: 1.55; }
-.personal-space-otp [hidden]{ display: none !important; }
+.personal-space-otp [hidden], .personal-space-otp[hidden], .personal-space-fields[hidden], .personal-space-notice[hidden]{ display: none !important; }
 .personal-space-feedback{ margin: 12px 0 0; color: #5a735f; font-size: 11px; line-height: 1.5; }
 @media (max-width: 480px) {
   .personal-space-form{ padding: 26px 20px 22px; }
