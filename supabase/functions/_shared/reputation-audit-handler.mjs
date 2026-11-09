@@ -1,5 +1,6 @@
 import { createAuditCase, normalizeEvidence, toAuditEvidenceDTO } from "./reputation-audit-core.mjs";
 import { createOfficialCompanyIdentityAdapter, createBodaccLegalEventsAdapter, runReputationCollection, toReputationCollectionDTO } from "./reputation-audit-connectors.mjs";
+import { runCheexpeerAuditAnalysis } from "./reputation-audit-analysis.mjs";
 
 const baseHeaders = Object.freeze({
   "Access-Control-Allow-Headers": "authorization, apikey, x-client-info, content-type",
@@ -26,7 +27,7 @@ function json(body, status = 200, req) {
   return new Response(JSON.stringify(body), { status, headers: responseHeaders(req) });
 }
 
-export function createReputationAuditHandler({ authenticate, fetchImpl = fetch, now = () => new Date().toISOString() } = {}) {
+export function createReputationAuditHandler({ authenticate, analyze = null, fetchImpl = fetch, now = () => new Date().toISOString() } = {}) {
   if (typeof authenticate !== "function") throw new TypeError("AUDIT_AUTHENTICATOR_REQUIRED");
   return async function handleReputationAuditRequest(req) {
     if (req.method === "OPTIONS") return new Response("ok", { headers: responseHeaders(req) });
@@ -57,11 +58,15 @@ export function createReputationAuditHandler({ authenticate, fetchImpl = fetch, 
     try { input = JSON.parse(raw); } catch { return json({ error: "JSON invalide." }, 400, req); }
     const subject = typeof input?.subject === "string" ? input.subject.trim().slice(0, 180) : "";
     const siren = typeof input?.siren === "string" ? input.siren.trim() : "";
+    const website = typeof input?.website === "string" ? input.website.trim().slice(0, 500) : "";
+    const territory = typeof input?.territory === "string" ? input.territory.trim().slice(0, 160) : "";
+    const activity = typeof input?.activity === "string" ? input.activity.trim().slice(0, 240) : "";
+    const objectives = Array.isArray(input?.objectives) ? input.objectives.filter(value => typeof value === "string").slice(0, 12) : [];
     if (subject.length < 2) return json({ error: "Le nom de l'entreprise doit contenir au moins deux caractères." }, 400, req);
     if (siren && !/^\d{9}$/.test(siren)) return json({ error: "Le SIREN doit contenir exactement neuf chiffres." }, 400, req);
 
     try {
-      const auditCase = createAuditCase({ subject, siren });
+      const auditCase = createAuditCase({ subject, siren, website, territory, activity, objectives });
       const identityAdapter = createOfficialCompanyIdentityAdapter({ fetchImpl, now });
       const legalEventsAdapter = createBodaccLegalEventsAdapter({ fetchImpl, now });
       const collection = await runReputationCollection({
@@ -71,11 +76,22 @@ export function createReputationAuditHandler({ authenticate, fetchImpl = fetch, 
         normalizeEvidence
       });
       const dto = toReputationCollectionDTO(collection, toAuditEvidenceDTO);
+      let analysis = null;
+      if (typeof analyze === "function") {
+        analysis = await runCheexpeerAuditAnalysis({ auditCase, evidence: collection.evidence, analyze });
+      }
       return json({
         ...dto,
+        ...(analysis ? { analysis, status: analysis.status } : {
+          status: "collection_only",
+          analysis_unavailable: true,
+          analysis_notice: "Le moteur IA Cheexpeer n’est pas configuré sur le serveur. Les preuves sont collectées, mais aucun diagnostic automatique n’est présenté."
+        }),
         subject: auditCase.subject,
         scope: "identity_and_legal_context",
-        notice: "Cheexpeer a vérifié le contexte administratif et les annonces légales accessibles. Ces éléments ne constituent pas un audit ni un score de réputation en ligne."
+        notice: analysis
+          ? "Cheexpeer a analysé les preuves disponibles. Les constats restent soumis à validation humaine ; le contexte administratif seul ne constitue pas un score de réputation."
+          : "Cheexpeer a vérifié le contexte administratif et les annonces légales accessibles. Ces éléments ne constituent pas un audit ni un score de réputation en ligne."
       }, 200, req);
     } catch {
       return json({ error: "La collecte de contexte administratif n'a pas pu aboutir." }, 502, req);
