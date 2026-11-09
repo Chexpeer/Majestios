@@ -1,0 +1,192 @@
+# Cartographie technique MajestiOS — Lot 1A — 9 novembre 2026
+
+**Statut :** cartographie partielle vérifiée en lecture seule.  
+**Branche inspectée :** `Evolution-6`.  
+**Commit de tête observé :** `90912af83c36ac127dda249f6b8505c3313a09d3`.  
+**Dépôt :** `Chexpeer/Majestios`.  
+**Périmètre de ce lot :** manifeste et ressources publiées, inventaire Git, migrations Supabase, schéma/RLS/fonctions, workflows et projets/déploiements Vercel.  
+**Aucune modification applicative, migration, écriture SQL, donnée métier, configuration, fusion ou déploiement n'a été effectuée.**
+
+---
+
+## 1. Résumé exécutif
+
+La première cartographie technique fait ressortir quatre constats structurants :
+
+1. **Le manifeste de publication est cohérent sur l'existence des fichiers** : 73 entrées, toutes présentes dans l'arbre Git inspecté. Il ne couvre volontairement pas les scripts de build, tests, fonctions Edge, modules internes et certains actifs de documentation.
+2. **Le dépôt et l'historique de migrations Supabase ne sont pas parfaitement alignés** : 23 fichiers SQL sont versionnés sur `Evolution-6`, contre 22 migrations enregistrées comme appliquées sur `majestios-crm`. Plusieurs migrations portent le même nom mais des identifiants de version différents ; une migration locale supplémentaire n'apparaît pas dans l'historique distant. Cet écart doit être expliqué avant tout `db reset`, `db push`, déploiement de migration ou automatisation de synchronisation.
+3. **Le socle de sécurité CRM est réellement présent dans les politiques observées**, mais la frontière VIP doit encore être validée avec des sessions Auth réelles et une matrice complète de rôles/tenants. L'inspection statique ne remplace pas un test d'accès.
+4. **Trois projets Vercel liés au même dépôt brouillent la gouvernance** : deux publient des déploiements ayant la cible `production` depuis `main`, tandis que le projet `majestios-jc8g` sert aussi des previews. Le projet `majestios-jc8g` n'a pas de protection SSO activée dans les métadonnées observées.
+
+La cartographie reste partielle : les dépendances page → script → endpoint → table et les résultats d'exécution des workflows ne sont pas encore tous rattachés à une matrice unique.
+
+## 2. Dépôt, manifeste et ressources
+
+### 2.1 Instantané Git
+
+L'arbre récursif de `Evolution-6` retourné par GitHub correspond au commit `90912af83c36ac127dda249f6b8505c3313a09d3` et contient **256 fichiers blob** au moment de la lecture.
+
+Le manifeste `site-files.json` contient **73 entrées** :
+- 37 pages HTML ;
+- 7 feuilles CSS ;
+- 24 scripts JavaScript classiques ;
+- 5 ressources visuelles (images).
+
+**Contrôle effectué :** 73/73 chemins du manifeste existent dans l'arbre Git. Aucun fichier déclaré par le manifeste n'est manquant.
+
+### 2.2 Fichiers sources hors manifeste
+
+Les fichiers suivants existent dans le dépôt mais ne figurent pas dans le manifeste public. Ils sont des ressources de build, de test, de serveur ou de développement et ne doivent pas être ajoutés mécaniquement à la publication :
+
+- `build.js`, `verify-site.js`, `verify-architecture.js` ;
+- `prospection-member-adapter.mjs`, `prospection-member-client.js` ;
+- `reputation-audit-analysis.mjs`, `reputation-audit-connectors.mjs`, `reputation-audit-core.mjs` ;
+- `schema-majestios.svg`.
+
+Les répertoires `tests/`, `supabase/`, `.github/` et `docs/` contiennent également des ressources qui ne relèvent pas de la publication statique directe.
+
+### 2.3 Inventaire des workflows
+
+Six workflows sont présents dans `.github/workflows/` :
+
+| Workflow | Déclenchement et rôle observés | Limite à retenir |
+|---|---|---|
+| `verify-site.yml` | Push et pull request ; syntaxe JS/TS, tests, build, vérifications de routes/liens, navigateurs et parcours | Il faut vérifier les fichiers réellement présents et l'exécution sur la tête de branche concernée ; le YAML seul ne prouve pas un passage CI |
+| `majestios-anti-regression.yml` | Push sur plusieurs anciennes branches, PR vers ces branches et déclenchement manuel | La liste de branches ne cite pas `Evolution-6` ; ne pas supposer qu'un push sur cette branche déclenche ce workflow |
+| `prospection-auth-integration.yml` | Tests Auth/RLS sur stack Supabase locale ; filtre de push visant `feature/crm-atomic-integration`, PR et manuel | La portée de déclenchement doit être vérifiée pour la branche cible |
+| `prospection-search-contract.yml` | Tests du contrat DTO, validation et moteur de recherche ; filtres de chemins et manuel | Le YAML décrit des tests, pas leur dernier résultat |
+| `mesure-boamp.yml` | Workflow de mesure BOAMP | Détail d'exécution et état courant à rattacher à l'historique des runs |
+| `supabase-backup.yml` | Déclenchement manuel ; export PostgreSQL, chiffrement AES-256-CBC/PBKDF2 et artefact 90 jours | Pas de preuve d'une sauvegarde récente ni d'une copie hors GitHub |
+
+**Constat de gouvernance CI :** les workflows sont hétérogènes et certains ciblent des branches historiques ou spécifiques. Il faut établir une politique explicite pour `Evolution-6`, sans lancer de workflow ni générer de preview à ce stade.
+
+## 3. Supabase — comparaison Git / état distant
+
+### 3.1 Fichiers de migration
+
+L'arbre Git contient **23 fichiers SQL** dans `supabase/migrations/`.
+
+L'historique Supabase du projet `majestios-crm` (`qxaghcifdhugfskuscoc`) retourne **22 migrations appliquées**.
+
+Écarts constatés :
+- le fichier `20261108151400_enforce_vip_boundary_for_internal_crm.sql` est présent dans Git, mais aucun nom correspondant n'apparaît dans l'historique des migrations appliquées ;
+- le nom `vip_only_crm_access` est présent dans les deux côtés, avec le fichier local `20261108181246_vip_only_crm_access.sql` et une version distante `20261108181246` ;
+- pour plusieurs autres migrations, le nom fonctionnel correspond mais l'identifiant de version distant retourné par Supabase diffère du préfixe du fichier versionné. Exemple : le fichier local `20261105163901_majestios_core_multitenant_foundation.sql` correspond au nom distant `majestios_core_multitenant_foundation`, enregistré sous la version `20261107065846`.
+
+Cet écart de versionnement est **un risque de dérive de l'historique**, pas une preuve que le schéma réel est incorrect. Il faut produire un rapprochement exact par nom, version, contenu et empreinte avant toute action de synchronisation. Ne pas renommer les migrations, modifier l'historique distant ou exécuter un reset pour « réparer » sans plan contrôlé.
+
+### 3.2 Tables et RLS
+
+Le projet métier expose 15 tables dans `public`, avec RLS activé sur chacune :
+
+| Domaine | Tables |
+|---|---|
+| Identité / tenant | `organizations`, `profiles`, `organization_members` |
+| CRM | `businesses`, `contacts`, `opportunities`, `activities`, `client_requests`, `crm_reminders` |
+| Confidentialité | `privacy_acknowledgments` |
+| Référentiel et provenance | `official_data_sources`, `company_registry`, `company_registry_establishments`, `official_source_sync_runs`, `company_source_observations` |
+
+Les politiques observées confirment :
+- l'accès direct aux données CRM VIP `businesses`, `contacts`, `opportunities`, `activities` et `crm_reminders` repose sur `private.is_org_admin(organization_id)` ;
+- `private.is_org_admin` ne reconnaît que `owner` et `admin` ;
+- `client_requests` suit un circuit distinct : les membres peuvent soumettre leurs demandes et `private.is_internal_staff()` autorise le traitement interne ; cette dernière fonction inclut `member` et ne doit donc pas être employée pour ouvrir le CRM VIP ou le canal de commandement ;
+- les tables du registre officiel sont lisibles par les utilisateurs authentifiés selon les politiques observées ;
+- `official_source_sync_runs` n'est pas consultable directement par les utilisateurs authentifiés ;
+- `privacy_acknowledgments` refuse l'accès direct API à `anon` et `authenticated`.
+
+### 3.3 Fonctions SQL et privilèges — premier inventaire
+
+L'inspection du catalogue PostgreSQL identifie notamment des fonctions dans les schémas `private` et `public` :
+- helpers d'autorisation : `is_org_admin`, `is_org_editor`, `is_org_member`, `is_internal_staff` ;
+- bootstrap et identité : `bootstrap_first_internal_admin`, `handle_new_auth_user` ;
+- intégrité multi-tenant : `enforce_tenant_relationship_integrity` ;
+- relances CRM : `materialize_crm_reminders`, `sync_crm_reminders_for_opportunity`, `complete_crm_reminder` ;
+- registre officiel : `can_import_official_company`, `import_official_company_record` ;
+- provisionnement : `provision_client_workspace` ;
+- utilitaire : `set_updated_at`.
+
+Plusieurs fonctions `SECURITY DEFINER` utilisent un `search_path` vide (`SET search_path TO ''`) et des références qualifiées. Les ACL observées restreignent notamment les fonctions sensibles de bootstrap, d'import et de provisionnement à `service_role`/Postgres. Les helpers d'autorisation dans `private` sont appelables par `authenticated` dans les ACL, mais résident dans un schéma distinct de `public`.
+
+Points à approfondir avant toute évolution :
+- vérifier les privilèges `USAGE` sur les schémas et l'exposition effective des schémas via Data API ;
+- examiner le corps complet et les chemins d'appel de chaque fonction `SECURITY DEFINER` ;
+- vérifier les ACL effectives de chaque fonction et les rôles hérités ;
+- auditer les vues, triggers, tâches `pg_cron` et fonctions indirectement appelables ;
+- tester les fonctions sous sessions owner/admin/member/viewer et entre tenants.
+
+La fonction publique `set_updated_at` présente une exécution accordée à `PUBLIC` dans le catalogue. Comme il s'agit d'une fonction de trigger, ce grant ne suffit pas à démontrer une voie d'appel exploitable ; il doit néanmoins être documenté et vérifié avec son contexte de déclenchement.
+
+### 3.4 Edge Functions
+
+L'inventaire distant du projet métier confirme trois fonctions actives :
+- `search-official-companies`, version 4, JWT requis ;
+- `import-official-company`, version 2, JWT requis ;
+- `bootstrap-internal-admin`, version 3, JWT requis.
+
+Le dépôt contient aussi `prospection-search-member`, `provision-client-workspace` et `reputation-audit-context`, mais ces fonctions ne figurent pas dans l'inventaire des trois fonctions actives retourné par Supabase à cette date. Leur présence dans Git ne prouve donc pas leur déploiement.
+
+## 4. Vercel — rattachement des projets et des branches
+
+Les trois projets sont rattachés au même dépôt GitHub `Chexpeer/Majestios`, dans l'équipe Vercel `Majestic` (`majistr`).
+
+| Projet | Dernier déploiement observé | Branche / SHA | Domaine et protection |
+|---|---|---|---|
+| `majestios` | `READY`, cible `production` | `main` / `94f2af84e96577b6370af1804ecfbd66bd100e71` | `majestios.vercel.app` ; SSO activé hors domaines personnalisés |
+| `majestios-ljx1` | `READY`, cible `production` | `main` / `94f2af84e96577b6370af1804ecfbd66bd100e71` | Domaines `majestios-ljx1...` ; SSO activé hors domaines personnalisés |
+| `majestios-jc8g` | `READY`, cible non renseignée | `brouillon-reputation-virtuelle` / `29d41ac4c19955b61a54713d32aa4e680782b014` | Domaines `majestios-jc8g...` ; SSO désactivé dans les métadonnées observées |
+
+Autres observations :
+- `majestios-jc8g` possède un déploiement récent depuis `Evolution-6` (SHA `e639ad65b00a004322897e505706a73a297a6614`), mais ce n'est pas le commit de tête actuel `90912af...` ;
+- les projets `majestios` et `majestios-ljx1` ont chacun un déploiement étiqueté `production` depuis le même commit `main` ;
+- le projet `majestios` porte le domaine simple `majestios.vercel.app`, tandis que `majestios-ljx1` possède ses propres domaines de projet.
+
+**Conclusion :** le projet canonique de production ne peut pas être déclaré définitivement à partir des seules métadonnées consultées. `majestios` est le candidat évident pour le domaine `majestios.vercel.app`, mais `majestios-ljx1` publie également des déploiements `production`. Il faut confirmer les alias de domaines, les réglages Git de production et les domaines personnalisés avant de supprimer, déconnecter ou reconfigurer quoi que ce soit.
+
+**Point de vigilance :** les previews `majestios-jc8g` sont dépourvues de protection SSO dans les métadonnées observées. Il faut vérifier si elles exposent des écrans internes, sans tenter de contourner un contrôle d'accès ni modifier la protection pendant cet audit.
+
+## 5. Matrice composant → preuve → état → dépendances → contrôle
+
+| Composant | Preuve consultée | État observé | Dépendances principales | Vérification encore nécessaire |
+|---|---|---|---|---|
+| Publication statique | `site-files.json`, arbre Git | 73 ressources déclarées, 0 manquante | `build.js`, Vercel | build sur commit de tête et test HTTP du déploiement correspondant |
+| Contrôle de site | `verify-site.js`, `verify-architecture.js`, workflows | Scripts et workflows versionnés | Node, manifeste, tests | runs CI liés à `Evolution-6` et couverture réelle |
+| CRM VIP | Tables, RLS, fonctions SQL | Politiques limitant les cinq tables CRM à owner/admin | Auth, `organization_members`, `private.is_org_admin` | tests Auth/RLS réels et tests multi-tenant |
+| Demandes clients | `client_requests`, politiques distinctes | Circuit membres / équipe interne | `is_org_member`, `is_internal_staff` | confirmer les rôles exacts et parcours front |
+| Référentiel officiel | Tables, registre de 8 sources, deux Edge Functions | Schéma et fonctions de recherche/import présents | sources officielles, Edge Functions, Auth | test de bout en bout et fraîcheur réelle des données |
+| Provisionnement client | Fonction SQL et code Edge dans Git | Fonction SQL présente ; Edge Function non listée active | Auth, organisation, consentement | réconcilier SQL, Edge Function et parcours d'inscription |
+| Prospection membre | Code/contrats dans Git | code présent, Edge Function non listée active | Auth, contrats DTO, moteur de recherche | état de déploiement, tests et permissions |
+| Réputation virtuelle | Interface et modules dans Git ; PR dédiée antérieure | interface de consultation présente ; moteur IA non prouvé actif | connecteurs, endpoint, AI Gateway, Edge Function | vérifier PR/branche, secrets, route et endpoint avant toute affirmation |
+| Vercel production | trois projets, historique de déploiements | deux projets avec cible production sur main | GitHub, domaines, réglages Vercel | identifier le projet canonique et les alias |
+| Cheexpeer transversal | docs d'architecture et modules spécialisés | doctrine et composants préparatoires ; orchestration centrale non démontrée | Auth, CRM, journal, missions, mémoire, événements | architecture d'exécution, canal Admin, autorisations et audit |
+
+## 6. Risques et priorités immédiates
+
+### P0 — avant toute modification backend
+1. Produire le rapprochement des 23 fichiers de migration avec les 22 versions distantes, par nom, identifiant, empreinte et contenu.
+2. Ne pas exécuter `supabase db reset`, `db push`, `apply_migration` ou une modification d'historique tant que cette dérive n'est pas expliquée.
+3. Confirmer le projet Vercel de production canonique et les domaines effectivement assignés.
+4. Vérifier la protection des previews `majestios-jc8g`, sans exposer de données internes.
+
+### P1 — tests de sécurité et cohérence
+1. Tester owner/admin/member/viewer et tenants distincts avec de vraies sessions Auth sur un environnement de test préparé.
+2. Auditer les privilèges de schéma, les ACL de fonctions, vues, triggers et tâches planifiées.
+3. Réconcilier les fonctions présentes dans Git avec l'inventaire des Edge Functions déployées.
+4. Vérifier les runs CI et les tests réellement exécutés sur le commit de tête `Evolution-6`.
+
+### P2 — cartographie d'exécution Cheexpeer
+1. Extraire pour chaque page HTML les scripts et feuilles de style chargés.
+2. Relier chaque script à ses endpoints, fonctions Edge, tables, politiques et rôles.
+3. Documenter les événements métier et les échanges entre rubriques, CRM, administration et mémoire.
+4. Produire un inventaire machine-readable qui pourra être réutilisé par le futur poste de commandement Cheexpeer.
+
+## 7. Limites de cette livraison
+
+Cette livraison ne prétend pas constituer l'audit exhaustif final :
+- l'extraction page HTML → scripts et styles n'a pas encore été terminée pour les 37 pages ;
+- la comparaison des migrations n'a pas encore été poussée jusqu'aux empreintes et à l'analyse SQL migration par migration ;
+- les définitions complètes des fonctions et leurs chemins d'appel doivent faire l'objet d'une revue dédiée ;
+- aucun test Auth/RLS avec plusieurs identités n'a été exécuté ;
+- aucun run CI, build local ou test navigateur n'a été lancé pendant ce lot ;
+- aucune vérification exhaustive des domaines, aliases, variables d'environnement et réglages Git Vercel n'a été réalisée.
+
+**Critère de sortie du Lot 1A : non atteint.** Cette livraison est une première cartographie vérifiée et fait apparaître des écarts bloquants à traiter avant toute évolution backend ou automatisation Cheexpeer.
