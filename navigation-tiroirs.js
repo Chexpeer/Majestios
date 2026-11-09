@@ -77,11 +77,12 @@
       const section = document.createElement("section");
       section.className = "nav-drawer-section";
       section.dataset.navIndex = String(index+1);
-      const title = document.createElement("a");
+      // Un onglet principal est un contrôle d'ouverture, jamais un lien.
+      // Seuls les liens du sous-menu déclenchent une navigation.
+      const title = document.createElement("button");
+      title.type = "button";
       title.className = "nav-group-link";
-      title.href = group.href;
       title.textContent = group.label;
-      if (current === group.href) title.setAttribute("aria-current","page");
       const submenu = document.createElement("div");
       submenu.className = "nav-group-items";
       submenu.id = `nav-submenu-${index + 1}`;
@@ -97,8 +98,8 @@
       });
 
       // Les sous-menus restent fermés à l'ouverture du hamburger.
-      // Sur ordinateur, ils apparaissent uniquement au survol ou au focus clavier.
-      // Sur mobile/tactile, le lien principal mène directement à la rubrique.
+      // Sur ordinateur, ils apparaissent au survol ou au focus clavier.
+      // Sur mobile/tactile, le bouton principal ne navigue jamais : il ouvre/ferme le sous-menu.
       const desktop = () => window.matchMedia("(min-width: 901px)").matches;
       const setOpen = value => {
         submenu.hidden = !value;
@@ -107,23 +108,21 @@
       };
       submenu.hidden = true;
 
-      // Sur téléphone, le premier toucher déplie le tiroir.
-      // Un second toucher sur le même onglet ouvre sa rubrique.
-      title.addEventListener("click", event => {
+      // Sur téléphone, chaque toucher ouvre ou referme le tiroir.
+      // Aucun clic sur un onglet principal ne peut rediriger vers une page.
+      title.addEventListener("click", () => {
         if (desktop() || submenu.children.length === 0) return;
-        if (submenu.hidden) {
-          event.preventDefault();
-          nav.querySelectorAll(".nav-drawer-section").forEach(other => {
-            const otherSubmenu = other.querySelector(".nav-group-items");
-            const otherTitle = other.querySelector(".nav-group-link");
-            if (otherSubmenu && otherSubmenu !== submenu) {
-              otherSubmenu.hidden = true;
-              other.classList.remove("is-open");
-              otherTitle?.setAttribute("aria-expanded", "false");
-            }
-          });
-          setOpen(true);
-        }
+        const shouldOpen = submenu.hidden;
+        nav.querySelectorAll(".nav-drawer-section").forEach(other => {
+          const otherSubmenu = other.querySelector(".nav-group-items");
+          const otherTitle = other.querySelector(".nav-group-link");
+          if (otherSubmenu && otherSubmenu !== submenu) {
+            otherSubmenu.hidden = true;
+            other.classList.remove("is-open");
+            otherTitle?.setAttribute("aria-expanded", "false");
+          }
+        });
+        setOpen(shouldOpen);
       });
 
       section.addEventListener("mouseenter", () => { if (desktop()) setOpen(true); });
