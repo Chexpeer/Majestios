@@ -56,7 +56,7 @@ test("analysis findings must reference existing evidence", () => {
 test("administrative evidence cannot be converted into a reputation finding", () => {
   const invalid = {
     findings: [{
-      category: "reviews", classification: "interpretation", confidence: "high", severity: "high",
+      category: "reputation", classification: "interpretation", confidence: "high", severity: "high",
       statement: "La réputation est mauvaise.", evidence_ids: ["E002"], limitations: []
     }],
     recommendations: [], gaps: []
