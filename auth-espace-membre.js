@@ -41,6 +41,7 @@ if (form && config?.url && config?.publishableKey) {
 
   const setMode = (nextMode) => {
     mode = nextMode;
+    if (otpInput) otpInput.required = false;
     awaitingOtp = false;
     form.dataset.mode = mode;
     if (otpStep) otpStep.hidden = true;
@@ -100,6 +101,7 @@ if (form && config?.url && config?.publishableKey) {
     }
     pendingEmail = email;
     awaitingOtp = true;
+    if (otpInput) otpInput.required = true;
     if (otpStep) otpStep.hidden = false;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = true; });
     if (submitButton) submitButton.innerHTML = 'Vérifier le code <span aria-hidden="true">→</span>';
@@ -180,6 +182,7 @@ if (form && config?.url && config?.publishableKey) {
     }
     await updateAuthStatus(data.session);
     awaitingOtp = false;
+    if (otpInput) otpInput.required = false;
     if (otpStep) otpStep.hidden = true;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
     if (submitButton) submitButton.disabled = false;
