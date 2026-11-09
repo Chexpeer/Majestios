@@ -45,10 +45,16 @@ async function main() {
     const pageErrors = [];
     page.on("pageerror", error => pageErrors.push(error.message));
     await page.route("https://www.google.com/**", route => route.abort());
+    await page.route("https://esm.sh/@supabase/supabase-js@2.119.0", route => route.fulfill({
+      status: 200,
+      contentType: "application/javascript",
+      body: "export function createClient(){return {auth:{getSession:async()=>({data:{session:null}})},functions:{invoke:async()=>({data:null,error:null})}}}"
+    }));
 
     await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
     const dossierForm = page.locator("[data-audit-dossier-form]");
     await dossierForm.locator('[name="company"]').fill('<img src=x onerror="alert(1)"> Atelier Exemple');
+    await dossierForm.locator('[name="siren"]').fill("123456789");
     await dossierForm.locator('[name="activity"]').fill("Menuiserie");
     await dossierForm.locator('[name="website"]').fill("https://example.com");
     await dossierForm.locator('[name="territory"]').fill("Le Mans et Sarthe");
@@ -58,6 +64,7 @@ async function main() {
 
     assert.equal(await page.locator("[data-audit-dossier-state]").textContent(),
       "Dossier préparé · session en cours", "Le dossier valide doit être préparé.");
+    assert.equal(await page.locator("[data-audit-run]").isEnabled(), true, "Le lancement Cheexpeer doit être activé après préparation du dossier.");
     assert.equal(await page.evaluate(key => JSON.parse(sessionStorage.getItem(key)).company, DOSSIER_KEY),
       '<img src=x onerror="alert(1)"> Atelier Exemple',
       "Le dossier doit être enregistré sans altération dans sessionStorage.");
@@ -110,6 +117,7 @@ async function main() {
       "La réinitialisation doit supprimer le journal de session.");
     assert.equal(await page.locator("[data-audit-dossier-state]").textContent(),
       "Dossier non renseigné", "L’interface doit revenir à l’état initial.");
+    assert.equal(await page.locator("[data-audit-run]").isDisabled(), true, "Le lancement Cheexpeer doit être désactivé après réinitialisation.");
     assert.equal(await page.locator('[name="company"]').inputValue(), "",
       "La réinitialisation doit vider les champs du formulaire.");
     assert.equal(await page.locator("[data-audit-dossier-summary] li").count(), 0,
