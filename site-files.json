@@ -74,6 +74,7 @@
     "admin-recherches.js",
     "espace-interne.html",
     "espace-interne.css",
-    "espace-interne.js"
+    "espace-interne.js",
+    "navigation-majestios.css"
   ]
 }
