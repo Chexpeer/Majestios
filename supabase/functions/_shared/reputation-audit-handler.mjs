@@ -75,7 +75,7 @@ export function createReputationAuditHandler({ authenticate, analyze = null, fet
         adapters: [identityAdapter, legalEventsAdapter],
         normalizeEvidence
       });
-      const dto = toReputationCollectionDTO(collection);
+      const dto = toReputationCollectionDTO(collection, toAuditEvidenceDTO);
       let analysis = null;
       let analysisNotice = "";
       if (typeof analyze === "function") {
