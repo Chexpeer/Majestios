@@ -14,6 +14,7 @@ Ce document ne doit pas devenir une liste de toutes les fonctionnalités manquan
 |---|---|---|---|---|
 | AUTH-01 | **P0 — avant ouverture aux membres** | OTP / espace membre | Le front appelle `signInWithOtp()` et `verifyOtp()`, mais aucun test de bout en bout ne prouve l'envoi réel, la validation, l'expiration, les limites de débit et le provisionnement de l'espace. Le déploiement de `provision-client-workspace` en environnement de test n'est pas confirmé. | **À vérifier — recette E2E isolée.** Aucun changement Auth, migration, déploiement de fonction ou donnée de test dans Supabase métier sans autorisation. |
 | CRM-02 | **P1 — traçabilité** | Création de fiches CRM | La fonction générique `create()` insère entreprises, contacts et opportunités sans créer d'activité historique. Les migrations inspectées ne montrent pas de journalisation automatique de ces créations. | **À corriger après choix technique.** Définir une écriture atomique ou une stratégie compensatoire et tester les créations et imports. |
+| AUTH-02 | **P1 — conformité / traçabilité** | Consentement lors du provisionnement | `auth-espace-membre.js` contrôle la case dans le parcours normal, mais `provision-client-workspace/index.ts` vérifie seulement `body.privacy_acknowledged === true`. La fonction transmet ensuite la version courante au RPC, qui enregistre une ligne `privacy_acknowledgments`. Un utilisateur authentifié peut appeler directement l’Edge Function avec cette valeur sans passer par la case du formulaire ; le serveur ne vérifie pas `user.user_metadata.privacy_notice_acknowledged` ni sa version. | **Ouvert — correction serveur à préparer.** Valider côté Edge Function les métadonnées de consentement et leur version avant l’appel RPC ; prévoir un test d’intégration négatif. Ne pas déployer sans autorisation. |
 
 ## B. Évolutions produit — hors registre des erreurs
 
@@ -49,3 +50,12 @@ En revanche, `prospection-active.html` ne charge pas `crm-client.js`, et le mote
 - Distinguer « présent dans le code », « testé automatiquement » et « validé en environnement réel ».
 - Statuts de traitement : Ouvert, En cours, Corrigé à vérifier, Validé, Bloqué.
 - Conserver commit, preuve et date pour chaque correction.
+## F. Détail du risque AUTH-02 — preuve de prise de connaissance
+
+Le formulaire `espace-membre.html` impose la case de confidentialité et `auth-espace-membre.js` vérifie `privacyAccepted` avant l'appel normal à `signInWithOtp`. Les métadonnées de profil comprennent `privacy_notice_acknowledged` et `privacy_notice_version`.
+
+Cependant, `supabase/functions/provision-client-workspace/index.ts` ne vérifie pas ces métadonnées. Il vérifie uniquement que le corps HTTP contient `flow === "signup"` et `privacy_acknowledged === true`, puis appelle le RPC avec la constante `NOTICE_VERSION`. Le RPC atomique insère alors une ligne dans `privacy_acknowledgments`. Un utilisateur authentifié et confirmé peut donc appeler directement l'Edge Function avec ce booléen, sans avoir suivi le formulaire.
+
+**Correction attendue :** le serveur doit vérifier la présence et la version attendue des métadonnées de consentement liées à l'inscription avant d'enregistrer l'accusé de réception ; la version doit être cohérente avec celle du RPC. Ajouter un test négatif qui appelle la fonction sans métadonnées de consentement et vérifie le refus avant toute écriture. Cette vérification améliore la cohérence de la preuve, sans prétendre qu'une métadonnée client constitue à elle seule une signature juridique inviolable.
+
+**Périmètre :** anomalie localisée dans le code de l'Edge Function et son contrat de provisionnement. Aucun changement Auth, migration, déploiement ou écriture dans le projet Supabase n'a été effectué.
