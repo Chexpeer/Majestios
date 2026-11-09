@@ -212,3 +212,14 @@ L'Edge Function `import-official-company/index.ts` vérifie le droit d'import av
 - **Test de contrat ajouté :** vérification de la liste explicite et rejet de la règle générique.
 - **À vérifier :** renseigner dans `ALLOWED_ORIGINS` chaque preview réellement nécessaire, puis tester les prévols CORS en environnement de test.
 - **État :** correction et test ajoutés à la branche ; exécution du test non confirmée ; aucun déploiement effectué.
+
+## SEC-07 — Contradiction entre la frontière CRM tenant-scoped et la migration VIP globale
+
+**Type :** incohérence d'autorisations entre migrations — correction préparée, validation obligatoire avant application.
+
+- **Constat :** `20261108151400_enforce_vip_boundary_for_internal_crm.sql` définit une règle différenciée : `owner/admin` dans l'organisation interne MajestiOS ; `owner/admin/member` dans leur propre organisation client/partenaire ; `viewer` en lecture seule. La migration ultérieure `20261108181246_vip_only_crm_access.sql` remplace les politiques des tables CRM par `private.is_org_admin()` pour toutes les organisations. Les migrations CRM postérieures renforcent certaines opérations sans restaurer cette différenciation.
+- **Défaut de couverture :** le test vérifiait la migration de frontière antérieure, mais ne contrôlait pas l'effet de la migration VIP plus récente. Le contrat automatisé pouvait donc donner une assurance trompeuse sur les droits effectifs.
+- **Correction préparée sur Evolution-7 :** nouvelle migration `20261109200000_restore_tenant_scoped_crm_permissions.sql`. Elle rétablit la lecture/écriture par organisation selon `private.can_read_crm_org` et `private.can_edit_crm_org`, maintient la suppression aux rôles administrateurs et aligne le RPC `complete_crm_reminder` sur la même règle.
+- **Test renforcé :** `tests/crm-security-contract.test.cjs` contrôle désormais la migration finale pour les entreprises, contacts, opportunités, activités et relances, ainsi que le RPC de clôture. L'exécution du test n'est pas encore confirmée.
+- **Qualification :** incohérence potentiellement bloquante pour les membres des espaces clients ; aucun accès inter-organisation n'est démontré par ce constat. La correction rétablit uniquement les droits dans le tenant propre.
+- **État :** migration et contrat ajoutés à la branche ; aucun déploiement ni changement Supabase distant. Vérifier les rôles réels et exécuter les tests d'isolation avant application.
