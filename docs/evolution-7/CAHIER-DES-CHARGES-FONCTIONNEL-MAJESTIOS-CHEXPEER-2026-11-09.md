@@ -57,6 +57,38 @@ La structure de navigation Evolution-7 regroupe les entrées en grandes familles
 - **Cheexpeer :** agent IA transversal, accessible dans les espaces prévus et relié progressivement aux outils métier.
 - **Automatisations :** traitements récurrents, alertes, synchronisations et tâches préparées ou exécutées dans un périmètre défini.
 
+### 3.3 Écart entre la navigation actuelle et la cible métier
+
+**État observé dans `navigation-tiroirs.js` sur Evolution-7 :** six groupes sont actuellement construits : Appels d’offres, Développement commercial, Réseau, Réputation virtuelle, Espaces privés et Explorer davantage. Les liens actuellement associés sont :
+
+| Groupe actuel | Pages actuellement reliées |
+|---|---|
+| Appels d’offres | Marchés publics, marchés privés, accompagnement appels d’offres |
+| Développement commercial | Vue d’ensemble, prospection, accompagnement appels d’offres, suivi commercial, qualification des entreprises |
+| Réseau | Réseau et synergies, salons et séminaires |
+| Réputation virtuelle | Présence et visibilité, intelligence économique |
+| Espaces privés | Espace client, Accès VIP · Administration |
+| Explorer davantage | Veille des marchés, veille BODACC, sous-traitance, Nous rejoindre |
+
+**Décisions de cadrage déjà exprimées par le porteur du projet :**
+
+- La **Réputation virtuelle** doit être rattachée au **Développement commercial** comme sous-rubrique, et non rester un grand domaine autonome de premier niveau.
+- Employer **Réseau** plutôt que « Partenaires » ou « Partenaire » comme intitulé de navigation.
+- Prévoir un domaine **Business / Entreprises**, avec un parcours « Évaluer mon entreprise » pour les demandes de vente ou de transmission d'une entreprise, d'un fonds, de locaux ou d'équipements.
+- Conserver **Accès VIP · Administration** dans **Espaces privés** ; cet accès admin doit rester repérable et visuellement distinct, sans être déplacé dans une rubrique publique.
+- Épurer **Explorer davantage** pour ne pas submerger le visiteur. Préserver néanmoins ses destinations utiles et le lien d'accès VIP à son emplacement décidé dans Espaces privés.
+- Distinguer les **offres d'emploi proposées sur MajestiOS** de la page **Nous rejoindre**, qui concerne les candidatures à l'équipe MajestiOS.
+
+**Écarts à traiter dans la conception de la navigation :**
+
+1. Réorganiser Réputation virtuelle sous Développement commercial et vérifier les liens internes qui y conduisent.
+2. Concevoir le domaine Business / Entreprises et son formulaire d'évaluation ; ne pas inventer de volume d'entreprises disponibles ni annoncer un service opérationnel avant validation.
+3. Définir une vraie rubrique Offres d'emploi si elle est retenue dans le périmètre ; ne pas détourner « Nous rejoindre » pour remplir cette fonction.
+4. Réexaminer le contenu d'Explorer davantage et répartir les pages dans les domaines naturels, sans supprimer de contenu utile.
+5. Vérifier que chaque page existante conserve une destination explicite, y compris les pages secondaires, les espaces réservés et les pages d'information.
+
+Ces écarts sont des **évolutions fonctionnelles et de navigation**, pas des anomalies de sécurité. La modification du menu ne doit intervenir qu'après validation de l'arborescence cible et de la correspondance page par page.
+
 ## 4. Parcours fonctionnels prioritaires
 
 ### PF-01 — Découvrir et s'orienter
