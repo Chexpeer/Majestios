@@ -1,0 +1,62 @@
+:root{color-scheme:dark;--gold:#d5b56c;--ink:#f4f0e6;--muted:#bdb5a4;--line:#33465b;--panel:#101a28}
+*{box-sizing:border-box}
+body.homepage{margin:0;background:#080d15;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.homepage-ticker{height:23px;overflow:hidden;border-bottom:1px solid #d5b56c33;background:#070a0f;color:#bdb5a4;font-size:9px;display:flex;align-items:center}
+.homepage-ticker-track{display:flex;width:max-content;min-width:200%;animation:ticker 75s linear infinite}
+.homepage-ticker-track span{white-space:nowrap;padding-right:5rem}
+.homepage-ticker strong{color:var(--gold)}
+@keyframes ticker{to{transform:translateX(-50%)}}
+.site-header{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin:0;padding:7px clamp(10px,1.8vw,24px);border-bottom:1px solid #d5b56c22;background:#080d15}
+.brand{display:flex;align-items:center;gap:7px;flex:0 0 auto;color:#f4f0e6;text-decoration:none;font-weight:800;font-size:16px;white-space:nowrap}
+.brand-mark{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#f7e6a9,#b28a3c);color:#10151d;font-size:17px}
+.brand-os{color:var(--gold)}
+.search-dock{display:block;width:min(1240px,calc(100% - 24px));margin:7px auto 9px}
+.search-dock summary{cursor:default;list-style:none;color:#d5b56c;font-size:10px;text-align:left;padding:0 2px 5px;font-weight:750;letter-spacing:.03em}
+.search-dock summary::-webkit-details-marker{display:none}
+.search-dock summary:after{content:""}
+.search-dock[open] summary:after{content:""}
+.window{display:block;border:1px solid #d9eaf3;background:linear-gradient(145deg,#e5f6ff,#6398b5 43%,#17354e);box-shadow:inset 0 0 6px #eafaff66}
+.dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:17px;border-bottom:1px solid #d5b56c33}
+.dialog-head p{margin:0 0 5px;color:var(--gold);font-size:9px;font-weight:900;letter-spacing:.14em}
+.dialog-head h2{margin:0;font-size:21px}
+.dialog-close{width:34px;height:34px;border:1px solid #d5b56c44;border-radius:50%;background:#152234;color:#f4f0e6;font-size:22px}
+.dialog-description{padding:0 17px;color:#c1c7cf;font-size:12px;line-height:1.55}
+.dialog-offices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 17px 17px}
+.dialog-office{display:flex;flex-direction:column;gap:9px;min-height:100px;padding:12px;border:1px solid #d5b56c38;border-radius:9px;background:#111e2e;color:#f4f0e6;text-decoration:none}
+.dialog-office:hover{border-color:var(--gold);background:#1a2a3d}.dialog-office:focus-visible{border-color:var(--gold);background:#1a2a3d}
+.dialog-office strong{font-size:12px;line-height:1.35}.dialog-office small{margin-top:auto;color:var(--gold);font-size:10px}
+@media(max-width:900px){.site-header{flex-wrap:wrap;gap:5px;padding:6px 10px}}
+@media(max-width:600px){.site-header{padding:6px 8px}.search-dock{margin:6px auto 8px}.search-dock summary{font-size:10px}.dialog-offices{grid-template-columns:1fr}.dialog-office{min-height:0;flex-direction:row;align-items:center;justify-content:space-between}}
+@media(prefers-reduced-motion:reduce){.homepage-ticker-track{animation:none}}
+body.homepage .tender-feed-section{width:min(1240px,calc(100% - 24px));margin:7px auto 9px;padding:0;}
+@media(max-width:600px){body.homepage .tender-feed-section{width:calc(100% - 16px);margin:6px auto 8px}}
+
+body.homepage .site-header{position:relative;z-index:30;display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:10px;min-height:44px;height:auto;width:100%;margin:0;padding:5px 12px;background:#080d15;border-bottom:1px solid #d5b56c33}
+body.homepage .brand{flex:0 0 auto;font-size:15px}
+body.homepage .brand-mark{width:27px;height:27px}
+body.homepage .search-dock{position:relative;z-index:2;width:min(1240px,calc(100% - 24px));margin:7px auto 9px}
+@media(max-width:900px){body.homepage .site-header{flex-wrap:nowrap}body.homepage .search-dock{margin:6px auto 8px}}
+@media(max-width:600px){body.homepage .site-header{padding:5px 8px}body.homepage .search-dock{width:calc(100% - 16px);margin:5px auto 7px}}
+
+body.homepage{background:#071225;color:#f5f7fb}
+body.homepage .site-header{background:linear-gradient(100deg,#06101f,#102b50);border-bottom-color:#d5b56c66;padding:10px clamp(12px,2vw,28px)}
+body.homepage .brand{font-size:clamp(18px,1.8vw,26px);gap:12px}
+body.homepage .brand-mark{width:40px;height:40px;border-radius:0;background:transparent;border:1px solid var(--gold);color:var(--gold);font-size:24px}
+body.homepage .homepage-ticker{height:28px;background:#08172b;font-size:10px;border-bottom-color:#d5b56c66}
+body.homepage .home-hero-layout{width:min(1600px,100%);min-height:calc(100dvh - 100px);margin:0 auto;padding:clamp(14px,2vw,28px);display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr);gap:clamp(16px,2vw,30px);align-items:stretch;background:radial-gradient(ellipse at 75% 20%,#214e86 0%,#0a1b34 43%,#071225 78%)}
+body.homepage .home-search-column{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;min-width:0;padding:clamp(8px,1.4vw,22px) 0}
+body.homepage .hero-copy{margin:0 0 clamp(16px,2.2vw,32px)}
+body.homepage .hero-eyebrow{margin:0 0 14px;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.16em}
+body.homepage .hero-copy h1{margin:0;color:#fff;font-size:clamp(34px,4vw,64px);line-height:1.02;letter-spacing:-.045em}
+body.homepage .hero-copy h1 span{color:#f3c65e}
+body.homepage .hero-subtitle{max-width:620px;margin:18px 0 0;color:#e0e9f7;font-size:clamp(15px,1.4vw,21px);line-height:1.45;font-style:italic}
+body.homepage .tender-feed-section{width:100%;margin:0;padding:0;}
+@media(max-width:900px){
+ body.homepage .home-hero-layout{grid-template-columns:minmax(0,1fr);gap:18px}
+ body.homepage .home-search-column{padding:8px 0}
+ body.homepage .hero-copy h1{font-size:clamp(34px,7vw,56px)}
+}
+@media(max-width:600px){
+ body.homepage .home-hero-layout{padding:12px 10px;gap:14px}
+ body.homepage .site-header{padding:7px 9px}
+}
