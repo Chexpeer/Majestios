@@ -185,7 +185,7 @@ export function createBodaccLegalEventsAdapter({ fetchImpl = fetch, now = () => 
       url.searchParams.set("where", 'search(commercant, "' + subject + '")');
       url.searchParams.set("limit", "10");
       url.searchParams.set("order_by", "dateparution desc");
-      url.searchParams.set("select", "id,publicationavis,dateparution,numeroannonce,typeavis_lib,familleavis_lib,departement_nom_officiel,commercant,ville,url_complete");
+      url.searchParams.set("select", "id,publicationavis,dateparution,numeroannonce,typeavis_lib,familleavis_lib,departement_nom_officiel,commercant,ville,registre,url_complete");
       let response;
       try {
         response = await fetchImpl(url.toString(), {
@@ -209,8 +209,18 @@ export function createBodaccLegalEventsAdapter({ fetchImpl = fetch, now = () => 
         const merchant = clean(record?.commercant, 180);
         const normalizedSubject = normalizeName(subject);
         const normalizedMerchant = normalizeName(merchant);
-        const match = normalizedMerchant && normalizedMerchant === normalizedSubject ? "probable" :
-          normalizedMerchant && (normalizedMerchant.includes(normalizedSubject) || normalizedSubject.includes(normalizedMerchant)) ? "uncertain" : "uncertain";
+        const registryValues = Array.isArray(record?.registre)
+          ? record.registre
+          : typeof record?.registre === "string" ? record.registre.split(",") : [];
+        const registrySirens = registryValues
+          .map(value => String(value).replace(/\D/g, ""))
+          .filter(value => /^\d{9}$/.test(value));
+        const requestedSiren = clean(auditCase?.siren, 9);
+        const sirenMatch = Boolean(requestedSiren && registrySirens.includes(requestedSiren));
+        const exactNameMatch = Boolean(normalizedMerchant && normalizedMerchant === normalizedSubject);
+        const match = requestedSiren
+          ? sirenMatch ? "confirmed" : "rejected"
+          : exactNameMatch ? "probable" : "uncertain";
         const id = clean(String(record?.id || record?.numeroannonce || record?.publicationavis || ""), 100);
         const titleParts = [clean(record?.typeavis_lib, 120), clean(record?.familleavis_lib, 120)].filter(Boolean);
         const details = [
