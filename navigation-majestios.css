@@ -2,7 +2,7 @@
 .site-header{position:relative;z-index:50;display:flex;align-items:center;gap:clamp(12px,2vw,28px);width:min(1440px,calc(100% - 32px));min-height:64px;margin:0 auto;padding:8px 0}
 .site-header .brand{flex:0 0 auto}
 .site-nav{display:flex!important;align-items:center;justify-content:flex-end;gap:clamp(5px,.8vw,14px);flex:1;min-width:0;overflow:visible!important;position:static!important;width:auto!important;max-height:none!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;flex-direction:row!important;white-space:normal!important}
-.site-nav>a,.nav-group-trigger{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 9px;border:0;border-radius:6px;background:transparent;color:inherit;font:600 12px/1.25 inherit;text-decoration:none;white-space:nowrap;cursor:pointer}
+.site-nav>a,.nav-group-trigger{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 9px;border:0;border-radius:6px;background:transparent;color:inherit;font-family:inherit;font-weight:600;font-size:12px;line-height:1.25;text-decoration:none;white-space:nowrap;cursor:pointer}
 .site-nav>a:hover,.nav-group-trigger:hover,.nav-group.is-open>.nav-group-trigger,.nav-group.has-current>.nav-group-trigger{background:#d5b56c18;color:var(--gold,#d5b56c)}
 .nav-group{position:relative;display:flex;align-items:center;gap:2px}
 .nav-group-trigger:after{content:"⌄";margin-left:6px;font-size:11px;opacity:.75}
@@ -38,3 +38,28 @@ body.homepage .nav-group-menu{top:calc(100% + 5px);background:#0b1420!important}
 }
 @media(max-width:600px){.home-rubric-directory{grid-template-columns:1fr;gap:8px}.home-rubric-card{min-height:0;padding:12px}.home-rubric-card strong{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.home-rubric-card{transition:none}}
+
+/* Assistant conversationnel première génération — sans moteur IA distant simulé. */
+.majestios-chat{position:fixed;right:18px;bottom:18px;z-index:2000;font-family:inherit;color:#f4f0e6}
+.majestios-chat-toggle{display:flex;align-items:center;gap:9px;min-height:46px;padding:0 16px 0 12px;border:1px solid #d5b56c88;border-radius:999px;background:#0b1420;color:#f4f0e6;box-shadow:0 10px 30px #0007;font:700 12px/1 inherit;cursor:pointer}
+.majestios-chat-toggle span:first-child{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f7e6a9,#b28a3c);color:#11151c;font-size:15px}
+.majestios-chat-panel{position:absolute;right:0;bottom:58px;display:flex;flex-direction:column;width:min(370px,calc(100vw - 24px));height:min(560px,calc(100dvh - 100px));overflow:hidden;border:1px solid #d5b56c77;border-radius:14px;background:#0b1420;box-shadow:0 22px 70px #000b}
+.majestios-chat-panel[hidden]{display:none!important}
+.majestios-chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;border-bottom:1px solid #d5b56c33;background:#101d2c}
+.majestios-chat-head strong,.majestios-chat-head small{display:block}
+.majestios-chat-head strong{font-size:14px}
+.majestios-chat-head small{margin-top:3px;color:#c2b99f;font-size:10px}
+.majestios-chat-close{width:30px;height:30px;border:1px solid #d5b56c55;border-radius:50%;background:#18283a;color:#f4f0e6;font-size:20px;cursor:pointer}
+.majestios-chat-disclaimer{padding:10px 14px;border-bottom:1px solid #d5b56c22;color:#c5c0b5;font-size:10px;line-height:1.45}
+.majestios-chat-messages{display:flex;flex:1;flex-direction:column;gap:9px;overflow:auto;padding:14px}
+.majestios-chat-message{max-width:91%;margin:0;padding:10px 12px;border:1px solid #d5b56c2b;border-radius:11px;background:#142338;color:#e9e5dc;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.majestios-chat-message.is-user{align-self:flex-end;border-color:#d5b56c66;background:#25354a;color:#fff}
+.majestios-chat-message.is-assistant{align-self:flex-start}
+.majestios-chat-link{align-self:flex-start;padding:7px 10px;border:1px solid #d5b56c55;border-radius:8px;color:#f3d58b;font-size:11px;text-decoration:none}
+.majestios-chat-link:hover{background:#d5b56c18}
+.majestios-chat-form{display:flex;gap:7px;padding:11px;border-top:1px solid #d5b56c33;background:#101d2c}
+.majestios-chat-form input{min-width:0;flex:1;padding:10px 11px;border:1px solid #d5b56c55;border-radius:8px;background:#08111c;color:#f4f0e6;font:inherit;font-size:12px}
+.majestios-chat-form button{padding:0 13px;border:1px solid #d5b56c88;border-radius:8px;background:#d5b56c;color:#11151c;font-size:11px;font-weight:800;cursor:pointer}
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:600px){.majestios-chat{right:10px;bottom:10px}.majestios-chat-toggle{min-height:42px;padding:0 12px 0 9px}.majestios-chat-panel{right:0;bottom:52px;width:min(370px,calc(100vw - 20px));height:min(560px,calc(100dvh - 82px))}}
+@media(prefers-reduced-motion:reduce){.majestios-chat *{scroll-behavior:auto!important}}
