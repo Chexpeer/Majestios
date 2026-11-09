@@ -24,12 +24,12 @@
       <div class="reputation-workspace" data-reputation-workspace>
         <div class="reputation-searches">
           <form class="reputation-search-card" data-reputation-search="web">
-            <div class="reputation-search-heading"><span class="google-mark" aria-hidden="true">G</span><div><strong>Google Web</strong><small>Consultez les résultats sans quitter MajestiOS</small></div></div>
+            <div class="reputation-search-heading"><span class="google-mark" aria-hidden="true">G</span><div><strong>Google Web</strong><small>Recherchez sur le Web depuis cet espace</small></div></div>
             <label class="sr-only" for="reputation-web-query">Entreprise ou activité à rechercher sur Google</label>
             <div class="reputation-input-row"><input id="reputation-web-query" type="search" placeholder="Entreprise, marque, activité…" required><button type="submit">Consulter <span aria-hidden="true">⌕</span></button></div>
           </form>
           <form class="reputation-search-card" data-reputation-search="maps">
-            <div class="reputation-search-heading"><span class="maps-mark" aria-hidden="true">⌖</span><div><strong>Google Maps</strong><small>Explorez la présence locale dans MajestiOS</small></div></div>
+            <div class="reputation-search-heading"><span class="maps-mark" aria-hidden="true">⌖</span><div><strong>Google Maps</strong><small>Affichez une carte Google Maps ici</small></div></div>
             <label class="sr-only" for="reputation-maps-query">Entreprise, ville ou adresse à rechercher sur Google Maps</label>
             <div class="reputation-input-row"><input id="reputation-maps-query" type="search" placeholder="Entreprise, ville ou adresse…" required><button type="submit">Localiser <span aria-hidden="true">⌖</span></button></div>
           </form>
@@ -37,12 +37,12 @@
         <section class="reputation-consultation" aria-labelledby="consultation-title">
           <div class="consultation-toolbar"><div><p class="eyebrow">ESPACE DE CONSULTATION</p><h2 id="consultation-title">Votre recherche, dans MajestiOS</h2></div><span class="consultation-status" data-consultation-status>En attente d’une recherche</span></div>
           <div class="consultation-content" data-consultation-content aria-live="polite">
-            <div class="consultation-placeholder"><span aria-hidden="true">⌕</span><strong>Commencez par une recherche</strong><p>Les résultats compatibles seront affichés ici. Cheexpeer pourra ensuite analyser les éléments effectivement accessibles.</p></div>
+            <div class="consultation-placeholder"><span aria-hidden="true">⌕</span><strong>Commencez par une recherche</strong><p>Les résultats Web ou la carte Google Maps apparaîtront ici lorsque Google autorise leur affichage intégré. L’audit sera réalisé séparément par ChatGPT.</p></div>
           </div>
           <p class="consultation-legal">Les services Google restent soumis à leurs conditions d’utilisation. Si une intégration est indisponible ou limitée, MajestiOS l’indiquera clairement au lieu de simuler des résultats.</p>
         </section>
       </div>
-      <p class="reputation-disclaimer">La consultation intégrée dépend de la configuration des services Google. L’analyse automatique de Cheexpeer sera activée dans une étape distincte, après validation de l’accès aux données.</p>
+      <p class="reputation-disclaimer">Google peut limiter l’affichage intégré de certaines pages. Si cela arrive, un lien direct permettra d’ouvrir la recherche. Aucun identifiant API n’est nécessaire pour l’intégration cartographique standard testée ici.</p>
     </div>
     <aside class="reputation-visual" aria-label="Illustration de la présence sur les réseaux sociaux">
       <div class="reputation-visual-glow"></div>
