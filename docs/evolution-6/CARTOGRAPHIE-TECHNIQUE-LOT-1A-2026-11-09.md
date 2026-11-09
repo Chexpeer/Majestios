@@ -337,3 +337,31 @@ Aucun des trois projets ne présente `MajestiOS.com` ou `www.majestios.com` dans
 | Protection des previews `majestios-jc8g` | SSO désactivé ; décision de protection à prendre |
 
 Le critère de sortie du Lot 1A reste **partiellement atteint** : l'inventaire et le rapprochement de l'historique des migrations sont désormais fiables, mais les tests d'accès Auth/RLS, la clarification de la duplication Vercel, la protection des previews et la réconciliation des Edge Functions restent à traiter.
+
+
+## 12. Contrat de test CRM et tests Auth/RLS — écart de portée
+
+La lecture de `tests/crm-security-contract.test.cjs` révèle que ce test :
+- lit explicitement la migration locale non appliquée `20261108151400_enforce_vip_boundary_for_internal_crm.sql` ;
+- vérifie les helpers `private.can_read_crm_org` et `private.can_edit_crm_org` ;
+- exige que les membres puissent conserver des droits CRM dans leurs propres organisations clientes/partenaires.
+
+Le test est un **test statique de fichiers**, pas une session Auth connectée à Supabase distant. Son succès dans `verify-site.yml` démontre seulement la cohérence textuelle de ce fichier et du code associé. Il ne démontre pas que cette migration est appliquée, ni que le CRM membre est ouvert dans la base.
+
+La migration effectivement appliquée `vip_only_crm_access` utilise au contraire `private.is_org_admin` pour les cinq tables CRM et réserve donc l'accès à `owner/admin`. Cet état correspond au déploiement progressif VIP actuellement retenu.
+
+Le workflow `prospection-auth-integration.yml` exécute de véritables sessions Auth et des lectures RLS sur une stack Supabase locale éphémère, mais :
+- il teste les habilitations du moteur de Prospection, pas l'accès complet au CRM VIP ;
+- son déclenchement push est limité à `feature/crm-atomic-integration`, avec exécution possible sur pull request ou manuellement ;
+- il reconstruit la base locale à partir de toutes les migrations versionnées, y compris la migration VIP supplémentaire non appliquée au projet métier ;
+- aucun run de ce workflow n'a été identifié dans les exécutions récentes de `Evolution-6`.
+
+**Conséquence :** les tests statiques CRM et la migration locale supplémentaire décrivent une cible d'autorisation différente de la base distante actuelle. Il faut clarifier ce contrat et ajouter une suite d'intégration dédiée au CRM VIP (owner/admin autorisés ; member/viewer refusés ; isolation multi-tenant), sans ouvrir le CRM membre ni appliquer la migration locale. La suite doit être exécutée sur une stack de test isolée, jamais en créant des utilisateurs ou des enregistrements de test dans `majestios-crm`.
+
+## 13. Priorités révisées
+
+1. **P0 — aligner le contrat de test CRM** sur la stratégie VIP actuelle : la migration locale `enforce_vip_boundary_for_internal_crm` et les assertions qui ouvrent le CRM aux membres des tenants clients/partenaires ne doivent pas être confondues avec l'état live. Décider si ce fichier est une proposition future, un artefact historique ou un contrat à remplacer ; ne pas l'appliquer.
+2. **P0 — ajouter une vraie suite Auth/RLS CRM VIP** dans la stack locale de test, avec owner/admin/member/viewer et plusieurs tenants ; vérifier lecture, insertion, mise à jour, suppression, RPC `complete_crm_reminder`, demandes clients et fonctions sensibles.
+3. **P1 — résoudre les deux Edge Functions manquantes** pour les parcours membres, en vérifiant le code versionné, les paramètres d'environnement et les règles Auth avant déploiement.
+4. **P1 — décider de la protection des previews `majestios-jc8g`** et clarifier si `majestios-ljx1` doit rester un projet de production parallèle.
+5. **P2 — examiner l'avertissement Auth sur les mots de passe compromis** et conserver les index tant que les volumes ne justifient pas une optimisation.
