@@ -363,10 +363,10 @@ for (const table of ["businesses", "contacts", "opportunities"]) {
   assert.match(tenantCrmPermissions,
     new RegExp('create policy "Authorized editors can update ' + table + '"[\\s\\S]*?private\\.can_edit_crm_org\\(organization_id\\)'));
 }
-assert.match(tenantCrmPermissions, /create policy "Authorized users can read activities"[\\s\\S]*?private\\.can_read_crm_org/);
-assert.match(tenantCrmPermissions, /create policy "Authorized editors can append activities"[\\s\\S]*?private\\.can_edit_crm_org/);
-assert.match(tenantCrmPermissions, /create policy "Authorized users can read their CRM reminders"[\\s\\S]*?private\\.can_read_crm_org/);
-assert.match(tenantCrmPermissions, /create policy "Authorized editors can mark their CRM reminders read"[\\s\\S]*?private\\.can_edit_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized users can read activities"[\s\S]*?private\.can_read_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized editors can append activities"[\s\S]*?private\.can_edit_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized users can read their CRM reminders"[\s\S]*?private\.can_read_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized editors can mark their CRM reminders read"[\s\S]*?private\.can_edit_crm_org/);
 assert.match(tenantCrmPermissions, /create policy "Organization admins can delete businesses"[\s\S]*?private\.is_org_admin/);
 assert.match(tenantCrmPermissions, /create or replace function public\.complete_crm_reminder\(p_reminder_id uuid\)[\s\S]*?private\.can_edit_crm_org\(v_reminder\.organization_id\)/);
 assert.match(tenantCrmPermissions, /security definer\s+set search_path = ''/);
