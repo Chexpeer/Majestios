@@ -97,6 +97,13 @@ Frontière impérative : le chat utilisateurs ne peut pas consulter les conversa
 
 **Finalité :** assister le travail commercial et la circulation de l'information entre les rubriques MajestiOS et le CRM.
 
+
+**Ordre de réalisation et périmètre — décision administrateur du 9 novembre 2026 :** le CRM interne de MajestiOS est le premier outil à finaliser et à maîtriser. L'administrateur doit pouvoir l'utiliser au quotidien, en comprendre les fonctions, les limites, les droits, les automatismes et les procédures avant de proposer un CRM à des organisations clientes.
+
+Le CRM client est donc une étape ultérieure, et non une copie du CRM interne. Sa première version devra être **minimale, modulaire et activable progressivement** : seuls les modules répondant à un besoin client réel seront proposés. Les fonctions avancées, les automatismes complexes et les capacités réservées à l'administration ne sont pas à reproduire par défaut.
+
+Cette priorité produit ne modifie pas les règles de cloisonnement : l'administrateur conserve son espace interne ; chaque organisation cliente ne peut accéder qu'à ses propres données et aux modules qui lui sont explicitement ouverts. La possibilité technique d'accorder des droits tenant-scoped ne signifie pas que l'interface CRM client est déjà livrée ou ouverte.
+
 Capacités en lecture :
 - rechercher entreprises, établissements, contacts, opportunités, activités et relances selon les droits ;
 - retrouver les sources et l'historique ;
