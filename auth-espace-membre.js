@@ -3,7 +3,6 @@ import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 
 const config = MAJESTIOS_SUPABASE;
 const form = document.querySelector("#personal-space-form");
-const dialog = document.querySelector("#personal-space-dialog");
 const feedback = document.querySelector("#personal-space-feedback");
 const modeToggle = document.querySelector("#toggle-auth-mode");
 const submitButton = form?.querySelector('[type="submit"]');
@@ -42,6 +41,8 @@ if (form && config?.url && config?.publishableKey) {
   const setMode = (nextMode) => {
     mode = nextMode;
     if (otpInput) otpInput.required = false;
+    clearInterval(resendTimer);
+    if (resendButton) { resendButton.disabled = false; resendButton.textContent = "Renvoyer un code"; }
     awaitingOtp = false;
     form.dataset.mode = mode;
     if (otpStep) otpStep.hidden = true;
@@ -97,7 +98,7 @@ if (form && config?.url && config?.publishableKey) {
     const { error } = await supabase.auth.signInWithOtp({ email, options });
     if (error) {
       // Keep account-existence and delivery errors deliberately non-specific.
-      throw new Error("Si cette adresse peut recevoir un code, un message vient d’être envoyé. Vérifiez votre boîte de réception et vos courriers indésirables.");
+      throw new Error("La demande n’a pas pu être confirmée. Si l’envoi est autorisé pour cette adresse, vérifiez votre boîte de réception et vos courriers indésirables.");
     }
     pendingEmail = email;
     awaitingOtp = true;
@@ -175,6 +176,8 @@ if (form && config?.url && config?.publishableKey) {
       throw new Error("Ce code est invalide ou expiré. Demandez-en un nouveau.");
     }
     awaitingOtp = false;
+    clearInterval(resendTimer);
+    if (resendButton) { resendButton.disabled = false; resendButton.textContent = "Renvoyer un code"; }
     if (otpInput) otpInput.required = false;
     if (otpStep) otpStep.hidden = true;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
