@@ -90,3 +90,37 @@ html body .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{ba
  }
  html body button.nav-drawer-overlay{z-index:2190!important}
 }
+
+
+/* Mobile hamburger rebuilt as a native checkbox/label control: no click JS required. */
+@media(max-width:900px){
+ html body .site-header .mobile-nav-check{
+   position:absolute!important;width:1px!important;height:1px!important;
+   opacity:0!important;pointer-events:none!important;
+ }
+ html body .site-header label.menu-toggle{
+   display:flex!important;visibility:visible!important;opacity:1!important;
+   position:relative!important;z-index:2305!important;flex:0 0 48px!important;
+   width:48px!important;min-width:48px!important;height:48px!important;min-height:48px!important;
+   padding:10px!important;flex-direction:column!important;align-items:center!important;
+   justify-content:center!important;gap:5px!important;cursor:pointer!important;
+   background:#fff!important;border:2px solid #d5b45b!important;border-radius:10px!important;
+   box-shadow:0 2px 8px #07122535!important;
+ }
+ html body .site-header label.menu-toggle span{
+   display:block!important;width:23px!important;height:2px!important;min-height:2px!important;
+   margin:0!important;flex:none!important;border-radius:2px!important;
+   background:#17324f!important;transform:none!important;opacity:1!important;
+ }
+ html body .site-header .mobile-nav-check:checked + label.menu-toggle{
+   background:#eaf1f8!important;border-color:#17324f!important;
+ }
+ html body .site-header .mobile-nav-check:checked ~ nav.site-nav-drawer{
+   transform:translateX(0)!important;visibility:visible!important;pointer-events:auto!important;
+ }
+ html body .site-header nav.site-nav-drawer{z-index:2200!important}
+}
+@media(min-width:901px){
+ html body .site-header .mobile-nav-check,
+ html body .site-header label.menu-toggle{display:none!important}
+}
