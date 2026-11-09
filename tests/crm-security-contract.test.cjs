@@ -355,25 +355,18 @@ console.log("Official company import hardening: OK — CORS à origine autorisé
 
 // The latest migration must win over the intermediate global VIP-only policy.
 // Internal CRM stays VIP-only; client/partner CRM remains tenant-scoped.
-for (const [table, action, helper] of [
-  ["businesses", "read", "can_read_crm_org"],
-  ["contacts", "read", "can_read_crm_org"],
-  ["opportunities", "read", "can_read_crm_org"],
-  ["activities", "read", "can_read_crm_org"],
-  ["crm_reminders", "read", "can_read_crm_org"],
-  ["businesses", "create", "can_edit_crm_org"],
-  ["contacts", "create", "can_edit_crm_org"],
-  ["opportunities", "create", "can_edit_crm_org"],
-  ["businesses", "update", "can_edit_crm_org"],
-  ["contacts", "update", "can_edit_crm_org"],
-  ["opportunities", "update", "can_edit_crm_org"],
-  ["activities", "append", "can_edit_crm_org"],
-  ["crm_reminders", "mark", "can_edit_crm_org"]
-]) {
-  assert.ok(tenantCrmPermissions.includes(helper), `Le contrôle ${helper} doit être appliqué à ${table}.`);
+for (const table of ["businesses", "contacts", "opportunities"]) {
+  assert.match(tenantCrmPermissions,
+    new RegExp('create policy "Authorized users can read ' + table + '"[\\s\\S]*?private\\.can_read_crm_org\\(organization_id\\)'));
+  assert.match(tenantCrmPermissions,
+    new RegExp('create policy "Authorized editors can create ' + table + '"[\\s\\S]*?private\\.can_edit_crm_org\\(organization_id\\)'));
+  assert.match(tenantCrmPermissions,
+    new RegExp('create policy "Authorized editors can update ' + table + '"[\\s\\S]*?private\\.can_edit_crm_org\\(organization_id\\)'));
 }
-assert.match(tenantCrmPermissions, /create policy "Authorized users can read businesses"[\s\S]*?private\.can_read_crm_org/);
-assert.match(tenantCrmPermissions, /create policy "Authorized editors can create businesses"[\s\S]*?private\.can_edit_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized users can read activities"[\\s\\S]*?private\\.can_read_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized editors can append activities"[\\s\\S]*?private\\.can_edit_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized users can read their CRM reminders"[\\s\\S]*?private\\.can_read_crm_org/);
+assert.match(tenantCrmPermissions, /create policy "Authorized editors can mark their CRM reminders read"[\\s\\S]*?private\\.can_edit_crm_org/);
 assert.match(tenantCrmPermissions, /create policy "Organization admins can delete businesses"[\s\S]*?private\.is_org_admin/);
 assert.match(tenantCrmPermissions, /create or replace function public\.complete_crm_reminder\(p_reminder_id uuid\)[\s\S]*?private\.can_edit_crm_org\(v_reminder\.organization_id\)/);
 assert.match(tenantCrmPermissions, /security definer\s+set search_path = ''/);
