@@ -39,6 +39,9 @@ test("worker bridge validates identifiers and rejects oversized payloads before 
   assert.match(source, /Number\.isSafeInteger\(Number\(body\.message_id\)\)/);
   assert.match(source, /MAX_BODY_BYTES/);
   assert.match(source, /MAX_RESULT_BYTES/);
+  assert.match(source, /async function readBodyLimited/);
+  assert.match(source, /req\.body\?\.getReader\(\)/);
+  assert.doesNotMatch(source, /await req\.text\(\)/);
   assert.match(source, /result must be a JSON object/);
 });
 
