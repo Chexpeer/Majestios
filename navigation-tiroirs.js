@@ -7,11 +7,37 @@
     if (!nav || !header || !menuButton || nav.dataset.drawerReady === "true") return;
     nav.dataset.drawerReady = "true";
     nav.classList.add("site-nav-drawer");
-    const css = document.createElement("link");
-    css.rel = "stylesheet";
-    css.href = new URL("navigation-tiroirs.css", document.baseURI).href;
-    css.dataset.majestiosNavigation = "true";
-    document.head.append(css);
+
+    // Le bouton est stylé directement pour éviter les anciennes règles CSS
+    // qui transformaient les trois barres en points alignés.
+    const setImportant = (element, property, value) => element.style.setProperty(property, value, "important");
+    const styleMenuButton = () => {
+      const mobile = window.matchMedia("(max-width: 900px)").matches;
+      if (!mobile) {
+        ["display","position","z-index","width","min-width","height","min-height","padding",
+         "flex","flex-direction","align-items","justify-content","gap","background","border",
+         "border-radius","box-shadow","visibility","opacity","pointer-events"].forEach(p => menuButton.style.removeProperty(p));
+        menuButton.querySelectorAll("span").forEach(span => {
+          ["display","width","height","min-height","flex","margin","background","border-radius"].forEach(p => span.style.removeProperty(p));
+        });
+        return;
+      }
+      Object.entries({
+        display:"flex",position:"relative","z-index":"2601",width:"48px","min-width":"48px",
+        height:"48px","min-height":"48px",padding:"10px",flex:"0 0 48px",
+        "flex-direction":"column","align-items":"center","justify-content":"center",gap:"5px",
+        background:"#ffffff",border:"2px solid #d5b45b","border-radius":"10px",
+        "box-shadow":"0 2px 8px #07122535",visibility:"visible",opacity:"1",
+        "pointer-events":"auto",cursor:"pointer"
+      }).forEach(([p,v]) => setImportant(menuButton,p,v));
+      menuButton.querySelectorAll("span").forEach(span => {
+        Object.entries({display:"block",width:"23px",height:"2px","min-height":"2px",
+          flex:"0 0 2px",margin:"0",background:"#17324f","border-radius":"2px"}).
+          forEach(([p,v]) => setImportant(span,p,v));
+      });
+    };
+    styleMenuButton();
+    window.addEventListener("resize", styleMenuButton, {passive:true});
 
     const groups = [
       {label:"Appels d’offres",href:"marches-publics.html",items:[["Appels d’offres publics","marches-publics.html"],["Appels d’offres privés","marches-prives.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"]]},
@@ -39,7 +65,11 @@
 
     const closeDrawer = () => { nav.classList.remove("open"); document.body.classList.remove("nav-drawer-active"); menuButton.setAttribute("aria-expanded","false"); menuButton.setAttribute("aria-label","Ouvrir le menu"); overlay.classList.remove("is-visible"); overlay.hidden = true; };
     const openDrawer = () => { nav.classList.add("open"); document.body.classList.add("nav-drawer-active"); menuButton.setAttribute("aria-expanded","true"); menuButton.setAttribute("aria-label","Fermer le menu"); overlay.hidden = false; requestAnimationFrame(() => overlay.classList.add("is-visible")); };
-    menuButton.addEventListener("click",() => nav.classList.contains("open") ? closeDrawer() : openDrawer());
+    menuButton.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      nav.classList.contains("open") ? closeDrawer() : openDrawer();
+    });
     overlay.addEventListener("click",closeDrawer);
     document.addEventListener("keydown",e => { if(e.key === "Escape") closeDrawer(); });
 
