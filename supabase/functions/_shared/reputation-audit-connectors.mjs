@@ -28,8 +28,8 @@ export const REPUTATION_SOURCE_REGISTRY = Object.freeze([
     source_key: "bodacc",
     status: "ready",
     scopes: Object.freeze(["legal_events"]),
-    access_mode: "to_assess",
-    purpose: "Événements légaux à qualifier avant usage dans un audit."
+    access_mode: "public_api",
+    purpose: "Annonces légales publiques utilisées comme contexte factuel, sans interprétation automatique de réputation."
   }),
   Object.freeze({
     source_key: "social_platforms",
@@ -175,7 +175,7 @@ export function createBodaccLegalEventsAdapter({ fetchImpl = fetch, now = () => 
   return Object.freeze({
     source_key: "bodacc",
     async collect({ auditCase, signal } = {}) {
-      const subject = clean(auditCase?.subject, 120).replace(/["\\\\]/g, " ").replace(/\\s+/g, " ").trim();
+      const subject = clean(auditCase?.subject, 120).replace(/["\\]/g, " ").replace(/\s+/g, " ").trim();
       if (subject.length < 2) throw new ReputationCollectionError("AUDIT_SUBJECT_INVALID");
       const url = new URL("https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records");
       url.searchParams.set("where", 'search(commercant, "' + subject + '")');
