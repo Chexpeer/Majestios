@@ -11,10 +11,10 @@ Le parcours de la page Réputation virtuelle est maintenant raccordé au handler
 2. Le bouton « Lancer l’audit Cheexpeer » devient actif.
 3. Le navigateur vérifie la session Supabase et appelle `reputation-audit-context`.
 4. L’Edge Function authentifie le JWT avec `auth.getUser(token)`.
-5. Le serveur collecte le contexte d’identité d’entreprise et les annonces BODACC.
-6. Si le fournisseur IA est configuré côté serveur, le handler transmet les seules preuves collectées au module Cheexpeer.
-7. Le module valide le schéma, les références de preuves et les liens entre constats et recommandations.
-8. Le navigateur affiche les éléments, les constats, les recommandations et les lacunes avec insertion DOM en texte, sans interpréter les réponses comme du HTML.
+5. Le serveur authentifie le JWT et vérifie l’appartenance à au moins un espace MajestiOS via `organization_members` et les politiques RLS.\n6. Le serveur collecte le contexte d’identité d’entreprise et les annonces BODACC.
+7. Si le fournisseur IA est configuré côté serveur, le handler transmet les seules preuves collectées au module Cheexpeer.
+8. Le module valide le schéma, les références de preuves et les liens entre constats et recommandations.
+9. Le navigateur affiche les éléments, les constats, les recommandations et les lacunes avec insertion DOM en texte, sans interpréter les réponses comme du HTML.
 
 ## 2. Fichiers modifiés ou ajoutés
 
@@ -22,7 +22,7 @@ Le parcours de la page Réputation virtuelle est maintenant raccordé au handler
 - `reputation-virtuelle.js` : client Supabase, appel authentifié, restitution du rapport et activation conditionnelle du bouton.
 - `supabase/functions/_shared/reputation-audit-handler.mjs` : orchestration collection → analyse optionnelle → DTO de restitution.
 - `supabase/functions/_shared/reputation-audit-provider.mjs` : nouvel adaptateur serveur pour API compatible Chat Completions et JSON Schema strict.
-- `supabase/functions/reputation-audit-context/index.ts` : lecture des variables d’environnement IA et branchement de l’adaptateur.
+- `supabase/functions/reputation-audit-context/index.ts` : lecture des variables d’environnement IA, branchement de l’adaptateur et contrôle d'appartenance à un espace MajestiOS.\n- `tests/reputation-audit-access-contract.test.mjs` : test du contrôle d'appartenance serveur.\n- `tests/reputation-audit-connectors.test.mjs` et `tests/reputation-audit-analysis.test.mjs` : tests de rapprochement SIREN et de résistance aux instructions présentes dans les preuves.
 - `tests/reputation-audit-handler.test.mjs` : cas analyse active et cas fournisseur absent.
 - `tests/reputation-audit-provider.test.mjs` : authentification fournisseur, JSON Schema strict, erreurs et endpoint HTTPS.
 - `tests/reputation-virtuelle.browser.cjs` : mock du SDK Supabase et tests d’état du bouton.
@@ -58,7 +58,7 @@ Tests ajoutés au workflow :
 - interface : bouton actif après préparation du dossier et inactif après réinitialisation ;
 - vérification de syntaxe du module navigateur, de l’adaptateur et des tests.
 
-**Statut au moment de la rédaction :** modifications poussées sur `Evolution-7`. La recette CI de ce nouveau commit doit être consultée avant de déclarer le lot validé. Aucun appel au fournisseur IA, aucune migration, aucun déploiement Edge Function et aucune modification du projet Supabase hébergé n’ont été réalisés.
+**Statut de suivi :** les tests de syntaxe et les tests unitaires Cheexpeer ciblés ont réussi dans le workflow `42652513233` (run `4057`, commit `56057a6b36fe413cbfbbbda50fd711f7abae8cb1`). Le workflow global était encore en cours sur les tests navigateur au dernier contrôle ; ne pas déclarer la recette globale terminée avant son résultat final. Aucun appel au fournisseur IA, aucune migration, aucun déploiement Edge Function et aucune modification du projet Supabase hébergé n’ont été réalisés.
 
 ## 6. Prochaine étape contrôlée
 
