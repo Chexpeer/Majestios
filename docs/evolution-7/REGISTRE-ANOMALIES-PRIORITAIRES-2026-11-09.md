@@ -5,18 +5,18 @@
 **Date :** 9 novembre 2026  
 **Branche :** `Evolution-7`
 
-> **À consulter avant toute intervention sur MajestiOS.** Ce registre doit rester visible depuis l'index général, être actualisé au fil des audits et conserver l'historique des corrections. Une synthèse stratégique ne doit jamais masquer ni supprimer une anomalie critique.
+> **À consulter avant toute intervention sur MajestiOS.** Ce registre doit rester visible depuis l'index général, être actualisé au fil des audits et conserver l'historique des corrections. Une synthèse stratégique ne doit jamais masquer ni supprimer une anomalie critique. La stratégie d'ouverture pilote est définie dans [le document des 20 premiers clients](STRATEGIE-OUVERTURE-PROGRESSIVE-20-PREMIERS-CLIENTS-2026-11-09.md) : une anomalie ne bloque que la création de compte, les données ou la fonction qu'elle met réellement en risque, et non toute la navigation du produit.
 
 ## Tableau de bord immédiat
 
 | Niveau | Anomalies inscrites | Traitement |
 |---|---:|---|
-| P0 — bloquant avant ouverture | 2 | Sécurité / recette impérative avant ouverture aux membres |
-| P1 — important | 9 | Correction ou vérification prioritaire |
+| P0 — bloquant ciblé | 1 + 1 conditionnel | AUTH-01 bloque la création de compte tant que la recette OTP n'est pas faite ; CRM-06 bloque uniquement l'activation de l'import officiel privilégié tant que sa recette n'est pas faite. |
+| P1 — important | 9 | Correction ou vérification prioritaire, sans blocage global de la phase pilote |
 
 **À traiter en premier :**
 1. **AUTH-01 — OTP / espace membre (P0) :** recette réelle d'envoi, validation, expiration, limites de débit et provisionnement encore manquante.
-2. **CRM-06 — import officiel (P0) :** correctif de la frontière VIP préparé et testé en CI ; migration non appliquée, recette multi-rôles obligatoire.
+2. **CRM-06 — import officiel (P0 conditionnel) :** correctif de la frontière VIP préparé ; la fonction d'import reste désactivée tant que la migration et la recette multi-rôles ne sont pas validées.
 3. **AUTH-02 — consentement (P1) :** contrôle des métadonnées ajouté dans l'Edge Function et test de contrat ; CI à confirmer, preuve juridique forte non établie.
 4. **CRM-02 — traçabilité (P1) :** correction atomique préparée et testée ; migration non appliquée, recette transactionnelle requise.
 5. **CRM-03 — privilèges CRM (P1) :** restriction des colonnes préparée et testée ; privilèges distants à vérifier.
@@ -27,7 +27,7 @@
 10. **CHEEXPEER-03 — injection d'instructions (P1) :** garde-fous prompt ajoutés et tests automatisés passés.
 11. **CHEEXPEER-04 — information des utilisateurs (P1) :** notice de transparence à compléter avant activation d'un fournisseur IA et ouverture élargie.
 
-**Consigne aux agents :** traiter les P0 avant les P1. Après chaque découverte ou correction, préciser l'ID, le statut, les fichiers concernés, le commit, les tests exécutés et la preuve. Une modification de code seule ne suffit pas à déclarer une anomalie corrigée.
+**Consigne aux agents :** traiter chaque P0 avant l'activation de la fonction qu'il concerne, sans transformer une anomalie localisée en interdiction générale de tester MajestiOS. Après chaque découverte ou correction, préciser l'ID, le statut, les fichiers concernés, le commit, les tests exécutés et la preuve. Une modification de code seule ne suffit pas à déclarer une anomalie corrigée.
 
 Ce document ne doit pas devenir une liste de toutes les fonctionnalités manquantes. Il distingue :
 - **Anomalies / risques à traiter** : défauts constatés ou contrôles indispensables avant ouverture.
@@ -38,7 +38,7 @@ Ce document ne doit pas devenir une liste de toutes les fonctionnalités manquan
 
 | ID | Priorité | Domaine | Constat vérifié | Action / statut |
 |---|---|---|---|---|
-| CRM-06 | **P0 — privilèges / import privilégié** | L’Edge Function d’import officiel peut contourner la frontière VIP du CRM | `import-official-company/index.ts` vérifie `can_import_official_company()` avec le client utilisateur, puis écrit via `service_role`. La définition actuelle de cette fonction appelle encore `private.is_org_editor()`, qui accepte `owner/admin/member`, alors que la migration VIP `20261108181246_vip_only_crm_access.sql` réserve désormais les écritures CRM à `owner/admin`. Un membre peut donc déclencher une écriture CRM privilégiée par l’Edge Function. | **Correction préparée sur Evolution-7.** Migration `20261109194500_harden_official_import_vip_permissions.sql` remplace le contrôle par `private.is_org_admin()`, conserve `SECURITY INVOKER` et restreint l’exécution à `authenticated`. Test de contrat ajouté pour vérifier que le contrôle utilisateur précède la création du client `service_role`. Migration non appliquée ; déploiement/recette multi-rôles requis avant clôture. |
+| CRM-06 | **P0 conditionnel — avant activation de l'import privilégié** | L’Edge Function d’import officiel peut contourner la frontière VIP du CRM | `import-official-company/index.ts` vérifie `can_import_official_company()` avec le client utilisateur, puis écrit via `service_role`. La définition actuelle de cette fonction appelle encore `private.is_org_editor()`, qui accepte `owner/admin/member`, alors que la migration VIP `20261108181246_vip_only_crm_access.sql` réserve désormais les écritures CRM à `owner/admin`. Un membre peut donc déclencher une écriture CRM privilégiée par l’Edge Function. | **Correction préparée sur Evolution-7.** Migration `20261109194500_harden_official_import_vip_permissions.sql` remplace le contrôle par `private.is_org_admin()`, conserve `SECURITY INVOKER` et restreint l’exécution à `authenticated`. Test de contrat ajouté pour vérifier que le contrôle utilisateur précède la création du client `service_role`. Migration non appliquée ; déploiement/recette multi-rôles requis avant clôture. |
 | AUTH-01 | **P0 — avant ouverture aux membres** | OTP / espace membre | Le front appelle `signInWithOtp()` et `verifyOtp()`, mais aucun test de bout en bout ne prouve l'envoi réel, la validation, l'expiration, les limites de débit et le provisionnement de l'espace. Le déploiement de `provision-client-workspace` en environnement de test n'est pas confirmé. | **À vérifier — recette E2E isolée.** Aucun changement Auth, migration, déploiement de fonction ou donnée de test dans Supabase métier sans autorisation. |
 | CRM-02 | **P1 — traçabilité** | Création et modification de fiches CRM | Avant correction, `create()` n'enregistrait aucune activité ; `update()` modifiait la fiche puis tentait une seconde insertion d'activité, pouvant échouer après la modification. Les imports via `createBusiness()` étaient également concernés. | **Correction préparée sur Evolution-7 — test de contrat CRM inclus dans le workflow vert `42656483619` (run `4117`).** La migration `20261109170000_atomic_crm_activity_history.sql` ajoute un trigger SQL après insertion/modification des entreprises, contacts et opportunités ; le client ne crée plus de doublon d'historique. Cette CI ne vaut pas recette transactionnelle en environnement réel. La migration n'est pas appliquée à Supabase. Recette transactionnelle autorisée encore requise avant clôture. |
 | CRM-03 | **P1 — intégrité des données** | Colonnes d’audit CRM | `20261107065916_grant_crm_record_updates.sql` réintroduit un `UPDATE` table-level sur entreprises, contacts et opportunités. La migration `20261109160000_restrict_crm_update_columns.sql` révoque ce droit puis restaure exactement les listes blanches de `20261106074500_enforce_crm_editor_roles.sql`. | **Corrigé dans Evolution-7 — à vérifier en environnement autorisé.** Migration et test de non-régression ajoutés ; workflow GitHub vert. Aucun privilège distant lu ni migration appliquée. Les champs d’audit ne sont donc pas déclarés protégés en production tant que la migration n’est pas appliquée et contrôlée. |
