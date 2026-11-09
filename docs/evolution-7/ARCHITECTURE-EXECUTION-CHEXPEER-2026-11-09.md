@@ -588,3 +588,34 @@ L'avertissement Security Advisor existant demeure isolé sur `public.complete_cr
 #### Vérification CI complémentaire
 
 Le workflow `Cheexpeer worker contract` a maintenant terminé avec succès sur le commit `0a20c6d16f3b40f514f120e7c0ade5bc41b9baf5` : syntaxe Node, tests de politique d'exécution et tests contractuels du pont (secret partagé, allowlist RPC, absence de CORS navigateur). Le workflow complet de vérification du site est encore en cours sur ce même commit ; il n'est donc pas déclaré vert à ce stade.
+
+
+### 13.11 Audit des contrats du worker et validation CI — 9 novembre 2026
+
+Cette section remplace les indications CI provisoires de la section 13.10.
+
+#### Défauts corrigés dans Evolution-7
+
+- Le pont Edge valide désormais les UUID de mission, les identifiants de worker (1 à 120 caractères, non vides et sans caractères de contrôle) et les identifiants PGMQ (entiers positifs sûrs).
+- Le pont refuse les résultats de mission qui ne sont pas des objets JSON et limite leur taille à 32 Ko ; la taille d'une requête est plafonnée à 64 Ko.
+- Le contrôle de santé du worker reste en état non prêt jusqu'à la première boucle de traitement réussie. Une simple ouverture du processus ne suffit plus à le déclarer opérationnel.
+- Les handlers inconnus restent fermés par défaut ; aucun outil métier n'a été ajouté ou activé.
+
+#### Validation automatisée sur la tête de branche
+
+Tête de branche contrôlée : `9ff0a48a0bbd034873af0bafb40258acfd9c2423`.
+
+- Workflow `Cheexpeer worker contract`, run 42699151609 : **succès**. Vérification de syntaxe Node et six tests de contrat/politique, dont validation des entrées, limites de taille et état de santé initial.
+- Workflow `Vérification du site MajestiOS`, run 42699151895 : **succès**. Le build statique, les contrats de navigation, les parcours navigateur, les tests BOAMP/BODACC et les contrôles CRM présents dans ce workflow ont terminé avec succès.
+
+Ces résultats sont des validations CI sur le code source. Ils ne prouvent pas encore l'exécution du worker contre Supabase en conditions réelles, ni le déploiement de la fonction Edge.
+
+#### État Supabase-Test vérifié après cette étape
+
+- 39 migrations enregistrées sur `MajestiOS-Test`, dont la migration du pont serveur.
+- Le pont SQL est appliqué et ses droits restent réservés à `service_role`.
+- Aucun outil métier activé ; aucune mission métier ni effet externe.
+- Aucune fonction Edge Cheexpeer déployée, aucun secret worker configuré, aucun worker démarré.
+- Le projet de production `majestios-crm` reste hors périmètre et non modifié.
+
+**Prochaine étape sûre :** préparer un test d'intégration isolé, strictement limité à `MajestiOS-Test`, avec une mission `readiness_probe`, un nettoyage contrôlé et aucune connexion métier. Le déploiement Edge, la configuration de secrets et le provisionnement d'un hôte restent des décisions distinctes qui nécessitent une autorisation explicite.
