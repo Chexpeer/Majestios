@@ -195,3 +195,56 @@ html body .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{ba
 .site-nav-drawer .nav-group-items[hidden]{
   display:none!important;
 }
+
+
+/* Lisibilité renforcée des sous-onglets : fond clair et texte foncé,
+   sur ordinateur comme sur téléphone, indépendamment des anciens thèmes. */
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items:not([hidden]){
+  background-color:#ffffff!important;
+  color:#18324d!important;
+  border:1px solid #c8d5e3!important;
+  box-shadow:0 12px 30px rgba(13,35,58,.18)!important;
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:link,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:visited{
+  display:block!important;
+  background-color:#ffffff!important;
+  color:#18324d!important;
+  opacity:1!important;
+  font-size:14px!important;
+  font-weight:600!important;
+  line-height:1.45!important;
+  text-shadow:none!important;
+  text-decoration:none!important;
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:hover,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:focus-visible,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a[aria-current="page"]{
+  background-color:#e8f0f8!important;
+  color:#102b49!important;
+  outline-offset:2px;
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-link{
+  color:#ffffff!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+@media(max-width:900px){
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items:not([hidden]){
+    margin-top:3px!important;
+    padding:6px!important;
+    border:1px solid #d5e0eb!important;
+    border-left:4px solid #54718e!important;
+    border-radius:8px!important;
+    background:#ffffff!important;
+  }
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a{
+    min-height:42px!important;
+    padding:11px 12px!important;
+    border-bottom:1px solid #edf1f5!important;
+  }
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:last-child{
+    border-bottom:0!important;
+  }
+}
