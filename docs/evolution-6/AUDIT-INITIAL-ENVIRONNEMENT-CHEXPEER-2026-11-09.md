@@ -215,3 +215,25 @@ Aucun contenu personnel de contact, secret, clé, mot de passe ou jeton n'a ét�
 ---
 
 **État final :** audit initial réalisé en lecture seule. Les projets de production sont restés intacts. Le projet `MajestiOS-Test` demeure vierge. Aucun déploiement, merge, migration ou changement de configuration n'a été effectué.
+
+
+## 10. Mise à jour — simplification de l'authentification membre (9 novembre 2026)
+
+À la suite de la décision produit, le formulaire de l'espace membre a été refondu sur la branche `Evolution-6` :
+- prénom, nom et e-mail obligatoires ;
+- entreprise et téléphone facultatifs ;
+- suppression du mot de passe et de la récupération de mot de passe pour les membres/clients ;
+- envoi et vérification d'un OTP e-mail natif Supabase Auth ;
+- création de compte et connexions ultérieures par code à six chiffres ;
+- conservation du provisionnement atomique du workspace client côté serveur.
+
+Le code du client et de la fonction Edge `provision-client-workspace` a été adapté et un test de contrat Auth OTP a été ajouté à la CI. La documentation détaillée est disponible dans [AUTHENTIFICATION-OTP-ESPACE-MEMBRE-2026-11-09.md](AUTHENTIFICATION-OTP-ESPACE-MEMBRE-2026-11-09.md).
+
+**Limites non levées :**
+- `provision-client-workspace` n'était pas présente dans l'inventaire des fonctions actives du projet métier lors du dernier contrôle ; le code adapté n'a pas été déployé.
+- Le modèle e-mail doit contenir `{{ .Token }}) pour délivrer un code numérique et les paramètres d'expiration/limitation doivent être vérifiés dans Supabase.
+- Aucun test d'intégration Auth/OTP réel n'a encore été exécuté.
+- Aucun QR code n'est implémenté dans ce lot ; il reste une option ultérieure à concevoir.
+- Le parcours d'administration et les droits CRM VIP ne sont pas modifiés.
+
+Aucun réglage Auth distant, migration SQL, politique RLS, compte métier ou déploiement Vercel n'a été modifié.
