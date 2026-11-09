@@ -85,7 +85,7 @@ for (const route of requiredNavigationRoutes) {
   assert(siteFiles.includes(route), "Navigation : route fonctionnelle non publiée : " + route);
 }
 
-// Contrat du menu réel : six rubriques principales et vingt-trois liens secondaires.
+// Contrat du menu réel : six rubriques principales et vingt-quatre liens secondaires.
 const menuRoutes = [...drawerController.matchAll(/\["[^"]+","([^"]+\.html)"\]/g)].map((match) => match[1]);
 const uniqueMenuRoutes = [...new Set(menuRoutes)];
 for (const route of uniqueMenuRoutes) {
@@ -128,7 +128,7 @@ const home = read("index.html");
 assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
 assert(!home.includes('aria-label="Immeuble interactif MajestiOS"') && !home.includes('id="floor-rows"'),
   "Accueil : l'ancien système de navigation par immeuble doit être retiré");
-assert(home.includes('class="home-rubric-directory"'), "Accueil : répertoire classique des rubriques absent");
+assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
 assert(home.includes("FLUX DE DÉMONSTRATION"), "Accueil : avertissement du flux fictif absent");
