@@ -39,9 +39,12 @@ const handler = createReputationAuditHandler({
       .from("organization_members")
       .select("organization_id")
       .eq("user_id", data.user.id)
-      .limit(1);
+      .limit(2);
     if (membershipError) throw new Error("AUDIT_MEMBERSHIP_CHECK_UNAVAILABLE");
     if (!memberships?.length) return null;
+    if (memberships.length !== 1) {
+      return { id: data.user.id, organization_selection_required: true };
+    }
     return { id: data.user.id, organization_id: memberships[0].organization_id, quotaClient: userClient };
   }
 });
