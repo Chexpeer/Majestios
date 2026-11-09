@@ -7,12 +7,12 @@
 
 ## 1. Objet et identité
 
-**Cheexpeer est le nom d'emprunt et l'identité d'usage de l'intelligence intégrée à MajestiOS.** Ce n'est pas un produit IA séparé ni un modèle propriétaire à entraîner obligatoirement.
+**Cheexpeer est l'agent IA intégré à MajestiOS.** Il constitue une capacité transversale de la plateforme, et non la plateforme elle-même, son administration ou son CRM. Ce n'est pas un produit IA séparé ni un modèle propriétaire à entraîner obligatoirement.
 
 L'identité, les missions, les règles métier et les permissions de Cheexpeer doivent rester distinctes du moteur qui l'alimente. Claude, ChatGPT ou un autre modèle peuvent être connectés comme moteurs, selon une décision technique ultérieure fondée sur la qualité, les capacités, la sécurité, les coûts, la latence, les conditions contractuelles et la portabilité.
 
 - **MajestiOS** : plateforme et environnement de travail.
-- **Cheexpeer** : identité fonctionnelle de l'intelligence intégrée.
+- **Cheexpeer** : agent IA intégré, chargé d'assister les utilisateurs et les équipes à travers les capacités autorisées de MajestiOS.
 - **Moteur IA** : modèle ou fournisseur exécutant une partie des tâches.
 - **Administration** : autorité de gouvernance, de contrôle, de validation et d'affectation.
 - **CRM** : référentiel opérationnel de capitalisation des relations, entreprises, contacts, opportunités et activités.
