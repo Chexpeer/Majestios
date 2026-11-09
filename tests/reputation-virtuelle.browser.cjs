@@ -48,6 +48,7 @@ async function main() {
     await page.route("https://esm.sh/@supabase/supabase-js@2.119.0", route => route.fulfill({
       status: 200,
       contentType: "application/javascript",
+      headers: { "access-control-allow-origin": "*" },
       body: "export function createClient(){return {auth:{getSession:async()=>({data:{session:null}})},functions:{invoke:async()=>({data:null,error:null})}}}"
     }));
 
