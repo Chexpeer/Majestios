@@ -238,7 +238,7 @@ import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
       });
       output.append(list);
     }
-    setStatus(result.analysis ? "Analyse Cheexpeer prête · validation humaine requise" : "Collecte seule · moteur IA non configuré");
+    setStatus(result.analysis ? "Analyse Cheexpeer prête · validation humaine requise" : result.analysis_unavailable ? "Collecte seule · analyse IA indisponible" : "Collecte seule · moteur IA non configuré");
   };
 
   runAuditButton?.addEventListener("click", async () => {
