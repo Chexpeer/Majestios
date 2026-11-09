@@ -9,8 +9,7 @@ const allowedOrigins = [
 
 function isAllowedOrigin(origin: string | null): boolean {
   if (!origin) return true;
-  return allowedOrigins.includes(origin) ||
-    /^https:\/\/majestios-jc8g-[a-z0-9-]+-majistr\.vercel\.app$/.test(origin);
+  return allowedOrigins.includes(origin);
 }
 
 function corsHeaders(origin: string | null): HeadersInit {
