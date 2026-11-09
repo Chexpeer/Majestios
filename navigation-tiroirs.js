@@ -93,6 +93,7 @@
         const a = document.createElement("a");
         a.href = href;
         a.textContent = label;
+        if (href === "espace-interne.html") a.classList.add("nav-vip-link");
         if (current === href) a.setAttribute("aria-current","page");
         submenu.append(a);
       });
