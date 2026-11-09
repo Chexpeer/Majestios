@@ -207,3 +207,44 @@ Les faits sourcés, les inférences et les recommandations doivent rester distin
 7. Étendre progressivement les missions de Cheexpeer (dont analyse des appels d'offres en langage de chantier et veille SEO périodique), avec validation et mesure des résultats.
 
 **Limite de l'audit à cette date :** les migrations examinées montrent des contrôles CRM VIP, des helpers privés et un quota Cheexpeer préparé, mais ne suffisent pas à certifier l'ensemble du schéma de production ni les politiques Storage. Aucune migration ou configuration distante n'est autorisée par cette note.
+
+
+## 10. Audit complémentaire — autorisations, cloisonnement et Storage
+
+**Périmètre :** migrations versionnées sur Evolution-7, fonctions Edge et configuration Supabase du dépôt. Il s'agit d'une analyse du code versionné, pas d'une inspection de la base distante.
+
+### 10.1 Socle multi-tenant confirmé dans le dépôt
+
+- La migration fondatrice crée les organisations, membres, profils et tables CRM ; RLS est activé sur les tables métier listées.
+- Les fonctions d'autorisation ont été déplacées vers le schéma `private`, dont l'usage est accordé aux utilisateurs authentifiés ; la configuration API locale n'expose que `public` et `graphql_public`.
+- Les politiques VIP versionnées réservent la lecture et l'écriture des entreprises, contacts, opportunités, activités et relances aux rôles `owner/admin`. Les membres ordinaires ne doivent pas être assimilés à des administrateurs.
+- Les tables de consentement sont fermées aux accès directs anon/authenticated dans les migrations consultées ; elles doivent rester alimentées côté serveur.
+- Le registre des sources et le référentiel officiel sont volontairement lisibles par les utilisateurs authentifiés : ces données ne constituent pas des archives privées.
+
+### 10.2 Constat Storage : aucun socle de fichiers confidentiels identifié
+
+La recherche dans le dépôt Evolution-7 n'a trouvé ni migration créant un bucket privé, ni politique `storage.objects`, ni configuration de bucket pour les archives Cheexpeer. Aucun stockage de pièces jointes du centre de commande n'est donc démontré. Ce constat signifie « non implémenté dans le code audité », et non « fuite de fichiers existants ».
+
+Avant tout upload confidentiel, il faudra définir bucket privé, chemins tenant-scoped, RLS Storage, limites de taille, validation du type réel, contrôle antivirus/inspection, liens signés courts, suppression, rétention, sauvegardes et tests d'accès croisés. Les URLs publiques sont exclues pour ces documents.
+
+### 10.3 Point de vigilance sur l'import officiel utilisant service_role
+
+La fonction `import-official-company` vérifie le jeton utilisateur puis appelle `can_import_official_company` avant d'utiliser la clé `service_role` pour l'import. C'est une frontière de sécurité sensible : la vérification d'autorisation doit être effectivement présente sur la base cible et strictement alignée sur les politiques CRM VIP (owner/admin). La migration de durcissement versionnée le 9 novembre définit ce RPC en `security invoker`, mais son application distante n'est pas confirmée ici.
+
+Le code Edge renvoie encore un message de droit « rôle éditeur » alors que la politique actuelle est owner/admin ; il renvoie aussi `detail: importError.message` en cas d'échec RPC et un champ `detail` technique dans le catch. Le CORS de cette fonction utilise `Access-Control-Allow-Origin: *`. Ces éléments justifient un durcissement avant extension des imports : origine explicite, messages d'erreur génériques avec identifiant de corrélation côté client, détails techniques uniquement dans des logs serveur expurgés, et test négatif avec member/viewer et tenant tiers.
+
+**Qualification :** risque de configuration/autorisation à vérifier avant activation ou extension du flux privilégié ; pas de preuve d'exploitation ni de contournement démontré dans cet audit. Ne pas classer comme fuite avérée.
+
+### 10.4 Tests de sécurité obligatoires pour le centre de commande
+
+- utilisateur non connecté : aucun accès ;
+- membre viewer/member : refus des conversations et fichiers administrateur ;
+- admin d'une autre organisation : refus de lecture, écriture, recherche et téléchargement ;
+- admin autorisé : accès limité à son périmètre ;
+- lien signé expiré/révoqué : refus ;
+- identifiant de fichier substitué : refus ;
+- suppression/rétention : absence d'accès après suppression selon politique ;
+- appel direct API/RPC : mêmes contrôles que l'interface ;
+- clé service_role : jamais exposée au navigateur ni utilisée sans autorisation utilisateur vérifiée côté serveur.
+
+**Suite :** vérifier les migrations et politiques réellement appliquées à l'environnement Supabase avant d'affirmer que le runtime est conforme. Aucune connexion ni mutation distante n'a été effectuée.
