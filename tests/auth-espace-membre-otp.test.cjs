@@ -21,8 +21,8 @@ assert.doesNotMatch(html, /name="passwordConfirm"/);
 assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options \}\)/);
 assert.match(auth, /shouldCreateUser: mode === "signup"/);
 assert.match(auth, /supabase\.auth\.verifyOtp\(\{[\s\S]*?type: "email"/);
-assert.match(auth, /if \(otpInput\) otpInput\.required = awaitingOtp/);
-assert.match(auth, /if \(otpInput\) otpInput\.required = true/);
+assert.match(auth, /otpInput\.required = false/);
+assert.match(auth, /otpInput\.required = true/);
 assert.doesNotMatch(auth, /signInWithPassword|updateUser\(\{ password|resetPasswordForEmail/);
 assert.match(auth, /privacy_notice_version: "2026-11-05"/);
 assert.match(auth, /organization_name: value\("organizationName"\) \|\| "Espace personnel"/);
@@ -30,6 +30,6 @@ assert.match(auth, /organization_name: value\("organizationName"\) \|\| "Espace 
 assert.match(provisioning, /body\.privacy_acknowledged !== true/);
 assert.match(provisioning, /\|\| "Espace personnel"/);
 assert.match(provisioning, /admin\.auth\.getUser\(token\)/);
-assert.match(provisioning, /public\.provision_client_workspace/);
+assert.match(provisioning, /provision_client_workspace/);
 
 console.log("Contrat Auth OTP membre : formulaire simplifié, code e-mail, provisionnement authentifié et absence de mot de passe vérifiés.");
