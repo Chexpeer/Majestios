@@ -74,7 +74,7 @@ Deno.serve(async (req: Request) => {
   }
 
   const organizationId = input.organization_id?.trim();
-  const siren = input.siren?.replace(/\\s/g, "");
+  const siren = input.siren?.replace(/\s/g, "");
   if (!organizationId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(organizationId)) {
     return reply({ error: "Identifiant d’organisation invalide." }, 400, origin);
   }
