@@ -102,3 +102,34 @@ La refonte n'est pas recevable si l'un des éléments suivants régresse :
 Tous les travaux restent sur `Evolution-7`. Aucune fusion vers `Evolution-6` ou `main`, aucune promotion Vercel, aucun déploiement production et aucune modification des projets Supabase ne sont autorisés par la présente décision. La prévisualisation sera utilisée pour la recette avant toute demande de promotion distincte.
 
 Chaque lot doit indiquer ses fichiers modifiés, tests exécutés, résultats, limites et risques résiduels.
+
+## 10. Suivi de réalisation — premier lot
+
+### Réalisé sur Evolution-7
+
+- Création de la branche `Evolution-7` depuis `Evolution-6`, sans modification de la branche source.
+- Ajout d'un catalogue de navigation globale dans `app.js` : Opportunités, Développement commercial, Réseau & visibilité, Espaces et Informations, avec les pages et sous-rubriques correspondantes.
+- Navigation construite sur toutes les pages qui chargent le contrôleur partagé ; les pages internes Administration/CRM conservent leurs navigations dédiées.
+- Ajout de `navigation-majestios.css` et inscription dans `site-files.json`.
+- Retrait de l'immeuble et de son contrôleur SVG de l'accueil ; les images historiques ne sont pas supprimées du dépôt.
+- Préservation du moteur de recherche transversal, du titre, du slogan et du bandeau de démonstration de l'accueil.
+- Remplacement de l'immeuble par six portes d'entrée éditoriales renvoyant vers les pages métier existantes.
+- Installation d'un premier assistant conversationnel d'orientation, disponible sur les pages qui chargent `app.js`. Il répond à partir d'une base locale de rubriques et propose des liens directs ; il ne prétend pas être un moteur génératif ou Cheexpeer déjà connecté.
+- Ajout du test navigateur `tests/navigation-classique.browser.cjs` et remplacement dans la CI du test de l'immeuble par le test de la navigation classique et du chatbot.
+- Adaptation des contrats statiques de vérification de l'architecture et de l'accueil.
+
+### Non réalisé à ce stade
+
+- Le nettoyage global du CSS historique n'est pas terminé : les règles propres à l'ancien immeuble sont encore présentes et doivent être retirées après inventaire des dépendances.
+- Le contrôle exhaustif des liens, boutons, formulaires et destinations de chaque rubrique reste à exécuter.
+- Le chatbot n'est pas encore relié à un fournisseur IA, à une mémoire persistante ou à Supabase ; aucun secret n'est exposé dans le navigateur.
+- Aucun fichier métier, fond d'écran de rubrique, image, contenu de page, connexion CRM ou paramètre Supabase n'a été supprimé ou modifié intentionnellement.
+- Aucun changement de schéma, migration, politique RLS, fonction Edge ou déploiement Supabase n'a été effectué.
+- Aucun déploiement Vercel ni promotion de production n'a été effectué.
+
+### Vérification CI — limite connue
+
+Le premier run de vérification a échoué avant le build sur le test préexistant `tests/crm-security-contract.test.cjs`. Ce test attend notamment que les membres d'organisations clientes/partenaires conservent des droits CRM ; cette attente doit être réexaminée au regard de la décision actuelle : le CRM VIP reste réservé à l'administration interne et le CRM propre aux autres membres est différé. La migration locale `20261108151400_enforce_vip_boundary_for_internal_crm.sql` n'a pas été appliquée et ne doit pas être déployée avant correction/validation de ce contrat.
+
+Un run déclenché après le réordonnancement des contrôles a été annulé ; aucun résultat vert exploitable de l'ensemble de la CI n'est donc revendiqué. Le test navigateur Evolution-7 doit encore fournir sa première preuve d'exécution complète.
+
