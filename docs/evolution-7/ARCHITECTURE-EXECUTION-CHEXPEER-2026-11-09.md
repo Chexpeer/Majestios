@@ -416,3 +416,20 @@ Les contrôles Supabase ont également signalé la protection des mots de passe 
 - Préparer l'environnement `MajestiOS-Test` comme cible de recette uniquement après synchronisation contrôlée des migrations et des fonctions.
 - Concevoir le socle de mission dans Git et le tester d'abord hors production. Aucun changement distant, aucune migration, activation d'extension, création de bucket ou déploiement n'a été effectué pendant cet inventaire.
 
+
+
+### 13.6 Préparation concrète du socle Cheexpeer
+
+Migration créée dans Evolution-7 : `supabase/migrations/20261109220000_cheexpeer_execution_foundation.sql`.
+
+Elle prépare six tables privées :
+- `cheexpeer_missions` : registre durable, priorité, planification, échéance, autonomie, idempotence, tentatives et bail d'exécution ;
+- `cheexpeer_mission_steps` : étapes, dépendances, sorties et reprises ;
+- `cheexpeer_mission_events` : journal append-only ;
+- `cheexpeer_approvals` : validations humaines ;
+- `cheexpeer_tool_registry` : outils versionnés, effets, niveau d'autonomie, timeout et coût ;
+- `cheexpeer_schedules` : planification récurrente.
+
+Les six tables ont RLS activé et aucun accès direct n'est accordé à `anon` ou `authenticated`. Le modèle est volontairement fermé : les futures API serveur et le worker devront fournir des contrôles explicites, sans exposer les tables internes au navigateur.
+
+**Statut exact :** migration créée et relue dans Git ; pas encore appliquée à un projet Supabase, pas de queue installée, pas de worker, pas de mission exécutable. Les contrats d'ordonnancement, transitions d'état, fonctions atomiques de prise de bail et tests de rôles doivent être finalisés avant l'application et la recette sur `MajestiOS-Test`.
