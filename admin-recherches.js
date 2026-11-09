@@ -1,4 +1,4 @@
-import { safeOfficialSourceUrl } from "./official-source-links.js";
+import { safeOfficialSourceUrl } from "./official-source-links.mjs";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 const supabase=createClient(MAJESTIOS_SUPABASE.url,MAJESTIOS_SUPABASE.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
