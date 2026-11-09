@@ -150,3 +150,60 @@ L'architecture cible est donc **un Cheexpeer unique à quatre espaces**. Cette d
 ### Décision d'audit
 
 Le centre de commande confidentiel est une **évolution structurante non développée**, et non une anomalie de sécurité d'un chat existant : aucun chat admin ni stockage de capture n'est actuellement offert dans le cockpit. Ne pas ouvrir de dépôt de captures ou de conversations réelles avant réalisation et tests des protections ci-dessus. La priorité suivante est de concevoir le modèle de données privé, le stockage, les politiques RLS et les contrats d'API avant l'interface de chat.
+
+
+## 9. Architecture cible — centre de commande, archives et veille outillée
+
+**Statut : conception issue de l'audit du 9 novembre 2026 ; aucune intégration externe activée.**
+
+### 9.1 Principe directeur
+
+MajestiOS et Cheexpeer forment un binôme technico-commercial, scientifique et économique. MajestiOS porte les espaces métier, les données et les parcours utilisateurs ; Cheexpeer est l'agent transversal qui recherche, collecte, rapproche, analyse, alerte et prépare les actions. Il doit pouvoir sélectionner le meilleur outil adapté à une mission, sans dépendance exclusive à un fournisseur.
+
+Le boss fixe le cap. Cheexpeer agit avec initiative, mais signale les contradictions, erreurs, incertitudes et risques ; il ne suit jamais aveuglément une consigne manifestement erronée ou contraire aux autorisations, à l'éthique ou à la réglementation.
+
+### 9.2 Quatre espaces d'interaction, un agent transversal
+
+1. Chat utilisateurs MajestiOS : assistance et fonctions autorisées, sans accès aux conversations ni archives administrateur.
+2. Outils métier CRM/Supabase : données structurées, activités, opportunités et actions selon les rôles et les droits serveur.
+3. Espace technique GitHub : audit, tests, corrections et suivi des changements sur les branches autorisées.
+4. Centre de commande administrateur : dialogue privé, consignes, captures, historique des tâches, alertes, validations et mémoire métier explicitement approuvée.
+
+### 9.3 Google Workspace / Drive
+
+Google Drive est envisagé comme dépôt d'archives confidentielles : dossiers d'audit, pièces sources, rapports, synthèses, exports autorisés et historique documentaire. L'intégration devra utiliser OAuth et les autorisations minimales nécessaires, limiter le périmètre aux dossiers explicitement autorisés, journaliser les accès et prévoir révocation, rétention et suppression.
+
+La base MajestiOS conserve les métadonnées nécessaires (organisation propriétaire, auteur, catégorie, source, date, statut de confidentialité, identifiant Drive, version, durée de conservation) et les liens de référence ; elle ne doit pas recopier les contenus confidentiels dans les tables métier par défaut. Les identifiants OAuth et jetons de rafraîchissement restent côté serveur dans un stockage de secrets adapté, jamais dans le navigateur ni le dépôt. Les contenus du centre de commande ne sont jamais réutilisés dans le chat utilisateur.
+
+### 9.4 Veille, scraping et connecteurs
+
+Cheexpeer doit pouvoir combiner API officielles, jeux de données ouverts, flux, pages web accessibles, outils de navigation et utilitaires d'extraction. Instant Data Scraper peut servir d'outil ponctuel d'extraction assistée par un opérateur ; ce n'est pas, à lui seul, un connecteur serveur durable ni une garantie d'automatisation planifiée. Pour une veille récurrente, privilégier les API/flux officiels et des collecteurs contrôlés ; utiliser l'automatisation de navigateur lorsque nécessaire et autorisée.
+
+Chaque collecte doit conserver la source exacte, l'URL, la date/heure d'observation, la date de publication lorsqu'elle existe, la méthode, la licence/conditions d'utilisation, les champs extraits et le niveau de confiance. Respecter les conditions d'accès, les droits de réutilisation, le RGPD et les restrictions techniques ; ne pas contourner authentification, CAPTCHA, paywall ou mesures de sécurité. Prévoir limitation de débit, déduplication, détection des changements, journal d'exécution et mécanisme d'arrêt.
+
+### 9.5 Chaîne de traitement commune
+
+Collecter → vérifier la provenance et la qualité → normaliser/dédupliquer → rapprocher les entités → analyser et qualifier → archiver les preuves → présenter les résultats et incertitudes → proposer une action → obtenir l'approbation requise → exécuter dans le périmètre autorisé → historiser le résultat.
+
+Les faits sourcés, les inférences et les recommandations doivent rester distingués. Une donnée collectée n'est pas automatiquement une vérité, une qualification CRM ni une autorisation de contacter un tiers.
+
+### 9.6 Séparation des données et contrôles
+
+- Conversations privées, fichiers confidentiels, mémoire métier validée, données CRM et données publiques collectées sont des catégories distinctes.
+- Chaque ressource privée est cloisonnée par organisation et utilisateur habilité ; contrôle côté serveur à chaque lecture, écriture, téléchargement et action.
+- Les fichiers sensibles sont stockés dans un bucket privé ou un Drive restreint, avec liens temporaires, contrôle du type réel, taille maximale, antivirus/inspection lorsque disponible, journalisation et suppression vérifiable.
+- La mémoire durable n'est alimentée qu'après validation explicite ; chaque élément conserve auteur, date, portée, version et possibilité de retrait.
+- Les actions externes, publications, démarchages, exports massifs, dépenses, suppressions et changements de droits requièrent une approbation adaptée.
+- Ne jamais exposer contenu confidentiel, jetons, secrets ou données personnelles dans les journaux techniques, prompts non nécessaires ou métriques.
+
+### 9.7 Séquence de réalisation
+
+1. Terminer la cartographie des helpers d'autorisation, tables, politiques RLS, triggers, Storage et conventions de migration existantes.
+2. Établir un modèle de données minimal pour fils/messages, tâches/approbations, références documentaires et mémoire validée ; définir les tests d'isolation multi-tenant avant toute migration.
+3. Concevoir l'API serveur et le stockage privé des pièces jointes ; tester les accès autorisés/refusés et la suppression.
+4. Réaliser l'interface du centre de commande et son journal d'activité.
+5. Connecter Google Workspace en environnement de test, avec OAuth à portée limitée et dossier de test dédié.
+6. Ajouter les connecteurs de veille par source, en privilégiant API et données ouvertes ; encadrer les collectes web assistées.
+7. Étendre progressivement les missions de Cheexpeer (dont analyse des appels d'offres en langage de chantier et veille SEO périodique), avec validation et mesure des résultats.
+
+**Limite de l'audit à cette date :** les migrations examinées montrent des contrôles CRM VIP, des helpers privés et un quota Cheexpeer préparé, mais ne suffisent pas à certifier l'ensemble du schéma de production ni les politiques Storage. Aucune migration ou configuration distante n'est autorisée par cette note.
