@@ -545,3 +545,41 @@ Tests réalisés :
 Cette fermeture par défaut empêche une instruction de partir vers un exécuteur inconnu ou non autorisé. L'activation d'un outil réel devra être précédée de sa définition, de son schéma d'entrée/sortie, de ses effets, de son niveau d'autonomie, de son plafond de coût et de ses tests.
 
 **État après cette étape :** 38 migrations versionnées et appliquées sur MajestiOS-Test. Aucun outil réel activé, aucun worker déployé, aucun Cron Cheexpeer programmé. Le test positif de décision d'approbation attend la création d'un véritable compte owner/admin de recette. Le projet majestios-crm reste intact.
+
+
+### 13.10 Pont serveur et worker isolé — état au 9 novembre 2026
+
+La migration `20261109250000_cheexpeer_worker_server_bridge.sql` a été appliquée à MajestiOS-Test. Elle expose des RPC publiques étroites, toutes en SECURITY INVOKER et EXECUTE réservé à `service_role`, pour le dispatcher, la lecture PGMQ, le claim, l'archivage, le renouvellement de bail, la réussite et l'échec. Les rôles anon et authenticated ne peuvent pas appeler les RPC du worker.
+
+Le handler Edge `supabase/functions/cheexpeer-worker-bridge/index.ts` est créé dans Git, mais **pas encore déployé**. Il exige :
+- le JWT de passerelle (à conserver activé) ;
+- la clé serveur Supabase côté worker ;
+- un secret partagé distinct `CHEEXPEER_WORKER_SECRET`, comparé en temps constant.
+
+Le worker conteneurisé est isolé sous `services/cheexpeer-worker/` :
+- boucle de réveil et dispatch des missions dues ;
+- lecture de la file PGMQ ;
+- claim SQL par priorité ;
+- traitement, clôture et archivage ;
+- endpoint de santé et arrêt propre ;
+- tests de politique : seul `readiness_probe`, autonomie 0, est exécutable.
+
+Un workflow CI dédié vérifie la syntaxe et les tests de politique. Son résultat n'est pas encore confirmé ; les derniers runs visibles concernaient le workflow de vérification du site et ont été annulés par les pushes successifs.
+
+#### Choix d'hébergement
+
+Le dépôt MajestiOS est un site statique avec plusieurs projets Vercel liés et l'équipe Vercel observée est sur Hobby. Je n'ai pas ajouté de daemon Vercel au `vercel.json` du site : cela mélangerait l'infrastructure de l'agent et le site public, avec un risque de toucher plusieurs déploiements liés. Le worker est packagé comme service conteneur indépendant. Aucun hébergeur n'est provisionné à ce stade.
+
+#### Statut précis
+
+- 39 migrations répertoriées et appliquées sur MajestiOS-Test.
+- Pont RPC SQL : appliqué ; permissions vérifiées (anon=false, authenticated=false, service_role=true).
+- Edge bridge : source Git seulement, non déployée ; secrets non configurés.
+- Worker : source et image Docker dans Git ; ni construit, ni testé en exécution, ni déployé.
+- Outils métier activés : 0.
+- Aucun effet externe autorisé.
+- MajestiOS CRM de production : non modifié.
+
+Le worker bootstrap est un **exécuteur technique minimal**, pas encore l'agent conversationnel/raisonneur Cheexpeer. La couche de raisonnement, la connexion au modèle, le catalogue d'outils réels, les limites de coût et les connecteurs Workspace restent à construire et à éprouver avant tout usage métier.
+
+L'avertissement Security Advisor existant demeure isolé sur `public.complete_crm_reminder(uuid)` (fonction SECURITY DEFINER accessible à authenticated). Il ne concerne pas les nouvelles RPC Cheexpeer ; il reste toutefois une anomalie à traiter séparément dans le CRM.
