@@ -107,7 +107,7 @@ async function main() {
     await desktopGroup.hover();
     await desktopToggle.click();
     await page.waitForURL("**/developpement-commercial.html");
-    assert.match(page.url(),/developpement-commercial\\.html$/,
+    assert.match(page.url(),/developpement-commercial\.html$/,
       "Le clic desktop sur l’onglet parent doit ouvrir la page de la rubrique.");
     console.log("TEST TIROIRS RÉUSSI : hamburger mobile, aria-expanded, toucher, Échap, survol et focus clavier desktop.");
   } finally {
