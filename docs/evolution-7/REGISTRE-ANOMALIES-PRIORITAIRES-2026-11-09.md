@@ -1,7 +1,27 @@
-# Registre des risques et anomalies — MajestiOS Evolution-7
+# Registre central des erreurs critiques et risques — MajestiOS Evolution-7
+
+<badge>DOCUMENT DE SUIVI PRIORITAIRE</badge>
 
 **Date :** 9 novembre 2026  
 **Branche :** `Evolution-7`
+
+> **À consulter avant toute intervention sur MajestiOS.** Ce registre doit rester visible depuis l'index général, être actualisé au fil des audits et conserver l'historique des corrections. Une synthèse stratégique ne doit jamais masquer ni supprimer une anomalie critique.
+
+## Tableau de bord immédiat
+
+| Niveau | Anomalies inscrites | Traitement |
+|---|---:|---|
+| P0 — bloquant avant ouverture | 1 | Recette impérative avant ouverture aux membres |
+| P1 — important | 3 | Correction ou vérification prioritaire |
+| Corrigée à revalider | 1 | Ne pas clôturer sans preuve de recette |
+
+**À traiter en premier :**
+1. **AUTH-01 — OTP / espace membre :** parcours réel non validé de bout en bout.
+2. **AUTH-02 — consentement :** contrôle serveur insuffisant lors du provisionnement.
+3. **CRM-02 — traçabilité :** création de fiches sans activité historique atomique.
+4. **CRM-03 — privilèges CRM :** correction préparée, état distant à vérifier avant clôture.
+
+**Consigne aux agents :** traiter les P0 avant les P1. Après chaque découverte ou correction, préciser l'ID, le statut, les fichiers concernés, le commit, les tests exécutés et la preuve. Une modification de code seule ne suffit pas à déclarer une anomalie corrigée.
 
 Ce document ne doit pas devenir une liste de toutes les fonctionnalités manquantes. Il distingue :
 - **Anomalies / risques à traiter** : défauts constatés ou contrôles indispensables avant ouverture.
