@@ -557,7 +557,9 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
   if (document.querySelector("#majestios-chat")) return;
   const knowledge = [
     {terms:["marché public","marches publics","appel d'offre public","boamp"],label:"Marchés publics",href:"marches-publics.html",answer:"La rubrique Marchés publics aide à repérer les consultations et à préparer leur analyse."},
-    {terms:["marché privé","marches privés","bodacc","cession","création entreprise"],label:"Marchés privés et veille BODACC",href:"marches-prives.html",answer:"Les Marchés privés regroupent les opportunités privées. La veille BODACC suit notamment les créations, cessions, modifications et procédures collectives."},
+    {terms:["veille des marchés","veille marché","veille marchés"],label:"Veille des marchés",href:"veille-marches.html",answer:"La veille des marchés aide à suivre les signaux et consultations utiles à votre activité."},
+    {terms:["bodacc","redressement","liquidation","cession","création entreprise"],label:"Veille des entreprises · BODACC",href:"bodacc-veille-entreprises.html",answer:"La veille BODACC permet de suivre les créations, cessions, modifications et procédures collectives des entreprises."},
+    {terms:["marché privé","marches privés","opportunité privée","annonce privée"],label:"Marchés privés",href:"marches-prives.html",answer:"La rubrique Marchés privés rassemble les opportunités et signaux commerciaux du secteur privé."},
     {terms:["prospection","prospecter","ciblage","entreprise à contacter"],label:"Prospection",href:"prospection-active.html",answer:"La rubrique Prospection sert à détecter, qualifier et identifier des entreprises pertinentes avant de préparer une prise de contact."},
     {terms:["développement commercial","commercial","opportunité"],label:"Développement commercial",href:"developpement-commercial.html",answer:"Le Développement commercial relie la détection des opportunités, leur qualification, la prise de contact et la capitalisation."},
     {terms:["accompagnement","répondre","mémoire technique","appel d'offre"],label:"Accompagnement appels d’offres",href:"accompagnement-appels-offres.html",answer:"L'accompagnement aide à valoriser les compétences, les références, les chantiers et la satisfaction des clients."},
@@ -571,6 +573,8 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
     {terms:["espace privé","inscription","connexion","code","otp"],label:"Espace privé",href:"espace-membre.html",answer:"L'Espace privé est destiné aux membres. Le parcours de connexion par code e-mail est en préparation et doit encore être validé de bout en bout."},
     {terms:["contact","parler à quelqu'un","contacter"],label:"Contact",href:"contact.html",answer:"Pour une demande qui nécessite un échange humain, utilisez la page Contact."},
     {terms:["emploi","recrutement","candidature","cv"],label:"Nous rejoindre",href:"nous-rejoindre.html",answer:"Pour rejoindre l'équipe ou transmettre une candidature, consultez la rubrique Nous rejoindre."},
+    {terms:["faq","question fréquente","questions fréquentes","aide"],label:"FAQ",href:"faq.html",answer:"La FAQ rassemble les réponses aux questions fréquentes sur les rubriques et le fonctionnement de MajestiOS."},
+    {terms:["vision","ambition","philosophie","objectif majestos"],label:"Vision MajestiOS",href:"vision-majestios.html",answer:"La page Vision présente le positionnement et la logique de développement commercial de MajestiOS."},
     {terms:["intelligence économique","business intelligence","analyse"],label:"Intelligence économique",href:"intelligence-economique.html",answer:"L'Intelligence économique rassemble les informations utiles à l'analyse et à la décision commerciale."}
   ];
   const host = document.createElement("aside");
