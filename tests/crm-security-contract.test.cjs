@@ -204,16 +204,16 @@ assert.ok(page.includes("setupRemoteRelationSelectors();"),
 console.log("CRM security contract: OK — schéma, privilèges, rôles, isolation tenant, confidentialité, bootstrap, provisionnement et rattachements CRM.");
 
 assert.match(client, /order\(table === "activities" \? "occurred_at"/);
-assert.match(crmActivityHistory, /create or replace function public\\.record_crm_activity\\(\\)/);
-assert.match(crmActivityHistory, /after insert or update on public\\.businesses/);
-assert.match(crmActivityHistory, /after insert or update on public\\.contacts/);
-assert.match(crmActivityHistory, /after insert or update on public\\.opportunities/);
-assert.match(crmActivityHistory, /insert into public\\.activities/);
-assert.match(crmActivityHistory, /'changed_fields', to_jsonb\\(v_changed_fields\\)/);
+assert.match(crmActivityHistory, /create or replace function public\.record_crm_activity\(\)/);
+assert.match(crmActivityHistory, /after insert or update on public\.businesses/);
+assert.match(crmActivityHistory, /after insert or update on public\.contacts/);
+assert.match(crmActivityHistory, /after insert or update on public\.opportunities/);
+assert.match(crmActivityHistory, /insert into public\.activities/);
+assert.match(crmActivityHistory, /'changed_fields', to_jsonb\(v_changed_fields\)/);
 assert.match(crmActivityHistory, /'event', 'created'/);
 assert.match(crmActivityHistory, /'event', 'updated'/);
 assert.match(client, /L'historique est écrit par le trigger SQL/);
-assert.doesNotMatch(client, /const \\{ error: historyError \\} = await supabase\\.from\\("activities"\\)\\.insert/);
+assert.doesNotMatch(client, /const \{ error: historyError \} = await supabase\.from\("activities"\)\.insert/);
 assert.match(page, /ajoutée à l’historique/);
 assert.match(page, /Intl\.DateTimeFormat\("fr-FR"/);
 assert.match(page, /function renderFollowups\(opportunities\)/);
