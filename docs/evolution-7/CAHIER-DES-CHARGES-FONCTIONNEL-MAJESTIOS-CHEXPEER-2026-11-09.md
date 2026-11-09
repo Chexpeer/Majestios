@@ -155,58 +155,19 @@ L'utilisateur retrouve ses informations, demandes, dossiers, services souscrits 
 
 ## 5. Cahier des charges de Cheexpeer
 
-Cheexpeer est un agent unique. Ses compétences peuvent être spécialisées par mission, mais l'utilisateur ne doit pas avoir à jongler entre plusieurs identités d'assistants.
+Cheexpeer est l'agent IA transversal de MajestiOS. Sa spécification détaillée — identité, missions, quatre espaces, compétences métier, fonctionnement des missions, autonomie, mémoire, archives, centre de commande, connecteurs, notifications, critères de recette, priorités et état réel du dépôt — est maintenue dans un document dédié :
 
-### 5.1 Capacités transversales attendues
-- comprendre une demande et identifier le domaine métier concerné ;
-- rechercher dans les sources et documents autorisés ;
-- croiser les informations, détecter les homonymies et contradictions ;
-- vérifier les éléments importants et conserver les références ;
-- qualifier les entreprises, signaux et opportunités avec un niveau de confiance explicite ;
-- produire des synthèses, dossiers, rapports et propositions d'action ;
-- préparer des tâches CRM et des démarches commerciales ;
-- surveiller les évolutions utiles et déclencher des alertes pertinentes ;
-- historiser les travaux et retrouver les décisions antérieures ;
-- améliorer progressivement les méthodes à partir des résultats vérifiés et des retours validés.
+**[Cahier des charges détaillé de Cheexpeer](CAHIER-DES-CHARGES-DETAILLE-CHEXPEER-2026-11-09.md).**
 
-### 5.2 Quatre espaces d'intervention
-1. **Chat utilisateurs :** aide à comprendre MajestiOS, trouver un service et utiliser les fonctions ouvertes à l'utilisateur. Il ne donne pas accès aux échanges ou archives privées de l'administration.
-2. **CRM / données métier :** recherche, rapprochement, qualification et préparation d'opérations sur les données auxquelles l'utilisateur et l'organisation ont droit.
-3. **GitHub / développement :** audit du dépôt, analyse des défauts, préparation de corrections, tests et documentation sur les branches autorisées.
-4. **Centre de commande administrateur privé :** dialogue direct avec l'administrateur, missions, captures, tâches, rapports, alertes, historique, validations et capitalisation des décisions.
+Les principes directeurs sont actés :
+- un seul agent, avec une identité et une continuité de travail ;
+- quatre espaces distincts : chat utilisateurs, CRM/données métier, GitHub/développement, centre de commande administrateur privé ;
+- un centre de commande privé prioritaire, avec dialogue persistant, missions, captures, historique, archives, alertes, livrables et validations ;
+- une capacité transversale de recherche, collecte, vérification, rapprochement, analyse, qualification, préparation d'actions, automatisation et capitalisation ;
+- une autonomie progressive et définie par action, sans exécution aveugle ;
+- des connexions à Google Workspace / Drive, CRM, GitHub et sources web à concevoir et valider avant de les déclarer opérationnelles.
 
-### 5.3 Centre de commande administrateur
-Le cockpit doit permettre à l'administrateur de dialoguer naturellement avec Cheexpeer et de lui confier une mission sans devoir reformuler tout le contexte à chaque échange.
-
-Fonctions attendues :
-- conversation privée persistante avec Cheexpeer ;
-- dépôt et consultation de captures d'écran et de documents de travail ;
-- historique des missions et des décisions ;
-- liste des tâches en cours, terminées, bloquées ou en attente d'arbitrage ;
-- rapports et synthèses consultables ;
-- alertes visibles, notamment anomalies critiques à faire vérifier ;
-- validation ou refus des actions proposées ;
-- accès aux archives et à la documentation de référence ;
-- suivi des résultats, erreurs et reprises.
-
-Les captures du cockpit, fiches CRM et documents confidentiels restent dans l'espace administrateur autorisé et ne sont jamais réutilisés dans le chat public.
-
-### 5.4 Google Workspace et archives
-Une connexion Google Workspace / Drive est une capacité cible à étudier pour classer et retrouver des archives, rapports et documents confidentiels. Le cahier des charges devra préciser les espaces Drive autorisés, les dossiers, les droits, les règles de classement, la recherche, la conservation et la traçabilité.
-
-La connexion n'est pas considérée comme réalisée tant que l'autorisation du compte, les accès effectifs et les parcours de lecture/écriture n'ont pas été testés.
-
-### 5.5 Collecte web et scraping
-Cheexpeer peut utiliser des outils de collecte et d'extraction web lorsque la source, la méthode et la finalité le permettent. Les outils peuvent inclure des extensions ou services spécialisés, mais aucune marque ou extension n'est imposée.
-
-Le processus attendu est : identifier la source → vérifier les conditions d'accès → collecter les données utiles → conserver la provenance et la date → normaliser et dédupliquer → vérifier les correspondances → qualifier → archiver les éléments probants → présenter les résultats et les limites.
-
-Les protections techniques, accès authentifiés, CAPTCHA, paywalls et restrictions explicites ne sont pas contournés. Les données collectées ne deviennent pas automatiquement des vérités, des fiches CRM validées ou des autorisations de prospection.
-
-### 5.6 Autonomie et initiative
-Cheexpeer doit faire preuve d'initiative : repérer une incohérence, proposer une meilleure méthode, signaler un risque, suggérer une automatisation et poursuivre une mission dans le périmètre confié. Il ne doit pas exécuter aveuglément une instruction contradictoire, manifestement erronée ou disproportionnée.
-
-Les tâches courantes, réversibles et préautorisées pourront être automatisées. Les décisions engageantes — contact externe, publication, dépense, modification de droits, suppression, fusion, migration ou production — demandent l'approbation appropriée.
+Le document détaillé sépare explicitement les fonctions déjà observées dans le dépôt des fonctions cibles à construire. Le chatbot local à mots-clés et le parcours limité de Réputation virtuelle ne constituent pas encore l'agent transversal complet.
 
 ## 6. Automatisation et amélioration continue
 
