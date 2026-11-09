@@ -3,8 +3,8 @@
   const init = () => {
     const nav = document.querySelector("#site-nav");
     const header = document.querySelector(".site-header");
-    const menuCheck = document.querySelector("#mobile-nav-toggle");
-    if (!nav || !header || !menuCheck || nav.dataset.drawerReady === "true") return;
+    const menuShell = document.querySelector(".mobile-nav-shell");
+    if (!nav || !header || !menuShell || nav.dataset.drawerReady === "true") return;
     nav.dataset.drawerReady = "true";
     nav.classList.add("site-nav-drawer");
     const css = document.createElement("link");
@@ -37,7 +37,7 @@
     overlay.hidden = true;
     document.body.append(overlay);
 
-    const closeDrawer = () => { menuCheck.checked = false; };
+    const closeDrawer = () => { menuShell.open = false; };
     overlay.addEventListener("click",closeDrawer);
     document.addEventListener("keydown",e => { if(e.key === "Escape") closeDrawer(); });
 
