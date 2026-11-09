@@ -2,7 +2,7 @@
 
 **Statut :** méthode de travail pour le prototype de la rubrique Réputation virtuelle.  
 **Version :** 1.0 — 9 novembre 2026.  
-**Périmètre :** audit préliminaire réalisé par ChatGPT, puis reprise et enrichissement futurs par Cheexpeer lorsqu'il sera effectivement connecté.  
+**Périmètre :** méthode de référence pour un audit conduit en interne par Cheexpeer. ChatGPT peut contribuer à la conception, à la recette et à l'amélioration de la méthode, mais ne remplace pas Cheexpeer comme opérateur de l'audit dans MajestiOS.  
 **Important :** ce document définit une méthode ; il ne constitue pas l'audit d'une entreprise déterminée et ne prétend pas qu'une recherche ou une connexion externe a déjà été réalisée.
 
 ## 1. Finalité
@@ -84,7 +84,7 @@ Le niveau de confiance s'applique à chaque constat important, pas seulement à 
 
 Le premier audit ne doit pas être bloqué par l'absence d'identifiant Programmable Search, de clé Maps ou par l'absence de connexion de Cheexpeer.
 
-ChatGPT peut réaliser une première analyse à partir :
+Cheexpeer doit orchestrer l'audit interne à partir des sources autorisées et accessibles. Les données peuvent provenir :
 - des informations et documents fournis par l'entreprise ;
 - des pages publiques accessibles par consultation directe ;
 - des résultats de recherche accessibles au moment de l'audit ;
@@ -138,17 +138,20 @@ Ne pas promettre une hausse de position ou de chiffre d'affaires. Les objectifs 
 
 Un score synthétique éventuel doit toujours être accompagné de sa méthode, de ses critères et des données manquantes. Il ne doit pas masquer les incertitudes.
 
-## 9. Gouvernance ChatGPT → Cheexpeer
+## 9. Gouvernance — audit interne conduit par Cheexpeer
 
-### Première phase — audit par ChatGPT
+Cheexpeer est l'opérateur de l'audit de réputation virtuelle au sein de MajestiOS. L'utilisateur fournit ou confirme les informations de cadrage (entreprise, activité, territoire, clientèle et objectif commercial), puis Cheexpeer conduit les recherches, rassemble les preuves accessibles, qualifie les constats, compare les concurrents pertinents, établit le diagnostic et prépare le plan d'action.
 
-ChatGPT réalise le premier diagnostic à partir des informations accessibles et des pièces fournies. Le rapport porte explicitement la mention « Audit préliminaire réalisé par ChatGPT », sa date, son périmètre, ses sources et ses limites. Il ne doit pas être présenté comme un audit réalisé par Cheexpeer.
+Le parcours cible est le suivant :
+1. **Cadrage utilisateur** : l'utilisateur identifie l'entreprise auditée, confirme son périmètre et ses objectifs, et fournit les accès ou documents qu'il choisit de partager.
+2. **Investigation par Cheexpeer** : Cheexpeer interroge les sources autorisées, collecte les éléments strictement nécessaires et conserve pour chaque constat la source, la date, la preuve et les limites d'accès.
+3. **Analyse interne** : Cheexpeer distingue faits, déductions, hypothèses et informations indisponibles ; il évalue la visibilité, la réputation, le SEO, la présence locale, la concurrence et la conversion.
+4. **Rapport** : Cheexpeer produit la synthèse, le diagnostic argumenté, les priorités et les indicateurs de suivi.
+5. **Validation et accompagnement** : l'utilisateur examine les conclusions et valide les actions éventuelles. Aucune modification, publication, réponse à un avis ou prise de contact n'est exécutée sans autorisation explicite.
 
-### Phase ultérieure — Cheexpeer connecté
+ChatGPT peut assister le porteur du projet dans la conception, l'audit technique et la recette du module. Cette assistance ne transforme pas ChatGPT en opérateur de l'audit client : le rôle opérationnel au sein de MajestiOS appartient à Cheexpeer.
 
-Lorsque Cheexpeer sera effectivement connecté à MajestiOS, il pourra reprendre le même dossier, examiner les éléments autorisés, compléter les preuves, signaler les divergences et suivre le plan d'action. La connexion devra être démontrée par un test réel ; une interface ou un libellé ne constitue pas une preuve de connexion.
-
-Les deux analyses doivent rester comparables et traçables. Les divergences sont conservées et expliquées ; aucune conclusion n'est réputée fiable du seul fait qu'elle provient de l'une ou l'autre IA.
+La connexion de Cheexpeer, les sources disponibles et les traitements réellement exécutés doivent être démontrés par des tests. Une interface, une requête manuelle Google ou un libellé ne constitue pas une preuve d'analyse interne.
 
 ## 10. Validation et limites d'action
 
@@ -163,10 +166,11 @@ Le prototype sera considéré comme prêt pour un premier audit lorsque :
 - il distingue les faits, déductions, hypothèses et informations indisponibles ;
 - il produit un diagnostic et une feuille de route hiérarchisée ;
 - il n'affiche jamais de résultats Google ou d'analyse Cheexpeer fictifs ;
-- il fonctionne en mode audit préliminaire sans clé Google ni connexion Cheexpeer ;
+- il permet de préparer le dossier en attendant l'activation du moteur Cheexpeer ;
+- lorsque le module est déclaré opérationnel, Cheexpeer réalise effectivement l'investigation et le diagnostic à partir de sources autorisées, sans déléguer cette mission au client ;
 - il ne déclenche aucune action externe sans validation humaine.
 
-**État au 9 novembre 2026 :** méthode définie pour guider le développement. Le formulaire d'audit, le stockage des dossiers, la génération du rapport et les indicateurs ne sont pas déclarés implémentés par la seule présence de ce document.
+**État au 9 novembre 2026 :** méthode cible définie. Le prototype contient un formulaire de préparation, un stockage temporaire en session et un journal de requêtes manuelles. L'orchestration des sources, l'analyse interne par Cheexpeer, le diagnostic, la génération du rapport et le suivi des indicateurs ne sont pas encore implémentés.
 
 
 ## 12. Journal de validation du prototype
@@ -174,7 +178,7 @@ Le prototype sera considéré comme prêt pour un premier audit lorsque :
 - **9 novembre 2026 — test utilisateur de la prévisualisation :** Google Web et Google Maps sont confirmés fonctionnels par l'utilisateur dans la prévisualisation Vercel de la branche `brouillon-reputation-virtuelle`.
 - **Portée de cette validation :** elle confirme le parcours de consultation testé dans l'interface. Elle ne valide pas une API Google officielle, une collecte automatisée, l'extraction du contenu des iframes, ni la production d'un audit automatique.
 - **Comportement de sécurité conservé :** les liens directs de secours restent disponibles ; aucun contenu inaccessible n'est simulé ; les constats d'audit devront être relevés, datés et vérifiés à partir de sources consultables.
-- **Étape suivante :** préparer un dossier d'audit structuré (identité de l'entreprise, activité, territoire, objectifs commerciaux, requêtes examinées, date et preuves), sans stockage persistant ni connexion Cheexpeer tant que ces choix ne sont pas spécifiés et validés.
+- **Étape suivante :** concevoir et implémenter l'orchestration interne de Cheexpeer, son registre de sources autorisées, la collecte des preuves, l'analyse traçable et la génération du rapport. Le formulaire actuel ne constitue qu'une préparation du dossier.
 
 
 ## 13. Première structure du dossier d'audit — prototype
