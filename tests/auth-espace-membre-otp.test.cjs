@@ -16,8 +16,8 @@ assert.match(html, /Entreprise <small>\(facultatif\)<\/small>/);
 assert.match(html, /Téléphone <small>\(facultatif\)<\/small>/);
 assert.match(html, /name="otp"[^>]*autocomplete="one-time-code"/);
 assert.match(html, /data-resend-otp/);
-assert.match(styles, /personal-space-fields\\[hidden\\]/);
-assert.match(styles, /personal-space-otp\\[hidden\\]/);
+assert.match(styles, /personal-space-fields\[hidden\]/);
+assert.match(styles, /personal-space-otp\[hidden\]/);
 assert.doesNotMatch(html, /type="password"/);
 assert.doesNotMatch(html, /name="passwordConfirm"/);
 
