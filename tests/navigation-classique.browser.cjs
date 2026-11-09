@@ -52,6 +52,10 @@ async function main() {
     const chatToggle=page.locator(".majestios-chat-toggle");
     await chatToggle.click();
     assert.equal(await page.locator("#majestios-chat-panel").isVisible(),true,"Le chatbot doit s'ouvrir.");
+    for (const route of ["developpement-commercial.html","espace-membre.html","faq.html"]) {
+      assert.equal(await page.locator('.majestios-chat-shortcuts a[href="'+route+'"]').count(),route==="developpement-commercial.html"?2:1,
+        "Les raccourcis du guide d’accueil doivent être préservés : "+route);
+    }
     await page.locator("#majestios-chat-input").fill("Comment fonctionne la Prospection ?");
     await page.locator(".majestios-chat-form button").click();
     assert.ok((await page.locator(".majestios-chat-message.is-assistant").last().textContent()).includes("Prospection"),
