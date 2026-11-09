@@ -77,6 +77,8 @@
     "espace-interne.js",
     "navigation-majestios.css",
     "homepage.css",
-    "homepage-theme.css"
+    "homepage-theme.css",
+    "navigation-tiroirs.js",
+    "navigation-tiroirs.css"
   ]
 }
