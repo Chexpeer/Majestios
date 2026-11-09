@@ -74,3 +74,28 @@ Tests ajoutés au workflow :
 7. Ajouter un sélecteur d’espace pour les comptes multi-organisations, puis un raccordement CRM explicite (fiche entreprise, preuves sourcées, activité d’audit, statut de validation) sans écriture automatique non validée.
 
 **Ne pas annoncer « audit automatique opérationnel » avant la configuration du fournisseur, le déploiement et la recette réelle.**
+
+
+## 7. Cartographie réelle des connexions de Cheexpeer
+
+L'audit du code de la branche distingue l'interface, les services métier et l'agent. Ils ne doivent pas être confondus.
+
+| Domaine | État réellement observé | Conclusion |
+|---|---|---|
+| Chatbot global | `app.js` contient une liste locale de mots-clés, de réponses et de liens. Il indique que le moteur IA sera connecté ultérieurement. | Guide de navigation uniquement ; ce chatbot n'est pas encore Cheexpeer génératif. |
+| Réputation virtuelle | La page appelle `reputation-audit-context` avec la session du membre. L'Edge Function collecte l'identité officielle et les annonces BODACC ; l'analyse IA est optionnelle et dépend de secrets serveur non configurés dans ce lot. | Première capacité serveur de Cheexpeer, limitée à ce parcours. |
+| Prospection | `prospection-search-member` est un service autonome avec authentification et contrôle d'appartenance à un espace client. Il recherche des entreprises officielles et renvoie des résultats. | Service métier existant, mais aucune orchestration Cheexpeer ni écriture CRM observée. |
+| CRM | `crm-client.js` utilise directement Supabase pour les données CRM et les règles VIP. Aucun appel à Cheexpeer ni outil CRM dédié à l'agent n'a été trouvé dans le client CRM audité. | Cheexpeer n'est pas encore raccordé au CRM. |
+| GitHub | Aucun connecteur GitHub ni secret d'accès dépôt n'a été trouvé dans le runtime applicatif audité. | GitHub n'est pas une connexion de l'agent dans le produit. L'accès GitHub utilisé pendant cet audit est un outil de développement distinct. |
+
+### Ordre de raccordement recommandé
+
+**Priorité 1 — CRM MajestiOS :** c'est le référentiel commercial central. Commencer par des outils de lecture strictement limités à l'espace autorisé : recherche de fiches, contacts, opportunités, historique et rappels. Cheexpeer doit pouvoir préparer une qualification, une synthèse ou une action proposée. Toute création, modification, relance ou prise de contact reste soumise à validation et à des droits explicites. Ne jamais donner à l'agent une clé `service_role` ou un accès direct général aux tables.
+
+**Priorité 2 — services métier :** raccorder progressivement les services de prospection, de veille et de réputation comme des outils spécialisés, avec provenance, date, périmètre et statut de fiabilité pour chaque résultat. Un résultat de recherche ne devient pas automatiquement une fiche CRM.
+
+**Priorité 3 — GitHub, séparément :** utile seulement si Cheexpeer reçoit aussi une mission d'assistance technique sur le dépôt. Dans ce cas : accès en lecture par défaut, dépôt et branche autorisés, aucun secret exposé au modèle, modifications proposées en branche, tests et validation humaine avant fusion ou déploiement. Cette connexion ne doit pas être confondue avec son rôle d'agent commercial.
+
+### Décision d'architecture à retenir
+
+Cheexpeer doit être **connecté d'abord au CRM**, puis aux services métier de MajestiOS. GitHub relève d'un connecteur technique séparé, activé uniquement si cette mission est souhaitée. Le chatbot local actuel pourra devenir l'interface conversationnelle de Cheexpeer, mais il ne faut pas annoncer cette évolution comme déjà réalisée.
