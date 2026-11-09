@@ -75,3 +75,26 @@ body.page-reputation-virtuelle .reputation-page{width:min(1240px,calc(100% - 64p
 .consultation-fallback{display:flex;justify-content:flex-end;padding:10px 14px;border-top:1px solid #e5eaf0;background:#f7f9fc}
 .consultation-fallback a{color:#1558a6;font-size:12px;font-weight:700;text-decoration:underline}
 @media(max-width:600px){.reputation-google-frame,.reputation-map-frame{height:360px}}
+
+
+/* Dossier d'audit structuré — données limitées à la session du navigateur. */
+.audit-dossier{max-width:700px;margin:0 0 18px;padding:20px;border:1px solid rgba(213,181,108,.34);border-radius:15px;background:linear-gradient(145deg,rgba(12,31,57,.98),rgba(8,22,42,.98));box-shadow:0 15px 36px rgba(0,0,0,.18)}
+.audit-dossier-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.audit-dossier-heading .eyebrow{margin:0 0 5px;color:#e5c56e;font-size:10px;letter-spacing:.12em}
+.audit-dossier-heading h2{margin:0;color:#f5f7fb;font-size:19px}
+.audit-dossier-state{padding:6px 9px;border:1px solid rgba(213,181,108,.35);border-radius:20px;color:#f0d38b;font-size:10px;text-align:center}
+.audit-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.audit-form-grid label{display:grid;gap:6px;color:#dce4ef;font-size:11px;font-weight:700}
+.audit-form-grid input,.audit-form-grid select{width:100%;min-width:0;height:42px;padding:0 11px;border:1px solid rgba(213,181,108,.28);border-radius:8px;outline:none;color:#f5f7fb;background:#061326;font:inherit;font-size:12px}
+.audit-form-grid input::placeholder{color:#8794a8}
+.audit-form-grid input:focus,.audit-form-grid select:focus{border-color:#e5c56e;box-shadow:0 0 0 3px rgba(213,181,108,.13)}
+.audit-dossier-actions{display:flex;gap:9px;margin-top:16px}
+.audit-dossier-actions button{min-height:40px;padding:0 14px;border:1px solid #ffdf82;border-radius:8px;color:#101828;background:linear-gradient(100deg,#f7d76b,#dfa72e);font-size:11px;font-weight:800;cursor:pointer}
+.audit-dossier-actions .audit-reset{border-color:rgba(213,181,108,.35);color:#dce4ef;background:transparent}
+.audit-storage-note{margin:12px 0 0;color:#9eabc0;font-size:10px;line-height:1.55}
+.audit-dossier-summary{margin-top:16px;padding:15px;border:1px solid rgba(213,181,108,.25);border-radius:10px;color:#dce4ef;background:rgba(3,14,29,.65);font-size:11px;line-height:1.65}
+.audit-dossier-summary h3{margin:0 0 10px;color:#f0d38b;font-size:14px}
+.audit-dossier-summary h4{margin:14px 0 7px;color:#f0d38b;font-size:12px}
+.audit-dossier-summary p{margin:4px 0}
+.audit-dossier-summary li{margin:5px 0;overflow-wrap:anywhere}
+@media(max-width:600px){.audit-dossier{padding:14px}.audit-dossier-heading{align-items:flex-start;flex-direction:column}.audit-form-grid{grid-template-columns:1fr}.audit-dossier-actions{flex-direction:column}.audit-dossier-actions button{width:100%}}
