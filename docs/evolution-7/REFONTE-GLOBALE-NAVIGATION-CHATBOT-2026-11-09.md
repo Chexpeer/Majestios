@@ -133,3 +133,26 @@ Le premier run de vérification a échoué avant le build sur le test préexista
 
 Un run déclenché après le réordonnancement des contrôles a été annulé ; aucun résultat vert exploitable de l'ensemble de la CI n'est donc revendiqué. Le test navigateur Evolution-7 doit encore fournir sa première preuve d'exécution complète.
 
+
+### Lot CSS et validation — réalisé
+
+- Les deux blocs `<style>` de l'accueil ont été externalisés en `homepage.css` et `homepage-theme.css`, en conservant leur ordre de cascade par rapport à `styles.css`, `charte-majestios.css` et `rubriques-immersives.css`.
+- Les règles devenues orphelines de l'immeuble, des étages, de l'ascenseur, des enseignes LED, des dialogues d'étage, de l'ancien guide d'accueil et de l'ancien menu ont été retirées des feuilles d'accueil.
+- Le fond panoramique `Designer (2).png`, la palette, le bandeau, les textes de positionnement, le moteur de recherche et le pied de page restent en place.
+- Les feuilles `homepage.css` et `homepage-theme.css` sont déclarées dans `site-files.json` et contrôlées par le build.
+- Les vérifications statiques ont été adaptées : aucun style inline ne subsiste dans `index.html`, et un contrôle anti-régression interdit le retour des sélecteurs de l'immeuble et de l'ancien menu.
+
+### Résultat CI Evolution-7
+
+**Run GitHub Actions :** `42601227994` — conclusion `success` — commit `c27583ece1a38c74a55fcc7ea2c41e7e02df969b`.
+
+Contrôles exécutés avec succès :
+- syntaxe JavaScript et TypeScript ;
+- tests métier existants, dont Auth OTP, prospection, réputation virtuelle et contrat de sécurité CRM ;
+- build statique du manifeste ;
+- architecture, routes, fonds de rubrique et liens locaux ;
+- navigateur réel : recherche, navigation classique, sous-menus mobile/desktop, chatbot, réputation virtuelle, formulaires et verrouillage administratif ;
+- contrôles réels des API BOAMP et BODACC.
+
+La CI est verte sur ce commit. Cela ne vaut pas recette fonctionnelle complète de chaque contenu métier, ni validation d'une connexion IA générative au chatbot.
+
