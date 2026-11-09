@@ -126,3 +126,27 @@ L'apprentissage désigne une capitalisation contrôlée des informations autoris
 L'audit confirme que le chatbot global actuel est un guide à mots-clés, que le cockpit admin actuel ne comporte pas de dialogue Cheexpeer, que le CRM utilise directement Supabase sans outil Cheexpeer dédié et qu'aucun connecteur GitHub Cheexpeer n'est intégré au runtime applicatif. Le parcours Réputation virtuelle constitue la première capacité serveur limitée de l'agent, avec fournisseur IA non configuré dans ce lot.
 
 L'architecture cible est donc **un Cheexpeer unique à quatre espaces**. Cette décision est actée dans la documentation ; elle ne signifie pas que les quatre connexions sont déjà opérationnelles.
+
+
+## 8. Audit du centre de commande confidentiel — 9 novembre 2026
+
+### Constat vérifié sur Evolution-7
+
+- `administration.html` et `administration.js` présentent une cabine VIP avec vérification de session, appartenance à l'organisation interne et rôle `owner/admin`. L'écran affiche le catalogue des sources et des indicateurs ; il ne contient ni conversation Cheexpeer, ni historique de fils, ni formulaire de dépôt de capture.
+- Les requêtes CRM du cockpit restent soumises aux politiques RLS. La migration VIP réserve la lecture et les écritures des fiches CRM aux rôles `owner/admin`. Le contrôle d'affichage dans le navigateur ne doit jamais être considéré comme une protection suffisante pour une future API ou action privilégiée.
+- Aucun stockage de conversations, de messages, de pièces jointes ou de mémoire privée du cockpit n'a été identifié dans les fichiers d'interface et migrations examinés pour ce lot. Aucun parcours d'upload de capture n'est présent dans le cockpit.
+- Le dossier de Réputation virtuelle et son journal de recherche utilisent `sessionStorage` (`majestios.reputation.auditDossier.v1`, `majestios.reputation.searchLog.v1`). Ce mécanisme est limité à la session du navigateur : il ne constitue ni une archive durable, ni une mémoire centrale, ni un stockage confidentiel administré. Le lot Cheexpeer précise déjà qu'aucun historique durable par organisation n'est créé.
+- La première Edge Function Cheexpeer ne traite que des données d'identité officielle et des annonces BODACC. Le fournisseur IA reste optionnel et non configuré dans l'état documenté ; ce parcours ne fournit pas le chat privé attendu.
+
+### Exigences obligatoires avant d'activer le centre de commande
+
+1. **Identité et cloisonnement** : chaque fil, message, capture, tâche et élément de mémoire doit être lié à l'utilisateur administrateur et à l'organisation interne. Autorisation contrôlée côté serveur à chaque lecture, écriture, téléchargement et action ; aucune confiance dans un simple masquage d'interface.
+2. **Captures et documents** : stockage privé non accessible publiquement, contrôle du type réel et de la taille, noms de fichiers neutralisés, liens signés à durée courte, accès journalisé et suppression selon une durée de conservation définie. Les captures ne doivent jamais être copiées vers le chat utilisateur ou un espace client.
+3. **Conversations et reprise** : fils persistants, historique daté, statut des tâches, reprise de conversation et recherche réservée aux personnes habilitées. Les messages bruts et pièces jointes restent distincts des connaissances durables.
+4. **Mémoire métier validée** : consignes et préférences ne deviennent réutilisables que lorsqu'elles sont explicitement validées ; conserver auteur, date, portée, version et possibilité de correction ou retrait. Aucune ingestion automatique de captures ou de conversations privées dans le contexte des utilisateurs.
+5. **Actions et CRM** : Cheexpeer consulte uniquement les données nécessaires ; les permissions sont vérifiées à nouveau côté serveur. Toute modification CRM, export, contact externe, publication ou action irréversible suit une validation adaptée et laisse une trace.
+6. **Confidentialité opérationnelle** : ne pas exposer le contenu sensible dans les journaux techniques, erreurs ou métriques ; prévoir une politique de rétention et de suppression des conversations, fichiers et sauvegardes, ainsi qu'une procédure d'incident.
+
+### Décision d'audit
+
+Le centre de commande confidentiel est une **évolution structurante non développée**, et non une anomalie de sécurité d'un chat existant : aucun chat admin ni stockage de capture n'est actuellement offert dans le cockpit. Ne pas ouvrir de dépôt de captures ou de conversations réelles avant réalisation et tests des protections ci-dessus. La priorité suivante est de concevoir le modèle de données privé, le stockage, les politiques RLS et les contrats d'API avant l'interface de chat.
