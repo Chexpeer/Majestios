@@ -49,7 +49,7 @@ async function main() {
       status: 200,
       contentType: "application/javascript",
       headers: { "access-control-allow-origin": "*" },
-      body: "export function createClient(){return {auth:{getSession:async()=>({data:{session:null}})},functions:{invoke:async()=>({data:null,error:null})}}}"
+      body: "export function createClient(){return {auth:{getSession:async()=>({data:{session:{access_token:'test-token'}}})},functions:{invoke:async()=>({data:{status:'collection_only',analysis_unavailable:true,analysis_notice:'La collecte a abouti, mais l’analyse IA est temporairement indisponible.',notice:'Contexte administratif collecté.',evidence_count:1,evidence:[{title:'Atelier Exemple',excerpt:'SIREN 123456789',subject_match:'confirmed',reference:'https://recherche-entreprises.api.gouv.fr/search?q=Atelier'}]},error:null})}}}"
     }));
 
     await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
@@ -73,6 +73,12 @@ async function main() {
       "Les données saisies ne doivent jamais être interprétées comme du HTML.");
     assert.ok((await page.locator("[data-audit-dossier-summary]").innerText()).includes('<img src=x onerror="alert(1)">'),
       "La valeur contenant du balisage doit être affichée comme du texte.");
+
+    await page.locator("[data-audit-run]").click();
+    await page.getByText("La collecte a abouti, mais l’analyse IA est temporairement indisponible.").waitFor();
+    assert.equal(await page.locator("[data-consultation-status]").textContent(),
+      "Collecte seule · analyse IA indisponible",
+      "Une panne IA doit être distinguée de l’absence de configuration.");
 
     await page.reload({ waitUntil: "domcontentloaded" });
     assert.equal(await page.locator('[name="company"]').inputValue(),
