@@ -227,13 +227,19 @@ La recherche dans le dépôt Evolution-7 n'a trouvé ni migration créant un buc
 
 Avant tout upload confidentiel, il faudra définir bucket privé, chemins tenant-scoped, RLS Storage, limites de taille, validation du type réel, contrôle antivirus/inspection, liens signés courts, suppression, rétention, sauvegardes et tests d'accès croisés. Les URLs publiques sont exclues pour ces documents.
 
-### 10.3 Point de vigilance sur l'import officiel utilisant service_role
+### 10.3 Frontière de sécurité de l'import officiel utilisant service_role
 
-La fonction `import-official-company` vérifie le jeton utilisateur puis appelle `can_import_official_company` avant d'utiliser la clé `service_role` pour l'import. C'est une frontière de sécurité sensible : la vérification d'autorisation doit être effectivement présente sur la base cible et strictement alignée sur les politiques CRM VIP (owner/admin). La migration de durcissement versionnée le 9 novembre définit ce RPC en `security invoker`, mais son application distante n'est pas confirmée ici.
+La fonction `import-official-company` vérifie le jeton utilisateur puis appelle `can_import_official_company` avec le client utilisateur avant d'utiliser la clé `service_role` pour l'import. Cette frontière reste sensible : le contrôle d'autorisation doit être effectivement présent sur la base cible et strictement aligné sur les politiques CRM VIP (`owner/admin`). La migration de durcissement versionnée le 9 novembre définit ce RPC en `security invoker`, mais son application distante n'est pas confirmée.
 
-Le code Edge renvoie encore un message de droit « rôle éditeur » alors que la politique actuelle est owner/admin ; il renvoie aussi `detail: importError.message` en cas d'échec RPC et un champ `detail` technique dans le catch. Le CORS de cette fonction utilise `Access-Control-Allow-Origin: *`. Ces éléments justifient un durcissement avant extension des imports : origine explicite, messages d'erreur génériques avec identifiant de corrélation côté client, détails techniques uniquement dans des logs serveur expurgés, et test négatif avec member/viewer et tenant tiers.
+**Durcissement du code effectué sur Evolution-7 :**
+- CORS limité à `https://majestios.com`, `https://www.majestios.com` et aux origines explicitement listées dans `ALLOWED_ORIGINS` ; les autres origines sont refusées.
+- Message d'autorisation cohérent avec les administrateurs VIP.
+- Suppression des détails d'erreur RPC, des statuts techniques du service upstream et des exceptions brutes dans les réponses HTTP.
+- Ajout de contrôles contractuels dans `tests/crm-security-contract.test.cjs`.
 
-**Qualification :** risque de configuration/autorisation à vérifier avant activation ou extension du flux privilégié ; pas de preuve d'exploitation ni de contournement démontré dans cet audit. Ne pas classer comme fuite avérée.
+**Limites restantes :** le test de contrat n'a pas encore été exécuté dans cette session ; les tests réels avec member/viewer, owner/admin et organisation tierce restent à faire. Les origines de preview nécessaires doivent être configurées explicitement dans `ALLOWED_ORIGINS`. L'application de la migration sur Supabase n'est pas vérifiée.
+
+**Qualification :** risque de configuration/autorisation à vérifier avant extension du flux privilégié ; pas de preuve d'exploitation ni de contournement démontré. Aucun déploiement ni changement de base distante n'a été effectué.
 
 ### 10.4 Tests de sécurité obligatoires pour le centre de commande
 
