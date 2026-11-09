@@ -1,97 +1,60 @@
-# Vision fondatrice — MajestiOS 5.0
+# Vision fondatrice — MajestiOS
 
-## 1. Identité et promesse
+## 1. Ambition
 
-**MajestiOS est l'ascenseur stratégique des PME.**
+**MajestiOS est une plateforme professionnelle de développement commercial et d'intelligence économique.**
 
-Signatures retenues dans le cadrage :
-- **Donner de la hauteur à vos ambitions.**
-- **MajestiOS, pour une ascension magique et exponentielle.**
+Elle aide les entreprises, indépendants et professionnels à détecter des possibilités de développement, comprendre les marchés et les organisations, identifier les interlocuteurs pertinents, structurer leurs démarches et transformer l'information en décisions et en actions.
 
-La promesse est d'aider une PME à mieux voir, détecter, comprendre, choisir et activer ses leviers de développement. Le mot « ascension » exprime un accompagnement et une progression ; il ne constitue pas une garantie de croissance ou de résultat.
+MajestiOS réunit dans un même environnement des données, des services, des outils métier, un CRM, des méthodes et un accompagnement humain augmenté par l'intelligence artificielle.
 
-## 2. Positionnement
+## 2. La valeur apportée
 
-MajestiOS n'est pas seulement :
-- un annuaire d'entreprises ;
-- un agrégateur d'appels d'offres ;
-- un tableau de bord ;
-- un CRM classique auquel on ajoute un chatbot.
+MajestiOS doit permettre de passer plus simplement de l'information à l'action :
 
-MajestiOS vise un système intégré de développement commercial, combinant données, méthodes, services, intelligence artificielle et accompagnement humain.
+**Détecter → Comprendre → Qualifier → Décider → Agir → Capitaliser.**
 
-Séquence métier de référence :
-**Détecter → Qualifier → Identifier → Contacter → Transformer → Capitaliser.**
+La plateforme couvre un ensemble cohérent de besoins professionnels : appels d'offres et marchés, opportunités privées et commerciales, recherche d'entreprises, prospection, développement commercial, réseau professionnel, visibilité et réputation, emploi, accompagnement et espaces de travail.
 
-Terminologie à respecter :
-- « développement commercial » ;
-- « Prospection » ;
-- « Réputation virtuelle » ;
-- « immeuble interactif » ;
-- « ascenseur stratégique ».
+Chaque rubrique répond à un besoin identifiable et conduit vers une véritable page ou un service. La navigation doit rester claire, cohérente et accessible sur tous les écrans. La simplification de l'interface ne doit pas entraîner la suppression de contenus ou de fonctionnalités utiles.
 
-## 3. Doctrine d'intelligence
+## 3. Cheexpeer, moteur d'intelligence de MajestiOS
 
-La trajectoire visée est progressive :
-1. outils et données structurés ;
-2. assistance IA contextualisée ;
-3. CRM augmenté par l'IA ;
-4. CRM nativement intelligent, dans lequel l'IA peut détecter, qualifier, enrichir, organiser, analyser, recommander et préparer des actions ;
-5. système transversal qui apprend des résultats et améliore ses recommandations sous gouvernance.
+**Cheexpeer est l'agent IA intégré et transversal de MajestiOS.** Il transforme progressivement la plateforme en environnement capable de comprendre les besoins, relier les informations, analyser les situations, détecter les signaux et assister les décisions.
 
-Le CRM reste une source de vérité structurée, vérifiable et auditable. Une IA ne doit pas modifier silencieusement les données métier.
+Il intervient à travers les domaines de MajestiOS : accueil et orientation, recherche, veille, qualification, prospection, CRM, analyse commerciale, réputation numérique, SEO, reporting, qualité et administration.
 
-Toute information importante doit pouvoir porter :
-- sa source et sa provenance ;
-- sa date de collecte et sa fraîcheur ;
-- son niveau de confiance ;
-- son statut (observée, déclarée, calculée, inférée ou proposée) ;
-- son historique de modification ;
-- les permissions et la finalité d'utilisation.
+Cheexpeer conserve une identité unique. Ses missions peuvent être confiées à des compétences spécialisées, sans multiplier les identités visibles ni créer des assistants indépendants en concurrence.
 
-## 4. IA, CRM et Business Intelligence
+Son rôle n'est pas de remplacer le professionnel : il lui fait gagner du temps, rend l'information plus exploitable, explique les résultats et prépare des actions pertinentes.
 
-- **CRM** : organise les entreprises, contacts, opportunités, activités, interactions et résultats.
-- **IA** : comprend le contexte, rapproche, qualifie, enrichit, priorise, explique et prépare.
-- **Business Intelligence** : transforme des données fiables et contextualisées en indicateurs, analyses et aide à la décision.
+## 4. Les responsabilités doivent rester distinctes
 
-Ces responsabilités sont complémentaires et ne doivent pas être confondues.
+- **MajestiOS** porte la plateforme, les services, les parcours et la relation avec ses utilisateurs.
+- **Cheexpeer** comprend, recherche, rapproche, analyse, qualifie, recommande et prépare, dans les limites de ses accès.
+- **Le CRM** conserve les informations métier structurées et leur historique ; il reste une source de vérité contrôlable.
+- **La Business Intelligence** transforme les données disponibles et fiables en indicateurs et en aide à la décision.
+- **Les professionnels et l'Administration** conservent les décisions et validations qui relèvent de leur responsabilité.
 
-## 5. Trois périmètres CRM distincts
+Les données doivent conserver leur provenance, leur date, leur fraîcheur, leur niveau de confiance et leur statut : observé, déclaré, calculé, déduit ou proposé.
 
-1. **Offre commerciale CRM de MajestiOS** : conseil, sélection, intégration, configuration, accompagnement et support autour de solutions CRM, y compris open source. C'est une offre présentée dans l'expérience du site.
-2. **CRM interne de MajestiOS** : outil privé de gestion des propres prospects, clients, contacts, opportunités, activités et résultats de MajestiOS.
-3. **CRM des entreprises clientes accompagnées** : systèmes et données appartenant aux clients, cloisonnés par contrat, tenant, permissions et finalité.
+## 5. Confiance, sécurité et autonomie
 
-Ces trois périmètres ne doivent jamais être assimilés.
+Cheexpeer fonctionne selon des permissions vérifiées côté serveur et limitées à chaque utilisateur, organisation, tâche et outil. Les données d'un client ne doivent jamais être accessibles à un autre.
 
-## 6. Principes non négociables
+La progression est graduelle :
+1. consulter les informations autorisées ;
+2. analyser et expliquer ;
+3. préparer des dossiers et propositions ;
+4. exécuter une action précise après validation ;
+5. automatiser uniquement des tâches limitées, préautorisées, réversibles et surveillées.
 
-- Le schéma visuel reflète exactement l'arborescence fonctionnelle.
-- Chaque destination interactive mène à un véritable dossier ou une véritable page.
-- Pas de lien trompeur vers une ancre ou une page générique pour simuler une fonctionnalité.
-- Les fonctionnalités utiles de la 3.0 sont inventoriées avant tout abandon.
-- Les résultats et recommandations restent explicables et vérifiables.
-- Les données des clients sont cloisonnées.
-- Les actions sensibles demandent une autorisation explicite.
-- Les secrets restent côté serveur et ne sont jamais exposés au navigateur ou au dépôt.
-- La sécurité, la confidentialité, l'accessibilité, les performances et le mobile sont conçus dès le départ.
+Aucune prise de contact, publication, écriture CRM, dépense, modification de droits, migration ou intervention de production ne doit être déclenchée par une simple interprétation de l'agent. Les autorisations humaines et les règles de sécurité priment.
 
-## 7. Autonomie encadrée
+## 6. Trajectoire
 
-Niveaux proposés :
-1. Observer et lire les sources autorisées.
-2. Analyser et recommander.
-3. Préparer des actions et des changements isolés.
-4. Appliquer des changements réversibles et explicitement autorisés dans un périmètre défini.
-5. Demander une approbation séparée pour fusion, publication, déploiement, migration, changement de permissions, suppression, export ou contact externe.
+La priorité est de construire un produit cohérent et réellement utilisable : navigation et pages fiables, services compréhensibles, formulaires fonctionnels, données qualifiées, CRM maîtrisé et première expérience Cheexpeer utile.
 
-Aucune IA ne doit s'auto-attribuer des droits, contourner une approbation ou envoyer automatiquement un message engageant au nom d'une entreprise.
+Les capacités avancées seront ajoutées progressivement, avec des preuves, des tests, une mesure de la valeur, une maîtrise des coûts et une documentation à jour. La sophistication technique ne doit jamais prendre le pas sur l'utilité professionnelle.
 
-## 8. Éléments à arbitrer
-
-- Nomenclature définitive des étages.
-- Place de l'offre commerciale CRM dans l'immeuble.
-- Périmètre et priorité du CRM natif par rapport à l'intégration de CRM tiers.
-- Niveau d'autonomie acceptable par fonction.
-- Sources de données et conditions contractuelles.
+**MajestiOS organise les services et les données. Cheexpeer leur donne progressivement une intelligence transversale. L'utilisateur garde la maîtrise des décisions.**
