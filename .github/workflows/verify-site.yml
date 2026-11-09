@@ -27,6 +27,9 @@ jobs:
           node --check reputation-virtuelle.js
           node --check reputation-audit-core.mjs
           node --check reputation-audit-connectors.mjs
+          node --check reputation-audit-analysis.mjs
+          node --check supabase/functions/_shared/reputation-audit-analysis.mjs
+          node --check tests/reputation-audit-analysis.test.mjs
           node --check supabase/functions/_shared/reputation-audit-core.mjs
           node --check supabase/functions/_shared/reputation-audit-connectors.mjs
           node --check supabase/functions/_shared/reputation-audit-handler.mjs
@@ -70,6 +73,8 @@ jobs:
         run: node --test tests/reputation-audit-core.test.mjs
       - name: Tester le registre et le premier connecteur de Réputation virtuelle
         run: node --test tests/reputation-audit-connectors.test.mjs
+      - name: Tester l'analyse Cheexpeer fondée sur les preuves
+        run: node --test tests/reputation-audit-analysis.test.mjs
       - name: Tester le handler authentifié du moteur d'audit Cheexpeer
         run: node --test tests/reputation-audit-handler.test.mjs
       - name: Vérifier la recherche BODACC filtrée en conditions réelles
