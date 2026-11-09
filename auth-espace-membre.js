@@ -70,7 +70,7 @@ if (form && config?.url && config?.publishableKey) {
 
   const startResendCooldown = () => {
     if (!resendButton) return;
-    let remaining = 30;
+    let remaining = 60;
     resendButton.disabled = true;
     resendButton.textContent = `Renvoyer le code dans ${remaining} s`;
     clearInterval(resendTimer);
