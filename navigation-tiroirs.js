@@ -112,7 +112,13 @@
       // Sur téléphone, chaque toucher ouvre ou referme le tiroir.
       // Aucun clic sur un onglet principal ne peut rediriger vers une page.
       title.addEventListener("click", () => {
-        if (desktop() || submenu.children.length === 0) return;
+        if (submenu.children.length === 0) return;
+        // Sur ordinateur, le survol révèle le sous-menu et le clic ouvre la rubrique.
+        // Sur mobile, le premier niveau reste un contrôle d'ouverture du tiroir.
+        if (desktop()) {
+          location.href = group.href;
+          return;
+        }
         const shouldOpen = submenu.hidden;
         nav.querySelectorAll(".nav-drawer-section").forEach(other => {
           const otherSubmenu = other.querySelector(".nav-group-items");
