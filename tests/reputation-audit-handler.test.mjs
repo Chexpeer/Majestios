@@ -30,6 +30,31 @@ test("validates the company name and SIREN before upstream calls", async () => {
   assert.equal(called, false);
 });
 
+
+test("enforces the audit quota before any upstream collection", async () => {
+  let upstreamCalled = false;
+  const handler = createReputationAuditHandler({
+    authenticate: authOk,
+    consumeQuota: async () => false,
+    fetchImpl: async () => { upstreamCalled = true; return fetchOk(); }
+  });
+  const response = await handler(request({ subject: "Atelier Exemple" }));
+  assert.equal(response.status, 429);
+  assert.equal(upstreamCalled, false);
+});
+
+test("fails closed when the persistent quota check is unavailable", async () => {
+  let upstreamCalled = false;
+  const handler = createReputationAuditHandler({
+    authenticate: authOk,
+    consumeQuota: async () => { throw new Error("quota RPC unavailable"); },
+    fetchImpl: async () => { upstreamCalled = true; return fetchOk(); }
+  });
+  const response = await handler(request({ subject: "Atelier Exemple" }));
+  assert.equal(response.status, 503);
+  assert.equal(upstreamCalled, false);
+});
+
 test("returns sanitized identity evidence and no internal connector identifiers", async () => {
   const handler = createReputationAuditHandler({ authenticate: authOk, fetchImpl: fetchOk, now: () => "2026-11-09T08:45:00.000Z" });
   const response = await handler(request({ subject: "Atelier Exemple", siren: "123456789" }));
