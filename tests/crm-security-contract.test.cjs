@@ -9,6 +9,7 @@ const schema = read("supabase/migrations/20261105163901_majestios_core_multitena
 const roles = read("supabase/migrations/20261106074500_enforce_crm_editor_roles.sql");
 const crmColumnHardening = read("supabase/migrations/20261109160000_restrict_crm_update_columns.sql");
 const crmActivityHistory = read("supabase/migrations/20261109170000_atomic_crm_activity_history.sql");
+const reminderVipHardening = read("supabase/migrations/20261109180000_harden_crm_reminder_vip_rpc.sql");
 const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
@@ -287,6 +288,12 @@ for (const fragment of [
   "grant execute on function public.complete_crm_reminder(uuid) to authenticated"
 ]) assert.ok(reminderCompletion.includes(fragment), "Clôture de relance non conforme : " + fragment);
 assert.ok(client.includes('supabase.rpc("complete_crm_reminder"'));
+assert.match(reminderVipHardening, /create or replace function public\.complete_crm_reminder\(p_reminder_id uuid\)/);
+assert.match(reminderVipHardening, /private\.is_org_admin\(v_reminder\.organization_id\)/);
+assert.doesNotMatch(reminderVipHardening, /private\.is_org_editor\(/);
+assert.match(reminderVipHardening, /security definer\s+set search_path = ''/);
+assert.match(reminderVipHardening, /revoke all on function public\.complete_crm_reminder\(uuid\) from public, anon/);
+assert.match(reminderVipHardening, /grant execute on function public\.complete_crm_reminder\(uuid\) to authenticated/);
 assert.ok(page.includes("Relance traitée et ajoutée à l’historique"));
 assert.ok(page.includes("const businessById = new Map(businesses.map"));
 assert.ok(page.includes("const contactById = new Map(contacts.map"));
