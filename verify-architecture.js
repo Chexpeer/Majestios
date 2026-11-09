@@ -100,7 +100,7 @@ assert(home.includes('href="marches-publics.html"') && home.includes('href="repu
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
 assert(!home.includes("<style"), "Accueil : les styles doivent être externalisés dans des feuilles dédiées");
 const homepageCss = read("homepage.css") + read("homepage-theme.css");
-assert(!/\\.(?:building|tower|floor|elevator|home-help)[\\w-]*|#floor-rows|\\.site-nav\\b|\\.menu-toggle\\b/i.test(homepageCss), "CSS accueil : styles obsolètes de l’immeuble et de l’ancien menu encore présents");
+assert(!/\\.(?:building|tower|floor|elevator|home-help|dialog-[\\w-]*|window)[\\w-]*|#floor-rows|\\.site-nav\\b|\\.menu-toggle\\b/i.test(homepageCss), "CSS accueil : styles obsolètes de l’immeuble et de l’ancien menu encore présents");
 
 for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
   assert(exists(asset),"Visuel de l'accueil absent : "+asset);
@@ -248,4 +248,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, neuf destinations MajestiOS, trois visuels d’accueil publiés, fonds de rubrique sans ressources manquantes, moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, navigation classique, trois visuels historiques conservés, fonds de rubrique sans ressources manquantes, moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
