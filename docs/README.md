@@ -17,7 +17,7 @@ Les rubriques couvrent notamment les appels d'offres et marchés, les opportunit
 
 ## 2. Cheexpeer : l'agent IA central de MajestiOS
 
-<Cheexpeer> n'est pas un gadget conversationnel ni un service indépendant : **c'est l'agent IA intégré qui donne progressivement à MajestiOS sa capacité de comprendre, relier, analyser, anticiper et assister l'action.**
+**Cheexpeer** n'est pas un gadget conversationnel ni un service indépendant : **c'est l'agent IA intégré qui donne progressivement à MajestiOS sa capacité de comprendre, relier, analyser, anticiper et assister l'action.**
 
 Cheexpeer doit pouvoir, selon les droits et les capacités réellement connectées :
 - comprendre les demandes et orienter chaque utilisateur vers le bon service ;
