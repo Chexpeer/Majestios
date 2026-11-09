@@ -15,7 +15,7 @@ create index if not exists reputation_audit_usage_org_date_idx
 
 revoke all on table private.reputation_audit_usage from public, anon, authenticated, service_role;
 
-create or replace function public.consume_reputation_audit_quota(p_organization_id uuid)
+create or replace function private.consume_reputation_audit_quota(p_organization_id uuid)
 returns boolean
 language plpgsql
 security definer
@@ -35,12 +35,10 @@ begin
     raise exception 'Organization membership required' using errcode = '42501';
   end if;
 
-  -- Sérialise les consommations d'un même espace pour éviter les dépassements concurrents.
   perform pg_catalog.pg_advisory_xact_lock(
     pg_catalog.hashtextextended(p_organization_id::text, 0)
   );
 
-  -- Les compteurs détaillés ne sont conservés que 90 jours.
   delete from private.reputation_audit_usage
    where organization_id = p_organization_id
      and usage_date < v_usage_date - 90;
@@ -74,8 +72,20 @@ begin
 end;
 $$;
 
+revoke all on function private.consume_reputation_audit_quota(uuid) from public, anon;
+grant execute on function private.consume_reputation_audit_quota(uuid) to authenticated;
+
+create or replace function public.consume_reputation_audit_quota(p_organization_id uuid)
+returns boolean
+language sql
+security invoker
+set search_path = ''
+as $$
+  select private.consume_reputation_audit_quota(p_organization_id);
+$$;
+
 revoke all on function public.consume_reputation_audit_quota(uuid) from public, anon;
 grant execute on function public.consume_reputation_audit_quota(uuid) to authenticated;
 
-comment on function public.consume_reputation_audit_quota(uuid) is
+comment on function private.consume_reputation_audit_quota(uuid) is
 'Consomme atomiquement un quota Cheexpeer : 5 audits par membre et par jour UTC, 25 par organisation et par jour UTC.';
