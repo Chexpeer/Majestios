@@ -178,7 +178,27 @@ if (form && config?.url && config?.publishableKey) {
       const organization = await provisionWorkspace(data.session, profileFromForm());
       setFeedback(`Votre adresse est vérifiée et votre espace « ${organization.name} » est prêt.`);
     } else {
-      setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
+      const { data: memberships, error: membershipError } = await supabase
+        .from("organization_members")
+        .select("organization_id")
+        .eq("user_id", data.user.id)
+        .limit(1);
+      const metadata = data.user.user_metadata ?? {};
+      if (
+        !membershipError &&
+        !memberships?.length &&
+        metadata.privacy_notice_acknowledged === true &&
+        metadata.privacy_notice_version === "2026-11-05"
+      ) {
+        const organization = await provisionWorkspace(data.session, {
+          display_name: metadata.display_name || "",
+          phone: metadata.phone || "",
+          organization_name: metadata.organization_name || "Espace personnel"
+        });
+        setFeedback(`Connexion réussie. Votre espace « ${organization.name} » est prêt.`);
+      } else {
+        setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
+      }
     }
     await updateAuthStatus(data.session);
     awaitingOtp = false;
