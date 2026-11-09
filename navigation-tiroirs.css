@@ -188,3 +188,10 @@ html body .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{ba
  html body .nav-drawer-overlay{z-index:2300!important}
 }
 @media(min-width:901px){html body #menu-toggle{display:none!important}}
+
+
+/* Correctif définitif : l'attribut hidden prévaut sur les anciens styles mobile.
+   Aucun sous-menu ne s'affiche à l'ouverture du hamburger. */
+.site-nav-drawer .nav-group-items[hidden]{
+  display:none!important;
+}
