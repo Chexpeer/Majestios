@@ -242,3 +242,98 @@ Ce résultat constitue une preuve CI utile pour le commit documentaire testé. I
 ## 9. Mise à jour du critère de sortie
 
 L'extraction des 37 pages HTML et la vérification CI sont maintenant réalisées. Le critère de sortie du Lot 1A reste **non atteint**, car les écarts critiques de versionnement des migrations, l'absence apparente de deux Edge Functions requises par les parcours membre, l'audit complet des privilèges et l'identification du projet Vercel canonique restent ouverts.
+
+
+## 10. Vérifications approfondies — migrations, tâches planifiées, privilèges et Vercel
+
+### 10.1 Comparaison du contenu des 22 migrations appliquées
+
+La première comparaison des versions a révélé 12 différences d'identifiants. Une comparaison plus approfondie a ensuite confronté les instructions SQL stockées dans `supabase_migrations.schema_migrations` aux fichiers SQL de `Evolution-6`, après normalisation des commentaires et espaces.
+
+**Résultat : les 22 migrations distantes ont toutes un fichier local de même nom et leur contenu SQL normalisé est identique.**
+- 10 migrations ont le même identifiant de version local et distant.
+- 12 migrations ont des identifiants de version différents, mais leur contenu SQL est identique.
+- Aucune migration distante sans fichier local n'a été trouvée.
+- Une migration supplémentaire existe uniquement dans Git : `20261108151400_enforce_vip_boundary_for_internal_crm.sql`.
+
+L'écart des 12 identifiants correspond donc à une réécriture/re-numérotation de l'historique local par rapport à l'historique distant, et non à une divergence du contenu des 22 migrations effectivement appliquées.
+
+### 10.2 Migration locale supplémentaire : ne pas appliquer
+
+Le fichier `20261108151400_enforce_vip_boundary_for_internal_crm.sql` est absent de l'historique distant. Son contenu est particulièrement important :
+- il introduit `private.can_read_crm_org` et `private.can_edit_crm_org` ;
+- il réserve le CRM interne aux `owner/admin` ;
+- mais il autorise aussi `member` à lire et modifier le CRM des organisations clientes/partenaires ;
+- il redéfinit également le RPC `complete_crm_reminder`.
+
+Cette logique n'est pas équivalente à la politique VIP actuellement appliquée, qui utilise `private.is_org_admin` pour les cinq tables CRM, sans distinction du type d'organisation.
+
+**Décision d'audit : ne pas appliquer cette migration.** Elle ouvrirait des capacités CRM aux membres des tenants clients/partenaires, alors que le déploiement progressif retenu réserve actuellement le CRM VIP à owner/admin et ne doit pas anticiper l'ouverture du CRM membre. Son statut « local uniquement » doit rester explicite jusqu'à une décision métier ultérieure.
+
+La migration appliquée `vip_only_crm_access` a elle-même été comparée au fichier local : son contenu SQL normalisé est identique.
+
+### 10.3 Tâche planifiée des relances CRM
+
+L'introspection `pg_cron` confirme une tâche active :
+- job : `1` ;
+- cadence : toutes les cinq minutes (`*/5 * * * *`) ;
+- commande : `select private.materialize_crm_reminders();`.
+
+Les 12 dernières exécutions consultées, de 08:30 à 09:25 UTC le 9 novembre 2026, sont toutes en statut `succeeded`. La matérialisation des relances est donc bien planifiée et ses exécutions récentes sont réussies. Cela ne prouve pas encore le comportement fonctionnel sur des opportunités réelles, puisque le CRM ne contient pas encore de pipeline d'opportunités à traiter.
+
+### 10.4 Privilèges et fonctions sensibles
+
+Le contrôle des ACL PostgreSQL confirme :
+- le schéma `private` n'est pas utilisable par `anon`, mais son droit `USAGE` est accordé à `authenticated` et `service_role` ;
+- `authenticated` ne possède pas le droit `CREATE` sur `private` ;
+- les fonctions sensibles de bootstrap, import officiel et provisionnement sont limitées à `service_role` et/ou Postgres ;
+- les helpers `private.is_org_admin`, `private.is_org_member`, `private.is_org_editor` et `private.is_internal_staff` sont exécutables par `authenticated`, ce qui est cohérent avec leur usage dans les politiques RLS ;
+- les fonctions `SECURITY DEFINER` inspectées ont `search_path` fixé à la chaîne vide, et utilisent des noms de schémas qualifiés ;
+- `public.set_updated_at` conserve un droit EXECUTE accordé à PUBLIC/anon/authenticated. Elle est une fonction trigger (retour `trigger`) et non un RPC métier ordinaire ; le grant est à documenter, mais ne démontre pas à lui seul une possibilité d'appel direct exploitable.
+
+Les tests d'autorisation sous de vraies identités Auth n'ont pas été exécutés. L'audit des privilèges effectifs de toutes les vues, des chemins indirects et des rôles hérités reste ouvert.
+
+### 10.5 Advisor Supabase
+
+Le Security Advisor ne retourne qu'un avertissement :
+- `auth_leaked_password_protection` — protection des mots de passe compromis désactivée.
+
+Il recommande l'activation de la vérification des mots de passe compromis. Aucun réglage n'a été modifié pendant l'audit.
+
+Le Performance Advisor signale 20 index non utilisés. Plusieurs concernent le registre officiel, les relations CRM et les relances. Les tables sont encore presque vides ; ces signaux ne justifient pas une suppression d'index. Conserver les index jusqu'à l'observation d'une charge et de statistiques représentatives.
+
+### 10.6 Vercel — rattachement des alias confirmé
+
+La lecture des alias et des déploiements précise le rôle des trois projets :
+
+- **`majestios`** : le déploiement `READY` sur `main`, commit `94f2af84...`, cible `production`, porte l'alias `majestios.vercel.app`. C'est le projet Vercel associé au nom court principal.
+- **`majestios-ljx1`** : le même commit `main` est également déployé avec cible `production`. Ses alias restent propres au projet (`majestios-ljx1.vercel.app`, `majestios-ljx1-majistr.vercel.app`, `majestios-ljx1-git-main-majistr.vercel.app`). Il s'agit donc d'un second projet en production, mais pas du propriétaire de `majestios.vercel.app`.
+- **`majestios-jc8g`** : le dernier déploiement observé provient de `brouillon-reputation-virtuelle`, cible non renseignée, et les alias historiques sont des alias de preview par branche. La protection SSO et la protection par mot de passe sont désactivées dans les réglages lus.
+
+Les trois projets sont liés au même dépôt GitHub `Chexpeer/Majestios`. Le projet `majestios` est le candidat canonique pour le domaine court Vercel ; `majestios-ljx1` constitue une duplication de déploiement production à clarifier. Aucun projet n'a été modifié ou supprimé.
+
+Aucun des trois projets ne présente `MajestiOS.com` ou `www.majestios.com` dans sa liste de domaines de projet. La recherche du domaine `majestios.com` dans le compte Vercel de l'équipe n'a pas abouti. Le domaine peut être géré chez un autre registrar ou dans un autre compte ; son routage réel n'est donc pas confirmé par cet audit.
+
+**Risque de confidentialité :** le projet `majestios-jc8g` expose des alias de preview sans SSO. Il faut vérifier le contenu de ces previews et décider d'une politique de protection avant d'y placer des informations internes. Aucun secret, contournement de protection ou changement de réglage n'a été demandé ni effectué.
+
+## 11. État actualisé des points de contrôle
+
+| Contrôle | État |
+|---|---|
+| 73 ressources du manifeste présentes | Vérifié |
+| Extraction des 37 pages HTML et dépendances principales | Vérifié |
+| 22 migrations appliquées comparées au SQL local | Vérifié : contenu identique après normalisation |
+| Migration locale supplémentaire identifiée | Vérifié : non appliquée, à ne pas appliquer sans décision métier |
+| 15 tables publiques avec RLS | Vérifié |
+| Fonctions sensibles et ACL principales | Premier audit effectué ; chemins indirects à poursuivre |
+| Cron des relances CRM | Actif, 12 dernières exécutions réussies |
+| Security Advisor | 1 avertissement sur les mots de passe compromis |
+| Performance Advisor | 20 index non utilisés, non supprimés |
+| Fonctions Edge actives | 3 confirmées ; deux parcours membres appellent des fonctions non listées actives |
+| Projets et alias Vercel | Rattachement des trois projets confirmé |
+| Projet Vercel canonique | `majestios` pour `majestios.vercel.app` ; duplication `majestios-ljx1` à clarifier |
+| Domaine MajestiOS.com | Non associé aux trois projets Vercel consultés |
+| Tests Auth/RLS owner/admin/member/viewer multi-tenant | Non exécutés |
+| Protection des previews `majestios-jc8g` | SSO désactivé ; décision de protection à prendre |
+
+Le critère de sortie du Lot 1A reste **partiellement atteint** : l'inventaire et le rapprochement de l'historique des migrations sont désormais fiables, mais les tests d'accès Auth/RLS, la clarification de la duplication Vercel, la protection des previews et la réconciliation des Edge Functions restent à traiter.
