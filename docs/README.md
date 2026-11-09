@@ -28,7 +28,8 @@ Cheexpeer doit pouvoir, selon les droits et les capacités réellement connecté
 - surveiller les sources autorisées et détecter les signaux utiles ;
 - croiser les informations, qualifier les entreprises et les opportunités, expliquer ses conclusions ;
 - assister la prospection et préparer les dossiers, comptes rendus et actions CRM ;
-- analyser la visibilité, le référencement et la réputation numérique ;
+- traduire les appels d'offres en langage de chantier, en distinguant les exigences exactes du dossier, leur explication pratique, les contraintes, compétences, pièces et échéances ;
+- surveiller périodiquement le SEO et la visibilité de MajestiOS, proposer les corrections éditoriales et techniques, actualiser le site dans un cadre préautorisé et mesurer les résultats ;
 - produire des synthèses, rapports et alertes utiles ;
 - aider à contrôler la qualité, la cohérence et l'évolution de MajestiOS ;
 - capitaliser les décisions et enseignements vérifiés pour améliorer les travaux futurs.
