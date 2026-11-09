@@ -27,7 +27,7 @@ function json(body, status = 200, req) {
   return new Response(JSON.stringify(body), { status, headers: responseHeaders(req) });
 }
 
-export function createReputationAuditHandler({ authenticate, analyze = null, fetchImpl = fetch, now = () => new Date().toISOString() } = {}) {
+export function createReputationAuditHandler({ authenticate, consumeQuota = null, analyze = null, fetchImpl = fetch, now = () => new Date().toISOString() } = {}) {
   if (typeof authenticate !== "function") throw new TypeError("AUDIT_AUTHENTICATOR_REQUIRED");
   return async function handleReputationAuditRequest(req) {
     if (req.method === "OPTIONS") return new Response("ok", { headers: responseHeaders(req) });
@@ -64,6 +64,13 @@ export function createReputationAuditHandler({ authenticate, analyze = null, fet
     const objectives = Array.isArray(input?.objectives) ? input.objectives.filter(value => typeof value === "string").slice(0, 12) : [];
     if (subject.length < 2) return json({ error: "Le nom de l'entreprise doit contenir au moins deux caractères." }, 400, req);
     if (siren && !/^\d{9}$/.test(siren)) return json({ error: "Le SIREN doit contenir exactement neuf chiffres." }, 400, req);
+
+    if (typeof consumeQuota === "function") {
+      let allowed;
+      try { allowed = await consumeQuota(user); }
+      catch { return json({ error: "Le contrôle de quota est temporairement indisponible." }, 503, req); }
+      if (!allowed) return json({ error: "La limite quotidienne d’audits est atteinte pour cet espace." }, 429, req);
+    }
 
     try {
       const auditCase = createAuditCase({ subject, siren, website, territory, activity, objectives });
