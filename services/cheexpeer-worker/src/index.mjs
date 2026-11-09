@@ -132,7 +132,10 @@ const server = createServer((req, res) => {
     res.end(JSON.stringify({ error: "Not found" }));
     return;
   }
-  const healthy = !stopping && lastErrorAt === null;
+  const healthy = !stopping && (
+    lastErrorAt === null
+    || (lastSuccessAt !== null && Date.parse(lastSuccessAt) >= Date.parse(lastErrorAt))
+  );
   res.writeHead(healthy ? 200 : 503, { "content-type": "application/json", "cache-control": "no-store" });
   res.end(JSON.stringify({
     status: healthy ? "ok" : "degraded",
