@@ -27,6 +27,13 @@ const handler = createReputationAuditHandler({
     });
     const { data, error } = await userClient.auth.getUser(token);
     if (error || !data?.user?.id) return null;
+    const { data: memberships, error: membershipError } = await userClient
+      .from("organization_members")
+      .select("organization_id")
+      .eq("user_id", data.user.id)
+      .limit(1);
+    if (membershipError) throw new Error("AUDIT_MEMBERSHIP_CHECK_UNAVAILABLE");
+    if (!memberships?.length) return null;
     return { id: data.user.id };
   }
 });
