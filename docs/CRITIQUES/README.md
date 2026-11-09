@@ -52,6 +52,6 @@ Sauf autorisation explicite du porteur du projet, aucun agent ne doit :
 
 ## 6. Dernière actualisation
 
-**Dernière indexation :** 9 novembre 2026 — CRM-03 corrigé dans le code de la branche (migration non appliquée) ; ROADMAP-07 raccordé dans le code, CI et recette distante à confirmer. Le fournisseur IA n’est pas configuré.
+**Dernière indexation :** 9 novembre 2026 — Evolution-7 : worker Cheexpeer isolé et pont serveur renforcé dans Git ; CI worker et CI site vertes sur `b3e2018`. Rien n'est encore déployé pour le worker (Edge non déployée, secrets absents, zéro outil métier activé). Les P0/P1 CRM et Auth restent soumis à leurs recettes et migrations spécifiques. Le fournisseur IA n’est pas configuré. Voir sections 13.11–13.12 de l'architecture d'exécution.
 **Branche de travail autorisée dans le chantier en cours :** Evolution-7.
 **Règle :** actualiser ce point d'entrée et le registre détaillé à chaque évolution significative des anomalies critiques.
