@@ -19,6 +19,14 @@ const analyzer = aiApiKey && aiModel
 
 const handler = createReputationAuditHandler({
   analyze: analyzer,
+  consumeQuota: async user => {
+    if (!user?.organization_id || !user?.quotaClient) throw new Error("AUDIT_QUOTA_CONTEXT_UNAVAILABLE");
+    const { data, error } = await user.quotaClient.rpc("consume_reputation_audit_quota", {
+      p_organization_id: user.organization_id
+    });
+    if (error) throw new Error("AUDIT_QUOTA_CHECK_UNAVAILABLE");
+    return data === true;
+  },
   authenticate: async token => {
     if (!supabaseUrl || !publishableKey) throw new Error("AUTH_CONFIGURATION_UNAVAILABLE");
     const userClient = createClient(supabaseUrl, publishableKey, {
@@ -34,7 +42,7 @@ const handler = createReputationAuditHandler({
       .limit(1);
     if (membershipError) throw new Error("AUDIT_MEMBERSHIP_CHECK_UNAVAILABLE");
     if (!memberships?.length) return null;
-    return { id: data.user.id };
+    return { id: data.user.id, organization_id: memberships[0].organization_id, quotaClient: userClient };
   }
 });
 
