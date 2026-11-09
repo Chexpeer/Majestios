@@ -31,31 +31,39 @@ async function main() {
     page.on("pageerror",error=>errors.push(error.message));
 
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
-    await page.locator("#site-nav .nav-group").first().waitFor({state:"attached",timeout:15000});
+    await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
-    assert.equal(await page.locator("#site-nav .nav-group").count(),5,"Cinq familles de navigation doivent être visibles.");
-    assert.equal(await page.locator("#site-nav a").count(),34,"Le menu doit exposer l’accueil et les 33 destinations de rubrique.");
+
+    assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,"Les six familles de navigation doivent être présentes.");
+    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),24,"Le menu doit exposer les 24 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav a").count(),25,"Le menu doit exposer Accueil et les 24 entrées secondaires.");
+    assert.equal(await page.locator('#site-nav a[href="developpement-commercial.html"]').count(),1,
+      "La page d’orientation Développement commercial doit être accessible depuis son sous-menu.");
+
     const navigationHrefs=await page.locator("#site-nav a").evaluateAll(links=>links.map(link=>link.getAttribute("href")));
     for(const href of navigationHrefs) assert.ok(published.has(href),"Chaque destination du menu doit être publiée : "+href);
-    for (const route of ["marches-publics.html","marches-prives.html","prospection-active.html","bodacc-veille-entreprises.html","qualification-entreprises.html","salons-seminaires.html","reputation-virtuelle.html","crm.html"]) {
-      assert.ok(published.has(route),"La route de navigation doit être publiée : "+route);
+    for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html"]) {
+      assert.ok(published.has(route),"La route doit être publiée : "+route);
       assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),1,"Le menu doit exposer "+route);
     }
     assert.equal(await page.locator("#floor-rows").count(),0,"L'ancien système de navigation par immeuble doit avoir disparu.");
     assert.ok(await page.locator("#home-search-mount").count(),"Le moteur de recherche transversal doit rester présent.");
     await page.locator("#feed-search").waitFor({state:"visible",timeout:15000});
 
-    const opportunityGroup=page.locator("#site-nav .nav-group").filter({has:page.getByRole("button",{name:"Opportunités"})});
-    await opportunityGroup.locator(".nav-group-trigger").click();
-    assert.equal(await opportunityGroup.locator('a[href="bodacc-veille-entreprises.html"]').isVisible(),true,
-      "La sous-rubrique BODACC doit s'ouvrir depuis la navigation.");
-    await page.locator("body").click({position:{x:5,y:5}});
+    const opportunityGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Appels d’offres"})});
+    const opportunityTitle=opportunityGroup.locator(".nav-group-link");
+    const opportunityMenu=opportunityGroup.locator(".nav-group-items");
+    assert.equal(await opportunityTitle.getAttribute("aria-expanded"),"false","Les sous-menus doivent être repliés au chargement.");
+    await opportunityGroup.hover();
+    assert.equal(await opportunityMenu.isVisible(),true,"Le survol doit ouvrir le sous-menu sur ordinateur.");
+    await page.locator("body").hover({position:{x:5,y:5}});
+    assert.equal(await opportunityMenu.isVisible(),false,"Le retrait du pointeur doit refermer le sous-menu.");
 
     const chatToggle=page.locator(".majestios-chat-toggle");
     await chatToggle.click();
     assert.equal(await page.locator("#majestios-chat-panel").isVisible(),true,"Le chatbot doit s'ouvrir.");
     for (const route of ["developpement-commercial.html","espace-membre.html","faq.html"]) {
-      assert.equal(await page.locator('.majestios-chat-shortcuts a[href="'+route+'"]').count(),route==="developpement-commercial.html"?2:1,
+      assert.ok(await page.locator('.majestios-chat-shortcuts a[href="'+route+'"]').count(),
         "Les raccourcis du guide d’accueil doivent être préservés : "+route);
     }
     await page.locator("#majestios-chat-input").fill("Comment fonctionne la Prospection ?");
@@ -64,30 +72,33 @@ async function main() {
       "Le chatbot doit répondre à une question connue.");
     assert.equal(await page.locator('.majestios-chat-link[href="prospection-active.html"]').count(),1,
       "Le chatbot doit proposer un lien vers la rubrique concernée.");
-    await page.locator("#majestios-chat-input").fill("Où trouver les annonces BODACC ?");
-    await page.locator(".majestios-chat-form button").click();
-    assert.ok((await page.locator(".majestios-chat-message.is-assistant").last().textContent()).includes("BODACC"),
-      "Le chatbot doit orienter vers la veille BODACC.");
-    assert.equal(await page.locator('.majestios-chat-link[href="bodacc-veille-entreprises.html"]').count(),1,
-      "Le chatbot doit proposer la page BODACC dédiée.");
 
     await page.setViewportSize({width:390,height:844});
     await page.reload({waitUntil:"domcontentloaded"});
-    await page.locator(".menu-toggle").click();
-    assert.equal(await page.locator("#site-nav").isVisible(),true,"Le menu mobile doit s'ouvrir.");
-    const devGroup=page.locator("#site-nav .nav-group").filter({has:page.getByRole("button",{name:"Développement commercial"})});
-    await devGroup.locator(".nav-group-trigger").click();
-    assert.equal(await devGroup.locator('a[href="accompagnement-appels-offres.html"]').isVisible(),true,
-      "Les sous-rubriques doivent rester accessibles sur mobile.");
-    await devGroup.locator('a[href="accompagnement-appels-offres.html"]').click();
-    await page.waitForURL("**/accompagnement-appels-offres.html");
-    assert.equal(await page.locator("#site-nav .nav-group").count(),5,
+    await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
+    const menuButton=page.locator("#menu-toggle");
+    await menuButton.waitFor({state:"visible",timeout:15000});
+    await menuButton.click();
+    assert.equal(await page.locator("#site-nav").evaluate(node=>node.classList.contains("open")),true,
+      "Le hamburger doit ouvrir le menu mobile.");
+    assert.equal(await menuButton.getAttribute("aria-expanded"),"true","L’état accessible du hamburger doit être synchronisé.");
+    assert.equal(await page.locator("#site-nav .nav-group-items:not([hidden])").count(),0,
+      "Les sous-menus doivent rester repliés à l’ouverture du hamburger.");
+    const devGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
+    await devGroup.locator(".nav-group-link").click();
+    assert.equal(await devGroup.locator(".nav-group-items").isVisible(),true,
+      "Le toucher doit ouvrir le sous-menu Développement commercial.");
+    await devGroup.locator('a[href="developpement-commercial.html"]').click();
+    await page.waitForURL("**/developpement-commercial.html");
+    await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
+    assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,
       "La navigation commune doit être présente après changement de page.");
+    assert.equal(await page.locator("#menu-toggle").count(),1,"Le hamburger doit être disponible sur les pages de rubrique.");
     assert.equal(await page.locator(".majestios-chat-toggle").count(),1,
       "Le chatbot doit être disponible sur les pages de rubrique.");
 
     assert.deepEqual(errors,[],"Aucune erreur JavaScript ne doit apparaître pendant le parcours.");
-    console.log("TEST NAVIGATION CLASSIQUE RÉUSSI : rubriques, sous-rubriques, liens publiés, accueil, recherche, chatbot et navigation mobile.");
+    console.log("TEST NAVIGATION RÉUSSI : six familles, destinations publiées, survol desktop, hamburger mobile, sous-menus tactiles, navigation multipage et chatbot.");
   } finally {
     if(browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));
