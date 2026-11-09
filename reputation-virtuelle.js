@@ -1,5 +1,12 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
+import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
+
 (() => {
   "use strict";
+
+  const supabase = createClient(MAJESTIOS_SUPABASE.url, MAJESTIOS_SUPABASE.publishableKey, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+  });
 
   const root = document.querySelector("[data-reputation-workspace]");
   const page = document.querySelector(".reputation-page");
@@ -11,6 +18,7 @@
   const dossierState = page.querySelector("[data-audit-dossier-state]");
   const dossierSummary = page.querySelector("[data-audit-dossier-summary]");
   const resetButton = page.querySelector("[data-audit-dossier-reset]");
+  const runAuditButton = page.querySelector("[data-audit-run]");
   const DOSSIER_KEY = "majestios.reputation.auditDossier.v1";
   const LOG_KEY = "majestios.reputation.searchLog.v1";
   let dossier = null;
@@ -56,6 +64,7 @@
     heading.textContent = "Dossier d’audit actif";
     dossierSummary.append(heading);
     addTextRow(dossierSummary, "Entreprise", dossier.company);
+    addTextRow(dossierSummary, "SIREN", dossier.siren);
     addTextRow(dossierSummary, "Activité", dossier.activity);
     addTextRow(dossierSummary, "Site", dossier.website);
     addTextRow(dossierSummary, "Territoire", dossier.territory);
@@ -137,6 +146,7 @@
     const values = new FormData(dossierForm);
     dossier = {
       company: String(values.get("company") || "").trim(),
+      siren: String(values.get("siren") || "").replace(/\\s+/g, "").trim(),
       activity: String(values.get("activity") || "").trim(),
       website: String(values.get("website") || "").trim(),
       territory: String(values.get("territory") || "").trim(),
@@ -149,6 +159,122 @@
       return;
     }
     renderDossier();
+  });
+
+
+  const renderAuditReport = (result) => {
+    output.replaceChildren();
+    const heading = document.createElement("h3");
+    heading.textContent = result.analysis?.summary || result.notice || "Collecte Cheexpeer terminée";
+    output.append(heading);
+
+    const notice = document.createElement("p");
+    notice.textContent = result.analysis?.notice || result.analysis_notice || result.notice || "";
+    output.append(notice);
+
+    const evidence = result.analysis?.evidence || result.evidence || [];
+    const evidenceHeading = document.createElement("h4");
+    evidenceHeading.textContent = "Éléments vérifiés (" + evidence.length + ")";
+    output.append(evidenceHeading);
+    const evidenceList = document.createElement("ul");
+    evidence.forEach((item) => {
+      const li = document.createElement("li");
+      const title = document.createElement("strong");
+      title.textContent = item.title || "Observation";
+      const detail = document.createElement("p");
+      detail.textContent = (item.excerpt || "") + " · " + (item.subject_match || "correspondance non confirmée");
+      li.append(title, detail);
+      if (item.reference) {
+        const link = document.createElement("a");
+        link.href = item.reference;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Consulter la source";
+        li.append(link);
+      }
+      evidenceList.append(li);
+    });
+    output.append(evidenceList);
+
+    const findings = result.analysis?.findings || [];
+    const findingsHeading = document.createElement("h4");
+    findingsHeading.textContent = "Constats soumis à validation (" + findings.length + ")";
+    output.append(findingsHeading);
+    const findingsList = document.createElement("ol");
+    findings.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = "[" + item.classification + " · confiance " + item.confidence + "] " + item.statement +
+        " — preuves : " + item.evidence_ids.join(", ");
+      findingsList.append(li);
+    });
+    output.append(findingsList);
+
+    const recommendations = result.analysis?.recommendations || [];
+    if (recommendations.length) {
+      const recommendationsHeading = document.createElement("h4");
+      recommendationsHeading.textContent = "Pistes d’action à valider";
+      output.append(recommendationsHeading);
+      const list = document.createElement("ul");
+      recommendations.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item.action + " — " + item.rationale;
+        list.append(li);
+      });
+      output.append(list);
+    }
+
+    const gaps = result.analysis?.gaps || [];
+    if (gaps.length) {
+      const gapsHeading = document.createElement("h4");
+      gapsHeading.textContent = "Informations encore nécessaires";
+      output.append(gapsHeading);
+      const list = document.createElement("ul");
+      gaps.forEach((gap) => {
+        const li = document.createElement("li");
+        li.textContent = gap;
+        list.append(li);
+      });
+      output.append(list);
+    }
+    setStatus(result.analysis ? "Analyse Cheexpeer prête · validation humaine requise" : "Collecte seule · moteur IA non configuré");
+  };
+
+  runAuditButton?.addEventListener("click", async () => {
+    if (!dossier) {
+      showMessage("Dossier incomplet", "Préparez d’abord le dossier de l’entreprise.");
+      return;
+    }
+    runAuditButton.disabled = true;
+    setStatus("Collecte et analyse en cours…");
+    showMessage("Cheexpeer travaille", "Vérification des sources officielles et préparation des constats. Cette opération peut prendre quelques instants.");
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData?.session;
+      if (!session?.access_token) {
+        showMessage("Connexion requise", "Connectez-vous à votre espace privé MajestiOS pour lancer un audit Cheexpeer.");
+        setStatus("Authentification requise");
+        return;
+      }
+      const { data, error } = await supabase.functions.invoke("reputation-audit-context", {
+        body: {
+          subject: dossier.company,
+          siren: dossier.siren,
+          website: dossier.website,
+          activity: dossier.activity,
+          territory: dossier.territory,
+          objectives: [dossier.objective, dossier.audience].filter(Boolean)
+        },
+        headers: { Authorization: "Bearer " + session.access_token }
+      });
+      if (error) throw error;
+      if (!data || data.error) throw new Error(data?.error || "Réponse Cheexpeer invalide.");
+      renderAuditReport(data);
+    } catch (error) {
+      showMessage("Audit non abouti", error?.message || "Le service Cheexpeer est momentanément indisponible. Aucune conclusion n’a été produite.");
+      setStatus("Échec de l’audit");
+    } finally {
+      runAuditButton.disabled = false;
+    }
   });
 
   resetButton?.addEventListener("click", () => {
@@ -198,7 +324,7 @@
   });
 
   showMessage(
-    "Commencez par une recherche",
-    "Cheexpeer a vocation à conduire lui-même les recherches et l’analyse à partir de sources autorisées. Dans ce prototype, le dossier est préparé manuellement et les consultations Google restent manuelles ; aucun diagnostic automatique n’est encore produit."
+    "Cheexpeer · audit assisté",
+    "Préparez le dossier puis lancez un audit depuis votre espace membre. Cheexpeer collecte le contexte administratif et les annonces légales accessibles ; si le moteur IA est configuré côté serveur, il analyse les seules preuves disponibles. La validation humaine reste obligatoire."
   );
 })();
