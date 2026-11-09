@@ -114,6 +114,9 @@ export function validateCheexpeerAnalysis(raw, indexedEvidence) {
       throw new TypeError("AUDIT_ANALYSIS_EVIDENCE_REFERENCE_INVALID");
     }
     const evidence = referenced.map(id => evidenceMap.get(id));
+    if (evidence.some(entry => entry.subject_match === "rejected")) {
+      throw new TypeError("AUDIT_ANALYSIS_REJECTED_EVIDENCE_REFERENCE");
+    }
     if (item.classification === "fact" && evidence.some(entry => entry.subject_match !== "confirmed")) {
       throw new TypeError("AUDIT_ANALYSIS_FACT_NOT_CONFIRMED");
     }
