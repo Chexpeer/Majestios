@@ -38,7 +38,8 @@
     document.body.append(overlay);
 
     const closeDrawer = () => { nav.classList.remove("open"); document.body.classList.remove("nav-drawer-active"); menuButton.setAttribute("aria-expanded","false"); menuButton.setAttribute("aria-label","Ouvrir le menu"); overlay.classList.remove("is-visible"); overlay.hidden = true; };
-    const openDrawer = () => { nav.classList.add("open"); document.body.classList.add("nav-drawer-active"); menuButton.setAttribute("aria-expanded","true"); menuButton.setAttribute("aria-label","Fermer le menu"); overlay.hidden = false; requestAnimationFrame(() => overlay.classList.add("is-visible")); };\n    menuButton.addEventListener("click",() => nav.classList.contains("open") ? closeDrawer() : openDrawer());
+    const openDrawer = () => { nav.classList.add("open"); document.body.classList.add("nav-drawer-active"); menuButton.setAttribute("aria-expanded","true"); menuButton.setAttribute("aria-label","Fermer le menu"); overlay.hidden = false; requestAnimationFrame(() => overlay.classList.add("is-visible")); };
+    menuButton.addEventListener("click",() => nav.classList.contains("open") ? closeDrawer() : openDrawer());
     overlay.addEventListener("click",closeDrawer);
     document.addEventListener("keydown",e => { if(e.key === "Escape") closeDrawer(); });
 
