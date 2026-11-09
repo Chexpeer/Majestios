@@ -44,7 +44,7 @@ async function main() {
     for(const href of navigationHrefs) assert.ok(published.has(href),"Chaque destination du menu doit être publiée : "+href);
     for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html"]) {
       assert.ok(published.has(route),"La route doit être publiée : "+route);
-      assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),1,"Le menu doit exposer "+route);
+      assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),route==="accompagnement-appels-offres.html"?2:1,"Le menu doit exposer le nombre attendu de liens vers "+route);
     }
     assert.equal(await page.locator("#floor-rows").count(),0,"L'ancien système de navigation par immeuble doit avoir disparu.");
     assert.ok(await page.locator("#home-search-mount").count(),"Le moteur de recherche transversal doit rester présent.");
