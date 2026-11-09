@@ -40,3 +40,23 @@ Cette fonction est un endpoint authentifié de recherche avancée. Elle réutili
 | `reputation-audit-context` | Handler authentifié et tests ajoutés dans `reputation-audit-context/index.ts` | **Non déployée** |
 
 L'endpoint vérifie la session de l'utilisateur, valide le nom et le SIREN, puis retourne un contexte d'identité administrative et des annonces commerciales BODACC normalisés. Il n'effectue pas d'audit de réputation en ligne, ne stocke rien en base et n'utilise pas `service_role`. Les sources partagées sont placées sous `_shared/`. La recherche BODACC filtrée dispose d'un smoke test dédié dans la CI. Ne pas présenter la fonction comme active avant déploiement et test authentifié en environnement non-production.
+
+
+## Worker Cheexpeer — 9 novembre 2026
+
+| Fonction | Statut Git | Statut Supabase |
+|---|---|---|
+| `cheexpeer-worker-bridge` | Handler ajouté dans `cheexpeer-worker-bridge/index.ts` | **Non déployée** |
+
+Cette fonction est un pont serveur-à-serveur très limité. Elle vérifie un secret indépendant `CHEEXPEER_WORKER_SECRET`, puis appelle uniquement les RPC de la file et du cycle de vie Cheexpeer. La vérification JWT de la passerelle Edge doit rester activée ; le worker présente une clé serveur dans l'en-tête Authorization. Le secret partagé supplémentaire est obligatoire.
+
+Actions autorisées : dispatch des missions dues, lecture des réveils PGMQ, claim, archivage d'un réveil, renouvellement du bail, clôture ou échec d'une mission. Aucun endpoint générique SQL, aucune lecture de table libre et aucun accès navigateur ne sont fournis.
+
+Le paquet conteneurisé `services/cheexpeer-worker` n'est pas encore déployé. Il ne sait exécuter que `readiness_probe` au niveau d'autonomie 0 ; les autres types sont refusés. Aucun outil métier n'est activé dans le registre.
+
+Avant tout déploiement :
+- définir `CHEEXPEER_WORKER_SECRET` dans les secrets Edge Supabase ;
+- définir `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` et le même secret dans le gestionnaire de secrets du worker ;
+- déployer la fonction Edge en environnement de test, puis vérifier les refus sans secret et avec un mauvais secret ;
+- démarrer un seul worker de recette et exécuter une mission readiness_probe ;
+- ne jamais utiliser la clé service_role côté navigateur.
