@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { normalizeEvidence, toAuditEvidenceDTO } from "../reputation-audit-core.mjs";
 import {
-  REPUTATION_SOURCE_REGISTRY, createOfficialCompanyIdentityAdapter,
+  REPUTATION_SOURCE_REGISTRY, createOfficialCompanyIdentityAdapter, createBodaccLegalEventsAdapter,
   runReputationCollection, toReputationCollectionDTO, ReputationCollectionError
 } from "../reputation-audit-connectors.mjs";
 
@@ -71,4 +71,36 @@ test("manual and planned sources are never executed as automatic adapters", asyn
   assert.equal(called, false);
   assert.equal(result.status, "blocked");
   assert.equal(result.source_results.length, 0);
+});
+
+
+test("BODACC adapter builds a constrained official query and normalizes legal notices", async () => {
+  let requestedUrl = "";
+  const adapter = createBodaccLegalEventsAdapter({
+    now: () => "2026-11-09T09:00:00.000Z",
+    fetchImpl: async url => {
+      requestedUrl = url;
+      return response({ results: [{
+        id: "A202600001234", commercant: "ATELIER EXEMPLE", dateparution: "2026-11-08",
+        typeavis_lib: "Avis initial", familleavis_lib: "Créations", ville: "Le Mans",
+        departement_nom_officiel: "Sarthe", url_complete: "https://www.bodacc.fr/pages/annonces-commerciales-detail/?id=A202600001234"
+      }] });
+    }
+  });
+  const items = await adapter.collect({ auditCase });
+  const url = new URL(requestedUrl);
+  assert.equal(url.hostname, "bodacc-datadila.opendatasoft.com");
+  assert.match(url.searchParams.get("where"), /search\(commercant,/);
+  assert.equal(url.searchParams.get("limit"), "10");
+  assert.equal(items.length, 1);
+  assert.equal(items[0].evidence_type, "legal_event");
+  assert.equal(items[0].subject_match, "confirmed");
+  assert.equal(items[0].source_record_id, "A202600001234");
+  assert.match(items[0].limitations.join(" "), /pas une appréciation de la réputation/);
+});
+
+test("BODACC rate limits are surfaced as a stable connector error", async () => {
+  const adapter = createBodaccLegalEventsAdapter({ fetchImpl: async () => ({ ok: false, status: 429 }) });
+  await assert.rejects(adapter.collect({ auditCase }), error =>
+    error instanceof ReputationCollectionError && error.code === "BODACC_RATE_LIMITED");
 });
