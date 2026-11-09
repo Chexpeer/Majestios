@@ -213,7 +213,7 @@ assert.match(crmActivityHistory, /insert into public\.activities/);
 assert.match(crmActivityHistory, /'changed_fields', to_jsonb\(v_changed_fields\)/);
 assert.match(crmActivityHistory, /'event', 'created'/);
 assert.match(crmActivityHistory, /'event', 'updated'/);
-assert.match(client, /L'historique est écrit par le trigger SQL/);
+assert.match(client, /Le trigger SQL écrit l'activité dans la même transaction/);
 assert.match(client, /\.contains\("metadata", \{ event: "updated", entity_type: table, entity_id: id, changed_fields: changedFields \}\)/);
 assert.match(client, /historyRecorded: !historyReadError && Boolean\(historyRows\?\.length\)/);
 assert.doesNotMatch(client, /const \{ error: historyError \} = await supabase\.from\("activities"\)\.insert/);
