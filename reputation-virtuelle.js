@@ -55,9 +55,11 @@ import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
       dossierState.textContent = "Dossier non renseigné";
       dossierSummary.hidden = true;
       dossierSummary.replaceChildren();
+      if (runAuditButton) runAuditButton.disabled = true;
       return;
     }
     dossierState.textContent = "Dossier préparé · session en cours";
+    if (runAuditButton) runAuditButton.disabled = false;
     dossierSummary.hidden = false;
     dossierSummary.replaceChildren();
     const heading = document.createElement("h3");
