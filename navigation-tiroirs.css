@@ -355,3 +355,65 @@ html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a[aria-curren
     border-bottom:1px solid rgba(23,50,79,.1)!important;
   }
 }
+
+
+/* Sous-onglets sans panneau : fond totalement invisible, couleur portée
+   uniquement par les libellés. Palette distincte par rubrique. */
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items:not([hidden]){
+  background:transparent!important;
+  background-color:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  padding:7px 4px!important;
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:link,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:visited{
+  display:block!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  opacity:1!important;
+  text-shadow:none!important;
+  font-weight:700!important;
+  text-decoration:none!important;
+  padding:8px 10px!important;
+  transition:color .15s ease,transform .15s ease!important;
+}
+html body nav.site-nav-drawer .nav-drawer-section:nth-of-type(1) .nav-group-items a{color:#36b7c4!important}
+html body nav.site-nav-drawer .nav-drawer-section:nth-of-type(2) .nav-group-items a{color:#75aaff!important}
+html body nav.site-nav-drawer .nav-drawer-section:nth-of-type(3) .nav-group-items a{color:#55bd87!important}
+html body nav.site-nav-drawer .nav-drawer-section:nth-of-type(4) .nav-group-items a{color:#c19aef!important}
+html body nav.site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a{color:#f0ad69!important}
+html body nav.site-nav-drawer .nav-drawer-section:nth-of-type(6) .nav-group-items a{color:#aebbd0!important}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:hover,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:focus-visible,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a[aria-current="page"]{
+  background:transparent!important;
+  background-color:transparent!important;
+  text-decoration:underline!important;
+  text-underline-offset:4px!important;
+  filter:brightness(1.18)!important;
+  transform:translateX(2px);
+}
+@media(max-width:900px){
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items,
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items:not([hidden]){
+    margin:0 0 8px 8px!important;
+    padding:3px 0 3px 8px!important;
+    border:0!important;
+    background:transparent!important;
+    background-color:transparent!important;
+    box-shadow:none!important;
+  }
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a{
+    min-height:40px!important;
+    padding:9px 10px!important;
+    border:0!important;
+    background:transparent!important;
+  }
+}
