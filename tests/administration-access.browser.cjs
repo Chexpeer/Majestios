@@ -141,6 +141,7 @@ async function main() {
       }));
       await directSearch.goto("http://127.0.0.1:4177/admin-recherches.html", {waitUntil:"domcontentloaded"});
       await directSearch.locator("#gate").waitFor({state:"visible",timeout:5000});
+      await directSearch.waitForFunction(() => /rôle attribué ne permet pas/i.test(document.querySelector("#gate-message")?.textContent || ""), null, {timeout:5000});
       assert.equal(await directSearch.locator("#workspace").isVisible(), false,
         "L’accès direct aux recherches d’administration doit être refusé au rôle " + role + ".");
       assert.match(await directSearch.locator("#gate-message").innerText(), /rôle attribué ne permet pas/i);
