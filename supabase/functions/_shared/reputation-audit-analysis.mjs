@@ -2,7 +2,7 @@ import { toAuditEvidenceDTO } from "./reputation-audit-core.mjs";
 
 export const ANALYSIS_CATEGORIES = Object.freeze([
   "identity", "legal_context", "web_presence", "local_presence", "social_presence",
-  "reviews", "seo", "competition", "conversion", "other"
+  "reviews", "reputation", "seo", "competition", "conversion", "other"
 ]);
 export const ANALYSIS_CLASSIFICATIONS = Object.freeze(["fact", "interpretation", "hypothesis"]);
 export const ANALYSIS_LEVELS = Object.freeze(["low", "medium", "high"]);
