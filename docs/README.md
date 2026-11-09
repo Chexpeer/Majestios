@@ -33,7 +33,14 @@ Cheexpeer doit pouvoir, selon les droits et les capacités réellement connecté
 - aider à contrôler la qualité, la cohérence et l'évolution de MajestiOS ;
 - capitaliser les décisions et enseignements vérifiés pour améliorer les travaux futurs.
 
-Cheexpeer est transversal : il relie les rubriques et les données autorisées au lieu de fonctionner en silos. Ses compétences peuvent être spécialisées, mais son identité reste unique et clairement visible.
+Cheexpeer est transversal : il relie les rubriques et les données autorisées au lieu de fonctionner en silos. Son identité reste unique et s'exprime dans quatre espaces complémentaires :
+
+- **Chat utilisateurs** : assistance et échanges avec les utilisateurs de MajestiOS.
+- **Tableau de bord admin** : poste de pilotage privilégié où l'administrateur dialogue directement avec Cheexpeer, lui confie des tâches, suit ses analyses, consulte les alertes et valide les actions qui le nécessitent.
+- **Supabase / CRM** : accès contrôlé aux données et opérations métier.
+- **GitHub / développement** : audit du code, anomalies, tests, corrections et documentation.
+
+Le tableau de bord admin est le centre de supervision de Cheexpeer, pas une clé universelle. Les espaces partagent une orchestration et une capitalisation gouvernée, mais conservent des permissions, contextes et journaux distincts. Cheexpeer doit progressivement archiver et historiser les échanges, décisions, preuves, anomalies, corrections et résultats ; retrouver les éléments pertinents ; capitaliser les enseignements vérifiés ; et proposer des optimisations ergonomiques. Cet « apprentissage » est une capitalisation contrôlée, pas un entraînement autonome du modèle ni une autorisation de modifier ou publier sans validation.
 
 **Principe de confiance :** Cheexpeer observe, analyse et prépare en priorité. Les écritures CRM, prises de contact, publications, dépenses, changements de droits et interventions en production restent soumis aux autorisations et validations adaptées. Une capacité décrite dans la documentation n'est pas réputée opérationnelle tant qu'elle n'a pas été implémentée et testée.
 
@@ -46,7 +53,7 @@ Cheexpeer est transversal : il relie les rubriques et les données autorisées a
 | 3 | [Référence MajestiOS V5](evolution-5.0/MAJESTIOS-V5-REFERENCE.md) | État de référence, architecture et décisions structurantes |
 | 4 | [Architecture fonctionnelle cible](evolution-5.0/ARCHITECTURE-FONCTIONNELLE-CIBLE.md) | Organisation des domaines métier et de leurs relations |
 | 5 | [Référentiel Evolution-7](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Refonte du site, navigation et première interface conversationnelle |
-| 6 | [Intégration de Cheexpeer — état du lot](evolution-7/LOT-CHEXPEER-INTEGRATION-2026-11-09.md) | Connexions réellement actives, limites et ordre de raccordement CRM puis services métier ; GitHub séparé |
+| 6 | [Intégration de Cheexpeer — état du lot](evolution-7/LOT-CHEXPEER-INTEGRATION-2026-11-09.md) | Connexions réellement actives, limites et architecture cible des quatre espaces Cheexpeer |
 | 7 | [Registre des anomalies prioritaires](evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md) | Défauts avérés et risques à traiter, distincts des évolutions souhaitées |
 
 ## 4. Organisation de la documentation
