@@ -23,15 +23,15 @@
         return;
       }
       Object.entries({
-        display:"flex",position:"relative","z-index":"2601",width:"48px","min-width":"48px",
-        height:"48px","min-height":"48px",padding:"10px",flex:"0 0 48px",
-        "flex-direction":"column","align-items":"center","justify-content":"center",gap:"5px",
-        background:"#ffffff",border:"2px solid #d5b45b","border-radius":"10px",
-        "box-shadow":"0 2px 8px #07122535",visibility:"visible",opacity:"1",
+        display:"flex",position:"relative","z-index":"2601",width:"34px","min-width":"34px",
+        height:"34px","min-height":"34px",padding:"6px",flex:"0 0 34px",
+        "flex-direction":"column","align-items":"center","justify-content":"center",gap:"4px",
+        background:"transparent",border:"0","border-radius":"0",
+        "box-shadow":"none",visibility:"visible",opacity:"1",
         "pointer-events":"auto",cursor:"pointer"
       }).forEach(([p,v]) => setImportant(menuButton,p,v));
       menuButton.querySelectorAll("span").forEach(span => {
-        Object.entries({display:"block",width:"23px",height:"2px","min-height":"2px",
+        Object.entries({display:"block",width:"18px",height:"2px","min-height":"2px",
           flex:"0 0 2px",margin:"0",background:"#17324f","border-radius":"2px"}).
           forEach(([p,v]) => setImportant(span,p,v));
       });
