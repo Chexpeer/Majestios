@@ -62,3 +62,31 @@ html body .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{ba
    color:#17324f!important;background:#eaf1f8!important;
  }
 }
+
+/* Hotfix hamburger: le header forme la couche supérieure; le tiroir reste en dessous. */
+@media(max-width:900px){
+ html body header.site-header{
+   position:sticky!important;top:0!important;z-index:2300!important;
+   display:flex!important;align-items:center!important;justify-content:space-between!important;
+   overflow:visible!important;isolation:isolate!important;
+ }
+ html body header.site-header button.menu-toggle{
+   display:flex!important;visibility:visible!important;opacity:1!important;
+   position:relative!important;inset:auto!important;z-index:2305!important;
+   flex:0 0 44px!important;width:44px!important;min-width:44px!important;
+   height:44px!important;min-height:44px!important;padding:10px!important;
+   align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:5px!important;
+   background:#fff!important;border:1px solid #b8c9dc!important;border-radius:9px!important;
+   box-shadow:0 2px 8px #10243b20!important;cursor:pointer!important;
+ }
+ html body header.site-header button.menu-toggle span{
+   display:block!important;visibility:visible!important;opacity:1!important;
+   width:21px!important;height:2px!important;min-height:2px!important;flex:0 0 2px!important;
+   margin:0!important;border-radius:2px!important;background:#17324f!important;
+   transform:none!important;
+ }
+ html body header.site-header nav.site-nav.site-nav-drawer{
+   z-index:2200!important;
+ }
+ html body button.nav-drawer-overlay{z-index:2190!important}
+}
