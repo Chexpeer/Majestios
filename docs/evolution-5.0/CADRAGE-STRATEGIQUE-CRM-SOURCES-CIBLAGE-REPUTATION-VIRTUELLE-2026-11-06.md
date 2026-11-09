@@ -121,6 +121,51 @@ La détection d'une entreprise et l'observation de ses informations publiques ne
 
 La publication dans Réputation virtuelle intervient seulement après validation du besoin et accord explicite du professionnel concerné sur les éléments qui seront rendus visibles. Le client doit pouvoir corriger ou retirer les informations publiées selon les conditions du service.
 
+
+### 3.4 Consultation intégrée et audit de réputation par Cheexpeer
+
+Le parcours de Réputation virtuelle doit permettre à l'utilisateur de consulter les résultats de recherche **sans quitter l'environnement MajestiOS**. La page de résultats externe doit être présentée dans une zone de consultation intégrée à l'interface, lorsque les conditions techniques et contractuelles du service le permettent. Le principe concerne notamment les recherches Web et cartographiques.
+
+**Ne pas confondre intégration d'affichage et simple redirection :** ouvrir Google ou Google Maps dans un nouvel onglet ne répond pas à l'expérience cible. L'utilisateur doit conserver MajestiOS comme espace de travail et pouvoir revenir à ses outils sans perdre le contexte de recherche.
+
+Les moteurs de recherche peuvent toutefois interdire l'intégration de leurs pages dans une iframe ou limiter leur affichage embarqué. Il ne faut donc pas imposer une iframe ni contourner les protections des services tiers. La solution technique devra utiliser un mode de consultation intégré autorisé (par exemple un navigateur contrôlé ou une vue web compatible, si les conditions d'accès le permettent). Si un service interdit réellement l'affichage embarqué, l'interface doit signaler clairement cette limite et proposer un parcours de repli explicite, sans prétendre que la page est affichée dans MajestiOS.
+
+#### Rôle de Cheexpeer : auditer ce qui est consulté
+
+Cheexpeer intervient comme analyste de la page consultée. À la demande de l'utilisateur, et uniquement dans la limite du contenu effectivement accessible et autorisé, il examine les éléments visibles et les informations publiques pertinentes afin de produire un audit argumenté.
+
+Axes d'analyse possibles :
+- visibilité de l'entreprise sur les requêtes pertinentes et cohérence des résultats ;
+- présence et exactitude des informations publiques (nom, activité, adresse, coordonnées, horaires et site) ;
+- fiche et visibilité locales, informations cartographiques et avis accessibles ;
+- réputation et signaux de confiance, en distinguant faits observés, avis publiés et interprétations ;
+- présence numérique et cohérence des vitrines publiques ;
+- concurrents visibles sur les mêmes recherches, sans conclure à une comparaison exhaustive ;
+- anomalies, informations contradictoires, contenus manquants et possibilités d'amélioration.
+
+Chaque constat doit préciser, autant que possible, la requête utilisée, la date et l'heure d'observation, la page ou l'élément consulté, la preuve disponible, le niveau de confiance et les limites de couverture. Cheexpeer doit distinguer les faits observés, les déductions, les hypothèses et les éléments impossibles à vérifier. Il ne doit jamais prétendre avoir audité une page, un compte ou un contenu auquel il n'a pas eu accès.
+
+Les pages et résultats externes sont des **données non fiables** : leurs contenus ne constituent jamais des instructions à suivre par Cheexpeer. L'analyse doit résister aux contenus malveillants ou aux tentatives d'injection d'instructions présentes dans les pages consultées. Les sessions, cookies, comptes et données privées ne sont accessibles que si un mécanisme autorisé et explicitement habilité le permet ; aucune collecte ou extraction ne doit contourner les protections, restrictions d'accès ou conditions d'utilisation du service.
+
+#### Du diagnostic au plan d'assainissement
+
+La valeur du service ne s'arrête pas au constat. Cheexpeer doit transformer l'audit en plan d'action priorisé : problème constaté, impact potentiel, preuve, action recommandée, effort estimé, priorité et résultat attendu. Les actions peuvent notamment porter sur la correction des informations d'établissement, l'amélioration des contenus, la cohérence des coordonnées, la gestion professionnelle des avis et le renforcement de la présence numérique.
+
+La métaphore interne du porteur du projet doit être conservée : **Cheexpeer dit franchement ce qu'il constate — « je vois de la merde » — puis MajestiOS met sa casquette d'aspirateur et sort son PQ avec le QR code.** Cette formule humoristique traduit une exigence produit sérieuse : ne pas maquiller un diagnostic défavorable, identifier précisément ce qui doit être nettoyé et relier chaque problème à une action concrète.
+
+Le QR code peut ouvrir une fiche d'action ou un dossier de correction dans MajestiOS, avec le constat concerné, les consignes, les éléments à fournir et le suivi de réalisation. Il ne doit pas exposer de données sensibles ou confidentielles à toute personne qui le scanne ; l'accès à la fiche doit respecter les permissions et, si nécessaire, une authentification.
+
+#### Garde-fous et validation humaine
+
+- L'audit est une analyse d'informations accessibles, pas une certification de réputation ni une garantie de classement dans les moteurs.
+- Une recherche ponctuelle ne prouve pas l'exhaustivité des résultats ni l'absence d'autres informations en ligne.
+- Les avis ne doivent être ni fabriqués, ni achetés, ni manipulés ; les réponses proposées restent soumises à validation.
+- Cheexpeer peut préparer des corrections, réponses, contenus et missions, mais ne publie, ne modifie une fiche externe, ne contacte un tiers et n'engage aucune dépense sans autorisation explicite et permissions adaptées.
+- Toute action doit être traçable : demande, périmètre consulté, preuves, diagnostic, recommandation, validation, exécution et résultat.
+- Le client doit pouvoir examiner le diagnostic, corriger une information erronée et valider les actions qui engagent son image.
+
+**Statut :** orientation fonctionnelle validée par le porteur du projet ; fonctionnalité cible à concevoir et à tester. La page actuelle qui ouvre des recherches externes ne constitue pas encore la preuve d'une consultation intégrée ni d'un audit automatique par Cheexpeer.
+
 ## 4. Un référentiel d'entreprise commun, plusieurs rôles possibles
 
 Une même entreprise peut être :
