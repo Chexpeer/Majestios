@@ -1,16 +1,26 @@
 # Instructions de travail pour les agents IA — MajestiOS
 
+## 0. Alerte prioritaire — anomalies critiques
+
+Avant toute intervention, lire obligatoirement [le dossier central des anomalies critiques](docs/CRITIQUES/README.md), puis le registre détaillé de la branche active. Ce point d'entrée est commun à tous les agents et développeurs ; il centralise les risques, les priorités, les statuts et les règles de correction.
+
+**Chantier en cours au 9 novembre 2026 :** la branche autorisée est `Evolution-7`. Pour ce chantier, ses décisions et documents datés les plus récents prévalent sur les descriptions historiques V5 lorsqu'ils divergent. Ne pas modifier `main`, une branche historique ou une autre branche sans autorisation explicite.
+
+La boucle obligatoire est : **détecter → qualifier → corriger → tester → documenter → enregistrer**. Distinguer systématiquement anomalie confirmée, évolution produit et recette non effectuée. Ne jamais présenter une recette non exécutée comme validée.
+
+
 Ce fichier est le point d'entrée canonique pour tout assistant ou agent intervenant dans ce dépôt.
 
 ## 1. Lecture obligatoire
 
-Avant toute intervention sur MajestiOS V5, identifier le dépôt, la branche, le HEAD et la PR éventuelle, puis lire dans cet ordre :
+Avant toute intervention sur la branche autorisée, identifier le dépôt, la branche, le HEAD et la PR éventuelle, puis lire dans cet ordre :
 1. `README.md` et les instructions du dossier concerné ;
-2. `docs/README.md` ;
-3. `docs/evolution-5.0/README.md` ;
-4. `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md` ;
-5. `docs/evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md` ;
-6. les documents V5 utiles au lot concerné.
+2. `docs/CRITIQUES/README.md` et le registre détaillé de la branche active ;
+3. `docs/README.md` ;
+4. `docs/evolution-5.0/README.md` ;
+5. `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md` comme référence historique et de cadrage, en vérifiant les décisions plus récentes ;
+6. `docs/evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md` ;
+7. les documents utiles au lot et à la branche active.
 
 Pour comprendre une décision historique, consulter directement la branche source correspondante. Ne pas recopier les anciens dossiers dans V5 et ne pas prendre une proposition historique pour une décision actuelle.
 
