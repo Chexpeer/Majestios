@@ -248,3 +248,62 @@ html body nav.site-nav-drawer .nav-drawer-section .nav-group-link{
     border-bottom:0!important;
   }
 }
+
+
+/* Ajustement visuel demandé : navigation principale plus compacte,
+   sous-menus transparents avec contraste conservé. */
+@media(min-width:901px){
+  html body .site-header{min-height:50px!important}
+  html body .site-nav-drawer .nav-drawer-section{gap:3px!important}
+  html body .site-nav-drawer .nav-group-link{
+    min-height:32px!important;
+    padding:6px 8px!important;
+    border-radius:6px!important;
+    font-size:11px!important;
+    letter-spacing:.01em!important;
+  }
+  html body .site-nav-drawer .nav-drawer-home{
+    min-height:32px!important;
+    padding:6px 9px!important;
+    border-radius:6px!important;
+    font-size:11px!important;
+  }
+  html body .site-header .site-nav.site-nav-drawer{gap:5px!important}
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items:not([hidden]){
+  background:transparent!important;
+  background-color:transparent!important;
+  border:1px solid rgba(200,213,227,.35)!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:link,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:visited{
+  background:transparent!important;
+  background-color:transparent!important;
+  color:#18324d!important;
+}
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:hover,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a:focus-visible,
+html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a[aria-current="page"]{
+  background:rgba(232,240,248,.58)!important;
+  background-color:rgba(232,240,248,.58)!important;
+}
+@media(max-width:900px){
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items:not([hidden]){
+    background:transparent!important;
+    background-color:transparent!important;
+    border:0!important;
+    border-left:3px solid rgba(84,113,142,.65)!important;
+    box-shadow:none!important;
+    padding:4px 0 4px 9px!important;
+  }
+  html body nav.site-nav-drawer .nav-drawer-section .nav-group-items a{
+    background:transparent!important;
+    background-color:transparent!important;
+    color:#18324d!important;
+    border-bottom:1px solid rgba(23,50,79,.09)!important;
+  }
+}
