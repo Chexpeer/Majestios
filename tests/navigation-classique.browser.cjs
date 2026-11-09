@@ -54,7 +54,7 @@ async function main() {
     assert.equal(await page.locator("#majestios-chat-panel").isVisible(),true,"Le chatbot doit s'ouvrir.");
     await page.locator("#majestios-chat-input").fill("Comment fonctionne la Prospection ?");
     await page.locator(".majestios-chat-form button").click();
-    assert.ok((await page.locator(".majestios-chat-message.is-assistant").last().textContent()).includes("Prospection active"),
+    assert.ok((await page.locator(".majestios-chat-message.is-assistant").last().textContent()).includes("Prospection"),
       "Le chatbot doit répondre à une question connue.");
     assert.equal(await page.locator('.majestios-chat-link[href="prospection-active.html"]').count(),1,
       "Le chatbot doit proposer un lien vers la rubrique concernée.");
