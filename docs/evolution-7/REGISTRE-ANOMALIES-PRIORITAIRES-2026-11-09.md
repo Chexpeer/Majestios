@@ -17,7 +17,7 @@
 **À traiter en premier :**
 1. **AUTH-01 — OTP / espace membre (P0) :** recette réelle d'envoi, validation, expiration, limites de débit et provisionnement encore manquante.
 2. **CRM-06 — import officiel (P0) :** correctif de la frontière VIP préparé et testé en CI ; migration non appliquée, recette multi-rôles obligatoire.
-3. **AUTH-02 — consentement (P1) :** contrôle serveur des métadonnées de consentement encore à corriger.
+3. **AUTH-02 — consentement (P1) :** contrôle des métadonnées ajouté dans l'Edge Function et test de contrat ; CI à confirmer, preuve juridique forte non établie.
 4. **CRM-02 — traçabilité (P1) :** correction atomique préparée et testée ; migration non appliquée, recette transactionnelle requise.
 5. **CRM-03 — privilèges CRM (P1) :** restriction des colonnes préparée et testée ; privilèges distants à vérifier.
 6. **CRM-04 — RPC des relances (P1) :** contrôle VIP corrigé dans le code ; migration non appliquée, recette multi-rôles requise.
