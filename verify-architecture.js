@@ -172,11 +172,14 @@ const supabaseConfig = read("supabase-config.js");
 const workspaceFunction = read("supabase/functions/provision-client-workspace/index.ts");
 assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes('data-supabase-auth'),
   "Espace membre : le formulaire doit utiliser le contrôleur Auth Supabase");
-assert(memberPage.includes('name="privacyAccepted"') && memberPage.includes('name="passwordConfirm"'),
-  "Espace membre : prise de connaissance de la politique et confirmation du nouveau mot de passe attendues");
-assert(memberAuth.includes("signUp(") && memberAuth.includes("signInWithPassword(") &&
-  memberAuth.includes("resetPasswordForEmail(") && memberAuth.includes("updateUser({ password })"),
-  "Espace membre : inscription, connexion et récupération du mot de passe doivent être implémentées");
+assert(memberPage.includes('name="privacyAccepted"') && memberPage.includes('autocomplete="one-time-code"'),
+  "Espace membre : consentement et saisie du code OTP attendus");
+assert(memberAuth.includes("signUp(") && memberAuth.includes("signInWithOtp(") &&
+  memberAuth.includes("verifyOtp(") && memberAuth.includes("shouldCreateUser: false"),
+  "Espace membre : inscription, connexion OTP et vérification du code doivent être implémentées");
+assert(!memberPage.includes('name="password"') && !memberPage.includes('name="passwordConfirm"') &&
+  !memberAuth.includes("signInWithPassword(") && !memberAuth.includes("resetPasswordForEmail("),
+  "Espace membre : aucun mot de passe ne doit être demandé dans le parcours OTP");
 assert(memberAuth.includes('provision-client-workspace') && memberAuth.includes('privacy_notice_acknowledged'),
   "Espace membre : le provisionnement sécurisé du tenant doit être appelé après authentification");
 assert(!/SUPABASE_SERVICE_ROLE_KEY|sb_secret_[A-Za-z0-9]+/i.test(supabaseConfig),
