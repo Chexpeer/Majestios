@@ -34,7 +34,9 @@ Les frontières minimales suivantes restent en place :
 
 - chaque client consulte et modifie ses propres données et celles auxquelles son organisation a légitimement accès ;
 - les données privées d'une autre organisation restent inaccessibles ;
-- le CRM doit permettre les opérations ordinaires nécessaires aux tests dans l'espace propre du client, selon les fonctions réellement disponibles ;
+- le CRM interne MajestiOS est prioritaire et doit être éprouvé par l'administrateur avant toute promotion d'un CRM client ;
+- le CRM destiné aux organisations clientes n'est pas un prérequis à l'ouverture pilote générale : son lancement intervient dans une phase ultérieure, après maîtrise de l'outil interne et validation de ses usages ; sa première version est minimale, modulaire et limitée aux besoins réellement identifiés ;
+- lorsqu'un module CRM client sera ouvert, ses utilisateurs autorisés agiront uniquement dans les données de leur propre organisation ; les droits techniques tenant-scoped ne valent pas activation automatique du produit CRM client ;
 - l'accès VIP / Administration reste distinct et réservé aux personnes habilitées ;
 - le centre de commande privé de Cheexpeer, ses captures, archives et échanges administrateur ne sont jamais inclus dans l'ouverture pilote ;
 - les secrets, identifiants techniques et configurations d'exploitation ne sont jamais exposés dans l'interface client.
