@@ -79,6 +79,8 @@ Un nouvel adaptateur serveur `reputation-audit-provider.mjs` permet de joindre u
 
 Les tests ajoutés couvrent l’orchestration avec et sans analyse, l’adaptateur fournisseur, la validation de schéma et le comportement d’activation du bouton. Le workflow doit encore être consulté sur le commit courant avant de qualifier le lot de validé.
 
+**Contrôle complémentaire — résilience du fournisseur IA :** le 9 novembre 2026, l’audit du handler a confirmé qu’une exception du fournisseur IA pouvait auparavant faire remonter une erreur globale et masquer les preuves déjà collectées. Le handler isole désormais l’appel d’analyse : en cas d’échec IA, il conserve le DTO de collecte et retourne `status: collection_only` avec `analysis_unavailable` et un message explicite. Un test de non-régression vérifie la conservation des deux preuves lorsque l’analyse échoue. Correction enregistrée dans le commit `48ae1279b9fdfba8561c6ee22b700512b5d5ea0c` ; validation CI de ce commit à confirmer.
+
 **Limites non levées :** connecteurs de collecte limités à l’identité officielle et au BODACC ; pas de collecte automatisée exhaustive du Web, des avis ou des réseaux ; dossier et rapport non persistés ; quotas, contrôle de coûts et historique multi-tenant non réalisés ; aucune recette réelle du fournisseur ou de l’Edge Function déployée.
 
 **Qualification :** ROADMAP-07 passe de « non raccordé » à « raccordement code effectué — CI et recette distante à confirmer ». Il ne s’agit pas d’une vulnérabilité de sécurité démontrée. Aucun secret, appel au fournisseur IA, déploiement Edge Function, migration ou changement du projet Supabase hébergé n’a été réalisé.
