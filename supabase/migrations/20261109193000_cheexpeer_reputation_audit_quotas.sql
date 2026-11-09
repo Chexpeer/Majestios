@@ -10,6 +10,9 @@ create table if not exists private.reputation_audit_usage (
   primary key (organization_id, user_id, usage_date)
 );
 
+create index if not exists reputation_audit_usage_org_date_idx
+  on private.reputation_audit_usage (organization_id, usage_date);
+
 revoke all on table private.reputation_audit_usage from public, anon, authenticated, service_role;
 
 create or replace function public.consume_reputation_audit_quota(p_organization_id uuid)
@@ -36,6 +39,11 @@ begin
   perform pg_catalog.pg_advisory_xact_lock(
     pg_catalog.hashtextextended(p_organization_id::text, 0)
   );
+
+  -- Les compteurs détaillés ne sont conservés que 90 jours.
+  delete from private.reputation_audit_usage
+   where organization_id = p_organization_id
+     and usage_date < v_usage_date - 90;
 
   select coalesce(sum(request_count), 0)::integer
     into v_org_count
