@@ -21,6 +21,22 @@
       <p class="eyebrow">VISIBILITÉ · PRÉSENCE LOCALE · IMAGE DE MARQUE</p>
       <h1 id="reputation-title">Que valez-vous <span>sur le Web&nbsp;?</span></h1>
       <p class="reputation-lede">Votre réputation numérique se construit à chaque recherche, chaque fiche locale et chaque avis. Prenez le temps de voir ce que vos futurs clients découvrent de vous.</p>
+      <section class="audit-dossier" aria-labelledby="audit-dossier-title">
+        <div class="audit-dossier-heading"><div><p class="eyebrow">POINT DE DÉPART DE L’AUDIT</p><h2 id="audit-dossier-title">Identifier l’entreprise à auditer</h2></div><span class="audit-dossier-state" data-audit-dossier-state>Dossier non renseigné</span></div>
+        <form data-audit-dossier-form>
+          <div class="audit-form-grid">
+            <label>Entreprise / nom commercial <input name="company" type="text" autocomplete="organization" required placeholder="Nom de l’entreprise"></label>
+            <label>Activité principale <input name="activity" type="text" required placeholder="Métier, produits ou prestations"></label>
+            <label>Site Internet <input name="website" type="url" inputmode="url" placeholder="https://…"></label>
+            <label>Ville et territoire desservi <input name="territory" type="text" required placeholder="Ville, département, zone d’intervention"></label>
+            <label>Clientèle visée <select name="audience"><option value="">À préciser</option><option>Professionnels (B2B)</option><option>Particuliers (B2C)</option><option>Collectivités / donneurs d’ordre publics</option><option>Mixte</option></select></label>
+            <label>Objectif commercial prioritaire <select name="objective" required><option value="">Choisir un objectif</option><option>Recevoir des appels</option><option>Obtenir des demandes de devis</option><option>Gagner des clients / contrats</option><option>Développer la visibilité locale</option><option>Renforcer la confiance et les avis</option><option>Développer les ventes en ligne</option><option>Autre / à préciser</option></select></label>
+          </div>
+          <div class="audit-dossier-actions"><button type="submit">Préparer le dossier d’audit</button><button type="button" class="audit-reset" data-audit-dossier-reset>Réinitialiser</button></div>
+          <p class="audit-storage-note">Prototype : le dossier et le journal des recherches restent uniquement dans la session de ce navigateur. Rien n’est envoyé à un serveur ni conservé dans un compte.</p>
+        </form>
+        <div class="audit-dossier-summary" data-audit-dossier-summary hidden aria-live="polite"></div>
+      </section>
       <div class="reputation-workspace" data-reputation-workspace>
         <div class="reputation-searches">
           <form class="reputation-search-card" data-reputation-search="web">
