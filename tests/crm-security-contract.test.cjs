@@ -11,6 +11,9 @@ const crmColumnHardening = read("supabase/migrations/20261109160000_restrict_crm
 const crmActivityHistory = read("supabase/migrations/20261109170000_atomic_crm_activity_history.sql");
 const crmRelationshipIntegrity = read("supabase/migrations/20261109190000_enforce_crm_business_relationships.sql");
 const reminderVipHardening = read("supabase/migrations/20261109180000_harden_crm_reminder_vip_rpc.sql");
+const officialImportPermission = read("supabase/migrations/20261107070406_harden_import_permission_and_sync_index.sql");
+const officialImportVipHardening = read("supabase/migrations/20261109194500_harden_official_import_vip_permissions.sql");
+const officialImportEdge = read("supabase/functions/import-official-company/index.ts");
 const vipBoundary = read("supabase/migrations/20261108151400_enforce_vip_boundary_for_internal_crm.sql");
 const bootstrap = read("supabase/migrations/20261106031500_bootstrap_first_internal_admin.sql");
 const provisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
@@ -312,3 +315,17 @@ assert.ok(page.includes("activityTypes[row.activity_type]"));
 
 
 console.log("CRM persistent reminders contract: OK — persistance, déduplication, isolation tenant, cycle de vie et planification PostgreSQL.");
+
+
+assert.match(officialImportPermission, /private\.is_org_editor\(p_organization_id\)/);
+assert.match(officialImportVipHardening, /create or replace function public\.can_import_official_company\(p_organization_id uuid\)/);
+assert.match(officialImportVipHardening, /security invoker\s+set search_path = ''/);
+assert.match(officialImportVipHardening, /private\.is_org_admin\(p_organization_id\)/);
+assert.doesNotMatch(officialImportVipHardening, /private\.is_org_editor\(/);
+assert.match(officialImportVipHardening, /revoke all on function public\.can_import_official_company\(uuid\) from public, anon/);
+assert.match(officialImportVipHardening, /grant execute on function public\.can_import_official_company\(uuid\) to authenticated/);
+assert.ok(officialImportEdge.indexOf('userClient.rpc(\n    "can_import_official_company"') < officialImportEdge.indexOf('createClient(supabaseUrl, serviceKey'),
+  "L'import serveur doit être précédé du contrôle VIP avec le client utilisateur.");
+assert.ok(officialImportEdge.includes('serviceClient.rpc(\n      "import_official_company_record"'),
+  "L'import privilégié doit rester encapsulé dans l'Edge Function.");
+console.log("Official company import permissions: OK — seuls owner/admin peuvent déclencher l'import privilégié.");
