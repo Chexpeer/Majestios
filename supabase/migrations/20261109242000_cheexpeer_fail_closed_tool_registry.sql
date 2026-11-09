@@ -110,8 +110,7 @@ begin
     v_m.autonomy_level, v_m.attempt_count, v_m.deadline_at,
     v_m.lease_expires_at;
 end;
-$function$
-
+$function$;
 
 comment on function private.cheexpeer_claim_next_mission(text,integer) is
 'Claims only approved missions whose executor is explicitly enabled in the tool registry, except inert autonomy-0 readiness_probe tests. Uses row locks and bounded leases.';
