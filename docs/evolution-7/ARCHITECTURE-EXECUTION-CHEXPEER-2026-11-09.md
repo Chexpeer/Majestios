@@ -583,3 +583,8 @@ Le dépôt MajestiOS est un site statique avec plusieurs projets Vercel liés et
 Le worker bootstrap est un **exécuteur technique minimal**, pas encore l'agent conversationnel/raisonneur Cheexpeer. La couche de raisonnement, la connexion au modèle, le catalogue d'outils réels, les limites de coût et les connecteurs Workspace restent à construire et à éprouver avant tout usage métier.
 
 L'avertissement Security Advisor existant demeure isolé sur `public.complete_crm_reminder(uuid)` (fonction SECURITY DEFINER accessible à authenticated). Il ne concerne pas les nouvelles RPC Cheexpeer ; il reste toutefois une anomalie à traiter séparément dans le CRM.
+
+
+#### Vérification CI complémentaire
+
+Le workflow `Cheexpeer worker contract` a maintenant terminé avec succès sur le commit `0a20c6d16f3b40f514f120e7c0ade5bc41b9baf5` : syntaxe Node, tests de politique d'exécution et tests contractuels du pont (secret partagé, allowlist RPC, absence de CORS navigateur). Le workflow complet de vérification du site est encore en cours sur ce même commit ; il n'est donc pas déclaré vert à ce stade.
