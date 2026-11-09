@@ -235,3 +235,13 @@ L'Edge Function `import-official-company/index.ts` vérifie le droit d'import av
 - **Test de contrat ajouté :** vérifie la présence des quatre triggers, la révocation UPDATE et le contrôle d'existence avant clôture. L'exécution du test reste non confirmée.
 - **Qualification :** risque d'intégrité et de traçabilité ; aucune exploitation réelle ni donnée altérée n'est démontrée.
 - **État :** correction et tests ajoutés à Evolution-7 ; aucun déploiement ni changement Supabase distant.
+
+## INT-01 — RPC d'import officiel appelée par l'Edge Function non retrouvée dans les migrations du dépôt
+
+**Type :** dépendance backend non traçable — vérification bloquante avant activation de l'import.
+
+- **Constat :** `supabase/functions/import-official-company/index.ts` appelle `serviceClient.rpc("import_official_company_record", ...)` après contrôle VIP. L'examen des migrations versionnées relatives au registre officiel retrouve les tables `company_registry`, `company_registry_establishments`, `company_source_observations` et le RPC `can_import_official_company`, mais aucune définition versionnée de `public.import_official_company_record` n'a été retrouvée.
+- **Conséquence possible :** si cette fonction n'existe pas dans l'environnement Supabase cible, chaque import échoue au moment de l'écriture. Si elle a été créée manuellement ou dans une migration non présente dans cette branche, le comportement réel reste inconnu et non reproductible.
+- **Action requise :** vérifier l'existence, la signature, les droits EXECUTE, le propriétaire, le contrôle tenant/VIP, les tables écrites et le format de retour dans l'environnement de test ; récupérer ensuite sa définition dans une migration versionnée. Ne pas créer une implémentation supposée sans valider le contrat attendu par le CRM.
+- **Qualification :** anomalie fonctionnelle potentiellement bloquante, non confirmée sur la base distante ; aucune donnée perdue ni contournement démontré.
+- **État :** dépendance absente des migrations retrouvées dans Evolution-7 ; contrôle Supabase distant non effectué conformément au périmètre autorisé.
