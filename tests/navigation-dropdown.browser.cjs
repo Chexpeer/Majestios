@@ -64,6 +64,8 @@ async function main() {
     await menuButton.click();
     assert.equal(await page.locator("#site-nav").evaluate(node=>node.classList.contains("open")),true,
       "Le hamburger doit pouvoir rouvrir le tiroir après Échap.");
+    assert.equal(await page.locator("#site-nav .nav-group-items:not([hidden])").count(),0,
+      "La réouverture du tiroir doit retrouver tous les sous-menus repliés.");
 
     await page.setViewportSize({width:1365,height:900});
     await page.reload({waitUntil:"domcontentloaded"});
@@ -88,7 +90,7 @@ async function main() {
       "Le focus clavier doit ouvrir le sous-menu desktop.");
     assert.equal(await desktopSubmenu.isVisible(),true,
       "Le sous-menu doit être visible au focus clavier.");
-    await page.locator("body").focus();
+    await page.locator(".brand").focus();
     assert.equal(await desktopToggle.getAttribute("aria-expanded"),"false",
       "La sortie du focus doit refermer le sous-menu desktop.");
     console.log("TEST TIROIRS RÉUSSI : hamburger mobile, aria-expanded, toucher, Échap, survol et focus clavier desktop.");
