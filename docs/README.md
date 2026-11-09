@@ -3,6 +3,10 @@
 **Référentiel de travail :** branche `Evolution-7`  
 **Finalité :** donner à toute personne ou agent qui intervient sur MajestiOS une compréhension rapide de sa vision, de son modèle de valeur, du rôle central de Cheexpeer et de l'état réel du projet.
 
+## Alerte — registre des erreurs critiques
+
+**Avant tout audit ou correction, consulter le [registre central des anomalies prioritaires](evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md).** Les erreurs P0/P1 restent visibles jusqu'à validation de leur correction. Les anomalies corrigées sont conservées avec leurs preuves ; les évolutions produit restent séparées.
+
 ## 1. La vision MajestiOS
 
 **MajestiOS est une plateforme professionnelle de développement commercial et d'intelligence économique.** Elle aide les entreprises, indépendants et professionnels à repérer les occasions de développement, comprendre leur environnement, identifier les bons interlocuteurs, structurer leurs démarches et transformer les informations en décisions et en actions utiles.
