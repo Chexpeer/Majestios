@@ -75,6 +75,8 @@
     "espace-interne.html",
     "espace-interne.css",
     "espace-interne.js",
-    "navigation-majestios.css"
+    "navigation-majestios.css",
+    "homepage.css",
+    "homepage-theme.css"
   ]
 }
