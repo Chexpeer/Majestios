@@ -76,7 +76,7 @@ Pour le commit de réalisation `29d41ac4c19955b61a54713d32aa4e680782b014` :
 - les contrôles de syntaxe, de build, d’architecture, de routes et les tests déjà présents ont réussi ;
 - le statut Vercel associé au commit indique que le déploiement de prévisualisation est terminé avec succès.
 
-**Réserve de recette :** au moment de la fusion, la CI ne contenait pas de test navigateur dédié vérifiant spécifiquement le formulaire Réputation virtuelle, la restauration du dossier depuis `sessionStorage`, le plafonnement du journal à 50 entrées et sa réinitialisation. Les tests existants réussis ne doivent pas être interprétés comme une validation exhaustive de ces comportements. Ajouter ces scénarios Playwright avant de qualifier le parcours de complètement testé.
+**Évolution de la recette :** au moment de la fusion initiale, la CI ne contenait pas de test navigateur dédié à ces comportements. Le test `tests/reputation-virtuelle.browser.cjs` a depuis été ajouté et exécuté avec succès dans le run `42584058635` (9 novembre 2026). Il vérifie la préparation du dossier, sa restauration après rechargement, l'échappement DOM, la limite de 50 recherches, le lien Google Maps de secours et la réinitialisation. La recette couvre donc ces comportements du prototype, mais pas l'analyse interne de Cheexpeer ni le contenu des pages Google cross-origin.
 
 Le contenu des résultats Google intégrés n’est pas vérifiable par un test DOM de la page hôte en raison de l’isolation cross-origin ; les tests doivent vérifier les URL de recherche, les paramètres transmis, les liens de secours et le comportement de l’interface MajestiOS, sans prétendre valider le contenu Google.
 
@@ -92,11 +92,11 @@ Cette recette valide les comportements de l'interface et du stockage de session 
 
 ## 8. Suites recommandées
 
-1. Ajouter les tests navigateur dédiés au dossier d’audit et au journal de session.
-2. Vérifier la validation des champs, l’échappement des données affichées et l’absence d’injection HTML.
-3. Tester les liens Google Web/Maps et les liens de secours sans tenter de lire le contenu cross-origin.
-4. Faire évoluer ultérieurement la persistance et le raccordement CRM uniquement dans un lot distinct, avec modèle de données, finalités, consentements et autorisations définis.
-5. Ne déclarer une connexion aux réseaux sociaux ou une analyse automatique que lorsqu’un connecteur autorisé, son traitement serveur et ses tests auront réellement été livrés.
+1. Concevoir le moteur d'audit interne de Cheexpeer : orchestration, planification des recherches, collecte licite des preuves et analyse multi-volets.
+2. Établir le registre des sources autorisées, les conditions d'accès, les quotas, la traçabilité, les limites et les solutions de repli.
+3. Définir le contrat de rapport : constats sourcés, dates, niveau de confiance, faits/déductions/hypothèses, diagnostic, priorités et indicateurs.
+4. Définir le stockage sécurisé et la conservation du dossier d'audit dans l'architecture MajestiOS, sans le confondre avec le stockage temporaire actuel ni ouvrir d'accès CRM non autorisé.
+5. Ajouter des tests d'intégration démontrant que Cheexpeer exécute réellement les recherches et l'analyse ; ne déclarer aucune connexion sociale ou analyse automatique avant livraison et recette des connecteurs concernés.
 
 ---
 **Règle de vérité :** une recherche ouverte, un formulaire local et une vitrine d’icônes ne constituent pas encore un audit automatisé. Toute reprise doit préserver cette distinction entre interface livrée, consultation externe et capacité d’analyse future.
