@@ -554,7 +554,7 @@ La migration `20261109250000_cheexpeer_worker_server_bridge.sql` a été appliqu
 Le handler Edge `supabase/functions/cheexpeer-worker-bridge/index.ts` est créé dans Git, mais **pas encore déployé**. Il exige :
 - le JWT de passerelle (à conserver activé) ;
 - la clé serveur Supabase côté worker ;
-- un secret partagé distinct `CHEEXPEER_WORKER_SECRET`, comparé en temps constant.
+- un secret partagé distinct `CHEXPEER_WORKER_SECRET`, comparé en temps constant.
 
 Le worker conteneurisé est isolé sous `services/cheexpeer-worker/` :
 - boucle de réveil et dispatch des missions dues ;
@@ -564,7 +564,7 @@ Le worker conteneurisé est isolé sous `services/cheexpeer-worker/` :
 - endpoint de santé et arrêt propre ;
 - tests de politique : seul `readiness_probe`, autonomie 0, est exécutable.
 
-Un workflow CI dédié vérifie la syntaxe et les tests de politique. Son résultat n'est pas encore confirmé ; les derniers runs visibles concernaient le workflow de vérification du site et ont été annulés par les pushes successifs.
+Le workflow CI dédié vérifie la syntaxe du worker, la syntaxe du pont Edge et les tests de politique. Depuis le 10 novembre, il est déclenché par les changements du worker, du pont Edge et de sa documentation sur `Evolution-7`. La réussite doit être établie à partir du run GitHub du commit concerné ; un ancien run du site ne constitue pas cette preuve.
 
 #### Choix d'hébergement
 
