@@ -7,6 +7,7 @@ on:
       - refonte-architecture-dossiers-charte-majestios-2026-11-01
       - evolution-5.0-clean-preview
       - evolution-5.0-admin-cockpit
+      - Evolution-7
   pull_request:
     branches:
       - main
@@ -14,6 +15,7 @@ on:
       - refonte-architecture-dossiers-charte-majestios-2026-11-01
       - evolution-5.0-clean-preview
       - evolution-5.0-admin-cockpit
+      - Evolution-7
   workflow_dispatch:
 
 permissions:
@@ -29,7 +31,9 @@ jobs:
       - name: Installer Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+      - name: Vérifier le contrat d’accès collaborateur interne
+        run: node tests/internal-entry-contract.test.cjs
       - name: Vérifier le contrat de sécurité CRM
         run: node tests/crm-security-contract.test.cjs
       - name: Vérifier la navigation et l’accueil interne
