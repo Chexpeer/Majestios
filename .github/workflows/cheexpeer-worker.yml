@@ -5,10 +5,16 @@ on:
     branches: [Evolution-7]
     paths:
       - "services/cheexpeer-worker/**"
+      - "supabase/functions/cheexpeer-worker-bridge/**"
+      - "supabase/functions/README.md"
+      - "docs/evolution-7/CHEXPEER-WORKER-EXECUTION.md"
       - ".github/workflows/cheexpeer-worker.yml"
   pull_request:
     paths:
       - "services/cheexpeer-worker/**"
+      - "supabase/functions/cheexpeer-worker-bridge/**"
+      - "supabase/functions/README.md"
+      - "docs/evolution-7/CHEXPEER-WORKER-EXECUTION.md"
       - ".github/workflows/cheexpeer-worker.yml"
 
 permissions:
@@ -26,7 +32,10 @@ jobs:
           node-version: 22
       - name: Syntax check
         working-directory: services/cheexpeer-worker
-        run: node --check src/index.mjs && node --check src/policy.mjs
+        run: |
+          node --check src/index.mjs
+          node --check src/policy.mjs
+          node --experimental-strip-types --check ../../supabase/functions/cheexpeer-worker-bridge/index.ts
       - name: Policy tests
         working-directory: services/cheexpeer-worker
         run: npm test
