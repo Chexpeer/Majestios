@@ -74,7 +74,7 @@ La documentation stratégique doit rester courte et lisible. Les détails de cod
 ## 5. Règles de vérité et de mise à jour
 
 1. Les arbitrages explicites du porteur du projet prévalent.
-2. Cheexpeer est l'unique nom de l'agent IA intégré à MajestiOS.
+2. Cheexpeer est l'unique nom de l'agent IA intégré à MajestiOS. Les noms de fichiers documentaires, références internes et identifiants techniques suivent la même graphie : `CHEEXPEER_*` pour les variables d'environnement, `cheexpeer_*` pour les ressources techniques et `x-cheexpeer-worker-secret` pour l'en-tête du worker.
 3. Distinguer systématiquement **vision**, **décision validée**, **en cours**, **implémenté**, **testé** et **déployé**.
 4. Ne jamais présenter une fonction cible comme disponible sans preuve dans le code et une recette adaptée.
 5. Toute évolution importante met à jour le document de référence concerné, le présent index si nécessaire et le registre des anomalies lorsqu'un défaut avéré est découvert.
