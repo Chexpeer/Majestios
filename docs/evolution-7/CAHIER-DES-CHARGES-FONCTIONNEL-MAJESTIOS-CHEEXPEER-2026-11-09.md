@@ -266,3 +266,14 @@ Le cahier des charges doit maintenant être détaillé domaine par domaine, dans
 6. critères de recette par parcours.
 
 **Règle directrice :** construire une plateforme réellement utile et fluide avant de multiplier les raffinements techniques. La technique doit servir les parcours métier, pas devenir le sujet principal du produit.
+
+
+---
+
+## 12. Évolution de deuxième phase — CRM clients artisans et dématérialisation
+
+Le CRM client destiné notamment aux artisans, la facturation électronique via une plateforme agréée partenaire, l'accompagnement à la dématérialisation et la valorisation des plateformes partenaires dans la rubrique Réseau constituent une **deuxième phase de développement**. Ces orientations ne doivent pas être confondues avec les priorités de réalisation en cours sur Evolution-7.
+
+Le cadrage de référence, les frontières entre CRM interne et CRM clients, les hypothèses économiques, les responsabilités du partenaire et les critères de passage en réalisation sont décrits dans [Phase 2 — CRM clients, artisans, facturation électronique et réseau partenaires](PHASE-2-CRM-CLIENTS-ARTISANS-FACTURATION-ELECTRONIQUE-RESEAU.md).
+
+**Statut :** orientation stratégique validée ; périmètre détaillé, partenaire, modèle économique et réalisation restent à instruire. Aucune fonction de facturation électronique n'est déclarée disponible.
