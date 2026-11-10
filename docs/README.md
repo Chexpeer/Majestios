@@ -58,7 +58,7 @@ Le tableau de bord admin est le centre de supervision de Cheexpeer, pas une clé
 | 7 | [Registre des anomalies prioritaires](evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md) | Défauts avérés et risques à traiter, distincts des évolutions souhaitées |
 | 8 | [Cahier des charges fonctionnel MajestiOS & Cheexpeer](evolution-7/CAHIER-DES-CHARGES-FONCTIONNEL-MAJESTIOS-CHEXPEER-2026-11-09.md) | Publics, services, parcours métier, CRM, missions de Cheexpeer, automatisations et critères de recette |
 | 9 | [Cahier des charges détaillé de Cheexpeer](evolution-7/CAHIER-DES-CHARGES-DETAILLE-CHEXPEER-2026-11-09.md) | Spécification complète de l'agent : quatre espaces, 12 compétences, missions, autonomie, centre de commande, mémoire, connecteurs, recettes et état réel |
-| 10 | [Stratégie d'ouverture progressive — 20 premiers clients](evolution-7/STRATEGIE-OUVERTURE-PROGRESSIVE-20-PREMIERS-CLIENTS-2026-11-09.md) | Accès libre aux rubriques pendant la phase pilote, sécurité concentrée sur les comptes, les données privées et les actions sensibles ; revue au seuil de 20 clients |
+| 10 | [Stratégie d'ouverture progressive — premier cercle de 5 à 7 personnes](evolution-7/STRATEGIE-OUVERTURE-PREMIER-CERCLE-5-A-7-2026-11-09.md) | Accès libre aux rubriques pendant la phase pilote, sécurité concentrée sur les comptes, les données privées et les actions sensibles ; retours du premier cercle de 5 à 7 personnes |
 | 11 | [Architecture d'exécution de Cheexpeer](evolution-7/ARCHITECTURE-EXECUTION-CHEXPEER-2026-11-09.md) | Différence entre spécification et exécution réelle ; moteur de missions, étapes, outils, connecteurs, worker, planification, journal et état constaté des capacités |
 
 ## 4. Organisation de la documentation
