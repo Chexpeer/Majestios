@@ -167,7 +167,7 @@ Le premier cercle réunit 5 à 7 personnes de confiance (amis, collègues ou inv
 
 Cheexpeer est l'agent IA transversal de MajestiOS. Sa spécification détaillée — identité, missions, quatre espaces, compétences métier, fonctionnement des missions, autonomie, mémoire, archives, centre de commande, connecteurs, notifications, critères de recette, priorités et état réel du dépôt — est maintenue dans un document dédié :
 
-**[Cahier des charges détaillé de Cheexpeer](CAHIER-DES-CHARGES-DETAILLE-CHEXPEER-2026-11-09.md).**
+**[Cahier des charges détaillé de Cheexpeer](CAHIER-DES-CHARGES-DETAILLE-CHEEXPEER-2026-11-09.md).**
 
 Les principes directeurs sont actés :
 - un seul agent, avec une identité et une continuité de travail ;
