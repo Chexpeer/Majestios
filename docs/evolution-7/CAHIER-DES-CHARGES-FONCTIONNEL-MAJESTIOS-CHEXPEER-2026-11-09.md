@@ -153,15 +153,15 @@ L'utilisateur retrouve ses informations, demandes, dossiers, services souscrits 
 
 **Acceptation :** navigation claire, état des demandes compréhensible, absence de promesses de service non encore activé.
 
-### PF-09 — Phase pilote ouverte aux 20 premiers clients
+### PF-09 — Phase de mise au point avec un premier cercle de 5 à 7 personnes de confiance
 
-La stratégie d'ouverture progressive est définie dans [Stratégie d'ouverture progressive — 20 premiers clients](STRATEGIE-OUVERTURE-PROGRESSIVE-20-PREMIERS-CLIENTS-2026-11-09.md).
+La stratégie d'ouverture progressive est définie dans [Stratégie d'ouverture progressive — premier cercle de 5 à 7 personnes](STRATEGIE-OUVERTURE-PREMIER-CERCLE-5-A-7-2026-11-09.md).
 
 Pendant cette phase, un même compte client peut circuler librement entre toutes les rubriques métier ouvertes au test et évaluer les fonctions disponibles. Les habilitations ne doivent pas être multipliées artificiellement par rubrique. L'ouverture des parcours ne donne toutefois aucun accès aux données d'autres organisations, au cockpit VIP ni aux archives confidentielles de l'administrateur.
 
 La création de compte conserve une authentification et une information adaptées. Une fois le compte créé, l'exploration des rubriques ne doit pas déclencher de demandes d'autorisation répétitives. Les actions sensibles et les accès aux données restent contrôlés à leur niveau propre.
 
-Le seuil des 20 premiers clients déclenche une revue de stratégie, pas une fermeture automatique. Les critères de recette et les règles de comptage sont définis dans le document dédié.
+Le premier cercle réunit 5 à 7 personnes de confiance (amis, collègues ou investisseurs) pour éprouver le produit et formuler des retours. Il ne constitue ni une cohorte commerciale ni un seuil de fermeture ; la suite dépend des retours, de la maturité du produit, des coûts et des incidents constatés.
 
 ## 5. Cahier des charges de Cheexpeer
 
