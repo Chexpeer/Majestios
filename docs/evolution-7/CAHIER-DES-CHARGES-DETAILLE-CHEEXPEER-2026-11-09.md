@@ -3,7 +3,7 @@
 **Version :** 1.0 — 9 novembre 2026  
 **Branche :** `Evolution-7`  
 **Nature :** spécification fonctionnelle cible et état des capacités observées  
-**Référence liée :** `CAHIER-DES-CHARGES-FONCTIONNEL-MAJESTIOS-CHEXPEER-2026-11-09.md`
+**Référence liée :** `CAHIER-DES-CHARGES-FONCTIONNEL-MAJESTIOS-CHEEXPEER-2026-11-09.md`
 
 > Ce document définit Cheexpeer en tant que produit et agent opérationnel. Il distingue systématiquement les décisions de conception, les capacités cibles et les fonctions effectivement présentes dans le dépôt. Une mission décrite ici n'est pas réputée déjà développée.
 
@@ -11,7 +11,7 @@
 
 ## 0.1 Référence obligatoire — architecture d'exécution
 
-Ce cahier décrit les capacités fonctionnelles cibles. Pour savoir comment Cheexpeer les exécutera concrètement, quels composants existent, quels connecteurs sont raccordés et quel est leur état réel, consulter [l'Architecture d'exécution de Cheexpeer](ARCHITECTURE-EXECUTION-CHEXPEER-2026-11-09.md).
+Ce cahier décrit les capacités fonctionnelles cibles. Pour savoir comment Cheexpeer les exécutera concrètement, quels composants existent, quels connecteurs sont raccordés et quel est leur état réel, consulter [l'Architecture d'exécution de Cheexpeer](ARCHITECTURE-EXECUTION-CHEEXPEER-2026-11-09.md).
 
 Les statuts « spécifiée », « implémentée », « déployée/raccordée » et « recettée » sont distincts. Aucune capacité ne doit être présentée comme opérationnelle sur la seule base de sa description dans le présent cahier.
 
