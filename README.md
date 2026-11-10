@@ -91,7 +91,6 @@ Les tests navigateur utilisent Playwright et Chromium. Dans un environnement où
 ```bash
 npm install --no-save --package-lock=false playwright
 npx playwright install chromium
-node tests/immeuble-interactif.browser.cjs
 node tests/opportunity-search.browser.cjs
 ```
 
