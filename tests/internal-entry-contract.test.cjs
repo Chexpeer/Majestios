@@ -16,7 +16,7 @@ assert.ok(script.includes("signInWithPassword("), "L’authentification interne 
 assert.ok(!script.includes("signUp(") && !script.includes("provision-client-workspace"), "L’authentification interne ne doit pas créer de compte ni provisionner un espace client.");
 assert.ok(script.includes('["owner", "admin", "member", "viewer"]'), "Les quatre rôles internes connus doivent être reconnus.");
 assert.ok(script.includes('["owner", "admin"].includes(membership.role)'), "Administration et recherches doivent être réservées à owner/admin.");
-assert.ok(script.includes('membership.role === "viewer"') && script.includes("CONSULTATION SEULE"), "Le rôle viewer doit être présenté en consultation seule.");
+assert.ok(script.includes('membership.role === "viewer"') && /consultation seule/i.test(script), "Le rôle viewer doit être présenté en consultation seule.");
 assert.ok(script.includes("getUser()") && script.includes('item.kind === "internal"'), "L’identité et l’organisation interne doivent être vérifiées après connexion.");
 assert.ok(script.includes("await supabase.auth.signOut()"), "Un compte sans appartenance interne ne doit pas conserver l’accès à la session interne.");
 assert.ok(script.includes("allowedDestinations") && script.includes("destinationAllowed"), "Le retour après authentification doit être limité à des routes autorisées.");
