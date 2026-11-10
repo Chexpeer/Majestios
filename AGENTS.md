@@ -62,7 +62,7 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 
 ## 5. Règles techniques et vérité
 
-- **Convention des variables d'environnement Cheexpeer :** utiliser exclusivement le préfixe `CHEXPEER_*` (un seul E après le H), notamment `CHEXPEER_WORKER_SECRET`, `CHEXPEER_WORKER_ID`, `CHEXPEER_POLL_MS` et `CHEXPEER_LEASE_SECONDS`. Ne jamais écrire `CHEEXPEER_*`. Le secret partagé doit porter exactement le même nom côté worker et côté fonction Edge. Cette convention ne change ni les identifiants de fonctions/tables `cheexpeer_*`, ni l'en-tête HTTP `x-cheexpeer-worker-secret`.
+- **Convention des variables d'environnement Cheexpeer :** utiliser exclusivement le préfixe `CHEEXPEER_*`, notamment `CHEEXPEER_WORKER_SECRET`, `CHEEXPEER_WORKER_ID`, `CHEEXPEER_POLL_MS` et `CHEEXPEER_LEASE_SECONDS`. Toute nouvelle intégration doit reprendre exactement cette graphie. Le secret partagé porte le même nom côté worker et côté fonction Edge. Cette convention est distincte des identifiants de fonctions/tables `cheexpeer_*` et de l'en-tête HTTP `x-cheexpeer-worker-secret`.
 
 - Les architectures et modèles documentés sont des cibles tant que leur réalisation n'est pas prouvée.
 - Ne pas annoncer une API, une base, une authentification, un CRM ou un événement métier comme opérationnel sans preuve.

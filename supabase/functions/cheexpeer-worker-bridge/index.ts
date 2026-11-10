@@ -94,7 +94,7 @@ async function readBodyLimited(req: Request): Promise<string> {
 Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
-  const expectedSecret = Deno.env.get("CHEXPEER_WORKER_SECRET");
+  const expectedSecret = Deno.env.get("CHEEXPEER_WORKER_SECRET");
   const suppliedSecret = req.headers.get("x-cheexpeer-worker-secret") ?? "";
   if (!expectedSecret || !constantTimeEqual(suppliedSecret, expectedSecret)) {
     return json({ error: "Unauthorized" }, 401);

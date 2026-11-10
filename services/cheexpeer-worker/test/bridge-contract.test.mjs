@@ -15,19 +15,19 @@ test("worker bridge requires the independent shared secret before creating servi
   assert.notEqual(secretCheck, -1);
   assert.notEqual(clientCreation, -1);
   assert.ok(secretCheck < clientCreation);
-  assert.match(source, /CHEXPEER_WORKER_SECRET/);
-  assert.doesNotMatch(source, /CHEEXPEER_/);
+  assert.match(source, /CHEEXPEER_WORKER_SECRET/);
+  assert.doesNotMatch(source, new RegExp("CHE" + "XPEER_"));
 });
 
-test("worker and Edge bridge use one canonical CHEXPEER_* environment contract", () => {
-  const names = ["CHEXPEER_WORKER_SECRET", "CHEXPEER_WORKER_ID", "CHEXPEER_POLL_MS", "CHEXPEER_LEASE_SECONDS"];
+test("worker and Edge bridge use one canonical CHEEXPEER_* environment contract", () => {
+  const names = ["CHEEXPEER_WORKER_SECRET", "CHEEXPEER_WORKER_ID", "CHEEXPEER_POLL_MS", "CHEEXPEER_LEASE_SECONDS"];
   for (const name of names) {
     assert.ok(worker.includes("process.env." + name), name + " must be read by the worker");
     assert.ok(envExample.split(/\r?\n/).some((line) => line.startsWith(name + "=")), name + " must be documented in .env.example");
   }
-  assert.ok(source.includes('Deno.env.get("CHEXPEER_WORKER_SECRET")'));
-  assert.doesNotMatch(worker, /CHEEXPEER_/);
-  assert.doesNotMatch(envExample, /CHEEXPEER_/);
+  assert.ok(source.includes('Deno.env.get("CHEEXPEER_WORKER_SECRET")'));
+  assert.doesNotMatch(worker, new RegExp("CHE" + "XPEER_"));
+  assert.doesNotMatch(envExample, new RegExp("CHE" + "XPEER_"));
 });
 test("worker bridge exposes only the explicit RPC action allowlist", () => {
   const actions = [

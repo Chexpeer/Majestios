@@ -26,16 +26,16 @@ Set these in the worker host's secret manager. Never commit them:
 
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY` — server-side only; never a browser variable
-- `CHEXPEER_WORKER_SECRET` — independent random secret shared with the Edge Function
+- `CHEEXPEER_WORKER_SECRET` — independent random secret shared with the Edge Function
 
 Non-secret settings:
 
-- `CHEXPEER_WORKER_ID`
-- `CHEXPEER_POLL_MS` (default 5000)
-- `CHEXPEER_LEASE_SECONDS` (default 120)
+- `CHEEXPEER_WORKER_ID`
+- `CHEEXPEER_POLL_MS` (default 5000)
+- `CHEEXPEER_LEASE_SECONDS` (default 120)
 - `PORT` (default 8080)
 
-Set `CHEXPEER_WORKER_SECRET` in Supabase Edge Function secrets before starting the worker.
+Set `CHEEXPEER_WORKER_SECRET` in Supabase Edge Function secrets before starting the worker.
 
 ## Run locally
 

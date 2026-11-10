@@ -5,10 +5,10 @@ import { randomUUID } from "node:crypto";
 const config = {
   supabaseUrl: process.env.SUPABASE_URL?.replace(/\/$/, ""),
   serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-  workerSecret: process.env.CHEXPEER_WORKER_SECRET,
-  workerId: process.env.CHEXPEER_WORKER_ID || `cheexpeer-${randomUUID()}`,
-  pollMs: Math.max(1000, Number(process.env.CHEXPEER_POLL_MS) || 5000),
-  leaseSeconds: Math.min(3600, Math.max(30, Number(process.env.CHEXPEER_LEASE_SECONDS) || 120)),
+  workerSecret: process.env.CHEEXPEER_WORKER_SECRET,
+  workerId: process.env.CHEEXPEER_WORKER_ID || `cheexpeer-${randomUUID()}`,
+  pollMs: Math.max(1000, Number(process.env.CHEEXPEER_POLL_MS) || 5000),
+  leaseSeconds: Math.min(3600, Math.max(30, Number(process.env.CHEEXPEER_LEASE_SECONDS) || 120)),
   port: Number(process.env.PORT) || 8080,
 };
 
