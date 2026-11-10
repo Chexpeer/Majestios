@@ -17,7 +17,7 @@ Le registre Evolution-7 reste la source de vérité pour les identifiants, const
 |---|---|---|---|---|
 | AUTH-01 | P0 — avant ouverture aux membres | Authentification OTP et provisionnement | **Recette E2E non démontrée** | Ne pas modifier Auth, migrations, fonctions déployées ou données Supabase métier sans autorisation explicite. |
 | AUTH-02 | P1 — conformité / traçabilité | Preuve de prise de connaissance | **Ouvert — contrôle serveur incomplet** | Vérifier côté Edge Function les métadonnées et la version du consentement ; ne pas déployer sans autorisation. |
-| CRM-02 | P1 — traçabilité | Journalisation des créations CRM | **Correction à concevoir** | Définir et tester une écriture atomique ou une compensation avant toute écriture métier. |
+| CRM-02 | P1 — traçabilité | Journalisation des créations CRM | **Corrigé dans Evolution-7 — migration non appliquée** | Migration `20261109170000_atomic_crm_activity_history.sql` et test de contrat présents dans Git ; recette transactionnelle réelle encore requise. |
 | CRM-03 | P1 — intégrité des données | Privilèges UPDATE des tables CRM | **Corrigé dans Evolution-7 — migration non appliquée** | Migration `20261109160000_restrict_crm_update_columns.sql` et test de non-régression ajoutés. Vérifier/appliquer uniquement après autorisation explicite ; ne pas prétendre que les privilèges distants sont déjà corrigés. |
 
 Ces états sont ceux documentés dans le registre Evolution-7 au 9 novembre 2026. Ils ne constituent pas une affirmation de validation en environnement réel.
@@ -52,6 +52,6 @@ Sauf autorisation explicite du porteur du projet, aucun agent ne doit :
 
 ## 6. Dernière actualisation
 
-**Dernière indexation :** 9 novembre 2026 — Evolution-7 : worker Cheexpeer isolé et pont serveur renforcé dans Git ; CI worker et CI site vertes sur `b3e2018`. Rien n'est encore déployé pour le worker (Edge non déployée, secrets absents, zéro outil métier activé). Les P0/P1 CRM et Auth restent soumis à leurs recettes et migrations spécifiques. Le fournisseur IA n’est pas configuré. Voir sections 13.11–13.12 de l'architecture d'exécution.
+**Dernière actualisation :** 10 novembre 2026 — l'analyse globale a ajouté les constats AN-01 à AN-13 au registre Evolution-7. La convention worker est harmonisée dans Git sur `CHEXPEER_*` ; les déclencheurs CI anti-régression couvrent désormais Evolution-7 et le test d'accès interne. Résultat du run de correction à vérifier avant clôture. Le worker et son pont Edge restent non déployés selon la documentation ; aucun secret distant ni outil métier n'est activé par ces changements. Les P0/P1 CRM et Auth restent soumis à leurs recettes et migrations spécifiques.
 **Branche de travail autorisée dans le chantier en cours :** Evolution-7.
 **Règle :** actualiser ce point d'entrée et le registre détaillé à chaque évolution significative des anomalies critiques.
