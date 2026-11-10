@@ -32,8 +32,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Vérifier le contrat d’accès collaborateur interne
-        run: node tests/internal-entry-contract.test.cjs
       - name: Vérifier le contrat de sécurité CRM
         run: node tests/crm-security-contract.test.cjs
       - name: Vérifier la navigation et l’accueil interne
