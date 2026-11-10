@@ -5,7 +5,7 @@
 **Date :** 9 novembre 2026  
 **Branche :** `Evolution-7`
 
-> **À consulter avant toute intervention sur MajestiOS.** Ce registre doit rester visible depuis l'index général, être actualisé au fil des audits et conserver l'historique des corrections. Une synthèse stratégique ne doit jamais masquer ni supprimer une anomalie critique. La stratégie d'ouverture pilote est définie dans [le document des 20 premiers clients](STRATEGIE-OUVERTURE-PROGRESSIVE-20-PREMIERS-CLIENTS-2026-11-09.md) : une anomalie ne bloque que la création de compte, les données ou la fonction qu'elle met réellement en risque, et non toute la navigation du produit.
+> **À consulter avant toute intervention sur MajestiOS.** Ce registre doit rester visible depuis l'index général, être actualisé au fil des audits et conserver l'historique des corrections. Une synthèse stratégique ne doit jamais masquer ni supprimer une anomalie critique. La stratégie d'ouverture pilote est définie dans [la stratégie du premier cercle de 5 à 7 personnes](STRATEGIE-OUVERTURE-PREMIER-CERCLE-5-A-7-2026-11-09.md) : une anomalie ne bloque que la création de compte, les données ou la fonction qu'elle met réellement en risque, et non toute la navigation du produit.
 
 ## Tableau de bord immédiat
 
