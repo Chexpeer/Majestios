@@ -236,3 +236,6 @@ Le widget « Parler à MajestiOS » est un guide local à mots-clés, sans appel
 La brique Réputation virtuelle possède une collecte automatique limitée au contexte administratif officiel et aux annonces BODACC ; Google Web/Maps restent manuels et les plateformes sociales sont planifiées. L'analyse IA dépend d'une configuration serveur effective et peut légitimement retourner une collecte seule. La vision Cheexpeer community manager LinkedIn est spécifiée, mais aucun connecteur de compte, calendrier, publication, interactions ou analytics n'a été identifié dans le périmètre de code consulté. Drive et veille SEO restent également des objectifs à construire.
 
 La maturité détaillée et les conditions d'activation figurent dans CHX-09 à CHX-12 du registre. Prochaine étape technique recommandée : concevoir un premier parcours de mission non sensible, avec worker/bridge déployés sur le seul environnement de test après autorisation, puis une recette complète avant d'ouvrir les connecteurs engageants.
+
+
+**Garde-fou d'approbation :** la RPC privée d'approbation reçoit un identifiant d'acteur en paramètre et vérifie son rôle dans l'organisation ; toute future API devra dériver cet identifiant côté serveur depuis une session vérifiée, jamais depuis une valeur libre envoyée par le navigateur. Le pont worker ne propose actuellement pas cette action. Voir CHX-13.
