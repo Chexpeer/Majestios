@@ -280,3 +280,8 @@ Le comparatif depuis le commit `3b9c432dd7ba9048819a5f19f2a143843aa66902` indiqu
 **Limites :** cette CI verte prouve le passage des contrôles automatisés présents dans le workflow, pas une recette visuelle exhaustive, une recette CRM multi-identités, la résolution des anomalies P0/P1, un déploiement ou une recette de production. Les anomalies CHX-API-01 et CHX-SEC-03 restent bloquantes avant activation métier de Cheexpeer ; les anomalies CRM-05 et CRM-16 restent ouvertes avant pilote multi-tenant. Les contrôles Supabase demeurent en lecture seule.
 
 **Prochaine étape :** traiter le socle d'API utilisateur Cheexpeer et la vérification d'identité de l'acteur d'approbation côté serveur, puis préparer les tests multi-tenant CRM sur environnement de test uniquement, après validation explicite de toute écriture nécessaire. Aucun changement de branche, merge, rebase, déploiement production ou changement Supabase n'a été effectué dans cette passe.
+
+
+## 12. Première passe d'épuration éditoriale — 11 novembre 2026
+
+Les textes de l'accueil, du développement commercial, des marchés publics et privés, de l'accompagnement, du contact et de la FAQ ont été raccourcis selon la ligne « clair, court, courtois, concis ». Les avertissements sur les limites réelles des services et les formulaires en prévisualisation ont été conservés. Voir [le rapport d'épuration éditoriale](EPURATION-EDITORIALE-SITE-2026-11-11.md) et le point UX-EDITORIAL-01 du [registre d'anomalies](REGISTRE-ANOMALIES-EVOLUTION-9.md).
