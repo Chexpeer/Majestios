@@ -1,93 +1,74 @@
-# MajestiOS — documentation stratégique
+# MajestiOS — documentation de référence
 
-**Référentiel de travail :** branche `Evolution-8` (base auditée : `Evolution-7`)  
-**Finalité :** donner à toute personne ou agent qui intervient sur MajestiOS une compréhension rapide de sa vision, de son modèle de valeur, du rôle central de Cheexpeer et de l'état réel du projet.
+**Branche de travail :** `Evolution-9`  
+**Date de référence :** 11 novembre 2026  
+**Objectif :** offrir un point d'entrée court, cohérent et vérifiable pour comprendre la stratégie, l'architecture, l'état réel et les risques du projet.
 
-## Alerte — registre des erreurs critiques
+## 1. Avant toute intervention
 
-**Avant tout audit ou correction, consulter le [registre central des anomalies prioritaires](evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md).** Les erreurs P0/P1 restent visibles jusqu'à validation de leur correction. Les anomalies corrigées sont conservées avec leurs preuves ; les évolutions produit restent séparées.
+1. Lire le [registre central des anomalies critiques](CRITIQUES/README.md).
+2. Lire le [référentiel Evolution-9](evolution-9/README.md).
+3. Lire la [vision stratégique MajestiOS 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md).
+4. Lire le [plan de réalisation et les moyens](evolution-9/PLAN-REALISATION-ET-MOYENS.md).
+5. Lire le [registre des anomalies Evolution-9](evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
+6. Consulter les spécifications spécialisées utiles au lot.
 
-## 1. La vision MajestiOS
+## 2. La vision en une phrase
 
-**MajestiOS est une plateforme professionnelle de développement commercial et d'intelligence économique.** Elle aide les entreprises, indépendants et professionnels à repérer les occasions de développement, comprendre leur environnement, identifier les bons interlocuteurs, structurer leurs démarches et transformer les informations en décisions et en actions utiles.
+**MajestiOS ambitionne de devenir le CRM tout-en-un qui relie le développement commercial, la gestion quotidienne, la facturation électronique et l'accompagnement intelligent, dans un environnement modulaire et ouvert.**
 
-MajestiOS ne se limite ni à un annuaire, ni à un agrégateur d'annonces, ni à un CRM, ni à un chatbot. Sa valeur vient de la mise en relation de services, de données, de méthodes, d'outils et d'un accompagnement intelligent dans un même environnement.
+Le parcours de valeur :
 
-Son parcours de valeur est simple :
+**Détecter → Comprendre → Qualifier → Décider → Agir → Gérer → Facturer → Capitaliser.**
 
-**Détecter → Comprendre → Qualifier → Décider → Agir → Capitaliser.**
+La formule « premier vrai CRM tout-en-un » exprime une ambition de différenciation, pas une affirmation concurrentielle démontrée.
 
-Les rubriques couvrent notamment les appels d'offres et marchés, les opportunités privées et commerciales, les entreprises, la prospection, le développement commercial, le réseau professionnel, la visibilité et la réputation, l'emploi et les espaces de travail.
+## 3. Références canoniques actuelles
 
-## 2. Cheexpeer : l'agent IA central de MajestiOS
-
-**Cheexpeer** n'est pas un gadget conversationnel ni un service indépendant : **c'est l'agent IA intégré qui donne progressivement à MajestiOS sa capacité de comprendre, relier, analyser, anticiper et assister l'action.**
-
-Cheexpeer doit pouvoir, selon les droits et les capacités réellement connectées :
-- comprendre les demandes et orienter chaque utilisateur vers le bon service ;
-- surveiller les sources autorisées et détecter les signaux utiles ;
-- croiser les informations, qualifier les entreprises et les opportunités, expliquer ses conclusions ;
-- assister la prospection et préparer les dossiers, comptes rendus et actions CRM ;
-- traduire les appels d'offres en langage de chantier, en distinguant les exigences exactes du dossier, leur explication pratique, les contraintes, compétences, pièces et échéances ;
-- surveiller périodiquement le SEO et la visibilité de MajestiOS, proposer les corrections éditoriales et techniques, actualiser le site dans un cadre préautorisé et mesurer les résultats ;
-- contribuer à la visibilité de MajestiOS dans les moteurs de réponse IA (GEO), contrôler l'exactitude des informations publiques, suivre les mentions et citations observées, préparer des contenus utiles et mesurer les retombées sans promettre de recommandation ou de classement ;
-- produire des synthèses, rapports et alertes utiles ;
-- aider à contrôler la qualité, la cohérence et l'évolution de MajestiOS ;
-- capitaliser les décisions et enseignements vérifiés pour améliorer les travaux futurs.
-
-Cheexpeer est transversal : il relie les rubriques et les données autorisées au lieu de fonctionner en silos. Son identité reste unique et s'exprime dans quatre espaces complémentaires :
-
-- **Chat utilisateurs** : assistance et échanges avec les utilisateurs de MajestiOS.
-- **Tableau de bord admin** : poste de pilotage privilégié où l'administrateur dialogue directement avec Cheexpeer, lui confie des tâches, suit ses analyses, consulte les alertes et valide les actions qui le nécessitent.
-- **Supabase / CRM** : accès contrôlé aux données et opérations métier.
-- **GitHub / développement** : audit du code, anomalies, tests, corrections et documentation.
-
-Le tableau de bord admin est le centre de supervision de Cheexpeer, pas une clé universelle. Les espaces partagent une orchestration et une capitalisation gouvernée, mais conservent des permissions, contextes et journaux distincts. Cheexpeer doit progressivement archiver et historiser les échanges, décisions, preuves, anomalies, corrections et résultats ; retrouver les éléments pertinents ; capitaliser les enseignements vérifiés ; et proposer des optimisations ergonomiques. Cet « apprentissage » est une capitalisation contrôlée, pas un entraînement autonome du modèle ni une autorisation de modifier ou publier sans validation.
-
-**Principe de confiance :** Cheexpeer observe, analyse et prépare en priorité. Les écritures CRM, prises de contact, publications, dépenses, changements de droits et interventions en production restent soumis aux autorisations et validations adaptées. Une capacité décrite dans la documentation n'est pas réputée opérationnelle tant qu'elle n'a pas été implémentée et testée.
-
-## 3. Références à lire en priorité
-
-| Priorité | Document | Ce qu'il apporte |
+| Sujet | Référence | Rôle |
 |---|---|---|
-| 1 | [Vision fondatrice de MajestiOS](evolution-5.0/VISION-FONDATRICE.md) | Positionnement, promesse, parcours de valeur et principes directeurs |
-| 2 | [Vision transversale de Cheexpeer](evolution-5.0/VISION-IA-TRANSVERSALE.md) | Missions de l'agent IA, circulation entre domaines, autonomie et gouvernance |
-| 3 | [Référence MajestiOS V5](evolution-5.0/MAJESTIOS-V5-REFERENCE.md) | État de référence, architecture et décisions structurantes |
-| 4 | [Architecture fonctionnelle cible](evolution-5.0/ARCHITECTURE-FONCTIONNELLE-CIBLE.md) | Organisation des domaines métier et de leurs relations |
-| 5 | [Référentiel Evolution-7](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Refonte du site, navigation et première interface conversationnelle |
-| 6 | [Intégration de Cheexpeer — état du lot](evolution-7/LOT-CHEEXPEER-INTEGRATION-2026-11-09.md) | Connexions réellement actives, limites et architecture cible des quatre espaces Cheexpeer |
-| 7 | [Registre des anomalies prioritaires](evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md) | Défauts avérés et risques à traiter, distincts des évolutions souhaitées |
-| 8 | [Cahier des charges fonctionnel MajestiOS & Cheexpeer](evolution-7/CAHIER-DES-CHARGES-FONCTIONNEL-MAJESTIOS-CHEEXPEER-2026-11-09.md) | Publics, services, parcours métier, CRM, missions de Cheexpeer, automatisations et critères de recette |
-| 9 | [Cahier des charges détaillé de Cheexpeer](evolution-7/CAHIER-DES-CHARGES-DETAILLE-CHEEXPEER-2026-11-09.md) | Spécification complète de l'agent : quatre espaces, 12 compétences, missions, autonomie, centre de commande, mémoire, connecteurs, recettes et état réel |
-| 10 | [Stratégie d'ouverture progressive — premier cercle de 5 à 7 personnes](evolution-7/STRATEGIE-OUVERTURE-PREMIER-CERCLE-5-A-7-2026-11-09.md) | Accès libre aux rubriques pendant la phase pilote, sécurité concentrée sur les comptes, les données privées et les actions sensibles ; retours du premier cercle de 5 à 7 personnes |
-| 11 | [Architecture d'exécution de Cheexpeer](evolution-7/ARCHITECTURE-EXECUTION-CHEEXPEER-2026-11-09.md) | Différence entre spécification et exécution réelle ; moteur de missions, étapes, outils, connecteurs, worker, planification, journal et état constaté des capacités |
-| 12 | [Phase 2 — CRM clients, artisans, facturation électronique et réseau partenaires](evolution-7/PHASE-2-CRM-CLIENTS-ARTISANS-FACTURATION-ELECTRONIQUE-RESEAU.md) | Offre artisan gratuite à terme, options payantes, partenariat PA, accompagnement à la dématérialisation, rubrique Réseau et séparation CRM interne / CRM clients |
-| 13 | [Visibilité IA, GEO et réputation numérique de MajestiOS](evolution-7/CHEEXPEER-VISIBILITE-IA-GEO-REPUTATION-MAJESTIOS.md) | Mission de Cheexpeer pour améliorer la découvrabilité, la présence dans les réponses IA, la réputation, les contenus et la mesure de l'acquisition |
-| 14 | [Vision produit — CRM tout-en-un, préparation d'Evolution-8](evolution-7/VISION-PRODUIT-CRM-TOUT-EN-UN-PREPARATION-EVOLUTION-8.md) | Positionnement, modules, parcours, architecture cible, facturation et rôle de Cheexpeer ; vision non équivalente à des fonctions livrées |
-| 15 | [Audit de l'existant — préparation d'Evolution-8](evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) | État vérifié du site, CRM interne, espace membre, Supabase, Cheexpeer, Vercel et risques avant refonte |
-| 16 | [Référentiel de travail Evolution-8](evolution-8/README.md) | Mission, règles de préservation, lots et garde-fous de la refonte |
-| 17 | [Architecture cible — CRM tout-en-un](evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md) | Domaines métier, CRM natif/externe, facturation, Connect, Supabase, sécurité et Cheexpeer |
-| 18 | [Plan de refonte UX Evolution-8](evolution-8/PLAN-REFONTE-UX.md) | Accueil, navigation, espace de travail, parcours clients et prototypes |
-| 19 | [Registre des anomalies Evolution-8](evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md) | Risques hérités et conditions de clôture pour la branche active |
+| Vision stratégique | [Vision MajestiOS 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md) | Positionnement, publics, piliers, différenciation et modèle d'expérience |
+| Réalisation | [Plan de réalisation et moyens](evolution-9/PLAN-REALISATION-ET-MOYENS.md) | Phases, dépendances, moyens, tests et indicateurs |
+| Documentation | [Plan de synthèse documentaire](evolution-9/PLAN-SYNTHESE-DOCUMENTAIRE.md) | Hiérarchie des documents, statut des sources et méthode de consolidation |
+| Architecture | [Architecture cible CRM tout-en-un](evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md) | CRM natif/externe, facturation, Connect, Supabase et Cheexpeer — à consolider |
+| UX | [Plan de refonte UX](evolution-8/PLAN-REFONTE-UX.md) | Accueil, navigation et parcours |
+| Audit de l'existant | [Audit Evolution-7 du 11 novembre](evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) | État vérifié du site, CRM interne, Supabase, Cheexpeer et Vercel |
+| Phase CRM client | [CRM clients, artisans et facturation](evolution-7/PHASE-2-CRM-CLIENTS-ARTISANS-FACTURATION-ELECTRONIQUE-RESEAU.md) | Offre cible et séparation des CRM |
+| Cheexpeer | [Cahier des charges détaillé](evolution-7/CAHIER-DES-CHARGES-DETAILLE-CHEEXPEER-2026-11-09.md) | Espaces, compétences, missions, gouvernance et critères d'acceptation |
+| Exécution Cheexpeer | [Architecture d'exécution](evolution-7/ARCHITECTURE-EXECUTION-CHEEXPEER-2026-11-09.md) | Missions, étapes, outils, worker et états réels |
+| Navigation | [Décisions de navigation Evolution-7](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Structure et arbitrages de navigation |
 
-## 4. Organisation de la documentation
+## 4. État produit — ne pas confondre vision et disponibilité
 
-- **Vision et stratégie :** raison d'être, publics, services, valeur et trajectoire de MajestiOS.
-- **Cheexpeer :** missions de l'agent, connaissances, orchestration, outils, gouvernance et progression de ses capacités.
-- **Architecture métier :** rubriques, navigation, CRM, données et circulation de l'information.
-- **Réalisation et audits :** preuves techniques, tests, limites, anomalies et décisions de correction.
-- **Historique :** documents datés conservés pour la traçabilité ; ils ne remplacent pas les décisions actuelles.
+### Présent dans l'existant
+- Site web statique avec moteurs de recherche et rubriques de développement commercial.
+- CRM interne MajestiOS pour l'activité propre de MajestiOS.
+- Code d'authentification OTP et fondations multi-tenant.
+- Premiers modules et contrats techniques Cheexpeer.
+- Première vitrine Evolution-8 et page d'information sur la facturation électronique.
 
-La documentation stratégique doit rester courte et lisible. Les détails de code, comptes rendus de lots et résultats de tests restent dans leurs documents spécialisés et ne sont remontés dans la synthèse que lorsqu'ils changent une décision, un risque ou l'état réel du produit.
+### Non démontré comme opérationnel
+- CRM client complet pour les entreprises utilisatrices.
+- Cycle complet devis → intervention → facture → règlement.
+- Module MajestiOS Facturation connecté à une PA.
+- Connecteurs universels vers les CRM externes.
+- Provisionnement membre OTP de bout en bout.
+- Worker Cheexpeer exécutant des outils métier.
+- Recette réelle de l'isolation multi-tenant et des rôles sur deux organisations.
 
-## 5. Règles de vérité et de mise à jour
+Le détail et les conditions de clôture figurent dans les registres d'anomalies. Une page, un composant ou une migration présente dans Git ne prouve pas son déploiement ni son fonctionnement réel.
 
-1. Les arbitrages explicites du porteur du projet prévalent.
-2. Cheexpeer est l'unique nom de l'agent IA intégré à MajestiOS. Les noms de fichiers documentaires, références internes et identifiants techniques suivent la même graphie : `CHEEXPEER_*` pour les variables d'environnement, `cheexpeer_*` pour les ressources techniques et `x-cheexpeer-worker-secret` pour l'en-tête du worker.
-3. Distinguer systématiquement **vision**, **décision validée**, **en cours**, **implémenté**, **testé** et **déployé**.
-4. Ne jamais présenter une fonction cible comme disponible sans preuve dans le code et une recette adaptée.
-5. Toute évolution importante met à jour le document de référence concerné, le présent index si nécessaire et le registre des anomalies lorsqu'un défaut avéré est découvert.
-6. Ne pas créer de doublons documentaires : compléter ou corriger la référence existante avant d'ajouter un nouveau document.
-7. Aucun merge, déploiement de production, changement de permissions ou intervention distante sensible sans autorisation explicite.
+## 5. Documentation spécialisée et historique
 
-**La documentation sert d'abord à transmettre une vision commune et à guider les décisions. Elle n'est pas une fin en soi.**
+Les dossiers `evolution-5.0`, `evolution-6`, `evolution-7` et `evolution-8` sont conservés pour leurs décisions, spécifications, audits et preuves datées. Ils ne doivent pas être supprimés pendant la synthèse. Lorsqu'une décision ancienne diverge d'une décision plus récente, vérifier l'arbitrage daté et la branche source avant de conclure.
+
+La documentation détaillée reste dans les dossiers spécialisés ; cet index ne doit pas recopier leurs contenus. Le plan de synthèse Evolution-9 décrit les rapprochements à effectuer sans perte d'historique.
+
+## 6. Règles de vérité
+
+- Distinguer proposition, décision validée, spécification, code présent, déploiement et recette.
+- Ne pas annoncer MajestiOS comme PA ; la transmission réglementaire doit passer par une PA partenaire.
+- Ne pas promettre une connexion à tous les CRM externes.
+- Ne pas confondre le CRM interne MajestiOS et le CRM de chaque client.
+- Ne pas présenter les capacités Cheexpeer décrites comme déjà actives.
+- Toute anomalie critique reste visible jusqu'à preuve de correction et de recette.
