@@ -720,3 +720,12 @@ Détail : [rapport de la deuxième passe éditoriale](EPURATION-EDITORIALE-PASSE
 | UX-EDITORIAL-03 | P2 | Cohérence éditoriale et navigation conceptuelle | La page `developpement-commercial.html` conservait le libellé « ÉTAGE 06 · ORCHESTRER », vestige de l'ancienne représentation en étages. Le libellé a été retiré ; le bloc « Des pistes aux actions » et sa fonction de présentation sont conservés avec un texte plus court. | Correction versionnée sur Evolution-9, commit `04d78d50e904c86c2d06e38152f7c6da49ba84e0`. Validation CI du HEAD final de la passe à confirmer. |
 
 Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md). Aucun lien, script, formulaire, fonctionnalité ou route n'a été supprimé.
+
+
+## 58. Épuration des textes de la rubrique Réputation virtuelle — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-04 | P2 | Clarté et consentement | Le titre, l'introduction et les trois textes de présentation de la page `reputation-virtuelle.html` ont été raccourcis. La condition d'accord préalable de l'entreprise avant consultation des avis, la validation humaine des réponses et l'absence de connexion Google active restent explicites. | Correction versionnée sur Evolution-9, commit `b911d0ee6f410bd79c4718b1830ffb2f54e601ab`. CI du HEAD final à confirmer. |
+
+Le rapport de la troisième passe éditoriale détaille également la correction UX-EDITORIAL-03 de la page Développement commercial.
