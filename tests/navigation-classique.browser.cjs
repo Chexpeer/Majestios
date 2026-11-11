@@ -37,6 +37,10 @@ async function main() {
     assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),7,"Les sept familles de navigation doivent être présentes.");
     assert.equal(await page.locator("#site-nav .nav-group-items a").count(),21,"Le menu doit exposer les 21 entrées secondaires.");
     assert.equal(await page.locator("#site-nav a").count(),22,"Le menu doit exposer Accueil et les 21 entrées secondaires.");
+    assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"48px",
+      "La barre de navigation doit rester compacte.");
+    assert.equal(await page.locator(".nav-group-link").first().evaluate(node=>getComputedStyle(node).fontSize),"11px",
+      "Les onglets desktop doivent conserver une typographie compacte.");
     assert.equal(await page.locator('#site-nav a[href="developpement-commercial.html"]').count(),1,
       "La page d’orientation Développement commercial doit être accessible depuis son sous-menu.");
 
@@ -59,6 +63,8 @@ async function main() {
     assert.equal(await opportunityTitle.getAttribute("aria-expanded"),"false","Les sous-menus doivent être repliés au chargement.");
     await opportunityGroup.hover();
     assert.equal(await opportunityMenu.isVisible(),true,"Le survol doit ouvrir le sous-menu sur ordinateur.");
+    assert.equal(await opportunityMenu.evaluate(node=>getComputedStyle(node).backgroundColor),"rgba(250, 252, 255, 0.98)",
+      "Le sous-menu doit conserver son fond clair contrasté.");
     await page.locator("body").hover({position:{x:5,y:5}});
     assert.equal(await opportunityMenu.isVisible(),false,"Le retrait du pointeur doit refermer le sous-menu.");
     await opportunityGroup.locator(".nav-group-link").click();
@@ -96,6 +102,8 @@ async function main() {
     assert.equal(await page.locator("#site-nav").evaluate(node=>node.classList.contains("open")),true,
       "Le hamburger doit ouvrir le menu mobile.");
     assert.equal(await menuButton.getAttribute("aria-expanded"),"true","L’état accessible du hamburger doit être synchronisé.");
+    assert.ok(await page.locator("#site-nav").evaluate(node=>node.getBoundingClientRect().width<=360),
+      "Le tiroir mobile doit rester compact.");
     assert.equal(await page.locator("#site-nav .nav-group-items:not([hidden])").count(),0,
       "Les sous-menus doivent rester repliés à l’ouverture du hamburger.");
     // Réutilise devGroup déclaré avant le parcours desktop : même groupe DOM, nouveau viewport mobile.
