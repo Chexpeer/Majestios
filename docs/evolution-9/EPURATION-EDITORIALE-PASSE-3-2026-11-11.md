@@ -127,3 +127,6 @@ Corrections sur `espace-membre.html`, `espace-prive.html` et `auth-espace-membre
 - le test `tests/auth-espace-membre-otp.test.cjs` est adapté à ce contrat.
 
 Aucune fonction Edge n'a été déployée et aucune configuration Supabase n'a été modifiée. La réactivation de l'inscription nécessitera le déploiement contrôlé et la recette de `provision-client-workspace`.
+
+
+**Contrôle d'architecture associé :** le premier passage CI après suspension de l'inscription a révélé deux assertions qui exigeaient encore un parcours d'inscription immédiatement actif et un appel frontend au provisionnement. `verify-architecture.js` a été ajusté pour vérifier le contrat réellement retenu : connexion OTP seule, absence de création de compte et absence d'appel à la fonction Edge non déployée. Le code source de la fonction et sa migration restent contrôlés séparément comme fondation à activer ultérieurement.
