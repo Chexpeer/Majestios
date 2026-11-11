@@ -11,6 +11,9 @@ async function main() {
   assert.ok(fs.existsSync(path.join(root,"index.html")), "Exécuter node build.js avant le test.");
   const manifest = JSON.parse(fs.readFileSync(path.join(__dirname,"..","site-files.json"),"utf8"));
   const published = new Set(manifest.files);
+  // Inventaire calculé avant les parcours desktop et mobile pour éviter toute référence anticipée.
+  const publicPages = manifest.files.filter(file => file.endsWith(".html") &&
+    !["crm.html","administration.html","admin-recherches.html","espace-interne.html"].includes(file));
   const server = http.createServer((req,res) => {
     const pathname = decodeURIComponent(new URL(req.url,"http://127.0.0.1").pathname);
     const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
@@ -75,8 +78,6 @@ async function main() {
     }));
     // Recette de parité sur toutes les pages publiques publiées, y compris l'entrée VIP.
     // Les cockpits CRM / administration / authentification gardent leurs navigations métier dédiées.
-    const publicPages = manifest.files.filter(file => file.endsWith(".html") &&
-      !["crm.html","administration.html","admin-recherches.html","espace-interne.html"].includes(file));
     for (const route of publicPages) {
       await page.goto("http://127.0.0.1:4174/"+route,{waitUntil:"domcontentloaded"});
       await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
