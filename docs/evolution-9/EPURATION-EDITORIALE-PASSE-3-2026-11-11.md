@@ -2,7 +2,7 @@
 
 **Date :** 11 novembre 2026  
 **Branche :** `Evolution-9`  
-**Pages modifiées :** `developpement-commercial.html`, `reputation-virtuelle.html`, `nous-rejoindre.html`, `prospection-active.html`, `faq.html`, `qualification-entreprises.html`, `facturation-electronique.html`
+**Pages modifiées :** `developpement-commercial.html`, `reputation-virtuelle.html`, `nous-rejoindre.html`, `prospection-active.html`, `faq.html`, `qualification-entreprises.html`, `facturation-electronique.html`, `vision-majestios.html`, `marches-publics.html`, `marches-prives.html`, `accompagnement-appels-offres.html`, `espace-membre.html`
 
 ## Constat
 
@@ -86,3 +86,15 @@ Sur `vision-majestios.html` :
 - Nouvelle formulation : « Les opportunités se repèrent, se comprennent et se construisent. MajestiOS aide à transformer les bons signaux en démarches commerciales. »
 - La doctrine « L’IA propose, l’humain dispose », le cycle de développement et les limites de promesse restent inchangés.
 - Correction versionnée sur Evolution-9, commit `468a191c2e9d87000e55cbf4cdf4bb12dffec000`.
+
+
+## Neuvième correction de la passe
+
+Sur `marches-publics.html`, `marches-prives.html`, `accompagnement-appels-offres.html` et `espace-membre.html` :
+- Suppression des repères « ÉTAGE » qui maintenaient l'ancienne navigation conceptuelle.
+- Sur l'accompagnement, remplacement de la scène de bâtiment et du faux parcours visuel par une carte textuelle courte, explicitement présentée comme un fonctionnement cible.
+- Sur les marchés publics et privés, simplification des blocs de présentation sans retirer les précautions sur la vérification des annonces.
+- Dans l'espace membre, suppression du bloc redondant sur le pilotage, déjà couvert par les contenus de la page.
+- Les liens de navigation, les accès et les fonctionnalités existantes sont conservés.
+
+Les quatre corrections sont versionnées sur `Evolution-9`. La CI doit être vérifiée sur le HEAD documentaire final de cette mise à jour.
