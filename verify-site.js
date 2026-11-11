@@ -177,7 +177,7 @@ assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes("Assistant co
 assert(siteFiles.includes("assistant-majestios.html") && siteFiles.includes("assistant-majestios.css") && siteFiles.includes("majestios-chat.css"),
   "Assistant : page dédiée et feuilles de style absentes du manifeste.");
 const assistantPage = fs.readFileSync(path.join(root, "assistant-majestios.html"), "utf8");
-assert(assistantPage.includes("Assistant MajestiOS") && assistantPage.includes("Connexion à activer") &&
+assert(assistantPage.includes("Assistant MajestiOS") && assistantPage.includes("IA à raccorder") && assistantPage.includes("guide conversationnel de première génération") &&
   assistantPage.includes('src="app.js"') && assistantPage.includes('href="assistant-majestios.css"'),
   "Assistant : espace dédié, statut de connexion ou ressources manquants.");
 assert(fs.readFileSync(path.join(root, "majestios-chat.css"), "utf8").includes(".majestios-chat-toggle"),
