@@ -134,7 +134,7 @@ assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Acc
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
 assert(home.includes("FLUX DE DÉMONSTRATION") && home.includes("Exemples fictifs de marchés publics et privés") && home.includes("Aucune annonce réelle n’est diffusée pour le moment"), "Accueil : avertissement des exemples fictifs absent");
-assert(home.includes("Donner de la hauteur") && home.includes("l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : positionnement CRM et distinction entre existant et cible absents");
+assert(home.includes("Détecter les opportunités.") && home.includes("Un CRM en évolution pour repérer les opportunités et organiser votre développement commercial."), "Accueil : positionnement CRM et distinction entre existant et cible absents");
 assert(home.includes('href="developpement-commercial.html"') && home.includes('href="reseaux-synergies.html"'),
   "Accueil : accès aux principales rubriques de navigation absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
