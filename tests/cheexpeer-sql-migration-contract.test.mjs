@@ -45,3 +45,8 @@ test("approval decision RPC binds approval to the requested tenant", () => {
   assert.match(fn, /if not found then[\s\S]*raise exception 'approval not found'/i);
   assert.match(migration, /revoke all on function public\.cheexpeer_api_decide_approval\(uuid,uuid,uuid,text,text\) from public, anon, authenticated/i);
 });
+
+test("SQL submission fails closed for unimplemented mission executors", () => {
+  assert.match(migration, /p_mission_type <> 'readiness_probe' or p_autonomy_level <> 0/i);
+  assert.match(migration, /mission type or autonomy level is not currently supported/i);
+});
