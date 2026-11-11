@@ -97,3 +97,12 @@ Le projet majestios-crm, actuellement ciblé par le frontend, n'a pas reçu les 
 **CRM-03 / CRM-02 — P1 toujours bloquants sur le projet principal.** Les migrations de restriction des colonnes UPDATE et d'historisation atomique restent à préparer et tester ; elles ne doivent pas être appliquées à majestios-crm sans sauvegarde, revue SQL, plan de retour arrière et autorisation explicite.
 
 **CRM-04 — correction de code présente.** Les payloads de création disposent désormais de listes blanches par table dans crm-client.js, avec test de contrat passé sur Evolution-9. Cela ne remplace jamais les privilèges SQL et politiques RLS.
+
+
+## 10. Préparation facturation électronique — phase 2
+
+**FACT-01 — exigence structurante à préserver.** Le CRM doit être conçu pour intégrer un véritable domaine de facturation : devis, versions, commandes/prestations, factures, avoirs, taxes, règlements, statuts, rejets, preuves et archivage. Le parcours doit aller de la fiche client à la facture et à son suivi.
+
+Trois modes sont prévus : CRM natif MajestiOS, CRM externe conservé par le client, ou mode hybride. Chaque objet doit avoir une source de référence explicite ; les connecteurs doivent empêcher les doubles factures et gérer idempotence, reprise et rapprochement.
+
+MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire passera par une PA partenaire sélectionnée et intégrée après étude, contrat et recette. La facturation est une priorité de conception de la deuxième phase, pas une fonctionnalité actuellement déployée. Voir [la spécification cible](../evolution-9/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md).
