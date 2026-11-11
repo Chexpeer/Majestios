@@ -536,3 +536,12 @@ La fonction de traitement de relance fixe un `search_path` vide, verrouille la r
 | CHX-WORKER-01 | P0 avant activation métier | Worker | Seuls bootstrap/self-check sont exécutables ; les autres outils sont refusés faute de handler. | Maintenir fail-closed jusqu'à recette métier et sécurité |
 
 Le détail et les limites de preuve figurent dans `AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md`. Aucun outil métier n'a été activé.
+
+
+## 39. Réparation du vérificateur de site — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Correction / statut |
+|---|---|---|---|---|
+| E9-CI-02 | P1 CI | `verify-site.js` | Le script déclarait deux fois `assistantPage`, ce qui bloquait la syntaxe. Après correction, une assertion lisait `sharedNavigation` avant son initialisation, puis la vérification cherchait le gestionnaire du bouton Assistant dans `navigation-tiroirs.js` alors qu'il est dans `app.js`. | Redéclaration supprimée, assertion réordonnée puis ciblée sur `app.js`. Les étapes syntaxe, tests unitaires, build et architecture ont ensuite passé ; le dernier run observé échouait encore sur l'assertion Assistant avant son dernier ajustement. Une CI complète sur le dernier commit reste à obtenir. |
+
+Ne pas déclarer la CI verte tant que le dernier commit Evolution-9 n'a pas terminé tous les contrôles. Les tests non exécutés après un échec précoce ne constituent pas des résultats.
