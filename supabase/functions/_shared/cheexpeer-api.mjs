@@ -55,7 +55,7 @@ export async function authorizeOrganizationAdmin({ admin, token, organizationId 
     return { ok: false, status: 401, code: "AUTH_REQUIRED" };
   }
   const user = auth?.data?.user;
-  if (auth?.error || !user?.id || !user.email_confirmed_at) {
+  if (auth?.error || !user?.id || !(user.email_confirmed_at || user.phone_confirmed_at)) {
     return { ok: false, status: 401, code: "AUTH_REQUIRED" };
   }
   let membership;
@@ -84,7 +84,7 @@ export function validateSubmissionPayload(value) {
   ]);
   if (!value || Object.keys(value).some((key) => !allowed.has(key))) return { ok: false };
   if (!isUuid(value.organization_id) ||
-      typeof value.mission_type !== "string" || !value.mission_type.trim() || value.mission_type.length > 100 ||
+      value.mission_type !== "readiness_probe" ||
       typeof value.title !== "string" || !value.title.trim() || value.title.length > 200 ||
       (value.objective != null && (typeof value.objective !== "string" || value.objective.length > 4000)) ||
       (value.priority != null && (!Number.isInteger(value.priority) || value.priority < 1 || value.priority > 5)) ||
