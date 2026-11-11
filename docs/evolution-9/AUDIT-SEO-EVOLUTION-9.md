@@ -1,0 +1,71 @@
+# Audit SEO technique et visibilité IA — Evolution-9
+
+**Date :** 11 novembre 2026  
+**Branche :** Evolution-9  
+**Statut :** audit initial ciblé, balayage global à poursuivre  
+**Méthode :** lecture du manifeste et des sources HTML dans Git ; aucun score externe Lighthouse/Search Console n'est revendiqué.
+
+## 1. Constat vérifié sur l'échantillon
+
+Dix pages ont été examinées : accueil, marchés publics, marchés privés, développement commercial, CRM, administration, assistant, facturation électronique, nous rejoindre et FAQ.
+
+| Page | Title | Meta description | H1 | Canonical | Robots |
+|---|---|---|---:|---|---|
+| index.html | Présent | Présente | 1 | absent | absent |
+| marches-publics.html | Présent | Présente | 1 | absent | absent |
+| marches-prives.html | Présent | Présente | 1 | absent | absent |
+| developpement-commercial.html | Présent | Présente | 1 | absent | absent |
+| crm.html | Présent | Présente | 1 | absent | noindex,nofollow |
+| administration.html | Présent | Présente | 2 | absent | noindex,nofollow |
+| assistant-majestios.html | Présent | Présente | 1 | absent | absent |
+| facturation-electronique.html | Présent | Présente | 1 | absent | absent |
+| nous-rejoindre.html | Présent | Présente | 1 | absent | absent |
+| faq.html | Présent | Présente | 1 | absent | absent |
+
+**Portée exacte :** ces constats portent sur les dix pages ci-dessus, pas sur l'ensemble des pages du manifeste. L'audit page par page doit encore être terminé.
+
+## 2. Points à traiter
+
+### SEO-01 — Canonicals et domaine de référence
+Aucun canonical n'a été trouvé dans les dix pages examinées. Le domaine public canonique n'est pas confirmé dans les éléments de cette passe. Ne pas injecter de canonicals absolus, sitemap ou redirections en devinant le domaine. Décision attendue : confirmer le domaine public officiel et les variantes à rediriger, puis générer les canonicals cohérents.
+
+### SEO-02 — Robots et sitemap
+Les fichiers racine robots.txt et sitemap.xml n'ont pas été trouvés dans le dépôt à la date de la vérification. Cela ne prouve pas qu'aucune règle n'est servie par l'hébergeur ou un autre mécanisme. Après confirmation du domaine et des routes publiques :
+- produire un robots.txt minimal et contrôlé ;
+- générer un sitemap XML à partir des seules pages publiques canoniques ;
+- exclure les pages privées, CRM, administration, recherches internes et paramètres de session ;
+- contrôler chaque URL publiée, le code HTTP, canonical et indexabilité.
+
+### SEO-03 — Protection des espaces privés
+CRM et administration portent bien noindex,nofollow dans l'échantillon. Vérifier également espace-interne, admin-recherches, espace membre, pages privées et routes sensibles. Le noindex est une consigne aux moteurs, jamais un contrôle d'accès ou une mesure de sécurité.
+
+### SEO-04 — Qualité sémantique et éditoriale
+Les titres, descriptions et H1 sont présents dans l'échantillon. À contrôler sur toutes les pages : unicité, adéquation à l'intention, promesse vérifiable, absence de duplication, hiérarchie H1/H2/H3, liens internes utiles, textes alternatifs et données structurées uniquement lorsqu'elles correspondent au contenu visible.
+
+### SEO-05 — Performance, accessibilité et partage
+Aucun score Lighthouse, Core Web Vitals, audit d'accessibilité automatisé ni test de rendu social n'a été effectué dans cette passe. Ces contrôles restent ouverts : images, formats et dimensions, chargement différé, CSS/JS inutiles, poids des pages, contraste, clavier, focus, libellés et métadonnées Open Graph.
+
+### GEO-01 — Lisibilité par les moteurs IA
+Rendre la proposition MajestiOS explicite, cohérente et sourcée : qui est servi, quels problèmes sont résolus, quelles rubriques existent, ce qui est réellement disponible et ce qui est en préparation. Éviter les promesses d'intégration ou de conformité non démontrées. Relier les pages aux sources officielles lorsque le sujet est réglementaire.
+
+## 3. Règles de publication
+
+- Ne pas indexer les cockpits, écrans internes ou pages de test.
+- Ne pas fabriquer d'avis, d'étoiles, de prix, de statistiques, de clients ou de partenaires.
+- Ne pas créer de FAQ structurée si les questions/réponses ne sont pas visibles sur la page.
+- Ne pas présenter MajestiOS comme Plateforme Agréée de facturation.
+- Maintenir les dates de mise à jour et les liens réglementaires à partir des sources officielles.
+- Toute optimisation éditoriale doit conserver l'intention métier et ne pas surcharger les pages de mots-clés.
+
+## 4. Prochaine séquence d'audit
+
+1. Balayer toutes les pages HTML déclarées dans site-files.json.
+2. Vérifier unicité title/description, H1, canonical, robots, liens, images alt, liens cassés et pages orphelines.
+3. Confirmer le domaine canonique avant de créer robots.txt, sitemap.xml et canonicals.
+4. Ajouter des contrôles statiques de non-régression pour les exigences SEO sûres.
+5. Exécuter les contrôles de build, liens, architecture et navigateur ; consigner les preuves.
+6. Compléter les tests performance et accessibilité sur une prévisualisation.
+
+## 5. Statuts
+
+SEO-01 à SEO-05 et GEO-01 restent ouverts. Cet audit constitue un état initial partiel et ne doit pas être présenté comme un audit SEO complet.
