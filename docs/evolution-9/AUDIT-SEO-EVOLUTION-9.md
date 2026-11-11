@@ -80,3 +80,10 @@ Constats confirmés :
 - les deux pages ont reçu noindex,nofollow dans Evolution-9 et des assertions de non-régression ont été ajoutées dans verify-site.js.
 
 **Statut :** correction de code et tests statiques intégrés ; CI à confirmer. Cette directive limite l'indexation, elle ne protège pas l'accès aux comptes ni les données.
+
+
+## 7. Exactitude des promesses Cheexpeer
+
+La meta description de majestios-v5.html présentait les missions futures (surveillance, analyse, rapports, alertes et scoring) comme une liste de capacités intégrées. Elle a été reformulée pour annoncer clairement un agent en préparation et renvoyer vers ses missions visées, sa gouvernance et les étapes d'activation. Le corps de page indiquait déjà que ces capacités n'étaient pas opérationnelles ; cette correction aligne le signal SEO avec le contenu réel.
+
+Le contrôle a aussi identifié CHAT-03 : la page assistant-majestios.html affichait un formulaire désactivé alors que seul le guide flottant était fonctionnel. Le formulaire inactif a été remplacé par un bouton qui ouvre le guide local partagé ; le moteur IA avancé reste explicitement annoncé comme non raccordé. Test statique ajouté, CI à confirmer.
