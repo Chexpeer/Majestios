@@ -68,11 +68,10 @@
           </ul>
         </div>
       </div>
-      <form class="assistant-composer" aria-label="Zone de saisie de l’assistant">
-        <label for="assistant-message">Votre question</label>
-        <textarea id="assistant-message" rows="2" disabled placeholder="Le guide local reste disponible via le bouton flottant. La conversation IA avancée sera activée après raccordement."></textarea>
-        <button type="button" disabled>Envoyer</button>
-      </form>
+      <div class="assistant-composer assistant-composer-launcher">
+        <p>Le guide conversationnel local est prêt. Ouvrez-le pour poser une question et être orienté vers les rubriques existantes.</p>
+        <button type="button" id="assistant-open-guide">Ouvrir le guide conversationnel</button>
+      </div>
       <p class="assistant-disclaimer">Le guide actuel est un outil d’orientation local. Il ne transmet aucune donnée et ne déclenche aucune action métier.</p>
     </section>
 
