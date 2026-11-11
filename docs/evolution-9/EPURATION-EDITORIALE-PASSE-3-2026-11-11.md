@@ -103,3 +103,8 @@ Les quatre corrections sont versionnées sur `Evolution-9`. La CI doit être vé
 ## Dixième correction de la passe
 
 Sur `intelligence-economique.html` : retrait du bâtiment illustratif et de la mention « parcours guidé interactif », qui suggéraient une interface non disponible et contredisaient la navigation classique retenue. Remplacement par une carte textuelle courte. Le statut « en préparation », la vérification des sources et la distinction entre faits et hypothèses sont conservés.
+
+
+## Onzième correction de la passe
+
+Sur `crm.html`, le bloc des relances ne prétend plus que le serveur « actualise » l'écran toutes les cinq minutes. Le titre devient « Relances persistantes ». Le texte distingue la conservation dans le CRM, la création automatique dépendante du traitement planifié effectivement activé sur l'environnement connecté, et le rechargement de la liste avec le CRM. Le code de `crm-page.js` charge la liste lors de l'appel à `refresh()` ; aucun rafraîchissement périodique du navigateur n'a été constaté dans cette fonction.
