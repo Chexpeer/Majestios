@@ -234,7 +234,7 @@ assert(siteFiles.includes("facturation-electronique.html"), "Facturation électr
 assert(invoicingPage.includes("1er septembre 2027") && invoicingPage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : calendrier ou statut MajestiOS absent");
 const tenderAccompaniment = fs.readFileSync(path.join(root, "accompagnement-appels-offres.html"), "utf8");
 assert(tenderAccompaniment.includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : lien vers la thématique facturation absent");
-assert(home.includes("Développement commercial intelligent") && home.includes("l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : la vision tout-en-un doit distinguer le socle actuel des modules en préparation");
+assert(home.includes("Un CRM en évolution pour repérer les opportunités et organiser votre développement commercial.") && home.includes("Certaines fonctions restent en préparation."), "Accueil : le positionnement CRM et le statut des fonctions en préparation doivent être explicites");
 
 
 const internalEntryHtml = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
