@@ -221,3 +221,24 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 | CI-01 | P1 CI | Installation Playwright | Le dernier run `43032901155` échoue à l'étape d'installation Chromium : `playwright install --with-deps` déclenche APT, dont les miroirs Ubuntu sont injoignables (`Temporary failure resolving`). Les contrôles syntaxe, tests Node, build, architecture, site et liens documentaires précédant cette étape ont réussi ; les tests navigateur suivants ont été ignorés. | Suppression de `--with-deps` pour utiliser les dépendances déjà présentes sur le runner GitHub standard et éviter l'étape APT réseau. | Correction du workflow à vérifier sur une nouvelle exécution CI. |
 
 **Limite :** aucune validation visuelle réelle n'est revendiquée. La modification de la commande Playwright ne prouve pas encore que Chromium démarre correctement sur le runner ; le prochain run doit le confirmer.
+
+
+## 22. Exigence utilisateur — navigation strictement identique sur toutes les pages — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Exigence / traitement | Statut |
+|---|---|---|---|---|---|
+| NAV-04 | P1 | Parité de navigation multi-pages | Le menu public est généré par `navigation-tiroirs.js` et ses styles sont centralisés dans `navigation-tiroirs.css`, chargés directement ou via `app.js`. Le test navigateur contrôlait surtout l'accueil et quelques destinations, sans comparer la structure complète sur chaque page publiée. Le CRM (`crm.html`) possède une navigation métier dédiée ; les écrans `administration.html`, `admin-recherches.html` et `espace-interne.html` ont des interfaces privées dédiées. | Une seule barre publique de référence partout où la navigation publique est attendue : mêmes familles, libellés, ordre, liens, dimensions, styles, états actifs, sous-menus et comportements desktop/mobile. Toute exception privée doit être explicitement identifiée, cohérente avec la charte MajestiOS et ne pas être confondue avec une divergence accidentelle. | Test navigateur étendu sur toutes les pages HTML publiques du manifeste ; exécution CI et contrôle visuel encore requis. La parité CRM/cockpit privé reste à examiner séparément avant clôture. |
+
+### Critères de recette NAV-04
+
+- [ ] Inventorier chaque page HTML du manifeste et classer les pages publiques, l'entrée VIP, le CRM et les cockpits privés.
+- [ ] Comparer automatiquement sur chaque page publique la liste ordonnée des familles, les libellés, les destinations, la hauteur de barre et la présence du hamburger.
+- [ ] Vérifier les états actif, survol, focus clavier, ouverture/fermeture des sous-menus et navigation tactile.
+- [ ] Répéter la recette à 1440 px et 390 px au minimum ; ajouter tablette si le runner le permet.
+- [ ] Vérifier visuellement les pages d'entrée VIP et CRM : même langage de marque, contraste, compacité et absence de conflit entre navigation globale et navigation métier.
+- [ ] Ne pas considérer un contrôle statique ou un build réussi comme une preuve de rendu visuel.
+- [ ] Ne clôturer NAV-04 qu'après CI verte, captures comparatives et revue des exceptions privées.
+
+**Modification de test :** le test `tests/navigation-classique.browser.cjs` compare désormais la structure complète du menu sur les pages HTML publiques présentes dans `site-files.json`, puis revient à l'accueil pour poursuivre les scénarios existants. Les écrans CRM et cockpits privés sont exclus de cette comparaison publique et restent explicitement dans le périmètre de revue dédié.
+
+**Limite de preuve :** le test a été modifié sur Evolution-9 ; il n'a pas encore été exécuté après cette modification. Aucune correction visuelle ou déploiement n'est déclaré à ce stade.
