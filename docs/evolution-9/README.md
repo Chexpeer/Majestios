@@ -158,3 +158,10 @@ La référence fonctionnelle et visuelle reste Evolution-7. L'audit [AUDIT-NON-R
 La barre de navigation publique doit être identique sur toutes les pages publiques publiées : mêmes familles, intitulés, ordre, liens, géométrie, styles, sous-menus et comportements desktop/mobile. L'entrée VIP doit rester intégrée à la charte MajestiOS. Le CRM et les cockpits privés conservent leurs navigations métier dédiées, mais leur cohérence avec le langage visuel commun et leurs exceptions doivent être contrôlées explicitement.
 
 Le test navigateur compare désormais la structure de navigation sur chaque page HTML publique du manifeste. **Statut : test ajouté, exécution CI et recette visuelle non encore confirmées.** Voir NAV-04 dans le registre des anomalies.
+
+
+## 19. Identité graphique commune — UX-02
+
+Toutes les pages MajestiOS, publiques comme privées, doivent partager une même grammaire visuelle : bleu nuit, or et chrome/acier, typographies, hiérarchie, composants, états et responsive cohérents. Les surfaces peuvent varier selon leur usage (ex. cockpit sombre et formulaires clairs), mais ne doivent jamais sembler provenir d'une autre marque. L'espace VIP, le CRM, l'administration et l'espace collaborateurs sont inclus. La feuille `charte-majestios.css` existe déjà, mais sa présence partielle ne prouve pas l'harmonisation de toutes les interfaces.
+
+**Statut : exigence documentée, audit visuel et corrections non réalisés à ce stade.** Voir UX-02 dans le registre des anomalies. Préserver toutes les fonctions et les contrastes ; ne pas confondre uniformité de marque et fond sombre obligatoire.
