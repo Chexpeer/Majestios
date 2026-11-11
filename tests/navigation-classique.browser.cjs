@@ -92,7 +92,7 @@ async function main() {
     assert.equal(await menuButton.getAttribute("aria-expanded"),"true","L’état accessible du hamburger doit être synchronisé.");
     assert.equal(await page.locator("#site-nav .nav-group-items:not([hidden])").count(),0,
       "Les sous-menus doivent rester repliés à l’ouverture du hamburger.");
-    const devGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
+    // Réutilise devGroup déclaré avant le parcours desktop : même groupe DOM, nouveau viewport mobile.
     await devGroup.locator(".nav-group-link").click();
     assert.equal(await devGroup.locator(".nav-group-items").isVisible(),true,
       "Le toucher doit ouvrir le sous-menu Développement commercial.");
