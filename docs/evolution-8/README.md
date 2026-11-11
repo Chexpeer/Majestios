@@ -72,3 +72,8 @@ Aucune refonte d'écran ne doit masquer ces risques. Les travaux d'interface peu
 Le déploiement de prévisualisation correspondant au commit `f9f84e2e0dba4ec6f5b445160cebf848490961e9` est `READY`. Le build de la version incluant la page `facturation-electronique.html` est `READY` et confirme 81 fichiers copiés depuis `site-files.json` sans différence avec les sources. La prévisualisation reste non promue en production. Cette preuve valide le build et le manifeste, pas le rendu visuel ni les parcours navigateur. Le statut consulté pour le commit ne fournit pas de résultat GitHub Actions ; les tests navigateur et les tests multi-rôles restent à confirmer.
 
 Aucun changement n'a été apporté à Supabase, aux données, aux fonctions Edge ou aux secrets. Aucun déploiement de production ni promotion Vercel n'a été effectué.
+
+
+### Contrôle complémentaire — cohérence de navigation
+
+Une incohérence entre le vérificateur d'architecture et le test navigateur a été corrigée : le menu Evolution-8 contient désormais 20 entrées secondaires réparties sur 18 destinations uniques. Le contrôle statique inclut également la page facturation électronique dans les routes obligatoires. Voir l'anomalie NAV-01 dans le registre. La correction est commise ; son passage CI doit encore être confirmé.
