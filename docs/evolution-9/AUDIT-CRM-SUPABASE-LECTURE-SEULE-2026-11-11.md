@@ -127,3 +127,42 @@ Cependant, la recette de sécurité n'est pas démontrée :
 Cet audit n'a effectué aucune écriture Supabase. Aucune migration, donnée, fonction Edge, politique RLS, configuration Auth, clé ou secret distant n'a été modifié. Aucun déploiement Vercel ni changement de production n'a été effectué.
 
 Toute convergence doit faire l'objet d'un plan explicite, d'une sauvegarde vérifiée, d'une revue SQL, d'une recette sur environnement isolé et d'une autorisation avant exécution.
+
+## 11. Addendum de vérification — 11 novembre 2026, 12:35 (heure de Paris)
+
+Ce contrôle complémentaire précise et, lorsque nécessaire, corrige les formulations des sections précédentes. Il confirme que les deux projets ont des rôles distincts ; leur différence de migrations n'est pas en elle-même une anomalie à corriger.
+
+### 11.1 Rôle des environnements
+
+- `MajestiOS-Test` est traité comme environnement de test/recette : 39 migrations, socle CRM multi-tenant élargi, tables privées Cheexpeer et worker de test.
+- `majestios-crm` reste le projet actuellement référencé par `supabase-config.js` : 22 migrations, CRM interne protégé VIP et fonctions Edge de recherche/import officiel.
+- L'écart de 17 migrations est une divergence de périmètre et de cycle de vie à documenter, pas une instruction de synchronisation. Aucune convergence automatique n'est recommandée.
+
+### 11.2 RLS et table privée
+
+Les tables publiques CRM inspectées ont RLS activée dans les deux projets. Dans `MajestiOS-Test`, `private.reputation_audit_usage` a RLS désactivée, mais les privilèges directs observés dans `information_schema.role_table_grants` sont exclusivement attribués à `postgres` ; aucune politique n'est définie. Le schéma privé et l'absence de droits directs pour `anon`/`authenticated` réduisent l'exposition directe constatée. Le point reste une faiblesse de défense en profondeur à traiter avant toute évolution des droits ou exposition du schéma, et non une preuve d'accès navigateur.
+
+### 11.3 RPC de relance — correction du constat précédent
+
+- Dans `MajestiOS-Test`, `public.complete_crm_reminder(uuid)` est `SECURITY DEFINER`, exécutable par `authenticated` et non exécutable par `anon`. Son corps vérifie `auth.uid()`, l'appartenance et les droits via `private.can_edit_crm_org(organization_id)`, puis vérifie l'état de la relance et l'organisation de l'opportunité. Le précédent texte indiquant `private.is_org_admin` était inexact. L'advisor reste un signal de revue ; il faut tester les rôles et les cas inter-organisations avant clôture.
+- Dans `majestios-crm`, le RPC est `SECURITY INVOKER`, exécutable par `authenticated` et non par `anon`, et utilise `private.is_org_editor`. Les politiques RLS actuelles des tables CRM du projet principal sont limitées à `private.is_org_admin`, ce qui maintient de fait la frontière VIP owner/admin.
+
+### 11.4 Cohérence frontend / droits du projet principal
+
+Le fichier `crm-client.js` sur `Evolution-9` vérifie la session avec `getSession()` puis `getUser()`, recherche l'appartenance à une organisation interne et refuse l'accès si le rôle n'est pas `owner` ou `admin`. Cette restriction concorde avec les politiques RLS VIP de `majestios-crm`. Elle signifie aussi que le CRM client multi-tenant ouvert aux membres d'entreprises pilotes n'est pas encore activé sur le projet utilisé par le site.
+
+### 11.5 Cheexpeer et advisors
+
+Le worker Edge `cheexpeer-worker` v1 de `MajestiOS-Test` a `verify_jwt=true`. Le code déployé exige un JWT de rôle `service_role`, utilise le service role côté serveur et ne permet que `readiness_probe` ; les autres types de mission sont refusés/échouent en mode test. Le code déclare explicitement l'absence d'effets externes (réseau métier, email, écriture CRM, scraping ou mutation de fichiers). Ce worker ne doit pas être présenté comme un agent Cheexpeer opérationnel.
+
+Les advisors recontrôlés indiquent : protection contre les mots de passe compromis désactivée sur `majestios-crm` ; 20 index inutilisés signalés sur ce projet et 44 sur `MajestiOS-Test`. Les alertes d'index sont informatives dans des environnements peu chargés et ne justifient aucune suppression automatique. Aucun advisory de santé n'a été retourné.
+
+### 11.6 Décisions d'audit
+
+1. Conserver les deux projets distincts et documenter leurs responsabilités respectives.
+2. Ne pas appliquer les migrations de test sur `majestios-crm` en bloc.
+3. Garder `MajestiOS-Test` comme environnement d'expérimentation/recette tant que son rôle n'est pas explicitement redéfini.
+4. Avant pilote client, construire les tests d'isolation inter-organisations, les tests owner/admin/member, le parcours OTP et le provisionnement complet sur le projet de test.
+5. Ne modifier aucun paramètre Auth, privilège, RLS, fonction Edge, donnée ou migration distante sans plan et autorisation.
+
+**Périmètre de ce complément : lecture seule.** Aucun changement Supabase ou Vercel n'a été effectué.
