@@ -408,3 +408,35 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(7) > .nav-group-l
     background:linear-gradient(105deg,rgba(213,181,108,.18),rgba(154,168,182,.12)) !important;
   }
 }
+
+
+/* Mobile drawer is a light, legible surface; only the compact header and hamburger
+   use the dark chrome. VIP keeps the approved navy text and discreet gold underline. */
+@media(max-width:900px){
+  .site-header .site-nav.site-nav-drawer{
+    background:rgba(250,252,255,.985) !important;
+    color:#17324f !important;
+    border-left:1px solid rgba(24,54,86,.16) !important;
+    box-shadow:-18px 0 55px rgba(4,18,38,.22) !important;
+  }
+  .site-nav-drawer .nav-drawer-home,
+  .site-nav-drawer .nav-group-link{
+    color:#243b57 !important;
+    border-bottom:1px solid rgba(24,54,86,.10) !important;
+  }
+  .site-nav-drawer .nav-group-items{
+    background:transparent !important;
+    border-left:1px solid rgba(24,54,86,.18) !important;
+  }
+  .site-nav-drawer .nav-group-items a{color:#243b57 !important}
+  .site-nav-drawer .nav-vip-link,
+  .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link{
+    color:#17324f !important;
+    padding:6px 4px !important;
+    border:0 !important;
+    border-bottom:1px solid #c5a45e !important;
+    border-radius:0 !important;
+    background:transparent !important;
+  }
+  .site-nav-drawer .nav-vip-link::before{color:#9a7a3d !important}
+}
