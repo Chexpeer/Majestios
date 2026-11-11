@@ -219,16 +219,17 @@ const supabaseConfig = read("supabase-config.js");
 const workspaceFunction = read("supabase/functions/provision-client-workspace/index.ts");
 assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes('data-supabase-auth'),
   "Espace membre : le formulaire doit utiliser le contrôleur Auth Supabase");
-assert(memberPage.includes('name="privacyAccepted"') && memberPage.includes('autocomplete="one-time-code"'),
-  "Espace membre : consentement et saisie du code OTP attendus");
+assert(memberPage.includes('name="email"') && memberPage.includes('autocomplete="one-time-code"') &&
+  memberPage.includes("création de nouveaux espaces sera ouverte après activation du provisionnement"),
+  "Espace membre : connexion OTP et suspension explicite de l'inscription attendues");
 assert(memberAuth.includes("signInWithOtp(") && memberAuth.includes("verifyOtp(") &&
-  memberAuth.includes("shouldCreateUser: mode === \"signup\""),
-  "Espace membre : inscription, connexion OTP et vérification du code doivent être implémentées");
+  memberAuth.includes("shouldCreateUser: false") && memberAuth.includes('setMode("login")'),
+  "Espace membre : connexion OTP seule tant que le provisionnement n'est pas activé");
 assert(!memberPage.includes('name="password"') && !memberPage.includes('name="passwordConfirm"') &&
   !memberAuth.includes("signInWithPassword(") && !memberAuth.includes("resetPasswordForEmail("),
   "Espace membre : aucun mot de passe ne doit être demandé dans le parcours OTP");
-assert(memberAuth.includes('provision-client-workspace') && memberAuth.includes('privacy_notice_acknowledged'),
-  "Espace membre : le provisionnement sécurisé du tenant doit être appelé après authentification");
+assert(!memberAuth.includes('provision-client-workspace') && memberPage.includes("création de nouveaux espaces"),
+  "Espace membre : ne pas appeler un provisionnement absent de l'environnement actif");
 assert(!/SUPABASE_SERVICE_ROLE_KEY|sb_secret_[A-Za-z0-9]+/i.test(supabaseConfig),
   "Sécurité Supabase : aucune clé service_role ne doit être publiée dans le navigateur");
 const atomicProvisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
