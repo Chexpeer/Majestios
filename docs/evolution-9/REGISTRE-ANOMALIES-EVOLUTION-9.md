@@ -48,7 +48,7 @@ Les constats proviennent des registres Evolution-7 et Evolution-8 ; ils doivent 
 
 ## 5. Contrôle documentaire ajouté
 
-Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniques (README, AGENTS, index documentaire, registre critique et dossier Evolution-9). Il est appelé par le workflow `.github/workflows/verify-site.yml`. Son code et son intégration sont présents ; **le résultat d'exécution GitHub Actions n'est pas encore disponible**, donc aucune réussite n'est déclarée.
+Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniques (README, AGENTS, index documentaire, registre critique et dossier Evolution-9). Il est appelé par le workflow `.github/workflows/verify-site.yml`. Son code et son intégration sont présents ; **le résultat d'exécution GitHub Actions n'est pas encore disponible**, donc aucune réussite n'est déclarée. Le build Vercel Evolution-9 est READY et copie 81 fichiers, mais ce build n'exécute pas ce script.
 
 ## 6. État de vérification
 
