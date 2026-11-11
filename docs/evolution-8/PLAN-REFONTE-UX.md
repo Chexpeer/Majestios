@@ -46,7 +46,7 @@ Conserver une navigation classique, stable et responsive. Les six familles exist
 - Réseau & partenaires ;
 - Espace client.
 
-La réorganisation ne doit ni supprimer des pages utiles ni créer de liens fictifs.
+La réorganisation ne doit ni supprimer des pages utiles ni créer de liens fictifs. La page « Facturation électronique & dématérialisation » est un sous-parcours de l'accompagnement et doit être accessible depuis les menus Appels d'offres et Développement commercial.
 
 Direction visuelle à vérifier sur prototype :
 - barre supérieure discrète et compacte ;
@@ -131,7 +131,7 @@ Une première version de la vitrine Evolution-8 est construite dans `index.html`
 - garde les appels d'offres et le développement commercial comme porte d'entrée actuelle ;
 - présente un aperçu conceptuel explicitement signalé comme non connecté.
 
-La navigation partagée a reçu une première couche de style Evolution-8 : barre transparente, onglets colorés, menus déroulants clairs, hamburger mobile préservé et lien VIP conservé. Le manifeste `site-files.json` inclut la nouvelle feuille de style.
+La navigation partagée a reçu une première couche de style Evolution-8 : barre transparente, onglets colorés, menus déroulants clairs, hamburger mobile préservé et lien VIP conservé. Le sous-parcours « Facturation électronique & dématérialisation » est maintenant présent dans les menus Appels d'offres et Développement commercial. La page `facturation-electronique.html` expose le calendrier réglementaire, le rôle des PA et le statut réel du projet ; elle est publiée dans le manifeste `site-files.json`.
 
 **État de recette :**
 - Build Vercel de prévisualisation : réussi, 80 fichiers vérifiés.
