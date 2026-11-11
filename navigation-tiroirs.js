@@ -12,7 +12,20 @@
 
   const ensureNavigationShell = () => {
     let header = document.querySelector(".site-header");
-    if (header && header.querySelector("#site-nav")) return header;
+    if (header && header.querySelector("#site-nav")) {
+      if (!header.querySelector("#menu-toggle, .menu-toggle")) {
+        const button = document.createElement("button");
+        button.id = "menu-toggle";
+        button.className = "menu-toggle";
+        button.type = "button";
+        button.setAttribute("aria-expanded", "false");
+        button.setAttribute("aria-controls", "site-nav");
+        button.setAttribute("aria-label", "Ouvrir le menu");
+        button.innerHTML = "<span></span><span></span><span></span>";
+        header.insertBefore(button, header.querySelector("#site-nav"));
+      }
+      return header;
+    }
     if (!header) {
       header = document.createElement("header");
       header.className = "site-header";
