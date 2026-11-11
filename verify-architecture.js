@@ -125,21 +125,21 @@ for (const asset of [
 ]) assert(siteFiles.includes(asset), "Build : ressource requise absente du manifeste : " + asset);
 
 const home = read("index.html");
-assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
+assert(home.includes("<title>MajestiOS — Le CRM tout-en-un pour développer votre entreprise</title>"), "Accueil : titre SEO de la vision CRM tout-en-un inattendu");
 assert(!home.includes('aria-label="Immeuble interactif MajestiOS"') && !home.includes('id="floor-rows"'),
   "Accueil : l'ancien système de navigation par immeuble doit être retiré");
 assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
-assert(home.includes("FLUX DE DÉMONSTRATION"), "Accueil : avertissement du flux fictif absent");
-assert(home.includes("Donner de la hauteur"), "Accueil : texte de positionnement existant absent");
+assert(home.includes("EXEMPLES DE DÉMONSTRATION") && home.includes("Les scénarios illustratifs ne sont pas des annonces réelles"), "Accueil : avertissement des exemples fictifs absent");
+assert(home.includes("L’ambition du CRM") && home.includes("Le CRM client et les modules de facturation sont en préparation"), "Accueil : positionnement CRM et distinction entre existant et cible absents");
 assert(home.includes('href="developpement-commercial.html"') && home.includes('href="reseaux-synergies.html"'),
   "Accueil : accès aux principales rubriques de navigation absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
 assert(!/<script>\s*[\s\S]*?<\/script>/i.test(home), "Accueil : contrôleur inline résiduel encore présent");
 assert(!navigationController.includes('const interactiveSvg = document.querySelector("#majestios-panorama")'), "Navigation : gestionnaire de l’ancien SVG interactif encore présent");
 assert(!home.includes("<style"), "Accueil : les styles doivent être externalisés dans des feuilles dédiées");
-assert(home.includes("MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : le texte de positionnement doit être préservé");
+assert(home.includes("Relier le développement commercial, la gestion des clients, les opérations et la facturation dans un même environnement"), "Accueil : promesse centrale de la vision CRM tout-en-un absente");
 assert((read("homepage.css") + read("homepage-theme.css")).includes('url("Designer%20(2).png")'), "Accueil : le fond panoramique Designer doit être préservé");
 const homepageCss = read("homepage.css") + read("homepage-theme.css");
 assert(!/\\.(?:building|tower|floor|elevator|home-help|dialog-[\\w-]*|window)[\\w-]*|#floor-rows|\\.site-nav\\b|\\.menu-toggle\\b/i.test(homepageCss), "CSS accueil : styles obsolètes de l’immeuble et de l’ancien menu encore présents");
