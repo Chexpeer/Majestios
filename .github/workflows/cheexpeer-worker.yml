@@ -2,12 +2,13 @@ name: Cheexpeer worker contract
 
 on:
   push:
-    branches: [Evolution-7]
+    branches: [Evolution-7, Evolution-8]
     paths:
       - "services/cheexpeer-worker/**"
       - "supabase/functions/cheexpeer-worker-bridge/**"
       - "supabase/functions/README.md"
       - "docs/evolution-7/CHEXPEER-WORKER-EXECUTION.md"
+      - "docs/evolution-8/**"
       - ".github/workflows/cheexpeer-worker.yml"
   pull_request:
     paths:
