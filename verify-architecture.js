@@ -284,6 +284,25 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
     "Charte : les styles de rubrique doivent précéder la charte commune sur " + page);
 }
 
+// La charte est une source de tokens unique, consommée par les feuilles publiques et privées.
+assert(siteFiles.includes("charte-majestios-tokens.css"),
+  "Charte : les tokens centraux doivent être publiés dans le manifeste");
+const sharedTokens = read("charte-majestios-tokens.css");
+for (const token of ["--majestios-gold:", "--majestios-navy:", "--majestios-font-body:", "--majestios-radius-control:"]) {
+  assert(sharedTokens.includes(token), "Charte : token central manquant : " + token);
+}
+assert(/@import url\\(["']charte-majestios-tokens\\.css["']\\)/.test(read("charte-majestios.css")),
+  "Charte : la feuille publique doit importer la source de tokens");
+assert(/@import url\\(["']charte-majestios-tokens\\.css["']\\)/.test(read("charte-majestios-espaces.css")),
+  "Charte : la feuille des espaces privés doit importer la source de tokens");
+assert(siteFiles.includes("charte-majestios-espaces.css"),
+  "Charte : la couche des espaces privés doit être publiée dans le manifeste");
+for (const page of ["crm.html","administration.html","admin-recherches.html","espace-interne.html"]) {
+  const html = read(page);
+  assert(/href="charte-majestios-espaces\\.css"/.test(html),
+    "Charte : couche privée absente sur " + page);
+}
+
 const prospecting = read("prospection-active.html");
 assert(prospecting.includes("<title>Prospection — MajestiOS</title>"), "Prospection : titre incorrect");
 assert(prospecting.includes("<h1>Prospection</h1>"), "Prospection : titre principal incorrect");

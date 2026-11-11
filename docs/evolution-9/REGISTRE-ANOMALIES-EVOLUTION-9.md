@@ -321,3 +321,12 @@ Projet : `majestios` (`prj_efmheKwiXnsncdhJYLmNIWN9QYQL`)
 Cible : Preview, aucune promotion production.
 
 Le déploiement est prêt et correspond exactement au commit de la recette CI verte. La protection SSO du projet reste activée. L'ouverture non authentifiée du preview depuis l'outil web n'a pas permis d'inspecter le rendu ; aucune validation visuelle n'est donc revendiquée. Ne pas désactiver la protection : la revue visuelle doit être faite depuis une session autorisée.
+
+
+## 29. Garde-fous automatiques de la charte — 11 novembre 2026
+
+| ID | Priorité | Domaine | Contrôle ajouté | Statut |
+|---|---|---|---|---|
+| UX-05 | P1 | Régression des tokens graphiques | `verify-architecture.js` contrôle désormais la présence des tokens centraux dans le manifeste, leur import par les deux feuilles de composants et le chargement de la couche privée sur CRM, administration, recherches ciblées et espace collaborateurs. | Contrôle statique ajouté ; CI à confirmer. |
+
+Ce contrôle vérifie le contrat de chargement et de source unique ; il ne remplace pas la recette du contraste, du rendu, des tailles et des états interactifs dans un navigateur.

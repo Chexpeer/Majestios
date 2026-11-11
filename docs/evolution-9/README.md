@@ -197,3 +197,10 @@ La prévisualisation Vercel de la branche Evolution-9 est **READY** sur le commi
 - Projet Vercel unique : `majestios`.
 
 La protection SSO du projet reste active. Le rendu n'a pas pu être inspecté automatiquement sans authentification ; les captures comparatives et la recette visuelle restent donc ouvertes. Aucun déploiement production ni changement Supabase distant n'a été effectué.
+
+
+## 25. Prévention des régressions de charte — 11 novembre 2026
+
+Le vérificateur d'architecture contrôle maintenant que les tokens sont déclarés une seule fois, importés par les feuilles publiques et privées, publiés dans le manifeste et chargés sur les quatre espaces privés de référence. Ce contrôle empêche le retour de variables graphiques privées non raccordées à la charte commune.
+
+**Limite :** le contrôle est structurel ; il ne certifie pas le contraste ni la qualité du rendu visuel. La recette par captures reste nécessaire.
