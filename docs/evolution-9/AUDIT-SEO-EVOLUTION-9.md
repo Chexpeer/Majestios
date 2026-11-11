@@ -69,3 +69,14 @@ Rendre la proposition MajestiOS explicite, cohérente et sourcée : qui est serv
 ## 5. Statuts
 
 SEO-01 à SEO-05 et GEO-01 restent ouverts. Cet audit constitue un état initial partiel et ne doit pas être présenté comme un audit SEO complet.
+
+## 6. Extension du contrôle — espaces privés et résultats dynamiques
+
+Un second échantillon a porté sur espace privé, espace membre, espace interne, recherches administratives, résultats de recherche, qualification d'entreprises, réputation virtuelle, prospection, veille et vision.
+
+Constats confirmés :
+- espace-prive.html, espace-interne.html et admin-recherches.html possèdent déjà noindex,nofollow ;
+- espace-membre.html et resultats-recherche.html n'avaient pas cette directive alors que la première est un parcours de compte et la seconde une page de résultats dynamiques ;
+- les deux pages ont reçu noindex,nofollow dans Evolution-9 et des assertions de non-régression ont été ajoutées dans verify-site.js.
+
+**Statut :** correction de code et tests statiques intégrés ; CI à confirmer. Cette directive limite l'indexation, elle ne protège pas l'accès aux comptes ni les données.
