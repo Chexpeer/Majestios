@@ -798,3 +798,11 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | UX-EDITORIAL-12 | P2 | Cohérence éditoriale et statut fonctionnel | La page Intelligence économique conservait un bâtiment illustratif et la promesse d'un parcours interactif alors que la rubrique est en préparation et que la navigation par étages a été abandonnée. | Corrigé sur Evolution-9 : présentation textuelle concise, statut en préparation et précautions de vérification conservés. CI du HEAD final à vérifier. |
+
+
+
+## 67. Promesse excessive sur l'actualisation des relances CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-13 | P1 | CRM — transparence fonctionnelle | Le texte de l'interface affirmait que le serveur actualisait les relances affichées toutes les cinq minutes. Le code charge les relances dans `refresh()`, sans démontrer un rafraîchissement périodique de l'écran. | Corrigé sur Evolution-9 : distinction entre conservation, matérialisation planifiée et rechargement de l'interface. Activation réelle du traitement à confirmer par environnement ; recette distante non déclarée. |
