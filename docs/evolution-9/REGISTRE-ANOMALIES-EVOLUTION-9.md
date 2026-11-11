@@ -567,3 +567,13 @@ Le contrôle runtime confirme les politiques RLS de refus navigateur sur les tab
 | CHX-WORKER-05 | P1 | Exception readiness_probe | Le claim SQL autorise `readiness_probe` autonomie 0 hors registre ; le handler ignore input/context, mais l'exception n'est pas liée à une version précise. | Conserver soumission serveur uniquement, borner les entrées et prévoir suppression contrôlée de l'exception après bootstrap. |
 
 Les garde-fous positifs du pont (secret, comparaison temps constant, actions autorisées, tailles et identifiants bornés) sont décrits dans l'audit des interfaces, section 14. Aucun code runtime ni secret n'a été modifié.
+
+
+## 42. Vulgarisation des appels d'offres et taxonomie recherche — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Action / statut |
+|---|---|---|---|---|
+| CHX-AO-02 | P2 | Interface accompagnement AO | Page de présentation uniquement ; aucune chaîne de dépôt DCE, extraction PDF, synthèse sourcée ou rédaction assistée démontrée. Une scène bâtiment/étages subsiste alors que la navigation classique est la référence actuelle. | Conserver les contenus utiles ; aligner le visuel et spécifier le parcours documentaire sécurisé avant développement. |
+| CHX-SEARCH-02 | P1 | Taxonomie des annonces | Le moteur conserve immobilier/emploi/sous-traitance en catégories privées non connectées ; le parcours « Je publie mon annonce » avec emploi/sous-traitance/demande-offre/autres n'est pas démontré. | Réconcilier la taxonomie avec la décision métier récente ; distinguer annonces emploi internes et sources externes. |
+
+Le moteur de recherche unique BOAMP/BODACC et les limites de qualification APE/NAF sont décrits en section 15 de l'audit des interfaces.
