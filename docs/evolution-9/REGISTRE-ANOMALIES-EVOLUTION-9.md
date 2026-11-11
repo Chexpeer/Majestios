@@ -51,7 +51,7 @@ Les constats proviennent des registres Evolution-7 et Evolution-8 ; ils doivent 
 Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniques (README, AGENTS, index documentaire, registre critique et dossier Evolution-9). Il est appelé par le workflow `.github/workflows/verify-site.yml`. Son code et son intégration sont présents ; son exécution a été validée par GitHub Actions sur le commit `2438d8fd96f8e1d10676b8d193a5e99247096c67`.
 
 
-## 7. Corrections réalisées dans Evolution-9 — 11 novembre 2026
+## 6. Corrections réalisées dans Evolution-9 — 11 novembre 2026
 
 | ID | Domaine | Cause constatée | Correction | Preuve |
 |---|---|---|---|---|
@@ -61,7 +61,7 @@ Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniqu
 
 **Validation globale :** GitHub Actions run `43010656594`, commit `2438d8fd96f8e1d10676b8d193a5e99247096c67`, conclusion `success`. Les contrôles de syntaxe, tests unitaires, build, vérifications architecture/site/documentation, tests navigateur, BOAMP/BODACC et contrat de sécurité CRM ont réussi. Cela ne valide pas les migrations, politiques RLS ou parcours réels sur Supabase distant.
 
-## 6. État de vérification
+## 7. État de vérification
 
 À l'ouverture de cette branche :
 - les fichiers de tests appelés par `.github/workflows/verify-site.yml` ont été vérifiés présents par lecture GitHub ;
