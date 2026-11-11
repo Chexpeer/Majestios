@@ -21,7 +21,7 @@ test("expired approval is persisted as a normal return and is never enqueued", (
   const expiry = fn.indexOf("set status = 'expired'");
   const returned = fn.indexOf("return query select 'expired'::text, v_mission.status", expiry);
   assert.ok(expiry >= 0 && returned > expiry);
-  const expiryPath = fn.slice(expiry, returned);
+  const expiryPath = fn.slice(expiry, returned + (`return query select 'expired'::text`).length);
   assert.match(expiryPath, /insert into private\.cheexpeer_mission_events[\s\S]*approval_expired/);
   assert.doesNotMatch(expiryPath, /raise exception/i);
   assert.match(expiryPath, /return query select 'expired'::text/);
