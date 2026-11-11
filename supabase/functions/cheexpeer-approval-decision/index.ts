@@ -28,6 +28,7 @@ Deno.serve(async (request: Request) => {
 
   try {
     const { data, error } = await admin.rpc("cheexpeer_api_decide_approval", {
+      p_organization_id:access.organizationId,
       p_approval_id:validation.value.approval_id,
       p_decision_by:access.userId,
       p_decision:validation.value.decision,
