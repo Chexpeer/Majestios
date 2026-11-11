@@ -450,3 +450,12 @@ La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.m
 - **GitHub Actions :** run `43062042202`, commit `125f23e2082e1917c848cec0d590ec7565647c68`, conclusion **success**. Architecture/routes, liens locaux et identifiants, navigateur, menus desktop/mobile, Réputation virtuelle, contact, verrouillage sans session et contrat de sécurité CRM : réussis.
 - **Vercel Preview :** déploiement `dpl_9otSDEzYC7uEwmpphw6LfnMbg9QR`, statut **READY**, branche `Evolution-9`, commit `125f23e2082e1917c848cec0d590ec7565647c68`, URL https://majestios-khtvxe91o-majistr.vercel.app.
 - La prévisualisation n'a pas été promue en production. L'alias de production reste indépendant. Aucun changement Supabase.
+
+## 31. Ciblage APE/NAF — validation des critères — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| CRM-08 | P1 | Ciblage entreprises | Les regex du formulaire doublaient les antislashs et rejetaient les formats usuels APE/NAF (43.21A) et département (72). Les deux motifs sont corrigés dans crm-page.js ; des assertions statiques de non-régression sont ajoutées à verify-site.js. | Corrigé dans le code ; CI à confirmer. |
+| CRM-09 | P2 | Exhaustivité du ciblage | L'appel API limite explicitement la collecte à une page (maxPages: 1) et au plus 10 candidats. Les résultats ne doivent pas être présentés comme exhaustifs. | Limite connue ; évolution à cadrer selon quotas et coût. |
+
+CRM-06 (sécurité distante) et CRM-07 (recette multi-tenant) restent ouverts. Cette correction frontend ne remplace pas les restrictions SQL ni les tests d'isolation réels.
