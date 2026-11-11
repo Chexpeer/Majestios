@@ -77,6 +77,7 @@ node --check rubric-search.js
 node build.js
 node verify-architecture.js
 node verify-site.js
+node verify-doc-links.js
 ```
 
 Les tests d’intégration BOAMP et BODACC interrogent des services externes et nécessitent un accès réseau :
