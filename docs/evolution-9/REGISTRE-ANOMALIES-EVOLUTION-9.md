@@ -745,3 +745,12 @@ Le rapport de la troisième passe éditoriale détaille également la correction
 | UX-EDITORIAL-06 | P2 | Clarté fonctionnelle et cohérence conceptuelle | La page `prospection-active.html`, affichée sous le libellé de navigation « Prospection », laissait entendre que MajestiOS réalisait une prestation déléguée (« Confiez-nous votre prospection ») et conservait le repère obsolète « ÉTAGE 05 · IDENTIFIER ». L'accroche décrit désormais la recherche et la qualification d'entreprises ; le bloc redondant est raccourci. Moteur, critères, résultats, avertissements et liens sont conservés. | Correction versionnée sur Evolution-9, commit `1e4ccb6964a5b5e8288623e15932b6cec8568bb4`. CI du HEAD final à confirmer. |
 
 Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 61. Cohérence de la FAQ avec la navigation actuelle — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-07 | P2 | Cohérence des parcours et des contenus | La FAQ invitait encore à « explorer le schéma interactif », référence obsolète depuis l'abandon de cette représentation au profit de la navigation classique. Le texte et le lien ont été reformulés pour orienter vers les rubriques et fonctionnalités du site. | Correction versionnée sur Evolution-9, commit `19f88757699c95a13b533ab114f4335f58072610`. CI du HEAD final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
