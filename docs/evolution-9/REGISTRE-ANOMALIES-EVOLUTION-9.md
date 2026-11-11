@@ -772,3 +772,12 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | UX-EDITORIAL-09 | P2 | Hiérarchie visuelle et clarté réglementaire | Le paragraphe d'introduction de `facturation-electronique.html` était isolé entre le titre et la première carte, trop long et redondant avec le contenu qui suivait. Il a été retiré de cette position et son message utile intégré à la première carte en deux phrases courtes. Le calendrier, les explications réglementaires, les sources officielles et les limites de l'offre restent présents. | Correction versionnée sur Evolution-9, commit `46d8c2c6f95d0dc4af614d602022258fe2dcc809`. CI du HEAD documentaire final à confirmer. |
 
 Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 64. Introduction trop longue de la vision MajestiOS — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-10 | P2 | Clarté éditoriale | L'introduction de `vision-majestios.html` développait longuement une idée déjà portée par le titre et la doctrine. Elle a été condensée en deux phrases, en conservant sa position dans le bloc d'ouverture et sans modifier la doctrine ni les limites de promesse. | Correction versionnée sur Evolution-9, commit `468a191c2e9d87000e55cbf4cdf4bb12dffec000`. CI du HEAD final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
