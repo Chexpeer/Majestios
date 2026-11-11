@@ -587,3 +587,15 @@ Le moteur de recherche unique BOAMP/BODACC et les limites de qualification APE/N
 | CHX-ONBOARD-02 | P1 | Historisation / consentement | Les parcours de réputation et facturation ne sont pas encore unifiés dans l'historique CRM client. | Prévoir suivi par tenant, sources datées, consentement/base légale, rétention et actions humaines. |
 
 La page facturation électronique a été comparée aux informations officielles disponibles le 11 novembre 2026 ; son calendrier général est cohérent. Elle indique explicitement que MajestiOS n'est pas une plateforme agréée et qu'aucun connecteur n'est actif. Le détail du parcours d'accueil est en section 16 de l'audit des interfaces.
+
+
+## 44. Facturation et intégration CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Action / statut |
+|---|---|---|---|---|
+| CHX-BILL-01 | P1 phase 2 | Module Facturation | Aucun module applicatif devis/factures/avoirs/règlements, aucune migration dédiée et aucun connecteur PA identifiés sur Evolution-9. | Domaine distinct du CRM à spécifier puis prototyper sur données synthétiques ; pas de tables partielles ni d'émission réelle prématurée. |
+| CHX-BILL-02 | P1 | Onboarding CRM | Le diagnostic de préparation à la facturation électronique n'est pas proposé à la création d'entreprise. | Ajouter une proposition facultative, fondée sur les données connues et les réponses confirmées par le client. |
+| CHX-BILL-03 | P2 | Conversion | La page d'information n'offre pas encore de formulaire de qualification ou de demande d'accompagnement. | Prévoir un parcours de conversion mesuré, avec consentement et transmission minimale des données. |
+| CHX-BILL-04 | P2 | Documentation / contenu | La page facturation référençait encore Evolution-8. | Corrigé sur Evolution-9 ; disponibilité réelle du module et des connecteurs reste clairement non opérationnelle. |
+
+Voir section 17 de l'audit des interfaces et `SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md` pour l'architecture cible.
