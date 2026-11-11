@@ -33,7 +33,7 @@ Le projet ne nécessite pas de framework front-end pour construire le site stati
 
 Un backend Supabase séparé a été créé pour préparer l'authentification, les espaces clients et le CRM. Le socle multi-tenant (organisations, membres, entreprises, contacts, opportunités, activités et demandes) est versionné dans `supabase/migrations/`, avec RLS activé et règles de séparation des organisations.
 
-**Important :** le parcours d'inscription/connexion de l'espace membre et le provisionnement d'un espace client sont maintenant raccordés au backend, mais le flux e-mail doit encore être validé de bout en bout. Les formulaires publics de contact/candidature et le CRM opérationnel ne sont pas encore raccordés. Voir [l'état vérifié du backend](docs/evolution-5.0/ETAT-BACKEND-SUPABASE.md) avant toute intégration.
+**Important — état vérifié le 11 novembre 2026 :** le code du parcours OTP et de la fonction de provisionnement existe, mais la fonction Edge `provision-client-workspace` appelée après validation du code n'est déployée sur aucun des deux projets Supabase inspectés. Le provisionnement d'un espace client n'est donc pas considéré comme opérationnel et le parcours OTP n'a pas été recetté de bout en bout. Le frontend pointe actuellement vers `majestios-crm`, dont les migrations divergent de celles du projet `MajestiOS-Test`. Voir [l'audit de l'existant avant Evolution-8](docs/evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) avant toute intégration.
 
 
 ## Lancer le site en local
