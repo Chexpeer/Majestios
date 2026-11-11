@@ -92,3 +92,7 @@ test("worker self-check renews its lease before completing the mission", () => {
 test("worker workflow runs when a Cheexpeer migration changes", () => {
   assert.match(workflow, /supabase\/migrations\/\*cheexpeer\*/);
 });
+
+test("worker workflow tracks the first mission specification", () => {
+  assert.match(workflow, /docs\/evolution-9\/SPECIFICATION-PREMIERE-MISSION-CHEEXPEER\.md/);
+});
