@@ -506,3 +506,16 @@ Le contrôle de présence a parcouru les 39 pages HTML du manifeste : title, met
 | CRM-11 | P2 | Relances persistantes | La liste des relances persistantes reste plafonnée à 100 éléments. | Compteur exact tenant-scoped et avertissement de troncature ajoutés ; pagination de la liste à prévoir si le volume augmente. Tests CI à confirmer. |
 
 Les contrôles countWorkspaceRecords sont tenant-scoped et ne téléchargent pas les fiches. Ils ne remplacent pas les politiques RLS ni les tests inter-organisations. Aucun appel d'écriture ou changement distant Supabase n'a été effectué.
+
+
+## 37. Relations CRM, historisation et transitions — approfondissement du 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié sur MajestiOS-Test | Action / statut |
+|---|---|---|---|---|
+| CRM-12 | P1 | Intégrité SQL | Deux triggers identiques appellent `private.enforce_tenant_relationship_integrity()` sur businesses, contacts, opportunities et activities. | Doublon confirmé ; préparer une migration de nettoyage après test et revue des migrations. Aucun trigger supprimé. |
+| CRM-13 | P1 | Historisation | Les activités conservent les champs modifiés et les statuts avant/après, mais pas les valeurs avant/après des autres champs. | Concevoir une historisation ciblée par liste blanche, minimisant les données personnelles. |
+| CRM-14 | P1 | Transitions commerciales | Le CHECK autorise une liste de statuts mais ne contrôle pas les transitions métier autorisées. | Formaliser et tester une machine à états, y compris réouverture et motifs de clôture. |
+| CRM-15 | P1 | Conservation | Suppression d'organisation en CASCADE ; suppression de fiches détache les activités via SET NULL. | Définir archivage, export, suppression et conservation avant ouverture client. |
+| CRM-16 | P1 | Tests multi-tenant | Tables CRM sans données de recette et scénarios authentifiés multi-rôles non exécutés. | Préparer des fixtures synthétiques isolées et tests owner/admin/member sur deux organisations. |
+
+La fonction de traitement de relance fixe un `search_path` vide, verrouille la relance, vérifie l'identité et l'organisation, et refuse une relance déjà traitée. Ces protections sont confirmées dans le code SQL distant ; la recette multi-rôle reste ouverte. Le déclencheur de synchronisation annule les relances en attente des opportunités gagnées, perdues ou archivées. Aucun changement distant n'a été effectué.
