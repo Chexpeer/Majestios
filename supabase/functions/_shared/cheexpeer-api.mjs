@@ -30,9 +30,37 @@ export function apiResponse(status, body, origin = null, configuredOrigins = "")
 export async function readJsonLimited(request, maxBytes = 16 * 1024) {
   const declared = Number(request.headers.get("content-length") ?? "0");
   if (Number.isFinite(declared) && declared > maxBytes) return { ok: false, status: 413 };
+  if (!request.body) return { ok: false, status: 400 };
+
+  const reader = request.body.getReader();
+  const chunks = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel("request body limit exceeded").catch(() => {});
+        return { ok: false, status: 413 };
+      }
+      chunks.push(value);
+    }
+  } catch {
+    return { ok: false, status: 400 };
+  }
+
+  const bytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+
   let raw;
-  try { raw = await request.text(); } catch { return { ok: false, status: 400 }; }
-  if (new TextEncoder().encode(raw).byteLength > maxBytes) return { ok: false, status: 413 };
+  try { raw = new TextDecoder("utf-8", { fatal: true }).decode(bytes); } catch {
+    return { ok: false, status: 400 };
+  }
   try {
     const value = JSON.parse(raw);
     if (!value || typeof value !== "object" || Array.isArray(value)) return { ok: false, status: 400 };
