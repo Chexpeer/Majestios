@@ -137,3 +137,8 @@ Le projet suit un protocole documenté de maintenance, de sauvegarde et de repri
 ## Licence et informations légales
 
 Aucune licence open source n’est déclarée dans ce dépôt. Les mentions légales et la politique de confidentialité publiées dans le site doivent être vérifiées et maintenues par le responsable du projet.
+
+
+## Épuration éditoriale — 11 novembre 2026
+
+Trois passes d'épuration ont raccourci les textes et clarifié les limites des fonctions présentées. La troisième passe a également retiré des pages publiques les derniers repères de navigation en étages et remplacé un parcours visuel non opérationnel par une présentation fonctionnelle sobre. Les décisions et les pages concernées sont suivies dans [le rapport de la troisième passe](docs/evolution-9/EPURATION-EDITORIALE-PASSE-3-2026-11-11.md) et le [registre des anomalies Evolution-9](docs/evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md). Les changements restent limités aux contenus HTML et à leur documentation ; aucune migration, donnée ou configuration distante n'a été modifiée.
