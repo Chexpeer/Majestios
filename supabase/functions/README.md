@@ -70,3 +70,18 @@ La source Git actuelle du pont ajoute des validations avant tout appel RPC : UUI
 
 
 La limite du corps est appliquée en lecture progressive du flux Request : la lecture est annulée dès que le seuil de 64 Ko est dépassé, y compris si le client ne fournit pas un en-tête `Content-Length` fiable. Cette protection reste dans la source Git, non déployée.
+
+
+## API utilisateur Cheexpeer — préparation Git Evolution-9
+
+| Fonction | Responsabilité | Statut |
+|---|---|---|
+| `cheexpeer-mission-submit` | Soumettre une mission pour l'organisation validée | Source Git uniquement — non déployée |
+| `cheexpeer-approval-decision` | Approuver/refuser une demande, acteur dérivé du JWT | Source Git uniquement — non déployée |
+| `cheexpeer-mission-read` | Lire mission, approbations et événements dans le tenant autorisé | Source Git uniquement — non déployée |
+
+Les trois fonctions exigent un bearer JWT, vérifient l'identité avec `auth.getUser(token)`, contrôlent une appartenance owner/admin à l'organisation demandée et n'acceptent aucun identifiant d'acteur du navigateur. Elles utilisent la clé `SUPABASE_SERVICE_ROLE_KEY exclusivement côté serveur. Les payloads sont strictement validés, les corps limités, les origines contrôlées par `ALLOWED_ORIGINS` et les réponses portent `Cache-Control: no-store`.
+
+La migration additive `20261111200000_cheexpeer_api_security_fixes.sql` ajoute les façades RPC réservées à `service_role`, une lecture explicitement filtrée par `mission_id` ET `organization_id`, l'idempotence par organisation et la persistance des approbations expirées.
+
+**Aucun déploiement, aucune migration appliquée, aucun secret configuré et aucune donnée Supabase modifiée.** Avant la recette sur MajestiOS-Test, exécuter la migration et les tests transactionnels sur une base locale jetable, puis réaliser les tests Auth/RLS avec deux organisations et des comptes synthétiques. L'autorisation explicite reste nécessaire avant toute écriture sur MajestiOS-Test.
