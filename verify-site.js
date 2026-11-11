@@ -161,7 +161,7 @@ for (const page of pages) {
 }
 
 const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
-assert(home.includes("<title>MajestiOS — Le CRM tout-en-un pour développer votre entreprise</title>"), "Accueil : titre SEO inattendu");
+assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du moteur de recherche partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant commun de recherche non chargé");
 assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
@@ -180,7 +180,7 @@ assert(siteFiles.includes("facturation-electronique.html"), "Facturation électr
 assert(invoicingPage.includes("1er septembre 2027") && invoicingPage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : calendrier ou statut MajestiOS absent");
 const tenderAccompaniment = fs.readFileSync(path.join(root, "accompagnement-appels-offres.html"), "utf8");
 assert(tenderAccompaniment.includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : lien vers la thématique facturation absent");
-assert(home.includes("Le CRM") && home.includes("CRM client et les modules de facturation sont en préparation"), "Accueil : la vision tout-en-un doit distinguer le socle actuel des modules en préparation");
+assert(home.includes("Développement commercial intelligent") && home.includes("l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : la vision tout-en-un doit distinguer le socle actuel des modules en préparation");
 
 
 const internalEntryHtml = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
