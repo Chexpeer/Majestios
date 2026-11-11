@@ -79,3 +79,9 @@ La documentation détaillée reste dans les dossiers spécialisés ; cet index n
 - Ne pas confondre le CRM interne MajestiOS et le CRM de chaque client.
 - Ne pas présenter les capacités Cheexpeer décrites comme déjà actives.
 - Toute anomalie critique reste visible jusqu'à preuve de correction et de recette.
+
+## 7. Audit SEO et visibilité dans les moteurs IA
+
+| SEO / visibilité IA | [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) | État initial technique, indexabilité, métadonnées, canonical, robots/sitemap et GEO — audit partiel à poursuivre |
+
+Le premier contrôle porte sur dix pages représentatives. Il ne constitue pas encore un balayage exhaustif du manifeste ; les canonicals et le sitemap ne doivent pas être générés avant confirmation du domaine public de référence.
