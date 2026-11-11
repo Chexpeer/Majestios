@@ -488,7 +488,7 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(6) > .nav-group-l
   .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items { border-left-color: #995b1c !important; }
   .site-nav-drawer .nav-drawer-section:nth-of-type(6) .nav-group-items { border-left-color: #4c5b6c !important; }
   .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link {
-    color: #795918 !important;
+    color: #17324f !important;
     border-bottom: 1px solid #c5a45e !important;
   }
 }
