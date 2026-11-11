@@ -1,0 +1,54 @@
+/* Espace Assistant MajestiOS — interface préparatoire, sans faux moteur conversationnel. */
+body.assistant-page {
+  min-height: 100vh;
+  color: #edf3fb;
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(34, 79, 132, .42), transparent 42%),
+    linear-gradient(145deg, #071225 0%, #0b1d35 55%, #101b2b 100%);
+}
+.assistant-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: clamp(30px, 5vw, 68px) 0 52px; }
+.assistant-intro { max-width: 850px; margin-bottom: 34px; }
+.assistant-eyebrow, .assistant-console-kicker { color: #d7b66c; font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+.assistant-intro h1 { margin: 12px 0; color: #fff; font: 800 clamp(36px, 5vw, 62px)/1.05 Manrope, Inter, sans-serif; letter-spacing: -.045em; }
+.assistant-intro h1 span { color: #e1c47f; }
+.assistant-lede { max-width: 720px; color: #c6d3e3; font-size: clamp(15px, 1.6vw, 19px); line-height: 1.65; }
+.assistant-capabilities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 30px; }
+.assistant-capabilities article { min-height: 142px; padding: 18px; border: 1px solid rgba(169, 196, 224, .2); border-radius: 12px; background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.025)); box-shadow: 0 12px 28px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.08); }
+.assistant-capabilities article > span { color: #d7b66c; font-size: 11px; font-weight: 800; }
+.assistant-capabilities h2 { margin: 10px 0 6px; color: #fff; font-size: 17px; }
+.assistant-capabilities p { margin: 0; color: #b8c7d9; font-size: 13px; line-height: 1.55; }
+.assistant-console { overflow: hidden; border: 1px solid rgba(173, 201, 230, .26); border-radius: 16px; background: rgba(7, 17, 32, .78); box-shadow: 0 24px 60px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08); }
+.assistant-console-head { display: flex; align-items: center; gap: 12px; padding: 17px 20px; border-bottom: 1px solid rgba(173, 201, 230, .17); background: rgba(255,255,255,.035); }
+.assistant-avatar { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border: 1px solid #d7b66c; color: #e5ca8b; font: 800 22px Manrope, sans-serif; }
+.assistant-console-kicker { margin: 0 0 3px; font-size: 9px; }
+.assistant-console-head h2 { margin: 0; color: #fff; font-size: 17px; }
+.assistant-status { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; color: #e7c98c; font-size: 11px; white-space: nowrap; }
+.assistant-status i { width: 7px; height: 7px; border-radius: 50%; background: #d7a94d; box-shadow: 0 0 9px rgba(215,169,77,.55); }
+.assistant-conversation { display: grid; gap: 15px; min-height: 240px; padding: 22px; }
+.assistant-message { max-width: 760px; padding: 17px 19px; border: 1px solid rgba(155, 187, 220, .19); border-radius: 12px; background: rgba(28, 54, 83, .56); }
+.assistant-message-label { color: #e1c47f; font-size: 9px; font-weight: 800; letter-spacing: .13em; }
+.assistant-message p { margin: 8px 0 0; color: #e0e8f2; font-size: 14px; line-height: 1.6; }
+.assistant-next-step { padding: 16px 19px; border-left: 2px solid #c6a45d; background: rgba(255,255,255,.035); color: #d7e1ed; font-size: 13px; line-height: 1.65; }
+.assistant-next-step strong { color: #fff; }
+.assistant-next-step ul { margin: 8px 0 0; padding-left: 19px; }
+.assistant-composer { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; padding: 16px 20px; border-top: 1px solid rgba(173, 201, 230, .17); }
+.assistant-composer label { grid-column: 1 / -1; color: #c7d4e4; font-size: 11px; font-weight: 700; }
+.assistant-composer textarea { width: 100%; min-height: 58px; resize: vertical; padding: 12px; border: 1px solid rgba(173, 201, 230, .22); border-radius: 8px; color: #c5d0de; background: rgba(255,255,255,.045); font: inherit; font-size: 13px; }
+.assistant-composer button { min-width: 96px; align-self: stretch; padding: 0 16px; border: 1px solid rgba(215,182,108,.3); border-radius: 8px; color: #aeb8c5; background: rgba(255,255,255,.06); font-weight: 700; }
+.assistant-composer button:disabled, .assistant-composer textarea:disabled { cursor: not-allowed; opacity: .75; }
+.assistant-disclaimer { margin: 0; padding: 0 20px 17px; color: #93a5ba; font-size: 11px; }
+.assistant-shortcuts { display: flex; flex-wrap: wrap; gap: 12px 22px; margin-top: 24px; }
+.assistant-shortcuts a { color: #e2c783; font-size: 13px; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(226,199,131,.45); text-underline-offset: 4px; }
+.assistant-page .site-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 18px clamp(20px, 4vw, 48px); border-top: 1px solid rgba(215,182,108,.2); color: #aebdce; background: rgba(4,12,24,.4); }
+.assistant-page .site-footer p { margin: 0; font-size: 11px; }
+@media (max-width: 720px) {
+ .assistant-shell { width: min(100% - 24px, 600px); padding-top: 30px; }
+ .assistant-capabilities { grid-template-columns: 1fr; gap: 9px; }
+ .assistant-capabilities article { min-height: 0; }
+ .assistant-console-head { flex-wrap: wrap; padding: 14px; }
+ .assistant-status { width: 100%; margin: 2px 0 0 54px; }
+ .assistant-conversation { padding: 14px; }
+ .assistant-composer { grid-template-columns: 1fr; padding: 14px; }
+ .assistant-composer button { min-height: 42px; }
+ .assistant-page .site-footer { align-items: flex-start; flex-direction: column; }
+}
