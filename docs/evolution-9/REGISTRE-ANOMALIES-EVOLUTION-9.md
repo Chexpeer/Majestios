@@ -160,3 +160,13 @@ Le contrôle est documenté dans le [rapport d'audit](AUDIT-CRM-SUPABASE-LECTURE
 | VIS-01 | P1 | Harmonisation graphique | Socle commun ajouté pour géométrie, typographie, espacements, états, focus clavier et cibles tactiles dans `navigation-tiroirs.css`. | Socle livré ; revue visuelle détaillée page par page encore requise |
 
 La matrice et les limites de recette sont documentées dans [l'audit de non-régression Evolution-7](AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md). La réussite des tests du site ne vaut pas recette CRM multi-identités ni validation visuelle exhaustive. Aucune promotion production n'est autorisée par ce constat.
+
+
+## 16. Assistant MajestiOS — visibilité et espace dédié — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / cause | Correction Evolution-9 | Statut |
+|---|---|---|---|---|---|
+| CHAT-01 | P1 | Assistant / visibilité | Le guide conversationnel de première génération existait dans `app.js`, mais ses styles étaient isolés dans `navigation-majestios.css`, une feuille non chargée par le socle commun et mêlée à d'anciennes règles de navigation. | Extraction des seuls styles du chatbot dans `majestios-chat.css`, chargement commun par `app.js`, ajout d'un espace dédié `assistant-majestios.html` et d'une entrée de navigation. | Code et tests ajoutés ; résultat CI à confirmer |
+| CHAT-02 | P1 | Capacité IA | Le guide actuel répond à partir de mots-clés et de réponses prédéfinies. Il ne constitue pas un agent IA connecté ; aucun fournisseur conversationnel n'est configuré dans ce parcours. | L'espace dédié indique explicitement la limite et réserve les points de raccordement : moteur, contexte utilisateur, autorisations, journalisation et transfert humain. | Ouvert — intégration IA à concevoir et recetter |
+
+Le chatbot de première génération reste un guide d'orientation local. Il ne doit pas être présenté comme Cheexpeer ni comme un agent autonome. L'espace de conversation dédié n'envoie aucune donnée et ne déclenche aucune action.
