@@ -70,6 +70,10 @@ assert(/<section class="audit-dossier"[^>]*\bhidden\b/.test(reputationPage), "R�
 assert(/<div class="reputation-searches"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : les formulaires Google Web et Maps doivent rester masqués dans l’interface publique sans être supprimés");
 assert((reputationPage.match(/<form\b/g) || []).length === 3, "Réputation virtuelle : les trois formulaires métier doivent être conservés dans le document pour leurs traitements internes");
 
+const memberPage = fs.readFileSync(path.join(root, "espace-membre.html"), "utf8");
+assert(memberPage.includes('meta name="robots" content="noindex,nofollow"'), "Espace membre : la page de compte doit être exclue de l’indexation");
+const searchResultsPage = fs.readFileSync(path.join(root, "resultats-recherche.html"), "utf8");
+assert(searchResultsPage.includes('meta name="robots" content="noindex,nofollow"'), "Résultats de recherche : les pages de résultats dynamiques ne doivent pas être indexées");
 const privateAccessPage = fs.readFileSync(path.join(root, "espace-prive.html"), "utf8");
 assert(privateAccessPage.includes('href="charte-majestios.css"'), "Espace privé / Accès VIP : la charte graphique commune MajestiOS doit être chargée");
 const internalEntryPage = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
