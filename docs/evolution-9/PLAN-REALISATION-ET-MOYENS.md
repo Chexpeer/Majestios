@@ -20,8 +20,9 @@ Ne pas lancer un lot dépendant d'une sécurité, d'un contrat API, d'un choix p
 | A. Assainir l'existant | Immédiate | Anomalies, CI, build, navigation, audit du site, documentation | Contrôles reproductibles et registre à jour |
 | B. Stabiliser le socle | Critique | Parité Supabase, Auth OTP, multi-tenant, RLS, RPC, Storage, sauvegardes | Tests réels multi-rôles et inter-organisations |
 | C. Valider les usages | Haute | Entretiens et tests avec 5 à 7 pilotes ; parcours artisan ; priorisation | Retours observés, tâches et besoins classés |
-| D. Construire le CRM client minimal | Haute | Clients, contacts, tâches, rappels, devis, documents et activité selon priorité | Parcours métier complet, export, isolation et recette |
-| E. Concevoir le noyau Facturation | Haute | Modèle de facture, lignes, taxes, statuts, règlements, avoirs, événements | Règles métier, tests et audit de conformité |
+| D. Construire le CRM client minimal | Haute | Clients, contacts, tâches, rappels, devis, documents et activité ; préparation des identifiants et liens nécessaires à la facturation | Parcours métier complet, export, isolation et recette |
+| E. Concevoir le noyau Facturation | Haute — phase 2 | Domaine séparé mais intégré au CRM : devis, versions, factures, avoirs, taxes, règlements, statuts, pièces et événements | Modèle métier validé, parcours sur données synthétiques, tests et revue de conformité |
+| E2. Définir les modes natif / connecté / hybride | Haute — phase 2 | Le client peut utiliser le CRM MajestiOS, conserver son CRM externe ou combiner les deux ; source de référence définie par catégorie de données | Contrats d'API, identifiants stables, idempotence, règles anti-doublons et réversibilité documentés |
 | F. Sélectionner et intégrer une PA | Conditionnelle | Étude comparative, contrats, sandbox, API, flux et coûts | Partenaire vérifié, test émission/réception/rejets |
 | G. Construire Connect | Progressive | Connecteurs CRM externes et logiciels métier | Contrats par connecteur, reprise, idempotence, monitoring |
 | H. Étendre Cheexpeer | Progressive | Chat, centre de commande, CRM, GitHub, missions, outils | Droits minimaux, quotas, traces, validations, tests |
@@ -53,6 +54,7 @@ Ne pas lancer un lot dépendant d'une sécurité, d'un contrat API, d'un choix p
 - exports structurés et réversibilité.
 
 ### Facturation et intégrations
+- suivre la [spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md) ;
 - séparer le modèle métier du rendu PDF et du connecteur PA ;
 - conserver les versions originales et les événements de transmission ;
 - idempotence des envois et webhooks ;
@@ -130,6 +132,8 @@ Suivre au minimum :
 
 Ne pas inventer de réponse. Les décisions suivantes nécessitent une étude ou un arbitrage :
 - périmètre exact du premier CRM client ;
+- source de référence par objet dans les modes natif, connecté et hybride ;
+- périmètre détaillé du noyau MajestiOS Facturation et ses règles métier ;
 - modèle économique et éventuelle gratuité du socle ;
 - partenaire PA et coûts ;
 - connecteurs CRM externes prioritaires ;
