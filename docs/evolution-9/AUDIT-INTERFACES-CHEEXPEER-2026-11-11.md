@@ -188,3 +188,25 @@ Le code de `opportunity-search.js` confirme un moteur unique avec un paramètre 
 La page de préqualification par APE/NAF indique clairement que les critères ne sont pas enregistrés dans un CRM. Elle rappelle aussi qu'un code APE/NAF et un score de rapprochement ne prouvent pas les compétences ou l'éligibilité : cette réserve doit être conservée dans tout futur scoring.
 
 **Décision :** maintenir le moteur unique et la distinction des sources ; aligner la taxonomie avec la décision métier la plus récente avant de connecter de nouvelles sources ou la publication d'annonces.
+
+
+## 16. Création d'entreprise : déclenchement de l'accompagnement prioritaire
+
+### État observé
+
+Le formulaire CRM de création d'entreprise permet de saisir les données d'identification et de qualification de la fiche. Après enregistrement, le parcours actuel revient à la liste / fiche CRM ; aucun déclencheur de recommandations prioritaires n'a été identifié dans `crm-page.js` ou `crm-client.js`.
+
+La page `facturation-electronique.html` décrit correctement un accompagnement futur : MajestiOS n'est pas une plateforme agréée, aucun partenaire PA ni connecteur n'est annoncé comme opérationnel et le module de facturation/CRM client est indiqué comme non disponible en production. La page Réputation virtuelle présente un dossier de diagnostic et une analyse Cheexpeer sécurisée, mais le suivi reste à ce stade lié à la session et non à un historique CRM durable.
+
+### Exigence fonctionnelle à intégrer
+
+À la création d'une nouvelle entreprise, proposer immédiatement — sans les exécuter automatiquement — deux parcours prioritaires :
+
+1. **Diagnostic de présence virtuelle** : vérifier l'identité et les établissements, la cohérence du site et des informations publiques, la présence locale, les avis et les canaux numériques disponibles ; chaque constat doit être daté, sourcé et distingué d'une hypothèse.
+2. **Préparation à la facturation électronique** : identifier la taille de l'entreprise, son assujettissement à la TVA (y compris franchise en base), ses flux B2B/B2C, ses pratiques de facturation, son logiciel et ses besoins de réception/émission/e-reporting ; proposer ensuite un parcours d'accompagnement et des solutions partenaires compatibles, sans prétendre à une conformité automatique.
+
+Le système doit réutiliser les données déjà saisies (raison sociale, SIREN, SIRET, APE/NAF, site, adresse) sans redemander inutilement les mêmes informations. Les données fiscales ou commerciales manquantes doivent être demandées à l'entreprise. Un code APE, une forme juridique ou un effectif estimé ne suffisent pas à établir seuls les obligations exactes.
+
+Chaque proposition est facultative : démarrer, différer, ignorer ou refuser. Les résultats et décisions doivent être historisés dans le CRM, sous le tenant concerné, avec consentement/base légale et politique de conservation adaptés. Aucune souscription, transmission à un partenaire, publication, émission de facture ou action externe sans validation explicite.
+
+**Positionnement produit :** ces deux parcours deviennent les premiers services d'accueil d'une nouvelle entreprise, avant les modules plus avancés de scoring, prospection et opportunités. Ils donnent à MajestiOS un point d'entrée utile et mesurable, tout en préparant la relation client et le futur CRM de facturation.
