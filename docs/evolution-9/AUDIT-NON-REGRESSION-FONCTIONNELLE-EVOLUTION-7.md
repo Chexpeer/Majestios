@@ -88,3 +88,8 @@ Workflow : [Vérification du site MajestiOS — run 43023792977](https://github.
 6. Ne pas promouvoir Evolution-9 en production avant validation fonctionnelle, visuelle et métier complète.
 
 **Règle de clôture :** chaque fonctionnalité Evolution-7 doit être marquée conservée, corrigée, améliorée ou manquante, avec une preuve. Toute fonctionnalité manquante bloque la livraison.
+
+
+## Espace Assistant MajestiOS
+
+Un guide conversationnel de première génération est déjà intégré dans `app.js`. Il s'agit d'une orientation locale par mots-clés, et non d'un moteur IA connecté. Evolution-9 lui réserve désormais une page dédiée (`assistant-majestios.html`) et charge ses styles depuis une feuille isolée (`majestios-chat.css`) sur les pages qui utilisent le contrôleur partagé. Le raccordement d'un fournisseur IA, les droits, le contexte utilisateur, les journaux et le transfert humain restent à construire et à recetter. Cette capacité ne doit pas être confondue avec Cheexpeer.
