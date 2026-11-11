@@ -30,6 +30,7 @@ Cheexpeer doit pouvoir, selon les droits et les capacités réellement connecté
 - assister la prospection et préparer les dossiers, comptes rendus et actions CRM ;
 - traduire les appels d'offres en langage de chantier, en distinguant les exigences exactes du dossier, leur explication pratique, les contraintes, compétences, pièces et échéances ;
 - surveiller périodiquement le SEO et la visibilité de MajestiOS, proposer les corrections éditoriales et techniques, actualiser le site dans un cadre préautorisé et mesurer les résultats ;
+- contribuer à la visibilité de MajestiOS dans les moteurs de réponse IA (GEO), contrôler l'exactitude des informations publiques, suivre les mentions et citations observées, préparer des contenus utiles et mesurer les retombées sans promettre de recommandation ou de classement ;
 - produire des synthèses, rapports et alertes utiles ;
 - aider à contrôler la qualité, la cohérence et l'évolution de MajestiOS ;
 - capitaliser les décisions et enseignements vérifiés pour améliorer les travaux futurs.
@@ -61,6 +62,7 @@ Le tableau de bord admin est le centre de supervision de Cheexpeer, pas une clé
 | 10 | [Stratégie d'ouverture progressive — premier cercle de 5 à 7 personnes](evolution-7/STRATEGIE-OUVERTURE-PREMIER-CERCLE-5-A-7-2026-11-09.md) | Accès libre aux rubriques pendant la phase pilote, sécurité concentrée sur les comptes, les données privées et les actions sensibles ; retours du premier cercle de 5 à 7 personnes |
 | 11 | [Architecture d'exécution de Cheexpeer](evolution-7/ARCHITECTURE-EXECUTION-CHEEXPEER-2026-11-09.md) | Différence entre spécification et exécution réelle ; moteur de missions, étapes, outils, connecteurs, worker, planification, journal et état constaté des capacités |
 | 12 | [Phase 2 — CRM clients, artisans, facturation électronique et réseau partenaires](evolution-7/PHASE-2-CRM-CLIENTS-ARTISANS-FACTURATION-ELECTRONIQUE-RESEAU.md) | Offre artisan gratuite à terme, options payantes, partenariat PA, accompagnement à la dématérialisation, rubrique Réseau et séparation CRM interne / CRM clients |
+| 13 | [Visibilité IA, GEO et réputation numérique de MajestiOS](evolution-7/CHEEXPEER-VISIBILITE-IA-GEO-REPUTATION-MAJESTIOS.md) | Mission de Cheexpeer pour améliorer la découvrabilité, la présence dans les réponses IA, la réputation, les contenus et la mesure de l'acquisition |
 
 ## 4. Organisation de la documentation
 
