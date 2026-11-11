@@ -18,7 +18,7 @@ if (form && config?.url && config?.publishableKey) {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
   });
 
-  let mode = "signup";
+  let mode = "login";
   let awaitingOtp = false;
   let pendingEmail = "";
   let resendTimer = null;
@@ -30,14 +30,6 @@ if (form && config?.url && config?.publishableKey) {
     feedback.dataset.state = isError ? "error" : "success";
     feedback.hidden = false;
   };
-  const profileFromForm = () => ({
-    display_name: [value("firstName"), value("lastName")].filter(Boolean).join(" "),
-    phone: value("phone"),
-    organization_name: value("organizationName") || "Espace personnel",
-    privacy_notice_acknowledged: field("privacyAccepted")?.checked === true,
-    privacy_notice_version: "2026-11-05"
-  });
-
   const setMode = (nextMode) => {
     mode = nextMode;
     if (otpInput) otpInput.required = false;
@@ -93,8 +85,7 @@ if (form && config?.url && config?.publishableKey) {
       emailInput?.reportValidity();
       return;
     }
-    const options = { shouldCreateUser: mode === "signup" };
-    if (mode === "signup") options.data = profileFromForm();
+    const options = { shouldCreateUser: false };
     const { error } = await supabase.auth.signInWithOtp({ email, options });
     if (error) {
       // Keep account-existence and delivery errors deliberately non-specific.
@@ -110,24 +101,6 @@ if (form && config?.url && config?.publishableKey) {
     setFeedback(`Un code temporaire a été envoyé à ${email}. Il est à usage unique.`);
     startResendCooldown();
     otpInput?.focus();
-  };
-
-  const provisionWorkspace = async (session, profile) => {
-    const { data, error } = await supabase.functions.invoke("provision-client-workspace", {
-      body: {
-        flow: "signup",
-        privacy_acknowledged: true,
-        display_name: profile.display_name,
-        phone: profile.phone,
-        organization_name: profile.organization_name
-      },
-      headers: { Authorization: `Bearer ${session.access_token}` }
-    });
-    if (error) throw error;
-    if (!data?.ok || !data.organization) {
-      throw new Error("Votre adresse est vérifiée, mais la finalisation de votre espace nécessite une vérification. Votre compte est conservé.");
-    }
-    return data.organization;
   };
 
   const updateAuthStatus = async (session) => {
@@ -183,38 +156,20 @@ if (form && config?.url && config?.publishableKey) {
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
     if (modeToggle) modeToggle.hidden = false;
     await updateAuthStatus(data.session);
-    if (mode === "signup") {
-      const organization = await provisionWorkspace(data.session, profileFromForm());
-      setFeedback(`Votre adresse est vérifiée et votre espace « ${organization.name} » est prêt.`);
-      await updateAuthStatus(data.session);
+    const { data: memberships, error: membershipError } = await supabase
+      .from("organization_members")
+      .select("organization_id")
+      .eq("user_id", data.user.id)
+      .limit(1);
+    if (membershipError) {
+      setFeedback("Votre adresse est vérifiée, mais vos habilitations ne peuvent pas être contrôlées pour le moment. Réessayez plus tard.", true);
+    } else if (!memberships?.length) {
+      setFeedback("Votre compte est vérifié, mais aucun espace MajestiOS ne lui est associé. Contactez l’équipe pour finaliser votre accès.", true);
     } else {
-      const { data: memberships, error: membershipError } = await supabase
-        .from("organization_members")
-        .select("organization_id")
-        .eq("user_id", data.user.id)
-        .limit(1);
-      const metadata = data.user.user_metadata ?? {};
-      if (
-        !membershipError &&
-        !memberships?.length &&
-        metadata.privacy_notice_acknowledged === true &&
-        metadata.privacy_notice_version === "2026-11-05"
-      ) {
-        const organization = await provisionWorkspace(data.session, {
-          display_name: metadata.display_name || "",
-          phone: metadata.phone || "",
-          organization_name: metadata.organization_name || "Espace personnel"
-        });
-        setFeedback(`Connexion réussie. Votre espace « ${organization.name} » est prêt.`);
-        await updateAuthStatus(data.session);
-      } else {
-        setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
-      }
+      setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
     }
     if (submitButton) submitButton.disabled = false;
   };
-
-  modeToggle?.addEventListener("click", () => setMode(mode === "signup" ? "login" : "signup"));
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -224,9 +179,6 @@ if (form && config?.url && config?.publishableKey) {
       if (awaitingOtp) await verifyOtp();
       else {
         if (!form.reportValidity()) return;
-        if (mode === "signup" && !field("privacyAccepted")?.checked) {
-          throw new Error("Veuillez confirmer avoir pris connaissance de la politique de confidentialité.");
-        }
         await sendOtp();
       }
     } catch (error) {
@@ -240,8 +192,7 @@ if (form && config?.url && config?.publishableKey) {
     if (resendButton.disabled || !pendingEmail) return;
     resendButton.disabled = true;
     try {
-      const options = { shouldCreateUser: mode === "signup" };
-      if (mode === "signup") options.data = profileFromForm();
+      const options = { shouldCreateUser: false };
       const { error } = await supabase.auth.signInWithOtp({ email: pendingEmail, options });
       if (error) throw error;
       setFeedback("Un nouveau code vient d’être demandé. Seul le dernier code reçu doit être utilisé.");
@@ -254,7 +205,7 @@ if (form && config?.url && config?.publishableKey) {
 
   supabase.auth.getSession().then(({ data }) => updateAuthStatus(data.session));
   supabase.auth.onAuthStateChange((_event, session) => updateAuthStatus(session));
-  setMode("signup");
+  setMode("login");
 } else if (form) {
   if (feedback) {
     feedback.textContent = "Le service de connexion n’est pas configuré. Votre demande n’a pas été envoyée.";
