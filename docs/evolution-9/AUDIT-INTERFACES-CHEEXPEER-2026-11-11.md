@@ -167,3 +167,24 @@ La RPC de décision reçoit `p_decision_by`. La base vérifie que cet identifian
 Le worker journalise les identifiants de mission, le type et l'état, sans afficher de secret dans les logs applicatifs observés. Les erreurs RPC brutes sont envoyées aux logs du pont côté serveur : vérifier leur politique de rétention et leur accès, et éviter d'y inclure des payloads ou données personnelles.
 
 **Aucune modification du pont, du worker, des secrets, des migrations ou du déploiement n'a été effectuée pendant cette revue.**
+
+
+## 15. Vulgarisation des appels d'offres et cohérence de la recherche
+
+### Accompagnement aux appels d'offres
+
+La page `accompagnement-appels-offres.html` est actuellement une page de présentation et de parcours éditorial. Elle décrit la préparation des critères, des pièces et d'une réponse structurée, et précise que les connexions aux sources et services seront activées progressivement. Aucun formulaire de dépôt de DCE, lecteur PDF, extraction de pièces, synthèse sourcée, matrice de conformité ou rédaction de mémoire technique n'est présent dans cette page.
+
+La page contient encore une scène `virtual-space` avec bâtiment et cartes flottantes, ainsi que des libellés d'étage. Ce visuel contredit la décision documentaire de privilégier la navigation classique tant que les fondations fonctionnelles et pédagogiques ne sont pas validées. Il faut harmoniser cette page lors du lot UI, sans supprimer le contenu pédagogique utile.
+
+**Parcours cible de vulgarisation :** dépôt volontaire et sécurisé du DCE → inventaire des pièces et pages → extraction avec références vérifiables → explication en langage de chantier → exigences obligatoires / critères / délais / risques → liste des pièces à réunir → plan de réponse → brouillon de mémoire technique → revue et validation humaine. Les documents doivent rester cloisonnés par organisation, avec contrôle d'accès, rétention et suppression maîtrisée.
+
+### Recherche et publication d'annonces
+
+Le code de `opportunity-search.js` confirme un moteur unique avec un paramètre de routage `marche`, des sources BOAMP pour les marchés publics et BODACC pour les signaux d'entreprise privés. La recherche mixte « Publics et privés » interroge les deux sources en parallèle, en blocs distincts, avec cinq résultats maximum par source ; une recherche sur une seule source peut afficher jusqu'à dix résultats. Le code précise à juste titre que les annonces BODACC sont des signaux légaux, pas des appels d'offres.
+
+Écart de taxonomie à revoir : le moteur conserve encore `immobilier`, `emploi`, `sous-traitance-offres` et `sous-traitance-recherche` comme catégories privées non connectées. Le parcours de publication « Je publie mon annonce » et les catégories cible `emploi`, `sous-traitance`, `demande-offre`, `autres` ne sont pas démontrés dans le périmètre inspecté. Les annonces emploi internes MajestiOS ne doivent pas être confondues avec une source d'emploi externe.
+
+La page de préqualification par APE/NAF indique clairement que les critères ne sont pas enregistrés dans un CRM. Elle rappelle aussi qu'un code APE/NAF et un score de rapprochement ne prouvent pas les compétences ou l'éligibilité : cette réserve doit être conservée dans tout futur scoring.
+
+**Décision :** maintenir le moteur unique et la distinction des sources ; aligner la taxonomie avec la décision métier la plus récente avant de connecter de nouvelles sources ou la publication d'annonces.
