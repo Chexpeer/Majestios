@@ -2,7 +2,7 @@
 
 **Date :** 11 novembre 2026  
 **Branche :** `Evolution-9`  
-**Pages modifiées (14) :** `developpement-commercial.html`, `reputation-virtuelle.html`, `nous-rejoindre.html`, `prospection-active.html`, `faq.html`, `qualification-entreprises.html`, `facturation-electronique.html`, `vision-majestios.html`, `marches-publics.html`, `marches-prives.html`, `accompagnement-appels-offres.html`, `espace-membre.html`, `intelligence-economique.html`, `crm.html`
+**Pages modifiées (15) :** `developpement-commercial.html`, `reputation-virtuelle.html`, `nous-rejoindre.html`, `prospection-active.html`, `faq.html`, `qualification-entreprises.html`, `facturation-electronique.html`, `vision-majestios.html`, `marches-publics.html`, `marches-prives.html`, `accompagnement-appels-offres.html`, `espace-membre.html`, `espace-prive.html`, `intelligence-economique.html`, `crm.html`
 
 ## Constat
 
