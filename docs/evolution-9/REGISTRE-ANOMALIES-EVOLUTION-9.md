@@ -342,3 +342,23 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 | F2-01 | P2 | Préparation facturation CRM | Le CRM actuel ne possède pas de domaine facture opérationnel ni d'adresse/contact de facturation distincts. La cible est cadrée en phase 2, domaine séparé relié au CRM. | Cadrage documenté ; aucune implémentation revendiquée. |
 
 **Limite :** la CI verte ne prouve ni la sécurité effective du projet Supabase distant, ni une recette métier multi-utilisateur, ni la validation visuelle. Aucun changement Supabase/Vercel n'a été effectué.
+
+
+## 12. Audit Cheexpeer — worker et pont serveur — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié dans le code Evolution-9 | Traitement / statut |
+|---|---|---|---|---|
+| CHX-05 | P1 CI | Déclenchement des tests worker | `.github/workflows/cheexpeer-worker.yml` ne déclenchait les tests push que sur Evolution-7 et Evolution-8. Les modifications du worker sur la branche active Evolution-9 pouvaient donc échapper à cette suite spécialisée. | **Corrigé dans le code** : Evolution-9 ajouté au filtre de branches ; test de contrat ajouté pour empêcher la régression. Exécution de la nouvelle suite encore attendue. |
+| CHX-06 | P1 produit | Exécution métier Cheexpeer | `services/cheexpeer-worker/src/index.mjs` ne possède qu'un exécuteur réel : `readiness_probe` avec autonomie 0, sans effet externe. Toute autre mission est explicitement refusée avec `UNSUPPORTED_EXECUTOR`. | Garde-fou fail-closed présent ; **aucune capacité métier autonome n'est livrée par ce worker**. Construire et recetter un premier handler avant toute promesse opérationnelle. |
+| CHX-07 | P1 fiabilité | Missions longues / bail de traitement | Le pont expose `renew_lease` et la RPC SQL correspondante, mais le worker Node ne renouvelle pas le bail pendant l'exécution. | Sans impact démontré sur le probe bref actuel. Bloquant pour les handlers longs : implémenter heartbeat/renouvellement, arrêt propre et test d'expiration avant de les activer. |
+| CHX-08 | P1 exploitation | Déploiement et raccordement | Le code du pont Edge est présent dans Git. Le dernier audit distant en lecture seule consignait le worker v1 sur `MajestiOS-Test`, limité au probe, et l'absence du pont sous le nom attendu. | **Non vérifié à nouveau dans cette passe** ; aucun déploiement, secret ou paramètre distant modifié. Vérifier explicitement les versions et variables sur le projet de test avant recette. |
+
+### Contrôles de sécurité constatés dans le code
+
+- Le pont Edge exige un secret partagé indépendant avant de créer le client Supabase de service ; comparaison en temps constant.
+- Les actions RPC sont limitées à une liste explicite ; aucune méthode RPC n'est construite à partir d'une chaîne libre fournie par le client.
+- Les identifiants worker/mission et identifiants de messages sont validés ; corps et résultat sont plafonnés ; le pont n'active pas CORS navigateur.
+- Le worker utilise la clé service-role uniquement côté serveur. Son absence de configuration provoque un arrêt au démarrage ; ne jamais exposer ces variables au frontend ou au dépôt.
+- Le registre SQL refuse de réclamer une mission métier sans outil activé et approuvé ; le probe autonomie 0 est l'unique exception observée.
+
+**Limite de preuve :** lecture statique du code et des migrations uniquement. Les tests unitaires/contrats ne prouvent ni le déploiement du pont, ni l'exécution réelle sur Supabase, ni la sécurité de la configuration distante. Aucune donnée, migration, fonction Edge, clé ou secret Supabase n'a été modifié.
