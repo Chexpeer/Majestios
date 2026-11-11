@@ -191,3 +191,11 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 
 **Limite de preuve :** la prévisualisation Vercel est READY sur le commit `034350087656a981755c22b2cff64550d001433b`, mais aucune capture ni recette visuelle réelle n'a encore été produite. Les éléments ci-dessus sont des constats de code ou des contrôles à réaliser, pas des défauts visuels prétendument observés à l'écran.
 
+
+## 19. Harmonisation de l'accès VIP — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / exigence | Traitement Evolution-9 | Statut |
+|---|---|---|---|---|---|
+| VIP-VIS-01 | P1 | Espace privé / Accès VIP | La page de choix des accès (espace-prive.html) possédait une présentation autonome et ne chargeait pas explicitement la charte graphique commune, contrairement aux pages publiques harmonisées. L'accès VIP doit être identifiable comme un espace MajestiOS, sans rupture visuelle avec le site. | Chargement explicite de charte-majestios.css après styles.css, tout en conservant la distinction visuelle VIP bleu nuit/or et les deux parcours sécurisés. Ajout d'une assertion dans verify-site.js pour empêcher la régression. | Correction de code et contrôle statique ajoutés ; CI et recette visuelle à confirmer. |
+
+**Périmètre :** harmoniser la page d'entrée et ses repères de marque, sans modifier les règles d'authentification, les rôles, les liens d'accès ni les protections de l'espace interne. Le cockpit d'administration conserve sa mise en page dédiée, mais doit rester dans le même langage bleu nuit / or / chrome. Aucune capture ni validation visuelle réelle n'est revendiquée à ce stade.
