@@ -4,12 +4,15 @@
 
 ## 1. Où trouver les informations
 
-- **Registre détaillé Evolution-7 :** [REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md](../evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md)
+- **Registre détaillé Evolution-8 :** [REGISTRE-ANOMALIES-EVOLUTION-8.md](../evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md)
+- **Historique Evolution-7 :** [REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md](../evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md)
 - **Consignes obligatoires des agents :** [AGENTS.md](../../AGENTS.md)
 - **Index documentaire général :** [docs/README.md](../README.md)
-- **Décisions de refonte Evolution-7 :** [REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md](../evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md)
+- **Référentiel Evolution-8 :** [README.md](../evolution-8/README.md)
+- **Audit de départ :** [AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md](../evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md)
+- **Décisions de navigation héritées :** [REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md](../evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md)
 
-Le registre Evolution-7 reste la source de vérité pour les identifiants, constats, priorités, preuves et statuts. Ce dossier sert de porte d'entrée commune et ne doit pas maintenir une seconde copie du registre.
+Le registre Evolution-8 est la source de vérité pour les anomalies de la branche active. Le registre Evolution-7 reste l'historique de l'audit initial ; les identifiants hérités sont conservés et ne sont clôturés qu'après preuve.
 
 ## 2. Anomalies actuellement suivies
 
@@ -21,7 +24,7 @@ Le registre Evolution-7 reste la source de vérité pour les identifiants, const
 | CRM-03 | P1 — intégrité des données | Privilèges UPDATE des tables CRM | **Corrigé dans Evolution-7 — migration non appliquée** | Migration `20261109160000_restrict_crm_update_columns.sql` et test de non-régression ajoutés. Vérifier/appliquer uniquement après autorisation explicite ; ne pas prétendre que les privilèges distants sont déjà corrigés. |
 | AN-14 | P1 — sécurité Supabase | RLS désactivée sur `private.reputation_audit_usage` dans `MajestiOS-Test` | **Ouvert — avis Supabase critique** | Vérifier l'exposition du schéma et définir les politiques avant d'activer RLS ; aucune modification distante effectuée. |
 
-Ces états sont ceux documentés dans le registre Evolution-7 au 9 novembre 2026. Ils ne constituent pas une affirmation de validation en environnement réel.
+Les anomalies AUTH-01, AUTH-02, CRM-02 et CRM-03 sont héritées de l'audit Evolution-7 ; leurs statuts distants ne sont pas réputés validés par leur présence dans Git.
 
 ## 3. Règles obligatoires pour chaque agent
 
@@ -53,6 +56,6 @@ Sauf autorisation explicite du porteur du projet, aucun agent ne doit :
 
 ## 6. Dernière actualisation
 
-**Dernière actualisation :** 11 novembre 2026 — l'analyse globale a ajouté les constats AN-01 à AN-13 au registre Evolution-7. La convention worker est harmonisée dans Git sur `CHEEXPEER_*` ; les déclencheurs CI anti-régression couvrent désormais Evolution-7 et le test d'accès interne. Les contrôles sont réussis sur le commit de migration testé `fa66a8de` : worker [42844050029](https://github.com/Chexpeer/Majestios/actions/runs/42844050029), anti-régression [42844049859](https://github.com/Chexpeer/Majestios/actions/runs/42844049859) et site [42844049806](https://github.com/Chexpeer/Majestios/actions/runs/42844049806). Le worker et son pont Edge restent non déployés selon la documentation ; aucun secret distant ni outil métier n'est activé par ces changements. AUTH-01 est confirmé bloquant : `provision-client-workspace` n'est déployée sur aucun des deux projets Supabase inspectés. AN-04 précise l'écart de 22 migrations sur `majestios-crm` contre 38 sur `MajestiOS-Test` ; AN-06 confirme que le worker test reste limité à `readiness_probe` et que le pont n'est pas déployé ; AN-07 confirme l'alerte de protection des mots de passe compromis sur le projet utilisé par le site ; AN-13 reste soumis à des tests multi-rôles ; AN-14 ajoute l'alerte RLS critique sur `private.reputation_audit_usage`. Aucune action distante n'a été effectuée.
-**Branche de travail autorisée dans le chantier en cours :** Evolution-7.
+**Dernière actualisation :** 11 novembre 2026 — l'audit initial et le registre détaillé Evolution-7 ont été repris dans Evolution-8. La convention worker est harmonisée dans Git sur `CHEEXPEER_*` ; les déclencheurs CI anti-régression couvrent désormais Evolution-7 et le test d'accès interne. Les contrôles sont réussis sur le commit de migration testé `fa66a8de` : worker [42844050029](https://github.com/Chexpeer/Majestios/actions/runs/42844050029), anti-régression [42844049859](https://github.com/Chexpeer/Majestios/actions/runs/42844049859) et site [42844049806](https://github.com/Chexpeer/Majestios/actions/runs/42844049806). Le worker et son pont Edge restent non déployés selon la documentation ; aucun secret distant ni outil métier n'est activé par ces changements. AUTH-01 est confirmé bloquant : `provision-client-workspace` n'est déployée sur aucun des deux projets Supabase inspectés. AN-04 précise l'écart de 22 migrations sur `majestios-crm` contre 38 sur `MajestiOS-Test` ; AN-06 confirme que le worker test reste limité à `readiness_probe` et que le pont n'est pas déployé ; AN-07 confirme l'alerte de protection des mots de passe compromis sur le projet utilisé par le site ; AN-13 reste soumis à des tests multi-rôles ; AN-14 ajoute l'alerte RLS critique sur `private.reputation_audit_usage`. Aucune action distante n'a été effectuée.
+**Branche de travail autorisée dans le chantier en cours :** Evolution-8. Evolution-7 reste préservée comme base d'audit.
 **Règle :** actualiser ce point d'entrée et le registre détaillé à chaque évolution significative des anomalies critiques.
