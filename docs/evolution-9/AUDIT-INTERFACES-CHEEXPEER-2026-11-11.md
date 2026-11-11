@@ -245,3 +245,46 @@ Chaque proposition est facultative : démarrer, différer, ignorer ou refuser. L
 La référence « conception dans Evolution-8 » de la page `facturation-electronique.html` a été remplacée par une référence exacte à Evolution-9. Aucun calendrier légal, lien officiel ou statut de disponibilité n'a été modifié par ce correctif.
 
 **Conclusion :** le cadrage cible est déjà documenté ; la fonctionnalité applicative de facturation n'est pas encore construite. La priorité actuelle est la qualification d'onboarding et la validation de l'architecture phase 2, pas la création prématurée de tables ou d'un bouton « facturer ».
+
+
+## 18. Revue approfondie des RPC d'orchestration et des futurs endpoints — 11 novembre 2026
+
+### 18.1 Authentification et séparation des rôles
+
+Le dépôt contient déjà des modèles d'authentification Edge Function réutilisables :
+- `prospection-search-member` vérifie le JWT avec un client utilisateur et une clé publishable, puis résout les appartenances via RLS ;
+- `reputation-audit-context` vérifie la session et refuse les appartenances ambiguës ;
+- `provision-client-workspace` valide le JWT côté serveur avec `auth.getUser(token)`, puis effectue une opération administrative avec `service_role`.
+
+Le pont `cheexpeer-worker-bridge` est distinct : secret technique partagé, liste fermée d'actions, appels RPC avec `service_role`. Il ne constitue pas une API utilisateur.
+
+**Contrat à respecter pour les trois endpoints à construire :**
+1. soumission d'une mission ;
+2. décision d'approbation ;
+3. lecture de mission, résultat et événements.
+
+Chaque endpoint doit authentifier le JWT utilisateur, obtenir l'identité depuis `auth.getUser(token)`, vérifier l'appartenance et le rôle owner/admin de l'organisation concernée, puis seulement effectuer les opérations serveur. L'identifiant utilisateur ne doit jamais provenir d'un champ de requête. La clé `service_role` ne doit jamais être exposée au navigateur. Les lectures doivent filtrer explicitement sur l'organisation validée et ne retourner qu'une liste blanche de champs.
+
+### 18.2 Défaut d'isolation latent dans l'idempotence de soumission
+
+La RPC `private.cheexpeer_submit_mission` utilise une contrainte unique globale sur `idempotency_key`. En cas de conflit, elle relit la mission uniquement par cette clé et retourne son identifiant et son statut sans comparer `organization_id` à `p_organization_id`.
+
+La RPC est actuellement réservée à `service_role` et aucune API utilisateur ne l'expose : aucune fuite inter-tenant effective n'est démontrée. Toutefois, une future API qui retournerait directement cette réponse pourrait révéler l'existence et l'identifiant d'une mission d'une autre organisation en cas de collision ou de réutilisation de clé.
+
+**Correction requise avant raccordement :** vérifier l'organisation sur la ligne retrouvée et retourner une erreur générique sans donnée de mission en cas de mismatch ; idéalement, décider si la clé doit être unique globalement ou par organisation et faire évoluer contrainte + tests en cohérence. Tester même clé dans deux organisations, même clé dans la même organisation, nouvelle clé et répétition concurrente.
+
+### 18.3 Défaut de persistance des approbations expirées
+
+Dans `private.cheexpeer_decide_approval`, le chemin d'expiration met à jour `cheexpeer_approvals.status = 'expired'`, puis lève immédiatement une exception. En PostgreSQL, l'exception annule la transaction de la fonction : la mise à jour du statut est donc annulée elle aussi. La décision est refusée, mais l'approbation peut rester durablement `pending`.
+
+**Correction requise :** traiter l'expiration comme un résultat métier normal (retour explicite `expired` sans exception après mise à jour), ou effectuer une transition atomique distincte compatible avec le contrat RPC. Ajouter un test SQL prouvant que le statut `expired` est effectivement conservé et qu'aucune mission n'est mise en file.
+
+### 18.4 Ordre de réalisation et tests bloquants
+
+- Corriger les deux contrats SQL dans une migration additive, sans modifier ni réécrire une migration déjà appliquée.
+- Créer les trois endpoints distincts avec validation stricte du payload, CORS en liste autorisée, réponses `no-store`, limites de taille et journalisation sans secrets.
+- Tester owner/admin, member, utilisateur non membre, organisation A vers mission B, UUID d'acteur falsifié, approbation déjà décidée, approbation expirée, collision d'idempotence inter-tenant et concurrence.
+- Ajouter ces fichiers et tests à la CI statique ; ne pas confondre syntaxe/contrats simulés avec recette SQL réelle.
+- Garder le registre du tool désactivé et ne déployer aucun endpoint ni migration tant que la recette contrôlée n'est pas autorisée.
+
+**État de cette revue :** analyse du code versionné uniquement. Aucun fichier applicatif ou SQL, aucune base Supabase et aucun déploiement n'ont été modifiés pendant cette revue.
