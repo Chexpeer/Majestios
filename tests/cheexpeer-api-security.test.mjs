@@ -95,3 +95,17 @@ test("CORS preflight response is bodyless and no-store", async () => {
   assert.equal(await response.text(), "");
   assert.match(response.headers.get("cache-control"), /no-store/);
 });
+
+test("phone-confirmed Supabase identities are accepted without requiring an email address", async () => {
+  const admin = {
+    auth:{getUser:async()=>({data:{user:{id:userA,phone_confirmed_at:"2026-01-01"}},error:null})},
+    from:()=>({select(){return this;},eq(){return this;},maybeSingle:async()=>({data:{organization_id:orgA,user_id:userA,role:"owner"},error:null})})
+  };
+  assert.equal((await authorizeOrganizationAdmin({admin,token:"phone-jwt",organizationId:orgA})).ok,true);
+});
+
+test("only the currently implemented readiness_probe executor is accepted", () => {
+  const base = {organization_id:orgA,mission_type:"readiness_probe",title:"Health check"};
+  assert.equal(validateSubmissionPayload(base).ok,true);
+  assert.equal(validateSubmissionPayload({...base,mission_type:"send_email"}).ok,false);
+});
