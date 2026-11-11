@@ -171,4 +171,4 @@ Toutes les pages MajestiOS, publiques comme privées, doivent partager une même
 
 Les valeurs fondamentales (bleu nuit, or, acier/chrome, typographie, rayons, ombres et focus) sont centralisées dans `charte-majestios-tokens.css`. La feuille publique `charte-majestios.css` et la couche des espaces privés `charte-majestios-espaces.css` consomment cette source commune. Cela évite de recopier les valeurs dans les interfaces et permet de garder des surfaces claires ou sombres selon le métier.
 
-La recette navigateur a également révélé un identifiant manquant sur le bouton mobile de `majestios-v5.html`, corrigé sans retirer cette page. **Statut :** code intégré ; validation CI et revue visuelle restent nécessaires.
+La recette navigateur a révélé que certaines pages historiques utilisent la classe `.menu-toggle` sans identifiant `menu-toggle`. Le script partagé accepte les deux formes ; le test a été aligné sur ce contrat au lieu d'imposer une modification inutile des pages. **Statut :** code intégré ; validation CI et revue visuelle restent nécessaires.

@@ -38,7 +38,7 @@ async function main() {
     for (const route of publicPages) {
       await page.goto("http://127.0.0.1:4174/"+route,{waitUntil:"domcontentloaded"});
       await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
-      const mobileButton = page.locator("#menu-toggle");
+      const mobileButton = page.locator(".menu-toggle");
       await mobileButton.waitFor({state:"visible",timeout:15000}).catch(error => { throw new Error("Hamburger mobile absent ou masqué sur "+route+" : "+error.message); });
       assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"48px",
         "La barre mobile doit conserver sa hauteur commune sur "+route);
@@ -91,7 +91,7 @@ async function main() {
         headerHeight: getComputedStyle(document.querySelector(".site-header")).height
       }));
       assert.deepEqual(actualNavigation,referenceNavigation,"La barre et les sous-menus doivent être identiques sur "+route);
-      assert.equal(await page.locator("#menu-toggle").count(),1,"Le bouton de menu commun doit exister sur "+route);
+      assert.equal(await page.locator(".menu-toggle").count(),1,"Le bouton de menu commun doit exister sur "+route);
     }
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
@@ -146,7 +146,7 @@ async function main() {
     await page.setViewportSize({width:390,height:844});
     await page.reload({waitUntil:"domcontentloaded"});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
-    const menuButton=page.locator("#menu-toggle");
+    const menuButton=page.locator(".menu-toggle");
     await menuButton.waitFor({state:"visible",timeout:15000});
     await menuButton.click();
     assert.equal(await page.locator("#site-nav").evaluate(node=>node.classList.contains("open")),true,
@@ -165,7 +165,7 @@ async function main() {
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),7,
       "La navigation commune doit être présente après changement de page.");
-    assert.equal(await page.locator("#menu-toggle").count(),1,"Le hamburger doit être disponible sur les pages de rubrique.");
+    assert.equal(await page.locator(".menu-toggle").count(),1,"Le hamburger doit être disponible sur les pages de rubrique.");
     assert.equal(await page.locator(".majestios-chat-toggle").count(),1,
       "Le chatbot doit être disponible sur les pages de rubrique.");
     await page.goto("http://127.0.0.1:4174/assistant-majestios.html",{waitUntil:"domcontentloaded"});

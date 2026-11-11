@@ -275,14 +275,14 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 | NAV-05 | P2 | Passerelle d'accès privé | `espace-prive.html` est une page autonome `noindex` de choix d'accès, sans barre publique. Elle est explicitement exclue de la recette de parité publique ; la page et ses parcours d'accès sont conservés. | Exception documentée dans le filtre de recette. |
 | UX-03 | P1 | Tokens graphiques privés | Une couche `charte-majestios-espaces.css` harmonise les accents or, les familles typographiques, les rayons de contrôles et le focus clavier pour CRM, administration, recherches ciblées et espace collaborateurs. Les fonds restent adaptés à chaque usage. | Première couche de code intégrée ; recette visuelle et CI à confirmer. |
 
-**Limite de preuve :** le premier correctif a supprimé l'erreur TDZ ; le run suivant a révélé l'absence normale de hamburger sur la passerelle autonome `espace-prive.html`. Son exclusion explicite est appliquée. Aucune validation visuelle multi-pages n'est revendiquée à ce stade.
+**Limite de preuve :** le premier correctif a supprimé l'erreur TDZ ; le run suivant a révélé l'absence normale de hamburger sur la passerelle autonome `espace-prive.html` et le sélecteur trop restrictif `#menu-toggle`. La recette utilise désormais `.menu-toggle`, conformément au script partagé. Aucune validation visuelle multi-pages n'est revendiquée à ce stade.
 
 
 ## 25. Source unique des tokens et correction NAV-06 — 11 novembre 2026
 
 | ID | Priorité | Domaine | Cause / correction | Statut |
 |---|---|---|---|---|
-| NAV-06 | P1 | Page Cheexpeer historique | `majestios-v5.html` conservait un bouton de menu sans l'identifiant `menu-toggle` attendu par le script commun. L'identifiant a été ajouté sans modifier le contenu ni la destination de la page. | Corrigé dans le code ; recette navigateur à confirmer. |
+| NAV-06 | P1 | Page Cheexpeer historique | `majestios-v5.html` conservait un bouton de menu sans l'identifiant `menu-toggle` attendu par le script commun. L'identifiant a été ajouté sans modifier le contenu ni la destination de la page. | Corrigé dans le test ; recette navigateur à confirmer. |
 | UX-04 | P1 | Source des tokens | La première couche privée consommait des variables définies uniquement par `charte-majestios.css`, absente de certains espaces privés. Les valeurs communes sont maintenant extraites dans `charte-majestios-tokens.css`, importée par les deux feuilles de composants. | Source commune intégrée ; build et recette à confirmer. |
 
 **Garde-fou :** les pages privées ne chargent pas la feuille de composants publics complète ; elles consomment uniquement les tokens partagés et leur couche d'adaptation. Les surfaces et mises en page spécifiques sont conservées.
