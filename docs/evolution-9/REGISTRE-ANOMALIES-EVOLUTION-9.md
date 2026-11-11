@@ -736,3 +736,12 @@ Le rapport de la troisième passe éditoriale détaille également la correction
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | UX-EDITORIAL-05 | P2 | Clarté des parcours de contribution | L'introduction et les textes de présentation des publics (freelances, entreprises, réseaux, salons) ont été raccourcis. La non-disponibilité du dépôt de CV et de l'envoi des demandes, ainsi que l'absence de collecte de CV dans cette version, restent clairement indiquées. Les liens de contact et d'espace membre sont conservés. | Correction versionnée sur Evolution-9, commit `bd9ce119afdb856c492cd35a195de672ca6051c9`. CI du HEAD final à confirmer. |
+
+
+## 60. Épuration de la page Prospection — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-06 | P2 | Clarté fonctionnelle et cohérence conceptuelle | La page `prospection-active.html`, affichée sous le libellé de navigation « Prospection », laissait entendre que MajestiOS réalisait une prestation déléguée (« Confiez-nous votre prospection ») et conservait le repère obsolète « ÉTAGE 05 · IDENTIFIER ». L'accroche décrit désormais la recherche et la qualification d'entreprises ; le bloc redondant est raccourci. Moteur, critères, résultats, avertissements et liens sont conservés. | Correction versionnée sur Evolution-9, commit `1e4ccb6964a5b5e8288623e15932b6cec8568bb4`. CI du HEAD final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
