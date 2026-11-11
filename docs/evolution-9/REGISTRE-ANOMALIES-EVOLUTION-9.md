@@ -128,3 +128,11 @@ Le CRM interne reste limité aux rôles owner et admin. Le chemin d'interface vi
 | FACT-01 | P1 avant conception du schéma phase 2 | CRM / facturation / interopérabilité | Aucun domaine de facturation opérationnel ni cycle complet PA n'est démontré dans les environnements audités. Le risque est de concevoir un CRM qui ne pourrait pas relier proprement devis, prestations, factures, transmission, règlements et CRM externes, ou de créer des doubles sources de vérité. | **Évolution phase 2 cadrée** : spécification cible créée dans Evolution-9. Préserver les identifiants et liens métier dès le CRM actuel ; concevoir le domaine de facturation séparément ; définir les modes natif/connecté/hybride, la source de référence par objet et l'idempotence avant développement. Aucun connecteur PA ni module n'est déclaré opérationnel. |
 
 Référence canonique : [Spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md). Le client ne doit pas être contraint d'abandonner son CRM existant ; les factures ne doivent jamais être créées en double dans deux systèmes.
+
+## 13. Préparation de la recette CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Action préparatoire | Statut |
+|---|---|---|---|---|
+| CRM-05 | P1 avant pilote | Recette fonctionnelle / multi-tenant | Protocole détaillé ajouté : rôles, entreprises, contacts, opportunités, activités, historisation, relances, permissions SQL et tests négatifs entre deux tenants sur `MajestiOS-Test`. | **Protocole préparé — NOT RUN** ; exécution conditionnée à des comptes et données synthétiques et à une autorisation explicite d'écriture sur le projet de test. |
+
+Référence : [Protocole de recette CRM sur MajestiOS-Test](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md). Ce livrable ne clôt pas CRM-05 et ne constitue pas une validation de sécurité ou d'ouverture des pilotes.
