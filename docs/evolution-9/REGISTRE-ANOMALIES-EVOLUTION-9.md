@@ -556,3 +556,14 @@ Ne pas déclarer la CI verte tant que le dernier commit Evolution-9 n'a pas term
 | CHX-SEC-03 | P0 avant activation | Approbation | La RPC de décision vérifie le rôle de `p_decision_by`, mais ce paramètre ne prouve pas à lui seul l'identité de l'appelant. | Seule une API serveur vérifiant le JWT peut fournir l'acteur ; ne jamais exposer la RPC ni accepter l'UUID client. |
 
 Le contrôle runtime confirme les politiques RLS de refus navigateur sur les tables privées et les grants réservés à `service_role`. Voir la section 11–13 de l'audit des interfaces.
+
+
+## 41. Durcissement du pont et du worker — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Action / statut |
+|---|---|---|---|---|
+| CHX-WORKER-03 | P2 | Endpoint health | `/health` renvoie sans authentification workerId et horodatages opérationnels. Aucun secret n'est exposé dans le contenu observé. | Réduire la réponse au minimum nécessaire et réserver le diagnostic détaillé au réseau interne. |
+| CHX-WORKER-04 | P2 avant multi-worker | Identité worker | Le worker ID est contrôlé en format, mais repose sur un secret partagé au niveau du pont. | Prévoir identité individuelle, périmètre et révocation par instance avant multiplication des workers. |
+| CHX-WORKER-05 | P1 | Exception readiness_probe | Le claim SQL autorise `readiness_probe` autonomie 0 hors registre ; le handler ignore input/context, mais l'exception n'est pas liée à une version précise. | Conserver soumission serveur uniquement, borner les entrées et prévoir suppression contrôlée de l'exception après bootstrap. |
+
+Les garde-fous positifs du pont (secret, comparaison temps constant, actions autorisées, tailles et identifiants bornés) sont décrits dans l'audit des interfaces, section 14. Aucun code runtime ni secret n'a été modifié.
