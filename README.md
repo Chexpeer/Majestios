@@ -145,3 +145,6 @@ Trois passes d'épuration ont raccourci les textes et clarifié les limites des 
 
 
 La passe éditoriale a également retiré le dernier ancien parcours illustratif de la page Intelligence économique. Voir le rapport de la troisième passe et le registre des anomalies UX-EDITORIAL-12.
+
+
+La page CRM distingue désormais la conservation des relances, leur création par traitement planifié et le rechargement de l'interface. L'affichage ne prétend plus se rafraîchir automatiquement toutes les cinq minutes. Voir UX-EDITORIAL-13 dans le registre Evolution-9.
