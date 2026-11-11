@@ -1,11 +1,11 @@
 # MajestiOS — documentation stratégique
 
-**Référentiel de travail :** branche `Evolution-7`  
+**Référentiel de travail :** branche `Evolution-8` (base auditée : `Evolution-7`)  
 **Finalité :** donner à toute personne ou agent qui intervient sur MajestiOS une compréhension rapide de sa vision, de son modèle de valeur, du rôle central de Cheexpeer et de l'état réel du projet.
 
 ## Alerte — registre des erreurs critiques
 
-**Avant tout audit ou correction, consulter le [registre central des anomalies prioritaires](evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md).** Les erreurs P0/P1 restent visibles jusqu'à validation de leur correction. Les anomalies corrigées sont conservées avec leurs preuves ; les évolutions produit restent séparées.
+**Avant tout audit ou correction, consulter le [registre central des anomalies prioritaires](evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md).** Les erreurs P0/P1 restent visibles jusqu'à validation de leur correction. Les anomalies corrigées sont conservées avec leurs preuves ; les évolutions produit restent séparées.
 
 ## 1. La vision MajestiOS
 
@@ -65,6 +65,10 @@ Le tableau de bord admin est le centre de supervision de Cheexpeer, pas une clé
 | 13 | [Visibilité IA, GEO et réputation numérique de MajestiOS](evolution-7/CHEEXPEER-VISIBILITE-IA-GEO-REPUTATION-MAJESTIOS.md) | Mission de Cheexpeer pour améliorer la découvrabilité, la présence dans les réponses IA, la réputation, les contenus et la mesure de l'acquisition |
 | 14 | [Vision produit — CRM tout-en-un, préparation d'Evolution-8](evolution-7/VISION-PRODUIT-CRM-TOUT-EN-UN-PREPARATION-EVOLUTION-8.md) | Positionnement, modules, parcours, architecture cible, facturation et rôle de Cheexpeer ; vision non équivalente à des fonctions livrées |
 | 15 | [Audit de l'existant — préparation d'Evolution-8](evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) | État vérifié du site, CRM interne, espace membre, Supabase, Cheexpeer, Vercel et risques avant refonte |
+| 16 | [Référentiel de travail Evolution-8](evolution-8/README.md) | Mission, règles de préservation, lots et garde-fous de la refonte |
+| 17 | [Architecture cible — CRM tout-en-un](evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md) | Domaines métier, CRM natif/externe, facturation, Connect, Supabase, sécurité et Cheexpeer |
+| 18 | [Plan de refonte UX Evolution-8](evolution-8/PLAN-REFONTE-UX.md) | Accueil, navigation, espace de travail, parcours clients et prototypes |
+| 19 | [Registre des anomalies Evolution-8](evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md) | Risques hérités et conditions de clôture pour la branche active |
 
 ## 4. Organisation de la documentation
 
