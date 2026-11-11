@@ -227,3 +227,12 @@ Voir CHX-05 à CHX-08 dans le [registre des anomalies](REGISTRE-ANOMALIES-EVOLUT
 
 
 **Mise à jour CI worker :** le workflow spécialisé a réussi sur le commit `e401eb13be6ad395d4f63a596f2761efd07aefe5` (run [43044831310](https://github.com/Chexpeer/Majestios/actions/runs/43044831310)) : syntaxe Node/Edge et tests de politique/contrat validés. La CI globale du site sur le HEAD documentaire suivant est encore en cours de vérification. Cette réussite ne constitue pas une recette distante.
+
+
+## 28. Assistant actuel et périmètre réel de Cheexpeer
+
+Le widget « Parler à MajestiOS » est un guide local à mots-clés, sans appel IA, mémoire persistante, mission ni action métier. La page Assistant indique elle-même que l'IA reste à raccorder : **ce guide n'est pas Cheexpeer**.
+
+La brique Réputation virtuelle possède une collecte automatique limitée au contexte administratif officiel et aux annonces BODACC ; Google Web/Maps restent manuels et les plateformes sociales sont planifiées. L'analyse IA dépend d'une configuration serveur effective et peut légitimement retourner une collecte seule. La vision Cheexpeer community manager LinkedIn est spécifiée, mais aucun connecteur de compte, calendrier, publication, interactions ou analytics n'a été identifié dans le périmètre de code consulté. Drive et veille SEO restent également des objectifs à construire.
+
+La maturité détaillée et les conditions d'activation figurent dans CHX-09 à CHX-12 du registre. Prochaine étape technique recommandée : concevoir un premier parcours de mission non sensible, avec worker/bridge déployés sur le seul environnement de test après autorisation, puis une recette complète avant d'ouvrir les connecteurs engageants.
