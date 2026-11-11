@@ -492,3 +492,8 @@ Le noindex n'est pas un contrôle d'accès. Les données personnelles et résult
 | GEO-02 | P2 | Exactitude des métadonnées Cheexpeer | La meta description de majestios-v5.html pouvait faire croire que les capacités prévues de surveillance, analyse, rapports, alertes et scoring étaient déjà disponibles. Reformulation pour préciser qu'il s'agit d'un agent en préparation. | Corrigé dans le code ; CI à confirmer. |
 
 La page Assistant reste un guide local à mots-clés ; cette correction d'ergonomie ne la transforme pas en agent IA. Les missions métier, outils et connecteurs Cheexpeer restent non activés.
+
+
+## 35. Balayage SEO des 39 pages HTML — 11 novembre 2026
+
+Le contrôle de présence a parcouru les 39 pages HTML du manifeste : title, meta description et au moins un H1 sont présents sur chaque page inspectée. Aucun canonical n'a été trouvé dans les 39 pages. L'unicité des titres/descriptions et les audits Lighthouse/accessibilité restent à exécuter. Les directives noindex ont été ajoutées à espace-membre.html et resultats-recherche.html ; CRM, administration, espace-prive, espace-interne et admin-recherches les possédaient déjà. L'indexation n'est jamais une barrière de sécurité.
