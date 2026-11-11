@@ -53,6 +53,15 @@ async function main() {
     }));
 
     await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
+    assert.equal(await page.locator(".audit-dossier").isVisible(), false,
+      "Le formulaire principal de préparation d’audit ne doit pas être visible dans la rubrique publique.");
+    assert.equal(await page.locator(".reputation-searches").isVisible(), false,
+      "Les formulaires Google Web et Maps ne doivent pas être visibles dans la rubrique publique.");
+    // Les contrôles masqués sont temporairement révélés dans le test uniquement pour préserver la recette de leur logique interne.
+    await page.evaluate(() => {
+      document.querySelector(".audit-dossier").hidden = false;
+      document.querySelector(".reputation-searches").hidden = false;
+    });
     const dossierForm = page.locator("[data-audit-dossier-form]");
     await dossierForm.locator('[name="company"]').fill('<img src=x onerror="alert(1)"> Atelier Exemple');
     await dossierForm.locator('[name="siren"]').fill("123456789");
@@ -81,6 +90,14 @@ async function main() {
       "Une panne IA doit être distinguée de l’absence de configuration.");
 
     await page.reload({ waitUntil: "domcontentloaded" });
+    assert.equal(await page.locator(".audit-dossier").isVisible(), false,
+      "Les formulaires doivent rester masqués après rechargement.");
+    assert.equal(await page.locator(".reputation-searches").isVisible(), false,
+      "Les recherches Google doivent rester masquées après rechargement.");
+    await page.evaluate(() => {
+      document.querySelector(".audit-dossier").hidden = false;
+      document.querySelector(".reputation-searches").hidden = false;
+    });
     assert.equal(await page.locator('[name="company"]').inputValue(),
       '<img src=x onerror="alert(1)"> Atelier Exemple',
       "Les champs doivent être restaurés après rechargement de la page dans la même session.");
