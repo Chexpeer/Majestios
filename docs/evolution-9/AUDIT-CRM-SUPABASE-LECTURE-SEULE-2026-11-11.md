@@ -183,3 +183,30 @@ L'historisation présente un second écart fonctionnel :
 Enfin, MajestiOS-Test présente deux triggers BEFORE INSERT/UPDATE redondants par table CRM (*_enforce_tenant_integrity et *_tenant_integrity) appelant la même fonction private.enforce_tenant_relationship_integrity(). Aucun impact fonctionnel n'est démontré ; c'est une dette de nettoyage à traiter dans une migration contrôlée, pas une suppression manuelle immédiate.
 
 **Priorité mise à jour :** verrouiller les privilèges de colonnes et rétablir l'historisation atomique sur le projet principal avant d'ouvrir le CRM à un groupe pilote ou à des clients.
+
+
+### 11.8 Audit du parcours métier CRM — contrôle du code Evolution-9
+
+Le contrôle du code frontend et des migrations complète l'audit Supabase en lecture seule :
+
+- **Entreprises :** création avec statut initial « à examiner », identification par SIREN/SIRET, qualification (à examiner, en cours, qualifiée, non qualifiée, ne pas contacter), notes, provenance et rattachement à une organisation.
+- **Contacts :** rattachement facultatif à une entreprise, coordonnées, fonction et statut de consentement (inconnu, fourni, retiré, non applicable).
+- **Opportunités :** rattachement à une entreprise et à un contact principal, étape commerciale, score de qualification borné de 0 à 100, synthèse, responsable, prochaine action et échéance.
+- **Activités :** journal des interactions et événements métier. Le modèle SQL prévoit une insertion append-only pour les rôles applicatifs ordinaires ; l'historisation des créations/modifications des trois fiches principales est portée par la migration atomique dédiée.
+- **Intégrité relationnelle :** les migrations du dépôt contrôlent l'appartenance des entreprises, contacts, opportunités et activités au même tenant ; elles vérifient également la cohérence entre le contact principal et l'entreprise de l'opportunité, ainsi que les responsables membres de l'organisation. Le SIREN est unique par organisation dans le schéma initial ; une migration ultérieure ajoute l'unicité du SIRET normalisé par organisation.
+- **Relances :** le modèle prévoit une matérialisation périodique des échéances échues, l'annulation des relances en attente lors d'une clôture ou d'une replanification, et un RPC de traitement qui ajoute une activité à la chronologie dans la même transaction. Ce fonctionnement reste à recetter sur une base de test représentative ; il n'est pas démontré sur le projet principal tant que les migrations correspondantes n'y sont pas appliquées.
+
+#### Correction de robustesse effectuée dans le client
+
+Le point d'entrée MajestiosCRM.create* acceptait auparavant tout objet transmis par son appelant, alors que les formulaires actuels construisaient des payloads limités. Une liste blanche explicite par table est maintenant appliquée aux créations d'entreprises, contacts, opportunités et activités ; les champs organization_id, created_by et actor_user_id restent imposés par le client authentifié. La comparaison des champs modifiés utilise aussi le payload normalisé, notamment pour le score de qualification.
+
+Un test de contrat a été ajouté au test de sécurité CRM existant. Le workflow verify-static-site a exécuté ce contrôle sur le commit 5976681bc72f089c9bdb94a26951a7622254267a ; le contrôle de sécurité CRM a terminé avec succès. Cette protection du client ne remplace pas les privilèges SQL, RLS et contraintes serveur.
+
+#### Limites et recette encore requise
+
+- Le workflow couvre des contrats statiques, la navigation et la sécurité du code, mais ne comporte pas encore de recette navigateur complète de création → modification → historique → relance sur un tenant de test.
+- Les tests d'isolation inter-organisations, de séparation interne/client et de cycle de vie des relances doivent être exécutés contre MajestiOS-Test, avec plusieurs identités et organisations synthétiques.
+- Le code contient une branche d'interface viewer en lecture seule, mais requireWorkspace() refuse actuellement tout rôle autre que owner ou admin pour l'organisation interne. Cette branche est donc inaccessible dans le CRM interne actuel ; elle ne doit pas servir de preuve que le CRM client multi-tenant est activé.
+- Les écritures effectuées par un traitement utilisant le rôle service peuvent produire un historique dont actor_user_id est nul via auth.uid(). Avant les imports/agents serveur, définir une attribution explicite « système » ou un identifiant de mission, sans usurper un utilisateur humain.
+
+**Décision :** le socle métier est structuré dans le dépôt, mais il n'est pas encore recetté de bout en bout et les migrations CRM critiques ne sont pas présentes sur majestios-crm. Pas d'ouverture pilote, pas de migration distante et pas de déploiement de production à ce stade.
