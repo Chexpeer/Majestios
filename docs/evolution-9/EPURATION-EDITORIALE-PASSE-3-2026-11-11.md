@@ -59,3 +59,11 @@ Sur `faq.html` :
 - Le texte et le lien ont été remplacés par une invitation à explorer les rubriques et les fonctionnalités présentées sur le site.
 - Les questions, réponses, liens de navigation et contrôles d'accès décrits dans la FAQ sont conservés.
 - Correction versionnée sur Evolution-9, commit `19f88757699c95a13b533ab114f4335f58072610`.
+
+
+## Sixième correction de la passe
+
+Sur `qualification-entreprises.html` :
+- Présentation initiale raccourcie : recherche par codes APE/NAF et département, interrogation de l'annuaire public et résultats à vérifier.
+- Les critères de recherche, les avertissements de qualification, la limite de non-enregistrement dans le CRM et les contrôles de l'opérateur restent inchangés.
+- Correction versionnée sur Evolution-9, commit `c4d28bd9c5db9dfd20d418f3177abc802be96d4e`.
