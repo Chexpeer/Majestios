@@ -77,3 +77,12 @@ Sur `facturation-electronique.html` :
 - Le rappel du périmètre des entreprises concernées reste dans cette carte ; les précisions réglementaires, le calendrier, les liens officiels et les limites de l'offre MajestiOS sont conservés.
 - Aucun lien, script, parcours ou contenu réglementaire utile n'a été supprimé.
 - Correction versionnée sur Evolution-9, commit `46d8c2c6f95d0dc4af614d602022258fe2dcc809`.
+
+
+## Huitième correction de la passe
+
+Sur `vision-majestios.html` :
+- L'introduction de la vision a été raccourcie sans déplacer son emplacement, qui est cohérent dans le bloc d'ouverture de la page.
+- Nouvelle formulation : « Les opportunités se repèrent, se comprennent et se construisent. MajestiOS aide à transformer les bons signaux en démarches commerciales. »
+- La doctrine « L’IA propose, l’humain dispose », le cycle de développement et les limites de promesse restent inchangés.
+- Correction versionnée sur Evolution-9, commit `468a191c2e9d87000e55cbf4cdf4bb12dffec000`.
