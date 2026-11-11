@@ -4,15 +4,19 @@
 
 ## 1. Où trouver les informations
 
+- **Registre actif Evolution-9 :** [REGISTRE-ANOMALIES-EVOLUTION-9.md](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md)
 - **Registre détaillé Evolution-8 :** [REGISTRE-ANOMALIES-EVOLUTION-8.md](../evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md)
 - **Historique Evolution-7 :** [REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md](../evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md)
 - **Consignes obligatoires des agents :** [AGENTS.md](../../AGENTS.md)
 - **Index documentaire général :** [docs/README.md](../README.md)
+- **Référentiel Evolution-9 :** [README.md](../evolution-9/README.md)
 - **Référentiel Evolution-8 :** [README.md](../evolution-8/README.md)
 - **Audit de départ :** [AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md](../evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md)
 - **Décisions de navigation héritées :** [REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md](../evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md)
 
-Le registre Evolution-8 est la source de vérité pour les anomalies de la branche active. Le registre Evolution-7 reste l'historique de l'audit initial ; les identifiants hérités sont conservés et ne sont clôturés qu'après preuve.
+Le registre Evolution-9 est la source de vérité pour les anomalies de la branche active. Les registres Evolution-8 et Evolution-7 restent conservés comme historiques ; les identifiants hérités sont repris et ne sont clôturés qu'après preuve.
+
+**Reprise Evolution-9 — 11 novembre 2026 :** la branche de consolidation a été créée depuis Evolution-8 après correction du décalage du contrat de navigation (NAV-01 : 20 entrées secondaires, 18 destinations uniques). Le build Vercel Evolution-8 est READY sur le commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` ; ce résultat ne vaut pas recette CI ni navigateur. Les anomalies Supabase, Auth, multi-tenant et Cheexpeer restent ouvertes selon leurs preuves antérieures. Voir le [registre Evolution-9](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
 
 ## 2. Anomalies actuellement suivies
 
