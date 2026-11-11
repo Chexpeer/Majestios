@@ -336,7 +336,7 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 
 | ID | Priorité | Domaine | Cause / correction | Statut |
 |---|---|---|---|---|
-| CI-05 | P1 CI | Validation globale Evolution-9 | Le workflow `verify-static-site` a réussi sur le HEAD `905041b6c736a1c66adade91561beb623c67a1fe` (run 43042947816). Les tests navigateur desktop/mobile et les contrôles CRM statiques sont inclus. | <badge>SUCCESS</badge> CI verte. |
+| CI-05 | P1 CI | Validation globale Evolution-9 | Le workflow `verify-static-site` a réussi sur le HEAD `905041b6c736a1c66adade91561beb623c67a1fe` (run 43042947816). Les tests navigateur desktop/mobile et les contrôles CRM statiques sont inclus. | CI verte (SUCCESS). |
 | CRM-06 | P0 | Sécurité du CRM sur le projet principal | L'audit lecture seule constate encore des privilèges UPDATE trop larges et l'absence des triggers d'historisation sur `majestios-crm`. Les migrations correctives sont présentes dans Git mais non appliquées à distance. | Bloqué : plan et autorisation Supabase requis. |
 | CRM-07 | P1 | Recette multi-tenant | Le protocole de test existe, mais les identités/organisations synthétiques et scénarios JWT multi-rôle ne sont pas exécutés. | Préparé, NOT RUN. |
 | F2-01 | P2 | Préparation facturation CRM | Le CRM actuel ne possède pas de domaine facture opérationnel ni d'adresse/contact de facturation distincts. La cible est cadrée en phase 2, domaine séparé relié au CRM. | Cadrage documenté ; aucune implémentation revendiquée. |
