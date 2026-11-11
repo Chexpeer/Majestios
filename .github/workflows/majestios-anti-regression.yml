@@ -8,6 +8,7 @@ on:
       - evolution-5.0-clean-preview
       - evolution-5.0-admin-cockpit
       - Evolution-7
+      - Evolution-8
   pull_request:
     branches:
       - main
@@ -16,6 +17,7 @@ on:
       - evolution-5.0-clean-preview
       - evolution-5.0-admin-cockpit
       - Evolution-7
+      - Evolution-8
   workflow_dispatch:
 
 permissions:
