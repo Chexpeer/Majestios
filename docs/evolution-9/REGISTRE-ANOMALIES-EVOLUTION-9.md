@@ -100,3 +100,11 @@ Constats confirmés en lecture seule :
 - **Cheexpeer :** le worker `cheexpeer-worker` v1 sur `MajestiOS-Test` est strictement en mode test et n'exécute que `readiness_probe`, sans effet externe métier.
 
 Ces précisions sont établies par lecture seule des projets le 11 novembre 2026. Aucune migration, donnée, politique, fonction ou configuration distante n'a été modifiée.
+
+## 10. Privilèges et historisation CRM — vérification distante
+
+- **CRM-03 / privilèges UPDATE :** la migration de restriction des colonnes est présente dans le socle de test mais pas sur majestios-crm. Sur le projet principal, authenticated peut encore modifier les colonnes id, organization_id, created_by, created_at et updated_at des tables businesses, contacts et opportunities, en plus des champs métier. Les contrôles RLS et triggers existants limitent certains scénarios, mais la protection frontend seule ne suffit pas. Priorité P1 avant pilote client ; préparer la migration, la tester et demander validation avant application distante.
+- **CRM-02 / historisation :** les triggers record_crm_activity() après INSERT/UPDATE sont présents sur MajestiOS-Test, absents sur les tables businesses, contacts et opportunities de majestios-crm. Le code frontend vérifie la présence de l'historique et peut afficher « Fiche modifiée, mais l'historique n'a pas pu être enregistré ». La migration d'historisation atomique est requise pour aligner le comportement du projet principal.
+- **AN-15 / triggers redondants de test :** dans MajestiOS-Test, deux triggers BEFORE INSERT/UPDATE par table CRM appellent la même fonction d'intégrité tenant (*_enforce_tenant_integrity et *_tenant_integrity). Dette de nettoyage P2, sans impact fonctionnel démontré ; ne pas supprimer avant analyse des migrations et des dépendances.
+
+Le détail des contrôles et des limites figure dans la section 11.7 du rapport d'audit. Aucun changement distant n'a été effectué.
