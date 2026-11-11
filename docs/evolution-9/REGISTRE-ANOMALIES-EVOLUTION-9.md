@@ -609,3 +609,17 @@ Voir section 17 de l'audit des interfaces et `SPECIFICATION-CIBLE-FACTURATION-CR
 | CHX-APPROVAL-01 | P1 | Cycle de vie / expiration | `cheexpeer_decide_approval` met le statut à `expired` puis lève une exception dans la même transaction ; PostgreSQL annule la mise à jour. Une approbation expirée peut donc rester `pending`. | Corriger dans une migration additive : résultat métier explicite `expired` ou transition transactionnelle distincte ; test SQL de persistance obligatoire. |
 
 Ces deux points ont été ajoutés après lecture du SQL versionné, sans exécution ni écriture sur Supabase. Voir section 18 de `AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md`. Les anomalies P0 CHX-API-01 et CHX-SEC-03 restent bloquantes ; les nouveaux constats P1 doivent être traités avant d'exposer l'API.
+
+
+## 46. Première implémentation des API Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction versionnée | Statut |
+|---|---|---|---|---|
+| CHX-API-02 | P1 avant API utilisateur | Idempotence tenant | Migration additive : unicité composée organisation/clé et relecture filtrée par organisation. | Code Git préparé ; test SQL réel et application migration non exécutés. |
+| CHX-APPROVAL-01 | P1 | Expiration approbation | Expiration retournée comme état métier normal, horodatée et journalisée ; aucune exception après update ; aucun dispatch. | Code Git préparé ; persistance PostgreSQL à prouver en recette locale. |
+| CHX-API-03 | P0 avant activation | API de soumission | Edge Function séparée, JWT vérifié par Auth, acteur dérivé du JWT, rôle owner/admin contrôlé, RPC service-role uniquement. | Source Git créée ; non déployée. |
+| CHX-API-04 | P0 avant activation | API de décision | Edge Function séparée, rôle owner/admin, acteur dérivé du JWT ; RPC SQL vérifie également l'appartenance. | Source Git créée ; non déployée. |
+| CHX-API-05 | P0 avant activation | API de consultation | Edge Function séparée ; RPC de lecture filtrée par mission ET organisation et champs en liste blanche. | Source Git créée ; non déployée. |
+| CHX-SEC-04 | P0 avant activation | Falsification / isolation | Tests contractuels pour identité falsifiée, JWT invalide, rôle member, absence d'appartenance et tentative A/B ; tests SQL statiques. | Ajoutés à CI ; tests PostgreSQL/Auth/RLS réels encore requis. |
+
+Aucun endpoint ni migration n'a été déployé. MajestiOS-Test demeure en lecture seule. La CI doit être vérifiée sur le SHA exact après les derniers commits.
