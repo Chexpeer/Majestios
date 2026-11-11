@@ -26,13 +26,13 @@
         display:"flex",position:"relative","z-index":"2601",width:"34px","min-width":"34px",
         height:"34px","min-height":"34px",padding:"6px",flex:"0 0 34px",
         "flex-direction":"column","align-items":"center","justify-content":"center",gap:"4px",
-        background:"#ffffff",border:"1px solid #c7d3df","border-radius":"7px",
-        "box-shadow":"0 1px 4px rgba(20,40,60,.14)",visibility:"visible",opacity:"1",
+        background:"linear-gradient(145deg,#142b49,#071225)",border:"1px solid rgba(213,181,108,.72)","border-radius":"7px",
+        "box-shadow":"0 3px 12px rgba(0,0,0,.3)",visibility:"visible",opacity:"1",
         "pointer-events":"auto",cursor:"pointer"
       }).forEach(([p,v]) => setImportant(menuButton,p,v));
       menuButton.querySelectorAll("span").forEach(span => {
         Object.entries({display:"block",width:"18px",height:"2px","min-height":"2px",
-          flex:"0 0 2px",margin:"0",background:"#17324f","border-radius":"2px"}).
+          flex:"0 0 2px",margin:"0",background:"#f0d38b","border-radius":"2px"}).
           forEach(([p,v]) => setImportant(span,p,v));
       });
     };
