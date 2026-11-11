@@ -32,5 +32,3 @@ values (
 )
 on conflict (tool_key, version) do nothing;
 
-comment on table private.cheexpeer_tool_registry is
-'Registre versionné des outils autorisés, de leurs effets et plafonds d’autonomie. Les outils préparés restent désactivés jusqu’à recette et activation explicite.';
