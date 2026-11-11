@@ -648,3 +648,12 @@ Ces constats proviennent de la réponse GitHub sur les branches et des exécutio
 |---|---|---|---|---|
 | CHX-WORKER-06 | P0 avant activation | L'API aurait pu accepter un type de mission ou un niveau d'autonomie non pris en charge par le worker actuel. | Allowlist API + garde-fou SQL : seul `readiness_probe`, autonomie 0. Tests de contrat associés. | Source Git ajoutée ; CI finale et recette réelle encore requises. |
 | CHX-AUTH-01 | P1 | Les comptes confirmés uniquement par téléphone auraient été refusés par un contrôle exclusivement email. | Accepter `email_confirmed_at` OU `phone_confirmed_at`. | Source Git et test unitaire ajoutés ; recette Supabase Auth à faire. |
+
+
+## 50. Limite de lecture des corps HTTP Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Risque | Constat / correction | Statut |
+|---|---|---|---|---|
+| CHX-SEC-06 | P1 avant exposition publique | Consommation mémoire / déni de service | La limite initiale mesurait le corps après `request.text()`, ce qui ne bornait pas la lecture en l'absence de `Content-Length`. Lecture streaming ajoutée, comptage en octets, annulation immédiate au dépassement et décodage UTF-8 strict. | Code et tests ajoutés sur Evolution-9 ; CI du HEAD final à confirmer. Les limites de débit/plateforme et tests d'intégration restent nécessaires. |
+
+Aucun endpoint n'est déployé. Cette correction ne constitue pas une protection complète contre le déni de service : compléter par les quotas, rate limits et contrôles de concurrence de la plateforme avant exposition.
