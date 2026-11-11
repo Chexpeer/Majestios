@@ -118,3 +118,39 @@ Aucune activation de connecteur ou extension d'autonomie ne précède la recette
 ## 9. État de preuve
 
 À la date de rédaction, ce document définit le périmètre à auditer et les critères d'acceptation. Chaque capacité doit ensuite être qualifiée séparément : **spécifiée, présente dans le code, déployée, connectée, autorisée, testée et recettée**. Une étape ne prouve pas automatiquement les suivantes.
+
+
+## 10. Collecte de données autorisée — scraping et veille
+
+Cheexpeer doit disposer à terme d'une capacité de collecte automatisée de sources publiques et de sources explicitement autorisées. La préférence va aux API officielles et jeux de données ouverts ; le scraping HTML n'est utilisé que lorsque l'accès et les conditions applicables l'autorisent.
+
+Périmètre fonctionnel attendu :
+- catalogue de sources documenté (propriétaire, finalité, base d'accès, conditions, fréquence, champs collectés et durée de conservation) ;
+- paramétrage des mots-clés, zones géographiques, codes NAF/APE, catégories et calendriers de collecte ;
+- détection des annonces nouvelles, modifiées, retirées et des échéances ;
+- normalisation, dédoublonnage, qualification explicable et classement ;
+- alimentation prioritaire de Veille, puis proposition d'import CRM contrôlé ; aucune création ou modification CRM massive et silencieuse ;
+- conservation de la provenance (source, URL canonique, identifiant source, date de publication si connue, date de collecte, empreinte du contenu et historique des changements) ;
+- quotas, limites de concurrence, délais, taille maximale, reprise avec backoff et journalisation des erreurs.
+
+Garde-fous obligatoires : respect des conditions d'utilisation, des restrictions d'accès, des règles de protection des données et de robots.txt lorsqu'applicable ; aucun contournement de CAPTCHA, authentification, paywall ou mesure technique d'accès. Validation des URL et redirections, blocage des IP privées et services de métadonnées, liste d'hôtes autorisés, protection SSRF, nettoyage HTML et interdiction d'exécuter le code récupéré. Les pages et documents collectés sont des données non fiables : leurs instructions ne doivent jamais être suivies comme des instructions système ou des ordres d'outil (défense contre l'injection de prompt). Toute action externe reste soumise à validation humaine.
+
+Tests d'acceptation à prévoir : injection de prompt dans une page, SSRF et redirections, dépassement de taille, limitation de débit, indisponibilité et reprise, dédoublonnage, détection de changement, provenance, cloisonnement inter-organisations et blocage de toute action externe non approuvée.
+
+**État réel :** capacité spécifiée uniquement. Aucun scraper n'est déclaré implémenté, activé ou déployé. Le worker actuel reste fail-closed sur les seuls handlers explicitement autorisés ; aucune collecte ne doit être lancée avant revue de sécurité et recette.
+
+## 11. Connecteurs Google — périmètre cible
+
+Cheexpeer doit pouvoir se connecter, après consentement et autorisation explicite des administrateurs concernés, aux services Google utiles à la gestion, à la prospection et à la visibilité de MajestiOS. Les connecteurs sont indépendants et activables séparément :
+
+| Domaine | Capacités attendues | Limites et validations |
+|---|---|---|
+| Google Ads (ancien nom : AdWords) | Lecture des comptes autorisés, campagnes, groupes, annonces, mots-clés, budgets, conversions et rapports ; analyse et recommandations ; préparation de brouillons ou changements proposés. | Aucun lancement, pause, modification d'annonce, de ciblage ou de budget sans approbation explicite. Respect des rôles Google Ads, du développeur token et des quotas API. |
+| Google Workspace | Selon les services autorisés : Gmail, Agenda, Drive, Docs, Sheets et éventuellement Meet ; recherche ciblée, synthèse, création de brouillons/documents et organisation de fichiers. | OAuth par utilisateur et scopes minimaux ; accès limité aux comptes, boîtes, calendriers et fichiers nécessaires. Pas de délégation globale de domaine par défaut. Envoi d'email, partage externe, suppression ou modification sensible soumis à validation. |
+| Google Business Profile (Google Business) | Lecture et gestion contrôlée des établissements autorisés, informations de fiche, publications, avis et statistiques disponibles via les API éligibles. | Vérifier l'éligibilité et la validation des établissements, les accès propriétaires/gestionnaires et les conditions API. Réponse à un avis, publication ou modification publique après validation humaine. |
+
+Architecture et sécurité communes : OAuth 2.0 et consentement explicite, scopes minimaux par connecteur, secrets conservés côté serveur dans un gestionnaire adapté, séparation test/production, révocation accessible, journal des accès et actions, quotas, gestion des expirations/renouvellements de jetons et absence de secrets dans les prompts ou journaux. Les données Google restent cloisonnées par organisation et par utilisateur ; une connexion ne vaut jamais autorisation universelle.
+
+Chaque opération est classée en lecture, préparation ou exécution. Les lectures sont limitées au besoin de la mission ; les brouillons ne sont pas envoyés ; les actions qui dépensent un budget, publient, répondent à un avis, envoient un message, partagent ou suppriment des données nécessitent une approbation explicite et une trace d'audit. Les API officielles et leurs règles d'accès priment sur toute automatisation par navigateur ou scraping.
+
+**État réel :** périmètre demandé et spécifié ; aucun connecteur Google n'est déclaré connecté, autorisé, implémenté, déployé ou recetté par cette inscription documentaire. Les services Google et leurs scopes devront être activés individuellement après étude des API, des autorisations du compte et des tests de sécurité.
