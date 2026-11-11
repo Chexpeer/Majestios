@@ -24,9 +24,10 @@ Lire dans cet ordre :
 2. [Plan de réalisation et moyens](PLAN-REALISATION-ET-MOYENS.md)
 3. [Plan de synthèse documentaire](PLAN-SYNTHESE-DOCUMENTAIRE.md)
 4. [Spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md)
-5. [Registre des anomalies Evolution-9](REGISTRE-ANOMALIES-EVOLUTION-9.md)
-6. [Architecture cible CRM tout-en-un Evolution-8](../evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md)
-6. [Audit de l'existant établi sur Evolution-7](../evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md)
+5. [Cartographie fonctionnelle transversale de Cheexpeer](CARTOGRAPHIE-FONCTIONNELLE-TRANSVERSALE-CHEEXPEER.md)
+6. [Registre des anomalies Evolution-9](REGISTRE-ANOMALIES-EVOLUTION-9.md)
+7. [Architecture cible CRM tout-en-un Evolution-8](../evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md)
+8. [Audit de l'existant établi sur Evolution-7](../evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md)
 
 Les documents datés Evolution-5 à Evolution-8 restent des preuves historiques et des sources de détail. Ils ne doivent pas être supprimés ni considérés automatiquement comme des décisions actuelles.
 
