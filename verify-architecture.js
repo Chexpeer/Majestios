@@ -114,12 +114,11 @@ assert(drawerStyles.includes("#menu-toggle") || drawerStyles.includes(".menu-tog
   "Navigation : style du bouton hamburger absent");
 for (const page of htmlPages) {
   const pageHtml = read(page);
-  if (["administration.html","admin-recherches.html","espace-interne.html","crm.html"].includes(page)) continue;
-  assert(pageHtml.includes('id="site-nav"'), page + " : conteneur de navigation publique absent");
-  assert(pageHtml.includes('src="app.js"'), page + " : contrôleur partagé de navigation absent");
-  assert(pageHtml.includes('id="menu-toggle"') || pageHtml.includes('class="menu-toggle"'),
-    page + " : bouton hamburger absent");
+  assert(pageHtml.includes('src="navigation-tiroirs.js"'),
+    page + " : initialiseur de navigation commune et accès VIP absent");
 }
+// La barre peut être présente dans le HTML ou créée par le bootstrap commun.
+// Ce contrat couvre aussi les pages internes qui possèdent leur propre navigation métier.
 for (const asset of [
   "styles.css", "charte-majestios.css", "app.js", "navigation-majestios.css", "homepage.css", "homepage-theme.css", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
