@@ -571,9 +571,22 @@ async function refresh(canEdit = false) {
   ]);
   businessRelatedData = { businesses, contacts, opportunities, activities };
   businessRecordsCanEdit = canEdit;
-  document.querySelector("#crm-contact-count").textContent = contacts.length;
-  document.querySelector("#crm-opportunity-count").textContent = opportunities.length;
-  document.querySelector("#crm-activity-count").textContent = activities.length;
+  const [businessCount, contactCount, opportunityCount, activityCount] = await Promise.all([
+    MajestiosCRM.countWorkspaceRecords("businesses"),
+    MajestiosCRM.countWorkspaceRecords("contacts"),
+    MajestiosCRM.countWorkspaceRecords("opportunities"),
+    MajestiosCRM.countWorkspaceRecords("activities")
+  ]);
+  document.querySelector("#crm-business-count").textContent = businessCount;
+  document.querySelector("#crm-contact-count").textContent = contactCount;
+  document.querySelector("#crm-opportunity-count").textContent = opportunityCount;
+  document.querySelector("#crm-activity-count").textContent = activityCount;
+  const followupNotice = document.getElementById("crm-followup-data-notice");
+  if (followupNotice) {
+    followupNotice.textContent = opportunityCount > opportunities.length
+      ? "Aperçu des relances calculé sur les " + opportunities.length + " premières opportunités chargées sur " + opportunityCount + ". La liste complète reste accessible dans la rubrique Opportunités."
+      : "";
+  }
   await Promise.all([
     loadBusinessPage(),
     loadWorkspacePage("contacts", true, canEdit),
