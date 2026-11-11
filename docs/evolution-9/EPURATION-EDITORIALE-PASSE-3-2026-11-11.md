@@ -2,7 +2,7 @@
 
 **Date :** 11 novembre 2026  
 **Branche :** `Evolution-9`  
-**Page modifiée :** `developpement-commercial.html`
+**Pages modifiées :** `developpement-commercial.html`, `reputation-virtuelle.html`
 
 ## Constat
 
@@ -16,10 +16,20 @@ La page conservait une mention « ÉTAGE 06 · ORCHESTRER », vestige de l'ancie
 - Suppression de la phrase redondante « Votre bénéfice ».
 - Conservation de la section et de sa structure visuelle ; aucun lien, formulaire, script ou parcours n'a été retiré.
 
-**Commit de la page :** `04d78d50e904c86c2d06e38152f7c6da49ba84e0`.
+## Deuxième correction de la passe
+
+Sur `reputation-virtuelle.html` :
+- Titre et introduction raccourcis et recentrés sur l'image en ligne de l'entreprise.
+- Textes des trois axes simplifiés : présence locale, avis et confiance, référencement naturel.
+- La condition préalable d'accord de l'entreprise avant consultation des avis est explicitement conservée, ainsi que la validation humaine des réponses.
+- Les avertissements sur l'absence de connexion Google active et la vérification des constats restent inchangés.
+
+**Commits des pages :**
+- `developpement-commercial.html` : `04d78d50e904c86c2d06e38152f7c6da49ba84e0`.
+- `reputation-virtuelle.html` : `b911d0ee6f410bd79c4718b1830ffb2f54e601ab`.
 
 ## Contrôles et limites
 
-Le contenu source a été relu après modification. La validation automatisée du site doit être confirmée sur le HEAD final de cette passe par GitHub Actions. Aucun test navigateur n'est déclaré réussi avant lecture de ce résultat.
+Les contenus sources ont été relus après modification. La validation automatisée du site doit être confirmée sur le HEAD final de cette passe par GitHub Actions. Aucun test navigateur n'est déclaré réussi avant lecture de ce résultat.
 
 Aucune migration, donnée, configuration, permission, secret, intégration externe ou déploiement n'a été modifié.
