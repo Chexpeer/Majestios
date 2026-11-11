@@ -693,3 +693,12 @@ Cheexpeer doit tenir les pairs, partenaires et relais professionnels de MajestiO
 | Référence | Priorité | Domaine | Exigence / risque | Décision et preuve attendue |
 |---|---|---|---|---|
 | CHX-COMM-01 | P1 avant communication externe automatisée | Communauté / communication MajestiOS | Organiser une veille des sujets pertinents, préparer des actualités régulières sur les avancées vérifiées de MajestiOS, adapter les contenus aux pairs et partenaires, suivre les questions et retours. Risques : annoncer comme disponible une fonction seulement prévue, divulguer des informations internes, spammer ou engager publiquement l'entreprise sans mandat. | Exigence ajoutée à la cartographie fonctionnelle. Capacité spécifiée, non automatisée. Constituer un référentiel de faits publiables relié aux preuves du dépôt/tests/déploiements ; classer les informations par confidentialité ; distinguer prévu/spécifié/en développement/testé/déployé/disponible ; validation humaine obligatoire par contenu, canal, public et date ; journal des sources, versions et approbations ; recette anti-fuite et possibilité de suspension immédiate. |
+
+
+## 55. Première passe d'épuration éditoriale du site — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-01 | P2 | Clarté des contenus publics | Plusieurs accroches et explications répétaient la même idée ou utilisaient des formulations longues. Les pages Accueil, Développement commercial, Marchés publics, Marchés privés, Accompagnement, Contact et FAQ ont été raccourcies. Les avertissements sur les exemples fictifs, les annonces à vérifier, les formulaires non transmetteurs et les fonctions en préparation ont été conservés. | Modifications versionnées sur Evolution-9. Contrôle d'architecture adapté au nouveau texte d'accueil. CI du HEAD documentaire final à confirmer ; aucune clôture avant conclusion complète du workflow. |
+
+Référence et détail : [Épuration éditoriale du site](EPURATION-EDITORIALE-SITE-2026-11-11.md). Cette passe ne couvre pas encore les 39 pages. Les pages réglementaires et légales n'ont pas été réécrites. Aucune route ni fonctionnalité n'a été supprimée.
