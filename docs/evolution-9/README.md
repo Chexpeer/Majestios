@@ -50,6 +50,7 @@ Chaque anomalie doit avoir :
 - une cause racine ou une hypothèse clairement identifiée ;
 - une correction minimale et réversible ;
 - un test de non-régression ;
+- une vérification des liens locaux des documents canoniques via `node verify-doc-links.js` ;
 - une preuve de commit et de résultat ;
 - un statut honnête : ouvert, corrigé dans le code, déployé, recetté ou bloqué.
 
