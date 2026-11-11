@@ -34,3 +34,14 @@ test("user API RPCs are service-role only and consultation is organization-scope
   assert.match(migration, /revoke all on function public\.cheexpeer_api_read_mission[\s\S]*from public, anon, authenticated/i);
   assert.match(migration, /where m\.id = p_mission_id\s+and m\.organization_id = p_organization_id/i);
 });
+
+test("approval decision RPC binds approval to the requested tenant", () => {
+  const start = migration.indexOf("create or replace function public.cheexpeer_api_decide_approval(");
+  const end = migration.indexOf("revoke all on function public.cheexpeer_api_submit_mission", start);
+  assert.ok(start >= 0 && end > start);
+  const fn = migration.slice(start, end);
+  assert.match(fn, /p_organization_id uuid/i);
+  assert.match(fn, /where a\.id = p_approval_id\s+and m\.organization_id = p_organization_id/i);
+  assert.match(fn, /if not found then[\s\S]*raise exception 'approval not found'/i);
+  assert.match(migration, /revoke all on function public\.cheexpeer_api_decide_approval\(uuid,uuid,uuid,text,text\) from public, anon, authenticated/i);
+});
