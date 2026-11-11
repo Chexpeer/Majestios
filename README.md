@@ -151,3 +151,6 @@ La page CRM distingue désormais la conservation des relances, leur création pa
 
 
 L'introduction du CRM énumère désormais ses modules (entreprises, contacts, opportunités, activités et relances) sans promettre une historisation automatique générale. L'écart technique d'historisation sur le projet principal reste ouvert (UX-EDITORIAL-14).
+
+
+L'espace Membres est temporairement limité à la connexion des comptes déjà habilités. La création de nouveaux espaces reste suspendue jusqu'au déploiement et à la recette de la fonction `provision-client-workspace` sur l'environnement retenu (AUTH-MEMBER-01). Aucun déploiement Supabase n'a été effectué.
