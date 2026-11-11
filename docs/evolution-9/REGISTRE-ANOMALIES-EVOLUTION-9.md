@@ -711,3 +711,12 @@ Référence et détail : [Épuration éditoriale du site](EPURATION-EDITORIALE-S
 | UX-EDITORIAL-02 | P2 | Lisibilité de l'écosystème | Les pages Réseaux et synergies, Veille des marchés, Veille BODACC, Intelligence économique, Sous-traitance, Suivi commercial et Salons/Séminaires ont été raccourcies. Les limites de disponibilité, la distinction signal/commande et le consentement sont conservés. | Modifications versionnées sur Evolution-9 ; CI du HEAD final à confirmer. |
 
 Détail : [rapport de la deuxième passe éditoriale](EPURATION-EDITORIALE-PASSE-2-2026-11-11.md).
+
+
+## 57. Troisième passe d'épuration éditoriale — cohérence de la page Développement commercial
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-03 | P2 | Cohérence éditoriale et navigation conceptuelle | La page `developpement-commercial.html` conservait le libellé « ÉTAGE 06 · ORCHESTRER », vestige de l'ancienne représentation en étages. Le libellé a été retiré ; le bloc « Des pistes aux actions » et sa fonction de présentation sont conservés avec un texte plus court. | Correction versionnée sur Evolution-9, commit `04d78d50e904c86c2d06e38152f7c6da49ba84e0`. Validation CI du HEAD final de la passe à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md). Aucun lien, script, formulaire, fonctionnalité ou route n'a été supprimé.
