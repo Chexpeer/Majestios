@@ -32,12 +32,14 @@ La simplification ne doit jamais supprimer une information utile à la décision
 
 ## 4. Contrôle de non-régression
 
-La modification de l'accroche a rendu obsolète une assertion de `verify-architecture.js`. Le contrôle a été adapté pour vérifier le nouveau texte et le positionnement « CRM en évolution », sans affaiblir les autres assertions de la page d'accueil.
+La modification de l'accroche a rendu obsolète une assertion de `verify-architecture.js`. Les contrôles `verify-architecture.js` et `verify-site.js` ont été adaptés pour vérifier le nouveau positionnement et la mention explicite des fonctions encore en préparation, sans affaiblir les autres assertions.
 
 - Échec initial identifié : le contrôle d'architecture attendait encore l'ancienne accroche.
 - Correction : assertion mise à jour pour le nouveau texte.
-- Build et contrôles de site : exécution CI du HEAD final en attente au moment de la rédaction.
-- Les contrôles navigateur et la conclusion complète du workflow ne sont pas encore revendiqués.
+- Build : succès, 86 ressources copiées depuis le manifeste.
+- Vérifications d'architecture, de site et de liens documentaires : succès.
+- Tests navigateur : navigation classique/chatbot, moteur de recherche, Réputation virtuelle, menus desktop/mobile, formulaire de contact et verrouillage du poste de commande : succès.
+- CI complète : succès sur le HEAD `65e4aaaebe2762417d3823319c1df6e5d43dc30b`, workflow [43101656463](https://github.com/Chexpeer/Majestios/actions/runs/43101656463).
 
 ## 5. Commits applicatifs
 
@@ -48,7 +50,7 @@ La modification de l'accroche a rendu obsolète une assertion de `verify-archite
 - Accompagnement : `59847cae62e72c757fc11f176eb26ac1cefd8021`.
 - Contact : `f47588d5f6fa4bf71caa5ccfaf941578620cee0b`.
 - FAQ : `7f32f5a45f21c93535722b4e2b875645df9eb52e`.
-- Contrat d'architecture : `0cbc3059813c5bdaef74a647be6cddfe6615dd83`.
+- Contrat d'architecture : `0cbc3059813c5bdaef74a647be6cddfe6615dd83` ; contrôle de site : `65e4aaaebe2762417d3823319c1df6e5d43dc30b`.
 
 ## 6. Limites et suite
 
