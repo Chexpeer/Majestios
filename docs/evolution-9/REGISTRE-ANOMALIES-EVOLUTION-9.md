@@ -442,3 +442,11 @@ La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.m
 | ID | Priorité | Domaine | Cause | Correction | Statut |
 |---|---|---|---|---|---|
 | E9-NAV-02 | P1 | Accès global / navigation | De nombreuses pages HTML conservaient une navigation locale historique sans charger `navigation-tiroirs.js` ni ses styles. Certaines pages internes (CRM, cockpit, recherche ciblée et sas VIP) ne possédaient pas de barre publique commune. Le lien VIP ne pouvait donc pas être garanti depuis toutes les pages. | Chargement du script commun sur toutes les pages HTML déclarées ; le script injecte la feuille de style commune et crée une barre de navigation de secours si la page n'en possède pas. Le menu conserve le lien « Accès VIP · Administration » dans « Espaces privés » et cible `espace-interne.html`. | **Code propagé sur Evolution-9 ; vérification statique ajoutée.** La recette visuelle desktop/mobile et la vérification de toutes les routes sur le déploiement restent à exécuter. Aucun changement Supabase. |
+
+
+**Recette de la correction E9-NAV-02 — 11 novembre 2026 :**
+- Le premier passage CI a révélé un ordre incorrect de feuilles de style sur `prospection-active.html` et `reputation-virtuelle.html`. Les liens CSS redondants ont été retirés ; le bootstrap partagé vérifie désormais si la feuille existe déjà avant de l'ajouter.
+- Le bootstrap ajoute également le bouton hamburger si une page possède une barre de navigation sans commande mobile.
+- **GitHub Actions :** run `43062042202`, commit `125f23e2082e1917c848cec0d590ec7565647c68`, conclusion **success**. Architecture/routes, liens locaux et identifiants, navigateur, menus desktop/mobile, Réputation virtuelle, contact, verrouillage sans session et contrat de sécurité CRM : réussis.
+- **Vercel Preview :** déploiement `dpl_9otSDEzYC7uEwmpphw6LfnMbg9QR`, statut **READY**, branche `Evolution-9`, commit `125f23e2082e1917c848cec0d590ec7565647c68`, URL https://majestios-khtvxe91o-majistr.vercel.app.
+- La prévisualisation n'a pas été promue en production. L'alias de production reste indépendant. Aucun changement Supabase.
