@@ -148,3 +148,6 @@ La passe éditoriale a également retiré le dernier ancien parcours illustratif
 
 
 La page CRM distingue désormais la conservation des relances, leur création par traitement planifié et le rechargement de l'interface. L'affichage ne prétend plus se rafraîchir automatiquement toutes les cinq minutes. Voir UX-EDITORIAL-13 dans le registre Evolution-9.
+
+
+L'introduction du CRM énumère désormais ses modules (entreprises, contacts, opportunités, activités et relances) sans promettre une historisation automatique générale. L'écart technique d'historisation sur le projet principal reste ouvert (UX-EDITORIAL-14).
