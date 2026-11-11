@@ -68,7 +68,7 @@ Réduire la dispersion documentaire sans perdre les décisions, les preuves tech
 4. Produire la synthèse stratégique et le plan de réalisation.
 5. Réécrire l'index `docs/README.md` en page d'orientation concise.
 6. Ajouter dans chaque document spécialisé un en-tête de statut et un lien vers sa référence canonique.
-7. Vérifier automatiquement tous les liens Markdown locaux.
+7. Vérifier automatiquement tous les liens Markdown locaux avec `node verify-doc-links.js` pour les documents canoniques ;
 8. Vérifier que les workflows et scripts n'utilisent pas les anciens chemins supprimés.
 9. Ne déplacer ou archiver physiquement qu'après validation des références.
 10. Produire un rapport final : conservé, fusionné, remplacé, historique, à arbitrer.
