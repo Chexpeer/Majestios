@@ -36,6 +36,10 @@ body.assistant-page {
 .assistant-composer textarea { width: 100%; min-height: 58px; resize: vertical; padding: 12px; border: 1px solid rgba(173, 201, 230, .22); border-radius: 8px; color: #c5d0de; background: rgba(255,255,255,.045); font: inherit; font-size: 13px; }
 .assistant-composer button { min-width: 96px; align-self: stretch; padding: 0 16px; border: 1px solid rgba(215,182,108,.3); border-radius: 8px; color: #aeb8c5; background: rgba(255,255,255,.06); font-weight: 700; }
 .assistant-composer button:disabled, .assistant-composer textarea:disabled { cursor: not-allowed; opacity: .75; }
+.assistant-composer-launcher { align-items: center; }
+.assistant-composer-launcher p { grid-column: 1; margin: 0; color: #c7d4e4; font-size: 12px; line-height: 1.6; }
+.assistant-composer-launcher button { color: #f7e7bd; border-color: rgba(215,182,108,.62); background: linear-gradient(135deg, rgba(154,116,43,.34), rgba(215,182,108,.12)); cursor: pointer; }
+.assistant-composer-launcher button:hover, .assistant-composer-launcher button:focus-visible { border-color: #e5c77f; background: rgba(215,182,108,.22); }
 .assistant-disclaimer { margin: 0; padding: 0 20px 17px; color: #93a5ba; font-size: 11px; }
 .assistant-shortcuts { display: flex; flex-wrap: wrap; gap: 12px 22px; margin-top: 24px; }
 .assistant-shortcuts a { color: #e2c783; font-size: 13px; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(226,199,131,.45); text-underline-offset: 4px; }
