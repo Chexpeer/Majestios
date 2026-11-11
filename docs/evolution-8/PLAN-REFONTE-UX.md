@@ -134,7 +134,7 @@ Une première version de la vitrine Evolution-8 est construite dans `index.html`
 La navigation partagée a reçu une première couche de style Evolution-8 : barre transparente, onglets colorés, menus déroulants clairs, hamburger mobile préservé et lien VIP conservé. Le sous-parcours « Facturation électronique & dématérialisation » est maintenant présent dans les menus Appels d'offres et Développement commercial. La page `facturation-electronique.html` expose le calendrier réglementaire, le rôle des PA et le statut réel du projet ; elle est publiée dans le manifeste `site-files.json`.
 
 **État de recette :**
-- Build Vercel de prévisualisation : réussi, 80 fichiers vérifiés.
+- Build Vercel de prévisualisation : réussi, 81 fichiers vérifiés (dont la nouvelle page facturation électronique).
 - Tests de contrat et tests navigateur : non confirmés sur ce commit.
 - Inspection visuelle desktop/mobile : à réaliser sur la prévisualisation.
 - Tests de non-régression des moteurs, formulaires et espaces protégés : à réaliser avant extension à d'autres pages.
