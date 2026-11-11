@@ -98,3 +98,8 @@ body.page-reputation-virtuelle .reputation-page{width:min(1240px,calc(100% - 64p
 .audit-dossier-summary p{margin:4px 0}
 .audit-dossier-summary li{margin:5px 0;overflow-wrap:anywhere}
 @media(max-width:600px){.audit-dossier{padding:14px}.audit-dossier-heading{align-items:flex-start;flex-direction:column}.audit-form-grid{grid-template-columns:1fr}.audit-dossier-actions{flex-direction:column}.audit-dossier-actions button{width:100%}}
+
+
+/* Les outils de préparation et de recherche restent internes, hors interface publique. */
+.audit-dossier[hidden],
+.reputation-searches[hidden] { display: none !important; }
