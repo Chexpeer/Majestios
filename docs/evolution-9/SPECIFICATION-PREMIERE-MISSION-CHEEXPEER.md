@@ -156,3 +156,14 @@ La première mission ne sera déclarée recettée que si :
 - aucune donnée métier ni aucun service tiers n'a été modifié ou contacté.
 
 **Décision de sécurité actuelle :** handler préparé, tool désactivé, aucune migration appliquée, aucune mission créée à distance, aucun worker ou pont activé par cette modification Git.
+
+
+## 9. Écart runtime confirmé sur MajestiOS-Test — 11 novembre 2026
+
+Le contrôle en lecture seule de la base de recette a confirmé que le socle privé d'exécution est présent, mais que le registre distant contient uniquement `test_executor` désactivé. La migration `20261111160000_cheexpeer_worker_self_check_tool.sql` n'apparaît pas dans le journal distant ; le dernier numéro de migration observé est `20261109205855`.
+
+**Conséquence :** le handler `worker_self_check` présent dans Evolution-9 n'est pas encore enregistré dans le registre de cette base. Il ne peut donc pas être considéré comme disponible ou exécutable dans l'environnement distant.
+
+La revue a également confirmé l'absence des API utilisateur authentifiées de soumission, décision d'approbation et consultation. La RPC de décision est réservée à `service_role` : l'identité de l'approbateur doit être dérivée du JWT vérifié par une future API serveur, jamais d'un UUID transmis par le navigateur.
+
+**Blocage inchangé :** aucune mission réelle, aucun worker, aucune migration supplémentaire et aucune activation du registre avant réconciliation dépôt/base, livraison des API et recette owner/admin/member/inter-organisation. Le pont worker reste serveur-à-serveur.
