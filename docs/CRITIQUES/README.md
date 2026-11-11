@@ -118,7 +118,7 @@ MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire p
 - **AN-04 — P1 :** écart de migrations entre majestios-crm et MajestiOS-Test ; aucune synchronisation automatique.
 - **CRM-07 / CRM-05 — P1 :** recette multi-tenant et multi-rôles sur MajestiOS-Test préparée mais NOT RUN ; aucune identité synthétique n'a été créée.
 - **AN-06 / CHX-06 — P1 :** Cheexpeer n'est pas encore un agent métier opérationnel ; le worker connu est limité à readiness_probe et les autres missions sont refusées.
-- **SEO-01 à SEO-05 / GEO-01 — P1/P2 :** audit SEO partiel consigné dans docs/evolution-9/AUDIT-SEO-EVOLUTION-9.md ; domaine canonique non confirmé, robots.txt et sitemap.xml absents du dépôt à la vérification, contrôle de toutes les pages restant à faire.
+- **SEO-01 à SEO-05 / GEO-01 — P1/P2 :** audit des 39 pages HTML consigné dans docs/evolution-9/AUDIT-SEO-EVOLUTION-9.md ; domaine canonique non confirmé, aucun canonical détecté, robots.txt et sitemap.xml absents du dépôt à la vérification. L'unicité des métadonnées, performance et accessibilité restent à contrôler.
 
 ### Correctifs de code récents — à distinguer de leur recette
 - Navigation commune et accès VIP propagés sur Evolution-9 ; suite CI historique réussie sur le commit 125f23e. Le dernier contrôle visuel humain de la prévisualisation a été positif pour l'accès VIP global.
@@ -130,5 +130,6 @@ MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire p
 
 ### Mise à jour Cheexpeer et assistant — 11 novembre 2026
 - **CHX-06 :** le code Git Evolution-9 contient deux handlers de diagnostic sans effet métier (bootstrap et worker_self_check), mais le dernier audit distant disponible décrivait le worker déployé sur MajestiOS-Test comme limité à readiness_probe. La version déployée doit être recontrôlée ; aucun outil métier n'est activé.
-- **CHAT-03 :** le faux formulaire désactivé de la page Assistant a été remplacé par un bouton qui ouvre le guide conversationnel local. Le moteur IA avancé reste non raccordé.
+- **CHAT-03 :** le faux formulaire désactivé de la page Assistant a été remplacé par un bouton stylé qui ouvre le guide conversationnel local. Le moteur IA avancé reste non raccordé.
+- **SEO-06 / SEO-07 :** espace-membre.html et resultats-recherche.html portent désormais noindex,nofollow ; des assertions statiques protègent ces réglages. Le noindex ne remplace pas l'authentification.
 - **GEO-02 :** la meta description de la page Cheexpeer a été corrigée pour ne plus présenter les capacités futures comme déjà disponibles.
