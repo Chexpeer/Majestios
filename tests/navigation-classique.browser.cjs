@@ -104,9 +104,23 @@ async function main() {
     assert.equal(await page.locator("#menu-toggle").count(),1,"Le hamburger doit être disponible sur les pages de rubrique.");
     assert.equal(await page.locator(".majestios-chat-toggle").count(),1,
       "Le chatbot doit être disponible sur les pages de rubrique.");
+    await page.goto("http://127.0.0.1:4174/assistant-majestios.html",{waitUntil:"domcontentloaded"});
+    await page.locator(".assistant-console").waitFor({state:"visible",timeout:15000});
+    await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
+    await page.waitForFunction(() => {
+      const toggle = document.querySelector(".majestios-chat-toggle");
+      return toggle && getComputedStyle(toggle).position === "fixed";
+    },{timeout:15000});
+    assert.ok((await page.locator(".assistant-status").textContent()).includes("Connexion à activer"),
+      "L'espace dédié doit annoncer honnêtement que le moteur IA reste à raccorder.");
+    await page.locator(".majestios-chat-toggle").click();
+    await page.locator("#majestios-chat-input").fill("Comment suivre les annonces BODACC ?");
+    await page.locator(".majestios-chat-form button").click();
+    assert.ok((await page.locator(".majestios-chat-message.is-assistant").last().textContent()).includes("BODACC"),
+      "Le chatbot doit rester utilisable depuis l'espace Assistant.");
 
     assert.deepEqual(errors,[],"Aucune erreur JavaScript ne doit apparaître pendant le parcours.");
-    console.log("TEST NAVIGATION RÉUSSI : six familles, destinations publiées, survol desktop, hamburger mobile, sous-menus tactiles, navigation multipage et chatbot.");
+    console.log("TEST NAVIGATION RÉUSSI : sept familles, destinations publiées, survol desktop, hamburger mobile, sous-menus tactiles, navigation multipage et chatbot.");
   } finally {
     if(browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));
