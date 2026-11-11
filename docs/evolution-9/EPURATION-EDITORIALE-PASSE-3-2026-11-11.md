@@ -50,3 +50,12 @@ Sur `prospection-active.html` (rubrique affichée sous le libellé « Prospectio
 Les contenus sources ont été relus après modification. La validation automatisée du site doit être confirmée sur le HEAD final de cette passe par GitHub Actions. Aucun test navigateur n'est déclaré réussi avant lecture de ce résultat.
 
 Aucune migration, donnée, configuration, permission, secret, intégration externe ou déploiement n'a été modifié.
+
+
+## Cinquième correction de la passe
+
+Sur `faq.html` :
+- Le bloc de découverte évoquait encore un « schéma interactif », alors que l'orientation actuelle repose sur une navigation classique.
+- Le texte et le lien ont été remplacés par une invitation à explorer les rubriques et les fonctionnalités présentées sur le site.
+- Les questions, réponses, liens de navigation et contrôles d'accès décrits dans la FAQ sont conservés.
+- Correction versionnée sur Evolution-9, commit `19f88757699c95a13b533ab114f4335f58072610`.
