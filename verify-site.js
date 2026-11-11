@@ -127,6 +127,8 @@ assert(/\[\s*"owner"\s*,\s*"admin"\s*\]\.includes\(\s*membership\.role\s*\)/.tes
 
 assert(crmPage.includes('href="espace-interne.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’accueil interne absent");
 assert(crmPage.includes('meta name="robots" content="noindex,nofollow"'), "CRM : la page interne doit être exclue de l’indexation");
+assert(crmClient.includes("async function countWorkspaceRecords(table)") && crmClient.includes('select("id", { count: "exact", head: true })'), "CRM : les compteurs doivent utiliser un total exact tenant-scoped sans télécharger les fiches");
+assert(crmPage.includes('id="crm-followup-data-notice"') && crmScript.includes("countWorkspaceRecords(\"opportunities\")"), "CRM : l'aperçu des relances doit signaler toute couverture partielle");
 for (const asset of ["crm-workspace.css", "crm-page.js", "crm-client.js", "crm-workspace-nav.js", "crm-business-filters.js"]) {
   assert(siteFiles.includes(asset), "CRM : ressource du poste de travail absente du manifeste : " + asset);
   assert(exists(asset), "CRM : ressource du poste de travail absente du dépôt : " + asset);
