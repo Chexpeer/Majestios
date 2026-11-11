@@ -261,3 +261,9 @@ Correctifs appliqués dans le code :
 - couche de contraste renforcée sur l'accueil afin que l'image décorative ne blanchisse plus la zone héro.
 
 **État :** correctifs commités sur Evolution-9 ; tests navigateur et nouvelle prévisualisation à exécuter. Aucun changement Supabase et aucune promotion en production.
+
+## 30. Reprise de l'audit CRM — ciblage entreprises — 11 novembre 2026
+
+La revue du formulaire de ciblage a identifié puis corrigé une validation APE/NAF et département qui rejetait les formats usuels à cause d'antislashs doublés dans les regex JavaScript. Des assertions de non-régression ont été ajoutées. La correction est intégrée au code Evolution-9 ; la CI du commit correctif reste à confirmer.
+
+Le ciblage actuel ne parcourt qu'une page de l'API publique et ne peut donc pas être qualifié d'exhaustif. Les anomalies distantes CRM-06 (droits UPDATE et historisation sur majestios-crm) et CRM-07 (recette multi-tenant non exécutée sur MajestiOS-Test) restent ouvertes. Aucun changement Supabase n'a été effectué.
