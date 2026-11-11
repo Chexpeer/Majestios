@@ -2,7 +2,7 @@
 
 **Date :** 11 novembre 2026  
 **Branche :** `Evolution-9`  
-**Pages modifiées :** `developpement-commercial.html`, `reputation-virtuelle.html`
+**Pages modifiées :** `developpement-commercial.html`, `reputation-virtuelle.html`, `nous-rejoindre.html`
 
 ## Constat
 
@@ -27,6 +27,14 @@ Sur `reputation-virtuelle.html` :
 **Commits des pages :**
 - `developpement-commercial.html` : `04d78d50e904c86c2d06e38152f7c6da49ba84e0`.
 - `reputation-virtuelle.html` : `b911d0ee6f410bd79c4718b1830ffb2f54e601ab`.
+- `nous-rejoindre.html` : `bd9ce119afdb856c492cd35a195de672ca6051c9`.
+
+## Troisième correction de la passe
+
+Sur `nous-rejoindre.html` :
+- Introduction et présentations des trois publics raccourcies.
+- Les modalités non disponibles restent explicitement signalées : dépôt de CV et envoi des demandes non activés ; aucun CV n'est collecté.
+- Les liens de contact et d'espace membre sont conservés.
 
 ## Contrôles et limites
 
