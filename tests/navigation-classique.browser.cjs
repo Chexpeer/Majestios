@@ -13,7 +13,7 @@ async function main() {
   const published = new Set(manifest.files);
   // Inventaire calculé avant les parcours desktop et mobile pour éviter toute référence anticipée.
   const publicPages = manifest.files.filter(file => file.endsWith(".html") &&
-    !["crm.html","administration.html","admin-recherches.html","espace-interne.html"].includes(file));
+    !["crm.html","administration.html","admin-recherches.html","espace-interne.html","espace-prive.html"].includes(file));
   const server = http.createServer((req,res) => {
     const pathname = decodeURIComponent(new URL(req.url,"http://127.0.0.1").pathname);
     const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
