@@ -142,3 +142,7 @@ Référence fonctionnelle : [Spécification cible CRM, facturation et facturatio
 Le protocole [PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md) définit les scénarios de recette sur `MajestiOS-Test` : rôles, création et relations CRM, historisation, relances, permissions SQL et isolation entre deux organisations. Il sépare les tests du CRM interne VIP de ceux du futur CRM client multi-tenant.
 
 **Statut : préparé / NOT RUN.** Aucune donnée distante n'a été créée et aucune migration n'a été appliquée. L'exécution nécessite des identités synthétiques, la vérification préalable des objets réellement déployés et une validation explicite du plan d'écriture et de nettoyage.
+
+## 16. Provisionnement des identités de recette CRM
+
+La procédure [PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md](PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md) décrit la création Auth, les memberships administratifs et les garde-fous. L'intégration actuelle ne disposant pas d'une action Auth Admin, aucune identité n'est créée automatiquement et aucun contournement SQL de `auth.users` n'est admis.
