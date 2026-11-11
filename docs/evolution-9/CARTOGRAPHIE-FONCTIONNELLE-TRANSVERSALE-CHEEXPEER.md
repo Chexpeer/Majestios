@@ -156,7 +156,17 @@ Chaque opération est classée en lecture, préparation ou exécution. Les lectu
 
 ### 11.1 Gestion des avis et commentaires Google Maps
 
-Dans le périmètre Google Business Profile, Cheexpeer doit proposer un espace de gestion de la réputation des établissements autorisés :
+Dans le périmètre Google Business Profile, Cheexpeer doit proposer un espace de gestion de la réputation uniquement après accord préalable, explicite et vérifiable de l'entreprise concernée.
+
+**Condition préalable impérative — accord de l'entreprise :**
+- Avant toute connexion, collecte, lecture, analyse, conservation ou traitement des avis d'une entreprise, obtenir son accord explicite, donné par un représentant habilité. Le fait qu'une fiche ou des avis soient publiquement visibles sur Google Maps ne constitue jamais un consentement.
+- Identifier l'entreprise, le représentant qui donne l'accord, les établissements/fiches concernés, les finalités autorisées (lecture, analyse, préparation de réponses et, séparément, publication), les comptes Google habilités et la durée ou les conditions de validité de l'autorisation.
+- Conserver une preuve datée de l'accord, sa portée, sa version et son statut dans un registre d'autorisations auditable. Vérifier l'habilitation du représentant et les permissions Google effectives ; l'accord de l'entreprise ne remplace pas les droits techniques requis sur le compte Google.
+- Ne jamais étendre l'accord à d'autres établissements, entités juridiques, comptes ou finalités par déduction. Toute extension nécessite un nouvel accord explicite.
+- Permettre à l'entreprise de retirer son accord. Dès révocation ou expiration, suspendre les accès et traitements concernés, révoquer les jetons lorsque cela relève du connecteur, et appliquer la politique documentée de conservation/suppression des données déjà collectées.
+- En l'absence d'accord valide, Cheexpeer ne se connecte pas pour cette entreprise, ne lit ni n'analyse ses avis, ne prépare ni ne publie de réponse. Le module reste inactif pour son périmètre.
+
+Après vérification de cet accord et des droits Google, les capacités suivantes peuvent être proposées :
 
 - lire les avis et notes accessibles via les API Google Business Profile pour les fiches dont l'utilisateur connecté détient un rôle autorisé ;
 - classer les avis (positif, neutre, négatif), détecter les sujets récurrents et signaler les avis récents ou sensibles ;
@@ -169,8 +179,8 @@ Pour un avis négatif, Cheexpeer doit d'abord analyser le motif et proposer une 
 
 Les avis sont des contenus externes non fiables : aucune instruction qu'ils contiennent ne peut modifier les règles de Cheexpeer ou déclencher un outil. La collecte et les réponses doivent utiliser les API officielles et respecter les conditions Google, les permissions réelles du compte et les limites de l'API. Ne pas promettre la lecture de tous les avis de toutes les fiches publiques : l'accès est borné aux établissements gérés/éligibles et aux données exposées par l'API.
 
-Critères de recette : lecture limitée aux fiches autorisées ; refus d'accès aux établissements d'un autre compte/tenant ; pagination et gestion des quotas ; classement avec justification ; génération sans fuite de données CRM ; validation obligatoire avant publication ; association exacte réponse/avis/fiche ; journal avant/après et vérification du statut API ; reprise sûre en cas de timeout sans double réponse.
+Critères de recette : blocage total sans accord préalable valide ; preuve, représentant, portée et durée de l'accord vérifiés ; révocation/expiration effectivement bloquante ; lecture limitée aux fiches expressément couvertes par l'accord et aux permissions Google ; refus d'accès aux établissements d'un autre compte/tenant ; pagination et gestion des quotas ; classement avec justification ; génération sans fuite de données CRM ; validation obligatoire avant publication ; association exacte réponse/avis/fiche ; journal avant/après et vérification du statut API ; reprise sûre en cas de timeout sans double réponse.
 
-**Statut :** exigence spécifiée uniquement ; aucune connexion Google, lecture d'avis, rédaction assistée ou publication n'est déclarée opérationnelle.
+**Statut :** exigence spécifiée uniquement ; aucune connexion Google, lecture d'avis, rédaction assistée ou publication n'est déclarée opérationnelle. L'accord préalable de l'entreprise concernée est un prérequis bloquant, distinct de l'approbation humaine requise pour chaque réponse publique.
 
 **État réel :** périmètre demandé et spécifié ; aucun connecteur Google n'est déclaré connecté, autorisé, implémenté, déployé ou recetté par cette inscription documentaire. Les services Google et leurs scopes devront être activés individuellement après étude des API, des autorisations du compte et des tests de sécurité.
