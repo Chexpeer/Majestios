@@ -666,3 +666,13 @@ Aucun endpoint n'est déployé. Cette correction ne constitue pas une protection
 | E9-CI-03 | P1 | Perte de preuve de validation | `cancel-in-progress: true` interrompait les exécutions actives lors de pushes successifs. Le workflow passe à `false` pour laisser terminer les jobs démarrés. | Correction versionnée sur Evolution-9 ; attendre la conclusion CI du HEAD courant. Les exécutions déjà annulées restent non concluantes. |
 
 Note : GitHub peut toujours remplacer une exécution en attente dans un même groupe de concurrence ; stabiliser les changements avant d'attendre le run final.
+
+
+## 52. Extension du périmètre Cheexpeer — scraping et services Google — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / exigence | Statut et suite |
+|---|---|---|---|---|
+| CHX-SCRAPE-01 | P1 avant toute collecte | Scraping / veille | La capacité de collecte automatisée multi-sources doit couvrir configuration des sources, filtres NAF/APE et géographiques, planification, détection des changements, dédoublonnage, qualification, provenance et alimentation contrôlée de Veille puis du CRM. Les contenus collectés sont non fiables et peuvent contenir des instructions malveillantes. | Exigence ajoutée à la cartographie fonctionnelle. Non implémentée/non activée. Concevoir un exécuteur isolé avec allowlist, défense SSRF, limites/quota, respect des conditions d'accès et protection contre l'injection de prompt ; recette de sécurité obligatoire avant activation. |
+| CHX-GOOGLE-01 | P1 avant connexion de compte | Google Ads / Workspace / Business Profile | Besoin d'intégrer Google Ads (AdWords), Google Workspace (Gmail, Agenda, Drive, Docs, Sheets, éventuellement Meet) et Google Business Profile. Les droits doivent être séparés par service, utilisateur et organisation. | Exigence ajoutée à la cartographie fonctionnelle. Aucun connecteur déclaré connecté ou opérationnel. Étudier les API officielles, OAuth 2.0, scopes minimaux, consentement, stockage serveur des jetons, révocation, quotas et recette multi-tenant. Toute dépense publicitaire, publication, réponse publique, envoi, partage externe ou suppression exige une approbation explicite. |
+
+**Décision de gouvernance :** ces capacités sont inscrites comme périmètre cible et non comme fonctionnalités livrées. Le worker reste en mode fail-closed ; aucune autorisation Google n'a été demandée ou utilisée, aucun compte n'a été connecté, aucune collecte ni action externe n'a été lancée. La cartographie fonctionnelle est la référence détaillée pour le cadrage, les limites et les critères de recette.
