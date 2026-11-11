@@ -362,3 +362,6 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 - Le registre SQL refuse de réclamer une mission métier sans outil activé et approuvé ; le probe autonomie 0 est l'unique exception observée.
 
 **Limite de preuve :** lecture statique du code et des migrations uniquement. Les tests unitaires/contrats ne prouvent ni le déploiement du pont, ni l'exécution réelle sur Supabase, ni la sécurité de la configuration distante. Aucune donnée, migration, fonction Edge, clé ou secret Supabase n'a été modifié.
+
+
+**Preuve CI CHX-05 — 11 novembre 2026 :** le workflow spécialisé `Cheexpeer worker contract` a réussi sur le commit `e401eb13be6ad395d4f63a596f2761efd07aefe5` (run [43044831310](https://github.com/Chexpeer/Majestios/actions/runs/43044831310)). Les étapes `Syntax check` et `Policy tests` sont toutes deux `success`. Cette preuve confirme l'exécution de la suite de contrats sur Evolution-9 ; elle ne prouve pas le déploiement du worker ni sa recette Supabase distante.
