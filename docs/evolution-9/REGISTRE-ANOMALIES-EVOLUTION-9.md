@@ -265,3 +265,14 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 **Pages à inclure explicitement dans la comparaison :** accueil, une page de rubrique publique, résultats de recherche, espace privé (entrée VIP), espace collaborateurs, CRM interne, administration et recherches ciblées.
 
 **Garde-fou :** ne pas imposer un fond sombre uniforme à toutes les pages. L'objectif est une identité cohérente et premium, pas une uniformisation qui dégrade la lecture, les formulaires ou l'ergonomie. Aucun changement de données, de droits ou de services distants n'est autorisé par cette exigence graphique.
+
+
+## 24. Correction de recette et harmonisation initiale des espaces — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause / correction | Statut |
+|---|---|---|---|---|
+| CI-02 | P1 CI | Test de navigation mobile | Le tableau `publicPages` était déclaré après sa première utilisation dans le parcours mobile, provoquant une erreur TDZ. Sa déclaration a été remontée avant les parcours. | Corrigé dans le code ; run de confirmation en cours. |
+| NAV-05 | P2 | Passerelle d'accès privé | `espace-prive.html` est une page autonome `noindex` de choix d'accès, sans barre publique. Elle est explicitement exclue de la recette de parité publique ; la page et ses parcours d'accès sont conservés. | Exception documentée dans le filtre de recette. |
+| UX-03 | P1 | Tokens graphiques privés | Une couche `charte-majestios-espaces.css` harmonise les accents or, les familles typographiques, les rayons de contrôles et le focus clavier pour CRM, administration, recherches ciblées et espace collaborateurs. Les fonds restent adaptés à chaque usage. | Première couche de code intégrée ; recette visuelle et CI à confirmer. |
+
+**Limite de preuve :** le premier correctif a supprimé l'erreur TDZ ; le run suivant a révélé l'absence normale de hamburger sur la passerelle autonome `espace-prive.html`. Son exclusion explicite est appliquée. Aucune validation visuelle multi-pages n'est revendiquée à ce stade.
