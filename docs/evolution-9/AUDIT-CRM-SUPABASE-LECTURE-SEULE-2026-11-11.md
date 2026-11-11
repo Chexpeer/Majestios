@@ -303,3 +303,62 @@ La revue du code crm-page.js a révélé une anomalie dans les expressions régu
 **Autres limites confirmées :** le ciblage interroge actuellement une seule page de l'API publique (maxPages: 1) et sélectionne au plus 10 candidats. C'est un choix fonctionnel limité, pas une preuve d'exhaustivité des entreprises correspondantes ; l'interface doit continuer à présenter les résultats comme des candidats à vérifier.
 
 **Sécurité distante inchangée :** CRM-06 reste bloquant sur majestios-crm tant que les privilèges UPDATE et l'historisation n'ont pas été corrigés après validation et autorisation. Le protocole multi-rôle sur MajestiOS-Test reste NOT RUN.
+
+
+## 16. Audit approfondi des relations, de l'historisation et des transitions — 11 novembre 2026
+
+**Environnement contrôlé :** `MajestiOS-Test` (`qrlnnfjstoeliymxtkbk`), exclusivement en lecture seule.
+
+### 16.1 Fonction de traitement des relances
+
+La définition distante de `public.complete_crm_reminder(uuid)` a été relue :
+- `SECURITY DEFINER`, avec `search_path` explicitement vide ;
+- exécution autorisée à `authenticated` et `service_role`, pas à `anon` ;
+- identité issue de `auth.uid()`, refus si absente ;
+- verrouillage de la relance avec `FOR UPDATE` ;
+- vérification de `private.can_edit_crm_org(organization_id)` ;
+- refus si la relance n'est pas `pending` ;
+- vérification de l'opportunité dans la même organisation ;
+- mise à jour de la relance et insertion d'une activité dans la même transaction.
+
+Ces contrôles réduisent les risques d'accès non autorisé et de double traitement. Ils ne remplacent pas un test authentifié owner/admin/member sur deux organisations. L'advisor Supabase SECURITY DEFINER reste donc ouvert jusqu'à recette et revue des permissions.
+
+### 16.2 Déclencheurs d'intégrité en doublon
+
+La base de test contient deux déclencheurs appelant la même fonction `private.enforce_tenant_relationship_integrity()` sur chacune des tables suivantes :
+- `businesses` : `businesses_tenant_integrity` et `businesses_enforce_tenant_integrity` ;
+- `contacts` : `contacts_tenant_integrity` et `contacts_enforce_tenant_integrity` ;
+- `opportunities` : `opportunities_tenant_integrity` et `opportunities_enforce_tenant_integrity` ;
+- `activities` : `activities_tenant_integrity` et `activities_enforce_tenant_integrity`.
+
+Les définitions inspectées portent toutes sur `BEFORE INSERT OR UPDATE` et appellent la même fonction. Il s'agit d'une double exécution inutile du même contrôle. Cause probable : une migration initiale a créé les déclencheurs `*_tenant_integrity`, puis une migration ultérieure a ajouté les `*_enforce_tenant_integrity` sans supprimer les premiers. Cette hypothèse est corroborée par les migrations versionnées ; aucune suppression n'a été effectuée.
+
+**Correction préparatoire :** conserver un seul déclencheur par table, après vérification de l'historique de migration et d'un test de non-régression. Ne pas corriger directement la base distante dans cette passe.
+
+### 16.3 Historisation des activités
+
+La table `activities` contient un journal d'activité avec `occurred_at`, `actor_user_id`, `subject`, `body` et `metadata`. Les déclencheurs enregistrent les créations et modifications des entreprises, contacts et opportunités. Lors d'une modification, le journal conserve les noms des champs modifiés et les changements de statut avant/après des opportunités.
+
+**Limite P1 :** pour les modifications ordinaires, les valeurs précédentes et nouvelles ne sont pas enregistrées ; seul le nom des champs est conservé. Le journal ne permet donc pas de reconstituer complètement l'état antérieur d'une fiche. Les valeurs sensibles ne doivent toutefois pas être copiées en bloc : concevoir une liste blanche de champs métier, avec masquage/minimisation des données personnelles.
+
+La politique RLS observée sur `activities` autorise la lecture aux membres autorisés et l'ajout aux éditeurs autorisés. Aucun droit UPDATE ou DELETE direct n'a été observé pour `authenticated`, ce qui constitue une bonne base d'append-only. `service_role` conserve des privilèges étendus : son usage serveur doit rester strictement contrôlé.
+
+### 16.4 Transitions commerciales et relances
+
+La contrainte `opportunities_status_check` limite les statuts à : `detected`, `to_qualify`, `qualified`, `to_contact`, `contacted`, `meeting`, `proposal`, `won`, `lost`, `archived`. Cette contrainte valide l'appartenance à la liste, mais n'impose pas une machine à états : elle ne bloque pas les transitions métier incohérentes.
+
+Le déclencheur `opportunities_sync_crm_reminders` annule les relances `pending` lorsque l'opportunité passe à `won`, `lost` ou `archived`, ou lorsque l'action/date suivante est absente. Il annule aussi une relance devenue obsolète et met à jour le titre/action d'une relance encore en attente lorsque l'échéance correspond.
+
+**À tester :** transitions interdites, réouverture d'une opportunité clôturée, motif obligatoire de perte/archivage, cohérence des relances après changement de statut, et comportement en cas de concurrence.
+
+### 16.5 Relations et suppression
+
+Les clés étrangères empêchent plusieurs liens inter-entités, et la fonction d'intégrité vérifie l'appartenance à la même organisation et la cohérence entreprise/contact/opportunité. En revanche, les suppressions de fiches entreprise/contact/opportunité peuvent détacher les activités par `ON DELETE SET NULL`, tandis que la suppression d'une organisation efface en cascade son CRM et ses activités.
+
+**Risque P1 de conservation :** définir archivage logique, procédure de suppression, export préalable et durée de conservation avant ouverture à des clients. Étudier des instantanés métier minimisés pour que l'historique reste intelligible après suppression d'une fiche.
+
+### 16.6 Données de recette et limites
+
+Le projet de test contrôlé ne contient aucune fiche entreprise, contact, opportunité, activité ou relance au moment de ce contrôle. Il n'est donc pas possible de prouver les scénarios métier ni l'isolation inter-tenant par des données réelles. Aucun jeu de données synthétique ni compte multi-rôle n'a été créé dans cette passe.
+
+**Aucune migration, modification de données, suppression de déclencheur ou activation de fonction n'a été effectuée.**
