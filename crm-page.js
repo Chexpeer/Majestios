@@ -755,8 +755,8 @@ function initMarketTargeting(canEdit) {
     event.preventDefault();
     const nafCodes = parseList(form.elements.nafCodes.value).map(value => value.toUpperCase());
     const departments = parseList(form.elements.departments.value).map(value => value.toUpperCase());
-    if (!nafCodes.length || nafCodes.some(value => !/^\\d{2}\\.\\d{2}[A-Z]$/.test(value)) || !departments.length ||
-        departments.some(value => !/^(\\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(value))) {
+    if (!nafCodes.length || nafCodes.some(value => !/^\d{2}\.\d{2}[A-Z]$/.test(value)) || !departments.length ||
+        departments.some(value => !/^(\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(value))) {
       status.textContent = "Vérifiez les codes APE/NAF (ex. 43.21A) et les départements."; return;
     }
     const button = form.querySelector('[type="submit"]');
