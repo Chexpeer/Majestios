@@ -58,10 +58,17 @@ assert(eInvoicePage.includes("MajestiOS n'est pas une plateforme agréée"), "Fa
 
 const reputationPage = fs.readFileSync(path.join(root, "reputation-virtuelle.html"), "utf8");
 assert(/<section class="audit-dossier"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : le formulaire principal de préparation doit rester masqué dans l’interface publique");
-assert(/<div class="reputation-searches"[^>]*>/.test(reputationPage) && !/<div class="reputation-searches"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : les formulaires Google Web et Maps doivent être visibles dans l’interface publique");
+assert(/<div class="reputation-searches"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : les formulaires Google Web et Maps doivent rester masqués dans l’interface publique sans être supprimés");
+assert((reputationPage.match(/<form\b/g) || []).length === 3, "Réputation virtuelle : les trois formulaires métier doivent être conservés dans le document pour leurs traitements internes");
 
 const privateAccessPage = fs.readFileSync(path.join(root, "espace-prive.html"), "utf8");
 assert(privateAccessPage.includes('href="charte-majestios.css"'), "Espace privé / Accès VIP : la charte graphique commune MajestiOS doit être chargée");
+const internalEntryPage = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
+assert(internalEntryPage.includes('id="internal-login-form"') && internalEntryPage.includes('id="internal-login-submit"'), "Accès VIP : la page d’entrée doit afficher le formulaire d’authentification de secours même si le module ne se charge pas");
+assert(internalEntryPage.includes('src="espace-interne.js"') && internalEntryPage.includes('href="espace-interne.css"'), "Accès VIP : les ressources de l’entrée interne doivent être chargées");
+assert(internalEntryPage.includes('id="internal-feedback"') && internalEntryPage.includes('Aucun accès n’a été ouvert'), "Accès VIP : un échec de chargement du module doit produire un message explicite, pas une page vide");
+const sharedNavigation = fs.readFileSync(path.join(root, "navigation-tiroirs.js"), "utf8");
+assert(sharedNavigation.includes('["Accès VIP · Administration","espace-interne.html"]'), "Navigation : le lien Accès VIP doit pointer vers le sas d’authentification interne");
 const adminPage = fs.readFileSync(path.join(root, "administration.html"), "utf8");
 assert(siteFiles.includes("administration.html"), "Administration : page absente du manifeste");
 const searchPagePath = path.join(root, "admin-recherches.html");
