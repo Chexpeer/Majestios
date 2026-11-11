@@ -174,6 +174,14 @@ for (const selector of ["#advanced-search-form", ".feed-search", ".feed-filter-l
 assert(!home.includes('id="floor-rows"') && !home.includes('class="building-home"'), "Accueil : ancienne navigation par immeuble encore présente");
 assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
 assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes("Assistant conversationnel de première génération"), "Assistant conversationnel partagé absent");
+assert(siteFiles.includes("assistant-majestios.html") && siteFiles.includes("assistant-majestios.css") && siteFiles.includes("majestios-chat.css"),
+  "Assistant : page dédiée et feuilles de style absentes du manifeste.");
+const assistantPage = fs.readFileSync(path.join(root, "assistant-majestios.html"), "utf8");
+assert(assistantPage.includes("Assistant MajestiOS") && assistantPage.includes("Connexion à activer") &&
+  assistantPage.includes('src="app.js"') && assistantPage.includes('href="assistant-majestios.css"'),
+  "Assistant : espace dédié, statut de connexion ou ressources manquants.");
+assert(fs.readFileSync(path.join(root, "majestios-chat.css"), "utf8").includes(".majestios-chat-toggle"),
+  "Assistant : styles du chatbot flottant absents.");
  
 const invoicingPage = fs.readFileSync(path.join(root, "facturation-electronique.html"), "utf8");
 assert(siteFiles.includes("facturation-electronique.html"), "Facturation électronique : page absente du manifeste");
