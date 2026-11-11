@@ -219,3 +219,15 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
  body.nav-drawer-active{overflow:hidden}
 }
 @media(prefers-reduced-motion:reduce){.site-header .site-nav.site-nav-drawer,.nav-drawer-overlay{transition:none}}
+
+
+/* Evolution-9 guard: shared public header must not inherit legacy white/black page themes. */
+html body .site-header{
+  background:linear-gradient(105deg,#06101f 0%,#0a2444 52%,#101e3a 100%) !important;
+  border-bottom:1px solid rgba(213,181,108,.42) !important;
+  box-shadow:0 5px 18px rgba(2,8,20,.22) !important;
+}
+html body .site-header .site-nav>a{color:#e6edf7}
+html body .site-header .site-nav>a:hover,
+html body .site-header .site-nav>a[aria-current="page"]{color:#ffe09a}
+html body .site-header .brand{color:#f4f0e6}
