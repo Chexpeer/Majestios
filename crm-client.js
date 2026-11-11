@@ -193,6 +193,13 @@ async function list(table) {
   return data || [];
 }
 
+const creatableColumns = Object.freeze({
+  businesses: new Set(["legal_name", "trade_name", "siren", "siret", "vat_number", "ape_naf", "website", "address_line", "postal_code", "city", "department_code", "country_code", "qualification_status", "qualification_notes", "source_label", "source_url", "assigned_to"]),
+  contacts: new Set(["business_id", "first_name", "last_name", "job_title", "email", "phone", "is_primary", "source_label", "consent_status"]),
+  opportunities: new Set(["business_id", "primary_contact_id", "title", "description", "source_type", "source_external_id", "source_url", "source_published_at", "department_code", "status", "qualification_score", "qualification_summary", "assigned_to", "next_action", "next_action_at"]),
+  activities: new Set(["business_id", "contact_id", "opportunity_id", "activity_type", "subject", "body"])
+});
+
 const editableColumns = Object.freeze({
   businesses: new Set(["legal_name", "trade_name", "siren", "siret", "vat_number", "ape_naf", "website", "address_line", "postal_code", "city", "department_code", "country_code", "qualification_status", "qualification_notes", "source_label", "source_url", "assigned_to"]),
   contacts: new Set(["business_id", "first_name", "last_name", "job_title", "email", "phone", "is_primary", "source_label", "consent_status"]),
@@ -219,7 +226,7 @@ async function update(table, id, values) {
   const { data: before, error: readError } = await supabase.from(table).select("*")
     .eq("id", id).eq("organization_id", membership.organization_id).single();
   if (readError) throw readError;
-  const changedFields = entries
+  const changedFields = Object.entries(payload)
     .filter(([key, value]) => before[key] !== value)
     .map(([key]) => key)
     .sort();
@@ -243,11 +250,19 @@ async function update(table, id, values) {
 
 async function create(table, values) {
   if (!tables.includes(table)) throw new Error("Module CRM inconnu.");
+  if (!creatableColumns[table]) throw new Error("Création non autorisée pour ce module CRM.");
+  if (!values || typeof values !== "object" || Array.isArray(values)) {
+    throw new Error("Les données de création CRM sont invalides.");
+  }
+  const entries = Object.entries(values);
+  if (!entries.length || entries.some(([key]) => !creatableColumns[table].has(key))) {
+    throw new Error("Champ de création non autorisé.");
+  }
   const { session, membership } = await requireWorkspace();
   if (membership.role === "viewer") {
     throw new Error("Votre rôle autorise uniquement la consultation du CRM.");
   }
-  const payload = { ...values, organization_id: membership.organization_id };
+  const payload = { ...Object.fromEntries(entries), organization_id: membership.organization_id };
   if (table === "activities") payload.actor_user_id = session.user.id;
   else payload.created_by = session.user.id;
   const { data, error } = await supabase.from(table).insert(payload).select("*").single();
