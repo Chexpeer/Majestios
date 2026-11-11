@@ -8,6 +8,7 @@ const source = await readFile(
 );
 const worker = await readFile(new URL("../src/index.mjs", import.meta.url), "utf8");
 const envExample = await readFile(new URL("../.env.example", import.meta.url), "utf8");
+const workflow = await readFile(new URL("../../../.github/workflows/cheexpeer-worker.yml", import.meta.url), "utf8");
 
 test("worker bridge requires the independent shared secret before creating service client", () => {
   const secretCheck = source.indexOf("constantTimeEqual(suppliedSecret, expectedSecret)");
@@ -61,4 +62,11 @@ test("worker bridge validates identifiers and rejects oversized payloads before 
 test("worker bridge never enables browser CORS", () => {
   assert.match(source, /if \(req\.method !== "POST"\)/);
   assert.doesNotMatch(source, /Access-Control-Allow-Origin/);
+});
+
+
+test("worker contract workflow is enabled on the active Evolution-9 branch", () => {
+  assert.match(workflow, /branches:\s*\[[^\]]*Evolution-9/);
+  assert.match(workflow, /services\/cheexpeer-worker\/\*\*/);
+  assert.match(workflow, /supabase\/functions\/cheexpeer-worker-bridge\/\*\*/);
 });
