@@ -335,3 +335,54 @@ grant execute on function public.cheexpeer_api_read_mission(uuid,uuid) to servic
 
 comment on function public.cheexpeer_api_read_mission(uuid,uuid) is
 'Server-only tenant-scoped mission read; returns a bounded field allowlist for the authenticated organization API.';
+
+
+-- Façades PostgREST publiques, mais strictement réservées au service_role.
+-- Les handlers Edge sont les seuls consommateurs autorisés.
+create or replace function public.cheexpeer_api_submit_mission(
+  p_organization_id uuid,
+  p_mission_type text,
+  p_title text,
+  p_created_by uuid,
+  p_objective text,
+  p_priority smallint,
+  p_autonomy_level smallint,
+  p_requires_approval boolean,
+  p_scheduled_at timestamptz,
+  p_deadline_at timestamptz,
+  p_input jsonb,
+  p_context jsonb,
+  p_idempotency_key text
+)
+returns table(mission_id uuid, mission_status text, was_created boolean)
+language sql
+security invoker
+set search_path = ''
+as $$
+  select * from private.cheexpeer_submit_mission(
+    p_organization_id, p_mission_type, p_title, p_created_by, p_objective,
+    p_priority, p_autonomy_level, p_requires_approval, p_scheduled_at,
+    p_deadline_at, p_input, p_context, p_idempotency_key
+  );
+$$;
+
+create or replace function public.cheexpeer_api_decide_approval(
+  p_approval_id uuid,
+  p_decision_by uuid,
+  p_decision text,
+  p_decision_note text
+)
+returns table(approval_status text, mission_status text)
+language sql
+security invoker
+set search_path = ''
+as $$
+  select * from private.cheexpeer_decide_approval(
+    p_approval_id, p_decision_by, p_decision, p_decision_note
+  );
+$$;
+
+revoke all on function public.cheexpeer_api_submit_mission(uuid,text,text,uuid,text,smallint,smallint,boolean,timestamptz,timestamptz,jsonb,jsonb,text) from public, anon, authenticated;
+revoke all on function public.cheexpeer_api_decide_approval(uuid,uuid,text,text) from public, anon, authenticated;
+grant execute on function public.cheexpeer_api_submit_mission(uuid,text,text,uuid,text,smallint,smallint,boolean,timestamptz,timestamptz,jsonb,jsonb,text) to service_role;
+grant execute on function public.cheexpeer_api_decide_approval(uuid,uuid,text,text) to service_role;
