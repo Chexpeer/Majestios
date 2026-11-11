@@ -12,7 +12,8 @@ Une anomalie n'est clôturée que si la cause est comprise, la correction est pr
 
 | ID | Priorité | Domaine | Constat hérité | Statut initial sur Evolution-9 |
 |---|---|---|---|---|
-| AUTH-01 | P0 ciblé | OTP / provisionnement | `provision-client-workspace` appelée par le front mais absente des deux projets Supabase inspectés ; parcours OTP non recetté de bout en bout | Ouvert — blocage avant ouverture des comptes |
+| AUTH-01 | P0 ciblé | OTP / provisionnement | Le code source `supabase/functions/provision-client-workspace/index.ts` et la migration RPC sont présents dans le dépôt ; la fonction n'était pas déployée sur les deux projets Supabase inspectés lors de l'audit Evolution-7. Le parcours OTP reste non recetté de bout en bout. | Ouvert — vérifier le déploiement actuel et réaliser une recette E2E avant ouverture des comptes |
+| AUTH-02 | P1 | Consentement / preuve | La fonction de provisionnement vérifie `user_metadata.privacy_notice_acknowledged` et `privacy_notice_version`, données modifiables par l'utilisateur ; l'enregistrement actuel ne constitue pas à lui seul une preuve robuste d'un consentement recueilli. | Ouvert — concevoir un reçu serveur horodaté, versionné et traçable, puis tester le parcours et les règles de conservation |
 | AN-04 | P1 | Parité Supabase | 22 migrations sur `majestios-crm` contre 38 sur `MajestiOS-Test` dans l'audit du 11 novembre | Ouvert — comparaison détaillée requise |
 | AN-14 | P1 critique | RLS / schéma privé | Alerte RLS sur `private.reputation_audit_usage` dans le projet de test | Ouvert — vérifier exposition, privilèges et politiques |
 | AN-07 | P1 | Auth | Protection contre les mots de passe compromis désactivée sur le projet utilisé par le site | Ouvert — arbitrage après recette OTP |
@@ -59,7 +60,7 @@ Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniqu
 | E9-ARCH-01 | Contrat de page d'accueil | `verify-architecture.js` exigeait encore l'ancien titre SEO et des formulations retirées lors de la refonte. | Assertions alignées sur le titre CRM tout-en-un, la promesse actuelle et l'avertissement des exemples de démonstration. | Commits `b448d44d79b396fa9c9974f1acb506c767f90620` et `f799d217f637d89bda175abe390fe301544704b5` ; vérificateur passé ensuite. |
 | E9-UX-01 | Contraste Accès VIP | Une règle CSS générale et une surcharge mobile imposaient un texte or/brun sur fond clair, malgré la signature prévue bleu nuit/or/chrome. | Couleur bleu nuit `#17324f`, filet or `#c5a45e`, fond transparent et repère chrome conservés ; surcharge mobile alignée. | Commits `8a93070600750cd4f112cfcddb73167fbaf8b31b`, `7f9e4f487ba2257fc7fac77dfb34d6e4e2c906b2` et `2438d8fd96f8e1d10676b8d193a5e99247096c67` ; test navigateur passé sur le dernier commit. |
 
-**Validation globale :** GitHub Actions run `43010656594`, commit `2438d8fd96f8e1d10676b8d193a5e99247096c67`, conclusion `success`. Les contrôles de syntaxe, tests unitaires, build, vérifications architecture/site/documentation, tests navigateur, BOAMP/BODACC et contrat de sécurité CRM ont réussi. Cela ne valide pas les migrations, politiques RLS ou parcours réels sur Supabase distant.
+**Validation globale :** GitHub Actions run `43010921140`, commit `f87cc16fa9c4c155b73483e2059a72c9f487ef31`, conclusion `success`. Le run précédent `43010656594` avait également réussi après les corrections de code. Les contrôles de syntaxe, tests unitaires, build, vérifications architecture/site/documentation, tests navigateur, BOAMP/BODACC et contrat de sécurité CRM ont réussi. Cela ne valide pas les migrations, politiques RLS ou parcours réels sur Supabase distant.
 
 ## 7. État de vérification
 
@@ -71,4 +72,4 @@ Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniqu
 - les tests navigateur de navigation, recherche, Réputation virtuelle, contact et verrouillage sans session ont réussi dans ce run ;
 - la recette réelle Supabase et les tests inter-organisations restent à confirmer.
 
-Aucune donnée Supabase, migration distante, configuration Auth, secret ou production n'a été modifié lors de l'ouverture de cette branche.
+Aucune donnée Supabase, migration distante, configuration Auth, secret ou production n'a été modifié dans cette reprise. Les vérifications de déploiement et de consentement restent en lecture seule.
