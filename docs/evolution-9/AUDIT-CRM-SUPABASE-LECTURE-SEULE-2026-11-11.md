@@ -227,3 +227,21 @@ Un protocole détaillé de recette CRM a été préparé pour `MajestiOS-Test`. 
 **Le protocole est préparé mais non exécuté (NOT RUN).** Cette préparation n'a créé aucune donnée, n'a lancé aucune migration et n'a modifié aucun paramètre Supabase. L'exécution devra commencer par une nouvelle vérification en lecture seule de l'état distant, puis être autorisée séparément avec des identités et données synthétiques.
 
 Voir [PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md).
+
+
+## 13. Recontrôle du projet MajestiOS-Test — 11 novembre 2026
+
+Un second contrôle strictement en lecture seule a confirmé l'état nécessaire à la préparation de la recette :
+
+- 39 migrations appliquées jusqu'à `20261109250000_cheexpeer_worker_server_bridge`.
+- Tables CRM businesses, contacts, opportunities, activities et crm_reminders vides.
+- Une seule organisation interne (`MajestiOS — CRM interne`), zéro membre ; aucun tenant client/partenaire ni compte synthétique prêt.
+- RLS activée sur les tables CRM contrôlées.
+- Les fonctions privées `can_read_crm_org` et `can_edit_crm_org` confirment les règles de rôle décrites dans le protocole de recette : client/partenaire, lecture pour tous les membres et écriture owner/admin/member ; interne, lecture et écriture owner/admin seulement.
+- Privilèges UPDATE authenticated limités aux colonnes métier prévues ; les colonnes système sont exclues.
+- Triggers d'historisation actifs sur businesses, contacts et opportunities.
+- Job `majestios-crm-reminders` actif toutes les cinq minutes.
+- RPC `complete_crm_reminder` SECURITY DEFINER exécutable par authenticated ; le corps vérifie la session, les droits tenant et l'existence de l'opportunité. Les tests sous JWT restent à exécuter.
+- Redondance AN-15 confirmée : deux triggers d'intégrité appellent la même fonction sur businesses, contacts, opportunities et activities.
+
+**Conclusion actualisée :** le socle de test est présent, mais les identités et tenants synthétiques n'existent pas. La recette multi-tenant ne peut pas commencer sans provisionnement contrôlé de ces éléments. Aucun compte, tenant, enregistrement, migration, paramètre ou fonction n'a été modifié lors de ce contrôle.
