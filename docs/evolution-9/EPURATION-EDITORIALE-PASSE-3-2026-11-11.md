@@ -113,3 +113,17 @@ Sur `crm.html`, le bloc des relances ne prétend plus que le serveur « actualis
 ## Douzième correction de la passe
 
 L'introduction de `crm.html` énumère désormais les modules effectivement présentés dans l'interface : entreprises, contacts, opportunités, activités et relances. Le terme générique « historique » a été remplacé par « activités et relances » afin de ne pas laisser entendre que toute modification de fiche est systématiquement historisée sur l'environnement principal : l'audit technique a relevé l'absence des triggers d'historisation attendus sur `majestios-crm`, et la migration corrective n'est pas appliquée à distance.
+
+
+## Treizième correction de la passe — disponibilité de l'espace Membres
+
+La lecture du code et la vérification en lecture seule des Edge Functions du projet `majestios-crm` ont montré que `auth-espace-membre.js` appelait `provision-client-workspace`, fonction absente de l'environnement connecté. Le parcours pouvait donc créer/vérifier un compte Auth sans terminer la création de son espace.
+
+Corrections sur `espace-membre.html`, `espace-prive.html` et `auth-espace-membre.js` :
+- l'interface présente désormais la connexion des membres existants ;
+- la création de nouveaux espaces est explicitement annoncée comme temporairement suspendue ;
+- le parcours OTP utilise `shouldCreateUser: false` et ne crée plus de compte orphelin ;
+- si l'adresse est vérifiée mais qu'aucune appartenance n'existe, l'utilisateur reçoit un message explicite au lieu d'un appel à la fonction absente ;
+- le test `tests/auth-espace-membre-otp.test.cjs` est adapté à ce contrat.
+
+Aucune fonction Edge n'a été déployée et aucune configuration Supabase n'a été modifiée. La réactivation de l'inscription nécessitera le déploiement contrôlé et la recette de `provision-client-workspace`.
