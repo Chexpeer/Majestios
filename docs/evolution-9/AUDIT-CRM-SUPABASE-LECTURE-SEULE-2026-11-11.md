@@ -166,3 +166,20 @@ Les advisors recontrôlés indiquent : protection contre les mots de passe compr
 5. Ne modifier aucun paramètre Auth, privilège, RLS, fonction Edge, donnée ou migration distante sans plan et autorisation.
 
 **Périmètre de ce complément : lecture seule.** Aucun changement Supabase ou Vercel n'a été effectué.
+
+### 11.7 Privilèges UPDATE et historisation — constat complémentaire
+
+Une comparaison des privilèges effectifs du rôle authenticated sur les colonnes des tables CRM révèle un écart de sécurité important :
+
+- Sur MajestiOS-Test, les droits UPDATE sont limités aux colonnes métier prévues. Les colonnes id, organization_id, created_by, created_at et updated_at ne sont pas modifiables par authenticated pour les tables CRM inspectées.
+- Sur majestios-crm, le rôle authenticated dispose encore du droit UPDATE sur toutes les colonnes des tables businesses, contacts et opportunities, y compris les identifiants, l'organisation, les auteurs et les horodatages. Les politiques RLS exigent toujours un administrateur de l'organisation, et des triggers d'intégrité existent, mais la restriction au niveau des colonnes n'est pas déployée sur le projet actuellement utilisé par le site. La whitelist dans crm-client.js est une protection frontend, pas une protection contre un appel direct à l'API.
+- La migration 20261109160000_restrict_crm_update_columns est donc une correction de sécurité prioritaire à préparer et tester ; ne pas l'appliquer à distance sans plan et autorisation.
+
+L'historisation présente un second écart fonctionnel :
+- MajestiOS-Test possède des triggers record_crm_activity() après INSERT/UPDATE sur businesses, contacts et opportunities.
+- majestios-crm ne présente pas ces triggers sur les trois tables. Le frontend crm-client.js cherche pourtant l'activité créée après une modification ; crm-page.js affiche un avertissement lorsque historyRecorded est faux. En l'absence des triggers correspondants, une modification peut réussir sans que son historique soit enregistré.
+- La migration 20261109170000_atomic_crm_activity_history est donc nécessaire pour le comportement attendu, après validation sur l'environnement de test.
+
+Enfin, MajestiOS-Test présente deux triggers BEFORE INSERT/UPDATE redondants par table CRM (*_enforce_tenant_integrity et *_tenant_integrity) appelant la même fonction private.enforce_tenant_relationship_integrity(). Aucun impact fonctionnel n'est démontré ; c'est une dette de nettoyage à traiter dans une migration contrôlée, pas une suppression manuelle immédiate.
+
+**Priorité mise à jour :** verrouiller les privilèges de colonnes et rétablir l'historisation atomique sur le projet principal avant d'ouvrir le CRM à un groupe pilote ou à des clients.
