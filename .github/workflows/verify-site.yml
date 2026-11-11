@@ -121,7 +121,7 @@ jobs:
       - name: Installer Playwright et Chromium
         run: |
           npm install --no-save --package-lock=false playwright@1.64.1
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
       - name: Tester le parcours progressif des critères Prospection dans un navigateur
         run: node tests/prospection-criteria.browser.cjs
       - name: Vérifier la connexion réelle à l’API BOAMP
