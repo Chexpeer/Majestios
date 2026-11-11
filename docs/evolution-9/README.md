@@ -99,3 +99,12 @@ Evolution-9 est prête à être évaluée lorsque :
 - `AGENTS.md` et le dossier central des anomalies critiques pointent désormais vers la branche active.
 - Script `verify-doc-links.js` ajouté ; le workflow `verify-site.yml` l'exécute après les contrôles de site. **Son exécution CI sur cette branche reste à confirmer.**
 - Aucun document historique n'a été supprimé ni déplacé.
+
+
+## 9. Prévisualisation Evolution-9
+
+**URL :** https://majestios-git-evolution-9-majistr.vercel.app
+
+Le déploiement de prévisualisation Vercel du commit `3f44547b3d7bd64c8fd066630f17aadca5f80bee` est `READY`. Le build confirme 81 fichiers copiés depuis `site-files.json` sans différence avec les sources. Le projet Vercel utilisé est `majestios`, seul projet relié au dépôt dans l'équipe consultée.
+
+Cette prévisualisation confirme le build du site, pas l'exécution de `verify-doc-links.js`, des workflows GitHub Actions ou des tests navigateur. Le statut GitHub consulté ne fournit pas de résultat CI pour ce commit. Aucune promotion en production n'a été effectuée.
