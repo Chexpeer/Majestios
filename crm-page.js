@@ -592,8 +592,14 @@ async function refresh(canEdit = false) {
     loadWorkspacePage("activities", true, canEdit)
   ]);
   renderFollowups(opportunities);
-  const reminders = await MajestiosCRM.listReminders();
+  const [reminders, pendingReminderCount] = await Promise.all([
+    MajestiosCRM.listReminders(), MajestiosCRM.countPendingReminders()
+  ]);
   renderPersistentReminders(reminders, canEdit);
+  if (followupNotice && pendingReminderCount > reminders.length) {
+    const reminderWarning = "Affichage limité aux " + reminders.length + " premières relances persistantes sur " + pendingReminderCount + ".";
+    followupNotice.textContent = [followupNotice.textContent, reminderWarning].filter(Boolean).join(" ");
+  }
   sendDueReminders(opportunities);
   setupRemoteRelationSelectors();
 }
