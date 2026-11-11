@@ -88,3 +88,12 @@ Le projet majestios-crm, actuellement ciblé par le frontend, n'a pas reçu les 
 - Les triggers d'historisation record_crm_activity() sont absents de ces tables sur le projet principal ; le code frontend peut donc signaler qu'une fiche a été modifiée sans historique.
 
 **Priorité P1 avant pilote client.** Préparer et tester les migrations sur l'environnement de test, puis établir une sauvegarde, une revue SQL et un plan d'application soumis à autorisation. Aucune modification distante n'a été effectuée.
+
+
+## 9. Recette CRM métier avant pilote
+
+**CRM-05 — P1 ouvert.** Le contrôle statique du contrat de sécurité CRM réussit, mais il ne remplace pas un parcours E2E sur MajestiOS-Test. Avant toute invitation de pilotes, démontrer avec plusieurs comptes et organisations : création d'entreprise/contact/opportunité, modification, historisation atomique, relance, refus des accès inter-organisations et séparation entre CRM interne VIP et futur CRM client.
+
+**CRM-03 / CRM-02 — P1 toujours bloquants sur le projet principal.** Les migrations de restriction des colonnes UPDATE et d'historisation atomique restent à préparer et tester ; elles ne doivent pas être appliquées à majestios-crm sans sauvegarde, revue SQL, plan de retour arrière et autorisation explicite.
+
+**CRM-04 — correction de code présente.** Les payloads de création disposent désormais de listes blanches par table dans crm-client.js, avec test de contrat passé sur Evolution-9. Cela ne remplace jamais les privilèges SQL et politiques RLS.
