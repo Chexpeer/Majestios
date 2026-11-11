@@ -6,6 +6,7 @@ on:
     paths:
       - "services/cheexpeer-worker/**"
       - "supabase/functions/cheexpeer-worker-bridge/**"
+      - "supabase/migrations/*cheexpeer*"
       - "supabase/functions/README.md"
       - "docs/evolution-7/CHEXPEER-WORKER-EXECUTION.md"
       - "docs/evolution-8/**"
