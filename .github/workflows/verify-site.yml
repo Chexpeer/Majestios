@@ -32,6 +32,8 @@ jobs:
           node --check reputation-audit-analysis.mjs
           node --check supabase/functions/_shared/reputation-audit-analysis.mjs
           node --check tests/reputation-audit-analysis.test.mjs
+          node --check tests/cheexpeer-api-security.test.mjs
+          node --check tests/cheexpeer-sql-migration-contract.test.mjs
           node --check supabase/functions/_shared/reputation-audit-core.mjs
           node --check supabase/functions/_shared/reputation-audit-connectors.mjs
           node --check supabase/functions/_shared/reputation-audit-handler.mjs
@@ -81,7 +83,7 @@ jobs:
           node --input-type=module --check < crm-business-filters.js
           node --input-type=module --check < crm-client.js
       - name: Tester l'identité et l'isolation inter-organisations des API Cheexpeer
-        run: node --test tests/cheexpeer-api-security.test.mjs
+        run: node --test tests/cheexpeer-api-security.test.mjs tests/cheexpeer-sql-migration-contract.test.mjs
       - name: Tester le contrat du moteur d'audit interne Cheexpeer
         run: node --test tests/reputation-audit-core.test.mjs
       - name: Tester le registre et le premier connecteur de Réputation virtuelle
