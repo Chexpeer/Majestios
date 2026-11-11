@@ -43,7 +43,7 @@ Ne jamais se fier uniquement aux conversations ou à la documentation ancienne. 
 
 Avant toute modification : auditer l'existant et les changements récents, lire les documents actifs, vérifier faisabilité et dépendances, identifier contradictions, risques, coûts et impacts, puis définir une méthode réversible et testable. Distinguer faits, résultats vérifiés, hypothèses, propositions et décisions validées.
 
-Après autorisation : limiter le périmètre, préserver les acquis, exécuter les contrôles pertinents, comparer au résultat initial, documenter les écarts et rapporter exactement les fichiers, tests, limites et risques. Ne jamais masquer un échec.
+Après autorisation : limiter le périmètre, préserver les acquis, exécuter les contrôles pertinents, comparer au résultat initial, documenter les écarts et rapporter exactement les fichiers, tests, limites et risques. Ne jamais masquer un échec. Après toute modification documentaire canonique, exécuter `node verify-doc-links.js` ; après toute modification du site, exécuter le build, les vérificateurs d'architecture et de site, puis les tests navigateur pertinents.
 
 ## 4. Règles de conception MajestiOS
 
