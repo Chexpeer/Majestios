@@ -82,6 +82,8 @@
     "navigation-tiroirs.js",
     "navigation-tiroirs.css",
     "official-source-links.mjs",
-    "homepage-evolution-8.css"
+    "homepage-evolution-8.css",
+    "assistant-majestios.html",
+    "assistant-majestios.css"
   ]
 }
