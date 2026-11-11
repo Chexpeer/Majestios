@@ -49,6 +49,13 @@ for (const page of pages) {
 }
 
 
+const eInvoicePage = fs.readFileSync(path.join(root, "facturation-electronique.html"), "utf8");
+assert(eInvoicePage.includes("MISE EN CONFORMITÉ") && eInvoicePage.includes("Votre entreprise doit se préparer"), "Facturation électronique : message de mise en conformité absent");
+assert(eInvoicePage.includes("1er septembre 2026") && eInvoicePage.includes("1er septembre 2027"), "Facturation électronique : calendrier réglementaire incomplet");
+assert(eInvoicePage.includes("facturation-electronique-qu-est-ce-que-ca-change-pour-moi"), "Facturation électronique : simulateur officiel absent");
+assert(eInvoicePage.includes("je-consulte-la-liste-des-plateformes-agreees"), "Facturation électronique : liste officielle des plateformes agréées absente");
+assert(eInvoicePage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : statut de MajestiOS à clarifier");
+
 const privateAccessPage = fs.readFileSync(path.join(root, "espace-prive.html"), "utf8");
 assert(privateAccessPage.includes('href="charte-majestios.css"'), "Espace privé / Accès VIP : la charte graphique commune MajestiOS doit être chargée");
 const adminPage = fs.readFileSync(path.join(root, "administration.html"), "utf8");
