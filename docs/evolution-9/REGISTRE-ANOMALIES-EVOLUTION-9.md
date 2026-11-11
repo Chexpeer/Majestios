@@ -473,3 +473,12 @@ CRM-06 (sécurité distante) et CRM-07 (recette multi-tenant) restent ouverts. C
 | GEO-01 | P2 | Visibilité moteurs IA | Besoin de cohérence entre promesse, fonctionnalités réelles, sources et documentation structurée. | À développer par lots. |
 
 Le guide transversal est docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md ; l'audit SEO détaillé est docs/evolution-9/AUDIT-SEO-EVOLUTION-9.md. Ces documents ne remplacent pas AGENTS.md ni le registre critique central.
+
+## 33. Protection d'indexation — espaces membre et résultats — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| SEO-06 | P1 | Espace membre | espace-membre.html ne portait pas de noindex malgré son parcours de création/connexion de compte. Directive noindex,nofollow ajoutée et assertion verify-site.js créée. | Corrigé dans le code ; CI à confirmer. |
+| SEO-07 | P2 | Résultats dynamiques | resultats-recherche.html ne portait pas de noindex alors qu'elle affiche des résultats liés à une requête dynamique. Directive noindex,nofollow ajoutée et assertion verify-site.js créée. | Corrigé dans le code ; CI à confirmer. |
+
+Le noindex n'est pas un contrôle d'accès. Les données personnelles et résultats non publics doivent rester protégés par les contrôles applicatifs et serveur.
