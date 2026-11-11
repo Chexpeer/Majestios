@@ -571,13 +571,11 @@ async function refresh(canEdit = false) {
   ]);
   businessRelatedData = { businesses, contacts, opportunities, activities };
   businessRecordsCanEdit = canEdit;
-  const [businessCount, contactCount, opportunityCount, activityCount] = await Promise.all([
-    MajestiosCRM.countWorkspaceRecords("businesses"),
+  const [contactCount, opportunityCount, activityCount] = await Promise.all([
     MajestiosCRM.countWorkspaceRecords("contacts"),
     MajestiosCRM.countWorkspaceRecords("opportunities"),
     MajestiosCRM.countWorkspaceRecords("activities")
   ]);
-  document.querySelector("#crm-business-count").textContent = businessCount;
   document.querySelector("#crm-contact-count").textContent = contactCount;
   document.querySelector("#crm-opportunity-count").textContent = opportunityCount;
   document.querySelector("#crm-activity-count").textContent = activityCount;
