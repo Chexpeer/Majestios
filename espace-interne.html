@@ -8,6 +8,24 @@
   <title>Espace interne — MajestiOS</title>
   <link rel="stylesheet" href="espace-interne.css">
   <link rel="stylesheet" href="charte-majestios-espaces.css">
+  <script>
+    // Keep the access gate usable and explain fatal module-loading failures.
+    // The static HTML remains visible if the module or its CDN dependency cannot load.
+    document.addEventListener("error", (event) => {
+      const failedScript = event.target;
+      if (!(failedScript instanceof HTMLScriptElement) || !failedScript.src.endsWith("/espace-interne.js")) return;
+      const feedback = document.querySelector("#internal-feedback");
+      const submit = document.querySelector("#internal-login-submit");
+      if (feedback) {
+        feedback.textContent = "Le service d’authentification n’a pas pu se charger. Vérifiez votre connexion puis rechargez la page. Aucun accès n’a été ouvert.";
+        feedback.dataset.state = "error";
+        feedback.hidden = false;
+      }
+      if (submit) submit.disabled = true;
+      const status = document.querySelector("#internal-session-label");
+      if (status) status.textContent = "Service temporairement indisponible";
+    }, true);
+  </script>
   <script type="module" src="espace-interne.js"></script>
 </head>
 <body class="internal-shell">
