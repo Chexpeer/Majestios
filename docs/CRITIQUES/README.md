@@ -106,3 +106,23 @@ Le projet majestios-crm, actuellement ciblé par le frontend, n'a pas reçu les 
 Trois modes sont prévus : CRM natif MajestiOS, CRM externe conservé par le client, ou mode hybride. Chaque objet doit avoir une source de référence explicite ; les connecteurs doivent empêcher les doubles factures et gérer idempotence, reprise et rapprochement.
 
 MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire passera par une PA partenaire sélectionnée et intégrée après étude, contrat et recette. La facturation est une priorité de conception de la deuxième phase, pas une fonctionnalité actuellement déployée. Voir [la spécification cible](../evolution-9/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md).
+
+## 9. État opérationnel Evolution-9 — actualisation du 11 novembre 2026
+
+**Cette section actualise les statuts ci-dessus lorsqu'ils divergent.** Le registre détaillé Evolution-9 demeure la source de vérité pour les identifiants, preuves et critères de clôture.
+
+### Priorités critiques encore ouvertes
+- **CRM-06 — P0 conditionnel / sécurité des données :** le frontend cible toujours majestios-crm selon le dernier audit ; les privilèges UPDATE trop larges et l'absence de triggers d'historisation sur les tables CRM principales restent à corriger. Les migrations présentes dans Git ne sont pas appliquées au projet principal. Toute opération distante reste soumise à sauvegarde, revue SQL, plan de retour et autorisation explicite.
+- **AUTH-01 — P0 avant ouverture membres :** provisionnement OTP non recetté de bout en bout ; vérifier le déploiement réel avant ouverture.
+- **AN-04 — P1 :** écart de migrations entre majestios-crm et MajestiOS-Test ; aucune synchronisation automatique.
+- **CRM-07 / CRM-05 — P1 :** recette multi-tenant et multi-rôles sur MajestiOS-Test préparée mais NOT RUN ; aucune identité synthétique n'a été créée.
+- **AN-06 / CHX-06 — P1 :** Cheexpeer n'est pas encore un agent métier opérationnel ; le worker connu est limité à readiness_probe et les autres missions sont refusées.
+- **SEO-01 à SEO-05 / GEO-01 — P1/P2 :** audit SEO partiel consigné dans docs/evolution-9/AUDIT-SEO-EVOLUTION-9.md ; domaine canonique non confirmé, robots.txt et sitemap.xml absents du dépôt à la vérification, contrôle de toutes les pages restant à faire.
+
+### Correctifs de code récents — à distinguer de leur recette
+- Navigation commune et accès VIP propagés sur Evolution-9 ; suite CI historique réussie sur le commit 125f23e. Le dernier contrôle visuel humain de la prévisualisation a été positif pour l'accès VIP global.
+- CRM-08 : correction des regex APE/NAF et départements, tests statiques ajoutés. La CI de cette correction reste à confirmer.
+- Aucune migration, écriture, modification de données, clé ou configuration distante Supabase n'a été effectuée dans ces travaux.
+- Aucune promotion de production n'a été effectuée.
+
+**Règle de priorité :** les P0 et risques de sécurité bloquants sont traités avant les optimisations SEO, visuelles ou fonctionnelles non critiques. Une correction de code ne clôture pas un risque distant tant que la preuve de recette correspondante n'existe pas.
