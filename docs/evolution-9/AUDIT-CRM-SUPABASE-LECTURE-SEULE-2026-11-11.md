@@ -210,3 +210,12 @@ Un test de contrat a été ajouté au test de sécurité CRM existant. Le workfl
 - Les écritures effectuées par un traitement utilisant le rôle service peuvent produire un historique dont actor_user_id est nul via auth.uid(). Avant les imports/agents serveur, définir une attribution explicite « système » ou un identifiant de mission, sans usurper un utilisateur humain.
 
 **Décision :** le socle métier est structuré dans le dépôt, mais il n'est pas encore recetté de bout en bout et les migrations CRM critiques ne sont pas présentes sur majestios-crm. Pas d'ouverture pilote, pas de migration distante et pas de déploiement de production à ce stade.
+
+
+### 11.9 Facturation intégrée — périmètre absent de l'existant audité
+
+L'audit des tables, migrations, fonctions Edge et parcours CRM ne démontre pas de domaine de facturation opérationnel sur les projets Supabase inspectés. Aucun cycle devis → facture → transmission PA → statut/rejet → règlement n'a été recetté. La page d'information sur la facturation électronique ne constitue pas un module de facturation.
+
+Cette absence est une évolution structurante de phase 2, et non une anomalie à corriger par ajout précipité de tables dans le CRM actuel. Le modèle doit être conçu comme un domaine métier distinct mais relié au CRM. Il doit prendre en charge les modes natif, connecté et hybride, avec une source de référence par objet, des identifiants externes stables, l'idempotence et des mécanismes anti-doublons.
+
+Le détail fonctionnel et technique figure dans la [spécification cible](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md). Préparer dès le CRM actuel les identifiants, adresses de facturation, liens documentaires, événements et permissions nécessaires, sans prétendre que la facturation ou une intégration PA existe déjà. Aucune modification Supabase distante n'a été effectuée.
