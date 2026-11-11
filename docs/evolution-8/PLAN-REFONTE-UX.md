@@ -140,3 +140,8 @@ La navigation partagée a reçu une première couche de style Evolution-8 : barr
 - Tests de non-régression des moteurs, formulaires et espaces protégés : à réaliser avant extension à d'autres pages.
 
 La première validation attendue porte sur le rendu desktop/mobile, la lisibilité des menus sur fonds clairs et foncés, la visibilité du hamburger, l'accès VIP et la conservation du moteur de recherche. Aucune mise en production n'est autorisée par ce lot.
+
+
+## 9. Prévention des régressions de navigation
+
+Le contrat statique `verify-architecture.js` et le test navigateur `tests/navigation-classique.browser.cjs` doivent toujours valider le même menu. Après l'ajout de la rubrique facturation électronique, le menu compte 20 entrées secondaires et 18 destinations uniques. Le vérificateur statique a été corrigé sur Evolution-8 pour refléter ce contrat et exiger la présence de `facturation-electronique.html` parmi les routes fonctionnelles. La recette CI post-correction reste à confirmer.
