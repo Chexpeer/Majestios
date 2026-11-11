@@ -89,3 +89,14 @@ Constats confirmés en lecture seule :
 - L'advisor du projet cible signale la protection contre les mots de passe compromis désactivée. L'advisor du projet de test signale le RPC `complete_crm_reminder` SECURITY DEFINER exécutable par `authenticated`, avec contrôle interne owner/admin à tester.
 
 **Aucune migration, donnée, fonction Edge, politique RLS, configuration Auth, clé ou secret distant n'a été modifié.** La convergence est bloquée jusqu'à décision sur le projet Supabase de référence et validation d'un plan de migration.
+
+
+## 9. Clarification de l'audit Supabase — 11 novembre 2026
+
+- **AN-04 — parité des environnements :** conserver le constat de 39 migrations sur `MajestiOS-Test` et 22 sur `majestios-crm`, mais requalifier : l'écart n'est pas en soi une anomalie de synchronisation ; il traduit deux rôles distincts (test/recette et projet ciblé par le frontend). Ouvert uniquement pour formaliser la gouvernance des promotions, pas pour synchroniser automatiquement.
+- **AN-14 — `private.reputation_audit_usage` :** RLS désactivée sur le projet de test, sans politique ; droits directs observés exclusivement pour `postgres`. Maintenir comme faiblesse de défense en profondeur, sans affirmer qu'un accès navigateur est démontré.
+- **AN-13 — RPC de relance :** sur `MajestiOS-Test`, `complete_crm_reminder` est SECURITY DEFINER, `authenticated` oui / `anon` non, et vérifie `auth.uid()` ainsi que `private.can_edit_crm_org`. Le rapport antérieur qui indiquait `is_org_admin` est corrigé. Sur `majestios-crm`, RPC SECURITY INVOKER via `private.is_org_editor`, avec RLS VIP owner/admin.
+- **CRM / accès pilote :** le frontend `crm-client.js` et les politiques de `majestios-crm` imposent actuellement l'accès interne owner/admin. Le CRM client ouvert aux entreprises pilotes n'est pas encore activé sur le projet principal.
+- **Cheexpeer :** le worker `cheexpeer-worker` v1 sur `MajestiOS-Test` est strictement en mode test et n'exécute que `readiness_probe`, sans effet externe métier.
+
+Ces précisions sont établies par lecture seule des projets le 11 novembre 2026. Aucune migration, donnée, politique, fonction ou configuration distante n'a été modifiée.
