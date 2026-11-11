@@ -365,3 +365,22 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 
 
 **Preuve CI CHX-05 — 11 novembre 2026 :** le workflow spécialisé `Cheexpeer worker contract` a réussi sur le commit `e401eb13be6ad395d4f63a596f2761efd07aefe5` (run [43044831310](https://github.com/Chexpeer/Majestios/actions/runs/43044831310)). Les étapes `Syntax check` et `Policy tests` sont toutes deux `success`. Cette preuve confirme l'exécution de la suite de contrats sur Evolution-9 ; elle ne prouve pas le déploiement du worker ni sa recette Supabase distante.
+
+
+## 13. Audit des surfaces produit et des capacités spécialisées — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Statut / conséquence |
+|---|---|---|---|---|
+| CHX-09 | P1 produit | Assistant conversationnel | `assistant-majestios.html` annonce explicitement « Guide local actif · IA à raccorder » et désactive la saisie de sa console. Le widget généré par `app.js` répond à partir d'une liste locale de mots-clés/rubriques ; il n'appelle pas de modèle IA, ne crée pas de mission et ne réalise aucune action métier. | Comportement transparent et cohérent avec un guide de première génération. **Ce chatbot n'est pas Cheexpeer** et ne doit pas être présenté comme l'agent transversal livré. |
+| CHX-10 | P1 capacité | Réputation virtuelle | Le registre des sources classe l'identité officielle et BODACC comme sources automatisées disponibles dans le code ; Google Web/Maps sont manuels ; les plateformes sociales sont planifiées et sans connexion automatisée. L'analyse IA est conditionnée à la présence de clé, modèle et endpoint serveur ; sinon la fonction retourne une collecte seule, sans diagnostic. | Brique spécialisée partiellement implémentée ; aucune couverture exhaustive de réputation web/sociale ni score global. Le déploiement et le fournisseur actif restent à vérifier à distance. |
+| CHX-11 | P1 stratégie | Community management LinkedIn | La vision stratégique Evolution-9 prévoit que Cheexpeer prépare et pilote le community management MajestiOS. Dans le périmètre de code Evolution-9 inspecté, aucun connecteur LinkedIn/OAuth, calendrier éditorial exécutable, publication, gestion d'interactions ou mesure d'audience n'a été identifié. | **Objectif spécifié, capacité non démontrée**. Avant raccordement : définir les autorisations LinkedIn, limites API, séparation lecture/rédaction/publication, journal d'activité, validation humaine des contenus et actions engageantes. |
+| CHX-12 | P2 capacité | Drive, SEO et planification | Les documents décrivent archivage Drive et veille SEO périodique comme objectifs ; aucun connecteur Drive opérationnel ni planificateur SEO transversal n'a été identifié dans les composants d'exécution inspectés. | À construire après le noyau mission/worker et les premiers connecteurs métier ; ne pas annoncer comme automatisations disponibles. |
+
+### Synthèse de maturité Cheexpeer
+
+- **Présent dans le dépôt :** fondation SQL des missions, étapes/événements, file durable, approbations humaines, registre fail-closed, pont serveur, worker bootstrap et brique spécialisée d'analyse de contexte administratif.
+- **Démontré par tests :** syntaxe du worker et du pont, règles de probe, disponibilité de santé, contrat du secret, liste blanche RPC, validation des identifiants et plafonds de taille.
+- **Non démontré en environnement :** exécution métier complète, raccordement du pont au projet de test, interface de commande reliée aux missions, persistance conversationnelle, fournisseur IA actif, connecteurs LinkedIn/Drive/SEO et planificateur général.
+- **Règle d'activation :** aucune mission métier ne doit être activée avant handler explicite, outil autorisé, contexte organisationnel, validation adaptée, journal de preuve, gestion des baux et recette sur environnement de test.
+
+Cette synthèse est une lecture du dépôt et des derniers constats distants consignés ; elle ne remplace pas une nouvelle vérification des versions déployées. Aucun accès distant, déploiement ou changement Supabase n'a été effectué dans cette passe.
