@@ -81,7 +81,7 @@
 }
 .site-nav-drawer .nav-group-items {
   position: absolute;
-  top: calc(100% + 5px);
+  top: 100%;
   left: 0;
   z-index: 2000;
   display: grid;
