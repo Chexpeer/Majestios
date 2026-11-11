@@ -325,3 +325,17 @@ La revue après première implémentation a identifié un cas limite important :
 Correction ajoutée à la migration additive : la façade `public.cheexpeer_api_decide_approval` reçoit `p_organization_id`, joint approbation et mission, exige l'égalité entre `m.organization_id` et l'organisation autorisée, puis seulement appelle la RPC interne. Le handler transmet l'organisation issue du contrôle JWT/membership. Le test de contrat SQL couvre ce filtre.
 
 **Statut :** correction présente dans Git Evolution-9 ; CI du HEAD final à vérifier ; aucun déploiement ni test PostgreSQL/Auth réel. Le scénario à deux organisations où le même utilisateur est administrateur des deux doit être inclus dans la recette locale.
+
+
+## 21. Fermeture par défaut des exécuteurs non implémentés
+
+La revue de la portée opérationnelle a confirmé que le worker versionné n'exécute actuellement que `readiness_probe` au niveau d'autonomie 0. L'API ne doit donc pas accepter d'autres types de mission ni de niveau d'autonomie supérieur sous prétexte que le schéma SQL permet de les stocker.
+
+Mesures ajoutées :
+- allowlist stricte `readiness_probe` dans la validation de l'API ;
+- autonomie strictement égale à 0 ;
+- même garde-fou dans la RPC SQL de soumission, pour éviter le contournement du handler ;
+- tests Node pour l'API et le contrat SQL ;
+- prise en charge des identités Supabase confirmées par email OU par téléphone, sans exiger une adresse email pour les comptes phone-only.
+
+Cela ne constitue pas une activation du worker : le registre d'outils reste soumis à ses propres contrôles et aucun endpoint n'est déployé.
