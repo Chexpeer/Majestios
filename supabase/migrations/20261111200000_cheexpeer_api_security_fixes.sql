@@ -367,22 +367,46 @@ as $$
 $$;
 
 create or replace function public.cheexpeer_api_decide_approval(
+  p_organization_id uuid,
   p_approval_id uuid,
   p_decision_by uuid,
   p_decision text,
   p_decision_note text
 )
 returns table(approval_status text, mission_status text)
-language sql
+language plpgsql
 security invoker
 set search_path = ''
 as $$
-  select * from private.cheexpeer_decide_approval(
-    p_approval_id, p_decision_by, p_decision, p_decision_note
-  );
+declare
+  v_mission_id uuid;
+begin
+  if p_organization_id is null or p_approval_id is null then
+    raise exception 'organization_id and approval_id are required'
+      using errcode = '22023';
+  end if;
+
+  -- L'organisation fournie par le client doit correspondre à celle de
+  -- l'approbation elle-même, avant toute décision ou révélation d'état.
+  select a.mission_id into v_mission_id
+  from private.cheexpeer_approvals a
+  join private.cheexpeer_missions m on m.id = a.mission_id
+  where a.id = p_approval_id
+    and m.organization_id = p_organization_id;
+
+  if not found then
+    raise exception 'approval not found'
+      using errcode = '42501';
+  end if;
+
+  return query
+    select * from private.cheexpeer_decide_approval(
+      p_approval_id, p_decision_by, p_decision, p_decision_note
+    );
+end;
 $$;
 
 revoke all on function public.cheexpeer_api_submit_mission(uuid,text,text,uuid,text,smallint,smallint,boolean,timestamptz,timestamptz,jsonb,jsonb,text) from public, anon, authenticated;
-revoke all on function public.cheexpeer_api_decide_approval(uuid,uuid,text,text) from public, anon, authenticated;
+revoke all on function public.cheexpeer_api_decide_approval(uuid,uuid,uuid,text,text) from public, anon, authenticated;
 grant execute on function public.cheexpeer_api_submit_mission(uuid,text,text,uuid,text,smallint,smallint,boolean,timestamptz,timestamptz,jsonb,jsonb,text) to service_role;
-grant execute on function public.cheexpeer_api_decide_approval(uuid,uuid,text,text) to service_role;
+grant execute on function public.cheexpeer_api_decide_approval(uuid,uuid,uuid,text,text) to service_role;
