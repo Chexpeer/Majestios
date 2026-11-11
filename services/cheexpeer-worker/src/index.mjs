@@ -54,8 +54,8 @@ async function processOneMission() {
   }));
   if (!mission) return false;
 
-  // Deliberately the only executable handler in this bootstrap worker.
-  // It has no external side effects. All business tools remain disabled.
+  // Bootstrap probe and worker self-check are the only executable handlers.
+  // Both are non-business diagnostics; all business tools remain disabled.
   if (isBootstrapMission(mission)) {
     const completed = await bridge("complete_mission", {
       mission_id: mission.mission_id,
