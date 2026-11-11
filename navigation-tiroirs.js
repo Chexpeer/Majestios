@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const ensureSharedAssets = () => {
-    if (!document.querySelector('link[data-majestios-shared-nav="css"]')) {
+    if (!document.querySelector('link[data-majestios-shared-nav="css"], link[href*="navigation-tiroirs.css"]')) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
       link.href = "navigation-tiroirs.css";
