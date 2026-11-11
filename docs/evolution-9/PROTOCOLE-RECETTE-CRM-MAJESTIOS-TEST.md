@@ -77,12 +77,12 @@ Les résultats doivent être établis à partir des politiques et fonctions rée
 | Interne MajestiOS | admin | autorisée | autorisée |
 | Interne MajestiOS | member | refusée pour le CRM interne | refusée |
 | Interne MajestiOS | viewer | refusée pour le CRM interne | refusée |
-| Cliente / partenaire | owner | selon RLS tenant-scoped | selon RLS tenant-scoped |
-| Cliente / partenaire | admin | selon RLS tenant-scoped | selon RLS tenant-scoped |
-| Cliente / partenaire | member | lecture et écriture dans son tenant si les politiques déployées le permettent | lecture et écriture dans son tenant si les politiques déployées le permettent |
-| Cliente / partenaire | viewer | lecture dans son tenant si les politiques le prévoient | refusée |
+| Cliente / partenaire | owner | autorisée par `private.can_read_crm_org` | autorisée par `private.can_edit_crm_org` |
+| Cliente / partenaire | admin | autorisée par `private.can_read_crm_org` | autorisée par `private.can_edit_crm_org` |
+| Cliente / partenaire | member | autorisée par `private.can_read_crm_org` | autorisée par `private.can_edit_crm_org` |
+| Cliente / partenaire | viewer | autorisée par `private.can_read_crm_org` | refusée par `private.can_edit_crm_org` |
 
-La matrice ci-dessus est une **attente à vérifier**, non une preuve de configuration. En cas d'écart avec les politiques effectives, suspendre la recette et documenter le résultat réel avant toute correction.
+La matrice ci-dessus correspond à la définition actuellement relue sur `MajestiOS-Test` : `can_read_crm_org` autorise tout membre d'un tenant non interne ; `can_edit_crm_org` autorise owner/admin/member pour un tenant client/partenaire, mais seulement owner/admin pour l'organisation interne. Les tests effectifs par JWT restent obligatoires.
 
 Le frontend `crm-client.js` actuellement inspecté impose une organisation interne unique et les rôles owner/admin. Il ne constitue donc pas, à lui seul, une interface de recette du futur CRM client. Les tests multi-tenant client doivent exercer les API/RLS avec les JWT des utilisateurs synthétiques, ou un futur frontend client explicitement déployé en test.
 
@@ -261,3 +261,23 @@ La recette CRM est considérée comme concluante uniquement si :
 - [Registre des anomalies Evolution-9](REGISTRE-ANOMALIES-EVOLUTION-9.md)
 - [Spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md)
 - Migrations concernées : socle multi-tenant, rôles CRM, relations inter-tenant, relances, durcissement des colonnes UPDATE, historisation atomique et durcissement du RPC.
+
+
+## 12. État distant recontrôlé en lecture seule — 11 novembre 2026
+
+Un contrôle complémentaire du projet `MajestiOS-Test` a été réalisé après la préparation du protocole, sans écriture :
+
+- **39 migrations appliquées**, jusqu'à `20261109250000_cheexpeer_worker_server_bridge` ; les migrations CRM de restriction UPDATE, historisation, durcissement du RPC et intégrité des relations sont présentes dans l'historique distant.
+- Les tables CRM `businesses`, `contacts`, `opportunities`, `activities` et `crm_reminders` sont vides au moment du contrôle ; aucune donnée métier de recette n'est donc déjà disponible.
+- Une seule organisation existe : `MajestiOS — CRM interne`, de type `internal`, avec **zéro membre**. Aucun tenant client/partenaire et aucun compte de recette ne sont actuellement prêts pour les tests.
+- Les tables CRM contrôlées ont RLS activée. Les politiques observées appellent `private.can_read_crm_org` et `private.can_edit_crm_org`.
+- Définitions vérifiées : `can_read_crm_org` permet la lecture à tout membre d'un tenant client/partenaire, et aux seuls owner/admin pour le tenant interne ; `can_edit_crm_org` permet l'écriture owner/admin/member sur les tenants client/partenaire, owner/admin sur le tenant interne.
+- Les privilèges UPDATE du rôle `authenticated` sont limités aux colonnes métier prévues sur les trois tables ; les colonnes système `id`, `organization_id`, `created_by`, `created_at`, `updated_at` ne sont pas accordées.
+- Les trois triggers `*_record_crm_activity` sont présents et actifs.
+- Le job `majestios-crm-reminders` est présent, actif, planifié toutes les cinq minutes.
+- Le RPC `public.complete_crm_reminder(uuid)` est SECURITY DEFINER et exécutable par `authenticated`, avec contrôle interne de session et de `private.can_edit_crm_org`, et vérification de l'existence de l'opportunité. Il reste à tester par JWT pour chaque rôle et tenant.
+- **AN-15 est confirmé** : deux triggers d'intégrité distincts appellent la même fonction `enforce_tenant_relationship_integrity` sur chacune des tables businesses, contacts, opportunities et activities. C'est une redondance P2 à traiter après analyse, pas une raison de supprimer des triggers à chaud.
+
+**Conséquence :** le projet de test possède le socle SQL nécessaire pour préparer une recette, mais pas les identités ni les tenants nécessaires à son exécution. Le prochain lot opérationnel doit être un plan de création contrôlée de comptes et organisations synthétiques, puis des tests API sous JWT utilisateur. Le CRM interne frontend ne peut pas être recetté tant qu'aucun owner/admin interne de test n'est provisionné.
+
+Statut inchangé : **PRÉPARÉ — NOT RUN**. Ces lectures ne créent ni comptes, ni organisations, ni fiches, et ne valent pas autorisation d'écriture.
