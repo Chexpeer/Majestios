@@ -58,3 +58,17 @@ Une anomalie n'est clôturée que si :
 5. la preuve, le commit et les limites sont enregistrés.
 
 Aucune opération distante sensible n'est autorisée par le présent registre.
+
+
+## 5. Anomalie détectée pendant la reprise — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Correction / preuve | Statut |
+|---|---|---|---|---|---|
+| NAV-01 | **P1 — CI bloquante** | Contrat de navigation | Après l'ajout de la page facturation électronique dans deux familles de navigation, `navigation-tiroirs.js` expose 20 entrées secondaires et 18 destinations uniques, mais `verify-architecture.js` attendait encore 18 entrées et 17 destinations. Le test navigateur avait déjà été porté à 20/18 : les contrôles statiques et navigateur n'étaient plus cohérents. | Correction du vérificateur sur Evolution-8 : ajout de `facturation-electronique.html` aux routes requises ; attentes portées à 20 entrées et 18 destinations uniques. Commit : `4f471c06e7bf5dbbf9c88339a2ea0ed23d2f03c8`. | **Corrigé dans le code ; exécution CI après correction à confirmer.** Ne pas clôturer avant résultat vert du workflow. |
+
+### Prévention ajoutée
+
+- Les nombres attendus sont définis par le menu réellement configuré, et non par une ancienne version de la navigation.
+- Toute nouvelle entrée de menu doit être ajoutée aux routes requises et aux tests navigateur dans le même lot.
+- Le contrôle de publication vérifie que chaque destination existe et figure dans `site-files.json`.
+- Le résultat du build Vercel ne remplace pas les tests de contrat ni les tests navigateur.
