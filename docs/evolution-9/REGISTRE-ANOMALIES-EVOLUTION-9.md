@@ -405,3 +405,15 @@ Cette synthèse est une lecture du dépôt et des derniers constats distants con
 | CHX-17 | P1 fiabilité | Bail de mission | Le worker ne renouvelait pas le bail avant ses traitements ; le premier handler ajoute un renouvellement préalable et refuse la complétion si le renouvellement est rejeté. Le heartbeat périodique pour les missions longues reste absent. | Correction limitée au premier handler bref ; heartbeat nécessaire avant tout handler long. |
 
 La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md](SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md). La migration d'outil reste volontairement désactivée. Aucune donnée, migration, fonction Edge, configuration ou secret Supabase n'a été modifié à distance.
+
+
+## 7. Régressions visuelles constatées sur la prévisualisation Evolution-9 — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / cause | Correction engagée | Statut |
+|---|---|---|---|---|---|
+| E9-UX-02 | P1 | Réputation virtuelle | Les formulaires Google Web et Google Maps étaient explicitement masqués par l'attribut HTML `hidden`, sans code pour les révéler. Le test navigateur confirmait à tort cette disparition comme comportement attendu. | Retrait de `hidden` sur le conteneur de recherche ; test navigateur réorienté vers l'accessibilité publique des deux moteurs. | Code et test corrigés ; exécution CI à confirmer. |
+| E9-UX-03 | P1 | Navigation transversale | Styles historiques concurrents : header transparent, déclinaisons claires/sombres, bouton hamburger blanc et tiroir clair ; la page Réputation virtuelle ne chargeait pas le système de tiroirs. | Couche commune bleu nuit/or, hamburger sombre, sous-menus bleu nuit, VIP mis en évidence dans « Espaces privés » ; chargement des ressources de tiroir sur la page Réputation virtuelle. | Code corrigé ; recette multi-pages à confirmer. |
+| E9-UX-04 | P1 | Accueil | Le visuel de fond pouvait dominer les dégradés et rendre le premier écran trop clair. | Fond bleu nuit de secours et voiles sombres renforcés, sans supprimer le visuel décoratif. | Code corrigé ; recette desktop/mobile à confirmer. |
+| E9-UX-05 | P1 | Accès VIP | L'accès VIP n'était pas présenté avec un traitement homogène entre les menus. | Signature VIP bleu nuit/or/chrome dans le tiroir « Espaces privés ». | Code corrigé ; recette sur toutes les pages à confirmer. |
+
+**Règle de prévention ajoutée :** les tests ne doivent jamais considérer la disparition d'une fonction visible comme un état attendu uniquement parce que le HTML la masque. Les contrôles de non-régression doivent vérifier la présence, la visibilité et l'accès réel aux fonctions métier demandées.
