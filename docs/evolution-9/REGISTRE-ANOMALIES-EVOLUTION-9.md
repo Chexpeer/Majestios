@@ -754,3 +754,12 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | UX-EDITORIAL-07 | P2 | Cohérence des parcours et des contenus | La FAQ invitait encore à « explorer le schéma interactif », référence obsolète depuis l'abandon de cette représentation au profit de la navigation classique. Le texte et le lien ont été reformulés pour orienter vers les rubriques et fonctionnalités du site. | Correction versionnée sur Evolution-9, commit `19f88757699c95a13b533ab114f4335f58072610`. CI du HEAD final à confirmer. |
 
 Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 62. Clarté de la page de qualification des entreprises — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-08 | P2 | Compréhension du ciblage | La phrase d'introduction de `qualification-entreprises.html` détaillait l'API et plusieurs traitements techniques. Elle a été raccourcie pour expliquer directement la recherche par codes APE/NAF et département. Les avertissements de vérification, la confidentialité des critères et les contrôles opérateur sont conservés. | Correction versionnée sur Evolution-9, commit `c4d28bd9c5db9dfd20d418f3177abc802be96d4e`. CI du HEAD final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
