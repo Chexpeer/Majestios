@@ -599,3 +599,13 @@ La page facturation électronique a été comparée aux informations officielles
 | CHX-BILL-04 | P2 | Documentation / contenu | La page facturation référençait encore Evolution-8. | Corrigé sur Evolution-9 ; disponibilité réelle du module et des connecteurs reste clairement non opérationnelle. |
 
 Voir section 17 de l'audit des interfaces et `SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md` pour l'architecture cible.
+
+
+## 45. Revue des RPC d'orchestration Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié dans le code | Action / statut |
+|---|---|---|---|---|
+| CHX-API-02 | P1 avant API utilisateur | Idempotence / isolation tenant | En cas de conflit global sur `idempotency_key`, `cheexpeer_submit_mission` relit la mission sans vérifier que son `organization_id` correspond à l'organisation demandée. RPC réservée à `service_role`, aucune fuite actuelle démontrée ; risque latent si l'API relaie directement le résultat. | Avant raccordement, vérifier le tenant et ne retourner aucune donnée en cas de mismatch ; décider si l'idempotence doit être scoped par organisation. Tests croisés A/B et concurrence requis. |
+| CHX-APPROVAL-01 | P1 | Cycle de vie / expiration | `cheexpeer_decide_approval` met le statut à `expired` puis lève une exception dans la même transaction ; PostgreSQL annule la mise à jour. Une approbation expirée peut donc rester `pending`. | Corriger dans une migration additive : résultat métier explicite `expired` ou transition transactionnelle distincte ; test SQL de persistance obligatoire. |
+
+Ces deux points ont été ajoutés après lecture du SQL versionné, sans exécution ni écriture sur Supabase. Voir section 18 de `AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md`. Les anomalies P0 CHX-API-01 et CHX-SEC-03 restent bloquantes ; les nouveaux constats P1 doivent être traités avant d'exposer l'API.
