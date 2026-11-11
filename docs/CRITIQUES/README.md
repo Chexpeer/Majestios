@@ -80,3 +80,11 @@ Les deux projets Supabase ont des responsabilités distinctes : `MajestiOS-Test`
 - Le CRM client multi-tenant n'est pas encore ouvert sur le projet principal.
 
 Voir le [rapport d'audit et son addendum](../evolution-9/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md). Aucune écriture Supabase n'a été effectuée.
+
+## 8. Nouvelle priorité CRM — droits de colonnes et historique
+
+Le projet majestios-crm, actuellement ciblé par le frontend, n'a pas reçu les migrations de restriction des colonnes UPDATE et d'historisation atomique présentes sur MajestiOS-Test :
+- Les droits SQL de authenticated couvrent encore les colonnes d'identité, d'organisation, d'auteur et d'horodatage sur businesses, contacts et opportunities. La whitelist frontend ne protège pas contre les appels directs à l'API.
+- Les triggers d'historisation record_crm_activity() sont absents de ces tables sur le projet principal ; le code frontend peut donc signaler qu'une fiche a été modifiée sans historique.
+
+**Priorité P1 avant pilote client.** Préparer et tester les migrations sur l'environnement de test, puis établir une sauvegarde, une revue SQL et un plan d'application soumis à autorisation. Aucune modification distante n'a été effectuée.
