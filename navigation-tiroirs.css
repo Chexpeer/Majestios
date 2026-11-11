@@ -481,6 +481,12 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(6) > .nav-group-l
     backdrop-filter: none !important;
   }
   .site-nav-drawer .nav-group-items a { background: transparent !important; }
+  .site-nav-drawer .nav-drawer-section:nth-of-type(1) .nav-group-items { border-left-color: #087b88 !important; }
+  .site-nav-drawer .nav-drawer-section:nth-of-type(2) .nav-group-items { border-left-color: #245e9f !important; }
+  .site-nav-drawer .nav-drawer-section:nth-of-type(3) .nav-group-items { border-left-color: #24734f !important; }
+  .site-nav-drawer .nav-drawer-section:nth-of-type(4) .nav-group-items { border-left-color: #7050a1 !important; }
+  .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items { border-left-color: #995b1c !important; }
+  .site-nav-drawer .nav-drawer-section:nth-of-type(6) .nav-group-items { border-left-color: #4c5b6c !important; }
   .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link {
     color: #795918 !important;
     border-bottom: 1px solid #b28a3c !important;
