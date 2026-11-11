@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  authorizeOrganizationAdmin, isAllowedOrigin, readJsonLimited,
+  apiResponse, authorizeOrganizationAdmin, isAllowedOrigin, readJsonLimited,
   validateApprovalPayload, validateReadPayload, validateSubmissionPayload
 } from "../supabase/functions/_shared/cheexpeer-api.mjs";
 
@@ -87,4 +87,11 @@ test("body limit and CORS allowlist are enforced", async () => {
   assert.equal(isAllowedOrigin("https://majestios.com"), true);
   assert.equal(isAllowedOrigin("https://attacker.example"), false);
   assert.equal(isAllowedOrigin("https://preview.example", "https://preview.example"), true);
+});
+
+test("CORS preflight response is bodyless and no-store", async () => {
+  const response = apiResponse(204, {}, "https://majestios.com");
+  assert.equal(response.status, 204);
+  assert.equal(await response.text(), "");
+  assert.match(response.headers.get("cache-control"), /no-store/);
 });
