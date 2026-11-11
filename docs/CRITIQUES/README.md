@@ -126,3 +126,8 @@ MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire p
 - Aucune promotion de production n'a été effectuée.
 
 **Règle de priorité :** les P0 et risques de sécurité bloquants sont traités avant les optimisations SEO, visuelles ou fonctionnelles non critiques. Une correction de code ne clôture pas un risque distant tant que la preuve de recette correspondante n'existe pas.
+
+### Mise à jour Cheexpeer et assistant — 11 novembre 2026
+- **CHX-06 :** le code Git Evolution-9 contient deux handlers de diagnostic sans effet métier (bootstrap et worker_self_check), mais le dernier audit distant disponible décrivait le worker déployé sur MajestiOS-Test comme limité à readiness_probe. La version déployée doit être recontrôlée ; aucun outil métier n'est activé.
+- **CHAT-03 :** le faux formulaire désactivé de la page Assistant a été remplacé par un bouton qui ouvre le guide conversationnel local. Le moteur IA avancé reste non raccordé.
+- **GEO-02 :** la meta description de la page Cheexpeer a été corrigée pour ne plus présenter les capacités futures comme déjà disponibles.
