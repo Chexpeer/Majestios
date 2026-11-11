@@ -384,3 +384,27 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(7) > .nav-group-l
   }
   .site-nav-drawer .nav-group-items{background:rgba(255,255,255,.035) !important}
 }
+
+
+/* Desktop submenus remain deliberately light: the bar is navy, the menu is a clear
+   floating surface with colored section labels and dark readable links. */
+@media(min-width:901px){
+  .site-nav-drawer .nav-group-items{
+    background:rgba(250,252,255,.98) !important;
+    border:1px solid rgba(24,54,86,.16) !important;
+    box-shadow:0 14px 34px rgba(4,18,38,.18),inset 0 1px 0 rgba(255,255,255,.95) !important;
+  }
+  .site-nav-drawer .nav-group-items a{color:#243b57 !important}
+  .site-nav-drawer .nav-drawer-section:nth-of-type(1) .nav-group-items a{color:#087b88 !important}
+  .site-nav-drawer .nav-drawer-section:nth-of-type(2) .nav-group-items a{color:#245e9f !important}
+  .site-nav-drawer .nav-drawer-section:nth-of-type(3) .nav-group-items a{color:#24734f !important}
+  .site-nav-drawer .nav-drawer-section:nth-of-type(4) .nav-group-items a{color:#7050a1 !important}
+  .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a{color:#94702e !important}
+  .site-nav-drawer .nav-drawer-section:nth-of-type(6) .nav-group-items a{color:#995b1c !important}
+  .site-nav-drawer .nav-drawer-section:nth-of-type(7) .nav-group-items a{color:#4c5b6c !important}
+  .site-nav-drawer .nav-group-items a.nav-vip-link{
+    color:#17324f !important;
+    border:1px solid #c5a45e !important;
+    background:linear-gradient(105deg,rgba(213,181,108,.18),rgba(154,168,182,.12)) !important;
+  }
+}
