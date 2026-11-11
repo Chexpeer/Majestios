@@ -9,6 +9,7 @@ on:
       - "supabase/migrations/*cheexpeer*"
       - "supabase/functions/README.md"
       - "docs/evolution-7/CHEXPEER-WORKER-EXECUTION.md"
+      - "docs/evolution-9/SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md"
       - "docs/evolution-8/**"
       - ".github/workflows/cheexpeer-worker.yml"
   pull_request:
