@@ -519,3 +519,20 @@ Les contrôles countWorkspaceRecords sont tenant-scoped et ne téléchargent pas
 | CRM-16 | P1 | Tests multi-tenant | Tables CRM sans données de recette et scénarios authentifiés multi-rôles non exécutés. | Préparer des fixtures synthétiques isolées et tests owner/admin/member sur deux organisations. |
 
 La fonction de traitement de relance fixe un `search_path` vide, verrouille la relance, vérifie l'identité et l'organisation, et refuse une relance déjà traitée. Ces protections sont confirmées dans le code SQL distant ; la recette multi-rôle reste ouverte. Le déclencheur de synchronisation annule les relances en attente des opportunités gagnées, perdues ou archivées. Aucun changement distant n'a été effectué.
+
+
+## 38. Interfaces Cheexpeer et capacités transversales — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat confirmé dans le code Evolution-9 | Statut / suite |
+|---|---|---|---|---|
+| CHX-UI-01 | P1 | MajestiOS Bot | La page Assistant ouvre un guide local à mots-clés ; le moteur IA est explicitement indiqué comme non raccordé. | Capacité transparente, pas un agent IA ; spécifier le futur bot |
+| CHX-ADMIN-01 | P1 | Cheexpeer Admin | Le cockpit vérifie owner/admin interne et affiche des indicateurs, mais n'est pas raccordé au cycle durable des missions et approbations. | Centre de commande métier à construire/recetter |
+| CHX-SEARCH-01 | P1 | Recherche d'opportunités | La recherche BOAMP/BODACC affiche les résultats mais indique qu'ils ne sont pas enregistrés dans le CRM. | Définir import volontaire, provenance et dédoublonnage |
+| CHX-SCORE-01 | P1 | Scoring | Le score opportunité est un champ manuel 0–100, sans moteur de calcul démontré. | Définir critères, pondérations et explications avant automatisation |
+| CHX-REPORT-01 | P2 | Rapports | Aucun générateur général de rapports CRM/appels d'offres n'a été identifié dans le périmètre inspecté. | Définir format versionné, sources et archivage |
+| CHX-AO-01 | P1 | Vulgarisation appels d'offres | La rubrique éditoriale existe ; chaîne automatisée d'analyse de pièces et de synthèse sourcée non démontrée. | Auditer dépôt, extraction, confidentialité et validation |
+| CHX-REP-01 | P1 | Réputation virtuelle | Collecte identité/BODACC et analyse IA facultative ; dossier et recherches conservés en session navigateur, pas en historique CRM persistant. | Concevoir persistance et rétention sécurisées |
+| CHX-REP-02 | P1 | Contexte multi-organisation | L'Edge Function refuse plusieurs appartenances par HTTP 409 ; le frontend ne propose pas encore de sélecteur explicite. | Ajouter sélection explicite et revalidation serveur |
+| CHX-WORKER-01 | P0 avant activation métier | Worker | Seuls bootstrap/self-check sont exécutables ; les autres outils sont refusés faute de handler. | Maintenir fail-closed jusqu'à recette métier et sécurité |
+
+Le détail et les limites de preuve figurent dans `AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md`. Aucun outil métier n'a été activé.
