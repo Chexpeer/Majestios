@@ -8,11 +8,11 @@
 
 1. Lire le [registre central des anomalies critiques](CRITIQUES/README.md).
 2. Lire le [guide de prise en main IA MajestiOS/Cheexpeer](GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md), qui formalise le parcours d'onboarding, les garde-fous, la boucle d'audit et les critères de preuve.
-2. Lire le [référentiel Evolution-9](evolution-9/README.md).
-3. Lire la [vision stratégique MajestiOS 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md).
-4. Lire le [plan de réalisation et les moyens](evolution-9/PLAN-REALISATION-ET-MOYENS.md).
-5. Lire le [registre des anomalies Evolution-9](evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
-6. Consulter les spécifications spécialisées utiles au lot.
+3. Lire le [référentiel Evolution-9](evolution-9/README.md).
+4. Lire la [vision stratégique MajestiOS 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md).
+5. Lire le [plan de réalisation et les moyens](evolution-9/PLAN-REALISATION-ET-MOYENS.md).
+6. Lire le [registre des anomalies Evolution-9](evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
+7. Consulter les spécifications spécialisées utiles au lot.
 
 ## 2. La vision en une phrase
 
@@ -42,6 +42,7 @@ La formule « premier vrai CRM tout-en-un » exprime une ambition de différenci
 | Exécution Cheexpeer | [Architecture d'exécution](evolution-7/ARCHITECTURE-EXECUTION-CHEEXPEER-2026-11-09.md) | Missions, étapes, outils, worker et états réels |
 | Non-régression | [Audit de non-régression Evolution-7](evolution-9/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) | Conservation des rubriques, accueil, navigation et harmonisation visuelle |
 | Navigation | [Décisions de navigation Evolution-7](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Structure et arbitrages de navigation |
+| SEO / visibilité IA | [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) | État initial technique, indexabilité, métadonnées, canonical, robots/sitemap et GEO — audit partiel à poursuivre |
 
 ## 4. État produit — ne pas confondre vision et disponibilité
 
@@ -65,6 +66,8 @@ La formule « premier vrai CRM tout-en-un » exprime une ambition de différenci
 
 Le détail et les conditions de clôture figurent dans les registres d'anomalies. Une page, un composant ou une migration présente dans Git ne prouve pas son déploiement ni son fonctionnement réel.
 
+L'audit SEO initial est documenté dans [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) ; il couvre un échantillon de dix pages et ne constitue pas encore un balayage exhaustif.
+
 ## 5. Documentation spécialisée et historique
 
 Les dossiers `evolution-5.0`, `evolution-6`, `evolution-7` et `evolution-8` sont conservés pour leurs décisions, spécifications, audits et preuves datées. Ils ne doivent pas être supprimés pendant la synthèse. Lorsqu'une décision ancienne diverge d'une décision plus récente, vérifier l'arbitrage daté et la branche source avant de conclure.
@@ -79,9 +82,3 @@ La documentation détaillée reste dans les dossiers spécialisés ; cet index n
 - Ne pas confondre le CRM interne MajestiOS et le CRM de chaque client.
 - Ne pas présenter les capacités Cheexpeer décrites comme déjà actives.
 - Toute anomalie critique reste visible jusqu'à preuve de correction et de recette.
-
-## 7. Audit SEO et visibilité dans les moteurs IA
-
-| SEO / visibilité IA | [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) | État initial technique, indexabilité, métadonnées, canonical, robots/sitemap et GEO — audit partiel à poursuivre |
-
-Le premier contrôle porte sur dix pages représentatives. Il ne constitue pas encore un balayage exhaustif du manifeste ; les canonicals et le sitemap ne doivent pas être générés avant confirmation du domaine public de référence.
