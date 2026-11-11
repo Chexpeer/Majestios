@@ -492,3 +492,86 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(6) > .nav-group-l
     border-bottom: 1px solid #c5a45e !important;
   }
 }
+
+
+/* Evolution-9 — socle d'harmonisation commun à tous les menus MajestiOS.
+   Une seule géométrie, une seule typographie et des états cohérents desktop/mobile. */
+:root {
+  --maj-nav-ink: #17324f;
+  --maj-nav-navy: #071a33;
+  --maj-nav-gold: #c5a45e;
+  --maj-nav-focus: #f0c96a;
+}
+.site-nav-drawer,
+.site-nav-drawer * {
+  box-sizing: border-box;
+}
+.site-nav-drawer .nav-drawer-home,
+.site-nav-drawer .nav-group-link {
+  min-height: 36px !important;
+  padding: 7px 10px !important;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+  line-height: 1.25 !important;
+  letter-spacing: .01em !important;
+  border-radius: 7px !important;
+}
+.site-nav-drawer .nav-group-items {
+  min-width: 230px;
+  padding: 9px !important;
+}
+.site-nav-drawer .nav-group-items a {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 34px !important;
+  padding: 7px 9px !important;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  line-height: 1.35 !important;
+  text-decoration: none !important;
+  border-radius: 6px !important;
+  transition: background .16s ease, color .16s ease, padding .16s ease !important;
+}
+.site-nav-drawer .nav-group-items a:hover,
+.site-nav-drawer .nav-group-items a:focus-visible,
+.site-nav-drawer .nav-group-items a[aria-current="page"] {
+  padding-left: 12px !important;
+  background: rgba(197,164,94,.13) !important;
+  text-decoration: none !important;
+}
+.site-nav-drawer :focus-visible {
+  outline: 2px solid var(--maj-nav-focus) !important;
+  outline-offset: 3px !important;
+}
+.site-nav-drawer .nav-vip-link {
+  font-weight: 800 !important;
+  border-bottom: 1px solid var(--maj-nav-gold) !important;
+}
+@media (max-width: 900px) {
+  .site-nav-drawer .nav-drawer-home,
+  .site-nav-drawer .nav-group-link {
+    justify-content: flex-start !important;
+    min-height: 40px !important;
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+  }
+  .site-nav-drawer .nav-group-items {
+    min-width: 0 !important;
+    padding: 4px 0 6px 10px !important;
+  }
+  .site-nav-drawer .nav-group-items a {
+    min-height: 38px !important;
+    padding: 8px 9px !important;
+    font-size: 13px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-nav-drawer *,
+  .site-nav-drawer *::before,
+  .site-nav-drawer *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
