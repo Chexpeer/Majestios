@@ -5,6 +5,7 @@
 ## 1. Où trouver les informations
 
 - **Registre actif Evolution-9 :** [REGISTRE-ANOMALIES-EVOLUTION-9.md](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md)
+- **Guide de prise en main IA :** [GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md](../GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md)
 - **Registre détaillé Evolution-8 :** [REGISTRE-ANOMALIES-EVOLUTION-8.md](../evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md)
 - **Historique Evolution-7 :** [REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md](../evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md)
 - **Consignes obligatoires des agents :** [AGENTS.md](../../AGENTS.md)
