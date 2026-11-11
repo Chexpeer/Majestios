@@ -89,3 +89,13 @@ Evolution-9 est prête à être évaluée lorsque :
 5. la documentation stratégique est cohérente, concise et reliée aux spécifications détaillées ;
 6. chaque promesse publique correspond à une capacité disponible ou est clairement présentée comme une ambition ;
 7. aucune production ni donnée réelle n'a été modifiée par inadvertance.
+
+
+## 8. Avancement documentaire — 11 novembre 2026
+
+- Branche `Evolution-9` créée depuis le commit exact `53a780e7f8c3817197611c4cb9948b3c544a90a5` d'Evolution-8.
+- Vision stratégique 2026–2028, plan de réalisation, plan de synthèse documentaire et registre d'anomalies créés.
+- `docs/README.md` raccourci et réorganisé autour des références canoniques Evolution-9 ; les documents historiques restent conservés.
+- `AGENTS.md` et le dossier central des anomalies critiques pointent désormais vers la branche active.
+- Script `verify-doc-links.js` ajouté ; le workflow `verify-site.yml` l'exécute après les contrôles de site. **Son exécution CI sur cette branche reste à confirmer.**
+- Aucun document historique n'a été supprimé ni déplacé.
