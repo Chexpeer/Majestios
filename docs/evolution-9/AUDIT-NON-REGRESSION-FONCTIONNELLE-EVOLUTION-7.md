@@ -93,3 +93,8 @@ Workflow : [Vérification du site MajestiOS — run 43023792977](https://github.
 ## Espace Assistant MajestiOS
 
 Un guide conversationnel de première génération est déjà intégré dans `app.js`. Il s'agit d'une orientation locale par mots-clés, et non d'un moteur IA connecté. Evolution-9 lui réserve désormais une page dédiée (`assistant-majestios.html`) et charge ses styles depuis une feuille isolée (`majestios-chat.css`) sur les pages qui utilisent le contrôleur partagé. Le raccordement d'un fournisseur IA, les droits, le contexte utilisateur, les journaux et le transfert humain restent à construire et à recetter. Cette capacité ne doit pas être confondue avec Cheexpeer.
+
+
+## Consolidation de la navigation
+
+La feuille de navigation a été simplifiée pour éliminer les surcharges contradictoires : une géométrie commune, une barre transparente de 48 px, des onglets compacts, des sous-menus clairs en relief, des accents de rubrique, un accès VIP bleu nuit/or et un tiroir mobile limité à 360 px. Les contrôles navigateur vérifient les dimensions et états de base. Une revue par captures sur les pages de référence reste obligatoire ; aucune validation visuelle exhaustive n'est revendiquée.
