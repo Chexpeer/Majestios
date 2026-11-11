@@ -393,3 +393,15 @@ Cette synthèse est une lecture du dépôt et des derniers constats distants con
 | CHX-13 | P1 sécurité | Identité de l'approbateur | La RPC privée `cheexpeer_decide_approval` reçoit un paramètre `p_decision_by` puis vérifie que cet UUID appartient à l'organisation avec le rôle owner/admin. La fonction est réservée à `service_role` ; elle ne lie donc pas elle-même ce paramètre à un JWT utilisateur. Le pont worker actuel ne publie pas cette action, ce qui évite son exposition directe par ce pont. | Toute future API d'approbation doit authentifier la session, dériver l'UUID côté serveur à partir du JWT vérifié, ignorer tout UUID d'acteur fourni par le navigateur, vérifier l'organisation et journaliser la décision. Ajouter tests négatifs de falsification d'identité et tests inter-organisations avant activation. |
 
 **Qualification :** point de conception préventif, pas preuve d'une exposition actuelle. Ne pas ajouter la décision d'approbation à la liste d'actions du worker. L'approbation est une décision utilisateur, distincte de l'exécution technique du worker.
+
+
+## 15. Première mission Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / risque | Traitement / statut |
+|---|---|---|---|---|
+| CHX-14 | P1 | API de missions | Le pont worker est exclusivement serveur et n'offre ni soumission authentifiée par JWT utilisateur, ni décision d'approbation utilisateur, ni consultation tenant-scoped des résultats. | Ouvert — créer une API d'orchestration séparée du pont, avec identité dérivée du JWT et contrôle owner/admin par organisation. |
+| CHX-15 | P1 | États et étapes | Le schéma SQL utilise succeeded, tandis que des documents historiques parlent de completed. La table des étapes existe, mais le worker ne les réclame ni ne les exécute. | Normalisation documentaire Evolution-9 : succeeded est le statut persistant canonique ; « Terminée » est le libellé UI. Première mission atomique ; moteur multi-étapes non livré. |
+| CHX-16 | P1 sécurité | Premier outil worker | Un premier handler de diagnostic local worker_self_check a été ajouté. Son activation pourrait être prématurée si le déploiement, les API utilisateur, l'approbation et les tests d'isolation ne sont pas prêts. | Handler et tests présents ; entrée au registre préparée avec enabled=false, A0, approbation obligatoire et effet read. Aucune migration appliquée ni mission distante créée. |
+| CHX-17 | P1 fiabilité | Bail de mission | Le worker ne renouvelait pas le bail avant ses traitements ; le premier handler ajoute un renouvellement préalable et refuse la complétion si le renouvellement est rejeté. Le heartbeat périodique pour les missions longues reste absent. | Correction limitée au premier handler bref ; heartbeat nécessaire avant tout handler long. |
+
+La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md](SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md). La migration d'outil reste volontairement désactivée. Aucune donnée, migration, fonction Edge, configuration ou secret Supabase n'a été modifié à distance.
