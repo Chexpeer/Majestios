@@ -14,10 +14,10 @@ Une anomalie n'est clôturée que si la cause est comprise, la correction est pr
 |---|---|---|---|---|
 | AUTH-01 | P0 ciblé | OTP / provisionnement | Le code source `supabase/functions/provision-client-workspace/index.ts` et la migration RPC sont présents dans le dépôt ; la fonction n'était pas déployée sur les deux projets Supabase inspectés lors de l'audit Evolution-7. Le parcours OTP reste non recetté de bout en bout. | Ouvert — vérifier le déploiement actuel et réaliser une recette E2E avant ouverture des comptes |
 | AUTH-02 | P1 | Consentement / preuve | La fonction de provisionnement vérifie `user_metadata.privacy_notice_acknowledged` et `privacy_notice_version`, données modifiables par l'utilisateur ; l'enregistrement actuel ne constitue pas à lui seul une preuve robuste d'un consentement recueilli. | Ouvert — concevoir un reçu serveur horodaté, versionné et traçable, puis tester le parcours et les règles de conservation |
-| AN-04 | P1 | Parité Supabase | 22 migrations sur `majestios-crm` contre 38 sur `MajestiOS-Test` dans l'audit du 11 novembre | Ouvert — comparaison détaillée requise |
-| AN-14 | P1 critique | RLS / schéma privé | Alerte RLS sur `private.reputation_audit_usage` dans le projet de test | Ouvert — vérifier exposition, privilèges et politiques |
+| AN-04 | P1 | Parité Supabase | 22 migrations sur `majestios-crm` contre 39 sur `MajestiOS-Test` au contrôle en lecture seule du 11 novembre 2026 ; le frontend pointe vers `majestios-crm` | Ouvert — comparaison détaillée requise |
+| AN-14 | P1 critique | RLS / schéma privé | RLS désactivée sur `private.reputation_audit_usage` dans `MajestiOS-Test` ; ACL observée limitée à `postgres`, sans privilège direct `anon`/`authenticated` | Ouvert — vérifier exposition, privilèges et politiques |
 | AN-07 | P1 | Auth | Protection contre les mots de passe compromis désactivée sur le projet utilisé par le site | Ouvert — arbitrage après recette OTP |
-| AN-06 | P1 | Cheexpeer | Worker de test limité à `readiness_probe`, pont Edge et worker métier non déployés | Ouvert — non opérationnel métier |
+| AN-06 | P1 | Cheexpeer | Worker Edge `cheexpeer-worker` v1 déployé sur `MajestiOS-Test`, limité à `readiness_probe` ; pont Git `cheexpeer-worker-bridge` absent des déploiements observés ; aucun worker métier complet | Ouvert — non opérationnel métier |
 | AN-02 | P1 | Multi-tenant | Tests réels owner/admin/member et inter-organisations non démontrés | Ouvert — tests d'intégration nécessaires |
 | AN-13 | P1 | RPC CRM | `complete_crm_reminder` SECURITY DEFINER, recette réelle des rôles manquante | Ouvert — vérifier refus member et succès owner/admin |
 | AN-05 | P1 | Dépôt public | Identifiant administrateur codé en dur dans une fonction d'initialisation | Ouvert — revue d'exposition et externalisation |
@@ -73,3 +73,19 @@ Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniqu
 - la recette réelle Supabase et les tests inter-organisations restent à confirmer.
 
 Aucune donnée Supabase, migration distante, configuration Auth, secret ou production n'a été modifié dans cette reprise. Les vérifications de déploiement et de consentement restent en lecture seule.
+
+
+## 8. Audit CRM / Supabase — contrôle distant du 11 novembre 2026
+
+Rapport détaillé : [AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md](AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md).
+
+Constats confirmés en lecture seule :
+- Le frontend pointe vers `majestios-crm` (`qxaghcifdhugfskuscoc`) : 22 migrations appliquées, dernière migration `20261108181246_vip_only_crm_access`.
+- `MajestiOS-Test` (`qrlnnfjstoeliymxtkbk`) : 39 migrations appliquées, jusqu'à `20261109250000_cheexpeer_worker_server_bridge`.
+- La cible frontend n'a pas les migrations récentes d'historisation CRM, d'intégrité des relations et de fondation Cheexpeer présentes sur le projet de test.
+- `majestios-crm` expose actuellement trois fonctions Edge actives : recherche officielle, import officiel et bootstrap admin. Le provisionnement client et les fonctions Cheexpeer ne sont pas déployés sur cette cible.
+- `MajestiOS-Test` possède `cheexpeer-worker` v1, mais son exécuteur reste limité à `readiness_probe` sans effet externe métier. Le pont `cheexpeer-worker-bridge` du dépôt n'est pas déployé sous ce nom.
+- `private.reputation_audit_usage` garde RLS désactivée ; les privilèges directs relevés sont limités à `postgres`. Risque de défense en profondeur, sans preuve d'accès navigateur direct.
+- L'advisor du projet cible signale la protection contre les mots de passe compromis désactivée. L'advisor du projet de test signale le RPC `complete_crm_reminder` SECURITY DEFINER exécutable par `authenticated`, avec contrôle interne owner/admin à tester.
+
+**Aucune migration, donnée, fonction Edge, politique RLS, configuration Auth, clé ou secret distant n'a été modifié.** La convergence est bloquée jusqu'à décision sur le projet Supabase de référence et validation d'un plan de migration.
