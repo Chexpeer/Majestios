@@ -4,8 +4,8 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Évaluez votre présence sur le Web et votre visibilité locale avec MajestiOS.">
   <title>Réputation virtuelle — MajestiOS</title>
-  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="rubriques-immersives.css"><link rel="stylesheet" href="reputation-virtuelle.css"><link rel="stylesheet" href="charte-majestios.css">
-  <script src="catalogue-majestios.js" defer></script><script src="app.js" defer></script><script type="module" src="reputation-virtuelle.js"></script>
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="rubriques-immersives.css"><link rel="stylesheet" href="reputation-virtuelle.css"><link rel="stylesheet" href="charte-majestios.css"><link rel="stylesheet" href="navigation-tiroirs.css">
+  <script src="catalogue-majestios.js" defer></script><script src="app.js" defer></script><script src="navigation-tiroirs.js" defer></script><script type="module" src="reputation-virtuelle.js"></script>
 </head>
 <body class="page-reputation-virtuelle">
 <header class="site-header">
@@ -39,7 +39,7 @@
         <div class="audit-dossier-summary" data-audit-dossier-summary hidden aria-live="polite"></div>
       </section>
       <div class="reputation-workspace" data-reputation-workspace>
-        <div class="reputation-searches">
+        <div class="reputation-searches" hidden aria-hidden="true">
           <form class="reputation-search-card" data-reputation-search="web">
             <div class="reputation-search-heading"><span class="google-mark" aria-hidden="true">G</span><div><strong>Google Web</strong><small>Recherchez sur le Web depuis cet espace</small></div></div>
             <label class="sr-only" for="reputation-web-query">Entreprise ou activité à rechercher sur Google</label>
