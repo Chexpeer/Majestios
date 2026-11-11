@@ -80,8 +80,15 @@ La limite du corps est appliquée en lecture progressive du flux Request : la le
 | `cheexpeer-approval-decision` | Approuver/refuser une demande, acteur dérivé du JWT | Source Git uniquement — non déployée |
 | `cheexpeer-mission-read` | Lire mission, approbations et événements dans le tenant autorisé | Source Git uniquement — non déployée |
 
-Les trois fonctions exigent un bearer JWT, vérifient l'identité avec `auth.getUser(token)`, contrôlent une appartenance owner/admin à l'organisation demandée et n'acceptent aucun identifiant d'acteur du navigateur. Elles utilisent la clé `SUPABASE_SERVICE_ROLE_KEY exclusivement côté serveur. Les payloads sont strictement validés, les corps limités, les origines contrôlées par `ALLOWED_ORIGINS` et les réponses portent `Cache-Control: no-store`.
+Les trois fonctions exigent un bearer JWT, vérifient l'identité avec `auth.getUser(token)`, contrôlent une appartenance owner/admin à l'organisation demandée et n'acceptent aucun identifiant d'acteur du navigateur. Elles utilisent la clé `SUPABASE_SERVICE_ROLE_KEY` exclusivement côté serveur. Les payloads sont strictement validés, les corps limités, les origines contrôlées par `ALLOWED_ORIGINS` et les réponses portent `Cache-Control: no-store`.
 
 La migration additive `20261111200000_cheexpeer_api_security_fixes.sql` ajoute les façades RPC réservées à `service_role`, une lecture explicitement filtrée par `mission_id` ET `organization_id`, l'idempotence par organisation et la persistance des approbations expirées.
 
 **Aucun déploiement, aucune migration appliquée, aucun secret configuré et aucune donnée Supabase modifiée.** Avant la recette sur MajestiOS-Test, exécuter la migration et les tests transactionnels sur une base locale jetable, puis réaliser les tests Auth/RLS avec deux organisations et des comptes synthétiques. L'autorisation explicite reste nécessaire avant toute écriture sur MajestiOS-Test.
+
+
+### Renforcement de l'isolation de la décision — 11 novembre 2026
+
+La RPC de décision reçoit désormais également `p_organization_id` et vérifie par jointure que l'approbation appartient bien à cette organisation avant d'appeler la fonction de décision interne. Ce contrôle complémentaire ferme le cas où un utilisateur serait administrateur de plusieurs organisations et tenterait de fournir l'identifiant d'approbation d'un autre tenant. Le handler transmet exclusivement l'organisation préalablement autorisée depuis le contrôle d'appartenance.
+
+Le test de contrat SQL vérifie la présence de ce filtre. Une recette PostgreSQL réelle à deux organisations reste nécessaire avant activation.
