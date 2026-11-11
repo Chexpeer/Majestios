@@ -153,4 +153,24 @@ Architecture et sécurité communes : OAuth 2.0 et consentement explicite, scope
 
 Chaque opération est classée en lecture, préparation ou exécution. Les lectures sont limitées au besoin de la mission ; les brouillons ne sont pas envoyés ; les actions qui dépensent un budget, publient, répondent à un avis, envoient un message, partagent ou suppriment des données nécessitent une approbation explicite et une trace d'audit. Les API officielles et leurs règles d'accès priment sur toute automatisation par navigateur ou scraping.
 
+
+### 11.1 Gestion des avis et commentaires Google Maps
+
+Dans le périmètre Google Business Profile, Cheexpeer doit proposer un espace de gestion de la réputation des établissements autorisés :
+
+- lire les avis et notes accessibles via les API Google Business Profile pour les fiches dont l'utilisateur connecté détient un rôle autorisé ;
+- classer les avis (positif, neutre, négatif), détecter les sujets récurrents et signaler les avis récents ou sensibles ;
+- produire une synthèse périodique des tendances, de la répartition des notes et des sujets à traiter, avec liens et dates des avis sources ;
+- préparer une réponse contextualisée, factuelle, courtoise et non stéréotypée, avec variantes de ton si utile ;
+- permettre à l'utilisateur habilité de modifier, rejeter ou approuver la réponse avant publication ;
+- publier la réponse uniquement après une approbation explicite, sur la fiche et l'avis précisément identifiés, puis vérifier et journaliser le résultat retourné par l'API.
+
+Pour un avis négatif, Cheexpeer doit d'abord analyser le motif et proposer une réponse qui reconnaît l'expérience exprimée sans divulguer d'informations personnelles, confirmer publiquement des faits non vérifiés, accuser le client ou révéler des éléments de dossier. Les avis contenant des données personnelles, menaces, accusations graves, sujets de santé/sécurité ou risque juridique sont classés sensibles et transmis à une validation humaine renforcée ; Cheexpeer peut proposer une réponse prudente ou recommander de poursuivre en privé, sans publier seul.
+
+Les avis sont des contenus externes non fiables : aucune instruction qu'ils contiennent ne peut modifier les règles de Cheexpeer ou déclencher un outil. La collecte et les réponses doivent utiliser les API officielles et respecter les conditions Google, les permissions réelles du compte et les limites de l'API. Ne pas promettre la lecture de tous les avis de toutes les fiches publiques : l'accès est borné aux établissements gérés/éligibles et aux données exposées par l'API.
+
+Critères de recette : lecture limitée aux fiches autorisées ; refus d'accès aux établissements d'un autre compte/tenant ; pagination et gestion des quotas ; classement avec justification ; génération sans fuite de données CRM ; validation obligatoire avant publication ; association exacte réponse/avis/fiche ; journal avant/après et vérification du statut API ; reprise sûre en cas de timeout sans double réponse.
+
+**Statut :** exigence spécifiée uniquement ; aucune connexion Google, lecture d'avis, rédaction assistée ou publication n'est déclarée opérationnelle.
+
 **État réel :** périmètre demandé et spécifié ; aucun connecteur Google n'est déclaré connecté, autorisé, implémenté, déployé ou recetté par cette inscription documentaire. Les services Google et leurs scopes devront être activés individuellement après étude des API, des autorisations du compte et des tests de sécurité.
