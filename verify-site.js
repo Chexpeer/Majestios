@@ -28,6 +28,15 @@ for (const file of siteFiles) {
   assert(exists(file) && fs.statSync(path.join(root, file)).isFile(), "Build : ressource déclarée absente ou non-fichier : " + file);
 }
 for (const page of pages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
+for (const page of pages) {
+  const html = fs.readFileSync(path.join(root, page), "utf8");
+  assert(html.includes('src="navigation-tiroirs.js"'), page + " : navigation commune et accès VIP non chargés");
+}
+assert(siteFiles.includes("navigation-tiroirs.js") && siteFiles.includes("navigation-tiroirs.css"),
+  "Navigation commune : script ou feuille de style absent du manifeste");
+const sharedNavigationBootstrap = fs.readFileSync(path.join(root, "navigation-tiroirs.js"), "utf8");
+assert(sharedNavigationBootstrap.includes("ensureNavigationShell") && sharedNavigationBootstrap.includes("ensureSharedAssets"),
+  "Navigation commune : création de la barre ou chargement de ses styles de secours absent");
 
 const legacyVisibleTerms = [
   "prospection inversée",
