@@ -353,3 +353,12 @@ Correction versionnée sur Evolution-9 :
 - tests dédiés à un flux surdimensionné sans `Content-Length` et à un flux JSON valide fragmenté.
 
 **Statut :** correction et tests présents dans Git ; exécution CI sur le HEAD courant à confirmer. Aucun déploiement Edge ni test distant Supabase. Cette protection limite la mémoire consommée par le parseur applicatif, sans remplacer les limites de débit et de taille imposées au niveau plateforme.
+
+
+## 23. Continuité des exécutions CI — ajustement de concurrence
+
+Le workflow `.github/workflows/verify-site.yml` utilisait `cancel-in-progress: true`. Les mises à jour successives d'Evolution-9 interrompaient donc les exécutions actives avant la fin de leurs contrôles.
+
+Le paramètre est maintenant passé à `false` : une exécution déjà démarrée peut aller à son terme. GitHub conserve toutefois une seule exécution en attente par groupe de concurrence ; les poussées rapprochées peuvent donc encore remplacer une exécution en attente. La preuve finale doit toujours être associée au SHA exact du HEAD.
+
+**Statut :** changement workflow versionné ; run déclenché sur le nouveau HEAD à attendre. Les exécutions antérieures annulées ne sont pas des validations.
