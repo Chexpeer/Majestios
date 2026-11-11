@@ -132,7 +132,7 @@ assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Acc
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
 assert(home.includes("EXEMPLES DE DÉMONSTRATION") && home.includes("Les scénarios illustratifs ne sont pas des annonces réelles"), "Accueil : avertissement des exemples fictifs absent");
-assert(home.includes("L’ambition du CRM") && home.includes("Le CRM client et les modules de facturation sont en préparation"), "Accueil : positionnement CRM et distinction entre existant et cible absents");
+assert(home.includes("L'ambition du CRM") && home.includes("le CRM client et les modules de facturation sont en préparation"), "Accueil : positionnement CRM et distinction entre existant et cible absents");
 assert(home.includes('href="developpement-commercial.html"') && home.includes('href="reseaux-synergies.html"'),
   "Accueil : accès aux principales rubriques de navigation absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
