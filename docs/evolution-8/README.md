@@ -64,11 +64,11 @@ Aucune refonte d'écran ne doit masquer ces risques. Les travaux d'interface peu
 |---|---|---|
 | E8-00 — documentation et risques | **Réalisé** | Vision, audit, architecture cible, plan UX et registre Evolution-8 créés ; consignes de branche actualisées |
 | E8-01 — cartographie et design system | **En cours** | Inventaire initial effectué ; direction visuelle et parcours décrits, validation utilisateur encore requise |
-| E8-02 — vitrine et navigation | **Première itération construite** | Nouvelle page d'accueil, feuille de style Evolution-8, navigation transparente et sous-menus clairs ; moteur de recherche existant conservé |
+| E8-02 — vitrine et navigation | **Première itération construite** | Nouvelle page d'accueil, feuille de style Evolution-8, navigation transparente et sous-menus clairs ; moteur existant conservé ; nouvelle page facturation électronique accessible depuis Appels d'offres et Développement commercial |
 | E8-03 à E8-08 | **Non démarrés** | Aucun nouveau CRM client, module de facturation, connecteur PA ou outil métier Cheexpeer n'est déclaré disponible |
 
 **Prévisualisation Vercel Evolution-8 :** [majestios-git-evolution-8-majistr.vercel.app](https://majestios-git-evolution-8-majistr.vercel.app)
 
-Le déploiement de prévisualisation correspondant au commit `64975fa72a094391206c6e8d9d872a9cefd5e3fd` est `READY`. Le build confirme 80 fichiers copiés depuis `site-files.json` sans différence avec les sources. Cette preuve valide le build et le manifeste, pas le rendu visuel ni les parcours navigateur. Le statut consulté pour le commit ne fournit pas de résultat GitHub Actions ; les tests navigateur et les tests multi-rôles restent à confirmer.
+Le déploiement de prévisualisation correspondant au commit `64975fa72a094391206c6e8d9d872a9cefd5e3fd` est `READY`. Le premier build confirmait 80 fichiers copiés depuis `site-files.json`. La version suivante, qui inclut la page facturation électronique, est en cours de prévisualisation ; le nombre final de fichiers et son état seront enregistrés après le résultat du build. Cette preuve valide le build et le manifeste, pas le rendu visuel ni les parcours navigateur. Le statut consulté pour le commit ne fournit pas de résultat GitHub Actions ; les tests navigateur et les tests multi-rôles restent à confirmer.
 
 Aucun changement n'a été apporté à Supabase, aux données, aux fonctions Edge ou aux secrets. Aucun déploiement de production ni promotion Vercel n'a été effectué.
