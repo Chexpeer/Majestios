@@ -448,17 +448,17 @@
 
 .site-nav-drawer .nav-vip-link,
 .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link {
-  color: #795918 !important;
-  border-bottom: 1px solid #b28a3c !important;
+  color: #17324f !important;
+  border-bottom: 1px solid #c5a45e !important;
   background: transparent !important;
 }
 .site-nav-drawer .nav-vip-link::before { color: #9a7a3d !important; }
 .site-nav-drawer .nav-vip-link:hover,
 .site-nav-drawer .nav-vip-link:focus-visible,
 .site-nav-drawer .nav-vip-link[aria-current="page"] {
-  color: #604510 !important;
+  color: #17324f !important;
   background: transparent !important;
-  border-bottom-color: #8d6b2d !important;
+  border-bottom-color: #9b7a37 !important;
 }
 
 /* Sur la vitrine sombre, les onglets de premier niveau restent lumineux. */
@@ -489,6 +489,6 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(6) > .nav-group-l
   .site-nav-drawer .nav-drawer-section:nth-of-type(6) .nav-group-items { border-left-color: #4c5b6c !important; }
   .site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link {
     color: #795918 !important;
-    border-bottom: 1px solid #b28a3c !important;
+    border-bottom: 1px solid #c5a45e !important;
   }
 }
