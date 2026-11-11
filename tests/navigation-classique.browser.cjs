@@ -45,6 +45,35 @@ async function main() {
       "La page d’orientation Développement commercial doit être accessible depuis son sous-menu.");
 
     const navigationHrefs=await page.locator("#site-nav a").evaluateAll(links=>links.map(link=>link.getAttribute("href")));
+    const referenceNavigation = await page.evaluate(() => ({
+      groups: [...document.querySelectorAll("#site-nav .nav-drawer-section")].map(section => ({
+        label: section.querySelector(".nav-group-link")?.textContent.trim(),
+        links: [...section.querySelectorAll(".nav-group-items a")].map(link => [link.textContent.trim(), link.getAttribute("href")])
+      })),
+      links: [...document.querySelectorAll("#site-nav a")].map(link => link.getAttribute("href")),
+      headerHeight: getComputedStyle(document.querySelector(".site-header")).height
+    }));
+    // Recette de parité sur toutes les pages publiques publiées, y compris l'entrée VIP.
+    // Les cockpits CRM / administration / authentification gardent leurs navigations métier dédiées.
+    const publicPages = manifest.files.filter(file => file.endsWith(".html") &&
+      !["crm.html","administration.html","admin-recherches.html","espace-interne.html"].includes(file));
+    for (const route of publicPages) {
+      await page.goto("http://127.0.0.1:4174/"+route,{waitUntil:"domcontentloaded"});
+      await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
+      await page.waitForFunction(() => document.querySelectorAll("#site-nav .nav-drawer-section").length === 7,{timeout:15000});
+      const actualNavigation = await page.evaluate(() => ({
+        groups: [...document.querySelectorAll("#site-nav .nav-drawer-section")].map(section => ({
+          label: section.querySelector(".nav-group-link")?.textContent.trim(),
+          links: [...section.querySelectorAll(".nav-group-items a")].map(link => [link.textContent.trim(), link.getAttribute("href")])
+        })),
+        links: [...document.querySelectorAll("#site-nav a")].map(link => link.getAttribute("href")),
+        headerHeight: getComputedStyle(document.querySelector(".site-header")).height
+      }));
+      assert.deepEqual(actualNavigation,referenceNavigation,"La barre et les sous-menus doivent être identiques sur "+route);
+      assert.equal(await page.locator("#menu-toggle").count(),1,"Le bouton de menu commun doit exister sur "+route);
+    }
+    await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
+    await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     for(const href of navigationHrefs) assert.ok(published.has(href),"Chaque destination du menu doit être publiée : "+href);
     for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","facturation-electronique.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html","assistant-majestios.html"]) {
       assert.ok(published.has(route),"La route doit être publiée : "+route);
