@@ -126,3 +126,17 @@ body.homepage{
           background-position:54% center;
         }
       }
+
+
+/* Evolution-9 regression guard: keep the home hero unmistakably navy even when its
+   decorative background asset is light or partially unavailable. */
+body.homepage{background:#061225 !important;color:#f4f7ff !important}
+body.homepage .home-hero-layout{
+  background-color:#061225 !important;
+  background-image:
+    linear-gradient(90deg,rgba(4,12,25,.90) 0%,rgba(5,16,34,.78) 52%,rgba(5,16,34,.62) 100%),
+    linear-gradient(180deg,rgba(5,13,27,.24),rgba(5,13,27,.62)),
+    url("Designer%20(2).png") !important;
+  background-blend-mode:normal,normal,normal;
+}
+body.homepage .site-header{background:linear-gradient(105deg,#06101f 0%,#0a2444 52%,#101e3a 100%) !important}
