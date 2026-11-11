@@ -676,3 +676,12 @@ Note : GitHub peut toujours remplacer une exécution en attente dans un même gr
 | CHX-GOOGLE-01 | P1 avant connexion de compte | Google Ads / Workspace / Business Profile | Besoin d'intégrer Google Ads (AdWords), Google Workspace (Gmail, Agenda, Drive, Docs, Sheets, éventuellement Meet) et Google Business Profile. Les droits doivent être séparés par service, utilisateur et organisation. | Exigence ajoutée à la cartographie fonctionnelle. Aucun connecteur déclaré connecté ou opérationnel. Étudier les API officielles, OAuth 2.0, scopes minimaux, consentement, stockage serveur des jetons, révocation, quotas et recette multi-tenant. Toute dépense publicitaire, publication, réponse publique, envoi, partage externe ou suppression exige une approbation explicite. |
 
 **Décision de gouvernance :** ces capacités sont inscrites comme périmètre cible et non comme fonctionnalités livrées. Le worker reste en mode fail-closed ; aucune autorisation Google n'a été demandée ou utilisée, aucun compte n'a été connecté, aucune collecte ni action externe n'a été lancée. La cartographie fonctionnelle est la référence détaillée pour le cadrage, les limites et les critères de recette.
+
+
+## 53. Gestion des avis Google Maps — 11 novembre 2026
+
+| ID | Priorité | Domaine | Exigence | Statut et suite |
+|---|---|---|---|---|
+| CHX-GOOGLE-02 | P1 avant publication publique | Google Business Profile / réputation | Cheexpeer doit lire les avis accessibles sur les fiches autorisées, les classer et analyser les motifs récurrents, préparer des réponses adaptées y compris aux avis négatifs, puis permettre modification et approbation humaine avant publication. Les avis sensibles (données personnelles, santé/sécurité, menaces, accusations graves ou risque juridique) exigent une validation renforcée. | Exigence ajoutée à la section 11.1 de la cartographie. Non implémentée/non connectée. Utiliser les API officielles et les permissions réelles ; limiter l'accès aux fiches gérées/éligibles ; tracer avis, brouillon, approbateur, réponse et résultat API ; tester l'isolation, les quotas, les doublons et l'absence de publication sans approbation. |
+
+Aucune lecture d'avis ni publication Google n'a été effectuée. L'exigence documentaire ne vaut ni accès à toutes les fiches publiques ni disponibilité d'un connecteur opérationnel.
