@@ -123,7 +123,7 @@ async function main() {
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
     await page.waitForFunction(() => {
       const toggle = document.querySelector(".majestios-chat-toggle");
-      return toggle && getComputedStyle(toggle).position === "fixed";
+      return toggle && toggle.closest(".majestios-chat") && getComputedStyle(toggle.closest(".majestios-chat")).position === "fixed";
     },{timeout:15000});
     assert.ok((await page.locator(".assistant-status").textContent()).includes("IA à raccorder"),
       "L'espace dédié doit annoncer honnêtement que le moteur IA reste à raccorder.");
