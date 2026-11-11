@@ -46,7 +46,7 @@ Cheexpeer est l'agent IA transversal de MajestiOS, conçu comme un binôme techn
 
 Cheexpeer doit progressivement observer, diagnostiquer, rechercher, proposer, exécuter dans son mandat, tester, historiser et capitaliser. Il doit aussi préparer l'amélioration SEO/GEO, la veille, l'éditorial et le community management, dont LinkedIn, mais aucune publication, interaction publique ou action engageante ne doit être effectuée sans validation humaine tant que la délégation explicite et les contrôles ne sont pas opérationnels.
 
-**État réel à ne pas embellir :** le guide conversationnel actuel est local et fondé sur des mots-clés. Le worker présent dans le dépôt n'exécute qu'un diagnostic `readiness_probe` et refuse les autres types de mission. Les parcours authentifiés de soumission, approbation et suivi des missions ne sont pas démontrés comme opérationnels. Le code, le registre et le rapport d'audit déterminent le statut exact à chaque reprise.
+**État réel à ne pas embellir :** le guide conversationnel actuel est local et fondé sur des mots-clés. Le code worker présent dans le dépôt contient deux handlers de diagnostic sans effet métier (`bootstrap` et `worker_self_check`) ; tout autre type de mission est refusé en l'absence d'un exécuteur revu. Le dernier audit distant disponible décrivait le worker déployé sur MajestiOS-Test comme limité à `readiness_probe` ; la parité du code déployé avec le code Git doit être vérifiée avant toute conclusion. Les parcours authentifiés de soumission, approbation et suivi des missions ne sont pas démontrés comme opérationnels.
 
 ## 4. Priorités de travail
 
