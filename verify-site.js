@@ -68,7 +68,7 @@ assert(eInvoicePage.includes("MajestiOS n'est pas une plateforme agréée"), "Fa
 const assistantPage = fs.readFileSync(path.join(root, "assistant-majestios.html"), "utf8");
 assert(assistantPage.includes('id="assistant-open-guide"'), "Assistant : la page dédiée doit proposer un accès fonctionnel au guide local");
 assert(!/textarea[^>]*\bdisabled\b/i.test(assistantPage) && !/<button[^>]*\bdisabled\b[^>]*>Envoyer/i.test(assistantPage), "Assistant : aucun formulaire de conversation inactif ne doit être présenté");
-assert(sharedNavigationBootstrap.includes('document.querySelector("#assistant-open-guide")?.addEventListener("click", () => setOpen(true))'), "Assistant : le bouton de la page dédiée doit ouvrir le guide conversationnel partagé");
+assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes('document.querySelector("#assistant-open-guide")?.addEventListener("click", () => setOpen(true))'), "Assistant : le bouton de la page dédiée doit ouvrir le guide conversationnel partagé");
 const reputationPage = fs.readFileSync(path.join(root, "reputation-virtuelle.html"), "utf8");
 assert(/<section class="audit-dossier"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : le formulaire principal de préparation doit rester masqué dans l’interface publique");
 assert(/<div class="reputation-searches"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : les formulaires Google Web et Maps doivent rester masqués dans l’interface publique sans être supprimés");
