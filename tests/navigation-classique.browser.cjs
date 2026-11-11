@@ -81,6 +81,12 @@ async function main() {
     assert.equal(await page.locator('.majestios-chat-link[href="prospection-active.html"]').count(),1,
       "Le chatbot doit proposer un lien vers la rubrique concernée.");
 
+    await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
+    const assistantGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Assistant"})});
+    await assistantGroup.locator(".nav-group-link").click();
+    await page.waitForURL("**/assistant-majestios.html");
+    assert.match(page.url(),/assistant-majestios\\.html$/,"L'entrée Assistant du menu doit ouvrir son espace dédié.");
+
     await page.setViewportSize({width:390,height:844});
     await page.reload({waitUntil:"domcontentloaded"});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
