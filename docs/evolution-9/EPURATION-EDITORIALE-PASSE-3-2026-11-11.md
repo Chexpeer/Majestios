@@ -98,3 +98,8 @@ Sur `marches-publics.html`, `marches-prives.html`, `accompagnement-appels-offres
 - Les liens de navigation, les accès et les fonctionnalités existantes sont conservés.
 
 Les quatre corrections sont versionnées sur `Evolution-9`. La CI doit être vérifiée sur le HEAD documentaire final de cette mise à jour.
+
+
+## Dixième correction de la passe
+
+Sur `intelligence-economique.html` : retrait du bâtiment illustratif et de la mention « parcours guidé interactif », qui suggéraient une interface non disponible et contredisaient la navigation classique retenue. Remplacement par une carte textuelle courte. Le statut « en préparation », la vérification des sources et la distinction entre faits et hypothèses sont conservés.
