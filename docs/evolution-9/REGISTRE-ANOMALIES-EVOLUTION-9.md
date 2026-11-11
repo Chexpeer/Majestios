@@ -170,3 +170,10 @@ La matrice et les limites de recette sont documentées dans [l'audit de non-rég
 | CHAT-02 | P1 | Capacité IA | Le guide actuel répond à partir de mots-clés et de réponses prédéfinies. Il ne constitue pas un agent IA connecté ; aucun fournisseur conversationnel n'est configuré dans ce parcours. | L'espace dédié indique explicitement la limite et réserve les points de raccordement : moteur, contexte utilisateur, autorisations, journalisation et transfert humain. | Ouvert — intégration IA à concevoir et recetter |
 
 Le chatbot de première génération reste un guide d'orientation local, accessible par le bouton flottant « Parler à MajestiOS ». Il ne doit pas être présenté comme Cheexpeer ni comme un agent autonome. L'espace dédié le signale comme actif, tout en indiquant que le moteur IA avancé reste à raccorder ; aucune action métier n'est déclenchée.
+
+
+## 17. Consolidation de la navigation — 11 novembre 2026
+
+La feuille `navigation-tiroirs.css` a été réécrite en une seule source de styles afin de supprimer les couches contradictoires héritées. Elle conserve une barre transparente et compacte, des sous-menus clairs avec profondeur, des accents par rubrique, un accès VIP distinctif et un tiroir mobile avec overlay. Les états clavier, tactile, actif et réduction des animations sont conservés.
+
+Les tests navigateur couvrent désormais la hauteur de barre, la typographie desktop, le fond des sous-menus, la largeur du tiroir mobile et l'accès à l'espace Assistant. **La validation visuelle par captures sur plusieurs pages et tailles d'écran reste à effectuer avant clôture.**
