@@ -55,8 +55,10 @@ async function main() {
     await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
     assert.equal(await page.locator(".audit-dossier").isVisible(), false,
       "Le formulaire principal de préparation d’audit ne doit pas être visible dans la rubrique publique.");
-    assert.equal(await page.locator(".reputation-searches").isVisible(), true,
-      "Google Web et Google Maps doivent rester accessibles dans la rubrique publique.");
+    assert.equal(await page.locator(".reputation-searches").isVisible(), false,
+      "Les formulaires Google Web et Maps ne doivent pas être visibles dans la rubrique publique.");
+    // Les formulaires restent présents et leurs traitements sont testés hors affichage public.
+    await page.locator(".reputation-searches").evaluate(node => { node.hidden = false; node.removeAttribute("aria-hidden"); });
     // Les contrôles masqués sont temporairement révélés dans le test uniquement pour préserver la recette de leur logique interne.
     await page.evaluate(() => {
       document.querySelector(".audit-dossier").hidden = false;
@@ -91,8 +93,9 @@ async function main() {
     await page.reload({ waitUntil: "domcontentloaded" });
     assert.equal(await page.locator(".audit-dossier").isVisible(), false,
       "Les formulaires doivent rester masqués après rechargement.");
-    assert.equal(await page.locator(".reputation-searches").isVisible(), true,
-      "Les recherches Google Web et Maps doivent rester visibles après rechargement.");
+    assert.equal(await page.locator(".reputation-searches").isVisible(), false,
+      "Les formulaires Google Web et Maps doivent rester masqués après rechargement.");
+    await page.locator(".reputation-searches").evaluate(node => { node.hidden = false; node.removeAttribute("aria-hidden"); });
     await page.evaluate(() => {
       document.querySelector(".audit-dossier").hidden = false;
     });
