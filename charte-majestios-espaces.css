@@ -1,13 +1,7 @@
+@import url("charte-majestios-tokens.css");
+
 /* Couche de tokens partagés pour les espaces métier et privés.
    Les mises en page et les surfaces restent adaptées à chaque usage. */
-:root {
-  --majestios-steel: #9aa8b6;
-  --majestios-focus: #f0d38b;
-  --majestios-radius-control: 8px;
-  --majestios-radius-card: 12px;
-  --majestios-font-body: "DM Sans", "Segoe UI", system-ui, sans-serif;
-  --majestios-font-display: "Manrope", "DM Sans", "Segoe UI", sans-serif;
-}
 :is(body.admin-shell, body.internal-shell, body.crm-shell) {
   --gold: var(--majestios-gold);
   --gold2: var(--majestios-gold-light);

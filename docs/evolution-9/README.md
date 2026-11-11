@@ -165,3 +165,10 @@ Le test navigateur compare désormais la structure de navigation sur chaque page
 Toutes les pages MajestiOS, publiques comme privées, doivent partager une même grammaire visuelle : bleu nuit, or et chrome/acier, typographies, hiérarchie, composants, états et responsive cohérents. Les surfaces peuvent varier selon leur usage (ex. cockpit sombre et formulaires clairs), mais ne doivent jamais sembler provenir d'une autre marque. L'espace VIP, le CRM, l'administration et l'espace collaborateurs sont inclus. La feuille `charte-majestios.css` existe déjà, mais sa présence partielle ne prouve pas l'harmonisation de toutes les interfaces.
 
 **Statut : exigence documentée, audit visuel et corrections non réalisés à ce stade.** Voir UX-02 dans le registre des anomalies. Préserver toutes les fonctions et les contrastes ; ne pas confondre uniformité de marque et fond sombre obligatoire.
+
+
+## 21. Source unique de la charte graphique — 11 novembre 2026
+
+Les valeurs fondamentales (bleu nuit, or, acier/chrome, typographie, rayons, ombres et focus) sont centralisées dans `charte-majestios-tokens.css`. La feuille publique `charte-majestios.css` et la couche des espaces privés `charte-majestios-espaces.css` consomment cette source commune. Cela évite de recopier les valeurs dans les interfaces et permet de garder des surfaces claires ou sombres selon le métier.
+
+La recette navigateur a également révélé un identifiant manquant sur le bouton mobile de `majestios-v5.html`, corrigé sans retirer cette page. **Statut :** code intégré ; validation CI et revue visuelle restent nécessaires.

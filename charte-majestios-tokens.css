@@ -1,0 +1,28 @@
+/* Source unique des fondations graphiques MajestiOS.
+   Les composants publics et privés consomment ces mêmes valeurs. */
+:root {
+  --majestios-ink: #f5f7fb;
+  --majestios-ink-warm: #f4edda;
+  --majestios-muted: #c4ccda;
+  --majestios-soft: #a9b4c6;
+  --majestios-gold: #d5b56c;
+  --majestios-gold-light: #f0d38b;
+  --majestios-gold-link: #e5c56e;
+  --majestios-navy: #071225;
+  --majestios-navy-deep: #06101f;
+  --majestios-blue: #102b50;
+  --majestios-panel: #0b1c34;
+  --majestios-steel: #9aa8b6;
+  --majestios-focus: #f0d38b;
+  --majestios-line: rgba(213,181,108,.48);
+  --majestios-line-soft: rgba(213,181,108,.24);
+  --majestios-header-bg: linear-gradient(100deg,#06101f,#102b50);
+  --majestios-card-bg: linear-gradient(145deg,rgba(6,20,43,.96),rgba(13,31,55,.98));
+  --majestios-card-shadow: 0 16px 38px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035);
+  --majestios-button-bg: linear-gradient(100deg,#f7d76b,#dfa72e);
+  --majestios-button-ink: #101828;
+  --majestios-font-body: "DM Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --majestios-font-display: Georgia,"Times New Roman",serif;
+  --majestios-radius-card: 12px;
+  --majestios-radius-control: 8px;
+}
