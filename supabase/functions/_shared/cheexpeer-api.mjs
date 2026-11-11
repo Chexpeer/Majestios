@@ -24,7 +24,7 @@ export function apiResponse(status, body, origin = null, configuredOrigins = "")
     headers.set("access-control-allow-origin", origin);
     headers.set("vary", "Origin");
   }
-  return new Response(JSON.stringify(body), { status, headers });
+  return new Response(status === 204 ? null : JSON.stringify(body), { status, headers });
 }
 
 export async function readJsonLimited(request, maxBytes = 16 * 1024) {
