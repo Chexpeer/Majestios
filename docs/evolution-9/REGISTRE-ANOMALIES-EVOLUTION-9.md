@@ -48,7 +48,18 @@ Les constats proviennent des registres Evolution-7 et Evolution-8 ; ils doivent 
 
 ## 5. Contrôle documentaire ajouté
 
-Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniques (README, AGENTS, index documentaire, registre critique et dossier Evolution-9). Il est appelé par le workflow `.github/workflows/verify-site.yml`. Son code et son intégration sont présents ; **le résultat d'exécution GitHub Actions n'est pas encore disponible**, donc aucune réussite n'est déclarée. Le build Vercel Evolution-9 est READY et copie 81 fichiers, mais ce build n'exécute pas ce script.
+Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniques (README, AGENTS, index documentaire, registre critique et dossier Evolution-9). Il est appelé par le workflow `.github/workflows/verify-site.yml`. Son code et son intégration sont présents ; son exécution a été validée par GitHub Actions sur le commit `2438d8fd96f8e1d10676b8d193a5e99247096c67`.
+
+
+## 7. Corrections réalisées dans Evolution-9 — 11 novembre 2026
+
+| ID | Domaine | Cause constatée | Correction | Preuve |
+|---|---|---|---|---|
+| E9-CI-01 | Test navigateur | `tests/navigation-classique.browser.cjs` déclarait deux fois `devGroup` dans le même bloc, ce qui interrompait la vérification de syntaxe avant les tests. | Réutilisation de la variable déclarée dans le parcours desktop pour le parcours mobile. | Commit `c2d2e4d1c6bf18199a9bb80467b5f29d0e15696a` ; syntaxe passée ensuite. |
+| E9-ARCH-01 | Contrat de page d'accueil | `verify-architecture.js` exigeait encore l'ancien titre SEO et des formulations retirées lors de la refonte. | Assertions alignées sur le titre CRM tout-en-un, la promesse actuelle et l'avertissement des exemples de démonstration. | Commits `b448d44d79b396fa9c9974f1acb506c767f90620` et `f799d217f637d89bda175abe390fe301544704b5` ; vérificateur passé ensuite. |
+| E9-UX-01 | Contraste Accès VIP | Une règle CSS générale et une surcharge mobile imposaient un texte or/brun sur fond clair, malgré la signature prévue bleu nuit/or/chrome. | Couleur bleu nuit `#17324f`, filet or `#c5a45e`, fond transparent et repère chrome conservés ; surcharge mobile alignée. | Commits `8a93070600750cd4f112cfcddb73167fbaf8b31b`, `7f9e4f487ba2257fc7fac77dfb34d6e4e2c906b2` et `2438d8fd96f8e1d10676b8d193a5e99247096c67` ; test navigateur passé sur le dernier commit. |
+
+**Validation globale :** GitHub Actions run `43010656594`, commit `2438d8fd96f8e1d10676b8d193a5e99247096c67`, conclusion `success`. Les contrôles de syntaxe, tests unitaires, build, vérifications architecture/site/documentation, tests navigateur, BOAMP/BODACC et contrat de sécurité CRM ont réussi. Cela ne valide pas les migrations, politiques RLS ou parcours réels sur Supabase distant.
 
 ## 6. État de vérification
 
@@ -56,6 +67,8 @@ Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniqu
 - les fichiers de tests appelés par `.github/workflows/verify-site.yml` ont été vérifiés présents par lecture GitHub ;
 - le vérificateur de navigation Evolution-8 a été corrigé ;
 - le build Vercel de prévisualisation Evolution-8 est READY ;
-- les tests GitHub Actions post-correction, les tests navigateur et la recette Supabase restent à confirmer.
+- la suite GitHub Actions complète a réussi sur le commit `2438d8fd96f8e1d10676b8d193a5e99247096c67` (run `43010656594`) ;
+- les tests navigateur de navigation, recherche, Réputation virtuelle, contact et verrouillage sans session ont réussi dans ce run ;
+- la recette réelle Supabase et les tests inter-organisations restent à confirmer.
 
 Aucune donnée Supabase, migration distante, configuration Auth, secret ou production n'a été modifié lors de l'ouverture de cette branche.
