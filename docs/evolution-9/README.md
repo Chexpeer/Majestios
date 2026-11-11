@@ -104,6 +104,14 @@ Evolution-9 est prête à être évaluée lorsque :
 - Aucun document historique n'a été supprimé ni déplacé.
 
 
+## 11. Épuration éditoriale du site — 11 novembre 2026
+
+- [Première passe](EPURATION-EDITORIALE-SITE-2026-11-11.md) : pages d'accueil, développement commercial, appels d'offres, contact et FAQ.
+- [Deuxième passe](EPURATION-EDITORIALE-PASSE-2-2026-11-11.md) : réseau, veille, intelligence économique, sous-traitance, suivi commercial et salons.
+- [Troisième passe](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md) : retrait d'un vestige de l'ancienne représentation en étages sur la page Développement commercial.
+
+Les modifications éditoriales conservent les limites de disponibilité et les validations humaines. Les fonctions, routes et parcours ne sont pas retirés au seul motif de raccourcir les textes.
+
 ## 10. Prévisualisation Evolution-9
 
 **URL de prévisualisation de branche :** https://majestios-git-evolution-9-majistr.vercel.app
