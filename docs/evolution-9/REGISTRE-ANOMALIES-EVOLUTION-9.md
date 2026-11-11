@@ -210,3 +210,14 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 | FE-03 | P1 | Exactitude / positionnement | Risque de confusion entre logiciel compatible et plateforme agréée, ou de présenter MajestiOS comme opérateur réglementaire. | Conservation de la mention explicite : MajestiOS n'est pas une plateforme agréée ; aucun partenaire ni connecteur PA n'est présenté comme opérationnel. | Conforme au positionnement de conception |
 
 **Références officielles contrôlées :** impots.gouv.fr — « Je découvre la facturation électronique » (mise à jour du 26 mai 2026), « Je consulte la liste des plateformes agréées » (mise à jour du 9 novembre 2026), questions relatives au calendrier, aux modalités d'émission/réception et au PDF envoyé par e-mail. Les échéances et obligations doivent toujours être relues sur les sources officielles avant toute nouvelle publication ou évolution du parcours.
+
+
+## 21. Corrections après inventaire transversal — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat confirmé | Traitement Evolution-9 | Statut |
+|---|---|---|---|---|---|
+| REP-UI-01 | P1 | Réputation virtuelle / interface publique | La page exposait le formulaire principal de préparation d'audit ainsi que les formulaires Google Web et Maps, contrairement à la consigne du porteur de projet. | Les trois contrôles sont masqués dans l'interface publique ; les traitements et sélecteurs internes sont conservés dans le DOM pour éviter une suppression fonctionnelle prématurée. Le panneau visible devient un espace de suivi des analyses et constats vérifiés. | Code et assertions statiques/navigateur ajoutés ; recette navigateur à exécuter. |
+| NAV-02 | P1 | Navigation desktop | Le sous-menu était décalé de 5 px sous son parent, avec fermeture au `mouseleave`, créant une zone morte possible. | Alignement du sous-menu à `top: 100%` et ajout d'un test qui déplace le pointeur du titre vers un lien du sous-menu. | Correction de code et test ajoutés ; recette navigateur à exécuter. |
+| CI-01 | P1 CI | Installation Playwright | Le dernier run `43032901155` échoue à l'étape d'installation Chromium : `playwright install --with-deps` déclenche APT, dont les miroirs Ubuntu sont injoignables (`Temporary failure resolving`). Les contrôles syntaxe, tests Node, build, architecture, site et liens documentaires précédant cette étape ont réussi ; les tests navigateur suivants ont été ignorés. | Suppression de `--with-deps` pour utiliser les dépendances déjà présentes sur le runner GitHub standard et éviter l'étape APT réseau. | Correction du workflow à vérifier sur une nouvelle exécution CI. |
+
+**Limite :** aucune validation visuelle réelle n'est revendiquée. La modification de la commande Playwright ne prouve pas encore que Chromium démarre correctement sur le runner ; le prochain run doit le confirmer.
