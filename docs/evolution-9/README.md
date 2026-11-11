@@ -213,3 +213,14 @@ La CI Evolution-9 est verte sur le HEAD `905041b6c736a1c66adade91561beb623c67a1f
 La reprise de l'audit CRM confirme que le CRM interne actuel couvre entreprises, contacts, opportunités, activités et relances persistantes. Il ne comporte pas de facturation opérationnelle. La facturation électronique reste une phase 2, cadrée comme un domaine distinct (MajestiOS Facturation + MajestiOS Connect), et non comme une simple extension de tables CRM.
 
 Les points bloquants restent distants : privilèges UPDATE trop larges et historisation incomplète sur `majestios-crm`, ainsi que l'absence de recette multi-rôle/inter-organisation exécutée sur `MajestiOS-Test`. Les migrations correctives présentes dans Git ne sont pas appliquées à distance. **Aucune écriture Supabase ni aucun déploiement de production n'a été réalisé.**
+
+
+## 27. Audit Cheexpeer — première passe worker — 11 novembre 2026
+
+L'audit du code du worker et du pont serveur confirme un socle d'exécution sécurisé en mode bootstrap, mais pas encore un agent métier opérationnel : seul le type `readiness_probe` à autonomie 0 est exécuté ; les autres types sont refusés en l'absence de handler revu. Le pont impose un secret serveur indépendant, une liste blanche d'actions RPC et des limites de taille/format.
+
+Une anomalie de CI a été corrigée : le workflow spécialisé worker n'était pas déclenché sur les pushes Evolution-9. La branche active est maintenant incluse et un test de contrat protège ce déclenchement. **Résultat du run spécialisé après correction : en attente.**
+
+Le renouvellement de bail existe côté pont/RPC mais n'est pas encore appelé par le worker. C'est acceptable pour le probe court actuel, mais doit être traité avant toute mission longue. Le déploiement actuel du pont et le raccordement distant n'ont pas été revérifiés dans cette passe ; aucun changement Supabase n'a été effectué.
+
+Voir CHX-05 à CHX-08 dans le [registre des anomalies](REGISTRE-ANOMALIES-EVOLUTION-9.md). Prochaine étape : contrôler la nouvelle CI, puis préparer la recette du worker sur `MajestiOS-Test` sans écrire sur l'environnement avant autorisation ciblée.
