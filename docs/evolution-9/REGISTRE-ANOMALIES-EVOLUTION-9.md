@@ -545,3 +545,14 @@ Le détail et les limites de preuve figurent dans `AUDIT-INTERFACES-CHEEXPEER-20
 | E9-CI-02 | P1 CI | `verify-site.js` | Le script déclarait deux fois `assistantPage`, ce qui bloquait la syntaxe. Après correction, une assertion lisait `sharedNavigation` avant son initialisation, puis la vérification cherchait le gestionnaire du bouton Assistant dans `navigation-tiroirs.js` alors qu'il est dans `app.js`. | Redéclaration supprimée, assertion réordonnée puis ciblée sur `app.js`. Les étapes syntaxe, tests unitaires, build et architecture ont ensuite passé ; le dernier run observé échouait encore sur l'assertion Assistant avant son dernier ajustement. Une CI complète sur le dernier commit reste à obtenir. |
 
 Ne pas déclarer la CI verte tant que le dernier commit Evolution-9 n'a pas terminé tous les contrôles. Les tests non exécutés après un échec précoce ne constituent pas des résultats.
+
+
+## 40. Socle d'exécution Cheexpeer — écarts runtime du 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Action / statut |
+|---|---|---|---|---|
+| CHX-API-01 | P0 avant activation | API utilisateur | Pas d'endpoint utilisateur authentifié pour soumettre, approuver et consulter une mission ; les RPC sont réservées à `service_role`. | Bloquant. Créer des endpoints serveur distincts ; dériver l'acteur du JWT, jamais du client. |
+| CHX-WORKER-02 | P1 | Dérive dépôt/base | MajestiOS-Test possède le socle privé mais son dernier numéro de migration est `20261109205855`; la migration `20261111160000` du tool self-check n'est pas appliquée. Le registre distant ne contient que `test_executor` désactivé. | Réconcilier migrations et objets avant déploiement coordonné ; ne pas activer ni modifier manuellement. |
+| CHX-SEC-03 | P0 avant activation | Approbation | La RPC de décision vérifie le rôle de `p_decision_by`, mais ce paramètre ne prouve pas à lui seul l'identité de l'appelant. | Seule une API serveur vérifiant le JWT peut fournir l'acteur ; ne jamais exposer la RPC ni accepter l'UUID client. |
+
+Le contrôle runtime confirme les politiques RLS de refus navigateur sur les tables privées et les grants réservés à `service_role`. Voir la section 11–13 de l'audit des interfaces.
