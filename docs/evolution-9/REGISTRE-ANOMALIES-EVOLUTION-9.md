@@ -729,3 +729,10 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | UX-EDITORIAL-04 | P2 | Clarté et consentement | Le titre, l'introduction et les trois textes de présentation de la page `reputation-virtuelle.html` ont été raccourcis. La condition d'accord préalable de l'entreprise avant consultation des avis, la validation humaine des réponses et l'absence de connexion Google active restent explicites. | Correction versionnée sur Evolution-9, commit `b911d0ee6f410bd79c4718b1830ffb2f54e601ab`. CI du HEAD final à confirmer. |
 
 Le rapport de la troisième passe éditoriale détaille également la correction UX-EDITORIAL-03 de la page Développement commercial.
+
+
+## 59. Épuration de la page Nous rejoindre — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-05 | P2 | Clarté des parcours de contribution | L'introduction et les textes de présentation des publics (freelances, entreprises, réseaux, salons) ont été raccourcis. La non-disponibilité du dépôt de CV et de l'envoi des demandes, ainsi que l'absence de collecte de CV dans cette version, restent clairement indiquées. Les liens de contact et d'espace membre sont conservés. | Correction versionnée sur Evolution-9, commit `bd9ce119afdb856c492cd35a195de672ca6051c9`. CI du HEAD final à confirmer. |
