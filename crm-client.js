@@ -270,6 +270,15 @@ async function create(table, values) {
   return data;
 }
 
+async function countWorkspaceRecords(table) {
+  if (!tables.includes(table)) throw new Error("Module CRM inconnu.");
+  const { membership } = await requireWorkspace();
+  const { count, error } = await supabase.from(table).select("id", { count: "exact", head: true })
+    .eq("organization_id", membership.organization_id);
+  if (error) throw error;
+  return Number(count || 0);
+}
+
 async function listReminders() {
   const { membership } = await requireWorkspace();
   const { data, error } = await supabase.from("crm_reminders").select("*")
@@ -301,6 +310,7 @@ export const MajestiosCRM = Object.freeze({
   listOpportunities: () => list("opportunities"),
   listActivities: () => list("activities"),
   listReminders,
+  countWorkspaceRecords,
   markReminderRead,
   createBusiness: (values) => create("businesses", values),
   createContact: (values) => create("contacts", values),
