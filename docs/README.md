@@ -32,6 +32,7 @@ La formule « premier vrai CRM tout-en-un » exprime une ambition de différenci
 | Documentation | [Plan de synthèse documentaire](evolution-9/PLAN-SYNTHESE-DOCUMENTAIRE.md) | Hiérarchie des documents, statut des sources et méthode de consolidation |
 | Facturation | [Spécification cible CRM et facturation électronique](evolution-9/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md) | Cycle devis → facture → PA → règlement, modes natif/connecté/hybride et critères d'acceptation |
 | Recette CRM | [Protocole de recette MajestiOS-Test](evolution-9/PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md) | Scénarios rôles, données, historique, relances et isolation multi-tenant — préparé, non exécuté |
+| Provisionnement recette | [Identités de recette CRM](evolution-9/PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md) | Création Auth normale, memberships administratifs et garde-fous — procédure préparée, aucun compte créé |
 | Architecture | [Architecture cible CRM tout-en-un](evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md) | CRM natif/externe, facturation, Connect, Supabase et Cheexpeer — à consolider |
 | UX | [Plan de refonte UX](evolution-8/PLAN-REFONTE-UX.md) | Accueil, navigation et parcours |
 | Audit de l'existant | [Audit Evolution-7 du 11 novembre](evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) | État vérifié du site, CRM interne, Supabase, Cheexpeer et Vercel |
