@@ -210,3 +210,38 @@ Le système doit réutiliser les données déjà saisies (raison sociale, SIREN,
 Chaque proposition est facultative : démarrer, différer, ignorer ou refuser. Les résultats et décisions doivent être historisés dans le CRM, sous le tenant concerné, avec consentement/base légale et politique de conservation adaptés. Aucune souscription, transmission à un partenaire, publication, émission de facture ou action externe sans validation explicite.
 
 **Positionnement produit :** ces deux parcours deviennent les premiers services d'accueil d'une nouvelle entreprise, avant les modules plus avancés de scoring, prospection et opportunités. Ils donnent à MajestiOS un point d'entrée utile et mesurable, tout en préparant la relation client et le futur CRM de facturation.
+
+
+## 17. Facturation et intégration CRM — audit du périmètre réel
+
+### Éléments effectivement présents
+
+- La page `facturation-electronique.html` est une page d'information et d'orientation : calendrier, rôle des plateformes agréées, distinction PDF/facture électronique, sources officielles et positionnement MajestiOS.
+- Elle indique explicitement que MajestiOS n'est pas une plateforme agréée et qu'aucun partenaire ni connecteur n'est opérationnel.
+- Le document `SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md` décrit une architecture cible cohérente : CRM commercial, domaine Facturation indépendant de l'écran CRM et couche Connect vers les plateformes agréées ; modes natif, connecté et hybride ; source de référence par objet ; idempotence, historisation, export et réversibilité.
+- La page facturation contenait une référence obsolète à Evolution-8. Correction effectuée sur Evolution-9 : elle indique désormais que le cadrage est en cours dans Evolution-9, tout en maintenant clairement l'absence de module et de connecteurs en production.
+
+### Absences vérifiées dans le dépôt inspecté
+
+- Aucun module applicatif de devis, facture, avoir, règlement, échéancier ou rapprochement n'a été identifié.
+- Aucun schéma ou migration SQL de facturation n'a été identifié dans le périmètre Evolution-9.
+- Aucun connecteur PA, webhook de statut, bac à sable partenaire ou traitement d'e-reporting n'est présent dans le périmètre inspecté.
+- Le CRM courant ne contient pas de tables ni de fonctions de facturation. Les listes blanches de création/modification couvrent entreprises, contacts et opportunités ; les activités sont append-only. Aucun champ de facturation ni action devis/facture n'est proposé.
+- Le formulaire de création d'entreprise ne déclenche pas encore les deux diagnostics facultatifs définis en section 16. Le parcours de facturation n'est donc pas relié à l'onboarding CRM.
+- La page d'information ne propose pas de formulaire dédié permettant de qualifier le besoin, de demander un diagnostic ou de transmettre une demande d'accompagnement ; elle renvoie essentiellement vers des ressources et pages internes.
+
+### Décisions et garde-fous
+
+1. Ne pas ajouter quelques colonnes de facture au CRM actuel : conserver un domaine Facturation distinct, avec des identifiants stables et des contrats API.
+2. Avant toute table, préciser les modèles de devis, facture, lignes, taxes, avoirs, échéances, paiements, événements, pièces et statuts ; faire valider les règles fiscales, comptables et de conservation.
+3. Définir la source de référence pour chaque objet dans les modes natif, connecté et hybride ; empêcher la double création et les synchronisations non idempotentes.
+4. Préparer d'abord un prototype entièrement synthétique, sans émission réelle ni transmission PA.
+5. Ne choisir une PA qu'après étude de son statut officiel à date, couverture des flux, API/sandbox, coûts, contrat, responsabilités et réversibilité.
+6. Relier le diagnostic de préparation à la facturation électronique à la création CRM, mais en mode facultatif et avec données manquantes confirmées par le client ; ne pas déduire une obligation fiscale du seul code APE/NAF.
+7. Distinguer dans l'interface la préparation et le conseil MajestiOS des opérations réglementaires réellement assurées par une PA.
+
+### Correction de contenu effectuée
+
+La référence « conception dans Evolution-8 » de la page `facturation-electronique.html` a été remplacée par une référence exacte à Evolution-9. Aucun calendrier légal, lien officiel ou statut de disponibilité n'a été modifié par ce correctif.
+
+**Conclusion :** le cadrage cible est déjà documenté ; la fonctionnalité applicative de facturation n'est pas encore construite. La priorité actuelle est la qualification d'onboarding et la validation de l'architecture phase 2, pas la création prématurée de tables ou d'un bouton « facturer ».
