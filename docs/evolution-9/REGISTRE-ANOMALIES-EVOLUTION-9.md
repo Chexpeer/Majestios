@@ -633,3 +633,10 @@ Aucun endpoint ni migration n'a été déployé. MajestiOS-Test demeure en lectu
 | E9-CI-03 | P1 | Annulation des CI | Le workflow `verify-site.yml` utilise `cancel-in-progress: true`. Les pushes successifs sur Evolution-9 ont annulé les exécutions précédentes ; seule une exécution du SHA final, sans push concurrent, peut servir de preuve. | Laisser terminer la CI du HEAD stabilisé ; envisager une stratégie de concurrence qui n'annule pas la validation du HEAD final. |
 
 Ces constats proviennent de la réponse GitHub sur les branches et des exécutions Actions de ce lot. La protection de branche n'a pas été modifiée et aucun changement n'a été apporté à `main`.
+
+
+## 48. Fermeture du cas d'approbation inter-tenant multi-rôles — 11 novembre 2026
+
+| ID | Priorité | Risque | Correction | Statut |
+|---|---|---|---|---|
+| CHX-SEC-05 | P0 avant activation | Un utilisateur owner/admin de plusieurs organisations pouvait déclarer le tenant A tout en présentant une approbation du tenant B ; le contrôle interne de rôle seul ne liait pas la requête au tenant déclaré. | La façade SQL de décision vérifie désormais l'organisation réelle de l'approbation par jointure avant d'appeler la RPC interne ; l'Edge Function transmet le tenant autorisé. | Source Git corrigée et test de contrat ajouté ; test PostgreSQL/Auth à deux tenants encore requis. |
