@@ -242,3 +242,26 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 **Modification de test :** le test `tests/navigation-classique.browser.cjs` compare désormais la structure complète du menu sur les pages HTML publiques présentes dans `site-files.json`, puis revient à l'accueil pour poursuivre les scénarios existants. Modifications desktop et mobile enregistrées dans les commits `8244bead2394a4ca5cd0849df9fbef25cb810243` et `3bdc29cb35a9146c8a010bce56438c3758f38d5c`. Le registre et le README ont été mis à jour dans les commits `662fb4abab3ef66c3a7826931e99cf1f3000cacc` et `daaa209ef4faf52a2cca9156e55d359eaa369c5a`. Les écrans CRM et cockpits privés sont exclus de cette comparaison publique et restent explicitement dans le périmètre de revue dédié. Cette exclusion est provisoire : elle ne vaut pas dérogation à la demande d'une navigation cohérente sur toutes les pages ; il reste à harmoniser leur navigation spécifique sans supprimer leurs accès métier.
 
 **Limite de preuve :** le test a été modifié sur Evolution-9 ; il n'a pas encore été exécuté après cette modification. Aucune correction visuelle ou déploiement n'est déclaré à ce stade.
+
+
+## 23. Exigence utilisateur — harmonisation de la charte graphique multi-espaces — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Exigence / traitement | Statut |
+|---|---|---|---|---|---|
+| UX-02 | P1 | Identité graphique transversale | Une feuille centrale `charte-majestios.css` définit déjà des variables bleu nuit/or et des composants communs. Elle est chargée sur le CRM et l'espace privé, mais les interfaces `administration.html` et `espace-interne.html` reposent sur leurs propres palettes et feuilles CSS. Le CRM utilise aussi plusieurs surfaces claires et styles métier spécifiques. La présence d'une feuille commune ne prouve donc pas l'uniformité visuelle de toutes les pages. | Harmoniser toutes les pages publiques et privées autour d'un langage visuel MajestiOS commun : bleu nuit, or, chrome/acier, typographies et échelles cohérentes, rayons, bordures, ombres, boutons, champs, cartes, états actifs/focus/erreur/succès et responsive. Conserver des variations de surface justifiées par l'usage (cockpit sombre, formulaires clairs, etc.) uniquement si elles restent dans la même grammaire graphique et respectent le contraste. | Ouvert — audit comparatif et recette visuelle à réaliser avant toute clôture. |
+
+### Critères de recette UX-02
+
+- [ ] Définir les tokens canoniques (couleurs, surfaces, textes, typographies, espacements, rayons, ombres, bordures, focus et états) dans la charte centrale, sans multiplier les sources de vérité.
+- [ ] Inventorier les feuilles CSS globales, spécifiques et styles inline ; repérer les couleurs concurrentes, doublons et surcharges qui contredisent la charte.
+- [ ] Harmoniser l'identité de l'accueil, des pages publiques, de l'espace privé/VIP, du CRM, de l'administration et de l'espace collaborateurs.
+- [ ] Garder les contrastes accessibles : le chrome est un accent et non un texte pâle sur fond clair ; les textes et commandes restent lisibles.
+- [ ] Unifier boutons, champs, cartes, tableaux, alertes, badges, liens, focus clavier et états désactivés, sans supprimer de fonction ni d'information.
+- [ ] Vérifier desktop (1440 px), tablette et mobile (390 px), y compris débordements, densité, tailles tactiles et hiérarchie visuelle.
+- [ ] Contrôler ensemble navigation et charte : même barre globale, même signature de marque, sous-menus lisibles ; espaces métier gardant uniquement les adaptations nécessaires.
+- [ ] Comparer des captures avant/après sur les pages de référence et vérifier les parcours réels ; une simple présence de `charte-majestios.css` ou un build réussi ne suffit pas.
+- [ ] Ne clôturer UX-02 qu'après tests automatisés, revue visuelle multi-pages et validation de non-régression fonctionnelle.
+
+**Pages à inclure explicitement dans la comparaison :** accueil, une page de rubrique publique, résultats de recherche, espace privé (entrée VIP), espace collaborateurs, CRM interne, administration et recherches ciblées.
+
+**Garde-fou :** ne pas imposer un fond sombre uniforme à toutes les pages. L'objectif est une identité cohérente et premium, pas une uniformisation qui dégrade la lecture, les formulaires ou l'ergonomie. Aucun changement de données, de droits ou de services distants n'est autorisé par cette exigence graphique.
