@@ -806,3 +806,11 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | UX-EDITORIAL-13 | P1 | CRM — transparence fonctionnelle | Le texte de l'interface affirmait que le serveur actualisait les relances affichées toutes les cinq minutes. Le code charge les relances dans `refresh()`, sans démontrer un rafraîchissement périodique de l'écran. | Corrigé sur Evolution-9 : distinction entre conservation, matérialisation planifiée et rechargement de l'interface. Activation réelle du traitement à confirmer par environnement ; recette distante non déclarée. |
+
+
+
+## 68. Formulation trop large sur l'historique CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-14 | P1 | CRM — historisation | L'introduction regroupait les activités et l'historisation automatique des modifications sous le seul terme « historique », alors que l'audit relève l'absence des triggers attendus sur le projet principal. | Corrigé dans le texte ; l'écart technique reste ouvert et aucune migration distante n'a été appliquée. |
