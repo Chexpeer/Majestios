@@ -65,4 +65,4 @@ Sauf autorisation explicite du porteur du projet, aucun agent ne doit :
 **Règle :** actualiser ce point d'entrée et le registre détaillé à chaque évolution significative des anomalies critiques.
 
 
-**État Evolution-9 — 11 novembre 2026 :** NAV-01 a été corrigée dans Evolution-8 et la nouvelle branche reprend cette correction. Le contrôle documentaire des liens locaux a été ajouté au workflow, mais son exécution CI reste à confirmer. Les autres anomalies héritées restent ouvertes jusqu'à preuve contraire.
+**État Evolution-9 — 11 novembre 2026 :** NAV-01 a été corrigée dans Evolution-8 et la nouvelle branche reprend cette correction. Le contrôle documentaire des liens locaux a été ajouté au workflow et a réussi dans la suite GitHub Actions du commit `2438d8fd96f8e1d10676b8d193a5e99247096c67`. Les autres anomalies héritées restent ouvertes jusqu'à preuve contraire.
