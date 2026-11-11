@@ -49,6 +49,8 @@ for (const page of pages) {
 }
 
 
+const privateAccessPage = fs.readFileSync(path.join(root, "espace-prive.html"), "utf8");
+assert(privateAccessPage.includes('href="charte-majestios.css"'), "Espace privé / Accès VIP : la charte graphique commune MajestiOS doit être chargée");
 const adminPage = fs.readFileSync(path.join(root, "administration.html"), "utf8");
 assert(siteFiles.includes("administration.html"), "Administration : page absente du manifeste");
 const searchPagePath = path.join(root, "admin-recherches.html");
