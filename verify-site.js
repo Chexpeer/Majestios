@@ -58,7 +58,7 @@ assert(eInvoicePage.includes("MajestiOS n'est pas une plateforme agréée"), "Fa
 
 const reputationPage = fs.readFileSync(path.join(root, "reputation-virtuelle.html"), "utf8");
 assert(/<section class="audit-dossier"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : le formulaire principal de préparation doit rester masqué dans l’interface publique");
-assert(/<div class="reputation-searches"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : les formulaires Google Web et Maps doivent rester masqués dans l’interface publique");
+assert(/<div class="reputation-searches"[^>]*>/.test(reputationPage) && !/<div class="reputation-searches"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : les formulaires Google Web et Maps doivent être visibles dans l’interface publique");
 
 const privateAccessPage = fs.readFileSync(path.join(root, "espace-prive.html"), "utf8");
 assert(privateAccessPage.includes('href="charte-majestios.css"'), "Espace privé / Accès VIP : la charte graphique commune MajestiOS doit être chargée");
