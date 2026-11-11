@@ -117,3 +117,8 @@ Cette prévisualisation confirme le build du site sur son commit source. La suit
 Le contrôle en lecture seule des deux projets Supabase, de la configuration frontend, des migrations, des tables/RLS, des fonctions Edge et des RPC est consigné dans [AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md](AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md). Le site pointe actuellement vers `majestios-crm` (22 migrations), tandis que `MajestiOS-Test` en possède 39 ; les environnements ne sont pas synchronisés. Aucun changement distant n'a été effectué.
 
 **CI Evolution-9 :** run [43011364291](https://github.com/Chexpeer/Majestios/actions/runs/43011364291), commit `0c919df639cef0849508445e63c1f6aa6eb78f83`, conclusion `success`.
+
+
+## 12. Clarification des environnements Supabase — 11 novembre 2026
+
+`MajestiOS-Test` est l'environnement de test/recette et `majestios-crm` est le projet actuellement ciblé par le frontend. Leurs 39 et 22 migrations reflètent des périmètres différents ; cet écart n'est pas à corriger par synchronisation automatique. Le CRM du projet principal reste verrouillé VIP owner/admin ; le socle multi-tenant et le worker Cheexpeer en mode `readiness_probe` sont sur le projet de test. Voir l'addendum du rapport d'audit pour les droits RPC et les limites précises. Aucune écriture distante n'a été effectuée.
