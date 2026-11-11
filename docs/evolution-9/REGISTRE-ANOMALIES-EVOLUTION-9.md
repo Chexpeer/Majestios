@@ -384,3 +384,12 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 - **Règle d'activation :** aucune mission métier ne doit être activée avant handler explicite, outil autorisé, contexte organisationnel, validation adaptée, journal de preuve, gestion des baux et recette sur environnement de test.
 
 Cette synthèse est une lecture du dépôt et des derniers constats distants consignés ; elle ne remplace pas une nouvelle vérification des versions déployées. Aucun accès distant, déploiement ou changement Supabase n'a été effectué dans cette passe.
+
+
+## 14. Garde-fou préventif sur les décisions d'approbation — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Exigence avant raccordement |
+|---|---|---|---|---|
+| CHX-13 | P1 sécurité | Identité de l'approbateur | La RPC privée `cheexpeer_decide_approval` reçoit un paramètre `p_decision_by` puis vérifie que cet UUID appartient à l'organisation avec le rôle owner/admin. La fonction est réservée à `service_role` ; elle ne lie donc pas elle-même ce paramètre à un JWT utilisateur. Le pont worker actuel ne publie pas cette action, ce qui évite son exposition directe par ce pont. | Toute future API d'approbation doit authentifier la session, dériver l'UUID côté serveur à partir du JWT vérifié, ignorer tout UUID d'acteur fourni par le navigateur, vérifier l'organisation et journaliser la décision. Ajouter tests négatifs de falsification d'identité et tests inter-organisations avant activation. |
+
+**Qualification :** point de conception préventif, pas preuve d'une exposition actuelle. Ne pas ajouter la décision d'approbation à la liste d'actions du worker. L'approbation est une décision utilisateur, distincte de l'exécution technique du worker.
