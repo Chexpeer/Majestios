@@ -30,6 +30,26 @@ async function main() {
     const errors=[];
     page.on("pageerror",error=>errors.push(error.message));
 
+    // Même inventaire de pages sur mobile : barre compacte, hamburger et tiroir utilisables.
+    await page.setViewportSize({width:390,height:844});
+    for (const route of publicPages) {
+      await page.goto("http://127.0.0.1:4174/"+route,{waitUntil:"domcontentloaded"});
+      await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
+      const mobileButton = page.locator("#menu-toggle");
+      await mobileButton.waitFor({state:"visible",timeout:15000});
+      assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"48px",
+        "La barre mobile doit conserver sa hauteur commune sur "+route);
+      await mobileButton.click();
+      assert.equal(await page.locator("#site-nav").evaluate(node=>node.classList.contains("open")),true,
+        "Le tiroir mobile doit s'ouvrir sur "+route);
+      assert.ok(await page.locator("#site-nav").evaluate(node=>node.getBoundingClientRect().width<=360),
+        "Le tiroir mobile doit rester compact sur "+route);
+      await page.locator("#site-nav .nav-group-link").first().click();
+      assert.equal(await page.locator("#site-nav .nav-group-items").first().isVisible(),true,
+        "Le premier sous-menu doit être accessible au toucher sur "+route);
+      await mobileButton.click();
+    }
+    await page.setViewportSize({width:1440,height:900});
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
