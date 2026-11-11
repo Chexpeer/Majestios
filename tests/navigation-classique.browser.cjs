@@ -117,7 +117,7 @@ async function main() {
       const toggle = document.querySelector(".majestios-chat-toggle");
       return toggle && getComputedStyle(toggle).position === "fixed";
     },{timeout:15000});
-    assert.ok((await page.locator(".assistant-status").textContent()).includes("Connexion à activer"),
+    assert.ok((await page.locator(".assistant-status").textContent()).includes("IA à raccorder"),
       "L'espace dédié doit annoncer honnêtement que le moteur IA reste à raccorder.");
     await page.locator(".majestios-chat-toggle").click();
     await page.locator("#majestios-chat-input").fill("Comment suivre les annonces BODACC ?");
