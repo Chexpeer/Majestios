@@ -781,3 +781,12 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | UX-EDITORIAL-10 | P2 | Clarté éditoriale | L'introduction de `vision-majestios.html` développait longuement une idée déjà portée par le titre et la doctrine. Elle a été condensée en deux phrases, en conservant sa position dans le bloc d'ouverture et sans modifier la doctrine ni les limites de promesse. | Correction versionnée sur Evolution-9, commit `468a191c2e9d87000e55cbf4cdf4bb12dffec000`. CI du HEAD final à confirmer. |
 
 Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 65. Suppression des vestiges de la navigation en étages — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-11 | P2 | Cohérence de navigation et sobriété éditoriale | Les pages Marchés publics, Marchés privés, Accompagnement aux appels d’offres et Espace membre conservaient des repères « ÉTAGE ». La page Accompagnement affichait encore un bâtiment et un parcours visuel présenté comme interactif, alors que cette représentation a été abandonnée au profit d'une navigation classique. | Corrigé sur Evolution-9 : repères retirés, carte d'accompagnement simplifiée, contenu métier et liens conservés. CI du HEAD final à vérifier. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md). Aucun changement de fonctionnalité backend ou de navigation réelle n'est impliqué.
