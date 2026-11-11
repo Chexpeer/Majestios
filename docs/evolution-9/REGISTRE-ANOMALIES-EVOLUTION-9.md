@@ -282,7 +282,7 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 
 | ID | Priorité | Domaine | Cause / correction | Statut |
 |---|---|---|---|---|
-| NAV-06 | P1 | Page Cheexpeer historique | `majestios-v5.html` conservait un bouton de menu sans l'identifiant `menu-toggle` attendu par le script commun. L'identifiant a été ajouté sans modifier le contenu ni la destination de la page. | Corrigé dans le test ; recette navigateur à confirmer. |
+| NAV-06 | P1 | Contrat du bouton mobile | Certaines pages historiques utilisent la classe `.menu-toggle` sans identifiant `menu-toggle`. Le script partagé accepte les deux formes ; le test a été aligné sur ce contrat et la modification inutile de `majestios-v5.html` a été annulée. | Corrigé ; CI verte sur HEAD 905041b. |
 | UX-04 | P1 | Source des tokens | La première couche privée consommait des variables définies uniquement par `charte-majestios.css`, absente de certains espaces privés. Les valeurs communes sont maintenant extraites dans `charte-majestios-tokens.css`, importée par les deux feuilles de composants. | Source commune intégrée ; build et recette à confirmer. |
 
 **Garde-fou :** les pages privées ne chargent pas la feuille de composants publics complète ; elles consomment uniquement les tokens partagés et leur couche d'adaptation. Les surfaces et mises en page spécifiques sont conservées.
@@ -330,3 +330,15 @@ Le déploiement est prêt et correspond exactement au commit de la recette CI ve
 | UX-05 | P1 | Régression des tokens graphiques | `verify-architecture.js` contrôle désormais la présence des tokens centraux dans le manifeste, leur import par les deux feuilles de composants et le chargement de la couche privée sur CRM, administration, recherches ciblées et espace collaborateurs. | Contrôle statique ajouté ; CI à confirmer. |
 
 Ce contrôle vérifie le contrat de chargement et de source unique ; il ne remplace pas la recette du contraste, du rendu, des tailles et des états interactifs dans un navigateur.
+
+
+## 30. CI verte et reprise CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause / correction | Statut |
+|---|---|---|---|---|
+| CI-05 | P1 CI | Validation globale Evolution-9 | Le workflow `verify-static-site` a réussi sur le HEAD `905041b6c736a1c66adade91561beb623c67a1fe` (run 43042947816). Les tests navigateur desktop/mobile et les contrôles CRM statiques sont inclus. | <badge>SUCCESS</badge> CI verte. |
+| CRM-06 | P0 | Sécurité du CRM sur le projet principal | L'audit lecture seule constate encore des privilèges UPDATE trop larges et l'absence des triggers d'historisation sur `majestios-crm`. Les migrations correctives sont présentes dans Git mais non appliquées à distance. | Bloqué : plan et autorisation Supabase requis. |
+| CRM-07 | P1 | Recette multi-tenant | Le protocole de test existe, mais les identités/organisations synthétiques et scénarios JWT multi-rôle ne sont pas exécutés. | Préparé, NOT RUN. |
+| F2-01 | P2 | Préparation facturation CRM | Le CRM actuel ne possède pas de domaine facture opérationnel ni d'adresse/contact de facturation distincts. La cible est cadrée en phase 2, domaine séparé relié au CRM. | Cadrage documenté ; aucune implémentation revendiquée. |
+
+**Limite :** la CI verte ne prouve ni la sécurité effective du projet Supabase distant, ni une recette métier multi-utilisateur, ni la validation visuelle. Aucun changement Supabase/Vercel n'a été effectué.

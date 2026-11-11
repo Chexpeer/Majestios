@@ -245,3 +245,47 @@ Un second contrôle strictement en lecture seule a confirmé l'état nécessaire
 - Redondance AN-15 confirmée : deux triggers d'intégrité appellent la même fonction sur businesses, contacts, opportunities et activities.
 
 **Conclusion actualisée :** le socle de test est présent, mais les identités et tenants synthétiques n'existent pas. La recette multi-tenant ne peut pas commencer sans provisionnement contrôlé de ces éléments. Aucun compte, tenant, enregistrement, migration, paramètre ou fonction n'a été modifié lors de ce contrôle.
+
+
+## 14. Reprise de l'audit CRM après recette CI — 11 novembre 2026, 15:00
+
+### 14.1 État du code CRM constaté
+
+Le CRM interne actuellement livré dans le dépôt expose les domaines suivants : entreprises, contacts, opportunités, activités et relances persistantes. Le client vérifie la session Auth, l'identité effective, l'appartenance à une organisation interne unique et le rôle owner/admin. Les formulaires et listes sont présents dans `crm.html`, avec pagination et recherche serveur.
+
+Le périmètre observé ne comprend pas de domaine opérationnel devis/factures/avoirs/règlements, ni de connecteur PA. La page `facturation-electronique.html` est une page d'information et d'accompagnement, pas un écran de facturation. Ce constat est conforme au cadrage phase 2 ; il ne faut pas présenter la facturation comme disponible.
+
+### 14.2 Préparation facturation : écarts de modèle à conserver dans le backlog phase 2
+
+Le schéma CRM actuel contient notamment `vat_number`, les coordonnées générales de l'entreprise, les identifiants légaux et les relations tenant. Il ne démontre pas encore :
+- une adresse de facturation distincte de l'adresse commerciale ;
+- des contacts de facturation ou règles de destinataire ;
+- des devis versionnés et acceptations ;
+- des commandes, prestations ou interventions reliées aux documents ;
+- des factures, avoirs, lignes, taxes, échéances et règlements ;
+- des statuts de transmission PA, rejets, webhooks et clés d'idempotence ;
+- un stockage documentaire métier privé et une politique de conservation.
+
+Ces éléments ne doivent pas être ajoutés sous forme de colonnes ou tables improvisées dans le CRM interne. Ils relèvent du domaine MajestiOS Facturation et de MajestiOS Connect, à concevoir en phase 2 selon la spécification cible. Le CRM actuel doit préserver les identifiants stables, les relations, la provenance, l'historisation, les permissions et des contrats d'intégration sans dépendance à une PA.
+
+### 14.3 Bloquants sécurité et recette
+
+Le projet configuré par le frontend reste `majestios-crm`, distinct de `MajestiOS-Test`. L'audit en lecture seule signale toujours, sur le projet principal, les privilèges UPDATE trop larges sur les fiches entreprises/contacts/opportunités et l'absence des triggers d'historisation présents dans le projet de test. Les migrations correctives sont versionnées dans Git, mais ne sont pas déployées sur le projet principal. La CI statique verte ne modifie pas ce constat.
+
+Le protocole de recette `PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md` reste préparatoire : aucun tenant ni compte synthétique n'est prêt, et aucun scénario JWT multi-rôle/inter-organisation n'est déclaré exécuté. Aucune action Supabase distante n'a été effectuée dans cette reprise.
+
+### 14.4 CI du dépôt — contrôle actualisé
+
+Le workflow `verify-static-site` a terminé avec succès sur le HEAD Evolution-9 `905041b6c736a1c66adade91561beb623c67a1fe`, run [43042947816](https://github.com/Chexpeer/Majestios/actions/runs/43042947816). Les contrôles exécutés comprennent syntaxe JavaScript, contrats Cheexpeer, sécurité CRM statique, build, architecture/routes, liens et identifiants, documentation, tests navigateur de navigation desktop/mobile, recherche, Réputation virtuelle, BOAMP/BODACC, contact sans transmission et verrouillage du cockpit sans session.
+
+**Interprétation :** CI verte = contrôles automatisés du dépôt réussis. Elle ne vaut ni migration Supabase, ni test multi-utilisateur distant, ni validation visuelle, ni déploiement production.
+
+### 14.5 Ordre de poursuite
+
+1. Sécuriser et recetter le CRM sur un environnement de test explicitement autorisé, en commençant par les privilèges de colonnes et l'historisation.
+2. Établir les scénarios owner/admin/member/viewer et l'isolation inter-organisations avec données synthétiques.
+3. Contrôler le parcours CRM complet entreprise → contact → opportunité → activité → relance.
+4. Reprendre ensuite l'audit Cheexpeer et son écart entre code Git et worker réellement déployé.
+5. Terminer par la consolidation documentaire et la revue visuelle des espaces privés.
+
+**Aucune écriture Supabase, migration, modification de données, déploiement Vercel ou promotion production n'a été effectuée.**

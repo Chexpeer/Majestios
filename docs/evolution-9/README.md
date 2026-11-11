@@ -204,3 +204,12 @@ La protection SSO du projet reste active. Le rendu n'a pas pu être inspecté au
 Le vérificateur d'architecture contrôle maintenant que les tokens sont déclarés une seule fois, importés par les feuilles publiques et privées, publiés dans le manifeste et chargés sur les quatre espaces privés de référence. Ce contrôle empêche le retour de variables graphiques privées non raccordées à la charte commune.
 
 **Limite :** le contrôle est structurel ; il ne certifie pas le contraste ni la qualité du rendu visuel. La recette par captures reste nécessaire.
+
+
+## 26. Reprise de l'audit CRM — état vérifié au 11 novembre 2026, 15:00
+
+La CI Evolution-9 est verte sur le HEAD `905041b6c736a1c66adade91561beb623c67a1fe` ([run 43042947816](https://github.com/Chexpeer/Majestios/actions/runs/43042947816)). Le contrôle comprend les tests statiques CRM, les parcours navigateur desktop/mobile et les vérifications d'architecture.
+
+La reprise de l'audit CRM confirme que le CRM interne actuel couvre entreprises, contacts, opportunités, activités et relances persistantes. Il ne comporte pas de facturation opérationnelle. La facturation électronique reste une phase 2, cadrée comme un domaine distinct (MajestiOS Facturation + MajestiOS Connect), et non comme une simple extension de tables CRM.
+
+Les points bloquants restent distants : privilèges UPDATE trop larges et historisation incomplète sur `majestios-crm`, ainsi que l'absence de recette multi-rôle/inter-organisation exécutée sur `MajestiOS-Test`. Les migrations correctives présentes dans Git ne sont pas appliquées à distance. **Aucune écriture Supabase ni aucun déploiement de production n'a été réalisé.**
