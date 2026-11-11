@@ -702,3 +702,12 @@ Cheexpeer doit tenir les pairs, partenaires et relais professionnels de MajestiO
 | UX-EDITORIAL-01 | P2 | Clarté des contenus publics | Plusieurs accroches et explications répétaient la même idée ou utilisaient des formulations longues. Les pages Accueil, Développement commercial, Marchés publics, Marchés privés, Accompagnement, Contact et FAQ ont été raccourcies. Les avertissements sur les exemples fictifs, les annonces à vérifier, les formulaires non transmetteurs et les fonctions en préparation ont été conservés. | Modifications versionnées sur Evolution-9. Contrôles d'architecture et de site adaptés au nouveau texte d'accueil. Build, vérifications statiques, liens documentaires et tests navigateur réussis sur le commit `65e4aaaebe2762417d3823319c1df6e5d43dc30b`, workflow GitHub Actions `43101656463` (success). |
 
 Référence et détail : [Épuration éditoriale du site](EPURATION-EDITORIALE-SITE-2026-11-11.md). Cette passe ne couvre pas encore les 39 pages. Les pages réglementaires et légales n'ont pas été réécrites. Aucune route ni fonctionnalité n'a été supprimée.
+
+
+## 56. Deuxième passe d'épuration éditoriale — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-02 | P2 | Lisibilité de l'écosystème | Les pages Réseaux et synergies, Veille des marchés, Veille BODACC, Intelligence économique, Sous-traitance, Suivi commercial et Salons/Séminaires ont été raccourcies. Les limites de disponibilité, la distinction signal/commande et le consentement sont conservés. | Modifications versionnées sur Evolution-9 ; CI du HEAD final à confirmer. |
+
+Détail : [rapport de la deuxième passe éditoriale](EPURATION-EDITORIALE-PASSE-2-2026-11-11.md).
