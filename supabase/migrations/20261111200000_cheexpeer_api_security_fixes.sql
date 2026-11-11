@@ -50,6 +50,14 @@ begin
     raise exception 'scheduled_at is required' using errcode = '22023';
   end if;
 
+  -- Le worker actuellement versionné ne sait exécuter que readiness_probe
+  -- au niveau d'autonomie 0. Refuser tout autre contrat jusqu'à activation
+  -- explicite d'un exécuteur et de ses tests.
+  if p_mission_type <> 'readiness_probe' or p_autonomy_level <> 0 then
+    raise exception 'mission type or autonomy level is not currently supported'
+      using errcode = '0A000';
+  end if;
+
   if p_idempotency_key is not null
      and (pg_catalog.length(p_idempotency_key) > 200
        or nullif(pg_catalog.btrim(p_idempotency_key), '') is null) then
