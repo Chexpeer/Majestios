@@ -497,3 +497,12 @@ La page Assistant reste un guide local à mots-clés ; cette correction d'ergono
 ## 35. Balayage SEO des 39 pages HTML — 11 novembre 2026
 
 Le contrôle de présence a parcouru les 39 pages HTML du manifeste : title, meta description et au moins un H1 sont présents sur chaque page inspectée. Aucun canonical n'a été trouvé dans les 39 pages. L'unicité des titres/descriptions et les audits Lighthouse/accessibilité restent à exécuter. Les directives noindex ont été ajoutées à espace-membre.html et resultats-recherche.html ; CRM, administration, espace-prive, espace-interne et admin-recherches les possédaient déjà. L'indexation n'est jamais une barrière de sécurité.
+
+## 36. Couverture des compteurs et relances CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| CRM-10 | P1 avant usage intensif | Compteurs et tableau de relances | Les listes CRM historiques plafonnent à 100 lignes. Les compteurs Contacts, Opportunités et Activités pouvaient donc afficher un volume partiel ; le tableau de relances et les notifications navigateur ne traitent que les 100 premières opportunités retournées. | Compteurs exacts tenant-scoped ajoutés avec count/head ; l'aperçu des relances affiche désormais explicitement sa couverture partielle quand le total dépasse les lignes chargées. La complétude fonctionnelle des alertes au-delà de 100 reste à concevoir. |
+| CRM-11 | P2 | Relances persistantes | La liste des relances persistantes est plafonnée à 100 éléments sans avertissement visible si davantage sont en attente. | Ouvert — ajouter un compteur exact et un signalement de troncature avant de considérer la rubrique exhaustive. |
+
+Les contrôles countWorkspaceRecords sont tenant-scoped et ne téléchargent pas les fiches. Ils ne remplacent pas les politiques RLS ni les tests inter-organisations. Aucun appel d'écriture ou changement distant Supabase n'a été effectué.
