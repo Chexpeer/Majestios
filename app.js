@@ -13,6 +13,14 @@ if (!document.querySelector('script[src*="navigation-tiroirs.js"]')) {
   drawerScript.dataset.majestiosDrawer = "true";
   document.head.append(drawerScript);
 }
+if (!document.querySelector('link[data-majestios-chat-css]') &&
+    !document.querySelector('link[href*="majestios-chat.css"]')) {
+  const chatStyle = document.createElement("link");
+  chatStyle.rel = "stylesheet";
+  chatStyle.href = new URL("majestios-chat.css", document.baseURI).href;
+  chatStyle.dataset.majestiosChatCss = "true";
+  document.head.append(chatStyle);
+}
 const leadForm = document.querySelector("#lead-form");
 const formFeedback = document.querySelector("#form-feedback");
 const advancedSearchForm = document.querySelector("#advanced-search-form");
