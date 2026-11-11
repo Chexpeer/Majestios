@@ -108,3 +108,14 @@ Ces précisions sont établies par lecture seule des projets le 11 novembre 2026
 - **AN-15 / triggers redondants de test :** dans MajestiOS-Test, deux triggers BEFORE INSERT/UPDATE par table CRM appellent la même fonction d'intégrité tenant (*_enforce_tenant_integrity et *_tenant_integrity). Dette de nettoyage P2, sans impact fonctionnel démontré ; ne pas supprimer avant analyse des migrations et des dépendances.
 
 Le détail des contrôles et des limites figure dans la section 11.7 du rapport d'audit. Aucun changement distant n'a été effectué.
+
+
+## 11. Complément audit CRM métier — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Statut / traitement |
+|---|---|---|---|---|
+| CRM-04 | P2 | Robustesse des écritures frontend | Les fonctions create* du client CRM acceptaient des objets sans liste blanche explicite par table. | **Corrigé dans Evolution-9** : listes blanches par table, champs d'organisation/auteur imposés côté client, test de contrat ajouté. Le contrôle « Vérifier le contrat de sécurité du CRM » a réussi sur le commit 5976681bc72f089c9bdb94a26951a7622254267a. Cette correction ne remplace pas les protections SQL. |
+| CRM-05 | P1 avant pilote | Recette fonctionnelle et multi-tenant | Aucun parcours E2E complet du CRM n'est actuellement exécuté dans le workflow : création, édition, historique, relance et refus inter-organisations ne sont pas testés ensemble contre une base de test avec plusieurs identités. | **Ouvert** : préparer une recette automatisée sur MajestiOS-Test, avec organisations et comptes synthétiques, sans toucher au projet principal. |
+| CRM-06 | P2 avant automatisation serveur | Traçabilité des écritures système | Le trigger d'historisation utilise auth.uid() pour actor_user_id ; une écriture déclenchée avec le rôle service peut donc être historisée sans acteur humain identifié. | **À concevoir** : ajouter une attribution système/mission explicite et traçable avant les imports automatisés et les missions Cheexpeer. Ne jamais attribuer artificiellement l'action à un utilisateur humain. |
+
+Le CRM interne reste limité aux rôles owner et admin. Le chemin d'interface viewer actuellement présent est inaccessible avec cette règle ; il ne constitue pas une activation du CRM client. Les rôles du futur CRM client devront être définis séparément et testés par tenant.
