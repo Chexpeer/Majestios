@@ -503,6 +503,6 @@ Le contrôle de présence a parcouru les 39 pages HTML du manifeste : title, met
 | ID | Priorité | Domaine | Constat / correction | Statut |
 |---|---|---|---|---|
 | CRM-10 | P1 avant usage intensif | Compteurs et tableau de relances | Les listes CRM historiques plafonnent à 100 lignes. Les compteurs Contacts, Opportunités et Activités pouvaient donc afficher un volume partiel ; le tableau de relances et les notifications navigateur ne traitent que les 100 premières opportunités retournées. | Compteurs exacts tenant-scoped ajoutés avec count/head ; l'aperçu des relances affiche désormais explicitement sa couverture partielle quand le total dépasse les lignes chargées. La complétude fonctionnelle des alertes au-delà de 100 reste à concevoir. |
-| CRM-11 | P2 | Relances persistantes | La liste des relances persistantes est plafonnée à 100 éléments sans avertissement visible si davantage sont en attente. | Ouvert — ajouter un compteur exact et un signalement de troncature avant de considérer la rubrique exhaustive. |
+| CRM-11 | P2 | Relances persistantes | La liste des relances persistantes reste plafonnée à 100 éléments. | Compteur exact tenant-scoped et avertissement de troncature ajoutés ; pagination de la liste à prévoir si le volume augmente. Tests CI à confirmer. |
 
 Les contrôles countWorkspaceRecords sont tenant-scoped et ne téléchargent pas les fiches. Ils ne remplacent pas les politiques RLS ni les tests inter-organisations. Aucun appel d'écriture ou changement distant Supabase n'a été effectué.
