@@ -63,6 +63,8 @@ Le tableau de bord admin est le centre de supervision de Cheexpeer, pas une clé
 | 11 | [Architecture d'exécution de Cheexpeer](evolution-7/ARCHITECTURE-EXECUTION-CHEEXPEER-2026-11-09.md) | Différence entre spécification et exécution réelle ; moteur de missions, étapes, outils, connecteurs, worker, planification, journal et état constaté des capacités |
 | 12 | [Phase 2 — CRM clients, artisans, facturation électronique et réseau partenaires](evolution-7/PHASE-2-CRM-CLIENTS-ARTISANS-FACTURATION-ELECTRONIQUE-RESEAU.md) | Offre artisan gratuite à terme, options payantes, partenariat PA, accompagnement à la dématérialisation, rubrique Réseau et séparation CRM interne / CRM clients |
 | 13 | [Visibilité IA, GEO et réputation numérique de MajestiOS](evolution-7/CHEEXPEER-VISIBILITE-IA-GEO-REPUTATION-MAJESTIOS.md) | Mission de Cheexpeer pour améliorer la découvrabilité, la présence dans les réponses IA, la réputation, les contenus et la mesure de l'acquisition |
+| 14 | [Vision produit — CRM tout-en-un, préparation d'Evolution-8](evolution-7/VISION-PRODUIT-CRM-TOUT-EN-UN-PREPARATION-EVOLUTION-8.md) | Positionnement, modules, parcours, architecture cible, facturation et rôle de Cheexpeer ; vision non équivalente à des fonctions livrées |
+| 15 | [Audit de l'existant — préparation d'Evolution-8](evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) | État vérifié du site, CRM interne, espace membre, Supabase, Cheexpeer, Vercel et risques avant refonte |
 
 ## 4. Organisation de la documentation
 
