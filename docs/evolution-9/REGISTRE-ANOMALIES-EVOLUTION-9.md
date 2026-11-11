@@ -577,3 +577,13 @@ Les garde-fous positifs du pont (secret, comparaison temps constant, actions aut
 | CHX-SEARCH-02 | P1 | Taxonomie des annonces | Le moteur conserve immobilier/emploi/sous-traitance en catégories privées non connectées ; le parcours « Je publie mon annonce » avec emploi/sous-traitance/demande-offre/autres n'est pas démontré. | Réconcilier la taxonomie avec la décision métier récente ; distinguer annonces emploi internes et sources externes. |
 
 Le moteur de recherche unique BOAMP/BODACC et les limites de qualification APE/NAF sont décrits en section 15 de l'audit des interfaces.
+
+
+## 43. Accueil d'une nouvelle entreprise — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Action / statut |
+|---|---|---|---|---|
+| CHX-ONBOARD-01 | P1 | Création CRM | Après création d'une entreprise, aucun parcours de recommandations prioritaires n'est déclenché dans le code CRM inspecté. | Ajouter deux propositions facultatives : diagnostic de présence virtuelle et préparation à la facturation électronique. |
+| CHX-ONBOARD-02 | P1 | Historisation / consentement | Les parcours de réputation et facturation ne sont pas encore unifiés dans l'historique CRM client. | Prévoir suivi par tenant, sources datées, consentement/base légale, rétention et actions humaines. |
+
+La page facturation électronique a été comparée aux informations officielles disponibles le 11 novembre 2026 ; son calendrier général est cohérent. Elle indique explicitement que MajestiOS n'est pas une plateforme agréée et qu'aucun connecteur n'est actif. Le détail du parcours d'accueil est en section 16 de l'audit des interfaces.
