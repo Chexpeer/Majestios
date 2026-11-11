@@ -109,3 +109,9 @@ test("only the currently implemented readiness_probe executor is accepted", () =
   assert.equal(validateSubmissionPayload(base).ok,true);
   assert.equal(validateSubmissionPayload({...base,mission_type:"send_email"}).ok,false);
 });
+
+test("API rejects autonomy above zero until a reviewed executor is implemented", () => {
+  const base = {organization_id:orgA,mission_type:"readiness_probe",title:"Health check"};
+  assert.equal(validateSubmissionPayload({...base,autonomy_level:0}).ok,true);
+  assert.equal(validateSubmissionPayload({...base,autonomy_level:1}).ok,false);
+});
