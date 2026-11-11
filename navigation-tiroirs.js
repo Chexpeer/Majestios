@@ -45,7 +45,8 @@
       {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"]]},
       {label:"Réputation virtuelle",href:"reputation-virtuelle.html",items:[["Présence et visibilité","reputation-virtuelle.html"],["Intelligence économique","intelligence-economique.html"]]},
       {label:"Espaces privés",href:"espace-membre.html",items:[["Espace client","espace-membre.html"],["Accès VIP · Administration","espace-interne.html"]]},
-      {label:"Explorer davantage",href:"veille-marches.html",items:[["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],["Sous-traitance","sous-traitance.html"],["Nous rejoindre","nous-rejoindre.html"]]}
+      {label:"Explorer davantage",href:"veille-marches.html",items:[["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],["Sous-traitance","sous-traitance.html"],["Nous rejoindre","nous-rejoindre.html"]]},
+      {label:"Assistant",href:"assistant-majestios.html",items:[["Assistant MajestiOS","assistant-majestios.html"]]}
     ];
     const current = location.pathname.split("/").pop() || "index.html";
     nav.replaceChildren();
