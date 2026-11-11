@@ -2,12 +2,12 @@
 
 **Date :** 11 novembre 2026  
 **Branche :** Evolution-9  
-**Statut :** audit initial ciblé, balayage global à poursuivre  
+**Statut :** balayage HTML complet du manifeste effectué ; audits performance, accessibilité et validation externe à poursuivre  
 **Méthode :** lecture du manifeste et des sources HTML dans Git ; aucun score externe Lighthouse/Search Console n'est revendiqué.
 
-## 1. Constat vérifié sur l'échantillon
+## 1. Constat vérifié sur le manifeste HTML
 
-Dix pages ont été examinées : accueil, marchés publics, marchés privés, développement commercial, CRM, administration, assistant, facturation électronique, nous rejoindre et FAQ.
+Les **39 pages HTML** déclarées dans site-files.json ont été examinées. Sur l'ensemble de ces pages, un élément title, une meta description et au moins un H1 sont présents. Aucun canonical n'a été trouvé dans les 39 pages. Les titles et descriptions semblent différenciés à la lecture, mais leur unicité exacte doit encore être contrôlée automatiquement avant clôture.
 
 | Page | Title | Meta description | H1 | Canonical | Robots |
 |---|---|---|---:|---|---|
@@ -22,7 +22,7 @@ Dix pages ont été examinées : accueil, marchés publics, marchés privés, d�
 | nous-rejoindre.html | Présent | Présente | 1 | absent | absent |
 | faq.html | Présent | Présente | 1 | absent | absent |
 
-**Portée exacte :** ces constats portent sur les dix pages ci-dessus, pas sur l'ensemble des pages du manifeste. L'audit page par page doit encore être terminé.
+**Portée exacte :** inventaire des 39 pages HTML du manifeste. La table ci-dessus présente un échantillon représentatif, pas une liste exhaustive des valeurs.
 
 ## 2. Points à traiter
 
