@@ -151,3 +151,10 @@ La procédure [PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md](PROVISIONNEMENT-IDENTIT
 ## 17. Audit de non-régression Evolution-7
 
 La référence fonctionnelle et visuelle reste Evolution-7. L'audit [AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md](AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) documente la comparaison des fichiers, la restauration de l'accueil centré sur la recherche, l'harmonisation des menus, la matrice de conservation des rubriques et les preuves CI. La facturation électronique s'ajoute sans remplacer le socle existant. La recette visuelle page par page et la recette CRM multi-identités restent des conditions de clôture.
+
+
+## 18. Exigence de navigation commune — NAV-04
+
+La barre de navigation publique doit être identique sur toutes les pages publiques publiées : mêmes familles, intitulés, ordre, liens, géométrie, styles, sous-menus et comportements desktop/mobile. L'entrée VIP doit rester intégrée à la charte MajestiOS. Le CRM et les cockpits privés conservent leurs navigations métier dédiées, mais leur cohérence avec le langage visuel commun et leurs exceptions doivent être contrôlées explicitement.
+
+Le test navigateur compare désormais la structure de navigation sur chaque page HTML publique du manifeste. **Statut : test ajouté, exécution CI et recette visuelle non encore confirmées.** Voir NAV-04 dans le registre des anomalies.
