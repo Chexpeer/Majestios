@@ -657,3 +657,12 @@ Ces constats proviennent de la réponse GitHub sur les branches et des exécutio
 | CHX-SEC-06 | P1 avant exposition publique | Consommation mémoire / déni de service | La limite initiale mesurait le corps après `request.text()`, ce qui ne bornait pas la lecture en l'absence de `Content-Length`. Lecture streaming ajoutée, comptage en octets, annulation immédiate au dépassement et décodage UTF-8 strict. | Code et tests ajoutés sur Evolution-9 ; CI du HEAD final à confirmer. Les limites de débit/plateforme et tests d'intégration restent nécessaires. |
 
 Aucun endpoint n'est déployé. Cette correction ne constitue pas une protection complète contre le déni de service : compléter par les quotas, rate limits et contrôles de concurrence de la plateforme avant exposition.
+
+
+## 51. Annulation des contrôles CI en cours — correction du workflow
+
+| ID | Priorité | Risque | Constat / correction | Statut |
+|---|---|---|---|---|
+| E9-CI-03 | P1 | Perte de preuve de validation | `cancel-in-progress: true` interrompait les exécutions actives lors de pushes successifs. Le workflow passe à `false` pour laisser terminer les jobs démarrés. | Correction versionnée sur Evolution-9 ; attendre la conclusion CI du HEAD courant. Les exécutions déjà annulées restent non concluantes. |
+
+Note : GitHub peut toujours remplacer une exécution en attente dans un même groupe de concurrence ; stabiliser les changements avant d'attendre le run final.
