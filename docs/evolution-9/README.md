@@ -122,3 +122,7 @@ Le contrôle en lecture seule des deux projets Supabase, de la configuration fro
 ## 12. Clarification des environnements Supabase — 11 novembre 2026
 
 `MajestiOS-Test` est l'environnement de test/recette et `majestios-crm` est le projet actuellement ciblé par le frontend. Leurs 39 et 22 migrations reflètent des périmètres différents ; cet écart n'est pas à corriger par synchronisation automatique. Le CRM du projet principal reste verrouillé VIP owner/admin ; le socle multi-tenant et le worker Cheexpeer en mode `readiness_probe` sont sur le projet de test. Voir l'addendum du rapport d'audit pour les droits RPC et les limites précises. Aucune écriture distante n'a été effectuée.
+
+## 13. Points bloquants CRM confirmés — 11 novembre 2026
+
+Le contrôle SQL des privilèges et triggers précise deux écarts sur le projet actuellement utilisé par le site (majestios-crm) : les droits UPDATE du rôle authenticated restent larges sur les colonnes des tables entreprises, contacts et opportunités ; les triggers d'historisation des modifications CRM ne sont pas présents. Les migrations de restriction des colonnes et d'historisation atomique sont donc à valider sur MajestiOS-Test avant toute promotion contrôlée. Ne pas les appliquer directement au projet principal sans revue, sauvegarde et autorisation.
