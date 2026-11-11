@@ -46,7 +46,11 @@ Les constats proviennent des registres Evolution-7 et Evolution-8 ; ils doivent 
 - liens Markdown et liens HTML vérifiés après synthèse documentaire ;
 - aucun document stratégique ne masque une anomalie critique.
 
-## 5. État de vérification
+## 5. Contrôle documentaire ajouté
+
+Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniques (README, AGENTS, index documentaire, registre critique et dossier Evolution-9). Il est appelé par le workflow `.github/workflows/verify-site.yml`. Son code et son intégration sont présents ; **le résultat d'exécution GitHub Actions n'est pas encore disponible**, donc aucune réussite n'est déclarée.
+
+## 6. État de vérification
 
 À l'ouverture de cette branche :
 - les fichiers de tests appelés par `.github/workflows/verify-site.yml` ont été vérifiés présents par lecture GitHub ;
