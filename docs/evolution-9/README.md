@@ -298,3 +298,8 @@ Les textes de l'accueil, du développement commercial, des marchés publics et p
 ## 13. Deuxième passe d'épuration éditoriale — 11 novembre 2026
 
 Sept pages de l'écosystème ont été simplifiées. Voir le [rapport de la deuxième passe](EPURATION-EDITORIALE-PASSE-2-2026-11-11.md) et l'anomalie UX-EDITORIAL-02 du registre.
+
+
+## 14. Troisième passe d'épuration éditoriale — 11 novembre 2026
+
+Quatre pages ont été simplifiées ou alignées : Développement commercial, Réputation virtuelle, Nous rejoindre, Prospection et FAQ. Les repères obsolètes de l'ancienne représentation en étages et du schéma interactif ont été retirés ; les limites fonctionnelles, avertissements, liens et parcours existants sont conservés. Voir le [rapport de la troisième passe](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md) et les anomalies UX-EDITORIAL-03 à UX-EDITORIAL-07 du [registre](REGISTRE-ANOMALIES-EVOLUTION-9.md).
