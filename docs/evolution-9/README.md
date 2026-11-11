@@ -136,3 +136,9 @@ La facturation est un domaine métier constitutif du CRM tout-en-un, préparé d
 Trois modes doivent être prévus : CRM natif MajestiOS, CRM/logiciel externe conservé par le client, ou mode hybride. Une source de référence est définie pour chaque catégorie de données afin d'éviter les doubles factures et les divergences. Le moteur de facturation reste indépendant de l'écran CRM et de tout partenaire PA particulier.
 
 Référence fonctionnelle : [Spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md). Cette cible n'est pas une capacité opérationnelle actuelle : aucun module de facturation connecté à une PA n'a été démontré lors de l'audit.
+
+## 15. Protocole de recette CRM — préparé, non exécuté
+
+Le protocole [PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md) définit les scénarios de recette sur `MajestiOS-Test` : rôles, création et relations CRM, historisation, relances, permissions SQL et isolation entre deux organisations. Il sépare les tests du CRM interne VIP de ceux du futur CRM client multi-tenant.
+
+**Statut : préparé / NOT RUN.** Aucune donnée distante n'a été créée et aucune migration n'a été appliquée. L'exécution nécessite des identités synthétiques, la vérification préalable des objets réellement déployés et une validation explicite du plan d'écriture et de nettoyage.
