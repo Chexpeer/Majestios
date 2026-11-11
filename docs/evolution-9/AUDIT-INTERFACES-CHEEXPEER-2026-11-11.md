@@ -288,3 +288,31 @@ Dans `private.cheexpeer_decide_approval`, le chemin d'expiration met à jour `ch
 - Garder le registre du tool désactivé et ne déployer aucun endpoint ni migration tant que la recette contrôlée n'est pas autorisée.
 
 **État de cette revue :** analyse du code versionné uniquement. Aucun fichier applicatif ou SQL, aucune base Supabase et aucun déploiement n'ont été modifiés pendant cette revue.
+
+
+## 19. Première implémentation des API authentifiées — 11 novembre 2026
+
+### Éléments versionnés sur Evolution-9
+
+- Migration additive `20261111200000_cheexpeer_api_security_fixes.sql` :
+  - remplace l'unicité globale de `idempotency_key` par une unicité composée `(organization_id, idempotency_key)` ;
+  - limite la relecture d'une mission idempotente à l'organisation d'origine ;
+  - transforme l'expiration d'une approbation en résultat métier `expired` persistant, journalisé, sans exception qui annulerait la transaction et sans mise en file ;
+  - ajoute des façades RPC publiques réservées à `service_role` pour soumission, décision et consultation tenant-scoped.
+- Module partagé `supabase/functions/_shared/cheexpeer-api.mjs` : validation stricte des payloads, limite de corps, CORS allowlist, réponses no-store et résolution du rôle owner/admin à partir de `auth.getUser(token)`.
+- Trois Edge Functions distinctes créées : `cheexpeer-mission-submit`, `cheexpeer-approval-decision`, `cheexpeer-mission-read`.
+- Tests de contrat Node couvrant JWT falsifié/non confirmé, acteur falsifié, rôles, organisation A/B, payloads et contrat de migration SQL ; ajoutés à `verify-site.yml`.
+
+### Limites et conditions de recette
+
+Ces fichiers sont présents dans Git uniquement. **La migration n'a pas été appliquée, les Edge Functions ne sont pas déployées et aucune écriture n'a été faite sur MajestiOS-Test ni en production.** Les tests Node de contrat ne remplacent pas les tests PostgreSQL transactionnels et l'intégration Auth/RLS réelle.
+
+Avant toute mise en service sur MajestiOS-Test :
+1. exécuter la migration sur une base locale jetable avec les migrations précédentes dans l'ordre ;
+2. vérifier même clé même tenant, même clé tenant A/B, appels concurrents et conservation de l'état `expired` après commit ;
+3. exécuter les trois fonctions avec comptes synthétiques owner/admin/member/non-membre de deux organisations ;
+4. tester UUID acteur falsifié, tentative A→B, approbation expirée/déjà décidée, refus sans fuite d'existence ;
+5. contrôler les grants, le schéma exposé, les variables Edge, les limites de taille, CORS et les journaux sans secrets ;
+6. obtenir une autorisation explicite avant toute application sur MajestiOS-Test.
+
+**Statut :** implémentation Git préparée ; CI en attente de preuve sur le HEAD final ; aucune mise en service.
