@@ -339,3 +339,17 @@ Mesures ajoutées :
 - prise en charge des identités Supabase confirmées par email OU par téléphone, sans exiger une adresse email pour les comptes phone-only.
 
 Cela ne constitue pas une activation du worker : le registre d'outils reste soumis à ses propres contrôles et aucun endpoint n'est déployé.
+
+
+## 22. Limitation effective du corps HTTP en lecture streaming
+
+La revue de sécurité a identifié que `readJsonLimited()` appelait `request.text()` avant de mesurer la taille réelle. En l'absence d'un en-tête `Content-Length` fiable, le corps complet pouvait être matérialisé en mémoire avant le rejet : la limite existait fonctionnellement mais ne protégeait pas la phase de lecture.
+
+Correction versionnée sur Evolution-9 :
+- lecture incrémentale de `request.body` via un reader ;
+- comptage des octets réellement reçus, et non du nombre de caractères ;
+- annulation du flux dès dépassement de la limite ;
+- décodage UTF-8 strict et rejet des corps invalides ;
+- tests dédiés à un flux surdimensionné sans `Content-Length` et à un flux JSON valide fragmenté.
+
+**Statut :** correction et tests présents dans Git ; exécution CI sur le HEAD courant à confirmer. Aucun déploiement Edge ni test distant Supabase. Cette protection limite la mémoire consommée par le parseur applicatif, sans remplacer les limites de débit et de taille imposées au niveau plateforme.
