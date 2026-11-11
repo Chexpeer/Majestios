@@ -224,3 +224,6 @@ Une anomalie de CI a été corrigée : le workflow spécialisé worker n'était 
 Le renouvellement de bail existe côté pont/RPC mais n'est pas encore appelé par le worker. C'est acceptable pour le probe court actuel, mais doit être traité avant toute mission longue. Le déploiement actuel du pont et le raccordement distant n'ont pas été revérifiés dans cette passe ; aucun changement Supabase n'a été effectué.
 
 Voir CHX-05 à CHX-08 dans le [registre des anomalies](REGISTRE-ANOMALIES-EVOLUTION-9.md). Prochaine étape : contrôler la nouvelle CI, puis préparer la recette du worker sur `MajestiOS-Test` sans écrire sur l'environnement avant autorisation ciblée.
+
+
+**Mise à jour CI worker :** le workflow spécialisé a réussi sur le commit `e401eb13be6ad395d4f63a596f2761efd07aefe5` (run [43044831310](https://github.com/Chexpeer/Majestios/actions/runs/43044831310)) : syntaxe Node/Edge et tests de politique/contrat validés. La CI globale du site sur le HEAD documentaire suivant est encore en cours de vérification. Cette réussite ne constitue pas une recette distante.
