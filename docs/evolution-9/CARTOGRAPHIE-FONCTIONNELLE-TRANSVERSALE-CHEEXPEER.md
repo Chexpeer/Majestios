@@ -27,6 +27,31 @@ Le parcours de valeur MajestiOS reste : **Détecter → Comprendre → Qualifier
 | Facturation électronique et dématérialisation | Diagnostic de préparation, accompagnement, suivi des flux et orientation vers des partenaires | Exactitude réglementaire, statut réel des partenaires, séparation CRM/facturation/PA, validation avant émission ou transmission |
 | Communauté / communication MajestiOS | Veille LinkedIn, stratégie éditoriale, rédaction, calendrier, interactions et mesure | Validation humaine des publications et interactions engageantes, protection des identifiants, respect des conditions des plateformes |
 
+### 2.1 — Animation de l'écosystème professionnel et information des pairs
+
+Cheexpeer doit contribuer à maintenir les pairs, partenaires et relais professionnels de MajestiOS informés de l'évolution du projet, dans une logique de relation durable et de confiance — pas de communication publicitaire automatique.
+
+Périmètre attendu :
+- tenir une veille des sujets, échanges et évolutions pertinents pour les communautés professionnelles auxquelles MajestiOS s'adresse ;
+- construire et maintenir une liste de publics/cercles de pairs et de thèmes pertinents, sans aspirer ni réutiliser des données personnelles sans base légitime ;
+- préparer des points d'information réguliers sur les avancées vérifiées de MajestiOS : étapes franchies, fonctionnalités réellement disponibles, expérimentations clairement identifiées, enseignements, feuille de route partageable et prochaines étapes ;
+- adapter le niveau de détail et le ton au public : pairs professionnels, partenaires, prescripteurs, utilisateurs pilotes ou communauté LinkedIn ;
+- proposer un calendrier éditorial et des formats adaptés : nouvelles, synthèses, retours d'expérience, démonstrations, invitations à échanger et réponses aux questions ;
+- suivre les réactions et questions, en faire une synthèse et proposer des suites à donner, sans engager MajestiOS au-delà des délégations reçues ;
+- distinguer systématiquement ce qui est envisagé, spécifié, en développement, testé, déployé et effectivement disponible. Ne jamais présenter une intention ou une maquette comme une fonctionnalité opérationnelle.
+
+Garde-fous :
+- constituer un socle de faits communicables, datés et sourcés ; faire vérifier les annonces produit par rapport à l'état réel du dépôt, des tests et des déploiements ;
+- classer les informations en « publiable », « partage restreint avec accord », « confidentiel » et « secret/sécurité » ; par défaut, toute information non classée est non publiable ;
+- ne jamais divulguer les données personnelles ou commerciales des clients, les échanges privés, les identifiants, secrets, vulnérabilités exploitables, détails d'incidents non publiés ou éléments internes protégés ;
+- demander une validation humaine avant toute publication, prise de position, réponse engageante, sollicitation ciblée ou communication au nom de MajestiOS ; l'approbation doit porter sur le contenu, le canal, le public et le moment ;
+- respecter les règles des plateformes, les préférences de contact et les demandes de désinscription ; proscrire le spam, l'usurpation d'identité et les interactions artificielles ;
+- journaliser les contenus proposés, leurs sources, validations, versions, canaux et résultats ; permettre correction et retrait.
+
+Critères de recette : aucun contenu publié sans validation explicite ; aucune affirmation produit non corroborée ; aucune donnée confidentielle dans les sorties ; calendrier éditorial consultable ; synthèse périodique des actualités/questions des pairs ; traçabilité des sources et approbations ; possibilité de suspendre immédiatement la communication.
+
+**Statut :** capacité spécifiée ; aucune automatisation de publication ou connexion sociale n'est réputée opérationnelle sur cette seule base.
+
 Cette liste est un périmètre d'audit et de conception. Elle ne signifie pas que chaque interface ou connecteur est déjà opérationnel.
 
 ## 3. Parcours prioritaire : création d'une nouvelle entreprise
