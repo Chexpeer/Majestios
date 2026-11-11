@@ -39,6 +39,7 @@ La formule « premier vrai CRM tout-en-un » exprime une ambition de différenci
 | Phase CRM client | [CRM clients, artisans et facturation](evolution-7/PHASE-2-CRM-CLIENTS-ARTISANS-FACTURATION-ELECTRONIQUE-RESEAU.md) | Offre cible et séparation des CRM |
 | Cheexpeer | [Cahier des charges détaillé](evolution-7/CAHIER-DES-CHARGES-DETAILLE-CHEEXPEER-2026-11-09.md) | Espaces, compétences, missions, gouvernance et critères d'acceptation |
 | Exécution Cheexpeer | [Architecture d'exécution](evolution-7/ARCHITECTURE-EXECUTION-CHEEXPEER-2026-11-09.md) | Missions, étapes, outils, worker et états réels |
+| Non-régression | [Audit de non-régression Evolution-7](evolution-9/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) | Conservation des rubriques, accueil, navigation et harmonisation visuelle |
 | Navigation | [Décisions de navigation Evolution-7](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Structure et arbitrages de navigation |
 
 ## 4. État produit — ne pas confondre vision et disponibilité
