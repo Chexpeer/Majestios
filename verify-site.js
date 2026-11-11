@@ -105,6 +105,12 @@ assert(adminPage.includes('src="administration.js"') && adminPage.includes('href
 assert(adminPage.includes('href="crm.html"'), "Administration : accès au CRM interne absent");
 const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
 assert(crmPage.includes('<nav class="admin-crm-header" aria-label="Navigation des modules internes et accueil">') && crmPage.includes('aria-current="page"') && crmPage.includes('id="crm-admin-nav-link"') && crmPage.includes('id="crm-search-nav-link"'), "CRM : navigation interne ou repère de page actuelle absent");
+const crmPageScript = fs.readFileSync(path.join(root, "crm-page.js"), "utf8");
+assert(crmPageScript.includes(String.raw`nafCodes.some(value => !/^\d{2}\.\d{2}[A-Z]$/.test(value))`),
+  "CRM : la validation APE/NAF doit accepter le format 43.21A");
+assert(crmPageScript.includes(String.raw`departments.some(value => !/^(\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(value))`),
+  "CRM : la validation des départements doit accepter les codes numériques et territoriaux");
+
 const adminScript = fs.readFileSync(path.join(root, "administration.js"), "utf8");
 assert(adminScript.includes("organization_members"), "Administration : contrôle d’accès aux appartenances internes absent");
 assert(/\.kind\s*===\s*"internal"/.test(adminScript), "Administration : filtrage de l’organisation interne absent");
