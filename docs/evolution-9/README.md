@@ -103,8 +103,10 @@ Evolution-9 est prête à être évaluée lorsque :
 
 ## 10. Prévisualisation Evolution-9
 
-**URL :** https://majestios-git-evolution-9-majistr.vercel.app
+**URL de prévisualisation de branche :** https://majestios-git-evolution-9-majistr.vercel.app
 
-Le déploiement de prévisualisation Vercel du commit `3f44547b3d7bd64c8fd066630f17aadca5f80bee` est `READY`. Le build confirme 81 fichiers copiés depuis `site-files.json` sans différence avec les sources. Le projet Vercel utilisé est `majestios`, seul projet relié au dépôt dans l'équipe consultée.
+**Déploiement READY du commit testé :** https://majestios-l9b0ne1i9-majistr.vercel.app
 
-Cette prévisualisation confirme le build du site sur son commit source. La suite GitHub Actions a par ailleurs réussi sur le commit `2438d8fd96f8e1d10676b8d193a5e99247096c67` ; ces deux preuves portent sur des commits distincts. Aucune promotion en production n'a été effectuée.
+Le déploiement de prévisualisation Vercel du commit `f87cc16fa9c4c155b73483e2059a72c9f487ef31` est `READY`. Le build confirme 81 fichiers copiés depuis `site-files.json` sans différence avec les sources. Le projet Vercel utilisé est `majestios`, seul projet relié au dépôt dans l'équipe consultée.
+
+Cette prévisualisation confirme le build du site sur son commit source. La suite GitHub Actions a également réussi sur ce même commit `f87cc16fa9c4c155b73483e2059a72c9f487ef31`. Aucune promotion en production n'a été effectuée.
