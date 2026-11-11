@@ -146,3 +146,8 @@ Le protocole [PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md](PROTOCOLE-RECETTE-CRM-MAJ
 ## 16. Provisionnement des identités de recette CRM
 
 La procédure [PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md](PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md) décrit la création Auth, les memberships administratifs et les garde-fous. L'intégration actuelle ne disposant pas d'une action Auth Admin, aucune identité n'est créée automatiquement et aucun contournement SQL de `auth.users` n'est admis.
+
+
+## 17. Audit de non-régression Evolution-7
+
+La référence fonctionnelle et visuelle reste Evolution-7. L'audit [AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md](AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) documente la comparaison des fichiers, la restauration de l'accueil centré sur la recherche, l'harmonisation des menus, la matrice de conservation des rubriques et les preuves CI. La facturation électronique s'ajoute sans remplacer le socle existant. La recette visuelle page par page et la recette CRM multi-identités restent des conditions de clôture.
