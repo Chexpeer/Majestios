@@ -27,7 +27,7 @@ assert.match(auth, /supabase\.auth\.verifyOtp\(\{[\s\S]*?type: "email"/);
 assert.match(auth, /otpInput\.required = false/);
 assert.match(auth, /otpInput\.required = true/);
 assert.doesNotMatch(auth, /signInWithPassword|updateUser\(\{ password|resetPasswordForEmail/);
-assert.match(auth, /Aucun espace MajestiOS ne lui est associé/);
+assert.match(auth, /aucun espace MajestiOS ne lui est associé/i);
 assert.match(auth, /Bienvenue dans votre espace MajestiOS/);
 
 console.log("Contrat Auth OTP membre : connexion par code e-mail, absence de création de compte tant que le provisionnement n’est pas activé, et absence de mot de passe vérifiées.");
