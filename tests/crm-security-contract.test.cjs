@@ -393,3 +393,27 @@ assert.match(crmIntegrityActivation, /insert into public\.activities/);
 assert.match(crmIntegrityActivation, /revoke all on function public\.complete_crm_reminder\(uuid\) from public, anon/);
 assert.match(crmIntegrityActivation, /grant execute on function public\.complete_crm_reminder\(uuid\) to authenticated/);
 console.log("CRM integrity activation: OK — triggers actifs et clôture de relance exclusivement via RPC atomique.");
+
+
+// Les créations CRM appliquent une liste blanche indépendante de la validation des formulaires.
+// Les champs de tenant et d'identité d'auteur restent toujours définis côté client authentifié.
+assert.match(client, /const creatableColumns = Object\.freeze\(/);
+assert.match(client, /entries\.some\(\(\[key\]\) => !creatableColumns\[table\]\.has\(key\)\)/);
+assert.match(client, /Object\.fromEntries\(entries\), organization_id: membership\.organization_id/);
+assert.match(client, /if \(table === "activities"\) payload\.actor_user_id = session\.user\.id/);
+assert.match(client, /else payload\.created_by = session\.user\.id/);
+assert.match(client, /const changedFields = Object\.entries\(payload\)/);
+for (const [table, columns] of Object.entries({
+  businesses: ["legal_name", "trade_name", "siren", "siret", "vat_number", "ape_naf", "website", "address_line", "postal_code", "city", "department_code", "country_code", "qualification_status", "qualification_notes", "source_label", "source_url", "assigned_to"],
+  contacts: ["business_id", "first_name", "last_name", "job_title", "email", "phone", "is_primary", "source_label", "consent_status"],
+  opportunities: ["business_id", "primary_contact_id", "title", "description", "source_type", "source_external_id", "source_url", "source_published_at", "department_code", "status", "qualification_score", "qualification_summary", "assigned_to", "next_action", "next_action_at"],
+  activities: ["business_id", "contact_id", "opportunity_id", "activity_type", "subject", "body"]
+})) {
+  const match = client.match(new RegExp(table + ": new Set\\(\\[([^\\]]+)\\]\\)"));
+  assert.ok(match, "Liste blanche de création absente : " + table);
+  const allowed = match[1].split(",").map(value => value.trim().replace(/^["']|["']$/g, ""));
+  assert.deepEqual(allowed, columns, "Les champs de création autorisés doivent être explicites pour " + table);
+  for (const column of allowed) {
+    assert.ok(columnsByTable[table]?.has(column), "La création autorise une colonne absente du schéma : " + table + "." + column);
+  }
+}
