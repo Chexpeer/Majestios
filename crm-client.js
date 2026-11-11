@@ -288,6 +288,16 @@ async function listReminders() {
   return data || [];
 }
 
+async function countPendingReminders() {
+  const { membership } = await requireWorkspace();
+  const { count, error } = await supabase.from("crm_reminders")
+    .select("id", { count: "exact", head: true })
+    .eq("organization_id", membership.organization_id)
+    .eq("state", "pending");
+  if (error) throw error;
+  return Number(count || 0);
+}
+
 async function markReminderRead(id) {
   const { membership } = await requireWorkspace();
   if (membership.role === "viewer") throw new Error("Votre rôle autorise uniquement la consultation du CRM.");
@@ -310,6 +320,7 @@ export const MajestiosCRM = Object.freeze({
   listOpportunities: () => list("opportunities"),
   listActivities: () => list("activities"),
   listReminders,
+  countPendingReminders,
   countWorkspaceRecords,
   markReminderRead,
   createBusiness: (values) => create("businesses", values),
