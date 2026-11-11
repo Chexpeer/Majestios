@@ -459,3 +459,17 @@ La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.m
 | CRM-09 | P2 | Exhaustivité du ciblage | L'appel API limite explicitement la collecte à une page (maxPages: 1) et au plus 10 candidats. Les résultats ne doivent pas être présentés comme exhaustifs. | Limite connue ; évolution à cadrer selon quotas et coût. |
 
 CRM-06 (sécurité distante) et CRM-07 (recette multi-tenant) restent ouverts. Cette correction frontend ne remplace pas les restrictions SQL ni les tests d'isolation réels.
+
+## 32. Gouvernance documentaire IA et audit SEO — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| DOC-01 | P1 | Onboarding IA / gouvernance | La hiérarchie active et les consignes opérationnelles étaient contradictoires : AGENTS.md renvoyait encore à la référence V5 comme source active alors que le chantier autorisé est Evolution-9. Création d'un guide de prise en main IA, mise à jour de la hiérarchie dans AGENTS.md et ajout des liens dans docs/README.md. | Correction documentaire intégrée ; vérification automatique des liens à exécuter. |
+| SEO-01 | P1 | Canonical / domaine | Aucun canonical détecté dans les dix pages de l'échantillon. Le domaine public de référence n'est pas confirmé dans cette passe. | Ouvert — ne pas inventer le domaine. |
+| SEO-02 | P2 | Robots / sitemap | robots.txt et sitemap.xml absents du dépôt à la date de vérification ; présence éventuelle côté hébergeur non vérifiée. | Ouvert — créer après confirmation du domaine et inventaire des routes publiques. |
+| SEO-03 | P1 | Indexation des espaces privés | CRM et administration ont noindex,nofollow dans l'échantillon ; autres espaces privés à contrôler. noindex ne remplace jamais l'authentification. | Partiellement contrôlé. |
+| SEO-04 | P2 | Qualité on-page | Titles, descriptions et un H1 présents sur les dix pages échantillonnées ; unicité, couverture totale, alt, liens internes et données structurées non encore audités. | Audit partiel. |
+| SEO-05 | P2 | Performance / accessibilité | Aucun score Lighthouse, Core Web Vitals ou audit accessibilité n'a été exécuté dans cette passe. | Ouvert. |
+| GEO-01 | P2 | Visibilité moteurs IA | Besoin de cohérence entre promesse, fonctionnalités réelles, sources et documentation structurée. | À développer par lots. |
+
+Le guide transversal est docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md ; l'audit SEO détaillé est docs/evolution-9/AUDIT-SEO-EVOLUTION-9.md. Ces documents ne remplacent pas AGENTS.md ni le registre critique central.
