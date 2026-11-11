@@ -110,3 +110,35 @@ Ces identifiants sont des constats de maturité à suivre ; ils ne signifient pa
 ## 10. État des modifications
 
 Document d'audit uniquement. Aucun code applicatif, migration, donnée Supabase, paramètre Auth, secret, déploiement ou registre distant n'a été modifié.
+
+
+## 11. Vérification runtime du socle d'exécution — MajestiOS-Test
+
+**Contrôle SQL en lecture seule, 11 novembre 2026.**
+
+- Les six tables privées `cheexpeer_*` sont présentes : missions, étapes, événements, approbations, plannings et registre des outils.
+- Les six tables ont des politiques RLS explicites `USING false / WITH CHECK false` pour `anon` et `authenticated`. Les privilèges directs observés sur les tables et les fonctions privées sont attribués à `service_role`.
+- Les RPC privées de soumission et de décision, ainsi que les fonctions de cycle de vie, ne sont exécutables que par `service_role` dans les grants observés.
+- Le registre distant contient seulement `test_executor` (désactivé, autonomie 0). Il ne contient pas `worker_self_check`.
+- Le dernier numéro de migration observé dans `supabase_migrations.schema_migrations` est `20261109205855`. La migration versionnée dans Evolution-9 `20261111160000_cheexpeer_worker_self_check_tool.sql` n'est pas enregistrée dans cette base de recette au moment du contrôle.
+
+**Conclusion :** le socle durable est présent, mais le registre et l'historique des migrations distants ne correspondent pas au dernier état du dépôt. Ne pas lancer le worker avec un code plus récent ni activer un outil par simple insertion manuelle. Avant toute synchronisation, comparer toutes les migrations manquantes et les objets réels, préparer une sauvegarde et appliquer un plan contrôlé sur la seule base de recette.
+
+## 12. Frontière API utilisateur : blocage d'activation
+
+La spécification de première mission indique que les endpoints utilisateur de soumission, approbation et consultation sont absents. La lecture du dépôt Evolution-9 confirme qu'aucune Edge Function dédiée d'orchestration utilisateur n'est présente dans l'arborescence inspectée. Le pont `cheexpeer-worker-bridge` est protégé par secret worker et service_role : il est strictement serveur-à-serveur, jamais destiné au navigateur.
+
+La RPC de décision reçoit `p_decision_by`. La base vérifie que cet identifiant est owner/admin de l'organisation de la mission, mais l'identifiant doit être dérivé d'une session utilisateur vérifiée par une future API ; il ne doit jamais provenir d'un champ libre envoyé par le navigateur. La RPC privée ne doit pas être exposée directement.
+
+**Décision :** aucun centre de commande ne doit proposer un bouton « exécuter » tant que l'API utilisateur authentifiée, les vérifications de tenant, la validation d'approbation et la consultation filtrée ne sont pas livrées et testées. Le pont worker demeure fermé aux navigateurs.
+
+## 13. Séquence de mise en service sûre
+
+1. Réconcilier le journal de migrations dépôt/base de recette sans appliquer de SQL à l'aveugle.
+2. Vérifier les fonctions SQL, grants, policies et triggers du worker après réconciliation.
+3. Créer trois Edge Functions ou routes serveur distinctes : soumission, décision d'approbation, lecture de mission/historique.
+4. Dériver l'acteur exclusivement du JWT validé ; vérifier owner/admin sur l'organisation cible à chaque requête.
+5. Tester les refus member, utilisateur externe, tenant différent, actor falsifié, mission expirée, approbation déjà décidée et double idempotence.
+6. Déployer le pont et le worker dans un environnement contrôlé ; garder le registre désactivé.
+7. Activer seulement `worker_self_check` après tests de bout en bout et procédure de désactivation.
+8. Construire le cockpit en lecture/commande à partir des API validées ; aucune clé service_role côté navigateur.
