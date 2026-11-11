@@ -178,6 +178,8 @@ assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes("Assistant co
 const invoicingPage = fs.readFileSync(path.join(root, "facturation-electronique.html"), "utf8");
 assert(siteFiles.includes("facturation-electronique.html"), "Facturation électronique : page absente du manifeste");
 assert(invoicingPage.includes("1er septembre 2027") && invoicingPage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : calendrier ou statut MajestiOS absent");
+const tenderAccompaniment = fs.readFileSync(path.join(root, "accompagnement-appels-offres.html"), "utf8");
+assert(tenderAccompaniment.includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : lien vers la thématique facturation absent");
 assert(home.includes("Le CRM") && home.includes("CRM client et les modules de facturation sont en préparation"), "Accueil : la vision tout-en-un doit distinguer le socle actuel des modules en préparation");
 
 
