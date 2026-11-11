@@ -9,6 +9,7 @@ const source = await readFile(
 const worker = await readFile(new URL("../src/index.mjs", import.meta.url), "utf8");
 const envExample = await readFile(new URL("../.env.example", import.meta.url), "utf8");
 const workflow = await readFile(new URL("../../../.github/workflows/cheexpeer-worker.yml", import.meta.url), "utf8");
+const migration = await readFile(new URL("../../../supabase/migrations/20261111160000_cheexpeer_worker_self_check_tool.sql", import.meta.url), "utf8");
 
 test("worker bridge requires the independent shared secret before creating service client", () => {
   const secretCheck = source.indexOf("constantTimeEqual(suppliedSecret, expectedSecret)");
@@ -69,4 +70,25 @@ test("worker contract workflow is enabled on the active Evolution-9 branch", () 
   assert.match(workflow, /branches:\s*\[[^\]]*Evolution-9/);
   assert.match(workflow, /services\/cheexpeer-worker\/\*\*/);
   assert.match(workflow, /supabase\/functions\/cheexpeer-worker-bridge\/\*\*/);
+});
+
+
+test("worker self-check tool is registered read-only, approval-gated and disabled by default", () => {
+  assert.match(migration, /'worker_self_check'/);
+  assert.match(migration, /\n  0,\n  true,\n  'read',\n  false,/);
+  assert.match(migration, /on conflict \(tool_key, version\) do nothing/);
+});
+
+test("worker self-check renews its lease before completing the mission", () => {
+  const selfCheckStart = worker.indexOf("if (isWorkerSelfCheckMission(mission))");
+  const renew = worker.indexOf('bridge("renew_lease"', selfCheckStart);
+  const complete = worker.indexOf('bridge("complete_mission"', selfCheckStart);
+  assert.notEqual(selfCheckStart, -1);
+  assert.ok(renew > selfCheckStart);
+  assert.ok(complete > renew);
+  assert.match(worker.slice(selfCheckStart, complete), /renewed !== true/);
+});
+
+test("worker workflow runs when a Cheexpeer migration changes", () => {
+  assert.match(workflow, /supabase\/migrations\/\*cheexpeer\*/);
 });
