@@ -119,3 +119,12 @@ Le détail des contrôles et des limites figure dans la section 11.7 du rapport 
 | CRM-06 | P2 avant automatisation serveur | Traçabilité des écritures système | Le trigger d'historisation utilise auth.uid() pour actor_user_id ; une écriture déclenchée avec le rôle service peut donc être historisée sans acteur humain identifié. | **À concevoir** : ajouter une attribution système/mission explicite et traçable avant les imports automatisés et les missions Cheexpeer. Ne jamais attribuer artificiellement l'action à un utilisateur humain. |
 
 Le CRM interne reste limité aux rôles owner et admin. Le chemin d'interface viewer actuellement présent est inaccessible avec cette règle ; il ne constitue pas une activation du CRM client. Les rôles du futur CRM client devront être définis séparément et testés par tenant.
+
+
+## 12. Exigence structurante phase 2 — CRM et facturation électronique
+
+| ID | Priorité | Domaine | Constat / risque | Statut / traitement |
+|---|---|---|---|---|
+| FACT-01 | P1 avant conception du schéma phase 2 | CRM / facturation / interopérabilité | Aucun domaine de facturation opérationnel ni cycle complet PA n'est démontré dans les environnements audités. Le risque est de concevoir un CRM qui ne pourrait pas relier proprement devis, prestations, factures, transmission, règlements et CRM externes, ou de créer des doubles sources de vérité. | **Évolution phase 2 cadrée** : spécification cible créée dans Evolution-9. Préserver les identifiants et liens métier dès le CRM actuel ; concevoir le domaine de facturation séparément ; définir les modes natif/connecté/hybride, la source de référence par objet et l'idempotence avant développement. Aucun connecteur PA ni module n'est déclaré opérationnel. |
+
+Référence canonique : [Spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md). Le client ne doit pas être contraint d'abandonner son CRM existant ; les factures ne doivent jamais être créées en double dans deux systèmes.
