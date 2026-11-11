@@ -108,3 +108,8 @@ Sur `intelligence-economique.html` : retrait du bâtiment illustratif et de la m
 ## Onzième correction de la passe
 
 Sur `crm.html`, le bloc des relances ne prétend plus que le serveur « actualise » l'écran toutes les cinq minutes. Le titre devient « Relances persistantes ». Le texte distingue la conservation dans le CRM, la création automatique dépendante du traitement planifié effectivement activé sur l'environnement connecté, et le rechargement de la liste avec le CRM. Le code de `crm-page.js` charge la liste lors de l'appel à `refresh()` ; aucun rafraîchissement périodique du navigateur n'a été constaté dans cette fonction.
+
+
+## Douzième correction de la passe
+
+L'introduction de `crm.html` énumère désormais les modules effectivement présentés dans l'interface : entreprises, contacts, opportunités, activités et relances. Le terme générique « historique » a été remplacé par « activités et relances » afin de ne pas laisser entendre que toute modification de fiche est systématiquement historisée sur l'environnement principal : l'audit technique a relevé l'absence des triggers d'historisation attendus sur `majestios-crm`, et la migration corrective n'est pas appliquée à distance.
