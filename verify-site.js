@@ -59,7 +59,7 @@ for (const page of pages) {
 
 
 const eInvoicePage = fs.readFileSync(path.join(root, "facturation-electronique.html"), "utf8");
-assert(eInvoicePage.includes("MISE EN CONFORMITÉ") && eInvoicePage.includes("Votre entreprise doit se préparer"), "Facturation électronique : message de mise en conformité absent");
+assert(eInvoicePage.includes("MISE EN CONFORMITÉ") && eInvoicePage.includes("La réforme change vos habitudes de facturation.") && eInvoicePage.includes("Vérifiez vos obligations et préparez vos outils."), "Facturation électronique : message de mise en conformité absent");
 assert(eInvoicePage.includes("1er septembre 2026") && eInvoicePage.includes("1er septembre 2027"), "Facturation électronique : calendrier réglementaire incomplet");
 assert(eInvoicePage.includes("facturation-electronique-qu-est-ce-que-ca-change-pour-moi"), "Facturation électronique : simulateur officiel absent");
 assert(eInvoicePage.includes("je-consulte-la-liste-des-plateformes-agreees"), "Facturation électronique : liste officielle des plateformes agréées absente");
