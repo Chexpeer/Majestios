@@ -575,3 +575,11 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(6) > .nav-group-l
     animation-duration: .01ms !important;
   }
 }
+
+/* Assistant MajestiOS — accent or discret, sans modifier la géométrie des menus. */
+.site-nav-drawer .nav-drawer-section:nth-of-type(7) > .nav-group-link,
+.site-nav-drawer .nav-drawer-section:nth-of-type(7) .nav-group-items a { color: #a98236 !important; }
+@media (max-width: 900px) {
+  .site-nav-drawer .nav-drawer-section:nth-of-type(7) .nav-group-items { border-left-color: #c5a45e !important; }
+}
+body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(7) > .nav-group-link { color: #f0d28b !important; }
