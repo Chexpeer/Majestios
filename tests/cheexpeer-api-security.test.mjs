@@ -78,6 +78,37 @@ test("approval and consultation payloads reject unexpected identity fields", () 
   assert.equal(validateReadPayload({organization_id:orgA,mission_id:orgB,user_id:forgedUser}).ok, false);
 });
 
+test("body limit rejects oversized bodies even without Content-Length and cancels the stream", async () => {
+  let cancelled = false;
+  const body = new ReadableStream({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode('{"value":"' + "x".repeat(100) + '"}'));
+      controller.enqueue(new TextEncoder().encode(" more bytes"));
+    },
+    cancel() { cancelled = true; }
+  });
+  const request = new Request("https://example.test", { method:"POST", body, duplex:"half" });
+  assert.equal(request.headers.has("content-length"), false);
+  const result = await readJsonLimited(request, 20);
+  assert.equal(result.ok, false);
+  assert.equal(result.status, 413);
+  assert.equal(cancelled, true);
+});
+
+test("body limit accepts a bounded streamed JSON request", async () => {
+  const body = new ReadableStream({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode('{"value":'));
+      controller.enqueue(new TextEncoder().encode('"ok"}'));
+      controller.close();
+    }
+  });
+  const request = new Request("https://example.test", { method:"POST", body, duplex:"half" });
+  const result = await readJsonLimited(request, 20);
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.value, { value:"ok" });
+});
+
 test("body limit and CORS allowlist are enforced", async () => {
   const tooLarge = await readJsonLimited(new Request("https://example.test", {
     method:"POST", body:JSON.stringify({ value:"x".repeat(100) })
