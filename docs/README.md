@@ -7,6 +7,7 @@
 ## 1. Avant toute intervention
 
 1. Lire le [registre central des anomalies critiques](CRITIQUES/README.md).
+2. Lire le [guide de prise en main IA MajestiOS/Cheexpeer](GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md), qui formalise le parcours d'onboarding, les garde-fous, la boucle d'audit et les critères de preuve.
 2. Lire le [référentiel Evolution-9](evolution-9/README.md).
 3. Lire la [vision stratégique MajestiOS 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md).
 4. Lire le [plan de réalisation et les moyens](evolution-9/PLAN-REALISATION-ET-MOYENS.md).
