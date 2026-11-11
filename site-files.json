@@ -80,6 +80,7 @@
     "homepage-theme.css",
     "navigation-tiroirs.js",
     "navigation-tiroirs.css",
-    "official-source-links.mjs"
+    "official-source-links.mjs",
+    "homepage-evolution-8.css"
   ]
 }
