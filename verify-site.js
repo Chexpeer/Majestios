@@ -161,7 +161,7 @@ for (const page of pages) {
 }
 
 const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
-assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
+assert(home.includes("<title>MajestiOS — Le CRM tout-en-un pour développer votre entreprise</title>"), "Accueil : titre SEO inattendu");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du moteur de recherche partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant commun de recherche non chargé");
 assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
@@ -174,6 +174,11 @@ for (const selector of ["#advanced-search-form", ".feed-search", ".feed-filter-l
 assert(!home.includes('id="floor-rows"') && !home.includes('class="building-home"'), "Accueil : ancienne navigation par immeuble encore présente");
 assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
 assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes("Assistant conversationnel de première génération"), "Assistant conversationnel partagé absent");
+ 
+const invoicingPage = fs.readFileSync(path.join(root, "facturation-electronique.html"), "utf8");
+assert(siteFiles.includes("facturation-electronique.html"), "Facturation électronique : page absente du manifeste");
+assert(invoicingPage.includes("1er septembre 2027") && invoicingPage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : calendrier ou statut MajestiOS absent");
+assert(home.includes("Le CRM") && home.includes("CRM client et les modules de facturation sont en préparation"), "Accueil : la vision tout-en-un doit distinguer le socle actuel des modules en préparation");
 
 
 const internalEntryHtml = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
