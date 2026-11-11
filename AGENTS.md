@@ -76,9 +76,9 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 
 ## 6. Documentation
 
-La référence centrale active V5 est `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md`. Son index est `docs/README.md`. La filiation documentaire est décrite dans `docs/evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md`. Les sources V2, V3 et V4 restent sur leurs branches historiques et ne sont pas recopiées dans V5. Le dossier `docs/historique/` conserve des archives thématiques consultatives ; il ne remplace pas les branches sources.
+Pour le chantier actif, la hiérarchie documentaire est celle d'Evolution-9 : `docs/README.md` est l'index général ; `docs/CRITIQUES/README.md` est le point d'entrée obligatoire des anomalies critiques ; `docs/evolution-9/README.md` est le référentiel actif ; `docs/evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md` est le registre détaillé de la branche ; `docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md` explique la méthode à toute IA qui découvre le projet. Les documents Evolution-5.0 à Evolution-8 restent des références historiques ou spécialisées selon leur statut, et ne remplacent pas les décisions actives Evolution-9.
 
-Les documents et comptes rendus sont rédigés en français clair. `AGENTS.md` reste la source canonique des consignes.
+Les documents et comptes rendus sont rédigés en français clair. `AGENTS.md` reste la source canonique des consignes ; le guide IA les rend opérationnelles sans les remplacer.
 
 ## 7. Nettoyage, sauvegardes et continuité
 
