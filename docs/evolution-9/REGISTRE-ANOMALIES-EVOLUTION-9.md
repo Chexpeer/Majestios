@@ -286,3 +286,12 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 | UX-04 | P1 | Source des tokens | La première couche privée consommait des variables définies uniquement par `charte-majestios.css`, absente de certains espaces privés. Les valeurs communes sont maintenant extraites dans `charte-majestios-tokens.css`, importée par les deux feuilles de composants. | Source commune intégrée ; build et recette à confirmer. |
 
 **Garde-fou :** les pages privées ne chargent pas la feuille de composants publics complète ; elles consomment uniquement les tokens partagés et leur couche d'adaptation. Les surfaces et mises en page spécifiques sont conservées.
+
+
+## 26. Correction de l'assertion URL Assistant — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause / correction | Statut |
+|---|---|---|---|---|
+| CI-03 | P1 CI | Recette de navigation Assistant | L'assertion finale utilisait un antislash supplémentaire dans son expression régulière : le navigateur ouvrait correctement `assistant-majestios.html`, mais le test rejetait l'URL. L'expression est alignée sur la forme utilisée par les autres assertions. | Corrigé dans le test ; exécution CI complète à confirmer. |
+
+**Preuve intermédiaire :** le parcours mobile a dépassé l'ensemble des pages publiques jusqu'au contrôle du menu Assistant ; l'échec était une assertion URL, pas une panne de navigation. La recette complète reste ouverte jusqu'au run vert.

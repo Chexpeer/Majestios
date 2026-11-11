@@ -141,7 +141,7 @@ async function main() {
     const assistantGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Assistant"})});
     await assistantGroup.locator(".nav-group-link").click();
     await page.waitForURL("**/assistant-majestios.html");
-    assert.match(page.url(),/assistant-majestios\\.html$/,"L'entrée Assistant du menu doit ouvrir son espace dédié.");
+    assert.match(page.url(),/assistant-majestios\.html$/,"L'entrée Assistant du menu doit ouvrir son espace dédié.");
 
     await page.setViewportSize({width:390,height:844});
     await page.reload({waitUntil:"domcontentloaded"});

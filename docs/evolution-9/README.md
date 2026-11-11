@@ -172,3 +172,10 @@ Toutes les pages MajestiOS, publiques comme privées, doivent partager une même
 Les valeurs fondamentales (bleu nuit, or, acier/chrome, typographie, rayons, ombres et focus) sont centralisées dans `charte-majestios-tokens.css`. La feuille publique `charte-majestios.css` et la couche des espaces privés `charte-majestios-espaces.css` consomment cette source commune. Cela évite de recopier les valeurs dans les interfaces et permet de garder des surfaces claires ou sombres selon le métier.
 
 La recette navigateur a révélé que certaines pages historiques utilisent la classe `.menu-toggle` sans identifiant `menu-toggle`. Le script partagé accepte les deux formes ; le test a été aligné sur ce contrat au lieu d'imposer une modification inutile des pages. **Statut :** code intégré ; validation CI et revue visuelle restent nécessaires.
+
+
+## 22. Fiabilisation des tests de navigation — 11 novembre 2026
+
+La recette mobile compare désormais les pages publiques avec le sélecteur commun `.menu-toggle`, compatible avec le script de tiroirs qui accepte classe ou identifiant. La passerelle `espace-prive.html`, autonome et `noindex`, reste hors de la comparaison publique. Une assertion d'URL de l'espace Assistant a été corrigée après constat que la navigation ouvrait la bonne page mais que la regex du test la rejetait.
+
+**Statut :** correctifs de test intégrés ; run CI complet encore attendu. Ne pas considérer NAV-04 comme clôturée avant le succès du navigateur et les captures visuelles.
