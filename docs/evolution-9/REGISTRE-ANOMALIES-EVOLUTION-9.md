@@ -149,3 +149,14 @@ Référence : [Protocole de recette CRM sur MajestiOS-Test](PROTOCOLE-RECETTE-CR
 | CRM-REM-01 | P1 avant pilote | Relances | Job pg_cron actif toutes les cinq minutes ; RPC SECURITY DEFINER authentifié avec contrôle de droits tenant dans le corps. | Configuration présente ; tests de rôles, tenant, doublons et clôture atomique non exécutés. |
 
 Le contrôle est documenté dans le [rapport d'audit](AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md) et le [protocole de recette](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md). Aucune écriture distante n'a été effectuée.
+
+
+## 15. Non-régression et harmonisation visuelle — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| HOME-01 | P1 | Accueil / moteur de recherche | L'accueil centré sur la recherche d'Evolution-7 avait été remplacé par une présentation conceptuelle CRM. `index.html` restauré depuis Evolution-7. | Corrigé ; CI et test navigateur réussis |
+| NAV-01 | P1 | Navigation multi-pages | Les menus doivent utiliser le chargeur partagé et rester accessibles depuis toutes les pages publiques. Les contrôles statiques et navigateurs couvrent desktop et mobile. | Contrôle CI réussi |
+| VIS-01 | P1 | Harmonisation graphique | Socle commun ajouté pour géométrie, typographie, espacements, états, focus clavier et cibles tactiles dans `navigation-tiroirs.css`. | Socle livré ; revue visuelle détaillée page par page encore requise |
+
+La matrice et les limites de recette sont documentées dans [l'audit de non-régression Evolution-7](AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md). La réussite des tests du site ne vaut pas recette CRM multi-identités ni validation visuelle exhaustive. Aucune promotion production n'est autorisée par ce constat.
