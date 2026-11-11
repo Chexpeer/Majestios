@@ -60,6 +60,8 @@ const drawerStyles = read("navigation-tiroirs.css");
 assert(navigationController.includes('navigation-tiroirs.js') && navigationController.includes('navigation-tiroirs.css'),
   "Navigation : le contrôleur partagé doit charger le système de tiroirs et ses styles");
 assert(navigationController.includes("Assistant conversationnel de première génération"), "Assistant conversationnel absent du contrôleur partagé");
+assert(navigationController.includes("majestios-chat.css") && exists("majestios-chat.css"),
+  "Assistant : la feuille de style dédiée doit être chargée par le contrôleur commun");
 for (const preservedText of ["MAJESTIOS · GUIDE DE VISITE","Besoin d’un coup de pouce","Par où commencer ?","Vous proposez, MajestiOS dispose.","Rechercher une opportunité","Découvrir le développement commercial","Préparer mon espace personnel","Consulter les questions fréquentes"]) {
   assert(navigationController.includes(preservedText), "Assistant : texte ou raccourci historique non préservé : " + preservedText);
 }
@@ -69,6 +71,7 @@ assert(navigationController.includes('bodacc-veille-entreprises.html'),
 // Les destinations fonctionnelles du site sont contrôlées indépendamment du menu public.
 // Certaines pages sont internes, sectorielles ou légales et ne doivent pas toutes devenir des entrées de menu.
 const requiredNavigationRoutes = [
+  "assistant-majestios.html",
   "marches-publics.html","marches-prives.html","veille-marches.html","bodacc-veille-entreprises.html",
   "sous-traitance.html","developpement-commercial.html","prospection-active.html",
   "accompagnement-appels-offres.html","facturation-electronique.html","suivi-commercial.html","qualification-entreprises.html",
@@ -85,16 +88,16 @@ for (const route of requiredNavigationRoutes) {
   assert(siteFiles.includes(route), "Navigation : route fonctionnelle non publiée : " + route);
 }
 
-// Contrat du menu réel : six rubriques principales, vingt entrées secondaires et dix-huit destinations uniques après ajout de la facturation électronique dans deux rubriques.
+// Contrat du menu réel : sept rubriques principales, vingt-et-une entrées secondaires et dix-neuf destinations uniques avec l'espace Assistant.
 const menuRoutes = [...drawerController.matchAll(/\["[^"]+","([^"]+\.html)"\]/g)].map((match) => match[1]);
 const uniqueMenuRoutes = [...new Set(menuRoutes)];
 for (const route of uniqueMenuRoutes) {
   assert(exists(route), "Navigation : destination de sous-menu inexistante : " + route);
   assert(siteFiles.includes(route), "Navigation : destination de sous-menu non publiée : " + route);
 }
-assert( menuRoutes.length === 20, "Navigation : le menu doit contenir 20 entrées secondaires, actuellement " + menuRoutes.length);
-assert(uniqueMenuRoutes.length === 18, "Navigation : les destinations secondaires uniques doivent être 18, actuellement " + uniqueMenuRoutes.length);
-for (const label of ["Appels d’offres","Développement commercial","Réseau","Réputation virtuelle","Espaces privés","Explorer davantage"]) {
+assert( menuRoutes.length === 21, "Navigation : le menu doit contenir 21 entrées secondaires, actuellement " + menuRoutes.length);
+assert(uniqueMenuRoutes.length === 19, "Navigation : les destinations secondaires uniques doivent être 19, actuellement " + uniqueMenuRoutes.length);
+for (const label of ["Appels d’offres","Développement commercial","Réseau","Réputation virtuelle","Espaces privés","Explorer davantage","Assistant"]) {
   assert(drawerController.includes('label:"' + label + '"'), "Navigation : rubrique principale absente : " + label);
 }
 assert(drawerController.includes('mouseenter') && drawerController.includes('mouseleave'),
