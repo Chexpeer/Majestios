@@ -110,3 +110,10 @@ Evolution-9 est prête à être évaluée lorsque :
 Le déploiement de prévisualisation Vercel du commit `f87cc16fa9c4c155b73483e2059a72c9f487ef31` est `READY`. Le build confirme 81 fichiers copiés depuis `site-files.json` sans différence avec les sources. Le projet Vercel utilisé est `majestios`, seul projet relié au dépôt dans l'équipe consultée.
 
 Cette prévisualisation confirme le build du site sur son commit source. La suite GitHub Actions a également réussi sur ce même commit `f87cc16fa9c4c155b73483e2059a72c9f487ef31`. Aucune promotion en production n'a été effectuée.
+
+
+## 11. Audit CRM et Supabase — 11 novembre 2026
+
+Le contrôle en lecture seule des deux projets Supabase, de la configuration frontend, des migrations, des tables/RLS, des fonctions Edge et des RPC est consigné dans [AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md](AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md). Le site pointe actuellement vers `majestios-crm` (22 migrations), tandis que `MajestiOS-Test` en possède 39 ; les environnements ne sont pas synchronisés. Aucun changement distant n'a été effectué.
+
+**CI Evolution-9 :** run [43011364291](https://github.com/Chexpeer/Majestios/actions/runs/43011364291), commit `0c919df639cef0849508445e63c1f6aa6eb78f83`, conclusion `success`.
