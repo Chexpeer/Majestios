@@ -100,6 +100,11 @@ async function main() {
       "Le survol doit ouvrir le sous-menu desktop.");
     assert.equal(await desktopSubmenu.isVisible(),true,
       "Le sous-menu desktop ouvert au survol doit être visible.");
+    await desktopSubmenu.locator("a").first().hover();
+    assert.equal(await desktopToggle.getAttribute("aria-expanded"),"true",
+      "Le sous-menu doit rester ouvert lorsque le pointeur quitte le titre pour rejoindre un lien.");
+    assert.equal(await desktopSubmenu.isVisible(),true,
+      "Le déplacement du pointeur vers un lien ne doit pas fermer le sous-menu.");
     await page.locator("body").hover({position:{x:5,y:5}});
     assert.equal(await desktopToggle.getAttribute("aria-expanded"),"false",
       "La sortie du pointeur doit refermer le sous-menu desktop.");
