@@ -623,3 +623,13 @@ Ces deux points ont été ajoutés après lecture du SQL versionné, sans exécu
 | CHX-SEC-04 | P0 avant activation | Falsification / isolation | Tests contractuels pour identité falsifiée, JWT invalide, rôle member, absence d'appartenance et tentative A/B ; tests SQL statiques. | Ajoutés à CI ; tests PostgreSQL/Auth/RLS réels encore requis. |
 
 Aucun endpoint ni migration n'a été déployé. MajestiOS-Test demeure en lecture seule. La CI doit être vérifiée sur le SHA exact après les derniers commits.
+
+
+## 47. Gouvernance de branche et continuité CI — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Action / statut |
+|---|---|---|---|---|
+| E9-GIT-01 | P1 | Protection de branche | L'API GitHub retourne `protected=false` pour `Evolution-9` ; aucun contrôle de statut obligatoire n'est configuré. `main` est également non protégée, mais son HEAD reste inchangé à `94f2af84e96577b6370af1804ecfbd66bd100e71`. | Recommander une règle de protection exigeant CI verte et revue avant fusion ; aucune règle de dépôt modifiée dans cet audit. |
+| E9-CI-03 | P1 | Annulation des CI | Le workflow `verify-site.yml` utilise `cancel-in-progress: true`. Les pushes successifs sur Evolution-9 ont annulé les exécutions précédentes ; seule une exécution du SHA final, sans push concurrent, peut servir de preuve. | Laisser terminer la CI du HEAD stabilisé ; envisager une stratégie de concurrence qui n'annule pas la validation du HEAD final. |
+
+Ces constats proviennent de la réponse GitHub sur les branches et des exécutions Actions de ce lot. La protection de branche n'a pas été modifiée et aucun changement n'a été apporté à `main`.
