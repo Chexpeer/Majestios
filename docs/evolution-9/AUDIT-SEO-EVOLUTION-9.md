@@ -27,7 +27,7 @@ Les **39 pages HTML** déclarées dans site-files.json ont été examinées. Sur
 ## 2. Points à traiter
 
 ### SEO-01 — Canonicals et domaine de référence
-Aucun canonical n'a été trouvé dans les dix pages examinées. Le domaine public canonique n'est pas confirmé dans les éléments de cette passe. Ne pas injecter de canonicals absolus, sitemap ou redirections en devinant le domaine. Décision attendue : confirmer le domaine public officiel et les variantes à rediriger, puis générer les canonicals cohérents.
+Aucun canonical n'a été trouvé dans les 39 pages examinées. Le domaine public canonique n'est pas confirmé dans les éléments de cette passe. Ne pas injecter de canonicals absolus, sitemap ou redirections en devinant le domaine. Décision attendue : confirmer le domaine public officiel et les variantes à rediriger, puis générer les canonicals cohérents.
 
 ### SEO-02 — Robots et sitemap
 Les fichiers racine robots.txt et sitemap.xml n'ont pas été trouvés dans le dépôt à la date de la vérification. Cela ne prouve pas qu'aucune règle n'est servie par l'hébergeur ou un autre mécanisme. Après confirmation du domaine et des routes publiques :
