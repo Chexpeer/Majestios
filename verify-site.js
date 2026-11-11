@@ -56,6 +56,10 @@ assert(eInvoicePage.includes("facturation-electronique-qu-est-ce-que-ca-change-p
 assert(eInvoicePage.includes("je-consulte-la-liste-des-plateformes-agreees"), "Facturation électronique : liste officielle des plateformes agréées absente");
 assert(eInvoicePage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : statut de MajestiOS à clarifier");
 
+const reputationPage = fs.readFileSync(path.join(root, "reputation-virtuelle.html"), "utf8");
+assert(/<section class="audit-dossier"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : le formulaire principal de préparation doit rester masqué dans l’interface publique");
+assert(/<div class="reputation-searches"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : les formulaires Google Web et Maps doivent rester masqués dans l’interface publique");
+
 const privateAccessPage = fs.readFileSync(path.join(root, "espace-prive.html"), "utf8");
 assert(privateAccessPage.includes('href="charte-majestios.css"'), "Espace privé / Accès VIP : la charte graphique commune MajestiOS doit être chargée");
 const adminPage = fs.readFileSync(path.join(root, "administration.html"), "utf8");
