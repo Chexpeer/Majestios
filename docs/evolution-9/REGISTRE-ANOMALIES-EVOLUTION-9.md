@@ -435,3 +435,10 @@ La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.m
 - Déploiement de prévisualisation : Vercel a construit le commit `a02682f71f644a4d2a826e309965015847855942` depuis `Evolution-9`, état READY, URL `https://majestios-git-evolution-9-majistr.vercel.app`. Les journaux confirment le build statique (86 fichiers) et le déploiement.
 - Production : l'alias `majestios.vercel.app` reste rattaché au déploiement de production du commit `6256d6aee38de7fc9ed1c4cb600cf12d73836b6c`. Le nouveau commit n'a pas été promu en production.
 - Limite : la prévisualisation n'a pas pu être ouverte avec l'outil de consultation utilisé ; le statut READY prouve le build et la publication, pas le rendu ni le parcours réel dans un navigateur. L'anomalie « page blanche et or » n'est donc pas déclarée résolue. Il reste à reproduire le clic depuis l'appareil de l'utilisateur et à inspecter la console/réseau si le formulaire ne s'affiche pas.
+
+
+## 18. Navigation globale et accès VIP depuis toutes les pages — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause | Correction | Statut |
+|---|---|---|---|---|---|
+| E9-NAV-02 | P1 | Accès global / navigation | De nombreuses pages HTML conservaient une navigation locale historique sans charger `navigation-tiroirs.js` ni ses styles. Certaines pages internes (CRM, cockpit, recherche ciblée et sas VIP) ne possédaient pas de barre publique commune. Le lien VIP ne pouvait donc pas être garanti depuis toutes les pages. | Chargement du script commun sur toutes les pages HTML déclarées ; le script injecte la feuille de style commune et crée une barre de navigation de secours si la page n'en possède pas. Le menu conserve le lien « Accès VIP · Administration » dans « Espaces privés » et cible `espace-interne.html`. | **Code propagé sur Evolution-9 ; vérification statique ajoutée.** La recette visuelle desktop/mobile et la vérification de toutes les routes sur le déploiement restent à exécuter. Aucun changement Supabase. |
