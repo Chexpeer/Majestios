@@ -285,3 +285,8 @@ Le comparatif depuis le commit `3b9c432dd7ba9048819a5f19f2a143843aa66902` indiqu
 ## 12. Première passe d'épuration éditoriale — 11 novembre 2026
 
 Les textes de l'accueil, du développement commercial, des marchés publics et privés, de l'accompagnement, du contact et de la FAQ ont été raccourcis selon la ligne « clair, court, courtois, concis ». Les avertissements sur les limites réelles des services et les formulaires en prévisualisation ont été conservés. Voir [le rapport d'épuration éditoriale](EPURATION-EDITORIALE-SITE-2026-11-11.md) et le point UX-EDITORIAL-01 du [registre d'anomalies](REGISTRE-ANOMALIES-EVOLUTION-9.md).
+
+
+## 13. Deuxième passe d'épuration éditoriale — 11 novembre 2026
+
+Sept pages de l'écosystème ont été simplifiées. Voir le [rapport de la deuxième passe](EPURATION-EDITORIALE-PASSE-2-2026-11-11.md) et l'anomalie UX-EDITORIAL-02 du registre.
