@@ -136,3 +136,16 @@ Référence canonique : [Spécification cible CRM, facturation et facturation é
 | CRM-05 | P1 avant pilote | Recette fonctionnelle / multi-tenant | Protocole détaillé ajouté : rôles, entreprises, contacts, opportunités, activités, historisation, relances, permissions SQL et tests négatifs entre deux tenants sur `MajestiOS-Test`. | **Protocole préparé — NOT RUN** ; exécution conditionnée à des comptes et données synthétiques et à une autorisation explicite d'écriture sur le projet de test. |
 
 Référence : [Protocole de recette CRM sur MajestiOS-Test](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md). Ce livrable ne clôt pas CRM-05 et ne constitue pas une validation de sécurité ou d'ouverture des pilotes.
+
+
+## 14. Recontrôle lecture seule du projet de recette — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat actualisé | Statut |
+|---|---|---|---|---|
+| CRM-05 | P1 avant pilote | Recette multi-tenant | 39 migrations présentes ; tables CRM vides ; une seule organisation interne sans membre ; aucun tenant client/partenaire ni utilisateur synthétique. | Protocole prêt, exécution bloquée par l'absence d'identités/tenants de recette. Préparer un provisionnement synthétique contrôlé avant tests JWT. |
+| AN-15 | P2 | Triggers d'intégrité redondants | Deux triggers par table businesses, contacts, opportunities et activities appellent `enforce_tenant_relationship_integrity`. | Confirmé en lecture seule sur MajestiOS-Test ; analyser les migrations et dépendances avant toute suppression. |
+| CRM-03 | P1 avant pilote | Privilèges UPDATE | Le projet de test possède les privilèges UPDATE limités aux colonnes métier ; les colonnes système ne sont pas accordées à authenticated. | Présence distante confirmée sur MajestiOS-Test ; le projet principal reste à part et n'est pas modifié. |
+| CRM-02 | P1 avant pilote | Historisation | Triggers d'historisation présents et actifs sur businesses, contacts et opportunities dans le projet de test. | Présence distante confirmée ; recette transactionnelle réelle encore requise. |
+| CRM-REM-01 | P1 avant pilote | Relances | Job pg_cron actif toutes les cinq minutes ; RPC SECURITY DEFINER authentifié avec contrôle de droits tenant dans le corps. | Configuration présente ; tests de rôles, tenant, doublons et clôture atomique non exécutés. |
+
+Le contrôle est documenté dans le [rapport d'audit](AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md) et le [protocole de recette](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md). Aucune écriture distante n'a été effectuée.
