@@ -479,6 +479,7 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
     if (open) input.focus(); else toggle.focus();
   };
   toggle.addEventListener("click", () => setOpen(panel.hidden));
+  document.querySelector("#assistant-open-guide")?.addEventListener("click", () => setOpen(true));
   close.addEventListener("click", () => setOpen(false));
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !panel.hidden) setOpen(false); });
   const appendMessage = (text, role, link) => {
