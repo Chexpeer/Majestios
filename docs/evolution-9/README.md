@@ -239,3 +239,12 @@ La maturité détaillée et les conditions d'activation figurent dans CHX-09 à 
 
 
 **Garde-fou d'approbation :** la RPC privée d'approbation reçoit un identifiant d'acteur en paramètre et vérifie son rôle dans l'organisation ; toute future API devra dériver cet identifiant côté serveur depuis une session vérifiée, jamais depuis une valeur libre envoyée par le navigateur. Le pont worker ne propose actuellement pas cette action. Voir CHX-13.
+
+
+## 29. Première mission Cheexpeer — diagnostic contrôlé
+
+La première mission technique préparée est worker_self_check : diagnostic A0 du worker, sans accès aux données métier ni effet externe. Le handler vérifie la version Node, l'identité worker, le format de l'endpoint Supabase et la validité du bail. Il renouvelle le bail avant de finaliser.
+
+Le handler, ses tests et une migration de registre désactivée par défaut sont présents dans Evolution-9. **Ce n'est pas encore un parcours opérationnel** : il manque l'API utilisateur authentifiée pour soumettre, approuver et consulter les missions, ainsi que le raccordement/déploiement et la recette sur MajestiOS-Test.
+
+Référence de travail : [Spécification de la première mission Cheexpeer](SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md). Voir CHX-14 à CHX-17 dans le registre. Aucune migration distante, activation de tool, mission réelle ou configuration Supabase n'a été effectuée.
