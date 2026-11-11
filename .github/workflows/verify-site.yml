@@ -62,10 +62,14 @@ jobs:
           node --check supabase/functions/_shared/prospection-contract.mjs
           node --check supabase/functions/_shared/prospection-validation.mjs
           node --check supabase/functions/_shared/prospection-authz.mjs
+          node --check supabase/functions/_shared/cheexpeer-api.mjs
           node --check supabase/functions/_shared/prospection-errors.mjs
           node --check supabase/functions/_shared/prospection-search-core.mjs
           node --experimental-strip-types --check supabase/functions/provision-client-workspace/index.ts
           node --experimental-strip-types --check supabase/functions/prospection-search-member/index.ts
+          node --experimental-strip-types --check supabase/functions/cheexpeer-mission-submit/index.ts
+          node --experimental-strip-types --check supabase/functions/cheexpeer-approval-decision/index.ts
+          node --experimental-strip-types --check supabase/functions/cheexpeer-mission-read/index.ts
           node --experimental-strip-types --check supabase/functions/reputation-audit-context/index.ts
           node --check tests/reputation-audit-access-contract.test.mjs
           node --input-type=module --check < supabase-config.js
@@ -76,6 +80,8 @@ jobs:
           node --input-type=module --check < crm-page.js
           node --input-type=module --check < crm-business-filters.js
           node --input-type=module --check < crm-client.js
+      - name: Tester l'identité et l'isolation inter-organisations des API Cheexpeer
+        run: node --test tests/cheexpeer-api-security.test.mjs
       - name: Tester le contrat du moteur d'audit interne Cheexpeer
         run: node --test tests/reputation-audit-core.test.mjs
       - name: Tester le registre et le premier connecteur de Réputation virtuelle
