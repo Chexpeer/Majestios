@@ -219,3 +219,11 @@ L'audit des tables, migrations, fonctions Edge et parcours CRM ne démontre pas 
 Cette absence est une évolution structurante de phase 2, et non une anomalie à corriger par ajout précipité de tables dans le CRM actuel. Le modèle doit être conçu comme un domaine métier distinct mais relié au CRM. Il doit prendre en charge les modes natif, connecté et hybride, avec une source de référence par objet, des identifiants externes stables, l'idempotence et des mécanismes anti-doublons.
 
 Le détail fonctionnel et technique figure dans la [spécification cible](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md). Préparer dès le CRM actuel les identifiants, adresses de facturation, liens documentaires, événements et permissions nécessaires, sans prétendre que la facturation ou une intégration PA existe déjà. Aucune modification Supabase distante n'a été effectuée.
+
+## 12. Protocole de recette préparé — 11 novembre 2026
+
+Un protocole détaillé de recette CRM a été préparé pour `MajestiOS-Test`. Il couvre les rôles, les opérations entreprises/contacts/opportunités, l'historisation atomique, les relations inter-tenant, les privilèges SQL et le cycle des relances. Il distingue explicitement le CRM interne VIP du futur CRM client multi-tenant, qui ne peut pas être validé uniquement depuis le frontend actuel.
+
+**Le protocole est préparé mais non exécuté (NOT RUN).** Cette préparation n'a créé aucune donnée, n'a lancé aucune migration et n'a modifié aucun paramètre Supabase. L'exécution devra commencer par une nouvelle vérification en lecture seule de l'état distant, puis être autorisée séparément avec des identités et données synthétiques.
+
+Voir [PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md).
