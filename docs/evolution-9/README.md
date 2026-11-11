@@ -269,3 +269,14 @@ Correctifs appliqués dans le code :
 La revue du formulaire de ciblage a identifié puis corrigé une validation APE/NAF et département qui rejetait les formats usuels à cause d'antislashs doublés dans les regex JavaScript. Des assertions de non-régression ont été ajoutées. La correction est intégrée au code Evolution-9 ; la CI du commit correctif reste à confirmer.
 
 Le ciblage actuel ne parcourt qu'une page de l'API publique et ne peut donc pas être qualifié d'exhaustif. Les anomalies distantes CRM-06 (droits UPDATE et historisation sur majestios-crm) et CRM-07 (recette multi-tenant non exécutée sur MajestiOS-Test) restent ouvertes. Aucun changement Supabase n'a été effectué.
+
+
+## 31. État de la CI et reprise des anomalies — 11 novembre 2026, 19:04 UTC
+
+Le HEAD vérifié de `Evolution-9` est `0606808e48e5b8d4e36dfbb731420b051c42c0ce`. Le workflow [43083493088](https://github.com/Chexpeer/Majestios/actions/runs/43083493088), déclenché par push sur cette branche et associé exactement à ce SHA, est terminé avec la conclusion **success**. Le job `verify-static-site` est lui aussi en succès ; toutes les étapes rapportées sont terminées avec succès, y compris les tests navigateur de navigation classique, recherche, Réputation virtuelle, menus desktop/mobile, contact et verrouillage du poste de commande sans session.
+
+Le comparatif depuis le commit `3b9c432dd7ba9048819a5f19f2a143843aa66902` indique trois commits d'avance, zéro de retard et trois fichiers modifiés, tous documentaires ou éditoriaux : audit Cheexpeer/facturation, registre d'anomalies et page d'information facturation. Aucun changement applicatif n'apparaît dans ce lot.
+
+**Limites :** cette CI verte prouve le passage des contrôles automatisés présents dans le workflow, pas une recette visuelle exhaustive, une recette CRM multi-identités, la résolution des anomalies P0/P1, un déploiement ou une recette de production. Les anomalies CHX-API-01 et CHX-SEC-03 restent bloquantes avant activation métier de Cheexpeer ; les anomalies CRM-05 et CRM-16 restent ouvertes avant pilote multi-tenant. Les contrôles Supabase demeurent en lecture seule.
+
+**Prochaine étape :** traiter le socle d'API utilisateur Cheexpeer et la vérification d'identité de l'acteur d'approbation côté serveur, puis préparer les tests multi-tenant CRM sur environnement de test uniquement, après validation explicite de toute écriture nécessaire. Aucun changement de branche, merge, rebase, déploiement production ou changement Supabase n'a été effectué dans cette passe.
