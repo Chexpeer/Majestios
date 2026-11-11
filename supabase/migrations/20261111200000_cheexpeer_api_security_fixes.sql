@@ -273,3 +273,65 @@ comment on index private.cheexpeer_missions_org_idempotency_unique is
 'Idempotency is scoped to organization; a repeated key cannot reveal another tenant mission.';
 comment on function private.cheexpeer_decide_approval(uuid,uuid,text,text) is
 'Server-only decision. Expiration is persisted as a normal result and never enqueues the mission.';
+
+
+-- Lecture tenant-scoped destinée exclusivement à l'API serveur de consultation.
+create or replace function public.cheexpeer_api_read_mission(
+  p_mission_id uuid,
+  p_organization_id uuid
+)
+returns jsonb
+language sql
+security invoker
+set search_path = ''
+as $$
+  select pg_catalog.jsonb_build_object(
+    'mission', pg_catalog.jsonb_build_object(
+      'id', m.id,
+      'organization_id', m.organization_id,
+      'mission_type', m.mission_type,
+      'title', m.title,
+      'objective', m.objective,
+      'status', m.status,
+      'priority', m.priority,
+      'autonomy_level', m.autonomy_level,
+      'requires_approval', m.requires_approval,
+      'scheduled_at', m.scheduled_at,
+      'deadline_at', m.deadline_at,
+      'result', m.result,
+      'error_code', m.error_code,
+      'error_summary', m.error_summary,
+      'created_at', m.created_at,
+      'updated_at', m.updated_at,
+      'started_at', m.started_at,
+      'finished_at', m.finished_at
+    ),
+    'approvals', coalesce((
+      select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object(
+        'id', a.id, 'status', a.status, 'action_summary', a.action_summary,
+        'risk_level', a.risk_level, 'decision_note', a.decision_note,
+        'expires_at', a.expires_at, 'decided_at', a.decided_at,
+        'created_at', a.created_at
+      ) order by a.created_at)
+      from private.cheexpeer_approvals a
+      where a.mission_id = m.id
+    ), '[]'::jsonb),
+    'events', coalesce((
+      select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object(
+        'id', e.id, 'event_type', e.event_type, 'actor_type', e.actor_type,
+        'actor_id', e.actor_id, 'details', e.details, 'occurred_at', e.occurred_at
+      ) order by e.occurred_at, e.id)
+      from private.cheexpeer_mission_events e
+      where e.mission_id = m.id
+    ), '[]'::jsonb)
+  )
+  from private.cheexpeer_missions m
+  where m.id = p_mission_id
+    and m.organization_id = p_organization_id;
+$$;
+
+revoke all on function public.cheexpeer_api_read_mission(uuid,uuid) from public, anon, authenticated;
+grant execute on function public.cheexpeer_api_read_mission(uuid,uuid) to service_role;
+
+comment on function public.cheexpeer_api_read_mission(uuid,uuid) is
+'Server-only tenant-scoped mission read; returns a bounded field allowlist for the authenticated organization API.';
