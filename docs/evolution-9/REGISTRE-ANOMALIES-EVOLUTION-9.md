@@ -790,3 +790,11 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | UX-EDITORIAL-11 | P2 | Cohérence de navigation et sobriété éditoriale | Les pages Marchés publics, Marchés privés, Accompagnement aux appels d’offres et Espace membre conservaient des repères « ÉTAGE ». La page Accompagnement affichait encore un bâtiment et un parcours visuel présenté comme interactif, alors que cette représentation a été abandonnée au profit d'une navigation classique. | Corrigé sur Evolution-9 : repères retirés, carte d'accompagnement simplifiée, contenu métier et liens conservés. CI du HEAD final à vérifier. |
 
 Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md). Aucun changement de fonctionnalité backend ou de navigation réelle n'est impliqué.
+
+
+
+## 66. Ancien parcours visuel sur Intelligence économique — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-12 | P2 | Cohérence éditoriale et statut fonctionnel | La page Intelligence économique conservait un bâtiment illustratif et la promesse d'un parcours interactif alors que la rubrique est en préparation et que la navigation par étages a été abandonnée. | Corrigé sur Evolution-9 : présentation textuelle concise, statut en préparation et précautions de vérification conservés. CI du HEAD final à vérifier. |
