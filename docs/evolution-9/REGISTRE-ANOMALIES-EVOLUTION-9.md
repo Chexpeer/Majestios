@@ -299,7 +299,7 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 
 ## 27. Résultat de la recette automatisée — 11 novembre 2026
 
-**<badge>CI-04 — SUCCESS</badge>** Le workflow `verify-site.yml` est entièrement vert sur le commit `92344c68f075c5631493f451123959dc850f78f3` : [run 43042242471](https://github.com/Chexpeer/Majestios/actions/runs/43042242471).
+**CI-04 — SUCCESS** Le workflow `verify-site.yml` est entièrement vert sur le commit `92344c68f075c5631493f451123959dc850f78f3` : [run 43042242471](https://github.com/Chexpeer/Majestios/actions/runs/43042242471).
 
 - Build : 86 ressources copiées depuis le manifeste, sans différence avec les sources.
 - Architecture : 39 pages HTML et 86 ressources vérifiées.
@@ -309,3 +309,15 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 - APIs publiques : contrôles BOAMP et BODACC réussis sur les échantillons du test.
 
 **Statut des anomalies :** les erreurs de recette CI-02/CI-03 sont corrigées ; NAV-04 passe désormais ses contrôles automatisés. UX-02/UX-03/UX-04 disposent d'une première couche de tokens commune intégrée. La recette visuelle multi-pages, les captures comparatives et l'inspection des états interactifs restent ouvertes. La CI verte ne vaut pas validation visuelle ni déploiement.
+
+
+## 28. Prévisualisation Evolution-9 après recette CI — 11 novembre 2026
+
+**Déploiement Vercel : READY**  
+URL unique : https://majestios-q75r1hk52-majistr.vercel.app  
+Alias de branche : https://majestios-git-evolution-9-majistr.vercel.app  
+Commit : `2c2bc988c71f3178b3ea33ab1bebcde725dba5cf`  
+Projet : `majestios` (`prj_efmheKwiXnsncdhJYLmNIWN9QYQL`)  
+Cible : Preview, aucune promotion production.
+
+Le déploiement est prêt et correspond exactement au commit de la recette CI verte. La protection SSO du projet reste activée. L'ouverture non authentifiée du preview depuis l'outil web n'a pas permis d'inspecter le rendu ; aucune validation visuelle n'est donc revendiquée. Ne pas désactiver la protection : la revue visuelle doit être faite depuis une session autorisée.

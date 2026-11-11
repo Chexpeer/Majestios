@@ -186,3 +186,14 @@ La recette mobile compare désormais les pages publiques avec le sélecteur comm
 La suite GitHub Actions a réussi sur le commit `92344c68f075c5631493f451123959dc850f78f3` : [run 43042242471](https://github.com/Chexpeer/Majestios/actions/runs/43042242471). Résultats vérifiés : build de 86 ressources, architecture de 39 pages HTML, liens locaux et identifiants, 14 documents canoniques, tests navigateur Prospection, BOAMP et BODACC, navigation publique desktop/mobile, moteur de recherche, Réputation virtuelle, formulaire de contact sans transmission et verrouillage du cockpit sans session.
 
 **Limites restantes :** la réussite CI ne vaut pas recette visuelle multi-pages. Les captures avant/après et l'inspection réelle des espaces CRM, VIP, administration et collaborateurs restent à réaliser. La branche Evolution-9 n'a pas de protection de branche activée ; aucune modification de cette règle n'a été effectuée. Aucun déploiement ni changement Supabase distant n'a été déclenché.
+
+
+## 24. Prévisualisation de recette — 11 novembre 2026
+
+La prévisualisation Vercel de la branche Evolution-9 est **READY** sur le commit `2c2bc988c71f3178b3ea33ab1bebcde725dba5cf`, également validé par la CI complète :
+
+- URL directe : https://majestios-q75r1hk52-majistr.vercel.app
+- Alias de branche : https://majestios-git-evolution-9-majistr.vercel.app
+- Projet Vercel unique : `majestios`.
+
+La protection SSO du projet reste active. Le rendu n'a pas pu être inspecté automatiquement sans authentification ; les captures comparatives et la recette visuelle restent donc ouvertes. Aucun déploiement production ni changement Supabase distant n'a été effectué.
