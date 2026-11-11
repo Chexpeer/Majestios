@@ -39,7 +39,7 @@ async function main() {
       await page.goto("http://127.0.0.1:4174/"+route,{waitUntil:"domcontentloaded"});
       await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
       const mobileButton = page.locator("#menu-toggle");
-      await mobileButton.waitFor({state:"visible",timeout:15000});
+      await mobileButton.waitFor({state:"visible",timeout:15000}).catch(error => { throw new Error("Hamburger mobile absent ou masqué sur "+route+" : "+error.message); });
       assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"48px",
         "La barre mobile doit conserver sa hauteur commune sur "+route);
       await mobileButton.click();
