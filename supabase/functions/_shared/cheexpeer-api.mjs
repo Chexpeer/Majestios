@@ -88,7 +88,7 @@ export function validateSubmissionPayload(value) {
       typeof value.title !== "string" || !value.title.trim() || value.title.length > 200 ||
       (value.objective != null && (typeof value.objective !== "string" || value.objective.length > 4000)) ||
       (value.priority != null && (!Number.isInteger(value.priority) || value.priority < 1 || value.priority > 5)) ||
-      (value.autonomy_level != null && (!Number.isInteger(value.autonomy_level) || value.autonomy_level < 0 || value.autonomy_level > 4)) ||
+      (value.autonomy_level != null && value.autonomy_level !== 0) ||
       (value.requires_approval != null && typeof value.requires_approval !== "boolean") ||
       (value.idempotency_key != null && (typeof value.idempotency_key !== "string" || !value.idempotency_key.trim() || value.idempotency_key.length > 200)) ||
       (value.input != null && (!value.input || typeof value.input !== "object" || Array.isArray(value.input))) ||
