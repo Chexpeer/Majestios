@@ -120,3 +120,23 @@ Chaque étape doit conserver les références des objets précédents et éviter
 6. Prototype du centre de commande Cheexpeer.
 
 Chaque prototype sera confronté à des tâches réelles du premier cercle de 5 à 7 personnes. Le prototype ne sera pas connecté à des données réelles avant validation de la sécurité.
+
+
+## 8. Avancement du premier prototype — 11 novembre 2026
+
+Une première version de la vitrine Evolution-8 est construite dans `index.html` et `homepage-evolution-8.css`. Elle :
+- introduit l'ambition CRM tout-en-un en distinguant les outils actuels des modules en préparation ;
+- présente les trois parcours : conserver son CRM, adopter le CRM MajestiOS, préparer facturation/dématérialisation ;
+- conserve le moteur de recherche existant via `#home-search-mount` ;
+- garde les appels d'offres et le développement commercial comme porte d'entrée actuelle ;
+- présente un aperçu conceptuel explicitement signalé comme non connecté.
+
+La navigation partagée a reçu une première couche de style Evolution-8 : barre transparente, onglets colorés, menus déroulants clairs, hamburger mobile préservé et lien VIP conservé. Le manifeste `site-files.json` inclut la nouvelle feuille de style.
+
+**État de recette :**
+- Build Vercel de prévisualisation : réussi, 80 fichiers vérifiés.
+- Tests de contrat et tests navigateur : non confirmés sur ce commit.
+- Inspection visuelle desktop/mobile : à réaliser sur la prévisualisation.
+- Tests de non-régression des moteurs, formulaires et espaces protégés : à réaliser avant extension à d'autres pages.
+
+La première validation attendue porte sur le rendu desktop/mobile, la lisibilité des menus sur fonds clairs et foncés, la visibilité du hamburger, l'accès VIP et la conservation du moteur de recherche. Aucune mise en production n'est autorisée par ce lot.
