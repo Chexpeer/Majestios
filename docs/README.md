@@ -66,7 +66,7 @@ La formule « premier vrai CRM tout-en-un » exprime une ambition de différenci
 
 Le détail et les conditions de clôture figurent dans les registres d'anomalies. Une page, un composant ou une migration présente dans Git ne prouve pas son déploiement ni son fonctionnement réel.
 
-L'audit SEO initial est documenté dans [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) ; il couvre un échantillon de dix pages et ne constitue pas encore un balayage exhaustif.
+L'audit SEO initial est documenté dans [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) ; il couvre les 39 pages HTML du manifeste pour la présence des métadonnées ; les contrôles d'unicité, performance, accessibilité et validation externe restent ouverts.
 
 ## 5. Documentation spécialisée et historique
 
