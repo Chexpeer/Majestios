@@ -1,8 +1,48 @@
 (() => {
   "use strict";
+  const ensureSharedAssets = () => {
+    if (!document.querySelector('link[data-majestios-shared-nav="css"]')) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "navigation-tiroirs.css";
+      link.dataset.majestiosSharedNav = "css";
+      document.head.append(link);
+    }
+  };
+
+  const ensureNavigationShell = () => {
+    let header = document.querySelector(".site-header");
+    if (header && header.querySelector("#site-nav")) return header;
+    if (!header) {
+      header = document.createElement("header");
+      header.className = "site-header";
+      header.innerHTML = '<a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button><nav class="site-nav" id="site-nav" aria-label="Navigation principale"></nav>';
+      document.body.insertBefore(header, document.body.firstChild);
+    } else if (!header.querySelector("#site-nav")) {
+      const nav = document.createElement("nav");
+      nav.className = "site-nav";
+      nav.id = "site-nav";
+      nav.setAttribute("aria-label", "Navigation principale");
+      header.append(nav);
+      if (!header.querySelector("#menu-toggle, .menu-toggle")) {
+        const button = document.createElement("button");
+        button.id = "menu-toggle";
+        button.className = "menu-toggle";
+        button.type = "button";
+        button.setAttribute("aria-expanded", "false");
+        button.setAttribute("aria-controls", "site-nav");
+        button.setAttribute("aria-label", "Ouvrir le menu");
+        button.innerHTML = "<span></span><span></span><span></span>";
+        header.insertBefore(button, nav);
+      }
+    }
+    return header;
+  };
+
   const init = () => {
+    ensureSharedAssets();
+    const header = ensureNavigationShell();
     const nav = document.querySelector("#site-nav");
-    const header = document.querySelector(".site-header");
     const menuButton = document.querySelector("#menu-toggle, .menu-toggle");
     if (!nav || !header || !menuButton || nav.dataset.drawerReady === "true") return;
     nav.dataset.drawerReady = "true";
