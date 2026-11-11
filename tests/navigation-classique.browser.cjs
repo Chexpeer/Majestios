@@ -35,16 +35,16 @@ async function main() {
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
 
     assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,"Les six familles de navigation doivent être présentes.");
-    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),18,"Le menu doit exposer les 18 entrées secondaires.");
-    assert.equal(await page.locator("#site-nav a").count(),19,"Le menu doit exposer Accueil et les 18 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),20,"Le menu doit exposer les 20 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav a").count(),21,"Le menu doit exposer Accueil et les 20 entrées secondaires.");
     assert.equal(await page.locator('#site-nav a[href="developpement-commercial.html"]').count(),1,
       "La page d’orientation Développement commercial doit être accessible depuis son sous-menu.");
 
     const navigationHrefs=await page.locator("#site-nav a").evaluateAll(links=>links.map(link=>link.getAttribute("href")));
     for(const href of navigationHrefs) assert.ok(published.has(href),"Chaque destination du menu doit être publiée : "+href);
-    for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html"]) {
+    for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","facturation-electronique.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html"]) {
       assert.ok(published.has(route),"La route doit être publiée : "+route);
-      assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),route==="accompagnement-appels-offres.html"?2:1,"Le menu doit exposer le nombre attendu de liens vers "+route);
+      assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),(route==="accompagnement-appels-offres.html"||route==="facturation-electronique.html")?2:1,"Le menu doit exposer le nombre attendu de liens vers "+route);
     }
     assert.equal(await page.locator("#floor-rows").count(),0,"L'ancien système de navigation par immeuble doit avoir disparu.");
     assert.ok(await page.locator("#home-search-mount").count(),"Le moteur de recherche transversal doit rester présent.");
@@ -53,6 +53,9 @@ async function main() {
     const opportunityGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Appels d’offres"})});
     const opportunityTitle=opportunityGroup.locator(".nav-group-link");
     const opportunityMenu=opportunityGroup.locator(".nav-group-items");
+    const devGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
+    assert.equal(await opportunityMenu.locator('a[href="facturation-electronique.html"]').count(),1,"La facturation électronique doit être accessible depuis Appels d’offres.");
+    assert.equal(await devGroup.locator('.nav-group-items a[href="facturation-electronique.html"]').count(),1,"La facturation électronique doit aussi être accessible depuis Développement commercial.");
     assert.equal(await opportunityTitle.getAttribute("aria-expanded"),"false","Les sous-menus doivent être repliés au chargement.");
     await opportunityGroup.hover();
     assert.equal(await opportunityMenu.isVisible(),true,"Le survol doit ouvrir le sous-menu sur ordinateur.");
