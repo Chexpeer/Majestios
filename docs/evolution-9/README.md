@@ -23,8 +23,9 @@ Lire dans cet ordre :
 1. [Vision stratégique MajestiOS 2026–2028](VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md)
 2. [Plan de réalisation et moyens](PLAN-REALISATION-ET-MOYENS.md)
 3. [Plan de synthèse documentaire](PLAN-SYNTHESE-DOCUMENTAIRE.md)
-4. [Registre des anomalies Evolution-9](REGISTRE-ANOMALIES-EVOLUTION-9.md)
-5. [Architecture cible CRM tout-en-un Evolution-8](../evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md)
+4. [Spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md)
+5. [Registre des anomalies Evolution-9](REGISTRE-ANOMALIES-EVOLUTION-9.md)
+6. [Architecture cible CRM tout-en-un Evolution-8](../evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md)
 6. [Audit de l'existant établi sur Evolution-7](../evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md)
 
 Les documents datés Evolution-5 à Evolution-8 restent des preuves historiques et des sources de détail. Ils ne doivent pas être supprimés ni considérés automatiquement comme des décisions actuelles.
@@ -126,3 +127,12 @@ Le contrôle en lecture seule des deux projets Supabase, de la configuration fro
 ## 13. Points bloquants CRM confirmés — 11 novembre 2026
 
 Le contrôle SQL des privilèges et triggers précise deux écarts sur le projet actuellement utilisé par le site (majestios-crm) : les droits UPDATE du rôle authenticated restent larges sur les colonnes des tables entreprises, contacts et opportunités ; les triggers d'historisation des modifications CRM ne sont pas présents. Les migrations de restriction des colonnes et d'historisation atomique sont donc à valider sur MajestiOS-Test avant toute promotion contrôlée. Ne pas les appliquer directement au projet principal sans revue, sauvegarde et autorisation.
+
+
+## 14. Facturation intégrée au CRM — cadrage phase 2
+
+La facturation est un domaine métier constitutif du CRM tout-en-un, préparé dès maintenant mais développé dans la deuxième phase. Le parcours cible relie devis, commande/prestation, facture, transmission électronique via PA partenaire, statuts/rejets, règlement et archivage.
+
+Trois modes doivent être prévus : CRM natif MajestiOS, CRM/logiciel externe conservé par le client, ou mode hybride. Une source de référence est définie pour chaque catégorie de données afin d'éviter les doubles factures et les divergences. Le moteur de facturation reste indépendant de l'écran CRM et de tout partenaire PA particulier.
+
+Référence fonctionnelle : [Spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md). Cette cible n'est pas une capacité opérationnelle actuelle : aucun module de facturation connecté à une PA n'a été démontré lors de l'audit.
