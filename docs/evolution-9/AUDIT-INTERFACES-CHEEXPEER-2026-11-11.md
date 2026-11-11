@@ -316,3 +316,12 @@ Avant toute mise en service sur MajestiOS-Test :
 6. obtenir une autorisation explicite avant toute application sur MajestiOS-Test.
 
 **Statut :** implémentation Git préparée ; CI en attente de preuve sur le HEAD final ; aucune mise en service.
+
+
+## 20. Renforcement du contrôle tenant sur les décisions d'approbation
+
+La revue après première implémentation a identifié un cas limite important : un même utilisateur peut être owner/admin de plusieurs organisations. Le handler vérifiait son rôle dans l'organisation déclarée, tandis que l'ancienne RPC interne vérifiait son rôle dans l'organisation réelle de la mission. Sans comparaison explicite entre les deux, un administrateur multi-tenant aurait pu présenter un identifiant d'approbation d'un autre tenant.
+
+Correction ajoutée à la migration additive : la façade `public.cheexpeer_api_decide_approval` reçoit `p_organization_id`, joint approbation et mission, exige l'égalité entre `m.organization_id` et l'organisation autorisée, puis seulement appelle la RPC interne. Le handler transmet l'organisation issue du contrôle JWT/membership. Le test de contrat SQL couvre ce filtre.
+
+**Statut :** correction présente dans Git Evolution-9 ; CI du HEAD final à vérifier ; aucun déploiement ni test PostgreSQL/Auth réel. Le scénario à deux organisations où le même utilisateur est administrateur des deux doit être inclus dans la recette locale.
