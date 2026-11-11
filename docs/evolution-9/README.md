@@ -248,3 +248,16 @@ La première mission technique préparée est worker_self_check : diagnostic A0 
 Le handler, ses tests et une migration de registre désactivée par défaut sont présents dans Evolution-9. **Ce n'est pas encore un parcours opérationnel** : il manque l'API utilisateur authentifiée pour soumettre, approuver et consulter les missions, ainsi que le raccordement/déploiement et la recette sur MajestiOS-Test.
 
 Référence de travail : [Spécification de la première mission Cheexpeer](SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md). Voir CHX-14 à CHX-17 dans le registre. Aucune migration distante, activation de tool, mission réelle ou configuration Supabase n'a été effectuée.
+
+
+## 9. Correctifs de non-régression visuelle — 11 novembre 2026
+
+Après la première prévisualisation Vercel d'Evolution-9, une vérification utilisateur a révélé quatre régressions visibles : moteur Google Web/Maps masqué dans Réputation virtuelle, barre de navigation incohérente selon les pages, accès VIP non harmonisé et accueil insuffisamment contrasté. Ces points avaient déjà été demandés et ne doivent pas être requalifiés en nouvelles préférences.
+
+Correctifs appliqués dans le code :
+- restauration visible des formulaires Google Web et Google Maps dans Réputation virtuelle ; le dossier d'audit reste masqué tant que l'utilisateur ne le demande pas ;
+- chargement des composants de navigation tiroir sur la page Réputation virtuelle et ajout de son accès VIP via le menu « Espaces privés » ;
+- couche corrective commune pour uniformiser le bandeau en bleu nuit/or, le tiroir et son bouton mobile ;
+- couche de contraste renforcée sur l'accueil afin que l'image décorative ne blanchisse plus la zone héro.
+
+**État :** correctifs commités sur Evolution-9 ; tests navigateur et nouvelle prévisualisation à exécuter. Aucun changement Supabase et aucune promotion en production.
