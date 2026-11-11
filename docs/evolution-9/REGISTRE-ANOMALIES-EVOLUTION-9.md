@@ -482,3 +482,13 @@ Le guide transversal est docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md ; l'audit SEO 
 | SEO-07 | P2 | Résultats dynamiques | resultats-recherche.html ne portait pas de noindex alors qu'elle affiche des résultats liés à une requête dynamique. Directive noindex,nofollow ajoutée et assertion verify-site.js créée. | Corrigé dans le code ; CI à confirmer. |
 
 Le noindex n'est pas un contrôle d'accès. Les données personnelles et résultats non publics doivent rester protégés par les contrôles applicatifs et serveur.
+
+## 34. Assistant et transparence Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| CHAT-03 | P1 | Espace Assistant / ergonomie | La page assistant-majestios.html présentait un champ de saisie et un bouton Envoyer désactivés alors que le guide local était disponible via le bouton flottant. Le faux formulaire a été remplacé par un bouton fonctionnel qui ouvre le guide partagé ; assertions ajoutées à verify-site.js. | Corrigé dans le code ; CI et recette navigateur à confirmer. |
+| CHX-DOC-01 | P1 | Cohérence documentation / worker | Des documents résumaient le worker comme limité à readiness_probe, alors que le code Evolution-9 contient deux handlers de diagnostic (bootstrap et worker_self_check). Le dernier audit distant décrivait le worker déployé sur MajestiOS-Test comme limité à readiness_probe. La distinction code Git / version déployée est explicitée dans le guide IA et le référentiel. | Documentation clarifiée ; version distante à recontrôler avant toute activation. |
+| GEO-02 | P2 | Exactitude des métadonnées Cheexpeer | La meta description de majestios-v5.html pouvait faire croire que les capacités prévues de surveillance, analyse, rapports, alertes et scoring étaient déjà disponibles. Reformulation pour préciser qu'il s'agit d'un agent en préparation. | Corrigé dans le code ; CI à confirmer. |
+
+La page Assistant reste un guide local à mots-clés ; cette correction d'ergonomie ne la transforme pas en agent IA. Les missions métier, outils et connecteurs Cheexpeer restent non activés.
