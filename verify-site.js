@@ -114,6 +114,7 @@ assert(adminPage.includes('href="crm.html"'), "Administration : accès au CRM in
 const crmPage = fs.readFileSync(path.join(root, "crm.html"), "utf8");
 assert(crmPage.includes('<nav class="admin-crm-header" aria-label="Navigation des modules internes et accueil">') && crmPage.includes('aria-current="page"') && crmPage.includes('id="crm-admin-nav-link"') && crmPage.includes('id="crm-search-nav-link"'), "CRM : navigation interne ou repère de page actuelle absent");
 const crmPageScript = fs.readFileSync(path.join(root, "crm-page.js"), "utf8");
+const crmClientScript = fs.readFileSync(path.join(root, "crm-client.js"), "utf8");
 assert(crmPageScript.includes(String.raw`nafCodes.some(value => !/^\d{2}\.\d{2}[A-Z]$/.test(value))`),
   "CRM : la validation APE/NAF doit accepter le format 43.21A");
 assert(crmPageScript.includes(String.raw`departments.some(value => !/^(\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(value))`),
@@ -127,8 +128,8 @@ assert(/\[\s*"owner"\s*,\s*"admin"\s*\]\.includes\(\s*membership\.role\s*\)/.tes
 
 assert(crmPage.includes('href="espace-interne.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’accueil interne absent");
 assert(crmPage.includes('meta name="robots" content="noindex,nofollow"'), "CRM : la page interne doit être exclue de l’indexation");
-assert(crmClient.includes("async function countWorkspaceRecords(table)") && crmClient.includes('select("id", { count: "exact", head: true })'), "CRM : les compteurs doivent utiliser un total exact tenant-scoped sans télécharger les fiches");
-assert(crmPage.includes('id="crm-followup-data-notice"') && crmScript.includes("countWorkspaceRecords(\"opportunities\")"), "CRM : l'aperçu des relances doit signaler toute couverture partielle");
+assert(crmClientScript.includes("async function countWorkspaceRecords(table)") && crmClientScript.includes('select("id", { count: "exact", head: true })'), "CRM : les compteurs doivent utiliser un total exact tenant-scoped sans télécharger les fiches");
+assert(crmPage.includes('id="crm-followup-data-notice"') && crmPageScript.includes("countWorkspaceRecords(\"opportunities\")"), "CRM : l'aperçu des relances doit signaler toute couverture partielle");
 for (const asset of ["crm-workspace.css", "crm-page.js", "crm-client.js", "crm-workspace-nav.js", "crm-business-filters.js"]) {
   assert(siteFiles.includes(asset), "CRM : ressource du poste de travail absente du manifeste : " + asset);
   assert(exists(asset), "CRM : ressource du poste de travail absente du dépôt : " + asset);
