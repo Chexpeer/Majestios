@@ -640,3 +640,11 @@ Ces constats proviennent de la réponse GitHub sur les branches et des exécutio
 | ID | Priorité | Risque | Correction | Statut |
 |---|---|---|---|---|
 | CHX-SEC-05 | P0 avant activation | Un utilisateur owner/admin de plusieurs organisations pouvait déclarer le tenant A tout en présentant une approbation du tenant B ; le contrôle interne de rôle seul ne liait pas la requête au tenant déclaré. | La façade SQL de décision vérifie désormais l'organisation réelle de l'approbation par jointure avant d'appeler la RPC interne ; l'Edge Function transmet le tenant autorisé. | Source Git corrigée et test de contrat ajouté ; test PostgreSQL/Auth à deux tenants encore requis. |
+
+
+## 49. Fail-closed sur les exécuteurs Cheexpeer non disponibles — 11 novembre 2026
+
+| ID | Priorité | Risque | Mesure | Statut |
+|---|---|---|---|---|
+| CHX-WORKER-06 | P0 avant activation | L'API aurait pu accepter un type de mission ou un niveau d'autonomie non pris en charge par le worker actuel. | Allowlist API + garde-fou SQL : seul `readiness_probe`, autonomie 0. Tests de contrat associés. | Source Git ajoutée ; CI finale et recette réelle encore requises. |
+| CHX-AUTH-01 | P1 | Les comptes confirmés uniquement par téléphone auraient été refusés par un contrôle exclusivement email. | Accepter `email_confirmed_at` OU `phone_confirmed_at`. | Source Git et test unitaire ajoutés ; recette Supabase Auth à faire. |
