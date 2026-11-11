@@ -133,3 +133,6 @@ MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire p
 - **CHAT-03 :** le faux formulaire désactivé de la page Assistant a été remplacé par un bouton stylé qui ouvre le guide conversationnel local. Le moteur IA avancé reste non raccordé.
 - **SEO-06 / SEO-07 :** espace-membre.html et resultats-recherche.html portent désormais noindex,nofollow ; des assertions statiques protègent ces réglages. Le noindex ne remplace pas l'authentification.
 - **GEO-02 :** la meta description de la page Cheexpeer a été corrigée pour ne plus présenter les capacités futures comme déjà disponibles.
+
+- **CRM-10 — P1 :** les compteurs Contacts/Opportunités/Activités utilisent désormais un comptage exact tenant-scoped ; le tableau de relances signale explicitement quand il ne couvre que les 100 premières opportunités. Les notifications navigateur restent limitées à ce lot.
+- **CRM-11 — P2 :** la liste des relances persistantes reste plafonnée à 100 sans indicateur de troncature ; correction à poursuivre.
