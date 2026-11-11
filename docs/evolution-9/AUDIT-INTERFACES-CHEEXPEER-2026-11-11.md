@@ -142,3 +142,28 @@ La RPC de décision reçoit `p_decision_by`. La base vérifie que cet identifian
 6. Déployer le pont et le worker dans un environnement contrôlé ; garder le registre désactivé.
 7. Activer seulement `worker_self_check` après tests de bout en bout et procédure de désactivation.
 8. Construire le cockpit en lecture/commande à partir des API validées ; aucune clé service_role côté navigateur.
+
+
+## 14. Pont serveur et runtime du worker — revue complémentaire
+
+### Protections observées
+
+- Le pont exige le secret `CHEEXPEER_WORKER_SECRET` dans un en-tête dédié, comparé en temps constant.
+- Il n'accepte que POST, borne le corps à 64 Kio et les résultats à 32 Kio.
+- La liste des actions RPC est fermée ; les identifiants mission/worker et les paramètres numériques sont contrôlés.
+- Les appels Supabase utilisent la clé `service_role` exclusivement côté Edge Function ; aucune clé de service n'est fournie au navigateur par le worker.
+- Le worker n'exécute que `readiness_probe` et `worker_self_check`. Toute autre mission est explicitement refusée avec `UNSUPPORTED_EXECUTOR`.
+- Le diagnostic self-check renouvelle le bail avant de produire son résultat et refuse de finaliser si le bail n'est plus détenu.
+- Le endpoint de santé n'expose pas de secret, mais renvoie sans authentification `workerId`, `inFlight`, `lastSuccessAt` et `lastErrorAt`.
+
+### Points de vigilance
+
+| ID | Priorité | Constat | Mesure recommandée |
+|---|---|---|---|
+| CHX-WORKER-03 | P2 | Le endpoint `/health` expose des métadonnées opérationnelles et un identifiant worker. | Ne retourner que l'état minimal requis par l'orchestrateur ; protéger les diagnostics détaillés ou les réserver au réseau interne. |
+| CHX-WORKER-04 | P2 avant multi-worker | Le `worker_id` est validé en format, mais le pont s'appuie sur un secret partagé ; aucune identité individuelle de worker n'est démontrée. | Avant plusieurs workers, associer identité, secret, périmètre et révocation à chaque instance ; journaliser l'identité authentifiée côté serveur. |
+| CHX-WORKER-05 | P1 | Le handler `readiness_probe` est une exception au registre dans la fonction de claim SQL ; l'exception est limitée au type et à l'autonomie 0, pas à une version de handler ni à un schéma d'entrée spécifique. | Garder la création de mission exclusivement serveur ; borner strictement input/context et prévoir une désactivation centrale de cette exception après bootstrap. |
+
+Le worker journalise les identifiants de mission, le type et l'état, sans afficher de secret dans les logs applicatifs observés. Les erreurs RPC brutes sont envoyées aux logs du pont côté serveur : vérifier leur politique de rétention et leur accès, et éviter d'y inclure des payloads ou données personnelles.
+
+**Aucune modification du pont, du worker, des secrets, des migrations ou du déploiement n'a été effectuée pendant cette revue.**
