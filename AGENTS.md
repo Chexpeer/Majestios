@@ -4,7 +4,7 @@
 
 Avant toute intervention, lire obligatoirement [le dossier central des anomalies critiques](docs/CRITIQUES/README.md), puis le registre détaillé de la branche active. Ce point d'entrée est commun à tous les agents et développeurs ; il centralise les risques, les priorités, les statuts et les règles de correction.
 
-**Chantier en cours au 9 novembre 2026 :** la branche autorisée est `Evolution-7`. Pour ce chantier, ses décisions et documents datés les plus récents prévalent sur les descriptions historiques V5 lorsqu'ils divergent. Ne pas modifier `main`, une branche historique ou une autre branche sans autorisation explicite.
+**Chantier en cours au 11 novembre 2026 :** la branche autorisée est `Evolution-8`, créée depuis le commit audité `bed0dd637367b25780016c0013b24f2a9e452219` d'`Evolution-7`. `Evolution-7` est la base de référence à préserver ; ne pas y ajouter de commits dans le chantier Evolution-8. Travailler exclusivement sur `Evolution-8`. Ne pas modifier `main`, `Evolution-7` ou une branche historique sans autorisation distincte.
 
 La boucle obligatoire est : **détecter → qualifier → corriger → tester → documenter → enregistrer**. Distinguer systématiquement anomalie confirmée, évolution produit et recette non effectuée. Ne jamais présenter une recette non exécutée comme validée.
 
@@ -15,12 +15,13 @@ Ce fichier est le point d'entrée canonique pour tout assistant ou agent interve
 
 Avant toute intervention sur la branche autorisée, identifier le dépôt, la branche, le HEAD et la PR éventuelle, puis lire dans cet ordre :
 1. `README.md` et les instructions du dossier concerné ;
-2. `docs/CRITIQUES/README.md` et le registre détaillé de la branche active ;
+2. `docs/CRITIQUES/README.md` et `docs/evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md` ;
 3. `docs/README.md` ;
-4. `docs/evolution-5.0/README.md` ;
-5. `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md` comme référence historique et de cadrage, en vérifiant les décisions plus récentes ;
-6. `docs/evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md` ;
-7. les documents utiles au lot et à la branche active.
+4. `docs/evolution-8/README.md`, l'audit Evolution-7 et l'architecture cible Evolution-8 ;
+5. `docs/evolution-5.0/README.md` ;
+6. `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md` comme référence historique et de cadrage, en vérifiant les décisions plus récentes ;
+7. `docs/evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md` ;
+8. les documents utiles au lot et à la branche active.
 
 Pour comprendre une décision historique, consulter directement la branche source correspondante. Ne pas recopier les anciens dossiers dans V5 et ne pas prendre une proposition historique pour une décision actuelle.
 
