@@ -179,3 +179,10 @@ La recette navigateur a révélé que certaines pages historiques utilisent la c
 La recette mobile compare désormais les pages publiques avec le sélecteur commun `.menu-toggle`, compatible avec le script de tiroirs qui accepte classe ou identifiant. La passerelle `espace-prive.html`, autonome et `noindex`, reste hors de la comparaison publique. Une assertion d'URL de l'espace Assistant a été corrigée après constat que la navigation ouvrait la bonne page mais que la regex du test la rejetait.
 
 **Statut :** correctifs de test intégrés ; run CI complet encore attendu. Ne pas considérer NAV-04 comme clôturée avant le succès du navigateur et les captures visuelles.
+
+
+## 23. Recette CI complète — 11 novembre 2026
+
+La suite GitHub Actions a réussi sur le commit `92344c68f075c5631493f451123959dc850f78f3` : [run 43042242471](https://github.com/Chexpeer/Majestios/actions/runs/43042242471). Résultats vérifiés : build de 86 ressources, architecture de 39 pages HTML, liens locaux et identifiants, 14 documents canoniques, tests navigateur Prospection, BOAMP et BODACC, navigation publique desktop/mobile, moteur de recherche, Réputation virtuelle, formulaire de contact sans transmission et verrouillage du cockpit sans session.
+
+**Limites restantes :** la réussite CI ne vaut pas recette visuelle multi-pages. Les captures avant/après et l'inspection réelle des espaces CRM, VIP, administration et collaborateurs restent à réaliser. La branche Evolution-9 n'a pas de protection de branche activée ; aucune modification de cette règle n'a été effectuée. Aucun déploiement ni changement Supabase distant n'a été déclenché.

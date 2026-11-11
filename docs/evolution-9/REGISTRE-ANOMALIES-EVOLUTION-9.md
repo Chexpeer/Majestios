@@ -295,3 +295,17 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 | CI-03 | P1 CI | Recette de navigation Assistant | L'assertion finale utilisait un antislash supplémentaire dans son expression régulière : le navigateur ouvrait correctement `assistant-majestios.html`, mais le test rejetait l'URL. L'expression est alignée sur la forme utilisée par les autres assertions. | Corrigé dans le test ; exécution CI complète à confirmer. |
 
 **Preuve intermédiaire :** le parcours mobile a dépassé l'ensemble des pages publiques jusqu'au contrôle du menu Assistant ; l'échec était une assertion URL, pas une panne de navigation. La recette complète reste ouverte jusqu'au run vert.
+
+
+## 27. Résultat de la recette automatisée — 11 novembre 2026
+
+**<badge>CI-04 — SUCCESS</badge>** Le workflow `verify-site.yml` est entièrement vert sur le commit `92344c68f075c5631493f451123959dc850f78f3` : [run 43042242471](https://github.com/Chexpeer/Majestios/actions/runs/43042242471).
+
+- Build : 86 ressources copiées depuis le manifeste, sans différence avec les sources.
+- Architecture : 39 pages HTML et 86 ressources vérifiées.
+- Site : liens locaux et identifiants contrôlés.
+- Documentation : 14 fichiers canoniques et liens présents.
+- Navigateurs : Prospection, navigation desktop/mobile et chatbot réussis ; moteur de recherche et Réputation virtuelle réussis ; contact sans transmission et verrouillage du cockpit sans session réussis.
+- APIs publiques : contrôles BOAMP et BODACC réussis sur les échantillons du test.
+
+**Statut des anomalies :** les erreurs de recette CI-02/CI-03 sont corrigées ; NAV-04 passe désormais ses contrôles automatisés. UX-02/UX-03/UX-04 disposent d'une première couche de tokens commune intégrée. La recette visuelle multi-pages, les captures comparatives et l'inspection des états interactifs restent ouvertes. La CI verte ne vaut pas validation visuelle ni déploiement.
