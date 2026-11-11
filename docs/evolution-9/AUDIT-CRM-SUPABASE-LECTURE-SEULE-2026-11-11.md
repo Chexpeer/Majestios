@@ -289,3 +289,17 @@ Le workflow `verify-static-site` a terminé avec succès sur le HEAD Evolution-9
 5. Terminer par la consolidation documentaire et la revue visuelle des espaces privés.
 
 **Aucune écriture Supabase, migration, modification de données, déploiement Vercel ou promotion production n'a été effectuée.**
+
+## 15. Contrôle fonctionnel du ciblage APE/NAF — 11 novembre 2026
+
+La revue du code crm-page.js a révélé une anomalie dans les expressions régulières de validation des codes APE/NAF et des départements. Les antislashs étaient doublés dans les regex littérales JavaScript : des valeurs usuelles comme 43.21A et 72 étaient donc interprétées comme des motifs contenant littéralement le marqueur de chiffre, et non comme des chiffres. Le formulaire pouvait refuser les critères valides avant même l'appel à l'API Recherche d'Entreprises.
+
+**Correction intégrée dans Evolution-9 :**
+- correction des deux regex pour reconnaître les formats APE/NAF NN.NNA et les départements français, y compris les codes spécifiques ultramarins ;
+- ajout d'assertions de non-régression dans verify-site.js pour protéger les deux motifs exacts.
+
+**Statut :** corrigé dans le code et contrôle statique ajouté. Le résultat CI du commit correctif doit être vérifié avant de considérer la correction comme validée par la suite complète. Aucun appel API métier n'a été effectué et aucune donnée CRM n'a été créée.
+
+**Autres limites confirmées :** le ciblage interroge actuellement une seule page de l'API publique (maxPages: 1) et sélectionne au plus 10 candidats. C'est un choix fonctionnel limité, pas une preuve d'exhaustivité des entreprises correspondantes ; l'interface doit continuer à présenter les résultats comme des candidats à vérifier.
+
+**Sécurité distante inchangée :** CRM-06 reste bloquant sur majestios-crm tant que les privilèges UPDATE et l'historisation n'ont pas été corrigés après validation et autorisation. Le protocole multi-rôle sur MajestiOS-Test reste NOT RUN.
