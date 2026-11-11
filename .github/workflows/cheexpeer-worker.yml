@@ -2,7 +2,7 @@ name: Cheexpeer worker contract
 
 on:
   push:
-    branches: [Evolution-7, Evolution-8]
+    branches: [Evolution-7, Evolution-8, Evolution-9]
     paths:
       - "services/cheexpeer-worker/**"
       - "supabase/functions/cheexpeer-worker-bridge/**"
