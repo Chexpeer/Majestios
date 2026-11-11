@@ -1,5 +1,5 @@
 import { createServer } from "node:http";
-import { isBootstrapMission, healthIsReady } from "./policy.mjs";
+import { isBootstrapMission, isWorkerSelfCheckMission, buildWorkerSelfCheckResult, healthIsReady } from "./policy.mjs";
 import { randomUUID } from "node:crypto";
 
 const config = {
@@ -74,6 +74,39 @@ async function processOneMission() {
       missionId: mission.mission_id,
       missionType: mission.mission_type,
       attempt: mission.attempt_count,
+    });
+    return true;
+  }
+
+  if (isWorkerSelfCheckMission(mission)) {
+    const renewed = await bridge("renew_lease", {
+      mission_id: mission.mission_id,
+      worker_id: config.workerId,
+      lease_seconds: config.leaseSeconds,
+    });
+    if (renewed !== true) {
+      throw new Error("Mission lease could not be renewed before self-check");
+    }
+    const result = buildWorkerSelfCheckResult({
+      nodeVersion: process.version,
+      workerId: config.workerId,
+      supabaseUrl: config.supabaseUrl,
+      leaseExpiresAt: mission.lease_expires_at,
+    });
+    const completed = await bridge("complete_mission", {
+      mission_id: mission.mission_id,
+      worker_id: config.workerId,
+      result: {
+        ...result,
+        executor: "cheexpeer-worker-self-check",
+      },
+    });
+    if (completed !== true) {
+      throw new Error("Self-check completion was rejected; lease may have expired");
+    }
+    console.info("Cheexpeer worker self-check completed", {
+      missionId: mission.mission_id,
+      status: result.status,
     });
     return true;
   }
