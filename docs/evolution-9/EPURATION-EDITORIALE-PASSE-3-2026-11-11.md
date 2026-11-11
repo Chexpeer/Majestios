@@ -2,7 +2,7 @@
 
 **Date :** 11 novembre 2026  
 **Branche :** `Evolution-9`  
-**Pages modifiées :** `developpement-commercial.html`, `reputation-virtuelle.html`, `nous-rejoindre.html`, `prospection-active.html`
+**Pages modifiées :** `developpement-commercial.html`, `reputation-virtuelle.html`, `nous-rejoindre.html`, `prospection-active.html`, `faq.html`, `qualification-entreprises.html`, `facturation-electronique.html`
 
 ## Constat
 
@@ -67,3 +67,13 @@ Sur `qualification-entreprises.html` :
 - Présentation initiale raccourcie : recherche par codes APE/NAF et département, interrogation de l'annuaire public et résultats à vérifier.
 - Les critères de recherche, les avertissements de qualification, la limite de non-enregistrement dans le CRM et les contrôles de l'opérateur restent inchangés.
 - Correction versionnée sur Evolution-9, commit `c4d28bd9c5db9dfd20d418f3177abc802be96d4e`.
+
+
+## Septième correction de la passe
+
+Sur `facturation-electronique.html` :
+- Le long paragraphe d'introduction isolé sous le titre a été supprimé de cette position.
+- Son message essentiel a été déplacé dans la première carte et simplifié : « Vérifiez vos obligations et préparez vos outils. »
+- Le rappel du périmètre des entreprises concernées reste dans cette carte ; les précisions réglementaires, le calendrier, les liens officiels et les limites de l'offre MajestiOS sont conservés.
+- Aucun lien, script, parcours ou contenu réglementaire utile n'a été supprimé.
+- Correction versionnée sur Evolution-9, commit `46d8c2c6f95d0dc4af614d602022258fe2dcc809`.
