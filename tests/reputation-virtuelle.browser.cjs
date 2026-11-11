@@ -95,7 +95,6 @@ async function main() {
       "Les recherches Google Web et Maps doivent rester visibles après rechargement.");
     await page.evaluate(() => {
       document.querySelector(".audit-dossier").hidden = false;
-      document.querySelector(".reputation-searches").hidden = false;
     });
     assert.equal(await page.locator('[name="company"]').inputValue(),
       '<img src=x onerror="alert(1)"> Atelier Exemple',
