@@ -138,6 +138,22 @@ async function main() {
     assert.equal(await page.locator(".rubric-search-card").count(), 0, "Aucune seconde carte de recherche générique ne doit apparaître dans Prospection.");
     assert.equal(await page.locator("#prospecting-criteria-toggle").count(), 1, "Le moteur métier Prospection doit conserver son bouton de critères.");
 
+    // Sur une rubrique, le clic dans la barre révèle l'action de choix de catégorie.
+    await page.goto("http://127.0.0.1:4174/marches-publics.html", { waitUntil: "domcontentloaded" });
+    const rubricSearch = page.locator("#advanced-search-form");
+    const rubricCriteriaToggle = rubricSearch.locator(".feed-criteria-toggle");
+    assert.equal(await rubricCriteriaToggle.isVisible(), false,
+      "Le choix de catégorie ne doit pas être proposé avant le clic dans la barre de recherche.");
+    assert.equal(await page.locator("#category-step").isVisible(), false,
+      "La liste des catégories doit rester masquée au chargement de la rubrique.");
+    await page.locator("#feed-search").click();
+    assert.equal(await rubricCriteriaToggle.isVisible(), true,
+      "Le clic dans la barre doit proposer le choix de catégorie.");
+    assert.equal(await page.locator("#category-step").isVisible(), false,
+      "Le clic dans la barre ne doit pas ouvrir directement la liste des catégories.");
+    await rubricCriteriaToggle.click();
+    await page.locator("#category-step").waitFor({ state: "visible", timeout: 5000 });
+
     await page.goto("http://127.0.0.1:4174/resultats-recherche.html?q=plomberie&marche=public&departement=79", { waitUntil: "domcontentloaded" });
     await page.getByText("Connexion à la source officielle BOAMP en cours…").waitFor({ state: "detached", timeout: 10000 }).catch(() => {});
     await page.getByRole("heading", { name: "Prestations de plomberie et chauffage" }).waitFor({ timeout: 10000 });
