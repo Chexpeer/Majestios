@@ -215,6 +215,18 @@
 .page-prospection .company-targeting-results{width:min(1240px,calc(100% - 24px));margin:18px auto}
 @media(max-width:650px){.page-prospection .prospecting-search-shell{width:calc(100% - 24px);margin:14px auto 20px}.page-prospection #company-targeting-form>.feed-search{min-height:68px;padding:0 22px}.page-prospection #company-targeting-form>.feed-search input{min-height:64px;font-size:18px}.page-prospection #company-targeting-form>.feed-search-submit{min-height:52px}.page-prospection .prospecting-search-heading h2{font-size:clamp(27px,7vw,36px)}}
 
+/* Garde-fou de largeur mobile : les critères actifs ne doivent jamais élargir le document. */
+.page-prospection .prospecting-search-shell,
+.page-prospection #company-targeting-form,
+.page-prospection .prospecting-progressive-criteria,
+.page-prospection .prospecting-criteria-available,
+.page-prospection .prospecting-criteria-selected{min-width:0;max-width:100%;box-sizing:border-box}
+.page-prospection .prospecting-criteria-selected{width:100%;overflow:hidden}
+.page-prospection .prospecting-criteria-chip{flex:0 1 auto;min-width:0;max-width:100%;box-sizing:border-box}
+.page-prospection .prospecting-criteria-chip-edit{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+.page-prospection .prospecting-criteria-chip-remove{flex:0 0 26px}
+@media(max-width:650px){.page-prospection .prospecting-search-shell{width:calc(100% - 24px)}.page-prospection .prospecting-criteria-selected{display:flex;flex-wrap:wrap}.page-prospection .prospecting-criteria-chip{max-width:100%}}
+
 /* Correctif mobile : conserver le champ de saisie blanc du moteur d'accueil. */
 .page-prospection #company-targeting-form>.feed-search input:not([type=checkbox]){
   display:block!important;flex:1 1 auto!important;width:100%!important;min-width:0!important;
