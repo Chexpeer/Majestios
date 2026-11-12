@@ -362,3 +362,23 @@ Les clés étrangères empêchent plusieurs liens inter-entités, et la fonction
 Le projet de test contrôlé ne contient aucune fiche entreprise, contact, opportunité, activité ou relance au moment de ce contrôle. Il n'est donc pas possible de prouver les scénarios métier ni l'isolation inter-tenant par des données réelles. Aucun jeu de données synthétique ni compte multi-rôle n'a été créé dans cette passe.
 
 **Aucune migration, modification de données, suppression de déclencheur ou activation de fonction n'a été effectuée.**
+
+
+## 17. Revue des contrôles d’accès du parcours CRM — 12 novembre 2026
+
+**Périmètre :** lecture du code `espace-interne.js`, `crm-client.js`, `crm-page.js`, `crm-workspace-nav.js` et des migrations de rôles/VIP, sans écriture Supabase.
+
+### 17.1 Contrôles applicatifs observés
+
+- `espace-interne.js` confirme l'identité avec `auth.getUser()`, recherche les appartenances, puis exige exactement une organisation de type `internal`. Plusieurs organisations internes entraînent un refus.
+- L'accueil interne réserve les liens CRM, administration et recherches ciblées aux rôles `owner` et `admin`. Les rôles `member` et `viewer` n'obtiennent pas le lien VIP.
+- `crm-client.js` répète le contrôle côté module : session, identité, organisation interne unique et rôle `owner/admin`. Un accès direct à `crm.html` ne dépend donc pas du seul masquage du lien dans l'accueil.
+- Les lectures de fiches sont filtrées par `organization_id`. Les fonctions de mise à jour utilisent une liste blanche de colonnes et revérifient l'organisation.
+
+### 17.2 Limites SQL et production
+
+Ces contrôles frontend ne constituent pas une homologation de sécurité. Les migrations versionnées prévoient les politiques RLS et la restriction des colonnes, mais le projet principal `majestios-crm` conserve les anomalies distantes déjà relevées : privilèges UPDATE trop larges (CRM-03) et absence de triggers d'historisation (CRM-02). Les migrations correctives ne sont pas appliquées à la production.
+
+Le protocole de recette inter-organisations et multi-rôles reste non exécuté. La CI statique ne prouve ni l'isolation réelle PostgreSQL, ni la résistance aux appels REST directs, ni les permissions effectives du projet distant.
+
+**Conclusion :** contrôles applicatifs cohérents à la lecture du code ; sécurité SQL distante non homologuée ; CRM-02, CRM-03 et CRM-05/CRM-07 restent ouverts. Aucune migration, donnée, configuration Auth, fonction Edge ou déploiement n'a été modifié.
