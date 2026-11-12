@@ -130,3 +130,8 @@ Aucune fonction Edge n'a été déployée et aucune configuration Supabase n'a �
 
 
 **Contrôle d'architecture associé :** le premier passage CI après suspension de l'inscription a révélé deux assertions qui exigeaient encore un parcours d'inscription immédiatement actif et un appel frontend au provisionnement. `verify-architecture.js` a été ajusté pour vérifier le contrat réellement retenu : connexion OTP seule, absence de création de compte et absence d'appel à la fonction Edge non déployée. Le code source de la fonction et sa migration restent contrôlés séparément comme fondation à activer ultérieurement.
+
+
+## Onzième correction de la passe — suspension complète de l’inscription
+
+Sur `espace-membre.html` et `auth-espace-membre.js` : suppression des champs et consentements réservés à l’inscription ainsi que de tout mode d’inscription dormant. Le formulaire ne propose plus que la connexion OTP des membres existants (`shouldCreateUser: false`). Le contrôle du rattachement à une organisation reste effectué après vérification du code. Le contrat de sécurité CRM a été aligné sur ce parcours : il ne doit plus exiger l’ancien flux de provisionnement depuis le navigateur. La fonction Edge et sa migration restent conservées pour une réactivation ultérieure après déploiement et recette, sans activation distante dans cette correction.
