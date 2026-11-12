@@ -124,6 +124,15 @@
     criteriaButton.textContent = "Choisir une catégorie";
     criteriaButton.setAttribute("aria-controls", "market-step category-step department-step");
     criteriaButton.setAttribute("aria-expanded", "false");
+    // Sur les pages de rubrique, le premier clic dans la barre révèle l'action de choix.
+    criteriaButton.hidden = !homeMount;
+    const searchInput = form.querySelector("#feed-search");
+    if (!homeMount && searchInput) {
+      searchInput.addEventListener("click", () => {
+        criteriaButton.hidden = false;
+        form.classList.add("search-criteria-available");
+      }, { once: true });
+    }
     form.insertBefore(criteriaButton, form.querySelector("#market-step"));
     const steps = [
       form.querySelector("#market-step"),
