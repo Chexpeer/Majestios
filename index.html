@@ -3,30 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#070a0f">
-    <meta name="description" content="MajestiOS accompagne le développement commercial des entreprises en repérant de nouvelles opportunités et signaux de marché.">
-    <title>MajestiOS — Développement commercial intelligent</title>
-    
-    
+    <meta name="theme-color" content="#071225">
+    <meta name="description" content="MajestiOS : réseau professionnel, prospection et CRM, facturation électronique et réputation virtuelle.">
+    <title>MajestiOS — Votre espace pour développer votre entreprise</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="homepage.css">
     <script src="catalogue-majestios.js" defer></script>
     <script src="rubric-search.js" defer></script>
     <script src="app.js" defer></script>
     <script src="navigation-tiroirs.js" defer></script>
-    
-
-    
-  
-<link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="homepage.css">
+    <link rel="stylesheet" href="charte-majestios.css">
     <link rel="stylesheet" href="homepage-theme.css">
     <link rel="stylesheet" href="rubriques-immersives.css">
-    <link rel="stylesheet" href="majestios-identite-visuelle.css">
-    <link rel="stylesheet" href="charte-majestios.css">
-    </head>
+  </head>
   <body class="homepage">
-    <div class="homepage-ticker" role="status" aria-label="Flux de démonstration MajestiOS">
-      <div class="homepage-ticker-track"><span><strong>MAJESTIOS · FLUX DE DÉMONSTRATION</strong> — Exemples fictifs de marchés publics et privés — Aucune annonce réelle n’est diffusée pour le moment. Les résultats réels sont recherchés à la demande.</span><span aria-hidden="true"><strong>MAJESTIOS · FLUX DE DÉMONSTRATION</strong> — Exemples fictifs de marchés publics et privés — Aucune annonce réelle n’est diffusée pour le moment. Les résultats réels sont recherchés à la demande.</span></div>
-    </div>
     <header class="site-header">
       <a class="brand" href="index.html" aria-label="MajestiOS, accueil">
         <span class="brand-mark" aria-hidden="true">M</span>
@@ -35,79 +25,84 @@
       <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>
-      <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="developpement-commercial.html">Développement commercial</a><a href="reseaux-synergies.html">Réseau</a><a href="reputation-virtuelle.html">Réputation virtuelle</a><a href="nous-rejoindre.html">Nous rejoindre</a><a href="espace-membre.html">Espace privé</a><a href="espace-interne.html" class="site-nav-vip" aria-label="Accéder à l’espace VIP MajestiOS">Espace VIP</a><a href="faq.html">FAQ</a></nav>
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+        <a href="index.html" aria-current="page">Accueil</a>
+        <a href="developpement-commercial.html">Prospection &amp; CRM</a>
+        <a href="facturation-electronique.html">Facturation électronique</a>
+        <a href="reputation-virtuelle.html">Réputation virtuelle</a>
+        <a href="reseaux-synergies.html">Réseau &amp; synergies</a>
+        <a href="nous-rejoindre.html">Nous rejoindre</a>
+        <a href="espace-prive.html">Espace privé</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
     </header>
 
-    <main class="home-hero-layout" id="accueil">
-      <section class="home-search-column" aria-label="Recherche d'opportunités">
-        <div class="hero-copy">
-          <p class="hero-eyebrow">DÉVELOPPEMENT COMMERCIAL · MAJESTIOS</p>
-          <h1>Donner de la hauteur<br>à vos <span>ambitions...</span></h1>
-          <p class="hero-subtitle">MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente.</p>
+    <main id="accueil" class="home-main">
+      <section class="home-search home-search-top" aria-labelledby="home-search-title">
+        <div class="home-search-heading">
+          <p class="hero-eyebrow">RECHERCHE MAJESTIOS</p>
+          <h2 id="home-search-title">Quelle opportunité recherchez-vous ?</h2>
         </div>
-      <section class="tender-feed-section" id="recherche-avancee" aria-label="Moteur de recherche avancé">
-        <div class="feed-wrap">
-          <div class="feed-demo" id="home-search-mount"></div>
+        <div class="tender-feed-section" id="recherche-avancee" aria-label="Recherche d'opportunités">
+          <div class="feed-wrap"><div class="feed-demo" id="home-search-mount"></div></div>
         </div>
       </section>
-      </section>
-
-      <section class="home-rubrics" aria-labelledby="home-rubrics-title">
-        <div class="home-rubrics-heading">
-          <p class="home-rubrics-kicker">LES ESSENTIELS</p>
-          <h2 id="home-rubrics-title">Tout pour développer votre entreprise</h2>
-        </div>
-        <div class="home-rubrics-grid">
-          <a class="home-rubric-card" href="developpement-commercial.html"><img class="mj-rubric-card-visual" src="assets/visuels/rubrique-prospection.svg" alt="Illustration de la détection et de la qualification des opportunités" loading="lazy" decoding="async">
-            <span class="home-rubric-number">01</span>
-            <span class="home-rubric-title">Prospection &amp; CRM</span>
-            <span class="home-rubric-description">Trouver des clients et développer son activité.</span>
-            <span class="home-rubric-link">Découvrir <span aria-hidden="true">→</span></span>
-          </a>
-          <a class="home-rubric-card" href="facturation-electronique.html"><img class="mj-rubric-card-visual" src="assets/visuels/rubrique-facturation.svg" alt="Illustration de la facturation électronique et de la conformité" loading="lazy" decoding="async">
-            <span class="home-rubric-number">02</span>
-            <span class="home-rubric-title">Facturation électronique</span>
-            <span class="home-rubric-description">Anticiper la réforme et assurer sa conformité.</span>
-            <span class="home-rubric-link">Découvrir <span aria-hidden="true">→</span></span>
-          </a>
-          <a class="home-rubric-card" href="reputation-virtuelle.html"><img class="mj-rubric-card-visual" src="assets/visuels/rubrique-reputation.svg" alt="Illustration de la présence numérique et de la réputation en ligne" loading="lazy" decoding="async">
-            <span class="home-rubric-number">03</span>
-            <span class="home-rubric-title">Réputation virtuelle</span>
-            <span class="home-rubric-description">Améliorer son image et sa visibilité.</span>
-            <span class="home-rubric-link">Découvrir <span aria-hidden="true">→</span></span>
-          </a>
-          <a class="home-rubric-card" href="reseaux-synergies.html"><img class="mj-rubric-card-visual" src="assets/visuels/rubrique-reseau.svg" alt="Illustration des échanges et des coopérations entre entreprises" loading="lazy" decoding="async">
-            <span class="home-rubric-number">04</span>
-            <span class="home-rubric-title">Réseau &amp; synergies</span>
-            <span class="home-rubric-description">Échanger, publier des annonces et créer des partenariats.</span>
-            <span class="home-rubric-link">Découvrir <span aria-hidden="true">→</span></span>
-          </a>
-        </div>
+      <section class="home-intro" aria-labelledby="home-title">
+        <p class="hero-eyebrow">L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS</p>
+        <h1 id="home-title">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>
+        <p class="home-lede">Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement.</p>
       </section>
 
-      <section class="home-personal-access" aria-label="Créer son espace personnel">
+      <section class="home-pillars" aria-label="Les quatre piliers MajestiOS">
+        <a class="home-pillar" href="developpement-commercial.html">
+          <span class="home-pillar-number">01</span>
+          <h2>Prospection &amp; CRM</h2>
+          <p>Trouver des clients et développer son activité.</p>
+          <span class="home-pillar-link">Développer mon activité <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="home-pillar home-pillar-featured" href="facturation-electronique.html">
+          <span class="home-pillar-number">02</span>
+          <h2>Facturation électronique</h2>
+          <p>Anticiper la réforme et assurer sa conformité.</p>
+          <span class="home-pillar-link">Préparer ma conformité <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="home-pillar" href="reputation-virtuelle.html">
+          <span class="home-pillar-number">03</span>
+          <h2>Réputation virtuelle</h2>
+          <p>Améliorer son image et sa visibilité.</p>
+          <span class="home-pillar-link">Améliorer mon image <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="home-pillar" href="reseaux-synergies.html">
+          <span class="home-pillar-number">04</span>
+          <h2>Réseau &amp; synergies</h2>
+          <p>Échanger, publier des annonces et créer des partenariats.</p>
+          <span class="home-pillar-link">Explorer le réseau <span aria-hidden="true">→</span></span>
+        </a>
+      </section>
+
+
+      <section class="home-personal-access" aria-labelledby="personal-access-title">
         <div>
-          <p class="home-rubrics-kicker">VOTRE ESPACE</p>
-          <h2>Ouvrez votre espace personnel</h2>
-          <p>Accédez progressivement aux outils et services MajestiOS depuis un espace unique.</p>
+          <p class="hero-eyebrow">VOTRE POINT D'ENTRÉE</p>
+          <h2 id="personal-access-title">Tout MajestiOS depuis votre espace personnel.</h2>
+          <p>Un accès central pour retrouver vos services, vos démarches et vos outils au fil de leur ouverture.</p>
         </div>
-        <a href="espace-membre.html" class="home-personal-access-link">Créer mon espace personnel <span aria-hidden="true">→</span></a>
+        <a class="home-primary-cta" href="espace-membre.html">Découvrir mon espace personnel <span aria-hidden="true">→</span></a>
       </section>
+    </main>
 
-</main>
-<footer class="site-footer homepage-footer" aria-label="Pied de page MajestiOS">
+    <footer class="site-footer homepage-footer" aria-label="Pied de page MajestiOS">
       <a class="brand footer-brand" href="index.html" aria-label="MajestiOS, retour à l’accueil">
         <span class="brand-mark" aria-hidden="true">M</span>
         <span>majesti<span class="brand-os">OS</span></span>
       </a>
-      <p>© <span id="footer-year">2026</span> MajestiOS · Développement commercial et prospection intelligente.</p>
+      <p>© <span id="footer-year">2026</span> MajestiOS · L'écosystème du développement des entreprises.</p>
       <nav class="footer-links" aria-label="Liens utiles et informations légales">
         <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
         <a href="mentions-legales.html">Mentions légales</a>
         <a href="politique-confidentialite.html">Confidentialité</a>
       </nav>
     </footer>
-
-
   </body>
 </html>
