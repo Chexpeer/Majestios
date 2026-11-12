@@ -13,16 +13,13 @@ Ce fichier est le point d'entrée canonique pour tout assistant ou agent interve
 
 ## 1. Lecture obligatoire
 
-Avant toute intervention sur la branche autorisée, identifier le dépôt, la branche, le HEAD et la PR éventuelle, puis lire dans cet ordre :
-1. `README.md` et les instructions du dossier concerné ;
-2. `docs/CRITIQUES/README.md` et `docs/evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md` ;
-3. `docs/README.md` ;
-4. `docs/evolution-9/README.md`, la vision stratégique Evolution-9 et le plan de réalisation ;
-5. `docs/evolution-8/README.md`, le registre Evolution-8, l'audit Evolution-7 et l'architecture cible Evolution-8 ;
-6. `docs/evolution-5.0/README.md` ;
-7. `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md` comme référence historique et de cadrage, en vérifiant les décisions plus récentes ;
-8. `docs/evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md` ;
-9. les documents utiles au lot et à la branche active.
+Avant toute intervention, identifier le dépôt, la branche, le HEAD et la PR éventuelle, puis lire :
+1. `README.md` et les instructions locales du dossier concerné ;
+2. `docs/CRITIQUES/README.md` et le registre détaillé de la branche active ;
+3. `docs/README.md` et `docs/evolution-9/README.md` ;
+4. uniquement les spécifications, audits et décisions directement utiles au lot en cours.
+
+La lecture des documents historiques supplémentaires est ciblée : ne pas imposer la relecture systématique de dossiers sans rapport avec le changement.
 
 Pour comprendre une décision historique, consulter directement la branche source correspondante. Ne pas recopier les anciens dossiers dans V5 et ne pas prendre une proposition historique pour une décision actuelle.
 
