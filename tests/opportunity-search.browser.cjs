@@ -348,11 +348,11 @@ async function main() {
     assert.equal(await page.locator(".opportunity-source-group").count(), 2, "Le mode mixte doit séparer les résultats BOAMP et BODACC.");
 
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    assert.equal(await page.locator("#advanced-search-form .feed-criteria-toggle").count(), 0,
+      "L’accueil ne doit pas afficher de bouton de catégorie.");
     await page.locator("#feed-search").click();
-    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
-    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-sector").waitFor({ state: "visible", timeout: 5000 });
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
     for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
@@ -388,11 +388,11 @@ async function main() {
     assert.equal(bodaccCalls, callsBeforePrivateOther, "Autre privé sans mot-clé ne doit pas appeler BODACC.");
 
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    assert.equal(await page.locator("#advanced-search-form .feed-criteria-toggle").count(), 0,
+      "L’accueil ne doit pas afficher de bouton de catégorie.");
     await page.locator("#feed-search").click();
-    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("public");
-    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-sector").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-sector").selectOption("autre");
     await page.locator("#feed-search").fill("plomberie");
