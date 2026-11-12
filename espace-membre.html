@@ -24,20 +24,15 @@
 <p class="eyebrow">VOTRE ESPACE MAJESTIOS</p><h2 id="personal-space-title">Se connecter à mon espace</h2>
 <p class="personal-space-intro">Recevez un code temporaire par e-mail pour accéder à votre espace existant.</p>
 <div class="personal-space-fields" data-before-otp>
-<label class="form-field" data-signup-only>Prénom <span>*</span><input name="firstName" autocomplete="given-name" data-required="true" required maxlength="80"></label>
-<label class="form-field" data-signup-only>Nom <span>*</span><input name="lastName" autocomplete="family-name" data-required="true" required maxlength="80"></label>
-<label class="form-field" data-signup-only>Entreprise <small>(facultatif)</small><input name="organizationName" autocomplete="organization" maxlength="120"></label>
 <label class="form-field" data-auth-common>Adresse e-mail <span>*</span><input name="email" type="email" autocomplete="email" required maxlength="254"></label>
-<label class="form-field" data-signup-only>Téléphone <small>(facultatif)</small><input name="phone" type="tel" autocomplete="tel" maxlength="32"></label>
 </div>
-<label class="personal-space-consent" data-signup-only data-before-otp><input name="privacyAccepted" type="checkbox" data-required="true" required><span>Je confirme avoir pris connaissance de la <a href="politique-confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>
 <section class="personal-space-otp" data-otp-step hidden aria-live="polite">
 <label class="form-field" for="member-otp">Code reçu par e-mail <span>*</span><input id="member-otp" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="000000" aria-describedby="otp-help"></label>
 <p id="otp-help" class="small-note">Saisissez le code à 6 chiffres. Il est temporaire et ne peut être utilisé qu’une seule fois.</p>
 <button class="text-button" type="button" data-resend-otp disabled>Renvoyer un code</button>
 </section>
 <p class="personal-space-notice" data-before-otp>Pas de mot de passe à mémoriser : votre code de connexion est envoyé à votre adresse e-mail.</p>
-<button class="button button-primary personal-space-submit" type="submit">Créer mon espace et recevoir mon code <span aria-hidden="true">→</span></button>
+<button class="button button-primary personal-space-submit" type="submit">Recevoir mon code de connexion <span aria-hidden="true">→</span></button>
 
 <p class="personal-space-feedback" id="personal-space-feedback" role="status" aria-live="polite" hidden></p>
 </form></dialog>
