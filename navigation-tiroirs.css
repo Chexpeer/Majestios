@@ -530,3 +530,26 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(7) > .nav-group-l
   .site-header > button#menu-toggle span,
   .site-header > button.menu-toggle span{background:#ffe2a0 !important}
 }
+
+/* Evolution-9 — interdiction du tiroir blanc sur mobile et sur l'accueil.
+   Surface opaque bleu nuit : aucun contenu de page ne transparaît derrière le menu. */
+@media(max-width:900px){
+  html body .site-header .site-nav.site-nav-drawer,
+  html body.homepage .site-header .site-nav.site-nav-drawer{
+    background-color:#071426 !important;
+    background-image:linear-gradient(155deg,#071426 0%,#102b4b 55%,#08172a 100%) !important;
+    opacity:1 !important;
+    color:#f1f4f8 !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    border-left:1px solid rgba(213,181,108,.68) !important;
+    box-shadow:-18px 0 42px rgba(0,0,0,.62),inset 1px 0 0 rgba(255,255,255,.08) !important;
+  }
+  html body .site-header .site-nav.site-nav-drawer .nav-drawer-home,
+  html body .site-header .site-nav.site-nav-drawer .nav-group-link{
+    color:#f4ead4 !important;
+    background:transparent !important;
+    text-shadow:0 1px 3px rgba(0,0,0,.8) !important;
+    border-bottom:1px solid rgba(213,181,108,.30) !important;
+  }
+}
