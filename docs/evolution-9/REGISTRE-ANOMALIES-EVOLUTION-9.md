@@ -864,3 +864,10 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | CHX-DOC-01 | P1 | Documentation / vérité produit | Le README décrivait « Cheexpeer (IA intégrée) » parmi les espaces existants, alors que le site expose un guide conversationnel de première génération fondé sur des règles et mots-clés. Les capacités d’agent IA Cheexpeer décrites dans l’architecture sont une cible et ne doivent pas être présentées comme déjà disponibles. | README et AGENTS.md clarifiés : assistant actuel distingué de Cheexpeer ; architecture Cheexpeer explicitement qualifiée de cible. Vérifier les autres documents publics et spécialisés lors du prochain lot documentaire. |
+
+
+## 76. État de la validation CI après réalignement des vérificateurs — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| CI-EVO9-01 | P1 | Intégration continue | Le workflow du HEAD initial `8472b355` échouait sur `verify-architecture.js` à cause de l'ancien texte de l'accueil. Après correction de ce premier vérificateur, le workflow du commit intermédiaire `3f395930` a validé la syntaxe, les tests métier, le build et l'architecture, puis échoué sur `verify-site.js` : ce commit avait été lancé avant l'enregistrement de la correction de ce second vérificateur. Le workflow du commit documentaire `9042b969` a été annulé avant exécution. | Les deux vérificateurs sont maintenant alignés dans la branche. Une exécution complète sur le HEAD courant est indispensable ; aucune validation CI finale n'est revendiquée à ce stade. |
