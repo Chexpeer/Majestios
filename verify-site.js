@@ -233,7 +233,7 @@ const invoicingPage = fs.readFileSync(path.join(root, "facturation-electronique.
 assert(siteFiles.includes("facturation-electronique.html"), "Facturation électronique : page absente du manifeste");
 assert(invoicingPage.includes("1er septembre 2027") && invoicingPage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : calendrier ou statut MajestiOS absent");
 const tenderAccompaniment = fs.readFileSync(path.join(root, "accompagnement-appels-offres.html"), "utf8");
-assert(tenderAccompaniment.includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : lien vers la thématique facturation absent");
+assert(!tenderAccompaniment.includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : ne doit pas renvoyer vers la thématique facturation");
 assert(home.includes("<h1>Donner de la hauteur<br>à vos <span>ambitions...</span></h1>") && home.includes("MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : composition éditoriale restaurée non préservée");
 
 
