@@ -906,4 +906,11 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 
 | ID | Priorité | Domaine | Constat / correction | Statut |
 |---|---|---|---|---|
-| UX-THEME-01 | P1 | Cohérence graphique / en-tête | Une ancienne règle de `charte-majestios-espaces.css` imposait un fond blanc à l’en-tête de l’accueil avec une spécificité supérieure à la règle de charte bleu nuit. Cette règle contradictoire a été retirée à la source ; le dégradé bleu nuit et les couleurs de navigation sont désormais gouvernés par la charte commune. | Correction CSS versionnée sur Evolution-9. CI et contrôle visuel navigateur du nouveau HEAD à confirmer ; aucune autre surface blanche (champs de saisie et barre de recherche volontairement clairs) n’est modifiée. |
+| UX-THEME-01 | P1 | Cohérence graphique / en-tête | Une ancienne règle de `charte-majestios-espaces.css` imposait un fond blanc à l’en-tête sur les pages qui chargent cette feuille. L’accueil (`index.html`) ne la charge pas : cette règle n’est donc pas retenue comme cause confirmée de son rendu. Elle a néanmoins été retirée à la source pour éviter cette régression sur les pages concernées. | Correction CSS versionnée sur Evolution-9. La CI du commit `f236774` a réussi ; le contrôle visuel navigateur reste à effectuer. Les champs et la barre de recherche volontairement clairs ne sont pas modifiés. |
+
+
+## 82. Cartes de parcours et flux hérités en thème clair — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| UX-THEME-02 | P1 | Cartes transversales / flux d’annonces | Les styles historiques de `styles.css` conservaient un fond quasi blanc sur `.floating-route-card`, des couleurs de texte gris foncé sur les éléments du flux, et un fond blanc sur `.feed-source-note`. Ces règles source étaient en contradiction avec les tokens bleu nuit/or utilisés par la charte commune. | Règles d’origine corrigées dans `styles.css` : surfaces bleu nuit, bordures or discrètes, textes lisibles. La barre de recherche blanche et les champs de formulaire clairs sont volontairement conservés. CI du commit à confirmer ; recette visuelle multi-pages à effectuer. |
