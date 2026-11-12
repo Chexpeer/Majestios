@@ -921,3 +921,10 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 | ID | Priorité | Domaine | Constat / correction | Statut |
 |---|---|---|---|---|
 | UX-THEME-03 | P1 | Navigation / Réputation virtuelle | Le tiroir mobile, ses sous-menus et le conteneur de consultation Réputation utilisaient encore des fonds clairs et des textes foncés hérités. | Sources corrigées vers bleu nuit/or et textes clairs. Les iframes Google/Maps restent blanches car elles affichent des interfaces externes. CI et recette visuelle multi-pages à confirmer. |
+
+
+## 84. Surfaces héritées du poste CRM en thème clair — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| UX-THEME-04 | P1 | CRM / navigation de l’espace de travail | La feuille `crm-workspace.css` conservait un panneau de navigation gris/blanc, des boutons blancs, des filtres gris clair et des blocs dossier/pagination presque blancs. | Fonds de panneaux, navigation, dossiers et pagination harmonisés en bleu nuit avec bordures or ; textes remis en contraste. Les champs de saisie restent clairs. CI du commit CRM `dd3cf3a` réussie ; recette visuelle CRM à confirmer. |
