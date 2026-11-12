@@ -33,13 +33,13 @@ for (const page of pages) {
   assert(html.includes('src="navigation-tiroirs.js"'), page + " : navigation commune et accès VIP non chargés");
 
   // Aucun texte ou élément ne doit être placé entre </head> et <body>.
-  const headEnd = html.search(/<\\/head\\s*>/i);
-  const bodyStart = html.search(/<body\\b/i);
+  const headEnd = html.search(/<\/head\s*>/i);
+  const bodyStart = html.search(/<body\b/i);
   if (headEnd < 0 || bodyStart < 0 || bodyStart <= headEnd) {
     assert(false, page + " : structure HTML invalide (head/body absent ou mal ordonné)");
   } else {
-    const betweenHeadAndBody = html.slice(headEnd + html.match(/<\\/head\\s*>/i)[0].length, bodyStart)
-      .replace(/<!--[\\s\\S]*?-->/g, "")
+    const betweenHeadAndBody = html.slice(headEnd + html.match(/<\/head\s*>/i)[0].length, bodyStart)
+      .replace(/<!--[\s\S]*?-->/g, "")
       .trim();
     assert(!betweenHeadAndBody, page + " : contenu parasite détecté entre </head> et <body>");
   }
