@@ -46,12 +46,12 @@ async function main() {
       const style = getComputedStyle(el);
       return { color: style.color, background: style.backgroundColor, border: style.borderBottomColor };
     });
-    assert.equal(vipStyle.color, "rgb(23, 50, 79)",
-      "Le texte VIP doit rester bleu nuit pour conserver un contraste lisible sur le tiroir clair.");
+    assert.equal(vipStyle.color, "rgb(242, 213, 141)",
+      "Le texte VIP doit rester or clair pour conserver un contraste lisible sur le tiroir bleu nuit.");
     assert.equal(vipStyle.background, "rgba(0, 0, 0, 0)",
       "Le lien VIP conserve le fond transparent de la navigation.");
-    assert.equal(vipStyle.border, "rgb(197, 164, 94)",
-      "La signature or doit être portée par un filet discret, sans texte doré peu contrasté.");
+    assert.equal(vipStyle.border, "rgba(213, 181, 108, 0.7)",
+      "La signature or et chrome doit être portée par un filet discret.");
     assert.equal(await vipLink.evaluate(el=>el.closest(".nav-drawer-section")?.querySelector(".nav-group-link")?.textContent),"Espaces privés",
       "L’accès VIP doit être regroupé avec l’espace client dans Espaces privés.");
     const exploreGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Explorer davantage"})});
