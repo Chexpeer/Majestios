@@ -2,7 +2,7 @@
 
 MajestiOS est un projet de plateforme web d’intelligence et de développement commercial. Il vise à aider les entreprises et les professionnels à repérer des marchés, suivre des signaux économiques, identifier des entreprises pertinentes et structurer leur prospection.
 
-> **État du dépôt :** cette branche contient un prototype web statique en HTML, CSS et JavaScript. Certaines pages présentent des espaces ou fonctionnalités en cours de construction. Leur présence dans le site ne signifie pas qu’un service connecté ou une automatisation complète est déjà opérationnel.
+> **État du dépôt :** le frontend du site est construit comme un site statique en HTML, CSS et JavaScript. Le dépôt contient également un backend Supabase en cours de consolidation (migrations SQL, fonctions Edge et contrats serveur). La présence d’un écran, d’une migration ou d’une fonction dans le dépôt ne prouve pas son déploiement ni sa recette dans l’environnement utilisé.
 
 ## Aperçu
 
@@ -62,12 +62,15 @@ Le dossier `dist/` est généré par le build ; les modifications doivent être 
 
 ## Tests et contrôles
 
-Les contrôles métier peuvent être exécutés séparément :
+Les tests du dépôt couvrent notamment les API Cheexpeer, les contrôles d’accès, le CRM, la prospection, les sources BOAMP/BODACC, les contrats de navigation et les parcours navigateur. La liste exhaustive et l’ordre d’exécution sont définis dans `.github/workflows/verify-site.yml`. Pour lancer quelques tests métier ciblés :
 
 ```bash
 node tests/company-targeting.test.cjs
 node tests/company-fit.test.cjs
+node tests/prospecting-resources.test.cjs
 node tests/naf-suggestions.test.cjs
+node tests/prospection-contract.test.cjs
+node tests/prospection-search-core.test.cjs
 ```
 
 Vérification de la syntaxe et de la construction :
@@ -116,12 +119,10 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 - `*.html` : pages du site ;
 - `styles.css`, `rubriques-immersives.css` : styles ;
 - `*.js` : interactions, recherche, catalogue et modules métier ;
-- `supabase/` : migrations SQL et fonctions Edge du backend ;
+- `supabase/` : migrations SQL, fonctions Edge et éléments du backend ;
 - `services/` : services applicatifs ;
 - `schemas/` : schémas et contrats de données ;
 - `outils/` : outils et utilitaires du projet ;
-- `supabase/` : migrations, fonctions Edge et éléments du backend en préparation ;
-- `services/`, `schemas/` et `outils/` : services, contrats et outils techniques lorsqu’ils sont présents dans la branche ;
 - `tests/` : tests unitaires, d’intégration et navigateur ;
 - `verify-site.js`, `verify-architecture.js` : contrôles de cohérence ;
 - `site-files.json` : manifeste unique des fichiers publiés dans `dist/` ;
