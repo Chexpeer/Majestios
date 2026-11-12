@@ -14,7 +14,9 @@ Le site regroupe plusieurs espaces fonctionnels :
 - **Développement commercial** : prospection, suivi commercial, réseaux et accompagnement.
 - **Veille des entreprises** : informations issues notamment du BODACC.
 - **Qualification des entreprises** : outils indicatifs de rapprochement par codes APE/NAF et département.
-- **Espaces complémentaires** : CRM, espace membre, Cheexpeer (IA intégrée), FAQ et informations légales.
+- **Espaces complémentaires** : CRM, espace membre, assistant conversationnel de première génération, FAQ et informations légales.
+
+**Cheexpeer n’est pas encore disponible comme agent IA opérationnel.** L’assistant actuellement intégré au site est un guide conversationnel de première génération, fondé sur des règles et des mots-clés ; il ne doit pas être présenté comme Cheexpeer. Les capacités Cheexpeer décrites dans les documents d’architecture constituent une cible en cours de construction.
 
 Les résultats administratifs et les scores de rapprochement sont des aides à l’analyse. Ils ne prouvent pas la compétence, la capacité opérationnelle ou l’éligibilité d’une entreprise à un marché. Une vérification humaine reste nécessaire.
 
@@ -114,6 +116,8 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 - `*.html` : pages du site ;
 - `styles.css`, `rubriques-immersives.css` : styles ;
 - `*.js` : interactions, recherche, catalogue et modules métier ;
+- `supabase/` : migrations, fonctions Edge et éléments du backend en préparation ;
+- `services/`, `schemas/` et `outils/` : services, contrats et outils techniques lorsqu’ils sont présents dans la branche ;
 - `tests/` : tests unitaires, d’intégration et navigateur ;
 - `verify-site.js`, `verify-architecture.js` : contrôles de cohérence ;
 - `site-files.json` : manifeste unique des fichiers publiés dans `dist/` ;
