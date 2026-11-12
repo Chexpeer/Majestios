@@ -290,12 +290,14 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
     const publicJobCategories = await page.locator("#feed-sector option").evaluateAll(options => options.filter(option => /emploi|recrutement/i.test(option.textContent || "")).map(option => option.textContent.trim()));
     assert.deepEqual(publicJobCategories, [], "L’emploi ne doit pas apparaître comme une catégorie de marché public.");
-    await page.locator("#feed-search").focus();
+    const criteriaToggle = page.locator("#advanced-search-form .feed-criteria-toggle");
+    assert.equal(await criteriaToggle.isVisible(), true,
+      "Sur l’accueil, le parcours de recherche existant doit rester inchangé.");
     assert.equal(await page.locator("#feed-market-type").isVisible(), false,
       "Le type de marché doit rester masqué au chargement de l’accueil.");
     assert.equal(await page.locator("#feed-sector").isVisible(), false,
       "La catégorie doit rester masquée avant toute action.");
-    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
+    await criteriaToggle.click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("public");
     await page.locator("#advanced-search-form .feed-criteria-toggle").click();
