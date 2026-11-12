@@ -50,3 +50,75 @@ body.homepage .tender-feed-section{width:100%;margin:0;padding:0;}
  body.homepage .home-hero-layout{padding:12px 10px;gap:14px}
  body.homepage .site-header{padding:7px 9px}
 }
+
+
+/* Refonte accueil — quatre piliers et espace personnel comme point d'entrée. */
+body.homepage .home-main{
+  width:min(1320px,calc(100% - 40px));
+  margin:0 auto;
+  padding:clamp(38px,6vw,82px) 0 64px;
+}
+body.homepage .home-intro{max-width:900px;margin:0 auto 42px;text-align:center}
+body.homepage .home-intro .hero-eyebrow{margin-bottom:16px}
+body.homepage .home-intro h1{
+  margin:0;color:#fff;font-size:clamp(34px,5.2vw,66px);
+  line-height:1.06;letter-spacing:-.045em;text-wrap:balance
+}
+body.homepage .home-intro h1 span{color:#f3c65e}
+body.homepage .home-lede{
+  max-width:720px;margin:20px auto 24px;color:#d6e0ef;
+  font-size:clamp(15px,1.45vw,19px);line-height:1.6
+}
+body.homepage .home-primary-cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:14px;
+  min-height:52px;padding:0 24px;border:1px solid #ffe39a;border-radius:9px;
+  color:#101722;background:linear-gradient(110deg,#f7d76b,#dfa72e);
+  box-shadow:0 10px 28px #0005;text-decoration:none;font-weight:850;font-size:14px;
+  transition:transform .18s ease,filter .18s ease
+}
+body.homepage .home-primary-cta:hover{transform:translateY(-2px);filter:brightness(1.08)}
+body.homepage .home-access-note{margin:12px 0 0;color:#aebed2;font-size:12px}
+body.homepage .home-pillars{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
+  margin:0 auto 54px
+}
+body.homepage .home-pillar{
+  display:flex;flex-direction:column;min-height:225px;padding:22px 20px;
+  border:1px solid #d5b56c55;border-radius:13px;
+  background:linear-gradient(145deg,#102744ed,#09182bf5);
+  color:#f5f7fb;text-decoration:none;box-shadow:0 14px 34px #0003;
+  transition:transform .18s ease,border-color .18s ease
+}
+body.homepage .home-pillar:hover{transform:translateY(-3px);border-color:#f3c65e}
+body.homepage .home-pillar-number{color:#e6c778;font-size:10px;font-weight:850;letter-spacing:.13em}
+body.homepage .home-pillar h2{margin:16px 0 8px;color:#fff;font-size:clamp(17px,1.45vw,21px);line-height:1.2}
+body.homepage .home-pillar p{margin:0 0 18px;color:#c6d2e2;font-size:13px;line-height:1.55}
+body.homepage .home-pillar-link{display:flex;align-items:center;gap:8px;margin-top:auto;color:#f2d58d;font-size:12px;font-weight:800}
+body.homepage .home-pillar-featured{border-color:#e9c56d;background:linear-gradient(145deg,#18385d,#0b1c32)}
+body.homepage .home-search{
+  display:grid;grid-template-columns:minmax(220px,.7fr) minmax(0,1.3fr);gap:28px;
+  align-items:center;padding:26px;border:1px solid #d5b56c44;border-radius:14px;
+  background:#08172be8
+}
+body.homepage .home-search h2{margin:0 0 10px;color:#fff;font-size:clamp(22px,2.5vw,32px)}
+body.homepage .home-search p:not(.hero-eyebrow){margin:0;color:#c6d2e2;font-size:13px;line-height:1.6}
+body.homepage .home-search .tender-feed-section{margin:0!important;padding:0!important}
+body.homepage .homepage-footer{margin-top:0}
+@media(max-width:1050px){
+  body.homepage .home-pillars{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  body.homepage .home-main{width:calc(100% - 28px);padding:42px 0}
+  body.homepage .home-intro{margin-bottom:30px}
+  body.homepage .home-pillars{gap:10px;margin-bottom:34px}
+  body.homepage .home-pillar{min-height:205px;padding:17px 15px}
+  body.homepage .home-search{grid-template-columns:1fr;padding:18px;gap:12px}
+}
+@media(max-width:460px){
+  body.homepage .home-pillars{grid-template-columns:1fr}
+  body.homepage .home-pillar{min-height:0}
+}
+@media(prefers-reduced-motion:reduce){
+  body.homepage .home-primary-cta,body.homepage .home-pillar{transition:none}
+  body.homepage .home-primary-cta:hover,body.homepage .home-pillar:hover{transform:none}
+}
