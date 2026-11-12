@@ -4,7 +4,6 @@ import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 const config = MAJESTIOS_SUPABASE;
 const form = document.querySelector("#personal-space-form");
 const feedback = document.querySelector("#personal-space-feedback");
-const modeToggle = document.querySelector("#toggle-auth-mode");
 const submitButton = form?.querySelector('[type="submit"]');
 const status = document.querySelector("#member-auth-status");
 const preview = document.querySelector(".member-preview");
@@ -18,7 +17,6 @@ if (form && config?.url && config?.publishableKey) {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
   });
 
-  let mode = "login";
   let awaitingOtp = false;
   let pendingEmail = "";
   let resendTimer = null;
@@ -30,37 +28,6 @@ if (form && config?.url && config?.publishableKey) {
     feedback.dataset.state = isError ? "error" : "success";
     feedback.hidden = false;
   };
-  const setMode = (nextMode) => {
-    mode = nextMode;
-    if (otpInput) otpInput.required = false;
-    clearInterval(resendTimer);
-    if (resendButton) { resendButton.disabled = false; resendButton.textContent = "Renvoyer un code"; }
-    awaitingOtp = false;
-    form.dataset.mode = mode;
-    if (otpStep) otpStep.hidden = true;
-    form.querySelectorAll("[data-signup-only]").forEach((element) => {
-      element.hidden = mode !== "signup";
-      element.querySelectorAll("input").forEach((input) => {
-        input.required = mode === "signup" && input.dataset.required === "true";
-      });
-    });
-    form.querySelectorAll("[data-auth-common]").forEach((element) => {
-      element.hidden = false;
-      element.querySelectorAll("input").forEach((input) => { input.required = true; });
-    });
-    form.querySelectorAll("[data-login-only]").forEach((element) => { element.hidden = mode !== "login"; });
-    if (modeToggle) {
-      modeToggle.hidden = false;
-      modeToggle.textContent = mode === "signup"
-        ? "Déjà membre ? Se connecter"
-        : "Pas encore de compte ? Créer mon espace";
-    }
-    if (submitButton) submitButton.innerHTML = mode === "signup"
-      ? 'Créer mon espace et recevoir mon code <span aria-hidden="true">→</span>'
-      : 'Recevoir mon code de connexion <span aria-hidden="true">→</span>';
-    if (feedback) feedback.hidden = true;
-  };
-
   const startResendCooldown = () => {
     if (!resendButton) return;
     let remaining = 60;
@@ -97,7 +64,6 @@ if (form && config?.url && config?.publishableKey) {
     if (otpStep) otpStep.hidden = false;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = true; });
     if (submitButton) submitButton.innerHTML = 'Vérifier le code <span aria-hidden="true">→</span>';
-    if (modeToggle) modeToggle.hidden = true;
     setFeedback(`Un code temporaire a été envoyé à ${email}. Il est à usage unique.`);
     startResendCooldown();
     otpInput?.focus();
@@ -154,7 +120,6 @@ if (form && config?.url && config?.publishableKey) {
     if (otpInput) otpInput.required = false;
     if (otpStep) otpStep.hidden = true;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
-    if (modeToggle) modeToggle.hidden = false;
     await updateAuthStatus(data.session);
     const { data: memberships, error: membershipError } = await supabase
       .from("organization_members")
@@ -205,7 +170,6 @@ if (form && config?.url && config?.publishableKey) {
 
   supabase.auth.getSession().then(({ data }) => updateAuthStatus(data.session));
   supabase.auth.onAuthStateChange((_event, session) => updateAuthStatus(session));
-  setMode("login");
 } else if (form) {
   if (feedback) {
     feedback.textContent = "Le service de connexion n’est pas configuré. Votre demande n’a pas été envoyée.";
