@@ -208,7 +208,7 @@ for (const page of pages) {
 }
 
 const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
-assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
+assert(home.includes("<title>MajestiOS — Votre espace pour développer votre entreprise</title>"), "Accueil : titre SEO de référence inattendu");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du moteur de recherche partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant commun de recherche non chargé");
 assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
@@ -234,7 +234,7 @@ assert(siteFiles.includes("facturation-electronique.html"), "Facturation électr
 assert(invoicingPage.includes("1er septembre 2027") && invoicingPage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : calendrier ou statut MajestiOS absent");
 const tenderAccompaniment = fs.readFileSync(path.join(root, "accompagnement-appels-offres.html"), "utf8");
 assert(!tenderAccompaniment.includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : ne doit pas renvoyer vers la thématique facturation");
-assert(home.includes("<h1>Donner de la hauteur<br>à vos <span>ambitions...</span></h1>") && home.includes("MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : composition éditoriale restaurée non préservée");
+assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && home.includes("Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement.") && ["Prospection &amp; CRM","Facturation électronique","Réputation virtuelle","Réseau &amp; synergies"].every((label) => home.includes(`<h2>${label}</h2>`)), "Accueil : composition éditoriale de référence ou piliers approuvés non préservés");
 
 
 const internalEntryHtml = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
