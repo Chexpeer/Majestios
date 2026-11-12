@@ -347,7 +347,7 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 **Limite :** la CI verte ne prouve ni la sécurité effective du projet Supabase distant, ni une recette métier multi-utilisateur, ni la validation visuelle. Aucun changement Supabase/Vercel n'a été effectué.
 
 
-## 12. Audit Cheexpeer — worker et pont serveur — 11 novembre 2026
+## Journal historique — Audit Cheexpeer, worker et pont serveur — 11 novembre 2026
 
 | ID | Priorité | Domaine | Constat vérifié dans le code Evolution-9 | Traitement / statut |
 |---|---|---|---|---|
@@ -370,7 +370,7 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 **Preuve CI CHX-05 — 11 novembre 2026 :** le workflow spécialisé `Cheexpeer worker contract` a réussi sur le commit `e401eb13be6ad395d4f63a596f2761efd07aefe5` (run [43044831310](https://github.com/Chexpeer/Majestios/actions/runs/43044831310)). Les étapes `Syntax check` et `Policy tests` sont toutes deux `success`. Cette preuve confirme l'exécution de la suite de contrats sur Evolution-9 ; elle ne prouve pas le déploiement du worker ni sa recette Supabase distante.
 
 
-## 13. Audit des surfaces produit et des capacités spécialisées — 11 novembre 2026
+## Journal historique — Audit des surfaces produit et des capacités spécialisées — 11 novembre 2026
 
 | ID | Priorité | Domaine | Constat vérifié | Statut / conséquence |
 |---|---|---|---|---|
@@ -389,7 +389,7 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 Cette synthèse est une lecture du dépôt et des derniers constats distants consignés ; elle ne remplace pas une nouvelle vérification des versions déployées. Aucun accès distant, déploiement ou changement Supabase n'a été effectué dans cette passe.
 
 
-## 14. Garde-fou préventif sur les décisions d'approbation — 11 novembre 2026
+## Journal historique — Garde-fou préventif sur les décisions d'approbation — 11 novembre 2026
 
 | ID | Priorité | Domaine | Constat | Exigence avant raccordement |
 |---|---|---|---|---|
@@ -398,7 +398,7 @@ Cette synthèse est une lecture du dépôt et des derniers constats distants con
 **Qualification :** point de conception préventif, pas preuve d'une exposition actuelle. Ne pas ajouter la décision d'approbation à la liste d'actions du worker. L'approbation est une décision utilisateur, distincte de l'exécution technique du worker.
 
 
-## 15. Première mission Cheexpeer — 11 novembre 2026
+## Journal historique — Première mission Cheexpeer — 11 novembre 2026
 
 | ID | Priorité | Domaine | Constat / risque | Traitement / statut |
 |---|---|---|---|---|
@@ -410,7 +410,7 @@ Cette synthèse est une lecture du dépôt et des derniers constats distants con
 La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md](SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md). La migration d'outil reste volontairement désactivée. Aucune donnée, migration, fonction Edge, configuration ou secret Supabase n'a été modifié à distance.
 
 
-## 7. Régressions visuelles constatées sur la prévisualisation Evolution-9 — 11 novembre 2026
+## Journal historique — Régressions visuelles constatées sur la prévisualisation Evolution-9 — 11 novembre 2026
 
 | ID | Priorité | Domaine | Constat / cause | Correction engagée | Statut |
 |---|---|---|---|---|---|
@@ -422,7 +422,7 @@ La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.m
 **Règle de prévention ajoutée :** les tests ne doivent jamais considérer la disparition d'une fonction visible comme un état attendu uniquement parce que le HTML la masque. Les contrôles de non-régression doivent vérifier la présence, la visibilité et l'accès réel aux fonctions métier demandées.
 
 
-## 16. Visibilité maîtrisée et navigation commune — 11 novembre 2026
+## Journal historique — Visibilité maîtrisée et navigation commune — 11 novembre 2026
 
 - Réputation virtuelle : les trois formulaires de la rubrique (dossier d'audit, Google Web, Google Maps) restent dans le document mais aucun n'est affiché au chargement public. Le dossier d'audit conserve son attribut `hidden` ; le conteneur des deux recherches Google est également masqué. Les handlers JavaScript, la collecte, le journal de session, les liens de secours et le rendu de résultats sont conservés. Les tests révèlent les contrôles uniquement après avoir vérifié qu'ils sont masqués, afin de tester leur logique sans les rendre publics.
 - Navigation : `navigation-tiroirs.css` et `navigation-tiroirs.js` sont désormais chargés par `reputation-virtuelle.html` et `prospection-active.html`. Le script conserve les liens de sous-menu et le comportement tactile/desktop déjà défini dans le composant partagé.
@@ -430,7 +430,7 @@ La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.m
 - Limite de preuve : les mises à jour GitHub sont confirmées sur Evolution-9. Le statut combiné du commit contrôlé ne retournait aucun statut CI ; aucune exécution Playwright locale ni vérification visuelle desktop/mobile n'est revendiquée dans cette passe.
 
 
-## 17. Accès VIP — vérification du parcours et preuve de prévisualisation — 11 novembre 2026
+## Journal historique — Accès VIP, vérification du parcours et preuve de prévisualisation — 11 novembre 2026
 
 - Point d'entrée : le menu commun « Accès VIP · Administration » mène à `espace-interne.html`, qui affiche le formulaire de connexion dans le HTML initial. Le formulaire reste visible même si le module JavaScript échoue ; un message de secours est prévu et le bouton est neutralisé. Le sas n'ouvre aucun outil sans session et appartenance interne confirmées.
 - Parcours : après authentification, `espace-interne.js` contrôle l'identité, l'organisation `kind=internal` et le rôle. Seuls `owner` et `admin` peuvent être redirigés vers `administration.html`. Le cockpit refait un contrôle indépendant avant d'afficher ses données.
@@ -440,7 +440,7 @@ La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.m
 - Limite : la prévisualisation n'a pas pu être ouverte avec l'outil de consultation utilisé ; le statut READY prouve le build et la publication, pas le rendu ni le parcours réel dans un navigateur. L'anomalie « page blanche et or » n'est donc pas déclarée résolue. Il reste à reproduire le clic depuis l'appareil de l'utilisateur et à inspecter la console/réseau si le formulaire ne s'affiche pas.
 
 
-## 18. Navigation globale et accès VIP depuis toutes les pages — 11 novembre 2026
+## Journal historique — Navigation globale et accès VIP depuis toutes les pages — 11 novembre 2026
 
 | ID | Priorité | Domaine | Cause | Correction | Statut |
 |---|---|---|---|---|---|
