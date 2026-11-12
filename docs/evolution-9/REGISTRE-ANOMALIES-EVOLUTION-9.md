@@ -822,3 +822,10 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | AUTH-MEMBER-01 | P1 | Authentification / espace Membres | Le frontend appelait `provision-client-workspace`, absente de la liste des fonctions Edge du projet `majestios-crm`. L'inscription pouvait laisser un compte Auth sans espace. | Parcours d'inscription suspendu côté interface ; connexion des membres existants conservée. Déploiement et recette de la fonction requis avant réouverture. |
+
+
+## 70. Suppression du mode d’inscription dormant — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| AUTH-MEMBER-02 | P1 | Authentification / espace Membres | Malgré la suspension annoncée, le formulaire conservait des champs et un mode d’inscription visibles ou réactivables, tandis que le client forçait `shouldCreateUser: false`. Le contrat de sécurité attendait encore l’ancien flux de consentement/provisionnement. | Champs et logique d’inscription supprimés ; OTP réservé aux comptes existants ; contrat automatisé réaligné. Provisionnement serveur conservé hors parcours public et non déployé. CI à confirmer sur le HEAD final. |
