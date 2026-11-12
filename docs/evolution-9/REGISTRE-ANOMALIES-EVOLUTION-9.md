@@ -1,5 +1,8 @@
 # Registre des anomalies — Evolution-9
 
+> **Convention d'identifiants :** les anomalies historiques qui partageaient un même identifiant ont été distinguées par suffixe (périmètre, étape d'audit ou correction). Les anciens identifiants courts restent des références historiques dans certains comptes rendus ; utiliser les identifiants qualifiés de ce registre pour toute nouvelle mise à jour.
+
+
 **Branche :** `Evolution-9`  
 **Base :** commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` d'Evolution-8  
 **Statut initial :** reprise et requalification en cours.
@@ -22,7 +25,7 @@ Une anomalie n'est clôturée que si la cause est comprise, la correction est pr
 | AN-13 | P1 | RPC CRM | `complete_crm_reminder` SECURITY DEFINER, recette réelle des rôles manquante | Ouvert — vérifier refus member et succès owner/admin |
 | AN-05 | P1 | Dépôt public | Identifiant administrateur codé en dur dans une fonction d'initialisation | Ouvert — revue d'exposition et externalisation |
 | AN-10 | P1 | Sauvegardes | Sauvegarde manuelle incomplète (Auth, paramètres, secrets, Storage non inclus) | Ouvert — définir et tester restauration |
-| CRM-06 | P0 conditionnel | Import officiel VIP | Frontière VIP préparée dans le code, migration non appliquée et recette multi-rôles non démontrée | Bloqué avant activation de l'import privilégié |
+| CRM-06-VIP | P0 conditionnel | Import officiel VIP | Frontière VIP préparée dans le code, migration non appliquée et recette multi-rôles non démontrée | Bloqué avant activation de l'import privilégié |
 | CHEEXPEER-01 à 04 | P1 | Agent IA | Appartenance, quotas, rapprochement entreprise, prompt injection et transparence ; déploiement/recette à vérifier | Ouverts selon preuves Evolution-7 |
 
 Les constats proviennent des registres Evolution-7 et Evolution-8 ; ils doivent être revalidés sur le code et les environnements actuels avant toute correction ou clôture.
@@ -31,7 +34,7 @@ Les constats proviennent des registres Evolution-7 et Evolution-8 ; ils doivent 
 
 | ID | Priorité | Domaine | Cause | Correction Evolution-8 | Statut |
 |---|---|---|---|---|---|
-| NAV-01 | P1 CI | Navigation | Le menu comptait 20 entrées et 18 destinations uniques, mais `verify-architecture.js` attendait encore 18 et 17. | Vérificateur aligné, route facturation ajoutée ; commit `4f471c06e7bf5dbbf9c88339a2ea0ed23d2f03c8`. Build Vercel Evolution-8 READY sur commit ultérieur, 81 fichiers. | Code corrigé ; exécution du workflow GitHub Actions après correction non confirmée. Rejouer le contrôle sur Evolution-9. |
+| NAV-01-EVO8 | P1 CI | Navigation | Le menu comptait 20 entrées et 18 destinations uniques, mais `verify-architecture.js` attendait encore 18 et 17. | Vérificateur aligné, route facturation ajoutée ; commit `4f471c06e7bf5dbbf9c88339a2ea0ed23d2f03c8`. Build Vercel Evolution-8 READY sur commit ultérieur, 81 fichiers. | Code corrigé ; exécution du workflow GitHub Actions après correction non confirmée. Rejouer le contrôle sur Evolution-9. |
 
 ## 4. Risques préventifs à contrôler
 
@@ -115,8 +118,8 @@ Le détail des contrôles et des limites figure dans la section 11.7 du rapport 
 | ID | Priorité | Domaine | Constat | Statut / traitement |
 |---|---|---|---|---|
 | CRM-04 | P2 | Robustesse des écritures frontend | Les fonctions create* du client CRM acceptaient des objets sans liste blanche explicite par table. | **Corrigé dans Evolution-9** : listes blanches par table, champs d'organisation/auteur imposés côté client, test de contrat ajouté. Le contrôle « Vérifier le contrat de sécurité du CRM » a réussi sur le commit 5976681bc72f089c9bdb94a26951a7622254267a. Cette correction ne remplace pas les protections SQL. |
-| CRM-05 | P1 avant pilote | Recette fonctionnelle et multi-tenant | Aucun parcours E2E complet du CRM n'est actuellement exécuté dans le workflow : création, édition, historique, relance et refus inter-organisations ne sont pas testés ensemble contre une base de test avec plusieurs identités. | **Ouvert** : préparer une recette automatisée sur MajestiOS-Test, avec organisations et comptes synthétiques, sans toucher au projet principal. |
-| CRM-06 | P2 avant automatisation serveur | Traçabilité des écritures système | Le trigger d'historisation utilise auth.uid() pour actor_user_id ; une écriture déclenchée avec le rôle service peut donc être historisée sans acteur humain identifié. | **À concevoir** : ajouter une attribution système/mission explicite et traçable avant les imports automatisés et les missions Cheexpeer. Ne jamais attribuer artificiellement l'action à un utilisateur humain. |
+| CRM-05-01 | P1 avant pilote | Recette fonctionnelle et multi-tenant | Aucun parcours E2E complet du CRM n'est actuellement exécuté dans le workflow : création, édition, historique, relance et refus inter-organisations ne sont pas testés ensemble contre une base de test avec plusieurs identités. | **Ouvert** : préparer une recette automatisée sur MajestiOS-Test, avec organisations et comptes synthétiques, sans toucher au projet principal. |
+| CRM-06-TRACE | P2 avant automatisation serveur | Traçabilité des écritures système | Le trigger d'historisation utilise auth.uid() pour actor_user_id ; une écriture déclenchée avec le rôle service peut donc être historisée sans acteur humain identifié. | **À concevoir** : ajouter une attribution système/mission explicite et traçable avant les imports automatisés et les missions Cheexpeer. Ne jamais attribuer artificiellement l'action à un utilisateur humain. |
 
 Le CRM interne reste limité aux rôles owner et admin. Le chemin d'interface viewer actuellement présent est inaccessible avec cette règle ; il ne constitue pas une activation du CRM client. Les rôles du futur CRM client devront être définis séparément et testés par tenant.
 
@@ -133,7 +136,7 @@ Référence canonique : [Spécification cible CRM, facturation et facturation é
 
 | ID | Priorité | Domaine | Action préparatoire | Statut |
 |---|---|---|---|---|
-| CRM-05 | P1 avant pilote | Recette fonctionnelle / multi-tenant | Protocole détaillé ajouté : rôles, entreprises, contacts, opportunités, activités, historisation, relances, permissions SQL et tests négatifs entre deux tenants sur `MajestiOS-Test`. | **Protocole préparé — NOT RUN** ; exécution conditionnée à des comptes et données synthétiques et à une autorisation explicite d'écriture sur le projet de test. |
+| CRM-05-02 | P1 avant pilote | Recette fonctionnelle / multi-tenant | Protocole détaillé ajouté : rôles, entreprises, contacts, opportunités, activités, historisation, relances, permissions SQL et tests négatifs entre deux tenants sur `MajestiOS-Test`. | **Protocole préparé — NOT RUN** ; exécution conditionnée à des comptes et données synthétiques et à une autorisation explicite d'écriture sur le projet de test. |
 
 Référence : [Protocole de recette CRM sur MajestiOS-Test](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md). Ce livrable ne clôt pas CRM-05 et ne constitue pas une validation de sécurité ou d'ouverture des pilotes.
 
@@ -142,7 +145,7 @@ Référence : [Protocole de recette CRM sur MajestiOS-Test](PROTOCOLE-RECETTE-CR
 
 | ID | Priorité | Domaine | Constat actualisé | Statut |
 |---|---|---|---|---|
-| CRM-05 | P1 avant pilote | Recette multi-tenant | 39 migrations présentes ; tables CRM vides ; une seule organisation interne sans membre ; aucun tenant client/partenaire ni utilisateur synthétique. | Protocole prêt, exécution bloquée par l'absence d'identités/tenants de recette. Préparer un provisionnement synthétique contrôlé avant tests JWT. |
+| CRM-05-03 | P1 avant pilote | Recette multi-tenant | 39 migrations présentes ; tables CRM vides ; une seule organisation interne sans membre ; aucun tenant client/partenaire ni utilisateur synthétique. | Protocole prêt, exécution bloquée par l'absence d'identités/tenants de recette. Préparer un provisionnement synthétique contrôlé avant tests JWT. |
 | AN-15 | P2 | Triggers d'intégrité redondants | Deux triggers par table businesses, contacts, opportunities et activities appellent `enforce_tenant_relationship_integrity`. | Confirmé en lecture seule sur MajestiOS-Test ; analyser les migrations et dépendances avant toute suppression. |
 | CRM-03 | P1 avant pilote | Privilèges UPDATE | Le projet de test possède les privilèges UPDATE limités aux colonnes métier ; les colonnes système ne sont pas accordées à authenticated. | Présence distante confirmée sur MajestiOS-Test ; le projet principal reste à part et n'est pas modifié. |
 | CRM-02 | P1 avant pilote | Historisation | Triggers d'historisation présents et actifs sur businesses, contacts et opportunities dans le projet de test. | Présence distante confirmée ; recette transactionnelle réelle encore requise. |
@@ -156,7 +159,7 @@ Le contrôle est documenté dans le [rapport d'audit](AUDIT-CRM-SUPABASE-LECTURE
 | ID | Priorité | Domaine | Constat / correction | Statut |
 |---|---|---|---|---|
 | HOME-01 | P1 | Accueil / moteur de recherche | L'accueil centré sur la recherche d'Evolution-7 avait été remplacé par une présentation conceptuelle CRM. `index.html` restauré depuis Evolution-7. | Corrigé ; CI et test navigateur réussis |
-| NAV-01 | P1 | Navigation multi-pages | Les menus doivent utiliser le chargeur partagé et rester accessibles depuis toutes les pages publiques. Les contrôles statiques et navigateurs couvrent desktop et mobile. | Contrôle CI réussi |
+| NAV-01-EVO9 | P1 | Navigation multi-pages | Les menus doivent utiliser le chargeur partagé et rester accessibles depuis toutes les pages publiques. Les contrôles statiques et navigateurs couvrent desktop et mobile. | Contrôle CI réussi |
 | VIS-01 | P1 | Harmonisation graphique | Socle commun ajouté pour géométrie, typographie, espacements, états, focus clavier et cibles tactiles dans `navigation-tiroirs.css`. | Socle livré ; revue visuelle détaillée page par page encore requise |
 
 La matrice et les limites de recette sont documentées dans [l'audit de non-régression Evolution-7](AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md). La réussite des tests du site ne vaut pas recette CRM multi-identités ni validation visuelle exhaustive. Aucune promotion production n'est autorisée par ce constat.
@@ -184,8 +187,8 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 
 | ID | Priorité | Domaine | Constat vérifiable dans le code | Amélioration / contrôle demandé | Statut |
 |---|---|---|---|---|---|
-| NAV-02 | P1 | Menu desktop / survol | Dans `navigation-tiroirs.css`, le sous-menu commence à `top: calc(100% + 5px)`. Dans `navigation-tiroirs.js`, sa fermeture est déclenchée dès le `mouseleave` de la rubrique parente. L'espace de 5 px peut donc provoquer la fermeture pendant le déplacement du pointeur vers le sous-menu. | Supprimer la zone morte (sous-menu à `top: 100%` ou pont de survol) et ajouter un test navigateur qui déplace réellement le pointeur du titre vers plusieurs liens du sous-menu. | À corriger / tester |
-| CHAT-03 | P1 | Espace Assistant / ergonomie | `assistant-majestios.html` affiche une zone de saisie et un bouton Envoyer désactivés, alors que le guide local fonctionnel est uniquement accessible via le bouton flottant injecté par `app.js`. L'utilisateur voit donc une fausse zone de conversation inactive sur la page dédiée. | Remplacer le formulaire inactif par un accès explicite et fonctionnel au guide local, ou intégrer réellement le guide dans cette page. Garder une séparation claire entre guide local et futur Cheexpeer IA. | À améliorer |
+| NAV-02-AUDIT | P1 | Menu desktop / survol | Dans `navigation-tiroirs.css`, le sous-menu commence à `top: calc(100% + 5px)`. Dans `navigation-tiroirs.js`, sa fermeture est déclenchée dès le `mouseleave` de la rubrique parente. L'espace de 5 px peut donc provoquer la fermeture pendant le déplacement du pointeur vers le sous-menu. | Supprimer la zone morte (sous-menu à `top: 100%` ou pont de survol) et ajouter un test navigateur qui déplace réellement le pointeur du titre vers plusieurs liens du sous-menu. | À corriger / tester |
+| CHAT-03-AUDIT | P1 | Espace Assistant / ergonomie | `assistant-majestios.html` affiche une zone de saisie et un bouton Envoyer désactivés, alors que le guide local fonctionnel est uniquement accessible via le bouton flottant injecté par `app.js`. L'utilisateur voit donc une fausse zone de conversation inactive sur la page dédiée. | Remplacer le formulaire inactif par un accès explicite et fonctionnel au guide local, ou intégrer réellement le guide dans cette page. Garder une séparation claire entre guide local et futur Cheexpeer IA. | À améliorer |
 | VIS-02 | P1 | Cohérence visuelle multi-pages | Le socle de navigation est commun, mais les pages chargent des feuilles de style propres à leur rubrique et dans des ordres différents. La seule réussite du build et des tests ciblés ne prouve pas l'harmonisation de toutes les pages. | Faire une revue page par page : accueil, appels d'offres public/privé, développement commercial, réseau, réputation virtuelle, CRM, espaces privés/VIP, facturation électronique, assistant, contact et pages d'information. Contrôler desktop/tablette/mobile, contraste, tailles, marges, cartes, formulaires, tableaux et états interactifs. | Ouvert — recette visuelle requise |
 | NAV-03 | P2 | Navigation / repérage | Les sept familles et leurs sous-rubriques sont générées par JavaScript, qui remplace le contenu initial du menu HTML. Une erreur de chargement du script peut donc laisser une navigation différente de celle attendue. | Ajouter un contrôle de secours sans JavaScript ou un état de repli accessible, et vérifier que chaque page publique charge bien le script partagé. | À vérifier |
 
@@ -217,7 +220,7 @@ Cette revue est réalisée à partir des sources de la prévisualisation Evoluti
 | ID | Priorité | Domaine | Constat confirmé | Traitement Evolution-9 | Statut |
 |---|---|---|---|---|---|
 | REP-UI-01 | P1 | Réputation virtuelle / interface publique | La page exposait le formulaire principal de préparation d'audit ainsi que les formulaires Google Web et Maps, contrairement à la consigne du porteur de projet. | Les trois contrôles sont masqués dans l'interface publique ; les traitements et sélecteurs internes sont conservés dans le DOM pour éviter une suppression fonctionnelle prématurée. Le panneau visible devient un espace de suivi des analyses et constats vérifiés. | Code et assertions statiques/navigateur ajoutés ; recette navigateur à exécuter. |
-| NAV-02 | P1 | Navigation desktop | Le sous-menu était décalé de 5 px sous son parent, avec fermeture au `mouseleave`, créant une zone morte possible. | Alignement du sous-menu à `top: 100%` et ajout d'un test qui déplace le pointeur du titre vers un lien du sous-menu. | Correction de code et test ajoutés ; recette navigateur à exécuter. |
+| NAV-02-CORR | P1 | Navigation desktop | Le sous-menu était décalé de 5 px sous son parent, avec fermeture au `mouseleave`, créant une zone morte possible. | Alignement du sous-menu à `top: 100%` et ajout d'un test qui déplace le pointeur du titre vers un lien du sous-menu. | Correction de code et test ajoutés ; recette navigateur à exécuter. |
 | CI-01 | P1 CI | Installation Playwright | Le dernier run `43032901155` échoue à l'étape d'installation Chromium : `playwright install --with-deps` déclenche APT, dont les miroirs Ubuntu sont injoignables (`Temporary failure resolving`). Les contrôles syntaxe, tests Node, build, architecture, site et liens documentaires précédant cette étape ont réussi ; les tests navigateur suivants ont été ignorés. | Suppression de `--with-deps` pour utiliser les dépendances déjà présentes sur le runner GitHub standard et éviter l'étape APT réseau. | Correction du workflow à vérifier sur une nouvelle exécution CI. |
 
 **Limite :** aucune validation visuelle réelle n'est revendiquée. La modification de la commande Playwright ne prouve pas encore que Chromium démarre correctement sur le runner ; le prochain run doit le confirmer.
@@ -337,7 +340,7 @@ Ce contrôle vérifie le contrat de chargement et de source unique ; il ne rempl
 | ID | Priorité | Domaine | Cause / correction | Statut |
 |---|---|---|---|---|
 | CI-05 | P1 CI | Validation globale Evolution-9 | Le workflow `verify-static-site` a réussi sur le HEAD `905041b6c736a1c66adade91561beb623c67a1fe` (run 43042947816). Les tests navigateur desktop/mobile et les contrôles CRM statiques sont inclus. | CI verte (SUCCESS). |
-| CRM-06 | P0 | Sécurité du CRM sur le projet principal | L'audit lecture seule constate encore des privilèges UPDATE trop larges et l'absence des triggers d'historisation sur `majestios-crm`. Les migrations correctives sont présentes dans Git mais non appliquées à distance. | Bloqué : plan et autorisation Supabase requis. |
+| CRM-06-SEC | P0 | Sécurité du CRM sur le projet principal | L'audit lecture seule constate encore des privilèges UPDATE trop larges et l'absence des triggers d'historisation sur `majestios-crm`. Les migrations correctives sont présentes dans Git mais non appliquées à distance. | Bloqué : plan et autorisation Supabase requis. |
 | CRM-07 | P1 | Recette multi-tenant | Le protocole de test existe, mais les identités/organisations synthétiques et scénarios JWT multi-rôle ne sont pas exécutés. | Préparé, NOT RUN. |
 | F2-01 | P2 | Préparation facturation CRM | Le CRM actuel ne possède pas de domaine facture opérationnel ni d'adresse/contact de facturation distincts. La cible est cadrée en phase 2, domaine séparé relié au CRM. | Cadrage documenté ; aucune implémentation revendiquée. |
 
@@ -487,8 +490,8 @@ Le noindex n'est pas un contrôle d'accès. Les données personnelles et résult
 
 | ID | Priorité | Domaine | Constat / correction | Statut |
 |---|---|---|---|---|
-| CHAT-03 | P1 | Espace Assistant / ergonomie | La page assistant-majestios.html présentait un champ de saisie et un bouton Envoyer désactivés alors que le guide local était disponible via le bouton flottant. Le faux formulaire a été remplacé par un bouton fonctionnel qui ouvre le guide partagé ; assertions ajoutées à verify-site.js. | Corrigé dans le code ; CI et recette navigateur à confirmer. |
-| CHX-DOC-01 | P1 | Cohérence documentation / worker | Des documents résumaient le worker comme limité à readiness_probe, alors que le code Evolution-9 contient deux handlers de diagnostic (bootstrap et worker_self_check). Le dernier audit distant décrivait le worker déployé sur MajestiOS-Test comme limité à readiness_probe. La distinction code Git / version déployée est explicitée dans le guide IA et le référentiel. | Documentation clarifiée ; version distante à recontrôler avant toute activation. |
+| CHAT-03-CORR | P1 | Espace Assistant / ergonomie | La page assistant-majestios.html présentait un champ de saisie et un bouton Envoyer désactivés alors que le guide local était disponible via le bouton flottant. Le faux formulaire a été remplacé par un bouton fonctionnel qui ouvre le guide partagé ; assertions ajoutées à verify-site.js. | Corrigé dans le code ; CI et recette navigateur à confirmer. |
+| CHX-DOC-01-WORKER | P1 | Cohérence documentation / worker | Des documents résumaient le worker comme limité à readiness_probe, alors que le code Evolution-9 contient deux handlers de diagnostic (bootstrap et worker_self_check). Le dernier audit distant décrivait le worker déployé sur MajestiOS-Test comme limité à readiness_probe. La distinction code Git / version déployée est explicitée dans le guide IA et le référentiel. | Documentation clarifiée ; version distante à recontrôler avant toute activation. |
 | GEO-02 | P2 | Exactitude des métadonnées Cheexpeer | La meta description de majestios-v5.html pouvait faire croire que les capacités prévues de surveillance, analyse, rapports, alertes et scoring étaient déjà disponibles. Reformulation pour préciser qu'il s'agit d'un agent en préparation. | Corrigé dans le code ; CI à confirmer. |
 
 La page Assistant reste un guide local à mots-clés ; cette correction d'ergonomie ne la transforme pas en agent IA. Les missions métier, outils et connecteurs Cheexpeer restent non activés.
@@ -605,8 +608,8 @@ Voir section 17 de l'audit des interfaces et `SPECIFICATION-CIBLE-FACTURATION-CR
 
 | ID | Priorité | Domaine | Constat vérifié dans le code | Action / statut |
 |---|---|---|---|---|
-| CHX-API-02 | P1 avant API utilisateur | Idempotence / isolation tenant | En cas de conflit global sur `idempotency_key`, `cheexpeer_submit_mission` relit la mission sans vérifier que son `organization_id` correspond à l'organisation demandée. RPC réservée à `service_role`, aucune fuite actuelle démontrée ; risque latent si l'API relaie directement le résultat. | Avant raccordement, vérifier le tenant et ne retourner aucune donnée en cas de mismatch ; décider si l'idempotence doit être scoped par organisation. Tests croisés A/B et concurrence requis. |
-| CHX-APPROVAL-01 | P1 | Cycle de vie / expiration | `cheexpeer_decide_approval` met le statut à `expired` puis lève une exception dans la même transaction ; PostgreSQL annule la mise à jour. Une approbation expirée peut donc rester `pending`. | Corriger dans une migration additive : résultat métier explicite `expired` ou transition transactionnelle distincte ; test SQL de persistance obligatoire. |
+| CHX-API-02-AUDIT | P1 avant API utilisateur | Idempotence / isolation tenant | En cas de conflit global sur `idempotency_key`, `cheexpeer_submit_mission` relit la mission sans vérifier que son `organization_id` correspond à l'organisation demandée. RPC réservée à `service_role`, aucune fuite actuelle démontrée ; risque latent si l'API relaie directement le résultat. | Avant raccordement, vérifier le tenant et ne retourner aucune donnée en cas de mismatch ; décider si l'idempotence doit être scoped par organisation. Tests croisés A/B et concurrence requis. |
+| CHX-APPROVAL-01-AUDIT | P1 | Cycle de vie / expiration | `cheexpeer_decide_approval` met le statut à `expired` puis lève une exception dans la même transaction ; PostgreSQL annule la mise à jour. Une approbation expirée peut donc rester `pending`. | Corriger dans une migration additive : résultat métier explicite `expired` ou transition transactionnelle distincte ; test SQL de persistance obligatoire. |
 
 Ces deux points ont été ajoutés après lecture du SQL versionné, sans exécution ni écriture sur Supabase. Voir section 18 de `AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md`. Les anomalies P0 CHX-API-01 et CHX-SEC-03 restent bloquantes ; les nouveaux constats P1 doivent être traités avant d'exposer l'API.
 
@@ -615,8 +618,8 @@ Ces deux points ont été ajoutés après lecture du SQL versionné, sans exécu
 
 | ID | Priorité | Domaine | Constat / correction versionnée | Statut |
 |---|---|---|---|---|
-| CHX-API-02 | P1 avant API utilisateur | Idempotence tenant | Migration additive : unicité composée organisation/clé et relecture filtrée par organisation. | Code Git préparé ; test SQL réel et application migration non exécutés. |
-| CHX-APPROVAL-01 | P1 | Expiration approbation | Expiration retournée comme état métier normal, horodatée et journalisée ; aucune exception après update ; aucun dispatch. | Code Git préparé ; persistance PostgreSQL à prouver en recette locale. |
+| CHX-API-02-MIGRATION | P1 avant API utilisateur | Idempotence tenant | Migration additive : unicité composée organisation/clé et relecture filtrée par organisation. | Code Git préparé ; test SQL réel et application migration non exécutés. |
+| CHX-APPROVAL-01-MIGRATION | P1 | Expiration approbation | Expiration retournée comme état métier normal, horodatée et journalisée ; aucune exception après update ; aucun dispatch. | Code Git préparé ; persistance PostgreSQL à prouver en recette locale. |
 | CHX-API-03 | P0 avant activation | API de soumission | Edge Function séparée, JWT vérifié par Auth, acteur dérivé du JWT, rôle owner/admin contrôlé, RPC service-role uniquement. | Source Git créée ; non déployée. |
 | CHX-API-04 | P0 avant activation | API de décision | Edge Function séparée, rôle owner/admin, acteur dérivé du JWT ; RPC SQL vérifie également l'appartenance. | Source Git créée ; non déployée. |
 | CHX-API-05 | P0 avant activation | API de consultation | Edge Function séparée ; RPC de lecture filtrée par mission ET organisation et champs en liste blanche. | Source Git créée ; non déployée. |
@@ -630,7 +633,7 @@ Aucun endpoint ni migration n'a été déployé. MajestiOS-Test demeure en lectu
 | ID | Priorité | Domaine | Constat vérifié | Action / statut |
 |---|---|---|---|---|
 | E9-GIT-01 | P1 | Protection de branche | L'API GitHub retourne `protected=false` pour `Evolution-9` ; aucun contrôle de statut obligatoire n'est configuré. `main` est également non protégée, mais son HEAD reste inchangé à `94f2af84e96577b6370af1804ecfbd66bd100e71`. | Recommander une règle de protection exigeant CI verte et revue avant fusion ; aucune règle de dépôt modifiée dans cet audit. |
-| E9-CI-03 | P1 | Annulation des CI | Le workflow `verify-site.yml` utilise `cancel-in-progress: true`. Les pushes successifs sur Evolution-9 ont annulé les exécutions précédentes ; seule une exécution du SHA final, sans push concurrent, peut servir de preuve. | Laisser terminer la CI du HEAD stabilisé ; envisager une stratégie de concurrence qui n'annule pas la validation du HEAD final. |
+| E9-CI-03-CONSTAT | P1 | Annulation des CI | Le workflow `verify-site.yml` utilise `cancel-in-progress: true`. Les pushes successifs sur Evolution-9 ont annulé les exécutions précédentes ; seule une exécution du SHA final, sans push concurrent, peut servir de preuve. | Laisser terminer la CI du HEAD stabilisé ; envisager une stratégie de concurrence qui n'annule pas la validation du HEAD final. |
 
 Ces constats proviennent de la réponse GitHub sur les branches et des exécutions Actions de ce lot. La protection de branche n'a pas été modifiée et aucun changement n'a été apporté à `main`.
 
@@ -663,7 +666,7 @@ Aucun endpoint n'est déployé. Cette correction ne constitue pas une protection
 
 | ID | Priorité | Risque | Constat / correction | Statut |
 |---|---|---|---|---|
-| E9-CI-03 | P1 | Perte de preuve de validation | `cancel-in-progress: true` interrompait les exécutions actives lors de pushes successifs. Le workflow passe à `false` pour laisser terminer les jobs démarrés. | Correction versionnée sur Evolution-9 ; attendre la conclusion CI du HEAD courant. Les exécutions déjà annulées restent non concluantes. |
+| E9-CI-03-CORR | P1 | Perte de preuve de validation | `cancel-in-progress: true` interrompait les exécutions actives lors de pushes successifs. Le workflow passe à `false` pour laisser terminer les jobs démarrés. | Correction versionnée sur Evolution-9 ; attendre la conclusion CI du HEAD courant. Les exécutions déjà annulées restent non concluantes. |
 
 Note : GitHub peut toujours remplacer une exécution en attente dans un même groupe de concurrence ; stabiliser les changements avant d'attendre le run final.
 
@@ -863,7 +866,7 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
-| CHX-DOC-01 | P1 | Documentation / vérité produit | Le README décrivait « Cheexpeer (IA intégrée) » parmi les espaces existants, alors que le site expose un guide conversationnel de première génération fondé sur des règles et mots-clés. Les capacités d’agent IA Cheexpeer décrites dans l’architecture sont une cible et ne doivent pas être présentées comme déjà disponibles. | README et AGENTS.md clarifiés : assistant actuel distingué de Cheexpeer ; architecture Cheexpeer explicitement qualifiée de cible. Vérifier les autres documents publics et spécialisés lors du prochain lot documentaire. |
+| CHX-DOC-01-ASSISTANT | P1 | Documentation / vérité produit | Le README décrivait « Cheexpeer (IA intégrée) » parmi les espaces existants, alors que le site expose un guide conversationnel de première génération fondé sur des règles et mots-clés. Les capacités d’agent IA Cheexpeer décrites dans l’architecture sont une cible et ne doivent pas être présentées comme déjà disponibles. | README et AGENTS.md clarifiés : assistant actuel distingué de Cheexpeer ; architecture Cheexpeer explicitement qualifiée de cible. Vérifier les autres documents publics et spécialisés lors du prochain lot documentaire. |
 
 
 ## 76. État de la validation CI après réalignement des vérificateurs — 12 novembre 2026
