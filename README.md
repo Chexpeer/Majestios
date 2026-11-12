@@ -116,6 +116,10 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 - `*.html` : pages du site ;
 - `styles.css`, `rubriques-immersives.css` : styles ;
 - `*.js` : interactions, recherche, catalogue et modules métier ;
+- `supabase/` : migrations SQL et fonctions Edge du backend ;
+- `services/` : services applicatifs ;
+- `schemas/` : schémas et contrats de données ;
+- `outils/` : outils et utilitaires du projet ;
 - `supabase/` : migrations, fonctions Edge et éléments du backend en préparation ;
 - `services/`, `schemas/` et `outils/` : services, contrats et outils techniques lorsqu’ils sont présents dans la branche ;
 - `tests/` : tests unitaires, d’intégration et navigateur ;
