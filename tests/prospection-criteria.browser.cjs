@@ -80,7 +80,8 @@ async function main() {
     const layout = await page.evaluate(() => ({
       viewport: document.documentElement.clientWidth,
       scroll: document.documentElement.scrollWidth,
-      chips: [...document.querySelectorAll(".prospecting-criteria-chip")].map((node) => node.getBoundingClientRect().width)
+      chips: [...document.querySelectorAll(".prospecting-criteria-chip")].map((node) => node.getBoundingClientRect().width),
+      offenders: [...document.querySelectorAll("body *")].map(node => ({tag:node.tagName, id:node.id, cls:typeof node.className==="string"?node.className:"", left:Math.round(node.getBoundingClientRect().left), right:Math.round(node.getBoundingClientRect().right), width:Math.round(node.getBoundingClientRect().width), scroll:node.scrollWidth})).filter(x=>x.right>390||x.left<0&&x.width>0).sort((a,b)=>b.right-a.right).slice(0,18)
     }));
     assert.ok(layout.scroll <= layout.viewport, `Le moteur ne doit pas déborder horizontalement sur mobile : ${JSON.stringify(layout)}`);
     assert.ok(layout.chips.every((width) => width > 0 && width <= layout.viewport), `Les filtres actifs doivent rester dans la largeur mobile : ${JSON.stringify(layout)}`);
