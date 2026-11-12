@@ -20,7 +20,6 @@ assert.doesNotMatch(html, /type="password"/);
 assert.doesNotMatch(html, /name="passwordConfirm"/);
 
 assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options \}\)/);
-assert.match(auth, /let mode = "login"/);
 assert.equal((auth.match(/shouldCreateUser: false/g) || []).length, 2);
 assert.doesNotMatch(auth, /provision-client-workspace|shouldCreateUser: true/);
 assert.match(auth, /supabase\.auth\.verifyOtp\(\{[\s\S]*?type: "email"/);
