@@ -17,7 +17,7 @@
 
 Le registre Evolution-9 est la source de vérité pour les anomalies de la branche active. Les registres Evolution-8 et Evolution-7 restent conservés comme historiques ; les identifiants hérités sont repris et ne sont clôturés qu'après preuve.
 
-**Reprise Evolution-9 — 11 novembre 2026 :** la branche de consolidation a été créée depuis Evolution-8 après correction du décalage du contrat de navigation (NAV-01 : 20 entrées secondaires, 18 destinations uniques). Le build Vercel Evolution-8 est READY sur le commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` ; ce résultat ne vaut pas recette CI ni navigateur. Les anomalies Supabase, Auth, multi-tenant et Cheexpeer restent ouvertes selon leurs preuves antérieures. Voir le [registre Evolution-9](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
+**Reprise Evolution-9 — 11 novembre 2026 :** la branche de consolidation a été créée depuis Evolution-8 après correction du décalage du contrat de navigation (NAV-01-EVO9 : 21 entrées secondaires, 19 destinations uniques). Le build Vercel Evolution-8 est READY sur le commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` ; ce résultat ne vaut pas recette CI ni navigateur. Les anomalies Supabase, Auth, multi-tenant et Cheexpeer restent ouvertes selon leurs preuves antérieures. Voir le [registre Evolution-9](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
 
 ## 2. Anomalies actuellement suivies
 
