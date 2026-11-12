@@ -430,3 +430,42 @@ body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-st
   background:linear-gradient(145deg,#234a72,#10243d);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 7px 18px rgba(0,0,0,.30);
 }
+
+
+/* Fonds panoramiques fournis par l'utilisateur — Evolution-9. */
+.virtual-space[data-world="prospection"],
+.virtual-space[data-world="reseaux"]{
+  position:relative;display:flex;align-items:flex-end;
+  min-height:clamp(340px,42vw,560px);padding:clamp(24px,4vw,48px);
+  overflow:hidden;border:1px solid rgba(213,181,108,.42);border-radius:22px;
+  background-color:#07162a;background-size:cover;background-position:center;
+  background-repeat:no-repeat;box-shadow:0 22px 55px rgba(0,0,0,.28);
+}
+.virtual-space[data-world="prospection"]{
+  background-image:linear-gradient(90deg,rgba(3,10,22,.76) 0%,rgba(3,10,22,.42) 48%,rgba(3,10,22,.08) 100%),url("CRM.png")!important;
+}
+.virtual-space[data-world="reseaux"]{
+  background-image:linear-gradient(90deg,rgba(3,10,22,.72) 0%,rgba(3,10,22,.34) 52%,rgba(3,10,22,.04) 100%),url("R%C3%A9seaux%20.png")!important;
+}
+.virtual-space[data-world="prospection"] .virtual-space-copy,
+.virtual-space[data-world="reseaux"] .virtual-space-copy{
+  z-index:2;width:min(100%,560px);padding:clamp(18px,3vw,30px);
+  border:1px solid rgba(213,181,108,.35);border-radius:16px;
+  background:linear-gradient(135deg,rgba(5,13,26,.88),rgba(5,13,26,.58));
+  backdrop-filter:blur(5px);
+}
+.virtual-space[data-world="prospection"] .virtual-space-copy h2,
+.virtual-space[data-world="reseaux"] .virtual-space-copy h2{color:#fff!important}
+.virtual-space[data-world="prospection"] .virtual-space-copy>p,
+.virtual-space[data-world="reseaux"] .virtual-space-copy>p{color:#f2eee5!important}
+.virtual-space[data-world="prospection"] .virtual-space-scene,
+.virtual-space[data-world="reseaux"] .virtual-space-scene{display:none}
+.virtual-space[data-world="prospection"]:before,
+.virtual-space[data-world="reseaux"]:before{opacity:0!important}
+@media(max-width:760px){
+ .virtual-space[data-world="prospection"],.virtual-space[data-world="reseaux"]{
+  min-height:430px;padding:16px;align-items:flex-end;background-position:center;
+ }
+ .virtual-space[data-world="prospection"] .virtual-space-copy,
+ .virtual-space[data-world="reseaux"] .virtual-space-copy{padding:17px}
+}
