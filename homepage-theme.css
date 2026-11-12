@@ -155,3 +155,136 @@ body.homepage .home-hero-layout{
   body.homepage .home-hero-layout{background-position:54% center}
 }
 body.homepage .site-header{background:linear-gradient(105deg,#06101f 0%,#0a2444 52%,#101e3a 100%) !important}
+
+
+/* Evolution-9 — rubriques essentielles de l'accueil */
+body.homepage .home-rubrics,
+body.homepage .home-personal-access{
+  grid-column:1 / -1;
+  width:min(1240px,100%);
+  margin:0 auto;
+}
+body.homepage .home-rubrics{
+  padding:clamp(22px,3vw,38px) 0 8px;
+}
+body.homepage .home-rubrics-heading{margin:0 0 16px}
+body.homepage .home-rubrics-kicker{
+  margin:0 0 7px;
+  color:#5dd5e2;
+  font-size:10px;
+  font-weight:850;
+  letter-spacing:.16em;
+}
+body.homepage .home-rubrics-heading h2,
+body.homepage .home-personal-access h2{
+  margin:0;
+  color:#fff;
+  font-size:clamp(21px,2.5vw,32px);
+  line-height:1.12;
+  letter-spacing:-.025em;
+}
+body.homepage .home-rubrics-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+body.homepage .home-rubric-card{
+  display:flex;
+  min-width:0;
+  min-height:174px;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:9px;
+  padding:17px;
+  border:1px solid rgba(132,190,231,.32);
+  border-radius:13px;
+  background:linear-gradient(145deg,rgba(8,27,52,.88),rgba(7,17,35,.91));
+  box-shadow:0 12px 28px rgba(0,0,0,.16);
+  color:#f4f7ff;
+  text-decoration:none;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease;
+}
+body.homepage .home-rubric-card:hover,
+body.homepage .home-rubric-card:focus-visible{
+  transform:translateY(-3px);
+  border-color:#f4c15d;
+  background:linear-gradient(145deg,rgba(16,54,91,.96),rgba(10,26,49,.97));
+  outline:none;
+}
+body.homepage .home-rubric-number{
+  color:#f4c15d;
+  font-size:10px;
+  font-weight:850;
+  letter-spacing:.12em;
+}
+body.homepage .home-rubric-title{
+  color:#fff;
+  font-size:clamp(15px,1.25vw,18px);
+  font-weight:800;
+  line-height:1.2;
+}
+body.homepage .home-rubric-description{
+  color:#d2e0f3;
+  font-size:13px;
+  line-height:1.4;
+}
+body.homepage .home-rubric-link{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-top:auto;
+  color:#ffd36e;
+  font-size:12px;
+  font-weight:800;
+}
+body.homepage .home-personal-access{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-top:24px;
+  margin-bottom:4px;
+  padding:22px clamp(18px,2.5vw,30px);
+  border:1px solid rgba(244,193,93,.48);
+  border-radius:14px;
+  background:linear-gradient(110deg,rgba(5,20,42,.96),rgba(16,45,78,.94));
+}
+body.homepage .home-personal-access p:not(.home-rubrics-kicker){
+  margin:8px 0 0;
+  color:#d2e0f3;
+  font-size:13px;
+  line-height:1.45;
+}
+body.homepage .home-personal-access-link{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px 17px;
+  border-radius:8px;
+  background:linear-gradient(135deg,#ffe09a,#d5a947);
+  color:#101b2b;
+  font-size:13px;
+  font-weight:850;
+  text-decoration:none;
+}
+body.homepage .home-personal-access-link:hover,
+body.homepage .home-personal-access-link:focus-visible{
+  filter:brightness(1.08);
+  outline:2px solid #fff;
+  outline-offset:3px;
+}
+@media(max-width:900px){
+  body.homepage .home-rubrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.homepage .home-personal-access{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:520px){
+  body.homepage .home-rubrics-grid{grid-template-columns:1fr;gap:9px}
+  body.homepage .home-rubric-card{min-height:0;padding:15px}
+  body.homepage .home-personal-access{padding:18px;margin-top:18px}
+  body.homepage .home-personal-access-link{width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+  body.homepage .home-rubric-card{transition:none}
+}
