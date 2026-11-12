@@ -11,7 +11,8 @@
   --mj-line:#dce2e9;
   --mj-shadow:0 16px 42px rgba(16,43,70,.12);
 }
-html{scroll-behavior:smooth;overflow-x:clip} /* Empêche le tiroir mobile hors écran d’élargir la page. */
+html{scroll-behavior:smooth;overflow-x:clip} /* Le tiroir mobile et le widget fixe restent hors du calcul de débordement horizontal. */
+body{overflow-x:clip}
 html body{
   color:#f1f5fb;
   background:var(--mj-paper);
