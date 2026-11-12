@@ -845,3 +845,22 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | UX-NAV-01 | P1 | Navigation responsive / cohérence graphique | Le tiroir mobile redevenait clair à cause de plusieurs couches CSS contradictoires ; les sous-menus desktop conservaient également une surface claire. Cela nuisait à la cohérence bleu nuit / or et à la lisibilité des rubriques. | Surcharges contradictoires supprimées dans la couche finale de navigation-tiroirs.css. Bandeau, tiroir et sous-menus sont désormais définis en bleu nuit opaque, avec repères colorés par famille, bordures or et relief. Test navigateur adapté au nouveau contrat visuel ; validation CI du HEAD final en attente. La page d’accueil n’a pas été modifiée. |
 
 Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTION-NAVIGATION-2026-11-12.md).
+
+
+## 73. Contrôles automatisés désalignés après restauration de l’accueil — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-HOME-01 | P1 | Non-régression / page d’accueil | Après la restauration de `index.html` (commit `6d4a506b712ed48041d9269be30799dc33ee91ed`), les vérificateurs conservaient des assertions exigeant un ancien titre CRM et un avertissement éditorial qui ne figurent pas dans la page restaurée. Le workflow du HEAD `8472b3553eef5ef924a72ec835f00dea7c84ad6c` a échoué à l’étape `verify-architecture.js` pour cette raison ; les étapes suivantes ont été ignorées. | Correction des deux contrats de vérification préparée sur Evolution-9 pour contrôler le titre et le sous-titre effectivement restaurés. La page `index.html` n’est pas modifiée. Rejouer et vérifier le workflow complet avant clôture. |
+
+## 74. Parcours progressif de catégorie — clarification et traçabilité — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-SEARCH-01 | P1 | Recherche / cohérence accueil-rubriques | La règle d’affichage du choix de catégorie devait être explicite : aucun bouton « Choisir une catégorie » sur l’accueil ; dans les pages de rubrique, les choix secondaires ne doivent apparaître qu’après interaction avec la recherche. La correction du 12 novembre avait été décrite de façon trop générale dans le rapport de navigation. | Règle consignée. Le correctif JavaScript de l’accueil et des rubriques reste distinct de la présente mise à jour documentaire ; vérifier le comportement avec les tests navigateur avant clôture. |
+
+## 75. Statut réel de l’assistant conversationnel et de Cheexpeer — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| CHX-DOC-01 | P1 | Documentation / vérité produit | Le README décrivait « Cheexpeer (IA intégrée) » parmi les espaces existants, alors que le site expose un guide conversationnel de première génération fondé sur des règles et mots-clés. Les capacités d’agent IA Cheexpeer décrites dans l’architecture sont une cible et ne doivent pas être présentées comme déjà disponibles. | README et AGENTS.md clarifiés : assistant actuel distingué de Cheexpeer ; architecture Cheexpeer explicitement qualifiée de cible. Vérifier les autres documents publics et spécialisés lors du prochain lot documentaire. |
