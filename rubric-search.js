@@ -94,74 +94,78 @@
   const sourceNote = form.querySelector("#search-source-note");
   if (sourceNote) sourceNote.hidden = true;
 
-  if (fixedMarket) {
-    form.dataset.fixedMarket = "true";
-    const categoryButton = document.createElement("button");
-    categoryButton.type = "button";
-    categoryButton.className = "feed-criteria-toggle";
-    categoryButton.textContent = "Choisir une catégorie";
-    categoryButton.setAttribute("aria-controls", "category-step department-step");
-    categoryButton.setAttribute("aria-expanded", "false");
-    // Même comportement progressif sur les rubriques à type de marché fixe :
-    // le bouton n'est proposé qu'après le clic dans la barre de recherche.
-    categoryButton.hidden = !homeMount;
-    const fixedSearchInput = form.querySelector("#feed-search");
-    if (!homeMount && fixedSearchInput) {
-      fixedSearchInput.addEventListener("click", () => {
-        categoryButton.hidden = false;
-        form.classList.add("search-criteria-available");
-      }, { once: true });
+  // L’accueil conserve son moteur historique : aucun bouton « Choisir une catégorie ».
+  // Le parcours progressif ci-dessous est réservé aux pages de rubrique.
+  if (!homeMount) {
+    if (fixedMarket) {
+      form.dataset.fixedMarket = "true";
+      const categoryButton = document.createElement("button");
+      categoryButton.type = "button";
+      categoryButton.className = "feed-criteria-toggle";
+      categoryButton.textContent = "Choisir une catégorie";
+      categoryButton.setAttribute("aria-controls", "category-step department-step");
+      categoryButton.setAttribute("aria-expanded", "false");
+      // Même comportement progressif sur les rubriques à type de marché fixe :
+      // le bouton n'est proposé qu'après le clic dans la barre de recherche.
+      categoryButton.hidden = !homeMount;
+      const fixedSearchInput = form.querySelector("#feed-search");
+      if (!homeMount && fixedSearchInput) {
+        fixedSearchInput.addEventListener("click", () => {
+          categoryButton.hidden = false;
+          form.classList.add("search-criteria-available");
+        }, { once: true });
+      }
+      form.insertBefore(categoryButton, form.querySelector("#category-step"));
+      const departmentStep = form.querySelector("#department-step");
+      let fixedLevel = 0;
+      categoryButton.addEventListener("click", () => {
+        const categoryStep = form.querySelector("#category-step");
+        const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
+        if (fixedLevel === 0) fixedLevel = 1;
+        else if (fixedLevel === 1 && categoryChosen) fixedLevel = 2;
+        else if (fixedLevel >= 2) fixedLevel = 1;
+        categoryStep.hidden = fixedLevel < 1;
+        if (departmentStep) departmentStep.hidden = fixedLevel < 2;
+        categoryButton.setAttribute("aria-expanded", String(fixedLevel > 0));
+        categoryButton.textContent = fixedLevel >= 2 ? "Modifier les critères" : "Affiner les critères";
+      });
+    } else {
+      form.dataset.progressive = "true";
+      const criteriaButton = document.createElement("button");
+      criteriaButton.type = "button";
+      criteriaButton.className = "feed-criteria-toggle";
+      criteriaButton.textContent = "Choisir une catégorie";
+      criteriaButton.setAttribute("aria-controls", "market-step category-step department-step");
+      criteriaButton.setAttribute("aria-expanded", "false");
+      // Sur les pages de rubrique, le premier clic dans la barre révèle l'action de choix.
+      criteriaButton.hidden = !homeMount;
+      const searchInput = form.querySelector("#feed-search");
+      if (!homeMount && searchInput) {
+        searchInput.addEventListener("click", () => {
+          criteriaButton.hidden = false;
+          form.classList.add("search-criteria-available");
+        }, { once: true });
+      }
+      form.insertBefore(criteriaButton, form.querySelector("#market-step"));
+      const steps = [
+        form.querySelector("#market-step"),
+        form.querySelector("#category-step"),
+        form.querySelector("#department-step")
+      ];
+      steps.forEach(step => { if (step) step.hidden = true; });
+      let level = 0;
+      criteriaButton.addEventListener("click", () => {
+        const marketChosen = Boolean(form.querySelector("#feed-market-type")?.value);
+        const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
+        if (level === 0) level = 1;
+        else if (level === 1 && marketChosen) level = 2;
+        else if (level === 2 && categoryChosen) level = 3;
+        else if (level >= 3) level = 1;
+        steps.forEach((step, index) => { if (step) step.hidden = index >= level; });
+        criteriaButton.setAttribute("aria-expanded", String(level > 0));
+        criteriaButton.textContent = level >= 3 ? "Modifier les critères" : level === 1 ? "Choisir une catégorie" : "Affiner les critères";
+      });
     }
-    form.insertBefore(categoryButton, form.querySelector("#category-step"));
-    const departmentStep = form.querySelector("#department-step");
-    let fixedLevel = 0;
-    categoryButton.addEventListener("click", () => {
-      const categoryStep = form.querySelector("#category-step");
-      const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
-      if (fixedLevel === 0) fixedLevel = 1;
-      else if (fixedLevel === 1 && categoryChosen) fixedLevel = 2;
-      else if (fixedLevel >= 2) fixedLevel = 1;
-      categoryStep.hidden = fixedLevel < 1;
-      if (departmentStep) departmentStep.hidden = fixedLevel < 2;
-      categoryButton.setAttribute("aria-expanded", String(fixedLevel > 0));
-      categoryButton.textContent = fixedLevel >= 2 ? "Modifier les critères" : "Affiner les critères";
-    });
-  } else {
-    form.dataset.progressive = "true";
-    const criteriaButton = document.createElement("button");
-    criteriaButton.type = "button";
-    criteriaButton.className = "feed-criteria-toggle";
-    criteriaButton.textContent = "Choisir une catégorie";
-    criteriaButton.setAttribute("aria-controls", "market-step category-step department-step");
-    criteriaButton.setAttribute("aria-expanded", "false");
-    // Sur les pages de rubrique, le premier clic dans la barre révèle l'action de choix.
-    criteriaButton.hidden = !homeMount;
-    const searchInput = form.querySelector("#feed-search");
-    if (!homeMount && searchInput) {
-      searchInput.addEventListener("click", () => {
-        criteriaButton.hidden = false;
-        form.classList.add("search-criteria-available");
-      }, { once: true });
-    }
-    form.insertBefore(criteriaButton, form.querySelector("#market-step"));
-    const steps = [
-      form.querySelector("#market-step"),
-      form.querySelector("#category-step"),
-      form.querySelector("#department-step")
-    ];
-    steps.forEach(step => { if (step) step.hidden = true; });
-    let level = 0;
-    criteriaButton.addEventListener("click", () => {
-      const marketChosen = Boolean(form.querySelector("#feed-market-type")?.value);
-      const categoryChosen = Boolean(form.querySelector("#feed-sector")?.value);
-      if (level === 0) level = 1;
-      else if (level === 1 && marketChosen) level = 2;
-      else if (level === 2 && categoryChosen) level = 3;
-      else if (level >= 3) level = 1;
-      steps.forEach((step, index) => { if (step) step.hidden = index >= level; });
-      criteriaButton.setAttribute("aria-expanded", String(level > 0));
-      criteriaButton.textContent = level >= 3 ? "Modifier les critères" : level === 1 ? "Choisir une catégorie" : "Affiner les critères";
-    });
   }
 
   const initialMarket = new URLSearchParams(window.location.search).get("marche") || config?.[2] || "";
