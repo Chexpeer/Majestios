@@ -1,17 +1,17 @@
 .crm-workspace-nav{
   width:min(1180px,calc(100% - 48px));margin:18px auto 22px;padding:13px 15px;
-  border:1px solid #c7b477;border-radius:10px;
-  background:linear-gradient(105deg,#eef1f3 0%,#fff 55%,#f5efdf 100%);
-  box-shadow:0 6px 18px rgba(31,42,50,.07);
+  border:1px solid rgba(213,181,108,.38);border-radius:10px;
+  background:linear-gradient(105deg,#102b49,#071225 78%);
+  box-shadow:0 12px 30px rgba(0,0,0,.28);
   font-family:"DM Sans",Arial,sans-serif;
 }
-.crm-workspace-nav-label{margin:0 0 9px;color:#8a6b2e;font-size:8px;font-weight:800;letter-spacing:.16em}
+.crm-workspace-nav-label{margin:0 0 9px;color:#e2bd68;font-size:8px;font-weight:800;letter-spacing:.16em}
 .crm-workspace-nav-controls{display:flex;flex-wrap:wrap;gap:7px}
 .crm-workspace-nav-button{
-  min-height:36px;padding:8px 13px;border:1px solid #cbd1d5;border-radius:7px;
-  color:#4e5962;background:#fff;font:700 10px "DM Sans",Arial,sans-serif;cursor:pointer;
+  min-height:36px;padding:8px 13px;border:1px solid rgba(213,181,108,.3);border-radius:7px;
+  color:#e6edf7;background:#102640;font:700 10px "DM Sans",Arial,sans-serif;cursor:pointer;
 }
-.crm-workspace-nav-button:hover{border-color:#b28b3f;color:#8b6827}
+.crm-workspace-nav-button:hover{border-color:#e2bd68;color:#ffe09a}
 .crm-workspace-nav-button.is-active{
   border-color:#a98235;color:#303941;
   background:linear-gradient(105deg,#f1d99e,#d6b66e);
@@ -29,28 +29,28 @@
 .interior-grid[hidden],.crm-followups[hidden],.interior-grid article[hidden]{display:none!important}
 
 
-.crm-business-filters{display:grid;grid-template-columns:minmax(220px,2fr) minmax(170px,1fr) minmax(120px,.7fr);gap:10px;margin:14px 0 6px;padding:12px;border:1px solid #d8dde0;border-radius:9px;background:#f7f8f8}
+.crm-business-filters{display:grid;grid-template-columns:minmax(220px,2fr) minmax(170px,1fr) minmax(120px,.7fr);gap:10px;margin:14px 0 6px;padding:12px;border:1px solid rgba(213,181,108,.24);border-radius:9px;background:#0b1c34}
 .crm-business-filters .form-field{margin:0}
 .crm-business-filters input,.crm-business-filters select{width:100%;min-height:40px;padding:9px 10px;border:1px solid #cbd1d5;border-radius:6px;background:#fff;color:#303941;font:inherit}
 .crm-business-filters input:focus-visible,.crm-business-filters select:focus-visible{outline:3px solid #657f9a;outline-offset:2px}
 #crm-business-filter-count{margin:7px 0 12px}
 #crm-business-list>li[hidden]{display:none!important}
-.crm-business-metadata{margin:5px 0 0;color:#65717a;font-size:12px;line-height:1.5}
+.crm-business-metadata{margin:5px 0 0;color:#a9b4c6;font-size:12px;line-height:1.5}
 @media(max-width:680px){.crm-business-filters{grid-template-columns:1fr}}
 
 
-.crm-business-dossier{margin:12px 0;padding:10px 12px;border:1px solid #d7dce0;border-radius:8px;background:#fbfcfc}
+.crm-business-dossier{margin:12px 0;padding:10px 12px;border:1px solid rgba(213,181,108,.24);border-radius:8px;background:#102640}
 .crm-business-dossier>summary{color:#66501f;font-weight:800;cursor:pointer}
 .crm-business-identity{display:grid;grid-template-columns:minmax(130px,.7fr) minmax(0,1.5fr);gap:6px 12px;margin:14px 0}
-.crm-business-identity dt{color:#68737b;font-size:12px;font-weight:700}
+.crm-business-identity dt{color:#b9c7d8;font-size:12px;font-weight:700}
 .crm-business-identity dd{margin:0;overflow-wrap:anywhere}
 .crm-business-related{margin:12px 0;padding-top:9px;border-top:1px solid #e2e5e7}
-.crm-business-related h4{margin:0 0 6px;color:#4a5660;font-size:13px}
+.crm-business-related h4{margin:0 0 6px;color:#f1f5fb;font-size:13px}
 .crm-business-related ul{margin:0;padding-left:19px}
 .crm-business-related li{margin:5px 0;overflow-wrap:anywhere}
-.crm-business-coverage{margin:12px 0 0;color:#737e85;font-size:11px;line-height:1.5}
+.crm-business-coverage{margin:12px 0 0;color:#a9b4c6;font-size:11px;line-height:1.5}
 @media(max-width:600px){.crm-business-identity{grid-template-columns:1fr;gap:2px}.crm-business-identity dd{margin-bottom:7px}}
-.crm-business-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 16px;padding:10px 12px;border:1px solid #d8dde0;border-radius:8px;background:#fbfcfc;color:#56616a;font-size:13px}
+.crm-business-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 16px;padding:10px 12px;border:1px solid #d8dde0;border-radius:8px;background:#fbfcfc;color:#e6edf7;font-size:13px}
 .crm-business-pagination button:disabled{opacity:.45;cursor:not-allowed}
 #crm-business-server-search>button{margin:0 0 8px}
 @media(max-width:520px){.crm-business-pagination{flex-wrap:wrap}.crm-business-pagination span{flex-basis:100%;order:-1;text-align:center}}
@@ -84,7 +84,7 @@
 }
 .crm-contact-profile > summary {
   cursor: pointer;
-  color: #34434d;
+  color: #f1f5fb;
   font-weight: 600;
 }
 .crm-contact-profile-fields {
@@ -102,7 +102,7 @@
   min-width: 0;
   margin: 0;
   overflow-wrap: anywhere;
-  color: #26343d;
+  color: #e6edf7;
   font-size: 13px;
 }
 .crm-contact-profile-fields a {
