@@ -200,10 +200,10 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
   gap:0!important;width:min(390px,88vw)!important;height:100dvh!important;max-height:100dvh!important;
   overflow-y:auto!important;padding:18px!important;border:0!important;border-left:1px solid #d5b56c66!important;
   border-radius:0!important;background:#0b1420!important;box-shadow:-18px 0 55px #0009!important;
-  transform:translateX(105%);visibility:hidden;transition:transform .24s ease,visibility .24s ease
+  clip-path:inset(0 0 0 100%);visibility:hidden;transition:clip-path .24s ease,visibility .24s ease
  }
  .site-header .site-nav.site-nav-drawer.open,body.homepage .site-header .site-nav.site-nav-drawer.open{
-  transform:translateX(0);visibility:visible
+  clip-path:inset(0);visibility:visible
  }
  .nav-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:2px 0 16px;border-bottom:1px solid #d5b56c44;color:#f3d58b;font-size:18px}
  .nav-drawer-close{width:34px;height:34px;border:1px solid #d5b56c66;border-radius:50%;background:#172538;color:#f4f0e6;font-size:25px;cursor:pointer}
