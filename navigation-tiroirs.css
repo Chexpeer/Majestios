@@ -440,3 +440,93 @@ body.homepage .site-nav-drawer .nav-drawer-section:nth-of-type(7) > .nav-group-l
   }
   .site-nav-drawer .nav-vip-link::before{color:#9a7a3d !important}
 }
+
+
+/* Evolution-9 — tiroir mobile cohérent : bleu nuit opaque, relief et contraste durable. */
+.site-header{
+  background:linear-gradient(115deg,#050d1a 0%,#102b4b 52%,#071426 100%) !important;
+  border-bottom:1px solid rgba(224,190,112,.68) !important;
+  box-shadow:0 5px 0 rgba(4,12,25,.32),0 9px 24px rgba(2,8,18,.34),inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+.site-header .brand{color:#f7f2e8 !important;text-shadow:0 1px 2px #0008}
+.site-header .brand-mark{
+  border:1px solid #f0d38b !important;
+  background:linear-gradient(145deg,#fff0b5 0%,#d7b76e 48%,#92702f 100%) !important;
+  box-shadow:inset 0 1px 2px #fff9,0 3px 8px #0007 !important;
+}
+.site-nav-drawer .nav-group-link{
+  text-shadow:0 1px 2px rgba(0,0,0,.55) !important;
+  border-radius:7px !important;
+}
+.site-nav-drawer .nav-group-link[aria-expanded="true"]{
+  background:linear-gradient(105deg,rgba(213,181,108,.20),rgba(255,255,255,.035)) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 3px 10px rgba(0,0,0,.22) !important;
+}
+.site-nav-drawer .nav-group-items{
+  background:linear-gradient(145deg,#102640,#09182b) !important;
+  border:1px solid rgba(213,181,108,.45) !important;
+  border-radius:8px !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 20px rgba(0,0,0,.30) !important;
+}
+.site-nav-drawer .nav-group-items a{
+  color:#eaf1fa !important;
+  text-shadow:0 1px 1px #0008;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+.site-nav-drawer .nav-drawer-section:nth-of-type(1) .nav-group-items a{color:#79dce8 !important}
+.site-nav-drawer .nav-drawer-section:nth-of-type(2) .nav-group-items a{color:#a9caff !important}
+.site-nav-drawer .nav-drawer-section:nth-of-type(3) .nav-group-items a{color:#9ce7bd !important}
+.site-nav-drawer .nav-drawer-section:nth-of-type(4) .nav-group-items a{color:#d6baff !important}
+.site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a{color:#f2d58d !important}
+.site-nav-drawer .nav-drawer-section:nth-of-type(6) .nav-group-items a{color:#ffd09b !important}
+.site-nav-drawer .nav-drawer-section:nth-of-type(7) .nav-group-items a{color:#d5e2f1 !important}
+.site-nav-drawer .nav-group-items a:hover,
+.site-nav-drawer .nav-group-items a:focus-visible,
+.site-nav-drawer .nav-group-items a[aria-current="page"]{
+  background:linear-gradient(100deg,rgba(213,181,108,.20),rgba(255,255,255,.045)) !important;
+  color:#fff0bd !important;
+  box-shadow:inset 3px 0 0 #d5b56c,0 2px 8px rgba(0,0,0,.20);
+  text-decoration:none !important;
+}
+.site-nav-drawer .nav-vip-link,
+.site-nav-drawer .nav-drawer-section:nth-of-type(5) .nav-group-items a.nav-vip-link{
+  color:#ffe3a0 !important;
+  border:1px solid rgba(213,181,108,.70) !important;
+  border-radius:6px !important;
+  background:linear-gradient(110deg,rgba(213,181,108,.20),rgba(154,168,182,.10)) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 3px 8px rgba(0,0,0,.20) !important;
+}
+@media(max-width:900px){
+  .site-header{background:linear-gradient(115deg,#050d1a 0%,#102b4b 52%,#071426 100%) !important}
+  .site-header .site-nav.site-nav-drawer{
+    background:linear-gradient(155deg,#071426 0%,#102b4b 55%,#08172a 100%) !important;
+    border-left:1px solid rgba(213,181,108,.62) !important;
+    box-shadow:-18px 0 42px rgba(0,0,0,.58),inset 1px 0 0 rgba(255,255,255,.08) !important;
+    opacity:1 !important;
+    backdrop-filter:none !important;
+  }
+  .site-nav-drawer .nav-drawer-home,
+  .site-nav-drawer .nav-group-link{
+    color:#f1f4f8 !important;
+    border-bottom:1px solid rgba(213,181,108,.24) !important;
+    text-shadow:0 1px 3px #0009 !important;
+  }
+  .site-nav-drawer .nav-group-items{
+    margin:0 0 8px 9px !important;
+    padding:5px 7px 5px 10px !important;
+    background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025)) !important;
+    border:1px solid rgba(213,181,108,.20) !important;
+    border-left:3px solid #d5b56c !important;
+    border-radius:0 7px 7px 0 !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07) !important;
+  }
+  .site-nav-drawer .nav-group-items a{min-height:36px !important;padding:8px 6px !important}
+  .site-header > button#menu-toggle,
+  .site-header > button.menu-toggle{
+    background:linear-gradient(145deg,#1b3b60,#071426) !important;
+    border:1px solid #e2c27b !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(0,0,0,.45) !important;
+  }
+  .site-header > button#menu-toggle span,
+  .site-header > button.menu-toggle span{background:#ffe2a0 !important}
+}
