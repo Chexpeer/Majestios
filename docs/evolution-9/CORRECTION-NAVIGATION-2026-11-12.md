@@ -21,17 +21,17 @@ navigation-tiroirs.css contenait plusieurs couches correctives successives qui s
 
 ## Page d’accueil
 
-Aucun contenu, bloc éditorial, visuel de fond, titre ou composition de index.html n’a été modifié. La règle commune de navigation s’applique aussi à l’accueil, sans retoucher son contenu ni son visuel principal.
+Dans le lot de correction de navigation décrit par ce document, aucun contenu, bloc éditorial, visuel de fond, titre ou composition de `index.html` n’a été modifié. Cette phrase ne décrit pas les commits ultérieurs : le 12 novembre, `index.html` a ensuite été restauré séparément à partir du contenu de référence antérieur (commit `cdaa93952575078f7a0d9a87a2329accc3fee15a`).
 
 ## Moteur de recherche
 
-Le moteur conserve son parcours progressif : les critères secondaires, dont le choix de catégorie, restent masqués au chargement et sont révélés par le bouton « Choisir une catégorie ». Les rubriques Marchés publics et Marchés privés conservent leur type fixe. La page d’accueil n’a pas été réécrite.
+Le moteur conserve un parcours progressif. Sur la page d’accueil, aucun bouton « Choisir une catégorie » ne doit être affiché. Dans les pages de rubrique, le choix de catégorie et les critères secondaires restent masqués au chargement et ne sont proposés qu'après interaction avec la recherche. Les rubriques Marchés publics et Marchés privés conservent leur type fixe.
 
 ## Tests et limites
 
 - Le contrôle syntaxique JavaScript avait échoué sur un doublon de déclaration dans rubric-search.js ; le correctif précédent a supprimé ce conflit.
 - Le parcours navigateur a ensuite révélé une assertion qui attendait encore un sous-menu clair. Le test a été réaligné sur le nouveau contrat bleu nuit.
-- Workflow de vérification du commit 891f44a116122f588bf0107a76578af8e7fde9ed : déclenché, résultat à confirmer.
+- Workflow de vérification du commit `891f44a116122f588bf0107a76578af8e7fde9ed` : statut historique à consulter sur ce commit. Le workflow du HEAD `8472b3553eef5ef924a72ec835f00dea7c84ad6c` a échoué sur le contrôle d’architecture, qui attendait encore le texte CRM désormais absent de l’accueil restauré. Voir les entrées UX-HOME-01 et UX-SEARCH-01 du registre.
 - Aucune validation visuelle sur appareil Android réel n’est revendiquée à ce stade.
 - Aucun déploiement de production, changement Supabase ou modification d’une autre branche.
 
