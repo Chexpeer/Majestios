@@ -408,3 +408,24 @@ body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-st
     line-height:1.65;
   }
 }
+
+
+/* Evolution-9 — les critères secondaires restent réellement masqués jusqu'au clic. */
+#advanced-search-form .feed-filter-label[hidden],
+#advanced-search-form .search-source-note[hidden]{display:none !important}
+#advanced-search-form .feed-criteria-toggle{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;width:100%;padding:10px 14px;
+  border:1px solid rgba(213,181,108,.72);border-radius:8px;
+  color:#ffe5a5;background:linear-gradient(145deg,#183657,#09182b);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 5px 14px rgba(0,0,0,.24);
+  font:700 13px/1.25 inherit;cursor:pointer;
+}
+#advanced-search-form .feed-criteria-toggle::after{content:"＋";font-size:16px;line-height:1}
+#advanced-search-form .feed-criteria-toggle[aria-expanded="true"]::after{content:"−"}
+#advanced-search-form .feed-criteria-toggle:hover,
+#advanced-search-form .feed-criteria-toggle:focus-visible{
+  color:#fff2c9;border-color:#ffe09a;
+  background:linear-gradient(145deg,#234a72,#10243d);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 7px 18px rgba(0,0,0,.30);
+}
