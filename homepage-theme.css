@@ -128,15 +128,30 @@ body.homepage{
       }
 
 
-/* Evolution-9 regression guard: keep the home hero unmistakably navy even when its
-   decorative background asset is light or partially unavailable. */
+/* Evolution-9: preserve the original MajestiOS wallpaper while maintaining
+   readable contrast. The former .90/.78/.62 overlay hid most of the artwork. */
 body.homepage{background:#061225 !important;color:#f4f7ff !important}
 body.homepage .home-hero-layout{
+  position:relative;
+  isolation:isolate;
+  min-height:clamp(520px,72vh,860px);
   background-color:#061225 !important;
   background-image:
-    linear-gradient(90deg,rgba(4,12,25,.90) 0%,rgba(5,16,34,.78) 52%,rgba(5,16,34,.62) 100%),
-    linear-gradient(180deg,rgba(5,13,27,.24),rgba(5,13,27,.62)),
+    linear-gradient(90deg,rgba(4,12,25,.48) 0%,rgba(5,16,34,.28) 52%,rgba(5,16,34,.18) 100%),
+    linear-gradient(180deg,rgba(5,13,27,.08) 0%,rgba(5,13,27,.24) 68%,rgba(5,13,27,.46) 100%),
     url("Designer%20(2).png") !important;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size:cover;
   background-blend-mode:normal,normal,normal;
+}
+@media(max-width:900px){
+  body.homepage .home-hero-layout{
+    min-height:clamp(500px,76vh,820px);
+    background-position:center center;
+  }
+}
+@media(max-width:600px){
+  body.homepage .home-hero-layout{background-position:54% center}
 }
 body.homepage .site-header{background:linear-gradient(105deg,#06101f 0%,#0a2444 52%,#101e3a 100%) !important}
