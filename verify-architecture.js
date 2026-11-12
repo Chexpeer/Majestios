@@ -127,14 +127,14 @@ for (const asset of [
 ]) assert(siteFiles.includes(asset), "Build : ressource requise absente du manifeste : " + asset);
 
 const home = read("index.html");
-assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO de la vision CRM tout-en-un inattendu");
+assert(home.includes("<title>MajestiOS — Votre espace pour développer votre entreprise</title>"), "Accueil : titre SEO de référence inattendu");
 assert(!home.includes('aria-label="Immeuble interactif MajestiOS"') && !home.includes('id="floor-rows"'),
   "Accueil : l'ancien système de navigation par immeuble doit être retiré");
 assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
 assert(home.includes("FLUX DE DÉMONSTRATION") && home.includes("Exemples fictifs de marchés publics et privés") && home.includes("Aucune annonce réelle n’est diffusée pour le moment"), "Accueil : avertissement des exemples fictifs absent");
-assert(home.includes("<h1>Donner de la hauteur<br>à vos <span>ambitions...</span></h1>") && home.includes("MajestiOS, l’alliance de l’intelligence numérique et de la prospection intelligente."), "Accueil : composition éditoriale restaurée non préservée");
+assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && home.includes("Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement.") && ["Prospection &amp; CRM","Facturation électronique","Réputation virtuelle","Réseau &amp; synergies"].every((label) => home.includes(`<h2>${label}</h2>`)), "Accueil : composition éditoriale de référence ou piliers approuvés non préservés");
 assert(home.includes('href="developpement-commercial.html"') && home.includes('href="reseaux-synergies.html"'),
   "Accueil : accès aux principales rubriques de navigation absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
