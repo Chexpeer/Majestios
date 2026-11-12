@@ -329,7 +329,7 @@ async function main() {
     assert.equal(await page.locator("#advanced-search-form").count(), 1, "La page de résultats doit aussi proposer le moteur commun pour affiner les critères.");
     assert.equal(await page.locator("#feed-market-type").count(), 1, "La page de résultats doit réutiliser le champ public/privé commun.");
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#feed-search").focus();
+    await page.locator("#feed-search").click();
     assert.equal(await page.locator("#feed-market-type").isVisible(), false,
       "Le type de marché doit rester masqué lors du retour sur l’accueil.");
     await page.locator("#advanced-search-form .feed-criteria-toggle").click();
@@ -383,7 +383,7 @@ async function main() {
     assert.equal(bodaccCalls, callsBeforePrivateOther, "Autre privé sans mot-clé ne doit pas appeler BODACC.");
 
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#feed-search").focus();
+    await page.locator("#feed-search").click();
     await page.locator("#feed-market-type").selectOption("public");
     await page.locator("#feed-sector").selectOption("autre");
     await page.locator("#feed-search").fill("plomberie");
