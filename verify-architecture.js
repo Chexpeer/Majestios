@@ -223,7 +223,7 @@ assert(memberPage.includes('name="email"') && memberPage.includes('autocomplete=
   memberPage.includes("création de nouveaux espaces sera ouverte après activation du provisionnement"),
   "Espace membre : connexion OTP et suspension explicite de l'inscription attendues");
 assert(memberAuth.includes("signInWithOtp(") && memberAuth.includes("verifyOtp(") &&
-  memberAuth.includes("shouldCreateUser: false") && memberAuth.includes('setMode("login")'),
+  memberAuth.includes("shouldCreateUser: false") && !memberAuth.includes("setMode") && !memberAuth.includes("signup"),
   "Espace membre : connexion OTP seule tant que le provisionnement n'est pas activé");
 assert(!memberPage.includes('name="password"') && !memberPage.includes('name="passwordConfirm"') &&
   !memberAuth.includes("signInWithPassword(") && !memberAuth.includes("resetPasswordForEmail("),
