@@ -428,6 +428,8 @@ async function main() {
       assert.equal(await criteriaButton.count(), 1, destination + " doit proposer le bouton unique de filtrage progressif.");
       if (fixedMarket) {
         assert.equal(await page.locator("#category-step").isVisible(), false, destination + " doit masquer la catégorie avant activation.");
+        await page.locator("#feed-search").click();
+        await criteriaButton.waitFor({ state: "visible", timeout: 5000 });
         await criteriaButton.click();
         assert.equal(await page.locator("#category-step").isVisible(), true, destination + " doit révéler la catégorie au premier niveau.");
         assert.equal(await page.locator("#market-step").count(), 0, destination + " ne doit pas créer d’étape de sélection du marché.");
