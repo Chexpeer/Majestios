@@ -346,7 +346,7 @@ async function main() {
     assert.equal(await page.locator(".opportunity-source-group").count(), 2, "Le mode mixte doit séparer les résultats BOAMP et BODACC.");
 
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#feed-search").focus();
+    await page.locator("#feed-search").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
