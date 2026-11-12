@@ -270,3 +270,19 @@ html body .mj-rubric-visual-reputation img{max-height:250px}
   html body .mj-rubric-visual-inline{margin:14px 0 22px;border-radius:13px}
   html body .mj-rubric-visual-inline img{max-height:190px}
 }
+
+
+/* Bandeau éditorial commun aux sous-rubriques : illustration légère, contenu et parcours inchangés. */
+html body .mj-subrubric-visual{
+  width:100%;margin:18px 0 28px;overflow:hidden;
+  border:1px solid rgba(199,154,53,.48);border-radius:18px;
+  background:#0b2036;box-shadow:0 18px 42px rgba(7,25,43,.16);
+}
+html body .mj-subrubric-visual img{
+  display:block;width:100%;height:auto;max-height:230px;object-fit:cover;
+}
+html body main.category-page .mj-subrubric-visual{margin:18px 0 24px}
+@media(max-width:600px){
+  html body .mj-subrubric-visual{margin:14px 0 22px;border-radius:13px}
+  html body .mj-subrubric-visual img{max-height:165px}
+}
