@@ -448,6 +448,8 @@ async function main() {
       } else {
         assert.equal(await page.locator("#market-step").isVisible(), false, destination + " doit masquer le type avant activation du bouton.");
         assert.equal(await page.locator("#category-step").isVisible(), false, destination + " doit masquer la catégorie avant le choix du marché.");
+        await page.locator("#feed-search").click();
+        await criteriaButton.waitFor({ state: "visible", timeout: 5000 });
         await criteriaButton.click();
         assert.equal(await page.locator("#market-step").isVisible(), true, destination + " doit révéler le type de marché au premier niveau.");
         assert.equal(await page.locator("#category-step").isVisible(), false, destination + " ne doit pas révéler la catégorie avant le type.");
