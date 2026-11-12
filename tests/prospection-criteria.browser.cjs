@@ -82,8 +82,6 @@ async function main() {
       scroll: document.documentElement.scrollWidth,
       chips: [...document.querySelectorAll(".prospecting-criteria-chip")].map((node) => node.getBoundingClientRect().width)
     }));
-    const overflowElements = await page.evaluate(() => [...document.querySelectorAll("body *")].map((node) => { const rect = node.getBoundingClientRect(); const style = getComputedStyle(node); return { tag: node.tagName, id: node.id, className: typeof node.className === "string" ? node.className : "", left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width), position: style.position, transform: style.transform, visibility: style.visibility, overflow: style.overflow }; }).filter((item) => item.width > 0 && (item.left < -1 || item.right > document.documentElement.clientWidth + 1)).sort((a,b) => b.right-a.right).slice(0,20));
-    console.log("MOBILE OVERFLOW ELEMENTS", JSON.stringify(overflowElements));
     assert.ok(layout.scroll <= layout.viewport, `Le moteur ne doit pas déborder horizontalement sur mobile : ${JSON.stringify(layout)}`);
     assert.ok(layout.chips.every((width) => width > 0 && width <= layout.viewport), `Les filtres actifs doivent rester dans la largeur mobile : ${JSON.stringify(layout)}`);
     assert.deepEqual(pageErrors, [], "La page Prospection ne doit produire aucune erreur JavaScript.");
