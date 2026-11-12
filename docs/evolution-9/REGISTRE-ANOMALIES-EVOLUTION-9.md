@@ -874,3 +874,22 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | CI-EVO9-01 | P1 | Intégration continue | Le workflow du HEAD initial `8472b355` échouait sur `verify-architecture.js` à cause de l'ancien texte de l'accueil. Après correction de ce premier vérificateur, le workflow du commit intermédiaire `3f395930` a validé la syntaxe, les tests métier, le build et l'architecture, puis échoué sur `verify-site.js` : ce commit avait été lancé avant l'enregistrement de la correction de ce second vérificateur. Le workflow du commit documentaire `9042b969` a été annulé avant exécution. | Les deux vérificateurs sont maintenant alignés dans la branche. Une exécution complète sur le HEAD courant est indispensable ; aucune validation CI finale n'est revendiquée à ce stade. |
+
+
+## 77. Contrat navigateur de la recherche d’accueil désaligné — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-HOME-02 | P1 | Recherche / non-régression accueil | Le test `tests/opportunity-search.browser.cjs` exigeait encore un bouton `.feed-criteria-toggle` visible sur l’accueil. Cette attente contredisait la consigne : aucun bouton « Choisir une catégorie » sur l’accueil. Le comportement réel prévu par le code est de révéler le type de marché au focus/clic dans la barre de recherche, puis la catégorie après sélection du type. | Test navigateur réaligné : absence du bouton vérifiée, critères masqués au chargement, type de marché révélé après clic, catégorie révélée après choix du type. Aucun changement de `index.html`, `rubric-search.js` ou `app.js`. La CI complète après ce correctif reste à confirmer. |
+
+## 78. Identifiants d’anomalies historiques dupliqués — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| DOC-REG-01 | P1 | Traçabilité documentaire | Plusieurs lignes du registre réutilisaient le même identifiant pour des constats ou étapes distincts : notamment CRM-06, CRM-05, NAV-01/02, CHAT-03, CHX-DOC-01, CHX-API-02, CHX-APPROVAL-01 et E9-CI-03. Cela rendait les références ambiguës. | Identifiants qualifiés par périmètre ou étape dans les lignes concernées. Contrôle automatisé ponctuel : 228 lignes d’identifiants, 159 identifiants distincts et aucun doublon restant dans le registre après correction. Les anciennes références dans les comptes rendus restent historiques ; employer les identifiants qualifiés pour les mises à jour. |
+
+## 79. README incohérent avec la structure du dépôt — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| DOC-README-01 | P2 | Documentation technique | Le README présentait tout le dépôt comme un prototype statique, alors que des migrations SQL, fonctions Edge et contrats backend sont versionnés. Il listait seulement trois tests représentatifs et contenait des chemins répétés dans la structure du dépôt. | État du frontend et du backend distingué ; couverture des tests décrite par référence au workflow CI ; structure du dépôt dédoublonnée. Le statut de déploiement des composants Supabase reste à vérifier séparément par environnement. |
