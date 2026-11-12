@@ -154,3 +154,8 @@ L'introduction du CRM énumère désormais ses modules (entreprises, contacts, o
 
 
 L'espace Membres est temporairement limité à la connexion des comptes déjà habilités. La création de nouveaux espaces reste suspendue jusqu'au déploiement et à la recette de la fonction `provision-client-workspace` sur l'environnement retenu (AUTH-MEMBER-01). Aucun déploiement Supabase n'a été effectué.
+
+
+### Espace Membres — état au 12 novembre 2026
+
+L’interface publique est limitée à la connexion OTP des membres déjà habilités. La création de compte et le provisionnement ne sont pas proposés tant que la fonction serveur n’a pas été déployée et testée. Un compte Auth sans appartenance à une organisation ne donne pas accès à un espace. Aucun déploiement Supabase n’a été effectué.
