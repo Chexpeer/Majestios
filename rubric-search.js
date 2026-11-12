@@ -102,6 +102,16 @@
     categoryButton.textContent = "Choisir une catégorie";
     categoryButton.setAttribute("aria-controls", "category-step department-step");
     categoryButton.setAttribute("aria-expanded", "false");
+    // Même comportement progressif sur les rubriques à type de marché fixe :
+    // le bouton n'est proposé qu'après le clic dans la barre de recherche.
+    categoryButton.hidden = !homeMount;
+    const fixedSearchInput = form.querySelector("#feed-search");
+    if (!homeMount && fixedSearchInput) {
+      fixedSearchInput.addEventListener("click", () => {
+        categoryButton.hidden = false;
+        form.classList.add("search-criteria-available");
+      }, { once: true });
+    }
     form.insertBefore(categoryButton, form.querySelector("#category-step"));
     const departmentStep = form.querySelector("#department-step");
     let fixedLevel = 0;
