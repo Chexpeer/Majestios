@@ -413,6 +413,7 @@ body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-st
 /* Evolution-9 — les critères secondaires restent réellement masqués jusqu'au clic. */
 #advanced-search-form .feed-filter-label[hidden],
 #advanced-search-form .search-source-note[hidden]{display:none !important}
+#advanced-search-form .feed-criteria-toggle[hidden]{display:none !important}
 #advanced-search-form .feed-criteria-toggle{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   min-height:42px;width:100%;padding:10px 14px;
