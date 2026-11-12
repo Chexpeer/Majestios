@@ -900,3 +900,10 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | DOC-NAV-01 | P2 | Documentation / contrat de navigation | Le dossier central des anomalies indiquait encore 20 entrées secondaires et 18 destinations, alors que le contrat de navigation réellement contrôlé par `verify-architecture.js` est de 21 entrées secondaires et 19 destinations uniques. | Métrique centrale actualisée dans `docs/CRITIQUES/README.md`. Vérification du workflow complet réussie sur le commit `ef90aeb` ; les changements documentaires ultérieurs restent à revalider. |
+
+
+## 81. Contradiction de cascade sur l’en-tête public — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| UX-THEME-01 | P1 | Cohérence graphique / en-tête | Une ancienne règle de `charte-majestios-espaces.css` imposait un fond blanc à l’en-tête de l’accueil avec une spécificité supérieure à la règle de charte bleu nuit. Cette règle contradictoire a été retirée à la source ; le dégradé bleu nuit et les couleurs de navigation sont désormais gouvernés par la charte commune. | Correction CSS versionnée sur Evolution-9. CI et contrôle visuel navigateur du nouveau HEAD à confirmer ; aucune autre surface blanche (champs de saisie et barre de recherche volontairement clairs) n’est modifiée. |
