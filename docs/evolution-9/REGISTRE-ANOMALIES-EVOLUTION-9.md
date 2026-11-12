@@ -829,3 +829,10 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | AUTH-MEMBER-02 | P1 | Authentification / espace Membres | Malgré la suspension annoncée, le formulaire conservait des champs et un mode d’inscription visibles ou réactivables, tandis que le client forçait `shouldCreateUser: false`. Le contrat de sécurité attendait encore l’ancien flux de consentement/provisionnement. | Champs et logique d’inscription supprimés ; OTP réservé aux comptes existants ; contrat automatisé réaligné. Provisionnement serveur conservé hors parcours public et non déployé. CI à confirmer sur le HEAD final. |
+
+
+## 71. Contrôle d’architecture Auth obsolète — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| AUTH-MEMBER-03 | P2 | Tests / architecture | Le vérificateur exigeait encore `setMode("login")`, supprimé avec le mode d’inscription. | Contrat mis à jour pour vérifier l’absence de logique signup et le maintien de `shouldCreateUser: false`. CI du HEAD final à confirmer. |
