@@ -180,13 +180,7 @@ html body main.interior-page .floating-route-card{
 html body main.interior-page .platform-card{
   padding:clamp(17px,2.4vw,26px);
 }
-html body .home-hero-layout{
-  background-image:
-    linear-gradient(90deg,rgba(7,25,43,.58),rgba(7,25,43,.18)),
-    repeating-linear-gradient(90deg,transparent 0 11.8%,rgba(235,242,248,.10) 12% 12.15%),
-    linear-gradient(135deg,#173a58 0%,#52718a 48%,#b4c4ce 100%)!important;
-  background-position:center center!important;
-}
+/* Le fond panoramique Designer reste piloté par homepage-theme.css. */
 html body.homepage .site-header{
   background:rgba(250,251,252,.97)!important;
 }
