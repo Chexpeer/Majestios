@@ -135,3 +135,8 @@ Aucune fonction Edge n'a été déployée et aucune configuration Supabase n'a �
 ## Onzième correction de la passe — suspension complète de l’inscription
 
 Sur `espace-membre.html` et `auth-espace-membre.js` : suppression des champs et consentements réservés à l’inscription ainsi que de tout mode d’inscription dormant. Le formulaire ne propose plus que la connexion OTP des membres existants (`shouldCreateUser: false`). Le contrôle du rattachement à une organisation reste effectué après vérification du code. Le contrat de sécurité CRM a été aligné sur ce parcours : il ne doit plus exiger l’ancien flux de provisionnement depuis le navigateur. La fonction Edge et sa migration restent conservées pour une réactivation ultérieure après déploiement et recette, sans activation distante dans cette correction.
+
+
+## Douzième correction de la passe — alignement du contrôle d’architecture
+
+Le contrôle `verify-architecture.js` exigeait encore l’appel à `setMode("login")`, vestige du mode d’inscription supprimé. Il vérifie désormais directement que l’OTP reste disponible, que `shouldCreateUser: false` est imposé et qu’aucun mode ou champ d’inscription ne subsiste. Le test Auth OTP renforce aussi l’absence de champs et de logique d’inscription.
