@@ -21,6 +21,8 @@ assert.doesNotMatch(html, /name="passwordConfirm"/);
 
 assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options \}\)/);
 assert.equal((auth.match(/shouldCreateUser: false/g) || []).length, 2);
+assert.doesNotMatch(auth, /setMode|modeToggle|signup|data-signup-only/);
+assert.doesNotMatch(html, /data-signup-only|privacyAccepted|name="firstName"|name="lastName"|name="organizationName"|name="phone"|Créer mon espace/);
 assert.doesNotMatch(auth, /provision-client-workspace|shouldCreateUser: true/);
 assert.match(auth, /supabase\.auth\.verifyOtp\(\{[\s\S]*?type: "email"/);
 assert.match(auth, /otpInput\.required = false/);
