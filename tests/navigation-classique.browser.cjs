@@ -113,8 +113,8 @@ async function main() {
     assert.equal(await opportunityTitle.getAttribute("aria-expanded"),"false","Les sous-menus doivent être repliés au chargement.");
     await opportunityGroup.hover();
     assert.equal(await opportunityMenu.isVisible(),true,"Le survol doit ouvrir le sous-menu sur ordinateur.");
-    assert.equal(await opportunityMenu.evaluate(node=>getComputedStyle(node).backgroundColor),"rgba(250, 252, 255, 0.98)",
-      "Le sous-menu doit conserver son fond clair contrasté.");
+    assert.equal(await opportunityMenu.evaluate(node=>getComputedStyle(node).backgroundColor),"rgb(8, 19, 35)",
+      "Le sous-menu desktop doit conserver son fond bleu nuit opaque et contrasté.");
     await page.locator("body").hover({position:{x:5,y:5}});
     assert.equal(await opportunityMenu.isVisible(),false,"Le retrait du pointeur doit refermer le sous-menu.");
     await opportunityGroup.locator(".nav-group-link").click();
