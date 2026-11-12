@@ -149,8 +149,8 @@
   const market = searchRoot.querySelector("#feed-market-type");
   const categoryStep = searchRoot.querySelector("#category-step");
   if (market) market.value = initialMarket;
-  const form = searchRoot.querySelector("#advanced-search-form");
-  const progressiveMode = form?.dataset.progressive === "true";
-  const fixedMarketMode = form?.dataset.fixedMarket === "true";
+  const activeForm = searchRoot.querySelector("#advanced-search-form");
+  const progressiveMode = activeForm?.dataset.progressive === "true";
+  const fixedMarketMode = activeForm?.dataset.fixedMarket === "true";
   if (categoryStep && (progressiveMode || fixedMarketMode)) categoryStep.hidden = true;
 })();
