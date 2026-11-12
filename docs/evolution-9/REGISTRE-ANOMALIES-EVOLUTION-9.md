@@ -836,3 +836,12 @@ Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASS
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | AUTH-MEMBER-03 | P2 | Tests / architecture | Le vérificateur exigeait encore `setMode("login")`, supprimé avec le mode d’inscription. | Contrat mis à jour pour vérifier l’absence de logique signup et le maintien de `shouldCreateUser: false`. CI du HEAD final à confirmer. |
+
+
+## 72. Navigation blanche et sous-menus insuffisamment différenciés — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-NAV-01 | P1 | Navigation responsive / cohérence graphique | Le tiroir mobile redevenait clair à cause de plusieurs couches CSS contradictoires ; les sous-menus desktop conservaient également une surface claire. Cela nuisait à la cohérence bleu nuit / or et à la lisibilité des rubriques. | Surcharges contradictoires supprimées dans la couche finale de navigation-tiroirs.css. Bandeau, tiroir et sous-menus sont désormais définis en bleu nuit opaque, avec repères colorés par famille, bordures or et relief. Test navigateur adapté au nouveau contrat visuel ; validation CI du HEAD final en attente. La page d’accueil n’a pas été modifiée. |
+
+Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTION-NAVIGATION-2026-11-12.md).
