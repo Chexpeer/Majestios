@@ -873,14 +873,14 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
-| CI-EVO9-01 | P1 | Intégration continue | Le workflow du HEAD initial `8472b355` échouait sur `verify-architecture.js` à cause de l'ancien texte de l'accueil. Après correction de ce premier vérificateur, le workflow du commit intermédiaire `3f395930` a validé la syntaxe, les tests métier, le build et l'architecture, puis échoué sur `verify-site.js` : ce commit avait été lancé avant l'enregistrement de la correction de ce second vérificateur. Le workflow du commit documentaire `9042b969` a été annulé avant exécution. | Les deux vérificateurs sont maintenant alignés dans la branche. Une exécution complète sur le HEAD courant est indispensable ; aucune validation CI finale n'est revendiquée à ce stade. |
+| CI-EVO9-01 | P1 | Intégration continue | Le workflow du HEAD initial `8472b355` échouait sur `verify-architecture.js` à cause de l'ancien texte de l'accueil. Après correction de ce premier vérificateur, le workflow du commit intermédiaire `3f395930` a validé la syntaxe, les tests métier, le build et l'architecture, puis échoué sur `verify-site.js` : ce commit avait été lancé avant l'enregistrement de la correction de ce second vérificateur. Le workflow du commit documentaire `9042b969` a été annulé avant exécution. | Les deux vérificateurs sont alignés. Le workflow complet `43178090312` a réussi sur le commit `ef90aeb81296c1f69ecd13e1533728f1ae362c2a`, avec les tests navigateur, les contrôles des API, les contrôles documentaires et le contrat de sécurité CRM. Les commits documentaires ultérieurs doivent encore recevoir leur propre validation CI avant clôture. |
 
 
 ## 77. Contrat navigateur de la recherche d’accueil désaligné — 12 novembre 2026
 
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
-| UX-HOME-02 | P1 | Recherche / non-régression accueil | Le test `tests/opportunity-search.browser.cjs` exigeait encore un bouton `.feed-criteria-toggle` visible sur l’accueil. Cette attente contredisait la consigne : aucun bouton « Choisir une catégorie » sur l’accueil. Le comportement réel prévu par le code est de révéler le type de marché au focus/clic dans la barre de recherche, puis la catégorie après sélection du type. | Test navigateur réaligné : absence du bouton vérifiée, critères masqués au chargement, type de marché révélé après clic, catégorie révélée après choix du type. Aucun changement de `index.html`, `rubric-search.js` ou `app.js`. La CI complète après ce correctif reste à confirmer. |
+| UX-HOME-02 | P1 | Recherche / non-régression accueil | Le test `tests/opportunity-search.browser.cjs` exigeait encore un bouton `.feed-criteria-toggle` visible sur l’accueil. Cette attente contredisait la consigne : aucun bouton « Choisir une catégorie » sur l’accueil. Le comportement réel prévu par le code est de révéler le type de marché au focus/clic dans la barre de recherche, puis la catégorie après sélection du type. | Test navigateur réaligné : absence du bouton vérifiée, critères masqués au chargement, type de marché révélé après clic, catégorie révélée après choix du type. Aucun changement de `index.html`, `rubric-search.js` ou `app.js`. Test passé dans le workflow complet `43178090312` sur le commit `ef90aeb`. |
 
 ## 78. Identifiants d’anomalies historiques dupliqués — 12 novembre 2026
 
@@ -893,3 +893,10 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 | ID | Priorité | Domaine | Constat / action | Statut |
 |---|---|---|---|---|
 | DOC-README-01 | P2 | Documentation technique | Le README présentait tout le dépôt comme un prototype statique, alors que des migrations SQL, fonctions Edge et contrats backend sont versionnés. Il listait seulement trois tests représentatifs et contenait des chemins répétés dans la structure du dépôt. | État du frontend et du backend distingué ; couverture des tests décrite par référence au workflow CI ; structure du dépôt dédoublonnée. Le statut de déploiement des composants Supabase reste à vérifier séparément par environnement. |
+
+
+## 80. Nombre d’entrées de navigation dans la documentation centrale — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| DOC-NAV-01 | P2 | Documentation / contrat de navigation | Le dossier central des anomalies indiquait encore 20 entrées secondaires et 18 destinations, alors que le contrat de navigation réellement contrôlé par `verify-architecture.js` est de 21 entrées secondaires et 19 destinations uniques. | Métrique centrale actualisée dans `docs/CRITIQUES/README.md`. Vérification du workflow complet réussie sur le commit `ef90aeb` ; les changements documentaires ultérieurs restent à revalider. |
