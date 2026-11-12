@@ -914,3 +914,10 @@ Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTIO
 | ID | Priorité | Domaine | Constat / correction | Statut |
 |---|---|---|---|---|
 | UX-THEME-02 | P1 | Cartes transversales / flux d’annonces | Les styles historiques de `styles.css` conservaient un fond quasi blanc sur `.floating-route-card`, des couleurs de texte gris foncé sur les éléments du flux, et un fond blanc sur `.feed-source-note`. Ces règles source étaient en contradiction avec les tokens bleu nuit/or utilisés par la charte commune. | Règles d’origine corrigées dans `styles.css` : surfaces bleu nuit, bordures or discrètes, textes lisibles. La barre de recherche blanche et les champs de formulaire clairs sont volontairement conservés. CI du commit à confirmer ; recette visuelle multi-pages à effectuer. |
+
+
+## 83. Surfaces claires résiduelles dans les tiroirs et la consultation Réputation — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| UX-THEME-03 | P1 | Navigation / Réputation virtuelle | Le tiroir mobile, ses sous-menus et le conteneur de consultation Réputation utilisaient encore des fonds clairs et des textes foncés hérités. | Sources corrigées vers bleu nuit/or et textes clairs. Les iframes Google/Maps restent blanches car elles affichent des interfaces externes. CI et recette visuelle multi-pages à confirmer. |

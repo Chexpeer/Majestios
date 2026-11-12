@@ -52,17 +52,17 @@ body.page-reputation-virtuelle .reputation-page{width:min(1240px,calc(100% - 64p
 
 /* Consultation intégrée Google — prototype configuré par identifiants explicites. */
 .reputation-workspace{display:grid;gap:16px;max-width:700px}
-.reputation-consultation{overflow:hidden;border:1px solid rgba(213,181,108,.3);border-radius:15px;background:#f7f9fc;color:#172235;box-shadow:0 16px 38px rgba(0,0,0,.22)}
+.reputation-consultation{overflow:hidden;border:1px solid rgba(213,181,108,.3);border-radius:15px;background:#0b1c34;color:#e6edf7;box-shadow:0 16px 38px rgba(0,0,0,.22)}
 .consultation-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;background:#102746;color:#fff}
 .consultation-toolbar .eyebrow{margin:0 0 5px;color:#e5c56e;font-size:10px;letter-spacing:.12em}
 .consultation-toolbar h2{margin:0;font-size:16px}
 .consultation-status{padding:6px 9px;border:1px solid rgba(255,255,255,.22);border-radius:20px;color:#dbe7f5;font-size:10px;text-align:center}
-.consultation-content{min-height:220px;max-height:560px;overflow:auto;background:#fff}
+.consultation-content{min-height:220px;max-height:560px;overflow:auto;background:#102640}
 .consultation-placeholder{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:28px;text-align:center}
 .consultation-placeholder>span{font-size:34px;color:#b18b39}
-.consultation-placeholder strong{color:#172235;font-size:15px}
-.consultation-placeholder p{max-width:460px;margin:0;color:#637086;font-size:12px;line-height:1.65}
-.consultation-legal{margin:0;padding:10px 15px;border-top:1px solid #e5eaf0;color:#64748b;background:#f7f9fc;font-size:10px;line-height:1.5}
+.consultation-placeholder strong{color:#f1f5fb;font-size:15px}
+.consultation-placeholder p{max-width:460px;margin:0;color:#c4ccda;font-size:12px;line-height:1.65}
+.consultation-legal{margin:0;padding:10px 15px;border-top:1px solid rgba(213,181,108,.2);color:#a9b4c6;background:#102640;font-size:10px;line-height:1.5}
 .reputation-map-frame{display:block;width:100%;height:420px;border:0}
 .reputation-consultation .gsc-control-cse{padding:14px!important;border:0!important}
 .reputation-consultation .gsc-results-wrapper-overlay{position:static!important}
