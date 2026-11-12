@@ -307,16 +307,17 @@ async function main() {
     const publicJobCategories = await page.locator("#feed-sector option").evaluateAll(options => options.filter(option => /emploi|recrutement/i.test(option.textContent || "")).map(option => option.textContent.trim()));
     assert.deepEqual(publicJobCategories, [], "L’emploi ne doit pas apparaître comme une catégorie de marché public.");
     const criteriaToggle = page.locator("#advanced-search-form .feed-criteria-toggle");
-    assert.equal(await criteriaToggle.isVisible(), true,
-      "Sur l’accueil, le parcours de recherche existant doit rester inchangé.");
+    assert.equal(await criteriaToggle.count(), 0,
+      "Aucun bouton « Choisir une catégorie » ne doit être ajouté à l’accueil.");
     assert.equal(await page.locator("#feed-market-type").isVisible(), false,
       "Le type de marché doit rester masqué au chargement de l’accueil.");
     assert.equal(await page.locator("#feed-sector").isVisible(), false,
       "La catégorie doit rester masquée avant toute action.");
-    await criteriaToggle.click();
+    await page.locator("#feed-search").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
+    assert.equal(await page.locator("#feed-sector").isVisible(), false,
+      "La catégorie ne doit pas apparaître avant le choix du type de marché.");
     await page.locator("#feed-market-type").selectOption("public");
-    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-sector").waitFor({ state: "visible", timeout: 5000 });
     const publicCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => option.value));
     assert.ok(publicCategoryOptions.includes("nettoyage"), "Nettoyage doit figurer dans les catégories de marchés publics.");
@@ -329,10 +330,11 @@ async function main() {
     assert.equal(await page.locator("#advanced-search-form").count(), 1, "La page de résultats doit aussi proposer le moteur commun pour affiner les critères.");
     assert.equal(await page.locator("#feed-market-type").count(), 1, "La page de résultats doit réutiliser le champ public/privé commun.");
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
-    await page.locator("#feed-search").click();
     assert.equal(await page.locator("#feed-market-type").isVisible(), false,
-      "Le type de marché doit rester masqué lors du retour sur l’accueil.");
-    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
+      "Le type de marché doit être replié au retour sur l’accueil.");
+    assert.equal(await page.locator("#advanced-search-form .feed-criteria-toggle").count(), 0,
+      "Le retour sur l’accueil ne doit pas faire apparaître de bouton de catégorie.");
+    await page.locator("#feed-search").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
 
     // Le mode mixte doit être réellement accessible depuis le formulaire partagé.
