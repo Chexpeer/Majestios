@@ -432,62 +432,55 @@ body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-st
 }
 
 
-/* Fonds panoramiques fournis par l'utilisateur — Evolution-9. */
-.virtual-space[data-world="prospection"],
-.virtual-space[data-world="reseaux"]{
-  position:relative;display:flex;align-items:flex-end;
-  min-height:clamp(340px,42vw,560px);padding:clamp(24px,4vw,48px);
-  overflow:hidden;border:1px solid rgba(213,181,108,.42);border-radius:22px;
-  background-color:#07162a;background-size:cover;background-position:center;
-  background-repeat:no-repeat;box-shadow:0 22px 55px rgba(0,0,0,.28);
+/* Fonds d'écran de page — les visuels ne sont plus confinés aux cartes des rubriques.
+   Les fichiers sont servis depuis la racine du site (déclarés dans site-files.json). */
+body.page-prospection,
+body.page-reseaux,
+body.page-reputation-virtuelle,
+body.page-facturation-electronique{
+  min-height:100vh;
+  background-color:#071225!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:cover!important;
+  background-attachment:fixed!important;
 }
-.virtual-space[data-world="prospection"]{
-  background-image:linear-gradient(90deg,rgba(3,10,22,.76) 0%,rgba(3,10,22,.42) 48%,rgba(3,10,22,.08) 100%),url("CRM.png")!important;
+body.page-prospection{
+  background-image:linear-gradient(180deg,rgba(3,10,22,.48),rgba(3,10,22,.70)),url("./CRM.png")!important;
 }
-.virtual-space[data-world="reseaux"]{
-  background-image:linear-gradient(90deg,rgba(3,10,22,.72) 0%,rgba(3,10,22,.34) 52%,rgba(3,10,22,.04) 100%),url("R%C3%A9seaux%20.png")!important;
+body.page-reseaux{
+  background-image:linear-gradient(180deg,rgba(3,10,22,.48),rgba(3,10,22,.72)),url("./R%C3%A9seaux%20.png")!important;
 }
-.virtual-space[data-world="prospection"] .virtual-space-copy,
-.virtual-space[data-world="reseaux"] .virtual-space-copy{
-  z-index:2;width:min(100%,560px);padding:clamp(18px,3vw,30px);
-  border:1px solid rgba(213,181,108,.35);border-radius:16px;
-  background:linear-gradient(135deg,rgba(5,13,26,.88),rgba(5,13,26,.58));
-  backdrop-filter:blur(5px);
+body.page-reputation-virtuelle{
+  background-image:linear-gradient(180deg,rgba(3,10,22,.42),rgba(3,10,22,.72)),url("./Ereputation.png")!important;
 }
-.virtual-space[data-world="prospection"] .virtual-space-copy h2,
-.virtual-space[data-world="reseaux"] .virtual-space-copy h2{color:#fff!important}
-.virtual-space[data-world="prospection"] .virtual-space-copy>p,
-.virtual-space[data-world="reseaux"] .virtual-space-copy>p{color:#f2eee5!important}
-.virtual-space[data-world="prospection"] .virtual-space-scene,
-.virtual-space[data-world="reseaux"] .virtual-space-scene{display:none}
-.virtual-space[data-world="prospection"]:before,
-.virtual-space[data-world="reseaux"]:before{opacity:0!important}
+body.page-facturation-electronique{
+  background-image:linear-gradient(180deg,rgba(3,10,22,.46),rgba(3,10,22,.74)),url("./Facture1.png")!important;
+}
+/* Les cartes interactives gardent leur structure et leur contenu,
+   mais n'embarquent plus les panoramas comme image de carte. */
+body.page-prospection .virtual-space[data-world="prospection"],
+body.page-reseaux .virtual-space[data-world="reseaux"]{
+  background-image:none!important;
+  background-color:rgba(7,18,37,.62)!important;
+  backdrop-filter:blur(2px);
+}
+body.page-prospection .virtual-space[data-world="prospection"],
+body.page-reseaux .virtual-space[data-world="reseaux"]{
+  box-shadow:0 14px 38px rgba(0,0,0,.18);
+}
+body.page-reputation-virtuelle .reputation-page,
+body.page-facturation-electronique .interior-page,
+body.page-reseaux .interior-page,
+body.page-prospection .interior-page{
+  background:transparent!important;
+}
 @media(max-width:760px){
- .virtual-space[data-world="prospection"],.virtual-space[data-world="reseaux"]{
-  min-height:430px;padding:16px;align-items:flex-end;background-position:center;
- }
- .virtual-space[data-world="prospection"] .virtual-space-copy,
- .virtual-space[data-world="reseaux"] .virtual-space-copy{padding:17px}
-}
-
-
-/* Evolution-9 — fonds d'écran originaux fournis par l'utilisateur.
-   Les fichiers image restent à la racine de dist, à côté des pages HTML. */
-.mj-user-wallpaper{
-  position:relative;isolation:isolate;display:block;width:100%;
-  min-height:clamp(280px,38vw,490px);margin:24px 0 34px;overflow:hidden;
-  border:1px solid rgba(213,181,108,.48);border-radius:22px;
-  background:#07162a;box-shadow:0 22px 55px rgba(0,0,0,.28);
-}
-.mj-user-wallpaper img{
-  position:absolute;inset:0;width:100%;height:100%;display:block;
-  object-fit:cover;object-position:center;z-index:-2;
-}
-.mj-user-wallpaper:after{
-  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(90deg,rgba(3,10,22,.58),rgba(3,10,22,.18) 58%,rgba(3,10,22,.04));
-}
-@media(max-width:600px){
-  .mj-user-wallpaper{min-height:250px;margin:18px 0 26px;border-radius:16px}
-  .mj-user-wallpaper img{object-position:center}
+  body.page-prospection,
+  body.page-reseaux,
+  body.page-reputation-virtuelle,
+  body.page-facturation-electronique{
+    background-attachment:scroll!important;
+    background-position:center top!important;
+  }
 }
