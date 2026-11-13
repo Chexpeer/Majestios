@@ -461,3 +461,60 @@ Sur `MajestiOS-Test`, `public.complete_crm_reminder(uuid)` est SECURITY DEFINER 
 6. Planifier l'activation de la protection contre les mots de passe compromis seulement après recette du parcours d'authentification.
 
 **Statut :** audit comparatif actualisé ; aucun correctif Supabase distant ni aucune migration Git n'a été appliqué dans cette étape.
+
+## 19. Analyse ciblée des triggers et quotas — 13 novembre 2026 (lecture seule)
+
+Cette vérification approfondit les deux alertes restantes du projet `MajestiOS-Test`. Elle n'a exécuté aucun DDL, aucun appel métier et aucune modification distante.
+
+### 19.1 Origine exacte des triggers en double
+
+La chaîne Git explique précisément le doublon :
+- `20261105163953_enforce_tenant_relationship_integrity.sql` crée les triggers `*_tenant_integrity` sur les quatre tables ;
+- `20261109210000_activate_crm_integrity_and_reminder_rpc.sql` crée ensuite `*_enforce_tenant_integrity` sans supprimer les triggers initiaux ;
+- la migration tardive utilise `DROP TRIGGER IF EXISTS` uniquement sur le nom `*_enforce_tenant_integrity`, puis le recrée. Elle ne retire donc pas `*_tenant_integrity`.
+
+Le catalogue distant `pg_trigger` confirme les deux objets sur chacune des quatre tables du projet de test. Les deux déclenchent la même fonction, en BEFORE INSERT OR UPDATE. Ce n'est pas une simple répétition de lignes liée aux événements.
+
+**Correction candidate, non exécutée :** une migration additive et idempotente sur le projet de test peut supprimer les quatre anciens noms `*_tenant_integrity` et conserver les quatre noms `*_enforce_tenant_integrity` actuellement attachés. Avant toute application, vérifier à nouveau les définitions exactes, sauvegarder et tester les insertions/mises à jour valides et invalides sur une copie. Ne pas modifier les migrations historiques déjà appliquées.
+
+```sql
+drop trigger if exists businesses_tenant_integrity on public.businesses;
+drop trigger if exists contacts_tenant_integrity on public.contacts;
+drop trigger if exists opportunities_tenant_integrity on public.opportunities;
+drop trigger if exists activities_tenant_integrity on public.activities;
+```
+
+Ce SQL n'est qu'une proposition de migration ciblée pour `MajestiOS-Test`, pas un ordre d'exécution ni une correction destinée au projet principal.
+
+### 19.2 RLS de la table de quotas : contexte d'exécution vérifié
+
+La table `private.reputation_audit_usage` appartient à `postgres`, RLS est désactivée et FORCE ROW LEVEL SECURITY est désactivé. Les rôles `authenticated` et `service_role` n'ont pas de SELECT direct sur la table.
+
+La fonction `private.consume_reputation_audit_quota(uuid)` :
+- appartient également à `postgres` ;
+- est SECURITY DEFINER ;
+- fixe `search_path` à vide ;
+- vérifie `auth.uid()` et l'appartenance à l'organisation avec `private.is_org_member` ;
+- exécute elle-même les lectures, suppressions et insertions de compteur ;
+- est exécutable par authenticated.
+
+Le rôle `postgres` du projet a `BYPASSRLS = true`. Le wrapper public `consume_reputation_audit_quota(uuid)` est SECURITY INVOKER et appelle la fonction privée ; le droit EXECUTE sur cette fonction privée est accordé à authenticated.
+
+**Conclusion affinée :** l'activation de RLS sur la table sans policy destinée aux accès directs devrait bloquer l'accès direct des rôles ordinaires tout en laissant la fonction SECURITY DEFINER propriétaire-postgres effectuer son travail, puisque le propriétaire possède BYPASSRLS et que FORCE ROW LEVEL SECURITY est désactivé. C'est une conclusion issue des catalogues, pas une recette runtime. Il faut tout de même tester le wrapper public avec un membre valide, un non-membre et un appel non authentifié avant toute migration.
+
+**Correction candidate, non exécutée :**
+
+```sql
+alter table private.reputation_audit_usage enable row level security;
+```
+
+Ne pas ajouter de policy SELECT pour authenticated ou anon. Recontrôler après activation que RLS est ON, FORCE RLS reste OFF, les privilèges directs restent absents et le parcours de quota fonctionne uniquement par le RPC autorisé.
+
+### 19.3 Priorité opérationnelle proposée
+
+1. Préparer deux migrations séparées, strictement limitées à `MajestiOS-Test` : nettoyage des triggers en double ; activation RLS de la table de quotas.
+2. Les exécuter d'abord sur une copie isolée, avec tests de rejet inter-organisations et test quota positif/négatif.
+3. Soumettre les migrations et le plan de retour arrière à revue avant toute application au projet distant.
+4. Ne pas promouvoir ces changements vers `majestios-crm` : le principal n'a pas les doublons de triggers et n'est pas le projet de test.
+
+**Statut :** causes identifiées et corrections candidates documentées ; aucune migration Git ajoutée, aucun SQL exécuté en écriture et aucun changement de configuration distante.
