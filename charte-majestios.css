@@ -483,7 +483,7 @@ html body > .page-bg {
 /* EVOLUTION-9 — correction transversale responsive.
    Même structure sur toutes les rubriques : les colonnes se réorganisent
    selon la largeur disponible, sans chevauchement ni débordement. */
-html,body{max-width:100%;overflow-x:clip}
+html body:not(.homepage){max-width:100%;overflow-x:clip}
 html body:not(.homepage) main.interior-page{
   box-sizing:border-box;
   min-width:0;
