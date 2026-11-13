@@ -310,3 +310,35 @@ body.page-prospection main h1,body.page-prospection main h2{
  body.page-reseaux .virtual-space,
  body.page-prospection .virtual-space{margin:14px 0 20px}
 }
+
+
+/* Evolution-9 — fond photographique sans marges et suppression du bandeau de titre.
+   Règle commune à toutes les pages intérieures : le visuel occupe toute la largeur,
+   sans cadre bleu nuit, et le titre reste posé directement sur le fond. */
+html body:not(.homepage) main.interior-page{
+  width:100%;
+  max-width:none;
+  margin-inline:0;
+  padding-inline:clamp(18px,3.2vw,48px);
+}
+html body:not(.homepage) main.interior-page::before{
+  content:none!important;
+  display:none!important;
+}
+html body:not(.homepage) main.interior-page>.eyebrow,
+html body:not(.homepage) main.interior-page>h1,
+html body:not(.homepage) main.interior-page>.interior-lede{
+  background:transparent!important;
+  box-shadow:none!important;
+}
+html body:not(.homepage) .mj-user-wallpaper{
+  width:100vw;
+  max-width:none;
+  margin-inline:calc(50% - 50vw);
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+html body:not(.homepage) .mj-user-wallpaper img{
+  object-fit:cover;
+}
