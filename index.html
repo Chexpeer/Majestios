@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="charte-majestios.css">
     <link rel="stylesheet" href="homepage-theme.css">
     <link rel="stylesheet" href="rubriques-immersives.css">
+    <link rel="stylesheet" href="cube-majestios.css">
+    <script src="cube-majestios.js" defer></script>
   </head>
   <body class="homepage">
     <div class="homepage-ticker" role="status" aria-label="Flux de démonstration MajestiOS">
@@ -55,6 +57,34 @@
         <p class="hero-eyebrow">L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS</p>
         <h1 id="home-title">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>
         <p class="home-lede">Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement.</p>
+      </section>
+
+      <section class="home-cube" aria-labelledby="home-cube-title">
+        <h2 id="home-cube-title">Explorez les quatre rubriques</h2>
+        <p class="mj-cube-hint">Faites tourner le cube, puis cliquez sur une face.</p>
+        <div class="mj-cube-stage" id="mj-cube-stage">
+          <div class="mj-cube" id="mj-cube">
+            <a class="mj-cube-face mj-f0" style="--rgb:92,150,255" data-angle="0" draggable="false" href="developpement-commercial.html" aria-label="Prospection et CRM : ouvrir la rubrique">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="21" cy="27" r="16"/><circle cx="21" cy="27" r="9.5"/><circle cx="21" cy="27" r="3"/><path d="M21 27 40 8M40 8v8M40 8h-8"/></svg>
+              Prospection &amp; CRM
+            </a>
+            <a class="mj-cube-face mj-f1" style="--rgb:70,215,130" data-angle="90" draggable="false" href="facturation-electronique.html" aria-label="Facturation électronique : ouvrir la rubrique">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5h18l8 8v24H10z"/><path d="M28 5v8h8M16 18h12M16 24h8"/><circle cx="33" cy="35" r="9" fill="rgba(7,18,37,.8)"/><text x="33" y="39.5" font-size="12" text-anchor="middle" fill="currentColor" stroke="none" font-family="Georgia,serif">€</text></svg>
+              Facturation électronique
+            </a>
+            <a class="mj-cube-face mj-f2" style="--rgb:165,130,255" data-angle="180" draggable="false" href="reputation-virtuelle.html" aria-label="Réputation virtuelle : ouvrir la rubrique">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="14" r="8"/><path d="M8 32c2-7 8-10 16-10s14 3 16 10"/><path d="M8 42h32" stroke-dasharray="1 5"/></svg>
+              <span aria-hidden="true" style="letter-spacing:.15em;font-size:.8em">★★★★★</span>
+              Réputation virtuelle
+            </a>
+            <a class="mj-cube-face mj-f3" style="--rgb:240,190,70" data-angle="-90" draggable="false" href="reseaux-synergies.html" aria-label="Réseau et synergies : ouvrir la rubrique">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M24 24 12 12M24 24l14-6M24 24l8 14M12 12l26 6"/><circle cx="12" cy="12" r="5" fill="currentColor" fill-opacity=".35"/><circle cx="38" cy="18" r="5" fill="currentColor" fill-opacity=".35"/><circle cx="32" cy="38" r="5" fill="currentColor" fill-opacity=".35"/><circle cx="24" cy="24" r="3.5"/></svg>
+              Réseau &amp; synergies
+            </a>
+            <div class="mj-cube-face mj-brand mj-top" aria-hidden="true">MajestiOS</div>
+            <div class="mj-cube-face mj-brand mj-bot" aria-hidden="true">MajestiOS</div>
+          </div>
+        </div>
       </section>
 
       <section class="home-pillars" aria-label="Les quatre piliers MajestiOS">
