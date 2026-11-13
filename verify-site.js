@@ -246,7 +246,9 @@ assert(siteFiles.includes("facturation-electronique.html"), "Facturation électr
 assert(invoicingPage.includes("1er septembre 2027") && invoicingPage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : calendrier ou statut MajestiOS absent");
 const tenderAccompaniment = fs.readFileSync(path.join(root, "accompagnement-appels-offres.html"), "utf8");
 assert(!tenderAccompaniment.includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : ne doit pas renvoyer vers la thématique facturation");
-assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && home.includes("Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement.") && ["Prospection &amp; CRM","Facturation électronique","Réputation virtuelle","Réseau &amp; synergies"].every((label) => home.includes(`<h2>${label}</h2>`)), "Accueil : composition éditoriale de référence ou piliers approuvés non préservés");
+assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && home.includes("Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement."), "Accueil : introduction éditoriale absente");
+assert(!home.includes("home-pillars") && !home.includes("home-pillar"), "Accueil : les quatre cartes de présentation doivent être supprimées");
+assert(home.includes('<section class="home-cube"') && home.includes('<section class="home-personal-access"'), "Accueil : cube 3D ou accès personnel absent");
 
 
 const internalEntryHtml = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");

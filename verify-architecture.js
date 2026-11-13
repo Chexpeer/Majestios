@@ -134,7 +134,9 @@ assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Acc
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
 assert(home.includes("FLUX DE DÉMONSTRATION") && home.includes("Exemples fictifs de marchés publics et privés") && home.includes("Aucune annonce réelle n’est diffusée pour le moment"), "Accueil : avertissement des exemples fictifs absent");
-assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && home.includes("Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement.") && ["Prospection &amp; CRM","Facturation électronique","Réputation virtuelle","Réseau &amp; synergies"].every((label) => home.includes(`<h2>${label}</h2>`)), "Accueil : composition éditoriale de référence ou piliers approuvés non préservés");
+assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && home.includes("Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement."), "Accueil : introduction éditoriale absente");
+assert(!home.includes("home-pillars") && !home.includes("home-pillar"), "Accueil : les quatre cartes de présentation doivent être supprimées");
+assert(home.includes('<section class="home-cube"') && home.includes('<section class="home-personal-access"'), "Accueil : cube 3D ou accès personnel absent");
 assert(home.includes('href="developpement-commercial.html"') && home.includes('href="reseaux-synergies.html"'),
   "Accueil : accès aux principales rubriques de navigation absent");
 assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
