@@ -159,3 +159,15 @@ Les deux workflows finaux sont réussis sur le même SHA `cb6edff` : anti-régre
 - Fichiers non chargés directement à tracer avant toute suppression.
 
 **Aucune modification HTML/CSS, aucun changement Supabase distant, aucune migration appliquée, aucun déploiement ni aucune promotion de production n'ont été effectués dans ce lot.**
+
+
+## 13. Résultats du contrôle Supabase du 13 novembre 2026
+
+Le contrôle en lecture seule a confirmé trois risques qui restent ouverts :
+- **P1 — RPC relance en production :** SECURITY INVOKER, sans privilège UPDATE pour authenticated sur `crm_reminders`; policy UPDATE admin-only alors que le helper du RPC accepte aussi member. Défaut fonctionnel de permissions à corriger après décision sur le périmètre VIP.
+- **P1 — triggers test en double :** deux triggers d'intégrité distincts par table sur `MajestiOS-Test`, mais un seul par table sur `majestios-crm`.
+- **P1 — RLS quotas test :** `private.reputation_audit_usage` sans RLS sur `MajestiOS-Test`; l'advisor Supabase classe le point CRITICAL. Les privilèges directs examinés ne démontrent pas d'accès navigateur, mais la défense en profondeur reste insuffisante.
+
+Alertes complémentaires : RPC SECURITY DEFINER exécutable par authenticated sur le projet de test (WARN) ; protection contre les mots de passe compromis désactivée sur le projet principal (WARN).
+
+Les projets comptent respectivement 22 et 39 migrations appliquées. Aucune synchronisation, migration, modification de policy, changement de données ou réglage Auth n'a été effectué. Voir la section 18 de l'audit CRM/Supabase pour les preuves, les limites et les suites.
