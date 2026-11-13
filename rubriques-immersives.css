@@ -475,8 +475,8 @@ body.page-prospection main.interior-page .interior-callout,
 body.page-reseaux main.interior-page .interior-callout,
 body.page-reputation-virtuelle main.reputation-page .interior-callout,
 body.page-facturation-electronique main.interior-page .interior-callout{
-  background:linear-gradient(145deg,rgba(6,20,43,.76),rgba(13,31,55,.80))!important;
-  backdrop-filter:blur(3px);
+  background:linear-gradient(145deg,rgba(6,20,43,.34),rgba(13,31,55,.42))!important;
+  backdrop-filter:blur(1.5px);
 }
 @media(max-width:760px){
   body.page-prospection main.interior-page,
