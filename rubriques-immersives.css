@@ -432,56 +432,58 @@ body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-st
 }
 
 
-/* Fonds d'écran de page — les visuels ne sont plus confinés aux cartes des rubriques.
-   Les fichiers sont servis depuis la racine du site (déclarés dans site-files.json). */
-body.page-prospection,
-body.page-reseaux,
-body.page-reputation-virtuelle,
-body.page-facturation-electronique{
+/* Fonds de page : appliquer les images au conteneur principal (et non au body),
+   afin qu'elles restent visibles derrière les cartes de contenu. */
+body.page-prospection main.interior-page,
+body.page-reseaux main.interior-page,
+body.page-reputation-virtuelle main.interior-page,
+body.page-facturation-electronique main.interior-page{
+  position:relative;
+  isolation:isolate;
   min-height:100vh;
   background-color:#071225!important;
-  background-repeat:no-repeat!important;
-  background-position:center top!important;
-  background-size:cover!important;
-  background-attachment:fixed!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-position:center top,center top!important;
+  background-size:cover,cover!important;
+  background-attachment:scroll!important;
+  border-radius:0!important;
 }
-body.page-prospection{
-  background-image:linear-gradient(180deg,rgba(3,10,22,.48),rgba(3,10,22,.70)),url("./CRM.png")!important;
+body.page-prospection main.interior-page{
+  background-image:linear-gradient(180deg,rgba(3,10,22,.24),rgba(3,10,22,.38)),url("./CRM.png")!important;
 }
-body.page-reseaux{
-  background-image:linear-gradient(180deg,rgba(3,10,22,.48),rgba(3,10,22,.72)),url("./R%C3%A9seaux%20.png")!important;
+body.page-reseaux main.interior-page{
+  background-image:linear-gradient(180deg,rgba(3,10,22,.24),rgba(3,10,22,.40)),url("./R%C3%A9seaux%20.png")!important;
 }
-body.page-reputation-virtuelle{
-  background-image:linear-gradient(180deg,rgba(3,10,22,.42),rgba(3,10,22,.72)),url("./Ereputation.png")!important;
+body.page-reputation-virtuelle main.reputation-page{
+  background-image:linear-gradient(180deg,rgba(3,10,22,.22),rgba(3,10,22,.38)),url("./Ereputation.png")!important;
 }
-body.page-facturation-electronique{
-  background-image:linear-gradient(180deg,rgba(3,10,22,.46),rgba(3,10,22,.74)),url("./Facture1.png")!important;
+body.page-facturation-electronique main.interior-page{
+  background-image:linear-gradient(180deg,rgba(3,10,22,.22),rgba(3,10,22,.40)),url("./Facture1.png")!important;
 }
-/* Les cartes interactives gardent leur structure et leur contenu,
-   mais n'embarquent plus les panoramas comme image de carte. */
-body.page-prospection .virtual-space[data-world="prospection"],
-body.page-reseaux .virtual-space[data-world="reseaux"]{
-  background-image:none!important;
-  background-color:rgba(7,18,37,.62)!important;
-  backdrop-filter:blur(2px);
-}
-body.page-prospection .virtual-space[data-world="prospection"],
-body.page-reseaux .virtual-space[data-world="reseaux"]{
-  box-shadow:0 14px 38px rgba(0,0,0,.18);
-}
-body.page-reputation-virtuelle .reputation-page,
-body.page-facturation-electronique .interior-page,
-body.page-reseaux .interior-page,
-body.page-prospection .interior-page{
-  background:transparent!important;
+/* Les cartes restent lisibles, mais leur opacité ne doit plus masquer les fonds. */
+body.page-prospection main.interior-page .virtual-space,
+body.page-reseaux main.interior-page .virtual-space,
+body.page-prospection main.interior-page .platform-card,
+body.page-reseaux main.interior-page .platform-card,
+body.page-reputation-virtuelle main.reputation-page .platform-card,
+body.page-facturation-electronique main.interior-page .platform-card,
+body.page-prospection main.interior-page .floating-route-card,
+body.page-reseaux main.interior-page .floating-route-card,
+body.page-reputation-virtuelle main.reputation-page .floating-route-card,
+body.page-facturation-electronique main.interior-page .floating-route-card,
+body.page-prospection main.interior-page .interior-callout,
+body.page-reseaux main.interior-page .interior-callout,
+body.page-reputation-virtuelle main.reputation-page .interior-callout,
+body.page-facturation-electronique main.interior-page .interior-callout{
+  background:linear-gradient(145deg,rgba(6,20,43,.76),rgba(13,31,55,.80))!important;
+  backdrop-filter:blur(3px);
 }
 @media(max-width:760px){
-  body.page-prospection,
-  body.page-reseaux,
-  body.page-reputation-virtuelle,
-  body.page-facturation-electronique{
+  body.page-prospection main.interior-page,
+  body.page-reseaux main.interior-page,
+  body.page-reputation-virtuelle main.reputation-page,
+  body.page-facturation-electronique main.interior-page{
     background-attachment:scroll!important;
-    /* Sur téléphone, afficher le visuel à sa largeur réelle plutôt que le recadrer avec cover. */
     background-size:100% 100%,100% auto!important;
     background-position:center top,center top!important;
     background-repeat:no-repeat,no-repeat!important;
