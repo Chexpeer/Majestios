@@ -28,6 +28,7 @@ Le registre Evolution-9 est la source de vérité pour les anomalies de la branc
 | CRM-02 | P1 — traçabilité | Journalisation des créations CRM | **Corrigé dans Evolution-7 — migration non appliquée** | Migration `20261109170000_atomic_crm_activity_history.sql` et test de contrat présents dans Git ; recette transactionnelle réelle encore requise. |
 | CRM-03 | P1 — intégrité des données | Privilèges UPDATE des tables CRM | **Corrigé dans Evolution-7 — migration non appliquée** | Migration `20261109160000_restrict_crm_update_columns.sql` et test de non-régression ajoutés. Vérifier/appliquer uniquement après autorisation explicite ; ne pas prétendre que les privilèges distants sont déjà corrigés. |
 | AN-14 | P1 — sécurité Supabase | RLS désactivée sur `private.reputation_audit_usage` dans `MajestiOS-Test` ; ACL directe observée limitée à `postgres` | **Ouvert — défense en profondeur** | Vérifier l'exposition du schéma et définir les politiques avant tout élargissement des privilèges ; aucune modification distante effectuée. |
+| AN-05 | P1 — bootstrap administrateur | Adresse administrateur codée en dur et CORS `*` dans `bootstrap-internal-admin` | **Ouvert — durcissement à préparer** | Externaliser l'identité et restreindre les origines après revue du bootstrap ; ne pas modifier sans plan évitant le verrouillage du compte initial. |
 
 Les anomalies AUTH-01, AUTH-02, CRM-02 et CRM-03 sont héritées de l'audit Evolution-7 ; leurs statuts distants ne sont pas réputés validés par leur présence dans Git.
 
@@ -108,7 +109,7 @@ Trois modes sont prévus : CRM natif MajestiOS, CRM externe conservé par le cli
 
 MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire passera par une PA partenaire sélectionnée et intégrée après étude, contrat et recette. La facturation est une priorité de conception de la deuxième phase, pas une fonctionnalité actuellement déployée. Voir [la spécification cible](../evolution-9/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md).
 
-## 9. État opérationnel Evolution-9 — actualisation du 11 novembre 2026
+## 11. État opérationnel Evolution-9 — actualisation du 11 novembre 2026
 
 **Cette section actualise les statuts ci-dessus lorsqu'ils divergent.** Le registre détaillé Evolution-9 demeure la source de vérité pour les identifiants, preuves et critères de clôture.
 
@@ -136,3 +137,25 @@ MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire p
 
 - **CRM-10 — P1 :** les compteurs Contacts/Opportunités/Activités utilisent désormais un comptage exact tenant-scoped ; le tableau de relances signale explicitement quand il ne couvre que les 100 premières opportunités. Les notifications navigateur restent limitées à ce lot.
 - **CRM-11 — P2 :** la liste des relances persistantes reste plafonnée à 100 ; un compteur exact tenant-scoped et un avertissement de troncature sont ajoutés. Prévoir une pagination si le volume augmente.
+
+
+## 12. Stabilisation technique — 13 novembre 2026
+
+Le registre Evolution-9 a été actualisé dans sa section 85. Les corrections techniques suivantes sont présentes et contrôlées sur le commit `6ac81d8` :
+- ressource requise par le manifeste restaurée depuis le blob Git du parent ;
+- regex du géocodage par code postal corrigée et test ciblé renforcé ;
+- regex du vérificateur d'architecture corrigée ;
+- déclencheurs des workflows anti-régression et Prospection étendus à Evolution-9 ;
+- contrôles de syntaxe ajoutés pour les trois fonctions Edge identifiées dans l'audit.
+
+Le workflow anti-régression `43496747633` a réussi sur `6ac81d8`, y compris tests ciblés, build, vérificateur de site et vérificateur d'architecture. Le workflow principal `43496747847` était encore en cours lors de la mise à jour ; ne pas le déclarer réussi sans consulter son résultat final.
+
+### Sujets complexes non modifiés
+- Doublons de triggers d'intégrité dans la chaîne de migrations (CRM-12 / AN-15).
+- Policies tenant-scoped remplaçant les anciennes policies nommées VIP ; revue des fonctions d'habilitation et tests de rôles requis.
+- Policy UPDATE de `crm_reminders` rendue inopérante par le retrait du privilège UPDATE.
+- Adresse administrateur codée en dur et CORS permissif dans la fonction de bootstrap (AN-05).
+- Menus HTML statiques, libellés et destinations de boutons à auditer page par page.
+- Fichiers non chargés directement à tracer avant toute suppression.
+
+**Aucune modification HTML/CSS, aucun changement Supabase distant, aucune migration appliquée, aucun déploiement ni aucune promotion de production n'ont été effectués dans ce lot.**

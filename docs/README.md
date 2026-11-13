@@ -1,84 +1,74 @@
 # MajestiOS — documentation de référence
 
 **Branche de travail :** `Evolution-9`  
-**Date de référence :** 11 novembre 2026  
-**Objectif :** offrir un point d'entrée court, cohérent et vérifiable pour comprendre la stratégie, l'architecture, l'état réel et les risques du projet.
+**Mise à jour :** 13 novembre 2026  
+**Rôle :** point d'entrée documentaire court. Les preuves, décisions détaillées et anomalies restent dans leurs référentiels spécialisés.
 
-## 1. Avant toute intervention
+## 1. Ordre de lecture
 
-1. Lire le [registre central des anomalies critiques](CRITIQUES/README.md).
-2. Lire le [guide de prise en main IA MajestiOS/Cheexpeer](GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md), qui formalise le parcours d'onboarding, les garde-fous, la boucle d'audit et les critères de preuve.
-3. Lire le [référentiel Evolution-9](evolution-9/README.md).
-4. Lire la [vision stratégique MajestiOS 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md).
-5. Lire le [plan de réalisation et les moyens](evolution-9/PLAN-REALISATION-ET-MOYENS.md).
-6. Lire le [registre des anomalies Evolution-9](evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
-7. Consulter les spécifications spécialisées utiles au lot.
+1. [Consignes de travail](../AGENTS.md) — mandat, branches, sécurité et méthode.
+2. [Dossier des anomalies critiques](CRITIQUES/README.md) — risques bloquants et règles de traitement.
+3. [Guide de prise en main IA](GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md) — onboarding et limites de preuve.
+4. [Référentiel Evolution-9](evolution-9/README.md) — état courant, références et priorités.
+5. [Registre des anomalies Evolution-9](evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md) — suivi détaillé, preuves et statuts.
+6. Lire ensuite la spécification ou l'audit correspondant au sujet.
 
-## 2. La vision en une phrase
+## 2. Vision produit
 
-**MajestiOS ambitionne de devenir le CRM tout-en-un qui relie le développement commercial, la gestion quotidienne, la facturation électronique et l'accompagnement intelligent, dans un environnement modulaire et ouvert.**
+MajestiOS vise à réunir le développement commercial, la qualification d'entreprises, le CRM, la gestion quotidienne et, dans une phase ultérieure, la facturation électronique et l'accompagnement intelligent.
 
-Le parcours de valeur :
+**Parcours cible :** Détecter → Comprendre → Qualifier → Décider → Agir → Gérer → Facturer → Capitaliser.
 
-**Détecter → Comprendre → Qualifier → Décider → Agir → Gérer → Facturer → Capitaliser.**
+Cette formulation décrit une ambition produit. Elle ne signifie pas que tous les modules ou connecteurs sont déjà disponibles.
 
-La formule « premier vrai CRM tout-en-un » exprime une ambition de différenciation, pas une affirmation concurrentielle démontrée.
+## 3. Références canoniques
 
-## 3. Références canoniques actuelles
-
-| Sujet | Référence | Rôle |
+| Sujet | Référence | Statut / rôle |
 |---|---|---|
-| Vision stratégique | [Vision MajestiOS 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md) | Positionnement, publics, piliers, différenciation et modèle d'expérience |
-| Réalisation | [Plan de réalisation et moyens](evolution-9/PLAN-REALISATION-ET-MOYENS.md) | Phases, dépendances, moyens, tests et indicateurs |
-| Documentation | [Plan de synthèse documentaire](evolution-9/PLAN-SYNTHESE-DOCUMENTAIRE.md) | Hiérarchie des documents, statut des sources et méthode de consolidation |
-| Facturation | [Spécification cible CRM et facturation électronique](evolution-9/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md) | Cycle devis → facture → PA → règlement, modes natif/connecté/hybride et critères d'acceptation |
-| Recette CRM | [Protocole de recette MajestiOS-Test](evolution-9/PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md) | Scénarios rôles, données, historique, relances et isolation multi-tenant — préparé, non exécuté |
-| Provisionnement recette | [Identités de recette CRM](evolution-9/PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md) | Création Auth normale, memberships administratifs et garde-fous — procédure préparée, aucun compte créé |
-| Architecture | [Architecture cible CRM tout-en-un](evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md) | CRM natif/externe, facturation, Connect, Supabase et Cheexpeer — à consolider |
-| UX | [Plan de refonte UX](evolution-8/PLAN-REFONTE-UX.md) | Accueil, navigation et parcours |
-| Audit de l'existant | [Audit Evolution-7 du 11 novembre](evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) | État vérifié du site, CRM interne, Supabase, Cheexpeer et Vercel |
-| Phase CRM client | [CRM clients, artisans et facturation](evolution-7/PHASE-2-CRM-CLIENTS-ARTISANS-FACTURATION-ELECTRONIQUE-RESEAU.md) | Offre cible et séparation des CRM |
-| Cheexpeer | [Cahier des charges détaillé](evolution-7/CAHIER-DES-CHARGES-DETAILLE-CHEEXPEER-2026-11-09.md) | Espaces, compétences, missions, gouvernance et critères d'acceptation |
-| Exécution Cheexpeer | [Architecture d'exécution](evolution-7/ARCHITECTURE-EXECUTION-CHEEXPEER-2026-11-09.md) | Missions, étapes, outils, worker et états réels |
-| Non-régression | [Audit de non-régression Evolution-7](evolution-9/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) | Conservation des rubriques, accueil, navigation et harmonisation visuelle |
-| Navigation | [Décisions de navigation Evolution-7](evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md) | Structure et arbitrages de navigation |
-| SEO / visibilité IA | [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) | État initial technique, indexabilité, métadonnées, canonical, robots/sitemap et GEO — audit partiel à poursuivre |
+| Vision et positionnement | [Vision stratégique 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md) | Référence stratégique |
+| Réalisation | [Plan de réalisation et moyens](evolution-9/PLAN-REALISATION-ET-MOYENS.md) | Phases, dépendances, moyens et critères |
+| Architecture cible | [Architecture CRM tout-en-un](evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md) | Référence détaillée héritée, à consolider avant toute réalisation nouvelle |
+| Facturation | [Spécification CRM et facturation électronique](evolution-9/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md) | Cible phase 2 ; aucun module PA opérationnel démontré |
+| Cheexpeer | [Cartographie fonctionnelle](evolution-9/CARTOGRAPHIE-FONCTIONNELLE-TRANSVERSALE-CHEEXPEER.md) et [audit des interfaces](evolution-9/AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md) | Cible et état partiel ; ne pas confondre avec le guide conversationnel actuel |
+| CRM / Supabase | [Audit en lecture seule](evolution-9/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md) | État daté des deux projets ; à recontrôler avant toute action distante |
+| Non-régression | [Audit fonctionnel Evolution-7](evolution-9/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) | Référence de conservation des fonctions et parcours |
+| SEO | [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) | Audit partiel ; les contrôles non réalisés restent ouverts |
+| Synthèse documentaire | [Plan de synthèse documentaire](evolution-9/PLAN-SYNTHESE-DOCUMENTAIRE.md) | Hiérarchie, consolidation effectuée et travaux restants |
 
-## 4. État produit — ne pas confondre vision et disponibilité
+## 4. État réel — distinguer code, déploiement et recette
 
-### Présent dans l'existant
-- Site web statique avec moteurs de recherche et rubriques de développement commercial.
-- CRM interne MajestiOS pour l'activité propre de MajestiOS.
-- Code d'authentification OTP et fondations multi-tenant.
-- Premiers modules et contrats techniques Cheexpeer.
-- Première vitrine Evolution-8 et page d'information sur la facturation électronique.
+### Présent dans le dépôt
+- Frontend statique HTML/CSS/JavaScript, manifeste de publication et scripts de construction.
+- Pages de recherche, rubriques commerciales et interfaces privées.
+- Code du CRM interne et fondations Supabase (migrations, fonctions Edge et contrats).
+- Premiers composants et contrats de Cheexpeer.
 
-### Non démontré comme opérationnel
-- CRM client complet pour les entreprises utilisatrices.
-- Cycle complet devis → intervention → facture → règlement.
-- Module MajestiOS Facturation connecté à une PA partenaire.
-- Connecteurs CRM externes avec source de référence et synchronisation anti-doublons.
-- Module MajestiOS Facturation connecté à une PA.
-- Connecteurs universels vers les CRM externes.
-- Provisionnement membre OTP de bout en bout.
-- Worker Cheexpeer exécutant des outils métier.
-- Recette réelle de l'isolation multi-tenant et des rôles sur deux organisations.
+### Non démontré comme opérationnel de bout en bout
+- CRM client multi-tenant ouvert aux entreprises pilotes.
+- Provisionnement membre OTP complet.
+- Historisation et droits SQL du CRM principal validés par une recette multi-rôles.
+- Cycle devis → prestation → facture → transmission PA → règlement.
+- Connecteurs CRM externes industrialisés.
+- Agent Cheexpeer exécutant des missions métier avec approbation et traçabilité complètes.
 
-Le détail et les conditions de clôture figurent dans les registres d'anomalies. Une page, un composant ou une migration présente dans Git ne prouve pas son déploiement ni son fonctionnement réel.
+Le guide conversationnel présent sur le site est un assistant local de première génération ; il ne doit pas être présenté comme l'agent Cheexpeer cible.
 
-L'audit SEO initial est documenté dans [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) ; il couvre les 39 pages HTML du manifeste pour la présence des métadonnées ; les contrôles d'unicité, performance, accessibilité et validation externe restent ouverts.
+## 5. Repères vérifiés dans le dépôt au 13 novembre
 
-## 5. Documentation spécialisée et historique
-
-Les dossiers `evolution-5.0`, `evolution-6`, `evolution-7` et `evolution-8` sont conservés pour leurs décisions, spécifications, audits et preuves datées. Ils ne doivent pas être supprimés pendant la synthèse. Lorsqu'une décision ancienne diverge d'une décision plus récente, vérifier l'arbitrage daté et la branche source avant de conclure.
-
-La documentation détaillée reste dans les dossiers spécialisés ; cet index ne doit pas recopier leurs contenus. Le plan de synthèse Evolution-9 décrit les rapprochements à effectuer sans perte d'historique.
+- `site-files.json` déclare **93 ressources**, dont **39 pages HTML**.
+- `verify-architecture.js` contrôle **21 entrées secondaires** et **19 destinations uniques**.
+- Les nombres 81 et 86 rencontrés dans des documents antérieurs correspondent à des états datés ou à des compteurs non réconciliés ; ils ne doivent pas être présentés comme le manifeste actuel.
+- Une présence dans Git ne prouve ni déploiement Supabase, ni configuration distante, ni recette fonctionnelle.
 
 ## 6. Règles de vérité
 
-- Distinguer proposition, décision validée, spécification, code présent, déploiement et recette.
-- Ne pas annoncer MajestiOS comme PA ; la transmission réglementaire doit passer par une PA partenaire.
-- Ne pas promettre une connexion à tous les CRM externes.
-- Ne pas confondre le CRM interne MajestiOS et le CRM de chaque client.
-- Ne pas présenter les capacités Cheexpeer décrites comme déjà actives.
-- Toute anomalie critique reste visible jusqu'à preuve de correction et de recette.
+- Distinguer systématiquement : proposition, décision validée, spécification, code présent, build, déploiement et recette.
+- Ne pas annoncer MajestiOS comme Plateforme Agréée ; une transmission réglementaire devra passer par une PA partenaire.
+- Ne pas promettre un connecteur universel à tous les CRM externes.
+- Ne pas confondre CRM interne MajestiOS et futur CRM client.
+- Ne pas synchroniser automatiquement les deux projets Supabase : leurs rôles et leurs migrations doivent être comparés avant toute décision.
+- Une anomalie reste ouverte tant que ses critères de clôture et ses preuves ne sont pas satisfaits.
+
+## 7. Historique documentaire
+
+Les dossiers Evolution-5.0 à Evolution-8 sont conservés comme sources historiques, audits ou spécifications spécialisées. Ils ne sont ni supprimés ni déplacés par la synthèse. En cas de contradiction, privilégier la décision la plus récente effectivement validée, après vérification de sa branche et de sa preuve.
