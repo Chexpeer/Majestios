@@ -342,3 +342,37 @@ html body:not(.homepage) .mj-user-wallpaper{
 html body:not(.homepage) .mj-user-wallpaper img{
   object-fit:cover;
 }
+
+
+/* Evolution-9 — règle globale : toutes les cartes sont transparentes,
+   sur l'accueil comme sur l'ensemble des pages intérieures.
+   On conserve le contour discret et les styles typographiques, sans panneau opaque. */
+html body :is(
+  [class*="-card"],[class$="card"],[class*="card-"],
+  .platform-card,.related-rubric-card,.floating-route-card,.vision-card,
+  .member-preview,.audit-dossier,.lead-form-wrap,.form-panel,.search-panel,
+  .interior-callout,.category-results-panel,.feed-card,.feed-callout,
+  .ao-path,.audience-card,.reverse-step,.service-card,.interactive-map-info,
+  .result-card,.source-card,.feature-card,.info-card,.content-card,
+  .action-card,.tender-card,.announcement-card,.notice-card,.related-card,
+  .virtual-space-float,.home-personal-access,.virtual-space-note
+){
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+html body :is(
+  [class*="-card"],[class$="card"],[class*="card-"],
+  .platform-card,.related-rubric-card,.floating-route-card,.vision-card,
+  .member-preview,.audit-dossier,.lead-form-wrap,.form-panel,.search-panel,
+  .interior-callout,.category-results-panel,.feed-card,.feed-callout,
+  .ao-path,.audience-card,.reverse-step,.service-card,.interactive-map-info,
+  .result-card,.source-card,.feature-card,.info-card,.content-card,
+  .action-card,.tender-card,.announcement-card,.notice-card,.related-card,
+  .virtual-space-float,.home-personal-access,.virtual-space-note
+){
+  border-color:rgba(213,181,108,.34)!important;
+}
