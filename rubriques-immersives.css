@@ -481,6 +481,9 @@ body.page-prospection .interior-page{
   body.page-reputation-virtuelle,
   body.page-facturation-electronique{
     background-attachment:scroll!important;
-    background-position:center top!important;
+    /* Sur téléphone, afficher le visuel à sa largeur réelle plutôt que le recadrer avec cover. */
+    background-size:100% 100%,100% auto!important;
+    background-position:center top,center top!important;
+    background-repeat:no-repeat,no-repeat!important;
   }
 }
