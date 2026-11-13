@@ -37,12 +37,12 @@ Les sujets qui exigent une revue de sécurité, une décision métier ou une rec
 
 | Sujet | Correction | Preuve / limite |
 |---|---|---|
-| Ressource de build supprimée | Le blob Git exact de la ressource requise a été restauré depuis le parent du commit qui l'avait supprimée. | Build et vérificateur d'architecture passés dans le workflow anti-régression sur le commit `6ac81d8` ; ce n'est pas une recette visuelle. |
-| Géocodage par code postal | La regex de cinq chiffres de `company-targeting.js` a été corrigée ; le test vérifie maintenant le paramètre officiel `codePostal=72000`. | Test ciblé passé dans le workflow anti-régression sur `6ac81d8` ; le workflow complet du site doit confirmer les contrôles supplémentaires. |
-| Vérificateur d'architecture | Le motif de détection des sélecteurs CSS historiques a été corrigé pour interpréter les points et classes comme prévu. | `verify-architecture.js` passé dans le workflow anti-régression sur `6ac81d8`. |
-| CI anti-régression | Le workflow inclut désormais `Evolution-9` dans ses déclencheurs push et pull request. | Workflow anti-régression réussi sur `6ac81d8`. |
-| Contrat Prospection | Le workflow de contrat déclenche aussi sur push Evolution-9. | Workflow de contrat réussi sur le commit `26c1ef9`. |
-| Syntaxe Edge | Le workflow principal vérifie aussi les trois fonctions Edge identifiées comme déployées dans l'audit : recherche officielle, import officiel et bootstrap admin. | Contrôle ajouté ; résultat du workflow principal à confirmer sur le dernier SHA. |
+| Ressource de build supprimée | Le blob Git exact de la ressource requise a été restauré depuis le parent du commit qui l'avait supprimée. | Build, vérificateur d'architecture et suite anti-régression réussis sur le SHA final `cb6edff` ; aucune recette visuelle exhaustive n'est revendiquée. |
+| Géocodage par code postal | La regex de cinq chiffres de `company-targeting.js` a été corrigée ; le test vérifie maintenant le paramètre officiel `codePostal=72000`. | Test ciblé et workflow complet du site réussis sur le SHA final `cb6edff`. |
+| Vérificateur d'architecture | Le motif de détection des sélecteurs CSS historiques a été corrigé pour interpréter les points et classes comme prévu. | `verify-architecture.js` passé dans les workflows anti-régression et site sur `cb6edff`. |
+| CI anti-régression | Le workflow inclut désormais `Evolution-9` dans ses déclencheurs push et pull request. | Workflow anti-régression réussi sur le SHA final `cb6edff`. |
+| Contrat Prospection | Le workflow de contrat déclenche aussi sur push Evolution-9. | Workflow de contrat réussi sur `26c1ef9` ; le workflow anti-régression final passe aussi sur `cb6edff`. |
+| Syntaxe Edge | Le workflow principal vérifie aussi les trois fonctions Edge identifiées comme déployées dans l'audit : recherche officielle, import officiel et bootstrap admin. | Contrôle ajouté et workflow principal du site réussi sur le SHA final `cb6edff`. |
 
 Aucun fichier HTML/CSS, libellé public, parcours, menu, donnée distante ou configuration Supabase n'a été modifié dans ce lot. La restauration de la ressource a rétabli le blob Git antérieur ; elle n'a pas créé un nouveau visuel.
 
