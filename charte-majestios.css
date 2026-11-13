@@ -435,40 +435,38 @@ html body :is(main.interior-page,.mj-user-wallpaper){
 }
 
 
-/* Règle globale Evolution-9 : aucun fond de page ne défile.
-   S'applique aux fonds portés par body et par les conteneurs de page,
-   y compris sur mobile. Ne fige pas les fonds des cartes et contrôles. */
-html, body {
-  background-attachment: fixed !important;
-}
+/* Règle Evolution-9 : fonds de page statiques partout.
+   Cible les véritables couches de fond, jamais tous les éléments HTML. */
+html, body { min-height:100%; }
+body,
 body::before,
 body::after,
-body > .page-background,
-body > .wallpaper,
 main.interior-page,
 main.interior-page::before,
 main.interior-page::after,
+body > .page-background,
+body > .wallpaper,
 .page-background,
 .wallpaper,
+.wallpaper-layer,
 .hero-background,
-.page-bg,
-.wallpaper-layer {
-  background-attachment: fixed !important;
+.page-bg {
+  background-attachment:fixed !important;
 }
-@media (max-width: 760px) {
-  html, body,
+@media (max-width:760px) {
+  body,
   body::before,
   body::after,
-  body > .page-background,
-  body > .wallpaper,
   main.interior-page,
   main.interior-page::before,
   main.interior-page::after,
+  body > .page-background,
+  body > .wallpaper,
   .page-background,
   .wallpaper,
+  .wallpaper-layer,
   .hero-background,
-  .page-bg,
-  .wallpaper-layer {
-    background-attachment: fixed !important;
+  .page-bg {
+    background-attachment:fixed !important;
   }
 }
