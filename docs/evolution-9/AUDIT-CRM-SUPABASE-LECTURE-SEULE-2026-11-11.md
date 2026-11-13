@@ -404,21 +404,18 @@ Les listes de migrations, tables, triggers PostgreSQL (`pg_trigger`), policies R
 
 Cet écart est un écart de schéma effectivement observé, pas une autorisation de synchroniser les projets. Le projet de test contient des évolutions non appliquées au projet ciblé par le frontend ; leurs politiques et comportements ne sont donc pas interchangeables.
 
-### 18.2 Défaut fonctionnel probable confirmé par les privilèges — RPC de relance en production
+### 18.2 Relecture affinée — RPC de relance en production
 
-Sur `majestios-crm`, la fonction `public.complete_crm_reminder(uuid)` est SECURITY INVOKER et exécutable par `authenticated`. Son corps effectue un `UPDATE public.crm_reminders`.
+Sur `majestios-crm`, `public.complete_crm_reminder(uuid)` est SECURITY INVOKER et exécutable par `authenticated`. Son corps lit la relance avec `SELECT ... FOR UPDATE`, contrôle `private.is_org_editor`, met à jour uniquement `state` et `read_at`, puis insère une activité.
 
-Le contrôle des privilèges effectifs retourne :
-- `authenticated` possède SELECT sur `crm_reminders`, mais **ne possède pas UPDATE** ;
-- une policy UPDATE existe, mais une policy RLS ne remplace pas le privilège SQL `GRANT UPDATE` ;
-- cette policy n'autorise que `private.is_org_admin(organization_id)` ;
-- le RPC vérifie pourtant `private.is_org_editor(organization_id)`, helper qui accepte owner, admin et member.
+La première lecture avait conclu à tort à l'absence totale de privilège UPDATE. Le contrôle des privilèges par colonne corrige ce point :
+- `authenticated` dispose de SELECT sur les colonnes nécessaires ;
+- `authenticated` dispose bien de privilèges UPDATE **au niveau des colonnes `state` et `read_at`** ; il ne dispose pas d'un UPDATE global de table ;
+- la policy SELECT et la policy UPDATE de `crm_reminders` sont toutes deux limitées à `private.is_org_admin(organization_id)` ;
+- la policy UPDATE impose aussi `state = 'read'` et `read_at IS NOT NULL` ;
+- le helper `private.is_org_editor` accepte owner/admin/member, mais le filtre RLS SELECT empêche un member non-admin de lire la ligne ; la policy INSERT sur `activities` est également limitée à `is_org_admin`.
 
-Conséquences :
-- pour un membre, le helper peut autoriser le passage, mais la policy RLS refuse l'UPDATE ;
-- pour un owner/admin, la policy RLS peut autoriser la ligne, mais le privilège SQL UPDATE manque.
-
-**Conclusion technique :** la chaîne actuelle rend l'UPDATE du RPC non autorisé au niveau SQL/RLS pour les rôles contrôlés. Il s'agit d'un défaut fonctionnel P1 fortement étayé par les privilèges et politiques effectifs ; l'appel authentifié n'a pas été exécuté. Ne pas élargir le GRANT ou la policy sans décider d'abord si la clôture de relance doit rester VIP-only sur le projet principal. Le correctif éventuel doit aligner ensemble le rôle attendu, le helper, la policy et les privilèges.
+**Conclusion corrigée :** les privilèges de colonnes et les policies observées sont cohérents avec un traitement VIP owner/admin. Le helper plus large est redondant et sémantiquement trompeur, mais ne suffit pas à donner aux membres l'accès aux relances. Le défaut P1 précédemment annoncé n'est donc **pas confirmé**. Un test authentifié owner/admin puis member reste nécessaire pour homologuer le comportement de bout en bout ; aucun appel authentifié n'a été exécuté. Ne pas ajouter de GRANT global ni élargir la policy. Si une simplification est retenue plus tard, elle devra conserver explicitement la frontière VIP et être testée.
 
 ### 18.3 Doublons de triggers : différence entre les projets
 
