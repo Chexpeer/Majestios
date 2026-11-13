@@ -141,14 +141,14 @@ MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire p
 
 ## 12. Stabilisation technique — 13 novembre 2026
 
-Le registre Evolution-9 a été actualisé dans sa section 85. Les corrections techniques suivantes sont présentes et contrôlées sur le commit `6ac81d8` :
+Le registre Evolution-9 a été actualisé dans sa section 85. Les corrections techniques suivantes sont présentes et contrôlées sur le SHA final `cb6edff` :
 - ressource requise par le manifeste restaurée depuis le blob Git du parent ;
 - regex du géocodage par code postal corrigée et test ciblé renforcé ;
 - regex du vérificateur d'architecture corrigée ;
 - déclencheurs des workflows anti-régression et Prospection étendus à Evolution-9 ;
 - contrôles de syntaxe ajoutés pour les trois fonctions Edge identifiées dans l'audit.
 
-Le workflow anti-régression `43496747633` a réussi sur `6ac81d8`, y compris tests ciblés, build, vérificateur de site et vérificateur d'architecture. Le workflow principal `43496747847` était encore en cours lors de la mise à jour ; ne pas le déclarer réussi sans consulter son résultat final.
+Les deux workflows finaux sont réussis sur le même SHA `cb6edff` : anti-régression `43497073964` et vérification du site `43497073782`. Le second a également terminé les tests navigateur, les vérifications BOAMP/BODACC et le contrat de sécurité CRM. Cela ne remplace pas une recette multi-organisations réelle sur Supabase.
 
 ### Sujets complexes non modifiés
 - Doublons de triggers d'intégrité dans la chaîne de migrations (CRM-12 / AN-15).
