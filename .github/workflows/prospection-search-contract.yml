@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/crm-atomic-integration
+      - Evolution-9
     paths:
       - "supabase/functions/_shared/prospection-search-core.mjs"
       - "supabase/functions/_shared/prospection-validation.mjs"
