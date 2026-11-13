@@ -581,3 +581,68 @@ html body:not(.homepage) main.interior-page :where(article.platform-card,article
   }
   html body:not(.homepage) main.interior-page :where(.reputation-visual,.virtual-space-scene){min-height:250px}
 }
+
+
+/* Fonds photographiques Evolution-9 — quatre visuels du dépôt, fixes sur toutes orientations.
+   Le contenu de la page défile indépendamment du fond. */
+html body.page-marches-publics,
+html body.page-development-commercial,
+html body.page-suivi-commercial,
+html body.page-prospection,
+html body.page-reseaux{
+  position:relative!important;
+  isolation:isolate!important;
+  min-height:100vh;
+  background:transparent!important;
+  background-image:none!important;
+}
+html body.page-marches-publics::before,
+html body.page-development-commercial::before,
+html body.page-suivi-commercial::before,
+html body.page-prospection::before,
+html body.page-reseaux::before{
+  content:"";
+  position:fixed!important;
+  inset:0!important;
+  z-index:-1!important;
+  pointer-events:none!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-attachment:initial!important;
+  transform:none!important;
+  animation:none!important;
+}
+html body.page-marches-publics::before{
+  background-image:url("./March%C3%A9%20et%20opportunit%C3%A9s%20.jpg")!important;
+}
+html body.page-development-commercial::before,
+html body.page-suivi-commercial::before{
+  background-image:url("./%20(D%C3%A9veloppement).jpg")!important;
+}
+html body.page-prospection::before{
+  background-image:url("./1794574382383.jpg")!important;
+}
+html body.page-reseaux::before{
+  background-image:url("./1794574474334.jpg")!important;
+}
+html body.page-marches-publics main.interior-page,
+html body.page-development-commercial main.interior-page,
+html body.page-suivi-commercial main.interior-page,
+html body.page-prospection main.interior-page,
+html body.page-reseaux main.interior-page{
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+@media(max-width:760px){
+  html body.page-marches-publics::before,
+  html body.page-development-commercial::before,
+  html body.page-suivi-commercial::before,
+  html body.page-prospection::before,
+  html body.page-reseaux::before{
+    background-position:center center!important;
+    background-size:cover!important;
+  }
+}
