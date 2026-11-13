@@ -435,38 +435,46 @@ html body :is(main.interior-page,.mj-user-wallpaper){
 }
 
 
-/* Règle Evolution-9 : fonds de page statiques partout.
-   Cible les véritables couches de fond, jamais tous les éléments HTML. */
-html, body { min-height:100%; }
-body,
-body::before,
-body::after,
-main.interior-page,
-main.interior-page::before,
-main.interior-page::after,
-body > .page-background,
-body > .wallpaper,
-.page-background,
-.wallpaper,
-.wallpaper-layer,
-.hero-background,
-.page-bg {
+/* Correction audit Evolution-9 :
+   les règles mobiles de rubriques-immersives.css ont une spécificité supérieure
+   et rétablissaient le défilement du fond sur trois rubriques. Cette surcharge
+   ciblée les neutralise sur mobile comme sur ordinateur. */
+html body.page-marches-publics main.interior-page,
+html body.page-marches-prives main.interior-page,
+html body.page-reseaux main.interior-page {
   background-attachment:fixed !important;
 }
 @media (max-width:760px) {
-  body,
-  body::before,
-  body::after,
-  main.interior-page,
-  main.interior-page::before,
-  main.interior-page::after,
-  body > .page-background,
-  body > .wallpaper,
-  .page-background,
-  .wallpaper,
-  .wallpaper-layer,
-  .hero-background,
-  .page-bg {
+  html body.page-marches-publics main.interior-page,
+  html body.page-marches-prives main.interior-page,
+  html body.page-reseaux main.interior-page {
+    background-attachment:fixed !important;
+    background-position:center center !important;
+  }
+}
+
+/* Règle Evolution-9 : fonds de page statiques partout.
+   Cible les couches de fond du document, pas les cartes, formulaires ou contrôles. */
+html, body { min-height:100%; }
+html body,
+html body::before,
+html body::after,
+html body > .page-background,
+html body > .wallpaper,
+html body > .wallpaper-layer,
+html body > .hero-background,
+html body > .page-bg {
+  background-attachment:fixed !important;
+}
+@media (max-width:760px) {
+  html body,
+  html body::before,
+  html body::after,
+  html body > .page-background,
+  html body > .wallpaper,
+  html body > .wallpaper-layer,
+  html body > .hero-background,
+  html body > .page-bg {
     background-attachment:fixed !important;
   }
 }
