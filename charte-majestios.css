@@ -382,3 +382,60 @@ body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-pu
 ) :is(h1,h2,h3,p,li,label){
   text-shadow:0 1px 8px rgba(0,0,0,.48);
 }
+
+
+/* HARMONISATION FAMILLES — fonds fixes et surfaces de cartes uniformes.
+   Le fond ne suit pas le contenu : il reste immobile pendant le défilement.
+   Aucune animation, parallaxe ou transition n'est appliquée à la photographie.
+   Les scènes et interactions internes des pages restent intactes. */
+html:has(body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin)),
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin){
+  min-height:100%;
+  background-attachment:fixed!important;
+  scroll-behavior:auto!important;
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin)::before{
+  position:fixed!important;
+  inset:0!important;
+  background-attachment:fixed!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  background-size:contain!important;
+  animation:none!important;
+  transition:none!important;
+  transform:none!important;
+  will-change:auto!important;
+}
+/* Même traitement visuel pour les cartes des pages publiques, CRM et cockpit.
+   Les conteneurs structurels et les contrôles de formulaire ne sont pas modifiés. */
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) :is(
+  .card,.panel,.platform-card,.related-rubric-card,.interior-callout,
+  .member-preview,.floating-route-card,.vision-card,.joke-card,
+  .reputation-consultation,.reputation-search-card,.audit-dossier,
+  .consultation-content,.cockpit-panel,.admin-gate,.admin-welcome,
+  .admin-authority-badge,.internal-gate,.internal-login,.search-panel,
+  .search-result,.result-card,.assistant-capabilities>article,
+  .assistant-console,.assistant-message,.virtual-space-card,
+  .instrument,.internal-module-card,.module-card,.crm-followups,
+  .crm-reminder-card,.crm-stat-card,.crm-contact-card,.crm-opportunity-card,
+  #company-targeting-form
+){
+  background:rgba(5,12,22,.42)!important;
+  background-color:rgba(5,12,22,.42)!important;
+  border-color:rgba(230,207,157,.26)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.14)!important;
+  backdrop-filter:blur(2px)!important;
+  -webkit-backdrop-filter:blur(2px)!important;
+}
+/* Les éléments intérieurs ne doivent pas réintroduire des aplats opaques. */
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) :is(
+  .cockpit-panel,.admin-gate,.admin-welcome,.internal-gate,.internal-login,
+  .search-panel,.assistant-console,.assistant-capabilities>article,
+  .instrument,.internal-module-card,.module-card,.crm-followups
+) :is(.panel-heading,.admin-topbar,.assistant-console-head){
+  background:transparent!important;
+}
+/* Défilement normal du contenu, sans effet visuel sur l'image de fond. */
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin){
+  background-color:#08111d!important;
+}
