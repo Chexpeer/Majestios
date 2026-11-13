@@ -136,6 +136,7 @@ async function main() {
       nafCodes: ["43.21A"], location: "72000", radiusKm: 15
     });
     assert.equal(near.center.name, "Le Mans");
+    assert.match(geoCalls[0], /codePostal=72000/, "Un code postal de cinq chiffres doit utiliser le paramètre officiel codePostal.");
     assert.equal(near.radiusKm, 15);
     assert.match(geoCalls[1], /near_point/);
     assert.match(geoCalls[1], /radius=15/);
