@@ -146,7 +146,7 @@ assert(!home.includes("<style"), "Accueil : les styles doivent être externalis�
 assert(home.includes('id="home-search-mount"') && home.includes("Recherche d'opportunités"), "Accueil : promesse centrale de la vision CRM tout-en-un absente");
 assert((read("homepage.css") + read("homepage-theme.css")).includes('url("Designer%20(2).png")'), "Accueil : le fond panoramique Designer doit être préservé");
 const homepageCss = read("homepage.css") + read("homepage-theme.css");
-assert(!/\\.(?:building|tower|floor|elevator|home-help|dialog-[\\w-]*|window)[\\w-]*|#floor-rows/i.test(homepageCss), "CSS accueil : styles obsolètes de l’ancien immeuble encore présents");
+assert(!/\.(?:building|tower|floor|elevator|home-help|dialog-[\w-]*|window)[\w-]*|#floor-rows/i.test(homepageCss), "CSS accueil : styles obsolètes de l’ancien immeuble encore présents");
 
 for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
   assert(exists(asset),"Visuel de l'accueil absent : "+asset);
