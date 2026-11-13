@@ -382,3 +382,85 @@ Ces contrôles frontend ne constituent pas une homologation de sécurité. Les m
 Le protocole de recette inter-organisations et multi-rôles reste non exécuté. La CI statique ne prouve ni l'isolation réelle PostgreSQL, ni la résistance aux appels REST directs, ni les permissions effectives du projet distant.
 
 **Conclusion :** contrôles applicatifs cohérents à la lecture du code ; sécurité SQL distante non homologuée ; CRM-02, CRM-03 et CRM-05/CRM-07 restent ouverts. Aucune migration, donnée, configuration Auth, fonction Edge ou déploiement n'a été modifié.
+
+
+## 18. Recontrôle distant comparatif — 13 novembre 2026 (lecture seule)
+
+**Projets consultés :**
+- `majestios-crm` — `qxaghcifdhugfskuscoc`, projet ciblé par le frontend ;
+- `MajestiOS-Test` — `qrlnnfjstoeliymxtkbk`, projet de test.
+
+Les listes de migrations, tables, triggers PostgreSQL (`pg_trigger`), policies RLS, privilèges effectifs, définitions de fonctions et Security Advisors ont été relus. Aucune donnée, migration, policy, fonction, clé, secret ou configuration n'a été modifié.
+
+### 18.1 Parité réelle des environnements
+
+| Contrôle | `majestios-crm` | `MajestiOS-Test` |
+|---|---|---|
+| Migrations appliquées | 22, jusqu'à `20261108181246_vip_only_crm_access` | 39, jusqu'à `20261109250000_cheexpeer_worker_server_bridge` |
+| Politique CRM principale | VIP / owner-admin interne | Policies tenant-scoped avec rôles selon le type d'organisation |
+| Triggers d'intégrité | Un trigger `*_tenant_integrity` par table CRM contrôlée | Deux triggers par table : `*_tenant_integrity` et `*_enforce_tenant_integrity` |
+| `complete_crm_reminder` | SECURITY INVOKER | SECURITY DEFINER |
+| Alerte Security Advisor | Protection contre mots de passe compromis désactivée | RPC SECURITY DEFINER exécutable par authenticated et RLS désactivée sur `private.reputation_audit_usage` |
+
+Cet écart est un écart de schéma effectivement observé, pas une autorisation de synchroniser les projets. Le projet de test contient des évolutions non appliquées au projet ciblé par le frontend ; leurs politiques et comportements ne sont donc pas interchangeables.
+
+### 18.2 Défaut fonctionnel probable confirmé par les privilèges — RPC de relance en production
+
+Sur `majestios-crm`, la fonction `public.complete_crm_reminder(uuid)` est SECURITY INVOKER et exécutable par `authenticated`. Son corps effectue un `UPDATE public.crm_reminders`.
+
+Le contrôle des privilèges effectifs retourne :
+- `authenticated` possède SELECT sur `crm_reminders`, mais **ne possède pas UPDATE** ;
+- une policy UPDATE existe, mais une policy RLS ne remplace pas le privilège SQL `GRANT UPDATE` ;
+- cette policy n'autorise que `private.is_org_admin(organization_id)` ;
+- le RPC vérifie pourtant `private.is_org_editor(organization_id)`, helper qui accepte owner, admin et member.
+
+Conséquences :
+- pour un membre, le helper peut autoriser le passage, mais la policy RLS refuse l'UPDATE ;
+- pour un owner/admin, la policy RLS peut autoriser la ligne, mais le privilège SQL UPDATE manque.
+
+**Conclusion technique :** la chaîne actuelle rend l'UPDATE du RPC non autorisé au niveau SQL/RLS pour les rôles contrôlés. Il s'agit d'un défaut fonctionnel P1 fortement étayé par les privilèges et politiques effectifs ; l'appel authentifié n'a pas été exécuté. Ne pas élargir le GRANT ou la policy sans décider d'abord si la clôture de relance doit rester VIP-only sur le projet principal. Le correctif éventuel doit aligner ensemble le rôle attendu, le helper, la policy et les privilèges.
+
+### 18.3 Doublons de triggers : différence entre les projets
+
+La lecture directe de `pg_trigger` confirme :
+- sur `majestios-crm`, un seul trigger d'intégrité par table (`businesses`, `contacts`, `opportunities`, `activities`) ;
+- sur `MajestiOS-Test`, deux triggers distincts par table, chacun exécutant `private.enforce_tenant_relationship_integrity()`.
+
+Le résultat précédent d'`information_schema.triggers` pouvait répéter une ligne par événement d'un trigger multi-événements. Le contrôle de `pg_trigger` élimine cette ambiguïté : les doublons sont de vrais objets PostgreSQL distincts sur le projet de test, pas un artefact d'affichage. Ils provoquent une double exécution du même contrôle avant INSERT/UPDATE.
+
+### 18.4 RLS de `private.reputation_audit_usage` sur le projet de test
+
+Le Security Advisor de `MajestiOS-Test` classe l'absence de RLS comme **CRITICAL** et recommande :
+
+```sql
+ALTER TABLE private.reputation_audit_usage ENABLE ROW LEVEL SECURITY;
+```
+
+La vérification directe complémentaire indique :
+- RLS désactivée ;
+- `anon` n'a pas USAGE sur le schéma `private` et n'a pas SELECT sur la table ;
+- `authenticated` a USAGE sur le schéma mais n'a pas SELECT direct sur cette table ;
+- aucun accès direct navigateur n'a donc été démontré par les privilèges examinés.
+
+L'alerte reste néanmoins ouverte comme défaut de défense en profondeur. **Ne pas appliquer uniquement ENABLE ROW LEVEL SECURITY sans définir et valider les politiques nécessaires** : l'accès sera alors refusé par défaut aux rôles qui ne disposent pas de policy. La table est utilisée par la fonction interne de consommation des quotas ; vérifier les droits du propriétaire de fonction et le parcours quota avant toute correction.
+
+### 18.5 SECURITY DEFINER du RPC sur le projet de test
+
+Sur `MajestiOS-Test`, `public.complete_crm_reminder(uuid)` est SECURITY DEFINER et exécutable par `authenticated`, ce que signale le Security Advisor. Son corps vérifie `auth.uid()`, l'appartenance/permission via `private.can_edit_crm_org`, l'état de la relance et l'organisation de l'opportunité. Ces contrôles sont positifs à la lecture, mais l'exposition d'un RPC SECURITY DEFINER dans le schéma public nécessite une recette authentifiée négative et positive (non-membre, member, owner/admin, autre organisation) et une revue de l'EXECUTE. Ne pas révoquer ou déplacer le RPC sans vérifier les appels de l'application.
+
+### 18.6 Autres alertes
+
+- `majestios-crm` : Auth Advisor signale la protection contre les mots de passe compromis désactivée. À arbitrer avec le parcours d'inscription/OTP et le fournisseur Auth ; aucune modification Auth n'a été faite.
+- `MajestiOS-Test` : Security Advisor signale le RPC SECURITY DEFINER et la table sans RLS ; ces alertes ne doivent pas être confondues avec une preuve d'exploitation.
+- Les projets sont en PostgreSQL 17.11. Le changelog Supabase du 25 septembre 2026 signale une mise à jour mineure corrigeant 44 CVE et des précautions possibles concernant `ltree`, `pgcrypto`, `btree_gist` et les opérateurs personnalisés. Aucun problème d'extension précis n'a été établi par ce contrôle ; inventaire ciblé requis si ces extensions sont utilisées.
+
+### 18.7 Actions à préparer, sans exécution distante
+
+1. Décider si le RPC de relance du projet principal est réservé au VIP owner/admin ou s'il doit aussi accepter member.
+2. Préparer une correction cohérente de `complete_crm_reminder` (helper + policy + GRANT + tests), sans modifier la base avant revue.
+3. Préparer une migration idempotente de suppression d'un seul des deux triggers d'intégrité sur `MajestiOS-Test`, après test sur copie/jeu isolé et vérification des effets secondaires.
+4. Examiner les droits du propriétaire de `private.consume_reputation_audit_quota` et la stratégie RLS de `private.reputation_audit_usage`.
+5. Effectuer une recette inter-organisations owner/admin/member sur deux organisations de test, avec vérification REST directe et refus des accès croisés.
+6. Planifier l'activation de la protection contre les mots de passe compromis seulement après recette du parcours d'authentification.
+
+**Statut :** audit comparatif actualisé ; aucun correctif Supabase distant ni aucune migration Git n'a été appliqué dans cette étape.
