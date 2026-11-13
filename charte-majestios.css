@@ -478,3 +478,106 @@ html body > .page-bg {
     background-attachment:fixed !important;
   }
 }
+
+
+/* EVOLUTION-9 — correction transversale responsive.
+   Même structure sur toutes les rubriques : les colonnes se réorganisent
+   selon la largeur disponible, sans chevauchement ni débordement. */
+html,body{max-width:100%;overflow-x:clip}
+html body:not(.homepage) main.interior-page{
+  box-sizing:border-box;
+  min-width:0;
+  padding-left:clamp(14px,3vw,42px);
+  padding-right:clamp(14px,3vw,42px);
+}
+html body:not(.homepage) main.interior-page :where(*){
+  min-width:0;
+}
+html body:not(.homepage) main.interior-page :where(h1,h2,h3,p,li,a,button,label){
+  overflow-wrap:anywhere;
+}
+html body:not(.homepage) main.interior-page :where(img,video,iframe,svg){
+  max-width:100%;
+}
+html body:not(.homepage) main.interior-page :where(.interior-grid,.platform-grid,.services-grid,.reputation-pillars,.feature-grid,.related-rubrics-grid,.cards-grid,.benefits-grid){
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));
+}
+html body:not(.homepage) main.interior-page :where(.reputation-hero,.reputation-explainer,.virtual-space,.ao-section,.lead-section,.demo-wrap){
+  min-width:0;
+}
+html body:not(.homepage) main.interior-page :where(.reputation-search-column,.reputation-visual,.virtual-space-copy,.virtual-space-scene){
+  min-width:0;
+}
+html body:not(.homepage) main.interior-page :where(.reputation-visual,.virtual-space-scene){
+  max-width:100%;
+}
+html body:not(.homepage) main.interior-page :where(article.platform-card,article.related-rubric-card,.reputation-pillars article,.service-card,.feature-card,.info-card,.content-card,.action-card,.notice-card,.result-card){
+  background:transparent!important;
+  background-color:transparent!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+@media(max-width:900px){
+  html body:not(.homepage) main.interior-page{
+    padding-top:clamp(24px,4vw,38px);
+    padding-bottom:48px;
+  }
+  html body:not(.homepage) main.interior-page :where(.reputation-hero,.reputation-explainer,.virtual-space,.ao-section,.lead-section,.demo-wrap){
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:clamp(16px,3vw,28px);
+  }
+  html body:not(.homepage) main.interior-page :where(.interior-grid,.platform-grid,.services-grid,.reputation-pillars,.feature-grid,.related-rubrics-grid,.cards-grid,.benefits-grid){
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  html body:not(.homepage) main.interior-page :where(.reputation-visual,.virtual-space-scene){
+    min-height:clamp(280px,58vw,430px);
+  }
+}
+@media(max-width:600px){
+  html body:not(.homepage) main.interior-page{
+    padding-left:14px;
+    padding-right:14px;
+    padding-top:24px;
+    padding-bottom:38px;
+  }
+  html body:not(.homepage) main.interior-page :where(.interior-grid,.platform-grid,.services-grid,.reputation-pillars,.feature-grid,.related-rubrics-grid,.cards-grid,.benefits-grid){
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px;
+  }
+  html body:not(.homepage) main.interior-page :where(h1){
+    max-width:100%;
+    font-size:clamp(29px,8vw,42px)!important;
+    line-height:1.12!important;
+    margin-top:0;
+  }
+  html body:not(.homepage) main.interior-page :where(h2){
+    font-size:clamp(21px,6vw,29px);
+    line-height:1.2;
+  }
+  html body:not(.homepage) main.interior-page :where(.reputation-visual,.virtual-space-scene){
+    min-height:270px;
+    border-radius:14px;
+  }
+  html body:not(.homepage) main.interior-page :where(.reputation-explainer){
+    padding-top:28px;
+    gap:12px;
+  }
+  html body:not(.homepage) main.interior-page :where(.platform-card,.related-rubric-card,.reputation-pillars article,.service-card,.feature-card,.info-card,.content-card,.action-card,.notice-card,.result-card){
+    padding:16px!important;
+  }
+  html body:not(.homepage) main.interior-page :where(form,fieldset,.form-grid,.audit-form-grid){
+    min-width:0;
+    max-width:100%;
+  }
+  html body:not(.homepage) main.interior-page :where(input,select,textarea,button){
+    max-width:100%;
+  }
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:1000px){
+  html body:not(.homepage) main.interior-page{padding-top:18px;padding-bottom:28px}
+  html body:not(.homepage) main.interior-page :where(.reputation-hero,.reputation-explainer,.virtual-space,.ao-section,.lead-section,.demo-wrap){
+    gap:14px;
+  }
+  html body:not(.homepage) main.interior-page :where(.reputation-visual,.virtual-space-scene){min-height:250px}
+}
