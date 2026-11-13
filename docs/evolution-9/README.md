@@ -37,12 +37,12 @@ Les sujets qui exigent une revue de sécurité, une décision métier ou une rec
 
 | Sujet | Correction | Preuve / limite |
 |---|---|---|
-| Ressource de build supprimée | Le blob Git exact de la ressource requise a été restauré depuis le parent du commit qui l'avait supprimée. | Build, vérificateur d'architecture et suite anti-régression réussis sur le SHA final `cb6edff` ; aucune recette visuelle exhaustive n'est revendiquée. |
-| Géocodage par code postal | La regex de cinq chiffres de `company-targeting.js` a été corrigée ; le test vérifie maintenant le paramètre officiel `codePostal=72000`. | Test ciblé et workflow complet du site réussis sur le SHA final `cb6edff`. |
-| Vérificateur d'architecture | Le motif de détection des sélecteurs CSS historiques a été corrigé pour interpréter les points et classes comme prévu. | `verify-architecture.js` passé dans les workflows anti-régression et site sur `cb6edff`. |
-| CI anti-régression | Le workflow inclut désormais `Evolution-9` dans ses déclencheurs push et pull request. | Workflow anti-régression réussi sur le SHA final `cb6edff`. |
-| Contrat Prospection | Le workflow de contrat déclenche aussi sur push Evolution-9. | Workflow de contrat réussi sur `26c1ef9` ; le workflow anti-régression final passe aussi sur `cb6edff`. |
-| Syntaxe Edge | Le workflow principal vérifie aussi les trois fonctions Edge identifiées comme déployées dans l'audit : recherche officielle, import officiel et bootstrap admin. | Contrôle ajouté et workflow principal du site réussi sur le SHA final `cb6edff`. |
+| Ressource de build supprimée | Le blob Git exact de la ressource requise a été restauré depuis le parent du commit qui l'avait supprimée. | Build, vérificateur d'architecture et suite anti-régression réussis sur le SHA final `007c6c2` ; aucune recette visuelle exhaustive n'est revendiquée. |
+| Géocodage par code postal | La regex de cinq chiffres de `company-targeting.js` a été corrigée ; le test vérifie maintenant le paramètre officiel `codePostal=72000`. | Test ciblé et workflow complet du site réussis sur le SHA final `007c6c2`. |
+| Vérificateur d'architecture | Le motif de détection des sélecteurs CSS historiques a été corrigé pour interpréter les points et classes comme prévu. | `verify-architecture.js` passé dans les workflows anti-régression et site sur `007c6c2`. |
+| CI anti-régression | Le workflow inclut désormais `Evolution-9` dans ses déclencheurs push et pull request. | Workflow anti-régression réussi sur le SHA final `007c6c2`. |
+| Contrat Prospection | Le workflow de contrat déclenche aussi sur push Evolution-9. | Workflow de contrat réussi sur `26c1ef9` ; le workflow anti-régression final passe aussi sur `007c6c2`. |
+| Syntaxe Edge | Le workflow principal vérifie aussi les trois fonctions Edge identifiées comme déployées dans l'audit : recherche officielle, import officiel et bootstrap admin. | Contrôle ajouté et workflow principal du site réussi sur le SHA final `007c6c2`. |
 
 Aucun fichier HTML/CSS, libellé public, parcours, menu, donnée distante ou configuration Supabase n'a été modifié dans ce lot. La restauration de la ressource a rétabli le blob Git antérieur ; elle n'a pas créé un nouveau visuel.
 
@@ -68,7 +68,7 @@ Les constats, identifiants et critères de clôture sont consignés dans le [reg
 - Le worker Cheexpeer et ses connecteurs doivent être décrits selon le code réellement déployé, pas seulement selon les fichiers Git.
 - La facturation électronique et la connexion à une PA restent des cibles de phase ultérieure.
 
-## 7. Conditions de clôture
+## 6 bis. Recontrôle Supabase du 13 novembre\n\n- `majestios-crm` : 22 migrations ; policies CRM VIP ; un trigger d'intégrité par table.\n- `MajestiOS-Test` : 39 migrations ; policies tenant-scoped ; doublons de triggers réels sur quatre tables.\n- Défaut P1 à traiter : le RPC `complete_crm_reminder` en production est SECURITY INVOKER, mais le rôle `authenticated` n'a pas UPDATE sur `crm_reminders`; la policy est en outre admin-only alors que le helper admet aussi member.\n- Advisor CRITICAL sur `private.reputation_audit_usage` sans RLS dans le projet de test ; aucun SELECT direct anon/authenticated n'a été observé, mais la défense en profondeur reste insuffisante.\n- Advisor WARN sur le RPC SECURITY DEFINER du projet de test et sur la protection des mots de passe compromis désactivée sur le projet principal.\n\nDétails et limites dans l'[audit comparatif du 13 novembre](AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md#18-recontrôle-distant-comparatif--13-novembre-2026-lecture-seule). Aucun changement Supabase distant n'a été réalisé.\n\n## 7. Conditions de clôture
 
 1. Les workflows concernés sont terminés sur le même SHA final.
 2. Build, architecture, site, liens documentaires et tests ciblés réussissent.
