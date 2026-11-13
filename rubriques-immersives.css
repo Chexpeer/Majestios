@@ -432,60 +432,65 @@ body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-st
 }
 
 
-/* Fonds de page : appliquer les images au conteneur principal (et non au body),
-   afin qu'elles restent visibles derrière les cartes de contenu. */
-body.page-prospection main.interior-page,
-body.page-reseaux main.interior-page,
-body.page-reputation-virtuelle main.interior-page,
-body.page-facturation-electronique main.interior-page{
-  position:relative;
-  isolation:isolate;
+/* Fonds d'écran des pages intérieures : image complète, sans recadrage.
+   L'image habille toute la page ; les cartes restent au premier plan et translucides. */
+body.page-prospection,
+body.page-reseaux,
+body.page-reputation-virtuelle,
+body.page-facturation-electronique{
   min-height:100vh;
   background-color:#071225!important;
-  background-repeat:no-repeat,no-repeat!important;
-  background-position:center top,center top!important;
-  background-size:cover,cover!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:100% auto!important;
   background-attachment:scroll!important;
+}
+body.page-prospection{background-image:linear-gradient(180deg,rgba(3,10,22,.16),rgba(3,10,22,.22)),url("./CRM.png")!important;}
+body.page-reseaux{background-image:linear-gradient(180deg,rgba(3,10,22,.16),rgba(3,10,22,.22)),url("./R%C3%A9seaux%20.png")!important;}
+body.page-reputation-virtuelle{background-image:linear-gradient(180deg,rgba(3,10,22,.14),rgba(3,10,22,.20)),url("./Ereputation.png")!important;}
+body.page-facturation-electronique{background-image:linear-gradient(180deg,rgba(3,10,22,.14),rgba(3,10,22,.22)),url("./Facture1.png")!important;}
+
+/* Les conteneurs de page ne doivent plus repeindre un fond opaque sur l'image. */
+body.page-prospection main.interior-page,
+body.page-reseaux main.interior-page,
+body.page-reputation-virtuelle main.reputation-page,
+body.page-facturation-electronique main.interior-page{
+  background:transparent!important;
+  background-color:transparent!important;
   border-radius:0!important;
 }
-body.page-prospection main.interior-page{
-  background-image:linear-gradient(180deg,rgba(3,10,22,.24),rgba(3,10,22,.38)),url("./CRM.png")!important;
+
+/* Transparence des cartes éditoriales : l'image reste visible derrière leur contenu. */
+body.page-prospection .virtual-space,
+body.page-reseaux .virtual-space,
+body.page-prospection .floating-route-card,
+body.page-reseaux .floating-route-card,
+body.page-reputation-virtuelle .floating-route-card,
+body.page-facturation-electronique .floating-route-card,
+body.page-prospection .platform-card,
+body.page-reseaux .platform-card,
+body.page-reputation-virtuelle .platform-card,
+body.page-facturation-electronique .platform-card,
+body.page-prospection .interior-callout,
+body.page-reseaux .interior-callout,
+body.page-reputation-virtuelle .interior-callout,
+body.page-facturation-electronique .interior-callout{
+  background:rgba(7,18,37,.34)!important;
+  -webkit-backdrop-filter:blur(1px);
+  backdrop-filter:blur(1px);
+  border-color:rgba(213,181,108,.32)!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.16)!important;
 }
-body.page-reseaux main.interior-page{
-  background-image:linear-gradient(180deg,rgba(3,10,22,.24),rgba(3,10,22,.40)),url("./R%C3%A9seaux%20.png")!important;
-}
-body.page-reputation-virtuelle main.reputation-page{
-  background-image:linear-gradient(180deg,rgba(3,10,22,.22),rgba(3,10,22,.38)),url("./Ereputation.png")!important;
-}
-body.page-facturation-electronique main.interior-page{
-  background-image:linear-gradient(180deg,rgba(3,10,22,.22),rgba(3,10,22,.40)),url("./Facture1.png")!important;
-}
-/* Les cartes restent lisibles, mais leur opacité ne doit plus masquer les fonds. */
-body.page-prospection main.interior-page .virtual-space,
-body.page-reseaux main.interior-page .virtual-space,
-body.page-prospection main.interior-page .platform-card,
-body.page-reseaux main.interior-page .platform-card,
-body.page-reputation-virtuelle main.reputation-page .platform-card,
-body.page-facturation-electronique main.interior-page .platform-card,
-body.page-prospection main.interior-page .floating-route-card,
-body.page-reseaux main.interior-page .floating-route-card,
-body.page-reputation-virtuelle main.reputation-page .floating-route-card,
-body.page-facturation-electronique main.interior-page .floating-route-card,
-body.page-prospection main.interior-page .interior-callout,
-body.page-reseaux main.interior-page .interior-callout,
-body.page-reputation-virtuelle main.reputation-page .interior-callout,
-body.page-facturation-electronique main.interior-page .interior-callout{
-  background:linear-gradient(145deg,rgba(6,20,43,.34),rgba(13,31,55,.42))!important;
-  backdrop-filter:blur(1.5px);
-}
+
+/* Sur téléphone, conserver exactement le même cadrage intégral : aucune règle cover. */
 @media(max-width:760px){
-  body.page-prospection main.interior-page,
-  body.page-reseaux main.interior-page,
-  body.page-reputation-virtuelle main.reputation-page,
-  body.page-facturation-electronique main.interior-page{
+  body.page-prospection,
+  body.page-reseaux,
+  body.page-reputation-virtuelle,
+  body.page-facturation-electronique{
+    background-size:100% auto!important;
+    background-position:center top!important;
+    background-repeat:no-repeat!important;
     background-attachment:scroll!important;
-    background-size:100% 100%,100% auto!important;
-    background-position:center top,center top!important;
-    background-repeat:no-repeat,no-repeat!important;
   }
 }
