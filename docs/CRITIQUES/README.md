@@ -171,3 +171,12 @@ Le contrôle en lecture seule a confirmé trois risques qui restent ouverts :
 Alertes complémentaires : RPC SECURITY DEFINER exécutable par authenticated sur le projet de test (WARN) ; protection contre les mots de passe compromis désactivée sur le projet principal (WARN).
 
 Les projets comptent respectivement 22 et 39 migrations appliquées. Aucune synchronisation, migration, modification de policy, changement de données ou réglage Auth n'a été effectué. Voir la section 18 de l'audit CRM/Supabase pour les preuves, les limites et les suites.
+
+
+## 14. Préparation des correctifs Supabase sur le projet de test — 13 novembre 2026
+
+L'analyse des migrations Git et des catalogues distants précise les deux points ouverts :
+- Les triggers en double viennent de deux migrations successives qui attachent deux noms différents à la même fonction. Le nettoyage candidat supprime les quatre anciens triggers `*_tenant_integrity` et conserve `*_enforce_tenant_integrity`, uniquement sur `MajestiOS-Test`.
+- La table de quotas n'a pas RLS. La fonction privée de consommation appartient à `postgres`, est SECURITY DEFINER et `postgres` possède BYPASSRLS ; FORCE RLS est désactivé. L'activation RLS sans policy directe devrait donc préserver le RPC et refuser l'accès direct aux rôles ordinaires, sous réserve de tests sur copie.
+
+Ces deux changements ne sont pas encore des migrations Git ni des modifications distantes. Il faut d'abord valider les cas positifs/négatifs, l'isolation inter-organisations, le parcours quota et le plan de retour arrière. Ne pas promouvoir ces corrections au projet principal, qui ne présente pas les doublons de triggers.
