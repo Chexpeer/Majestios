@@ -955,3 +955,17 @@ Cette section distingue les corrections vérifiées dans Git, les résultats CI 
 - Le workflow principal du site `43497073782` est également vert sur le même SHA `cb6edff` ; ses contrôles navigateur, API BOAMP/BODACC, menus, recherche, Réputation virtuelle, contact, verrouillage sans session et contrat de sécurité CRM sont terminés avec succès.
 - Les résultats CI ne constituent pas une recette navigateur exhaustive ni une validation des environnements Supabase distants.
 - Aucun déploiement Vercel, merge, promotion production, changement de données ou modification Supabase distante n'a été effectué.
+
+
+## 86. Recontrôle CRM / Supabase comparatif — 13 novembre 2026
+
+| ID | Priorité | Domaine | Constat confirmé en lecture seule | Suite / statut |
+|---|---|---|---|---|
+| CRM-RPC-01 | P1 | Relance CRM sur `majestios-crm` | `complete_crm_reminder(uuid)` est SECURITY INVOKER et authenticated EXECUTE, mais authenticated ne possède pas UPDATE sur `crm_reminders`. La policy UPDATE existante est VIP owner/admin uniquement, alors que le helper `is_org_editor` accepte owner/admin/member. | Défaut de cohérence permissions/RLS fortement étayé ; appel authentifié non exécuté. Décider du périmètre VIP attendu, puis aligner helper, policy, GRANT et tests. Aucun changement distant. |
+| CRM-TRG-01 | P1 | Triggers d'intégrité sur `MajestiOS-Test` | `pg_trigger` confirme deux triggers distincts par table (`*_tenant_integrity` et `*_enforce_tenant_integrity`) sur businesses, contacts, opportunities et activities. | Doublon réel confirmé uniquement sur le projet de test. Le projet `majestios-crm` n'a qu'un trigger d'intégrité par table. Préparer une migration de nettoyage après recette isolée. |
+| TEST-RLS-01 / AN-14 | P1 | Table quotas réputation | Security Advisor du projet de test classe `private.reputation_audit_usage` sans RLS comme CRITICAL. Contrôle direct : RLS off, anon sans USAGE du schéma, authenticated avec USAGE mais sans SELECT direct sur la table. | Faiblesse de défense en profondeur confirmée ; accès direct navigateur non démontré. Définir les policies et vérifier les droits de la fonction quota avant activation. Ne pas appliquer le SQL advisor isolément. |
+| TEST-RPC-01 / AN-13 | P1 | RPC de relance test | `public.complete_crm_reminder(uuid)` est SECURITY DEFINER, exécutable par authenticated, et contrôlé par auth.uid() + `private.can_edit_crm_org`. Advisor WARN. | Contrôles présents dans le code SQL ; recette authentifiée multi-rôles et revue EXECUTE requises. Ne pas révoquer sans vérifier les appels. |
+| PROD-AUTH-01 / AN-07 | P1 | Auth projet principal | Security Advisor de `majestios-crm` signale la protection contre les mots de passe compromis désactivée. | À planifier après recette OTP ; aucun réglage Auth modifié. |
+| ENV-PARITY-01 / AN-04 | P1 | Gouvernance des environnements | 22 migrations sur `majestios-crm` contre 39 sur `MajestiOS-Test`. Les politiques CRM sont VIP sur le principal et tenant-scoped sur le test. | Écart réel confirmé ; ne pas synchroniser mécaniquement. Arbitrer les évolutions à promouvoir et les critères de validation. |
+
+**Preuve de contrôle :** listes de migrations Supabase, catalogues `pg_trigger`, `pg_policies`, privilèges effectifs, définitions SQL et Security Advisors consultés le 13 novembre 2026. Aucun test d'accès authentifié, aucune modification de données, aucun changement de schéma et aucune action de déploiement n'ont été exécutés.
