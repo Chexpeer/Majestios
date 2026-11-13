@@ -164,7 +164,7 @@ Les deux workflows finaux sont réussis sur le même SHA `cb6edff` : anti-régre
 ## 13. Résultats du contrôle Supabase du 13 novembre 2026
 
 Le contrôle en lecture seule a confirmé trois risques qui restent ouverts :
-- **P1 — RPC relance en production :** SECURITY INVOKER, sans privilège UPDATE pour authenticated sur `crm_reminders`; policy UPDATE admin-only alors que le helper du RPC accepte aussi member. Défaut fonctionnel de permissions à corriger après décision sur le périmètre VIP.
+- **RPC relance en production — P2 de cohérence à vérifier :** la relecture des privilèges par colonne confirme UPDATE sur `state` et `read_at` pour authenticated. Les policies SELECT/UPDATE/INSERT activité sont VIP owner/admin ; le helper `is_org_editor` est plus large, mais RLS bloque les membres non-admin. Le défaut P1 initialement annoncé n'est pas confirmé. Recette authentifiée owner/admin/member encore requise ; ne pas ajouter de GRANT global.
 - **P1 — triggers test en double :** deux triggers d'intégrité distincts par table sur `MajestiOS-Test`, mais un seul par table sur `majestios-crm`.
 - **P1 — RLS quotas test :** `private.reputation_audit_usage` sans RLS sur `MajestiOS-Test`; l'advisor Supabase classe le point CRITICAL. Les privilèges directs examinés ne démontrent pas d'accès navigateur, mais la défense en profondeur reste insuffisante.
 
