@@ -233,15 +233,15 @@ html body .site-header .site-nav>a[aria-current="page"]{color:#ffe09a}
 html body .site-header .brand{color:#f4f0e6}
 
 
-/* TEST-CUBE-3D — fonds photographiques de page pour quatre rubriques.
-   L'image reste entière dans le viewport : aucun recadrage cover ni carte-image. */
+/* Fonds photographiques plein écran : aucune bande ni marge bleu nuit autour du visuel.
+   Le fond couvre le viewport ; le contenu reste indépendant et défile normalement. */
 html,body{min-height:100%}
 body.page-reputation-virtuelle,
 body.page-facturation-electronique,
 body.page-reseaux,
 body.page-prospection{
  position:relative;isolation:isolate;min-height:100vh;
- background-color:#08111d!important;background-image:none!important
+ background-color:transparent!important;background-image:none!important
 }
 body.page-reputation-virtuelle::before,
 body.page-facturation-electronique::before,
@@ -249,7 +249,7 @@ body.page-reseaux::before,
 body.page-prospection::before{
  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
  background-repeat:no-repeat;background-position:center center;
- background-size:contain;background-color:#08111d
+ background-size:cover;background-color:transparent
 }
 body.page-reputation-virtuelle::before{background-image:url("./Ereputation.png")}
 body.page-facturation-electronique::before{background-image:url("./Facture1.png")}
@@ -303,7 +303,7 @@ body.page-prospection main h1,body.page-prospection main h2{
  body.page-reputation-virtuelle::before,
  body.page-facturation-electronique::before,
  body.page-reseaux::before,
- body.page-prospection::before{background-position:center center;background-size:contain}
+ body.page-prospection::before{background-position:center center;background-size:cover}
  body.page-reputation-virtuelle main.reputation-page{
   width:calc(100% - 24px);padding-top:22px;padding-bottom:42px
  }
