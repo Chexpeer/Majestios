@@ -355,3 +355,30 @@ body.page-famille-crm-admin .panel{
  body.page-famille-offre-public::before,
  body.page-famille-crm-admin::before{background-position:center center;background-size:contain}
 }
+
+
+/* TEST EPURE — rendre les fonds des quatre familles réellement visibles.
+   On allège les surfaces sans modifier les composants, contenus ou interactions. */
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) main :is(
+  .card,.panel,.platform-card,.related-rubric-card,.interior-callout,
+  .member-preview,.floating-route-card,.vision-card,.joke-card,
+  .reputation-consultation,.reputation-search-card,.audit-dossier,
+  .consultation-content,#company-targeting-form
+){
+  background:rgba(5,12,22,.42)!important;
+  border:1px solid rgba(230,207,157,.22)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.12)!important;
+  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) main :is(
+  .card,.panel,.platform-card,.related-rubric-card,.interior-callout,
+  .member-preview,.floating-route-card,.vision-card,.joke-card
+)::before{
+  box-shadow:none!important;
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) main :is(
+  .card,.panel,.platform-card,.related-rubric-card,.interior-callout,
+  .member-preview,.floating-route-card,.vision-card,.joke-card
+) :is(h1,h2,h3,p,li,label){
+  text-shadow:0 1px 8px rgba(0,0,0,.48);
+}
