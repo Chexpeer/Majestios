@@ -439,13 +439,13 @@ html body :is(main.interior-page,.mj-user-wallpaper){
    les règles mobiles de rubriques-immersives.css ont une spécificité supérieure
    et rétablissaient le défilement du fond sur trois rubriques. Cette surcharge
    ciblée les neutralise sur mobile comme sur ordinateur. */
-html body.page-marches-publics main.interior-page,
+html body.page-marches-publics:not(.page-facturation-electronique) main.interior-page,
 html body.page-marches-prives main.interior-page,
 html body.page-reseaux main.interior-page {
   background-attachment:fixed !important;
 }
 @media (max-width:760px) {
-  html body.page-marches-publics main.interior-page,
+  html body.page-marches-publics:not(.page-facturation-electronique) main.interior-page,
   html body.page-marches-prives main.interior-page,
   html body.page-reseaux main.interior-page {
     background-attachment:fixed !important;
@@ -585,7 +585,7 @@ html body:not(.homepage) main.interior-page :where(article.platform-card,article
 
 /* Fonds photographiques Evolution-9 — quatre visuels du dépôt, fixes sur toutes orientations.
    Le contenu de la page défile indépendamment du fond. */
-html body.page-marches-publics,
+html body.page-marches-publics:not(.page-facturation-electronique),
 html body.page-development-commercial,
 html body.page-suivi-commercial,
 html body.page-prospection,
@@ -596,7 +596,7 @@ html body.page-reseaux{
   background:transparent!important;
   background-image:none!important;
 }
-html body.page-marches-publics::before,
+html body.page-marches-publics:not(.page-facturation-electronique)::before,
 html body.page-development-commercial::before,
 html body.page-suivi-commercial::before,
 html body.page-prospection::before,
@@ -613,7 +613,7 @@ html body.page-reseaux::before{
   transform:none!important;
   animation:none!important;
 }
-html body.page-marches-publics::before{
+html body.page-marches-publics:not(.page-facturation-electronique)::before{
   background-image:url("./March%C3%A9%20et%20opportunit%C3%A9s%20.jpg")!important;
 }
 html body.page-development-commercial::before,
@@ -626,7 +626,7 @@ html body.page-prospection::before{
 html body.page-reseaux::before{
   background-image:url("./1794574474334.jpg")!important;
 }
-html body.page-marches-publics main.interior-page,
+html body.page-marches-publics:not(.page-facturation-electronique) main.interior-page,
 html body.page-development-commercial main.interior-page,
 html body.page-suivi-commercial main.interior-page,
 html body.page-prospection main.interior-page,
@@ -637,7 +637,7 @@ html body.page-reseaux main.interior-page{
   box-shadow:none!important;
 }
 @media(max-width:760px){
-  html body.page-marches-publics::before,
+  html body.page-marches-publics:not(.page-facturation-electronique)::before,
   html body.page-development-commercial::before,
   html body.page-suivi-commercial::before,
   html body.page-prospection::before,
