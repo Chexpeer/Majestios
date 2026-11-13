@@ -376,3 +376,31 @@ html body :is(
 ){
   border-color:rgba(213,181,108,.34)!important;
 }
+
+
+/* Evolution-9 — fonds d'écran strictement statiques sur toutes les pages.
+   Neutralise les animations/parallaxes des couches de fond sans bloquer
+   les interactions, transitions de navigation ou animations des composants. */
+html,html body{
+  background-attachment:fixed!important;
+  background-position:center center!important;
+  background-repeat:no-repeat;
+}
+html body::before,html body::after,
+html body main::before,html body main::after,
+html body .mj-user-wallpaper,
+html body .mj-user-wallpaper::before,
+html body .mj-user-wallpaper::after{
+  animation:none!important;
+  transition:none!important;
+  transform:none!important;
+  background-attachment:fixed!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+}
+html body :is([class*="background"],[class*="wallpaper"],[class*="parallax"],[class*="hero-bg"],[class*="page-bg"]){
+  animation:none!important;
+  transform:none!important;
+  background-attachment:fixed!important;
+  background-position:center center!important;
+}
