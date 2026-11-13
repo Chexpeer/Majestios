@@ -310,3 +310,48 @@ body.page-prospection main h1,body.page-prospection main h2{
  body.page-reseaux .virtual-space,
  body.page-prospection .virtual-space{margin:14px 0 20px}
 }
+
+
+/* TEST FAMILLES — nouveaux fonds pleine page.
+   Les quatre fonds déjà installés sur les rubriques historiques restent inchangés. */
+body.page-famille-developpement,
+body.page-famille-marches,
+body.page-famille-offre-public,
+body.page-famille-crm-admin{
+  position:relative;isolation:isolate;min-height:100vh;
+  background-color:#08111d!important;background-image:none!important;
+}
+body.page-famille-developpement::before,
+body.page-famille-marches::before,
+body.page-famille-offre-public::before,
+body.page-famille-crm-admin::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-repeat:no-repeat;background-position:center center;
+  background-size:contain;background-color:#08111d;
+}
+body.page-famille-developpement::before{background-image:url("./%20(D%C3%A9veloppement).jpg")}
+body.page-famille-marches::before{background-image:url("./March%C3%A9%20et%20opportunit%C3%A9s%20.jpg")}
+body.page-famille-offre-public::before{background-image:url("./OFFRE%20PUBLIC.png")}
+body.page-famille-crm-admin::before{background-image:url("./CRMetadmin.jpg")}
+body.page-famille-developpement main,
+body.page-famille-marches main,
+body.page-famille-offre-public main,
+body.page-famille-crm-admin main{position:relative;z-index:0;background:transparent!important}
+body.page-famille-developpement .card,
+body.page-famille-developpement .panel,
+body.page-famille-marches .card,
+body.page-famille-marches .panel,
+body.page-famille-offre-public .card,
+body.page-famille-offre-public .panel,
+body.page-famille-crm-admin .card,
+body.page-famille-crm-admin .panel{
+  background-color:rgba(7,13,22,.62)!important;
+  border-color:rgba(213,181,108,.34)!important;
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+}
+@media(max-width:760px){
+ body.page-famille-developpement::before,
+ body.page-famille-marches::before,
+ body.page-famille-offre-public::before,
+ body.page-famille-crm-admin::before{background-position:center center;background-size:contain}
+}
