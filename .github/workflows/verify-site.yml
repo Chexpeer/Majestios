@@ -73,6 +73,9 @@ jobs:
           node --experimental-strip-types --check supabase/functions/cheexpeer-approval-decision/index.ts
           node --experimental-strip-types --check supabase/functions/cheexpeer-mission-read/index.ts
           node --experimental-strip-types --check supabase/functions/reputation-audit-context/index.ts
+          node --experimental-strip-types --check supabase/functions/search-official-companies/index.ts
+          node --experimental-strip-types --check supabase/functions/import-official-company/index.ts
+          node --experimental-strip-types --check supabase/functions/bootstrap-internal-admin/index.ts
           node --check tests/reputation-audit-access-contract.test.mjs
           node --input-type=module --check < supabase-config.js
           node --input-type=module --check < auth-espace-membre.js
