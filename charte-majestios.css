@@ -439,3 +439,72 @@ body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-pu
 body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin){
   background-color:#08111d!important;
 }
+
+
+/* HARMONISATION DE LA DENSITÉ — quatre familles */
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .interior-grid,
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .showroom-grid,
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .assistant-capabilities{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));
+  gap:clamp(12px,1.8vw,20px);
+  align-items:stretch;
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .related-rubrics-title{
+  grid-column:1/-1;
+  margin:0 0 2px;
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) :is(
+  .platform-card,.related-rubric-card,.floating-route-card,.interior-callout,
+  .cockpit-panel,.internal-module-card,.assistant-capabilities>article,
+  .assistant-console,.search-panel,.result-card,.instrument,.module-card
+){
+  position:relative;
+  inset:auto;
+  min-width:0;
+  max-width:100%;
+  margin:0;
+  padding:clamp(14px,1.8vw,20px);
+  box-sizing:border-box;
+  overflow-wrap:anywhere;
+  transform:none;
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) :is(
+  .platform-card,.related-rubric-card,.floating-route-card,.interior-callout,
+  .cockpit-panel,.internal-module-card,.assistant-capabilities>article,
+  .result-card,.instrument,.module-card
+) h2,
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) :is(
+  .platform-card,.related-rubric-card,.floating-route-card,.interior-callout,
+  .cockpit-panel,.internal-module-card,.assistant-capabilities>article,
+  .result-card,.instrument,.module-card
+) h3{
+  margin-top:0;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) :is(
+  .platform-card,.related-rubric-card,.floating-route-card,.interior-callout,
+  .cockpit-panel,.internal-module-card,.assistant-capabilities>article,
+  .result-card,.instrument,.module-card
+) p{
+  margin-block:.45em 0;
+  max-width:68ch;
+  font-size:clamp(12px,.9vw,14px);
+  line-height:1.5;
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .interior-page{
+  display:flex;
+  flex-direction:column;
+  gap:clamp(14px,2vw,22px);
+}
+body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .interior-page > :is(.interior-grid,.showroom-grid){
+  width:100%;
+}
+@media(max-width:640px){
+  body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .interior-grid,
+  body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .showroom-grid,
+  body:is(.page-famille-developpement,.page-famille-marches,.page-famille-offre-public,.page-famille-crm-admin) .assistant-capabilities{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
