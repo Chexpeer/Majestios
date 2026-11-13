@@ -52,7 +52,8 @@ body.page-reputation-virtuelle main.reputation-page {
 
 /* Les anciennes images en figure/carte ne doivent plus doubler le fond de page. */
 body.page-reputation-virtuelle .mj-rubric-visual-inline,
-body.page-facturation-electronique .mj-rubric-visual-inline {
+body.page-facturation-electronique .mj-rubric-visual-inline,
+body.page-reputation-virtuelle .reputation-visual {
   display:none !important;
 }
 
