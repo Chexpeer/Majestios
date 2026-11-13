@@ -404,3 +404,21 @@ html body :is([class*="background"],[class*="wallpaper"],[class*="parallax"],[cl
   background-attachment:fixed!important;
   background-position:center center!important;
 }
+
+
+/* CORRECTION GLOBALE — toutes les pages, tous les fonds.
+   Le contenu peut défiler, mais aucune image/couche de fond ne se déplace
+   avec lui. Cette règle couvre aussi les fonds définis dans les styles
+   propres aux rubriques et les pseudo-éléments de décoration. */
+html body,
+html body * {
+  background-attachment: fixed !important;
+}
+html body::before,
+html body::after,
+html body *::before,
+html body *::after {
+  background-attachment: fixed !important;
+  animation-name: none !important;
+  animation-play-state: paused !important;
+}
