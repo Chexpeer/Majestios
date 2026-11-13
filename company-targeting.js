@@ -219,7 +219,7 @@
   async function geocodeSearchCenter(input) {
     const value = String(input || "").trim();
     if (!value) throw new Error("Saisissez une commune ou un code postal pour définir le centre du rayon.");
-    const isPostalCode = /^\\d{5}$/.test(value);
+    const isPostalCode = /^\d{5}$/.test(value);
     const url = isPostalCode
       ? "https://geo.api.gouv.fr/communes?codePostal=" + encodeURIComponent(value) + "&fields=nom,code,codeDepartement,centre&format=json"
       : "https://geo.api.gouv.fr/communes?nom=" + encodeURIComponent(value) + "&fields=nom,code,codeDepartement,centre&boost=population&limit=10&format=json";
