@@ -494,3 +494,48 @@ body.page-facturation-electronique .interior-callout{
     background-attachment:scroll!important;
   }
 }
+
+
+/* Fonds plein-page : l'image accompagne toute la page, du haut jusqu'au dernier contenu.
+   Le fond est porté par BODY (et non par main, section ou carte), donc il reste visible
+   pendant tout le défilement. 100% 100% affiche l'image entière sans découpe. */
+body.page-reputation-virtuelle,
+body.page-facturation-electronique,
+body.page-reseaux,
+body.page-prospection{
+  position:relative;
+  isolation:isolate;
+  min-height:100vh;
+  background-color:#091321 !important;
+}
+body.page-reputation-virtuelle::before,
+body.page-facturation-electronique::before,
+body.page-reseaux::before,
+body.page-prospection::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-position:center top;
+  background-size:100% 100%;
+}
+body.page-reputation-virtuelle::before{background-image:url("./Ereputation.png");}
+body.page-facturation-electronique::before{background-image:url("./Facture1.png");}
+body.page-reseaux::before{background-image:url("./Réseaux%20.png");}
+body.page-prospection::before{background-image:url("./CRM.png");}
+
+/* Les panneaux restent lisibles mais laissent réellement transparaître le fond global. */
+body.page-reputation-virtuelle .platform-card,
+body.page-facturation-electronique .platform-card,
+body.page-reseaux .platform-card,
+body.page-prospection .platform-card,
+body.page-reputation-virtuelle .floating-route-card,
+body.page-facturation-electronique .floating-route-card,
+body.page-reseaux .floating-route-card,
+body.page-prospection .floating-route-card{
+  background-color:rgba(8,14,23,.42) !important;
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+}
