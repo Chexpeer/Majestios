@@ -1,0 +1,113 @@
+/* Test visuel des quatre fonds de rubrique — branche test-cube-3d.
+   Le visuel est un arrière-plan de page fixe, jamais une carte ou un bandeau.
+   background-size: contain conserve l'intégralité du visuel, y compris sur mobile. */
+html, body { min-height:100%; }
+body.page-reputation-virtuelle,
+body.page-facturation-electronique,
+body.page-reseaux,
+body.page-prospection {
+  position:relative;
+  isolation:isolate;
+  min-height:100vh;
+  background-color:#08111d !important;
+  background-image:none !important;
+}
+body.page-reputation-virtuelle::before,
+body.page-facturation-electronique::before,
+body.page-reseaux::before,
+body.page-prospection::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-position:center center;
+  background-size:contain;
+  background-color:#08111d;
+}
+body.page-reputation-virtuelle::before { background-image:url("./Ereputation.png"); }
+body.page-facturation-electronique::before { background-image:url("./Facture1.png"); }
+body.page-reseaux::before { background-image:url("./Réseaux%20.png"); }
+body.page-prospection::before { background-image:url("./CRM.png"); }
+
+/* Le fond appartient à la page entière, pas au conteneur de contenu. */
+body.page-reputation-virtuelle main.interior-page,
+body.page-facturation-electronique main.interior-page,
+body.page-reseaux main.interior-page,
+body.page-prospection main.interior-page {
+  position:relative;
+  z-index:0;
+  background:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+}
+body.page-reputation-virtuelle main.reputation-page {
+  width:min(1240px,calc(100% - 32px));
+  margin-inline:auto;
+  padding-top:clamp(24px,4vh,52px);
+  padding-bottom:64px;
+}
+
+/* Les anciennes images en figure/carte ne doivent plus doubler le fond de page. */
+body.page-reputation-virtuelle .mj-rubric-visual-inline,
+body.page-facturation-electronique .mj-rubric-visual-inline {
+  display:none !important;
+}
+
+/* La scène Réseau / Prospection reste présente, mais cesse d'être un panneau encadré. */
+body.page-reseaux .virtual-space,
+body.page-prospection .virtual-space {
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  padding:clamp(12px,2vw,24px) 0 !important;
+}
+body.page-reseaux .virtual-space::before,
+body.page-prospection .virtual-space::before { display:none !important; }
+
+/* Cartes de contenu translucides : le visuel reste perceptible derrière les textes. */
+body.page-reputation-virtuelle .reputation-consultation,
+body.page-reputation-virtuelle .reputation-search-card,
+body.page-reputation-virtuelle .audit-dossier,
+body.page-reputation-virtuelle .consultation-content,
+body.page-facturation-electronique .floating-route-card,
+body.page-facturation-electronique .platform-card,
+body.page-reseaux .floating-route-card,
+body.page-reseaux .platform-card,
+body.page-prospection .floating-route-card,
+body.page-prospection .platform-card,
+body.page-prospection #company-targeting-form {
+  background-color:rgba(7,13,22,.62) !important;
+  border-color:rgba(213,181,108,.34) !important;
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+body.page-reputation-virtuelle .reputation-search-column h1,
+body.page-reputation-virtuelle .reputation-search-column h2,
+body.page-facturation-electronique main h1,
+body.page-facturation-electronique main h2,
+body.page-reseaux main h1,
+body.page-reseaux main h2,
+body.page-prospection main h1,
+body.page-prospection main h2 {
+  text-shadow:0 2px 14px rgba(0,0,0,.55);
+}
+@media(max-width:760px) {
+  body.page-reputation-virtuelle::before,
+  body.page-facturation-electronique::before,
+  body.page-reseaux::before,
+  body.page-prospection::before {
+    background-position:center center;
+    background-size:contain;
+  }
+  body.page-reputation-virtuelle main.reputation-page {
+    width:calc(100% - 24px);
+    padding-top:22px;
+    padding-bottom:42px;
+  }
+  body.page-reseaux .virtual-space,
+  body.page-prospection .virtual-space { margin:14px 0 20px; }
+}
