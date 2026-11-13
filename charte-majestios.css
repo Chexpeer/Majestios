@@ -378,47 +378,58 @@ html body :is(
 }
 
 
-/* Evolution-9 — fonds d'écran strictement statiques sur toutes les pages.
-   Neutralise les animations/parallaxes des couches de fond sans bloquer
-   les interactions, transitions de navigation ou animations des composants. */
-html,html body{
-  background-attachment:fixed!important;
-  background-position:center center!important;
+/* Evolution-9 — fonds statiques ciblés.
+   Ne pas imposer background-attachment:fixed à tous les éléments :
+   cela fige aussi les contrôles et les fonds des composants. */
+html,body{min-height:100%}
+
+/* Même visuel pour Développement commercial et Suivi commercial.
+   Le pseudo-élément fixe le fond au viewport pendant le défilement du contenu. */
+body.page-development-commercial,
+body.page-suivi-commercial{
+  position:relative;
+  isolation:isolate;
+  min-height:100vh;
+  background:transparent!important;
+  background-image:none!important;
+}
+body.page-development-commercial::before,
+body.page-suivi-commercial::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:url("./fond-developpement-commercial.jpg");
   background-repeat:no-repeat;
-}
-html body::before,html body::after,
-html body main::before,html body main::after,
-html body .mj-user-wallpaper,
-html body .mj-user-wallpaper::before,
-html body .mj-user-wallpaper::after{
-  animation:none!important;
-  transition:none!important;
+  background-position:center center;
+  background-size:cover;
   transform:none!important;
-  background-attachment:fixed!important;
-  background-position:center center!important;
-  background-repeat:no-repeat!important;
-}
-html body :is([class*="background"],[class*="wallpaper"],[class*="parallax"],[class*="hero-bg"],[class*="page-bg"]){
   animation:none!important;
-  transform:none!important;
-  background-attachment:fixed!important;
-  background-position:center center!important;
+}
+body.page-development-commercial main.interior-page,
+body.page-suivi-commercial main.interior-page{
+  position:relative;
+  z-index:0;
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+@media(max-width:760px){
+  body.page-development-commercial::before,
+  body.page-suivi-commercial::before{
+    background-position:center center;
+    background-size:cover;
+  }
 }
 
-
-/* CORRECTION GLOBALE — toutes les pages, tous les fonds.
-   Le contenu peut défiler, mais aucune image/couche de fond ne se déplace
-   avec lui. Cette règle couvre aussi les fonds définis dans les styles
-   propres aux rubriques et les pseudo-éléments de décoration. */
-html body,
-html body * {
-  background-attachment: fixed !important;
+/* Les fonds de page restent statiques, sans figer les arrière-plans
+   des champs, boutons, menus ou autres composants interactifs. */
+html body{
+  background-attachment:initial;
 }
-html body::before,
-html body::after,
-html body *::before,
-html body *::after {
-  background-attachment: fixed !important;
-  animation-name: none !important;
-  animation-play-state: paused !important;
+html body :is(main.interior-page,.mj-user-wallpaper){
+  background-attachment:initial;
 }
