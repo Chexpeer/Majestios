@@ -400,7 +400,7 @@ body.page-suivi-commercial::before{
   inset:0;
   z-index:-1;
   pointer-events:none;
-  background-image:url("./fond-developpement-commercial.jpg");
+  background-image:url("./CRM.png");
   background-repeat:no-repeat;
   background-position:center center;
   background-size:cover;
