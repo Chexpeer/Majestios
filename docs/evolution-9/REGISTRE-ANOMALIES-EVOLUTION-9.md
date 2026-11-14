@@ -1120,3 +1120,10 @@ Créés par SQL (sans mot de passe, connexion par lien e-mail), sur décision du
 | `…+client@…` | « Client Test 1 » (client) : owner | Isolation entre clients |
 
 Manque : un compte lecteur (viewer) ; non bloquant. Suppression en fin de recette à décider avec le propriétaire (CONS-05).
+
+### Recette des droits avec les vrais comptes de test (MajestiOS-Test, 15/11/2026)
+Méthode : transaction annulée, rôle `authenticated` et identité de chaque compte réel, données fictives supprimées à la fin (tables remises à 0). Résultat : **19/19 conformes**.
+- CRM interne : owner et admin (Cheexpeer) lisent et modifient ; membre interne simple refusé (lecture, écriture, création) ; client refusé.
+- Isolation : le client lit et modifie seulement sa société ; ni l'owner interne ni l'admin Cheexpeer ne lisent l'espace client ; le client ne voit pas les membres internes ; le membre interne ne voit pas l'espace client ; l'anonyme n'a aucun accès.
+- Page de commande Cheexpeer : reconnue pour owner et admin, refusée pour le membre simple et le client.
+Reste à jouer : connexion réelle par lien e-mail (un compte à la fois), recette bout en bout de la page avec le compte `+cheexpeer`, compte lecteur.
