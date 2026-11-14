@@ -1108,3 +1108,15 @@ Méthode : rejeu des 31 migrations CRM du dépôt sur une base PostgreSQL 16 jet
 | REM-INFO | info | Les relances ne sont créées que par la tâche planifiée (échéance dépassée), pas à l'insertion de l'opportunité. Comportement conforme à la conception. | — |
 
 Résultat local après les deux correctifs : 44/44. RLS, intégrité inter-organisations, historique, relances (`complete_crm_reminder`) et privilèges `anon` conformes.
+
+### Comptes de test multi-identités sur MajestiOS-Test (15/11/2026)
+Créés par SQL (sans mot de passe, connexion par lien e-mail), sur décision du propriétaire ; même écart de méthode que CONS-05 (la procédure officielle passe par le tableau de bord). Aucun effet sur `majestios-crm`.
+
+| Compte (alias Gmail, minuscules) | Rattachement | Usage de recette |
+|---|---|---|
+| `perspectivemarketing@gmail.com` | CRM interne : owner | Propriétaire interne |
+| `…+majestios@…` | CRM interne : member | Doit être refusé sur administration et CRM interne |
+| `…+cheexpeer@…` | CRM interne : admin | Compte technique Cheexpeer (centre de commande) |
+| `…+client@…` | « Client Test 1 » (client) : owner | Isolation entre clients |
+
+Manque : un compte lecteur (viewer) ; non bloquant. Suppression en fin de recette à décider avec le propriétaire (CONS-05).
