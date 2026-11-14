@@ -40,7 +40,7 @@
   if (heading) heading.textContent = `Résultats de recherche — ${definition.label}`;
   const paragraphs = card.querySelectorAll(":scope > p");
   if (paragraphs[0]) paragraphs[0].textContent = "Cette page est la destination dédiée à cette catégorie. La recherche interroge la source correspondant au type de marché sélectionné.";
-  if (paragraphs[1]) paragraphs[1].textContent = "Les résultats dépendent de la disponibilité des sources officielles et doivent être vérifiés dans l’avis d’origine. Aucun résultat fictif n’est présenté comme une consultation disponible.";
+  if (paragraphs[1]) paragraphs[1].textContent = "Les résultats dépendent de la disponibilité des sources officielles et doivent être analysés avant toute décision. Aucun résultat fictif n’est présenté comme une consultation disponible.";
 
   const panel = document.createElement("section");
   panel.className = "category-results-panel";
@@ -73,7 +73,7 @@
   panel.append(empty);
   const note = document.createElement("p");
   note.className = "small-note";
-  note.textContent = "Les résultats BOAMP et les signaux BODACC gardent des provenances distinctes. Vérifiez chaque annonce sur la source officielle avant toute décision.";
+  note.textContent = "Les résultats BOAMP et les signaux BODACC gardent des provenances distinctes. Analysez chaque annonce avant toute décision ; nous pouvons vous y aider.";
   panel.append(note);
 
   const oldPanel = card.querySelector("#category-results-panel");

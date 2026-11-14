@@ -1,6 +1,6 @@
 # Annonces gratuites de sous-traitance — spécification et mise en œuvre préparée
 
-**Date :** 14 novembre 2026 · **Statut :** préparé, **non appliqué** · **Références :** [architecture du registre d'annonces](../evolution-5.0/ARCHITECTURE-REGISTRE-COMMERCIAL-ANNONCES-BESOINS-2026-11-06.md) (§6 : aucune table avant validation du modèle et des scénarios de sécurité), [vision §7 bis](VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md), registre §94–97.
+**Date :** 14 novembre 2026 · **Statut :** SQL **appliqué sur MajestiOS-Test** (jamais sur majestios-crm) · **Références :** [architecture du registre d'annonces](../evolution-5.0/ARCHITECTURE-REGISTRE-COMMERCIAL-ANNONCES-BESOINS-2026-11-06.md) (§6 : aucune table avant validation du modèle et des scénarios de sécurité), [vision §7 bis](VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md), registre §94–97.
 
 ## 1. Décision et principe
 
@@ -10,10 +10,10 @@ Les annonces publiées par les clients (offres et recherches de sous-traitance) 
 
 | Élément | Fichier | État |
 |---|---|---|
-| Modèle de données, fonctions et droits | `supabase/proposed/20261114210000_public_announcements.sql` | Écrit, **testé sur une base PostgreSQL 16 jetable** (hors Supabase), non appliqué |
+| Modèle de données, fonctions et droits | `supabase/proposed/20261114210000_public_announcements.sql` | Écrit, testé sur PostgreSQL 16 jetable, puis **appliqué sur MajestiOS-Test** le 14/11 (migration `public_announcements`) |
 | Scénarios de sécurité | `supabase/proposed/announcements.scenarios.sql` | Rejouables ; résultat obtenu : `SCENARIOS_OK` (voir §5) |
-| Formulaire de dépôt | `sous-traitance.html#deposer`, `annonces-formulaire.(mjs\|js\|css)` | Visible en **prévisualisation** : valide la saisie, **n'envoie rien** |
-| Interrupteur d'ouverture | `annonces-config.mjs` (`ANNONCES_OUVERTES = true`) | Fermé |
+| Formulaire de dépôt | `sous-traitance.html#deposer`, `annonces-formulaire.(mjs\|js\|css)` | Envoie vers **MajestiOS-Test** (valide la saisie, limites anti-abus côté base) |
+| Interrupteur d'ouverture | `annonces-config.mjs` (`ANNONCES_OUVERTES = true`) | Ouvert sur la branche de test seulement ; à décider avant tout passage en production |
 | Tests | `tests/annonces-formulaire.test.mjs`, `tests/annonces-formulaire.browser.cjs` | Réussis |
 
 ## 3. Modèle

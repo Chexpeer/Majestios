@@ -1065,7 +1065,17 @@ Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : proje
 
 | ID | Priorité | Sujet | Statut |
 |---|---|---|---|
-| ANN-01 | P1 | Stockage, relecture et formulaire de dépôt | **Préparé, non appliqué** : SQL dans `supabase/proposed/`, testé sur base PostgreSQL jetable ; formulaire en prévisualisation (`ANNONCES_OUVERTES = false`) ; aucun envoi |
-| ANN-02 | P1 | Validation juridique : avis, base légale, durées de conservation, retrait, responsabilité éditoriale | **Ouvert** (bloquant pour l'ouverture) |
-| ANN-03 | P1 | Autorisation d'appliquer le SQL sur une copie Supabase, puis rejouer les scénarios et le conseiller de sécurité | **Ouvert** (décision du porteur) |
-| ANN-04 | P2 | Page de relecture interne (VIP) et liste publique « Appels d'offres privés » | **À construire** après ANN-03 |
+| ANN-01 | P1 | Stockage, relecture et formulaire de dépôt | **Appliqué sur MajestiOS-Test** le 14/11 (pas sur majestios-crm) ; scénarios rejoués sur la vraie base ; formulaire branché sur Test (`ANNONCES_OUVERTES = true`, branche de test) |
+| ANN-02 | P1 | Validation juridique : avis, base légale, durées de conservation, retrait, responsabilité éditoriale | **Pris en charge par le porteur** (14/11) ; reste bloquant pour toute ouverture en production |
+| ANN-03 | P1 | Autorisation d'appliquer le SQL sur une copie Supabase, puis rejouer les scénarios et le conseiller de sécurité | **Fait** sur MajestiOS-Test (14/11) ; majestios-crm : décision à prendre |
+| ANN-04 | P2 | Page de relecture interne (VIP) et liste publique « Appels d'offres privés » | **Construit sur deux branches de test** (`test-annonces-liste-publique`, `test-annonces-relecture`), tests automatiques OK ; non fusionné ; relecture non encore essayée avec un vrai compte (limite d'envoi d'e-mails du projet Test, 14/11) |
+
+## 98. Consolidation du 14 novembre 2026 (soir)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| CONS-01 | P2 | Textes invitant à « vérifier l'avis officiel » alors que le site ne renvoie plus vers la source | **Corrigé** : formulations d'analyse/accompagnement (`opportunity-search.js`, `rubric-search.js`, `category-results.js`) |
+| CONS-02 | P2 | Documentation de l'état réel du site en retard sur la navigation (assistant, sous-traitance, entrées uniques) | **Corrigé** (`ETAT-REEL-SITE-ET-TRAJECTOIRE`) |
+| CONS-03 | P2 | Tests réseau directs BOAMP/BODACC (`boamp-live-smoke`, `bodacc-live-smoke`, `reputation-bodacc-query-smoke`) | **Non exécutables ici** (hôtes DILA bloqués) ; à rejouer depuis CI ou poste du porteur |
+| CONS-04 | P2 | Connexion e-mail du projet Test : lien envoyé vers `localhost:3000`, limite d'envois atteinte | **Ouvert** : régler « Site URL » / « Redirect URLs » dans Supabase (Authentication > URL Configuration), puis réessayer après la fenêtre de limite |
+| CONS-05 | P3 | Compte de test créé directement dans la base d'authentification (perspectivemarketing@gmail.com, propriétaire de l'organisation interne, projet Test) | **À supprimer ou à régulariser** avant toute reprise vers un projet réel |

@@ -32,8 +32,11 @@ Le mandat du 13 novembre (`AGENTS.md` §0 bis) interdisait toute modification vi
 | Appels d'offres | Appels d'offres publics · Marchés privés · Accompagnement appels d'offres · Veille des marchés · Sous-traitance |
 | Développement commercial | Vue d'ensemble · Prospection · Qualification des entreprises · Veille BODACC · Intelligence économique · Suivi commercial |
 | Réseau | Réseau et synergies · Salons & séminaires · Nous rejoindre |
-| Services | Réputation virtuelle · Facturation électronique |
-| Assistant | Assistant MajestiOS |
+| Réputation virtuelle | (entrée unique, sans sous-menu) |
+| Facturation électronique | (entrée unique, sans sous-menu) |
+| Accéder à mon espace personnel | Mon espace personnel · Créer mon espace personnel · Accès VIP · Administration |
+
+**Mise à jour du 14 novembre (soir), sur demande du porteur :** « Sous-traitance » ouvre le menu Appels d'offres ; l'assistant sort de la barre (sa bulle flottante suffit) ; Réputation virtuelle et Facturation électronique sont chacune une entrée unique de la barre. Le contrat de `verify-architecture.js` vaut désormais **18 entrées**, assistant absent de la barre.
 
 Principes appliqués : une rubrique = une seule place (plus de doublon Facturation / Accompagnement entre menus) ; BODACC et Intelligence économique relèvent du développement commercial, pas des appels d'offres.
 

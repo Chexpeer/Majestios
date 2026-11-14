@@ -343,7 +343,7 @@
             '<a class="button-primary button-compact opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Me positionner →</a>' +
             '</article>';
         }).join("");
-        empty.textContent = filtered.length + " résultat(s) affiché(s) depuis BOAMP. Les critères métier restent à confirmer à la lecture de l’avis officiel.";
+        empty.textContent = filtered.length + " résultat(s) affiché(s) depuis BOAMP. Les critères métier restent à confirmer : nous pouvons vous aider à analyser l’avis.";
         empty.insertAdjacentElement("afterend", results);
       } else {
         empty.textContent = records.length
@@ -353,7 +353,7 @@
 
       const sourceNote = document.createElement("p");
       sourceNote.className = "small-note opportunity-source-note";
-      sourceNote.textContent = "Source : BOAMP / DILA. Données consultées à la demande ; les résultats ne remplacent pas la vérification des documents officiels.";
+      sourceNote.textContent = "Source : BOAMP / DILA. Données consultées à la demande ; les résultats ne remplacent pas l’analyse du dossier de consultation.";
       (results.isConnected ? results : empty).insertAdjacentElement("afterend", sourceNote);
     } catch (error) {
       if (!request.isCurrent()) return;
