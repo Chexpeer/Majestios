@@ -17,7 +17,7 @@ Le mandat du 13 novembre (`AGENTS.md` §0 bis) interdisait toute modification vi
 | Performance du défilement | `background-attachment: fixed` remplacé par un calque `position: fixed` ; médiane mesurée 330 → 16,7 ms par image (test automatisé sans GPU, non équivalent à une mesure sur appareil réel) | `084f866` |
 | BODACC | Le moteur de la page `bodacc-veille-entreprises.html` est limité aux annonces d'entreprises (créations, cessions, radiations, procédures) ; il n'affiche plus de catégories d'appels d'offres | `1dcadb8` |
 | Cohérence des rubriques | Doublons de cartes retirés sur Facturation électronique et Suivi commercial ; carte Contact reformulée | `577cb67`, `c855601` |
-| Menu principal | **5 rubriques, 17 entrées, 17 destinations** (voir §3) | `48c4c5e` |
+| Menu principal | **5 rubriques de contenu + le menu d'espace personnel (6 menus), 19 entrées, 19 destinations** (voir §3) | `48c4c5e` |
 | Renvoi vers l'espace personnel | Bouton « Créer mon espace personnel » dans la barre ; bandeau de fin de page injecté par `navigation-tiroirs.js` sur les pages de rubrique | `48c4c5e` |
 | Textes d'attente | Longs paragraphes « évolution en préparation » remplacés par « En préparation. » sur cinq rubriques | `48c4c5e` |
 
@@ -38,13 +38,13 @@ Le mandat du 13 novembre (`AGENTS.md` §0 bis) interdisait toute modification vi
 Principes appliqués : une rubrique = une seule place (plus de doublon Facturation / Accompagnement entre menus) ; BODACC et Intelligence économique relèvent du développement commercial, pas des appels d'offres.
 
 **Décision du 14 novembre 2026 : le menu à 5 rubriques est conservé.** Il remplace, pour la branche de test, la décision Evolution-7. Écarts correspondants :
-1. « Accès VIP · Administration » n'est plus un sous-menu : c'est un lien distinct, discret (bordure or), à droite de la barre, à côté du bouton d'espace personnel ; il figure aussi en bas de `espace-membre.html` et `espace-prive.html`. `verify-site.js` a été adapté en conséquence. Le lien reste un simple accès : il ne remplace aucun contrôle d'accès.
+1. « Accès VIP · Administration » est une entrée du menu déroulant **« Accéder à mon espace personnel »** (à droite de la barre), avec « Mon espace personnel » et « Créer mon espace personnel » ; la barre n'est pas surchargée. Le lien figure aussi en bas de `espace-membre.html` et `espace-prive.html`. `verify-site.js` vérifie le lien sur `espace-prive.html`.
 2. « Réputation virtuelle » n'est plus une rubrique principale mais une entrée de « Services ». Le libellé « Réputation virtuelle » reste employé dans l'interface, conformément à `ARBORESCENCE-CIBLE-V5.md`.
-3. Le contrat de `verify-architecture.js` passe de 21/19 à 17/17 et de sept à cinq rubriques.
+3. Le contrat de `verify-architecture.js` passe de 21/19 à 19/19 et de sept à six menus (cinq rubriques de contenu et le menu d'espace personnel).
 
 ## 4. Espace personnel : libellé arrêté le 14 novembre 2026
 
-Décision du porteur : le bouton principal s'intitule **« Accéder à mon espace personnel »** (barre et bandeau de fin de page). **Sous** le bandeau figure : « Pas encore d'espace ? **Créer mon espace personnel** », qui renvoie à la section `#creation` de `espace-membre.html`.
+Décision du porteur : le menu déroulant de la barre et le bouton du bandeau de fin de page s'intitulent **« Accéder à mon espace personnel »**. **Sous** le bandeau figure : « Pas encore d'espace ? **Créer mon espace personnel** », qui renvoie à la section `#creation` de `espace-membre.html`.
 
 Tant que l'AUTH-01 n'est pas recetté (provisionnement OTP non démontré de bout en bout), cette section ne crée rien : elle indique que la création ouvrira après la validation de la connexion sécurisée et propose « Être prévenu de l'ouverture » (page Contact). La connexion reste réservée aux membres déjà habilités (`shouldCreateUser: false`, vérifié par `tests/auth-espace-membre-otp.test.cjs`).
 

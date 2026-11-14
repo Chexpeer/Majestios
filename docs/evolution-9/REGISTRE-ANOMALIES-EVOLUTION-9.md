@@ -995,7 +995,7 @@ Le plan de retour arrière et les critères d'arrêt sont détaillés en section
 
 | ID | Priorité | Domaine | Statut |
 |---|---|---|---|
-| NAV-TEST-01 | P2 | Menu à 5 rubriques / 17 entrées sur `test-ecriture-claude` ; remplace la décision Evolution-7 | **Validé par le porteur le 14 novembre 2026** pour la branche de test ; reprise dans `Evolution-9` à décider |
+| NAV-TEST-01 | P2 | Menu à 5 rubriques + menu d'espace personnel / 19 entrées sur `test-ecriture-claude` ; remplace la décision Evolution-7 | **Validé par le porteur le 14 novembre 2026** pour la branche de test ; reprise dans `Evolution-9` à décider |
 | CTA-TEST-01 | P1 | Libellé « Accéder à mon espace personnel » + lien « Créer mon espace personnel » (section `#creation`, sans création réelle) | Libellé corrigé le 14 novembre ; **création réelle ouverte seulement après recette AUTH-01** |
 | RECETTE-TEST-01 | P2 | BODACC/BOAMP réels, 13 pages à fonds, mobile : non vérifiés sur appareil réel | NOT RUN |
 

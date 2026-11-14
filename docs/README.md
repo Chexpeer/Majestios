@@ -59,7 +59,7 @@ Le guide conversationnel présent sur le site est un assistant local de premièr
 - `site-files.json` déclare **93 ressources**, dont **39 pages HTML**.
 - `verify-architecture.js` contrôle **21 entrées secondaires** et **19 destinations uniques**.
 - Les nombres 81 et 86 rencontrés dans des documents antérieurs correspondent à des états datés ou à des compteurs non réconciliés ; ils ne doivent pas être présentés comme le manifeste actuel.
-- **Branche de test `test-ecriture-claude` (14 novembre) :** 108 ressources dont 39 pages HTML ; contrat de menu **17 entrées / 17 destinations, 5 rubriques (validé le 14 novembre)**. Ces chiffres ne s'appliquent pas à `Evolution-9`, restée inchangée ; voir [État réel du site et trajectoire — 14 novembre 2026](evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
+- **Branche de test `test-ecriture-claude` (14 novembre) :** 108 ressources dont 39 pages HTML ; contrat de menu **19 entrées / 19 destinations, 6 menus dont l'espace personnel (validé le 14 novembre)**. Ces chiffres ne s'appliquent pas à `Evolution-9`, restée inchangée ; voir [État réel du site et trajectoire — 14 novembre 2026](evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
 - Une présence dans Git ne prouve ni déploiement Supabase, ni configuration distante, ni recette fonctionnelle.
 
 ## 6. Règles de vérité

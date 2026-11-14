@@ -47,7 +47,7 @@ La vision stratégique et le plan de réalisation restent les références produ
 
 Au 13 novembre 2026, sur le contenu de la branche `Evolution-9` :
 - `site-files.json` contient **93 chemins**, dont **39 fichiers HTML**.
-- `verify-architecture.js` attend **21 entrées secondaires** et **19 destinations uniques** sur `Evolution-9` ; la branche de test `test-ecriture-claude` attend 17 / 17 (voir `ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md`).
+- `verify-architecture.js` attend **21 entrées secondaires** et **19 destinations uniques** sur `Evolution-9` ; la branche de test `test-ecriture-claude` attend 19 / 19 (voir `ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md`).
 - Le nombre de 81 fichiers est une preuve de build historique sur un commit antérieur ; 86 n'est pas le compte du manifeste courant.
 - Le dépôt contient 392 entrées dans l'arbre Git au SHA contrôlé avant le lot documentaire ; ce nombre n'est pas un indicateur de fichiers publiés.
 

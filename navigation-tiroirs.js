@@ -97,7 +97,8 @@
       {label:"Développement commercial",href:"developpement-commercial.html",items:[["Vue d’ensemble","developpement-commercial.html"],["Prospection","prospection-active.html"],["Qualification des entreprises","qualification-entreprises.html"],["Veille BODACC","bodacc-veille-entreprises.html"],["Intelligence économique","intelligence-economique.html"],["Suivi commercial","suivi-commercial.html"]]},
       {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"],["Nous rejoindre","nous-rejoindre.html"]]},
       {label:"Services",href:"reputation-virtuelle.html",items:[["Réputation virtuelle","reputation-virtuelle.html"],["Facturation électronique","facturation-electronique.html"]]},
-      {label:"Assistant",href:"assistant-majestios.html",items:[["Assistant MajestiOS","assistant-majestios.html"]]}
+      {label:"Assistant",href:"assistant-majestios.html",items:[["Assistant MajestiOS","assistant-majestios.html"]]},
+      {label:"Accéder à mon espace personnel",href:"espace-membre.html",cls:"nav-account",items:[["Mon espace personnel","espace-membre.html"],["Créer mon espace personnel","espace-membre.html#creation"],["Accès VIP · Administration","espace-interne.html"]]}
     ];
     const current = location.pathname.split("/").pop() || "index.html";
     nav.replaceChildren();
@@ -129,6 +130,7 @@
       const section = document.createElement("section");
       section.className = "nav-drawer-section";
       section.dataset.navIndex = String(index+1);
+      if (group.cls) section.classList.add(group.cls);
       // Un onglet principal est un contrôle d'ouverture, jamais un lien.
       // Seuls les liens du sous-menu déclenchent une navigation.
       const title = document.createElement("button");
@@ -146,6 +148,7 @@
         a.href = href;
         a.textContent = label;
         if (href === "espace-interne.html") a.classList.add("nav-vip-link");
+        if (current === href.split("#")[0] && href.includes("#") === false) a.setAttribute("aria-current","page");
         if (current === href) a.setAttribute("aria-current","page");
         submenu.append(a);
       });
@@ -207,20 +210,6 @@
       section.append(title,submenu);
       nav.append(section);
     });
-    const admin = document.createElement("a");
-    admin.className = "nav-admin";
-    admin.href = "espace-interne.html";
-    admin.textContent = "Accès VIP · Administration";
-    if (current === "espace-interne.html") admin.setAttribute("aria-current","page");
-    nav.append(admin);
-
-    const cta = document.createElement("a");
-    cta.className = "nav-cta";
-    cta.href = "espace-membre.html";
-    cta.textContent = "Accéder à mon espace personnel";
-    if (current === "espace-membre.html") cta.setAttribute("aria-current","page");
-    nav.append(cta);
-
     // Bandeau de fin de page : renvoi quasi systématique vers l'espace personnel.
     const main = document.querySelector("main.interior-page");
     const skip = /^(espace-|crm|admin|contact|nous-rejoindre|assistant|mentions|confidentialite|cgu|faq)/;
