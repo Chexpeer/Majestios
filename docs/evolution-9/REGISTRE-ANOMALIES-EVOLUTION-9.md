@@ -1103,7 +1103,7 @@ Méthode : rejeu des 31 migrations CRM du dépôt sur une base PostgreSQL 16 jet
 
 | ID | Gravité | Constat | Statut |
 |---|---|---|---|
-| CRM-ACT-01 | P1 | `record_crm_activity()` : toute modification d'une **entreprise ou d'un contact** échoue (`record "old" has no field "status"`). Fonction identique (hash md5) sur `MajestiOS-Test` → bug réel là-bas ; probablement aussi sur `majestios-crm`. | Correctif candidat `20261114120000`, validé en local. **Non appliqué à distance**, validation propriétaire requise. |
+| CRM-ACT-01 | P1 | `record_crm_activity()` : toute modification d'une **entreprise ou d'un contact** échoue (`record "old" has no field "status"`). Fonction identique (hash md5) sur `MajestiOS-Test` → bug réel là-bas ; probablement aussi sur `majestios-crm`. | Correctif `20261114120000` validé en local, puis **appliqué sur MajestiOS-Test le 14/11 (carte blanche du propriétaire)** et vérifié par transaction annulée (création + modification entreprise/contact : OK, tables restées vides). **Non appliqué à `majestios-crm`.** |
 | CRM-TRG-01 | P1 | Doublon de triggers d'intégrité reproduit par le dépôt ; nettoyé à la main sur Test, absent du dépôt. | Migration `20261114120100` ajoutée (idempotente), validée en local. |
 | REM-INFO | info | Les relances ne sont créées que par la tâche planifiée (échéance dépassée), pas à l'insertion de l'opportunité. Comportement conforme à la conception. | — |
 
