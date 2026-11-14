@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { ZONES, SECTORS, sectorClause, familyClause, parseCreation, describeCreation, quoteValue } from "../veille-creations.mjs";
+import { ZONES, SECTORS, sectorClause, familyClause, parseCreation, describeCreation, quoteValue, detectSector, scoreCreation } from "../veille-creations.mjs";
 
 test("les quatre régions couvrent les départements attendus", () => {
   assert.equal(ZONES.idf.length, 8);
@@ -72,4 +72,31 @@ test("une annonce incomplète ou invalide ne provoque pas d'erreur", () => {
   assert.equal(parseCreation({}).activity, "");
   assert.equal(parseCreation({ listeetablissements: "{pas du json" }).activity, "");
   assert.equal(parseCreation({ listepersonnes: JSON.stringify({ personne: { typePersonne: "pm" } }) }).kindLabel, "Société");
+});
+
+test("le secteur est détecté sur mots entiers, accents ignorés", () => {
+  assert.equal(detectSector("travaux de maçonnerie générale"), "batiment");
+  assert.equal(detectSector("Restaurant traditionnel"), "hotellerie");
+  assert.equal(detectSector("exploitation d'un bar et d'une brasserie"), "hotellerie");
+  assert.equal(detectSector("barbier coiffeur"), "", "« bar » ne doit pas correspondre à « barbier »");
+  assert.equal(detectSector("vente de parfums"), "");
+  assert.equal(detectSector(""), "");
+});
+
+test("la note de priorité est expliquée et classe bien les cas", () => {
+  const now = new Date("2026-11-14T12:00:00Z");
+  const forte = scoreCreation({
+    isIndividual: false, activity: "travaux de plomberie et chauffage chez les particuliers",
+    registrationDate: "2026-11-05", address: "2 Avenue de la Gare, 35000 Rennes"
+  }, { now });
+  assert.equal(forte.label, "Prioritaire");
+  assert.ok(forte.score >= 70 && forte.score <= 100);
+  assert.ok(forte.reasons.some((r) => r.startsWith("Secteur bâtiment")));
+  assert.ok(forte.reasons.some((r) => r.startsWith("Société")));
+
+  const faible = scoreCreation({ isIndividual: true, activity: "", registrationDate: "2026-05-01", address: "" }, { now });
+  assert.equal(faible.label, "Faible");
+  assert.ok(faible.score < 45);
+  assert.ok(forte.score > faible.score);
+  assert.ok(scoreCreation({ isIndividual: false, activity: "x".repeat(30), registrationDate: "date invalide", address: "" }, { now }).score <= 100);
 });

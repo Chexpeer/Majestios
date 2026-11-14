@@ -17,14 +17,14 @@ export const SECTORS = Object.freeze({
       "bâtiment", "maçonnerie", "gros oeuvre", "plomberie", "chauffage", "climatisation", "électricité",
       "peinture", "menuiserie", "charpente", "couverture", "zinguerie", "carrelage", "plâtrerie", "isolation",
       "étanchéité", "rénovation", "terrassement", "serrurerie", "façade", "ravalement", "revêtement", "démolition",
-      "construction", "aménagement intérieur", "vitrerie"
+      "construction", "aménagement intérieur", "vitrerie", "plombier", "électricien", "maçon", "peintre", "menuisier", "couvreur", "carreleur", "plâtrier", "chauffagiste"
     ])
   }),
   hotellerie: Object.freeze({
     label: "Hôtellerie et restauration",
     keywords: Object.freeze([
       "restaurant", "restauration", "hôtel", "hôtellerie", "traiteur", "brasserie", "café", "débit de boissons",
-      "bar", "pizzeria", "snack", "crêperie", "hébergement", "chambre d'hôtes", "camping", "food truck", "kebab"
+      "bar", "pizzeria", "snack", "crêperie", "hébergement", "chambre d'hôtes", "camping", "food truck", "kebab", "hôtelier", "restaurateur"
     ])
   })
 });
@@ -113,4 +113,52 @@ export function describeCreation(parsed, dateLabel = (value) => value) {
     parsed.registrationDate && "Immatriculation : " + dateLabel(parsed.registrationDate),
     parsed.registry
   ], " · ");
+}
+
+function normalizeText(value) {
+  return String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+/** Secteur détecté dans le texte de l'activité (mot entier, accents ignorés), ou "". */
+export function detectSector(activity) {
+  const text = normalizeText(activity);
+  if (!text) return "";
+  for (const [key, sector] of Object.entries(SECTORS)) {
+    for (const keyword of sector.keywords) {
+      const word = normalizeText(keyword).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      if (new RegExp("(^|[^a-z0-9])" + word + "(s|x)?($|[^a-z0-9])").test(text)) return key;
+    }
+  }
+  return "";
+}
+
+function daysBetween(dateText, now) {
+  const time = Date.parse(dateText);
+  if (Number.isNaN(time)) return null;
+  return Math.floor((now.getTime() - time) / 86400000);
+}
+
+/**
+ * Note de priorité (0–100) d'une création, par règles simples et lisibles — sans IA.
+ * Chaque point attribué est expliqué dans `reasons`.
+ */
+export function scoreCreation(parsed, { now = new Date() } = {}) {
+  let score = 0;
+  const reasons = [];
+  const sector = detectSector(parsed.activity);
+  if (sector) { score += 30; reasons.push("Secteur " + SECTORS[sector].label.toLowerCase() + " (+30)"); }
+  if (parsed.isIndividual) { score += 10; reasons.push("Entrepreneur individuel (+10)"); }
+  else { score += 20; reasons.push("Société (+20)"); }
+  const age = daysBetween(parsed.registrationDate, now);
+  if (age !== null && age >= 0) {
+    if (age <= 14) { score += 20; reasons.push("Immatriculée il y a " + age + " j (+20)"); }
+    else if (age <= 30) { score += 15; reasons.push("Immatriculée il y a " + age + " j (+15)"); }
+    else if (age <= 60) { score += 10; reasons.push("Immatriculée il y a " + age + " j (+10)"); }
+  }
+  if (/\d/.test(parsed.address) && /\b\d{5}\b/.test(parsed.address)) { score += 10; reasons.push("Adresse complète (+10)"); }
+  if (parsed.activity.length >= 20) { score += 5; reasons.push("Activité décrite (+5)"); }
+  if (/(internet|en ligne|a distance|à distance|livraison|e-commerce|site web)/i.test(parsed.activity)) { score += 10; reasons.push("Activité liée au web ou à la livraison (+10)"); }
+  score = Math.min(100, score);
+  const label = score >= 70 ? "Prioritaire" : score >= 45 ? "À considérer" : "Faible";
+  return { score, label, reasons };
 }

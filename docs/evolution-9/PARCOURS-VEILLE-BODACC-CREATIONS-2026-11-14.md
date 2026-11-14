@@ -60,7 +60,12 @@ Jeu de données public `annonces-commerciales` (opendatasoft, BODACC A/B/C), dé
 | VEILLE-04 | Plafond mensuel global (100 ?) | Proposé, à confirmer |
 | VEILLE-05 | Lien avec le système de missions Cheexpeer (veille planifiée, approbation) | Après la recette ; `readiness_probe` reste seul soumissible d'ici là |
 
-## 8. Ordre de réalisation proposé (sur MajestiOS-Test)
+## 8. Avancement au 14 novembre 2026
+
+- **Fait (branche de test, page `admin-recherches.html`, comptes internes propriétaire/administrateur)** : liste des créations des quatre régions, filtre secteur (bâtiment, hôtellerie-restauration), affichage complet des éléments publiés, **tri par note de priorité** (0–100, règles lisibles, raisons affichées : secteur +30, société +20 / entrepreneur individuel +10, immatriculation récente jusqu'à +20, adresse complète +10, activité décrite +5, activité liée au web +10 ; « Prioritaire » ≥ 70, « À considérer » ≥ 45). Règles dans `veille-creations.mjs`, testées par `tests/veille-creations.test.mjs`.
+- **Non fait** : sélection « à auditer » persistante (nécessite une table sur la base du CRM, accord explicite requis), observations Google saisies, plafond mensuel, missions planifiées.
+
+## 9. Ordre de réalisation proposé (sur MajestiOS-Test)
 
 1. Liste des créations récentes des quatre régions, affichée à l'administrateur, sans aucune action automatique.
 2. Note de priorité par règles et sélection manuelle.
