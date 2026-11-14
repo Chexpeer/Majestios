@@ -210,7 +210,7 @@
     const cta = document.createElement("a");
     cta.className = "nav-cta";
     cta.href = "espace-membre.html";
-    cta.textContent = "Créer mon espace personnel";
+    cta.textContent = "Accéder à mon espace personnel";
     if (current === "espace-membre.html") cta.setAttribute("aria-current","page");
     nav.append(cta);
 
@@ -220,7 +220,7 @@
     if (main && !skip.test(current) && !main.querySelector(".page-cta")) {
       const band = document.createElement("aside");
       band.className = "page-cta";
-      band.innerHTML = '<p>Retrouvez vos recherches et votre suivi au même endroit.</p><a href="espace-membre.html">Créer mon espace personnel</a>';
+      band.innerHTML = '<p>Retrouvez vos recherches et votre suivi au même endroit.</p><div class="page-cta-actions"><a href="espace-membre.html">Accéder à mon espace personnel</a><small>Pas encore d’espace ? <a href="espace-membre.html#creation">Créer mon espace personnel</a></small></div>';
       main.append(band);
     }
     nav.querySelectorAll("a").forEach(a => a.addEventListener("click",() => {

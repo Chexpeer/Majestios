@@ -75,3 +75,9 @@ html body .site-nav .nav-cta:hover{filter:brightness(1.08);transform:translateY(
 html body main.interior-page .page-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin:32px 0 0;padding:16px 22px;border:1px solid rgba(213,181,108,.55);border-radius:14px;background:linear-gradient(90deg,rgba(8,20,40,.78),rgba(8,20,40,.5))}
 html body main.interior-page .page-cta p{margin:0;color:#eef2f7;font-size:15px}
 html body main.interior-page .page-cta a{padding:9px 18px;border-radius:999px;font-weight:700;color:#1a1204;text-decoration:none;background:linear-gradient(180deg,#f6dd9a,#d5b56c);box-shadow:0 2px 8px rgba(0,0,0,.35)}
+html body main.interior-page .page-cta .page-cta-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+html body main.interior-page .page-cta small{color:#c3cfdc;font-size:12.5px}
+html body main.interior-page .page-cta small a{padding:0;background:none;box-shadow:none;color:#f0d38b;font-weight:600;text-decoration:underline}
+html body main.interior-page .member-creation{margin:22px 0;padding:18px 22px;border:1px solid rgba(213,181,108,.5);border-radius:14px;background:rgba(8,20,40,.72)}
+html body main.interior-page .member-creation h2{margin:0 0 6px;font-size:20px}
+html body main.interior-page .member-creation p{margin:0 0 12px}
