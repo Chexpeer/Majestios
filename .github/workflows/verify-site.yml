@@ -33,6 +33,9 @@ jobs:
           node --check supabase/functions/_shared/reputation-audit-analysis.mjs
           node --check tests/reputation-audit-analysis.test.mjs
           node --check tests/cheexpeer-api-security.test.mjs
+          node --check tests/cheexpeer-command.test.mjs
+          node --check admin-cheexpeer.js
+          node --check cheexpeer-command.mjs
           node --check tests/cheexpeer-sql-migration-contract.test.mjs
           node --check supabase/functions/_shared/reputation-audit-core.mjs
           node --check supabase/functions/_shared/reputation-audit-connectors.mjs
@@ -53,6 +56,7 @@ jobs:
           node --check verify-architecture.js
           node --check build.js
           node --check tests/reputation-virtuelle.browser.cjs
+          node --check tests/admin-cheexpeer.browser.cjs
           node --check tests/navigation-classique.browser.cjs
           node --check company-targeting.js
           node --check company-targeting-page.js
@@ -86,7 +90,7 @@ jobs:
           node --input-type=module --check < crm-business-filters.js
           node --input-type=module --check < crm-client.js
       - name: Tester l'identité et l'isolation inter-organisations des API Cheexpeer
-        run: node --test tests/cheexpeer-api-security.test.mjs tests/cheexpeer-sql-migration-contract.test.mjs
+        run: node --test tests/cheexpeer-api-security.test.mjs tests/cheexpeer-sql-migration-contract.test.mjs tests/cheexpeer-command.test.mjs
       - name: Tester le contrat du moteur d'audit interne Cheexpeer
         run: node --test tests/reputation-audit-core.test.mjs
       - name: Tester le registre et le premier connecteur de Réputation virtuelle
@@ -153,6 +157,8 @@ jobs:
         run: node tests/opportunity-search.browser.cjs
       - name: Tester le dossier et les consultations de Réputation virtuelle
         run: node tests/reputation-virtuelle.browser.cjs
+      - name: Tester le centre de commande Cheexpeer (API simulées)
+        run: node tests/admin-cheexpeer.browser.cjs
       - name: Tester les menus de navigation sur mobile et ordinateur
         run: node tests/navigation-dropdown.browser.cjs
       - name: Tester le parcours de contact sans transmission de données
