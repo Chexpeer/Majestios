@@ -52,6 +52,18 @@ const mime = { ".html": "text/html", ".js": "text/javascript", ".mjs": "text/jav
     assert.notEqual(label, "rgb(194, 110, 112)", "Libellé de formulaire encore rose.");
     const box = await page.locator('[name="consent"]').evaluate((e) => ({ display: getComputedStyle(e).display, width: e.getBoundingClientRect().width }));
     assert.ok(box.width < 40, "La case à cocher ne doit pas occuper toute la largeur.");
+    // Effet « vitre » : calques décoratifs, jamais cliquables, absents des pages d'administration.
+    await page.goto("http://127.0.0.1:4184/index.html", { waitUntil: "load" });
+    const glass = await page.evaluate(() => ({
+      html: getComputedStyle(document.documentElement, "::after").pointerEvents,
+      body: getComputedStyle(document.body, "::after").pointerEvents,
+      content: getComputedStyle(document.documentElement, "::after").content
+    }));
+    assert.equal(glass.html, "none", "La vitre ne doit jamais capter le clic.");
+    assert.equal(glass.body, "none", "L'éclat ne doit jamais capter le clic.");
+    assert.notEqual(glass.content, "none", "Le calque de vitre doit exister sur l'accueil.");
+    await page.goto("http://127.0.0.1:4184/administration.html", { waitUntil: "load" });
+    assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement, "::after").content), "none", "Pas de vitre sur l'administration.");
     console.log("Harmonisation visuelle : cube cristal, échelle typographique et formulaires vérifiés.");
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); process.exit(1); });

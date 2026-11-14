@@ -1,5 +1,6 @@
 @import url("fonds-harmonises.css");
 @import url("navigation-3d.css");
+@import url("vitre-majestios.css");
 /* Source unique des fondations graphiques MajestiOS.
    Les composants publics et privés consomment ces mêmes valeurs. */
 :root {
