@@ -1046,3 +1046,9 @@ Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : proje
 | UI-01 | P3 | Bouton « Me positionner » réduit (`.button-compact`), aussi utilisé pour les autres actions secondaires | Fait |
 | ANN-01 | P1 | Annonces gratuites de sous-traitance (offre / recherche) pour rendre visibles les marchés privés : présentées sur `sous-traitance.html#annonces`, relais depuis `marches-prives.html` ; options ajoutées au formulaire de contact | **Annoncé « en préparation »** : aucune publication possible tant que n'existent pas la table d'annonces, la relecture avant publication, l'anti-abus et le masquage des coordonnées (modèle : ARCHITECTURE-REGISTRE-COMMERCIAL-ANNONCES-BESOINS-2026-11-06). Nécessite l'autorisation Supabase (lot L2). |
 | FORM-01 | P1 | Le formulaire de contact est une prévisualisation : il n'envoie ni n'enregistre rien. L'entonnoir « formulaire ou espace personnel » ne fonctionne donc pas encore pour de vrai. | **Ouvert** : brancher l'enregistrement (table `client_requests` du CRM) après autorisation. |
+
+## 95. Barre de navigation (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| NAV-01 | P2 | Décision du porteur : « Sous-traitance » en première entrée de l'onglet « Appels d'offres » ; « Assistant » retiré de la barre (présence flottante conservée, page `assistant-majestios.html` toujours publiée) ; « Réputation virtuelle » et « Facturation électronique » deviennent chacune une entrée unique de la barre, à la place du groupe « Services » | Fait sur la branche de test (menu commun, menu de repli des 34 pages, gardes et test navigateur mis à jour : 18 entrées secondaires). Lecture retenue de « sous-rubrique unique » : une seule place par rubrique, sans groupe « Services » ; à confirmer. |

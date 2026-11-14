@@ -58,8 +58,8 @@ async function main() {
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
 
     assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,"Les six menus de navigation doivent être présents.");
-    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),20,"Le menu doit exposer les 20 entrées secondaires.");
-    assert.equal(await page.locator("#site-nav a").count(),21,"Le menu doit exposer Accueil et les 20 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),19,"Le menu doit exposer les 19 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav a").count(),20,"Le menu doit exposer Accueil et les 19 entrées secondaires.");
     assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"40px",
       "La barre de navigation doit rester compacte.");
     assert.equal(await page.locator(".nav-group-link").first().evaluate(node=>getComputedStyle(node).fontSize),"11px",
@@ -96,7 +96,7 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     for(const href of navigationHrefs) assert.ok(published.has(href.split("#")[0]),"Chaque destination du menu doit être publiée : "+href);
-    for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","facturation-electronique.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html","assistant-majestios.html"]) {
+    for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","facturation-electronique.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html"]) {
       assert.ok(published.has(route),"La route doit être publiée : "+route);
       assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),1,"Le menu doit exposer le nombre attendu de liens vers "+route);
     }
@@ -108,9 +108,11 @@ async function main() {
     const opportunityTitle=opportunityGroup.locator(".nav-group-link");
     const opportunityMenu=opportunityGroup.locator(".nav-group-items");
     const devGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
-    const servicesGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Services"})});
-    assert.equal(await servicesGroup.locator('a[href="facturation-electronique.html"]').count(),1,"La facturation électronique doit être accessible depuis Services.");
-    assert.equal(await devGroup.locator('.nav-group-items a[href="facturation-electronique.html"]').count(),0,"La facturation électronique ne doit apparaître qu’à une seule place (Services).");
+    assert.equal(await page.locator('#site-nav a[href="facturation-electronique.html"]').count(),1,"La facturation électronique doit être une entrée unique du menu.");
+    assert.equal(await page.locator('#site-nav a[href="reputation-virtuelle.html"]').count(),1,"La réputation virtuelle doit être une entrée unique du menu.");
+    assert.equal(await page.locator('#site-nav a[href="assistant-majestios.html"]').count(),0,"L’assistant ne doit plus figurer dans la barre de navigation (présence flottante).");
+    assert.equal(await opportunityGroup.locator('.nav-group-items a').first().getAttribute("href"),"sous-traitance.html","La sous-traitance doit ouvrir la liste de l’onglet Appels d’offres.");
+    assert.equal(await devGroup.locator('.nav-group-items a[href="facturation-electronique.html"]').count(),0,"La facturation électronique ne doit pas figurer dans Développement commercial.");
     assert.equal(await opportunityTitle.getAttribute("aria-expanded"),"false","Les sous-menus doivent être repliés au chargement.");
     await opportunityGroup.hover();
     assert.equal(await opportunityMenu.isVisible(),true,"Le survol doit ouvrir le sous-menu sur ordinateur.");
@@ -140,10 +142,6 @@ async function main() {
       "Le chatbot doit proposer un lien vers la rubrique concernée.");
 
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
-    const assistantGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Assistant"})});
-    await assistantGroup.locator(".nav-group-link").click();
-    await page.waitForURL("**/assistant-majestios.html");
-    assert.match(page.url(),/assistant-majestios\.html$/,"L'entrée Assistant du menu doit ouvrir son espace dédié.");
 
     await page.setViewportSize({width:390,height:844});
     await page.reload({waitUntil:"domcontentloaded"});
