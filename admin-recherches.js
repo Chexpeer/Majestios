@@ -1,4 +1,5 @@
 import { safeOfficialSourceUrl } from "./official-source-links.mjs";
+import { ZONES, sectorClause, familyClause, parseCreation } from "./veille-creations.mjs";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 const supabase=createClient(MAJESTIOS_SUPABASE.url,MAJESTIOS_SUPABASE.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
@@ -17,8 +18,8 @@ async function authorize(){
 signout.addEventListener("click",async()=>{await supabase.auth.signOut();lock("Vous êtes déconnecté.");});
 supabase.auth.onAuthStateChange(event=>{if(event==="SIGNED_OUT")lock("Vous êtes déconnecté.");});
 try{await authorize();}catch(e){lock(e?.message||"La vérification des habilitations a échoué.",true);}
-const form=document.querySelector("#search-form"),source=document.querySelector("#source"),family=document.querySelector("#family"),marketType=document.querySelector("#market-type"),dateFrom=document.querySelector("#date-from"),dateTo=document.querySelector("#date-to"),territoryInputs=[...document.querySelectorAll('input[name="territory"]')],department=document.querySelector("#department"),keyword=document.querySelector("#keyword"),limit=document.querySelector("#limit"),submit=document.querySelector("#submit"),status=document.querySelector("#status"),results=document.querySelector("#results"),count=document.querySelector("#count");
-const zones={pdl:["44","49","53","72","85"],idf:["75","77","78","91","92","93","94","95"]};
+const form=document.querySelector("#search-form"),source=document.querySelector("#source"),family=document.querySelector("#family"),marketType=document.querySelector("#market-type"),dateFrom=document.querySelector("#date-from"),dateTo=document.querySelector("#date-to"),territoryInputs=[...document.querySelectorAll('input[name="territory"]')],department=document.querySelector("#department"),keyword=document.querySelector("#keyword"),sector=document.querySelector("#sector"),limit=document.querySelector("#limit"),submit=document.querySelector("#submit"),status=document.querySelector("#status"),results=document.querySelector("#results"),count=document.querySelector("#count");
+const zones=ZONES;
 function setStatus(message,error=false){status.textContent=message;status.classList.toggle("error",error);}
 source.addEventListener("change",()=>{const isBodacc=source.value==="bodacc";family.disabled=!isBodacc;family.closest(".search-field").style.opacity=isBodacc?"1":".55";marketType.disabled=isBodacc;marketType.closest(".search-field").style.opacity=isBodacc?".55":"1";});
 source.dispatchEvent(new Event("change"));
@@ -34,15 +35,16 @@ function dateLabel(value){if(!value)return "Date non renseignée";const d=new Da
 function render(items,kind){
  results.innerHTML="";if(!items.length){results.innerHTML='<div class="search-status">Aucun résultat ne correspond à ces critères. Élargissez le territoire ou modifiez le mot-clé.</div>';return;}
  for(const item of items){
-  const bodacc=kind==="bodacc",title=bodacc?(item.commercant||item.id||"Annonce BODACC"):(item.objet||item.idweb||"Avis BOAMP");
+  const bodacc=kind==="bodacc",title=bodacc?((item.listepersonnes&&parseCreation(item).isIndividual&&["Créations","Immatriculations"].includes(item.familleavis_lib))?("Entrepreneur individuel — "+(item.ville||"commune non précisée")):(item.commercant||item.id||"Annonce BODACC")):(item.objet||item.idweb||"Avis BOAMP");
   const date=bodacc?(item.dateparution||item.dateparution_lib):(item.dateparution||item.datefindiffusion);
   const dept=bodacc?(item.numerodepartement||""):(item.code_departement||item.code_departement_prestation||"");
   const place=bodacc?[item.ville,item.departement_nom_officiel].filter(Boolean).join(" · "):[item.nomacheteur,dept?("Département "+dept):""].filter(Boolean).join(" · ");
   const category=bodacc?(item.familleavis_lib||"Annonce commerciale"):(item.nature_libelle||item.type_marche||"Avis de marché");
-  const description=bodacc?(item.acte||item.jugement||item.modificationsgenerales||""):(item.descripteur_libelle||item.DONNEES?.INDEXATION?.RESUME_OBJET||"");
+  const creation=bodacc&&["Créations","Immatriculations"].includes(item.familleavis_lib)?parseCreation(item):null;
+  const description=creation&&creation.activity?("Activité : "+creation.activity+(creation.startDate?" · Début d’activité : "+dateLabel(creation.startDate):"")+(creation.registrationDate?" · Immatriculation : "+dateLabel(creation.registrationDate):"")):bodacc?(item.acte||item.jugement||item.modificationsgenerales||""):(item.descripteur_libelle||item.DONNEES?.INDEXATION?.RESUME_OBJET||"");
   const href=safeOfficialSourceUrl(bodacc?item.url_complete:item.url_avis,kind);
   const card=document.createElement("article");card.className="result-card";
-  card.innerHTML='<div class="result-top"><div><div class="result-source">'+(bodacc?"BODACC · DILA":"BOAMP · DILA")+'</div><h3>'+escapeHtml(title)+'</h3><div class="result-meta"><span>'+escapeHtml(dateLabel(date))+'</span><span>'+escapeHtml(place||"Territoire non précisé")+'</span><span>'+escapeHtml(category)+'</span></div></div><span class="result-badge">À qualifier</span></div><p class="result-detail">'+escapeHtml(typeof description==="string"?description:JSON.stringify(description)).slice(0,650)+'</p><a class="result-link" target="_blank" rel="noopener noreferrer" href="'+escapeHtml(href)+'">Consulter l’annonce officielle ↗</a>';
+  card.innerHTML='<div class="result-top"><div><div class="result-source">'+(bodacc?"BODACC · DILA":"BOAMP · DILA")+'</div><h3>'+escapeHtml(title)+'</h3><div class="result-meta"><span>'+escapeHtml(dateLabel(date))+'</span><span>'+escapeHtml(place||"Territoire non précisé")+'</span><span>'+escapeHtml(category)+'</span></div></div><span class="result-badge">'+escapeHtml(creation?creation.kindLabel+' · à qualifier':'À qualifier')+'</span></div><p class="result-detail">'+escapeHtml(typeof description==="string"?description:JSON.stringify(description)).slice(0,650)+'</p><a class="result-link" target="_blank" rel="noopener noreferrer" href="'+escapeHtml(href)+'">Consulter l’annonce officielle ↗</a>';
   results.append(card);
  }
 }
@@ -54,12 +56,13 @@ form.addEventListener("submit",async event=>{
  try{
   const base=kind==="bodacc"?"https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records":"https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records";
   const clauses=[];if(terms.length){if(kind==="bodacc"){clauses.push("numerodepartement IN ("+terms.map(quote).join(",")+")");}else{const list=terms.map(quote).join(",");clauses.push("(code_departement IN ("+list+") OR code_departement_prestation IN ("+list+"))");}}
-  if(kind==="bodacc"&&family.value)clauses.push("familleavis_lib = "+quote(family.value));
+  if(kind==="bodacc"&&family.value)clauses.push(familyClause(family.value));
+  if(kind==="bodacc"&&sector.value)clauses.push(sectorClause(sector.value));
   if(kind==="boamp"&&marketType.value)clauses.push("type_marche = "+quote(marketType.value));
   if(dateFrom.value)clauses.push("dateparution >= date"+quote(dateFrom.value));
   if(dateTo.value)clauses.push("dateparution <= date"+quote(dateTo.value));
   if(kw){const fields=kind==="bodacc"?["commercant","ville","tribunal"]:["objet","nomacheteur","descripteur_libelle"];clauses.push("("+fields.map(f=>"search("+f+", "+quote(kw)+")").join(" OR ")+")");}
-  const selected=kind==="bodacc"?"id,dateparution,numerodepartement,departement_nom_officiel,commercant,ville,familleavis_lib,acte,jugement,url_complete":"idweb,id,objet,dateparution,datefindiffusion,code_departement,code_departement_prestation,nomacheteur,nature_libelle,type_marche,descripteur_libelle,url_avis";
+  const selected=kind==="bodacc"?"id,dateparution,numerodepartement,departement_nom_officiel,commercant,ville,familleavis_lib,acte,jugement,listepersonnes,listeetablissements,url_complete":"idweb,id,objet,dateparution,datefindiffusion,code_departement,code_departement_prestation,nomacheteur,nature_libelle,type_marche,descripteur_libelle,url_avis";
   const params=new URLSearchParams({limit:limit.value,order_by:"dateparution DESC",select:selected});if(clauses.length)params.set("where",clauses.join(" AND "));
   const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),20000);
   let response;try{response=await fetch(base+"?"+params.toString(),{headers:{Accept:"application/json"},signal:controller.signal});}finally{clearTimeout(timeout);}
