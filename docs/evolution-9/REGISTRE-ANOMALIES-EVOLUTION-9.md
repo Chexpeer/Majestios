@@ -1093,4 +1093,4 @@ Demande du porteur : police trop grande par endroits, couleurs inadaptées, cube
 | VIS-05 | P2 | Cube : rendu cristal (verre, arêtes, noyau), titre et phrase sur chaque face, sans promesse de capacité non déployée | **Fait** ; test `tests/harmonisation-visuelle.browser.cjs` (ordinateur et téléphone, sans défilement horizontal) |
 | VIS-06 | P3 | Couleurs de rubrique de la barre de navigation (vert, violet, bronze) : cohérence avec le bleu nuit et l'or | **Ouvert** : conservées (décision de la branche de test) ; à valider par le porteur |
 | VIS-07 | P3 | Test visuel sur appareil réel (rendu 3D, performance du cube) | **Ouvert** : seules des captures de navigateur sans GPU ont été faites |
-
+| VIS-08 | P1 | Illustration « Les bonnes pistes » absente sur Développement commercial (erreur 404 en ligne) | **Corrigé** : `assets/visuels/rubrique-prospection.svg` était dans le dépôt mais absent de `site-files.json`, donc non publié. Nouveau contrôle dans `verify-site.js` : toute ressource locale appelée par une page doit figurer au manifeste. Les trois autres illustrations de `assets/visuels/` ne sont appelées par aucune page et restent non publiées. |

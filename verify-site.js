@@ -28,6 +28,16 @@ for (const file of siteFiles) {
   assert(exists(file) && fs.statSync(path.join(root, file)).isFile(), "Build : ressource déclarée absente ou non-fichier : " + file);
 }
 for (const page of pages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
+// Toute ressource locale appelée par une page (image, script, feuille de style, module) doit être publiée :
+// un fichier présent dans le dépôt mais absent du manifeste donne une erreur 404 une fois en ligne.
+for (const page of pages) {
+  const html = fs.readFileSync(path.join(root, page), "utf8");
+  for (const match of html.matchAll(/\b(?:src|href)="([^"#?]+\.(?:svg|png|jpe?g|webp|gif|ico|js|mjs|css|json|webmanifest))(?:[?#][^"]*)?"/g)) {
+    const ref = match[1];
+    if (/^(?:[a-z]+:)?\/\//i.test(ref) || ref.startsWith("data:")) continue;
+    assert(siteFiles.includes(ref.replace(/^\.\//, "")), page + " : ressource appelée mais absente du manifeste (404 en ligne) : " + ref);
+  }
+}
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), "utf8");
   assert(html.includes('src="navigation-tiroirs.js"'), page + " : navigation commune et accès VIP non chargés");
