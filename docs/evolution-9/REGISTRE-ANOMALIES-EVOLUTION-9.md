@@ -1027,3 +1027,11 @@ Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : proje
 | ID | Priorité | Sujet | Statut |
 |---|---|---|---|
 | VEILLE-01…05 | P2 | Veille des créations récentes (Île-de-France, Normandie, Pays de la Loire, Bretagne), tri, audit de communication, observations Google saisies par l'utilisateur, plafond mensuel | **Conçu, non déployé** ; test BODACC en lecture seule réalisé (≈ 10 000 créations/semaine en France). Détail : [PARCOURS-VEILLE-BODACC-CREATIONS-2026-11-14.md](PARCOURS-VEILLE-BODACC-CREATIONS-2026-11-14.md) |
+
+## 93. Plateformes agréées, offre de partenariat, alignement du site (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| PA-01 | P1 | Étude comparative des plateformes agréées (lot P2-03) | **Première étude rédigée** : [ETUDE-COMPARATIVE-PLATEFORMES-AGREEES-2026-11-14.md](ETUDE-COMPARATIVE-PLATEFORMES-AGREEES-2026-11-14.md) ; sources secondaires, liste officielle à vérifier par le porteur ; aucun partenaire retenu |
+| PA-02 | P1 | Offre de partenariat adressée à une plateforme agréée | Rédigée (document Claude Docs « MajestiOS — Proposition de partenariat avec une plateforme agréée ») ; champs d'identité de l'entreprise à compléter avant envoi |
+| SITE-ALIGN-01 | P2 | Phase 2 §5 (Evolution-7) prévoyait une thématique facturation électronique dans « Accompagnement aux appels d'offres » ; la décision validée du 14/11 (« une rubrique = une place », qui remplace Evolution-7) et le contrôle `verify-site.js` l'interdisent | **Non appliqué** : la facturation reste une rubrique distincte ; à reconfirmer par le porteur si l'ancienne orientation doit revenir |
