@@ -4,6 +4,7 @@
 
 ## 1. Où trouver les informations
 
+- **Charte de rôle de Cheexpeer :** [CHARTE-ROLE-CHEEXPEER-2026-11-14.md](../evolution-9/CHARTE-ROLE-CHEEXPEER-2026-11-14.md)
 - **Dossier d'accueil de Cheexpeer :** [DOSSIER-ACCUEIL-CHEEXPEER-2026-11-14.md](../evolution-9/DOSSIER-ACCUEIL-CHEEXPEER-2026-11-14.md)
 - **Méthode de travail (documentation → Test → CRM) :** [METHODE-DE-TRAVAIL-DOCUMENTATION-TEST-CRM.md](../METHODE-DE-TRAVAIL-DOCUMENTATION-TEST-CRM.md)
 - **Registre actif Evolution-9 :** [REGISTRE-ANOMALIES-EVOLUTION-9.md](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md)
