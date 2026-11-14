@@ -55,6 +55,9 @@
                 <option value="general">Question générale</option>
                 <option value="public-market">Accompagnement — marchés publics</option>
                 <option value="private-market">Développement commercial — marchés privés</option>
+                <option value="subcontract-need">Annonce gratuite — je cherche un sous-traitant</option>
+                <option value="subcontract-offer">Annonce gratuite — je propose mes services en sous-traitance</option>
+                <option value="invoicing">Facturation électronique — être recontacté</option>
                 <option value="partnership">Proposition de partenariat</option>
                 <option value="collaboration">Rejoindre ou contribuer à MajestiOS</option>
               </select>
@@ -101,14 +104,14 @@
       const params = new URLSearchParams(window.location.search);
       const subject = params.get("objet");
       const subjectField = document.getElementById("contact-subject");
-      if (subjectField && ["general", "public-market", "private-market", "partnership", "collaboration"].includes(subject)) {
+      if (subjectField && ["general", "public-market", "private-market", "partnership", "collaboration", "subcontract-need", "subcontract-offer", "invoicing"].includes(subject)) {
         subjectField.value = subject;
       }
       const source = params.get("source");
       const reference = params.get("reference");
       const context = document.getElementById("opportunity-context");
       if (context && ["BOAMP", "BODACC"].includes(source) && reference) {
-        context.textContent = "Votre demande concerne une annonce " + source + " — référence " + reference + ". Les critères de recherche ont été conservés ; vérifiez l’avis officiel avant tout échange.";
+        context.textContent = "Votre demande concerne une annonce " + source + " — référence " + reference + ". Les critères de recherche ont été conservés.";
         context.hidden = false;
       }
     })();

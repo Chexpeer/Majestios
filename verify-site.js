@@ -73,8 +73,11 @@ for (const page of pages) {
 const eInvoicePage = fs.readFileSync(path.join(root, "facturation-electronique.html"), "utf8");
 assert(eInvoicePage.includes("MISE EN CONFORMITÉ") && eInvoicePage.includes("La réforme change vos habitudes de facturation.") && eInvoicePage.includes("Vérifiez vos obligations et préparez vos outils."), "Facturation électronique : message de mise en conformité absent");
 assert(eInvoicePage.includes("1er septembre 2026") && eInvoicePage.includes("1er septembre 2027"), "Facturation électronique : calendrier réglementaire incomplet");
-assert(eInvoicePage.includes("facturation-electronique-qu-est-ce-que-ca-change-pour-moi"), "Facturation électronique : simulateur officiel absent");
-assert(eInvoicePage.includes("je-consulte-la-liste-des-plateformes-agreees"), "Facturation électronique : liste officielle des plateformes agréées absente");
+const opportunityScript = fs.readFileSync(path.join(root, "opportunity-search.js"), "utf8");
+assert(!/Consulter l’(avis|annonce) officiel/.test(opportunityScript) && !/target = "_blank"/.test(opportunityScript), "Listes d'appels d'offres : aucun lien sortant vers la source ne doit être affiché");
+// Décision du porteur (14/11/2026) : la page ne renvoie plus vers les sources ; elle oriente vers le diagnostic et le formulaire de contact.
+assert(!/href="https?:\/\/[^"]*impots\.gouv\.fr/.test(eInvoicePage), "Facturation électronique : aucun lien sortant vers la source ne doit subsister");
+assert(eInvoicePage.includes("contact.html?objet=facturation"), "Facturation électronique : accès au formulaire de contact absent");
 assert(eInvoicePage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : statut de MajestiOS à clarifier");
 
 const assistantPage = fs.readFileSync(path.join(root, "assistant-majestios.html"), "utf8");
