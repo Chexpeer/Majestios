@@ -9,10 +9,10 @@ Objectif du propriétaire : Cheexpeer sera l'administrateur du site ; il doit tr
 | API de soumission, d'approbation, de lecture | **Déployées et actives** sur Test (`cheexpeer-mission-submit`, `-approval-decision`, `-mission-read`, JWT vérifié) | Les documents du 11/11 les disaient « absentes » / « non déployées » |
 | Pont du worker | Déployé sous le nom `cheexpeer-worker` ; le dépôt le nomme `cheexpeer-worker-bridge` | **Écart de nom à réconcilier** (CHX-01) |
 | Registre des outils | 2 outils, **tous deux désactivés** : `test_executor`, `worker_self_check` | `worker_self_check` est bien enregistré (la spec disait « absent ») |
-| Type de mission accepté par l'API | **`readiness_probe` uniquement**, autonomie 0 | La spécification parle de `worker_self_check` : le nom technique réel du diagnostic soumis est `readiness_probe` (CHX-02) |
+| Type de mission accepté par l'API | **`readiness_probe` uniquement**, autonomie 0 | **Décision du propriétaire (14/11)** : `worker_self_check` reste désactivé et non soumettable jusqu'à la recette |
 | Missions déjà présentes | 5 (issues de tests antérieurs) | À identifier avant la recette (CHX-03) |
 | Dernière migration | `20261114215058` | — |
-| Fournisseur IA et secrets | Non configurés (aucune clé dans Git, à créer par le propriétaire) | Inchangé |
+| Fournisseur IA | **Anthropic (Claude), choisi, branché et validé** : adaptateur natif Messages API ; test réel réussi le 14/11 sur Test (audit réputation, 4 constats étayés, `claude-sonnet-5-5`). Clé enregistrée par le propriétaire ; ancienne clé révoquée | Mon premier jet le disait « non configuré » : corrigé (registre §91) |
 | Worker hébergé | Non installé | Inchangé |
 
 ## 2. Ce que Cheexpeer trouvera sur le site
@@ -26,11 +26,11 @@ Objectif du propriétaire : Cheexpeer sera l'administrateur du site ; il doit tr
 ## 3. Ce qui manque avant son arrivée (ordre recommandé)
 
 1. **Comptes de test** multi-identités (propriétaire, à faire demain) — prérequis de toute recette d'accès.
-2. **Fournisseur IA** : choix, budget, clé dédiée « cheexpeer-test », secrets Supabase de Test (procédure dans `ETAT-REEL-SITE-ET-TRAJECTOIRE` §10).
+2. **Fournisseur IA** : déjà fait pour l'audit de réputation. Reste à : fixer un plafond de dépense mensuel sur la console Anthropic, et prévoir une **clé distincte** pour le worker (et plus tard pour la production).
 3. **Origine autorisée** : la variable `ALLOWED_ORIGINS` des API doit contenir l'adresse de la page (aperçu Vercel ou domaine final) sinon le navigateur est refusé (CHX-04, à vérifier par le propriétaire).
 4. **Worker** hébergé séparément, avec ses secrets propres (jamais ceux d'un utilisateur).
 5. **Recette §8 de la spécification** : owner/admin, member, externe, inter-organisations, idempotence, bail expiré. Activation du registre **seulement après** réussite.
-6. **Réconcilier** le nom du pont (CHX-01) et la terminologie `readiness_probe` / `worker_self_check` (CHX-02).
+6. **Réconcilier** le nom du pont (CHX-01).
 7. Plus tard : chat Cheexpeer, lecture CRM contrôlée, connecteur GitHub en lecture, archivage et capitalisation (voir `LOT-CHEEXPEER-INTEGRATION` §7).
 
 ## 4. Limites permanentes de Cheexpeer
@@ -42,7 +42,7 @@ Aucun merge, déploiement ni changement de production sans décision explicite d
 | ID | Sujet | Statut |
 |---|---|---|
 | CHX-01 | Nom du pont : `cheexpeer-worker` (distant) ≠ `cheexpeer-worker-bridge` (dépôt) | Ouvert |
-| CHX-02 | `readiness_probe` (API) vs `worker_self_check` (spécification, registre) | Ouvert |
+| CHX-02 | `readiness_probe` (API) vs `worker_self_check` (spécification, registre) | **Clos** : décision du 14/11, `readiness_probe` seul soumettable |
 | CHX-03 | 5 missions de test existantes sur Test à qualifier et purger après accord | Ouvert |
 | CHX-04 | `ALLOWED_ORIGINS` et CORS pour l'aperçu | À vérifier |
 | CHX-05 | Page pas encore recettée avec un vrai compte (tests navigateur sur API simulées seulement) | Ouvert |
