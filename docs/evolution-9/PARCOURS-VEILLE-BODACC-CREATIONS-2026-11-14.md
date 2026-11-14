@@ -60,6 +60,15 @@ Jeu de données public `annonces-commerciales` (opendatasoft, BODACC A/B/C), dé
 | VEILLE-04 | Plafond mensuel global (100 ?) | Proposé, à confirmer |
 | VEILLE-05 | Lien avec le système de missions Cheexpeer (veille planifiée, approbation) | Après la recette ; `readiness_probe` reste seul soumissible d'ici là |
 
+## 7 bis. Offre associée (déjà cadrée ailleurs — pas de doublon)
+
+La stratégie commerciale est déjà posée dans `VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md` (§7 « Stratégie d'entrée sur le marché ») et `evolution-7/PHASE-2-CRM-CLIENTS-ARTISANS-FACTURATION-ELECTRONIQUE-RESEAU.md` : la facturation électronique est l'accroche principale ; **MajestiOS n'est pas une plateforme agréée (PA)** ; la cible est une intégration avec une PA partenaire (aucun partenaire sélectionné) ; le module de facturation n'existe pas encore. Ce parcours de veille n'ajoute que le lien avec cette stratégie :
+
+- Les entreprises récemment créées sont une **cible naturelle** de l'accroche « facturation électronique » (réception obligatoire depuis le 1er septembre 2026 ; émission des PME/TPE/micro-entreprises à partir du 1er septembre 2027, selon une source spécialisée — **à revérifier sur les sources officielles avant tout message commercial**).
+- Adaptation par secteur à étudier : le bâtiment (flux B2B, sous-traitance) est plus directement concerné par la facturation entre entreprises que l'hôtellerie-restauration (surtout B2C) ; la note de priorité pourra en tenir compte.
+- Le fichier des créations du bâtiment peut aussi servir les recherches de **sous-traitants** (deuxième usage, côté donneurs d'ordre).
+- Aucun message ne doit promettre un service non disponible ni se présenter comme une PA ; voir `facturation-electronique.html` pour la formulation validée.
+
 ## 8. Avancement au 14 novembre 2026
 
 - **Fait (branche de test, page `admin-recherches.html`, comptes internes propriétaire/administrateur)** : liste des créations des quatre régions, filtre secteur (bâtiment, hôtellerie-restauration), affichage complet des éléments publiés, **tri par note de priorité** (0–100, règles lisibles, raisons affichées : secteur +30, société +20 / entrepreneur individuel +10, immatriculation récente jusqu'à +20, adresse complète +10, activité décrite +5, activité liée au web +10 ; « Prioritaire » ≥ 70, « À considérer » ≥ 45). Règles dans `veille-creations.mjs`, testées par `tests/veille-creations.test.mjs`.
