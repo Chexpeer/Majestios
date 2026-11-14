@@ -186,8 +186,22 @@
         setOpen(shouldOpen);
       });
 
-      section.addEventListener("mouseenter", () => { if (desktop()) setOpen(true); });
-      section.addEventListener("mouseleave", () => { if (desktop()) setOpen(false); });
+      // Délai de fermeture : laisse le temps d'atteindre et de cliquer un lien du sous-menu.
+      let closeTimer = 0;
+      section.addEventListener("mouseenter", () => {
+        if (!desktop()) return;
+        clearTimeout(closeTimer);
+        nav.querySelectorAll(".nav-drawer-section").forEach(other => {
+          if (other !== section) other.dispatchEvent(new CustomEvent("nav-close-now"));
+        });
+        setOpen(true);
+      });
+      section.addEventListener("mouseleave", () => {
+        if (!desktop()) return;
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => setOpen(false), 600);
+      });
+      section.addEventListener("nav-close-now", () => { clearTimeout(closeTimer); if (desktop()) setOpen(false); });
       section.addEventListener("focusin", () => { if (desktop()) setOpen(true); });
       section.addEventListener("focusout", e => {
         if (desktop() && !section.contains(e.relatedTarget)) setOpen(false);
