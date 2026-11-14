@@ -48,39 +48,42 @@ main.interior-page:has(.virtual-space[data-world="bodacc"]){--mj-fond-image:url(
   }
 }
 
-/* ---- Fonds visuels 3D validés : un visuel par rubrique (visuels/fonds/*.svg). ----
-   Chaque page déclare sa rubrique avec data-fond sur <main>. Voile léger : les visuels
-   gardent déjà une zone sombre à gauche pour la lisibilité du texte. */
+/* ---- Fonds visuels 3D validés : un visuel par rubrique (visuels/fonds/*.webp). ----
+   Chaque page déclare sa rubrique avec data-fond sur <main>.
+   Performance : l'image est un calque fixe (position:fixed) géré par le GPU, et non un
+   background-attachment:fixed, qui obligeait à tout redessiner à chaque défilement.
+   Les images sont pré-calculées (WebP) : plus de filtres SVG recalculés à l'écran. */
+body:has(main.interior-page[data-fond])::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:var(--mj-fond-voile),var(--mj-fond-image) center/cover no-repeat,#0a1a33;
+  transform:translateZ(0);will-change:transform;
+}
+body:has(main.interior-page[data-fond]){
+  --mj-fond-voile:linear-gradient(90deg,rgba(4,10,22,.34),rgba(4,10,22,.12) 50%,rgba(4,10,22,0));
+  background:#0a1a33!important;
+}
 html body main.interior-page[data-fond]{
-  position:relative;isolation:isolate;overflow:hidden;
+  position:relative;isolation:isolate;
   padding:clamp(22px,3vw,42px);
   border:1px solid var(--mj-fond-bordure);border-radius:18px;
-  --mj-fond-voile:linear-gradient(90deg,rgba(4,10,22,.34),rgba(4,10,22,.12) 50%,rgba(4,10,22,0));
-  background-color:#0a1a33!important;
-  background-image:var(--mj-fond-voile),var(--mj-fond-image,none)!important;
-  background-size:100% 100%,cover!important;
-  background-position:center,center!important;
-  background-repeat:no-repeat!important;background-attachment:scroll,fixed!important;
-  box-shadow:0 22px 60px rgba(2,8,20,.55),inset 0 1px 0 rgba(255,255,255,.14)!important;
+  background:transparent!important;
+  box-shadow:0 22px 60px rgba(2,8,20,.35),inset 0 1px 0 rgba(255,255,255,.14)!important;
 }
-html body main.interior-page[data-fond="prospection-crm"]{--mj-fond-image:url("visuels/fonds/prospection-crm.svg")}
-html body main.interior-page[data-fond="facturation-electronique"]{--mj-fond-image:url("visuels/fonds/facturation-electronique.svg")}
-html body main.interior-page[data-fond="reputation-virtuelle"]{--mj-fond-image:url("visuels/fonds/reputation-virtuelle.svg")}
-html body main.interior-page[data-fond="reseau-synergies"]{--mj-fond-image:url("visuels/fonds/reseau-synergies.svg")}
-html body main.interior-page[data-fond="marches-publics"]{--mj-fond-image:url("visuels/fonds/marches-publics.svg")}
-html body main.interior-page[data-fond="marches-prives"]{--mj-fond-image:url("visuels/fonds/marches-prives.svg")}
-html body main.interior-page[data-fond="accompagnement-appels-offres"]{--mj-fond-image:url("visuels/fonds/accompagnement-appels-offres.svg")}
-html body main.interior-page[data-fond="sous-traitance"]{--mj-fond-image:url("visuels/fonds/sous-traitance.svg")}
-html body main.interior-page[data-fond="veille-marches"]{--mj-fond-image:url("visuels/fonds/veille-marches.svg")}
-html body main.interior-page[data-fond="bodacc-veille-entreprises"]{--mj-fond-image:url("visuels/fonds/bodacc-veille-entreprises.svg")}
-html body main.interior-page[data-fond="suivi-commercial"]{--mj-fond-image:url("visuels/fonds/suivi-commercial.svg")}
-html body main.interior-page[data-fond="intelligence-economique"]{--mj-fond-image:url("visuels/fonds/intelligence-economique.svg")}
-html body main.interior-page[data-fond="salons-seminaires"]{--mj-fond-image:url("visuels/fonds/salons-seminaires.svg")}
-@media(max-width:900px),(hover:none){
-  html body main.interior-page[data-fond]{background-attachment:scroll,scroll!important;background-position:center,right top!important;background-size:100% 100%,auto 100vh!important}
-}
-/* Le bandeau d'en-tête commun (Designer (2).png) laisse voir le fond de la rubrique ;
-   seul un dégradé sombre à gauche subsiste pour garder le titre lisible. */
+/* Le bandeau d'en-tête commun (Designer (2).png) laisse voir le fond ; seul un dégradé
+   sombre à gauche subsiste pour garder le titre lisible. */
 html body main.interior-page[data-fond]:before{
   background:linear-gradient(90deg,rgba(4,10,22,.55),rgba(4,10,22,.18) 52%,rgba(4,10,22,0))!important;
 }
+body:has(main.interior-page[data-fond="prospection-crm"]){--mj-fond-image:url("visuels/fonds/prospection-crm.webp")}
+body:has(main.interior-page[data-fond="facturation-electronique"]){--mj-fond-image:url("visuels/fonds/facturation-electronique.webp")}
+body:has(main.interior-page[data-fond="reputation-virtuelle"]){--mj-fond-image:url("visuels/fonds/reputation-virtuelle.webp")}
+body:has(main.interior-page[data-fond="reseau-synergies"]){--mj-fond-image:url("visuels/fonds/reseau-synergies.webp")}
+body:has(main.interior-page[data-fond="marches-publics"]){--mj-fond-image:url("visuels/fonds/marches-publics.webp")}
+body:has(main.interior-page[data-fond="marches-prives"]){--mj-fond-image:url("visuels/fonds/marches-prives.webp")}
+body:has(main.interior-page[data-fond="accompagnement-appels-offres"]){--mj-fond-image:url("visuels/fonds/accompagnement-appels-offres.webp")}
+body:has(main.interior-page[data-fond="sous-traitance"]){--mj-fond-image:url("visuels/fonds/sous-traitance.webp")}
+body:has(main.interior-page[data-fond="veille-marches"]){--mj-fond-image:url("visuels/fonds/veille-marches.webp")}
+body:has(main.interior-page[data-fond="bodacc-veille-entreprises"]){--mj-fond-image:url("visuels/fonds/bodacc-veille-entreprises.webp")}
+body:has(main.interior-page[data-fond="suivi-commercial"]){--mj-fond-image:url("visuels/fonds/suivi-commercial.webp")}
+body:has(main.interior-page[data-fond="intelligence-economique"]){--mj-fond-image:url("visuels/fonds/intelligence-economique.webp")}
+body:has(main.interior-page[data-fond="salons-seminaires"]){--mj-fond-image:url("visuels/fonds/salons-seminaires.webp")}
