@@ -1,15 +1,28 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+// Durcissement AN-05 (préparé dans Git, non déployé) :
+// - l'adresse administrateur et les origines autorisées viennent de secrets de la fonction ;
+// - sans secret configuré, le comportement historique est conservé afin de ne jamais verrouiller le compte initial.
+const LEGACY_ADMIN_EMAIL = "szineddine174@gmail.com";
+const ADMIN_EMAIL = (Deno.env.get("INTERNAL_ADMIN_EMAIL") || LEGACY_ADMIN_EMAIL).trim().toLowerCase();
+const ALLOWED_ORIGINS = (Deno.env.get("INTERNAL_ALLOWED_ORIGINS") || "")
+  .split(",").map((origin) => origin.trim()).filter(Boolean);
 
-const ADMIN_EMAIL = "szineddine174@gmail.com";
+function corsFor(req: Request): Record<string, string> {
+  const base = {
+    "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+  };
+  if (ALLOWED_ORIGINS.length === 0) return { ...base, "Access-Control-Allow-Origin": "*" };
+  const origin = req.headers.get("Origin") || "";
+  return ALLOWED_ORIGINS.includes(origin)
+    ? { ...base, "Access-Control-Allow-Origin": origin, "Vary": "Origin" }
+    : { ...base, "Vary": "Origin" };
+}
 
 Deno.serve(async (req: Request) => {
+  const corsHeaders = corsFor(req);
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   const json = (status: number, body: Record<string, unknown>) =>
     new Response(JSON.stringify(body), {

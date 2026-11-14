@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /espace-interne.html
+Disallow: /administration.html
+Disallow: /admin-recherches.html
+Disallow: /crm.html
+Disallow: /espace-membre.html
+Disallow: /espace-prive.html
+Disallow: /resultats-recherche.html
+
+Sitemap: https://majestios.vercel.app/sitemap.xml

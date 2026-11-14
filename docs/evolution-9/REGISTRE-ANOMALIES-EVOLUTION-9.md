@@ -1000,3 +1000,13 @@ Le plan de retour arrière et les critères d'arrêt sont détaillés en section
 | RECETTE-TEST-01 | P2 | BODACC/BOAMP réels, 13 pages à fonds, mobile : non vérifiés sur appareil réel | NOT RUN |
 
 Détail : [ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
+
+
+## 90. Allègement documentaire et corrections du 14 novembre 2026
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| DOC-SYN-01 | P2 | Synthèse unique `docs/SYNTHESE-MAJESTIOS.md` ; journaux archivés dans `docs/historique/` (contenu conservé) ; `docs/README.md`, `CRITIQUES/README.md` et `evolution-9/README.md` allégés | Fait ; liens vérifiés |
+| AN-05 | P1 | Bootstrap admin : secrets `INTERNAL_ADMIN_EMAIL` / `INTERNAL_ALLOWED_ORIGINS`, repli historique | **Préparé**, non déployé, secrets non configurés |
+| SEO-01…05 | P2 | `robots.txt` et `sitemap.xml` ajoutés (domaine provisoire `majestios.vercel.app`) | Partiel ; `canonical` en attente de la décision de domaine |
+| ROAD-01 | P2 | Feuille de route stratégique et décisions ouvertes | Rédigée : `FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md` |
