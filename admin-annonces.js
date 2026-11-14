@@ -2,7 +2,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
 import { TABS, KIND_LABELS, allowedDecisions, buildDecision, moderationError, DECISION_LABELS } from "./annonces-moderation.mjs";
 
-const supabase = createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
+const supabase = createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 const $ = (selector) => document.querySelector(selector);
 const frame = $(".admin-frame"), gate = $("#gate"), workspace = $("#workspace"), gateMessage = $("#gate-message"), sessionLabel = $("#session-label"), signout = $("#signout");
 const loginForm = $("#mod-login"), tabsBox = $("#mod-tabs"), list = $("#mod-list"), statusBox = $("#mod-status");
@@ -104,12 +104,12 @@ loginForm.addEventListener("submit", async (event) => {
   const code = loginForm.elements.code.value.trim();
   try {
     if (!pendingEmail) {
-      const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+      const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
       if (error) throw error;
       pendingEmail = email;
       loginForm.elements.code.hidden = false;
       loginForm.elements.code.focus();
-      gateMessage.textContent = "Un code vient d’être envoyé à " + email + ". Saisissez-le ci-dessous.";
+      gateMessage.textContent = "Un e-mail vient d’être envoyé à " + email + ". Cliquez sur son lien, ou saisissez le code s’il en contient un.";
       return;
     }
     const { error } = await supabase.auth.verifyOtp({ email: pendingEmail, token: code, type: "email" });
