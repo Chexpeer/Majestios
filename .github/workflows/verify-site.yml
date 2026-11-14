@@ -105,6 +105,8 @@ jobs:
         run: node --test tests/veille-creations.test.mjs
       - name: Diagnostic facturation électronique (règles pures)
         run: node --test tests/facturation-diagnostic.test.mjs
+      - name: Tester le formulaire d'annonces (règles et SQL proposé)
+        run: node --test tests/annonces-formulaire.test.mjs
       - name: Vérifier la recherche BODACC filtrée en conditions réelles
         run: node tests/reputation-bodacc-query-smoke.cjs
       - name: Vérifier la navigation Administration / CRM

@@ -1044,7 +1044,7 @@ Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : proje
 |---|---|---|---|
 | FUNNEL-01 | P1 | Décision du porteur : les listes d'appels d'offres (BOAMP) et de signaux (BODACC) et la page facturation ne renvoient plus vers la source ; le visiteur est orienté vers le formulaire de contact. La source reste **citée en texte** (obligation de mention de la source des données publiques). | Fait sur la branche de test ; gardes `verify-site.js` mises à jour. **Conséquence à connaître** : le dossier de consultation d'un marché n'existe que chez l'acheteur ; MajestiOS devra le transmettre lui-même au visiteur qui s'est identifié. À valider par le service juridique (réutilisation des données BOAMP/BODACC). |
 | UI-01 | P3 | Bouton « Me positionner » réduit (`.button-compact`), aussi utilisé pour les autres actions secondaires | Fait |
-| ANN-01 | P1 | Annonces gratuites de sous-traitance (offre / recherche) pour rendre visibles les marchés privés : présentées sur `sous-traitance.html#annonces`, relais depuis `marches-prives.html` ; options ajoutées au formulaire de contact | **Annoncé « en préparation »** : aucune publication possible tant que n'existent pas la table d'annonces, la relecture avant publication, l'anti-abus et le masquage des coordonnées (modèle : ARCHITECTURE-REGISTRE-COMMERCIAL-ANNONCES-BESOINS-2026-11-06). Nécessite l'autorisation Supabase (lot L2). |
+| ANN-01 | P1 | Annonces gratuites de sous-traitance (offre / recherche) pour rendre visibles les marchés privés : présentées sur `sous-traitance.html#annonces`, relais depuis `marches-prives.html` ; options ajoutées au formulaire de contact. **Mise à jour du 14/11 (soir) : SQL, formulaire en prévisualisation et scénarios préparés, voir [SPECIFICATION-ANNONCES-SOUS-TRAITANCE-2026-11-14.md](SPECIFICATION-ANNONCES-SOUS-TRAITANCE-2026-11-14.md)** | **Annoncé « en préparation »** : aucune publication possible tant que n'existent pas la table d'annonces, la relecture avant publication, l'anti-abus et le masquage des coordonnées (modèle : ARCHITECTURE-REGISTRE-COMMERCIAL-ANNONCES-BESOINS-2026-11-06). Nécessite l'autorisation Supabase (lot L2). |
 | FORM-01 | P1 | Le formulaire de contact est une prévisualisation : il n'envoie ni n'enregistre rien. L'entonnoir « formulaire ou espace personnel » ne fonctionne donc pas encore pour de vrai. | **Ouvert** : brancher l'enregistrement (table `client_requests` du CRM) après autorisation. |
 
 ## 95. Barre de navigation (14 novembre 2026)
@@ -1060,3 +1060,12 @@ Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : proje
 | SEARCH-01 | P1 | La recherche (accueil, rubriques, résultats) impose d'emblée « appel d'offres public » ou « appel d'offres privé » ; l'option « Publics et privés » et la vue combinée sont supprimées ; sans choix, aucune source n'est interrogée | Fait sur la branche de test ; test navigateur mis à jour |
 | SEO-01 | P2 | Pages « Appels d'offres publics » et « Appels d'offres privés » : titres, descriptions et titres de page alignés ; les annonces des clients sont présentées comme appels d'offres privés | Fait (libellés) ; **les annonces elles-mêmes ne sont pas encore publiables** (ANN-01) |
 | STRAT-01 | P2 | Rôle de chaque porte d'entrée consigné (VISION §7 bis) : public = appât, annonces privées = cœur du site, facturation = porte d'entrée | Fait ; formulation interne, absente du site public |
+
+## 97. Annonces de sous-traitance : lot préparé (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| ANN-01 | P1 | Stockage, relecture et formulaire de dépôt | **Préparé, non appliqué** : SQL dans `supabase/proposed/`, testé sur base PostgreSQL jetable ; formulaire en prévisualisation (`ANNONCES_OUVERTES = false`) ; aucun envoi |
+| ANN-02 | P1 | Validation juridique : avis, base légale, durées de conservation, retrait, responsabilité éditoriale | **Ouvert** (bloquant pour l'ouverture) |
+| ANN-03 | P1 | Autorisation d'appliquer le SQL sur une copie Supabase, puis rejouer les scénarios et le conseiller de sécurité | **Ouvert** (décision du porteur) |
+| ANN-04 | P2 | Page de relecture interne (VIP) et liste publique « Appels d'offres privés » | **À construire** après ANN-03 |
