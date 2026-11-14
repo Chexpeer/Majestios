@@ -4,6 +4,7 @@
 
 ## 1. Où trouver les informations
 
+- **Méthode de travail (documentation → Test → CRM) :** [METHODE-DE-TRAVAIL-DOCUMENTATION-TEST-CRM.md](../METHODE-DE-TRAVAIL-DOCUMENTATION-TEST-CRM.md)
 - **Registre actif Evolution-9 :** [REGISTRE-ANOMALIES-EVOLUTION-9.md](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md)
 - **Guide de prise en main IA :** [GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md](../GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md)
 - **Registre détaillé Evolution-8 :** [REGISTRE-ANOMALIES-EVOLUTION-8.md](../evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md)
