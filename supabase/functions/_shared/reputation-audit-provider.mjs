@@ -94,18 +94,25 @@ export function createAnthropicCheexpeerAnalyzer({
       body: JSON.stringify({
         model: model.trim(),
         max_tokens: 4096,
-        system: request.system_prompt,
+        system: request.system_prompt + "\nRetourne ta réponse uniquement en appelant l'outil cheexpeer_audit, sans texte libre.",
         messages: [{ role: "user", content: JSON.stringify(request.input) }],
         tools: [{
           name: "cheexpeer_audit",
           description: "Retourne l'analyse au format structuré attendu.",
           input_schema: request.output_schema
         }],
-        tool_choice: { type: "tool", name: "cheexpeer_audit" }
+        // Certains modèles refusent tool_choice "tool"/"any" : mode automatique, consigne explicite dans le prompt système.
+        tool_choice: { type: "auto" }
       }),
       signal: AbortSignal.timeout(30000)
     });
-    if (!response.ok) throw new Error("CHEEXPEER_AI_PROVIDER_UNAVAILABLE");
+    if (!response.ok) {
+      // Diagnostic sans secret : code HTTP et début du message d'erreur du fournisseur.
+      let detail = "";
+      try { detail = (await response.text()).slice(0, 300); } catch { /* ignoré */ }
+      console.error("Cheexpeer AI provider error", { status: response.status, detail });
+      throw new Error("CHEEXPEER_AI_PROVIDER_UNAVAILABLE");
+    }
     const payload = await response.json();
     const block = Array.isArray(payload?.content)
       ? payload.content.find(item => item?.type === "tool_use" && item?.name === "cheexpeer_audit")

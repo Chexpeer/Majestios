@@ -65,7 +65,7 @@ test("claude adapter uses the Messages API with a forced structured tool", async
   assert.equal(captured.options.headers["anthropic-version"], "2023-06-01");
   const body = JSON.parse(captured.options.body);
   assert.equal(body.model, "claude-sonnet-5-5");
-  assert.deepEqual(body.tool_choice, { type: "tool", name: "cheexpeer_audit" });
+  assert.deepEqual(body.tool_choice, { type: "auto" });
   assert.equal(selectCheexpeerAnalyzer({}), null);
   assert.equal(typeof selectCheexpeerAnalyzer({ apiKey: "sk-ant-x" }), "function");
   assert.equal(selectCheexpeerAnalyzer({ apiKey: "other-key" }), null);

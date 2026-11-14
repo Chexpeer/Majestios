@@ -90,7 +90,8 @@ export function createReputationAuditHandler({ authenticate, consumeQuota = null
       if (typeof analyze === "function") {
         try {
           analysis = await runCheexpeerAuditAnalysis({ auditCase, evidence: collection.evidence, analyze });
-        } catch {
+        } catch (error) {
+          console.error("Cheexpeer analysis failed", { reason: String(error?.message || error).slice(0, 200) });
           // Une panne du fournisseur IA ne doit pas faire perdre les preuves déjà collectées.
           analysisNotice = "La collecte a abouti, mais l’analyse IA est temporairement indisponible. Aucun diagnostic automatique n’est présenté.";
         }
