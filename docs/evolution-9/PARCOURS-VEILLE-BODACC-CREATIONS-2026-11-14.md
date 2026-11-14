@@ -8,7 +8,9 @@ Parmi ses missions, Cheexpeer repère les entreprises **récemment créées** da
 
 Périmètre géographique de départ (décision du porteur, 14/11) : **Île-de-France, Normandie, Pays de la Loire, Bretagne.**
 
-Secteurs prioritaires : **non encore précisés** — à confirmer (voir §7).
+Secteurs prioritaires (décision du porteur, 14/11) : **bâtiment (tous corps d'état)** et **hôtellerie-restauration** ; d'autres secteurs seront ajoutés plus tard.
+
+Note technique : l'annonce BODACC ne porte pas de code d'activité normalisé (NAF) ; le secteur est repéré par **mots-clés dans la description de l'activité** (ex. maçonnerie, plomberie, électricité, peinture, restaurant, hôtel, traiteur). Le tri est donc approximatif et sera affiné à l'usage.
 
 ## 2. Ce que le BODACC fournit (test en lecture seule du 14/11)
 
@@ -53,7 +55,7 @@ Jeu de données public `annonces-commerciales` (opendatasoft, BODACC A/B/C), dé
 
 | Réf. | Question | Statut |
 |---|---|---|
-| VEILLE-01 | Secteurs d'activité prioritaires | À préciser par le porteur |
+| VEILLE-01 | Secteurs d'activité prioritaires | **Décidé le 14/11** : bâtiment (tous corps d'état), hôtellerie-restauration ; autres secteurs plus tard |
 | VEILLE-02 | Conservation des données d'entrepreneurs individuels | À décider, validation juridique |
 | VEILLE-03 | Conservation des observations Google saisies | À décider, validation juridique |
 | VEILLE-04 | Plafond mensuel global (100 ?) | Proposé, à confirmer |
