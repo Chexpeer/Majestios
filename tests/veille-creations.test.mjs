@@ -100,3 +100,9 @@ test("la note de priorité est expliquée et classe bien les cas", () => {
   assert.ok(forte.score > faible.score);
   assert.ok(scoreCreation({ isIndividual: false, activity: "x".repeat(30), registrationDate: "date invalide", address: "" }, { now }).score <= 100);
 });
+
+test("le secteur « prioritaires » combine bâtiment et hôtellerie-restauration", () => {
+  const clause = sectorClause("prioritaires");
+  assert.ok(clause.includes("'plomberie'") && clause.includes("'restaurant'"));
+  assert.ok(clause.includes(") OR (search("), "les deux secteurs sont reliés par OR");
+});

@@ -35,6 +35,7 @@ export function quoteValue(value) {
 
 /** Clause de filtre ODS pour un secteur, appliquée au texte de l'activité de l'établissement. */
 export function sectorClause(sectorKey, field = "listeetablissements") {
+  if (sectorKey === "prioritaires") return "(" + Object.keys(SECTORS).map((key) => sectorClause(key, field)).join(" OR ") + ")";
   const sector = SECTORS[sectorKey];
   if (!sector) return "";
   return "(" + sector.keywords.map((word) => "search(" + field + ", " + quoteValue(word) + ")").join(" OR ") + ")";

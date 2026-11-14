@@ -25,6 +25,7 @@
 .search-actions{display:flex;align-items:center;gap:12px;margin-top:18px}
 .search-submit{min-height:42px;padding:0 18px;border:1px solid #b28b3f;border-radius:7px;color:#292d30;background:linear-gradient(105deg,#f1d99e,#c69b4a);font:800 11px "DM Sans",Arial,sans-serif;cursor:pointer}
 .search-submit:disabled{opacity:.55;cursor:wait}
+.search-preset{background:#fff;color:#7a5a1e}
 .search-hint{color:#7a858d;font-size:10px;line-height:1.5}
 .search-status{margin:18px 0 0;padding:12px 14px;border:1px solid #d7dde1;border-radius:8px;background:#f8f9fa;color:#58646d;font-size:11px;line-height:1.6}
 .search-status.error{border-color:#e1b9b5;background:#fff4f2;color:#8a3931}
@@ -81,11 +82,11 @@
 <label class="territory"><input type="checkbox" name="territory" value="bretagne" checked> Bretagne (22, 29, 35, 56)</label>
 <label class="territory"><input type="checkbox" name="territory" value="all"> France entière</label>
 </div></div>
-<div class="search-field wide"><label for="sector">Secteur (BODACC, repéré par mots-clés dans l’activité)</label><select id="sector"><option value="">Tous les secteurs</option><option value="batiment">Bâtiment (tous corps d’état)</option><option value="hotellerie">Hôtellerie et restauration</option></select></div>
+<div class="search-field wide"><label for="sector">Secteur (BODACC, repéré par mots-clés dans l’activité)</label><select id="sector"><option value="">Tous les secteurs</option><option value="prioritaires">Priorités : bâtiment + hôtellerie-restauration</option><option value="batiment">Bâtiment (tous corps d’état)</option><option value="hotellerie">Hôtellerie et restauration</option></select></div>
 <div class="search-field wide"><label for="department">Département précis (facultatif)</label><input id="department" inputmode="numeric" maxlength="3" placeholder="Ex. 72, 75, 2A…"></div>
 <div class="search-field wide"><label for="keyword">Mot-clé (facultatif)</label><input id="keyword" maxlength="100" placeholder="Ex. rénovation énergétique, plomberie, électricité…"></div>
 </div>
-<div class="search-actions"><button id="submit" class="search-submit" type="submit">Lancer la recherche</button><span class="search-hint">Recherche manuelle uniquement · aperçu limité · aucune automatisation.</span></div>
+<div class="search-actions"><button id="preset-veille" class="search-submit search-preset" type="button">Veille des créations · 4 régions · 30 jours</button><button id="submit" class="search-submit" type="submit">Lancer la recherche</button><span class="search-hint">Recherche manuelle uniquement · aperçu limité · aucune automatisation.</span></div>
 </form>
 <div id="status" class="search-status" role="status" aria-live="polite">Choisissez une source et un territoire, puis lancez votre première recherche.</div>
 </section>

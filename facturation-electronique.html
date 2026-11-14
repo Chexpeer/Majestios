@@ -12,6 +12,8 @@
   <script src="catalogue-majestios.js" defer></script>
   <script src="app.js" defer></script>
   <script src="navigation-tiroirs.js" defer></script>
+  <link rel="stylesheet" href="facturation-diagnostic.css">
+  <script type="module" src="facturation-diagnostic.js"></script>
 </head>
 <body class="page-marches-publics">
   <header class="site-header">
@@ -58,6 +60,31 @@
         <h2>3. Préparer la transition</h2>
         <p>Données fiables, circuits de validation, suivi des statuts, rejets et règlements.</p>
       </article>
+    </section>
+
+    <section class="floating-route-card" id="diagnostic" aria-labelledby="diagnostic-title">
+      <span class="interactive-map-status">DIAGNOSTIC D’ORIENTATION · 4 QUESTIONS</span>
+      <h2 id="diagnostic-title">Que change la réforme pour vous ?</h2>
+      <p>Répondez à quatre questions pour obtenir une orientation générale. Rien n’est enregistré ni envoyé.</p>
+      <form id="diagnostic-form" novalidate>
+        <div class="form-grid">
+        <label class="form-field" for="diag-tva">Votre situation au regard de la TVA
+          <select id="diag-tva" name="tva" required><option value="">Choisir…</option></select>
+        </label>
+        <label class="form-field" for="diag-taille">La taille de votre entreprise
+          <select id="diag-taille" name="taille" required><option value="">Choisir…</option></select>
+        </label>
+        <label class="form-field" for="diag-clients">Vos clients
+          <select id="diag-clients" name="clients" required><option value="">Choisir…</option></select>
+        </label>
+        <label class="form-field" for="diag-outil">Votre outil de facturation actuel
+          <select id="diag-outil" name="outil" required><option value="">Choisir…</option></select>
+        </label>
+        </div>
+        <button class="button button-primary form-submit" type="submit">Voir mon orientation <span aria-hidden="true">→</span></button>
+      </form>
+      <noscript><p class="small-note">Le diagnostic nécessite JavaScript. Utilisez le simulateur officiel proposé plus haut.</p></noscript>
+      <div id="diagnostic-result" role="status" aria-live="polite" hidden></div>
     </section>
 
     <section class="floating-route-card" aria-labelledby="pa-title">

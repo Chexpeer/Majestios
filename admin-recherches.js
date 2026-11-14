@@ -23,6 +23,12 @@ const zones=ZONES;
 function setStatus(message,error=false){status.textContent=message;status.classList.toggle("error",error);}
 source.addEventListener("change",()=>{const isBodacc=source.value==="bodacc";family.disabled=!isBodacc;family.closest(".search-field").style.opacity=isBodacc?"1":".55";marketType.disabled=isBodacc;marketType.closest(".search-field").style.opacity=isBodacc?".55":"1";});
 source.dispatchEvent(new Event("change"));
+document.querySelector("#preset-veille")?.addEventListener("click",()=>{
+ source.value="bodacc";source.dispatchEvent(new Event("change"));family.value="__creations";sector.value="prioritaires";
+ territoryInputs.forEach(x=>{x.checked=["idf","normandie","pdl","bretagne"].includes(x.value);});department.value="";keyword.value="";
+ const since=new Date();since.setDate(since.getDate()-30);dateFrom.value=since.toISOString().slice(0,10);dateTo.value="";limit.value="50";
+ form.requestSubmit();
+});
 territoryInputs.forEach(input=>input.addEventListener("change",()=>{if(input.value==="all"&&input.checked)territoryInputs.filter(x=>x!==input).forEach(x=>x.checked=false);else if(input.checked){const all=territoryInputs.find(x=>x.value==="all");if(all)all.checked=false;}}));
 function quote(value){return "'"+String(value).replace(/\\/g,"\\\\").replace(/'/g,"\\'")+"'";}
 function departments(){

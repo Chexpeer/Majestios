@@ -15,8 +15,9 @@ Relier **développement commercial, gestion quotidienne, facturation électroniq
 | Recherche BOAMP / BODACC | Moteurs côté navigateur ; résultats réels à recetter par le porteur |
 | Espace membre | Connexion par code e-mail pour les membres habilités ; création de nouveaux espaces suspendue (AUTH-01) |
 | CRM interne | Code et fondations Supabase présents ; recette multi-rôles non exécutée ; distinct du futur CRM client |
-| Facturation électronique | Pages d'information et liens officiels ; aucun module, aucune PA |
-| Cheexpeer | Assistant local de première génération sur le site ; API de missions et worker dans Git, déploiement et recette non démontrés |
+| Facturation électronique | Page d'information, calendrier, **diagnostic d'orientation en 4 questions** (sans stockage) sur la branche de test ; aucun module, aucune PA. Étude comparative des PA : [PA-01](evolution-9/ETUDE-COMPARATIVE-PLATEFORMES-AGREEES-2026-11-14.md) ; offre de partenariat rédigée, aucun partenaire retenu |
+| Veille des créations (BODACC) | Page admin « Recherches ciblées » (propriétaire/administrateur) : 4 régions, bâtiment et hôtellerie-restauration, note de priorité expliquée, bouton « Veille des créations » ; lecture seule, rien n'est enregistré ; contrôle juridique avant lancement. [Parcours](evolution-9/PARCOURS-VEILLE-BODACC-CREATIONS-2026-11-14.md) |
+| Cheexpeer | Assistant local de première génération sur le site ; audit de réputation avec Claude **testé de bout en bout sur MajestiOS-Test** (5 audits/jour/utilisateur) ; API de missions déployées sur Test, seule `readiness_probe` soumissible avant recette ; rien sur `majestios-crm` |
 
 ## 3. Décisions validées (14 novembre 2026)
 
