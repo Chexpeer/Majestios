@@ -93,12 +93,12 @@
     window.addEventListener("resize", styleMenuButton, {passive:true});
 
     const groups = [
-      {label:"Appels d’offres",href:"marches-publics.html",items:[["Appels d’offres publics","marches-publics.html"],["Appels d’offres privés","marches-prives.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Facturation électronique & dématérialisation","facturation-electronique.html"]]},
+      {label:"Appels d’offres",href:"marches-publics.html",items:[["Appels d’offres publics","marches-publics.html"],["Marchés privés · signaux d’entreprises","marches-prives.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Facturation électronique & dématérialisation","facturation-electronique.html"]]},
       {label:"Développement commercial",href:"developpement-commercial.html",items:[["Vue d’ensemble","developpement-commercial.html"],["Prospection","prospection-active.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Facturation électronique & dématérialisation","facturation-electronique.html"],["Suivi commercial","suivi-commercial.html"],["Qualification des entreprises","qualification-entreprises.html"]]},
       {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"]]},
-      {label:"Réputation virtuelle",href:"reputation-virtuelle.html",items:[["Présence et visibilité","reputation-virtuelle.html"],["Intelligence économique","intelligence-economique.html"]]},
+      {label:"Réputation virtuelle",href:"reputation-virtuelle.html",items:[["Présence et visibilité","reputation-virtuelle.html"]]},
       {label:"Espaces privés",href:"espace-membre.html",items:[["Espace client","espace-membre.html"],["Accès VIP · Administration","espace-interne.html"]]},
-      {label:"Explorer davantage",href:"veille-marches.html",items:[["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],["Sous-traitance","sous-traitance.html"],["Nous rejoindre","nous-rejoindre.html"]]},
+      {label:"Explorer davantage",href:"veille-marches.html",items:[["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],["Intelligence économique","intelligence-economique.html"],["Sous-traitance","sous-traitance.html"],["Nous rejoindre","nous-rejoindre.html"]]},
       {label:"Assistant",href:"assistant-majestios.html",items:[["Assistant MajestiOS","assistant-majestios.html"]]}
     ];
     const current = location.pathname.split("/").pop() || "index.html";

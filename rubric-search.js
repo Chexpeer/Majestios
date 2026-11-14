@@ -33,15 +33,17 @@
 
   // Prospection possède son moteur métier dédié (entreprises, APE/NAF et territoire) ; ne pas injecter le moteur générique une seconde fois.
   if (path === "prospection-active.html") return;
+  // Qualification d'entreprises possède son propre formulaire (codes APE/NAF et départements) : pas de second moteur.
+  if (path === "qualification-entreprises.html") return;
 
   const config = configs[path];
   if (!homeMount && (!page || !config)) return;
 
   // Les rubriques Marchés publics et Marchés privés ont un type fixe : aucun sélecteur public/privé ne doit y apparaître.
-  // La page BODACC est aussi à type fixe : elle ne propose que des annonces d'entreprises
+  // Les pages de catégories (appels d'offres publics) et la page BODACC sont aussi à type fixe : elle ne propose que des annonces d'entreprises
   // (créations, cessions, radiations, procédures…), jamais d'appels d'offres.
   const isBodaccPage = path === "bodacc-veille-entreprises.html";
-  const fixedMarket = path === "marches-publics.html" || path === "marches-prives.html" || isBodaccPage;
+  const fixedMarket = path === "marches-publics.html" || path === "marches-prives.html" || isBodaccPage || path.startsWith("categorie-");
   const marketStepMarkup = fixedMarket ? "" : `
       <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
         <select id="feed-market-type" aria-label="Type de marché" required>
