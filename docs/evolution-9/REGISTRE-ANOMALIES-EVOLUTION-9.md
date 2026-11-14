@@ -1096,3 +1096,15 @@ Demande du porteur : police trop grande par endroits, couleurs inadaptées, cube
 | VIS-08 | P1 | Illustration « Les bonnes pistes » absente sur Développement commercial (erreur 404 en ligne) | **Corrigé** : `assets/visuels/rubrique-prospection.svg` était dans le dépôt mais absent de `site-files.json`, donc non publié. Nouveau contrôle dans `verify-site.js` : toute ressource locale appelée par une page doit figurer au manifeste. Les trois autres illustrations de `assets/visuels/` ne sont appelées par aucune page et restent non publiées. |
 | VIS-09 | P2 | Effet « vitre très propre », relief accentué et harmonie des fonds de rubrique (demande du 14/11 soir) | **Fait** (`vitre-majestios.css`) : reflets diagonaux fixes, arête lumineuse, éclat traversant l'écran toutes les 18 s (coupé sur petit écran et si « moins de mouvement »), cartes en verre biseauté, boutons dorés biseautés, cartes cliquables inclinées au survol, voile bleu nuit commun sur tous les fonds de rubrique, surtitres or sur l'accueil. Calques décoratifs non cliquables, exclus de l'administration (test). **À valider sur appareil réel** : coût GPU des calques fixes sur téléphone d'entrée de gamme. |
 
+
+## Chapitre 100 — Recette CRM locale (2026-11-14)
+
+Méthode : rejeu des 31 migrations CRM du dépôt sur une base PostgreSQL 16 jetable (stubs `auth`, `pg_cron`), puis 44 scénarios SQL avec rôles simulés (`tests/sql/crm-recette-locale.sql`). Aucune écriture sur `majestios-crm` ni sur `MajestiOS-Test`.
+
+| ID | Gravité | Constat | Statut |
+|---|---|---|---|
+| CRM-ACT-01 | P1 | `record_crm_activity()` : toute modification d'une **entreprise ou d'un contact** échoue (`record "old" has no field "status"`). Fonction identique (hash md5) sur `MajestiOS-Test` → bug réel là-bas ; probablement aussi sur `majestios-crm`. | Correctif candidat `20261114120000`, validé en local. **Non appliqué à distance**, validation propriétaire requise. |
+| CRM-TRG-01 | P1 | Doublon de triggers d'intégrité reproduit par le dépôt ; nettoyé à la main sur Test, absent du dépôt. | Migration `20261114120100` ajoutée (idempotente), validée en local. |
+| REM-INFO | info | Les relances ne sont créées que par la tâche planifiée (échéance dépassée), pas à l'insertion de l'opportunité. Comportement conforme à la conception. | — |
+
+Résultat local après les deux correctifs : 44/44. RLS, intégrité inter-organisations, historique, relances (`complete_crm_reminder`) et privilèges `anon` conformes.
