@@ -1,0 +1,49 @@
+/* MajestiOS — harmonisation des fonds d'écran (Evolution-9, branche de test).
+   Un seul voile, un seul cadre et un seul comportement de défilement pour toutes les rubriques.
+   Chaque page ne choisit que son image, via --mj-fond-image. Sans image, le voile seul est affiché.
+   Chargé par charte-majestios-tokens.css : ce bloc passe donc après rubriques-immersives.css.
+   Ne touche ni l'accueil, ni le cube interactif, ni la navigation, ni le moteur de recherche. */
+:root{
+  --mj-fond-voile:linear-gradient(90deg,rgba(5,12,23,.80),rgba(5,12,23,.62) 55%,rgba(5,12,23,.44));
+  --mj-fond-couleur:#091321;
+  --mj-fond-bordure:rgba(213,181,108,.32);
+}
+
+/* Cadre commun des pages de rubrique. */
+body.page-development-commercial main.interior-page,
+body.page-marches-publics main.interior-page,
+body.page-marches-prives main.interior-page,
+body.page-prospection main.interior-page,
+body.page-reseaux main.interior-page,
+main.interior-page:has(.virtual-space[data-world="accompagnement"]),
+main.interior-page:has(.virtual-space[data-world="sous-traitance"]),
+main.interior-page:has(.virtual-space[data-world="bodacc"]){
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(22px,3vw,42px);
+  border:1px solid var(--mj-fond-bordure);border-radius:18px;
+  background-color:var(--mj-fond-couleur)!important;
+  background-image:var(--mj-fond-voile),var(--mj-fond-image,none)!important;
+  background-size:cover!important;background-position:center!important;
+  background-repeat:no-repeat!important;background-attachment:scroll!important;
+}
+
+/* Image choisie par rubrique. */
+body.page-development-commercial main.interior-page{--mj-fond-image:url("devellopement%20(2).jfif")}
+body.page-marches-publics main.interior-page{--mj-fond-image:url("OFFRE%20PUBLIC.png")}
+body.page-marches-prives main.interior-page{--mj-fond-image:url("IMMEUBLE.jfif")}
+main.interior-page:has(.virtual-space[data-world="accompagnement"]){--mj-fond-image:url("OFFRE%20PUBLIC.png")}
+main.interior-page:has(.virtual-space[data-world="sous-traitance"]){--mj-fond-image:url("IMMEUBLE.jfif")}
+main.interior-page:has(.virtual-space[data-world="bodacc"]){--mj-fond-image:url("IMMEUBLE.jfif")}
+
+@media(max-width:760px){
+  body.page-development-commercial main.interior-page,
+  body.page-marches-publics main.interior-page,
+  body.page-marches-prives main.interior-page,
+  body.page-prospection main.interior-page,
+  body.page-reseaux main.interior-page,
+  main.interior-page:has(.virtual-space[data-world="accompagnement"]),
+  main.interior-page:has(.virtual-space[data-world="sous-traitance"]),
+  main.interior-page:has(.virtual-space[data-world="bodacc"]){
+    padding:18px 14px;background-position:center top!important;
+  }
+}
