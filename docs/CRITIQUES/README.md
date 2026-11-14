@@ -180,3 +180,14 @@ L'analyse des migrations Git et des catalogues distants précise les deux points
 - La table de quotas n'a pas RLS. La fonction privée de consommation appartient à `postgres`, est SECURITY DEFINER et `postgres` possède BYPASSRLS ; FORCE RLS est désactivé. L'activation RLS sans policy directe devrait donc préserver le RPC et refuser l'accès direct aux rôles ordinaires, sous réserve de tests sur copie.
 
 Ces deux changements ne sont pas encore des migrations Git ni des modifications distantes. Il faut d'abord valider les cas positifs/négatifs, l'isolation inter-organisations, le parcours quota et le plan de retour arrière. Ne pas promouvoir ces corrections au projet principal, qui ne présente pas les doublons de triggers.
+
+
+## 15. État consolidé au 14 novembre 2026 — Supabase
+
+Les deux anomalies techniques du projet `MajestiOS-Test` sont désormais documentées avec leur origine, leur correction candidate, leur matrice de tests et leur retour arrière :
+- triggers d'intégrité en double sur quatre tables, issus de deux migrations successives ;
+- absence de RLS sur `private.reputation_audit_usage`, avec fonction de quota SECURITY DEFINER appartenant à `postgres`.
+
+Les scénarios positifs/négatifs, inter-organisations, quotas et concurrence sont spécifiés dans l'audit détaillé. **Ils ne sont pas encore exécutés.** Les migrations candidates ne sont pas créées ni appliquées. Le projet principal `majestios-crm` reste distinct et ne doit pas recevoir ces corrections de test par simple synchronisation.
+
+La vérification CI du site sur le commit `71d116532d030547644ff4e1acc3c146e219f456` est terminée avec succès (workflow `43503715855`). Cela valide le workflow concerné, pas les tests runtime Supabase. Aucun fichier du site, déploiement, donnée ou réglage Supabase distant n'a été modifié dans cette consolidation.
