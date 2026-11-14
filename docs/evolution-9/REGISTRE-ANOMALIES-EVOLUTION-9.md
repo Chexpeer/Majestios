@@ -977,3 +977,15 @@ Cette section distingue les corrections vérifiées dans Git, les résultats CI 
 - **TEST-RLS-01 / AN-14 :** la fonction quota `private.consume_reputation_audit_quota(uuid)` est SECURITY DEFINER, propriétaire `postgres`, `search_path` vide ; `postgres` a BYPASSRLS, FORCE RLS est OFF. L'activation de RLS sans policy d'accès direct devrait préserver le RPC tout en fermant l'accès direct, mais doit être validée sur copie avant application.
 - Les deux corrections restent des propositions documentées, non des migrations créées ou appliquées. Aucun SQL distant, aucune donnée et aucun réglage Supabase n'ont été modifiés.
 - Détail des preuves, SQL candidat et tests préalables : section 19 de `AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md`.
+
+
+## 88. Recette isolée et retour arrière — 14 novembre 2026
+
+| ID | Priorité | Domaine | Critères de validation / statut |
+|---|---|---|---|
+| CRM-TRG-01 | P1 | Triggers du projet de test | Matrice ajoutée à l'audit : INSERT/UPDATE valides et inter-organisations sur les quatre tables, NULL optionnels, vérification d'un trigger unique par table. Tests isolés NOT RUN ; nettoyage NOT APPLIED. |
+| TEST-RLS-01 / AN-14 | P1 | RLS quotas du projet de test | Matrice ajoutée : accès direct refusé, membre/non-membre, isolation organisation, seuils utilisateur 5/jour et organisation 25/jour, concurrence, RLS ON / FORCE OFF. Tests isolés NOT RUN ; activation RLS NOT APPLIED. |
+| ENV-PARITY-01 | P1 | Séparation test / principal | Les deux propositions restent réservées à `MajestiOS-Test`. Aucune promotion vers `majestios-crm`, qui ne présente pas les doublons de triggers constatés sur le test. |
+| CHANGE-GATE-01 | P0 | Gouvernance de changement | Aucun DDL distant sans copie isolée validée, sauvegarde vérifiée, revue du SQL final, critères d'arrêt et autorisation explicite. |
+
+Le plan de retour arrière et les critères d'arrêt sont détaillés en section 19.5 de l'audit CRM/Supabase. Aucun test runtime ni aucune modification distante n'ont été exécutés.
