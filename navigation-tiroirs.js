@@ -93,12 +93,10 @@
     window.addEventListener("resize", styleMenuButton, {passive:true});
 
     const groups = [
-      {label:"Appels d’offres",href:"marches-publics.html",items:[["Appels d’offres publics","marches-publics.html"],["Marchés privés · signaux d’entreprises","marches-prives.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Facturation électronique & dématérialisation","facturation-electronique.html"]]},
-      {label:"Développement commercial",href:"developpement-commercial.html",items:[["Vue d’ensemble","developpement-commercial.html"],["Prospection","prospection-active.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Facturation électronique & dématérialisation","facturation-electronique.html"],["Suivi commercial","suivi-commercial.html"],["Qualification des entreprises","qualification-entreprises.html"]]},
-      {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"]]},
-      {label:"Réputation virtuelle",href:"reputation-virtuelle.html",items:[["Présence et visibilité","reputation-virtuelle.html"]]},
-      {label:"Espaces privés",href:"espace-membre.html",items:[["Espace client","espace-membre.html"],["Accès VIP · Administration","espace-interne.html"]]},
-      {label:"Explorer davantage",href:"veille-marches.html",items:[["Veille des marchés","veille-marches.html"],["Veille des entreprises · BODACC","bodacc-veille-entreprises.html"],["Intelligence économique","intelligence-economique.html"],["Sous-traitance","sous-traitance.html"],["Nous rejoindre","nous-rejoindre.html"]]},
+      {label:"Appels d’offres",href:"marches-publics.html",items:[["Appels d’offres publics","marches-publics.html"],["Marchés privés","marches-prives.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Veille des marchés","veille-marches.html"],["Sous-traitance","sous-traitance.html"]]},
+      {label:"Développement commercial",href:"developpement-commercial.html",items:[["Vue d’ensemble","developpement-commercial.html"],["Prospection","prospection-active.html"],["Qualification des entreprises","qualification-entreprises.html"],["Veille BODACC","bodacc-veille-entreprises.html"],["Intelligence économique","intelligence-economique.html"],["Suivi commercial","suivi-commercial.html"]]},
+      {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"],["Nous rejoindre","nous-rejoindre.html"]]},
+      {label:"Services",href:"reputation-virtuelle.html",items:[["Réputation virtuelle","reputation-virtuelle.html"],["Facturation électronique","facturation-electronique.html"]]},
       {label:"Assistant",href:"assistant-majestios.html",items:[["Assistant MajestiOS","assistant-majestios.html"]]}
     ];
     const current = location.pathname.split("/").pop() || "index.html";
@@ -209,6 +207,22 @@
       section.append(title,submenu);
       nav.append(section);
     });
+    const cta = document.createElement("a");
+    cta.className = "nav-cta";
+    cta.href = "espace-membre.html";
+    cta.textContent = "Créer mon espace personnel";
+    if (current === "espace-membre.html") cta.setAttribute("aria-current","page");
+    nav.append(cta);
+
+    // Bandeau de fin de page : renvoi quasi systématique vers l'espace personnel.
+    const main = document.querySelector("main.interior-page");
+    const skip = /^(espace-|crm|admin|contact|nous-rejoindre|assistant|mentions|confidentialite|cgu|faq)/;
+    if (main && !skip.test(current) && !main.querySelector(".page-cta")) {
+      const band = document.createElement("aside");
+      band.className = "page-cta";
+      band.innerHTML = '<p>Retrouvez vos recherches et votre suivi au même endroit.</p><a href="espace-membre.html">Créer mon espace personnel</a>';
+      main.append(band);
+    }
     nav.querySelectorAll("a").forEach(a => a.addEventListener("click",() => {
       if(matchMedia("(max-width: 900px)").matches) closeDrawer();
     }));

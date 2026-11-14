@@ -88,16 +88,16 @@ for (const route of requiredNavigationRoutes) {
   assert(siteFiles.includes(route), "Navigation : route fonctionnelle non publiée : " + route);
 }
 
-// Contrat du menu réel : sept rubriques principales, vingt-et-une entrées secondaires et dix-neuf destinations uniques avec l'espace Assistant.
+// Contrat du menu réel : cinq rubriques principales, dix-sept entrées secondaires et dix-sept destinations uniques avec l'espace Assistant.
 const menuRoutes = [...drawerController.matchAll(/\["[^"]+","([^"]+\.html)"\]/g)].map((match) => match[1]);
 const uniqueMenuRoutes = [...new Set(menuRoutes)];
 for (const route of uniqueMenuRoutes) {
   assert(exists(route), "Navigation : destination de sous-menu inexistante : " + route);
   assert(siteFiles.includes(route), "Navigation : destination de sous-menu non publiée : " + route);
 }
-assert( menuRoutes.length === 21, "Navigation : le menu doit contenir 21 entrées secondaires, actuellement " + menuRoutes.length);
-assert(uniqueMenuRoutes.length === 19, "Navigation : les destinations secondaires uniques doivent être 19, actuellement " + uniqueMenuRoutes.length);
-for (const label of ["Appels d’offres","Développement commercial","Réseau","Réputation virtuelle","Espaces privés","Explorer davantage","Assistant"]) {
+assert( menuRoutes.length === 17, "Navigation : le menu doit contenir 17 entrées secondaires, actuellement " + menuRoutes.length);
+assert(uniqueMenuRoutes.length === 17, "Navigation : les destinations secondaires uniques doivent être 17, actuellement " + uniqueMenuRoutes.length);
+for (const label of ["Appels d’offres","Développement commercial","Réseau","Services","Assistant"]) {
   assert(drawerController.includes('label:"' + label + '"'), "Navigation : rubrique principale absente : " + label);
 }
 assert(drawerController.includes('mouseenter') && drawerController.includes('mouseleave'),

@@ -67,3 +67,11 @@ html body .site-header .site-nav-drawer .nav-group-items::before{
   html body .site-header .site-nav-drawer .nav-drawer-home,
   html body .site-header .site-nav-drawer .nav-group-link{transition:none!important}
 }
+
+/* Renvoi vers l'espace personnel : bouton doré dans la barre + bandeau de fin de page */
+html body .site-nav .nav-cta{display:inline-flex;align-items:center;min-height:26px;padding:3px 12px;margin-left:6px;border-radius:999px;font-size:11px;font-weight:700;color:#1a1204;text-decoration:none;background:linear-gradient(180deg,#f6dd9a,#d5b56c);border:1px solid #f0d38b;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 2px 6px rgba(0,0,0,.3);white-space:nowrap}
+html body .site-nav .nav-cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
+@media (max-width:900px){html body .site-nav .nav-cta{min-height:40px;margin:8px 12px;justify-content:center;font-size:14px}}
+html body main.interior-page .page-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin:32px 0 0;padding:16px 22px;border:1px solid rgba(213,181,108,.55);border-radius:14px;background:linear-gradient(90deg,rgba(8,20,40,.78),rgba(8,20,40,.5))}
+html body main.interior-page .page-cta p{margin:0;color:#eef2f7;font-size:15px}
+html body main.interior-page .page-cta a{padding:9px 18px;border-radius:999px;font-weight:700;color:#1a1204;text-decoration:none;background:linear-gradient(180deg,#f6dd9a,#d5b56c);box-shadow:0 2px 8px rgba(0,0,0,.35)}

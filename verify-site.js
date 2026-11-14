@@ -97,7 +97,7 @@ assert(internalEntryPage.includes('id="internal-login-form"') && internalEntryPa
 assert(internalEntryPage.includes('src="espace-interne.js"') && internalEntryPage.includes('href="espace-interne.css"'), "Accès VIP : les ressources de l’entrée interne doivent être chargées");
 assert(internalEntryPage.includes('id="internal-feedback"') && internalEntryPage.includes('Aucun accès n’a été ouvert'), "Accès VIP : un échec de chargement du module doit produire un message explicite, pas une page vide");
 const sharedNavigation = fs.readFileSync(path.join(root, "navigation-tiroirs.js"), "utf8");
-assert(sharedNavigation.includes('["Accès VIP · Administration","espace-interne.html"]'), "Navigation : le lien Accès VIP doit pointer vers le sas d’authentification interne");
+assert(privateAccessPage.includes('href="espace-interne.html"'), "Espace privé : le lien Accès VIP doit pointer vers le sas d’authentification interne");
 const adminPage = fs.readFileSync(path.join(root, "administration.html"), "utf8");
 assert(siteFiles.includes("administration.html"), "Administration : page absente du manifeste");
 const searchPagePath = path.join(root, "admin-recherches.html");
