@@ -1,0 +1,66 @@
+/* MajestiOS — barre de navigation en relief (branche de test).
+   Surcharge uniquement l'apparence : barre vitrée, boutons bombés, reflets, ombres portées,
+   sous-menus flottants. Aucun changement de structure ni de comportement. */
+html body .site-header{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.20) 0,rgba(255,255,255,.05) 46%,rgba(0,0,0,.18) 100%),
+    linear-gradient(180deg,#16365f 0%,#0c2142 55%,#071428 100%)!important;
+  border-bottom:1px solid #d5b56c!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 -2px 0 rgba(0,0,0,.45) inset,
+             0 8px 0 -4px rgba(213,181,108,.55),0 14px 26px rgba(1,6,16,.6)!important;
+}
+html body .site-header .site-nav-drawer .nav-drawer-home,
+html body .site-header .site-nav-drawer .nav-group-link{
+  position:relative;
+  min-height:34px!important;padding:7px 11px!important;
+  border:1px solid rgba(255,255,255,.22)!important;
+  border-bottom:3px solid rgba(0,0,0,.45)!important;
+  border-radius:9px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.34) 0,rgba(255,255,255,.10) 48%,rgba(0,0,0,.20) 52%,rgba(0,0,0,.34) 100%),#17406d!important;
+  color:#f4f7fc!important;
+  text-shadow:0 1px 1px rgba(0,0,0,.65);
+  box-shadow:0 4px 0 rgba(0,0,0,.40),0 8px 14px rgba(0,0,0,.40),inset 0 1px 0 rgba(255,255,255,.55)!important;
+  transform:translateY(0);
+  transition:transform .14s ease,box-shadow .14s ease,filter .14s ease!important;
+}
+/* Une teinte par menu, comme dans la barre d'origine. */
+html body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(1)>.nav-group-link{background-color:#0b7f8e!important}
+html body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(2)>.nav-group-link{background-color:#2563b0!important}
+html body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(3)>.nav-group-link{background-color:#25805a!important}
+html body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(4)>.nav-group-link{background-color:#7d55b8!important}
+html body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(5)>.nav-group-link{background-color:#a8651f!important}
+html body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{background-color:#566679!important}
+html body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(7)>.nav-group-link{background-color:#9b7a2f!important}
+html body .site-header .site-nav-drawer .nav-drawer-home{background-color:#1d4a7d!important}
+html body .site-header .site-nav-drawer .nav-drawer-home:hover,
+html body .site-header .site-nav-drawer .nav-group-link:hover,
+html body .site-header .site-nav-drawer .nav-group-link:focus-visible,
+html body .site-header .site-nav-drawer .nav-group-link[aria-expanded="true"]{
+  transform:translateY(-2px)!important;filter:brightness(1.18) saturate(1.1);
+  border-bottom:3px solid #d5b56c!important;
+  box-shadow:0 6px 0 rgba(0,0,0,.40),0 14px 20px rgba(0,0,0,.5),0 0 14px rgba(240,211,139,.45),inset 0 1px 0 rgba(255,255,255,.7)!important;
+}
+html body .site-header .site-nav-drawer .nav-drawer-home:active,
+html body .site-header .site-nav-drawer .nav-group-link:active{
+  transform:translateY(3px)!important;
+  box-shadow:0 1px 0 rgba(0,0,0,.40),0 3px 6px rgba(0,0,0,.4),inset 0 2px 4px rgba(0,0,0,.4)!important;
+}
+/* Sous-menus : panneaux flottants en relief. */
+html body .site-header .site-nav-drawer .nav-group-items{
+  margin-top:10px;
+  background:linear-gradient(180deg,#ffffff 0%,#eef3fa 100%)!important;
+  border:1px solid rgba(213,181,108,.7)!important;
+  border-radius:12px!important;
+  box-shadow:0 2px 0 #fff inset,0 3px 0 rgba(213,181,108,.7),0 22px 44px rgba(2,10,24,.55),0 6px 12px rgba(2,10,24,.3)!important;
+}
+/* Logo : léger volume. */
+html body .site-header .brand{filter:drop-shadow(0 3px 3px rgba(0,0,0,.55))}
+html body .site-header .brand-mark{box-shadow:0 3px 0 rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.6)}
+@media(max-width:900px){
+  html body .site-header .site-nav-drawer .nav-drawer-home,
+  html body .site-header .site-nav-drawer .nav-group-link{min-height:42px!important;font-size:13px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html body .site-header .site-nav-drawer .nav-drawer-home,
+  html body .site-header .site-nav-drawer .nav-group-link{transition:none!important}
+}
