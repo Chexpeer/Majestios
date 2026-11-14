@@ -216,7 +216,7 @@
     if (main && !skip.test(current) && !main.querySelector(".page-cta")) {
       const band = document.createElement("aside");
       band.className = "page-cta";
-      band.innerHTML = '<p>Retrouvez vos recherches et votre suivi au même endroit.</p><div class="page-cta-actions"><a href="espace-membre.html">Accéder à mon espace personnel</a><small>Pas encore d’espace ? <a href="espace-membre.html#creation">Créer mon espace personnel</a></small></div>';
+      band.innerHTML = '<p>Retrouvez vos recherches et votre suivi au même endroit.</p><div class="page-cta-actions"><a href="espace-membre.html">Accéder à mon espace personnel</a></div>';
       main.append(band);
     }
     nav.querySelectorAll("a").forEach(a => a.addEventListener("click",() => {

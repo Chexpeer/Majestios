@@ -47,7 +47,7 @@ Principes appliqués : une rubrique = une seule place (plus de doublon Facturati
 
 ## 4. Espace personnel : libellé arrêté le 14 novembre 2026
 
-Décision du porteur : le menu déroulant de la barre et le bouton du bandeau de fin de page s'intitulent **« Accéder à mon espace personnel »**. **Sous** le bandeau figure : « Pas encore d'espace ? **Créer mon espace personnel** », qui renvoie à la section `#creation` de `espace-membre.html`.
+Décision du porteur : le menu déroulant de la barre et le bouton du bandeau de fin de page s'intitulent **« Accéder à mon espace personnel »**. **Mise à jour du 14 novembre (soir), décision du porteur :** la ligne « Pas encore d'espace ? Créer mon espace personnel » sous le bandeau est supprimée (sans intérêt) ; le bandeau est plus compact (un seul bouton). Le clic sur « Accéder à mon espace personnel » mène à `espace-membre.html`, qui doit faire comprendre seule au visiteur qu'il peut se connecter ou, s'il n'a pas d'espace, le créer (section `#creation`). Le menu déroulant de la barre garde « Créer mon espace personnel ».
 
 Tant que l'AUTH-01 n'est pas recetté (provisionnement OTP non démontré de bout en bout), cette section ne crée rien : elle indique que la création ouvrira après la validation de la connexion sécurisée et propose « Être prévenu de l'ouverture » (page Contact). La connexion reste réservée aux membres déjà habilités (`shouldCreateUser: false`, vérifié par `tests/auth-espace-membre-otp.test.cjs`).
 
