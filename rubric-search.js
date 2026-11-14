@@ -47,10 +47,9 @@
   const marketStepMarkup = fixedMarket ? "" : `
       <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
         <select id="feed-market-type" aria-label="Type de marché" required>
-          <option value="">1. Choisir le type de marché</option>
-          <option value="all">Publics et privés</option>
-          <option value="public">Marchés publics</option>
-          <option value="private">Marchés privés et signaux d’entreprises</option>
+          <option value="">1. Appel d’offres public ou privé ?</option>
+          <option value="public">Appels d’offres publics</option>
+          <option value="private">Appels d’offres privés et signaux d’entreprises</option>
         </select>
       </label>`;
 
@@ -69,7 +68,7 @@
           <option value="all">3. Choisir un département (facultatif)</option>
         </select>
       </label>
-      <p class="search-source-note" id="search-source-note">Choisissez le type d’opportunité, puis une catégorie adaptée. Les marchés privés regroupent les signaux d’entreprise et les familles Immobilier, Emploi et Sous-traitance ; les résultats sont présentés dans un parcours unifié.</p>
+      <p class="search-source-note" id="search-source-note">Choisissez le type d’opportunité, puis une catégorie adaptée. Les appels d’offres publics et privés ne sont jamais mélangés. Le privé regroupe les annonces d’entreprises (sous-traitance, emploi, immobilier) et les signaux d’entreprise.</p>
       <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
     </form>`;
 

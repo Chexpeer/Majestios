@@ -1052,3 +1052,11 @@ Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : proje
 | ID | Priorité | Sujet | Statut |
 |---|---|---|---|
 | NAV-01 | P2 | Décision du porteur : « Sous-traitance » en première entrée de l'onglet « Appels d'offres » ; « Assistant » retiré de la barre (présence flottante conservée, page `assistant-majestios.html` toujours publiée) ; « Réputation virtuelle » et « Facturation électronique » deviennent chacune une entrée unique de la barre, à la place du groupe « Services » | Fait sur la branche de test (menu commun, menu de repli des 34 pages, gardes et test navigateur mis à jour : 18 entrées secondaires). Lecture retenue de « sous-rubrique unique » : une seule place par rubrique, sans groupe « Services » ; à confirmer. |
+
+## 96. Public et privé jamais regroupés (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| SEARCH-01 | P1 | La recherche (accueil, rubriques, résultats) impose d'emblée « appel d'offres public » ou « appel d'offres privé » ; l'option « Publics et privés » et la vue combinée sont supprimées ; sans choix, aucune source n'est interrogée | Fait sur la branche de test ; test navigateur mis à jour |
+| SEO-01 | P2 | Pages « Appels d'offres publics » et « Appels d'offres privés » : titres, descriptions et titres de page alignés ; les annonces des clients sont présentées comme appels d'offres privés | Fait (libellés) ; **les annonces elles-mêmes ne sont pas encore publiables** (ANN-01) |
+| STRAT-01 | P2 | Rôle de chaque porte d'entrée consigné (VISION §7 bis) : public = appât, annonces privées = cœur du site, facturation = porte d'entrée | Fait ; formulation interne, absente du site public |

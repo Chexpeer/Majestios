@@ -161,6 +161,16 @@ Le parcours d'acquisition envisagé :
 
 Les appels d'offres, la veille et la prospection restent les autres portes d'entrée. MajestiOS doit devenir utile avant, pendant et après la conquête d'un client.
 
+### 7 bis. Rôle de chaque porte d'entrée (décision du porteur, 14 novembre 2026)
+
+| Porte d'entrée | Rôle | Conséquence pour le site |
+|---|---|---|
+| Appels d'offres publics (BOAMP) | **Appât** : contenu abondant, recherché, qui fait venir le visiteur | Visible et clairement identifié « public » ; pas de lien sortant vers la source ; le visiteur laisse ses coordonnées pour être accompagné |
+| Annonces des clients (offres et recherches de sous-traitance) | **Cœur du site et du référencement** : ce sont des **appels d'offres privés**, peu visibles ailleurs | Rubrique « Appels d'offres privés » distincte du public ; publication gratuite, relue avant diffusion (ANN-01, à construire) |
+| Facturation électronique | **Porte d'entrée** vers le CRM, la prospection, les fichiers et la recherche de sous-traitants | Entrée de menu à part ; diagnostic puis formulaire ; sans promesse que le module existe |
+
+**Règle de présentation :** la recherche demande d'emblée « appel d'offres public » ou « appel d'offres privé » et ne regroupe jamais les deux. Cette logique d'entonnoir reste interne : le site public ne parle ni d'« appât » ni de « porte d'entrée ».
+
 ## 8. Modèle économique à construire
 
 Pistes à tester, sans tarifs arrêtés :

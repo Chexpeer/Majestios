@@ -63,7 +63,7 @@
   };
   addCriterion("Catégorie", definition.label);
   addCriterion("Mots-clés", query || "Aucun mot-clé précisé");
-  addCriterion("Type de marché", marketLabels[market] || "Publics et privés");
+  addCriterion("Type de marché", marketLabels[market] || "À choisir : public ou privé");
   addCriterion("Département", departmentLabels[department] || (department === "all" ? "Tous les départements" : department));
   panel.append(criteria);
 

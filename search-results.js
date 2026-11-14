@@ -5,7 +5,7 @@
   const params = new URLSearchParams(window.location.search);
   const catalogue = window.MAJESTIOS_CATALOG || {};
   const category = params.get("categorie") || "all";
-  const market = params.get("marche") || "all";
+  const market = params.get("marche") || "";
   const department = params.get("departement") || "all";
   const categories = catalogue.searchCategories || [];
   const markets = catalogue.marketTypes || [];
@@ -21,7 +21,7 @@
   const criteria = [
     ["Mots-clés", (params.get("q") || "").trim() || "Aucun mot-clé précisé"],
     ["Catégorie", categoryLabel],
-    ["Type de marché", findLabel(markets, market, market)],
+    ["Type d’appel d’offres", findLabel(markets, market, "À choisir : public ou privé")],
     ["Département", departmentLabel]
   ];
   for (const [label, value] of criteria) {
