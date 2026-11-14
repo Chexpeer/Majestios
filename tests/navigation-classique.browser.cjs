@@ -57,10 +57,10 @@ async function main() {
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
 
-    assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),7,"Les sept familles de navigation doivent être présentes.");
-    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),21,"Le menu doit exposer les 21 entrées secondaires.");
-    assert.equal(await page.locator("#site-nav a").count(),22,"Le menu doit exposer Accueil et les 21 entrées secondaires.");
-    assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"48px",
+    assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,"Les six menus de navigation doivent être présents.");
+    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),20,"Le menu doit exposer les 20 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav a").count(),21,"Le menu doit exposer Accueil et les 20 entrées secondaires.");
+    assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"40px",
       "La barre de navigation doit rester compacte.");
     assert.equal(await page.locator(".nav-group-link").first().evaluate(node=>getComputedStyle(node).fontSize),"11px",
       "Les onglets desktop doivent conserver une typographie compacte.");
@@ -81,7 +81,7 @@ async function main() {
     for (const route of publicPages) {
       await page.goto("http://127.0.0.1:4174/"+route,{waitUntil:"domcontentloaded"});
       await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
-      await page.waitForFunction(() => document.querySelectorAll("#site-nav .nav-drawer-section").length === 7,{timeout:15000});
+      await page.waitForFunction(() => document.querySelectorAll("#site-nav .nav-drawer-section").length === 6,{timeout:15000});
       const actualNavigation = await page.evaluate(() => ({
         groups: [...document.querySelectorAll("#site-nav .nav-drawer-section")].map(section => ({
           label: section.querySelector(".nav-group-link")?.textContent.trim(),
@@ -95,10 +95,10 @@ async function main() {
     }
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
-    for(const href of navigationHrefs) assert.ok(published.has(href),"Chaque destination du menu doit être publiée : "+href);
+    for(const href of navigationHrefs) assert.ok(published.has(href.split("#")[0]),"Chaque destination du menu doit être publiée : "+href);
     for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","facturation-electronique.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html","assistant-majestios.html"]) {
       assert.ok(published.has(route),"La route doit être publiée : "+route);
-      assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),(route==="accompagnement-appels-offres.html"||route==="facturation-electronique.html")?2:1,"Le menu doit exposer le nombre attendu de liens vers "+route);
+      assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),1,"Le menu doit exposer le nombre attendu de liens vers "+route);
     }
     assert.equal(await page.locator("#floor-rows").count(),0,"L'ancien système de navigation par immeuble doit avoir disparu.");
     assert.ok(await page.locator("#home-search-mount").count(),"Le moteur de recherche transversal doit rester présent.");
@@ -108,14 +108,16 @@ async function main() {
     const opportunityTitle=opportunityGroup.locator(".nav-group-link");
     const opportunityMenu=opportunityGroup.locator(".nav-group-items");
     const devGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
-    assert.equal(await opportunityMenu.locator('a[href="facturation-electronique.html"]').count(),1,"La facturation électronique doit être accessible depuis Appels d’offres.");
-    assert.equal(await devGroup.locator('.nav-group-items a[href="facturation-electronique.html"]').count(),1,"La facturation électronique doit aussi être accessible depuis Développement commercial.");
+    const servicesGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Services"})});
+    assert.equal(await servicesGroup.locator('a[href="facturation-electronique.html"]').count(),1,"La facturation électronique doit être accessible depuis Services.");
+    assert.equal(await devGroup.locator('.nav-group-items a[href="facturation-electronique.html"]').count(),0,"La facturation électronique ne doit apparaître qu’à une seule place (Services).");
     assert.equal(await opportunityTitle.getAttribute("aria-expanded"),"false","Les sous-menus doivent être repliés au chargement.");
     await opportunityGroup.hover();
     assert.equal(await opportunityMenu.isVisible(),true,"Le survol doit ouvrir le sous-menu sur ordinateur.");
     assert.equal(await opportunityMenu.evaluate(node=>getComputedStyle(node).backgroundColor),"rgb(8, 19, 35)",
       "Le sous-menu desktop doit conserver son fond bleu nuit opaque et contrasté.");
     await page.locator("body").hover({position:{x:5,y:5}});
+    await page.waitForTimeout(800); // délai de fermeture volontaire de 600 ms
     assert.equal(await opportunityMenu.isVisible(),false,"Le retrait du pointeur doit refermer le sous-menu.");
     await opportunityGroup.locator(".nav-group-link").click();
     await page.waitForURL("**/marches-publics.html");
@@ -163,7 +165,7 @@ async function main() {
     await devGroup.locator('a[href="developpement-commercial.html"]').click();
     await page.waitForURL("**/developpement-commercial.html");
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
-    assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),7,
+    assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,
       "La navigation commune doit être présente après changement de page.");
     assert.equal(await page.locator(".menu-toggle").count(),1,"Le hamburger doit être disponible sur les pages de rubrique.");
     assert.equal(await page.locator(".majestios-chat-toggle").count(),1,
@@ -184,7 +186,7 @@ async function main() {
       "Le chatbot doit rester utilisable depuis l'espace Assistant.");
 
     assert.deepEqual(errors,[],"Aucune erreur JavaScript ne doit apparaître pendant le parcours.");
-    console.log("TEST NAVIGATION RÉUSSI : sept familles, destinations publiées, survol desktop, hamburger mobile, sous-menus tactiles, navigation multipage et chatbot.");
+    console.log("TEST NAVIGATION RÉUSSI : six menus, destinations publiées, survol desktop, hamburger mobile, sous-menus tactiles, navigation multipage et chatbot.");
   } finally {
     if(browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));

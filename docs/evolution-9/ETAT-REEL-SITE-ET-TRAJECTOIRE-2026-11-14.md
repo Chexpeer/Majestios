@@ -115,3 +115,18 @@ Cheexpeer utilise un fournisseur d'IA **compatible OpenAI** (Chat Completions, s
 7. **Documenter** fournisseur, modèle, date, coût et propriétaire de la clé dans le registre ; **faire tourner** la clé à chaque changement de prestataire ; **ne promouvoir** vers `majestios-crm` qu'après revue de sécurité et autorisation explicite.
 
 Aucune de ces étapes n'est exécutée à ce jour : aucun fournisseur, aucun secret et aucun déploiement n'ont été activés.
+
+## 11. Cohérence et harmonisation des liens — 14 novembre 2026
+
+Audit automatique des 39 pages (fichiers, ancres, menu de repli, chargeur de navigation) ; il est rejouable par `node verify-liens-site.js` (ajouté au workflow anti-régression).
+
+| Constat | Traitement |
+|---|---|
+| Menu de repli (affiché sans JavaScript) différent du menu réel sur 34 pages : « Accueil · Développement commercial · Réseau · Réputation virtuelle · Nous rejoindre · Espace privé · FAQ » | Harmonisé : Accueil · Appels d'offres · Développement commercial · Réseau · Services · Assistant · Accéder à mon espace personnel ; identique sur toutes les pages. `index.html` (cube interactif) et les quatre pages sans barre (`crm`, `administration`, `admin-recherches`, `espace-interne`) ne sont pas modifiées. |
+| Aucun lien cassé (les paramètres `?returnTo=` et `?marche=` ne sont pas des fichiers absents) | Contrôle intégré au vérificateur |
+| Pages sans lien entrant : `categorie-electricite`, `categorie-maintenance`, `categorie-plomberie-chauffage`, `categorie-renovation`, `resultats-recherche` | **Conservées** (règle : pas de suppression sans traçage des dépendances) ; `resultats-recherche.html` est atteinte par le moteur, les catégories par la recherche. À arbitrer plus tard. |
+| Facturation et Accompagnement présents dans deux menus | Une seule place chacun (Services / Appels d'offres) |
+| Tests de navigation encodant l'ancien contrat (7 familles, 21 entrées, barre à 48 px, fermeture immédiate, doublons de facturation) | Mis à jour : 6 menus, 20 liens secondaires (21 avec Accueil), 40 px, fermeture après 600 ms, une seule place |
+| Test de recherche : pages `categorie-*` et BODACC à marché fixe ; `qualification-entreprises.html` a son propre moteur APE/NAF | Test réaligné |
+
+Résultat local : `verify-architecture`, `verify-site`, `verify-doc-links`, `verify-liens-site`, build et tous les tests du dossier `tests/` (hors tests réseau en direct et d'intégration Supabase) réussis. Les tests en direct BOAMP/BODACC et l'intégration Supabase n'ont **pas** été exécutés (accès réseau non disponible depuis l'environnement de travail).

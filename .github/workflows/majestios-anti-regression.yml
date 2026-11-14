@@ -54,3 +54,5 @@ jobs:
         run: node verify-site.js
       - name: Vérifier les dix dossiers et leurs accès internes
         run: node verify-architecture.js
+      - name: Vérifier la cohérence des liens du site
+        run: node verify-liens-site.js
