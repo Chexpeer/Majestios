@@ -38,7 +38,10 @@
   if (!homeMount && (!page || !config)) return;
 
   // Les rubriques Marchés publics et Marchés privés ont un type fixe : aucun sélecteur public/privé ne doit y apparaître.
-  const fixedMarket = path === "marches-publics.html" || path === "marches-prives.html";
+  // La page BODACC est aussi à type fixe : elle ne propose que des annonces d'entreprises
+  // (créations, cessions, radiations, procédures…), jamais d'appels d'offres.
+  const isBodaccPage = path === "bodacc-veille-entreprises.html";
+  const fixedMarket = path === "marches-publics.html" || path === "marches-prives.html" || isBodaccPage;
   const marketStepMarkup = fixedMarket ? "" : `
       <label class="feed-filter-label" id="market-step" hidden><span class="sr-only">Choisir le type de marché</span>
         <select id="feed-market-type" aria-label="Type de marché" required>
@@ -102,7 +105,7 @@
       const categoryButton = document.createElement("button");
       categoryButton.type = "button";
       categoryButton.className = "feed-criteria-toggle";
-      categoryButton.textContent = "Choisir une catégorie";
+      categoryButton.textContent = isBodaccPage ? "Choisir un type d’annonce" : "Choisir une catégorie";
       categoryButton.setAttribute("aria-controls", "category-step department-step");
       categoryButton.setAttribute("aria-expanded", "false");
       // Même comportement progressif sur les rubriques à type de marché fixe :
@@ -127,7 +130,7 @@
         categoryStep.hidden = fixedLevel < 1;
         if (departmentStep) departmentStep.hidden = fixedLevel < 2;
         categoryButton.setAttribute("aria-expanded", String(fixedLevel > 0));
-        categoryButton.textContent = fixedLevel >= 2 ? "Modifier les critères" : "Affiner les critères";
+        categoryButton.textContent = fixedLevel >= 2 ? "Modifier les critères" : (isBodaccPage ? "Affiner l’annonce" : "Affiner les critères");
       });
     } else {
       form.dataset.progressive = "true";

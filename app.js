@@ -208,18 +208,20 @@ function populateSearchFilters(marketValue = "", selectedCategory = "") {
     categorySelect.replaceChildren();
     const placeholder = document.createElement("option");
     placeholder.value = "";
-    placeholder.textContent = marketValue ? "2. Choisir une catégorie" : "2. Choisir d’abord un type";
+    // Page BODACC : uniquement des annonces d'entreprises (pas de marchés publics, pas de familles hors BODACC).
+    const bodaccOnly = window.location.pathname.split("/").pop() === "bodacc-veille-entreprises.html";
+    placeholder.textContent = marketValue ? (bodaccOnly ? "Choisir un type d’annonce" : "2. Choisir une catégorie") : "2. Choisir d’abord un type";
     categorySelect.append(placeholder);
     if (marketValue) {
       const allCategories = document.createElement("option");
       allCategories.value = "all";
-      allCategories.textContent = "Toutes les catégories";
+      allCategories.textContent = bodaccOnly ? "Toutes les annonces BODACC" : "Toutes les catégories";
       categorySelect.append(allCategories);
     }
     const source = marketValue === "public"
       ? (majCatalog.searchCategories || []).filter((item) => item.active && item.value !== "all")
       : marketValue === "private"
-        ? (majCatalog.privateSearchCategories || []).filter((item) => item.active || item.planned)
+        ? (majCatalog.privateSearchCategories || []).filter((item) => (item.active || item.planned) && (!bodaccOnly || item.source === "bodacc"))
         : [];
     const groups = new Map();
     source.forEach((item) => {
