@@ -12,7 +12,7 @@ Le mandat du 13 novembre (`AGENTS.md` §0 bis) interdisait toute modification vi
 
 | Sujet | État réel | Commit |
 |---|---|---|
-| Fonds d'écran par rubrique | 13 fonds originaux WebP (`visuels/fonds/`), posés sur un calque fixe composité ; validés par le porteur ; la page d'accueil et le cube interactif ne sont pas touchés | `6072e60`, `084f866` |
+| Fonds d'écran par rubrique | 13 fonds originaux WebP (`visuels/fonds/`), posés sur un calque fixe composité ; validés par le porteur ; la page d'accueil et le cube interactif n'étaient pas touchés à ce stade (voir la mise à jour du soir : cube en cristal) | `6072e60`, `084f866` |
 | Barre de navigation | Relief 3D discret, hauteur réduite (40 px), délai de fermeture des sous-menus de 600 ms | `6072e60`, `81b101e` |
 | Performance du défilement | `background-attachment: fixed` remplacé par un calque `position: fixed` ; médiane mesurée 330 → 16,7 ms par image (test automatisé sans GPU, non équivalent à une mesure sur appareil réel) | `084f866` |
 | BODACC | Le moteur de la page `bodacc-veille-entreprises.html` est limité aux annonces d'entreprises (créations, cessions, radiations, procédures) ; il n'affiche plus de catégories d'appels d'offres | `1dcadb8` |

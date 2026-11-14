@@ -234,3 +234,29 @@ html body .site-header .brand{color:#f4f0e6}
 
 /* Bouton d'action discret dans les listes et blocs d'information */
 html body .button-compact{min-height:0!important;padding:.4rem .85rem!important;font-size:.78rem!important;line-height:1.3!important;border-radius:.6rem!important;width:auto!important;align-self:flex-start;margin-top:.5rem}
+
+/* ---------- Harmonisation typographique et lisibilité (14 novembre 2026) ----------
+   Une seule échelle : titre de page, titre de section, titre de carte, texte courant.
+   Corrige les titres trop grands (54 à 66 px), les sous-titres de 17 à 42 px en trois polices,
+   le texte rose des libellés de formulaire et les éléments sous le contraste minimal (4,5:1). */
+html body:not(.homepage) main h1{font-size:clamp(30px,3.4vw,42px);line-height:1.15}
+html body.homepage .home-intro h1{font-size:clamp(32px,3.8vw,48px);line-height:1.12;letter-spacing:-.03em}
+html body:not(.homepage) main :is(h2,.section-title){font-family:var(--majestios-font-body);font-size:clamp(20px,2vw,25px);line-height:1.25;letter-spacing:-.3px;color:var(--majestios-ink)}
+html body:not(.homepage) main :is(.platform-card,.vision-card,.interior-callout,.member-preview,.floating-route-card,.related-rubric-card) h2{font-size:19px}
+html body:not(.homepage) main h3{font-size:16px;line-height:1.35}
+html body:not(.homepage) main :is(p,li){line-height:1.7}
+html body:not(.homepage) main .interior-lede,html body:not(.homepage) main .reputation-lede{font-size:clamp(15px,1.4vw,17px);line-height:1.7;max-width:62ch;color:var(--majestios-muted)}
+/* Fil d'Ariane : la page courante reste lisible. */
+html body .interior-breadcrumb{color:var(--majestios-soft)}
+html body .interior-breadcrumb [aria-current="page"]{color:var(--majestios-muted)}
+/* Surtitres dorés : plus clairs pour atteindre le contraste minimal. */
+html body:not(.homepage) main :is(.eyebrow,.hero-eyebrow){color:var(--majestios-gold-light)}
+html body:not(.homepage) main strong{color:inherit}
+/* Formulaires : libellés lisibles (le rose #c26e70 des anciens styles est retiré), case à cocher alignée. */
+html body .form-field>span{color:var(--majestios-muted);font-size:13px;line-height:1.5}
+html body .form-field>span>span[aria-hidden="true"]{color:var(--majestios-gold-light)}
+html body .form-field input[type="checkbox"]{display:inline-block!important;width:auto!important;min-width:0;margin:0 .55rem 0 0!important;vertical-align:-2px;accent-color:var(--majestios-gold)}
+/* Accueil : bandeau d'accès personnel avec marges internes (le texte touchait le cadre). */
+html body.homepage .home-personal-access{padding:clamp(18px,2.4vw,28px)}
+/* Surtitres posés sur les visuels de rubrique : or clair, contraste supérieur à 4,5:1 (l'or foncé est réservé aux surfaces claires). */
+html body main .eyebrow{color:var(--majestios-gold-light)!important}

@@ -158,7 +158,7 @@ html body main.interior-page>.eyebrow{color:#f0d38a!important}
 html body main.interior-page>h1{
   max-width:920px;
   margin-bottom:14px;
-  font-size:clamp(30px,4.5vw,54px)!important;
+  font-size:clamp(30px,3.4vw,42px)!important;
   line-height:1.08!important;
 }
 html body main.interior-page>.interior-lede{

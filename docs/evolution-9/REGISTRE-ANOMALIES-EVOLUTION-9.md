@@ -1079,3 +1079,18 @@ Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : proje
 | CONS-03 | P2 | Tests réseau directs BOAMP/BODACC (`boamp-live-smoke`, `bodacc-live-smoke`, `reputation-bodacc-query-smoke`) | **Non exécutables ici** (hôtes DILA bloqués) ; à rejouer depuis CI ou poste du porteur |
 | CONS-04 | P2 | Connexion e-mail du projet Test : lien envoyé vers `localhost:3000`, limite d'envois atteinte | **Ouvert** : régler « Site URL » / « Redirect URLs » dans Supabase (Authentication > URL Configuration), puis réessayer après la fenêtre de limite |
 | CONS-05 | P3 | Compte de test créé directement dans la base d'authentification (perspectivemarketing@gmail.com, propriétaire de l'organisation interne, projet Test) | **À supprimer ou à régulariser** avant toute reprise vers un projet réel |
+
+## 99. Harmonisation visuelle et cube en cristal (14 novembre 2026, soir)
+
+Demande du porteur : police trop grande par endroits, couleurs inadaptées, cube préféré en cristal avec une courte phrase d'introduction par face.
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| VIS-01 | P2 | Titres principaux de 54 à 66 px selon les pages ; sous-titres de 17 à 42 px dans trois polices | **Corrigé** : titre de page 30–42 px, accueil 32–48 px, sous-titres 20–25 px (`charte-majestios.css`, plus deux fichiers qui forçaient 54 px en `!important`) |
+| VIS-02 | P2 | Libellés de formulaire en rose (#c26e70) peu lisibles ; case à cocher décalée de son texte | **Corrigé** (tous formulaires) |
+| VIS-03 | P2 | Contraste sous 4,5:1 : fil d'Ariane (13 pages), surtitres dorés, texte d'une carte de salons | **Corrigé** ; contrôle automatisé sur 34 pages, il ne reste que du texte réservé aux lecteurs d'écran |
+| VIS-04 | P2 | Bandeau d'accès personnel de l'accueil sans marge interne | **Corrigé** |
+| VIS-05 | P2 | Cube : rendu cristal (verre, arêtes, noyau), titre et phrase sur chaque face, sans promesse de capacité non déployée | **Fait** ; test `tests/harmonisation-visuelle.browser.cjs` (ordinateur et téléphone, sans défilement horizontal) |
+| VIS-06 | P3 | Couleurs de rubrique de la barre de navigation (vert, violet, bronze) : cohérence avec le bleu nuit et l'or | **Ouvert** : conservées (décision de la branche de test) ; à valider par le porteur |
+| VIS-07 | P3 | Test visuel sur appareil réel (rendu 3D, performance du cube) | **Ouvert** : seules des captures de navigateur sans GPU ont été faites |
+

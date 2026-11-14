@@ -39,3 +39,19 @@
 ## 4. Prochain pas recommandé
 
 L1 (recette réelle du site) et les décisions 1, 2, 3 et 4 : elles débloquent tout le reste sans risque pour les données.
+
+## 5. Liste des priorités — mise à jour du 14 novembre 2026 (soir)
+
+| Rang | Sujet | Statut | Prochain pas | Qui |
+|---|---|---|---|---|
+| 1 | **Connexion par e-mail du projet de test** (CONS-04) : lien envoyé vers `localhost:3000`, limite d'envois atteinte | Ouvert | Régler « Site URL » et « Redirect URLs » (Authentication > URL Configuration), attendre la fin de la limite, retester | Porteur (réglage) puis Claude |
+| 2 | **Recette de la relecture des annonces** (branche `test-annonces-relecture`) et **de la liste publique** (`test-annonces-liste-publique`) sur MajestiOS-Test | Construit, tests automatiques OK, jamais essayé de bout en bout | Se connecter, déposer une annonce de test, la publier, la voir sur la liste publique | Porteur + Claude |
+| 3 | **Recette AUTH-01** (connexion sécurisée, création d'espace personnel) — prérequis de Cheexpeer et des espaces clients | Non recetté | À jouer après le point 1 | Porteur + Claude |
+| 4 | **Tests réseau BOAMP/BODACC** (3 tests non exécutables depuis l'environnement de travail) | À rejouer | Lancer depuis le poste du porteur ou la CI | Porteur |
+| 5 | **Compte de test créé directement en base** (CONS-05) | À régulariser | Supprimer ou refaire proprement avant tout projet réel | Claude, sur décision |
+| 6 | **Harmonisation visuelle** : échelle typographique unique, couleurs lisibles, cube en cristal | Fait sur la branche de test, vérifié en captures et en tests | Validation visuelle du porteur sur l'aperçu ; ajuster couleurs de rubrique si besoin | Porteur |
+| 7 | **Fusion des branches annonces** avec la branche principale | Non décidé | Ordre : relecture, liste publique ; conflits attendus sur `site-files.json` et le workflow CI | Porteur (décision) |
+| 8 | **SEO des annonces** : une page statique par annonce publiée et plan du site généré | Non commencé | Après la recette (point 2) | Claude |
+| 9 | **Planification de `private.expire_announcements()`** | Non planifié | Après la recette | Claude |
+| 10 | **Arrivée de Cheexpeer** : première mission `worker_self_check` (désactivée) | Préparée, non déployée | Après AUTH-01 et recette de bout en bout | Porteur + Claude |
+
