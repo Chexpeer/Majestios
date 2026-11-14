@@ -989,3 +989,14 @@ Cette section distingue les corrections vérifiées dans Git, les résultats CI 
 | CHANGE-GATE-01 | P0 | Gouvernance de changement | Aucun DDL distant sans copie isolée validée, sauvegarde vérifiée, revue du SQL final, critères d'arrêt et autorisation explicite. |
 
 Le plan de retour arrière et les critères d'arrêt sont détaillés en section 19.5 de l'audit CRM/Supabase. Aucun test runtime ni aucune modification distante n'ont été exécutés.
+
+
+## 89. Branche de test — écarts documentation / site — 14 novembre 2026
+
+| ID | Priorité | Domaine | Statut |
+|---|---|---|---|
+| NAV-TEST-01 | P2 | Menu à 5 rubriques / 17 entrées sur `test-ecriture-claude` ; contredit la décision Evolution-7 (VIP dans « Espaces privés », 7 rubriques) | Décision du porteur attendue avant toute reprise dans `Evolution-9` |
+| CTA-TEST-01 | P1 | Bouton « Créer mon espace personnel » vers une page indiquant que la création est suspendue | Ouvert tant qu'AUTH-01 n'est pas recetté ou que le libellé n'est pas ajusté |
+| RECETTE-TEST-01 | P2 | BODACC/BOAMP réels, 13 pages à fonds, mobile : non vérifiés sur appareil réel | NOT RUN |
+
+Détail : [ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).

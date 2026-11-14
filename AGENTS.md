@@ -20,6 +20,8 @@ Le mandat courant est limité à la correction des défauts techniques flagrants
 - Les tests non exécutés restent explicitement « non exécutés ». Une CI verte sur un commit antérieur ne valide pas les commits ultérieurs.
 
 
+**Exception documentée — branche `test-ecriture-claude` (14 novembre 2026) :** sur cette seule copie de travail, le porteur du projet a autorisé explicitement des évolutions visuelles, éditoriales et de navigation. Elles sont décrites dans [docs/evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](docs/evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md). Le mandat ci-dessus reste en vigueur pour `Evolution-9` ; aucune fusion ni PR sans décision du porteur.
+
 Ce fichier est le point d'entrée canonique pour tout assistant ou agent intervenant dans ce dépôt.
 
 ## 1. Lecture obligatoire

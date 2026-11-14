@@ -33,6 +33,7 @@ Cette formulation décrit une ambition produit. Elle ne signifie pas que tous le
 | CRM / Supabase | [Audit en lecture seule](evolution-9/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md) | État daté des deux projets ; à recontrôler avant toute action distante |
 | Non-régression | [Audit fonctionnel Evolution-7](evolution-9/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) | Référence de conservation des fonctions et parcours |
 | SEO | [Audit SEO Evolution-9](evolution-9/AUDIT-SEO-EVOLUTION-9.md) | Audit partiel ; les contrôles non réalisés restent ouverts |
+| État réel et trajectoire | [État réel du site et trajectoire — 14 novembre 2026](evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md) | Écarts entre la documentation et la branche de test `test-ecriture-claude` (menu, fonds, BODACC, espace personnel) et feuille de route |
 | Synthèse documentaire | [Plan de synthèse documentaire](evolution-9/PLAN-SYNTHESE-DOCUMENTAIRE.md) | Hiérarchie, consolidation effectuée et travaux restants |
 
 ## 4. État réel — distinguer code, déploiement et recette
@@ -58,6 +59,7 @@ Le guide conversationnel présent sur le site est un assistant local de premièr
 - `site-files.json` déclare **93 ressources**, dont **39 pages HTML**.
 - `verify-architecture.js` contrôle **21 entrées secondaires** et **19 destinations uniques**.
 - Les nombres 81 et 86 rencontrés dans des documents antérieurs correspondent à des états datés ou à des compteurs non réconciliés ; ils ne doivent pas être présentés comme le manifeste actuel.
+- **Branche de test `test-ecriture-claude` (14 novembre) :** 108 ressources dont 39 pages HTML ; contrat de menu **17 entrées / 17 destinations, 5 rubriques**. Ces chiffres ne s'appliquent pas à `Evolution-9`, restée inchangée ; voir [État réel du site et trajectoire — 14 novembre 2026](evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
 - Une présence dans Git ne prouve ni déploiement Supabase, ni configuration distante, ni recette fonctionnelle.
 
 ## 6. Règles de vérité

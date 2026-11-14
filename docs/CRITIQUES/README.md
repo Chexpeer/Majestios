@@ -19,6 +19,8 @@ Le registre Evolution-9 est la source de vérité pour les anomalies de la branc
 
 **Reprise Evolution-9 — 11 novembre 2026 :** la branche de consolidation a été créée depuis Evolution-8 après correction du décalage du contrat de navigation (NAV-01-EVO9 : 21 entrées secondaires, 19 destinations uniques). Le build Vercel Evolution-8 est READY sur le commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` ; ce résultat ne vaut pas recette CI ni navigateur. Les anomalies Supabase, Auth, multi-tenant et Cheexpeer restent ouvertes selon leurs preuves antérieures. Voir le [registre Evolution-9](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
 
+**Branche de test — 14 novembre 2026 :** le contrat de navigation de `test-ecriture-claude` est de 5 rubriques / 17 entrées ; le bouton « Créer mon espace personnel » mène à une page indiquant que la création est suspendue tant qu'AUTH-01 n'est pas recetté. Voir [ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](../evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
+
 ## 2. Anomalies actuellement suivies
 
 | ID | Priorité | Domaine | État connu | Règle de traitement |

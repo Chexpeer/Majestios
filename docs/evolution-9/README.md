@@ -33,6 +33,8 @@ Les sujets qui exigent une revue de sécurité, une décision métier ou une rec
 - Branche de référence : `Evolution-9`; le commit courant doit être relu avant chaque intervention.
 - Le build et les contrôles CI doivent être rattachés au SHA exact testé. Une CI verte sur un commit antérieur ne valide pas les commits ultérieurs.
 
+**Branche de test (14 novembre) :** une copie de travail, `test-ecriture-claude`, a reçu des évolutions du site autorisées explicitement (fonds par rubrique, navigation allégée à 17 entrées, BODACC, renvoi vers l'espace personnel). `Evolution-9` n'est pas modifiée. Écarts et trajectoire : [ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
+
 ## 4. Corrections techniques du lot du 13 novembre
 
 | Sujet | Correction | Preuve / limite |
