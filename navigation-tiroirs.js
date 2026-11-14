@@ -207,6 +207,13 @@
       section.append(title,submenu);
       nav.append(section);
     });
+    const admin = document.createElement("a");
+    admin.className = "nav-admin";
+    admin.href = "espace-interne.html";
+    admin.textContent = "Accès VIP · Administration";
+    if (current === "espace-interne.html") admin.setAttribute("aria-current","page");
+    nav.append(admin);
+
     const cta = document.createElement("a");
     cta.className = "nav-cta";
     cta.href = "espace-membre.html";

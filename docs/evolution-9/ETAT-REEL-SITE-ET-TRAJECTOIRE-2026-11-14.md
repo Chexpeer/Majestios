@@ -38,7 +38,7 @@ Le mandat du 13 novembre (`AGENTS.md` §0 bis) interdisait toute modification vi
 Principes appliqués : une rubrique = une seule place (plus de doublon Facturation / Accompagnement entre menus) ; BODACC et Intelligence économique relèvent du développement commercial, pas des appels d'offres.
 
 **Décision du 14 novembre 2026 : le menu à 5 rubriques est conservé.** Il remplace, pour la branche de test, la décision Evolution-7. Écarts correspondants :
-1. « Accès VIP · Administration » n'est plus dans la barre ; il est en bas de `espace-prive.html`. `verify-site.js` a été adapté en conséquence. Le lien reste un simple accès : il ne remplace aucun contrôle d'accès.
+1. « Accès VIP · Administration » n'est plus un sous-menu : c'est un lien distinct, discret (bordure or), à droite de la barre, à côté du bouton d'espace personnel ; il figure aussi en bas de `espace-membre.html` et `espace-prive.html`. `verify-site.js` a été adapté en conséquence. Le lien reste un simple accès : il ne remplace aucun contrôle d'accès.
 2. « Réputation virtuelle » n'est plus une rubrique principale mais une entrée de « Services ». Le libellé « Réputation virtuelle » reste employé dans l'interface, conformément à `ARBORESCENCE-CIBLE-V5.md`.
 3. Le contrat de `verify-architecture.js` passe de 21/19 à 17/17 et de sept à cinq rubriques.
 
