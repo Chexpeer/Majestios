@@ -1,5 +1,5 @@
 import { safeOfficialSourceUrl } from "./official-source-links.mjs";
-import { ZONES, sectorClause, familyClause, parseCreation } from "./veille-creations.mjs";
+import { ZONES, sectorClause, familyClause, parseCreation, describeCreation } from "./veille-creations.mjs";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 const supabase=createClient(MAJESTIOS_SUPABASE.url,MAJESTIOS_SUPABASE.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
@@ -35,16 +35,16 @@ function dateLabel(value){if(!value)return "Date non renseignée";const d=new Da
 function render(items,kind){
  results.innerHTML="";if(!items.length){results.innerHTML='<div class="search-status">Aucun résultat ne correspond à ces critères. Élargissez le territoire ou modifiez le mot-clé.</div>';return;}
  for(const item of items){
-  const bodacc=kind==="bodacc",title=bodacc?((item.listepersonnes&&parseCreation(item).isIndividual&&["Créations","Immatriculations"].includes(item.familleavis_lib))?("Entrepreneur individuel — "+(item.ville||"commune non précisée")):(item.commercant||item.id||"Annonce BODACC")):(item.objet||item.idweb||"Avis BOAMP");
+  const bodacc=kind==="bodacc",title=bodacc?(item.commercant||item.id||"Annonce BODACC"):(item.objet||item.idweb||"Avis BOAMP");
   const date=bodacc?(item.dateparution||item.dateparution_lib):(item.dateparution||item.datefindiffusion);
   const dept=bodacc?(item.numerodepartement||""):(item.code_departement||item.code_departement_prestation||"");
   const place=bodacc?[item.ville,item.departement_nom_officiel].filter(Boolean).join(" · "):[item.nomacheteur,dept?("Département "+dept):""].filter(Boolean).join(" · ");
   const category=bodacc?(item.familleavis_lib||"Annonce commerciale"):(item.nature_libelle||item.type_marche||"Avis de marché");
   const creation=bodacc&&["Créations","Immatriculations"].includes(item.familleavis_lib)?parseCreation(item):null;
-  const description=creation&&creation.activity?("Activité : "+creation.activity+(creation.startDate?" · Début d’activité : "+dateLabel(creation.startDate):"")+(creation.registrationDate?" · Immatriculation : "+dateLabel(creation.registrationDate):"")):bodacc?(item.acte||item.jugement||item.modificationsgenerales||""):(item.descripteur_libelle||item.DONNEES?.INDEXATION?.RESUME_OBJET||"");
+  const description=creation&&(creation.activity||creation.address||creation.siren)?describeCreation(creation,dateLabel):bodacc?(item.acte||item.jugement||item.modificationsgenerales||""):(item.descripteur_libelle||item.DONNEES?.INDEXATION?.RESUME_OBJET||"");
   const href=safeOfficialSourceUrl(bodacc?item.url_complete:item.url_avis,kind);
   const card=document.createElement("article");card.className="result-card";
-  card.innerHTML='<div class="result-top"><div><div class="result-source">'+(bodacc?"BODACC · DILA":"BOAMP · DILA")+'</div><h3>'+escapeHtml(title)+'</h3><div class="result-meta"><span>'+escapeHtml(dateLabel(date))+'</span><span>'+escapeHtml(place||"Territoire non précisé")+'</span><span>'+escapeHtml(category)+'</span></div></div><span class="result-badge">'+escapeHtml(creation?creation.kindLabel+' · à qualifier':'À qualifier')+'</span></div><p class="result-detail">'+escapeHtml(typeof description==="string"?description:JSON.stringify(description)).slice(0,650)+'</p><a class="result-link" target="_blank" rel="noopener noreferrer" href="'+escapeHtml(href)+'">Consulter l’annonce officielle ↗</a>';
+  card.innerHTML='<div class="result-top"><div><div class="result-source">'+(bodacc?"BODACC · DILA":"BOAMP · DILA")+'</div><h3>'+escapeHtml(title)+'</h3><div class="result-meta"><span>'+escapeHtml(dateLabel(date))+'</span><span>'+escapeHtml(place||"Territoire non précisé")+'</span><span>'+escapeHtml(category)+'</span></div></div><span class="result-badge">'+escapeHtml(creation?creation.kindLabel+' · à qualifier':'À qualifier')+'</span></div><p class="result-detail">'+escapeHtml(typeof description==="string"?description:JSON.stringify(description)).slice(0,1200)+'</p><a class="result-link" target="_blank" rel="noopener noreferrer" href="'+escapeHtml(href)+'">Consulter l’annonce officielle ↗</a>';
   results.append(card);
  }
 }

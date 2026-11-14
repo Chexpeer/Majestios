@@ -44,19 +44,18 @@ Jeu de données public `annonces-commerciales` (opendatasoft, BODACC A/B/C), dé
 - À ajouter : **plafond mensuel global** (cible : 100 audits par mois), compteur côté base de données.
 - Le coût réel d'un audit en jetons sera mesuré sur MajestiOS-Test avant tout achat de crédits.
 
-## 6. Protection des données
+## 6. Données affichées et conformité
 
-- Les annonces BODACC concernant des **personnes physiques** contiennent des données personnelles ; l'adresse d'un entrepreneur individuel peut être son domicile.
-- Règles proposées : commencer par les **sociétés** ; pour les entrepreneurs individuels, ne pas conserver l'adresse, ne reprendre que le nécessaire, respecter le droit d'opposition, fixer une durée de conservation.
-- Aucun envoi de message de prospection sans validation humaine et sans base légale documentée.
-- Point à **faire valider par un juriste** avant toute prospection réelle.
+- Décision du porteur (14/11) : la liste affiche le **maximum d'éléments publiés** par le BODACC — nom, prénom ou raison sociale, forme juridique, SIREN, adresse, enseigne, activité, dates, greffe — y compris pour les entrepreneurs individuels.
+- Réalisation : lecture seule, réservée aux comptes internes propriétaire ou administrateur ; **rien n'est enregistré ni envoyé**.
+- La réglementation (prospection, droit d'opposition, durée de conservation, adresses de domicile des entrepreneurs individuels) sera examinée par le **service juridique avant le lancement de l'activité** (VEILLE-02). Aucun message de prospection ne part sans validation humaine.
 
 ## 7. Décisions ouvertes
 
 | Réf. | Question | Statut |
 |---|---|---|
 | VEILLE-01 | Secteurs d'activité prioritaires | **Décidé le 14/11** : bâtiment (tous corps d'état), hôtellerie-restauration ; autres secteurs plus tard |
-| VEILLE-02 | Conservation des données d'entrepreneurs individuels | À décider, validation juridique |
+| VEILLE-02 | Prospection et conservation des données d'entrepreneurs individuels | Affichage complet décidé le 14/11 ; validation par le service juridique avant lancement |
 | VEILLE-03 | Conservation des observations Google saisies | À décider, validation juridique |
 | VEILLE-04 | Plafond mensuel global (100 ?) | Proposé, à confirmer |
 | VEILLE-05 | Lien avec le système de missions Cheexpeer (veille planifiée, approbation) | Après la recette ; `readiness_probe` reste seul soumissible d'ici là |

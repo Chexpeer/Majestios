@@ -55,10 +55,22 @@ function firstOf(value) {
   return Array.isArray(value) ? value[0] : value;
 }
 
+function joinParts(parts, separator = " ") {
+  return parts.map((part) => (part == null ? "" : String(part).trim())).filter(Boolean).join(separator);
+}
+
+function formatAddress(address) {
+  if (!address || typeof address !== "object") return "";
+  const street = joinParts([address.numeroVoie, address.typeVoie, address.nomVoie, address.complGeographique]);
+  const city = joinParts([address.codePostal, address.ville]);
+  return joinParts([street, city], ", ");
+}
+
 /**
- * Extrait d'une annonce de création les seules informations utiles à la prospection.
- * Pour une personne physique (entrepreneur individuel), aucune adresse n'est reprise :
- * elle peut correspondre à un domicile.
+ * Extrait d'une annonce de création le maximum d'éléments publiés par le BODACC :
+ * identité (nom, prénom ou raison sociale), forme juridique, SIREN, adresse, activité, dates.
+ * Lecture seule : rien n'est enregistré. Les règles de conservation et de prospection
+ * seront validées par le service juridique avant tout lancement (voir VEILLE-02).
  */
 export function parseCreation(item = {}) {
   const person = firstOf(parseJsonField(item.listepersonnes)?.personne);
@@ -66,12 +78,39 @@ export function parseCreation(item = {}) {
   const act = parseJsonField(item.acte);
   const isIndividual = person?.typePersonne === "pp";
   const activity = typeof establishment?.activite === "string" ? establishment.activite.trim() : "";
+  const siren = String(firstOf(item.registre) ?? person?.numeroImmatriculation?.numeroIdentification ?? "").replace(/\s+/g, "");
+  const address = formatAddress(establishment?.adresse) || formatAddress(person?.adresseSiegeSocial) || formatAddress(person?.adresse);
   return {
     isIndividual,
     kindLabel: isIndividual ? "Entrepreneur individuel" : "Société",
+    lastName: isIndividual ? joinParts([person?.nom]) : "",
+    firstName: isIndividual ? joinParts([person?.prenom]) : "",
+    companyName: isIndividual ? "" : joinParts([person?.denomination, item.commercant && !person?.denomination ? item.commercant : ""]),
+    legalForm: joinParts([person?.formeJuridique]),
+    tradeName: joinParts([establishment?.enseigne, establishment?.nomCommercial], " · "),
+    siren,
+    address,
     activity,
     registrationDate: act?.dateImmatriculation || "",
     startDate: act?.dateCommencementActivite || "",
-    place: item.ville || ""
+    place: item.ville || "",
+    registry: joinParts([item.tribunal])
   };
+}
+
+/** Texte de détail d'une création, une information par segment. */
+export function describeCreation(parsed, dateLabel = (value) => value) {
+  const identity = parsed.isIndividual
+    ? joinParts([parsed.firstName && "Prénom : " + parsed.firstName, parsed.lastName && "Nom : " + parsed.lastName], " · ")
+    : joinParts([parsed.companyName && "Raison sociale : " + parsed.companyName, parsed.legalForm && "Forme : " + parsed.legalForm], " · ");
+  return joinParts([
+    identity,
+    parsed.tradeName && "Enseigne : " + parsed.tradeName,
+    parsed.siren && "SIREN : " + parsed.siren,
+    parsed.address && "Adresse : " + parsed.address,
+    parsed.activity && "Activité : " + parsed.activity,
+    parsed.startDate && "Début d’activité : " + dateLabel(parsed.startDate),
+    parsed.registrationDate && "Immatriculation : " + dateLabel(parsed.registrationDate),
+    parsed.registry
+  ], " · ");
 }
