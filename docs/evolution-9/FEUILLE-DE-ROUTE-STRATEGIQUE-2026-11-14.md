@@ -33,7 +33,7 @@
 3. **Liste des 5 à 7 pilotes** et date de démarrage → L4.
 4. **Autorisation Supabase ciblée** sur `MajestiOS-Test` (sauvegarde, migrations revues) → L2, L3, L5.
 5. **Reprise dans `Evolution-9`** des évolutions de la branche de test (fusion ou PR) — décision séparée, jamais implicite.
-6. **Sort des cinq pages sans lien entrant** (catégories électricité, maintenance, plomberie, rénovation, résultats).
+6. **Sort des cinq pages sans lien entrant** (catégories électricité, maintenance, plomberie, rénovation, résultats) : suppression autorisée, mais pages référencées par le catalogue/la recherche ; non supprimées, en attente de confirmation.
 7. **Périmètre du premier CRM client** et modèle économique (socle gratuit ou non).
 
 ## 4. Prochain pas recommandé

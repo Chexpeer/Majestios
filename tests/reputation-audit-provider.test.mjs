@@ -47,3 +47,28 @@ test("provider rejects non-success and malformed responses", async () => {
   });
   await assert.rejects(malformed({ system_prompt: "", output_schema: {}, input: {} }), /CHEEXPEER_AI_EMPTY_RESPONSE/);
 });
+
+test("claude adapter uses the Messages API with a forced structured tool", async () => {
+  const { createAnthropicCheexpeerAnalyzer, selectCheexpeerAnalyzer } = await import("../supabase/functions/_shared/reputation-audit-provider.mjs");
+  let captured;
+  const analyze = createAnthropicCheexpeerAnalyzer({
+    apiKey: "sk-ant-server-only",
+    fetchImpl: async (url, options) => {
+      captured = { url, options };
+      return { ok: true, json: async () => ({ content: [{ type: "tool_use", name: "cheexpeer_audit", input: { findings: [] } }] }) };
+    }
+  });
+  const out = await analyze({ system_prompt: "s", output_schema: { type: "object" }, input: { a: 1 } });
+  assert.deepEqual(JSON.parse(out), { findings: [] });
+  assert.equal(captured.url, "https://api.anthropic.com/v1/messages");
+  assert.equal(captured.options.headers["x-api-key"], "sk-ant-server-only");
+  assert.equal(captured.options.headers["anthropic-version"], "2023-06-01");
+  const body = JSON.parse(captured.options.body);
+  assert.equal(body.model, "claude-sonnet-5-5");
+  assert.deepEqual(body.tool_choice, { type: "tool", name: "cheexpeer_audit" });
+  assert.equal(selectCheexpeerAnalyzer({}), null);
+  assert.equal(typeof selectCheexpeerAnalyzer({ apiKey: "sk-ant-x" }), "function");
+  assert.equal(selectCheexpeerAnalyzer({ apiKey: "other-key" }), null);
+  const bad = createAnthropicCheexpeerAnalyzer({ apiKey: "sk-ant-x", fetchImpl: async () => ({ ok: true, json: async () => ({ content: [] }) }) });
+  await assert.rejects(bad({ system_prompt: "", output_schema: {}, input: {} }), /CHEEXPEER_AI_EMPTY_RESPONSE/);
+});

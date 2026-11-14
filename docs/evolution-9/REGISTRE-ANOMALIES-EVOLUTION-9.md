@@ -1010,3 +1010,14 @@ Détail : [ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](ETAT-REEL-SITE-ET-TRAJEC
 | AN-05 | P1 | Bootstrap admin : secrets `INTERNAL_ADMIN_EMAIL` / `INTERNAL_ALLOWED_ORIGINS`, repli historique | **Préparé**, non déployé, secrets non configurés |
 | SEO-01…05 | P2 | `robots.txt` et `sitemap.xml` ajoutés (domaine provisoire `majestios.vercel.app`) | Partiel ; `canonical` en attente de la décision de domaine |
 | ROAD-01 | P2 | Feuille de route stratégique et décisions ouvertes | Rédigée : `FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md` |
+
+## 91. Supabase MajestiOS-Test et adaptateur Claude de Cheexpeer (14 novembre 2026)
+
+Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : projet **MajestiOS-Test** uniquement ; **majestios-crm n’est pas modifié**.
+
+- Migrations appliquées sur MajestiOS-Test : déduplication des triggers, RLS sur la table de quota, API SQL Cheexpeer (façades `service_role` uniquement) ; outil `worker_self_check` laissé désactivé. Privilèges vérifiés après application. Les tests runtime de recette (CRM-TRG-01, AN-14, TEST-RLS-01) restent à exécuter.
+- Edge Functions déployées sur MajestiOS-Test (v1, `verify_jwt` actif) : `cheexpeer-mission-submit`, `cheexpeer-approval-decision`, `cheexpeer-mission-read`. Aucune recette de bout en bout n’a encore été jouée.
+- Limite connue : la soumission n’accepte que `readiness_probe` (pas `worker_self_check`) — incohérence de spécification à arbitrer.
+- Adaptateur natif Anthropic (Messages API, outil forcé pour la sortie structurée) ajouté et testé en local ; fournisseur détecté par préfixe `sk-ant-` ou `CHEEXPEER_AI_PROVIDER`. Non déployé pour `reputation-audit-context`.
+- Secrets : `CHEEXPEER_AI_API_KEY` à saisir par le propriétaire dans le tableau de bord Supabase (jamais dans Git ni en conversation). La clé exposée précédemment doit être révoquée.
+- Pages « sans lien entrant » : non supprimées (dépendances catalogue/recherche), décision en attente.
