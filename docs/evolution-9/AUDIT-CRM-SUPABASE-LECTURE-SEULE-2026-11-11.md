@@ -439,7 +439,7 @@ La vérification directe complémentaire indique :
 - `authenticated` a USAGE sur le schéma mais n'a pas SELECT direct sur cette table ;
 - aucun accès direct navigateur n'a donc été démontré par les privilèges examinés.
 
-L'alerte reste néanmoins ouverte comme défaut de défense en profondeur. **Ne pas appliquer uniquement ENABLE ROW LEVEL SECURITY sans définir et valider les politiques nécessaires** : l'accès sera alors refusé par défaut aux rôles qui ne disposent pas de policy. La table est utilisée par la fonction interne de consommation des quotas ; vérifier les droits du propriétaire de fonction et le parcours quota avant toute correction.
+L'alerte reste ouverte comme défaut de défense en profondeur. Dans le cas étudié, l'absence de policy directe est intentionnelle si l'accès à la table reste exclusivement encapsulé par la fonction SECURITY DEFINER contrôlée. Il ne faut donc pas créer de policy SELECT pour les rôles navigateur. Avant activation, vérifier le propriétaire, BYPASSRLS, FORCE RLS et le comportement runtime du RPC ; l'activation RLS sans policy doit être testée sur copie.
 
 ### 18.5 SECURITY DEFINER du RPC sur le projet de test
 
@@ -518,3 +518,61 @@ Ne pas ajouter de policy SELECT pour authenticated ou anon. Recontrôler après 
 4. Ne pas promouvoir ces changements vers `majestios-crm` : le principal n'a pas les doublons de triggers et n'est pas le projet de test.
 
 **Statut :** causes identifiées et corrections candidates documentées ; aucune migration Git ajoutée, aucun SQL exécuté en écriture et aucun changement de configuration distante.
+
+### 19.4 Matrice de recette obligatoire avant migration
+
+Les essais doivent être exécutés sur une copie isolée de `MajestiOS-Test`, avec comptes et organisations synthétiques. Aucun de ces essais n'a été exécuté pendant l'audit.
+
+**A. Nettoyage des triggers**
+
+| Cas | Action | Résultat attendu |
+|---|---|---|
+| TRG-01 | INSERT d'une entreprise avec relations cohérentes dans la même organisation | accepté ; contrôle d'intégrité conservé |
+| TRG-02 | INSERT avec relation vers un enregistrement d'une autre organisation | rejeté |
+| TRG-03 | UPDATE d'un lien vers un enregistrement d'une autre organisation | rejeté |
+| TRG-04 | UPDATE sans changement de relation | accepté si l'état initial est valide |
+| TRG-05 | champs relationnels optionnels à NULL | accepté lorsque le modèle les autorise |
+| TRG-06 | vérifier les triggers après migration sur les quatre tables | un seul trigger actif par table, nom `*_enforce_tenant_integrity`, événements BEFORE INSERT OR UPDATE |
+| TRG-07 | vérifier les écritures métier et les erreurs retournées par l'API | aucun changement de sémantique ; pas de double exécution observable |
+
+La recette doit couvrir `businesses`, `contacts`, `opportunities` et `activities`. Les cas positifs et négatifs doivent être répétés sur au moins deux organisations distinctes.
+
+**B. Activation RLS des quotas**
+
+| Cas | Identité / action | Résultat attendu |
+|---|---|---|
+| QUOTA-01 | rôle authenticated : SELECT direct sur la table privée | refusé |
+| QUOTA-02 | rôle anon / appel non authentifié au wrapper | refusé |
+| QUOTA-03 | membre autorisé : consommation via RPC | acceptée dans les limites |
+| QUOTA-04 | utilisateur non membre de l'organisation | refusé |
+| QUOTA-05 | tentative d'utiliser l'identifiant d'une autre organisation | refusée |
+| QUOTA-06 | atteindre puis dépasser la limite utilisateur (5/jour) | seuil respecté, dépassement refusé |
+| QUOTA-07 | atteindre puis dépasser la limite organisation (25/jour) | seuil respecté, dépassement refusé |
+| QUOTA-08 | appels concurrents proches de la limite | compteur cohérent, pas de dépassement dû à une course |
+| QUOTA-09 | contrôle catalogue après migration | RLS activée, FORCE RLS désactivé, aucune policy donnant accès direct à anon/authenticated |
+| QUOTA-10 | rôle service_role et accès administratif | comportement explicite et documenté ; ne pas assimiler service_role à un utilisateur navigateur |
+
+Les seuils 5/jour et 25/jour sont ceux de l'implémentation auditée et doivent être revalidés dans le code SQL de la copie avant de considérer les assertions comme contractuelles. La recette doit aussi contrôler les frontières de date/fuseau et le nettoyage des compteurs expirés.
+
+### 19.5 Retour arrière et critères d'arrêt
+
+**Nettoyage des triggers :**
+- Avant migration, exporter les définitions des huit triggers et conserver une sauvegarde exploitable de la base de test.
+- Si une régression apparaît, arrêter les essais métier et restaurer la définition antérieure exacte uniquement sur la copie isolée.
+- Ne pas recréer automatiquement les quatre triggers en double comme stratégie de retour standard : cela réintroduirait le défaut. Toute restauration temporaire doit être explicitement qualifiée et suivie d'une nouvelle analyse.
+
+**Activation RLS quotas :**
+- Si le RPC échoue après activation, arrêter les appels de test et revenir sur la copie à l'état précédent avec `ALTER TABLE private.reputation_audit_usage DISABLE ROW LEVEL SECURITY;`, puis diagnostiquer avant une nouvelle tentative.
+- Cette instruction est une procédure de laboratoire, pas une recommandation de désactivation sur le projet distant.
+- Ne jamais compenser un échec en accordant SELECT direct à `anon` ou `authenticated`, ni en ajoutant une policy permissive.
+
+**Critères d'arrêt communs :**
+1. échec d'un cas d'isolation inter-organisations ;
+2. accès direct inattendu à la table de quotas ;
+3. perte d'accès pour un membre autorisé ou franchissement d'un quota ;
+4. changement de comportement métier non expliqué ;
+5. différence entre le schéma réellement testé et celui du projet distant.
+
+Aucune migration ne doit être appliquée à `MajestiOS-Test` avant réussite de cette matrice, revue du SQL final, sauvegarde vérifiée et autorisation explicite. Ces propositions restent strictement séparées de `majestios-crm`.
+
+**Statut de clôture documentaire au 14 novembre 2026 :** l'analyse statique et les causes racines sont consolidées ; les tests runtime, les migrations correctives et leur application restent NOT RUN / NOT APPLIED.
