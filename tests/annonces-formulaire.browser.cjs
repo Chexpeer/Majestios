@@ -15,8 +15,11 @@ const mime = { ".html": "text/html", ".js": "text/javascript", ".mjs": "text/jav
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage();
-    let networkCalls = 0;
-    page.on("request", (req) => { if (/supabase\.co/.test(req.url())) networkCalls++; });
+    const sent = [];
+    await page.route("**/rest/v1/rpc/submit_announcement", async (route) => {
+      sent.push({ headers: route.request().headers(), body: JSON.parse(route.request().postData() || "{}") });
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify("AN-TEST0001") });
+    });
     await page.goto("http://127.0.0.1:4175/sous-traitance.html", { waitUntil: "domcontentloaded" });
     await page.locator("#annonce-kind option").nth(2).waitFor({ state: "attached", timeout: 10000 });
     await page.locator('a[data-annonce-kind="subcontract_offer"]').click();
@@ -33,8 +36,17 @@ const mime = { ".html": "text/html", ".js": "text/javascript", ".mjs": "text/jav
     assert.match(await page.locator("#annonce-feedback").textContent(), /ni lien, ni adresse e-mail, ni numéro/, "Un numéro de téléphone dans le texte public doit être refusé.");
     await page.fill("#annonce-description", "Deux carreleurs expérimentés disponibles dès avril sur le Grand Ouest, carrelage et faïence.");
     await page.locator("#annonce-form button[type=submit]").click();
-    assert.match(await page.locator("#annonce-feedback").textContent(), /Aucune donnée n’a été envoyée/, "Tant que le dépôt est fermé, rien n’est envoyé.");
-    assert.equal(networkCalls, 0, "Aucune requête Supabase ne doit partir tant que le dépôt est fermé.");
-    console.log("TEST ANNONCES RÉUSSI : préremplissage, validation, refus des coordonnées dans le texte, aucune requête réseau tant que le dépôt est fermé.");
+    await page.getByText(/enregistrée et sera relue/).waitFor({ timeout: 10000 });
+    assert.equal(sent.length, 1, "Une seule requête de dépôt doit partir.");
+    const { headers, body } = sent[0];
+    assert.equal(body.p_kind, "subcontract_offer");
+    assert.equal(body.p_email, "luc@example.fr");
+    assert.equal(body.p_consent, true);
+    assert.equal(body.p_website, null, "Le champ piège doit rester vide pour un humain.");
+    assert.ok(body.p_notice_version, "La version de l’avis doit être transmise.");
+    assert.ok(headers.apikey && headers.apikey.startsWith("sb_publishable_"), "Seule la clé publique doit être utilisée.");
+    assert.equal(headers.authorization, undefined, "Aucun en-tête d’autorisation n’est nécessaire avec la clé publique.");
+    assert.equal(await page.locator("#annonce-title").inputValue(), "", "Le formulaire doit être vidé après dépôt.");
+    console.log("TEST ANNONCES RÉUSSI : préremplissage, validation, refus des coordonnées dans le texte, dépôt vers la bonne cible avec la clé publique seulement.");
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); process.exit(1); });

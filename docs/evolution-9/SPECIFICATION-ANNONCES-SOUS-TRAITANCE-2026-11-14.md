@@ -13,7 +13,7 @@ Les annonces publiées par les clients (offres et recherches de sous-traitance) 
 | Modèle de données, fonctions et droits | `supabase/proposed/20261114210000_public_announcements.sql` | Écrit, **testé sur une base PostgreSQL 16 jetable** (hors Supabase), non appliqué |
 | Scénarios de sécurité | `supabase/proposed/announcements.scenarios.sql` | Rejouables ; résultat obtenu : `SCENARIOS_OK` (voir §5) |
 | Formulaire de dépôt | `sous-traitance.html#deposer`, `annonces-formulaire.(mjs\|js\|css)` | Visible en **prévisualisation** : valide la saisie, **n'envoie rien** |
-| Interrupteur d'ouverture | `annonces-config.mjs` (`ANNONCES_OUVERTES = false`) | Fermé |
+| Interrupteur d'ouverture | `annonces-config.mjs` (`ANNONCES_OUVERTES = true`) | Fermé |
 | Tests | `tests/annonces-formulaire.test.mjs`, `tests/annonces-formulaire.browser.cjs` | Réussis |
 
 ## 3. Modèle

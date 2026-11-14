@@ -90,6 +90,15 @@ create policy announcement_introductions_no_direct_access on private.announcemen
 create policy announcement_events_no_direct_access on private.announcement_events for all to anon, authenticated using (false) with check (false);
 
 -- 6. Outils internes -------------------------------------------------------------------------------
+-- Relecteur = propriétaire ou administrateur de l'organisation interne (accès VIP). Le rôle « member » est exclu.
+create or replace function private.announcement_is_moderator()
+returns boolean language sql stable security definer set search_path = '' as $$
+  select exists(
+    select 1 from public.organization_members m join public.organizations o on o.id = m.organization_id
+    where m.user_id = (select auth.uid()) and o.kind = 'internal' and m.role in ('owner', 'admin'));
+$$;
+revoke all on function private.announcement_is_moderator() from public, anon, authenticated;
+
 create or replace function private.announcement_caller_hash()
 returns text language sql stable security definer set search_path = '' as $$
   select encode(sha256(convert_to(
@@ -190,7 +199,7 @@ returns table (id uuid, reference text, kind text, status text, title text, desc
                contact_name text, email text, phone text, created_at timestamptz)
 language plpgsql stable security definer set search_path = '' as $$
 begin
-  if not public.is_internal_staff() then raise exception 'forbidden' using errcode = '42501'; end if;
+  if not private.announcement_is_moderator() then raise exception 'forbidden' using errcode = '42501'; end if;
   return query
     select a.id, a.reference, a.kind, a.status, a.title, a.description, a.trade, a.department, a.area_note, a.valid_until,
            c.contact_name, c.email, c.phone, a.created_at
@@ -209,7 +218,7 @@ declare
   v_actor uuid := (select auth.uid());
   v_row public.announcements%rowtype;
 begin
-  if not public.is_internal_staff() then raise exception 'forbidden' using errcode = '42501'; end if;
+  if not private.announcement_is_moderator() then raise exception 'forbidden' using errcode = '42501'; end if;
   if p_decision not in ('publish', 'reject', 'withdraw') then raise exception 'invalid_decision' using errcode = 'P0001'; end if;
   select * into v_row from public.announcements where id = p_id for update;
   if not found then raise exception 'not_found' using errcode = 'P0001'; end if;
@@ -255,8 +264,8 @@ revoke all on function private.expire_announcements() from public, anon, authent
 revoke all on function public.submit_announcement(text, text, text, text, text, text, date, text, text, text, boolean, text, text) from public;
 revoke all on function public.list_published_announcements(text, text, integer, integer) from public;
 revoke all on function public.request_announcement_introduction(text, text, text, text, boolean, text, text) from public;
-revoke all on function public.moderation_queue(text, integer) from public;
-revoke all on function public.moderate_announcement(uuid, text, text, text, text) from public;
+revoke all on function public.moderation_queue(text, integer) from public, anon;
+revoke all on function public.moderate_announcement(uuid, text, text, text, text) from public, anon;
 grant execute on function public.submit_announcement(text, text, text, text, text, text, date, text, text, text, boolean, text, text) to anon, authenticated;
 grant execute on function public.list_published_announcements(text, text, integer, integer) to anon, authenticated;
 grant execute on function public.request_announcement_introduction(text, text, text, text, boolean, text, text) to anon, authenticated;

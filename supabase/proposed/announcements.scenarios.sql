@@ -52,6 +52,10 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000b2
 select pg_temp.expect_error('select * from public.moderation_queue()', 'forbidden');
 select pg_temp.expect_error($$select public.moderate_announcement(gen_random_uuid(),'publish')$$, 'forbidden');
 
+-- 6 bis. Un simple membre de l'organisation interne (rôle « member ») ne relit pas non plus
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c3', false);
+select pg_temp.expect_error('select * from public.moderation_queue()', 'forbidden');
+
 -- 7. Le personnel interne relit : voit les coordonnées, publie, refuse (note obligatoire)
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000a1', false);
 do $$ declare q record; first_id uuid; second_id uuid; begin

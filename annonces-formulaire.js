@@ -1,6 +1,5 @@
-import { ANNONCES_OUVERTES, NOTICE_VERSION } from "./annonces-config.mjs";
+import { ANNONCES_OUVERTES, ANNONCES_SUPABASE, NOTICE_VERSION } from "./annonces-config.mjs";
 import { KINDS, validateAnnouncement, serverMessage } from "./annonces-formulaire.mjs";
-import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 
 const form = document.querySelector("#annonce-form");
 const feedback = document.querySelector("#annonce-feedback");
@@ -38,9 +37,9 @@ if (form && feedback) {
     const button = form.querySelector("button[type=submit]");
     button.disabled = true;
     try {
-      const response = await fetch(MAJESTIOS_SUPABASE.url + "/rest/v1/rpc/submit_announcement", {
+      const response = await fetch(ANNONCES_SUPABASE.url + "/rest/v1/rpc/submit_announcement", {
         method: "POST",
-        headers: { "content-type": "application/json", apikey: MAJESTIOS_SUPABASE.publishableKey, authorization: "Bearer " + MAJESTIOS_SUPABASE.publishableKey },
+        headers: { "content-type": "application/json", apikey: ANNONCES_SUPABASE.publishableKey },
         body: JSON.stringify({ ...result.payload, p_notice_version: NOTICE_VERSION })
       });
       if (!response.ok) throw new Error(await response.text());

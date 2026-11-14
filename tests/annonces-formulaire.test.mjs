@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { validateAnnouncement, serverMessage, KINDS } from "../annonces-formulaire.mjs";
-import { ANNONCES_OUVERTES } from "../annonces-config.mjs";
+import { ANNONCES_OUVERTES, ANNONCES_SUPABASE } from "../annonces-config.mjs";
 
 const today = new Date("2026-11-14T10:00:00Z");
 const valid = {
@@ -11,8 +11,11 @@ const valid = {
   contact_name: "Jean Martin", email: "Jean@Example.fr", consent: "on"
 };
 
-test("le dépôt est fermé par défaut : aucune donnée n'est envoyée", () => {
-  assert.equal(ANNONCES_OUVERTES, false);
+test("l'interrupteur d'ouverture est explicite et la cible est le projet de test", () => {
+  assert.equal(typeof ANNONCES_OUVERTES, "boolean");
+  assert.match(ANNONCES_SUPABASE.url, /^https:\/\/[a-z0-9]+\.supabase\.co$/);
+  assert.match(ANNONCES_SUPABASE.publishableKey, /^sb_publishable_/);
+  assert.doesNotMatch(JSON.stringify(ANNONCES_SUPABASE), /service_role|secret/i);
 });
 
 test("une annonce valide produit les paramètres attendus par le serveur", () => {
@@ -62,7 +65,7 @@ test("le SQL proposé reste hors des migrations et verrouille tout accès direct
   }
   assert.doesNotMatch(sql, /grant (select|insert|update|delete)[^;]*to (anon|authenticated)/i);
   assert.match(sql, /grant execute on function public\.moderate_announcement[^;]*to authenticated;/);
-  assert.match(sql, /if not public\.is_internal_staff\(\) then raise exception 'forbidden'/);
+  assert.match(sql, /if not private\.announcement_is_moderator\(\) then raise exception 'forbidden'/);
   assert.ok(!sql.split("grant execute on function public.moderate_announcement")[1].split(";")[0].includes("anon"));
   const publicList = sql.slice(sql.indexOf("create or replace function public.list_published_announcements"), sql.indexOf("-- 9."));
   assert.doesNotMatch(publicList, /email|phone|contact_name/);
