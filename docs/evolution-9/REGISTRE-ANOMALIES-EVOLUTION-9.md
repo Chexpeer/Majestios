@@ -1132,3 +1132,10 @@ Reste à jouer : connexion réelle par lien e-mail (un compte à la fois), recet
 Le compte administrateur réel du propriétaire (plateformes et futur administrateur MajestiOS) est géré avec une adresse distincte, volontairement non écrite dans Git. Les comptes `perspectivemarketing…` (dont les alias `+majestios`, `+cheexpeer`, `+client`) sont **exclusivement des comptes de test** sur MajestiOS-Test. Aucun compte de test ne doit être reproduit sur MajestiOS-CRM ; le compte administrateur réel n'y sera rattaché que sur décision explicite du propriétaire.
 
 Rattachement du compte administrateur réel à MajestiOS-Test (15/11/2026, sur demande du propriétaire) : propriétaire (owner) de l'organisation interne, créé comme les autres comptes de test (SQL, sans mot de passe, connexion par lien e-mail). Aucun rattachement sur MajestiOS-CRM.
+
+### CONS-06 — Création de compte : procédure à respecter (précision du propriétaire, 15/11/2026)
+Dès lors que l'authentification par e-mail fonctionne, **aucun compte réel n'est créé par SQL**. Les créations par SQL du 14 et 15/11 sont réservées aux comptes de test de MajestiOS-Test (voir CONS-05).
+- **Client réel** : inscription depuis `espace-membre.html` (confirmation de l'adresse e-mail, consentement), puis provisionnement de son organisation par l'Edge Function `provision-client-workspace`.
+- **Membre interne réel** : invitation par le propriétaire depuis le tableau de bord (e-mail envoyé à l'intéressé), puis attribution du rôle par la procédure du document `PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md`.
+- **MajestiOS-CRM** : jamais de création directe en base.
+Constats : (1) `supabase-config.js` pointe vers `majestios-crm` : tester l'inscription publique depuis un aperçu créerait un vrai compte sur le CRM → il faut une configuration « Test » dédiée aux aperçus avant toute recette d'inscription ; (2) `espace-membre` demande un code alors que le modèle d'e-mail Supabase par défaut n'envoie qu'un lien → modèle d'e-mail à modifier (lien et code `{{ .Token }}`) ou parcours à aligner ; (3) le parcours d'inscription de bout en bout n'a jamais été démontré.
