@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
+import { PAGES, landingAfterInvitation, emailRedirect } from "./parcours-majestios.mjs";
 
 // Version de la notice de confidentialité exigée pour les clients (identique à provision_client_workspace).
 const NOTICE_VERSION = "2026-11-05";
@@ -22,7 +23,7 @@ async function accept(notice) {
   }
   consentForm.hidden = true;
   message.textContent = "Invitation acceptée. Votre accès est actif.";
-  next.href = data?.kind === "internal" ? "administration.html" : "espace-membre.html"; next.hidden = false;
+  next.href = landingAfterInvitation({ kind: data?.kind, role: data?.role }); next.hidden = false;
 }
 
 consentForm.addEventListener("submit", async (event) => {
@@ -32,7 +33,7 @@ consentForm.addEventListener("submit", async (event) => {
 });
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const { error } = await supabase.auth.signInWithOtp({ email: loginForm.elements.email.value.trim(), options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
+  const { error } = await supabase.auth.signInWithOtp({ email: loginForm.elements.email.value.trim(), options: { shouldCreateUser: false, emailRedirectTo: emailRedirect(location.origin, PAGES.accepterInvitation) } });
   message.textContent = error ? "Le lien n'a pas pu être envoyé. Réessayez dans quelques minutes." : "Si une invitation existe pour cette adresse, un lien vient d'être envoyé.";
 });
 

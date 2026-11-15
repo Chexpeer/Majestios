@@ -42,6 +42,7 @@ jobs:
           node --check annonces-moderation.mjs
           node --check annonces-liste.mjs
           node --check accepter-invitation.js
+          node --check parcours-majestios.mjs
           node --check tests/invitation-core.test.mjs tests/cheexpeer-chat-core.test.mjs
           node --check tests/admin-utilisateurs.browser.cjs
           node --check supabase/functions/_shared/invitation-core.mjs
@@ -99,7 +100,7 @@ jobs:
           node --input-type=module --check < crm-business-filters.js
           node --input-type=module --check < crm-client.js
       - name: Tester l'identité et l'isolation inter-organisations des API Cheexpeer
-        run: node --test tests/cheexpeer-api-security.test.mjs tests/cheexpeer-sql-migration-contract.test.mjs tests/cheexpeer-command.test.mjs tests/invitation-core.test.mjs
+        run: node --test tests/cheexpeer-api-security.test.mjs tests/cheexpeer-sql-migration-contract.test.mjs tests/cheexpeer-command.test.mjs tests/invitation-core.test.mjs tests/parcours-majestios.test.mjs
       - name: Tester le contrat du moteur d'audit interne Cheexpeer
         run: node --test tests/reputation-audit-core.test.mjs
       - name: Tester le registre et le premier connecteur de Réputation virtuelle

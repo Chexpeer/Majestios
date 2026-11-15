@@ -1,5 +1,6 @@
 import { ANNONCES_OUVERTES, ANNONCES_SUPABASE, NOTICE_VERSION } from "./annonces-config.mjs";
 import { KINDS, validateAnnouncement, serverMessage } from "./annonces-formulaire.mjs";
+import { PAGES } from "./parcours-majestios.mjs";
 
 const form = document.querySelector("#annonce-form");
 const feedback = document.querySelector("#annonce-feedback");
@@ -44,7 +45,11 @@ if (form && feedback) {
       });
       if (!response.ok) throw new Error(await response.text());
       form.reset();
-      show("Merci. Votre annonce est enregistrée et sera relue par l’équipe avant publication. Vos coordonnées ne seront jamais affichées.");
+      show("Merci. Votre annonce est enregistrée et sera relue par l’équipe avant publication. Vos coordonnées ne seront jamais affichées. ");
+      const link = document.createElement("a");
+      link.href = PAGES.annoncesPubliques;
+      link.textContent = "Voir les appels d’offres privés publiés";
+      feedback.append(link);
     } catch (error) {
       show(serverMessage(error), true);
     } finally {

@@ -67,6 +67,8 @@
     "navigation-3d.css",
     "vitre-majestios.css",
     "charte-majestios.css",
+    "moteurs-compacts.css",
+    "parcours-majestios.mjs",
     "charte-majestios-espaces.css",
     "app.js",
     "category-results.js",
