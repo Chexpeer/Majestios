@@ -148,3 +148,6 @@ body{
   .internal-brand small{font-size:8px}
 }
 @media(prefers-reduced-motion:reduce){.internal-login button,.internal-action{transition:none}}
+
+.internal-link-login{margin-top:6px;padding:10px 12px;border:1px solid var(--gold);border-radius:8px;background:transparent;color:var(--gold);font:700 12px inherit;cursor:pointer}
+.internal-link-login:disabled{opacity:.6;cursor:wait}

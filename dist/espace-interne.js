@@ -13,7 +13,7 @@ const loginForm = document.querySelector("#internal-login-form");
 const loginButton = document.querySelector("#internal-login-submit");
 const signOutButton = document.querySelector("#internal-signout");
 const sessionLabel = document.querySelector("#internal-session-label");
-const allowedDestinations = new Set(["espace-interne.html", "crm.html", "administration.html", "admin-recherches.html"]);
+const allowedDestinations = new Set(["espace-interne.html", "crm.html", "administration.html", "admin-recherches.html", "admin-cheexpeer.html", "admin-utilisateurs.html"]);
 const requestedDestination = new URLSearchParams(window.location.search).get("returnTo");
 const returnTo = allowedDestinations.has(requestedDestination) ? requestedDestination : "espace-interne.html";
 const authHash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
@@ -98,7 +98,7 @@ function showWorkspace(organization, membership) {
   document.querySelector("#internal-search-card").hidden = !canAdminister;
   if (returnTo !== "espace-interne.html") {
     const destinationAllowed = canAdminister &&
-      ["crm.html", "administration.html", "admin-recherches.html"].includes(returnTo);
+      ["crm.html", "administration.html", "admin-recherches.html", "admin-cheexpeer.html", "admin-utilisateurs.html"].includes(returnTo);
     if (destinationAllowed) window.location.replace(returnTo);
   }
 }
@@ -178,6 +178,19 @@ loginForm.addEventListener("submit", async event => {
     loginButton.disabled = false;
   }
 });
+document.querySelector("#internal-link-login").addEventListener("click", async event => {
+  const button = event.currentTarget;
+  const emailInput = loginForm.elements.email;
+  if (!emailInput.reportValidity()) return;
+  button.disabled = true;
+  // Réponse neutre : on ne révèle pas si le compte existe. Le lien ramène sur cette page (même destination demandée).
+  const { error } = await supabase.auth.signInWithOtp({
+    email: String(emailInput.value || "").trim().toLowerCase(),
+    options: { shouldCreateUser: false, emailRedirectTo: window.location.origin + window.location.pathname + window.location.search }
+  });
+  button.disabled = false;
+  showMessage(error ? "Le lien n’a pas pu être envoyé. Réessayez dans quelques minutes." : "Si ce compte existe, un lien de connexion vient d’être envoyé. Ouvrez-le depuis cet appareil.", !!error);
+}, { once: false });
 signOutButton.addEventListener("click", async () => {
   signOutButton.disabled = true;
   const { error } = await supabase.auth.signOut();
