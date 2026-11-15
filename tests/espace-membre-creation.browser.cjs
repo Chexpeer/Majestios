@@ -46,7 +46,10 @@ export function createClient(){
     await page.fill("#personal-space-form input[name=email]", "ancien@exemple.fr");
     await page.click("#personal-space-form button[type=submit]");
     await page.waitForFunction(() => window.__otp && window.__otp.length === 1);
-    assert.deepEqual(await page.evaluate(() => window.__otp[0]), { email: "ancien@exemple.fr", options: { shouldCreateUser: false } });
+    const first = await page.evaluate(() => window.__otp[0]);
+    assert.equal(first.email, "ancien@exemple.fr");
+    assert.equal(first.options.shouldCreateUser, false);
+    assert.match(first.options.emailRedirectTo, /\/espace-membre\.html$/);
     // 2. Création depuis le petit lien : consentement obligatoire.
     page = await open([{ organization_id: "o2" }]);
     const provisioned = [];
@@ -102,6 +105,14 @@ export function createClient(){
     await late.click("#member-activation-action");
     await late.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
     assert.deepEqual(late.errors, []);
+    // 3 bis. Arrivée par le lien du courrier (sans saisir de code) : l'activation reprend à l'étape du mot de passe.
+    const link = await open([]);
+    await link.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u7", email: "nouveau@exemple.fr", user_metadata: { privacy_notice_acknowledged: true } } }; });
+    await link.goto(origin + "/espace-membre.html#access_token=abc&type=magiclink");
+    await link.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    assert.ok((await link.evaluate(() => window.__rpc)).includes("start_member_activation"));
+    assert.equal(await link.evaluate(() => (window.__provision || []).length), 0);
+    assert.deepEqual(link.errors, []);
     // 4. Espace actif : aucune alerte.
     const ok = await open([{ organization_id: "o1" }]);
     await ok.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1" } }; });

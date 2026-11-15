@@ -20,7 +20,7 @@ assert.equal((html.match(/type="password"/g) || []).length, 2);
 assert.ok(html.indexOf('data-password-step') < html.indexOf('type="password"'), "les champs mot de passe sont dans l'étape d'activation");
 assert.doesNotMatch(html, /name="passwordConfirm"|name="password"/);
 
-assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options \}\)/);
+assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options: \{ \.\.\.options, emailRedirectTo: `\$\{window\.location\.origin\}\/espace-membre\.html` \} \}\)/);
 // Création par code (Evolution-10, 15/11/2026) : création seulement dans le mode « création », avec consentement, puis provisionnement serveur après vérification du code.
 assert.equal((auth.match(/shouldCreateUser: false/g) || []).length, 2);
 assert.equal((auth.match(/shouldCreateUser: true/g) || []).length, 1);

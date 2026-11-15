@@ -16,7 +16,7 @@ const emailInput = form?.elements.namedItem("email");
 
 if (form && config?.url && config?.publishableKey) {
   const supabase = createClient(config.url, config.publishableKey, {
-    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
 
   let awaitingOtp = false;
@@ -142,7 +142,7 @@ if (form && config?.url && config?.publishableKey) {
       ? { shouldCreateUser: true, data: { privacy_notice_acknowledged: true, privacy_notice_version: NOTICE_VERSION, organization_name: value("organization_name"), display_name: value("display_name") } }
       : { shouldCreateUser: false };
     pendingOptions = options;
-    const { error } = await supabase.auth.signInWithOtp({ email, options });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { ...options, emailRedirectTo: `${window.location.origin}/espace-membre.html` } });
     if (error) {
       // Keep account-existence and delivery errors deliberately non-specific.
       throw new Error("La demande n’a pas pu être confirmée. Si l’envoi est autorisé pour cette adresse, vérifiez votre boîte de réception et vos courriers indésirables.");
@@ -276,7 +276,29 @@ if (form && config?.url && config?.publishableKey) {
     }
   });
 
-  supabase.auth.getSession().then(({ data }) => updateAuthStatus(data.session));
+  // Arrivée par le lien du courrier (au lieu du code) : même parcours, on reprend l'activation.
+  const arrivedByLink = /access_token=|[?&]code=/.test(window.location.hash + window.location.search);
+  const resumeFromLink = async (session) => {
+    if (!session?.user) return;
+    const { data: members } = await supabase.from("organization_members").select("organization_id").eq("user_id", session.user.id).limit(1);
+    if (members?.length) return;
+    if (!session.user.user_metadata?.privacy_notice_acknowledged) return;
+    pendingEmail = session.user.email || pendingEmail;
+    const { data: act } = await supabase.rpc("start_member_activation");
+    if (act && ["pending", "expired"].includes(act.state)) {
+      activationDeadline = act.deadline || "";
+      await updateAuthStatus(session);
+      showPasswordStep();
+      setFeedback("Adresse vérifiée. Créez maintenant votre mot de passe sécurisé pour activer votre espace.");
+    }
+  };
+  supabase.auth.getSession().then(async ({ data }) => {
+    await updateAuthStatus(data.session);
+    if (arrivedByLink && data.session) {
+      try { history.replaceState(null, "", window.location.pathname); } catch (_) { /* sans importance */ }
+      await resumeFromLink(data.session);
+    }
+  });
   supabase.auth.onAuthStateChange((_event, session) => updateAuthStatus(session));
 } else if (form) {
   if (feedback) {
