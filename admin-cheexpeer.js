@@ -9,7 +9,7 @@ const frame = $(".admin-frame"), gate = $("#gate"), workspace = $("#workspace"),
 const loginForm = $("#cx-login"), submitForm = $("#cx-submit"), lookupForm = $("#cx-lookup");
 const submitStatus = $("#cx-submit-status"), detailStatus = $("#cx-detail-status"), detailBox = $("#cx-detail"), recentBox = $("#cx-recent");
 const RECENT_KEY = "majestios.cheexpeer.recent.v1";
-let pendingEmail = "", organizationId = null, currentMission = null;
+let organizationId = null, currentMission = null;
 
 const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
 const fmt = (d) => d ? new Date(d).toLocaleString("fr-FR") : "—";
@@ -103,19 +103,15 @@ lookupForm.addEventListener("submit", (event) => { event.preventDefault(); const
 
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const email = loginForm.elements.email.value.trim().toLowerCase(), code = loginForm.elements.code.value.trim();
+  const email = loginForm.elements.email.value.trim().toLowerCase();
+  const button = loginForm.querySelector("button"); button.disabled = true;
   try {
-    if (!pendingEmail) {
-      const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
-      if (error) throw error;
-      pendingEmail = email; loginForm.elements.code.hidden = false; loginForm.elements.code.focus();
-      gateMessage.textContent = "Un e-mail vient d’être envoyé à " + email + ". Cliquez sur son lien, ou saisissez le code s’il en contient un.";
-      return;
-    }
-    const { error } = await supabase.auth.verifyOtp({ email: pendingEmail, token: code, type: "email" });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
     if (error) throw error;
-    pendingEmail = ""; await authorize();
-  } catch (error) { gateMessage.textContent = "Connexion impossible : " + (error?.message || "réessayez."); }
+    gateMessage.textContent = "Un e-mail vient d’être envoyé à " + email + ". Ouvrez-le et cliquez sur le lien : vous reviendrez ici, connecté. Pensez à regarder les courriers indésirables.";
+    button.textContent = "Renvoyer le lien";
+  } catch (error) { gateMessage.textContent = "Connexion impossible : " + (error?.message || "réessayez plus tard."); }
+  finally { setTimeout(() => { button.disabled = false; }, 30000); }
 });
 signout.addEventListener("click", async () => { await supabase.auth.signOut(); lock("Vous êtes déconnecté.", { login: true }); });
 try { await authorize(); } catch (error) { console.error(error); lock("La vérification des accès a échoué.", { signed: true }); }
