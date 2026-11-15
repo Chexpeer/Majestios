@@ -18,7 +18,7 @@ export function createClient(){
     rpc: async(name,args)=>{ (window.__rpc=window.__rpc||[]).push([name,args]);
       if(name==='list_invitable_organizations') return {data:[{id:'${INT}',name:'Interne',kind:'internal'},{id:'${C1}',name:'Client Un',kind:'client'}],error:null};
       if(name==='list_invitations') return {data:[{id:'i1',email:'attente@exemple.fr',kind:'client',role:'owner',organization_name:'Nouvelle Co',status:'pending',expires_at:new Date().toISOString()}],error:null};
-      if(name==='accept_invitation') return window.__acceptError?{data:null,error:{message:window.__acceptError}}:{data:{ok:true,kind:'internal'},error:null};
+      if(name==='accept_invitation') return window.__acceptError?{data:null,error:{message:window.__acceptError}}:{data:{ok:true,kind:'internal',role:'owner'},error:null};
       return {data:{ok:true},error:null}; } };
 }`;
 

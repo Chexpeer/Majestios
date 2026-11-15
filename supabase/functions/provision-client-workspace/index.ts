@@ -63,6 +63,12 @@ Deno.serve(async (request: Request) => {
   ) {
     return response(403, { error: "La confirmation de la politique doit être fournie lors de l’inscription avec la version en vigueur." }, origin);
   }
+  // L'espace n'existe qu'après activation : mot de passe sécurisé créé, dans les 10 jours.
+  const { data: ready, error: readyError } = await admin.rpc("member_ready_for_workspace", { p_user_id: user.id });
+  if (readyError || !ready) return response(500, { error: "Vérification de l’activation impossible. Réessayez." }, origin);
+  if (!ready.has_activation) return response(403, { error: "Activation requise : reprenez la création de votre espace.", code: "ACTIVATION_REQUIRED" }, origin);
+  if (ready.expired) return response(403, { error: "Le délai d’activation est dépassé. Redemandez un code pour reprendre.", code: "ACTIVATION_EXPIRED" }, origin);
+  if (!ready.has_password) return response(403, { error: "Créez d’abord votre mot de passe sécurisé pour activer votre espace.", code: "PASSWORD_REQUIRED" }, origin);
   const noticeVersion = NOTICE_VERSION;
   const organizationName = cleanText(body.organization_name || metadata.organization_name, 120) || "Espace personnel";
   const displayName = cleanText(body.display_name || metadata.display_name, 120);
@@ -82,6 +88,7 @@ Deno.serve(async (request: Request) => {
     return response(500, { error: "La création de votre espace n’a pas abouti. Votre compte reste intact ; réessayez ou contactez-nous." }, origin);
   }
 
+  await admin.rpc("complete_member_activation", { p_user_id: user.id });
   return response(result.existing ? 200 : 201, {
     ok: true,
     existing: result.existing === true,

@@ -7,6 +7,7 @@
 </head>
 <body><header class="site-header"><a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button><nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="marches-publics.html">Appels d’offres</a><a href="developpement-commercial.html">Développement commercial</a><a href="reseaux-synergies.html">Réseau</a><a href="reputation-virtuelle.html">Réputation virtuelle</a><a href="facturation-electronique.html">Facturation électronique</a><a href="espace-membre.html" aria-current="page">Accéder à mon espace personnel</a></nav></header>
 <main class="section-wrap interior-page"><p class="eyebrow">VOTRE ESPACE PERSONNEL</p><h1>Un premier pas vers <span>vos opportunités.</span></h1><p class="interior-lede">Connectez-vous pour retrouver votre espace personnel. </p>
+<div class="member-activation-alert" id="member-activation-alert" role="alert" hidden><strong>Votre espace n’est pas encore activé.</strong> <span id="member-activation-text"></span> <button class="member-create-link" type="button" id="member-activation-action">Activer mon espace</button></div>
 <div class="member-preview"><div class="member-preview-icon" aria-hidden="true">M</div><h2>Connexion à votre espace</h2><button class="button button-primary" id="open-personal-space" type="button" aria-haspopup="dialog" aria-controls="personal-space-dialog">Se connecter <span aria-hidden="true">→</span></button><p class="member-create-hint">Pas encore d’espace ? <button class="member-create-link" type="button" data-open-create>Créer mon espace personnel</button></p><p id="member-auth-status" class="small-note" role="status" aria-live="polite">Vous n’êtes pas connecté.</p></div>
 <div class="interior-grid">
 <article class="platform-card"><h2>Vos dossiers</h2><p>Retrouver les opportunités et les démarches que vous souhaitez suivre.</p></article>
@@ -31,6 +32,12 @@
 <label class="form-field">Votre entreprise (facultatif)<input name="organization_name" type="text" autocomplete="organization" maxlength="120"></label>
 <label class="personal-space-consent"><input name="privacy_ack" type="checkbox"> <span>J’ai pris connaissance de la <a href="politique-confidentialite.html">politique de confidentialité</a> et j’accepte que MajestiOS crée mon espace. <span aria-hidden="true">*</span></span></label>
 </div>
+<section class="personal-space-password" data-password-step hidden aria-live="polite">
+<p class="small-note">Dernière étape : créez un mot de passe sécurisé pour activer votre espace.</p>
+<label class="form-field">Mot de passe <span>*</span><input name="new_password" type="password" autocomplete="new-password" maxlength="128"></label>
+<label class="form-field">Confirmez le mot de passe <span>*</span><input name="new_password_confirm" type="password" autocomplete="new-password" maxlength="128"></label>
+<p class="small-note" id="password-help">12 caractères minimum, avec au moins une lettre et un chiffre. Évitez votre adresse e-mail ou le nom de votre entreprise.</p>
+</section>
 <section class="personal-space-otp" data-otp-step hidden aria-live="polite">
 <label class="form-field" for="member-otp">Code reçu par e-mail <span>*</span><input id="member-otp" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="000000" aria-describedby="otp-help"></label>
 <p id="otp-help" class="small-note">Saisissez le code à 6 chiffres. Il est temporaire et ne peut être utilisé qu’une seule fois.</p>

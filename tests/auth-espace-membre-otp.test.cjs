@@ -15,8 +15,10 @@ assert.match(html, /name="otp"[^>]*autocomplete="one-time-code"/);
 assert.match(html, /data-resend-otp/);
 assert.match(styles, /personal-space-fields\[hidden\]/);
 assert.match(styles, /personal-space-otp\[hidden\]/);
-assert.doesNotMatch(html, /type="password"/);
-assert.doesNotMatch(html, /name="passwordConfirm"/);
+// Mot de passe : seulement dans l'étape d'activation (jamais pour se connecter) ; le formulaire de connexion reste « code seul ».
+assert.equal((html.match(/type="password"/g) || []).length, 2);
+assert.ok(html.indexOf('data-password-step') < html.indexOf('type="password"'), "les champs mot de passe sont dans l'étape d'activation");
+assert.doesNotMatch(html, /name="passwordConfirm"|name="password"/);
 
 assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options \}\)/);
 // Création par code (Evolution-10, 15/11/2026) : création seulement dans le mode « création », avec consentement, puis provisionnement serveur après vérification du code.
@@ -25,14 +27,16 @@ assert.equal((auth.match(/shouldCreateUser: true/g) || []).length, 1);
 assert.match(auth, /createMode\s*\?\s*\{ shouldCreateUser: true[\s\S]*?privacy_notice_acknowledged: true[\s\S]*?: \{ shouldCreateUser: false \}/);
 assert.match(auth, /if \(createMode && !field\("privacy_ack"\)\?\.checked\) throw/);
 assert.match(auth, /provision-client-workspace/);
-assert.ok(auth.indexOf("verifyOtp(") < auth.indexOf("provisionWorkspace(data.session)"), "le provisionnement n'a lieu qu'après la vérification du code");
+assert.ok(auth.indexOf("auth.verifyOtp(") < auth.indexOf('rpc("start_member_activation")') && auth.indexOf("updateUser({ password") < auth.indexOf("provisionWorkspace(session)"), "l'espace n'est demandé qu'après le code puis le mot de passe sécurisé");
+assert.match(auth, /validatePassword\(/);
+assert.match(auth, /start_member_activation/);
 assert.match(html, /name="privacy_ack" type="checkbox"/);
 assert.match(html, /data-toggle-create/);
 assert.doesNotMatch(html, /name="firstName"|name="lastName"|name="phone"/);
 assert.match(auth, /supabase\.auth\.verifyOtp\(\{[\s\S]*?type: "email"/);
 assert.match(auth, /otpInput\.required = false/);
 assert.match(auth, /otpInput\.required = true/);
-assert.doesNotMatch(auth, /signInWithPassword|updateUser\(\{ password|resetPasswordForEmail/);
+assert.doesNotMatch(auth, /signInWithPassword|resetPasswordForEmail/);
 assert.match(auth, /aucun espace MajestiOS ne lui est associé/i);
 assert.match(auth, /Bienvenue dans votre espace MajestiOS/);
 

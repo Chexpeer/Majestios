@@ -12,8 +12,13 @@ export function createClient(){
     onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),
     signOut: async()=>({}),
     signInWithOtp: async(a)=>{(window.__otp=window.__otp||[]).push(a);return {error:null};},
-    verifyOtp: async(a)=>{(window.__verify=window.__verify||[]).push(a);window.__session={access_token:'tok',user:{id:'u1'}};return {data:{session:window.__session,user:{id:'u1'}},error:null};}
-  }, from:()=>chain(window.__members||[]) };
+    verifyOtp: async(a)=>{(window.__verify=window.__verify||[]).push(a);window.__session={access_token:'tok',user:{id:'u1'}};return {data:{session:window.__session,user:{id:'u1'}},error:null};},
+    updateUser: async(a)=>{(window.__updates=window.__updates||[]).push(a);window.__hasPassword=true;return {error:null};}
+  }, from:()=>chain(window.__members||[]),
+  rpc: async(name)=>{(window.__rpc=window.__rpc||[]).push(name);
+    if(name==='start_member_activation') return {data:{state:'pending',deadline:'2026-11-25T18:00:00Z'},error:null};
+    if(name==='member_activation_status') return {data:window.__activation||{state:'none'},error:null};
+    return {data:null,error:null}; } };
 }`;
 (async () => {
   assert.ok(fs.existsSync(path.join(root, "espace-membre.html")), "Exécuter node build.js avant le test.");
@@ -66,12 +71,44 @@ export function createClient(){
     assert.equal(provisioned.length, 0, "aucune création avant la vérification du code");
     await page.fill("#personal-space-form input[name=otp]", "123456");
     await page.click("#personal-space-form button[type=submit]");
-    await page.waitForFunction(() => /Votre espace est créé/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    await page.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    assert.equal(provisioned.length, 0, "aucun espace avant la création du mot de passe");
+    assert.ok((await page.evaluate(() => window.__rpc)).includes("start_member_activation"));
+    // Mot de passe trop faible, puis différent, puis valide.
+    await page.fill("#personal-space-form input[name=new_password]", "court1");
+    await page.fill("#personal-space-form input[name=new_password_confirm]", "court1");
+    await page.click("#personal-space-form button[type=submit]");
+    await page.waitForFunction(() => /au moins 12 caractères/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    assert.equal(await page.evaluate(() => (window.__updates || []).length), 0);
+    await page.fill("#personal-space-form input[name=new_password]", "Cheval-Bleu-Lune-77");
+    await page.fill("#personal-space-form input[name=new_password_confirm]", "Cheval-Bleu-Lune-78");
+    await page.click("#personal-space-form button[type=submit]");
+    await page.waitForFunction(() => /pas identiques/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    assert.equal(provisioned.length, 0);
+    await page.fill("#personal-space-form input[name=new_password_confirm]", "Cheval-Bleu-Lune-77");
+    await page.click("#personal-space-form button[type=submit]");
+    await page.waitForFunction(() => /Votre espace est activé/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    assert.equal((await page.evaluate(() => window.__updates))[0].password, "Cheval-Bleu-Lune-77");
     assert.equal(provisioned.length, 1);
     assert.equal(provisioned[0].auth, "Bearer tok");
     assert.equal(provisioned[0].verifiedBefore, 1);
     assert.deepEqual(provisioned[0].body, { flow: "signup", privacy_acknowledged: true, organization_name: "Ma Société", display_name: "" });
+    // 3. Compte vérifié mais non activé : l'alerte est visible, avec la date limite, et ramène à l'étape du mot de passe.
+    const late = await open([]);
+    await late.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u9" } }; window.__activation = { state: "pending", deadline: "2026-11-25T18:00:00Z", has_password: false }; });
+    await late.goto(origin + "/espace-membre.html");
+    await late.waitForSelector("#member-activation-alert:not([hidden])");
+    assert.match(await late.textContent("#member-activation-alert"), /25 novembre 2026/);
+    await late.click("#member-activation-action");
+    await late.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    assert.deepEqual(late.errors, []);
+    // 4. Espace actif : aucune alerte.
+    const ok = await open([{ organization_id: "o1" }]);
+    await ok.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1" } }; });
+    await ok.goto(origin + "/espace-membre.html");
+    await ok.waitForFunction(() => /connecté à votre espace/.test(document.querySelector("#member-auth-status")?.textContent || ""));
+    assert.equal(await ok.isVisible("#member-activation-alert"), false);
     assert.deepEqual(page.errors, []);
-    console.log("TEST CRÉATION D'ESPACE PAR CODE RÉUSSI : connexion sans création, consentement exigé, création après vérification du code.");
+    console.log("TEST CRÉATION D'ESPACE PAR CODE RÉUSSI : connexion sans création, consentement exigé, mot de passe sécurisé obligatoire avant l'espace, alerte d'activation avec date limite.");
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); process.exit(1); });

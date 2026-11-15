@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
+import { validatePassword, formatDeadline } from "./mot-de-passe-majestios.mjs";
 
 const config = MAJESTIOS_SUPABASE;
 const NOTICE_VERSION = "2026-11-05";
@@ -20,6 +21,8 @@ if (form && config?.url && config?.publishableKey) {
 
   let awaitingOtp = false;
   let createMode = false;
+  let awaitingPassword = false;
+  let activationDeadline = "";
   let pendingOptions = { shouldCreateUser: false };
   let pendingEmail = "";
   let resendTimer = null;
@@ -57,8 +60,58 @@ if (form && config?.url && config?.publishableKey) {
       headers: { "content-type": "application/json", apikey: config.publishableKey, authorization: `Bearer ${session.access_token}` },
       body: JSON.stringify({ flow: "signup", privacy_acknowledged: true, organization_name: value("organization_name"), display_name: value("display_name") })
     });
-    return response.ok;
+    let code = "";
+    try { code = (await response.clone().json()).code || ""; } catch { code = ""; }
+    return { ok: response.ok, code };
   };
+
+
+  const pwStep = form.querySelector("[data-password-step]");
+  const alertBox = document.querySelector("#member-activation-alert");
+  const alertText = document.querySelector("#member-activation-text");
+  const alertAction = document.querySelector("#member-activation-action");
+  const showAlert = (deadline) => {
+    if (!alertBox) return;
+    alertText.textContent = `Créez un mot de passe sécurisé${deadline ? ` avant le ${formatDeadline(deadline)}` : ""} pour valider et sécuriser votre compte.`;
+    alertBox.hidden = false;
+  };
+  const hideAlert = () => { if (alertBox) alertBox.hidden = true; };
+  const showPasswordStep = () => {
+    awaitingPassword = true;
+    form.querySelectorAll("[data-before-otp], [data-create-only]").forEach((el) => { el.hidden = true; });
+    if (otpStep) otpStep.hidden = true;
+    if (pwStep) pwStep.hidden = false;
+    const pw = field("new_password"), pc = field("new_password_confirm");
+    if (pw) pw.required = true;
+    if (pc) pc.required = true;
+    if (titleEl) titleEl.textContent = "Activer mon espace";
+    if (introEl) introEl.textContent = "Votre adresse est vérifiée. Choisissez votre mot de passe personnel.";
+    if (submitButton) submitButton.innerHTML = 'Activer mon espace <span aria-hidden="true">→</span>';
+    if (dialog && !dialog.open) { if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", ""); }
+    pw?.focus();
+  };
+  const setPasswordAndActivate = async () => {
+    const check = validatePassword(value("new_password"), { email: pendingEmail, organization: value("organization_name"), confirm: value("new_password_confirm") });
+    if (!check.ok) throw new Error(check.message);
+    const { error: pwError } = await supabase.auth.updateUser({ password: value("new_password") });
+    if (pwError) throw new Error("Le mot de passe n’a pas pu être enregistré. Choisissez-en un autre ou réessayez.");
+    const { data: { session } } = await supabase.auth.getSession();
+    const response = await provisionWorkspace(session);
+    if (!response.ok) {
+      const code = response.code;
+      if (code === "ACTIVATION_EXPIRED") throw new Error("Le délai d’activation est dépassé. Redemandez un code pour reprendre.");
+      throw new Error("Votre mot de passe est enregistré, mais l’espace n’a pas pu être activé. Réessayez dans un instant.");
+    }
+    awaitingPassword = false;
+    if (pwStep) pwStep.hidden = true;
+    ["new_password", "new_password_confirm"].forEach((n) => { const el = field(n); if (el) { el.required = false; el.value = ""; } });
+    hideAlert();
+    setCreateMode(false);
+    form.querySelectorAll("[data-before-otp]").forEach((el) => { el.hidden = false; });
+    await updateAuthStatus(session);
+    setFeedback("Votre espace est activé. Bienvenue dans votre espace MajestiOS.");
+  };
+  if (alertAction) alertAction.addEventListener("click", showPasswordStep);
 
   const startResendCooldown = () => {
     if (!resendButton) return;
@@ -109,6 +162,7 @@ if (form && config?.url && config?.publishableKey) {
     if (!status) return;
     const oldButton = preview?.querySelector("#member-signout");
     if (!session) {
+      hideAlert();
       status.textContent = "Vous n’êtes pas connecté.";
       oldButton?.remove();
       return;
@@ -118,6 +172,11 @@ if (form && config?.url && config?.publishableKey) {
       .select("organization_id")
       .eq("user_id", session.user.id)
       .limit(1);
+    if (!error && !data?.length) {
+      const { data: act } = await supabase.rpc("member_activation_status");
+      if (act && ["pending", "expired"].includes(act.state)) showAlert(act.deadline);
+      else hideAlert();
+    } else hideAlert();
     status.textContent = error
       ? "Compte connecté · vérification de l’espace indisponible."
       : data?.length
@@ -156,9 +215,18 @@ if (form && config?.url && config?.publishableKey) {
     if (otpInput) otpInput.required = false;
     if (otpStep) otpStep.hidden = true;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
-    let provisioned = null;
-    if (createMode) {
-      try { provisioned = await provisionWorkspace(data.session); } catch { provisioned = false; }
+    // Création ou compte sans espace actif : on ouvre l'activation et on demande le mot de passe sécurisé.
+    const { data: act } = createMode
+      ? await supabase.rpc("start_member_activation")
+      : await supabase.rpc("member_activation_status");
+    if (act && ["pending", "expired"].includes(act.state)) {
+      const renewed = act.state === "expired" ? (await supabase.rpc("start_member_activation")).data : act;
+      activationDeadline = renewed?.deadline || act.deadline || "";
+      await updateAuthStatus(data.session);
+      showPasswordStep();
+      setFeedback("Adresse vérifiée. Créez maintenant votre mot de passe sécurisé pour activer votre espace.");
+      if (submitButton) submitButton.disabled = false;
+      return;
     }
     await updateAuthStatus(data.session);
     const { data: memberships, error: membershipError } = await supabase
@@ -171,7 +239,7 @@ if (form && config?.url && config?.publishableKey) {
     } else if (!memberships?.length) {
       setFeedback("Votre compte est vérifié, mais aucun espace MajestiOS ne lui est associé. Contactez l’équipe pour finaliser votre accès.", true);
     } else {
-      setFeedback(provisioned ? "Votre espace est créé. Bienvenue dans votre espace MajestiOS." : "Connexion réussie. Bienvenue dans votre espace MajestiOS.");
+      setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
     }
     if (submitButton) submitButton.disabled = false;
   };
@@ -181,7 +249,8 @@ if (form && config?.url && config?.publishableKey) {
     if (submitButton) submitButton.disabled = true;
     if (feedback) feedback.hidden = true;
     try {
-      if (awaitingOtp) await verifyOtp();
+      if (awaitingPassword) await setPasswordAndActivate();
+      else if (awaitingOtp) await verifyOtp();
       else {
         if (!form.reportValidity()) return;
         await sendOtp();

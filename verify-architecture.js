@@ -230,8 +230,9 @@ assert(memberAuth.includes("signInWithOtp(") && memberAuth.includes("verifyOtp("
 assert(!memberPage.includes('name="password"') && !memberPage.includes('name="passwordConfirm"') &&
   !memberAuth.includes("signInWithPassword(") && !memberAuth.includes("resetPasswordForEmail("),
   "Espace membre : aucun mot de passe ne doit être demandé dans le parcours OTP");
-assert(memberAuth.indexOf("verifyOtp(") < memberAuth.indexOf("provisionWorkspace(data.session)"),
-  "Espace membre : le provisionnement ne s'appelle qu'après la vérification du code");
+assert(memberAuth.indexOf("auth.verifyOtp(") < memberAuth.indexOf('rpc("start_member_activation")') &&
+  memberAuth.indexOf("updateUser({ password") < memberAuth.indexOf("provisionWorkspace(session)"),
+  "Espace membre : l'espace n'est demandé qu'après le code puis la création du mot de passe sécurisé");
 assert(!/SUPABASE_SERVICE_ROLE_KEY|sb_secret_[A-Za-z0-9]+/i.test(supabaseConfig),
   "Sécurité Supabase : aucune clé service_role ne doit être publiée dans le navigateur");
 const atomicProvisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");

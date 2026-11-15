@@ -118,8 +118,13 @@ assert.match(vipBoundary, /grant execute on function public\.complete_crm_remind
 assert.ok(client.includes('!["owner", "admin"].includes(membership.role)'));
 assert.match(internalAccess, /const canAdminister = \["owner", "admin"\]\.includes\(membership\.role\)/);
 assert.match(internalAccess, /crmLink\.hidden = !canAdminister/);
-assert.match(internalAccess, /const destinationAllowed = canAdminister/);
-assert.match(internalAccess, /\["crm\.html", "administration\.html", "admin-recherches\.html"\]/);
+// Le retour après connexion passe par le module des parcours : seules les pages autorisées pour le rôle s'ouvrent.
+assert.match(internalAccess, /canOpen\(returnTo, membership\.role\)/);
+const parcours = read("parcours-majestios.mjs");
+assert.match(parcours, /ADMIN_ONLY = Object\.freeze\(\[PAGES\.crm, PAGES\.administration, PAGES\.recherches/);
+assert.match(parcours, /crm:\s*"crm\.html"/);
+assert.match(parcours, /administration:\s*"administration\.html"/);
+assert.match(parcours, /recherches:\s*"admin-recherches\.html"/);
 assert.match(internalPage, /id="internal-crm-link"/);
 
 assert.match(client, /supabase\.auth\.getUser\(\)/);
@@ -171,7 +176,10 @@ assert.match(edge, /body\.flow !== "signup"/);
 assert.match(edge, /const noticeVersion = NOTICE_VERSION/);
 assert.match(edge, /SUPABASE_SERVICE_ROLE_KEY/);
 assert.match(auth, /shouldCreateUser: false/);
-assert.doesNotMatch(auth, /provisionWorkspace|privacy_notice_version|mode === "signup"/);
+// Création d'espace : uniquement après code vérifié puis mot de passe sécurisé (activation), jamais à la simple connexion.
+assert.match(auth, /shouldCreateUser: true[\s\S]*shouldCreateUser: false/);
+assert.ok(auth.indexOf("updateUser({ password") < auth.indexOf("provisionWorkspace(session)"));
+assert.doesNotMatch(auth, /signInWithPassword/);
 assert.match(auth, /signInWithOtp/);
 assert.match(auth, /verifyOtp/);
 assert.match(auth, /!memberships\?\.length/);

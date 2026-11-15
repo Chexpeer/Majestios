@@ -1,0 +1,15 @@
+import assert from "node:assert/strict";
+import { validatePassword, formatDeadline } from "../mot-de-passe-majestios.mjs";
+assert.equal(validatePassword("court1").ok, false);
+assert.equal(validatePassword("uniquementdeslettres").ok, false);
+assert.equal(validatePassword("123456789012").ok, false);
+assert.equal(validatePassword("aaaaaaaaaaaaa").ok, false);
+assert.equal(validatePassword("Marie-Dupont-2026!", { email: "marie.dupont@exemple.fr" }).ok, true, "le début de l'adresse n'est pas repris tel quel");
+assert.equal(validatePassword("mariedupont2026!!", { email: "mariedupont@exemple.fr" }).ok, false);
+assert.equal(validatePassword("MaSocieteBatiment42", { organization: "Ma Societe Batiment" }).ok, false);
+assert.equal(validatePassword("Cheval-Bleu-Lune-77").ok, true);
+assert.equal(validatePassword("Cheval-Bleu-Lune-77", { confirm: "Cheval-Bleu-Lune-78" }).ok, false);
+assert.equal(validatePassword("Cheval-Bleu-Lune-77", { confirm: "Cheval-Bleu-Lune-77" }).ok, true);
+assert.equal(formatDeadline("nimporte quoi"), "");
+assert.match(formatDeadline("2026-11-25T18:00:00Z"), /25 novembre 2026/);
+console.log("mot-de-passe-majestios : OK");
