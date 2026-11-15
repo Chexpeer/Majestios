@@ -1,0 +1,22 @@
+/* Relecture des annonces — poste de commandement (thème sombre de administration.css). */
+.mod-workspace{max-width:1100px;margin:0 auto;padding:34px 0 54px}
+.mod-heading h1{margin:0 0 6px}
+.mod-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.mod-tabs button{min-height:36px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--muted);font:700 12px "DM Sans",Arial,sans-serif;cursor:pointer}
+.mod-tabs button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold2);background:rgba(215,182,110,.08)}
+.mod-status{margin:12px 0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:12px}
+.mod-status.error{border-color:#c9776b;color:#f0b4ab}
+.mod-list{display:grid;gap:14px}
+.mod-card{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.mod-card h2{margin:6px 0 10px;font-size:16px}
+.mod-meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:11px}
+.mod-contact{margin:12px 0;padding:10px 12px;border-left:3px solid var(--gold);background:rgba(215,182,110,.06);font-size:12px;overflow-wrap:anywhere}
+.mod-card label{display:block;margin-top:10px;color:var(--muted);font-size:11px;font-weight:700}
+.mod-card :is(input,textarea){display:block;width:100%;margin-top:5px;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:#0f161d;color:var(--text);font:13px "DM Sans",Arial,sans-serif}
+.mod-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.mod-actions button{min-height:38px;padding:0 16px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--text);font:800 12px "DM Sans",Arial,sans-serif;cursor:pointer}
+.mod-actions .mod-publish{border-color:var(--gold);background:linear-gradient(105deg,#f1d99e,#c69b4a);color:#241c0b}
+.mod-actions button:disabled{opacity:.55;cursor:wait}
+.mod-login{display:grid;gap:10px;max-width:360px;margin:16px auto 0;text-align:left}
+.mod-login input{padding:10px;border:1px solid var(--line);border-radius:7px;background:#0f161d;color:var(--text);font-size:14px}
+@media(max-width:640px){.mod-workspace{padding:20px 0}}

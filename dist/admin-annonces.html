@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Relecture des annonces de sous-traitance — administration MajestiOS.">
+<title>Relecture des annonces — MajestiOS</title>
+<link rel="stylesheet" href="administration.css">
+<link rel="stylesheet" href="admin-annonces.css">
+<link rel="stylesheet" href="charte-majestios-espaces.css">
+  <script src="navigation-tiroirs.js" defer></script>
+</head>
+<body class="admin-shell">
+<div class="admin-frame is-locked">
+<aside class="admin-sidebar" aria-label="Navigation de l’administration">
+<a class="admin-brand" href="administration.html"><span class="admin-brand-mark">M</span><span><strong>MajestiOS</strong><small>POSTE DE COMMANDEMENT</small></span></a>
+<div class="admin-sidebar-caption">PILOTAGE GÉNÉRAL</div>
+<nav class="admin-nav">
+<a href="espace-interne.html"><span class="nav-symbol" aria-hidden="true">⌂</span>Accueil interne</a>
+<a href="administration.html"><span class="nav-symbol">◈</span>Vue générale</a>
+<a href="crm.html"><span class="nav-symbol">▦</span>CRM interne</a>
+<a href="admin-recherches.html"><span class="nav-symbol" aria-hidden="true">⌕</span>Recherches ciblées</a>
+<a class="is-active" href="admin-annonces.html" aria-current="page"><span class="nav-symbol" aria-hidden="true">✎</span>Relecture des annonces</a>
+</nav>
+<div class="admin-sidebar-bottom"><span class="admin-security-dot"></span><span>Accès interne contrôlé</span><a href="index.html">Retour au site public ↗</a></div>
+</aside>
+<main class="admin-main">
+<header class="admin-topbar"><div class="admin-breadcrumb"><a href="espace-interne.html">Accueil interne</a><span>/</span><a href="administration.html">Administration générale</a><span>/</span><strong>Relecture des annonces</strong></div><div class="admin-session"><span id="session-label">Vérification des accès…</span><button id="signout" type="button" hidden>Déconnexion</button></div></header>
+<section id="gate" class="admin-gate" aria-live="polite"><div class="gate-emblem">M</div><p class="admin-kicker">POSTE DE COMMANDEMENT</p><h1>Accès réservé</h1><p id="gate-message">Vérification de votre identité et de vos habilitations internes…</p>
+<form id="mod-login" class="mod-login" hidden><input name="email" type="email" autocomplete="email" placeholder="Adresse e-mail du compte interne" required><button class="admin-button admin-button-primary" type="submit">Recevoir mon lien de connexion →</button></form></section>
+<div id="workspace" class="mod-workspace" hidden>
+<div class="mod-heading"><p class="admin-kicker">ANNONCES GRATUITES · APPELS D’OFFRES PRIVÉS</p><h1>Relecture des annonces</h1><p>Chaque annonce déposée par un visiteur est relue ici avant toute publication. Les coordonnées de l’auteur restent visibles uniquement ici et ne sont jamais publiées. Vous pouvez corriger le titre et la description avant de publier ; un refus exige un motif.</p></div>
+<div id="mod-tabs" class="mod-tabs" role="group" aria-label="État des annonces"></div>
+<p id="mod-status" class="mod-status" role="status">Chargement…</p>
+<div id="mod-list" class="mod-list"></div>
+</div>
+</main>
+</div>
+<script type="module" src="admin-annonces.js"></script>
+</body>
+</html>
