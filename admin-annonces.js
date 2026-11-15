@@ -7,7 +7,6 @@ const $ = (selector) => document.querySelector(selector);
 const frame = $(".admin-frame"), gate = $("#gate"), workspace = $("#workspace"), gateMessage = $("#gate-message"), sessionLabel = $("#session-label"), signout = $("#signout");
 const loginForm = $("#mod-login"), tabsBox = $("#mod-tabs"), list = $("#mod-list"), statusBox = $("#mod-status");
 let currentTab = "pending";
-let pendingEmail = "";
 
 const setStatus = (message, error = false) => { statusBox.textContent = message; statusBox.classList.toggle("error", error); statusBox.hidden = !message; };
 function lock(message, { signed = false, login = false } = {}) {
@@ -23,7 +22,7 @@ function lock(message, { signed = false, login = false } = {}) {
 async function authorize() {
   const { data: { session }, error } = await supabase.auth.getSession();
   if (error) throw error;
-  if (!session) { lock("Connectez-vous avec le compte interne qui vous a été attribué : un code vous sera envoyé par e-mail.", { login: true }); return false; }
+  if (!session) { lock("Connectez-vous avec le compte interne qui vous a été attribué : un lien de connexion vous sera envoyé par e-mail.", { login: true }); return false; }
   const { error: queueError } = await supabase.rpc("moderation_queue", { p_status: "pending", p_limit: 1 });
   if (queueError) { lock(moderationError(queueError), { signed: true }); return false; }
   sessionLabel.textContent = "Accès interne vérifié";
@@ -97,28 +96,19 @@ for (const [value, label] of TABS) {
   tabsBox.append(button);
 }
 
-// Connexion par code e-mail (même principe que l'espace personnel) sur le projet qui héberge les annonces.
+// Connexion par lien reçu par e-mail (aucun code à saisir) sur le projet qui héberge les annonces.
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const email = loginForm.elements.email.value.trim().toLowerCase();
-  const code = loginForm.elements.code.value.trim();
+  const button = loginForm.querySelector("button"); button.disabled = true;
   try {
-    if (!pendingEmail) {
-      const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
-      if (error) throw error;
-      pendingEmail = email;
-      loginForm.elements.code.hidden = false;
-      loginForm.elements.code.focus();
-      gateMessage.textContent = "Un e-mail vient d’être envoyé à " + email + ". Cliquez sur son lien, ou saisissez le code s’il en contient un.";
-      return;
-    }
-    const { error } = await supabase.auth.verifyOtp({ email: pendingEmail, token: code, type: "email" });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
     if (error) throw error;
-    pendingEmail = "";
-    if (await authorize()) await load();
+    gateMessage.textContent = "Un e-mail vient d’être envoyé à " + email + ". Ouvrez-le et cliquez sur le lien : vous reviendrez ici, connecté. Pensez à regarder les courriers indésirables.";
+    button.textContent = "Renvoyer le lien";
   } catch (error) {
-    gateMessage.textContent = "Connexion impossible : " + (error?.message || "réessayez.");
-  }
+    gateMessage.textContent = "Connexion impossible : " + (error?.message || "réessayez plus tard.");
+  } finally { setTimeout(() => { button.disabled = false; }, 30000); }
 });
 signout.addEventListener("click", async () => { await supabase.auth.signOut(); lock("Vous êtes déconnecté.", { login: true }); });
 supabase.auth.onAuthStateChange((event) => { if (event === "SIGNED_OUT") lock("Vous êtes déconnecté.", { login: true }); });
