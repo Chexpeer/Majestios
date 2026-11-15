@@ -1130,3 +1130,5 @@ Reste à jouer : connexion réelle par lien e-mail (un compte à la fois), recet
 
 ### Distinction compte administrateur réel / comptes de test (précision du propriétaire, 15/11/2026)
 Le compte administrateur réel du propriétaire (plateformes et futur administrateur MajestiOS) est géré avec une adresse distincte, volontairement non écrite dans Git. Les comptes `perspectivemarketing…` (dont les alias `+majestios`, `+cheexpeer`, `+client`) sont **exclusivement des comptes de test** sur MajestiOS-Test. Aucun compte de test ne doit être reproduit sur MajestiOS-CRM ; le compte administrateur réel n'y sera rattaché que sur décision explicite du propriétaire.
+
+Rattachement du compte administrateur réel à MajestiOS-Test (15/11/2026, sur demande du propriétaire) : propriétaire (owner) de l'organisation interne, créé comme les autres comptes de test (SQL, sans mot de passe, connexion par lien e-mail). Aucun rattachement sur MajestiOS-CRM.
