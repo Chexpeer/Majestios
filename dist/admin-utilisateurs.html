@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Invitation des membres et des clients — administration MajestiOS.">
+<title>Invitations — MajestiOS</title>
+<link rel="stylesheet" href="administration.css">
+<link rel="stylesheet" href="admin-cheexpeer.css">
+<link rel="stylesheet" href="admin-utilisateurs.css">
+<link rel="stylesheet" href="charte-majestios-espaces.css">
+  <script src="navigation-tiroirs.js" defer></script>
+</head>
+<body class="admin-shell">
+<div class="admin-frame is-locked">
+<aside class="admin-sidebar" aria-label="Navigation de l’administration">
+<a class="admin-brand" href="administration.html"><span class="admin-brand-mark">M</span><span><strong>MajestiOS</strong><small>POSTE DE COMMANDEMENT</small></span></a>
+<div class="admin-sidebar-caption">PILOTAGE GÉNÉRAL</div>
+<nav class="admin-nav">
+<a href="administration.html"><span class="nav-symbol" aria-hidden="true">◈</span>Vue générale</a>
+<a href="crm.html"><span class="nav-symbol" aria-hidden="true">▦</span>CRM interne</a>
+<a href="admin-recherches.html"><span class="nav-symbol" aria-hidden="true">⌕</span>Recherches ciblées</a>
+<a href="admin-cheexpeer.html"><span class="nav-symbol" aria-hidden="true">✦</span>Cheexpeer</a>
+<a class="is-active" href="admin-utilisateurs.html" aria-current="page"><span class="nav-symbol" aria-hidden="true">✉</span>Invitations</a>
+</nav>
+<div class="admin-sidebar-bottom"><span class="admin-security-dot"></span><span>Accès interne contrôlé</span><a href="index.html">Retour au site public ↗</a></div>
+</aside>
+<main class="admin-main">
+<header class="admin-topbar"><div class="admin-breadcrumb"><a href="administration.html">Administration générale</a><span>/</span><strong>Invitations</strong></div><div class="admin-session"><span id="session-label">Vérification des accès…</span><button id="signout" type="button" hidden>Déconnexion</button></div></header>
+<section id="gate" class="admin-gate" aria-live="polite"><div class="gate-emblem">M</div><p class="admin-kicker">POSTE DE COMMANDEMENT</p><h1>Accès réservé</h1><p id="gate-message">Vérification de votre identité et de vos habilitations internes…</p>
+<form id="iu-login" class="mod-login" hidden><input name="email" type="email" autocomplete="email" placeholder="Adresse e-mail du compte interne" required><button class="admin-button admin-button-primary" type="submit">Recevoir mon lien de connexion →</button></form></section>
+<div id="workspace" class="cx-workspace" hidden>
+<div><p class="admin-kicker">ACCÈS · MEMBRES ET CLIENTS</p><h1>Invitations</h1><p>Invitez un membre de l’équipe ou un client par e-mail. La personne reçoit un lien, confirme son adresse, et son accès n’est créé qu’à ce moment-là. Une invitation est valable 7 jours et peut être révoquée tant qu’elle n’est pas acceptée.</p></div>
+<div class="cx-grid">
+<section class="cx-card" aria-labelledby="iu-new-title">
+<p class="admin-kicker">NOUVELLE INVITATION</p><h2 id="iu-new-title">Inviter une personne</h2>
+<form id="iu-form">
+<label>Adresse e-mail<input name="email" type="email" maxlength="254" autocomplete="off" required></label>
+<label>Type d’accès<select name="kind"><option value="internal">Membre de l’équipe (interne)</option><option value="client">Client</option></select></label>
+<label id="iu-org-wrap">Organisation<select name="organization_id"></select></label>
+<label id="iu-newname-wrap" hidden>Nom de la nouvelle société cliente<input name="new_organization_name" maxlength="120"></label>
+<label>Rôle<select name="role"></select></label>
+<p id="iu-hint" class="cx-meta"></p>
+<div class="cx-actions"><button class="cx-primary" type="submit">Envoyer l’invitation</button></div>
+</form>
+<p id="iu-status" class="cx-status" role="status" hidden></p>
+</section>
+<section class="cx-card" aria-labelledby="iu-list-title" aria-live="polite">
+<p class="admin-kicker">SUIVI</p><h2 id="iu-list-title">Invitations récentes</h2>
+<p id="iu-list-status" class="cx-status" hidden></p>
+<ul id="iu-list" class="iu-list"></ul>
+</section>
+</div>
+</div>
+</main>
+</div>
+<script type="module" src="admin-utilisateurs.js"></script>
+</body>
+</html>

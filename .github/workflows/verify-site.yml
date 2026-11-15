@@ -36,6 +36,11 @@ jobs:
           node --check tests/cheexpeer-command.test.mjs
           node --check admin-cheexpeer.js
           node --check cheexpeer-command.mjs
+          node --check admin-utilisateurs.js
+          node --check accepter-invitation.js
+          node --check tests/invitation-core.test.mjs
+          node --check tests/admin-utilisateurs.browser.cjs
+          node --check supabase/functions/_shared/invitation-core.mjs
           node --check tests/cheexpeer-sql-migration-contract.test.mjs
           node --check supabase/functions/_shared/reputation-audit-core.mjs
           node --check supabase/functions/_shared/reputation-audit-connectors.mjs
@@ -90,7 +95,7 @@ jobs:
           node --input-type=module --check < crm-business-filters.js
           node --input-type=module --check < crm-client.js
       - name: Tester l'identité et l'isolation inter-organisations des API Cheexpeer
-        run: node --test tests/cheexpeer-api-security.test.mjs tests/cheexpeer-sql-migration-contract.test.mjs tests/cheexpeer-command.test.mjs
+        run: node --test tests/cheexpeer-api-security.test.mjs tests/cheexpeer-sql-migration-contract.test.mjs tests/cheexpeer-command.test.mjs tests/invitation-core.test.mjs
       - name: Tester le contrat du moteur d'audit interne Cheexpeer
         run: node --test tests/reputation-audit-core.test.mjs
       - name: Tester le registre et le premier connecteur de Réputation virtuelle
@@ -158,7 +163,7 @@ jobs:
       - name: Tester le dossier et les consultations de Réputation virtuelle
         run: node tests/reputation-virtuelle.browser.cjs
       - name: Tester le centre de commande Cheexpeer (API simulées)
-        run: node tests/admin-cheexpeer.browser.cjs
+        run: node tests/admin-cheexpeer.browser.cjs && node tests/admin-utilisateurs.browser.cjs
       - name: Tester les menus de navigation sur mobile et ordinateur
         run: node tests/navigation-dropdown.browser.cjs
       - name: Tester le parcours de contact sans transmission de données

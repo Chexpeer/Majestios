@@ -1,0 +1,7 @@
+/* Invitations — complète admin-cheexpeer.css (même thème sombre). */
+.cx-card select{display:block;width:100%;margin-top:5px;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:#0f161d;color:var(--text);font:13px "DM Sans",Arial,sans-serif}
+.iu-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.iu-list li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:12px;min-width:0}
+.iu-list .iu-main{flex:1 1 220px;min-width:0;overflow-wrap:anywhere}
+.iu-list .iu-sub{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.iu-list button{min-height:32px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--text);font:800 11px "DM Sans",Arial,sans-serif;cursor:pointer}
