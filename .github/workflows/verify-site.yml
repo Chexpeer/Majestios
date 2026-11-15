@@ -45,6 +45,7 @@ jobs:
           node --check parcours-majestios.mjs
           node --check tests/invitation-core.test.mjs tests/cheexpeer-chat-core.test.mjs
           node --check tests/admin-utilisateurs.browser.cjs
+          node --check tests/espace-membre-creation.browser.cjs
           node --check supabase/functions/_shared/invitation-core.mjs
           node --check tests/cheexpeer-sql-migration-contract.test.mjs
           node --check supabase/functions/_shared/reputation-audit-core.mjs
@@ -176,7 +177,7 @@ jobs:
       - name: Tester le dossier et les consultations de Réputation virtuelle
         run: node tests/reputation-virtuelle.browser.cjs
       - name: Tester le centre de commande Cheexpeer (API simulées)
-        run: node tests/admin-cheexpeer.browser.cjs && node tests/admin-utilisateurs.browser.cjs
+        run: node tests/admin-cheexpeer.browser.cjs && node tests/admin-utilisateurs.browser.cjs && node tests/espace-membre-creation.browser.cjs
       - name: Tester les menus de navigation sur mobile et ordinateur
         run: node tests/navigation-dropdown.browser.cjs
       - name: Tester le parcours de contact sans transmission de données

@@ -8,7 +8,6 @@ const auth = fs.readFileSync(path.join(root, "auth-espace-membre.js"), "utf8");
 const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
 assert.match(html, /Connexion à votre espace/);
-assert.match(html, /création de nouveaux espaces sera ouverte après activation du provisionnement/);
 assert.match(html, /name="email"[^>]*type="email"[^>]*required/);
 assert.doesNotMatch(html, /id="toggle-auth-mode"/);
 assert.doesNotMatch(html, /Créer mon compte/);
@@ -20,10 +19,16 @@ assert.doesNotMatch(html, /type="password"/);
 assert.doesNotMatch(html, /name="passwordConfirm"/);
 
 assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options \}\)/);
+// Création par code (Evolution-10, 15/11/2026) : création seulement dans le mode « création », avec consentement, puis provisionnement serveur après vérification du code.
 assert.equal((auth.match(/shouldCreateUser: false/g) || []).length, 2);
-assert.doesNotMatch(auth, /setMode|modeToggle|signup|data-signup-only/);
-assert.doesNotMatch(html, /data-signup-only|privacyAccepted|name="firstName"|name="lastName"|name="organizationName"|name="phone"/);
-assert.doesNotMatch(auth, /provision-client-workspace|shouldCreateUser: true/);
+assert.equal((auth.match(/shouldCreateUser: true/g) || []).length, 1);
+assert.match(auth, /createMode\s*\?\s*\{ shouldCreateUser: true[\s\S]*?privacy_notice_acknowledged: true[\s\S]*?: \{ shouldCreateUser: false \}/);
+assert.match(auth, /if \(createMode && !field\("privacy_ack"\)\?\.checked\) throw/);
+assert.match(auth, /provision-client-workspace/);
+assert.ok(auth.indexOf("verifyOtp(") < auth.indexOf("provisionWorkspace(data.session)"), "le provisionnement n'a lieu qu'après la vérification du code");
+assert.match(html, /name="privacy_ack" type="checkbox"/);
+assert.match(html, /data-toggle-create/);
+assert.doesNotMatch(html, /name="firstName"|name="lastName"|name="phone"/);
 assert.match(auth, /supabase\.auth\.verifyOtp\(\{[\s\S]*?type: "email"/);
 assert.match(auth, /otpInput\.required = false/);
 assert.match(auth, /otpInput\.required = true/);
@@ -34,5 +39,4 @@ assert.match(auth, /Bienvenue dans votre espace MajestiOS/);
 console.log("Contrat Auth OTP membre : connexion par code e-mail, absence de création de compte tant que le provisionnement n’est pas activé, et absence de mot de passe vérifiées.");
 
 // Demande du propriétaire (15/11/2026) : lien discret « Créer mon espace personnel » ; ce n'est pas un formulaire d'inscription : il renvoie vers le contact tant que la création est suspendue.
-assert.match(html, /<a href="contact\.html">Créer mon espace personnel<\/a>/);
-assert.doesNotMatch(html, /<form[^>]*signup/i);
+assert.match(html, /data-open-create>Créer mon espace personnel<\/button>/);

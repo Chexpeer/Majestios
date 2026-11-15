@@ -44,3 +44,10 @@ html body p.member-create-hint a{ color:#e8cf8a; font-size:inherit; text-decorat
 html body .personal-space-form input:not([type=checkbox]){ width:100%; }
 html body .personal-space-form .form-field input{ width:100% !important; display:block; box-sizing:border-box; }
 html body .personal-space-form .personal-space-fields{ grid-template-columns:1fr; gap:8px; }
+
+html body button.member-create-link{ all:unset; cursor:pointer; color:#e8cf8a; font-size:inherit; text-decoration:underline; text-underline-offset:2px; }
+html body button.member-create-link:focus-visible{ outline:2px solid #e8cf8a; outline-offset:2px; border-radius:2px; }
+html body .personal-space-create{ display:grid; gap:8px; }
+html body .personal-space-create[hidden]{ display:none; }
+html body .personal-space-consent{ display:flex; gap:8px; align-items:flex-start; font-size:11.5px; line-height:1.4; }
+html body .personal-space-consent input{ width:auto !important; min-height:0; height:auto; margin-top:2px; }

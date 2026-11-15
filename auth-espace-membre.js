@@ -2,6 +2,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 
 const config = MAJESTIOS_SUPABASE;
+const NOTICE_VERSION = "2026-11-05";
 const form = document.querySelector("#personal-space-form");
 const feedback = document.querySelector("#personal-space-feedback");
 const submitButton = form?.querySelector('[type="submit"]');
@@ -18,6 +19,8 @@ if (form && config?.url && config?.publishableKey) {
   });
 
   let awaitingOtp = false;
+  let createMode = false;
+  let pendingOptions = { shouldCreateUser: false };
   let pendingEmail = "";
   let resendTimer = null;
   const field = (name) => form.elements.namedItem(name);
@@ -28,6 +31,35 @@ if (form && config?.url && config?.publishableKey) {
     feedback.dataset.state = isError ? "error" : "success";
     feedback.hidden = false;
   };
+
+  const titleEl = document.querySelector("#personal-space-title");
+  const introEl = form.querySelector(".personal-space-intro");
+  const dialog = document.querySelector("#personal-space-dialog");
+  const setCreateMode = (on) => {
+    createMode = on;
+    form.querySelectorAll("[data-create-only]").forEach((el) => { el.hidden = !on; });
+    form.querySelectorAll("[data-mode-login]").forEach((el) => { el.hidden = on; });
+    form.querySelectorAll("[data-mode-create]").forEach((el) => { el.hidden = !on; });
+    const ack = field("privacy_ack");
+    if (ack) ack.required = on;
+    if (titleEl) titleEl.textContent = on ? "Créer mon espace personnel" : "Se connecter à mon espace";
+    if (introEl) introEl.textContent = on ? "Un code temporaire envoyé par e-mail confirme votre adresse et crée votre espace. Aucun mot de passe." : "Recevez un code temporaire par e-mail pour accéder à votre espace existant.";
+    if (submitButton) submitButton.innerHTML = (on ? "Recevoir mon code pour créer mon espace" : "Recevoir mon code de connexion") + ' <span aria-hidden="true">→</span>';
+  };
+  form.querySelectorAll("[data-toggle-create]").forEach((b) => b.addEventListener("click", () => setCreateMode(!createMode)));
+  document.querySelectorAll("[data-open-create]").forEach((b) => b.addEventListener("click", () => {
+    setCreateMode(true);
+    if (dialog && !dialog.open) { if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", ""); }
+  }));
+  const provisionWorkspace = async (session) => {
+    const response = await fetch(`${config.url}/functions/v1/provision-client-workspace`, {
+      method: "POST",
+      headers: { "content-type": "application/json", apikey: config.publishableKey, authorization: `Bearer ${session.access_token}` },
+      body: JSON.stringify({ flow: "signup", privacy_acknowledged: true, organization_name: value("organization_name"), display_name: value("display_name") })
+    });
+    return response.ok;
+  };
+
   const startResendCooldown = () => {
     if (!resendButton) return;
     let remaining = 60;
@@ -52,7 +84,11 @@ if (form && config?.url && config?.publishableKey) {
       emailInput?.reportValidity();
       return;
     }
-    const options = { shouldCreateUser: false };
+    if (createMode && !field("privacy_ack")?.checked) throw new Error("Cochez la case pour accepter la politique de confidentialité.");
+    const options = createMode
+      ? { shouldCreateUser: true, data: { privacy_notice_acknowledged: true, privacy_notice_version: NOTICE_VERSION, organization_name: value("organization_name"), display_name: value("display_name") } }
+      : { shouldCreateUser: false };
+    pendingOptions = options;
     const { error } = await supabase.auth.signInWithOtp({ email, options });
     if (error) {
       // Keep account-existence and delivery errors deliberately non-specific.
@@ -120,6 +156,10 @@ if (form && config?.url && config?.publishableKey) {
     if (otpInput) otpInput.required = false;
     if (otpStep) otpStep.hidden = true;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
+    let provisioned = null;
+    if (createMode) {
+      try { provisioned = await provisionWorkspace(data.session); } catch { provisioned = false; }
+    }
     await updateAuthStatus(data.session);
     const { data: memberships, error: membershipError } = await supabase
       .from("organization_members")
@@ -131,7 +171,7 @@ if (form && config?.url && config?.publishableKey) {
     } else if (!memberships?.length) {
       setFeedback("Votre compte est vérifié, mais aucun espace MajestiOS ne lui est associé. Contactez l’équipe pour finaliser votre accès.", true);
     } else {
-      setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
+      setFeedback(provisioned ? "Votre espace est créé. Bienvenue dans votre espace MajestiOS." : "Connexion réussie. Bienvenue dans votre espace MajestiOS.");
     }
     if (submitButton) submitButton.disabled = false;
   };
@@ -157,8 +197,7 @@ if (form && config?.url && config?.publishableKey) {
     if (resendButton.disabled || !pendingEmail) return;
     resendButton.disabled = true;
     try {
-      const options = { shouldCreateUser: false };
-      const { error } = await supabase.auth.signInWithOtp({ email: pendingEmail, options });
+      const { error } = await supabase.auth.signInWithOtp({ email: pendingEmail, options: pendingOptions });
       if (error) throw error;
       setFeedback("Un nouveau code vient d’être demandé. Seul le dernier code reçu doit être utilisé.");
       startResendCooldown();
