@@ -4,6 +4,7 @@
 
 ## 1. Où trouver les informations
 
+- **Invitations et chat depuis l'administration :** [SPECIFICATION-INVITATIONS-ET-CHAT-CHEEXPEER-2026-11-15.md](../evolution-9/SPECIFICATION-INVITATIONS-ET-CHAT-CHEEXPEER-2026-11-15.md)
 - **Charte de rôle de Cheexpeer :** [CHARTE-ROLE-CHEEXPEER-2026-11-14.md](../evolution-9/CHARTE-ROLE-CHEEXPEER-2026-11-14.md)
 - **Dossier d'accueil de Cheexpeer :** [DOSSIER-ACCUEIL-CHEEXPEER-2026-11-14.md](../evolution-9/DOSSIER-ACCUEIL-CHEEXPEER-2026-11-14.md)
 - **Méthode de travail (documentation → Test → CRM) :** [METHODE-DE-TRAVAIL-DOCUMENTATION-TEST-CRM.md](../METHODE-DE-TRAVAIL-DOCUMENTATION-TEST-CRM.md)
