@@ -29,3 +29,10 @@ Gardes `verify-site`, `verify-architecture`, `verify-liens-site` et toute la CI 
 
 ## Pour la production
 Décider de la phase 2 (outils internes), puis promotion groupée vers MajestiOS-CRM uniquement sur décision explicite du propriétaire.
+
+## Nettoyage des fichiers inutilisés (même jour, sur demande du propriétaire)
+Mesure : les 43 pages ouvertes sur ordinateur et mobile, relevé de toutes les images réellement chargées, et recherche des fichiers cités par aucune page, feuille de style ou script.
+**Supprimés (branche de test) :** `OFFRE PUBLIC.png` (2,8 Mo), `IMMEUBLE.jfif` (1 Mo), `immeuble-masque.png`, `homepage-evolution-8.css` et `navigation-majestios.css` (feuilles chargées par aucune page), trois schémas `assets/visuels/rubrique-{facturation,reputation,reseau}.svg`. Retirés aussi : leurs anciennes règles de style, l'en-tête dédié de `vercel.json`, leurs lignes du manifeste, et la règle de garde « trois visuels historiques » (devenue « visuel de l'accueil conservé »). Gain : environ 3,9 Mo. Restitution possible à tout moment par l'historique Git.
+**Conservés volontairement :** les images encore affichées sur une page (dont `Designer (2).png`), `robots.txt`/`sitemap.xml`, `generate-sitemap.js` (outil de génération du plan du site), `schema-majestios.svg` et `schemas/opportunite.schema.json` (cités par les audits), `services/cheexpeer-worker` (service Cheexpeer), les migrations Supabase, la documentation, `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md` (exigé par un garde-fou) et la page `assistant-majestios.html` (page publique du plan du site, couverte par des tests, mais qu'aucun lien n'atteint) : décision demandée au propriétaire.
+**Ajouté à la CI :** trois tests qui existaient sans jamais être lancés (`annonces-formulaire.browser`, `bootstrap-admin-hardening`, `prospecting-signals`) ; ils passent.
+**Reste à faire :** convertir les cinq grosses photos encore affichées (12,6 Mo) en WebP.

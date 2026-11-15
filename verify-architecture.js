@@ -120,7 +120,7 @@ for (const page of htmlPages) {
 // La barre peut être présente dans le HTML ou créée par le bootstrap commun.
 // Ce contrat couvre aussi les pages internes qui possèdent leur propre navigation métier.
 for (const asset of [
-  "styles.css", "charte-majestios.css", "app.js", "navigation-majestios.css", "homepage.css", "homepage-theme.css", "catalogue-majestios.js", "rubriques-immersives.css",
+  "styles.css", "charte-majestios.css", "app.js", "homepage.css", "homepage-theme.css", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
   "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
   "company-targeting.js", "company-targeting-page.js", "company-fit.js"
@@ -148,11 +148,11 @@ assert((read("homepage.css") + read("homepage-theme.css")).includes('url("Design
 const homepageCss = read("homepage.css") + read("homepage-theme.css");
 assert(!/\.(?:building|tower|floor|elevator|home-help|dialog-[\w-]*|window)[\w-]*|#floor-rows/i.test(homepageCss), "CSS accueil : styles obsolètes de l’ancien immeuble encore présents");
 
-for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
+for (const asset of ["Designer (2).png"]) {
   assert(exists(asset),"Visuel de l'accueil absent : "+asset);
   assert(siteFiles.includes(asset),"Build : visuel de l'accueil non publié : "+asset);
 }
-assert(!exists("Ambitios.webp") && !exists("Développement-.webp") && !exists("Majestios.immeuble.jpg"),
+assert(!exists("Ambitios.webp") && !exists("Développement-.webp") && !exists("Majestios.immeuble.jpg") && !exists("IMMEUBLE.jfif") && !exists("OFFRE PUBLIC.png") && !exists("immeuble-masque.png"),
   "Un ancien visuel de l'accueil doit être retiré après vérification de ses références");
 
 // Chaque URL locale utilisée par une feuille CSS doit réellement exister et être publiée.
@@ -315,4 +315,4 @@ if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, navigation classique, trois visuels historiques conservés, fonds de rubrique sans ressources manquantes, moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, navigation classique, visuel de l’accueil conservé, fonds de rubrique sans ressources manquantes, moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");

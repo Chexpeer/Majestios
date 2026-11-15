@@ -184,6 +184,6 @@ jobs:
       - name: Tester le parcours de contact sans transmission de données
         run: node tests/contact-form.browser.cjs
       - name: Tester le verrouillage du poste de commandement sans session
-        run: node tests/administration-access.browser.cjs
+        run: node tests/administration-access.browser.cjs && node tests/annonces-formulaire.browser.cjs && node tests/bootstrap-admin-hardening.test.cjs && node tests/prospecting-signals.test.cjs
       - name: Vérifier le contrat de sécurité du CRM
         run: node tests/crm-security-contract.test.cjs

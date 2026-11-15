@@ -29,11 +29,6 @@ main.interior-page:has(.virtual-space[data-world="bodacc"]){
 
 /* Image choisie par rubrique. */
 body.page-development-commercial main.interior-page{--mj-fond-image:url("devellopement%20(2).jfif")}
-body.page-marches-publics main.interior-page{--mj-fond-image:url("OFFRE%20PUBLIC.png")}
-body.page-marches-prives main.interior-page{--mj-fond-image:url("IMMEUBLE.jfif")}
-main.interior-page:has(.virtual-space[data-world="accompagnement"]){--mj-fond-image:url("OFFRE%20PUBLIC.png")}
-main.interior-page:has(.virtual-space[data-world="sous-traitance"]){--mj-fond-image:url("IMMEUBLE.jfif")}
-main.interior-page:has(.virtual-space[data-world="bodacc"]){--mj-fond-image:url("IMMEUBLE.jfif")}
 
 @media(max-width:760px){
   body.page-development-commercial main.interior-page,
