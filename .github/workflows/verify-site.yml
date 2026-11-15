@@ -37,6 +37,10 @@ jobs:
           node --check admin-cheexpeer.js
           node --check cheexpeer-command.mjs
           node --check admin-utilisateurs.js
+          node --check admin-annonces.js
+          node --check annonces-liste.js
+          node --check annonces-moderation.mjs
+          node --check annonces-liste.mjs
           node --check accepter-invitation.js
           node --check tests/invitation-core.test.mjs tests/cheexpeer-chat-core.test.mjs
           node --check tests/admin-utilisateurs.browser.cjs
@@ -122,6 +126,10 @@ jobs:
         run: node --test tests/annonces-moderation.test.mjs
       - name: Vérifier la page de relecture des annonces (navigateur)
         run: node tests/annonces-moderation.browser.cjs
+      - name: Tester la liste publique des annonces (règles pures)
+        run: node --test tests/annonces-liste.test.mjs
+      - name: Vérifier la liste publique des annonces (navigateur)
+        run: node tests/annonces-liste.browser.cjs
       - name: Vérifier la recherche BODACC filtrée en conditions réelles
         run: node tests/reputation-bodacc-query-smoke.cjs
       - name: Vérifier la navigation Administration / CRM
