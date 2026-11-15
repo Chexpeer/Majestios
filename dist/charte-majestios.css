@@ -496,8 +496,10 @@ html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) 
 
 /* Pages de rubrique sans visuel de fond : fond blanc, cadre fin (le voile sombre d'origine n'a plus de photo à teinter). */
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).page-development-commercial main.interior-page{
-  background:#FFFFFF!important;background-image:none!important;border:1px solid #D4CDBE!important;box-shadow:0 6px 24px rgba(42,41,38,.10)!important;
+  background:#FFFFFF!important;background-image:linear-gradient(rgba(255,255,255,.93),rgba(255,255,255,.90)),url("visuels/fonds/suivi-commercial.webp")!important;background-size:cover!important;background-position:center!important;border:1px solid #D4CDBE!important;box-shadow:0 6px 24px rgba(42,41,38,.10)!important;
 }
+
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).page-development-commercial main.interior-page:before{display:none!important}
 
 /* --- Palette claire : bandeau de fin de page, accueil (cube, bouton), libellés, piliers (relevé sur les pixels affichés) --- */
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta{

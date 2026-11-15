@@ -53,3 +53,8 @@ Décision propriétaire : la page assistant est conservée ; les 5 grandes image
 - `CRM.png` → `fond-crm.webp`, `Réseaux .png` → `fond-reseaux.webp`
 - `Ereputation.png` → `fond-ereputation.webp`, `Facture1.png` → `fond-facturation.webp`
 Poids total : 12,6 Mo → environ 1,3 Mo, rendu inchangé. Les anciens PNG sont supprimés et le contrôle d'architecture vérifie qu'ils ne reviennent pas. Les documents des anciennes évolutions citent encore les anciens noms : ils restent tels quels (historique).
+
+## Complément — visuel de la page Développement commercial (2026-11-15)
+
+Décision propriétaire : « oui » au visuel proposé. La page reprend `visuels/fonds/suivi-commercial.webp` (courbe de croissance, sans personnes, sans bleu), très voilé de blanc (93 %/90 %) ; l'ancienne bande décorative du haut de page est masquée pour éviter une ligne de séparation visible. Retour possible : remettre `background-image:none` dans la règle `.page-development-commercial` de `charte-majestios.css`.
+Remarque : les images Facturation et E-réputation sont, comme CRM et Réseaux, des bandeaux dans la page (titre inclus dans l'image), pas des fonds de page entière.
