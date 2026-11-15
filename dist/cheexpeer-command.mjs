@@ -24,7 +24,7 @@ export const ERROR_LABELS = Object.freeze({
 export const errorMessage = (code) => ERROR_LABELS[code] || "Une erreur inattendue est survenue. Rien n'a été modifié.";
 export const statusLabel = (s) => STATUS_LABELS[s] || "Statut à vérifier";
 
-const FUNCTIONS = Object.freeze({ submit: "cheexpeer-mission-submit", decision: "cheexpeer-approval-decision", read: "cheexpeer-mission-read" });
+const FUNCTIONS = Object.freeze({ submit: "cheexpeer-mission-submit", decision: "cheexpeer-approval-decision", read: "cheexpeer-mission-read", chat: "cheexpeer-chat" });
 export const functionUrl = (baseUrl, key) => {
   if (!FUNCTIONS[key]) throw new Error("Fonction inconnue");
   return `${String(baseUrl).replace(/\/+$/, "")}/functions/v1/${FUNCTIONS[key]}`;

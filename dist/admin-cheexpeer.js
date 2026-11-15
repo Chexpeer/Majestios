@@ -41,6 +41,7 @@ async function authorize() {
   organizationId = internal[0].id;
   sessionLabel.textContent = "Accès interne vérifié"; signout.hidden = false; gate.hidden = true; workspace.hidden = false; frame.classList.remove("is-locked");
   renderRecent();
+  refreshChat(); loadChatHistory();
   return true;
 }
 
@@ -86,6 +87,51 @@ async function decide(approvalId, decision, note, actions) {
   if (!result.ok) { say(detailStatus, result.message, true); actions.querySelectorAll("button").forEach((b) => { b.disabled = false; }); return; }
   await openMission(currentMission);
 }
+
+
+// ---- Dialogue avec Majestios Bot (nom visible de Cheexpeer) ----
+const chatState = $("#cx-chat-state"), chatLog = $("#cx-chat-log"), chatForm = $("#cx-chat-form"), chatToggle = $("#cx-chat-toggle"), chatClear = $("#cx-chat-clear");
+let chatConversation = null, chatEnabled = false;
+function addChat(role, text) {
+  const li = el("li", role === "user" ? "me" : "bot"); li.append(el("span", "who", role === "user" ? "VOUS" : "MAJESTIOS BOT"), document.createTextNode(text));
+  chatLog.append(li); chatLog.scrollTop = chatLog.scrollHeight;
+}
+async function refreshChat() {
+  const { data, error } = await supabase.rpc("cheexpeer_chat_status");
+  if (error || !data) { say(chatState, "L'état du dialogue n'a pas pu être lu.", true); chatForm.hidden = true; return; }
+  chatEnabled = data.enabled === true;
+  say(chatState, chatEnabled
+    ? `Dialogue actif · ${data.used_today}/${data.daily_cap} messages aujourd'hui · ${data.used_month}/${data.monthly_cap} ce mois-ci.`
+    : "Le dialogue est éteint. Il ne coûte rien tant qu'il est éteint." + (data.is_owner ? "" : " Seul le propriétaire peut l'activer."));
+  chatToggle.hidden = !data.is_owner; chatToggle.textContent = chatEnabled ? "Éteindre le dialogue" : "Activer le dialogue";
+  chatForm.hidden = !chatEnabled;
+}
+async function loadChatHistory() {
+  const { data } = await supabase.rpc("cheexpeer_chat_history", { p_conversation: null });
+  chatLog.replaceChildren(); chatConversation = data?.conversation_id || null;
+  for (const m of data?.messages || []) addChat(m.role, m.content);
+  chatClear.hidden = !chatConversation;
+}
+chatToggle.addEventListener("click", async () => {
+  chatToggle.disabled = true;
+  const { error } = await supabase.rpc("set_cheexpeer_chat_enabled", { p_enabled: !chatEnabled });
+  chatToggle.disabled = false;
+  if (error) { say(chatState, "Action refusée : seul le propriétaire peut modifier cet interrupteur.", true); return; }
+  await refreshChat();
+});
+chatClear.addEventListener("click", async () => {
+  if (chatConversation) await supabase.rpc("cheexpeer_chat_clear", { p_conversation: chatConversation });
+  await loadChatHistory();
+});
+chatForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const field = chatForm.elements.message, text = field.value.trim(); if (!text) return;
+  const button = chatForm.querySelector("button[type=submit]"); button.disabled = true; addChat("user", text); field.value = "";
+  const result = await callApi(fetch, { baseUrl: ANNONCES_SUPABASE.url, key: "chat", token: await token(), body: { message: text, conversation_id: chatConversation } });
+  button.disabled = false;
+  if (!result.ok) { addChat("assistant", (typeof result.data?.error === "string" && result.data.error) || result.message || "Majestios Bot ne peut pas répondre."); await refreshChat(); return; }
+  chatConversation = result.data.conversation_id; chatClear.hidden = false; addChat("assistant", result.data.reply); await refreshChat();
+});
 
 submitForm.addEventListener("submit", async (event) => {
   event.preventDefault();

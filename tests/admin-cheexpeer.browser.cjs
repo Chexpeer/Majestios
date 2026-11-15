@@ -13,6 +13,10 @@ export function createClient(){
   const chain = (rows)=>{ const q={ select:()=>q, eq:()=>q, in:()=>q, limit:()=>q, then:(r)=>r({data:rows,error:null}) }; return q; };
   return { auth:{ getSession: async()=>({data:{session: window.__signedIn===false?null:{access_token:'tok',user:{id:'u1'}}},error:null}),
     signOut: async()=>({}), signInWithOtp: async()=>({error:null}), verifyOtp: async()=>({error:null}) },
+    rpc: async(name)=>{ (window.__rpc=window.__rpc||[]).push(name);
+      if(name==='cheexpeer_chat_status') return {data:{enabled:window.__chatOn!==false,is_owner:true,daily_cap:30,monthly_cap:500,used_today:1,used_month:3},error:null};
+      if(name==='cheexpeer_chat_history') return {data:{conversation_id:null,messages:[]},error:null};
+      return {data:{ok:true},error:null}; },
     from:(t)=> t==='organization_members'? chain([{organization_id:'${ORG}',role:'owner'}]) : chain([{id:'${ORG}',kind:'internal'}]) };
 }`;
 
@@ -39,6 +43,7 @@ export function createClient(){
       calls.push({ name, body, auth: r.request().headers().authorization });
       const mission = { id: MID, organization_id: ORG, mission_type: "readiness_probe", title: "Diagnostic de disponibilité", status: approved ? "approved" : "pending_approval", autonomy_level: 0, created_at: new Date().toISOString(), result: {} };
       const detail = { ok: true, mission, approvals: [{ id: AID, status: approved ? "approved" : "pending", action_summary: "Diagnostic sans effet externe", created_at: mission.created_at }], events: [{ id: "e1", event_type: "mission_created", actor_type: "user", occurred_at: mission.created_at }] };
+      if (name === "cheexpeer-chat") return r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, conversation_id: "11111111-1111-4111-8111-111111111111", reply: "Bonjour, je suis Majestios Bot." }) });
       if (name === "cheexpeer-mission-submit") return r.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true, mission: { mission_id: MID, mission_status: "pending_approval", was_created: true } }) });
       if (name === "cheexpeer-approval-decision") { approved = true; return r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) }); }
       return r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(detail) });
@@ -59,6 +64,23 @@ export function createClient(){
     assert.equal(decision.body.decision, "approved");
     assert.ok(!("decision_by" in decision.body));
     assert.match(await page.textContent("#cx-recent"), /Diagnostic de disponibilité/);
+    // Dialogue : nom visible, envoi avec jeton, réponse affichée.
+    assert.match(await page.textContent("#cx-chat-title"), /Majestios Bot/);
+    assert.match(await page.textContent("#cx-chat-state"), /Dialogue actif/);
+    await page.fill("#cx-chat-form textarea", "Bonjour");
+    await page.click("#cx-chat-form button[type=submit]");
+    await page.waitForFunction(() => document.querySelector("#cx-chat-log")?.textContent.includes("je suis Majestios Bot"));
+    const chatCall = calls.find((c) => c.name === "cheexpeer-chat");
+    assert.equal(chatCall.auth, "Bearer tok"); assert.equal(chatCall.body.message, "Bonjour");
+    assert.ok(!("organization_id" in chatCall.body) && !("user_id" in chatCall.body));
+    // Dialogue éteint : formulaire masqué.
+    const pageOff = await (await browser.newContext()).newPage();
+    await pageOff.addInitScript(() => { window.__chatOn = false; });
+    await pageOff.route("https://esm.sh/**", (r) => r.fulfill({ contentType: "text/javascript", body: fakeSdk }));
+    await pageOff.goto(origin + "/admin-cheexpeer.html");
+    await pageOff.waitForSelector("#workspace:not([hidden])");
+    await pageOff.waitForFunction(() => document.querySelector("#cx-chat-state")?.textContent.includes("éteint"));
+    assert.equal(await pageOff.isHidden("#cx-chat-form"), true);
     // Non connecté : le centre reste fermé.
     const page2 = await (await browser.newContext()).newPage();
     await page2.addInitScript(() => { window.__signedIn = false; });

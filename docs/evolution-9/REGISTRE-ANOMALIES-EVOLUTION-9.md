@@ -1148,3 +1148,13 @@ Constats : (1) `supabase-config.js` pointe vers `majestios-crm` : tester l'inscr
 - Pages `admin-utilisateurs.html` (envoi, suivi, révocation) et `accepter-invitation.html` (acceptation et consentement).
 - Recettes : SQL locale 39/39 (`tests/sql/invitations-recette-locale.sql`), tests unitaires `tests/invitation-core.test.mjs`, test navigateur simulé `tests/admin-utilisateurs.browser.cjs`, vérification réelle sur Test en transaction annulée (création, doublon refusé, liste).
 - Reste à faire avec le propriétaire : aucun e-mail réel n'a été envoyé ; envoi réel à tester une fois l'URL du site et l'expéditeur e-mail (SMTP dédié) configurés ; ajouter l'URL `/accepter-invitation.html` aux Redirect URLs de Supabase Test ; modèle d'e-mail « Invitation » à rédiger. Rien n'est promu vers MajestiOS-CRM.
+
+## Chapitre 102 — Dialogue « Majestios Bot » (Cheexpeer) dans le cockpit (2026-11-15, MajestiOS-Test uniquement)
+
+- Nom visible : **Majestios Bot** (nom interne : Cheexpeer). L'assistant se présente comme une IA.
+- Migration `20261115020000_cheexpeer_chat` appliquée sur Test : tables privées `cheexpeer_chat_settings` et `cheexpeer_chat_messages` (RLS, aucun accès direct) ; fonctions `cheexpeer_chat_status`, `set_cheexpeer_chat_enabled` (propriétaire seulement), `cheexpeer_chat_prepare`, `cheexpeer_chat_history`, `cheexpeer_chat_clear`, `cheexpeer_chat_record` (service_role seulement : l'utilisateur ne peut pas écrire une fausse réponse).
+- Garde-fous : **éteint par défaut** ; plafonds 30 messages/jour et 500/mois ; réponse limitée à 800 jetons ; question de 4 000 caractères maximum ; conversation visible et effaçable par son seul auteur.
+- Version 1 : lecture seule, aucune action, sans accès aux données en direct ; toute action devient une proposition de mission à soumettre soi-même (validation humaine).
+- Fonction `cheexpeer-chat` déployée sur Test (JWT vérifié, origine contrôlée, clé fournisseur `CHEEXPEER_AI_API_KEY` côté serveur uniquement).
+- Recettes : SQL locale 23/23 (`tests/sql/cheexpeer-chat-recette-locale.sql`), tests unitaires `tests/cheexpeer-chat-core.test.mjs`, test navigateur simulé (admin-cheexpeer), vérification réelle sur Test (état éteint, message refusé).
+- **Non activé** : aucun appel au fournisseur d'IA n'a été fait. Activation par le propriétaire depuis le cockpit après recette ; plafond de dépense à poser dans la console du fournisseur (clé dédiée). Rien promu vers MajestiOS-CRM.

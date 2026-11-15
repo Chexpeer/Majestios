@@ -38,7 +38,7 @@ jobs:
           node --check cheexpeer-command.mjs
           node --check admin-utilisateurs.js
           node --check accepter-invitation.js
-          node --check tests/invitation-core.test.mjs
+          node --check tests/invitation-core.test.mjs tests/cheexpeer-chat-core.test.mjs
           node --check tests/admin-utilisateurs.browser.cjs
           node --check supabase/functions/_shared/invitation-core.mjs
           node --check tests/cheexpeer-sql-migration-contract.test.mjs

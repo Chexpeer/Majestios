@@ -50,6 +50,15 @@
 <div id="cx-detail" hidden></div>
 </section>
 </div>
+<section class="cx-card cx-chat-card" aria-labelledby="cx-chat-title">
+<p class="admin-kicker">DIALOGUE · MAJESTIOS BOT</p><h2 id="cx-chat-title">Parler à Majestios Bot</h2>
+<p class="cx-meta"><span>Lecture seule</span><span>Aucune action directe</span><span>Sans accès aux données en direct</span></p>
+<p id="cx-chat-state" class="cx-status" role="status"></p>
+<div class="cx-actions"><button id="cx-chat-toggle" type="button" hidden></button><button id="cx-chat-clear" type="button" hidden>Effacer la conversation</button></div>
+<ol id="cx-chat-log" class="cx-chat-log" aria-live="polite"></ol>
+<form id="cx-chat-form"><label>Votre message<textarea name="message" rows="3" maxlength="4000" required></textarea></label><div class="cx-actions"><button class="cx-primary" type="submit">Envoyer</button></div></form>
+</section>
+
 </div>
 </main>
 </div>
