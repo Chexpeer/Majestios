@@ -33,3 +33,7 @@ Les erreurs critiques, corrections prioritaires et alertes spécifiques ne sont 
 | CRM-ACT-01 correctif historique | Appliqué, vérifié | Non concerné pour l'instant (fonction absente) | À inclure dès que `20261109170000` sera promue : **toujours promouvoir `20261114120000` avec elle**. |
 | Annonces / relecture | En préparation (branches de test) | Non promu | Recette complète à faire sur Test d'abord. |
 | Comptes de test multi-identités | À créer par le propriétaire | — | Alias Gmail + création avec confirmation automatique. |
+
+## Point de vigilance avant toute fusion (2026-11-15)
+
+Sur la branche `test-ecriture-claude`, `supabase-config.js` pointe sur **MajestiOS-Test** (une seule connexion pour tout l'espace d'administration pendant les essais). Avant toute fusion vers la production, il faut le remettre sur **majestios-crm** (url `https://qxaghcifdhugfskuscoc.supabase.co` et sa clé publique). À ne jamais oublier : sinon le site public écrirait dans la base de test.
