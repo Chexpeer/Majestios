@@ -274,15 +274,15 @@ html body main .eyebrow{color:var(--majestios-gold-light)!important}
   --majestios-ink-warm:#2A2926;
   --majestios-muted:#55514A;
   --majestios-soft:#6B665D;
-  --majestios-gold:#8A5F00;
+  --majestios-gold:#7A5200;
   --majestios-gold-light:#E8C766;
-  --majestios-gold-link:#8A5F00;
+  --majestios-gold-link:#7A5200;
   --majestios-navy:#2A2926;
   --majestios-navy-deep:#1F1E1B;
   --majestios-blue:#3A3935;
   --majestios-panel:#F6F3EC;
   --majestios-steel:#6B665D;
-  --majestios-focus:#8A5F00;
+  --majestios-focus:#7A5200;
   --majestios-line:#D4CDBE;
   --majestios-line-soft:#E5DFD2;
   --majestios-header-bg:linear-gradient(100deg,#2A2926,#1F1E1B);
@@ -345,12 +345,12 @@ html:root:root:root body .nav-group-items a:hover,html:root:root:root body .nav-
 /* Texte, titres, liens sur surfaces claires. */
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h1,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h2,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h3,
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.platform-card,.vision-card,.interior-callout,.member-preview,.floating-route-card,.related-rubric-card) h2{color:var(--majestios-ink)}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h1 span{color:#8A5F00}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h1 span{color:#7A5200}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(p,li,dd,dt,label,small){color:var(--majestios-muted)}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main .eyebrow,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.eyebrow,.hero-eyebrow){color:#8A5F00!important}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main a:not(.button):not([class*="button"]):not(.nav-drawer-home){color:#8A5F00}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main .eyebrow,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.eyebrow,.hero-eyebrow){color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main a:not(.button):not([class*="button"]):not(.nav-drawer-home){color:#7A5200}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .interior-breadcrumb,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .interior-breadcrumb [aria-current="page"]{color:var(--majestios-muted)}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(a.text-link,.interior-links a,.interior-breadcrumb a){color:#8A5F00}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(a.text-link,.interior-links a,.interior-breadcrumb a){color:#7A5200}
 
 /* Cartes : crème, filet fin, ombre douce. */
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.vision-card,.member-preview,.joke-card,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.opportunity-result-card){
@@ -375,7 +375,7 @@ html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) 
   background:#E8C766!important;border-color:#2A2926!important;
 }
 html:root:root:root body .site-header .button,html:root:root:root body .site-footer .button{color:#F4EDDA!important}
-:focus-visible{outline:2px solid #8A5F00;outline-offset:3px}
+:focus-visible{outline:2px solid #7A5200;outline-offset:3px}
 html:root:root:root body .site-header :focus-visible,html:root:root:root body .site-footer :focus-visible{outline-color:#E8C766}
 
 /* Formulaires et champs. */
@@ -384,10 +384,10 @@ html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) 
 }
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(input,select,textarea)::placeholder{color:#6B665D!important;opacity:1}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .form-field>span{color:var(--majestios-muted)}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .form-field>span>span[aria-hidden="true"]{color:#8A5F00}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .form-field>span>span[aria-hidden="true"]{color:#7A5200}
 
 /* --- Palette claire : textes d'en-tête de rubrique, pastilles de navigation --- */
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>.eyebrow{color:#8A5F00!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>.eyebrow{color:#7A5200!important;text-shadow:none!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>h1{color:#2A2926!important;text-shadow:none!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>.interior-lede{color:#55514A!important;text-shadow:none!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main h1{text-shadow:none}
@@ -436,32 +436,32 @@ html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) 
   .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
   .virtual-space-float,.virtual-space-copy,.access-card,.reputation-consultation,.social-hub,
   .platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
-) a:not([class*="button"]){color:#8A5F00!important}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.platform-card,.related-rubric-card,.floating-route-card) .eyebrow{color:#8A5F00!important}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.virtual-space-float,.virtual-space-copy) .eyebrow{color:#8A5F00!important}
+) a:not([class*="button"]):not(.home-primary-cta):not(.access-action){color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.platform-card,.related-rubric-card,.floating-route-card) .eyebrow{color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.virtual-space-float,.virtual-space-copy) .eyebrow{color:#7A5200!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) details>summary{color:#2A2926!important}
 /* Bouton principal compact et boutons dans les panneaux : mêmes couleurs partout. */
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.button-compact.button-primary,button.button-primary,a.button-primary){color:#E8C766!important;background:#2A2926!important;border-color:#2A2926!important;background-image:none!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.button-compact.button-primary,button.button-primary,a.button-primary):hover{color:#2A2926!important;background:#E8C766!important}
 
 /* --- Palette claire : bandeau des pages intérieures, accueil, repères d'état --- */
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page:before{opacity:.16!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page:before{opacity:.08!important}
 /* Accueil : le panorama reste, sous un voile blanc ; textes anthracite ; cartes crème. */
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .home-main{
   background-color:#FFFFFF!important;
   background-image:linear-gradient(180deg,rgba(255,255,255,.90) 0%,rgba(255,255,255,.86) 50%,rgba(255,255,255,.94) 100%),url("Designer%20(2).png")!important;
 }
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-intro h1,.home-rubrics-heading h2,.home-rubrics-heading p,.home-main h2,.home-main h3){color:#2A2926!important;text-shadow:none!important}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .home-intro h1 span{color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .home-intro h1 span{color:#7A5200!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-lede,.home-main p,.home-main li,.home-hint){color:#55514A!important;text-shadow:none!important}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.hero-eyebrow,.home-main .eyebrow){color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.hero-eyebrow,.home-main .eyebrow){color:#7A5200!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar){
   background:#F6F3EC!important;background-image:none!important;color:#2A2926!important;
   border:1px solid #D4CDBE!important;box-shadow:0 6px 18px rgba(42,41,38,.10)!important;
 }
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) :is(h1,h2,h3,strong){color:#2A2926!important;text-shadow:none!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) :is(p,span,li,label){color:#55514A!important}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) a:not([class*="button"]){color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) a:not([class*="button"]):not(.home-primary-cta):not(.access-action){color:#7A5200!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .homepage-ticker{background:#2A2926!important;color:#E8C766!important;border-color:rgba(232,199,102,.45)!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .homepage-ticker *{color:#E8C766!important}
 /* Repères d'état et liens secondaires des moteurs de recherche. */
@@ -469,7 +469,7 @@ html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) 
   background:#F6F3EC!important;color:#55514A!important;border:1px solid #D4CDBE!important;text-shadow:none!important;
 }
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) a,
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) summary{color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) summary{color:#7A5200!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) :is(.feed-interest,details){background:#F6F3EC!important;color:#2A2926!important;border-color:#D4CDBE!important}
 html:root:root:root body .site-header .site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section>.nav-group-link){color:#F4EDDA!important}
 html:root:root:root body .site-header .site-nav-drawer :is(.nav-drawer-home,.nav-group-link):hover{color:#E8C766!important}
@@ -483,13 +483,53 @@ body.admin-shell,body.internal-shell,body.crm-shell{
 }
 html:root:root:root body #site-nav.site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section:nth-of-type(n)>.nav-group-link){color:#F4EDDA!important}
 html:root:root:root body #site-nav.site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section:nth-of-type(n)>.nav-group-link):hover{color:#E8C766!important}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) button.member-create-link{color:#8A5F00}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) button.member-create-link:focus-visible{outline-color:#8A5F00}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) button.member-create-link{color:#7A5200}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) button.member-create-link:focus-visible{outline-color:#7A5200}
 
 /* Derniers éléments relevés par le contrôle de contraste. */
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta{background:#F6F3EC!important;border:1px solid #D4CDBE!important;color:#2A2926!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta strong{color:#2A2926!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta span{color:#55514A!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.company-targeting-status,.prospecting-criteria-toggle,.access-state){background:#F6F3EC!important;color:#2A2926!important;border:1px solid #D4CDBE!important}
-html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .prospecting-criteria-toggle{color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .prospecting-criteria-toggle{color:#7A5200!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .access-state{color:#55514A!important}
+
+/* Pages de rubrique sans visuel de fond : fond blanc, cadre fin (le voile sombre d'origine n'a plus de photo à teinter). */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).page-development-commercial main.interior-page{
+  background:#FFFFFF!important;background-image:none!important;border:1px solid #D4CDBE!important;box-shadow:0 6px 24px rgba(42,41,38,.10)!important;
+}
+
+/* --- Palette claire : bandeau de fin de page, accueil (cube, bouton), libellés, piliers (relevé sur les pixels affichés) --- */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta{
+  background:#F6F3EC!important;background-image:none!important;border:1px solid #D4CDBE!important;box-shadow:0 4px 14px rgba(42,41,38,.08)!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta p{color:#2A2926!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta a{
+  background:#2A2926!important;background-image:none!important;color:#E8C766!important;border:1px solid #2A2926!important;box-shadow:none!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta a:hover{background:#E8C766!important;color:#2A2926!important}
+/* Boutons d'action de l'accueil et de l'espace privé : anthracite et or. */
+html:root:root:root body :is(.home-primary-cta,.access-action){
+  background:#2A2926!important;background-image:none!important;color:#E8C766!important;border:1px solid #2A2926!important;box-shadow:0 3px 10px rgba(42,41,38,.18)!important;text-shadow:none!important;
+}
+html:root:root:root body :is(.home-primary-cta,.access-action):hover{background:#E8C766!important;color:#2A2926!important}
+/* Cube de l'accueil : verre fumé anthracite pour que le texte blanc reste lisible sur fond clair. */
+html:root:root:root body.homepage .mj-cube-face{
+  background:
+    linear-gradient(115deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.05) 22%,transparent 23%,transparent 48%,rgba(255,255,255,.08) 49%,transparent 63%),
+    linear-gradient(150deg,rgba(42,41,38,.84),rgba(42,41,38,.72) 55%,rgba(31,30,27,.86))!important;
+}
+html:root:root:root body.homepage .mj-face-text{color:#F4EDDA!important}
+/* Libellés et petits textes de formulaire sur fond clair. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(label,label span,.form-field,.form-field span,.field-hint,.hint){color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(#suggest-naf-button,.button-secondary){color:#2A2926!important;border:1px solid #2A2926!important;background:transparent!important}
+/* Piliers de la page Réputation virtuelle. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .reputation-pillars article{background:#F6F3EC!important;background-image:none!important;border:1px solid #D4CDBE!important;box-shadow:0 4px 14px rgba(42,41,38,.08)!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .reputation-pillars :is(h3,.pillar-icon){color:#2A2926!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .reputation-pillars p{color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) #company-targeting-form .feed-search,
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) #advanced-search-form .feed-search{color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) #company-targeting-form :is(.search-source-note,.feed-criteria-toggle,.prospecting-criteria-toggle,summary){color:#7A5200!important}
+html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action){color:#E8C766!important}
+html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action):hover{color:#2A2926!important}
+html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action) :is(span,svg){color:inherit!important}

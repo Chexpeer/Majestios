@@ -36,3 +36,12 @@ Mesure : les 43 pages ouvertes sur ordinateur et mobile, relevé de toutes les i
 **Conservés volontairement :** les images encore affichées sur une page (dont `Designer (2).png`), `robots.txt`/`sitemap.xml`, `generate-sitemap.js` (outil de génération du plan du site), `schema-majestios.svg` et `schemas/opportunite.schema.json` (cités par les audits), `services/cheexpeer-worker` (service Cheexpeer), les migrations Supabase, la documentation, `CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md` (exigé par un garde-fou) et la page `assistant-majestios.html` (page publique du plan du site, couverte par des tests, mais qu'aucun lien n'atteint) : décision demandée au propriétaire.
 **Ajouté à la CI :** trois tests qui existaient sans jamais être lancés (`annonces-formulaire.browser`, `bootstrap-admin-hardening`, `prospecting-signals`) ; ils passent.
 **Reste à faire :** convertir les cinq grosses photos encore affichées (12,6 Mo) en WebP.
+
+## Complément — photo « développement commercial » et contrastes (2026-11-15)
+
+- La photo de poignée de main (`devellopement (2).jfif`) a été retirée à la demande du propriétaire (photo non appréciée). La page Développement commercial a désormais un fond blanc simple. Un autre visuel pourra être choisi plus tard (décision propriétaire).
+- Le bandeau `rubrique-prospection.svg` a été recoloré (bleus remplacés par de l'anthracite).
+- Or de texte sur fond clair renforcé : `#7A5200` (au lieu de `#8A5F00`) pour un contraste d'au moins 5,5:1.
+- Méthode de contrôle : en plus de l'outil de contraste, un balayage au pixel (captures d'écran) a été utilisé, car l'outil ignore les textes posés sur des images. Ce balayage a révélé la page Développement commercial, oubliée au premier passage.
+- Corrections associées : barre d'appel à l'action crème avec bouton anthracite, boutons d'accueil anthracite/or, faces du cube en verre fumé, libellés de formulaire de prospection.
+- Les outils internes (administration, espace interne, CRM) restent en couleurs d'origine (phase 2 en attente de décision).

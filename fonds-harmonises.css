@@ -28,7 +28,6 @@ main.interior-page:has(.virtual-space[data-world="bodacc"]){
 }
 
 /* Image choisie par rubrique. */
-body.page-development-commercial main.interior-page{--mj-fond-image:url("devellopement%20(2).jfif")}
 
 @media(max-width:760px){
   body.page-development-commercial main.interior-page,

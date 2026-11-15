@@ -1207,3 +1207,6 @@ Constats : (1) `supabase-config.js` pointe vers `majestios-crm` : tester l'inscr
 - Anomalie évitée : les feuilles de navigation et de discussion sont ajoutées à l'exécution après la charte ; la couche claire utilise donc une spécificité renforcée plutôt que l'ordre de chargement.
 - Contrôles : relevé automatique des surfaces sombres et des contrastes sur les pages publiques (aucun texte sous 4,5:1 hors images), CI complète rejouée.
 - **Nettoyage (même jour) :** 8 fichiers inutilisés supprimés (3 visuels anciens dont 2 très lourds, 2 feuilles de style jamais chargées, 3 schémas), avec leurs règles, leur manifeste et leur garde-fou ; trois tests existants mais jamais lancés ajoutés à la CI. Liste des fichiers conservés et raisons : `docs/evolution-10/CHARTE-CLAIRE-PALETTE-4-2026-11-15.md`.
+
+### Complément au chapitre 106 (2026-11-15)
+Page Développement commercial oubliée lors du passage en palette claire (titre illisible sur photo sombre). Photo retirée à la demande du propriétaire, fond blanc, bandeau SVG recoloré, or de texte renforcé (#7A5200), contrôle au pixel ajouté. Aucune régression sur les tests (seuls les tests d'API BODACC/BOAMP en direct échouent hors ligne).
