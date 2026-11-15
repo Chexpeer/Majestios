@@ -535,3 +535,29 @@ html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) 
 html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action){color:#E8C766!important}
 html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action):hover{color:#2A2926!important}
 html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action) :is(span,svg){color:inherit!important}
+
+/* --- Fonds d'écran fournis : CRM, Réseaux, E-réputation, Facturation en fond de TOUTE la page (décision propriétaire 2026-11-15).
+   Retour possible : supprimer ce bloc (les bandeaux d'origine reviennent). --- */
+html:root:root:root body.page-reputation-virtuelle main.interior-page,
+html:root:root:root body.page-reseaux main.interior-page,
+html:root:root:root body.page-prospection main.interior-page,
+html:root:root:root body.page-marches-publics main.interior-page:has(.mj-user-wallpaper-facturation){
+  background-color:#FFFFFF!important;background-size:cover!important;background-position:right center!important;background-repeat:no-repeat!important;
+  border:1px solid #D4CDBE!important;box-shadow:0 6px 24px rgba(42,41,38,.10)!important;
+}
+html:root:root:root body.page-reputation-virtuelle main.interior-page{background-image:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.94) 45%,rgba(255,255,255,.64) 100%),url("fond-ereputation.webp")!important}
+html:root:root:root body.page-reseaux main.interior-page{background-image:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.94) 45%,rgba(255,255,255,.64) 100%),url("fond-reseaux.webp")!important}
+html:root:root:root body.page-prospection main.interior-page{background-image:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.94) 45%,rgba(255,255,255,.64) 100%),url("fond-crm.webp")!important}
+html:root:root:root body.page-marches-publics main.interior-page:has(.mj-user-wallpaper-facturation){background-image:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.94) 45%,rgba(255,255,255,.64) 100%),url("fond-facturation.webp")!important}
+@media(min-width:900px){
+  html:root:root:root body:is(.page-reputation-virtuelle,.page-reseaux,.page-prospection,.page-marches-publics) main.interior-page{background-attachment:scroll,fixed!important}
+}
+html:root:root:root body:is(.page-reputation-virtuelle,.page-reseaux,.page-prospection,.page-marches-publics) main.interior-page:before{display:none!important}
+/* Les anciens bandeaux (image dans la page) laissent la place au fond. */
+html:root:root:root body .mj-user-wallpaper{display:none!important}
+html:root:root:root body :is(.virtual-space[data-world="prospection"],.virtual-space[data-world="reseaux"]){
+  background:transparent!important;background-image:none!important;border:0!important;box-shadow:none!important;min-height:0!important;overflow:visible!important;padding:0!important;
+}
+html:root:root:root body :is(.virtual-space[data-world="prospection"],.virtual-space[data-world="reseaux"]) .virtual-space-copy{
+  background:#F6F3EC!important;border:1px solid #D4CDBE!important;backdrop-filter:none!important;
+}

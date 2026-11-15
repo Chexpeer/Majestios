@@ -58,3 +58,8 @@ Poids total : 12,6 Mo → environ 1,3 Mo, rendu inchangé. Les anciens PNG sont 
 
 Décision propriétaire : « oui » au visuel proposé. La page reprend `visuels/fonds/suivi-commercial.webp` (courbe de croissance, sans personnes, sans bleu), très voilé de blanc (93 %/90 %) ; l'ancienne bande décorative du haut de page est masquée pour éviter une ligne de séparation visible. Retour possible : remettre `background-image:none` dans la règle `.page-development-commercial` de `charte-majestios.css`.
 Remarque : les images Facturation et E-réputation sont, comme CRM et Réseaux, des bandeaux dans la page (titre inclus dans l'image), pas des fonds de page entière.
+
+## Correction — vos images en fond d'écran de toute la page (2026-11-15)
+
+Décision propriétaire (réitérée) : les images CRM, Réseaux, E-réputation et Facturation sont des fonds d'écran de page entière, pas des bandeaux. Elles couvrent maintenant toute la page (Prospection, Réseau, Réputation virtuelle, Facturation électronique), fixées derrière le contenu sur ordinateur. Un voile blanc dégradé (97 % à gauche, 64 % à droite) estompe le titre dessiné dans l'image et garde les textes lisibles ; l'image reste bien visible à droite. Les anciens bandeaux sont masqués. Retour possible : supprimer le dernier bloc « Fonds d'écran fournis » de `charte-majestios.css`.
+Cette note remplace la remarque précédente selon laquelle ces images restaient des bandeaux.
