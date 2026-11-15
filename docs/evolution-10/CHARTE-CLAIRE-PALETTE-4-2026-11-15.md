@@ -63,3 +63,7 @@ Remarque : les images Facturation et E-réputation sont, comme CRM et Réseaux, 
 
 Décision propriétaire (réitérée) : les images CRM, Réseaux, E-réputation et Facturation sont des fonds d'écran de page entière, pas des bandeaux. Elles couvrent maintenant toute la page (Prospection, Réseau, Réputation virtuelle, Facturation électronique), fixées derrière le contenu sur ordinateur. Un voile blanc dégradé (97 % à gauche, 64 % à droite) estompe le titre dessiné dans l'image et garde les textes lisibles ; l'image reste bien visible à droite. Les anciens bandeaux sont masqués. Retour possible : supprimer le dernier bloc « Fonds d'écran fournis » de `charte-majestios.css`.
 Cette note remplace la remarque précédente selon laquelle ces images restaient des bandeaux.
+
+## Ajustement final — fond d'écran net, défilement invisible (2026-11-15)
+
+Décision propriétaire : « le fond d'écran doit être clairement visible, le scroll invisible et pas transparent ». Le voile blanc est supprimé : l'image est affichée nette, fixée sur tout l'écran derrière la page (CRM/Prospection, Réseau, Réputation virtuelle, Facturation électronique). Le contenu défile devant, sur des cartes crème pleines (opaques) ; la barre de défilement est masquée sur ces quatre pages. L'en-tête de page (rubrique, titre, texte d'introduction) est regroupé dans une carte (`mj-page-head`). Cette note remplace la précédente sur le voile blanc. Retour possible : supprimer le bloc « Fonds d'écran fournis » de `charte-majestios.css`.
