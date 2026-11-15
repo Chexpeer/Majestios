@@ -22,7 +22,7 @@ assert.doesNotMatch(html, /name="passwordConfirm"/);
 assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options \}\)/);
 assert.equal((auth.match(/shouldCreateUser: false/g) || []).length, 2);
 assert.doesNotMatch(auth, /setMode|modeToggle|signup|data-signup-only/);
-assert.doesNotMatch(html, /data-signup-only|privacyAccepted|name="firstName"|name="lastName"|name="organizationName"|name="phone"|Créer mon espace/);
+assert.doesNotMatch(html, /data-signup-only|privacyAccepted|name="firstName"|name="lastName"|name="organizationName"|name="phone"/);
 assert.doesNotMatch(auth, /provision-client-workspace|shouldCreateUser: true/);
 assert.match(auth, /supabase\.auth\.verifyOtp\(\{[\s\S]*?type: "email"/);
 assert.match(auth, /otpInput\.required = false/);
@@ -32,3 +32,7 @@ assert.match(auth, /aucun espace MajestiOS ne lui est associé/i);
 assert.match(auth, /Bienvenue dans votre espace MajestiOS/);
 
 console.log("Contrat Auth OTP membre : connexion par code e-mail, absence de création de compte tant que le provisionnement n’est pas activé, et absence de mot de passe vérifiées.");
+
+// Demande du propriétaire (15/11/2026) : lien discret « Créer mon espace personnel » ; ce n'est pas un formulaire d'inscription : il renvoie vers le contact tant que la création est suspendue.
+assert.match(html, /<a href="contact\.html">Créer mon espace personnel<\/a>/);
+assert.doesNotMatch(html, /<form[^>]*signup/i);

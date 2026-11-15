@@ -1,0 +1,46 @@
+/* Formulaires allégés (Evolution-10) : champs plus bas, marges réduites, plusieurs colonnes.
+   Chargée avant charte-majestios.css sur les pages qui ont un formulaire. */
+html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar)){
+  max-width:880px; margin-inline:0; padding:0;
+}
+html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar)) .form-grid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:8px 14px; margin:0;
+}
+html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar)) .form-field.full-width{ grid-column:1 / -1; }
+html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar), .personal-space-form) :is(label, .form-field){
+  font-size:12px; line-height:1.3; margin:0;
+}
+html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar), .personal-space-form) :is(input:not([type=checkbox]):not([type=radio]), select){
+  min-height:34px; height:34px; padding:5px 10px; margin-top:3px; font-size:13px; border-radius:6px;
+}
+html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar), .personal-space-form) textarea{
+  min-height:64px; height:72px; padding:6px 10px; margin-top:3px; font-size:13px; border-radius:6px; resize:vertical;
+}
+html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar), .personal-space-form) :is(.form-privacy, .small-note, .company-targeting-checkbox, input[type=checkbox] + *){
+  font-size:11.5px; line-height:1.4;
+}
+html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar), .personal-space-form) :is(button[type=submit], .form-submit, .button-primary){
+  min-height:36px; padding:0 18px; font-size:13px; margin-top:6px;
+}
+html body :is(.lead-form-wrap, .floating-route-card:has(#annonce-form), .floating-route-card:has(#diagnostic-form), .company-targeting-panel){
+  padding:16px 20px;
+}
+html body :is(.lead-form-wrap, .floating-route-card:has(#annonce-form), .floating-route-card:has(#diagnostic-form), .company-targeting-panel) h2{
+  font-size:20px; margin:4px 0 6px;
+}
+html body .lead-intro{ margin-bottom:8px; }
+html body .lead-intro p{ margin:0 0 4px; font-size:13px; }
+/* Fenêtre de connexion */
+html body .personal-space-dialog{ width:min(380px, calc(100vw - 24px)); padding:0; }
+html body .personal-space-form{ padding:16px 18px; gap:8px; }
+html body .personal-space-form h2{ font-size:20px; margin:2px 0 4px; }
+html body .personal-space-form .personal-space-intro, html body .personal-space-form .personal-space-notice{ font-size:12px; margin:0 0 6px; padding:6px 10px; }
+/* Création de compte : discrète, en petits caractères sous « Se connecter » */
+html body :is(.member-preview, .personal-space-form) p.member-create-hint{ margin:6px 0 0; font-size:10.5px; line-height:1.4; color:#9aa7b9; text-align:center; max-width:46ch; margin-inline:auto; }
+html body p.member-create-hint a{ color:#e8cf8a; font-size:inherit; text-decoration:underline; text-underline-offset:2px; }
+@media (max-width:600px){
+  html body :is(#lead-form, #annonce-form, #diagnostic-form, form#company-targeting-form:not(.feed-toolbar)) .form-grid{ grid-template-columns:1fr; gap:6px; }
+}
+html body .personal-space-form input:not([type=checkbox]){ width:100%; }
+html body .personal-space-form .form-field input{ width:100% !important; display:block; box-sizing:border-box; }
+html body .personal-space-form .personal-space-fields{ grid-template-columns:1fr; gap:8px; }
