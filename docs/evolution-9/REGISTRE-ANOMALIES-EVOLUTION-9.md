@@ -1127,3 +1127,6 @@ Méthode : transaction annulée, rôle `authenticated` et identité de chaque co
 - Isolation : le client lit et modifie seulement sa société ; ni l'owner interne ni l'admin Cheexpeer ne lisent l'espace client ; le client ne voit pas les membres internes ; le membre interne ne voit pas l'espace client ; l'anonyme n'a aucun accès.
 - Page de commande Cheexpeer : reconnue pour owner et admin, refusée pour le membre simple et le client.
 Reste à jouer : connexion réelle par lien e-mail (un compte à la fois), recette bout en bout de la page avec le compte `+cheexpeer`, compte lecteur.
+
+### Distinction compte administrateur réel / comptes de test (précision du propriétaire, 15/11/2026)
+Le compte administrateur réel du propriétaire (plateformes et futur administrateur MajestiOS) est géré avec une adresse distincte, volontairement non écrite dans Git. Les comptes `perspectivemarketing…` (dont les alias `+majestios`, `+cheexpeer`, `+client`) sont **exclusivement des comptes de test** sur MajestiOS-Test. Aucun compte de test ne doit être reproduit sur MajestiOS-CRM ; le compte administrateur réel n'y sera rattaché que sur décision explicite du propriétaire.
