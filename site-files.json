@@ -3,7 +3,7 @@
   "description": "Manifeste unique des fichiers sources publiés dans dist/. Toute nouvelle page ou ressource publique doit être déclarée ici.",
   "files": [
     "index.html",
-    "Designer (2).png",
+    "fond-panorama.webp",
     "reputation-virtuelle.html",
     "reputation-virtuelle.css",
     "reputation-virtuelle.js",
@@ -129,10 +129,10 @@
     "majestios-chat.css",
     "cube-majestios.css",
     "cube-majestios.js",
-    "CRM.png",
-    "Ereputation.png",
-    "Facture1.png",
-    "Réseaux .png",
+    "fond-crm.webp",
+    "fond-ereputation.webp",
+    "fond-facturation.webp",
+    "fond-reseaux.webp",
     "robots.txt",
     "sitemap.xml",
     "assets/visuels/rubrique-prospection.svg"

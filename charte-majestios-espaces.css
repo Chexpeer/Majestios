@@ -168,7 +168,7 @@ html body main.interior-page:before{
   background:
     linear-gradient(90deg,rgba(7,25,43,.76),rgba(10,34,55,.42) 58%,rgba(10,34,55,.24)),
     linear-gradient(0deg,rgba(10,32,52,.30),rgba(10,32,52,.04)),
-    url("Designer%20(2).png") center 48%/cover no-repeat;
+    url("fond-panorama.webp") center 48%/cover no-repeat;
 }
 html body main.interior-page>.eyebrow,
 html body main.interior-page>h1,
@@ -207,7 +207,7 @@ html body .home-hero-layout{
   background-image:
     linear-gradient(90deg,rgba(7,25,43,.50),rgba(7,25,43,.12)),
     linear-gradient(0deg,rgba(7,25,43,.28),rgba(7,25,43,.02)),
-    url("Designer%20(2).png")!important;
+    url("fond-panorama.webp")!important;
   background-position:center center!important;
 }
 /* L'en-tête public reste gouverné par la charte bleu nuit commune. */

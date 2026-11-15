@@ -416,10 +416,10 @@ body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-st
   background-repeat:no-repeat;box-shadow:0 22px 55px rgba(0,0,0,.28);
 }
 .virtual-space[data-world="prospection"]{
-  background-image:linear-gradient(90deg,rgba(3,10,22,.76) 0%,rgba(3,10,22,.42) 48%,rgba(3,10,22,.08) 100%),url("CRM.png")!important;
+  background-image:linear-gradient(90deg,rgba(3,10,22,.76) 0%,rgba(3,10,22,.42) 48%,rgba(3,10,22,.08) 100%),url("fond-crm.webp")!important;
 }
 .virtual-space[data-world="reseaux"]{
-  background-image:linear-gradient(90deg,rgba(3,10,22,.72) 0%,rgba(3,10,22,.34) 52%,rgba(3,10,22,.04) 100%),url("R%C3%A9seaux%20.png")!important;
+  background-image:linear-gradient(90deg,rgba(3,10,22,.72) 0%,rgba(3,10,22,.34) 52%,rgba(3,10,22,.04) 100%),url("fond-reseaux.webp")!important;
 }
 .virtual-space[data-world="prospection"] .virtual-space-copy,
 .virtual-space[data-world="reseaux"] .virtual-space-copy{

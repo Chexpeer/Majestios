@@ -63,7 +63,7 @@ html body main.interior-page[data-fond]{
   background:transparent!important;
   box-shadow:0 22px 60px rgba(2,8,20,.35),inset 0 1px 0 rgba(255,255,255,.14)!important;
 }
-/* Le bandeau d'en-tête commun (Designer (2).png) laisse voir le fond ; seul un dégradé
+/* Le bandeau d'en-tête commun (fond-panorama.webp) laisse voir le fond ; seul un dégradé
    sombre à gauche subsiste pour garder le titre lisible. */
 html body main.interior-page[data-fond]:before{
   background:linear-gradient(90deg,rgba(4,10,22,.55),rgba(4,10,22,.18) 52%,rgba(4,10,22,0))!important;

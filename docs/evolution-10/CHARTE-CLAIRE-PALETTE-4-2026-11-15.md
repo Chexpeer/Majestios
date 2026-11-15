@@ -45,3 +45,11 @@ Mesure : les 43 pages ouvertes sur ordinateur et mobile, relevé de toutes les i
 - Méthode de contrôle : en plus de l'outil de contraste, un balayage au pixel (captures d'écran) a été utilisé, car l'outil ignore les textes posés sur des images. Ce balayage a révélé la page Développement commercial, oubliée au premier passage.
 - Corrections associées : barre d'appel à l'action crème avec bouton anthracite, boutons d'accueil anthracite/or, faces du cube en verre fumé, libellés de formulaire de prospection.
 - Les outils internes (administration, espace interne, CRM) restent en couleurs d'origine (phase 2 en attente de décision).
+
+## Complément — images de fond converties en WebP (2026-11-15)
+
+Décision propriétaire : la page assistant est conservée ; les 5 grandes images sont converties en WebP et restent utilisées comme fonds d'écran.
+- `Designer (2).png` → `fond-panorama.webp` (fond de l'accueil et du bandeau commun)
+- `CRM.png` → `fond-crm.webp`, `Réseaux .png` → `fond-reseaux.webp`
+- `Ereputation.png` → `fond-ereputation.webp`, `Facture1.png` → `fond-facturation.webp`
+Poids total : 12,6 Mo → environ 1,3 Mo, rendu inchangé. Les anciens PNG sont supprimés et le contrôle d'architecture vérifie qu'ils ne reviennent pas. Les documents des anciennes évolutions citent encore les anciens noms : ils restent tels quels (historique).
