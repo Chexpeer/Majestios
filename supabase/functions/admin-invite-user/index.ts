@@ -5,6 +5,7 @@ const allowedOrigins = [
   "https://majestios.com",
   "https://www.majestios.com",
   "https://majestios-jc8g-cqy7hpelc-majistr.vercel.app",
+  "https://majestios-git-test-ecriture-claude-majistr.vercel.app",
   ...((Deno.env.get("ALLOWED_ORIGINS") ?? "").split(",").map((o) => o.trim()).filter(Boolean)),
 ];
 const isAllowedOrigin = (origin: string | null) => !origin || allowedOrigins.includes(origin);
