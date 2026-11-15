@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Identifier les entreprises pertinentes, engager des prises de contact ciblées et développer de nouvelles opportunités commerciales."><title>Prospection — MajestiOS</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="rubriques-immersives.css"><script src="catalogue-majestios.js" defer></script><script src="rubriques-immersives.js" defer></script> <script src="rubric-search.js" defer></script>
+<script src="app.js" defer></script><script src="navigation-tiroirs.js" defer></script><script src="company-targeting.js" defer></script><script src="naf-suggestions.js" defer></script><script src="company-fit.js" defer></script><script src="company-targeting-page.js" defer></script><script src="prospection-criteria-ux.js" defer></script>
+  <link rel="stylesheet" href="majestios-identite-visuelle.css"><link rel="stylesheet" href="charte-majestios.css">
+<style>
+.page-prospection .prospecting-search-shell{width:min(1240px,calc(100% - 24px));margin:18px auto 28px;padding:0;background:transparent;border:0;box-shadow:none}
+.page-prospection .prospecting-search-shell .feed-wrap{width:100%;max-width:none;margin:0;padding:0}
+.page-prospection .prospecting-search-heading{margin:0 0 12px;color:#303747}
+.page-prospection .prospecting-search-heading .eyebrow{color:#7564c5;font-size:10px;font-weight:800;letter-spacing:.14em}
+.page-prospection .prospecting-search-heading h2{margin:5px 0 7px;color:#fff;font-size:clamp(22px,2.5vw,34px);line-height:1.15}
+.page-prospection .prospecting-search-heading p:last-child{margin:0;color:#697184;font-size:13px;line-height:1.5}
+.page-prospection #company-targeting-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:0;padding:16px;border:1px solid #e6e7ef;border-radius:10px;background:#fff;color:#303747;box-shadow:0 12px 30px #3932670b}
+.page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;display:flex;align-items:center;gap:12px;min-height:54px;padding:0 18px;border:1px solid #e1e3eb;border-radius:8px;background:#fff;color:#7564c5}
+.page-prospection #company-targeting-form>.feed-search input{width:100%;min-width:0;min-height:52px;padding:0;border:0;outline:0;background:transparent;color:#303747;font:inherit;font-size:15px;line-height:1.3}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{grid-column:1/-1;justify-self:start;min-height:36px;padding:8px 14px;border:1px solid #dedbea;border-radius:7px;background:#fff;color:#5b4bb2;font-size:12px;font-weight:750;cursor:pointer}
+.page-prospection #company-targeting-form>[hidden]{display:none!important}
+.page-prospection #company-targeting-form>.prospecting-core-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.page-prospection #company-targeting-form>.prospecting-core-grid label{display:block;min-width:0}
+.page-prospection #company-targeting-form>.company-targeting-checkbox,.page-prospection #company-targeting-form>.prospecting-advanced-details{grid-column:1/-1}
+.page-prospection #company-targeting-form>.prospecting-advanced-details{padding:10px 12px;border:1px solid #e6e7ef;border-radius:8px;background:#fff}
+.page-prospection #company-targeting-form>.prospecting-advanced-details>summary{color:#5b4bb2;font-size:12px;font-weight:750;cursor:pointer}
+.page-prospection #company-targeting-form>.prospecting-advanced-details>*:not(summary){margin-top:12px}
+.page-prospection #company-targeting-form>.prospecting-advanced-details>label{display:block}
+.page-prospection #company-targeting-form>.prospecting-advanced-details>fieldset{margin-top:12px}
+.page-prospection #company-targeting-form label,.page-prospection #company-targeting-form legend{color:#42495a;font-size:12px;font-weight:650}
+.page-prospection #company-targeting-form input:not([type=checkbox]),.page-prospection #company-targeting-form select,.page-prospection #company-targeting-form textarea{width:100%;min-height:40px;margin-top:5px;padding:9px 11px;border:1px solid #dfe1e9;border-radius:6px;background:#fff;color:#303747;font:inherit;font-size:13px}
+.page-prospection #company-targeting-form fieldset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;padding:13px;border:1px solid #e6e7ef;border-radius:8px;background:#fff}
+.page-prospection #company-targeting-form fieldset legend{padding:0 6px;color:#7564c5}
+.page-prospection #company-targeting-form .company-targeting-checkbox{display:flex;align-items:center;gap:8px;color:#596174;font-weight:450}
+.page-prospection #company-targeting-form .company-targeting-checkbox input{accent-color:#d5b56c}
+.page-prospection #company-targeting-form .small-note{grid-column:1/-1;color:#747c8d;font-size:11px;line-height:1.45}
+.page-prospection #company-targeting-form .button-secondary{grid-column:1/-1;justify-self:start}
+.page-prospection #company-targeting-form .feed-search-submit{grid-column:1/-1;justify-self:start;min-height:42px;padding:9px 18px;border:1px solid #5b4bb2;border-radius:7px;background:#5b4bb2;color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+.page-prospection #company-targeting-form .feed-search-submit:hover{background:#7564c5}
+.page-prospection #company-targeting-status{color:#596174}
+
+.page-prospection .prospecting-progressive-criteria{grid-column:1/-1;display:grid;gap:12px;min-width:0}
+.page-prospection .prospecting-criteria-available,.page-prospection .prospecting-criteria-selected{display:flex;flex-wrap:wrap;gap:8px;min-width:0}
+.page-prospection .prospecting-criteria-choice,.page-prospection .prospecting-criteria-chip{max-width:100%;min-height:38px;padding:8px 12px;border:1px solid #dedbea;border-radius:8px;background:#fff;color:#51439f;font:inherit;font-size:12px;font-weight:700;text-align:left;overflow-wrap:anywhere;cursor:pointer}
+.page-prospection .prospecting-criteria-chip{display:flex;align-items:center;gap:4px;max-width:100%;padding:4px 6px;border:1px solid #c9c0ee;border-radius:8px;background:#f4f1ff}
+.page-prospection .prospecting-criteria-chip-edit,.page-prospection .prospecting-criteria-chip-remove{min-width:0;border:0;background:transparent;color:#40347f;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.page-prospection .prospecting-criteria-chip-edit{text-align:left;overflow-wrap:anywhere}
+.page-prospection .prospecting-criteria-chip-remove{flex:0 0 26px;width:26px;height:26px;border-radius:6px;font-size:19px;line-height:1}
+.page-prospection .prospecting-criteria-chip-remove:hover{background:#e8e2ff}
+
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{min-width:0;padding:13px;border:1px solid #e6e7ef;border-radius:9px;background:#fbfaff}
+.page-prospection .prospecting-criteria-editor h3{margin:0 0 12px;color:#51439f;font-size:14px}
+.page-prospection .prospecting-criteria-editor-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.page-prospection .prospecting-criteria-editor-fields>label{display:block;min-width:0}
+.page-prospection .prospecting-criteria-editor-fields>fieldset{grid-column:1/-1}
+.page-prospection .prospecting-criteria-editor-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.page-prospection .prospecting-criteria-editor-actions .feed-search-submit{grid-column:auto}
+.page-prospection .prospecting-criteria-options>summary{color:#5b4bb2;font-size:12px;font-weight:750;cursor:pointer}
+.page-prospection .prospecting-criteria-options[open] .prospecting-criteria-editor-fields{margin-top:12px}
+.page-prospection .prospecting-progressive-criteria [hidden]{display:none!important}
+
+@media(max-width:650px){.page-prospection .prospecting-criteria-editor-fields{grid-template-columns:1fr}.page-prospection #company-targeting-form{grid-template-columns:1fr;padding:11px}.page-prospection #company-targeting-form fieldset,.page-prospection #company-targeting-form>.prospecting-core-grid{grid-template-columns:1fr}.page-prospection .prospecting-search-shell{width:calc(100% - 16px)}}
+
+/* Ajustement compact du moteur Prospection : mêmes critères, moins d'emprise visuelle. */
+.page-prospection .prospecting-search-shell{width:min(900px,calc(100% - 24px));margin:12px auto 20px}
+.page-prospection .prospecting-search-heading{margin:0 0 8px}
+.page-prospection .prospecting-search-heading h2{font-size:clamp(20px,2.1vw,27px);margin:4px 0 5px}
+.page-prospection .prospecting-search-heading p:last-child{font-size:12px;line-height:1.4}
+.page-prospection #company-targeting-form{gap:8px;padding:10px;border-radius:9px;box-shadow:0 6px 18px #39326708}
+.page-prospection #company-targeting-form>.feed-search{min-height:44px;padding:0 14px}
+.page-prospection #company-targeting-form>.feed-search input{min-height:42px;font-size:14px}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{min-height:32px;padding:6px 11px;font-size:11px}
+.page-prospection #company-targeting-form .feed-search-submit{min-height:36px;padding:7px 14px;font-size:12px}
+.page-prospection .prospecting-progressive-criteria{gap:7px}
+.page-prospection .prospecting-criteria-available,.page-prospection .prospecting-criteria-selected{gap:6px}
+.page-prospection .prospecting-criteria-choice{min-height:32px;padding:6px 9px;font-size:11px}
+.page-prospection .prospecting-criteria-chip{padding:3px 5px;font-size:11px}
+@media(max-width:650px){
+  .page-prospection .prospecting-search-shell{width:calc(100% - 16px);margin:10px auto 16px}
+  .page-prospection #company-targeting-form{padding:8px;gap:7px}
+  .page-prospection #company-targeting-form>.feed-search{min-height:42px}
+}
+
+
+/* Phase 2 — interface de prospection ramenée à une ligne de recherche. */
+.page-prospection .prospecting-search-shell{width:min(1040px,calc(100% - 28px));margin:8px auto 16px}
+.page-prospection .prospecting-search-heading{display:none}
+.page-prospection #company-targeting-form{
+  display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;
+  gap:7px;width:100%;padding:8px;border:1px solid #e7e5f0;border-radius:10px;
+  background:#fff;box-shadow:0 5px 16px #39326708
+}
+.page-prospection #company-targeting-form>.feed-search{grid-column:1;grid-row:1;min-width:0;min-height:42px;padding:0 12px;border-radius:7px}
+.page-prospection #company-targeting-form>.feed-search input{min-height:40px;font-size:14px}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{
+  grid-column:2;grid-row:1;min-height:36px;padding:7px 10px;white-space:nowrap;
+  border-color:#e5e1f1;background:#faf9fe;font-size:11px
+}
+.page-prospection .prospecting-progressive-criteria{grid-column:1/-1;gap:6px}
+.page-prospection .prospecting-criteria-available,.page-prospection .prospecting-criteria-selected{gap:5px}
+.page-prospection .prospecting-criteria-choice{min-height:29px;padding:5px 8px;font-size:11px;border-radius:6px}
+.page-prospection .prospecting-criteria-chip{padding:2px 4px;border-radius:6px;font-size:10px}
+.page-prospection .prospecting-criteria-chip-edit,.page-prospection .prospecting-criteria-chip-remove{font-size:10px}
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{padding:9px;border-radius:7px}
+.page-prospection .prospecting-criteria-editor h3{margin:0 0 7px;font-size:12px}
+.page-prospection .prospecting-criteria-editor-fields{gap:8px}
+.page-prospection .prospecting-criteria-editor-fields input:not([type=checkbox]),
+.page-prospection .prospecting-criteria-editor-fields select{min-height:34px;padding:6px 8px;font-size:12px}
+.page-prospection .prospecting-criteria-editor-actions{margin-top:8px}
+.page-prospection .prospecting-criteria-editor-actions .feed-search-submit{min-height:31px;padding:5px 10px}
+.page-prospection #company-targeting-form>.feed-search-submit{
+  grid-column:3;grid-row:1;min-height:36px;padding:7px 12px;white-space:nowrap
+}
+.page-prospection #company-targeting-status{margin:7px 2px 0;font-size:11px;line-height:1.4}
+.page-prospection .company-targeting-results{margin-top:10px}
+@media(max-width:620px){
+  .page-prospection .prospecting-search-shell{width:calc(100% - 18px);margin:7px auto 12px}
+  .page-prospection #company-targeting-form{grid-template-columns:minmax(0,1fr) auto;gap:6px;padding:7px}
+  .page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;grid-row:1}
+  .page-prospection #company-targeting-form>.prospecting-criteria-toggle{grid-column:1;grid-row:2;justify-self:start}
+  .page-prospection #company-targeting-form>.feed-search-submit{grid-column:2;grid-row:2;justify-self:end}
+  .page-prospection .prospecting-criteria-editor-fields{grid-template-columns:1fr}
+  .page-prospection .prospecting-criteria-editor-fields>fieldset{grid-column:1}
+}
+
+
+/* Identité du dock de recherche de l'accueil : bleu nuit, acier et or. */
+.page-prospection .prospecting-search-shell{width:min(1240px,calc(100% - 24px));margin:12px auto 20px}
+.page-prospection .prospecting-search-heading{display:block;margin:0 0 10px}
+.page-prospection .prospecting-search-heading .eyebrow{color:#d5b56c;letter-spacing:.16em}
+.page-prospection .prospecting-search-heading h2{color:#f5f7fb;font-family:Georgia,"Times New Roman",serif;font-size:clamp(22px,2.5vw,32px)}
+.page-prospection .prospecting-search-heading p:last-child{color:#c4ccda}
+.page-prospection #company-targeting-form{
+ display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;
+ padding:10px;border:1px solid rgba(213,181,108,.55);border-radius:9px;
+ background:linear-gradient(100deg,#06101f,#102b50);color:#f5f7fb;
+ box-shadow:0 12px 30px rgba(0,0,0,.24)
+}
+.page-prospection #company-targeting-form>.feed-search{
+ grid-column:1;grid-row:1;min-width:0;min-height:46px;padding:0 14px;
+ border:1px solid rgba(213,181,108,.38);border-radius:7px;background:#071225;color:#f0d38b
+}
+.page-prospection #company-targeting-form>.feed-search input{
+ min-height:44px;color:#f5f7fb;font-size:14px
+}
+.page-prospection #company-targeting-form>.feed-search input::placeholder{color:#a9b4c6;opacity:1}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{
+ grid-column:2;grid-row:1;min-height:40px;padding:8px 12px;
+ border:1px solid rgba(213,181,108,.5);border-radius:7px;
+ background:rgba(213,181,108,.08);color:#f0d38b;font-size:12px;font-weight:750
+}
+.page-prospection #company-targeting-form .feed-search-submit{
+ grid-column:3;grid-row:1;min-height:40px;padding:8px 16px;
+ border:1px solid #ffdf82;border-radius:7px;
+ background:linear-gradient(100deg,#f7d76b,#dfa72e);color:#101828;
+ font-size:12px;font-weight:850
+}
+.page-prospection #company-targeting-form .feed-search-submit:hover{background:#f0d38b}
+.page-prospection .prospecting-progressive-criteria{grid-column:1/-1;gap:8px}
+.page-prospection .prospecting-criteria-choice{
+ min-height:32px;padding:7px 10px;border:1px solid rgba(213,181,108,.38);
+ border-radius:7px;background:#0b1c34;color:#f0d38b
+}
+.page-prospection .prospecting-criteria-chip{
+ border:1px solid rgba(213,181,108,.55);background:#102b50;color:#f5f7fb
+}
+.page-prospection .prospecting-criteria-chip-edit,.page-prospection .prospecting-criteria-chip-remove{color:#f0d38b}
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{
+ border:1px solid rgba(213,181,108,.38);border-radius:8px;background:#0b1c34;color:#f5f7fb
+}
+.page-prospection .prospecting-criteria-editor h3,.page-prospection .prospecting-criteria-options>summary{color:#f0d38b}
+.page-prospection .prospecting-criteria-editor-fields label,
+.page-prospection #company-targeting-form label,.page-prospection #company-targeting-form legend{color:#dce5f2}
+.page-prospection #company-targeting-form input:not([type=checkbox]),
+.page-prospection #company-targeting-form select,.page-prospection #company-targeting-form textarea{
+ border:1px solid rgba(213,181,108,.3);background:#071225;color:#f5f7fb
+}
+.page-prospection #company-targeting-form input::placeholder,
+.page-prospection #company-targeting-form textarea::placeholder{color:#a9b4c6}
+.page-prospection #company-targeting-form .company-targeting-checkbox{color:#c4ccda}
+.page-prospection #company-targeting-status{color:#dce5f2}
+.page-prospection .company-targeting-results{width:min(1240px,calc(100% - 24px));margin:18px auto}
+.page-prospection .company-targeting-results h2{color:#f5f7fb}
+.page-prospection .company-targeting-card{
+ margin:10px 0;padding:16px;border:1px solid rgba(213,181,108,.38);
+ border-radius:9px;background:linear-gradient(145deg,#06142b,#0d1f37);color:#f5f7fb
+}
+.page-prospection .company-targeting-card h3{color:#f0d38b}
+.page-prospection .company-targeting-card p,.page-prospection .company-targeting-card li{color:#c4ccda}
+@media(max-width:620px){
+ .page-prospection .prospecting-search-shell{width:calc(100% - 16px)}
+ .page-prospection #company-targeting-form{grid-template-columns:minmax(0,1fr) auto;gap:7px;padding:8px}
+ .page-prospection #company-targeting-form>.feed-search{grid-column:1/-1;grid-row:1}
+ .page-prospection #company-targeting-form>.prospecting-criteria-toggle{grid-column:1;grid-row:2;justify-self:start}
+ .page-prospection #company-targeting-form>.feed-search-submit{grid-column:2;grid-row:2;justify-self:end}
+}
+
+
+/* Harmonisation stricte avec le moteur de recherche de l'accueil. */
+.page-prospection .prospecting-search-shell{width:min(1240px,calc(100% - 24px));margin:16px auto 24px}
+.page-prospection .prospecting-search-heading{display:block;margin:0 0 18px}
+.page-prospection .prospecting-search-heading .eyebrow{color:#63c3d0;font-size:11px;letter-spacing:.15em}
+.page-prospection .prospecting-search-heading h2{color:#fff;font-family:Inter,system-ui,sans-serif;font-size:clamp(28px,4vw,42px);line-height:1.08;letter-spacing:-.035em}
+.page-prospection .prospecting-search-heading p:last-child{color:#dce5f2;font-size:15px;line-height:1.5}
+.page-prospection #company-targeting-form{display:flex;flex-direction:column;align-items:stretch;gap:12px;width:100%;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.page-prospection #company-targeting-form>.feed-search{order:1;display:flex;align-items:center;min-height:76px;padding:0 28px;border:0;border-radius:999px;background:#fff;color:#77808d;box-shadow:0 8px 24px #0002}
+.page-prospection #company-targeting-form>.feed-search input{min-height:72px;padding:0;background:transparent;color:#202735;font-size:clamp(17px,2vw,22px)}
+.page-prospection #company-targeting-form>.feed-search input::placeholder{color:#7d8189;opacity:1}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{order:3;align-self:flex-start;min-height:34px;padding:5px 0;border:0;background:transparent;color:#f1d58b;font-size:13px;font-weight:750;text-decoration:underline;text-underline-offset:4px}
+.page-prospection #company-targeting-form>.feed-search-submit{order:4;align-self:flex-start;min-height:54px;padding:12px 28px;border:0;border-radius:999px;background:#fff;color:#20232b;font-size:16px;font-weight:800;box-shadow:0 4px 16px #0002}
+.page-prospection #company-targeting-form>.feed-search-submit:hover{background:#f3e5bd}
+.page-prospection .prospecting-progressive-criteria{order:2;display:grid;gap:10px;padding:0 2px}
+.page-prospection .prospecting-criteria-available,.page-prospection .prospecting-criteria-selected{gap:8px}
+.page-prospection .prospecting-criteria-choice,.page-prospection .prospecting-criteria-chip{border:1px solid #d5b56c66;border-radius:20px;background:#102b50;color:#f5e5b5}
+.page-prospection .prospecting-criteria-editor,.page-prospection .prospecting-criteria-options{border:1px solid #d5b56c55;border-radius:12px;background:#0b1c34;color:#f5f7fb}
+.page-prospection .prospecting-criteria-editor h3,.page-prospection .prospecting-criteria-options>summary{color:#f0d38b}
+.page-prospection #company-targeting-form label,.page-prospection #company-targeting-form legend{color:#e5eaf2}
+.page-prospection #company-targeting-form input:not([type=checkbox]),.page-prospection #company-targeting-form select,.page-prospection #company-targeting-form textarea{border:1px solid #52647d;border-radius:8px;background:#071225;color:#f5f7fb}
+.page-prospection #company-targeting-status{margin:12px 2px;color:#e2e9f3;font-size:13px}
+.page-prospection .company-targeting-results{width:min(1240px,calc(100% - 24px));margin:18px auto}
+@media(max-width:650px){.page-prospection .prospecting-search-shell{width:calc(100% - 24px);margin:14px auto 20px}.page-prospection #company-targeting-form>.feed-search{min-height:68px;padding:0 22px}.page-prospection #company-targeting-form>.feed-search input{min-height:64px;font-size:18px}.page-prospection #company-targeting-form>.feed-search-submit{min-height:52px}.page-prospection .prospecting-search-heading h2{font-size:clamp(27px,7vw,36px)}}
+
+/* Garde-fou de largeur mobile : les critères actifs ne doivent jamais élargir le document. */
+.page-prospection .prospecting-search-shell,
+.page-prospection #company-targeting-form,
+.page-prospection .prospecting-progressive-criteria,
+.page-prospection .prospecting-criteria-available,
+.page-prospection .prospecting-criteria-selected{min-width:0;max-width:100%;box-sizing:border-box}
+.page-prospection .prospecting-criteria-selected{width:100%;overflow:hidden}
+.page-prospection .prospecting-criteria-chip{flex:0 1 auto;min-width:0;max-width:100%;box-sizing:border-box}
+.page-prospection .prospecting-criteria-chip-edit{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+.page-prospection .prospecting-criteria-chip-remove{flex:0 0 26px}
+@media(max-width:650px){.page-prospection .prospecting-search-shell{width:calc(100% - 24px)}.page-prospection .prospecting-criteria-selected{display:flex;flex-wrap:wrap}.page-prospection .prospecting-criteria-chip{max-width:100%}}
+
+/* Correctif mobile : conserver le champ de saisie blanc du moteur d'accueil. */
+.page-prospection #company-targeting-form>.feed-search input:not([type=checkbox]){
+  display:block!important;flex:1 1 auto!important;width:100%!important;min-width:0!important;
+  height:100%!important;min-height:0!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;outline:0!important;box-shadow:none!important;
+  background:transparent!important;color:#202735!important;-webkit-appearance:none!important;appearance:none!important;
+  font:inherit!important;font-size:clamp(17px,2vw,22px)!important;
+}
+.page-prospection #company-targeting-form>.feed-search input:not([type=checkbox])::placeholder{color:#7d8189!important;opacity:1!important}
+.page-prospection #company-targeting-form>.feed-search:focus-within{outline:2px solid #d5b56c;outline-offset:3px}
+.page-prospection #company-targeting-form>.feed-search{width:100%!important;min-width:0!important;box-sizing:border-box!important;gap:12px!important}
+.page-prospection #company-targeting-form>.prospecting-criteria-toggle{order:2!important}
+.page-prospection #company-targeting-form>.prospecting-core-grid{order:3!important}
+.page-prospection #company-targeting-form>details{order:4!important}
+.page-prospection #company-targeting-form>.feed-search-submit{order:5!important}
+@media(max-width:650px){
+ .page-prospection #company-targeting-form{grid-template-columns:minmax(0,1fr)!important;width:100%!important;min-width:0!important}
+ .page-prospection #company-targeting-form>.feed-search{grid-column:1/-1!important;grid-row:auto!important;min-width:0!important;min-height:68px!important;height:68px!important;padding:0 24px!important}
+ .page-prospection #company-targeting-form>.prospecting-criteria-toggle,
+ .page-prospection #company-targeting-form>.feed-search-submit{grid-column:1/-1!important;grid-row:auto!important;width:max-content;max-width:100%;justify-self:start}
+
+ .page-prospection #company-targeting-form>.feed-search input:not([type=checkbox]){height:100%!important;min-height:0!important;font-size:18px!important}
+}
+</style>
+  
+</head>
+<body class="page-prospection"><header class="site-header"><a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button><nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="marches-publics.html">Appels d’offres</a><a href="developpement-commercial.html">Développement commercial</a><a href="reseaux-synergies.html">Réseau</a><a href="reputation-virtuelle.html">Réputation virtuelle</a><a href="facturation-electronique.html">Facturation électronique</a><a href="espace-membre.html">Accéder à mon espace personnel</a></nav></header>
+<main data-fond="prospection-crm" class="section-wrap interior-page"><p class="eyebrow">EXPLORER MAJESTIOS · RUBRIQUE</p><h1>Prospection</h1><p class="interior-lede">Identifiez les entreprises qui correspondent à votre activité et vérifiez les informations avant toute prise de contact.</p>
+<section class="tender-feed-section prospecting-search-shell" aria-labelledby="company-targeting-form-title">
+  <div class="feed-wrap"><div class="feed-demo"><div class="prospecting-search-heading"><p class="eyebrow">MOTEUR DE RECHERCHE · PROSPECTION</p><h2 id="company-targeting-form-title">Trouvez les entreprises qui correspondent à votre activité</h2><p>Définissez votre cible. MajestiOS rassemble et qualifie les résultats dans une recherche unique.</p></div>
+  <form id="company-targeting-form" class="feed-toolbar company-targeting-search-form">
+    <label class="feed-search" for="target-market-title"><span aria-hidden="true">⌕</span><span class="sr-only">Activité ou entreprise recherchée</span><input id="target-market-title" name="marketTitle" type="search" maxlength="180" placeholder="Nom d’entreprise ou mot-clé textuel…" autocomplete="off"></label>
+    <button id="prospecting-criteria-toggle" class="prospecting-criteria-toggle" type="button" aria-expanded="false">Choisir des critères</button>
+    <div class="prospecting-core-grid" hidden>
+      <label for="target-naf-codes">Activité APE/NAF <span>(facultatif)</span><input id="target-naf-codes" name="nafCodes" type="text" placeholder="Ex. 43.21A, 43.22B"></label>
+      <label for="target-departments">Départements <span>(facultatif si une région est choisie)</span><input id="target-departments" name="departments" type="text" placeholder="Ex. 72, 37, 49"></label>
+      <label for="target-radius-location">Commune ou code postal <span>(pour une recherche par rayon)</span><input id="target-radius-location" name="radiusLocation" type="search" maxlength="100" placeholder="Ex. Le Mans ou 72000"></label>
+      <label for="target-radius-km">Rayon<select id="target-radius-km" name="radiusKm"><option value="5">5 km</option><option value="10" selected>10 km</option><option value="15">15 km</option><option value="20">20 km</option><option value="30">30 km</option><option value="40">40 km</option><option value="50">50 km</option></select></label>
+      <label for="target-region">Région<select id="target-region" name="region">
+        <option value="">Toutes les régions (avec départements saisis)</option>
+        <option value="11">Île-de-France</option><option value="24">Centre-Val de Loire</option><option value="27">Bourgogne-Franche-Comté</option><option value="28">Normandie</option><option value="32">Hauts-de-France</option><option value="44">Grand Est</option><option value="52">Pays de la Loire</option><option value="53">Bretagne</option><option value="75">Nouvelle-Aquitaine</option><option value="76">Occitanie</option><option value="84">Auvergne-Rhône-Alpes</option><option value="93">Provence-Alpes-Côte d’Azur</option><option value="94">Corse</option><option value="01">Guadeloupe</option><option value="02">Martinique</option><option value="03">Guyane</option><option value="04">La Réunion</option><option value="06">Mayotte</option>
+      </select></label>
+      <label for="target-limit">Nombre de résultats<select id="target-limit" name="limit"><option value="10" selected>10 entreprises maximum</option><option value="5">5 entreprises maximum</option></select></label>
+    </div>
+    <label class="company-targeting-checkbox" hidden><input id="target-active-only" name="activeOnly" type="checkbox" checked> Exclure les entreprises dont le statut est indiqué comme non actif</label>
+    <details class="prospecting-advanced-details" hidden>
+      <summary>Affiner les critères de recherche</summary>
+      <label for="target-market-description">Précisions sur les compétences ou le type d’entreprise recherché <span>(facultatif)</span><textarea id="target-market-description" name="marketDescription" rows="3" maxlength="12000" placeholder="Métiers, spécialités, prestations ou signaux recherchés…"></textarea></label>
+      <button id="suggest-naf-button" class="button-secondary" type="button">Suggérer des codes APE/NAF à partir de ma recherche</button>
+      <fieldset id="naf-suggestions" class="naf-suggestions" hidden><legend>Suggestions à vérifier</legend><div id="naf-suggestions-list"></div><button id="add-naf-suggestions" class="button-secondary" type="button">Ajouter les codes cochés</button><p class="small-note">Les suggestions sont des pistes lexicales, pas une preuve de compétence.</p></fieldset>
+      <fieldset class="company-targeting-advanced">
+        <legend>Filtres avancés</legend>
+        <label for="target-workforce">Effectif salarié<select id="target-workforce" name="workforce"><option value="">Toutes les tailles</option><option value="0-2">0 à 2 salariés</option><option value="3-5">3 à 5 salariés</option><option value="6-9">6 à 9 salariés</option><option value="10-19">10 à 19 salariés</option><option value="20-49">20 à 49 salariés</option><option value="50+">50 salariés et plus</option><option value="unknown">Effectif non renseigné</option></select></label>
+        <label for="target-age">Ancienneté de l’entreprise<select id="target-age" name="companyAge"><option value="">Toutes les anciennetés</option><option value="0-2">Créée depuis moins de 3 ans</option><option value="3-5">3 à 5 ans</option><option value="6-10">6 à 10 ans</option><option value="10+">Plus de 10 ans</option><option value="unknown">Date de création inconnue</option></select></label>
+        <label for="target-legal-category">Forme ou catégorie juridique <span>(facultatif)</span><input id="target-legal-category" name="legalCategory" type="search" maxlength="80" placeholder="Ex. SAS, SARL, entrepreneur individuel"></label>
+        <label for="target-name-contains">Nom ou raison sociale contient <span>(facultatif)</span><input id="target-name-contains" name="nameContains" type="search" maxlength="100" placeholder="Mot ou expression"></label>
+        <label class="company-targeting-checkbox"><input id="target-include-unknown" name="includeUnknown" type="checkbox" checked> Conserver les entreprises dont l’information filtrée est inconnue</label>
+        <label for="target-ca-min">Chiffre d’affaires minimum (€)<input id="target-ca-min" name="caMin" type="number" min="0" step="1000" inputmode="numeric" placeholder="Ex. 100000"></label>
+        <label for="target-ca-max">Chiffre d’affaires maximum (€)<input id="target-ca-max" name="caMax" type="number" min="0" step="1000" inputmode="numeric" placeholder="Ex. 2000000"></label>
+        <p class="small-note">Les données financières peuvent être incomplètes.</p>
+        <fieldset>
+          <legend>Qualifications et labels</legend>
+          <label class="company-targeting-checkbox"><input type="checkbox" name="estRge"> Entreprises RGE</label>
+          <label class="company-targeting-checkbox"><input type="checkbox" name="estQualiopi"> Certification Qualiopi</label>
+          <label class="company-targeting-checkbox"><input type="checkbox" name="estEpV"> Entreprise du Patrimoine Vivant</label>
+          <label class="company-targeting-checkbox"><input type="checkbox" name="estEss"> Économie sociale et solidaire</label>
+          <p class="small-note">Les indicateurs de qualification et les labels disponibles peuvent être incomplets. Toute information importante doit être vérifiée avant la prise de contact.</p>
+        </fieldset>
+        <p class="small-note">Les filtres d’effectif et d’ancienneté sont appliqués aux données disponibles. Les fiches sans information sont conservées si cette option est cochée.</p>
+      </fieldset>
+    </details>
+    <button class="feed-search-submit" type="submit">Rechercher <span aria-hidden="true">→</span></button>
+  </form>
+  <p id="company-targeting-status" class="company-targeting-status" role="status" aria-live="polite">Aucune recherche lancée.</p>
+</div></div></section>
+
+<section class="virtual-space" data-world="prospection" style="--space-accent:#218d99" aria-label="Espace virtuel Prospection"><div class="virtual-space-copy"><span class="virtual-space-kicker">LABORATOIRE DE PROSPECTION</span><h2>Entrez dans votre espace <span style="color:#218d99">Prospection</span></h2><p>Détecter les opportunités, identifier les entreprises pertinentes et engager des prises de contact ciblées au bon moment.</p><span class="virtual-space-note">Espace visuel interactif · parcours guidé</span></div><div class="virtual-space-scene" aria-label="Illustration visuelle de l'espace"><div class="virtual-space-platform"></div><div class="virtual-space-building" aria-hidden="true"><span class="roof"></span><span class="front"></span><span class="windows"></span><span class="door"></span></div><article class="virtual-space-float one"><span class="space-status">DU SIGNAL À L’ACTION</span><strong>Signal détecté</strong><small>Information à examiner dans votre parcours</small><span class="space-meter"></span></article><article class="virtual-space-float two"><span class="space-status">ANALYSE</span><strong>Entreprise identifiée</strong><small>Qualification progressive des éléments utiles</small><span class="space-meter"></span></article><article class="virtual-space-float three"><span class="space-status">PROCHAINE ÉTAPE</span><strong>Contact à qualifier</strong><small>Vous gardez la maîtrise de la décision</small></article></div></section>
+
+<section id="company-targeting-results" class="company-targeting-results" aria-labelledby="company-targeting-results-title" hidden>
+  <h2 id="company-targeting-results-title">Entreprises à qualifier</h2>
+  <p id="company-targeting-summary" class="small-note"></p>
+  <div id="company-targeting-cards" class="company-targeting-cards"></div>
+  <p class="small-note company-targeting-warning">Les codes APE/NAF et le score sont des indices de ciblage. Ils ne prouvent ni les compétences, ni les moyens, ni l’éligibilité d’une entreprise. Vérifiez les informations avant toute prise de contact.</p>
+</section>
+<section class="floating-route-card" aria-labelledby="floor-story-title"><h2 id="floor-story-title">Trouver les entreprises qui correspondent à votre activité</h2><p>Un moteur unique pour rechercher et qualifier des entreprises selon leur activité et leur territoire. Vérifiez les informations avant toute prise de contact.</p></section>
+<section class="interior-grid related-rubrics" aria-labelledby="related-rubrics-title"><h2 id="related-rubrics-title" class="related-rubrics-title">Pour aller plus loin</h2><a class="platform-card related-rubric-card" href="marches-publics.html"><h3>Marchés publics <span aria-hidden="true">→</span></h3><p>Partir des consultations publiées.</p></a><a class="platform-card related-rubric-card" href="marches-prives.html"><h3>Marchés privés <span aria-hidden="true">→</span></h3><p>Explorer les signaux hors commande publique.</p></a><a class="platform-card related-rubric-card" href="developpement-commercial.html"><h3>Développement commercial <span aria-hidden="true">→</span></h3><p>Organiser les prochaines actions.</p></a></section><div class="interior-links"><a href="index.html">← Retour à l’accueil MajestiOS</a> · <a href="index.html">Accueil MajestiOS</a> · <a href="faq.html">Comprendre MajestiOS</a></div></main><footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial et Prospection</div></footer>
+
+</body></html>

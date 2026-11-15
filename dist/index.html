@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071225">
+    <meta name="description" content="MajestiOS : réseau professionnel, prospection et CRM, facturation électronique et réputation virtuelle.">
+    <title>MajestiOS — Votre espace pour développer votre entreprise</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="homepage.css">
+    <script src="catalogue-majestios.js" defer></script>
+    <script src="rubric-search.js" defer></script>
+    <script src="app.js" defer></script>
+    <script src="navigation-tiroirs.js" defer></script>
+    <link rel="stylesheet" href="charte-majestios.css">
+    <link rel="stylesheet" href="homepage-theme.css">
+    <link rel="stylesheet" href="rubriques-immersives.css">
+    <link rel="stylesheet" href="cube-majestios.css">
+    <script src="cube-majestios.js" defer></script>
+  </head>
+  <body class="homepage">
+    <div class="homepage-ticker" role="status" aria-label="Flux de démonstration MajestiOS">
+      <div class="homepage-ticker-track"><span><strong>MAJESTIOS · FLUX DE DÉMONSTRATION</strong> — Exemples fictifs de marchés publics et privés — Aucune annonce réelle n’est diffusée pour le moment. Les résultats réels sont recherchés à la demande.</span><span aria-hidden="true"><strong>MAJESTIOS · FLUX DE DÉMONSTRATION</strong> — Exemples fictifs de marchés publics et privés — Aucune annonce réelle n’est diffusée pour le moment. Les résultats réels sont recherchés à la demande.</span></div>
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="MajestiOS, accueil">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>majesti<span class="brand-os">OS</span></span>
+      </a>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+        <a href="index.html" aria-current="page">Accueil</a>
+        <a href="developpement-commercial.html">Prospection &amp; CRM</a>
+        <a href="facturation-electronique.html">Facturation électronique</a>
+        <a href="reputation-virtuelle.html">Réputation virtuelle</a>
+        <a href="reseaux-synergies.html">Réseau &amp; synergies</a>
+        <a href="nous-rejoindre.html">Nous rejoindre</a>
+        <a href="espace-prive.html">Espace privé</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
+    </header>
+
+    <main id="accueil" class="home-main">
+      <section class="home-search home-search-top" aria-labelledby="home-search-title">
+        <div class="home-search-heading">
+          <p class="hero-eyebrow">RECHERCHE MAJESTIOS</p>
+          <h2 id="home-search-title">Quelle opportunité recherchez-vous ?</h2>
+        </div>
+        <div class="tender-feed-section" id="recherche-avancee" aria-label="Recherche d'opportunités">
+          <div class="feed-wrap"><div class="feed-demo" id="home-search-mount"></div></div>
+        </div>
+      </section>
+      <section class="home-intro" aria-labelledby="home-title">
+        <p class="hero-eyebrow">L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS</p>
+        <h1 id="home-title">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>
+        <p class="home-lede">Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement.</p>
+      </section>
+
+      <section class="home-cube" aria-labelledby="home-cube-title">
+        <h2 id="home-cube-title">Explorez les quatre rubriques</h2>
+        <p class="mj-cube-hint">Faites tourner le cristal, puis cliquez sur une face.</p>
+        <div class="mj-cube-stage" id="mj-cube-stage">
+          <div class="mj-cube" id="mj-cube">
+            <div class="mj-core" aria-hidden="true"><i class="mj-c0"></i><i class="mj-c1"></i><i class="mj-c2"></i><i class="mj-c3"></i><i class="mj-c4"></i><i class="mj-c5"></i></div>
+            <a class="mj-cube-face mj-f0" style="--rgb:92,150,255" data-angle="0" draggable="false" href="developpement-commercial.html" aria-label="Prospection et CRM : ouvrir la rubrique">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="21" cy="27" r="16"/><circle cx="21" cy="27" r="9.5"/><circle cx="21" cy="27" r="3"/><path d="M21 27 40 8M40 8v8M40 8h-8"/></svg>
+              <strong>Prospection &amp; CRM</strong>
+              <span class="mj-face-text">Repérez des entreprises à contacter et organisez vos actions commerciales.</span>
+            </a>
+            <a class="mj-cube-face mj-f1" style="--rgb:70,215,130" data-angle="90" draggable="false" href="facturation-electronique.html" aria-label="Facturation électronique : ouvrir la rubrique">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5h18l8 8v24H10z"/><path d="M28 5v8h8M16 18h12M16 24h8"/><circle cx="33" cy="35" r="9" fill="rgba(7,18,37,.8)"/><text x="33" y="39.5" font-size="12" text-anchor="middle" fill="currentColor" stroke="none" font-family="Georgia,serif">€</text></svg>
+              <strong>Facturation électronique</strong>
+              <span class="mj-face-text">Comprenez la réforme et évaluez la situation de votre entreprise.</span>
+            </a>
+            <a class="mj-cube-face mj-f2" style="--rgb:165,130,255" data-angle="180" draggable="false" href="reputation-virtuelle.html" aria-label="Réputation virtuelle : ouvrir la rubrique">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="14" r="8"/><path d="M8 32c2-7 8-10 16-10s14 3 16 10"/><path d="M8 42h32" stroke-dasharray="1 5"/></svg>
+              <strong>Réputation virtuelle</strong>
+              <span class="mj-face-text">Voyez ce que vos clients découvrent de vous en ligne.</span>
+            </a>
+            <a class="mj-cube-face mj-f3" style="--rgb:240,190,70" data-angle="-90" draggable="false" href="reseaux-synergies.html" aria-label="Réseau et synergies : ouvrir la rubrique">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M24 24 12 12M24 24l14-6M24 24l8 14M12 12l26 6"/><circle cx="12" cy="12" r="5" fill="currentColor" fill-opacity=".35"/><circle cx="38" cy="18" r="5" fill="currentColor" fill-opacity=".35"/><circle cx="32" cy="38" r="5" fill="currentColor" fill-opacity=".35"/><circle cx="24" cy="24" r="3.5"/></svg>
+              <strong>Réseau &amp; synergies</strong>
+              <span class="mj-face-text">Trouvez des partenaires aux compétences complémentaires.</span>
+            </a>
+            <div class="mj-cube-face mj-brand mj-top" aria-hidden="true">MajestiOS</div>
+            <div class="mj-cube-face mj-brand mj-bot" aria-hidden="true">MajestiOS</div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="home-personal-access" aria-labelledby="personal-access-title">
+        <div>
+          <p class="hero-eyebrow">VOTRE POINT D'ENTRÉE</p>
+          <h2 id="personal-access-title">Tout MajestiOS depuis votre espace personnel.</h2>
+          <p>Un accès central pour retrouver vos services, vos démarches et vos outils au fil de leur ouverture.</p>
+        </div>
+        <a class="home-primary-cta" href="espace-membre.html">Découvrir mon espace personnel <span aria-hidden="true">→</span></a>
+      </section>
+    </main>
+
+    <footer class="site-footer homepage-footer" aria-label="Pied de page MajestiOS">
+      <a class="brand footer-brand" href="index.html" aria-label="MajestiOS, retour à l’accueil">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>majesti<span class="brand-os">OS</span></span>
+      </a>
+      <p>© <span id="footer-year">2026</span> MajestiOS · L'écosystème du développement des entreprises.</p>
+      <nav class="footer-links" aria-label="Liens utiles et informations légales">
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="politique-confidentialite.html">Confidentialité</a>
+      </nav>
+    </footer>
+  </body>
+</html>
