@@ -1197,3 +1197,12 @@ Constats : (1) `supabase-config.js` pointe vers `majestios-crm` : tester l'inscr
 - **Non fait** : e-mails de rappel ; connexion par mot de passe (la connexion reste par code) ; purge automatique des comptes en attente expirés ; test réel avec un vrai e-mail.
 - **Avant la production** : appliquer la migration et déployer la fonction sur le projet de production, remettre `supabase-config.js` sur majestios-crm, activer dans Supabase les exigences de mot de passe et la protection contre les mots de passe compromis, décider de l'ouverture de la création publique (abus, quota d'envoi).
 - **Complément (même jour, retour d'essai du propriétaire) :** le courrier reçu ne contenait **pas de code**, seulement le lien de connexion standard de Supabase, qui renvoyait vers une page de connexion/création sans reprendre le parcours. Correction : la demande indique désormais la page de retour (`emailRedirectTo` = `espace-membre.html`) et la page reconnaît l'arrivée par le lien : la session est ouverte, l'activation démarre et l'étape « mot de passe sécurisé » s'affiche (test navigateur ajouté). Le lien et le code mènent donc au même parcours. **À faire côté Supabase (propriétaire) :** pour que le code figure dans le courrier, ajouter `{{ .Token }}` aux modèles « Magic Link » et « Confirm signup » (Authentication → Email Templates) ; l'adresse de retour doit être autorisée dans Redirect URLs.
+
+## Chapitre 106 — Charte claire : palette « Mixte clair + anthracite » (2026-11-15, Evolution-10, MajestiOS-Test uniquement)
+
+**Décision du propriétaire :** site trop sombre, trop bleu, peu contrasté ; palette 4 choisie (blanc, crème, anthracite, or). Détail, valeurs, contrastes et limites : `docs/evolution-10/CHARTE-CLAIRE-PALETTE-4-2026-11-15.md`.
+
+- Appliquée sur toutes les pages publiques par un bloc final de `charte-majestios.css` (réversible). Les visuels de rubrique et le panorama d'accueil sont conservés en filigrane clair.
+- **Outils internes inchangés** (administration, espace collaborateurs, CRM, acceptation d'invitation) : couleurs d'origine rétablies pour ces pages, aucune régression ; leur passage en clair est une phase 2 à décider.
+- Anomalie évitée : les feuilles de navigation et de discussion sont ajoutées à l'exécution après la charte ; la couche claire utilise donc une spécificité renforcée plutôt que l'ordre de chargement.
+- Contrôles : relevé automatique des surfaces sombres et des contrastes sur les pages publiques (aucun texte sous 4,5:1 hors images), CI complète rejouée.

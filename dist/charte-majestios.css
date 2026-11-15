@@ -260,3 +260,236 @@ html body .form-field input[type="checkbox"]{display:inline-block!important;widt
 html body.homepage .home-personal-access{padding:clamp(18px,2.4vw,28px)}
 /* Surtitres posés sur les visuels de rubrique : or clair, contraste supérieur à 4,5:1 (l'or foncé est réservé aux surfaces claires). */
 html body main .eyebrow{color:var(--majestios-gold-light)!important}
+
+
+/* =====================================================================
+   PALETTE CLAIRE « 4 · Mixte clair + anthracite » (15 novembre 2026, Evolution-10, Test)
+   Décision du propriétaire : site trop sombre, trop bleu, pas assez contrasté.
+   Blanc / crème pour les surfaces, anthracite pour la structure, or pour la signature.
+   Contrastes visés : texte courant ≥ 7:1, liens ≥ 5:1, boutons ≥ 5:1.
+   Pour revenir à l'ancienne charte bleu nuit : retirer ce bloc (jusqu'à la fin du fichier).
+   ===================================================================== */
+:root{
+  --majestios-ink:#2A2926;
+  --majestios-ink-warm:#2A2926;
+  --majestios-muted:#55514A;
+  --majestios-soft:#6B665D;
+  --majestios-gold:#8A5F00;
+  --majestios-gold-light:#E8C766;
+  --majestios-gold-link:#8A5F00;
+  --majestios-navy:#2A2926;
+  --majestios-navy-deep:#1F1E1B;
+  --majestios-blue:#3A3935;
+  --majestios-panel:#F6F3EC;
+  --majestios-steel:#6B665D;
+  --majestios-focus:#8A5F00;
+  --majestios-line:#D4CDBE;
+  --majestios-line-soft:#E5DFD2;
+  --majestios-header-bg:linear-gradient(100deg,#2A2926,#1F1E1B);
+  --majestios-card-bg:#F6F3EC;
+  --majestios-card-shadow:0 6px 18px rgba(42,41,38,.10),0 1px 3px rgba(42,41,38,.08);
+  --majestios-button-bg:#2A2926;
+  --majestios-button-ink:#E8C766;
+  --mj-fond-couleur:#FFFFFF;
+  --mj-fond-bordure:#D4CDBE;
+}
+
+/* Surfaces : fond blanc ; les visuels de rubrique restent, en filigrane clair. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell),html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage{background:#FFFFFF!important;color:var(--majestios-ink)}
+body:has(main.interior-page[data-fond]),
+body:has(main.interior-page[data-fond]){
+  --mj-fond-voile:linear-gradient(rgba(255,255,255,.90),rgba(255,255,255,.90));
+  background:#FFFFFF!important;
+}
+body:has(main.interior-page[data-fond])::before{background:var(--mj-fond-voile),var(--mj-fond-image) center/cover no-repeat,#FFFFFF}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page[data-fond]{
+  box-shadow:0 6px 24px rgba(42,41,38,.10)!important;border-color:var(--majestios-line)!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page[data-fond]:before{background:none!important}
+/* Vitre : reflets neutres sur fond clair. */
+html:not(:has(.admin-shell))::after{box-shadow:none!important;background:none!important}
+body:not(.admin-shell)::after{display:none!important}
+
+/* En-tête et pied de page : anthracite et or. */
+html:root:root:root body .site-header,html:root:root:root body .site-footer,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .site-footer{
+  background:linear-gradient(100deg,#2A2926,#1F1E1B)!important;
+  border-color:rgba(232,199,102,.45)!important;box-shadow:0 3px 12px rgba(42,41,38,.25)!important;
+}
+html:root:root:root body .site-footer,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .site-footer{color:#E9E3D3}
+html:root:root:root body .site-footer a{color:#E8C766}
+html:root:root:root body .site-footer .footer-legal,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .site-footer .footer-legal{color:#CFC8B6}
+html:root:root:root body .site-header .site-nav>a,html:root:root:root body .site-nav a{color:#F4EDDA}
+html:root:root:root body .site-header .site-nav>a:hover,html:root:root:root body .site-header .site-nav>a[aria-current="page"],
+html:root:root:root body .site-nav a:hover,html:root:root:root body .site-nav a[aria-current=page]{color:#E8C766}
+html:root:root:root body .site-header .brand{color:#F4EDDA}
+html:root:root:root body .brand-os{color:#E8C766}
+/* Boutons de rubrique : même gabarit anthracite ; la couleur de la rubrique ne subsiste qu'en filet du bas. */
+html:root:root:root body .site-nav-drawer .nav-drawer-home,
+html:root:root:root body .site-nav-drawer .nav-drawer-section>.nav-group-link{
+  background:rgba(255,255,255,.07)!important;color:#F4EDDA!important;
+  border:1px solid rgba(232,199,102,.40)!important;border-bottom-width:3px!important;
+}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(1)>.nav-group-link{border-bottom-color:#54c5c8!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(2)>.nav-group-link{border-bottom-color:#E8C766!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(3)>.nav-group-link{border-bottom-color:#7bd5a4!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(4)>.nav-group-link{border-bottom-color:#c4a1f0!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(5)>.nav-group-link{border-bottom-color:#f0b77e!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{border-bottom-color:#B9B3A4!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-home:hover,html:root:root:root body .site-nav-drawer .nav-drawer-section>.nav-group-link:hover{
+  background:rgba(232,199,102,.18)!important;color:#E8C766!important;
+}
+html:root:root:root body .nav-group-items{background:#2A2926!important;border-color:rgba(232,199,102,.45)!important;box-shadow:0 14px 34px rgba(42,41,38,.35)!important}
+html:root:root:root body .nav-group-items a{color:#F4EDDA!important}
+html:root:root:root body .nav-group-items a:hover,html:root:root:root body .nav-group-items a[aria-current=page]{background:rgba(232,199,102,.16)!important;color:#E8C766!important}
+
+/* Texte, titres, liens sur surfaces claires. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h1,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h2,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h3,
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.platform-card,.vision-card,.interior-callout,.member-preview,.floating-route-card,.related-rubric-card) h2{color:var(--majestios-ink)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h1 span{color:#8A5F00}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(p,li,dd,dt,label,small){color:var(--majestios-muted)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main .eyebrow,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.eyebrow,.hero-eyebrow){color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main a:not(.button):not([class*="button"]):not(.nav-drawer-home){color:#8A5F00}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .interior-breadcrumb,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .interior-breadcrumb [aria-current="page"]{color:var(--majestios-muted)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(a.text-link,.interior-links a,.interior-breadcrumb a){color:#8A5F00}
+
+/* Cartes : crème, filet fin, ombre douce. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.vision-card,.member-preview,.joke-card,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.opportunity-result-card){
+  color:var(--majestios-ink)!important;background:#F6F3EC!important;background-image:none!important;
+  border:1px solid #D4CDBE!important;box-shadow:0 6px 18px rgba(42,41,38,.10)!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.platform-card,.related-rubric-card,.interior-callout,.floating-route-card) :is(p,li,span){color:var(--majestios-muted)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) .vision-doctrine{background:#F6F3EC;color:var(--majestios-ink)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) .blog-note{background:#F6F3EC}
+
+/* Boutons : principal anthracite + or ; secondaire contour anthracite. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.form-submit,.rubric-search-card .advanced-search-form button,.blog-actions a:not(.secondary),.vision-links a:not(.secondary)){
+  color:#E8C766!important;background:#2A2926!important;border:1px solid #2A2926!important;box-shadow:0 3px 10px rgba(42,41,38,.18);
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.form-submit,.rubric-search-card .advanced-search-form button,.blog-actions a:not(.secondary),.vision-links a:not(.secondary)):hover{
+  background:#E8C766!important;color:#2A2926!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-secondary,.feed-interest,.blog-actions a.secondary,.vision-links a.secondary){
+  color:#2A2926!important;border:1px solid #2A2926!important;background:transparent!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-secondary,.feed-interest,.blog-actions a.secondary,.vision-links a.secondary):hover{
+  background:#E8C766!important;border-color:#2A2926!important;
+}
+html:root:root:root body .site-header .button,html:root:root:root body .site-footer .button{color:#F4EDDA!important}
+:focus-visible{outline:2px solid #8A5F00;outline-offset:3px}
+html:root:root:root body .site-header :focus-visible,html:root:root:root body .site-footer :focus-visible{outline-color:#E8C766}
+
+/* Formulaires et champs. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(input:not([type=checkbox]):not([type=radio]),select,textarea){
+  background:#FFFFFF!important;color:#2A2926!important;border:1px solid #B9B1A0!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(input,select,textarea)::placeholder{color:#6B665D!important;opacity:1}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .form-field>span{color:var(--majestios-muted)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .form-field>span>span[aria-hidden="true"]{color:#8A5F00}
+
+/* --- Palette claire : textes d'en-tête de rubrique, pastilles de navigation --- */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>.eyebrow{color:#8A5F00!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>h1{color:#2A2926!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>.interior-lede{color:#55514A!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main h1{text-shadow:none}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).page-reseaux .virtual-space[data-world="reseaux"] .virtual-space-copy h2{color:#2A2926!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-home,
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section>.nav-group-link,
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(n)>.nav-group-link{
+  background:rgba(255,255,255,.07)!important;background-color:rgba(255,255,255,.07)!important;
+  color:#F4EDDA!important;border:1px solid rgba(232,199,102,.40)!important;border-bottom-width:3px!important;
+}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(1)>.nav-group-link{border-bottom-color:#54c5c8!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(2)>.nav-group-link{border-bottom-color:#E8C766!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(3)>.nav-group-link{border-bottom-color:#7bd5a4!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(4)>.nav-group-link{border-bottom-color:#c4a1f0!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(5)>.nav-group-link{border-bottom-color:#f0b77e!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{border-bottom-color:#B9B3A4!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-home:hover,
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section>.nav-group-link:hover{background:rgba(232,199,102,.20)!important;color:#E8C766!important}
+
+/* --- Palette claire : conteneurs encore sombres (relevé automatique sur les pages publiques) --- */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(
+  .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
+  .virtual-space-float,.virtual-space-copy,.access-card,.access-unavailable,
+  details,.prospecting-criteria-options,.category-active-filters,.category-results-empty,
+  .reputation-consultation,.consultation-toolbar,.consultation-content,.consultation-legal,.social-hub,.reputation-visual,
+  .assistant-console,.assistant-message,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
+){
+  background:#F6F3EC!important;background-image:none!important;color:#2A2926!important;
+  border-color:#D4CDBE!important;box-shadow:0 4px 14px rgba(42,41,38,.08)!important;text-shadow:none!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(
+  .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
+  .virtual-space-float,.virtual-space-copy,.access-card,.access-unavailable,
+  .prospecting-criteria-options,.category-active-filters,.category-results-empty,
+  .reputation-consultation,.consultation-toolbar,.consultation-content,.social-hub,.reputation-visual,
+  .assistant-console,.assistant-message,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
+) :is(h1,h2,h3,h4,h5,h6,strong,dt,legend,summary,b){color:#2A2926!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(
+  .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
+  .virtual-space-float,.virtual-space-copy,.access-card,.access-unavailable,
+  .prospecting-criteria-options,.category-active-filters,.category-results-empty,
+  .reputation-consultation,.consultation-toolbar,.consultation-content,.consultation-legal,.social-hub,.reputation-visual,
+  .assistant-console,.assistant-message,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
+) :is(p,li,span,dd,small,td,th,label,.eyebrow){color:#55514A!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(
+  .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
+  .virtual-space-float,.virtual-space-copy,.access-card,.reputation-consultation,.social-hub,
+  .platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
+) a:not([class*="button"]){color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.platform-card,.related-rubric-card,.floating-route-card) .eyebrow{color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.virtual-space-float,.virtual-space-copy) .eyebrow{color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) details>summary{color:#2A2926!important}
+/* Bouton principal compact et boutons dans les panneaux : mêmes couleurs partout. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.button-compact.button-primary,button.button-primary,a.button-primary){color:#E8C766!important;background:#2A2926!important;border-color:#2A2926!important;background-image:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.button-compact.button-primary,button.button-primary,a.button-primary):hover{color:#2A2926!important;background:#E8C766!important}
+
+/* --- Palette claire : bandeau des pages intérieures, accueil, repères d'état --- */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page:before{opacity:.16!important}
+/* Accueil : le panorama reste, sous un voile blanc ; textes anthracite ; cartes crème. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .home-main{
+  background-color:#FFFFFF!important;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.90) 0%,rgba(255,255,255,.86) 50%,rgba(255,255,255,.94) 100%),url("Designer%20(2).png")!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-intro h1,.home-rubrics-heading h2,.home-rubrics-heading p,.home-main h2,.home-main h3){color:#2A2926!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .home-intro h1 span{color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-lede,.home-main p,.home-main li,.home-hint){color:#55514A!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.hero-eyebrow,.home-main .eyebrow){color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar){
+  background:#F6F3EC!important;background-image:none!important;color:#2A2926!important;
+  border:1px solid #D4CDBE!important;box-shadow:0 6px 18px rgba(42,41,38,.10)!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) :is(h1,h2,h3,strong){color:#2A2926!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) :is(p,span,li,label){color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) a:not([class*="button"]){color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .homepage-ticker{background:#2A2926!important;color:#E8C766!important;border-color:rgba(232,199,102,.45)!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .homepage-ticker *{color:#E8C766!important}
+/* Repères d'état et liens secondaires des moteurs de recherche. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.virtual-space-note,.search-status,.advanced-search-status,[class*="search-status"],.feed-status){
+  background:#F6F3EC!important;color:#55514A!important;border:1px solid #D4CDBE!important;text-shadow:none!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) a,
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) summary{color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) :is(.feed-interest,details){background:#F6F3EC!important;color:#2A2926!important;border-color:#D4CDBE!important}
+html:root:root:root body .site-header .site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section>.nav-group-link){color:#F4EDDA!important}
+html:root:root:root body .site-header .site-nav-drawer :is(.nav-drawer-home,.nav-group-link):hover{color:#E8C766!important}
+
+/* Outils internes (administration, espace collaborateurs, CRM) : ils gardent pour l'instant leurs couleurs d'origine. */
+body.admin-shell,body.internal-shell,body.crm-shell{
+  --majestios-ink:#f5f7fb;--majestios-ink-warm:#f4edda;--majestios-muted:#c4ccda;--majestios-soft:#a9b4c6;
+  --majestios-gold:#d5b56c;--majestios-gold-light:#f0d38b;--majestios-gold-link:#e5c56e;
+  --majestios-navy:#071225;--majestios-navy-deep:#06101f;--majestios-blue:#102b50;--majestios-panel:#0b1c34;
+  --majestios-steel:#9aa8b6;--majestios-focus:#f0d38b;--majestios-line:rgba(213,181,108,.48);--majestios-line-soft:rgba(213,181,108,.24);
+}
+html:root:root:root body #site-nav.site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section:nth-of-type(n)>.nav-group-link){color:#F4EDDA!important}
+html:root:root:root body #site-nav.site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section:nth-of-type(n)>.nav-group-link):hover{color:#E8C766!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) button.member-create-link{color:#8A5F00}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) button.member-create-link:focus-visible{outline-color:#8A5F00}
+
+/* Derniers éléments relevés par le contrôle de contraste. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta{background:#F6F3EC!important;border:1px solid #D4CDBE!important;color:#2A2926!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta strong{color:#2A2926!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta span{color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.company-targeting-status,.prospecting-criteria-toggle,.access-state){background:#F6F3EC!important;color:#2A2926!important;border:1px solid #D4CDBE!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .prospecting-criteria-toggle{color:#8A5F00!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .access-state{color:#55514A!important}
