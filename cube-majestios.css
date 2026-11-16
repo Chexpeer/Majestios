@@ -1,12 +1,12 @@
 /* Cube de la page d'accueil MajestiOS — rendu cristal.
    Quatre faces cliquables (rubrique, icône, phrase d'introduction), deux faces de marque,
    et un noyau de verre à l'intérieur pour la profondeur. */
-.home-cube{min-width:0;--s:clamp(210px,52vw,330px);display:grid;justify-items:center;gap:.4rem;padding:1.5rem 1rem 2rem;text-align:center}
+.home-cube{min-width:0;--s:clamp(250px,68vw,470px);display:grid;justify-items:center;gap:.4rem;padding:1.5rem 1rem 2rem;text-align:center}
 .home-cube h2{margin:0}
 .mj-cube-hint{margin:0;opacity:.8;font-size:.95rem}
 
-.mj-cube-stage{position:relative;width:min(100%,calc(var(--s)*1.9));height:calc(var(--s)*1.9);display:grid;place-items:center;
-  perspective:1200px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.mj-cube-stage{position:relative;width:min(100%,calc(var(--s)*1.6));height:calc(var(--s)*1.6);display:grid;place-items:center;
+  perspective:1600px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 .mj-cube-stage.dragging{cursor:grabbing}
 .mj-cube-stage::after{content:"";position:absolute;left:50%;bottom:8%;width:calc(var(--s)*1.15);height:calc(var(--s)*.14);
   transform:translateX(-50%);background:radial-gradient(ellipse,rgba(190,220,255,.4),transparent 70%);filter:blur(7px);pointer-events:none}

@@ -29,7 +29,7 @@
       vx = vy = 0;
     } else if (!drag) {
       if (now > nextPick) pick(now);
-      const k = reduce || now < idleUntil ? 0 : hover ? .2 : 1;
+      const k = reduce || now < idleUntil || hover ? 0 : 1;
       const e = Math.min(1, dt * 1.5);
       vx += (tvx * k - vx) * e;
       vy += (tvy * k - vy) * e;
@@ -45,7 +45,7 @@
   stage.addEventListener('pointerdown', e => {
     if (e.button > 0) return;
     goal = null;
-    drag = { x: e.clientX, y: e.clientY, t: e.timeStamp, dist: 0 };
+    drag = { x: e.clientX, y: e.clientY, t: e.timeStamp, dist: 0, face: e.target.closest ? e.target.closest('a.mj-cube-face') : null };
     stage.classList.add('dragging');
   });
   window.addEventListener('pointermove', e => {
@@ -61,7 +61,14 @@
   });
   function endDrag(e) {
     if (!drag) return;
-    if (drag.dist > 6) { suppress = true; setTimeout(() => (suppress = false), 0); }
+    const face = drag.face, moved = drag.dist > 6;
+    if (moved) { suppress = true; setTimeout(() => (suppress = false), 0); }
+    // Premier clic : la face touchée s'ouvre tout de suite, même si le cube a bougé entre l'appui et le relâchement.
+    if (!moved && face && e.type === 'pointerup') {
+      suppress = true; setTimeout(() => (suppress = false), 0);
+      if (e.ctrlKey || e.metaKey || e.shiftKey) window.open(face.href, '_blank', 'noopener');
+      else location.href = face.href;
+    }
     drag = null;
     idleUntil = e.timeStamp + 3500;
     stage.classList.remove('dragging');
@@ -71,7 +78,7 @@
 
   // Un glissement ne doit pas déclencher l'ouverture d'une rubrique.
   stage.addEventListener('click', e => {
-    if (suppress) { e.preventDefault(); e.stopPropagation(); }
+    if (suppress || (e.detail > 0 && e.target.closest && e.target.closest('a.mj-cube-face'))) { e.preventDefault(); e.stopPropagation(); }
   }, true);
 
   stage.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hover = true; });

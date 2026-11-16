@@ -98,3 +98,10 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Amélioration : agrandissement ×2 par réseau de neurones (FSRCNN) puis mise à l'échelle 1920 px, netteté légère, WebP qualité 84 (93 à 457 Ko par fond).
 - Attribution : marches-publics (atrium), marches-prives (tours), veille-marches (salle de conseil), accompagnement-appels-offres (salon), bodacc-veille-entreprises (bassin), intelligence-economique (allée), salons-seminaires (terrasse), sous-traitance (villa montagne), suivi-commercial (hall bonsaï), developpement-commercial (salon lounge), prospection-crm (hall), facturation-electronique (bassin et bureaux), reputation-virtuelle (villa et bassin), reseau-synergies (villa falaise).
 - Inchangés : accueil, cube, CSS. Seuls les 14 fichiers `visuels/fonds/*.webp` sont remplacés.
+
+## Cube, allègement et contrôle des liens (2026-11-16)
+
+- Cube de l'accueil (demande explicite du propriétaire) : taille portée de 330 à 470 px au maximum (250 px minimum sur mobile) ; le cube s'arrête dès que le pointeur le survole ou le touche ; la face touchée s'ouvre dès le premier clic ou toucher, même si le cube avait bougé entre l'appui et le relâchement (cause du clic manqué). Le glissement ne déclenche toujours pas d'ouverture. Clic avec Ctrl, Cmd ou Maj : nouvel onglet. Contenu de l'accueil inchangé.
+- Allègement : fonds d'écran recompressés (WebP qualité 76, 2,5 Mo au total au lieu de 3,4 Mo, un seul fond chargé par page) ; en-têtes de cache d'un jour pour les images (vercel.json). Les scripts sont déjà en `defer`.
+- Liens : exploration de 43 pages (89 cibles locales distinctes, aucune erreur 404, aucune erreur JavaScript). Une anomalie corrigée : le lien du menu « Créer mon espace personnel » (`espace-membre.html#creation`) ne faisait rien ; il ouvre maintenant le formulaire de création.
+- À savoir : l'authentification charge Supabase depuis esm.sh (service externe) ; à internaliser avant la production si on veut supprimer cette dépendance.

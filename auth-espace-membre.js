@@ -54,6 +54,8 @@ if (form && config?.url && config?.publishableKey) {
     setCreateMode(true);
     if (dialog && !dialog.open) { if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", ""); }
   }));
+  // Lien « Créer mon espace personnel » du menu (espace-membre.html#creation) : ouvre directement le formulaire de création.
+  if (window.location.hash === "#creation") document.querySelector("[data-open-create]")?.click();
   const provisionWorkspace = async (session) => {
     const response = await fetch(`${config.url}/functions/v1/provision-client-workspace`, {
       method: "POST",
