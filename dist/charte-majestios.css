@@ -663,3 +663,11 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .tender-feed-section,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .feed-wrap,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .feed-demo{width:100%!important;max-width:100%!important;min-width:0!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search form{display:flex!important;flex-wrap:wrap!important;gap:6px!important;width:100%!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search form :is(.feed-search,input[type="search"],input[type="text"]){flex:1 1 100%!important;min-width:0!important;width:100%!important}
+@media (max-width:899px){
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main {display:flex!important;flex-direction:column!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{order:1}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search{order:2;max-width:100%!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube{order:3;--s:clamp(200px,min(62vw,34vh),330px)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-personal-access{order:4}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .hero-eyebrow{display:none!important}
+}

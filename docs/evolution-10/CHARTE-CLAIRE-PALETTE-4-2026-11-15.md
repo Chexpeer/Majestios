@@ -134,3 +134,9 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Accueil : titre réduit à 21 px au maximum ; sur ordinateur (900 px et plus) la recherche, compacte, est à gauche du cube ; sur mobile l'ordre est introduction, cube, recherche.
 - Limite connue : sans carte, le contrôle automatique de contraste signale presque toutes les pages (texte posé directement sur une photo). La lisibilité repose sur le contour du texte ; un voile très léger reste possible si le propriétaire le souhaite.
 - Retour en arrière : supprimer les blocs « Cartes totalement transparentes » et « Accueil (demandes propriétaire 2026-11-16) » de `charte-majestios.css`, et remettre la section recherche avant l'introduction dans `index.html`.
+
+## Accueil épuré et recherche visible sur mobile (2026-11-16, 10 h 50)
+
+- Retrait, à la demande du propriétaire, du sur-titre « L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS » et de la phrase « Réseau, opportunités commerciales… » (jugés inutiles). Seul le titre « Développez votre activité. Ouvrez de nouvelles perspectives. » reste. Les contrôles `verify-site.js` et `verify-architecture.js` vérifient désormais le titre et l'absence de ces deux textes.
+- Mobile (moins de 900 px) : ordre titre, recherche, cube, accès personnel ; la recherche est visible dès l'ouverture, juste au-dessus du cube (taille du cube réduite à 330 px au plus pour tenir à l'écran).
+- Ordinateur : recherche à gauche du cube, inchangée.

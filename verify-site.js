@@ -261,7 +261,7 @@ const tenderAccompaniment = fs.readFileSync(path.join(root, "accompagnement-appe
 assert(!(tenderAccompaniment.match(/<main[\s\S]*<\/main>/) || [""])[0].includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : ne doit pas renvoyer vers la thématique facturation");
 assert(["facturation-diagnostic.mjs", "facturation-diagnostic.js", "facturation-diagnostic.css"].every((file) => siteFiles.includes(file)), "Facturation électronique : fichiers du diagnostic absents du manifeste");
 assert(invoicingPage.includes('id="diagnostic-form"') && invoicingPage.includes('src="facturation-diagnostic.js"') && invoicingPage.includes("Rien n’est enregistré ni envoyé"), "Facturation électronique : diagnostic d'orientation absent ou promesse de stockage");
-assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && home.includes("Réseau, opportunités commerciales, conformité et visibilité : retrouvez vos leviers de développement dans un même environnement."), "Accueil : introduction éditoriale absente");
+assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && !home.includes("L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS") && !home.includes("home-lede"), "Accueil : introduction éditoriale absente");
 assert(!home.includes("home-pillars") && !home.includes("home-pillar"), "Accueil : les quatre cartes de présentation doivent être supprimées");
 assert(home.includes('<section class="home-cube"') && home.includes('<section class="home-personal-access"'), "Accueil : cube 3D ou accès personnel absent");
 
