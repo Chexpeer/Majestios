@@ -105,3 +105,10 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Allègement : fonds d'écran recompressés (WebP qualité 76, 2,5 Mo au total au lieu de 3,4 Mo, un seul fond chargé par page) ; en-têtes de cache d'un jour pour les images (vercel.json). Les scripts sont déjà en `defer`.
 - Liens : exploration de 43 pages (89 cibles locales distinctes, aucune erreur 404, aucune erreur JavaScript). Une anomalie corrigée : le lien du menu « Créer mon espace personnel » (`espace-membre.html#creation`) ne faisait rien ; il ouvre maintenant le formulaire de création.
 - À savoir : l'authentification charge Supabase depuis esm.sh (service externe) ; à internaliser avant la production si on veut supprimer cette dépendance.
+
+## Cartes plus transparentes (2026-11-16, 10 h)
+
+- Demande du propriétaire : toutes les cartes des rubriques transparentes pour une vue maximale sur les fonds d'écran.
+- Cartes en verre fumé : opacité du noir ramenée de 70 % à 30 % (cartes imbriquées 22 %), flou réduit à 3 px. Pour garder les textes lisibles sur les images claires, le fond derrière chaque carte est assombri (filtre `brightness(.5)`) : l'image reste bien visible à travers, un peu plus sombre.
+- Cartes restantes (rubriques liées de Salons, cartes de Facturation, appel final) et titres en pastille : même traitement. Petites cartes illustratives et panneaux crème de la Réputation : crème translucide (58 à 62 %), texte sombre conservé. Les boutons d'action de la Prospection restent presque opaques (93 %) pour la lisibilité.
+- Accueil et cube : non modifiés par cette étape. Retour en arrière : supprimer les blocs « Cartes en verre fumé » et « Cartes restantes » de `charte-majestios.css`.
