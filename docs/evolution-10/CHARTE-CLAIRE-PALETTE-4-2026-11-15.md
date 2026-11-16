@@ -140,3 +140,10 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Retrait, à la demande du propriétaire, du sur-titre « L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS » et de la phrase « Réseau, opportunités commerciales… » (jugés inutiles). Seul le titre « Développez votre activité. Ouvrez de nouvelles perspectives. » reste. Les contrôles `verify-site.js` et `verify-architecture.js` vérifient désormais le titre et l'absence de ces deux textes.
 - Mobile (moins de 900 px) : ordre titre, recherche, cube, accès personnel ; la recherche est visible dès l'ouverture, juste au-dessus du cube (taille du cube réduite à 330 px au plus pour tenir à l'écran).
 - Ordinateur : recherche à gauche du cube, inchangée.
+
+## Moins de répétitions dans les pages internes (2026-11-16, 11 h 40)
+
+- Constat du propriétaire : titres et phrases répétés (exemple sur Prospection : phrase d'introduction, sur-titre « MOTEUR DE RECHERCHE · PROSPECTION », titre « Trouvez les entreprises… », phrase « Définissez votre cible… », puis « Entrez dans votre espace Prospection » et encore « Trouver les entreprises… »), ce qui éloigne le moteur de recherche du haut de page.
+- Réglage (CSS seul, le texte reste dans le code des pages pour le référencement et la lecture d'écran) : sur les 14 rubriques, masquage du sur-titre « EXPLORER MAJESTIOS · RUBRIQUE » ; masquage de la carte récapitulative « Votre parcours » qui répète le titre ; sur les pages qui ont un moteur de recherche, masquage du bloc d'ambiance « Entrez dans votre espace… » ; sur Prospection, l'en-tête du moteur (sur-titre, titre, phrase) devient invisible mais reste lu par les lecteurs d'écran. Résultat : le moteur de recherche apparaît juste sous le titre de la page.
+- Les pages sans moteur (Réseau, Salons, Suivi commercial, etc.) gardent leur bloc d'espace immersif.
+- Retour en arrière : supprimer le bloc « Moins de répétitions dans les pages internes » et la dernière règle `.floating-route-card` de `charte-majestios.css`.
