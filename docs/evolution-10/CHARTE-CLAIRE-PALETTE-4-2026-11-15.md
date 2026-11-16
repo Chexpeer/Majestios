@@ -172,3 +172,14 @@ Décision propriétaire documentée dans la spécification des annonces (§7). A
 
 ## Page « Appels d'offres privés » : message signature (2026-11-16)
 Le nom « Appels d'offres privés » est **conservé** (aucun renommage). Message ajouté sous le titre, voulu par le propriétaire : « Chez MajestiOS, les appels d'offres privés n'ont de privés que le nom. » (les annonces y sont visibles de tous). Distinction de vocabulaire à respecter : appel d'offres **public** = procédure formelle d'un acheteur public (code de la commande publique, publicité officielle) ; appel d'offres **privé** MajestiOS = annonces publiées par les membres, visibles publiquement après relecture. Retour arrière : supprimer la ligne `.mj-signature` de `marches-prives.html` et le bloc CSS associé.
+
+## Parcours client : un seul espace personnel pour quatre portes d'entrée (décision propriétaire, 2026-11-16)
+Chaque rubrique est une porte d'entrée qui mène à la **création d'un espace personnel**, puis à une action :
+1. Appels d'offres publics → espace personnel → accompagnement aux appels d'offres ;
+2. Appels d'offres privés (annonces ; nom conservé, message « n'ont de privés que le nom ») → espace personnel → publication d'annonces ;
+3. Réputation virtuelle → espace personnel → audit ;
+4. Prospection → espace personnel → achat de fichiers de missions de prospection.
+
+**Règle :** l'espace personnel est **unique**. Quelle que soit la porte d'entrée, son titulaire doit pouvoir bénéficier des trois autres services (par exemple, qui a créé son espace pour publier une annonce peut demander un audit de réputation, se faire accompagner sur un appel d'offres ou acheter des fichiers de prospection).
+
+**État au 2026-11-16 (Test) :** publication d'annonces → exige déjà un espace personnel (fait) ; audit de réputation → testé, via compte, 5 audits/jour/utilisateur ; accompagnement aux appels d'offres → page présente, accès par l'espace non branché ; achat de fichiers → **n'existe pas** (ni paiement, ni catalogue ; validation juridique à la charge du propriétaire). Aucune modification du site faite pour cette décision : à planifier rubrique par rubrique sur décision du propriétaire.
