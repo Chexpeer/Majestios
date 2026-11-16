@@ -119,6 +119,25 @@ export function createClient(){
     await ok.goto(origin + "/espace-membre.html");
     await ok.waitForFunction(() => /connecté à votre espace/.test(document.querySelector("#member-auth-status")?.textContent || ""));
     assert.equal(await ok.isVisible("#member-activation-alert"), false);
+    // 5. Retour vers le service d'origine : connexion avec ?retour=annonces ramène au formulaire de dépôt ; une clé inconnue est ignorée.
+    const back = await open([{ organization_id: "o1" }]);
+    await back.goto(origin + "/espace-membre.html?retour=annonces");
+    await back.click("#open-personal-space");
+    await back.fill("#personal-space-form input[name=email]", "ancien@exemple.fr");
+    await back.click("#personal-space-form button[type=submit]");
+    await back.fill("#personal-space-form input[name=otp]", "123456");
+    await back.click("#personal-space-form button[type=submit]");
+    await back.waitForURL(/\/sous-traitance\.html#deposer$/, { timeout: 8000 });
+    const nobody = await open([{ organization_id: "o1" }]);
+    await nobody.goto(origin + "/espace-membre.html?retour=https://exemple.fr");
+    await nobody.click("#open-personal-space");
+    await nobody.fill("#personal-space-form input[name=email]", "ancien@exemple.fr");
+    await nobody.click("#personal-space-form button[type=submit]");
+    await nobody.fill("#personal-space-form input[name=otp]", "123456");
+    await nobody.click("#personal-space-form button[type=submit]");
+    await nobody.waitForFunction(() => /Connexion réussie/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    await nobody.waitForTimeout(1600);
+    assert.match(nobody.url(), /\/espace-membre\.html/, "Une destination inconnue ne doit jamais provoquer de redirection.");
     assert.deepEqual(page.errors, []);
     console.log("TEST CRÉATION D'ESPACE PAR CODE RÉUSSI : connexion sans création, consentement exigé, mot de passe sécurisé obligatoire avant l'espace, alerte d'activation avec date limite.");
   } finally { await browser.close(); server.close(); }

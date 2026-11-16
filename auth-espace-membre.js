@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
+import { retourDepuisRecherche, destinationRetour } from "./retour-service.mjs";
 import { validatePassword, formatDeadline } from "./mot-de-passe-majestios.mjs";
 
 const config = MAJESTIOS_SUPABASE;
@@ -18,6 +19,18 @@ if (form && config?.url && config?.publishableKey) {
   const supabase = createClient(config.url, config.publishableKey, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
+
+  // Retour vers le service d'origine (ex. dépôt d'annonce) une fois l'espace actif ; la clé survit au lien reçu par e-mail dans le même navigateur.
+  try { const k = retourDepuisRecherche(window.location.search); if (k) sessionStorage.setItem("mj-retour", k); } catch (_) { /* sans importance */ }
+  const retourEnAttente = () => { try { return destinationRetour(sessionStorage.getItem("mj-retour")); } catch (_) { return null; } };
+  const retourner = () => {
+    const cible = retourEnAttente();
+    if (!cible) return false;
+    try { sessionStorage.removeItem("mj-retour"); } catch (_) { /* sans importance */ }
+    setFeedback("Votre espace est prêt. Retour vers votre service…");
+    setTimeout(() => { window.location.href = cible; }, 1200);
+    return true;
+  };
 
   let awaitingOtp = false;
   let createMode = false;
@@ -112,6 +125,7 @@ if (form && config?.url && config?.publishableKey) {
     form.querySelectorAll("[data-before-otp]").forEach((el) => { el.hidden = false; });
     await updateAuthStatus(session);
     setFeedback("Votre espace est activé. Bienvenue dans votre espace MajestiOS.");
+    retourner();
   };
   if (alertAction) alertAction.addEventListener("click", showPasswordStep);
 
@@ -242,6 +256,7 @@ if (form && config?.url && config?.publishableKey) {
       setFeedback("Votre compte est vérifié, mais aucun espace MajestiOS ne lui est associé. Contactez l’équipe pour finaliser votre accès.", true);
     } else {
       setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
+      retourner();
     }
     if (submitButton) submitButton.disabled = false;
   };

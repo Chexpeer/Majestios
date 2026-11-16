@@ -124,6 +124,7 @@
     "accepter-invitation.html",
     "accepter-invitation.js",
     "annonces-formulaire.mjs",
+    "retour-service.mjs",
     "annonces-formulaire.js",
     "annonces-formulaire.css",
     "annonces-liste.mjs",

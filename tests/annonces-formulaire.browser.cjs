@@ -21,7 +21,7 @@ const STUB = `export function createClient() { return { auth: { getSession: asyn
     await anon.locator("#annonce-gate").waitFor({ state: "visible", timeout: 10000 });
     assert.equal(await anon.locator("#annonce-form").isVisible(), false, "Sans espace personnel, le formulaire ne doit pas être proposé.");
     assert.match(await anon.locator("#annonce-gate").textContent(), /espace personnel/i);
-    assert.equal(await anon.locator('#annonce-gate a[href="espace-membre.html#creation"]').count(), 1, "Le message doit mener à la création de l’espace personnel.");
+    assert.equal(await anon.locator('#annonce-gate a[href="espace-membre.html?retour=annonces#creation"]').count(), 1, "Le message doit mener à la création de l’espace personnel.");
     await anon.close();
     const page = await browser.newPage();
     await page.addInitScript(() => { globalThis.__session = { access_token: "jeton-test", user: { email: "luc@example.fr" } }; });
