@@ -163,3 +163,6 @@ Luminosité des fonds uniformisée (zone de texte ramenée vers ~0,44 par une co
 
 ## Espaces personnels et pages associées (2026-11-16)
 Fond aléatoire et texte d'en-tête blanc/doré étendus à : espace-membre, contact, nous-rejoindre, 7 pages categorie-*. Formulaires et panneau de connexion gardent leur fond crème (lisibilité). Inchangées : pages d'administration (fond sombre), CRM, assistant, pages légales, FAQ, résultats de recherche. Retour arrière : retirer `data-fond` et le script `fond-aleatoire.js` de ces pages et supprimer le bloc « Espaces personnels… » de `charte-majestios.css`.
+
+## Page d'invitation : session d'un autre compte (2026-11-16)
+Constat : un lien d'invitation ouvert dans un navigateur déjà connecté avec une autre adresse affichait « Aucune invitation valide… » (l'acceptation se fait pour le compte connecté). `accepter-invitation.js` explique maintenant la situation (adresse connectée) et propose « Me déconnecter et utiliser l'adresse invitée ». Aucune modification de la base.
