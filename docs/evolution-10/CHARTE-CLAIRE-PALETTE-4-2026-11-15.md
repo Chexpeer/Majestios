@@ -154,3 +154,6 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Police : le script indique si l'image tirée est claire (Réseau, Veille des marchés) ; la page passe alors au texte sombre à contour blanc (`html[data-ton="clair"]`), sinon texte blanc à contour sombre. Si une image est remplacée ou ajoutée, mettre à jour la liste `fonds` et la liste `clairs` du script.
 - Sans JavaScript, la page garde l'image fixe prévue dans `fonds-harmonises.css`. L'accueil n'est pas concerné.
 - Retour en arrière : retirer la balise `<script src="fond-aleatoire.js">` des 14 pages (et le fichier du manifeste `site-files.json`).
+
+## Nouveaux fonds ajoutés (2026-11-16)
+Quatre images du propriétaire (back13, 14, 15, 16) ajoutées au tirage aléatoire : ville-crepuscule, falaise-phare, montagnes-aurore, salle-conseil-panorama (1920 px, WebP). Non retenues : back17 (texte « RIVERSIDE TOWER » incrusté), back18 et back19 (doublons basse résolution de back16/back17). Retour arrière : retirer ces 4 noms de `fond-aleatoire.js` et de `site-files.json`.
