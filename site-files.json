@@ -132,6 +132,7 @@
     "cube-majestios.js",
     "robots.txt",
     "sitemap.xml",
-    "assets/visuels/rubrique-prospection.svg"
+    "assets/visuels/rubrique-prospection.svg",
+    "fond-aleatoire.js"
   ]
 }

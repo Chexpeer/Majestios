@@ -147,3 +147,10 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Réglage (CSS seul, le texte reste dans le code des pages pour le référencement et la lecture d'écran) : sur les 14 rubriques, masquage du sur-titre « EXPLORER MAJESTIOS · RUBRIQUE » ; masquage des cartes récapitulatives « Votre parcours » qui répètent le titre (seulement celles sans identifiant ni formulaire : les cartes d’annonces et de dépôt restent affichées) ; sur les pages qui ont un moteur de recherche, masquage du bloc d'ambiance « Entrez dans votre espace… » ; sur Prospection, l'en-tête du moteur (sur-titre, titre, phrase) devient invisible mais reste lu par les lecteurs d'écran. Résultat : le moteur de recherche apparaît juste sous le titre de la page.
 - Les pages sans moteur (Réseau, Salons, Suivi commercial, etc.) gardent leur bloc d'espace immersif.
 - Retour en arrière : supprimer le bloc « Moins de répétitions dans les pages internes » et la dernière règle `.floating-route-card` de `charte-majestios.css`.
+
+## Fond d'écran aléatoire des rubriques (2026-11-16, 12 h 30)
+
+- Demande du propriétaire (option « un fond différent à chaque ouverture de page »). Nouveau fichier `fond-aleatoire.js`, chargé dans le `<head>` des 14 rubriques : il tire au hasard l'un des 14 fonds de `visuels/fonds/` (jamais deux fois de suite dans la même session de navigation) et remplace l'image par défaut avant l'affichage ; l'image par défaut n'est pas téléchargée (une seule image chargée par page, vérifié).
+- Police : le script indique si l'image tirée est claire (Réseau, Veille des marchés) ; la page passe alors au texte sombre à contour blanc (`html[data-ton="clair"]`), sinon texte blanc à contour sombre. Si une image est remplacée ou ajoutée, mettre à jour la liste `fonds` et la liste `clairs` du script.
+- Sans JavaScript, la page garde l'image fixe prévue dans `fonds-harmonises.css`. L'accueil n'est pas concerné.
+- Retour en arrière : retirer la balise `<script src="fond-aleatoire.js">` des 14 pages (et le fichier du manifeste `site-files.json`).
