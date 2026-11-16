@@ -91,3 +91,10 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Les images sont enregistrées sous les noms de rubrique existants (`visuels/fonds/<rubrique>.webp`) : les anciennes illustrations sont donc remplacées.
 - Supprimés : `fond-crm.webp`, `fond-reseaux.webp`, `fond-ereputation.webp`, `fond-facturation.webp`, les anciens bandeaux d'image des pages Réputation et Facturation (HTML et CSS), les règles d'image CRM/Réseaux, et les 11 fichiers `back*.webp` de la racine (copiés sous leurs noms de rubrique). Seul `fond-panorama.webp` reste (accueil).
 - La page Développement commercial reçoit une rubrique de fond (`data-fond`) et son visuel ; l'ancienne figure illustrée est masquée.
+
+## Fonds d'écran haute qualité (2026-11-16, suite)
+
+- Sélection : seules les images d'architecture/jardins/intérieurs de bureaux fournies par le propriétaire ont été retenues (photos médicales, mains et scènes d'interface avec texte intégré écartées). Les images composites ont été découpées en scènes uniques.
+- Amélioration : agrandissement ×2 par réseau de neurones (FSRCNN) puis mise à l'échelle 1920 px, netteté légère, WebP qualité 84 (93 à 457 Ko par fond).
+- Attribution : marches-publics (atrium), marches-prives (tours), veille-marches (salle de conseil), accompagnement-appels-offres (salon), bodacc-veille-entreprises (bassin), intelligence-economique (allée), salons-seminaires (terrasse), sous-traitance (villa montagne), suivi-commercial (hall bonsaï), developpement-commercial (salon lounge), prospection-crm (hall), facturation-electronique (bassin et bureaux), reputation-virtuelle (villa et bassin), reseau-synergies (villa falaise).
+- Inchangés : accueil, cube, CSS. Seuls les 14 fichiers `visuels/fonds/*.webp` sont remplacés.
