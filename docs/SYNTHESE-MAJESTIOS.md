@@ -7,6 +7,21 @@ Cette page remplace la lecture préalable des dossiers Evolution-5.0 à 8, conse
 
 Relier **développement commercial, gestion quotidienne, facturation électronique et accompagnement intelligent** dans un environnement tout-en-un, modulaire et ouvert, pour les artisans, TPE et PME. Parcours : Détecter → Comprendre → Qualifier → Décider → Agir → Gérer → Facturer → Capitaliser. Ambition produit, pas état livré. MajestiOS n'est pas une plateforme agréée (PA).
 
+## 1 bis. Ambition et parcours client (décidé par le porteur, 16 novembre 2026)
+
+**Ambition :** MajestiOS veut être la version **encore plus professionnelle et beaucoup plus efficace que LinkedIn** pour le développement commercial des entreprises, surtout du bâtiment et des services associés. Cette ambition guide les choix de produit ; elle ne figure pas telle quelle dans les textes publics (aucune comparaison de marque sur le site).
+
+**Parcours en entonnoir :**
+1. **Portes d'entrée publiques et gratuites** : appels d'offres publics, appels d'offres privés (annonces), réputation virtuelle, prospection. Les annonces gratuites sont le premier appât, juste avant les appels d'offres.
+2. **Un espace personnel unique** (création gratuite) : passage obligé avant toute action ; ses titulaires accèdent aux quatre services quelle que soit leur porte d'entrée.
+3. **Quatre services** : publier des annonces (gratuit, relues avant publication) ; audit de réputation virtuelle ; accompagnement aux appels d'offres ; achat de fichiers de missions de prospection (à construire : paiement, catalogue, validation juridique).
+4. **Outils de l'équipe** : poste de pilotage, CRM interne, relecture des annonces, Cheexpeer (IA).
+5. **Suite prévue** : CRM client et facturation électronique.
+
+**Vocabulaire (à respecter dans tous les textes) :** un appel d'offres **public** est une procédure formelle d'un acheteur public (code de la commande publique, publicité officielle). La page « Appels d'offres privés » est **conservée** sous ce nom et affiche : « Chez MajestiOS, les appels d'offres privés n'ont de privés que le nom. » Détail et état d'avancement : [journal Evolution-10](evolution-10/CHARTE-CLAIRE-PALETTE-4-2026-11-15.md).
+
+**Avant ouverture au public :** achat de fichiers, service d'envoi d'e-mails fiable (quota), textes juridiques (annonces d'emploi, données personnelles), recette complète du CRM sur Test, décision explicite de promotion vers la production. Aucun de ces points n'est réglé au 16/11/2026.
+
 ## 2. Où en est le produit (vérifié)
 
 | Domaine | État réel |
