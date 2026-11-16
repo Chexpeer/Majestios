@@ -119,3 +119,10 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Lisibilité : les textes restent blancs (liens et sur-titres en doré) avec un contour sombre. Compromis connu : sur les fonds très clairs (Réseau, Veille des marchés, Sous-traitance, Réputation), les petits textes sont moins confortables ; le contrôle automatique de contraste signale désormais ces pages. Si la lisibilité pose problème, la solution la moins intrusive est un voile très léger (10 à 15 %) derrière les cartes, à décider par le propriétaire.
 - Restent opaques par nécessité : champs de saisie, boutons d'action (Rechercher, critères de la Prospection).
 - Retour en arrière : supprimer le bloc « Cartes totalement transparentes » de `charte-majestios.css`.
+
+## Accueil : titre réduit et cube visible dès l'ouverture (2026-11-16, 10 h 30)
+
+- Demande explicite du propriétaire (elle lève, pour cette étape seulement, la consigne de ne pas toucher à l'accueil et au cube).
+- Titre « Développez votre activité. Ouvrez de nouvelles perspectives. » réduit (34 px au maximum au lieu de 66 px), carte d'introduction compactée ; texte blanc et mot d'accroche en doré clair avec contour sombre pour rester lisible sur le fond d'écran.
+- Ordre de la page : introduction, cube, puis recherche (la section de recherche est placée sous le cube), puis accès à l'espace personnel. Le cube est entièrement visible dès l'ouverture sur un écran de 1366 × 768 et sur mobile ; sa taille s'adapte à la hauteur de l'écran (jusqu'à 440 px). Le titre « Explorez les quatre rubriques » reste présent pour les lecteurs d'écran (masqué visuellement) ; la phrase d'aide reste affichée.
+- Retour en arrière : supprimer le dernier bloc « Accueil (demande propriétaire 2026-11-16) » de `charte-majestios.css` et remettre la section recherche avant l'introduction dans `index.html`.

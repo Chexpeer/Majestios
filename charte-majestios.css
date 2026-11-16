@@ -631,3 +631,14 @@ html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .
 html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>h2{margin-bottom:8px!important}
 html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{margin-top:18px!important}
 html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{padding:22px 28px!important}
+
+/* --- Accueil (demande propriétaire 2026-11-16) : titre plus petit, cube visible dès l'ouverture, recherche placée sous le cube. Retour : supprimer ce bloc et remettre la section recherche avant l'introduction dans index.html. --- */
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{margin:6px auto 4px!important;padding:12px 22px 14px!important;max-width:min(980px,100%)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro .hero-eyebrow{margin:0 0 4px!important;font-size:10px!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro h1{font-size:clamp(20px,2.6vw,34px)!important;line-height:1.12!important;letter-spacing:-.02em!important;margin:0!important;color:#FFFFFF!important;text-shadow:0 0 2px #000,0 1px 4px #000,0 0 14px rgba(0,0,0,.85)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro h1 span{color:#FFD97A!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro .home-lede{font-size:clamp(12px,1.1vw,15px)!important;line-height:1.4!important;margin:6px auto 0!important;max-width:760px!important;color:#FFFFFF!important;text-shadow:0 0 2px #000,0 1px 3px #000,0 0 10px rgba(0,0,0,.8)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube{padding:2px 1rem 1rem!important;gap:.3rem!important;--s:clamp(220px,min(68vw,40vh),440px)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>h2{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;padding:0!important;margin:-1px!important;border:0!important;white-space:nowrap!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>.mj-cube-hint{font-size:12px!important;padding:4px 14px!important;margin:0!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .mj-cube-stage{height:calc(var(--s)*1.05)!important;margin-top:calc(var(--s)*.12)!important;width:min(100%,calc(var(--s)*1.7))!important}
