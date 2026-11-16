@@ -21,16 +21,17 @@ test("l'interrupteur d'ouverture est explicite et la cible est le projet de test
 test("une annonce valide produit les paramètres attendus par le serveur", () => {
   const r = validateAnnouncement(valid, { today });
   assert.equal(r.ok, true);
-  assert.equal(r.payload.p_email, "jean@example.fr");
+  assert.equal(r.payload.p_email, "", "l’e-mail de contact vient du compte, pas de la saisie");
   assert.equal(r.payload.p_department, "35");
   assert.equal(r.payload.p_consent, true);
   assert.equal(r.payload.p_phone, null);
-  assert.equal(KINDS.length, 2);
+  assert.equal(KINDS.length, 8);
+  for (const k of ["job_offer", "job_seeker", "equipment_offer", "equipment_wanted", "other_offer", "other_request"]) assert.ok(KINDS.some(([v]) => v === k), k);
 });
 
 test("les champs obligatoires et le consentement sont exigés", () => {
   const r = validateAnnouncement({}, { today });
-  for (const field of ["kind", "title", "description", "trade", "contact_name", "email", "consent"]) assert.ok(r.errors[field], field);
+  for (const field of ["kind", "title", "description", "trade", "contact_name", "consent"]) assert.ok(r.errors[field], field);
   assert.equal(validateAnnouncement({ ...valid, consent: "" }, { today }).errors.consent !== undefined, true);
 });
 
@@ -47,7 +48,6 @@ test("département, date et tailles sont contrôlés", () => {
   assert.ok(validateAnnouncement({ ...valid, valid_until: "2028-01-01" }, { today }).errors.valid_until);
   assert.equal(validateAnnouncement({ ...valid, valid_until: "2026-12-31" }, { today }).ok, true);
   assert.ok(validateAnnouncement({ ...valid, title: "court" }, { today }).errors.title);
-  assert.ok(validateAnnouncement({ ...valid, email: "pas-un-email" }, { today }).errors.email);
 });
 
 test("le champ piège est transmis au serveur qui l'ignore, et les erreurs serveur sont traduites", () => {

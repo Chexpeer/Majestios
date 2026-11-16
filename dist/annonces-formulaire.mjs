@@ -2,8 +2,14 @@
 // Le serveur reste l'autorité : ces règles ne protègent rien à elles seules.
 
 export const KINDS = Object.freeze([
-  ["subcontract_need", "Je cherche un sous-traitant"],
-  ["subcontract_offer", "Je propose mes services en sous-traitance"]
+  ["subcontract_need", "Sous-traitance : je cherche un sous-traitant"],
+  ["subcontract_offer", "Sous-traitance : je propose mes services"],
+  ["job_offer", "Emploi : je propose un poste"],
+  ["job_seeker", "Emploi : je cherche un poste"],
+  ["equipment_offer", "Matériel : je loue du matériel (ex. BTP)"],
+  ["equipment_wanted", "Matériel : je cherche du matériel à louer"],
+  ["other_offer", "Autre : je propose"],
+  ["other_request", "Autre : je recherche"]
 ]);
 
 const DEPARTMENT = /^(0[1-9]|[1-8][0-9]|9[0-5]|2[AB]|97[1-6])$/;
@@ -24,11 +30,10 @@ export function validateAnnouncement(input = {}, { today = new Date() } = {}) {
   if (!KINDS.some(([value]) => value === f.kind)) errors.kind = "Choisissez le type d’annonce.";
   if (f.title.length < 8 || f.title.length > 120) errors.title = "Le titre doit faire entre 8 et 120 caractères.";
   if (f.description.length < 30 || f.description.length > 2000) errors.description = "La description doit faire entre 30 et 2000 caractères.";
-  if (f.trade.length < 2 || f.trade.length > 80) errors.trade = "Indiquez le métier ou la compétence (2 à 80 caractères).";
+  if (f.trade.length < 2 || f.trade.length > 80) errors.trade = "Indiquez le domaine, le métier ou le matériel (2 à 80 caractères).";
   if (f.department && !DEPARTMENT.test(f.department)) errors.department = "Département inconnu (exemples : 35, 2A, 971).";
   if (f.area_note.length > 200) errors.area_note = "La précision de zone est limitée à 200 caractères.";
   if (f.contact_name.length < 2 || f.contact_name.length > 120) errors.contact_name = "Indiquez votre nom (2 à 120 caractères).";
-  if (!EMAIL.test(f.email) || f.email.length > 254) errors.email = "Adresse e-mail invalide.";
   if (f.phone.length > 30) errors.phone = "Numéro trop long.";
   if (f.valid_until) {
     const date = Date.parse(f.valid_until + "T00:00:00Z");
@@ -44,13 +49,14 @@ export function validateAnnouncement(input = {}, { today = new Date() } = {}) {
     errors,
     payload: {
       p_kind: f.kind, p_title: f.title, p_description: f.description, p_trade: f.trade, p_department: f.department || null,
-      p_area_note: f.area_note || null, p_valid_until: f.valid_until || null, p_contact_name: f.contact_name, p_email: f.email,
+      p_area_note: f.area_note || null, p_valid_until: f.valid_until || null, p_contact_name: f.contact_name, p_email: "",
       p_phone: f.phone || null, p_consent: f.consent, p_website: f.website || null
     }
   };
 }
 
 export const SERVER_MESSAGES = Object.freeze({
+  account_required: "Pour déposer une annonce, créez votre espace personnel ou connectez-vous.",
   rate_limited: "Trop de dépôts récents depuis cette connexion. Réessayez demain.",
   queue_full: "La file de relecture est momentanément pleine. Réessayez plus tard.",
   contact_in_text: "Retirez les liens et coordonnées du texte de l’annonce.",

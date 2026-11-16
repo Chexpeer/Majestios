@@ -166,3 +166,6 @@ Fond aléatoire et texte d'en-tête blanc/doré étendus à : espace-membre, con
 
 ## Page d'invitation : session d'un autre compte (2026-11-16)
 Constat : un lien d'invitation ouvert dans un navigateur déjà connecté avec une autre adresse affichait « Aucune invitation valide… » (l'acceptation se fait pour le compte connecté). `accepter-invitation.js` explique maintenant la situation (adresse connectée) et propose « Me déconnecter et utiliser l'adresse invitée ». Aucune modification de la base.
+
+## Annonces gratuites : espace personnel obligatoire, types élargis (2026-11-16)
+Décision propriétaire documentée dans la spécification des annonces (§7). Appliqué sur MajestiOS-Test (migration `announcements_require_account_and_kinds`) : dépôt refusé aux visiteurs (droit retiré à `anon`, vérifié), accepté pour un compte confirmé rattaché à une organisation (essai annulé, 0 annonce restante) ; 8 types d'annonces. Site : formulaire masqué sans session avec invitation à créer son espace ; e-mail de contact pris sur le compte ; libellés mis à jour (liste publique, relecture, filtres). Non fait : page dédiée « Annonces » avant les appels d'offres, avis d'information juridique à adapter, scénarios SQL à rejouer en version connectée.

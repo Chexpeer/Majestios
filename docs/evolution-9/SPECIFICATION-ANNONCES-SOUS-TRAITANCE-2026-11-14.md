@@ -56,3 +56,15 @@ Accès direct refusé aux visiteurs ; dépôt valide ; piège à robots ignoré 
 ## 7. Ce que ce lot ne fait pas
 
 N'applique rien à Supabase, n'ouvre pas le dépôt, ne publie aucune annonce, n'affiche aucune annonce réelle, ne modère pas : la page de relecture interne et la liste publique sont des étapes suivantes (§6, points 4 et 5), qui ne peuvent être testées honnêtement qu'une fois le SQL appliqué sur une copie.
+
+## 7. Décision du propriétaire du 16 novembre 2026 (documentation d'abord, puis Test)
+
+**1. Dépôt réservé aux titulaires d'un espace personnel.** La publication d'annonces gratuites est conditionnée à la création (et à la connexion) d'un espace personnel : c'est le premier « appât » pour attirer les clients, juste avant les appels d'offres. Un visiteur non connecté voit les annonces publiées, mais pour déposer il doit créer son espace ou se connecter.
+- Serveur : `submit_announcement` exige une session, un compte à e-mail confirmé rattaché à une organisation ; l'e-mail de contact est celui du compte (non saisi) ; droit d'exécution retiré à `anon`. Limites anti-abus par compte (5 dépôts / 24 h) en plus des limites existantes.
+- Colonne `author_user_id` ajoutée (traçabilité, jamais publique).
+
+**2. Annonces élargies : pas seulement la sous-traitance.** Huit types : `subcontract_need`, `subcontract_offer` (sous-traitance) ; `job_offer` (offre d'emploi), `job_seeker` (demande d'emploi) ; `equipment_offer` (location de matériel, ex. BTP), `equipment_wanted` (recherche de matériel à louer) ; `other_offer`, `other_request` (autres). Liste modifiable sur décision du propriétaire.
+
+**Points à valider par le propriétaire (juridique, hors technique) :** conditions des annonces d'emploi (offres et demandes de personnes physiques : données personnelles, conservation, modération renforcée) ; avis d'information (`NOTICE_VERSION`) à adapter aux nouveaux types ; durée de conservation. Rien de cela n'est ouvert au public : MajestiOS-Test uniquement.
+
+**Retour arrière :** migration `20261116170000_announcements_require_account_and_kinds.sql` — rétablir la liste de types d'origine et `grant execute … to anon` (la colonne `author_user_id` peut rester).

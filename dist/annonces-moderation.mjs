@@ -9,7 +9,7 @@ export const TABS = Object.freeze([
   ["expired", "Expirées"]
 ]);
 
-export const KIND_LABELS = Object.freeze({ subcontract_need: "Recherche de sous-traitant", subcontract_offer: "Offre de services" });
+export const KIND_LABELS = Object.freeze({ subcontract_need: "Recherche de sous-traitant", subcontract_offer: "Offre de services", job_offer: "Offre d’emploi", job_seeker: "Demande d’emploi", equipment_offer: "Location de matériel", equipment_wanted: "Recherche de matériel à louer", other_offer: "Autre offre", other_request: "Autre demande" });
 
 export const isKnownStatus = (status) => TABS.some(([value]) => value === status);
 

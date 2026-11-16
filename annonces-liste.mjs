@@ -5,7 +5,13 @@ export const PAGE_SIZE = 10;
 
 export const KIND_LABELS = Object.freeze({
   subcontract_need: "Recherche de sous-traitant",
-  subcontract_offer: "Offre de services en sous-traitance"
+  subcontract_offer: "Offre de services en sous-traitance",
+  job_offer: "Offre d’emploi",
+  job_seeker: "Demande d’emploi",
+  equipment_offer: "Location de matériel",
+  equipment_wanted: "Recherche de matériel à louer",
+  other_offer: "Autre offre",
+  other_request: "Autre demande"
 });
 
 const DEPARTMENT = /^(0[1-9]|[1-8][0-9]|9[0-5]|2[AB]|97[1-6])$/;
