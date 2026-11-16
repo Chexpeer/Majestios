@@ -688,3 +688,20 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:
 /* Message signature de la page « Appels d'offres privés » (demande propriétaire 2026-11-16). Retour arrière : supprimer ce bloc et la ligne .mj-signature de marches-prives.html. */
 html:root:root:root main.interior-page .mj-signature{font-size:clamp(17px,2.4vw,22px);margin:6px 0 10px}
 html:root:root:root main.interior-page .mj-signature strong{font-weight:800}
+
+/* « Mes services » : même présentation que le tableau de bord administrateur (panneaux sombres, filets dorés). Retour arrière : supprimer ce bloc et la section #mes-services de espace-membre.html. */
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services{margin:26px 0 8px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services-head h2{margin:0 0 6px;font:800 clamp(24px,3vw,34px)/1.15 Manrope,Inter,sans-serif;letter-spacing:-.04em;color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services-head>p:last-child{margin:0 0 16px;max-width:640px;color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service{min-width:0;display:flex;flex-direction:column;padding:19px 17px;border:1px solid rgba(206,218,226,.16);border-radius:13px;background:linear-gradient(155deg,rgba(32,45,54,.94),rgba(23,34,42,.95));box-shadow:0 15px 40px rgba(0,0,0,.28)}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service h3{margin:0;color:#F0F3F4!important;text-shadow:none!important;font:800 18px/1.25 Manrope,Inter,sans-serif;letter-spacing:-.03em}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service p{margin:11px 0 0;color:#9BAAB4!important;text-shadow:none!important;font-size:13px;line-height:1.65}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service .mj-services-kicker{margin:0 0 8px;color:#D7B66E!important;text-shadow:none!important;font-size:10px;font-weight:800;letter-spacing:.16em}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services-head .mj-services-kicker{color:var(--mj-link)!important;text-shadow:var(--mj-halo)!important;font-size:11px;font-weight:800;letter-spacing:.16em;margin:0 0 8px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service-index{color:rgba(215,182,110,.55);font:700 11px Manrope,Inter,sans-serif}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service-link{display:flex;justify-content:space-between;gap:10px;margin-top:auto;padding-top:12px;border-top:1px solid rgba(206,218,226,.16);color:#F0D89E!important;text-shadow:none!important;font-size:12px;font-weight:700;text-decoration:none}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service .mj-service-link{margin-top:17px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service-link.is-muted{color:#A9B4BB!important;font-weight:600}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service:hover:not(.is-soon){border-color:rgba(215,182,110,.5)}
