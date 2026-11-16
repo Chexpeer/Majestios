@@ -75,3 +75,19 @@ Décision propriétaire : « les cartes doivent être transparentes de façon à
 ## Accueil — même traitement (2026-11-15)
 
 Décision propriétaire : l'accueil reçoit le même traitement que les quatre rubriques. Le panorama `fond-panorama.webp` est affiché net (sans voile blanc), fixé derrière toute la page ; la barre de défilement est masquée. La barre de recherche, le texte d'introduction, l'accès à l'espace personnel et le titre « Explorez les quatre rubriques » sont sur du verre fumé transparent (70 %, léger flou) avec texte blanc. Le cube garde son verre fumé. Retour possible : supprimer le dernier bloc « Accueil : fond d'écran net et fixe » de `charte-majestios.css`.
+
+## Nouveaux fonds d'écran sur toutes les rubriques (2026-11-16)
+
+Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt (back1, back3, back5, back6, back7, back8, back9 : 7 images différentes, plusieurs fichiers en double) sont mis en fond de **toutes** les rubriques ; l'accueil n'est pas touché ; **tous les anciens fonds sont supprimés**.
+- Rendu commun à toutes les rubriques : image nette, fixe, sans voile ; barre de défilement masquée ; cartes en verre fumé transparent ; en-tête de page regroupé (`mj-page-head`).
+- Attribution (7 images pour 14 pages, donc certaines servent deux fois ; modifiable en changeant le fichier du même nom dans `visuels/fonds/`) :
+  - back1 (allée de parc) : Réseau, Intelligence économique
+  - back3 (bassin et immeuble de verre) : Réputation virtuelle, Veille BODACC
+  - back5 (atrium de verre) : Marchés publics, Accompagnement appels d'offres
+  - back6 (tours de verre, soleil couchant) : Marchés privés, Veille des marchés
+  - back7 (maison sur la falaise, image de petite taille 429×241) : Salons et séminaires
+  - back8 (patio avec bonsaï) : Prospection, Suivi commercial
+  - back9 (salon vitré) : Facturation électronique, Sous-traitance, Développement commercial
+- Les images sont enregistrées sous les noms de rubrique existants (`visuels/fonds/<rubrique>.webp`) : les anciennes illustrations sont donc remplacées.
+- Supprimés : `fond-crm.webp`, `fond-reseaux.webp`, `fond-ereputation.webp`, `fond-facturation.webp`, les anciens bandeaux d'image des pages Réputation et Facturation (HTML et CSS), les règles d'image CRM/Réseaux, et les 11 fichiers `back*.webp` de la racine (copiés sous leurs noms de rubrique). Seul `fond-panorama.webp` reste (accueil).
+- La page Développement commercial reçoit une rubrique de fond (`data-fond`) et son visuel ; l'ancienne figure illustrée est masquée.

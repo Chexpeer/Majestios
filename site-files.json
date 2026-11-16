@@ -58,6 +58,7 @@
     "visuels/fonds/veille-marches.webp",
     "visuels/fonds/bodacc-veille-entreprises.webp",
     "visuels/fonds/suivi-commercial.webp",
+    "visuels/fonds/developpement-commercial.webp",
     "visuels/fonds/intelligence-economique.webp",
     "visuels/fonds/salons-seminaires.webp",
     "navigation-3d.css",
@@ -129,10 +130,6 @@
     "majestios-chat.css",
     "cube-majestios.css",
     "cube-majestios.js",
-    "fond-crm.webp",
-    "fond-ereputation.webp",
-    "fond-facturation.webp",
-    "fond-reseaux.webp",
     "robots.txt",
     "sitemap.xml",
     "assets/visuels/rubrique-prospection.svg"
