@@ -684,3 +684,7 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>.eyebrow{color:var(--mj-link)!important;text-shadow:var(--mj-halo)!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>.virtual-space-note,
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond] .virtual-space-copy>:is(span,p,h2){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+
+/* Message signature de la page « Appels d'offres privés » (demande propriétaire 2026-11-16). Retour arrière : supprimer ce bloc et la ligne .mj-signature de marches-prives.html. */
+html:root:root:root main.interior-page .mj-signature{font-size:clamp(17px,2.4vw,22px);margin:6px 0 10px}
+html:root:root:root main.interior-page .mj-signature strong{font-weight:800}
