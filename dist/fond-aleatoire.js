@@ -4,7 +4,7 @@
 (function () {
   try {
     var fonds = ["accompagnement-appels-offres", "bodacc-veille-entreprises", "developpement-commercial", "facturation-electronique", "intelligence-economique", "marches-prives", "marches-publics", "prospection-crm", "reputation-virtuelle", "reseau-synergies", "salons-seminaires", "sous-traitance", "suivi-commercial", "veille-marches", "ville-crepuscule", "falaise-phare", "montagnes-aurore", "salle-conseil-panorama"];
-    var clairs = { "reseau-synergies": 1, "veille-marches": 1 }; // images claires : texte sombre à contour blanc
+    var clairs = {}; // images claires : texte sombre à contour blanc
     var dernier = ""; try { dernier = sessionStorage.getItem("mj-fond") || ""; } catch (e) {}
     var choix; do { choix = fonds[Math.floor(Math.random() * fonds.length)]; } while (choix === dernier && fonds.length > 1);
     try { sessionStorage.setItem("mj-fond", choix); } catch (e) {}

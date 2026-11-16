@@ -157,3 +157,6 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 
 ## Nouveaux fonds ajoutés (2026-11-16)
 Quatre images du propriétaire (back13, 14, 15, 16) ajoutées au tirage aléatoire : ville-crepuscule, falaise-phare, montagnes-aurore, salle-conseil-panorama (1920 px, WebP). Non retenues : back17 (texte « RIVERSIDE TOWER » incrusté), back18 et back19 (doublons basse résolution de back16/back17). Retour arrière : retirer ces 4 noms de `fond-aleatoire.js` et de `site-files.json`.
+
+## Harmonisation des fonds (2026-11-16)
+Luminosité des fonds uniformisée (zone de texte ramenée vers ~0,44 par une correction douce de type gamma ; images déjà sombres inchangées ; réseau-synergies un peu plus lumineuse pour garder du détail). Le mode « texte sombre » n'est plus utilisé (`clairs` vide dans `fond-aleatoire.js`) : police blanche et liens dorés identiques sur toutes les rubriques. Liens contrôlés : 43 pages, 90 liens locaux distincts, aucun cassé (l'ancre `#creation` est gérée par script). Retour arrière : restaurer les anciens WebP depuis l'historique Git.
