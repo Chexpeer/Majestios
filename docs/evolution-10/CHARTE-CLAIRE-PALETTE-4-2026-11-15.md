@@ -160,3 +160,6 @@ Quatre images du propriétaire (back13, 14, 15, 16) ajoutées au tirage aléatoi
 
 ## Harmonisation des fonds (2026-11-16)
 Luminosité des fonds uniformisée (zone de texte ramenée vers ~0,44 par une correction douce de type gamma ; images déjà sombres inchangées ; réseau-synergies un peu plus lumineuse pour garder du détail). Le mode « texte sombre » n'est plus utilisé (`clairs` vide dans `fond-aleatoire.js`) : police blanche et liens dorés identiques sur toutes les rubriques. Liens contrôlés : 43 pages, 90 liens locaux distincts, aucun cassé (l'ancre `#creation` est gérée par script). Retour arrière : restaurer les anciens WebP depuis l'historique Git.
+
+## Espaces personnels et pages associées (2026-11-16)
+Fond aléatoire et texte d'en-tête blanc/doré étendus à : espace-membre, contact, nous-rejoindre, 7 pages categorie-*. Formulaires et panneau de connexion gardent leur fond crème (lisibilité). Inchangées : pages d'administration (fond sombre), CRM, assistant, pages légales, FAQ, résultats de recherche. Retour arrière : retirer `data-fond` et le script `fond-aleatoire.js` de ces pages et supprimer le bloc « Espaces personnels… » de `charte-majestios.css`.

@@ -677,3 +677,10 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .prospecting-search-heading{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;margin:-1px!important;padding:0!important;white-space:nowrap!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond] .tender-feed-section) main.interior-page .virtual-space{display:none!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .floating-route-card:not([id]):not(:has(form,input,select,textarea,#annonces-liste)){display:none!important}
+
+/* Espaces personnels et pages associées sur fond aléatoire (2026-11-16) : titres et textes d'en-tête lisibles. Retour arrière : supprimer ce bloc. */
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>:is(h1,.interior-lede,.small-note,.prototype-note,p:not([class])){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>:is(h1) span,
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>.eyebrow{color:var(--mj-link)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>.virtual-space-note,
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond] .virtual-space-copy>:is(span,p,h2){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
