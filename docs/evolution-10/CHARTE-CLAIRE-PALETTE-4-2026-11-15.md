@@ -112,3 +112,10 @@ Décision propriétaire : les nouveaux fonds d'écran déposés dans le dépôt 
 - Cartes en verre fumé : opacité du noir ramenée de 70 % à 30 % (cartes imbriquées 22 %), flou réduit à 3 px. Pour garder les textes lisibles sur les images claires, le fond derrière chaque carte est assombri (filtre `brightness(.5)`) : l'image reste bien visible à travers, un peu plus sombre.
 - Cartes restantes (rubriques liées de Salons, cartes de Facturation, appel final) et titres en pastille : même traitement. Petites cartes illustratives et panneaux crème de la Réputation : crème translucide (58 à 62 %), texte sombre conservé. Les boutons d'action de la Prospection restent presque opaques (93 %) pour la lisibilité.
 - Accueil et cube : non modifiés par cette étape. Retour en arrière : supprimer les blocs « Cartes en verre fumé » et « Cartes restantes » de `charte-majestios.css`.
+
+## Cartes entièrement transparentes (2026-11-16, 10 h 15)
+
+- Décision du propriétaire : plus aucun filigrane noir. Toutes les cartes des rubriques n'ont plus de fond, plus de flou et plus d'assombrissement ; seul un fin liseré blanc délimite chaque carte. Cette étape remplace les réglages de transparence partielle de l'étape précédente.
+- Lisibilité : les textes restent blancs (liens et sur-titres en doré) avec un contour sombre. Compromis connu : sur les fonds très clairs (Réseau, Veille des marchés, Sous-traitance, Réputation), les petits textes sont moins confortables ; le contrôle automatique de contraste signale désormais ces pages. Si la lisibilité pose problème, la solution la moins intrusive est un voile très léger (10 à 15 %) derrière les cartes, à décider par le propriétaire.
+- Restent opaques par nécessité : champs de saisie, boutons d'action (Rechercher, critères de la Prospection).
+- Retour en arrière : supprimer le bloc « Cartes totalement transparentes » de `charte-majestios.css`.
