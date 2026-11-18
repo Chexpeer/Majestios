@@ -114,3 +114,13 @@
   .crm-contact-profile-fields { grid-template-columns: 1fr; gap: 3px; }
   .crm-contact-profile-fields dd { margin-bottom: 7px; }
 }
+
+/* Barre de navigation interne du CRM : retour au tableau de bord administrateur */
+.admin-crm-header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding:10px max(16px,env(safe-area-inset-left,0px));background:linear-gradient(90deg,#0c1c2c,#12283d);border-bottom:1px solid rgba(215,182,110,.45)}
+.admin-crm-links{display:flex;flex-wrap:wrap;gap:8px}
+.admin-crm-links a{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border:1px solid rgba(240,216,158,.55);border-radius:999px;background:rgba(255,255,255,.08);color:#FFFFFF;font:600 13px/1 Inter,system-ui,sans-serif;text-decoration:none}
+.admin-crm-links a:hover,.admin-crm-links a:focus-visible{background:linear-gradient(135deg,#E6C987,#C49A45);color:#1b1608;outline:none}
+.admin-crm-links a[hidden]{display:none}
+#crm-admin-nav-link{background:linear-gradient(135deg,#E6C987,#C49A45);color:#1b1608;border-color:transparent;font-weight:800}
+.admin-crm-current{display:flex;flex-direction:column;align-items:flex-end;color:#EDEFF2;font:600 11px/1.3 Inter,system-ui,sans-serif;letter-spacing:.12em}
+.admin-crm-current strong{color:#E6C987;font-size:13px}

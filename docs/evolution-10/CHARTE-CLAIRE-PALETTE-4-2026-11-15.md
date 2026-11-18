@@ -203,3 +203,6 @@ Demande du propriétaire : les annonces publiées apparaissent aussi dans un ban
 
 ### 2026-11-18 (suite) — Flux de démonstration de l'accueil
 Le premier bandeau (flux de démonstration) restait visible car une règle CSS d'affichage l'emportait sur l'attribut « hidden ». Correctif : règle `.homepage-ticker[hidden]{display:none}` dans `bandeau-annonces.css`. Retour arrière : supprimer cette règle.
+
+### 2026-11-18 (suite 2) — CRM : retour au tableau de bord administrateur
+Constat du propriétaire : depuis l'administration, on ouvre le CRM mais on ne peut pas revenir au tableau de bord. Cause : la barre `.admin-crm-header` de `crm.html` n'avait aucune mise en forme (les liens apparaissaient comme du texte brut sur le fond). Correctif : mise en forme de la barre dans `crm-workspace.css`, bouton doré « ← Tableau de bord administrateur » (visible pour les rôles propriétaire/administrateur, comme avant), « Accueil interne » et « Recherches ciblées ». Retour arrière : retirer le bloc « Barre de navigation interne du CRM » de `crm-workspace.css` et remettre le libellé « Administration générale ».
