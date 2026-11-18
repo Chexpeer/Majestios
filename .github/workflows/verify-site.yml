@@ -123,6 +123,8 @@ jobs:
         run: node --test tests/facturation-diagnostic.test.mjs
       - name: Tester le formulaire d'annonces (règles et SQL proposé)
         run: node --test tests/annonces-formulaire.test.mjs
+      - name: Bandeau des annonces
+        run: node --test tests/bandeau-annonces.test.mjs
       - name: Tester le retour vers le service après création de l'espace
         run: node --test tests/retour-service.test.mjs
       - name: Vérifier l'harmonisation visuelle et le cube en cristal

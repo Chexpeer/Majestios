@@ -18,7 +18,7 @@ const row = (n, extra = {}) => ({ reference: "AN-" + String(10000000 + n), kind:
     const page = await browser.newPage();
     const listCalls = []; const intros = []; let mode = "full";
     await page.route("**/rest/v1/rpc/list_published_announcements", async (route) => {
-      const body = JSON.parse(route.request().postData() || "{}"); listCalls.push(body);
+      const body = JSON.parse(route.request().postData() || "{}"); if (body.p_limit !== 10) listCalls.push(body); /* p_limit 10 = bandeau défilant, ignoré ici */
       if (mode === "error") { await route.fulfill({ status: 500, body: "boom" }); return; }
       if (mode === "empty") { await route.fulfill({ status: 200, contentType: "application/json", body: "[]" }); return; }
       const rows = Array.from({ length: body.p_offset === 0 ? 11 : 3 }, (_, i) => row(body.p_offset + i, { email: "fuite@example.fr", phone: "0600000000" }));

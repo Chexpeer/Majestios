@@ -128,6 +128,8 @@
     "annonces-formulaire.js",
     "annonces-formulaire.css",
     "annonces-liste.mjs",
+    "bandeau-annonces.mjs",
+    "bandeau-annonces.css",
     "annonces-liste.js",
     "annonces-liste.css",
     "assistant-majestios.html",

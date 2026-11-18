@@ -1,5 +1,7 @@
 (() => {
   "use strict";
+  // Bandeau défilant des annonces publiées (facultatif : ne s'affiche que s'il y en a).
+  import("./annonces-config.mjs").then((c) => import("./bandeau-annonces.mjs").then((b) => b.lancerBandeau(c.ANNONCES_SUPABASE))).catch(() => {});
   const ensureSharedAssets = () => {
     if (!document.querySelector('link[data-majestios-shared-nav="css"], link[href*="navigation-tiroirs.css"]')) {
       const link = document.createElement("link");

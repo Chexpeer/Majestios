@@ -189,3 +189,14 @@ Section `#mes-services` ajoutée à `espace-membre.html`, présentée comme le t
 
 ## Retour vers le service après création de l'espace (2026-11-16)
 Depuis le dépôt d'annonces, « Créer mon espace personnel » / « Me connecter » ouvrent `espace-membre.html?retour=annonces`. Une fois l'espace activé (ou la connexion réussie avec un espace existant), la personne est ramenée à `sous-traitance.html#deposer` après un message de 1,2 s. La clé survit au lien reçu par e-mail dans le même navigateur (stockage de session). Seules des clés connues sont acceptées (`retour-service.mjs` : annonces, audit, accompagnement) : aucune adresse libre, donc pas de redirection ouverte. Tests : `tests/retour-service.test.mjs` (ajouté à la CI) et scénario 5 de `espace-membre-creation.browser.cjs`. Non fait : les portes « audit » et « accompagnement » n'utilisent pas encore ce retour (clés prêtes).
+
+## 2026-11-18 — Bandeau défilant des annonces + cartes translucides
+
+Demande du propriétaire : les annonces publiées apparaissent aussi dans un bandeau défilant au-dessus de la barre de navigation, et les cartes d'annonce ont un fond légèrement coloré et transparent.
+
+- `bandeau-annonces.mjs` / `bandeau-annonces.css` : lit `list_published_announcements` (10 dernières), affiche le bandeau « ANNONCES » avant `.site-header`. Cache 5 min (sessionStorage `mj-bandeau`). Silencieux si échec ou aucune annonce.
+- Chargé par `navigation-tiroirs.js` (import dynamique). Non affiché sur administration / CRM / invitation.
+- Le bandeau de démonstration de l'accueil est masqué dès qu'il y a de vraies annonces.
+- Cartes : bloc « annonce-card » en fin de `charte-majestios.css` (dégradé doré/bleu translucide, flou, texte blanc, bouton « Demander une mise en relation » lisible).
+- Test : `tests/bandeau-annonces.test.mjs` (ajouté à la CI).
+- **Retour arrière** : supprimer la ligne `import("./annonces-config.mjs")…` dans `navigation-tiroirs.js`, supprimer `bandeau-annonces.*` (et leurs entrées dans `site-files.json`), retirer les deux blocs « annonce-card » de `charte-majestios.css`, puis `node build.js`.
