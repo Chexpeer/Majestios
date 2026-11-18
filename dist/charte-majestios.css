@@ -676,7 +676,7 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .mj-page-head .eyebrow{display:none!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .prospecting-search-heading{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;margin:-1px!important;padding:0!important;white-space:nowrap!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond] .tender-feed-section) main.interior-page .virtual-space{display:none!important}
-html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .floating-route-card:not([id]):not(:has(form,input,select,textarea,#annonces-liste)){display:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .floating-route-card:not([id]):not(:has(form,input,select,textarea,#annonces-liste,#category-results-panel,.opportunity-results-list,[id*="result"],[class*="result"])){display:none!important}
 
 /* Espaces personnels et pages associées sur fond aléatoire (2026-11-16) : titres et textes d'en-tête lisibles. Retour arrière : supprimer ce bloc. */
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>:is(h1,.interior-lede,.small-note,.prototype-note,p:not([class])){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
@@ -714,3 +714,7 @@ html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.i
 
 /* Bandeau annonces : bouton "Demander une mise en relation" lisible sur carte translucide */
 html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) #annonces-liste .annonce-card summary{background:rgba(20,32,52,.72)!important;color:#FFFFFF!important;border:1px solid rgba(240,216,158,.6)!important;border-radius:10px!important;padding:8px 12px!important;cursor:pointer;text-shadow:none!important}
+
+/* Résultats de recherche (panneau clair) : texte anthracite lisible, sans ombre */
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .category-results-panel :is(h2,h3,h4,p,li,span,dt,dd,small,strong,em,div,label,time,summary):not(a):not(button):not([class*="button"]){color:#1F2A33!important;text-shadow:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .category-results-panel a:not([class*="button"]){color:#7A5200!important;text-shadow:none!important}

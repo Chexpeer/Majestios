@@ -135,6 +135,8 @@ jobs:
         run: node --test tests/annonces-moderation.test.mjs
       - name: Vérifier la page de relecture des annonces (navigateur)
         run: node tests/annonces-moderation.browser.cjs
+      - name: Vérifier que les résultats d'appels d'offres publics sont visibles et lisibles
+        run: node tests/resultats-categorie.browser.cjs
       - name: Tester la liste publique des annonces (règles pures)
         run: node --test tests/annonces-liste.test.mjs
       - name: Vérifier la liste publique des annonces (navigateur)

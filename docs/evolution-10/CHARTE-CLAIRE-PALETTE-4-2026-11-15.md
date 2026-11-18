@@ -224,3 +224,11 @@ Demande du propriétaire : republier lui-même une annonce d'une entreprise (par
 - Migration `supabase/migrations/20261118170000_admin_publish_announcement.sql` (Test seulement) : `publish_announcement_admin` (réservée au propriétaire), table privée `announcement_sources`, `list_published_announcements` renvoie en plus `company`. Mises en relation : adresse du propriétaire, rien n'est affiché publiquement.
 - Tests : `tests/annonces-admin-publication.test.mjs` (CI), scénario ajouté à `tests/annonces-moderation.browser.cjs` ; contrôle serveur sur Test (publication visible, anonyme refusé, annulé ensuite).
 - Retour arrière : retirer le bloc `#mod-publish` de la page et du JS, `drop function public.publish_announcement_admin(...)`, recréer l'ancienne `list_published_announcements` sans `company`.
+
+## Suite 6 — 2026-11-18 : résultats des appels d'offres publics à nouveau visibles
+
+Problème : sur les pages « categorie-* » les annonces des appels d'offres publics (BOAMP) n'apparaissaient pas.
+Cause : une règle de mise en page (commit 5320ae6) masquait les blocs « floating-route-card » jugés redondants ; elle masquait aussi le bloc des résultats. Une fois visible, le texte était blanc sur fond crème (illisible).
+Correction (charte-majestios.css) : la règle de masquage exclut désormais les blocs de résultats ; les textes du panneau de résultats sont forcés en couleur sombre.
+Test ajouté : tests/resultats-categorie.browser.cjs (visibilité + lisibilité sur les pages de catégorie), ajouté à la CI.
+Retour arrière : annuler le commit de cette étape (charte-majestios.css seul, aucune donnée touchée).
