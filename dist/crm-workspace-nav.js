@@ -51,6 +51,8 @@ if (status && dataGrid && followups && panels.length === 5) {
   nav.append(controls);
   status.insertAdjacentElement("afterend", nav);
   activate("overview");
+  const wanted = decodeURIComponent(location.hash.slice(1));
+  if (panels.some(panel => panel.id === wanted)) activate(wanted); // arrivée directe depuis le tableau de bord administrateur
 
   controls.addEventListener("keydown", event => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
