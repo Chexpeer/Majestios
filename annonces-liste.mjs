@@ -43,7 +43,8 @@ export function normalizeAnnouncements(rows) {
       department: clean(row.department),
       areaNote: clean(row.area_note),
       validUntil: clean(row.valid_until),
-      publishedAt: clean(row.published_at)
+      publishedAt: clean(row.published_at),
+      company: clean(row.company)
     }));
   return { items: items.slice(0, PAGE_SIZE), hasMore: items.length > PAGE_SIZE };
 }

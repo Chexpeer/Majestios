@@ -217,3 +217,10 @@ Demande du propriétaire : attribuer les rôles et supprimer qui il veut, depuis
 - Test navigateur : scénario 6 de `tests/admin-utilisateurs.browser.cjs`. Contrôle serveur réel sur Test : admin, soi-même et anonyme refusés.
 - Retour arrière : retirer la section « équipe » de la page et du JS, remettre l'ancien lien « À construire » ; côté base : `drop function public.list_internal_team(); drop function public.set_internal_member_role(uuid,text); drop function public.remove_internal_member(uuid);` (le journal peut rester).
 - À reporter sur la base de production seulement après décision explicite du propriétaire.
+
+### 2026-11-18 (suite 5) — Publication directe d'une annonce par le propriétaire
+Demande du propriétaire : republier lui-même une annonce d'une entreprise (par ex. vue sur LinkedIn), sans mention ni justificatif d'accord (la reprise implique l'accord).
+- Page « Relecture des annonces » : bloc « ＋ Publier une annonce » (mêmes champs que le dépôt ; en plus, facultatifs : nom de l'entreprise affiché, lien d'origine visible par le seul propriétaire). Publication immédiate, visible dans la liste (ligne « Entreprise : … ») et dans le bandeau.
+- Migration `supabase/migrations/20261118170000_admin_publish_announcement.sql` (Test seulement) : `publish_announcement_admin` (réservée au propriétaire), table privée `announcement_sources`, `list_published_announcements` renvoie en plus `company`. Mises en relation : adresse du propriétaire, rien n'est affiché publiquement.
+- Tests : `tests/annonces-admin-publication.test.mjs` (CI), scénario ajouté à `tests/annonces-moderation.browser.cjs` ; contrôle serveur sur Test (publication visible, anonyme refusé, annulé ensuite).
+- Retour arrière : retirer le bloc `#mod-publish` de la page et du JS, `drop function public.publish_announcement_admin(...)`, recréer l'ancienne `list_published_announcements` sans `company`.

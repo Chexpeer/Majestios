@@ -68,7 +68,7 @@ if (root) {
     article.append(el("p", "eyebrow", "APPEL D’OFFRES PRIVÉ · " + KIND_LABELS[item.kind].toUpperCase()));
     article.append(el("h3", "", item.title));
     article.append(el("p", "", item.description));
-    const facts = [["Métier", item.trade], ["Zone", placeLabel(item)], ["Publiée le", formatDateFr(item.publishedAt)], ["Valable jusqu’au", formatDateFr(item.validUntil)], ["Référence", item.reference]];
+    const facts = [["Entreprise", item.company], ["Métier", item.trade], ["Zone", placeLabel(item)], ["Publiée le", formatDateFr(item.publishedAt)], ["Valable jusqu’au", formatDateFr(item.validUntil)], ["Référence", item.reference]];
     for (const [label, value] of facts) {
       if (!value) continue;
       const p = el("p");

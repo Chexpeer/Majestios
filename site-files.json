@@ -101,6 +101,7 @@
     "admin-annonces.js",
     "admin-annonces.css",
     "annonces-moderation.mjs",
+    "annonces-admin-publication.mjs",
     "espace-interne.html",
     "espace-interne.css",
     "espace-interne.js",

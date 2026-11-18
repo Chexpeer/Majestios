@@ -81,6 +81,25 @@ const item = (n, status = "pending") => ({ id: "id-" + n, reference: "AN-2000000
     assert.equal(calls[1].p_decision, "publish");
     assert.equal(calls[1].p_title, "Recherche plaquiste à Rennes (corrigé)");
     assert.equal(calls[1].p_description, null, "Une description inchangée n’est pas renvoyée.");
+    // Publication directe : formulaire invalide refusé côté page, puis publication transmise avec entreprise et lien d'origine.
+    await page.locator("#mod-publish > summary").click();
+    await page.locator("#mod-publish-form button[type=submit]").click();
+    await page.waitForFunction(() => document.querySelector("#mod-publish-status")?.classList.contains("error"));
+    assert.equal(await page.evaluate(() => window.__stub.calls.some((c) => c[0] === "publish_announcement_admin")), false);
+    const f = page.locator("#mod-publish-form");
+    await f.locator("[name=kind]").selectOption("job_offer");
+    await f.locator("[name=title]").fill("Recherche maçon qualifié CDI");
+    await f.locator("[name=description]").fill("Entreprise du bâtiment recherche un maçon qualifié en CDI sur le secteur.");
+    await f.locator("[name=trade]").fill("Maçonnerie");
+    await f.locator("[name=department]").fill("72");
+    await f.locator("[name=company]").fill("Dupont SA");
+    await f.locator("[name=source_url]").fill("https://exemple.fr/offre/1");
+    await f.locator("button[type=submit]").click();
+    await page.waitForFunction(() => window.__stub.calls.some((c) => c[0] === "publish_announcement_admin"));
+    const pub = await page.evaluate(() => window.__stub.calls.find((c) => c[0] === "publish_announcement_admin")[1]);
+    assert.equal(pub.p_company, "Dupont SA");
+    assert.equal(pub.p_source_url, "https://exemple.fr/offre/1");
+    assert.equal(pub.p_kind, "job_offer");
     console.log("Relecture des annonces : accès, liste, refus motivé et publication corrigée vérifiés.");
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); process.exit(1); });

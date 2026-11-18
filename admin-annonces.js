@@ -1,5 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
+import { validateAdminPublication, adminPublicationError } from "./annonces-admin-publication.mjs";
+import { KINDS } from "./annonces-formulaire.mjs";
 import { TABS, KIND_LABELS, allowedDecisions, buildDecision, moderationError, DECISION_LABELS } from "./annonces-moderation.mjs";
 
 const supabase = createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -114,3 +116,23 @@ signout.addEventListener("click", async () => { await supabase.auth.signOut(); l
 supabase.auth.onAuthStateChange((event) => { if (event === "SIGNED_OUT") lock("Vous êtes déconnecté.", { login: true }); });
 
 try { if (await authorize()) await load(); } catch (error) { lock(error?.message || "La vérification des habilitations a échoué."); }
+
+// Publication directe par le propriétaire.
+{
+  const form = $("#mod-publish-form"), out = $("#mod-publish-status");
+  const kindSelect = form.elements.kind;
+  for (const [value, label] of KINDS) { const o = el("option", "", label); o.value = value; kindSelect.append(o); }
+  const say = (message, error = false) => { out.textContent = message; out.classList.toggle("error", error); out.hidden = !message; };
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const built = validateAdminPublication(Object.fromEntries(new FormData(form)));
+    if (!built.ok) { say(Object.values(built.errors).join(" "), true); return; }
+    const button = form.querySelector("button[type=submit]"); button.disabled = true;
+    const { data, error } = await supabase.rpc("publish_announcement_admin", built.payload);
+    button.disabled = false;
+    if (error) { say(adminPublicationError(error), true); return; }
+    say("Annonce publiée (" + data + "). Elle est visible dans la liste et dans le bandeau.");
+    form.reset();
+    await load();
+  });
+}
