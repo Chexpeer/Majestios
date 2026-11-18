@@ -200,3 +200,6 @@ Demande du propriétaire : les annonces publiées apparaissent aussi dans un ban
 - Cartes : bloc « annonce-card » en fin de `charte-majestios.css` (dégradé doré/bleu translucide, flou, texte blanc, bouton « Demander une mise en relation » lisible).
 - Test : `tests/bandeau-annonces.test.mjs` (ajouté à la CI).
 - **Retour arrière** : supprimer la ligne `import("./annonces-config.mjs")…` dans `navigation-tiroirs.js`, supprimer `bandeau-annonces.*` (et leurs entrées dans `site-files.json`), retirer les deux blocs « annonce-card » de `charte-majestios.css`, puis `node build.js`.
+
+### 2026-11-18 (suite) — Flux de démonstration de l'accueil
+Le premier bandeau (flux de démonstration) restait visible car une règle CSS d'affichage l'emportait sur l'attribut « hidden ». Correctif : règle `.homepage-ticker[hidden]{display:none}` dans `bandeau-annonces.css`. Retour arrière : supprimer cette règle.

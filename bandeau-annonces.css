@@ -9,3 +9,5 @@
 .annonces-ticker:hover .annonces-ticker-group,.annonces-ticker:focus-within .annonces-ticker-group{animation-play-state:paused}
 @keyframes annonces-defile{to{transform:translateX(-100%)}}
 @media (prefers-reduced-motion:reduce){.annonces-ticker-track{overflow-x:auto}.annonces-ticker-group{animation:none}.annonces-ticker-group[aria-hidden]{display:none}}
+/* Le flux de démonstration de l'accueil disparaît vraiment quand le bandeau réel est affiché */
+html:root:root body .homepage-ticker[hidden]{display:none!important}
