@@ -209,3 +209,11 @@ Constat du propriétaire : depuis l'administration, on ouvre le CRM mais on ne p
 
 ### 2026-11-18 (suite 3) — Indicateurs CRM cliquables
 Constat (conversation avec Cheexpeer) : « pourquoi je ne peux pas accéder à mes contacts (4) ». Sur le tableau de bord administrateur, les indicateurs « Entreprises / Contacts / Opportunités CRM » n'étaient pas cliquables, et le CRM s'ouvrait sur « Vue générale » avec les listes masquées. Correctif : les trois indicateurs deviennent des liens vers `crm.html#businesses|contacts|opportunities` ; `crm-workspace-nav.js` ouvre directement l'onglet indiqué par l'ancre ; ids ajoutés sur les trois cartes de `crm.html` ; style dans `administration.css`. Retour arrière : remettre `<article class="instrument">` dans `administration.html`, retirer les 2 lignes `wanted` de `crm-workspace-nav.js`, les ids et le bloc CSS.
+
+### 2026-11-18 (suite 4) — Équipe interne : rôles et retraits depuis l'administration
+Demande du propriétaire : attribuer les rôles et supprimer qui il veut, depuis l'espace admin (et non par Claude).
+- Migration `supabase/migrations/20261118140000_internal_team_management.sql` (appliquée sur Test seulement) : `list_internal_team`, `set_internal_member_role`, `remove_internal_member`, journal `private.team_events`. Règles côté serveur : seul un propriétaire modifie ou retire ; jamais sur soi-même ; il reste toujours un propriétaire ; l'administrateur ne peut que consulter ; anonyme refusé ; retrait = appartenance supprimée, compte conservé.
+- Page `admin-utilisateurs.html` (section « Membres de l'équipe », ancre `#equipe`) ; lien depuis le tableau de bord (« Gérer l'équipe : rôles et retraits »).
+- Test navigateur : scénario 6 de `tests/admin-utilisateurs.browser.cjs`. Contrôle serveur réel sur Test : admin, soi-même et anonyme refusés.
+- Retour arrière : retirer la section « équipe » de la page et du JS, remettre l'ancien lien « À construire » ; côté base : `drop function public.list_internal_team(); drop function public.set_internal_member_role(uuid,text); drop function public.remove_internal_member(uuid);` (le journal peut rester).
+- À reporter sur la base de production seulement après décision explicite du propriétaire.

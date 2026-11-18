@@ -18,6 +18,8 @@ export function createClient(){
     rpc: async(name,args)=>{ (window.__rpc=window.__rpc||[]).push([name,args]);
       if(name==='list_invitable_organizations') return {data:[{id:'${INT}',name:'Interne',kind:'internal'},{id:'${C1}',name:'Client Un',kind:'client'}],error:null};
       if(name==='list_invitations') return {data:[{id:'i1',email:'attente@exemple.fr',kind:'client',role:'owner',organization_name:'Nouvelle Co',status:'pending',expires_at:new Date().toISOString()}],error:null};
+      if(name==='list_internal_team') return {data:[{member_id:'m1',email:'moi@exemple.fr',role:'owner',is_self:true,last_sign_in_at:null},{member_id:'m2',email:'collegue@exemple.fr',role:'admin',is_self:false,last_sign_in_at:null}],error:null};
+      if(name==='set_internal_member_role'||name==='remove_internal_member') return window.__teamError?{data:null,error:{message:window.__teamError}}:{data:{ok:true},error:null};
       if(name==='accept_invitation') return window.__acceptError?{data:null,error:{message:window.__acceptError}}:{data:{ok:true,kind:'internal',role:'owner'},error:null};
       return {data:{ok:true},error:null}; } };
 }`;
@@ -110,6 +112,35 @@ export function createClient(){
     await accN.goto(origin + "/accepter-invitation.html");
     await accN.waitForSelector("#ia-login:not([hidden])");
     for (const p of [acc, accC, accN, pageA, pageE, pageN]) assert.deepEqual(p.errors, []);
+
+    // 6. Équipe interne : le propriétaire attribue un rôle et retire (avec confirmation) ; jamais sur lui-même ; l'admin ne voit aucun bouton.
+    const pageT = await open();
+    await pageT.goto(origin + "/admin-utilisateurs.html#equipe");
+    await pageT.waitForSelector("#iu-team li.iu-member");
+    assert.equal(await pageT.locator("#iu-team li").count(), 2);
+    assert.equal(await pageT.locator("#iu-team li").first().locator("select,button").count(), 0, "Aucune action sur soi-même.");
+    const second = pageT.locator("#iu-team li").nth(1);
+    await second.locator("select").selectOption("member");
+    await second.locator("button", { hasText: "Enregistrer le rôle" }).click();
+    await pageT.waitForFunction(() => (window.__rpc || []).some((c) => c[0] === "set_internal_member_role" && c[1].p_member_id === "m2" && c[1].p_role === "member"));
+    await pageT.locator("#iu-team li").nth(1).locator("button", { hasText: "Retirer" }).click();
+    assert.equal(await pageT.evaluate(() => (window.__rpc || []).some((c) => c[0] === "remove_internal_member")), false, "Rien n'est retiré avant confirmation.");
+    await pageT.locator("#iu-team li").nth(1).locator("button", { hasText: "Annuler" }).click();
+    await pageT.locator("#iu-team li").nth(1).locator("button", { hasText: "Retirer" }).click();
+    await pageT.locator("#iu-team li").nth(1).locator("button", { hasText: "Confirmer le retrait" }).click();
+    await pageT.waitForFunction(() => (window.__rpc || []).some((c) => c[0] === "remove_internal_member" && c[1].p_member_id === "m2"));
+    const pageTA = await open(() => { window.__role = "admin"; });
+    await pageTA.goto(origin + "/admin-utilisateurs.html#equipe");
+    await pageTA.waitForSelector("#iu-team li.iu-member");
+    assert.equal(await pageTA.locator("#iu-team button, #iu-team select").count(), 0, "Un administrateur ne peut ni changer un rôle ni retirer.");
+    const pageTE = await open(() => { window.__teamError = "LAST_OWNER"; });
+    await pageTE.goto(origin + "/admin-utilisateurs.html");
+    await pageTE.waitForSelector("#iu-team li.iu-member");
+    await pageTE.locator("#iu-team li").nth(1).locator("button", { hasText: "Enregistrer le rôle" }).click();
+    await pageTE.locator("#iu-team li").nth(1).locator("select").selectOption("viewer");
+    await pageTE.locator("#iu-team li").nth(1).locator("button", { hasText: "Enregistrer le rôle" }).click();
+    await pageTE.waitForFunction(() => document.querySelector("#iu-team-status")?.textContent.includes("il doit toujours rester un propriétaire"));
+    for (const p of [pageT, pageTA, pageTE]) assert.deepEqual(p.errors, []);
     console.log("admin-utilisateurs.browser : OK");
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); process.exit(1); });

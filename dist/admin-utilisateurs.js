@@ -8,6 +8,7 @@ const frame = $(".admin-frame"), gate = $("#gate"), workspace = $("#workspace"),
 const loginForm = $("#iu-login"), form = $("#iu-form"), statusBox = $("#iu-status"), listStatus = $("#iu-list-status"), listBox = $("#iu-list");
 const kindSel = form.elements.kind, orgSel = form.elements.organization_id, roleSel = form.elements.role, newName = form.elements.new_organization_name;
 let rank = null, organizations = [];
+const teamBox = $("#iu-team"), teamStatus = $("#iu-team-status");
 
 const ROLE_LABELS = { admin: "Administrateur", member: "Membre", viewer: "Lecture seule", owner: "Responsable" };
 const STATUS_LABELS = { pending: "En attente", accepted: "Acceptée", revoked: "Révoquée", expired: "Expirée" };
@@ -78,6 +79,59 @@ async function loadList() {
   }
 }
 
+
+const TEAM_ROLES = { owner: "Propriétaire", admin: "Administrateur", member: "Membre", viewer: "Lecture seule" };
+const TEAM_ERRORS = {
+  LAST_OWNER: "Impossible : il doit toujours rester un propriétaire.",
+  SELF_CHANGE_FORBIDDEN: "Vous ne pouvez pas modifier ou retirer votre propre accès.",
+  ACCESS_DENIED: "Seul le propriétaire peut faire cette modification.",
+  MEMBER_NOT_FOUND: "Ce membre n'existe plus. La liste va être actualisée."
+};
+const teamError = (e) => { const code = Object.keys(TEAM_ERRORS).find((k) => (e?.message || "").includes(k)); return code ? TEAM_ERRORS[code] : "L'opération n'a pas abouti. Réessayez."; };
+
+async function loadTeam() {
+  const { data, error } = await supabase.rpc("list_internal_team");
+  teamBox.replaceChildren();
+  if (error) { say(teamStatus, "La liste de l'équipe n'a pas pu être chargée.", true); return; }
+  if (!data?.length) { teamBox.append(el("li", "cx-meta", "Aucun membre.")); return; }
+  const owner = rank === "owner";
+  for (const m of data) {
+    const li = el("li", "iu-member"); const main = el("span", "iu-main", m.email || "(compte sans adresse)");
+    main.append(el("span", "iu-sub", `${TEAM_ROLES[m.role] || m.role}${m.is_self ? " · c'est vous" : ""} · dernière connexion : ${fmt(m.last_sign_in_at)}`));
+    li.append(main);
+    if (owner && !m.is_self) {
+      const sel = el("select", "iu-role"); sel.setAttribute("aria-label", "Rôle de " + (m.email || "ce membre"));
+      for (const [value, label] of Object.entries(TEAM_ROLES)) { const o = el("option", "", label); o.value = value; if (value === m.role) o.selected = true; sel.append(o); }
+      const save = el("button", "", "Enregistrer le rôle"); save.type = "button";
+      save.addEventListener("click", async () => {
+        if (sel.value === m.role) { say(teamStatus, "Ce rôle est déjà attribué."); return; }
+        save.disabled = true;
+        const { error: e } = await supabase.rpc("set_internal_member_role", { p_member_id: m.member_id, p_role: sel.value });
+        say(teamStatus, e ? teamError(e) : `Rôle mis à jour : ${m.email} est maintenant ${TEAM_ROLES[sel.value].toLowerCase()}.`, !!e);
+        await loadTeam();
+      });
+      const remove = el("button", "iu-remove", "Retirer de l'équipe"); remove.type = "button";
+      remove.addEventListener("click", () => {
+        remove.hidden = true; save.hidden = true; sel.hidden = true;
+        const ask = el("span", "iu-confirm", `Retirer ${m.email} de l'équipe ? Son compte ne sera pas supprimé.`);
+        const yes = el("button", "iu-remove", "Confirmer le retrait"); yes.type = "button";
+        const no = el("button", "", "Annuler"); no.type = "button";
+        no.addEventListener("click", () => { ask.remove(); yes.remove(); no.remove(); remove.hidden = false; save.hidden = false; sel.hidden = false; });
+        yes.addEventListener("click", async () => {
+          yes.disabled = true; no.disabled = true;
+          const { error: e } = await supabase.rpc("remove_internal_member", { p_member_id: m.member_id });
+          say(teamStatus, e ? teamError(e) : `${m.email} a été retiré de l'équipe.`, !!e);
+          await loadTeam();
+        });
+        li.append(ask, yes, no);
+      });
+      li.append(sel, save, remove);
+    }
+    teamBox.append(li);
+  }
+  if (!owner) say(teamStatus, "Vous pouvez consulter l'équipe. Seul le propriétaire attribue les rôles ou retire un membre.");
+}
+
 async function send(payload) {
   try {
     const res = await fetch(`${ANNONCES_SUPABASE.url}/functions/v1/admin-invite-user`, {
@@ -111,6 +165,6 @@ loginForm.addEventListener("submit", async (event) => {
 signout.addEventListener("click", async () => { await supabase.auth.signOut(); location.reload(); });
 
 (async () => {
-  try { if (await authorize()) { await loadOrganizations(); await loadList(); } }
+  try { if (await authorize()) { await loadOrganizations(); await loadTeam(); await loadList(); } }
   catch { lock("Vérification impossible pour le moment.", { signed: false }); }
 })();

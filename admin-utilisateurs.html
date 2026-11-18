@@ -31,6 +31,12 @@
 <form id="iu-login" class="mod-login" hidden><input name="email" type="email" autocomplete="email" placeholder="Adresse e-mail du compte interne" required><button class="admin-button admin-button-primary" type="submit">Recevoir mon lien de connexion →</button></form></section>
 <div id="workspace" class="cx-workspace" hidden>
 <div><p class="admin-kicker">ACCÈS · MEMBRES ET CLIENTS</p><h1>Invitations</h1><p>Invitez un membre de l’équipe ou un client par e-mail. La personne reçoit un lien, confirme son adresse, et son accès n’est créé qu’à ce moment-là. Une invitation est valable 7 jours et peut être révoquée tant qu’elle n’est pas acceptée.</p></div>
+<section class="cx-card" id="equipe" aria-labelledby="iu-team-title" aria-live="polite">
+<p class="admin-kicker">ÉQUIPE INTERNE</p><h2 id="iu-team-title">Membres de l’équipe</h2>
+<p id="iu-team-intro" class="cx-meta">Les personnes ayant accès à l’administration et au CRM interne. Le propriétaire attribue les rôles et peut retirer un membre : le retrait coupe son accès sans supprimer son compte.</p>
+<p id="iu-team-status" class="cx-status" role="status" hidden></p>
+<ul id="iu-team" class="iu-list"></ul>
+</section>
 <div class="cx-grid">
 <section class="cx-card" aria-labelledby="iu-new-title">
 <p class="admin-kicker">NOUVELLE INVITATION</p><h2 id="iu-new-title">Inviter une personne</h2>
