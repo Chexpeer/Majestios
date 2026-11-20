@@ -307,3 +307,11 @@ Retour arrière : annuler le commit de cette étape.
 - Le menu n'a plus d'entrée « Créer mon espace personnel » : une seule entrée « Mon espace personnel » ; la création se propose dans le formulaire de connexion.
 - Le bandeau de bas de page « Accéder à mon espace personnel » n'est plus affiché quand une session est présente dans le navigateur. Test ajouté.
 - Retour arrière : revenir au commit précédent de `navigation-tiroirs.js`.
+
+## Suite 19 — Tableau de bord de l'espace personnel (2026-11-20)
+
+- Décision du propriétaire : l'espace personnel doit ressembler à un tableau de bord.
+- Connecté et activé : bandeau « Bonjour <prénom> » (société en sous-titre), 4 chiffres (demandes envoyées, en cours, à compléter de votre côté, terminées), liste des 5 dernières demandes avec leur statut, puis les cartes de services inchangées. Non connecté : page d'invitation inchangée.
+- Données : lecture seule, avec les droits du membre (profil, société, demandes). Aucune modification de la base. Chiffres réels uniquement : 0 si aucune demande, jamais de valeur inventée. Les annonces d'un membre ne sont pas encore lisibles côté membre (accès direct fermé par sécurité) : elles ne figurent pas dans les chiffres tant qu'une lecture dédiée n'existe pas.
+- Fichiers : `tableau-de-bord-membre.mjs`, `tableau-de-bord-membre.css`, section `#tableau-de-bord` de `espace-membre.html`, branchement dans `auth-espace-membre.js`. Test : `tests/espace-membre-creation.browser.cjs`.
+- Retour arrière : retirer la section `#tableau-de-bord`, le lien CSS et l'import dans `auth-espace-membre.js`.

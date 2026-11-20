@@ -1,6 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
 import { retourDepuisRecherche, destinationRetour } from "./retour-service.mjs";
+import { renderDashboard, hideDashboard } from "./tableau-de-bord-membre.mjs";
 import { validatePassword, formatDeadline } from "./mot-de-passe-majestios.mjs";
 
 const config = MAJESTIOS_SUPABASE;
@@ -10,6 +11,7 @@ const feedback = document.querySelector("#personal-space-feedback");
 const submitButton = form?.querySelector('[type="submit"]');
 const status = document.querySelector("#member-auth-status");
 const preview = document.querySelector(".member-preview");
+const board = document.querySelector("#tableau-de-bord");
 const otpStep = form?.querySelector("[data-otp-step]");
 const resendButton = form?.querySelector("[data-resend-otp]");
 const emailInput = form?.elements.namedItem("email");
@@ -219,12 +221,15 @@ if (form && config?.url && config?.publishableKey) {
   const previewTitle = preview?.querySelector("h2");
   const openButton = preview?.querySelector("#open-personal-space");
   const createHint = preview?.querySelector(".member-create-hint");
+  const lede = document.querySelector("main .interior-lede");
+  const originalLede = lede?.textContent;
   const originalTitle = previewTitle?.textContent;
   const originalOpenHtml = openButton?.innerHTML;
   const renderPreview = (mode) => {
     if (!preview) return;
     // Connecté et activé : la grande carte disparaît, il ne reste qu'une ligne discrète avec « Se déconnecter ».
     const compact = mode === "active";
+    if (lede) lede.textContent = compact ? "Suivez vos demandes et accédez à vos services au même endroit." : originalLede;
     preview.classList.toggle("is-compact", compact);
     [["padding", "8px 16px"], ["margin", "10px 0"], ["border", "1px solid rgba(213,181,108,.45)"], ["border-radius", "999px"], ["background", "rgba(7,18,37,.88)"], ["box-shadow", "none"], ["min-height", "0"], ["width", "fit-content"], ["max-width", "100%"], ["display", "flex"], ["align-items", "center"], ["gap", "12px"], ["margin-inline", "0"]].forEach(([k, v]) => {
       if (compact) preview.style.setProperty(k, v, "important"); else preview.style.removeProperty(k);
@@ -260,6 +265,7 @@ if (form && config?.url && config?.publishableKey) {
       hideAlert();
       status.textContent = "Vous n’êtes pas connecté.";
       renderPreview("out");
+      hideDashboard(board);
       oldButton?.remove();
       return;
     }
@@ -278,6 +284,8 @@ if (form && config?.url && config?.publishableKey) {
       else hideAlert();
     } else hideAlert();
     renderPreview(data?.length ? "active" : "pending");
+    if (data?.length) renderDashboard(supabase, session, board).catch(() => hideDashboard(board));
+    else hideDashboard(board);
     status.textContent = error
       ? "Compte connecté · vérification de l’espace indisponible."
       : data?.length

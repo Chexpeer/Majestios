@@ -15,7 +15,7 @@ export function createClient(){
     signInWithOtp: async(a)=>{(window.__otp=window.__otp||[]).push(a);return {error:null};},
     verifyOtp: async(a)=>{(window.__verify=window.__verify||[]).push(a);window.__session={access_token:'tok',user:{id:'u1'}};return {data:{session:window.__session,user:{id:'u1'}},error:null};},
     updateUser: async(a)=>{(window.__updates=window.__updates||[]).push(a);window.__hasPassword=true;return {error:null};}
-  }, from:()=>chain(window.__members||[]),
+  }, from:(t)=>chain((window.__tables&&window.__tables[t])||(window.__tables?[]:(window.__members||[]))),
   rpc: async(name)=>{(window.__rpc=window.__rpc||[]).push(name);
     if(name==='start_member_activation') return {data:{state:'pending',deadline:'2026-11-25T18:00:00Z'},error:null};
     if(name==='member_activation_status') return {data:window.__activation||{state:'none'},error:null};
@@ -221,6 +221,39 @@ export function createClient(){
     }
     assert.equal(await actif.locator("#member-led").isVisible(), true, "Connecté : l’ampoule verte doit s’afficher.");
     assert.ok((await actif.locator(".member-preview").boundingBox()).height < 120, "La zone connectée doit rester discrète.");
+    // Tableau de bord : bienvenue, chiffres justes, dernières demandes ; vide honnête sans demande.
+    const dash = await open([{ organization_id: "o1" }]);
+    await dash.addInitScript(() => {
+      window.__session = { access_token: "tok", user: { id: "u1", email: "zine@exemple.fr" } };
+      window.__tables = {
+        organization_members: [{ organization_id: "o1" }],
+        profiles: [{ display_name: "Zine Eddine" }],
+        organizations: [{ name: "Société Test" }],
+        client_requests: [
+          { id: "1", request_type: "tender_support", status: "in_review", subject: "Appel d’offres mairie", created_at: "2026-11-10T10:00:00Z" },
+          { id: "2", request_type: "other", status: "waiting_for_user", subject: "Audit image", created_at: "2026-11-12T10:00:00Z" },
+          { id: "3", request_type: "contact", status: "closed", subject: "Question", created_at: "2026-11-01T10:00:00Z" }
+        ]
+      };
+    });
+    await dash.goto(origin + "/espace-membre.html");
+    await dash.waitForSelector("#tableau-de-bord:not([hidden]) .mj-kpi");
+    assert.match(await dash.textContent("#tableau-de-bord h2"), /Bonjour Zine/);
+    assert.match(await dash.textContent("#tableau-de-bord .mj-board-sub"), /Société Test/);
+    const chiffres = await dash.locator("#tableau-de-bord .mj-kpi-value").allTextContents();
+    assert.deepEqual(chiffres, ["3", "1", "1", "1"], "Chiffres : 3 demandes, 1 en cours, 1 à compléter, 1 terminée.");
+    assert.equal(await dash.locator("#tableau-de-bord .mj-board-list li").count(), 3);
+    assert.match(await dash.textContent("#tableau-de-bord .mj-board-list li:first-child"), /Audit image/, "La plus récente en premier.");
+    assert.equal(await dash.locator("main .interior-lede").textContent().then((x) => /Connectez-vous/.test(x)), false, "Connecté : plus de « Connectez-vous » en introduction.");
+    const vide = await open([{ organization_id: "o1" }]);
+    await vide.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1", email: "x@exemple.fr" } }; window.__tables = { organization_members: [{ organization_id: "o1" }], profiles: [], organizations: [], client_requests: [] }; });
+    await vide.goto(origin + "/espace-membre.html");
+    await vide.waitForSelector("#tableau-de-bord:not([hidden]) .mj-board-empty");
+    assert.match(await vide.textContent("#tableau-de-bord h2"), /Bonjour x/);
+    const anonDash = await open([]);
+    await anonDash.goto(origin + "/espace-membre.html");
+    await anonDash.waitForTimeout(500);
+    assert.equal(await anonDash.locator("#tableau-de-bord").isVisible(), false, "Non connecté : pas de tableau de bord.");
     // Bandeau de bas de page et menu : pas de « Accéder » quand on est connecté, pas de « Créer » dans le menu.
     const anon = await open([]);
     await anon.goto(origin + "/marches-publics.html");
