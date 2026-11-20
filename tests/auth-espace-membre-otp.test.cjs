@@ -16,8 +16,9 @@ assert.match(html, /data-resend-otp/);
 assert.match(styles, /personal-space-fields\[hidden\]/);
 assert.match(styles, /personal-space-otp\[hidden\]/);
 // Mot de passe : seulement dans l'étape d'activation (jamais pour se connecter) ; le formulaire de connexion reste « code seul ».
-assert.equal((html.match(/type="password"/g) || []).length, 2);
-assert.ok(html.indexOf('data-password-step') < html.indexOf('type="password"'), "les champs mot de passe sont dans l'étape d'activation");
+assert.equal((html.match(/type="password"/g) || []).length, 3, "connexion (1) + activation (2)");
+assert.match(html, /name="login_password"[^>]*autocomplete="current-password"/);
+assert.match(html, /data-send-link/);
 assert.doesNotMatch(html, /name="passwordConfirm"|name="password"/);
 
 assert.match(auth, /supabase\.auth\.signInWithOtp\(\{ email, options: \{ \.\.\.options, emailRedirectTo: `\$\{window\.location\.origin\}\/espace-membre\.html` \} \}\)/);
@@ -34,10 +35,11 @@ assert.match(auth, /start_member_activation/);
 assert.match(html, /name="privacy_ack" type="checkbox"/);
 assert.match(html, /data-toggle-create/);
 assert.doesNotMatch(html, /name="firstName"|name="lastName"|name="phone"/);
-assert.doesNotMatch(auth, /signInWithPassword|resetPasswordForEmail/);
+assert.match(auth, /signInWithPassword\(/, "connexion par mot de passe après activation");
+assert.doesNotMatch(auth, /resetPasswordForEmail/);
 assert.match(auth, /Bienvenue dans votre espace MajestiOS/);
 
-console.log("Contrat Auth OTP membre : connexion par lien e-mail, absence de création de compte tant que le provisionnement n’est pas activé, et absence de mot de passe vérifiées.");
+console.log("Contrat Auth OTP membre : connexion par lien e-mail, absence de création de compte tant que le provisionnement n’est pas activé, et connexion par mot de passe après activation vérifiées.");
 
 // Demande du propriétaire (15/11/2026) : lien discret « Créer mon espace personnel » ; ce n'est pas un formulaire d'inscription : il renvoie vers le contact tant que la création est suspendue.
 assert.match(html, /data-open-create>Créer mon espace personnel<\/button>/);

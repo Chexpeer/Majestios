@@ -11,6 +11,7 @@ export function createClient(){
     getSession: async()=>({data:{session:window.__session||null},error:null}),
     onAuthStateChange:(cb)=>{ if(window.__session) setTimeout(()=>cb('INITIAL_SESSION',window.__session),0); return {data:{subscription:{unsubscribe(){}}}}; },
     signOut: async()=>({}),
+    signInWithPassword: async(a)=>{(window.__pw=window.__pw||[]).push(a); if(a.password==='Bon-Mot-De-Passe-77'){window.__session={access_token:'tok',user:{id:'u1',email:a.email}};return {data:{session:window.__session,user:window.__session.user},error:null};} return {data:{},error:{message:'Invalid login credentials'}};},
     signInWithOtp: async(a)=>{(window.__otp=window.__otp||[]).push(a);return {error:null};},
     verifyOtp: async(a)=>{(window.__verify=window.__verify||[]).push(a);window.__session={access_token:'tok',user:{id:'u1'}};return {data:{session:window.__session,user:{id:'u1'}},error:null};},
     updateUser: async(a)=>{(window.__updates=window.__updates||[]).push(a);window.__hasPassword=true;return {error:null};}
@@ -44,7 +45,7 @@ export function createClient(){
     await page.goto(origin + "/espace-membre.html");
     await page.click("#open-personal-space");
     await page.fill("#personal-space-form input[name=email]", "ancien@exemple.fr");
-    await page.click("#personal-space-form button[type=submit]");
+    await page.click("#personal-space-form [data-send-link]");
     await page.waitForFunction(() => window.__otp && window.__otp.length === 1);
     const first = await page.evaluate(() => window.__otp[0]);
     assert.equal(first.email, "ancien@exemple.fr");
@@ -53,6 +54,30 @@ export function createClient(){
     await page.waitForSelector("#personal-space-form [data-otp-step]:not([hidden])");
     assert.equal(await page.locator("#personal-space-form input[name=otp]").count(), 0, "Plus de saisie de code.");
     assert.match(await page.textContent("#personal-space-form [data-otp-step]"), /cliquez sur le lien/i);
+    // 1 bis. Connexion par mot de passe (après activation) : mauvais mot de passe refusé, bon mot de passe accepté, aucun e-mail demandé.
+    const pwl = await open([{ organization_id: "o1" }]);
+    await pwl.goto(origin + "/espace-membre.html");
+    await pwl.click("#open-personal-space");
+    await pwl.fill("#personal-space-form input[name=email]", "ancien@exemple.fr");
+    await pwl.click("#personal-space-form button[type=submit]");
+    await pwl.waitForFunction(() => /Saisissez votre mot de passe/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    await pwl.fill("#personal-space-form input[name=login_password]", "mauvais-mot-de-passe-1");
+    await pwl.click("#personal-space-form button[type=submit]");
+    await pwl.waitForFunction(() => /incorrect/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    await pwl.fill("#personal-space-form input[name=login_password]", "Bon-Mot-De-Passe-77");
+    await pwl.click("#personal-space-form button[type=submit]");
+    await pwl.waitForFunction(() => /Connexion réussie/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    assert.equal(await pwl.evaluate(() => (window.__otp || []).length), 0, "Aucun e-mail pour une connexion par mot de passe.");
+    assert.deepEqual(pwl.errors, []);
+    // 1 ter. Mot de passe correct mais espace encore à activer : on reprend l'activation.
+    const pwa = await open([]);
+    await pwa.addInitScript(() => { window.__activation = { state: "pending", deadline: "2026-11-25T18:00:00Z", has_password: true }; });
+    await pwa.goto(origin + "/espace-membre.html");
+    await pwa.click("#open-personal-space");
+    await pwa.fill("#personal-space-form input[name=email]", "attente@exemple.fr");
+    await pwa.fill("#personal-space-form input[name=login_password]", "Bon-Mot-De-Passe-77");
+    await pwa.click("#personal-space-form button[type=submit]");
+    await pwa.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
     // 2. Création depuis le petit lien : consentement obligatoire.
     page = await open([{ organization_id: "o2" }]);
     const provisioned = [];
@@ -147,6 +172,7 @@ export function createClient(){
     await link2.click("#personal-space-form button[type=submit]");
     await link2.waitForFunction(() => /Votre espace est activé/.test(document.querySelector("#personal-space-feedback")?.textContent || ""), null, { timeout: 8000 });
     assert.equal((await link2.evaluate(() => window.__updates))[0].password, "Cheval-Bleu-Lune-77");
+    assert.equal((await link2.evaluate(() => window.__updates))[0].data.privacy_notice_acknowledged, true, "L'activation enregistre l'acceptation de la politique.");
     assert.deepEqual(link2.errors, []);
     // Lien du courrier renvoyé vers une autre page (adresse de retour non autorisée côté Supabase) : reprise sur l'espace membre.
     const wrong = await open([]);

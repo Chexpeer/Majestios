@@ -13,6 +13,7 @@ const preview = document.querySelector(".member-preview");
 const otpStep = form?.querySelector("[data-otp-step]");
 const resendButton = form?.querySelector("[data-resend-otp]");
 const emailInput = form?.elements.namedItem("email");
+const sendLinkButton = form?.querySelector("[data-send-link]");
 
 if (form && config?.url && config?.publishableKey) {
   const supabase = createClient(config.url, config.publishableKey, {
@@ -53,13 +54,13 @@ if (form && config?.url && config?.publishableKey) {
   const setCreateMode = (on) => {
     createMode = on;
     form.querySelectorAll("[data-create-only]").forEach((el) => { el.hidden = !on; });
-    form.querySelectorAll("[data-mode-login]").forEach((el) => { el.hidden = on; });
+    form.querySelectorAll("[data-mode-login], [data-login-only]").forEach((el) => { el.hidden = on; });
     form.querySelectorAll("[data-mode-create]").forEach((el) => { el.hidden = !on; });
     const ack = field("privacy_ack");
     if (ack) ack.required = on;
     if (titleEl) titleEl.textContent = on ? "Créer mon espace personnel" : "Se connecter à mon espace";
-    if (introEl) introEl.textContent = on ? "Un e-mail avec un lien de connexion confirme votre adresse et crée votre espace." : "Recevez un lien de connexion par e-mail pour accéder à votre espace existant.";
-    if (submitButton) submitButton.innerHTML = (on ? "Recevoir mon lien pour créer mon espace" : "Recevoir mon lien de connexion") + ' <span aria-hidden="true">→</span>';
+    if (introEl) introEl.textContent = on ? "Un e-mail avec un lien de connexion confirme votre adresse et crée votre espace." : "Connectez-vous avec votre adresse e-mail et votre mot de passe.";
+    if (submitButton) submitButton.innerHTML = (on ? "Recevoir mon lien pour créer mon espace" : "Me connecter") + ' <span aria-hidden="true">→</span>';
   };
   form.querySelectorAll("[data-toggle-create]").forEach((b) => b.addEventListener("click", () => setCreateMode(!createMode)));
   document.querySelectorAll("[data-open-create]").forEach((b) => b.addEventListener("click", () => {
@@ -95,7 +96,7 @@ if (form && config?.url && config?.publishableKey) {
   const showPasswordStep = () => {
     awaitingPassword = true;
     linkSent = false;
-    form.querySelectorAll("[data-before-otp], [data-create-only]").forEach((el) => { el.hidden = true; });
+    form.querySelectorAll("[data-before-otp], [data-create-only], [data-login-only], [data-mode-login]").forEach((el) => { el.hidden = true; });
     if (otpStep) otpStep.hidden = true;
     if (submitButton) submitButton.hidden = false;
     if (pwStep) pwStep.hidden = false;
@@ -113,7 +114,7 @@ if (form && config?.url && config?.publishableKey) {
   const setPasswordAndActivate = async () => {
     const check = validatePassword(value("new_password"), { email: pendingEmail, organization: value("organization_name"), confirm: value("new_password_confirm") });
     if (!check.ok) throw new Error(check.message);
-    const { error: pwError } = await supabase.auth.updateUser({ password: value("new_password") });
+    const { error: pwError } = await supabase.auth.updateUser({ password: value("new_password"), data: { privacy_notice_acknowledged: true, privacy_notice_version: NOTICE_VERSION } });
     if (pwError) throw new Error("Le mot de passe n’a pas pu être enregistré. Choisissez-en un autre ou réessayez.");
     const { data: { session } } = await supabase.auth.getSession();
     const response = await provisionWorkspace(session);
@@ -126,9 +127,9 @@ if (form && config?.url && config?.publishableKey) {
     if (pwStep) pwStep.hidden = true;
     ["new_password", "new_password_confirm"].forEach((n) => { const el = field(n); if (el) { el.required = false; el.value = ""; } });
     hideAlert();
-    setCreateMode(false);
     if (emailInput) emailInput.required = true;
     form.querySelectorAll("[data-before-otp]").forEach((el) => { el.hidden = false; });
+    setCreateMode(false);
     await updateAuthStatus(session);
     setFeedback("Votre espace est activé. Bienvenue dans votre espace MajestiOS.");
     retourner();
@@ -157,6 +158,26 @@ if (form && config?.url && config?.publishableKey) {
     }, 1000);
   };
 
+  const signInWithPasswordFlow = async () => {
+    if (!emailInput?.checkValidity()) { emailInput?.reportValidity(); return; }
+    const email = value("email").toLowerCase();
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password: String(field("login_password")?.value ?? "") });
+    if (error || !data?.session) throw new Error("Adresse ou mot de passe incorrect. Première connexion ou mot de passe oublié : demandez un lien par e-mail.");
+    pendingEmail = email;
+    if (field("login_password")) field("login_password").value = "";
+    await updateAuthStatus(data.session);
+    if (needsActivation) {
+      showPasswordStep();
+      setFeedback("Connexion réussie. Il reste à activer votre espace : confirmez votre mot de passe.");
+      return;
+    }
+    const { data: memberships } = await supabase.from("organization_members").select("organization_id").eq("user_id", data.user.id).limit(1);
+    if (memberships?.length) {
+      setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
+      retourner();
+    } else setFeedback("Connexion réussie, mais aucun espace n’est associé à ce compte. Demandez un lien par e-mail pour le créer.", true);
+  };
+
   const sendOtp = async () => {
     const email = value("email").toLowerCase();
     if (!emailInput?.checkValidity()) {
@@ -177,7 +198,7 @@ if (form && config?.url && config?.publishableKey) {
     pendingEmail = email;
     linkSent = true;
     if (otpStep) otpStep.hidden = false;
-    form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = true; });
+    form.querySelectorAll("[data-before-otp], [data-login-only]").forEach((element) => { element.hidden = true; });
     if (submitButton) submitButton.hidden = true;
     setFeedback(`Un e-mail vient d’être envoyé à ${email}. Ouvrez-le et cliquez sur le lien de connexion.`);
     startResendCooldown();
@@ -234,13 +255,21 @@ if (form && config?.url && config?.publishableKey) {
       else if (linkSent) return;
       else {
         if (!form.reportValidity()) return;
-        await sendOtp();
+        if (!createMode) {
+          if (!value("login_password")) throw new Error("Saisissez votre mot de passe, ou demandez un lien de connexion par e-mail.");
+          await signInWithPasswordFlow();
+        } else await sendOtp();
       }
     } catch (error) {
       setFeedback(error.message || "Une erreur est survenue. Veuillez réessayer.", true);
     } finally {
       if (submitButton) submitButton.disabled = false;
     }
+  });
+
+  sendLinkButton?.addEventListener("click", async () => {
+    if (feedback) feedback.hidden = true;
+    try { await sendOtp(); } catch (error) { setFeedback(error.message || "Une erreur est survenue. Veuillez réessayer.", true); }
   });
 
   resendButton?.addEventListener("click", async () => {

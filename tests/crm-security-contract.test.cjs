@@ -179,7 +179,7 @@ assert.match(auth, /shouldCreateUser: false/);
 // Création d'espace : uniquement après code vérifié puis mot de passe sécurisé (activation), jamais à la simple connexion.
 assert.match(auth, /shouldCreateUser: true[\s\S]*shouldCreateUser: false/);
 assert.ok(auth.indexOf("updateUser({ password") < auth.indexOf("provisionWorkspace(session)"));
-assert.doesNotMatch(auth, /signInWithPassword/);
+assert.match(auth, /signInWithPassword/, "connexion par mot de passe après activation (décision du 20/11/2026)");
 assert.match(auth, /signInWithOtp/);
 assert.doesNotMatch(auth, /verifyOtp/, "connexion par lien : plus de saisie de code");
 assert.match(auth, /members\?\.length/);

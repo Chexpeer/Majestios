@@ -273,3 +273,10 @@ Décision du propriétaire : l'inscription par code ne simplifie rien (le courri
 Changement (espace-membre.html, auth-espace-membre.js, espace-prive.html) : plus de champ « code » ni de vérification de code. Après la demande, la page indique de cliquer sur le lien reçu par e-mail (avec « Renvoyer le lien »). Le clic ramène sur l'espace membre : création du mot de passe puis activation (le nom d'entreprise saisi à la création voyage dans les données du compte) ; un espace déjà actif ramène directement à la page d'origine (`?retour=`) ou affiche la connexion réussie.
 Tests : tests/auth-espace-membre-otp.test.cjs et verify-architecture.js (contrat sans code), tests/espace-membre-creation.browser.cjs (parcours par le lien).
 Retour arrière : annuler le commit de cette étape.
+
+## Suite 13 — 2026-11-20 : connexion par mot de passe après activation, activation qui aboutit
+
+Constats (captures du propriétaire) : (1) l'activation enregistrait le mot de passe mais l'espace n'était pas créé : le serveur (fonction `provision-client-workspace`) refusait (403) car le compte, créé par une connexion directe, n'avait pas l'acceptation de la politique de confidentialité dans ses données ; (2) une fois le mot de passe créé, le formulaire ne proposait que l'e-mail (lien) pour se connecter.
+Changements (espace-membre.html, auth-espace-membre.js) : l'étape « Activer mon espace » indique que l'activation vaut acceptation de la politique et l'enregistre avec le mot de passe ; le formulaire de connexion propose adresse e-mail + mot de passe (« Me connecter ») et, en dessous, « Recevoir un lien de connexion par e-mail » (première connexion, mot de passe oublié) ; mot de passe correct mais espace non activé : l'activation reprend. La création d'espace reste par lien.
+Contrats mis à jour : tests/auth-espace-membre-otp.test.cjs, tests/crm-security-contract.test.cjs, verify-architecture.js (connexion par mot de passe désormais attendue après activation). Test navigateur : espace-membre-creation.browser.cjs (mauvais/bon mot de passe, reprise d'activation, acceptation enregistrée).
+Retour arrière : annuler le commit de cette étape.

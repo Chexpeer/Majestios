@@ -32,9 +32,10 @@
 <dialog class="personal-space-dialog" id="personal-space-dialog" aria-labelledby="personal-space-title"><form class="personal-space-form" id="personal-space-form" data-supabase-auth>
 <button class="personal-space-close" type="button" id="close-personal-space" aria-label="Fermer le formulaire">×</button>
 <p class="eyebrow">VOTRE ESPACE MAJESTIOS</p><h2 id="personal-space-title">Se connecter à mon espace</h2>
-<p class="personal-space-intro">Recevez un lien de connexion par e-mail pour accéder à votre espace existant.</p>
+<p class="personal-space-intro">Connectez-vous avec votre adresse e-mail et votre mot de passe.</p>
 <div class="personal-space-fields" data-before-otp>
 <label class="form-field" data-auth-common>Adresse e-mail <span>*</span><input name="email" type="email" autocomplete="email" required maxlength="254"></label>
+<label class="form-field" data-login-only>Mot de passe<input name="login_password" type="password" autocomplete="current-password" maxlength="128"></label>
 </div>
 <div class="personal-space-create" data-create-only data-before-otp hidden>
 <label class="form-field">Votre nom (facultatif)<input name="display_name" type="text" autocomplete="name" maxlength="120"></label>
@@ -45,14 +46,16 @@
 <p class="small-note">Dernière étape : créez un mot de passe sécurisé pour activer votre espace.</p>
 <label class="form-field">Mot de passe <span>*</span><input name="new_password" type="password" autocomplete="new-password" maxlength="128"></label>
 <label class="form-field">Confirmez le mot de passe <span>*</span><input name="new_password_confirm" type="password" autocomplete="new-password" maxlength="128"></label>
+<p class="small-note">En activant mon espace, j’accepte la <a href="politique-confidentialite.html">politique de confidentialité</a>.</p>
 <p class="small-note" id="password-help">12 caractères minimum, avec au moins une lettre et un chiffre. Évitez votre adresse e-mail ou le nom de votre entreprise.</p>
 </section>
 <section class="personal-space-otp" data-otp-step hidden aria-live="polite">
 <p class="small-note" id="otp-help">Un e-mail vient de vous être envoyé. Ouvrez-le et cliquez sur le lien de connexion : vous reviendrez ici automatiquement. Pensez à regarder vos courriers indésirables.</p>
 <button class="text-button" type="button" data-resend-otp disabled>Renvoyer le lien</button>
 </section>
-<p class="personal-space-notice" data-before-otp>Pour vous connecter, un lien est envoyé à votre adresse e-mail.</p>
-<button class="button button-primary personal-space-submit" type="submit">Recevoir mon lien de connexion <span aria-hidden="true">→</span></button><p class="member-create-hint" data-before-otp><span data-mode-login>Pas encore d’espace ? <button class="member-create-link" type="button" data-toggle-create>Créer mon espace personnel</button></span><span data-mode-create hidden>Déjà un espace ? <button class="member-create-link" type="button" data-toggle-create>Me connecter</button></span></p>
+<button class="text-button" type="button" data-send-link data-mode-login data-before-otp>Recevoir un lien de connexion par e-mail</button>
+<p class="personal-space-notice" data-before-otp>Connectez-vous avec votre mot de passe. Première connexion, ou mot de passe oublié : recevez un lien par e-mail.</p>
+<button class="button button-primary personal-space-submit" type="submit">Me connecter <span aria-hidden="true">→</span></button><p class="member-create-hint" data-before-otp><span data-mode-login>Pas encore d’espace ? <button class="member-create-link" type="button" data-toggle-create>Créer mon espace personnel</button></span><span data-mode-create hidden>Déjà un espace ? <button class="member-create-link" type="button" data-toggle-create>Me connecter</button></span></p>
 
 <p class="personal-space-feedback" id="personal-space-feedback" role="status" aria-live="polite" hidden></p>
 </form></dialog>
