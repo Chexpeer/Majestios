@@ -4,7 +4,7 @@
 
 Avant toute intervention, lire obligatoirement [le dossier central des anomalies critiques](docs/CRITIQUES/README.md), puis le registre détaillé de la branche active. Ce point d'entrée est commun à tous les agents et développeurs ; il centralise les risques, les priorités, les statuts et les règles de correction.
 
-**Chantier en cours au 13 novembre 2026 :** la branche autorisée est `Evolution-9`, créée depuis le commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` d'`Evolution-8`. `Evolution-8` et `Evolution-7` sont des références à préserver ; ne pas y ajouter de commits dans le chantier Evolution-9. Travailler exclusivement sur `Evolution-9`. Ne pas modifier `main`, `Evolution-8`, `Evolution-7` ou une branche historique sans autorisation distincte.
+**Chantier en cours au 20 novembre 2026 :** la branche autorisée est `evolution-10` (copie de test, reprise d'Evolution-9). Historique : au 13 novembre 2026 la branche autorisée était `Evolution-9`, créée depuis le commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` d'`Evolution-8`. `Evolution-8` et `Evolution-7` sont des références à préserver ; ne pas y ajouter de commits dans le chantier Evolution-9. Travailler exclusivement sur `Evolution-9`. Ne pas modifier `main`, `Evolution-8`, `Evolution-7` ou une branche historique sans autorisation distincte.
 
 La boucle obligatoire est : **détecter → qualifier → corriger → tester → documenter → enregistrer**. Distinguer systématiquement anomalie confirmée, évolution produit et recette non effectuée. Ne jamais présenter une recette non exécutée comme validée.
 
@@ -12,7 +12,7 @@ La boucle obligatoire est : **détecter → qualifier → corriger → tester �
 
 Le mandat courant est limité à la correction des défauts techniques flagrants, à la consignation des sujets complexes et à la consolidation documentaire. **Le site ne doit pas être refondu ni modifié visuellement ou éditorialement dans ce lot.** Ne pas modifier les pages HTML, les feuilles CSS, les composants de navigation, les contenus, les parcours ou l'organisation des rubriques. Une correction fonctionnelle strictement nécessaire peut être faite uniquement si elle est demandée, minimale, testée et sans modification de présentation.
 
-- Travailler sur la branche existante `Evolution-9` ; ne pas créer de clone, de copie partielle ou de branche parallèle.
+- Travailler sur la branche existante `evolution-10` (Evolution-9 reste intacte, en lecture seule) ; ne pas créer de clone, de copie partielle ou de branche parallèle.
 - Ne pas supprimer, déplacer ou remplacer un fichier simplement parce qu'il semble orphelin ; tracer ses références et ses dépendances avant toute décision.
 - Restaurer un fichier supprimé par erreur uniquement depuis un blob Git identifié et si cette restauration rétablit exactement l'état source antérieur.
 - Ne pas modifier les migrations historiques, les policies, les données, les secrets ou la configuration Supabase distante dans ce lot.

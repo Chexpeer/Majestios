@@ -129,6 +129,12 @@ jobs:
         run: node --test tests/retour-service.test.mjs
       - name: Publication directe d'annonces (administration)
         run: node --test tests/annonces-admin-publication.test.mjs
+      - name: Construire le site statique
+        run: node build.js
+      - name: Installer Playwright et Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright@1.64.1
+          npx playwright install chromium
       - name: Vérifier l'harmonisation visuelle et le cube en cristal
         run: node tests/harmonisation-visuelle.browser.cjs
       - name: Tester la relecture des annonces (règles pures)
@@ -161,18 +167,12 @@ jobs:
         run: node tests/prospection-contract.test.cjs
       - name: Tester le noyau de recherche Prospection membre
         run: node tests/prospection-search-core.test.cjs
-      - name: Construire le site statique
-        run: node build.js
       - name: Vérifier l’architecture et les routes
         run: node verify-architecture.js
       - name: Vérifier les pages, liens locaux et identifiants
         run: node verify-site.js
       - name: Vérifier les liens de la documentation canonique
         run: node verify-doc-links.js
-      - name: Installer Playwright et Chromium
-        run: |
-          npm install --no-save --package-lock=false playwright@1.64.1
-          npx playwright install chromium
       - name: Tester le parcours progressif des critères Prospection dans un navigateur
         run: node tests/prospection-criteria.browser.cjs
       - name: Vérifier la connexion réelle à l’API BOAMP
