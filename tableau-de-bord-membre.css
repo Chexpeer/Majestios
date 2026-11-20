@@ -4,7 +4,7 @@ html body main.interior-page .mj-board[hidden]{display:none!important}
 html body main.interior-page .mj-board-head h2{margin:0 0 4px;font:800 clamp(26px,3.4vw,38px)/1.12 Manrope,Inter,sans-serif;letter-spacing:-.04em;color:#F0F3F4!important;text-shadow:0 2px 18px rgba(0,0,0,.65)!important}
 html body main.interior-page .mj-board-sub{margin:0 0 18px;color:#E3EAEE!important;text-shadow:0 1px 12px rgba(0,0,0,.7)!important;font-size:15px}
 html body main.interior-page .mj-board-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:14px;margin-bottom:16px}
-html body main.interior-page .mj-kpi{min-width:0;display:flex;flex-direction:column;gap:6px;padding:18px 18px 16px;border:1px solid rgba(206,218,226,.16);border-left:3px solid #D5B56C;border-radius:13px;background:linear-gradient(155deg,rgba(32,45,54,.94),rgba(23,34,42,.95));box-shadow:0 15px 40px rgba(0,0,0,.28)}
+html body main.interior-page .mj-kpi{min-width:0;display:flex;flex-direction:column;gap:6px;padding:18px 18px 16px;border:1px solid rgba(206,218,226,.16);border-left:3px solid #5EEAD4;border-radius:13px;background:linear-gradient(155deg,rgba(32,45,54,.94),rgba(23,34,42,.95));box-shadow:0 15px 40px rgba(0,0,0,.28)}
 html body main.interior-page .mj-kpi-value{font:800 34px/1 Manrope,Inter,sans-serif;color:#F0F3F4!important;text-shadow:none!important}
 html body main.interior-page .mj-kpi-label{color:#9BAAB4!important;text-shadow:none!important;font-size:13px;line-height:1.4}
 html body main.interior-page .mj-board-panel{padding:19px 18px;border:1px solid rgba(206,218,226,.16);border-radius:13px;background:linear-gradient(155deg,rgba(32,45,54,.94),rgba(23,34,42,.95));box-shadow:0 15px 40px rgba(0,0,0,.28)}

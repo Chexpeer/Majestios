@@ -345,3 +345,9 @@ Audit réalisé sur la copie de test, sans modification fonctionnelle.
   5. Nom de domaine propre avant toute mise en production (aucun aujourd'hui) ; la protection Vercel de la copie de test n'est levée qu'à la décision du propriétaire.
   6. Correction du texte d'une annonce publiée par l'administration, avec trace dans l'historique.
 - Rien n'est fusionné ni en production.
+
+## Suite 23 — Identité des espaces et nouveaux types d'annonces (2026-11-20)
+
+- **Identité des espaces :** une pastille discrète en bas à gauche et un liseré en haut de page indiquent l'espace : « ESPACE ADMIN » (or) sur les pages d'administration, « MON ESPACE » (turquoise) sur l'espace client connecté, dont le fond d'écran est désormais fixe (montagnes à l'aurore) pour être reconnu d'un coup d'œil. Les chiffres du tableau de bord client reprennent la teinte turquoise. Les rubriques publiques gardent leurs fonds aléatoires. La page `crm.html` n'est pas touchée.
+- **Nouveaux types d'annonces (demande du propriétaire : immobilier, vente d'entreprise, autre) :** quatre types ajoutés aux huit existants — offre immobilière, recherche immobilière, cession d'entreprise, recherche de reprise d'entreprise. « Autre offre » et « Autre demande » existaient déjà. Migration `20261120190000_announcements_more_kinds.sql` appliquée à la base de test : règle de la table et liste de contrôle de `submit_announcement` et `publish_announcement_admin` étendues. Formulaire de dépôt, filtres, relecture administrateur et bandeau reprennent les nouveaux libellés ; deux raccourcis ajoutés sur la page de dépôt (Immobilier, Vente d'entreprise).
+- Retour arrière : rétablir la règle `announcements_kind_check` aux 8 types d'origine (migration `20261116170000`) et restaurer les fichiers du commit précédent.

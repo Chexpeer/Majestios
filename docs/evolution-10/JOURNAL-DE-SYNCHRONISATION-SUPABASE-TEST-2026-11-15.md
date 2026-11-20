@@ -27,3 +27,7 @@ Présentes dans le dépôt mais **non déployées sur Test** : `bootstrap-intern
 ## Configuration du site (evolution-10)
 
 `supabase-config.js` et `annonces-config.mjs` pointent sur **MajestiOS-Test**. **Avant toute fusion vers la production, remettre `supabase-config.js` sur majestios-crm.** À ne jamais oublier.
+
+## Migration appliquée sur Test le 2026-11-20
+
+- `20261120190000_announcements_more_kinds` : quatre types d'annonces ajoutés (`real_estate_offer`, `real_estate_wanted`, `business_sale`, `business_wanted`) dans la règle `announcements_kind_check` et dans les fonctions `submit_announcement` et `publish_announcement_admin`. Appliquée sur MajestiOS-Test uniquement ; **à rejouer sur la production avec le reste des migrations lors de la fusion décidée par le propriétaire.** `majestios-crm` n'est pas modifié.

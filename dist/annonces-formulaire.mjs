@@ -8,6 +8,10 @@ export const KINDS = Object.freeze([
   ["job_seeker", "Emploi : je cherche un poste"],
   ["equipment_offer", "Matériel : je loue du matériel (ex. BTP)"],
   ["equipment_wanted", "Matériel : je cherche du matériel à louer"],
+  ["real_estate_offer", "Immobilier : je propose un bien ou un local"],
+  ["real_estate_wanted", "Immobilier : je cherche un bien ou un local"],
+  ["business_sale", "Entreprise : je cède mon entreprise"],
+  ["business_wanted", "Entreprise : je cherche à reprendre une entreprise"],
   ["other_offer", "Autre : je propose"],
   ["other_request", "Autre : je recherche"]
 ]);

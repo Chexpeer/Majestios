@@ -225,6 +225,7 @@ export function createClient(){
     const dash = await open([{ organization_id: "o1" }]);
     await dash.addInitScript(() => {
       window.__session = { access_token: "tok", user: { id: "u1", email: "zine@exemple.fr" } };
+      localStorage.setItem("sb-test-auth-token", JSON.stringify({ access_token: "tok" }));
       window.__tables = {
         organization_members: [{ organization_id: "o1" }],
         profiles: [{ display_name: "Zine Eddine" }],
@@ -266,6 +267,20 @@ export function createClient(){
     await anonDash.goto(origin + "/espace-membre.html");
     await anonDash.waitForTimeout(500);
     assert.equal(await anonDash.locator("#tableau-de-bord").isVisible(), false, "Non connecté : pas de tableau de bord.");
+    // Identité des espaces : pastille « MON ESPACE » (client connecté) et fond fixe ; « ESPACE ADMIN » sur les pages d'administration.
+    assert.equal(await dash.locator("#mj-space-badge").textContent(), "MON ESPACE", "Client connecté : pastille « MON ESPACE ».");
+    const fond1 = await dash.evaluate(() => getComputedStyle(document.body).getPropertyValue("--mj-fond-image"));
+    assert.match(fond1, /montagnes-aurore/, "L’espace personnel garde un fond fixe.");
+    await dash.goto("about:blank"); await dash.goto(origin + "/espace-membre.html");
+    await dash.waitForSelector("#mj-space-badge");
+    assert.match(await dash.evaluate(() => getComputedStyle(document.body).getPropertyValue("--mj-fond-image")), /montagnes-aurore/, "Fond identique à chaque visite.");
+    assert.equal(await anonDash.locator("#mj-space-badge").count(), 0, "Non connecté : pas de pastille « MON ESPACE ».");
+    for (const adminPage of ["administration.html", "admin-annonces.html", "admin-utilisateurs.html", "admin-recherches.html", "admin-cheexpeer.html", "espace-interne.html"]) {
+      const ap = await open([]);
+      await ap.goto(origin + "/" + adminPage);
+      await ap.waitForSelector("#mj-space-badge");
+      assert.equal(await ap.locator("#mj-space-badge").textContent(), "ESPACE ADMIN", adminPage + " : pastille « ESPACE ADMIN ».");
+    }
     // Bandeau de bas de page et menu : pas de « Accéder » quand on est connecté, pas de « Créer » dans le menu.
     const anon = await open([]);
     await anon.goto(origin + "/marches-publics.html");
