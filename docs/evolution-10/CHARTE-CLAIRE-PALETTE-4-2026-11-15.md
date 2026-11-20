@@ -286,3 +286,8 @@ Retour arrière : annuler le commit de cette étape.
 - Un compte qui a déjà un mot de passe (RPC `has_password`) n'a plus à le ressaisir : l'étape d'activation ne demande que de valider l'espace (évite l'erreur `current_password_required`). Le consentement est enregistré sans toucher au mot de passe.
 - La carte « connexion » dit la vérité : déconnecté → « Se connecter » + « Créer mon espace » ; connecté non activé → « Votre compte est connecté » + « Activer mon espace » + « Se déconnecter » ; activé → « Vous êtes connecté » + « Se déconnecter ».
 - Retour arrière : revenir au commit précédent de `auth-espace-membre.js`. Test : `tests/espace-membre-creation.browser.cjs`.
+
+## Suite 15 — Fermeture du formulaire après connexion réussie (2026-11-20)
+
+- Après une connexion réussie avec un espace actif et sans service à rejoindre, le formulaire « Se connecter / Créer » se referme après 1,2 s ; la carte affiche « Vous êtes connecté » + « Se déconnecter ».
+- Retour arrière : revenir au commit précédent de `auth-espace-membre.js`.

@@ -23,6 +23,11 @@ if (form && config?.url && config?.publishableKey) {
   // Retour vers le service d'origine (ex. dépôt d'annonce) une fois l'espace actif ; la clé survit au lien reçu par e-mail dans le même navigateur.
   try { const k = retourDepuisRecherche(window.location.search); if (k) sessionStorage.setItem("mj-retour", k); } catch (_) { /* sans importance */ }
   const retourEnAttente = () => { try { return destinationRetour(sessionStorage.getItem("mj-retour")); } catch (_) { return null; } };
+  // Connexion réussie sans service à rejoindre : on referme le formulaire pour ne plus proposer « Se connecter / Créer ».
+  const fermerFormulaire = () => {
+    const d = document.querySelector("#personal-space-dialog");
+    setTimeout(() => { if (d?.open) { if (typeof d.close === "function") d.close(); else d.removeAttribute("open"); } }, 1200);
+  };
   const retourner = () => {
     const cible = retourEnAttente();
     if (!cible) return false;
@@ -180,7 +185,7 @@ if (form && config?.url && config?.publishableKey) {
     const { data: memberships } = await supabase.from("organization_members").select("organization_id").eq("user_id", data.user.id).limit(1);
     if (memberships?.length) {
       setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
-      retourner();
+      if (!retourner()) fermerFormulaire();
     } else setFeedback("Connexion réussie, mais aucun espace n’est associé à ce compte. Demandez un lien par e-mail pour le créer.", true);
   };
 
@@ -316,7 +321,7 @@ if (form && config?.url && config?.publishableKey) {
     if (!session?.user) return;
     const { data: members } = await supabase.from("organization_members").select("organization_id").eq("user_id", session.user.id).limit(1);
     if (members?.length) {
-      if (!retourner()) setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
+      if (!retourner()) { setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS."); fermerFormulaire(); }
       return;
     }
     pendingEmail = session.user.email || pendingEmail;
