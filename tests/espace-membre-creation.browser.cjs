@@ -229,6 +229,12 @@ export function createClient(){
         organization_members: [{ organization_id: "o1" }],
         profiles: [{ display_name: "Zine Eddine" }],
         organizations: [{ name: "Société Test" }],
+        opportunities: [
+          { id: "o1", title: "Mairie de Lyon", status: "to_qualify", next_action: "Appeler le service achats", next_action_at: "2026-11-25T09:00:00Z" },
+          { id: "o2", title: "Groupe Alpha", status: "proposal", next_action: "Relancer le devis", next_action_at: "2026-11-22T09:00:00Z" },
+          { id: "o3", title: "Client gagné", status: "won", next_action: "Facturer" },
+          { id: "o4", title: "Piste archivée", status: "archived" }
+        ],
         client_requests: [
           { id: "1", request_type: "tender_support", status: "in_review", subject: "Appel d’offres mairie", created_at: "2026-11-10T10:00:00Z" },
           { id: "2", request_type: "other", status: "waiting_for_user", subject: "Audit image", created_at: "2026-11-12T10:00:00Z" },
@@ -240,15 +246,21 @@ export function createClient(){
     await dash.waitForSelector("#tableau-de-bord:not([hidden]) .mj-kpi");
     assert.match(await dash.textContent("#tableau-de-bord h2"), /Bonjour Zine/);
     assert.match(await dash.textContent("#tableau-de-bord .mj-board-sub"), /Société Test/);
-    const chiffres = await dash.locator("#tableau-de-bord .mj-kpi-value").allTextContents();
+    const chiffres = await dash.locator("#tableau-de-bord > .mj-board-kpis .mj-kpi-value").allTextContents();
     assert.deepEqual(chiffres, ["3", "1", "1", "1"], "Chiffres : 3 demandes, 1 en cours, 1 à compléter, 1 terminée.");
-    assert.equal(await dash.locator("#tableau-de-bord .mj-board-list li").count(), 3);
+    assert.equal(await dash.locator("#tableau-de-bord .mj-board-panel:not(.mj-board-suivi) .mj-board-list li").count(), 3);
+    const etapes = await dash.locator("#suivi-commercial .mj-kpi-value").allTextContents();
+    assert.deepEqual(etapes, ["1", "0", "1", "1", "0"], "Suivi : 1 à qualifier, 0 qualifiée, 1 en contact, 1 gagnée, 0 perdue (archivée exclue).");
+    assert.match(await dash.textContent("#suivi-commercial .mj-board-list li:first-child"), /Groupe Alpha/, "Prochaine action la plus proche en premier.");
+    assert.equal(await dash.locator("#suivi-commercial .mj-board-list li").count(), 2, "Les pistes gagnées ou perdues n’ont plus d’action à venir.");
+    assert.ok(await dash.locator(".mj-service.is-soon", { hasText: "Mes factures" }).count() === 1, "« Mes factures » est présent et grisé en attendant le partenaire.");
     assert.match(await dash.textContent("#tableau-de-bord .mj-board-list li:first-child"), /Audit image/, "La plus récente en premier.");
     assert.equal(await dash.locator("main .interior-lede").textContent().then((x) => /Connectez-vous/.test(x)), false, "Connecté : plus de « Connectez-vous » en introduction.");
     const vide = await open([{ organization_id: "o1" }]);
     await vide.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1", email: "x@exemple.fr" } }; window.__tables = { organization_members: [{ organization_id: "o1" }], profiles: [], organizations: [], client_requests: [] }; });
     await vide.goto(origin + "/espace-membre.html");
     await vide.waitForSelector("#tableau-de-bord:not([hidden]) .mj-board-empty");
+    assert.match(await vide.textContent("#suivi-commercial .mj-board-empty"), /Aucune piste suivie/);
     assert.match(await vide.textContent("#tableau-de-bord h2"), /Bonjour x/);
     const anonDash = await open([]);
     await anonDash.goto(origin + "/espace-membre.html");

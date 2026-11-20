@@ -19,6 +19,24 @@ export const summarizeRequests = (rows) => {
   return { total: list.length, enCours: count(EN_COURS), aCompleter: count(A_COMPLETER), terminees: count(TERMINEES), recent };
 };
 
+const ETAPES = [
+  ["À qualifier", ["detected", "to_qualify"]],
+  ["Qualifiées", ["qualified", "to_contact"]],
+  ["En contact", ["contacted", "meeting", "proposal"]],
+  ["Gagnées", ["won"]],
+  ["Perdues", ["lost"]]
+];
+
+export const summarizePipeline = (rows) => {
+  const list = (Array.isArray(rows) ? rows : []).filter((r) => r?.status !== "archived");
+  const stages = ETAPES.map(([label, set]) => ({ label, count: list.filter((r) => set.includes(r.status)).length }));
+  const actions = list
+    .filter((r) => r.next_action && !["won", "lost"].includes(r.status))
+    .sort((a, b) => String(a.next_action_at || "9999").localeCompare(String(b.next_action_at || "9999")))
+    .slice(0, 5);
+  return { total: list.length, stages, actions };
+};
+
 export const firstName = (displayName, email) => {
   const base = String(displayName || "").trim() || String(email || "").split("@")[0] || "";
   return base.split(/\s+/)[0] || "";
@@ -38,10 +56,11 @@ const el = (tag, className, text) => {
 
 export const renderDashboard = async (supabase, session, host) => {
   if (!host) return;
-  const [profile, org, requests] = await Promise.all([
+  const [profile, org, requests, opps] = await Promise.all([
     supabase.from("profiles").select("display_name").eq("id", session.user.id).limit(1),
     supabase.from("organizations").select("name").limit(1),
-    supabase.from("client_requests").select("id,request_type,status,subject,created_at").limit(100)
+    supabase.from("client_requests").select("id,request_type,status,subject,created_at").limit(100),
+    supabase.from("opportunities").select("id,title,status,next_action,next_action_at,updated_at").limit(200)
   ]);
   const name = firstName(profile?.data?.[0]?.display_name, session.user.email);
   const company = org?.data?.[0]?.name || "";
@@ -80,6 +99,37 @@ export const renderDashboard = async (supabase, session, host) => {
     panel.append(ul);
   }
   host.append(panel);
+
+  // Suivi commercial : pistes et prochaines actions de l'organisation du membre (lecture seule ; l'isolation par organisation est garantie par la base).
+  const pipe = summarizePipeline(opps?.data);
+  const suivi = el("div", "mj-board-panel mj-board-suivi");
+  suivi.id = "suivi-commercial";
+  suivi.append(el("h3", "", "Suivi commercial de vos clients"));
+  if (opps?.error) suivi.append(el("p", "mj-board-empty", "Votre suivi commercial ne peut pas être affiché pour le moment. Réessayez dans un instant."));
+  else if (!pipe.total) suivi.append(el("p", "mj-board-empty", "Aucune piste suivie pour l’instant. Vos pistes, leurs étapes et vos prochaines actions apparaîtront ici."));
+  else {
+    const row = el("div", "mj-board-kpis mj-board-stages");
+    pipe.stages.forEach((s) => {
+      const card = el("div", "mj-kpi");
+      card.append(el("strong", "mj-kpi-value", String(s.count)), el("span", "mj-kpi-label", s.label));
+      row.append(card);
+    });
+    suivi.append(row);
+    suivi.append(el("h4", "mj-board-subtitle", "Prochaines actions"));
+    if (!pipe.actions.length) suivi.append(el("p", "mj-board-empty", "Aucune action planifiée."));
+    else {
+      const ul = el("ul", "mj-board-list");
+      pipe.actions.forEach((o) => {
+        const li = el("li");
+        const main = el("div", "mj-board-item");
+        main.append(el("strong", "", o.title || "Piste"), el("span", "", o.next_action));
+        li.append(main, el("span", "mj-badge", o.next_action_at ? formatDate(o.next_action_at) : "Sans date"));
+        ul.append(li);
+      });
+      suivi.append(ul);
+    }
+  }
+  host.append(suivi);
   host.hidden = false;
 };
 

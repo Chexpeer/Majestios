@@ -22,3 +22,6 @@ html body main.interior-page .mj-badge-accepted{border-color:#4ADE80;color:#86EF
 html body main.interior-page .mj-badge-rejected{border-color:#F87171;color:#FCA5A5!important}
 @media (max-width:560px){html body main.interior-page .mj-board-list li{flex-direction:column;align-items:flex-start}}
 
+html body main.interior-page .mj-board-suivi{margin-top:16px}
+html body main.interior-page .mj-board-stages{margin-bottom:12px}
+html body main.interior-page .mj-board-subtitle{margin:6px 0 8px;font:700 14px/1.3 Manrope,Inter,sans-serif;color:#E3EAEE!important;text-shadow:none!important}

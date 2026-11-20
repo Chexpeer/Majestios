@@ -320,3 +320,11 @@ Retour arrière : annuler le commit de cette étape.
 
 - Quand une session est présente dans le navigateur, une pastille verte « Connecté » s'affiche en haut de chaque page (annonces, audit, accompagnement, etc.) et renvoie vers l'espace personnel. Elle n'apparaît pas sur la page de l'espace personnel (qui l'affiche déjà) ni si la personne n'est pas connectée. Sur téléphone, elle se place à côté du bouton de menu.
 - Retour arrière : retirer le bloc « Ampoule verte » de `navigation-tiroirs.js`.
+
+## Suite 21 — Suivi commercial des clients et « Mes factures » (2026-11-20)
+
+- Décision du propriétaire : un suivi commercial pour les clients, placé dans la rubrique Prospection, et « Mes factures » grisé en attendant la réponse du partenaire de facturation électronique.
+- Tableau de bord : nouveau bloc « Suivi commercial de vos clients » = pistes de l'organisation du membre par étape (à qualifier, qualifiées, en contact, gagnées, perdues ; archivées exclues) et 5 prochaines actions. Lecture seule ; l'isolation par organisation est celle de la base (fonction `can_read_crm_org` : un membre ne lit que les données de sa propre organisation, jamais celles de l'organisation interne). Aucune modification de la base ni du projet `majestios-crm`.
+- Cartes de services : la carte 04 devient « Suivi commercial de vos clients » (lien vers le bloc) ; nouvelle carte 05 « Mes factures », grisée « Bientôt disponible ». La vente de fichiers de missions reste annoncée comme à venir.
+- Pas encore fait : l'ajout de pistes par le client lui-même (formulaire) et toute fonction de facturation réelle (en attente du partenaire).
+- Retour arrière : restaurer `espace-membre.html` et `tableau-de-bord-membre.mjs` du commit précédent.
