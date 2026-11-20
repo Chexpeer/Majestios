@@ -22,7 +22,9 @@ Méthode : empreinte du SQL sans commentaires ni espaces, calculée sur la base 
 
 `cheexpeer-worker` (v2, dépôt : `cheexpeer-worker-bridge`, écart de nom CHX-01 connu), `cheexpeer-mission-submit`, `cheexpeer-approval-decision`, `cheexpeer-mission-read`, `reputation-audit-context` (v5), **`admin-invite-user`** (v2) et **`cheexpeer-chat`** (v1), toutes avec vérification du jeton.
 
-Présentes dans le dépôt mais **non déployées sur Test** : `bootstrap-internal-admin`, `import-official-company`, `prospection-search-member`, `provision-client-workspace`, `search-official-companies`. À déployer sur décision, au moment où leur recette sera faite.
+Présentes dans le dépôt mais **non déployées sur Test** : `bootstrap-internal-admin`, `import-official-company`, `prospection-search-member`, `search-official-companies`. À déployer sur décision, au moment où leur recette sera faite.
+
+**Mise à jour du 2026-11-20 :** `provision-client-workspace` (v2) est **déployée sur Test** (avec vérification du jeton). Elle refuse (403) toute demande dont le compte n'a pas accepté la politique de confidentialité ; elle est appelée à l'activation de l'espace. `cheexpeer-chat` est en v2.
 
 ## Configuration du site (evolution-10)
 

@@ -35,7 +35,9 @@ Le projet ne nécessite pas de framework front-end pour construire le site stati
 
 Un backend Supabase séparé a été créé pour préparer l'authentification, les espaces clients et le CRM. Le socle multi-tenant (organisations, membres, entreprises, contacts, opportunités, activités et demandes) est versionné dans `supabase/migrations/`, avec RLS activé et règles de séparation des organisations.
 
-**Important — état vérifié le 11 novembre 2026 :** le code du parcours OTP et de la fonction de provisionnement existe, mais la fonction Edge `provision-client-workspace` appelée après validation du code n'est déployée sur aucun des deux projets Supabase inspectés. Le provisionnement d'un espace client n'est donc pas considéré comme opérationnel et le parcours OTP n'a pas été recetté de bout en bout. Le frontend pointe actuellement vers `majestios-crm`, dont les migrations divergent de celles du projet `MajestiOS-Test`. Voir [l'audit de l'existant avant Evolution-8](docs/evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) avant toute intégration.
+**Mise à jour du 20 novembre 2026 (branche `evolution-10`, copie de test) :** la création d'espace se fait par lien reçu par e-mail (plus de code), suivie d'une activation obligatoire (mot de passe sécurisé et acceptation de la politique de confidentialité). La fonction `provision-client-workspace` est déployée sur le projet `MajestiOS-Test` et le site de test pointe sur ce projet (jamais sur `majestios-crm`, non modifié). Ensuite la connexion se fait par mot de passe, et l'espace personnel est un tableau de bord. Rien n'est fusionné ni en production ; voir [la synthèse](docs/SYNTHESE-MAJESTIOS.md) et le [journal de synchronisation](docs/evolution-10/JOURNAL-DE-SYNCHRONISATION-SUPABASE-TEST-2026-11-15.md).
+
+**Historique — état vérifié le 11 novembre 2026 (dépassé pour la branche de test) :** le code du parcours OTP et de la fonction de provisionnement existe, mais la fonction Edge `provision-client-workspace` appelée après validation du code n'est déployée sur aucun des deux projets Supabase inspectés. Le provisionnement d'un espace client n'est donc pas considéré comme opérationnel et le parcours OTP n'a pas été recetté de bout en bout. Le frontend pointe actuellement vers `majestios-crm`, dont les migrations divergent de celles du projet `MajestiOS-Test`. Voir [l'audit de l'existant avant Evolution-8](docs/evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) avant toute intégration.
 
 
 ## Lancer le site en local
@@ -165,6 +167,6 @@ L'introduction du CRM énumère désormais ses modules (entreprises, contacts, o
 L'espace Membres est temporairement limité à la connexion des comptes déjà habilités. La création de nouveaux espaces reste suspendue jusqu'au déploiement et à la recette de la fonction `provision-client-workspace` sur l'environnement retenu (AUTH-MEMBER-01). Aucun déploiement Supabase n'a été effectué.
 
 
-### Espace Membres — état au 12 novembre 2026
+### Espace Membres — état au 12 novembre 2026 (historique ; état courant de la branche de test : voir la mise à jour du 20 novembre plus haut)
 
 L’interface publique est limitée à la connexion OTP des membres déjà habilités. La création de compte et le provisionnement ne sont pas proposés tant que la fonction serveur n’a pas été déployée et testée. Un compte Auth sans appartenance à une organisation ne donne pas accès à un espace. Aucun déploiement Supabase n’a été effectué.

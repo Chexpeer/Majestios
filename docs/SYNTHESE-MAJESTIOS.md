@@ -26,9 +26,9 @@ Relier **développement commercial, gestion quotidienne, facturation électroniq
 
 | Domaine | État réel |
 |---|---|
-| Site public (39 pages, statique) | En ligne en prévisualisation sur la branche de test ; fonds par rubrique, menu à 6 entrées, liens harmonisés ; recette sur appareil réel non faite |
+| Site public (43 pages, statique) | En ligne en prévisualisation sur la branche de test ; fonds par rubrique, menu à 6 entrées, liens harmonisés ; recette sur appareil réel non faite |
 | Recherche BOAMP / BODACC | Moteurs côté navigateur ; résultats réels à recetter par le porteur |
-| Espace membre | Connexion par code e-mail pour les membres habilités ; création de nouveaux espaces suspendue (AUTH-01) |
+| Espace membre | Sur la branche de test : création d'espace par lien reçu par e-mail, puis activation obligatoire (mot de passe sécurisé et acceptation de la politique de confidentialité avant la date limite) ; connexion ensuite par mot de passe ; tableau de bord client ; la limite d'envoi d'e-mails de Supabase s'applique (messagerie personnalisée à prévoir). Recette de bout en bout par le propriétaire à faire ; rien en production (AUTH-01 levé sur la copie de test) |
 | CRM interne | Code et fondations Supabase présents ; recette multi-rôles non exécutée ; distinct du futur CRM client |
 | Facturation électronique | Page d'information, calendrier, **diagnostic d'orientation en 4 questions** (sans stockage) sur la branche de test ; aucun module, aucune PA. Étude comparative des PA : [PA-01](evolution-9/ETUDE-COMPARATIVE-PLATEFORMES-AGREEES-2026-11-14.md) ; offre de partenariat rédigée, aucun partenaire retenu |
 | Veille des créations (BODACC) | Page admin « Recherches ciblées » (propriétaire/administrateur) : 4 régions, bâtiment et hôtellerie-restauration, note de priorité expliquée, bouton « Veille des créations » ; lecture seule, rien n'est enregistré ; contrôle juridique avant lancement. [Parcours](evolution-9/PARCOURS-VEILLE-BODACC-CREATIONS-2026-11-14.md) |
