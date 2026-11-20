@@ -13,7 +13,7 @@
 | AUTH-02 | **Partiel — à revalider** | Le consentement repose encore sur une donnée du compte modifiable par l'utilisateur ; une table d'activation côté serveur existe. À confirmer par un test réel. |
 | AN-04 | **Ouvert, non vérifié** | Test : 52 migrations appliquées ; dépôt : 51 fichiers. Production non comparée. |
 | AN-14 | **Résolu sur Test** | RLS maintenant activée sur `private.reputation_audit_usage`. L'alerte « RLS sans politique » (info) est voulue : accès par fonctions uniquement. |
-| AN-07 | **Ouvert — action du propriétaire** | « Leaked password protection » désactivée (réglage Supabase Auth, peut dépendre de l'offre). À tester sur le parcours de connexion après activation. |
+| AN-07 | **Non activable en offre gratuite** (21 novembre) | Supabase refuse le réglage « Leaked password protection » : réservé à l'offre Pro. Les règles de longueur et de complexité restent en place. À reprendre si le projet passe en Pro ; à tester sur le parcours de connexion après activation. |
 | AN-06 | **Partiel** | Sur Test : `cheexpeer-worker` v2 et 4 fonctions Cheexpeer actives. Le pont Git `cheexpeer-worker-bridge` n'est pas déployé. |
 | AN-02 | **Ouvert** | Tests réels inter-organisations owner/admin/member non démontrés. Test : 3 organisations, 3 membres. |
 | AN-13 | **Ouvert** | `complete_crm_reminder` n'est pas exécutable par `anon`, l'est par `authenticated` (attendu). Recette des rôles non faite. |

@@ -25,7 +25,7 @@ Recette réelle des rôles CRM (AN-02, AN-13) ; consentement prouvé côté serv
 
 ## 4. Sécurité Supabase (Test)
 
-Seule action propriétaire : activer « Leaked password protection ». Les alertes sur les fonctions exécutables par les utilisateurs connectés concernent des fonctions voulues (annonces, invitations, CRM, Cheexpeer) ; chacune contrôle le rôle dans son code, ce qui reste à prouver par la recette multi-rôles.
+Seule action propriétaire identifiée : « Leaked password protection » ; essayée le 21 novembre, refusée par Supabase (offre Pro requise), donc en attente. Les alertes sur les fonctions exécutables par les utilisateurs connectés concernent des fonctions voulues (annonces, invitations, CRM, Cheexpeer) ; chacune contrôle le rôle dans son code, ce qui reste à prouver par la recette multi-rôles.
 
 ## 5. Évolutions à prévoir
 
