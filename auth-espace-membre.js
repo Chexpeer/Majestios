@@ -87,10 +87,12 @@ if (form && config?.url && config?.publishableKey) {
   const alertAction = document.querySelector("#member-activation-action");
   const showAlert = (deadline) => {
     if (!alertBox) return;
+    needsActivation = true;
     alertText.textContent = `Créez un mot de passe sécurisé${deadline ? ` avant le ${formatDeadline(deadline)}` : ""} pour valider et sécuriser votre compte.`;
     alertBox.hidden = false;
   };
-  const hideAlert = () => { if (alertBox) alertBox.hidden = true; };
+  let needsActivation = false;
+  const hideAlert = () => { needsActivation = false; if (alertBox) alertBox.hidden = true; };
   const showPasswordStep = () => {
     awaitingPassword = true;
     form.querySelectorAll("[data-before-otp], [data-create-only]").forEach((el) => { el.hidden = true; });
@@ -128,6 +130,10 @@ if (form && config?.url && config?.publishableKey) {
     retourner();
   };
   if (alertAction) alertAction.addEventListener("click", showPasswordStep);
+  // Compte déjà connecté dont l'espace reste à activer : ouvrir le formulaire mène à la création du mot de passe, jamais à une nouvelle demande de code.
+  if (dialog && typeof MutationObserver === "function") {
+    new MutationObserver(() => { if (dialog.open && needsActivation && !awaitingPassword) showPasswordStep(); }).observe(dialog, { attributes: true, attributeFilter: ["open"] });
+  }
 
   const startResendCooldown = () => {
     if (!resendButton) return;
@@ -160,6 +166,7 @@ if (form && config?.url && config?.publishableKey) {
     pendingOptions = options;
     const { error } = await supabase.auth.signInWithOtp({ email, options: { ...options, emailRedirectTo: `${window.location.origin}/espace-membre.html` } });
     if (error) {
+      if (error.status === 429 || /rate.?limit/i.test(error.code || error.message || "")) throw new Error("Trop de demandes d’e-mail en peu de temps. Patientez environ une heure avant de redemander un code ou un lien.");
       // Keep account-existence and delivery errors deliberately non-specific.
       throw new Error("La demande n’a pas pu être confirmée. Si l’envoi est autorisé pour cette adresse, vérifiez votre boîte de réception et vos courriers indésirables.");
     }

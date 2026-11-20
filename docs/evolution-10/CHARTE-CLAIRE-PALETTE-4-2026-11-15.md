@@ -246,3 +246,10 @@ Constat : après le clic sur le lien du courrier, la personne se retrouvait sur 
 Correction (navigation-tiroirs.js, chargé par toutes les pages) : si une page reçoit la clé de connexion du lien, elle renvoie vers `espace-membre.html` en la conservant ; la page reprend alors l'activation (mot de passe). Test ajouté dans espace-membre-creation.browser.cjs.
 Côté Supabase Test (propriétaire) : ajouter l'adresse du site de test suivie de `/**` dans Authentication → URL Configuration → Redirect URLs.
 Retour arrière : annuler le commit de cette étape.
+
+## Suite 9 — 2026-11-20 : boucle « recevoir un code » après le lien, limite d'envoi d'e-mails
+
+Constat (journaux Supabase Test) : (1) la demande de lien indique bien l'adresse de retour `espace-membre.html` (la liste « Redirect URLs » est correcte) ; (2) une personne déjà connectée dont l'espace restait à activer retrouvait, en ouvrant le formulaire, la demande de code ; (3) la dernière demande d'e-mail a été refusée par Supabase : `over_email_send_rate_limit` (429) — l'envoi d'e-mails intégré est limité à quelques messages par heure.
+Correction (auth-espace-membre.js) : ouvrir le formulaire d'une personne connectée à activer mène directement à la création du mot de passe, sans nouveau code ; un message clair s'affiche quand la limite d'envoi est atteinte. Test : espace-membre-creation.browser.cjs.
+Côté propriétaire : éviter de redemander des e-mails en rafale ; pour des essais répétés, configurer un expéditeur dédié (SMTP personnalisé) dans Supabase.
+Retour arrière : annuler le commit de cette étape.

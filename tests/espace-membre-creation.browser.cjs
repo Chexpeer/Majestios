@@ -116,6 +116,14 @@ export function createClient(){
     await stuck.click("#member-activation-action");
     await stuck.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
     assert.deepEqual(stuck.errors, []);
+    // Déjà connecté, espace à activer : ouvrir le formulaire (« Se connecter ») mène au mot de passe, pas à une nouvelle demande de code.
+    const again = await open([]);
+    await again.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u4" } }; window.__activation = { state: "pending", deadline: "2026-11-25T18:00:00Z", has_password: false }; });
+    await again.goto(origin + "/espace-membre.html");
+    await again.waitForSelector("#member-activation-alert:not([hidden])");
+    await again.click("#open-personal-space");
+    await again.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    assert.equal((await again.evaluate(() => window.__otp || [])).length, 0, "Aucun nouveau code ne doit être demandé.");
     // 3 bis. Arrivée par le lien du courrier (sans saisir de code) : l'activation reprend à l'étape du mot de passe.
     const link = await open([]);
     await link.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u7", email: "nouveau@exemple.fr", user_metadata: { privacy_notice_acknowledged: true } } }; });
