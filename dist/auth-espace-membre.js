@@ -92,6 +92,7 @@ if (form && config?.url && config?.publishableKey) {
     alertBox.hidden = false;
   };
   let needsActivation = false;
+  let hasPassword = false;
   const hideAlert = () => { needsActivation = false; if (alertBox) alertBox.hidden = true; };
   const showPasswordStep = () => {
     awaitingPassword = true;
@@ -103,18 +104,23 @@ if (form && config?.url && config?.publishableKey) {
     // Les champs masqués (adresse, consentement, code…) ne doivent jamais bloquer l'envoi en silence : ils ne sont plus obligatoires à cette étape.
     form.querySelectorAll("input, select, textarea").forEach((el) => { if (!pwStep || !pwStep.contains(el)) el.required = false; });
     const pw = field("new_password"), pc = field("new_password_confirm");
-    if (pw) pw.required = true;
-    if (pc) pc.required = true;
+    // Mot de passe déjà créé : on ne le redemande pas (Supabase exigerait l'ancien pour le changer), un clic suffit pour activer l'espace.
+    pwStep?.querySelectorAll("label.form-field, #password-help").forEach((el) => { el.hidden = hasPassword; el.style.display = hasPassword ? "none" : ""; });
+    if (pw) pw.required = !hasPassword;
+    if (pc) pc.required = !hasPassword;
     if (titleEl) titleEl.textContent = "Activer mon espace";
-    if (introEl) introEl.textContent = "Votre adresse est vérifiée. Choisissez votre mot de passe personnel.";
+    if (introEl) introEl.textContent = hasPassword ? "Votre mot de passe est déjà créé. Il reste à activer votre espace." : "Votre adresse est vérifiée. Choisissez votre mot de passe personnel.";
     if (submitButton) submitButton.innerHTML = 'Activer mon espace <span aria-hidden="true">→</span>';
     if (dialog && !dialog.open) { if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", ""); }
-    pw?.focus();
+    if (!hasPassword) pw?.focus();
   };
   const setPasswordAndActivate = async () => {
-    const check = validatePassword(value("new_password"), { email: pendingEmail, organization: value("organization_name"), confirm: value("new_password_confirm") });
-    if (!check.ok) throw new Error(check.message);
-    const { error: pwError } = await supabase.auth.updateUser({ password: value("new_password"), data: { privacy_notice_acknowledged: true, privacy_notice_version: NOTICE_VERSION } });
+    if (!hasPassword) {
+      const check = validatePassword(value("new_password"), { email: pendingEmail, organization: value("organization_name"), confirm: value("new_password_confirm") });
+      if (!check.ok) throw new Error(check.message);
+    }
+    const consent = { privacy_notice_acknowledged: true, privacy_notice_version: NOTICE_VERSION };
+    const { error: pwError } = await supabase.auth.updateUser(hasPassword ? { data: consent } : { password: value("new_password"), data: consent });
     if (pwError) throw new Error("Le mot de passe n’a pas pu être enregistré. Choisissez-en un autre ou réessayez.");
     const { data: { session } } = await supabase.auth.getSession();
     const response = await provisionWorkspace(session);
@@ -204,12 +210,28 @@ if (form && config?.url && config?.publishableKey) {
     startResendCooldown();
   };
 
+  // La carte « connexion » doit toujours dire la vérité : déconnecté, connecté à activer, ou connecté et actif.
+  const previewTitle = preview?.querySelector("h2");
+  const openButton = preview?.querySelector("#open-personal-space");
+  const createHint = preview?.querySelector(".member-create-hint");
+  const originalTitle = previewTitle?.textContent;
+  const originalOpenHtml = openButton?.innerHTML;
+  const renderPreview = (mode) => {
+    if (!preview) return;
+    if (previewTitle) previewTitle.textContent = mode === "out" ? originalTitle : mode === "pending" ? "Votre compte est connecté" : "Vous êtes connecté";
+    if (openButton) {
+      openButton.hidden = mode === "active";
+      openButton.innerHTML = mode === "pending" ? 'Activer mon espace <span aria-hidden="true">→</span>' : originalOpenHtml;
+    }
+    if (createHint) createHint.hidden = mode !== "out";
+  };
   const updateAuthStatus = async (session) => {
     if (!status) return;
     const oldButton = preview?.querySelector("#member-signout");
     if (!session) {
       hideAlert();
       status.textContent = "Vous n’êtes pas connecté.";
+      renderPreview("out");
       oldButton?.remove();
       return;
     }
@@ -223,9 +245,11 @@ if (form && config?.url && config?.publishableKey) {
       let { data: act } = await supabase.rpc("member_activation_status");
       // Compte connecté sans espace ni activation (ex. connexion directe) : on ouvre l'activation, pour ne jamais laisser la personne bloquée.
       if (act && act.state === "none") act = (await supabase.rpc("start_member_activation")).data;
+      hasPassword = !!act?.has_password;
       if (act && ["pending", "expired"].includes(act.state)) showAlert(act.deadline);
       else hideAlert();
     } else hideAlert();
+    renderPreview(data?.length ? "active" : "pending");
     status.textContent = error
       ? "Compte connecté · vérification de l’espace indisponible."
       : data?.length

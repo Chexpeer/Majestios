@@ -77,7 +77,15 @@ export function createClient(){
     await pwa.fill("#personal-space-form input[name=email]", "attente@exemple.fr");
     await pwa.fill("#personal-space-form input[name=login_password]", "Bon-Mot-De-Passe-77");
     await pwa.click("#personal-space-form button[type=submit]");
+    await pwa.route("**/functions/v1/provision-client-workspace", (r) => r.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true, organization: { id: "o9" } }) }));
     await pwa.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    // Mot de passe déjà créé : aucun champ à remplir, un clic active l'espace, sans changer le mot de passe.
+    assert.equal(await pwa.locator("#personal-space-form input[name=new_password]").isVisible(), false);
+    await pwa.click("#personal-space-form button[type=submit]");
+    await pwa.waitForFunction(() => /Votre espace est activé/.test(document.querySelector("#personal-space-feedback")?.textContent || ""), null, { timeout: 8000 });
+    const upd = await pwa.evaluate(() => window.__updates);
+    assert.equal(upd[0].password, undefined, "Le mot de passe existant n'est pas redemandé.");
+    assert.equal(upd[0].data.privacy_notice_acknowledged, true);
     // 2. Création depuis le petit lien : consentement obligatoire.
     page = await open([{ organization_id: "o2" }]);
     const provisioned = [];

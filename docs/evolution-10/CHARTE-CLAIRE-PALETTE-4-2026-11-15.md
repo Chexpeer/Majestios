@@ -280,3 +280,9 @@ Constats (captures du propriétaire) : (1) l'activation enregistrait le mot de p
 Changements (espace-membre.html, auth-espace-membre.js) : l'étape « Activer mon espace » indique que l'activation vaut acceptation de la politique et l'enregistre avec le mot de passe ; le formulaire de connexion propose adresse e-mail + mot de passe (« Me connecter ») et, en dessous, « Recevoir un lien de connexion par e-mail » (première connexion, mot de passe oublié) ; mot de passe correct mais espace non activé : l'activation reprend. La création d'espace reste par lien.
 Contrats mis à jour : tests/auth-espace-membre-otp.test.cjs, tests/crm-security-contract.test.cjs, verify-architecture.js (connexion par mot de passe désormais attendue après activation). Test navigateur : espace-membre-creation.browser.cjs (mauvais/bon mot de passe, reprise d'activation, acceptation enregistrée).
 Retour arrière : annuler le commit de cette étape.
+
+## Suite 14 — Activation sans ressaisir le mot de passe, carte de connexion cohérente (2026-11-20)
+
+- Un compte qui a déjà un mot de passe (RPC `has_password`) n'a plus à le ressaisir : l'étape d'activation ne demande que de valider l'espace (évite l'erreur `current_password_required`). Le consentement est enregistré sans toucher au mot de passe.
+- La carte « connexion » dit la vérité : déconnecté → « Se connecter » + « Créer mon espace » ; connecté non activé → « Votre compte est connecté » + « Activer mon espace » + « Se déconnecter » ; activé → « Vous êtes connecté » + « Se déconnecter ».
+- Retour arrière : revenir au commit précédent de `auth-espace-membre.js`. Test : `tests/espace-membre-creation.browser.cjs`.
