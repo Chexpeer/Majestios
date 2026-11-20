@@ -223,6 +223,13 @@ if (form && config?.url && config?.publishableKey) {
   const originalOpenHtml = openButton?.innerHTML;
   const renderPreview = (mode) => {
     if (!preview) return;
+    // Connecté et activé : la grande carte disparaît, il ne reste qu'une ligne discrète avec « Se déconnecter ».
+    const compact = mode === "active";
+    preview.classList.toggle("is-compact", compact);
+    [["padding", "6px 0"], ["margin", "8px auto"], ["border", "0"], ["background", "none"], ["box-shadow", "none"], ["min-height", "0"]].forEach(([k, v]) => {
+      if (compact) preview.style.setProperty(k, v, "important"); else preview.style.removeProperty(k);
+    });
+    preview.querySelectorAll(".member-preview-icon, h2, #member-auth-status").forEach((el) => { el.style.display = compact ? "none" : ""; });
     if (previewTitle) previewTitle.textContent = mode === "out" ? originalTitle : mode === "pending" ? "Votre compte est connecté" : "Vous êtes connecté";
     if (openButton) {
       openButton.hidden = mode === "active";

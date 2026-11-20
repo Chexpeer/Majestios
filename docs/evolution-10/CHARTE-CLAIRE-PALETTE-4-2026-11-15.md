@@ -296,3 +296,8 @@ Retour arrière : annuler le commit de cette étape.
 
 - Le bouton « Se connecter → » de la carte restait visible malgré « Vous êtes connecté » (une règle CSS écrasait `hidden`). Masquage forcé ; test ajouté (connecté et activé : ni « Se connecter » ni « Créer mon espace », mais « Se déconnecter »).
 - Retour arrière : revenir au commit précédent de `auth-espace-membre.js`.
+
+## Suite 17 — Carte de connexion réduite quand on est connecté (2026-11-20)
+
+- Connecté et activé : la grande carte (icône, titre, statut) n'est plus affichée ; reste une ligne discrète avec « Se déconnecter ». Déconnecté ou à activer : carte complète inchangée. Test ajouté (zone < 120 px, titre masqué).
+- Retour arrière : revenir au commit précédent de `auth-espace-membre.js`.
