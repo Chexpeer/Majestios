@@ -3,7 +3,7 @@
 import { KIND_LABELS, normalizeAnnouncements } from "./annonces-liste.mjs";
 
 export const MAX_ITEMS = 10;
-export const LIEN_ANNONCES = "marches-prives.html#annonces-privees";
+export const LIEN_ANNONCES = "annonces.html#annonces-privees";
 const PAGES_EXCLUES = /(^|\/)(administration|crm|espace-interne|accepter-invitation|admin-[a-z-]+)\.html$/;
 
 /** Pages où le bandeau n'a pas sa place (outils de l'équipe, acceptation d'invitation). */

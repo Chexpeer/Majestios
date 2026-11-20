@@ -65,7 +65,7 @@ if (root) {
   const card = (item) => {
     const article = el("article", "opportunity-result-card annonce-card");
     article.dataset.reference = item.reference;
-    article.append(el("p", "eyebrow", "APPEL D’OFFRES PRIVÉ · " + KIND_LABELS[item.kind].toUpperCase()));
+    article.append(el("p", "eyebrow", "ANNONCE · " + KIND_LABELS[item.kind].toUpperCase()));
     article.append(el("h3", "", item.title));
     article.append(el("p", "", item.description));
     const facts = [["Entreprise", item.company], ["Métier", item.trade], ["Zone", placeLabel(item)], ["Publiée le", formatDateFr(item.publishedAt)], ["Valable jusqu’au", formatDateFr(item.validUntil)], ["Référence", item.reference]];

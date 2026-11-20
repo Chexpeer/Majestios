@@ -58,8 +58,8 @@ async function main() {
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
 
     assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,"Les six menus de navigation doivent être présents.");
-    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),18,"Le menu doit exposer les 18 entrées secondaires.");
-    assert.equal(await page.locator("#site-nav a").count(),19,"Le menu doit exposer Accueil et les 18 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),19,"Le menu doit exposer les 19 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav a").count(),20,"Le menu doit exposer Accueil et les 19 entrées secondaires.");
     assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"40px",
       "La barre de navigation doit rester compacte.");
     assert.equal(await page.locator(".nav-group-link").first().evaluate(node=>getComputedStyle(node).fontSize),"11px",

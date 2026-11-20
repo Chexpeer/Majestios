@@ -28,7 +28,7 @@ const row = (n, extra = {}) => ({ reference: "AN-" + String(10000000 + n), kind:
       intros.push({ headers: route.request().headers(), body: JSON.parse(route.request().postData() || "{}") });
       await route.fulfill({ status: 200, contentType: "application/json", body: "true" });
     });
-    await page.goto("http://127.0.0.1:4176/marches-prives.html", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4176/" + (process.env.ANNONCES_PAGE || "marches-prives.html") + "", { waitUntil: "domcontentloaded" });
     await page.locator(".annonce-card").first().waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".annonce-card").count(), 10, "Dix annonces par page.");
     assert.equal(await page.locator("#annonces-plus").isVisible(), true, "Le bouton « Voir plus » doit apparaître quand il reste des annonces.");

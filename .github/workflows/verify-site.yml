@@ -146,7 +146,7 @@ jobs:
       - name: Tester la liste publique des annonces (règles pures)
         run: node --test tests/annonces-liste.test.mjs
       - name: Vérifier la liste publique des annonces (navigateur)
-        run: node tests/annonces-liste.browser.cjs
+        run: node tests/annonces-liste.browser.cjs && ANNONCES_PAGE=annonces.html node tests/annonces-liste.browser.cjs
       - name: Vérifier la recherche BODACC filtrée en conditions réelles
         run: node tests/reputation-bodacc-query-smoke.cjs
       - name: Vérifier la navigation Administration / CRM

@@ -72,7 +72,7 @@ assert(navigationController.includes('bodacc-veille-entreprises.html'),
 // Certaines pages sont internes, sectorielles ou légales et ne doivent pas toutes devenir des entrées de menu.
 const requiredNavigationRoutes = [
   "assistant-majestios.html",
-  "marches-publics.html","marches-prives.html","veille-marches.html","bodacc-veille-entreprises.html",
+  "marches-publics.html","marches-prives.html","annonces.html","veille-marches.html","bodacc-veille-entreprises.html",
   "sous-traitance.html","developpement-commercial.html","prospection-active.html",
   "accompagnement-appels-offres.html","facturation-electronique.html","suivi-commercial.html","qualification-entreprises.html",
   "reseaux-synergies.html","salons-seminaires.html","reputation-virtuelle.html",
@@ -88,15 +88,15 @@ for (const route of requiredNavigationRoutes) {
   assert(siteFiles.includes(route), "Navigation : route fonctionnelle non publiée : " + route);
 }
 
-// Contrat du menu réel : six rubriques principales (dont le menu d'espace personnel), dix-huit entrées secondaires et dix-huit destinations uniques (l'Assistant n'est plus dans la barre : présence flottante).
+// Contrat du menu réel : six rubriques principales (dont le menu d'espace personnel), dix-neuf entrées secondaires et dix-neuf destinations uniques (l'Assistant n'est plus dans la barre : présence flottante).
 const menuRoutes = [...drawerController.matchAll(/\["[^"]+","([^"]+\.html)"\]/g)].map((match) => match[1]);
 const uniqueMenuRoutes = [...new Set(menuRoutes)];
 for (const route of uniqueMenuRoutes) {
   assert(exists(route), "Navigation : destination de sous-menu inexistante : " + route);
   assert(siteFiles.includes(route), "Navigation : destination de sous-menu non publiée : " + route);
 }
-assert( menuRoutes.length === 18, "Navigation : le menu doit contenir 18 entrées secondaires, actuellement " + menuRoutes.length);
-assert(uniqueMenuRoutes.length === 18, "Navigation : les destinations secondaires uniques doivent être 18, actuellement " + uniqueMenuRoutes.length);
+assert( menuRoutes.length === 19, "Navigation : le menu doit contenir 19 entrées secondaires, actuellement " + menuRoutes.length);
+assert(uniqueMenuRoutes.length === 19, "Navigation : les destinations secondaires uniques doivent être 19, actuellement " + uniqueMenuRoutes.length);
 for (const label of ["Appels d’offres","Développement commercial","Réseau","Réputation virtuelle","Facturation électronique","Accéder à mon espace personnel"]) {
   assert(drawerController.includes('label:"' + label + '"'), "Navigation : rubrique principale absente : " + label);
 }
