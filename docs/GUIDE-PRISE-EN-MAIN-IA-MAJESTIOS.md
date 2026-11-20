@@ -1,8 +1,8 @@
 # Guide de prise en main pour toute IA — MajestiOS / Cheexpeer
 
 **Statut :** guide opérationnel complémentaire à AGENTS.md  
-**Branche active de ce chantier :** Evolution-9 uniquement  
-**Mise à jour :** 11 novembre 2026
+**Branche active de ce chantier :** `evolution-10` (copie de test) ; Evolution-9 est conservée intacte comme référence  
+**Mise à jour :** 20 novembre 2026
 
 Ce document permet à une IA qui découvre le dépôt de comprendre rapidement le produit, les limites de son mandat, les sources de vérité, les priorités et la méthode de travail. Il ne remplace ni AGENTS.md, ni le registre des anomalies critiques, ni les spécifications métier.
 
@@ -11,11 +11,11 @@ Ce document permet à une IA qui découvre le dépôt de comprendre rapidement l
 1. Lire `AGENTS.md` : mandat, branches, architecture, sécurité et règles de travail.
 2. Lire `docs/CRITIQUES/README.md` : anomalies bloquantes et garde-fous.
 3. Lire `docs/README.md` : index documentaire et hiérarchie des sources.
-4. Lire `docs/evolution-9/README.md` et `docs/evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md`.
-5. Lire la vision stratégique, le plan de réalisation et le plan de synthèse documentaire Evolution-9.
-6. Lire le dossier spécialisé correspondant à la tâche ; consulter les décisions héritées Evolution-7/8 sans modifier ces branches.
+4. Lire `docs/evolution-10/` (journaux et charte de l'état courant), puis `docs/evolution-9/README.md` et `docs/evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md` (référentiel historique du même dépôt).
+5. Lire la vision stratégique, le plan de réalisation et le plan de synthèse documentaire (dossier `evolution-9`, toujours valables comme cadre stratégique).
+6. Lire le dossier spécialisé correspondant à la tâche ; consulter les décisions héritées Evolution-7/8 sans modifier ces branches ni Evolution-9.
 
-Avant toute écriture, vérifier dépôt, branche, HEAD, statut CI, dernier déploiement et fichiers concernés. Pour ce chantier, la seule branche modifiable est `Evolution-9`. Evolution-7/8, main, sauvegardes et autres branches sont en lecture seule.
+Avant toute écriture, vérifier dépôt, branche, HEAD, statut CI, dernier déploiement et fichiers concernés. Pour ce chantier, la seule branche modifiable est `evolution-10`. Evolution-7/8, main, sauvegardes et autres branches sont en lecture seule.
 
 ## 2. Comprendre le produit
 

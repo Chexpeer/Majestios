@@ -1,6 +1,6 @@
 # MajestiOS — documentation
 
-**Mise à jour :** 14 novembre 2026. **Lire d'abord : [la synthèse](SYNTHESE-MAJESTIOS.md).**
+**Mise à jour :** 20 novembre 2026. **Lire d'abord : [la synthèse](SYNTHESE-MAJESTIOS.md).**
 
 ## Ordre de lecture
 
@@ -9,7 +9,8 @@
 3. [Anomalies critiques](CRITIQUES/README.md) — risques vivants et règles de traitement.
 4. [Feuille de route stratégique](evolution-9/FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md) — lots, prérequis, décisions.
 5. [Guide de prise en main IA](GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md) — onboarding et limites de preuve.
-6. [Référentiel Evolution-9](evolution-9/README.md) et [registre des anomalies](evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md).
+6. [Journal de la branche active `evolution-10`](evolution-10/JOURNAL-DE-SYNCHRONISATION-SUPABASE-TEST-2026-11-15.md) et [charte / état courant](evolution-10/CHARTE-CLAIRE-PALETTE-4-2026-11-15.md).
+7. [Référentiel Evolution-9](evolution-9/README.md) et [registre des anomalies](evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md) — base stratégique conservée, branche Evolution-9 intacte.
 
 ## Références par sujet
 
@@ -27,7 +28,7 @@
 
 ## Repères
 
-- Branche de test `test-ecriture-claude` : 110 ressources dont 39 pages ; menu 6 entrées, 19 destinations. `Evolution-9` est inchangée : 93 ressources, 21 entrées, 19 destinations.
+- Branche active : `evolution-10` (copie de test, 43 pages HTML). Evolution-9 est conservée intacte (référence). Rien n'est fusionné ni en production.
 - Une présence dans Git ne prouve ni déploiement, ni configuration distante, ni recette.
 
 ## Historique
