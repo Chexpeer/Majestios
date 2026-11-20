@@ -229,6 +229,17 @@ if (form && config?.url && config?.publishableKey) {
     [["padding", "6px 0"], ["margin", "8px auto"], ["border", "0"], ["background", "none"], ["box-shadow", "none"], ["min-height", "0"]].forEach(([k, v]) => {
       if (compact) preview.style.setProperty(k, v, "important"); else preview.style.removeProperty(k);
     });
+    // Petite ampoule verte « Connecté » : chacun voit d'un coup d'œil qu'il est connecté.
+    let led = preview.querySelector("#member-led");
+    if (!led) {
+      led = document.createElement("span");
+      led.id = "member-led";
+      led.setAttribute("role", "status");
+      led.style.cssText = "display:none;align-items:center;gap:8px;margin:0 14px 0 0;font-size:13px;font-weight:600;color:#4ade80";
+      led.innerHTML = '<span aria-hidden="true" style="width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px 2px rgba(34,197,94,.7)"></span>Connecté';
+      preview.prepend(led);
+    }
+    led.style.display = compact ? "inline-flex" : "none";
     preview.querySelectorAll(".member-preview-icon, h2, #member-auth-status").forEach((el) => { el.style.display = compact ? "none" : ""; });
     if (previewTitle) previewTitle.textContent = mode === "out" ? originalTitle : mode === "pending" ? "Votre compte est connecté" : "Vous êtes connecté";
     if (openButton) {

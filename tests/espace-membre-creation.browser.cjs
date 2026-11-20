@@ -216,6 +216,7 @@ export function createClient(){
     assert.equal(await actif.locator(".member-preview .member-create-hint").isVisible(), false, "Connecté : « Créer mon espace » ne doit plus apparaître.");
     assert.equal(await actif.locator("#member-signout").isVisible(), true);
     assert.equal(await actif.locator(".member-preview h2").isVisible(), false, "Connecté et activé : la grande carte ne doit plus s’afficher.");
+    assert.equal(await actif.locator("#member-led").isVisible(), true, "Connecté : l’ampoule verte doit s’afficher.");
     assert.ok((await actif.locator(".member-preview").boundingBox()).height < 120, "La zone connectée doit rester discrète.");
     assert.deepEqual(page.errors, []);
     console.log("TEST CRÉATION D'ESPACE PAR LIEN RÉUSSI : connexion sans création, consentement exigé, mot de passe sécurisé obligatoire avant l'espace, alerte d'activation avec date limite.");
