@@ -25,7 +25,7 @@ test("une annonce valide produit les paramètres attendus par le serveur", () =>
   assert.equal(r.payload.p_department, "35");
   assert.equal(r.payload.p_consent, true);
   assert.equal(r.payload.p_phone, null);
-  assert.equal(KINDS.length, 8);
+  assert.equal(KINDS.length, 12);
   for (const k of ["job_offer", "job_seeker", "equipment_offer", "equipment_wanted", "real_estate_offer", "real_estate_wanted", "business_sale", "business_wanted", "other_offer", "other_request"]) assert.ok(KINDS.some(([v]) => v === k), k);
 });
 
