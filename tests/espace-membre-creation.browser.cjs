@@ -129,6 +129,12 @@ export function createClient(){
     await link2.goto(origin + "/espace-membre.html#access_token=abc&type=magiclink");
     await link2.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
     assert.deepEqual(link2.errors, []);
+    // Lien du courrier renvoyé vers une autre page (adresse de retour non autorisée côté Supabase) : reprise sur l'espace membre.
+    const wrong = await open([]);
+    await wrong.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u6", email: "autre@exemple.fr", user_metadata: {} } }; });
+    await wrong.goto(origin + "/index.html#access_token=abc&type=magiclink");
+    await wrong.waitForURL(/\/espace-membre\.html/, { timeout: 8000 });
+    await wrong.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
     // 4. Espace actif : aucune alerte.
     const ok = await open([{ organization_id: "o1" }]);
     await ok.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1" } }; });

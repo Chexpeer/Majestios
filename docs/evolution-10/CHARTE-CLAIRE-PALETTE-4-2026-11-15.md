@@ -239,3 +239,10 @@ Constat (essai du propriétaire) : le lien reçu par e-mail connecte bien (journ
 Correction (auth-espace-membre.js) : un compte connecté sans espace voit s'ouvrir son activation (encadré « Activer mon espace » et étape du mot de passe) ; l'arrivée par le lien mène directement à la création du mot de passe, même sans consentement mémorisé ; un seul bouton « Se déconnecter ». Tests : espace-membre-creation.browser.cjs (scénarios 3 ter et lien direct).
 Reste à faire par le propriétaire dans Supabase Test (Authentication → Email Templates, modèles « Magic Link » et « Confirm signup ») : ajouter `{{ .Token }}` pour que le code à 6 chiffres figure dans le courrier ; vérifier que l'adresse du site de test figure dans Redirect URLs.
 Retour arrière : annuler le commit de cette étape (auth-espace-membre.js et tests).
+
+## Suite 8 — 2026-11-20 : lien du courrier renvoyé vers une autre page
+
+Constat : après le clic sur le lien du courrier, la personne se retrouvait sur le formulaire qui redemandait un code. Le journal Supabase montre que le lien renvoyait vers la page d'accueil et non vers l'espace membre (adresse de retour `espace-membre.html` non autorisée dans « Redirect URLs », Supabase se rabat alors sur « Site URL »).
+Correction (navigation-tiroirs.js, chargé par toutes les pages) : si une page reçoit la clé de connexion du lien, elle renvoie vers `espace-membre.html` en la conservant ; la page reprend alors l'activation (mot de passe). Test ajouté dans espace-membre-creation.browser.cjs.
+Côté Supabase Test (propriétaire) : ajouter l'adresse du site de test suivie de `/**` dans Authentication → URL Configuration → Redirect URLs.
+Retour arrière : annuler le commit de cette étape.

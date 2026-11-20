@@ -1,5 +1,13 @@
 (() => {
   "use strict";
+  // Lien de connexion reçu par e-mail : si Supabase renvoie vers une autre page que l'espace membre (adresse de retour non autorisée),
+  // on reprend le parcours sur l'espace membre en gardant la clé de connexion contenue dans le lien.
+  try {
+    if (!/espace-membre\.html$/.test(location.pathname) && /(^#|&)access_token=/.test(location.hash) && /type=(magiclink|signup|email|invite|recovery)/.test(location.hash)) {
+      location.replace("espace-membre.html" + location.hash);
+      return;
+    }
+  } catch (_) { /* sans importance */ }
   // Bandeau défilant des annonces publiées (facultatif : ne s'affiche que s'il y en a).
   import("./annonces-config.mjs").then((c) => import("./bandeau-annonces.mjs").then((b) => b.lancerBandeau(c.ANNONCES_SUPABASE))).catch(() => {});
   const ensureSharedAssets = () => {
