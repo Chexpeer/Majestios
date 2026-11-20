@@ -69,6 +69,21 @@
     const menuButton = document.querySelector("#menu-toggle, .menu-toggle");
     if (!nav || !header || !menuButton || nav.dataset.drawerReady === "true") return;
     nav.dataset.drawerReady = "true";
+    // Ampoule verte « Connecté » sur toutes les pages (sauf l'espace personnel qui l'affiche déjà) : session Supabase présente dans ce navigateur.
+    try {
+      const page = location.pathname.split("/").pop() || "index.html";
+      const connecteIci = Object.keys(localStorage).some((k) => /^sb-.+-auth-token$/.test(k) && /access_token/.test(localStorage.getItem(k) || ""));
+      if (connecteIci && !/^espace-membre/.test(page) && !document.querySelector("#mj-connected-led")) {
+        const led = document.createElement("a");
+        led.id = "mj-connected-led";
+        led.href = "espace-membre.html";
+        led.setAttribute("aria-label", "Connecté · ouvrir mon espace personnel");
+        led.style.cssText = "position:fixed;top:calc(58px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));z-index:45;display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;border:1px solid rgba(213,181,108,.45);background:rgba(7,18,37,.9);color:#86efac;font:700 12.5px/1 Inter,system-ui,sans-serif;text-decoration:none;text-shadow:none";
+        led.innerHTML = '<span aria-hidden="true" style="width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px 2px rgba(34,197,94,.7)"></span>Connecté';
+        if (matchMedia("(max-width: 900px)").matches) { led.style.top = "calc(10px + env(safe-area-inset-top,0px))"; led.style.right = "70px"; led.style.zIndex = "9999"; }
+        document.body.append(led);
+      }
+    } catch (_) { /* sans importance */ }
     nav.classList.add("site-nav-drawer");
 
     // Le bouton est stylé directement pour éviter les anciennes règles CSS

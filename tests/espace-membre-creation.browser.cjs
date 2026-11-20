@@ -262,6 +262,8 @@ export function createClient(){
     const cnx = await open([]);
     await cnx.addInitScript(() => { localStorage.setItem("sb-test-auth-token", JSON.stringify({ access_token: "tok" })); });
     await cnx.goto(origin + "/marches-publics.html");
+    assert.equal(await cnx.locator("#mj-connected-led").isVisible(), true, "Connecté : l’ampoule verte apparaît sur les autres pages.");
+    assert.equal(await anon.locator("#mj-connected-led").count(), 0, "Non connecté : pas d’ampoule verte.");
     assert.equal(await cnx.locator(".page-cta").count(), 0, "Connecté : le bandeau « Accéder à mon espace personnel » ne doit plus apparaître.");
     assert.deepEqual(page.errors, []);
     console.log("TEST CRÉATION D'ESPACE PAR LIEN RÉUSSI : connexion sans création, consentement exigé, mot de passe sécurisé obligatoire avant l'espace, alerte d'activation avec date limite.");

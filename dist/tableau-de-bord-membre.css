@@ -21,3 +21,4 @@ html body main.interior-page .mj-badge-waiting_for_user{border-color:#D5B56C;col
 html body main.interior-page .mj-badge-accepted{border-color:#4ADE80;color:#86EFAC!important}
 html body main.interior-page .mj-badge-rejected{border-color:#F87171;color:#FCA5A5!important}
 @media (max-width:560px){html body main.interior-page .mj-board-list li{flex-direction:column;align-items:flex-start}}
+

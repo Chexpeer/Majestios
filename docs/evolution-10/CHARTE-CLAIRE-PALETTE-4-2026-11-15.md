@@ -315,3 +315,8 @@ Retour arrière : annuler le commit de cette étape.
 - Données : lecture seule, avec les droits du membre (profil, société, demandes). Aucune modification de la base. Chiffres réels uniquement : 0 si aucune demande, jamais de valeur inventée. Les annonces d'un membre ne sont pas encore lisibles côté membre (accès direct fermé par sécurité) : elles ne figurent pas dans les chiffres tant qu'une lecture dédiée n'existe pas.
 - Fichiers : `tableau-de-bord-membre.mjs`, `tableau-de-bord-membre.css`, section `#tableau-de-bord` de `espace-membre.html`, branchement dans `auth-espace-membre.js`. Test : `tests/espace-membre-creation.browser.cjs`.
 - Retour arrière : retirer la section `#tableau-de-bord`, le lien CSS et l'import dans `auth-espace-membre.js`.
+
+## Suite 20 — Ampoule verte « Connecté » sur toutes les pages (2026-11-20)
+
+- Quand une session est présente dans le navigateur, une pastille verte « Connecté » s'affiche en haut de chaque page (annonces, audit, accompagnement, etc.) et renvoie vers l'espace personnel. Elle n'apparaît pas sur la page de l'espace personnel (qui l'affiche déjà) ni si la personne n'est pas connectée. Sur téléphone, elle se place à côté du bouton de menu.
+- Retour arrière : retirer le bloc « Ampoule verte » de `navigation-tiroirs.js`.
