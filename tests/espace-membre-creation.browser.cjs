@@ -136,6 +136,13 @@ export function createClient(){
     await link2.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u8", email: "direct@exemple.fr", user_metadata: {} } }; });
     await link2.goto(origin + "/espace-membre.html#access_token=abc&type=magiclink");
     await link2.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    await link2.route("**/functions/v1/provision-client-workspace", (r) => r.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true, organization: { id: "o3" } }) }));
+    // Arrivée par le lien : l'adresse (masquée, vide) ne doit pas bloquer l'envoi du mot de passe.
+    await link2.fill("#personal-space-form input[name=new_password]", "Cheval-Bleu-Lune-77");
+    await link2.fill("#personal-space-form input[name=new_password_confirm]", "Cheval-Bleu-Lune-77");
+    await link2.click("#personal-space-form button[type=submit]");
+    await link2.waitForFunction(() => /Votre espace est activé/.test(document.querySelector("#personal-space-feedback")?.textContent || ""), null, { timeout: 8000 });
+    assert.equal((await link2.evaluate(() => window.__updates))[0].password, "Cheval-Bleu-Lune-77");
     assert.deepEqual(link2.errors, []);
     // Lien du courrier renvoyé vers une autre page (adresse de retour non autorisée côté Supabase) : reprise sur l'espace membre.
     const wrong = await open([]);

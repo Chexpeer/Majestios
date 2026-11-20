@@ -260,3 +260,9 @@ Constat : les modèles d'e-mail Supabase sont verrouillés (grisés) tant qu'auc
 Correction (auth-espace-membre.js, espace-membre.html) : les textes demandent de cliquer sur le lien reçu ; le code à 6 chiffres reste accepté s'il figure dans le courrier. Aucun changement de logique.
 Plus tard (si souhaité) : configurer un SMTP personnalisé pour déverrouiller les modèles (code dans le courrier) et lever la limite d'envois.
 Retour arrière : annuler le commit de cette étape.
+
+## Suite 11 — 2026-11-20 : le mot de passe ne s'enregistrait pas après le lien
+
+Constat (journaux Supabase Test) : après l'arrivée par le lien, aucune demande d'enregistrement du mot de passe n'atteignait le serveur (mot de passe toujours absent, espace non créé). Cause : le champ « adresse e-mail », masqué à cette étape et vide quand on arrive par le lien, restait « obligatoire » ; le navigateur bloquait l'envoi du formulaire sans rien afficher, d'où le retour à la page du mot de passe.
+Correction (auth-espace-membre.js) : à l'étape du mot de passe, les champs masqués ne sont plus obligatoires ; l'adresse de la session est mémorisée. Test : espace-membre-creation.browser.cjs (arrivée par le lien, saisie du mot de passe, espace activé) — vérifié en échec sans la correction.
+Retour arrière : annuler le commit de cette étape.

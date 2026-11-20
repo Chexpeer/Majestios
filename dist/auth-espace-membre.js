@@ -98,6 +98,8 @@ if (form && config?.url && config?.publishableKey) {
     form.querySelectorAll("[data-before-otp], [data-create-only]").forEach((el) => { el.hidden = true; });
     if (otpStep) otpStep.hidden = true;
     if (pwStep) pwStep.hidden = false;
+    // Les champs masqués (adresse, consentement, code…) ne doivent jamais bloquer l'envoi en silence : ils ne sont plus obligatoires à cette étape.
+    form.querySelectorAll("input, select, textarea").forEach((el) => { if (!pwStep || !pwStep.contains(el)) el.required = false; });
     const pw = field("new_password"), pc = field("new_password_confirm");
     if (pw) pw.required = true;
     if (pc) pc.required = true;
@@ -124,6 +126,7 @@ if (form && config?.url && config?.publishableKey) {
     ["new_password", "new_password_confirm"].forEach((n) => { const el = field(n); if (el) { el.required = false; el.value = ""; } });
     hideAlert();
     setCreateMode(false);
+    if (emailInput) emailInput.required = true;
     form.querySelectorAll("[data-before-otp]").forEach((el) => { el.hidden = false; });
     await updateAuthStatus(session);
     setFeedback("Votre espace est activé. Bienvenue dans votre espace MajestiOS.");
@@ -190,6 +193,7 @@ if (form && config?.url && config?.publishableKey) {
       oldButton?.remove();
       return;
     }
+    if (session.user.email) pendingEmail = session.user.email;
     const { data, error } = await supabase
       .from("organization_members")
       .select("organization_id")
