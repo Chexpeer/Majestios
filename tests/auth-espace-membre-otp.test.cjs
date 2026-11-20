@@ -27,7 +27,7 @@ assert.equal((auth.match(/shouldCreateUser: true/g) || []).length, 1);
 assert.match(auth, /createMode\s*\?\s*\{ shouldCreateUser: true[\s\S]*?privacy_notice_acknowledged: true[\s\S]*?: \{ shouldCreateUser: false \}/);
 assert.match(auth, /if \(createMode && !field\("privacy_ack"\)\?\.checked\) throw/);
 assert.match(auth, /provision-client-workspace/);
-assert.ok(auth.indexOf("auth.verifyOtp(") < auth.indexOf('rpc("start_member_activation")') && auth.indexOf("updateUser({ password") < auth.indexOf("provisionWorkspace(session)"), "l'espace n'est demandé qu'après le code puis le mot de passe sécurisé");
+assert.ok(auth.indexOf("auth.verifyOtp(") < auth.indexOf('rpc("start_member_activation")', auth.indexOf("const verifyOtp")) && auth.indexOf("updateUser({ password") < auth.indexOf("provisionWorkspace(session)"), "l'espace n'est demandé qu'après le code puis le mot de passe sécurisé");
 assert.match(auth, /validatePassword\(/);
 assert.match(auth, /start_member_activation/);
 assert.match(html, /name="privacy_ack" type="checkbox"/);

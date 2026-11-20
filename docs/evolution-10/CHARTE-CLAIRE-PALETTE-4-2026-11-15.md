@@ -232,3 +232,10 @@ Cause : une règle de mise en page (commit 5320ae6) masquait les blocs « floati
 Correction (charte-majestios.css) : la règle de masquage exclut désormais les blocs de résultats ; les textes du panneau de résultats sont forcés en couleur sombre.
 Test ajouté : tests/resultats-categorie.browser.cjs (visibilité + lisibilité sur les pages de catégorie), ajouté à la CI.
 Retour arrière : annuler le commit de cette étape (charte-majestios.css seul, aucune donnée touchée).
+
+## Suite 7 — 2026-11-20 : connexion par le lien du courrier, plus de blocage
+
+Constat (essai du propriétaire) : le lien reçu par e-mail connecte bien (journal Supabase : « Login »), mais la page restait sur « Compte connecté · espace personnel à finaliser », sans action possible, avec le bouton « Se déconnecter » affiché en plusieurs exemplaires. Aucun code dans le courrier : le modèle d'e-mail Supabase par défaut ne contient que le lien.
+Correction (auth-espace-membre.js) : un compte connecté sans espace voit s'ouvrir son activation (encadré « Activer mon espace » et étape du mot de passe) ; l'arrivée par le lien mène directement à la création du mot de passe, même sans consentement mémorisé ; un seul bouton « Se déconnecter ». Tests : espace-membre-creation.browser.cjs (scénarios 3 ter et lien direct).
+Reste à faire par le propriétaire dans Supabase Test (Authentication → Email Templates, modèles « Magic Link » et « Confirm signup ») : ajouter `{{ .Token }}` pour que le code à 6 chiffres figure dans le courrier ; vérifier que l'adresse du site de test figure dans Redirect URLs.
+Retour arrière : annuler le commit de cette étape (auth-espace-membre.js et tests).

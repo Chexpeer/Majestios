@@ -9,7 +9,7 @@ export function createClient(){
   const chain=(rows)=>{const q={select:()=>q,eq:()=>q,limit:()=>q,then:(r)=>r({data:rows,error:null})};return q;};
   return { auth:{
     getSession: async()=>({data:{session:window.__session||null},error:null}),
-    onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),
+    onAuthStateChange:(cb)=>{ if(window.__session) setTimeout(()=>cb('INITIAL_SESSION',window.__session),0); return {data:{subscription:{unsubscribe(){}}}}; },
     signOut: async()=>({}),
     signInWithOtp: async(a)=>{(window.__otp=window.__otp||[]).push(a);return {error:null};},
     verifyOtp: async(a)=>{(window.__verify=window.__verify||[]).push(a);window.__session={access_token:'tok',user:{id:'u1'}};return {data:{session:window.__session,user:{id:'u1'}},error:null};},
@@ -105,6 +105,17 @@ export function createClient(){
     await late.click("#member-activation-action");
     await late.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
     assert.deepEqual(late.errors, []);
+    // 3 ter. Compte connecté sans espace ni activation (connexion directe) : jamais bloqué — l'activation s'ouvre, un seul bouton de déconnexion.
+    const stuck = await open([]);
+    await stuck.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u5" } }; });
+    await stuck.goto(origin + "/espace-membre.html");
+    await stuck.waitForSelector("#member-activation-alert:not([hidden])");
+    await stuck.waitForTimeout(500);
+    assert.ok((await stuck.evaluate(() => window.__rpc)).includes("start_member_activation"));
+    assert.equal(await stuck.locator("#member-signout").count(), 1, "Un seul bouton Se déconnecter.");
+    await stuck.click("#member-activation-action");
+    await stuck.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    assert.deepEqual(stuck.errors, []);
     // 3 bis. Arrivée par le lien du courrier (sans saisir de code) : l'activation reprend à l'étape du mot de passe.
     const link = await open([]);
     await link.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u7", email: "nouveau@exemple.fr", user_metadata: { privacy_notice_acknowledged: true } } }; });
@@ -113,6 +124,11 @@ export function createClient(){
     assert.ok((await link.evaluate(() => window.__rpc)).includes("start_member_activation"));
     assert.equal(await link.evaluate(() => (window.__provision || []).length), 0);
     assert.deepEqual(link.errors, []);
+    const link2 = await open([]);
+    await link2.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u8", email: "direct@exemple.fr", user_metadata: {} } }; });
+    await link2.goto(origin + "/espace-membre.html#access_token=abc&type=magiclink");
+    await link2.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    assert.deepEqual(link2.errors, []);
     // 4. Espace actif : aucune alerte.
     const ok = await open([{ organization_id: "o1" }]);
     await ok.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1" } }; });

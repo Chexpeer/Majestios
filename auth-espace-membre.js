@@ -189,7 +189,9 @@ if (form && config?.url && config?.publishableKey) {
       .eq("user_id", session.user.id)
       .limit(1);
     if (!error && !data?.length) {
-      const { data: act } = await supabase.rpc("member_activation_status");
+      let { data: act } = await supabase.rpc("member_activation_status");
+      // Compte connecté sans espace ni activation (ex. connexion directe) : on ouvre l'activation, pour ne jamais laisser la personne bloquée.
+      if (act && act.state === "none") act = (await supabase.rpc("start_member_activation")).data;
       if (act && ["pending", "expired"].includes(act.state)) showAlert(act.deadline);
       else hideAlert();
     } else hideAlert();
@@ -197,8 +199,9 @@ if (form && config?.url && config?.publishableKey) {
       ? "Compte connecté · vérification de l’espace indisponible."
       : data?.length
         ? "Vous êtes connecté à votre espace MajestiOS."
-        : "Compte connecté · espace personnel à finaliser.";
-    if (!preview || oldButton) return;
+        : "Compte connecté · espace personnel à finaliser : cliquez sur « Activer mon espace ».";
+    // Plusieurs mises à jour peuvent se croiser : on revérifie après les attentes pour ne créer qu'un seul bouton.
+    if (!preview || preview.querySelector("#member-signout")) return;
     const signOutButton = document.createElement("button");
     signOutButton.id = "member-signout";
     signOutButton.type = "button";
@@ -299,7 +302,6 @@ if (form && config?.url && config?.publishableKey) {
     if (!session?.user) return;
     const { data: members } = await supabase.from("organization_members").select("organization_id").eq("user_id", session.user.id).limit(1);
     if (members?.length) return;
-    if (!session.user.user_metadata?.privacy_notice_acknowledged) return;
     pendingEmail = session.user.email || pendingEmail;
     const { data: act } = await supabase.rpc("start_member_activation");
     if (act && ["pending", "expired"].includes(act.state)) {
