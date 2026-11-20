@@ -11,7 +11,6 @@ const submitButton = form?.querySelector('[type="submit"]');
 const status = document.querySelector("#member-auth-status");
 const preview = document.querySelector(".member-preview");
 const otpStep = form?.querySelector("[data-otp-step]");
-const otpInput = form?.elements.namedItem("otp");
 const resendButton = form?.querySelector("[data-resend-otp]");
 const emailInput = form?.elements.namedItem("email");
 
@@ -32,7 +31,7 @@ if (form && config?.url && config?.publishableKey) {
     return true;
   };
 
-  let awaitingOtp = false;
+  let linkSent = false;
   let createMode = false;
   let awaitingPassword = false;
   let activationDeadline = "";
@@ -59,8 +58,8 @@ if (form && config?.url && config?.publishableKey) {
     const ack = field("privacy_ack");
     if (ack) ack.required = on;
     if (titleEl) titleEl.textContent = on ? "Créer mon espace personnel" : "Se connecter à mon espace";
-    if (introEl) introEl.textContent = on ? "Un e-mail avec un lien de connexion (et parfois un code) confirme votre adresse et crée votre espace." : "Recevez un lien de connexion par e-mail pour accéder à votre espace existant.";
-    if (submitButton) submitButton.innerHTML = (on ? "Recevoir mon code pour créer mon espace" : "Recevoir mon code de connexion") + ' <span aria-hidden="true">→</span>';
+    if (introEl) introEl.textContent = on ? "Un e-mail avec un lien de connexion confirme votre adresse et crée votre espace." : "Recevez un lien de connexion par e-mail pour accéder à votre espace existant.";
+    if (submitButton) submitButton.innerHTML = (on ? "Recevoir mon lien pour créer mon espace" : "Recevoir mon lien de connexion") + ' <span aria-hidden="true">→</span>';
   };
   form.querySelectorAll("[data-toggle-create]").forEach((b) => b.addEventListener("click", () => setCreateMode(!createMode)));
   document.querySelectorAll("[data-open-create]").forEach((b) => b.addEventListener("click", () => {
@@ -73,7 +72,7 @@ if (form && config?.url && config?.publishableKey) {
     const response = await fetch(`${config.url}/functions/v1/provision-client-workspace`, {
       method: "POST",
       headers: { "content-type": "application/json", apikey: config.publishableKey, authorization: `Bearer ${session.access_token}` },
-      body: JSON.stringify({ flow: "signup", privacy_acknowledged: true, organization_name: value("organization_name"), display_name: value("display_name") })
+      body: JSON.stringify({ flow: "signup", privacy_acknowledged: true, organization_name: value("organization_name") || session.user?.user_metadata?.organization_name || "", display_name: value("display_name") || session.user?.user_metadata?.display_name || "" })
     });
     let code = "";
     try { code = (await response.clone().json()).code || ""; } catch { code = ""; }
@@ -95,8 +94,10 @@ if (form && config?.url && config?.publishableKey) {
   const hideAlert = () => { needsActivation = false; if (alertBox) alertBox.hidden = true; };
   const showPasswordStep = () => {
     awaitingPassword = true;
+    linkSent = false;
     form.querySelectorAll("[data-before-otp], [data-create-only]").forEach((el) => { el.hidden = true; });
     if (otpStep) otpStep.hidden = true;
+    if (submitButton) submitButton.hidden = false;
     if (pwStep) pwStep.hidden = false;
     // Les champs masqués (adresse, consentement, code…) ne doivent jamais bloquer l'envoi en silence : ils ne sont plus obligatoires à cette étape.
     form.querySelectorAll("input, select, textarea").forEach((el) => { if (!pwStep || !pwStep.contains(el)) el.required = false; });
@@ -118,7 +119,7 @@ if (form && config?.url && config?.publishableKey) {
     const response = await provisionWorkspace(session);
     if (!response.ok) {
       const code = response.code;
-      if (code === "ACTIVATION_EXPIRED") throw new Error("Le délai d’activation est dépassé. Redemandez un code pour reprendre.");
+      if (code === "ACTIVATION_EXPIRED") throw new Error("Le délai d’activation est dépassé. Redemandez un lien pour reprendre.");
       throw new Error("Votre mot de passe est enregistré, mais l’espace n’a pas pu être activé. Réessayez dans un instant.");
     }
     awaitingPassword = false;
@@ -133,7 +134,7 @@ if (form && config?.url && config?.publishableKey) {
     retourner();
   };
   if (alertAction) alertAction.addEventListener("click", showPasswordStep);
-  // Compte déjà connecté dont l'espace reste à activer : ouvrir le formulaire mène à la création du mot de passe, jamais à une nouvelle demande de code.
+  // Compte déjà connecté dont l'espace reste à activer : ouvrir le formulaire mène à la création du mot de passe, jamais à une nouvelle demande de lien.
   if (dialog && typeof MutationObserver === "function") {
     new MutationObserver(() => { if (dialog.open && needsActivation && !awaitingPassword) showPasswordStep(); }).observe(dialog, { attributes: true, attributeFilter: ["open"] });
   }
@@ -142,16 +143,16 @@ if (form && config?.url && config?.publishableKey) {
     if (!resendButton) return;
     let remaining = 60;
     resendButton.disabled = true;
-    resendButton.textContent = `Renvoyer le code dans ${remaining} s`;
+    resendButton.textContent = `Renvoyer le lien dans ${remaining} s`;
     clearInterval(resendTimer);
     resendTimer = setInterval(() => {
       remaining -= 1;
       if (remaining <= 0) {
         clearInterval(resendTimer);
         resendButton.disabled = false;
-        resendButton.textContent = "Renvoyer un code";
+        resendButton.textContent = "Renvoyer le lien";
       } else {
-        resendButton.textContent = `Renvoyer le code dans ${remaining} s`;
+        resendButton.textContent = `Renvoyer le lien dans ${remaining} s`;
       }
     }, 1000);
   };
@@ -169,19 +170,17 @@ if (form && config?.url && config?.publishableKey) {
     pendingOptions = options;
     const { error } = await supabase.auth.signInWithOtp({ email, options: { ...options, emailRedirectTo: `${window.location.origin}/espace-membre.html` } });
     if (error) {
-      if (error.status === 429 || /rate.?limit/i.test(error.code || error.message || "")) throw new Error("Trop de demandes d’e-mail en peu de temps. Patientez environ une heure avant de redemander un code ou un lien.");
+      if (error.status === 429 || /rate.?limit/i.test(error.code || error.message || "")) throw new Error("Trop de demandes d’e-mail en peu de temps. Patientez environ une heure avant de redemander un lien.");
       // Keep account-existence and delivery errors deliberately non-specific.
       throw new Error("La demande n’a pas pu être confirmée. Si l’envoi est autorisé pour cette adresse, vérifiez votre boîte de réception et vos courriers indésirables.");
     }
     pendingEmail = email;
-    awaitingOtp = true;
-    if (otpInput) otpInput.required = true;
+    linkSent = true;
     if (otpStep) otpStep.hidden = false;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = true; });
-    if (submitButton) submitButton.innerHTML = 'Vérifier le code <span aria-hidden="true">→</span>';
-    setFeedback(`Un e-mail vient d’être envoyé à ${email}. Ouvrez-le et cliquez sur le lien de connexion. Si le message contient un code à 6 chiffres, vous pouvez le saisir ci-dessous.`);
+    if (submitButton) submitButton.hidden = true;
+    setFeedback(`Un e-mail vient d’être envoyé à ${email}. Ouvrez-le et cliquez sur le lien de connexion.`);
     startResendCooldown();
-    otpInput?.focus();
   };
 
   const updateAuthStatus = async (session) => {
@@ -226,62 +225,13 @@ if (form && config?.url && config?.publishableKey) {
     preview.append(signOutButton);
   };
 
-  const verifyOtp = async () => {
-    const token = value("otp").replace(/\s+/g, "");
-    if (!/^\d{6}$/.test(token)) {
-      throw new Error("Saisissez le code à 6 chiffres reçu par e-mail.");
-    }
-    const { data, error } = await supabase.auth.verifyOtp({
-      email: pendingEmail,
-      token,
-      type: "email"
-    });
-    if (error || !data.session) {
-      throw new Error("Ce code est invalide ou expiré. Demandez-en un nouveau.");
-    }
-    awaitingOtp = false;
-    clearInterval(resendTimer);
-    if (resendButton) { resendButton.disabled = false; resendButton.textContent = "Renvoyer un code"; }
-    if (otpInput) otpInput.required = false;
-    if (otpStep) otpStep.hidden = true;
-    form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = false; });
-    // Création ou compte sans espace actif : on ouvre l'activation et on demande le mot de passe sécurisé.
-    const { data: act } = createMode
-      ? await supabase.rpc("start_member_activation")
-      : await supabase.rpc("member_activation_status");
-    if (act && ["pending", "expired"].includes(act.state)) {
-      const renewed = act.state === "expired" ? (await supabase.rpc("start_member_activation")).data : act;
-      activationDeadline = renewed?.deadline || act.deadline || "";
-      await updateAuthStatus(data.session);
-      showPasswordStep();
-      setFeedback("Adresse vérifiée. Créez maintenant votre mot de passe sécurisé pour activer votre espace.");
-      if (submitButton) submitButton.disabled = false;
-      return;
-    }
-    await updateAuthStatus(data.session);
-    const { data: memberships, error: membershipError } = await supabase
-      .from("organization_members")
-      .select("organization_id")
-      .eq("user_id", data.user.id)
-      .limit(1);
-    if (membershipError) {
-      setFeedback("Votre adresse est vérifiée, mais vos habilitations ne peuvent pas être contrôlées pour le moment. Réessayez plus tard.", true);
-    } else if (!memberships?.length) {
-      setFeedback("Votre compte est vérifié, mais aucun espace MajestiOS ne lui est associé. Contactez l’équipe pour finaliser votre accès.", true);
-    } else {
-      setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
-      retourner();
-    }
-    if (submitButton) submitButton.disabled = false;
-  };
-
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (submitButton) submitButton.disabled = true;
     if (feedback) feedback.hidden = true;
     try {
       if (awaitingPassword) await setPasswordAndActivate();
-      else if (awaitingOtp) await verifyOtp();
+      else if (linkSent) return;
       else {
         if (!form.reportValidity()) return;
         await sendOtp();
@@ -299,20 +249,23 @@ if (form && config?.url && config?.publishableKey) {
     try {
       const { error } = await supabase.auth.signInWithOtp({ email: pendingEmail, options: pendingOptions });
       if (error) throw error;
-      setFeedback("Un nouveau code vient d’être demandé. Seul le dernier code reçu doit être utilisé.");
+      setFeedback("Un nouveau lien vient d’être envoyé. Utilisez le dernier e-mail reçu.");
       startResendCooldown();
     } catch {
-      setFeedback("Impossible de renvoyer le code pour le moment. Réessayez un peu plus tard.", true);
+      setFeedback("Impossible de renvoyer le lien pour le moment. Réessayez un peu plus tard.", true);
       resendButton.disabled = false;
     }
   });
 
-  // Arrivée par le lien du courrier (au lieu du code) : même parcours, on reprend l'activation.
+  // Arrivée par le lien du courrier : même parcours, on reprend l'activation.
   const arrivedByLink = /access_token=|[?&]code=/.test(window.location.hash + window.location.search);
   const resumeFromLink = async (session) => {
     if (!session?.user) return;
     const { data: members } = await supabase.from("organization_members").select("organization_id").eq("user_id", session.user.id).limit(1);
-    if (members?.length) return;
+    if (members?.length) {
+      if (!retourner()) setFeedback("Connexion réussie. Bienvenue dans votre espace MajestiOS.");
+      return;
+    }
     pendingEmail = session.user.email || pendingEmail;
     const { data: act } = await supabase.rpc("start_member_activation");
     if (act && ["pending", "expired"].includes(act.state)) {

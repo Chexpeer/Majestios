@@ -11,7 +11,7 @@ assert.match(html, /Connexion à votre espace/);
 assert.match(html, /name="email"[^>]*type="email"[^>]*required/);
 assert.doesNotMatch(html, /id="toggle-auth-mode"/);
 assert.doesNotMatch(html, /Créer mon compte/);
-assert.match(html, /name="otp"[^>]*autocomplete="one-time-code"/);
+assert.doesNotMatch(html, /name="otp"|one-time-code/, "plus de saisie de code : connexion par lien");
 assert.match(html, /data-resend-otp/);
 assert.match(styles, /personal-space-fields\[hidden\]/);
 assert.match(styles, /personal-space-otp\[hidden\]/);
@@ -27,20 +27,17 @@ assert.equal((auth.match(/shouldCreateUser: true/g) || []).length, 1);
 assert.match(auth, /createMode\s*\?\s*\{ shouldCreateUser: true[\s\S]*?privacy_notice_acknowledged: true[\s\S]*?: \{ shouldCreateUser: false \}/);
 assert.match(auth, /if \(createMode && !field\("privacy_ack"\)\?\.checked\) throw/);
 assert.match(auth, /provision-client-workspace/);
-assert.ok(auth.indexOf("auth.verifyOtp(") < auth.indexOf('rpc("start_member_activation")', auth.indexOf("const verifyOtp")) && auth.indexOf("updateUser({ password") < auth.indexOf("provisionWorkspace(session)"), "l'espace n'est demandé qu'après le code puis le mot de passe sécurisé");
+assert.ok(auth.indexOf("updateUser({ password") < auth.indexOf("provisionWorkspace(session)"), "l'espace n'est demandé qu'après le mot de passe sécurisé");
+assert.doesNotMatch(auth, /verifyOtp|otpInput/, "plus de saisie de code");
 assert.match(auth, /validatePassword\(/);
 assert.match(auth, /start_member_activation/);
 assert.match(html, /name="privacy_ack" type="checkbox"/);
 assert.match(html, /data-toggle-create/);
 assert.doesNotMatch(html, /name="firstName"|name="lastName"|name="phone"/);
-assert.match(auth, /supabase\.auth\.verifyOtp\(\{[\s\S]*?type: "email"/);
-assert.match(auth, /otpInput\.required = false/);
-assert.match(auth, /otpInput\.required = true/);
 assert.doesNotMatch(auth, /signInWithPassword|resetPasswordForEmail/);
-assert.match(auth, /aucun espace MajestiOS ne lui est associé/i);
 assert.match(auth, /Bienvenue dans votre espace MajestiOS/);
 
-console.log("Contrat Auth OTP membre : connexion par code e-mail, absence de création de compte tant que le provisionnement n’est pas activé, et absence de mot de passe vérifiées.");
+console.log("Contrat Auth OTP membre : connexion par lien e-mail, absence de création de compte tant que le provisionnement n’est pas activé, et absence de mot de passe vérifiées.");
 
 // Demande du propriétaire (15/11/2026) : lien discret « Créer mon espace personnel » ; ce n'est pas un formulaire d'inscription : il renvoie vers le contact tant que la création est suspendue.
 assert.match(html, /data-open-create>Créer mon espace personnel<\/button>/);

@@ -50,6 +50,9 @@ export function createClient(){
     assert.equal(first.email, "ancien@exemple.fr");
     assert.equal(first.options.shouldCreateUser, false);
     assert.match(first.options.emailRedirectTo, /\/espace-membre\.html$/);
+    await page.waitForSelector("#personal-space-form [data-otp-step]:not([hidden])");
+    assert.equal(await page.locator("#personal-space-form input[name=otp]").count(), 0, "Plus de saisie de code.");
+    assert.match(await page.textContent("#personal-space-form [data-otp-step]"), /cliquez sur le lien/i);
     // 2. Création depuis le petit lien : consentement obligatoire.
     page = await open([{ organization_id: "o2" }]);
     const provisioned = [];
@@ -72,8 +75,10 @@ export function createClient(){
     assert.equal(sent.options.data.privacy_notice_version, "2026-11-05");
     assert.equal(sent.options.data.organization_name, "Ma Société");
     assert.equal(provisioned.length, 0, "aucune création avant la vérification du code");
-    await page.fill("#personal-space-form input[name=otp]", "123456");
-    await page.click("#personal-space-form button[type=submit]");
+    // Clic sur le lien du courrier : on revient sur la page avec la session ; le nom de l'entreprise saisi voyage dans les données du compte.
+    await page.addInitScript(() => { window.__members = []; window.__session = { access_token: "tok", user: { id: "u2", email: "nouveau@exemple.fr", user_metadata: { privacy_notice_acknowledged: true, organization_name: "Ma Société" } } }; });
+    await page.goto("about:blank");
+    await page.goto(origin + "/espace-membre.html#access_token=abc&type=magiclink");
     await page.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
     assert.equal(provisioned.length, 0, "aucun espace avant la création du mot de passe");
     assert.ok((await page.evaluate(() => window.__rpc)).includes("start_member_activation"));
@@ -94,7 +99,6 @@ export function createClient(){
     assert.equal((await page.evaluate(() => window.__updates))[0].password, "Cheval-Bleu-Lune-77");
     assert.equal(provisioned.length, 1);
     assert.equal(provisioned[0].auth, "Bearer tok");
-    assert.equal(provisioned[0].verifiedBefore, 1);
     assert.deepEqual(provisioned[0].body, { flow: "signup", privacy_acknowledged: true, organization_name: "Ma Société", display_name: "" });
     // 3. Compte vérifié mais non activé : l'alerte est visible, avec la date limite, et ramène à l'étape du mot de passe.
     const late = await open([]);
@@ -156,26 +160,20 @@ export function createClient(){
     await ok.goto(origin + "/espace-membre.html");
     await ok.waitForFunction(() => /connecté à votre espace/.test(document.querySelector("#member-auth-status")?.textContent || ""));
     assert.equal(await ok.isVisible("#member-activation-alert"), false);
-    // 5. Retour vers le service d'origine : connexion avec ?retour=annonces ramène au formulaire de dépôt ; une clé inconnue est ignorée.
+    // 5. Retour vers le service d'origine : ?retour=annonces puis clic sur le lien du courrier ramène au formulaire de dépôt ; une clé inconnue est ignorée.
     const back = await open([{ organization_id: "o1" }]);
     await back.goto(origin + "/espace-membre.html?retour=annonces");
-    await back.click("#open-personal-space");
-    await back.fill("#personal-space-form input[name=email]", "ancien@exemple.fr");
-    await back.click("#personal-space-form button[type=submit]");
-    await back.fill("#personal-space-form input[name=otp]", "123456");
-    await back.click("#personal-space-form button[type=submit]");
+    await back.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1", email: "ancien@exemple.fr" } }; });
+    await back.goto(origin + "/espace-membre.html#access_token=abc&type=magiclink");
     await back.waitForURL(/\/sous-traitance\.html#deposer$/, { timeout: 8000 });
     const nobody = await open([{ organization_id: "o1" }]);
     await nobody.goto(origin + "/espace-membre.html?retour=https://exemple.fr");
-    await nobody.click("#open-personal-space");
-    await nobody.fill("#personal-space-form input[name=email]", "ancien@exemple.fr");
-    await nobody.click("#personal-space-form button[type=submit]");
-    await nobody.fill("#personal-space-form input[name=otp]", "123456");
-    await nobody.click("#personal-space-form button[type=submit]");
+    await nobody.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1", email: "ancien@exemple.fr" } }; });
+    await nobody.goto(origin + "/espace-membre.html#access_token=abc&type=magiclink");
     await nobody.waitForFunction(() => /Connexion réussie/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
     await nobody.waitForTimeout(1600);
     assert.match(nobody.url(), /\/espace-membre\.html/, "Une destination inconnue ne doit jamais provoquer de redirection.");
     assert.deepEqual(page.errors, []);
-    console.log("TEST CRÉATION D'ESPACE PAR CODE RÉUSSI : connexion sans création, consentement exigé, mot de passe sécurisé obligatoire avant l'espace, alerte d'activation avec date limite.");
+    console.log("TEST CRÉATION D'ESPACE PAR LIEN RÉUSSI : connexion sans création, consentement exigé, mot de passe sécurisé obligatoire avant l'espace, alerte d'activation avec date limite.");
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); process.exit(1); });

@@ -221,17 +221,15 @@ const supabaseConfig = read("supabase-config.js");
 const workspaceFunction = read("supabase/functions/provision-client-workspace/index.ts");
 assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes('data-supabase-auth'),
   "Espace membre : le formulaire doit utiliser le contrôleur Auth Supabase");
-assert(memberPage.includes('name="email"') && memberPage.includes('autocomplete="one-time-code"') &&
-  memberPage.includes('data-open-create') && memberPage.includes('name="privacy_ack"'),
+assert(memberPage.includes('name="email"') &&   memberPage.includes('data-open-create') && memberPage.includes('name="privacy_ack"'),
   "Espace membre : connexion OTP et création par code avec consentement attendues");
-assert(memberAuth.includes("signInWithOtp(") && memberAuth.includes("verifyOtp(") &&
+assert(memberAuth.includes("signInWithOtp(") && !memberAuth.includes("verifyOtp(") &&
   memberAuth.includes("shouldCreateUser: false") && memberAuth.includes("createMode"),
   "Espace membre : connexion OTP sans création par défaut ; création seulement en mode création");
 assert(!memberPage.includes('name="password"') && !memberPage.includes('name="passwordConfirm"') &&
   !memberAuth.includes("signInWithPassword(") && !memberAuth.includes("resetPasswordForEmail("),
   "Espace membre : aucun mot de passe ne doit être demandé dans le parcours OTP");
-assert(memberAuth.indexOf("auth.verifyOtp(") < memberAuth.indexOf('rpc("start_member_activation")', memberAuth.indexOf("const verifyOtp")) &&
-  memberAuth.indexOf("updateUser({ password") < memberAuth.indexOf("provisionWorkspace(session)"),
+assert(memberAuth.indexOf("updateUser({ password") < memberAuth.indexOf("provisionWorkspace(session)"),
   "Espace membre : l'espace n'est demandé qu'après le code puis la création du mot de passe sécurisé");
 assert(!/SUPABASE_SERVICE_ROLE_KEY|sb_secret_[A-Za-z0-9]+/i.test(supabaseConfig),
   "Sécurité Supabase : aucune clé service_role ne doit être publiée dans le navigateur");

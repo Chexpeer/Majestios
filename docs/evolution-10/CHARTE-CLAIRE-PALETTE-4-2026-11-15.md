@@ -266,3 +266,10 @@ Retour arrière : annuler le commit de cette étape.
 Constat (journaux Supabase Test) : après l'arrivée par le lien, aucune demande d'enregistrement du mot de passe n'atteignait le serveur (mot de passe toujours absent, espace non créé). Cause : le champ « adresse e-mail », masqué à cette étape et vide quand on arrive par le lien, restait « obligatoire » ; le navigateur bloquait l'envoi du formulaire sans rien afficher, d'où le retour à la page du mot de passe.
 Correction (auth-espace-membre.js) : à l'étape du mot de passe, les champs masqués ne sont plus obligatoires ; l'adresse de la session est mémorisée. Test : espace-membre-creation.browser.cjs (arrivée par le lien, saisie du mot de passe, espace activé) — vérifié en échec sans la correction.
 Retour arrière : annuler le commit de cette étape.
+
+## Suite 12 — 2026-11-20 : fin de l'inscription par code, connexion par lien uniquement
+
+Décision du propriétaire : l'inscription par code ne simplifie rien (le courrier ne contient de toute façon que le lien).
+Changement (espace-membre.html, auth-espace-membre.js, espace-prive.html) : plus de champ « code » ni de vérification de code. Après la demande, la page indique de cliquer sur le lien reçu par e-mail (avec « Renvoyer le lien »). Le clic ramène sur l'espace membre : création du mot de passe puis activation (le nom d'entreprise saisi à la création voyage dans les données du compte) ; un espace déjà actif ramène directement à la page d'origine (`?retour=`) ou affiche la connexion réussie.
+Tests : tests/auth-espace-membre-otp.test.cjs et verify-architecture.js (contrat sans code), tests/espace-membre-creation.browser.cjs (parcours par le lien).
+Retour arrière : annuler le commit de cette étape.
