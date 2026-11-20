@@ -253,3 +253,10 @@ Constat (journaux Supabase Test) : (1) la demande de lien indique bien l'adresse
 Correction (auth-espace-membre.js) : ouvrir le formulaire d'une personne connectée à activer mène directement à la création du mot de passe, sans nouveau code ; un message clair s'affiche quand la limite d'envoi est atteinte. Test : espace-membre-creation.browser.cjs.
 Côté propriétaire : éviter de redemander des e-mails en rafale ; pour des essais répétés, configurer un expéditeur dédié (SMTP personnalisé) dans Supabase.
 Retour arrière : annuler le commit de cette étape.
+
+## Suite 10 — 2026-11-20 : connexion « lien d'abord »
+
+Constat : les modèles d'e-mail Supabase sont verrouillés (grisés) tant qu'aucun expéditeur dédié (SMTP personnalisé) n'est configuré ; le courrier ne contient donc que le lien, jamais le code.
+Correction (auth-espace-membre.js, espace-membre.html) : les textes demandent de cliquer sur le lien reçu ; le code à 6 chiffres reste accepté s'il figure dans le courrier. Aucun changement de logique.
+Plus tard (si souhaité) : configurer un SMTP personnalisé pour déverrouiller les modèles (code dans le courrier) et lever la limite d'envois.
+Retour arrière : annuler le commit de cette étape.

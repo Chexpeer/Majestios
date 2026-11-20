@@ -59,7 +59,7 @@ if (form && config?.url && config?.publishableKey) {
     const ack = field("privacy_ack");
     if (ack) ack.required = on;
     if (titleEl) titleEl.textContent = on ? "Créer mon espace personnel" : "Se connecter à mon espace";
-    if (introEl) introEl.textContent = on ? "Un code temporaire envoyé par e-mail confirme votre adresse et crée votre espace. Aucun mot de passe." : "Recevez un code temporaire par e-mail pour accéder à votre espace existant.";
+    if (introEl) introEl.textContent = on ? "Un e-mail avec un lien de connexion (et parfois un code) confirme votre adresse et crée votre espace." : "Recevez un lien de connexion par e-mail pour accéder à votre espace existant.";
     if (submitButton) submitButton.innerHTML = (on ? "Recevoir mon code pour créer mon espace" : "Recevoir mon code de connexion") + ' <span aria-hidden="true">→</span>';
   };
   form.querySelectorAll("[data-toggle-create]").forEach((b) => b.addEventListener("click", () => setCreateMode(!createMode)));
@@ -176,7 +176,7 @@ if (form && config?.url && config?.publishableKey) {
     if (otpStep) otpStep.hidden = false;
     form.querySelectorAll("[data-before-otp]").forEach((element) => { element.hidden = true; });
     if (submitButton) submitButton.innerHTML = 'Vérifier le code <span aria-hidden="true">→</span>';
-    setFeedback(`Un code temporaire a été envoyé à ${email}. Il est à usage unique.`);
+    setFeedback(`Un e-mail vient d’être envoyé à ${email}. Ouvrez-le et cliquez sur le lien de connexion. Si le message contient un code à 6 chiffres, vous pouvez le saisir ci-dessous.`);
     startResendCooldown();
     otpInput?.focus();
   };
