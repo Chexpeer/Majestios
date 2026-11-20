@@ -226,16 +226,20 @@ if (form && config?.url && config?.publishableKey) {
     // Connecté et activé : la grande carte disparaît, il ne reste qu'une ligne discrète avec « Se déconnecter ».
     const compact = mode === "active";
     preview.classList.toggle("is-compact", compact);
-    [["padding", "6px 0"], ["margin", "8px auto"], ["border", "0"], ["background", "none"], ["box-shadow", "none"], ["min-height", "0"]].forEach(([k, v]) => {
+    [["padding", "8px 16px"], ["margin", "10px 0"], ["border", "1px solid rgba(213,181,108,.45)"], ["border-radius", "999px"], ["background", "rgba(7,18,37,.88)"], ["box-shadow", "none"], ["min-height", "0"], ["width", "fit-content"], ["max-width", "100%"], ["display", "flex"], ["align-items", "center"], ["gap", "12px"], ["margin-inline", "0"]].forEach(([k, v]) => {
       if (compact) preview.style.setProperty(k, v, "important"); else preview.style.removeProperty(k);
     });
+    const out = preview.querySelector("#member-signout");
+    if (out) {
+      [["color", "#f1f5fb"], ["border", "1px solid rgba(241,245,251,.45)"], ["background", "transparent"], ["padding", "6px 14px"], ["min-height", "0"], ["text-shadow", "none"]].forEach(([k, v]) => { if (compact) out.style.setProperty(k, v, "important"); else out.style.removeProperty(k); });
+    }
     // Petite ampoule verte « Connecté » : chacun voit d'un coup d'œil qu'il est connecté.
     let led = preview.querySelector("#member-led");
     if (!led) {
       led = document.createElement("span");
       led.id = "member-led";
       led.setAttribute("role", "status");
-      led.style.cssText = "display:none;align-items:center;gap:8px;margin:0 14px 0 0;font-size:13px;font-weight:600;color:#4ade80";
+      led.style.cssText = "display:none;align-items:center;gap:8px;margin:0 14px 0 0;font-size:13px;font-weight:600;color:#86efac !important;text-shadow:none";
       led.innerHTML = '<span aria-hidden="true" style="width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px 2px rgba(34,197,94,.7)"></span>Connecté';
       preview.prepend(led);
     }
@@ -292,6 +296,7 @@ if (form && config?.url && config?.publishableKey) {
       else updateAuthStatus(null);
     });
     preview.append(signOutButton);
+    renderPreview(data?.length ? "active" : "pending");
   };
 
   form.addEventListener("submit", async (event) => {

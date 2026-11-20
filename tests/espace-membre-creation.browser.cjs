@@ -216,6 +216,9 @@ export function createClient(){
     assert.equal(await actif.locator(".member-preview .member-create-hint").isVisible(), false, "Connecté : « Créer mon espace » ne doit plus apparaître.");
     assert.equal(await actif.locator("#member-signout").isVisible(), true);
     assert.equal(await actif.locator(".member-preview h2").isVisible(), false, "Connecté et activé : la grande carte ne doit plus s’afficher.");
+    for (const sel of ["#mes-services", ".mj-service", "main .platform-card"]) {
+      assert.ok((await actif.locator(sel).count()) > 0 && await actif.locator(sel).first().isVisible(), "Connecté : la zone « " + sel + " » (services, CRM…) doit rester visible.");
+    }
     assert.equal(await actif.locator("#member-led").isVisible(), true, "Connecté : l’ampoule verte doit s’afficher.");
     assert.ok((await actif.locator(".member-preview").boundingBox()).height < 120, "La zone connectée doit rester discrète.");
     assert.deepEqual(page.errors, []);
