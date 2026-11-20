@@ -108,7 +108,7 @@
       {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Salons & séminaires","salons-seminaires.html"],["Nous rejoindre","nous-rejoindre.html"]]},
       {label:"Réputation virtuelle",href:"reputation-virtuelle.html",items:[["Réputation virtuelle","reputation-virtuelle.html"]]},
       {label:"Facturation électronique",href:"facturation-electronique.html",items:[["Facturation électronique","facturation-electronique.html"]]},
-      {label:"Accéder à mon espace personnel",href:"espace-membre.html",cls:"nav-account",items:[["Mon espace personnel","espace-membre.html"],["Créer mon espace personnel","espace-membre.html#creation"],["Accès VIP · Administration","espace-interne.html"]]}
+      {label:"Accéder à mon espace personnel",href:"espace-membre.html",cls:"nav-account",items:[["Mon espace personnel","espace-membre.html"],["Accès VIP · Administration","espace-interne.html"]]}
     ];
     const current = location.pathname.split("/").pop() || "index.html";
     nav.replaceChildren();
@@ -223,7 +223,10 @@
     // Bandeau de fin de page : renvoi quasi systématique vers l'espace personnel.
     const main = document.querySelector("main.interior-page");
     const skip = /^(espace-|crm|admin|contact|nous-rejoindre|assistant|mentions|confidentialite|cgu|faq)/;
-    if (main && !skip.test(current) && !main.querySelector(".page-cta")) {
+    // Déjà connecté (session Supabase présente dans ce navigateur) : le bandeau « Accéder à mon espace personnel » n'a plus de sens.
+    let connecte = false;
+    try { connecte = Object.keys(localStorage).some((k) => /^sb-.+-auth-token$/.test(k) && /access_token/.test(localStorage.getItem(k) || "")); } catch (_) { connecte = false; }
+    if (main && !connecte && !skip.test(current) && !main.querySelector(".page-cta")) {
       const band = document.createElement("aside");
       band.className = "page-cta";
       band.innerHTML = '<p>Retrouvez vos recherches et votre suivi au même endroit.</p><div class="page-cta-actions"><a href="espace-membre.html">Accéder à mon espace personnel</a></div>';

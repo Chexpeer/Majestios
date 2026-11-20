@@ -37,7 +37,7 @@ Relier **développement commercial, gestion quotidienne, facturation électroniq
 ## 3. Décisions validées (14 novembre 2026)
 
 - **Menu :** 5 rubriques de contenu (Appels d'offres · Développement commercial · Réseau · Services · Assistant) + menu « Accéder à mon espace personnel » (espace, création, accès VIP). Une rubrique = une place. Remplace la décision Evolution-7.
-- **Espace personnel :** libellé « Accéder à mon espace personnel » ; lien « Créer mon espace personnel » sans création réelle avant la recette d'authentification.
+- **Espace personnel :** libellé « Accéder à mon espace personnel » ; une seule entrée « Mon espace personnel » dans le menu ; la création de compte se propose dans le formulaire de connexion (lien discret, sans création réelle avant la recette d'authentification) ; le bandeau de bas de page « Accéder à mon espace personnel » disparaît quand la personne est connectée.
 - **Fonds par rubrique** (13 WebP) et navigation discrète validés ; cube de l'accueil conservé.
 - **BODACC :** annonces d'entreprises uniquement (créations, cessions, radiations, procédures).
 - **Textes :** une ligne « En préparation. » au lieu des longs avertissements ; le détail des statuts vit ici et dans les registres.

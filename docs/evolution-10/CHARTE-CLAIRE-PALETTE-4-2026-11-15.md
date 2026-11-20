@@ -301,3 +301,9 @@ Retour arrière : annuler le commit de cette étape.
 
 - Connecté et activé : la grande carte (icône, titre, statut) n'est plus affichée ; reste une ligne discrète avec une ampoule verte « Connecté » et « Se déconnecter ». Déconnecté ou à activer : carte complète inchangée. Test ajouté (zone < 120 px, titre masqué).
 - Retour arrière : revenir au commit précédent de `auth-espace-membre.js`.
+
+## Suite 18 — Menu et bandeau de bas de page cohérents avec la connexion (2026-11-20)
+
+- Le menu n'a plus d'entrée « Créer mon espace personnel » : une seule entrée « Mon espace personnel » ; la création se propose dans le formulaire de connexion.
+- Le bandeau de bas de page « Accéder à mon espace personnel » n'est plus affiché quand une session est présente dans le navigateur. Test ajouté.
+- Retour arrière : revenir au commit précédent de `navigation-tiroirs.js`.

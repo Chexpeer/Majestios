@@ -221,6 +221,15 @@ export function createClient(){
     }
     assert.equal(await actif.locator("#member-led").isVisible(), true, "Connecté : l’ampoule verte doit s’afficher.");
     assert.ok((await actif.locator(".member-preview").boundingBox()).height < 120, "La zone connectée doit rester discrète.");
+    // Bandeau de bas de page et menu : pas de « Accéder » quand on est connecté, pas de « Créer » dans le menu.
+    const anon = await open([]);
+    await anon.goto(origin + "/marches-publics.html");
+    assert.ok(await anon.locator(".page-cta").count() > 0, "Non connecté : le bandeau d’accès à l’espace personnel reste proposé.");
+    assert.equal(await anon.locator('nav a[href="espace-membre.html#creation"]').count(), 0, "Le menu ne propose plus « Créer mon espace personnel ».");
+    const cnx = await open([]);
+    await cnx.addInitScript(() => { localStorage.setItem("sb-test-auth-token", JSON.stringify({ access_token: "tok" })); });
+    await cnx.goto(origin + "/marches-publics.html");
+    assert.equal(await cnx.locator(".page-cta").count(), 0, "Connecté : le bandeau « Accéder à mon espace personnel » ne doit plus apparaître.");
     assert.deepEqual(page.errors, []);
     console.log("TEST CRÉATION D'ESPACE PAR LIEN RÉUSSI : connexion sans création, consentement exigé, mot de passe sécurisé obligatoire avant l'espace, alerte d'activation avec date limite.");
   } finally { await browser.close(); server.close(); }
