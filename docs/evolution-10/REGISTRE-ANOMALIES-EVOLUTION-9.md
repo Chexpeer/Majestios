@@ -3,6 +3,28 @@
 > **Convention d'identifiants :** les anomalies historiques qui partageaient un même identifiant ont été distinguées par suffixe (périmètre, étape d'audit ou correction). Les anciens identifiants courts restent des références historiques dans certains comptes rendus ; utiliser les identifiants qualifiés de ce registre pour toute nouvelle mise à jour.
 
 
+## État au 20 novembre 2026 (à lire en premier)
+
+**Origine :** ce registre a été ouvert sur la branche Evolution-9 (11–14 novembre 2026). Il est repris dans `docs/evolution-10/` et la branche active est `evolution-10`. Le nom du fichier est historique et conservé volontairement (liens). Les sections numérotées plus bas décrivent l'état à leur date ; **ce tableau prévaut**. Contrôles du 20 novembre : base de test Supabase (lecture seule), fonctions déployées, dépôt, contrôle GitHub vert sur `da6ae51`. Rien n'a été vérifié sur la base de production `majestios-crm`.
+
+| ID | Statut au 20 novembre 2026 | Preuve / limite |
+|---|---|---|
+| AUTH-01 | **Traité sur Test** ; production non faite | Fonction `provision-client-workspace` v2 déployée sur Test, activation obligatoire (mot de passe + politique de confidentialité) testée en automatique. |
+| AUTH-02 | **Partiel — à revalider** | Le consentement repose encore sur une donnée du compte modifiable par l'utilisateur ; une table d'activation côté serveur existe. À confirmer par un test réel. |
+| AN-04 | **Ouvert, non vérifié** | Test : 52 migrations appliquées ; dépôt : 51 fichiers. Production non comparée. |
+| AN-14 | **Résolu sur Test** | RLS maintenant activée sur `private.reputation_audit_usage`. L'alerte « RLS sans politique » (info) est voulue : accès par fonctions uniquement. |
+| AN-07 | **Ouvert — action du propriétaire** | « Leaked password protection » désactivée (réglage Supabase Auth, peut dépendre de l'offre). À tester sur le parcours de connexion après activation. |
+| AN-06 | **Partiel** | Sur Test : `cheexpeer-worker` v2 et 4 fonctions Cheexpeer actives. Le pont Git `cheexpeer-worker-bridge` n'est pas déployé. |
+| AN-02 | **Ouvert** | Tests réels inter-organisations owner/admin/member non démontrés. Test : 3 organisations, 3 membres. |
+| AN-13 | **Ouvert** | `complete_crm_reminder` n'est pas exécutable par `anon`, l'est par `authenticated` (attendu). Recette des rôles non faite. |
+| AN-05 | **Ouvert** | Une adresse administrateur est encore codée dans `bootstrap-internal-admin` (fonction non déployée sur Test). Masquée dans ce registre le 20 novembre ; elle reste dans l'historique Git. Correction du code : à décider par le propriétaire. |
+| AN-10 | **Ouvert, non vérifié** | Un workflow de sauvegarde existe ; restauration jamais testée ; Auth/secrets/Storage hors périmètre. |
+| CRM-06-VIP | **Bloqué (voulu)** | Fonctions d'import officiel non déployées sur Test ; recette multi-rôles non faite. |
+| CHEEXPEER-01 à 04 | **Ouverts** | Recette et déploiement à prouver. |
+| NAV-01-EVO8 | **Clos** | Corrigé en Evolution-8/9. |
+
+**Points obsolètes dans les sections plus bas :** « 93 ressources / 21 entrées » (aujourd'hui 143 ressources, 43 pages) ; « aucune modification des pages » (le mandat actuel est celui d'AGENTS.md) ; état du contrôle GitHub avant le 20 novembre.
+
 **Branche :** `Evolution-9`  
 **Base :** commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` d'Evolution-8  
 **Statut initial :** reprise et requalification en cours.
@@ -1078,7 +1100,7 @@ Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : proje
 | CONS-02 | P2 | Documentation de l'état réel du site en retard sur la navigation (assistant, sous-traitance, entrées uniques) | **Corrigé** (`ETAT-REEL-SITE-ET-TRAJECTOIRE`) |
 | CONS-03 | P2 | Tests réseau directs BOAMP/BODACC (`boamp-live-smoke`, `bodacc-live-smoke`, `reputation-bodacc-query-smoke`) | **Non exécutables ici** (hôtes DILA bloqués) ; à rejouer depuis CI ou poste du porteur |
 | CONS-04 | P2 | Connexion e-mail du projet Test : lien envoyé vers `localhost:3000`, limite d'envois atteinte | **Ouvert** : régler « Site URL » / « Redirect URLs » dans Supabase (Authentication > URL Configuration), puis réessayer après la fenêtre de limite |
-| CONS-05 | P3 | Compte de test créé directement dans la base d'authentification (perspectivemarketing@gmail.com, propriétaire de l'organisation interne, projet Test) | **À supprimer ou à régulariser** avant toute reprise vers un projet réel |
+| CONS-05 | P3 | Compte de test créé directement dans la base d'authentification (<adresse du propriétaire (non reproduite)>, propriétaire de l'organisation interne, projet Test) | **À supprimer ou à régulariser** avant toute reprise vers un projet réel |
 
 ## 99. Harmonisation visuelle et cube en cristal (14 novembre 2026, soir)
 
@@ -1114,7 +1136,7 @@ Créés par SQL (sans mot de passe, connexion par lien e-mail), sur décision du
 
 | Compte (alias Gmail, minuscules) | Rattachement | Usage de recette |
 |---|---|---|
-| `perspectivemarketing@gmail.com` | CRM interne : owner | Propriétaire interne |
+| `<adresse du propriétaire (non reproduite)>` | CRM interne : owner | Propriétaire interne |
 | `…+majestios@…` | CRM interne : member | Doit être refusé sur administration et CRM interne |
 | `…+cheexpeer@…` | CRM interne : admin | Compte technique Cheexpeer (centre de commande) |
 | `…+client@…` | « Client Test 1 » (client) : owner | Isolation entre clients |

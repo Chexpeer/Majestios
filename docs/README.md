@@ -24,6 +24,7 @@
 | Cheexpeer | [Cartographie](evolution-10/CARTOGRAPHIE-FONCTIONNELLE-TRANSVERSALE-CHEEXPEER.md) · [audit des interfaces](evolution-10/AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md) · [première mission](evolution-10/SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md) |
 | CRM / Supabase | [Audit en lecture seule](evolution-10/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md) |
 | Non-régression · SEO | [Evolution-7](evolution-10/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) · [SEO](evolution-10/AUDIT-SEO-EVOLUTION-9.md) |
+| Audit du produit | [Audit du 20 novembre 2026](evolution-10/AUDIT-PRODUIT-2026-11-20.md) |
 | Plan de synthèse | [Plan de synthèse documentaire](evolution-10/PLAN-SYNTHESE-DOCUMENTAIRE.md) |
 
 ## Repères
