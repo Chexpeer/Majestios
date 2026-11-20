@@ -38,6 +38,7 @@ Relier **développement commercial, gestion quotidienne, facturation électroniq
 
 - **Menu :** 5 rubriques de contenu (Appels d'offres · Développement commercial · Réseau · Services · Assistant) + menu « Accéder à mon espace personnel » (espace, création, accès VIP). Une rubrique = une place. Remplace la décision Evolution-7.
 - **Espace personnel :** libellé « Accéder à mon espace personnel » ; une seule entrée « Mon espace personnel » dans le menu ; la création de compte se propose dans le formulaire de connexion (lien discret, sans création réelle avant la recette d'authentification) ; le bandeau de bas de page « Accéder à mon espace personnel » disparaît quand la personne est connectée.
+- **Tableau de bord de l'espace personnel (connecté et activé) :** « Bonjour <prénom> », 4 chiffres sur les demandes, dernières demandes avec statut, suivi commercial des clients (pistes par étape et 5 prochaines actions, lecture seule, limité à la société du membre), puis les cartes de services. Ampoule verte « Connecté » sur toutes les pages. « Mes factures » est affiché grisé en attendant le partenaire de facturation électronique.
 - **Fonds par rubrique** (13 WebP) et navigation discrète validés ; cube de l'accueil conservé.
 - **BODACC :** annonces d'entreprises uniquement (créations, cessions, radiations, procédures).
 - **Textes :** une ligne « En préparation. » au lieu des longs avertissements ; le détail des statuts vit ici et dans les registres.

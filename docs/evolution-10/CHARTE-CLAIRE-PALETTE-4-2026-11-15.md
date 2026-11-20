@@ -328,3 +328,20 @@ Retour arrière : annuler le commit de cette étape.
 - Cartes de services : la carte 04 devient « Suivi commercial de vos clients » (lien vers le bloc) ; nouvelle carte 05 « Mes factures », grisée « Bientôt disponible ». La vente de fichiers de missions reste annoncée comme à venir.
 - Pas encore fait : l'ajout de pistes par le client lui-même (formulaire) et toute fonction de facturation réelle (en attente du partenaire).
 - Retour arrière : restaurer `espace-membre.html` et `tableau-de-bord-membre.mjs` du commit précédent.
+
+## Suite 22 — Audit de contrôle et évolutions à anticiper (2026-11-20)
+
+Audit réalisé sur la copie de test, sans modification fonctionnelle.
+
+- **Liens et erreurs :** les 43 pages ont été parcourues dans un vrai navigateur : 0 erreur JavaScript, 0 fichier manquant, 0 lien interne cassé, aucun débordement horizontal, titres de page uniques, images avec texte alternatif. Les pages d'administration ont deux titres principaux dont un seul est visible à la fois (accès réservé ou espace ouvert) : sans conséquence.
+- **Contrôle des annonces par l'administration :** déjà complet. L'écran de relecture a les onglets En attente, Publiées, Refusées et Retirées ; une annonce publiée peut être retirée ; un refus exige un motif. Limites connues : le texte d'une annonce ne peut plus être corrigé après publication ; une annonce n'est pas rattachée au compte du membre qui l'a déposée (donc pas encore de « Mes annonces »).
+- **Optimisation :** site léger (5,1 Mo, fonds en WebP de 400 Ko maximum, cache des images 24 h). Aucun changement fait pour ne pas risquer de régression visuelle. Pistes à traiter avec captures avant/après : précharger l'image de fond principale ; regrouper les 7 feuilles de style par page.
+- **Base de test (conseillers Supabase) :** rien d'urgent. Les fonctions « SECURITY DEFINER » appelables sont voulues (contrôle du rôle à l'intérieur, ou lecture publique des annonces publiées) ; les index « jamais utilisés » sont normaux avec une base presque vide, à réévaluer avec du volume. Un réglage à décider par le propriétaire : la protection contre les mots de passe compromis est désactivée (réglage Supabase Auth, à activer maintenant que la connexion se fait par mot de passe ; peut dépendre de l'offre Supabase).
+- **Évolutions à anticiper, par ordre conseillé :**
+  1. Formulaire d'ajout de piste dans le suivi commercial (écrit dans les mêmes tables que le CRM, sur la base de test : accord du propriétaire requis).
+  2. « Mes annonces » dans le tableau de bord (nécessite une lecture dédiée côté base, car l'accès direct aux annonces est fermé volontairement).
+  3. Facturation électronique : choix du partenaire (B2Brouter ou Iopole) après leurs réponses, puis interface « Mes factures ».
+  4. Messagerie d'envoi personnalisée (SMTP) : lève la limite d'e-mails et permet de personnaliser le texte des e-mails de connexion.
+  5. Nom de domaine propre avant toute mise en production (aucun aujourd'hui) ; la protection Vercel de la copie de test n'est levée qu'à la décision du propriétaire.
+  6. Correction du texte d'une annonce publiée par l'administration, avec trace dans l'historique.
+- Rien n'est fusionné ni en production.
