@@ -17,7 +17,7 @@
 | AN-06 | **Partiel** | Sur Test : `cheexpeer-worker` v2 et 4 fonctions Cheexpeer actives. Le pont Git `cheexpeer-worker-bridge` n'est pas déployé. |
 | AN-02 | **Ouvert** | Tests réels inter-organisations owner/admin/member non démontrés. Test : 3 organisations, 3 membres. |
 | AN-13 | **Ouvert** | `complete_crm_reminder` n'est pas exécutable par `anon`, l'est par `authenticated` (attendu). Recette des rôles non faite. |
-| AN-05 | **Ouvert** | Une adresse administrateur est encore codée dans `bootstrap-internal-admin` (fonction non déployée sur Test). Masquée dans ce registre le 20 novembre ; elle reste dans l'historique Git. Correction du code : à décider par le propriétaire. |
+| AN-05 | **Corrigé dans Git** (20 novembre) | Plus d'adresse dans le code de `bootstrap-internal-admin` ni dans ce registre ; la fonction lit le secret `INTERNAL_ADMIN_EMAIL` et refuse sans lui. Reste dans l'historique Git. **Poser le secret avant tout déploiement** ; production non vérifiée. |
 | AN-10 | **Ouvert, non vérifié** | Un workflow de sauvegarde existe ; restauration jamais testée ; Auth/secrets/Storage hors périmètre. |
 | CRM-06-VIP | **Bloqué (voulu)** | Fonctions d'import officiel non déployées sur Test ; recette multi-rôles non faite. |
 | CHEEXPEER-01 à 04 | **Ouverts** | Recette et déploiement à prouver. |

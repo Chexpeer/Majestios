@@ -10,6 +10,7 @@ on:
       - Evolution-7
       - Evolution-8
       - Evolution-9
+      - evolution-10
   pull_request:
     branches:
       - main

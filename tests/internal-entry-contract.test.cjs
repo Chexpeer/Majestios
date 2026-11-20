@@ -19,7 +19,7 @@ assert.ok(script.includes('["owner", "admin"].includes(membership.role)'), "Admi
 assert.ok(script.includes('membership.role === "viewer"') && /consultation seule/i.test(script), "Le rôle viewer doit être présenté en consultation seule.");
 assert.ok(script.includes("getUser()") && script.includes('item.kind === "internal"'), "L’identité et l’organisation interne doivent être vérifiées après connexion.");
 assert.ok(script.includes("await supabase.auth.signOut()"), "Un compte sans appartenance interne ne doit pas conserver l’accès à la session interne.");
-assert.ok(script.includes("allowedDestinations") && script.includes("destinationAllowed"), "Le retour après authentification doit être limité à des routes autorisées.");
+assert.ok(script.includes("safeReturnTo") && script.includes("canOpen("), "Le retour après authentification doit être limité à des routes autorisées.");
 assert.ok(crm.includes('href="espace-interne.html"'), "Le CRM doit revenir vers l’accueil interne.");
 assert.ok(admin.includes('href="espace-interne.html?returnTo=administration.html"'), "L’administration doit utiliser le parcours de connexion interne.");
 assert.ok(searches.includes('href="espace-interne.html?returnTo=admin-recherches.html"'), "Les recherches doivent utiliser le parcours de connexion interne.");

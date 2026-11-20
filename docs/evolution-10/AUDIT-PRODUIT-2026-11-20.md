@@ -7,9 +7,9 @@
 | Réf. | Constat | Effet sur le site | Suite proposée |
 |---|---|---|---|
 | AUD-01 | Contrôle GitHub : les tests navigateur démarraient avant l'installation de Playwright (échec sur tous les envois récents de `evolution-10`). **Corrigé** le 20 novembre (commit `da6ae51`, contrôle vert). | Aucun | Clos |
-| AUD-02 | `tests/internal-entry-contract.test.cjs` échoue : il cherche deux noms de variables (`allowedDestinations`, `destinationAllowed`) remplacés par `safeReturnTo` / `canOpen`. Le comportement (retour limité aux routes autorisées) est présent dans le code. | Aucun : test périmé | Aligner l'assertion sur le code actuel (test seul) |
-| AUD-03 | Le workflow « anti-régression » ne se déclenche pas sur `evolution-10` (liste de branches sans elle) : AUD-02 n'est donc jamais vu en ligne. | Aucun | Ajouter la branche après correction d'AUD-02 |
-| AUD-04 | Adresse administrateur réelle dans `supabase/functions/bootstrap-internal-admin/index.ts` (AN-05) et, jusqu'au 20 novembre, en clair dans le registre. Registre corrigé ; le code non. | Exposition d'une adresse dans un dépôt | Décision du propriétaire |
+| AUD-02 | `tests/internal-entry-contract.test.cjs` échoue : il cherche deux noms de variables (`allowedDestinations`, `destinationAllowed`) remplacés par `safeReturnTo` / `canOpen`. Le comportement (retour limité aux routes autorisées) est présent dans le code. | Aucun : test périmé | **Corrigé** le 20 novembre (assertion alignée, test seul) |
+| AUD-03 | Le workflow « anti-régression » ne se déclenche pas sur `evolution-10` (liste de branches sans elle) : AUD-02 n'est donc jamais vu en ligne. | Aucun | **Corrigé** le 20 novembre (branche ajoutée) |
+| AUD-04 | Adresse administrateur réelle dans `supabase/functions/bootstrap-internal-admin/index.ts` (AN-05) et, jusqu'au 20 novembre, en clair dans le registre. Registre corrigé. **Code corrigé** le 20 novembre : l'adresse vient désormais du seul secret `INTERNAL_ADMIN_EMAIL`, la fonction refuse de s'exécuter sans lui. | Exposition d'une adresse dans un dépôt (reste dans l'historique Git) | **Avant tout déploiement de cette fonction, poser le secret** |
 
 ## 2. Cohérence du produit (vérifiée par les contrôles automatiques, tous verts sur GitHub)
 
