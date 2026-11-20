@@ -30,8 +30,8 @@ Relier **développement commercial, gestion quotidienne, facturation électroniq
 | Recherche BOAMP / BODACC | Moteurs côté navigateur ; résultats réels à recetter par le porteur |
 | Espace membre | Sur la branche de test : création d'espace par lien reçu par e-mail, puis activation obligatoire (mot de passe sécurisé et acceptation de la politique de confidentialité avant la date limite) ; connexion ensuite par mot de passe ; tableau de bord client ; la limite d'envoi d'e-mails de Supabase s'applique (messagerie personnalisée à prévoir). Recette de bout en bout par le propriétaire à faire ; rien en production (AUTH-01 levé sur la copie de test) |
 | CRM interne | Code et fondations Supabase présents ; recette multi-rôles non exécutée ; distinct du futur CRM client |
-| Facturation électronique | Page d'information, calendrier, **diagnostic d'orientation en 4 questions** (sans stockage) sur la branche de test ; aucun module, aucune PA. Étude comparative des PA : [PA-01](evolution-9/ETUDE-COMPARATIVE-PLATEFORMES-AGREEES-2026-11-14.md) ; offre de partenariat rédigée, aucun partenaire retenu |
-| Veille des créations (BODACC) | Page admin « Recherches ciblées » (propriétaire/administrateur) : 4 régions, bâtiment et hôtellerie-restauration, note de priorité expliquée, bouton « Veille des créations » ; lecture seule, rien n'est enregistré ; contrôle juridique avant lancement. [Parcours](evolution-9/PARCOURS-VEILLE-BODACC-CREATIONS-2026-11-14.md) |
+| Facturation électronique | Page d'information, calendrier, **diagnostic d'orientation en 4 questions** (sans stockage) sur la branche de test ; aucun module, aucune PA. Étude comparative des PA : [PA-01](evolution-10/ETUDE-COMPARATIVE-PLATEFORMES-AGREEES-2026-11-14.md) ; offre de partenariat rédigée, aucun partenaire retenu |
+| Veille des créations (BODACC) | Page admin « Recherches ciblées » (propriétaire/administrateur) : 4 régions, bâtiment et hôtellerie-restauration, note de priorité expliquée, bouton « Veille des créations » ; lecture seule, rien n'est enregistré ; contrôle juridique avant lancement. [Parcours](evolution-10/PARCOURS-VEILLE-BODACC-CREATIONS-2026-11-14.md) |
 | Cheexpeer | Assistant local de première génération sur le site ; audit de réputation avec Claude **testé de bout en bout sur MajestiOS-Test** (5 audits/jour/utilisateur) ; API de missions déployées sur Test, seule `readiness_probe` soumissible avant recette ; rien sur `majestios-crm` |
 
 ## 3. Décisions validées (14 novembre 2026)
@@ -50,7 +50,7 @@ Table tenue à jour dans [le dossier des anomalies critiques](CRITIQUES/README.m
 
 ## 5. Trajectoire
 
-[Feuille de route stratégique](evolution-9/FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md) : lots, prérequis, décisions à prendre, ce qui est déjà prêt. Références de fond : [vision 2026–2028](evolution-9/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md), [plan de réalisation](evolution-9/PLAN-REALISATION-ET-MOYENS.md), [écart site / documentation](evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
+[Feuille de route stratégique](evolution-10/FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md) : lots, prérequis, décisions à prendre, ce qui est déjà prêt. Références de fond : [vision 2026–2028](evolution-10/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md), [plan de réalisation](evolution-10/PLAN-REALISATION-ET-MOYENS.md), [écart site / documentation](evolution-10/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
 
 ## 6. Règles de vérité (inchangées)
 
@@ -60,6 +60,6 @@ Distinguer proposition, décision validée, code présent, build, déploiement e
 
 | Niveau | Contenu | Usage |
 |---|---|---|
-| À lire | cette synthèse · [anomalies critiques](CRITIQUES/README.md) · [feuille de route](evolution-9/FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md) | Toute intervention |
-| Référence | `docs/evolution-9/` (registre, audits, spécifications Cheexpeer et facturation, vision, plan) | Sujet précis |
+| À lire | cette synthèse · [anomalies critiques](CRITIQUES/README.md) · [feuille de route](evolution-10/FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md) | Toute intervention |
+| Référence | `docs/evolution-10/` (registre, audits, spécifications Cheexpeer et facturation, vision, plan) | Sujet précis |
 | Historique | [journaux](historique/JOURNAL-CRITIQUES-2026-11.md) · [Evolution-9 au 13/11](historique/JOURNAL-EVOLUTION-9-2026-11-13.md) · `docs/evolution-5.0` à `evolution-8` · `docs/historique` | Comprendre une décision ancienne ; jamais source d'état courant |

@@ -2,7 +2,7 @@
 
 Statut : référence fonctionnelle et visuelle au 5 novembre 2026. Les neuf destinations, leurs routes et leurs coordonnées sont vérifiées dans index.html et les tests navigateur ; toute évolution doit mettre à jour simultanément le schéma, les tests et cette référence.
 
-> Note du 14 novembre 2026 : le menu de la branche de test `test-ecriture-claude` regroupe les pages en cinq rubriques (voir `docs/evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md`). L'immeuble interactif de l'accueil n'est pas modifié.
+> Note du 14 novembre 2026 : le menu de la branche de test `test-ecriture-claude` regroupe les pages en cinq rubriques (voir `docs/evolution-10/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md`). L'immeuble interactif de l'accueil n'est pas modifié.
 
 ## Rubriques visibles sur l'immeuble interactif MajestiOS
 

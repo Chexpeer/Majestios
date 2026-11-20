@@ -4,17 +4,17 @@
 
 ## 1. Où trouver les informations
 
-- **Invitations et chat depuis l'administration :** [SPECIFICATION-INVITATIONS-ET-CHAT-CHEEXPEER-2026-11-15.md](../evolution-9/SPECIFICATION-INVITATIONS-ET-CHAT-CHEEXPEER-2026-11-15.md)
-- **Charte de rôle de Cheexpeer :** [CHARTE-ROLE-CHEEXPEER-2026-11-14.md](../evolution-9/CHARTE-ROLE-CHEEXPEER-2026-11-14.md)
-- **Dossier d'accueil de Cheexpeer :** [DOSSIER-ACCUEIL-CHEEXPEER-2026-11-14.md](../evolution-9/DOSSIER-ACCUEIL-CHEEXPEER-2026-11-14.md)
+- **Invitations et chat depuis l'administration :** [SPECIFICATION-INVITATIONS-ET-CHAT-CHEEXPEER-2026-11-15.md](../evolution-10/SPECIFICATION-INVITATIONS-ET-CHAT-CHEEXPEER-2026-11-15.md)
+- **Charte de rôle de Cheexpeer :** [CHARTE-ROLE-CHEEXPEER-2026-11-14.md](../evolution-10/CHARTE-ROLE-CHEEXPEER-2026-11-14.md)
+- **Dossier d'accueil de Cheexpeer :** [DOSSIER-ACCUEIL-CHEEXPEER-2026-11-14.md](../evolution-10/DOSSIER-ACCUEIL-CHEEXPEER-2026-11-14.md)
 - **Méthode de travail (documentation → Test → CRM) :** [METHODE-DE-TRAVAIL-DOCUMENTATION-TEST-CRM.md](../METHODE-DE-TRAVAIL-DOCUMENTATION-TEST-CRM.md)
-- **Registre actif Evolution-9 :** [REGISTRE-ANOMALIES-EVOLUTION-9.md](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md)
+- **Registre actif Evolution-9 :** [REGISTRE-ANOMALIES-EVOLUTION-9.md](../evolution-10/REGISTRE-ANOMALIES-EVOLUTION-9.md)
 - **Guide de prise en main IA :** [GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md](../GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md)
 - **Registre détaillé Evolution-8 :** [REGISTRE-ANOMALIES-EVOLUTION-8.md](../evolution-8/REGISTRE-ANOMALIES-EVOLUTION-8.md)
 - **Historique Evolution-7 :** [REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md](../evolution-7/REGISTRE-ANOMALIES-PRIORITAIRES-2026-11-09.md)
 - **Consignes obligatoires des agents :** [AGENTS.md](../../AGENTS.md)
 - **Index documentaire général :** [docs/README.md](../README.md)
-- **Référentiel Evolution-9 :** [README.md](../evolution-9/README.md)
+- **Référentiel Evolution-9 :** [README.md](../evolution-10/README.md)
 - **Référentiel Evolution-8 :** [README.md](../evolution-8/README.md)
 - **Audit de départ :** [AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md](../evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md)
 - **Décisions de navigation héritées :** [REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md](../evolution-7/REFONTE-GLOBALE-NAVIGATION-CHATBOT-2026-11-09.md)
@@ -39,7 +39,7 @@ Légende : **Ouvert** · **Préparé** (correctif dans Git, non déployé, recet
 | SEO-01…05 | P2 | Pas de `robots.txt`, ni `sitemap.xml`, ni `canonical` | **Corrigé en partie** le 14/11 : `robots.txt` et `sitemap.xml` ajoutés (domaine provisoire) | **Domaine canonique à décider** avant d'ajouter les balises `canonical`. |
 | CTA-TEST-01 | P1 | « Créer mon espace personnel » sans création réelle | **Corrigé** (libellé honnête) | Création réelle après AUTH-01. |
 
-Alertes Supabase complémentaires (WARN) : protection des mots de passe compromis désactivée sur `majestios-crm` ; RPC SECURITY DEFINER exécutable par `authenticated` sur le projet de test. Voir [l'audit CRM/Supabase](../evolution-9/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md).
+Alertes Supabase complémentaires (WARN) : protection des mots de passe compromis désactivée sur `majestios-crm` ; RPC SECURITY DEFINER exécutable par `authenticated` sur le projet de test. Voir [l'audit CRM/Supabase](../evolution-10/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md).
 
 ## 3. Règles obligatoires pour chaque agent
 
@@ -71,4 +71,4 @@ Sauf autorisation explicite du porteur du projet, aucun agent ne doit :
 
 ## 6. Dernière actualisation
 
-14 novembre 2026. Historique complet : [journal des critiques](../historique/JOURNAL-CRITIQUES-2026-11.md). Branche de test : voir [l'état réel du site](../evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
+14 novembre 2026. Historique complet : [journal des critiques](../historique/JOURNAL-CRITIQUES-2026-11.md). Branche de test : voir [l'état réel du site](../evolution-10/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).

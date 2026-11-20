@@ -475,7 +475,7 @@ CRM-06 (sécurité distante) et CRM-07 (recette multi-tenant) restent ouverts. C
 | SEO-05 | P2 | Performance / accessibilité | Aucun score Lighthouse, Core Web Vitals ou audit accessibilité n'a été exécuté dans cette passe. | Ouvert. |
 | GEO-01 | P2 | Visibilité moteurs IA | Besoin de cohérence entre promesse, fonctionnalités réelles, sources et documentation structurée. | À développer par lots. |
 
-Le guide transversal est docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md ; l'audit SEO détaillé est docs/evolution-9/AUDIT-SEO-EVOLUTION-9.md. Ces documents ne remplacent pas AGENTS.md ni le registre critique central.
+Le guide transversal est docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md ; l'audit SEO détaillé est docs/evolution-10/AUDIT-SEO-EVOLUTION-9.md. Ces documents ne remplacent pas AGENTS.md ni le registre critique central.
 
 ## 33. Protection d'indexation — espaces membre et résultats — 11 novembre 2026
 

@@ -17,8 +17,8 @@ La synthèse ne constitue ni une refonte du site ni une autorisation de modifier
 | 1 | `AGENTS.md` | Consignes de travail, autorisations et méthode |
 | 2 | `docs/CRITIQUES/README.md` | Point d'entrée des risques critiques |
 | 3 | `docs/README.md` | Index général et ordre de lecture |
-| 4 | `docs/evolution-9/README.md` | État courant, mandat et priorités Evolution-9 |
-| 5 | `docs/evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md` | Anomalies détaillées, preuves, statuts et critères de clôture |
+| 4 | `docs/evolution-10/README.md` | État courant, mandat et priorités Evolution-9 |
+| 5 | `docs/evolution-10/REGISTRE-ANOMALIES-EVOLUTION-9.md` | Anomalies détaillées, preuves, statuts et critères de clôture |
 | 6 | Spécifications et audits spécialisés | Détails métier/techniques et preuves datées |
 | 7 | Dossiers Evolution-5.0 à Evolution-8 et historique | Sources historiques, propositions et décisions antérieures |
 
@@ -38,7 +38,7 @@ La vision stratégique et le plan de réalisation restent les références produ
 ## 4. Consolidation effectuée le 13 novembre
 
 - `docs/README.md` recentré sur l'ordre de lecture, les références canoniques et l'état réel.
-- `docs/evolution-9/README.md` recentré sur le mandat actif, les corrections prouvées et les sujets complexes ouverts.
+- `docs/evolution-10/README.md` recentré sur le mandat actif, les corrections prouvées et les sujets complexes ouverts.
 - `docs/CRITIQUES/README.md` aligné sur le registre Evolution-9 et les risques actuels.
 - `AGENTS.md` précise le périmètre de stabilisation et interdit les clones partiels, les refontes de site et les opérations distantes non autorisées.
 - Le registre conserve l'historique et reçoit un addendum daté ; aucun identifiant historique n'est supprimé.

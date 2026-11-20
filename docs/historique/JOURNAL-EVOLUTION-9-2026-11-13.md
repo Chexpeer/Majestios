@@ -1,8 +1,8 @@
 # Journal Evolution-9 — corrections techniques et dossiers consignés (13 novembre 2026)
 
-Archive déplacée depuis `docs/evolution-9/README.md` le 14 novembre 2026 pour alléger le référentiel. Contenu conservé ; l'état à jour est dans [la synthèse](../SYNTHESE-MAJESTIOS.md).
+Archive déplacée depuis `docs/evolution-10/README.md` le 14 novembre 2026 pour alléger le référentiel. Contenu conservé ; l'état à jour est dans [la synthèse](../SYNTHESE-MAJESTIOS.md).
 
-**Branche de test (14 novembre) :** une copie de travail, `test-ecriture-claude`, a reçu des évolutions du site autorisées explicitement (fonds par rubrique, navigation allégée à 17 entrées, BODACC, renvoi vers l'espace personnel). `Evolution-9` n'est pas modifiée. Écarts et trajectoire : [ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](../evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
+**Branche de test (14 novembre) :** une copie de travail, `test-ecriture-claude`, a reçu des évolutions du site autorisées explicitement (fonds par rubrique, navigation allégée à 17 entrées, BODACC, renvoi vers l'espace personnel). `Evolution-9` n'est pas modifiée. Écarts et trajectoire : [ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](../evolution-10/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
 
 ## 4. Corrections techniques du lot du 13 novembre
 
@@ -28,7 +28,7 @@ Aucun fichier HTML/CSS, libellé public, parcours, menu, donnée distante ou con
 | Navigation statique et contenu | Les menus HTML historiques et certains libellés ne sont pas homogènes ; le contrôleur commun masque une partie des écarts. | Inventaire page par page et correction seulement après autorisation d'un lot site distinct. |
 | Fichiers semblant orphelins | Des feuilles et scripts ne sont pas publiés ou chargés directement. | Tracer imports, chargements dynamiques, workflows et usages serveur avant toute suppression. |
 
-Les constats, identifiants et critères de clôture sont consignés dans le [registre détaillé](../evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md). Les constats Supabase de l'audit du 11 novembre sont datés : ils ne remplacent pas une nouvelle lecture des environnements.
+Les constats, identifiants et critères de clôture sont consignés dans le [registre détaillé](../evolution-10/REGISTRE-ANOMALIES-EVOLUTION-9.md). Les constats Supabase de l'audit du 11 novembre sont datés : ils ne remplacent pas une nouvelle lecture des environnements.
 
 ## 6. État produit à ne pas embellir
 
@@ -39,4 +39,4 @@ Les constats, identifiants et critères de clôture sont consignés dans le [reg
 - Le worker Cheexpeer et ses connecteurs doivent être décrits selon le code réellement déployé, pas seulement selon les fichiers Git.
 - La facturation électronique et la connexion à une PA restent des cibles de phase ultérieure.
 
-## 6 bis. Recontrôle Supabase du 13 novembre\n\n- `majestios-crm` : 22 migrations ; policies CRM VIP ; un trigger d'intégrité par table.\n- `MajestiOS-Test` : 39 migrations ; policies tenant-scoped ; doublons de triggers réels sur quatre tables.\n- Défaut P1 à traiter : le RPC `complete_crm_reminder` en production est SECURITY INVOKER, mais le rôle `authenticated` n'a pas UPDATE sur `crm_reminders`; la policy est en outre admin-only alors que le helper admet aussi member.\n- Advisor CRITICAL sur `private.reputation_audit_usage` sans RLS dans le projet de test ; aucun SELECT direct anon/authenticated n'a été observé, mais la défense en profondeur reste insuffisante.\n- Advisor WARN sur le RPC SECURITY DEFINER du projet de test et sur la protection des mots de passe compromis désactivée sur le projet principal.\n\nDétails et limites dans l'[audit comparatif du 13 novembre](../evolution-9/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md#18-recontrôle-distant-comparatif--13-novembre-2026-lecture-seule). Aucun changement Supabase distant n'a été réalisé.\n\n
+## 6 bis. Recontrôle Supabase du 13 novembre\n\n- `majestios-crm` : 22 migrations ; policies CRM VIP ; un trigger d'intégrité par table.\n- `MajestiOS-Test` : 39 migrations ; policies tenant-scoped ; doublons de triggers réels sur quatre tables.\n- Défaut P1 à traiter : le RPC `complete_crm_reminder` en production est SECURITY INVOKER, mais le rôle `authenticated` n'a pas UPDATE sur `crm_reminders`; la policy est en outre admin-only alors que le helper admet aussi member.\n- Advisor CRITICAL sur `private.reputation_audit_usage` sans RLS dans le projet de test ; aucun SELECT direct anon/authenticated n'a été observé, mais la défense en profondeur reste insuffisante.\n- Advisor WARN sur le RPC SECURITY DEFINER du projet de test et sur la protection des mots de passe compromis désactivée sur le projet principal.\n\nDétails et limites dans l'[audit comparatif du 13 novembre](../evolution-10/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md#18-recontrôle-distant-comparatif--13-novembre-2026-lecture-seule). Aucun changement Supabase distant n'a été réalisé.\n\n

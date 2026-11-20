@@ -11,7 +11,7 @@ Ce document permet à une IA qui découvre le dépôt de comprendre rapidement l
 1. Lire `AGENTS.md` : mandat, branches, architecture, sécurité et règles de travail.
 2. Lire `docs/CRITIQUES/README.md` : anomalies bloquantes et garde-fous.
 3. Lire `docs/README.md` : index documentaire et hiérarchie des sources.
-4. Lire `docs/evolution-10/` (journaux et charte de l'état courant), puis `docs/evolution-9/README.md` et `docs/evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md` (référentiel historique du même dépôt).
+4. Lire `docs/evolution-10/` (journaux et charte de l'état courant), puis `docs/evolution-10/README.md` et `docs/evolution-10/REGISTRE-ANOMALIES-EVOLUTION-9.md` (référentiel historique du même dépôt).
 5. Lire la vision stratégique, le plan de réalisation et le plan de synthèse documentaire (dossier `evolution-9`, toujours valables comme cadre stratégique).
 6. Lire le dossier spécialisé correspondant à la tâche ; consulter les décisions héritées Evolution-7/8 sans modifier ces branches ni Evolution-9.
 

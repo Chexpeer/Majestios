@@ -17,7 +17,7 @@ function walk(directory) {
   });
 }
 
-const docsDirectory = path.join(root, "docs", "evolution-9");
+const docsDirectory = path.join(root, "docs", "evolution-10");
 const files = [
   ...canonicalFiles.map((file) => path.join(root, file)),
   ...walk(docsDirectory).filter((file) => file.endsWith(".md"))

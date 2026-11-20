@@ -20,7 +20,7 @@ Le mandat courant est limité à la correction des défauts techniques flagrants
 - Les tests non exécutés restent explicitement « non exécutés ». Une CI verte sur un commit antérieur ne valide pas les commits ultérieurs.
 
 
-**Exception documentée — branche `test-ecriture-claude` (14 novembre 2026) :** sur cette seule copie de travail, le porteur du projet a autorisé explicitement des évolutions visuelles, éditoriales et de navigation. Elles sont décrites dans [docs/evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](docs/evolution-9/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md). Le mandat ci-dessus reste en vigueur pour `Evolution-9` ; aucune fusion ni PR sans décision du porteur.
+**Exception documentée — branche `test-ecriture-claude` (14 novembre 2026) :** sur cette seule copie de travail, le porteur du projet a autorisé explicitement des évolutions visuelles, éditoriales et de navigation. Elles sont décrites dans [docs/evolution-10/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](docs/evolution-10/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md). Le mandat ci-dessus reste en vigueur pour `Evolution-9` ; aucune fusion ni PR sans décision du porteur.
 
 Ce fichier est le point d'entrée canonique pour tout assistant ou agent intervenant dans ce dépôt.
 
@@ -29,7 +29,7 @@ Ce fichier est le point d'entrée canonique pour tout assistant ou agent interve
 Avant toute intervention, identifier le dépôt, la branche, le HEAD et la PR éventuelle, puis lire :
 1. `README.md` et les instructions locales du dossier concerné ;
 2. `docs/CRITIQUES/README.md` et le registre détaillé de la branche active ;
-3. `docs/README.md` et `docs/evolution-9/README.md` ;
+3. `docs/README.md` et `docs/evolution-10/README.md` ;
 4. uniquement les spécifications, audits et décisions directement utiles au lot en cours.
 
 La lecture des documents historiques supplémentaires est ciblée : ne pas imposer la relecture systématique de dossiers sans rapport avec le changement.
@@ -87,7 +87,7 @@ Après autorisation : limiter le périmètre, préserver les acquis, exécuter l
 
 ## 6. Documentation
 
-Pour le chantier actif, la hiérarchie documentaire est celle d'Evolution-9 : `docs/README.md` est l'index général ; `docs/CRITIQUES/README.md` est le point d'entrée obligatoire des anomalies critiques ; `docs/evolution-9/README.md` est le référentiel actif ; `docs/evolution-9/REGISTRE-ANOMALIES-EVOLUTION-9.md` est le registre détaillé de la branche ; `docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md` explique la méthode à toute IA qui découvre le projet. Les documents Evolution-5.0 à Evolution-8 restent des références historiques ou spécialisées selon leur statut, et ne remplacent pas les décisions actives Evolution-9.
+Pour le chantier actif, la hiérarchie documentaire (reprise d'Evolution-9 dans `docs/evolution-10/`) est la suivante : `docs/README.md` est l'index général ; `docs/CRITIQUES/README.md` est le point d'entrée obligatoire des anomalies critiques ; `docs/evolution-10/README.md` est le référentiel actif ; `docs/evolution-10/REGISTRE-ANOMALIES-EVOLUTION-9.md` est le registre détaillé de la branche ; `docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md` explique la méthode à toute IA qui découvre le projet. Les documents Evolution-5.0 à Evolution-8 restent des références historiques ou spécialisées selon leur statut, et ne remplacent pas les décisions actives Evolution-9.
 
 Les documents et comptes rendus sont rédigés en français clair. `AGENTS.md` reste la source canonique des consignes ; le guide IA les rend opérationnelles sans les remplacer.
 

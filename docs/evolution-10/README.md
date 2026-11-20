@@ -1,7 +1,9 @@
-# Evolution-9 — stabilisation et consolidation MajestiOS
+# Documentation de référence MajestiOS (reprise d'Evolution-9)
 
-**Branche active :** `Evolution-9`  
-**Mise à jour :** 13 novembre 2026  
+> **Reprise le 20 novembre 2026.** Ces documents viennent d'Evolution-9 et sont désormais rattachés à la branche active `evolution-10`, plus avancée. L'état courant du site est dans [la synthèse](../SYNTHESE-MAJESTIOS.md), [le journal Supabase](JOURNAL-DE-SYNCHRONISATION-SUPABASE-TEST-2026-11-15.md) et [la charte / état courant](CHARTE-CLAIRE-PALETTE-4-2026-11-15.md). Là où un texte ci-dessous décrit l'état du 13 novembre (mandat « aucune modification des pages », 93 ressources), c'est un état historique : le mandat actuel est celui d'AGENTS.md. La branche Evolution-9 elle-même reste intacte.
+
+**Branche active :** `evolution-10`  
+**Texte d'origine mis à jour le :** 13 novembre 2026  
 **Mission :** corriger les défauts techniques avérés, consigner les risques qui exigent une analyse ou une recette spécifique, et rendre la documentation cohérente sans refondre ni modifier la présentation du site.
 
 ## 1. Mandat du lot courant

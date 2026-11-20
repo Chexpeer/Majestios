@@ -11,7 +11,7 @@ Archive déplacée depuis `docs/CRITIQUES/README.md` le 14 novembre 2026 pour al
 
 **État Evolution-9 — 11 novembre 2026 :** NAV-01 a été corrigée dans Evolution-8 et la nouvelle branche reprend cette correction. Le contrôle documentaire des liens locaux a été ajouté au workflow et a réussi dans la suite GitHub Actions du commit `2438d8fd96f8e1d10676b8d193a5e99247096c67`. Les autres anomalies héritées restent ouvertes jusqu'à preuve contraire.
 
-**Audit distant actualisé — 11 novembre 2026 :** [rapport CRM / Supabase Evolution-9](../evolution-9/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md). Le frontend pointe vers `majestios-crm` (22 migrations) ; `MajestiOS-Test` en possède 39. Les deux projets ne sont pas synchronisés. Aucun changement distant n'a été effectué.
+**Audit distant actualisé — 11 novembre 2026 :** [rapport CRM / Supabase Evolution-9](../evolution-10/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md). Le frontend pointe vers `majestios-crm` (22 migrations) ; `MajestiOS-Test` en possède 39. Les deux projets ne sont pas synchronisés. Aucun changement distant n'a été effectué.
 
 
 ## 7. Clarification de l'audit Supabase — 11 novembre 2026
@@ -23,7 +23,7 @@ Les deux projets Supabase ont des responsabilités distinctes : `MajestiOS-Test`
 - Le worker Cheexpeer de test ne traite que `readiness_probe` et ne réalise pas d'effet externe métier.
 - Le CRM client multi-tenant n'est pas encore ouvert sur le projet principal.
 
-Voir le [rapport d'audit et son addendum](../evolution-9/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md). Aucune écriture Supabase n'a été effectuée.
+Voir le [rapport d'audit et son addendum](../evolution-10/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md). Aucune écriture Supabase n'a été effectuée.
 
 ## 8. Nouvelle priorité CRM — droits de colonnes et historique
 
@@ -49,7 +49,7 @@ Le projet majestios-crm, actuellement ciblé par le frontend, n'a pas reçu les 
 
 Trois modes sont prévus : CRM natif MajestiOS, CRM externe conservé par le client, ou mode hybride. Chaque objet doit avoir une source de référence explicite ; les connecteurs doivent empêcher les doubles factures et gérer idempotence, reprise et rapprochement.
 
-MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire passera par une PA partenaire sélectionnée et intégrée après étude, contrat et recette. La facturation est une priorité de conception de la deuxième phase, pas une fonctionnalité actuellement déployée. Voir [la spécification cible](../evolution-9/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md).
+MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire passera par une PA partenaire sélectionnée et intégrée après étude, contrat et recette. La facturation est une priorité de conception de la deuxième phase, pas une fonctionnalité actuellement déployée. Voir [la spécification cible](../evolution-10/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md).
 
 ## 11. État opérationnel Evolution-9 — actualisation du 11 novembre 2026
 
@@ -61,7 +61,7 @@ MajestiOS n'est pas une plateforme agréée. Toute transmission réglementaire p
 - **AN-04 — P1 :** écart de migrations entre majestios-crm et MajestiOS-Test ; aucune synchronisation automatique.
 - **CRM-07 / CRM-05 — P1 :** recette multi-tenant et multi-rôles sur MajestiOS-Test préparée mais NOT RUN ; aucune identité synthétique n'a été créée.
 - **AN-06 / CHX-06 — P1 :** Cheexpeer n'est pas encore un agent métier opérationnel ; le worker connu est limité à readiness_probe et les autres missions sont refusées.
-- **SEO-01 à SEO-05 / GEO-01 — P1/P2 :** audit des 39 pages HTML consigné dans docs/evolution-9/AUDIT-SEO-EVOLUTION-9.md ; domaine canonique non confirmé, aucun canonical détecté, robots.txt et sitemap.xml absents du dépôt à la vérification. L'unicité des métadonnées, performance et accessibilité restent à contrôler.
+- **SEO-01 à SEO-05 / GEO-01 — P1/P2 :** audit des 39 pages HTML consigné dans docs/evolution-10/AUDIT-SEO-EVOLUTION-9.md ; domaine canonique non confirmé, aucun canonical détecté, robots.txt et sitemap.xml absents du dépôt à la vérification. L'unicité des métadonnées, performance et accessibilité restent à contrôler.
 
 ### Correctifs de code récents — à distinguer de leur recette
 - Navigation commune et accès VIP propagés sur Evolution-9 ; suite CI historique réussie sur le commit 125f23e. Le dernier contrôle visuel humain de la prévisualisation a été positif pour l'accès VIP global.
