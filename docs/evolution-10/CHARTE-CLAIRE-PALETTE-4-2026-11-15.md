@@ -291,3 +291,8 @@ Retour arrière : annuler le commit de cette étape.
 
 - Après une connexion réussie avec un espace actif et sans service à rejoindre, le formulaire « Se connecter / Créer » se referme après 1,2 s ; la carte affiche « Vous êtes connecté » + « Se déconnecter ».
 - Retour arrière : revenir au commit précédent de `auth-espace-membre.js`.
+
+## Suite 16 — « Se connecter » masqué quand on est connecté (2026-11-20)
+
+- Le bouton « Se connecter → » de la carte restait visible malgré « Vous êtes connecté » (une règle CSS écrasait `hidden`). Masquage forcé ; test ajouté (connecté et activé : ni « Se connecter » ni « Créer mon espace », mais « Se déconnecter »).
+- Retour arrière : revenir au commit précédent de `auth-espace-membre.js`.

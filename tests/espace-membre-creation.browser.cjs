@@ -207,6 +207,14 @@ export function createClient(){
     await nobody.waitForFunction(() => /Connexion réussie/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
     await nobody.waitForTimeout(1600);
     assert.match(nobody.url(), /\/espace-membre\.html/, "Une destination inconnue ne doit jamais provoquer de redirection.");
+    // Connecté et activé : plus de « Se connecter » ni de « Créer mon espace », mais « Se déconnecter ».
+    const actif = await open([{ organization_id: "o1" }]);
+    await actif.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "u1", email: "ancien@exemple.fr" } }; });
+    await actif.goto(origin + "/espace-membre.html");
+    await actif.waitForSelector("#member-signout");
+    assert.equal(await actif.locator("#open-personal-space").isVisible(), false, "Connecté : « Se connecter » ne doit plus apparaître.");
+    assert.equal(await actif.locator(".member-preview .member-create-hint").isVisible(), false, "Connecté : « Créer mon espace » ne doit plus apparaître.");
+    assert.equal(await actif.locator("#member-signout").isVisible(), true);
     assert.deepEqual(page.errors, []);
     console.log("TEST CRÉATION D'ESPACE PAR LIEN RÉUSSI : connexion sans création, consentement exigé, mot de passe sécurisé obligatoire avant l'espace, alerte d'activation avec date limite.");
   } finally { await browser.close(); server.close(); }

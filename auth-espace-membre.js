@@ -226,9 +226,10 @@ if (form && config?.url && config?.publishableKey) {
     if (previewTitle) previewTitle.textContent = mode === "out" ? originalTitle : mode === "pending" ? "Votre compte est connecté" : "Vous êtes connecté";
     if (openButton) {
       openButton.hidden = mode === "active";
+      openButton.style.display = mode === "active" ? "none" : "";
       openButton.innerHTML = mode === "pending" ? 'Activer mon espace <span aria-hidden="true">→</span>' : originalOpenHtml;
     }
-    if (createHint) createHint.hidden = mode !== "out";
+    if (createHint) { createHint.hidden = mode !== "out"; createHint.style.display = mode !== "out" ? "none" : ""; }
   };
   const updateAuthStatus = async (session) => {
     if (!status) return;
