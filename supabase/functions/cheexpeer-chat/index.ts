@@ -4,6 +4,7 @@ import { chat } from "../_shared/cheexpeer-chat-core.mjs";
 const allowedOrigins = [
   "https://majestios.com",
   "https://www.majestios.com",
+  "https://majestios.vercel.app",
   "https://majestios-jc8g-cqy7hpelc-majistr.vercel.app",
   "https://majestios-git-test-ecriture-claude-majistr.vercel.app",
   "https://majestios-git-evolution-10-majistr.vercel.app",
