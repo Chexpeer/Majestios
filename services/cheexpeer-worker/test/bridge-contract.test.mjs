@@ -94,5 +94,5 @@ test("worker workflow runs when a Cheexpeer migration changes", () => {
 });
 
 test("worker workflow tracks the first mission specification", () => {
-  assert.match(workflow, /docs\/evolution-9\/SPECIFICATION-PREMIERE-MISSION-CHEEXPEER\.md/);
+  assert.match(workflow, /docs\/evolution-10\/SPECIFICATION-PREMIERE-MISSION-CHEEXPEER\.md/);
 });
