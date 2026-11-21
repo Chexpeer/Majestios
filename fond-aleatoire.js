@@ -3,7 +3,7 @@
    Retour : retirer la balise <script src="fond-aleatoire.js"> des pages. */
 (function () {
   try {
-    var fonds = ["accompagnement-appels-offres", "bodacc-veille-entreprises", "developpement-commercial", "facturation-electronique", "intelligence-economique", "marches-prives", "marches-publics", "prospection-crm", "reputation-virtuelle", "reseau-synergies", "salons-seminaires", "sous-traitance", "suivi-commercial", "veille-marches", "ville-crepuscule", "falaise-phare", "montagnes-aurore", "salle-conseil-panorama"];
+    var fonds = ["accompagnement-appels-offres", "bodacc-veille-entreprises", "developpement-commercial", "facturation-electronique", "intelligence-economique", "marches-prives", "marches-publics", "prospection-crm", "reputation-virtuelle", "reseau-synergies", "sous-traitance", "suivi-commercial", "veille-marches", "ville-crepuscule", "falaise-phare", "montagnes-aurore", "salle-conseil-panorama"];
     var clairs = {}; // images claires : texte sombre à contour blanc
     var dernier = ""; try { dernier = sessionStorage.getItem("mj-fond") || ""; } catch (e) {}
     var choix; var fixe = /espace-membre\.html$/.test(location.pathname) ? "montagnes-aurore" : ""; /* l'espace personnel garde un fond fixe : on le reconnaît d'un coup d'œil */

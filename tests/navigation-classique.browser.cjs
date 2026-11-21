@@ -58,8 +58,8 @@ async function main() {
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
 
     assert.equal(await page.locator("#site-nav .nav-drawer-section").count(),6,"Les six menus de navigation doivent être présents.");
-    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),19,"Le menu doit exposer les 19 entrées secondaires.");
-    assert.equal(await page.locator("#site-nav a").count(),20,"Le menu doit exposer Accueil et les 19 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav .nav-group-items a").count(),18,"Le menu doit exposer les 18 entrées secondaires.");
+    assert.equal(await page.locator("#site-nav a").count(),19,"Le menu doit exposer Accueil et les 18 entrées secondaires.");
     assert.equal(await page.locator(".site-header").evaluate(node=>getComputedStyle(node).height),"40px",
       "La barre de navigation doit rester compacte.");
     assert.equal(await page.locator(".nav-group-link").first().evaluate(node=>getComputedStyle(node).fontSize),"11px",
@@ -96,7 +96,7 @@ async function main() {
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     for(const href of navigationHrefs) assert.ok(published.has(href.split("#")[0]),"Chaque destination du menu doit être publiée : "+href);
-    for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","facturation-electronique.html","salons-seminaires.html","reputation-virtuelle.html","espace-membre.html"]) {
+    for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","facturation-electronique.html","reputation-virtuelle.html","espace-membre.html"]) {
       assert.ok(published.has(route),"La route doit être publiée : "+route);
       assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),1,"Le menu doit exposer le nombre attendu de liens vers "+route);
     }

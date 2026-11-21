@@ -29,7 +29,7 @@
 
 ## Repères
 
-- Branche active : `evolution-10` (copie de test, 44 pages HTML). La branche Evolution-9 est conservée intacte. Rien n'est fusionné ni en production.
+- Branche active : `evolution-10` (copie de test, 43 pages HTML). La branche Evolution-9 est conservée intacte. Rien n'est fusionné ni en production.
 - Une présence dans Git ne prouve ni déploiement, ni configuration distante, ni recette.
 
 ## Historique

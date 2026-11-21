@@ -120,7 +120,7 @@
     const groups = [
       {label:"Appels d’offres",href:"marches-publics.html",items:[["Sous-traitance","sous-traitance.html"],["Appels d’offres publics","marches-publics.html"],["Marchés privés","marches-prives.html"],["Accompagnement appels d’offres","accompagnement-appels-offres.html"],["Veille des marchés","veille-marches.html"]]},
       {label:"Développement commercial",href:"developpement-commercial.html",items:[["Vue d’ensemble","developpement-commercial.html"],["Prospection","prospection-active.html"],["Qualification des entreprises","qualification-entreprises.html"],["Veille BODACC","bodacc-veille-entreprises.html"],["Intelligence économique","intelligence-economique.html"],["Suivi commercial","suivi-commercial.html"]]},
-      {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Annonces","annonces.html"],["Salons & séminaires","salons-seminaires.html"],["Nous rejoindre","nous-rejoindre.html"]]},
+      {label:"Réseau",href:"reseaux-synergies.html",items:[["Réseau et synergies","reseaux-synergies.html"],["Annonces","annonces.html"],["Nous rejoindre","nous-rejoindre.html"]]},
       {label:"Réputation virtuelle",href:"reputation-virtuelle.html",items:[["Réputation virtuelle","reputation-virtuelle.html"]]},
       {label:"Facturation électronique",href:"facturation-electronique.html",items:[["Facturation électronique","facturation-electronique.html"]]},
       {label:"Accéder à mon espace personnel",href:"espace-membre.html",cls:"nav-account",items:[["Mon espace personnel","espace-membre.html"],["Accès VIP · Administration","espace-interne.html"]]}

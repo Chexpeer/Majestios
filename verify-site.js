@@ -170,7 +170,7 @@ const rubricSearchPages = [
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
   "intelligence-economique.html", "reseaux-synergies.html",
   "bodacc-veille-entreprises.html", "suivi-commercial.html", "marches-prives.html",
-  "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html",
+  "reputation-virtuelle.html", "espace-membre.html",
   "crm.html", "majestios-v5.html",
   "categorie-services-numeriques.html", "categorie-travaux-amenagement.html",
   "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html",

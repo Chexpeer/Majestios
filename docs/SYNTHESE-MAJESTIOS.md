@@ -26,7 +26,7 @@ Relier **développement commercial, gestion quotidienne, facturation électroniq
 
 | Domaine | État réel |
 |---|---|
-| Site public (44 pages, statique) | En ligne en prévisualisation sur la branche de test ; fonds par rubrique, menu à 6 entrées, liens harmonisés ; recette sur appareil réel non faite |
+| Site public (43 pages, statique) | En ligne en prévisualisation sur la branche de test ; fonds par rubrique, menu à 6 entrées, liens harmonisés ; recette sur appareil réel non faite |
 | Recherche BOAMP / BODACC | Moteurs côté navigateur ; résultats réels à recetter par le porteur |
 | Espace membre | Sur la branche de test : création d'espace par lien reçu par e-mail, puis activation obligatoire (mot de passe sécurisé et acceptation de la politique de confidentialité avant la date limite) ; connexion ensuite par mot de passe ; tableau de bord client ; la limite d'envoi d'e-mails de Supabase s'applique (messagerie personnalisée à prévoir). Recette de bout en bout par le propriétaire à faire ; rien en production (AUTH-01 levé sur la copie de test) |
 | CRM interne | Code et fondations Supabase présents ; recette multi-rôles non exécutée ; distinct du futur CRM client |

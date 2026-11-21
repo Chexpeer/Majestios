@@ -361,3 +361,8 @@ Demande du propriétaire : une autre façon de diffuser les annonces que le seul
 ## Suite 25 — Suppression des trois modes d'exploration du Showroom (21 novembre 2026)
 
 Sur demande du propriétaire (texte d'une ancienne version, demandé retiré), la section « Trois façons d'explorer l'écosystème » (Parcours Tesla, Survol hélicoptère, Majest COYOT) est supprimée de `salons-seminaires.html`. Elle n'avait aucune fonction derrière elle et aucune autre page, aucun test ni document ne s'y référait. Le reste de la page (formules Essentiel / Immersif, section « L'IA en renfort », parcours commercial, espace virtuel) est conservé en attendant la décision du propriétaire.
+
+
+## Suite 26 — Suppression de la page Salons, séminaires et showrooms (21 novembre 2026)
+
+Sur demande du propriétaire, la page `salons-seminaires.html` (concept de showroom, non disponible en tant que service) est supprimée, avec son image de fond et toutes les références : menu « Réseau » (qui compte désormais Réseau et synergies, Annonces, Nous rejoindre), carte de `reseaux-synergies.html`, réponse de l'assistant, manifeste, plan du site, fonds aléatoires, garde-fous et tests. Le site compte 43 pages, 18 entrées secondaires dans le menu. Les anciens audits (`evolution-5.0`, `historique`, passe d'épuration du 11 novembre) citent encore cette page : ils décrivent l'état de leur date et ne sont pas réécrits. Point resté en l'état : la carte « Salons et séminaires » de la page `nous-rejoindre.html` (texte, sans lien).
