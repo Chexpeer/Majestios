@@ -12,6 +12,7 @@ Variables d'environnement :
 Sécurité : si le fichier paraît anormal (trop peu de lignes), rien n'est supprimé.
 """
 import json
+import time
 import os
 import sys
 import tempfile
@@ -86,12 +87,22 @@ def rpc(base_url, key, name, payload):
     request = urllib.request.Request(
         f"{base_url}/rest/v1/rpc/{name}", data=body, method="POST",
         headers={"content-type": "application/json", "apikey": key, "authorization": f"Bearer {key}"})
-    try:
-        with urllib.request.urlopen(request, timeout=120) as response:
-            return json.loads(response.read().decode("utf-8") or "null")
-    except urllib.error.HTTPError as error:
-        # Le message du serveur ne contient jamais la clé ; on le tronque par prudence.
-        raise SystemExit(f"Erreur {error.code} sur {name} : {error.read().decode('utf-8', 'replace')[:300]}")
+    last = ""
+    for attempt in range(1, 4):
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                return json.loads(response.read().decode("utf-8") or "null")
+        except urllib.error.HTTPError as error:
+            # Le message du serveur ne contient jamais la clé ; on le tronque par prudence.
+            last = f"Erreur {error.code} sur {name} : {error.read().decode('utf-8', 'replace')[:300]}"
+            if error.code < 500:
+                raise SystemExit(last)
+        except (urllib.error.URLError, TimeoutError) as error:
+            last = f"Connexion impossible sur {name} : {type(error).__name__}"
+        if attempt < 3:
+            log(f"{last} - nouvel essai {attempt}/2")
+            time.sleep(5 * attempt)
+    raise SystemExit(last)
 
 
 def main():
