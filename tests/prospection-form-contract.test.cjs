@@ -1,7 +1,7 @@
 "use strict";
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const html = fs.readFileSync("qualification-entreprises.html", "utf8");
+const html = fs.readFileSync(require("../chemins-site.cjs").resolveFile(process.cwd(), "qualification-entreprises.html"), "utf8");
 const script = fs.readFileSync("company-targeting-page.js", "utf8");
 const form = html.match(/<form id="company-targeting-form">([\s\S]*?)<\/form>/);
 assert.ok(form, "Le formulaire de qualification doit exister.");

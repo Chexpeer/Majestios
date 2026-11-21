@@ -62,6 +62,6 @@ test("formats : montant, date, résumé de transparence", () => {
 
 test("chaque formulaire de filtres a un bouton Rechercher", async () => {
   const { readFileSync } = await import("node:fs");
-  const html = readFileSync(new URL("../marches-attribues.html", import.meta.url), "utf8");
+  const html = readFileSync(new URL("../pages/marches/marches-attribues.html", import.meta.url), "utf8");
   assert.equal((html.match(/<button class="button-primary" type="submit">Rechercher<\/button>/g) || []).length, 2);
 });

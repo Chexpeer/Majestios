@@ -2,7 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://majestios.vercel.app/accompagnement-appels-offres.html</loc></url>
   <url><loc>https://majestios.vercel.app/annonces.html</loc></url>
-  <url><loc>https://majestios.vercel.app/marches-attribues.html</loc></url>
   <url><loc>https://majestios.vercel.app/assistant-majestios.html</loc></url>
   <url><loc>https://majestios.vercel.app/bodacc-veille-entreprises.html</loc></url>
   <url><loc>https://majestios.vercel.app/categorie-batiment.html</loc></url>
@@ -20,6 +19,7 @@
   <url><loc>https://majestios.vercel.app/</loc></url>
   <url><loc>https://majestios.vercel.app/intelligence-economique.html</loc></url>
   <url><loc>https://majestios.vercel.app/majestios-v5.html</loc></url>
+  <url><loc>https://majestios.vercel.app/marches-attribues.html</loc></url>
   <url><loc>https://majestios.vercel.app/marches-prives.html</loc></url>
   <url><loc>https://majestios.vercel.app/marches-publics.html</loc></url>
   <url><loc>https://majestios.vercel.app/mentions-legales.html</loc></url>

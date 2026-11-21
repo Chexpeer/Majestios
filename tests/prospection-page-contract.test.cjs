@@ -2,7 +2,7 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 
-const html = fs.readFileSync("prospection-active.html", "utf8");
+const html = fs.readFileSync(require("../chemins-site.cjs").resolveFile(process.cwd(), "prospection-active.html"), "utf8");
 const script = fs.readFileSync("company-targeting-page.js", "utf8");
 const form = html.match(/<form\b(?=[^>]*\bid="company-targeting-form")[^>]*>([\s\S]*?)<\/form>/);
 assert.ok(form, "Le formulaire principal de Prospection doit exister.");

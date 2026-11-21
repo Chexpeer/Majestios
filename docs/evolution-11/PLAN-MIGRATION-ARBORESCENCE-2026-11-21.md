@@ -56,7 +56,7 @@ Menu aligné sur les familles : **Marchés · Développement · Réseau · Solut
 **evolution-11**
 - É0 ✔ : `chemins-site.cjs`, build à correspondance source → adresse publiée, gardes adaptés, test des adresses.
 - É1 ✔ : pilote — 8 rubriques rangées dans `pages/rubriques/`, site publié identique.
-- É2 : `pages/marches/` et `pages/developpement/`.
+- É2 ✔ : `pages/marches/` (8 pages) et `pages/developpement/` (5 pages) rangées, site publié identique (146 adresses, 155 tests + 16 tests navigateur, guides verts).
 
 **evolution-12** (créée après sauvegarde de la fin d'evolution-11)
 - É3 : `pages/reseau/`, `pages/solutions/`, `pages/infos/`.
