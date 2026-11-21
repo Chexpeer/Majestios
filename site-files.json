@@ -138,6 +138,8 @@
     "annonces-liste.css",
     "marches-attribues.mjs",
     "visiteur-limite.mjs",
+    "admin-pitch.js",
+    "pitch-sous-traitance.mjs",
     "alertes-marches.mjs",
     "marches-attribues.js",
     "marches-attribues.css",
