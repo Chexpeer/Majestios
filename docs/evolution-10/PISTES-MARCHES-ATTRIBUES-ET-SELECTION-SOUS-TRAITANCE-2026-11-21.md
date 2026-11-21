@@ -14,7 +14,17 @@
 
 Réserves : leur source, leur licence et leurs tarifs n'ont pas pu être vérifiés (la page « premier » d'octroi.pro est fermée aux outils automatiques ; non contournée). Résumés automatiques de tamairie.fr : l'auteur précise lui-même que seul le document officiel fait foi.
 
-## 3. Sources publiques envisagées
+### Sites étudiés ensuite (21/11, après-midi)
+| Site | Ce qu'il apporte | Intérêt | Réserves |
+|---|---|---|---|
+| corporary.com (API + serveur MCP, via data.gouv.fr) | Fiches entreprises croisant Sirene, BODACC, ratios financiers, RGE/Qualiopi, DECP ; flux de changements ; 7 outils MCP ; plan gratuit 1 000 appels/mois | Fort, à tester | Éditeur unique, licence propre non précisée, quota faible ; clé = secret Supabase |
+| Woxup | Marchés attribués (DECP seules), classement des titulaires par montant cumulé, fiches acheteurs, navigation CPV | Fort : prouve que les DECP suffisent | Chiffres incohérents sur leur propre page ; pas d'alertes ni de marchés ouverts |
+| Seal Open Data, Assistant, Ariacom | Contexte territorial (94 mesures), assistant par MCP (payant après essai), éditeur de logiciel de reporting | Faible à moyen | Tarifs inconnus ; page « données » fermée aux outils automatiques |
+| PublikConnect (accueil, annuaire par département) | Marchés ouverts et **sous seuils**, attributions, profils d'acheteurs, **Radar de renouvellement (contrats 6 à 18 mois avant le nouvel appel d'offres)**, score 0–100 expliqué, alertes, annuaire des titulaires par département (≥ 4 marchés, montant médian), profils « vérifiés » ; Pro 49 € HT/mois | **Très fort : concurrent direct** ; ne traite ni mise en relation ni sous-traitance | Détails chiffrés limités à la Loire-Atlantique ; démonstrations ; aucune date de mise à jour visible |
+
+Différenciation retenue pour MajestiOS : annonces privées de sous-traitance relues, mise en relation par MajestiOS, et sélection croisée par Cheexpeer, avec source, date et raison affichées.
+
+## 3 bis. Sources publiques envisagées
 - **DECP consolidées** (data.gouv.fr, Licence Ouverte 2.0, mises à jour quasi quotidiennes, depuis 2022) : titulaire, SIRET, montant, acheteur, dates, CPV. Fichier lourd (≈ 265 Mo Parquet) : import filtré, jamais interrogé tel quel depuis une page. Un marché peut occuper plusieurs lignes (titulaires, avenants) : dédoublonner.
 - **BOAMP** (avis d'attribution), **BODACC**, finances locales (DGFiP), annuaire des élus (Intérieur), Insee.
 - Interrogation en ligne du jeu consolidé : sur abonnement (API tierce) : non retenue au départ.
@@ -33,7 +43,17 @@ Réserves : leur source, leur licence et leurs tarifs n'ont pas pu être vérifi
 - Rien n'est appliqué à un projet Supabase sans autorisation explicite du propriétaire ; Test d'abord ; production seulement à la fusion décidée par lui.
 - Cheexpeer ne s'active que selon la charte de rôle (aucune autonomie par défaut ; la première mission déployée reste `readiness_probe`).
 
-## 6. Questions ouvertes
+## 6. Trois stratégies proposées (à choisir par le propriétaire)
+| | A. Simple | B. Intermédiaire (recommandée) | C. Ambitieuse |
+|---|---|---|---|
+| Contenu | Page « Marchés attribués » + annuaire des titulaires par département (≥ 4 marchés, montant médian) | A + fiches acheteurs + sélection par règles pour la page Sous-traitance + Radar de renouvellement | B + fiches entreprises revendicables, alertes quotidiennes, Cheexpeer N1–N2, API corporary en complément |
+| Données | DECP, import filtré 12 mois | DECP + BOAMP (avis d'attribution) | + BODACC, Sirene, finances locales, corporary |
+| Effort | Faible | Moyen | Élevé, par étapes |
+| Risque | Très faible | Faible | Dépendances et coûts à surveiller |
+
+Ordre commun : A d'abord, sur Test. Rien n'est promu en production sans décision du propriétaire.
+
+## 7. Questions ouvertes
 - Import dans la base (rapide, à mettre à jour chaque jour) ou consultation directe des sources : **recommandé, import filtré sur 12 mois** pour commencer.
 - Secteurs et départements de départ.
 - Autres sites ou sources que le propriétaire souhaite faire étudier.
