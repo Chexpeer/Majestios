@@ -1,6 +1,17 @@
--- Limite des recherches d'entreprises : un visiteur sans espace personnel voit 20 résultats au plus ; un titulaire connecté voit tout.
--- Appliquée côté serveur (auth.uid() est nul pour la clé publique seule), donc impossible à contourner depuis le navigateur.
--- Retour arrière : réappliquer list_awarded_contracts / top_awarded_winners / list_published_announcements des migrations 20261121200000 et 20261118170000.
+-- Limite des recherches d'entreprises : 20 résultats pour un visiteur sans espace personnel, 40 pour un titulaire d'espace (pour l'instant),
+-- aucune limite pour l'équipe interne (propriétaire, administrateurs) ni pour Cheexpeer (clé de service des fonctions serveur).
+-- Appliquée côté serveur : impossible à contourner depuis le navigateur.
+-- Retour arrière : réappliquer list_awarded_contracts / top_awarded_winners / list_published_announcements des migrations 20261121200000 et 20261118170000 ; drop function private.search_cap.
+
+create or replace function private.search_cap()
+returns integer language sql stable security definer set search_path = '' as $$
+  select case
+    when (select auth.role()) = 'service_role' then 1000000
+    when (select auth.uid()) is null then 20
+    when private.caller_internal_rank() is not null then 1000000
+    else 40 end;
+$$;
+revoke all on function private.search_cap() from public, anon, authenticated;
 
 create or replace function public.list_awarded_contracts(
   p_department text default null, p_query text default null, p_cpv text default null, p_min_amount numeric default null,
@@ -16,8 +27,7 @@ declare
   v_since date := current_date - make_interval(months => least(greatest(coalesce(p_months, 6), 1), 36));
   v_like text := null;
 begin
-  -- Visiteur sans espace personnel (aucun utilisateur identifié) : 20 résultats au plus, décalage compris.
-  if (select auth.uid()) is null then v_lim := least(v_lim, greatest(20 - v_off, 0)); end if;
+  v_lim := least(v_lim, greatest(private.search_cap() - v_off, 0));  -- plafond selon l'appelant, décalage compris
   -- Requête construite selon les filtres réellement demandés, pour que chaque index serve (sinon > 3 s pour un visiteur).
   if p_department is not null then v_where := v_where || ' and c.buyer_dept = $2'; end if;
   if p_cpv is not null and p_cpv ~ '^[0-9]{2,8}$' then v_where := v_where || ' and c.cpv like $3 || ''%'''; end if;
@@ -53,9 +63,7 @@ language sql stable security definer set search_path = '' as $$
   where (p_department is null or w.winner_dept = p_department)
     and w.contracts >= least(greatest(coalesce(p_min_contracts, 2), 1), 50)
   order by w.contracts desc, w.winner_id
-  limit case when (select auth.uid()) is null
-    then least(least(greatest(coalesce(p_limit, 20), 1), 50), greatest(20 - greatest(coalesce(p_offset, 0), 0), 0))
-    else least(greatest(coalesce(p_limit, 20), 1), 50) end
+  limit least(least(greatest(coalesce(p_limit, 20), 1), 50), greatest(private.search_cap() - greatest(coalesce(p_offset, 0), 0), 0))
   offset greatest(coalesce(p_offset, 0), 0);
 $$;
 
@@ -69,9 +77,7 @@ language sql stable security definer set search_path = '' as $$
     and (p_kind is null or a.kind = p_kind)
     and (p_department is null or a.department = p_department)
   order by a.published_at desc
-  limit case when (select auth.uid()) is null
-    then least(least(greatest(coalesce(p_limit, 20), 1), 50), greatest(20 - greatest(coalesce(p_offset, 0), 0), 0))
-    else least(greatest(coalesce(p_limit, 20), 1), 50) end
+  limit least(least(greatest(coalesce(p_limit, 20), 1), 50), greatest(private.search_cap() - greatest(coalesce(p_offset, 0), 0), 0))
   offset greatest(coalesce(p_offset, 0), 0);
 $$;
 revoke all on function public.list_published_announcements(text, text, integer, integer) from public;

@@ -1,8 +1,9 @@
-// Limite des recherches pour les visiteurs sans espace personnel : 20 résultats au plus ; les titulaires d'un espace voient tout.
-// La limite est aussi appliquée côté serveur (migration 20261121220000) : ce module ne fait que l'afficher et transmettre la session.
+// Limite des recherches : 20 résultats pour un visiteur sans espace personnel, 40 pour un titulaire d'espace (pour l'instant) ;
+// l'équipe interne et Cheexpeer n'ont aucune limite. Le plafond est imposé côté serveur (migration 20261121220000) : ce module l'affiche et transmet la session.
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
 
 export const LIMITE_VISITEUR = 20;
+export const LIMITE_MEMBRE = 40;
 
 let clientPromise = null;
 /** Jeton de session du titulaire connecté, ou null pour un visiteur (ou si la session est illisible). */
@@ -22,20 +23,25 @@ export function rpcHeaders(token) {
   return headers;
 }
 
-/** Vrai quand un visiteur a atteint la limite d'affichage. */
-export function limitReached(token, shown) { return !token && shown >= LIMITE_VISITEUR; }
+/** Vrai quand le plafond de l'appelant est atteint ET que le serveur n'a rien de plus à donner (l'équipe interne n'est jamais bloquée). */
+export function limitReached(token, shown, hasMore = false) { return !hasMore && shown >= (token ? LIMITE_MEMBRE : LIMITE_VISITEUR); }
 
-/** Message + bouton « Créer mon espace » affichés à la place de « Voir plus ». */
-export function buildLimitNotice(doc = document) {
+/** Message affiché à la place de « Voir plus » : invitation à créer son espace (visiteur) ou information sur la limite (membre). */
+export function buildLimitNotice(doc = document, token = null) {
   const box = doc.createElement("div");
   box.className = "limite-visiteur";
   box.setAttribute("role", "note");
   const p = doc.createElement("p");
+  box.append(p);
+  if (token) {
+    p.textContent = "Pour l’instant, les résultats sont limités aux " + LIMITE_MEMBRE + " premiers. Affinez votre recherche (département, activité) pour trouver d’autres entreprises.";
+    return box;
+  }
   p.textContent = "Les visiteurs voient les " + LIMITE_VISITEUR + " premiers résultats. Pour voir la suite, créez votre espace personnel : c’est gratuit.";
   const a = doc.createElement("a");
   a.className = "button-primary button-compact";
   a.href = "espace-membre.html#creation";
   a.textContent = "Créer mon espace";
-  box.append(p, a);
+  box.append(a);
   return box;
 }

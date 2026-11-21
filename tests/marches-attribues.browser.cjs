@@ -88,9 +88,9 @@ const winner = (n) => ({ winner_id: "W" + n, winner_name: "Entreprise " + n, win
     await page.locator("#marches-plus").click();
     await page.waitForFunction(() => document.querySelectorAll(".marche-card").length === 20);
     assert.equal(await page.locator("#marches-plus").isVisible(), false, "Plus de « Voir plus » à 20 résultats.");
-    assert.equal(await page.locator(".limite-visiteur:visible").count(), 1);
-    assert.match(await page.locator(".limite-visiteur:visible").first().textContent(), /20 premiers résultats.*créez votre espace personnel/);
-    assert.match(await page.locator(".limite-visiteur:visible a").first().getAttribute("href"), /^espace-membre\.html#creation$/);
+    assert.equal(await page.locator(".limite-visiteur").count(), 1);
+    assert.match(await page.locator(".limite-visiteur").first().textContent(), /20 premiers résultats.*créez votre espace personnel/);
+    assert.match(await page.locator(".limite-visiteur a").first().getAttribute("href"), /^espace-membre\.html#creation$/);
     // Données pas encore chargées : message honnête
     metaMode = "empty";
     await page.reload({ waitUntil: "domcontentloaded" });

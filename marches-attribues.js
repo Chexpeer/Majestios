@@ -37,24 +37,23 @@ if (root) {
   // Liste générique (marchés ou gagnants) avec pagination « Voir plus » et filtres sans perte de requête.
   const makeList = ({ form, list, status, more, fn, build, normalize, card, emptyText, errorText, loadingText, doneText }) => {
     let page = 0, loading = false, pendingReset = false;
-    const notice = buildLimitNotice();
-    notice.hidden = true;
-    more.parentElement.after(notice);
+    let notice = null;
     const load = async (reset) => {
       if (loading) { if (reset) pendingReset = true; return; }
       loading = true;
       if (reset) { page = 0; list.replaceChildren(); }
       more.hidden = true;
-      notice.hidden = true;
+      notice?.remove();
       status.textContent = loadingText;
       try {
         const rows = await rpc(fn, build({ ...Object.fromEntries(new FormData(form).entries()), page }));
         const { items, hasMore } = normalize(rows);
         for (const item of items) list.append(card(item));
         status.textContent = list.children.length ? doneText(list.children.length) : emptyText;
-        const locked = limitReached(await sessionToken(), list.children.length);
-        more.hidden = !hasMore || locked;
-        notice.hidden = !locked;
+        const token = await sessionToken();
+        const locked = limitReached(token, list.children.length, hasMore);
+        more.hidden = !hasMore;
+        if (locked) { notice = buildLimitNotice(document, token); more.parentElement.after(notice); }
       } catch {
         status.textContent = errorText;
       } finally {
