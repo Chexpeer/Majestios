@@ -1,11 +1,12 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { resolveFile, publishedPath, listPages } = require("./chemins-site.cjs");
 
 const root = __dirname;
 const errors = [];
 const assert = (condition, message) => { if (!condition) errors.push(message); };
-const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
-const exists = (file) => fs.existsSync(path.join(root, file));
+const read = (file) => fs.readFileSync(resolveFile(root, file), "utf8");
+const exists = (file) => fs.existsSync(resolveFile(root, file));
 
 function walk(directory, relative = "") {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -52,8 +53,8 @@ for (const file of siteFiles) {
 }
 assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentation Markdown ne doit pas être publiée avec le site");
 
-const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep));
-for (const page of htmlPages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
+const htmlPages = listPages(root).map((p) => p.name);
+for (const page of htmlPages) assert(siteFiles.map(publishedPath).includes(page), "Build : page HTML absente du manifeste : " + page);
 const navigationController = read("app.js");
 const drawerController = read("navigation-tiroirs.js");
 const drawerStyles = read("navigation-tiroirs.css");
@@ -85,7 +86,7 @@ const requiredNavigationRoutes = [
 ];
 for (const route of requiredNavigationRoutes) {
   assert(exists(route), "Navigation : route fonctionnelle inexistante : " + route);
-  assert(siteFiles.includes(route), "Navigation : route fonctionnelle non publiée : " + route);
+  assert(siteFiles.map(publishedPath).includes(route), "Navigation : route fonctionnelle non publiée : " + route);
 }
 
 // Contrat du menu réel : six rubriques principales (dont le menu d'espace personnel), dix-huit entrées secondaires et dix-huit destinations uniques (l'Assistant n'est plus dans la barre : présence flottante).
@@ -93,7 +94,7 @@ const menuRoutes = [...drawerController.matchAll(/\["[^"]+","([^"]+\.html)"\]/g)
 const uniqueMenuRoutes = [...new Set(menuRoutes)];
 for (const route of uniqueMenuRoutes) {
   assert(exists(route), "Navigation : destination de sous-menu inexistante : " + route);
-  assert(siteFiles.includes(route), "Navigation : destination de sous-menu non publiée : " + route);
+  assert(siteFiles.map(publishedPath).includes(route), "Navigation : destination de sous-menu non publiée : " + route);
 }
 assert( menuRoutes.length === 19, "Navigation : le menu doit contenir 19 entrées secondaires, actuellement " + menuRoutes.length);
 assert(uniqueMenuRoutes.length === 19, "Navigation : les destinations secondaires uniques doivent être 19, actuellement " + uniqueMenuRoutes.length);
@@ -124,7 +125,7 @@ for (const asset of [
   "rubriques-immersives.js", "category-results.js", "search-results.js",
   "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
   "company-targeting.js", "company-targeting-page.js", "company-fit.js"
-]) assert(siteFiles.includes(asset), "Build : ressource requise absente du manifeste : " + asset);
+]) assert(siteFiles.map(publishedPath).includes(asset), "Build : ressource requise absente du manifeste : " + asset);
 
 const home = read("index.html");
 assert(home.includes("<title>MajestiOS — Votre espace pour développer votre entreprise</title>"), "Accueil : titre SEO de référence inattendu");
@@ -150,7 +151,7 @@ assert(!/\.(?:building|tower|floor|elevator|home-help|dialog-[\w-]*|window)[\w-]
 
 for (const asset of ["fond-panorama.webp"]) {
   assert(exists(asset),"Visuel de l'accueil absent : "+asset);
-  assert(siteFiles.includes(asset),"Build : visuel de l'accueil non publié : "+asset);
+  assert(siteFiles.map(publishedPath).includes(asset),"Build : visuel de l'accueil non publié : "+asset);
 }
 assert(!exists("Ambitios.webp") && !exists("Développement-.webp") && !exists("Majestios.immeuble.jpg") && !exists("IMMEUBLE.jfif") && !exists("OFFRE PUBLIC.png") && !exists("immeuble-masque.png") && !exists("CRM.png") && !exists("Ereputation.png") && !exists("Facture1.png") && !exists("Designer (2).png"),
   "Un ancien visuel de l'accueil doit être retiré après vérification de ses références");
@@ -170,12 +171,12 @@ for (const stylesheet of siteFiles.filter((file) => /\.css$/i.test(file))) {
     const target = path.posix.normalize(path.posix.join(path.posix.dirname(stylesheet),decoded));
     assert(!target.startsWith("../") && exists(target),
       stylesheet+" : ressource CSS locale absente : "+value);
-    if (exists(target)) assert(siteFiles.includes(target),
+    if (exists(target)) assert(siteFiles.map(publishedPath).includes(target),
       stylesheet+" : ressource CSS non publiée dans site-files.json : "+value);
   }
 }
 assert(exists("reputation-virtuelle.html"),"Page Réputation virtuelle absente");
-assert(siteFiles.includes("reputation-virtuelle.html"),"Build : page Réputation virtuelle non publiée");
+assert(siteFiles.map(publishedPath).includes("reputation-virtuelle.html"),"Build : page Réputation virtuelle non publiée");
 
 const catalogue = read("catalogue-majestios.js");
 assert(catalogue.includes("searchCategories") && catalogue.includes("searchDepartments") && catalogue.includes("marketTypes"),
@@ -253,7 +254,7 @@ for (const migration of [
 ]) {
   assert(exists(migration), "Backend : migration versionnée absente : " + migration);
 }
-assert(siteFiles.includes("supabase-config.js") && siteFiles.includes("auth-espace-membre.js"),
+assert(siteFiles.map(publishedPath).includes("supabase-config.js") && siteFiles.map(publishedPath).includes("auth-espace-membre.js"),
   "Build : les modules publics de configuration et Auth doivent être déclarés dans le manifeste");
 
 for (const page of ["marches-publics.html","developpement-commercial.html","prospection-active.html","veille-marches.html",
@@ -286,7 +287,7 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
 }
 
 // La charte est une source de tokens unique, consommée par les feuilles publiques et privées.
-assert(siteFiles.includes("charte-majestios-tokens.css"),
+assert(siteFiles.map(publishedPath).includes("charte-majestios-tokens.css"),
   "Charte : les tokens centraux doivent être publiés dans le manifeste");
 const sharedTokens = read("charte-majestios-tokens.css");
 for (const token of ["--majestios-gold:", "--majestios-navy:", "--majestios-font-body:", "--majestios-radius-control:"]) {
@@ -296,7 +297,7 @@ assert(/@import url\(["']charte-majestios-tokens\.css["']\)/.test(read("charte-m
   "Charte : la feuille publique doit importer la source de tokens");
 assert(/@import url\(["']charte-majestios-tokens\.css["']\)/.test(read("charte-majestios-espaces.css")),
   "Charte : la feuille des espaces privés doit importer la source de tokens");
-assert(siteFiles.includes("charte-majestios-espaces.css"),
+assert(siteFiles.map(publishedPath).includes("charte-majestios-espaces.css"),
   "Charte : la couche des espaces privés doit être publiée dans le manifeste");
 for (const page of ["crm.html","administration.html","admin-recherches.html","espace-interne.html"]) {
   const html = read(page);

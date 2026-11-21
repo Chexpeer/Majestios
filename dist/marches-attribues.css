@@ -7,3 +7,5 @@
 #marches-attribues .marches-section + .marches-section{margin-top:2rem}
 #marches-attribues .marches-source{font-size:12px}
 @media (max-width:640px){#marches-attribues .marche-filtres{grid-template-columns:1fr}}
+#marches-attribues .marche-filtres-action{display:flex;align-items:flex-end;margin:0}
+#marches-attribues .marche-filtres-action .button-primary{min-height:44px}

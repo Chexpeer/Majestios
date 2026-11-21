@@ -1,81 +1,76 @@
 # Plan de migration de l'arborescence — evolution-10 → evolution-11 → evolution-12
 
-**Date :** 21 novembre 2026. **Décision du propriétaire :** sauvegarder `evolution-10`, commencer la migration sur `evolution-11`, la terminer sur `evolution-12`. **Règle absolue :** ne rien perdre de l'acquis.
+**Date :** 21 novembre 2026 (méthode révisée le même jour). **Décision du propriétaire :** sauvegarder `evolution-10`, commencer la migration sur `evolution-11`, la terminer sur `evolution-12`, **sans rien perdre de l'acquis**. Les pages d'espaces privés restent en place sur `evolution-11` et sont rangées sur `evolution-12`.
 
-**Objectifs :** (1) réduire le nombre de pages à la racine ; (2) alléger la navigation ; (3) préparer les prochaines extensions.
-**Statut :** plan à valider. Aucune page n'a été déplacée.
+**Objectifs :** (1) réduire le nombre de pages à la racine du dépôt ; (2) alléger la navigation ; (3) préparer les prochaines extensions.
 
 ## 1. Sauvegardes (faites)
 
-- Branche de secours `backup-evolution-10-2026-11-21` = `evolution-10` au commit `dbbb828` (copie exacte, jamais modifiée).
-- `evolution-11` créée à l'identique depuis `evolution-10`. `evolution-10` n'est plus modifiée.
-- Base Supabase Test : non touchée par cette migration. Rien n'est fusionné ni en production.
-- Les étiquettes Git (tags) sont refusées par le dépôt distant ; la branche de secours remplace l'étiquette.
+- Branche de secours `backup-evolution-10-2026-11-21` = `evolution-10` au commit `dbbb828` (copie exacte, jamais modifiée). Les étiquettes Git (tags) sont refusées par le dépôt distant ; la branche de secours les remplace.
+- `evolution-11` créée à l'identique depuis `evolution-10`. La base Supabase n'est pas touchée. Rien n'est fusionné ni en production.
 
-## 2. Constat (vérifié dans le code)
+## 2. Méthode retenue : ranger les sources, garder les adresses publiées
 
-- 44 pages HTML à la racine, 162 éléments au total (36 JS, 30 CSS, 15 modules, 17 images dans `visuels/`).
-- **Toutes les références sont relatives** (`styles.css`, `espace-membre.html`, `./annonces-config.mjs`). Une page déplacée dans un dossier perdrait ses styles, ses scripts et ses liens. Il faut donc d'abord rendre ces références absolues (`/styles.css`).
-- Des liens sont aussi construits dans le code (menu `navigation-tiroirs.js`, assistant `app.js`, `catalogue-majestios.js`, parcours, sitemap) et lus par les tests et gardes (`verify-site`, `verify-architecture`, `verify-liens-site`, 28 tests).
-- **Authentification :** `espace-membre.html` sert de retour à Google, à LinkedIn et au lien reçu par e-mail ; `accepter-invitation.html` est écrit dans la fonction serveur d'invitation ; `espace-interne` et les pages `admin-*` reconstruisent leur adresse de retour. La liste « Redirect URLs » de Supabase Test autorise l'adresse du site avec `/**`.
-- Le dépôt a déjà des redirections Vercel (2) ; ce mécanisme sert aux anciennes adresses.
+**Constat.** Toutes les références des pages sont relatives (`styles.css`, `espace-membre.html`) et ~280 liens sont construits dans le code. Changer les adresses publiées (`/marches/x.html`) obligerait à réécrire environ 1 000 liens, à poser des redirections, et ferait peser un risque sur la connexion (Google, LinkedIn, lien e-mail, fonction d'invitation déployée).
 
-## 3. Structure cible proposée (à valider)
+**Méthode.** Les pages sont rangées **en dossiers dans le dépôt** (`pages/<famille>/`) ; le build les publie **à plat, à la même adresse qu'avant**. La règle unique de correspondance est dans `chemins-site.cjs` (build, gardes et tests la partagent).
 
-**Reste à la racine (12 pages)** : `index.html`, `resultats-recherche.html`, et les pages d'espaces privés et d'authentification, **gelées** : `espace-membre`, `accepter-invitation`, `espace-interne`, `espace-prive`, `administration`, `crm`, `admin-annonces`, `admin-cheexpeer`, `admin-recherches`, `admin-utilisateurs`.
+**Garanties.**
+- Le site publié est **identique à l'octet près** avant et après chaque étape (comparaison de `dist/` à la référence de `evolution-10`).
+- Le test `tests/adresses-publiees.test.cjs` vérifie que les 146 adresses publiées au 21/11/2026 (liste `ADRESSES-PUBLIEES-REFERENCE-2026-11-21.txt`) restent toutes publiées, sans doublon, en CI.
+- Aucun lien, aucune connexion, aucun e-mail, aucun référencement ne peut changer. Aucune redirection nécessaire.
+- Aucune modification de Supabase, des secrets, des comptes, des rôles ni des migrations.
 
-| Dossier | Pages (32 déplacées) |
+Des adresses publiques en dossiers (`/marches/…`) restent possibles plus tard, dans un lot séparé, avec redirections, si le propriétaire le souhaite.
+
+## 3. Structure cible des sources
+
+**Reste à la racine** : `index.html` et `resultats-recherche.html`. Les pages d'espaces privés et d'authentification restent aussi à la racine sur `evolution-11` (décision du propriétaire), puis sont rangées sur `evolution-12` (§6) : `espace-membre`, `accepter-invitation`, `espace-interne`, `espace-prive`, `administration`, `crm`, `admin-annonces`, `admin-cheexpeer`, `admin-recherches`, `admin-utilisateurs`.
+
+| Dossier source | Pages |
 |---|---|
-| `/marches/` (8) | marches-publics, marches-prives, **marches-attribues**, veille-marches, accompagnement-appels-offres, bodacc-veille-entreprises, annonces, sous-traitance |
-| `/developpement/` (5) | developpement-commercial, prospection-active, qualification-entreprises, suivi-commercial, intelligence-economique |
-| `/rubriques/` (8) | les huit `categorie-*` (préfixe `categorie-` retiré) |
-| `/reseau/` (2) | reseaux-synergies, nous-rejoindre |
-| `/solutions/` (3) | facturation-electronique, reputation-virtuelle, assistant-majestios |
-| `/infos/` (6) | faq, contact, vision-majestios, mentions-legales, politique-confidentialite, majestios-v5 |
+| `pages/rubriques/` (8) | les huit `categorie-*` — **fait (pilote)** |
+| `pages/marches/` (8) | marches-publics, marches-prives, marches-attribues, veille-marches, accompagnement-appels-offres, bodacc-veille-entreprises, annonces, sous-traitance |
+| `pages/developpement/` (5) | developpement-commercial, prospection-active, qualification-entreprises, suivi-commercial, intelligence-economique |
+| `pages/reseau/` (2) | reseaux-synergies, nous-rejoindre |
+| `pages/solutions/` (3) | facturation-electronique, reputation-virtuelle, assistant-majestios |
+| `pages/infos/` (6) | faq, contact, vision-majestios, mentions-legales, politique-confidentialite, majestios-v5 |
+| `pages/espaces/` (10) | les pages privées et d'authentification (evolution-12) |
 
-Résultat : **44 → 12 pages à la racine**. Les pages d'espaces privés pourront être regroupées plus tard, dans un lot séparé, après vérification de la configuration d'authentification distante.
+Résultat : **44 → 2 pages à la racine** à la fin de evolution-12 (index et résultats de recherche).
 
-## 4. Navigation allégée (étape finale, à valider avec le propriétaire)
+## 4. Navigation allégée (evolution-12, à valider avec le propriétaire)
 
-Menu aligné sur les dossiers : **Marchés · Développement · Réseau · Solutions · Mon espace**, au lieu des tiroirs actuels (jusqu'à 20 entrées dans « Développement commercial »). Les sous-entrées restent accessibles ; seules l'organisation et les intitulés changent. Une page d'accueil de chaque dossier sert d'index et prépare les extensions futures.
+Menu aligné sur les familles : **Marchés · Développement · Réseau · Solutions · Mon espace**, au lieu des tiroirs actuels (jusqu'à 20 entrées dans « Développement commercial »). Une page d'accueil par famille prépare les extensions. Les intitulés seront soumis au propriétaire avant la modification.
 
-## 5. Méthode et garde-fous
+## 5. Garde-fous (à chaque étape)
 
-1. **Un script unique et rejouable** (`scripts/migrer-arborescence.js`) lit une carte `ancienne adresse → nouvelle adresse`, déplace avec `git mv` (l'historique est conservé), réécrit les références, met à jour manifeste, sitemap et gardes. Mode « simulation » obligatoire avant chaque exécution.
-2. **Redirections 301/308 Vercel** de chaque ancienne adresse vers la nouvelle, générées depuis la même carte. Aucun lien, favori ni référencement n'est cassé.
-3. **Nouveaux tests** : chaque ancienne adresse a une redirection vers un fichier existant ; aucun lien interne cassé ; aucune ressource introuvable ; les pages gelées n'ont pas bougé.
-4. Les contrôles actuels (154 tests, `verify-site`, CI GitHub) restent verts à chaque étape. Une étape = un commit, donc un retour arrière simple.
-5. Contrôle sur la page de test Vercel de la branche (ancienne adresse → redirection ; nouvelle adresse → 200 ; connexion Google/LinkedIn et lien e-mail inchangés).
-6. **Aucune modification de Supabase, des secrets, des comptes, des rôles ni des migrations.** Les pages d'authentification ne bougent pas dans ce chantier.
-7. Documentation mise à jour à chaque étape (index, synthèse, AGENTS.md).
+1. Une étape = un commit (retour arrière simple) ; la CI GitHub doit rester verte.
+2. `node build.js` puis comparaison de `dist/` à la référence : identique.
+3. Gardes `verify-site`, `verify-architecture`, `verify-liens-site`, tests unitaires (154) et navigateur (16) inchangés dans leurs exigences.
+4. Contrôle de la page de test Vercel de la branche : les adresses des pages déplacées répondent comme avant.
+5. Documentation et `AGENTS.md` mis à jour.
 
 ## 6. Étapes
 
-**evolution-11 (fondations et pilote)**
-- É0 : références absolues partout et carte des adresses centralisée, sans aucun déplacement (aucun changement visible).
-- É1 : pilote avec `/rubriques/` (8 pages) + redirections + tests + contrôle en ligne.
-- É2 : `/marches/` et `/developpement/`.
+**evolution-11**
+- É0 ✔ : `chemins-site.cjs`, build à correspondance source → adresse publiée, gardes adaptés, test des adresses.
+- É1 ✔ : pilote — 8 rubriques rangées dans `pages/rubriques/`, site publié identique.
+- É2 : `pages/marches/` et `pages/developpement/`.
 
-**evolution-12 (fin)**
-- É3 : `/reseau/`, `/solutions/`, `/infos/`.
-- É4 : navigation allégée et pages d'accueil de dossiers.
-- É5 : contrôle complet, mise à jour documentaire, sauvegarde finale. La fusion éventuelle reste une décision du propriétaire.
+**evolution-12** (créée après sauvegarde de la fin d'evolution-11)
+- É3 : `pages/reseau/`, `pages/solutions/`, `pages/infos/`.
+- É4 : pages d'espaces privés dans `pages/espaces/`, après contrôle de la connexion sur la page de test. Les adresses publiées ne changent pas, donc la configuration Supabase / Google / LinkedIn et la fonction d'invitation restent valables.
+- É5 : navigation allégée et pages d'accueil de familles.
+- É6 : contrôle complet, documentation, sauvegarde finale. La fusion éventuelle reste une décision du propriétaire.
 
-**Option, plus tard, séparément :** ranger les 36 JS et 30 CSS dans `assets/`, et regrouper les espaces privés.
+**Option séparée, plus tard :** ranger les 36 JS et 30 CSS dans `assets/` ; adresses publiques en dossiers avec redirections.
 
-## 7. Décisions à confirmer par le propriétaire
-
-1. Structure et noms des dossiers (§3).
-2. Les espaces privés et d'authentification restent à la racine pour ce chantier.
-3. Les intitulés du menu (§4), à valider avant l'étape É4.
-
-## 8. Risques identifiés
+## 7. Risques
 
 | Risque | Parade |
 |---|---|
-| Styles, scripts et liens relatifs cassés après déplacement | É0 : références absolues avant tout déplacement ; test de ressources |
-| Liens construits dans le code (menu, assistant, catalogue, sitemap) | Carte unique ; recherche exhaustive ; test des liens |
-| Connexion Google/LinkedIn ou e-mail cassée | Pages d'authentification gelées ; contrôle en ligne à chaque étape |
-| Perte de référencement et de favoris | Redirections permanentes de toutes les anciennes adresses |
-| Tests et gardes liés aux noms de fichiers | Adaptés dans la même étape ; mêmes contrôles qu'avant |
+| Une page rangée mais oubliée du manifeste | Test des adresses publiées + garde du manifeste |
+| Outil de contrôle qui ne voit plus une page rangée | `listPages` / `resolveFile` partagés ; gardes et tests adaptés ; compte de pages contrôlé (44) |
+| Adresse publiée modifiée par erreur | Comparaison `dist/` identique + test des 146 adresses de référence |
 | Erreur irréversible | Sauvegarde `backup-evolution-10-2026-11-21`, commits atomiques, rien fusionné |

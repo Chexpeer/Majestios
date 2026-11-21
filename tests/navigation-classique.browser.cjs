@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
 const { chromium } = require("playwright");
+const { publishedPath } = require("../chemins-site.cjs");
 
 const root = path.resolve(__dirname, "..", "dist");
 const mime = {".html":"text/html; charset=utf-8",".css":"text/css; charset=utf-8",".js":"text/javascript; charset=utf-8",".png":"image/png",".webp":"image/webp",".jfif":"image/jpeg",".jpg":"image/jpeg"};
@@ -10,9 +11,9 @@ const mime = {".html":"text/html; charset=utf-8",".css":"text/css; charset=utf-8
 async function main() {
   assert.ok(fs.existsSync(path.join(root,"index.html")), "Exécuter node build.js avant le test.");
   const manifest = JSON.parse(fs.readFileSync(path.join(__dirname,"..","site-files.json"),"utf8"));
-  const published = new Set(manifest.files);
+  const published = new Set(manifest.files.map(publishedPath));
   // Inventaire calculé avant les parcours desktop et mobile pour éviter toute référence anticipée.
-  const publicPages = manifest.files.filter(file => file.endsWith(".html") &&
+  const publicPages = manifest.files.map(publishedPath).filter(file => file.endsWith(".html") &&
     !["crm.html","administration.html","admin-recherches.html","espace-interne.html","espace-prive.html"].includes(file));
   const server = http.createServer((req,res) => {
     const pathname = decodeURIComponent(new URL(req.url,"http://127.0.0.1").pathname);

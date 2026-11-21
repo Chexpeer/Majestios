@@ -67,6 +67,7 @@ jobs:
           node --check verify-doc-links.js
           node --check verify-architecture.js
           node --check build.js
+          node --check chemins-site.cjs
           node --check tests/reputation-virtuelle.browser.cjs
           node --check tests/admin-cheexpeer.browser.cjs
           node --check tests/navigation-classique.browser.cjs
@@ -131,6 +132,8 @@ jobs:
         run: node --test tests/annonces-admin-publication.test.mjs
       - name: Construire le site statique
         run: node build.js
+      - name: Adresses publiées conservées (rangement des sources en dossiers)
+        run: node tests/adresses-publiees.test.cjs
       - name: Installer Playwright et Chromium
         run: |
           npm install --no-save --package-lock=false playwright@1.64.1

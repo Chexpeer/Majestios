@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { publishedPath } = require("./chemins-site.cjs");
 
 const root = __dirname;
 const outputDirectory = path.join(root, "dist");
@@ -28,6 +29,10 @@ const normalizedFiles = siteFiles.map((file) => file.replace(/\\/g, "/"));
 const duplicateFiles = normalizedFiles.filter((file, index) => normalizedFiles.indexOf(file) !== index);
 if (duplicateFiles.length) fail("Build interrompu : fichiers déclarés plusieurs fois :\n- " + [...new Set(duplicateFiles)].join("\n- "));
 
+const publishedFiles = normalizedFiles.map(publishedPath);
+const duplicatePublished = publishedFiles.filter((file, index) => publishedFiles.indexOf(file) !== index);
+if (duplicatePublished.length) fail("Build interrompu : plusieurs sources publiées à la même adresse :\n- " + [...new Set(duplicatePublished)].join("\n- "));
+
 const invalidPaths = normalizedFiles.filter((file) => {
   const resolved = path.resolve(root, file);
   return path.posix.isAbsolute(file) || file.split("/").includes("..") || (resolved !== root && !resolved.startsWith(root + path.sep));
@@ -49,14 +54,14 @@ fs.mkdirSync(outputDirectory, { recursive: true });
 
 for (const file of normalizedFiles) {
   const sourcePath = path.join(root, file);
-  const destinationPath = path.join(outputDirectory, file);
+  const destinationPath = path.join(outputDirectory, publishedPath(file));
   fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
   fs.copyFileSync(sourcePath, destinationPath);
 }
 
 const invalidOutputFiles = normalizedFiles.filter((file) => {
   const sourcePath = path.join(root, file);
-  const outputPath = path.join(outputDirectory, file);
+  const outputPath = path.join(outputDirectory, publishedPath(file));
   return !fs.existsSync(outputPath) ||
     !fs.statSync(outputPath).isFile() ||
     !fs.readFileSync(sourcePath).equals(fs.readFileSync(outputPath));
