@@ -12,6 +12,7 @@ export function createClient(){
     onAuthStateChange:(cb)=>{ if(window.__session) setTimeout(()=>cb('INITIAL_SESSION',window.__session),0); return {data:{subscription:{unsubscribe(){}}}}; },
     signOut: async()=>({}),
     signInWithPassword: async(a)=>{(window.__pw=window.__pw||[]).push(a); if(a.password==='Bon-Mot-De-Passe-77'){window.__session={access_token:'tok',user:{id:'u1',email:a.email}};return {data:{session:window.__session,user:window.__session.user},error:null};} return {data:{},error:{message:'Invalid login credentials'}};},
+    signInWithOAuth: async(a)=>{(window.__oauth=window.__oauth||[]).push(a);return {data:{},error:window.__oauthError?{message:'Unsupported provider'}:null};},
     signInWithOtp: async(a)=>{(window.__otp=window.__otp||[]).push(a);return {error:null};},
     verifyOtp: async(a)=>{(window.__verify=window.__verify||[]).push(a);window.__session={access_token:'tok',user:{id:'u1'}};return {data:{session:window.__session,user:{id:'u1'}},error:null};},
     updateUser: async(a)=>{(window.__updates=window.__updates||[]).push(a);window.__hasPassword=true;return {error:null};}
@@ -86,6 +87,40 @@ export function createClient(){
     const upd = await pwa.evaluate(() => window.__updates);
     assert.equal(upd[0].password, undefined, "Le mot de passe existant n'est pas redemandé.");
     assert.equal(upd[0].data.privacy_notice_acknowledged, true);
+    // 1 quater. Connexion avec Google : bouton présent, appel OAuth, consentement exigé en création, erreur claire si Google n'est pas activé.
+    const gg = await open([]);
+    await gg.goto(origin + "/espace-membre.html");
+    await gg.click("#open-personal-space");
+    assert.equal(await gg.locator("[data-google-signin]").isVisible(), true, "Le bouton « Continuer avec Google » est proposé.");
+    await gg.click("[data-google-signin]");
+    const oa = await gg.evaluate(() => window.__oauth);
+    assert.equal(oa[0].provider, "google");
+    assert.match(oa[0].options.redirectTo, /\/espace-membre\.html$/, "Retour sur l'espace membre après Google.");
+    await gg.click("[data-toggle-create]");
+    await gg.click("[data-google-signin]");
+    assert.equal(await gg.evaluate(() => window.__oauth.length), 1, "En création, Google n'est pas lancé sans consentement.");
+    assert.match(await gg.locator("#personal-space-feedback").textContent(), /politique de confidentialité/);
+    await gg.check("#personal-space-form input[name=privacy_ack]");
+    await gg.evaluate(() => { window.__oauthError = true; });
+    await gg.click("[data-google-signin]");
+    await gg.waitForFunction(() => /pas disponible pour le moment/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
+    assert.deepEqual(gg.errors, []);
+    // Retour de Google (espace à activer) : aucun mot de passe demandé, un clic active l'espace.
+    const gs = await open([]);
+    await gs.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "ug", email: "google@exemple.fr", app_metadata: { providers: ["google"] } } }; window.__activation = { state: "pending", deadline: "2026-11-25T18:00:00Z", has_password: false }; });
+    await gs.route("**/functions/v1/provision-client-workspace", (r) => r.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true, organization: { id: "og" } }) }));
+    await gs.goto(origin + "/espace-membre.html");
+    await gs.waitForSelector("#member-activation-alert:not([hidden])");
+    assert.match(await gs.locator("#member-activation-text").textContent(), /Google/);
+    assert.doesNotMatch(await gs.locator("#member-activation-text").textContent(), /mot de passe/);
+    await gs.click("#open-personal-space");
+    await gs.waitForSelector("#personal-space-form [data-password-step]:not([hidden])");
+    assert.equal(await gs.locator("#personal-space-form input[name=new_password]").isVisible(), false, "Google : aucun mot de passe à saisir.");
+    await gs.click("#personal-space-form button[type=submit]");
+    await gs.waitForFunction(() => /Votre espace est activé/.test(document.querySelector("#personal-space-feedback")?.textContent || ""), null, { timeout: 8000 });
+    const gu = await gs.evaluate(() => window.__updates);
+    assert.equal(gu[0].password, undefined, "Aucun mot de passe créé pour une connexion Google.");
+    assert.equal(gu[0].data.privacy_notice_acknowledged, true);
     // 2. Création depuis le petit lien : consentement obligatoire.
     page = await open([{ organization_id: "o2" }]);
     const provisioned = [];

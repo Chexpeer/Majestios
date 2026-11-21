@@ -425,3 +425,8 @@ for (const [table, columns] of Object.entries({
     assert.ok(columnsByTable[table]?.has(column), "La création autorise une colonne absente du schéma : " + table + "." + column);
   }
 }
+
+// Connexion Google : l'activation sans mot de passe n'est acceptée que pour une identité Google dont l'e-mail est vérifié par le serveur d'authentification.
+assert.match(edge, /identity\.provider === "google" && identity\.identity_data\?\.email_verified === true/);
+assert.match(edge, /!ready\.has_password && !viaGoogle/);
+assert.doesNotMatch(edge, /user_metadata[^\n]*google/i, "La preuve Google ne doit jamais venir de données modifiables par l'utilisateur.");

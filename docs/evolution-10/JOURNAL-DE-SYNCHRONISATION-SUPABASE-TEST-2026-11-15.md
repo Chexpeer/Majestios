@@ -33,3 +33,8 @@ Présentes dans le dépôt mais **non déployées sur Test** : `bootstrap-intern
 ## Migration appliquée sur Test le 2026-11-20
 
 - `20261120190000_announcements_more_kinds` : quatre types d'annonces ajoutés (`real_estate_offer`, `real_estate_wanted`, `business_sale`, `business_wanted`) dans la règle `announcements_kind_check` et dans les fonctions `submit_announcement` et `publish_announcement_admin`. Appliquée sur MajestiOS-Test uniquement ; **à rejouer sur la production avec le reste des migrations lors de la fusion décidée par le propriétaire.** `majestios-crm` n'est pas modifié.
+
+
+## 21 novembre 2026 — Fonction `provision-client-workspace` version 3 (Test)
+
+Déployée sur la base de test uniquement (`qrlnnfjstoeliymxtkbk`) : l'activation d'un espace est acceptée sans mot de passe si l'identité Google est vérifiée côté serveur d'authentification. Aucune migration SQL. À reproduire sur la production lors d'une fusion décidée par le propriétaire. Fournisseur Google non encore activé dans Supabase (à faire par le propriétaire).

@@ -68,7 +68,9 @@ Deno.serve(async (request: Request) => {
   if (readyError || !ready) return response(500, { error: "Vérification de l’activation impossible. Réessayez." }, origin);
   if (!ready.has_activation) return response(403, { error: "Activation requise : reprenez la création de votre espace.", code: "ACTIVATION_REQUIRED" }, origin);
   if (ready.expired) return response(403, { error: "Le délai d’activation est dépassé. Redemandez un code pour reprendre.", code: "ACTIVATION_EXPIRED" }, origin);
-  if (!ready.has_password) return response(403, { error: "Créez d’abord votre mot de passe sécurisé pour activer votre espace.", code: "PASSWORD_REQUIRED" }, origin);
+  // Connexion Google : identité vérifiée par Google côté serveur d'authentification (non modifiable par l'utilisateur) ; aucun mot de passe MajestiOS exigé.
+  const viaGoogle = (user.identities ?? []).some((identity) => identity.provider === "google" && identity.identity_data?.email_verified === true);
+  if (!ready.has_password && !viaGoogle) return response(403, { error: "Créez d’abord votre mot de passe sécurisé pour activer votre espace.", code: "PASSWORD_REQUIRED" }, origin);
   const noticeVersion = NOTICE_VERSION;
   const organizationName = cleanText(body.organization_name || metadata.organization_name, 120) || "Espace personnel";
   const displayName = cleanText(body.display_name || metadata.display_name, 120);
