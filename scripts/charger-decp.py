@@ -172,6 +172,7 @@ def main():
             before = date(year, month, min(today.day, 28))
             removed = rpc(base_url, key, "purge_awarded_contracts", {"p_before": before.isoformat()})
             log(f"Marchés antérieurs au {before.isoformat()} retirés : {removed}.")
+            rpc(base_url, key, "refresh_awarded_winners", {})
             rpc(base_url, key, "refresh_awarded_stats", {})
             log("Chiffres de la page mis à jour.")
         else:
