@@ -92,9 +92,21 @@
 </section>
 <div class="results-head"><h2>Résultats de la recherche</h2><span id="count" class="results-count">AUCUN RÉSULTAT CHARGÉ</span></div>
 <div id="results" class="result-list"></div>
+<section id="pitch-section" class="search-panel" aria-labelledby="pitch-title" style="margin-top:28px">
+<p class="admin-kicker">SOUS-TRAITANCE · MARCHÉS GAGNÉS</p><h2 id="pitch-title">Pitch de sous-traitance</h2>
+<p class="search-hint">Choisissez un marché gagné : MajestiOS trouve le code NAF de l’entreprise gagnante, les métiers complémentaires et les artisans du département, puis prépare un brouillon de pitch par métier. Rien n’est envoyé : vous relisez et vous décidez.</p>
+<form id="pitch-form"><div class="search-form-grid">
+<div class="search-field"><label for="pitch-department">Département de l’acheteur (facultatif)</label><input id="pitch-department" name="department" maxlength="3" placeholder="Ex. 14"></div>
+<div class="search-field wide"><label for="pitch-query">Entreprise, acheteur ou objet (facultatif)</label><input id="pitch-query" name="query" maxlength="80" placeholder="Ex. climatisation, panneaux solaires"></div>
+</div><div class="search-actions"><button class="search-submit" type="submit">Chercher des marchés gagnés</button></div></form>
+<div id="pitch-status" class="search-status" role="status" aria-live="polite">Lancez une recherche pour voir les marchés gagnés des 6 derniers mois.</div>
+<div id="pitch-marches" class="result-list"></div>
+<div id="pitch-detail"></div>
+</section>
 <div class="search-disclaimer"><strong>À savoir :</strong> BODACC et BOAMP publient des annonces et avis, pas une base exhaustive d’entreprises avec effectifs et codes APE/NAF. Le filtre 5–15 salariés et l’enrichissement Sirene devront intervenir dans une étape de qualification distincte. Les données affichées conservent la source et le lien officiel. Aucun enregistrement n’est écrit dans Supabase à ce stade. Réutilisation soumise aux conditions de la DILA et à la Licence Ouverte 2.0 ; les annonces peuvent contenir des données personnelles.</div>
 </div>
 <footer class="admin-footer"><span>MajestiOS V.5 · Administration générale</span><span>Recherches manuelles · contrôle humain conservé</span></footer>
 </main></div>
 <script type="module" src="admin-recherches.js"></script>
+<script type="module" src="admin-pitch.js"></script>
 </body></html>
