@@ -8,9 +8,7 @@ if (root) {
   const list = root.querySelector("#annonces-liste");
   const status = root.querySelector("#annonces-statut");
   const more = root.querySelector("#annonces-plus");
-  const notice = buildLimitNotice();
-  notice.hidden = true;
-  more.parentElement.after(notice);
+  let notice = null;
   let page = 0;
   let loading = false;
   let pendingReset = false;
@@ -88,7 +86,7 @@ if (root) {
     loading = true;
     if (reset) { page = 0; list.replaceChildren(); }
     more.hidden = true;
-    notice.hidden = true;
+    notice?.remove();
     status.textContent = "Chargement des annonces…";
     try {
       const rows = await rpc("list_published_announcements", buildListRequest({ ...Object.fromEntries(new FormData(filters).entries()), page }));
@@ -96,9 +94,10 @@ if (root) {
       for (const item of items) list.append(card(item));
       const total = list.children.length;
       status.textContent = total ? total + " annonce(s) affichée(s)." : "Aucune annonce publiée pour ces critères pour le moment. Vous pouvez déposer la vôtre gratuitement.";
-      const locked = limitReached(await sessionToken(), total);
-      more.hidden = !hasMore || locked;
-      notice.hidden = !locked;
+      const token = await sessionToken();
+      const locked = limitReached(token, total, hasMore);
+      more.hidden = !hasMore;
+      if (locked) { notice = buildLimitNotice(document, token); more.parentElement.after(notice); }
     } catch {
       status.textContent = "Les annonces sont momentanément inaccessibles. Aucune annonce n’est inventée. Réessayez plus tard.";
     } finally {

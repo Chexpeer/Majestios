@@ -42,10 +42,10 @@ Pistes inspirées de l'étude des plateformes de veille de marchés (aucune n'es
   3. Secret `INTERNAL_ADMIN_EMAIL` avant tout bootstrap admin.
   4. Protection contre les mots de passe compromis (Supabase Auth) : à activer par le propriétaire.
 
-## Limite de 20 résultats pour les visiteurs (21 novembre 2026, soir)
+## Limites de résultats des recherches d'entreprises (21 novembre 2026, soir)
 
-Décision du propriétaire : les recherches d'entreprises affichent 20 résultats au plus à un visiteur sans espace personnel ; pour voir la suite, il faut créer son espace. Un titulaire connecté voit tout.
+Décision du propriétaire : un visiteur sans espace personnel voit 20 résultats au plus (pour voir la suite, il crée son espace) ; un titulaire d'espace en voit 40 pour l'instant ; l'équipe interne (propriétaire, administrateurs) et Cheexpeer (clé de service des fonctions serveur) n'ont aucune limite, pour pouvoir travailler sur toute la base.
 
-- **Côté serveur** (migration `20261121220000_limite_20_visiteurs.sql`) : `list_awarded_contracts`, `top_awarded_winners` et `list_published_announcements` plafonnent à 20 (décalage compris) quand `auth.uid()` est nul. Impossible à contourner depuis le navigateur. Vérifiée sur la base de test (visiteur : 20 ; connecté : 50). **Pas encore appliquée en production.**
-- **Côté site** : `visiteur-limite.mjs` transmet la session si elle existe ; à 20 résultats, le bouton « Voir plus » est remplacé par un message et le bouton « Créer mon espace ». Les autres recherches (qualification, prospection, RGE) sont déjà limitées à 10 résultats.
-- **Présentation** : les cartes de résultats sont translucides (verre dépoli).
+- **Côté serveur** (migration `20261121220000_limite_20_visiteurs.sql`) : `private.search_cap()` donne le plafond selon l'appelant ; `list_awarded_contracts`, `top_awarded_winners` et `list_published_announcements` le respectent (décalage compris). Impossible à contourner depuis le navigateur. Vérifiée sur la base de test : visiteur 20, membre 40, clé de service illimitée. **Pas encore appliquée en production.**
+- **Côté site** : `visiteur-limite.mjs` transmet la session si elle existe ; au plafond, « Voir plus » est remplacé par un message (visiteur : bouton « Créer mon espace » ; membre : conseil d'affiner la recherche). Les autres recherches (qualification, prospection, RGE) sont déjà limitées à 10 résultats.
+- **Présentation** : cartes de résultats translucides (verre dépoli).
