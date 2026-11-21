@@ -59,7 +59,7 @@ Menu aligné sur les familles : **Marchés · Développement · Réseau · Solut
 - É2 ✔ : `pages/marches/` (8 pages) et `pages/developpement/` (5 pages) rangées, site publié identique (146 adresses, 155 tests + 16 tests navigateur, guides verts).
 
 **evolution-12** (créée après sauvegarde de la fin d'evolution-11)
-- É3 : `pages/reseau/`, `pages/solutions/`, `pages/infos/`.
+- É3 ✔ (évolution-12) : `pages/reseau/` (2), `pages/solutions/` (3), `pages/infos/` (6) rangées, site publié identique.
 - É4 : pages d'espaces privés dans `pages/espaces/`, après contrôle de la connexion sur la page de test. Les adresses publiées ne changent pas, donc la configuration Supabase / Google / LinkedIn et la fonction d'invitation restent valables.
 - É5 : navigation allégée et pages d'accueil de familles.
 - É6 : contrôle complet, documentation, sauvegarde finale. La fusion éventuelle reste une décision du propriétaire.
