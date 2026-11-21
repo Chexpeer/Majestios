@@ -1,4 +1,5 @@
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
+import { sessionToken, rpcHeaders, limitReached, buildLimitNotice } from "./visiteur-limite.mjs";
 import { SECTORS, buildContractsRequest, buildWinnersRequest, normalizeContracts, normalizeWinners, kindLabel, formatAmount, formatDateFr, metaSummary } from "./marches-attribues.mjs";
 
 const root = document.querySelector("#marches-attribues");
@@ -6,7 +7,7 @@ if (root) {
   const rpc = async (name, body) => {
     const response = await fetch(ANNONCES_SUPABASE.url + "/rest/v1/rpc/" + name, {
       method: "POST",
-      headers: { "content-type": "application/json", apikey: ANNONCES_SUPABASE.publishableKey },
+      headers: rpcHeaders(await sessionToken()),
       body: JSON.stringify(body)
     });
     if (!response.ok) throw new Error(await response.text());
@@ -36,18 +37,24 @@ if (root) {
   // Liste générique (marchés ou gagnants) avec pagination « Voir plus » et filtres sans perte de requête.
   const makeList = ({ form, list, status, more, fn, build, normalize, card, emptyText, errorText, loadingText, doneText }) => {
     let page = 0, loading = false, pendingReset = false;
+    const notice = buildLimitNotice();
+    notice.hidden = true;
+    more.parentElement.after(notice);
     const load = async (reset) => {
       if (loading) { if (reset) pendingReset = true; return; }
       loading = true;
       if (reset) { page = 0; list.replaceChildren(); }
       more.hidden = true;
+      notice.hidden = true;
       status.textContent = loadingText;
       try {
         const rows = await rpc(fn, build({ ...Object.fromEntries(new FormData(form).entries()), page }));
         const { items, hasMore } = normalize(rows);
         for (const item of items) list.append(card(item));
         status.textContent = list.children.length ? doneText(list.children.length) : emptyText;
-        more.hidden = !hasMore;
+        const locked = limitReached(await sessionToken(), list.children.length);
+        more.hidden = !hasMore || locked;
+        notice.hidden = !locked;
       } catch {
         status.textContent = errorText;
       } finally {

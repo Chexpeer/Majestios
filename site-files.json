@@ -137,6 +137,7 @@
     "annonces-liste.js",
     "annonces-liste.css",
     "marches-attribues.mjs",
+    "visiteur-limite.mjs",
     "marches-attribues.js",
     "marches-attribues.css",
     "pages/solutions/assistant-majestios.html",

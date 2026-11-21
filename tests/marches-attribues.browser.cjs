@@ -28,6 +28,7 @@ const winner = (n) => ({ winner_id: "W" + n, winner_name: "Entreprise " + n, win
       const body = JSON.parse(route.request().postData() || "{}"); calls.push({ body, headers: route.request().headers() });
       if (mode === "error") return json(route, "boom", 500);
       if (mode === "empty") return json(route, []);
+      if (mode === "twenty") return json(route, Array.from({ length: body.p_offset === 0 ? 11 : 10 }, (_, i) => contract(body.p_offset + i)));
       return json(route, Array.from({ length: body.p_offset === 0 ? 11 : 3 }, (_, i) => contract(body.p_offset + i)));
     });
     await page.route("**/rest/v1/rpc/top_awarded_winners", async (route) => {
@@ -79,10 +80,21 @@ const winner = (n) => ({ winner_id: "W" + n, winner_name: "Entreprise " + n, win
     await page.selectOption("#marches-secteur", "");
     await page.getByText(/momentanément inaccessibles/).first().waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".marche-card").count(), 0);
+    // Visiteur sans espace : 20 marchés au plus, puis message et bouton « Créer mon espace » à la place de « Voir plus »
+    mode = "twenty";
+    await page.selectOption("#marches-secteur", "45");
+    await page.waitForFunction(() => document.querySelectorAll(".marche-card").length === 10);
+    assert.equal(await page.locator("#marches-plus").isVisible(), true);
+    await page.locator("#marches-plus").click();
+    await page.waitForFunction(() => document.querySelectorAll(".marche-card").length === 20);
+    assert.equal(await page.locator("#marches-plus").isVisible(), false, "Plus de « Voir plus » à 20 résultats.");
+    assert.equal(await page.locator(".limite-visiteur:visible").count(), 1);
+    assert.match(await page.locator(".limite-visiteur:visible").first().textContent(), /20 premiers résultats.*créez votre espace personnel/);
+    assert.match(await page.locator(".limite-visiteur:visible a").first().getAttribute("href"), /^espace-membre\.html#creation$/);
     // Données pas encore chargées : message honnête
     metaMode = "empty";
     await page.reload({ waitUntil: "domcontentloaded" });
     await page.getByText(/ne sont pas encore chargés/).waitFor({ timeout: 10000 });
-    console.log("TEST MARCHÉS ATTRIBUÉS RÉUSSI : pagination, filtres, texte non interprété, aucune coordonnée, transparence (période et date), montant à vérifier, sous-traitance, gagnants, états vide et erreur.");
+    console.log("TEST MARCHÉS ATTRIBUÉS RÉUSSI : pagination, limite de 20 pour les visiteurs, filtres, texte non interprété, aucune coordonnée, transparence (période et date), montant à vérifier, sous-traitance, gagnants, états vide et erreur.");
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); process.exit(1); });
