@@ -30,3 +30,33 @@ La méthode ne dépend pas du bâtiment : seule la table de correspondance chang
 - Fonctions Cheexpeer à mettre en production (chat, missions, audit de réputation, création d'espaces clients) : aujourd'hui seule une mission de test existe dans le code.
 - Récupération du code NAF des gagnants depuis le registre officiel.
 - Validation des tables de correspondance par le propriétaire.
+
+## Ambition
+MajestiOS vise à devenir la plateforme nationale de la sous-traitance et des marchés privés, en s'appuyant sur le croisement de toutes les sources pour donner à Cheexpeer une information précise et complète sur chaque entreprise.
+
+## Fiche entreprise unifiée (clé : SIREN)
+Chaque source apporte une pièce ; la provenance, la date de collecte et le lien d'origine sont conservés (règle déjà posée dans `docs/evolution-5.0/ETAT-RESSOURCES-PROSPECTION-2026-11-07.md`).
+
+| Source | Apport | État au 21 novembre 2026 |
+|---|---|---|
+| Marchés attribués (DECP) | Marchés gagnés, montants, acheteurs, sous-traitance déclarée | En production |
+| API Recherche d'Entreprises | Code NAF, effectif, chiffre d'affaires, adresse | Code prêt, test réel à faire |
+| ADEME (RGE) | Certification RGE | Code prêt, test réel à faire |
+| BODACC | Procédures collectives, ventes, modifications | Code prêt, test réel à faire |
+| QUALIBAT, QUALIFELEC, OPQIBI, FNTP | Qualifications professionnelles | Non connectées |
+| SIRENE (INSEE), RNE (INPI) | Données officielles détaillées | Non connectées |
+| Annonces MajestiOS | Besoins et offres de sous-traitance | En production |
+
+## Sites de référence fournis par le propriétaire (21 novembre 2026)
+Ce sont des sites d'inspiration et de veille concurrentielle, pas des sources de données à copier : leur intérêt est dans leurs fonctionnalités. Les données qu'ils présentent viennent pour l'essentiel de sources publiques que MajestiOS charge déjà ou peut charger.
+
+| Site | Apport principal | Intérêt | Idée pour MajestiOS |
+|---|---|---|---|
+| PublikConnect (accueil, annuaire, départements) | Score expliqué, radar de renouvellement, annuaire par département, profils vérifiés ; concurrent direct | Très fort | Score expliqué par entreprise ; renouvellement des marchés ; annuaire par département |
+| Octroi | Cycle marché → gagnant → acheteur, alerte | Fort | Alerte « un marché vient d'être gagné » déclenchant la mission de sous-traitance |
+| Woxup | Classement des titulaires, fiches acheteurs | Fort | Déjà amorcé (annuaire des gagnants) ; ajouter les fiches acheteurs |
+| corporary.com | Fiches entreprises, flux de changements | Fort, à tester | Modèle de la fiche entreprise unifiée et du flux de changements |
+| tamairie.fr | Finances locales, délibérations | Moyen (plus tard) | Contexte acheteur communal |
+| Seal Open Data / Ariacom | Contexte territorial | À étudier | Contexte de la zone |
+
+**Avantage propre à MajestiOS :** ces sites présentent les marchés ; aucun ne relie un marché gagné aux artisans complémentaires de la région avec un pitch prêt (codes NAF + Cheexpeer). C'est la mission décrite ci-dessus.
