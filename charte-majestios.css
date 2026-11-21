@@ -737,6 +737,7 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:
 .personal-space-form .personal-space-divider::before,.personal-space-form .personal-space-divider::after{content:"";flex:1;height:1px;background:currentColor;opacity:.35}
 .personal-space-form .personal-space-divider[hidden]{display:none}
 
-/* Carte de connexion plus transparente : fond translucide + flou derrière pour garder le texte lisible. */
-html body .personal-space-dialog{background:linear-gradient(145deg,rgba(16,43,73,.62),rgba(7,18,37,.55));-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2)}
-html body .personal-space-dialog::backdrop{background:rgba(10,16,30,.28);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+/* Carte de connexion très transparente : fond léger + flou modéré derrière pour garder le texte lisible. */
+html body .personal-space-dialog{background:linear-gradient(145deg,rgba(22,52,90,.42),rgba(8,20,42,.38));border-color:rgba(213,181,108,.7);-webkit-backdrop-filter:blur(14px) brightness(.8);backdrop-filter:blur(14px) brightness(.8);box-shadow:0 24px 90px rgba(0,0,0,.35)}
+html body .personal-space-dialog::backdrop{background:rgba(10,16,30,.12);-webkit-backdrop-filter:none;backdrop-filter:none}
+html body .personal-space-form :is(.personal-space-intro,.eyebrow,h2,.form-field,.small-note,.personal-space-divider,.member-create-hint){text-shadow:0 1px 3px rgba(0,0,0,.65)}
