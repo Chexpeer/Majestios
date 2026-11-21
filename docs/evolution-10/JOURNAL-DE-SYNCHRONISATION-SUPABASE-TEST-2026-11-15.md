@@ -1,0 +1,52 @@
+# Evolution-10 — Journal de synchronisation dépôt ↔ MajestiOS-Test (15 novembre 2026)
+
+**Règle :** evolution-10 est le prototype le plus avancé, déployé sur Vercel et branché sur **MajestiOS-Test** uniquement. **Rien ici n'est promu vers majestios-crm ni vers la production.**
+
+## Migrations : dépôt et base de test
+
+| Migration appliquée sur Test | Fichier du dépôt | Contrôle |
+|---|---|---|
+| 38 premières (fondations → `cheexpeer_worker_server_bridge`) | `supabase/migrations/2026110*…` à `20261109250000…` | Mêmes noms |
+| `remove_duplicate_tenant_integrity_triggers` | `20261114120100_dedupe_crm_tenant_integrity_triggers.sql` | Mêmes quatre suppressions, ordre différent (équivalent) |
+| `enable_rls_reputation_audit_usage` | `20261114163838_enable_rls_reputation_audit_usage.sql` | **Fichier ajouté le 15/11** (il manquait au dépôt) |
+| `cheexpeer_worker_self_check_tool` | `20261111160000_…` | Identique (hors commentaires) |
+| `cheexpeer_api_security_fixes` | `20261111200000_…` | Identique (hors commentaires) |
+| `public_announcements` | `supabase/proposed/20261114210000_public_announcements.sql` | Identique (hors commentaires). Reste dans `proposed/` : c'est un candidat, pas encore une migration de la chaîne |
+| `fix_crm_activity_trigger_old_status` | `20261114120000_…` | Identique (hors commentaires) |
+| `admin_invitations` | `20261115010000_…` | Identique (hors commentaires) |
+| `cheexpeer_chat` | `20261115020000_…` | Identique (hors commentaires) |
+
+Méthode : empreinte du SQL sans commentaires ni espaces, calculée sur la base de test et sur le fichier du dépôt.
+
+## Fonctions serveur sur Test
+
+`cheexpeer-worker` (v2, dépôt : `cheexpeer-worker-bridge`, écart de nom CHX-01 connu), `cheexpeer-mission-submit`, `cheexpeer-approval-decision`, `cheexpeer-mission-read`, `reputation-audit-context` (v5), **`admin-invite-user`** (v2) et **`cheexpeer-chat`** (v1), toutes avec vérification du jeton.
+
+Présentes dans le dépôt mais **non déployées sur Test** : `bootstrap-internal-admin`, `import-official-company`, `prospection-search-member`, `search-official-companies`. À déployer sur décision, au moment où leur recette sera faite.
+
+**Mise à jour du 2026-11-20 :** `provision-client-workspace` (v2) est **déployée sur Test** (avec vérification du jeton). Elle refuse (403) toute demande dont le compte n'a pas accepté la politique de confidentialité ; elle est appelée à l'activation de l'espace. `cheexpeer-chat` est en v2.
+
+## Configuration du site (evolution-10)
+
+`supabase-config.js` et `annonces-config.mjs` pointent sur **MajestiOS-Test**. **Avant toute fusion vers la production, remettre `supabase-config.js` sur majestios-crm.** À ne jamais oublier.
+
+## Migration appliquée sur Test le 2026-11-20
+
+- `20261120190000_announcements_more_kinds` : quatre types d'annonces ajoutés (`real_estate_offer`, `real_estate_wanted`, `business_sale`, `business_wanted`) dans la règle `announcements_kind_check` et dans les fonctions `submit_announcement` et `publish_announcement_admin`. Appliquée sur MajestiOS-Test uniquement ; **à rejouer sur la production avec le reste des migrations lors de la fusion décidée par le propriétaire.** `majestios-crm` n'est pas modifié.
+
+
+## 21 novembre 2026 — Fonction `provision-client-workspace` version 3 (Test)
+
+Déployée sur la base de test uniquement (`qrlnnfjstoeliymxtkbk`) : l'activation d'un espace est acceptée sans mot de passe si l'identité Google est vérifiée côté serveur d'authentification. Aucune migration SQL. À reproduire sur la production lors d'une fusion décidée par le propriétaire. Fournisseur Google non encore activé dans Supabase (à faire par le propriétaire).
+
+Mise à jour le même jour : fonction `provision-client-workspace` version 4 (Test) — fournisseurs acceptés sans mot de passe : Google et LinkedIn (`linkedin_oidc`), e-mail vérifié côté serveur d'authentification. Fournisseurs Google/LinkedIn à activer dans Supabase par le propriétaire.
+
+## 21 novembre 2026 — extension `pg_net` activée sur Test (essai d'accès aux données publiques)
+- Test uniquement (jamais production). `create extension pg_net with schema extensions` : permet à la base d'appeler des adresses publiques (essai de lecture de data.gouv.fr : réussi).
+- Constat : le fichier DECP consolidé est trop lourd pour une lecture à la demande (parquet 278 Mo, csv.gz 438 Mo) et l'API tabulaire gratuite de data.gouv.fr ne l'indexe pas (erreur « relation inexistante »). Colonnes utiles confirmées : `uid, id, nature, acheteur_id, acheteur_nom, titulaire_id, titulaire_nom, objet, montant, codeCPV, procedure, dureeMois, offresRecues, dateNotification, lieuExecution_code, sousTraitanceDeclaree`.
+- Conséquence : l'alimentation passera par une tâche de rafraîchissement qui télécharge le fichier, ne garde que les 12 derniers mois et les colonnes utiles, puis charge Supabase. À reprendre dans `PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md`.
+
+## 21 novembre 2026 — migration `awarded_contracts` appliquée sur Test
+- Migration `20261121160000_awarded_contracts.sql` appliquée sur MajestiOS-Test uniquement (jamais production) : table `private.awarded_contracts` (vide tant que le chargement n'a pas tourné), 3 fonctions de lecture publiques, 2 fonctions de chargement réservées à `service_role`.
+- Scénarios joués sur Test (lignes fictives supprimées ensuite) : `SCENARIOS_OK`. Droits vérifiés : `anon` ne peut ni charger ni retirer, ni lire la table.
+- Production : à rejouer à la fusion décidée par le propriétaire, avec les secrets de chargement.

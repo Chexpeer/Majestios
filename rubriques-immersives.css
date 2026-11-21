@@ -125,22 +125,6 @@ body.page-prospection main.interior-page{
   border-radius:18px;background-color:#091321;background-size:cover;
   background-position:center;background-repeat:no-repeat;background-attachment:fixed;
 }
-body.page-development-commercial main.interior-page{
-  background-image:url("devellopement%20(2).jfif");
-  background-size:100% 100%,cover;
-  background-position:center,center;
-  background-repeat:no-repeat,no-repeat;
-  background-attachment:scroll;
-}
-body.page-marches-publics main.interior-page{
-  background-image:
-    linear-gradient(90deg,rgba(5,12,23,.82),rgba(5,12,23,.66) 55%,rgba(5,12,23,.48)),
-    url("./OFFRE%20PUBLIC.png");
-  background-size:cover,cover;
-  background-position:center,center;
-  background-repeat:no-repeat,no-repeat;
-  background-attachment:scroll;
-}
 body.page-prospection main.interior-page{
   background-image:linear-gradient(90deg,rgba(5,12,23,.94),rgba(5,12,23,.80) 58%,rgba(5,12,23,.58));
 }
@@ -174,16 +158,6 @@ body.page-reseaux main.interior-page{
 @media(max-width:760px){body.page-reseaux main.interior-page{padding:18px 14px;background-attachment:scroll;background-position:center top}}
 
 
-/* Fond photographique visible directement dans la rubrique Développement commercial.
-   Aucun voile sombre : l'image reste lisible et couvre toute la zone de contenu. */
-body.page-development-commercial main.interior-page{
-  background-color:transparent !important;
-  background-image:url("./devellopement%20(2).jfif") !important;
-  background-size:cover !important;
-  background-position:center center !important;
-  background-repeat:no-repeat !important;
-  background-attachment:scroll !important;
-}
 
 
 /* =========================================================
@@ -375,20 +349,93 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
 
 
 
-/* Restauration ciblée des fonds photographiques validés dans la sauvegarde V5 du 7 novembre. */
-body.page-prospection main.interior-page{
-  background-color:#091321!important;
-  background-image:linear-gradient(90deg,rgba(5,12,23,.78),rgba(5,12,23,.58) 58%,rgba(5,12,23,.34)),url("/PROSPECTION.jfif")!important;
-  background-size:cover,cover!important;
-  background-position:center,center!important;
-  background-repeat:no-repeat,no-repeat!important;
-  background-attachment:scroll!important;
+/* Cartes éditoriales du parcours : elles contiennent plusieurs blocs de texte
+   frères (repère, titre et paragraphes). Ne pas les laisser en disposition
+   horizontale comme les anciennes cartes icône + résumé : cela écrase leur
+   largeur et produit des colonnes de quelques mots sur mobile. */
+.floating-route-card:has(> .interactive-map-status){
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:0;
+  width:100%;
+  max-width:100%;
+  min-width:0;
 }
-body.page-reseaux main.interior-page{
-  background-color:#091321!important;
-  background-image:linear-gradient(90deg,rgba(5,12,23,.76),rgba(5,12,23,.52) 58%,rgba(5,12,23,.32)),url("/RESEAU.png")!important;
-  background-size:cover,cover!important;
-  background-position:center,center!important;
-  background-repeat:no-repeat,no-repeat!important;
-  background-attachment:scroll!important;
+.floating-route-card:has(> .interactive-map-status) > *{
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:break-word;
+  word-break:normal;
 }
+body.homepage .home-hero-layout > .floating-route-card:has(> .interactive-map-status){
+  grid-column:1 / -1;
+}
+@media(max-width:600px){
+  .floating-route-card:has(> .interactive-map-status){
+    padding:18px 16px;
+    margin:18px 0 12px;
+  }
+  .floating-route-card:has(> .interactive-map-status) p{
+    font-size:14px;
+    line-height:1.65;
+  }
+}
+
+
+/* Evolution-9 — les critères secondaires restent réellement masqués jusqu'au clic. */
+#advanced-search-form .feed-filter-label[hidden],
+#advanced-search-form .search-source-note[hidden]{display:none !important}
+#advanced-search-form .feed-criteria-toggle[hidden]{display:none !important}
+#advanced-search-form .feed-criteria-toggle{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;width:100%;padding:10px 14px;
+  border:1px solid rgba(213,181,108,.72);border-radius:8px;
+  color:#ffe5a5;background:linear-gradient(145deg,#183657,#09182b);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 5px 14px rgba(0,0,0,.24);
+  font:700 13px/1.25 inherit;cursor:pointer;
+}
+#advanced-search-form .feed-criteria-toggle::after{content:"＋";font-size:16px;line-height:1}
+#advanced-search-form .feed-criteria-toggle[aria-expanded="true"]::after{content:"−"}
+#advanced-search-form .feed-criteria-toggle:hover,
+#advanced-search-form .feed-criteria-toggle:focus-visible{
+  color:#fff2c9;border-color:#ffe09a;
+  background:linear-gradient(145deg,#234a72,#10243d);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 7px 18px rgba(0,0,0,.30);
+}
+
+
+/* Fonds panoramiques fournis par l'utilisateur — Evolution-9. */
+.virtual-space[data-world="prospection"],
+.virtual-space[data-world="reseaux"]{
+  position:relative;display:flex;align-items:flex-end;
+  min-height:clamp(340px,42vw,560px);padding:clamp(24px,4vw,48px);
+  overflow:hidden;border:1px solid rgba(213,181,108,.42);border-radius:22px;
+  background-color:#07162a;background-size:cover;background-position:center;
+  background-repeat:no-repeat;box-shadow:0 22px 55px rgba(0,0,0,.28);
+}
+.virtual-space[data-world="prospection"] .virtual-space-copy,
+.virtual-space[data-world="reseaux"] .virtual-space-copy{
+  z-index:2;width:min(100%,560px);padding:clamp(18px,3vw,30px);
+  border:1px solid rgba(213,181,108,.35);border-radius:16px;
+  background:linear-gradient(135deg,rgba(5,13,26,.88),rgba(5,13,26,.58));
+  backdrop-filter:blur(5px);
+}
+.virtual-space[data-world="prospection"] .virtual-space-copy h2,
+.virtual-space[data-world="reseaux"] .virtual-space-copy h2{color:#fff!important}
+.virtual-space[data-world="prospection"] .virtual-space-copy>p,
+.virtual-space[data-world="reseaux"] .virtual-space-copy>p{color:#f2eee5!important}
+.virtual-space[data-world="prospection"] .virtual-space-scene,
+.virtual-space[data-world="reseaux"] .virtual-space-scene{display:none}
+.virtual-space[data-world="prospection"]:before,
+.virtual-space[data-world="reseaux"]:before{opacity:0!important}
+@media(max-width:760px){
+ .virtual-space[data-world="prospection"],.virtual-space[data-world="reseaux"]{
+  min-height:430px;padding:16px;align-items:flex-end;background-position:center;
+ }
+ .virtual-space[data-world="prospection"] .virtual-space-copy,
+ .virtual-space[data-world="reseaux"] .virtual-space-copy{padding:17px}
+}
+
+

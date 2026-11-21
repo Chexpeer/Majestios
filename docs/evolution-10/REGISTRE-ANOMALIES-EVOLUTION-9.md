@@ -1,0 +1,1234 @@
+# Registre des anomalies — Evolution-9
+
+> **Convention d'identifiants :** les anomalies historiques qui partageaient un même identifiant ont été distinguées par suffixe (périmètre, étape d'audit ou correction). Les anciens identifiants courts restent des références historiques dans certains comptes rendus ; utiliser les identifiants qualifiés de ce registre pour toute nouvelle mise à jour.
+
+
+## État au 20 novembre 2026 (à lire en premier)
+
+**Origine :** ce registre a été ouvert sur la branche Evolution-9 (11–14 novembre 2026). Il est repris dans `docs/evolution-10/` et la branche active est `evolution-10`. Le nom du fichier est historique et conservé volontairement (liens). Les sections numérotées plus bas décrivent l'état à leur date ; **ce tableau prévaut**. Contrôles du 20 novembre : base de test Supabase (lecture seule), fonctions déployées, dépôt, contrôle GitHub vert sur `da6ae51`. Rien n'a été vérifié sur la base de production `majestios-crm`.
+
+| ID | Statut au 20 novembre 2026 | Preuve / limite |
+|---|---|---|
+| AUTH-01 | **Traité sur Test** ; production non faite | Fonction `provision-client-workspace` v2 déployée sur Test, activation obligatoire (mot de passe + politique de confidentialité) testée en automatique. |
+| AUTH-02 | **Partiel — à revalider** | Le consentement repose encore sur une donnée du compte modifiable par l'utilisateur ; une table d'activation côté serveur existe. À confirmer par un test réel. |
+| AN-04 | **Ouvert, non vérifié** | Test : 52 migrations appliquées ; dépôt : 51 fichiers. Production non comparée. |
+| AN-14 | **Résolu sur Test** | RLS maintenant activée sur `private.reputation_audit_usage`. L'alerte « RLS sans politique » (info) est voulue : accès par fonctions uniquement. |
+| AN-07 | **Non activable en offre gratuite** (21 novembre) | Supabase refuse le réglage « Leaked password protection » : réservé à l'offre Pro. Les règles de longueur et de complexité restent en place. À reprendre si le projet passe en Pro ; à tester sur le parcours de connexion après activation. |
+| AN-06 | **Partiel** | Sur Test : `cheexpeer-worker` v2 et 4 fonctions Cheexpeer actives. Le pont Git `cheexpeer-worker-bridge` n'est pas déployé. |
+| AN-02 | **Ouvert** | Tests réels inter-organisations owner/admin/member non démontrés. Test : 3 organisations, 3 membres. |
+| AN-13 | **Ouvert** | `complete_crm_reminder` n'est pas exécutable par `anon`, l'est par `authenticated` (attendu). Recette des rôles non faite. |
+| AN-05 | **Corrigé dans Git** (20 novembre) | Plus d'adresse dans le code de `bootstrap-internal-admin` ni dans ce registre ; la fonction lit le secret `INTERNAL_ADMIN_EMAIL` et refuse sans lui. Reste dans l'historique Git. **Poser le secret avant tout déploiement** ; production non vérifiée. |
+| AN-10 | **Ouvert, non vérifié** | Un workflow de sauvegarde existe ; restauration jamais testée ; Auth/secrets/Storage hors périmètre. |
+| CRM-06-VIP | **Bloqué (voulu)** | Fonctions d'import officiel non déployées sur Test ; recette multi-rôles non faite. |
+| CHEEXPEER-01 à 04 | **Ouverts** | Recette et déploiement à prouver. |
+| NAV-01-EVO8 | **Clos** | Corrigé en Evolution-8/9. |
+
+**Points obsolètes dans les sections plus bas :** « 93 ressources / 21 entrées » (aujourd'hui 143 ressources, 43 pages) ; « aucune modification des pages » (le mandat actuel est celui d'AGENTS.md) ; état du contrôle GitHub avant le 20 novembre.
+
+**Branche :** `Evolution-9`  
+**Base :** commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` d'Evolution-8  
+**Statut initial :** reprise et requalification en cours.
+
+## 1. Règle
+
+Une anomalie n'est clôturée que si la cause est comprise, la correction est présente sur Evolution-9, le test pertinent a été exécuté, le résultat est conservé et les limites restantes sont écrites. Un correctif de code seul n'est pas une preuve de recette.
+
+## 2. Anomalies héritées prioritaires
+
+| ID | Priorité | Domaine | Constat hérité | Statut initial sur Evolution-9 |
+|---|---|---|---|---|
+| AUTH-01 | P0 ciblé | OTP / provisionnement | Le code source `supabase/functions/provision-client-workspace/index.ts` et la migration RPC sont présents dans le dépôt ; la fonction n'était pas déployée sur les deux projets Supabase inspectés lors de l'audit Evolution-7. Le parcours OTP reste non recetté de bout en bout. | Ouvert — vérifier le déploiement actuel et réaliser une recette E2E avant ouverture des comptes |
+| AUTH-02 | P1 | Consentement / preuve | La fonction de provisionnement vérifie `user_metadata.privacy_notice_acknowledged` et `privacy_notice_version`, données modifiables par l'utilisateur ; l'enregistrement actuel ne constitue pas à lui seul une preuve robuste d'un consentement recueilli. | Ouvert — concevoir un reçu serveur horodaté, versionné et traçable, puis tester le parcours et les règles de conservation |
+| AN-04 | P1 | Parité Supabase | 22 migrations sur `majestios-crm` contre 39 sur `MajestiOS-Test` au contrôle en lecture seule du 11 novembre 2026 ; le frontend pointe vers `majestios-crm` | Ouvert — comparaison détaillée requise |
+| AN-14 | P1 critique | RLS / schéma privé | RLS désactivée sur `private.reputation_audit_usage` dans `MajestiOS-Test` ; ACL observée limitée à `postgres`, sans privilège direct `anon`/`authenticated` | Ouvert — vérifier exposition, privilèges et politiques |
+| AN-07 | P1 | Auth | Protection contre les mots de passe compromis désactivée sur le projet utilisé par le site | Ouvert — arbitrage après recette OTP |
+| AN-06 | P1 | Cheexpeer | Worker Edge `cheexpeer-worker` v1 déployé sur `MajestiOS-Test`, limité à `readiness_probe` ; pont Git `cheexpeer-worker-bridge` absent des déploiements observés ; aucun worker métier complet | Ouvert — non opérationnel métier |
+| AN-02 | P1 | Multi-tenant | Tests réels owner/admin/member et inter-organisations non démontrés | Ouvert — tests d'intégration nécessaires |
+| AN-13 | P1 | RPC CRM | `complete_crm_reminder` SECURITY DEFINER, recette réelle des rôles manquante | Ouvert — vérifier refus member et succès owner/admin |
+| AN-05 | P1 | Dépôt public | Identifiant administrateur codé en dur dans une fonction d'initialisation | Ouvert — revue d'exposition et externalisation |
+| AN-10 | P1 | Sauvegardes | Sauvegarde manuelle incomplète (Auth, paramètres, secrets, Storage non inclus) | Ouvert — définir et tester restauration |
+| CRM-06-VIP | P0 conditionnel | Import officiel VIP | Frontière VIP préparée dans le code, migration non appliquée et recette multi-rôles non démontrée | Bloqué avant activation de l'import privilégié |
+| CHEEXPEER-01 à 04 | P1 | Agent IA | Appartenance, quotas, rapprochement entreprise, prompt injection et transparence ; déploiement/recette à vérifier | Ouverts selon preuves Evolution-7 |
+
+Les constats proviennent des registres Evolution-7 et Evolution-8 ; ils doivent être revalidés sur le code et les environnements actuels avant toute correction ou clôture.
+
+## 3. Anomalie corrigée dans la branche précédente
+
+| ID | Priorité | Domaine | Cause | Correction Evolution-8 | Statut |
+|---|---|---|---|---|---|
+| NAV-01-EVO8 | P1 CI | Navigation | Le menu comptait 20 entrées et 18 destinations uniques, mais `verify-architecture.js` attendait encore 18 et 17. | Vérificateur aligné, route facturation ajoutée ; commit `4f471c06e7bf5dbbf9c88339a2ea0ed23d2f03c8`. Build Vercel Evolution-8 READY sur commit ultérieur, 81 fichiers. | Code corrigé ; exécution du workflow GitHub Actions après correction non confirmée. Rejouer le contrôle sur Evolution-9. |
+
+## 4. Risques préventifs à contrôler
+
+- branche, SHA et projet Vercel explicitement vérifiés avant chaque build ;
+- un seul projet Vercel relié au dépôt pour la cible de travail, anciens projets non réactivés par erreur ;
+- manifeste de publication et routes cohérents ;
+- tous les fichiers de tests référencés par les workflows présents ;
+- compteurs des menus synchronisés entre contrôles statiques et tests navigateur ;
+- scripts Node et Edge Functions validés avec la version Node attendue ;
+- secrets absents du dépôt et du navigateur ;
+- aucune migration distante sans comparaison, revue et retour arrière ;
+- aucune fonction métier déclarée opérationnelle sans preuve de déploiement et recette ;
+- liens Markdown et liens HTML vérifiés après synthèse documentaire ;
+- aucun document stratégique ne masque une anomalie critique.
+
+## 5. Contrôle documentaire ajouté
+
+Le script `verify-doc-links.js` vérifie les liens locaux des documents canoniques (README, AGENTS, index documentaire, registre critique et dossier Evolution-9). Il est appelé par le workflow `.github/workflows/verify-site.yml`. Son code et son intégration sont présents ; son exécution a été validée par GitHub Actions sur le commit `2438d8fd96f8e1d10676b8d193a5e99247096c67`.
+
+
+## 6. Corrections réalisées dans Evolution-9 — 11 novembre 2026
+
+| ID | Domaine | Cause constatée | Correction | Preuve |
+|---|---|---|---|---|
+| E9-CI-01 | Test navigateur | `tests/navigation-classique.browser.cjs` déclarait deux fois `devGroup` dans le même bloc, ce qui interrompait la vérification de syntaxe avant les tests. | Réutilisation de la variable déclarée dans le parcours desktop pour le parcours mobile. | Commit `c2d2e4d1c6bf18199a9bb80467b5f29d0e15696a` ; syntaxe passée ensuite. |
+| E9-ARCH-01 | Contrat de page d'accueil | `verify-architecture.js` exigeait encore l'ancien titre SEO et des formulations retirées lors de la refonte. | Assertions alignées sur le titre CRM tout-en-un, la promesse actuelle et l'avertissement des exemples de démonstration. | Commits `b448d44d79b396fa9c9974f1acb506c767f90620` et `f799d217f637d89bda175abe390fe301544704b5` ; vérificateur passé ensuite. |
+| E9-UX-01 | Contraste Accès VIP | Une règle CSS générale et une surcharge mobile imposaient un texte or/brun sur fond clair, malgré la signature prévue bleu nuit/or/chrome. | Couleur bleu nuit `#17324f`, filet or `#c5a45e`, fond transparent et repère chrome conservés ; surcharge mobile alignée. | Commits `8a93070600750cd4f112cfcddb73167fbaf8b31b`, `7f9e4f487ba2257fc7fac77dfb34d6e4e2c906b2` et `2438d8fd96f8e1d10676b8d193a5e99247096c67` ; test navigateur passé sur le dernier commit. |
+
+**Validation globale :** GitHub Actions run `43010921140`, commit `f87cc16fa9c4c155b73483e2059a72c9f487ef31`, conclusion `success`. Le run précédent `43010656594` avait également réussi après les corrections de code. Les contrôles de syntaxe, tests unitaires, build, vérifications architecture/site/documentation, tests navigateur, BOAMP/BODACC et contrat de sécurité CRM ont réussi. Cela ne valide pas les migrations, politiques RLS ou parcours réels sur Supabase distant.
+
+## 7. État de vérification
+
+À l'ouverture de cette branche :
+- les fichiers de tests appelés par `.github/workflows/verify-site.yml` ont été vérifiés présents par lecture GitHub ;
+- le vérificateur de navigation Evolution-8 a été corrigé ;
+- le build Vercel de prévisualisation Evolution-8 est READY ;
+- la suite GitHub Actions complète a réussi sur le commit `2438d8fd96f8e1d10676b8d193a5e99247096c67` (run `43010656594`) ;
+- les tests navigateur de navigation, recherche, Réputation virtuelle, contact et verrouillage sans session ont réussi dans ce run ;
+- la recette réelle Supabase et les tests inter-organisations restent à confirmer.
+
+Aucune donnée Supabase, migration distante, configuration Auth, secret ou production n'a été modifié dans cette reprise. Les vérifications de déploiement et de consentement restent en lecture seule.
+
+
+## 8. Audit CRM / Supabase — contrôle distant du 11 novembre 2026
+
+Rapport détaillé : [AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md](AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md).
+
+Constats confirmés en lecture seule :
+- Le frontend pointe vers `majestios-crm` (`qxaghcifdhugfskuscoc`) : 22 migrations appliquées, dernière migration `20261108181246_vip_only_crm_access`.
+- `MajestiOS-Test` (`qrlnnfjstoeliymxtkbk`) : 39 migrations appliquées, jusqu'à `20261109250000_cheexpeer_worker_server_bridge`.
+- La cible frontend n'a pas les migrations récentes d'historisation CRM, d'intégrité des relations et de fondation Cheexpeer présentes sur le projet de test.
+- `majestios-crm` expose actuellement trois fonctions Edge actives : recherche officielle, import officiel et bootstrap admin. Le provisionnement client et les fonctions Cheexpeer ne sont pas déployés sur cette cible.
+- `MajestiOS-Test` possède `cheexpeer-worker` v1, mais son exécuteur reste limité à `readiness_probe` sans effet externe métier. Le pont `cheexpeer-worker-bridge` du dépôt n'est pas déployé sous ce nom.
+- `private.reputation_audit_usage` garde RLS désactivée ; les privilèges directs relevés sont limités à `postgres`. Risque de défense en profondeur, sans preuve d'accès navigateur direct.
+- L'advisor du projet cible signale la protection contre les mots de passe compromis désactivée. L'advisor du projet de test signale le RPC `complete_crm_reminder` SECURITY DEFINER exécutable par `authenticated`, avec contrôle interne owner/admin à tester.
+
+**Aucune migration, donnée, fonction Edge, politique RLS, configuration Auth, clé ou secret distant n'a été modifié.** La convergence est bloquée jusqu'à décision sur le projet Supabase de référence et validation d'un plan de migration.
+
+
+## 9. Clarification de l'audit Supabase — 11 novembre 2026
+
+- **AN-04 — parité des environnements :** conserver le constat de 39 migrations sur `MajestiOS-Test` et 22 sur `majestios-crm`, mais requalifier : l'écart n'est pas en soi une anomalie de synchronisation ; il traduit deux rôles distincts (test/recette et projet ciblé par le frontend). Ouvert uniquement pour formaliser la gouvernance des promotions, pas pour synchroniser automatiquement.
+- **AN-14 — `private.reputation_audit_usage` :** RLS désactivée sur le projet de test, sans politique ; droits directs observés exclusivement pour `postgres`. Maintenir comme faiblesse de défense en profondeur, sans affirmer qu'un accès navigateur est démontré.
+- **AN-13 — RPC de relance :** sur `MajestiOS-Test`, `complete_crm_reminder` est SECURITY DEFINER, `authenticated` oui / `anon` non, et vérifie `auth.uid()` ainsi que `private.can_edit_crm_org`. Le rapport antérieur qui indiquait `is_org_admin` est corrigé. Sur `majestios-crm`, RPC SECURITY INVOKER via `private.is_org_editor`, avec RLS VIP owner/admin.
+- **CRM / accès pilote :** le frontend `crm-client.js` et les politiques de `majestios-crm` imposent actuellement l'accès interne owner/admin. Le CRM client ouvert aux entreprises pilotes n'est pas encore activé sur le projet principal.
+- **Cheexpeer :** le worker `cheexpeer-worker` v1 sur `MajestiOS-Test` est strictement en mode test et n'exécute que `readiness_probe`, sans effet externe métier.
+
+Ces précisions sont établies par lecture seule des projets le 11 novembre 2026. Aucune migration, donnée, politique, fonction ou configuration distante n'a été modifiée.
+
+## 10. Privilèges et historisation CRM — vérification distante
+
+- **CRM-03 / privilèges UPDATE :** la migration de restriction des colonnes est présente dans le socle de test mais pas sur majestios-crm. Sur le projet principal, authenticated peut encore modifier les colonnes id, organization_id, created_by, created_at et updated_at des tables businesses, contacts et opportunities, en plus des champs métier. Les contrôles RLS et triggers existants limitent certains scénarios, mais la protection frontend seule ne suffit pas. Priorité P1 avant pilote client ; préparer la migration, la tester et demander validation avant application distante.
+- **CRM-02 / historisation :** les triggers record_crm_activity() après INSERT/UPDATE sont présents sur MajestiOS-Test, absents sur les tables businesses, contacts et opportunities de majestios-crm. Le code frontend vérifie la présence de l'historique et peut afficher « Fiche modifiée, mais l'historique n'a pas pu être enregistré ». La migration d'historisation atomique est requise pour aligner le comportement du projet principal.
+- **AN-15 / triggers redondants de test :** dans MajestiOS-Test, deux triggers BEFORE INSERT/UPDATE par table CRM appellent la même fonction d'intégrité tenant (*_enforce_tenant_integrity et *_tenant_integrity). Dette de nettoyage P2, sans impact fonctionnel démontré ; ne pas supprimer avant analyse des migrations et des dépendances.
+
+Le détail des contrôles et des limites figure dans la section 11.7 du rapport d'audit. Aucun changement distant n'a été effectué.
+
+
+## 11. Complément audit CRM métier — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Statut / traitement |
+|---|---|---|---|---|
+| CRM-04 | P2 | Robustesse des écritures frontend | Les fonctions create* du client CRM acceptaient des objets sans liste blanche explicite par table. | **Corrigé dans Evolution-9** : listes blanches par table, champs d'organisation/auteur imposés côté client, test de contrat ajouté. Le contrôle « Vérifier le contrat de sécurité du CRM » a réussi sur le commit 5976681bc72f089c9bdb94a26951a7622254267a. Cette correction ne remplace pas les protections SQL. |
+| CRM-05-01 | P1 avant pilote | Recette fonctionnelle et multi-tenant | Aucun parcours E2E complet du CRM n'est actuellement exécuté dans le workflow : création, édition, historique, relance et refus inter-organisations ne sont pas testés ensemble contre une base de test avec plusieurs identités. | **Ouvert** : préparer une recette automatisée sur MajestiOS-Test, avec organisations et comptes synthétiques, sans toucher au projet principal. |
+| CRM-06-TRACE | P2 avant automatisation serveur | Traçabilité des écritures système | Le trigger d'historisation utilise auth.uid() pour actor_user_id ; une écriture déclenchée avec le rôle service peut donc être historisée sans acteur humain identifié. | **À concevoir** : ajouter une attribution système/mission explicite et traçable avant les imports automatisés et les missions Cheexpeer. Ne jamais attribuer artificiellement l'action à un utilisateur humain. |
+
+Le CRM interne reste limité aux rôles owner et admin. Le chemin d'interface viewer actuellement présent est inaccessible avec cette règle ; il ne constitue pas une activation du CRM client. Les rôles du futur CRM client devront être définis séparément et testés par tenant.
+
+
+## 12. Exigence structurante phase 2 — CRM et facturation électronique
+
+| ID | Priorité | Domaine | Constat / risque | Statut / traitement |
+|---|---|---|---|---|
+| FACT-01 | P1 avant conception du schéma phase 2 | CRM / facturation / interopérabilité | Aucun domaine de facturation opérationnel ni cycle complet PA n'est démontré dans les environnements audités. Le risque est de concevoir un CRM qui ne pourrait pas relier proprement devis, prestations, factures, transmission, règlements et CRM externes, ou de créer des doubles sources de vérité. | **Évolution phase 2 cadrée** : spécification cible créée dans Evolution-9. Préserver les identifiants et liens métier dès le CRM actuel ; concevoir le domaine de facturation séparément ; définir les modes natif/connecté/hybride, la source de référence par objet et l'idempotence avant développement. Aucun connecteur PA ni module n'est déclaré opérationnel. |
+
+Référence canonique : [Spécification cible CRM, facturation et facturation électronique](SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md). Le client ne doit pas être contraint d'abandonner son CRM existant ; les factures ne doivent jamais être créées en double dans deux systèmes.
+
+## 13. Préparation de la recette CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Action préparatoire | Statut |
+|---|---|---|---|---|
+| CRM-05-02 | P1 avant pilote | Recette fonctionnelle / multi-tenant | Protocole détaillé ajouté : rôles, entreprises, contacts, opportunités, activités, historisation, relances, permissions SQL et tests négatifs entre deux tenants sur `MajestiOS-Test`. | **Protocole préparé — NOT RUN** ; exécution conditionnée à des comptes et données synthétiques et à une autorisation explicite d'écriture sur le projet de test. |
+
+Référence : [Protocole de recette CRM sur MajestiOS-Test](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md). Ce livrable ne clôt pas CRM-05 et ne constitue pas une validation de sécurité ou d'ouverture des pilotes.
+
+
+## 14. Recontrôle lecture seule du projet de recette — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat actualisé | Statut |
+|---|---|---|---|---|
+| CRM-05-03 | P1 avant pilote | Recette multi-tenant | 39 migrations présentes ; tables CRM vides ; une seule organisation interne sans membre ; aucun tenant client/partenaire ni utilisateur synthétique. | Protocole prêt, exécution bloquée par l'absence d'identités/tenants de recette. Préparer un provisionnement synthétique contrôlé avant tests JWT. |
+| AN-15 | P2 | Triggers d'intégrité redondants | Deux triggers par table businesses, contacts, opportunities et activities appellent `enforce_tenant_relationship_integrity`. | Confirmé en lecture seule sur MajestiOS-Test ; analyser les migrations et dépendances avant toute suppression. |
+| CRM-03 | P1 avant pilote | Privilèges UPDATE | Le projet de test possède les privilèges UPDATE limités aux colonnes métier ; les colonnes système ne sont pas accordées à authenticated. | Présence distante confirmée sur MajestiOS-Test ; le projet principal reste à part et n'est pas modifié. |
+| CRM-02 | P1 avant pilote | Historisation | Triggers d'historisation présents et actifs sur businesses, contacts et opportunities dans le projet de test. | Présence distante confirmée ; recette transactionnelle réelle encore requise. |
+| CRM-REM-01 | P1 avant pilote | Relances | Job pg_cron actif toutes les cinq minutes ; RPC SECURITY DEFINER authentifié avec contrôle de droits tenant dans le corps. | Configuration présente ; tests de rôles, tenant, doublons et clôture atomique non exécutés. |
+
+Le contrôle est documenté dans le [rapport d'audit](AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md) et le [protocole de recette](PROTOCOLE-RECETTE-CRM-MAJESTIOS-TEST.md). Aucune écriture distante n'a été effectuée.
+
+
+## 15. Non-régression et harmonisation visuelle — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| HOME-01 | P1 | Accueil / moteur de recherche | L'accueil centré sur la recherche d'Evolution-7 avait été remplacé par une présentation conceptuelle CRM. `index.html` restauré depuis Evolution-7. | Corrigé ; CI et test navigateur réussis |
+| NAV-01-EVO9 | P1 | Navigation multi-pages | Les menus doivent utiliser le chargeur partagé et rester accessibles depuis toutes les pages publiques. Les contrôles statiques et navigateurs couvrent desktop et mobile. | Contrôle CI réussi |
+| VIS-01 | P1 | Harmonisation graphique | Socle commun ajouté pour géométrie, typographie, espacements, états, focus clavier et cibles tactiles dans `navigation-tiroirs.css`. | Socle livré ; revue visuelle détaillée page par page encore requise |
+
+La matrice et les limites de recette sont documentées dans [l'audit de non-régression Evolution-7](AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md). La réussite des tests du site ne vaut pas recette CRM multi-identités ni validation visuelle exhaustive. Aucune promotion production n'est autorisée par ce constat.
+
+
+## 16. Assistant MajestiOS — visibilité et espace dédié — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / cause | Correction Evolution-9 | Statut |
+|---|---|---|---|---|---|
+| CHAT-01 | P1 | Assistant / visibilité | Le guide conversationnel de première génération existait dans `app.js`, mais ses styles étaient isolés dans `navigation-majestios.css`, une feuille non chargée par le socle commun et mêlée à d'anciennes règles de navigation. | Extraction des seuls styles du chatbot dans `majestios-chat.css`, chargement commun par `app.js`, ajout d'un espace dédié `assistant-majestios.html` et d'une entrée de navigation. | Code et tests ajoutés ; résultat CI à confirmer |
+| CHAT-02 | P1 | Capacité IA | Le guide actuel répond à partir de mots-clés et de réponses prédéfinies. Il ne constitue pas un agent IA connecté ; aucun fournisseur conversationnel n'est configuré dans ce parcours. | L'espace dédié indique explicitement la limite et réserve les points de raccordement : moteur, contexte utilisateur, autorisations, journalisation et transfert humain. | Ouvert — intégration IA à concevoir et recetter |
+
+Le chatbot de première génération reste un guide d'orientation local, accessible par le bouton flottant « Parler à MajestiOS ». Il ne doit pas être présenté comme Cheexpeer ni comme un agent autonome. L'espace dédié le signale comme actif, tout en indiquant que le moteur IA avancé reste à raccorder ; aucune action métier n'est déclenchée.
+
+
+## 17. Consolidation de la navigation — 11 novembre 2026
+
+La feuille `navigation-tiroirs.css` a été réécrite en une seule source de styles afin de supprimer les couches contradictoires héritées. Elle conserve une barre transparente et compacte, des sous-menus clairs avec profondeur, des accents par rubrique, un accès VIP distinctif et un tiroir mobile avec overlay. Les états clavier, tactile, actif et réduction des animations sont conservés.
+
+Les tests navigateur couvrent désormais la hauteur de barre, la typographie desktop, le fond des sous-menus, la largeur du tiroir mobile et l'accès à l'espace Assistant. **La validation visuelle par captures sur plusieurs pages et tailles d'écran reste à effectuer avant clôture.**
+
+## 18. Revue complémentaire du code UI — pré-audit visuel du 11 novembre 2026
+
+Cette revue est réalisée à partir des sources de la prévisualisation Evolution-9. Elle permet de relever des risques de comportement et de cohérence ; elle ne remplace pas une inspection réelle du rendu sur plusieurs navigateurs et tailles d'écran.
+
+| ID | Priorité | Domaine | Constat vérifiable dans le code | Amélioration / contrôle demandé | Statut |
+|---|---|---|---|---|---|
+| NAV-02-AUDIT | P1 | Menu desktop / survol | Dans `navigation-tiroirs.css`, le sous-menu commence à `top: calc(100% + 5px)`. Dans `navigation-tiroirs.js`, sa fermeture est déclenchée dès le `mouseleave` de la rubrique parente. L'espace de 5 px peut donc provoquer la fermeture pendant le déplacement du pointeur vers le sous-menu. | Supprimer la zone morte (sous-menu à `top: 100%` ou pont de survol) et ajouter un test navigateur qui déplace réellement le pointeur du titre vers plusieurs liens du sous-menu. | À corriger / tester |
+| CHAT-03-AUDIT | P1 | Espace Assistant / ergonomie | `assistant-majestios.html` affiche une zone de saisie et un bouton Envoyer désactivés, alors que le guide local fonctionnel est uniquement accessible via le bouton flottant injecté par `app.js`. L'utilisateur voit donc une fausse zone de conversation inactive sur la page dédiée. | Remplacer le formulaire inactif par un accès explicite et fonctionnel au guide local, ou intégrer réellement le guide dans cette page. Garder une séparation claire entre guide local et futur Cheexpeer IA. | À améliorer |
+| VIS-02 | P1 | Cohérence visuelle multi-pages | Le socle de navigation est commun, mais les pages chargent des feuilles de style propres à leur rubrique et dans des ordres différents. La seule réussite du build et des tests ciblés ne prouve pas l'harmonisation de toutes les pages. | Faire une revue page par page : accueil, appels d'offres public/privé, développement commercial, réseau, réputation virtuelle, CRM, espaces privés/VIP, facturation électronique, assistant, contact et pages d'information. Contrôler desktop/tablette/mobile, contraste, tailles, marges, cartes, formulaires, tableaux et états interactifs. | Ouvert — recette visuelle requise |
+| NAV-03 | P2 | Navigation / repérage | Les sept familles et leurs sous-rubriques sont générées par JavaScript, qui remplace le contenu initial du menu HTML. Une erreur de chargement du script peut donc laisser une navigation différente de celle attendue. | Ajouter un contrôle de secours sans JavaScript ou un état de repli accessible, et vérifier que chaque page publique charge bien le script partagé. | À vérifier |
+
+**Limite de preuve :** la prévisualisation Vercel est READY sur le commit `034350087656a981755c22b2cff64550d001433b`, mais aucune capture ni recette visuelle réelle n'a encore été produite. Les éléments ci-dessus sont des constats de code ou des contrôles à réaliser, pas des défauts visuels prétendument observés à l'écran.
+
+
+## 19. Harmonisation de l'accès VIP — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / exigence | Traitement Evolution-9 | Statut |
+|---|---|---|---|---|---|
+| VIP-VIS-01 | P1 | Espace privé / Accès VIP | La page de choix des accès (espace-prive.html) possédait une présentation autonome et ne chargeait pas explicitement la charte graphique commune, contrairement aux pages publiques harmonisées. L'accès VIP doit être identifiable comme un espace MajestiOS, sans rupture visuelle avec le site. | Chargement explicite de charte-majestios.css après styles.css, tout en conservant la distinction visuelle VIP bleu nuit/or et les deux parcours sécurisés. Ajout d'une assertion dans verify-site.js pour empêcher la régression. | Correction de code et contrôle statique ajoutés ; CI et recette visuelle à confirmer. |
+
+**Périmètre :** harmoniser la page d'entrée et ses repères de marque, sans modifier les règles d'authentification, les rôles, les liens d'accès ni les protections de l'espace interne. Le cockpit d'administration conserve sa mise en page dédiée, mais doit rester dans le même langage bleu nuit / or / chrome. Aucune capture ni validation visuelle réelle n'est revendiquée à ce stade.
+
+
+## 20. Facturation électronique — conformité réglementaire et liens officiels — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / risque | Traitement Evolution-9 | Statut |
+|---|---|---|---|---|---|
+| FE-01 | P1 | Information réglementaire | La page expliquait le calendrier et les plateformes agréées, mais le message de mise en conformité et l'appel à l'action pour les entreprises n'étaient pas assez visibles. | Ajout d'un bloc prioritaire rappelant que les entreprises assujetties à la TVA doivent se préparer, y compris les micro-entrepreneurs en franchise en base ; clarification de la réception dès septembre 2026 et de l'émission/e-reporting PME au 1er septembre 2027 ; ajout du simulateur officiel. | Correction de contenu enregistrée ; CI à confirmer |
+| FE-02 | P1 | Liens externes | Les liens officiels doivent mener vers les pages actives et faire comprendre leur objet. | Vérification web le 11 novembre 2026 des cinq URL déjà présentes : découverte de la réforme, liste des plateformes agréées, calendrier, modalités d'émission/réception et définition d'une facture envoyée par mail. Les cinq pages officielles impots.gouv.fr s'ouvrent. Ajout du lien vers le simulateur officiel. | Liens contrôlés individuellement ; contrôle périodique recommandé |
+| FE-03 | P1 | Exactitude / positionnement | Risque de confusion entre logiciel compatible et plateforme agréée, ou de présenter MajestiOS comme opérateur réglementaire. | Conservation de la mention explicite : MajestiOS n'est pas une plateforme agréée ; aucun partenaire ni connecteur PA n'est présenté comme opérationnel. | Conforme au positionnement de conception |
+
+**Références officielles contrôlées :** impots.gouv.fr — « Je découvre la facturation électronique » (mise à jour du 26 mai 2026), « Je consulte la liste des plateformes agréées » (mise à jour du 9 novembre 2026), questions relatives au calendrier, aux modalités d'émission/réception et au PDF envoyé par e-mail. Les échéances et obligations doivent toujours être relues sur les sources officielles avant toute nouvelle publication ou évolution du parcours.
+
+
+## 21. Corrections après inventaire transversal — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat confirmé | Traitement Evolution-9 | Statut |
+|---|---|---|---|---|---|
+| REP-UI-01 | P1 | Réputation virtuelle / interface publique | La page exposait le formulaire principal de préparation d'audit ainsi que les formulaires Google Web et Maps, contrairement à la consigne du porteur de projet. | Les trois contrôles sont masqués dans l'interface publique ; les traitements et sélecteurs internes sont conservés dans le DOM pour éviter une suppression fonctionnelle prématurée. Le panneau visible devient un espace de suivi des analyses et constats vérifiés. | Code et assertions statiques/navigateur ajoutés ; recette navigateur à exécuter. |
+| NAV-02-CORR | P1 | Navigation desktop | Le sous-menu était décalé de 5 px sous son parent, avec fermeture au `mouseleave`, créant une zone morte possible. | Alignement du sous-menu à `top: 100%` et ajout d'un test qui déplace le pointeur du titre vers un lien du sous-menu. | Correction de code et test ajoutés ; recette navigateur à exécuter. |
+| CI-01 | P1 CI | Installation Playwright | Le dernier run `43032901155` échoue à l'étape d'installation Chromium : `playwright install --with-deps` déclenche APT, dont les miroirs Ubuntu sont injoignables (`Temporary failure resolving`). Les contrôles syntaxe, tests Node, build, architecture, site et liens documentaires précédant cette étape ont réussi ; les tests navigateur suivants ont été ignorés. | Suppression de `--with-deps` pour utiliser les dépendances déjà présentes sur le runner GitHub standard et éviter l'étape APT réseau. | Correction du workflow à vérifier sur une nouvelle exécution CI. |
+
+**Limite :** aucune validation visuelle réelle n'est revendiquée. La modification de la commande Playwright ne prouve pas encore que Chromium démarre correctement sur le runner ; le prochain run doit le confirmer.
+
+
+## 22. Exigence utilisateur — navigation strictement identique sur toutes les pages — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Exigence / traitement | Statut |
+|---|---|---|---|---|---|
+| NAV-04 | P1 | Parité de navigation multi-pages | Le menu public est généré par `navigation-tiroirs.js` et ses styles sont centralisés dans `navigation-tiroirs.css`, chargés directement ou via `app.js`. Le test navigateur contrôlait surtout l'accueil et quelques destinations, sans comparer la structure complète sur chaque page publiée. Le CRM (`crm.html`) possède une navigation métier dédiée ; les écrans `administration.html`, `admin-recherches.html` et `espace-interne.html` ont des interfaces privées dédiées. | Une seule barre publique de référence partout où la navigation publique est attendue : mêmes familles, libellés, ordre, liens, dimensions, styles, états actifs, sous-menus et comportements desktop/mobile. Toute exception privée doit être explicitement identifiée, cohérente avec la charte MajestiOS et ne pas être confondue avec une divergence accidentelle. | Test navigateur étendu sur toutes les pages HTML publiques du manifeste ; exécution CI et contrôle visuel encore requis. La parité CRM/cockpit privé reste à examiner séparément avant clôture. |
+
+### Critères de recette NAV-04
+
+- [ ] Inventorier chaque page HTML du manifeste et classer les pages publiques, l'entrée VIP, le CRM et les cockpits privés.
+- [ ] Comparer automatiquement sur chaque page publique la liste ordonnée des familles, les libellés, les destinations, la hauteur de barre et la présence du hamburger.
+- [ ] Vérifier les états actif, survol, focus clavier, ouverture/fermeture des sous-menus et navigation tactile.
+- [ ] Répéter la recette à 1440 px et 390 px au minimum ; ajouter tablette si le runner le permet.
+- [ ] Vérifier visuellement les pages d'entrée VIP et CRM : même langage de marque, contraste, compacité et absence de conflit entre navigation globale et navigation métier.
+- [ ] Ne pas considérer un contrôle statique ou un build réussi comme une preuve de rendu visuel.
+- [ ] Ne clôturer NAV-04 qu'après CI verte, captures comparatives et revue des exceptions privées.
+
+**Modification de test :** le test `tests/navigation-classique.browser.cjs` compare désormais la structure complète du menu sur les pages HTML publiques présentes dans `site-files.json`, puis revient à l'accueil pour poursuivre les scénarios existants. Modifications desktop et mobile enregistrées dans les commits `8244bead2394a4ca5cd0849df9fbef25cb810243` et `3bdc29cb35a9146c8a010bce56438c3758f38d5c`. Le registre et le README ont été mis à jour dans les commits `662fb4abab3ef66c3a7826931e99cf1f3000cacc` et `daaa209ef4faf52a2cca9156e55d359eaa369c5a`. Les écrans CRM et cockpits privés sont exclus de cette comparaison publique et restent explicitement dans le périmètre de revue dédié. Cette exclusion est provisoire : elle ne vaut pas dérogation à la demande d'une navigation cohérente sur toutes les pages ; il reste à harmoniser leur navigation spécifique sans supprimer leurs accès métier.
+
+**Limite de preuve :** le test a été modifié sur Evolution-9 ; il n'a pas encore été exécuté après cette modification. Aucune correction visuelle ou déploiement n'est déclaré à ce stade.
+
+
+## 23. Exigence utilisateur — harmonisation de la charte graphique multi-espaces — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Exigence / traitement | Statut |
+|---|---|---|---|---|---|
+| UX-02 | P1 | Identité graphique transversale | Une feuille centrale `charte-majestios.css` définit déjà des variables bleu nuit/or et des composants communs. Elle est chargée sur le CRM et l'espace privé, mais les interfaces `administration.html` et `espace-interne.html` reposent sur leurs propres palettes et feuilles CSS. Le CRM utilise aussi plusieurs surfaces claires et styles métier spécifiques. La présence d'une feuille commune ne prouve donc pas l'uniformité visuelle de toutes les pages. | Harmoniser toutes les pages publiques et privées autour d'un langage visuel MajestiOS commun : bleu nuit, or, chrome/acier, typographies et échelles cohérentes, rayons, bordures, ombres, boutons, champs, cartes, états actifs/focus/erreur/succès et responsive. Conserver des variations de surface justifiées par l'usage (cockpit sombre, formulaires clairs, etc.) uniquement si elles restent dans la même grammaire graphique et respectent le contraste. | Ouvert — audit comparatif et recette visuelle à réaliser avant toute clôture. |
+
+### Critères de recette UX-02
+
+- [ ] Définir les tokens canoniques (couleurs, surfaces, textes, typographies, espacements, rayons, ombres, bordures, focus et états) dans la charte centrale, sans multiplier les sources de vérité.
+- [ ] Inventorier les feuilles CSS globales, spécifiques et styles inline ; repérer les couleurs concurrentes, doublons et surcharges qui contredisent la charte.
+- [ ] Harmoniser l'identité de l'accueil, des pages publiques, de l'espace privé/VIP, du CRM, de l'administration et de l'espace collaborateurs.
+- [ ] Garder les contrastes accessibles : le chrome est un accent et non un texte pâle sur fond clair ; les textes et commandes restent lisibles.
+- [ ] Unifier boutons, champs, cartes, tableaux, alertes, badges, liens, focus clavier et états désactivés, sans supprimer de fonction ni d'information.
+- [ ] Vérifier desktop (1440 px), tablette et mobile (390 px), y compris débordements, densité, tailles tactiles et hiérarchie visuelle.
+- [ ] Contrôler ensemble navigation et charte : même barre globale, même signature de marque, sous-menus lisibles ; espaces métier gardant uniquement les adaptations nécessaires.
+- [ ] Comparer des captures avant/après sur les pages de référence et vérifier les parcours réels ; une simple présence de `charte-majestios.css` ou un build réussi ne suffit pas.
+- [ ] Ne clôturer UX-02 qu'après tests automatisés, revue visuelle multi-pages et validation de non-régression fonctionnelle.
+
+**Pages à inclure explicitement dans la comparaison :** accueil, une page de rubrique publique, résultats de recherche, espace privé (entrée VIP), espace collaborateurs, CRM interne, administration et recherches ciblées.
+
+**Garde-fou :** ne pas imposer un fond sombre uniforme à toutes les pages. L'objectif est une identité cohérente et premium, pas une uniformisation qui dégrade la lecture, les formulaires ou l'ergonomie. Aucun changement de données, de droits ou de services distants n'est autorisé par cette exigence graphique.
+
+
+## 24. Correction de recette et harmonisation initiale des espaces — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause / correction | Statut |
+|---|---|---|---|---|
+| CI-02 | P1 CI | Test de navigation mobile | Le tableau `publicPages` était déclaré après sa première utilisation dans le parcours mobile, provoquant une erreur TDZ. Sa déclaration a été remontée avant les parcours. | Corrigé dans le code ; run de confirmation en cours. |
+| NAV-05 | P2 | Passerelle d'accès privé | `espace-prive.html` est une page autonome `noindex` de choix d'accès, sans barre publique. Elle est explicitement exclue de la recette de parité publique ; la page et ses parcours d'accès sont conservés. | Exception documentée dans le filtre de recette. |
+| UX-03 | P1 | Tokens graphiques privés | Une couche `charte-majestios-espaces.css` harmonise les accents or, les familles typographiques, les rayons de contrôles et le focus clavier pour CRM, administration, recherches ciblées et espace collaborateurs. Les fonds restent adaptés à chaque usage. | Première couche de code intégrée ; recette visuelle et CI à confirmer. |
+
+**Limite de preuve :** le premier correctif a supprimé l'erreur TDZ ; le run suivant a révélé l'absence normale de hamburger sur la passerelle autonome `espace-prive.html` et le sélecteur trop restrictif `#menu-toggle`. La recette utilise désormais `.menu-toggle`, conformément au script partagé. Aucune validation visuelle multi-pages n'est revendiquée à ce stade.
+
+
+## 25. Source unique des tokens et correction NAV-06 — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause / correction | Statut |
+|---|---|---|---|---|
+| NAV-06 | P1 | Contrat du bouton mobile | Certaines pages historiques utilisent la classe `.menu-toggle` sans identifiant `menu-toggle`. Le script partagé accepte les deux formes ; le test a été aligné sur ce contrat et la modification inutile de `majestios-v5.html` a été annulée. | Corrigé ; CI verte sur HEAD 905041b. |
+| UX-04 | P1 | Source des tokens | La première couche privée consommait des variables définies uniquement par `charte-majestios.css`, absente de certains espaces privés. Les valeurs communes sont maintenant extraites dans `charte-majestios-tokens.css`, importée par les deux feuilles de composants. | Source commune intégrée ; build et recette à confirmer. |
+
+**Garde-fou :** les pages privées ne chargent pas la feuille de composants publics complète ; elles consomment uniquement les tokens partagés et leur couche d'adaptation. Les surfaces et mises en page spécifiques sont conservées.
+
+
+## 26. Correction de l'assertion URL Assistant — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause / correction | Statut |
+|---|---|---|---|---|
+| CI-03 | P1 CI | Recette de navigation Assistant | L'assertion finale utilisait un antislash supplémentaire dans son expression régulière : le navigateur ouvrait correctement `assistant-majestios.html`, mais le test rejetait l'URL. L'expression est alignée sur la forme utilisée par les autres assertions. | Corrigé dans le test ; exécution CI complète à confirmer. |
+
+**Preuve intermédiaire :** le parcours mobile a dépassé l'ensemble des pages publiques jusqu'au contrôle du menu Assistant ; l'échec était une assertion URL, pas une panne de navigation. La recette complète reste ouverte jusqu'au run vert.
+
+
+## 27. Résultat de la recette automatisée — 11 novembre 2026
+
+**CI-04 — SUCCESS** Le workflow `verify-site.yml` est entièrement vert sur le commit `92344c68f075c5631493f451123959dc850f78f3` : [run 43042242471](https://github.com/Chexpeer/Majestios/actions/runs/43042242471).
+
+- Build : 86 ressources copiées depuis le manifeste, sans différence avec les sources.
+- Architecture : 39 pages HTML et 86 ressources vérifiées.
+- Site : liens locaux et identifiants contrôlés.
+- Documentation : 14 fichiers canoniques et liens présents.
+- Navigateurs : Prospection, navigation desktop/mobile et chatbot réussis ; moteur de recherche et Réputation virtuelle réussis ; contact sans transmission et verrouillage du cockpit sans session réussis.
+- APIs publiques : contrôles BOAMP et BODACC réussis sur les échantillons du test.
+
+**Statut des anomalies :** les erreurs de recette CI-02/CI-03 sont corrigées ; NAV-04 passe désormais ses contrôles automatisés. UX-02/UX-03/UX-04 disposent d'une première couche de tokens commune intégrée. La recette visuelle multi-pages, les captures comparatives et l'inspection des états interactifs restent ouvertes. La CI verte ne vaut pas validation visuelle ni déploiement.
+
+
+## 28. Prévisualisation Evolution-9 après recette CI — 11 novembre 2026
+
+**Déploiement Vercel : READY**  
+URL unique : https://majestios-q75r1hk52-majistr.vercel.app  
+Alias de branche : https://majestios-git-evolution-9-majistr.vercel.app  
+Commit : `2c2bc988c71f3178b3ea33ab1bebcde725dba5cf`  
+Projet : `majestios` (`prj_efmheKwiXnsncdhJYLmNIWN9QYQL`)  
+Cible : Preview, aucune promotion production.
+
+Le déploiement est prêt et correspond exactement au commit de la recette CI verte. La protection SSO du projet reste activée. L'ouverture non authentifiée du preview depuis l'outil web n'a pas permis d'inspecter le rendu ; aucune validation visuelle n'est donc revendiquée. Ne pas désactiver la protection : la revue visuelle doit être faite depuis une session autorisée.
+
+
+## 29. Garde-fous automatiques de la charte — 11 novembre 2026
+
+| ID | Priorité | Domaine | Contrôle ajouté | Statut |
+|---|---|---|---|---|
+| UX-05 | P1 | Régression des tokens graphiques | `verify-architecture.js` contrôle désormais la présence des tokens centraux dans le manifeste, leur import par les deux feuilles de composants et le chargement de la couche privée sur CRM, administration, recherches ciblées et espace collaborateurs. | Contrôle statique ajouté ; CI à confirmer. |
+
+Ce contrôle vérifie le contrat de chargement et de source unique ; il ne remplace pas la recette du contraste, du rendu, des tailles et des états interactifs dans un navigateur.
+
+
+## 30. CI verte et reprise CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause / correction | Statut |
+|---|---|---|---|---|
+| CI-05 | P1 CI | Validation globale Evolution-9 | Le workflow `verify-static-site` a réussi sur le HEAD `905041b6c736a1c66adade91561beb623c67a1fe` (run 43042947816). Les tests navigateur desktop/mobile et les contrôles CRM statiques sont inclus. | CI verte (SUCCESS). |
+| CRM-06-SEC | P0 | Sécurité du CRM sur le projet principal | L'audit lecture seule constate encore des privilèges UPDATE trop larges et l'absence des triggers d'historisation sur `majestios-crm`. Les migrations correctives sont présentes dans Git mais non appliquées à distance. | Bloqué : plan et autorisation Supabase requis. |
+| CRM-07 | P1 | Recette multi-tenant | Le protocole de test existe, mais les identités/organisations synthétiques et scénarios JWT multi-rôle ne sont pas exécutés. | Préparé, NOT RUN. |
+| F2-01 | P2 | Préparation facturation CRM | Le CRM actuel ne possède pas de domaine facture opérationnel ni d'adresse/contact de facturation distincts. La cible est cadrée en phase 2, domaine séparé relié au CRM. | Cadrage documenté ; aucune implémentation revendiquée. |
+
+**Limite :** la CI verte ne prouve ni la sécurité effective du projet Supabase distant, ni une recette métier multi-utilisateur, ni la validation visuelle. Aucun changement Supabase/Vercel n'a été effectué.
+
+
+## Journal historique — Audit Cheexpeer, worker et pont serveur — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié dans le code Evolution-9 | Traitement / statut |
+|---|---|---|---|---|
+| CHX-05 | P1 CI | Déclenchement des tests worker | `.github/workflows/cheexpeer-worker.yml` ne déclenchait les tests push que sur Evolution-7 et Evolution-8. Les modifications du worker sur la branche active Evolution-9 pouvaient donc échapper à cette suite spécialisée. | **Corrigé dans le code** : Evolution-9 ajouté au filtre de branches ; test de contrat ajouté pour empêcher la régression. Exécution de la nouvelle suite encore attendue. |
+| CHX-06 | P1 produit | Exécution métier Cheexpeer | `services/cheexpeer-worker/src/index.mjs` ne possède qu'un exécuteur réel : `readiness_probe` avec autonomie 0, sans effet externe. Toute autre mission est explicitement refusée avec `UNSUPPORTED_EXECUTOR`. | Garde-fou fail-closed présent ; **aucune capacité métier autonome n'est livrée par ce worker**. Construire et recetter un premier handler avant toute promesse opérationnelle. |
+| CHX-07 | P1 fiabilité | Missions longues / bail de traitement | Le pont expose `renew_lease` et la RPC SQL correspondante, mais le worker Node ne renouvelle pas le bail pendant l'exécution. | Sans impact démontré sur le probe bref actuel. Bloquant pour les handlers longs : implémenter heartbeat/renouvellement, arrêt propre et test d'expiration avant de les activer. |
+| CHX-08 | P1 exploitation | Déploiement et raccordement | Le code du pont Edge est présent dans Git. Le dernier audit distant en lecture seule consignait le worker v1 sur `MajestiOS-Test`, limité au probe, et l'absence du pont sous le nom attendu. | **Non vérifié à nouveau dans cette passe** ; aucun déploiement, secret ou paramètre distant modifié. Vérifier explicitement les versions et variables sur le projet de test avant recette. |
+
+### Contrôles de sécurité constatés dans le code
+
+- Le pont Edge exige un secret partagé indépendant avant de créer le client Supabase de service ; comparaison en temps constant.
+- Les actions RPC sont limitées à une liste explicite ; aucune méthode RPC n'est construite à partir d'une chaîne libre fournie par le client.
+- Les identifiants worker/mission et identifiants de messages sont validés ; corps et résultat sont plafonnés ; le pont n'active pas CORS navigateur.
+- Le worker utilise la clé service-role uniquement côté serveur. Son absence de configuration provoque un arrêt au démarrage ; ne jamais exposer ces variables au frontend ou au dépôt.
+- Le registre SQL refuse de réclamer une mission métier sans outil activé et approuvé ; le probe autonomie 0 est l'unique exception observée.
+
+**Limite de preuve :** lecture statique du code et des migrations uniquement. Les tests unitaires/contrats ne prouvent ni le déploiement du pont, ni l'exécution réelle sur Supabase, ni la sécurité de la configuration distante. Aucune donnée, migration, fonction Edge, clé ou secret Supabase n'a été modifié.
+
+
+**Preuve CI CHX-05 — 11 novembre 2026 :** le workflow spécialisé `Cheexpeer worker contract` a réussi sur le commit `e401eb13be6ad395d4f63a596f2761efd07aefe5` (run [43044831310](https://github.com/Chexpeer/Majestios/actions/runs/43044831310)). Les étapes `Syntax check` et `Policy tests` sont toutes deux `success`. Cette preuve confirme l'exécution de la suite de contrats sur Evolution-9 ; elle ne prouve pas le déploiement du worker ni sa recette Supabase distante.
+
+
+## Journal historique — Audit des surfaces produit et des capacités spécialisées — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Statut / conséquence |
+|---|---|---|---|---|
+| CHX-09 | P1 produit | Assistant conversationnel | `assistant-majestios.html` annonce explicitement « Guide local actif · IA à raccorder » et désactive la saisie de sa console. Le widget généré par `app.js` répond à partir d'une liste locale de mots-clés/rubriques ; il n'appelle pas de modèle IA, ne crée pas de mission et ne réalise aucune action métier. | Comportement transparent et cohérent avec un guide de première génération. **Ce chatbot n'est pas Cheexpeer** et ne doit pas être présenté comme l'agent transversal livré. |
+| CHX-10 | P1 capacité | Réputation virtuelle | Le registre des sources classe l'identité officielle et BODACC comme sources automatisées disponibles dans le code ; Google Web/Maps sont manuels ; les plateformes sociales sont planifiées et sans connexion automatisée. L'analyse IA est conditionnée à la présence de clé, modèle et endpoint serveur ; sinon la fonction retourne une collecte seule, sans diagnostic. | Brique spécialisée partiellement implémentée ; aucune couverture exhaustive de réputation web/sociale ni score global. Le déploiement et le fournisseur actif restent à vérifier à distance. |
+| CHX-11 | P1 stratégie | Community management LinkedIn | La vision stratégique Evolution-9 prévoit que Cheexpeer prépare et pilote le community management MajestiOS. Dans le périmètre de code Evolution-9 inspecté, aucun connecteur LinkedIn/OAuth, calendrier éditorial exécutable, publication, gestion d'interactions ou mesure d'audience n'a été identifié. | **Objectif spécifié, capacité non démontrée**. Avant raccordement : définir les autorisations LinkedIn, limites API, séparation lecture/rédaction/publication, journal d'activité, validation humaine des contenus et actions engageantes. |
+| CHX-12 | P2 capacité | Drive, SEO et planification | Les documents décrivent archivage Drive et veille SEO périodique comme objectifs ; aucun connecteur Drive opérationnel ni planificateur SEO transversal n'a été identifié dans les composants d'exécution inspectés. | À construire après le noyau mission/worker et les premiers connecteurs métier ; ne pas annoncer comme automatisations disponibles. |
+
+### Synthèse de maturité Cheexpeer
+
+- **Présent dans le dépôt :** fondation SQL des missions, étapes/événements, file durable, approbations humaines, registre fail-closed, pont serveur, worker bootstrap et brique spécialisée d'analyse de contexte administratif.
+- **Démontré par tests :** syntaxe du worker et du pont, règles de probe, disponibilité de santé, contrat du secret, liste blanche RPC, validation des identifiants et plafonds de taille.
+- **Non démontré en environnement :** exécution métier complète, raccordement du pont au projet de test, interface de commande reliée aux missions, persistance conversationnelle, fournisseur IA actif, connecteurs LinkedIn/Drive/SEO et planificateur général.
+- **Règle d'activation :** aucune mission métier ne doit être activée avant handler explicite, outil autorisé, contexte organisationnel, validation adaptée, journal de preuve, gestion des baux et recette sur environnement de test.
+
+Cette synthèse est une lecture du dépôt et des derniers constats distants consignés ; elle ne remplace pas une nouvelle vérification des versions déployées. Aucun accès distant, déploiement ou changement Supabase n'a été effectué dans cette passe.
+
+
+## Journal historique — Garde-fou préventif sur les décisions d'approbation — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Exigence avant raccordement |
+|---|---|---|---|---|
+| CHX-13 | P1 sécurité | Identité de l'approbateur | La RPC privée `cheexpeer_decide_approval` reçoit un paramètre `p_decision_by` puis vérifie que cet UUID appartient à l'organisation avec le rôle owner/admin. La fonction est réservée à `service_role` ; elle ne lie donc pas elle-même ce paramètre à un JWT utilisateur. Le pont worker actuel ne publie pas cette action, ce qui évite son exposition directe par ce pont. | Toute future API d'approbation doit authentifier la session, dériver l'UUID côté serveur à partir du JWT vérifié, ignorer tout UUID d'acteur fourni par le navigateur, vérifier l'organisation et journaliser la décision. Ajouter tests négatifs de falsification d'identité et tests inter-organisations avant activation. |
+
+**Qualification :** point de conception préventif, pas preuve d'une exposition actuelle. Ne pas ajouter la décision d'approbation à la liste d'actions du worker. L'approbation est une décision utilisateur, distincte de l'exécution technique du worker.
+
+
+## Journal historique — Première mission Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / risque | Traitement / statut |
+|---|---|---|---|---|
+| CHX-14 | P1 | API de missions | Le pont worker est exclusivement serveur et n'offre ni soumission authentifiée par JWT utilisateur, ni décision d'approbation utilisateur, ni consultation tenant-scoped des résultats. | Ouvert — créer une API d'orchestration séparée du pont, avec identité dérivée du JWT et contrôle owner/admin par organisation. |
+| CHX-15 | P1 | États et étapes | Le schéma SQL utilise succeeded, tandis que des documents historiques parlent de completed. La table des étapes existe, mais le worker ne les réclame ni ne les exécute. | Normalisation documentaire Evolution-9 : succeeded est le statut persistant canonique ; « Terminée » est le libellé UI. Première mission atomique ; moteur multi-étapes non livré. |
+| CHX-16 | P1 sécurité | Premier outil worker | Un premier handler de diagnostic local worker_self_check a été ajouté. Son activation pourrait être prématurée si le déploiement, les API utilisateur, l'approbation et les tests d'isolation ne sont pas prêts. | Handler et tests présents ; entrée au registre préparée avec enabled=false, A0, approbation obligatoire et effet read. Aucune migration appliquée ni mission distante créée. |
+| CHX-17 | P1 fiabilité | Bail de mission | Le worker ne renouvelait pas le bail avant ses traitements ; le premier handler ajoute un renouvellement préalable et refuse la complétion si le renouvellement est rejeté. Le heartbeat périodique pour les missions longues reste absent. | Correction limitée au premier handler bref ; heartbeat nécessaire avant tout handler long. |
+
+La spécification de référence est [SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md](SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md). La migration d'outil reste volontairement désactivée. Aucune donnée, migration, fonction Edge, configuration ou secret Supabase n'a été modifié à distance.
+
+
+## Journal historique — Régressions visuelles constatées sur la prévisualisation Evolution-9 — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / cause | Correction engagée | Statut |
+|---|---|---|---|---|---|
+| E9-UX-02 | P1 | Réputation virtuelle | Les formulaires Google Web et Google Maps étaient visibles, contrairement à la consigne produit : aucun formulaire apparent dans cette rubrique. Le dossier d'audit est déjà masqué. | Masquage du conteneur Google Web/Maps sans supprimer les formulaires, leurs écouteurs ni leurs traitements. Le test navigateur vérifie l'absence d'affichage public puis révèle les contrôles uniquement dans le contexte de test pour exercer leur logique. | Code et test mis à jour sur Evolution-9 ; exécution CI et recette visuelle réelle à confirmer. |
+| E9-UX-03 | P1 | Navigation transversale | La page Réputation virtuelle et la page Prospection ne chargeaient pas directement les ressources communes `navigation-tiroirs.js` et `navigation-tiroirs.css` ; le menu pouvait donc rester dans son ancien rendu sur ces surfaces. | Chargement des deux ressources communes sur Réputation virtuelle et Prospection ; aucun lien ni rubrique métier supprimé. | Code présent sur Evolution-9 ; recette desktop/mobile multi-pages à confirmer. |
+| E9-UX-04 | P1 | Accueil | Le visuel de fond pouvait dominer les dégradés et rendre le premier écran trop clair. | Fond bleu nuit de secours et voiles sombres renforcés, sans supprimer le visuel décoratif. | Code corrigé ; recette desktop/mobile à confirmer. |
+| E9-UX-05 | P1 | Accès VIP | L'accès VIP n'était pas présenté avec un traitement homogène entre les menus. | Signature VIP bleu nuit/or/chrome dans le tiroir « Espaces privés ». | Code corrigé ; recette sur toutes les pages à confirmer. |
+
+**Règle de prévention ajoutée :** les tests ne doivent jamais considérer la disparition d'une fonction visible comme un état attendu uniquement parce que le HTML la masque. Les contrôles de non-régression doivent vérifier la présence, la visibilité et l'accès réel aux fonctions métier demandées.
+
+
+## Journal historique — Visibilité maîtrisée et navigation commune — 11 novembre 2026
+
+- Réputation virtuelle : les trois formulaires de la rubrique (dossier d'audit, Google Web, Google Maps) restent dans le document mais aucun n'est affiché au chargement public. Le dossier d'audit conserve son attribut `hidden` ; le conteneur des deux recherches Google est également masqué. Les handlers JavaScript, la collecte, le journal de session, les liens de secours et le rendu de résultats sont conservés. Les tests révèlent les contrôles uniquement après avoir vérifié qu'ils sont masqués, afin de tester leur logique sans les rendre publics.
+- Navigation : `navigation-tiroirs.css` et `navigation-tiroirs.js` sont désormais chargés par `reputation-virtuelle.html` et `prospection-active.html`. Le script conserve les liens de sous-menu et le comportement tactile/desktop déjà défini dans le composant partagé.
+- Non-régression : comparaison de référence effectuée avec Evolution-7 avant modification ; aucun fichier Evolution-7 n'a été écrit. Les modifications portent sur les deux pages, le test navigateur de Réputation virtuelle et ce registre.
+- Limite de preuve : les mises à jour GitHub sont confirmées sur Evolution-9. Le statut combiné du commit contrôlé ne retournait aucun statut CI ; aucune exécution Playwright locale ni vérification visuelle desktop/mobile n'est revendiquée dans cette passe.
+
+
+## Journal historique — Accès VIP, vérification du parcours et preuve de prévisualisation — 11 novembre 2026
+
+- Point d'entrée : le menu commun « Accès VIP · Administration » mène à `espace-interne.html`, qui affiche le formulaire de connexion dans le HTML initial. Le formulaire reste visible même si le module JavaScript échoue ; un message de secours est prévu et le bouton est neutralisé. Le sas n'ouvre aucun outil sans session et appartenance interne confirmées.
+- Parcours : après authentification, `espace-interne.js` contrôle l'identité, l'organisation `kind=internal` et le rôle. Seuls `owner` et `admin` peuvent être redirigés vers `administration.html`. Le cockpit refait un contrôle indépendant avant d'afficher ses données.
+- Contrôle statique : `verify-site.js` a été corrigé pour correspondre à la consigne de masquage des formulaires Réputation virtuelle ; il vérifie aussi la présence du formulaire de secours VIP et la destination du lien de navigation. Le test navigateur `administration-access.browser.cjs` couvre les états sans session et les rôles owner/admin/member/viewer, mais son exécution n'a pas été obtenue dans cette passe.
+- Déploiement de prévisualisation : Vercel a construit le commit `a02682f71f644a4d2a826e309965015847855942` depuis `Evolution-9`, état READY, URL `https://majestios-git-evolution-9-majistr.vercel.app`. Les journaux confirment le build statique (86 fichiers) et le déploiement.
+- Production : l'alias `majestios.vercel.app` reste rattaché au déploiement de production du commit `6256d6aee38de7fc9ed1c4cb600cf12d73836b6c`. Le nouveau commit n'a pas été promu en production.
+- Limite : la prévisualisation n'a pas pu être ouverte avec l'outil de consultation utilisé ; le statut READY prouve le build et la publication, pas le rendu ni le parcours réel dans un navigateur. L'anomalie « page blanche et or » n'est donc pas déclarée résolue. Il reste à reproduire le clic depuis l'appareil de l'utilisateur et à inspecter la console/réseau si le formulaire ne s'affiche pas.
+
+
+## Journal historique — Navigation globale et accès VIP depuis toutes les pages — 11 novembre 2026
+
+| ID | Priorité | Domaine | Cause | Correction | Statut |
+|---|---|---|---|---|---|
+| E9-NAV-02 | P1 | Accès global / navigation | De nombreuses pages HTML conservaient une navigation locale historique sans charger `navigation-tiroirs.js` ni ses styles. Certaines pages internes (CRM, cockpit, recherche ciblée et sas VIP) ne possédaient pas de barre publique commune. Le lien VIP ne pouvait donc pas être garanti depuis toutes les pages. | Chargement du script commun sur toutes les pages HTML déclarées ; le script injecte la feuille de style commune et crée une barre de navigation de secours si la page n'en possède pas. Le menu conserve le lien « Accès VIP · Administration » dans « Espaces privés » et cible `espace-interne.html`. | **Code propagé sur Evolution-9 ; vérification statique ajoutée.** La recette visuelle desktop/mobile et la vérification de toutes les routes sur le déploiement restent à exécuter. Aucun changement Supabase. |
+
+
+**Recette de la correction E9-NAV-02 — 11 novembre 2026 :**
+- Le premier passage CI a révélé un ordre incorrect de feuilles de style sur `prospection-active.html` et `reputation-virtuelle.html`. Les liens CSS redondants ont été retirés ; le bootstrap partagé vérifie désormais si la feuille existe déjà avant de l'ajouter.
+- Le bootstrap ajoute également le bouton hamburger si une page possède une barre de navigation sans commande mobile.
+- **GitHub Actions :** run `43062042202`, commit `125f23e2082e1917c848cec0d590ec7565647c68`, conclusion **success**. Architecture/routes, liens locaux et identifiants, navigateur, menus desktop/mobile, Réputation virtuelle, contact, verrouillage sans session et contrat de sécurité CRM : réussis.
+- **Vercel Preview :** déploiement `dpl_9otSDEzYC7uEwmpphw6LfnMbg9QR`, statut **READY**, branche `Evolution-9`, commit `125f23e2082e1917c848cec0d590ec7565647c68`, URL https://majestios-khtvxe91o-majistr.vercel.app.
+- La prévisualisation n'a pas été promue en production. L'alias de production reste indépendant. Aucun changement Supabase.
+
+## 31. Ciblage APE/NAF — validation des critères — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| CRM-08 | P1 | Ciblage entreprises | Les regex du formulaire doublaient les antislashs et rejetaient les formats usuels APE/NAF (43.21A) et département (72). Les deux motifs sont corrigés dans crm-page.js ; des assertions statiques de non-régression sont ajoutées à verify-site.js. | Corrigé dans le code ; CI à confirmer. |
+| CRM-09 | P2 | Exhaustivité du ciblage | L'appel API limite explicitement la collecte à une page (maxPages: 1) et au plus 10 candidats. Les résultats ne doivent pas être présentés comme exhaustifs. | Limite connue ; évolution à cadrer selon quotas et coût. |
+
+CRM-06 (sécurité distante) et CRM-07 (recette multi-tenant) restent ouverts. Cette correction frontend ne remplace pas les restrictions SQL ni les tests d'isolation réels.
+
+## 32. Gouvernance documentaire IA et audit SEO — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| DOC-01 | P1 | Onboarding IA / gouvernance | La hiérarchie active et les consignes opérationnelles étaient contradictoires : AGENTS.md renvoyait encore à la référence V5 comme source active alors que le chantier autorisé est Evolution-9. Création d'un guide de prise en main IA, mise à jour de la hiérarchie dans AGENTS.md et ajout des liens dans docs/README.md. | Correction documentaire intégrée ; vérification automatique des liens à exécuter. |
+| SEO-01 | P1 | Canonical / domaine | Aucun canonical détecté dans les dix pages de l'échantillon. Le domaine public de référence n'est pas confirmé dans cette passe. | Ouvert — ne pas inventer le domaine. |
+| SEO-02 | P2 | Robots / sitemap | robots.txt et sitemap.xml absents du dépôt à la date de vérification ; présence éventuelle côté hébergeur non vérifiée. | Ouvert — créer après confirmation du domaine et inventaire des routes publiques. |
+| SEO-03 | P1 | Indexation des espaces privés | CRM et administration ont noindex,nofollow dans l'échantillon ; autres espaces privés à contrôler. noindex ne remplace jamais l'authentification. | Partiellement contrôlé. |
+| SEO-04 | P2 | Qualité on-page | Titles, descriptions et un H1 présents sur les dix pages échantillonnées ; unicité, couverture totale, alt, liens internes et données structurées non encore audités. | Audit partiel. |
+| SEO-05 | P2 | Performance / accessibilité | Aucun score Lighthouse, Core Web Vitals ou audit accessibilité n'a été exécuté dans cette passe. | Ouvert. |
+| GEO-01 | P2 | Visibilité moteurs IA | Besoin de cohérence entre promesse, fonctionnalités réelles, sources et documentation structurée. | À développer par lots. |
+
+Le guide transversal est docs/GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md ; l'audit SEO détaillé est docs/evolution-10/AUDIT-SEO-EVOLUTION-9.md. Ces documents ne remplacent pas AGENTS.md ni le registre critique central.
+
+## 33. Protection d'indexation — espaces membre et résultats — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| SEO-06 | P1 | Espace membre | espace-membre.html ne portait pas de noindex malgré son parcours de création/connexion de compte. Directive noindex,nofollow ajoutée et assertion verify-site.js créée. | Corrigé dans le code ; CI à confirmer. |
+| SEO-07 | P2 | Résultats dynamiques | resultats-recherche.html ne portait pas de noindex alors qu'elle affiche des résultats liés à une requête dynamique. Directive noindex,nofollow ajoutée et assertion verify-site.js créée. | Corrigé dans le code ; CI à confirmer. |
+
+Le noindex n'est pas un contrôle d'accès. Les données personnelles et résultats non publics doivent rester protégés par les contrôles applicatifs et serveur.
+
+## 34. Assistant et transparence Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| CHAT-03-CORR | P1 | Espace Assistant / ergonomie | La page assistant-majestios.html présentait un champ de saisie et un bouton Envoyer désactivés alors que le guide local était disponible via le bouton flottant. Le faux formulaire a été remplacé par un bouton fonctionnel qui ouvre le guide partagé ; assertions ajoutées à verify-site.js. | Corrigé dans le code ; CI et recette navigateur à confirmer. |
+| CHX-DOC-01-WORKER | P1 | Cohérence documentation / worker | Des documents résumaient le worker comme limité à readiness_probe, alors que le code Evolution-9 contient deux handlers de diagnostic (bootstrap et worker_self_check). Le dernier audit distant décrivait le worker déployé sur MajestiOS-Test comme limité à readiness_probe. La distinction code Git / version déployée est explicitée dans le guide IA et le référentiel. | Documentation clarifiée ; version distante à recontrôler avant toute activation. |
+| GEO-02 | P2 | Exactitude des métadonnées Cheexpeer | La meta description de majestios-v5.html pouvait faire croire que les capacités prévues de surveillance, analyse, rapports, alertes et scoring étaient déjà disponibles. Reformulation pour préciser qu'il s'agit d'un agent en préparation. | Corrigé dans le code ; CI à confirmer. |
+
+La page Assistant reste un guide local à mots-clés ; cette correction d'ergonomie ne la transforme pas en agent IA. Les missions métier, outils et connecteurs Cheexpeer restent non activés.
+
+
+## 35. Balayage SEO des 39 pages HTML — 11 novembre 2026
+
+Le contrôle de présence a parcouru les 39 pages HTML du manifeste : title, meta description et au moins un H1 sont présents sur chaque page inspectée. Aucun canonical n'a été trouvé dans les 39 pages. L'unicité des titres/descriptions et les audits Lighthouse/accessibilité restent à exécuter. Les directives noindex ont été ajoutées à espace-membre.html et resultats-recherche.html ; CRM, administration, espace-prive, espace-interne et admin-recherches les possédaient déjà. L'indexation n'est jamais une barrière de sécurité.
+
+## 36. Couverture des compteurs et relances CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| CRM-10 | P1 avant usage intensif | Compteurs et tableau de relances | Les listes CRM historiques plafonnent à 100 lignes. Les compteurs Contacts, Opportunités et Activités pouvaient donc afficher un volume partiel ; le tableau de relances et les notifications navigateur ne traitent que les 100 premières opportunités retournées. | Compteurs exacts tenant-scoped ajoutés avec count/head ; l'aperçu des relances affiche désormais explicitement sa couverture partielle quand le total dépasse les lignes chargées. La complétude fonctionnelle des alertes au-delà de 100 reste à concevoir. |
+| CRM-11 | P2 | Relances persistantes | La liste des relances persistantes reste plafonnée à 100 éléments. | Compteur exact tenant-scoped et avertissement de troncature ajoutés ; pagination de la liste à prévoir si le volume augmente. Tests CI à confirmer. |
+
+Les contrôles countWorkspaceRecords sont tenant-scoped et ne téléchargent pas les fiches. Ils ne remplacent pas les politiques RLS ni les tests inter-organisations. Aucun appel d'écriture ou changement distant Supabase n'a été effectué.
+
+
+## 37. Relations CRM, historisation et transitions — approfondissement du 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié sur MajestiOS-Test | Action / statut |
+|---|---|---|---|---|
+| CRM-12 | P1 | Intégrité SQL | Deux triggers identiques appellent `private.enforce_tenant_relationship_integrity()` sur businesses, contacts, opportunities et activities. | Doublon confirmé ; préparer une migration de nettoyage après test et revue des migrations. Aucun trigger supprimé. |
+| CRM-13 | P1 | Historisation | Les activités conservent les champs modifiés et les statuts avant/après, mais pas les valeurs avant/après des autres champs. | Concevoir une historisation ciblée par liste blanche, minimisant les données personnelles. |
+| CRM-14 | P1 | Transitions commerciales | Le CHECK autorise une liste de statuts mais ne contrôle pas les transitions métier autorisées. | Formaliser et tester une machine à états, y compris réouverture et motifs de clôture. |
+| CRM-15 | P1 | Conservation | Suppression d'organisation en CASCADE ; suppression de fiches détache les activités via SET NULL. | Définir archivage, export, suppression et conservation avant ouverture client. |
+| CRM-16 | P1 | Tests multi-tenant | Tables CRM sans données de recette et scénarios authentifiés multi-rôles non exécutés. | Préparer des fixtures synthétiques isolées et tests owner/admin/member sur deux organisations. |
+
+La fonction de traitement de relance fixe un `search_path` vide, verrouille la relance, vérifie l'identité et l'organisation, et refuse une relance déjà traitée. Ces protections sont confirmées dans le code SQL distant ; la recette multi-rôle reste ouverte. Le déclencheur de synchronisation annule les relances en attente des opportunités gagnées, perdues ou archivées. Aucun changement distant n'a été effectué.
+
+
+## 38. Interfaces Cheexpeer et capacités transversales — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat confirmé dans le code Evolution-9 | Statut / suite |
+|---|---|---|---|---|
+| CHX-UI-01 | P1 | MajestiOS Bot | La page Assistant ouvre un guide local à mots-clés ; le moteur IA est explicitement indiqué comme non raccordé. | Capacité transparente, pas un agent IA ; spécifier le futur bot |
+| CHX-ADMIN-01 | P1 | Cheexpeer Admin | Le cockpit vérifie owner/admin interne et affiche des indicateurs, mais n'est pas raccordé au cycle durable des missions et approbations. | Centre de commande métier à construire/recetter |
+| CHX-SEARCH-01 | P1 | Recherche d'opportunités | La recherche BOAMP/BODACC affiche les résultats mais indique qu'ils ne sont pas enregistrés dans le CRM. | Définir import volontaire, provenance et dédoublonnage |
+| CHX-SCORE-01 | P1 | Scoring | Le score opportunité est un champ manuel 0–100, sans moteur de calcul démontré. | Définir critères, pondérations et explications avant automatisation |
+| CHX-REPORT-01 | P2 | Rapports | Aucun générateur général de rapports CRM/appels d'offres n'a été identifié dans le périmètre inspecté. | Définir format versionné, sources et archivage |
+| CHX-AO-01 | P1 | Vulgarisation appels d'offres | La rubrique éditoriale existe ; chaîne automatisée d'analyse de pièces et de synthèse sourcée non démontrée. | Auditer dépôt, extraction, confidentialité et validation |
+| CHX-REP-01 | P1 | Réputation virtuelle | Collecte identité/BODACC et analyse IA facultative ; dossier et recherches conservés en session navigateur, pas en historique CRM persistant. | Concevoir persistance et rétention sécurisées |
+| CHX-REP-02 | P1 | Contexte multi-organisation | L'Edge Function refuse plusieurs appartenances par HTTP 409 ; le frontend ne propose pas encore de sélecteur explicite. | Ajouter sélection explicite et revalidation serveur |
+| CHX-WORKER-01 | P0 avant activation métier | Worker | Seuls bootstrap/self-check sont exécutables ; les autres outils sont refusés faute de handler. | Maintenir fail-closed jusqu'à recette métier et sécurité |
+
+Le détail et les limites de preuve figurent dans `AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md`. Aucun outil métier n'a été activé.
+
+
+## 39. Réparation du vérificateur de site — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Correction / statut |
+|---|---|---|---|---|
+| E9-CI-02 | P1 CI | `verify-site.js` | Le script déclarait deux fois `assistantPage`, ce qui bloquait la syntaxe. Après correction, une assertion lisait `sharedNavigation` avant son initialisation, puis la vérification cherchait le gestionnaire du bouton Assistant dans `navigation-tiroirs.js` alors qu'il est dans `app.js`. | Redéclaration supprimée, assertion réordonnée puis ciblée sur `app.js`. Le run historique avait encore échoué sur l'assertion Assistant ; cette situation est désormais dépassée : le run complet [43083493088](https://github.com/Chexpeer/Majestios/actions/runs/43083493088), déclenché sur le HEAD exact `0606808e48e5b8d4e36dfbb731420b051c42c0ce` de `Evolution-9`, est terminé avec `conclusion: success`. Le job `verify-static-site` et toutes ses étapes rapportées sont en succès, notamment navigation navigateur, recherche, réputation virtuelle, menus desktop/mobile, contact et verrouillage sans session. Cette preuve clôt le blocage CI de ce lot, mais ne vaut pas recette visuelle exhaustive ni validation fonctionnelle multi-tenant. |
+
+Ne pas déclarer la CI verte tant que le dernier commit Evolution-9 n'a pas terminé tous les contrôles. Les tests non exécutés après un échec précoce ne constituent pas des résultats.
+
+
+## 40. Socle d'exécution Cheexpeer — écarts runtime du 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Action / statut |
+|---|---|---|---|---|
+| CHX-API-01 | P0 avant activation | API utilisateur | Pas d'endpoint utilisateur authentifié pour soumettre, approuver et consulter une mission ; les RPC sont réservées à `service_role`. | Bloquant. Créer des endpoints serveur distincts ; dériver l'acteur du JWT, jamais du client. |
+| CHX-WORKER-02 | P1 | Dérive dépôt/base | MajestiOS-Test possède le socle privé mais son dernier numéro de migration est `20261109205855`; la migration `20261111160000` du tool self-check n'est pas appliquée. Le registre distant ne contient que `test_executor` désactivé. | Réconcilier migrations et objets avant déploiement coordonné ; ne pas activer ni modifier manuellement. |
+| CHX-SEC-03 | P0 avant activation | Approbation | La RPC de décision vérifie le rôle de `p_decision_by`, mais ce paramètre ne prouve pas à lui seul l'identité de l'appelant. | Seule une API serveur vérifiant le JWT peut fournir l'acteur ; ne jamais exposer la RPC ni accepter l'UUID client. |
+
+Le contrôle runtime confirme les politiques RLS de refus navigateur sur les tables privées et les grants réservés à `service_role`. Voir la section 11–13 de l'audit des interfaces.
+
+
+## 41. Durcissement du pont et du worker — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Action / statut |
+|---|---|---|---|---|
+| CHX-WORKER-03 | P2 | Endpoint health | `/health` renvoie sans authentification workerId et horodatages opérationnels. Aucun secret n'est exposé dans le contenu observé. | Réduire la réponse au minimum nécessaire et réserver le diagnostic détaillé au réseau interne. |
+| CHX-WORKER-04 | P2 avant multi-worker | Identité worker | Le worker ID est contrôlé en format, mais repose sur un secret partagé au niveau du pont. | Prévoir identité individuelle, périmètre et révocation par instance avant multiplication des workers. |
+| CHX-WORKER-05 | P1 | Exception readiness_probe | Le claim SQL autorise `readiness_probe` autonomie 0 hors registre ; le handler ignore input/context, mais l'exception n'est pas liée à une version précise. | Conserver soumission serveur uniquement, borner les entrées et prévoir suppression contrôlée de l'exception après bootstrap. |
+
+Les garde-fous positifs du pont (secret, comparaison temps constant, actions autorisées, tailles et identifiants bornés) sont décrits dans l'audit des interfaces, section 14. Aucun code runtime ni secret n'a été modifié.
+
+
+## 42. Vulgarisation des appels d'offres et taxonomie recherche — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Action / statut |
+|---|---|---|---|---|
+| CHX-AO-02 | P2 | Interface accompagnement AO | Page de présentation uniquement ; aucune chaîne de dépôt DCE, extraction PDF, synthèse sourcée ou rédaction assistée démontrée. Une scène bâtiment/étages subsiste alors que la navigation classique est la référence actuelle. | Conserver les contenus utiles ; aligner le visuel et spécifier le parcours documentaire sécurisé avant développement. |
+| CHX-SEARCH-02 | P1 | Taxonomie des annonces | Le moteur conserve immobilier/emploi/sous-traitance en catégories privées non connectées ; le parcours « Je publie mon annonce » avec emploi/sous-traitance/demande-offre/autres n'est pas démontré. | Réconcilier la taxonomie avec la décision métier récente ; distinguer annonces emploi internes et sources externes. |
+
+Le moteur de recherche unique BOAMP/BODACC et les limites de qualification APE/NAF sont décrits en section 15 de l'audit des interfaces.
+
+
+## 43. Accueil d'une nouvelle entreprise — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Action / statut |
+|---|---|---|---|---|
+| CHX-ONBOARD-01 | P1 | Création CRM | Après création d'une entreprise, aucun parcours de recommandations prioritaires n'est déclenché dans le code CRM inspecté. | Ajouter deux propositions facultatives : diagnostic de présence virtuelle et préparation à la facturation électronique. |
+| CHX-ONBOARD-02 | P1 | Historisation / consentement | Les parcours de réputation et facturation ne sont pas encore unifiés dans l'historique CRM client. | Prévoir suivi par tenant, sources datées, consentement/base légale, rétention et actions humaines. |
+
+La page facturation électronique a été comparée aux informations officielles disponibles le 11 novembre 2026 ; son calendrier général est cohérent. Elle indique explicitement que MajestiOS n'est pas une plateforme agréée et qu'aucun connecteur n'est actif. Le détail du parcours d'accueil est en section 16 de l'audit des interfaces.
+
+
+## 44. Facturation et intégration CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat | Action / statut |
+|---|---|---|---|---|
+| CHX-BILL-01 | P1 phase 2 | Module Facturation | Aucun module applicatif devis/factures/avoirs/règlements, aucune migration dédiée et aucun connecteur PA identifiés sur Evolution-9. | Domaine distinct du CRM à spécifier puis prototyper sur données synthétiques ; pas de tables partielles ni d'émission réelle prématurée. |
+| CHX-BILL-02 | P1 | Onboarding CRM | Le diagnostic de préparation à la facturation électronique n'est pas proposé à la création d'entreprise. | Ajouter une proposition facultative, fondée sur les données connues et les réponses confirmées par le client. |
+| CHX-BILL-03 | P2 | Conversion | La page d'information n'offre pas encore de formulaire de qualification ou de demande d'accompagnement. | Prévoir un parcours de conversion mesuré, avec consentement et transmission minimale des données. |
+| CHX-BILL-04 | P2 | Documentation / contenu | La page facturation référençait encore Evolution-8. | Corrigé sur Evolution-9 ; disponibilité réelle du module et des connecteurs reste clairement non opérationnelle. |
+
+Voir section 17 de l'audit des interfaces et `SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md` pour l'architecture cible.
+
+
+## 45. Revue des RPC d'orchestration Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié dans le code | Action / statut |
+|---|---|---|---|---|
+| CHX-API-02-AUDIT | P1 avant API utilisateur | Idempotence / isolation tenant | En cas de conflit global sur `idempotency_key`, `cheexpeer_submit_mission` relit la mission sans vérifier que son `organization_id` correspond à l'organisation demandée. RPC réservée à `service_role`, aucune fuite actuelle démontrée ; risque latent si l'API relaie directement le résultat. | Avant raccordement, vérifier le tenant et ne retourner aucune donnée en cas de mismatch ; décider si l'idempotence doit être scoped par organisation. Tests croisés A/B et concurrence requis. |
+| CHX-APPROVAL-01-AUDIT | P1 | Cycle de vie / expiration | `cheexpeer_decide_approval` met le statut à `expired` puis lève une exception dans la même transaction ; PostgreSQL annule la mise à jour. Une approbation expirée peut donc rester `pending`. | Corriger dans une migration additive : résultat métier explicite `expired` ou transition transactionnelle distincte ; test SQL de persistance obligatoire. |
+
+Ces deux points ont été ajoutés après lecture du SQL versionné, sans exécution ni écriture sur Supabase. Voir section 18 de `AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md`. Les anomalies P0 CHX-API-01 et CHX-SEC-03 restent bloquantes ; les nouveaux constats P1 doivent être traités avant d'exposer l'API.
+
+
+## 46. Première implémentation des API Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction versionnée | Statut |
+|---|---|---|---|---|
+| CHX-API-02-MIGRATION | P1 avant API utilisateur | Idempotence tenant | Migration additive : unicité composée organisation/clé et relecture filtrée par organisation. | Code Git préparé ; test SQL réel et application migration non exécutés. |
+| CHX-APPROVAL-01-MIGRATION | P1 | Expiration approbation | Expiration retournée comme état métier normal, horodatée et journalisée ; aucune exception après update ; aucun dispatch. | Code Git préparé ; persistance PostgreSQL à prouver en recette locale. |
+| CHX-API-03 | P0 avant activation | API de soumission | Edge Function séparée, JWT vérifié par Auth, acteur dérivé du JWT, rôle owner/admin contrôlé, RPC service-role uniquement. | Source Git créée ; non déployée. |
+| CHX-API-04 | P0 avant activation | API de décision | Edge Function séparée, rôle owner/admin, acteur dérivé du JWT ; RPC SQL vérifie également l'appartenance. | Source Git créée ; non déployée. |
+| CHX-API-05 | P0 avant activation | API de consultation | Edge Function séparée ; RPC de lecture filtrée par mission ET organisation et champs en liste blanche. | Source Git créée ; non déployée. |
+| CHX-SEC-04 | P0 avant activation | Falsification / isolation | Tests contractuels pour identité falsifiée, JWT invalide, rôle member, absence d'appartenance et tentative A/B ; tests SQL statiques. | Ajoutés à CI ; tests PostgreSQL/Auth/RLS réels encore requis. |
+
+Aucun endpoint ni migration n'a été déployé. MajestiOS-Test demeure en lecture seule. La CI doit être vérifiée sur le SHA exact après les derniers commits.
+
+
+## 47. Gouvernance de branche et continuité CI — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat vérifié | Action / statut |
+|---|---|---|---|---|
+| E9-GIT-01 | P1 | Protection de branche | L'API GitHub retourne `protected=false` pour `Evolution-9` ; aucun contrôle de statut obligatoire n'est configuré. `main` est également non protégée, mais son HEAD reste inchangé à `94f2af84e96577b6370af1804ecfbd66bd100e71`. | Recommander une règle de protection exigeant CI verte et revue avant fusion ; aucune règle de dépôt modifiée dans cet audit. |
+| E9-CI-03-CONSTAT | P1 | Annulation des CI | Le workflow `verify-site.yml` utilise `cancel-in-progress: true`. Les pushes successifs sur Evolution-9 ont annulé les exécutions précédentes ; seule une exécution du SHA final, sans push concurrent, peut servir de preuve. | Laisser terminer la CI du HEAD stabilisé ; envisager une stratégie de concurrence qui n'annule pas la validation du HEAD final. |
+
+Ces constats proviennent de la réponse GitHub sur les branches et des exécutions Actions de ce lot. La protection de branche n'a pas été modifiée et aucun changement n'a été apporté à `main`.
+
+
+## 48. Fermeture du cas d'approbation inter-tenant multi-rôles — 11 novembre 2026
+
+| ID | Priorité | Risque | Correction | Statut |
+|---|---|---|---|---|
+| CHX-SEC-05 | P0 avant activation | Un utilisateur owner/admin de plusieurs organisations pouvait déclarer le tenant A tout en présentant une approbation du tenant B ; le contrôle interne de rôle seul ne liait pas la requête au tenant déclaré. | La façade SQL de décision vérifie désormais l'organisation réelle de l'approbation par jointure avant d'appeler la RPC interne ; l'Edge Function transmet le tenant autorisé. | Source Git corrigée et test de contrat ajouté ; test PostgreSQL/Auth à deux tenants encore requis. |
+
+
+## 49. Fail-closed sur les exécuteurs Cheexpeer non disponibles — 11 novembre 2026
+
+| ID | Priorité | Risque | Mesure | Statut |
+|---|---|---|---|---|
+| CHX-WORKER-06 | P0 avant activation | L'API aurait pu accepter un type de mission ou un niveau d'autonomie non pris en charge par le worker actuel. | Allowlist API + garde-fou SQL : seul `readiness_probe`, autonomie 0. Tests de contrat associés. | Source Git ajoutée ; CI finale et recette réelle encore requises. |
+| CHX-AUTH-01 | P1 | Les comptes confirmés uniquement par téléphone auraient été refusés par un contrôle exclusivement email. | Accepter `email_confirmed_at` OU `phone_confirmed_at`. | Source Git et test unitaire ajoutés ; recette Supabase Auth à faire. |
+
+
+## 50. Limite de lecture des corps HTTP Cheexpeer — 11 novembre 2026
+
+| ID | Priorité | Risque | Constat / correction | Statut |
+|---|---|---|---|---|
+| CHX-SEC-06 | P1 avant exposition publique | Consommation mémoire / déni de service | La limite initiale mesurait le corps après `request.text()`, ce qui ne bornait pas la lecture en l'absence de `Content-Length`. Lecture streaming ajoutée, comptage en octets, annulation immédiate au dépassement et décodage UTF-8 strict. | Code et tests ajoutés sur Evolution-9 ; CI du HEAD final à confirmer. Les limites de débit/plateforme et tests d'intégration restent nécessaires. |
+
+Aucun endpoint n'est déployé. Cette correction ne constitue pas une protection complète contre le déni de service : compléter par les quotas, rate limits et contrôles de concurrence de la plateforme avant exposition.
+
+
+## 51. Annulation des contrôles CI en cours — correction du workflow
+
+| ID | Priorité | Risque | Constat / correction | Statut |
+|---|---|---|---|---|
+| E9-CI-03-CORR | P1 | Perte de preuve de validation | `cancel-in-progress: true` interrompait les exécutions actives lors de pushes successifs. Le workflow passe à `false` pour laisser terminer les jobs démarrés. | Correction versionnée sur Evolution-9 ; attendre la conclusion CI du HEAD courant. Les exécutions déjà annulées restent non concluantes. |
+
+Note : GitHub peut toujours remplacer une exécution en attente dans un même groupe de concurrence ; stabiliser les changements avant d'attendre le run final.
+
+
+## 52. Extension du périmètre Cheexpeer — scraping et services Google — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / exigence | Statut et suite |
+|---|---|---|---|---|
+| CHX-SCRAPE-01 | P1 avant toute collecte | Scraping / veille | La capacité de collecte automatisée multi-sources doit couvrir configuration des sources, filtres NAF/APE et géographiques, planification, détection des changements, dédoublonnage, qualification, provenance et alimentation contrôlée de Veille puis du CRM. Les contenus collectés sont non fiables et peuvent contenir des instructions malveillantes. | Exigence ajoutée à la cartographie fonctionnelle. Non implémentée/non activée. Concevoir un exécuteur isolé avec allowlist, défense SSRF, limites/quota, respect des conditions d'accès et protection contre l'injection de prompt ; recette de sécurité obligatoire avant activation. |
+| CHX-GOOGLE-01 | P1 avant connexion de compte | Google Ads / Workspace / Business Profile | Besoin d'intégrer Google Ads (AdWords), Google Workspace (Gmail, Agenda, Drive, Docs, Sheets, éventuellement Meet) et Google Business Profile. Les droits doivent être séparés par service, utilisateur et organisation. | Exigence ajoutée à la cartographie fonctionnelle. Aucun connecteur déclaré connecté ou opérationnel. Étudier les API officielles, OAuth 2.0, scopes minimaux, consentement, stockage serveur des jetons, révocation, quotas et recette multi-tenant. Toute dépense publicitaire, publication, réponse publique, envoi, partage externe ou suppression exige une approbation explicite. |
+
+**Décision de gouvernance :** ces capacités sont inscrites comme périmètre cible et non comme fonctionnalités livrées. Le worker reste en mode fail-closed ; aucune autorisation Google n'a été demandée ou utilisée, aucun compte n'a été connecté, aucune collecte ni action externe n'a été lancée. La cartographie fonctionnelle est la référence détaillée pour le cadrage, les limites et les critères de recette.
+
+
+## 53. Gestion des avis Google Maps — 11 novembre 2026
+
+| ID | Priorité | Domaine | Exigence | Statut et suite |
+|---|---|---|---|---|
+| CHX-GOOGLE-02 | P1 avant tout accès | Google Business Profile / réputation | Cheexpeer peut lire et analyser les avis, préparer des réponses et éventuellement les publier uniquement après accord préalable, explicite, vérifiable et révocable de l'entreprise concernée, donné par un représentant habilité. La visibilité publique d'une fiche ne vaut pas accord. L'accord doit préciser les établissements, finalités, comptes et durée ; toute extension exige un nouvel accord. L'approbation humaine de chaque réponse publique reste distincte et obligatoire. | Exigence ajoutée à la section 11.1 de la cartographie. Non implémentée/non connectée. Sans accord valide : aucun accès, lecture, analyse, conservation, brouillon ou publication. Vérifier la preuve et la portée de l'accord ainsi que les permissions Google ; bloquer à l'expiration/révocation ; tracer les autorisations et opérations ; tester l'isolation, les quotas, les doublons et l'absence de publication sans approbation. |
+
+Aucune lecture d'avis ni publication Google n'a été effectuée. Aucun accord d'entreprise n'a été recueilli dans le cadre de cet audit. Sans accord préalable explicite et vérifiable de l'entreprise concernée, aucun accès ni traitement n'est permis. L'exigence documentaire ne vaut ni accès à toutes les fiches publiques ni disponibilité d'un connecteur opérationnel.
+
+## 54. Animation de l'écosystème professionnel et information des pairs — 11 novembre 2026
+
+Cheexpeer doit tenir les pairs, partenaires et relais professionnels de MajestiOS informés de l'évolution réelle du projet, au moyen d'une communication régulière, utile, vérifiée et respectueuse de la confidentialité.
+
+| Référence | Priorité | Domaine | Exigence / risque | Décision et preuve attendue |
+|---|---|---|---|---|
+| CHX-COMM-01 | P1 avant communication externe automatisée | Communauté / communication MajestiOS | Organiser une veille des sujets pertinents, préparer des actualités régulières sur les avancées vérifiées de MajestiOS, adapter les contenus aux pairs et partenaires, suivre les questions et retours. Risques : annoncer comme disponible une fonction seulement prévue, divulguer des informations internes, spammer ou engager publiquement l'entreprise sans mandat. | Exigence ajoutée à la cartographie fonctionnelle. Capacité spécifiée, non automatisée. Constituer un référentiel de faits publiables relié aux preuves du dépôt/tests/déploiements ; classer les informations par confidentialité ; distinguer prévu/spécifié/en développement/testé/déployé/disponible ; validation humaine obligatoire par contenu, canal, public et date ; journal des sources, versions et approbations ; recette anti-fuite et possibilité de suspension immédiate. |
+
+
+## 55. Première passe d'épuration éditoriale du site — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-01 | P2 | Clarté des contenus publics | Plusieurs accroches et explications répétaient la même idée ou utilisaient des formulations longues. Les pages Accueil, Développement commercial, Marchés publics, Marchés privés, Accompagnement, Contact et FAQ ont été raccourcies. Les avertissements sur les exemples fictifs, les annonces à vérifier, les formulaires non transmetteurs et les fonctions en préparation ont été conservés. | Modifications versionnées sur Evolution-9. Contrôles d'architecture et de site adaptés au nouveau texte d'accueil. Build, vérifications statiques, liens documentaires et tests navigateur réussis sur le commit `65e4aaaebe2762417d3823319c1df6e5d43dc30b`, workflow GitHub Actions `43101656463` (success). |
+
+Référence et détail : [Épuration éditoriale du site](EPURATION-EDITORIALE-SITE-2026-11-11.md). Cette passe ne couvre pas encore les 39 pages. Les pages réglementaires et légales n'ont pas été réécrites. Aucune route ni fonctionnalité n'a été supprimée.
+
+
+## 56. Deuxième passe d'épuration éditoriale — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-02 | P2 | Lisibilité de l'écosystème | Les pages Réseaux et synergies, Veille des marchés, Veille BODACC, Intelligence économique, Sous-traitance, Suivi commercial et Salons/Séminaires ont été raccourcies. Les limites de disponibilité, la distinction signal/commande et le consentement sont conservés. | Modifications versionnées sur Evolution-9 ; CI du HEAD final à confirmer. |
+
+Détail : [rapport de la deuxième passe éditoriale](EPURATION-EDITORIALE-PASSE-2-2026-11-11.md).
+
+
+## 57. Troisième passe d'épuration éditoriale — cohérence de la page Développement commercial
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-03 | P2 | Cohérence éditoriale et navigation conceptuelle | La page `developpement-commercial.html` conservait le libellé « ÉTAGE 06 · ORCHESTRER », vestige de l'ancienne représentation en étages. Le libellé a été retiré ; le bloc « Des pistes aux actions » et sa fonction de présentation sont conservés avec un texte plus court. | Correction versionnée sur Evolution-9, commit `04d78d50e904c86c2d06e38152f7c6da49ba84e0`. Validation CI du HEAD final de la passe à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md). Aucun lien, script, formulaire, fonctionnalité ou route n'a été supprimé.
+
+
+## 58. Épuration des textes de la rubrique Réputation virtuelle — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-04 | P2 | Clarté et consentement | Le titre, l'introduction et les trois textes de présentation de la page `reputation-virtuelle.html` ont été raccourcis. La condition d'accord préalable de l'entreprise avant consultation des avis, la validation humaine des réponses et l'absence de connexion Google active restent explicites. | Correction versionnée sur Evolution-9, commit `b911d0ee6f410bd79c4718b1830ffb2f54e601ab`. CI du HEAD final à confirmer. |
+
+Le rapport de la troisième passe éditoriale détaille également la correction UX-EDITORIAL-03 de la page Développement commercial.
+
+
+## 59. Épuration de la page Nous rejoindre — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-05 | P2 | Clarté des parcours de contribution | L'introduction et les textes de présentation des publics (freelances, entreprises, réseaux, salons) ont été raccourcis. La non-disponibilité du dépôt de CV et de l'envoi des demandes, ainsi que l'absence de collecte de CV dans cette version, restent clairement indiquées. Les liens de contact et d'espace membre sont conservés. | Correction versionnée sur Evolution-9, commit `bd9ce119afdb856c492cd35a195de672ca6051c9`. CI du HEAD final à confirmer. |
+
+
+## 60. Épuration de la page Prospection — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-06 | P2 | Clarté fonctionnelle et cohérence conceptuelle | La page `prospection-active.html`, affichée sous le libellé de navigation « Prospection », laissait entendre que MajestiOS réalisait une prestation déléguée (« Confiez-nous votre prospection ») et conservait le repère obsolète « ÉTAGE 05 · IDENTIFIER ». L'accroche décrit désormais la recherche et la qualification d'entreprises ; le bloc redondant est raccourci. Moteur, critères, résultats, avertissements et liens sont conservés. | Correction versionnée sur Evolution-9, commit `1e4ccb6964a5b5e8288623e15932b6cec8568bb4`. CI du HEAD final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 61. Cohérence de la FAQ avec la navigation actuelle — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-07 | P2 | Cohérence des parcours et des contenus | La FAQ invitait encore à « explorer le schéma interactif », référence obsolète depuis l'abandon de cette représentation au profit de la navigation classique. Le texte et le lien ont été reformulés pour orienter vers les rubriques et fonctionnalités du site. | Correction versionnée sur Evolution-9, commit `19f88757699c95a13b533ab114f4335f58072610`. CI du HEAD final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 62. Clarté de la page de qualification des entreprises — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-08 | P2 | Compréhension du ciblage | La phrase d'introduction de `qualification-entreprises.html` détaillait l'API et plusieurs traitements techniques. Elle a été raccourcie pour expliquer directement la recherche par codes APE/NAF et département. Les avertissements de vérification, la confidentialité des critères et les contrôles opérateur sont conservés. | Correction versionnée sur Evolution-9, commit `c4d28bd9c5db9dfd20d418f3177abc802be96d4e`. CI du HEAD final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 63. Positionnement et lisibilité de l'introduction de la facturation électronique — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-09 | P2 | Hiérarchie visuelle et clarté réglementaire | Le paragraphe d'introduction de `facturation-electronique.html` était isolé entre le titre et la première carte, trop long et redondant avec le contenu qui suivait. Il a été retiré de cette position et son message utile intégré à la première carte en deux phrases courtes. Le calendrier, les explications réglementaires, les sources officielles et les limites de l'offre restent présents. | Correction versionnée sur Evolution-9, commit `46d8c2c6f95d0dc4af614d602022258fe2dcc809`. CI du HEAD documentaire final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 64. Introduction trop longue de la vision MajestiOS — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-10 | P2 | Clarté éditoriale | L'introduction de `vision-majestios.html` développait longuement une idée déjà portée par le titre et la doctrine. Elle a été condensée en deux phrases, en conservant sa position dans le bloc d'ouverture et sans modifier la doctrine ni les limites de promesse. | Correction versionnée sur Evolution-9, commit `468a191c2e9d87000e55cbf4cdf4bb12dffec000`. CI du HEAD final à confirmer. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md).
+
+
+## 65. Suppression des vestiges de la navigation en étages — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-11 | P2 | Cohérence de navigation et sobriété éditoriale | Les pages Marchés publics, Marchés privés, Accompagnement aux appels d’offres et Espace membre conservaient des repères « ÉTAGE ». La page Accompagnement affichait encore un bâtiment et un parcours visuel présenté comme interactif, alors que cette représentation a été abandonnée au profit d'une navigation classique. | Corrigé sur Evolution-9 : repères retirés, carte d'accompagnement simplifiée, contenu métier et liens conservés. CI du HEAD final à vérifier. |
+
+Détail : [rapport de la troisième passe éditoriale](EPURATION-EDITORIALE-PASSE-3-2026-11-11.md). Aucun changement de fonctionnalité backend ou de navigation réelle n'est impliqué.
+
+
+
+## 66. Ancien parcours visuel sur Intelligence économique — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-12 | P2 | Cohérence éditoriale et statut fonctionnel | La page Intelligence économique conservait un bâtiment illustratif et la promesse d'un parcours interactif alors que la rubrique est en préparation et que la navigation par étages a été abandonnée. | Corrigé sur Evolution-9 : présentation textuelle concise, statut en préparation et précautions de vérification conservés. CI du HEAD final à vérifier. |
+
+
+
+## 67. Promesse excessive sur l'actualisation des relances CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-13 | P1 | CRM — transparence fonctionnelle | Le texte de l'interface affirmait que le serveur actualisait les relances affichées toutes les cinq minutes. Le code charge les relances dans `refresh()`, sans démontrer un rafraîchissement périodique de l'écran. | Corrigé sur Evolution-9 : distinction entre conservation, matérialisation planifiée et rechargement de l'interface. Activation réelle du traitement à confirmer par environnement ; recette distante non déclarée. |
+
+
+
+## 68. Formulation trop large sur l'historique CRM — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-EDITORIAL-14 | P1 | CRM — historisation | L'introduction regroupait les activités et l'historisation automatique des modifications sous le seul terme « historique », alors que l'audit relève l'absence des triggers attendus sur le projet principal. | Corrigé dans le texte ; l'écart technique reste ouvert et aucune migration distante n'a été appliquée. |
+
+
+
+## 69. Inscription Membres dépendante d'une fonction Edge absente — 11 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| AUTH-MEMBER-01 | P1 | Authentification / espace Membres | Le frontend appelait `provision-client-workspace`, absente de la liste des fonctions Edge du projet `majestios-crm`. L'inscription pouvait laisser un compte Auth sans espace. | Parcours d'inscription suspendu côté interface ; connexion des membres existants conservée. Déploiement et recette de la fonction requis avant réouverture. |
+
+
+## 70. Suppression du mode d’inscription dormant — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| AUTH-MEMBER-02 | P1 | Authentification / espace Membres | Malgré la suspension annoncée, le formulaire conservait des champs et un mode d’inscription visibles ou réactivables, tandis que le client forçait `shouldCreateUser: false`. Le contrat de sécurité attendait encore l’ancien flux de consentement/provisionnement. | Champs et logique d’inscription supprimés ; OTP réservé aux comptes existants ; contrat automatisé réaligné. Provisionnement serveur conservé hors parcours public et non déployé. CI à confirmer sur le HEAD final. |
+
+
+## 71. Contrôle d’architecture Auth obsolète — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| AUTH-MEMBER-03 | P2 | Tests / architecture | Le vérificateur exigeait encore `setMode("login")`, supprimé avec le mode d’inscription. | Contrat mis à jour pour vérifier l’absence de logique signup et le maintien de `shouldCreateUser: false`. CI du HEAD final à confirmer. |
+
+
+## 72. Navigation blanche et sous-menus insuffisamment différenciés — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-NAV-01 | P1 | Navigation responsive / cohérence graphique | Le tiroir mobile redevenait clair à cause de plusieurs couches CSS contradictoires ; les sous-menus desktop conservaient également une surface claire. Cela nuisait à la cohérence bleu nuit / or et à la lisibilité des rubriques. | Surcharges contradictoires supprimées dans la couche finale de navigation-tiroirs.css. Bandeau, tiroir et sous-menus sont désormais définis en bleu nuit opaque, avec repères colorés par famille, bordures or et relief. Test navigateur adapté au nouveau contrat visuel ; validation CI du HEAD final en attente. La page d’accueil n’a pas été modifiée. |
+
+Détail : [rapport de correction de la navigation du 12 novembre 2026](CORRECTION-NAVIGATION-2026-11-12.md).
+
+
+## 73. Contrôles automatisés désalignés après restauration de l’accueil — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-HOME-01 | P1 | Non-régression / page d’accueil | Après la restauration de `index.html` (commit `6d4a506b712ed48041d9269be30799dc33ee91ed`), les vérificateurs conservaient des assertions exigeant un ancien titre CRM et un avertissement éditorial qui ne figurent pas dans la page restaurée. Le workflow du HEAD `8472b3553eef5ef924a72ec835f00dea7c84ad6c` a échoué à l’étape `verify-architecture.js` pour cette raison ; les étapes suivantes ont été ignorées. | Correction des deux contrats de vérification préparée sur Evolution-9 pour contrôler le titre et le sous-titre effectivement restaurés. La page `index.html` n’est pas modifiée. Rejouer et vérifier le workflow complet avant clôture. |
+
+## 74. Parcours progressif de catégorie — clarification et traçabilité — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-SEARCH-01 | P1 | Recherche / cohérence accueil-rubriques | La règle d’affichage du choix de catégorie devait être explicite : aucun bouton « Choisir une catégorie » sur l’accueil ; dans les pages de rubrique, les choix secondaires ne doivent apparaître qu’après interaction avec la recherche. La correction du 12 novembre avait été décrite de façon trop générale dans le rapport de navigation. | Règle consignée. Le correctif JavaScript de l’accueil et des rubriques reste distinct de la présente mise à jour documentaire ; vérifier le comportement avec les tests navigateur avant clôture. |
+
+## 75. Statut réel de l’assistant conversationnel et de Cheexpeer — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| CHX-DOC-01-ASSISTANT | P1 | Documentation / vérité produit | Le README décrivait « Cheexpeer (IA intégrée) » parmi les espaces existants, alors que le site expose un guide conversationnel de première génération fondé sur des règles et mots-clés. Les capacités d’agent IA Cheexpeer décrites dans l’architecture sont une cible et ne doivent pas être présentées comme déjà disponibles. | README et AGENTS.md clarifiés : assistant actuel distingué de Cheexpeer ; architecture Cheexpeer explicitement qualifiée de cible. Vérifier les autres documents publics et spécialisés lors du prochain lot documentaire. |
+
+
+## 76. État de la validation CI après réalignement des vérificateurs — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| CI-EVO9-01 | P1 | Intégration continue | Le workflow du HEAD initial `8472b355` échouait sur `verify-architecture.js` à cause de l'ancien texte de l'accueil. Après correction de ce premier vérificateur, le workflow du commit intermédiaire `3f395930` a validé la syntaxe, les tests métier, le build et l'architecture, puis échoué sur `verify-site.js` : ce commit avait été lancé avant l'enregistrement de la correction de ce second vérificateur. Le workflow du commit documentaire `9042b969` a été annulé avant exécution. | Les deux vérificateurs sont alignés. Le workflow complet `43178090312` a réussi sur le commit `ef90aeb81296c1f69ecd13e1533728f1ae362c2a`, avec les tests navigateur, les contrôles des API, les contrôles documentaires et le contrat de sécurité CRM. Les commits documentaires ultérieurs doivent encore recevoir leur propre validation CI avant clôture. |
+
+
+## 77. Contrat navigateur de la recherche d’accueil désaligné — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| UX-HOME-02 | P1 | Recherche / non-régression accueil | Le test `tests/opportunity-search.browser.cjs` exigeait encore un bouton `.feed-criteria-toggle` visible sur l’accueil. Cette attente contredisait la consigne : aucun bouton « Choisir une catégorie » sur l’accueil. Le comportement réel prévu par le code est de révéler le type de marché au focus/clic dans la barre de recherche, puis la catégorie après sélection du type. | Test navigateur réaligné : absence du bouton vérifiée, critères masqués au chargement, type de marché révélé après clic, catégorie révélée après choix du type. Aucun changement de `index.html`, `rubric-search.js` ou `app.js`. Test passé dans le workflow complet `43178090312` sur le commit `ef90aeb`. |
+
+## 78. Identifiants d’anomalies historiques dupliqués — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| DOC-REG-01 | P1 | Traçabilité documentaire | Plusieurs lignes du registre réutilisaient le même identifiant pour des constats ou étapes distincts : notamment CRM-06, CRM-05, NAV-01/02, CHAT-03, CHX-DOC-01, CHX-API-02, CHX-APPROVAL-01 et E9-CI-03. Cela rendait les références ambiguës. | Identifiants qualifiés par périmètre ou étape dans les lignes concernées. Contrôle automatisé ponctuel : 228 lignes d’identifiants, 159 identifiants distincts et aucun doublon restant dans le registre après correction. Les anciennes références dans les comptes rendus restent historiques ; employer les identifiants qualifiés pour les mises à jour. |
+
+## 79. README incohérent avec la structure du dépôt — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| DOC-README-01 | P2 | Documentation technique | Le README présentait tout le dépôt comme un prototype statique, alors que des migrations SQL, fonctions Edge et contrats backend sont versionnés. Il listait seulement trois tests représentatifs et contenait des chemins répétés dans la structure du dépôt. | État du frontend et du backend distingué ; couverture des tests décrite par référence au workflow CI ; structure du dépôt dédoublonnée. Le statut de déploiement des composants Supabase reste à vérifier séparément par environnement. |
+
+
+## 80. Nombre d’entrées de navigation dans la documentation centrale — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / action | Statut |
+|---|---|---|---|---|
+| DOC-NAV-01 | P2 | Documentation / contrat de navigation | Le dossier central des anomalies indiquait encore 20 entrées secondaires et 18 destinations, alors que le contrat de navigation réellement contrôlé par `verify-architecture.js` est de 21 entrées secondaires et 19 destinations uniques. | Métrique centrale actualisée dans `docs/CRITIQUES/README.md`. Vérification du workflow complet réussie sur le commit `ef90aeb` ; les changements documentaires ultérieurs restent à revalider. |
+
+
+## 81. Contradiction de cascade sur l’en-tête public — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| UX-THEME-01 | P1 | Cohérence graphique / en-tête | Une ancienne règle de `charte-majestios-espaces.css` imposait un fond blanc à l’en-tête sur les pages qui chargent cette feuille. L’accueil (`index.html`) ne la charge pas : cette règle n’est donc pas retenue comme cause confirmée de son rendu. Elle a néanmoins été retirée à la source pour éviter cette régression sur les pages concernées. | Correction CSS versionnée sur Evolution-9. La CI du commit `f236774` a réussi ; le contrôle visuel navigateur reste à effectuer. Les champs et la barre de recherche volontairement clairs ne sont pas modifiés. |
+
+
+## 82. Cartes de parcours et flux hérités en thème clair — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| UX-THEME-02 | P1 | Cartes transversales / flux d’annonces | Les styles historiques de `styles.css` conservaient un fond quasi blanc sur `.floating-route-card`, des couleurs de texte gris foncé sur les éléments du flux, et un fond blanc sur `.feed-source-note`. Ces règles source étaient en contradiction avec les tokens bleu nuit/or utilisés par la charte commune. | Règles d’origine corrigées dans `styles.css` : surfaces bleu nuit, bordures or discrètes, textes lisibles. La barre de recherche blanche et les champs de formulaire clairs sont volontairement conservés. CI du commit à confirmer ; recette visuelle multi-pages à effectuer. |
+
+
+## 83. Surfaces claires résiduelles dans les tiroirs et la consultation Réputation — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| UX-THEME-03 | P1 | Navigation / Réputation virtuelle | Le tiroir mobile, ses sous-menus et le conteneur de consultation Réputation utilisaient encore des fonds clairs et des textes foncés hérités. | Sources corrigées vers bleu nuit/or et textes clairs. Les iframes Google/Maps restent blanches car elles affichent des interfaces externes. CI et recette visuelle multi-pages à confirmer. |
+
+
+## 84. Surfaces héritées du poste CRM en thème clair — 12 novembre 2026
+
+| ID | Priorité | Domaine | Constat / correction | Statut |
+|---|---|---|---|---|
+| UX-THEME-04 | P1 | CRM / navigation de l’espace de travail | La feuille `crm-workspace.css` conservait un panneau de navigation gris/blanc, des boutons blancs, des filtres gris clair et des blocs dossier/pagination presque blancs. | Fonds de panneaux, navigation, dossiers et pagination harmonisés en bleu nuit avec bordures or ; textes remis en contraste. Les champs de saisie restent clairs. CI du commit CRM `dd3cf3a` réussie ; recette visuelle CRM à confirmer. |
+
+
+## 85. Stabilisation technique et documentaire — 13 novembre 2026
+
+Cette section distingue les corrections vérifiées dans Git, les résultats CI et les risques complexes qui restent ouverts. Aucun changement de page HTML, de CSS, de contenu public, de navigation, de donnée Supabase ou de configuration distante n'a été effectué dans ce lot.
+
+| ID | Priorité | Domaine | Constat / correction | Statut / preuve |
+|---|---|---|---|---|
+| E9-BUILD-01 | P0 | Build / manifeste | Le commit `38dff0f` supprimait un fichier encore exigé par le manifeste, le vérificateur d'architecture et la configuration de publication. Le blob exact du parent `6f92e05` a été restauré. | Restauré dans Evolution-9 au commit `b1cacf0`. Build, vérificateur de site et vérificateur d'architecture réussis sur le SHA final `cb6edff` dans les workflows `43497073782` (site) et `43497073964` (anti-régression). |
+| E9-TARGET-GEO-01 | P1 | Ciblage géographique | `company-targeting.js` utilisait une regex à antislash doublé pour reconnaître les codes postaux à cinq chiffres ; la recherche géographique ne choisissait donc pas la branche `codePostal`. | Regex corrigée ; test renforcé pour exiger `codePostal=72000`. Test ciblé réussi dans le workflow anti-régression final `43497073964` sur `cb6edff`. |
+| E9-ARCH-REGEX-01 | P1 | Vérificateur d'architecture | Le motif de détection des sélecteurs CSS utilisait des antislashs doublés et ne reconnaissait pas les classes attendues. | Motif corrigé dans `verify-architecture.js`. Vérificateur passé dans les workflows finaux `43497073782` et `43497073964` sur `cb6edff`. |
+| E9-CI-TRIGGER-01 | P1 | GitHub Actions | Le workflow anti-régression ne ciblait pas Evolution-9 ; le workflow du contrat Prospection ne lançait ses tests sur push que pour `feature/crm-atomic-integration`. | Déclencheurs Evolution-9 ajoutés. Anti-régression réussi sur `cb6edff` (`43497073964`) ; contrat Prospection réussi sur `26c1ef9`. |
+| E9-CI-EDGE-01 | P1 | Fonctions Edge | Le workflow principal ne vérifiait pas la syntaxe des trois fonctions identifiées dans l'audit comme déployées sur le projet utilisé par le site. | Contrôles `node --experimental-strip-types --check` ajoutés pour recherche officielle, import officiel et bootstrap admin. Workflow principal du site réussi sur le SHA final `cb6edff` (`43497073782`). |
+| CRM-12 / AN-15 | P1/P2 | Triggers d'intégrité | La migration du 5 novembre crée les triggers `*_tenant_integrity`. La migration du 9 novembre crée des triggers distincts `*_enforce_tenant_integrity` et ne retire pas les premiers. La chaîne Git permet donc de créer deux triggers par table si les deux migrations sont appliquées. | Défaut de chaîne de migrations confirmé dans Git ; présence exacte sur chaque base distante à recontrôler en lecture seule. Aucun trigger supprimé et aucune migration distante modifiée. |
+| E9-RLS-REVIEW-01 | P1 | Policies CRM / frontière VIP | La migration `20261109200000_restore_tenant_scoped_crm_permissions.sql` retire des policies nommées VIP et installe des policies tenant-scoped. Ce changement ne prouve pas une exposition, mais l'effet dépend des fonctions d'habilitation, des memberships et du contexte de l'organisation. | Revue SQL et tests owner/admin/member/inter-organisations requis. Ne pas modifier ni appliquer de migration avant arbitrage et autorisation. |
+| E9-REMINDER-POLICY-01 | P2 | Relances CRM | La migration `20261109200000` crée une policy UPDATE sur `crm_reminders`, puis `20261109210000` révoque le privilège UPDATE de `authenticated`. La policy devient inopérante pour ce rôle tant que le privilège est révoqué. | Incohérence de chaîne confirmée dans Git ; clarifier la règle attendue sans réécrire les migrations historiques. Aucun changement distant. |
+| AN-05 | P1 | Bootstrap administrateur | `bootstrap-internal-admin/index.ts` contient une adresse administrateur codée en dur et `Access-Control-Allow-Origin: *`. Le contrôle d'identité existe aussi dans la fonction ; le CORS seul ne démontre pas un contournement d'autorisation. | Constat source confirmé. Externaliser l'identité et définir une liste d'origines autorisées après revue du bootstrap et de son déploiement ; ne pas risquer de verrouiller le compte initial. |
+| E9-NAV-STATIC-01 | P2 | Navigation / cohérence des pages | Les blocs HTML statiques ne sont pas tous identiques ; le script commun corrige une partie des écarts à l'exécution. Les destinations d'accès privé doivent être contrôlées par page. | Inventaire et recette multi-pages à réaliser dans un lot site séparé. Aucun HTML modifié ici. |
+| E9-CONTENT-01 | P2 | Contenus / libellés | L'audit signale des libellés, métadonnées et destinations de boutons à réviser sur certaines pages. | À vérifier page par page ; aucune correction éditoriale ni fonctionnelle du site dans ce lot. |
+| DOC-COUNT-01 | P2 | Documentation / métriques | Les comptes 81, 86 et 93 mélangeaient des états historiques, un registre et le manifeste courant. Le manifeste contient 93 chemins, dont 39 pages HTML ; le vérificateur attend 21 entrées secondaires et 19 destinations. | Index et référentiels Evolution-9 harmonisés sur le périmètre et la date du 13 novembre. Les anciens comptes restent des traces historiques, pas des métriques actuelles. |
+| E9-FILES-ORPHAN-01 | P2 | Maintenance | Plusieurs feuilles ou scripts ne sont pas référencés comme ressources directement publiées ; un chargement dynamique ou un usage serveur reste possible. | Ne rien supprimer avant recherche des imports, appels dynamiques, workflows et usages backend. |
+
+**Limites de validation :**
+- Le workflow anti-régression final `43497073964` est vert sur `cb6edff` et confirme les tests ciblés, le build et les vérificateurs.
+- Le workflow principal du site `43497073782` est également vert sur le même SHA `cb6edff` ; ses contrôles navigateur, API BOAMP/BODACC, menus, recherche, Réputation virtuelle, contact, verrouillage sans session et contrat de sécurité CRM sont terminés avec succès.
+- Les résultats CI ne constituent pas une recette navigateur exhaustive ni une validation des environnements Supabase distants.
+- Aucun déploiement Vercel, merge, promotion production, changement de données ou modification Supabase distante n'a été effectué.
+
+
+## 86. Recontrôle CRM / Supabase comparatif — 13 novembre 2026
+
+| ID | Priorité | Domaine | Constat confirmé en lecture seule | Suite / statut |
+|---|---|---|---|---|
+| CRM-RPC-01 | P2 | Relance CRM sur `majestios-crm` | Relecture affinée : authenticated possède UPDATE au niveau des seules colonnes `state` et `read_at`. Les policies SELECT, UPDATE et INSERT activité restent limitées à owner/admin via `is_org_admin`. Le helper `is_org_editor` est plus large, mais le filtrage RLS bloque les membres non-admin. | Le défaut P1 initialement annoncé n'est pas confirmé ; cohérence statique avec le périmètre VIP. Helper redondant à clarifier éventuellement. Tests authentifiés owner/admin/member encore requis ; aucun changement distant. |
+| CRM-TRG-01 | P1 | Triggers d'intégrité sur `MajestiOS-Test` | `pg_trigger` confirme deux triggers distincts par table (`*_tenant_integrity` et `*_enforce_tenant_integrity`) sur businesses, contacts, opportunities et activities. | Doublon réel confirmé uniquement sur le projet de test. Le projet `majestios-crm` n'a qu'un trigger d'intégrité par table. Préparer une migration de nettoyage après recette isolée. |
+| TEST-RLS-01 / AN-14 | P1 | Table quotas réputation | Security Advisor du projet de test classe `private.reputation_audit_usage` sans RLS comme CRITICAL. RLS off ; authenticated/service_role sans SELECT direct. La fonction quota privée appartient à postgres, SECURITY DEFINER, search_path vide ; postgres a BYPASSRLS et FORCE RLS est off. | Activation RLS sans policy directe paraît compatible avec le RPC, mais reste à tester sur copie (membre, non-membre, non-authentifié) avant migration. Aucun SQL distant exécuté. |
+| TEST-RPC-01 / AN-13 | P1 | RPC de relance test | `public.complete_crm_reminder(uuid)` est SECURITY DEFINER, exécutable par authenticated, et contrôlé par auth.uid() + `private.can_edit_crm_org`. Advisor WARN. | Contrôles présents dans le code SQL ; recette authentifiée multi-rôles et revue EXECUTE requises. Ne pas révoquer sans vérifier les appels. |
+| PROD-AUTH-01 / AN-07 | P1 | Auth projet principal | Security Advisor de `majestios-crm` signale la protection contre les mots de passe compromis désactivée. | À planifier après recette OTP ; aucun réglage Auth modifié. |
+| ENV-PARITY-01 / AN-04 | P1 | Gouvernance des environnements | 22 migrations sur `majestios-crm` contre 39 sur `MajestiOS-Test`. Les politiques CRM sont VIP sur le principal et tenant-scoped sur le test. | Écart réel confirmé ; ne pas synchroniser mécaniquement. Arbitrer les évolutions à promouvoir et les critères de validation. |
+
+**Preuve de contrôle :** listes de migrations Supabase, catalogues `pg_trigger`, `pg_policies`, privilèges effectifs, définitions SQL et Security Advisors consultés le 13 novembre 2026. Aucun test d'accès authentifié, aucune modification de données, aucun changement de schéma et aucune action de déploiement n'ont été exécutés.
+
+
+## 87. Préparation ciblée des corrections test — 13 novembre 2026
+
+- **CRM-TRG-01 :** origine Git du doublon établie. La migration `20261105163953` crée `*_tenant_integrity`; la migration `20261109210000` ajoute `*_enforce_tenant_integrity` sans retirer les premiers. Le nettoyage candidat conserve les triggers `*_enforce_tenant_integrity` et supprime les quatre anciens noms, uniquement sur `MajestiOS-Test`, après test isolé.
+- **TEST-RLS-01 / AN-14 :** la fonction quota `private.consume_reputation_audit_quota(uuid)` est SECURITY DEFINER, propriétaire `postgres`, `search_path` vide ; `postgres` a BYPASSRLS, FORCE RLS est OFF. L'activation de RLS sans policy d'accès direct devrait préserver le RPC tout en fermant l'accès direct, mais doit être validée sur copie avant application.
+- Les deux corrections restent des propositions documentées, non des migrations créées ou appliquées. Aucun SQL distant, aucune donnée et aucun réglage Supabase n'ont été modifiés.
+- Détail des preuves, SQL candidat et tests préalables : section 19 de `AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md`.
+
+
+## 88. Recette isolée et retour arrière — 14 novembre 2026
+
+| ID | Priorité | Domaine | Critères de validation / statut |
+|---|---|---|---|
+| CRM-TRG-01 | P1 | Triggers du projet de test | Matrice ajoutée à l'audit : INSERT/UPDATE valides et inter-organisations sur les quatre tables, NULL optionnels, vérification d'un trigger unique par table. Tests isolés NOT RUN ; nettoyage NOT APPLIED. |
+| TEST-RLS-01 / AN-14 | P1 | RLS quotas du projet de test | Matrice ajoutée : accès direct refusé, membre/non-membre, isolation organisation, seuils utilisateur 5/jour et organisation 25/jour, concurrence, RLS ON / FORCE OFF. Tests isolés NOT RUN ; activation RLS NOT APPLIED. |
+| ENV-PARITY-01 | P1 | Séparation test / principal | Les deux propositions restent réservées à `MajestiOS-Test`. Aucune promotion vers `majestios-crm`, qui ne présente pas les doublons de triggers constatés sur le test. |
+| CHANGE-GATE-01 | P0 | Gouvernance de changement | Aucun DDL distant sans copie isolée validée, sauvegarde vérifiée, revue du SQL final, critères d'arrêt et autorisation explicite. |
+
+Le plan de retour arrière et les critères d'arrêt sont détaillés en section 19.5 de l'audit CRM/Supabase. Aucun test runtime ni aucune modification distante n'ont été exécutés.
+
+
+## 89. Branche de test — écarts documentation / site — 14 novembre 2026
+
+| ID | Priorité | Domaine | Statut |
+|---|---|---|---|
+| NAV-TEST-01 | P2 | Menu à 5 rubriques + menu d'espace personnel / 19 entrées sur `test-ecriture-claude` ; remplace la décision Evolution-7 | **Validé par le porteur le 14 novembre 2026** pour la branche de test ; reprise dans `Evolution-9` à décider |
+| CTA-TEST-01 | P1 | Libellé « Accéder à mon espace personnel » + lien « Créer mon espace personnel » (section `#creation`, sans création réelle) | Libellé corrigé le 14 novembre ; **création réelle ouverte seulement après recette AUTH-01** |
+| RECETTE-TEST-01 | P2 | BODACC/BOAMP réels, 13 pages à fonds, mobile : non vérifiés sur appareil réel | NOT RUN |
+
+Détail : [ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md](ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md).
+
+
+## 90. Allègement documentaire et corrections du 14 novembre 2026
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| DOC-SYN-01 | P2 | Synthèse unique `docs/SYNTHESE-MAJESTIOS.md` ; journaux archivés dans `docs/historique/` (contenu conservé) ; `docs/README.md`, `CRITIQUES/README.md` et `evolution-9/README.md` allégés | Fait ; liens vérifiés |
+| AN-05 | P1 | Bootstrap admin : secrets `INTERNAL_ADMIN_EMAIL` / `INTERNAL_ALLOWED_ORIGINS`, repli historique | **Préparé**, non déployé, secrets non configurés |
+| SEO-01…05 | P2 | `robots.txt` et `sitemap.xml` ajoutés (domaine provisoire `majestios.vercel.app`) | Partiel ; `canonical` en attente de la décision de domaine |
+| ROAD-01 | P2 | Feuille de route stratégique et décisions ouvertes | Rédigée : `FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md` |
+
+## 91. Supabase MajestiOS-Test et adaptateur Claude de Cheexpeer (14 novembre 2026)
+
+Autorisation Supabase donnée par le propriétaire le 14/11. Périmètre : projet **MajestiOS-Test** uniquement ; **majestios-crm n’est pas modifié**.
+
+- Migrations appliquées sur MajestiOS-Test : déduplication des triggers, RLS sur la table de quota, API SQL Cheexpeer (façades `service_role` uniquement) ; outil `worker_self_check` laissé désactivé. Privilèges vérifiés après application. Les tests runtime de recette (CRM-TRG-01, AN-14, TEST-RLS-01) restent à exécuter.
+- Edge Functions déployées sur MajestiOS-Test (v1, `verify_jwt` actif) : `cheexpeer-mission-submit`, `cheexpeer-approval-decision`, `cheexpeer-mission-read`. Aucune recette de bout en bout n’a encore été jouée.
+- Décision du propriétaire (14/11) : la soumission n’accepte que `readiness_probe`, `worker_self_check` reste désactivé et non soumettable ; aucun changement avant la recette.
+- Adaptateur natif Anthropic (Messages API, outil forcé pour la sortie structurée) ajouté et testé en local ; fournisseur détecté par préfixe `sk-ant-` ou `CHEEXPEER_AI_PROVIDER`. Déployé le 14/11 sur MajestiOS-Test via `reputation-audit-context` (v1). Clé enregistrée par le propriétaire ; ancienne clé révoquée. **Test réel réussi le 14/11 sur MajestiOS-Test** (compte et organisation de test créés puis supprimés ; base remise à l'état initial) : audit « Danone » → statut `analysis_ready`, 4 constats étayés par Claude (`claude-sonnet-5-5`). Corrections apportées pendant le test : (1) le modèle refuse `tool_choice` forcé (400) → mode automatique avec consigne explicite ; (2) le prompt précise la numérotation F001… des constats, sinon les recommandations citaient des identifiants inexistants ; (3) journalisation sans secret des refus du fournisseur et des constats rejetés. Observations : le quota (5 audits/jour/utilisateur) a bien déclenché un 429 ; un essai intermédiaire a été rejeté par le contrôle de structure (`AUDIT_ANALYSIS_FINDING_INVALID`) avant l'ajout du diagnostic — la sortie du modèle n'est pas déterministe, une nouvelle tentative automatique serait à évaluer. Le site (frontend) vise toujours majestios-crm : le parcours complet depuis le site n'est pas testé.
+- Secrets : `CHEEXPEER_AI_API_KEY` à saisir par le propriétaire dans le tableau de bord Supabase (jamais dans Git ni en conversation). La clé exposée précédemment doit être révoquée.
+- Pages « sans lien entrant » : conservées sur décision du propriétaire (14/11), dépendances catalogue/recherche ; à reprendre plus tard.
+
+## 92. Parcours veille BODACC des créations (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| VEILLE-01…05 | P2 | Veille des créations récentes (Île-de-France, Normandie, Pays de la Loire, Bretagne), tri, audit de communication, observations Google saisies par l'utilisateur, plafond mensuel | **Conçu, non déployé** ; test BODACC en lecture seule réalisé (≈ 10 000 créations/semaine en France). Détail : [PARCOURS-VEILLE-BODACC-CREATIONS-2026-11-14.md](PARCOURS-VEILLE-BODACC-CREATIONS-2026-11-14.md) |
+
+## 93. Plateformes agréées, offre de partenariat, alignement du site (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| PA-01 | P1 | Étude comparative des plateformes agréées (lot P2-03) | **Première étude rédigée** : [ETUDE-COMPARATIVE-PLATEFORMES-AGREEES-2026-11-14.md](ETUDE-COMPARATIVE-PLATEFORMES-AGREEES-2026-11-14.md) ; sources secondaires, liste officielle à vérifier par le porteur ; aucun partenaire retenu |
+| PA-02 | P1 | Offre de partenariat adressée à une plateforme agréée | Rédigée (document Claude Docs « MajestiOS — Proposition de partenariat avec une plateforme agréée ») ; champs d'identité de l'entreprise à compléter avant envoi |
+| SITE-ALIGN-01 | P2 | Phase 2 §5 (Evolution-7) prévoyait une thématique facturation électronique dans « Accompagnement aux appels d'offres » ; la décision validée du 14/11 (« une rubrique = une place », qui remplace Evolution-7) et le contrôle `verify-site.js` l'interdisent | **Non appliqué** : la facturation reste une rubrique distincte ; à reconfirmer par le porteur si l'ancienne orientation doit revenir |
+| DIAG-01 | P2 | Diagnostic d'orientation facturation électronique (4 questions, sans stockage) sur `facturation-electronique.html` | Fait sur la branche de test ; 8 tests de règles, test navigateur bout en bout, formulations alignées sur la page publique ; non validé juridiquement |
+| VEILLE-06 | P2 | Bouton « Veille des créations » et secteur « Priorités » dans l'administration | Fait sur la branche de test ; non testé sur le BODACC en direct |
+
+## 94. Entonnoir public, sources et annonces gratuites (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| FUNNEL-01 | P1 | Décision du porteur : les listes d'appels d'offres (BOAMP) et de signaux (BODACC) et la page facturation ne renvoient plus vers la source ; le visiteur est orienté vers le formulaire de contact. La source reste **citée en texte** (obligation de mention de la source des données publiques). | Fait sur la branche de test ; gardes `verify-site.js` mises à jour. **Conséquence à connaître** : le dossier de consultation d'un marché n'existe que chez l'acheteur ; MajestiOS devra le transmettre lui-même au visiteur qui s'est identifié. À valider par le service juridique (réutilisation des données BOAMP/BODACC). |
+| UI-01 | P3 | Bouton « Me positionner » réduit (`.button-compact`), aussi utilisé pour les autres actions secondaires | Fait |
+| ANN-01 | P1 | Annonces gratuites de sous-traitance (offre / recherche) pour rendre visibles les marchés privés : présentées sur `sous-traitance.html#annonces`, relais depuis `marches-prives.html` ; options ajoutées au formulaire de contact. **Mise à jour du 14/11 (soir) : SQL, formulaire en prévisualisation et scénarios préparés, voir [SPECIFICATION-ANNONCES-SOUS-TRAITANCE-2026-11-14.md](SPECIFICATION-ANNONCES-SOUS-TRAITANCE-2026-11-14.md)** | **Annoncé « en préparation »** : aucune publication possible tant que n'existent pas la table d'annonces, la relecture avant publication, l'anti-abus et le masquage des coordonnées (modèle : ARCHITECTURE-REGISTRE-COMMERCIAL-ANNONCES-BESOINS-2026-11-06). Nécessite l'autorisation Supabase (lot L2). |
+| FORM-01 | P1 | Le formulaire de contact est une prévisualisation : il n'envoie ni n'enregistre rien. L'entonnoir « formulaire ou espace personnel » ne fonctionne donc pas encore pour de vrai. | **Ouvert** : brancher l'enregistrement (table `client_requests` du CRM) après autorisation. |
+
+## 95. Barre de navigation (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| NAV-01 | P2 | Décision du porteur : « Sous-traitance » en première entrée de l'onglet « Appels d'offres » ; « Assistant » retiré de la barre (présence flottante conservée, page `assistant-majestios.html` toujours publiée) ; « Réputation virtuelle » et « Facturation électronique » deviennent chacune une entrée unique de la barre, à la place du groupe « Services » | Fait sur la branche de test (menu commun, menu de repli des 34 pages, gardes et test navigateur mis à jour : 18 entrées secondaires). Lecture retenue de « sous-rubrique unique » : une seule place par rubrique, sans groupe « Services » ; à confirmer. |
+
+## 96. Public et privé jamais regroupés (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| SEARCH-01 | P1 | La recherche (accueil, rubriques, résultats) impose d'emblée « appel d'offres public » ou « appel d'offres privé » ; l'option « Publics et privés » et la vue combinée sont supprimées ; sans choix, aucune source n'est interrogée | Fait sur la branche de test ; test navigateur mis à jour |
+| SEO-01 | P2 | Pages « Appels d'offres publics » et « Appels d'offres privés » : titres, descriptions et titres de page alignés ; les annonces des clients sont présentées comme appels d'offres privés | Fait (libellés) ; **les annonces elles-mêmes ne sont pas encore publiables** (ANN-01) |
+| STRAT-01 | P2 | Rôle de chaque porte d'entrée consigné (VISION §7 bis) : public = appât, annonces privées = cœur du site, facturation = porte d'entrée | Fait ; formulation interne, absente du site public |
+
+## 97. Annonces de sous-traitance : lot préparé (14 novembre 2026)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| ANN-01 | P1 | Stockage, relecture et formulaire de dépôt | **Appliqué sur MajestiOS-Test** le 14/11 (pas sur majestios-crm) ; scénarios rejoués sur la vraie base ; formulaire branché sur Test (`ANNONCES_OUVERTES = true`, branche de test) |
+| ANN-02 | P1 | Validation juridique : avis, base légale, durées de conservation, retrait, responsabilité éditoriale | **Pris en charge par le porteur** (14/11) ; reste bloquant pour toute ouverture en production |
+| ANN-03 | P1 | Autorisation d'appliquer le SQL sur une copie Supabase, puis rejouer les scénarios et le conseiller de sécurité | **Fait** sur MajestiOS-Test (14/11) ; majestios-crm : décision à prendre |
+| ANN-04 | P2 | Page de relecture interne (VIP) et liste publique « Appels d'offres privés » | **Construit sur deux branches de test** (`test-annonces-liste-publique`, `test-annonces-relecture`), tests automatiques OK ; non fusionné ; relecture non encore essayée avec un vrai compte (limite d'envoi d'e-mails du projet Test, 14/11) |
+
+## 98. Consolidation du 14 novembre 2026 (soir)
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| CONS-01 | P2 | Textes invitant à « vérifier l'avis officiel » alors que le site ne renvoie plus vers la source | **Corrigé** : formulations d'analyse/accompagnement (`opportunity-search.js`, `rubric-search.js`, `category-results.js`) |
+| CONS-02 | P2 | Documentation de l'état réel du site en retard sur la navigation (assistant, sous-traitance, entrées uniques) | **Corrigé** (`ETAT-REEL-SITE-ET-TRAJECTOIRE`) |
+| CONS-03 | P2 | Tests réseau directs BOAMP/BODACC (`boamp-live-smoke`, `bodacc-live-smoke`, `reputation-bodacc-query-smoke`) | **Non exécutables ici** (hôtes DILA bloqués) ; à rejouer depuis CI ou poste du porteur |
+| CONS-04 | P2 | Connexion e-mail du projet Test : lien envoyé vers `localhost:3000`, limite d'envois atteinte | **Ouvert** : régler « Site URL » / « Redirect URLs » dans Supabase (Authentication > URL Configuration), puis réessayer après la fenêtre de limite |
+| CONS-05 | P3 | Compte de test créé directement dans la base d'authentification (<adresse du propriétaire (non reproduite)>, propriétaire de l'organisation interne, projet Test) | **À supprimer ou à régulariser** avant toute reprise vers un projet réel |
+
+## 99. Harmonisation visuelle et cube en cristal (14 novembre 2026, soir)
+
+Demande du porteur : police trop grande par endroits, couleurs inadaptées, cube préféré en cristal avec une courte phrase d'introduction par face.
+
+| ID | Priorité | Sujet | Statut |
+|---|---|---|---|
+| VIS-01 | P2 | Titres principaux de 54 à 66 px selon les pages ; sous-titres de 17 à 42 px dans trois polices | **Corrigé** : titre de page 30–42 px, accueil 32–48 px, sous-titres 20–25 px (`charte-majestios.css`, plus deux fichiers qui forçaient 54 px en `!important`) |
+| VIS-02 | P2 | Libellés de formulaire en rose (#c26e70) peu lisibles ; case à cocher décalée de son texte | **Corrigé** (tous formulaires) |
+| VIS-03 | P2 | Contraste sous 4,5:1 : fil d'Ariane (13 pages), surtitres dorés, texte d'une carte de salons | **Corrigé** ; contrôle automatisé sur 34 pages, il ne reste que du texte réservé aux lecteurs d'écran |
+| VIS-04 | P2 | Bandeau d'accès personnel de l'accueil sans marge interne | **Corrigé** |
+| VIS-05 | P2 | Cube : rendu cristal (verre, arêtes, noyau), titre et phrase sur chaque face, sans promesse de capacité non déployée | **Fait** ; test `tests/harmonisation-visuelle.browser.cjs` (ordinateur et téléphone, sans défilement horizontal) |
+| VIS-06 | P3 | Couleurs de rubrique de la barre de navigation (vert, violet, bronze) : cohérence avec le bleu nuit et l'or | **Ouvert** : conservées (décision de la branche de test) ; à valider par le porteur |
+| VIS-07 | P3 | Test visuel sur appareil réel (rendu 3D, performance du cube) | **Ouvert** : seules des captures de navigateur sans GPU ont été faites |
+| VIS-08 | P1 | Illustration « Les bonnes pistes » absente sur Développement commercial (erreur 404 en ligne) | **Corrigé** : `assets/visuels/rubrique-prospection.svg` était dans le dépôt mais absent de `site-files.json`, donc non publié. Nouveau contrôle dans `verify-site.js` : toute ressource locale appelée par une page doit figurer au manifeste. Les trois autres illustrations de `assets/visuels/` ne sont appelées par aucune page et restent non publiées. |
+| VIS-09 | P2 | Effet « vitre très propre », relief accentué et harmonie des fonds de rubrique (demande du 14/11 soir) | **Fait** (`vitre-majestios.css`) : reflets diagonaux fixes, arête lumineuse, éclat traversant l'écran toutes les 18 s (coupé sur petit écran et si « moins de mouvement »), cartes en verre biseauté, boutons dorés biseautés, cartes cliquables inclinées au survol, voile bleu nuit commun sur tous les fonds de rubrique, surtitres or sur l'accueil. Calques décoratifs non cliquables, exclus de l'administration (test). **À valider sur appareil réel** : coût GPU des calques fixes sur téléphone d'entrée de gamme. |
+
+
+## Chapitre 100 — Recette CRM locale (2026-11-14)
+
+Méthode : rejeu des 31 migrations CRM du dépôt sur une base PostgreSQL 16 jetable (stubs `auth`, `pg_cron`), puis 44 scénarios SQL avec rôles simulés (`tests/sql/crm-recette-locale.sql`). Aucune écriture sur `majestios-crm` ni sur `MajestiOS-Test`.
+
+| ID | Gravité | Constat | Statut |
+|---|---|---|---|
+| CRM-ACT-01 | P1 | `record_crm_activity()` : toute modification d'une **entreprise ou d'un contact** échoue (`record "old" has no field "status"`). Fonction identique (hash md5) sur `MajestiOS-Test` → bug réel là-bas ; probablement aussi sur `majestios-crm`. | Correctif `20261114120000` validé en local, puis **appliqué sur MajestiOS-Test le 14/11 (carte blanche du propriétaire)** et vérifié par transaction annulée (création + modification entreprise/contact : OK, tables restées vides). **Non appliqué à `majestios-crm`.** |
+| CRM-TRG-01 | P1 | Doublon de triggers d'intégrité reproduit par le dépôt ; nettoyé à la main sur Test, absent du dépôt. | Migration `20261114120100` ajoutée (idempotente), validée en local. |
+| REM-INFO | info | Les relances ne sont créées que par la tâche planifiée (échéance dépassée), pas à l'insertion de l'opportunité. Comportement conforme à la conception. | — |
+
+Résultat local après les deux correctifs : 44/44. RLS, intégrité inter-organisations, historique, relances (`complete_crm_reminder`) et privilèges `anon` conformes.
+
+### Comptes de test multi-identités sur MajestiOS-Test (15/11/2026)
+Créés par SQL (sans mot de passe, connexion par lien e-mail), sur décision du propriétaire ; même écart de méthode que CONS-05 (la procédure officielle passe par le tableau de bord). Aucun effet sur `majestios-crm`.
+
+| Compte (alias Gmail, minuscules) | Rattachement | Usage de recette |
+|---|---|---|
+| `<adresse du propriétaire (non reproduite)>` | CRM interne : owner | Propriétaire interne |
+| `…+majestios@…` | CRM interne : member | Doit être refusé sur administration et CRM interne |
+| `…+cheexpeer@…` | CRM interne : admin | Compte technique Cheexpeer (centre de commande) |
+| `…+client@…` | « Client Test 1 » (client) : owner | Isolation entre clients |
+
+Manque : un compte lecteur (viewer) ; non bloquant. Suppression en fin de recette à décider avec le propriétaire (CONS-05).
+
+### Recette des droits avec les vrais comptes de test (MajestiOS-Test, 15/11/2026)
+Méthode : transaction annulée, rôle `authenticated` et identité de chaque compte réel, données fictives supprimées à la fin (tables remises à 0). Résultat : **19/19 conformes**.
+- CRM interne : owner et admin (Cheexpeer) lisent et modifient ; membre interne simple refusé (lecture, écriture, création) ; client refusé.
+- Isolation : le client lit et modifie seulement sa société ; ni l'owner interne ni l'admin Cheexpeer ne lisent l'espace client ; le client ne voit pas les membres internes ; le membre interne ne voit pas l'espace client ; l'anonyme n'a aucun accès.
+- Page de commande Cheexpeer : reconnue pour owner et admin, refusée pour le membre simple et le client.
+Reste à jouer : connexion réelle par lien e-mail (un compte à la fois), recette bout en bout de la page avec le compte `+cheexpeer`, compte lecteur.
+
+### Distinction compte administrateur réel / comptes de test (précision du propriétaire, 15/11/2026)
+Le compte administrateur réel du propriétaire (plateformes et futur administrateur MajestiOS) est géré avec une adresse distincte, volontairement non écrite dans Git. Les comptes `perspectivemarketing…` (dont les alias `+majestios`, `+cheexpeer`, `+client`) sont **exclusivement des comptes de test** sur MajestiOS-Test. Aucun compte de test ne doit être reproduit sur MajestiOS-CRM ; le compte administrateur réel n'y sera rattaché que sur décision explicite du propriétaire.
+
+Rattachement du compte administrateur réel à MajestiOS-Test (15/11/2026, sur demande du propriétaire) : propriétaire (owner) de l'organisation interne, créé comme les autres comptes de test (SQL, sans mot de passe, connexion par lien e-mail). Aucun rattachement sur MajestiOS-CRM.
+
+### CONS-06 — Création de compte : procédure à respecter (précision du propriétaire, 15/11/2026)
+Dès lors que l'authentification par e-mail fonctionne, **aucun compte réel n'est créé par SQL**. Les créations par SQL du 14 et 15/11 sont réservées aux comptes de test de MajestiOS-Test (voir CONS-05).
+- **Client réel** : inscription depuis `espace-membre.html` (confirmation de l'adresse e-mail, consentement), puis provisionnement de son organisation par l'Edge Function `provision-client-workspace`.
+- **Membre interne réel** : invitation par le propriétaire depuis le tableau de bord (e-mail envoyé à l'intéressé), puis attribution du rôle par la procédure du document `PROVISIONNEMENT-IDENTITES-RECETTE-CRM.md`.
+- **MajestiOS-CRM** : jamais de création directe en base.
+Constats : (1) `supabase-config.js` pointe vers `majestios-crm` : tester l'inscription publique depuis un aperçu créerait un vrai compte sur le CRM → il faut une configuration « Test » dédiée aux aperçus avant toute recette d'inscription ; (2) `espace-membre` demande un code alors que le modèle d'e-mail Supabase par défaut n'envoie qu'un lien → modèle d'e-mail à modifier (lien et code `{{ .Token }}`) ou parcours à aligner ; (3) le parcours d'inscription de bout en bout n'a jamais été démontré.
+
+## Chapitre 101 — Invitations depuis la surface d'administration (2026-11-15, MajestiOS-Test uniquement)
+
+- Migration `20261115010000_admin_invitations` appliquée sur MajestiOS-Test (pas sur majestios-crm) : tables privées `private.invitations` et `private.invitation_events` (RLS active, aucun accès direct), fonctions `create_invitation`, `list_invitations`, `list_invitable_organizations`, `revoke_invitation`, `accept_invitation`, `fail_invitation_delivery`.
+- Règles : le propriétaire interne invite administrateur, membre, lecteur et clients ; l'administrateur interne invite membre, lecteur et clients ; personne ne crée de propriétaire interne par l'interface ; pas d'auto-invitation ; une seule invitation en attente par adresse ; 10 invitations par invitant et par 24 h ; validité 7 jours ; un client doit accepter la notice de confidentialité 2026-11-05 ; un compte ne mélange pas espace interne et espace client.
+- Fonction serveur `admin-invite-user` déployée sur Test (JWT vérifié, origine contrôlée) ; réponse identique que le compte existe ou non.
+- Pages `admin-utilisateurs.html` (envoi, suivi, révocation) et `accepter-invitation.html` (acceptation et consentement).
+- Recettes : SQL locale 39/39 (`tests/sql/invitations-recette-locale.sql`), tests unitaires `tests/invitation-core.test.mjs`, test navigateur simulé `tests/admin-utilisateurs.browser.cjs`, vérification réelle sur Test en transaction annulée (création, doublon refusé, liste).
+- Reste à faire avec le propriétaire : aucun e-mail réel n'a été envoyé ; envoi réel à tester une fois l'URL du site et l'expéditeur e-mail (SMTP dédié) configurés ; ajouter l'URL `/accepter-invitation.html` aux Redirect URLs de Supabase Test ; modèle d'e-mail « Invitation » à rédiger. Rien n'est promu vers MajestiOS-CRM.
+
+## Chapitre 102 — Dialogue « Majestios Bot » (Cheexpeer) dans le cockpit (2026-11-15, MajestiOS-Test uniquement)
+
+- Nom visible : **Majestios Bot** (nom interne : Cheexpeer). L'assistant se présente comme une IA.
+- Migration `20261115020000_cheexpeer_chat` appliquée sur Test : tables privées `cheexpeer_chat_settings` et `cheexpeer_chat_messages` (RLS, aucun accès direct) ; fonctions `cheexpeer_chat_status`, `set_cheexpeer_chat_enabled` (propriétaire seulement), `cheexpeer_chat_prepare`, `cheexpeer_chat_history`, `cheexpeer_chat_clear`, `cheexpeer_chat_record` (service_role seulement : l'utilisateur ne peut pas écrire une fausse réponse).
+- Garde-fous : **éteint par défaut** ; plafonds 30 messages/jour et 500/mois ; réponse limitée à 800 jetons ; question de 4 000 caractères maximum ; conversation visible et effaçable par son seul auteur.
+- Version 1 : lecture seule, aucune action, sans accès aux données en direct ; toute action devient une proposition de mission à soumettre soi-même (validation humaine).
+- Fonction `cheexpeer-chat` déployée sur Test (JWT vérifié, origine contrôlée, clé fournisseur `CHEEXPEER_AI_API_KEY` côté serveur uniquement).
+- Recettes : SQL locale 23/23 (`tests/sql/cheexpeer-chat-recette-locale.sql`), tests unitaires `tests/cheexpeer-chat-core.test.mjs`, test navigateur simulé (admin-cheexpeer), vérification réelle sur Test (état éteint, message refusé).
+- **Non activé** : aucun appel au fournisseur d'IA n'a été fait. Activation par le propriétaire depuis le cockpit après recette ; plafond de dépense à poser dans la console du fournisseur (clé dédiée). Rien promu vers MajestiOS-CRM.
+
+## Chapitre 103 — Parcours de connexion, création de compte, annonces ; moteurs de recherche compacts (2026-11-15, Evolution-10, MajestiOS-Test uniquement)
+
+**Demande du propriétaire :** détailler la création de compte client et membre, la publication et la diffusion des annonces, avec une redirection adaptée à chaque cas (une seule adresse de retour étant jugée insuffisante) ; réduire les moteurs de recherche trop grands pour qu'ils aient tous la même taille, plus petite.
+
+- **Table unique des parcours** : `parcours-majestios.mjs` (testé par `tests/parcours-majestios.test.mjs`, ajouté à la CI). Chaque lien e-mail a sa page : invitation → `accepter-invitation.html` ; connexion interne → `espace-interne.html` (avec `?returnTo=` limité à une liste de pages connues, jamais une adresse libre) ; pages d'administration → elles-mêmes.
+- **Arrivée après invitation selon le rôle** : client (tout rôle) → `espace-membre.html` ; interne propriétaire/administrateur → `administration.html` ; interne membre/lecteur → `espace-interne.html`. **Anomalie corrigée :** auparavant tout invité interne était envoyé vers `administration.html`, page qui lui est refusée s'il n'est ni propriétaire ni administrateur.
+- **Droits de destination** : `canOpen` n'autorise les pages d'administration (CRM, relecture des annonces, invitations, Cheexpeer, recherches) qu'au propriétaire et aux administrateurs ; `espace-interne.js` l'utilise.
+- **Annonces** : après le dépôt, l'auteur reçoit un lien vers « Appels d'offres privés » (`marches-prives.html`) où les annonces relues sont diffusées ; la relecture reste dans `admin-annonces.html`.
+- **Supabase (à faire par le propriétaire)** : une seule entrée suffit côté Supabase si elle se termine par `/**` (par exemple `https://majestios-git-evolution-10-majistr.vercel.app/**`) : elle couvre toutes les pages d'arrivée ci-dessus. Le Site URL doit être l'adresse du site de test, sans quoi un lien dont l'adresse n'est pas reconnue retombe sur lui.
+- **Moteurs de recherche** : `moteurs-compacts.css`, chargée avant `charte-majestios.css` sur toutes les pages qui ont un moteur. Même gabarit partout : une ligne de 44 px, champ et bouton côte à côte, 640 px au plus. Mesures avant → après (écran 1280 px) : pages de rubrique 122 → 68 px de haut ; accueil 164 → 124 px ; Prospection 438 → 337 px (critères complémentaires toujours accessibles).
+- **Non fait / limites** : la création de compte client par l'auto-inscription publique n'est pas rouverte (elle reste par invitation) ; le test réel de bout en bout par e-mail attend un expéditeur e-mail fonctionnel.
+
+## Chapitre 104 — Création d'espace par code e-mail, puis connexion par le même code (2026-11-15, Evolution-10, MajestiOS-Test uniquement)
+
+**Décision du propriétaire (15/11/2026) :** le code de connexion reçu par e-mail doit permettre de créer son compte, puis d'y accéder ensuite.
+
+- **Parcours** : sur `espace-membre.html`, le petit lien « Créer mon espace personnel » (sous « Se connecter », sur la page et dans la fenêtre de connexion) ouvre la fenêtre en mode création : nom et entreprise facultatifs, case de consentement obligatoire (politique de confidentialité, version `2026-11-05`), puis code à 6 chiffres. Le lien « Me connecter » ramène au mode connexion.
+- **Sécurité** : le mode connexion garde `shouldCreateUser: false` (aucun compte créé par une simple connexion). Le mode création envoie `shouldCreateUser: true` avec le consentement dans les métadonnées, **seulement si la case est cochée**. (Remplacé par le chapitre 105 : l'espace n'est créé qu'après le code **et** un mot de passe sécurisé.) La fonction serveur `provision-client-workspace` ne crée l'espace qu'après la vérification du code ; elle contrôle le jeton, l'adresse confirmée et la version du consentement, puis appelle `provision_client_workspace` (atomique, idempotente).
+- **Déploiement sur Test** : la fonction `provision-client-workspace` a été déployée sur MajestiOS-Test (jeton vérifié ; origines des aperçus Vercel autorisées). Elle n'est pas déployée sur majestios-crm.
+- **Vérification réelle sur Test (annulée par ROLLBACK)** : compte factice confirmé → espace de type « client » créé, un seul rattachement, second appel idempotent (`existing = true`). Aucune donnée conservée.
+- **Tests** : `tests/espace-membre-creation.browser.cjs` (ajouté à la CI : connexion sans création, consentement exigé, aucun appel de création avant le bon code, création avec jeton) ; `tests/auth-espace-membre-otp.test.cjs` et la garde `verify-architecture.js` mis à jour : l'ancienne règle « création suspendue tant que le provisionnement n'est pas activé » est remplacée par « création seulement en mode création, après consentement et vérification du code ».
+- **Limites** : l'envoi réel du code dépend de l'e-mail (envoi intégré de Supabase limité à quelques messages par heure : un code peut ne pas arriver tant que la limite est atteinte). Si une adresse a déjà un compte, le code la connecte simplement (la création est ignorée) ; la fonction refuse alors de créer un second espace. Aucun test de bout en bout avec un vrai e-mail n'a été fait.
+- **Avant la production** : déployer `provision-client-workspace` sur le projet de production, remettre `supabase-config.js` sur majestios-crm, et décider en connaissance de cause d'ouvrir ou non la création publique (risque d'inscriptions en masse et de consommation du quota d'envoi).
+
+## Chapitre 105 — Activation de l'espace par mot de passe sécurisé, délai et alertes (2026-11-15, Evolution-10, MajestiOS-Test uniquement)
+
+**Décision du propriétaire (15/11/2026, 18:13) :** le code doit rester valable une dizaine de jours ; la création de l'espace personnel n'est valide qu'après création et validation d'un mot de passe sécurisé ; le client reçoit des alertes lui rappelant de valider et sécuriser son compte.
+
+- **Délai** : le compte en attente reste ouvert **10 jours**. **Limite technique :** Supabase plafonne la durée d'un code e-mail à 24 h (86 400 s, vérifié dans sa documentation). Le code dure donc 24 h au plus et peut être redemandé à volonté pendant les 10 jours ; ce n'est pas contournable sans changer de mécanisme.
+- **Parcours** : lien discret « Créer mon espace personnel » → consentement → code reçu par e-mail → **étape obligatoire : choisir un mot de passe sécurisé** → espace activé. Tant que le mot de passe n'est pas posé, **aucun espace (organisation, rattachement) n'est créé**.
+- **Règles du mot de passe** (`mot-de-passe-majestios.mjs`, testé) : 12 caractères minimum, lettres et chiffres, pas de répétition, ne contient ni le début de l'adresse e-mail ni le nom de l'entreprise, confirmation identique.
+- **Base (Test)** : migration `20261115030000_member_activation` — table privée `private.member_activations` (RLS, aucun accès direct) ; fonctions `start_member_activation`, `member_activation_status` (utilisateur connecté), `member_ready_for_workspace` et `complete_member_activation` (serveur seulement). Recette SQL locale 17/17 (`tests/sql/activation-espace-recette-locale.sql`).
+- **Serveur** : `provision-client-workspace` (v2, Test) refuse de créer l'espace sans activation en cours (`ACTIVATION_REQUIRED`), délai dépassé (`ACTIVATION_EXPIRED`) ou mot de passe absent (`PASSWORD_REQUIRED`).
+- **Alertes** : bandeau dans la fenêtre de connexion tant que le compte n'est pas sécurisé, avec la date limite (ex. « 25 novembre 2026 ») et un bouton pour terminer. Les **rappels par e-mail ne sont pas faits** : ils exigent un expéditeur e-mail fonctionnel et un planificateur.
+- **Tests** : `tests/espace-membre-creation.browser.cjs` (mot de passe faible ou différent refusé, rien créé avant le mot de passe, alerte avec date, pas d'alerte si l'espace est actif), contrat OTP et garde d'architecture mis à jour, test du module mot de passe ajouté à la CI. Deux anciens tests devenus faux depuis le chapitre 103 ont été corrigés (acceptation d'invitation sans rôle simulé ; contrat CRM sur la destination de retour). Seuls les trois tests d'API publiques en ligne (BOAMP/BODACC) échouent hors réseau, sans lien avec ces travaux.
+- **Non fait** : e-mails de rappel ; connexion par mot de passe (la connexion reste par code) ; purge automatique des comptes en attente expirés ; test réel avec un vrai e-mail.
+- **Avant la production** : appliquer la migration et déployer la fonction sur le projet de production, remettre `supabase-config.js` sur majestios-crm, activer dans Supabase les exigences de mot de passe et la protection contre les mots de passe compromis, décider de l'ouverture de la création publique (abus, quota d'envoi).
+- **Complément (même jour, retour d'essai du propriétaire) :** le courrier reçu ne contenait **pas de code**, seulement le lien de connexion standard de Supabase, qui renvoyait vers une page de connexion/création sans reprendre le parcours. Correction : la demande indique désormais la page de retour (`emailRedirectTo` = `espace-membre.html`) et la page reconnaît l'arrivée par le lien : la session est ouverte, l'activation démarre et l'étape « mot de passe sécurisé » s'affiche (test navigateur ajouté). Le lien et le code mènent donc au même parcours. **À faire côté Supabase (propriétaire) :** pour que le code figure dans le courrier, ajouter `{{ .Token }}` aux modèles « Magic Link » et « Confirm signup » (Authentication → Email Templates) ; l'adresse de retour doit être autorisée dans Redirect URLs.
+
+## Chapitre 106 — Charte claire : palette « Mixte clair + anthracite » (2026-11-15, Evolution-10, MajestiOS-Test uniquement)
+
+**Décision du propriétaire :** site trop sombre, trop bleu, peu contrasté ; palette 4 choisie (blanc, crème, anthracite, or). Détail, valeurs, contrastes et limites : `docs/evolution-10/CHARTE-CLAIRE-PALETTE-4-2026-11-15.md`.
+
+- Appliquée sur toutes les pages publiques par un bloc final de `charte-majestios.css` (réversible). Les visuels de rubrique et le panorama d'accueil sont conservés en filigrane clair.
+- **Outils internes inchangés** (administration, espace collaborateurs, CRM, acceptation d'invitation) : couleurs d'origine rétablies pour ces pages, aucune régression ; leur passage en clair est une phase 2 à décider.
+- Anomalie évitée : les feuilles de navigation et de discussion sont ajoutées à l'exécution après la charte ; la couche claire utilise donc une spécificité renforcée plutôt que l'ordre de chargement.
+- Contrôles : relevé automatique des surfaces sombres et des contrastes sur les pages publiques (aucun texte sous 4,5:1 hors images), CI complète rejouée.
+- **Nettoyage (même jour) :** 8 fichiers inutilisés supprimés (3 visuels anciens dont 2 très lourds, 2 feuilles de style jamais chargées, 3 schémas), avec leurs règles, leur manifeste et leur garde-fou ; trois tests existants mais jamais lancés ajoutés à la CI. Liste des fichiers conservés et raisons : `docs/evolution-10/CHARTE-CLAIRE-PALETTE-4-2026-11-15.md`.
+
+### Complément au chapitre 106 (2026-11-15)
+Page Développement commercial oubliée lors du passage en palette claire (titre illisible sur photo sombre). Photo retirée à la demande du propriétaire, fond blanc, bandeau SVG recoloré, or de texte renforcé (#7A5200), contrôle au pixel ajouté. Aucune régression sur les tests (seuls les tests d'API BODACC/BOAMP en direct échouent hors ligne).

@@ -1,0 +1,39 @@
+/* Moteurs de recherche : même taille compacte partout (Evolution-10).
+   Une seule ligne de 44 px : champ + bouton. Chargée en dernier sur chaque page qui contient un moteur. */
+html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form){
+  display:flex; flex-direction:row; flex-wrap:wrap; align-items:center; gap:8px;
+  width:100%; max-width:640px; margin:0; padding:0; border:0; background:transparent; box-shadow:none;
+}
+html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) .feed-search{
+  flex:1 1 260px; min-width:0; min-height:44px; height:44px; max-height:44px; padding:0 14px; gap:8px; order:1;
+  border:0; border-radius:999px; background:#fff; color:#6b7280; box-shadow:0 1px 6px rgba(15,23,42,.18);
+  display:flex; align-items:center;
+}
+html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) .feed-search>span:not(.sr-only){
+  font-size:18px; line-height:1; color:#6b7280;
+}
+html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) .feed-search input{
+  width:100%; min-width:0; min-height:44px; padding:0; border:0; outline:0; background:transparent;
+  color:#202124; font:400 15px/1.3 Arial, sans-serif;
+}
+html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) .feed-search input::placeholder{
+  color:#777b80; font-size:15px; font-weight:400; opacity:1;
+}
+html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) :is(.feed-search-submit, button[type="submit"]){
+  flex:0 0 auto; align-self:center; order:2; min-height:44px; height:44px; padding:0 20px; border-radius:999px;
+  font:600 14px/1 Arial, sans-serif; white-space:nowrap; justify-self:auto;
+}
+html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) .feed-filter-label{
+  flex:1 1 180px; min-width:0;
+}
+html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) :is(.search-source-note, .feed-criteria-toggle, .prospecting-criteria-toggle, details, .search-status){
+  flex:1 1 100%; margin:0; order:3;
+}
+html body .tender-feed-section .prospecting-search-heading h2{ font-size:20px; margin:4px 0; }
+html body .tender-feed-section .prospecting-search-heading p:not(.eyebrow){ font-size:13px; margin:0 0 8px; }
+html body.homepage .home-search h2{ font-size:clamp(20px,2.2vw,26px); }
+html body.homepage .home-search{ padding-block:14px; }
+@media (max-width:600px){
+  html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) .feed-search{ flex-basis:100%; }
+  html body .tender-feed-section :is(#advanced-search-form, #company-targeting-form) :is(.feed-search-submit, button[type="submit"]){ flex:1 1 100%; }
+}

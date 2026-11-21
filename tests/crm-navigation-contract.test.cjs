@@ -1,0 +1,131 @@
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+
+const html = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "crm.html"), "utf8");
+const adminHtml = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "administration.html"), "utf8");
+const memberHtml = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "espace-membre.html"), "utf8");
+const returnLinkCount = html.split('href="espace-interne.html"').length - 1;
+
+assert.ok(
+  html.includes('<meta name="robots" content="noindex,nofollow">'),
+  "Le CRM interne doit être exclu de l’indexation des moteurs de recherche."
+);
+
+assert.equal(returnLinkCount, 1, "Le CRM doit proposer un seul retour vers l’accueil interne.");
+assert.ok(
+  html.includes('<nav class="admin-crm-header" aria-label="Navigation des modules internes et accueil">') &&
+  html.includes('<a class="admin-crm-return" href="espace-interne.html">') &&
+  html.includes('<span class="admin-crm-current" aria-current="page">'),
+  "Le CRM doit conserver son en-tête contextuel et un retour unique vers l’accueil interne."
+);
+assert.ok(html.includes('id="crm-admin-nav-link" href="administration.html" hidden') && html.includes('id="crm-search-nav-link" href="admin-recherches.html" hidden'), "Les liens de pilotage du CRM doivent être masqués par défaut.");
+const crmScript = fs.readFileSync(path.join(__dirname, "..", "crm-page.js"), "utf8");
+const crmClient = fs.readFileSync(path.join(__dirname, "..", "crm-client.js"), "utf8");
+assert.ok(crmScript.includes('const canAdminister = ["owner", "admin"].includes(membership.role)') && crmScript.includes('document.querySelector("#crm-admin-nav-link").hidden = !canAdminister') && crmScript.includes('document.querySelector("#crm-search-nav-link").hidden = !canAdminister'), "Les liens Administration et Recherches du CRM doivent dépendre du rôle owner/admin.");
+const adminNavStart = adminHtml.indexOf('<nav id="admin-nav" class="admin-nav"');
+const adminNavEnd = adminHtml.indexOf("</nav>", adminNavStart);
+const adminNav = adminHtml.slice(adminNavStart, adminNavEnd);
+assert.ok(adminNav.includes('href="crm.html"') && adminNav.includes('href="admin-recherches.html"'), "Le cockpit doit donner accès au CRM et aux recherches dans sa navigation principale.");
+const searchHtml = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "admin-recherches.html"), "utf8");
+const searchNavStart = searchHtml.indexOf('<nav class="admin-nav">');
+const searchNavEnd = searchHtml.indexOf("</nav>", searchNavStart);
+const searchNav = searchHtml.slice(searchNavStart, searchNavEnd);
+assert.ok(searchNav.includes('href="espace-interne.html"') && searchNav.includes('href="administration.html"') && searchNav.includes('href="crm.html"'), "Les recherches doivent proposer des repères cohérents vers l’accueil interne, l’administration et le CRM.");
+assert.ok(
+  !html.includes('<footer class="admin-crm-footer"><a'),
+  "Le pied de page ne doit pas dupliquer le lien de retour."
+);
+assert.ok(
+  !html.includes('\\n<div class="interior-grid"'),
+  "Le HTML ne doit pas contenir de séquence \\n littérale entre les sections."
+);
+assert.ok(
+  html.includes('<script type="module" src="crm-page.js"></script>'),
+  "Le raccordement du CRM existant doit être conservé."
+);
+
+
+assert.ok(
+  adminHtml.includes('href="crm.html"'),
+  "L’administration doit conserver son accès direct au CRM interne."
+);
+assert.ok(
+  !memberHtml.includes('href="crm.html"'),
+  "L’espace membre ne doit jamais proposer de lien direct vers le CRM interne."
+);
+assert.ok(
+  memberHtml.includes("Votre espace personnel reste distinct") &&
+  memberHtml.includes("seules les informations et les documents qui vous sont destinés"),
+  "L’espace membre doit expliquer clairement la séparation avec le CRM interne."
+);
+
+const internalHtml = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "espace-interne.html"), "utf8");
+assert.ok(internalHtml.includes('<meta name="robots" content="noindex,nofollow">'), "L’accueil interne doit être exclu de l’indexation.");
+assert.ok(internalHtml.includes('src="espace-interne.js"') && internalHtml.includes('href="espace-interne.css"'), "L’accueil interne doit charger ses ressources dédiées.");
+assert.ok(!internalHtml.includes("signUp(") && !internalHtml.includes("provision-client-workspace"), "L’accueil interne ne doit pas inscrire ni provisionner les espaces clients.");
+
+assert.ok(html.includes('id="crm-targeting-form"') && html.includes('name="nafCodes"') && html.includes('name="departments"'), "Le poste Entreprises doit intégrer le ciblage marché au CRM.");
+assert.ok(crmScript.includes("initMarketTargeting(!isReadOnly)") && crmScript.includes("MajestiosCRM.createBusiness") && crmScript.includes('qualification_status: "to_review"'), "Le ciblage doit réutiliser le client CRM et ses droits existants.");
+assert.ok(crmScript.includes("targetingCandidates") && crmScript.includes("SIREN :"), "Le ciblage doit proposer la sélection et un contrôle des doublons déjà chargés.");
+assert.ok(crmScript.includes("alreadyKnown.length") && crmScript.includes("contrainte unique SIREN"), "Le ciblage doit signaler les doublons visibles et rappeler la limite du contrôle local.");
+assert.ok(crmScript.includes("tranche_effectif_salarie") && crmScript.includes("nombre_etablissements"), "Les résultats doivent exploiter les indicateurs d’effectif et d’établissements lorsqu’ils sont fournis par la source.");
+assert.ok(crmScript.includes("Identifiant source") && crmScript.includes("Collecte :") && crmScript.includes("Critères : APE/NAF"), "La fiche intégrée doit conserver les éléments de provenance et les critères de ciblage.");
+assert.ok(crmScript.includes("failures.push") && crmScript.includes("Aucun dossier existant n’a été écrasé"), "Les erreurs d’intégration doivent être explicites et aucune fusion automatique ne doit être réalisée.");
+
+assert.ok(crmClient.includes('async function listBusinessesPage') && crmClient.includes('.select("*", { count: "exact" })') && crmClient.includes(".range(from, to)"), "La recherche entreprises doit compter et paginer les résultats côté serveur.");
+assert.ok(crmClient.includes('.eq("organization_id", membership.organization_id)') && crmClient.includes('query = query.or('), "La pagination et la recherche doivent rester limitées au tenant authentifié.");
+assert.ok(crmClient.includes('"legal_name", "trade_name", "siren", "siret", "ape_naf", "city"'), "La recherche serveur doit couvrir identité, identifiants, APE/NAF et ville.");
+assert.ok(crmClient.includes("async function findBusinessesByIdentifiers") && crmClient.includes('.in("siren", cleanSirens)') && crmClient.includes('.in("siret", cleanSirets)'), "Le contrôle des doublons doit interroger tous les identifiants correspondants du tenant, sans limite de liste locale.");
+assert.ok(crmScript.includes("MajestiosCRM.findBusinessesByIdentifiers") && crmScript.includes("SIREN et SIRET absents"), "Le ciblage doit contrôler les doublons à la recherche et juste avant l’import, et refuser les candidats sans identifiant légal.");
+assert.ok(crmScript.includes("dans l’ensemble des fiches CRM accessibles à votre organisation") && !crmScript.includes("parmi les 100 fiches CRM chargées"), "Le statut de ciblage doit refléter le rapprochement global et ne plus annoncer la limite locale de 100 fiches.");
+assert.ok(html.includes('id="crm-business-server-search"') && html.includes('id="crm-business-previous"') && html.includes('id="crm-business-next"'), "Le poste Entreprises doit exposer recherche globale et pagination.");
+assert.ok(crmScript.includes("MajestiosCRM.listBusinessesPage") && crmScript.includes("businessPageSize = 25"), "L’interface doit charger les entreprises par pages de 25 via le client CRM.");
+
+assert.ok(crmClient.includes("async function listWorkspaceRecordsPage") && crmClient.includes('contacts: ["first_name", "last_name", "job_title", "email", "phone"]') && crmClient.includes('opportunities: ["title", "description", "source_external_id", "source_type"]') && crmClient.includes('activities: ["subject", "body", "activity_type"]'), "Les trois autres rubriques doivent disposer d’une recherche serveur adaptée à leurs champs réels.");
+assert.ok(crmClient.includes("Object.prototype.hasOwnProperty.call(searchableColumns, table)") && crmClient.includes('.eq("organization_id", membership.organization_id)') && crmClient.includes(".range(from, to)"), "La pagination relationnelle doit utiliser une liste blanche de tables, le tenant authentifié et des plages serveur.");
+assert.ok(crmClient.includes('.select("*", { count: "exact" })') && crmClient.includes('.order("occurred_at", { ascending: false })') && crmClient.includes('.order("updated_at", { ascending: false })'), "Les trois espaces doivent fournir un compte exact et un ordre stable adapté à leur chronologie.");
+assert.ok(!crmScript.includes("renderActivityTimeline(activities, businesses, contacts, opportunities);"), "Le rafraîchissement CRM ne doit pas écraser la page d’historique demandée par l’utilisateur.");
+assert.ok(crmClient.includes("async function listBusinessRelatedPage") && crmClient.includes('.eq("business_id", businessId)') && crmClient.includes('.eq("organization_id", membership.organization_id)'), "Le dossier entreprise doit charger ses relations par pages, dans le tenant authentifié.");
+assert.ok(crmScript.includes("loadBusinessRelatedSection") && crmScript.includes("listBusinessRelatedPage") && crmScript.includes("result.total"), "Les relations du dossier entreprise doivent être chargées à la demande avec un décompte exact et une pagination dédiée.");
+for (const id of ["crm-contact-server-search", "crm-opportunity-server-search", "crm-activity-server-search", "crm-contact-previous", "crm-opportunity-previous", "crm-activity-previous", "crm-contact-next", "crm-opportunity-next", "crm-activity-next"]) {
+  assert.ok(html.includes('id="' + id + '"'), "Contrôle de recherche/pagination manquant : " + id);
+}
+assert.ok(crmScript.includes('loadWorkspacePage("contacts", true, canEdit)') && crmScript.includes('loadWorkspacePage("opportunities", true, canEdit)') && crmScript.includes('loadWorkspacePage("activities", true, canEdit)'), "Le CRM doit charger les trois rubriques en pages de 25.");
+assert.ok(crmScript.includes("renderActivityTimeline(result.rows") && crmScript.includes('document.getElementById("crm-" + prefix + "-next")'), "L’historique doit conserver son rendu chronologique et sa pagination.");
+
+
+
+console.log("CONTRAT NAVIGATION ET CIBLAGE CRM RÉUSSI.");
+
+const workspaceNav = fs.readFileSync(path.join(__dirname, "..", "crm-workspace-nav.js"), "utf8");
+const workspaceCss = fs.readFileSync(path.join(__dirname, "..", "crm-workspace.css"), "utf8");
+assert.ok(html.includes('href="crm-workspace.css"') && html.includes('src="crm-workspace-nav.js"'), "Le CRM doit charger sa navigation métier dédiée.");
+assert.ok(workspaceNav.includes('label: "Vue générale"') && workspaceNav.includes('label: "Entreprises"') && workspaceNav.includes('label: "Contacts"') && workspaceNav.includes('label: "Opportunités"') && workspaceNav.includes('label: "Activités & historique"'), "La navigation doit exposer les cinq espaces de travail CRM.");
+assert.ok(workspaceNav.includes('nav.setAttribute("aria-label", "Navigation des modules CRM")') && workspaceNav.includes('button.setAttribute("aria-current"'), "La navigation CRM doit exposer l’état du module actif aux technologies d’assistance.");
+assert.ok(workspaceNav.includes('event.key === "ArrowRight"') && workspaceNav.includes('event.key === "Home"') && workspaceNav.includes('event.key === "End"'), "La navigation CRM doit prendre en charge le clavier.");
+assert.ok(workspaceCss.includes(".crm-workspace-nav-button.is-active") && workspaceCss.includes("@media(max-width:600px)"), "La navigation CRM doit distinguer le module actif et rester utilisable sur mobile.");
+
+const businessFilterScript = fs.readFileSync(path.join(__dirname, "..", "crm-business-filters.js"), "utf8");
+assert.ok(html.includes('id="crm-business-search"') && html.includes('id="crm-business-qualification"') && html.includes('id="crm-business-department"'), "Le poste Entreprises doit proposer recherche, qualification et filtre département.");
+assert.ok(html.includes('src="crm-business-filters.js"'), "Le module de filtres entreprises doit être raccordé à la page CRM.");
+assert.ok(crmScript.includes("item.dataset.searchText") && crmScript.includes("item.dataset.qualificationStatus") && crmScript.includes("item.dataset.departmentCode"), "Les fiches entreprises doivent exposer les champs utiles au filtrage local.");
+assert.ok(businessFilterScript.includes("new MutationObserver(applyFilters)") && businessFilterScript.includes("item.hidden = !show"), "Les filtres doivent se réappliquer après actualisation de la liste sans recharger la page.");
+assert.ok(businessFilterScript.includes("qualification.addEventListener") && businessFilterScript.includes("department.addEventListener"), "Les filtres de qualification et de département doivent être interactifs.");
+
+assert.ok(crmScript.includes('className = "crm-business-dossier"'), "Chaque entreprise doit disposer d’un dossier détaillé consultable.");
+assert.ok(crmScript.includes('["Contacts associés", "contacts"]') && crmScript.includes('["Opportunités associées", "opportunities"]') && crmScript.includes('["Activités et historique", "activities"]'), "Le dossier entreprise doit rapprocher contacts, opportunités et historique par rubrique paginée.");
+assert.ok(crmScript.includes("identityFields") && crmScript.includes("source_url") && crmScript.includes("qualification_notes"), "Le dossier doit exposer identité, provenance et qualification disponibles.");
+assert.ok(crmScript.includes("Aucun élément associé à cette entreprise.") && crmScript.includes("result.total") && crmScript.includes("result.pageCount"), "Le dossier doit afficher le volume relationnel complet et la pagination, sans confondre page vide et absence de relation.");
+
+
+assert.ok(crmScript.includes('function setupRemoteRelationSelect') && crmScript.includes('listBusinessesPage') && crmScript.includes('listWorkspaceRecordsPage'), 'Les sélecteurs relationnels doivent interroger les listes serveur paginées.');
+assert.ok(crmScript.includes('pageSize: 25') && crmScript.includes('type = "search"') && crmScript.includes('aria-live'), 'Les sélecteurs doivent proposer recherche, pagination et retour accessible.');
+assert.ok(crmScript.includes('relationSelectors') && crmScript.includes('setupRemoteRelationSelectors();'), 'Tous les champs relationnels doivent être raccordés au chargement distant.');
+assert.ok(workspaceCss.includes('.crm-relation-search') && workspaceCss.includes('.crm-relation-pagination'), 'Les contrôles relationnels distants doivent disposer d’un style dédié.');
+
+assert.ok(crmScript.includes('select.closest(".form-field")'), 'Le champ de recherche doit être placé hors du label du sélecteur pour éviter des contrôles imbriqués.');
+
+assert.ok(crmClient.includes('businessId = ""') && crmClient.includes('query.eq("business_id", safeBusinessId)'), 'La pagination relationnelle doit permettre un filtre entreprise côté serveur.');
+assert.ok(crmScript.includes('dependencySelector') && crmScript.includes('dependency?.value') && crmScript.includes('dependency.addEventListener("change"'), 'Les contacts et opportunités associés doivent suivre l’entreprise choisie et se recharger à chaque changement.');
+assert.ok(crmScript.includes('"#crm-opportunity-form [name=business_id]"') && crmScript.includes('"#crm-activity-form [name=business_id]"'), 'Les formulaires Opportunité et Activité doivent filtrer leurs relations selon leur entreprise.');

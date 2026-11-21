@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Centre de commande Cheexpeer — administration MajestiOS.">
+<title>Centre de commande Cheexpeer — MajestiOS</title>
+<link rel="stylesheet" href="administration.css">
+<link rel="stylesheet" href="admin-cheexpeer.css">
+<link rel="stylesheet" href="charte-majestios-espaces.css">
+  <script src="navigation-tiroirs.js" defer></script><script src="identite-espaces.js" defer></script>
+</head>
+<body class="admin-shell">
+<div class="admin-frame is-locked">
+<aside class="admin-sidebar" aria-label="Navigation de l’administration">
+<a class="admin-brand" href="administration.html"><span class="admin-brand-mark">M</span><span><strong>MajestiOS</strong><small>POSTE DE COMMANDEMENT</small></span></a>
+<div class="admin-sidebar-caption">PILOTAGE GÉNÉRAL</div>
+<nav class="admin-nav">
+<a href="administration.html"><span class="nav-symbol" aria-hidden="true">◈</span>Vue générale</a>
+<a href="crm.html"><span class="nav-symbol" aria-hidden="true">▦</span>CRM interne</a>
+<a href="admin-recherches.html"><span class="nav-symbol" aria-hidden="true">⌕</span>Recherches ciblées</a>
+<a class="is-active" href="admin-cheexpeer.html" aria-current="page"><span class="nav-symbol" aria-hidden="true">✦</span>Cheexpeer</a>
+</nav>
+<div class="admin-sidebar-bottom"><span class="admin-security-dot"></span><span>Accès interne contrôlé</span><a href="index.html">Retour au site public ↗</a></div>
+</aside>
+<main class="admin-main">
+<header class="admin-topbar"><div class="admin-breadcrumb"><a href="administration.html">Administration générale</a><span>/</span><strong>Cheexpeer</strong></div><div class="admin-session"><span id="session-label">Vérification des accès…</span><button id="signout" type="button" hidden>Déconnexion</button></div></header>
+<section id="gate" class="admin-gate" aria-live="polite"><div class="gate-emblem">M</div><p class="admin-kicker">POSTE DE COMMANDEMENT</p><h1>Accès réservé</h1><p id="gate-message">Vérification de votre identité et de vos habilitations internes…</p>
+<form id="cx-login" class="mod-login" hidden><input name="email" type="email" autocomplete="email" placeholder="Adresse e-mail du compte interne" required><button class="admin-button admin-button-primary" type="submit">Recevoir mon lien de connexion →</button></form></section>
+<div id="workspace" class="cx-workspace" hidden>
+<div><p class="admin-kicker">CHEEXPEER · ADMINISTRATEUR IA</p><h1>Centre de commande</h1><p>Confiez une mission à Cheexpeer, validez-la, puis suivez son résultat. Rien ne s’exécute sans votre décision explicite, et chaque étape est conservée dans l’historique.</p></div>
+<p class="cx-banner" role="note">Environnement de test. Cheexpeer n’est pas encore en service : le diagnostic ne s’exécutera qu’après activation de l’outil par le propriétaire. Aucune action n’est menée sur les données clients.</p>
+<div class="cx-grid">
+<section class="cx-card" aria-labelledby="cx-new-title">
+<p class="admin-kicker">NOUVELLE MISSION</p><h2 id="cx-new-title">Demander un diagnostic</h2>
+<p class="cx-meta"><span>Autonomie 0 · observation seule</span><span>Validation humaine obligatoire</span><span>Aucun effet externe</span></p>
+<form id="cx-submit">
+<label>Intitulé<input name="title" maxlength="200" value="Diagnostic de disponibilité" required></label>
+<label>Objectif (facultatif)<textarea name="objective" rows="3" maxlength="4000"></textarea></label>
+<div class="cx-actions"><button class="cx-primary" type="submit">Soumettre la mission</button></div>
+</form>
+<p id="cx-submit-status" class="cx-status" role="status" hidden></p>
+<p class="admin-kicker" style="margin-top:18px">MISSIONS RÉCENTES (CE NAVIGATEUR)</p>
+<ul id="cx-recent" class="cx-recent"></ul>
+<form id="cx-lookup"><label>Suivre une mission par son identifiant<input name="mission" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off"></label><div class="cx-actions"><button type="submit">Afficher</button></div></form>
+</section>
+<section class="cx-card" aria-labelledby="cx-detail-title" aria-live="polite">
+<p class="admin-kicker">SUIVI</p><h2 id="cx-detail-title">Mission</h2>
+<p id="cx-detail-status" class="cx-status">Aucune mission sélectionnée.</p>
+<div id="cx-detail" hidden></div>
+</section>
+</div>
+<section class="cx-card cx-chat-card" aria-labelledby="cx-chat-title">
+<p class="admin-kicker">DIALOGUE · MAJESTIOS BOT</p><h2 id="cx-chat-title">Parler à Majestios Bot</h2>
+<p class="cx-meta"><span>Lecture seule</span><span>Aucune action directe</span><span>Sans accès aux données en direct</span></p>
+<p id="cx-chat-state" class="cx-status" role="status"></p>
+<div class="cx-actions"><button id="cx-chat-toggle" type="button" hidden></button><button id="cx-chat-clear" type="button" hidden>Effacer la conversation</button></div>
+<ol id="cx-chat-log" class="cx-chat-log" aria-live="polite"></ol>
+<form id="cx-chat-form"><label>Votre message<textarea name="message" rows="3" maxlength="4000" required></textarea></label><div class="cx-actions"><button class="cx-primary" type="submit">Envoyer</button></div></form>
+</section>
+
+</div>
+</main>
+</div>
+<script type="module" src="admin-cheexpeer.js"></script>
+</body>
+</html>

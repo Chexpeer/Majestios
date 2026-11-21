@@ -6,12 +6,21 @@ on:
       - chantier-recherche-donnees-gardes-fous-2026-11-01
       - refonte-architecture-dossiers-charte-majestios-2026-11-01
       - evolution-5.0-clean-preview
+      - evolution-5.0-admin-cockpit
+      - Evolution-7
+      - Evolution-8
+      - Evolution-9
+      - evolution-10
   pull_request:
     branches:
       - main
       - chantier-recherche-donnees-gardes-fous-2026-11-01
       - refonte-architecture-dossiers-charte-majestios-2026-11-01
       - evolution-5.0-clean-preview
+      - evolution-5.0-admin-cockpit
+      - Evolution-7
+      - Evolution-8
+      - Evolution-9
   workflow_dispatch:
 
 permissions:
@@ -27,9 +36,13 @@ jobs:
       - name: Installer Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Vérifier le contrat de sécurité CRM
         run: node tests/crm-security-contract.test.cjs
+      - name: Vérifier la navigation et l’accueil interne
+        run: node tests/crm-navigation-contract.test.cjs
+      - name: Vérifier le contrat d’accès collaborateur interne
+        run: node tests/internal-entry-contract.test.cjs
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification explicable des entreprises
@@ -42,3 +55,5 @@ jobs:
         run: node verify-site.js
       - name: Vérifier les dix dossiers et leurs accès internes
         run: node verify-architecture.js
+      - name: Vérifier la cohérence des liens du site
+        run: node verify-liens-site.js

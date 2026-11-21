@@ -2,7 +2,7 @@
 
 ## 1. Statut
 
-MajestiOS V.5 est le cerveau du site MajestiOS et son intelligence centrale. Cette orientation fonctionnelle est une décision de cadrage ; le prototype statique ne démontre pas encore un orchestrateur ou un service d'IA opérationnel.
+MajestiOS est la plateforme : elle porte les rubriques, les services, le CRM, les données, les utilisateurs, l'administration et les règles métier. Cheexpeer est l'agent IA transversal intégré à cette plateforme ; il intervient au travers des services et capacités autorisés, sans se substituer à l'administration, au CRM ou aux règles métier. Cette architecture fonctionnelle est une cible ; le prototype ne démontre pas à lui seul que toutes ces capacités sont opérationnelles.
 
 Ce document définit des domaines fonctionnels à étudier. Il ne choisit pas encore le fournisseur backend, la base de données, le moteur vectoriel, le framework frontend ou l'orchestrateur IA. Les décisions techniques seront prises après inventaire de la 3.0 et contre-audit indépendant.
 
@@ -10,14 +10,14 @@ Ce document définit des domaines fonctionnels à étudier. Il ne choisit pas en
 
 1. **Expérience et navigation** : panorama, immeuble, ascenseur, destinations, accessibilité, mobile.
 2. **Recherche et opportunités** : taxonomie, sources publiques/privées, filtres, résultats, provenance et fraîcheur.
-3. **Développement commercial** : qualification, identification, Prosp'active, suivi des interactions et transformation.
+3. **Développement commercial** : qualification, identification, prospection, suivi des interactions et transformation.
 4. **Accompagnement AO** : préparation, valorisation des compétences et références, aide à la réponse ; les fonctions d'appels d'offres restent accessibles même si elles ne sont plus un étage de premier niveau.
 5. **Réseau, salons et séminaires** : mise en relation, événements, communautés et partenariats ; périmètres à clarifier.
 6. **Réputation virtuelle** : visibilité locale, établissement, présence cartographique, avis et accompagnement, selon les API et conditions réelles. Cas d'usage à concevoir : à partir d'une création BODACC, rapprocher l'activité et l'adresse de l'entreprise, vérifier sa présence sur Google Maps et les informations/avis publics accessibles par des moyens autorisés, puis qualifier un éventuel besoin d'accompagnement visibilité. Toute prise de contact est préparée et soumise à validation humaine ; aucune prospection automatique par défaut.
 7. **Offre commerciale CRM** : conseil, sélection, intégration et accompagnement de solutions CRM.
 8. **CRM interne MajestiOS** : données commerciales propres à MajestiOS.
 9. **CRM des clients** : données tierces cloisonnées et traitées selon mandat.
-10. **IA transversale et mémoire** : orchestration, récupération de contexte, assistants, recommandations, contrôle de qualité.
+10. **Cheexpeer — agent IA transversal** : veille, recherche, analyse, qualification, synthèse, préparation d'actions et capitalisation contrôlée, au travers des services autorisés de MajestiOS.
 11. **Business Intelligence** : indicateurs, analyses, tendances et aide à la décision.
 12. **SEO et visibilité MajestiOS** : audit technique, indexation, contenu, veille, recommandations et mesure.
 13. **Administration pilotée par l'IA** : cockpit interne, supervision technique et métier, qualité des données, SEO, maintenance, documentation, mémoire opérationnelle et préparation de tâches.

@@ -1,11 +1,12 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { resolveFile, publishedPath, listPages } = require("./chemins-site.cjs");
 
 const root = __dirname;
 const errors = [];
 const assert = (condition, message) => { if (!condition) errors.push(message); };
-const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
-const exists = (file) => fs.existsSync(path.join(root, file));
+const read = (file) => fs.readFileSync(resolveFile(root, file), "utf8");
+const exists = (file) => fs.existsSync(resolveFile(root, file));
 
 function walk(directory, relative = "") {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -17,13 +18,13 @@ function walk(directory, relative = "") {
 }
 
 const files = walk(root);
-// La documentation Markdown est autorisée dans docs/, avec README.md et AGENTS.md à la racine.
+// La documentation Markdown est autorisée dans docs/, avec README.md et AGENTS.md à la racine, ainsi que le README technique des Edge Functions.
 // Exception temporaire : le cahier des charges existe déjà sur main ; le PR ne peut pas déplacer un fichier hérité de sa branche de base.
 // Sa copie canonique V5 est conservée dans docs/evolution-5.0/.
 // Elle ne doit jamais être publiée avec le site : le build ne copie que les fichiers de son manifeste.
 const markdownAllowed = (file) => {
   const normalized = file.split(path.sep).join("/");
-  return normalized === "README.md" || normalized === "AGENTS.md" || normalized.startsWith("docs/") || normalized === "CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md";
+  return normalized === "README.md" || normalized === "AGENTS.md" || normalized.startsWith("docs/") || normalized === "CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md" || normalized === "supabase/functions/README.md";
 };
 const markdownFiles = files.filter((file) => /\.mdx?$/i.test(file) && !markdownAllowed(file));
 assert(markdownFiles.length === 0, "Documentation Markdown hors README.md, AGENTS.md et docs/ : " + markdownFiles.join(", "));
@@ -47,125 +48,112 @@ assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqué
 for (const file of siteFiles) {
   assert(typeof file === "string" && file.trim().length > 0, "Build : chemin vide ou invalide dans le manifeste");
   if (typeof file !== "string" || !file.trim()) continue;
-  assert(!path.posix.isAbsolute(file) && !file.replace(/\\\\/g, "/").split("/").includes(".."), "Build : chemin interdit : " + file);
+  assert(!path.posix.isAbsolute(file) && !file.replace(/\\/g, "/").split("/").includes(".."), "Build : chemin interdit : " + file);
   assert(exists(file) && fs.statSync(path.join(root, file)).isFile(), "Build : ressource déclarée absente ou non-fichier : " + file);
 }
 assert(!siteFiles.some((file) => /\.mdx?$/i.test(file)), "Build : la documentation Markdown ne doit pas être publiée avec le site");
 
-const htmlPages = files.filter((file) => file.endsWith(".html") && !file.includes(path.sep) && !["administration.html", "espace-interne.html", "espace-prive.html"].includes(file));
-for (const page of htmlPages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
-const expectedSiteNavigation = [
-  ["index.html", "Accueil"],
-  ["developpement-commercial.html", "Développement commercial"],
-  ["reseaux-synergies.html", "Réseau"],
-  ["reputation-virtuelle.html", "Réputation virtuelle"],
-  ["nous-rejoindre.html", "Nous rejoindre"],
-  ["espace-membre.html", "Espace privé"],
-  ["faq.html", "FAQ"]
+const htmlPages = listPages(root).map((p) => p.name);
+for (const page of htmlPages) assert(siteFiles.map(publishedPath).includes(page), "Build : page HTML absente du manifeste : " + page);
+const navigationController = read("app.js");
+const drawerController = read("navigation-tiroirs.js");
+const drawerStyles = read("navigation-tiroirs.css");
+assert(navigationController.includes('navigation-tiroirs.js') && navigationController.includes('navigation-tiroirs.css'),
+  "Navigation : le contrôleur partagé doit charger le système de tiroirs et ses styles");
+assert(navigationController.includes("Assistant conversationnel de première génération"), "Assistant conversationnel absent du contrôleur partagé");
+assert(navigationController.includes("majestios-chat.css") && exists("majestios-chat.css"),
+  "Assistant : la feuille de style dédiée doit être chargée par le contrôleur commun");
+for (const preservedText of ["MAJESTIOS · GUIDE DE VISITE","Besoin d’un coup de pouce","Par où commencer ?","Vous proposez, MajestiOS dispose.","Rechercher une opportunité","Découvrir le développement commercial","Préparer mon espace personnel","Consulter les questions fréquentes"]) {
+  assert(navigationController.includes(preservedText), "Assistant : texte ou raccourci historique non préservé : " + preservedText);
+}
+assert(navigationController.includes('bodacc-veille-entreprises.html'),
+  "Assistant : orientation directe vers la veille BODACC absente");
+
+// Les destinations fonctionnelles du site sont contrôlées indépendamment du menu public.
+// Certaines pages sont internes, sectorielles ou légales et ne doivent pas toutes devenir des entrées de menu.
+const requiredNavigationRoutes = [
+  "assistant-majestios.html",
+  "marches-publics.html","marches-prives.html","annonces.html","marches-attribues.html","veille-marches.html","bodacc-veille-entreprises.html",
+  "sous-traitance.html","developpement-commercial.html","prospection-active.html",
+  "accompagnement-appels-offres.html","facturation-electronique.html","suivi-commercial.html","qualification-entreprises.html",
+  "reseaux-synergies.html","reputation-virtuelle.html",
+  "intelligence-economique.html","espace-membre.html","espace-interne.html","crm.html",
+  "administration.html","nous-rejoindre.html","contact.html","faq.html","vision-majestios.html",
+  "categorie-services-numeriques.html","categorie-travaux-amenagement.html","categorie-conseil-etudes.html",
+  "categorie-batiment.html","categorie-renovation.html","categorie-electricite.html",
+  "categorie-plomberie-chauffage.html","categorie-maintenance.html","majestios-v5.html",
+  "mentions-legales.html","politique-confidentialite.html"
 ];
+for (const route of requiredNavigationRoutes) {
+  assert(exists(route), "Navigation : route fonctionnelle inexistante : " + route);
+  assert(siteFiles.map(publishedPath).includes(route), "Navigation : route fonctionnelle non publiée : " + route);
+}
+
+// Contrat du menu réel : cinq rubriques principales (Marchés, Développement, Réseau, Solutions, Mon espace), dix-neuf entrées secondaires et dix-neuf destinations uniques (l'Assistant n'est plus dans la barre : présence flottante).
+const menuRoutes = [...drawerController.matchAll(/\["[^"]+","([^"]+\.html)"\]/g)].map((match) => match[1]);
+const uniqueMenuRoutes = [...new Set(menuRoutes)];
+for (const route of uniqueMenuRoutes) {
+  assert(exists(route), "Navigation : destination de sous-menu inexistante : " + route);
+  assert(siteFiles.map(publishedPath).includes(route), "Navigation : destination de sous-menu non publiée : " + route);
+}
+assert( menuRoutes.length === 19, "Navigation : le menu doit contenir 19 entrées secondaires, actuellement " + menuRoutes.length);
+assert(uniqueMenuRoutes.length === 19, "Navigation : les destinations secondaires uniques doivent être 19, actuellement " + uniqueMenuRoutes.length);
+for (const label of ["Marchés","Développement","Réseau","Solutions","Mon espace"]) {
+  assert(drawerController.includes('label:"' + label + '"'), "Navigation : rubrique principale absente : " + label);
+}
+assert(drawerController.includes('mouseenter') && drawerController.includes('mouseleave'),
+  "Navigation : ouverture au survol sur ordinateur absente");
+assert(drawerController.includes('focusin') && drawerController.includes('focusout'),
+  "Navigation : ouverture clavier sur ordinateur absente");
+assert(drawerController.includes('max-width: 900px') && drawerController.includes('title.addEventListener("click"'),
+  "Navigation : ouverture tactile des sous-menus absente");
+assert(drawerController.includes('menuButton.addEventListener("click"') && drawerController.includes('nav.classList.add("open")'),
+  "Navigation : commande du hamburger absente");
+assert(drawerStyles.includes(".nav-group-link") && drawerStyles.includes(".nav-group-items"),
+  "Navigation : styles des rubriques et sous-menus absents");
+assert(drawerStyles.includes("#menu-toggle") || drawerStyles.includes(".menu-toggle"),
+  "Navigation : style du bouton hamburger absent");
 for (const page of htmlPages) {
   const pageHtml = read(page);
-  const nav = pageHtml.match(/<nav\b(?=[^>]*\bid="site-nav")[^>]*>([\s\S]*?)<\/nav>/);
-  assert(Boolean(nav), page + " : navigation principale absente");
-  if (!nav) continue;
-  const links = [...nav[1].matchAll(/<a\b([^>]*)href="([^"]+)"([^>]*)>([\s\S]*?)<\/a>/g)];
-  const navigation = links.map((match) => [
-    match[2],
-    match[4].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
-  ]);
-  const expectedNavigation = page === "index.html"
-    ? expectedSiteNavigation.map(([href, label]) => label === "Espace privé" ? ["espace-prive.html", label] : [href, label])
-    : expectedSiteNavigation;
-  assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation),
-    page + " : la navigation principale doit rester identique aux autres pages");
-  const currentLinks = links.filter((match) => /aria-current="page"/.test(match[1] + match[3]));
-  assert(currentLinks.length <= 1, page + " : une seule destination au maximum peut être marquée comme courante");
-  if (currentLinks.length === 1) {
-    const currentPage = currentLinks[0][2].split(/[?#]/, 1)[0];
-    assert(currentPage === page, page + " : aria-current doit désigner la page réellement affichée");
-  }
-  assert(pageHtml.includes('src="app.js"'),
-    page + " : le menu principal doit utiliser le contrôleur partagé app.js");
-  assert(!pageHtml.includes('querySelector(".menu-toggle")'),
-    page + " : le menu ne doit pas avoir de contrôleur inline concurrent");
+  assert(pageHtml.includes('src="navigation-tiroirs.js"'),
+    page + " : initialiseur de navigation commune et accès VIP absent");
 }
+// La barre peut être présente dans le HTML ou créée par le bootstrap commun.
+// Ce contrat couvre aussi les pages internes qui possèdent leur propre navigation métier.
 for (const asset of [
-  "styles.css", "charte-majestios.css", "app.js", "catalogue-majestios.js", "rubriques-immersives.css",
+  "styles.css", "charte-majestios.css", "app.js", "homepage.css", "homepage-theme.css", "catalogue-majestios.js", "rubriques-immersives.css",
   "rubriques-immersives.js", "category-results.js", "search-results.js",
   "opportunity-search.js", "rubric-search.js", "naf-suggestions.js",
   "company-targeting.js", "company-targeting-page.js", "company-fit.js"
-]) assert(siteFiles.includes(asset), "Build : ressource requise absente du manifeste : " + asset);
+]) assert(siteFiles.map(publishedPath).includes(asset), "Build : ressource requise absente du manifeste : " + asset);
 
 const home = read("index.html");
-assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
-assert(home.includes('aria-label="Immeuble interactif MajestiOS"'), "Accueil : immeuble interactif absent");
-assert(home.includes('id="floor-rows"'), "Accueil : conteneur des étages absent");
+assert(home.includes("<title>MajestiOS — Votre espace pour développer votre entreprise</title>"), "Accueil : titre SEO de référence inattendu");
+assert(!home.includes('aria-label="Immeuble interactif MajestiOS"') && !home.includes('id="floor-rows"'),
+  "Accueil : l'ancien système de navigation par immeuble doit être retiré");
+assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
-assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
-  home.indexOf('src="rubric-search.js"') < home.indexOf('src="app.js"'),
-  "Accueil : ordre de chargement du catalogue, du formulaire partagé et du contrôleur incorrect");
+assert(home.includes("FLUX DE DÉMONSTRATION") && home.includes("Exemples fictifs de marchés publics et privés") && home.includes("Aucune annonce réelle n’est diffusée pour le moment"), "Accueil : avertissement des exemples fictifs absent");
+assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && !home.includes("L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS") && !home.includes("home-lede"), "Accueil : introduction éditoriale absente");
+assert(!home.includes("home-pillars") && !home.includes("home-pillar"), "Accueil : les quatre cartes de présentation doivent être supprimées");
+assert(home.includes('<section class="home-cube"') && home.includes('<section class="home-personal-access"'), "Accueil : cube 3D ou accès personnel absent");
+assert(home.includes('href="developpement-commercial.html"') && home.includes('href="reseaux-synergies.html"'),
+  "Accueil : accès aux principales rubriques de navigation absent");
+assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancien titre de l'immeuble encore affiché");
+assert(!/<script>\s*[\s\S]*?<\/script>/i.test(home), "Accueil : contrôleur inline résiduel encore présent");
+assert(!navigationController.includes('const interactiveSvg = document.querySelector("#majestios-panorama")'), "Navigation : gestionnaire de l’ancien SVG interactif encore présent");
+assert(!home.includes("<style"), "Accueil : les styles doivent être externalisés dans des feuilles dédiées");
+assert(home.includes('id="home-search-mount"') && home.includes("Recherche d'opportunités"), "Accueil : promesse centrale de la vision CRM tout-en-un absente");
+assert((read("homepage.css") + read("homepage-theme.css")).includes('url("fond-panorama.webp")'), "Accueil : le fond panoramique Designer doit être préservé");
+const homepageCss = read("homepage.css") + read("homepage-theme.css");
+assert(!/\.(?:building|tower|floor|elevator|home-help|dialog-[\w-]*|window)[\w-]*|#floor-rows/i.test(homepageCss), "CSS accueil : styles obsolètes de l’ancien immeuble encore présents");
 
-const expectedDestinations = [
-  {id:"08",name:"Espace privé",href:"espace-prive.html",x:185,y:182,width:350,height:82},
-  {id:"07",name:"Réseau",href:"reseaux-synergies.html",x:185,y:266,width:350,height:80},
-  {id:"06",name:"Développement commercial",href:"developpement-commercial.html",x:185,y:350,width:350,height:92},
-  {id:"05",name:"Prospection",href:"prospection-active.html",x:185,y:444,width:350,height:81},
-  {id:"04",name:"Accompagnement appels d'offres",href:"accompagnement-appels-offres.html",x:185,y:528,width:350,height:87},
-  {id:"03",name:"Marchés publics",href:"marches-publics.html",x:185,y:618,width:350,height:83},
-  {id:"02",name:"Marchés privés",href:"marches-prives.html",x:185,y:704,width:350,height:87},
-  {id:"01",name:"Réputation virtuelle",href:"reputation-virtuelle.html",x:185,y:794,width:350,height:85},
-  {id:"RDC",name:"Accueil",href:"index.html",x:185,y:883,width:350,height:89}
-];
-const destinationBlock = home.match(/const destinations = \[([\s\S]*?)\n        \];/);
-if (!destinationBlock) {
-  errors.push("Accueil : catalogue des neuf destinations introuvable");
-} else {
-  const destinations = [...destinationBlock[1].matchAll(/\{id:"(\d{2}|RDC)",name:"([^"]+)",href:"([^"]+)",x:(\d+),y:(\d+),width:(\d+),height:(\d+)\}/g)]
-    .map(match => ({id:match[1],name:match[2],href:match[3],x:Number(match[4]),y:Number(match[5]),width:Number(match[6]),height:Number(match[7])}));
-  assert(destinations.length===9,"Accueil : exactement neuf destinations doivent être définies");
-  assert(JSON.stringify(destinations)===JSON.stringify(expectedDestinations),
-    "Accueil : les neuf destinations, leurs identifiants, coordonnées ou routes ne respectent pas l'architecture V5");
-  for (const destination of destinations) {
-    assert(destination.width>0 && destination.height>0 && destination.x>=0 && destination.y>=0 &&
-      destination.x+destination.width<=842 && destination.y+destination.height<=1264,
-      "Accueil : zone interactive hors image pour "+destination.name);
-    const route = destination.href.split("#")[0];
-    assert(exists(route),"Accueil : destination absente : "+route);
-    assert(siteFiles.includes(route),"Build : destination non publiée : "+route);
-  }
-  assert(home.includes('document.createElementNS(namespace, "a")'),"Accueil : les destinations doivent être des liens SVG natifs");
-  assert(home.includes('viewBox="0 0 842 1264"'),"Accueil : le repère SVG doit correspondre à la photo (842 × 1264)");
-  assert(home.includes('src="IMMEUBLE.jfif"'),"Accueil : la photographie de l'immeuble est absente");
-  assert(home.includes('url("Designer%20(2).png")'),"Accueil : le décor général Designer (2).png est absent");
-  assert(home.includes('url("immeuble-masque.png")'),"Accueil : le masque de détourage de l'immeuble est absent");
-  assert(home.includes("destination.href"),"Accueil : les zones doivent ouvrir directement leur route");
-  assert(home.includes("const elevatorStops = destinations.map((item) => item.y + item.height / 2);") &&
-    home.includes("const cabinCenterY = 185;") &&
-    home.includes("const offset = elevatorStops[current] - cabinCenterY;"),
-    "Accueil : les arrêts de cabine doivent être calculés depuis le centre réel des zones de chaque étage");
-  assert(home.includes('makeShape("path", "elevator-cabin"') &&
-    home.includes('d:"M558 157 C558 148 572 144 590 144'),
-    "Accueil : la cabine doit rester un cylindre panoramique en verre");
-  assert(home.includes('svg.addEventListener("pointerover"') &&
-    home.includes('if (row) selectFloor(destinations.findIndex((item) => item.id === row.dataset.floor));'),
-    "Accueil : le survol doit appeler l'ascenseur au bon étage");
-  assert(home.includes('window.location.href = row.getAttribute("href");'),
-    "Accueil : un clic doit ouvrir directement la destination");
-  assert(home.includes('caption.setAttribute("role", "status")') &&
-    home.includes('caption.setAttribute("aria-live", "polite")'),
-    "Accueil : le niveau de la cabine doit être annoncé aux technologies d'assistance");
-  assert(home.includes('canvas.setAttribute("data-title-lines", titleLines.join("|"))') &&
-    home.includes('sign.canvas.dataset.state = "paused"') &&
-    home.includes('sign.canvas.dataset.state = "scrolling"'),
-    "Accueil : les titres LED doivent exposer leurs lignes et leurs états de survol pour les tests");
-}
-
-for (const asset of ["IMMEUBLE.jfif","immeuble-masque.png","Designer (2).png"]) {
+for (const asset of ["fond-panorama.webp"]) {
   assert(exists(asset),"Visuel de l'accueil absent : "+asset);
-  assert(siteFiles.includes(asset),"Build : visuel de l'accueil non publié : "+asset);
+  assert(siteFiles.map(publishedPath).includes(asset),"Build : visuel de l'accueil non publié : "+asset);
 }
-assert(!exists("Ambitios.webp") && !exists("Développement-.webp") && !exists("Majestios.immeuble.jpg"),
+assert(!exists("Ambitios.webp") && !exists("Développement-.webp") && !exists("Majestios.immeuble.jpg") && !exists("IMMEUBLE.jfif") && !exists("OFFRE PUBLIC.png") && !exists("immeuble-masque.png") && !exists("CRM.png") && !exists("Ereputation.png") && !exists("Facture1.png") && !exists("Designer (2).png"),
   "Un ancien visuel de l'accueil doit être retiré après vérification de ses références");
 
 // Chaque URL locale utilisée par une feuille CSS doit réellement exister et être publiée.
@@ -183,12 +171,12 @@ for (const stylesheet of siteFiles.filter((file) => /\.css$/i.test(file))) {
     const target = path.posix.normalize(path.posix.join(path.posix.dirname(stylesheet),decoded));
     assert(!target.startsWith("../") && exists(target),
       stylesheet+" : ressource CSS locale absente : "+value);
-    if (exists(target)) assert(siteFiles.includes(target),
+    if (exists(target)) assert(siteFiles.map(publishedPath).includes(target),
       stylesheet+" : ressource CSS non publiée dans site-files.json : "+value);
   }
 }
 assert(exists("reputation-virtuelle.html"),"Page Réputation virtuelle absente");
-assert(siteFiles.includes("reputation-virtuelle.html"),"Build : page Réputation virtuelle non publiée");
+assert(siteFiles.map(publishedPath).includes("reputation-virtuelle.html"),"Build : page Réputation virtuelle non publiée");
 
 const catalogue = read("catalogue-majestios.js");
 assert(catalogue.includes("searchCategories") && catalogue.includes("searchDepartments") && catalogue.includes("marketTypes"),
@@ -214,6 +202,11 @@ for (const [page, category] of [
 }
 const rubricSearch = read("rubric-search.js");
 const appSearch = read("app.js");
+assert(rubricSearch.includes('form.dataset.progressive = "true"') && rubricSearch.includes('feed-criteria-toggle'),
+  "Recherche rubriques : le filtrage progressif doit être activé hors accueil");
+assert(read("prospection-active.html").includes('id="prospecting-criteria-toggle"') &&
+  read("prospection-active.html").includes('prospecting-advanced-details" hidden'),
+  "Prospection : les critères doivent être révélés progressivement par le même bouton");
 assert(rubricSearch.includes('id="advanced-search-form"') && rubricSearch.includes('id="feed-search"') &&
   rubricSearch.includes('id="feed-market-type"') && rubricSearch.includes('id="feed-sector"') &&
   rubricSearch.includes('id="feed-department"') && rubricSearch.includes('id="search-source-note"'),
@@ -229,13 +222,16 @@ const supabaseConfig = read("supabase-config.js");
 const workspaceFunction = read("supabase/functions/provision-client-workspace/index.ts");
 assert(memberPage.includes('src="auth-espace-membre.js"') && memberPage.includes('data-supabase-auth'),
   "Espace membre : le formulaire doit utiliser le contrôleur Auth Supabase");
-assert(memberPage.includes('name="privacyAccepted"') && memberPage.includes('name="passwordConfirm"'),
-  "Espace membre : prise de connaissance de la politique et confirmation du nouveau mot de passe attendues");
-assert(memberAuth.includes("signUp(") && memberAuth.includes("signInWithPassword(") &&
-  memberAuth.includes("resetPasswordForEmail(") && memberAuth.includes("updateUser({ password })"),
-  "Espace membre : inscription, connexion et récupération du mot de passe doivent être implémentées");
-assert(memberAuth.includes('provision-client-workspace') && memberAuth.includes('privacy_notice_acknowledged'),
-  "Espace membre : le provisionnement sécurisé du tenant doit être appelé après authentification");
+assert(memberPage.includes('name="email"') &&   memberPage.includes('data-open-create') && memberPage.includes('name="privacy_ack"'),
+  "Espace membre : connexion OTP et création par code avec consentement attendues");
+assert(memberAuth.includes("signInWithOtp(") && !memberAuth.includes("verifyOtp(") &&
+  memberAuth.includes("shouldCreateUser: false") && memberAuth.includes("createMode"),
+  "Espace membre : connexion OTP sans création par défaut ; création seulement en mode création");
+assert(!memberPage.includes('name="password"') && !memberPage.includes('name="passwordConfirm"') &&
+  memberAuth.includes("signInWithPassword(") && !memberAuth.includes("resetPasswordForEmail("),
+  "Espace membre : connexion par mot de passe après activation, sans réinitialisation par mot de passe oublié côté navigateur");
+assert(memberAuth.indexOf("updateUser({ password") < memberAuth.indexOf("provisionWorkspace(session)"),
+  "Espace membre : l'espace n'est demandé qu'après le code puis la création du mot de passe sécurisé");
 assert(!/SUPABASE_SERVICE_ROLE_KEY|sb_secret_[A-Za-z0-9]+/i.test(supabaseConfig),
   "Sécurité Supabase : aucune clé service_role ne doit être publiée dans le navigateur");
 const atomicProvisioning = read("supabase/migrations/20261106090000_atomic_client_workspace_provisioning.sql");
@@ -258,22 +254,27 @@ for (const migration of [
 ]) {
   assert(exists(migration), "Backend : migration versionnée absente : " + migration);
 }
-assert(siteFiles.includes("supabase-config.js") && siteFiles.includes("auth-espace-membre.js"),
+assert(siteFiles.map(publishedPath).includes("supabase-config.js") && siteFiles.map(publishedPath).includes("auth-espace-membre.js"),
   "Build : les modules publics de configuration et Auth doivent être déclarés dans le manifeste");
 
 for (const page of ["marches-publics.html","developpement-commercial.html","prospection-active.html","veille-marches.html",
   "accompagnement-appels-offres.html","sous-traitance.html","intelligence-economique.html","reseaux-synergies.html",
   "bodacc-veille-entreprises.html","suivi-commercial.html","marches-prives.html","reputation-virtuelle.html",
-  "espace-membre.html","salons-seminaires.html","crm.html","majestios-v5.html",
+  "espace-membre.html","crm.html","majestios-v5.html",
   "categorie-services-numeriques.html","categorie-travaux-amenagement.html","categorie-conseil-etudes.html",
   "categorie-batiment.html","categorie-renovation.html","categorie-electricite.html",
   "categorie-plomberie-chauffage.html","categorie-maintenance.html","faq.html","nous-rejoindre.html",
   "vision-majestios.html","qualification-entreprises.html","resultats-recherche.html"]) {
   const html = read(page);
-  assert(html.indexOf('src="catalogue-majestios.js"') >= 0 &&
-    html.indexOf('src="catalogue-majestios.js"') < html.indexOf('src="rubric-search.js"') &&
-    html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
-    "Recherche : ordre de chargement du catalogue et du moteur commun incorrect sur " + page);
+  if (page === "reputation-virtuelle.html") {
+    assert(!html.includes('src="rubric-search.js"'),
+      "Réputation virtuelle : le moteur de recherche partagé ne doit pas être chargé sur cette page");
+  } else {
+    assert(html.indexOf('src="catalogue-majestios.js"') >= 0 &&
+      html.indexOf('src="catalogue-majestios.js"') < html.indexOf('src="rubric-search.js"') &&
+      html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'),
+      "Recherche : ordre de chargement du catalogue et du moteur commun incorrect sur " + page);
+  }
   assert(/href="rubriques-immersives\.css"/.test(html),
     "Recherche : feuille de style commune absente sur " + page);
   assert(/href="charte-majestios\.css"/.test(html),
@@ -285,13 +286,32 @@ for (const page of ["marches-publics.html","developpement-commercial.html","pros
     "Charte : les styles de rubrique doivent précéder la charte commune sur " + page);
 }
 
+// La charte est une source de tokens unique, consommée par les feuilles publiques et privées.
+assert(siteFiles.map(publishedPath).includes("charte-majestios-tokens.css"),
+  "Charte : les tokens centraux doivent être publiés dans le manifeste");
+const sharedTokens = read("charte-majestios-tokens.css");
+for (const token of ["--majestios-gold:", "--majestios-navy:", "--majestios-font-body:", "--majestios-radius-control:"]) {
+  assert(sharedTokens.includes(token), "Charte : token central manquant : " + token);
+}
+assert(/@import url\(["']charte-majestios-tokens\.css["']\)/.test(read("charte-majestios.css")),
+  "Charte : la feuille publique doit importer la source de tokens");
+assert(/@import url\(["']charte-majestios-tokens\.css["']\)/.test(read("charte-majestios-espaces.css")),
+  "Charte : la feuille des espaces privés doit importer la source de tokens");
+assert(siteFiles.map(publishedPath).includes("charte-majestios-espaces.css"),
+  "Charte : la couche des espaces privés doit être publiée dans le manifeste");
+for (const page of ["crm.html","administration.html","admin-recherches.html","espace-interne.html"]) {
+  const html = read(page);
+  assert(/href="charte-majestios-espaces\.css"/.test(html),
+    "Charte : couche privée absente sur " + page);
+}
+
 const prospecting = read("prospection-active.html");
-assert(prospecting.includes("<title>Prosp'active — MajestiOS</title>"), "Prosp'active : titre incorrect");
-assert(prospecting.includes("<h1>Prosp'active</h1>"), "Prosp'active : titre principal incorrect");
-assert(!/prospection invers[ée]/i.test(prospecting), "Prosp'active : ancienne appellation encore visible");
+assert(prospecting.includes("<title>Prospection — MajestiOS</title>"), "Prospection : titre incorrect");
+assert(prospecting.includes("<h1>Prospection</h1>"), "Prospection : titre principal incorrect");
+assert(!/prospection invers[ée]/i.test(prospecting), "Ancienne appellation de prospection encore visible");
 
 if (errors.length) {
   console.error("Vérification de l’architecture échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));
   process.exit(1);
 }
-console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, neuf destinations MajestiOS, trois visuels d’accueil publiés, fonds de rubrique sans ressources manquantes, moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");
+console.log("Architecture vérifiée : " + htmlPages.length + " pages HTML, navigation classique, visuel de l’accueil conservé, fonds de rubrique sans ressources manquantes, moteur de recherche et " + siteFiles.length + " ressources. README.md présent, documentation Markdown limitée à docs/ et AGENTS.md.");

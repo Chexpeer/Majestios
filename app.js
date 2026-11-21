@@ -1,5 +1,26 @@
-const menuToggle = document.querySelector(".menu-toggle");
-const navigation = document.querySelector("#site-nav");
+// Chargement commun des ressources de navigation sur toutes les pages.
+if (!document.querySelector('link[data-majestios-drawer-css]') &&
+    !document.querySelector('link[href*="navigation-tiroirs.css"]')) {
+  const drawerStyle = document.createElement("link");
+  drawerStyle.rel = "stylesheet";
+  drawerStyle.href = new URL("navigation-tiroirs.css", document.baseURI).href;
+  drawerStyle.dataset.majestiosDrawerCss = "true";
+  document.head.append(drawerStyle);
+}
+if (!document.querySelector('script[src*="navigation-tiroirs.js"]')) {
+  const drawerScript = document.createElement("script");
+  drawerScript.src = new URL("navigation-tiroirs.js", document.baseURI).href;
+  drawerScript.dataset.majestiosDrawer = "true";
+  document.head.append(drawerScript);
+}
+if (!document.querySelector('link[data-majestios-chat-css]') &&
+    !document.querySelector('link[href*="majestios-chat.css"]')) {
+  const chatStyle = document.createElement("link");
+  chatStyle.rel = "stylesheet";
+  chatStyle.href = new URL("majestios-chat.css", document.baseURI).href;
+  chatStyle.dataset.majestiosChatCss = "true";
+  document.head.append(chatStyle);
+}
 const leadForm = document.querySelector("#lead-form");
 const formFeedback = document.querySelector("#form-feedback");
 const advancedSearchForm = document.querySelector("#advanced-search-form");
@@ -187,18 +208,20 @@ function populateSearchFilters(marketValue = "", selectedCategory = "") {
     categorySelect.replaceChildren();
     const placeholder = document.createElement("option");
     placeholder.value = "";
-    placeholder.textContent = marketValue ? "2. Choisir une catégorie" : "2. Choisir d’abord un type";
+    // Page BODACC : uniquement des annonces d'entreprises (pas de marchés publics, pas de familles hors BODACC).
+    const bodaccOnly = window.location.pathname.split("/").pop() === "bodacc-veille-entreprises.html";
+    placeholder.textContent = marketValue ? (bodaccOnly ? "Choisir un type d’annonce" : "2. Choisir une catégorie") : "2. Choisir d’abord un type";
     categorySelect.append(placeholder);
     if (marketValue) {
       const allCategories = document.createElement("option");
       allCategories.value = "all";
-      allCategories.textContent = "Toutes les catégories";
+      allCategories.textContent = bodaccOnly ? "Toutes les annonces BODACC" : "Toutes les catégories";
       categorySelect.append(allCategories);
     }
     const source = marketValue === "public"
       ? (majCatalog.searchCategories || []).filter((item) => item.active && item.value !== "all")
       : marketValue === "private"
-        ? (majCatalog.privateSearchCategories || []).filter((item) => item.active || item.planned)
+        ? (majCatalog.privateSearchCategories || []).filter((item) => (item.active || item.planned) && (!bodaccOnly || item.source === "bodacc"))
         : [];
     const groups = new Map();
     source.forEach((item) => {
@@ -245,18 +268,22 @@ const searchSteps = {
   department: document.querySelector("#department-step")
 };
 const revealStep = (step, visible = true) => { if (step) step.hidden = !visible; };
-document.querySelector("#feed-search")?.addEventListener("focus", () => revealStep(searchSteps.market));
+document.querySelector("#feed-search")?.addEventListener("focus", () => { if (advancedSearchForm?.dataset.progressive !== "true") revealStep(searchSteps.market); });
 
 const initialSearchParams = new URLSearchParams(window.location.search);
-const initialMarketType = initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "";
+const initialMarketType = advancedSearchForm?.dataset.fixedMarket === "true"
+  ? (advancedSearchForm.dataset.defaultMarket || "")
+  : (initialSearchParams.get("marche") || advancedSearchForm?.dataset.defaultMarket || "");
 const initialCategory = initialSearchParams.get("categorie") || "";
 populateSearchFilters(initialMarketType, initialCategory);
-if (initialMarketType) {
-  revealStep(searchSteps.market);
-  revealStep(searchSteps.category);
-}
-if (initialSearchParams.has("categorie") || initialSearchParams.has("departement") || initialSearchParams.has("zone")) {
-  revealStep(searchSteps.department);
+if (advancedSearchForm?.dataset.progressive !== "true" && advancedSearchForm?.dataset.fixedMarket !== "true") {
+  if (initialMarketType) {
+    revealStep(searchSteps.market);
+    revealStep(searchSteps.category);
+  }
+  if (initialSearchParams.has("categorie") || initialSearchParams.has("departement") || initialSearchParams.has("zone")) {
+    revealStep(searchSteps.department);
+  }
 }
 
 const initialDepartment = initialSearchParams.get("departement") || initialSearchParams.get("zone");
@@ -287,11 +314,13 @@ keywordControl?.addEventListener("input", updateOtherCategoryRequirement);
 document.querySelector("#feed-market-type")?.addEventListener("change", (event) => {
   populateSearchFilters(event.target.value, "");
   updateOtherCategoryRequirement();
-  revealStep(searchSteps.category, Boolean(event.target.value));
-  revealStep(searchSteps.department, false);
+  if (advancedSearchForm?.dataset.progressive !== "true") {
+    revealStep(searchSteps.category, Boolean(event.target.value));
+    revealStep(searchSteps.department, false);
+  }
 });
 document.querySelector("#feed-sector")?.addEventListener("change", () => {
-  revealStep(searchSteps.department);
+  if (advancedSearchForm?.dataset.progressive !== "true" && advancedSearchForm?.dataset.fixedMarket !== "true") revealStep(searchSteps.department);
   updateOtherCategoryRequirement();
 });
 if (advancedSearchForm) {
@@ -306,7 +335,7 @@ if (advancedSearchForm) {
     keywordControl?.reportValidity();
     return;
   }
-  const marketType = document.querySelector("#feed-market-type")?.value;
+  const marketType = document.querySelector("#feed-market-type")?.value || advancedSearchForm?.dataset.defaultMarket;
   const department = document.querySelector("#feed-department")?.value;
   if (query) params.set("q", query);
   if (category && category !== "all") params.set("categorie", category);
@@ -364,133 +393,7 @@ if (leadForm && formFeedback) {
   }
 }
 
-// Menus déroulants contextuels : accès direct aux rubriques sans alourdir la navigation.
-const contextualMenus = {
-  "developpement-commercial.html": [
-    { label: "Prosp'active", href: "prospection-active.html" },
-    { label: "Marchés publics", href: "marches-publics.html" },
-    { label: "Marchés privés", href: "marches-prives.html" }
-  ],
-  "espace-membre.html": [
-    { label: "Suivi commercial", href: "suivi-commercial.html" },
-    { label: "CRM MajestiOS", href: "crm.html" },
-    { label: "Qualification entreprises", href: "qualification-entreprises.html" }
-  ]
-};
-
-if (navigation) {
-  Object.entries(contextualMenus).forEach(([parentHref, items]) => {
-    const parentLink = [...navigation.querySelectorAll(":scope > a")].find((link) =>
-      link.getAttribute("href") === parentHref
-    );
-    if (!parentLink || parentLink.parentElement.classList.contains("nav-item-dropdown")) return;
-
-    const wrapper = document.createElement("div");
-    wrapper.className = "nav-item-dropdown";
-    parentLink.before(wrapper);
-    wrapper.append(parentLink);
-
-    const toggle = document.createElement("button");
-    toggle.className = "nav-dropdown-toggle";
-    toggle.type = "button";
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-controls", "submenu-" + parentHref.replace(/[^a-z0-9]+/gi, "-"));
-    toggle.setAttribute("aria-label", "Afficher les rubriques de " + parentLink.textContent.trim());
-    toggle.innerHTML = '<span aria-hidden="true">⌄</span>';
-    wrapper.append(toggle);
-
-    const submenu = document.createElement("div");
-    submenu.className = "nav-submenu";
-    submenu.id = toggle.getAttribute("aria-controls");
-    submenu.hidden = true;
-    submenu.setAttribute("aria-label", "Rubriques associées à " + parentLink.textContent.trim());
-    items.forEach(({ label, href }) => {
-      const link = document.createElement("a");
-      link.href = href;
-      link.textContent = label;
-      submenu.append(link);
-    });
-    wrapper.append(submenu);
-
-    const setOpen = (open) => {
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", (open ? "Masquer" : "Afficher") + " les rubriques de " + parentLink.textContent.trim());
-      submenu.hidden = !open;
-      wrapper.classList.toggle("is-open", open);
-    };
-    // Le focus seul ne doit pas ouvrir le menu : sur écran tactile, focusin précède click.
-    // L’ouverture au clavier reste explicite via Flèche bas ou activation du bouton.
-    toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
-    wrapper.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        setOpen(true);
-        submenu.querySelector("a")?.focus();
-        return;
-      }
-      if (event.key === "Escape") {
-        setOpen(false);
-        toggle.focus();
-      }
-    });
-    wrapper.addEventListener("focusout", (event) => {
-      if (!wrapper.contains(event.relatedTarget)) setOpen(false);
-    });
-    wrapper.addEventListener("mouseenter", () => {
-      if (window.matchMedia("(min-width: 1021px)").matches) setOpen(true);
-    });
-    wrapper.addEventListener("mouseleave", () => {
-      if (window.matchMedia("(min-width: 1021px)").matches && !wrapper.contains(document.activeElement)) setOpen(false);
-    });
-    document.addEventListener("pointerdown", (event) => {
-      if (!wrapper.contains(event.target)) setOpen(false);
-    });
-  });
-}
-
-if (menuToggle && navigation) {
-menuToggle.addEventListener("click", () => {
-  const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
-  menuToggle.setAttribute("aria-expanded", String(!isOpen));
-  menuToggle.setAttribute("aria-label", isOpen ? "Ouvrir le menu" : "Fermer le menu");
-  navigation.classList.toggle("open", !isOpen);
-});
-
-navigation.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navigation.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.setAttribute("aria-label", "Ouvrir le menu");
-  });
-});
-}
-
-
-/* Interaction directe avec le SVG intégré dans le DOM de la page d’accueil. */
-const interactiveSvg = document.querySelector("#majestios-panorama");
-if (interactiveSvg) {
-  const surfaceNames = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.label]));
-  const surfaceDestinations = Object.fromEntries(majCatalog.rubrics.map((rubric) => [rubric.surface, rubric.href]));
-  const surfaces = [...interactiveSvg.querySelectorAll("[data-surface]")];
-  surfaces.forEach((surface) => {
-    const name = surfaceNames[surface.dataset.surface] || surface.getAttribute("aria-label") || "Rubrique";
-    surface.setAttribute("aria-pressed", "false");
-    surface.setAttribute("role", "link");
-    surface.setAttribute("aria-label", `Ouvrir ${name}`);
-    surface.addEventListener("click", () => {
-      const destination = surfaceDestinations[surface.dataset.surface];
-      if (destination) window.location.href = destination;
-    });
-    surface.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        const destination = surfaceDestinations[surface.dataset.surface];
-        if (destination) window.location.href = destination;
-      }
-    });
-  });
-}
-
+// Navigation MajestiOS — tiroirs accessibles, lien de rubrique indépendant du bouton d'ouverture.
 const personalSpaceDialog = document.querySelector("#personal-space-dialog");
 const closePersonalSpace = document.querySelector("#close-personal-space");
 const personalSpaceForm = document.querySelector("#personal-space-form");
@@ -536,20 +439,74 @@ if (interiorPage && interiorTitle && !interiorPage.querySelector(".interior-brea
 }
 
 
-// Coup de pouce sur l’accueil : navigation guidée, sans prétendre fournir une IA conversationnelle.
-const homeHelpToggle = document.querySelector("#home-help-toggle");
-const homeHelpPanel = document.querySelector("#home-help-panel");
-const homeHelpClose = document.querySelector("#home-help-close");
-function setHomeHelpOpen(open) {
-  if (!homeHelpToggle || !homeHelpPanel) return;
-  homeHelpPanel.hidden = !open;
-  homeHelpToggle.setAttribute("aria-expanded", String(open));
-  if (open) homeHelpClose?.focus();
-  else homeHelpToggle.focus();
-}
-homeHelpToggle?.addEventListener("click", () => setHomeHelpOpen(homeHelpToggle.getAttribute("aria-expanded") !== "true"));
-homeHelpClose?.addEventListener("click", () => setHomeHelpOpen(false));
-homeHelpPanel?.querySelectorAll("[data-home-help-close]").forEach((link) => link.addEventListener("click", () => setHomeHelpOpen(false)));
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && homeHelpPanel && !homeHelpPanel.hidden) setHomeHelpOpen(false);
-});
+// Assistant conversationnel de première génération : orientation fondée sur les rubriques existantes.
+(() => {
+  if (document.querySelector("#majestios-chat")) return;
+  const knowledge = [
+    {terms:["marché public","marches publics","appel d'offre public","boamp"],label:"Marchés publics",href:"marches-publics.html",answer:"La rubrique Marchés publics aide à repérer les consultations et à préparer leur analyse."},
+    {terms:["veille des marchés","veille marché","veille marchés"],label:"Veille des marchés",href:"veille-marches.html",answer:"La veille des marchés aide à suivre les signaux et consultations utiles à votre activité."},
+    {terms:["bodacc","redressement","liquidation","cession","création entreprise"],label:"Veille des entreprises · BODACC",href:"bodacc-veille-entreprises.html",answer:"La veille BODACC permet de suivre les créations, cessions, modifications et procédures collectives des entreprises."},
+    {terms:["marché privé","marches privés","opportunité privée","annonce privée"],label:"Marchés privés",href:"marches-prives.html",answer:"La rubrique Marchés privés rassemble les opportunités et signaux commerciaux du secteur privé."},
+    {terms:["prospection","prospecter","ciblage","entreprise à contacter"],label:"Prospection",href:"prospection-active.html",answer:"La rubrique Prospection sert à détecter, qualifier et identifier des entreprises pertinentes avant de préparer une prise de contact."},
+    {terms:["développement commercial","commercial","opportunité"],label:"Développement commercial",href:"developpement-commercial.html",answer:"Le Développement commercial relie la détection des opportunités, leur qualification, la prise de contact et la capitalisation."},
+    {terms:["accompagnement","répondre","mémoire technique","appel d'offre"],label:"Accompagnement appels d’offres",href:"accompagnement-appels-offres.html",answer:"L'accompagnement aide à valoriser les compétences, les références, les chantiers et la satisfaction des clients."},
+    {terms:["sous-traitance","sous traitant","partenaire chantier"],label:"Sous-traitance",href:"sous-traitance.html",answer:"La rubrique Sous-traitance permet d'explorer les besoins de renfort, les offres et les recherches de partenaires."},
+    {terms:["réseau","synergie","partenaire","mise en relation"],label:"Réseau et synergies",href:"reseaux-synergies.html",answer:"La rubrique Réseau aide à identifier des complémentarités et des possibilités de coopération."},
+    {terms:["réputation","visibilité","réseaux sociaux","facebook","linkedin"],label:"Réputation virtuelle",href:"reputation-virtuelle.html",answer:"La Réputation virtuelle présente les axes de présence numérique et prépare leur analyse. Les icônes sociales illustrent les plateformes ; elles ne prouvent pas une connexion active."},
+    {terms:["qualification","naf","ape","entreprise"],label:"Qualification des entreprises",href:"qualification-entreprises.html",answer:"La qualification aide à rapprocher les entreprises de critères d'activité et à préparer une vérification humaine."},
+    {terms:["suivi commercial","historique","relance"],label:"Suivi commercial",href:"suivi-commercial.html",answer:"Le Suivi commercial permet de structurer la mémoire des démarches, des réponses et des suites à donner."},
+    {terms:["crm","client","contact"],label:"CRM MajestiOS",href:"crm.html",answer:"Le CRM VIP est réservé aux administrateurs internes autorisés. L'authentification seule ne donne pas de droits CRM."},
+    {terms:["espace privé","inscription","connexion","code","otp"],label:"Espace privé",href:"espace-membre.html",answer:"L'Espace privé est destiné aux membres. Le parcours de connexion par code e-mail est en préparation et doit encore être validé de bout en bout."},
+    {terms:["contact","parler à quelqu'un","contacter"],label:"Contact",href:"contact.html",answer:"Pour une demande qui nécessite un échange humain, utilisez la page Contact."},
+    {terms:["emploi","recrutement","candidature","cv"],label:"Nous rejoindre",href:"nous-rejoindre.html",answer:"Pour rejoindre l'équipe ou transmettre une candidature, consultez la rubrique Nous rejoindre."},
+    {terms:["faq","question fréquente","questions fréquentes","aide"],label:"FAQ",href:"faq.html",answer:"La FAQ rassemble les réponses aux questions fréquentes sur les rubriques et le fonctionnement de MajestiOS."},
+    {terms:["vision","ambition","philosophie","objectif majestos"],label:"Vision MajestiOS",href:"vision-majestios.html",answer:"La page Vision présente le positionnement et la logique de développement commercial de MajestiOS."},
+    {terms:["intelligence économique","business intelligence","analyse"],label:"Intelligence économique",href:"intelligence-economique.html",answer:"L'Intelligence économique rassemble les informations utiles à l'analyse et à la décision commerciale."}
+  ];
+  const host = document.createElement("aside");
+  host.id = "majestios-chat";
+  host.className = "majestios-chat";
+  host.innerHTML = '<button class="majestios-chat-toggle" type="button" aria-expanded="false" aria-controls="majestios-chat-panel"><span aria-hidden="true">✦</span><span class="majestios-chat-toggle-copy"><strong>Parler à MajestiOS</strong><small>Besoin d’un coup de pouce&nbsp;?</small></span></button><section class="majestios-chat-panel" id="majestios-chat-panel" aria-label="Assistant MajestiOS" hidden><header class="majestios-chat-head"><div><small>MAJESTIOS · GUIDE DE VISITE</small><strong>Assistant MajestiOS</strong><small>Par où commencer ? · Première génération</small></div><button class="majestios-chat-close" type="button" aria-label="Fermer l’assistant">×</button></header><div class="majestios-chat-disclaimer">Vous proposez, MajestiOS dispose. Ce guide vous oriente vers les bonnes rubriques et leurs contenus. Le moteur IA de Cheexpeer sera connecté dans une prochaine étape.</div><nav class="majestios-chat-shortcuts" aria-label="Accès rapides"><a href="developpement-commercial.html">⌕ Rechercher une opportunité</a><a href="developpement-commercial.html">↗ Découvrir le développement commercial</a><a href="espace-membre.html">＋ Préparer mon espace personnel</a><a href="faq.html">? Consulter les questions fréquentes</a></nav><div class="majestios-chat-messages" role="log" aria-live="polite"><p class="majestios-chat-message is-assistant">Vous proposez, MajestiOS dispose. Que souhaitez-vous trouver ou comprendre ?</p></div><form class="majestios-chat-form"><label class="visually-hidden" for="majestios-chat-input">Votre question</label><input id="majestios-chat-input" name="question" type="text" maxlength="500" placeholder="Votre question…" autocomplete="off" required><button type="submit">Envoyer</button></form></section>';
+  document.body.append(host);
+  const toggle = host.querySelector(".majestios-chat-toggle");
+  const panel = host.querySelector(".majestios-chat-panel");
+  const close = host.querySelector(".majestios-chat-close");
+  const form = host.querySelector(".majestios-chat-form");
+  const input = host.querySelector("#majestios-chat-input");
+  const messages = host.querySelector(".majestios-chat-messages");
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+    if (open) input.focus(); else toggle.focus();
+  };
+  toggle.addEventListener("click", () => setOpen(panel.hidden));
+  document.querySelector("#assistant-open-guide")?.addEventListener("click", () => setOpen(true));
+  close.addEventListener("click", () => setOpen(false));
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !panel.hidden) setOpen(false); });
+  const appendMessage = (text, role, link) => {
+    const message = document.createElement("p");
+    message.className = "majestios-chat-message " + (role === "user" ? "is-user" : "is-assistant");
+    message.textContent = text;
+    messages.append(message);
+    if (link) {
+      const anchor = document.createElement("a");
+      anchor.className = "majestios-chat-link";
+      anchor.href = link.href;
+      anchor.textContent = "Ouvrir : " + link.label + " →";
+      messages.append(anchor);
+    }
+    messages.scrollTop = messages.scrollHeight;
+  };
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+    appendMessage(question, "user");
+    const normalized = question.toLocaleLowerCase("fr");
+    const match = knowledge.find((item) => item.terms.some((term) => normalized.includes(term)));
+    if (match) appendMessage(match.answer, "assistant", match);
+    else appendMessage("Je ne trouve pas de réponse suffisamment fiable dans les rubriques actuellement référencées. Vous pouvez parcourir le menu principal ou transmettre votre demande à l'équipe.", "assistant", {label:"Contact",href:"contact.html"});
+    input.value = "";
+    input.focus();
+  });
+})();

@@ -1,4 +1,4 @@
-# Guide de reprise IA — MajestiOS V.5
+# Guide de reprise IA — Cheexpeer dans MajestiOS V.5
 
 **Version documentaire :** 5 novembre 2026  
 **Dépôt :** `Chexpeer/Majestios`  
@@ -37,22 +37,22 @@ MajestiOS ne doit pas devenir un simple agrégateur d'annonces, un tableau de bo
 
 Principes de positionnement et vocabulaire :
 - employer **Développement commercial** ;
-- employer **Prospection** pour le dossier et **Prosp'active** comme signature de marque lorsque cela convient ;
+- employer **Prospection** de façon cohérente dans les menus, les pages, les contenus publics et la documentation ;
 - employer **Réputation virtuelle**, pas « e-Réputation » ;
 - employer **Réseau** et rattacher **Salons & Séminaires** à ce domaine ;
 - ne pas réintroduire « prospection inversée » ;
 - un signal BODACC est une piste à qualifier, pas un marché privé confirmé.
 
-## 3. Doctrine de l'intelligence centrale
+## 3. Doctrine de Cheexpeer et indépendance du moteur IA
 
-**MajestiOS V.5 est l'intelligence centrale unique de la plateforme.** Elle doit coordonner les capacités, les analyses, les interactions, la mémoire et les automatisations permises.
+**Cheexpeer est l’IA intégrée à MajestiOS.** Son activation est volontairement différée pendant la préparation des fondations. À terme, elle assurera la surveillance, l’analyse, les rapports, les alertes et le scoring explicable des opportunités. Elle pourra ensuite recevoir progressivement d’autres tâches autorisées, sans se substituer à l’Administration.
 
-MajestiOS V.5 assure la réflexion stratégique, l'exploration et le suivi des évolutions utiles à la plateforme. Il confronte les hypothèses aux sources, identifie des pistes d'amélioration et propose des expérimentations vérifiables. Toute recommandation reste soumise à validation explicite.
+Cheexpeer pourra contribuer à l’analyse et au suivi des évolutions utiles à la plateforme. Elle confrontera les hypothèses aux sources, identifiera des pistes d'amélioration et proposera des expérimentations vérifiables. Toute recommandation restera soumise aux validations requises.
 
 
 ### SEO comme capacité continue
 
-Le SEO n'est pas une action ponctuelle de rédaction. La cible V5 couvre la surveillance technique, l'indexation, la qualité éditoriale, le maillage, la performance, les évolutions des moteurs classiques et génératifs, les recommandations priorisées et la mesure des effets. MajestiOS V.5 assure également le suivi des évolutions des moteurs et des pratiques de référencement ; l'administration organise le suivi opérationnel et les validations.
+Le SEO n'est pas une action ponctuelle de rédaction. La cible V5 couvre la surveillance technique, l'indexation, la qualité éditoriale, le maillage, la performance, les évolutions des moteurs classiques et génératifs, les recommandations priorisées et la mesure des effets. Cheexpeer pourra également contribuer au suivi des évolutions des moteurs et des pratiques de référencement. L’Administration conserve le contrôle opérationnel et les validations. À ce stade, Cheexpeer reste en attente pendant la préparation des fondations.
 
 Ne jamais promettre une position garantie ou un maintien automatique en tête des moteurs. Les changements de contenu et de production nécessitent une validation humaine.
 
@@ -62,7 +62,7 @@ L'arborescence de l'immeuble, ses niveaux, ses destinations et ses routes sont d
 
 Principe non négociable : **le schéma reflète l'arborescence**. Les zones interactives doivent mener aux bons dossiers et aux vraies pages. Éviter les liens qui renvoient simplement vers une ancre ou un paragraphe de la page courante lorsqu'une destination dédiée est attendue.
 
-Le moteur de recherche, le CRM, la Business Intelligence, l'intelligence centrale, la mémoire, l'administration et le SEO sont des capacités transversales ; ils ne doivent pas être transformés arbitrairement en étages supplémentaires.
+Le moteur de recherche, le CRM, la Business Intelligence, Cheexpeer, la mémoire, l'administration et le SEO sont des capacités transversales ; ils ne doivent pas être transformés arbitrairement en étages supplémentaires.
 
 Ne pas modifier l'image de l'immeuble, ses zones, ses étiquettes, son responsive ou ses interactions pendant un lot documentaire.
 
@@ -179,6 +179,8 @@ Avant de continuer, l'IA repreneuse doit vérifier et noter :
 En cas de contradiction entre un ancien document et une décision explicite plus récente du fondateur, appliquer la décision récente et actualiser le registre documentaire. En cas d'incertitude, poser une seule question ciblée plutôt que d'inventer.
 
 ## 12. Documents canoniques à consulter
+
+- [Dossier de reprise IA — CRM, Supabase et Prospection](DOSSIER-REPRISE-IA-CRM-SUPABASE-PROSPECTION-2026-11-08.md) — état consolidé des réalisations, preuves, limites et travaux restants au 8 novembre 2026.
 
 - [Référence V5](MAJESTIOS-V5-REFERENCE.md)
 - [Vision IA transversale](VISION-IA-TRANSVERSALE.md)

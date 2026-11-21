@@ -1,76 +1,41 @@
-# Documentation MajestiOS
+# MajestiOS — documentation
 
-**Index — 5 novembre 2026** · Référentiel V5 source : `evolution-5.0` · Reconstruction de livraison en revue : `evolution-5.0-clean-preview` (PR #38)
+**Mise à jour :** 21 novembre 2026. **Lire d'abord : [la synthèse](SYNTHESE-MAJESTIOS.md).**
 
-La branche `evolution-5.0` porte le référentiel documentaire actuel de MajestiOS. Les versions antérieures restent séparées sur leurs branches sources : `evolution-2.0`, `evolution-3.0` et `evolution-4.0`. Leurs dossiers ne sont pas recopiés dans V5.
+## Ordre de lecture
 
-## Référentiel actif — MajestiOS V.5
+1. [Consignes de travail](../AGENTS.md) — mandat, branches, sécurité, méthode.
+2. [Synthèse](SYNTHESE-MAJESTIOS.md) — mission, état réel, décisions, carte documentaire.
+3. [Anomalies critiques](CRITIQUES/README.md) — risques vivants et règles de traitement.
+4. [Feuille de route stratégique](evolution-10/FEUILLE-DE-ROUTE-STRATEGIQUE-2026-11-14.md) — lots, prérequis, décisions.
+5. [Guide de prise en main IA](GUIDE-PRISE-EN-MAIN-IA-MAJESTIOS.md) — onboarding et limites de preuve.
+6. [Journal de la branche active `evolution-10`](evolution-10/JOURNAL-DE-SYNCHRONISATION-SUPABASE-TEST-2026-11-15.md) et [charte / état courant](evolution-10/CHARTE-CLAIRE-PALETTE-4-2026-11-15.md).
+7. [Référentiel repris d'Evolution-9](evolution-10/README.md) et [registre des anomalies](evolution-10/REGISTRE-ANOMALIES-EVOLUTION-9.md) — désormais dans le dossier evolution-10.
 
-### Référence canonique
+## Références par sujet
 
-| Document | Rôle |
+| Sujet | Document |
 |---|---|
-| [Référence MajestiOS V.5](evolution-5.0/MAJESTIOS-V5-REFERENCE.md) | Source canonique de vision, d'architecture, d'arborescence, d'état réel et de décisions à prendre |
-| [Guide autonome de reprise IA](evolution-5.0/GUIDE-REPRISE-IA-MAJESTIOS-V5.md) | Dossier autonome pour reprendre le projet sans perdre la vision, les décisions, les preuves et les limites |
-| [Filiation documentaire V2 → V5](evolution-5.0/FILIATION-DOCUMENTAIRE-V2-A-V5.md) | Chronologie vérifiée, sources par branche, continuité des décisions et rectification de l'erreur sur V4 |
-| [Audit de conformité et des liens](evolution-5.0/AUDIT-CONFORMITE-ARCHITECTURE-ET-LIENS.md) | Preuves du contrôle du dépôt, routes, résultats, rectificatif documentaire et limites de vérification |
-| [Audit du lot 2 — navigation fonctionnelle](evolution-5.0/AUDIT-LOT-2-NAVIGATION-FONCTIONNELLE.md) | Parcours de second niveau, corrections vérifiées et contrôles non exécutés |
-| [Audit du lot 3 — fonctionnalités des rubriques](evolution-5.0/AUDIT-LOT-3-FONCTIONNALITES.md) | Qualification opérationnelle des rubriques, correction du menu et travaux restant à développer |
-| [Audit du lot 4 — moteur de recherche transversal](evolution-5.0/AUDIT-LOT-4-MOTEUR-RECHERCHE.md) | Sources, filtres, pertinence, limites de couverture, CRM et recommandations d'évolution |
-| [Audit du lot 5 — architecture CRM et capitalisation](evolution-5.0/AUDIT-LOT-5-ARCHITECTURE-CRM-CAPITALISATION.md) | Données par source, écarts entre prototype et CRM cible, modèle conceptuel proposé et décisions avant persistance |
+| Vision | [Vision stratégique 2026–2028](evolution-10/VISION-STRATEGIQUE-MAJESTIOS-2026-2028.md) |
+| Réalisation | [Plan de réalisation et moyens](evolution-10/PLAN-REALISATION-ET-MOYENS.md) |
+| Écart site / documentation | [État réel et trajectoire](evolution-10/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md) |
+| Architecture cible | [CRM tout-en-un](evolution-8/ARCHITECTURE-CIBLE-CRM-TOUT-EN-UN.md) (héritée) |
+| Facturation | [Spécification cible](evolution-10/SPECIFICATION-CIBLE-FACTURATION-CRM-ELECTRONIQUE.md) |
+| Cheexpeer | [Cartographie](evolution-10/CARTOGRAPHIE-FONCTIONNELLE-TRANSVERSALE-CHEEXPEER.md) · [audit des interfaces](evolution-10/AUDIT-INTERFACES-CHEEXPEER-2026-11-11.md) · [première mission](evolution-10/SPECIFICATION-PREMIERE-MISSION-CHEEXPEER.md) |
+| CRM / Supabase | [Audit en lecture seule](evolution-10/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md) |
+| Non-régression · SEO | [Evolution-7](evolution-10/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) · [SEO](evolution-10/AUDIT-SEO-EVOLUTION-9.md) |
+| Audit du produit | [Audit du 20 novembre 2026](evolution-10/AUDIT-PRODUIT-2026-11-20.md) |
+| Pistes marchés attribués et sélection Sous-traitance | [Pistes du 21 novembre 2026](evolution-10/PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md) |
+| État et orientation (soir du 21/11) | [État réel et orientation](evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md) |
+| Migration de l'arborescence | [Plan evolution-11 → evolution-12](evolution-11/PLAN-MIGRATION-ARBORESCENCE-2026-11-21.md) |
+| Plan de synthèse | [Plan de synthèse documentaire](evolution-10/PLAN-SYNTHESE-DOCUMENTAIRE.md) |
 
-### Documents complémentaires V5
+## Repères
 
-| Document | Rôle |
-|---|---|
-| [Instructions agents](../AGENTS.md) | Règles canoniques de travail, préservation et validation |
-| [README V5](evolution-5.0/README.md) | Entrée du référentiel actif |
-| [Vision fondatrice](evolution-5.0/VISION-FONDATRICE.md) | Promesse, doctrine et principes structurants |
-| [Arborescence cible](evolution-5.0/ARBORESCENCE-CIBLE-V5.md) | Correspondance immeuble → étages → dossiers → pages |
-| [Expérience immersive](evolution-5.0/EXPERIENCE-IMMERSIVE-ET-ETAGES.md) | Panorama, quartier, immeuble, ascenseur et navigation |
-| [Architecture fonctionnelle](evolution-5.0/ARCHITECTURE-FONCTIONNELLE-CIBLE.md) | Domaines métier, données et frontières fonctionnelles |
-| [Vision IA transversale](evolution-5.0/VISION-IA-TRANSVERSALE.md) | Intelligence centrale, orchestration, capacités transversales et gouvernance |
-| [Module Administration IA](evolution-5.0/MODULE-ADMIN-IA.md) | Supervision, maintenance, SEO et autonomie encadrée |
-| [Mémoire conversationnelle](evolution-5.0/MEMOIRE-CONVERSATIONNELLE-ET-IA.md) | Continuité, recherche et réutilisation contrôlée du contexte |
-| [Roadmap et gouvernance](evolution-5.0/ROADMAP-ET-GOUVERNANCE.md) | Phases, critères, validations et autonomie |
-| [Audit du panorama et trajectoire 3D](evolution-5.0/AUDIT-PANORAMA-ET-PLAN-3D.md) | État réel du prototype et limites vérifiées |
-| [Audit initial et plan de nettoyage](evolution-5.0/AUDIT-INITIAL-ET-PLAN-NETTOYAGE.md) | Constats datés, écarts historiques et rectifications à revalider |
-| [Nettoyage documentaire](evolution-5.0/NETTOYAGE-DOCUMENTAIRE.md) | Inventaire, règles de tri et conservation du patrimoine |
-| [Maintenance, sauvegardes et continuité](evolution-5.0/MAINTENANCE-ET-CONTINUITE.md) | Protocole permanent de nettoyage Git, points de retour, contrôles, documentation et reprise |
-| [Nettoyage des archives historiques](evolution-5.0/NETTOYAGE-ARCHIVES-HISTORIQUES-2026-11-05.md) | Comparaison des empreintes Git et retrait des copies exactes ; statut des huit documents conservés |
-| [Cahier des charges — veille stratégique](evolution-5.0/CAHIER-DES-CHARGES-VEILLE-STRATEGIQUE.md) | Spécification de cadrage des signaux, ressources, emploi, immobilier professionnel et raccordement au ciblage commercial |
+- Branche de livraison vers `main` : `livraison-evolution-12` ([préparation](evolution-12/LIVRAISON-VERS-MAIN-2026-11-21.md)).
+- Branche active : `evolution-12` (arborescence rangée en dossiers, [plan](evolution-11/PLAN-MIGRATION-ARBORESCENCE-2026-11-21.md), [état et orientation](evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md)) ; `evolution-10` et `evolution-11` sont sauvegardées (`backup-evolution-10-2026-11-21`, `backup-evolution-11-2026-11-21`) et figées. La branche Evolution-9 est conservée intacte. Rien n'est fusionné ni en production.
+- Une présence dans Git ne prouve ni déploiement, ni configuration distante, ni recette.
 
-## Archives thématiques
+## Historique
 
-Le dossier `historique/` conserve des spécifications et ressources thématiques utiles à la compréhension du projet. Il ne constitue pas un substitut aux branches sources V2, V3 ou V4 et ne doit pas être interprété comme une doctrine active sans rapprochement avec la référence V5.
-
-## Hiérarchie documentaire
-
-1. Les décisions explicites et validations récentes du porteur du projet prévalent.
-2. `docs/evolution-5.0/MAJESTIOS-V5-REFERENCE.md` est la référence canonique actuelle.
-3. Le document de filiation explique l'origine des exigences et les changements de version ; les documents sources antérieurs restent sur leurs branches.
-4. Les audits décrivent un état daté : leurs constats doivent être revalidés avant intervention.
-5. Une proposition n'est pas une décision ; une page ou un script présent n'est pas la preuve d'une fonction opérationnelle.
-6. Toute contradiction non résolue est inscrite dans le registre d'audit ; aucune IA ne tranche par supposition.
-
-## Règles d'entretien et de continuité
-
-Le nettoyage, les sauvegardes et la mise à jour documentaire sont obligatoires à chaque évolution importante. Le protocole détaillé est défini dans [Maintenance, sauvegardes et continuité](evolution-5.0/MAINTENANCE-ET-CONTINUITE.md). Les références de branche et de commit doivent être datées et revalidées avant toute reprise.
-
-## Règles de conservation
-
-- Inventorier avant de supprimer, déplacer ou renommer.
-- Préserver les fonctions métier utiles même si elles ne sont pas visibles comme étage.
-- Regrouper les doublons autour d'une référence canonique sans déplacer les sources historiques hors de leurs branches.
-- Ne supprimer que les éléments explicitement abandonnés, sans dépendance utile et après vérification des liens, du build et des tests.
-- Aucun merge ni déploiement de production sans validation explicite.
-
-## Points stratégiques à instruire
-
-- Nomenclature finale et expérience immersive réellement explorable, avec ascenseur visible et parcours cohérents.
-- Périmètre BODACC et catégories privées, à harmoniser entre décisions métier, catalogue et tests.
-- Catégories BOAMP après mesure des volumes et validation.
-- Circuits distincts entre publication, CRM, veille et prospection.
-- Rôle de l'intelligence centrale MajestiOS V.5, permissions, mémoire et orchestration.
-- Architecture backend, identité, cloisonnement, stockage, coûts et intégrations.
-- SEO : audit continu, veille des moteurs, recommandations et validation des changements.
+Les dossiers `evolution-5.0` à `evolution-8`, `docs/historique` et les [journaux archivés](historique/JOURNAL-CRITIQUES-2026-11.md) sont conservés comme sources ; ils ne décrivent pas l'état courant. En cas de contradiction, la décision la plus récente effectivement validée prévaut.

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07162a">
+  <meta name="description" content="L’espace d’assistance MajestiOS : comprendre les fonctionnalités, préparer vos démarches et retrouver le bon parcours.">
+  <title>Assistant MajestiOS — Espace d’assistance</title>
+  
+  
+  
+  
+  <script src="app.js" defer></script>
+  <script src="navigation-tiroirs.js" defer></script>
+  
+<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="rubriques-immersives.css">
+    <link rel="stylesheet" href="assistant-majestios.css">
+    <link rel="stylesheet" href="majestios-identite-visuelle.css">
+    <link rel="stylesheet" href="charte-majestios.css">
+    </head>
+<body class="assistant-page">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="MajestiOS, accueil">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span>majesti<span class="brand-os">OS</span></span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="marches-publics.html">Marchés</a><a href="developpement-commercial.html">Développement</a><a href="reseaux-synergies.html">Réseau</a><a href="facturation-electronique.html">Solutions</a><a href="espace-membre.html">Mon espace</a></nav>
+  </header>
+
+  <main class="assistant-shell">
+    <section class="assistant-intro">
+      <p class="assistant-eyebrow">VOTRE POINT D’ENTRÉE DANS MAJESTIOS</p>
+      <h1>L’assistant <span>MajestiOS</span></h1>
+      <p class="assistant-lede">Un espace unique pour comprendre les outils, préparer vos démarches et avancer dans vos projets commerciaux et administratifs.</p>
+      <div class="assistant-capabilities" aria-label="Ce que l’assistant doit vous aider à faire">
+        <article><span>01</span><h2>Comprendre</h2><p>Obtenir des explications simples sur les fonctionnalités et les démarches.</p></article>
+        <article><span>02</span><h2>Se repérer</h2><p>Être orienté vers la bonne rubrique, le bon document ou le bon parcours.</p></article>
+        <article><span>03</span><h2>Préparer</h2><p>Structurer une demande, un dossier ou les prochaines étapes d’une action.</p></article>
+      </div>
+    </section>
+
+    <section class="assistant-console" aria-labelledby="assistant-console-title">
+      <div class="assistant-console-head">
+        <div class="assistant-avatar" aria-hidden="true">M</div>
+        <div><p class="assistant-console-kicker">ESPACE DE CONVERSATION</p><h2 id="assistant-console-title">Assistant MajestiOS</h2></div>
+        <span class="assistant-status"><i></i> Guide local actif · IA à raccorder</span>
+      </div>
+      <div class="assistant-conversation" aria-live="polite">
+        <div class="assistant-message assistant-message-system">
+          <span class="assistant-message-label">MAJESTIOS</span>
+          <p>Bienvenue dans votre espace d’assistance.</p>
+          <p>Le guide conversationnel de première génération est déjà disponible grâce au bouton « Parler à MajestiOS » en bas de page. Il répond à partir des rubriques et mots-clés référencés et vous oriente vers les bons parcours.</p>
+          <p>Le moteur IA avancé et son fournisseur ne sont pas encore raccordés. Cet espace ne déclenche aucune action métier.</p>
+        </div>
+        <div class="assistant-next-step">
+          <strong>Ce qui reste à raccorder</strong>
+          <ul>
+            <li>Le moteur conversationnel et son fournisseur IA ;</li>
+            <li>Les règles de confidentialité et le contexte de chaque utilisateur ;</li>
+            <li>Les accès aux ressources MajestiOS autorisées ;</li>
+            <li>La journalisation, les limites d’usage et le transfert vers un humain.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="assistant-composer assistant-composer-launcher">
+        <p>Le guide conversationnel local est prêt. Ouvrez-le pour poser une question et être orienté vers les rubriques existantes.</p>
+        <button type="button" id="assistant-open-guide">Ouvrir le guide conversationnel</button>
+      </div>
+      <p class="assistant-disclaimer">Le guide actuel est un outil d’orientation local. Il ne transmet aucune donnée et ne déclenche aucune action métier.</p>
+    </section>
+
+    <nav class="assistant-shortcuts" aria-label="Accès directs MajestiOS">
+      <a href="index.html">Revenir au moteur de recherche</a>
+      <a href="faq.html">Consulter la FAQ</a>
+      <a href="contact.html">Contacter l’équipe MajestiOS</a>
+    </nav>
+  </main>
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+    <p>© 2026 MajestiOS · Développement commercial et accompagnement des entreprises.</p>
+  </footer>
+</body>
+</html>

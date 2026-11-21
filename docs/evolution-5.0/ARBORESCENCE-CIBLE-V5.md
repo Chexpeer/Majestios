@@ -2,6 +2,8 @@
 
 Statut : référence fonctionnelle et visuelle au 5 novembre 2026. Les neuf destinations, leurs routes et leurs coordonnées sont vérifiées dans index.html et les tests navigateur ; toute évolution doit mettre à jour simultanément le schéma, les tests et cette référence.
 
+> Note du 14 novembre 2026 : le menu de la branche de test `test-ecriture-claude` regroupe les pages en cinq rubriques (voir `docs/evolution-10/ETAT-REEL-SITE-ET-TRAJECTOIRE-2026-11-14.md`). L'immeuble interactif de l'accueil n'est pas modifié.
+
 ## Rubriques visibles sur l'immeuble interactif MajestiOS
 
 Les neuf destinations ci-dessous correspondent à l'ordre réel des zones SVG de l'accueil, du haut vers le rez-de-chaussée.
@@ -24,7 +26,7 @@ Le moteur de recherche, le CRM et la Business Intelligence sont des fonctions tr
 
 - CRM MajestiOS : `crm.html`, structuration des entreprises, contacts, opportunités, activités et historique.
 - Business Intelligence : analyses et aide à la décision, dont `intelligence-economique.html`.
-- MajestiOS V.5 : intelligence centrale du site, qui coordonne les capacités transversales sous gouvernance ; son implémentation reste une cible non opérationnelle dans le prototype actuel.
+- Cheexpeer : IA intégrée à MajestiOS, destinée à la surveillance, à l’analyse, aux rapports, aux alertes et au scoring explicable des opportunités. Son activation reste différée pendant la préparation des fondations.
 - Suivi commercial : `suivi-commercial.html`, rattaché au développement commercial et au CRM.
 - Recherche : moteur transversal ; les choix apparaissent progressivement.
   - Marchés publics : catégories métier BOAMP, dont « Nettoyage & propreté » ; les catégories sans page dédiée aboutissent aux résultats communs.

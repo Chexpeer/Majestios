@@ -1,39 +1,9 @@
+@import url("charte-majestios-tokens.css");
+
 /* Charte commune MajestiOS — bleu nuit, acier et or.
    Source unique des valeurs graphiques (couleurs, typographie, rayons, boutons, cartes).
    Chargée en dernier sur les 32 pages : elle prime sur les anciennes couches de styles.css
    et sur les styles propres à chaque page, sans modifier le contenu ni les scripts. */
-
-:root{
-  /* Couleurs */
-  --majestios-ink:#f5f7fb;
-  --majestios-ink-warm:#f4edda;
-  --majestios-muted:#c4ccda;
-  --majestios-soft:#a9b4c6;
-  --majestios-gold:#d5b56c;
-  --majestios-gold-light:#f0d38b;
-  --majestios-gold-link:#e5c56e;
-  --majestios-navy:#071225;
-  --majestios-navy-deep:#06101f;
-  --majestios-blue:#102b50;
-  --majestios-panel:#0b1c34;
-  --majestios-line:rgba(213,181,108,.48);
-  --majestios-line-soft:rgba(213,181,108,.24);
-
-  /* Surfaces */
-  --majestios-header-bg:linear-gradient(100deg,#06101f,#102b50);
-  --majestios-card-bg:linear-gradient(145deg,rgba(6,20,43,.96),rgba(13,31,55,.98));
-  --majestios-card-shadow:0 16px 38px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035);
-  --majestios-button-bg:linear-gradient(100deg,#f7d76b,#dfa72e);
-  --majestios-button-ink:#101828;
-
-  /* Typographie */
-  --majestios-font-body:"DM Sans","Segoe UI",system-ui,-apple-system,sans-serif;
-  --majestios-font-display:Georgia,"Times New Roman",serif;
-
-  /* Formes */
-  --majestios-radius-card:12px;
-  --majestios-radius-control:8px;
-}
 
 /* ---------- Base commune (accueil compris) ---------- */
 html body{font-family:var(--majestios-font-body)}
@@ -191,3 +161,586 @@ body:not(.homepage) .rubric-search-card .feed-wrap{
 @media(max-width:600px){
   body:not(.homepage) .rubric-search-card{margin:6px auto 8px}
 }
+
+
+/* Navigation : tiroirs au survol, titres cliquables vers leur page principale. */
+@media(min-width:901px){
+ .site-header .menu-toggle,body.homepage .site-header .menu-toggle{display:none!important}
+ .site-header .site-nav.site-nav-drawer,body.homepage .site-header .site-nav.site-nav-drawer{
+  position:static!important;display:flex!important;flex:1;flex-direction:row!important;align-items:center!important;
+  justify-content:flex-end!important;gap:clamp(5px,1vw,14px)!important;width:auto!important;height:auto!important;
+  max-height:none!important;overflow:visible!important;padding:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;transform:none!important;visibility:visible!important
+ }
+ .nav-drawer-head,.nav-drawer-overlay{display:none!important}
+ .site-nav-drawer .nav-drawer-home,.site-nav-drawer .nav-group-link{
+  display:inline-flex!important;align-items:center;min-height:40px;padding:9px 11px!important;
+  border:0!important;border-radius:7px;color:inherit!important;font-size:12px!important;font-weight:700;
+  text-decoration:none;white-space:nowrap
+ }
+ .nav-drawer-section{position:relative;display:block;padding:0;border:0}
+ .nav-drawer-section>.nav-group-link:after{content:"⌄";margin-left:7px;color:#d5b56c}
+ .nav-group-items{
+  position:absolute;top:100%;left:0;z-index:1300;display:none;min-width:245px;max-width:330px;
+  max-height:min(70vh,560px);overflow:auto;padding:8px;border:1px solid #d5b56c66;border-radius:9px;
+  background:#0b1420;box-shadow:0 18px 45px #000b
+ }
+ .nav-drawer-section:hover>.nav-group-items,.nav-drawer-section:focus-within>.nav-group-items{display:block}
+ .nav-group-items a{display:block;padding:9px 11px;border-radius:6px;color:#e9e5dc;font-size:12px;line-height:1.35;text-decoration:none}
+ .nav-group-items a:hover,.nav-group-items a:focus-visible,.nav-group-items a[aria-current=page]{background:#d5b56c1c;color:#f6d98e;outline:none}
+ .nav-drawer-section>.nav-group-link:hover,.nav-drawer-section>.nav-group-link:focus-visible,
+ .nav-drawer-home:hover{background:#d5b56c18!important;color:#f6d98e!important}
+}
+@media(max-width:900px){
+ .site-header .menu-toggle,body.homepage .site-header .menu-toggle{display:flex!important}
+ .site-header .site-nav.site-nav-drawer,body.homepage .site-header .site-nav.site-nav-drawer{
+  position:fixed!important;top:0!important;right:0!important;bottom:0!important;left:auto!important;z-index:1301!important;
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;
+  gap:0!important;width:min(390px,88vw)!important;height:100dvh!important;max-height:100dvh!important;
+  overflow-y:auto!important;padding:18px!important;border:0!important;border-left:1px solid #d5b56c66!important;
+  border-radius:0!important;background:#0b1420!important;box-shadow:-18px 0 55px #0009!important;
+  transform:translateX(105%);visibility:hidden;transition:transform .24s ease,visibility .24s ease
+ }
+ .site-header .site-nav.site-nav-drawer.open,body.homepage .site-header .site-nav.site-nav-drawer.open{
+  transform:translateX(0);visibility:visible
+ }
+ .nav-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:2px 0 16px;border-bottom:1px solid #d5b56c44;color:#f3d58b;font-size:18px}
+ .nav-drawer-close{width:34px;height:34px;border:1px solid #d5b56c66;border-radius:50%;background:#172538;color:#f4f0e6;font-size:25px;cursor:pointer}
+ .site-nav-drawer .nav-drawer-home,.site-nav-drawer .nav-group-link{
+  display:flex!important;align-items:center;width:100%;min-height:42px;margin-top:7px;padding:10px 11px!important;
+  border:1px solid #d5b56c33;border-radius:6px;color:#f3e9d1!important;font-size:13px!important;font-weight:750;text-decoration:none
+ }
+ .nav-drawer-section{display:block;padding:8px 0;border-bottom:1px solid #d5b56c2c}
+ .nav-group-items{display:block;margin:3px 0 0 10px;padding-left:8px;border-left:1px solid #d5b56c55}
+ .nav-group-items a{display:block;padding:8px 9px;border-radius:5px;color:#cfc9bd;font-size:12px;text-decoration:none}
+ .nav-group-items a:hover,.nav-group-items a[aria-current=page]{background:#d5b56c18;color:#f6d98e}
+ .nav-drawer-overlay{position:fixed;inset:0;z-index:1300;display:block;width:100%;height:100%;padding:0;border:0;background:#03070db8;opacity:0;visibility:hidden}
+ .nav-drawer-overlay.is-visible{opacity:1;visibility:visible}
+ body.nav-drawer-active{overflow:hidden}
+}
+@media(prefers-reduced-motion:reduce){.site-header .site-nav.site-nav-drawer,.nav-drawer-overlay{transition:none}}
+
+
+/* Evolution-9 guard: shared public header must not inherit legacy white/black page themes. */
+html body .site-header{
+  background:linear-gradient(105deg,#06101f 0%,#0a2444 52%,#101e3a 100%) !important;
+  border-bottom:1px solid rgba(213,181,108,.42) !important;
+  box-shadow:0 5px 18px rgba(2,8,20,.22) !important;
+}
+html body .site-header .site-nav>a{color:#e6edf7}
+html body .site-header .site-nav>a:hover,
+html body .site-header .site-nav>a[aria-current="page"]{color:#ffe09a}
+html body .site-header .brand{color:#f4f0e6}
+
+/* Bouton d'action discret dans les listes et blocs d'information */
+html body .button-compact{min-height:0!important;padding:.4rem .85rem!important;font-size:.78rem!important;line-height:1.3!important;border-radius:.6rem!important;width:auto!important;align-self:flex-start;margin-top:.5rem}
+
+/* ---------- Harmonisation typographique et lisibilité (14 novembre 2026) ----------
+   Une seule échelle : titre de page, titre de section, titre de carte, texte courant.
+   Corrige les titres trop grands (54 à 66 px), les sous-titres de 17 à 42 px en trois polices,
+   le texte rose des libellés de formulaire et les éléments sous le contraste minimal (4,5:1). */
+html body:not(.homepage) main h1{font-size:clamp(30px,3.4vw,42px);line-height:1.15}
+html body.homepage .home-intro h1{font-size:clamp(32px,3.8vw,48px);line-height:1.12;letter-spacing:-.03em}
+html body:not(.homepage) main :is(h2,.section-title){font-family:var(--majestios-font-body);font-size:clamp(20px,2vw,25px);line-height:1.25;letter-spacing:-.3px;color:var(--majestios-ink)}
+html body:not(.homepage) main :is(.platform-card,.vision-card,.interior-callout,.member-preview,.floating-route-card,.related-rubric-card) h2{font-size:19px}
+html body:not(.homepage) main h3{font-size:16px;line-height:1.35}
+html body:not(.homepage) main :is(p,li){line-height:1.7}
+html body:not(.homepage) main .interior-lede,html body:not(.homepage) main .reputation-lede{font-size:clamp(15px,1.4vw,17px);line-height:1.7;max-width:62ch;color:var(--majestios-muted)}
+/* Fil d'Ariane : la page courante reste lisible. */
+html body .interior-breadcrumb{color:var(--majestios-soft)}
+html body .interior-breadcrumb [aria-current="page"]{color:var(--majestios-muted)}
+/* Surtitres dorés : plus clairs pour atteindre le contraste minimal. */
+html body:not(.homepage) main :is(.eyebrow,.hero-eyebrow){color:var(--majestios-gold-light)}
+html body:not(.homepage) main strong{color:inherit}
+/* Formulaires : libellés lisibles (le rose #c26e70 des anciens styles est retiré), case à cocher alignée. */
+html body .form-field>span{color:var(--majestios-muted);font-size:13px;line-height:1.5}
+html body .form-field>span>span[aria-hidden="true"]{color:var(--majestios-gold-light)}
+html body .form-field input[type="checkbox"]{display:inline-block!important;width:auto!important;min-width:0;margin:0 .55rem 0 0!important;vertical-align:-2px;accent-color:var(--majestios-gold)}
+/* Accueil : bandeau d'accès personnel avec marges internes (le texte touchait le cadre). */
+html body.homepage .home-personal-access{padding:clamp(18px,2.4vw,28px)}
+/* Surtitres posés sur les visuels de rubrique : or clair, contraste supérieur à 4,5:1 (l'or foncé est réservé aux surfaces claires). */
+html body main .eyebrow{color:var(--majestios-gold-light)!important}
+
+
+/* =====================================================================
+   PALETTE CLAIRE « 4 · Mixte clair + anthracite » (15 novembre 2026, Evolution-10, Test)
+   Décision du propriétaire : site trop sombre, trop bleu, pas assez contrasté.
+   Blanc / crème pour les surfaces, anthracite pour la structure, or pour la signature.
+   Contrastes visés : texte courant ≥ 7:1, liens ≥ 5:1, boutons ≥ 5:1.
+   Pour revenir à l'ancienne charte bleu nuit : retirer ce bloc (jusqu'à la fin du fichier).
+   ===================================================================== */
+:root{
+  --majestios-ink:#2A2926;
+  --majestios-ink-warm:#2A2926;
+  --majestios-muted:#55514A;
+  --majestios-soft:#6B665D;
+  --majestios-gold:#7A5200;
+  --majestios-gold-light:#E8C766;
+  --majestios-gold-link:#7A5200;
+  --majestios-navy:#2A2926;
+  --majestios-navy-deep:#1F1E1B;
+  --majestios-blue:#3A3935;
+  --majestios-panel:#F6F3EC;
+  --majestios-steel:#6B665D;
+  --majestios-focus:#7A5200;
+  --majestios-line:#D4CDBE;
+  --majestios-line-soft:#E5DFD2;
+  --majestios-header-bg:linear-gradient(100deg,#2A2926,#1F1E1B);
+  --majestios-card-bg:#F6F3EC;
+  --majestios-card-shadow:0 6px 18px rgba(42,41,38,.10),0 1px 3px rgba(42,41,38,.08);
+  --majestios-button-bg:#2A2926;
+  --majestios-button-ink:#E8C766;
+  --mj-fond-couleur:#FFFFFF;
+  --mj-fond-bordure:#D4CDBE;
+}
+
+/* Surfaces : fond blanc ; les visuels de rubrique restent, en filigrane clair. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell),html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage{background:#FFFFFF!important;color:var(--majestios-ink)}
+body:has(main.interior-page[data-fond]),
+body:has(main.interior-page[data-fond]){
+  --mj-fond-voile:linear-gradient(rgba(255,255,255,.90),rgba(255,255,255,.90));
+  background:#FFFFFF!important;
+}
+body:has(main.interior-page[data-fond])::before{background:var(--mj-fond-voile),var(--mj-fond-image) center/cover no-repeat,#FFFFFF}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page[data-fond]{
+  box-shadow:0 6px 24px rgba(42,41,38,.10)!important;border-color:var(--majestios-line)!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page[data-fond]:before{background:none!important}
+/* Vitre : reflets neutres sur fond clair. */
+html:not(:has(.admin-shell))::after{box-shadow:none!important;background:none!important}
+body:not(.admin-shell)::after{display:none!important}
+
+/* En-tête et pied de page : anthracite et or. */
+html:root:root:root body .site-header,html:root:root:root body .site-footer,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .site-footer{
+  background:linear-gradient(100deg,#2A2926,#1F1E1B)!important;
+  border-color:rgba(232,199,102,.45)!important;box-shadow:0 3px 12px rgba(42,41,38,.25)!important;
+}
+html:root:root:root body .site-footer,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .site-footer{color:#E9E3D3}
+html:root:root:root body .site-footer a{color:#E8C766}
+html:root:root:root body .site-footer .footer-legal,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .site-footer .footer-legal{color:#CFC8B6}
+html:root:root:root body .site-header .site-nav>a,html:root:root:root body .site-nav a{color:#F4EDDA}
+html:root:root:root body .site-header .site-nav>a:hover,html:root:root:root body .site-header .site-nav>a[aria-current="page"],
+html:root:root:root body .site-nav a:hover,html:root:root:root body .site-nav a[aria-current=page]{color:#E8C766}
+html:root:root:root body .site-header .brand{color:#F4EDDA}
+html:root:root:root body .brand-os{color:#E8C766}
+/* Boutons de rubrique : même gabarit anthracite ; la couleur de la rubrique ne subsiste qu'en filet du bas. */
+html:root:root:root body .site-nav-drawer .nav-drawer-home,
+html:root:root:root body .site-nav-drawer .nav-drawer-section>.nav-group-link{
+  background:rgba(255,255,255,.07)!important;color:#F4EDDA!important;
+  border:1px solid rgba(232,199,102,.40)!important;border-bottom-width:3px!important;
+}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(1)>.nav-group-link{border-bottom-color:#54c5c8!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(2)>.nav-group-link{border-bottom-color:#E8C766!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(3)>.nav-group-link{border-bottom-color:#7bd5a4!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(4)>.nav-group-link{border-bottom-color:#c4a1f0!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(5)>.nav-group-link{border-bottom-color:#f0b77e!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{border-bottom-color:#B9B3A4!important}
+html:root:root:root body .site-nav-drawer .nav-drawer-home:hover,html:root:root:root body .site-nav-drawer .nav-drawer-section>.nav-group-link:hover{
+  background:rgba(232,199,102,.18)!important;color:#E8C766!important;
+}
+html:root:root:root body .nav-group-items{background:#2A2926!important;border-color:rgba(232,199,102,.45)!important;box-shadow:0 14px 34px rgba(42,41,38,.35)!important}
+html:root:root:root body .nav-group-items a{color:#F4EDDA!important}
+html:root:root:root body .nav-group-items a:hover,html:root:root:root body .nav-group-items a[aria-current=page]{background:rgba(232,199,102,.16)!important;color:#E8C766!important}
+
+/* Texte, titres, liens sur surfaces claires. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h1,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h2,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h3,
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.platform-card,.vision-card,.interior-callout,.member-preview,.floating-route-card,.related-rubric-card) h2{color:var(--majestios-ink)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main h1 span{color:#7A5200}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(p,li,dd,dt,label,small){color:var(--majestios-muted)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main .eyebrow,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.eyebrow,.hero-eyebrow){color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main a:not(.button):not([class*="button"]):not(.nav-drawer-home){color:#7A5200}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .interior-breadcrumb,html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .interior-breadcrumb [aria-current="page"]{color:var(--majestios-muted)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(a.text-link,.interior-links a,.interior-breadcrumb a){color:#7A5200}
+
+/* Cartes : crème, filet fin, ombre douce. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.vision-card,.member-preview,.joke-card,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.opportunity-result-card){
+  color:var(--majestios-ink)!important;background:#F6F3EC!important;background-image:none!important;
+  border:1px solid #D4CDBE!important;box-shadow:0 6px 18px rgba(42,41,38,.10)!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main :is(.platform-card,.related-rubric-card,.interior-callout,.floating-route-card) :is(p,li,span){color:var(--majestios-muted)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) .vision-doctrine{background:#F6F3EC;color:var(--majestios-ink)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) .blog-note{background:#F6F3EC}
+
+/* Boutons : principal anthracite + or ; secondaire contour anthracite. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.form-submit,.rubric-search-card .advanced-search-form button,.blog-actions a:not(.secondary),.vision-links a:not(.secondary)){
+  color:#E8C766!important;background:#2A2926!important;border:1px solid #2A2926!important;box-shadow:0 3px 10px rgba(42,41,38,.18);
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.form-submit,.rubric-search-card .advanced-search-form button,.blog-actions a:not(.secondary),.vision-links a:not(.secondary)):hover{
+  background:#E8C766!important;color:#2A2926!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-secondary,.feed-interest,.blog-actions a.secondary,.vision-links a.secondary){
+  color:#2A2926!important;border:1px solid #2A2926!important;background:transparent!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-secondary,.feed-interest,.blog-actions a.secondary,.vision-links a.secondary):hover{
+  background:#E8C766!important;border-color:#2A2926!important;
+}
+html:root:root:root body .site-header .button,html:root:root:root body .site-footer .button{color:#F4EDDA!important}
+:focus-visible{outline:2px solid #7A5200;outline-offset:3px}
+html:root:root:root body .site-header :focus-visible,html:root:root:root body .site-footer :focus-visible{outline-color:#E8C766}
+
+/* Formulaires et champs. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(input:not([type=checkbox]):not([type=radio]),select,textarea){
+  background:#FFFFFF!important;color:#2A2926!important;border:1px solid #B9B1A0!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(input,select,textarea)::placeholder{color:#6B665D!important;opacity:1}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .form-field>span{color:var(--majestios-muted)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .form-field>span>span[aria-hidden="true"]{color:#7A5200}
+
+/* --- Palette claire : textes d'en-tête de rubrique, pastilles de navigation --- */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>.eyebrow{color:#7A5200!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>h1{color:#2A2926!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page>.interior-lede{color:#55514A!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main h1{text-shadow:none}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).page-reseaux .virtual-space[data-world="reseaux"] .virtual-space-copy h2{color:#2A2926!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-home,
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section>.nav-group-link,
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(n)>.nav-group-link{
+  background:rgba(255,255,255,.07)!important;background-color:rgba(255,255,255,.07)!important;
+  color:#F4EDDA!important;border:1px solid rgba(232,199,102,.40)!important;border-bottom-width:3px!important;
+}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(1)>.nav-group-link{border-bottom-color:#54c5c8!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(2)>.nav-group-link{border-bottom-color:#E8C766!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(3)>.nav-group-link{border-bottom-color:#7bd5a4!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(4)>.nav-group-link{border-bottom-color:#c4a1f0!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(5)>.nav-group-link{border-bottom-color:#f0b77e!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section:nth-of-type(6)>.nav-group-link{border-bottom-color:#B9B3A4!important}
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-home:hover,
+html:root:root:root body .site-header .site-nav-drawer .nav-drawer-section>.nav-group-link:hover{background:rgba(232,199,102,.20)!important;color:#E8C766!important}
+
+/* --- Palette claire : conteneurs encore sombres (relevé automatique sur les pages publiques) --- */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(
+  .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
+  .virtual-space-float,.virtual-space-copy,.access-card,.access-unavailable,
+  details,.prospecting-criteria-options,.category-active-filters,.category-results-empty,
+  .reputation-consultation,.consultation-toolbar,.consultation-content,.consultation-legal,.social-hub,.reputation-visual,
+  .assistant-console,.assistant-message,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
+){
+  background:#F6F3EC!important;background-image:none!important;color:#2A2926!important;
+  border-color:#D4CDBE!important;box-shadow:0 4px 14px rgba(42,41,38,.08)!important;text-shadow:none!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(
+  .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
+  .virtual-space-float,.virtual-space-copy,.access-card,.access-unavailable,
+  .prospecting-criteria-options,.category-active-filters,.category-results-empty,
+  .reputation-consultation,.consultation-toolbar,.consultation-content,.social-hub,.reputation-visual,
+  .assistant-console,.assistant-message,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
+) :is(h1,h2,h3,h4,h5,h6,strong,dt,legend,summary,b){color:#2A2926!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(
+  .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
+  .virtual-space-float,.virtual-space-copy,.access-card,.access-unavailable,
+  .prospecting-criteria-options,.category-active-filters,.category-results-empty,
+  .reputation-consultation,.consultation-toolbar,.consultation-content,.consultation-legal,.social-hub,.reputation-visual,
+  .assistant-console,.assistant-message,.platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
+) :is(p,li,span,dd,small,td,th,label,.eyebrow){color:#55514A!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(
+  .category-results-panel,.company-targeting-panel,.search-results-dashboard,.lead-form-wrap,
+  .virtual-space-float,.virtual-space-copy,.access-card,.reputation-consultation,.social-hub,
+  .platform-card,.related-rubric-card,.interior-callout,.floating-route-card,.vision-card,.member-preview
+) a:not([class*="button"]):not(.home-primary-cta):not(.access-action){color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.platform-card,.related-rubric-card,.floating-route-card) .eyebrow{color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.virtual-space-float,.virtual-space-copy) .eyebrow{color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) details>summary{color:#2A2926!important}
+/* Bouton principal compact et boutons dans les panneaux : mêmes couleurs partout. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.button-compact.button-primary,button.button-primary,a.button-primary){color:#E8C766!important;background:#2A2926!important;border-color:#2A2926!important;background-image:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.button-primary,.button-compact.button-primary,button.button-primary,a.button-primary):hover{color:#2A2926!important;background:#E8C766!important}
+
+/* --- Palette claire : bandeau des pages intérieures, accueil, repères d'état --- */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page:before{opacity:.08!important}
+/* Accueil : le panorama reste, sous un voile blanc ; textes anthracite ; cartes crème. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .home-main{
+  background-color:#FFFFFF!important;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.90) 0%,rgba(255,255,255,.86) 50%,rgba(255,255,255,.94) 100%),url("fond-panorama.webp")!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-intro h1,.home-rubrics-heading h2,.home-rubrics-heading p,.home-main h2,.home-main h3){color:#2A2926!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .home-intro h1 span{color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-lede,.home-main p,.home-main li,.home-hint){color:#55514A!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.hero-eyebrow,.home-main .eyebrow){color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar){
+  background:#F6F3EC!important;background-image:none!important;color:#2A2926!important;
+  border:1px solid #D4CDBE!important;box-shadow:0 6px 18px rgba(42,41,38,.10)!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) :is(h1,h2,h3,strong){color:#2A2926!important;text-shadow:none!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) :is(p,span,li,label){color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage :is(.home-search,.home-personal-access,.home-pillar) a:not([class*="button"]):not(.home-primary-cta):not(.access-action){color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .homepage-ticker{background:#2A2926!important;color:#E8C766!important;border-color:rgba(232,199,102,.45)!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).homepage .homepage-ticker *{color:#E8C766!important}
+/* Repères d'état et liens secondaires des moteurs de recherche. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.virtual-space-note,.search-status,.advanced-search-status,[class*="search-status"],.feed-status){
+  background:#F6F3EC!important;color:#55514A!important;border:1px solid #D4CDBE!important;text-shadow:none!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) a,
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) summary{color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(.advanced-search-form,.rubric-search-card,.feed-wrap) :is(.feed-interest,details){background:#F6F3EC!important;color:#2A2926!important;border-color:#D4CDBE!important}
+html:root:root:root body .site-header .site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section>.nav-group-link){color:#F4EDDA!important}
+html:root:root:root body .site-header .site-nav-drawer :is(.nav-drawer-home,.nav-group-link):hover{color:#E8C766!important}
+
+/* Outils internes (administration, espace collaborateurs, CRM) : ils gardent pour l'instant leurs couleurs d'origine. */
+body.admin-shell,body.internal-shell,body.crm-shell{
+  --majestios-ink:#f5f7fb;--majestios-ink-warm:#f4edda;--majestios-muted:#c4ccda;--majestios-soft:#a9b4c6;
+  --majestios-gold:#d5b56c;--majestios-gold-light:#f0d38b;--majestios-gold-link:#e5c56e;
+  --majestios-navy:#071225;--majestios-navy-deep:#06101f;--majestios-blue:#102b50;--majestios-panel:#0b1c34;
+  --majestios-steel:#9aa8b6;--majestios-focus:#f0d38b;--majestios-line:rgba(213,181,108,.48);--majestios-line-soft:rgba(213,181,108,.24);
+}
+html:root:root:root body #site-nav.site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section:nth-of-type(n)>.nav-group-link){color:#F4EDDA!important}
+html:root:root:root body #site-nav.site-nav-drawer :is(.nav-drawer-home,.nav-group-link,.nav-drawer-section:nth-of-type(n)>.nav-group-link):hover{color:#E8C766!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) button.member-create-link{color:#7A5200}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) button.member-create-link:focus-visible{outline-color:#7A5200}
+
+/* Derniers éléments relevés par le contrôle de contraste. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta{background:#F6F3EC!important;border:1px solid #D4CDBE!important;color:#2A2926!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta strong{color:#2A2926!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .feed-bottom-cta span{color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) :is(.company-targeting-status,.prospecting-criteria-toggle,.access-state){background:#F6F3EC!important;color:#2A2926!important;border:1px solid #D4CDBE!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .prospecting-criteria-toggle{color:#7A5200!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .access-state{color:#55514A!important}
+
+/* Pages de rubrique sans visuel de fond : fond blanc, cadre fin (le voile sombre d'origine n'a plus de photo à teinter). */
+
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell).page-development-commercial main.interior-page:before{display:none!important}
+
+/* --- Palette claire : bandeau de fin de page, accueil (cube, bouton), libellés, piliers (relevé sur les pixels affichés) --- */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta{
+  background:#F6F3EC!important;background-image:none!important;border:1px solid #D4CDBE!important;box-shadow:0 4px 14px rgba(42,41,38,.08)!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta p{color:#2A2926!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta a{
+  background:#2A2926!important;background-image:none!important;color:#E8C766!important;border:1px solid #2A2926!important;box-shadow:none!important;
+}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main.interior-page .page-cta a:hover{background:#E8C766!important;color:#2A2926!important}
+/* Boutons d'action de l'accueil et de l'espace privé : anthracite et or. */
+html:root:root:root body :is(.home-primary-cta,.access-action){
+  background:#2A2926!important;background-image:none!important;color:#E8C766!important;border:1px solid #2A2926!important;box-shadow:0 3px 10px rgba(42,41,38,.18)!important;text-shadow:none!important;
+}
+html:root:root:root body :is(.home-primary-cta,.access-action):hover{background:#E8C766!important;color:#2A2926!important}
+/* Cube de l'accueil : verre fumé anthracite pour que le texte blanc reste lisible sur fond clair. */
+html:root:root:root body.homepage .mj-cube-face{
+  background:
+    linear-gradient(115deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.05) 22%,transparent 23%,transparent 48%,rgba(255,255,255,.08) 49%,transparent 63%),
+    linear-gradient(150deg,rgba(42,41,38,.84),rgba(42,41,38,.72) 55%,rgba(31,30,27,.86))!important;
+}
+html:root:root:root body.homepage .mj-face-text{color:#F4EDDA!important}
+/* Libellés et petits textes de formulaire sur fond clair. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(label,label span,.form-field,.form-field span,.field-hint,.hint){color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(#suggest-naf-button,.button-secondary){color:#2A2926!important;border:1px solid #2A2926!important;background:transparent!important}
+/* Piliers de la page Réputation virtuelle. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .reputation-pillars article{background:#F6F3EC!important;background-image:none!important;border:1px solid #D4CDBE!important;box-shadow:0 4px 14px rgba(42,41,38,.08)!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .reputation-pillars :is(h3,.pillar-icon){color:#2A2926!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) .reputation-pillars p{color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) #company-targeting-form .feed-search,
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) #advanced-search-form .feed-search{color:#55514A!important}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) #company-targeting-form :is(.search-source-note,.feed-criteria-toggle,.prospecting-criteria-toggle,summary){color:#7A5200!important}
+html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action){color:#E8C766!important}
+html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action):hover{color:#2A2926!important}
+html:root:root:root:root body :is(.home-personal-access,.access-card,.home-search,main) a:is(.home-primary-cta,.access-action) :is(span,svg){color:inherit!important}
+
+/* --- Fonds d'écran fournis : CRM, Réseaux, E-réputation, Facturation (décision propriétaire 2026-11-15).
+   Image nette (sans voile) fixée derrière toute la page ; le contenu défile devant, sur des cartes crème pleines ; barre de défilement masquée.
+   Retour possible : supprimer ce bloc. --- */
+html:has(main.interior-page[data-fond]),html:has(main.interior-page[data-fond]){scrollbar-width:none!important;-ms-overflow-style:none}
+html:has(main.interior-page[data-fond])::-webkit-scrollbar,html:has(main.interior-page[data-fond])::-webkit-scrollbar,
+html:has(main.interior-page[data-fond]) body::-webkit-scrollbar,html:has(main.interior-page[data-fond]) body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+html:root:root:root body:is(.page-reputation-virtuelle,.page-reseaux,.page-prospection),
+html:root:root:root body:has(main.interior-page[data-fond]){background:transparent!important;background-image:none!important}
+html:root:root:root body:is(.page-reputation-virtuelle,.page-reseaux,.page-prospection):before,
+html:root:root:root body:has(main.interior-page[data-fond]):before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:#2A2926 var(--mj-fond-image) center/cover no-repeat;
+}
+html:root:root:root body:has(main.interior-page[data-fond]) main.interior-page{
+  background:none!important;background-image:none!important;border:0!important;box-shadow:none!important;
+}
+html:root:root:root body:has(main.interior-page[data-fond]) main.interior-page:before{display:none!important}
+/* Cartes crème pleines (non transparentes) pour tout ce qui est écrit sur l'image. */
+html:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results){
+  background:#F6F3EC!important;border:1px solid #D4CDBE!important;border-radius:16px!important;padding:18px 22px!important;box-shadow:0 6px 24px rgba(0,0,0,.18)!important;margin-bottom:18px!important;
+}
+html:root:root:root body:has(main.interior-page[data-fond]) main.interior-page > .interior-breadcrumb{
+  background:#F6F3EC!important;border:1px solid #D4CDBE!important;border-radius:999px!important;padding:6px 16px!important;width:fit-content!important;margin-bottom:14px!important;
+}
+/* Les anciens bandeaux (image dans la page) laissent la place au fond. */
+html:root:root:root body.page-reputation-virtuelle .mj-rubric-visual-inline{display:none!important}
+html:root:root:root body :is(.virtual-space){
+  background:transparent!important;background-image:none!important;border:0!important;box-shadow:none!important;min-height:0!important;overflow:visible!important;padding:0!important;
+}
+html:root:root:root body :is(.virtual-space) .virtual-space-copy{
+  background:#F6F3EC!important;border:1px solid #D4CDBE!important;backdrop-filter:none!important;
+}
+
+/* --- Cartes en verre fumé transparent : le fond d'écran reste entièrement visible (décision propriétaire 2026-11-15, remplace les cartes crème pleines). Retour : supprimer ce bloc. --- */
+html:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb){
+  background:rgba(18,17,15,.30)!important;border:1px solid rgba(255,255,255,.28)!important;box-shadow:none!important;-webkit-backdrop-filter:blur(3px) brightness(.5)!important;backdrop-filter:blur(3px) brightness(.5)!important;
+}
+html:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b):not(button *):not(a[class*="button"] *){
+  color:#FFFFFF!important;text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.8)!important;
+}
+html:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) a:not([class*="button"]):not(.home-primary-cta):not(.access-action){
+  color:#F4D77E!important;text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.8)!important;
+}
+
+html:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta) .eyebrow{color:#F4D77E!important}
+html:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta) :is(article,.platform-card,details.prospecting-criteria-options){background:rgba(18,17,15,.22)!important;border:1px solid rgba(255,255,255,.26)!important;box-shadow:none!important}
+/* Éléments crème internes (formulaires, panneaux) : texte sombre conservé. */
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .reputation-consultation , html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .reputation-consultation *,
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .reputation-visual , html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .reputation-visual *,
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .company-targeting-status , html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .company-targeting-status *,
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .prospecting-criteria-toggle , html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .prospecting-criteria-toggle *,
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .access-state , html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .access-state *,
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .space-status , html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .space-status *,
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .feed-search , html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .feed-search *,
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .audit-dossier , html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) .audit-dossier *{color:#2A2926!important;text-shadow:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.mj-page-head,.reputation-hero,.reputation-explainer,.reputation-pillars,.related-rubrics,.interior-links,.tender-feed-section,.company-targeting-results,.floating-route-card,.virtual-space-copy,.page-cta,.interior-breadcrumb) :is(.prospecting-criteria-toggle,.prospecting-criteria-toggle *,a.prospecting-criteria-toggle){color:#7A5200!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .prospecting-criteria-toggle,
+html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .prospecting-criteria-toggle *{text-shadow:none!important}
+
+html:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-copy span:not(h1 *):not(h2 *):not(h3 *){background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.35)!important;color:#FFFFFF!important}
+
+html:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .mj-rubric-visual-inline{display:none!important}
+html:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.showroom-grid,.interior-grid:not(.related-rubrics))>h2{background:rgba(18,17,15,.30)!important;border:1px solid rgba(255,255,255,.28)!important;border-radius:14px!important;width:fit-content!important;padding:10px 20px!important;color:#FFFFFF!important;text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.8)!important}
+/* Panneaux internes : crème translucide pour garder le fond visible (texte sombre conservé). */
+html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-consultation, html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-visual, html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-status, html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .access-state, html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .space-status, html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .feed-search, html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .audit-dossier{background:rgba(255,250,240,.58)!important;-webkit-backdrop-filter:blur(2px)!important;backdrop-filter:blur(2px)!important}
+/* Cartes restantes (rubriques liées, facturation, appel final) : verre fumé translucide, fond d'écran visible. */
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(article.platform-card,.feed-bottom-cta){background:rgba(18,17,15,.22)!important;border:1px solid rgba(255,255,255,.28)!important;box-shadow:none!important;-webkit-backdrop-filter:blur(3px) brightness(.5)!important;backdrop-filter:blur(3px) brightness(.5)!important}
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(article.platform-card,.feed-bottom-cta) :is(h1,h2,h3,h4,p,li,span,small,strong,em,div,b){color:#FFFFFF!important;text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.8)!important}
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(article.platform-card,.feed-bottom-cta) a:not([class*="button"]){color:#F4D77E!important;text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.8)!important}
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-float{background:rgba(255,250,240,.62)!important;-webkit-backdrop-filter:blur(2px)!important;backdrop-filter:blur(2px)!important}
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-consultation :is(.consultation-toolbar,.consultation-content,.consultation-legal,.social-hub){background:transparent!important}
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-consultation,html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .prospecting-criteria-toggle,main.interior-page .prospecting-criteria-options .prospecting-criteria-toggle{background:rgba(255,250,240,.93)!important}
+html:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page :is(.showroom-grid,.interior-grid:not(.related-rubrics))>h2{-webkit-backdrop-filter:blur(3px) brightness(.5)!important;backdrop-filter:blur(3px) brightness(.5)!important}
+/* Couleur de police adaptée à chaque page : blanc à contour sombre par défaut, encre sombre à contour clair sur les fonds les plus clairs. */
+body:has(main.interior-page[data-fond]){--mj-txt:#FFFFFF;--mj-link:#FFE08A;--mj-halo:0 0 2px #000,0 0 5px #000,0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+html[data-ton="clair"] body:has(main.interior-page[data-fond]){--mj-txt:#14110D;--mj-link:#5A3A00;--mj-halo:0 0 2px #fff,0 0 5px #fff,0 1px 3px #fff,0 0 12px rgba(255,255,255,.95)}
+/* --- Cartes totalement transparentes (décision propriétaire 2026-11-16 : aucun filigrane noir, fond d'écran entièrement visible). Lisibilité par contour sombre des textes. Retour : supprimer ce bloc. --- */
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .mj-page-head, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-hero, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-explainer, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-pillars, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .related-rubrics, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-links, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .tender-feed-section, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-results, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .floating-route-card, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-copy, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .page-cta, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-breadcrumb, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page article, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .platform-card, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page details.prospecting-criteria-options, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .feed-bottom-cta, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-consultation, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-visual, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-status, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .access-state, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .space-status, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .audit-dossier, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-float, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-toolbar, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-content, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-legal, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .social-hub, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .showroom-grid>h2, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-grid:not(.related-rubrics)>h2{background:transparent!important;background-color:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border:0!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .mj-page-head :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-hero :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-explainer :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-pillars :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .related-rubrics :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-links :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .tender-feed-section :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-results :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .floating-route-card :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-copy :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .page-cta :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-breadcrumb :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page article :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .platform-card :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page details.prospecting-criteria-options :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .feed-bottom-cta :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-consultation :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-visual :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-status :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .access-state :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .space-status :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *) :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .audit-dossier :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-float :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-toolbar :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-content :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-legal :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .social-hub :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .showroom-grid>h2 :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-grid:not(.related-rubrics)>h2 :is(h1,h2,h3,h4,p,li,span,small,strong,em,label,summary,div,dt,dd,time,b,i):not(button *):not(input):not(select):not(textarea):not(.prospecting-criteria-toggle *):not(a[class*="button"] *){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .mj-page-head a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-hero a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-explainer a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-pillars a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .related-rubrics a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-links a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .tender-feed-section a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-results a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .floating-route-card a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-copy a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .page-cta a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-breadcrumb a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page article a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .platform-card a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page details.prospecting-criteria-options a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .feed-bottom-cta a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-consultation a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-visual a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-status a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .access-state a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .space-status a:not([class*="button"]):not(.prospecting-criteria-toggle) a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .audit-dossier a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-float a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-toolbar a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-content a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-legal a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .social-hub a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .showroom-grid>h2 a:not([class*="button"]):not(.prospecting-criteria-toggle), html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-grid:not(.related-rubrics)>h2 a:not([class*="button"]):not(.prospecting-criteria-toggle){color:var(--mj-link)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .mj-page-head .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-hero .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-explainer .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-pillars .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .related-rubrics .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-links .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .tender-feed-section .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-results .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .floating-route-card .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-copy .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .page-cta .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-breadcrumb .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page article .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .platform-card .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page details.prospecting-criteria-options .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .feed-bottom-cta .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-consultation .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-visual .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .company-targeting-status .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .access-state .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .space-status .eyebrow .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .audit-dossier .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-float .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-toolbar .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-content .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .consultation-legal .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .social-hub .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .showroom-grid>h2 .eyebrow, html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .interior-grid:not(.related-rubrics)>h2 .eyebrow{color:var(--mj-link)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .virtual-space-float,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .reputation-consultation{border-color:rgba(255,255,255,.45)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .prospecting-criteria-options>summary,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .prospecting-criteria-options>summary *{color:var(--mj-link)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .feed-search{background:rgba(255,255,255,.94)!important}
+html:root:root:root:root:root:root body #company-targeting-form .prospecting-criteria-options>summary{color:var(--mj-link)!important;text-shadow:var(--mj-halo)!important}
+/* --- Accueil : fond d'écran net et fixe, cartes en verre fumé transparent (décision propriétaire 2026-11-15). Retour : supprimer ce bloc. --- */
+html:has(body.homepage){scrollbar-width:none!important;-ms-overflow-style:none}
+html:has(body.homepage)::-webkit-scrollbar,html:has(body.homepage) body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+html:root:root:root:root:root:root:root:root:root body.homepage{background:transparent!important;background-image:none!important}
+html:root:root:root:root:root:root:root:root:root body.homepage:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:#2A2926 url("fond-panorama.webp") center/cover no-repeat}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main{background:none!important;background-image:none!important;border:0!important;box-shadow:none!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main:before,html:root:root:root:root:root:root:root:root:root body.homepage main.home-main:after{display:none!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main :is(.home-search,.home-intro,.home-personal-access){background:rgba(18,17,15,.70)!important;border:1px solid rgba(255,255,255,.30)!important;box-shadow:none!important;-webkit-backdrop-filter:blur(7px)!important;backdrop-filter:blur(7px)!important;border-radius:16px!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main :is(.home-search,.home-intro,.home-personal-access,.home-cube-intro,.home-cube > :not(.mj-cube-stage)) :is(h1,h2,h3,p,span,small,strong,label,div,li):not(button *):not(input):not(.home-primary-cta *):not(.access-action *){color:#FFFFFF!important;text-shadow:0 1px 3px rgba(0,0,0,.7)!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main :is(.home-search,.home-intro,.home-personal-access) .eyebrow,html:root:root:root:root:root:root:root:root:root body.homepage main.home-main :is(.home-search,.home-intro,.home-personal-access) :is(h1,h2) em,html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro h1 span{color:#F4D77E!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search :is(input,select,textarea,button,.feed-search){text-shadow:none!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search input{color:#2A2926!important}
+
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>:is(h2,.mj-cube-hint){background:rgba(18,17,15,.70)!important;border:1px solid rgba(255,255,255,.30)!important;border-radius:14px!important;width:fit-content!important;margin-left:auto!important;margin-right:auto!important;padding:10px 22px!important;color:#FFFFFF!important;text-shadow:0 1px 3px rgba(0,0,0,.7)!important;-webkit-backdrop-filter:blur(7px)!important;backdrop-filter:blur(7px)!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>h2{margin-bottom:8px!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{margin-top:18px!important}
+html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{padding:22px 28px!important}
+
+/* --- Accueil (demandes propriétaire 2026-11-16) : titre très réduit, recherche compacte à gauche du cube, cube visible dès l'ouverture, cartes invisibles. Retour : supprimer ce bloc et remettre la section recherche avant l'introduction dans index.html. --- */
+body.homepage{--mj-txt:#FFFFFF;--mj-link:#FFE08A;--mj-halo:0 0 2px #000,0 0 5px #000,0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+@media (min-width:900px){
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main {display:grid!important;grid-template-columns:minmax(260px,340px) minmax(0,1fr);column-gap:clamp(16px,3vw,48px);align-items:center;max-width:1280px!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{grid-column:1/-1}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search{grid-column:1;grid-row:2;align-self:center}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube{grid-column:2;grid-row:2}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-personal-access{grid-column:1/-1;grid-row:3}
+}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{margin:4px auto 0!important;padding:6px 12px!important;max-width:min(900px,100%)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro .hero-eyebrow{margin:0 0 2px!important;font-size:9px!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro h1{font-size:clamp(15px,1.6vw,21px)!important;line-height:1.15!important;letter-spacing:-.01em!important;margin:0!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro .home-lede{font-size:clamp(11px,.95vw,13px)!important;line-height:1.35!important;margin:4px auto 0!important;max-width:680px!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search{padding:10px 12px!important;gap:6px!important;max-width:340px!important;width:100%!important;margin:0!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search h2{font-size:clamp(14px,1.3vw,17px)!important;margin:0 0 4px!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .hero-eyebrow{font-size:9px!important;margin:0 0 2px!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube{padding:0 1rem .5rem!important;gap:.3rem!important;--s:clamp(220px,min(68vw,46vh),440px)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>h2{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;padding:0!important;margin:-1px!important;border:0!important;white-space:nowrap!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>.mj-cube-hint{font-size:12px!important;padding:2px 8px!important;margin:0!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .mj-cube-stage{height:calc(var(--s)*1.05)!important;width:min(100%,calc(var(--s)*1.7))!important;margin-top:calc(var(--s)*.12)!important;margin-bottom:calc(var(--s)*.1)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main :is(.home-intro,.home-search,.home-personal-access,.home-cube>.mj-cube-hint,.home-cube>h2){background:transparent!important;background-color:transparent!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main :is(.home-intro,.home-search,.home-personal-access,.home-cube>.mj-cube-hint) :is(h1,h2,h3,p,span,small,strong,label,div,li):not(button *):not(input):not(.home-primary-cta *):not(.access-action *):not(.tender-feed-section *){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro h1 span,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro .hero-eyebrow,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .hero-eyebrow,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-personal-access .hero-eyebrow{color:var(--mj-link)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>.mj-cube-hint{color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search{display:flex!important;flex-direction:column!important;align-items:stretch!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .tender-feed-section,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .feed-wrap,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .feed-demo{width:100%!important;max-width:100%!important;min-width:0!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search form{display:flex!important;flex-wrap:wrap!important;gap:6px!important;width:100%!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search form :is(.feed-search,input[type="search"],input[type="text"]){flex:1 1 100%!important;min-width:0!important;width:100%!important}
+@media (max-width:899px){
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main {display:flex!important;flex-direction:column!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{order:1}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search{order:2;max-width:100%!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube{order:3;--s:clamp(200px,min(62vw,34vh),330px)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-personal-access{order:4}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .hero-eyebrow{display:none!important}
+}
+
+/* --- Moins de répétitions dans les pages internes (demande propriétaire 2026-11-16) : le moteur de recherche passe en premier. Retour : supprimer ce bloc. --- */
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .mj-page-head .eyebrow{display:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .prospecting-search-heading{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;margin:-1px!important;padding:0!important;white-space:nowrap!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond] .tender-feed-section) main.interior-page .virtual-space{display:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .floating-route-card:not([id]):not(:has(form,input,select,textarea,#annonces-liste,#category-results-panel,.opportunity-results-list,[id*="result"],[class*="result"])){display:none!important}
+
+/* Espaces personnels et pages associées sur fond aléatoire (2026-11-16) : titres et textes d'en-tête lisibles. Retour arrière : supprimer ce bloc. */
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>:is(h1,.interior-lede,.small-note,.prototype-note,p:not([class])){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>:is(h1) span,
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>.eyebrow{color:var(--mj-link)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond]>.virtual-space-note,
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page[data-fond] .virtual-space-copy>:is(span,p,h2){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+
+/* Message signature de la page « Appels d'offres privés » (demande propriétaire 2026-11-16). Retour arrière : supprimer ce bloc et la ligne .mj-signature de marches-prives.html. */
+html:root:root:root main.interior-page .mj-signature{font-size:clamp(17px,2.4vw,22px);margin:6px 0 10px}
+html:root:root:root main.interior-page .mj-signature strong{font-weight:800}
+
+/* « Mes services » : même présentation que le tableau de bord administrateur (panneaux sombres, filets dorés). Retour arrière : supprimer ce bloc et la section #mes-services de espace-membre.html. */
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services{margin:26px 0 8px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services-head h2{margin:0 0 6px;font:800 clamp(24px,3vw,34px)/1.15 Manrope,Inter,sans-serif;letter-spacing:-.04em;color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services-head>p:last-child{margin:0 0 16px;max-width:640px;color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service{min-width:0;display:flex;flex-direction:column;padding:19px 17px;border:1px solid rgba(206,218,226,.16);border-radius:13px;background:linear-gradient(155deg,rgba(32,45,54,.94),rgba(23,34,42,.95));box-shadow:0 15px 40px rgba(0,0,0,.28)}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service h3{margin:0;color:#F0F3F4!important;text-shadow:none!important;font:800 18px/1.25 Manrope,Inter,sans-serif;letter-spacing:-.03em}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service p{margin:11px 0 0;color:#9BAAB4!important;text-shadow:none!important;font-size:13px;line-height:1.65}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service .mj-services-kicker{margin:0 0 8px;color:#D7B66E!important;text-shadow:none!important;font-size:10px;font-weight:800;letter-spacing:.16em}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-services-head .mj-services-kicker{color:var(--mj-link)!important;text-shadow:var(--mj-halo)!important;font-size:11px;font-weight:800;letter-spacing:.16em;margin:0 0 8px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service-index{color:rgba(215,182,110,.55);font:700 11px Manrope,Inter,sans-serif}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service-link{display:flex;justify-content:space-between;gap:10px;margin-top:auto;padding-top:12px;border-top:1px solid rgba(206,218,226,.16);color:#F0D89E!important;text-shadow:none!important;font-size:12px;font-weight:700;text-decoration:none}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service .mj-service-link{margin-top:17px}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service-link.is-muted{color:#A9B4BB!important;font-weight:600}
+html:root:root:root:root:root:root:root:root:root:root main.interior-page .mj-service:hover:not(.is-soon){border-color:rgba(215,182,110,.5)}
+
+/* Cartes d'annonces : fond légèrement coloré et translucide pour rester bien visibles sur le fond d'écran (demande propriétaire 2026-11-18). Retour arrière : supprimer ce bloc. */
+html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) #annonces-liste .annonce-card{background:linear-gradient(150deg,rgba(214,176,92,.30),rgba(46,86,128,.34))!important;border:1px solid rgba(240,216,158,.55)!important;border-radius:14px!important;box-shadow:0 10px 28px rgba(0,0,0,.22)!important;-webkit-backdrop-filter:blur(7px) saturate(1.15);backdrop-filter:blur(7px) saturate(1.15);padding:16px!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) #annonces-liste .annonce-card :is(h3,h4,p,li,span,dt,dd,summary){color:#FFFFFF!important;text-shadow:0 1px 2px rgba(0,0,0,.55)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) #annonces-liste .annonce-card :is(h3,h4){font-weight:800}
+html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) #annonces-liste .annonce-card :is(small,.annonce-kind,.annonce-meta){color:#FFE08A!important}
+
+/* Bandeau annonces : bouton "Demander une mise en relation" lisible sur carte translucide */
+html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) #annonces-liste .annonce-card summary{background:rgba(20,32,52,.72)!important;color:#FFFFFF!important;border:1px solid rgba(240,216,158,.6)!important;border-radius:10px!important;padding:8px 12px!important;cursor:pointer;text-shadow:none!important}
+
+/* Résultats de recherche (panneau clair) : texte anthracite lisible, sans ombre */
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .category-results-panel :is(h2,h3,h4,p,li,span,dt,dd,small,strong,em,div,label,time,summary):not(a):not(button):not([class*="button"]){color:#1F2A33!important;text-shadow:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .category-results-panel a:not([class*="button"]){color:#7A5200!important;text-shadow:none!important}
+
+
+/* Bouton « Continuer avec Google » : format recommandé par Google (fond blanc, texte sombre, contour fin). Logo « G » officiel fourni par Google. */
+.personal-space-form .personal-space-google{display:flex;flex-direction:column;align-items:center;gap:.5rem;margin:.2rem 0 .1rem}
+.personal-space-form .personal-space-google .small-note{margin:0}
+.personal-space-form .google-signin{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;max-width:none;min-height:46px;padding:0 16px;border:2px solid #747775;border-radius:20px;background:#fff;color:#1f1f1f;font:600 15px/20px Roboto,Arial,sans-serif;letter-spacing:.25px;text-align:center;cursor:pointer}
+.personal-space-form .google-signin:hover{background:#f1f1f1}
+.personal-space-form .google-signin:focus-visible{outline:2px solid #1a73e8;outline-offset:2px}
+.personal-space-form .google-signin-icon{width:20px;height:20px;flex:0 0 20px}
+
+/* Bouton « Continuer avec LinkedIn » : texte seul, couleur de marque ; le logo officiel pourra être ajouté s'il est fourni. */
+.personal-space-form .linkedin-signin{width:100%;max-width:none;min-height:46px;padding:0 16px;border:2px solid #0a66c2;border-radius:20px;background:#0a66c2;color:#fff;font:600 15px/20px Arial,sans-serif;text-align:center;cursor:pointer}
+.personal-space-form .linkedin-signin:hover{background:#004182;border-color:#004182}
+.personal-space-form .linkedin-signin:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+.personal-space-form .personal-space-divider{display:flex;align-items:center;gap:10px;margin:.3rem 0 0;font-size:11.5px;color:#9aa7b9}
+.personal-space-form .personal-space-divider::before,.personal-space-form .personal-space-divider::after{content:"";flex:1;height:1px;background:currentColor;opacity:.35}
+.personal-space-form .personal-space-divider[hidden]{display:none}
+
+/* Carte « Connexion à votre espace » (page espace membre) : fond translucide givré, texte sombre conservé. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main .member-preview{background:rgba(246,243,236,.38)!important;background-image:none!important;border:1px solid rgba(255,255,255,.55)!important;box-shadow:0 10px 30px rgba(0,0,0,.18)!important;-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main .member-preview :is(h2,p,span){color:#1d1b17!important;text-shadow:0 1px 2px rgba(255,255,255,.6)}
+
+/* Page Qualification des entreprises : cartes translucides (verre dépoli), texte sombre conservé. */
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main.company-targeting-page :is(.company-targeting-panel,.company-targeting-results,.company-targeting-card){background:rgba(246,243,236,.52)!important;background-image:none!important;border:1px solid rgba(255,255,255,.55)!important;box-shadow:0 10px 30px rgba(0,0,0,.18)!important;-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15)}
+html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell):not(.homepage) main.company-targeting-page :is(.company-targeting-panel,.company-targeting-results) :is(h2,h3,label,legend,p,li,span,small){color:#1d1b17!important}

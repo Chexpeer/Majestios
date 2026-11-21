@@ -1,12 +1,13 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { resolveFile, listPages, publishedPath } = require("./chemins-site.cjs");
 
 const root = __dirname;
 const errors = [];
 const assert = (condition, message) => { if (!condition) errors.push(message); };
-const pages = fs.readdirSync(root).filter((name) => name.endsWith(".html"));
+const pages = listPages(root).map((p) => p.name);
 const manifestPath = path.join(root, "site-files.json");
-const exists = (file) => fs.existsSync(path.join(root, file));
+const exists = (file) => fs.existsSync(resolveFile(root, file));
 let siteFiles = [];
 
 try {
@@ -22,12 +23,43 @@ assert(new Set(siteFiles).size === siteFiles.length, "Build : fichiers dupliqué
 for (const file of siteFiles) {
   assert(typeof file === "string" && file.trim().length > 0, "Build : chemin vide ou invalide dans le manifeste");
   if (typeof file !== "string" || !file.trim()) continue;
-  const normalized = file.replace(/\\\\/g, "/");
+  const normalized = file.replace(/\\/g, "/");
   assert(!path.posix.isAbsolute(normalized) && !normalized.split("/").includes(".."), "Build : chemin interdit dans le manifeste : " + file);
   assert(!/\.mdx?$/i.test(file), "Build : la documentation ne doit pas être publiée : " + file);
   assert(exists(file) && fs.statSync(path.join(root, file)).isFile(), "Build : ressource déclarée absente ou non-fichier : " + file);
 }
-for (const page of pages) assert(siteFiles.includes(page), "Build : page HTML absente du manifeste : " + page);
+for (const page of pages) assert(siteFiles.map(publishedPath).includes(page), "Build : page HTML absente du manifeste : " + page);
+// Toute ressource locale appelée par une page (image, script, feuille de style, module) doit être publiée :
+// un fichier présent dans le dépôt mais absent du manifeste donne une erreur 404 une fois en ligne.
+for (const page of pages) {
+  const html = fs.readFileSync(resolveFile(root, page), "utf8");
+  for (const match of html.matchAll(/\b(?:src|href)="([^"#?]+\.(?:svg|png|jpe?g|webp|gif|ico|js|mjs|css|json|webmanifest))(?:[?#][^"]*)?"/g)) {
+    const ref = match[1];
+    if (/^(?:[a-z]+:)?\/\//i.test(ref) || ref.startsWith("data:")) continue;
+    assert(siteFiles.map(publishedPath).includes(ref.replace(/^\.\//, "")), page + " : ressource appelée mais absente du manifeste (404 en ligne) : " + ref);
+  }
+}
+for (const page of pages) {
+  const html = fs.readFileSync(resolveFile(root, page), "utf8");
+  assert(html.includes('src="navigation-tiroirs.js"'), page + " : navigation commune et accès VIP non chargés");
+
+  // Aucun texte ou élément ne doit être placé entre </head> et <body>.
+  const headEnd = html.search(/<\/head\s*>/i);
+  const bodyStart = html.search(/<body\b/i);
+  if (headEnd < 0 || bodyStart < 0 || bodyStart <= headEnd) {
+    assert(false, page + " : structure HTML invalide (head/body absent ou mal ordonné)");
+  } else {
+    const betweenHeadAndBody = html.slice(headEnd + html.match(/<\/head\s*>/i)[0].length, bodyStart)
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .trim();
+    assert(!betweenHeadAndBody, page + " : contenu parasite détecté entre </head> et <body>");
+  }
+}
+assert(siteFiles.map(publishedPath).includes("navigation-tiroirs.js") && siteFiles.map(publishedPath).includes("navigation-tiroirs.css"),
+  "Navigation commune : script ou feuille de style absent du manifeste");
+const sharedNavigationBootstrap = fs.readFileSync(path.join(root, "navigation-tiroirs.js"), "utf8");
+assert(sharedNavigationBootstrap.includes("ensureNavigationShell") && sharedNavigationBootstrap.includes("ensureSharedAssets"),
+  "Navigation commune : création de la barre ou chargement de ses styles de secours absent");
 
 const legacyVisibleTerms = [
   "prospection inversée",
@@ -40,7 +72,7 @@ const legacyVisibleTerms = [
   "prospection active"
 ];
 for (const page of pages) {
-  const html = fs.readFileSync(path.join(root, page), "utf8");
+  const html = fs.readFileSync(resolveFile(root, page), "utf8");
   const normalized = html.toLocaleLowerCase("fr");
   for (const term of legacyVisibleTerms) {
     assert(!normalized.includes(term), page + " : terminologie MajestiOS obsolète détectée (« " + term + " »)");
@@ -48,12 +80,98 @@ for (const page of pages) {
   assert(!html.includes('href="index.html#accueil"'), page + " : le retour d'accueil doit ouvrir la route, sans fragment local");
 }
 
+
+const eInvoicePage = fs.readFileSync(resolveFile(root, "facturation-electronique.html"), "utf8");
+assert(eInvoicePage.includes("MISE EN CONFORMITÉ") && eInvoicePage.includes("La réforme change vos habitudes de facturation.") && eInvoicePage.includes("Vérifiez vos obligations et préparez vos outils."), "Facturation électronique : message de mise en conformité absent");
+assert(eInvoicePage.includes("1er septembre 2026") && eInvoicePage.includes("1er septembre 2027"), "Facturation électronique : calendrier réglementaire incomplet");
+const opportunityScript = fs.readFileSync(path.join(root, "opportunity-search.js"), "utf8");
+assert(!/Consulter l’(avis|annonce) officiel/.test(opportunityScript) && !/target = "_blank"/.test(opportunityScript), "Listes d'appels d'offres : aucun lien sortant vers la source ne doit être affiché");
+// Décision du porteur (14/11/2026) : la page ne renvoie plus vers les sources ; elle oriente vers le diagnostic et le formulaire de contact.
+assert(!/href="https?:\/\/[^"]*impots\.gouv\.fr/.test(eInvoicePage), "Facturation électronique : aucun lien sortant vers la source ne doit subsister");
+assert(eInvoicePage.includes("contact.html?objet=facturation"), "Facturation électronique : accès au formulaire de contact absent");
+assert(eInvoicePage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : statut de MajestiOS à clarifier");
+
+const assistantPage = fs.readFileSync(resolveFile(root, "assistant-majestios.html"), "utf8");
+assert(assistantPage.includes('id="assistant-open-guide"'), "Assistant : la page dédiée doit proposer un accès fonctionnel au guide local");
+assert(!/textarea[^>]*\bdisabled\b/i.test(assistantPage) && !/<button[^>]*\bdisabled\b[^>]*>Envoyer/i.test(assistantPage), "Assistant : aucun formulaire de conversation inactif ne doit être présenté");
+assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes('document.querySelector("#assistant-open-guide")?.addEventListener("click", () => setOpen(true))'), "Assistant : le bouton de la page dédiée doit ouvrir le guide conversationnel partagé");
+const reputationPage = fs.readFileSync(resolveFile(root, "reputation-virtuelle.html"), "utf8");
+assert(/<section class="audit-dossier"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : le formulaire principal de préparation doit rester masqué dans l’interface publique");
+assert(/<div class="reputation-searches"[^>]*\bhidden\b/.test(reputationPage), "Réputation virtuelle : les formulaires Google Web et Maps doivent rester masqués dans l’interface publique sans être supprimés");
+assert((reputationPage.match(/<form\b/g) || []).length === 3, "Réputation virtuelle : les trois formulaires métier doivent être conservés dans le document pour leurs traitements internes");
+
+const memberPage = fs.readFileSync(resolveFile(root, "espace-membre.html"), "utf8");
+assert(memberPage.includes('meta name="robots" content="noindex,nofollow"'), "Espace membre : la page de compte doit être exclue de l’indexation");
+const searchResultsPage = fs.readFileSync(resolveFile(root, "resultats-recherche.html"), "utf8");
+assert(searchResultsPage.includes('meta name="robots" content="noindex,nofollow"'), "Résultats de recherche : les pages de résultats dynamiques ne doivent pas être indexées");
+const privateAccessPage = fs.readFileSync(resolveFile(root, "espace-prive.html"), "utf8");
+assert(privateAccessPage.includes('href="charte-majestios.css"'), "Espace privé / Accès VIP : la charte graphique commune MajestiOS doit être chargée");
+const internalEntryPage = fs.readFileSync(resolveFile(root, "espace-interne.html"), "utf8");
+assert(internalEntryPage.includes('id="internal-login-form"') && internalEntryPage.includes('id="internal-login-submit"'), "Accès VIP : la page d’entrée doit afficher le formulaire d’authentification de secours même si le module ne se charge pas");
+assert(internalEntryPage.includes('src="espace-interne.js"') && internalEntryPage.includes('href="espace-interne.css"'), "Accès VIP : les ressources de l’entrée interne doivent être chargées");
+assert(internalEntryPage.includes('id="internal-feedback"') && internalEntryPage.includes('Aucun accès n’a été ouvert'), "Accès VIP : un échec de chargement du module doit produire un message explicite, pas une page vide");
+const sharedNavigation = fs.readFileSync(path.join(root, "navigation-tiroirs.js"), "utf8");
+assert(privateAccessPage.includes('href="espace-interne.html"'), "Espace privé : le lien Accès VIP doit pointer vers le sas d’authentification interne");
+const adminPage = fs.readFileSync(resolveFile(root, "administration.html"), "utf8");
+assert(siteFiles.map(publishedPath).includes("administration.html"), "Administration : page absente du manifeste");
+const searchPagePath = resolveFile(root, "admin-recherches.html");
+assert(fs.existsSync(searchPagePath), "Recherches : page d’administration absente");
+assert(siteFiles.map(publishedPath).includes("admin-recherches.html") && siteFiles.map(publishedPath).includes("admin-recherches.js"), "Recherches : page ou script absent du manifeste");
+const searchPage = fs.readFileSync(searchPagePath, "utf8");
+assert(searchPage.includes('meta name="robots" content="noindex,nofollow"'), "Recherches : la page doit être exclue de l’indexation");
+assert(searchPage.includes('src="admin-recherches.js"'), "Recherches : script métier non chargé");
+const searchScript = fs.readFileSync(path.join(root, "admin-recherches.js"), "utf8");
+assert(searchScript.includes("annonces-commerciales/records") && searchScript.includes("boamp/records"), "Recherches : les deux sources officielles doivent être raccordées");
+assert(searchPage.includes('id="date-from"') && searchPage.includes('id="date-to"'), "Recherches : filtres de période absents");
+assert(searchPage.includes('id="market-type"'), "Recherches : filtre du type de marché BOAMP absent");
+const targetingPage = fs.readFileSync(resolveFile(root, "qualification-entreprises.html"), "utf8");
+const targetingPageScript = fs.readFileSync(path.join(root, "company-targeting-page.js"), "utf8");
+assert(targetingPage.includes('id="target-market-description"') && targetingPage.includes('name="marketDescription"'), "Ciblage : champ de description du marché et des lots absent");
+assert(targetingPageScript.includes("form.elements.marketDescription.value") && targetingPageScript.includes("suggestNafCodes({ title, description }"), "Ciblage : les suggestions APE/NAF doivent exploiter le descriptif fourni");
+assert(searchScript.includes("code_departement_prestation") && searchScript.includes("dateparution >= date") && searchScript.includes("type_marche ="), "Recherches : filtres territoriaux, temporels ou métier incomplets");
+assert(searchScript.includes("AbortController") && searchScript.includes("source.dispatchEvent(new Event(\"change\"))"), "Recherches : délai réseau ou état initial des filtres non maîtrisé");
+assert(searchPage.includes('href="administration.html"') && searchPage.includes('href="crm.html"'), "Recherches : navigation interne incomplète");
+assert(searchPage.includes('href="admin-recherches.html" aria-current="page"'), "Recherches : la page active doit être annoncée aux technologies d’assistance");
+assert(searchScript.includes("organization_members") && searchScript.includes("owner") && searchScript.includes("admin"), "Recherches : contrôle d’accès interne absent");
+assert(siteFiles.map(publishedPath).includes("administration.css") && siteFiles.map(publishedPath).includes("administration.js"), "Administration : ressources du cockpit absentes du manifeste");
+assert(adminPage.includes('meta name="robots" content="noindex,nofollow"'), "Administration : la page doit être exclue de l’indexation");
+assert(adminPage.includes('src="administration.js"') && adminPage.includes('href="administration.css"'), "Administration : ressources du cockpit non chargées");
+assert(adminPage.includes('href="crm.html"'), "Administration : accès au CRM interne absent");
+const crmPage = fs.readFileSync(resolveFile(root, "crm.html"), "utf8");
+assert(crmPage.includes('<nav class="admin-crm-header" aria-label="Navigation des modules internes et accueil">') && crmPage.includes('aria-current="page"') && crmPage.includes('id="crm-admin-nav-link"') && crmPage.includes('id="crm-search-nav-link"'), "CRM : navigation interne ou repère de page actuelle absent");
+const crmPageScript = fs.readFileSync(path.join(root, "crm-page.js"), "utf8");
+const crmClientScript = fs.readFileSync(path.join(root, "crm-client.js"), "utf8");
+assert(crmPageScript.includes(String.raw`nafCodes.some(value => !/^\d{2}\.\d{2}[A-Z]$/.test(value))`),
+  "CRM : la validation APE/NAF doit accepter le format 43.21A");
+assert(crmPageScript.includes(String.raw`departments.some(value => !/^(\d{2}|2A|2B|97[1-6]|978|977|986|987|988)$/.test(value))`),
+  "CRM : la validation des départements doit accepter les codes numériques et territoriaux");
+
+const adminScript = fs.readFileSync(path.join(root, "administration.js"), "utf8");
+assert(adminScript.includes("organization_members"), "Administration : contrôle d’accès aux appartenances internes absent");
+assert(/\.kind\s*===\s*"internal"/.test(adminScript), "Administration : filtrage de l’organisation interne absent");
+assert(/\[\s*"owner"\s*,\s*"admin"\s*\]\.includes\(\s*membership\.role\s*\)/.test(adminScript),
+  "Administration : seuls owner/admin doivent pouvoir accéder au cockpit");
+
+assert(crmPage.includes('href="espace-interne.html"') && crmPage.includes("admin-crm-header"), "CRM : retour contextuel vers l’accueil interne absent");
+assert(crmPage.includes('meta name="robots" content="noindex,nofollow"'), "CRM : la page interne doit être exclue de l’indexation");
+assert(crmClientScript.includes("async function countWorkspaceRecords(table)") && crmClientScript.includes('select("id", { count: "exact", head: true })'), "CRM : les compteurs doivent utiliser un total exact tenant-scoped sans télécharger les fiches");
+assert(crmClientScript.includes("async function countPendingReminders()") && crmPageScript.includes("countPendingReminders()"), "CRM : la liste des relances persistantes doit signaler un plafond de 100 éléments");
+assert(crmPage.includes('id="crm-followup-data-notice"') && crmPageScript.includes("countWorkspaceRecords(\"opportunities\")"), "CRM : l'aperçu des relances doit signaler toute couverture partielle");
+for (const asset of ["crm-workspace.css", "crm-page.js", "crm-client.js", "crm-workspace-nav.js", "crm-business-filters.js"]) {
+  assert(siteFiles.map(publishedPath).includes(asset), "CRM : ressource du poste de travail absente du manifeste : " + asset);
+  assert(exists(asset), "CRM : ressource du poste de travail absente du dépôt : " + asset);
+}
+assert(crmPage.includes('href="crm-workspace.css"') && crmPage.includes('src="crm-page.js"') &&
+  crmPage.includes('src="crm-business-filters.js"') && crmPage.includes('src="crm-workspace-nav.js"'),
+  "CRM : styles et modules du poste de travail doivent être chargés.");
+
+
 const rubricSearchPages = [
   "marches-publics.html", "developpement-commercial.html", "prospection-active.html",
   "veille-marches.html", "accompagnement-appels-offres.html", "sous-traitance.html",
   "intelligence-economique.html", "reseaux-synergies.html",
   "bodacc-veille-entreprises.html", "suivi-commercial.html", "marches-prives.html",
-  "reputation-virtuelle.html", "espace-membre.html", "salons-seminaires.html",
+  "reputation-virtuelle.html", "espace-membre.html",
   "crm.html", "majestios-v5.html",
   "categorie-services-numeriques.html", "categorie-travaux-amenagement.html",
   "categorie-conseil-etudes.html", "categorie-batiment.html", "categorie-renovation.html",
@@ -63,9 +181,13 @@ const rubricSearchPages = [
 for (const page of rubricSearchPages) {
   assert(exists(page), "Recherche par rubrique : page absente : " + page);
   if (exists(page)) {
-    const html = fs.readFileSync(path.join(root, page), "utf8");
-    assert(html.includes('src="rubric-search.js"'), page + " : module de recherche par rubrique non chargé");
-    assert(html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'), page + " : le moteur commun doit être injecté avant l’initialisation de ses interactions");
+    const html = fs.readFileSync(resolveFile(root, page), "utf8");
+    if (page === "reputation-virtuelle.html") {
+      assert(!html.includes('src="rubric-search.js"'), page + " : le moteur de recherche partagé ne doit pas être chargé sur cette page");
+    } else {
+      assert(html.includes('src="rubric-search.js"'), page + " : module de recherche par rubrique non chargé");
+      assert(html.indexOf('src="rubric-search.js"') < html.indexOf('src="app.js"'), page + " : le moteur commun doit être injecté avant l’initialisation de ses interactions");
+    }
     assert(html.includes('href="rubriques-immersives.css"'), page + " : feuille de style commune du moteur non chargée");
   }
 }
@@ -78,7 +200,7 @@ assert(sharedSearchScript.includes('class="feed-toolbar"'), "Moteur partagé : l
 assert(sharedSearchScript.includes('class="feed-search-submit"'), "Moteur partagé : le bouton doit réutiliser le composant de l’accueil");
 
 for (const page of pages) {
-  const html = fs.readFileSync(path.join(root, page), "utf8");
+  const html = fs.readFileSync(resolveFile(root, page), "utf8");
   const ids = new Set();
   for (const match of html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)) {
     if (ids.has(match[1])) errors.push(page + " : identifiant dupliqué #" + match[1]);
@@ -92,7 +214,7 @@ for (const page of pages) {
     let decoded;
     try { decoded = decodeURIComponent(cleanPath); }
     catch { errors.push(page + " : URL locale mal encodée : " + value); continue; }
-    const target = decoded ? path.resolve(root, decoded) : path.join(root, page);
+    const target = decoded ? resolveFile(root, decoded) : resolveFile(root, page);
     if (target !== root && !target.startsWith(root + path.sep)) {
       errors.push(page + " : chemin hors du projet : " + value);
       continue;
@@ -103,7 +225,7 @@ for (const page of pages) {
     }
     if (fragment && target.endsWith(".html")) {
       let targetHtml;
-      try { targetHtml = target === path.join(root, page) ? html : fs.readFileSync(target, "utf8"); }
+      try { targetHtml = target === resolveFile(root, page) ? html : fs.readFileSync(target, "utf8"); }
       catch { continue; }
       const targetIds = new Set([...targetHtml.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((item) => item[1]));
       if (!targetIds.has(decodeURIComponent(fragment))) errors.push(page + " : ancre absente : " + value);
@@ -111,8 +233,8 @@ for (const page of pages) {
   }
 }
 
-const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
-assert(home.includes("<title>MajestiOS — Développement commercial intelligent</title>"), "Accueil : titre SEO inattendu");
+const home = fs.readFileSync(resolveFile(root, "index.html"), "utf8");
+assert(home.includes("<title>MajestiOS — Votre espace pour développer votre entreprise</title>"), "Accueil : titre SEO de référence inattendu");
 assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du moteur de recherche partagé absent");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant commun de recherche non chargé");
 assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
@@ -122,7 +244,50 @@ const sharedSearchCss = fs.readFileSync(path.join(root, "rubriques-immersives.cs
 for (const selector of ["#advanced-search-form", ".feed-search", ".feed-filter-label", ".feed-search-submit"]) {
   assert(sharedSearchCss.includes(selector), "Moteur partagé : style commun absent, " + selector);
 }
-assert(home.includes('id="floor-rows"'), "Accueil : immeuble interactif absent");
+assert(!home.includes('id="floor-rows"') && !home.includes('class="building-home"'), "Accueil : ancienne navigation par immeuble encore présente");
+assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
+assert(fs.readFileSync(path.join(root, "app.js"), "utf8").includes("Assistant conversationnel de première génération"), "Assistant conversationnel partagé absent");
+assert(siteFiles.map(publishedPath).includes("assistant-majestios.html") && siteFiles.map(publishedPath).includes("assistant-majestios.css") && siteFiles.map(publishedPath).includes("majestios-chat.css"),
+  "Assistant : page dédiée et feuilles de style absentes du manifeste.");
+assert(assistantPage.includes("Assistant MajestiOS") && assistantPage.includes("IA à raccorder") && assistantPage.includes("guide conversationnel de première génération") &&
+  assistantPage.includes('src="app.js"') && assistantPage.includes('href="assistant-majestios.css"'),
+  "Assistant : espace dédié, statut de connexion ou ressources manquants.");
+assert(fs.readFileSync(path.join(root, "majestios-chat.css"), "utf8").includes(".majestios-chat-toggle"),
+  "Assistant : styles du chatbot flottant absents.");
+ 
+const invoicingPage = fs.readFileSync(resolveFile(root, "facturation-electronique.html"), "utf8");
+assert(siteFiles.map(publishedPath).includes("facturation-electronique.html"), "Facturation électronique : page absente du manifeste");
+assert(invoicingPage.includes("1er septembre 2027") && invoicingPage.includes("MajestiOS n'est pas une plateforme agréée"), "Facturation électronique : calendrier ou statut MajestiOS absent");
+const tenderAccompaniment = fs.readFileSync(resolveFile(root, "accompagnement-appels-offres.html"), "utf8");
+assert(!(tenderAccompaniment.match(/<main[\s\S]*<\/main>/) || [""])[0].includes('href="facturation-electronique.html"'), "Accompagnement appels d'offres : ne doit pas renvoyer vers la thématique facturation");
+assert(["facturation-diagnostic.mjs", "facturation-diagnostic.js", "facturation-diagnostic.css"].every((file) => siteFiles.map(publishedPath).includes(file)), "Facturation électronique : fichiers du diagnostic absents du manifeste");
+assert(invoicingPage.includes('id="diagnostic-form"') && invoicingPage.includes('src="facturation-diagnostic.js"') && invoicingPage.includes("Rien n’est enregistré ni envoyé"), "Facturation électronique : diagnostic d'orientation absent ou promesse de stockage");
+assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && !home.includes("L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS") && !home.includes("home-lede"), "Accueil : introduction éditoriale absente");
+assert(!home.includes("home-pillars") && !home.includes("home-pillar"), "Accueil : les quatre cartes de présentation doivent être supprimées");
+assert(home.includes('<section class="home-cube"') && home.includes('<section class="home-personal-access"'), "Accueil : cube 3D ou accès personnel absent");
+
+
+const internalEntryHtml = fs.readFileSync(resolveFile(root, "espace-interne.html"), "utf8");
+const internalEntryCss = fs.readFileSync(path.join(root, "espace-interne.css"), "utf8");
+const internalEntryScript = fs.readFileSync(path.join(root, "espace-interne.js"), "utf8");
+assert(siteFiles.map(publishedPath).includes("espace-interne.html") && siteFiles.map(publishedPath).includes("espace-interne.css") && siteFiles.map(publishedPath).includes("espace-interne.js"),
+  "Accueil interne : page, styles ou script absents du manifeste");
+assert(internalEntryHtml.includes('meta name="robots" content="noindex,nofollow"'),
+  "Accueil interne : la page doit être exclue de l’indexation");
+assert(internalEntryHtml.includes('src="espace-interne.js"') && internalEntryHtml.includes('href="espace-interne.css"'),
+  "Accueil interne : ressources dédiées non chargées");
+assert(internalEntryScript.includes("signInWithPassword(") && !internalEntryScript.includes("signUp(") &&
+  !internalEntryScript.includes("provision-client-workspace"),
+  "Accueil interne : connexion existante attendue, sans inscription ni provisionnement client");
+assert(internalEntryScript.includes('["owner", "admin"].includes(membership.role)') &&
+  internalEntryScript.includes('membership.role === "viewer"'),
+  "Accueil interne : filtrage des modules par rôle incomplet");
+assert(internalEntryCss.includes(".internal-module-grid") && internalEntryCss.includes("@media(max-width:760px)"),
+  "Accueil interne : grille des modules ou adaptation mobile absente");
+assert(adminPage.includes('href="espace-interne.html?returnTo=administration.html"'),
+  "Administration : le parcours d’authentification interne doit être utilisé");
+assert(searchPage.includes('href="espace-interne.html?returnTo=admin-recherches.html"'),
+  "Recherches : le parcours d’authentification interne doit être utilisé");
 
 if (errors.length) {
   console.error("Vérification du site échouée : " + errors.length + " problème(s).\n- " + errors.join("\n- "));

@@ -1,0 +1,4 @@
+Modifier ce fichier (ajouter une ligne datée) relance le chargement des marchés attribués sur la branche evolution-10.
+2026-11-21 : création.
+Premier chargement demandé le 2026-11-21 16h30 (heure de Paris)
+Rechargement complet demandé le 2026-11-21 16h50 (heure de Paris) après correctif de lenteur
