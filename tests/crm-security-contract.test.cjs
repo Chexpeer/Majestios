@@ -3,7 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
-const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+const read = (file) => fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), file), "utf8");
 
 const schema = read("supabase/migrations/20261105163901_majestios_core_multitenant_foundation.sql");
 const roles = read("supabase/migrations/20261106074500_enforce_crm_editor_roles.sql");

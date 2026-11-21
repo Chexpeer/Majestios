@@ -2,9 +2,9 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, "..", "crm.html"), "utf8");
-const adminHtml = fs.readFileSync(path.join(__dirname, "..", "administration.html"), "utf8");
-const memberHtml = fs.readFileSync(path.join(__dirname, "..", "espace-membre.html"), "utf8");
+const html = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "crm.html"), "utf8");
+const adminHtml = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "administration.html"), "utf8");
+const memberHtml = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "espace-membre.html"), "utf8");
 const returnLinkCount = html.split('href="espace-interne.html"').length - 1;
 
 assert.ok(
@@ -27,7 +27,7 @@ const adminNavStart = adminHtml.indexOf('<nav id="admin-nav" class="admin-nav"')
 const adminNavEnd = adminHtml.indexOf("</nav>", adminNavStart);
 const adminNav = adminHtml.slice(adminNavStart, adminNavEnd);
 assert.ok(adminNav.includes('href="crm.html"') && adminNav.includes('href="admin-recherches.html"'), "Le cockpit doit donner accès au CRM et aux recherches dans sa navigation principale.");
-const searchHtml = fs.readFileSync(path.join(__dirname, "..", "admin-recherches.html"), "utf8");
+const searchHtml = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "admin-recherches.html"), "utf8");
 const searchNavStart = searchHtml.indexOf('<nav class="admin-nav">');
 const searchNavEnd = searchHtml.indexOf("</nav>", searchNavStart);
 const searchNav = searchHtml.slice(searchNavStart, searchNavEnd);
@@ -60,7 +60,7 @@ assert.ok(
   "L’espace membre doit expliquer clairement la séparation avec le CRM interne."
 );
 
-const internalHtml = fs.readFileSync(path.join(__dirname, "..", "espace-interne.html"), "utf8");
+const internalHtml = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "espace-interne.html"), "utf8");
 assert.ok(internalHtml.includes('<meta name="robots" content="noindex,nofollow">'), "L’accueil interne doit être exclu de l’indexation.");
 assert.ok(internalHtml.includes('src="espace-interne.js"') && internalHtml.includes('href="espace-interne.css"'), "L’accueil interne doit charger ses ressources dédiées.");
 assert.ok(!internalHtml.includes("signUp(") && !internalHtml.includes("provision-client-workspace"), "L’accueil interne ne doit pas inscrire ni provisionner les espaces clients.");

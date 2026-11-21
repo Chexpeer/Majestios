@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const read = (name) => fs.readFileSync(path.join(__dirname, "..", name), "utf8");
+const read = (name) => fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), name), "utf8");
 
 const admin = read("administration.html");
 const crm = read("crm.html");

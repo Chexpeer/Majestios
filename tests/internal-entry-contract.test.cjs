@@ -3,11 +3,11 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.join(__dirname, "..");
-const html = fs.readFileSync(path.join(root, "espace-interne.html"), "utf8");
+const html = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "espace-interne.html"), "utf8");
 const script = fs.readFileSync(path.join(root, "espace-interne.js"), "utf8");
-const crm = fs.readFileSync(path.join(root, "crm.html"), "utf8");
-const admin = fs.readFileSync(path.join(root, "administration.html"), "utf8");
-const searches = fs.readFileSync(path.join(root, "admin-recherches.html"), "utf8");
+const crm = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "crm.html"), "utf8");
+const admin = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "administration.html"), "utf8");
+const searches = fs.readFileSync(require("../chemins-site.cjs").resolveFile(path.join(__dirname, ".."), "admin-recherches.html"), "utf8");
 
 assert.ok(html.includes('meta name="robots" content="noindex,nofollow"'), "L’accueil interne doit être exclu de l’indexation.");
 assert.ok(html.includes('id="internal-login-form"') && html.includes('type="password"'), "La page doit proposer une authentification par identifiants existants.");
