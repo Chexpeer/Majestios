@@ -52,13 +52,13 @@ async function main() {
       "Le lien VIP conserve le fond transparent de la navigation.");
     assert.equal(vipStyle.border, "rgba(213, 181, 108, 0.7)",
       "La signature or et chrome doit être portée par un filet discret.");
-    assert.equal(await vipLink.evaluate(el=>el.closest(".nav-drawer-section")?.querySelector(".nav-group-link")?.textContent),"Accéder à mon espace personnel",
-      "L’accès VIP doit être regroupé dans le menu Accéder à mon espace personnel.");
-    const exploreGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Appels d’offres"})});
-    assert.equal(await exploreGroup.locator(".nav-group-items a").count(),5,
-      "Appels d’offres doit rester limité à cinq entrées utiles.");
+    assert.equal(await vipLink.evaluate(el=>el.closest(".nav-drawer-section")?.querySelector(".nav-group-link")?.textContent),"Mon espace",
+      "L’accès VIP doit être regroupé dans le menu Mon espace.");
+    const exploreGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Marchés"})});
+    assert.equal(await exploreGroup.locator(".nav-group-items a").count(),7,
+      "Marchés doit rester limité à sept entrées utiles.");
 
-    const group=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
+    const group=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement"})});
     const toggle=group.locator(".nav-group-link");
     const submenu=group.locator(".nav-group-items");
     assert.equal(await toggle.getAttribute("aria-controls"),await submenu.getAttribute("id"),
@@ -90,7 +90,7 @@ async function main() {
 
     await page.setViewportSize({width:1365,height:900});
     await page.reload({waitUntil:"domcontentloaded"});
-    const desktopGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement commercial"})});
+    const desktopGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Développement"})});
     const desktopToggle=desktopGroup.locator(".nav-group-link");
     const desktopSubmenu=desktopGroup.locator(".nav-group-items");
     assert.equal(await desktopToggle.getAttribute("aria-expanded"),"false",

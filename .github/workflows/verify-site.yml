@@ -71,6 +71,7 @@ jobs:
           node --check tests/reputation-virtuelle.browser.cjs
           node --check tests/admin-cheexpeer.browser.cjs
           node --check tests/navigation-classique.browser.cjs
+          node --check tests/navigation-espaces.browser.cjs
           node --check company-targeting.js
           node --check company-targeting-page.js
           node --check prospection-criteria-ux.js
@@ -192,6 +193,8 @@ jobs:
         run: node tests/admin-cheexpeer.browser.cjs && node tests/admin-utilisateurs.browser.cjs && node tests/espace-membre-creation.browser.cjs
       - name: Tester les menus de navigation sur mobile et ordinateur
         run: node tests/navigation-dropdown.browser.cjs
+      - name: Navigation des espaces privés et du tableau de bord admin (5 menus)
+        run: node tests/navigation-espaces.browser.cjs
       - name: Tester le parcours de contact sans transmission de données
         run: node tests/contact-form.browser.cjs
       - name: Tester le verrouillage du poste de commandement sans session

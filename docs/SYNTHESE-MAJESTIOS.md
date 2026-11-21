@@ -37,7 +37,8 @@ Relier **développement commercial, gestion quotidienne, facturation électroniq
 
 ## 3. Décisions validées (14 novembre 2026)
 
-- **Menu :** 5 rubriques de contenu (Appels d'offres · Développement commercial · Réseau · Services · Assistant) + menu « Accéder à mon espace personnel » (espace, création, accès VIP). Une rubrique = une place. Remplace la décision Evolution-7.
+- **Menu (décision du 21 novembre 2026, remplace la suivante) :** 5 menus — **Marchés · Développement · Réseau · Solutions · Mon espace** — sans page retirée ; détail dans [état et orientation](evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md).
+- **Menu (14 novembre, remplacé) :** 5 rubriques de contenu (Appels d'offres · Développement commercial · Réseau · Services · Assistant) + menu « Accéder à mon espace personnel » (espace, création, accès VIP). Une rubrique = une place. Remplace la décision Evolution-7.
 - **Espace personnel :** libellé « Accéder à mon espace personnel » ; une seule entrée « Mon espace personnel » dans le menu ; la création de compte se propose dans le formulaire de connexion (lien discret, sans création réelle avant la recette d'authentification) ; le bandeau de bas de page « Accéder à mon espace personnel » disparaît quand la personne est connectée.
 - **Annonces :** 12 types (sous-traitance, emploi, location de matériel, immobilier, entreprise — cession ou reprise —, autres), chacun en offre et en demande. Chaque espace a sa pastille (« MON ESPACE » / « ESPACE ADMIN »).
 - **Tableau de bord de l'espace personnel (connecté et activé) :** « Bonjour <prénom> », 4 chiffres sur les demandes, dernières demandes avec statut, suivi commercial des clients (pistes par étape et 5 prochaines actions, lecture seule, limité à la société du membre), puis les cartes de services. Ampoule verte « Connecté » sur toutes les pages. « Mes factures » est affiché grisé en attendant le partenaire de facturation électronique.

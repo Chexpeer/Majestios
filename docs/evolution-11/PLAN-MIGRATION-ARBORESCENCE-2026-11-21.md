@@ -61,7 +61,7 @@ Menu aligné sur les familles : **Marchés · Développement · Réseau · Solut
 **evolution-12** (créée après sauvegarde de la fin d'evolution-11)
 - É3 ✔ (évolution-12) : `pages/reseau/` (2), `pages/solutions/` (3), `pages/infos/` (6) rangées, site publié identique.
 - É4 ✔ (évolution-12) : 10 pages privées et de connexion rangées dans `pages/espaces/`, adresses publiées inchangées (liens de retour de connexion et invitations intacts).
-- É5 : navigation allégée et pages d'accueil de familles.
+- É5 ✔ (évolution-12) : navigation allégée en 5 menus validés par le propriétaire : **Marchés · Développement · Réseau · Solutions · Mon espace** (19 entrées secondaires, aucune page retirée). Menu de repli sans JavaScript aligné sur les 36 pages, tableau de bord admin et espaces privés couverts par `tests/navigation-espaces.browser.cjs`.
 - É6 : contrôle complet, documentation, sauvegarde finale. La fusion éventuelle reste une décision du propriétaire.
 
 **Option séparée, plus tard :** ranger les 36 JS et 30 CSS dans `assets/` ; adresses publiques en dossiers avec redirections.
