@@ -1,0 +1,12 @@
+# Propositions SQL non appliquées
+
+Les fichiers de ce dossier ne sont **pas** des migrations : ils ne sont ni appliqués ni exécutés par la CI.
+Chacun attend une validation écrite du porteur et un essai sur une copie isolée (MajestiOS-Test ou branche Supabase).
+
+| Fichier | Objet | Spécification |
+|---|---|---|
+| `20261114210000_public_announcements.sql` | Annonces gratuites de sous-traitance, relecture, mises en relation | [SPECIFICATION-ANNONCES-SOUS-TRAITANCE-2026-11-14.md](../../docs/evolution-9/SPECIFICATION-ANNONCES-SOUS-TRAITANCE-2026-11-14.md) |
+
+Note 2026-11-16 : le dépôt d'annonces exige désormais un espace personnel (migration supabase/migrations/20261116170000_announcements_require_account_and_kinds.sql, appliquée sur MajestiOS-Test). Les scénarios « visiteur » de announcements.scenarios.sql décrivent l'état précédent (dépôt anonyme) et sont à rejouer en version « connecté » avant toute promotion.
+
+Note 2026-11-21 : une copie de `20261114210000_public_announcements.sql` figure aussi dans `supabase/migrations/` pour que la pile Supabase locale de la CI puisse rejouer toute la chaîne (les migrations suivantes en dépendent). Elle n'est appliquée sur aucune base distante par la CI ; la production ne reçoit rien sans autorisation explicite du propriétaire.

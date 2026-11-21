@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 
 async function main() {
-  const endpoint = new URL("https://boamp-datadila.opendatasoft.com/api/explore/v2.0/catalog/datasets/boamp/records");
+  const endpoint = new URL("https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records");
   endpoint.searchParams.set("limit", "3");
   endpoint.searchParams.set("select", "idweb,objet,nature,dateparution,datelimitereponse,nomacheteur,type_marche,url_avis");
   endpoint.searchParams.set("where", 'nature = "APPEL_OFFRE"');

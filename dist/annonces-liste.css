@@ -1,0 +1,11 @@
+/* Liste publique des annonces — styles minimaux, charte existante conservée. */
+#annonces-privees .annonce-filtres{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px;margin:12px 0}
+#annonces-privees :is(input,select,textarea){display:block;width:100%;min-width:0;margin-top:6px;font-size:13px}
+#annonces-liste{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:1rem;margin:1rem 0}
+#annonces-liste .annonce-card p{overflow-wrap:anywhere}
+#annonces-liste .annonce-contact{margin-top:.6rem;width:100%}
+#annonces-liste .annonce-contact summary{cursor:pointer;font-weight:700}
+#annonces-liste .annonce-contact-form{display:grid;gap:10px;margin-top:10px}
+#annonces-liste .hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+#annonces-liste .annonce-feedback{margin:0;padding:8px 10px;border:1px solid rgba(213,181,108,.5);border-radius:.6rem}
+@media (max-width:640px){#annonces-privees .annonce-filtres{grid-template-columns:1fr}}

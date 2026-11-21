@@ -4,13 +4,14 @@ const allowedOrigins = [
   "https://majestios.com",
   "https://www.majestios.com",
   "https://majestios-jc8g-cqy7hpelc-majistr.vercel.app",
+  "https://majestios-git-test-ecriture-claude-majistr.vercel.app",
+  "https://majestios-git-evolution-10-majistr.vercel.app",
   ...((Deno.env.get("ALLOWED_ORIGINS") ?? "").split(",").map((origin) => origin.trim()).filter(Boolean))
 ];
 
 function isAllowedOrigin(origin: string | null): boolean {
   if (!origin) return true;
-  return allowedOrigins.includes(origin) ||
-    /^https:\/\/majestios-jc8g-[a-z0-9-]+-majistr\.vercel\.app$/.test(origin);
+  return allowedOrigins.includes(origin);
 }
 
 function corsHeaders(origin: string | null): HeadersInit {
@@ -62,11 +63,19 @@ Deno.serve(async (request: Request) => {
   ) {
     return response(403, { error: "La confirmation de la politique doit être fournie lors de l’inscription avec la version en vigueur." }, origin);
   }
+  // L'espace n'existe qu'après activation : mot de passe sécurisé créé, dans les 10 jours.
+  const { data: ready, error: readyError } = await admin.rpc("member_ready_for_workspace", { p_user_id: user.id });
+  if (readyError || !ready) return response(500, { error: "Vérification de l’activation impossible. Réessayez." }, origin);
+  if (!ready.has_activation) return response(403, { error: "Activation requise : reprenez la création de votre espace.", code: "ACTIVATION_REQUIRED" }, origin);
+  if (ready.expired) return response(403, { error: "Le délai d’activation est dépassé. Redemandez un code pour reprendre.", code: "ACTIVATION_EXPIRED" }, origin);
+  // Connexion Google ou LinkedIn : identité dont l'e-mail est vérifié par le fournisseur, côté serveur d'authentification (non modifiable par l'utilisateur) ; aucun mot de passe MajestiOS exigé.
+  const OAUTH_PROVIDERS = ["google", "linkedin_oidc"];
+  const viaOAuth = (user.identities ?? []).some((identity) => OAUTH_PROVIDERS.includes(identity.provider) && identity.identity_data?.email_verified === true);
+  if (!ready.has_password && !viaOAuth) return response(403, { error: "Créez d’abord votre mot de passe sécurisé pour activer votre espace.", code: "PASSWORD_REQUIRED" }, origin);
   const noticeVersion = NOTICE_VERSION;
-  const organizationName = cleanText(metadata.organization_name || body.organization_name, 120);
-  const displayName = cleanText(metadata.display_name || body.display_name, 120);
-  const phone = cleanText(metadata.phone || body.phone, 32);
-  if (organizationName.length < 2) return response(400, { error: "Le nom de l’entreprise ou de l’espace personnel est obligatoire." }, origin);
+  const organizationName = cleanText(body.organization_name || metadata.organization_name, 120) || "Espace personnel";
+  const displayName = cleanText(body.display_name || metadata.display_name, 120);
+  const phone = cleanText(body.phone || metadata.phone, 32);
   const slug = `${slugify(organizationName) || "espace-client"}-${crypto.randomUUID().slice(0, 8)}`;
   const { data: result, error: provisioningError } = await admin.rpc("provision_client_workspace", {
     p_user_id: user.id,
@@ -82,6 +91,7 @@ Deno.serve(async (request: Request) => {
     return response(500, { error: "La création de votre espace n’a pas abouti. Votre compte reste intact ; réessayez ou contactez-nous." }, origin);
   }
 
+  await admin.rpc("complete_member_activation", { p_user_id: user.id });
   return response(result.existing ? 200 : 201, {
     ok: true,
     existing: result.existing === true,

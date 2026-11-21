@@ -24,9 +24,8 @@
   ];
 
   const marketTypes = [
-    { value: "all", label: "Publics et privés" },
-    { value: "public", label: "Marchés publics" },
-    { value: "private", label: "Marchés privés" }
+    { value: "public", label: "Appels d’offres publics" },
+    { value: "private", label: "Appels d’offres privés" }
   ];
 
   // Taxonomie privée partagée par l’accueil et les pages de rubrique.

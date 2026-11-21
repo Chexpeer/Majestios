@@ -1,0 +1,13 @@
+/* Bandeau défilant des annonces (au-dessus de la barre de navigation). Retour arrière : retirer l'import dans navigation-tiroirs.js. */
+.annonces-ticker{display:flex;align-items:stretch;min-height:34px;overflow:hidden;background:linear-gradient(90deg,#0c1c2c,#12283d);border-bottom:1px solid rgba(215,182,110,.45);font:600 12.5px/1.2 Inter,system-ui,sans-serif;color:#EDEFF2}
+.annonces-ticker-label{flex:0 0 auto;display:flex;align-items:center;padding:0 14px;background:linear-gradient(135deg,#E6C987,#C49A45);color:#1b1608;font-weight:800;letter-spacing:.14em;font-size:11px;text-decoration:none}
+.annonces-ticker-track{flex:1 1 auto;min-width:0;display:flex;overflow:hidden;white-space:nowrap}
+.annonces-ticker-group{flex:0 0 auto;min-width:100%;box-sizing:border-box;display:flex;align-items:center;gap:34px;padding-right:34px;animation:annonces-defile var(--ticker-duree,40s) linear infinite}
+.annonces-ticker-group a{color:inherit;text-decoration:none}
+.annonces-ticker-group a strong{color:#F0D89E;font-weight:800}
+.annonces-ticker-group a:hover,.annonces-ticker-group a:focus-visible{text-decoration:underline}
+.annonces-ticker:hover .annonces-ticker-group,.annonces-ticker:focus-within .annonces-ticker-group{animation-play-state:paused}
+@keyframes annonces-defile{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.annonces-ticker-track{overflow-x:auto}.annonces-ticker-group{animation:none}.annonces-ticker-group[aria-hidden]{display:none}}
+/* Le flux de démonstration de l'accueil disparaît vraiment quand le bandeau réel est affiché */
+html:root:root body .homepage-ticker[hidden]{display:none!important}

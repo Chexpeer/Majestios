@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07162a">
+  <meta name="description" content="Préparez votre entreprise à la facturation électronique : calendrier, plateformes agréées, compatibilité de vos outils et accompagnement à la dématérialisation.">
+  <title>Facturation électronique & dématérialisation — MajestiOS</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="rubriques-immersives.css">
+  <link rel="stylesheet" href="majestios-identite-visuelle.css"><link rel="stylesheet" href="formulaires-compacts.css"><link rel="stylesheet" href="charte-majestios.css">
+  <script src="catalogue-majestios.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="navigation-tiroirs.js" defer></script>
+  <link rel="stylesheet" href="facturation-diagnostic.css">
+  <script type="module" src="facturation-diagnostic.js"></script>
+<script src="fond-aleatoire.js"></script></head>
+<body class="page-marches-publics page-wallpaper">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="MajestiOS, accueil">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span>majesti<span class="brand-os">OS</span></span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="marches-publics.html">Marchés</a><a href="developpement-commercial.html">Développement</a><a href="reseaux-synergies.html">Réseau</a><a href="facturation-electronique.html" aria-current="page">Solutions</a><a href="espace-membre.html">Mon espace</a></nav>
+  </header>
+
+  <main data-fond="facturation-electronique" class="section-wrap interior-page">
+    <div class="mj-page-head"><p class="eyebrow">ACCOMPAGNEMENT MAJESTIOS · GESTION & DÉMATÉRIALISATION</p>
+    <h1>Préparer votre entreprise à la facturation électronique.</h1></div>
+    <section class="floating-route-card" aria-labelledby="compliance-alert-title">
+      <span class="interactive-map-status">MISE EN CONFORMITÉ · À ANTICIPER</span>
+      <h2 id="compliance-alert-title">La réforme change vos habitudes de facturation.</h2>
+      <p><strong>Vérifiez vos obligations et préparez vos outils.</strong> Les entreprises assujetties à la TVA, y compris les petites structures et les micro-entrepreneurs en franchise en base, sont concernées selon leur activité et leurs opérations.</p>
+      <p><strong>Un PDF ordinaire envoyé par e-mail ne suffit pas.</strong> La facture électronique réglementaire doit comporter des données structurées et circuler par l'intermédiaire d'une plateforme agréée. Un logiciel de facturation seul ne garantit donc pas votre conformité.</p>
+            <p><a class="button-primary button-compact" href="#diagnostic">Évaluer ma situation →</a></p>
+    </section>
+
+    <section class="floating-route-card" aria-labelledby="calendar-title">
+      <span class="interactive-map-status">LE CALENDRIER RÉGLEMENTAIRE</span>
+      <h2 id="calendar-title">Les premières obligations sont déjà entrées en vigueur.</h2>
+      <p>Depuis le <strong>1er septembre 2026</strong>, toutes les entreprises assujetties à la TVA doivent être en capacité de recevoir les factures électroniques de leurs fournisseurs lorsque ceux-ci sont soumis à l’obligation d’émission. Les grandes entreprises et les entreprises de taille intermédiaire doivent également émettre leurs factures au format électronique et respecter les obligations d’e-reporting applicables.</p>
+      <p>Pour les <strong>PME et micro-entreprises</strong>, l’obligation d’émission des factures électroniques et les obligations d’e-reporting correspondantes entrent en vigueur au <strong>1er septembre 2027</strong>. Cela ne reporte pas leur obligation de se préparer à recevoir des factures électroniques, déjà applicable depuis septembre 2026.</p>
+      <p class="small-note">Le calendrier général ne suffit pas à déterminer toutes vos obligations : le champ de la réforme dépend notamment de la nature de vos clients, de vos opérations et de votre situation au regard de la TVA. Faites vérifier votre cas à partir des informations officielles.</p>
+    </section>
+
+    <section class="interior-grid" aria-label="Les trois étapes de préparation">
+      <article class="platform-card">
+        <h2>1. Faire le point</h2>
+        <p>Vos flux de facturation, vos clients, vos fournisseurs et vos logiciels actuels.</p>
+      </article>
+      <article class="platform-card">
+        <h2>2. Choisir la bonne organisation</h2>
+        <p>La compatibilité de votre logiciel et la plateforme agréée adaptée à vos flux.</p>
+      </article>
+      <article class="platform-card">
+        <h2>3. Préparer la transition</h2>
+        <p>Données fiables, circuits de validation, suivi des statuts, rejets et règlements.</p>
+      </article>
+    </section>
+
+    <section class="floating-route-card" id="diagnostic" aria-labelledby="diagnostic-title">
+      <span class="interactive-map-status">DIAGNOSTIC D’ORIENTATION · 4 QUESTIONS</span>
+      <h2 id="diagnostic-title">Que change la réforme pour vous ?</h2>
+      <p>Répondez à quatre questions pour obtenir une orientation générale. Rien n’est enregistré ni envoyé.</p>
+      <form id="diagnostic-form" novalidate>
+        <div class="form-grid">
+        <label class="form-field" for="diag-tva">Votre situation au regard de la TVA
+          <select id="diag-tva" name="tva" required><option value="">Choisir…</option></select>
+        </label>
+        <label class="form-field" for="diag-taille">La taille de votre entreprise
+          <select id="diag-taille" name="taille" required><option value="">Choisir…</option></select>
+        </label>
+        <label class="form-field" for="diag-clients">Vos clients
+          <select id="diag-clients" name="clients" required><option value="">Choisir…</option></select>
+        </label>
+        <label class="form-field" for="diag-outil">Votre outil de facturation actuel
+          <select id="diag-outil" name="outil" required><option value="">Choisir…</option></select>
+        </label>
+        </div>
+        <button class="button button-primary form-submit" type="submit">Voir mon orientation <span aria-hidden="true">→</span></button>
+      </form>
+      <noscript><p class="small-note">Le diagnostic nécessite JavaScript. Utilisez le simulateur officiel proposé plus haut.</p></noscript>
+      <div id="diagnostic-result" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <section class="floating-route-card" aria-labelledby="pa-title">
+      <span class="interactive-map-status">PLATEFORMES AGRÉÉES · DÉMARCHE MAJESTIOS</span>
+      <h2 id="pa-title">Une plateforme agréée est indispensable.</h2>
+      <p>Elle assure la transmission et la réception des factures électroniques et, selon les flux, la transmission des données de transaction et de paiement à l'administration. Un logiciel de gestion qui n'est pas immatriculé comme plateforme agréée ne la remplace pas : il doit y être relié.</p>
+      <p><strong>MajestiOS n'est pas une plateforme agréée.</strong> Vous pourrez conserver votre CRM ou votre logiciel de facturation actuel lorsque la compatibilité le permet, ou réunir progressivement suivi commercial, devis, interventions et factures dans le futur CRM MajestiOS, relié à une plateforme agréée partenaire. Aucun partenaire ni connecteur n'est sélectionné ou déclaré opérationnel à ce stade.</p>
+      <p class="small-note"><strong>État actuel :</strong> en cours de conception. Le module <strong>MajestiOS Facturation</strong>, la couche <strong>MajestiOS Connect</strong>, les connecteurs vers les plateformes agréées et le CRM client ne sont pas encore disponibles. Cette page présente le parcours envisagé, pas un service activé.</p>
+    </section>
+
+    <section class="floating-route-card" aria-labelledby="official-sources-title">
+      <span class="interactive-map-status">VOTRE SITUATION</span>
+      <h2 id="official-sources-title">Être accompagné.</h2>
+      <p>Les informations de cette page s’appuient sur les textes et les publications de l’administration fiscale (impots.gouv.fr), consultés en novembre 2026. Elles sont générales : MajestiOS vous aide à les appliquer à votre cas.</p>
+      <p>Laissez-nous vos coordonnées par le formulaire de contact : nous revenons vers vous pour faire le point sur vos obligations et sur l’outil adapté.</p>
+      <p><a class="button-primary button-compact" href="contact.html?objet=facturation">Être recontacté →</a></p>
+    </section>
+
+    
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-wrap">MajestiOS · Développement commercial, gestion et accompagnement</div>
+  </footer>
+</body>
+</html>

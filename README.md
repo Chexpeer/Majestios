@@ -2,7 +2,7 @@
 
 MajestiOS est un projet de plateforme web d’intelligence et de développement commercial. Il vise à aider les entreprises et les professionnels à repérer des marchés, suivre des signaux économiques, identifier des entreprises pertinentes et structurer leur prospection.
 
-> **État du dépôt :** cette branche contient un prototype web statique en HTML, CSS et JavaScript. Certaines pages présentent des espaces ou fonctionnalités en cours de construction. Leur présence dans le site ne signifie pas qu’un service connecté ou une automatisation complète est déjà opérationnel.
+> **État du dépôt :** le frontend du site est construit comme un site statique en HTML, CSS et JavaScript. Le dépôt contient également un backend Supabase en cours de consolidation (migrations SQL, fonctions Edge et contrats serveur). La présence d’un écran, d’une migration ou d’une fonction dans le dépôt ne prouve pas son déploiement ni sa recette dans l’environnement utilisé.
 
 ## Aperçu
 
@@ -14,7 +14,9 @@ Le site regroupe plusieurs espaces fonctionnels :
 - **Développement commercial** : prospection, suivi commercial, réseaux et accompagnement.
 - **Veille des entreprises** : informations issues notamment du BODACC.
 - **Qualification des entreprises** : outils indicatifs de rapprochement par codes APE/NAF et département.
-- **Espaces complémentaires** : CRM, espace membre, MajestiOS V.5, FAQ et informations légales.
+- **Espaces complémentaires** : CRM, espace membre, assistant conversationnel de première génération, FAQ et informations légales.
+
+**Cheexpeer n’est pas encore disponible comme agent IA opérationnel.** L’assistant actuellement intégré au site est un guide conversationnel de première génération, fondé sur des règles et des mots-clés ; il ne doit pas être présenté comme Cheexpeer. Les capacités Cheexpeer décrites dans les documents d’architecture constituent une cible en cours de construction.
 
 Les résultats administratifs et les scores de rapprochement sont des aides à l’analyse. Ils ne prouvent pas la compétence, la capacité opérationnelle ou l’éligibilité d’une entreprise à un marché. Une vérification humaine reste nécessaire.
 
@@ -33,7 +35,9 @@ Le projet ne nécessite pas de framework front-end pour construire le site stati
 
 Un backend Supabase séparé a été créé pour préparer l'authentification, les espaces clients et le CRM. Le socle multi-tenant (organisations, membres, entreprises, contacts, opportunités, activités et demandes) est versionné dans `supabase/migrations/`, avec RLS activé et règles de séparation des organisations.
 
-**Important :** le parcours d'inscription/connexion de l'espace membre et le provisionnement d'un espace client sont maintenant raccordés au backend, mais le flux e-mail doit encore être validé de bout en bout. Les formulaires publics de contact/candidature et le CRM opérationnel ne sont pas encore raccordés. Voir [l'état vérifié du backend](docs/evolution-5.0/ETAT-BACKEND-SUPABASE.md) avant toute intégration.
+**Mise à jour du 20 novembre 2026 (branche `evolution-10`, copie de test) :** la création d'espace se fait par lien reçu par e-mail (plus de code), suivie d'une activation obligatoire (mot de passe sécurisé et acceptation de la politique de confidentialité). La fonction `provision-client-workspace` est déployée sur le projet `MajestiOS-Test` et le site de test pointe sur ce projet (jamais sur `majestios-crm`, non modifié). Ensuite la connexion se fait par mot de passe, et l'espace personnel est un tableau de bord. Rien n'est fusionné ni en production ; voir [la synthèse](docs/SYNTHESE-MAJESTIOS.md) et le [journal de synchronisation](docs/evolution-10/JOURNAL-DE-SYNCHRONISATION-SUPABASE-TEST-2026-11-15.md).
+
+**Historique — état vérifié le 11 novembre 2026 (dépassé pour la branche de test) :** le code du parcours OTP et de la fonction de provisionnement existe, mais la fonction Edge `provision-client-workspace` appelée après validation du code n'est déployée sur aucun des deux projets Supabase inspectés. Le provisionnement d'un espace client n'est donc pas considéré comme opérationnel et le parcours OTP n'a pas été recetté de bout en bout. Le frontend pointe actuellement vers `majestios-crm`, dont les migrations divergent de celles du projet `MajestiOS-Test`. Voir [l'audit de l'existant avant Evolution-8](docs/evolution-7/AUDIT-EXISTANT-PREPARATION-EVOLUTION-8-2026-11-11.md) avant toute intégration.
 
 
 ## Lancer le site en local
@@ -60,12 +64,15 @@ Le dossier `dist/` est généré par le build ; les modifications doivent être 
 
 ## Tests et contrôles
 
-Les contrôles métier peuvent être exécutés séparément :
+Les tests du dépôt couvrent notamment les API Cheexpeer, les contrôles d’accès, le CRM, la prospection, les sources BOAMP/BODACC, les contrats de navigation et les parcours navigateur. La liste exhaustive et l’ordre d’exécution sont définis dans `.github/workflows/verify-site.yml`. Pour lancer quelques tests métier ciblés :
 
 ```bash
 node tests/company-targeting.test.cjs
 node tests/company-fit.test.cjs
+node tests/prospecting-resources.test.cjs
 node tests/naf-suggestions.test.cjs
+node tests/prospection-contract.test.cjs
+node tests/prospection-search-core.test.cjs
 ```
 
 Vérification de la syntaxe et de la construction :
@@ -77,6 +84,7 @@ node --check rubric-search.js
 node build.js
 node verify-architecture.js
 node verify-site.js
+node verify-doc-links.js
 ```
 
 Les tests d’intégration BOAMP et BODACC interrogent des services externes et nécessitent un accès réseau :
@@ -91,7 +99,6 @@ Les tests navigateur utilisent Playwright et Chromium. Dans un environnement où
 ```bash
 npm install --no-save --package-lock=false playwright
 npx playwright install chromium
-node tests/immeuble-interactif.browser.cjs
 node tests/opportunity-search.browser.cjs
 ```
 
@@ -114,6 +121,10 @@ Un déploiement de prévisualisation doit être vérifié avant toute promotion 
 - `*.html` : pages du site ;
 - `styles.css`, `rubriques-immersives.css` : styles ;
 - `*.js` : interactions, recherche, catalogue et modules métier ;
+- `supabase/` : migrations SQL, fonctions Edge et éléments du backend ;
+- `services/` : services applicatifs ;
+- `schemas/` : schémas et contrats de données ;
+- `outils/` : outils et utilitaires du projet ;
 - `tests/` : tests unitaires, d’intégration et navigateur ;
 - `verify-site.js`, `verify-architecture.js` : contrôles de cohérence ;
 - `site-files.json` : manifeste unique des fichiers publiés dans `dist/` ;
@@ -137,3 +148,25 @@ Le projet suit un protocole documenté de maintenance, de sauvegarde et de repri
 ## Licence et informations légales
 
 Aucune licence open source n’est déclarée dans ce dépôt. Les mentions légales et la politique de confidentialité publiées dans le site doivent être vérifiées et maintenues par le responsable du projet.
+
+
+## Épuration éditoriale — 11 novembre 2026
+
+Trois passes d'épuration ont raccourci les textes et clarifié les limites des fonctions présentées. La troisième passe a également retiré des pages publiques les derniers repères de navigation en étages et remplacé un parcours visuel non opérationnel par une présentation fonctionnelle sobre. Les décisions et les pages concernées sont suivies dans [le rapport de la troisième passe](docs/evolution-10/EPURATION-EDITORIALE-PASSE-3-2026-11-11.md) et le [registre des anomalies Evolution-9](docs/evolution-10/REGISTRE-ANOMALIES-EVOLUTION-9.md). Les changements restent limités aux contenus HTML et à leur documentation ; aucune migration, donnée ou configuration distante n'a été modifiée.
+
+
+La passe éditoriale a également retiré le dernier ancien parcours illustratif de la page Intelligence économique. Voir le rapport de la troisième passe et le registre des anomalies UX-EDITORIAL-12.
+
+
+La page CRM distingue désormais la conservation des relances, leur création par traitement planifié et le rechargement de l'interface. L'affichage ne prétend plus se rafraîchir automatiquement toutes les cinq minutes. Voir UX-EDITORIAL-13 dans le registre Evolution-9.
+
+
+L'introduction du CRM énumère désormais ses modules (entreprises, contacts, opportunités, activités et relances) sans promettre une historisation automatique générale. L'écart technique d'historisation sur le projet principal reste ouvert (UX-EDITORIAL-14).
+
+
+L'espace Membres est temporairement limité à la connexion des comptes déjà habilités. La création de nouveaux espaces reste suspendue jusqu'au déploiement et à la recette de la fonction `provision-client-workspace` sur l'environnement retenu (AUTH-MEMBER-01). Aucun déploiement Supabase n'a été effectué.
+
+
+### Espace Membres — état au 12 novembre 2026 (historique ; état courant de la branche de test : voir la mise à jour du 20 novembre plus haut)
+
+L’interface publique est limitée à la connexion OTP des membres déjà habilités. La création de compte et le provisionnement ne sont pas proposés tant que la fonction serveur n’a pas été déployée et testée. Un compte Auth sans appartenance à une organisation ne donne pas accès à un espace. Aucun déploiement Supabase n’a été effectué.

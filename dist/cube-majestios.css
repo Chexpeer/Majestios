@@ -1,0 +1,50 @@
+/* Cube de la page d'accueil MajestiOS — rendu cristal.
+   Quatre faces cliquables (rubrique, icône, phrase d'introduction), deux faces de marque,
+   et un noyau de verre à l'intérieur pour la profondeur. */
+.home-cube{min-width:0;--s:clamp(250px,68vw,470px);display:grid;justify-items:center;gap:.4rem;padding:1.5rem 1rem 2rem;text-align:center}
+.home-cube h2{margin:0}
+.mj-cube-hint{margin:0;opacity:.8;font-size:.95rem}
+
+.mj-cube-stage{position:relative;width:min(100%,calc(var(--s)*1.6));height:calc(var(--s)*1.6);display:grid;place-items:center;
+  perspective:1600px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.mj-cube-stage.dragging{cursor:grabbing}
+.mj-cube-stage::after{content:"";position:absolute;left:50%;bottom:8%;width:calc(var(--s)*1.15);height:calc(var(--s)*.14);
+  transform:translateX(-50%);background:radial-gradient(ellipse,rgba(190,220,255,.4),transparent 70%);filter:blur(7px);pointer-events:none}
+
+.mj-cube{position:relative;width:var(--s);height:var(--s);transform-style:preserve-3d;will-change:transform}
+
+/* Faces en cristal : verre teinté, reflet en biais, arêtes lumineuses. */
+.mj-cube-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.45rem;
+  padding:calc(var(--s)*.08);text-align:center;text-decoration:none;overflow:hidden;
+  color:#fff;line-height:1.2;
+  backface-visibility:hidden;-webkit-user-drag:none;
+  border:1px solid rgba(255,255,255,.7);border-radius:3px;
+  background:
+    linear-gradient(115deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,.08) 22%,transparent 23%,transparent 48%,rgba(255,255,255,.12) 49%,rgba(255,255,255,.03) 62%,transparent 63%),
+    linear-gradient(150deg,rgba(var(--rgb),.34),rgba(var(--rgb),.1) 55%,rgba(7,18,37,.38));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),inset 0 0 calc(var(--s)*.14) rgba(255,255,255,.28),inset 0 0 calc(var(--s)*.3) rgba(var(--rgb),.35),0 0 26px rgba(var(--rgb),.28);
+  transition:background-color .2s,box-shadow .2s}
+.mj-cube-face svg{width:22%;height:auto;color:rgb(var(--rgb));filter:brightness(1.5) drop-shadow(0 0 7px rgba(var(--rgb),.9))}
+.mj-cube-face strong{font-size:calc(var(--s)*.075);font-weight:750;letter-spacing:-.01em;text-shadow:0 1px 10px rgba(0,0,0,.55),0 0 14px rgba(var(--rgb),.8)}
+.mj-face-text{max-width:88%;font-size:calc(var(--s)*.058);font-weight:500;line-height:1.35;color:#eef3fb;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+a.mj-cube-face:hover,a.mj-cube-face:focus-visible{box-shadow:inset 0 0 0 1px rgba(255,255,255,.4),inset 0 0 calc(var(--s)*.16) rgba(255,255,255,.45),inset 0 0 calc(var(--s)*.34) rgba(var(--rgb),.6),0 0 34px rgba(var(--rgb),.5)}
+a.mj-cube-face:focus-visible{outline:2px solid #fff;outline-offset:-6px}
+.mj-f0{transform:rotateY(0deg) translateZ(calc(var(--s)/2))}
+.mj-f1{transform:rotateY(90deg) translateZ(calc(var(--s)/2))}
+.mj-f2{transform:rotateY(180deg) translateZ(calc(var(--s)/2))}
+.mj-f3{transform:rotateY(-90deg) translateZ(calc(var(--s)/2))}
+.mj-top{transform:rotateX(90deg) translateZ(calc(var(--s)/2))}
+.mj-bot{transform:rotateX(-90deg) translateZ(calc(var(--s)/2))}
+.mj-brand{--rgb:232,193,90;font-size:calc(var(--s)*.11);font-weight:750;letter-spacing:.05em;color:#f6dd9a}
+
+/* Noyau de verre : un petit cristal visible par transparence. */
+.mj-core{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
+.mj-core i{position:absolute;left:25%;top:25%;width:50%;height:50%;border:1px solid rgba(255,255,255,.5);
+  background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(150,190,255,.07));box-shadow:inset 0 0 18px rgba(190,220,255,.3)}
+.mj-c0{transform:translateZ(calc(var(--s)*.25))}
+.mj-c1{transform:rotateY(180deg) translateZ(calc(var(--s)*.25))}
+.mj-c2{transform:rotateY(90deg) translateZ(calc(var(--s)*.25))}
+.mj-c3{transform:rotateY(-90deg) translateZ(calc(var(--s)*.25))}
+.mj-c4{transform:rotateX(90deg) translateZ(calc(var(--s)*.25))}
+.mj-c5{transform:rotateX(-90deg) translateZ(calc(var(--s)*.25))}
+@media (prefers-reduced-motion:reduce){.mj-cube-face{transition:none}}

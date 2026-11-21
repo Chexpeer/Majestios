@@ -1,0 +1,83 @@
+/* MajestiOS — harmonisation des fonds d'écran (Evolution-9, branche de test).
+   Un seul voile, un seul cadre et un seul comportement de défilement pour toutes les rubriques.
+   Chaque page ne choisit que son image, via --mj-fond-image. Sans image, le voile seul est affiché.
+   Chargé par charte-majestios-tokens.css : ce bloc passe donc après rubriques-immersives.css.
+   Ne touche ni l'accueil, ni le cube interactif, ni la navigation, ni le moteur de recherche. */
+:root{
+  --mj-fond-voile:linear-gradient(90deg,rgba(5,12,23,.80),rgba(5,12,23,.62) 55%,rgba(5,12,23,.44));
+  --mj-fond-couleur:#091321;
+  --mj-fond-bordure:rgba(213,181,108,.32);
+}
+
+/* Cadre commun des pages de rubrique. */
+body.page-development-commercial main.interior-page,
+body.page-marches-publics main.interior-page,
+body.page-marches-prives main.interior-page,
+body.page-prospection main.interior-page,
+body.page-reseaux main.interior-page,
+main.interior-page:has(.virtual-space[data-world="accompagnement"]),
+main.interior-page:has(.virtual-space[data-world="sous-traitance"]),
+main.interior-page:has(.virtual-space[data-world="bodacc"]){
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(22px,3vw,42px);
+  border:1px solid var(--mj-fond-bordure);border-radius:18px;
+  background-color:var(--mj-fond-couleur)!important;
+  background-image:var(--mj-fond-voile),var(--mj-fond-image,none)!important;
+  background-size:cover!important;background-position:center!important;
+  background-repeat:no-repeat!important;background-attachment:scroll!important;
+}
+
+/* Image choisie par rubrique. */
+
+@media(max-width:760px){
+  body.page-development-commercial main.interior-page,
+  body.page-marches-publics main.interior-page,
+  body.page-marches-prives main.interior-page,
+  body.page-prospection main.interior-page,
+  body.page-reseaux main.interior-page,
+  main.interior-page:has(.virtual-space[data-world="accompagnement"]),
+  main.interior-page:has(.virtual-space[data-world="sous-traitance"]),
+  main.interior-page:has(.virtual-space[data-world="bodacc"]){
+    padding:18px 14px;background-position:center top!important;
+  }
+}
+
+/* ---- Fonds visuels 3D validés : un visuel par rubrique (visuels/fonds/*.webp). ----
+   Chaque page déclare sa rubrique avec data-fond sur <main>.
+   Performance : l'image est un calque fixe (position:fixed) géré par le GPU, et non un
+   background-attachment:fixed, qui obligeait à tout redessiner à chaque défilement.
+   Les images sont pré-calculées (WebP) : plus de filtres SVG recalculés à l'écran. */
+body:has(main.interior-page[data-fond])::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:var(--mj-fond-voile),var(--mj-fond-image) center/cover no-repeat,#0a1a33;
+  transform:translateZ(0);will-change:transform;
+}
+body:has(main.interior-page[data-fond]){
+  --mj-fond-voile:linear-gradient(90deg,rgba(4,10,22,.34),rgba(4,10,22,.12) 50%,rgba(4,10,22,0));
+  background:#0a1a33!important;
+}
+html body main.interior-page[data-fond]{
+  position:relative;isolation:isolate;
+  padding:clamp(22px,3vw,42px);
+  border:1px solid var(--mj-fond-bordure);border-radius:18px;
+  background:transparent!important;
+  box-shadow:0 22px 60px rgba(2,8,20,.35),inset 0 1px 0 rgba(255,255,255,.14)!important;
+}
+/* Le bandeau d'en-tête commun (fond-panorama.webp) laisse voir le fond ; seul un dégradé
+   sombre à gauche subsiste pour garder le titre lisible. */
+html body main.interior-page[data-fond]:before{
+  background:linear-gradient(90deg,rgba(4,10,22,.55),rgba(4,10,22,.18) 52%,rgba(4,10,22,0))!important;
+}
+body:has(main.interior-page[data-fond="prospection-crm"]){--mj-fond-image:url("visuels/fonds/prospection-crm.webp")}
+body:has(main.interior-page[data-fond="facturation-electronique"]){--mj-fond-image:url("visuels/fonds/facturation-electronique.webp")}
+body:has(main.interior-page[data-fond="reputation-virtuelle"]){--mj-fond-image:url("visuels/fonds/reputation-virtuelle.webp")}
+body:has(main.interior-page[data-fond="reseau-synergies"]){--mj-fond-image:url("visuels/fonds/reseau-synergies.webp")}
+body:has(main.interior-page[data-fond="marches-publics"]){--mj-fond-image:url("visuels/fonds/marches-publics.webp")}
+body:has(main.interior-page[data-fond="marches-prives"]){--mj-fond-image:url("visuels/fonds/marches-prives.webp")}
+body:has(main.interior-page[data-fond="accompagnement-appels-offres"]){--mj-fond-image:url("visuels/fonds/accompagnement-appels-offres.webp")}
+body:has(main.interior-page[data-fond="sous-traitance"]){--mj-fond-image:url("visuels/fonds/sous-traitance.webp")}
+body:has(main.interior-page[data-fond="veille-marches"]){--mj-fond-image:url("visuels/fonds/veille-marches.webp")}
+body:has(main.interior-page[data-fond="bodacc-veille-entreprises"]){--mj-fond-image:url("visuels/fonds/bodacc-veille-entreprises.webp")}
+body:has(main.interior-page[data-fond="suivi-commercial"]){--mj-fond-image:url("visuels/fonds/suivi-commercial.webp")}
+body:has(main.interior-page[data-fond="intelligence-economique"]){--mj-fond-image:url("visuels/fonds/intelligence-economique.webp")}
+body:has(main.interior-page[data-fond="developpement-commercial"]){--mj-fond-image:url("visuels/fonds/developpement-commercial.webp")}

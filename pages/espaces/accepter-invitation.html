@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Acceptation d’une invitation MajestiOS.">
+<title>Invitation — MajestiOS</title>
+<link rel="stylesheet" href="administration.css">
+<link rel="stylesheet" href="admin-cheexpeer.css">
+<link rel="stylesheet" href="charte-majestios-espaces.css">
+  <script src="navigation-tiroirs.js" defer></script>
+</head>
+<body class="admin-shell">
+<main class="admin-main" style="max-width:520px;margin:0 auto;padding:40px 16px">
+<section id="gate" class="admin-gate" aria-live="polite"><div class="gate-emblem">M</div><p class="admin-kicker">INVITATION</p><h1>Bienvenue sur MajestiOS</h1>
+<p id="ia-message">Vérification de votre invitation…</p>
+<form id="ia-login" class="mod-login" hidden><input name="email" type="email" autocomplete="email" placeholder="Adresse e-mail invitée" required><button class="admin-button admin-button-primary" type="submit">Recevoir mon lien de connexion →</button></form>
+<form id="ia-consent" class="mod-login" hidden><label style="display:flex;gap:8px;font-size:13px"><input id="ia-check" type="checkbox"><span>J’ai lu et j’accepte la <a href="politique-confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label><button class="admin-button admin-button-primary" type="submit">Accepter l’invitation →</button></form>
+<p><a id="ia-next" href="index.html" hidden>Continuer →</a></p>
+</section>
+</main>
+<script type="module" src="accepter-invitation.js"></script>
+</body>
+</html>

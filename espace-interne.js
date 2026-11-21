@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { MAJESTIOS_SUPABASE } from "./supabase-config.js";
+import { PAGES, safeReturnTo, canOpen, emailRedirect } from "./parcours-majestios.mjs";
 
 const supabase = createClient(MAJESTIOS_SUPABASE.url, MAJESTIOS_SUPABASE.publishableKey, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
@@ -13,9 +14,8 @@ const loginForm = document.querySelector("#internal-login-form");
 const loginButton = document.querySelector("#internal-login-submit");
 const signOutButton = document.querySelector("#internal-signout");
 const sessionLabel = document.querySelector("#internal-session-label");
-const allowedDestinations = new Set(["espace-interne.html", "crm.html", "administration.html", "admin-recherches.html"]);
 const requestedDestination = new URLSearchParams(window.location.search).get("returnTo");
-const returnTo = allowedDestinations.has(requestedDestination) ? requestedDestination : "espace-interne.html";
+const returnTo = safeReturnTo(requestedDestination);
 const authHash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
 const inviteFlow = authHash.get("type") === "invite";
 let passwordSetup = inviteFlow;
@@ -85,18 +85,18 @@ function showWorkspace(organization, membership) {
   document.querySelector("#internal-organization").textContent = organization.name || "Organisation interne";
   document.querySelector("#internal-role").textContent = roleLabel(membership.role);
   document.querySelector("#internal-identity").textContent = membership.role === "viewer"
-    ? "Votre accès est limité à la consultation des données CRM autorisées."
+    ? "Votre accès est limité aux rubriques qui vous sont autorisées. Le CRM interne reste réservé aux comptes VIP."
     : "Votre espace de travail et vos habilitations sont confirmés.";
-  document.querySelector("#internal-crm-access").textContent = membership.role === "viewer"
-    ? "CONSULTATION SEULE · AUCUNE ÉCRITURE"
-    : "ACCÈS SELON VOS HABILITATIONS";
   const canAdminister = ["owner", "admin"].includes(membership.role);
+  const crmLink = document.querySelector("#internal-crm-link");
+  crmLink.hidden = !canAdminister;
+  crmLink.setAttribute("aria-hidden", String(!canAdminister));
+  document.querySelector("#internal-crm-access").textContent = canAdminister
+    ? "ACCÈS VIP · HABILITATION OWNER / ADMIN"
+    : "CRM INTERNE RÉSERVÉ AUX COMPTES VIP OWNER / ADMIN";
   document.querySelector("#internal-admin-card").hidden = !canAdminister;
-  if (returnTo !== "espace-interne.html") {
-    const destinationAllowed = returnTo === "crm.html" ||
-      (canAdminister && ["administration.html"].includes(returnTo));
-    if (destinationAllowed) window.location.replace(returnTo);
-  }
+  document.querySelector("#internal-search-card").hidden = !canAdminister;
+  if (returnTo !== PAGES.connexionInterne && canOpen(returnTo, membership.role)) window.location.replace(returnTo);
 }
 async function resolveInternalMembership(userId) {
   const { data: memberships, error: membershipError } = await supabase
@@ -174,6 +174,19 @@ loginForm.addEventListener("submit", async event => {
     loginButton.disabled = false;
   }
 });
+document.querySelector("#internal-link-login").addEventListener("click", async event => {
+  const button = event.currentTarget;
+  const emailInput = loginForm.elements.email;
+  if (!emailInput.reportValidity()) return;
+  button.disabled = true;
+  // Réponse neutre : on ne révèle pas si le compte existe. Le lien ramène sur cette page (même destination demandée).
+  const { error } = await supabase.auth.signInWithOtp({
+    email: String(emailInput.value || "").trim().toLowerCase(),
+    options: { shouldCreateUser: false, emailRedirectTo: emailRedirect(window.location.origin, PAGES.connexionInterne, returnTo) }
+  });
+  button.disabled = false;
+  showMessage(error ? "Le lien n’a pas pu être envoyé. Réessayez dans quelques minutes." : "Si ce compte existe, un lien de connexion vient d’être envoyé. Ouvrez-le depuis cet appareil.", !!error);
+}, { once: false });
 signOutButton.addEventListener("click", async () => {
   signOutButton.disabled = true;
   const { error } = await supabase.auth.signOut();

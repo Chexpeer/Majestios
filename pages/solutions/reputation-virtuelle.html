@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Évaluez votre présence sur le Web et votre visibilité locale avec MajestiOS.">
+  <title>Réputation virtuelle — MajestiOS</title>
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="rubriques-immersives.css"><link rel="stylesheet" href="reputation-virtuelle.css"><link rel="stylesheet" href="majestios-identite-visuelle.css"><link rel="stylesheet" href="charte-majestios.css">
+<script src="catalogue-majestios.js" defer></script><script src="app.js" defer></script><script src="navigation-tiroirs.js" defer></script><script type="module" src="reputation-virtuelle.js"></script>
+<script src="fond-aleatoire.js"></script></head>
+<body class="page-reputation-virtuelle">
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+  <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="marches-publics.html">Marchés</a><a href="developpement-commercial.html">Développement</a><a href="reseaux-synergies.html">Réseau</a><a href="facturation-electronique.html">Solutions</a><a href="espace-membre.html">Mon espace</a></nav>
+</header>
+<main data-fond="reputation-virtuelle" class="section-wrap interior-page reputation-page">
+  <section class="reputation-hero" aria-labelledby="reputation-title">
+    <div class="reputation-search-column">
+      <p class="eyebrow">VISIBILITÉ · PRÉSENCE LOCALE · IMAGE DE MARQUE</p>
+      <h1 id="reputation-title">Votre image <span>en ligne.</span></h1>
+      <p class="reputation-lede">Voyez ce que vos clients découvrent de votre entreprise dans les résultats de recherche, les fiches locales et les avis.</p>
+      <section class="audit-dossier" hidden aria-labelledby="audit-dossier-title">
+        <div class="audit-dossier-heading"><div><p class="eyebrow">POINT DE DÉPART DE L’AUDIT</p><h2 id="audit-dossier-title">Identifier l’entreprise à auditer</h2></div><span class="audit-dossier-state" data-audit-dossier-state>Dossier non renseigné</span></div>
+        <form data-audit-dossier-form>
+          <div class="audit-form-grid">
+            <label>Entreprise / nom commercial <input name="company" type="text" autocomplete="organization" required placeholder="Nom de l’entreprise"></label>
+            <label>SIREN (facultatif) <input name="siren" type="text" inputmode="numeric" pattern="[0-9]{9}" maxlength="9" placeholder="9 chiffres"></label>
+            <label>Activité principale <input name="activity" type="text" required placeholder="Métier, produits ou prestations"></label>
+            <label>Site Internet <input name="website" type="url" inputmode="url" placeholder="https://…"></label>
+            <label>Ville et territoire desservi <input name="territory" type="text" required placeholder="Ville, département, zone d’intervention"></label>
+            <label>Clientèle visée <select name="audience"><option value="">À préciser</option><option>Professionnels (B2B)</option><option>Particuliers (B2C)</option><option>Collectivités / donneurs d’ordre publics</option><option>Mixte</option></select></label>
+            <label>Objectif commercial prioritaire <select name="objective" required><option value="">Choisir un objectif</option><option>Recevoir des appels</option><option>Obtenir des demandes de devis</option><option>Gagner des clients / contrats</option><option>Développer la visibilité locale</option><option>Renforcer la confiance et les avis</option><option>Développer les ventes en ligne</option><option>Autre / à préciser</option></select></label>
+          </div>
+          <div class="audit-dossier-actions"><button type="submit">Préparer le dossier d’audit</button><button type="button" data-audit-run disabled>Lancer l’audit Cheexpeer</button><button type="button" class="audit-reset" data-audit-dossier-reset>Réinitialiser</button></div>
+          <p class="audit-storage-note">Le dossier de travail reste dans cette session de navigateur. Le lancement d’un audit transmet les informations nécessaires au service sécurisé Cheexpeer ; il nécessite une connexion à votre espace privé.</p>
+        </form>
+        <div class="audit-dossier-summary" data-audit-dossier-summary hidden aria-live="polite"></div>
+      </section>
+      <div class="reputation-workspace" data-reputation-workspace>
+        <div class="reputation-searches" hidden aria-hidden="true">
+          <form class="reputation-search-card" data-reputation-search="web">
+            <div class="reputation-search-heading"><span class="google-mark" aria-hidden="true">G</span><div><strong>Google Web</strong><small>Recherchez sur le Web depuis cet espace</small></div></div>
+            <label class="sr-only" for="reputation-web-query">Entreprise ou activité à rechercher sur Google</label>
+            <div class="reputation-input-row"><input id="reputation-web-query" type="search" placeholder="Entreprise, marque, activité…" required><button type="submit">Consulter <span aria-hidden="true">⌕</span></button></div>
+          </form>
+          <form class="reputation-search-card" data-reputation-search="maps">
+            <div class="reputation-search-heading"><span class="maps-mark" aria-hidden="true">⌖</span><div><strong>Google Maps</strong><small>Affichez une carte Google Maps ici</small></div></div>
+            <label class="sr-only" for="reputation-maps-query">Entreprise, ville ou adresse à rechercher sur Google Maps</label>
+            <div class="reputation-input-row"><input id="reputation-maps-query" type="search" placeholder="Entreprise, ville ou adresse…" required><button type="submit">Localiser <span aria-hidden="true">⌖</span></button></div>
+          </form>
+        </div>
+        <section class="reputation-consultation" aria-labelledby="consultation-title">
+          <div class="consultation-toolbar"><div><p class="eyebrow">ESPACE DE CONSULTATION</p><h2 id="consultation-title">Votre suivi de réputation</h2></div><span class="consultation-status" data-consultation-status>En attente d’une analyse</span></div>
+          <div class="consultation-content" data-consultation-content aria-live="polite">
+            <div class="consultation-placeholder"><span aria-hidden="true">⌕</span><strong>Votre espace de suivi est prêt</strong><p>Les analyses de présence en ligne, les constats vérifiés et les recommandations validées apparaîtront ici lorsqu’ils seront disponibles. Aucune saisie ni recherche manuelle n’est nécessaire depuis cette rubrique.</p></div>
+          </div>
+          <p class="consultation-legal">Les services Google restent soumis à leurs conditions d’utilisation. Si une intégration est indisponible ou limitée, MajestiOS l’indiquera clairement au lieu de simuler des résultats.</p>
+        </section>
+      </div>
+      <p class="reputation-disclaimer">Les constats présentés dans cet espace doivent être datés, sourcés et vérifiés. Les recommandations restent soumises à validation humaine avant toute action.</p>
+    </div>
+    <aside class="reputation-visual" aria-label="Illustration de la présence sur les réseaux sociaux">
+      <div class="reputation-visual-glow"></div>
+      <div class="social-orbit orbit-a"></div><div class="social-orbit orbit-b"></div>
+      <div class="social-hub"><span class="hub-spark">✦</span><strong>Votre présence<br>numérique</strong><small>Une image, plusieurs vitrines</small></div>
+      <div class="social-badge social-facebook"><b>f</b><span>Facebook</span></div>
+      <div class="social-badge social-youtube"><b>▶</b><span>YouTube</span></div>
+      <div class="social-badge social-instagram"><b>◎</b><span>Instagram</span></div>
+      <div class="social-badge social-linkedin"><b>in</b><span>LinkedIn</span></div>
+      <div class="social-badge social-tiktok"><b>♪</b><span>TikTok</span></div>
+      <div class="social-badge social-x"><b>𝕏</b><span>X</span></div>
+      <p class="social-visual-note">Les plateformes sont représentées à titre illustratif. Aucune connexion à ces comptes n’est active.</p>
+    </aside>
+  </section>
+
+  <section class="reputation-explainer" aria-labelledby="reputation-explainer-title">
+    <div><p class="eyebrow">VOIR · COMPRENDRE · AGIR</p><h2 id="reputation-explainer-title">Votre image en ligne mérite un regard d’ensemble.</h2></div>
+    <div class="reputation-explainer-copy"><p>La réputation virtuelle rassemble les informations visibles sur votre entreprise : résultats Web, présence locale, réseaux sociaux et avis publics. L’objectif est de repérer les points forts, les incohérences et les pistes d’amélioration.</p><p>Les constats doivent être vérifiés et datés avant d’être présentés comme un diagnostic. Aucune réponse à un avis, publication ou prise de contact n’est déclenchée sans validation humaine.</p></div>
+  </section>
+
+  <section class="reputation-pillars" aria-label="Les axes de travail">
+    <article><span class="pillar-icon">⌖</span><h3>Présence locale</h3><p>Vérifier l’adresse et les informations de votre établissement sur les cartes.</p></article>
+    <article><span class="pillar-icon">✧</span><h3>Avis et confiance</h3><p>Après accord de l’entreprise, consulter les avis et préparer des réponses à valider.</p></article>
+    <article><span class="pillar-icon">⌕</span><h3>Référencement naturel</h3><p>Repérer les améliorations utiles pour votre site et vos informations locales.</p></article>
+  </section>
+  
+</main>
+<footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial et Réputation virtuelle</div></footer>
+</body></html>

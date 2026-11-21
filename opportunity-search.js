@@ -113,11 +113,6 @@
     };
   };
 
-  const officialUrl = (record) => {
-    if (typeof record.url_avis === "string" && /^https:\/\/(www\.)?boamp\.fr\//i.test(record.url_avis)) return record.url_avis;
-    if (record.idweb) return "https://www.boamp.fr/pages/avis/?q=" + encodeURIComponent("idweb:" + record.idweb);
-    return "https://www.boamp.fr/";
-  };
 
   const buildContactUrl = (source, reference, params) => {
     const contactParams = new URLSearchParams(params);
@@ -133,7 +128,7 @@
     const category = options.category || params.get("categorie") || "all";
     const resultLimit = Number.isFinite(options.resultLimit) ? options.resultLimit : MAX_RESULTS;
     const query = (params.get("q") || "").trim();
-    const market = params.get("marche") || "all";
+    const market = params.get("marche") || "";
     const empty = panel.querySelector(".category-results-empty");
     if (!empty) return;
     if (category === "autre" && !query) {
@@ -145,43 +140,20 @@
     // Une nouvelle exécution remplace les cartes et notes précédentes au lieu de les empiler.
     panel.querySelectorAll(".opportunity-results-list, .opportunity-source-note").forEach((node) => node.remove());
 
-    // Une catégorie propre à un seul marché ne peut pas être appliquée honnêtement aux deux sources.
-    // Refuser ce cas limite évite de présenter des résultats non filtrés comme s'ils correspondaient au choix.
-    if (market === "all" && category !== "all") {
+    // Les appels d'offres publics et privés ne sont jamais regroupés : le type doit être choisi d'emblée.
+    if (market !== "public" && market !== "private") {
       panel.querySelectorAll(".opportunity-source-group").forEach((group) => group.remove());
-      empty.textContent = "La recherche « Publics et privés » ne peut pas appliquer une catégorie spécifique aux deux sources. Choisissez « Toutes les catégories » pour comparer les deux sources, ou sélectionnez « Marchés publics » / « Marchés privés » pour filtrer une catégorie.";
+      empty.textContent = "Choisissez d’abord le type d’appel d’offres : public ou privé. Les deux ne sont jamais mélangés.";
       empty.setAttribute("role", "status");
-      return;
-    }
-
-    // « Publics et privés » interroge les deux sources en parallèle, dans des blocs distincts.
-    // Les résultats BODACC restent des signaux légaux, jamais des appels d’offres.
-    if (market === "all") {
-      // Nettoyer les groupes précédents lors d’une nouvelle recherche dans le même panneau.
-      panel.querySelectorAll(".opportunity-source-group").forEach((group) => group.remove());
-      empty.textContent = "Les résultats sont regroupés ci-dessous par source ; chaque source répond indépendamment.";
-      empty.setAttribute("role", "status");
-      let previousSourcePanel = empty;
-      for (const source of [
-        { value: "public", title: "Marchés publics · BOAMP" },
-        { value: "private", title: "Signaux d’entreprise publiés · BODACC" }
-      ]) {
-        const sourcePanel = document.createElement("section");
-        sourcePanel.className = "category-results-panel opportunity-source-group";
-        sourcePanel.setAttribute("aria-label", source.title);
-        const heading = document.createElement("h3");
-        heading.textContent = source.title;
-        const sourceEmpty = document.createElement("p");
-        sourceEmpty.className = "category-results-empty";
-        sourceEmpty.textContent = "Préparation de la recherche…";
-        sourceEmpty.setAttribute("role", "status");
-        sourcePanel.append(heading, sourceEmpty);
-        previousSourcePanel.insertAdjacentElement("afterend", sourcePanel);
-        previousSourcePanel = sourcePanel;
-        const sourceParams = new URLSearchParams(params);
-        sourceParams.set("marche", source.value);
-        // Une recherche mixte reste plafonnée à 10 cartes au total : 5 maximum par source.
-        render({ panel: sourcePanel, params: sourceParams, category, resultLimit: Math.floor(MAX_RESULTS / 2) });
+      for (const [value, label] of [["public", "Appels d’offres publics →"], ["private", "Appels d’offres privés →"]]) {
+        const choiceParams = new URLSearchParams(params);
+        choiceParams.set("marche", value);
+        choiceParams.delete("categorie");
+        const link = document.createElement("a");
+        link.className = "button-primary button-compact";
+        link.href = "resultats-recherche.html?" + choiceParams.toString();
+        link.textContent = label;
+        empty.append(" ", link);
       }
       return;
     }
@@ -279,9 +251,6 @@
               if (typeof value === "string") return value;
               return [value.nature, value.famille, value.complementJugement, value.date].filter(Boolean).join(" — ");
             }).filter(Boolean).join(" ");
-            const sourceUrl = typeof record.url_complete === "string" && /^https:\/\/(www\.)?bodacc\.fr\//i.test(record.url_complete)
-              ? record.url_complete
-              : "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
             const contactUrl = buildContactUrl("BODACC", identifier, params);
             return '<article class="opportunity-result-card bodacc-result-card">' +
               '<p class="eyebrow">SIGNAL D’ENTREPRISE · BODACC</p>' +
@@ -293,8 +262,7 @@
               (identifier ? '<p><strong>Référence :</strong> ' + escapeHtml(identifier) + '</p>' : '') +
               (details ? '<p><strong>Extrait publié :</strong> ' + escapeHtml(details.slice(0, 500)) + '</p>' : '') +
 
-              '<a class="button-primary" href="' + escapeHtml(sourceUrl) + '" target="_blank" rel="noopener noreferrer">Consulter l’annonce officielle ↗</a>' +
-              '<a class="feed-interest button-secondary opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Demander un accompagnement MajestiOS →</a>' +
+              '<a class="button-primary button-compact opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Demander un accompagnement →</a>' +
               '</article>';
           }).join("");
           empty.textContent = filtered.length + " signal(aux) BODACC affiché(s). La qualification commerciale reste à confirmer par l’équipe MajestiOS.";
@@ -306,13 +274,7 @@
         (results.isConnected ? results : empty).insertAdjacentElement("afterend", note);
       } catch (error) {
         if (!request.isCurrent()) return;
-        empty.textContent = "La source BODACC est momentanément inaccessible depuis cette page. Aucun signal n’est inventé. Réessayez ou consultez directement la recherche officielle.";
-        const link = document.createElement("a");
-        link.href = "https://www.bodacc.fr/pages/annonces-commerciales-recherche/?sort=dateparution";
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "Ouvrir la recherche BODACC ↗";
-        empty.append(" ", link);
+        empty.textContent = "La source BODACC est momentanément inaccessible depuis cette page. Aucun signal n’est inventé. Réessayez dans quelques instants.";
       } finally {
         request.finish();
       }
@@ -368,8 +330,7 @@
           const deadline = record.datelimitereponse;
           const deadlineLabel = deadline ? formatDate(deadline) : "Non renseignée — vérifier l’avis";
           const publication = formatDate(record.dateparution);
-          const url = officialUrl(record);
-          const identifier = record.idweb || record.id || "";
+                    const identifier = record.idweb || record.id || "";
           const contactUrl = buildContactUrl("BOAMP", identifier, params);
           return '<article class="opportunity-result-card">' +
             '<p class="eyebrow">MARCHÉ PUBLIC · ' + escapeHtml(record.type_marche_facette || record.famille_libelle || "BOAMP") + '</p>' +
@@ -379,11 +340,10 @@
             '<p><strong>Publication :</strong> ' + escapeHtml(publication) + '</p>' +
             '<p><strong>Date limite :</strong> ' + escapeHtml(deadlineLabel) + '</p>' +
 
-            '<a class="button-primary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Consulter l’avis officiel ↗</a>' +
-            '<a class="feed-interest button-secondary opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Demander un accompagnement MajestiOS →</a>' +
+            '<a class="button-primary button-compact opportunity-contact-link" href="' + escapeHtml(contactUrl) + '">Me positionner →</a>' +
             '</article>';
         }).join("");
-        empty.textContent = filtered.length + " résultat(s) affiché(s) depuis BOAMP. Les critères métier restent à confirmer à la lecture de l’avis officiel.";
+        empty.textContent = filtered.length + " résultat(s) affiché(s) depuis BOAMP. Les critères métier restent à confirmer : nous pouvons vous aider à analyser l’avis.";
         empty.insertAdjacentElement("afterend", results);
       } else {
         empty.textContent = records.length
@@ -391,25 +351,13 @@
           : "La source BOAMP a répondu sans fournir d’annonce pour cette recherche. Modifiez les critères ou réessayez plus tard.";
       }
 
-      if (market === "all") {
-        const privateNote = document.createElement("p");
-        privateNote.className = "small-note opportunity-source-note";
-        privateNote.textContent = "Cette vue affiche uniquement les résultats publics BOAMP. Pour consulter les signaux commerciaux privés du BODACC, sélectionnez « Marchés privés » afin de conserver une qualification et une provenance distinctes.";
-        (results.isConnected ? results : empty).insertAdjacentElement("afterend", privateNote);
-      }
       const sourceNote = document.createElement("p");
       sourceNote.className = "small-note opportunity-source-note";
-      sourceNote.textContent = "Source : BOAMP / DILA. Données consultées à la demande ; les résultats ne remplacent pas la vérification des documents officiels.";
+      sourceNote.textContent = "Source : BOAMP / DILA. Données consultées à la demande ; les résultats ne remplacent pas l’analyse du dossier de consultation.";
       (results.isConnected ? results : empty).insertAdjacentElement("afterend", sourceNote);
     } catch (error) {
       if (!request.isCurrent()) return;
-      empty.textContent = "La source BOAMP est momentanément inaccessible depuis cette page. Aucun résultat n’est inventé. Réessayez ou consultez directement le site officiel BOAMP.";
-      const link = document.createElement("a");
-      link.href = "https://www.boamp.fr/";
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = "Ouvrir BOAMP ↗";
-      empty.append(" ", link);
+      empty.textContent = "La source BOAMP est momentanément inaccessible depuis cette page. Aucun résultat n’est inventé. Réessayez dans quelques instants.";
     } finally {
       request.finish();
     }

@@ -6,7 +6,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -24,6 +24,39 @@ jobs:
       - name: Vérifier la syntaxe JavaScript
         run: |
           node --check app.js
+          node --check official-source-links.mjs
+          node --input-type=module --check < reputation-virtuelle.js
+          node --check supabase/functions/_shared/reputation-audit-provider.mjs
+          node --check reputation-audit-core.mjs
+          node --check reputation-audit-connectors.mjs
+          node --check reputation-audit-analysis.mjs
+          node --check supabase/functions/_shared/reputation-audit-analysis.mjs
+          node --check tests/reputation-audit-analysis.test.mjs
+          node --check tests/cheexpeer-api-security.test.mjs
+          node --check tests/cheexpeer-command.test.mjs
+          node --check admin-cheexpeer.js
+          node --check cheexpeer-command.mjs
+          node --check admin-utilisateurs.js
+          node --check admin-annonces.js
+          node --check annonces-liste.js
+          node --check annonces-moderation.mjs
+          node --check annonces-liste.mjs
+          node --check accepter-invitation.js
+          node --check parcours-majestios.mjs
+          node --check mot-de-passe-majestios.mjs
+          node --check tests/invitation-core.test.mjs tests/cheexpeer-chat-core.test.mjs
+          node --check tests/admin-utilisateurs.browser.cjs
+          node --check tests/espace-membre-creation.browser.cjs
+          node --check supabase/functions/_shared/invitation-core.mjs
+          node --check tests/cheexpeer-sql-migration-contract.test.mjs
+          node --check supabase/functions/_shared/reputation-audit-core.mjs
+          node --check supabase/functions/_shared/reputation-audit-connectors.mjs
+          node --check supabase/functions/_shared/reputation-audit-handler.mjs
+          node --check tests/reputation-audit-handler.test.mjs
+          node --check tests/reputation-audit-provider.test.mjs
+          node --check tests/reputation-bodacc-query-smoke.cjs
+          node --check tests/reputation-audit-connectors.test.mjs
+          node --check tests/reputation-audit-core.test.mjs
           node --check catalogue-majestios.js
           node --check category-results.js
           node --check search-results.js
@@ -31,38 +64,140 @@ jobs:
           node --check rubric-search.js
           node --check rubriques-immersives.js
           node --check verify-site.js
+          node --check verify-doc-links.js
           node --check verify-architecture.js
           node --check build.js
+          node --check chemins-site.cjs
+          node --check tests/reputation-virtuelle.browser.cjs
+          node --check tests/admin-cheexpeer.browser.cjs
+          node --check tests/navigation-classique.browser.cjs
+          node --check tests/navigation-espaces.browser.cjs
           node --check company-targeting.js
+          node --check company-targeting-page.js
+          node --check prospection-criteria-ux.js
+          node --check prospecting-resources.js
+          node --check prospecting-signals.js
           node --check company-fit.js
           node --check naf-suggestions.js
+          node --check supabase/functions/_shared/prospection-contract.mjs
+          node --check supabase/functions/_shared/prospection-validation.mjs
+          node --check supabase/functions/_shared/prospection-authz.mjs
+          node --check supabase/functions/_shared/cheexpeer-api.mjs
+          node --check supabase/functions/_shared/prospection-errors.mjs
+          node --check supabase/functions/_shared/prospection-search-core.mjs
+          node --experimental-strip-types --check supabase/functions/provision-client-workspace/index.ts
+          node --experimental-strip-types --check supabase/functions/prospection-search-member/index.ts
+          node --experimental-strip-types --check supabase/functions/cheexpeer-mission-submit/index.ts
+          node --experimental-strip-types --check supabase/functions/cheexpeer-approval-decision/index.ts
+          node --experimental-strip-types --check supabase/functions/cheexpeer-mission-read/index.ts
+          node --experimental-strip-types --check supabase/functions/reputation-audit-context/index.ts
+          node --experimental-strip-types --check supabase/functions/search-official-companies/index.ts
+          node --experimental-strip-types --check supabase/functions/import-official-company/index.ts
+          node --experimental-strip-types --check supabase/functions/bootstrap-internal-admin/index.ts
+          node --check tests/reputation-audit-access-contract.test.mjs
           node --input-type=module --check < supabase-config.js
           node --input-type=module --check < auth-espace-membre.js
+          node --input-type=module --check < administration.js
+          node --input-type=module --check < admin-recherches.js
+          node --input-type=module --check < espace-interne.js
+          node --input-type=module --check < crm-page.js
+          node --input-type=module --check < crm-business-filters.js
+          node --input-type=module --check < crm-client.js
+      - name: Tester l'identité et l'isolation inter-organisations des API Cheexpeer
+        run: node --test tests/cheexpeer-api-security.test.mjs tests/cheexpeer-sql-migration-contract.test.mjs tests/cheexpeer-command.test.mjs tests/invitation-core.test.mjs tests/parcours-majestios.test.mjs tests/mot-de-passe-majestios.test.mjs
+      - name: Tester le contrat du moteur d'audit interne Cheexpeer
+        run: node --test tests/reputation-audit-core.test.mjs
+      - name: Tester le registre et le premier connecteur de Réputation virtuelle
+        run: node --test tests/reputation-audit-connectors.test.mjs
+      - name: Tester l'analyse Cheexpeer fondée sur les preuves
+        run: node --test tests/reputation-audit-analysis.test.mjs
+      - name: Tester le contrôle d’accès membre de l’audit Cheexpeer
+        run: node --test tests/reputation-audit-access-contract.test.mjs
+      - name: Tester le handler authentifié du moteur d'audit Cheexpeer
+        run: node --test tests/reputation-audit-handler.test.mjs
+      - name: Tester le fournisseur IA serveur de Cheexpeer
+        run: node --test tests/reputation-audit-provider.test.mjs
+      - name: Tester la validation des liens de sources officielles
+        run: node --test tests/official-source-links.test.mjs
+      - name: Veille des créations BODACC (règles pures)
+        run: node --test tests/veille-creations.test.mjs
+      - name: Diagnostic facturation électronique (règles pures)
+        run: node --test tests/facturation-diagnostic.test.mjs
+      - name: Tester le formulaire d'annonces (règles et SQL proposé)
+        run: node --test tests/annonces-formulaire.test.mjs
+      - name: Bandeau des annonces
+        run: node --test tests/bandeau-annonces.test.mjs
+      - name: Tester le retour vers le service après création de l'espace
+        run: node --test tests/retour-service.test.mjs
+      - name: Publication directe d'annonces (administration)
+        run: node --test tests/annonces-admin-publication.test.mjs
+      - name: Construire le site statique
+        run: node build.js
+      - name: Adresses publiées conservées (rangement des sources en dossiers)
+        run: node tests/adresses-publiees.test.cjs
+      - name: Installer Playwright et Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright@1.64.1
+          npx playwright install chromium
+      - name: Vérifier l'harmonisation visuelle et le cube en cristal
+        run: node tests/harmonisation-visuelle.browser.cjs
+      - name: Tester la relecture des annonces (règles pures)
+        run: node --test tests/annonces-moderation.test.mjs
+      - name: Vérifier la page de relecture des annonces (navigateur)
+        run: node tests/annonces-moderation.browser.cjs
+      - name: Vérifier que les résultats d'appels d'offres publics sont visibles et lisibles
+        run: node tests/resultats-categorie.browser.cjs
+      - name: Tester la liste publique des annonces (règles pures)
+        run: node --test tests/annonces-liste.test.mjs
+      - name: Vérifier la liste publique des annonces (navigateur)
+        run: node tests/annonces-liste.browser.cjs && ANNONCES_PAGE=annonces.html node tests/annonces-liste.browser.cjs && node tests/marches-attribues.browser.cjs
+      - name: Vérifier la recherche BODACC filtrée en conditions réelles
+        run: node tests/reputation-bodacc-query-smoke.cjs
+      - name: Vérifier la navigation Administration / CRM
+        run: node tests/admin-crm-module-navigation.test.cjs
+      - name: Vérifier le contrat de navigation du CRM
+        run: node tests/crm-navigation-contract.test.cjs
+      - name: Vérifier le parcours d’authentification OTP de l’espace membre
+        run: node tests/auth-espace-membre-otp.test.cjs
       - name: Tester le ciblage des entreprises
         run: node tests/company-targeting.test.cjs
       - name: Tester la qualification des entreprises
         run: node tests/company-fit.test.cjs
+      - name: Tester les ressources du moteur de Prospection
+        run: node tests/prospecting-resources.test.cjs
       - name: Tester les suggestions APE/NAF
         run: node tests/naf-suggestions.test.cjs
-      - name: Construire le site statique
-        run: node build.js
+      - name: Tester les contrats, DTO et habilitations Prospection
+        run: node tests/prospection-contract.test.cjs
+      - name: Tester le noyau de recherche Prospection membre
+        run: node tests/prospection-search-core.test.cjs
       - name: Vérifier l’architecture et les routes
         run: node verify-architecture.js
       - name: Vérifier les pages, liens locaux et identifiants
         run: node verify-site.js
-      - name: Installer Playwright et Chromium
-        run: |
-          npm install --no-save --package-lock=false playwright@1.64.1
-          npx playwright install --with-deps chromium
+      - name: Vérifier les liens de la documentation canonique
+        run: node verify-doc-links.js
+      - name: Tester le parcours progressif des critères Prospection dans un navigateur
+        run: node tests/prospection-criteria.browser.cjs
       - name: Vérifier la connexion réelle à l’API BOAMP
         run: node tests/boamp-live-smoke.cjs
       - name: Vérifier la connexion réelle à l’API BODACC
         run: node tests/bodacc-live-smoke.cjs
-      - name: Tester l’immeuble interactif dans un vrai navigateur
-        run: node tests/immeuble-interactif.browser.cjs
+      - name: Tester la navigation classique et le chatbot dans un vrai navigateur
+        run: node tests/navigation-classique.browser.cjs
       - name: Tester le moteur de recherche dans un vrai navigateur
         run: node tests/opportunity-search.browser.cjs
+      - name: Tester le dossier et les consultations de Réputation virtuelle
+        run: node tests/reputation-virtuelle.browser.cjs
+      - name: Tester le centre de commande Cheexpeer (API simulées)
+        run: node tests/admin-cheexpeer.browser.cjs && node tests/admin-utilisateurs.browser.cjs && node tests/espace-membre-creation.browser.cjs
       - name: Tester les menus de navigation sur mobile et ordinateur
         run: node tests/navigation-dropdown.browser.cjs
+      - name: Navigation des espaces privés et du tableau de bord admin (5 menus)
+        run: node tests/navigation-espaces.browser.cjs
       - name: Tester le parcours de contact sans transmission de données
         run: node tests/contact-form.browser.cjs
+      - name: Tester le verrouillage du poste de commandement sans session
+        run: node tests/administration-access.browser.cjs && node tests/annonces-formulaire.browser.cjs && node tests/bootstrap-admin-hardening.test.cjs && node tests/prospecting-signals.test.cjs
+      - name: Vérifier le contrat de sécurité du CRM
+        run: node tests/crm-security-contract.test.cjs

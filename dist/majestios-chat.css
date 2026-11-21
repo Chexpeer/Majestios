@@ -1,0 +1,77 @@
+/* Navigation classique partagée et accueil simplifié — Evolution-7 */
+.site-header{position:relative;z-index:50;display:flex;align-items:center;gap:clamp(12px,2vw,28px);width:min(1440px,calc(100% - 32px));min-height:64px;margin:0 auto;padding:8px 0}
+.site-header .brand{flex:0 0 auto}
+.site-nav{display:flex!important;align-items:center;justify-content:flex-end;gap:clamp(5px,.8vw,14px);flex:1;min-width:0;overflow:visible!important;position:static!important;width:auto!important;max-height:none!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;flex-direction:row!important;white-space:normal!important}
+.site-nav>a,.nav-group-trigger{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 9px;border:0;border-radius:6px;background:transparent;color:inherit;font-family:inherit;font-weight:600;font-size:12px;line-height:1.25;text-decoration:none;white-space:nowrap;cursor:pointer}
+.site-nav>a:hover,.nav-group-trigger:hover,.nav-group.is-open>.nav-group-trigger,.nav-group.has-current>.nav-group-trigger{background:#d5b56c18;color:var(--gold,#d5b56c)}
+.nav-group{position:relative;display:flex;align-items:center;gap:2px}
+.nav-group-trigger:after{content:"⌄";margin-left:6px;font-size:11px;opacity:.75}
+.nav-group-menu{position:absolute;top:calc(100% + 7px);left:0;z-index:100;display:grid;grid-template-columns:1fr;gap:2px;min-width:235px;max-width:min(360px,90vw);max-height:min(72vh,560px);overflow:auto;padding:8px;border:1px solid #d5b56c55;border-radius:10px;background:#0b1420;box-shadow:0 18px 45px #0009}
+.nav-group-menu[hidden]{display:none!important}
+.nav-group-menu a{display:block;padding:9px 11px;border-radius:6px;color:#e9e5dc;font-size:12px;line-height:1.35;text-decoration:none}
+.nav-group-menu a:hover,.nav-group-menu a:focus-visible,.nav-group-menu a[aria-current=page]{background:#d5b56c1c;color:#f6d98e;outline:none}
+.nav-group-menu a[href="crm.html"],.nav-group-menu a[href="administration.html"]{border-top:1px solid #d5b56c33}
+.menu-toggle{display:none!important}
+body.homepage .site-header{width:100%;min-height:54px;padding:6px clamp(10px,1.8vw,24px)}
+body.homepage .menu-toggle{display:none!important}
+body.homepage .site-nav{display:flex!important;position:static!important;top:auto!important;right:auto!important;z-index:auto!important;width:auto!important;max-height:none!important;overflow:visible!important;flex-direction:row!important;align-items:center!important;gap:clamp(3px,.5vw,9px)!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+body.homepage .site-nav>a,body.homepage .nav-group-trigger{display:inline-flex!important;align-items:center;min-height:34px;width:auto!important;padding:6px 7px!important;border:0!important;background:transparent!important;color:#d8d1c2!important;font-size:11px!important;white-space:nowrap!important}
+body.homepage .site-nav>a:hover,body.homepage .nav-group-trigger:hover,body.homepage .nav-group.has-current>.nav-group-trigger{background:#d5b56c18!important;color:#f7e6a9!important}
+body.homepage .nav-group-menu{top:calc(100% + 5px);background:#0b1420!important}
+.home-rubric-directory{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:center;gap:10px;padding:14px 0}
+.home-rubric-card{display:flex;flex-direction:column;gap:7px;min-height:112px;padding:14px;border:1px solid #d5b56c42;border-radius:10px;background:linear-gradient(145deg,#132238eF,#0c1523eF);color:#f4f0e6;text-decoration:none;box-shadow:0 10px 28px #0003;transition:transform .16s,border-color .16s,background .16s}
+.home-rubric-card:hover,.home-rubric-card:focus-visible{transform:translateY(-2px);border-color:#d5b56c;background:#1a2a3d;outline:none}
+.home-rubric-card strong{color:#f3d58b;font-size:13px}
+.home-rubric-card span{color:#c7c1b5;font-size:11px;line-height:1.5}
+.home-rubric-card small{margin-top:auto;color:#f3d58b;font-size:10px;font-weight:700}
+@media(max-width:1100px){.site-header{width:calc(100% - 24px);gap:10px}.site-nav>a,.nav-group-trigger{font-size:11px;padding:6px 6px}.home-rubric-card{min-height:104px}}
+@media(max-width:900px){
+ .site-header{width:100%;flex-wrap:wrap;padding:7px 12px}
+ .menu-toggle,body.homepage .menu-toggle{display:flex!important;flex:0 0 38px;position:relative;z-index:110;width:38px;height:36px;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:6px;border:1px solid #d5b56c66;border-radius:7px;background:#101a28;cursor:pointer}
+ .menu-toggle span{display:block;width:18px;height:2px;border-radius:2px;background:#f4f0e6}
+ .site-nav,body.homepage .site-nav{display:none!important;position:absolute!important;top:calc(100% + 4px)!important;right:8px!important;left:8px!important;z-index:100!important;width:auto!important;max-height:min(78vh,650px)!important;overflow:auto!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:5px!important;padding:9px!important;border:1px solid #d5b56c66!important;border-radius:10px!important;background:#0b1420!important;box-shadow:0 18px 45px #000b!important}
+ .site-nav.open,body.homepage .site-nav.open{display:flex!important}
+ .site-nav>a,body.homepage .site-nav>a,.nav-group-trigger,body.homepage .nav-group-trigger{display:flex!important;justify-content:space-between!important;width:100%!important;min-height:40px!important;padding:10px 12px!important;border:0!important;border-radius:6px!important;color:#e9e5dc!important;font-size:13px!important;text-align:left!important;white-space:normal!important}
+ .nav-group{display:block;width:100%}
+ .nav-group-menu{position:static;max-width:none;max-height:none;min-width:0;margin:2px 0 6px 10px;padding:5px;border:0;border-left:1px solid #d5b56c66;border-radius:0;background:#101d2c!important;box-shadow:none}
+ .nav-group-menu a{font-size:12px}
+ .home-rubric-directory{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:6px}
+}
+@media(max-width:600px){.home-rubric-directory{grid-template-columns:1fr;gap:8px}.home-rubric-card{min-height:0;padding:12px}.home-rubric-card strong{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.home-rubric-card{transition:none}}
+
+/* Assistant conversationnel première génération — sans moteur IA distant simulé. */
+.majestios-chat{position:fixed;right:18px;bottom:18px;z-index:2000;font-family:inherit;color:#f4f0e6}
+.majestios-chat-toggle{display:flex;align-items:center;gap:9px;min-height:46px;padding:0 16px 0 12px;border:1px solid #d5b56c88;border-radius:999px;background:#0b1420;color:#f4f0e6;box-shadow:0 10px 30px #0007;font-family:inherit;font-size:12px;font-weight:700;line-height:1;cursor:pointer}
+.majestios-chat-toggle span:first-child{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f7e6a9,#b28a3c);color:#11151c;font-size:15px}
+.majestios-chat-panel{position:absolute;right:0;bottom:58px;display:flex;flex-direction:column;width:min(370px,calc(100vw - 24px));height:min(560px,calc(100dvh - 100px));overflow:hidden;border:1px solid #d5b56c77;border-radius:14px;background:#0b1420;box-shadow:0 22px 70px #000b}
+.majestios-chat-panel[hidden]{display:none!important}
+.majestios-chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;border-bottom:1px solid #d5b56c33;background:#101d2c}
+.majestios-chat-head strong,.majestios-chat-head small{display:block}
+.majestios-chat-head strong{font-size:14px}
+.majestios-chat-head small{margin-top:3px;color:#c2b99f;font-size:10px}
+.majestios-chat-close{width:30px;height:30px;border:1px solid #d5b56c55;border-radius:50%;background:#18283a;color:#f4f0e6;font-size:20px;cursor:pointer}
+.majestios-chat-disclaimer{padding:10px 14px;border-bottom:1px solid #d5b56c22;color:#c5c0b5;font-size:10px;line-height:1.45}
+.majestios-chat-messages{display:flex;flex:1;flex-direction:column;gap:9px;overflow:auto;padding:14px}
+.majestios-chat-message{max-width:91%;margin:0;padding:10px 12px;border:1px solid #d5b56c2b;border-radius:11px;background:#142338;color:#e9e5dc;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.majestios-chat-message.is-user{align-self:flex-end;border-color:#d5b56c66;background:#25354a;color:#fff}
+.majestios-chat-message.is-assistant{align-self:flex-start}
+.majestios-chat-link{align-self:flex-start;padding:7px 10px;border:1px solid #d5b56c55;border-radius:8px;color:#f3d58b;font-size:11px;text-decoration:none}
+.majestios-chat-link:hover{background:#d5b56c18}
+.majestios-chat-form{display:flex;gap:7px;padding:11px;border-top:1px solid #d5b56c33;background:#101d2c}
+.majestios-chat-form input{min-width:0;flex:1;padding:10px 11px;border:1px solid #d5b56c55;border-radius:8px;background:#08111c;color:#f4f0e6;font:inherit;font-size:12px}
+.majestios-chat-form button{padding:0 13px;border:1px solid #d5b56c88;border-radius:8px;background:#d5b56c;color:#11151c;font-size:11px;font-weight:800;cursor:pointer}
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:600px){.majestios-chat{right:10px;bottom:10px}.majestios-chat-toggle{min-height:42px;padding:0 12px 0 9px}.majestios-chat-panel{right:0;bottom:52px;width:min(370px,calc(100vw - 20px));height:min(560px,calc(100dvh - 82px))}}
+@media(prefers-reduced-motion:reduce){.majestios-chat *{scroll-behavior:auto!important}}
+
+.majestios-chat-toggle-copy{display:flex;flex-direction:column;gap:2px;text-align:left}
+.majestios-chat-toggle-copy strong{font-size:12px;line-height:1.15}
+.majestios-chat-toggle-copy small{color:#c5c0b5;font-size:9px;font-weight:500;line-height:1.15}
+.majestios-chat-head>div>small:first-child{margin-bottom:5px;color:#d5b56c;font-size:9px;font-weight:800;letter-spacing:.08em}
+.majestios-chat-shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px 12px;border-bottom:1px solid #d5b56c22}
+.majestios-chat-shortcuts a{display:flex;align-items:center;min-height:34px;padding:7px 8px;border:1px solid #d5b56c33;border-radius:7px;background:#101d2c;color:#e9e5dc;font-size:10px;line-height:1.3;text-decoration:none}
+.majestios-chat-shortcuts a:hover,.majestios-chat-shortcuts a:focus-visible{border-color:#d5b56c;color:#f3d58b;outline:none}
+@media(max-width:420px){.majestios-chat-shortcuts{grid-template-columns:1fr}}
+
+
