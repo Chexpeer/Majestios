@@ -356,3 +356,8 @@ Audit réalisé sur la copie de test, sans modification fonctionnelle.
 ## Suite 24 — Page « Annonces » avec filtres (21 novembre 2026)
 
 Demande du propriétaire : une autre façon de diffuser les annonces que le seul bandeau. Réalisé sur `evolution-10` : nouvelle page `annonces.html` (menu « Réseau » → « Annonces » ; le menu « Appels d'offres » reste limité à cinq entrées), qui reprend la liste existante avec ses deux filtres (type d'annonce, 12 types ; département) et la pagination par 10. Le bandeau défilant renvoie désormais vers cette page. La section de `marches-prives.html` est conservée (lien « Voir toutes les annonces »). Aucune modification de base de données ni de règle d'accès. Menu : 19 entrées secondaires (était 18). Contrôles : même test navigateur exécuté sur les deux pages, garde-fous mis à jour. Limite connue : liste chargée par JavaScript (référencement limité, voir la spécification de la liste publique). Évolutions possibles, non décidées : recherche par mot-clé (demande une fonction côté base), résumé hebdomadaire par e-mail, page statique par annonce.
+
+
+## Suite 25 — Suppression des trois modes d'exploration du Showroom (21 novembre 2026)
+
+Sur demande du propriétaire (texte d'une ancienne version, demandé retiré), la section « Trois façons d'explorer l'écosystème » (Parcours Tesla, Survol hélicoptère, Majest COYOT) est supprimée de `salons-seminaires.html`. Elle n'avait aucune fonction derrière elle et aucune autre page, aucun test ni document ne s'y référait. Le reste de la page (formules Essentiel / Immersif, section « L'IA en renfort », parcours commercial, espace virtuel) est conservé en attendant la décision du propriétaire.
