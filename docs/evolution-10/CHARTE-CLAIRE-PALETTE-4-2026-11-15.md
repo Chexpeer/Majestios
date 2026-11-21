@@ -376,4 +376,4 @@ Demande du propriétaire. Réalisé sur `evolution-10` et la base de test : bout
 
 Limite connue : sans compte e-mail existant, un compte Google qui correspond à une adresse déjà inscrite par lien e-mail est rattaché au même compte par Supabase (comportement standard). Production : la fonction et le réglage Google restent à reproduire lors d'une fusion décidée par le propriétaire.
 
-Complément du 21 novembre 2026 : le bouton reprend le format recommandé par Google (fond blanc, texte sombre #1f1f1f, contour fin, coins arrondis) car le premier rendu était peu lisible. Le logo officiel « G » de Google n'est pas inclus ; pour l'ajouter, le propriétaire peut fournir le fichier officiel téléchargé sur la page « Branding guidelines » de Google Identity.
+Complément du 21 novembre 2026 : le bouton reprend le format recommandé par Google (fond blanc, texte sombre #1f1f1f, contour fin, coins arrondis) car le premier rendu était peu lisible. Le logo « G » officiel est intégré tel que fourni par le propriétaire (code du bouton téléchargé sur la page « Branding guidelines » de Google Identity).
