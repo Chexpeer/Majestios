@@ -26,11 +26,12 @@
 | Non-régression · SEO | [Evolution-7](evolution-10/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) · [SEO](evolution-10/AUDIT-SEO-EVOLUTION-9.md) |
 | Audit du produit | [Audit du 20 novembre 2026](evolution-10/AUDIT-PRODUIT-2026-11-20.md) |
 | Pistes marchés attribués et sélection Sous-traitance | [Pistes du 21 novembre 2026](evolution-10/PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md) |
+| Migration de l'arborescence | [Plan evolution-11 → evolution-12](evolution-11/PLAN-MIGRATION-ARBORESCENCE-2026-11-21.md) |
 | Plan de synthèse | [Plan de synthèse documentaire](evolution-10/PLAN-SYNTHESE-DOCUMENTAIRE.md) |
 
 ## Repères
 
-- Branche active : `evolution-10` (copie de test, 43 pages HTML). La branche Evolution-9 est conservée intacte. Rien n'est fusionné ni en production.
+- Branche active : `evolution-11` (migration de l'arborescence, [plan](evolution-11/PLAN-MIGRATION-ARBORESCENCE-2026-11-21.md)) ; `evolution-10` est sauvegardée (`backup-evolution-10-2026-11-21`) et figée (copie de test, 44 pages HTML). La branche Evolution-9 est conservée intacte. Rien n'est fusionné ni en production.
 - Une présence dans Git ne prouve ni déploiement, ni configuration distante, ni recette.
 
 ## Historique
