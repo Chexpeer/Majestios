@@ -45,3 +45,8 @@ Mise à jour le même jour : fonction `provision-client-workspace` version 4 (Te
 - Test uniquement (jamais production). `create extension pg_net with schema extensions` : permet à la base d'appeler des adresses publiques (essai de lecture de data.gouv.fr : réussi).
 - Constat : le fichier DECP consolidé est trop lourd pour une lecture à la demande (parquet 278 Mo, csv.gz 438 Mo) et l'API tabulaire gratuite de data.gouv.fr ne l'indexe pas (erreur « relation inexistante »). Colonnes utiles confirmées : `uid, id, nature, acheteur_id, acheteur_nom, titulaire_id, titulaire_nom, objet, montant, codeCPV, procedure, dureeMois, offresRecues, dateNotification, lieuExecution_code, sousTraitanceDeclaree`.
 - Conséquence : l'alimentation passera par une tâche de rafraîchissement qui télécharge le fichier, ne garde que les 12 derniers mois et les colonnes utiles, puis charge Supabase. À reprendre dans `PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md`.
+
+## 21 novembre 2026 — migration `awarded_contracts` appliquée sur Test
+- Migration `20261121160000_awarded_contracts.sql` appliquée sur MajestiOS-Test uniquement (jamais production) : table `private.awarded_contracts` (vide tant que le chargement n'a pas tourné), 3 fonctions de lecture publiques, 2 fonctions de chargement réservées à `service_role`.
+- Scénarios joués sur Test (lignes fictives supprimées ensuite) : `SCENARIOS_OK`. Droits vérifiés : `anon` ne peut ni charger ni retirer, ni lire la table.
+- Production : à rejouer à la fusion décidée par le propriétaire, avec les secrets de chargement.

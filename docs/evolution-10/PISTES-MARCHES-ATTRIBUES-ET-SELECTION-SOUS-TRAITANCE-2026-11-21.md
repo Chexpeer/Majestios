@@ -53,7 +53,10 @@ Différenciation retenue pour MajestiOS : annonces privées de sous-traitance re
 
 Ordre commun : A d'abord, sur Test. Rien n'est promu en production sans décision du propriétaire.
 
-## 7. Questions ouvertes
+## 7. Avancement (21/11)
+Stratégie B retenue, 6 derniers mois, gratuite. Étape 1 réalisée sur Test : base, chargement et page « Marchés attribués » (voir [Suite 30](CHARTE-CLAIRE-PALETTE-4-2026-11-15.md)). Reste : secrets GitHub à poser par le propriétaire, premier chargement, puis fiches acheteurs, Radar de renouvellement (nécessite un chargement plus ancien, 2 à 4 ans, sur quelques colonnes) et sélection pour la page Sous-traitance.
+
+## 8. Questions ouvertes
 - Import dans la base (rapide, à mettre à jour chaque jour) ou consultation directe des sources : **recommandé, import filtré sur 12 mois** pour commencer.
 - Secteurs et départements de départ.
 - Autres sites ou sources que le propriétaire souhaite faire étudier.

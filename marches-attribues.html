@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Marchés publics attribués ces 6 derniers mois : qui a gagné, chez quel acheteur, à quel montant, avec le nombre d’offres reçues. Filtres par département, secteur et montant. Données publiques DECP.">
+  <title>Marchés attribués — MajestiOS</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="rubriques-immersives.css">
+  <script src="catalogue-majestios.js" defer></script>
+  <script src="rubric-search.js" defer></script>
+  <script src="rubriques-immersives.js" defer></script>
+  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="majestios-identite-visuelle.css"><link rel="stylesheet" href="marches-attribues.css"><link rel="stylesheet" href="moteurs-compacts.css"><link rel="stylesheet" href="charte-majestios.css">
+  <script src="navigation-tiroirs.js" defer></script>
+  <script type="module" src="marches-attribues.js"></script>
+  
+<script src="fond-aleatoire.js"></script></head>
+<body class="page-marches-attribues">
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="MajestiOS, accueil"><span class="brand-mark" aria-hidden="true">M</span><span>majesti<span class="brand-os">OS</span></span></a>
+  <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="marches-publics.html">Appels d’offres</a><a href="developpement-commercial.html">Développement commercial</a><a href="reseaux-synergies.html">Réseau</a><a href="reputation-virtuelle.html">Réputation virtuelle</a><a href="facturation-electronique.html">Facturation électronique</a><a href="espace-membre.html">Accéder à mon espace personnel</a></nav>
+</header>
+<main data-fond="marches-publics" class="section-wrap interior-page">
+  <div class="mj-page-head"><p class="eyebrow">DÉVELOPPEMENT COMMERCIAL · MARCHÉS ATTRIBUÉS</p>
+  <h1>Marchés attribués</h1>
+  <p class="interior-lede">Qui a gagné quel marché public, chez quel acheteur et à quel prix : les 6 derniers mois, partout en France.</p></div>
+<div id="marches-attribues">
+<section class="floating-route-card marches-section" id="marches" aria-labelledby="marches-title"><span class="interactive-map-status">MARCHÉS PUBLICS DÉJÀ ATTRIBUÉS</span><h2 id="marches-title">Les marchés attribués récemment</h2>
+<p>Chaque fiche indique l’entreprise retenue, l’acheteur, le montant, le nombre d’offres reçues quand il est connu, et si une sous-traitance a été déclarée. Filtrez par département de l’acheteur, par famille d’achats, par montant, ou cherchez une entreprise, un acheteur ou une commune.</p>
+<p id="marches-meta" class="small-note" role="status">Chargement des chiffres…</p>
+<form id="marches-filtres" class="marche-filtres"><label class="form-field" for="marches-query">Entreprise, acheteur, commune ou objet<input id="marches-query" name="query" type="search" maxlength="80" placeholder="Ex. : mairie d’Alençon"></label><label class="form-field" for="marches-department">Département de l’acheteur<input id="marches-department" name="department" type="text" maxlength="3" placeholder="Ex. : 61"></label><label class="form-field" for="marches-secteur">Famille d’achats<select id="marches-secteur" name="sector"><option value="">Toutes les familles</option></select></label><label class="form-field" for="marches-montant">Montant minimum (€ HT)<input id="marches-montant" name="minAmount" type="text" inputmode="numeric" maxlength="12" placeholder="Ex. : 50000"></label></form>
+<p id="marches-statut" role="status">Chargement des marchés attribués…</p>
+<div id="marches-liste" class="marches-liste" aria-live="polite"></div>
+<p><button id="marches-plus" class="button-primary button-compact" type="button" hidden>Voir plus de marchés</button></p>
+<noscript><p class="small-note">La liste des marchés attribués nécessite JavaScript.</p></noscript></section>
+<section class="floating-route-card marches-section" id="gagnants" aria-labelledby="gagnants-title"><span class="interactive-map-status">ENTREPRISES TITULAIRES</span><h2 id="gagnants-title">Les entreprises qui gagnent</h2>
+<p>Entreprises ayant obtenu au moins 2 marchés sur les 6 derniers mois, classées par nombre de marchés, avec le montant médian. Filtrez par département de l’entreprise.</p>
+<form id="gagnants-filtres" class="marche-filtres"><label class="form-field" for="gagnants-department">Département de l’entreprise<input id="gagnants-department" name="department" type="text" maxlength="3" placeholder="Ex. : 14"></label></form>
+<p id="gagnants-statut" role="status">Chargement des entreprises titulaires…</p>
+<div id="gagnants-liste" class="marches-liste" aria-live="polite"></div>
+<p><button id="gagnants-plus" class="button-primary button-compact" type="button" hidden>Voir plus d’entreprises</button></p>
+<noscript><p class="small-note">La liste des entreprises titulaires nécessite JavaScript.</p></noscript></section>
+<p class="marches-source small-note">Source : données essentielles de la commande publique consolidées (DECP), publiées sur data.gouv.fr sous Licence Ouverte 2.0. Ces données sont déclarées par les acheteurs et peuvent comporter des erreurs ou des retards : les documents officiels font foi. Pour signaler une erreur ou demander une correction, <a href="contact.html">écrivez-nous</a>.</p>
+</div>
+  <nav class="interior-grid related-rubrics" aria-label="Pour aller plus loin">
+    <a class="platform-card related-rubric-card" href="sous-traitance.html"><h2>Sous-traitance</h2><p>Un marché remporté demande des renforts ? Publiez ou trouvez une annonce.</p></a>
+    <a class="platform-card related-rubric-card" href="qualification-entreprises.html"><h2>Qualification des entreprises</h2><p>Identifier les entreprises susceptibles de répondre à un marché.</p></a>
+    <a class="platform-card related-rubric-card" href="annonces.html"><h2>Annonces</h2><p>Toutes les annonces publiées sur MajestiOS.</p></a>
+  </nav>
+</main>
+<footer class="site-footer"><div class="section-wrap">MajestiOS · Développement commercial proactif</div></footer>
+</body>
+</html>
