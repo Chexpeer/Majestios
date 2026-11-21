@@ -14,31 +14,39 @@ create or replace function public.list_awarded_contracts(
 returns table(contract_uid text, object text, awarded_on date, kind text, procedure text, cpv text, amount numeric, amount_flag text,
   offers_received integer, duration_months integer, subcontracting_declared boolean, buyer_name text, buyer_commune text,
   buyer_dept text, winners text, winner_count integer)
-language sql stable security definer set search_path = '' as $$
-  with recent as (
-    select c.contract_uid, c.awarded_on
-    from private.awarded_contracts c
-    where c.awarded_on >= (current_date - make_interval(months => least(greatest(coalesce(p_months, 6), 1), 36)))
-      and (p_department is null or c.buyer_dept = p_department)
-      and (p_cpv is null or p_cpv !~ '^[0-9]{2,8}$' or c.cpv like p_cpv || '%')
-      and (p_min_amount is null or c.amount >= p_min_amount)
-      and (p_query is null or length(trim(p_query)) < 3
-           or c.search_text like '%' || replace(replace(replace(lower(left(trim(p_query), 80)), '\', '\\'), '%', '\%'), '_', '\_') || '%')
-    order by c.awarded_on desc, c.contract_uid
-    limit least((least(greatest(coalesce(p_limit, 10), 1), 50) + greatest(coalesce(p_offset, 0), 0)) * 30, 3000)),
-  page as (
-    select r.contract_uid, max(r.awarded_on) as d
-    from recent r
-    group by r.contract_uid
-    order by max(r.awarded_on) desc, r.contract_uid
-    limit least(greatest(coalesce(p_limit, 10), 1), 50) offset greatest(coalesce(p_offset, 0), 0))
-  select c.contract_uid, max(c.object), max(c.awarded_on), max(c.kind), max(c.procedure), max(c.cpv), max(c.amount), max(c.amount_flag),
-    max(c.offers_received), max(c.duration_months), bool_or(c.subcontracting_declared), max(c.buyer_name), max(c.buyer_commune),
-    max(c.buyer_dept), left(string_agg(distinct c.winner_name, ' · ' order by c.winner_name), 300), count(*)::integer
-  from page p join private.awarded_contracts c on c.contract_uid = p.contract_uid
-  group by c.contract_uid, p.d
-  order by p.d desc, c.contract_uid;
-$$;
+language plpgsql stable security definer set search_path = '' as $$
+declare
+  v_where text := 'c.awarded_on >= $1';
+  v_lim integer := least(greatest(coalesce(p_limit, 10), 1), 50);
+  v_off integer := greatest(coalesce(p_offset, 0), 0);
+  v_since date := current_date - make_interval(months => least(greatest(coalesce(p_months, 6), 1), 36));
+  v_like text := null;
+begin
+  -- Requête construite selon les filtres réellement demandés, pour que chaque index serve (sinon > 3 s pour un visiteur).
+  if p_department is not null then v_where := v_where || ' and c.buyer_dept = $2'; end if;
+  if p_cpv is not null and p_cpv ~ '^[0-9]{2,8}$' then v_where := v_where || ' and c.cpv like $3 || ''%'''; end if;
+  if p_min_amount is not null then v_where := v_where || ' and c.amount >= $4'; end if;
+  if p_query is not null and length(trim(p_query)) >= 3 then
+    v_like := '%' || replace(replace(replace(lower(left(trim(p_query), 80)), '\', '\\'), '%', '\%'), '_', '\_') || '%';
+    v_where := v_where || ' and c.search_text like $5';
+  end if;
+  return query execute
+    'with recent as (
+       select c.contract_uid, c.awarded_on from private.awarded_contracts c where ' || v_where || '
+       order by c.awarded_on desc, c.contract_uid limit $6),
+     page as (
+       select r.contract_uid, max(r.awarded_on) as d from recent r group by r.contract_uid
+       order by max(r.awarded_on) desc, r.contract_uid limit $7 offset $8)
+     select c.contract_uid, max(c.object), max(c.awarded_on), max(c.kind), max(c.procedure), max(c.cpv), max(c.amount), max(c.amount_flag),
+       max(c.offers_received), max(c.duration_months), bool_or(c.subcontracting_declared), max(c.buyer_name), max(c.buyer_commune),
+       max(c.buyer_dept), left(string_agg(distinct c.winner_name, '' · '' order by c.winner_name), 300), count(*)::integer
+     from page p join private.awarded_contracts c on c.contract_uid = p.contract_uid
+     group by c.contract_uid, p.d
+     order by p.d desc, c.contract_uid'
+    using v_since, p_department, p_cpv, p_min_amount, v_like, least((v_lim + v_off) * 30, 3000), v_lim, v_off;
+end $$;
+revoke all on function public.list_awarded_contracts(text, text, text, numeric, integer, integer, integer) from public;
+grant execute on function public.list_awarded_contracts(text, text, text, numeric, integer, integer, integer) to anon, authenticated;
 
 create table if not exists private.awarded_winners (
   winner_id text primary key, winner_name text, winner_category text, winner_commune text, winner_dept text,
@@ -59,6 +67,7 @@ begin
     count(distinct c.contract_uid)::integer,
     (percentile_cont(0.5) within group (order by c.amount) filter (where c.amount is not null))::numeric
   from private.awarded_contracts c
+  where c.winner_id ~ '^[0-9]{14}$' and c.winner_name is not null  -- exclut les identifiants fictifs, « donnée protégée » et les titulaires sans nom
   group by c.winner_id
   having count(distinct c.contract_uid) >= 2;
   get diagnostics n = row_count;
