@@ -6,12 +6,19 @@ export const LIMITE_VISITEUR = 20;
 export const LIMITE_MEMBRE = 40;
 
 let clientPromise = null;
-/** Jeton de session du titulaire connecté, ou null pour un visiteur (ou si la session est illisible). */
-export async function sessionToken() {
+/** Client Supabase partagé (session du navigateur) ; null s'il est inaccessible. */
+export async function sharedClient() {
   try {
     clientPromise ||= import("https://esm.sh/@supabase/supabase-js@2.119.0").then(({ createClient }) =>
       createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } }));
-    const { data } = await (await clientPromise).auth.getSession();
+    return await clientPromise;
+  } catch { return null; }
+}
+/** Jeton de session du titulaire connecté, ou null pour un visiteur (ou si la session est illisible). */
+export async function sessionToken() {
+  try {
+    const client = await sharedClient();
+    const { data } = await client.auth.getSession();
     return data?.session?.access_token || null;
   } catch { return null; }
 }

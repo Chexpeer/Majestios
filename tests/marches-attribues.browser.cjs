@@ -39,6 +39,8 @@ const winner = (n) => ({ winner_id: "W" + n, winner_name: "Entreprise " + n, win
     await page.locator(".marche-card").first().waitFor({ timeout: 10000 });
     assert.equal(await page.locator(".marche-card").count(), 10, "Dix marchés par page.");
     assert.equal(await page.locator("#marches-plus").isVisible(), true);
+    await page.locator("#marches-alertes a").waitFor({ timeout: 10000 });
+    assert.match(await page.locator("#marches-alertes").textContent(), /Soyez alerté.*créez votre espace personnel/, "Un visiteur voit l'invitation aux alertes.");
     assert.equal(await page.locator(".marche-card b").count(), 0, "Le texte des marchés ne doit jamais être interprété comme du HTML.");
     assert.doesNotMatch(await page.locator("#marches-liste").innerHTML(), /fuite@example/, "Aucune coordonnée affichée.");
     assert.match(await page.locator("#marches-meta").textContent(), /1\s?234 marchés attribués.*du 21\/05\/2026 au 20\/11\/2026.*Dernier chargement le 21\/11\/2026/, "Transparence : période et date de chargement.");
