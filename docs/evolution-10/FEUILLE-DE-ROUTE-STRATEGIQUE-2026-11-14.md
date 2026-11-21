@@ -55,3 +55,7 @@ L1 (recette réelle du site) et les décisions 1, 2, 3 et 4 : elles débloquent 
 | 9 | **Planification de `private.expire_announcements()`** | Non planifié | Après la recette | Claude |
 | 10 | **Arrivée de Cheexpeer** : première mission `worker_self_check` (désactivée) | Préparée, non déployée | Après AUTH-01 et recette de bout en bout | Porteur + Claude |
 
+
+## 6. Mise à jour du 21 novembre 2026
+
+Arborescence rangée (evolution-12), marchés attribués opérationnels sur Test, moteurs et espaces vérifiés par les tests. Suite et décisions ouvertes : [état et orientation](../evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md).

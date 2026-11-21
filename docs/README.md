@@ -1,6 +1,6 @@
 # MajestiOS — documentation
 
-**Mise à jour :** 20 novembre 2026. **Lire d'abord : [la synthèse](SYNTHESE-MAJESTIOS.md).**
+**Mise à jour :** 21 novembre 2026. **Lire d'abord : [la synthèse](SYNTHESE-MAJESTIOS.md).**
 
 ## Ordre de lecture
 
@@ -26,12 +26,13 @@
 | Non-régression · SEO | [Evolution-7](evolution-10/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) · [SEO](evolution-10/AUDIT-SEO-EVOLUTION-9.md) |
 | Audit du produit | [Audit du 20 novembre 2026](evolution-10/AUDIT-PRODUIT-2026-11-20.md) |
 | Pistes marchés attribués et sélection Sous-traitance | [Pistes du 21 novembre 2026](evolution-10/PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md) |
+| État et orientation (soir du 21/11) | [État réel et orientation](evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md) |
 | Migration de l'arborescence | [Plan evolution-11 → evolution-12](evolution-11/PLAN-MIGRATION-ARBORESCENCE-2026-11-21.md) |
 | Plan de synthèse | [Plan de synthèse documentaire](evolution-10/PLAN-SYNTHESE-DOCUMENTAIRE.md) |
 
 ## Repères
 
-- Branche active : `evolution-11` (migration de l'arborescence, [plan](evolution-11/PLAN-MIGRATION-ARBORESCENCE-2026-11-21.md)) ; `evolution-10` est sauvegardée (`backup-evolution-10-2026-11-21`) et figée (copie de test, 44 pages HTML). La branche Evolution-9 est conservée intacte. Rien n'est fusionné ni en production.
+- Branche active : `evolution-12` (arborescence rangée en dossiers, [plan](evolution-11/PLAN-MIGRATION-ARBORESCENCE-2026-11-21.md), [état et orientation](evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md)) ; `evolution-10` et `evolution-11` sont sauvegardées (`backup-evolution-10-2026-11-21`, `backup-evolution-11-2026-11-21`) et figées. La branche Evolution-9 est conservée intacte. Rien n'est fusionné ni en production.
 - Une présence dans Git ne prouve ni déploiement, ni configuration distante, ni recette.
 
 ## Historique
