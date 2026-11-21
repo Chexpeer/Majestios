@@ -30,3 +30,14 @@ Pistes inspirées de l'étude des plateformes de veille de marchés (aucune n'es
 - **Production, au moment de la fusion décidée** : rejouer les migrations 20261120190000, 20261121160000, 20261121180000, 20261121190000, 20261121200000 ; déployer `provision-client-workspace` v4 ; régler Google/LinkedIn et le secret `INTERNAL_ADMIN_EMAIL` avant le bootstrap admin ; poser les secrets du chargement DECP. Le rechargement quotidien ne tourne qu'une fois la branche fusionnée (planification limitée à la branche par défaut).
 - **Test de connexion réelle** sur l'aperçu d'evolution-12 : l'adresse d'aperçu étant nouvelle, elle peut devoir être ajoutée aux adresses autorisées (Supabase, Google, LinkedIn).
 - Décisions anciennes en attente : fonds de 7 pages, carte « Salons et séminaires », transparence ailleurs.
+
+## Mise en production du 21 novembre 2026 (soir)
+
+- **Base de production (`majestios-crm`)** : les 33 migrations du dépôt ont été appliquées dans l'ordre, sans erreur, avec l'accord écrit du propriétaire. Une pièce plus ancienne (fonctions `private.can_read_crm_org` / `private.can_edit_crm_org`, extraites de `20261108151400`) a dû être posée avant `20261109200000`. Données conservées : 2 comptes, 1 organisation, 1 contact. Aucune annonce, aucun marché attribué pour l'instant.
+- **Site** : `main` (fusion de la PR n° 63) déployé en production sur Vercel ; `supabase-config.js` pointe vers la base de production. Retour arrière possible dans Vercel (ancien déploiement Evolution-9).
+- **Connexion Google/LinkedIn** : testée par le propriétaire.
+- **Reste à faire en production** :
+  1. Marchés attribués : le chargement DECP lit encore les secrets `SUPABASE_TEST_URL` / `SUPABASE_TEST_SERVICE_ROLE_KEY`. Pour remplir la production, le propriétaire pose deux secrets de production dans GitHub (jamais dans une discussion), puis le workflow est adapté.
+  2. Fonctions serveur absentes en production : invitations (`admin-invite-user`), chat et mission Cheexpeer, audit de réputation (`reputation-audit-context`), `provision-client-workspace` v4 ; elles demandent des secrets à poser par le propriétaire.
+  3. Secret `INTERNAL_ADMIN_EMAIL` avant tout bootstrap admin.
+  4. Protection contre les mots de passe compromis (Supabase Auth) : à activer par le propriétaire.
