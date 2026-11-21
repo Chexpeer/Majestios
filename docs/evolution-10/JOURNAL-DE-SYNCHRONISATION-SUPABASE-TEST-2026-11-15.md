@@ -40,3 +40,8 @@ Présentes dans le dépôt mais **non déployées sur Test** : `bootstrap-intern
 Déployée sur la base de test uniquement (`qrlnnfjstoeliymxtkbk`) : l'activation d'un espace est acceptée sans mot de passe si l'identité Google est vérifiée côté serveur d'authentification. Aucune migration SQL. À reproduire sur la production lors d'une fusion décidée par le propriétaire. Fournisseur Google non encore activé dans Supabase (à faire par le propriétaire).
 
 Mise à jour le même jour : fonction `provision-client-workspace` version 4 (Test) — fournisseurs acceptés sans mot de passe : Google et LinkedIn (`linkedin_oidc`), e-mail vérifié côté serveur d'authentification. Fournisseurs Google/LinkedIn à activer dans Supabase par le propriétaire.
+
+## 21 novembre 2026 — extension `pg_net` activée sur Test (essai d'accès aux données publiques)
+- Test uniquement (jamais production). `create extension pg_net with schema extensions` : permet à la base d'appeler des adresses publiques (essai de lecture de data.gouv.fr : réussi).
+- Constat : le fichier DECP consolidé est trop lourd pour une lecture à la demande (parquet 278 Mo, csv.gz 438 Mo) et l'API tabulaire gratuite de data.gouv.fr ne l'indexe pas (erreur « relation inexistante »). Colonnes utiles confirmées : `uid, id, nature, acheteur_id, acheteur_nom, titulaire_id, titulaire_nom, objet, montant, codeCPV, procedure, dureeMois, offresRecues, dateNotification, lieuExecution_code, sousTraitanceDeclaree`.
+- Conséquence : l'alimentation passera par une tâche de rafraîchissement qui télécharge le fichier, ne garde que les 12 derniers mois et les colonnes utiles, puis charge Supabase. À reprendre dans `PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md`.
