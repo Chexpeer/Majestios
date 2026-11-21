@@ -60,3 +60,10 @@ Stratégie B retenue, 6 derniers mois, gratuite. Étape 1 réalisée sur Test : 
 - Import dans la base (rapide, à mettre à jour chaque jour) ou consultation directe des sources : **recommandé, import filtré sur 12 mois** pour commencer.
 - Secteurs et départements de départ.
 - Autres sites ou sources que le propriétaire souhaite faire étudier.
+
+## 9. Premier chargement réel et accélération (21/11/2026)
+
+- Premier chargement sur Test réussi : 169 289 lignes (139 822 marchés, 54 014 entreprises) du 21/05 au 20/11/2026 ; base à 162 Mo sur 500 Mo.
+- Constat : la limite de 3 secondes du visiteur anonyme était dépassée (chiffres 4,9 s, liste 4 s). Correctif (migration `20261121180000_awarded_contracts_speed.sql`, appliquée sur Test) : chiffres précalculés en fin de chargement (`refresh_awarded_stats`), liste et annuaire classés avant détail. Tous les appels passent sous 1 s.
+- Ajout d'un bouton « Rechercher » dans chaque formulaire de filtres.
+- Production : rejouer aussi cette migration au moment de la fusion décidée par le propriétaire.

@@ -59,3 +59,9 @@ test("formats : montant, date, résumé de transparence", () => {
   assert.match(m.text, /du 21\/05\/2026 au 20\/11\/2026/);
   assert.match(m.text, /Dernier chargement le 21\/11\/2026/);
 });
+
+test("chaque formulaire de filtres a un bouton Rechercher", async () => {
+  const { readFileSync } = await import("node:fs");
+  const html = readFileSync(new URL("../marches-attribues.html", import.meta.url), "utf8");
+  assert.equal((html.match(/<button class="button-primary" type="submit">Rechercher<\/button>/g) || []).length, 2);
+});

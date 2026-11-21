@@ -161,6 +161,8 @@ def main():
             before = date(year, month, min(today.day, 28))
             removed = rpc(base_url, key, "purge_awarded_contracts", {"p_before": before.isoformat()})
             log(f"Marchés antérieurs au {before.isoformat()} retirés : {removed}.")
+            rpc(base_url, key, "refresh_awarded_stats", {})
+            log("Chiffres de la page mis à jour.")
         else:
             log(f"Moins de {MIN_ROWS_TO_PURGE} lignes reçues : aucun retrait (protection contre un fichier anormal).")
             sys.exit(1 if sent == 0 else 0)
