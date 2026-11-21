@@ -25,6 +25,7 @@
 | CRM / Supabase | [Audit en lecture seule](evolution-10/AUDIT-CRM-SUPABASE-LECTURE-SEULE-2026-11-11.md) |
 | Non-régression · SEO | [Evolution-7](evolution-10/AUDIT-NON-REGRESSION-FONCTIONNELLE-EVOLUTION-7.md) · [SEO](evolution-10/AUDIT-SEO-EVOLUTION-9.md) |
 | Audit du produit | [Audit du 20 novembre 2026](evolution-10/AUDIT-PRODUIT-2026-11-20.md) |
+| Pistes marchés attribués et sélection Sous-traitance | [Pistes du 21 novembre 2026](evolution-10/PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md) |
 | Plan de synthèse | [Plan de synthèse documentaire](evolution-10/PLAN-SYNTHESE-DOCUMENTAIRE.md) |
 
 ## Repères
