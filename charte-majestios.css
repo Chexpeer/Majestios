@@ -718,3 +718,11 @@ html:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.i
 /* Résultats de recherche (panneau clair) : texte anthracite lisible, sans ombre */
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .category-results-panel :is(h2,h3,h4,p,li,span,dt,dd,small,strong,em,div,label,time,summary):not(a):not(button):not([class*="button"]){color:#1F2A33!important;text-shadow:none!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body:has(main.interior-page[data-fond]) main.interior-page .category-results-panel a:not([class*="button"]){color:#7A5200!important;text-shadow:none!important}
+
+
+/* Bouton « Continuer avec Google » : format recommandé par Google (fond blanc, texte sombre, contour fin). Le logo officiel « G » n'est pas inclus. */
+.personal-space-form .personal-space-google{display:flex;flex-direction:column;align-items:center;gap:.4rem;margin:.9rem 0 .2rem}
+.personal-space-form .personal-space-google .small-note{margin:0}
+.personal-space-form .google-signin{width:100%;max-width:320px;min-height:40px;padding:0 16px;border:1px solid #747775;border-radius:20px;background:#fff;color:#1f1f1f;font:500 14px/20px Roboto,Arial,sans-serif;letter-spacing:.25px;text-align:center;cursor:pointer}
+.personal-space-form .google-signin:hover{background:#f1f1f1}
+.personal-space-form .google-signin:focus-visible{outline:2px solid #1a73e8;outline-offset:2px}
