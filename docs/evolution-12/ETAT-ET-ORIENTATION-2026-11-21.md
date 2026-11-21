@@ -37,7 +37,7 @@ Pistes inspirées de l'étude des plateformes de veille de marchés (aucune n'es
 - **Site** : `main` (fusion de la PR n° 63) déployé en production sur Vercel ; `supabase-config.js` pointe vers la base de production. Retour arrière possible dans Vercel (ancien déploiement Evolution-9).
 - **Connexion Google/LinkedIn** : testée par le propriétaire.
 - **Reste à faire en production** :
-  1. Marchés attribués : le chargement DECP lit encore les secrets `SUPABASE_TEST_URL` / `SUPABASE_TEST_SERVICE_ROLE_KEY`. Pour remplir la production, le propriétaire pose deux secrets de production dans GitHub (jamais dans une discussion), puis le workflow est adapté.
+  1. Marchés attribués : le chargement DECP lit les secrets de production `SUPABASE_PROD_URL` / `SUPABASE_PROD_SERVICE_ROLE_KEY`, à poser par le propriétaire dans GitHub (jamais dans une discussion).
   2. Fonctions serveur absentes en production : invitations (`admin-invite-user`), chat et mission Cheexpeer, audit de réputation (`reputation-audit-context`), `provision-client-workspace` v4 ; elles demandent des secrets à poser par le propriétaire.
   3. Secret `INTERNAL_ADMIN_EMAIL` avant tout bootstrap admin.
   4. Protection contre les mots de passe compromis (Supabase Auth) : à activer par le propriétaire.
