@@ -95,12 +95,13 @@ if (form && config?.url && config?.publishableKey) {
   const showAlert = (deadline) => {
     if (!alertBox) return;
     needsActivation = true;
-    alertText.textContent = viaGoogle ? `Activez votre espace${deadline ? ` avant le ${formatDeadline(deadline)}` : ""} : un clic suffit, votre adresse est vérifiée par Google.` : `Créez un mot de passe sécurisé${deadline ? ` avant le ${formatDeadline(deadline)}` : ""} pour valider et sécuriser votre compte.`;
+    alertText.textContent = viaGoogle ? `Activez votre espace${deadline ? ` avant le ${formatDeadline(deadline)}` : ""} : un clic suffit, votre adresse est vérifiée par ${oauthName}.` : `Créez un mot de passe sécurisé${deadline ? ` avant le ${formatDeadline(deadline)}` : ""} pour valider et sécuriser votre compte.`;
     alertBox.hidden = false;
   };
   let needsActivation = false;
   let hasPassword = false;
-  let viaGoogle = false;
+  let viaGoogle = false; // vrai pour toute connexion par un fournisseur externe (Google, LinkedIn)
+  let oauthName = "";
   const hideAlert = () => { needsActivation = false; if (alertBox) alertBox.hidden = true; };
   const showPasswordStep = () => {
     awaitingPassword = true;
@@ -117,7 +118,7 @@ if (form && config?.url && config?.publishableKey) {
     if (pw) pw.required = !hasPassword;
     if (pc) pc.required = !hasPassword;
     if (titleEl) titleEl.textContent = "Activer mon espace";
-    if (introEl) introEl.textContent = viaGoogle ? "Votre adresse est vérifiée par Google. Il reste à activer votre espace." : hasPassword ? "Votre mot de passe est déjà créé. Il reste à activer votre espace." : "Votre adresse est vérifiée. Choisissez votre mot de passe personnel.";
+    if (introEl) introEl.textContent = viaGoogle ? `Votre adresse est vérifiée par ${oauthName}. Il reste à activer votre espace.` : hasPassword ? "Votre mot de passe est déjà créé. Il reste à activer votre espace." : "Votre adresse est vérifiée. Choisissez votre mot de passe personnel.";
     if (submitButton) submitButton.innerHTML = 'Activer mon espace <span aria-hidden="true">→</span>';
     if (dialog && !dialog.open) { if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", ""); }
     if (!hasPassword) pw?.focus();
@@ -281,7 +282,9 @@ if (form && config?.url && config?.publishableKey) {
       // Compte connecté sans espace ni activation (ex. connexion directe) : on ouvre l'activation, pour ne jamais laisser la personne bloquée.
       if (act && act.state === "none") act = (await supabase.rpc("start_member_activation")).data;
       // Connexion Google : l'adresse est vérifiée par Google, aucun mot de passe MajestiOS à créer.
-      viaGoogle = (session.user?.app_metadata?.providers || []).includes("google");
+      const providers = session.user?.app_metadata?.providers || [];
+      oauthName = providers.includes("google") ? "Google" : providers.includes("linkedin_oidc") ? "LinkedIn" : "";
+      viaGoogle = !!oauthName;
       hasPassword = !!act?.has_password || viaGoogle;
       if (act && ["pending", "expired"].includes(act.state)) showAlert(act.deadline);
       else hideAlert();
@@ -331,14 +334,16 @@ if (form && config?.url && config?.publishableKey) {
     }
   });
 
-  form.querySelector("[data-google-signin]")?.addEventListener("click", async () => {
+  form.querySelectorAll("[data-oauth-signin]").forEach((button) => button.addEventListener("click", async () => {
     if (feedback) feedback.hidden = true;
+    const provider = button.dataset.oauthSignin;
+    const name = provider === "linkedin_oidc" ? "LinkedIn" : "Google";
     try {
       if (createMode && !field("privacy_ack")?.checked) throw new Error("Pour créer votre espace, cochez d’abord la case sur la politique de confidentialité.");
-      const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/espace-membre.html` } });
-      if (error) throw new Error("La connexion avec Google n’est pas disponible pour le moment. Utilisez votre adresse e-mail.");
+      const { error } = await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: `${window.location.origin}/espace-membre.html` } });
+      if (error) throw new Error(`La connexion avec ${name} n’est pas disponible pour le moment. Utilisez votre adresse e-mail.`);
     } catch (error) { setFeedback(error.message || "Une erreur est survenue. Veuillez réessayer.", true); }
-  });
+  }));
 
   sendLinkButton?.addEventListener("click", async () => {
     if (feedback) feedback.hidden = true;

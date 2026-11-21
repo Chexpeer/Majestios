@@ -105,6 +105,17 @@ export function createClient(){
     await gg.click("[data-google-signin]");
     await gg.waitForFunction(() => /pas disponible pour le moment/.test(document.querySelector("#personal-space-feedback")?.textContent || ""));
     assert.deepEqual(gg.errors, []);
+    // LinkedIn : même parcours, fournisseur linkedin_oidc.
+    await gg.evaluate(() => { window.__oauthError = false; });
+    const before = await gg.evaluate(() => window.__oauth.length);
+    await gg.click('[data-oauth-signin="linkedin_oidc"]');
+    assert.equal(await gg.evaluate(() => window.__oauth[window.__oauth.length - 1].provider), "linkedin_oidc");
+    assert.equal(await gg.evaluate(() => window.__oauth.length), before + 1);
+    const li = await open([]);
+    await li.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "ul", email: "li@exemple.fr", app_metadata: { providers: ["linkedin_oidc"] } } }; window.__activation = { state: "pending", deadline: "2026-11-25T18:00:00Z", has_password: false }; });
+    await li.goto(origin + "/espace-membre.html");
+    await li.waitForSelector("#member-activation-alert:not([hidden])");
+    assert.match(await li.locator("#member-activation-text").textContent(), /LinkedIn/);
     // Retour de Google (espace à activer) : aucun mot de passe demandé, un clic active l'espace.
     const gs = await open([]);
     await gs.addInitScript(() => { window.__session = { access_token: "tok", user: { id: "ug", email: "google@exemple.fr", app_metadata: { providers: ["google"] } } }; window.__activation = { state: "pending", deadline: "2026-11-25T18:00:00Z", has_password: false }; });

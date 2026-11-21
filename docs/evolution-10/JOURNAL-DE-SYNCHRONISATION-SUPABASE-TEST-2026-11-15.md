@@ -38,3 +38,5 @@ Présentes dans le dépôt mais **non déployées sur Test** : `bootstrap-intern
 ## 21 novembre 2026 — Fonction `provision-client-workspace` version 3 (Test)
 
 Déployée sur la base de test uniquement (`qrlnnfjstoeliymxtkbk`) : l'activation d'un espace est acceptée sans mot de passe si l'identité Google est vérifiée côté serveur d'authentification. Aucune migration SQL. À reproduire sur la production lors d'une fusion décidée par le propriétaire. Fournisseur Google non encore activé dans Supabase (à faire par le propriétaire).
+
+Mise à jour le même jour : fonction `provision-client-workspace` version 4 (Test) — fournisseurs acceptés sans mot de passe : Google et LinkedIn (`linkedin_oidc`), e-mail vérifié côté serveur d'authentification. Fournisseurs Google/LinkedIn à activer dans Supabase par le propriétaire.

@@ -427,6 +427,7 @@ for (const [table, columns] of Object.entries({
 }
 
 // Connexion Google : l'activation sans mot de passe n'est acceptée que pour une identité Google dont l'e-mail est vérifié par le serveur d'authentification.
-assert.match(edge, /identity\.provider === "google" && identity\.identity_data\?\.email_verified === true/);
-assert.match(edge, /!ready\.has_password && !viaGoogle/);
-assert.doesNotMatch(edge, /user_metadata[^\n]*google/i, "La preuve Google ne doit jamais venir de données modifiables par l'utilisateur.");
+assert.match(edge, /OAUTH_PROVIDERS = \["google", "linkedin_oidc"\]/);
+assert.match(edge, /OAUTH_PROVIDERS\.includes\(identity\.provider\) && identity\.identity_data\?\.email_verified === true/);
+assert.match(edge, /!ready\.has_password && !viaOAuth/);
+assert.doesNotMatch(edge, /user_metadata[^\n]*(google|linkedin)/i, "La preuve Google ne doit jamais venir de données modifiables par l'utilisateur.");

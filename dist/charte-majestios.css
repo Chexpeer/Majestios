@@ -727,3 +727,8 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:
 .personal-space-form .google-signin:hover{background:#f1f1f1}
 .personal-space-form .google-signin:focus-visible{outline:2px solid #1a73e8;outline-offset:2px}
 .personal-space-form .google-signin-icon{width:20px;height:20px;flex:0 0 20px}
+
+/* Bouton « Continuer avec LinkedIn » : texte seul, couleur de marque ; le logo officiel pourra être ajouté s'il est fourni. */
+.personal-space-form .linkedin-signin{width:100%;max-width:320px;min-height:40px;padding:0 16px;border:1px solid #0a66c2;border-radius:20px;background:#0a66c2;color:#fff;font:600 14px/20px Arial,sans-serif;text-align:center;cursor:pointer}
+.personal-space-form .linkedin-signin:hover{background:#004182;border-color:#004182}
+.personal-space-form .linkedin-signin:focus-visible{outline:2px solid #fff;outline-offset:2px}
