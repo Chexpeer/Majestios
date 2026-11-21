@@ -1,4 +1,5 @@
 import { ANNONCES_SUPABASE, NOTICE_VERSION } from "./annonces-config.mjs";
+import { sessionToken, rpcHeaders, limitReached, buildLimitNotice } from "./visiteur-limite.mjs";
 import { KIND_LABELS, buildListRequest, normalizeAnnouncements, formatDateFr, placeLabel, validateIntroduction, introductionError } from "./annonces-liste.mjs";
 
 const root = document.querySelector("#annonces-privees");
@@ -7,6 +8,9 @@ if (root) {
   const list = root.querySelector("#annonces-liste");
   const status = root.querySelector("#annonces-statut");
   const more = root.querySelector("#annonces-plus");
+  const notice = buildLimitNotice();
+  notice.hidden = true;
+  more.parentElement.after(notice);
   let page = 0;
   let loading = false;
   let pendingReset = false;
@@ -14,7 +18,7 @@ if (root) {
   const rpc = async (name, body) => {
     const response = await fetch(ANNONCES_SUPABASE.url + "/rest/v1/rpc/" + name, {
       method: "POST",
-      headers: { "content-type": "application/json", apikey: ANNONCES_SUPABASE.publishableKey },
+      headers: rpcHeaders(await sessionToken()),
       body: JSON.stringify(body)
     });
     if (!response.ok) throw new Error(await response.text());
@@ -84,6 +88,7 @@ if (root) {
     loading = true;
     if (reset) { page = 0; list.replaceChildren(); }
     more.hidden = true;
+    notice.hidden = true;
     status.textContent = "Chargement des annonces…";
     try {
       const rows = await rpc("list_published_announcements", buildListRequest({ ...Object.fromEntries(new FormData(filters).entries()), page }));
@@ -91,7 +96,9 @@ if (root) {
       for (const item of items) list.append(card(item));
       const total = list.children.length;
       status.textContent = total ? total + " annonce(s) affichée(s)." : "Aucune annonce publiée pour ces critères pour le moment. Vous pouvez déposer la vôtre gratuitement.";
-      more.hidden = !hasMore;
+      const locked = limitReached(await sessionToken(), total);
+      more.hidden = !hasMore || locked;
+      notice.hidden = !locked;
     } catch {
       status.textContent = "Les annonces sont momentanément inaccessibles. Aucune annonce n’est inventée. Réessayez plus tard.";
     } finally {
