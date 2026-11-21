@@ -7,7 +7,7 @@ const read = (path) => fs.readFileSync(path, "utf8");
 test("chargement DECP : clés uniquement en secrets, jamais écrites ni affichées", () => {
   const workflow = read(".github/workflows/charger-decp.yml");
   const script = read("scripts/charger-decp.py");
-  assert.match(workflow, /secrets\.SUPABASE_TEST_SERVICE_ROLE_KEY/);
+  assert.match(workflow, /secrets\.SUPABASE_PROD_SERVICE_ROLE_KEY/);
   assert.doesNotMatch(workflow, /eyJ|sb_secret_|service_role_key:\s*["']?[A-Za-z0-9._-]{20,}/);
   assert.match(workflow, /permissions:\s*\n\s*contents: read/);
   assert.doesNotMatch(script, /print\([^)]*key/i);

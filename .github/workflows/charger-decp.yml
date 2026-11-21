@@ -1,8 +1,8 @@
 name: Charger les marchés attribués (DECP)
 
 # Télécharge le fichier public des marchés attribués (data.gouv.fr), garde les 6 derniers mois et les charge dans
-# MajestiOS-Test. Secrets requis (à poser par le propriétaire dans GitHub > Settings > Secrets and variables > Actions) :
-#   SUPABASE_TEST_URL, SUPABASE_TEST_SERVICE_ROLE_KEY. Aucune clé n'est jamais écrite dans le dépôt ni affichée.
+# la base de production MajestiOS. Secrets requis (à poser par le propriétaire dans GitHub > Settings > Secrets and variables > Actions) :
+#   SUPABASE_PROD_URL, SUPABASE_PROD_SERVICE_ROLE_KEY. Aucune clé n'est jamais écrite dans le dépôt ni affichée.
 # Déclenchement : à la demande (Run workflow), chaque lundi (une fois fusionné sur la branche principale),
 # ou lors d'un envoi qui modifie le script, ce workflow ou le fichier-déclencheur scripts/declencher-chargement-decp.txt.
 on:
@@ -29,8 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_TEST_URL }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_TEST_SERVICE_ROLE_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_PROD_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_PROD_SERVICE_ROLE_KEY }}
       DECP_MONTHS: "6"
     steps:
       - uses: actions/checkout@v4
@@ -47,11 +47,11 @@ jobs:
         run: |
           if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
             if [ "${{ github.event_name }}" = "push" ]; then
-              echo "::warning::Secrets SUPABASE_TEST_URL / SUPABASE_TEST_SERVICE_ROLE_KEY absents : chargement non lancé."
+              echo "::warning::Secrets SUPABASE_PROD_URL / SUPABASE_PROD_SERVICE_ROLE_KEY absents : chargement non lancé."
               echo "ready=false" >> "$GITHUB_OUTPUT"
               exit 0
             fi
-            echo "::error::Secrets SUPABASE_TEST_URL / SUPABASE_TEST_SERVICE_ROLE_KEY manquants."
+            echo "::error::Secrets SUPABASE_PROD_URL / SUPABASE_PROD_SERVICE_ROLE_KEY manquants."
             exit 1
           fi
           echo "ready=true" >> "$GITHUB_OUTPUT"
