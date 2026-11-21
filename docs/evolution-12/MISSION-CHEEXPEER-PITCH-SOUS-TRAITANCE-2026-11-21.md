@@ -58,5 +58,6 @@ Ce sont des sites d'inspiration et de veille concurrentielle, pas des sources de
 | corporary.com | Fiches entreprises, flux de changements | Fort, à tester | Modèle de la fiche entreprise unifiée et du flux de changements |
 | tamairie.fr | Finances locales, délibérations | Moyen (plus tard) | Contexte acheteur communal |
 | Seal Open Data / Ariacom | Contexte territorial | À étudier | Contexte de la zone |
+| Tendios (fiche Capterra consultée, site non lu) | Alertes personnalisées, suivi des concurrents, glossaire et codes CPV, informations sur gagnants et acheteurs, classement par secteur, tableau de bord et gestion des réponses ; offre payante | Fort | Alertes réservées aux titulaires d'espace ; fiches acheteurs ; tableau de bord d'activité |
 
 **Avantage propre à MajestiOS :** ces sites présentent les marchés ; aucun ne relie un marché gagné aux artisans complémentaires de la région avec un pitch prêt (codes NAF + Cheexpeer). C'est la mission décrite ci-dessus.
