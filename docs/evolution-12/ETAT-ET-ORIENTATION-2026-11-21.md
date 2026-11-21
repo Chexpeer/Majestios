@@ -49,3 +49,10 @@ Décision du propriétaire : un visiteur sans espace personnel voit 20 résultat
 - **Côté serveur** (migration `20261121220000_limite_20_visiteurs.sql`) : `private.search_cap()` donne le plafond selon l'appelant ; `list_awarded_contracts`, `top_awarded_winners` et `list_published_announcements` le respectent (décalage compris). Impossible à contourner depuis le navigateur. Vérifiée sur la base de test : visiteur 20, membre 40, clé de service illimitée. **Pas encore appliquée en production.**
 - **Côté site** : `visiteur-limite.mjs` transmet la session si elle existe ; au plafond, « Voir plus » est remplacé par un message (visiteur : bouton « Créer mon espace » ; membre : conseil d'affiner la recherche). Les autres recherches (qualification, prospection, RGE) sont déjà limitées à 10 résultats.
 - **Présentation** : cartes de résultats translucides (verre dépoli).
+
+## Alertes « marché gagné » (21 novembre 2026, soir)
+
+Première brique inspirée des sites de référence (Octroi, Tendios) : sur la page « Marchés attribués », un titulaire d'espace enregistre jusqu'à 5 alertes (département, famille d'achats, montant, mot-clé) et voit le nombre de nouveaux marchés notifiés depuis sa dernière consultation (« Voir », « Marquer comme vu », « Supprimer »). Un visiteur voit l'invitation à créer son espace.
+
+- Table `public.contract_alerts` (migration `20261121230000_contract_alerts.sql`) : chaque membre ne voit et ne modifie que ses alertes ; 5 au maximum. Vérifié sur la base de test. **Pas encore appliquée en production.**
+- **Pas d'envoi d'e-mail pour l'instant** (pas de nom de domaine) : l'alerte se lit sur la page. L'envoi par e-mail viendra avec une solution d'envoi.

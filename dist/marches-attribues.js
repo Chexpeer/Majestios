@@ -1,5 +1,6 @@
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
-import { sessionToken, rpcHeaders, limitReached, buildLimitNotice } from "./visiteur-limite.mjs";
+import { sessionToken, rpcHeaders, limitReached, buildLimitNotice, sharedClient } from "./visiteur-limite.mjs";
+import { MAX_ALERTES, buildAlertFromFilters, alertRequest, alertToFormValues, countNew } from "./alertes-marches.mjs";
 import { SECTORS, buildContractsRequest, buildWinnersRequest, normalizeContracts, normalizeWinners, kindLabel, formatAmount, formatDateFr, metaSummary } from "./marches-attribues.mjs";
 
 const root = document.querySelector("#marches-attribues");
@@ -66,6 +67,69 @@ if (root) {
     more.addEventListener("click", () => { page += 1; load(false); });
     load(true);
   };
+
+
+  // Alertes « marché gagné » : réservées aux titulaires d'un espace personnel ; un visiteur voit seulement l'invitation à créer son espace.
+  const alertsHost = root.querySelector("#marches-alertes");
+  const filtersForm = root.querySelector("#marches-filtres");
+  const renderAlerts = async () => {
+    if (!alertsHost) return;
+    const token = await sessionToken();
+    alertsHost.replaceChildren();
+    if (!token) {
+      const p = el("p", "small-note", "Soyez alerté des nouveaux marchés gagnés dans votre zone et votre secteur : ");
+      const a = el("a", "", "créez votre espace personnel (gratuit)");
+      a.href = "espace-membre.html#creation";
+      p.append(a, document.createTextNode("."));
+      alertsHost.append(p);
+      return;
+    }
+    const client = await sharedClient();
+    if (!client) return;
+    const { data: alerts, error } = await client.from("contract_alerts").select("id,label,department,cpv,query,min_amount,last_seen_on").order("created_at");
+    if (error) return;
+    const box = el("div", "marches-alertes-box");
+    box.append(el("h3", "", "Mes alertes marché gagné"));
+    const save = el("button", "button-primary button-compact", "Créer une alerte avec ces filtres");
+    save.type = "button";
+    const note = el("p", "small-note", "");
+    save.addEventListener("click", async () => {
+      const values = Object.fromEntries(new FormData(filtersForm).entries());
+      const alert = buildAlertFromFilters(values);
+      if (!alert) { note.textContent = "Choisissez au moins un filtre (département, famille d’achats, montant ou mot-clé) avant de créer une alerte."; return; }
+      if ((alerts || []).length >= MAX_ALERTES) { note.textContent = "Vous avez déjà " + MAX_ALERTES + " alertes : supprimez-en une pour en créer une autre."; return; }
+      const { error: insertError } = await client.from("contract_alerts").insert(alert);
+      if (insertError) { note.textContent = "L’alerte n’a pas pu être enregistrée. Réessayez plus tard."; return; }
+      renderAlerts();
+    });
+    box.append(save, note);
+    for (const a of alerts || []) {
+      const row = el("div", "marches-alerte");
+      const title = el("p", "", a.label + " — ");
+      const count = el("strong", "", "…");
+      title.append(count);
+      row.append(title);
+      rpc("list_awarded_contracts", alertRequest(a)).then((rows) => {
+        const n = countNew(rows, a.last_seen_on);
+        count.textContent = n ? n + " nouveau(x) marché(s) depuis le " + formatDateFr(a.last_seen_on) : "aucun nouveau marché depuis le " + formatDateFr(a.last_seen_on);
+      }).catch(() => { count.textContent = "indisponible pour le moment"; });
+      const see = el("button", "button-primary button-compact", "Voir"); see.type = "button";
+      see.addEventListener("click", () => {
+        const values = alertToFormValues(a);
+        filtersForm.elements.department.value = values.department; filtersForm.elements.query.value = values.query;
+        filtersForm.elements.sector.value = values.sector; filtersForm.elements.minAmount.value = values.minAmount;
+        filtersForm.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+      const seen = el("button", "button-primary button-compact", "Marquer comme vu"); seen.type = "button";
+      seen.addEventListener("click", async () => { await client.from("contract_alerts").update({ last_seen_on: new Date().toISOString().slice(0, 10) }).eq("id", a.id); renderAlerts(); });
+      const del = el("button", "button-primary button-compact", "Supprimer"); del.type = "button";
+      del.addEventListener("click", async () => { await client.from("contract_alerts").delete().eq("id", a.id); renderAlerts(); });
+      row.append(see, seen, del);
+      box.append(row);
+    }
+    alertsHost.append(box);
+  };
+  renderAlerts();
 
   const contractCard = (item) => {
     const article = el("article", "opportunity-result-card marche-card");
