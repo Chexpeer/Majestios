@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
-import { buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
+import { buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
 
 // Projet cible : MajestiOS-Test (les API Cheexpeer n'existent que là). Même configuration que la relecture des annonces.
 const supabase = createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -68,11 +68,12 @@ function renderMission(data) {
     detailBox.append(box);
   }
   if (m.error_summary) detailBox.append(el("p", "cx-status error", "Erreur : " + m.error_summary));
-  if (m.mission_type === MISSION_TYPE_PROSPECTS && m.status === "queued") {
+  if ((m.mission_type === MISSION_TYPE_PROSPECTS || m.mission_type === MISSION_TYPE_ANALYSE) && m.status === "queued") {
     const run = el("div", "cx-actions"); const b = el("button", "cx-primary", "Lancer l'exécution"); b.type = "button";
     b.addEventListener("click", () => runMissions(b)); run.append(b); detailBox.append(run);
   }
   if (m.mission_type === MISSION_TYPE_PROSPECTS && Array.isArray(m.result?.entreprises)) renderProspects(m.result);
+  else if (m.mission_type === MISSION_TYPE_ANALYSE && Array.isArray(m.result?.propositions)) renderAnalyse(m.result);
   else if (m.result && Object.keys(m.result).length) detailBox.append(el("pre", "cx-result", JSON.stringify(m.result, null, 2)));
   const events = el("ul", "cx-timeline"); for (const e of data.events || []) events.append(el("li", "", `${fmt(e.occurred_at)} · ${e.event_type} (${e.actor_type})`));
   if (events.children.length) detailBox.append(el("p", "admin-kicker", "HISTORIQUE"), events);
@@ -96,6 +97,38 @@ function renderProspects(result) {
   table.append(head);
   for (const e of list) { const tr = el("tr"); for (const v of [e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
+}
+function renderAnalyse(r) {
+  const box = el("div", "cx-card");
+  box.append(el("p", "admin-kicker", "ANALYSE DE L'AVIS " + (r.idweb || "")), el("p", "", r.objet || ""));
+  box.append(el("p", "cx-meta", `Acheteur : ${r.acheteur || "—"} · Date limite : ${r.date_limite ? fmt(r.date_limite) : "—"} · CPV : ${r.cpv || "—"} · Source : ${r.source || "BOAMP"}`));
+  box.append(el("p", "admin-kicker", "LOTS ET LIEU DES TRAVAUX"));
+  const ul = el("ul");
+  for (const l of r.lots || []) ul.append(el("li", "", `${l.id} · ${l.titre || "—"} → ${l.lieu?.departements?.length ? "département(s) " + l.lieu.departements.join(", ") + (l.lieu.commune ? " (" + l.lieu.commune + ")" : "") : "lieu non déterminé"} · origine : ${l.lieu?.origine || "—"}`));
+  box.append(ul);
+  box.append(el("p", "admin-kicker", "CODES NAF PROPOSÉS — COCHEZ CEUX QUE VOUS VALIDEZ"));
+  if (!r.propositions.length) box.append(el("p", "cx-status", "Aucun métier reconnu dans l'avis : saisissez le code NAF à la main ci-dessous."));
+  const nafChecks = [], deptChecks = [];
+  for (const p of r.propositions) {
+    const label = el("label", "cx-meta"); const c = document.createElement("input"); c.type = "checkbox"; c.value = p.naf; c.checked = p.niveau === "forte"; nafChecks.push(c);
+    label.append(c, document.createTextNode(` ${p.naf} · ${p.libelle || ""} · ${p.niveau} · lot ${p.lot} — « …${p.extrait}… »`)); box.append(label);
+  }
+  const manual = document.createElement("input"); manual.placeholder = "Autre code NAF (ex. 43.22B)"; manual.maxLength = 6; box.append(manual);
+  box.append(el("p", "admin-kicker", "DÉPARTEMENTS DE RECHERCHE"));
+  for (const d of r.departements || []) { const label = el("label", "cx-meta"); const c = document.createElement("input"); c.type = "checkbox"; c.value = d; c.checked = true; deptChecks.push(c); label.append(c, document.createTextNode(" " + d)); box.append(label); }
+  const dep2 = document.createElement("input"); dep2.placeholder = (r.departements || []).length ? "Autre département (facultatif)" : "Département (territoire non déterminé)"; dep2.maxLength = 3; box.append(dep2);
+  const status = el("p", "cx-status"); status.hidden = true;
+  const actions = el("div", "cx-actions"); const go = el("button", "cx-primary", "Demander la recherche d'entreprises"); go.type = "button";
+  go.addEventListener("click", async () => {
+    const nafs = nafChecks.filter((c) => c.checked).map((c) => c.value); if (manual.value.trim()) nafs.push(manual.value.trim().toUpperCase().replace(/\s/g, "").replace(/^(\d{2})(\d{2}[A-Z])$/, "$1.$2"));
+    const depts = deptChecks.filter((c) => c.checked).map((c) => c.value); if (dep2.value.trim()) depts.push(dep2.value.trim().toUpperCase());
+    const built = buildProspectsFromAnalysis({ organizationId, nafs, departements: depts, marcheObjet: r.objet, newKey: () => crypto.randomUUID() });
+    if (!built.ok) { say(status, built.message, true); return; }
+    go.disabled = true; say(status, "Envoi…"); let created = 0;
+    for (const body of built.bodies) { const res = await callApi(fetch, { baseUrl: ANNONCES_SUPABASE.url, key: "submit", token: await token(), body }); if (!res.ok) { say(status, res.message, true); break; } created++; remember(res.data.mission.mission_id, body.title); }
+    go.disabled = false; if (created === built.bodies.length) say(status, `${created} mission(s) créée(s). Elles attendent votre validation dans la liste « récentes » : approuvez puis lancez l'exécution.`);
+  });
+  actions.append(go); box.append(actions, status); detailBox.append(box);
 }
 async function runMissions(button) {
   button.disabled = true; say(detailStatus, "Exécution en cours…");
@@ -176,6 +209,18 @@ submitForm.addEventListener("submit", async (event) => {
   const id = result.data.mission.mission_id;
   say(submitStatus, "Mission créée. Elle attend votre validation.");
   remember(id, body.title); await openMission(id);
+});
+const analyseForm = $("#cx-analyse"), analyseStatus = $("#cx-ana-status");
+analyseForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const body = buildAnalysePayload({ organizationId, idweb: analyseForm.elements.idweb.value, idempotencyKey: crypto.randomUUID() });
+  if (!body) { say(analyseStatus, "Indiquez l'identifiant de l'avis, par exemple 26-111564.", true); return; }
+  const button = analyseForm.querySelector("button"); button.disabled = true; say(analyseStatus, "Envoi…");
+  const result = await callApi(fetch, { baseUrl: ANNONCES_SUPABASE.url, key: "submit", token: await token(), body });
+  button.disabled = false;
+  if (!result.ok) { say(analyseStatus, result.message, true); return; }
+  say(analyseStatus, "Mission créée. Approuvez-la dans le suivi, puis lancez l'exécution.");
+  remember(result.data.mission.mission_id, body.title); await openMission(result.data.mission.mission_id);
 });
 const prospectsForm = $("#cx-prospects"), prospectsStatus = $("#cx-pro-status");
 prospectsForm.addEventListener("submit", async (event) => {
