@@ -37,7 +37,7 @@ Deno.serve(async (request: Request) => {
     }
     if (!data?.mission?.id) return apiResponse(404, { ok:false, error:"MISSION_NOT_FOUND" }, origin, configuredOrigins);
     const bytes = new TextEncoder().encode(JSON.stringify(data)).byteLength;
-    if (bytes > 32 * 1024) return apiResponse(413, { ok:false, error:"RESULT_TOO_LARGE" }, origin, configuredOrigins);
+    if (bytes > 3 * 1024 * 1024) return apiResponse(413, { ok:false, error:"RESULT_TOO_LARGE" }, origin, configuredOrigins);
     return apiResponse(200, { ok:true, ...data }, origin, configuredOrigins);
   } catch {
     return apiResponse(502, { ok:false, error:"MISSION_READ_FAILED" }, origin, configuredOrigins);

@@ -5,15 +5,18 @@ import { MISSION_TYPE_ANALYSE_MARCHE, runAnalyseMission } from "./mission-analys
 
 export const WORKER_ID = "cheexpeer-edge-runner";
 export const MAX_RESULT_BYTES = 30 * 1024;
+/** Mode « toutes les entreprises » : résultat volumineux, destiné au téléchargement. */
+export const MAX_RESULT_BYTES_TOUTES = 1200 * 1024;
 export const MAX_MISSIONS_PER_CALL = 3;
 
 const bytes = (v) => new TextEncoder().encode(JSON.stringify(v)).byteLength;
 
 /** Réduit la liste si le résultat dépasse la taille autorisée par le pont (32 Ko) : jamais de résultat tronqué en silence. */
 export function fitResult(result) {
-  if (bytes(result) <= MAX_RESULT_BYTES) return result;
+  const max = result?.criteres?.toutes ? MAX_RESULT_BYTES_TOUTES : MAX_RESULT_BYTES;
+  if (bytes(result) <= max) return result;
   const list = [...(result.entreprises ?? [])];
-  while (list.length > 1 && bytes({ ...result, entreprises: list, nombre: list.length, reduit: true }) > MAX_RESULT_BYTES) list.pop();
+  while (list.length > 1 && bytes({ ...result, entreprises: list, nombre: list.length, reduit: true }) > max) list.pop();
   return { ...result, entreprises: list, nombre: list.length, reduit: true };
 }
 
