@@ -271,6 +271,24 @@ Les **seuils de réussite chiffrés** proposés par les IA (par exemple 85 % ou 
 | 9 | Mission 6 (audit Web) | Gemini : à confirmer, sans effort pour l'instant ; Copilot : en dernier | Garder en dernier rang 2 |
 | 10 | Gestion des oppositions à la prospection | ChatGPT : conserver partout le statut d'opposition | Prévoir dès le socle commun |
 
+## Décisions retenues le 22 novembre 2026, 15 h 40
+> Le propriétaire a consulté trois IA pour ne pas partir dans tous les sens, puis a confié l'arbitrage à Claude : « tu as ton libre arbitre et MajestiOS doit avancer ». Claude adopte donc ses recommandations du tableau ci-dessus. Le propriétaire peut les corriger à tout moment. **Les règles qui protègent MajestiOS restent entières** : rien en production, ni rôles ni suppressions de membres décidés par Claude, aucun secret dans le chat ou dans Git, lecture seule pour Cheexpeer.
+
+| N° | Décision adoptée |
+|---|---|
+| 1 | Ordre technique : socle commun, missions 2, 3, 11, puis le score (5), puis 7, 9, 4, 6 |
+| 2 | Entreprises fermées ou radiées : écartées. Non diffusables : rien d'affiché, aucune tentative de contournement. Procédure collective : signalée, un humain décide |
+| 3 | Sources de départ : BOAMP et données d'attribution françaises ; avis européens ensuite |
+| 4 | « Référence vérifiable » = appuyée par un document public |
+| 5 | Territoire : département des travaux, puis région, avec l'origine affichée |
+| 6 | Lecture des règlements de consultation : après le premier prototype |
+| 7 | L'administrateur valide au quotidien ; le propriétaire valide les règles, seuils et mises en production |
+| 8 | Score visible de l'administrateur seul |
+| 9 | Mission 6 (audit Web) en dernier du rang 2 |
+| 10 | Statut d'opposition à la prospection prévu dès le socle commun |
+
+**Premier chantier lancé :** le prototype fermé de la mission 2 (analyse d'un marché : lots, lieu des travaux, codes NAF avec extraits de l'avis, puis recherche d'entreprises), construit **sur la base de test uniquement**.
+
 ## Ordre de réalisation — décision du propriétaire du 22 novembre 2026, 15 h 09
 > « Intervenir en fonction de la valeur ajoutée commerciale immédiate (le SEO, la maintenance, les alertes ne me semblent pas d'une urgence absolue). »
 
