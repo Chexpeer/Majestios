@@ -72,6 +72,8 @@ Dans le code, « autonomie 0 » signifie : lecture seule, aucun effet externe. C
 4. La **décision écrite** du propriétaire d'activer l'outil.
 5. La mise en production, **seulement sur décision explicite**, et la fusion par le propriétaire.
 
+Les missions seront regroupées dans un **catalogue** choisi par menu déroulant : voir [CATALOGUE-MISSIONS-CHEEXPEER-2026-11-22.md](CATALOGUE-MISSIONS-CHEEXPEER-2026-11-22.md).
+
 ## 9. Missions envisagées, non construites
 Aucune n'est autorisée tant qu'elle n'a pas sa fiche et sa décision.
 - Veille quotidienne des marchés gagnés selon les alertes.
