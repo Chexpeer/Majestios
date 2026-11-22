@@ -64,6 +64,8 @@ Le propriétaire a numéroté deux missions « 4 » : la liste compte donc **10 
 
 Le catalogue peut donc grandir : les missions s'ajoutent en base sans reconstruire le reste.
 
+Le détail de chaque mission (étapes, résultat, difficultés prévues, ce qui manque, score sur 20) est dans [FICHES-MISSIONS-CHEEXPEER-2026-11-22.md](FICHES-MISSIONS-CHEEXPEER-2026-11-22.md).
+
 ### Propositions de Claude (à valider, mission par mission)
 | N° | Ce que Cheexpeer pourrait faire en plus | Ce qui existe déjà |
 |---|---|---|

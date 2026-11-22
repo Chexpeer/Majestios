@@ -27,6 +27,7 @@
 | Audit du produit | [Audit du 20 novembre 2026](evolution-10/AUDIT-PRODUIT-2026-11-20.md) |
 | Pistes marchés attribués et sélection Sous-traitance | [Pistes du 21 novembre 2026](evolution-10/PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md) |
 | État et orientation (soir du 21/11) | [État réel et orientation](evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md) |
+| Fiches des 10 missions de Cheexpeer (22/11) | [Étapes, résultat, difficultés, score sur 20](evolution-12/FICHES-MISSIONS-CHEEXPEER-2026-11-22.md) |
 | Outils Google pour Cheexpeer (22/11) | [Places, géocodage, routes… : fermés par défaut, clé collée par le propriétaire](evolution-12/OUTILS-GOOGLE-CHEEXPEER-2026-11-22.md) |
 | Catalogue de missions de Cheexpeer (22/11) | [Menu déroulant « Objet » de 10 à 15 missions + « Autre »](evolution-12/CATALOGUE-MISSIONS-CHEEXPEER-2026-11-22.md) |
 | Objectif : accompagner tout le cycle d'un appel d'offres (22/11) | [Les trois phases et leur état](evolution-12/OBJECTIF-ACCOMPAGNEMENT-CYCLE-APPEL-OFFRES-2026-11-22.md) |
