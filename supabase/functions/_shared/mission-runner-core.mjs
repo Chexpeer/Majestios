@@ -1,6 +1,7 @@
 // Exécuteur de missions Cheexpeer (testable sans réseau). Réserve la prochaine mission validée, l'exécute, enregistre le résultat.
-// Seuls deux types sont exécutables : le diagnostic inerte et « prospects_sous_traitance » (lecture seule). Tout autre type échoue proprement.
+// Types exécutables : le diagnostic inerte, « prospects_sous_traitance » et « analyse_marche » (lecture seule). Tout autre type échoue proprement.
 import { MISSION_TYPE_PROSPECTS, runProspectsMission } from "./mission-prospects-core.mjs";
+import { MISSION_TYPE_ANALYSE_MARCHE, runAnalyseMission } from "./mission-analyse-marche-core.mjs";
 
 export const WORKER_ID = "cheexpeer-edge-runner";
 export const MAX_RESULT_BYTES = 30 * 1024;
@@ -22,6 +23,9 @@ export async function executeMission(mission, { fetchImpl, now } = {}) {
   }
   if (mission.mission_type === MISSION_TYPE_PROSPECTS && Number(mission.autonomy_level) === 0) {
     return fitResult(await runProspectsMission(mission.mission_input, { fetchImpl, now }));
+  }
+  if (mission.mission_type === MISSION_TYPE_ANALYSE_MARCHE && Number(mission.autonomy_level) === 0) {
+    return await runAnalyseMission(mission.mission_input, { fetchImpl, now });
   }
   throw Object.assign(new Error("Type de mission non pris en charge."), { code: "UNSUPPORTED_TYPE" });
 }
