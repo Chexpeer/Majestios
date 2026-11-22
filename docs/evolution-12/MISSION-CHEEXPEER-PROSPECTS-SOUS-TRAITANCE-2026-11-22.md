@@ -5,13 +5,13 @@
 ## Décision du propriétaire : Cheexpeer travaille seul, par missions
 Cheexpeer doit exécuter de vraies missions en autonomie depuis le Centre de commande, sur validation de l'administrateur. Aujourd'hui seule une mission de test est autorisée dans le code ; la première vraie mission est celle décrite ci-dessous. Le chat de Cheexpeer est un autre canal : il ne remplace pas les missions.
 
-## Le principe : « la mouche et la bouse » (image du propriétaire)
-| L'image | Dans MajestiOS |
+## Le principe
+| Étape | Dans MajestiOS |
 |---|---|
-| La bouse | Un donneur d'ordre lance un appel d'offres |
-| La reine des mouches | L'entreprise qui remporte le marché |
-| Les autres mouches | Les entreprises du même domaine d'activité, dans la même région |
-| Prévenir les mouches | Cheexpeer leur indique qu'un marché vient d'être gagné par telle entreprise et qu'elles peuvent la contacter pour proposer leurs services en sous-traitance |
+| Appel d'offres | Un donneur d'ordre lance un appel d'offres |
+| Entreprise gagnante | L'entreprise qui remporte le marché |
+| Entreprises du même domaine | Les entreprises du même domaine d'activité, dans la même région |
+| Mise en relation | Cheexpeer leur indique qu'un marché vient d'être gagné par telle entreprise et qu'elles peuvent la contacter pour proposer leurs services en sous-traitance |
 
 Les entreprises intéressées contactent la gagnante : MajestiOS joue l'intermédiaire qui prévient. Le nom de l'entreprise gagnante est une donnée publique.
 
