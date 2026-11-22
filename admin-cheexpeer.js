@@ -302,3 +302,19 @@ loginForm.addEventListener("submit", async (event) => {
 });
 signout.addEventListener("click", async () => { await supabase.auth.signOut(); lock("Vous êtes déconnecté.", { login: true }); });
 try { await authorize(); } catch (error) { console.error(error); lock("La vérification des accès a échoué.", { signed: true }); }
+
+
+// Menu déroulant des missions : une seule mission affichée à la fois ; le suivi, lui, reste toujours visible.
+(function () {
+  const menu = document.querySelector("#cx-mission-menu"); if (!menu) return;
+  const aides = { analyse: "Lit un avis du BOAMP, repère les lots, le lieu et les codes NAF.", opportunite: "Part d'un marché récemment attribué : gagnant, indice, métier, partenaires potentiels notés.", prospects: "Liste d'entreprises d'un métier dans un département ou une région, à télécharger.", diagnostic: "Vérifie que Cheexpeer est disponible. Aucun effet sur les données." };
+  const KEY = "majestios.cheexpeer.mission.v1";
+  const show = (value) => {
+    for (const card of document.querySelectorAll("[data-mission]")) card.hidden = card.dataset.mission !== value;
+    const help = document.querySelector("#cx-mission-help"); if (help) help.textContent = aides[value] || "";
+    try { localStorage.setItem(KEY, value); } catch { /* sans importance */ }
+  };
+  let start = menu.value; try { const saved = localStorage.getItem(KEY); if (saved && aides[saved]) start = saved; } catch { /* sans importance */ }
+  menu.value = start; show(start);
+  menu.addEventListener("change", () => show(menu.value));
+})();

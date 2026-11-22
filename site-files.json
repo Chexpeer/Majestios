@@ -121,6 +121,7 @@
     "pages/espaces/admin-cheexpeer.html",
     "admin-cheexpeer.js",
     "admin-cheexpeer.css",
+    "bureau-admin.mjs",
     "cheexpeer-command.mjs",
     "pages/espaces/admin-utilisateurs.html",
     "admin-utilisateurs.js",
