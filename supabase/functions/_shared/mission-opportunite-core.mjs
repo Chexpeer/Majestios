@@ -14,7 +14,8 @@ export const MAX_RECHERCHES = 3;
 export const MAX_PARTENAIRES = 60;
 const CONTRACT_UID = /^[A-Za-z0-9_.\-]{5,160}$/;
 const SIREN = /^\d{9}$/;
-export const ADRESSE_URL = "https://api-adresse.data.gouv.fr/search/";
+import { localiserCommune, ADRESSE_URL } from "./mission-chantier-core.mjs";
+export { ADRESSE_URL };
 
 /** Tranche d'effectif INSEE → fourchette de salariés. « NN » ou inconnue : non évaluable. */
 export const TRANCHES = Object.freeze({
@@ -85,20 +86,8 @@ async function lookupCompany(fetchImpl, siren) {
 
 /** Lieu du chantier : pour un marché d'une commune, la commune de l'acheteur, localisée par l'API Adresse officielle. Toujours « à confirmer ». */
 export async function resolveChantier({ buyerCategory, buyerCommune, buyerDept }, fetchImpl) {
-  const commune = clean(buyerCommune, 80);
-  if (String(buyerCategory ?? "") !== "Commune" || !commune) return null;
-  try {
-    const url = new URL(ADRESSE_URL);
-    url.searchParams.set("q", commune); url.searchParams.set("type", "municipality"); url.searchParams.set("limit", "5");
-    const res = await fetchImpl(url, { signal: AbortSignal.timeout(10000) });
-    if (!res.ok) return null;
-    const dept = String(buyerDept ?? "").trim().toUpperCase();
-    const features = (await res.json())?.features ?? [];
-    const f = features.find((x) => !dept || String(x?.properties?.context ?? "").split(",")[0].trim().toUpperCase() === dept) ?? null;
-    const [lon, lat] = f?.geometry?.coordinates ?? [];
-    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
-    return { lat: Math.round(lat * 1e5) / 1e5, lon: Math.round(lon * 1e5) / 1e5, origine: `commune de l'acheteur : ${clean(f.properties?.label || commune, 80)}`, fiable: false };
-  } catch { return null; }
+  if (String(buyerCategory ?? "") !== "Commune") return null;
+  return localiserCommune({ commune: buyerCommune, departement: buyerDept, origine: "commune de l'acheteur" }, fetchImpl);
 }
 
 /** Résume les lignes DECP d'un marché (un gagnant par ligne) en une fiche, avec partenaires potentiels du même métier. */

@@ -4,6 +4,11 @@
 // Poids et seuils provisoires : à ajuster sur des cas réels (docs/evolution-12/FICHES-MISSIONS-CHEEXPEER-2026-11-22.md, mission 5).
 export const SCORE_METHOD_VERSION = "1.0-provisoire";
 export const POIDS = Object.freeze({ metier: 5, qualifications: 4, references: 4, financiere: 3, operationnelle: 2, proximite: 3 });
+/** Paliers de distance (km) : défaut 25 / 50 / 100 ; désamiantage jusqu'à 200 km (décision du 23 novembre 2026). Provisoires, par métier. */
+export const PALIERS_DEFAUT = Object.freeze({ max: 25, eleve: 50, moyen: 100 });
+export const PALIERS_ETENDUS = Object.freeze({ max: 50, eleve: 100, moyen: 200 });
+const NAF_DESAMIANTAGE = new Set(["39.00Z", "43.11Z"]);
+export const paliersPourNafs = (nafs) => ((nafs ?? []).some((n) => NAF_DESAMIANTAGE.has(n)) ? PALIERS_ETENDUS : PALIERS_DEFAUT);
 export const SEUILS = Object.freeze({ tres_bon_note: 16, tres_bon_preuve: 70, plafond_dossier_incomplet: 8, ratio_ok: 40000, ratio_limite: 100000, km_max: 25, km_eleve: 50, km_moyen: 100 });
 const R_TERRE_KM = 6371;
 const rad = (d) => (d * Math.PI) / 180;
@@ -81,10 +86,11 @@ function critProximite(c, ctx) {
   const pt = ctx.chantier;
   const km = pt ? distanceKm({ lat: pt.lat, lon: pt.lon }, { lat: c.latitude, lon: c.longitude }) : null;
   if (km !== null) {
-    const pts = km <= SEUILS.km_max ? POIDS.proximite : km <= SEUILS.km_eleve ? 2.5 : km <= SEUILS.km_moyen ? 1.5 : 0;
+    const pal = paliersPourNafs(ctx.nafs);
+    const pts = km <= pal.max ? POIDS.proximite : km <= pal.eleve ? 2.5 : km <= pal.moyen ? 1.5 : 0;
     const gagn = ctx.gagnantKm === undefined || ctx.gagnantKm === null ? "" : km < ctx.gagnantKm ? ` Plus proche du chantier que l'entreprise gagnante (${ctx.gagnantKm} km).` : ` L'entreprise gagnante est à ${ctx.gagnantKm} km du chantier.`;
     const etat = pt.fiable === false ? "partiellement confirmé" : "confirmé";
-    return { ...crit("proximite", pts, etat, `À ${km} km à vol d'oiseau du chantier (${pt.origine || "lieu du chantier"}).${pt.fiable === false ? " Lieu du chantier à confirmer." : ""}${gagn}`, "annuaire officiel + API Adresse"), distance_km: km };
+    return { ...crit("proximite", pts, etat, `À ${km} km à vol d'oiseau du chantier (${pt.origine || "lieu du chantier"})${pal === PALIERS_ETENDUS ? ` ; paliers élargis pour ce métier (${pal.max} / ${pal.eleve} / ${pal.moyen} km)` : ""}.${pt.fiable === false ? " Lieu du chantier à confirmer." : ""}${gagn}`, "annuaire officiel + API Adresse"), distance_km: km };
   }
   const d = String(c.departement ?? "").toUpperCase();
   if (!d || !ctx.departement) return crit("proximite", 0, "non prouvé", "Lieu du chantier ou de l'établissement inconnu.", null);

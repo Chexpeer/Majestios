@@ -85,6 +85,7 @@ function renderProspects(result) {
   const list = result.entreprises, c = result.criteres || {};
   const box = el("div", "cx-card");
   box.append(el("p", "admin-kicker", "RÉSULTAT"), el("p", "", `${list.length} entreprise(s) · métier ${c.naf || "?"} · ${c.region || "région"} (marché dans le département ${c.departement || "?"})` + (result.reduit ? " · liste réduite pour tenir dans la taille autorisée" : "")));
+  if (result.chantier) { const rp = result.repartition_distance; box.append(el("p", "cx-meta", `Chantier : ${result.chantier.origine} — à confirmer (distance à vol d'oiseau).` + (rp ? ` Entreprises à moins de ${rp.paliers_km[0]} km : ${rp.jusqua_palier_1} · ${rp.paliers_km[1]} km : ${rp.jusqua_palier_2} · ${rp.paliers_km[2]} km : ${rp.jusqua_palier_3}.` : ""))); }
   box.append(el("p", "cx-meta", "Téléphone, e-mail et Google Maps : à compléter dans une étape suivante. Source : " + (result.sources || []).join(", ") + "."));
   const actions = el("div", "cx-actions"); const dl = el("button", "cx-primary", "Télécharger (Excel / Google Sheets)"); dl.type = "button";
   dl.addEventListener("click", () => {
@@ -96,9 +97,10 @@ function renderProspects(result) {
   if (list.length > APERCU) box.append(el("p", "cx-meta", `Aperçu : les ${APERCU} premières lignes sur ${list.length}. La liste complète est dans le fichier à télécharger.` + (result.plafond_atteint ? " Plafond de sécurité atteint : le métier compte encore d'autres entreprises dans ce département." : "")));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto";
   const table = el("table", "cx-table"); const head = el("tr");
-  for (const h of ["Entreprise", "SIREN", "NAF", "Établissement", "Commune", "Dép.", "Zone", "RGE", "Téléphone", "E-mail", "Google Maps"]) head.append(el("th", "", h));
+  const avecDist = !!result.chantier;
+  for (const h of [...(avecDist ? ["Score (provisoire)", "Distance"] : []), "Entreprise", "SIREN", "NAF", "Établissement", "Commune", "Dép.", "Zone", "RGE", "Téléphone", "E-mail", "Google Maps"]) head.append(el("th", "", h));
   table.append(head);
-  for (const e of shown) { const tr = el("tr"); for (const v of [e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  for (const e of shown) { const tr = el("tr"); for (const v of [...(avecDist ? [e.score ? `${e.score.note}/20 · preuve ${e.score.preuve} %` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—"] : []), e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
 }
 const eur = (n) => Number.isFinite(Number(n)) && n !== null ? Number(n).toLocaleString("fr-FR") + " €" : "—";
@@ -146,12 +148,15 @@ function renderAnalyse(r) {
   box.append(el("p", "admin-kicker", "DÉPARTEMENTS DE RECHERCHE"));
   for (const d of r.departements || []) { const label = el("label", "cx-meta"); const c = document.createElement("input"); c.type = "checkbox"; c.value = d; c.checked = true; deptChecks.push(c); label.append(c, document.createTextNode(" " + d)); box.append(label); }
   const dep2 = document.createElement("input"); dep2.placeholder = (r.departements || []).length ? "Autre département (facultatif)" : "Département (territoire non déterminé)"; dep2.maxLength = 3; box.append(dep2);
+  const communeLieu = (r.lots || []).map((l) => l.lieu?.commune).find(Boolean);
+  box.append(el("p", "cx-meta", communeLieu ? `Commune du chantier lue dans l'avis : ${communeLieu}. Les entreprises seront classées par distance à vol d'oiseau (à confirmer).` : "Commune du chantier non précisée dans l'avis : les entreprises seront cherchées par département, sans distance."));
   const status = el("p", "cx-status"); status.hidden = true;
   const actions = el("div", "cx-actions"); const go = el("button", "cx-primary", "Demander la recherche d'entreprises"); go.type = "button";
   go.addEventListener("click", async () => {
     const nafs = nafChecks.filter((c) => c.checked).map((c) => c.value); if (manual.value.trim()) nafs.push(manual.value.trim().toUpperCase().replace(/\s/g, "").replace(/^(\d{2})(\d{2}[A-Z])$/, "$1.$2"));
     const depts = deptChecks.filter((c) => c.checked).map((c) => c.value); if (dep2.value.trim()) depts.push(dep2.value.trim().toUpperCase());
-    const built = buildProspectsFromAnalysis({ organizationId, nafs, departements: depts, marcheObjet: r.objet, newKey: () => crypto.randomUUID() });
+    const communeLot = (r.lots || []).map((l) => l.lieu?.commune).find(Boolean) || "";
+    const built = buildProspectsFromAnalysis({ organizationId, nafs, departements: depts, marcheObjet: r.objet, communeChantier: communeLot, newKey: () => crypto.randomUUID() });
     if (!built.ok) { say(status, built.message, true); return; }
     go.disabled = true; say(status, "Envoi…"); let created = 0;
     for (const body of built.bodies) { const res = await callApi(fetch, { baseUrl: ANNONCES_SUPABASE.url, key: "submit", token: await token(), body }); if (!res.ok) { say(status, res.message, true); break; } created++; remember(res.data.mission.mission_id, body.title); }
