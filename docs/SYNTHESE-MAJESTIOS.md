@@ -20,6 +20,10 @@ Relier **développement commercial, gestion quotidienne, facturation électroniq
 
 **Vocabulaire (à respecter dans tous les textes) :** un appel d'offres **public** est une procédure formelle d'un acheteur public (code de la commande publique, publicité officielle). La page « Appels d'offres privés » est **conservée** sous ce nom et affiche : « Chez MajestiOS, les appels d'offres privés n'ont de privés que le nom. » Détail et état d'avancement : [journal Evolution-10](evolution-10/CHARTE-CLAIRE-PALETTE-4-2026-11-15.md).
 
+## 1 ter. Objectif d'accompagnement du cycle complet (décidé par le porteur, 22 novembre 2026)
+
+MajestiOS accompagne les entreprises sur **toutes les phases d'un appel d'offres** : **avant**, pour se positionner ; **après l'attribution**, en se rapprochant de l'entreprise gagnante (sous-traitance) ; et **après les travaux**, pour reprendre les travaux mal faits ou en retard (phase à définir). Détail, état de chaque phase et rôle de Cheexpeer : [objectif d'accompagnement](evolution-12/OBJECTIF-ACCOMPAGNEMENT-CYCLE-APPEL-OFFRES-2026-11-22.md).
+
 **Avant ouverture au public :** achat de fichiers, service d'envoi d'e-mails fiable (quota), textes juridiques (annonces d'emploi, données personnelles), recette complète du CRM sur Test, décision explicite de promotion vers la production. Aucun de ces points n'est réglé au 16/11/2026.
 
 ## 2. Où en est le produit (vérifié)

@@ -27,6 +27,7 @@
 | Audit du produit | [Audit du 20 novembre 2026](evolution-10/AUDIT-PRODUIT-2026-11-20.md) |
 | Pistes marchés attribués et sélection Sous-traitance | [Pistes du 21 novembre 2026](evolution-10/PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md) |
 | État et orientation (soir du 21/11) | [État réel et orientation](evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md) |
+| Objectif : accompagner tout le cycle d'un appel d'offres (22/11) | [Les trois phases et leur état](evolution-12/OBJECTIF-ACCOMPAGNEMENT-CYCLE-APPEL-OFFRES-2026-11-22.md) |
 | Périmètre d'action de Cheexpeer (22/11) | [Ce que Cheexpeer fait, ne fait pas, qui décide](evolution-12/PERIMETRE-ACTION-CHEEXPEER-2026-11-22.md) |
 | Mission n°1 de Cheexpeer (22/11) | [Prospects de sous-traitance autour d'un marché gagné](evolution-12/MISSION-CHEEXPEER-PROSPECTS-SOUS-TRAITANCE-2026-11-22.md) |
 | Migration de l'arborescence | [Plan evolution-11 → evolution-12](evolution-11/PLAN-MIGRATION-ARBORESCENCE-2026-11-21.md) |
