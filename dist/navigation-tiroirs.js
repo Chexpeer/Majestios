@@ -4,7 +4,10 @@
   // on reprend le parcours sur l'espace membre en gardant la clé de connexion contenue dans le lien.
   try {
     if (!/espace-membre\.html$/.test(location.pathname) && /(^#|&)access_token=/.test(location.hash) && /type=(magiclink|signup|email|invite|recovery)/.test(location.hash)) {
-      location.replace("espace-membre.html" + location.hash);
+      // Si la connexion a été demandée depuis une page d'administration (moins de 20 minutes), on y revient au lieu d'aller à l'espace membre.
+      let retour = "espace-membre.html";
+      try { const r = JSON.parse(localStorage.getItem("majestios.retour.connexion") || "null"); if (r && /^admin-[a-z-]+\.html$/.test(r.page) && Date.now() - r.t < 20 * 60 * 1000) { retour = r.page; localStorage.removeItem("majestios.retour.connexion"); } } catch (_) { /* sans importance */ }
+      location.replace(retour + location.hash);
       return;
     }
   } catch (_) { /* sans importance */ }
