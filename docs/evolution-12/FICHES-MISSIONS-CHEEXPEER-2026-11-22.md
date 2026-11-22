@@ -81,27 +81,36 @@
 ## Mission 5 — Scoring sur 20
 **Objectif (propriétaire).** Noter les entreprises potentiellement éligibles selon les exigences de l'appel d'offres et leurs références : entreprise avec les certifications demandées et une comptabilité saine très bien notée ; entreprise aux références non prouvées mal notée. Les exemples orientent, ils ne sont pas à prendre au pied de la lettre.
 
-**Proposition de grille (note sur 20) :**
+**Grille révisée le 22 novembre 2026** (après les avis de Gemini, Copilot et ChatGPT) : **deux indicateurs séparés.**
+
+*1. Note d'adéquation au marché, sur 20 :*
 | Critère | Points | Ce qui est regardé |
 |---|---|---|
-| Adéquation au métier | 5 | Code NAF et activité par rapport au lot |
-| Exigences de l'appel d'offres | 5 | Certifications et qualifications demandées (par exemple RGE) |
-| Solidité financière | 4 | Ancienneté, comptes publiés, absence de procédure collective |
-| Références prouvées | 4 | Marchés déjà remportés, chantiers vérifiables |
-| Proximité | 2 | Même département ou même région |
+| Adéquation au métier | 5 | Code NAF, activité et mots du lot |
+| Qualifications et exigences techniques | 4 | Certifications demandées (RGE, Qualibat…) |
+| Références et expériences vérifiables | 4 | Marchés comparables déjà remportés, chantiers vérifiables |
+| Capacité financière documentée | 3 | Ancienneté, comptes publiés, absence de procédure collective |
+| Capacité opérationnelle | 2 | Taille du chantier par rapport à l'effectif |
+| Proximité géographique | 2 | Distance au chantier (calculée avec la Base Adresse Nationale) |
+
+*2. Niveau de preuve, en pourcentage :* part des points de la note qui reposent sur une information réellement vérifiée.
+
+**État de chaque critère :** *confirmé*, *partiellement confirmé*, *non prouvé*, *contradictoire*, *non applicable*. Une information absente n'est jamais une preuve d'incapacité.
 
 **Règles.**
-- Un critère **sans preuve** vaut 0 point et s'affiche « **non prouvé** » (ce n'est pas « mauvais » : c'est « non vérifié »).
-- Une exigence **éliminatoire** non prouvée (qualification obligatoire) plafonne la note à **8/20**.
-- Le seuil « très bon » est fixé à partir de **16/20** (l'équivalent de 8 sur 10 de votre exemple).
-- Chaque note affiche le détail par critère, la date, les sources et la **version de la méthode**. L'administrateur peut corriger ou contester.
-- Le score est une aide à la décision. Il ne décide ni d'un contact ni d'une exclusion.
+- Un critère **non prouvé** vaut 0 point et s'affiche « non prouvé ». Le niveau de preuve baisse en conséquence : on voit qu'une note de 15/20 à 40 % de preuve est moins sûre qu'une note de 15/20 à 95 %.
+- Un critère **confidentiel ou inaccessible** (comptes déposés en confidentialité, par exemple) est **neutralisé** : il sort du calcul et la note est ramenée sur 20. L'entreprise n'est pas sanctionnée.
+- **Exigence obligatoire** : si l'avis ou le règlement de la consultation en impose une et qu'elle n'est pas prouvée, la note est plafonnée à 8/20 **et l'entreprise est étiquetée « dossier incomplet »**, pas « inadéquate ». Si les exigences ne sont **pas connues** (règlement non lu), le plafond ne s'applique pas et l'étiquette est « exigences non vérifiées ».
+- Le calcul est fait par un **programme déterministe**. L'IA fournit les éléments justificatifs, elle ne décide pas de la note.
+- Chaque note affiche le détail par critère, les sources, la date et la **version de la méthode**. L'administrateur peut corriger ou contester. Le score n'exclut personne seul.
+- Sont écartées d'office les entreprises radiées, en liquidation, ou **non diffusables** (statut de diffusion Sirene).
+- Seuil « très bon » : à partir de 16/20 (l'équivalent de 8 sur 10), **avec un niveau de preuve élevé** (seuil à fixer lors des essais).
 
-**Difficultés prévues.** Beaucoup de critères sans données (comptes, références). *Proposition :* afficher aussi un **niveau de confiance** (nombre de critères réellement vérifiés sur 5).
+**Difficultés prévues.** Les exigences détaillées sont dans le règlement de la consultation (un PDF sur le site de l'acheteur), pas dans l'avis public : sans lui, beaucoup d'exigences resteront « non vérifiées ». *Proposition :* afficher « exigences non vérifiées » plutôt que d'inventer, et envisager plus tard la lecture de ce document.
 
-**À décider.** Les poids de la grille (5 / 5 / 4 / 4 / 2) et le seuil. *Proposition :* les garder pour un essai, puis les ajuster sur des cas réels.
+**À décider.** Les poids (5 / 4 / 4 / 3 / 2 / 2) et le seuil, ajustés sur des cas réels. Une mission « faut-il répondre à ce marché ? » (Go / No go) est proposée par Copilot : à décider plus tard.
 
-**Manque aujourd'hui.** Aucun scoring construit ; comptes publiés et références non branchés ; qualifications des annuaires professionnels non branchées (seul RGE est disponible).
+**Manque aujourd'hui.** Aucun scoring construit ; comptes, références et règlement de consultation non branchés ; qualifications des annuaires professionnels non branchées (seul RGE est disponible) ; Base Adresse Nationale non branchée.
 
 ---
 
@@ -172,10 +181,47 @@
 
 ---
 
-## Ordre de réalisation (Proposition)
-1. **Chaîne « ciblage »** : missions 2 → 3 → 5. Elle prolonge la mission n°1 déjà construite et répond à l'objectif central.
-2. **Mission 1** (surveillance) : simple et utile pour tout le reste.
-3. **Mission 4** (statistiques), quand l'historique de données est suffisant.
-4. **Missions 6, 7, 8, 9, 10**, une par une, selon les besoins.
+## Mission 11 — Opportunités après attribution *(proposition, déjà amorcée)*
+Les trois IA consultées la placent en tête. C'est le prolongement direct de votre objectif et de la mission n°1 déjà construite sur Test.
+
+**Comment ça marche.** Quand un marché est attribué : Cheexpeer identifie le gagnant, analyse sa taille et son activité par rapport au montant (un gagnant de petite taille avec un gros marché aura besoin de renfort), repère les lots ou métiers souvent sous-traités, et prépare la liste des **partenaires potentiels** locaux du même métier. Il ne parle jamais de « besoin confirmé » : une entreprise identifiée n'est pas forcément à la recherche d'un sous-traitant.
+
+**Résultat.** Liste d'entreprises (missions 2, 3 et 5 réunies), avec la raison de chaque choix, et la fiche d'opportunité du marché.
+
+**Manque aujourd'hui.** Source des marchés attribués récents branchée en continu ; analyse de la taille du gagnant.
+
+---
+
+## Mission 12 — Opportunités après les travaux *(proposition)*
+Vous aviez indiqué : « récupérer les travaux mal faits ou les retards de chantier ». Les IA proposent des signaux **publics** qui le permettent.
+
+**Comment ça marche.** Cheexpeer surveille les avis officiels de marché « sans suite », résilié ou relancé en urgence, et les entreprises titulaires d'un marché récent qui entrent en procédure collective (BODACC). Il prépare une fiche : le marché, le signal, la date, la source, les entreprises locales du métier concerné.
+
+**Règles.** Cheexpeer **ne déclare jamais** qu'un ouvrage est mal exécuté ni qu'une entreprise est responsable : il rassemble les faits publics et laisse l'analyse à un professionnel. Un marché « sans suite » peut aussi venir d'un manque de budget, pas d'une défaillance : la fiche le précise.
+
+**À décider.** Si ces deux signaux correspondent bien à ce que vous voulez surveiller après les travaux.
+
+**Manque aujourd'hui.** Lecture des avis « sans suite » ou résiliés ; croisement BODACC avec les titulaires récents.
+
+---
+
+## Précisions retenues par au moins deux IA (22 novembre 2026)
+Elles sont intégrées aux fiches ci-dessus ou à retenir au moment de la construction :
+- **Fiche d'opportunité** pour chaque marché (objet, acheteur, lieu réel des travaux, date limite, lots, métiers, exigences, entreprises concernées, sources et date).
+- **Lieu réel des travaux** distinct de l'adresse de l'acheteur.
+- **Statuts des e-mails** : vérifié, probable à confirmer, introuvable ; adresse générique ou nominative.
+- **Ne jamais fusionner automatiquement** deux fiches : la fusion est proposée, l'administrateur décide.
+- **Indice de qualité d'une fiche CRM** : complète et vérifiée, exploitable mais incomplète, à actualiser, à contrôler, à écarter (mission 9).
+- **Jeu d'essai** : marchés passés dont le résultat est connu, avec des cas simples, ambigus et piégés ; trois environnements (fictif, copie représentative, production).
+- **Coûts maîtrisés** : un tri par code classique et gratuit, l'IA n'intervient que sur les marchés pertinents.
+
+## Ordre de réalisation — décision du propriétaire du 22 novembre 2026, 15 h 09
+> « Intervenir en fonction de la valeur ajoutée commerciale immédiate (le SEO, la maintenance, les alertes ne me semblent pas d'une urgence absolue). »
+
+| Rang | Missions | Raison |
+|---|---|---|
+| **1 — Valeur commerciale immédiate** | 2 (appels d'offres), 3 (fiches contacts), 5 (score), 11 (après attribution), 7 (brouillons de prospection) | C'est la chaîne appel d'offres → entreprise → qualification → prospection |
+| **2 — Ensuite** | 9 (qualité du CRM), 4 (statistiques), 12 (après les travaux), 6 (audit Web, à confirmer) | Elles renforcent la chaîne ou ouvrent d'autres occasions |
+| **Plus tard (pas d'urgence)** | 1 (surveillance et alertes), 8 (maintenance), 10 (SEO) | Utiles, mais sans effet commercial immédiat. Elles restent au catalogue |
 
 Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, décision du propriétaire, activation.
