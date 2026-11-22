@@ -91,11 +91,13 @@ function renderProspects(result) {
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = prospectsFilename(c); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   });
   actions.append(dl); box.append(actions);
+  const APERCU = 30, shown = list.slice(0, APERCU);
+  if (list.length > APERCU) box.append(el("p", "cx-meta", `Aperçu : les ${APERCU} premières lignes sur ${list.length}. La liste complète est dans le fichier à télécharger.` + (result.plafond_atteint ? " Plafond de sécurité atteint : le métier compte encore d'autres entreprises dans ce département." : "")));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto";
   const table = el("table", "cx-table"); const head = el("tr");
   for (const h of ["Entreprise", "SIREN", "NAF", "Établissement", "Commune", "Dép.", "Zone", "RGE", "Téléphone", "E-mail", "Google Maps"]) head.append(el("th", "", h));
   table.append(head);
-  for (const e of list) { const tr = el("tr"); for (const v of [e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  for (const e of shown) { const tr = el("tr"); for (const v of [e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
 }
 function renderAnalyse(r) {

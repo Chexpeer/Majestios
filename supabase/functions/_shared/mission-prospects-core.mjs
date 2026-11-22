@@ -5,6 +5,10 @@ export const COMPANIES_URL = "https://recherche-entreprises.api.gouv.fr/search";
 export const SOURCE_NAME = "API Recherche d'Entreprises (data.gouv.fr)";
 export const MIN_LIMIT = 20;
 export const MAX_LIMIT = 30;
+/** limite = 0 : « toutes » les entreprises du métier ayant un établissement actif dans le département (plafond de sécurité). */
+export const LIMIT_TOUTES = 0;
+export const MAX_TOUTES = 1000;
+export const PAGE_SIZE = 25;
 
 /** Code région INSEE → départements (régions actuelles). */
 export const REGIONS = Object.freeze({
@@ -52,7 +56,7 @@ export function validateProspectsInput(input) {
   const departement = String(input.departement ?? "").trim().toUpperCase();
   if (!DEPT.test(departement)) return { ok: false, error: "Département invalide." };
   const limite = input.limite == null ? MAX_LIMIT : input.limite;
-  if (!Number.isInteger(limite) || limite < MIN_LIMIT || limite > MAX_LIMIT) return { ok: false, error: `Le nombre d'entreprises doit être compris entre ${MIN_LIMIT} et ${MAX_LIMIT}.` };
+  if (!Number.isInteger(limite) || (limite !== LIMIT_TOUTES && (limite < MIN_LIMIT || limite > MAX_LIMIT))) return { ok: false, error: `Le nombre d'entreprises doit être compris entre ${MIN_LIMIT} et ${MAX_LIMIT}, ou « toutes ».` };
   const siren = input.gagnant_siren == null || input.gagnant_siren === "" ? null : String(input.gagnant_siren).replace(/\s/g, "");
   if (siren !== null && !SIREN.test(siren)) return { ok: false, error: "SIREN du gagnant invalide (9 chiffres)." };
   return { ok: true, value: { naf, departement, limite, gagnant_siren: siren, gagnant_nom: clean(input.gagnant_nom, 120) || null, marche_objet: clean(input.marche_objet, 200) || null } };
@@ -133,7 +137,7 @@ async function fetchPage(fetchImpl, params) {
  * Exécute la mission : entreprises du même métier (code NAF) ayant un établissement actif dans le département du marché, puis dans le
  * reste de la région. Classement : siège local, agence locale, puis même région. Hors entreprise gagnante, sans doublon, dans la limite demandée.
  */
-export async function runProspectsMission(input, { fetchImpl = fetch, now = new Date() } = {}) {
+export async function runProspectsMission(input, { fetchImpl = fetch, now = new Date(), pauseMs = 150 } = {}) {
   const checked = validateProspectsInput(input);
   if (!checked.ok) throw Object.assign(new Error(checked.error), { code: "INVALID_INPUT" });
   const { naf, departement, limite, gagnant_siren } = checked.value;
@@ -150,6 +154,23 @@ export async function runProspectsMission(input, { fetchImpl = fetch, now = new 
       if (!known || picked.score < known.score) pool.set(picked.company.siren, { score: picked.score, order: known?.order ?? order++, company: picked.company });
     }
   };
+  const toutes = limite === LIMIT_TOUTES;
+  if (toutes) {
+    // Toutes les entreprises du département, page après page (l'annuaire limite le débit : courte pause entre deux pages).
+    const maxPages = Math.ceil(MAX_TOUTES / PAGE_SIZE) + 4;
+    for (let page = 1; page <= maxPages && pool.size < MAX_TOUTES; page++) {
+      const r = await fetchPage(fetchImpl, { ...base, departement, page });
+      collect(r); if (r.length < PAGE_SIZE) break;
+      if (pauseMs > 0) await new Promise((resolve) => setTimeout(resolve, pauseMs));
+    }
+    const all = [...pool.values()].filter((x) => x.score <= 1).sort((a, b) => a.score - b.score || a.order - b.order).slice(0, MAX_TOUTES).map((x) => x.company);
+    return {
+      type: MISSION_TYPE_PROSPECTS,
+      criteres: { naf, departement, region: region.nom, limite, toutes: true, gagnant_siren, gagnant_nom: checked.value.gagnant_nom, marche_objet: checked.value.marche_objet },
+      nombre: all.length, entreprises: all, plafond_atteint: all.length >= MAX_TOUTES,
+      manquant: ["telephone", "email", "google_maps"], sources: [SOURCE_NAME], genere_le: now.toISOString(), effets_externes: false
+    };
+  }
   const inDeptCount = () => [...pool.values()].filter((x) => x.score <= 1).length;
   for (let page = 1; page <= 4 && inDeptCount() < limite; page++) {
     const r = await fetchPage(fetchImpl, { ...base, departement, page });
