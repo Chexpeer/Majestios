@@ -183,3 +183,29 @@ export function buildProspectSearches(analyse, { nafValides = [], departements =
   for (const naf of nafs) for (const departement of depts) searches.push({ naf, departement, limite, marche_objet: squash(analyse?.objet, 200) || null });
   return { ok: true, searches };
 }
+
+export const BOAMP_URL = "https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records";
+const IDWEB = /^\d{2}-\d{1,8}$/;
+
+/** Entrée de la mission : uniquement l'identifiant de l'avis BOAMP (ex. 26-111564). */
+export function validateAnalyseInput(input) {
+  if (!input || typeof input !== "object" || Array.isArray(input) || Object.keys(input).some((k) => k !== "idweb")) return { ok: false, error: "Champs non reconnus." };
+  const idweb = String(input.idweb ?? "").trim();
+  if (!IDWEB.test(idweb)) return { ok: false, error: "Identifiant d'avis invalide (format attendu : 26-111564)." };
+  return { ok: true, value: { idweb } };
+}
+
+/** Lit l'avis sur l'open data officiel du BOAMP puis l'analyse. Lecture seule, aucun effet externe. */
+export async function runAnalyseMission(input, { fetchImpl = fetch, now = new Date() } = {}) {
+  const checked = validateAnalyseInput(input);
+  if (!checked.ok) throw Object.assign(new Error(checked.error), { code: "INVALID_INPUT" });
+  const url = new URL(BOAMP_URL);
+  url.searchParams.set("where", `idweb="${checked.value.idweb}"`);
+  url.searchParams.set("limit", "1");
+  const res = await fetchImpl(url, { signal: AbortSignal.timeout(20000) });
+  if (!res.ok) throw new Error("boamp_" + res.status);
+  const avis = (await res.json())?.results?.[0];
+  if (!avis) throw Object.assign(new Error("Avis introuvable au BOAMP."), { code: "INVALID_INPUT" });
+  const analyse = analyseAvis(avis);
+  return { type: MISSION_TYPE_ANALYSE_MARCHE, ...analyse, source: "BOAMP (open data officiel)", genere_le: now.toISOString(), effets_externes: false };
+}

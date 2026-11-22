@@ -1,4 +1,5 @@
 import { MISSION_TYPE_PROSPECTS, validateProspectsInput } from "./mission-prospects-core.mjs";
+import { MISSION_TYPE_ANALYSE_MARCHE, validateAnalyseInput } from "./mission-analyse-marche-core.mjs";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const STATIC_ORIGINS = new Set(["https://majestios.com", "https://www.majestios.com", "https://majestios.vercel.app"]);
 
@@ -113,7 +114,7 @@ export function validateSubmissionPayload(value) {
   ]);
   if (!value || Object.keys(value).some((key) => !allowed.has(key))) return { ok: false };
   if (!isUuid(value.organization_id) ||
-      !["readiness_probe", MISSION_TYPE_PROSPECTS].includes(value.mission_type) ||
+      !["readiness_probe", MISSION_TYPE_PROSPECTS, MISSION_TYPE_ANALYSE_MARCHE].includes(value.mission_type) ||
       typeof value.title !== "string" || !value.title.trim() || value.title.length > 200 ||
       (value.objective != null && (typeof value.objective !== "string" || value.objective.length > 4000)) ||
       (value.priority != null && (!Number.isInteger(value.priority) || value.priority < 1 || value.priority > 5)) ||
@@ -128,6 +129,11 @@ export function validateSubmissionPayload(value) {
   // Mission « prospects de sous-traitance » : entrée vérifiée, validation humaine toujours obligatoire.
   if (value.mission_type === MISSION_TYPE_PROSPECTS) {
     const checked = validateProspectsInput(value.input);
+    if (!checked.ok || value.requires_approval === false) return { ok: false };
+    return { ok: true, value: { ...value, input: checked.value, requires_approval: true } };
+  }
+  if (value.mission_type === MISSION_TYPE_ANALYSE_MARCHE) {
+    const checked = validateAnalyseInput(value.input);
     if (!checked.ok || value.requires_approval === false) return { ok: false };
     return { ok: true, value: { ...value, input: checked.value, requires_approval: true } };
   }

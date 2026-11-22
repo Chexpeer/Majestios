@@ -78,3 +78,37 @@ test("recherches d'entreprises : seulement les NAF validés, valides, par dépar
   assert.equal(buildProspectSearches(a, { nafValides: [] }).ok, false);
   assert.deepEqual(buildProspectSearches(a, { nafValides: ["43.22A"], departements: ["14"] }).searches.length, 1);
 });
+
+import { runAnalyseMission, validateAnalyseInput } from "../supabase/functions/_shared/mission-analyse-marche-core.mjs";
+import { executeMission } from "../supabase/functions/_shared/mission-runner-core.mjs";
+import { validateSubmissionPayload } from "../supabase/functions/_shared/cheexpeer-api.mjs";
+
+const org = "11111111-1111-4111-8111-111111111111";
+const fakeFetch = (results, ok = true) => async (url) => { fakeFetch.last = String(url); return { ok, status: ok ? 200 : 500, json: async () => ({ results }) }; };
+
+test("entrée : seul l'identifiant d'avis est accepté", () => {
+  assert.equal(validateAnalyseInput({ idweb: "26-111564" }).ok, true);
+  for (const bad of [{ idweb: '26-1" or 1=1' }, { idweb: "abc" }, { idweb: "26-1", x: 1 }, null, []]) assert.equal(validateAnalyseInput(bad).ok, false);
+});
+
+test("mission : lit l'avis, analyse, aucun effet externe", async () => {
+  const r = await runAnalyseMission({ idweb: "26-111564" }, { fetchImpl: fakeFetch([cherbourg]) });
+  assert.match(fakeFetch.last, /idweb%3D%2226-111564%22/);
+  assert.equal(r.type, "analyse_marche"); assert.equal(r.effets_externes, false);
+  assert.deepEqual(r.departements, ["50", "14"]);
+  await assert.rejects(() => runAnalyseMission({ idweb: "26-1" }, { fetchImpl: fakeFetch([]) }), { code: "INVALID_INPUT" });
+  await assert.rejects(() => runAnalyseMission({ idweb: "26-1" }, { fetchImpl: fakeFetch([], false) }), /boamp_500/);
+});
+
+test("exécuteur : branché en autonomie 0 seulement", async () => {
+  const m = { mission_type: "analyse_marche", autonomy_level: 0, mission_input: { idweb: "26-111564" } };
+  assert.equal((await executeMission(m, { fetchImpl: fakeFetch([cherbourg]) })).type, "analyse_marche");
+  await assert.rejects(() => executeMission({ ...m, autonomy_level: 1 }, {}), { code: "UNSUPPORTED_TYPE" });
+});
+
+test("soumission : validation humaine toujours exigée", () => {
+  const base = { organization_id: org, mission_type: "analyse_marche", title: "Analyse 26-111564", input: { idweb: "26-111564" } };
+  assert.equal(validateSubmissionPayload(base).value.requires_approval, true);
+  assert.equal(validateSubmissionPayload({ ...base, requires_approval: false }).ok, false);
+  assert.equal(validateSubmissionPayload({ ...base, input: { idweb: "x" } }).ok, false);
+});
