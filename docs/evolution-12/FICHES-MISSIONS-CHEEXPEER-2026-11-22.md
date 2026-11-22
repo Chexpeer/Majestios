@@ -354,3 +354,4 @@ Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, d�
 - **À décider avec le propriétaire avant de construire** : seuils par métier ; faut-il aussi montrer la distance aux entreprises déjà en relation (CRM).
 - **Réglage des seuils** : à faire après les premiers essais sur de vrais marchés, comme prévu.
 - **Décision du propriétaire (23 novembre, 0 h 38)** : la distance en ligne droite suffit, pas de temps de trajet par la route.
+- **Décision du propriétaire (23 novembre, 0 h 39)** : les seuils peuvent varier selon le métier. Premier cas : pour le **désamiantage** (métier rare, entreprises peu nombreuses), la distance acceptable peut aller **jusqu'à 200 km**. Les autres métiers gardent 25 / 50 / 100 km pour l'instant ; d'autres métiers seront ajustés après les premiers essais. Pas encore codé (documentation seule).
