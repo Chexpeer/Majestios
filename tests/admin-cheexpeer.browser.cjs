@@ -51,6 +51,7 @@ export function createClient(){
     await page.goto(origin + "/admin-cheexpeer.html");
     await page.waitForSelector("#workspace:not([hidden])");
     assert.match(await page.textContent(".cx-banner"), /pas encore en service/);
+    await page.selectOption("#cx-mission-menu", "diagnostic");
     await page.click("#cx-submit button");
     await page.waitForSelector("#cx-detail:not([hidden])");
     assert.match(await page.textContent("#cx-detail"), /En attente de validation/);
