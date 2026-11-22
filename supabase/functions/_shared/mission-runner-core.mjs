@@ -1,7 +1,8 @@
 // Exécuteur de missions Cheexpeer (testable sans réseau). Réserve la prochaine mission validée, l'exécute, enregistre le résultat.
-// Types exécutables : le diagnostic inerte, « prospects_sous_traitance » et « analyse_marche » (lecture seule). Tout autre type échoue proprement.
+// Types exécutables : le diagnostic inerte, « prospects_sous_traitance », « analyse_marche » et « opportunite_attribution » (lecture seule). Tout autre type échoue proprement.
 import { MISSION_TYPE_PROSPECTS, runProspectsMission } from "./mission-prospects-core.mjs";
 import { MISSION_TYPE_ANALYSE_MARCHE, runAnalyseMission } from "./mission-analyse-marche-core.mjs";
+import { MISSION_TYPE_OPPORTUNITE, runOpportuniteMission } from "./mission-opportunite-core.mjs";
 
 export const WORKER_ID = "cheexpeer-edge-runner";
 export const MAX_RESULT_BYTES = 30 * 1024;
@@ -20,7 +21,7 @@ export function fitResult(result) {
   return { ...result, entreprises: list, nombre: list.length, reduit: true };
 }
 
-export async function executeMission(mission, { fetchImpl, now } = {}) {
+export async function executeMission(mission, { fetchImpl, now, admin } = {}) {
   if (mission.mission_type === "readiness_probe" && Number(mission.autonomy_level) === 0) {
     return { status: "passed", executor: WORKER_ID, verified_at: (now ?? new Date()).toISOString(), external_effects: false };
   }
@@ -29,6 +30,9 @@ export async function executeMission(mission, { fetchImpl, now } = {}) {
   }
   if (mission.mission_type === MISSION_TYPE_ANALYSE_MARCHE && Number(mission.autonomy_level) === 0) {
     return await runAnalyseMission(mission.mission_input, { fetchImpl, now });
+  }
+  if (mission.mission_type === MISSION_TYPE_OPPORTUNITE && Number(mission.autonomy_level) === 0) {
+    return await runOpportuniteMission(mission.mission_input, { admin, fetchImpl, now });
   }
   throw Object.assign(new Error("Type de mission non pris en charge."), { code: "UNSUPPORTED_TYPE" });
 }
@@ -43,7 +47,7 @@ export async function runPending(admin, { fetchImpl = fetch, max = MAX_MISSIONS_
     const mission = Array.isArray(claimed.data) ? claimed.data[0] : claimed.data;
     if (!mission?.mission_id) break;
     try {
-      const result = await executeMission(mission, { fetchImpl, now });
+      const result = await executeMission(mission, { fetchImpl, now, admin });
       const done = await admin.rpc("cheexpeer_worker_complete_mission", { p_mission_id: mission.mission_id, p_worker_id: WORKER_ID, p_result: result });
       if (done.error || done.data !== true) throw Object.assign(new Error("Enregistrement du résultat refusé."), { code: "COMPLETE_REJECTED" });
       summary.processed.push({ mission_id: mission.mission_id, mission_type: mission.mission_type });
