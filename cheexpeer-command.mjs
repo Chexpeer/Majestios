@@ -100,7 +100,7 @@ const csvCell = (value) => {
   return /[;"\r\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
 };
 /** CSV lisible par Excel (séparateur « ; », UTF-8 avec BOM) et importable dans Google Sheets. */
-const SCORE_COLUMNS = Object.freeze([["Note /20 (provisoire)", "score_note"], ["Preuve %", "score_preuve"], ["Étiquette", "score_etiquette"]]);
+const SCORE_COLUMNS = Object.freeze([["Note /20 (provisoire)", "score_note"], ["Preuve %", "score_preuve"], ["Étiquette", "score_etiquette"], ["Distance du chantier (km, à vol d'oiseau)", "distance_km"]]);
 export function prospectsToCsv(companies) {
   const list = Array.isArray(companies) ? companies : [];
   const cols = list.some((c) => c?.score) ? [...SCORE_COLUMNS, ...CSV_COLUMNS] : CSV_COLUMNS;

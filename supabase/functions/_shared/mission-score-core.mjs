@@ -3,8 +3,19 @@
 // Le score CLASSE, il n'EXCLUT personne. Une information absente n'est jamais une preuve d'incapacité.
 // Poids et seuils provisoires : à ajuster sur des cas réels (docs/evolution-12/FICHES-MISSIONS-CHEEXPEER-2026-11-22.md, mission 5).
 export const SCORE_METHOD_VERSION = "1.0-provisoire";
-export const POIDS = Object.freeze({ metier: 5, qualifications: 4, references: 4, financiere: 3, operationnelle: 2, proximite: 2 });
-export const SEUILS = Object.freeze({ tres_bon_note: 16, tres_bon_preuve: 70, plafond_dossier_incomplet: 8, ratio_ok: 40000, ratio_limite: 100000 });
+export const POIDS = Object.freeze({ metier: 5, qualifications: 4, references: 4, financiere: 3, operationnelle: 2, proximite: 3 });
+export const SEUILS = Object.freeze({ tres_bon_note: 16, tres_bon_preuve: 70, plafond_dossier_incomplet: 8, ratio_ok: 40000, ratio_limite: 100000, km_max: 25, km_eleve: 50, km_moyen: 100 });
+const R_TERRE_KM = 6371;
+const rad = (d) => (d * Math.PI) / 180;
+/** Distance à vol d'oiseau en km (formule de haversine) ; null si un point est incomplet. */
+export function distanceKm(a, b) {
+  const num = (v) => (v === null || v === undefined || v === "" ? NaN : Number(v));
+  const ok = (p) => p && Number.isFinite(num(p.lat)) && Number.isFinite(num(p.lon)) && !(num(p.lat) === 0 && num(p.lon) === 0);
+  if (!ok(a) || !ok(b)) return null;
+  const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return Math.round(2 * R_TERRE_KM * Math.asin(Math.sqrt(h)) * 10) / 10;
+}
 export const ETATS = Object.freeze(["confirmé", "partiellement confirmé", "non prouvé", "contradictoire", "non applicable"]);
 const LIBELLES = Object.freeze({ metier: "Adéquation au métier", qualifications: "Qualifications et exigences techniques", references: "Références et expériences vérifiables", financiere: "Capacité financière documentée", operationnelle: "Capacité opérationnelle", proximite: "Proximité géographique" });
 const TRANCHES = Object.freeze({ "00": 0, "01": 1.5, "02": 4, "03": 7.5, 11: 15, 12: 35, 21: 75, 22: 150, 31: 225, 32: 375, 41: 750, 42: 1500, 51: 3500, 52: 7500, 53: 10000 });
@@ -67,11 +78,19 @@ function critOperationnelle(c, ctx) {
 }
 
 function critProximite(c, ctx) {
+  const pt = ctx.chantier;
+  const km = pt ? distanceKm({ lat: pt.lat, lon: pt.lon }, { lat: c.latitude, lon: c.longitude }) : null;
+  if (km !== null) {
+    const pts = km <= SEUILS.km_max ? POIDS.proximite : km <= SEUILS.km_eleve ? 2.5 : km <= SEUILS.km_moyen ? 1.5 : 0;
+    const gagn = ctx.gagnantKm === undefined || ctx.gagnantKm === null ? "" : km < ctx.gagnantKm ? ` Plus proche du chantier que l'entreprise gagnante (${ctx.gagnantKm} km).` : ` L'entreprise gagnante est à ${ctx.gagnantKm} km du chantier.`;
+    const etat = pt.fiable === false ? "partiellement confirmé" : "confirmé";
+    return { ...crit("proximite", pts, etat, `À ${km} km à vol d'oiseau du chantier (${pt.origine || "lieu du chantier"}).${pt.fiable === false ? " Lieu du chantier à confirmer." : ""}${gagn}`, "annuaire officiel + API Adresse"), distance_km: km };
+  }
   const d = String(c.departement ?? "").toUpperCase();
   if (!d || !ctx.departement) return crit("proximite", 0, "non prouvé", "Lieu du chantier ou de l'établissement inconnu.", null);
-  if (d === String(ctx.departement).toUpperCase()) return crit("proximite", POIDS.proximite, "confirmé", `Établissement dans le département du chantier (${d}).`, "annuaire officiel");
-  if (c.zone === "même région") return crit("proximite", 1, "confirmé", `Établissement dans la même région (dép. ${d}). Distance exacte non calculée.`, "annuaire officiel");
-  return crit("proximite", 0, "confirmé", `Établissement hors région (dép. ${d}).`, "annuaire officiel");
+  if (d === String(ctx.departement).toUpperCase()) return crit("proximite", 2, "partiellement confirmé", `Même département que le chantier (${d}) ; distance exacte inconnue.`, "annuaire officiel");
+  if (c.zone === "même région") return crit("proximite", 1, "partiellement confirmé", `Même région (dép. ${d}) ; distance exacte inconnue.`, "annuaire officiel");
+  return crit("proximite", 0, "partiellement confirmé", `Hors région (dép. ${d}) ; distance exacte inconnue.`, "annuaire officiel");
 }
 
 /**
@@ -95,7 +114,7 @@ export function scoreCompany(company, ctx = {}) {
   if (obligatoireManquante) { note = Math.min(note, SEUILS.plafond_dossier_incomplet); etiquette = "dossier incomplet"; }
   note = Math.round(note * 10) / 10;
   const niveau = note >= SEUILS.tres_bon_note && preuve >= SEUILS.tres_bon_preuve ? "très bon" : note >= SEUILS.tres_bon_note ? "bon (preuve limitée)" : note >= 10 ? "moyen" : "faible";
-  return { ...base, ecartee: false, raison: null, note, sur: 20, preuve, niveau, etiquette, criteres, seuils_provisoires: true };
+  return { ...base, ecartee: false, raison: null, note, sur: 20, preuve, niveau, etiquette, distance_km: criteres.find((k) => k.cle === "proximite")?.distance_km ?? null, criteres, seuils_provisoires: true };
 }
 
 /** Classe une liste : les entreprises écartées sont signalées à part, jamais supprimées en silence. */

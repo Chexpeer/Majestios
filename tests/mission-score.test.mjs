@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { scoreCompany, scoreCompanies, estEcartee, SCORE_METHOD_VERSION } from "../supabase/functions/_shared/mission-score-core.mjs";
+import { scoreCompany, scoreCompanies, estEcartee, distanceKm, SCORE_METHOD_VERSION } from "../supabase/functions/_shared/mission-score-core.mjs";
 
 const NOW = new Date("2026-11-22T00:00:00Z");
 const base = { siren: "123456789", nom: "ACME", naf: "43.22A", rge: false, effectif: "12", departement: "14", zone: "même département", creation: "2010-05-01" };
@@ -58,4 +58,30 @@ test("« très bon » exige une note ≥ 16 ET une preuve élevée ; classement 
 test("absence d'information n'est jamais une preuve d'incapacité : jamais « contradictoire » sans donnée", () => {
   const s = scoreCompany({ siren: "123456789", nom: "X" }, { now: NOW });
   for (const k of s.criteres) assert.notEqual(k.etat, "contradictoire");
+});
+
+const CAEN = { lat: 49.1829, lon: -0.3707, origine: "commune de l'acheteur : Caen", fiable: false };
+test("distance à vol d'oiseau : Caen–Bayeux ≈ 25 km ; point incomplet → null", () => {
+  const km = distanceKm({ lat: 49.1829, lon: -0.3707 }, { lat: 49.2764, lon: -0.7024 });
+  assert.ok(km > 22 && km < 28, `km ${km}`);
+  assert.equal(distanceKm({ lat: 49, lon: 0 }, { lat: null, lon: 1 }), null);
+  assert.equal(distanceKm({ lat: 0, lon: 0 }, { lat: 49, lon: 0 }), null);
+});
+
+test("proximité par paliers : ≤25 km max, ≤50 élevé, ≤100 moyen, au-delà faible ; chantier à confirmer = partiellement confirmé", () => {
+  const prox = (lat, lon, extra = {}) => scoreCompany({ ...base, latitude: lat, longitude: lon }, { ...ctx, chantier: CAEN, ...extra }).criteres.find((k) => k.cle === "proximite");
+  const pres = prox(49.19, -0.38); assert.equal(pres.points, 3); assert.ok(pres.distance_km < 5); assert.equal(pres.etat, "partiellement confirmé");
+  assert.equal(prox(49.2764, -0.7024).points, 2.5);
+  assert.equal(prox(48.85, 2.35).points, 0, "Paris à ~200 km");
+  assert.equal(prox(49.19, -0.38, { chantier: { ...CAEN, fiable: true } }).etat, "confirmé");
+});
+
+test("sans coordonnées, repli sur le département, jamais « contradictoire »", () => {
+  const p = scoreCompany(base, { ...ctx, chantier: CAEN }).criteres.find((k) => k.cle === "proximite");
+  assert.equal(p.etat, "partiellement confirmé"); assert.equal(p.points, 2);
+});
+
+test("comparaison avec l'entreprise gagnante affichée", () => {
+  const p = scoreCompany({ ...base, latitude: 49.19, longitude: -0.38 }, { ...ctx, chantier: CAEN, gagnantKm: 50 }).criteres.find((k) => k.cle === "proximite");
+  assert.match(p.detail, /Plus proche du chantier que l'entreprise gagnante \(50 km\)/);
 });

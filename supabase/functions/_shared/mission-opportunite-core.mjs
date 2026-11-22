@@ -3,7 +3,7 @@
 // Règle de langage : jamais « besoin confirmé » ni « cherche un sous-traitant » ; seulement « peut représenter une opportunité ».
 // Décisions : docs/evolution-12/FICHES-MISSIONS-CHEEXPEER-2026-11-22.md (mission 11, sans score : « qualification non réalisée »).
 import { DEPT, COMPANIES_URL, SOURCE_NAME, normalizeNaf, runProspectsMission, regionOfDepartment } from "./mission-prospects-core.mjs";
-import { scoreCompanies } from "./mission-score-core.mjs";
+import { scoreCompanies, distanceKm } from "./mission-score-core.mjs";
 import { departmentsInText, findMetiers, NAF_LIBELLES } from "./mission-analyse-marche-core.mjs";
 
 export const MISSION_TYPE_OPPORTUNITE = "opportunite_attribution";
@@ -14,6 +14,7 @@ export const MAX_RECHERCHES = 3;
 export const MAX_PARTENAIRES = 60;
 const CONTRACT_UID = /^[A-Za-z0-9_.\-]{5,160}$/;
 const SIREN = /^\d{9}$/;
+export const ADRESSE_URL = "https://api-adresse.data.gouv.fr/search/";
 
 /** Tranche d'effectif INSEE → fourchette de salariés. « NN » ou inconnue : non évaluable. */
 export const TRANCHES = Object.freeze({
@@ -76,8 +77,28 @@ async function lookupCompany(fetchImpl, siren) {
   if (!r || String(r.siren) !== siren) return null;
   return {
     naf: normalizeNaf(r.activite_principale), nom: clean(r.nom_complet, 140), tranche: String(r.tranche_effectif_salarie ?? ""),
-    categorie: clean(r.categorie_entreprise, 8) || null, creation: clean(r.date_creation, 10) || null
+    categorie: clean(r.categorie_entreprise, 8) || null, creation: clean(r.date_creation, 10) || null,
+    lat: Number(r.siege?.latitude), lon: Number(r.siege?.longitude)
   };
+}
+
+
+/** Lieu du chantier : pour un marché d'une commune, la commune de l'acheteur, localisée par l'API Adresse officielle. Toujours « à confirmer ». */
+export async function resolveChantier({ buyerCategory, buyerCommune, buyerDept }, fetchImpl) {
+  const commune = clean(buyerCommune, 80);
+  if (String(buyerCategory ?? "") !== "Commune" || !commune) return null;
+  try {
+    const url = new URL(ADRESSE_URL);
+    url.searchParams.set("q", commune); url.searchParams.set("type", "municipality"); url.searchParams.set("limit", "5");
+    const res = await fetchImpl(url, { signal: AbortSignal.timeout(10000) });
+    if (!res.ok) return null;
+    const dept = String(buyerDept ?? "").trim().toUpperCase();
+    const features = (await res.json())?.features ?? [];
+    const f = features.find((x) => !dept || String(x?.properties?.context ?? "").split(",")[0].trim().toUpperCase() === dept) ?? null;
+    const [lon, lat] = f?.geometry?.coordinates ?? [];
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    return { lat: Math.round(lat * 1e5) / 1e5, lon: Math.round(lon * 1e5) / 1e5, origine: `commune de l'acheteur : ${clean(f.properties?.label || commune, 80)}`, fiable: false };
+  } catch { return null; }
 }
 
 /** Résume les lignes DECP d'un marché (un gagnant par ligne) en une fiche, avec partenaires potentiels du même métier. */
@@ -99,7 +120,7 @@ export async function runOpportuniteMission(input, { admin, fetchImpl = fetch, n
     gagnants.push({
       siren, siret: String(r.winner_id), nom: clean(r.winner_name, 140) || info?.nom || null, naf: info?.naf ?? null,
       categorie: clean(r.winner_category, 8) || info?.categorie || null, tranche_effectif: info?.tranche || null,
-      effectif_estime: effectifEstime(info?.tranche), departement: clean(r.winner_dept, 3) || null,
+      effectif_estime: effectifEstime(info?.tranche), departement: clean(r.winner_dept, 3) || null, lat: info?.lat ?? null, lon: info?.lon ?? null,
       source: SOURCE_NAME, source_url: "https://annuaire-entreprises.data.gouv.fr/entreprise/" + siren
     });
   }
@@ -131,15 +152,17 @@ export async function runOpportuniteMission(input, { admin, fetchImpl = fetch, n
   // Score (mission 5) : classe les partenaires potentiels ; exigences du marché non lues, références et comptes non branchés → affichés « non prouvé » / « exigences non vérifiées ».
   const duree = Number(m.duration_months);
   const montantAnnuel = Number.isFinite(montant) && montant > 0 && m.amount_flag !== "suspect" && m.amount_flag !== "aberrant" ? (Number.isFinite(duree) && duree >= 12 ? (montant * 12) / duree : montant) : null;
-  const classement = scoreCompanies(partenaires, { nafs: metiers.map((x) => x.naf), departement: territoire.departements[0] ?? null, exigences: null, montantAnnuel, now });
-  const parSiren = new Map(classement.classees.map((x, i) => [x.siren, { rang: i + 1, note: x.note, sur: 20, preuve: x.preuve, niveau: x.niveau, etiquette: x.etiquette, methode: x.methode, criteres: x.criteres.map((k) => ({ cle: k.cle, libelle: k.libelle, points: k.points, max: k.max, etat: k.etat, detail: k.detail })) }]));
-  for (const p of partenaires) p.score = parSiren.get(p.siren) ?? null;
+  const chantier = await resolveChantier({ buyerCategory: m.buyer_category, buyerCommune: m.buyer_commune, buyerDept: m.buyer_dept }, fetchImpl);
+  const gagnantKm = chantier && principal ? distanceKm(chantier, { lat: principal.lat, lon: principal.lon }) : null;
+  const classement = scoreCompanies(partenaires, { nafs: metiers.map((x) => x.naf), departement: territoire.departements[0] ?? null, exigences: null, montantAnnuel, chantier, gagnantKm, now });
+  const parSiren = new Map(classement.classees.map((x, i) => [x.siren, { rang: i + 1, distance_km: x.distance_km, note: x.note, sur: 20, preuve: x.preuve, niveau: x.niveau, etiquette: x.etiquette, methode: x.methode, criteres: x.criteres.map((k) => ({ cle: k.cle, libelle: k.libelle, points: k.points, max: k.max, etat: k.etat, detail: k.detail })) }]));
+  for (const p of partenaires) { p.score = parSiren.get(p.siren) ?? null; p.distance_km = p.score?.distance_km ?? null; }
   partenaires.sort((a, b) => (a.score?.rang ?? 1e9) - (b.score?.rang ?? 1e9));
 
   return {
     type: MISSION_TYPE_OPPORTUNITE,
     marche: { contract_uid: m.contract_uid, objet: clean(m.object, 500), date_attribution: m.awarded_on ?? null, montant, indicateur_montant: m.amount_flag ?? null, duree_mois: m.duration_months ?? null, cpv: m.cpv ?? null, acheteur: clean(m.buyer_name, 140) || null, sous_traitance_declaree: !!m.subcontracting_declared, procedure: m.procedure ?? null },
-    gagnants, indice, territoire, metiers, recherches, nombre: partenaires.length, partenaires,
+    gagnants: gagnants.map(({ lat, lon, ...g }) => ({ ...g, distance_chantier_km: chantier ? distanceKm(chantier, { lat, lon }) : null })), chantier, indice, territoire, metiers, recherches, nombre: partenaires.length, partenaires,
     manquant: ["telephone", "email", "google_maps", "references", "comptes", "exigences_du_marche"], sources: [SOURCE_NAME, "DECP (données essentielles de la commande publique)"],
     methode_score: classement.methode, score_provisoire: true,
     genere_le: now.toISOString(), effets_externes: false
