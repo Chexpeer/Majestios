@@ -40,7 +40,7 @@ test("lieu : objet cité, sinon département du gagnant (signalé), jamais l'ach
 });
 
 const row = { contract_uid: "abcde12345", winner_id: "12345678900012", winner_name: "PLOMBI SARL", winner_category: "PME", winner_dept: "50", object: "Travaux de plomberie - département de la Manche (50)", amount: 800000, amount_flag: null, duration_months: 12, cpv: "45330000", buyer_name: "Ville", subcontracting_declared: false, awarded_on: "2026-11-20", procedure: "MAPA" };
-const mkEnt = (i) => ({ siren: String(200000000 + i), nom_complet: "ENT " + i, activite_principale: "43.22A", siege: { siret: String(20000000000000 + i), activite_principale: "43.22A", etat_administratif: "A", departement: "50", est_siege: true, adresse: "1 rue", code_postal: "50000", libelle_commune: "SAINT-LO" } });
+const mkEnt = (i) => ({ siren: String(200000000 + i), nom_complet: "ENT " + i, activite_principale: "43.22A", siege: { siret: String(20000000000000 + i), activite_principale: "43.22A", etat_administratif: "A", departement: "50", est_siege: true, adresse: "1 rue", code_postal: "50000", libelle_commune: "SAINT-LO", latitude: "49.12", longitude: "-1.09" } });
 const fetchImpl = async (url) => {
   if (url.searchParams.get("q")) return { ok: true, json: async () => ({ results: [{ siren: "123456789", nom_complet: "PLOMBI SARL", activite_principale: "43.22A", tranche_effectif_salarie: "03", categorie_entreprise: "PME" }] }) };
   return { ok: true, json: async () => ({ results: url.searchParams.get("page") === "1" ? [mkEnt(1), mkEnt(2), { ...mkEnt(3), siren: "123456789" }] : [] }) };
@@ -72,3 +72,18 @@ test("moteur : le type est exécutable en autonomie 0 seulement", async () => {
   await assert.rejects(() => executeMission({ mission_type: "opportunite_attribution", autonomy_level: 1, mission_input: { contract_uid: "abcde12345" } }, { fetchImpl, admin }), (e) => e.code === "UNSUPPORTED_TYPE");
 });
 
+
+test("distance : marché d'une commune → chantier localisé, distance par entreprise ; sinon repli sans distance", async () => {
+  const ban = { features: [{ geometry: { coordinates: [-1.0833, 49.1167] }, properties: { label: "Saint-Lô", context: "50, Manche, Normandie" } }] };
+  const wrapped = async (url) => url.hostname === "api-adresse.data.gouv.fr" ? { ok: true, json: async () => ban } : fetchImpl(url);
+  const mk = (extra) => ({ rpc: async () => ({ data: [{ ...row, ...extra }], error: null }) });
+  const r = await runOpportuniteMission({ contract_uid: "abcde12345" }, { admin: mk({ buyer_category: "Commune", buyer_commune: "Saint-Lô", buyer_dept: "50" }), fetchImpl: wrapped, pauseMs: 0, now: new Date("2026-11-22T10:00:00Z") });
+  assert.ok(r.chantier && /Saint-Lô/.test(r.chantier.origine) && r.chantier.fiable === false);
+  assert.ok(r.partenaires.every((p) => p.distance_km === null || typeof p.distance_km === "number"));
+  assert.ok(r.partenaires.some((p) => typeof p.distance_km === "number"), "au moins une distance calculée");
+  assert.ok(r.partenaires.every((p) => p.score.criteres.some((c) => c.cle === "proximite")));
+  const sans = await runOpportuniteMission({ contract_uid: "abcde12345" }, { admin: mk({ buyer_category: "Région", buyer_commune: null }), fetchImpl: wrapped, pauseMs: 0, now: new Date("2026-11-22T10:00:00Z") });
+  assert.equal(sans.chantier, null); assert.ok(sans.partenaires.every((p) => p.distance_km === null));
+  const panne = await runOpportuniteMission({ contract_uid: "abcde12345" }, { admin: mk({ buyer_category: "Commune", buyer_commune: "Saint-Lô", buyer_dept: "50" }), fetchImpl: async (u) => { if (u.hostname === "api-adresse.data.gouv.fr") throw new Error("down"); return fetchImpl(u); }, pauseMs: 0, now: new Date("2026-11-22T10:00:00Z") });
+  assert.equal(panne.chantier, null); assert.ok(panne.nombre >= 1);
+});
