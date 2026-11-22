@@ -327,3 +327,17 @@ Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, d�
 2. **Mission 3 (fiches contacts)** : attend la clé Google (vérification de facturation en cours).
 3. Puis missions 9, 4 et 6. Mission 12 et dialogue avec Majestios Bot : laissés de côté.
 4. **Score (mission 5)** : poids et seuils à ajuster sur des cas réels ; références, comptes et règlement de consultation à brancher.
+
+## Décision du 23 novembre 2026 — la distance dans le score et dans l'accompagnement aux appels d'offres
+**Demande du propriétaire.** Pour un appel d'offres sur une ville remporté par une entreprise située à 50 km, toutes les entreprises à moins de 50 km du lieu du chantier ont de bonnes chances d'être retenues en sous-traitance, car leurs frais de déplacement sont limités. La distance doit donc compter dans le score, et aussi dans l'accompagnement aux appels d'offres (choix des partenaires et des sous-traitants).
+
+**Règle retenue (provisoire, à ajuster selon les résultats obtenus).**
+- Distance en ligne droite entre l'établissement de l'entreprise et le **lieu du chantier** (jamais l'adresse du siège de l'acheteur sans le signaler).
+- Paliers : moins de 25 km = maximum ; moins de 50 km = élevé ; moins de 100 km = moyen ; au-delà = faible. Seuils adaptables, éventuellement par métier.
+- Poids de la proximité relevé de 2 à 3.
+- Repli sans distance exacte : département ou région, marqué « partiellement confirmé » (le niveau de preuve baisse).
+- Pour un marché d'une commune, le lieu du chantier est la commune de l'acheteur, localisée via l'annuaire officiel des adresses (API Adresse, gratuite), et signalée « à confirmer ».
+- La distance entre le chantier et l'entreprise gagnante est affichée à côté, pour voir qui est plus proche qu'elle.
+- Limite connue : distance à vol d'oiseau, pas de temps de trajet par la route.
+
+**Réutilisation.** La même mesure de distance servira à la mission d'accompagnement aux appels d'offres (sélection de partenaires proches du chantier).

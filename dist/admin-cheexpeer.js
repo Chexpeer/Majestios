@@ -121,9 +121,10 @@ function renderOpportunite(r) {
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `opportunite-${String(mk.contract_uid || "marche").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 30)}.csv`; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   });
   actions.append(dl); box.append(actions);
+  if (r.chantier) box.append(el("p", "cx-meta", `Lieu du chantier retenu : ${r.chantier.origine} — à confirmer (distance à vol d'oiseau, paliers 25 / 50 / 100 km).`));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
-  for (const h of ["Score (provisoire)", "Entreprise", "SIREN", "NAF", "Commune", "Dép.", "Pourquoi"]) head.append(el("th", "", h)); table.append(head);
-  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.score ? `${e.score.note}/20 · preuve ${e.score.preuve} %` : "—", e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  for (const h of ["Score (provisoire)", "Distance", "Entreprise", "SIREN", "NAF", "Commune", "Dép.", "Pourquoi"]) head.append(el("th", "", h)); table.append(head);
+  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.score ? `${e.score.note}/20 · preuve ${e.score.preuve} %` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—", e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
 }
 function renderAnalyse(r) {
