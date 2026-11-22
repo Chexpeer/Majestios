@@ -4,8 +4,8 @@
 // appliqué : le dépôt d'annonces reste donc fermé (ANNONCES_OUVERTES = false) jusqu'à la mise à jour de la base de production
 // décidée par le propriétaire (migrations listées dans docs/evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md).
 export const ANNONCES_SUPABASE = Object.freeze({
-  url: "https://qxaghcifdhugfskuscoc.supabase.co",
-  publishableKey: "sb_publishable_1rbE5yDQs12JCNifwunMCg_u9-Ixl63"
+  url: "https://qrlnnfjstoeliymxtkbk.supabase.co",
+  publishableKey: "sb_publishable_z8kQXMfxhFlmmxZiJ73-GA_cdmbHTYn"
 });
 
 // Interrupteur d'ouverture du dépôt : à false, le formulaire valide la saisie mais n'envoie rien.
