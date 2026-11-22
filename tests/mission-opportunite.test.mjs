@@ -54,6 +54,8 @@ test("mission : fiche complète, partenaires hors gagnant, aucun effet externe",
   assert.equal(r.indice.niveau, "fort"); assert.deepEqual(r.territoire.departements, ["50"]);
   assert.ok(r.metiers.some((m) => m.naf === "43.22A")); assert.equal(r.nombre, 2);
   assert.ok(r.partenaires.every((p) => p.siren !== "123456789" && /Même métier/.test(p.raison)));
+  assert.ok(r.partenaires.every((p) => p.score && typeof p.score.note === "number" && typeof p.score.preuve === "number" && p.score.criteres.length === 6), "chaque partenaire est noté");
+  assert.ok(r.partenaires.every((p, i, t) => i === 0 || t[i - 1].score.note >= p.score.note), "classés par note décroissante");
   assert.equal(r.qualification, undefined); assert.match(r.indice.qualification, /non réalisée/);
 });
 
@@ -69,3 +71,4 @@ test("moteur : le type est exécutable en autonomie 0 seulement", async () => {
   assert.equal(ok.type, "opportunite_attribution");
   await assert.rejects(() => executeMission({ mission_type: "opportunite_attribution", autonomy_level: 1, mission_input: { contract_uid: "abcde12345" } }, { fetchImpl, admin }), (e) => e.code === "UNSUPPORTED_TYPE");
 });
+

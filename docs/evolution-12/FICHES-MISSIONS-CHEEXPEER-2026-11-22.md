@@ -314,3 +314,10 @@ Les **seuils de réussite chiffrés** proposés par les IA (par exemple 85 % ou 
 | **Plus tard (pas d'urgence)** | 1 (surveillance et alertes), 8 (maintenance), 10 (SEO) | Utiles, mais sans effet commercial immédiat. Elles restent au catalogue |
 
 Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, décision du propriétaire, activation.
+
+## État du prototype de la mission 5 (score) — 22 novembre 2026
+**Construit (lecture seule, sans IA générative).** Un programme déterministe (`mission-score-core.mjs`, méthode « 1.0-provisoire ») note chaque entreprise sur 20 et calcule à part un niveau de preuve en %, selon la grille ci-dessus. Il est branché sur la mission 11 : chaque partenaire potentiel reçoit sa note, son niveau de preuve, le détail par critère, et la liste est classée. Le CSV téléchargeable contient la note, la preuve et l'étiquette.
+
+**Ce qui est réellement évalué aujourd'hui.** Métier (code NAF), RGE, ancienneté (partielle), effectif face au montant annualisé (partielle), département. **Non branchés, donc « non prouvé » ou « exigences non vérifiées »** : références, comptes, règlement de consultation, autres qualifications. Aucune entreprise n'est exclue par le score ; seules sont écartées et listées à part les radiées, en liquidation ou non diffusables.
+
+**Précisions de calcul.** Critère neutralisé (par exemple montant inconnu) : il sort du calcul et la note est ramenée sur 20. Niveau de preuve = part des points maximum reposant sur une information confirmée (la moitié des points pour « partiellement confirmé »). « Très bon » = 16/20 ou plus avec une preuve d'au moins 70 %. **Tous les poids et seuils restent provisoires** et seront ajustés sur des cas réels.

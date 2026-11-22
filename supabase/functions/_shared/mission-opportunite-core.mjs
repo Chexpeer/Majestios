@@ -3,6 +3,7 @@
 // Règle de langage : jamais « besoin confirmé » ni « cherche un sous-traitant » ; seulement « peut représenter une opportunité ».
 // Décisions : docs/evolution-12/FICHES-MISSIONS-CHEEXPEER-2026-11-22.md (mission 11, sans score : « qualification non réalisée »).
 import { DEPT, COMPANIES_URL, SOURCE_NAME, normalizeNaf, runProspectsMission, regionOfDepartment } from "./mission-prospects-core.mjs";
+import { scoreCompanies } from "./mission-score-core.mjs";
 import { departmentsInText, findMetiers, NAF_LIBELLES } from "./mission-analyse-marche-core.mjs";
 
 export const MISSION_TYPE_OPPORTUNITE = "opportunite_attribution";
@@ -127,11 +128,20 @@ export async function runOpportuniteMission(input, { admin, fetchImpl = fetch, n
     }
   }
 
+  // Score (mission 5) : classe les partenaires potentiels ; exigences du marché non lues, références et comptes non branchés → affichés « non prouvé » / « exigences non vérifiées ».
+  const duree = Number(m.duration_months);
+  const montantAnnuel = Number.isFinite(montant) && montant > 0 && m.amount_flag !== "suspect" && m.amount_flag !== "aberrant" ? (Number.isFinite(duree) && duree >= 12 ? (montant * 12) / duree : montant) : null;
+  const classement = scoreCompanies(partenaires, { nafs: metiers.map((x) => x.naf), departement: territoire.departements[0] ?? null, exigences: null, montantAnnuel, now });
+  const parSiren = new Map(classement.classees.map((x, i) => [x.siren, { rang: i + 1, note: x.note, sur: 20, preuve: x.preuve, niveau: x.niveau, etiquette: x.etiquette, methode: x.methode, criteres: x.criteres.map((k) => ({ cle: k.cle, libelle: k.libelle, points: k.points, max: k.max, etat: k.etat, detail: k.detail })) }]));
+  for (const p of partenaires) p.score = parSiren.get(p.siren) ?? null;
+  partenaires.sort((a, b) => (a.score?.rang ?? 1e9) - (b.score?.rang ?? 1e9));
+
   return {
     type: MISSION_TYPE_OPPORTUNITE,
     marche: { contract_uid: m.contract_uid, objet: clean(m.object, 500), date_attribution: m.awarded_on ?? null, montant, indicateur_montant: m.amount_flag ?? null, duree_mois: m.duration_months ?? null, cpv: m.cpv ?? null, acheteur: clean(m.buyer_name, 140) || null, sous_traitance_declaree: !!m.subcontracting_declared, procedure: m.procedure ?? null },
     gagnants, indice, territoire, metiers, recherches, nombre: partenaires.length, partenaires,
-    manquant: ["telephone", "email", "google_maps", "score"], sources: [SOURCE_NAME, "DECP (données essentielles de la commande publique)"],
+    manquant: ["telephone", "email", "google_maps", "references", "comptes", "exigences_du_marche"], sources: [SOURCE_NAME, "DECP (données essentielles de la commande publique)"],
+    methode_score: classement.methode, score_provisoire: true,
     genere_le: now.toISOString(), effets_externes: false
   };
 }
