@@ -289,6 +289,12 @@ Les **seuils de réussite chiffrés** proposés par les IA (par exemple 85 % ou 
 
 **Premier chantier lancé :** le prototype fermé de la mission 2 (analyse d'un marché : lots, lieu des travaux, codes NAF avec extraits de l'avis, puis recherche d'entreprises), construit **sur la base de test uniquement**.
 
+### État du prototype de la mission 2 (22 novembre 2026)
+- **Fait :** le cœur de l'analyse (`supabase/functions/_shared/mission-analyse-marche-core.mjs`) et ses tests, écrits sur la structure d'avis BOAMP réels lus depuis la base de test. Il ne fait aucun appel à une IA : des règles écrites, donc des résultats reproductibles.
+- **Ce qu'il fait :** découpe l'avis en lots ; trouve le **lieu réel des travaux** (lot, puis adresse d'exécution, puis départements cités dans l'objet, puis champ de prestation, sinon « territoire non déterminé » ; l'adresse de l'acheteur n'est jamais utilisée) ; repère les métiers et **propose des codes NAF avec l'extrait exact de l'avis** (pas d'extrait, pas de proposition) ; prépare les recherches d'entreprises **uniquement pour les codes validés par l'administrateur**.
+- **Constat sur les données réelles :** le champ « départements » de l'avis est souvent bruité ; on lit donc l'avis complet (format eForms).
+- **Reste à faire :** branchement au moteur de missions (type de mission, outil désactivé par défaut), écran dans le Centre de commande, tableau + CSV, essai sur Test, décision du propriétaire avant toute activation.
+
 ## Ordre de réalisation — décision du propriétaire du 22 novembre 2026, 15 h 09
 > « Intervenir en fonction de la valeur ajoutée commerciale immédiate (le SEO, la maintenance, les alertes ne me semblent pas d'une urgence absolue). »
 
