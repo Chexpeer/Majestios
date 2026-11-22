@@ -27,3 +27,4 @@ Questions à trancher plus tard, sans urgence :
 - Les missions envisagées de la phase 1 : veille des marchés et alertes, préparation d'un dossier de réponse, fiche entreprise complète.
 - Aucune mission de phase 3 n'est envisagée à ce jour.
 - Le cadre d'action reste celui du [périmètre d'action de Cheexpeer](PERIMETRE-ACTION-CHEEXPEER-2026-11-22.md) : lecture seule, validation humaine, rien d'activé sans décision du propriétaire.
+- Les missions sont proposées dans un **catalogue** (menu déroulant « Objet », 10 à 15 missions, plus « Autre ») : voir [CATALOGUE-MISSIONS-CHEEXPEER-2026-11-22.md](CATALOGUE-MISSIONS-CHEEXPEER-2026-11-22.md).
