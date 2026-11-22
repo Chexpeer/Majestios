@@ -293,6 +293,7 @@ loginForm.addEventListener("submit", async (event) => {
   const email = loginForm.elements.email.value.trim().toLowerCase();
   const button = loginForm.querySelector("button"); button.disabled = true;
   try {
+    try { localStorage.setItem("majestios.retour.connexion", JSON.stringify({ page: location.pathname.split("/").pop(), t: Date.now() })); } catch { /* sans importance */ }
     const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
     if (error) throw error;
     gateMessage.textContent = "Un e-mail vient d’être envoyé à " + email + ". Ouvrez-le et cliquez sur le lien : vous reviendrez ici, connecté. Pensez à regarder les courriers indésirables.";
