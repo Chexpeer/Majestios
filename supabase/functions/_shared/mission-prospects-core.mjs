@@ -1,5 +1,7 @@
 // Mission Cheexpeer n°1 « prospects de sous-traitance » : règles pures et appel à l'annuaire officiel.
 // Lecture seule : aucun envoi, aucune écriture métier. Spécification : docs/evolution-12/MISSION-CHEEXPEER-PROSPECTS-SOUS-TRAITANCE-2026-11-22.md
+import { localiserCommune } from "./mission-chantier-core.mjs";
+import { scoreCompanies, distanceKm, paliersPourNafs } from "./mission-score-core.mjs";
 export const MISSION_TYPE_PROSPECTS = "prospects_sous_traitance";
 export const COMPANIES_URL = "https://recherche-entreprises.api.gouv.fr/search";
 export const SOURCE_NAME = "API Recherche d'Entreprises (data.gouv.fr)";
@@ -49,7 +51,7 @@ const clean = (v, max = 160) => String(v ?? "").replace(/\s+/g, " ").trim().slic
 
 /** Valide l'entrée d'une mission. Renvoie { ok, value } ou { ok:false, error }. */
 export function validateProspectsInput(input) {
-  const allowed = new Set(["naf", "departement", "limite", "gagnant_siren", "gagnant_nom", "marche_objet"]);
+  const allowed = new Set(["naf", "departement", "limite", "gagnant_siren", "gagnant_nom", "marche_objet", "commune_chantier"]);
   if (!input || typeof input !== "object" || Array.isArray(input) || Object.keys(input).some((k) => !allowed.has(k))) return { ok: false, error: "Champs non reconnus." };
   const naf = normalizeNaf(input.naf);
   if (!naf) return { ok: false, error: "Code NAF invalide (format attendu : 43.22B)." };
@@ -59,7 +61,7 @@ export function validateProspectsInput(input) {
   if (!Number.isInteger(limite) || (limite !== LIMIT_TOUTES && (limite < MIN_LIMIT || limite > MAX_LIMIT))) return { ok: false, error: `Le nombre d'entreprises doit être compris entre ${MIN_LIMIT} et ${MAX_LIMIT}, ou « toutes ».` };
   const siren = input.gagnant_siren == null || input.gagnant_siren === "" ? null : String(input.gagnant_siren).replace(/\s/g, "");
   if (siren !== null && !SIREN.test(siren)) return { ok: false, error: "SIREN du gagnant invalide (9 chiffres)." };
-  return { ok: true, value: { naf, departement, limite, gagnant_siren: siren, gagnant_nom: clean(input.gagnant_nom, 120) || null, marche_objet: clean(input.marche_objet, 200) || null } };
+  return { ok: true, value: { naf, departement, limite, gagnant_siren: siren, gagnant_nom: clean(input.gagnant_nom, 120) || null, marche_objet: clean(input.marche_objet, 200) || null, commune_chantier: clean(input.commune_chantier, 80) || null } };
 }
 
 /** Département d'un établissement : déduit du code commune INSEE (97x pour l'outre-mer, 2A/2B pour la Corse), sinon du code postal. */
@@ -138,6 +140,20 @@ async function fetchPage(fetchImpl, params) {
  * Exécute la mission : entreprises du même métier (code NAF) ayant un établissement actif dans le département du marché, puis dans le
  * reste de la région. Classement : siège local, agence locale, puis même région. Hors entreprise gagnante, sans doublon, dans la limite demandée.
  */
+/** Accompagnement aux appels d'offres : si la commune du chantier est connue, ajoute la distance (vol d'oiseau) et un score provisoire, et classe. Tolérant : sans localisation, rien ne change. */
+export async function annoterDistance(companies, { commune, departement, naf, now, fetchImpl }) {
+  const chantier = commune ? await localiserCommune({ commune, departement, origine: "commune du chantier (avis)" }, fetchImpl) : null;
+  if (!chantier) return { entreprises: companies, chantier: null, repartition: null };
+  const classement = scoreCompanies(companies, { nafs: [naf], departement, chantier, now });
+  const parSiren = new Map(classement.classees.map((x, i) => [x.siren, { rang: i + 1, note: x.note, sur: 20, preuve: x.preuve, niveau: x.niveau, etiquette: x.etiquette, distance_km: x.distance_km }]));
+  const out = companies.map((c) => { const sc = parSiren.get(c.siren) ?? null; return { ...c, score: sc, distance_km: sc?.distance_km ?? distanceKm(chantier, { lat: c.latitude, lon: c.longitude }) }; })
+    .sort((a, b) => (a.score?.rang ?? 1e9) - (b.score?.rang ?? 1e9));
+  const pal = paliersPourNafs([naf]);
+  const dists = out.map((c) => c.distance_km).filter((d) => typeof d === "number");
+  const repartition = { paliers_km: [pal.max, pal.eleve, pal.moyen], jusqua_palier_1: dists.filter((d) => d <= pal.max).length, jusqua_palier_2: dists.filter((d) => d <= pal.eleve).length, jusqua_palier_3: dists.filter((d) => d <= pal.moyen).length, sans_distance: out.length - dists.length };
+  return { entreprises: out, chantier, repartition };
+}
+
 export async function runProspectsMission(input, { fetchImpl = fetch, now = new Date(), pauseMs = 150 } = {}) {
   const checked = validateProspectsInput(input);
   if (!checked.ok) throw Object.assign(new Error(checked.error), { code: "INVALID_INPUT" });
@@ -165,10 +181,12 @@ export async function runProspectsMission(input, { fetchImpl = fetch, now = new 
       if (pauseMs > 0) await new Promise((resolve) => setTimeout(resolve, pauseMs));
     }
     const all = [...pool.values()].filter((x) => x.score <= 1).sort((a, b) => a.score - b.score || a.order - b.order).slice(0, MAX_TOUTES).map((x) => x.company);
+    const ann = await annoterDistance(all, { commune: checked.value.commune_chantier, departement, naf, now, fetchImpl });
     return {
       type: MISSION_TYPE_PROSPECTS,
-      criteres: { naf, departement, region: region.nom, limite, toutes: true, gagnant_siren, gagnant_nom: checked.value.gagnant_nom, marche_objet: checked.value.marche_objet },
-      nombre: all.length, entreprises: all, plafond_atteint: all.length >= MAX_TOUTES,
+      criteres: { naf, departement, region: region.nom, limite, toutes: true, gagnant_siren, gagnant_nom: checked.value.gagnant_nom, marche_objet: checked.value.marche_objet, commune_chantier: checked.value.commune_chantier },
+      chantier: ann.chantier, repartition_distance: ann.repartition,
+      nombre: all.length, entreprises: ann.entreprises, plafond_atteint: all.length >= MAX_TOUTES,
       manquant: ["telephone", "email", "google_maps"], sources: [SOURCE_NAME], genere_le: now.toISOString(), effets_externes: false
     };
   }
@@ -182,11 +200,13 @@ export async function runProspectsMission(input, { fetchImpl = fetch, now = new 
     collect(r); if (r.length < 25) break;
   }
   const companies = [...pool.values()].sort((a, b) => a.score - b.score || a.order - b.order).slice(0, limite).map((x) => x.company);
+  const ann = await annoterDistance(companies, { commune: checked.value.commune_chantier, departement, naf, now, fetchImpl });
   return {
     type: MISSION_TYPE_PROSPECTS,
-    criteres: { naf, departement, region: region.nom, limite, gagnant_siren, gagnant_nom: checked.value.gagnant_nom, marche_objet: checked.value.marche_objet },
+    criteres: { naf, departement, region: region.nom, limite, gagnant_siren, gagnant_nom: checked.value.gagnant_nom, marche_objet: checked.value.marche_objet, commune_chantier: checked.value.commune_chantier },
+    chantier: ann.chantier, repartition_distance: ann.repartition,
     nombre: companies.length,
-    entreprises: companies,
+    entreprises: ann.entreprises,
     manquant: ["telephone", "email", "google_maps"],
     sources: [SOURCE_NAME],
     genere_le: now.toISOString(),

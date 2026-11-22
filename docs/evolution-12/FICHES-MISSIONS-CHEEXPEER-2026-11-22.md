@@ -341,3 +341,23 @@ Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, d�
 - Limite connue : distance à vol d'oiseau, pas de temps de trajet par la route.
 
 **Réutilisation.** La même mesure de distance servira à la mission d'accompagnement aux appels d'offres (sélection de partenaires proches du chantier).
+
+### État au 23 novembre 2026 (nuit) — distance livrée et décision d'extension aux appels d'offres en cours
+- **Livré sur Test uniquement** (fusionné dans le code, PR « Score des entreprises : distance au chantier ») : calcul à vol d'oiseau, paliers 25 / 50 / 100 km, lieu du chantier d'un marché communal via l'API Adresse (« à confirmer »), colonne « Distance » à l'écran et dans le fichier Excel. Rien en production.
+- **Décision du propriétaire (23 novembre, 0 h 36)** : on documente pour le moment ; ce même système de distance doit aussi servir à l'**accompagnement aux appels d'offres en cours**.
+- **Application prévue à « Analyse d'un appel d'offres »** (mission existante, avis BOAMP) :
+  - le lieu des travaux lu dans l'avis (lot, sinon exécution du marché, sinon département cité) devient le point de référence du chantier ;
+  - les entreprises candidates comme partenaires ou sous-traitants (même métier) sont classées avec le même score, donc la même distance ;
+  - différence avec « Opportunités après attribution » : il n'y a pas encore d'entreprise gagnante à comparer ; on affiche à la place le nombre d'entreprises à moins de 25 / 50 / 100 km ;
+  - le lieu précis (commune, adresse) est souvent absent de l'avis : dans ce cas, repli sur le département, signalé « à confirmer », sans inventer de distance ;
+  - toujours en lecture seule, autonomie 0, validation humaine, rien d'envoyé à l'extérieur.
+- **À décider avec le propriétaire avant de construire** : seuils par métier ; faut-il aussi montrer la distance aux entreprises déjà en relation (CRM).
+- **Réglage des seuils** : à faire après les premiers essais sur de vrais marchés, comme prévu.
+- **Décision du propriétaire (23 novembre, 0 h 38)** : la distance en ligne droite suffit, pas de temps de trajet par la route.
+- **Décision du propriétaire (23 novembre, 0 h 39)** : les seuils peuvent varier selon le métier. Premier cas : pour le **désamiantage** (métier rare, entreprises peu nombreuses), la distance acceptable peut aller **jusqu'à 200 km**. Les autres métiers gardent 25 / 50 / 100 km pour l'instant ; d'autres métiers seront ajustés après les premiers essais. Pas encore codé (documentation seule).
+- **Précision du propriétaire (23 novembre, 0 h 42) — métiers où les grandes entreprises sous-traitent une partie du travail** :
+  - **Métallerie lourde** : les grandes entreprises remportent souvent les marchés et sous-traitent le **montage**.
+  - **Télécoms et électricité** : les grandes entreprises sous-traitent les **tirages de câbles**.
+  - Conséquence retenue : ces métiers sont à traiter comme le désamiantage, avec des seuils de distance propres, probablement plus larges ; la distance exacte reste à fixer avec le propriétaire. Les codes d'activité (NAF) correspondants et les mots-clés à repérer dans les avis (montage, charpente métallique, tirage de câbles, fibre, courants faibles…) sont à définir au moment de construire. Rien n'est codé.
+- **Décision du propriétaire (23 novembre, 0 h 44)** : pour la métallerie lourde, les télécoms et l'électricité, on **reste à 100 km** pour le moment (paliers 25 / 50 / 100 km, comme les autres métiers) ; à rectifier par la suite selon les résultats. Seul le désamiantage va jusqu'à 200 km.
+- **Construit le 23 novembre 2026 (Test uniquement) — accompagnement aux appels d'offres** : dans « Analyse d'un appel d'offres », la commune des travaux lue dans l'avis (si elle y figure) est transmise à la recherche d'entreprises ; les entreprises sont alors classées avec le score, la distance à vol d'oiseau est affichée (écran et fichier Excel) avec le nombre d'entreprises à moins de 25 / 50 / 100 km. Sans commune dans l'avis : recherche par département, sans distance. Désamiantage (codes 39.00Z et 43.11Z) : paliers élargis à 50 / 100 / 200 km ; tous les autres métiers, y compris métallerie lourde, télécoms et électricité : 25 / 50 / 100 km. Le lieu du chantier est toujours « à confirmer ».
