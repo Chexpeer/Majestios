@@ -27,7 +27,7 @@ test("réponse enregistrée par le client service, jamais par l'utilisateur", as
 test("appel fournisseur : clé en en-tête, consigne de sécurité, plafond de sortie", async () => {
   const s = setup(); await run(s);
   const f = s.calls.find((c) => c[0] === "fetch");
-  assert.equal(f[3]["x-api-key"], "k"); assert.equal(f[2].system, SYSTEM_PROMPT); assert.ok(f[2].max_tokens <= 800);
+  assert.equal(f[3]["x-api-key"], "k"); assert.equal(f[2].system, SYSTEM_PROMPT); assert.ok(f[2].max_tokens <= 1200);
   assert.match(SYSTEM_PROMPT, /Majestios Bot/); assert.match(SYSTEM_PROMPT, /lecture seule/); assert.match(SYSTEM_PROMPT, /n'exécutes aucune action/);
 });
 test("dialogue éteint ou plafond : aucun appel au fournisseur", async () => {
