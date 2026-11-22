@@ -27,6 +27,7 @@
 | Audit du produit | [Audit du 20 novembre 2026](evolution-10/AUDIT-PRODUIT-2026-11-20.md) |
 | Pistes marchés attribués et sélection Sous-traitance | [Pistes du 21 novembre 2026](evolution-10/PISTES-MARCHES-ATTRIBUES-ET-SELECTION-SOUS-TRAITANCE-2026-11-21.md) |
 | État et orientation (soir du 21/11) | [État réel et orientation](evolution-12/ETAT-ET-ORIENTATION-2026-11-21.md) |
+| Prompt n°2 : réussir les 11 premières missions (22/11) | [À joindre avec les fiches des missions](evolution-12/PROMPT-2-AUTRES-IA-REALISATION-MISSIONS-2026-11-22.md) |
 | Prompt pour consulter d'autres IA sur Cheexpeer (22/11) | [À copier dans Gemini, ChatGPT, Copilot](evolution-12/PROMPT-AUTRES-IA-FONCTIONNALITES-CHEEXPEER-2026-11-22.md) |
 | Fiches des 10 missions de Cheexpeer (22/11) | [Étapes, résultat, difficultés, score sur 20](evolution-12/FICHES-MISSIONS-CHEEXPEER-2026-11-22.md) |
 | Outils Google pour Cheexpeer (22/11) | [Places, géocodage, routes… : fermés par défaut, clé collée par le propriétaire](evolution-12/OUTILS-GOOGLE-CHEEXPEER-2026-11-22.md) |
