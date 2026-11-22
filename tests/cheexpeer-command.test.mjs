@@ -48,3 +48,21 @@ test("libellés : codes inconnus sans fuite d'information", () => {
   assert.match(errorMessage("QUOI_QUE_CE_SOIT"), /Rien n'a été modifié/);
   assert.equal(statusLabel("succeeded"), "Terminée"); assert.equal(statusLabel("zzz"), "Statut à vérifier");
 });
+
+import { buildProspectsPayload, prospectsToCsv, prospectsFilename } from "../cheexpeer-command.mjs";
+
+test("demande de prospects : champs contrôlés, validation humaine exigée", () => {
+  const ok = buildProspectsPayload({ organizationId: "o", naf: "4322b", departement: "81", limite: "25", gagnantSiren: "123 456 789", gagnantNom: " Clim SA ", idempotencyKey: "k" });
+  assert.equal(ok.mission_type, "prospects_sous_traitance"); assert.equal(ok.requires_approval, true); assert.equal(ok.autonomy_level, 0);
+  assert.deepEqual(ok.input, { naf: "43.22B", departement: "81", limite: 25, gagnant_siren: "123456789", gagnant_nom: "Clim SA" });
+  for (const bad of [{ naf: "x", departement: "81", limite: 25 }, { naf: "43.22B", departement: "00", limite: 25 }, { naf: "43.22B", departement: "81", limite: 19 }, { naf: "43.22B", departement: "81", limite: 31 }, { naf: "43.22B", departement: "81", limite: 25, gagnantSiren: "12" }])
+    assert.equal(buildProspectsPayload({ organizationId: "o", idempotencyKey: "k", ...bad }), null);
+});
+
+test("export : CSV Excel/Sheets avec BOM, guillemets doublés, formules neutralisées", () => {
+  const csv = prospectsToCsv([{ nom: 'Dupont; "Plomberie"', siren: "123456789", naf: "43.22A", commune: "=CMD()", telephone: null }]);
+  assert.ok(csv.startsWith("﻿Entreprise;SIREN;SIRET"));
+  assert.match(csv, /"Dupont; ""Plomberie"""/); assert.match(csv, /;'=CMD\(\);/); assert.ok(!/;=CMD/.test(csv));
+  assert.equal(prospectsToCsv([]).split("\r\n").length, 2);
+  assert.equal(prospectsFilename({ naf: "43.22B", departement: "81" }, new Date("2026-11-22T00:00:00Z")), "prospects-sous-traitance-4322B-dep81-2026-11-22.csv");
+});

@@ -1,9 +1,10 @@
 // Logique pure du centre de commande Cheexpeer (testable sans navigateur).
 // Les trois API serveur existent sur MajestiOS-Test : soumission, décision d'approbation, lecture.
 export const MISSION_TYPE = "readiness_probe";
+export const MISSION_TYPE_PROSPECTS = "prospects_sous_traitance";
 
 export const STATUS_LABELS = Object.freeze({
-  queued: "En file d'attente", pending_approval: "En attente de validation", approved: "Approuvée",
+  queued: "Validée · prête à lancer", awaiting_approval: "En attente de validation", retry_wait: "Nouvel essai prévu", blocked: "Bloquée", pending_approval: "En attente de validation", approved: "Approuvée",
   running: "En cours", succeeded: "Terminée", failed: "Échec", cancelled: "Annulée", rejected: "Refusée", expired: "Expirée"
 });
 export const APPROVAL_LABELS = Object.freeze({ pending: "À décider", approved: "Approuvée", rejected: "Refusée", expired: "Expirée" });
@@ -19,12 +20,13 @@ export const ERROR_LABELS = Object.freeze({
   MISSION_SUBMISSION_FAILED: "La mission n'a pas pu être créée. Le diagnostic n'est probablement pas encore activé.",
   MISSION_READ_FAILED: "La lecture de la mission a échoué.",
   MISSION_NOT_FOUND: "Mission introuvable dans votre organisation.",
+  MISSION_RUN_FAILED: "L'exécution n'a pas pu démarrer. Réessayez dans un instant.",
   RESULT_TOO_LARGE: "Le résultat est trop volumineux pour être affiché."
 });
 export const errorMessage = (code) => ERROR_LABELS[code] || "Une erreur inattendue est survenue. Rien n'a été modifié.";
 export const statusLabel = (s) => STATUS_LABELS[s] || "Statut à vérifier";
 
-const FUNCTIONS = Object.freeze({ submit: "cheexpeer-mission-submit", decision: "cheexpeer-approval-decision", read: "cheexpeer-mission-read", chat: "cheexpeer-chat" });
+const FUNCTIONS = Object.freeze({ submit: "cheexpeer-mission-submit", decision: "cheexpeer-approval-decision", read: "cheexpeer-mission-read", chat: "cheexpeer-chat", run: "cheexpeer-mission-run" });
 export const functionUrl = (baseUrl, key) => {
   if (!FUNCTIONS[key]) throw new Error("Fonction inconnue");
   return `${String(baseUrl).replace(/\/+$/, "")}/functions/v1/${FUNCTIONS[key]}`;
@@ -38,6 +40,40 @@ export function buildSubmitPayload({ organizationId, title, objective, idempoten
   if (o) payload.objective = o.slice(0, 4000);
   return payload;
 }
+/** Demande de mission « prospects de sous-traitance » : validation humaine toujours exigée, aucun effet externe. */
+export function buildProspectsPayload({ organizationId, naf, departement, limite, gagnantNom, gagnantSiren, marcheObjet, idempotencyKey }) {
+  const n = String(naf ?? "").trim().toUpperCase().replace(/\s/g, "");
+  const code = /^\d{4}[A-Z]$/.test(n) ? n.slice(0, 2) + "." + n.slice(2) : n;
+  const dept = String(departement ?? "").trim().toUpperCase();
+  const lim = Number(limite);
+  if (!/^\d{2}\.\d{2}[A-Z]$/.test(code) || !/^(0[1-9]|[1-8][0-9]|9[0-5]|2[AB]|97[1-6])$/.test(dept) || !Number.isInteger(lim) || lim < 20 || lim > 30) return null;
+  const input = { naf: code, departement: dept, limite: lim };
+  const siren = String(gagnantSiren ?? "").replace(/\s/g, "");
+  if (siren) { if (!/^\d{9}$/.test(siren)) return null; input.gagnant_siren = siren; }
+  const nom = String(gagnantNom ?? "").trim(); if (nom) input.gagnant_nom = nom.slice(0, 120);
+  const objet = String(marcheObjet ?? "").trim(); if (objet) input.marche_objet = objet.slice(0, 200);
+  return { organization_id: organizationId, mission_type: MISSION_TYPE_PROSPECTS, title: `Prospects de sous-traitance · ${code} · dép. ${dept}`, autonomy_level: 0, requires_approval: true, input, idempotency_key: idempotencyKey };
+}
+
+const CSV_COLUMNS = Object.freeze([
+  ["Entreprise", "nom"], ["SIREN", "siren"], ["SIRET (établissement)", "siret"], ["Établissement", "etablissement"], ["RGE", "rge"], ["Code NAF", "naf"], ["Adresse", "adresse"], ["Code postal", "code_postal"], ["Commune", "commune"],
+  ["Département", "departement"], ["Zone", "zone"], ["Effectif (tranche)", "effectif"], ["Latitude", "latitude"], ["Longitude", "longitude"],
+  ["Téléphone", "telephone"], ["E-mail", "email"], ["Google Maps", "google_maps"], ["Source", "source"], ["Lien source", "source_url"], ["Collecté le", "collecte_le"]
+]);
+// Protège contre l'exécution de formules à l'ouverture dans un tableur (=, +, -, @).
+const csvCell = (value) => {
+  let t = value == null ? "" : String(value);
+  if (/^[=+\-@\t\r]/.test(t)) t = "'" + t;
+  return /[;"\r\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+};
+/** CSV lisible par Excel (séparateur « ; », UTF-8 avec BOM) et importable dans Google Sheets. */
+export function prospectsToCsv(companies) {
+  const rows = [CSV_COLUMNS.map(([label]) => csvCell(label)).join(";")];
+  for (const c of Array.isArray(companies) ? companies : []) rows.push(CSV_COLUMNS.map(([, key]) => csvCell(c?.[key])).join(";"));
+  return "\uFEFF" + rows.join("\r\n") + "\r\n";
+}
+export const prospectsFilename = (criteres, now = new Date()) => `prospects-sous-traitance-${String(criteres?.naf ?? "naf").replace(".", "")}-dep${criteres?.departement ?? "xx"}-${now.toISOString().slice(0, 10)}.csv`;
+
 export const buildDecisionPayload = ({ organizationId, approvalId, decision, note }) => {
   if (!["approved", "rejected"].includes(decision)) return null;
   const p = { organization_id: organizationId, approval_id: approvalId, decision };
