@@ -133,3 +133,15 @@ test("migration : type autorisé en autonomie 0 avec validation obligatoire, out
   assert.match(sql, /not p_requires_approval/);
   assert.match(sql, /0, true, 'read', false, 60, 0/);
 });
+
+test("mode « toutes » : tout le département, page après page, sans région, résultat volumineux conservé", async () => {
+  const mk = (i) => ({ siren: String(100000000 + i), nom_complet: "ENT " + i, activite_principale: "43.22B", siege: { siret: String(10000000000000 + i), activite_principale: "43.22B", etat_administratif: "A", departement: "81", est_siege: true, adresse: "1 rue", code_postal: "81000", libelle_commune: "ALBI" } });
+  const pages = { 1: Array.from({ length: 25 }, (_, i) => mk(i)), 2: Array.from({ length: 25 }, (_, i) => mk(25 + i)), 3: Array.from({ length: 7 }, (_, i) => mk(50 + i)) };
+  const calls = [];
+  const fetchImpl = async (url) => { calls.push(url.searchParams.get("page") + ":" + (url.searchParams.get("departement") ?? "") + ":" + (url.searchParams.get("region") ?? "")); return { ok: true, json: async () => ({ results: pages[url.searchParams.get("page")] ?? [] }) }; };
+  assert.equal(validateProspectsInput({ naf: "43.22B", departement: "81", limite: 0 }).ok, true);
+  const r = await runProspectsMission({ naf: "43.22B", departement: "81", limite: 0 }, { fetchImpl, pauseMs: 0 });
+  assert.equal(r.nombre, 57); assert.equal(r.criteres.toutes, true); assert.equal(r.plafond_atteint, false);
+  assert.deepEqual(calls, ["1:81:", "2:81:", "3:81:"]);
+  assert.equal(fitResult(r).reduit, undefined, "pas de réduction à 30 Ko en mode toutes");
+});

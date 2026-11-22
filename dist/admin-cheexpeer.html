@@ -63,11 +63,11 @@
 <section class="cx-card" aria-labelledby="cx-pro-title">
 <p class="admin-kicker">MISSION N°1</p><h2 id="cx-pro-title">Prospects de sous-traitance</h2>
 <p class="cx-meta"><span>Autonomie 0 · lecture seule</span><span>Validation humaine obligatoire</span><span>Aucun envoi à l’extérieur</span></p>
-<p>Un marché est gagné dans un métier : Cheexpeer sort 20 à 30 entreprises du même métier dans la même région, à présenter ici et à télécharger. Téléphone, e-mail et Google Maps seront ajoutés dans une étape suivante.</p>
+<p>Un marché est gagné dans un métier : Cheexpeer sort 20 à 30 entreprises du même métier dans la même région, ou toutes celles du département, à télécharger. Téléphone, e-mail et Google Maps seront ajoutés dans une étape suivante.</p>
 <form id="cx-prospects">
 <label>Code NAF du métier gagné<input name="naf" placeholder="43.22B" maxlength="6" required></label>
 <label>Département du marché<input name="departement" placeholder="81" maxlength="3" required></label>
-<label>Nombre d’entreprises (20 à 30)<input name="limite" type="number" min="20" max="30" value="30" required></label>
+<label>Nombre d’entreprises<select name="limite" required><option value="30" selected>30 entreprises (département puis région)</option><option value="20">20 entreprises (département puis région)</option><option value="0">Toutes les entreprises du département (à télécharger)</option></select></label>
 <label>Entreprise gagnante (facultatif)<input name="gagnant_nom" maxlength="120"></label>
 <label>SIREN de la gagnante (facultatif, pour l’exclure de la liste)<input name="gagnant_siren" inputmode="numeric" maxlength="11"></label>
 <label>Objet du marché (facultatif)<input name="marche_objet" maxlength="200"></label>

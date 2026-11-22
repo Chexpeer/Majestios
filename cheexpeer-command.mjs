@@ -48,7 +48,7 @@ export function buildProspectsPayload({ organizationId, naf, departement, limite
   const code = /^\d{4}[A-Z]$/.test(n) ? n.slice(0, 2) + "." + n.slice(2) : n;
   const dept = String(departement ?? "").trim().toUpperCase();
   const lim = Number(limite);
-  if (!/^\d{2}\.\d{2}[A-Z]$/.test(code) || !/^(0[1-9]|[1-8][0-9]|9[0-5]|2[AB]|97[1-6])$/.test(dept) || !Number.isInteger(lim) || lim < 20 || lim > 30) return null;
+  if (!/^\d{2}\.\d{2}[A-Z]$/.test(code) || !/^(0[1-9]|[1-8][0-9]|9[0-5]|2[AB]|97[1-6])$/.test(dept) || !Number.isInteger(lim) || (lim !== 0 && (lim < 20 || lim > 30))) return null;
   const input = { naf: code, departement: dept, limite: lim };
   const siren = String(gagnantSiren ?? "").replace(/\s/g, "");
   if (siren) { if (!/^\d{9}$/.test(siren)) return null; input.gagnant_siren = siren; }
