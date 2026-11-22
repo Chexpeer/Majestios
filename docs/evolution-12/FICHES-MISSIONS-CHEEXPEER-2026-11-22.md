@@ -192,6 +192,13 @@ Les trois IA consultées la placent en tête. C'est le prolongement direct de vo
 
 ---
 
+### État du prototype de la mission 11 (22 novembre 2026)
+Construit sur la base de **Test** uniquement, outil **désactivé** par défaut, validation humaine toujours obligatoire, aucun envoi.
+- **Entrée** : l'identifiant d'un marché attribué (base DECP déjà chargée), choisi dans une recherche de l'écran « Centre de commande ».
+- **Fiche produite** : gagnant (annuaire officiel : activité, catégorie, tranche d'effectif), **indice faible / moyen / fort** (montant annualisé ÷ effectif estimé ; seuils provisoires 40 000 et 100 000 € par salarié, à fixer après essais sur cas réels), « non évaluable » si montant absent, suspect ou aberrant, ou effectif inconnu. Métier (NAF du gagnant puis métiers retrouvés dans l'objet, avec extrait). Lieu : départements cités dans l'objet, sinon département du gagnant **signalé « à confirmer »**, jamais l'adresse de l'acheteur. Partenaires potentiels : même métier, hors gagnant, avec la raison de chaque choix ; export CSV.
+- **Langage imposé** : « peut représenter une opportunité » ; jamais « cherche un sous-traitant » ni « besoin confirmé » (testé).
+- **Reste à faire** : brancher les marchés attribués en continu, analyser la taille du gagnant avec des comptes sociaux, ajouter le score (mission 5), fiches contacts (mission 3).
+
 ## Mission 12 — Opportunités après les travaux *(proposition, mise de côté le 22 novembre 2026, 15 h 12 : « on oublie la mission 12 pour le moment »)*
 Vous aviez indiqué : « récupérer les travaux mal faits ou les retards de chantier ». Les IA proposent des signaux **publics** qui le permettent.
 

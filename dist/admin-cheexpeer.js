@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
-import { buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
+import { buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, buildOpportunitePayload, MISSION_TYPE_OPPORTUNITE, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
 
 // Projet cible : MajestiOS-Test (les API Cheexpeer n'existent que là). Même configuration que la relecture des annonces.
 const supabase = createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -68,12 +68,13 @@ function renderMission(data) {
     detailBox.append(box);
   }
   if (m.error_summary) detailBox.append(el("p", "cx-status error", "Erreur : " + m.error_summary));
-  if ((m.mission_type === MISSION_TYPE_PROSPECTS || m.mission_type === MISSION_TYPE_ANALYSE) && m.status === "queued") {
+  if ((m.mission_type === MISSION_TYPE_PROSPECTS || m.mission_type === MISSION_TYPE_ANALYSE || m.mission_type === MISSION_TYPE_OPPORTUNITE) && m.status === "queued") {
     const run = el("div", "cx-actions"); const b = el("button", "cx-primary", "Lancer l'exécution"); b.type = "button";
     b.addEventListener("click", () => runMissions(b)); run.append(b); detailBox.append(run);
   }
   if (m.mission_type === MISSION_TYPE_PROSPECTS && Array.isArray(m.result?.entreprises)) renderProspects(m.result);
   else if (m.mission_type === MISSION_TYPE_ANALYSE && Array.isArray(m.result?.propositions)) renderAnalyse(m.result);
+  else if (m.mission_type === MISSION_TYPE_OPPORTUNITE && Array.isArray(m.result?.partenaires)) renderOpportunite(m.result);
   else if (m.result && Object.keys(m.result).length) detailBox.append(el("pre", "cx-result", JSON.stringify(m.result, null, 2)));
   const events = el("ul", "cx-timeline"); for (const e of data.events || []) events.append(el("li", "", `${fmt(e.occurred_at)} · ${e.event_type} (${e.actor_type})`));
   if (events.children.length) detailBox.append(el("p", "admin-kicker", "HISTORIQUE"), events);
@@ -98,6 +99,31 @@ function renderProspects(result) {
   for (const h of ["Entreprise", "SIREN", "NAF", "Établissement", "Commune", "Dép.", "Zone", "RGE", "Téléphone", "E-mail", "Google Maps"]) head.append(el("th", "", h));
   table.append(head);
   for (const e of shown) { const tr = el("tr"); for (const v of [e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  wrap.append(table); box.append(wrap); detailBox.append(box);
+}
+const eur = (n) => Number.isFinite(Number(n)) && n !== null ? Number(n).toLocaleString("fr-FR") + " €" : "—";
+function renderOpportunite(r) {
+  const box = el("div", "cx-card"), mk = r.marche || {}, ind = r.indice || {};
+  box.append(el("p", "admin-kicker", "FICHE D'OPPORTUNITÉ"), el("p", "", mk.objet || ""));
+  box.append(el("p", "cx-meta", `Attribué le ${mk.date_attribution || "—"} · Montant : ${eur(mk.montant)}${mk.indicateur_montant ? " (" + mk.indicateur_montant + ")" : ""} · Durée : ${mk.duree_mois ? mk.duree_mois + " mois" : "—"} · Acheteur : ${mk.acheteur || "—"}`));
+  box.append(el("p", "admin-kicker", "GAGNANT(S)"));
+  const g = el("ul"); for (const w of r.gagnants || []) g.append(el("li", "", `${w.nom || "—"} · SIREN ${w.siren} · NAF ${w.naf || "?"} · ${w.categorie || "catégorie ?"} · effectif ${w.tranche_effectif ? "tranche " + w.tranche_effectif : "inconnu"}`)); box.append(g);
+  box.append(el("p", "admin-kicker", "INDICE : " + String(ind.niveau || "—").toUpperCase()), el("p", "", ind.formulation || ""));
+  const why = el("ul"); for (const t of ind.raisons || []) why.append(el("li", "", t)); box.append(why);
+  box.append(el("p", "cx-meta", `Qualification : ${ind.qualification || "non réalisée"} · seuils provisoires, à fixer après essais sur cas réels.`));
+  box.append(el("p", "admin-kicker", "MÉTIER ET LIEU"));
+  const mt = el("ul"); for (const x of r.metiers || []) mt.append(el("li", "", `${x.naf} · ${x.libelle || ""} — ${x.origine}${x.extrait ? " : « …" + x.extrait + "… »" : ""}`)); box.append(mt);
+  box.append(el("p", "cx-meta", `Territoire : ${(r.territoire?.departements || []).join(", ") || "non déterminé"} (${r.territoire?.origine || "—"})`));
+  box.append(el("p", "admin-kicker", `${(r.partenaires || []).length} PARTENAIRE(S) POTENTIEL(S)`));
+  const actions = el("div", "cx-actions"); const dl = el("button", "cx-primary", "Télécharger (Excel / Google Sheets)"); dl.type = "button";
+  dl.addEventListener("click", () => {
+    const blob = new Blob([prospectsToCsv(r.partenaires || [])], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `opportunite-${String(mk.contract_uid || "marche").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 30)}.csv`; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  });
+  actions.append(dl); box.append(actions);
+  const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
+  for (const h of ["Entreprise", "SIREN", "NAF", "Commune", "Dép.", "Pourquoi"]) head.append(el("th", "", h)); table.append(head);
+  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
 }
 function renderAnalyse(r) {
@@ -223,6 +249,29 @@ analyseForm.addEventListener("submit", async (event) => {
   if (!result.ok) { say(analyseStatus, result.message, true); return; }
   say(analyseStatus, "Mission créée. Approuvez-la dans le suivi, puis lancez l'exécution.");
   remember(result.data.mission.mission_id, body.title); await openMission(result.data.mission.mission_id);
+});
+const oppForm = $("#cx-opp-search"), oppStatus = $("#cx-opp-status"), oppList = $("#cx-opp-list");
+oppForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const q = oppForm.elements.query.value.trim(), dep = oppForm.elements.departement.value.trim().toUpperCase();
+  const button = oppForm.querySelector("button"); button.disabled = true; say(oppStatus, "Recherche…"); oppList.replaceChildren();
+  const { data, error } = await supabase.rpc("list_awarded_contracts", { p_department: /^(0[1-9]|[1-8][0-9]|9[0-5]|2[AB]|97[1-6])$/.test(dep) ? dep : null, p_query: q.length >= 3 ? q : null, p_cpv: null, p_min_amount: null, p_months: 6, p_limit: 10, p_offset: 0 });
+  button.disabled = false;
+  if (error) { say(oppStatus, "La recherche a échoué. Réessayez.", true); return; }
+  say(oppStatus, data?.length ? `${data.length} marché(s) trouvé(s).` : "Aucun marché trouvé : essayez un autre mot-clé.");
+  for (const c of data || []) {
+    const li = el("li"); li.append(el("p", "", `${c.object || "—"}`), el("p", "cx-meta", `${c.awarded_on} · ${eur(c.amount)} · gagnant : ${c.winners || "—"} · acheteur : ${c.buyer_name || "—"} (${c.buyer_dept || "?"})`));
+    const b = el("button", "cx-primary", "Analyser l'opportunité"); b.type = "button";
+    b.addEventListener("click", async () => {
+      const body = buildOpportunitePayload({ organizationId, contractUid: c.contract_uid, label: c.winners, idempotencyKey: crypto.randomUUID() });
+      if (!body) { say(oppStatus, "Marché non utilisable.", true); return; }
+      b.disabled = true; const result = await callApi(fetch, { baseUrl: ANNONCES_SUPABASE.url, key: "submit", token: await token(), body }); b.disabled = false;
+      if (!result.ok) { say(oppStatus, result.message, true); return; }
+      say(oppStatus, "Mission créée. Approuvez-la dans le suivi, puis lancez l'exécution.");
+      remember(result.data.mission.mission_id, body.title); await openMission(result.data.mission.mission_id);
+    });
+    li.append(b); oppList.append(li);
+  }
 });
 const prospectsForm = $("#cx-prospects"), prospectsStatus = $("#cx-pro-status");
 prospectsForm.addEventListener("submit", async (event) => {
