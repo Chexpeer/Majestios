@@ -192,7 +192,7 @@ Les trois IA consultées la placent en tête. C'est le prolongement direct de vo
 
 ---
 
-## Mission 12 — Opportunités après les travaux *(proposition)*
+## Mission 12 — Opportunités après les travaux *(proposition, mise de côté le 22 novembre 2026, 15 h 12 : « on oublie la mission 12 pour le moment »)*
 Vous aviez indiqué : « récupérer les travaux mal faits ou les retards de chantier ». Les IA proposent des signaux **publics** qui le permettent.
 
 **Comment ça marche.** Cheexpeer surveille les avis officiels de marché « sans suite », résilié ou relancé en urgence, et les entreprises titulaires d'un marché récent qui entrent en procédure collective (BODACC). Il prépare une fiche : le marché, le signal, la date, la source, les entreprises locales du métier concerné.
@@ -221,7 +221,8 @@ Elles sont intégrées aux fiches ci-dessus ou à retenir au moment de la constr
 | Rang | Missions | Raison |
 |---|---|---|
 | **1 — Valeur commerciale immédiate** | 2 (appels d'offres), 3 (fiches contacts), 5 (score), 11 (après attribution), 7 (brouillons de prospection) | C'est la chaîne appel d'offres → entreprise → qualification → prospection |
-| **2 — Ensuite** | 9 (qualité du CRM), 4 (statistiques), 12 (après les travaux), 6 (audit Web, à confirmer) | Elles renforcent la chaîne ou ouvrent d'autres occasions |
+| **2 — Ensuite** | 9 (qualité du CRM), 4 (statistiques), 6 (audit Web, à confirmer) | Elles renforcent la chaîne ou ouvrent d'autres occasions |
+| **Mise de côté** | 12 (après les travaux) : décision du propriétaire, on y reviendra |
 | **Plus tard (pas d'urgence)** | 1 (surveillance et alertes), 8 (maintenance), 10 (SEO) | Utiles, mais sans effet commercial immédiat. Elles restent au catalogue |
 
 Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, décision du propriétaire, activation.
