@@ -1,5 +1,7 @@
 # Mission Cheexpeer — Pitch de sous-traitance après un marché gagné
 
+> **Mise à jour du 22 novembre 2026 :** le propriétaire a précisé que le pitch n'est pas la priorité. La mission n°1 est désormais la liste de prospects : voir [MISSION-CHEEXPEER-PROSPECTS-SOUS-TRAITANCE-2026-11-22.md](MISSION-CHEEXPEER-PROSPECTS-SOUS-TRAITANCE-2026-11-22.md). Le pitch et la façon de contacter viendront après.
+
 *Fiche rédigée le 21 novembre 2026 à la demande du propriétaire. Aucune construction n'est lancée : cette fiche est à relire avant toute décision.*
 
 ## Idée
