@@ -40,33 +40,49 @@ Elles reposent sur le **registre d'outils** déjà en place : une mission du cat
 | Champ « Objet » en menu déroulant | **Non construit** (aujourd'hui : zone de texte libre) |
 | Menus déroulants dans le chat | **Non construits** (aujourd'hui : chat libre) |
 | Missions déjà construites | Diagnostic (inerte) ; **mission n°1 « prospects de sous-traitance »**, sur Test, outil désactivé |
-| Liste des 10 à 15 missions | **Proposée** (14 missions + « Autre »), à valider par le propriétaire |
+| Liste des missions | **10 missions décrites par le propriétaire** (22 nov.), propositions de Claude à valider ; le catalogue grandira |
 
-## Liste proposée des missions — à valider par le propriétaire
-*Établie le 22 novembre 2026 à la demande du propriétaire (« tu te bases sur la documentation pour établir les missions de Cheexpeer »). Chaque mission vient d'un texte déjà écrit ; la dernière colonne dit lequel. Rien n'est construit sauf la n°5. Toutes : lecture seule, aucun envoi, validation humaine, niveaux N1 à N3 du cahier des charges.*
+## Les missions de Cheexpeer, selon le propriétaire (22 novembre 2026, 14 h 50)
+*La liste précédente, tirée de la documentation par Claude, est **remplacée** : le propriétaire a jugé qu'elle n'était pas assez détaillée et a décrit lui-même les missions. Ses mots sont conservés ci-dessous. Il demande à Claude « plus d'initiative et d'ouverture » : les ajouts de Claude sont marqués **Proposition** et restent à valider. Les exemples chiffrés du propriétaire servent à orienter le rôle de Cheexpeer, pas à être pris au pied de la lettre.*
 
-| N° | Phase | Mission (nom du menu) | Ce que Cheexpeer fait | Source dans la documentation |
-|---|---|---|---|---|
-| 1 | Avant | Analyser un appel d'offres | Lit l'appel d'offres : lots, métiers, qualifications, lieu, calendrier | Cadrage 6 nov., §2.1 (étapes 1-2) |
-| 2 | Avant | Proposer les codes NAF d'un appel d'offres | Propose des codes d'activité : correspondance forte, complémentaire ou incertaine, avec justification | Cadrage 6 nov., §2.2 |
-| 3 | Avant | Constituer un dossier de ciblage | Entreprises retenues pour répondre ou sous-traiter, avec raison, source, date et champs à vérifier | Cadrage 6 nov., §2.3 |
-| 4 | Avant | Veille des opportunités | Surveille chaque jour les marchés et signaux selon les alertes, sans répétition inutile | Cahier des charges Cheexpeer, §3.1 |
-| 5 | Après l'attribution | **Prospects de sous-traitance** *(construite sur Test, outil fermé)* | 20 à 30 entreprises du même métier et de la même région qu'un marché gagné | Mission n°1, 22 nov. |
-| 6 | Après l'attribution | Fiche entreprise (SIREN) | Une page par entreprise : marchés gagnés, annuaire, RGE, annonces | Cahier des charges, §3.5 ; périmètre §9 |
-| 7 | Après l'attribution | Surveiller une entreprise suivie | Signale les changements importants : cession, procédure collective, nouveau marché | Cahier des charges, §3.1 ; périmètre §9 |
-| 8 | Après l'attribution | Priorité d'un contact (score expliqué) | Propose un score de priorité avec ses raisons ; jamais une décision automatique | Cahier des charges, §3.3 |
-| 9 | Autres entrées | Détecter les créations d'entreprises | Repère les ouvertures récentes et prépare un diagnostic prudent de leur présence en ligne | Cadrage 6 nov., §3 |
-| 10 | Autres entrées | Audit de réputation d'une entreprise | Rapport sur la réputation en ligne d'une entreprise | Cadrage 6 nov., §3.4 (installé sur Test) |
-| 11 | Administration | Audit SEO de MajestiOS | Diagnostic du site, recommandations classées, aucune publication sans validation | Cahier des charges, §3.6 |
-| 12 | Administration | Relire les annonces avant publication | Prépare l'avis de l'administrateur sur une annonce | Périmètre §9 |
-| 13 | Administration | Bilan hebdomadaire | Nouveautés, alertes, état des sources, santé de la plateforme | Cahier des charges, §3.4 et §3.7 |
-| 14 | Après les travaux | *À définir par le propriétaire* | Reprise de travaux mal faits ou en retard : ce qu'il faut surveiller reste à préciser | Objectif du cycle d'appel d'offres |
-| — | — | **Autre** | Message libre, sans pouvoir supplémentaire | Décision du 22 nov. |
+| N° | Mission | Ce que dit le propriétaire |
+|---|---|---|
+| 1 | Surveillance du site | « Surveiller le site et alerter sur toute anomalie, dysfonctionnement et l'enregistrer dans un historique d'événements... même un simple nouvel espace créé. » |
+| 2 | Appels d'offres → entreprises concernées | « Analyser les appels d'offres (en cours) et les traduire par code APE/NAF puis faire les recherches adéquates pour identifier les entreprises susceptibles d'être concernées par ces appels d'offres. » |
+| 3 | Fiches de contacts | « Compléter des fiches de contacts (téléphone, e-mail, nom du dirigeant) et alimenter le CRM admin. » |
+| 4 | Statistiques | « Établir des statistiques qui pourront éventuellement servir de support pédagogique au site MajestiOS et pour d'éventuels futurs investisseurs » (exemple : sur 100 appels d'offres, 40 % concernent le bâtiment, 20 % les services numériques, 40 % d'autres services, sur la Basse-Normandie ou le Calvados). « Les statistiques fournies par Cheexpeer devront être plus précises et plus pertinentes. » |
+| 5 | Scoring | « Mettre en place un système de scoring (basé sur les exigences de l'appel d'offres et les références des entreprises potentiellement éligibles) » : une entreprise qui a les certifications demandées ou une comptabilité saine aura plus de 8 sur 10 ; une entreprise dont les références ne sont pas prouvées aura 2 sur 10. |
+| 6 | Audit de présence Web | « Faire un audit de la présence Web des entreprises qui en font la demande. » |
+| 7 | Mails et pitch | « Préparer des mails de prospection et des pitch pour les dirigeants des entreprises et/ou les contacts LinkedIn. » |
+| 8 | Maintenance du site | « S'occuper de la maintenance du site. » |
+| 9 | Assistance à l'admin | « Assister l'admin notamment sur la partie enrichissement du CRM ou de la base de prospection. » |
+| 10 | SEO | « Optimiser le SEO. » |
 
-**Plus tard, à réfléchir ensemble** (non comptées) : le message et la façon de contacter les entreprises ; l'accompagnement des entreprises intéressées par une sous-traitance.
+Le propriétaire a numéroté deux missions « 4 » : la liste compte donc **10 missions**. Les n°3 et n°9 se recoupent (enrichir le CRM) : à clarifier plus tard.
+
+> « Les autres missions de Cheexpeer seront établies au fur et à mesure des problématiques auxquelles nous serons confrontés, sachant qu'on n'a pas encore une totale visibilité sur l'évolution de notre plateforme. »
+
+Le catalogue peut donc grandir : les missions s'ajoutent en base sans reconstruire le reste.
+
+### Propositions de Claude (à valider, mission par mission)
+| N° | Ce que Cheexpeer pourrait faire en plus | Ce qui existe déjà |
+|---|---|---|
+| 1 | Aussi surveiller : inscriptions, erreurs, liens cassés, missions échouées, coûts de l'IA ; trois niveaux d'alerte (information, attention, urgent) ; une alerte n'est pas répétée tant que rien ne change | Historique d'événements des missions ; diagnostic sur Test |
+| 2 | Découper l'appel d'offres par lots ; proposer plusieurs codes NAF (forte, complémentaire, incertaine) ; ajouter les métiers complémentaires ; indiquer les qualifications exigées | Outils « marchés attribués », « entreprises » et « métiers complémentaires » du chat |
+| 3 | Nom du dirigeant depuis l'annuaire officiel ; téléphone et e-mail depuis les sources officielles et le site de l'entreprise ; chaque champ garde sa source et sa date ; les fiches sont **proposées** à l'admin, qui valide avant l'entrée dans le CRM | Mission n°1 « prospects » (liste des entreprises) |
+| 4 | Chiffres par région, département, métier et période ; évolution dans le temps ; chaque chiffre avec sa source, sa date et la taille de l'échantillon ; export tableau et graphique | Données de marchés attribués |
+| 5 | Note sur 10 **détaillée par critère** (certifications, situation financière, références, proximité) pour qu'on voie pourquoi ; une référence « non prouvée » est notée basse **et marquée « non prouvée »** (≠ « mauvaise ») ; l'admin peut corriger | Aucun scoring construit |
+| 6 | Rapport remis à l'entreprise qui le demande : site, fiches en ligne, réputation, constats, pistes | Audit de réputation installé sur Test |
+| 7 | Brouillons d'e-mails et de messages LinkedIn adaptés au métier et au marché gagné ; **jamais envoyés** : l'humain relit et envoie | Générateur de pitch du chat |
+| 8 | Diagnostics, correctifs préparés, tests ; **aucune mise en ligne sans validation** | Contrôles automatiques du dépôt |
+| 9 | Repérer champs manquants et doublons, proposer les corrections | — |
+| 10 | Audit technique, mots-clés, recommandations classées, brouillons de contenus ; rien de publié sans validation | Description dans le cahier des charges §3.6 |
+
+## État de chaque mission au 22 novembre 2026
+Seules des **briques** existent : liste d'entreprises par métier et région (sur Test, outil fermé), outils du chat, audit de réputation (Test), historique d'événements. **Aucune des 10 missions n'est complète.**
 
 ## Ordre de travail prévu
-1. Le propriétaire valide ou corrige la liste proposée ci-dessus, avec leur phase.
+1. Le propriétaire valide ou corrige les propositions ci-dessus, mission par mission.
 2. Création de la table du catalogue en base (base de test d'abord), avec les fiches ci-dessus.
 3. Le champ « Objet » lit ce catalogue ; l'entrée « Autre » reste libre.
 4. Les menus déroulants du chat lisent le même catalogue.
