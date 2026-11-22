@@ -100,9 +100,12 @@ const csvCell = (value) => {
   return /[;"\r\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
 };
 /** CSV lisible par Excel (séparateur « ; », UTF-8 avec BOM) et importable dans Google Sheets. */
+const SCORE_COLUMNS = Object.freeze([["Note /20 (provisoire)", "score_note"], ["Preuve %", "score_preuve"], ["Étiquette", "score_etiquette"]]);
 export function prospectsToCsv(companies) {
-  const rows = [CSV_COLUMNS.map(([label]) => csvCell(label)).join(";")];
-  for (const c of Array.isArray(companies) ? companies : []) rows.push(CSV_COLUMNS.map(([, key]) => csvCell(c?.[key])).join(";"));
+  const list = Array.isArray(companies) ? companies : [];
+  const cols = list.some((c) => c?.score) ? [...SCORE_COLUMNS, ...CSV_COLUMNS] : CSV_COLUMNS;
+  const rows = [cols.map(([label]) => csvCell(label)).join(";")];
+  for (const c of list) rows.push(cols.map(([, key]) => csvCell(key === "score_note" ? c?.score?.note : key === "score_preuve" ? c?.score?.preuve : key === "score_etiquette" ? c?.score?.etiquette : c?.[key])).join(";"));
   return "\uFEFF" + rows.join("\r\n") + "\r\n";
 }
 export const prospectsFilename = (criteres, now = new Date()) => `prospects-sous-traitance-${String(criteres?.naf ?? "naf").replace(".", "")}-dep${criteres?.departement ?? "xx"}-${now.toISOString().slice(0, 10)}.csv`;
