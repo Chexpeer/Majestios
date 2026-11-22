@@ -74,6 +74,8 @@ Dans le code, « autonomie 0 » signifie : lecture seule, aucun effet externe. C
 
 Les missions seront regroupées dans un **catalogue** choisi par menu déroulant : voir [CATALOGUE-MISSIONS-CHEEXPEER-2026-11-22.md](CATALOGUE-MISSIONS-CHEEXPEER-2026-11-22.md).
 
+Les outils Google prévus sont décrits dans [OUTILS-GOOGLE-CHEEXPEER-2026-11-22.md](OUTILS-GOOGLE-CHEEXPEER-2026-11-22.md).
+
 ## 9. Missions envisagées, non construites
 Aucune n'est autorisée tant qu'elle n'a pas sa fiche et sa décision.
 - Veille quotidienne des marchés gagnés selon les alertes.
