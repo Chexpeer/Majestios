@@ -321,3 +321,9 @@ Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, d�
 **Ce qui est réellement évalué aujourd'hui.** Métier (code NAF), RGE, ancienneté (partielle), effectif face au montant annualisé (partielle), département. **Non branchés, donc « non prouvé » ou « exigences non vérifiées »** : références, comptes, règlement de consultation, autres qualifications. Aucune entreprise n'est exclue par le score ; seules sont écartées et listées à part les radiées, en liquidation ou non diffusables.
 
 **Précisions de calcul.** Critère neutralisé (par exemple montant inconnu) : il sort du calcul et la note est ramenée sur 20. Niveau de preuve = part des points maximum reposant sur une information confirmée (la moitié des points pour « partiellement confirmé »). « Très bon » = 16/20 ou plus avec une preuve d'au moins 70 %. **Tous les poids et seuils restent provisoires** et seront ajustés sur des cas réels.
+
+## Prochaines priorités à faire — décision du propriétaire du 22 novembre 2026
+1. **Mission 7 (brouillons d'e-mails, pitchs et messages LinkedIn) : mise de côté à la demande du propriétaire, à reprendre plus tard**, une fois la stratégie de contact arrêtée. Un premier jet de brouillons existe sur le poste de Claude (branche locale `mission-7-brouillons`, jamais fusionné ni publié) : e-mail court et long, message LinkedIn, sans aucun envoi, avec les règles de langage de la mission 11.
+2. **Mission 3 (fiches contacts)** : attend la clé Google (vérification de facturation en cours).
+3. Puis missions 9, 4 et 6. Mission 12 et dialogue avec Majestios Bot : laissés de côté.
+4. **Score (mission 5)** : poids et seuils à ajuster sur des cas réels ; références, comptes et règlement de consultation à brancher.
