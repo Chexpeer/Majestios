@@ -341,3 +341,15 @@ Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, d�
 - Limite connue : distance à vol d'oiseau, pas de temps de trajet par la route.
 
 **Réutilisation.** La même mesure de distance servira à la mission d'accompagnement aux appels d'offres (sélection de partenaires proches du chantier).
+
+### État au 23 novembre 2026 (nuit) — distance livrée et décision d'extension aux appels d'offres en cours
+- **Livré sur Test uniquement** (fusionné dans le code, PR « Score des entreprises : distance au chantier ») : calcul à vol d'oiseau, paliers 25 / 50 / 100 km, lieu du chantier d'un marché communal via l'API Adresse (« à confirmer »), colonne « Distance » à l'écran et dans le fichier Excel. Rien en production.
+- **Décision du propriétaire (23 novembre, 0 h 36)** : on documente pour le moment ; ce même système de distance doit aussi servir à l'**accompagnement aux appels d'offres en cours**.
+- **Application prévue à « Analyse d'un appel d'offres »** (mission existante, avis BOAMP) :
+  - le lieu des travaux lu dans l'avis (lot, sinon exécution du marché, sinon département cité) devient le point de référence du chantier ;
+  - les entreprises candidates comme partenaires ou sous-traitants (même métier) sont classées avec le même score, donc la même distance ;
+  - différence avec « Opportunités après attribution » : il n'y a pas encore d'entreprise gagnante à comparer ; on affiche à la place le nombre d'entreprises à moins de 25 / 50 / 100 km ;
+  - le lieu précis (commune, adresse) est souvent absent de l'avis : dans ce cas, repli sur le département, signalé « à confirmer », sans inventer de distance ;
+  - toujours en lecture seule, autonomie 0, validation humaine, rien d'envoyé à l'extérieur.
+- **À décider avec le propriétaire avant de construire** : seuils par métier ; distance à vol d'oiseau suffisante ou temps de trajet par la route ; faut-il aussi montrer la distance aux entreprises déjà en relation (CRM).
+- **Réglage des seuils** : à faire après les premiers essais sur de vrais marchés, comme prévu.
