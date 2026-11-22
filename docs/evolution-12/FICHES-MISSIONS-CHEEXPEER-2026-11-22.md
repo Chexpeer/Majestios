@@ -355,3 +355,7 @@ Chaque mission passe par les mêmes étapes : fiche validée, essai sur Test, d�
 - **Réglage des seuils** : à faire après les premiers essais sur de vrais marchés, comme prévu.
 - **Décision du propriétaire (23 novembre, 0 h 38)** : la distance en ligne droite suffit, pas de temps de trajet par la route.
 - **Décision du propriétaire (23 novembre, 0 h 39)** : les seuils peuvent varier selon le métier. Premier cas : pour le **désamiantage** (métier rare, entreprises peu nombreuses), la distance acceptable peut aller **jusqu'à 200 km**. Les autres métiers gardent 25 / 50 / 100 km pour l'instant ; d'autres métiers seront ajustés après les premiers essais. Pas encore codé (documentation seule).
+- **Précision du propriétaire (23 novembre, 0 h 42) — métiers où les grandes entreprises sous-traitent une partie du travail** :
+  - **Métallerie lourde** : les grandes entreprises remportent souvent les marchés et sous-traitent le **montage**.
+  - **Télécoms et électricité** : les grandes entreprises sous-traitent les **tirages de câbles**.
+  - Conséquence retenue : ces métiers sont à traiter comme le désamiantage, avec des seuils de distance propres, probablement plus larges ; la distance exacte reste à fixer avec le propriétaire. Les codes d'activité (NAF) correspondants et les mots-clés à repérer dans les avis (montage, charpente métallique, tirage de câbles, fibre, courants faibles…) sont à définir au moment de construire. Rien n'est codé.
