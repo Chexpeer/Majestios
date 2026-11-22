@@ -122,8 +122,8 @@ function renderOpportunite(r) {
   });
   actions.append(dl); box.append(actions);
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
-  for (const h of ["Entreprise", "SIREN", "NAF", "Commune", "Dép.", "Pourquoi"]) head.append(el("th", "", h)); table.append(head);
-  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  for (const h of ["Score (provisoire)", "Entreprise", "SIREN", "NAF", "Commune", "Dép.", "Pourquoi"]) head.append(el("th", "", h)); table.append(head);
+  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.score ? `${e.score.note}/20 · preuve ${e.score.preuve} %` : "—", e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
 }
 function renderAnalyse(r) {

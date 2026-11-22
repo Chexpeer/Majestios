@@ -119,6 +119,7 @@ export function pickLocalCompany(raw, { naf, departement, regionCode, now = new 
       telephone: null, email: null, google_maps: null, // à compléter dans une étape suivante (clé Google, sites web)
       source: SOURCE_NAME,
       source_url: "https://annuaire-entreprises.data.gouv.fr/entreprise/" + siren,
+      creation: clean(raw.date_creation, 10) || null,
       collecte_le: now.toISOString().slice(0, 10)
     }
   };
