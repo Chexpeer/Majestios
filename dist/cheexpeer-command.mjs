@@ -44,7 +44,7 @@ export function buildSubmitPayload({ organizationId, title, objective, idempoten
   return payload;
 }
 /** Demande de mission « prospects de sous-traitance » : validation humaine toujours exigée, aucun effet externe. */
-export function buildProspectsPayload({ organizationId, naf, departement, limite, gagnantNom, gagnantSiren, marcheObjet, idempotencyKey }) {
+export function buildProspectsPayload({ organizationId, naf, departement, limite, gagnantNom, gagnantSiren, marcheObjet, communeChantier, idempotencyKey }) {
   const n = String(naf ?? "").trim().toUpperCase().replace(/\s/g, "");
   const code = /^\d{4}[A-Z]$/.test(n) ? n.slice(0, 2) + "." + n.slice(2) : n;
   const dept = String(departement ?? "").trim().toUpperCase();
@@ -55,6 +55,7 @@ export function buildProspectsPayload({ organizationId, naf, departement, limite
   if (siren) { if (!/^\d{9}$/.test(siren)) return null; input.gagnant_siren = siren; }
   const nom = String(gagnantNom ?? "").trim(); if (nom) input.gagnant_nom = nom.slice(0, 120);
   const objet = String(marcheObjet ?? "").trim(); if (objet) input.marche_objet = objet.slice(0, 200);
+  const commune = String(communeChantier ?? "").replace(/\s+/g, " ").trim(); if (commune) input.commune_chantier = commune.slice(0, 80);
   return { organization_id: organizationId, mission_type: MISSION_TYPE_PROSPECTS, title: `Prospects de sous-traitance · ${code} · dép. ${dept}`, autonomy_level: 0, requires_approval: true, input, idempotency_key: idempotencyKey };
 }
 
@@ -75,13 +76,13 @@ export function buildOpportunitePayload({ organizationId, contractUid, label, id
  * Transforme les codes NAF cochés par l'administrateur × les départements retenus en demandes « prospects ».
  * Jamais plus de MAX_RECHERCHES demandes d'un coup ; chaque demande reste soumise à validation humaine.
  */
-export function buildProspectsFromAnalysis({ organizationId, nafs, departements, marcheObjet, limite = 20, newKey }) {
+export function buildProspectsFromAnalysis({ organizationId, nafs, departements, marcheObjet, communeChantier, limite = 20, newKey }) {
   const codes = [...new Set(nafs ?? [])], depts = [...new Set(departements ?? [])];
   if (!codes.length || !depts.length) return { ok: false, message: "Cochez au moins un code NAF et un département." };
   if (codes.length * depts.length > MAX_RECHERCHES) return { ok: false, message: `Trop de recherches d'un coup (${codes.length * depts.length}). Maximum : ${MAX_RECHERCHES}. Décochez quelques codes ou départements.` };
   const bodies = [];
   for (const naf of codes) for (const departement of depts) {
-    const b = buildProspectsPayload({ organizationId, naf, departement, limite, marcheObjet, idempotencyKey: newKey() });
+    const b = buildProspectsPayload({ organizationId, naf, departement, limite, marcheObjet, communeChantier, idempotencyKey: newKey() });
     if (!b) return { ok: false, message: `Code ou département invalide : ${naf} / ${departement}.` };
     bodies.push(b);
   }
