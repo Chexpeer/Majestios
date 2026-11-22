@@ -40,17 +40,33 @@ Elles reposent sur le **registre d'outils** déjà en place : une mission du cat
 | Champ « Objet » en menu déroulant | **Non construit** (aujourd'hui : zone de texte libre) |
 | Menus déroulants dans le chat | **Non construits** (aujourd'hui : chat libre) |
 | Missions déjà construites | Diagnostic (inerte) ; **mission n°1 « prospects de sous-traitance »**, sur Test, outil désactivé |
-| Liste des 10 à 15 missions | **À fixer avec le propriétaire** (aucune liste arrêtée) |
+| Liste des 10 à 15 missions | **Proposée** (14 missions + « Autre »), à valider par le propriétaire |
 
-## Missions candidates connues (non arrêtées)
-Reprise de ce qui a déjà été évoqué, pour servir de base de discussion, sans aucune décision :
-- **Après l'attribution** : prospects de sous-traitance (construite sur Test) ; pitch et façon de contacter les entreprises (plus tard) ; accompagnement des entreprises intéressées par une sous-traitance (plus tard).
-- **Avant** : veille quotidienne des marchés selon les alertes ; fiche entreprise complète (clé SIREN) ; préparation d'un dossier de réponse.
-- **Administration** : relecture préparatoire des annonces ; bilan hebdomadaire ; surveillance des changements d'une entreprise suivie.
-- **Après les travaux** : à définir par le propriétaire.
+## Liste proposée des missions — à valider par le propriétaire
+*Établie le 22 novembre 2026 à la demande du propriétaire (« tu te bases sur la documentation pour établir les missions de Cheexpeer »). Chaque mission vient d'un texte déjà écrit ; la dernière colonne dit lequel. Rien n'est construit sauf la n°5. Toutes : lecture seule, aucun envoi, validation humaine, niveaux N1 à N3 du cahier des charges.*
+
+| N° | Phase | Mission (nom du menu) | Ce que Cheexpeer fait | Source dans la documentation |
+|---|---|---|---|---|
+| 1 | Avant | Analyser un appel d'offres | Lit l'appel d'offres : lots, métiers, qualifications, lieu, calendrier | Cadrage 6 nov., §2.1 (étapes 1-2) |
+| 2 | Avant | Proposer les codes NAF d'un appel d'offres | Propose des codes d'activité : correspondance forte, complémentaire ou incertaine, avec justification | Cadrage 6 nov., §2.2 |
+| 3 | Avant | Constituer un dossier de ciblage | Entreprises retenues pour répondre ou sous-traiter, avec raison, source, date et champs à vérifier | Cadrage 6 nov., §2.3 |
+| 4 | Avant | Veille des opportunités | Surveille chaque jour les marchés et signaux selon les alertes, sans répétition inutile | Cahier des charges Cheexpeer, §3.1 |
+| 5 | Après l'attribution | **Prospects de sous-traitance** *(construite sur Test, outil fermé)* | 20 à 30 entreprises du même métier et de la même région qu'un marché gagné | Mission n°1, 22 nov. |
+| 6 | Après l'attribution | Fiche entreprise (SIREN) | Une page par entreprise : marchés gagnés, annuaire, RGE, annonces | Cahier des charges, §3.5 ; périmètre §9 |
+| 7 | Après l'attribution | Surveiller une entreprise suivie | Signale les changements importants : cession, procédure collective, nouveau marché | Cahier des charges, §3.1 ; périmètre §9 |
+| 8 | Après l'attribution | Priorité d'un contact (score expliqué) | Propose un score de priorité avec ses raisons ; jamais une décision automatique | Cahier des charges, §3.3 |
+| 9 | Autres entrées | Détecter les créations d'entreprises | Repère les ouvertures récentes et prépare un diagnostic prudent de leur présence en ligne | Cadrage 6 nov., §3 |
+| 10 | Autres entrées | Audit de réputation d'une entreprise | Rapport sur la réputation en ligne d'une entreprise | Cadrage 6 nov., §3.4 (installé sur Test) |
+| 11 | Administration | Audit SEO de MajestiOS | Diagnostic du site, recommandations classées, aucune publication sans validation | Cahier des charges, §3.6 |
+| 12 | Administration | Relire les annonces avant publication | Prépare l'avis de l'administrateur sur une annonce | Périmètre §9 |
+| 13 | Administration | Bilan hebdomadaire | Nouveautés, alertes, état des sources, santé de la plateforme | Cahier des charges, §3.4 et §3.7 |
+| 14 | Après les travaux | *À définir par le propriétaire* | Reprise de travaux mal faits ou en retard : ce qu'il faut surveiller reste à préciser | Objectif du cycle d'appel d'offres |
+| — | — | **Autre** | Message libre, sans pouvoir supplémentaire | Décision du 22 nov. |
+
+**Plus tard, à réfléchir ensemble** (non comptées) : le message et la façon de contacter les entreprises ; l'accompagnement des entreprises intéressées par une sous-traitance.
 
 ## Ordre de travail prévu
-1. Le propriétaire fixe la liste des missions du catalogue, avec leur phase.
+1. Le propriétaire valide ou corrige la liste proposée ci-dessus, avec leur phase.
 2. Création de la table du catalogue en base (base de test d'abord), avec les fiches ci-dessus.
 3. Le champ « Objet » lit ce catalogue ; l'entrée « Autre » reste libre.
 4. Les menus déroulants du chat lisent le même catalogue.
