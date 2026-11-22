@@ -66,3 +66,18 @@ test("export : CSV Excel/Sheets avec BOM, guillemets doublés, formules neutrali
   assert.equal(prospectsToCsv([]).split("\r\n").length, 2);
   assert.equal(prospectsFilename({ naf: "43.22B", departement: "81" }, new Date("2026-11-22T00:00:00Z")), "prospects-sous-traitance-4322B-dep81-2026-11-22.csv");
 });
+
+import { buildAnalysePayload, buildProspectsFromAnalysis, MAX_RECHERCHES } from "../cheexpeer-command.mjs";
+test("analyse d'un appel d'offres : demande et recherches dérivées", () => {
+  const org = "11111111-1111-4111-8111-111111111111";
+  const a = buildAnalysePayload({ organizationId: org, idweb: " 26-111564 ", idempotencyKey: "k" });
+  assert.equal(a.mission_type, "analyse_marche"); assert.deepEqual(a.input, { idweb: "26-111564" }); assert.equal(a.requires_approval, true);
+  assert.equal(buildAnalysePayload({ organizationId: org, idweb: "abc", idempotencyKey: "k" }), null);
+  let n = 0; const key = () => "k" + n++;
+  const ok = buildProspectsFromAnalysis({ organizationId: org, nafs: ["43.22A", "43.22A", "43.22B"], departements: ["50", "14"], marcheObjet: "Plomberie", newKey: key });
+  assert.equal(ok.ok, true); assert.equal(ok.bodies.length, 4); assert.ok(ok.bodies.every((b) => b.mission_type === "prospects_sous_traitance" && b.requires_approval === true));
+  assert.equal(buildProspectsFromAnalysis({ organizationId: org, nafs: [], departements: ["50"], newKey: key }).ok, false);
+  assert.equal(buildProspectsFromAnalysis({ organizationId: org, nafs: ["zz"], departements: ["50"], newKey: key }).ok, false);
+  assert.equal(buildProspectsFromAnalysis({ organizationId: org, nafs: ["43.22A", "43.22B", "43.21A", "43.21B"], departements: ["50", "14"], newKey: key }).ok, false);
+  assert.equal(MAX_RECHERCHES, 6);
+});

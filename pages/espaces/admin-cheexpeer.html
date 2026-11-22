@@ -50,6 +50,16 @@
 <div id="cx-detail" hidden></div>
 </section>
 </div>
+<section class="cx-card" aria-labelledby="cx-ana-title">
+<p class="admin-kicker">MISSION N°2</p><h2 id="cx-ana-title">Analyse d’un appel d’offres</h2>
+<p class="cx-meta"><span>Autonomie 0 · lecture seule</span><span>Validation humaine obligatoire</span><span>Aucune IA générative</span></p>
+<p>Indiquez l’identifiant d’un avis du BOAMP : Cheexpeer lit l’avis, repère les lots et le lieu réel des travaux, et propose des codes NAF avec la phrase de l’avis qui les justifie. Vous cochez ceux que vous validez, puis vous lancez la recherche d’entreprises.</p>
+<form id="cx-analyse">
+<label>Identifiant de l’avis BOAMP<input name="idweb" placeholder="26-111564" maxlength="11" required></label>
+<div class="cx-actions"><button class="cx-primary" type="submit">Demander l’analyse</button></div>
+</form>
+<p id="cx-ana-status" class="cx-status" role="status" hidden></p>
+</section>
 <section class="cx-card" aria-labelledby="cx-pro-title">
 <p class="admin-kicker">MISSION N°1</p><h2 id="cx-pro-title">Prospects de sous-traitance</h2>
 <p class="cx-meta"><span>Autonomie 0 · lecture seule</span><span>Validation humaine obligatoire</span><span>Aucun envoi à l’extérieur</span></p>

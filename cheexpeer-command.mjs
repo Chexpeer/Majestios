@@ -2,6 +2,8 @@
 // Les trois API serveur existent sur MajestiOS-Test : soumission, décision d'approbation, lecture.
 export const MISSION_TYPE = "readiness_probe";
 export const MISSION_TYPE_PROSPECTS = "prospects_sous_traitance";
+export const MISSION_TYPE_ANALYSE = "analyse_marche";
+export const MAX_RECHERCHES = 6;
 
 export const STATUS_LABELS = Object.freeze({
   queued: "Validée · prête à lancer", awaiting_approval: "En attente de validation", retry_wait: "Nouvel essai prévu", blocked: "Bloquée", pending_approval: "En attente de validation", approved: "Approuvée",
@@ -53,6 +55,29 @@ export function buildProspectsPayload({ organizationId, naf, departement, limite
   const nom = String(gagnantNom ?? "").trim(); if (nom) input.gagnant_nom = nom.slice(0, 120);
   const objet = String(marcheObjet ?? "").trim(); if (objet) input.marche_objet = objet.slice(0, 200);
   return { organization_id: organizationId, mission_type: MISSION_TYPE_PROSPECTS, title: `Prospects de sous-traitance · ${code} · dép. ${dept}`, autonomy_level: 0, requires_approval: true, input, idempotency_key: idempotencyKey };
+}
+
+/** Demande de mission « analyse d'un appel d'offres » : seul l'identifiant de l'avis BOAMP est envoyé. */
+export function buildAnalysePayload({ organizationId, idweb, idempotencyKey }) {
+  const id = String(idweb ?? "").trim();
+  if (!/^\d{2}-\d{1,8}$/.test(id)) return null;
+  return { organization_id: organizationId, mission_type: MISSION_TYPE_ANALYSE, title: `Analyse de l'avis BOAMP ${id}`, autonomy_level: 0, requires_approval: true, input: { idweb: id }, idempotency_key: idempotencyKey };
+}
+/**
+ * Transforme les codes NAF cochés par l'administrateur × les départements retenus en demandes « prospects ».
+ * Jamais plus de MAX_RECHERCHES demandes d'un coup ; chaque demande reste soumise à validation humaine.
+ */
+export function buildProspectsFromAnalysis({ organizationId, nafs, departements, marcheObjet, limite = 20, newKey }) {
+  const codes = [...new Set(nafs ?? [])], depts = [...new Set(departements ?? [])];
+  if (!codes.length || !depts.length) return { ok: false, message: "Cochez au moins un code NAF et un département." };
+  if (codes.length * depts.length > MAX_RECHERCHES) return { ok: false, message: `Trop de recherches d'un coup (${codes.length * depts.length}). Maximum : ${MAX_RECHERCHES}. Décochez quelques codes ou départements.` };
+  const bodies = [];
+  for (const naf of codes) for (const departement of depts) {
+    const b = buildProspectsPayload({ organizationId, naf, departement, limite, marcheObjet, idempotencyKey: newKey() });
+    if (!b) return { ok: false, message: `Code ou département invalide : ${naf} / ${departement}.` };
+    bodies.push(b);
+  }
+  return { ok: true, bodies };
 }
 
 const CSV_COLUMNS = Object.freeze([
