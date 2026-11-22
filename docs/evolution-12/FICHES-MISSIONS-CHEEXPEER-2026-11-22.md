@@ -215,6 +215,62 @@ Elles sont intégrées aux fiches ci-dessus ou à retenir au moment de la constr
 - **Jeu d'essai** : marchés passés dont le résultat est connu, avec des cas simples, ambigus et piégés ; trois environnements (fictif, copie représentative, production).
 - **Coûts maîtrisés** : un tri par code classique et gratuit, l'IA n'intervient que sur les marchés pertinents.
 
+## Consolidation des audits de ChatGPT, Gemini et Copilot (22 novembre 2026, 15 h 40)
+*Second tour de consultation, avec le prompt n°2. Chaque IA a relu les fiches. Ce qui suit retient ce qui revient chez au moins deux d'entre elles, et isole les désaccords. Tout est **proposé** : le propriétaire tranche.*
+
+### 1. Ordre de construction : le score passe après la mission 11
+Les trois IA jugent le **score (mission 5) comme la partie la plus risquée** : plusieurs données nécessaires (références, comptes, qualifications autres que RGE, règlement de consultation) ne sont pas encore branchées. Deux d'entre elles conseillent de ne pas commencer par lui.
+
+| Étape | Travail |
+|---|---|
+| 1 | Socle commun : historique d'événements, source et date pour chaque donnée, plafonds, environnement d'essai |
+| 2 | Mission 2 — analyser un marché, trouver les entreprises |
+| 3 | Mission 3 — fiches de contacts |
+| 4 | Mission 11 — opportunités après attribution (**sans score** : « qualification non réalisée ») |
+| 5 | Mission 5 — score, quand ses données sont branchées |
+| 6 | Mission 7 — brouillons |
+| 7 | Missions 9, 4, 6 |
+
+### 2. Premier morceau utile (une semaine) — accord des trois IA
+Un prototype fermé, sans score et sans IA de rédaction : **un marché → ses lots → codes NAF proposés et validés par l'administrateur → entreprises locales (annuaire officiel) → tableau avec SIREN, adresse, code NAF, effectif, source, date → export CSV → erreurs notées dans l'historique.** Une partie existe déjà sur la base de test (la liste d'entreprises par métier et région).
+
+### 3. Règles retenues (au moins deux IA sur trois)
+- **Lots avant codes NAF** ; un code NAF proposé doit citer un **extrait exact** de l'avis, sinon il est rejeté par le code.
+- **Lieu réel des travaux**, jamais l'adresse de l'acheteur. Ordre de recherche : lieu du lot, lieu d'exécution, département indiqué, région, sinon « territoire non déterminé ».
+- **Territoire de recherche** : département des travaux d'abord ; élargissement à la région si peu d'entreprises (seuil à fixer, 15 proposé), en le signalant.
+- **Avis modifié** : l'analyse précédente est marquée obsolète et relancée.
+- **Mission 11** : le gagnant et le montant donnent un **indice** (niveau faible, moyen, fort), jamais un besoin confirmé. Formulation autorisée : « peut représenter une opportunité ». Interdite : « cherche un sous-traitant ».
+- **Score** : critères sans donnée neutralisés (note ramenée sur 20), niveau de preuve calculé à part, plafond à 8/20 seulement si le règlement de consultation a été lu, **le score classe, il n'exclut pas**, seuil « très bon » fixé **après** des essais sur cas réels.
+- **E-mails** : jamais déduits ; statut vérifié, probable à confirmer, introuvable ; générique ou nominatif.
+- **Aucune fusion automatique** de fiches ; propositions acceptées une à une, tracées et réversibles.
+- **Statistiques** : seuil minimal de cas avant d'afficher un pourcentage ; chaque chiffre recalculable à l'identique.
+- **Classement des métiers (statistiques)** par la **nature de la prestation du marché**, pas par le code d'activité du gagnant.
+
+### 4. Essais proposés (ordres de grandeur, à fixer après le premier essai)
+| Mission | Jeu d'essai proposé |
+|---|---|
+| 2 | 30 à 50 avis réels : simples, multi-lots, plusieurs lieux, ambigus |
+| 3 | 30 à 200 entreprises : avec site complet, incomplet, sans site, plusieurs établissements |
+| 5 | 25 à 100 dossiers sur marchés passés. Test proposé : les entreprises réellement retenues apparaissent-elles dans le haut du classement ? |
+| 11 | 20 à 50 marchés attribués : simples, multi-lots, groupements, montants manquants. Le responsable commercial juge chaque piste « utile » ou « inutile » |
+| 7 | 20 à 100 brouillons relus à la main : zéro fait inventé |
+| 9 | 50 fiches CRM avec doublons vrais et faux, entreprises fermées, données contradictoires |
+Les **seuils de réussite chiffrés** proposés par les IA (par exemple 85 % ou 90 %) ne sont pas retenus : ils seront fixés après le premier essai, pas inventés avant.
+
+### 5. Désaccords et décisions à trancher par le propriétaire
+| N° | Question | Avis des IA | Recommandation de Claude |
+|---|---|---|---|
+| 1 | Ordre : score avant ou après la mission 11 ? | Copilot : 11 avant 5. ChatGPT et Gemini : 5 avant 11, mais ChatGPT veut que 11 marche sans score | **11 avant 5** (le score est le plus risqué) |
+| 2 | Entreprises radiées ou « non diffusables » : écartées ? | Gemini : écartées d'office. ChatGPT : ne pas écarter pour ce seul motif | Écarter les entreprises **fermées ou radiées** ; ne rien afficher des non diffusables, sans chercher à contourner ; procédure collective : signaler, un humain décide |
+| 3 | Sources des marchés | Gemini : BOAMP et données d'attribution ; ChatGPT ajoute les avis européens ; Copilot : BOAMP, données essentielles, profils d'acheteurs | Commencer par **BOAMP et données d'attribution françaises**, ajouter le reste ensuite |
+| 4 | Qu'est-ce qu'une « référence vérifiable » ? | Copilot : un document public obligatoire | Adopter cette définition au départ |
+| 5 | Territoire si peu d'entreprises | Gemini : région ; Copilot : département puis régions limitrophes | Département, puis région, avec l'origine affichée |
+| 6 | Lire les règlements de consultation (PDF) ? | Les trois : indispensable à terme | Oui, **après** le premier prototype |
+| 7 | Qui valide quoi ? | Gemini : l'administrateur valide au quotidien, le propriétaire valide les règles | Adopter cette séparation |
+| 8 | Score visible des entreprises concernées ? | ChatGPT : réservé à l'administrateur | Oui, réservé à l'administrateur |
+| 9 | Mission 6 (audit Web) | Gemini : à confirmer, sans effort pour l'instant ; Copilot : en dernier | Garder en dernier rang 2 |
+| 10 | Gestion des oppositions à la prospection | ChatGPT : conserver partout le statut d'opposition | Prévoir dès le socle commun |
+
 ## Ordre de réalisation — décision du propriétaire du 22 novembre 2026, 15 h 09
 > « Intervenir en fonction de la valeur ajoutée commerciale immédiate (le SEO, la maintenance, les alertes ne me semblent pas d'une urgence absolue). »
 
