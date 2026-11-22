@@ -1,0 +1,135 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { REGIONS, DEPT, regionOfDepartment, validateProspectsInput, pickLocalCompany, departmentOfEstablishment, runProspectsMission, MISSION_TYPE_PROSPECTS } from "../supabase/functions/_shared/mission-prospects-core.mjs";
+import { runPending, executeMission, fitResult, WORKER_ID } from "../supabase/functions/_shared/mission-runner-core.mjs";
+import { validateSubmissionPayload } from "../supabase/functions/_shared/cheexpeer-api.mjs";
+
+const orgA = "11111111-1111-4111-8111-111111111111";
+// Reproduit le comportement réel de l'annuaire : le filtre porte sur les établissements, le siège peut être ailleurs.
+const etab = (n, commune, extra = {}) => ({ siret: String(10000000000000 + n), adresse: n + " rue Locale", code_postal: commune.slice(0, 2) + "000", commune, libelle_commune: "Ville" + commune.slice(0, 2), region: "76", est_siege: false, etat_administratif: "A", activite_principale: "43.22B", tranche_effectif_salarie: "03", latitude: "43.9", longitude: "2.1", liste_rge: null, ...extra });
+const co = (n, { siege = etab(n, "81004", { est_siege: true }), local, naf = "43.22B", siren } = {}) => ({ siren: siren ?? String(100000000 + n), nom_complet: "Entreprise " + n, activite_principale: naf, siege, matching_etablissements: local ? [local] : [siege] });
+const json = (results) => ({ ok: true, json: async () => ({ results }) });
+
+test("chaque département métropolitain et d'outre-mer appartient à une région, une seule fois", () => {
+  const all = Object.values(REGIONS).flatMap((r) => r.depts);
+  assert.equal(new Set(all).size, all.length);
+  for (let n = 1; n <= 95; n++) { if (n === 20) continue; const d = String(n).padStart(2, "0"); assert.ok(regionOfDepartment(d), d); }
+  assert.ok(regionOfDepartment("2A") && regionOfDepartment("974"));
+  assert.equal(regionOfDepartment("81").nom, "Occitanie"); assert.equal(regionOfDepartment("99"), null);
+  assert.ok(all.every((d) => DEPT.test(d)));
+});
+
+test("validation de l'entrée : NAF, département, limite 20-30, SIREN", () => {
+  assert.equal(validateProspectsInput({ naf: "4322b", departement: "81" }).value.limite, 30);
+  assert.equal(validateProspectsInput({ naf: "4322b", departement: "81" }).value.naf, "43.22B");
+  for (const bad of [{ naf: "zz", departement: "81" }, { naf: "43.22B", departement: "00" }, { naf: "43.22B", departement: "81", limite: 10 }, { naf: "43.22B", departement: "81", limite: 31 },
+    { naf: "43.22B", departement: "81", gagnant_siren: "12" }, { naf: "43.22B", departement: "81", extra: 1 }, null, []]) assert.equal(validateProspectsInput(bad).ok, false);
+});
+
+test("département déduit du code commune INSEE", () => {
+  assert.equal(departmentOfEstablishment({ commune: "81220" }), "81"); assert.equal(departmentOfEstablishment({ commune: "97411" }), "974");
+  assert.equal(departmentOfEstablishment({ commune: "2A004" }), "2A"); assert.equal(departmentOfEstablishment({ code_postal: "31000" }), "31");
+  assert.equal(departmentOfEstablishment({}), "");
+});
+
+test("entreprise : l'agence locale est présentée, pas le siège lointain ; provenance conservée, aucun contact inventé", () => {
+  const groupe = co(1, { siege: etab(1, "92026", { est_siege: true, region: "11", adresse: "Siège à Courbevoie" }), local: etab(501, "81220", { adresse: "Agence de Rabastens", liste_rge: ["1905"] }) });
+  const r = pickLocalCompany(groupe, { naf: "43.22B", departement: "81", regionCode: "76", now: new Date("2026-11-22T10:00:00Z") });
+  assert.equal(r.company.adresse, "Agence de Rabastens"); assert.equal(r.company.departement, "81"); assert.equal(r.company.etablissement, "agence locale");
+  assert.equal(r.company.zone, "même département"); assert.equal(r.company.rge, true); assert.equal(r.score, 1);
+  assert.equal(r.company.source_url, "https://annuaire-entreprises.data.gouv.fr/entreprise/100000001"); assert.equal(r.company.collecte_le, "2026-11-22");
+  assert.equal(r.company.telephone, null); assert.equal(r.company.email, null); assert.equal(r.company.google_maps, null);
+  const siegeLocal = pickLocalCompany(co(2), { naf: "43.22B", departement: "81", regionCode: "76" });
+  assert.equal(siegeLocal.score, 0); assert.equal(siegeLocal.company.etablissement, "siège");
+  const regionOnly = pickLocalCompany(co(3, { siege: etab(3, "31555", { est_siege: true }) }), { naf: "43.22B", departement: "81", regionCode: "76" });
+  assert.equal(regionOnly.company.zone, "même région"); assert.equal(regionOnly.score, 2);
+});
+
+test("entreprise écartée : hors zone, fermée, autre métier, SIREN invalide", () => {
+  const args = { naf: "43.22B", departement: "81", regionCode: "76" };
+  assert.equal(pickLocalCompany(co(4, { siege: etab(4, "92026", { est_siege: true, region: "11" }) }), args), null);
+  assert.equal(pickLocalCompany(co(5, { siege: etab(5, "81004", { est_siege: true, etat_administratif: "F" }) }), args), null);
+  assert.equal(pickLocalCompany(co(6, { siege: etab(6, "81004", { est_siege: true, activite_principale: "47.11A" }) }), args), null);
+  assert.equal(pickLocalCompany({ siren: "x" }, args), null);
+});
+
+test("mission : département d'abord (siège puis agences), puis région ; sans doublon ni gagnant ; limite respectée", async () => {
+  const calls = [];
+  const fetchImpl = async (u) => { const p = new URL(u).searchParams; calls.push(Object.fromEntries(p));
+    if (p.get("departement")) return json([
+      co(1, { siege: etab(1, "92026", { est_siege: true, region: "11" }), local: etab(501, "81220") }), // agence locale d'un groupe
+      co(2), co(2), // siège local, doublon
+      co(3, { siren: "999999999" }), // gagnant
+      co(4, { naf: "47.11A", siege: etab(4, "81004", { est_siege: true, activite_principale: "47.11A" }) }), // autre métier
+      co(5, { siege: etab(5, "92026", { est_siege: true, region: "11" }) }) // aucun établissement local : écartée
+    ]);
+    return json(Array.from({ length: 25 }, (_, i) => co(100 + i, { siege: etab(100 + i, "31555", { est_siege: true }) }))); };
+  const r = await runProspectsMission({ naf: "43.22B", departement: "81", limite: 20, gagnant_siren: "999999999", gagnant_nom: "Gagnant SA" }, { fetchImpl });
+  assert.equal(r.nombre, 20); assert.equal(new Set(r.entreprises.map((e) => e.siren)).size, 20);
+  assert.ok(!r.entreprises.some((e) => ["999999999", "100000004", "100000005"].includes(e.siren)));
+  assert.deepEqual(r.entreprises.slice(0, 2).map((e) => e.siren), ["100000002", "100000001"]); // siège local avant agence locale
+  assert.deepEqual(r.entreprises.slice(0, 2).map((e) => e.zone), ["même département", "même département"]);
+  assert.equal(r.entreprises[2].zone, "même région");
+  assert.equal(calls[0].departement, "81"); assert.equal(calls[0].etat_administratif, "A"); assert.equal(calls[0].activite_principale, "43.22B");
+  assert.ok(calls.some((c) => c.region === "76"));
+  assert.equal(r.effets_externes, false); assert.equal(r.criteres.region, "Occitanie");
+});
+
+test("mission : erreur de l'annuaire remontée, entrée invalide refusée", async () => {
+  await assert.rejects(runProspectsMission({ naf: "43.22B", departement: "81" }, { fetchImpl: async () => ({ ok: false, status: 500 }) }), /annuaire_500/);
+  await assert.rejects(runProspectsMission({ naf: "bad", departement: "81" }, { fetchImpl: async () => json([]) }), (e) => e.code === "INVALID_INPUT");
+});
+
+test("API de soumission : le type est accepté, la validation humaine est forcée, l'entrée est contrôlée", () => {
+  const base = { organization_id: orgA, mission_type: MISSION_TYPE_PROSPECTS, title: "Prospects", input: { naf: "43.22B", departement: "81" } };
+  const ok = validateSubmissionPayload(base);
+  assert.equal(ok.ok, true); assert.equal(ok.value.requires_approval, true); assert.equal(ok.value.input.limite, 30);
+  assert.equal(validateSubmissionPayload({ ...base, requires_approval: false }).ok, false);
+  assert.equal(validateSubmissionPayload({ ...base, input: { naf: "x", departement: "81" } }).ok, false);
+  assert.equal(validateSubmissionPayload({ ...base, autonomy_level: 1 }).ok, false);
+  assert.equal(validateSubmissionPayload({ ...base, mission_type: "send_email" }).ok, false);
+});
+
+const fakeAdmin = (mission, { completeOk = true } = {}) => { const log = []; let given = false;
+  return { log, rpc: async (name, args) => { log.push([name, args]);
+    if (name === "cheexpeer_worker_claim_next") { if (given || !mission) return { data: [] }; given = true; return { data: [mission] }; }
+    if (name === "cheexpeer_worker_complete_mission") return { data: completeOk };
+    return { data: 0 }; } }; };
+
+test("exécuteur : mission de prospects réservée, exécutée, résultat enregistré par l'identité technique", async () => {
+  const m = { mission_id: orgA, mission_type: MISSION_TYPE_PROSPECTS, autonomy_level: 0, mission_input: { naf: "43.22B", departement: "81", limite: 20 } };
+  const admin = fakeAdmin(m);
+  const s = await runPending(admin, { fetchImpl: async () => json(Array.from({ length: 25 }, (_, i) => co(i + 1))) });
+  assert.equal(s.processed.length, 1); assert.equal(s.failed.length, 0);
+  const done = admin.log.find(([n]) => n === "cheexpeer_worker_complete_mission")[1];
+  assert.equal(done.p_worker_id, WORKER_ID); assert.equal(done.p_result.nombre, 20);
+});
+
+test("exécuteur : type inconnu ou entrée invalide → échec propre, jamais de résultat inventé", async () => {
+  for (const m of [{ mission_id: orgA, mission_type: "send_email", autonomy_level: 0, mission_input: {} },
+    { mission_id: orgA, mission_type: MISSION_TYPE_PROSPECTS, autonomy_level: 0, mission_input: { naf: "x" } },
+    { mission_id: orgA, mission_type: MISSION_TYPE_PROSPECTS, autonomy_level: 1, mission_input: { naf: "43.22B", departement: "81" } }]) {
+    const admin = fakeAdmin(m);
+    const s = await runPending(admin, { fetchImpl: async () => json([]) });
+    assert.equal(s.failed.length, 1); assert.ok(admin.log.some(([n]) => n === "cheexpeer_worker_fail_mission"));
+    assert.ok(!admin.log.some(([n]) => n === "cheexpeer_worker_complete_mission"));
+  }
+});
+
+test("exécuteur : diagnostic inerte inchangé ; rien à faire sans mission ; résultat trop gros réduit et signalé", async () => {
+  const r = await executeMission({ mission_type: "readiness_probe", autonomy_level: 0 });
+  assert.equal(r.status, "passed"); assert.equal(r.external_effects, false);
+  const s = await runPending(fakeAdmin(null)); assert.deepEqual(s, { processed: [], failed: [] });
+  const big = { entreprises: Array.from({ length: 30 }, (_, i) => ({ nom: "x".repeat(2000), i })), nombre: 30 };
+  const fit = fitResult(big);
+  assert.ok(fit.reduit === true && fit.entreprises.length < 30 && fit.nombre === fit.entreprises.length);
+  assert.ok(new TextEncoder().encode(JSON.stringify(fit)).byteLength <= 30 * 1024);
+});
+
+test("migration : type autorisé en autonomie 0 avec validation obligatoire, outil désactivé par défaut", () => {
+  const sql = readFileSync("supabase/migrations/20261122120000_cheexpeer_mission_prospects.sql", "utf8");
+  assert.match(sql, /p_mission_type not in \('readiness_probe', 'prospects_sous_traitance'\) or p_autonomy_level <> 0/);
+  assert.match(sql, /not p_requires_approval/);
+  assert.match(sql, /0, true, 'read', false, 60, 0/);
+});

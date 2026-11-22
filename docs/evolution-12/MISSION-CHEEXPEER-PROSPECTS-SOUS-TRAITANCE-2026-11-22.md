@@ -45,3 +45,17 @@ Les entreprises intéressées contactent la gagnante : MajestiOS joue l'intermé
 
 ## Acquis réutilisable
 Les outils de lecture écrits pour le chat (marchés attribués, annuaire officiel, métiers complémentaires, `pitch-sous-traitance.mjs` avec sa table NAF) servent aussi à cette mission. Les règles existantes restent : validation par l'administrateur, plafonds, Cheexpeer « fermé par défaut », aucune modification des rôles ni des membres par Claude.
+
+## État de construction (22 novembre 2026, soir) — base de test uniquement
+| Élément | État |
+|---|---|
+| Type de mission `prospects_sous_traitance` (autonomie 0, validation humaine forcée) | Migration `20261122120000_cheexpeer_mission_prospects.sql` **appliquée sur Test** |
+| Outil dans le registre | **Désactivé** (fermé par défaut) : à activer par décision du propriétaire |
+| Fonction de création de mission | Mise à jour sur Test (accepte le nouveau type, contrôle l'entrée) |
+| Fonction d'exécution `cheexpeer-mission-run` | Installée sur Test ; ne réserve que les missions approuvées dont l'outil est activé |
+| Écran « Prospects de sous-traitance » du Centre de commande | Formulaire, validation, bouton « Lancer l'exécution », tableau, téléchargement CSV (Excel / Google Sheets) |
+| Production | **Rien** : ni migration, ni fonction |
+| Téléphone, e-mail, Google Maps | Non faits (étapes suivantes) |
+
+## Constat important sur l'annuaire officiel (vérifié sur des données réelles)
+Les filtres de lieu de l'API Recherche d'Entreprises portent sur les **établissements**, pas sur le siège. Une entreprise dont le siège est à Courbevoie peut sortir pour le Tarn parce qu'elle y a une agence. Sur la première page réelle pour le NAF 43.22B dans le Tarn : 25 entreprises reçues, 9 avec siège dans le Tarn, 14 dans la région, les autres seulement avec une agence locale. La mission présente donc l'**établissement situé dans la zone** (adresse, commune, coordonnées), classé : siège local, agence locale, puis reste de la région. Le champ « RGE » (certification) est repris quand l'annuaire le fournit.

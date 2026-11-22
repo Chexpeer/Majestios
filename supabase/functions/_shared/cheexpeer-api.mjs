@@ -1,3 +1,4 @@
+import { MISSION_TYPE_PROSPECTS, validateProspectsInput } from "./mission-prospects-core.mjs";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const STATIC_ORIGINS = new Set(["https://majestios.com", "https://www.majestios.com", "https://majestios.vercel.app"]);
 
@@ -112,7 +113,7 @@ export function validateSubmissionPayload(value) {
   ]);
   if (!value || Object.keys(value).some((key) => !allowed.has(key))) return { ok: false };
   if (!isUuid(value.organization_id) ||
-      value.mission_type !== "readiness_probe" ||
+      !["readiness_probe", MISSION_TYPE_PROSPECTS].includes(value.mission_type) ||
       typeof value.title !== "string" || !value.title.trim() || value.title.length > 200 ||
       (value.objective != null && (typeof value.objective !== "string" || value.objective.length > 4000)) ||
       (value.priority != null && (!Number.isInteger(value.priority) || value.priority < 1 || value.priority > 5)) ||
@@ -123,6 +124,12 @@ export function validateSubmissionPayload(value) {
       (value.context != null && (!value.context || typeof value.context !== "object" || Array.isArray(value.context)))) return { ok: false };
   for (const key of ["scheduled_at", "deadline_at"]) {
     if (value[key] != null && (typeof value[key] !== "string" || Number.isNaN(Date.parse(value[key])))) return { ok: false };
+  }
+  // Mission « prospects de sous-traitance » : entrée vérifiée, validation humaine toujours obligatoire.
+  if (value.mission_type === MISSION_TYPE_PROSPECTS) {
+    const checked = validateProspectsInput(value.input);
+    if (!checked.ok || value.requires_approval === false) return { ok: false };
+    return { ok: true, value: { ...value, input: checked.value, requires_approval: true } };
   }
   return { ok: true, value };
 }
