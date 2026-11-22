@@ -8,6 +8,8 @@ Avant toute intervention, lire obligatoirement [le dossier central des anomalies
 
 **Chantier en cours au 20 novembre 2026 :** la branche autorisée est `evolution-10` (copie de test, reprise d'Evolution-9). Historique : au 13 novembre 2026 la branche autorisée était `Evolution-9`, créée depuis le commit `53a780e7f8c3817197611c4cb9948b3c544a90a5` d'`Evolution-8`. `Evolution-8` et `Evolution-7` sont des références à préserver ; ne pas y ajouter de commits dans le chantier Evolution-9. Travailler exclusivement sur `Evolution-9`. Ne pas modifier `main`, `Evolution-8`, `Evolution-7` ou une branche historique sans autorisation distincte.
 
+**Périmètre de Cheexpeer (22 novembre 2026, décision du propriétaire) :** avant toute évolution touchant Cheexpeer, lire [le périmètre d'action](docs/evolution-12/PERIMETRE-ACTION-CHEEXPEER-2026-11-22.md). Cheexpeer travaille par missions, en lecture seule, avec validation humaine ; il ne modifie jamais rôles, membres, secrets, production, ni n'envoie ou ne publie quoi que ce soit. Toute nouvelle capacité suit la procédure du § 8 de ce document, et rien n'est activé ni mis en production sans décision explicite du propriétaire.
+
 La boucle obligatoire est : **détecter → qualifier → corriger → tester → documenter → enregistrer**. Distinguer systématiquement anomalie confirmée, évolution produit et recette non effectuée. Ne jamais présenter une recette non exécutée comme validée.
 
 ## 0 bis. Mandat actif de stabilisation — 13 novembre 2026

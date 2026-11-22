@@ -43,6 +43,8 @@ Les entreprises intéressées contactent la gagnante : MajestiOS joue l'intermé
 4. Alimentation de la prospection et des CRM.
 5. Mise en production **seulement sur décision explicite du propriétaire**.
 
+Le cadre général des actions de Cheexpeer est fixé dans [PERIMETRE-ACTION-CHEEXPEER-2026-11-22.md](PERIMETRE-ACTION-CHEEXPEER-2026-11-22.md).
+
 ## Acquis réutilisable
 Les outils de lecture écrits pour le chat (marchés attribués, annuaire officiel, métiers complémentaires, `pitch-sous-traitance.mjs` avec sa table NAF) servent aussi à cette mission. Les règles existantes restent : validation par l'administrateur, plafonds, Cheexpeer « fermé par défaut », aucune modification des rôles ni des membres par Claude.
 
