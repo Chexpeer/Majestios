@@ -62,6 +62,8 @@ Le propriétaire a numéroté deux missions « 4 » : la liste compte donc **10 
 
 > « Les autres missions de Cheexpeer seront établies au fur et à mesure des problématiques auxquelles nous serons confrontés, sachant qu'on n'a pas encore une totale visibilité sur l'évolution de notre plateforme. »
 
+**Le chat de Cheexpeer** est mis de côté (« j'ai oublié le chatbot, on verra par la suite comment le mettre en place », 22 novembre 2026, 14 h 59). Les missions passent d'abord par le Centre de commande.
+
 Le catalogue peut donc grandir : les missions s'ajoutent en base sans reconstruire le reste.
 
 Le détail de chaque mission (étapes, résultat, difficultés prévues, ce qui manque, score sur 20) est dans [FICHES-MISSIONS-CHEEXPEER-2026-11-22.md](FICHES-MISSIONS-CHEEXPEER-2026-11-22.md).
