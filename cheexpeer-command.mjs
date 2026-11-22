@@ -3,6 +3,7 @@
 export const MISSION_TYPE = "readiness_probe";
 export const MISSION_TYPE_PROSPECTS = "prospects_sous_traitance";
 export const MISSION_TYPE_ANALYSE = "analyse_marche";
+export const MISSION_TYPE_OPPORTUNITE = "opportunite_attribution";
 export const MAX_RECHERCHES = 6;
 
 export const STATUS_LABELS = Object.freeze({
@@ -62,6 +63,13 @@ export function buildAnalysePayload({ organizationId, idweb, idempotencyKey }) {
   const id = String(idweb ?? "").trim();
   if (!/^\d{2}-\d{1,8}$/.test(id)) return null;
   return { organization_id: organizationId, mission_type: MISSION_TYPE_ANALYSE, title: `Analyse de l'avis BOAMP ${id}`, autonomy_level: 0, requires_approval: true, input: { idweb: id }, idempotency_key: idempotencyKey };
+}
+/** Demande de mission « opportunités après attribution » : seul l'identifiant du marché attribué est envoyé. */
+export function buildOpportunitePayload({ organizationId, contractUid, label, idempotencyKey }) {
+  const uid = String(contractUid ?? "").trim();
+  if (!/^[A-Za-z0-9_.\-]{5,160}$/.test(uid)) return null;
+  const short = String(label ?? "").replace(/\s+/g, " ").trim().slice(0, 90);
+  return { organization_id: organizationId, mission_type: MISSION_TYPE_OPPORTUNITE, title: `Opportunités après attribution${short ? " · " + short : ""}`.slice(0, 200), autonomy_level: 0, requires_approval: true, input: { contract_uid: uid }, idempotency_key: idempotencyKey };
 }
 /**
  * Transforme les codes NAF cochés par l'administrateur × les départements retenus en demandes « prospects ».
