@@ -1,7 +1,7 @@
 // Mission Cheexpeer « fiches de contacts » (lecture seule, autonomie 0, validation humaine obligatoire, aucun envoi).
-// Pour chaque entreprise (30 au plus) : nom du dirigeant tel que publié par l'annuaire officiel ; lien Google Maps et identifiant du lieu
-// (Google sert à vérifier et à renvoyer un lien : le contenu Google — téléphone, site, avis — n'est NI recopié NI conservé, cf. OUTILS-GOOGLE-CHEEXPEER).
-// Téléphone, e-mail et site web : à lire plus tard sur le site de l'entreprise elle-même (étape séparée).
+// Pour chaque entreprise (30 au plus), tout en une seule mission : dirigeants (annuaire officiel) ; site web, téléphone et lien Google Maps (Google Places) ;
+// e-mail (et téléphone si Google n'en donne pas) lus sur le site de l'entreprise elle-même. Chaque champ garde sa source.
+// Décision du propriétaire (23/11/2026) : ces informations sont conservées dans la fiche, sans limite de 30 jours (cf. OUTILS-GOOGLE-CHEEXPEER).
 export const MISSION_TYPE_FICHES = "fiches_contacts";
 export const MAX_ENTREPRISES = 30;
 const SIREN = /^\d{9}$/;
@@ -37,13 +37,13 @@ async function lireAnnuaire(siren, fetchImpl) {
   return { nom: clean(r.nom_complet, 140) || null, dirigeants };
 }
 
-/** Recherche Google Places (champs « Pro » seulement : identifiant, nom, adresse, lien). Correspondance vérifiée sur le code postal ou la commune. */
+/** Recherche Google Places (identifiant, nom, adresse, lien, site web, téléphone). Correspondance vérifiée sur le code postal ou la commune. */
 async function chercherLieu(e, key, fetchImpl) {
   const q = [e.nom, e.commune].filter(Boolean).join(" ");
   if (!q) return { statut: "non cherché" };
   const res = await fetchImpl(new URL(PLACES_URL), {
     method: "POST", signal: AbortSignal.timeout(15000),
-    headers: { "Content-Type": "application/json", "X-Goog-Api-Key": key, "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.googleMapsUri" },
+    headers: { "Content-Type": "application/json", "X-Goog-Api-Key": key, "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.googleMapsUri,places.websiteUri,places.nationalPhoneNumber" },
     body: JSON.stringify({ textQuery: q, maxResultCount: 3, languageCode: "fr", regionCode: "FR" })
   });
   if (!res.ok) return { statut: "erreur Google", code: res.status };
@@ -53,7 +53,37 @@ async function chercherLieu(e, key, fetchImpl) {
   const score = (p) => { const adr = norm(p.formattedAddress); const n = norm(p.displayName?.text); return (cp && adr.includes(cp) ? 2 : 0) + (com && adr.includes(com) ? 1 : 0) + (nom && n && (n.includes(nom) || nom.includes(n)) ? 2 : 0); };
   const best = [...places].sort((a, b) => score(b) - score(a))[0];
   const s = score(best);
-  return { statut: s >= 3 ? "correspondance probable" : s >= 1 ? "à vérifier" : "à vérifier (adresse différente)", place_id: best.id ?? null, lien_google_maps: best.googleMapsUri ?? null, nom_google: clean(best.displayName?.text, 140) || null };
+  return { statut: s >= 3 ? "correspondance probable" : s >= 1 ? "à vérifier" : "à vérifier (adresse différente)", place_id: best.id ?? null, lien_google_maps: best.googleMapsUri ?? null, nom_google: clean(best.displayName?.text, 140) || null, site_web: safeUrl(best.websiteUri), telephone: clean(best.nationalPhoneNumber, 30) || null };
+}
+
+
+const BAD_HOST = /^(localhost|.*\.local|.*\.internal)$|^\d{1,3}(\.\d{1,3}){3}$|^\[/i;
+function safeUrl(u) {
+  try { const x = new URL(String(u ?? "")); if (!/^https?:$/.test(x.protocol) || BAD_HOST.test(x.hostname) || x.username || x.password) return null; return x.href.slice(0, 300); } catch { return null; }
+}
+const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+const EMAIL_BAD = /\.(png|jpe?g|gif|svg|webp|css|js)$|^(sentry|example|votre|nom|email|prenom)@|@(sentry|example|wixpress|domain)\./i;
+const TEL_RE = /(?:\+33\s?|0)[1-9](?:[\s.-]?\d{2}){4}/g;
+const PAGES = ["", "/contact", "/nous-contacter", "/mentions-legales"];
+async function lireSite(site, fetchImpl) {
+  const base = safeUrl(site); if (!base) return { emails: [], telephone: null };
+  const emails = new Set(); let tel = null;
+  for (const path of PAGES) {
+    let html;
+    try {
+      const res = await fetchImpl(new URL(path, base), { signal: AbortSignal.timeout(8000), redirect: "follow", headers: { "User-Agent": "Cheexpeer/1.0 (lecture de la page contact publique)", Accept: "text/html" } });
+      if (!res.ok || !/html|text/i.test(res.headers?.get?.("content-type") ?? "text/html")) continue;
+      html = (await res.text()).slice(0, 300000);
+    } catch { continue; }
+    const txt = html.replace(/<(script|style)[\s\S]*?<\/\1>/gi, " ");
+    for (const m of txt.matchAll(/mailto:([^"'?\s>]+)/gi)) { const a = decodeURIComponent(m[1]).trim().toLowerCase(); if (!EMAIL_BAD.test(a)) emails.add(a); }
+    for (const m of txt.replace(/<[^>]+>/g, " ").matchAll(EMAIL_RE)) { const a = m[0].toLowerCase(); if (!EMAIL_BAD.test(a)) emails.add(a); }
+    if (!tel) { const t = txt.replace(/<[^>]+>/g, " ").match(TEL_RE); if (t) tel = clean(t[0], 20); }
+    if (emails.size >= 3) break;
+  }
+  const host = new URL(base).hostname.replace(/^www\./, "");
+  const list = [...emails].sort((a, b) => (b.endsWith("@" + host) ? 1 : 0) - (a.endsWith("@" + host) ? 1 : 0)).slice(0, 3);
+  return { emails: list, telephone: tel };
 }
 
 export async function runFichesMission(input, { fetchImpl = fetch, now = new Date(), pauseMs = 150, googleKey = globalThis.Deno?.env?.get?.("GOOGLE_MAPS_API_KEY") } = {}) {
@@ -63,14 +93,17 @@ export async function runFichesMission(input, { fetchImpl = fetch, now = new Dat
   for (const e of checked.value.entreprises) {
     const fiche = { siren: e.siren, nom: e.nom, commune: e.commune, dirigeants: [], google: { statut: googleKey ? "non cherché" : "clé Google absente" }, sources: [] };
     try { const a = await lireAnnuaire(e.siren, fetchImpl); if (a) { fiche.dirigeants = a.dirigeants; fiche.nom = fiche.nom || a.nom; fiche.sources.push("annuaire officiel (registre)"); fiche.source_url = "https://annuaire-entreprises.data.gouv.fr/entreprise/" + e.siren; } } catch { fiche.annuaire_erreur = true; }
-    if (googleKey) { try { fiche.google = await chercherLieu({ ...e, nom: fiche.nom }, googleKey, fetchImpl); if (fiche.google.lien_google_maps) fiche.sources.push("Google Maps (lien)"); } catch { fiche.google = { statut: "erreur Google" }; } }
+    if (googleKey) { try { fiche.google = await chercherLieu({ ...e, nom: fiche.nom }, googleKey, fetchImpl); if (fiche.google.lien_google_maps) fiche.sources.push("Google Maps"); } catch { fiche.google = { statut: "erreur Google" }; } }
+    const site = fiche.google?.site_web ?? null;
+    fiche.site_web = site; fiche.telephone = fiche.google?.telephone ?? null; fiche.telephone_source = fiche.telephone ? "Google Maps" : null; fiche.emails = []; fiche.email_source = null;
+    if (site) { try { const l = await lireSite(site, fetchImpl); fiche.emails = l.emails; if (l.emails.length) { fiche.email_source = "site de l'entreprise"; fiche.sources.push("site de l'entreprise"); } if (!fiche.telephone && l.telephone) { fiche.telephone = l.telephone; fiche.telephone_source = "site de l'entreprise"; if (!fiche.sources.includes("site de l'entreprise")) fiche.sources.push("site de l'entreprise"); } } catch { fiche.site_erreur = true; } }
     fiches.push(fiche);
     if (pauseMs > 0) await new Promise((r) => setTimeout(r, pauseMs));
   }
   return {
     type: MISSION_TYPE_FICHES, nombre: fiches.length, fiches,
-    manquant: ["telephone", "email", "site_web"],
-    avertissement: "Téléphone, e-mail et site web ne sont pas remplis : ils seront lus sur le site de l'entreprise elle-même (étape suivante). Google ne fournit ici que le lien vers la fiche, à vérifier. Rien n'est envoyé et rien n'entre dans le CRM sans votre validation.",
-    sources: ["annuaire officiel (registre)", "Google Maps (lien seulement)"], genere_le: now.toISOString(), effets_externes: false
+    manquant: ["telephone", "email", "site_web"].filter((k) => fiches.some((f) => !(k === "email" ? f.emails?.length : f[k]))),
+    avertissement: "Site web et téléphone viennent de Google Maps, l'e-mail est lu sur le site de l'entreprise : une case vide veut dire que rien n'a été trouvé (rien n'est inventé). Chaque information indique sa source. Rien n'est envoyé et rien n'entre dans le CRM sans votre validation.",
+    sources: ["annuaire officiel (registre)", "Google Maps", "site de l'entreprise"], genere_le: now.toISOString(), effets_externes: false
   };
 }

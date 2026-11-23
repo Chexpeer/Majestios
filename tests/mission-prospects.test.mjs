@@ -164,18 +164,22 @@ test("accompagnement : commune du chantier → distance, score et répartition ;
   assert.equal(validateProspectsInput({ naf: "43.22A", departement: "50", commune_chantier: "x".repeat(200) }).value.commune_chantier.length, 80);
 });
 
-test("fiches contacts : dirigeants officiels + lien Google (jamais téléphone/site), clé absente tolérée, 30 max", async () => {
+test("fiches contacts : dirigeants officiels + site/téléphone Google + e-mail lu sur le site, clé absente tolérée, 30 max", async () => {
   const { runFichesMission, validateFichesInput } = await import("../supabase/functions/_shared/mission-fiches-core.mjs");
   const { buildFichesPayload, fichesToCsv } = await import("../cheexpeer-command.mjs");
+  const page = (body) => ({ ok: true, headers: { get: () => "text/html" }, text: async () => body });
   const fetchImpl = async (url, init) => url.hostname === "places.googleapis.com"
-    ? (assert.match(init.headers["X-Goog-FieldMask"], /^places\.id,places\.displayName,places\.formattedAddress,places\.googleMapsUri$/), { ok: true, json: async () => ({ places: [{ id: "PID1", displayName: { text: "PLOMBI SARL" }, formattedAddress: "1 rue X, 50000 Saint-Lô", googleMapsUri: "https://maps.google.com/?cid=1", nationalPhoneNumber: "0102030405", websiteUri: "https://x.fr" }] }) })
-    : { ok: true, json: async () => ({ results: [{ siren: url.searchParams.get("q"), nom_complet: "PLOMBI SARL", dirigeants: [{ nom: "DUPONT", prenoms: "Jean Paul", qualite: "Gérant" }, { type_dirigeant: "personne morale", denomination: "HOLDING SA", qualite: "Président" }] }] }) };
+    ? (assert.match(init.headers["X-Goog-FieldMask"], /places\.websiteUri,places\.nationalPhoneNumber$/), { ok: true, json: async () => ({ places: [{ id: "PID1", displayName: { text: "PLOMBI SARL" }, formattedAddress: "1 rue X, 50000 Saint-Lô", googleMapsUri: "https://maps.google.com/?cid=1", nationalPhoneNumber: "02 33 01 02 03", websiteUri: "https://plombi.fr/" }] }) })
+    : url.hostname === "plombi.fr"
+      ? (url.pathname === "/contact" ? page('<a href="mailto:Contact@plombi.fr">écrire</a> <img src="logo@2x.png"> sentry@sentry.io') : page("<html>accueil</html>"))
+      : { ok: true, json: async () => ({ results: [{ siren: url.searchParams.get("q"), nom_complet: "PLOMBI SARL", dirigeants: [{ nom: "DUPONT", prenoms: "Jean Paul", qualite: "Gérant" }, { type_dirigeant: "personne morale", denomination: "HOLDING SA", qualite: "Président" }] }] }) };
   const input = { entreprises: [{ siren: "123456789", nom: "PLOMBI SARL", commune: "Saint-Lô", code_postal: "50000" }] };
   const r = await runFichesMission(input, { fetchImpl, pauseMs: 0, googleKey: "TEST", now: new Date("2026-11-23T10:00:00Z") });
   const f = r.fiches[0];
   assert.equal(f.dirigeants[0].nom, "Jean DUPONT"); assert.equal(f.google.statut, "correspondance probable"); assert.equal(f.google.lien_google_maps, "https://maps.google.com/?cid=1");
-  assert.doesNotMatch(JSON.stringify(r), /0102030405|x\.fr/, "aucun contenu Google (téléphone, site) conservé");
-  assert.equal(r.effets_externes, false); assert.deepEqual(r.manquant, ["telephone", "email", "site_web"]);
+  assert.equal(f.site_web, "https://plombi.fr/"); assert.equal(f.telephone, "02 33 01 02 03"); assert.equal(f.telephone_source, "Google Maps");
+  assert.deepEqual(f.emails, ["contact@plombi.fr"]); assert.equal(f.email_source, "site de l'entreprise");
+  assert.equal(r.effets_externes, false); assert.deepEqual(r.manquant, []);
   const sans = await runFichesMission(input, { fetchImpl, pauseMs: 0, googleKey: "" });
   assert.equal(sans.fiches[0].google.statut, "clé Google absente"); assert.equal(sans.fiches[0].dirigeants.length, 2);
   const panne = await runFichesMission(input, { fetchImpl: async (u) => { if (u.hostname === "places.googleapis.com") throw new Error("x"); return fetchImpl(u); }, pauseMs: 0, googleKey: "K" });
@@ -184,5 +188,8 @@ test("fiches contacts : dirigeants officiels + lien Google (jamais téléphone/s
   assert.equal(validateFichesInput({ entreprises: [{ siren: "12" }] }).ok, false); assert.equal(validateFichesInput({ entreprises: [], x: 1 }).ok, false);
   const body = buildFichesPayload({ organizationId: "o", entreprises: Array.from({ length: 40 }, (_, i) => ({ siren: String(100000000 + i), nom: "N" })), idempotencyKey: "k" });
   assert.equal(body.input.entreprises.length, 30); assert.equal(body.requires_approval, true); assert.equal(body.autonomy_level, 0);
-  assert.match(fichesToCsv(r.fiches), /Jean DUPONT \(Gérant\)/);
+  assert.match(fichesToCsv(r.fiches), /Jean DUPONT \(Gérant\)/); assert.match(fichesToCsv(r.fiches), /contact@plombi\.fr/);
+  const { runFichesMission: run2 } = await import("../supabase/functions/_shared/mission-fiches-core.mjs");
+  const interne = await run2(input, { fetchImpl: async (u, i) => u.hostname === "places.googleapis.com" ? { ok: true, json: async () => ({ places: [{ id: "P", displayName: { text: "PLOMBI SARL" }, formattedAddress: "50000 Saint-Lô", websiteUri: "http://127.0.0.1/admin" }] }) } : fetchImpl(u, i), pauseMs: 0, googleKey: "K" });
+  assert.equal(interne.fiches[0].site_web, null, "adresse interne refusée");
 });
