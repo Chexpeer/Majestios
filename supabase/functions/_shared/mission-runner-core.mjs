@@ -3,6 +3,7 @@
 import { MISSION_TYPE_PROSPECTS, runProspectsMission } from "./mission-prospects-core.mjs";
 import { MISSION_TYPE_ANALYSE_MARCHE, runAnalyseMission } from "./mission-analyse-marche-core.mjs";
 import { MISSION_TYPE_OPPORTUNITE, runOpportuniteMission } from "./mission-opportunite-core.mjs";
+import { MISSION_TYPE_FICHES, runFichesMission } from "./mission-fiches-core.mjs";
 
 export const WORKER_ID = "cheexpeer-edge-runner";
 export const MAX_RESULT_BYTES = 30 * 1024;
@@ -33,6 +34,9 @@ export async function executeMission(mission, { fetchImpl, now, admin } = {}) {
   }
   if (mission.mission_type === MISSION_TYPE_OPPORTUNITE && Number(mission.autonomy_level) === 0) {
     return await runOpportuniteMission(mission.mission_input, { admin, fetchImpl, now });
+  }
+  if (mission.mission_type === MISSION_TYPE_FICHES && Number(mission.autonomy_level) === 0) {
+    return await runFichesMission(mission.mission_input, { fetchImpl, now });
   }
   throw Object.assign(new Error("Type de mission non pris en charge."), { code: "UNSUPPORTED_TYPE" });
 }

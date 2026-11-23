@@ -4,6 +4,8 @@ export const MISSION_TYPE = "readiness_probe";
 export const MISSION_TYPE_PROSPECTS = "prospects_sous_traitance";
 export const MISSION_TYPE_ANALYSE = "analyse_marche";
 export const MISSION_TYPE_OPPORTUNITE = "opportunite_attribution";
+export const MISSION_TYPE_FICHES = "fiches_contacts";
+export const MAX_FICHES = 30;
 export const MAX_RECHERCHES = 6;
 
 export const STATUS_LABELS = Object.freeze({
@@ -72,6 +74,28 @@ export function buildOpportunitePayload({ organizationId, contractUid, label, id
   const short = String(label ?? "").replace(/\s+/g, " ").trim().slice(0, 90);
   return { organization_id: organizationId, mission_type: MISSION_TYPE_OPPORTUNITE, title: `Opportunités après attribution${short ? " · " + short : ""}`.slice(0, 200), autonomy_level: 0, requires_approval: true, input: { contract_uid: uid }, idempotency_key: idempotencyKey };
 }
+/** Demande de mission « fiches de contacts » : 30 entreprises au plus (SIREN, nom, commune, code postal), validation humaine toujours exigée. */
+export function buildFichesPayload({ organizationId, entreprises, label, idempotencyKey }) {
+  const seen = new Set(), list = [];
+  for (const e of Array.isArray(entreprises) ? entreprises : []) {
+    const siren = String(e?.siren ?? "").replace(/\s/g, "");
+    if (!/^\d{9}$/.test(siren) || seen.has(siren)) continue; seen.add(siren);
+    list.push({ siren, nom: String(e?.nom ?? "").slice(0, 140), commune: String(e?.commune ?? "").slice(0, 80), code_postal: String(e?.code_postal ?? "").slice(0, 10) });
+    if (list.length >= MAX_FICHES) break;
+  }
+  if (!list.length) return null;
+  const short = String(label ?? "").replace(/\s+/g, " ").trim().slice(0, 80);
+  return { organization_id: organizationId, mission_type: MISSION_TYPE_FICHES, title: `Fiches contacts · ${list.length} entreprise(s)${short ? " · " + short : ""}`.slice(0, 200), autonomy_level: 0, requires_approval: true, input: { entreprises: list }, idempotency_key: idempotencyKey };
+}
+/** Fichier CSV des fiches (séparateur point-virgule, UTF-8 avec BOM, protégé contre les formules). */
+export function fichesToCsv(fiches) {
+  const cols = [["Entreprise", (f) => f.nom], ["SIREN", (f) => f.siren], ["Commune", (f) => f.commune], ["Dirigeant(s) (annuaire officiel)", (f) => (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ")],
+    ["Lien Google Maps", (f) => f.google?.lien_google_maps], ["Correspondance Google", (f) => f.google?.statut], ["Téléphone", () => "à compléter"], ["E-mail", () => "à compléter"], ["Site web", () => "à compléter"], ["Lien annuaire", (f) => f.source_url]];
+  const rows = [cols.map(([l]) => csvCell(l)).join(";")];
+  for (const f of Array.isArray(fiches) ? fiches : []) rows.push(cols.map(([, get]) => csvCell(get(f))).join(";"));
+  return "\uFEFF" + rows.join("\r\n") + "\r\n";
+}
+
 /**
  * Transforme les codes NAF cochés par l'administrateur × les départements retenus en demandes « prospects ».
  * Jamais plus de MAX_RECHERCHES demandes d'un coup ; chaque demande reste soumise à validation humaine.
