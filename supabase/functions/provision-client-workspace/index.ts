@@ -3,6 +3,7 @@ const NOTICE_VERSION = "2026-11-05";
 const allowedOrigins = [
   "https://majestios.com",
   "https://www.majestios.com",
+  "https://majestios.vercel.app",
   "https://majestios-jc8g-cqy7hpelc-majistr.vercel.app",
   "https://majestios-git-test-ecriture-claude-majistr.vercel.app",
   "https://majestios-git-evolution-10-majistr.vercel.app",
