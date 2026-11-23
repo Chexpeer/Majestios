@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
-import { buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, buildOpportunitePayload, MISSION_TYPE_OPPORTUNITE, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
+import { buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, buildOpportunitePayload, buildFichesPayload, fichesToCsv, MISSION_TYPE_FICHES, MISSION_TYPE_OPPORTUNITE, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
 
 // Projet cible : MajestiOS-Test (les API Cheexpeer n'existent que là). Même configuration que la relecture des annonces.
 const supabase = createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -68,19 +68,55 @@ function renderMission(data) {
     detailBox.append(box);
   }
   if (m.error_summary) detailBox.append(el("p", "cx-status error", "Erreur : " + m.error_summary));
-  if ((m.mission_type === MISSION_TYPE_PROSPECTS || m.mission_type === MISSION_TYPE_ANALYSE || m.mission_type === MISSION_TYPE_OPPORTUNITE) && m.status === "queued") {
+  if ((m.mission_type === MISSION_TYPE_PROSPECTS || m.mission_type === MISSION_TYPE_ANALYSE || m.mission_type === MISSION_TYPE_OPPORTUNITE || m.mission_type === MISSION_TYPE_FICHES) && m.status === "queued") {
     const run = el("div", "cx-actions"); const b = el("button", "cx-primary", "Lancer l'exécution"); b.type = "button";
     b.addEventListener("click", () => runMissions(b)); run.append(b); detailBox.append(run);
   }
   if (m.mission_type === MISSION_TYPE_PROSPECTS && Array.isArray(m.result?.entreprises)) renderProspects(m.result);
   else if (m.mission_type === MISSION_TYPE_ANALYSE && Array.isArray(m.result?.propositions)) renderAnalyse(m.result);
   else if (m.mission_type === MISSION_TYPE_OPPORTUNITE && Array.isArray(m.result?.partenaires)) renderOpportunite(m.result);
+  else if (m.mission_type === MISSION_TYPE_FICHES && Array.isArray(m.result?.fiches)) renderFiches(m.result);
   else if (m.result && Object.keys(m.result).length) detailBox.append(el("pre", "cx-result", JSON.stringify(m.result, null, 2)));
   const events = el("ul", "cx-timeline"); for (const e of data.events || []) events.append(el("li", "", `${fmt(e.occurred_at)} · ${e.event_type} (${e.actor_type})`));
   if (events.children.length) detailBox.append(el("p", "admin-kicker", "HISTORIQUE"), events);
   say(detailStatus, "");
 }
 
+/** Bouton « Compléter les fiches » sous une liste d'entreprises : crée une mission (30 au plus) qui attend votre validation. */
+function addFichesButton(box, entreprises, label) {
+  const list = (entreprises || []).filter((e) => e && e.siren);
+  if (!list.length) return;
+  const status = el("p", "cx-status"); status.hidden = true;
+  const actions = el("div", "cx-actions"); const b = el("button", "", `Compléter les fiches (${Math.min(list.length, 30)} premières entreprises)`); b.type = "button";
+  b.addEventListener("click", async () => {
+    const body = buildFichesPayload({ organizationId, entreprises: list, label, idempotencyKey: crypto.randomUUID() });
+    if (!body) { say(status, "Aucune entreprise exploitable.", true); return; }
+    b.disabled = true; say(status, "Envoi…");
+    const res = await callApi(fetch, { baseUrl: ANNONCES_SUPABASE.url, key: "submit", token: await token(), body });
+    b.disabled = false;
+    if (!res.ok) { say(status, res.message, true); return; }
+    remember(res.data.mission.mission_id, body.title);
+    say(status, "Mission créée. Elle attend votre validation dans la liste « récentes » : approuvez puis lancez l'exécution.");
+  });
+  actions.append(b); box.append(actions, status);
+}
+function renderFiches(r) {
+  const box = el("div", "cx-card");
+  box.append(el("p", "admin-kicker", "FICHES CONTACTS"), el("p", "", `${r.nombre} fiche(s). ${r.avertissement || ""}`));
+  const actions = el("div", "cx-actions"); const dl = el("button", "cx-primary", "Télécharger (Excel / Google Sheets)"); dl.type = "button";
+  dl.addEventListener("click", () => { const blob = new Blob([fichesToCsv(r.fiches)], { type: "text/csv;charset=utf-8" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "fiches-contacts.csv"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); });
+  actions.append(dl); box.append(actions);
+  const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
+  for (const h of ["Entreprise", "SIREN", "Dirigeant(s) (annuaire officiel)", "Google Maps", "Correspondance", "Téléphone", "E-mail", "Site web"]) head.append(el("th", "", h)); table.append(head);
+  for (const f of r.fiches || []) {
+    const tr = el("tr"); const dir = (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ");
+    for (const v of [f.nom, f.siren, dir || "non trouvé"]) tr.append(el("td", "", v ?? ""));
+    const td = el("td"); if (f.google?.lien_google_maps) { const a = el("a", "", "ouvrir"); a.href = f.google.lien_google_maps; a.target = "_blank"; a.rel = "noopener noreferrer"; td.append(a); } else td.textContent = "—"; tr.append(td);
+    for (const v of [f.google?.statut || "—", "à compléter", "à compléter", "à compléter"]) tr.append(el("td", "", v));
+    table.append(tr);
+  }
+  wrap.append(table); box.append(wrap); detailBox.append(box);
+}
 function renderProspects(result) {
   const list = result.entreprises, c = result.criteres || {};
   const box = el("div", "cx-card");
@@ -93,6 +129,8 @@ function renderProspects(result) {
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = prospectsFilename(c); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   });
   actions.append(dl); box.append(actions);
+  addFichesButton(box, r.partenaires, "partenaires du marché");
+  addFichesButton(box, list, `${c.naf || ""} dép. ${c.departement || ""}`);
   const APERCU = 30, shown = list.slice(0, APERCU);
   if (list.length > APERCU) box.append(el("p", "cx-meta", `Aperçu : les ${APERCU} premières lignes sur ${list.length}. La liste complète est dans le fichier à télécharger.` + (result.plafond_atteint ? " Plafond de sécurité atteint : le métier compte encore d'autres entreprises dans ce département." : "")));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto";
