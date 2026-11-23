@@ -55,7 +55,7 @@
 
 **Résultat.** Une fiche par entreprise, avec des champs remplis, des champs « non trouvé », et pour chaque e-mail la mention **générique** (contact@…) ou **nominatif**. Les fiches sont **proposées** à l'administrateur ; il valide, puis elles entrent dans le CRM.
 
-**Difficultés prévues.** Aucun annuaire officiel ne donne téléphone et e-mail ; les sites changent ; données de Google Maps non copiables en masse (voir [outils Google](OUTILS-GOOGLE-CHEEXPEER-2026-11-22.md)). *Proposition :* ne remplir le téléphone et l'e-mail que s'ils figurent sur le site de l'entreprise, et pour Google ne garder que le lien.
+**Difficultés prévues.** Aucun annuaire officiel ne donne téléphone et e-mail ; les sites changent ; données de Google Maps non copiables en masse (voir [outils Google](OUTILS-GOOGLE-CHEEXPEER-2026-11-22.md)). *Décision du propriétaire (23 novembre 2026) :* Cheexpeer remplit **tout dans la même mission** : site web et téléphone depuis Google Maps (conservés dans la fiche, sans limite de 30 jours), e-mail lu sur le site de l'entreprise ; chaque champ garde sa source.
 
 **À décider.** Les e-mails nominatifs (personne physique) : les garder dans la fiche ou seulement les génériques. *Proposition :* génériques par défaut, nominatifs seulement s'ils sont publiés par l'entreprise elle-même.
 
