@@ -32,7 +32,7 @@ Les outils non listés ici (autres services Google) ne sont **pas exclus** : ils
 ## État au 22 novembre 2026
 | Élément | État |
 |---|---|
-| Clé Google Maps | **Non créée** |
+| Clé Google Maps | **Créée le 23 novembre 2026** (limitée à Places API) et enregistrée par le propriétaire dans les secrets Supabase de la base de test, nom `GOOGLE_MAPS_API_KEY`. Plafond de dépense Google : à fixer. Aucune mission ne l'utilise encore. |
 | Outils Google dans le registre | **Non construits** |
 | Mission n°1 | Sur Test, outil désactivé, coordonnées vides |
 
