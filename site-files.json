@@ -98,6 +98,7 @@
     "pages/espaces/administration.html",
     "administration.css",
     "administration.js",
+    "admin-onglets.js",
     "pages/espaces/admin-recherches.html",
     "admin-recherches.js",
     "pages/espaces/admin-annonces.html",
