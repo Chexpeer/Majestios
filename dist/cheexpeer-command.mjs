@@ -90,7 +90,7 @@ export function buildFichesPayload({ organizationId, entreprises, label, idempot
 /** Fichier CSV des fiches (séparateur point-virgule, UTF-8 avec BOM, protégé contre les formules). */
 export function fichesToCsv(fiches) {
   const cols = [["Entreprise", (f) => f.nom], ["SIREN", (f) => f.siren], ["Commune", (f) => f.commune], ["Dirigeant(s) (annuaire officiel)", (f) => (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ")],
-    ["Lien Google Maps", (f) => f.google?.lien_google_maps], ["Correspondance Google", (f) => f.google?.statut], ["Téléphone", () => "à compléter"], ["E-mail", () => "à compléter"], ["Site web", () => "à compléter"], ["Lien annuaire", (f) => f.source_url]];
+    ["Lien Google Maps", (f) => f.google?.lien_google_maps], ["Correspondance Google", (f) => f.google?.statut], ["Téléphone", (f) => f.telephone], ["Source du téléphone", (f) => f.telephone_source], ["E-mail", (f) => (f.emails || []).join(" ; ")], ["Source de l'e-mail", (f) => f.email_source], ["Site web", (f) => f.site_web], ["Lien annuaire", (f) => f.source_url]];
   const rows = [cols.map(([l]) => csvCell(l)).join(";")];
   for (const f of Array.isArray(fiches) ? fiches : []) rows.push(cols.map(([, get]) => csvCell(get(f))).join(";"));
   return "\uFEFF" + rows.join("\r\n") + "\r\n";

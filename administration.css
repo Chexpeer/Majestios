@@ -39,4 +39,26 @@ a.instrument-link:hover,a.instrument-link:focus-visible{border-color:#E6C987;box
 .admin-welcome>div:first-child>p:last-child{font-size:15px}
 .panel-intro{font-size:13px;line-height:1.7}
 /* La pastille « ESPACE ADMIN » est fixée en bas à gauche : on lui laisse sa place dans le menu */
-.admin-sidebar{padding-bottom:70px}
+
+
+/* ===== Mise en page à onglets (intercalaires) + menu déroulant des modules : gain de place ===== */
+.admin-frame{display:block}
+.admin-frame.is-locked .admin-sidebar{display:none}
+.admin-sidebar{position:sticky;top:0;z-index:40;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 18px;padding:8px clamp(14px,3vw,44px) 0;border-right:0;border-bottom:1px solid var(--line);box-shadow:0 8px 30px #0003}
+.admin-brand{padding:0 6px 0 0;border-bottom:0}
+.admin-modules{position:relative}
+.admin-modules summary{list-style:none;cursor:pointer;display:flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid #d4b36a66;border-radius:8px;color:#ffe4a5;font-size:14px;font-weight:700;background:#d6b46b14}
+.admin-modules summary::-webkit-details-marker{display:none}
+.admin-modules[open] summary{background:#d6b46b2e}
+.admin-modules .admin-nav{position:absolute;left:0;top:calc(100% + 6px);min-width:260px;padding:8px;border:1px solid var(--line);border-radius:10px;background:#18232b;box-shadow:0 18px 40px #0008}
+.admin-section-nav{display:flex;gap:4px;flex:1 1 100%;order:3;overflow-x:auto;margin:0 calc(-1 * clamp(14px,3vw,44px));padding:0 clamp(14px,3vw,44px);border-top:1px solid var(--line)}
+.admin-section-nav a{flex:none;border-radius:8px 8px 0 0;border:1px solid transparent;border-bottom:3px solid transparent;padding:12px 18px;white-space:nowrap;font-size:14px}
+.admin-section-nav a.is-active,.admin-section-nav a[aria-selected="true"]{color:#ffe4a5;border-color:var(--line);border-bottom-color:var(--gold);background:#ffffff0d;border-left-width:1px}
+.admin-sidebar-bottom{margin:0 0 0 auto;padding:0;border-top:0;display:flex;align-items:center;gap:14px}
+.admin-sidebar-bottom a{grid-column:auto}
+.admin-sidebar{padding-bottom:0}
+.admin-topbar{min-height:56px}
+[data-tab-hidden]{display:none!important}
+.cockpit-grid.is-single{grid-template-columns:minmax(0,1fr);max-width:900px}
+.cockpit-grid.is-single .people-panel{display:contents}
+@media(max-width:760px){.admin-sidebar{display:flex;position:sticky;padding:8px 14px 0}.admin-brand small{display:none}.admin-sidebar-bottom{display:none}.admin-modules .admin-nav{display:grid}.admin-section-nav{display:flex}.admin-modules .admin-nav{min-width:230px}}
