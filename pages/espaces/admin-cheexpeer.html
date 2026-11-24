@@ -30,9 +30,14 @@
 <div id="workspace" class="cx-workspace" hidden>
 <div><p class="admin-kicker">CHEEXPEER · ADMINISTRATEUR IA</p><h1>Centre de commande</h1><p>Confiez une mission à Cheexpeer, validez-la, puis suivez son résultat. Rien ne s’exécute sans votre décision explicite, et chaque étape est conservée dans l’historique.</p></div>
 <p class="cx-banner" role="note">Environnement de test. Cheexpeer n’est pas encore en service : le diagnostic ne s’exécutera qu’après activation de l’outil par le propriétaire. Aucune action n’est menée sur les données clients.</p>
-<section class="cx-card cx-menu" aria-labelledby="cx-menu-title"><p class="admin-kicker">MES MISSIONS</p><h2 id="cx-menu-title">Que voulez-vous confier à Cheexpeer ?</h2>
-<label>Mission<select id="cx-mission-menu"><option value="analyse">Analyse d’un appel d’offres</option><option value="opportunite">Opportunités après attribution</option><option value="prospects">Prospects de sous-traitance</option><option value="diagnostic">Diagnostic de disponibilité</option></select></label>
-<p id="cx-mission-help" class="cx-meta"></p></section>
+<div class="cx-tabs-wrap"><div class="cx-tabs" role="tablist" aria-label="Missions Cheexpeer">
+<button type="button" role="tab" class="cx-tab" data-tab="analyse" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">📄</span>Appel d’offres</button>
+<button type="button" role="tab" class="cx-tab" data-tab="opportunite" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🏆</span>Après attribution</button>
+<button type="button" role="tab" class="cx-tab" data-tab="prospects" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🤝</span>Sous-traitance</button>
+<button type="button" role="tab" class="cx-tab" data-tab="diagnostic" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🩺</span>Diagnostic</button>
+</div>
+<div class="cx-menu-hidden"><label>Mission<select id="cx-mission-menu"><option value="analyse">Analyse d’un appel d’offres</option><option value="opportunite">Opportunités après attribution</option><option value="prospects">Prospects de sous-traitance</option><option value="diagnostic">Diagnostic de disponibilité</option></select></label></div>
+<p id="cx-mission-help" class="cx-meta cx-help"></p></div>
 <div class="cx-grid">
 <section class="cx-card" data-mission="diagnostic" aria-labelledby="cx-new-title">
 <p class="admin-kicker">DIAGNOSTIC DE DISPONIBILITÉ</p><h2 id="cx-new-title">Demander un diagnostic</h2>

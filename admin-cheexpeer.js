@@ -362,10 +362,19 @@ try { await authorize(); } catch (error) { console.error(error); lock("La vérif
   const KEY = "majestios.cheexpeer.mission.v1";
   const show = (value) => {
     for (const card of document.querySelectorAll("[data-mission]")) card.hidden = card.dataset.mission !== value;
+    for (const tab of document.querySelectorAll(".cx-tab")) { const on = tab.dataset.tab === value; tab.setAttribute("aria-selected", String(on)); tab.tabIndex = on ? 0 : -1; }
     const help = document.querySelector("#cx-mission-help"); if (help) help.textContent = aides[value] || "";
     try { localStorage.setItem(KEY, value); } catch { /* sans importance */ }
   };
   let start = menu.value; try { const saved = localStorage.getItem(KEY); if (saved && aides[saved]) start = saved; } catch { /* sans importance */ }
   menu.value = start; show(start);
   menu.addEventListener("change", () => show(menu.value));
+  const tabs = [...document.querySelectorAll(".cx-tab")];
+  for (const tab of tabs) {
+    tab.addEventListener("click", () => { menu.value = tab.dataset.tab; show(tab.dataset.tab); });
+    tab.addEventListener("keydown", (event) => {
+      const i = tabs.indexOf(tab), d = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0; if (!d) return;
+      const next = tabs[(i + d + tabs.length) % tabs.length]; next.focus(); next.click(); event.preventDefault();
+    });
+  }
 })();
