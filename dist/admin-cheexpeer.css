@@ -1,31 +1,36 @@
 /* Centre de commande Cheexpeer — thème sombre de administration.css. */
 .cx-workspace{max-width:1100px;margin:0 auto;padding:34px 0 54px;display:grid;gap:18px}
-.cx-banner{padding:14px 16px;border:1px solid rgba(215,182,110,.4);border-radius:10px;background:rgba(215,182,110,.07);color:var(--gold2);font-size:13px}
+.cx-banner{padding:14px 16px;border:1px solid rgba(215,182,110,.4);border-radius:10px;background:rgba(215,182,110,.07);color:var(--gold2);font-size:15px}
 .cx-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px}
 .cx-card{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel);min-width:0}
 .cx-card h2{margin:4px 0 10px;font-size:16px}
-.cx-card label{display:block;margin-top:10px;color:var(--muted);font-size:11px;font-weight:700}
-.cx-card :is(input,textarea){display:block;width:100%;margin-top:5px;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:#0f161d;color:var(--text);font:13px "DM Sans",Arial,sans-serif}
+.cx-card label{display:block;margin-top:10px;color:var(--muted);font-size:14px;font-weight:700}
+.cx-card :is(input,textarea){display:block;width:100%;margin-top:5px;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:#0f161d;color:var(--text);font:15px "DM Sans",Arial,sans-serif}
 .cx-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-.cx-actions button{min-height:38px;padding:0 16px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--text);font:800 12px "DM Sans",Arial,sans-serif;cursor:pointer}
+.cx-actions button{min-height:38px;padding:0 16px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--text);font:800 14px "DM Sans",Arial,sans-serif;cursor:pointer}
 .cx-actions .cx-primary{border-color:var(--gold);background:linear-gradient(105deg,#f1d99e,#c69b4a);color:#241c0b}
 .cx-actions button:disabled{opacity:.55;cursor:wait}
-.cx-status{margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:12px}
+.cx-status{margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:14px}
 .cx-status.error{border-color:#c9776b;color:#f0b4ab}
-.cx-pill{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid var(--line);font-size:11px;font-weight:700;color:var(--gold2)}
-.cx-meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:11px;margin:8px 0}
+.cx-pill{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid var(--line);font-size:14px;font-weight:700;color:var(--gold2)}
+.cx-meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:14px;margin:8px 0}
 .cx-timeline{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
-.cx-timeline li{padding:8px 10px;border-left:3px solid var(--line);font-size:12px;color:var(--muted)}
-.cx-result{margin:10px 0 0;padding:10px;border-radius:8px;background:#0f161d;font:12px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.cx-timeline li{padding:8px 10px;border-left:3px solid var(--line);font-size:14px;color:var(--muted)}
+.cx-result{margin:10px 0 0;padding:10px;border-radius:8px;background:#0f161d;font:14px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
 .cx-recent{display:grid;gap:6px;margin:8px 0 0;padding:0;list-style:none}
-.cx-recent button{width:100%;text-align:left;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--text);font-size:12px;cursor:pointer}
+.cx-recent button{width:100%;text-align:left;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--text);font-size:14px;cursor:pointer}
 .mod-login{display:grid;gap:10px;max-width:360px;margin:16px auto 0;text-align:left}
 .mod-login input{padding:10px;border:1px solid var(--line);border-radius:7px;background:#0f161d;color:var(--text);font-size:14px}
 @media(max-width:820px){.cx-grid{grid-template-columns:1fr}.cx-workspace{padding:20px 0}}
 
 .cx-chat-card{max-width:100%}
 .cx-chat-log{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px;max-height:380px;overflow-y:auto}
-.cx-chat-log li{padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid var(--line)}
+.cx-chat-log li{padding:9px 12px;border-radius:10px;font-size:15px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid var(--line)}
 .cx-chat-log li.me{background:#0f161d;justify-self:end;max-width:88%}
 .cx-chat-log li.bot{border-color:rgba(215,182,110,.4);max-width:92%}
-.cx-chat-log .who{display:block;margin-bottom:3px;color:var(--gold2);font-size:10px;font-weight:800;letter-spacing:.06em}
+.cx-chat-log .who{display:block;margin-bottom:3px;color:var(--gold2);font-size:13px;font-weight:800;letter-spacing:.06em}
+
+.cx-card :is(input,textarea,select){font-size:15px}
+.cx-actions button{min-height:44px;font-size:14px}
+.cx-card a:focus-visible,.cx-card button:focus-visible,.cx-card input:focus-visible,.cx-card textarea:focus-visible{outline:3px solid #f0d89e;outline-offset:2px}
+.cx-table th,.cx-table td{font-size:13px}

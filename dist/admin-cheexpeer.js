@@ -112,7 +112,8 @@ function renderFiches(r) {
     const tr = el("tr"); const dir = (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ");
     for (const v of [f.nom, f.siren, dir || "non trouvé"]) tr.append(el("td", "", v ?? ""));
     const td = el("td"); if (f.google?.lien_google_maps) { const a = el("a", "", "ouvrir"); a.href = f.google.lien_google_maps; a.target = "_blank"; a.rel = "noopener noreferrer"; td.append(a); } else td.textContent = "—"; tr.append(td);
-    for (const v of [f.google?.statut || "—", "à compléter", "à compléter", "à compléter"]) tr.append(el("td", "", v));
+    for (const v of [f.google?.statut || "—", f.telephone ? `${f.telephone} (${f.telephone_source})` : "non trouvé", (f.emails || []).length ? `${f.emails.join(" ; ")} (${f.email_source})` : "non trouvé"]) tr.append(el("td", "", v));
+    const ts = el("td"); if (f.site_web) { const a = el("a", "", f.site_web.replace(/^https?:\/\/(www\.)?/, "").slice(0, 40)); a.href = f.site_web; a.target = "_blank"; a.rel = "noopener noreferrer"; ts.append(a); } else ts.textContent = "non trouvé"; tr.append(ts);
     table.append(tr);
   }
   wrap.append(table); box.append(wrap); detailBox.append(box);
@@ -122,7 +123,7 @@ function renderProspects(result) {
   const box = el("div", "cx-card");
   box.append(el("p", "admin-kicker", "RÉSULTAT"), el("p", "", `${list.length} entreprise(s) · métier ${c.naf || "?"} · ${c.region || "région"} (marché dans le département ${c.departement || "?"})` + (result.reduit ? " · liste réduite pour tenir dans la taille autorisée" : "")));
   if (result.chantier) { const rp = result.repartition_distance; box.append(el("p", "cx-meta", `Chantier : ${result.chantier.origine} — à confirmer (distance à vol d'oiseau).` + (rp ? ` Entreprises à moins de ${rp.paliers_km[0]} km : ${rp.jusqua_palier_1} · ${rp.paliers_km[1]} km : ${rp.jusqua_palier_2} · ${rp.paliers_km[2]} km : ${rp.jusqua_palier_3}.` : ""))); }
-  box.append(el("p", "cx-meta", "Téléphone, e-mail et Google Maps : à compléter dans une étape suivante. Source : " + (result.sources || []).join(", ") + "."));
+  box.append(el("p", "cx-meta", "Téléphone, e-mail et site web : remplis par « Compléter les fiches ». Source : " + (result.sources || []).join(", ") + "."));
   const actions = el("div", "cx-actions"); const dl = el("button", "cx-primary", "Télécharger (Excel / Google Sheets)"); dl.type = "button";
   dl.addEventListener("click", () => {
     const blob = new Blob([prospectsToCsv(list)], { type: "text/csv;charset=utf-8" });
