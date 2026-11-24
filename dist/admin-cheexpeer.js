@@ -230,6 +230,11 @@ async function decide(approvalId, decision, note, actions) {
 // ---- Dialogue avec Majestios Bot (nom visible de Cheexpeer) ----
 const chatState = $("#cx-chat-state"), chatLog = $("#cx-chat-log"), chatForm = $("#cx-chat-form"), chatToggle = $("#cx-chat-toggle"), chatClear = $("#cx-chat-clear");
 let chatConversation = null, chatEnabled = false;
+const botPanel = $("#cx-bot-panel"), botLauncher = $("#cx-bot-launcher"), botClose = $("#cx-bot-close");
+function setBot(open) { botPanel.hidden = !open; botLauncher.setAttribute("aria-expanded", String(open)); if (open) chatForm.elements.message?.focus(); else botLauncher.focus(); }
+botLauncher.addEventListener("click", () => setBot(true));
+botClose.addEventListener("click", () => setBot(false));
+document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !botPanel.hidden) setBot(false); });
 function addChat(role, text) {
   const li = el("li", role === "user" ? "me" : "bot"); li.append(el("span", "who", role === "user" ? "VOUS" : "MAJESTIOS BOT"), document.createTextNode(text));
   chatLog.append(li); chatLog.scrollTop = chatLog.scrollHeight;

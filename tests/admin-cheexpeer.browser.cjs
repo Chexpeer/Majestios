@@ -68,6 +68,7 @@ export function createClient(){
     // Dialogue : nom visible, envoi avec jeton, réponse affichée.
     assert.match(await page.textContent("#cx-chat-title"), /Majestios Bot/);
     assert.match(await page.textContent("#cx-chat-state"), /Dialogue actif/);
+    await page.click("#cx-bot-launcher");
     await page.fill("#cx-chat-form textarea", "Bonjour");
     await page.click("#cx-chat-form button[type=submit]");
     await page.waitForFunction(() => document.querySelector("#cx-chat-log")?.textContent.includes("je suis Majestios Bot"));
