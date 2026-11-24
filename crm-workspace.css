@@ -124,3 +124,37 @@
 #crm-admin-nav-link{background:linear-gradient(135deg,#E6C987,#C49A45);color:#1b1608;border-color:transparent;font-weight:800}
 .admin-crm-current{display:flex;flex-direction:column;align-items:flex-end;color:#EDEFF2;font:600 11px/1.3 Inter,system-ui,sans-serif;letter-spacing:.12em}
 .admin-crm-current strong{color:#E6C987;font-size:13px}
+
+/* ---- CRM : compact, coloré, onglets intercalaires ---- */
+html:root:root:root:root body.crm-shell main.interior-page{padding-top:12px;padding-bottom:40px;min-height:0}
+html:root:root:root:root body.crm-shell main.interior-page::before{background:none!important}
+html:root:root:root:root body.crm-shell main.interior-page h1{margin:2px 0 4px;font-size:26px}
+html:root:root:root:root body.crm-shell main.interior-page .interior-lede{margin:0 0 8px;font-size:14px;line-height:1.4}
+html:root:root:root:root body.crm-shell main.interior-page .eyebrow{margin:0}
+html:root:root:root:root body.crm-shell #recherche-avancee{padding:8px 12px;margin:0 0 8px}
+html:root:root:root:root body.crm-shell #recherche-avancee p{display:none}
+html:root:root:root:root body.crm-shell .crm-workspace-nav{width:100%;margin:6px 0 12px;padding:6px 4px 0;border:0;border-bottom:2px solid rgba(213,181,108,.35);border-radius:0;background:none;box-shadow:none}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-label{display:none}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-controls{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:4px;align-items:flex-end}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-button{--a:#d7b66e;flex:none;width:auto;min-height:38px;padding:0 16px;font-size:14px;color:#c9d4e0;border:1px solid rgba(206,218,226,.16);border-bottom:0;border-top:3px solid color-mix(in srgb,var(--a) 45%,transparent);border-radius:12px 12px 0 0;background:linear-gradient(180deg,color-mix(in srgb,var(--a) 10%,#0c1a2c),#0c1a2c);position:relative;top:2px;box-shadow:none;transition:transform .16s,box-shadow .16s,background .16s}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-button:nth-child(1){--a:#d7b66e}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-button:nth-child(2){--a:#5aa9e6}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-button:nth-child(3){--a:#5fc58a}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-button:nth-child(4){--a:#b58bea}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-button:nth-child(5){--a:#e8806b}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-button:hover{transform:translateY(-2px);border-top-color:var(--a);color:#fff;box-shadow:0 -5px 12px color-mix(in srgb,var(--a) 25%,transparent)}
+html:root:root:root:root body.crm-shell .crm-workspace-nav-button.is-active{transform:translateY(-3px);min-height:42px;color:#fff;border-color:color-mix(in srgb,var(--a) 70%,transparent);border-top-color:var(--a);background:linear-gradient(180deg,color-mix(in srgb,var(--a) 34%,#102640),#0f2038);box-shadow:0 -7px 16px color-mix(in srgb,var(--a) 30%,transparent)}
+html:root:root:root:root body.crm-shell .platform-card{min-height:0;padding:12px 14px;border-top:3px solid var(--ca,#d7b66e)!important}
+html:root:root:root:root body.crm-shell .platform-card h2{font-size:18px;margin:0 0 6px}
+html:root:root:root:root body.crm-shell .platform-card h3{font-size:15px;margin:0 0 6px}
+html:root:root:root:root body.crm-shell .interior-grid{gap:10px}
+html:root:root:root:root body.crm-shell .interior-grid>.platform-card:nth-child(4n+1){--ca:#d7b66e}
+html:root:root:root:root body.crm-shell .interior-grid>.platform-card:nth-child(4n+2){--ca:#5aa9e6}
+html:root:root:root:root body.crm-shell .interior-grid>.platform-card:nth-child(4n+3){--ca:#5fc58a}
+html:root:root:root:root body.crm-shell .interior-grid>.platform-card:nth-child(4n+4){--ca:#b58bea}
+html:root:root:root:root body.crm-shell .crm-followups .interior-grid>.platform-card:nth-child(1){--ca:#e8806b}
+html:root:root:root:root body.crm-shell .crm-followups .interior-grid>.platform-card:nth-child(2){--ca:#e0a43a}
+html:root:root:root:root body.crm-shell .crm-followups .interior-grid>.platform-card:nth-child(3){--ca:#5fc58a}
+html:root:root:root:root body.crm-shell .crm-followups .interior-grid>.platform-card:nth-child(4){--ca:#5aa9e6}
+html:root:root:root:root body.crm-shell .admin-crm-header a{min-height:34px;padding:0 14px;font-size:13px}
+@media(prefers-reduced-motion:reduce){html:root:root:root:root body.crm-shell .crm-workspace-nav-button{transition:none}}

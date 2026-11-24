@@ -83,3 +83,31 @@ a.instrument-link:hover,a.instrument-link:focus-visible{border-color:#E6C987;box
 .bureau-tiles a,.bureau-kpis a{transition:transform .16s,box-shadow .16s}
 .bureau-tiles a:hover,.bureau-kpis a:hover{transform:translateY(-2px);box-shadow:0 8px 18px #0005}
 @media(prefers-reduced-motion:reduce){.admin-sidebar>.admin-nav a,.admin-section-nav a,.bureau-tiles a,.bureau-kpis a{transition:none}}
+
+/* ---- Recherches ciblées : lisible sur fond sombre, compact, coloré ---- */
+.search-workspace{padding:14px 0 40px}
+.search-workspace .search-heading{margin-bottom:12px}
+.search-workspace .search-heading h1{color:var(--text);font-size:24px}
+.search-workspace .search-heading p:last-child{color:var(--muted);font-size:13px;margin:4px 0 0}
+.search-workspace .search-back{color:var(--gold2);font-size:13px}
+.search-workspace .search-panel{padding:12px 14px;border-top:3px solid var(--gold);background:linear-gradient(180deg,#d7b66e12,#1a252e 140px);border-color:#d7b66e44}
+.search-workspace .search-form-grid{gap:8px 12px}
+.search-workspace .search-field{gap:3px}
+.search-workspace .search-field label,.search-workspace .territory-title{color:var(--gold2);font-size:12px}
+.search-workspace .search-field input,.search-workspace .search-field select{min-height:34px;font-size:14px}
+.search-workspace .territories{gap:6px}
+.search-workspace .territory{padding:5px 9px;font-size:13px;border-radius:999px;border:1px solid #5aa9e655;background:#5aa9e61a;color:var(--text)}
+.search-workspace .territory input{width:16px;height:16px;margin:0;accent-color:#5aa9e6;flex:none}
+.search-workspace .territory:has(input:checked){background:#5aa9e638;border-color:#5aa9e6}
+.search-workspace .search-actions{margin-top:10px}
+.search-workspace .search-submit{min-height:36px;font-size:14px}
+.search-workspace .search-hint,.search-workspace .search-status{font-size:13px;color:var(--muted)}
+.search-workspace .results-head{margin:16px 0 8px}
+.search-workspace .results-head h2{font-size:18px;color:var(--text)}
+.search-workspace .result-card{padding:10px 14px;border-left:4px solid #5fc58a;background:#1a252e;border-color:#ffffff1a;border-left-color:#5fc58a;color:var(--text)}
+.search-workspace .result-card:nth-child(3n+2){border-left-color:#e0a43a}
+.search-workspace .result-card:nth-child(3n+3){border-left-color:#b58bea}
+.search-workspace .result-card h3{color:var(--text);font-size:15px;margin:4px 0}
+.search-workspace .result-meta,.search-workspace .result-detail{color:var(--muted);font-size:13px}
+.search-workspace .result-link{font-size:13px;color:var(--gold2)}
+.search-workspace .result-source{font-size:11px}
