@@ -37,7 +37,8 @@
 <button type="button" role="tab" class="cx-tab" data-tab="diagnostic" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🩺</span>Diagnostic</button>
 </div>
 <div class="cx-menu-hidden"><label>Mission<select id="cx-mission-menu"><option value="analyse">Analyse d’un appel d’offres</option><option value="opportunite">Opportunités après attribution</option><option value="prospects">Prospects de sous-traitance</option><option value="diagnostic">Diagnostic de disponibilité</option></select></label></div>
-<p id="cx-mission-help" class="cx-meta cx-help"></p></div>
+<p id="cx-mission-help" class="cx-meta cx-help"></p>
+<label class="cx-auto"><input type="checkbox" id="cx-auto" checked> Tout enchaîner automatiquement : entreprises, notes, dirigeants, téléphones et e-mails</label></div>
 <div class="cx-grid">
 <section class="cx-card" data-mission="diagnostic" aria-labelledby="cx-new-title">
 <p class="admin-kicker">TEST</p><h2 id="cx-new-title">Vérifier que Cheexpeer répond</h2>
@@ -59,7 +60,6 @@
 <p>Collez le numéro d’une annonce de marché public (il figure sur l’avis). Cheexpeer lit l’annonce, repère les métiers et le lieu des travaux, puis cherche les entreprises correspondantes.</p>
 <form id="cx-analyse">
 <label>Numéro de l’annonce<input name="idweb" placeholder="26-111564" maxlength="11" required></label>
-<label class="cx-check"><input type="checkbox" name="enchainer" checked> Chercher ensuite les entreprises automatiquement</label>
 <div class="cx-actions"><button class="cx-primary" type="submit">Analyser l’annonce</button></div>
 </form>
 <p id="cx-ana-status" class="cx-status" role="status" hidden></p>
@@ -79,7 +79,7 @@
 <section class="cx-card" data-mission="prospects" aria-labelledby="cx-pro-title">
 <p class="admin-kicker">PROSPECTS DE SOUS-TRAITANCE</p><h2 id="cx-pro-title">Prospects de sous-traitance</h2>
 <p class="cx-meta"><span>Lecture seule</span><span>Rien n’est envoyé</span></p>
-<p>Indiquez un métier et un département : Cheexpeer sort 20 à 30 entreprises du même métier (ou toutes celles du département), à télécharger. Les téléphones et e-mails s’ajoutent ensuite d’un clic.</p>
+<p>Indiquez un métier et un département : Cheexpeer sort 20 à 30 entreprises du même métier (ou toutes celles du département), à télécharger. Dirigeants, téléphones et e-mails s’ajoutent automatiquement.</p>
 <form id="cx-prospects">
 <label>Métier (code NAF, ex. 43.22B)<input name="naf" placeholder="43.22B" maxlength="6" required></label>
 <label>Département (ex. 81)<input name="departement" placeholder="81" maxlength="3" required></label>

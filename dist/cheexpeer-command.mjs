@@ -88,9 +88,10 @@ export function buildFichesPayload({ organizationId, entreprises, label, idempot
   return { organization_id: organizationId, mission_type: MISSION_TYPE_FICHES, title: `Fiches contacts · ${list.length} entreprise(s)${short ? " · " + short : ""}`.slice(0, 200), autonomy_level: 0, requires_approval: true, input: { entreprises: list }, idempotency_key: idempotencyKey };
 }
 /** Fichier CSV des fiches (séparateur point-virgule, UTF-8 avec BOM, protégé contre les formules). */
-export function fichesToCsv(fiches) {
+export function fichesToCsv(fiches, scores = null) {
   const cols = [["Entreprise", (f) => f.nom], ["SIREN", (f) => f.siren], ["Commune", (f) => f.commune], ["Dirigeant(s) (annuaire officiel)", (f) => (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ")],
     ["Lien Google Maps", (f) => f.google?.lien_google_maps], ["Correspondance Google", (f) => f.google?.statut], ["Téléphone", (f) => f.telephone], ["Source du téléphone", (f) => f.telephone_source], ["E-mail", (f) => (f.emails || []).join(" ; ")], ["Source de l'e-mail", (f) => f.email_source], ["Site web", (f) => f.site_web], ["Lien annuaire", (f) => f.source_url]];
+  if (scores instanceof Map && scores.size) cols.unshift(["Note /20", (f) => scores.get(String(f.siren))?.note], ["Preuve (%)", (f) => scores.get(String(f.siren))?.preuve], ["Distance (km)", (f) => scores.get(String(f.siren))?.distance_km]);
   const rows = [cols.map(([l]) => csvCell(l)).join(";")];
   for (const f of Array.isArray(fiches) ? fiches : []) rows.push(cols.map(([, get]) => csvCell(get(f))).join(";"));
   return "\uFEFF" + rows.join("\r\n") + "\r\n";

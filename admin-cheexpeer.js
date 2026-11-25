@@ -45,6 +45,14 @@ async function authorize() {
   return true;
 }
 
+const autoBox = $("#cx-auto"), AUTO_KEY = "majestios.cheexpeer.auto.v1";
+try { if (autoBox && localStorage.getItem(AUTO_KEY) === "0") autoBox.checked = false; } catch { /* sans importance */ }
+autoBox?.addEventListener("change", () => { try { localStorage.setItem(AUTO_KEY, autoBox.checked ? "1" : "0"); } catch { /* sans importance */ } });
+const auto = () => !autoBox || autoBox.checked;
+let chainFichesNext = false, keptList = null, lastScores = new Map();
+/** Meilleures notes d'abord, puis les plus proches. */
+const bestFirst = (list) => [...list].sort((a, b) => (b.score?.note ?? -1) - (a.score?.note ?? -1) || (a.distance_km ?? 1e9) - (b.distance_km ?? 1e9));
+const keepScores = (list) => { lastScores = new Map((list || []).filter((e) => e?.siren).map((e) => [String(e.siren), { note: e.score?.note ?? null, preuve: e.score?.preuve ?? null, distance_km: e.distance_km ?? null }])); };
 function renderMission(data) {
   const m = data.mission; currentMission = m.id;
   detailBox.replaceChildren(); detailBox.hidden = false;
@@ -84,8 +92,8 @@ function renderMission(data) {
 
 /** Bouton « Compléter les fiches » sous une liste d'entreprises : crée une mission (30 au plus) qui attend votre validation. */
 function addFichesButton(box, entreprises, label) {
-  const list = (entreprises || []).filter((e) => e && e.siren);
-  if (!list.length) return;
+  const list = bestFirst((entreprises || []).filter((e) => e && e.siren));
+  if (!list.length) return null;
   const status = el("p", "cx-status"); status.hidden = true;
   const actions = el("div", "cx-actions"); const b = el("button", "", `Trouver dirigeants, téléphones et e-mails (${Math.min(list.length, 30)} premières entreprises)`); b.type = "button";
   b.addEventListener("click", async () => {
@@ -93,18 +101,21 @@ function addFichesButton(box, entreprises, label) {
     if (!body) { say(status, "Aucune entreprise exploitable.", true); return; }
     b.disabled = true; await launch(body, status); b.disabled = false;
   });
-  actions.append(b); box.append(actions, status);
+  actions.append(b); box.append(actions, status); return b;
 }
 function renderFiches(r) {
+  const withScores = lastScores.size > 0;
+  if (withScores) r = { ...r, fiches: bestFirst((r.fiches || []).map((f) => ({ ...f, score: lastScores.get(String(f.siren)) ? { note: lastScores.get(String(f.siren)).note } : null, distance_km: lastScores.get(String(f.siren))?.distance_km ?? null }))) };
   const box = el("div", "cx-card");
   box.append(el("p", "admin-kicker", "FICHES CONTACTS"), el("p", "", `${r.nombre} fiche(s). ${r.avertissement || ""}`));
   const actions = el("div", "cx-actions"); const dl = el("button", "cx-primary", "Télécharger (Excel / Google Sheets)"); dl.type = "button";
-  dl.addEventListener("click", () => { const blob = new Blob([fichesToCsv(r.fiches)], { type: "text/csv;charset=utf-8" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "fiches-contacts.csv"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); });
+  dl.addEventListener("click", () => { const blob = new Blob([fichesToCsv(r.fiches, withScores ? lastScores : null)], { type: "text/csv;charset=utf-8" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "fiches-contacts.csv"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); });
   actions.append(dl); box.append(actions);
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
-  for (const h of ["Entreprise", "SIREN", "Dirigeant(s) (annuaire officiel)", "Google Maps", "Correspondance", "Téléphone", "E-mail", "Site web"]) head.append(el("th", "", h)); table.append(head);
+  for (const h of [...(withScores ? ["Note /20", "Distance"] : []), "Entreprise", "SIREN", "Dirigeant(s) (annuaire officiel)", "Google Maps", "Correspondance", "Téléphone", "E-mail", "Site web"]) head.append(el("th", "", h)); table.append(head);
   for (const f of r.fiches || []) {
-    const tr = el("tr"); const dir = (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ");
+    const tr = el("tr"); if (withScores) for (const v of [f.score?.note != null ? `${f.score.note}/20` : "—", f.distance_km != null ? `${String(f.distance_km).replace(".", ",")} km` : "—"]) tr.append(el("td", "", v));
+    const dir = (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ");
     for (const v of [f.nom, f.siren, dir || "non trouvé"]) tr.append(el("td", "", v ?? ""));
     const td = el("td"); if (f.google?.lien_google_maps) { const a = el("a", "", "ouvrir"); a.href = f.google.lien_google_maps; a.target = "_blank"; a.rel = "noopener noreferrer"; td.append(a); } else td.textContent = "—"; tr.append(td);
     for (const v of [f.google?.statut || "—", f.telephone ? `${f.telephone} (${f.telephone_source})` : "non trouvé", (f.emails || []).length ? `${f.emails.join(" ; ")} (${f.email_source})` : "non trouvé"]) tr.append(el("td", "", v));
@@ -112,6 +123,7 @@ function renderFiches(r) {
     table.append(tr);
   }
   wrap.append(table); box.append(wrap); detailBox.append(box);
+  if (keptList) { const d = el("details", "cx-history"); d.append(el("summary", "", "Liste complète des entreprises"), keptList); detailBox.append(d); keptList = null; }
 }
 function renderProspects(result) {
   const list = result.entreprises, c = result.criteres || {};
@@ -125,8 +137,8 @@ function renderProspects(result) {
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = prospectsFilename(c); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   });
   actions.append(dl); box.append(actions);
-  addFichesButton(box, r.partenaires, "partenaires du marché");
-  addFichesButton(box, list, `${c.naf || ""} dép. ${c.departement || ""}`);
+  keepScores(list);
+  const fichesBtn = addFichesButton(box, list, `${c.naf || ""} dép. ${c.departement || ""}`);
   const APERCU = 30, shown = list.slice(0, APERCU);
   if (list.length > APERCU) box.append(el("p", "cx-meta", `Aperçu : les ${APERCU} premières lignes sur ${list.length}. La liste complète est dans le fichier à télécharger.` + (result.plafond_atteint ? " Plafond de sécurité atteint : le métier compte encore d'autres entreprises dans ce département." : "")));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto";
@@ -136,6 +148,7 @@ function renderProspects(result) {
   table.append(head);
   for (const e of shown) { const tr = el("tr"); for (const v of [...(avecDist ? [e.score ? `${e.score.note}/20 · preuve ${e.score.preuve} %` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—"] : []), e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
+  if (chainFichesNext && fichesBtn) { chainFichesNext = false; keptList = box; fichesBtn.click(); }
 }
 const eur = (n) => Number.isFinite(Number(n)) && n !== null ? Number(n).toLocaleString("fr-FR") + " €" : "—";
 function renderOpportunite(r) {
@@ -157,11 +170,14 @@ function renderOpportunite(r) {
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `opportunite-${String(mk.contract_uid || "marche").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 30)}.csv`; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   });
   actions.append(dl); box.append(actions);
+  keepScores(r.partenaires);
+  const fichesBtn = addFichesButton(box, r.partenaires, "partenaires du marché");
   if (r.chantier) box.append(el("p", "cx-meta", `Lieu du chantier retenu : ${r.chantier.origine} — à confirmer (distance à vol d'oiseau, paliers 25 / 50 / 100 km).`));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
   for (const h of ["Score (provisoire)", "Distance", "Entreprise", "SIREN", "NAF", "Commune", "Dép.", "Pourquoi"]) head.append(el("th", "", h)); table.append(head);
   for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.score ? `${e.score.note}/20 · preuve ${e.score.preuve} %` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—", e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
+  if (chainFichesNext && fichesBtn) { chainFichesNext = false; keptList = box; fichesBtn.click(); }
 }
 let chainNext = false;
 function renderAnalyse(r) {
@@ -194,11 +210,12 @@ function renderAnalyse(r) {
     const built = buildProspectsFromAnalysis({ organizationId, nafs, departements: depts, marcheObjet: r.objet, communeChantier: communeLot, newKey: () => crypto.randomUUID() });
     if (!built.ok) { say(status, built.message, true); return; }
     go.disabled = true; let done = 0;
-    for (const body of built.bodies) { const ok = await launch(body, status); if (!ok) break; done++; }
+    for (const [i, body] of built.bodies.entries()) { chainFichesNext = auto() && i === built.bodies.length - 1; const ok = await launch(body, status); if (!ok) break; done++; }
+    chainFichesNext = false;
     go.disabled = false; if (done === built.bodies.length) say(status, "Terminé. La liste d'entreprises est dans le suivi, plus bas.");
   });
   actions.append(go); box.append(actions, status); detailBox.append(box);
-  if (chainNext) { chainNext = false; if (r.propositions.some((p) => p.niveau === "forte") && (r.departements || []).length) { say(status, "Cheexpeer a retenu les métiers les plus sûrs et lance la recherche d'entreprises…"); go.click(); } }
+  if (chainNext) { chainNext = false; if (r.propositions.some((p) => p.niveau === "forte") && (r.departements || []).length) { say(status, "Cheexpeer a retenu les métiers les plus sûrs et lance la recherche d'entreprises, leurs notes et leurs coordonnées…"); go.click(); } }
 }
 
 const EVENT_LABELS = { mission_submitted: "Demande enregistrée", approval_requested: "Validation demandée", approval_approved: "Validée", approval_rejected: "Refusée", mission_claimed: "Prise en charge", mission_started: "Travail commencé", mission_succeeded: "Terminée", mission_failed: "Échec", mission_completed: "Terminée" };
@@ -309,7 +326,7 @@ analyseForm.addEventListener("submit", async (event) => {
   const body = buildAnalysePayload({ organizationId, idweb: analyseForm.elements.idweb.value, idempotencyKey: crypto.randomUUID() });
   if (!body) { say(analyseStatus, "Indiquez le numéro de l'annonce, par exemple 26-111564.", true); return; }
   const button = analyseForm.querySelector("button[type=submit]"); button.disabled = true;
-  chainNext = analyseForm.elements.enchainer ? analyseForm.elements.enchainer.checked : false;
+  chainNext = auto(); chainFichesNext = false;
   await launch(body, analyseStatus);
   chainNext = false; button.disabled = false;
 });
@@ -328,7 +345,7 @@ oppForm.addEventListener("submit", async (event) => {
     b.addEventListener("click", async () => {
       const body = buildOpportunitePayload({ organizationId, contractUid: c.contract_uid, label: c.winners, idempotencyKey: crypto.randomUUID() });
       if (!body) { say(oppStatus, "Marché non utilisable.", true); return; }
-      b.disabled = true; await launch(body, oppStatus); b.disabled = false;
+      b.disabled = true; chainFichesNext = auto(); await launch(body, oppStatus); chainFichesNext = false; b.disabled = false;
     });
     li.append(b); oppList.append(li);
   }
@@ -340,7 +357,8 @@ prospectsForm.addEventListener("submit", async (event) => {
   const body = buildProspectsPayload({ organizationId, naf: f.naf.value, departement: f.departement.value, limite: f.limite.value, gagnantNom: f.gagnant_nom.value, gagnantSiren: f.gagnant_siren.value, marcheObjet: f.marche_objet.value, idempotencyKey: crypto.randomUUID() });
   if (!body) { say(prospectsStatus, "Vérifiez le code métier (ex. 43.22B), le département (ex. 81) et le numéro SIREN s'il est rempli.", true); return; }
   const button = prospectsForm.querySelector("button"); button.disabled = true;
-  await launch(body, prospectsStatus);
+  chainFichesNext = auto();
+  await launch(body, prospectsStatus); chainFichesNext = false;
   button.disabled = false;
 });
 
