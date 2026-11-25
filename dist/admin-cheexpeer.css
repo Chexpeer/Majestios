@@ -96,3 +96,10 @@
 .cx-workspace{width:100%;box-sizing:border-box}
 .cx-grid:has(>[hidden]){grid-template-columns:minmax(0,1fr)}
 .cx-card select{display:block;width:100%}
+.cx-options{margin:6px 0 0}.cx-options summary{cursor:pointer;color:var(--muted);font-size:13px}
+.cx-history{margin-top:10px}.cx-history summary{cursor:pointer;color:var(--muted);font-size:13px}
+.cx-card label.cx-check{display:flex;align-items:center;gap:8px;grid-column:1/-1;color:var(--text);font-weight:600}
+.cx-card label.cx-check input{display:inline-block;width:auto;margin:0}
+.cx-card form:has(input[name=idweb]){grid-template-columns:minmax(0,1fr)}
+.cx-grid{display:contents}
+.cx-grid>section[aria-labelledby=cx-detail-title]{order:10}
