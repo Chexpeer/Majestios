@@ -37,7 +37,7 @@ const COMP = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomberie 
     await page.goto(origin + "/admin-cheexpeer.html");
     await page.waitForSelector("#workspace:not([hidden])");
     await page.click('.cx-tab[data-tab="prospects"]');
-    await page.fill('#cx-prospects input[name="naf"]', "43.22A"); await page.fill('#cx-prospects input[name="departement"]', "81");
+    await page.selectOption('#cx-prospects select[name="naf"]', "43.22A"); await page.fill('#cx-prospects input[name="departement"]', "81");
     await page.click('#cx-prospects button[type="submit"]');
     await page.waitForFunction(() => document.querySelector("#cx-detail")?.textContent.includes("Dirigeant"), null, { timeout: 15000 });
     assert.deepEqual(calls.filter((c) => c.startsWith("cheexpeer-mission-submit")), ["cheexpeer-mission-submit:prospects_sous_traitance", "cheexpeer-mission-submit:fiches_contacts"]);

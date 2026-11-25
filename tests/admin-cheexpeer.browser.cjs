@@ -68,7 +68,7 @@ export function createClient(){
     // Prospects : un clic = envoi + validation + exécution.
     calls.length = 0; approved = false;
     await page.click('.cx-tab[data-tab="prospects"]');
-    await page.fill('#cx-prospects input[name="naf"]', "43.22B"); await page.fill('#cx-prospects input[name="departement"]', "81");
+    await page.selectOption('#cx-prospects select[name="naf"]', "43.22B"); await page.fill('#cx-prospects input[name="departement"]', "81");
     await page.click('#cx-prospects button[type="submit"]');
     await page.waitForFunction(() => document.querySelector("#cx-pro-status")?.textContent.includes("Terminé"));
     for (let i = 0; i < 50 && calls.length < 5; i++) await new Promise((r) => setTimeout(r, 50));
