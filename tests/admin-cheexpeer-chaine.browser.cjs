@@ -47,7 +47,7 @@ const COMP = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomberie 
     assert.equal(firstRows[0], "18/20"); assert.match(firstRows[2], /Plomberie Top/);
     assert.match(await page.textContent("#cx-detail"), /Liste complète des entreprises/);
     // Case décochée : aucun enchaînement.
-    calls.length = 0; await page.uncheck("#cx-auto");
+    calls.length = 0; await page.evaluate(() => { const c = document.querySelector("#cx-auto"); c.checked = false; c.dispatchEvent(new Event("change", { bubbles: true })); });
     await page.click('#cx-prospects button[type="submit"]');
     await page.waitForFunction(() => document.querySelector("#cx-pro-status")?.textContent.includes("Terminé"));
     await new Promise((r) => setTimeout(r, 400));

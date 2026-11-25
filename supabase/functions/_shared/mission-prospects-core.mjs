@@ -140,14 +140,15 @@ async function fetchPage(fetchImpl, params) {
  * Exécute la mission : entreprises du même métier (code NAF) ayant un établissement actif dans le département du marché, puis dans le
  * reste de la région. Classement : siège local, agence locale, puis même région. Hors entreprise gagnante, sans doublon, dans la limite demandée.
  */
-/** Accompagnement aux appels d'offres : si la commune du chantier est connue, ajoute la distance (vol d'oiseau) et un score provisoire, et classe. Tolérant : sans localisation, rien ne change. */
+/** Note (sur 20) et classe toujours les entreprises ; si la commune du chantier est connue, ajoute en plus la distance à vol d'oiseau. */
 export async function annoterDistance(companies, { commune, departement, naf, now, fetchImpl }) {
   const chantier = commune ? await localiserCommune({ commune, departement, origine: "commune du chantier (avis)" }, fetchImpl) : null;
-  if (!chantier) return { entreprises: companies, chantier: null, repartition: null };
+  // Toujours noter et classer : sans lieu de chantier précis, la proximité se juge au département (même département, même région).
   const classement = scoreCompanies(companies, { nafs: [naf], departement, chantier, now });
   const parSiren = new Map(classement.classees.map((x, i) => [x.siren, { rang: i + 1, note: x.note, sur: 20, preuve: x.preuve, niveau: x.niveau, etiquette: x.etiquette, distance_km: x.distance_km }]));
   const out = companies.map((c) => { const sc = parSiren.get(c.siren) ?? null; return { ...c, score: sc, distance_km: sc?.distance_km ?? distanceKm(chantier, { lat: c.latitude, lon: c.longitude }) }; })
     .sort((a, b) => (a.score?.rang ?? 1e9) - (b.score?.rang ?? 1e9));
+  if (!chantier) return { entreprises: out, chantier: null, repartition: null };
   const pal = paliersPourNafs([naf]);
   const dists = out.map((c) => c.distance_km).filter((d) => typeof d === "number");
   const repartition = { paliers_km: [pal.max, pal.eleve, pal.moyen], jusqua_palier_1: dists.filter((d) => d <= pal.max).length, jusqua_palier_2: dists.filter((d) => d <= pal.eleve).length, jusqua_palier_3: dists.filter((d) => d <= pal.moyen).length, sans_distance: out.length - dists.length };

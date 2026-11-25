@@ -107,3 +107,8 @@
 .cx-auto input{width:auto;margin:0;accent-color:#5fc58a}
 .cx-auto{display:flex;align-items:center;gap:8px;margin:8px 2px 0;padding:6px 12px;border:1px solid rgba(95,197,138,.5);border-radius:999px;background:rgba(95,197,138,.12);color:#bff0d3;font-size:13px;font-weight:700;width:fit-content;max-width:100%}
 .cx-auto input{width:auto;margin:0;accent-color:#5fc58a}
+/* Interface simplifiée : une zone, un bouton, un résultat */
+.cx-banner-inline{display:block;margin-top:4px;font-size:.82rem;opacity:.75}
+.cx-diag{margin-top:14px;font-size:.85rem;opacity:.85}.cx-diag summary{cursor:pointer}
+.cx-card .cx-meta{margin:2px 0 8px}
+.cx-help{display:none}

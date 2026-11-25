@@ -146,7 +146,7 @@ test("mode « toutes » : tout le département, page après page, sans région, 
   assert.equal(fitResult(r).reduit, undefined, "pas de réduction à 30 Ko en mode toutes");
 });
 
-test("accompagnement : commune du chantier → distance, score et répartition ; sans commune rien ne change", async () => {
+test("accompagnement : commune du chantier → distance, score et répartition ; sans commune la note existe quand même, sans distance", async () => {
   const { runProspectsMission, validateProspectsInput } = await import("../supabase/functions/_shared/mission-prospects-core.mjs");
   const ent = (i, lat, lon) => ({ siren: String(300000000 + i), nom_complet: "E" + i, activite_principale: "43.22A", siege: { siret: String(30000000000000 + i), activite_principale: "43.22A", etat_administratif: "A", departement: "50", est_siege: true, libelle_commune: "X", latitude: lat, longitude: lon } });
   const fetchImpl = async (url) => url.hostname === "api-adresse.data.gouv.fr"
@@ -158,7 +158,7 @@ test("accompagnement : commune du chantier → distance, score et répartition ;
   assert.ok(e1.distance_km < 5); assert.ok(e2.distance_km > 200); assert.equal(r.entreprises[0].siren, "300000001");
   assert.deepEqual(r.repartition_distance.paliers_km, [25, 50, 100]); assert.equal(r.repartition_distance.jusqua_palier_1, 1);
   const sans = await runProspectsMission({ naf: "43.22A", departement: "50", limite: 20 }, { fetchImpl, pauseMs: 0 });
-  assert.equal(sans.chantier, null); assert.ok(sans.entreprises.every((e) => e.distance_km === undefined));
+  assert.equal(sans.chantier, null); assert.equal(sans.repartition_distance, null); assert.ok(sans.entreprises.every((e) => typeof e.score?.note === "number" && e.distance_km === null)); assert.ok(sans.entreprises.every((e, i, a) => i === 0 || a[i - 1].score.note >= e.score.note));
   const des = await runProspectsMission({ naf: "43.11Z", departement: "50", limite: 20, commune_chantier: "Saint-Lô" }, { fetchImpl: async (u) => u.hostname === "api-adresse.data.gouv.fr" ? fetchImpl(u) : { ok: true, json: async () => ({ results: [{ ...ent(3, "48.85", "2.35"), activite_principale: "43.11Z", siege: { ...ent(3).siege, activite_principale: "43.11Z" } }].slice(0, 1) }) }, pauseMs: 0 });
   assert.deepEqual(des.repartition_distance.paliers_km, [50, 100, 200]);
   assert.equal(validateProspectsInput({ naf: "43.22A", departement: "50", commune_chantier: "x".repeat(200) }).value.commune_chantier.length, 80);

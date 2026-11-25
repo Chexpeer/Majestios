@@ -50,8 +50,8 @@ export function createClient(){
     });
     await page.goto(origin + "/admin-cheexpeer.html");
     await page.waitForSelector("#workspace:not([hidden])");
-    assert.match(await page.textContent(".cx-banner"), /ne modifie rien/);
-    await page.selectOption("#cx-mission-menu", "diagnostic");
+    assert.match(await page.textContent(".cx-banner-inline"), /rien n’est envoyé/);
+    await page.click(".cx-diag summary");
     await page.click("#cx-submit button");
     await page.waitForSelector("#cx-detail:not([hidden])");
     const submit = calls.find((c) => c.name === "cheexpeer-mission-submit");

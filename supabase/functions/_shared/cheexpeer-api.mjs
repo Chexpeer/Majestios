@@ -3,7 +3,7 @@ import { MISSION_TYPE_ANALYSE_MARCHE, validateAnalyseInput } from "./mission-ana
 import { MISSION_TYPE_OPPORTUNITE, validateOpportuniteInput } from "./mission-opportunite-core.mjs";
 import { MISSION_TYPE_FICHES, validateFichesInput } from "./mission-fiches-core.mjs";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const STATIC_ORIGINS = new Set(["https://majestios.com", "https://www.majestios.com", "https://majestios.vercel.app"]);
+const STATIC_ORIGINS = new Set(["https://majestios.com", "https://www.majestios.com", "https://majestios.vercel.app", "https://majestios-git-evolution-10-majistr.vercel.app", "https://majestios-git-evolution-12-majistr.vercel.app"]);
 
 export function isUuid(value) {
   return typeof value === "string" && UUID.test(value);

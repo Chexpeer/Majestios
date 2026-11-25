@@ -28,36 +28,25 @@
 <section id="gate" class="admin-gate" aria-live="polite"><div class="gate-emblem">M</div><p class="admin-kicker">POSTE DE COMMANDEMENT</p><h1>Accès réservé</h1><p id="gate-message">Vérification de votre identité et de vos habilitations internes…</p>
 <form id="cx-login" class="mod-login" hidden><input name="email" type="email" autocomplete="email" placeholder="Adresse e-mail du compte interne" required><button class="admin-button admin-button-primary" type="submit">Recevoir mon lien de connexion →</button></form></section>
 <div id="workspace" class="cx-workspace" hidden>
-<div><p class="admin-kicker">CHEEXPEER · ADMINISTRATEUR IA</p><h1>Centre de commande</h1><p>Choisissez une tâche, cliquez sur le bouton : Cheexpeer fait tout le reste et affiche le résultat.</p></div>
-<p class="cx-banner" role="note">Cheexpeer lit des sources publiques et prépare des listes. Il n’envoie rien et ne modifie rien dans vos données : chaque lancement part de votre clic.</p>
+<div><h1>Cheexpeer</h1><p>Choisissez, remplissez, cliquez. Tout le reste est automatique. <span class="cx-banner-inline">Lecture seule : rien n’est envoyé ni modifié.</span></p></div>
 <div class="cx-tabs-wrap"><div class="cx-tabs" role="tablist" aria-label="Missions Cheexpeer">
-<button type="button" role="tab" class="cx-tab" data-tab="analyse" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">📄</span>Appel d’offres</button>
-<button type="button" role="tab" class="cx-tab" data-tab="opportunite" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🏆</span>Après attribution</button>
-<button type="button" role="tab" class="cx-tab" data-tab="prospects" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🤝</span>Sous-traitance</button>
-<button type="button" role="tab" class="cx-tab" data-tab="diagnostic" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🩺</span>Diagnostic</button>
+<button type="button" role="tab" class="cx-tab" data-tab="analyse" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">📄</span>Annonce</button>
+<button type="button" role="tab" class="cx-tab" data-tab="opportunite" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🏆</span>Marché attribué</button>
+<button type="button" role="tab" class="cx-tab" data-tab="prospects" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🤝</span>Métier + département</button>
 </div>
-<div class="cx-menu-hidden"><label>Mission<select id="cx-mission-menu"><option value="analyse">Analyse d’un appel d’offres</option><option value="opportunite">Opportunités après attribution</option><option value="prospects">Prospects de sous-traitance</option><option value="diagnostic">Diagnostic de disponibilité</option></select></label></div>
+<div class="cx-menu-hidden"><label>Mission<select id="cx-mission-menu"><option value="analyse">Analyse d’un appel d’offres</option><option value="opportunite">Opportunités après attribution</option><option value="prospects">Prospects de sous-traitance</option><option value="diagnostic">Test</option></select></label></div>
 <p id="cx-mission-help" class="cx-meta cx-help"></p>
-<label class="cx-auto"><input type="checkbox" id="cx-auto" checked> Tout enchaîner automatiquement : entreprises, notes, dirigeants, téléphones et e-mails</label></div>
+<label class="cx-auto" hidden><input type="checkbox" id="cx-auto" checked> auto</label></div>
 <div class="cx-grid">
-<section class="cx-card" data-mission="diagnostic" aria-labelledby="cx-new-title">
-<p class="admin-kicker">TEST</p><h2 id="cx-new-title">Vérifier que Cheexpeer répond</h2>
-<p class="cx-meta"><span>Lecture seule</span><span>Rien n’est envoyé</span></p>
-<form id="cx-submit"><details class="cx-options"><summary>Options</summary><label>Titre<input name="title" maxlength="200" value="Diagnostic de disponibilité" required></label><label>Précision (facultatif)<textarea name="objective" rows="2" maxlength="4000"></textarea></label></details><div class="cx-actions"><button class="cx-primary" type="submit">Lancer le test</button></div></form>
-<p id="cx-submit-status" class="cx-status" role="status" hidden></p>
-<p class="admin-kicker" style="margin-top:12px">DERNIERS LANCEMENTS</p>
-<ul id="cx-recent" class="cx-recent"></ul>
-</section>
 <section class="cx-card" aria-labelledby="cx-detail-title" aria-live="polite">
-<p class="admin-kicker">RÉSULTAT</p><h2 id="cx-detail-title">Résultat</h2>
+<h2 id="cx-detail-title">Résultat</h2>
 <p id="cx-detail-status" class="cx-status">Le résultat apparaîtra ici.</p>
 <div id="cx-detail" hidden></div>
 </section>
 </div>
 <section class="cx-card" data-mission="analyse" aria-labelledby="cx-ana-title">
-<p class="admin-kicker">ANALYSE D’UN APPEL D’OFFRES</p><h2 id="cx-ana-title">Analyse d’un appel d’offres</h2>
-<p class="cx-meta"><span>Lecture seule</span><span>Rien n’est envoyé</span></p>
-<p>Collez le numéro d’une annonce de marché public (il figure sur l’avis). Cheexpeer lit l’annonce, repère les métiers et le lieu des travaux, puis cherche les entreprises correspondantes.</p>
+<h2 id="cx-ana-title">Numéro d’annonce</h2>
+<p class="cx-meta">Collez le numéro de l’avis : Cheexpeer trouve les entreprises, les note /20 et cherche leurs contacts.</p>
 <form id="cx-analyse">
 <label>Numéro de l’annonce<input name="idweb" placeholder="26-111564" maxlength="11" required></label>
 <div class="cx-actions"><button class="cx-primary" type="submit">Analyser l’annonce</button></div>
@@ -65,9 +54,8 @@
 <p id="cx-ana-status" class="cx-status" role="status" hidden></p>
 </section>
 <section class="cx-card" data-mission="opportunite" aria-labelledby="cx-opp-title">
-<p class="admin-kicker">OPPORTUNITÉS APRÈS ATTRIBUTION</p><h2 id="cx-opp-title">Opportunités après attribution</h2>
-<p class="cx-meta"><span>Lecture seule</span><span>Rien n’est envoyé</span></p>
-<p>Cherchez un marché récemment attribué : Cheexpeer identifie le gagnant, estime s’il a de la place pour sous-traiter, et propose les entreprises du même métier à contacter.</p>
+<h2 id="cx-opp-title">Marché récemment attribué</h2>
+<p class="cx-meta">Cheexpeer repère le gagnant et propose, notées /20, les entreprises du même métier.</p>
 <form id="cx-opp-search">
 <label>Mot-clé du marché<input name="query" placeholder="plomberie" maxlength="80"></label>
 <label>Département (facultatif)<input name="departement" placeholder="14" maxlength="3"></label>
@@ -77,20 +65,24 @@
 <ul id="cx-opp-list" class="cx-timeline"></ul>
 </section>
 <section class="cx-card" data-mission="prospects" aria-labelledby="cx-pro-title">
-<p class="admin-kicker">PROSPECTS DE SOUS-TRAITANCE</p><h2 id="cx-pro-title">Prospects de sous-traitance</h2>
-<p class="cx-meta"><span>Lecture seule</span><span>Rien n’est envoyé</span></p>
-<p>Indiquez un métier et un département : Cheexpeer sort 20 à 30 entreprises du même métier (ou toutes celles du département), à télécharger. Dirigeants, téléphones et e-mails s’ajoutent automatiquement.</p>
+<h2 id="cx-pro-title">Métier et département</h2>
+<p class="cx-meta">Cheexpeer sort les entreprises du métier, notées /20, avec dirigeants, téléphones et e-mails.</p>
 <form id="cx-prospects">
-<label>Métier (code NAF, ex. 43.22B)<input name="naf" placeholder="43.22B" maxlength="6" required></label>
-<label>Département (ex. 81)<input name="departement" placeholder="81" maxlength="3" required></label>
+<label>Métier (code NAF)<input name="naf" placeholder="43.22B" maxlength="6" required></label>
+<label>Département<input name="departement" placeholder="81" maxlength="3" required></label>
 <label>Nombre d’entreprises<select name="limite" required><option value="30" selected>30 entreprises (département puis région)</option><option value="20">20 entreprises (département puis région)</option><option value="0">Toutes les entreprises du département (à télécharger)</option></select></label>
-<label>Entreprise gagnante (facultatif)<input name="gagnant_nom" maxlength="120"></label>
+<details class="cx-options"><summary>Plus d’options</summary><label>Entreprise gagnante (facultatif)<input name="gagnant_nom" maxlength="120"></label>
 <label>N° SIREN de l’entreprise gagnante (facultatif, pour l’exclure)<input name="gagnant_siren" inputmode="numeric" maxlength="11"></label>
-<label>Objet du marché (facultatif)<input name="marche_objet" maxlength="200"></label>
+<label>Objet du marché (facultatif)<input name="marche_objet" maxlength="200"></label></details>
 <div class="cx-actions"><button class="cx-primary" type="submit">Trouver les entreprises</button></div>
 </form>
 <p id="cx-pro-status" class="cx-status" role="status" hidden></p>
 </section>
+<details class="cx-diag"><summary>Vérifier que Cheexpeer répond</summary>
+<span id="cx-new-title" hidden>Test</span><form id="cx-submit"><details class="cx-options"><summary>Options</summary><label>Titre<input name="title" maxlength="200" value="Diagnostic de disponibilité" required></label><label>Précision (facultatif)<textarea name="objective" rows="2" maxlength="4000"></textarea></label></details><div class="cx-actions"><button class="cx-primary" type="submit">Lancer le test</button></div></form>
+<p id="cx-submit-status" class="cx-status" role="status" hidden></p>
+<ul id="cx-recent" class="cx-recent"></ul>
+</details>
 <button id="cx-bot-launcher" class="cx-bot-launcher" type="button" aria-expanded="false" aria-controls="cx-bot-panel"><span class="cx-bot-icon" aria-hidden="true">🤖</span><span>Majestios Bot</span></button>
 <section id="cx-bot-panel" class="cx-bot-panel" aria-labelledby="cx-chat-title" hidden>
 <header class="cx-bot-head"><div><strong id="cx-chat-title">Majestios Bot</strong><span class="cx-bot-sub">Lecture seule · aucune action directe</span></div><button id="cx-bot-close" class="cx-bot-close" type="button" aria-label="Réduire le dialogue">×</button></header>

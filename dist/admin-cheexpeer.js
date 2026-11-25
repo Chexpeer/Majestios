@@ -143,10 +143,10 @@ function renderProspects(result) {
   if (list.length > APERCU) box.append(el("p", "cx-meta", `Aperçu : les ${APERCU} premières lignes sur ${list.length}. La liste complète est dans le fichier à télécharger.` + (result.plafond_atteint ? " Plafond de sécurité atteint : le métier compte encore d'autres entreprises dans ce département." : "")));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto";
   const table = el("table", "cx-table"); const head = el("tr");
-  const avecDist = !!result.chantier;
-  for (const h of [...(avecDist ? ["Score (provisoire)", "Distance"] : []), "Entreprise", "SIREN", "NAF", "Établissement", "Commune", "Dép.", "Zone", "RGE", "Téléphone", "E-mail", "Google Maps"]) head.append(el("th", "", h));
+  const avecDist = (result.entreprises || []).some((e) => e.score) || !!result.chantier;
+  for (const h of [...(avecDist ? ["Note", "Distance"] : []), "Entreprise", "SIREN", "NAF", "Établissement", "Commune", "Dép.", "Zone", "RGE", "Téléphone", "E-mail", "Google Maps"]) head.append(el("th", "", h));
   table.append(head);
-  for (const e of shown) { const tr = el("tr"); for (const v of [...(avecDist ? [e.score ? `${e.score.note}/20 · preuve ${e.score.preuve} %` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—"] : []), e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  for (const e of shown) { const tr = el("tr"); for (const v of [...(avecDist ? [e.score ? `${String(e.score.note).replace(".", ",")}/20` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—"] : []), e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
   if (chainFichesNext && fichesBtn) { chainFichesNext = false; keptList = box; fichesBtn.click(); }
 }
@@ -175,7 +175,7 @@ function renderOpportunite(r) {
   if (r.chantier) box.append(el("p", "cx-meta", `Lieu du chantier retenu : ${r.chantier.origine} — à confirmer (distance à vol d'oiseau, paliers 25 / 50 / 100 km).`));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
   for (const h of ["Score (provisoire)", "Distance", "Entreprise", "SIREN", "NAF", "Commune", "Dép.", "Pourquoi"]) head.append(el("th", "", h)); table.append(head);
-  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.score ? `${e.score.note}/20 · preuve ${e.score.preuve} %` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—", e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.score ? `${String(e.score.note).replace(".", ",")}/20` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—", e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
   if (chainFichesNext && fichesBtn) { chainFichesNext = false; keptList = box; fichesBtn.click(); }
 }
