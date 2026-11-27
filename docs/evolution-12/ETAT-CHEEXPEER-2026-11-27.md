@@ -15,7 +15,8 @@ Document de référence pour reprendre le travail sans reposer les questions dé
 - **Présélection** : bouton « Télécharger la présélection (10 meilleures) » après la liste (notes + dirigeants, téléphones, e-mails).
 - **Mes chantiers à reprendre** (premier onglet) : pour une entreprise qui cherche des chantiers en sous-traitance. Un seul renseignement : le SIREN. Cheexpeer lit métier (NAF), département et effectif dans l'annuaire officiel, cherche les marchés attribués des 12 derniers mois (fonction existante `list_awarded_contracts`, aucun changement de base), puis note chaque chantier /20 : métier (5), proximité (5 : même département / 3 : même région / 1 : hors région), taille du marché par salarié (5), sous-traitance déjà déclarée (3), fraîcheur (2). Critères non évaluables exclus du calcul. Zone au choix : région (par défaut) ou département. Le bouton « Analyser » lance la recherche existante (gagnant, entreprises voisines, contacts). Code : `cheexpeer-command.mjs` (`noteChantier`, `classerChantiers`), test navigateur `admin-cheexpeer-chantiers`.
 - 18 métiers pris en charge (liste `METIERS_CHANTIER`).
-- Limite : note provisoire, aucune alerte automatique encore ; les appels d'offres privés ne sont pas dans les données.
+- **Alertes** : bouton « Me prévenir des nouveaux chantiers » : crée jusqu'à 2 alertes (une par mot-clé du métier, dans le département de l'entreprise) dans la table existante `contract_alerts` (5 alertes max par membre, droits par membre, aucun changement de base). La liste « Mes alertes » indique les nouveaux chantiers depuis la dernière consultation (Voir / Marquer comme vu / Supprimer). Les alertes se consultent à l'ouverture de la page ; **aucun e-mail n'est envoyé** (à décider).
+- Limite : note provisoire ; les appels d'offres privés ne sont pas dans les données.
 
 ### Veille concurrence (27/11/2026)
 Aucun concurrent identifié ne note des entreprises pour la sous-traitance après attribution. Tendios : évaluation d'offres pour acheteurs ; Saqara (Chantier Privé), BTP Connect : appels d'offres privés ; Remporte : analyse de DCE avec score. Pistes retenues pour les appels d'offres : présélection, chances de réussite, alertes métier + département, résumé d'annonce, équipes de groupement. Décision du propriétaire : l'utilisateur cible est l'entreprise qui cherche des chantiers en sous-traitance.
@@ -36,6 +37,6 @@ Aucun concurrent identifié ne note des entreprises pour la sous-traitance aprè
 
 ## 5. Reste à décider (par le propriétaire)
 - Saisie libre d'un métier (« plombier ») en plus de la liste ?
-- Alertes automatiques quand un nouveau chantier correspond (la table `contract_alerts` existe déjà).
+- Envoi des alertes par e-mail (nécessite un expéditeur et l'accord du propriétaire).
 - Envoi des entreprises retenues vers le CRM (brouillons de prospection, nettoyage CRM : en attente).
 - Passage de la branche d'essai vers `main` : sur décision du propriétaire uniquement.

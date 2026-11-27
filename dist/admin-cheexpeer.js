@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
+import { MAX_ALERTES, buildAlertFromFilters, alertRequest, countNew } from "./alertes-marches.mjs";
 import { METIERS_CHANTIER, departementsRegion, SIREN_RE, entrepriseDepuisAnnuaire, classerChantiers, buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, buildOpportunitePayload, buildFichesPayload, fichesToCsv, MISSION_TYPE_FICHES, MISSION_TYPE_OPPORTUNITE, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
 
 // Projet cible : MajestiOS-Test (les API Cheexpeer n'existent que là). Même configuration que la relecture des annonces.
@@ -380,6 +381,40 @@ oppForm.addEventListener("submit", async (event) => {
 });
 
 // ---- Mes chantiers à reprendre : l'entreprise saisit son SIREN, Cheexpeer lit son métier et son département puis note les marchés récents ----
+
+// ---- Alertes « nouveaux chantiers » : réutilise les alertes marché gagné du site (table contract_alerts, propres à chaque membre) ----
+const chaAlertes = $("#cx-cha-alertes");
+async function afficherAlertes() {
+  chaAlertes.replaceChildren();
+  let alertes, error;
+  try { ({ data: alertes, error } = await supabase.from("contract_alerts").select("id,label,department,cpv,query,min_amount,last_seen_on").order("created_at")); } catch { return; }
+  if (error) return;
+  if (!alertes?.length) { chaAlertes.append(el("p", "cx-meta", "Aucune alerte. Après une recherche, cliquez sur « Me prévenir des nouveaux chantiers ».")); return; }
+  chaAlertes.append(el("h3", "", "Mes alertes"));
+  for (const a of alertes) {
+    const row = el("div", "cx-alerte"); const info = el("span", "", a.label); const etat = el("strong", "", "…");
+    const voir = el("button", "cx-secondary", "Voir"), vu = el("button", "cx-secondary", "Marquer comme vu"), sup = el("button", "cx-secondary", "Supprimer");
+    for (const b of [voir, vu, sup]) b.type = "button";
+    const zone = el("ul", "cx-alerte-liste"); zone.hidden = true;
+    let nouveaux = [];
+    supabase.rpc("list_awarded_contracts", alertRequest(a)).then(({ data }) => { nouveaux = (data || []).filter((m) => m.awarded_on > a.last_seen_on); etat.textContent = nouveaux.length ? `${countNew(data, a.last_seen_on)} nouveau(x)` : "rien de nouveau"; });
+    voir.addEventListener("click", () => { zone.replaceChildren(); for (const m of nouveaux) zone.append(el("li", "", `${m.object || "—"} · ${eur(m.amount)} · ${m.awarded_on} · gagnant : ${m.winners || "—"}`)); if (!nouveaux.length) zone.append(el("li", "", "Rien de nouveau depuis votre dernière consultation.")); zone.hidden = !zone.hidden; });
+    vu.addEventListener("click", async () => { await supabase.from("contract_alerts").update({ last_seen_on: new Date().toISOString().slice(0, 10) }).eq("id", a.id); afficherAlertes(); });
+    sup.addEventListener("click", async () => { await supabase.from("contract_alerts").delete().eq("id", a.id); afficherAlertes(); });
+    row.append(info, etat, voir, vu, sup); chaAlertes.append(row, zone);
+  }
+}
+async function creerAlertes(ent, mots) {
+  const { data: existantes } = await supabase.from("contract_alerts").select("id").limit(MAX_ALERTES);
+  let place = MAX_ALERTES - (existantes?.length || 0), creees = 0;
+  for (const mot of mots.slice(0, 2)) {
+    const alerte = buildAlertFromFilters({ department: ent.departement, query: mot });
+    if (!alerte || place <= 0) continue;
+    const { error } = await supabase.from("contract_alerts").insert(alerte);
+    if (!error) { place -= 1; creees += 1; }
+  }
+  return creees;
+}
 const chaForm = $("#cx-chantiers"), chaStatus = $("#cx-cha-status"), chaOut = $("#cx-cha-list");
 chaForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -413,8 +448,12 @@ chaForm.addEventListener("submit", async (event) => {
     }
     wrap.append(table); card.append(wrap, el("p", "cx-meta", "Note provisoire : elle classe les chantiers, elle ne garantit rien. « Analyser » cherche les entreprises voisines et le gagnant à contacter."));
   }
+  const alerteBtn = el("button", "cx-secondary", "Me prévenir des nouveaux chantiers"); alerteBtn.type = "button";
+  alerteBtn.addEventListener("click", async () => { alerteBtn.disabled = true; const n = await creerAlertes(ent, mots); say(chaStatus, n ? `Alerte créée pour le département ${ent.departement} : vous verrez ici les nouveaux chantiers à chaque visite.` : `Alerte non créée : vous avez déjà ${MAX_ALERTES} alertes (supprimez-en une) ou elle existe déjà.`, !n); await afficherAlertes(); });
+  card.append(alerteBtn);
   chaOut.append(card);
 });
+afficherAlertes();
 const prospectsForm = $("#cx-prospects"), prospectsStatus = $("#cx-pro-status");
 prospectsForm.addEventListener("submit", async (event) => {
   event.preventDefault();

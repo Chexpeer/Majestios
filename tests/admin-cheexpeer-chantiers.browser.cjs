@@ -20,10 +20,19 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
   try {
     const page = await (await browser.newContext()).newPage();
     const errors = []; page.on("pageerror", (e) => errors.push(e.message));
-    const sdk = fakeSdk.replace("if(name==='cheexpeer_chat_status')", `if(name==='list_awarded_contracts') return {data:[
+    const sdk = fakeSdk.replace("from:(t)=> t==='organization_members'", "from:(t)=> t==='contract_alerts'? window.__alertApi() : t==='organization_members'").replace("if(name==='cheexpeer_chat_status')", `if(name==='list_awarded_contracts') return {data:[
       {contract_uid:'m-loin',object:'Plomberie piscine',awarded_on:'2026-01-10',amount:900000,buyer_name:'Ville Lointaine',buyer_dept:'59',winners:'Gros SA',subcontracting_declared:false},
       {contract_uid:'m-bon',object:'Travaux de plomberie école',awarded_on:new Date().toISOString().slice(0,10),amount:120000,duration_months:12,buyer_name:'Ville d Albi',buyer_dept:'81',winners:'Bat SA',subcontracting_declared:true}],error:null};
       if(name==='cheexpeer_chat_status')`);
+    await page.addInitScript(() => {
+      window.__alerts = [];
+      window.__alertApi = () => { const st = { f: null, id: null }; const q = {
+        select: () => q, order: () => q, limit: () => q, eq: (_c, v) => { st.id = v; return q; },
+        insert: async (row) => { window.__alerts.push({ id: "al" + window.__alerts.length, last_seen_on: "2026-10-01", ...row }); return { error: null }; },
+        update: (patch) => ({ eq: async (_c, v) => { window.__alerts.forEach((a) => { if (a.id === v) Object.assign(a, patch); }); return { error: null }; } }),
+        delete: () => ({ eq: async (_c, v) => { window.__alerts = window.__alerts.filter((a) => a.id !== v); return { error: null }; } }),
+        then: (r) => r({ data: window.__alerts.slice(), error: null }) }; return q; };
+    });
     await page.route("https://esm.sh/**", (r) => r.fulfill({ contentType: "text/javascript", body: sdk }));
     await page.route("https://recherche-entreprises.api.gouv.fr/**", (r) => r.fulfill({ contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify({ results: [{ siren: "123456789", nom_complet: "Plomberie Test", activite_principale: "43.22A", tranche_effectif_salarie: "11", siege: { departement: "81" } }] }) }));
     await page.goto(origin + "/admin-cheexpeer.html");
@@ -40,6 +49,15 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
     assert.deepEqual(rows[0], ["20/20", "Travaux de plomberie école"]); assert.ok(parseFloat(rows[1][0]) < 20);
     await page.click("#cx-cha-list table tr:nth-child(2) .cx-note");
     assert.match(await page.textContent("#cx-cha-list table tr:nth-child(2) .cx-note-detail"), /Sous-traitance déjà prévue : 3\/3 — confirmé/);
+    await page.click('button:has-text("Me prévenir des nouveaux chantiers")');
+    await page.waitForSelector("#cx-cha-alertes .cx-alerte");
+    assert.equal(await page.$$eval("#cx-cha-alertes .cx-alerte", (n) => n.length), 2);
+    assert.match(await page.textContent("#cx-cha-alertes .cx-alerte"), /dép\. 81/);
+    await page.waitForFunction(() => /nouveau/.test(document.querySelector("#cx-cha-alertes .cx-alerte strong").textContent));
+    await page.click('#cx-cha-alertes .cx-alerte button:has-text("Voir")');
+    assert.match(await page.textContent(".cx-alerte-liste"), /plomberie école/);
+    await page.click('#cx-cha-alertes .cx-alerte button:has-text("Supprimer")');
+    await page.waitForFunction(() => document.querySelectorAll("#cx-cha-alertes .cx-alerte").length === 1);
     assert.deepEqual(errors, []);
     console.log("admin-cheexpeer-chantiers.browser : OK");
   } finally { await browser.close(); server.close(); }

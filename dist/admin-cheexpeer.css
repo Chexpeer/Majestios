@@ -117,3 +117,4 @@
 .cx-secondary{margin-left:8px;padding:8px 14px;border-radius:8px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer;font:inherit}
 .cx-card[data-mission=chantiers]{--a:#e46f6f}
 .cx-tab[data-tab=chantiers]{--a:#e46f6f}.cx-tab[data-tab=analyse]{--a:#5aa9e6}.cx-tab[data-tab=opportunite]{--a:#5fc58a}.cx-tab[data-tab=prospects]{--a:#e0a43a}
+.cx-alerte{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0;font-size:.85rem}.cx-alerte-liste{font-size:.8rem;margin:0 0 8px;padding-left:18px}#cx-cha-alertes h3{margin:14px 0 4px;font-size:.95rem}
