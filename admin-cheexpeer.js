@@ -49,10 +49,32 @@ const autoBox = $("#cx-auto"), AUTO_KEY = "majestios.cheexpeer.auto.v1";
 try { if (autoBox && localStorage.getItem(AUTO_KEY) === "0") autoBox.checked = false; } catch { /* sans importance */ }
 autoBox?.addEventListener("change", () => { try { localStorage.setItem(AUTO_KEY, autoBox.checked ? "1" : "0"); } catch { /* sans importance */ } });
 const auto = () => !autoBox || autoBox.checked;
+
+// Note /20 cliquable : montre le détail critère par critère (format compact [points, état] ou complet {libelle, points, max, etat, detail}).
+const CRITERES = [["Métier", 5], ["Qualifications", 4], ["Références", 4], ["Situation financière", 3], ["Capacité sur le chantier", 2], ["Proximité", 3]];
+const ETATS = { c: "confirmé", p: "en partie", n: "non prouvé", x: "contradictoire", a: "non évalué" };
+function noteTd(score) {
+  const td = el("td");
+  if (!score || score.note == null) { td.textContent = "—"; return td; }
+  const btn = el("button", "cx-note", `${String(score.note).replace(".", ",")}/20`); btn.type = "button"; btn.title = "Voir le détail de la note"; btn.setAttribute("aria-expanded", "false");
+  td.append(btn);
+  if (!Array.isArray(score.criteres) || !score.criteres.length) return td;
+  const box = el("div", "cx-note-detail"); box.hidden = true;
+  const ul = el("ul");
+  score.criteres.forEach((k, i) => {
+    const compact = Array.isArray(k);
+    const nom = compact ? CRITERES[i]?.[0] : k.libelle, max = compact ? CRITERES[i]?.[1] : k.max, pts = compact ? k[0] : k.points, etat = compact ? ETATS[k[1]] : k.etat;
+    const li = el("li", "", `${nom || "Critère"} : ${String(pts).replace(".", ",")}/${max} — ${etat}${!compact && k.detail ? ` (${k.detail})` : ""}`); ul.append(li);
+  });
+  box.append(ul, el("p", "cx-meta", "« Non prouvé » veut dire : aucune information publique trouvée, pas un défaut. Les critères « non évalués » sont exclus du calcul. Note provisoire, à valider par vous."));
+  td.append(box);
+  btn.addEventListener("click", () => { box.hidden = !box.hidden; btn.setAttribute("aria-expanded", String(!box.hidden)); });
+  return td;
+}
 let chainFichesNext = false, keptList = null, lastScores = new Map();
 /** Meilleures notes d'abord, puis les plus proches. */
 const bestFirst = (list) => [...list].sort((a, b) => (b.score?.note ?? -1) - (a.score?.note ?? -1) || (a.distance_km ?? 1e9) - (b.distance_km ?? 1e9));
-const keepScores = (list) => { lastScores = new Map((list || []).filter((e) => e?.siren).map((e) => [String(e.siren), { note: e.score?.note ?? null, preuve: e.score?.preuve ?? null, distance_km: e.distance_km ?? null }])); };
+const keepScores = (list) => { lastScores = new Map((list || []).filter((e) => e?.siren).map((e) => [String(e.siren), { note: e.score?.note ?? null, preuve: e.score?.preuve ?? null, criteres: e.score?.criteres ?? null, distance_km: e.distance_km ?? null }])); };
 function renderMission(data) {
   const m = data.mission; currentMission = m.id;
   detailBox.replaceChildren(); detailBox.hidden = false;
@@ -105,7 +127,7 @@ function addFichesButton(box, entreprises, label) {
 }
 function renderFiches(r) {
   const withScores = lastScores.size > 0;
-  if (withScores) r = { ...r, fiches: bestFirst((r.fiches || []).map((f) => ({ ...f, score: lastScores.get(String(f.siren)) ? { note: lastScores.get(String(f.siren)).note } : null, distance_km: lastScores.get(String(f.siren))?.distance_km ?? null }))) };
+  if (withScores) r = { ...r, fiches: bestFirst((r.fiches || []).map((f) => ({ ...f, score: lastScores.get(String(f.siren)) ? { note: lastScores.get(String(f.siren)).note, criteres: lastScores.get(String(f.siren)).criteres } : null, distance_km: lastScores.get(String(f.siren))?.distance_km ?? null }))) };
   const box = el("div", "cx-card");
   box.append(el("p", "admin-kicker", "FICHES CONTACTS"), el("p", "", `${r.nombre} fiche(s). ${r.avertissement || ""}`));
   const actions = el("div", "cx-actions"); const dl = el("button", "cx-primary", "Télécharger (Excel / Google Sheets)"); dl.type = "button";
@@ -114,7 +136,7 @@ function renderFiches(r) {
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
   for (const h of [...(withScores ? ["Note /20", "Distance"] : []), "Entreprise", "SIREN", "Dirigeant(s) (annuaire officiel)", "Google Maps", "Correspondance", "Téléphone", "E-mail", "Site web"]) head.append(el("th", "", h)); table.append(head);
   for (const f of r.fiches || []) {
-    const tr = el("tr"); if (withScores) for (const v of [f.score?.note != null ? `${f.score.note}/20` : "—", f.distance_km != null ? `${String(f.distance_km).replace(".", ",")} km` : "—"]) tr.append(el("td", "", v));
+    const tr = el("tr"); if (withScores) { tr.append(noteTd(f.score)); tr.append(el("td", "", f.distance_km != null ? `${String(f.distance_km).replace(".", ",")} km` : "—")); }
     const dir = (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ");
     for (const v of [f.nom, f.siren, dir || "non trouvé"]) tr.append(el("td", "", v ?? ""));
     const td = el("td"); if (f.google?.lien_google_maps) { const a = el("a", "", "ouvrir"); a.href = f.google.lien_google_maps; a.target = "_blank"; a.rel = "noopener noreferrer"; td.append(a); } else td.textContent = "—"; tr.append(td);
@@ -146,7 +168,7 @@ function renderProspects(result) {
   const avecDist = (result.entreprises || []).some((e) => e.score) || !!result.chantier;
   for (const h of [...(avecDist ? ["Note", "Distance"] : []), "Entreprise", "SIREN", "NAF", "Établissement", "Commune", "Dép.", "Zone", "RGE", "Téléphone", "E-mail", "Google Maps"]) head.append(el("th", "", h));
   table.append(head);
-  for (const e of shown) { const tr = el("tr"); for (const v of [...(avecDist ? [e.score ? `${String(e.score.note).replace(".", ",")}/20` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—"] : []), e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  for (const e of shown) { const tr = el("tr"); for (const v of [...(avecDist ? [e.score ? `${String(e.score.note).replace(".", ",")}/20` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—"] : []), e.nom, e.siren, e.naf, e.etablissement, e.commune, e.departement, e.zone, e.rge ? "oui" : "—", e.telephone || "à compléter", e.email || "à compléter", e.google_maps || "à compléter"]) tr.append(el("td", "", v ?? "")); if (avecDist) tr.firstChild.replaceWith(noteTd(e.score)); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
   if (chainFichesNext && fichesBtn) { chainFichesNext = false; keptList = box; fichesBtn.click(); }
 }
@@ -175,7 +197,7 @@ function renderOpportunite(r) {
   if (r.chantier) box.append(el("p", "cx-meta", `Lieu du chantier retenu : ${r.chantier.origine} — à confirmer (distance à vol d'oiseau, paliers 25 / 50 / 100 km).`));
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
   for (const h of ["Score (provisoire)", "Distance", "Entreprise", "SIREN", "NAF", "Commune", "Dép.", "Pourquoi"]) head.append(el("th", "", h)); table.append(head);
-  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.score ? `${String(e.score.note).replace(".", ",")}/20` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—", e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); table.append(tr); }
+  for (const e of (r.partenaires || []).slice(0, 30)) { const tr = el("tr"); for (const v of [e.score ? `${String(e.score.note).replace(".", ",")}/20` : "—", e.distance_km != null ? `${String(e.distance_km).replace(".", ",")} km` : "—", e.nom, e.siren, e.naf, e.commune, e.departement, e.raison]) tr.append(el("td", "", v ?? "")); tr.firstChild.replaceWith(noteTd(e.score)); table.append(tr); }
   wrap.append(table); box.append(wrap); detailBox.append(box);
   if (chainFichesNext && fichesBtn) { chainFichesNext = false; keptList = box; fichesBtn.click(); }
 }

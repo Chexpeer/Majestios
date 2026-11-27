@@ -112,3 +112,5 @@
 .cx-diag{margin-top:14px;font-size:.85rem;opacity:.85}.cx-diag summary{cursor:pointer}
 .cx-card .cx-meta{margin:2px 0 8px}
 .cx-help{display:none}
+.cx-note{background:none;border:0;border-bottom:1px dashed currentColor;color:inherit;font:inherit;font-weight:700;cursor:pointer;padding:0}
+.cx-note-detail{margin-top:6px;font-size:.78rem;font-weight:400;min-width:230px}.cx-note-detail ul{margin:0;padding-left:16px}

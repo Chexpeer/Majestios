@@ -141,11 +141,15 @@ async function fetchPage(fetchImpl, params) {
  * reste de la région. Classement : siège local, agence locale, puis même région. Hors entreprise gagnante, sans doublon, dans la limite demandée.
  */
 /** Note (sur 20) et classe toujours les entreprises ; si la commune du chantier est connue, ajoute en plus la distance à vol d'oiseau. */
+// Détail compact de la note : [points, état] dans l'ordre métier, qualifications, références, financière, opérationnelle, proximité.
+// États : c = confirmé, p = partiellement confirmé, n = non prouvé, x = contradictoire, a = non applicable (exclu du calcul).
+const ETAT_CODE = { "confirmé": "c", "partiellement confirmé": "p", "non prouvé": "n", "contradictoire": "x", "non applicable": "a" };
+
 export async function annoterDistance(companies, { commune, departement, naf, now, fetchImpl }) {
   const chantier = commune ? await localiserCommune({ commune, departement, origine: "commune du chantier (avis)" }, fetchImpl) : null;
   // Toujours noter et classer : sans lieu de chantier précis, la proximité se juge au département (même département, même région).
   const classement = scoreCompanies(companies, { nafs: [naf], departement, chantier, now });
-  const parSiren = new Map(classement.classees.map((x, i) => [x.siren, { rang: i + 1, note: x.note, sur: 20, preuve: x.preuve, niveau: x.niveau, etiquette: x.etiquette, distance_km: x.distance_km }]));
+  const parSiren = new Map(classement.classees.map((x, i) => [x.siren, { rang: i + 1, note: x.note, sur: 20, preuve: x.preuve, niveau: x.niveau, etiquette: x.etiquette, distance_km: x.distance_km, criteres: x.criteres.map((k) => [k.points, ETAT_CODE[k.etat] ?? "n"]) }]));
   const out = companies.map((c) => { const sc = parSiren.get(c.siren) ?? null; return { ...c, score: sc, distance_km: sc?.distance_km ?? distanceKm(chantier, { lat: c.latitude, lon: c.longitude }) }; })
     .sort((a, b) => (a.score?.rang ?? 1e9) - (b.score?.rang ?? 1e9));
   if (!chantier) return { entreprises: out, chantier: null, repartition: null };

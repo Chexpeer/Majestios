@@ -31,7 +31,7 @@ const COMP = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomberie 
       if (name === "cheexpeer-mission-run") return json(200, { ok: true, ran: 1, failed: [] });
       const result = type === "fiches_contacts"
         ? { type: "fiches_contacts", nombre: 3, fiches: COMP.map(([siren, nom]) => ({ siren, nom, commune: "Albi", dirigeants: [{ nom: "Jean Test", qualite: "Gérant" }], emails: [], google: { statut: "probable" } })), effets_externes: false }
-        : { type: "prospects_sous_traitance", criteres: { naf: "43.22A", departement: "81" }, nombre: 3, sources: ["annuaire"], entreprises: COMP.map(([siren, nom, note, km]) => ({ siren, nom, commune: "Albi", naf: "43.22A", score: { note, preuve: 70 }, distance_km: km })) };
+        : { type: "prospects_sous_traitance", criteres: { naf: "43.22A", departement: "81" }, nombre: 3, sources: ["annuaire"], entreprises: COMP.map(([siren, nom, note, km]) => ({ siren, nom, commune: "Albi", naf: "43.22A", score: { note, preuve: 70, criteres: [[5, "c"], [0, "n"], [0, "n"], [2, "p"], [0, "a"], [2, "p"]] }, distance_km: km })) };
       return json(200, { ok: true, mission: { id: "dddddddd-dddd-4ddd-8ddd-dddddddddddd", organization_id: ORG, mission_type: type, title: "Test", status: pendingApproval ? "pending_approval" : "succeeded", autonomy_level: 0, created_at: new Date().toISOString(), finished_at: pendingApproval ? null : new Date().toISOString(), result: pendingApproval ? {} : result }, approvals: pendingApproval ? [{ id: "cccccccc-cccc-4ccc-8ccc-cccccccccccc", status: "pending", action_summary: "Accord" }] : [], events: [] });
     });
     await page.goto(origin + "/admin-cheexpeer.html");
@@ -43,8 +43,11 @@ const COMP = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomberie 
     assert.deepEqual(calls.filter((c) => c.startsWith("cheexpeer-mission-submit")), ["cheexpeer-mission-submit:prospects_sous_traitance", "cheexpeer-mission-submit:fiches_contacts"]);
     assert.equal(calls.filter((c) => c === "cheexpeer-approval-decision").length, 2);
     assert.equal(calls.filter((c) => c === "cheexpeer-mission-run").length, 2);
-    const firstRows = await page.$$eval("#cx-detail table tr:nth-child(2) td", (tds) => tds.map((t) => t.textContent));
-    assert.equal(firstRows[0], "18/20"); assert.match(firstRows[2], /Plomberie Top/);
+    const firstRows = await page.$$eval("#cx-detail table tr:nth-child(2) td", (tds) => tds.map((t) => t.querySelector(".cx-note")?.textContent ?? t.textContent));
+    assert.equal(firstRows[0], "18/20");
+    await page.click("#cx-detail table tr:nth-child(2) .cx-note");
+    const det = await page.textContent("#cx-detail table tr:nth-child(2) .cx-note-detail");
+    assert.match(det, /Métier : 5\/5 — confirmé/); assert.match(det, /Proximité : 2\/3 — en partie/); assert.match(det, /Capacité sur le chantier : 0\/2 — non évalué/); assert.match(firstRows[2], /Plomberie Top/);
     assert.match(await page.textContent("#cx-detail"), /Liste complète des entreprises/);
     // Case décochée : aucun enchaînement.
     calls.length = 0; await page.evaluate(() => { const c = document.querySelector("#cx-auto"); c.checked = false; c.dispatchEvent(new Event("change", { bubbles: true })); });
