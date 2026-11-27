@@ -132,7 +132,13 @@ function renderFiches(r) {
   box.append(el("p", "admin-kicker", "FICHES CONTACTS"), el("p", "", `${r.nombre} fiche(s). ${r.avertissement || ""}`));
   const actions = el("div", "cx-actions"); const dl = el("button", "cx-primary", "Télécharger (Excel / Google Sheets)"); dl.type = "button";
   dl.addEventListener("click", () => { const blob = new Blob([fichesToCsv(r.fiches, withScores ? lastScores : null)], { type: "text/csv;charset=utf-8" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "fiches-contacts.csv"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); });
-  actions.append(dl); box.append(actions);
+  actions.append(dl);
+  if (withScores && (r.fiches || []).length > 10) {
+    const top = el("button", "cx-secondary", "Télécharger la présélection (10 meilleures)"); top.type = "button";
+    top.addEventListener("click", () => { const blob = new Blob([fichesToCsv(r.fiches.slice(0, 10), lastScores)], { type: "text/csv;charset=utf-8" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "preselection-10-meilleures.csv"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); });
+    actions.append(top);
+  }
+  box.append(actions);
   const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
   for (const h of [...(withScores ? ["Note /20", "Distance"] : []), "Entreprise", "SIREN", "Dirigeant(s) (annuaire officiel)", "Google Maps", "Correspondance", "Téléphone", "E-mail", "Site web"]) head.append(el("th", "", h)); table.append(head);
   for (const f of r.fiches || []) {

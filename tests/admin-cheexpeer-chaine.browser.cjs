@@ -7,7 +7,7 @@ const mime = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "
 const ORG = "7ae83b50-bbd7-4098-bb38-0cfae56492f4";
 const src = fs.readFileSync(path.join(__dirname, "admin-cheexpeer.browser.cjs"), "utf8");
 const fakeSdk = src.match(/const fakeSdk = `([\s\S]*?)`;/)[1];
-const COMP = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomberie Top", 18, 5], ["333333333", "Plomberie Moyenne", 13, 30]];
+const COMP = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomberie Top", 18, 5], ["333333333", "Plomberie Moyenne", 13, 30], ...Array.from({ length: 9 }, (_, i) => ["4444444" + String(10 + i), "Plomberie Extra " + i, 11, 40])];
 (async () => {
   const server = http.createServer((req, res) => {
     const f = path.join(root, new URL(req.url, "http://x").pathname);
@@ -30,8 +30,8 @@ const COMP = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomberie 
       if (name === "cheexpeer-approval-decision") { pendingApproval = false; return json(200, { ok: true }); }
       if (name === "cheexpeer-mission-run") return json(200, { ok: true, ran: 1, failed: [] });
       const result = type === "fiches_contacts"
-        ? { type: "fiches_contacts", nombre: 3, fiches: COMP.map(([siren, nom]) => ({ siren, nom, commune: "Albi", dirigeants: [{ nom: "Jean Test", qualite: "Gérant" }], emails: [], google: { statut: "probable" } })), effets_externes: false }
-        : { type: "prospects_sous_traitance", criteres: { naf: "43.22A", departement: "81" }, nombre: 3, sources: ["annuaire"], entreprises: COMP.map(([siren, nom, note, km]) => ({ siren, nom, commune: "Albi", naf: "43.22A", score: { note, preuve: 70, criteres: [[5, "c"], [0, "n"], [0, "n"], [2, "p"], [0, "a"], [2, "p"]] }, distance_km: km })) };
+        ? { type: "fiches_contacts", nombre: COMP.length, fiches: COMP.map(([siren, nom]) => ({ siren, nom, commune: "Albi", dirigeants: [{ nom: "Jean Test", qualite: "Gérant" }], emails: [], google: { statut: "probable" } })), effets_externes: false }
+        : { type: "prospects_sous_traitance", criteres: { naf: "43.22A", departement: "81" }, nombre: COMP.length, sources: ["annuaire"], entreprises: COMP.map(([siren, nom, note, km]) => ({ siren, nom, commune: "Albi", naf: "43.22A", score: { note, preuve: 70, criteres: [[5, "c"], [0, "n"], [0, "n"], [2, "p"], [0, "a"], [2, "p"]] }, distance_km: km })) };
       return json(200, { ok: true, mission: { id: "dddddddd-dddd-4ddd-8ddd-dddddddddddd", organization_id: ORG, mission_type: type, title: "Test", status: pendingApproval ? "pending_approval" : "succeeded", autonomy_level: 0, created_at: new Date().toISOString(), finished_at: pendingApproval ? null : new Date().toISOString(), result: pendingApproval ? {} : result }, approvals: pendingApproval ? [{ id: "cccccccc-cccc-4ccc-8ccc-cccccccccccc", status: "pending", action_summary: "Accord" }] : [], events: [] });
     });
     await page.goto(origin + "/admin-cheexpeer.html");
@@ -49,6 +49,9 @@ const COMP = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomberie 
     const det = await page.textContent("#cx-detail table tr:nth-child(2) .cx-note-detail");
     assert.match(det, /Métier : 5\/5 — confirmé/); assert.match(det, /Proximité : 2\/3 — en partie/); assert.match(det, /Capacité sur le chantier : 0\/2 — non évalué/); assert.match(firstRows[2], /Plomberie Top/);
     assert.match(await page.textContent("#cx-detail"), /Liste complète des entreprises/);
+    assert.ok(await page.$('button:has-text("présélection (10 meilleures)")'));
+    const [dlp] = await Promise.all([page.waitForEvent("download"), page.click('button:has-text("présélection (10 meilleures)")')]);
+    const csv = fs.readFileSync(await dlp.path(), "utf8"); assert.equal(csv.trim().split("\n").length, 11); assert.match(csv, /Plomberie Top/);
     // Case décochée : aucun enchaînement.
     calls.length = 0; await page.evaluate(() => { const c = document.querySelector("#cx-auto"); c.checked = false; c.dispatchEvent(new Event("change", { bubbles: true })); });
     await page.click('#cx-prospects button[type="submit"]');
