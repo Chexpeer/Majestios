@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
-import { buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, buildOpportunitePayload, buildFichesPayload, fichesToCsv, MISSION_TYPE_FICHES, MISSION_TYPE_OPPORTUNITE, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
+import { METIERS_CHANTIER, SIREN_RE, entrepriseDepuisAnnuaire, classerChantiers, buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, buildOpportunitePayload, buildFichesPayload, fichesToCsv, MISSION_TYPE_FICHES, MISSION_TYPE_OPPORTUNITE, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
 
 // Projet cible : MajestiOS-Test (les API Cheexpeer n'existent que là). Même configuration que la relecture des annonces.
 const supabase = createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -378,6 +378,41 @@ oppForm.addEventListener("submit", async (event) => {
     li.append(b); oppList.append(li);
   }
 });
+
+// ---- Mes chantiers à reprendre : l'entreprise saisit son SIREN, Cheexpeer lit son métier et son département puis note les marchés récents ----
+const chaForm = $("#cx-chantiers"), chaStatus = $("#cx-cha-status"), chaOut = $("#cx-cha-list");
+chaForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const siren = chaForm.elements.siren.value.replace(/\s/g, "");
+  const button = chaForm.querySelector("button[type=submit]");
+  if (!SIREN_RE.test(siren)) { say(chaStatus, "Le numéro SIREN comporte 9 chiffres.", true); return; }
+  button.disabled = true; chaOut.replaceChildren(); say(chaStatus, "Lecture de votre entreprise…");
+  let ent = null;
+  try { const r = await fetch(`https://recherche-entreprises.api.gouv.fr/search?q=${siren}&per_page=1`); const j = await r.json(); ent = entrepriseDepuisAnnuaire((j.results || []).find((x) => String(x.siren) === siren)); } catch { ent = null; }
+  if (!ent) { say(chaStatus, "Entreprise introuvable : vérifiez le numéro SIREN.", true); button.disabled = false; return; }
+  const mots = METIERS_CHANTIER[ent.naf]?.mots;
+  if (!mots || !ent.departement) { say(chaStatus, `Votre métier (code ${ent.naf || "?"}) n'est pas encore pris en charge ici.`, true); button.disabled = false; return; }
+  say(chaStatus, "Recherche des chantiers récents…");
+  const reponses = await Promise.all(mots.slice(0, 3).map((m) => supabase.rpc("list_awarded_contracts", { p_department: ent.departement, p_query: m, p_cpv: null, p_min_amount: null, p_months: 12, p_limit: 50, p_offset: 0 })));
+  button.disabled = false;
+  if (reponses.every((r) => r.error)) { say(chaStatus, "La recherche a échoué. Réessayez.", true); return; }
+  const classes = classerChantiers(reponses.flatMap((r) => r.data || []), ent).slice(0, 30);
+  say(chaStatus, classes.length ? `${classes.length} chantier(s) trouvé(s), les mieux notés en premier. Cliquez sur la note pour voir le détail.` : "Aucun chantier récent trouvé dans votre département pour votre métier.");
+  const card = el("div", "cx-card"); card.append(el("p", "", `${ent.nom} · ${ent.metier} · département ${ent.departement}${ent.effectif ? ` · environ ${ent.effectif} salarié(s)` : ""}`));
+  if (classes.length) {
+    const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
+    for (const h of ["Note /20", "Chantier", "Entreprise gagnante", "Montant", "Date", "Acheteur", ""]) head.append(el("th", "", h)); table.append(head);
+    for (const { marche: m, score } of classes) {
+      const tr = el("tr"); tr.append(noteTd(score));
+      for (const v of [m.object || "—", m.winners || "—", eur(m.amount), m.awarded_on || "—", `${m.buyer_name || "—"} (${m.buyer_dept || "?"})`]) tr.append(el("td", "", v));
+      const td = el("td"); const b = el("button", "cx-secondary", "Analyser"); b.type = "button";
+      b.addEventListener("click", async () => { const body = buildOpportunitePayload({ organizationId, contractUid: m.contract_uid, label: m.winners, idempotencyKey: crypto.randomUUID() }); if (!body) { say(chaStatus, "Marché non utilisable.", true); return; } b.disabled = true; chainFichesNext = auto(); await launch(body, chaStatus); chainFichesNext = false; b.disabled = false; });
+      td.append(b); tr.append(td); table.append(tr);
+    }
+    wrap.append(table); card.append(wrap, el("p", "cx-meta", "Note provisoire : elle classe les chantiers, elle ne garantit rien. « Analyser » cherche les entreprises voisines et le gagnant à contacter."));
+  }
+  chaOut.append(card);
+});
 const prospectsForm = $("#cx-prospects"), prospectsStatus = $("#cx-pro-status");
 prospectsForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -410,7 +445,7 @@ try { await authorize(); } catch (error) { console.error(error); lock("La vérif
 // Menu déroulant des missions : une seule mission affichée à la fois ; le suivi, lui, reste toujours visible.
 (function () {
   const menu = document.querySelector("#cx-mission-menu"); if (!menu) return;
-  const aides = { analyse: "Collez le numéro d'une annonce : Cheexpeer lit l'annonce, trouve les métiers et le lieu, puis cherche les entreprises.", opportunite: "Choisissez un marché récemment attribué : Cheexpeer identifie le gagnant et les entreprises du même métier à contacter.", prospects: "Indiquez un métier et un département : Cheexpeer sort la liste des entreprises correspondantes, à télécharger.", diagnostic: "Vérifie simplement que Cheexpeer répond. Sans effet sur vos données." };
+  const aides = { analyse: "Collez le numéro d'une annonce : Cheexpeer lit l'annonce, trouve les métiers et le lieu, puis cherche les entreprises.", opportunite: "Choisissez un marché récemment attribué : Cheexpeer identifie le gagnant et les entreprises du même métier à contacter.", chantiers: "Saisissez votre numéro SIREN : Cheexpeer trouve les chantiers récents qui vous correspondent et les note.", prospects: "Indiquez un métier et un département : Cheexpeer sort la liste des entreprises correspondantes, à télécharger.", diagnostic: "Vérifie simplement que Cheexpeer répond. Sans effet sur vos données." };
   const KEY = "majestios.cheexpeer.mission.v1";
   const show = (value) => {
     for (const card of document.querySelectorAll("[data-mission]")) card.hidden = card.dataset.mission !== value;

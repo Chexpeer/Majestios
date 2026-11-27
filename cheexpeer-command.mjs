@@ -161,3 +161,68 @@ export async function callApi(fetchImpl, { baseUrl, key, token, body }) {
   if (response.ok && data?.ok !== false) return { ok: true, status: response.status, data, message: "" };
   return { ok: false, status: response.status, data, message: errorMessage(data?.error) };
 }
+
+// ---- Mes chantiers à reprendre : une entreprise (SIREN) cherche des chantiers en sous-traitance ----
+// Mots à chercher dans l'objet des marchés attribués, selon le métier (code NAF) de l'entreprise.
+export const METIERS_CHANTIER = Object.freeze({
+  "43.22A": { nom: "Plomberie – sanitaire", mots: ["plomberie", "sanitaire"] },
+  "43.22B": { nom: "Chauffage – ventilation – climatisation", mots: ["chauffage", "climatisation", "ventilation"] },
+  "43.21A": { nom: "Électricité", mots: ["électricité", "électrique"] },
+  "43.21B": { nom: "Électricité sur la voie publique", mots: ["éclairage public", "électrification"] },
+  "43.11Z": { nom: "Démolition", mots: ["démolition", "déconstruction"] },
+  "39.00Z": { nom: "Désamiantage – dépollution", mots: ["désamiantage", "amiante"] },
+  "43.32A": { nom: "Menuiserie bois et PVC", mots: ["menuiserie", "fenêtres"] },
+  "43.32B": { nom: "Menuiserie métallique – serrurerie", mots: ["serrurerie", "métallerie"] },
+  "43.31Z": { nom: "Plâtrerie", mots: ["plâtrerie", "cloisons"] },
+  "43.29A": { nom: "Isolation", mots: ["isolation"] },
+  "43.34Z": { nom: "Peinture – vitrerie", mots: ["peinture"] },
+  "43.33Z": { nom: "Revêtement de sols et murs", mots: ["revêtement", "carrelage"] },
+  "43.99C": { nom: "Maçonnerie – gros œuvre", mots: ["maçonnerie", "gros œuvre"] },
+  "43.91A": { nom: "Charpente", mots: ["charpente"] },
+  "43.91B": { nom: "Couverture", mots: ["couverture", "toiture"] },
+  "42.21Z": { nom: "Réseaux d'eau – assainissement", mots: ["assainissement", "réseaux"] },
+  "43.12A": { nom: "Terrassement", mots: ["terrassement"] },
+  "42.11Z": { nom: "Voirie", mots: ["voirie", "chaussée"] },
+});
+const EFFECTIF_MILIEU = Object.freeze({ "01": 1.5, "02": 4, "03": 7.5, 11: 15, 12: 35, 21: 75, 22: 150, 31: 225, 32: 375, 41: 750, 42: 1500, 51: 3500, 52: 7500, 53: 10000 });
+export const SIREN_RE = /^\d{9}$/;
+
+export function entrepriseDepuisAnnuaire(r) {
+  if (!r || !/^\d{9}$/.test(String(r.siren ?? ""))) return null;
+  const naf = String(r.activite_principale ?? r.siege?.activite_principale ?? "").toUpperCase();
+  const dep = String(r.siege?.departement ?? "").toUpperCase() || (String(r.siege?.code_postal ?? "").startsWith("97") ? String(r.siege.code_postal).slice(0, 3) : String(r.siege?.code_postal ?? "").slice(0, 2));
+  return { siren: String(r.siren), nom: String(r.nom_complet ?? "").slice(0, 140), naf, departement: dep, tranche: String(r.tranche_effectif_salarie ?? ""), effectif: EFFECTIF_MILIEU[String(r.tranche_effectif_salarie ?? "")] ?? null, metier: METIERS_CHANTIER[naf]?.nom ?? null };
+}
+
+const critere = (cle, libelle, points, max, etat, detail) => ({ cle, libelle, points, max, etat, detail });
+
+// Note de chances /20 (provisoire). Les critères non évaluables sont exclus du calcul.
+export function noteChantier(marche, entreprise, now = new Date()) {
+  const criteres = [];
+  const mots = METIERS_CHANTIER[entreprise?.naf]?.mots ?? [];
+  const objet = String(marche?.object ?? "").toLowerCase();
+  const trouve = mots.find((m) => objet.includes(m.toLowerCase()));
+  criteres.push(trouve ? critere("metier", "Métier", 5, 5, "confirmé", `Le marché parle de « ${trouve} »`) : critere("metier", "Métier", 2, 5, "en partie", "Marché trouvé par recherche large"));
+  const memeDep = entreprise?.departement && marche?.buyer_dept === entreprise.departement;
+  criteres.push(memeDep ? critere("proximite", "Proximité", 5, 5, "confirmé", `Acheteur dans votre département (${entreprise.departement})`) : critere("proximite", "Proximité", 1, 5, "en partie", `Acheteur hors de votre département (${marche?.buyer_dept || "?"})`));
+  const montant = Number(marche?.amount), flag = marche?.amount_flag;
+  if (Number.isFinite(montant) && montant > 0 && flag !== "suspect" && flag !== "aberrant" && entreprise?.effectif) {
+    const mois = Number(marche?.duration_months), annuel = Number.isFinite(mois) && mois >= 12 ? (montant * 12) / mois : montant;
+    const ratio = Math.round(annuel / entreprise.effectif);
+    const pts = ratio <= 40000 ? 5 : ratio <= 100000 ? 3 : 1;
+    criteres.push(critere("taille", "Taille du marché pour vous", pts, 5, "en partie", `Environ ${ratio.toLocaleString("fr-FR")} € par salarié et par an (effectif estimé ${entreprise.effectif})`));
+  } else criteres.push(critere("taille", "Taille du marché pour vous", 0, 5, "non évalué", "Montant ou effectif inconnu"));
+  criteres.push(marche?.subcontracting_declared ? critere("sous_traitance", "Sous-traitance déjà prévue", 3, 3, "confirmé", "Une sous-traitance est déclarée dans ce marché") : critere("sous_traitance", "Sous-traitance déjà prévue", 0, 3, "non prouvé", "Aucune sous-traitance déclarée (ne veut pas dire qu'il n'y en aura pas)"));
+  const age = (new Date(now).getTime() - Date.parse(marche?.awarded_on ?? "")) / 86400000;
+  criteres.push(Number.isFinite(age) ? (age <= 90 ? critere("fraicheur", "Marché récent", 2, 2, "confirmé", "Attribué il y a moins de 3 mois") : critere("fraicheur", "Marché récent", 1, 2, "en partie", "Attribué il y a 3 à 12 mois")) : critere("fraicheur", "Marché récent", 0, 2, "non évalué", "Date inconnue"));
+  const ok = criteres.filter((c) => c.etat !== "non évalué");
+  const max = ok.reduce((s, c) => s + c.max, 0), pts = ok.reduce((s, c) => s + c.points, 0);
+  return { note: max ? Math.round((pts / max) * 200) / 10 : 0, criteres };
+}
+
+export function classerChantiers(marches, entreprise, now = new Date()) {
+  const vus = new Set();
+  return (marches ?? []).filter((m) => m?.contract_uid && !vus.has(m.contract_uid) && vus.add(m.contract_uid))
+    .map((m) => ({ marche: m, score: noteChantier(m, entreprise, now) }))
+    .sort((a, b) => b.score.note - a.score.note);
+}

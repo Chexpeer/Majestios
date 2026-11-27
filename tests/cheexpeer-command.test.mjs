@@ -81,3 +81,17 @@ test("analyse d'un appel d'offres : demande et recherches dérivées", () => {
   assert.equal(buildProspectsFromAnalysis({ organizationId: org, nafs: ["43.22A", "43.22B", "43.21A", "43.21B"], departements: ["50", "14"], newKey: key }).ok, false);
   assert.equal(MAX_RECHERCHES, 6);
 });
+
+import { entrepriseDepuisAnnuaire, noteChantier, classerChantiers } from "../cheexpeer-command.mjs";
+test("Mes chantiers : entreprise lue depuis l'annuaire, note de chances et classement", () => {
+  const e = entrepriseDepuisAnnuaire({ siren: "123456789", nom_complet: "Plomberie Test", activite_principale: "43.22A", tranche_effectif_salarie: "11", siege: { departement: "81" } });
+  assert.equal(e.metier, "Plomberie – sanitaire"); assert.equal(e.effectif, 15); assert.equal(e.departement, "81");
+  const bon = { contract_uid: "a", object: "Travaux de plomberie école", buyer_dept: "81", amount: 120000, duration_months: 12, subcontracting_declared: true, awarded_on: "2026-11-01" };
+  const loin = { contract_uid: "b", object: "Plomberie piscine", buyer_dept: "59", amount: 900000, awarded_on: "2026-01-10" };
+  const now = new Date("2026-11-27");
+  const a = noteChantier(bon, e, now), b = noteChantier(loin, e, now);
+  assert.equal(a.note, 20); assert.ok(b.note < a.note); assert.equal(a.criteres.length, 5);
+  const sansEff = noteChantier(bon, { ...e, effectif: null }, now); assert.equal(sansEff.criteres.find((c) => c.cle === "taille").etat, "non évalué");
+  assert.deepEqual(classerChantiers([loin, bon, bon], e, now).map((x) => x.marche.contract_uid), ["a", "b"]);
+  assert.equal(entrepriseDepuisAnnuaire({ siren: "x" }), null);
+});
