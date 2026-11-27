@@ -186,6 +186,18 @@ export const METIERS_CHANTIER = Object.freeze({
 });
 const EFFECTIF_MILIEU = Object.freeze({ "01": 1.5, "02": 4, "03": 7.5, 11: 15, 12: 35, 21: 75, 22: 150, 31: 225, 32: 375, 41: 750, 42: 1500, 51: 3500, 52: 7500, 53: 10000 });
 export const SIREN_RE = /^\d{9}$/;
+export const REGIONS_DEPARTEMENTS = Object.freeze({
+  "Île-de-France": ["75", "77", "78", "91", "92", "93", "94", "95"], "Centre-Val de Loire": ["18", "28", "36", "37", "41", "45"],
+  "Bourgogne-Franche-Comté": ["21", "25", "39", "58", "70", "71", "89", "90"], "Normandie": ["14", "27", "50", "61", "76"],
+  "Hauts-de-France": ["02", "59", "60", "62", "80"], "Grand Est": ["08", "10", "51", "52", "54", "55", "57", "67", "68", "88"],
+  "Pays de la Loire": ["44", "49", "53", "72", "85"], "Bretagne": ["22", "29", "35", "56"],
+  "Nouvelle-Aquitaine": ["16", "17", "19", "23", "24", "33", "40", "47", "64", "79", "86", "87"],
+  "Occitanie": ["09", "11", "12", "30", "31", "32", "34", "46", "48", "65", "66", "81", "82"],
+  "Auvergne-Rhône-Alpes": ["01", "03", "07", "15", "26", "38", "42", "43", "63", "69", "73", "74"],
+  "Provence-Alpes-Côte d'Azur": ["04", "05", "06", "13", "83", "84"], "Corse": ["2A", "2B"],
+});
+export const regionDe = (dep) => Object.entries(REGIONS_DEPARTEMENTS).find(([, d]) => d.includes(String(dep ?? "").toUpperCase()))?.[0] ?? null;
+export const departementsRegion = (dep) => { const r = regionDe(dep); return r ? REGIONS_DEPARTEMENTS[r] : (dep ? [String(dep)] : []); };
 
 export function entrepriseDepuisAnnuaire(r) {
   if (!r || !/^\d{9}$/.test(String(r.siren ?? ""))) return null;
@@ -204,7 +216,8 @@ export function noteChantier(marche, entreprise, now = new Date()) {
   const trouve = mots.find((m) => objet.includes(m.toLowerCase()));
   criteres.push(trouve ? critere("metier", "Métier", 5, 5, "confirmé", `Le marché parle de « ${trouve} »`) : critere("metier", "Métier", 2, 5, "en partie", "Marché trouvé par recherche large"));
   const memeDep = entreprise?.departement && marche?.buyer_dept === entreprise.departement;
-  criteres.push(memeDep ? critere("proximite", "Proximité", 5, 5, "confirmé", `Acheteur dans votre département (${entreprise.departement})`) : critere("proximite", "Proximité", 1, 5, "en partie", `Acheteur hors de votre département (${marche?.buyer_dept || "?"})`));
+  const memeRegion = !memeDep && regionDe(entreprise?.departement) && regionDe(entreprise.departement) === regionDe(marche?.buyer_dept);
+  criteres.push(memeDep ? critere("proximite", "Proximité", 5, 5, "confirmé", `Acheteur dans votre département (${entreprise.departement})`) : memeRegion ? critere("proximite", "Proximité", 3, 5, "en partie", `Acheteur dans votre région, autre département (${marche.buyer_dept})`) : critere("proximite", "Proximité", 1, 5, "en partie", `Acheteur hors de votre région (${marche?.buyer_dept || "?"})`));
   const montant = Number(marche?.amount), flag = marche?.amount_flag;
   if (Number.isFinite(montant) && montant > 0 && flag !== "suspect" && flag !== "aberrant" && entreprise?.effectif) {
     const mois = Number(marche?.duration_months), annuel = Number.isFinite(mois) && mois >= 12 ? (montant * 12) / mois : montant;

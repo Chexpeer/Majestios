@@ -95,3 +95,11 @@ test("Mes chantiers : entreprise lue depuis l'annuaire, note de chances et class
   assert.deepEqual(classerChantiers([loin, bon, bon], e, now).map((x) => x.marche.contract_uid), ["a", "b"]);
   assert.equal(entrepriseDepuisAnnuaire({ siren: "x" }), null);
 });
+
+import { regionDe, departementsRegion } from "../cheexpeer-command.mjs";
+test("Mes chantiers : région et départements voisins", () => {
+  assert.equal(regionDe("81"), "Occitanie"); assert.ok(departementsRegion("81").includes("31")); assert.deepEqual(departementsRegion("999"), ["999"]);
+  const e = { naf: "43.22A", departement: "81", effectif: 15 };
+  const voisin = noteChantier({ object: "plomberie", buyer_dept: "31", awarded_on: "2026-11-01" }, e, new Date("2026-11-27"));
+  assert.match(voisin.criteres.find((c) => c.cle === "proximite").detail, /votre région/);
+});

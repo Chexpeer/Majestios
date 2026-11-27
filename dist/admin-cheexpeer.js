@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.0";
 import { ANNONCES_SUPABASE } from "./annonces-config.mjs";
-import { METIERS_CHANTIER, SIREN_RE, entrepriseDepuisAnnuaire, classerChantiers, buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, buildOpportunitePayload, buildFichesPayload, fichesToCsv, MISSION_TYPE_FICHES, MISSION_TYPE_OPPORTUNITE, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
+import { METIERS_CHANTIER, departementsRegion, SIREN_RE, entrepriseDepuisAnnuaire, classerChantiers, buildSubmitPayload, buildDecisionPayload, buildProspectsPayload, buildAnalysePayload, buildProspectsFromAnalysis, buildOpportunitePayload, buildFichesPayload, fichesToCsv, MISSION_TYPE_FICHES, MISSION_TYPE_OPPORTUNITE, MISSION_TYPE_ANALYSE, callApi, statusLabel, APPROVAL_LABELS, MISSION_TYPE_PROSPECTS, prospectsToCsv, prospectsFilename } from "./cheexpeer-command.mjs";
 
 // Projet cible : MajestiOS-Test (les API Cheexpeer n'existent que là). Même configuration que la relecture des annonces.
 const supabase = createClient(ANNONCES_SUPABASE.url, ANNONCES_SUPABASE.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -393,11 +393,13 @@ chaForm.addEventListener("submit", async (event) => {
   const mots = METIERS_CHANTIER[ent.naf]?.mots;
   if (!mots || !ent.departement) { say(chaStatus, `Votre métier (code ${ent.naf || "?"}) n'est pas encore pris en charge ici.`, true); button.disabled = false; return; }
   say(chaStatus, "Recherche des chantiers récents…");
-  const reponses = await Promise.all(mots.slice(0, 3).map((m) => supabase.rpc("list_awarded_contracts", { p_department: ent.departement, p_query: m, p_cpv: null, p_min_amount: null, p_months: 12, p_limit: 50, p_offset: 0 })));
+  const zone = chaForm.elements.zone.value === "departement" ? [ent.departement] : departementsRegion(ent.departement);
+  const appels = []; for (const dep of zone) for (const m of mots.slice(0, 2)) appels.push(supabase.rpc("list_awarded_contracts", { p_department: dep, p_query: m, p_cpv: null, p_min_amount: null, p_months: 12, p_limit: 30, p_offset: 0 }));
+  const reponses = await Promise.all(appels);
   button.disabled = false;
   if (reponses.every((r) => r.error)) { say(chaStatus, "La recherche a échoué. Réessayez.", true); return; }
   const classes = classerChantiers(reponses.flatMap((r) => r.data || []), ent).slice(0, 30);
-  say(chaStatus, classes.length ? `${classes.length} chantier(s) trouvé(s), les mieux notés en premier. Cliquez sur la note pour voir le détail.` : "Aucun chantier récent trouvé dans votre département pour votre métier.");
+  say(chaStatus, classes.length ? `${classes.length} chantier(s) trouvé(s), les mieux notés en premier. Cliquez sur la note pour voir le détail.` : "Aucun chantier récent trouvé dans cette zone pour votre métier.");
   const card = el("div", "cx-card"); card.append(el("p", "", `${ent.nom} · ${ent.metier} · département ${ent.departement}${ent.effectif ? ` · environ ${ent.effectif} salarié(s)` : ""}`));
   if (classes.length) {
     const wrap = el("div", "cx-table-wrap"); wrap.style.overflowX = "auto"; const table = el("table", "cx-table"); const head = el("tr");
