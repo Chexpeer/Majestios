@@ -1,4 +1,4 @@
-# Cheexpeer — état consolidé au 25/11/2026
+# Cheexpeer — état consolidé au 27/11/2026
 
 Document de référence pour reprendre le travail sans reposer les questions déjà traitées.
 
@@ -9,6 +9,16 @@ Document de référence pour reprendre le travail sans reposer les questions dé
 - **Métier choisi par son nom** dans une liste de 18 métiers ; le code NAF se remplit seul.
 - **Majestios Bot** : bulle flottante (compacte), lecture seule.
 - Style en onglets colorés commun à Cheexpeer, CRM interne et Recherches ciblées.
+
+### Ajouts du 27/11/2026
+- **Détail de la note** : un clic sur une note /20 affiche les critères (métier, qualifications, références, situation financière, capacité sur le chantier, proximité) avec points et statut. Le serveur envoie ce détail sous forme compacte `[points, état]` (états : c confirmé, p en partie, n non prouvé, x contradictoire, a non applicable).
+- **Présélection** : bouton « Télécharger la présélection (10 meilleures) » après la liste (notes + dirigeants, téléphones, e-mails).
+- **Mes chantiers à reprendre** (premier onglet) : pour une entreprise qui cherche des chantiers en sous-traitance. Un seul renseignement : le SIREN. Cheexpeer lit métier (NAF), département et effectif dans l'annuaire officiel, cherche les marchés attribués des 12 derniers mois (fonction existante `list_awarded_contracts`, aucun changement de base), puis note chaque chantier /20 : métier (5), proximité (5 : même département / 3 : même région / 1 : hors région), taille du marché par salarié (5), sous-traitance déjà déclarée (3), fraîcheur (2). Critères non évaluables exclus du calcul. Zone au choix : région (par défaut) ou département. Le bouton « Analyser » lance la recherche existante (gagnant, entreprises voisines, contacts). Code : `cheexpeer-command.mjs` (`noteChantier`, `classerChantiers`), test navigateur `admin-cheexpeer-chantiers`.
+- 18 métiers pris en charge (liste `METIERS_CHANTIER`).
+- Limite : note provisoire, aucune alerte automatique encore ; les appels d'offres privés ne sont pas dans les données.
+
+### Veille concurrence (27/11/2026)
+Aucun concurrent identifié ne note des entreprises pour la sous-traitance après attribution. Tendios : évaluation d'offres pour acheteurs ; Saqara (Chantier Privé), BTP Connect : appels d'offres privés ; Remporte : analyse de DCE avec score. Pistes retenues pour les appels d'offres : présélection, chances de réussite, alertes métier + département, résumé d'annonce, équipes de groupement. Décision du propriétaire : l'utilisateur cible est l'entreprise qui cherche des chantiers en sous-traitance.
 
 ## 2. Mis en production (Supabase `qxaghcifdhugfskuscoc`)
 - `cheexpeer-mission-run` version 3 : note toujours calculée. Retour arrière possible (version précédente, bundle conservé hors dépôt).
@@ -21,10 +31,11 @@ Document de référence pour reprendre le travail sans reposer les questions dé
 - Outils `analyse_marche` et `opportunite_attribution` désactivés dans le registre de production (à activer sur décision du propriétaire).
 
 ## 4. Vérifications
-- 207 tests de logique + tests navigateur (dont `admin-cheexpeer` et `admin-cheexpeer-chaine`) : tous passent.
-- Déploiement preview : branche `evolution-12`, commit `3f3b8ca`, état READY.
+- 209 tests de logique + tests navigateur (dont `admin-cheexpeer` et `admin-cheexpeer-chaine`) : tous passent.
+- Déploiement preview : branche `evolution-12`, commit `1687bbc`, état READY. `cheexpeer-mission-run` version 4 en production.
 
 ## 5. Reste à décider (par le propriétaire)
 - Saisie libre d'un métier (« plombier ») en plus de la liste ?
+- Alertes automatiques quand un nouveau chantier correspond (la table `contract_alerts` existe déjà).
 - Envoi des entreprises retenues vers le CRM (brouillons de prospection, nettoyage CRM : en attente).
 - Passage de la branche d'essai vers `main` : sur décision du propriétaire uniquement.
