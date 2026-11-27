@@ -1,0 +1,16 @@
+.demo-chantiers{max-width:860px;margin:28px auto;padding:22px 24px;border:1px solid #e3d6b4;border-radius:16px;background:#fffdf7;color:#2a2926;box-shadow:0 10px 30px rgba(60,45,10,.08)}
+.demo-chantiers h2{margin:0 0 6px;font-size:clamp(20px,2.4vw,26px);color:#2a2926}
+.demo-chantiers .demo-intro{margin:0 0 14px;color:#4a463e}
+.demo-chantiers form{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.demo-chantiers label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:14px;flex:1 1 220px;min-width:0}
+.demo-chantiers input{padding:12px 14px;border:1px solid #cdbf98;border-radius:10px;font:inherit;background:#fff;color:#2a2926}
+.demo-chantiers button[type=submit]{padding:12px 22px;border:0;border-radius:10px;background:#7a5200;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.demo-chantiers button[type=submit]:disabled{opacity:.6;cursor:wait}
+.demo-chantiers [data-demo-status]{margin:12px 0 0;font-weight:600}.demo-chantiers [data-demo-status].is-error{color:#9b2c2c}
+.demo-liste{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.demo-chantier{padding:12px 14px;border:1px solid #e8dcc0;border-radius:12px;background:#fff}
+.demo-tete{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.demo-note{font-size:22px;color:#7a5200;white-space:nowrap}.demo-objet{font-weight:600;min-width:0;flex:1 1 240px}
+.demo-meta{margin:4px 0;font-size:13px;color:#5a554a}
+.demo-detail summary{cursor:pointer;font-size:13px;color:#7a5200}.demo-detail ul{margin:6px 0 0;padding-left:18px;font-size:13px}
+.demo-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:14px 0 0}.demo-mention{font-size:12px;color:#6a6458}

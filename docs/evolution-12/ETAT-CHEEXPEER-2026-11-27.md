@@ -40,3 +40,8 @@ Aucun concurrent identifié ne note des entreprises pour la sous-traitance aprè
 - Envoi des alertes par e-mail (nécessite un expéditeur et l'accord du propriétaire).
 - Envoi des entreprises retenues vers le CRM (brouillons de prospection, nettoyage CRM : en attente).
 - Passage de la branche d'essai vers `main` : sur décision du propriétaire uniquement.
+
+
+## Accueil : démonstration en un champ
+- Page d'accueil (index.html) : section « Essayez, c'est gratuit » (demo-chantiers.mjs/.css). Le visiteur saisit un SIREN, sans inscription ; le site lit métier et département (annuaire des entreprises) et affiche les 3 meilleurs chantiers notés avec le détail de la note, puis invite à créer l'espace. Rien n'est enregistré.
+- Test : tests/demo-chantiers.browser.cjs (branché dans la CI).
