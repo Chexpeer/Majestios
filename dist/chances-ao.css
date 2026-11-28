@@ -1,0 +1,28 @@
+/* Accompagnement aux appels d'offres : « Mes chances » — cartes crème, lisibles sur le fond de la rubrique. */
+.chances-ao{max-width:900px}
+.chances-ao form{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin:10px 0}
+.chances-ao label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:14px;flex:1 1 240px;min-width:0}
+.chances-ao label.ao-dep{flex:0 1 100px}
+.chances-ao input[type=text],.chances-ao input:not([type]){padding:11px 13px;border:1px solid #cdbf98;border-radius:10px;font:inherit;background:#fff;color:#2a2926}
+.chances-ao button[type=submit]{padding:11px 20px;border:0;border-radius:10px;background:#7a5200;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.chances-ao button[type=submit]:disabled{opacity:.6;cursor:wait}
+.chances-ao [data-ao-status]{margin:10px 0 0;font-weight:600}.chances-ao [data-ao-status].is-error{color:#9b2c2c}
+.ao-liste{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:12px}
+.ao-carte{padding:14px 16px;border:1px solid #e8dcc0;border-radius:12px;background:#fff;color:#2a2926}
+.ao-tete{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.ao-note{font-size:22px;color:#7a5200;white-space:nowrap}.ao-objet{font-weight:600;min-width:0;flex:1 1 240px}
+.ao-meta{margin:6px 0;font-size:13px;color:#5a554a}
+.ao-detail{margin:6px 0}.ao-detail summary{cursor:pointer;font-size:13px;color:#7a5200;font-weight:600}.ao-detail>ul{margin:6px 0 0;padding-left:18px;font-size:13px}
+.ao-pieces{list-style:none;padding-left:0!important}.ao-pieces li{margin:6px 0}.ao-pieces label{flex-direction:row;align-items:center;gap:8px;font-weight:600;font-size:13px}
+.ao-pieces small{display:block;margin-left:26px;color:#6a6458;font-size:12px;font-weight:400}
+.ao-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:10px 0 0}.ao-lien{font-size:13px;color:#7a5200}
+.ao-mention{font-size:12px;color:#6a6458;margin:8px 0 0}
+
+/* Lisibilité sur le fond de rubrique : panneau crème, une seule colonne (prime sur la charte). */
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.floating-route-card.chances-ao{display:block!important;max-width:900px;margin:24px auto!important;padding:20px 22px!important;background:rgba(255,253,247,.92)!important;border:1px solid #e8dcc0!important;border-radius:16px;backdrop-filter:blur(6px)}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.chances-ao h2{color:#2a2926!important;text-shadow:none!important;margin:0 0 8px;font-size:22px}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.chances-ao :is(p,li,span,small,label,summary,strong){color:#2a2926!important;text-shadow:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.chances-ao .ao-note,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.chances-ao .ao-detail summary{color:#7a5200!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.chances-ao   .ao-meta,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.chances-ao small{color:#5a554a!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.chances-ao [data-ao-status].is-error{color:#9b2c2c}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body main.interior-page section.chances-ao .button-primary{display:inline-block;padding:10px 16px;border-radius:10px;background:#7a5200;color:#fff!important;font-weight:700;text-decoration:none}
