@@ -235,7 +235,7 @@ for (const page of pages) {
 
 const home = fs.readFileSync(resolveFile(root, "index.html"), "utf8");
 assert(home.includes("<title>MajestiOS — Votre espace pour développer votre entreprise</title>"), "Accueil : titre SEO de référence inattendu");
-assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du moteur de recherche partagé absent");
+assert(!home.includes('id="home-search-mount"') && home.includes('id="demo-chantiers"'), "Accueil : démonstration présente, moteur de recherche d'accueil retiré");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant commun de recherche non chargé");
 assert(home.indexOf('src="catalogue-majestios.js"') < home.indexOf('src="rubric-search.js"') &&
   home.indexOf('src="rubric-search.js"') < home.indexOf('src="app.js"'),

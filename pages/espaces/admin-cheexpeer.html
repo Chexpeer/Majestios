@@ -28,75 +28,81 @@
 <section id="gate" class="admin-gate" aria-live="polite"><div class="gate-emblem">M</div><p class="admin-kicker">POSTE DE COMMANDEMENT</p><h1>Accès réservé</h1><p id="gate-message">Vérification de votre identité et de vos habilitations internes…</p>
 <form id="cx-login" class="mod-login" hidden><input name="email" type="email" autocomplete="email" placeholder="Adresse e-mail du compte interne" required><button class="admin-button admin-button-primary" type="submit">Recevoir mon lien de connexion →</button></form></section>
 <div id="workspace" class="cx-workspace" hidden>
-<div><p class="admin-kicker">CHEEXPEER · ADMINISTRATEUR IA</p><h1>Centre de commande</h1><p>Confiez une mission à Cheexpeer, validez-la, puis suivez son résultat. Rien ne s’exécute sans votre décision explicite, et chaque étape est conservée dans l’historique.</p></div>
-<p class="cx-banner" role="note">Environnement de test. Cheexpeer n’est pas encore en service : le diagnostic ne s’exécutera qu’après activation de l’outil par le propriétaire. Aucune action n’est menée sur les données clients.</p>
-<section class="cx-card cx-menu" aria-labelledby="cx-menu-title"><p class="admin-kicker">MES MISSIONS</p><h2 id="cx-menu-title">Que voulez-vous confier à Cheexpeer ?</h2>
-<label>Mission<select id="cx-mission-menu"><option value="analyse">Analyse d’un appel d’offres</option><option value="opportunite">Opportunités après attribution</option><option value="prospects">Prospects de sous-traitance</option><option value="diagnostic">Diagnostic de disponibilité</option></select></label>
-<p id="cx-mission-help" class="cx-meta"></p></section>
+<div><h1>Cheexpeer</h1><p>Choisissez, remplissez, cliquez. Tout le reste est automatique. <span class="cx-banner-inline">Lecture seule : rien n’est envoyé ni modifié.</span></p></div>
+<div class="cx-tabs-wrap"><div class="cx-tabs" role="tablist" aria-label="Missions Cheexpeer">
+<button type="button" role="tab" class="cx-tab" data-tab="chantiers" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🏗️</span>Mes chantiers</button>
+<button type="button" role="tab" class="cx-tab" data-tab="analyse" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">📄</span>Annonce</button>
+<button type="button" role="tab" class="cx-tab" data-tab="opportunite" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🏆</span>Marché attribué</button>
+<button type="button" role="tab" class="cx-tab" data-tab="prospects" aria-selected="false"><span class="cx-tab-ico" aria-hidden="true">🤝</span>Métier + département</button>
+</div>
+<div class="cx-menu-hidden"><label>Mission<select id="cx-mission-menu"><option value="chantiers">Mes chantiers à reprendre</option><option value="analyse">Analyse d’un appel d’offres</option><option value="opportunite">Opportunités après attribution</option><option value="prospects">Prospects de sous-traitance</option><option value="diagnostic">Test</option></select></label></div>
+<p id="cx-mission-help" class="cx-meta cx-help"></p>
+<label class="cx-auto" hidden><input type="checkbox" id="cx-auto" checked> auto</label></div>
 <div class="cx-grid">
-<section class="cx-card" data-mission="diagnostic" aria-labelledby="cx-new-title">
-<p class="admin-kicker">DIAGNOSTIC DE DISPONIBILITÉ</p><h2 id="cx-new-title">Demander un diagnostic</h2>
-<p class="cx-meta"><span>Autonomie 0 · observation seule</span><span>Validation humaine obligatoire</span><span>Aucun effet externe</span></p>
-<form id="cx-submit">
-<label>Intitulé<input name="title" maxlength="200" value="Diagnostic de disponibilité" required></label>
-<label>Objectif (facultatif)<textarea name="objective" rows="3" maxlength="4000"></textarea></label>
-<div class="cx-actions"><button class="cx-primary" type="submit">Soumettre la mission</button></div>
-</form>
-<p id="cx-submit-status" class="cx-status" role="status" hidden></p>
-<p class="admin-kicker" style="margin-top:18px">MISSIONS RÉCENTES (CE NAVIGATEUR)</p>
-<ul id="cx-recent" class="cx-recent"></ul>
-<form id="cx-lookup"><label>Suivre une mission par son identifiant<input name="mission" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off"></label><div class="cx-actions"><button type="submit">Afficher</button></div></form>
-</section>
 <section class="cx-card" aria-labelledby="cx-detail-title" aria-live="polite">
-<p class="admin-kicker">SUIVI</p><h2 id="cx-detail-title">Mission</h2>
-<p id="cx-detail-status" class="cx-status">Aucune mission sélectionnée.</p>
+<h2 id="cx-detail-title">Résultat</h2>
+<p id="cx-detail-status" class="cx-status">Le résultat apparaîtra ici.</p>
 <div id="cx-detail" hidden></div>
 </section>
 </div>
+<section class="cx-card" data-mission="chantiers" aria-labelledby="cx-cha-title">
+<h2 id="cx-cha-title">Mes chantiers à reprendre</h2>
+<p class="cx-meta">Saisissez votre numéro SIREN : Cheexpeer lit votre métier et votre département, puis note les chantiers récents à reprendre en sous-traitance.</p>
+<form id="cx-chantiers">
+<label>Numéro SIREN (9 chiffres)<input name="siren" inputmode="numeric" placeholder="123 456 789" maxlength="11" required></label>
+<label>Zone de recherche<select name="zone"><option value="region" selected>Ma région (départements voisins compris)</option><option value="departement">Mon département seulement</option></select></label>
+<div class="cx-actions"><button class="cx-primary" type="submit">Trouver mes chantiers</button></div>
+</form>
+<p id="cx-cha-status" class="cx-status" role="status" hidden></p>
+<div id="cx-cha-list"></div>
+<div id="cx-cha-alertes"></div>
+</section>
 <section class="cx-card" data-mission="analyse" aria-labelledby="cx-ana-title">
-<p class="admin-kicker">ANALYSE D’UN APPEL D’OFFRES</p><h2 id="cx-ana-title">Analyse d’un appel d’offres</h2>
-<p class="cx-meta"><span>Autonomie 0 · lecture seule</span><span>Validation humaine obligatoire</span><span>Aucune IA générative</span></p>
-<p>Indiquez l’identifiant d’un avis du BOAMP : Cheexpeer lit l’avis, repère les lots et le lieu réel des travaux, et propose des codes NAF avec la phrase de l’avis qui les justifie. Vous cochez ceux que vous validez, puis vous lancez la recherche d’entreprises.</p>
+<h2 id="cx-ana-title">Numéro d’annonce</h2>
+<p class="cx-meta">Collez le numéro de l’avis : Cheexpeer trouve les entreprises, les note /20 et cherche leurs contacts.</p>
 <form id="cx-analyse">
-<label>Identifiant de l’avis BOAMP<input name="idweb" placeholder="26-111564" maxlength="11" required></label>
-<div class="cx-actions"><button class="cx-primary" type="submit">Demander l’analyse</button></div>
+<label>Numéro de l’annonce<input name="idweb" placeholder="26-111564" maxlength="11" required></label>
+<div class="cx-actions"><button class="cx-primary" type="submit">Analyser l’annonce</button></div>
 </form>
 <p id="cx-ana-status" class="cx-status" role="status" hidden></p>
 </section>
 <section class="cx-card" data-mission="opportunite" aria-labelledby="cx-opp-title">
-<p class="admin-kicker">OPPORTUNITÉS APRÈS ATTRIBUTION</p><h2 id="cx-opp-title">Opportunités après attribution</h2>
-<p class="cx-meta"><span>Autonomie 0 · lecture seule</span><span>Validation humaine obligatoire</span><span>Aucun envoi à l’extérieur</span></p>
-<p>Cherchez un marché récemment attribué (6 derniers mois), puis demandez l’analyse : Cheexpeer identifie le gagnant, compare sa taille au montant (indice faible, moyen ou fort — jamais un besoin confirmé), repère le métier et le lieu, et prépare la liste des partenaires potentiels du même métier.</p>
+<h2 id="cx-opp-title">Marché récemment attribué</h2>
+<p class="cx-meta">Cheexpeer repère le gagnant et propose, notées /20, les entreprises du même métier.</p>
 <form id="cx-opp-search">
-<label>Mot-clé de l’objet du marché<input name="query" placeholder="plomberie" maxlength="80"></label>
-<label>Département de l’acheteur (facultatif)<input name="departement" placeholder="14" maxlength="3"></label>
-<div class="cx-actions"><button class="cx-primary" type="submit">Chercher les marchés attribués</button></div>
+<label>Mot-clé du marché<input name="query" placeholder="plomberie" maxlength="80"></label>
+<label>Département (facultatif)<input name="departement" placeholder="14" maxlength="3"></label>
+<div class="cx-actions"><button class="cx-primary" type="submit">Chercher les marchés</button></div>
 </form>
 <p id="cx-opp-status" class="cx-status" role="status" hidden></p>
 <ul id="cx-opp-list" class="cx-timeline"></ul>
 </section>
 <section class="cx-card" data-mission="prospects" aria-labelledby="cx-pro-title">
-<p class="admin-kicker">PROSPECTS DE SOUS-TRAITANCE</p><h2 id="cx-pro-title">Prospects de sous-traitance</h2>
-<p class="cx-meta"><span>Autonomie 0 · lecture seule</span><span>Validation humaine obligatoire</span><span>Aucun envoi à l’extérieur</span></p>
-<p>Un marché est gagné dans un métier : Cheexpeer sort 20 à 30 entreprises du même métier dans la même région, ou toutes celles du département, à télécharger. Téléphone, e-mail et Google Maps seront ajoutés dans une étape suivante.</p>
+<h2 id="cx-pro-title">Métier et département</h2>
+<p class="cx-meta">Cheexpeer sort les entreprises du métier, notées /20, avec dirigeants, téléphones et e-mails.</p>
 <form id="cx-prospects">
-<label>Code NAF du métier gagné<input name="naf" placeholder="43.22B" maxlength="6" required></label>
-<label>Département du marché<input name="departement" placeholder="81" maxlength="3" required></label>
+<label>Métier<select name="naf" required><option value="43.22A">Plomberie – sanitaire</option><option value="43.22B">Chauffage – ventilation – climatisation</option><option value="43.21A">Électricité</option><option value="43.21B">Électricité sur la voie publique</option><option value="43.11Z">Démolition</option><option value="39.00Z">Désamiantage – dépollution</option><option value="43.32A">Menuiserie bois et PVC</option><option value="43.32B">Menuiserie métallique – serrurerie</option><option value="43.31Z">Plâtrerie</option><option value="43.29A">Isolation</option><option value="43.34Z">Peinture – vitrerie</option><option value="43.33Z">Revêtement de sols et murs</option><option value="43.99C">Maçonnerie – gros œuvre</option><option value="43.91A">Charpente</option><option value="43.91B">Couverture</option><option value="42.21Z">Réseaux d’eau – assainissement</option><option value="43.12A">Terrassement</option><option value="42.11Z">Voirie</option></select></label>
+<label>Département<input name="departement" placeholder="81" maxlength="3" required></label>
 <label>Nombre d’entreprises<select name="limite" required><option value="30" selected>30 entreprises (département puis région)</option><option value="20">20 entreprises (département puis région)</option><option value="0">Toutes les entreprises du département (à télécharger)</option></select></label>
-<label>Entreprise gagnante (facultatif)<input name="gagnant_nom" maxlength="120"></label>
-<label>SIREN de la gagnante (facultatif, pour l’exclure de la liste)<input name="gagnant_siren" inputmode="numeric" maxlength="11"></label>
-<label>Objet du marché (facultatif)<input name="marche_objet" maxlength="200"></label>
-<div class="cx-actions"><button class="cx-primary" type="submit">Demander la mission</button></div>
+<details class="cx-options"><summary>Plus d’options</summary><label>Entreprise gagnante (facultatif)<input name="gagnant_nom" maxlength="120"></label>
+<label>N° SIREN de l’entreprise gagnante (facultatif, pour l’exclure)<input name="gagnant_siren" inputmode="numeric" maxlength="11"></label>
+<label>Objet du marché (facultatif)<input name="marche_objet" maxlength="200"></label></details>
+<div class="cx-actions"><button class="cx-primary" type="submit">Trouver les entreprises</button></div>
 </form>
 <p id="cx-pro-status" class="cx-status" role="status" hidden></p>
 </section>
-<section class="cx-card cx-chat-card" aria-labelledby="cx-chat-title">
-<p class="admin-kicker">DIALOGUE · MAJESTIOS BOT</p><h2 id="cx-chat-title">Parler à Majestios Bot</h2>
-<p class="cx-meta"><span>Lecture seule</span><span>Aucune action directe</span><span>Sans accès aux données en direct</span></p>
+<details class="cx-diag"><summary>Vérifier que Cheexpeer répond</summary>
+<span id="cx-new-title" hidden>Test</span><form id="cx-submit"><details class="cx-options"><summary>Options</summary><label>Titre<input name="title" maxlength="200" value="Diagnostic de disponibilité" required></label><label>Précision (facultatif)<textarea name="objective" rows="2" maxlength="4000"></textarea></label></details><div class="cx-actions"><button class="cx-primary" type="submit">Lancer le test</button></div></form>
+<p id="cx-submit-status" class="cx-status" role="status" hidden></p>
+<ul id="cx-recent" class="cx-recent"></ul>
+</details>
+<button id="cx-bot-launcher" class="cx-bot-launcher" type="button" aria-expanded="false" aria-controls="cx-bot-panel"><span class="cx-bot-icon" aria-hidden="true">🤖</span><span>Majestios Bot</span></button>
+<section id="cx-bot-panel" class="cx-bot-panel" aria-labelledby="cx-chat-title" hidden>
+<header class="cx-bot-head"><div><strong id="cx-chat-title">Majestios Bot</strong><span class="cx-bot-sub">Lecture seule · aucune action directe</span></div><button id="cx-bot-close" class="cx-bot-close" type="button" aria-label="Réduire le dialogue">×</button></header>
 <p id="cx-chat-state" class="cx-status" role="status"></p>
-<div class="cx-actions"><button id="cx-chat-toggle" type="button" hidden></button><button id="cx-chat-clear" type="button" hidden>Effacer la conversation</button></div>
+<div class="cx-bot-tools"><button id="cx-chat-toggle" type="button" hidden></button><button id="cx-chat-clear" type="button" hidden>Effacer</button></div>
 <ol id="cx-chat-log" class="cx-chat-log" aria-live="polite"></ol>
-<form id="cx-chat-form"><label>Votre message<textarea name="message" rows="3" maxlength="4000" required></textarea></label><div class="cx-actions"><button class="cx-primary" type="submit">Envoyer</button></div></form>
+<form id="cx-chat-form"><textarea name="message" rows="2" maxlength="4000" required placeholder="Écrivez à Majestios Bot…" aria-label="Votre message"></textarea><button class="cx-primary" type="submit">Envoyer</button></form>
 </section>
 
 </div>

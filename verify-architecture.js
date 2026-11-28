@@ -132,7 +132,7 @@ assert(home.includes("<title>MajestiOS — Votre espace pour développer votre e
 assert(!home.includes('aria-label="Immeuble interactif MajestiOS"') && !home.includes('id="floor-rows"'),
   "Accueil : l'ancien système de navigation par immeuble doit être retiré");
 assert(home.includes('id="site-nav"') && home.includes('id="menu-toggle"'), "Accueil : navigation principale ou commande hamburger absente");
-assert(home.includes('id="home-search-mount"'), "Accueil : emplacement du formulaire partagé absent");
+assert(!home.includes('id="home-search-mount"'), "Accueil : le moteur de recherche d'accueil a été retiré (il reste dans les rubriques)");
 assert(home.includes('src="rubric-search.js"'), "Accueil : composant partagé de recherche non chargé");
 assert(home.includes("FLUX DE DÉMONSTRATION") && home.includes("Exemples fictifs de marchés publics et privés") && home.includes("Aucune annonce réelle n’est diffusée pour le moment"), "Accueil : avertissement des exemples fictifs absent");
 assert(home.includes("<h1 id=\"home-title\">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>") && !home.includes("L'ÉCOSYSTÈME PROFESSIONNEL MAJESTIOS") && !home.includes("home-lede"), "Accueil : introduction éditoriale absente");
@@ -144,7 +144,7 @@ assert(!home.includes("IMMEUBLE INTERACTIF · 9 DESTINATIONS"), "Accueil : ancie
 assert(!/<script>\s*[\s\S]*?<\/script>/i.test(home), "Accueil : contrôleur inline résiduel encore présent");
 assert(!navigationController.includes('const interactiveSvg = document.querySelector("#majestios-panorama")'), "Navigation : gestionnaire de l’ancien SVG interactif encore présent");
 assert(!home.includes("<style"), "Accueil : les styles doivent être externalisés dans des feuilles dédiées");
-assert(home.includes('id="home-search-mount"') && home.includes("Recherche d'opportunités"), "Accueil : promesse centrale de la vision CRM tout-en-un absente");
+assert(home.includes('id="demo-chantiers"'), "Accueil : démonstration en un champ absente");
 assert((read("homepage.css") + read("homepage-theme.css")).includes('url("fond-panorama.webp")'), "Accueil : le fond panoramique Designer doit être préservé");
 const homepageCss = read("homepage.css") + read("homepage-theme.css");
 assert(!/\.(?:building|tower|floor|elevator|home-help|dialog-[\w-]*|window)[\w-]*|#floor-rows/i.test(homepageCss), "CSS accueil : styles obsolètes de l’ancien immeuble encore présents");
@@ -197,7 +197,7 @@ for (const [page, category] of [
   ["categorie-plomberie-chauffage.html", "plomberie"],
   ["categorie-maintenance.html", "maintenance"]
 ]) {
-  assert(read(page).includes(`href="index.html?marche=public&amp;categorie=${category}#recherche-avancee"`),
+  assert(read(page).includes(`href="marches-publics.html?marche=public&amp;categorie=${category}#recherche-avancee-ancre"`),
     "Catégories publiques : le retour doit restaurer le type et la catégorie sur " + page);
 }
 const rubricSearch = read("rubric-search.js");

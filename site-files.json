@@ -149,6 +149,8 @@
     "assistant-majestios.css",
     "majestios-chat.css",
     "cube-majestios.css",
+    "demo-chantiers.css",
+    "demo-chantiers.mjs",
     "cube-majestios.js",
     "robots.txt",
     "sitemap.xml",

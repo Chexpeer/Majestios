@@ -50,24 +50,33 @@ export function createClient(){
     });
     await page.goto(origin + "/admin-cheexpeer.html");
     await page.waitForSelector("#workspace:not([hidden])");
-    assert.match(await page.textContent(".cx-banner"), /pas encore en service/);
-    await page.selectOption("#cx-mission-menu", "diagnostic");
+    assert.match(await page.textContent(".cx-banner-inline"), /rien n’est envoyé/);
+    await page.click(".cx-diag summary");
     await page.click("#cx-submit button");
     await page.waitForSelector("#cx-detail:not([hidden])");
-    assert.match(await page.textContent("#cx-detail"), /En attente de validation/);
     const submit = calls.find((c) => c.name === "cheexpeer-mission-submit");
     assert.equal(submit.auth, "Bearer tok");
     assert.equal(submit.body.organization_id, ORG);
     assert.ok(!("created_by" in submit.body));
-    await page.click("text=Approuver");
     await page.waitForFunction(() => document.querySelector("#cx-detail")?.textContent.includes("Approuvée"));
     const decision = calls.find((c) => c.name === "cheexpeer-approval-decision");
     assert.equal(decision.body.decision, "approved");
+    // Un seul clic a suffi : envoi, lecture, validation ; aucune étape manuelle.
+    assert.deepEqual(calls.map((c) => c.name).slice(0, 3), ["cheexpeer-mission-submit", "cheexpeer-mission-read", "cheexpeer-approval-decision"]);
     assert.ok(!("decision_by" in decision.body));
     assert.match(await page.textContent("#cx-recent"), /Diagnostic de disponibilité/);
+    // Prospects : un clic = envoi + validation + exécution.
+    calls.length = 0; approved = false;
+    await page.click('.cx-tab[data-tab="prospects"]');
+    await page.selectOption('#cx-prospects select[name="naf"]', "43.22B"); await page.fill('#cx-prospects input[name="departement"]', "81");
+    await page.click('#cx-prospects button[type="submit"]');
+    await page.waitForFunction(() => document.querySelector("#cx-pro-status")?.textContent.includes("Terminé"));
+    for (let i = 0; i < 50 && calls.length < 5; i++) await new Promise((r) => setTimeout(r, 50));
+    assert.deepEqual(calls.map((c) => c.name), ["cheexpeer-mission-submit", "cheexpeer-mission-read", "cheexpeer-approval-decision", "cheexpeer-mission-run", "cheexpeer-mission-read"]);
     // Dialogue : nom visible, envoi avec jeton, réponse affichée.
     assert.match(await page.textContent("#cx-chat-title"), /Majestios Bot/);
     assert.match(await page.textContent("#cx-chat-state"), /Dialogue actif/);
+    await page.click("#cx-bot-launcher");
     await page.fill("#cx-chat-form textarea", "Bonjour");
     await page.click("#cx-chat-form button[type=submit]");
     await page.waitForFunction(() => document.querySelector("#cx-chat-log")?.textContent.includes("je suis Majestios Bot"));

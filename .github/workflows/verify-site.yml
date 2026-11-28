@@ -70,6 +70,9 @@ jobs:
           node --check chemins-site.cjs
           node --check tests/reputation-virtuelle.browser.cjs
           node --check tests/admin-cheexpeer.browser.cjs
+          node --check tests/admin-cheexpeer-chaine.browser.cjs
+          node --check tests/admin-cheexpeer-chantiers.browser.cjs
+          node --check tests/demo-chantiers.browser.cjs
           node --check tests/navigation-classique.browser.cjs
           node --check tests/navigation-espaces.browser.cjs
           node --check company-targeting.js
@@ -190,7 +193,7 @@ jobs:
       - name: Tester le dossier et les consultations de Réputation virtuelle
         run: node tests/reputation-virtuelle.browser.cjs
       - name: Tester le centre de commande Cheexpeer (API simulées)
-        run: node tests/admin-cheexpeer.browser.cjs && node tests/admin-utilisateurs.browser.cjs && node tests/espace-membre-creation.browser.cjs
+        run: node tests/admin-cheexpeer.browser.cjs && node tests/admin-cheexpeer-chaine.browser.cjs && node tests/admin-cheexpeer-chantiers.browser.cjs && node tests/demo-chantiers.browser.cjs && node tests/admin-utilisateurs.browser.cjs && node tests/espace-membre-creation.browser.cjs
       - name: Tester les menus de navigation sur mobile et ordinateur
         run: node tests/navigation-dropdown.browser.cjs
       - name: Navigation des espaces privés et du tableau de bord admin (5 menus)

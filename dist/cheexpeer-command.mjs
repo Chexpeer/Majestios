@@ -88,9 +88,10 @@ export function buildFichesPayload({ organizationId, entreprises, label, idempot
   return { organization_id: organizationId, mission_type: MISSION_TYPE_FICHES, title: `Fiches contacts · ${list.length} entreprise(s)${short ? " · " + short : ""}`.slice(0, 200), autonomy_level: 0, requires_approval: true, input: { entreprises: list }, idempotency_key: idempotencyKey };
 }
 /** Fichier CSV des fiches (séparateur point-virgule, UTF-8 avec BOM, protégé contre les formules). */
-export function fichesToCsv(fiches) {
+export function fichesToCsv(fiches, scores = null) {
   const cols = [["Entreprise", (f) => f.nom], ["SIREN", (f) => f.siren], ["Commune", (f) => f.commune], ["Dirigeant(s) (annuaire officiel)", (f) => (f.dirigeants || []).map((d) => [d.nom, d.qualite && `(${d.qualite})`].filter(Boolean).join(" ")).join(" ; ")],
     ["Lien Google Maps", (f) => f.google?.lien_google_maps], ["Correspondance Google", (f) => f.google?.statut], ["Téléphone", (f) => f.telephone], ["Source du téléphone", (f) => f.telephone_source], ["E-mail", (f) => (f.emails || []).join(" ; ")], ["Source de l'e-mail", (f) => f.email_source], ["Site web", (f) => f.site_web], ["Lien annuaire", (f) => f.source_url]];
+  if (scores instanceof Map && scores.size) cols.unshift(["Note /20", (f) => scores.get(String(f.siren))?.note], ["Preuve (%)", (f) => scores.get(String(f.siren))?.preuve], ["Distance (km)", (f) => scores.get(String(f.siren))?.distance_km]);
   const rows = [cols.map(([l]) => csvCell(l)).join(";")];
   for (const f of Array.isArray(fiches) ? fiches : []) rows.push(cols.map(([, get]) => csvCell(get(f))).join(";"));
   return "\uFEFF" + rows.join("\r\n") + "\r\n";
@@ -159,4 +160,89 @@ export async function callApi(fetchImpl, { baseUrl, key, token, body }) {
   try { data = await response.json(); } catch { /* corps vide */ }
   if (response.ok && data?.ok !== false) return { ok: true, status: response.status, data, message: "" };
   return { ok: false, status: response.status, data, message: errorMessage(data?.error) };
+}
+
+// ---- Mes chantiers à reprendre : une entreprise (SIREN) cherche des chantiers en sous-traitance ----
+// Mots à chercher dans l'objet des marchés attribués, selon le métier (code NAF) de l'entreprise.
+export const METIERS_CHANTIER = Object.freeze({
+  "43.22A": { nom: "Plomberie – sanitaire", mots: ["plomberie", "sanitaire"] },
+  "43.22B": { nom: "Chauffage – ventilation – climatisation", mots: ["chauffage", "climatisation", "ventilation"] },
+  "43.21A": { nom: "Électricité", mots: ["électricité", "électrique"] },
+  "43.21B": { nom: "Électricité sur la voie publique", mots: ["éclairage public", "électrification"] },
+  "43.11Z": { nom: "Démolition", mots: ["démolition", "déconstruction"] },
+  "39.00Z": { nom: "Désamiantage – dépollution", mots: ["désamiantage", "amiante"] },
+  "43.32A": { nom: "Menuiserie bois et PVC", mots: ["menuiserie", "fenêtres"] },
+  "43.32B": { nom: "Menuiserie métallique – serrurerie", mots: ["serrurerie", "métallerie"] },
+  "43.31Z": { nom: "Plâtrerie", mots: ["plâtrerie", "cloisons"] },
+  "43.29A": { nom: "Isolation", mots: ["isolation"] },
+  "43.34Z": { nom: "Peinture – vitrerie", mots: ["peinture"] },
+  "43.33Z": { nom: "Revêtement de sols et murs", mots: ["revêtement", "carrelage"] },
+  "43.99C": { nom: "Maçonnerie – gros œuvre", mots: ["maçonnerie", "gros œuvre"] },
+  "43.91A": { nom: "Charpente", mots: ["charpente"] },
+  "43.91B": { nom: "Couverture", mots: ["couverture", "toiture"] },
+  "42.21Z": { nom: "Réseaux d'eau – assainissement", mots: ["assainissement", "réseaux"] },
+  "43.12A": { nom: "Terrassement", mots: ["terrassement"] },
+  "42.11Z": { nom: "Voirie", mots: ["voirie", "chaussée"] },
+  "33.12Z": { nom: "Maintenance d'équipements – froid, thermique", mots: ["froid", "frigorifique", "maintenance"] },
+  "33.20B": { nom: "Installation de machines – froid industriel", mots: ["froid", "frigorifique", "climatisation", "ventilation"] },
+  "33.20A": { nom: "Installation de structures métalliques", mots: ["charpente métallique", "structure métallique"] },
+  "33.20C": { nom: "Installation de machines pour industries", mots: ["installation", "équipements"] },
+  "33.20D": { nom: "Installation d'équipements électriques", mots: ["électrique", "équipements électriques"] },
+  "28.25Z": { nom: "Froid – ventilation industrielle", mots: ["froid", "frigorifique", "ventilation"] },
+  "43.29B": { nom: "Autres travaux d'installation", mots: ["installation", "équipements"] },
+});
+const EFFECTIF_MILIEU = Object.freeze({ "01": 1.5, "02": 4, "03": 7.5, 11: 15, 12: 35, 21: 75, 22: 150, 31: 225, 32: 375, 41: 750, 42: 1500, 51: 3500, 52: 7500, 53: 10000 });
+export const SIREN_RE = /^\d{9}$/;
+export const REGIONS_DEPARTEMENTS = Object.freeze({
+  "Île-de-France": ["75", "77", "78", "91", "92", "93", "94", "95"], "Centre-Val de Loire": ["18", "28", "36", "37", "41", "45"],
+  "Bourgogne-Franche-Comté": ["21", "25", "39", "58", "70", "71", "89", "90"], "Normandie": ["14", "27", "50", "61", "76"],
+  "Hauts-de-France": ["02", "59", "60", "62", "80"], "Grand Est": ["08", "10", "51", "52", "54", "55", "57", "67", "68", "88"],
+  "Pays de la Loire": ["44", "49", "53", "72", "85"], "Bretagne": ["22", "29", "35", "56"],
+  "Nouvelle-Aquitaine": ["16", "17", "19", "23", "24", "33", "40", "47", "64", "79", "86", "87"],
+  "Occitanie": ["09", "11", "12", "30", "31", "32", "34", "46", "48", "65", "66", "81", "82"],
+  "Auvergne-Rhône-Alpes": ["01", "03", "07", "15", "26", "38", "42", "43", "63", "69", "73", "74"],
+  "Provence-Alpes-Côte d'Azur": ["04", "05", "06", "13", "83", "84"], "Corse": ["2A", "2B"],
+});
+export const regionDe = (dep) => Object.entries(REGIONS_DEPARTEMENTS).find(([, d]) => d.includes(String(dep ?? "").toUpperCase()))?.[0] ?? null;
+export const departementsRegion = (dep) => { const r = regionDe(dep); return r ? REGIONS_DEPARTEMENTS[r] : (dep ? [String(dep)] : []); };
+
+export function entrepriseDepuisAnnuaire(r) {
+  if (!r || !/^\d{9}$/.test(String(r.siren ?? ""))) return null;
+  const naf = String(r.activite_principale ?? r.siege?.activite_principale ?? "").toUpperCase();
+  const dep = String(r.siege?.departement ?? "").toUpperCase() || (String(r.siege?.code_postal ?? "").startsWith("97") ? String(r.siege.code_postal).slice(0, 3) : String(r.siege?.code_postal ?? "").slice(0, 2));
+  return { siren: String(r.siren), nom: String(r.nom_complet ?? "").slice(0, 140), naf, departement: dep, tranche: String(r.tranche_effectif_salarie ?? ""), effectif: EFFECTIF_MILIEU[String(r.tranche_effectif_salarie ?? "")] ?? null, metier: METIERS_CHANTIER[naf]?.nom ?? null };
+}
+
+const critere = (cle, libelle, points, max, etat, detail) => ({ cle, libelle, points, max, etat, detail });
+
+// Note de chances /20 (provisoire). Les critères non évaluables sont exclus du calcul.
+export function noteChantier(marche, entreprise, now = new Date()) {
+  const criteres = [];
+  const mots = entreprise?.mots ?? METIERS_CHANTIER[entreprise?.naf]?.mots ?? [];
+  const objet = String(marche?.object ?? "").toLowerCase();
+  const trouve = mots.find((m) => objet.includes(m.toLowerCase()));
+  criteres.push(trouve ? critere("metier", "Métier", 5, 5, "confirmé", `Le marché parle de « ${trouve} »`) : critere("metier", "Métier", 2, 5, "en partie", "Marché trouvé par recherche large"));
+  const memeDep = entreprise?.departement && marche?.buyer_dept === entreprise.departement;
+  const memeRegion = !memeDep && regionDe(entreprise?.departement) && regionDe(entreprise.departement) === regionDe(marche?.buyer_dept);
+  criteres.push(memeDep ? critere("proximite", "Proximité", 5, 5, "confirmé", `Acheteur dans votre département (${entreprise.departement})`) : memeRegion ? critere("proximite", "Proximité", 3, 5, "en partie", `Acheteur dans votre région, autre département (${marche.buyer_dept})`) : critere("proximite", "Proximité", 1, 5, "en partie", `Acheteur hors de votre région (${marche?.buyer_dept || "?"})`));
+  const montant = Number(marche?.amount), flag = marche?.amount_flag;
+  if (Number.isFinite(montant) && montant > 0 && flag !== "suspect" && flag !== "aberrant" && entreprise?.effectif) {
+    const mois = Number(marche?.duration_months), annuel = Number.isFinite(mois) && mois >= 12 ? (montant * 12) / mois : montant;
+    const ratio = Math.round(annuel / entreprise.effectif);
+    const pts = ratio <= 40000 ? 5 : ratio <= 100000 ? 3 : 1;
+    criteres.push(critere("taille", "Taille du marché pour vous", pts, 5, "en partie", `Environ ${ratio.toLocaleString("fr-FR")} € par salarié et par an (effectif estimé ${entreprise.effectif})`));
+  } else criteres.push(critere("taille", "Taille du marché pour vous", 0, 5, "non évalué", "Montant ou effectif inconnu"));
+  criteres.push(marche?.subcontracting_declared ? critere("sous_traitance", "Sous-traitance déjà prévue", 3, 3, "confirmé", "Une sous-traitance est déclarée dans ce marché") : critere("sous_traitance", "Sous-traitance déjà prévue", 0, 3, "non prouvé", "Aucune sous-traitance déclarée (ne veut pas dire qu'il n'y en aura pas)"));
+  const age = (new Date(now).getTime() - Date.parse(marche?.awarded_on ?? "")) / 86400000;
+  criteres.push(Number.isFinite(age) ? (age <= 90 ? critere("fraicheur", "Marché récent", 2, 2, "confirmé", "Attribué il y a moins de 3 mois") : critere("fraicheur", "Marché récent", 1, 2, "en partie", "Attribué il y a 3 à 12 mois")) : critere("fraicheur", "Marché récent", 0, 2, "non évalué", "Date inconnue"));
+  const ok = criteres.filter((c) => c.etat !== "non évalué");
+  const max = ok.reduce((s, c) => s + c.max, 0), pts = ok.reduce((s, c) => s + c.points, 0);
+  return { note: max ? Math.round((pts / max) * 200) / 10 : 0, criteres };
+}
+
+export function classerChantiers(marches, entreprise, now = new Date()) {
+  const vus = new Set();
+  return (marches ?? []).filter((m) => m?.contract_uid && !vus.has(m.contract_uid) && vus.add(m.contract_uid))
+    .map((m) => ({ marche: m, score: noteChantier(m, entreprise, now) }))
+    .sort((a, b) => b.score.note - a.score.note);
 }

@@ -183,17 +183,17 @@ async function main() {
     assert.equal(await page.getByRole("heading", { name: "Travaux de plomberie terminés" }).count(), 0, "Une annonce dont la date limite est dépassée ne doit pas apparaître dans les résultats.");
     assert.match(await page.locator("#search-active-filters").innerText(), /plomberie/);
     const publicReturnUrl = new URL(await page.locator(".search-results-return a").getAttribute("href"), "http://127.0.0.1:4174/");
-    assert.equal(publicReturnUrl.pathname, "/index.html", "Le retour doit ramener au formulaire d’accueil.");
+    assert.equal(publicReturnUrl.pathname, "/marches-publics.html", "Le retour doit ramener au formulaire de la rubrique Marchés publics.");
     assert.equal(publicReturnUrl.searchParams.get("q"), "plomberie", "Le retour doit conserver les mots-clés.");
     assert.equal(publicReturnUrl.searchParams.get("marche"), "public", "Le retour doit conserver le type de marché.");
     assert.equal(publicReturnUrl.searchParams.get("departement"), "79", "Le retour doit conserver le département.");
-    assert.equal(publicReturnUrl.hash, "", "Le retour doit ouvrir la vraie page d’accueil, sans ancre locale.");
+    assert.equal(publicReturnUrl.hash, "", "Le retour ne doit pas ajouter d’ancre.");
     await page.locator(".search-results-return a").click();
-    await page.waitForURL(/index\.html\?q=plomberie.*marche=public.*departement=79|index\.html\?q=plomberie.*departement=79.*marche=public/, { timeout: 10000 });
-    assert.equal(await page.locator("#feed-search").inputValue(), "plomberie", "L’accueil doit restaurer les mots-clés au retour.");
-    assert.equal(await page.locator("#feed-market-type").inputValue(), "public", "L’accueil doit restaurer le type de marché au retour.");
-    assert.equal(await page.locator("#feed-sector").inputValue(), "", "L’accueil doit laisser la catégorie à choisir quand aucun critère n’a été fourni.");
-    assert.equal(await page.locator("#feed-department").inputValue(), "79", "L’accueil doit restaurer le département au retour.");
+    await page.waitForURL(/marches-publics\.html\?q=plomberie.*marche=public.*departement=79|marches-publics\.html\?q=plomberie.*departement=79.*marche=public/, { timeout: 10000 });
+    assert.equal(await page.locator("#feed-search").inputValue(), "plomberie", "La rubrique doit restaurer les mots-clés au retour.");
+    assert.equal(await page.locator("#feed-market-type").count(), 0, "La rubrique Marchés publics a un type fixe : pas de sélecteur public/privé.");
+    assert.equal(await page.locator("#feed-sector").inputValue(), "", "La rubrique doit laisser la catégorie à choisir quand aucun critère n’a été fourni.");
+    assert.equal(await page.locator("#feed-department").inputValue(), "79", "La rubrique doit restaurer le département au retour.");
     assert.ok(apiCalls >= 1, "Le moteur doit appeler la source BOAMP.");
     assert.equal(departmentFilterSeen, true, "Une requête BOAMP doit appliquer le filtre du département 79, côté prestation et acheteur.");
 
@@ -236,14 +236,14 @@ async function main() {
     await page.locator(".search-results-return a").click();
     await page.waitForURL((url) => {
       const restored = new URL(url);
-      return restored.pathname === "/index.html"
+      return restored.pathname === "/marches-prives.html"
         && restored.searchParams.get("q") === "cession"
         && restored.searchParams.get("marche") === "private"
         && restored.searchParams.get("categorie") === "bodacc-cessions"
         && restored.searchParams.get("departement") === "79"
         && restored.hash === "";
     }, { timeout: 10000 });
-    assert.equal(await page.locator("#feed-market-type").inputValue(), "private", "Le retour doit restaurer le type privé.");
+    assert.equal(await page.locator("#feed-market-type").count(), 0, "Marchés privés a un type fixe.");
     assert.equal(await page.locator("#feed-sector").inputValue(), "bodacc-cessions", "Le retour doit restaurer la famille BODACC exacte.");
     assert.equal(await page.locator("#feed-search").inputValue(), "cession", "Le retour doit restaurer le mot-clé privé.");
     assert.equal(await page.locator("#feed-department").inputValue(), "79", "Le retour doit restaurer le département privé.");
@@ -275,16 +275,17 @@ async function main() {
       assert.equal(await page.locator(".opportunity-source-group").count(), 0, "Aucun regroupement de sources ne doit exister : " + url);
     }
 
-    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4174/sous-traitance.html", { waitUntil: "domcontentloaded" });
     await page.locator("#feed-search").click();
+    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     assert.deepEqual(await page.locator("#feed-market-type option").evaluateAll((nodes) => nodes.map((n) => n.value)), ["", "public", "private"], "Le premier choix doit être public ou privé, sans option mixte.");
-    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
-    assert.equal(await page.locator("#advanced-search-form .feed-criteria-toggle").count(), 0,
-      "L’accueil ne doit pas afficher de bouton de catégorie.");
+    await page.goto("http://127.0.0.1:4174/sous-traitance.html", { waitUntil: "domcontentloaded" });
     await page.locator("#feed-search").click();
+    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("private");
+    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-sector").waitFor({ state: "visible", timeout: 5000 });
     const privateCategoryOptions = await page.locator("#feed-sector option").evaluateAll(options => options.map(option => ({ value: option.value, label: option.textContent.trim() })));
     for (const expected of ["bodacc-creations", "bodacc-cessions", "bodacc-modifications", "bodacc-procedures", "bodacc-radiations", "autre", "immobilier", "emploi", "sous-traitance-offres", "sous-traitance-recherche"]) {
@@ -319,12 +320,12 @@ async function main() {
     await page.getByText(/La catégorie Autre nécessite un mot-clé/).waitFor({ timeout: 10000 });
     assert.equal(bodaccCalls, callsBeforePrivateOther, "Autre privé sans mot-clé ne doit pas appeler BODACC.");
 
-    await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
-    assert.equal(await page.locator("#advanced-search-form .feed-criteria-toggle").count(), 0,
-      "L’accueil ne doit pas afficher de bouton de catégorie.");
+    await page.goto("http://127.0.0.1:4174/sous-traitance.html", { waitUntil: "domcontentloaded" });
     await page.locator("#feed-search").click();
+    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-market-type").selectOption("public");
+    await page.locator("#advanced-search-form .feed-criteria-toggle").click();
     await page.locator("#feed-sector").waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#feed-sector").selectOption("autre");
     await page.locator("#feed-search").fill("plomberie");

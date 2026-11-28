@@ -102,8 +102,8 @@ async function main() {
       assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),1,"Le menu doit exposer le nombre attendu de liens vers "+route);
     }
     assert.equal(await page.locator("#floor-rows").count(),0,"L'ancien système de navigation par immeuble doit avoir disparu.");
-    assert.ok(await page.locator("#home-search-mount").count(),"Le moteur de recherche transversal doit rester présent.");
-    await page.locator("#feed-search").waitFor({state:"visible",timeout:15000});
+    assert.equal(await page.locator("#home-search-mount").count(),0,"Le moteur de recherche d’accueil a été retiré.");
+    assert.ok(await page.locator("#demo-chantiers form").count(),"La démonstration en un champ doit être présente sur l’accueil.");
 
     const opportunityGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Marchés"})});
     const opportunityTitle=opportunityGroup.locator(".nav-group-link");

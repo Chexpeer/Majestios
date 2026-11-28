@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="homepage-theme.css">
     <link rel="stylesheet" href="rubriques-immersives.css">
     <link rel="stylesheet" href="cube-majestios.css">
+    <link rel="stylesheet" href="demo-chantiers.css">
+    <script type="module" src="demo-chantiers.mjs"></script>
     <script src="cube-majestios.js" defer></script>
   </head>
   <body class="homepage">
@@ -41,13 +43,28 @@
       </nav>
     </header>
 
+    <div class="demo-zone">
+      <section class="demo-chantiers" id="demo-chantiers" aria-labelledby="demo-title">
+        <h2 id="demo-title">Trouvez des chantiers à reprendre en sous-traitance</h2>
+        <p class="demo-intro">Essayez gratuitement, sans inscription : chantiers récents notés de 0 à 20.</p>
+        <form novalidate>
+          <label>SIREN ou métier<input name="siren" autocomplete="off" placeholder="123 456 789 ou charpente" maxlength="80" required></label>
+          <label class="demo-dep">Dép.<input name="dep" autocomplete="off" inputmode="text" placeholder="69" maxlength="3"></label>
+          <button type="submit">Voir mes chantiers</button>
+        </form>
+        <p data-demo-status role="status" hidden></p>
+        <div data-demo-out></div>
+      </section>
+    </div>
+
     <main id="accueil" class="home-main">
       <section class="home-intro" aria-labelledby="home-title">
         <h1 id="home-title">Développez votre activité.<br><span>Ouvrez de nouvelles perspectives.</span></h1>
       </section>
 
+
       <section class="home-cube" aria-labelledby="home-cube-title">
-        <h2 id="home-cube-title">Explorez les quatre rubriques</h2>
+        <h2 id="home-cube-title">Quatre services pour développer votre entreprise</h2>
         <p class="mj-cube-hint">Faites tourner le cristal, puis touchez une face pour ouvrir la rubrique.</p>
         <div class="mj-cube-stage" id="mj-cube-stage">
           <div class="mj-cube" id="mj-cube">
@@ -72,23 +89,14 @@
               <strong>Réseau &amp; synergies</strong>
               <span class="mj-face-text">Trouvez des partenaires aux compétences complémentaires.</span>
             </a>
-            <div class="mj-cube-face mj-brand mj-top" aria-hidden="true">MajestiOS</div>
-            <div class="mj-cube-face mj-brand mj-bot" aria-hidden="true">MajestiOS</div>
+            <div class="mj-cube-face mj-brand mj-top" aria-hidden="true"><span class="mj-logo">♛</span><strong>MajestiOS</strong><span class="mj-face-text">Chantiers, partenaires et appels d’offres pour le bâtiment.</span></div>
+            <div class="mj-cube-face mj-brand mj-bot" aria-hidden="true"><strong>Le concept</strong><span class="mj-face-text">Un seul espace pour repérer des chantiers notés, prospecter, facturer, soigner votre réputation et trouver des partenaires.</span></div>
           </div>
         </div>
+        <ul class="home-preuves" data-preuves hidden aria-label="Chiffres issus des marchés publics suivis par MajestiOS"></ul>
       </section>
 
 
-
-      <section class="home-search home-search-top" aria-labelledby="home-search-title">
-        <div class="home-search-heading">
-          <p class="hero-eyebrow">RECHERCHE MAJESTIOS</p>
-          <h2 id="home-search-title">Quelle opportunité recherchez-vous ?</h2>
-        </div>
-        <div class="tender-feed-section" id="recherche-avancee" aria-label="Recherche d'opportunités">
-          <div class="feed-wrap"><div class="feed-demo" id="home-search-mount"></div></div>
-        </div>
-      </section>
 
       <section class="home-personal-access" aria-labelledby="personal-access-title">
         <div>

@@ -1,0 +1,47 @@
+.demo-chantiers{max-width:860px;margin:28px auto;padding:22px 24px;border:1px solid #e3d6b4;border-radius:16px;background:#fffdf7;color:#2a2926;box-shadow:0 10px 30px rgba(60,45,10,.08)}
+.demo-chantiers h2{margin:0 0 6px;font-size:clamp(20px,2.4vw,26px);color:#2a2926}
+.demo-chantiers .demo-intro{margin:0 0 14px;color:#4a463e}
+.demo-chantiers form{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.demo-chantiers label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:14px;flex:1 1 220px;min-width:0}
+.demo-chantiers input{padding:12px 14px;border:1px solid #cdbf98;border-radius:10px;font:inherit;background:#fff;color:#2a2926}
+.demo-chantiers button[type=submit]{padding:12px 22px;border:0;border-radius:10px;background:#7a5200;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.demo-chantiers button[type=submit]:disabled{opacity:.6;cursor:wait}
+.demo-chantiers [data-demo-status]{margin:12px 0 0;font-weight:600}.demo-chantiers [data-demo-status].is-error{color:#9b2c2c}
+.demo-liste{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.demo-chantier{padding:12px 14px;border:1px solid #e8dcc0;border-radius:12px;background:#fff}
+.demo-tete{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.demo-note{font-size:22px;color:#7a5200;white-space:nowrap}.demo-objet{font-weight:600;min-width:0;flex:1 1 240px}
+.demo-meta{margin:4px 0;font-size:13px;color:#5a554a}
+.demo-detail summary{cursor:pointer;font-size:13px;color:#7a5200}.demo-detail ul{margin:6px 0 0;padding-left:18px;font-size:13px}
+.demo-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:14px 0 0}.demo-mention{font-size:12px;color:#6a6458}
+
+.demo-etapes{max-width:860px;margin:28px auto 0;padding:20px 24px;border:1px solid #e3d6b4;border-radius:16px;background:#fffdf7;color:#2a2926}
+.demo-etapes h2{margin:0 0 12px;font-size:clamp(18px,2.2vw,24px);line-height:1.3;color:#2a2926}
+.demo-etapes ol{list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.demo-etapes li{padding:12px 14px;border:1px solid #e8dcc0;border-radius:12px;background:#fff;font-size:14px;color:#4a463e}
+.demo-etapes li strong{display:block;margin-bottom:4px;color:#7a5200}
+.demo-etapes-lien{display:inline-block;padding:10px 18px;border-radius:10px;background:#7a5200;color:#fff;font-weight:700;text-decoration:none}
+@media(max-width:640px){.demo-etapes ol{grid-template-columns:1fr}}
+.demo-zone{padding:0 16px}.demo-etapes ol{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.demo-metier{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.demo-metier input{flex:1 1 240px;min-width:0;padding:12px;border:1px solid #cdbf98;border-radius:10px;font:inherit;background:#fff;color:#2a2926}.demo-metier button{padding:12px 22px;border:0;border-radius:10px;background:#7a5200;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.demo-chantiers label.demo-dep{flex:0 1 110px}
+.demo-zone{max-width:900px;margin:0 auto}
+.demo-chantiers h2{font-size:clamp(17px,2.2vw,22px);margin:0 0 4px}
+.demo-chantiers .demo-intro{margin:0 0 10px;font-size:13px;color:#6b665c}
+.demo-chantiers form{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
+.demo-chantiers form label{flex:1 1 220px;min-width:0}
+.demo-chantiers form label.demo-dep{flex:0 1 90px}
+/* Formulaire plus petit, fond translucide */
+.demo-zone{max-width:680px;padding-top:8px}
+.demo-chantiers{padding:12px 16px!important;border-radius:14px!important;background:rgba(255,253,247,.58)!important;border:1px solid rgba(255,255,255,.45)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 22px rgba(20,30,50,.18)!important}
+.demo-chantiers h2{font-size:clamp(15px,1.8vw,18px)!important;line-height:1.25;margin:0 0 2px!important}
+.demo-chantiers .demo-intro{font-size:12px!important;margin:0 0 8px!important;color:#3d392f!important}
+.demo-chantiers form{gap:6px!important}
+.demo-chantiers form label{font-size:11px!important}
+.demo-chantiers form input{padding:7px 10px!important;font-size:14px!important;background:rgba(255,255,255,.78)!important;border-radius:8px!important}
+.demo-chantiers form button{padding:8px 14px!important;font-size:13px!important;border-radius:8px!important}
+.demo-metier input{padding:7px 10px!important;font-size:14px!important}.demo-metier button{padding:8px 14px!important;font-size:13px!important}
+
+.home-preuves{list-style:none;margin:6px auto 0;padding:8px 14px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;max-width:760px;border-radius:12px;background:rgba(20,22,28,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#f4edda;font-size:13px;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.home-preuves strong{color:#f6dd9a;font-size:15px}
+.home-preuves-dates{opacity:.8}
