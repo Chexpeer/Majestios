@@ -276,10 +276,12 @@ async function main() {
     }
 
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
     await page.locator("#feed-search").click();
     await page.locator("#feed-market-type").waitFor({ state: "visible", timeout: 5000 });
     assert.deepEqual(await page.locator("#feed-market-type option").evaluateAll((nodes) => nodes.map((n) => n.value)), ["", "public", "private"], "Le premier choix doit être public ou privé, sans option mixte.");
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
     assert.equal(await page.locator("#advanced-search-form .feed-criteria-toggle").count(), 0,
       "L’accueil ne doit pas afficher de bouton de catégorie.");
     await page.locator("#feed-search").click();
@@ -320,6 +322,7 @@ async function main() {
     assert.equal(bodaccCalls, callsBeforePrivateOther, "Autre privé sans mot-clé ne doit pas appeler BODACC.");
 
     await page.goto("http://127.0.0.1:4174/index.html", { waitUntil: "domcontentloaded" });
+    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
     assert.equal(await page.locator("#advanced-search-form .feed-criteria-toggle").count(), 0,
       "L’accueil ne doit pas afficher de bouton de catégorie.");
     await page.locator("#feed-search").click();
