@@ -11,8 +11,18 @@ export function joursRestants(avis, now = new Date()) {
   return Math.ceil((t - new Date(now).getTime()) / 86400000);
 }
 
-export function departementAvis(avis) {
-  return String(avis?.code_departement_prestation || avis?.code_departement || "").replace(/[\[\]"\s]/g, "").split(",")[0].toUpperCase();
+const pad = (d) => (/^\d$/.test(d) ? "0" + d : d);
+// Départements de l'avis (liste, parfois sans zéro initial : « 1 » pour 01).
+export function departementsAvis(avis) {
+  const brut = avis?.code_departement_prestation || avis?.code_departement || [];
+  const liste = Array.isArray(brut) ? brut : String(brut).replace(/[\[\]"\s]/g, "").split(",");
+  return liste.map((d) => pad(String(d).trim().toUpperCase())).filter(Boolean);
+}
+// Département retenu : le vôtre s'il figure dans l'avis, sinon un de votre région (si fournie), sinon le premier.
+export function departementAvis(avis, monDep, memeRegion) {
+  const l = departementsAvis(avis);
+  if (monDep && l.includes(monDep)) return monDep;
+  return (memeRegion && l.find(memeRegion)) || l[0] || "";
 }
 
 // Note /20 : métier (5), proximité (5/3/1), délai pour répondre (3). Les critères non évaluables sont exclus du calcul.
@@ -25,7 +35,8 @@ export function noteAppelOffres(avis, entreprise, now = new Date()) {
     ? critere("metier", "Métier", 5, 5, "confirmé", `L'avis parle de « ${trouve} »`)
     : critere("metier", "Métier", 2, 5, "en partie", "Avis trouvé par recherche large : le lien avec votre métier est à confirmer dans le dossier"));
 
-  const dep = departementAvis(avis), monDep = entreprise?.departement;
+  const monDep = entreprise?.departement, rg = regionDe(monDep);
+  const dep = departementAvis(avis, monDep, rg ? (d) => regionDe(d) === rg : null);
   const memeDep = Boolean(monDep) && dep === monDep;
   const memeRegion = !memeDep && Boolean(regionDe(monDep)) && regionDe(monDep) === regionDe(dep);
   criteres.push(memeDep

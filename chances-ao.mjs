@@ -4,7 +4,7 @@
 import { METIERS_CHANTIER, SIREN_RE, entrepriseDepuisAnnuaire, departementsRegion } from "./cheexpeer-command.mjs";
 import { classerAppels, piecesAPreparer, resoudreMetier, departementAvis } from "./chances-ao-core.mjs";
 
-const BOAMP = "https://boamp-datadila.opendatasoft.com/api/explore/v2.0/catalog/datasets/boamp/records";
+const BOAMP = "https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records";
 const CHAMPS = "idweb,id,objet,dateparution,datelimitereponse,nomacheteur,code_departement,code_departement_prestation,type_marche,descripteur_libelle,url_avis";
 
 const root = document.querySelector("#chances-ao");
@@ -17,13 +17,16 @@ if (root) {
 
   const chercher = async (ent) => {
     const deps = [...new Set([ent.departement, ...(departementsRegion(ent.departement) || [])].filter(Boolean))];
-    const zone = deps.map((d) => `code_departement_prestation = "${d}" OR code_departement = "${d}"`).join(" OR ");
+    const variantes = deps.flatMap((d) => (/^0\d$/.test(d) ? [d, d.slice(1)] : [d]));
+    const zone = variantes.map((d) => `code_departement = "${d}"`).join(" OR ");
+    const aujourdhui = new Date().toISOString().slice(0, 10);
     let mots = ent.mots ?? METIERS_CHANTIER[ent.naf]?.mots ?? [];
     mots = mots.filter((m) => !/\s/.test(m)).concat(mots.filter((m) => /\s/.test(m))).slice(0, 3);
     const lots = await Promise.all(mots.map(async (m) => {
+      const mot = m.replace(/["\\]/g, "");
       const u = new URL(BOAMP);
       u.searchParams.set("limit", "100"); u.searchParams.set("order_by", "dateparution desc"); u.searchParams.set("select", CHAMPS);
-      u.searchParams.set("where", `nature = "APPEL_OFFRE" AND (${zone})`); u.searchParams.set("q", m);
+      u.searchParams.set("where", `nature = "APPEL_OFFRE" AND datelimitereponse >= "${aujourdhui}" AND (${zone}) AND (search(objet,"${mot}") OR search(descripteur_libelle,"${mot}"))`);
       const r = await fetch(u, { headers: { Accept: "application/json" } });
       if (!r.ok) throw new Error("boamp");
       const j = await r.json();
@@ -38,7 +41,7 @@ if (root) {
       const li = el("li", "ao-carte"), tete = el("div", "ao-tete");
       tete.append(el("strong", "ao-note", `${fr(score.note)}/20`), el("span", "ao-objet", a.objet || "Objet non renseigné"));
       const delai = jours === null ? "date limite à vérifier" : jours === 0 ? "dernier jour" : `${jours} jour(s) restant(s)`;
-      li.append(tete, el("p", "ao-meta", `${a.nomacheteur || "Acheteur non renseigné"} · département ${departementAvis(a) || "?"} · réponse avant le ${a.datelimitereponse ? dateFr(a.datelimitereponse) : "—"} (${delai})`));
+      li.append(tete, el("p", "ao-meta", `${a.nomacheteur || "Acheteur non renseigné"} · département ${departementAvis(a, ent.departement) || "?"} · réponse avant le ${a.datelimitereponse ? dateFr(a.datelimitereponse) : "—"} (${delai})`));
       const det = el("details", "ao-detail"); det.append(el("summary", "", "Pourquoi cette note ?"));
       const crit = el("ul"); for (const c of score.criteres) crit.append(el("li", "", `${c.libelle} : ${fr(c.points)}/${c.max} — ${c.detail}`)); det.append(crit);
       const pie = el("details", "ao-detail"); pie.append(el("summary", "", "Pièces à préparer"));
