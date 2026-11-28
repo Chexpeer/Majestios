@@ -183,6 +183,9 @@ export const METIERS_CHANTIER = Object.freeze({
   "42.21Z": { nom: "Réseaux d'eau – assainissement", mots: ["assainissement", "réseaux"] },
   "43.12A": { nom: "Terrassement", mots: ["terrassement"] },
   "42.11Z": { nom: "Voirie", mots: ["voirie", "chaussée"] },
+  "33.12Z": { nom: "Maintenance d'équipements – froid, thermique", mots: ["froid", "frigorifique", "maintenance"] },
+  "28.25Z": { nom: "Froid – ventilation industrielle", mots: ["froid", "frigorifique", "ventilation"] },
+  "43.29B": { nom: "Autres travaux d'installation", mots: ["installation", "équipements"] },
 });
 const EFFECTIF_MILIEU = Object.freeze({ "01": 1.5, "02": 4, "03": 7.5, 11: 15, 12: 35, 21: 75, 22: 150, 31: 225, 32: 375, 41: 750, 42: 1500, 51: 3500, 52: 7500, 53: 10000 });
 export const SIREN_RE = /^\d{9}$/;
