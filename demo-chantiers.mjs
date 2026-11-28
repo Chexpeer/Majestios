@@ -25,7 +25,7 @@ if (root) {
   };
   const norm = (t) => String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
   const choisirMetier = (ent) => {
-    say(`${ent.nom} : écrivez votre métier avec vos mots (ex. : froid commercial, maçonnerie, électricité).`);
+    say(`${ent.nom} : écrivez votre métier avec vos mots ou votre code NAF/APE (ex. : froid commercial, 43.22B).`);
     const f = el("form", "demo-metier"), inp = el("input"), dl = el("datalist"); inp.name = "metier"; inp.setAttribute("list", "demo-metiers"); inp.placeholder = "Votre métier"; inp.required = true; dl.id = "demo-metiers";
     for (const m of Object.values(METIERS_CHANTIER)) { const o = el("option"); o.value = m.nom; dl.append(o); }
     const b = el("button", "", "Voir mes chantiers"); b.type = "submit";
@@ -33,7 +33,10 @@ if (root) {
     f.addEventListener("submit", async (e) => {
       e.preventDefault();
       const t = norm(inp.value); if (t.length < 3) return;
-      const hit = Object.entries(METIERS_CHANTIER).find(([, m]) => norm(m.nom) === t || m.mots.some((w) => norm(w) === t) || norm(m.nom).includes(t));
+      const code = inp.value.toUpperCase().replace(/[\s.]/g, "").match(/^(\d{2})(\d{2})([A-Z])$/);
+      const naf = code ? `${code[1]}.${code[2]}${code[3]}` : null;
+      if (naf && !METIERS_CHANTIER[naf]) { say(`Le code ${naf} n'est pas encore reconnu : écrivez votre métier avec vos mots.`, true); return; }
+      const hit = naf ? [naf, METIERS_CHANTIER[naf]] : Object.entries(METIERS_CHANTIER).find(([, m]) => norm(m.nom) === t || m.mots.some((w) => norm(w) === t) || norm(m.nom).includes(t));
       b.disabled = true;
       try { await lancer(hit ? { ...ent, naf: hit[0], metier: hit[1].nom, mots: undefined } : { ...ent, naf: null, metier: inp.value.trim().slice(0, 60), mots: [inp.value.trim().slice(0, 60)] }); } finally { b.disabled = false; }
     });

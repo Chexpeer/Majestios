@@ -57,6 +57,12 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
     await page.fill('#demo-chantiers input[name="siren"]', "987654321");
     await page.click('#demo-chantiers form:not(.demo-metier) button[type="submit"]');
     await page.waitForSelector(".demo-metier input");
+    await page.fill(".demo-metier input", "4322a");
+    await page.click(".demo-metier button");
+    await page.waitForFunction(() => /Froid Inconnu · Plomberie – sanitaire/.test(document.querySelector("[data-demo-status]").textContent));
+    await page.fill('#demo-chantiers input[name="siren"]', "987654321");
+    await page.click('#demo-chantiers form:not(.demo-metier) button[type="submit"]');
+    await page.waitForSelector(".demo-metier input");
     await page.fill(".demo-metier input", "froid commercial");
     await page.click(".demo-metier button");
     await page.waitForFunction(() => /Froid Inconnu · froid commercial/.test(document.querySelector("[data-demo-status]").textContent));
