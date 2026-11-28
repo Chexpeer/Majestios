@@ -184,6 +184,10 @@ export const METIERS_CHANTIER = Object.freeze({
   "43.12A": { nom: "Terrassement", mots: ["terrassement"] },
   "42.11Z": { nom: "Voirie", mots: ["voirie", "chaussée"] },
   "33.12Z": { nom: "Maintenance d'équipements – froid, thermique", mots: ["froid", "frigorifique", "maintenance"] },
+  "33.20B": { nom: "Installation de machines – froid industriel", mots: ["froid", "frigorifique", "climatisation", "ventilation"] },
+  "33.20A": { nom: "Installation de structures métalliques", mots: ["charpente métallique", "structure métallique"] },
+  "33.20C": { nom: "Installation de machines pour industries", mots: ["installation", "équipements"] },
+  "33.20D": { nom: "Installation d'équipements électriques", mots: ["électrique", "équipements électriques"] },
   "28.25Z": { nom: "Froid – ventilation industrielle", mots: ["froid", "frigorifique", "ventilation"] },
   "43.29B": { nom: "Autres travaux d'installation", mots: ["installation", "équipements"] },
 });

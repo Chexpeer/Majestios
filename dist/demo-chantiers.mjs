@@ -18,10 +18,11 @@ if (root) {
   const lancer = async (ent) => {
     const mots = ent.mots ?? METIERS_CHANTIER[ent.naf].mots;
     say("Recherche des chantiers récents…");
-    const lots = await Promise.all(mots.slice(0, 2).map((m) => rpc("list_awarded_contracts", { p_department: ent.departement, p_query: m, p_cpv: null, p_min_amount: null, p_months: 12, p_limit: 20, p_offset: 0 }).catch(() => [])));
+    const lots = await Promise.all(mots.slice(0, 3).map((m) => rpc("list_awarded_contracts", { p_department: ent.departement, p_query: m, p_cpv: null, p_min_amount: null, p_months: 12, p_limit: 20, p_offset: 0 }).catch(() => [])));
     const top = classerChantiers(lots.flat(), ent).slice(0, 3);
-    say(top.length ? `${ent.nom} · ${ent.metier} · département ${ent.departement}` : "Aucun chantier récent trouvé dans votre département pour ce métier.");
-    out.replaceChildren(rendu(top));
+    say(top.length ? `${ent.nom} · ${ent.metier} · département ${ent.departement}` : "Aucun chantier récent trouvé dans votre département pour ce métier. Essayez un autre mot ci-dessous.");
+    out.querySelector(".demo-res")?.remove();
+    const res = el("div", "demo-res"); res.append(rendu(top)); out.append(res);
   };
   const norm = (t) => String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
   const choisirMetier = (ent) => {
@@ -38,7 +39,7 @@ if (root) {
       if (naf && !METIERS_CHANTIER[naf]) { say(`Le code ${naf} n'est pas encore reconnu : écrivez votre métier avec vos mots.`, true); return; }
       const hit = naf ? [naf, METIERS_CHANTIER[naf]] : Object.entries(METIERS_CHANTIER).find(([, m]) => norm(m.nom) === t || m.mots.some((w) => norm(w) === t) || norm(m.nom).includes(t));
       b.disabled = true;
-      try { await lancer(hit ? { ...ent, naf: hit[0], metier: hit[1].nom, mots: undefined } : { ...ent, naf: null, metier: inp.value.trim().slice(0, 60), mots: [inp.value.trim().slice(0, 60)] }); } finally { b.disabled = false; }
+      try { await lancer(hit ? { ...ent, naf: hit[0], metier: hit[1].nom, mots: undefined } : { ...ent, naf: null, metier: inp.value.trim().slice(0, 60), mots: [...new Set([inp.value.trim().slice(0, 60), ...inp.value.split(/[\s,;]+/).filter((w) => w.length >= 4)])].slice(0, 3) }); } finally { b.disabled = false; }
     });
     out.replaceChildren(f);
   };
