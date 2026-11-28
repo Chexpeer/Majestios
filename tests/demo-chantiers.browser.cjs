@@ -48,12 +48,18 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
     await page.route("https://recherche-entreprises.api.gouv.fr/**", (r) => r.fulfill({ contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify({ results: [{ siren: "987654321", nom_complet: "Froid Inconnu", activite_principale: "99.99Z", tranche_effectif_salarie: "11", siege: { departement: "81" } }] }) }));
     await page.fill('#demo-chantiers input[name="siren"]', "987654321");
     await page.click('#demo-chantiers form:not(.demo-metier) button[type="submit"]');
-    await page.waitForSelector(".demo-metier select");
-    assert.match(await page.textContent("[data-demo-status]"), /Froid Inconnu : votre activité n'est pas reconnue automatiquement/);
-    await page.selectOption(".demo-metier select", "43.22A");
+    await page.waitForSelector(".demo-metier input");
+    assert.match(await page.textContent("[data-demo-status]"), /Froid Inconnu : écrivez votre métier/);
+    await page.fill(".demo-metier input", "plomberie");
     await page.click(".demo-metier button");
     await page.waitForSelector(".demo-chantier");
     assert.match(await page.textContent("[data-demo-status]"), /Froid Inconnu · Plomberie – sanitaire · département 81/);
+    await page.fill('#demo-chantiers input[name="siren"]', "987654321");
+    await page.click('#demo-chantiers form:not(.demo-metier) button[type="submit"]');
+    await page.waitForSelector(".demo-metier input");
+    await page.fill(".demo-metier input", "froid commercial");
+    await page.click(".demo-metier button");
+    await page.waitForFunction(() => /Froid Inconnu · froid commercial/.test(document.querySelector("[data-demo-status]").textContent));
     assert.deepEqual(errors, []);
     console.log("demo-chantiers.browser : OK");
   } finally { await browser.close(); server.close(); }

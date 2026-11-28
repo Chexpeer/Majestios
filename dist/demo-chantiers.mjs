@@ -16,20 +16,27 @@ if (root) {
     return r.json();
   };
   const lancer = async (ent) => {
-    const mots = METIERS_CHANTIER[ent.naf].mots;
+    const mots = ent.mots ?? METIERS_CHANTIER[ent.naf].mots;
     say("Recherche des chantiers récents…");
     const lots = await Promise.all(mots.slice(0, 2).map((m) => rpc("list_awarded_contracts", { p_department: ent.departement, p_query: m, p_cpv: null, p_min_amount: null, p_months: 12, p_limit: 20, p_offset: 0 }).catch(() => [])));
     const top = classerChantiers(lots.flat(), ent).slice(0, 3);
     say(top.length ? `${ent.nom} · ${ent.metier} · département ${ent.departement}` : "Aucun chantier récent trouvé dans votre département pour ce métier.");
     out.replaceChildren(rendu(top));
   };
+  const norm = (t) => String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
   const choisirMetier = (ent) => {
-    say(`${ent.nom} : votre activité n'est pas reconnue automatiquement. Choisissez le métier le plus proche :`);
-    const f = el("form", "demo-metier"), sel = el("select"); sel.name = "metier";
-    for (const [naf, m] of Object.entries(METIERS_CHANTIER)) { const o = el("option", "", m.nom); o.value = naf; sel.append(o); }
+    say(`${ent.nom} : écrivez votre métier avec vos mots (ex. : froid commercial, maçonnerie, électricité).`);
+    const f = el("form", "demo-metier"), inp = el("input"), dl = el("datalist"); inp.name = "metier"; inp.setAttribute("list", "demo-metiers"); inp.placeholder = "Votre métier"; inp.required = true; dl.id = "demo-metiers";
+    for (const m of Object.values(METIERS_CHANTIER)) { const o = el("option"); o.value = m.nom; dl.append(o); }
     const b = el("button", "", "Voir mes chantiers"); b.type = "submit";
-    f.append(sel, b);
-    f.addEventListener("submit", async (e) => { e.preventDefault(); b.disabled = true; try { await lancer({ ...ent, naf: sel.value, metier: METIERS_CHANTIER[sel.value].nom }); } finally { b.disabled = false; } });
+    f.append(inp, dl, b);
+    f.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const t = norm(inp.value); if (t.length < 3) return;
+      const hit = Object.entries(METIERS_CHANTIER).find(([, m]) => norm(m.nom) === t || m.mots.some((w) => norm(w) === t) || norm(m.nom).includes(t));
+      b.disabled = true;
+      try { await lancer(hit ? { ...ent, naf: hit[0], metier: hit[1].nom, mots: undefined } : { ...ent, naf: null, metier: inp.value.trim().slice(0, 60), mots: [inp.value.trim().slice(0, 60)] }); } finally { b.disabled = false; }
+    });
     out.replaceChildren(f);
   };
   const rendu = (top) => {

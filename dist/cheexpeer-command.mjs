@@ -214,7 +214,7 @@ const critere = (cle, libelle, points, max, etat, detail) => ({ cle, libelle, po
 // Note de chances /20 (provisoire). Les critères non évaluables sont exclus du calcul.
 export function noteChantier(marche, entreprise, now = new Date()) {
   const criteres = [];
-  const mots = METIERS_CHANTIER[entreprise?.naf]?.mots ?? [];
+  const mots = entreprise?.mots ?? METIERS_CHANTIER[entreprise?.naf]?.mots ?? [];
   const objet = String(marche?.object ?? "").toLowerCase();
   const trouve = mots.find((m) => objet.includes(m.toLowerCase()));
   criteres.push(trouve ? critere("metier", "Métier", 5, 5, "confirmé", `Le marché parle de « ${trouve} »`) : critere("metier", "Métier", 2, 5, "en partie", "Marché trouvé par recherche large"));
