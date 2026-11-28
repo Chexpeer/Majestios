@@ -14,3 +14,12 @@
 .demo-meta{margin:4px 0;font-size:13px;color:#5a554a}
 .demo-detail summary{cursor:pointer;font-size:13px;color:#7a5200}.demo-detail ul{margin:6px 0 0;padding-left:18px;font-size:13px}
 .demo-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:14px 0 0}.demo-mention{font-size:12px;color:#6a6458}
+
+.demo-etapes{max-width:860px;margin:28px auto 0;padding:20px 24px;border:1px solid #e3d6b4;border-radius:16px;background:#fffdf7;color:#2a2926}
+.demo-etapes h2{margin:0 0 12px;font-size:clamp(18px,2.2vw,24px);line-height:1.3;color:#2a2926}
+.demo-etapes ol{list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.demo-etapes li{padding:12px 14px;border:1px solid #e8dcc0;border-radius:12px;background:#fff;font-size:14px;color:#4a463e}
+.demo-etapes li strong{display:block;margin-bottom:4px;color:#7a5200}
+.demo-etapes-lien{display:inline-block;padding:10px 18px;border-radius:10px;background:#7a5200;color:#fff;font-weight:700;text-decoration:none}
+@media(max-width:640px){.demo-etapes ol{grid-template-columns:1fr}}
+.demo-zone{padding:0 16px}.demo-etapes ol{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
