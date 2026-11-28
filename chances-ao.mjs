@@ -53,9 +53,8 @@ if (root) {
       pie.append(liste, el("p", "ao-mention", "Liste habituelle : le règlement de consultation de l'avis fait foi. Cochez au fur et à mesure (rien n'est enregistré)."));
       const actions = el("p", "ao-actions");
       if (/^https:\/\//.test(a.url_avis || "")) { const v = el("a", "ao-lien", "Voir l'avis officiel"); v.href = a.url_avis; v.target = "_blank"; v.rel = "noopener noreferrer"; actions.append(v); }
-      const c = el("a", "button-primary", "Être accompagné sur cet appel d'offres");
-      const p = new URLSearchParams({ objet: "public-market", source: "BOAMP", reference: String(a.idweb || a.id || ""), q: (ent.metier || "").slice(0, 60), marche: "public", departement: ent.departement || "" });
-      c.href = `contact.html?${p}`; actions.append(c);
+      const c = el("a", "button-primary", "Être accompagné : créer mon espace");
+      c.href = `espace-membre.html?ao=${encodeURIComponent(String(a.idweb || a.id || "").slice(0, 40))}#creation`; actions.append(c);
       li.append(det, pie, actions); ul.append(li);
     }
     frag.append(ul, el("p", "ao-mention", "Note d'adéquation provisoire : elle classe les avis selon votre métier, votre zone et le temps restant. Elle ne prédit pas l'attribution du marché."));

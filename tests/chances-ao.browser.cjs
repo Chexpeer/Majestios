@@ -48,7 +48,7 @@ const jour = (n) => new Date(Date.now() + n * 86400000).toISOString();
     assert.ok((await page.$$(".ao-carte:first-child .ao-pieces input[type=checkbox]")).length >= 8);
     const hrefs = await page.$$eval(".ao-carte:first-child a", (a) => a.map((x) => x.getAttribute("href")));
     assert.ok(hrefs.includes("https://www.boamp.fr/avis/detail/26-1"));
-    assert.ok(hrefs.some((h) => /^contact\.html\?/.test(h) && /reference=26-1/.test(h) && /objet=public-market/.test(h)));
+    assert.ok(hrefs.includes("espace-membre.html?ao=26-1#creation"));
     assert.ok(!(await page.$$eval(".ao-carte a", (a) => a.map((x) => x.getAttribute("href")))).some((h) => /^javascript:/.test(h)), "lien non https refusé");
     assert.match(await page.textContent(".chances-ao"), /ne prédit pas l'attribution/);
     // Métier + département.
