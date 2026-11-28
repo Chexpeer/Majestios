@@ -32,7 +32,7 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
     await page.waitForSelector("#demo-chantiers form");
     await page.fill('#demo-chantiers input[name="siren"]', "123");
     await page.click('#demo-chantiers button[type="submit"]');
-    assert.match(await page.textContent("[data-demo-status]"), /9 chiffres/);
+    assert.match(await page.textContent("[data-demo-status]"), /indiquez aussi votre département/);
     await page.fill('#demo-chantiers input[name="siren"]', "123 456 789");
     await page.click('#demo-chantiers button[type="submit"]');
     await page.waitForSelector(".demo-chantier");
@@ -43,6 +43,13 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
     assert.match(await page.textContent(".demo-chantier:first-child .demo-detail"), /Sous-traitance déjà prévue : 3\/3/);
     assert.equal(await page.getAttribute(".demo-cta a", "href"), "espace-membre.html");
     assert.equal(authHeader, "none");
+    // Recherche directe par métier + département, sans SIREN.
+    await page.fill('#demo-chantiers input[name="siren"]', "charpente et désamiantage");
+    await page.fill('#demo-chantiers input[name="dep"]', "69");
+    await page.click('#demo-chantiers form:not(.demo-metier) button[type="submit"]');
+    await page.waitForFunction(() => /Votre recherche · charpente et désamiantage · département 69/.test(document.querySelector("[data-demo-status]").textContent), null, { timeout: 5000 });
+    assert.ok((await page.$$(".demo-chantier")).length > 0);
+    await page.fill('#demo-chantiers input[name="dep"]', "");
     // Métier non reconnu : choix manuel dans la liste.
     await page.unroute("https://recherche-entreprises.api.gouv.fr/**");
     await page.route("https://recherche-entreprises.api.gouv.fr/**", (r) => r.fulfill({ contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify({ results: [{ siren: "987654321", nom_complet: "Froid Inconnu", activite_principale: "99.99Z", tranche_effectif_salarie: "11", siege: { departement: "81" } }] }) }));
@@ -67,6 +74,10 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
     await page.click(".demo-metier button");
     await page.waitForFunction(() => /Froid Inconnu · Installation de machines – froid industriel/.test(document.querySelector("[data-demo-status]").textContent));
     assert.ok(await page.$(".demo-metier input"), "le champ reste visible pour réessayer");
+    await page.fill(".demo-metier input", "charpente et désamiantage");
+    await page.click(".demo-metier button");
+    await page.waitForFunction(() => /Froid Inconnu · charpente et désamiantage/.test(document.querySelector("[data-demo-status]").textContent), null, { timeout: 5000 });
+    assert.ok((await page.$$(".demo-chantier")).length > 0, "résultats affichés");
     await page.fill(".demo-metier input", "froid commercial");
     await page.click(".demo-metier button");
     await page.waitForFunction(() => /Froid Inconnu · froid commercial/.test(document.querySelector("[data-demo-status]").textContent));

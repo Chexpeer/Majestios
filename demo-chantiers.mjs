@@ -25,6 +25,17 @@ if (root) {
     const res = el("div", "demo-res"); res.append(rendu(top)); out.append(res);
   };
   const norm = (t) => String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  const resoudreMetier = (texte) => {
+    const brut = String(texte).trim(), t = norm(brut);
+    if (t.length < 3) return { erreur: "Écrivez votre métier (3 lettres au moins) ou votre numéro SIREN." };
+    const code = brut.toUpperCase().replace(/[\s.]/g, "").match(/^(\d{2})(\d{2})([A-Z])$/);
+    const naf = code ? `${code[1]}.${code[2]}${code[3]}` : null;
+    if (naf) return METIERS_CHANTIER[naf] ? { naf, metier: METIERS_CHANTIER[naf].nom, mots: undefined } : { erreur: `Le code ${naf} n'est pas encore reconnu : écrivez votre métier avec vos mots.` };
+    const hit = Object.entries(METIERS_CHANTIER).find(([, m]) => norm(m.nom) === t || m.mots.some((w) => norm(w) === t) || norm(m.nom).includes(t));
+    if (hit) return { naf: hit[0], metier: hit[1].nom, mots: undefined };
+    const mots = [...new Set([brut.slice(0, 60), ...brut.split(/[\s,;]+/).filter((w) => w.length >= 4)])].slice(0, 3);
+    return { naf: null, metier: brut.slice(0, 60), mots };
+  };
   const choisirMetier = (ent) => {
     say(`${ent.nom} : écrivez votre métier avec vos mots ou votre code NAF/APE (ex. : froid commercial, 43.22B).`);
     const f = el("form", "demo-metier"), inp = el("input"), dl = el("datalist"); inp.name = "metier"; inp.setAttribute("list", "demo-metiers"); inp.placeholder = "Votre métier"; inp.required = true; dl.id = "demo-metiers";
@@ -33,13 +44,9 @@ if (root) {
     f.append(inp, dl, b);
     f.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const t = norm(inp.value); if (t.length < 3) return;
-      const code = inp.value.toUpperCase().replace(/[\s.]/g, "").match(/^(\d{2})(\d{2})([A-Z])$/);
-      const naf = code ? `${code[1]}.${code[2]}${code[3]}` : null;
-      if (naf && !METIERS_CHANTIER[naf]) { say(`Le code ${naf} n'est pas encore reconnu : écrivez votre métier avec vos mots.`, true); return; }
-      const hit = naf ? [naf, METIERS_CHANTIER[naf]] : Object.entries(METIERS_CHANTIER).find(([, m]) => norm(m.nom) === t || m.mots.some((w) => norm(w) === t) || norm(m.nom).includes(t));
+      const m = resoudreMetier(inp.value); if (m.erreur) { say(m.erreur, true); return; }
       b.disabled = true;
-      try { await lancer(hit ? { ...ent, naf: hit[0], metier: hit[1].nom, mots: undefined } : { ...ent, naf: null, metier: inp.value.trim().slice(0, 60), mots: [...new Set([inp.value.trim().slice(0, 60), ...inp.value.split(/[\s,;]+/).filter((w) => w.length >= 4)])].slice(0, 3) }); } finally { b.disabled = false; }
+      try { await lancer({ ...ent, ...m }); } finally { b.disabled = false; }
     });
     out.replaceChildren(f);
   };
@@ -63,9 +70,16 @@ if (root) {
   };
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const siren = form.elements.siren.value.replace(/\s/g, ""), button = form.querySelector("button");
+    const saisie = form.elements.siren.value.trim(), siren = saisie.replace(/\s/g, ""), button = form.querySelector("button");
     out.replaceChildren();
-    if (!SIREN_RE.test(siren)) { say("Le numéro SIREN comporte 9 chiffres.", true); return; }
+    if (!SIREN_RE.test(siren)) {
+      const dep = (form.elements.dep?.value || "").trim().toUpperCase().replace(/^0+(?=\d{2})/, "");
+      if (!/^(\d{2}|2[AB]|97\d)$/.test(dep)) { say("Pour chercher par métier, indiquez aussi votre département (ex. : 69).", true); return; }
+      const m = resoudreMetier(saisie); if (m.erreur) { say(m.erreur, true); return; }
+      button.disabled = true;
+      try { await lancer({ siren: "", nom: "Votre recherche", departement: dep, effectif: null, tranche: "", ...m }); } finally { button.disabled = false; }
+      return;
+    }
     button.disabled = true; say("Lecture de votre entreprise…");
     try {
       let ent = null;
