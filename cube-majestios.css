@@ -48,3 +48,9 @@ a.mj-cube-face:focus-visible{outline:2px solid #fff;outline-offset:-6px}
 .mj-c4{transform:rotateX(90deg) translateZ(calc(var(--s)*.25))}
 .mj-c5{transform:rotateX(-90deg) translateZ(calc(var(--s)*.25))}
 @media (prefers-reduced-motion:reduce){.mj-cube-face{transition:none}}
+
+/* Couleurs de rubrique plus marquées ; faces du dessus (logo) et du dessous (concept). */
+.mj-brand .mj-logo{font-family:Georgia,serif;font-size:calc(var(--s)*.26);line-height:1;color:#f6dd9a;text-shadow:0 0 18px rgba(232,193,90,.8)}
+.mj-brand strong{font-size:calc(var(--s)*.085);letter-spacing:.04em;color:#f6dd9a}
+.mj-brand .mj-face-text{font-size:calc(var(--s)*.052)}
+.mj-bot .mj-face-text{font-size:calc(var(--s)*.056);max-width:86%}

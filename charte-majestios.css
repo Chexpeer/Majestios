@@ -519,6 +519,16 @@ html:root:root:root body.homepage .mj-cube-face{
     linear-gradient(150deg,rgba(42,41,38,.84),rgba(42,41,38,.72) 55%,rgba(31,30,27,.86))!important;
 }
 html:root:root:root body.homepage .mj-face-text{color:#F4EDDA!important}
+/* Une couleur par rubrique (bleu, vert, violet, doré) : verre fumé teinté, arête colorée, texte clair lisible. */
+html:root:root:root body.homepage .mj-cube-face:is(.mj-f0,.mj-f1,.mj-f2,.mj-f3){
+  background:
+    linear-gradient(115deg,rgba(255,255,255,.2) 0%,rgba(255,255,255,.04) 22%,transparent 23%),
+    linear-gradient(150deg,rgba(var(--rgb),.72),rgba(var(--rgb),.5) 55%,rgba(24,26,32,.72))!important;
+  border:2px solid rgba(var(--rgb),.95)!important;
+}
+html:root:root:root body.homepage .mj-cube-face.mj-brand{
+  background:linear-gradient(150deg,rgba(42,41,38,.88),rgba(31,30,27,.9))!important;border:2px solid rgba(232,193,90,.9)!important;
+}
 /* Libellés et petits textes de formulaire sur fond clair. */
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(label,label span,.form-field,.form-field span,.field-hint,.hint){color:#55514A!important}
 html:root:root:root body:not(.admin-shell):not(.internal-shell):not(.crm-shell) main :is(#suggest-naf-button,.button-secondary){color:#2A2926!important;border:1px solid #2A2926!important;background:transparent!important}
@@ -638,10 +648,10 @@ html:root:root:root:root:root:root:root:root:root body.homepage main.home-main .
 /* --- Accueil (demandes propriétaire 2026-11-16) : titre très réduit, recherche compacte à gauche du cube, cube visible dès l'ouverture, cartes invisibles. Retour : supprimer ce bloc et remettre la section recherche avant l'introduction dans index.html. --- */
 body.homepage{--mj-txt:#FFFFFF;--mj-link:#FFE08A;--mj-halo:0 0 2px #000,0 0 5px #000,0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
 @media (min-width:900px){
-html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main {display:grid!important;grid-template-columns:minmax(260px,340px) minmax(0,1fr);column-gap:clamp(16px,3vw,48px);align-items:center;max-width:1280px!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main {display:grid!important;grid-template-columns:minmax(0,1fr);column-gap:clamp(16px,3vw,48px);align-items:center;max-width:1280px!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{grid-column:1/-1}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search{grid-column:1;grid-row:2;align-self:center}
-html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube{grid-column:2;grid-row:2}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube{grid-column:1/-1;grid-row:2}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-personal-access{grid-column:1/-1;grid-row:3}
 }
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro{margin:4px auto 0!important;padding:6px 12px!important;max-width:min(900px,100%)!important}
@@ -654,7 +664,7 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube{padding:0 1rem .5rem!important;gap:.3rem!important;--s:clamp(220px,min(68vw,46vh),440px)!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>h2{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;padding:0!important;margin:-1px!important;border:0!important;white-space:nowrap!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-cube>.mj-cube-hint{font-size:12px!important;padding:2px 8px!important;margin:0!important}
-html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .mj-cube-stage{height:calc(var(--s)*1.05)!important;width:min(100%,calc(var(--s)*1.7))!important;margin-top:calc(var(--s)*.12)!important;margin-bottom:calc(var(--s)*.1)!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .mj-cube-stage{height:calc(var(--s)*1.45)!important;width:min(100%,calc(var(--s)*1.7))!important;margin-top:0!important;margin-bottom:calc(var(--s)*.05)!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main :is(.home-intro,.home-search,.home-personal-access,.home-cube>.mj-cube-hint,.home-cube>h2){background:transparent!important;background-color:transparent!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main :is(.home-intro,.home-search,.home-personal-access,.home-cube>.mj-cube-hint) :is(h1,h2,h3,p,span,small,strong,label,div,li):not(button *):not(input):not(.home-primary-cta *):not(.access-action *):not(.tender-feed-section *){color:var(--mj-txt)!important;text-shadow:var(--mj-halo)!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro h1 span,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-intro .hero-eyebrow,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-search .hero-eyebrow,html:root:root:root:root:root:root:root:root:root:root:root:root:root:root body.homepage main.home-main .home-personal-access .hero-eyebrow{color:var(--mj-link)!important}

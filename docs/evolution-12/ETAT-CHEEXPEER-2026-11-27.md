@@ -47,3 +47,4 @@ Aucun concurrent identifié ne note des entreprises pour la sous-traitance aprè
 - Test : tests/demo-chantiers.browser.cjs (branché dans la CI).
 - Démo d'accueil, mise à jour 28/11 : le champ accepte un SIREN, ou un métier (mots libres ou code NAF/APE) avec un département. Si l'activité d'un SIREN n'est pas dans la liste (METIERS_CHANTIER, 25 activités dont 33.20A–D), un champ « votre métier » apparaît. Phrase claire et 3 étapes ajoutées au-dessus de la démo.
 - 28/11 : le moteur de recherche d'appels d'offres a été retiré de la page d'accueil (il reste dans les rubriques Marchés publics, Marchés privés, etc.). Les liens « Modifier les critères » et le retour des résultats pointent vers marches-publics.html / marches-prives.html. La démo d'accueil est compacte et translucide.
+- 28/11 : cube d'accueil centré (la colonne de l'ancien moteur est supprimée), une couleur par rubrique, face du dessus = logo + phrase, face du dessous = explication du concept.
