@@ -22,7 +22,7 @@ const jour = (n) => new Date(Date.now() + n * 86400000).toISOString();
     await page.route("https://esm.sh/**", (r) => r.fulfill({ contentType: "text/javascript", body: sdk }));
     let boampUrls = [];
     await page.route("https://boamp-datadila.opendatasoft.com/**", (r) => { boampUrls.push(r.request().url()); r.fulfill({ contentType: "application/json", headers: CORS, body: JSON.stringify({ results: [
-      { idweb: "26-1", objet: "Travaux de plomberie école", nomacheteur: "Ville d'Albi", code_departement: "81", datelimitereponse: jour(30), type_marche: "TRAVAUX", url_avis: "https://www.boamp.fr/avis/detail/26-1" },
+      { idweb: "26-1", objet: "Travaux de plomberie école", nomacheteur: "Ville d'Albi", code_departement: ["73", "81"], datelimitereponse: jour(30), type_marche: "TRAVAUX", url_avis: "https://www.boamp.fr/avis/detail/26-1" },
       { idweb: "26-2", objet: "Fourniture de papier", nomacheteur: "Région X", code_departement: "59", datelimitereponse: jour(30), url_avis: "javascript:alert(1)" },
       { idweb: "26-3", objet: "Plomberie ancien", nomacheteur: "Vieille Ville", code_departement: "81", datelimitereponse: jour(-4) },
       { idweb: "26-1", objet: "Travaux de plomberie école", code_departement: "81", datelimitereponse: jour(30) }] }) }); });
@@ -42,7 +42,7 @@ const jour = (n) => new Date(Date.now() + n * 86400000).toISOString();
     assert.equal(notes.length, 2, "expiré et doublon écartés");
     assert.equal(notes[0], "20/20");
     assert.ok(parseFloat(notes[1]) < 20);
-    assert.ok(boampUrls.some((u) => /APPEL_OFFRE/.test(decodeURIComponent(u)) && /code_departement_prestation/.test(decodeURIComponent(u))));
+    assert.ok(boampUrls.some((u) => /APPEL_OFFRE/.test(decodeURIComponent(u.replace(/\+/g, " "))) && /v2\.1\//.test(u) && /search\(objet/.test(decodeURIComponent(u.replace(/\+/g, " "))) && /datelimitereponse >=/.test(decodeURIComponent(u.replace(/\+/g, " ")))));
     await page.click(".ao-carte:first-child .ao-detail:nth-of-type(1) summary");
     assert.match(await page.textContent(".ao-carte:first-child .ao-detail"), /Métier : 5\/5/);
     assert.ok((await page.$$(".ao-carte:first-child .ao-pieces input[type=checkbox]")).length >= 8);

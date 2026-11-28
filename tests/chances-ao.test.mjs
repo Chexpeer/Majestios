@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { noteAppelOffres, classerAppels, piecesAPreparer, resoudreMetier, joursRestants, departementAvis } from "../chances-ao-core.mjs";
+import { departementsAvis, noteAppelOffres, classerAppels, piecesAPreparer, resoudreMetier, joursRestants, departementAvis } from "../chances-ao-core.mjs";
 
 const NOW = new Date("2026-11-28T10:00:00Z");
 const ent = { naf: "43.22A", departement: "81", mots: undefined };
@@ -60,4 +60,12 @@ test("jours restants et département de l'avis", () => {
   assert.equal(joursRestants({ datelimitereponse: jour(5) }, NOW), 5);
   assert.equal(joursRestants({}, NOW), null);
   assert.equal(departementAvis({ code_departement_prestation: '["69","01"]' }), "69");
+});
+
+test("départements en liste, sans zéro initial, le vôtre prioritaire", () => {
+  const avis = { code_departement: ["5", "1", "81", "69"] };
+  assert.deepEqual(departementsAvis(avis), ["05", "01", "81", "69"]);
+  assert.equal(departementAvis(avis, "81"), "81");
+  assert.equal(departementAvis(avis, "01"), "01");
+  assert.equal(departementAvis({ code_departement: ["59"] }, "81"), "59");
 });
