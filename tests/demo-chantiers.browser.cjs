@@ -27,6 +27,7 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
       { contract_uid: "m-loin", object: "Plomberie piscine", awarded_on: "2026-01-10", amount: 900000, buyer_name: "Ville Lointaine", buyer_dept: "59", winners: "Gros SA" },
       { contract_uid: "m-bon", object: "Travaux de plomberie école", awarded_on: new Date().toISOString().slice(0, 10), amount: 120000, duration_months: 12, buyer_name: "Ville d Albi", buyer_dept: "81", winners: "Bat SA", subcontracting_declared: true }]) }); });
     await page.route("https://qxaghcifdhugfskuscoc.supabase.co/rest/v1/rpc/list_awarded_contracts", (r) => r.request().method() === "OPTIONS" ? r.fulfill({ status: 204, headers: { "access-control-allow-origin": "*", "access-control-allow-headers": "*", "access-control-allow-methods": "POST" } }) : r.fallback());
+    await page.route("https://qxaghcifdhugfskuscoc.supabase.co/rest/v1/rpc/awarded_contracts_meta", (r) => r.request().method() === "OPTIONS" ? r.fulfill({ status: 204, headers: { "access-control-allow-origin": "*", "access-control-allow-headers": "*" } }) : r.fulfill({ contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify([{ contracts: 139822, winners: 54014, buyers: 10589, oldest: "2026-05-21", newest: "2026-11-20" }]) }));
     await page.route("https://recherche-entreprises.api.gouv.fr/**", (r) => r.fulfill({ contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify({ results: [{ siren: "123456789", nom_complet: "Plomberie Test", activite_principale: "43.22A", tranche_effectif_salarie: "11", siege: { departement: "81" } }] }) }));
     await page.goto(origin + "/index.html");
     await page.waitForSelector("#demo-chantiers form");
@@ -43,6 +44,11 @@ const _unused = [["111111111", "Plomberie Lente", 9, 80], ["222222222", "Plomber
     assert.match(await page.textContent(".demo-chantier:first-child .demo-detail"), /Sous-traitance déjà prévue : 3\/3/);
     assert.equal(await page.getAttribute(".demo-cta a", "href"), "espace-membre.html");
     assert.equal(authHeader, "none");
+    await page.waitForSelector("[data-preuves]:not([hidden])", { timeout: 5000 });
+    const preuves = (await page.textContent("[data-preuves]")).replace(/[\s\u202f\u00a0]/g, " ");
+    assert.match(preuves, /139 822.*marchés attribués suivis/);
+    assert.match(preuves, /54 014/);
+    assert.match(preuves, /du 21 mai au 20 novembre/);
     // Recherche directe par métier + département, sans SIREN.
     await page.fill('#demo-chantiers input[name="siren"]', "charpente et désamiantage");
     await page.fill('#demo-chantiers input[name="dep"]', "69");

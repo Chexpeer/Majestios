@@ -92,3 +92,26 @@ if (root) {
   });
 }
 
+
+// Chiffres de preuve : lus en direct dans la base (fonction publique awarded_contracts_meta). Aucun chiffre écrit en dur ;
+// en cas d'échec, la ligne reste masquée.
+(async () => {
+  const ul = document.querySelector("[data-preuves]");
+  if (!ul) return;
+  try {
+    const r = await fetch(ANNONCES_SUPABASE.url + "/rest/v1/rpc/awarded_contracts_meta", { method: "POST", headers: rpcHeaders(await sessionToken()), body: "{}" });
+    if (!r.ok) return;
+    const m = (await r.json())?.[0];
+    if (!m || !(Number(m.contracts) > 0)) return;
+    const n = (v) => Number(v).toLocaleString("fr-FR");
+    const d = (v) => new Date(v + "T00:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
+    const items = [
+      [n(m.contracts), "marchés attribués suivis"],
+      [n(m.winners), "entreprises attributaires"],
+      [n(m.buyers), "acheteurs publics"]
+    ];
+    for (const [v, l] of items) { const li = document.createElement("li"), s = document.createElement("strong"); s.textContent = v; li.append(s, " " + l); ul.append(li); }
+    if (m.oldest && m.newest) { const li = document.createElement("li"); li.className = "home-preuves-dates"; li.textContent = `du ${d(m.oldest)} au ${d(m.newest)}`; ul.append(li); }
+    ul.hidden = false;
+  } catch { /* chiffres facultatifs */ }
+})();
