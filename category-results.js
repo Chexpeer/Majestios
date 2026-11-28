@@ -78,13 +78,13 @@
 
   const oldPanel = card.querySelector("#category-results-panel");
   if (oldPanel) oldPanel.remove();
-  const link = card.querySelector('a.feed-interest[href*="index.html"]');
+  const link = card.querySelector('a.feed-interest[href*="marches-publics.html"]');
   card.insertBefore(panel, link || card.lastElementChild);
 
   if (link) {
     const returnParams = new URLSearchParams(params);
     returnParams.set("categorie", definition.value);
-    link.href = `index.html?${returnParams.toString()}#recherche-avancee`;
+    link.href = `marches-publics.html?${returnParams.toString()}#recherche-avancee-ancre`;
     link.textContent = "Modifier les critères dans la recherche avancée →";
   }
 

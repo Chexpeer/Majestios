@@ -55,8 +55,6 @@ async function main() {
     }
     await page.setViewportSize({width:1440,height:900});
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
-    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
-    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     await page.locator(".majestios-chat-toggle").waitFor({state:"visible",timeout:15000});
 
@@ -97,8 +95,6 @@ async function main() {
       assert.equal(await page.locator(".menu-toggle").count(),1,"Le bouton de menu commun doit exister sur "+route);
     }
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
-    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
-    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
     for(const href of navigationHrefs) assert.ok(published.has(href.split("#")[0]),"Chaque destination du menu doit être publiée : "+href);
     for (const route of ["marches-publics.html","marches-prives.html","developpement-commercial.html","prospection-active.html","accompagnement-appels-offres.html","bodacc-veille-entreprises.html","qualification-entreprises.html","facturation-electronique.html","reputation-virtuelle.html","espace-membre.html"]) {
@@ -106,8 +102,8 @@ async function main() {
       assert.equal(await page.locator('#site-nav a[href="'+route+'"]').count(),1,"Le menu doit exposer le nombre attendu de liens vers "+route);
     }
     assert.equal(await page.locator("#floor-rows").count(),0,"L'ancien système de navigation par immeuble doit avoir disparu.");
-    assert.ok(await page.locator("#home-search-mount").count(),"Le moteur de recherche transversal doit rester présent.");
-    await page.locator("#feed-search").waitFor({state:"visible",timeout:15000});
+    assert.equal(await page.locator("#home-search-mount").count(),0,"Le moteur de recherche d’accueil a été retiré.");
+    assert.ok(await page.locator("#demo-chantiers form").count(),"La démonstration en un champ doit être présente sur l’accueil.");
 
     const opportunityGroup=page.locator("#site-nav .nav-drawer-section").filter({has:page.getByRole("button",{name:"Marchés"})});
     const opportunityTitle=opportunityGroup.locator(".nav-group-link");
@@ -130,8 +126,6 @@ async function main() {
     await page.waitForURL("**/marches-publics.html");
     assert.match(page.url(),/marches-publics\.html$/,"Le clic desktop sur l’onglet parent doit ouvrir sa rubrique.");
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
-    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
-    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
     await page.locator("#site-nav .nav-drawer-section").first().waitFor({state:"attached",timeout:15000});
 
     const chatToggle=page.locator(".majestios-chat-toggle");
@@ -149,8 +143,6 @@ async function main() {
       "Le chatbot doit proposer un lien vers la rubrique concernée.");
 
     await page.goto("http://127.0.0.1:4174/",{waitUntil:"domcontentloaded"});
-    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
-    await page.evaluate(()=>{const d=document.getElementById("recherche-repliee");if(d)d.open=true;});
 
     await page.setViewportSize({width:390,height:844});
     await page.reload({waitUntil:"domcontentloaded"});

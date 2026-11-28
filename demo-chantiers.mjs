@@ -92,9 +92,3 @@ if (root) {
   });
 }
 
-// La recherche avancée d'accueil est repliée ; elle s'ouvre à l'arrivée depuis une rubrique ou un retour de résultats.
-(() => {
-  const d = document.getElementById("recherche-repliee");
-  if (d && (location.hash === "#recherche-avancee" || /[?&](q|marche|categorie|departement)=/.test(location.search))) d.open = true;
-  window.addEventListener("hashchange", () => { if (d && location.hash === "#recherche-avancee") d.open = true; });
-})();
